@@ -1,0 +1,67 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {showPluginHelp = id; }; 
+            CLASS = ActionEditor; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {delegate = id; }; 
+            SUPERCLASS = NSView; 
+        }, 
+        {
+            CLASS = CustomTableDataSource; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSArrayController; 
+        }, 
+        {CLASS = CustomTableView; LANGUAGE = ObjC; SUPERCLASS = NSTableView; }, 
+        {CLASS = CustomToolbar; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
+        {
+            ACTIONS = {showPluginHelp = id; }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            CLASS = HKTrapWindow; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {trapField = id; }; 
+            SUPERCLASS = NSWindow; 
+        }, 
+        {
+            ACTIONS = {
+                changeTab = id; 
+                create = id; 
+                deleteApplications = id; 
+                newMapEntry = id; 
+                openHelp = id; 
+                revert = id; 
+                toggleAdvancedModeView = id; 
+                update = id; 
+            }; 
+            CLASS = KeyEditorController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                actionEditor = ActionEditor; 
+                actionView = NSView; 
+                advancedButton = NSButton; 
+                helpButton = NSButton; 
+                mapArray = NSArrayController; 
+                mapTable = NSTableView; 
+                objectController = NSObjectController; 
+                tabView = id; 
+                toolbar = id; 
+            }; 
+            SUPERCLASS = ObjectEditorController; 
+        }, 
+        {CLASS = NSObject; LANGUAGE = ObjC; }, 
+        {
+            ACTIONS = {cancel = id; create = id; revert = id; update = id; }; 
+            CLASS = ObjectEditorController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {cancelButton = NSButton; defaultButton = NSButton; }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {CLASS = SKImageAndTextCell; LANGUAGE = ObjC; SUPERCLASS = NSTextFieldCell; }, 
+        {CLASS = ToolbarButtonCell; LANGUAGE = ObjC; SUPERCLASS = NSButtonCell; }
+    ); 
+    IBVersion = 1; 
+}

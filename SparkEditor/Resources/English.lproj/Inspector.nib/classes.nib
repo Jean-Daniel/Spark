@@ -1,0 +1,30 @@
+{
+    IBClasses = (
+        {
+            CLASS = ActionsTableDataSource; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = CustomTableDataSource; 
+        }, 
+        {
+            CLASS = ApplicationsTableDataSource; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = CustomTableDataSource; 
+        }, 
+        {
+            CLASS = CustomTableDataSource; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSArrayController; 
+        }, 
+        {CLASS = CustomTableView; LANGUAGE = ObjC; SUPERCLASS = NSTableView; }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            CLASS = InspectorController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {contentView = NSTabView; }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {CLASS = NSObject; LANGUAGE = ObjC; }, 
+        {CLASS = SKImageAndTextCell; LANGUAGE = ObjC; SUPERCLASS = NSTextFieldCell; }
+    ); 
+    IBVersion = 1; 
+}

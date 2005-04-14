@@ -1,0 +1,64 @@
+{
+    IBClasses = (
+        {
+            CLASS = CustomTableDataSource; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSArrayController; 
+        }, 
+        {CLASS = CustomTableView; LANGUAGE = ObjC; SUPERCLASS = NSTableView; }, 
+        {
+            ACTIONS = {exportList = id; newList = id; }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {activeList = id; changeActiveState = id; deactiveList = id; }; 
+            CLASS = KeyLibraryController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {menu = NSMenu; }; 
+            SUPERCLASS = LibraryController; 
+        }, 
+        {CLASS = KeysTableView; LANGUAGE = ObjC; SUPERCLASS = CustomTableView; }, 
+        {
+            ACTIONS = {
+                deleteSelectedList = id; 
+                deleteSelectedObjects = id; 
+                editList = id; 
+                editObject = id; 
+                listsTableDoubleAction = id; 
+                newList = id; 
+                newObject = id; 
+                objectsTableDoubleAction = id; 
+            }; 
+            CLASS = LibraryController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                libraryView = NSView; 
+                lists = CustomTableDataSource; 
+                listsTable = CustomTableView; 
+                objects = CustomTableDataSource; 
+                objectsTable = CustomTableView; 
+                splitView = NSSplitView; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = LibraryTableView; LANGUAGE = ObjC; SUPERCLASS = ListTableView; }, 
+        {CLASS = ListTableCell; LANGUAGE = ObjC; SUPERCLASS = SKImageAndTextCell; }, 
+        {CLASS = ListTableView; LANGUAGE = ObjC; SUPERCLASS = CustomTableView; }, 
+        {
+            CLASS = ListsTableDataSource; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = CustomTableDataSource; 
+        }, 
+        {CLASS = NSObject; LANGUAGE = ObjC; }, 
+        {
+            CLASS = ObjectsTableDataSource; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = CustomTableDataSource; 
+        }, 
+        {CLASS = SKImageAndTextCell; LANGUAGE = ObjC; SUPERCLASS = NSTextFieldCell; }, 
+        {CLASS = SKShadowLabel; LANGUAGE = ObjC; SUPERCLASS = NSTextField; }
+    ); 
+    IBVersion = 1; 
+}

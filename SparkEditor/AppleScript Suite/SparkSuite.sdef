@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionary SYSTEM "file://localhost/System/Library/DTDs/sdef.dtd">
+
+<dictionary title="Spark Daemon Terminology">
+	<suite name="Spark Daemon Suite" code="SpDa" description="Spark Script Suite terminology.">
+	<cocoa name="SparkDaemonSuite"/>
+		<classes>
+		<class name="spark item" plural="spark items" inherits="item" code="SpIt" description="An Abstract class.">
+    <cocoa class="SparkLibraryObject"/>
+				<properties>
+				 <property name="uid" access="r" code="ID  " type="integer" description="The UID of this item.">
+						<cocoa method="uid"/>
+					</property>
+					<property name="name" access="r" code="pnam" type="string" description="The name of this item.">
+						<cocoa method="name"/>
+					</property>
+					<property name="icon" access="r" code="Icon" type="object" description="Icon of this item.">
+						<cocoa method="icon"/>
+					</property>
+				</properties>
+		</class>
+		<class name="hotkey" plural="hotkeys" inherits="spark item" code="HoKe" description="A Spark Hotkey.">
+				<cocoa class="SparkHotKey"/>
+				<properties>
+				 <property name="activated" access="rw" code="Acti" type="boolean" description="Define if the Hotkey is active.">
+						<cocoa method="active"/>
+					</property>
+					<property name="shortcut" access="r" code="ShCu" type="string" description="String representation for this Hotkey Shortcut.">
+						<cocoa method="shortCut"/>
+					</property>
+					<property name="character" access="r" code="Char" type="integer" description="The character for this Hotkey.">
+						<cocoa method="character"/>
+					</property>
+					<property name="keycode" access="r" code="KeCo" type="integer" description="Virtual Keycode for this Hotkey.">
+						<cocoa method="keycode"/>
+					</property>
+					<property name="modifier" access="r" code="Modi" type="integer" description="Modifier for this Hotkey.">
+						<cocoa method="modifier"/>
+					</property>
+				</properties>
+					<responds-to-commands>
+					<responds-to name="invoke">
+						<cocoa method="handleInvokeHotKeyScriptCommand:"/>
+					</responds-to>
+				</responds-to-commands>
+			</class>
+			<class name="application" inherits="application" code="capp" description="Spark Application.">
+				<cocoa class="NSApplication"/>
+				<elements>
+					<element type="hotkey" access="r">
+						<cocoa method="hotkeys"/>
+					</element>
+				</elements>
+			</class>
+		</classes>
+  <commands>
+			<command name="invoke" code="SprkInvo" description="Execute an Hotkey.">
+				<direct-parameter type="hotkey" description="The HotKey to execute." />
+				<result type="boolean" description="true if execution perform without error" />
+			</command>
+		</commands>
+	</suite>
+</dictionary>

@@ -1,0 +1,25 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {search = id; }; 
+            CLASS = CustomTableDataSource; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSArrayController; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = SKImageAndTextCell; LANGUAGE = ObjC; SUPERCLASS = NSTextFieldCell; }, 
+        {
+            ACTIONS = {cancel = id; changeFilter = id; checkAll = id; import = id; uncheckAll = id; }; 
+            CLASS = SparkImporter; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                controller = NSObjectController; 
+                searchField = NSSearchField; 
+                searchMenu = id; 
+                tableController = CustomTableDataSource; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }
+    ); 
+    IBVersion = 1; 
+}

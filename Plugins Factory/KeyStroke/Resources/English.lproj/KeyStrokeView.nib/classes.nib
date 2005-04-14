@@ -1,0 +1,19 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {selectApplication = id; selectKeyStroke = id; }; 
+            CLASS = KeyStrokeKeySet; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {applicationMenu = id; nameField = id; }; 
+            SUPERCLASS = SparkKeySet; 
+        }, 
+        {
+            CLASS = SparkKeySet; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {configView = id; }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}

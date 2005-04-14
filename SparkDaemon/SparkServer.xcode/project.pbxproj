@@ -1,0 +1,624 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 39;
+	objects = {
+		1058C7A0FEA54F0111CA2CBB = {
+			children = (
+				1058C7A1FEA54F0111CA2CBB,
+				9859019406C8069700C73C86,
+				985901A906C806A300C73C86,
+			);
+			isa = PBXGroup;
+			name = "Linked Frameworks";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		1058C7A1FEA54F0111CA2CBB = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = Cocoa.framework;
+			path = /System/Library/Frameworks/Cocoa.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		1058C7A2FEA54F0111CA2CBB = {
+			children = (
+				29B97325FDCFA39411CA2CEA,
+				29B97324FDCFA39411CA2CEA,
+			);
+			isa = PBXGroup;
+			name = "Other Frameworks";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+//100
+//101
+//102
+//103
+//104
+//190
+//191
+//192
+//193
+//194
+		19C28FACFE9D520D11CA2CBB = {
+			children = (
+				98B20D6A06A54814008BA3F6,
+			);
+			isa = PBXGroup;
+			name = Products;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+//190
+//191
+//192
+//193
+//194
+//290
+//291
+//292
+//293
+//294
+		29B97313FDCFA39411CA2CEA = {
+			buildSettings = {
+			};
+			buildStyles = (
+				4A9504CCFFE6A4B311CA0CBA,
+				4A9504CDFFE6A4B311CA0CBA,
+				9870B4EA05DBFE9E0099CEF2,
+			);
+			hasScannedForEncodings = 1;
+			isa = PBXProject;
+			mainGroup = 29B97314FDCFA39411CA2CEA;
+			projectDirPath = "";
+			targets = (
+				98B20D6906A54814008BA3F6,
+			);
+		};
+		29B97314FDCFA39411CA2CEA = {
+			children = (
+				98402CED0606708800AB5262,
+				98CE5BFB0774EF34006EB5A5,
+				29B97323FDCFA39411CA2CEA,
+				19C28FACFE9D520D11CA2CBB,
+			);
+			isa = PBXGroup;
+			name = Spark;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		29B97323FDCFA39411CA2CEA = {
+			children = (
+				1058C7A0FEA54F0111CA2CBB,
+				1058C7A2FEA54F0111CA2CBB,
+			);
+			isa = PBXGroup;
+			name = Frameworks;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		29B97324FDCFA39411CA2CEA = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = AppKit.framework;
+			path = /System/Library/Frameworks/AppKit.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		29B97325FDCFA39411CA2CEA = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = Foundation.framework;
+			path = /System/Library/Frameworks/Foundation.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+//290
+//291
+//292
+//293
+//294
+//4A0
+//4A1
+//4A2
+//4A3
+//4A4
+		4A9504CCFFE6A4B311CA0CBA = {
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
+				DEPLOYMENT_POSTPROCESSING = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = NO;
+				GCC_WARN_UNUSED_VALUE = YES;
+				PRESERVE_DEAD_CODE_INITS_AND_TERMS = NO;
+				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
+				ZERO_LINK = YES;
+			};
+			isa = PBXBuildStyle;
+			name = Development;
+		};
+		4A9504CDFFE6A4B311CA0CBA = {
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEAD_CODE_STRIPPING = YES;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				GCC_DYNAMIC_NO_PIC = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VALUE = YES;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS";
+				PRESERVE_DEAD_CODE_INITS_AND_TERMS = YES;
+				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
+				ZERO_LINK = NO;
+			};
+			isa = PBXBuildStyle;
+			name = Deployment;
+		};
+//4A0
+//4A1
+//4A2
+//4A3
+//4A4
+//980
+//981
+//982
+//983
+//984
+		98402CED0606708800AB5262 = {
+			children = (
+				98402CF0060670AC00AB5262,
+				98402CEE060670AC00AB5262,
+				98402CFF0606714300AB5262,
+				98402CF6060670AC00AB5262,
+				987E6D2F06D7DA0800C7F41C,
+				987E6D3A06D7E0B800C7F41C,
+			);
+			isa = PBXGroup;
+			path = Daemon;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		98402CEE060670AC00AB5262 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
+			path = AEScript.c;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		98402CF0060670AC00AB5262 = {
+			children = (
+				98402CF1060670AC00AB5262,
+				98402CF2060670AC00AB5262,
+				987E6D3106D7DA1700C7F41C,
+				98402CF4060670AC00AB5262,
+				98F2DECD0715E3D2001BBF29,
+			);
+			isa = PBXGroup;
+			path = Headers;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		98402CF1060670AC00AB5262 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = AEScript.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		98402CF2060670AC00AB5262 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = SparkDaemon.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		98402CF4060670AC00AB5262 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = SparkServerProtocol.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		98402CF6060670AC00AB5262 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = ServerProtocol.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		98402CFF0606714300AB5262 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = SparkDaemon.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		9859019406C8069700C73C86 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			path = SparkKit.framework;
+			refType = 3;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9859019506C8069700C73C86 = {
+			fileRef = 9859019406C8069700C73C86;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		985901A906C806A300C73C86 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			path = HotKeyToolKit.framework;
+			refType = 3;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		985901AA06C806A300C73C86 = {
+			fileRef = 985901A906C806A300C73C86;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		985E3AD90788A0DE00C85CF8 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = text.xml;
+			path = SparkDaemonSuite.scriptTerminology;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		985E3ADA0788A0DE00C85CF8 = {
+			fileRef = 985E3AD90788A0DE00C85CF8;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		985E3ADB0788A0E100C85CF8 = {
+			fileRef = 987E6D3F06D7E0D900C7F41C;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		986B21FF077474490086463D = {
+			children = (
+				986B2200077474490086463D,
+			);
+			isa = PBXVariantGroup;
+			name = InfoPlist.strings;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		986B2200077474490086463D = {
+			fileEncoding = 10;
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.strings;
+			name = English;
+			path = Daemon/Resources/English.lproj/InfoPlist.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		986B2201077474490086463D = {
+			fileRef = 986B21FF077474490086463D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		9870B4EA05DBFE9E0099CEF2 = {
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEBUGGING_SYMBOLS = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				OPTIMIZATION_CFLAGS = "-O0";
+				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
+				ZERO_LINK = NO;
+			};
+			isa = PBXBuildStyle;
+			name = "Dev & Link";
+		};
+		987E6D2F06D7DA0800C7F41C = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = SparkAEHandle.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		987E6D3106D7DA1700C7F41C = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = SparkAEHandle.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		987E6D3A06D7E0B800C7F41C = {
+			children = (
+				987E6D3F06D7E0D900C7F41C,
+				987E6D3E06D7E0D900C7F41C,
+				985E3AD90788A0DE00C85CF8,
+			);
+			isa = PBXGroup;
+			name = AppleScript;
+			path = "../SparkEditor/AppleScript Suite/daemon";
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		987E6D3E06D7E0D900C7F41C = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = text.xml;
+			path = SparkDaemonSuite.scriptSuite;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		987E6D3F06D7E0D900C7F41C = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.rez;
+			path = "Spark Scripting.r";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		987E6D9206D7E13900C7F41C = {
+			buildActionMask = 2147483647;
+			files = (
+				985E3ADB0788A0E100C85CF8,
+			);
+			isa = PBXRezBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		98AAA30306CA8F9E003D67F8 = {
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				98AAA33006CA8FB4003D67F8,
+				98AAA33206CA8FB4003D67F8,
+			);
+			isa = PBXCopyFilesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		98AAA33006CA8FB4003D67F8 = {
+			fileRef = 9859019406C8069700C73C86;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		98AAA33206CA8FB4003D67F8 = {
+			fileRef = 985901A906C806A300C73C86;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		98B20D6506A54814008BA3F6 = {
+			buildActionMask = 2147483647;
+			files = (
+				98B20D6D06A5491C008BA3F6,
+				98B20D6E06A5491C008BA3F6,
+				98B20D6F06A5491C008BA3F6,
+				98F2DECE0715E3D2001BBF29,
+			);
+			isa = PBXHeadersBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		98B20D6606A54814008BA3F6 = {
+			buildActionMask = 2147483647;
+			files = (
+				986B2201077474490086463D,
+				98CE5BFF0774EF5B006EB5A5,
+				985E3ADA0788A0DE00C85CF8,
+			);
+			isa = PBXResourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		98B20D6706A54814008BA3F6 = {
+			buildActionMask = 2147483647;
+			files = (
+				98B20D7006A54924008BA3F6,
+				98B20D7306A54924008BA3F6,
+				98B20D7406A54924008BA3F6,
+			);
+			isa = PBXSourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		98B20D6806A54814008BA3F6 = {
+			buildActionMask = 2147483647;
+			files = (
+				98B20D9A06A5492E008BA3F6,
+				9859019506C8069700C73C86,
+				985901AA06C806A300C73C86,
+			);
+			isa = PBXFrameworksBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		98B20D6906A54814008BA3F6 = {
+			buildPhases = (
+				98B20D6506A54814008BA3F6,
+				98B20D6706A54814008BA3F6,
+				987E6D9206D7E13900C7F41C,
+				98B20D6606A54814008BA3F6,
+				98B20D6806A54814008BA3F6,
+				98AAA30306CA8F9E003D67F8,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				DEAD_CODE_STRIPPING = YES;
+				FRAMEWORK_SEARCH_PATHS = /Volumes/Stock/Users/fox/Projets/Exploitables/Spark/build;
+				GCC_DYNAMIC_NO_PIC = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Spark_Daemon_Prefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				INFOPLIST_FILE = "Spark Daemon.plist";
+				INSTALL_PATH = "$(USER_APPS_DIR)";
+				PRESERVE_DEAD_CODE_INITS_AND_TERMS = YES;
+				PRODUCT_NAME = "Spark Daemon";
+				WARNING_CFLAGS = "-Wmost";
+			};
+			dependencies = (
+			);
+			isa = PBXNativeTarget;
+			name = "Spark Daemon";
+			productName = "Spark Daemon 2";
+			productReference = 98B20D6A06A54814008BA3F6;
+			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
+<plist version=\"1.0\">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>Spark Daemon 2</string>
+	<key>CFBundleGetInfoString</key>
+	<string></string>
+	<key>CFBundleIconFile</key>
+	<string></string>
+	<key>CFBundleIdentifier</key>
+	<string>com.MySoftwareCompany.Spark_Daemon_2</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string></string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>1.0.0d1</string>
+	<key>NSMainNibFile</key>
+	<string>MainMenu</string>
+	<key>NSPrincipalClass</key>
+	<string>NSApplication</string>
+</dict>
+</plist>
+";
+			productType = "com.apple.product-type.application";
+		};
+		98B20D6A06A54814008BA3F6 = {
+			explicitFileType = wrapper.application;
+			includeInIndex = 0;
+			isa = PBXFileReference;
+			path = "Spark Daemon.app";
+			refType = 3;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		98B20D6C06A54814008BA3F6 = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.xml;
+			name = "Spark Daemon.plist";
+			path = "/Volumes/Stock/Users/fox/Projets/Exploitables/Spark/SparkDaemon/Spark Daemon.plist";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		98B20D6D06A5491C008BA3F6 = {
+			fileRef = 98402CF1060670AC00AB5262;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		98B20D6E06A5491C008BA3F6 = {
+			fileRef = 98402CF2060670AC00AB5262;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		98B20D6F06A5491C008BA3F6 = {
+			fileRef = 98402CF4060670AC00AB5262;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		98B20D7006A54924008BA3F6 = {
+			fileRef = 98402CEE060670AC00AB5262;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		98B20D7306A54924008BA3F6 = {
+			fileRef = 98402CF6060670AC00AB5262;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		98B20D7406A54924008BA3F6 = {
+			fileRef = 98402CFF0606714300AB5262;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		98B20D9A06A5492E008BA3F6 = {
+			fileRef = 1058C7A1FEA54F0111CA2CBB;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		98CE5BFB0774EF34006EB5A5 = {
+			children = (
+				98CE5BFE0774EF5A006EB5A5,
+				986B21FF077474490086463D,
+				98B20D6C06A54814008BA3F6,
+			);
+			isa = PBXGroup;
+			name = Resources;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		98CE5BFE0774EF5A006EB5A5 = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.icns;
+			path = Spark.icns;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		98CE5BFF0774EF5B006EB5A5 = {
+			fileRef = 98CE5BFE0774EF5A006EB5A5;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		98F2DECD0715E3D2001BBF29 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = SparkAppleScriptSuite.h;
+			path = /Volumes/Stock/Users/fox/Projets/Exploitables/Spark/SparkEditor/Headers/SparkAppleScriptSuite.h;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		98F2DECE0715E3D2001BBF29 = {
+			fileRef = 98F2DECD0715E3D2001BBF29;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA;
+}

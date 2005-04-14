@@ -1,0 +1,32 @@
+{
+    IBClasses = (
+        {
+            CLASS = ActionEditorNibLoader; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {editorView = id; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {
+                cancel = id; 
+                create = id; 
+                revert = id; 
+                selectPlugin = id; 
+                showPluginHelp = id; 
+                update = id; 
+            }; 
+            CLASS = ActionEditorView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                categoriePopup = NSPopUpButton; 
+                pluginIcon = NSImageView; 
+                pluginName = NSTextField; 
+                pluginView = NSView; 
+                titleTabView = NSTabView; 
+            }; 
+            SUPERCLASS = NSView; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}

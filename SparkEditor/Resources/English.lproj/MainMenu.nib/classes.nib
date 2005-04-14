@@ -1,0 +1,31 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {
+                exportLibrary = id; 
+                exportList = id; 
+                importLibrary = id; 
+                newKey = id; 
+                newList = id; 
+                openInspector = id; 
+                startStopServer = id; 
+            }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {
+                checkForNewVersion = id; 
+                openListWindow = id; 
+                openPreferences = id; 
+                showPlugInHelp = id; 
+            }; 
+            CLASS = Spark; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {aboutMenu = NSMenu; exportView = NSView; }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}

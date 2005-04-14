@@ -1,0 +1,33 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {
+                exportList = id; 
+                newKey = id; 
+                newList = id; 
+                openInspector = id; 
+                removeKeyList = id; 
+                startStopServer = id; 
+            }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            CLASS = LibraryWindowController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {contentView = NSView; searchField = NSSearchField; }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {CLASS = NSObject; LANGUAGE = ObjC; }, 
+        {CLASS = NSSegmentedControl; LANGUAGE = ObjC; SUPERCLASS = NSControl; }, 
+        {
+            CLASS = PlugInMenu; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {target = id; }; 
+            SUPERCLASS = NSSegmentedControl; 
+        }, 
+        {CLASS = SKShadowLabel; LANGUAGE = ObjC; SUPERCLASS = NSTextField; }
+    ); 
+    IBVersion = 1; 
+}

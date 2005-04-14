@@ -1,0 +1,30 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {selectTab = id; }; 
+            CLASS = AppActionEditor; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                actionIcon = NSImageView; 
+                actionName = NSTextField; 
+                appIcon = NSImageView; 
+                appName = NSTextField; 
+                contentView = id; 
+                toolbar = id; 
+            }; 
+            SUPERCLASS = ObjectEditorController; 
+        }, 
+        {CLASS = CustomToolbar; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = NSObject; LANGUAGE = ObjC; }, 
+        {
+            ACTIONS = {cancel = id; create = id; revert = id; update = id; }; 
+            CLASS = ObjectEditorController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {cancelButton = NSButton; defaultButton = NSButton; }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {CLASS = ToolbarButtonCell; LANGUAGE = ObjC; SUPERCLASS = NSButtonCell; }
+    ); 
+    IBVersion = 1; 
+}

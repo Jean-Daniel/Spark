@@ -1,0 +1,28 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {showPluginHelp = id; }; 
+            CLASS = ActionEditor; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {delegate = id; }; 
+            SUPERCLASS = NSView; 
+        }, 
+        {
+            ACTIONS = {create = id; revert = id; showPluginHelp = id; update = id; }; 
+            CLASS = ActionEditorController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {actionEditor = ActionEditor; helpButton = NSButton; }; 
+            SUPERCLASS = ObjectEditorController; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = NSObject; LANGUAGE = ObjC; }, 
+        {
+            ACTIONS = {cancel = id; create = id; revert = id; update = id; }; 
+            CLASS = ObjectEditorController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {cancelButton = NSButton; defaultButton = NSButton; }; 
+            SUPERCLASS = NSWindowController; 
+        }
+    ); 
+    IBVersion = 1; 
+}

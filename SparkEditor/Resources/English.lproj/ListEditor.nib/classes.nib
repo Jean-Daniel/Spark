@@ -1,0 +1,21 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {cancel = id; create = id; update = id; }; 
+            CLASS = ListEditorController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {objectController = NSObjectController; title = id; }; 
+            SUPERCLASS = ObjectEditorController; 
+        }, 
+        {CLASS = NSObject; LANGUAGE = ObjC; }, 
+        {
+            ACTIONS = {cancel = id; create = id; revert = id; update = id; }; 
+            CLASS = ObjectEditorController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {cancelButton = NSButton; defaultButton = NSButton; }; 
+            SUPERCLASS = NSWindowController; 
+        }
+    ); 
+    IBVersion = 1; 
+}

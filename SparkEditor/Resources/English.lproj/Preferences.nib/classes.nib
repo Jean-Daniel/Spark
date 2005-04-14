@@ -1,0 +1,15 @@
+{
+    IBClasses = (
+        {CLASS = CustomToolbar; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {close = id; resetWarningDialogs = id; }; 
+            CLASS = Preferences; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {tabView = NSTabView; }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {CLASS = ToolbarButtonCell; LANGUAGE = ObjC; SUPERCLASS = NSButtonCell; }
+    ); 
+    IBVersion = 1; 
+}
