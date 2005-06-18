@@ -9,7 +9,7 @@
 #import "ITunesAction.h"
 #import "ITunesAction.h"
 
-#import "iTunesAESuite.h"
+#import "ITunesAESuite.h"
 
 static NSString* const kITunesRateKey = @"iTunesTrackTrate";
 static NSString* const kITunesActionKey = @"iTunesAction";

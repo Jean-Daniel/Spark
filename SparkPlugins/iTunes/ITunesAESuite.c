@@ -7,7 +7,7 @@
  *
  */
 
-#include "iTunesAESuite.h"
+#include "ITunesAESuite.h"
 
 const OSType kITunesSignature = 'hook';
 
