@@ -1,0 +1,803 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
+		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
+		982B010C05FE954600E8776D /* HKKeyboardUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 982B010A05FE954600E8776D /* HKKeyboardUtils.h */; };
+		982B010D05FE954600E8776D /* HKKeyboardUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 982B010B05FE954600E8776D /* HKKeyboardUtils.m */; };
+		984426C305F942E400551005 /* ShortCut.strings in Resources */ = {isa = PBXBuildFile; fileRef = 984426C105F942E400551005 /* ShortCut.strings */; };
+		984426CF05F9430700551005 /* HKHotKey.h in Headers */ = {isa = PBXBuildFile; fileRef = 984426C705F9430700551005 /* HKHotKey.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		984426D105F9430700551005 /* HKHotKeyManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 984426C905F9430700551005 /* HKHotKeyManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		984426D205F9430700551005 /* HKHotKeyRegister.h in Headers */ = {isa = PBXBuildFile; fileRef = 984426CA05F9430700551005 /* HKHotKeyRegister.h */; settings = {ATTRIBUTES = (); }; };
+		984426D305F9430700551005 /* HKKeyMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 984426CB05F9430700551005 /* HKKeyMap.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		984426D405F9430700551005 /* HKTrapWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 984426CC05F9430700551005 /* HKTrapWindow.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		984426D505F9430700551005 /* HotKeyToolKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 984426CD05F9430700551005 /* HotKeyToolKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		984426D605F9430700551005 /* KeyMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 984426CE05F9430700551005 /* KeyMap.h */; settings = {ATTRIBUTES = (); }; };
+		984426DD05F943A100551005 /* HKKeyMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 984426D805F943A100551005 /* HKKeyMap.m */; };
+		984426DE05F943A100551005 /* HKHotKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 984426D905F943A100551005 /* HKHotKey.m */; };
+		984426DF05F943A100551005 /* HKHotKeyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 984426DA05F943A100551005 /* HKHotKeyManager.m */; };
+		984426E005F943A100551005 /* KeyMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 984426DB05F943A100551005 /* KeyMap.m */; };
+		984426E105F943A100551005 /* HKTrapWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 984426DC05F943A100551005 /* HKTrapWindow.m */; };
+		984426E505F9442200551005 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 984426E405F9442200551005 /* Carbon.framework */; };
+		9844277A05F9444000551005 /* HKHotKeyRegister.m in Sources */ = {isa = PBXBuildFile; fileRef = 9844277905F9444000551005 /* HKHotKeyRegister.m */; };
+		985B62ED0719E1750073D36F /* HKHotKeyTestCase.h in Headers */ = {isa = PBXBuildFile; fileRef = 985B62EB0719E1750073D36F /* HKHotKeyTestCase.h */; };
+		985B62EE0719E1750073D36F /* HKHotKeyTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 985B62EC0719E1750073D36F /* HKHotKeyTestCase.m */; };
+		985B6B120719E37E0073D36F /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* HotKeyToolKit.framework */; };
+		985B6D180719ED7E0073D36F /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 985B6D170719ED7E0073D36F /* Info.plist */; };
+		985B6D1B0719EDCC0073D36F /* HKKeyMapTestCase.h in Headers */ = {isa = PBXBuildFile; fileRef = 985B6D190719EDCC0073D36F /* HKKeyMapTestCase.h */; };
+		985B6D1C0719EDCC0073D36F /* HKKeyMapTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 985B6D1A0719EDCC0073D36F /* HKKeyMapTestCase.m */; };
+		98C0DB240719422400AC65C0 /* HKAXUIHotKey.h in Headers */ = {isa = PBXBuildFile; fileRef = 98C0DB230719422400AC65C0 /* HKAXUIHotKey.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		98E2716206D0FB980017BDF7 /* HKAXUIExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 98E2716006D0FB980017BDF7 /* HKAXUIExtensions.m */; };
+		98E2716406D0FBB80017BDF7 /* HKAXUIExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 98E2716306D0FBB80017BDF7 /* HKAXUIExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		98EF7D840864538D007BC81A /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF7D6F0864538C007BC81A /* SenTestingKit.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXBuildStyle section */
+		014CEA440018CDF011CA2923 /* Development */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
+				DEPLOYMENT_POSTPROCESSING = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = "";
+				GCC_WARN_UNINITIALIZED_AUTOS = NO;
+				GCC_WARN_UNUSED_VALUE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				PRESERVE_DEAD_CODE_INITS_AND_TERMS = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				ZERO_LINK = YES;
+			};
+			name = Development;
+		};
+		014CEA450018CDF011CA2923 /* Deployment */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEAD_CODE_STRIPPING = NO;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VALUE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				PRESERVE_DEAD_CODE_INITS_AND_TERMS = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+/* End PBXBuildStyle section */
+
+/* Begin PBXContainerItemProxy section */
+		985B6B1D0719E3860073D36F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
+			remoteInfo = HotKeyToolKit;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		8DC2EF5B0486A6940098B216 /* HotKeyToolKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HotKeyToolKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		982B010A05FE954600E8776D /* HKKeyboardUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKKeyboardUtils.h; path = Headers/HKKeyboardUtils.h; sourceTree = SOURCE_ROOT; };
+		982B010B05FE954600E8776D /* HKKeyboardUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKKeyboardUtils.m; sourceTree = "<group>"; };
+		984426C405F942EC00551005 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/ShortCut.strings; sourceTree = "<group>"; };
+		984426C505F942F800551005 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		984426C705F9430700551005 /* HKHotKey.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = HKHotKey.h; sourceTree = "<group>"; };
+		984426C905F9430700551005 /* HKHotKeyManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = HKHotKeyManager.h; sourceTree = "<group>"; };
+		984426CA05F9430700551005 /* HKHotKeyRegister.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = HKHotKeyRegister.h; sourceTree = "<group>"; };
+		984426CB05F9430700551005 /* HKKeyMap.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = HKKeyMap.h; sourceTree = "<group>"; };
+		984426CC05F9430700551005 /* HKTrapWindow.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = HKTrapWindow.h; sourceTree = "<group>"; };
+		984426CD05F9430700551005 /* HotKeyToolKit.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = HotKeyToolKit.h; path = Headers/HotKeyToolKit.h; sourceTree = "<group>"; };
+		984426CE05F9430700551005 /* KeyMap.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = KeyMap.h; sourceTree = "<group>"; };
+		984426D805F943A100551005 /* HKKeyMap.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = HKKeyMap.m; sourceTree = "<group>"; };
+		984426D905F943A100551005 /* HKHotKey.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = HKHotKey.m; sourceTree = "<group>"; };
+		984426DA05F943A100551005 /* HKHotKeyManager.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = HKHotKeyManager.m; sourceTree = "<group>"; };
+		984426DB05F943A100551005 /* KeyMap.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = KeyMap.m; sourceTree = "<group>"; };
+		984426DC05F943A100551005 /* HKTrapWindow.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = HKTrapWindow.m; sourceTree = "<group>"; };
+		984426E405F9442200551005 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
+		9844277905F9444000551005 /* HKHotKeyRegister.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = HKHotKeyRegister.m; sourceTree = "<group>"; };
+		984BCDC4060C7E4D0043CDEA /* HotKeyToolKit.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = HotKeyToolKit.icns; sourceTree = "<group>"; };
+		985B62B60719E09D0073D36F /* Testing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Testing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		985B62EB0719E1750073D36F /* HKHotKeyTestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKHotKeyTestCase.h; sourceTree = "<group>"; };
+		985B62EC0719E1750073D36F /* HKHotKeyTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKHotKeyTestCase.m; sourceTree = "<group>"; };
+		985B6D170719ED7E0073D36F /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
+		985B6D190719EDCC0073D36F /* HKKeyMapTestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKKeyMapTestCase.h; sourceTree = "<group>"; };
+		985B6D1A0719EDCC0073D36F /* HKKeyMapTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKKeyMapTestCase.m; sourceTree = "<group>"; };
+		9864CB72060D11DD00228F30 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
+		98C0DB230719422400AC65C0 /* HKAXUIHotKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKAXUIHotKey.h; sourceTree = "<group>"; };
+		98E2716006D0FB980017BDF7 /* HKAXUIExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKAXUIExtensions.m; sourceTree = "<group>"; };
+		98E2716306D0FBB80017BDF7 /* HKAXUIExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKAXUIExtensions.h; sourceTree = "<group>"; };
+		98EF7D610864534D007BC81A /* ShadowRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = ShadowRelease.xcconfig; sourceTree = "<group>"; };
+		98EF7D620864534D007BC81A /* ShadowDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = ShadowDebug.xcconfig; sourceTree = "<group>"; };
+		98EF7D6F0864538C007BC81A /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = /System/Library/Frameworks/SenTestingKit.framework; sourceTree = "<absolute>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8DC2EF560486A6940098B216 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */,
+				984426E505F9442200551005 /* Carbon.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		985B62B30719E09D0073D36F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				985B6B120719E37E0073D36F /* HotKeyToolKit.framework in Frameworks */,
+				98EF7D840864538D007BC81A /* SenTestingKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		034768DFFF38A50411DB9C8B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8DC2EF5B0486A6940098B216 /* HotKeyToolKit.framework */,
+				985B62B60719E09D0073D36F /* Testing.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0867D691FE84028FC02AAC07 /* HotKeyToolKit */ = {
+			isa = PBXGroup;
+			children = (
+				08FB77AEFE84172EC02AAC07 /* Classes */,
+				32C88DFF0371C24200C91783 /* Other Sources */,
+				985B62AF0719E0570073D36F /* Testing */,
+				089C1665FE841158C02AAC07 /* Resources */,
+				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
+				034768DFFF38A50411DB9C8B /* Products */,
+				98EF7D620864534D007BC81A /* ShadowDebug.xcconfig */,
+				98EF7D610864534D007BC81A /* ShadowRelease.xcconfig */,
+			);
+			name = HotKeyToolKit;
+			sourceTree = "<group>";
+		};
+		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */,
+				1058C7B2FEA5585E11CA2CBB /* Other Frameworks */,
+			);
+			name = "External Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		089C1665FE841158C02AAC07 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				984BCDC4060C7E4D0043CDEA /* HotKeyToolKit.icns */,
+				9864CB72060D11DD00228F30 /* Info.plist */,
+				984426C105F942E400551005 /* ShortCut.strings */,
+				089C1666FE841158C02AAC07 /* InfoPlist.strings */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		08FB77AEFE84172EC02AAC07 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				984426CD05F9430700551005 /* HotKeyToolKit.h */,
+				984426C605F9430700551005 /* Headers */,
+				984426D905F943A100551005 /* HKHotKey.m */,
+				984426D805F943A100551005 /* HKKeyMap.m */,
+				984426DC05F943A100551005 /* HKTrapWindow.m */,
+				984426DA05F943A100551005 /* HKHotKeyManager.m */,
+				98E2716006D0FB980017BDF7 /* HKAXUIExtensions.m */,
+				984426E305F943A800551005 /* Private */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				98EF7D6F0864538C007BC81A /* SenTestingKit.framework */,
+				1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */,
+				984426E405F9442200551005 /* Carbon.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7B2FEA5585E11CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0867D69BFE84028FC02AAC07 /* Foundation.framework */,
+				0867D6A5FE840307C02AAC07 /* AppKit.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		32C88DFF0371C24200C91783 /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		984426C605F9430700551005 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				984426C705F9430700551005 /* HKHotKey.h */,
+				984426CB05F9430700551005 /* HKKeyMap.h */,
+				98C0DB230719422400AC65C0 /* HKAXUIHotKey.h */,
+				984426CC05F9430700551005 /* HKTrapWindow.h */,
+				984426C905F9430700551005 /* HKHotKeyManager.h */,
+				98E2716306D0FBB80017BDF7 /* HKAXUIExtensions.h */,
+				984426D705F9431D00551005 /* Private */,
+			);
+			path = Headers;
+			sourceTree = "<group>";
+		};
+		984426D705F9431D00551005 /* Private */ = {
+			isa = PBXGroup;
+			children = (
+				984426CE05F9430700551005 /* KeyMap.h */,
+				982B010A05FE954600E8776D /* HKKeyboardUtils.h */,
+				984426CA05F9430700551005 /* HKHotKeyRegister.h */,
+			);
+			name = Private;
+			sourceTree = "<group>";
+		};
+		984426E305F943A800551005 /* Private */ = {
+			isa = PBXGroup;
+			children = (
+				984426DB05F943A100551005 /* KeyMap.m */,
+				982B010B05FE954600E8776D /* HKKeyboardUtils.m */,
+				9844277905F9444000551005 /* HKHotKeyRegister.m */,
+			);
+			name = Private;
+			sourceTree = "<group>";
+		};
+		985B62AF0719E0570073D36F /* Testing */ = {
+			isa = PBXGroup;
+			children = (
+				985B6D190719EDCC0073D36F /* HKKeyMapTestCase.h */,
+				985B6D1A0719EDCC0073D36F /* HKKeyMapTestCase.m */,
+				985B62EB0719E1750073D36F /* HKHotKeyTestCase.h */,
+				985B62EC0719E1750073D36F /* HKHotKeyTestCase.m */,
+				985B6D170719ED7E0073D36F /* Info.plist */,
+			);
+			name = Testing;
+			path = Test;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		8DC2EF500486A6940098B216 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				984426CF05F9430700551005 /* HKHotKey.h in Headers */,
+				984426D105F9430700551005 /* HKHotKeyManager.h in Headers */,
+				984426D205F9430700551005 /* HKHotKeyRegister.h in Headers */,
+				984426D305F9430700551005 /* HKKeyMap.h in Headers */,
+				984426D405F9430700551005 /* HKTrapWindow.h in Headers */,
+				984426D505F9430700551005 /* HotKeyToolKit.h in Headers */,
+				984426D605F9430700551005 /* KeyMap.h in Headers */,
+				982B010C05FE954600E8776D /* HKKeyboardUtils.h in Headers */,
+				98E2716406D0FBB80017BDF7 /* HKAXUIExtensions.h in Headers */,
+				98C0DB240719422400AC65C0 /* HKAXUIHotKey.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		985B62B00719E09D0073D36F /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				985B62ED0719E1750073D36F /* HKHotKeyTestCase.h in Headers */,
+				985B6D1B0719EDCC0073D36F /* HKKeyMapTestCase.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		8DC2EF4F0486A6940098B216 /* HotKeyToolKit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 98EF7D5408645328007BC81A /* Build configuration list for PBXNativeTarget "HotKeyToolKit" */;
+			buildPhases = (
+				8DC2EF500486A6940098B216 /* Headers */,
+				8DC2EF520486A6940098B216 /* Resources */,
+				8DC2EF540486A6940098B216 /* Sources */,
+				8DC2EF560486A6940098B216 /* Frameworks */,
+				8DC2EF580486A6940098B216 /* Rez */,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 2;
+				DYLIB_CURRENT_VERSION = 2;
+				FRAMEWORK_VERSION = A;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Cocoa_Carbon_Prefix.pch;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_STYLE = DYNAMIC;
+				OTHER_LDFLAGS = (
+					"-seg1addr",
+					0xD0000000,
+				);
+				PRODUCT_NAME = HotKeyToolKit;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost";
+			};
+			dependencies = (
+			);
+			name = HotKeyToolKit;
+			productInstallPath = "$(HOME)/Library/Frameworks";
+			productName = HotKeyToolKit;
+			productReference = 8DC2EF5B0486A6940098B216 /* HotKeyToolKit.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		985B62B50719E09D0073D36F /* Testing */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 98EF7D5808645328007BC81A /* Build configuration list for PBXNativeTarget "Testing" */;
+			buildPhases = (
+				985B62B00719E09D0073D36F /* Headers */,
+				985B62B10719E09D0073D36F /* Resources */,
+				985B62B20719E09D0073D36F /* Sources */,
+				985B62B30719E09D0073D36F /* Frameworks */,
+				985B62B40719E09D0073D36F /* ShellScript */,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Cocoa_Carbon_Prefix.pch;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				INFOPLIST_FILE = Test/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				OTHER_CFLAGS = "-fobjc-exceptions";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+					"-framework",
+					SenTestingKit,
+				);
+				PRODUCT_NAME = Testing;
+				SECTORDER_FLAGS = "";
+				TEST_AFTER_BUILD = YES;
+				WARNING_CFLAGS = "-Wmost";
+			};
+			dependencies = (
+				985B6B1E0719E3860073D36F /* PBXTargetDependency */,
+			);
+			name = Testing;
+			productName = Testing;
+			productReference = 985B62B60719E09D0073D36F /* Testing.framework */;
+			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
+<plist version=\"1.0\">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>Testing</string>
+	<key>CFBundleGetInfoString</key>
+	<string></string>
+	<key>CFBundleIdentifier</key>
+	<string>com.MySoftwareCompany.Testing</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundlePackageType</key>
+	<string>FMWK</string>
+	<key>CFBundleShortVersionString</key>
+	<string></string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>1.0.0d1</string>
+</dict>
+</plist>
+";
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0867D690FE84028FC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 98EF7D5C08645328007BC81A /* Build configuration list for PBXProject "HotKeyToolKit" */;
+			buildSettings = {
+			};
+			buildStyles = (
+				014CEA440018CDF011CA2923 /* Development */,
+				014CEA450018CDF011CA2923 /* Deployment */,
+			);
+			hasScannedForEncodings = 1;
+			mainGroup = 0867D691FE84028FC02AAC07 /* HotKeyToolKit */;
+			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
+			projectDirPath = "";
+			targets = (
+				985B62B50719E09D0073D36F /* Testing */,
+				8DC2EF4F0486A6940098B216 /* HotKeyToolKit */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8DC2EF520486A6940098B216 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */,
+				984426C305F942E400551005 /* ShortCut.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		985B62B10719E09D0073D36F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				985B6D180719ED7E0073D36F /* Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXRezBuildPhase section */
+		8DC2EF580486A6940098B216 /* Rez */ = {
+			isa = PBXRezBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXRezBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		985B62B40719E09D0073D36F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = /Developer/Tools/RunTargetUnitTests;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8DC2EF540486A6940098B216 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				984426DD05F943A100551005 /* HKKeyMap.m in Sources */,
+				984426DE05F943A100551005 /* HKHotKey.m in Sources */,
+				984426DF05F943A100551005 /* HKHotKeyManager.m in Sources */,
+				984426E005F943A100551005 /* KeyMap.m in Sources */,
+				984426E105F943A100551005 /* HKTrapWindow.m in Sources */,
+				9844277A05F9444000551005 /* HKHotKeyRegister.m in Sources */,
+				982B010D05FE954600E8776D /* HKKeyboardUtils.m in Sources */,
+				98E2716206D0FB980017BDF7 /* HKAXUIExtensions.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		985B62B20719E09D0073D36F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				985B62EE0719E1750073D36F /* HKHotKeyTestCase.m in Sources */,
+				985B6D1C0719EDCC0073D36F /* HKKeyMapTestCase.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		985B6B1E0719E3860073D36F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8DC2EF4F0486A6940098B216 /* HotKeyToolKit */;
+			targetProxy = 985B6B1D0719E3860073D36F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		089C1666FE841158C02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C1667FE841158C02AAC07 /* English */,
+				984426C505F942F800551005 /* French */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		984426C105F942E400551005 /* ShortCut.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				984426C405F942EC00551005 /* English */,
+			);
+			name = ShortCut.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		98EF7D5508645328007BC81A /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 2;
+				DYLIB_CURRENT_VERSION = 2;
+				FRAMEWORK_VERSION = A;
+				GCC_DYNAMIC_NO_PIC = NO;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_STYLE = DYNAMIC;
+				OTHER_LDFLAGS = (
+					"-seg1addr",
+					0xD0000000,
+				);
+				PRODUCT_NAME = HotKeyToolKit;
+			};
+			name = Development;
+		};
+		98EF7D5608645328007BC81A /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 2;
+				DYLIB_CURRENT_VERSION = 2;
+				FRAMEWORK_VERSION = A;
+				GCC_DYNAMIC_NO_PIC = NO;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_STYLE = DYNAMIC;
+				OTHER_LDFLAGS = (
+					"-seg1addr",
+					0xD0000000,
+				);
+				PRODUCT_NAME = HotKeyToolKit;
+			};
+			name = Deployment;
+		};
+		98EF7D5708645328007BC81A /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 2;
+				DYLIB_CURRENT_VERSION = 2;
+				FRAMEWORK_VERSION = A;
+				GCC_DYNAMIC_NO_PIC = NO;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_STYLE = DYNAMIC;
+				OTHER_LDFLAGS = (
+					"-seg1addr",
+					0xD0000000,
+				);
+				PRODUCT_NAME = HotKeyToolKit;
+			};
+			name = Default;
+		};
+		98EF7D5908645328007BC81A /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
+				DEPLOYMENT_POSTPROCESSING = NO;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Cocoa_Carbon_Prefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = "";
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNINITIALIZED_AUTOS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				GCC_WARN_UNUSED_VALUE = YES;
+				INFOPLIST_FILE = Test/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				OTHER_CFLAGS = "-fobjc-exceptions";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+					"-framework",
+					SenTestingKit,
+				);
+				PRESERVE_DEAD_CODE_INITS_AND_TERMS = NO;
+				PRODUCT_NAME = Testing;
+				SECTORDER_FLAGS = "";
+				TEST_AFTER_BUILD = YES;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				ZERO_LINK = YES;
+			};
+			name = Development;
+		};
+		98EF7D5A08645328007BC81A /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEAD_CODE_STRIPPING = NO;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Cocoa_Carbon_Prefix.pch;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				GCC_WARN_UNUSED_VALUE = YES;
+				INFOPLIST_FILE = Test/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				OTHER_CFLAGS = "-fobjc-exceptions";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+					"-framework",
+					SenTestingKit,
+				);
+				PRESERVE_DEAD_CODE_INITS_AND_TERMS = NO;
+				PRODUCT_NAME = Testing;
+				SECTORDER_FLAGS = "";
+				TEST_AFTER_BUILD = YES;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+		98EF7D5B08645328007BC81A /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Cocoa_Carbon_Prefix.pch;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				INFOPLIST_FILE = Test/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				OTHER_CFLAGS = "-fobjc-exceptions";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+					"-framework",
+					SenTestingKit,
+				);
+				PRODUCT_NAME = Testing;
+				SECTORDER_FLAGS = "";
+				TEST_AFTER_BUILD = YES;
+				WARNING_CFLAGS = "-Wmost";
+			};
+			name = Default;
+		};
+		98EF7D5D08645328007BC81A /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 98EF7D620864534D007BC81A /* ShadowDebug.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Cocoa-Carbon.pch";
+				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
+			};
+			name = Development;
+		};
+		98EF7D5E08645328007BC81A /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 98EF7D610864534D007BC81A /* ShadowRelease.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Cocoa-Carbon.pch";
+				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
+			};
+			name = Deployment;
+		};
+		98EF7D5F08645328007BC81A /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Cocoa-Carbon.pch";
+				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
+			};
+			name = Default;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		98EF7D5408645328007BC81A /* Build configuration list for PBXNativeTarget "HotKeyToolKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				98EF7D5508645328007BC81A /* Development */,
+				98EF7D5608645328007BC81A /* Deployment */,
+				98EF7D5708645328007BC81A /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+		98EF7D5808645328007BC81A /* Build configuration list for PBXNativeTarget "Testing" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				98EF7D5908645328007BC81A /* Development */,
+				98EF7D5A08645328007BC81A /* Deployment */,
+				98EF7D5B08645328007BC81A /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+		98EF7D5C08645328007BC81A /* Build configuration list for PBXProject "HotKeyToolKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				98EF7D5D08645328007BC81A /* Development */,
+				98EF7D5E08645328007BC81A /* Deployment */,
+				98EF7D5F08645328007BC81A /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0867D690FE84028FC02AAC07 /* Project object */;
+}

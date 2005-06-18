@@ -123,7 +123,7 @@ AXError HKSendHotKeyToProcess(CGCharCode character, CGKeyCode keycode, unsigned 
 #pragma mark Statics Functions Definition
 ProcessSerialNumber HKGetProcessWithSignature(OSType type) {
   ProcessSerialNumber psn = {kNoProcess, kNoProcess};
-  CFStringRef sign = CFStringCreateWithBytes(kCFAllocatorDefault, (char *)&type, sizeof(OSType), kCFStringEncodingMacRoman, NO);
+  CFStringRef sign = CFStringCreateWithBytes(kCFAllocatorDefault, (UInt8 *)&type, sizeof(OSType), kCFStringEncodingMacRoman, NO);
   if (nil != sign) {
     psn = HKGetProcessWithProperty(CFSTR("FileCreator"), sign);
     CFRelease(sign);
