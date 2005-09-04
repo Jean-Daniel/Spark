@@ -20,6 +20,8 @@ enum {
   kHKSystemWide		   = -2
 };
 
+CGError HKSendHotKey(CGCharCode character, CGKeyCode keycode, unsigned int modifier);
+
 /*!
 	@function 	HKSendHotKeyToApplication
 	@abstract   Send a keyboard shortcut event to a running application.

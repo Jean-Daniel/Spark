@@ -11,6 +11,8 @@
 
 @interface HKHotKey (AXUIExtension)
 
+- (CGError)sendHotKey;
+
 /*!
 	@method     sendHotKeyToApplicationWithSignature:bundleId:
 	@abstract   Perform the receiver HotKey on the application specified by <i>signature</i> or <i>bundleId</i>.

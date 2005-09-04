@@ -18,6 +18,58 @@ static ProcessSerialNumber HKGetProcessWithProperty(CFStringRef property, CFProp
 
 #pragma mark -
 #pragma mark Publics Functions Definitions
+CGError HKSendHotKey(CGCharCode character, CGKeyCode keycode, unsigned int modifier) {
+  CGError err = kCGErrorSuccess;
+  
+  /* Checking arguments values */
+  if (kHKNilUnichar == character) character = HKUnicharForKeycode(keycode);
+  if (kHKNilUnichar == character) return kCGErrorIllegalArgument;
+  
+  if (kHKNilVirtualKeyCode == keycode) keycode = HKKeycodeForUnichar(character);
+  if (kHKNilVirtualKeyCode == keycode) return kCGErrorIllegalArgument;
+  
+  CGInhibitLocalEvents(YES);
+  CGEnableEventStateCombining(NO);
+  CGSetLocalEventsFilterDuringSuppressionState (kCGEventFilterMaskPermitAllEvents, kCGEventSuppressionStateSuppressionInterval);
+  
+  /* Sending Modifier Keydown events */
+  if (NSControlKeyMask & modifier) {
+    err = CGPostKeyboardEvent(0, (CGKeyCode)kVirtualControlKey, YES);
+  }
+  if (NSAlternateKeyMask & modifier) {
+    err = CGPostKeyboardEvent(0, (CGKeyCode)kVirtualOptionKey, YES);
+  }
+  if (NSShiftKeyMask & modifier) {
+    err = CGPostKeyboardEvent(0, (CGKeyCode)kVirtualShiftKey, YES);
+  }
+  if (NSCommandKeyMask & modifier) {
+    err = CGPostKeyboardEvent(0, (CGKeyCode)kVirtualCommandKey, YES);
+  }
+  
+  /* Sending Character Key events */
+  /* If key already down in carbon app, event not sended */
+  err = CGPostKeyboardEvent((CGCharCode)character, keycode , YES);
+  err = CGPostKeyboardEvent((CGCharCode)character, keycode, NO);
+  
+  /* Sending Modifiers Key Up events */
+  if (NSCommandKeyMask & modifier) {
+    err = CGPostKeyboardEvent((CGCharCode)0, (CGKeyCode)kVirtualCommandKey, NO);
+  }
+  if (NSShiftKeyMask & modifier) {
+    err = CGPostKeyboardEvent((CGCharCode)0, (CGKeyCode)kVirtualShiftKey, NO);
+  }
+  if (NSAlternateKeyMask & modifier) {
+    err = CGPostKeyboardEvent((CGCharCode)0, (CGKeyCode)kVirtualOptionKey, NO);
+  }
+  if (NSControlKeyMask & modifier) {
+    err = CGPostKeyboardEvent((CGCharCode)0, (CGKeyCode)kVirtualControlKey, NO);
+  }
+  
+  CGEnableEventStateCombining(YES); 
+  CGInhibitLocalEvents(NO);
+  return err;
+}
+
 AXError HKSendHotKeyToApplication(CGCharCode character, CGKeyCode keycode, unsigned int modifier, OSType signature, CFStringRef bundleID) {
   
   if (kHKUnknowCreator == signature && nil == bundleID) {
@@ -115,6 +167,16 @@ AXError HKSendHotKeyToProcess(CGCharCode character, CGKeyCode keycode, unsigned 
   if ([self isValid])
     return HKSendHotKeyToApplication([self character], [self keycode], [self modifier], sign, (CFStringRef)bundleId);
   else return kAXErrorIllegalArgument;
+}
+
+- (CGError)sendHotKey {
+  CGError err = kCGErrorSuccess;
+  if ([self isValid]) {
+    BOOL ok = [self isRegistred];
+    err = HKSendHotKey([self character], [self keycode], [self modifier]);
+    if (ok) [self setRegistred:YES];
+  }
+  return err;
 }
 
 @end
