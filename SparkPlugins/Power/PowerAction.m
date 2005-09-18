@@ -87,28 +87,28 @@ static NSString* const kPowerActionKey = @"PowerAction";
 - (SparkAlert *)execute {
   SparkAlert *alert = [self check];
   if (alert == nil) {
-    [self launchSystemEvent];
     switch ([self powerAction]) {
       case kPowerLogOut:
-        [self sendAppleEvent:'logo'];
+        [self logout];
         break;
       case kPowerSleep:
-        [self sendAppleEvent:'slep'];
+        [self sleep];
         break;
       case kPowerRestart:
-        [self sendAppleEvent:'rest'];
+        [self restart];
         break;
       case kPowerShutDown:
-        [self sendAppleEvent:'shut'];
+        [self shutDown];
         break;
       case kPowerFastLogOut:
-        PowerFastLogOut();
+        [self fastLogout];
         break;
     }
   }
   return alert;
 }
 
+#pragma mark -
 - (void)launchSystemEvent {
   ProcessSerialNumber p = SKGetProcessWithSignature('sevs');
   if ( (p.highLongOfPSN == kNoProcess) && (p.lowLongOfPSN == kNoProcess)) {
@@ -116,13 +116,39 @@ static NSString* const kPowerActionKey = @"PowerAction";
   }
 }
 
-- (void)sendAppleEvent:(OSType)eventType {
-  ShadowAESendSimpleEvent('sevs', 'fndr', eventType);
+/*
+kAELogOut                     = 'logo',
+kAEReallyLogOut               = 'rlgo',
+kAEShowRestartDialog          = 'rrst',
+kAEShowShutdownDialog         = 'rsdn'
+ */
+- (void)logout {
+  ProcessSerialNumber psn = {0, kSystemProcess};
+  ShadowAESendSimpleEventToProcess(&psn, kCoreEventClass, kAELogOut);
+}
+
+- (void)sleep {
+  ProcessSerialNumber psn = {0, kSystemProcess};
+  ShadowAESendSimpleEventToProcess(&psn, kCoreEventClass, 'slep');
+}
+
+- (void)restart {
+  ProcessSerialNumber psn = {0, kSystemProcess};
+  ShadowAESendSimpleEventToProcess(&psn, kCoreEventClass, 'rest');
+}
+
+- (void)shutDown {
+  ProcessSerialNumber psn = {0, kSystemProcess};
+  ShadowAESendSimpleEventToProcess(&psn, kCoreEventClass, 'shut');
+}
+
+- (void)fastLogout {
+  PowerFastLogOut();
 }
 
 @end
 
-void PowerFastLogOut() {
+static void PowerFastLogOut() {
   NSTask *task = [[NSTask alloc] init];
   [task setLaunchPath:kFastUserSwitcherPath];
   [task setArguments:[NSArray arrayWithObject:@"-suspend"]];

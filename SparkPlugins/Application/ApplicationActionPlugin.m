@@ -13,9 +13,13 @@
 #import "ApplicationAction.h"
 #import "ApplicationActionPlugin.h"
 
-NSString * const kApplicationActionBundleIdentifier = @"fr.shadowlab.ApplicationAction";
+NSString * const kApplicationActionBundleIdentifier = @"org.shadowlab.spark.application";
 
 @implementation ApplicationActionPlugin
+
++ (void)initialize {
+  [self setKeys:[NSArray arrayWithObject:@"appAction"] triggerChangeNotificationsForDependentKey:@"displayLaunchOptions"];
+}
 
 - (void)dealloc {
   [_appName release];
@@ -33,6 +37,8 @@ NSString * const kApplicationActionBundleIdentifier = @"fr.shadowlab.Application
     [self setFlags:[sparkAction flags]];
     [self setAppPath:[sparkAction path]];
     [self setAppAction:[sparkAction appAction]];
+  } else {
+    [self setAppAction:kOpenActionTag];
   }
 }
 
@@ -86,16 +92,24 @@ NSString * const kApplicationActionBundleIdentifier = @"fr.shadowlab.Application
 
 /*===============================================*/
 
+- (BOOL)displayLaunchOptions {
+  return [self appAction] != kOpenActionTag && [self appAction] != kOpenCloseActionTag;
+}
+
 - (NSString *)actionDescription:(id)key {
   id act;
   switch ([self appAction]) {
+    case kHideAllTag:
+      act = NSLocalizedStringFromTableInBundle(@"DESC_HIDE_ALL", nil,ApplicationActionBundle,
+                                               @"Hide All Applications * Action Description *");
+      break;
     case kOpenActionTag:
       act = NSLocalizedStringFromTableInBundle(@"DESC_LAUNCH", nil,ApplicationActionBundle,
                                                @"Launch Application * Action Description *");
       break;
-    case kRestartActionTag:
-      act = NSLocalizedStringFromTableInBundle(@"DESC_RESTART", nil,ApplicationActionBundle,
-                                               @"Restart Application * Action Description *");
+    case kOpenCloseActionTag:
+      act = NSLocalizedStringFromTableInBundle(@"DESC_SWITCH_OPEN_CLOSE", nil,ApplicationActionBundle,
+                                               @"Open/Close Application * Action Description *");
       break;
     case kQuitActionTag:
       act = NSLocalizedStringFromTableInBundle(@"DESC_QUIT", nil,ApplicationActionBundle,

@@ -186,21 +186,21 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 98EF7F4108645B72007BC81A /* HotKeyToolKit.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 985B62B60719E09D0073D36F /* Testing.framework */;
+			remoteGlobalIDString = 985B62B60719E09D0073D36F;
 			remoteInfo = Testing;
 		};
 		98EF7F4908645B72007BC81A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 98EF7F4108645B72007BC81A /* HotKeyToolKit.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 8DC2EF5B0486A6940098B216 /* HotKeyToolKit.framework */;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
 			remoteInfo = HotKeyToolKit;
 		};
 		98EF7F5008645B7F007BC81A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 98EF7F4B08645B7F007BC81A /* SparkKit.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 8DC2EF5B0486A6940098B216 /* SparkKit.framework */;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
 			remoteInfo = SparkKit;
 		};
 		98FC452106063BB2003617CA /* PBXContainerItemProxy */ = {
@@ -263,6 +263,9 @@
 		98AA290C060C659F0039844B /* VolumeUp.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = VolumeUp.tif; sourceTree = "<group>"; };
 		98AA290D060C659F0039844B /* VolumeDown.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = VolumeDown.tif; sourceTree = "<group>"; };
 		98B5515406D25F06001BDF93 /* Eject.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Eject.tif; sourceTree = "<group>"; };
+		98C12C6608CE11D10015CB91 /* ShadowDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; name = ShadowDebug.xcconfig; path = Exploitables/ShadowKit/ShadowDebug.xcconfig; sourceTree = ProjectsRoot; };
+		98C12C6708CE11D10015CB91 /* ShadowIntel.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; name = ShadowIntel.xcconfig; path = Exploitables/ShadowKit/ShadowIntel.xcconfig; sourceTree = ProjectsRoot; };
+		98C12C6808CE11D10015CB91 /* ShadowRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; name = ShadowRelease.xcconfig; path = Exploitables/ShadowKit/ShadowRelease.xcconfig; sourceTree = ProjectsRoot; };
 		98C7DDF60713C84B007F9CEF /* Switcher.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = Switcher.m; sourceTree = "<group>"; };
 		98C7DDF80713C852007F9CEF /* Switcher.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Switcher.h; sourceTree = "<group>"; };
 		98C7E30E06064B47003BF04D /* Icons.psd */ = {isa = PBXFileReference; lastKnownFileType = file; path = Icons.psd; sourceTree = "<group>"; };
@@ -289,8 +292,6 @@
 		98E6A9520606385A000CCBE1 /* ITunesActionPlugin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ITunesActionPlugin.h; sourceTree = "<group>"; };
 		98EDC3590736E6C700EF9F2B /* URLIcon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = URLIcon.tiff; sourceTree = "<group>"; };
 		98EDC3780736E86C00EF9F2B /* Launch.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Launch.tiff; sourceTree = "<group>"; };
-		98EF7EE908645A3B007BC81A /* ShadowRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = ShadowRelease.xcconfig; sourceTree = "<group>"; };
-		98EF7EEA08645A3B007BC81A /* ShadowDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = ShadowDebug.xcconfig; sourceTree = "<group>"; };
 		98EF7F4108645B72007BC81A /* HotKeyToolKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = HotKeyToolKit.xcodeproj; path = ../HotKeyToolKit/HotKeyToolKit.xcodeproj; sourceTree = SOURCE_ROOT; };
 		98EF7F4B08645B7F007BC81A /* SparkKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SparkKit.xcodeproj; path = ../SparkKit/SparkKit.xcodeproj; sourceTree = SOURCE_ROOT; };
 		98F7FE700607969F006FD336 /* Warning.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Warning.tiff; sourceTree = "<group>"; };
@@ -423,10 +424,11 @@
 				089C167CFE841241C02AAC07 /* Resources */,
 				089C1671FE841209C02AAC07 /* Frameworks and Libraries */,
 				19C28FB8FE9D52D311CA2CBB /* Products */,
-				98EF7EEA08645A3B007BC81A /* ShadowDebug.xcconfig */,
-				98EF7EE908645A3B007BC81A /* ShadowRelease.xcconfig */,
 				98EF7F4B08645B7F007BC81A /* SparkKit.xcodeproj */,
 				98EF7F4108645B72007BC81A /* HotKeyToolKit.xcodeproj */,
+				98C12C6708CE11D10015CB91 /* ShadowIntel.xcconfig */,
+				98C12C6608CE11D10015CB91 /* ShadowDebug.xcconfig */,
+				98C12C6808CE11D10015CB91 /* ShadowRelease.xcconfig */,
 			);
 			name = "Spark Plugins";
 			sourceTree = "<group>";
@@ -1444,6 +1446,130 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		98C12C7708CE11FC0015CB91 /* Deployment Intel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_DYNAMIC_NO_PIC = NO;
+				INFOPLIST_FILE = Power/Info.plist;
+				LIBRARY_STYLE = BUNDLE;
+				PRODUCT_NAME = PowerAction;
+				WRAPPER_EXTENSION = spact;
+			};
+			name = "Deployment Intel";
+		};
+		98C12C7808CE11FC0015CB91 /* Deployment Intel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_DYNAMIC_NO_PIC = NO;
+				INFOPLIST_FILE = iTunes/Info.plist;
+				LIBRARY_STYLE = BUNDLE;
+				PRODUCT_NAME = iTunesAction;
+				WRAPPER_EXTENSION = spact;
+			};
+			name = "Deployment Intel";
+		};
+		98C12C7908CE11FC0015CB91 /* Deployment Intel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_DYNAMIC_NO_PIC = NO;
+				INFOPLIST_FILE = Documents/Info.plist;
+				LIBRARY_STYLE = BUNDLE;
+				PRODUCT_NAME = DocumentAction;
+				WRAPPER_EXTENSION = spact;
+			};
+			name = "Deployment Intel";
+		};
+		98C12C7A08CE11FC0015CB91 /* Deployment Intel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_DYNAMIC_NO_PIC = NO;
+				INFOPLIST_FILE = Application/Info.plist;
+				LIBRARY_STYLE = BUNDLE;
+				PRODUCT_NAME = ApplicationAction;
+				WRAPPER_EXTENSION = spact;
+			};
+			name = "Deployment Intel";
+		};
+		98C12C7B08CE11FC0015CB91 /* Deployment Intel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_DYNAMIC_NO_PIC = NO;
+				INFOPLIST_FILE = "Apple Script/Info.plist";
+				LIBRARY_STYLE = BUNDLE;
+				PRODUCT_NAME = AppleScriptAction;
+				WRAPPER_EXTENSION = spact;
+			};
+			name = "Deployment Intel";
+		};
+		98C12C7C08CE11FC0015CB91 /* Deployment Intel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEAD_CODE_STRIPPING = NO;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = NS_BLOCK_ASSERTIONS;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VALUE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				PRESERVE_DEAD_CODE_INITS_AND_TERMS = NO;
+				PRODUCT_NAME = All;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				ZERO_LINK = NO;
+			};
+			name = "Deployment Intel";
+		};
+		98C12C7D08CE11FC0015CB91 /* Deployment Intel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEAD_CODE_STRIPPING = NO;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = NS_BLOCK_ASSERTIONS;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VALUE = YES;
+				INSTALL_PATH = /usr/local/bin;
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRESERVE_DEAD_CODE_INITS_AND_TERMS = NO;
+				PRODUCT_NAME = Labo;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				ZERO_LINK = NO;
+			};
+			name = "Deployment Intel";
+		};
+		98C12C7E08CE11FC0015CB91 /* Deployment Intel */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 98C12C6708CE11D10015CB91 /* ShadowIntel.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Spark.pch;
+				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
+			};
+			name = "Deployment Intel";
+		};
 		98EF7EC908645A0E007BC81A /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1753,20 +1879,20 @@
 		};
 		98EF7EE508645A0E007BC81A /* Development */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 98EF7EEA08645A3B007BC81A /* ShadowDebug.xcconfig */;
+			baseConfigurationReference = 98C12C6608CE11D10015CB91 /* ShadowDebug.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Cocoa.pch;
+				GCC_PREFIX_HEADER = Spark.pch;
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
 			};
 			name = Development;
 		};
 		98EF7EE608645A0E007BC81A /* Deployment */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 98EF7EE908645A3B007BC81A /* ShadowRelease.xcconfig */;
+			baseConfigurationReference = 98C12C6808CE11D10015CB91 /* ShadowRelease.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Cocoa.pch;
+				GCC_PREFIX_HEADER = Spark.pch;
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
 			};
 			name = Deployment;
@@ -1775,7 +1901,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Cocoa.pch;
+				GCC_PREFIX_HEADER = Spark.pch;
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
 			};
 			name = Default;
@@ -1788,6 +1914,7 @@
 			buildConfigurations = (
 				98EF7EC908645A0E007BC81A /* Development */,
 				98EF7ECA08645A0E007BC81A /* Deployment */,
+				98C12C7708CE11FC0015CB91 /* Deployment Intel */,
 				98EF7ECB08645A0E007BC81A /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1798,6 +1925,7 @@
 			buildConfigurations = (
 				98EF7ECD08645A0E007BC81A /* Development */,
 				98EF7ECE08645A0E007BC81A /* Deployment */,
+				98C12C7808CE11FC0015CB91 /* Deployment Intel */,
 				98EF7ECF08645A0E007BC81A /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1808,6 +1936,7 @@
 			buildConfigurations = (
 				98EF7ED108645A0E007BC81A /* Development */,
 				98EF7ED208645A0E007BC81A /* Deployment */,
+				98C12C7908CE11FC0015CB91 /* Deployment Intel */,
 				98EF7ED308645A0E007BC81A /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1818,6 +1947,7 @@
 			buildConfigurations = (
 				98EF7ED508645A0E007BC81A /* Development */,
 				98EF7ED608645A0E007BC81A /* Deployment */,
+				98C12C7A08CE11FC0015CB91 /* Deployment Intel */,
 				98EF7ED708645A0E007BC81A /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1828,6 +1958,7 @@
 			buildConfigurations = (
 				98EF7ED908645A0E007BC81A /* Development */,
 				98EF7EDA08645A0E007BC81A /* Deployment */,
+				98C12C7B08CE11FC0015CB91 /* Deployment Intel */,
 				98EF7EDB08645A0E007BC81A /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1838,6 +1969,7 @@
 			buildConfigurations = (
 				98EF7EDD08645A0E007BC81A /* Development */,
 				98EF7EDE08645A0E007BC81A /* Deployment */,
+				98C12C7C08CE11FC0015CB91 /* Deployment Intel */,
 				98EF7EDF08645A0E007BC81A /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1848,6 +1980,7 @@
 			buildConfigurations = (
 				98EF7EE108645A0E007BC81A /* Development */,
 				98EF7EE208645A0E007BC81A /* Deployment */,
+				98C12C7D08CE11FC0015CB91 /* Deployment Intel */,
 				98EF7EE308645A0E007BC81A /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1858,6 +1991,7 @@
 			buildConfigurations = (
 				98EF7EE508645A0E007BC81A /* Development */,
 				98EF7EE608645A0E007BC81A /* Deployment */,
+				98C12C7E08CE11FC0015CB91 /* Deployment Intel */,
 				98EF7EE708645A0E007BC81A /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;

@@ -45,7 +45,7 @@ OSStatus iTunesSetVisualState(Boolean state) {
   
   err = ShadowAECreateEventWithTargetSignature(kITunesSignature, kAECoreSuite, kAESetData, &theEvent);
   if (noErr == err) {
-    err = ShadowAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty,'pVse', NULL);
+    err = ShadowAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty,'pVsE', NULL);
   }
   if (noErr == err) {
     err = ShadowAEAddBoolean(&theEvent, keyAEData, state);

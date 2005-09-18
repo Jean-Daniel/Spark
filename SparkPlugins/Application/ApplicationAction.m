@@ -104,11 +104,14 @@ static NSString * const kHotKeyBundleIdKey = @"BundleID";
   id alert = [self check];
   if (alert == nil) {
     switch (_appAction) {
+      case kHideAllTag:
+        [self hideAll];
+        break;
       case kOpenActionTag:
         [self launchApplication];
         break;
-      case kRestartActionTag:
-        [self relaunchApplication];
+      case kOpenCloseActionTag:
+        [self toggleApplicationState];
         break;
       case kQuitActionTag:
         [self quitApplication];
@@ -188,6 +191,18 @@ static NSString * const kHotKeyBundleIdKey = @"BundleID";
   return (psn->highLongOfPSN != kNoProcess) || (psn->lowLongOfPSN != kNoProcess);
 }
 
+- (void)hideAll {
+  ProcessSerialNumber front = {kNoProcess, kNoProcess};
+  GetFrontProcess(&front);
+
+  ProcessSerialNumber psn = {kNoProcess, kNoProcess};
+  while (noErr == GetNextProcess(&psn) && psn.lowLongOfPSN != kNoProcess) {
+    if (psn.lowLongOfPSN != front.lowLongOfPSN || psn.highLongOfPSN != front.highLongOfPSN) {
+      ShowHideProcess(&psn, false);
+    }
+  }
+}
+
 - (void)launchApplication {
   DLog(@"Open Application");
   ProcessSerialNumber psn;
@@ -205,6 +220,15 @@ static NSString * const kHotKeyBundleIdKey = @"BundleID";
   ProcessSerialNumber psn;
   if ([self getApplicationProcess:&psn]) {
     QuitApplication(&psn);
+  }
+}
+
+- (void)toggleApplicationState {
+  ProcessSerialNumber psn;
+  if ([self getApplicationProcess:&psn]) {
+    QuitApplication(&psn);
+  } else {
+    [self launchApplication];
   }
 }
 

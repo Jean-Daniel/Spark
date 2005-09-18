@@ -14,7 +14,7 @@
 #import "DocumentActionPlugin.h"
 #import "ApplicationMenu.h"
 
-NSString * const kDocumentActionBundleIdentifier = @"fr.shadowlab.DocumentAction";
+NSString * const kDocumentActionBundleIdentifier = @"org.shadowlab.spark.document";
 
 @implementation DocumentActionPlugin
 

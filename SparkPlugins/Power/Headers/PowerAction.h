@@ -16,7 +16,12 @@
 - (int)powerAction;
 - (void)setPowerAction:(int)newPowerAction;
 
+- (void)logout;
+- (void)sleep;
+- (void)restart;
+- (void)shutDown;
+- (void)fastLogout;
+
 - (void)launchSystemEvent;
-- (void)sendAppleEvent:(OSType)eventType;
 
 @end

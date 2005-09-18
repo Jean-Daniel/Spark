@@ -14,7 +14,7 @@
 #import "ITunesAESuite.h"
 #import "ITunesAction.h"
 
-NSString * const kiTunesActionBundleIdentifier = @"fr.shadowlab.iTunesAction";
+NSString * const kiTunesActionBundleIdentifier = @"org.shadowlab.spark.iTunes";
 
 @implementation ITunesActionPlugin
 

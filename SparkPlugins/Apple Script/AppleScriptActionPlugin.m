@@ -18,7 +18,7 @@ enum {
   kFileTab
 };
 
-NSString * const kASActionBundleIdentifier = @"fr.shadowlab.AppleScriptAction";
+NSString * const kASActionBundleIdentifier = @"org.shadowlab.spark.applescript";
 
 @implementation AppleScriptActionPlugin
 

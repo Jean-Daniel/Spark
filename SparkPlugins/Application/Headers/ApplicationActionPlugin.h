@@ -13,16 +13,16 @@ extern NSString * const kApplicationActionBundleIdentifier;
 #define ApplicationActionBundle			[NSBundle bundleWithIdentifier:kApplicationActionBundleIdentifier]
 
 enum {
-  kOpenActionTag =      0,
-  kRestartActionTag =   1,
-  kQuitActionTag =      2,
-  kKillActionTag =		3 
+  kOpenActionTag 		= 0,
+  kQuitActionTag 		= 2,
+  kOpenCloseActionTag	= 4,
+  kKillActionTag 		= 3, 
+  kHideAllTag			= 5
 };
 
 @interface ApplicationActionPlugin : SparkActionPlugIn {
   @private
   id _appName, _appIcon;
-//  int action;
   int flags;
 }
 

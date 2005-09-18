@@ -13,7 +13,7 @@
 #import "PowerActionPlugin.h"
 #import "PowerAction.h"
 
-NSString * const kPowerActionBundleIdentifier = @"fr.shadowlab.PowerAction";
+NSString * const kPowerActionBundleIdentifier = @"org.shadowlab.spark.power";
 
 @implementation PowerActionPlugin
 
