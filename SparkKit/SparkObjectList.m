@@ -11,6 +11,7 @@
 #import "SKFunctions.h"
 #import "ShadowMacros.h"
 #import "SKExtensions.h"
+#import "SKAppKitExtensions.h"
 
 #import "SparkLibrary.h"
 #import "SparkObjectsLibrary.h"

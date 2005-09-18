@@ -17,7 +17,6 @@
 		981E75CA076A151F00B0D29B /* SKImageUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 981E75C9076A151F00B0D29B /* SKImageUtils.m */; };
 		981E75CD076A153A00B0D29B /* SKImageUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 981E75CC076A153A00B0D29B /* SKImageUtils.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		9825AFBC06FB76BD003A4088 /* ApplicationList.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 9825AFBB06FB76BD003A4088 /* ApplicationList.tiff */; };
-		9825B00705FE3E3E00655E6A /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9825B00605FE3E3E00655E6A /* HotKeyToolKit.framework */; };
 		9825B1FF05FE3ECB00655E6A /* SparkKeyLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 9825B1DE05FE3ECB00655E6A /* SparkKeyLibrary.m */; };
 		9825B20005FE3ECB00655E6A /* SparkListLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 9825B1DF05FE3ECB00655E6A /* SparkListLibrary.m */; };
 		9825B20305FE3ECB00655E6A /* Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 9825B1E205FE3ECB00655E6A /* Extension.m */; };
@@ -105,6 +104,7 @@
 		98CF6FB106B3DB2B0017D206 /* ForwardPressedBlue.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98CF6FAD06B3DB2B0017D206 /* ForwardPressedBlue.tif */; };
 		98CF6FB206B3DB2B0017D206 /* BackPressedBlue.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98CF6FAE06B3DB2B0017D206 /* BackPressedBlue.tif */; };
 		98CF6FB306B3DB2B0017D206 /* Back.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98CF6FAF06B3DB2B0017D206 /* Back.tif */; };
+		98D708B0087A622E006BC4D1 /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98D708AF087A622A006BC4D1 /* HotKeyToolKit.framework */; };
 		98E455C608104B3300B7899F /* SKAppKitExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 98E455C508104B3300B7899F /* SKAppKitExtensions.m */; };
 		98E455C808104B3E00B7899F /* SKAppKitExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 98E455C708104B3E00B7899F /* SKAppKitExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		98E66C800759F7E90048A37D /* SKIconUtils.c in Sources */ = {isa = PBXBuildFile; fileRef = 98E66C7F0759F7E90048A37D /* SKIconUtils.c */; };
@@ -165,6 +165,30 @@
 		};
 /* End PBXBuildStyle section */
 
+/* Begin PBXContainerItemProxy section */
+		98D708AC087A622A006BC4D1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 98D708A7087A622A006BC4D1 /* HotKeyToolKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 985B62B60719E09D0073D36F;
+			remoteInfo = Testing;
+		};
+		98D708AE087A622A006BC4D1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 98D708A7087A622A006BC4D1 /* HotKeyToolKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
+			remoteInfo = HotKeyToolKit;
+		};
+		98D708B1087A623F006BC4D1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 98D708A7087A622A006BC4D1 /* HotKeyToolKit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
+			remoteInfo = HotKeyToolKit;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
@@ -179,7 +203,6 @@
 		981E75C9076A151F00B0D29B /* SKImageUtils.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SKImageUtils.m; sourceTree = "<group>"; };
 		981E75CC076A153A00B0D29B /* SKImageUtils.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = SKImageUtils.h; path = Headers/SKImageUtils.h; sourceTree = "<group>"; };
 		9825AFBB06FB76BD003A4088 /* ApplicationList.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = ApplicationList.tiff; sourceTree = "<group>"; };
-		9825B00605FE3E3E00655E6A /* HotKeyToolKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HotKeyToolKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9825B1DE05FE3ECB00655E6A /* SparkKeyLibrary.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SparkKeyLibrary.m; sourceTree = "<group>"; };
 		9825B1DF05FE3ECB00655E6A /* SparkListLibrary.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SparkListLibrary.m; sourceTree = "<group>"; };
 		9825B1E205FE3ECB00655E6A /* Extension.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = Extension.m; sourceTree = "<group>"; };
@@ -250,6 +273,9 @@
 		98B6567A06F8FBD6007D6BB7 /* SparkApplicationLibrary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkApplicationLibrary.m; sourceTree = "<group>"; };
 		98B6567C06F8FBE5007D6BB7 /* SparkApplicationLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkApplicationLibrary.h; sourceTree = "<group>"; };
 		98BCF0C30708BDA70039136F /* IgnoreAction.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = IgnoreAction.tif; sourceTree = "<group>"; };
+		98C128E608CE0EB50015CB91 /* ShadowRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; name = ShadowRelease.xcconfig; path = ../../ShadowKit/ShadowRelease.xcconfig; sourceTree = SOURCE_ROOT; };
+		98C128E708CE0EB50015CB91 /* ShadowIntel.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; name = ShadowIntel.xcconfig; path = ../../ShadowKit/ShadowIntel.xcconfig; sourceTree = SOURCE_ROOT; };
+		98C128E808CE0EB50015CB91 /* ShadowDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; name = ShadowDebug.xcconfig; path = ../../ShadowKit/ShadowDebug.xcconfig; sourceTree = SOURCE_ROOT; };
 		98C6DEC506FB9CD6000AFA2F /* ActionList.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = ActionList.tif; sourceTree = "<group>"; };
 		98C6E0EB06FB9F74000AFA2F /* KeyList.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = KeyList.tif; sourceTree = "<group>"; };
 		98C78D6507D9E716006D9CC1 /* SKFSFunctions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SKFSFunctions.h; sourceTree = "<group>"; };
@@ -267,12 +293,11 @@
 		98CF6FAD06B3DB2B0017D206 /* ForwardPressedBlue.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = ForwardPressedBlue.tif; sourceTree = "<group>"; };
 		98CF6FAE06B3DB2B0017D206 /* BackPressedBlue.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = BackPressedBlue.tif; sourceTree = "<group>"; };
 		98CF6FAF06B3DB2B0017D206 /* Back.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Back.tif; sourceTree = "<group>"; };
+		98D708A7087A622A006BC4D1 /* HotKeyToolKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = HotKeyToolKit.xcodeproj; path = ../HotKeyToolKit/HotKeyToolKit.xcodeproj; sourceTree = SOURCE_ROOT; };
 		98E455C508104B3300B7899F /* SKAppKitExtensions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SKAppKitExtensions.m; sourceTree = "<group>"; };
 		98E455C708104B3E00B7899F /* SKAppKitExtensions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SKAppKitExtensions.h; sourceTree = "<group>"; };
 		98E66C7F0759F7E90048A37D /* SKIconUtils.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = SKIconUtils.c; sourceTree = "<group>"; };
 		98E66C820759F7F60048A37D /* SKIconUtils.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = SKIconUtils.h; path = Headers/SKIconUtils.h; sourceTree = "<group>"; };
-		98EF7DAF0864552E007BC81A /* ShadowRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = ShadowRelease.xcconfig; sourceTree = "<group>"; };
-		98EF7DB00864552E007BC81A /* ShadowDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = ShadowDebug.xcconfig; sourceTree = "<group>"; };
 		98FB5DDE060D0FFC0074131E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -282,7 +307,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */,
-				9825B00705FE3E3E00655E6A /* HotKeyToolKit.framework in Frameworks */,
+				98D708B0087A622E006BC4D1 /* HotKeyToolKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -306,8 +331,10 @@
 				089C1665FE841158C02AAC07 /* Resources */,
 				0867D69AFE84028FC02AAC07 /* Frameworks */,
 				034768DFFF38A50411DB9C8B /* Products */,
-				98EF7DAF0864552E007BC81A /* ShadowRelease.xcconfig */,
-				98EF7DB00864552E007BC81A /* ShadowDebug.xcconfig */,
+				98D708A7087A622A006BC4D1 /* HotKeyToolKit.xcodeproj */,
+				98C128E708CE0EB50015CB91 /* ShadowIntel.xcconfig */,
+				98C128E808CE0EB50015CB91 /* ShadowDebug.xcconfig */,
+				98C128E608CE0EB50015CB91 /* ShadowRelease.xcconfig */,
 			);
 			name = SparkKit;
 			sourceTree = "<group>";
@@ -351,7 +378,6 @@
 			isa = PBXGroup;
 			children = (
 				1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */,
-				9825B00605FE3E3E00655E6A /* HotKeyToolKit.framework */,
 			);
 			name = "Linked Frameworks";
 			sourceTree = "<group>";
@@ -694,6 +720,15 @@
 			name = Headers;
 			sourceTree = "<group>";
 		};
+		98D708A8087A622A006BC4D1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				98D708AD087A622A006BC4D1 /* Testing.framework */,
+				98D708AF087A622A006BC4D1 /* HotKeyToolKit.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -791,6 +826,7 @@
 				WRAPPER_EXTENSION = framework;
 			};
 			dependencies = (
+				98D708B2087A623F006BC4D1 /* PBXTargetDependency */,
 			);
 			name = SparkKit;
 			productInstallPath = "$(HOME)/Library/Frameworks";
@@ -814,11 +850,34 @@
 			mainGroup = 0867D691FE84028FC02AAC07 /* SparkKit */;
 			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 98D708A8087A622A006BC4D1 /* Products */;
+					ProjectRef = 98D708A7087A622A006BC4D1 /* HotKeyToolKit.xcodeproj */;
+				},
+			);
 			targets = (
 				8DC2EF4F0486A6940098B216 /* SparkKit */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		98D708AD087A622A006BC4D1 /* Testing.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Testing.framework;
+			remoteRef = 98D708AC087A622A006BC4D1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		98D708AF087A622A006BC4D1 /* HotKeyToolKit.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = HotKeyToolKit.framework;
+			remoteRef = 98D708AE087A622A006BC4D1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		8DC2EF520486A6940098B216 /* Resources */ = {
@@ -906,6 +965,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		98D708B2087A623F006BC4D1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = HotKeyToolKit;
+			targetProxy = 98D708B1087A623F006BC4D1 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		089C1666FE841158C02AAC07 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
@@ -949,6 +1016,7 @@
 					0xD0200000,
 				);
 				PRODUCT_NAME = SparkKit;
+				SHARED_PRECOMPS_DIR = "$(OBJROOT)/SharedPrecompiledHeaders";
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Development;
@@ -968,6 +1036,7 @@
 					0xD0200000,
 				);
 				PRODUCT_NAME = SparkKit;
+				SHARED_PRECOMPS_DIR = "$(OBJROOT)/SharedPrecompiledHeaders";
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Deployment;
@@ -987,13 +1056,14 @@
 					0xD0200000,
 				);
 				PRODUCT_NAME = SparkKit;
+				SHARED_PRECOMPS_DIR = "$(OBJROOT)/SharedPrecompiledHeaders";
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Default;
 		};
 		9848D88B085638FD006B5130 /* Development */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 98EF7DB00864552E007BC81A /* ShadowDebug.xcconfig */;
+			baseConfigurationReference = 98C128E808CE0EB50015CB91 /* ShadowDebug.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Cocoa-Carbon.pch";
@@ -1005,7 +1075,7 @@
 		};
 		9848D88C085638FD006B5130 /* Deployment */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 98EF7DAF0864552E007BC81A /* ShadowRelease.xcconfig */;
+			baseConfigurationReference = 98C128E608CE0EB50015CB91 /* ShadowRelease.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Cocoa-Carbon.pch";
@@ -1026,6 +1096,37 @@
 			};
 			name = Default;
 		};
+		98C128F208CE0EDE0015CB91 /* Deployment Intel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = B;
+				GCC_DYNAMIC_NO_PIC = NO;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_STYLE = DYNAMIC;
+				OTHER_LDFLAGS = (
+					"-seg1addr",
+					0xD0200000,
+				);
+				PRODUCT_NAME = SparkKit;
+				SHARED_PRECOMPS_DIR = "$(OBJROOT)/SharedPrecompiledHeaders";
+				WRAPPER_EXTENSION = framework;
+			};
+			name = "Deployment Intel";
+		};
+		98C128F308CE0EDE0015CB91 /* Deployment Intel */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 98C128E708CE0EB50015CB91 /* ShadowIntel.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Cocoa-Carbon.pch";
+				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
+				PRESERVE_DEAD_CODE_INITS_AND_TERMS = YES;
+			};
+			name = "Deployment Intel";
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1034,6 +1135,7 @@
 			buildConfigurations = (
 				9848D887085638FD006B5130 /* Development */,
 				9848D888085638FD006B5130 /* Deployment */,
+				98C128F208CE0EDE0015CB91 /* Deployment Intel */,
 				9848D889085638FD006B5130 /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1044,6 +1146,7 @@
 			buildConfigurations = (
 				9848D88B085638FD006B5130 /* Development */,
 				9848D88C085638FD006B5130 /* Deployment */,
+				98C128F308CE0EDE0015CB91 /* Deployment Intel */,
 				9848D88D085638FD006B5130 /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;

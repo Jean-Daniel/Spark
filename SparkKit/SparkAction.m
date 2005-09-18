@@ -35,7 +35,7 @@ const int kSparkActionVersion_1_0 = 0x100;
 #pragma mark NSCoding
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
-  [coder encodeBytes:(const char *)&sk_saflags length:sizeof(sk_saflags) forKey:@"SAFlags"];
+  [coder encodeBytes:(const uint8_t *)&sk_saflags length:sizeof(sk_saflags) forKey:@"SAFlags"];
   [coder encodeInt:sk_version forKey:kSparkActionVersionKey];
   if (nil != sk_categorie)
     [coder encodeObject:sk_categorie forKey:kSparkActionCategorieKey];
@@ -47,7 +47,7 @@ const int kSparkActionVersion_1_0 = 0x100;
 - (id)initWithCoder:(NSCoder *)coder {
   if (self = [super initWithCoder:coder]) {
     unsigned length;
-    const char *buffer = [coder decodeBytesForKey:@"SAFlags" returnedLength:&length];
+    const uint8_t *buffer = [coder decodeBytesForKey:@"SAFlags" returnedLength:&length];
     memcpy(&sk_saflags, buffer, MIN(length, sizeof(sk_saflags)));
     sk_version = [coder decodeIntForKey:kSparkActionVersionKey];
     [self setCategorie:[coder decodeObjectForKey:kSparkActionCategorieKey]];
@@ -82,7 +82,7 @@ const int kSparkActionVersion_1_0 = 0x100;
   
   return dico;
 }
-- (id)initFromPropertyList:(id)plist {
+- (id)initFromPropertyList:(NSDictionary *)plist {
   if (self = [super initFromPropertyList:plist]) {
     id version = [plist objectForKey:kSparkActionVersionKey];
     [self setVersion:(nil != version) ? [version intValue] : kSparkActionVersion_1_0];
@@ -271,61 +271,60 @@ inline NSTimeInterval SparkGetDefaultKeyRepeatInterval() {
 }
 
 - (SparkAlert *)hotKeyShouldExecuteAction:(SparkHotKey *)hotkey {
-  UInt32 modifier = [hotkey modifier];
-  CGCharCode character = [hotkey character];
-  CGKeyCode keycode = [hotkey keycode];
-  
-  [hotkey setRegistred:NO];
-//  CGInhibitLocalEvents(YES);
-  CGEnableEventStateCombining(NO);
-  CGSetLocalEventsFilterDuringSuppressionState (kCGEventFilterMaskPermitAllEvents, kCGEventSuppressionStateSuppressionInterval);
-  
-  //#define AXUIElementPostKeyboardEvent(app, char, key, flag)	CGPostKeyboardEvent(char, key, flag)
-  /* Sending Modifier Keydown events */
-  if (NSControlKeyMask & modifier) {
-    CGPostKeyboardEvent(0, (CGKeyCode)kVirtualControlKey, YES);
-  }
-  if (NSAlternateKeyMask & modifier) {
-    CGPostKeyboardEvent(0, (CGKeyCode)kVirtualOptionKey, YES);
-  }
-  if (NSShiftKeyMask & modifier) {
-    CGPostKeyboardEvent(0, (CGKeyCode)kVirtualShiftKey, YES);
-  }
-  if (NSCommandKeyMask & modifier) {
-    CGPostKeyboardEvent(0, (CGKeyCode)kVirtualCommandKey, YES);
-  }
-  //  if (NSFunctionKeyMask & modifier) {
-  //    CGPostKeyboardEvent((CGCharCode)0, (CGKeyCode)kVirtualControlKey, YES);
-  //  }
-  
-  /* Sending Character Key events */
-  /* If key already down in carbon app, event not sended */
-  CGPostKeyboardEvent((CGCharCode)character, keycode , YES);
-  CGPostKeyboardEvent((CGCharCode)character, keycode, NO);
-  
-  /* Sending Modifiers Key Up events */
-  if (NSCommandKeyMask & modifier) {
-    CGPostKeyboardEvent((CGCharCode)0, (CGKeyCode)kVirtualCommandKey, NO);
-  }
-  if (NSShiftKeyMask & modifier) {
-    CGPostKeyboardEvent((CGCharCode)0, (CGKeyCode)kVirtualShiftKey, NO);
-  }
-  if (NSAlternateKeyMask & modifier) {
-    CGPostKeyboardEvent((CGCharCode)0, (CGKeyCode)kVirtualOptionKey, NO);
-  }
-  if (NSControlKeyMask & modifier) {
-    CGPostKeyboardEvent((CGCharCode)0, (CGKeyCode)kVirtualControlKey, NO);
-  }
-//  if (NSFunctionKeyMask & modifier) {
+  [hotkey sendHotKey];
+//  
+//  UInt32 modifier = [hotkey modifier];
+//  CGCharCode character = [hotkey character];
+//  CGKeyCode keycode = [hotkey keycode];
+//  
+//  [hotkey setRegistred:NO];
+////  CGInhibitLocalEvents(YES);
+//  CGEnableEventStateCombining(NO);
+//  CGSetLocalEventsFilterDuringSuppressionState (kCGEventFilterMaskPermitAllEvents, kCGEventSuppressionStateSuppressionInterval);
+//  
+//  /* Sending Modifier Keydown events */
+//  if (NSControlKeyMask & modifier) {
+//    CGPostKeyboardEvent(0, (CGKeyCode)kVirtualControlKey, YES);
+//  }
+//  if (NSAlternateKeyMask & modifier) {
+//    CGPostKeyboardEvent(0, (CGKeyCode)kVirtualOptionKey, YES);
+//  }
+//  if (NSShiftKeyMask & modifier) {
+//    CGPostKeyboardEvent(0, (CGKeyCode)kVirtualShiftKey, YES);
+//  }
+//  if (NSCommandKeyMask & modifier) {
+//    CGPostKeyboardEvent(0, (CGKeyCode)kVirtualCommandKey, YES);
+//  }
+//  //  if (NSFunctionKeyMask & modifier) {
+//  //    CGPostKeyboardEvent((CGCharCode)0, (CGKeyCode)kVirtualControlKey, YES);
+//  //  }
+//  
+//  /* Sending Character Key events */
+//  /* If key already down in carbon app, event not sended */
+//  CGPostKeyboardEvent((CGCharCode)character, keycode , YES);
+//  CGPostKeyboardEvent((CGCharCode)character, keycode, NO);
+//  
+//  /* Sending Modifiers Key Up events */
+//  if (NSCommandKeyMask & modifier) {
+//    CGPostKeyboardEvent((CGCharCode)0, (CGKeyCode)kVirtualCommandKey, NO);
+//  }
+//  if (NSShiftKeyMask & modifier) {
+//    CGPostKeyboardEvent((CGCharCode)0, (CGKeyCode)kVirtualShiftKey, NO);
+//  }
+//  if (NSAlternateKeyMask & modifier) {
+//    CGPostKeyboardEvent((CGCharCode)0, (CGKeyCode)kVirtualOptionKey, NO);
+//  }
+//  if (NSControlKeyMask & modifier) {
 //    CGPostKeyboardEvent((CGCharCode)0, (CGKeyCode)kVirtualControlKey, NO);
 //  }
-  
-  CGEnableEventStateCombining(YES); 
-  //  CGInhibitLocalEvents(NO);
-  [hotkey setRegistred:YES];
+////  if (NSFunctionKeyMask & modifier) {
+////    CGPostKeyboardEvent((CGCharCode)0, (CGKeyCode)kVirtualControlKey, NO);
+////  }
+//  
+//  CGEnableEventStateCombining(YES); 
+//  //  CGInhibitLocalEvents(NO);
+//  [hotkey setRegistred:YES];
   return nil;
-//  [hotkey sendHotKeyToApplicationWithSignature:kHKActiveApplication bundleId:nil];
-//  return nil;
 }
 
 - (NSString *)categorie {

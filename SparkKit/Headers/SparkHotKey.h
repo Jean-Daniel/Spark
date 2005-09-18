@@ -23,7 +23,13 @@ typedef enum {
 SPARK_EXPORT
 SparkFilterMode SparkKeyStrokeFilterMode;
 
-@class HKHotKey, SparkAction, SparkAlert, SparkApplication, SparkApplicationList, SparkApplicationToActionMap;
+@class HKHotKey;
+SPARK_EXPORT
+unsigned SparkEncodeHotKey(HKHotKey *key);
+SPARK_EXPORT
+void SparkDecodeHotKey(HKHotKey *key, unsigned hotkey);
+
+@class SparkAction, SparkAlert, SparkApplication, SparkApplicationList, SparkApplicationToActionMap;
 #pragma mark -
 /*!
     @class 		SparkHotKey
@@ -184,6 +190,7 @@ SparkFilterMode SparkKeyStrokeFilterMode;
 
 - (NSString *)shortCut;
 
+- (CGError)sendHotKey;
 - (AXError)sendHotKeyToApplicationWithSignature:(OSType)sign bundleId:(NSString *)bundleId;
 
 @end

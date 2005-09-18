@@ -10,6 +10,7 @@
 
 #import "ShadowMacros.h"
 #import "SKFunctions.h"
+#import "SKFSFunctions.h"
 
 #import "SparkConstantes.h"
 #import "SparkObjectsLibrary.h"

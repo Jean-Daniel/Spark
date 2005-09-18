@@ -13,6 +13,10 @@
 #ifdef __OBJC__
 
 #import <SparkKit/SKFunctions.h>
+#import <SparkKit/SKFSFunctions.h>
+#import <SparkKit/SKLSFunctions.h>
+#import <SparkKit/SKProcessFunctions.h>
+
 #import <SparkKit/SKIconUtils.h>
 #import <SparkKit/SKImageUtils.h>
 
@@ -22,6 +26,10 @@
 #else
 
 #include <SparkKit/SKFunctions.h>
+#include <SparkKit/SKFSFunctions.h>
+#include <SparkKit/SKLSFunctions.h>
+#include <SparkKit/SKProcessFunctions.h>
+
 #include <SparkKit/SKIconUtils.h>
 
 #endif

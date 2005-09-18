@@ -9,6 +9,7 @@
 #import "SKFunctions.h"
 #import "ShadowMacros.h"
 #import "SKExtensions.h"
+#import "SKAppKitExtensions.h"
 
 #import "SparkAlert.h"
 #import "SparkMultipleAlerts.h"

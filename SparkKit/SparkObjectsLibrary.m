@@ -26,12 +26,12 @@ __inline__ id SparkNotificationObject(NSNotification *aNotification) {
 }
 
 #define kSparkLibraryVersion2_0		(unsigned int)0x200
-static const unsigned int kSparkLibraryCurrentVersion = kSparkLibraryVersion2_0;
+static const unsigned int kSparkObjectsLibraryCurrentVersion = kSparkLibraryVersion2_0;
 
 @implementation SparkObjectsLibrary
 
 - (unsigned int)libraryVersion {
-  return kSparkLibraryCurrentVersion;
+  return kSparkObjectsLibraryCurrentVersion;
 }
 
 + (id)objectsLibraryWithLibrary:(SparkLibrary *)aLibrary {

@@ -27,7 +27,7 @@ inline SparkApplication* SparkSystemApplication() {
 
 @implementation SparkApplicationLibrary
 
-+ (id)systemApplication {
++ (SparkApplication *)systemApplication {
   static id system = nil;
   if (!system) {
     system = [[_SparkSystemApplication alloc] init];

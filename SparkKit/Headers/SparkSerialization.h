@@ -17,14 +17,14 @@
 	@param      plist A serialized form of an object. <i>plist</i> contains all keys/values pairs added into propertyList method.
 	@result     A new deserialized object.
  */
-- (id)initFromPropertyList:(id)plist;
+- (id)initFromPropertyList:(NSDictionary *)plist;
 
 /*!
     @method     propertyList
     @abstract   (brief description)
     @result     (description)
 */
-- (id)propertyList;
+- (NSMutableDictionary *)propertyList;
 
 @end
 

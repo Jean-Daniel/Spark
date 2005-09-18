@@ -257,8 +257,8 @@
 							<string>1C37FABC05539CD112110102</string>
 							<string>E2644B35053B69B200211256</string>
 							<string>1C37FABC04509CD000100104</string>
-							<string>1CC0EA4004350EF90044410B</string>
 							<string>1CC0EA4004350EF90041110B</string>
+							<string>1CC0EA4004350EF90044410B</string>
 						</array>
 						<key>PBXProjectModuleGUID</key>
 						<string>1CE0B1FE06471DED0097A5F4</string>
@@ -287,7 +287,8 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>9</integer>
+									<integer>12</integer>
+									<integer>11</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
@@ -310,7 +311,7 @@
 							<real>186</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>24 117 907 629 0 0 1024 746 </string>
+						<string>45 117 907 629 0 0 1024 746 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -347,7 +348,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {699, 0}}</string>
 								<key>RubberWindowFrame</key>
-								<string>24 117 907 629 0 0 1024 746 </string>
+								<string>45 117 907 629 0 0 1024 746 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -367,7 +368,7 @@
 								<key>Frame</key>
 								<string>{{0, 5}, {699, 583}}</string>
 								<key>RubberWindowFrame</key>
-								<string>24 117 907 629 0 0 1024 746 </string>
+								<string>45 117 907 629 0 0 1024 746 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
@@ -391,9 +392,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>98EF7DAD08645525007BC81A</string>
+				<string>9840A96508D3390000C33314</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>98EF7DAE08645525007BC81A</string>
+				<string>9840A96608D3390000C33314</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -512,7 +513,7 @@
 	<key>StatusbarIsVisible</key>
 	<true/>
 	<key>TimeStamp</key>
-	<real>140793594.570344</real>
+	<real>148060345.695274</real>
 	<key>ToolbarDisplayMode</key>
 	<integer>2</integer>
 	<key>ToolbarIsVisible</key>
@@ -527,11 +528,10 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>98EF7DD5086456F8007BC81A</string>
 		<string>/Volumes/Stock/Users/fox/Projets/Exploitables/Spark/SparkKit/SparkKit.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>24 117 907 629 0 0 1024 746 </string>
+	<string>45 117 907 629 0 0 1024 746 </string>
 	<key>WindowTools</key>
 	<array>
 		<dict>
@@ -547,14 +547,12 @@
 					<key>Dock</key>
 					<array>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>SKApplicationAlias.m</string>
+								<string></string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>
@@ -571,6 +569,8 @@
 							<string>0pt</string>
 						</dict>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -610,7 +610,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>98EF7DD5086456F8007BC81A</string>
-				<string>98EF7DD6086456F8007BC81A</string>
+				<string>981FC1EC08D3040B0056A211</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
@@ -741,14 +741,12 @@
 							<key>Dock</key>
 							<array>
 								<dict>
-									<key>BecomeActive</key>
-									<true/>
 									<key>ContentConfiguration</key>
 									<dict>
 										<key>PBXProjectModuleGUID</key>
 										<string>1CDD528C0622207200134675</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>SKApplication.h</string>
+										<string>SparkHotKey.m</string>
 										<key>StatusBarVisibility</key>
 										<true/>
 									</dict>
@@ -769,6 +767,8 @@
 							<string>212pt</string>
 						</dict>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -804,8 +804,8 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1C530D57069F1CE1000CFCEE</string>
-				<string>98FF7AFD0857B4E400611EDE</string>
-				<string>98FF7AFE0857B4E400611EDE</string>
+				<string>98D7084E087A5EF9006BC4D1</string>
+				<string>98D7084F087A5EF9006BC4D1</string>
 				<string>1CDD528C0622207200134675</string>
 				<string>1CD0528E0623707200166675</string>
 			</array>

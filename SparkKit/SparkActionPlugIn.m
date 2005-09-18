@@ -37,7 +37,7 @@
   return _actionView;
 }
 
-- (void)loadSparkAction:(id)action toEdit:(BOOL)flag {
+- (void)loadSparkAction:(SparkAction *)action toEdit:(BOOL)flag {
   if (flag) {
     [self setName:[action name]];
     [self setIcon:[action icon]];
@@ -88,7 +88,7 @@
 
 #pragma mark -
 #pragma mark Private Methods
-- (void)setSparkAction:(id)action {
+- (void)setSparkAction:(SparkAction *)action {
   if (_action != action) {
     [_action release];
     _action = [action retain];

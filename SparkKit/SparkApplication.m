@@ -15,6 +15,7 @@
 #import "ShadowMacros.h"
 #import "SKImageUtils.h"
 #import "SKApplication.h"
+#import "SKAppKitExtensions.h"
 
 static NSString * const kSparkApplicationKey = @"SparkApplication";
 
@@ -48,7 +49,7 @@ static NSString * const kSparkApplicationKey = @"SparkApplication";
 }
 
 #pragma mark SparkSerialization
-- (id)propertyList {
+- (NSMutableDictionary *)propertyList {
   id plist = [super propertyList];
   if ([_application identifier])
     [plist setObject:[_application propertyList] forKey:kSparkApplicationKey];
@@ -108,14 +109,14 @@ static NSString * const kSparkApplicationKey = @"SparkApplication";
   return [_application identifier];
 }
 
-- (id)signature {
+- (NSString *)signature {
   return ([_application idType] == kSKApplicationOSType) ? [_application identifier] : nil;
 }
 - (void)setSignature:(NSString *)signature {
   [_application setIdentifier:signature type:kSKApplicationOSType];
 }
 
-- (id)bundleIdentifier {
+- (NSString *)bundleIdentifier {
   return ([_application idType] == kSKApplicationBundleIdentifier) ? [_application identifier] : nil;
 }
 - (void)setBundleIdentifier:(NSString *)identifier {

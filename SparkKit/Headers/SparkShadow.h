@@ -21,6 +21,7 @@
 #import <SparkKit/SKApplication.h>
 
 #import <SparkKit/SKExtensions.h>
+#import <SparkKit/SKAppKitExtensions.h>
 
 #else
 
