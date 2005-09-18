@@ -133,7 +133,7 @@ NSString * const kShellHotKeyTerminalKey = @"Terminal";
 - (void)launchTerminal {
   ProcessSerialNumber p = SKGetProcessWithSignature('trmx');
   if ( (p.highLongOfPSN == kNoProcess) && (p.lowLongOfPSN == kNoProcess)) {
-    id term = SKFindApplicationWithSignature(SKFileTypeFromHFSTypeCode('trmx'));
+    id term = SKFindApplicationWithSignature(SKFileTypeForHFSTypeCode('trmx'));
     [[NSWorkspace sharedWorkspace] launchApplication:term showIcon:YES autolaunch:NO];
   }
 }

@@ -1,0 +1,13 @@
+/*
+ *  Spark_Prefix.pch
+ *  Plugins Factory
+ *
+ *  Created by Grayfox on 09/02/05.
+ *  Copyright 2005 Shadow Lab. All rights reserved.
+ *
+ */
+
+#ifdef __OBJC__
+	#import <Cocoa/Cocoa.h>
+	#import <SparkKit/SparkKit.h>
+#endif

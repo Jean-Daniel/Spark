@@ -2,16 +2,22 @@
     IBClasses = (
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
-            ACTIONS = {selectApplication = id; selectKeyStroke = id; }; 
-            CLASS = KeyStrokeKeySet; 
+            CLASS = HKTrapWindow; 
             LANGUAGE = ObjC; 
-            OUTLETS = {applicationMenu = id; nameField = id; }; 
-            SUPERCLASS = SparkKeySet; 
+            OUTLETS = {trapField = NSTextField; }; 
+            SUPERCLASS = NSWindow; 
         }, 
         {
-            CLASS = SparkKeySet; 
+            ACTIONS = {choose = id; }; 
+            CLASS = KeyStrokeActionPlugin; 
             LANGUAGE = ObjC; 
-            OUTLETS = {configView = id; }; 
+            OUTLETS = {nameField = id; }; 
+            SUPERCLASS = SparkActionPlugIn; 
+        }, 
+        {
+            CLASS = SparkActionPlugIn; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {actionView = NSView; }; 
             SUPERCLASS = NSObject; 
         }
     ); 

@@ -13,124 +13,73 @@
 #import "KeyStrokeActionPlugin.h"
 #import "KeyStrokeAction.h"
 
-NSString * const kKeyStrokeActionBundleIdentifier = @"fr.shadowlab.keyStrokeAction";
+NSString * const kKeyStrokeActionBundleIdentifier = @"org.shadowlab.spark.keystroke";
 
 @implementation KeyStrokeActionPlugin
 
-static id MenuItemForApplication(NSString *path) {
-  id item = [[NSMenuItem alloc] init];
-  [item setRepresentedObject:path];
-  id image = [[NSWorkspace sharedWorkspace] iconForFile:path];
-  [image setSize:NSMakeSize(16, 16)];
-  [item setImage:image];
-  [item setTitle:[[[NSFileManager defaultManager] displayNameAtPath:path] stringByDeletingPathExtension]];
-  return [item autorelease];
+- (void)awakeFromNib {
 }
 
-- (void)awakeFromNib {
-  int index = [applicationMenu indexOfItem:[[applicationMenu menu] itemWithTag:1]] + 1;
-  id apps = [[[NSWorkspace sharedWorkspace] launchedApplications] objectEnumerator];
-  id app;
-  while (app = [apps nextObject]) {
-    id item = MenuItemForApplication([app objectForKey:@"NSApplicationPath"]);
-    [item setTitle:[app objectForKey:@"NSApplicationName"]];
-    [[applicationMenu menu] insertItem:item atIndex:index];
-  }
+- (void)dealloc {
+  [ks_hotkey release];
+  [super dealloc];
 }
 
 /* This function is called when the user open the iTunes Key Editor Panel */
 - (void)loadSparkAction:(id)anAction toEdit:(BOOL)isEditing {
   [super loadSparkAction:anAction toEdit:isEditing];
   if (isEditing) {
-    [self setKeystroke:[anAction keystroke]];
-    [self setKeyModifier:[anAction keyModifier]];
-  }
-  else {
-    [self setKeyModifier:1];
+    [self willChangeValueForKey:@"shortcut"];
+    ks_hotkey = [anAction hotkey];
+    [self didChangeValueForKey:@"shortcut"];
+  } else {
   }
 }
 
 - (NSAlert *)sparkEditorShouldConfigureAction {
   NSAlert *alert = nil;
-  if ([keystroke length] != 1) {
-    alert = [NSAlert alertWithMessageText:@"Spark ne peut pas creer le raccourci parce que keystroke n'a pas une valeur valide."
-                            defaultButton:@"OK"
-                          alternateButton:nil
-                              otherButton:nil
-                informativeTextWithFormat:@"Keystroke doit etre un et un seul caractere. Attention, les majuscules sont prisent en compte."];
-  }
   return alert;
 }
 
 /* You need configure the new Action or modifie the existing HotKey here */
 - (void)configureAction {
+  [super configureAction];
   /* Get the current Key */
   KeyStrokeAction *action = [self sparkAction];
-  /* Set Name */
-  [action setName:[self name]];
-  [action setKeystroke:[self keystroke]];
-  [action setKeyModifier:[self keyModifier]];
+  [action setHotkey:ks_hotkey];
 }
 
-- (IBAction)selectApplication:(id)sender {
-  int tag = [[sender selectedItem] tag];
-  if (tag == 3) {
-    NSOpenPanel *oPanel = [NSOpenPanel openPanel];
-    [oPanel setAllowsMultipleSelection:NO];
-    [oPanel setCanChooseDirectories:YES];
-    [oPanel setCanCreateDirectories:NO];
-    
-    [oPanel beginSheetForDirectory:nil
-                              file:nil
-                             types:[NSArray arrayWithObjects:@"app", @"APPL", nil]
-                    modalForWindow:[sender window]
-                     modalDelegate:self
-                    didEndSelector:@selector(selectApplicationDidEnd:returnCode:contextInfo:)
-                       contextInfo:nil];
-  }
-}
-
-- (void)selectApplicationDidEnd:(NSOpenPanel *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
-  if (NSOKButton == returnCode) {
-    int index = [applicationMenu indexOfItem:[[applicationMenu menu] itemWithTag:1]] + 1;
-    id path = [[sheet filenames] objectAtIndex:0];
-    id items = [[applicationMenu itemArray] objectEnumerator];
-    id item;
-    while (item = [items nextObject]) {
-      if ([[item representedObject] isEqual:path]) break;
-    }
-    if (nil == item) {
-      item = MenuItemForApplication([[sheet filenames] objectAtIndex:0]);
-      [[applicationMenu menu] insertItem:item atIndex:index];
-    }
-    [applicationMenu selectItem:item];
-  }
-}
 
 #pragma mark -
 #pragma mark KeyStrokeActionPlugin & configView Specific methods
 /********************************************************************************************************
-*                             KeyStrokeActionPlugin & configView Specific methods								*
+*                         KeyStrokeActionPlugin & configView Specific methods							*
 ********************************************************************************************************/
 
-- (id)keystroke {
-  return [[keystroke retain] autorelease];
+- (NSString *)shortcut {
+  return [ks_hotkey shortCut];
 }
 
-- (void)setKeystroke:(id)newKeystroke {
-  if (keystroke != newKeystroke) {
-    [keystroke release];
-    keystroke = [newKeystroke retain];
-  }
+- (BOOL)trapWindow:(HKTrapWindow *)window needPerformKeyEquivalent:(NSEvent *)theEvent {
+  return [theEvent timestamp] == 0;
 }
 
-- (int)keyModifier {
-  return keyModifier;
+- (BOOL)trapWindow:(HKTrapWindow *)window needProceedKeyEvent:(NSEvent *)theEvent {
+  int code = [theEvent keyCode];
+  int mask = [theEvent modifierFlags] & 0x00ff0000;
+  return mask ? NO : (code == kVirtualEnterKey)
+    || (code == kVirtualReturnKey)
+    || (code == kVirtualEscapeKey)
+    || (code == kVirtualTabKey);
 }
 
-- (void)setKeyModifier:(int)newKeyModifier {
-  keyModifier = newKeyModifier;
+- (void)trapWindowCatchHotKey:(NSNotification *)aNotification {
+  id info = [aNotification userInfo];
+  [self willChangeValueForKey:@"shortcut"];
+  [ks_hotkey setModifier:[[info objectForKey:kHKEventModifierKey] unsignedIntValue]];
+  [ks_hotkey setKeycode:[[info objectForKey:kHKEventKeyCodeKey] unsignedShortValue]
+           andCharacter:[[info objectForKey:kHKEventCharacterKey] unsignedShortValue]];
+  [self didChangeValueForKey:@"shortcut"];
 }
-
 
 @end

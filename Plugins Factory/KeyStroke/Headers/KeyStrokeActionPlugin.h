@@ -21,16 +21,8 @@ enum {
 };
 
 @interface KeyStrokeActionPlugin : SparkActionPlugIn {
-  IBOutlet id applicationMenu;
+  HKHotKey *ks_hotkey;
   IBOutlet id nameField;
-  NSString *keystroke;
-  int keyModifier;
 }
-- (IBAction)selectApplication:(id)sender;
-
-- (id)keystroke;
-- (void)setKeystroke:(id)newKeystroke;
-- (int)keyModifier;
-- (void)setKeyModifier:(int)newModifier;
 
 @end

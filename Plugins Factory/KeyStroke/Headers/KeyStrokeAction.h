@@ -9,16 +9,11 @@
 #import <SparkKit/SparkKit.h>
 #import "KeyStrokeActionPlugin.h"
 
-@interface KeyStrokeAction : SparkHotKey {
-  id keystroke;
-  int modifier;
+@interface KeyStrokeAction : SparkAction {
+  HKHotKey *ks_hotkey;
 }
 
-- (id)keystroke;
-- (void)setKeystroke:(id)newKeystroke;
-- (int)keyModifier;
-- (void)setKeyModifier:(int)newModifier;
-
-- (void)launchSystemEvent;
+- (HKHotKey *)hotkey;
+- (void)setHotkey:(HKHotKey *)aKey;
 
 @end
