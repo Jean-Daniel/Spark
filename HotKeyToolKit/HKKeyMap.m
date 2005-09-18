@@ -11,7 +11,7 @@
 
 #define SpecialChar(n)        				[NSString stringWithFormat:@"%C", n]
 
-#define kHotKeyToolKitBundleIdentifier		@"fr.shadowlab.HotKeyToolKit"
+#define kHotKeyToolKitBundleIdentifier		@"org.shadowlab.HotKeyToolKit"
 #define kHotKeyToolKitBundle				[NSBundle bundleWithIdentifier:kHotKeyToolKitBundleIdentifier]
 
 const unsigned short kHKNilVirtualKeyCode = 0xffff;
