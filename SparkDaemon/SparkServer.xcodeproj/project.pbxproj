@@ -106,21 +106,21 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 98EF7E4108645876007BC81A /* HotKeyToolKit.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 985B62B60719E09D0073D36F /* Testing.framework */;
+			remoteGlobalIDString = 985B62B60719E09D0073D36F;
 			remoteInfo = Testing;
 		};
 		98EF7E4908645876007BC81A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 98EF7E4108645876007BC81A /* HotKeyToolKit.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 8DC2EF5B0486A6940098B216 /* HotKeyToolKit.framework */;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
 			remoteInfo = HotKeyToolKit;
 		};
 		98EF7E5008645883007BC81A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 98EF7E4B08645883007BC81A /* SparkKit.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 8DC2EF5B0486A6940098B216 /* SparkKit.framework */;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
 			remoteInfo = SparkKit;
 		};
 /* End PBXContainerItemProxy section */
@@ -158,9 +158,10 @@
 		987E6D3F06D7E0D900C7F41C /* Spark Scripting.r */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.rez; path = "Spark Scripting.r"; sourceTree = "<group>"; };
 		98B20D6A06A54814008BA3F6 /* Spark Daemon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Spark Daemon.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		98B20D6C06A54814008BA3F6 /* Spark Daemon.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "Spark Daemon.plist"; path = "/Volumes/Stock/Users/fox/Projets/Exploitables/Spark/SparkDaemon/Spark Daemon.plist"; sourceTree = "<absolute>"; };
+		98C128CC08CE0E770015CB91 /* ShadowDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; name = ShadowDebug.xcconfig; path = ../../ShadowKit/ShadowDebug.xcconfig; sourceTree = SOURCE_ROOT; };
+		98C128CD08CE0E770015CB91 /* ShadowIntel.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; name = ShadowIntel.xcconfig; path = ../../ShadowKit/ShadowIntel.xcconfig; sourceTree = SOURCE_ROOT; };
+		98C128CE08CE0E770015CB91 /* ShadowRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; name = ShadowRelease.xcconfig; path = ../../ShadowKit/ShadowRelease.xcconfig; sourceTree = SOURCE_ROOT; };
 		98CE5BFE0774EF5A006EB5A5 /* Spark.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Spark.icns; sourceTree = "<group>"; };
-		98EF7DF60864577C007BC81A /* ShadowRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = ShadowRelease.xcconfig; sourceTree = "<group>"; };
-		98EF7DF70864577C007BC81A /* ShadowDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = ShadowDebug.xcconfig; sourceTree = "<group>"; };
 		98EF7E4108645876007BC81A /* HotKeyToolKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = HotKeyToolKit.xcodeproj; path = ../HotKeyToolKit/HotKeyToolKit.xcodeproj; sourceTree = SOURCE_ROOT; };
 		98EF7E4B08645883007BC81A /* SparkKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SparkKit.xcodeproj; path = ../SparkKit/SparkKit.xcodeproj; sourceTree = SOURCE_ROOT; };
 		98F2DECD0715E3D2001BBF29 /* SparkAppleScriptSuite.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = SparkAppleScriptSuite.h; path = /Volumes/Stock/Users/fox/Projets/Exploitables/Spark/SparkEditor/Headers/SparkAppleScriptSuite.h; sourceTree = "<absolute>"; };
@@ -212,10 +213,11 @@
 				98CE5BFB0774EF34006EB5A5 /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
-				98EF7DF70864577C007BC81A /* ShadowDebug.xcconfig */,
-				98EF7DF60864577C007BC81A /* ShadowRelease.xcconfig */,
 				98EF7E4B08645883007BC81A /* SparkKit.xcodeproj */,
 				98EF7E4108645876007BC81A /* HotKeyToolKit.xcodeproj */,
+				98C128CD08CE0E770015CB91 /* ShadowIntel.xcconfig */,
+				98C128CC08CE0E770015CB91 /* ShadowDebug.xcconfig */,
+				98C128CE08CE0E770015CB91 /* ShadowRelease.xcconfig */,
 			);
 			name = Spark;
 			sourceTree = "<group>";
@@ -391,12 +393,12 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 98EF7E4C08645883007BC81A /* Products */;
-					ProjectRef = 98EF7E4B08645883007BC81A /* SparkKit.xcodeproj */;
-				},
-				{
 					ProductGroup = 98EF7E4208645876007BC81A /* Products */;
 					ProjectRef = 98EF7E4108645876007BC81A /* HotKeyToolKit.xcodeproj */;
+				},
+				{
+					ProductGroup = 98EF7E4C08645883007BC81A /* Products */;
+					ProjectRef = 98EF7E4B08645883007BC81A /* SparkKit.xcodeproj */;
 				},
 			);
 			targets = (
@@ -478,6 +480,26 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		98C128D108CE0E9E0015CB91 /* Deployment Intel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_DYNAMIC_NO_PIC = YES;
+				INFOPLIST_FILE = "Spark Daemon.plist";
+				INSTALL_PATH = "$(USER_APPS_DIR)";
+				PRODUCT_NAME = "Spark Daemon";
+			};
+			name = "Deployment Intel";
+		};
+		98C128D208CE0E9E0015CB91 /* Deployment Intel */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 98C128CD08CE0E770015CB91 /* ShadowIntel.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Cocoa.pch;
+				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
+			};
+			name = "Deployment Intel";
+		};
 		98EF7DEB08645714007BC81A /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -510,7 +532,7 @@
 		};
 		98EF7DF008645714007BC81A /* Development */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 98EF7DF70864577C007BC81A /* ShadowDebug.xcconfig */;
+			baseConfigurationReference = 98C128CC08CE0E770015CB91 /* ShadowDebug.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Cocoa.pch;
@@ -520,7 +542,7 @@
 		};
 		98EF7DF108645714007BC81A /* Deployment */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 98EF7DF60864577C007BC81A /* ShadowRelease.xcconfig */;
+			baseConfigurationReference = 98C128CE08CE0E770015CB91 /* ShadowRelease.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Cocoa.pch;
@@ -545,6 +567,7 @@
 			buildConfigurations = (
 				98EF7DEB08645714007BC81A /* Development */,
 				98EF7DEC08645714007BC81A /* Deployment */,
+				98C128D108CE0E9E0015CB91 /* Deployment Intel */,
 				98EF7DEE08645714007BC81A /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -555,6 +578,7 @@
 			buildConfigurations = (
 				98EF7DF008645714007BC81A /* Development */,
 				98EF7DF108645714007BC81A /* Deployment */,
+				98C128D208CE0E9E0015CB91 /* Deployment Intel */,
 				98EF7DF308645714007BC81A /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
