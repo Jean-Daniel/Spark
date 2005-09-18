@@ -13,6 +13,7 @@
 
 extern NSString * const kSparkPrefVersion;
 extern NSString * const kSparkPrefAutoStart;
+extern NSString * const kSparkPrefSingleKeyMode;
 extern NSString * const kSparkPrefDisplayPlugins;
 
 /* Optional alerts panels */

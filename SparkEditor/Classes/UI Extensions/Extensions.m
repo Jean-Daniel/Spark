@@ -73,38 +73,6 @@
 @end
 
 #pragma mark -
-@implementation NSArrayController (SparkExtension)
-
-- (NSEnumerator *)objectEnumerator {
-  return [[self content] objectEnumerator];
-}
-
-- (id)objectAtIndex:(unsigned)rowIndex {
-  return [[self arrangedObjects] objectAtIndex:rowIndex];
-}
-
-- (id)selectedObject {
-  id selection = [self selectedObjects];
-  if ([selection count]) {
-    return [selection objectAtIndex:0];
-  }
-  return nil;
-}
-
-- (BOOL)setSelectedObject:(id)object {
-  return [self setSelectedObjects:[NSArray arrayWithObject:object]];
-}
-
-- (void)deleteSelection {
-  [self removeObjects:[self selectedObjects]];
-}
-
-- (void)removeAllObjects {
-  [self removeObjects:[self content]];
-}
-
-@end
-
 @implementation SparkLibraryObject (DuplicateExtension)
 
 - (id)duplicate {

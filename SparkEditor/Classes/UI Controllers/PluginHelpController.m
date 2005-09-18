@@ -1,6 +1,6 @@
 
 #import <SparkKit/SparkKit.h>
-#import "PlugInHelpController.h"
+#import "PluginHelpController.h"
 
 @implementation PlugInHelpController
 

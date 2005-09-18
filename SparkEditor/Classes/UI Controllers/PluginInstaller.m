@@ -113,7 +113,7 @@
   return YES;
 }
 
-- (void)removeDestination {
+- (BOOL)removeDestination {
   NSURL *url = (id)CFBundleCopyBundleURL(_dest);
   NSString *path = [url path];
   [url release];
@@ -121,8 +121,9 @@
   DLog(@"Search Domain: %@", path);
   int domain = [[SparkPlugInLoader plugInPaths] indexOfObject:path];
   if (domain != NSNotFound) {
-    [self removePlugin:_dest fromDomain:domain];
+    return [self removePlugin:_dest fromDomain:domain];
   }
+  return YES;
 }
 
 #pragma mark -

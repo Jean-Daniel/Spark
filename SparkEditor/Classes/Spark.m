@@ -25,7 +25,7 @@
 #import "KeyLibraryController.h"
 #import "LibraryWindowController.h"
 #import "InspectorController.h"
-#import "PlugInHelpController.h"
+#import "PluginHelpController.h"
 #import "ScriptHandler.h"
 #import "ServerController.h"
 
@@ -454,7 +454,7 @@ int main(int argc, const char *argv[]) {
   id opts = [NSMutableDictionary dictionary];
   
   [opts setObject:[NSString stringWithFormat:NSLocalizedString(@"ABOUT_PLUGIN_BOX_TITLE", @"About Plugin (%@ => Plugin name)"), [plugin name]] forKey:@"ApplicationName"];
-  id icon = [[NSWorkspace sharedWorkspace] iconForFile:[plugin path]];
+  NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:[plugin path]];
   [icon setSize:NSMakeSize(64, 64)];
   [opts setObject:icon forKey:@"ApplicationIcon"];
   id bundle = [NSBundle bundleWithPath:[plugin path]];

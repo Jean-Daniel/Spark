@@ -55,6 +55,7 @@
 		9837AA75071B11130057584D /* TableAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9837AA74071B11130057584D /* TableAlertController.m */; };
 		9837AA78071B11240057584D /* TableAlertController.h in Headers */ = {isa = PBXBuildFile; fileRef = 9837AA76071B11240057584D /* TableAlertController.h */; };
 		9842327F06F7A31200AA3777 /* Inspector.nib in Resources */ = {isa = PBXBuildFile; fileRef = 9842327D06F7A31200AA3777 /* Inspector.nib */; };
+		98436C2E0868C04900B534B5 /* KeyStrokeAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 98EF82C208646243007BC81A /* KeyStrokeAction.spact */; };
 		98451106075A0304000D3F88 /* ListFile.icns in Resources */ = {isa = PBXBuildFile; fileRef = 98451105075A0304000D3F88 /* ListFile.icns */; };
 		984AFB550773813D00859149 /* Check.png in Resources */ = {isa = PBXBuildFile; fileRef = 984AFB530773813D00859149 /* Check.png */; };
 		984AFB560773813D00859149 /* Uncheck.png in Resources */ = {isa = PBXBuildFile; fileRef = 984AFB540773813D00859149 /* Uncheck.png */; };
@@ -280,130 +281,151 @@
 /* End PBXBuildStyle section */
 
 /* Begin PBXContainerItemProxy section */
+		9840A78008D334BF00C33314 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 98EF830F0864630B007BC81A /* SparkKit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
+			remoteInfo = SparkKit;
+		};
+		9840A78208D334BF00C33314 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 98EF8306086462FF007BC81A /* HotKeyToolKit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
+			remoteInfo = HotKeyToolKit;
+		};
+		98C12FC908CE157F0015CB91 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 98C7035C07BAAED700F7AD87 /* Plugins Factory.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 98FC452006063BAD003617CA;
+			remoteInfo = All;
+		};
 		98EF828D0864622E007BC81A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 985F8DFD077253C70014830F /* SparkServer.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 98B20D6A06A54814008BA3F6 /* Spark Daemon.app */;
+			remoteGlobalIDString = 98B20D6A06A54814008BA3F6;
 			remoteInfo = "Spark Daemon";
 		};
 		98EF829F08646239007BC81A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 987E6BB206D76DF300C7F41C /* Spark Plugins.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 9832875F079602BE00DB780A /* Labo */;
+			remoteGlobalIDString = 9832875F079602BE00DB780A;
 			remoteInfo = Labo;
 		};
 		98EF82A108646239007BC81A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 987E6BB206D76DF300C7F41C /* Spark Plugins.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 98FC44D406063A21003617CA /* PowerAction.spact */;
+			remoteGlobalIDString = 98FC44D406063A21003617CA;
 			remoteInfo = Power;
 		};
 		98EF82A308646239007BC81A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 987E6BB206D76DF300C7F41C /* Spark Plugins.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 8D5B49B6048680CD000E48DA /* iTunesAction.spact */;
+			remoteGlobalIDString = 8D5B49B6048680CD000E48DA;
 			remoteInfo = iTunes;
 		};
 		98EF82A508646239007BC81A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 987E6BB206D76DF300C7F41C /* Spark Plugins.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 98FC46400606437C003617CA /* DocumentAction.spact */;
+			remoteGlobalIDString = 98FC46400606437C003617CA;
 			remoteInfo = Document;
 		};
 		98EF82A708646239007BC81A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 987E6BB206D76DF300C7F41C /* Spark Plugins.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 98FC45A306063D6A003617CA /* ApplicationAction.spact */;
+			remoteGlobalIDString = 98FC45A306063D6A003617CA;
 			remoteInfo = Application;
 		};
 		98EF82A908646239007BC81A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 987E6BB206D76DF300C7F41C /* Spark Plugins.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 98FC453F06063BF2003617CA /* AppleScriptAction.spact */;
+			remoteGlobalIDString = 98FC453F06063BF2003617CA;
 			remoteInfo = AppleScript;
 		};
 		98EF82B908646243007BC81A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 98C7035C07BAAED700F7AD87 /* Plugins Factory.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 9833252D078F437B0047E227 /* DockAction.spact */;
+			remoteGlobalIDString = 9833252D078F437B0047E227;
 			remoteInfo = Dock;
 		};
 		98EF82BB08646243007BC81A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 98C7035C07BAAED700F7AD87 /* Plugins Factory.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 989E9D650718941100DB4E93 /* TextAction.spact */;
+			remoteGlobalIDString = 989E9D650718941100DB4E93;
 			remoteInfo = Text;
 		};
 		98EF82BD08646243007BC81A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 98C7035C07BAAED700F7AD87 /* Plugins Factory.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 98E1CB4B0607743500FA3599 /* ArchivesHotKey.hotkey */;
+			remoteGlobalIDString = 98E1CB4B0607743500FA3599;
 			remoteInfo = Archives;
 		};
 		98EF82BF08646243007BC81A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 98C7035C07BAAED700F7AD87 /* Plugins Factory.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 98074A1307EA45EA0001A600 /* GrayscaleAction.spact */;
+			remoteGlobalIDString = 98074A1307EA45EA0001A600;
 			remoteInfo = Grayscale;
 		};
 		98EF82C108646243007BC81A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 98C7035C07BAAED700F7AD87 /* Plugins Factory.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 988BC4FB06411AB30096DD7D /* KeyStrokeAction.spact */;
+			remoteGlobalIDString = 988BC4FB06411AB30096DD7D;
 			remoteInfo = Keystroke;
 		};
 		98EF82C308646243007BC81A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 98C7035C07BAAED700F7AD87 /* Plugins Factory.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 98975ACB061E22AF00BC40ED /* ShellHotKey.hotkey */;
+			remoteGlobalIDString = 98975ACB061E22AF00BC40ED;
 			remoteInfo = ShellScript;
 		};
 		98EF830B086462FF007BC81A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 98EF8306086462FF007BC81A /* HotKeyToolKit.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 985B62B60719E09D0073D36F /* Testing.framework */;
+			remoteGlobalIDString = 985B62B60719E09D0073D36F;
 			remoteInfo = Testing;
 		};
 		98EF830D086462FF007BC81A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 98EF8306086462FF007BC81A /* HotKeyToolKit.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 8DC2EF5B0486A6940098B216 /* HotKeyToolKit.framework */;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
 			remoteInfo = HotKeyToolKit;
 		};
 		98EF83130864630B007BC81A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 98EF830F0864630B007BC81A /* SparkKit.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 8DC2EF5B0486A6940098B216 /* SparkKit.framework */;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
 			remoteInfo = SparkKit;
 		};
 		98EF832008646367007BC81A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 987E6BB206D76DF300C7F41C /* Spark Plugins.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 98FC452006063BAD003617CA /* All */;
+			remoteGlobalIDString = 98FC452006063BAD003617CA;
 			remoteInfo = All;
 		};
 		98EF832208646371007BC81A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 985F8DFD077253C70014830F /* SparkServer.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 98B20D6906A54814008BA3F6 /* Spark Daemon */;
+			remoteGlobalIDString = 98B20D6906A54814008BA3F6;
 			remoteInfo = "Spark Daemon";
 		};
 /* End PBXContainerItemProxy section */
@@ -438,6 +460,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				98436C2E0868C04900B534B5 /* KeyStrokeAction.spact in Copy Plugins */,
 				98EF831A08646346007BC81A /* PowerAction.spact in Copy Plugins */,
 				98EF831B08646346007BC81A /* iTunesAction.spact in Copy Plugins */,
 				98EF831C08646346007BC81A /* DocumentAction.spact in Copy Plugins */,
@@ -604,7 +627,7 @@
 		98B07ED806FA45D600C1E88B /* ApplicationsTableDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplicationsTableDataSource.h; sourceTree = "<group>"; };
 		98B07EE606FA483600C1E88B /* ApplicationListIcon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = ApplicationListIcon.tiff; sourceTree = "<group>"; };
 		98B5507A06D23AE5001BDF93 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/Library.nib; sourceTree = "<group>"; };
-		98B5511A06D25A7D001BDF93 /* Spark_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Spark_Prefix.pch; sourceTree = SOURCE_ROOT; };
+		98B5511A06D25A7D001BDF93 /* Spark.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Spark.pch; sourceTree = SOURCE_ROOT; };
 		98B5517C06D274B3001BDF93 /* DaemonPref.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = DaemonPref.tiff; sourceTree = "<group>"; };
 		98B5517D06D274B4001BDF93 /* EditorPref.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = EditorPref.tiff; sourceTree = "<group>"; };
 		98B6283E06FB951400766FCC /* ActionLibraryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionLibraryController.m; sourceTree = "<group>"; };
@@ -615,6 +638,9 @@
 		98BCF0670708A9100039136F /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/AppActionEditor.nib; sourceTree = "<group>"; };
 		98BCF0690708A95D0039136F /* AppActionEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppActionEditor.m; sourceTree = "<group>"; };
 		98BCF06B0708A9750039136F /* AppActionEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppActionEditor.h; sourceTree = "<group>"; };
+		98C12BBF08CE117B0015CB91 /* ShadowDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; name = ShadowDebug.xcconfig; path = Exploitables/ShadowKit/ShadowDebug.xcconfig; sourceTree = ProjectsRoot; };
+		98C12BC008CE117B0015CB91 /* ShadowIntel.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; name = ShadowIntel.xcconfig; path = Exploitables/ShadowKit/ShadowIntel.xcconfig; sourceTree = ProjectsRoot; };
+		98C12BC108CE117B0015CB91 /* ShadowRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; name = ShadowRelease.xcconfig; path = Exploitables/ShadowKit/ShadowRelease.xcconfig; sourceTree = ProjectsRoot; };
 		98C3815E083D053C00340894 /* SKTableDataSource.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SKTableDataSource.h; sourceTree = "<group>"; };
 		98C3815F083D053C00340894 /* SKWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SKWindowController.h; sourceTree = "<group>"; };
 		98C38168083D053C00340894 /* SKTableDataSource.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SKTableDataSource.m; sourceTree = "<group>"; };
@@ -638,8 +664,6 @@
 		98E66CC10759FA7C0048A37D /* HotKeySparkList.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = HotKeySparkList.icns; sourceTree = "<group>"; };
 		98E66CC20759FA7C0048A37D /* ApplicationSparkList.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = ApplicationSparkList.icns; sourceTree = "<group>"; };
 		98E66CC30759FA7C0048A37D /* ActionSparkList.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = ActionSparkList.icns; sourceTree = "<group>"; };
-		98EF82C50864625F007BC81A /* ShadowRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = ShadowRelease.xcconfig; sourceTree = "<group>"; };
-		98EF82C60864625F007BC81A /* ShadowDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = ShadowDebug.xcconfig; sourceTree = "<group>"; };
 		98EF8306086462FF007BC81A /* HotKeyToolKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = HotKeyToolKit.xcodeproj; path = ../HotKeyToolKit/HotKeyToolKit.xcodeproj; sourceTree = SOURCE_ROOT; };
 		98EF830F0864630B007BC81A /* SparkKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SparkKit.xcodeproj; path = ../SparkKit/SparkKit.xcodeproj; sourceTree = SOURCE_ROOT; };
 		98F2DEBC0715E21F001BBF29 /* SparkAppleScriptSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkAppleScriptSuite.h; sourceTree = "<group>"; };
@@ -703,13 +727,14 @@
 				984BCE5D060C7EBD0043CDEA /* AppleScript Suite */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				98EF830F0864630B007BC81A /* SparkKit.xcodeproj */,
 				985F8DFD077253C70014830F /* SparkServer.xcodeproj */,
 				987E6BB206D76DF300C7F41C /* Spark Plugins.xcodeproj */,
 				98C7035C07BAAED700F7AD87 /* Plugins Factory.xcodeproj */,
-				98EF830F0864630B007BC81A /* SparkKit.xcodeproj */,
 				98EF8306086462FF007BC81A /* HotKeyToolKit.xcodeproj */,
-				98EF82C60864625F007BC81A /* ShadowDebug.xcconfig */,
-				98EF82C50864625F007BC81A /* ShadowRelease.xcconfig */,
+				98C12BC008CE117B0015CB91 /* ShadowIntel.xcconfig */,
+				98C12BBF08CE117B0015CB91 /* ShadowDebug.xcconfig */,
+				98C12BC108CE117B0015CB91 /* ShadowRelease.xcconfig */,
 			);
 			name = Spark;
 			sourceTree = "<group>";
@@ -963,7 +988,7 @@
 			isa = PBXGroup;
 			children = (
 				984BCE6C060C7FEC0043CDEA /* Spark.h */,
-				98B5511A06D25A7D001BDF93 /* Spark_Prefix.pch */,
+				98B5511A06D25A7D001BDF93 /* Spark.pch */,
 				98E65ABB06B410A900F73A19 /* SparkServerProtocol.h */,
 				98F2DEBC0715E21F001BBF29 /* SparkAppleScriptSuite.h */,
 				984BCE6D060C7FEC0043CDEA /* UI Controllers */,
@@ -1341,7 +1366,10 @@
 				WRAPPER_EXTENSION = app;
 			};
 			dependencies = (
+				9840A78308D334BF00C33314 /* PBXTargetDependency */,
+				9840A78108D334BF00C33314 /* PBXTargetDependency */,
 				98EF832108646367007BC81A /* PBXTargetDependency */,
+				98C12FCA08CE157F0015CB91 /* PBXTargetDependency */,
 				98EF832308646371007BC81A /* PBXTargetDependency */,
 			);
 			name = Spark;
@@ -1372,12 +1400,12 @@
 					ProjectRef = 98EF830F0864630B007BC81A /* SparkKit.xcodeproj */;
 				},
 				{
-					ProductGroup = 98EF828A0864622E007BC81A /* Products */;
-					ProjectRef = 985F8DFD077253C70014830F /* SparkServer.xcodeproj */;
-				},
-				{
 					ProductGroup = 98EF8307086462FF007BC81A /* Products */;
 					ProjectRef = 98EF8306086462FF007BC81A /* HotKeyToolKit.xcodeproj */;
+				},
+				{
+					ProductGroup = 98EF828A0864622E007BC81A /* Products */;
+					ProjectRef = 985F8DFD077253C70014830F /* SparkServer.xcodeproj */;
 				},
 				{
 					ProductGroup = 98EF829608646239007BC81A /* Products */;
@@ -1662,6 +1690,21 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		9840A78108D334BF00C33314 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SparkKit;
+			targetProxy = 9840A78008D334BF00C33314 /* PBXContainerItemProxy */;
+		};
+		9840A78308D334BF00C33314 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = HotKeyToolKit;
+			targetProxy = 9840A78208D334BF00C33314 /* PBXContainerItemProxy */;
+		};
+		98C12FCA08CE157F0015CB91 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = All;
+			targetProxy = 98C12FC908CE157F0015CB91 /* PBXContainerItemProxy */;
+		};
 		98EF832108646367007BC81A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = All;
@@ -1933,7 +1976,7 @@
 		};
 		98BC60570857BB9400A2041F /* Development */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 98EF82C60864625F007BC81A /* ShadowDebug.xcconfig */;
+			baseConfigurationReference = 98C12BBF08CE117B0015CB91 /* ShadowDebug.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Spark.pch;
@@ -1943,7 +1986,7 @@
 		};
 		98BC60580857BB9400A2041F /* Deployment */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 98EF82C50864625F007BC81A /* ShadowRelease.xcconfig */;
+			baseConfigurationReference = 98C12BC108CE117B0015CB91 /* ShadowRelease.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Spark.pch;
@@ -1960,6 +2003,27 @@
 			};
 			name = Default;
 		};
+		98C12BD508CE11B30015CB91 /* Deployment Intel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_DYNAMIC_NO_PIC = YES;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				PRODUCT_NAME = Spark;
+				WRAPPER_EXTENSION = app;
+			};
+			name = "Deployment Intel";
+		};
+		98C12BD608CE11B30015CB91 /* Deployment Intel */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 98C12BC008CE117B0015CB91 /* ShadowIntel.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Spark.pch;
+				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
+			};
+			name = "Deployment Intel";
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1968,6 +2032,7 @@
 			buildConfigurations = (
 				98BC60520857BB9400A2041F /* Development */,
 				98BC60530857BB9400A2041F /* Deployment */,
+				98C12BD508CE11B30015CB91 /* Deployment Intel */,
 				98BC60550857BB9400A2041F /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1978,6 +2043,7 @@
 			buildConfigurations = (
 				98BC60570857BB9400A2041F /* Development */,
 				98BC60580857BB9400A2041F /* Deployment */,
+				98C12BD608CE11B30015CB91 /* Deployment Intel */,
 				98BC605A0857BB9400A2041F /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;

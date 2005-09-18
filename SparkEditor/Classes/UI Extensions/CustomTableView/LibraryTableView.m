@@ -83,8 +83,8 @@
   id col;
   while (col = [items nextObject]) {
     id cell = [col headerCell];
-    /* Nasty cast to avoid warning */
-    ((ListTableView *)cell)->isa = [ListTableHeaderCell class];
+    
+    SKSwizzleIsaPointer(cell, [ListTableHeaderCell class]);
   }
 }
 

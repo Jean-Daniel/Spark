@@ -115,7 +115,7 @@ extern BOOL SearchByName(NSString *searchString, id object, void *ctxt);
 - (ObjectEditorController *)objectEditor;
 
 - (IBAction)newObject:(id)sender;
-- (IBAction)editObject:(id)sender;
+- (IBAction)editObject:(id<SparkLibraryObject>)sender;
 - (void)removeObject:(id)object;
 - (void)removeObjects:(NSArray *)objects;
 

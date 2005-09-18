@@ -19,6 +19,7 @@ static BOOL SearchHotKey(NSString *search, id object, void *context);
 
 + (void)initialize {
   id state = [NSArray arrayWithObject:@"serverState"];
+  [self setKeys:state triggerChangeNotificationsForDependentKey:@"startStopTitle"];
   [self setKeys:state triggerChangeNotificationsForDependentKey:@"serverStatString"];
   [self setKeys:state triggerChangeNotificationsForDependentKey:@"startStopImage"];
   [self setKeys:state triggerChangeNotificationsForDependentKey:@"browserAlternateImage"];
@@ -52,6 +53,10 @@ static BOOL SearchHotKey(NSString *search, id object, void *context);
   [self restoreWorkspace];
   [self checkFirstRun];
   [self checkActions];
+}
+
+- (void)windowDidLoad {
+
 }
 
 - (void)refresh {
@@ -169,6 +174,16 @@ static BOOL SearchHotKey(NSString *search, id object, void *context);
     name = @"start";
   }
   return [NSImage imageNamed:name];
+}
+
+- (NSString *)startStopTitle {
+  id name = nil;
+  if ([[NSApp delegate] serverState] == kSparkDaemonStarted) {
+    name = NSLocalizedString(@"STOP_BUTTON_TITLE", @"Start/Stop button title");
+  } else {
+    name = NSLocalizedString(@"START_BUTTON_TITLE", @"Start/Stop button title");
+  }
+  return name;
 }
 
 - (NSImage *)startStopAlternateImage {

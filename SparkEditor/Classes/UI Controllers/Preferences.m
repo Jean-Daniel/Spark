@@ -13,6 +13,7 @@
 
 NSString * const kSparkPrefVersion = @"SparkVersion";
 NSString * const kSparkPrefAutoStart = @"SparkAutoStart";
+NSString * const kSparkPrefSingleKeyMode = @"SparkSingleKeyMode";
 NSString * const kSparkPrefDisplayPlugins = @"SparkDisplayPlugins";
 
 /* Optional alerts panels */
@@ -70,6 +71,37 @@ NSString * const kSparkPrefAppActionApplicationLibrary = @"SparkPrefAppActionApp
 }
 - (void)setRunAutomatically:(BOOL)flag {
   autoStart = flag;
+}
+
+- (int)singleKeyMode {
+  switch (SparkKeyStrokeFilterMode) {
+    case kSparkDisableAllSingleKey:
+      return 0;
+    case kSparkEnableSingleFunctionKey:
+      return 1;
+    case kSparkEnableAllSingleKey:
+      return 2;
+  }
+  return 0;
+}
+
+static void SetSparkKitSingleKeyMode(int mode) {
+  switch (mode) {
+    case 0:
+      SparkKeyStrokeFilterMode = kSparkDisableAllSingleKey;
+      break;
+    case 1:
+      SparkKeyStrokeFilterMode = kSparkEnableSingleFunctionKey;
+      break;
+    case 2:
+      SparkKeyStrokeFilterMode = kSparkEnableAllSingleKey;
+      break;
+  }
+}
+
+- (void)setSingleKeyMode:(int)mode {
+  SetSparkKitSingleKeyMode(mode);
+  [[NSUserDefaults standardUserDefaults] setInteger:mode forKey:kSparkPrefSingleKeyMode];
 }
 
 - (void)windowWillClose:(NSNotification *)aNotification {
@@ -185,12 +217,15 @@ NSString * const kSparkPrefAppActionApplicationLibrary = @"SparkPrefAppActionApp
 + (void)setDefaultsValues {
   id values = [NSDictionary dictionaryWithObjectsAndKeys:
     SKBool(YES), kSparkPrefAutoStart,
+    SKInt(1), kSparkPrefSingleKeyMode,
     SKBool(YES), kSparkPrefDisplayPlugins,
     SKBool(NO), kSparkPrefConfirmDeleteKey,
     SKBool(NO), kSparkPrefConfirmDeleteList,
     SKBool(NO), kSparkPrefConfirmDeleteAction,
     nil];
   [[NSUserDefaults standardUserDefaults] registerDefaults:values];
+  /* Configure Single key mode */
+  SetSparkKitSingleKeyMode([[NSUserDefaults standardUserDefaults] integerForKey:kSparkPrefSingleKeyMode]);
 }
 
 #pragma mark -

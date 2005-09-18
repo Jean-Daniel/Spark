@@ -413,7 +413,7 @@ NSString * const kLibraryControllerSelectedObjectsDidChange = @"LibraryControlle
         contextInfo:nil];
 }
 
-- (IBAction)editList:(SparkObjectList *)list {
+- (IBAction)editList:(id)list {
   NSParameterAssert(list != nil);
   id editor = [self listEditor];
   NSAssert(editor != nil, @"Editor cannot be nil");
@@ -530,7 +530,7 @@ NSString * const kLibraryControllerSelectedObjectsDidChange = @"LibraryControlle
 #pragma mark -
 @implementation LibraryController (ObjectsController)
 
-- (id)objectEditor {
+- (ObjectEditorController *)objectEditor {
   if (nil == _objectEditor) {
     _objectEditor = [[[self objectEditorClass] alloc] init];
     NSAssert1(_objectEditor != nil, @"Invalid ObjectEditor Class: %@. Cannot instanciate Editor", [self objectEditorClass]);
