@@ -13,7 +13,8 @@ enum {
   kPowerSleep,
   kPowerRestart,
   kPowerShutDown,
-  kPowerFastLogOut
+  kPowerFastLogOut,
+  kPowerScreenSaver
 };
 
 extern NSString * const kPowerActionBundleIdentifier;
