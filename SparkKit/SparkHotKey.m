@@ -134,40 +134,11 @@ static BOOL KeyStrokeFilter(UInt16 code, UInt32 modifier) {
 }
 
 unsigned SparkEncodeHotKey(HKHotKey *key) {
-  unsigned hotkey = [key character];
-  hotkey &= 0xffff;
-  //unichar character = [self character]; /* Problem with Forwarding and return value with size ≠ from id */
-  //  hotkey = character;
-  hotkey |= [key modifier] & 0x00ff0000;
-  hotkey |= ([key keycode] << 24) & 0xff000000;
-  return hotkey;
+  return [key rawkey];
 }
 
 void SparkDecodeHotKey(HKHotKey *key, unsigned hotkey) {
-  unichar character = hotkey & 0xffff;
-  unsigned int modifier = hotkey & 0x00ff0000;
-  unsigned short keycode = (hotkey & 0xff000000) >> 24;
-  if (keycode == 0xff) keycode = kHKNilVirtualKeyCode;
-  BOOL isSpecialKey = (modifier & (NSNumericPadKeyMask | NSFunctionKeyMask)) != 0;
-  if (!isSpecialKey) {
-    /* If key is a number (not in numpad) we use keycode, because american keyboard use number */
-    switch (character) {
-      case '0' ... '9':
-        isSpecialKey = YES;
-        break;
-    }
-  }
-  /* Si le keycode est défini et que c'est une touche spécial (fonction ou pavée numérique) */
-  if (isSpecialKey && (kHKNilVirtualKeyCode != keycode)) {
-    [key setKeycode:keycode];
-  } else { /* Sinon on utilise le character si il peut être utilisé */
-    [key setCharacter:character];
-    short unsigned newCode = [key keycode];
-    if (kHKNilVirtualKeyCode == newCode) {
-      [key setKeycode:keycode];
-    }
-  }
-  [key setModifier:modifier];
+  [key setRawkey:hotkey];
 }
 
 #pragma mark SparkSerialization

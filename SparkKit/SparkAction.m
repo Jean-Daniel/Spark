@@ -272,58 +272,6 @@ inline NSTimeInterval SparkGetDefaultKeyRepeatInterval() {
 
 - (SparkAlert *)hotKeyShouldExecuteAction:(SparkHotKey *)hotkey {
   [hotkey sendHotKey];
-//  
-//  UInt32 modifier = [hotkey modifier];
-//  CGCharCode character = [hotkey character];
-//  CGKeyCode keycode = [hotkey keycode];
-//  
-//  [hotkey setRegistred:NO];
-////  CGInhibitLocalEvents(YES);
-//  CGEnableEventStateCombining(NO);
-//  CGSetLocalEventsFilterDuringSuppressionState (kCGEventFilterMaskPermitAllEvents, kCGEventSuppressionStateSuppressionInterval);
-//  
-//  /* Sending Modifier Keydown events */
-//  if (NSControlKeyMask & modifier) {
-//    CGPostKeyboardEvent(0, (CGKeyCode)kVirtualControlKey, YES);
-//  }
-//  if (NSAlternateKeyMask & modifier) {
-//    CGPostKeyboardEvent(0, (CGKeyCode)kVirtualOptionKey, YES);
-//  }
-//  if (NSShiftKeyMask & modifier) {
-//    CGPostKeyboardEvent(0, (CGKeyCode)kVirtualShiftKey, YES);
-//  }
-//  if (NSCommandKeyMask & modifier) {
-//    CGPostKeyboardEvent(0, (CGKeyCode)kVirtualCommandKey, YES);
-//  }
-//  //  if (NSFunctionKeyMask & modifier) {
-//  //    CGPostKeyboardEvent((CGCharCode)0, (CGKeyCode)kVirtualControlKey, YES);
-//  //  }
-//  
-//  /* Sending Character Key events */
-//  /* If key already down in carbon app, event not sended */
-//  CGPostKeyboardEvent((CGCharCode)character, keycode , YES);
-//  CGPostKeyboardEvent((CGCharCode)character, keycode, NO);
-//  
-//  /* Sending Modifiers Key Up events */
-//  if (NSCommandKeyMask & modifier) {
-//    CGPostKeyboardEvent((CGCharCode)0, (CGKeyCode)kVirtualCommandKey, NO);
-//  }
-//  if (NSShiftKeyMask & modifier) {
-//    CGPostKeyboardEvent((CGCharCode)0, (CGKeyCode)kVirtualShiftKey, NO);
-//  }
-//  if (NSAlternateKeyMask & modifier) {
-//    CGPostKeyboardEvent((CGCharCode)0, (CGKeyCode)kVirtualOptionKey, NO);
-//  }
-//  if (NSControlKeyMask & modifier) {
-//    CGPostKeyboardEvent((CGCharCode)0, (CGKeyCode)kVirtualControlKey, NO);
-//  }
-////  if (NSFunctionKeyMask & modifier) {
-////    CGPostKeyboardEvent((CGCharCode)0, (CGKeyCode)kVirtualControlKey, NO);
-////  }
-//  
-//  CGEnableEventStateCombining(YES); 
-//  //  CGInhibitLocalEvents(NO);
-//  [hotkey setRegistred:YES];
   return nil;
 }
 
