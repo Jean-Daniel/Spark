@@ -14,6 +14,7 @@
 
 #import "Extensions.h"
 #import "ChoosePanel.h"
+#import "Preferences.h"
 #import "ActionEditor.h"
 #import "AppActionEditor.h"
 #import "CustomTableView.h"
@@ -40,6 +41,12 @@ static NSComparisonResult CompareMapEntries(id obj1, id obj2, void *controller);
   [_keyComment release];
   [_actionsSizes release];
   [super dealloc];
+}
+
+- (void)windowDidLoad {
+  [super windowDidLoad];
+  HKTrapWindow *window = [self window];
+  [window setVerifyHotKey:YES];
 }
 
 - (void)awakeFromNib {
@@ -420,6 +427,10 @@ static NSComparisonResult CompareMapEntries(id obj1, id obj2, void *controller);
 }
 
 - (BOOL)trapWindow:(HKTrapWindow *)window needProceedKeyEvent:(NSEvent *)theEvent {
+  if ([[NSUserDefaults standardUserDefaults] integerForKey:kSparkPrefSingleKeyMode] == 2) {
+    /* Single Key enable for all */
+    return NO;
+  }
   int code = [theEvent keyCode];
   int mask = [theEvent modifierFlags] & 0x00ff0000;
   return mask ? NO : (code == kVirtualEnterKey)
