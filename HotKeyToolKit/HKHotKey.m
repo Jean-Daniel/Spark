@@ -38,9 +38,35 @@
   return copy;
 }
 
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+  [aCoder encodeConditionalObject:hk_target forKey:@"HKTarget"];
+  [aCoder encodeObject:NSStringFromSelector(hk_action) forKey:@"HKAction"];
+  
+  [aCoder encodeInt:hk_mask forKey:@"HKMask"];
+  [aCoder encodeInt:hk_keycode forKey:@"HKKeycode"];
+  [aCoder encodeInt:hk_character forKey:@"HKCharacter"];
+  
+  [aCoder encodeInt:hk_keyRepeat forKey:@"HKCharacter"];
+}
+
+- (id)initWithCoder:(NSCoder *)aCoder {
+  if (self = [super init]) {
+    hk_target = [aCoder decodeObjectForKey:@"HKTarget"];
+    NSString *action = [aCoder decodeObjectForKey:@"HKAction"];
+    if (action)
+      hk_action = NSSelectorFromString(action);
+    
+    hk_mask = [aCoder decodeIntForKey:@"HKMask"];
+    hk_keycode = [aCoder decodeIntForKey:@"HKKeycode"];
+    hk_character = [aCoder decodeIntForKey:@"HKCharacter"];
+    
+    hk_keyRepeat = [aCoder decodeDoubleForKey:@"HKCharacter"];
+  }
+  return self;
+}
+
 #pragma mark -
 #pragma mark Convenient constructors.
-
 + (id)hotkey {
   return [[[self alloc] init] autorelease];
 }
@@ -201,6 +227,42 @@
 
 - (void)setKeyRepeat:(NSTimeInterval)interval {
   hk_keyRepeat = interval;
+}
+
+#pragma mark Key Serialization
+- (unsigned)rawkey {
+  unsigned hotkey = [self character];
+  hotkey &= 0xffff;
+  hotkey |= [self modifier] & 0x00ff0000;
+  hotkey |= ([self keycode] << 24) & 0xff000000;
+  return hotkey;
+}
+
+- (void)setRawkey:(unsigned)rawkey {
+  unichar character = rawkey & 0xffff;
+  unsigned int modifier = rawkey & 0x00ff0000;
+  unsigned short keycode = (rawkey & 0xff000000) >> 24;
+  if (keycode == 0xff) keycode = kHKNilVirtualKeyCode;
+  BOOL isSpecialKey = (modifier & (NSNumericPadKeyMask | NSFunctionKeyMask)) != 0;
+  if (!isSpecialKey) {
+    /* If key is a number (not in numpad) we use keycode, because american keyboard use number */
+    switch (character) {
+      case '0' ... '9':
+        isSpecialKey = YES;
+        break;
+    }
+  }
+  /* Si le keycode est défini et que c'est une touche spécial (fonction ou pavée numérique) */
+  if (isSpecialKey && (kHKNilVirtualKeyCode != keycode)) {
+    [self setKeycode:keycode];
+  } else { /* Sinon on utilise le character si il peut être utilisé */
+    [self setCharacter:character];
+    short unsigned newCode = [self keycode];
+    if (kHKNilVirtualKeyCode == newCode) {
+      [self setKeycode:keycode];
+    }
+  }
+  [self setModifier:modifier];
 }
 
 #pragma mark -

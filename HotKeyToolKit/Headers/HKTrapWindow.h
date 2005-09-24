@@ -40,12 +40,19 @@ extern NSString * const kHKEventCharacterKey;
 @interface HKTrapWindow : NSWindow {
   IBOutlet NSTextField *trapField;
 @private
-  BOOL _needTrap;
-  BOOL _block;
+  struct _hk_twFlags {
+    unsigned int trap:1;
+    unsigned int block:1;
+    unsigned int verify:1;
+    unsigned int :5;
+  } hk_twFlags;
 }
 
 - (BOOL)isTrapping;
 - (void)setTrapping:(BOOL)flag;
+
+- (BOOL)verifyHotKey;
+- (void)setVerifyHotKey:(BOOL)flag;
 
 - (NSTextField *)trapField;
 - (void)setTrapField:(NSTextField *)newTrapField;

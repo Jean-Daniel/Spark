@@ -40,18 +40,25 @@ NSString * const kHKTrapWindowKeyCatchedNotification = @"kHKTrapWindowKeyCatched
 #pragma mark -
 #pragma mark Trap accessor
 - (BOOL)isTrapping {
-  return _needTrap;
+  return hk_twFlags.trap;
 }
 
 - (void)setTrapping:(BOOL)flag {
   if (nil == trapField) {
-    _needTrap = flag;
+    hk_twFlags.trap = flag ? 1 : 0;
   } else {
     if (flag)
       [self makeFirstResponder:trapField];
     else
       [self makeFirstResponder:self];
   }
+}
+
+- (BOOL)verifyHotKey {
+  return hk_twFlags.verify;
+}
+- (void)setVerifyHotKey:(BOOL)flag {
+  hk_twFlags.verify = flag ? 1 : 0;
 }
 
 #pragma mark -
@@ -66,7 +73,7 @@ NSString * const kHKTrapWindowKeyCatchedNotification = @"kHKTrapWindowKeyCatched
 - (void)endEditingFor:(id)anObject {
   [super endEditingFor:anObject];
   if (nil != trapField)
-    _needTrap = (anObject == trapField);
+    hk_twFlags.trap = (anObject == trapField) ? 1 : 0;
 }
 
 #pragma mark -
@@ -78,17 +85,17 @@ NSString * const kHKTrapWindowKeyCatchedNotification = @"kHKTrapWindowKeyCatched
   } else {
     perform = NO;
   }
-  if (_needTrap && !_block && !perform) {
-    _block = YES;
+  if (hk_twFlags.trap && !hk_twFlags.block && !perform) {
+    hk_twFlags.block = 1;
     [self sendEvent:theEvent];
-    _block = NO;
+    hk_twFlags.block = 0;
     return YES;
   }
   return [super performKeyEquivalent:theEvent];
 }
 
 - (void)sendEvent:(NSEvent *)theEvent {
-  if ([theEvent type] == NSKeyDown && _needTrap) {
+  if ([theEvent type] == NSKeyDown && hk_twFlags.trap) {
     BOOL needProcess;
     if ([self delegate] && [[self delegate] respondsToSelector:@selector(trapWindow:needProceedKeyEvent:)])  {
       needProcess = [[self delegate] trapWindow:self needProceedKeyEvent:theEvent];
@@ -104,15 +111,8 @@ NSString * const kHKTrapWindowKeyCatchedNotification = @"kHKTrapWindowKeyCatched
       if (mask & NSNumericPadKeyMask)
         NSLog(@"NumericPad");
 #endif
-      if ([HKHotKeyManager isValidHotKeyCode:code withModifier:mask]) {
-        character = HKUnicharForKeycode(code);
-        if (kHKNilUnichar == character) {
-          code = kHKNilVirtualKeyCode;
-          mask = 0;
-          NSBeep();
-        }
-      }
-      else {
+      /* If verify and verification return NO */
+      if (hk_twFlags.verify && ![HKHotKeyManager isValidHotKeyCode:code withModifier:mask]) {
         mask = 0;
         character = kHKNilUnichar;
         code = kHKNilVirtualKeyCode;
@@ -120,6 +120,13 @@ NSString * const kHKTrapWindowKeyCatchedNotification = @"kHKTrapWindowKeyCatched
 #if defined(DEBUG)
         NSLog(@"Invalid Key");
 #endif
+      } else {
+        character = HKUnicharForKeycode(code);
+        if (kHKNilUnichar == character) {
+          code = kHKNilVirtualKeyCode;
+          mask = 0;
+          NSBeep();
+        }
       }
       id userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
         [NSNumber numberWithUnsignedShort:code], kHKEventKeyCodeKey,

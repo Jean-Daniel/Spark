@@ -173,6 +173,7 @@ AXError HKSendHotKeyToProcess(CGCharCode character, CGKeyCode keycode, unsigned 
   CGError err = kCGErrorSuccess;
   if ([self isValid]) {
     BOOL ok = [self isRegistred];
+    if (ok) [self setRegistred:NO];
     err = HKSendHotKey([self character], [self keycode], [self modifier]);
     if (ok) [self setRegistred:YES];
   }

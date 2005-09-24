@@ -30,7 +30,7 @@ extern NSTimeInterval HKGetSystemInitialKeyRepeatInterval();
 	@abstract	This class represent a Global Hot Key (Shortcut) that can be registred to execute an action when called.
 	@discussion	It uses an unichar and a virtual keycode to store the shortcut so if the keyboard layout change, the shortcut change too.
 */
-@interface HKHotKey : NSObject <NSCopying> { 
+@interface HKHotKey : NSObject <NSCopying, NSCoding> { 
 @private
   id hk_target;
   SEL hk_action;
@@ -70,6 +70,13 @@ extern NSTimeInterval HKGetSystemInitialKeyRepeatInterval();
 
 #pragma mark -
 #pragma mark Initializers
+/*!
+    @method     init
+    @abstract   Designated Initializer
+    @result     A new HotKey.
+*/
+- (id)init;
+
 /*!
     @method     initWithKeycode:modifier:
     @abstract   Initializes a newly allocated hotkey.
@@ -206,6 +213,20 @@ extern NSTimeInterval HKGetSystemInitialKeyRepeatInterval();
     @param      interval the time interval in seconds, or 0 to desactivate autorepeat for the receiver.
 */
 - (void)setKeyRepeat:(NSTimeInterval)interval;
+
+/*!
+    @method     rawkey
+    @abstract   Encode character, keycode and modifier as a single integer.
+    @discussion This method can be usefull to serialize an hotkey or to save a keystae with one call.
+    @result     A single integer representing receiver character, modifier and keycode.
+*/
+- (unsigned)rawkey;
+/*!
+    @method     setRawkey:
+    @abstract   Restore the receiver  character, keycode and modifier.
+    @param      rawkey A rawkey.
+*/
+- (void)setRawkey:(unsigned)rawkey;
 
 /*!
     @method     invoke
