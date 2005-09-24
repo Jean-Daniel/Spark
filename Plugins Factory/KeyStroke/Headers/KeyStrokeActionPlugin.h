@@ -21,8 +21,12 @@ enum {
 };
 
 @interface KeyStrokeActionPlugin : SparkActionPlugIn {
-  HKHotKey *ks_hotkey;
-  IBOutlet id nameField;
+  HKHotKey *ks_key;
+  UInt32 ks_rawkey;
+  IBOutlet NSWindow *choosePanel;
+  IBOutlet NSTableView *tableView;
+  IBOutlet NSArrayController *keys;
+  IBOutlet NSTextField *shortcutField;
 }
 
 @end

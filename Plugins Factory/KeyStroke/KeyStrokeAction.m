@@ -19,13 +19,25 @@
   }
 }
 
+- (id)init {
+  if (self = [super init]) {
+    ks_hotkeys = [[NSMutableArray alloc] init];
+  }
+  return self;
+}
+
 /* initFromPropertyList is called when a Key is loaded. You must call [super initFromPropertyList:plist].
 Get all values you set in the -propertyList method et configure your Hot Key */
 - (id)initFromPropertyList:(id)plist {
   if (self = [super initFromPropertyList:plist]) {
-    ks_hotkey = [[HKHotKey alloc] init];
-    unsigned hotkey = [[plist objectForKey:@"KSHotKey"] unsignedIntValue];
-    SparkDecodeHotKey(ks_hotkey, hotkey);
+    ks_hotkeys = [[NSMutableArray alloc] init];
+    NSNumber *raw;
+    NSEnumerator *raws = [[plist objectForKey:@"KSHotKeys"] objectEnumerator];
+    while (raw = [raws nextObject]) {
+      HKHotKey *key = [HKHotKey hotkey];
+      [key setRawkey:[raw unsignedIntValue]];
+      [ks_hotkeys addObject:key];
+    }
   }
   return self;
 }
@@ -34,13 +46,19 @@ Get all values you set in the -propertyList method et configure your Hot Key */
 See the PropertyList documentation to know more about it */
 - (NSMutableDictionary *)propertyList {
   NSMutableDictionary *dico = [super propertyList];
-  unsigned hotkey = SparkEncodeHotKey(ks_hotkey);
-  [dico setValue:SKUInt(hotkey) forKey:@"KSHotKey"];
+  NSMutableArray *raws = [NSMutableArray array];
+  HKHotKey *key;
+  NSEnumerator *keys = [ks_hotkeys objectEnumerator];
+  while (key = [keys nextObject]) {
+    if ([key isValid])
+      [raws addObject:SKUInt([key rawkey])];
+  }
+  [dico setObject:raws forKey:@"KSHotKeys"];
   return dico;
 }
 
 - (void)dealloc {
-  [ks_hotkey release];
+  [ks_hotkeys release];
   [super dealloc];
 }
 
@@ -53,7 +71,11 @@ so you can return one */
 - (SparkAlert *)execute {
   SparkAlert *alert = [self check];
   if (alert == nil) {
-    [ks_hotkey sendHotKey];
+    HKHotKey *key;
+    NSEnumerator *keys = [ks_hotkeys objectEnumerator];
+    while (key = [keys nextObject]) {
+      [key sendHotKey];
+    }
   }
   return alert;
 }
@@ -62,16 +84,12 @@ so you can return one */
 /****************************************************************************************
 *                           Keystroke Hot Key specific Methods							*
 ****************************************************************************************/
-
-- (HKHotKey *)hotkey {
-  return ks_hotkey;
+- (NSArray *)hotkeys {
+  return ks_hotkeys;
 }
-
-- (void)setHotkey:(HKHotKey *)aKey {
-  if (ks_hotkey != aKey) {
-    [ks_hotkey release];
-    ks_hotkey = [aKey retain];
-  }
+- (void)setHotkeys:(NSArray *)keys {
+  [ks_hotkeys removeAllObjects];
+  [ks_hotkeys addObjectsFromArray:keys];
 }
 
 @end

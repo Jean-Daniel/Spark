@@ -10,10 +10,10 @@
 #import "KeyStrokeActionPlugin.h"
 
 @interface KeyStrokeAction : SparkAction {
-  HKHotKey *ks_hotkey;
+  NSMutableArray *ks_hotkeys;
 }
 
-- (HKHotKey *)hotkey;
-- (void)setHotkey:(HKHotKey *)aKey;
+- (NSArray *)hotkeys;
+- (void)setHotkeys:(NSArray *)keys;
 
 @end

@@ -8,10 +8,15 @@
             SUPERCLASS = NSWindow; 
         }, 
         {
-            ACTIONS = {choose = id; }; 
+            ACTIONS = {cancelChoose = id; choose = id; down = id; insert = id; up = id; }; 
             CLASS = KeyStrokeActionPlugin; 
             LANGUAGE = ObjC; 
-            OUTLETS = {nameField = id; }; 
+            OUTLETS = {
+                choosePanel = id; 
+                keys = NSArrayController; 
+                shortcutField = id; 
+                tableView = id; 
+            }; 
             SUPERCLASS = SparkActionPlugIn; 
         }, 
         {

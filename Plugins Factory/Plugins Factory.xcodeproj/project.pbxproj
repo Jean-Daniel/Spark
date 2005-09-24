@@ -73,6 +73,8 @@
 		98BD1202078F46BA00A77736 /* DockConfigView.nib in Resources */ = {isa = PBXBuildFile; fileRef = 98BD1200078F46BA00A77736 /* DockConfigView.nib */; };
 		98C0D36A07192BDE00AC65C0 /* TextEventManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 98C0D36907192BDE00AC65C0 /* TextEventManager.h */; };
 		98C0D36E07192C4A00AC65C0 /* TextEventManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 98C0D36C07192C4A00AC65C0 /* TextEventManager.m */; };
+		98D812B108E580B5007E6C14 /* Up.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98D812AF08E580B5007E6C14 /* Up.tif */; };
+		98D812B208E580B5007E6C14 /* Down.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98D812B008E580B5007E6C14 /* Down.tif */; };
 		98E1CB470607743500FA3599 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 		98E1CC4C060774DA00FA3599 /* ArchivesKeySet.m in Sources */ = {isa = PBXBuildFile; fileRef = 98E1CC48060774DA00FA3599 /* ArchivesKeySet.m */; };
 		98E1CC4F060774DA00FA3599 /* ArchivesHotKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 98E1CC4B060774DA00FA3599 /* ArchivesHotKey.m */; };
@@ -256,6 +258,8 @@
 		98C12CD008CE12760015CB91 /* ShadowRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; name = ShadowRelease.xcconfig; path = Exploitables/ShadowKit/ShadowRelease.xcconfig; sourceTree = ProjectsRoot; };
 		98C12CD108CE12760015CB91 /* ShadowIntel.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; name = ShadowIntel.xcconfig; path = Exploitables/ShadowKit/ShadowIntel.xcconfig; sourceTree = ProjectsRoot; };
 		98C12CD208CE12760015CB91 /* ShadowDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; name = ShadowDebug.xcconfig; path = Exploitables/ShadowKit/ShadowDebug.xcconfig; sourceTree = ProjectsRoot; };
+		98D812AF08E580B5007E6C14 /* Up.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Up.tif; sourceTree = "<group>"; };
+		98D812B008E580B5007E6C14 /* Down.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Down.tif; sourceTree = "<group>"; };
 		98E1CB4B0607743500FA3599 /* ArchivesHotKey.hotkey */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ArchivesHotKey.hotkey; sourceTree = BUILT_PRODUCTS_DIR; };
 		98E1CC48060774DA00FA3599 /* ArchivesKeySet.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ArchivesKeySet.m; sourceTree = "<group>"; };
 		98E1CC4B060774DA00FA3599 /* ArchivesHotKey.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ArchivesHotKey.m; sourceTree = "<group>"; };
@@ -501,6 +505,8 @@
 		988BC51206411BEA0096DD7D /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				98D812AF08E580B5007E6C14 /* Up.tif */,
+				98D812B008E580B5007E6C14 /* Down.tif */,
 				98EE18CF07BABCFE008AE24D /* AddMini.tiff */,
 				98EE18D007BABCFE008AE24D /* RemoveMini.tiff */,
 				98EE18D207BABCFE008AE24D /* AddMini_Pressed.tiff */,
@@ -987,6 +993,8 @@
 				98EE18D507BABCFE008AE24D /* RemoveMini_Pressed.tiff in Resources */,
 				98EE18D607BABCFE008AE24D /* AddMini_Pressed.tiff in Resources */,
 				9840AC8808D3410900C33314 /* KeyStrokeIcon.tif in Resources */,
+				98D812B108E580B5007E6C14 /* Up.tif in Resources */,
+				98D812B208E580B5007E6C14 /* Down.tif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
