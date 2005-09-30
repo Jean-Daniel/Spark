@@ -209,7 +209,6 @@ static NSString * const kHotKeyBundleIdKey = @"BundleID";
   if (!(_flags & kLSLaunchNewInstance) && [self getApplicationProcess:&psn]) {
     SetFrontProcess(&psn);
     ShadowAESendSimpleEventToProcess(&psn, kCoreEventClass, kAEReopenApplication);
-    //ShowHideProcess(const ProcessSerialNumber * PSN, Boolean visible);    
   } else {
     [self launchAppWithFlag:kLSLaunchDefaults | _flags];
   }

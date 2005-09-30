@@ -11,6 +11,7 @@
 
 #define SYSTEM_EVENT		@"/System/Library/CoreServices/System Events.app"
 #define kFastUserSwitcherPath		@"/System/Library/CoreServices/Menu Extras/User.menu/Contents/Resources/CGSession"
+#define kScreenSaverEngine			@"/System/Library/Frameworks/ScreenSaver.framework/Resources/ScreenSaverEngine.app/Contents/MacOS/ScreenSaverEngine"
 
 static void PowerFastLogOut();
 
@@ -71,6 +72,7 @@ static NSString* const kPowerActionKey = @"PowerAction";
     case kPowerRestart:
     case kPowerShutDown:
     case kPowerFastLogOut:
+    case kPowerScreenSaver:
       return nil;
     default:
       return [SparkAlert alertWithMessageText:NSLocalizedStringFromTableInBundle(@"INVALID_ACTION_ALERT",
@@ -102,6 +104,9 @@ static NSString* const kPowerActionKey = @"PowerAction";
         break;
       case kPowerFastLogOut:
         [self fastLogout];
+        break;
+      case kPowerScreenSaver:
+        [self screenSaver];
         break;
     }
   }
@@ -144,6 +149,19 @@ kAEShowShutdownDialog         = 'rsdn'
 
 - (void)fastLogout {
   PowerFastLogOut();
+}
+
+- (void)screenSaver {
+  SInt32 macVersion;
+  if (Gestalt(gestaltSystemVersion, &macVersion) == noErr && macVersion >= 0x1040) {
+    FSRef engine;
+    if ([kScreenSaverEngine getFSRef:&engine]) {
+      LSApplicationParameters parameters;
+      memset(&parameters, 0, sizeof(parameters));
+      parameters.application = &engine;
+      LSOpenApplication(&parameters, nil);
+    }
+  }
 }
 
 @end

@@ -17,6 +17,7 @@
 typedef enum {
   kSparkDisableAllSingleKey,
   kSparkEnableSingleFunctionKey,
+  kSparkEnableAllSingleButNavigation,
   kSparkEnableAllSingleKey,
 } SparkFilterMode;
 

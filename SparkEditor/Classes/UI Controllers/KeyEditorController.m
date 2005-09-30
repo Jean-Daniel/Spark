@@ -427,7 +427,12 @@ static NSComparisonResult CompareMapEntries(id obj1, id obj2, void *controller);
 }
 
 - (BOOL)trapWindow:(HKTrapWindow *)window needProceedKeyEvent:(NSEvent *)theEvent {
-  if ([[NSUserDefaults standardUserDefaults] integerForKey:kSparkPrefSingleKeyMode] == 2) {
+  if (kSparkEnableAllSingleKey == SparkKeyStrokeFilterMode) {
+    /* Anti trap hack. If pressed tab two time, second tab is proceed */
+    if ([_hotKey keycode] == kVirtualTabKey && ([_hotKey modifier] & 0x00ff0000) == 0) {
+      unsigned int modifier = [theEvent modifierFlags] & 0x00ff0000;
+      return ([theEvent keyCode] == kVirtualTabKey) && (modifier == 0);
+    }
     /* Single Key enable for all */
     return NO;
   }

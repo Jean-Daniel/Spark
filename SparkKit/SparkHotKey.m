@@ -56,6 +56,19 @@ static BOOL KeyStrokeFilter(UInt16 code, UInt32 modifier) {
       return NO;
     case kSparkEnableAllSingleKey:
       return YES;
+    case kSparkEnableAllSingleButNavigation:
+      switch (code) {
+        case kVirtualTabKey:
+        case kVirtualEnterKey:
+        case kVirtualReturnKey:
+        case kVirtualEscapeKey:
+        case kVirtualLeftArrowKey:
+        case kVirtualRightArrowKey:
+        case kVirtualUpArrowKey:
+        case kVirtualDownArrowKey:
+          return NO;
+      }
+      return YES;
     case kSparkEnableSingleFunctionKey:
       switch (code) {
         case kVirtualF1Key:

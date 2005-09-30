@@ -79,8 +79,10 @@ NSString * const kSparkPrefAppActionApplicationLibrary = @"SparkPrefAppActionApp
       return 0;
     case kSparkEnableSingleFunctionKey:
       return 1;
-    case kSparkEnableAllSingleKey:
+    case kSparkEnableAllSingleButNavigation:
       return 2;
+    case kSparkEnableAllSingleKey:
+      return 3;
   }
   return 0;
 }
@@ -94,6 +96,9 @@ static void SetSparkKitSingleKeyMode(int mode) {
       SparkKeyStrokeFilterMode = kSparkEnableSingleFunctionKey;
       break;
     case 2:
+      SparkKeyStrokeFilterMode = kSparkEnableAllSingleButNavigation;
+      break;  
+    case 3:
       SparkKeyStrokeFilterMode = kSparkEnableAllSingleKey;
       break;
   }

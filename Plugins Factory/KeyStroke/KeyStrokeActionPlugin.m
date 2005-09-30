@@ -120,6 +120,10 @@ NSString * const kKeyStrokeActionBundleIdentifier = @"org.shadowlab.spark.keystr
 }
 
 - (BOOL)trapWindow:(HKTrapWindow *)window needProceedKeyEvent:(NSEvent *)theEvent {
+  if ([ks_key keycode] == kVirtualTabKey && ([ks_key modifier] & 0x00ff0000) == 0) {
+    unsigned int modifier = [theEvent modifierFlags] & 0x00ff0000;
+    return ([theEvent keyCode] == kVirtualTabKey) && (modifier == 0);
+  }
   return NO;
 }
 

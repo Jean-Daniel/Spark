@@ -23,6 +23,7 @@ extern NSString * const kPowerActionBundleIdentifier;
 
 @interface PowerActionPlugin : SparkActionPlugIn {
   IBOutlet id nameField;
+  IBOutlet id actionMenu;
 }
 
 - (int)powerAction;

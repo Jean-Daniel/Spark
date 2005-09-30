@@ -21,6 +21,7 @@
 - (void)restart;
 - (void)shutDown;
 - (void)fastLogout;
+- (void)screenSaver;
 
 - (void)launchSystemEvent;
 

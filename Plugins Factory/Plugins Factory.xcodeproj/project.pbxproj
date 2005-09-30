@@ -1303,7 +1303,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 98C12CD108CE12760015CB91 /* ShadowIntel.xcconfig */;
 			buildSettings = {
-				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Spark.pch;
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
@@ -1556,7 +1555,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 98C12CD208CE12760015CB91 /* ShadowDebug.xcconfig */;
 			buildSettings = {
-				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Spark.pch;
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
@@ -1567,7 +1565,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 98C12CD008CE12760015CB91 /* ShadowRelease.xcconfig */;
 			buildSettings = {
-				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Spark.pch;
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
@@ -1577,7 +1574,6 @@
 		98EF812E08645F04007BC81A /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Spark.pch;
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;

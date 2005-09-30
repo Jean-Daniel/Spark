@@ -27,6 +27,21 @@ NSString * const kPowerActionBundleIdentifier = @"org.shadowlab.spark.power";
             nil]];
 }
 
+- (void)awakeFromNib {
+  NSMenu *menu = [actionMenu menu];
+  SInt32 macVersion;
+  if (Gestalt(gestaltSystemVersion, &macVersion) == noErr && macVersion >= 0x1040) {
+    NSMenuItem *item = [NSMenuItem separatorItem];
+    [item setTag:-1];
+    [menu addItem:item];
+    
+    item = [[NSMenuItem alloc] initWithTitle:@"Screen Saver" action:nil keyEquivalent:@""];
+    [item setTag:kPowerScreenSaver];
+    [menu addItem:item];
+    [item release];
+  }
+}
+
 - (void)loadSparkAction:(id)sparkAction toEdit:(BOOL)flag {
   [super loadSparkAction:sparkAction toEdit:flag];
   if (flag) {
@@ -61,6 +76,9 @@ NSString * const kPowerActionBundleIdentifier = @"org.shadowlab.spark.power";
       break;
     case kPowerShutDown:
       iconName = @"ShutDown";
+      break;
+    case kPowerScreenSaver:
+      iconName = @"ScreenSaver";
       break;
   }
   if (iconName)
@@ -103,6 +121,10 @@ NSString * const kPowerActionBundleIdentifier = @"org.shadowlab.spark.power";
     case kPowerFastLogOut:
       desc = NSLocalizedStringFromTableInBundle(@"DESC_FAST_LOGOUT", nil, kPowerActionBundle,
                                                 @"Fast Logout * Action Description *");
+      break;
+    case kPowerScreenSaver:
+      desc = NSLocalizedStringFromTableInBundle(@"DESC_SCREEN_SAVER", nil, kPowerActionBundle,
+                                                @"Screen Saver * Action Description *");
       break;
     default:
       desc = NSLocalizedStringFromTableInBundle(@"DESC_ERROR", nil, kPowerActionBundle,

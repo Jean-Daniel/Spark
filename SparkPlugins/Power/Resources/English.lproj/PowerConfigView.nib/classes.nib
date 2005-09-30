@@ -4,7 +4,7 @@
         {
             CLASS = PowerActionPlugin; 
             LANGUAGE = ObjC; 
-            OUTLETS = {nameField = id; }; 
+            OUTLETS = {actionMenu = NSPopUpButton; nameField = id; }; 
             SUPERCLASS = SparkActionPlugin; 
         }, 
         {
