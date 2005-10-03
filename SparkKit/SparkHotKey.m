@@ -87,6 +87,8 @@ static BOOL KeyStrokeFilter(UInt16 code, UInt32 modifier) {
         case kVirtualF14Key:
         case kVirtualF15Key:
         case kVirtualF16Key:
+        case kVirtualHelpKey:
+        case kVirtualClearLineKey:
           return YES;
       }
       break;

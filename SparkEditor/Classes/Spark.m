@@ -15,8 +15,9 @@
 #endif
 
 #import "Spark.h"
-
+#import <objc/objc-class.h>
 #import <SparkKit/SparkKit.h>
+#import <HotKeyToolKit/HotKeyToolKit.h>
 
 #import "Extensions.h"
 #import "Preferences.h"
@@ -37,6 +38,26 @@ int main(int argc, const char *argv[]) {
 #endif
   return NSApplicationMain(argc, argv);
 }
+
+@interface SparkEditor : NSApplication {
+}
+
+@end
+
+@implementation SparkEditor 
+
+- (void)sendEvent:(NSEvent *)event {
+  if (([event type] == NSKeyDown || [event type] == NSKeyUp) && [event keyCode] == kVirtualHelpKey) {
+    id window = [self keyWindow];
+    if ([window isKindOfClass:[HKTrapWindow class]] && [window isTrapping]) {
+      [window sendEvent:event];
+      return;
+    }
+  } 
+  [super sendEvent:event];
+}
+
+@end
 
 #pragma mark -
 @implementation Spark

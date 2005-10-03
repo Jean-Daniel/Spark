@@ -164,9 +164,16 @@ AXError HKSendHotKeyToProcess(CGCharCode character, CGKeyCode keycode, unsigned 
 @implementation HKHotKey (AXUIExtension)
 
 - (AXError)sendHotKeyToApplicationWithSignature:(OSType)sign bundleId:(NSString *)bundleId {
-  if ([self isValid])
-    return HKSendHotKeyToApplication([self character], [self keycode], [self modifier], sign, (CFStringRef)bundleId);
-  else return kAXErrorIllegalArgument;
+  AXError err = kAXErrorSuccess;
+  if ([self isValid]) {
+    BOOL ok = [self isRegistred];
+    if (ok) [self setRegistred:NO];
+    err = HKSendHotKeyToApplication([self character], [self keycode], [self modifier], sign, (CFStringRef)bundleId);
+    if (ok) [self setRegistred:YES];
+  } else {
+    err = kAXErrorIllegalArgument;
+  }
+  return err;
 }
 
 - (CGError)sendHotKey {

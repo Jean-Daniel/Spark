@@ -8,6 +8,7 @@
 
 #import "PowerAction.h"
 #import "PowerActionPlugin.h"
+#import <ApplicationServices/ApplicationServices.h>
 
 #define SYSTEM_EVENT		@"/System/Library/CoreServices/System Events.app"
 #define kFastUserSwitcherPath		@"/System/Library/CoreServices/Menu Extras/User.menu/Contents/Resources/CGSession"
@@ -156,10 +157,15 @@ kAEShowShutdownDialog         = 'rsdn'
   if (Gestalt(gestaltSystemVersion, &macVersion) == noErr && macVersion >= 0x1040) {
     FSRef engine;
     if ([kScreenSaverEngine getFSRef:&engine]) {
-      LSApplicationParameters parameters;
-      memset(&parameters, 0, sizeof(parameters));
-      parameters.application = &engine;
-      LSOpenApplication(&parameters, nil);
+      LSLaunchFSRefSpec spec;
+      memset(&spec, 0, sizeof(spec));
+      spec.appRef = &engine;
+      spec.launchFlags = kLSLaunchDefaults;
+      LSOpenFromRefSpec(&spec, nil);
+//      LSApplicationParameters parameters;
+//      memset(&parameters, 0, sizeof(parameters));
+//      parameters.application = &engine;
+//      LSOpenApplication(&parameters, nil);
     }
   }
 }
