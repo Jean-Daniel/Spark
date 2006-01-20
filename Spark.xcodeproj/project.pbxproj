@@ -208,6 +208,13 @@
 			remoteGlobalIDString = 983674730699D34900DF2C6A;
 			remoteInfo = Plugins;
 		};
+		9867592A096B41BC00BB8A25 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 98D614B106B3DBA100CBC985 /* SparkKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 98C56D34096B348400ABE1EF;
+			remoteInfo = ShadowKit;
+		};
 		9889CF4506B418550037768F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
@@ -1277,6 +1284,7 @@
 			isa = PBXGroup;
 			children = (
 				98EF8349086464B5007BC81A /* SparkKit.framework */,
+				9867592B096B41BC00BB8A25 /* ShadowKit.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1337,6 +1345,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = 98EF8382086464EF007BC81A /* Products */;
+					ProjectRef = 98D61B8506B3E5FB00CBC985 /* HotKeyToolKit.xcodeproj */;
+				},
+				{
 					ProductGroup = 98EF8378086464E7007BC81A /* Products */;
 					ProjectRef = 98E65AB006B40FDD00F73A19 /* Spark Editor.xcodeproj */;
 				},
@@ -1347,10 +1359,6 @@
 				{
 					ProductGroup = 98EF8345086464B5007BC81A /* Products */;
 					ProjectRef = 98D614B106B3DBA100CBC985 /* SparkKit.xcodeproj */;
-				},
-				{
-					ProductGroup = 98EF8382086464EF007BC81A /* Products */;
-					ProjectRef = 98D61B8506B3E5FB00CBC985 /* HotKeyToolKit.xcodeproj */;
 				},
 				{
 					ProductGroup = 98EF836B086464E0007BC81A /* Products */;
@@ -1368,6 +1376,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		9867592B096B41BC00BB8A25 /* ShadowKit.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = ShadowKit.framework;
+			remoteRef = 9867592A096B41BC00BB8A25 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		98EF8349086464B5007BC81A /* SparkKit.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -1501,7 +1516,158 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		98C1286408CE0D020015CB91 /* Deployment Intel */ = {
+		98B4DEB70939D464009F2007 /* Profiling */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
+				DEPLOYMENT_POSTPROCESSING = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_WARN_UNINITIALIZED_AUTOS = NO;
+				GCC_WARN_UNUSED_VALUE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				OTHER_LDFLAGS = "";
+				PRESERVE_DEAD_CODE_INITS_AND_TERMS = NO;
+				PRODUCT_NAME = Frameworks;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				ZERO_LINK = YES;
+			};
+			name = Profiling;
+		};
+		98B4DEB80939D464009F2007 /* Profiling */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
+				DEPLOYMENT_POSTPROCESSING = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_WARN_UNINITIALIZED_AUTOS = NO;
+				GCC_WARN_UNUSED_VALUE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				OTHER_LDFLAGS = "";
+				PRESERVE_DEAD_CODE_INITS_AND_TERMS = NO;
+				PRODUCT_NAME = "Daemon & Co.";
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				ZERO_LINK = YES;
+			};
+			name = Profiling;
+		};
+		98B4DEB90939D464009F2007 /* Profiling */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
+				DEPLOYMENT_POSTPROCESSING = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_WARN_UNINITIALIZED_AUTOS = NO;
+				GCC_WARN_UNUSED_VALUE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				OTHER_LDFLAGS = "";
+				PRESERVE_DEAD_CODE_INITS_AND_TERMS = NO;
+				PRODUCT_NAME = Test;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				ZERO_LINK = YES;
+			};
+			name = Profiling;
+		};
+		98B4DEBA0939D464009F2007 /* Profiling */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
+				DEPLOYMENT_POSTPROCESSING = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_WARN_UNINITIALIZED_AUTOS = NO;
+				GCC_WARN_UNUSED_VALUE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				OTHER_LDFLAGS = "";
+				PRESERVE_DEAD_CODE_INITS_AND_TERMS = NO;
+				PRODUCT_NAME = All;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				ZERO_LINK = YES;
+			};
+			name = Profiling;
+		};
+		98B4DEBB0939D464009F2007 /* Profiling */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
+				DEPLOYMENT_POSTPROCESSING = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_WARN_UNINITIALIZED_AUTOS = NO;
+				GCC_WARN_UNUSED_VALUE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				OTHER_LDFLAGS = "";
+				PRESERVE_DEAD_CODE_INITS_AND_TERMS = NO;
+				PRODUCT_NAME = Spark;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				ZERO_LINK = YES;
+			};
+			name = Profiling;
+		};
+		98B4DEBC0939D464009F2007 /* Profiling */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Profiling;
+		};
+		98C1286408CE0D020015CB91 /* Universal Binary */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
@@ -1531,9 +1697,9 @@
 				);
 				ZERO_LINK = NO;
 			};
-			name = "Deployment Intel";
+			name = "Universal Binary";
 		};
-		98C1286508CE0D030015CB91 /* Deployment Intel */ = {
+		98C1286508CE0D030015CB91 /* Universal Binary */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
@@ -1563,9 +1729,9 @@
 				);
 				ZERO_LINK = NO;
 			};
-			name = "Deployment Intel";
+			name = "Universal Binary";
 		};
-		98C1286608CE0D030015CB91 /* Deployment Intel */ = {
+		98C1286608CE0D030015CB91 /* Universal Binary */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
@@ -1595,9 +1761,9 @@
 				);
 				ZERO_LINK = NO;
 			};
-			name = "Deployment Intel";
+			name = "Universal Binary";
 		};
-		98C1286708CE0D030015CB91 /* Deployment Intel */ = {
+		98C1286708CE0D030015CB91 /* Universal Binary */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
@@ -1627,9 +1793,9 @@
 				);
 				ZERO_LINK = NO;
 			};
-			name = "Deployment Intel";
+			name = "Universal Binary";
 		};
-		98C1286808CE0D030015CB91 /* Deployment Intel */ = {
+		98C1286808CE0D030015CB91 /* Universal Binary */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
@@ -1659,13 +1825,13 @@
 				);
 				ZERO_LINK = NO;
 			};
-			name = "Deployment Intel";
+			name = "Universal Binary";
 		};
-		98C1286908CE0D030015CB91 /* Deployment Intel */ = {
+		98C1286908CE0D030015CB91 /* Universal Binary */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 			};
-			name = "Deployment Intel";
+			name = "Universal Binary";
 		};
 		98FF7B280857B50600611EDE /* Development */ = {
 			isa = XCBuildConfiguration;
@@ -1728,20 +1894,6 @@
 			};
 			name = Deployment;
 		};
-		98FF7B2B0857B50600611EDE /* Default */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = Frameworks;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
-			name = Default;
-		};
 		98FF7B2D0857B50600611EDE /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1802,20 +1954,6 @@
 				ZERO_LINK = NO;
 			};
 			name = Deployment;
-		};
-		98FF7B300857B50600611EDE /* Default */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = "Daemon & Co.";
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
-			name = Default;
 		};
 		98FF7B320857B50600611EDE /* Development */ = {
 			isa = XCBuildConfiguration;
@@ -1878,20 +2016,6 @@
 			};
 			name = Deployment;
 		};
-		98FF7B350857B50600611EDE /* Default */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = Test;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
-			name = Default;
-		};
 		98FF7B370857B50600611EDE /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1952,15 +2076,6 @@
 				ZERO_LINK = NO;
 			};
 			name = Deployment;
-		};
-		98FF7B3A0857B50600611EDE /* Default */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = All;
-				SECTORDER_FLAGS = "";
-			};
-			name = Default;
 		};
 		98FF7B3C0857B50600611EDE /* Development */ = {
 			isa = XCBuildConfiguration;
@@ -2023,20 +2138,6 @@
 			};
 			name = Deployment;
 		};
-		98FF7B3F0857B50600611EDE /* Default */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = Spark;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
-			name = Default;
-		};
 		98FF7B410857B50600611EDE /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2049,12 +2150,6 @@
 			};
 			name = Deployment;
 		};
-		98FF7B440857B50600611EDE /* Default */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-			};
-			name = Default;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -2062,67 +2157,67 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				98FF7B280857B50600611EDE /* Development */,
+				98B4DEB70939D464009F2007 /* Profiling */,
 				98FF7B290857B50600611EDE /* Deployment */,
-				98C1286408CE0D020015CB91 /* Deployment Intel */,
-				98FF7B2B0857B50600611EDE /* Default */,
+				98C1286408CE0D020015CB91 /* Universal Binary */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
+			defaultConfigurationName = Development;
 		};
 		98FF7B2C0857B50600611EDE /* Build configuration list for PBXAggregateTarget "Daemon" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				98FF7B2D0857B50600611EDE /* Development */,
+				98B4DEB80939D464009F2007 /* Profiling */,
 				98FF7B2E0857B50600611EDE /* Deployment */,
-				98C1286508CE0D030015CB91 /* Deployment Intel */,
-				98FF7B300857B50600611EDE /* Default */,
+				98C1286508CE0D030015CB91 /* Universal Binary */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
+			defaultConfigurationName = Development;
 		};
 		98FF7B310857B50600611EDE /* Build configuration list for PBXAggregateTarget "Plugins" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				98FF7B320857B50600611EDE /* Development */,
+				98B4DEB90939D464009F2007 /* Profiling */,
 				98FF7B330857B50600611EDE /* Deployment */,
-				98C1286608CE0D030015CB91 /* Deployment Intel */,
-				98FF7B350857B50600611EDE /* Default */,
+				98C1286608CE0D030015CB91 /* Universal Binary */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
+			defaultConfigurationName = Development;
 		};
 		98FF7B360857B50600611EDE /* Build configuration list for PBXAggregateTarget "All" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				98FF7B370857B50600611EDE /* Development */,
+				98B4DEBA0939D464009F2007 /* Profiling */,
 				98FF7B380857B50600611EDE /* Deployment */,
-				98C1286708CE0D030015CB91 /* Deployment Intel */,
-				98FF7B3A0857B50600611EDE /* Default */,
+				98C1286708CE0D030015CB91 /* Universal Binary */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
+			defaultConfigurationName = Development;
 		};
 		98FF7B3B0857B50600611EDE /* Build configuration list for PBXAggregateTarget "Spark" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				98FF7B3C0857B50600611EDE /* Development */,
+				98B4DEBB0939D464009F2007 /* Profiling */,
 				98FF7B3D0857B50600611EDE /* Deployment */,
-				98C1286808CE0D030015CB91 /* Deployment Intel */,
-				98FF7B3F0857B50600611EDE /* Default */,
+				98C1286808CE0D030015CB91 /* Universal Binary */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
+			defaultConfigurationName = Development;
 		};
 		98FF7B400857B50600611EDE /* Build configuration list for PBXProject "Spark" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				98FF7B410857B50600611EDE /* Development */,
+				98B4DEBC0939D464009F2007 /* Profiling */,
 				98FF7B420857B50600611EDE /* Deployment */,
-				98C1286908CE0D030015CB91 /* Deployment Intel */,
-				98FF7B440857B50600611EDE /* Default */,
+				98C1286908CE0D030015CB91 /* Universal Binary */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
+			defaultConfigurationName = Development;
 		};
 /* End XCConfigurationList section */
 	};

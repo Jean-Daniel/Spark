@@ -153,8 +153,8 @@ NSString * const kLibraryControllerSelectedObjectsDidChange = @"LibraryControlle
     }
     _delegate = delegate;
     if (_delegate) {
-      RegisterDelegateForNotification(_delegate, @selector(libraryControllerSelectedListDidChange:), kLibraryControllerSelectedListDidChange);
-      RegisterDelegateForNotification(_delegate, @selector(libraryControllerSelectedObjectsDidChange:), kLibraryControllerSelectedObjectsDidChange);
+      SKRegisterDelegateForNotification(_delegate, @selector(libraryControllerSelectedListDidChange:), kLibraryControllerSelectedListDidChange);
+      SKRegisterDelegateForNotification(_delegate, @selector(libraryControllerSelectedObjectsDidChange:), kLibraryControllerSelectedObjectsDidChange);
     }
   }
 }

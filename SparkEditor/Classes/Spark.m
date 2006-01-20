@@ -80,8 +80,12 @@ int main(int argc, const char *argv[]) {
     SparkDefaultLibrary(); // Chargement de la bibliothèque
     [ServerController start]; // Démarrage de la connexion avec le serveur
     [self setServerState:[ServerController serverState]]; // Analyse de l'état du serveur
-    [Preferences checkVersion];
-    [Preferences verifyAutoStart];
+    @try {
+      [Preferences checkVersion];
+      [Preferences verifyAutoStart];
+    } @catch (id exception) {
+      SKLogException(exception);
+    }
     [Preferences setDefaultsValues];
   }
   return self;

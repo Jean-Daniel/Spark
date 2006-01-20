@@ -7,7 +7,7 @@
 //
 
 #import "Extensions.h"
-#import "SKTableDataSource.h"
+#import <SparkKit/SparkKit.h>
 
 @interface CustomTableDataSource : SKTableDataSource {
   NSString *_pboardType;

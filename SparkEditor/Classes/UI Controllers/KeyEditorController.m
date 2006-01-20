@@ -45,7 +45,7 @@ static NSComparisonResult CompareMapEntries(id obj1, id obj2, void *controller);
 
 - (void)windowDidLoad {
   [super windowDidLoad];
-  HKTrapWindow *window = [self window];
+  HKTrapWindow *window = (id)[self window];
   [window setVerifyHotKey:YES];
 }
 

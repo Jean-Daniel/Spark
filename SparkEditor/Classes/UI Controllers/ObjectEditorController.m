@@ -42,7 +42,7 @@ NSString * const kObjectEditorWillCloseNotification = @"ObjectEditorWillCloseNot
       [[NSNotificationCenter defaultCenter] removeObserver:_delegate name:nil object:self];
     _delegate = delegate;
     if (nil != _delegate)
-      RegisterDelegateForNotification(_delegate, @selector(objectEditorWillClose:), kObjectEditorWillCloseNotification);
+      SKRegisterDelegateForNotification(_delegate, @selector(objectEditorWillClose:), kObjectEditorWillCloseNotification);
   }
 }
 

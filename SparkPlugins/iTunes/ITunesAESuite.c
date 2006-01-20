@@ -57,7 +57,7 @@ OSStatus iTunesSetVisualState(Boolean state) {
     err = ShadowAEAddSubject(&theEvent);
   }
   if (noErr == err) {
-    err = ShadowAESendEventNoReturnValue(&theEvent);
+    err = ShadowAESendEventNoReply(&theEvent);
     ShadowAEDisposeDesc(&theEvent);
   }
   return err;
@@ -104,7 +104,7 @@ OSStatus iTunesSetVolume(SInt16 volume) {
     err = ShadowAEAddSubject(&theEvent);
   }
   if (noErr == err) {
-    err = ShadowAESendEventNoReturnValue(&theEvent);
+    err = ShadowAESendEventNoReply(&theEvent);
     ShadowAEDisposeDesc(&theEvent);
   }
   return err;
@@ -175,7 +175,7 @@ OSStatus iTunesPlayPlaylist(CFStringRef name)  {
   err = ShadowAEAddSubject(&theEvent);
   require_noerr(err, bail);
   
-  err = ShadowAESendEventNoReturnValue(&theEvent);
+  err = ShadowAESendEventNoReply(&theEvent);
 
 bail:
   ShadowAEDisposeDesc(&theEvent);
@@ -281,7 +281,7 @@ OSStatus SetPlaylistShuffle(AEDesc *playlist, Boolean shuffle) {
   err = ShadowAEAddMagnitude(&theEvent);
   require_noerr(err, bail);
   
-  err = ShadowAESendEventNoReturnValue(&theEvent);
+  err = ShadowAESendEventNoReply(&theEvent);
   
 bail:
     ShadowAEDisposeDesc(&theEvent);

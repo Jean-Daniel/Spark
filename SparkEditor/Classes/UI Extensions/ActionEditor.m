@@ -99,8 +99,8 @@ NSString * const kActionEditorDidChangePluginNotification = @"ActionEditorDidCha
     }
     _delegate = delegate;
     if (_delegate) {
-      RegisterDelegateForNotification(_delegate, @selector(actionEditorWillChangePlugin:), kActionEditorWillChangePluginNotification);
-      RegisterDelegateForNotification(_delegate, @selector(actionEditorDidChangePlugin:), kActionEditorDidChangePluginNotification);
+      SKRegisterDelegateForNotification(_delegate, @selector(actionEditorWillChangePlugin:), kActionEditorWillChangePluginNotification);
+      SKRegisterDelegateForNotification(_delegate, @selector(actionEditorDidChangePlugin:), kActionEditorDidChangePluginNotification);
     }
   }
 }
