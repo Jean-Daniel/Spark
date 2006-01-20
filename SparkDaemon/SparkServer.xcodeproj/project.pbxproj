@@ -7,8 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		981B5FE509386BAD0024C0D9 /* ShadowMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = 981B5FE409386BAD0024C0D9 /* ShadowMacros.h */; };
 		985E3ADA0788A0DE00C85CF8 /* SparkDaemonSuite.scriptTerminology in Resources */ = {isa = PBXBuildFile; fileRef = 985E3AD90788A0DE00C85CF8 /* SparkDaemonSuite.scriptTerminology */; };
 		985E3ADB0788A0E100C85CF8 /* Spark Scripting.r in Rez */ = {isa = PBXBuildFile; fileRef = 987E6D3F06D7E0D900C7F41C /* Spark Scripting.r */; };
+		9867565A096B3B9000BB8A25 /* ShadowKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98675654096B3B6F00BB8A25 /* ShadowKit.framework */; };
 		986B2201077474490086463D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 986B21FF077474490086463D /* InfoPlist.strings */; };
 		98B20D6D06A5491C008BA3F6 /* AEScript.h in Headers */ = {isa = PBXBuildFile; fileRef = 98402CF1060670AC00AB5262 /* AEScript.h */; };
 		98B20D6E06A5491C008BA3F6 /* SparkDaemon.h in Headers */ = {isa = PBXBuildFile; fileRef = 98402CF2060670AC00AB5262 /* SparkDaemon.h */; };
@@ -17,6 +19,7 @@
 		98B20D7306A54924008BA3F6 /* ServerProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 98402CF6060670AC00AB5262 /* ServerProtocol.m */; };
 		98B20D7406A54924008BA3F6 /* SparkDaemon.m in Sources */ = {isa = PBXBuildFile; fileRef = 98402CFF0606714300AB5262 /* SparkDaemon.m */; };
 		98B20D9A06A5492E008BA3F6 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		98B453900973133C00BD0A82 /* ShadowKit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 98675654096B3B6F00BB8A25 /* ShadowKit.framework */; };
 		98CE5BFF0774EF5B006EB5A5 /* Spark.icns in Resources */ = {isa = PBXBuildFile; fileRef = 98CE5BFE0774EF5A006EB5A5 /* Spark.icns */; };
 		98EF7E520864588C007BC81A /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF7E4A08645876007BC81A /* HotKeyToolKit.framework */; };
 		98EF7E530864588F007BC81A /* SparkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF7E5108645883007BC81A /* SparkKit.framework */; };
@@ -102,6 +105,13 @@
 /* End PBXBuildStyle section */
 
 /* Begin PBXContainerItemProxy section */
+		98675653096B3B6F00BB8A25 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 98EF7E4B08645883007BC81A /* SparkKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 98C56D34096B348400ABE1EF;
+			remoteInfo = ShadowKit;
+		};
 		98EF7E4708645876007BC81A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 98EF7E4108645876007BC81A /* HotKeyToolKit.xcodeproj */;
@@ -133,6 +143,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				98EF7E5A086458C7007BC81A /* SparkKit.framework in Copy Frameworks */,
+				98B453900973133C00BD0A82 /* ShadowKit.framework in Copy Frameworks */,
 				98EF7E5B086458C7007BC81A /* HotKeyToolKit.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
@@ -144,6 +155,12 @@
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		981B5FD409386B470024C0D9 /* ShadowCommon.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowCommon.xcconfig; sourceTree = "<group>"; };
+		981B5FD509386B470024C0D9 /* ShadowDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowDebug.xcconfig; sourceTree = "<group>"; };
+		981B5FD609386B470024C0D9 /* ShadowRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowRelease.xcconfig; sourceTree = "<group>"; };
+		981B5FD709386B470024C0D9 /* ShadowTest.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowTest.xcconfig; sourceTree = "<group>"; };
+		981B5FD809386B470024C0D9 /* ShadowUniversal.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowUniversal.xcconfig; sourceTree = "<group>"; };
+		981B5FE409386BAD0024C0D9 /* ShadowMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShadowMacros.h; path = ShadowKit/Base/Headers/ShadowMacros.h; sourceTree = SHADOWKIT_ROOT; };
 		98402CEE060670AC00AB5262 /* AEScript.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = AEScript.c; sourceTree = "<group>"; };
 		98402CF1060670AC00AB5262 /* AEScript.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AEScript.h; sourceTree = "<group>"; };
 		98402CF2060670AC00AB5262 /* SparkDaemon.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SparkDaemon.h; sourceTree = "<group>"; };
@@ -158,9 +175,6 @@
 		987E6D3F06D7E0D900C7F41C /* Spark Scripting.r */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.rez; path = "Spark Scripting.r"; sourceTree = "<group>"; };
 		98B20D6A06A54814008BA3F6 /* Spark Daemon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Spark Daemon.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		98B20D6C06A54814008BA3F6 /* Spark Daemon.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "Spark Daemon.plist"; path = "/Volumes/Stock/Users/fox/Projets/Exploitables/Spark/SparkDaemon/Spark Daemon.plist"; sourceTree = "<absolute>"; };
-		98C128CC08CE0E770015CB91 /* ShadowDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; name = ShadowDebug.xcconfig; path = ../../ShadowKit/ShadowDebug.xcconfig; sourceTree = SOURCE_ROOT; };
-		98C128CD08CE0E770015CB91 /* ShadowIntel.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; name = ShadowIntel.xcconfig; path = ../../ShadowKit/ShadowIntel.xcconfig; sourceTree = SOURCE_ROOT; };
-		98C128CE08CE0E770015CB91 /* ShadowRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; name = ShadowRelease.xcconfig; path = ../../ShadowKit/ShadowRelease.xcconfig; sourceTree = SOURCE_ROOT; };
 		98CE5BFE0774EF5A006EB5A5 /* Spark.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Spark.icns; sourceTree = "<group>"; };
 		98EF7E4108645876007BC81A /* HotKeyToolKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = HotKeyToolKit.xcodeproj; path = ../HotKeyToolKit/HotKeyToolKit.xcodeproj; sourceTree = SOURCE_ROOT; };
 		98EF7E4B08645883007BC81A /* SparkKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SparkKit.xcodeproj; path = ../SparkKit/SparkKit.xcodeproj; sourceTree = SOURCE_ROOT; };
@@ -174,6 +188,7 @@
 			files = (
 				98B20D9A06A5492E008BA3F6 /* Cocoa.framework in Frameworks */,
 				98EF7E530864588F007BC81A /* SparkKit.framework in Frameworks */,
+				9867565A096B3B9000BB8A25 /* ShadowKit.framework in Frameworks */,
 				98EF7E520864588C007BC81A /* HotKeyToolKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -209,15 +224,14 @@
 		29B97314FDCFA39411CA2CEA /* Spark */ = {
 			isa = PBXGroup;
 			children = (
+				981B5FE409386BAD0024C0D9 /* ShadowMacros.h */,
 				98402CED0606708800AB5262 /* Daemon */,
 				98CE5BFB0774EF34006EB5A5 /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				98EF7E4B08645883007BC81A /* SparkKit.xcodeproj */,
 				98EF7E4108645876007BC81A /* HotKeyToolKit.xcodeproj */,
-				98C128CD08CE0E770015CB91 /* ShadowIntel.xcconfig */,
-				98C128CC08CE0E770015CB91 /* ShadowDebug.xcconfig */,
-				98C128CE08CE0E770015CB91 /* ShadowRelease.xcconfig */,
+				981B5FD309386B470024C0D9 /* Configurations */,
 			);
 			name = Spark;
 			sourceTree = "<group>";
@@ -230,6 +244,18 @@
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
+		};
+		981B5FD309386B470024C0D9 /* Configurations */ = {
+			isa = PBXGroup;
+			children = (
+				981B5FD409386B470024C0D9 /* ShadowCommon.xcconfig */,
+				981B5FD509386B470024C0D9 /* ShadowDebug.xcconfig */,
+				981B5FD709386B470024C0D9 /* ShadowTest.xcconfig */,
+				981B5FD609386B470024C0D9 /* ShadowRelease.xcconfig */,
+				981B5FD809386B470024C0D9 /* ShadowUniversal.xcconfig */,
+			);
+			path = Configurations;
+			sourceTree = SHADOWKIT_ROOT;
 		};
 		98402CED0606708800AB5262 /* Daemon */ = {
 			isa = PBXGroup;
@@ -290,6 +316,7 @@
 			isa = PBXGroup;
 			children = (
 				98EF7E5108645883007BC81A /* SparkKit.framework */,
+				98675654096B3B6F00BB8A25 /* ShadowKit.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -305,6 +332,7 @@
 				98B20D6E06A5491C008BA3F6 /* SparkDaemon.h in Headers */,
 				98B20D6F06A5491C008BA3F6 /* SparkServerProtocol.h in Headers */,
 				98F2DECE0715E3D2001BBF29 /* SparkAppleScriptSuite.h in Headers */,
+				981B5FE509386BAD0024C0D9 /* ShadowMacros.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -393,12 +421,12 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 98EF7E4C08645883007BC81A /* Products */;
-					ProjectRef = 98EF7E4B08645883007BC81A /* SparkKit.xcodeproj */;
-				},
-				{
 					ProductGroup = 98EF7E4208645876007BC81A /* Products */;
 					ProjectRef = 98EF7E4108645876007BC81A /* HotKeyToolKit.xcodeproj */;
+				},
+				{
+					ProductGroup = 98EF7E4C08645883007BC81A /* Products */;
+					ProjectRef = 98EF7E4B08645883007BC81A /* SparkKit.xcodeproj */;
 				},
 			);
 			targets = (
@@ -408,6 +436,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		98675654096B3B6F00BB8A25 /* ShadowKit.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = ShadowKit.framework;
+			remoteRef = 98675653096B3B6F00BB8A25 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		98EF7E4808645876007BC81A /* Testing.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -480,30 +515,41 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		98C128D108CE0E9E0015CB91 /* Deployment Intel */ = {
+		98B4E0DA0939D639009F2007 /* Profiling */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_DYNAMIC_NO_PIC = YES;
 				INFOPLIST_FILE = "Spark Daemon.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				PRODUCT_NAME = "Spark Daemon";
 			};
-			name = "Deployment Intel";
+			name = Profiling;
 		};
-		98C128D208CE0E9E0015CB91 /* Deployment Intel */ = {
+		98B4E0DB0939D639009F2007 /* Profiling */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 98C128CD08CE0E770015CB91 /* ShadowIntel.xcconfig */;
+			baseConfigurationReference = 981B5FD709386B470024C0D9 /* ShadowTest.xcconfig */;
 			buildSettings = {
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Cocoa.pch;
-				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
 			};
-			name = "Deployment Intel";
+			name = Profiling;
+		};
+		98C128D108CE0E9E0015CB91 /* Universal Binary */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = "Spark Daemon.plist";
+				INSTALL_PATH = "$(USER_APPS_DIR)";
+				PRODUCT_NAME = "Spark Daemon";
+			};
+			name = "Universal Binary";
+		};
+		98C128D208CE0E9E0015CB91 /* Universal Binary */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 981B5FD809386B470024C0D9 /* ShadowUniversal.xcconfig */;
+			buildSettings = {
+			};
+			name = "Universal Binary";
 		};
 		98EF7DEB08645714007BC81A /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_DYNAMIC_NO_PIC = YES;
 				INFOPLIST_FILE = "Spark Daemon.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				PRODUCT_NAME = "Spark Daemon";
@@ -513,51 +559,25 @@
 		98EF7DEC08645714007BC81A /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_DYNAMIC_NO_PIC = YES;
 				INFOPLIST_FILE = "Spark Daemon.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				PRODUCT_NAME = "Spark Daemon";
 			};
 			name = Deployment;
 		};
-		98EF7DEE08645714007BC81A /* Default */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				GCC_DYNAMIC_NO_PIC = YES;
-				INFOPLIST_FILE = "Spark Daemon.plist";
-				INSTALL_PATH = "$(USER_APPS_DIR)";
-				PRODUCT_NAME = "Spark Daemon";
-			};
-			name = Default;
-		};
 		98EF7DF008645714007BC81A /* Development */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 98C128CC08CE0E770015CB91 /* ShadowDebug.xcconfig */;
+			baseConfigurationReference = 981B5FD509386B470024C0D9 /* ShadowDebug.xcconfig */;
 			buildSettings = {
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Cocoa.pch;
-				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
 			};
 			name = Development;
 		};
 		98EF7DF108645714007BC81A /* Deployment */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 98C128CE08CE0E770015CB91 /* ShadowRelease.xcconfig */;
+			baseConfigurationReference = 981B5FD609386B470024C0D9 /* ShadowRelease.xcconfig */;
 			buildSettings = {
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Cocoa.pch;
-				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
 			};
 			name = Deployment;
-		};
-		98EF7DF308645714007BC81A /* Default */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Cocoa.pch;
-				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
-			};
-			name = Default;
 		};
 /* End XCBuildConfiguration section */
 
@@ -566,23 +586,23 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				98EF7DEB08645714007BC81A /* Development */,
+				98B4E0DA0939D639009F2007 /* Profiling */,
 				98EF7DEC08645714007BC81A /* Deployment */,
-				98C128D108CE0E9E0015CB91 /* Deployment Intel */,
-				98EF7DEE08645714007BC81A /* Default */,
+				98C128D108CE0E9E0015CB91 /* Universal Binary */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
+			defaultConfigurationName = Development;
 		};
 		98EF7DEF08645714007BC81A /* Build configuration list for PBXProject "SparkServer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				98EF7DF008645714007BC81A /* Development */,
+				98B4E0DB0939D639009F2007 /* Profiling */,
 				98EF7DF108645714007BC81A /* Deployment */,
-				98C128D208CE0E9E0015CB91 /* Deployment Intel */,
-				98EF7DF308645714007BC81A /* Default */,
+				98C128D208CE0E9E0015CB91 /* Universal Binary */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
+			defaultConfigurationName = Development;
 		};
 /* End XCConfigurationList section */
 	};

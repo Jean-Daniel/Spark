@@ -46,7 +46,7 @@ OSStatus SendStateToEditor(DaemonStatus state) {
     err = ShadowAEAddMagnitude(&theEvent);
   }
   if (noErr == err) {
-    err = ShadowAESendEventNoReturnValue(&theEvent);
+    err = ShadowAESendEventNoReply(&theEvent);
   }
   ShadowAEDisposeDesc(&theEvent);
   return err;

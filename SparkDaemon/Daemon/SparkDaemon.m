@@ -200,15 +200,18 @@ int main(int argc, const char *argv[]) {
     [sender sendHotKeyToApplicationWithSignature:kSparkHFSCreatorType bundleId:nil];
     return;
   }
-  BOOL ok = [sender isRegistred];
-  if (ok) [sender setRegistred:NO];
+  // Recursive loop are avoid by low level lock (-[HKHotKey invoke]).
+//  BOOL ok = [sender isRegistred];
+//  if (ok) [sender setRegistred:NO];
+  [sender retain];
   @try {
     alert = [sender execute];
   } @catch (id exception) {
     SKLogException(exception);
     NSBeep();
   }
-  if (ok) [sender setRegistred:YES];
+  [sender release];
+//  if (ok) [sender setRegistred:YES];
   if (alert != nil) {
     CFPreferencesAppSynchronize((CFStringRef)kSparkBundleIdentifier);
     CFBooleanRef blockAlertRef = CFPreferencesCopyAppValue((CFStringRef)@"SDBlockAlertOnExecute", (CFStringRef)kSparkBundleIdentifier);
