@@ -38,6 +38,7 @@ extern NSTimeInterval HKGetSystemInitialKeyRepeatInterval();
   NSTimer *hk_repeatTimer;
   NSTimeInterval hk_keyRepeat;
   
+  BOOL hk_lock;
   unsigned int hk_mask;
   unichar hk_character;
   unsigned short hk_keycode;

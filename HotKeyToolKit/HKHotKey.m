@@ -11,8 +11,8 @@
 #import "HKKeyMap.h"
 #import "HKHotKeyManager.h"
 
-#ifdef DEBUG
-#warning Debug defined in HotKeyToolKit!
+#if defined(DEBUG)
+#warning Debug defined in HotKeyToolKit!	
 #endif
 
 @interface HKHotKey (Private) 
@@ -283,15 +283,24 @@
 }
 
 - (void)invoke {
-  @try {
-    if (hk_action && [hk_target respondsToSelector:hk_action]) {
-      [hk_target performSelector:hk_action withObject:self];
-    }
-  } 
-  @catch (id exception) {
+  if (!hk_lock) {
+    hk_lock = YES;
+    @try {
+      if (hk_action && [hk_target respondsToSelector:hk_action]) {
+        [hk_target performSelector:hk_action withObject:self];
+      }
+    } 
+    @catch (id exception) {
 #if defined(DEBUG)
-    NSLog(@"Exception occured in [%@ %@]: %@", NSStringFromClass([self class]), NSStringFromSelector(_cmd), exception);
+      NSLog(@"Exception occured in [%@ %@]: %@", NSStringFromClass([self class]), NSStringFromSelector(_cmd), exception);
 #endif
+    }
+    hk_lock = NO;
+  } else {
+#if defined(DEBUG)
+    NSLog(@"WARNING: Recursive call in %@", self);
+#endif
+    // Maybe resend event ?
   }
 }
 
