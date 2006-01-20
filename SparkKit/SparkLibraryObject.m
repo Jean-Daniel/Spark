@@ -6,9 +6,9 @@
 //  Copyright (c) 2004 Shadow Lab. All rights reserved.
 //
 
-#import "SparkLibraryObject.h"
-#import "Spark_Private.h"
-#import "ShadowMacros.h"
+#import <SparkKit/SparkLibraryObject.h>
+#import <SparkKit/Spark_Private.h>
+#import <ShadowKit/ShadowMacros.h>
 
 static NSString* const kSparkLibraryObjectUIDKey = @"UID";
 static NSString* const kSparkLibraryObjectNameKey = @"Name";

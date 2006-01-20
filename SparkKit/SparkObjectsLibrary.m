@@ -6,15 +6,15 @@
 //  Copyright (c) 2004 Shadow Lab. All rights reserved.
 //
 
-#import "SparkObjectsLibrary.h"
+#import <SparkKit/SparkObjectsLibrary.h>
 
-#import "ShadowMacros.h"
+#import <ShadowKit/ShadowMacros.h>
 
-#import "Extension.h"
-#import "SparkLibrary.h"
-#import "SparkConstantes.h"
-#import "SparkActionPlugIn.h"
-#import "SparkSerialization.h"
+#import <SparkKit/Extension.h>
+#import <SparkKit/SparkLibrary.h>
+#import <SparkKit/SparkConstantes.h>
+#import <SparkKit/SparkActionPlugIn.h>
+#import <SparkKit/SparkSerialization.h>
 
 static NSString * const kSparkLibraryVersionKey = @"SparkVersion";
 static NSString * const kSparkLibraryObjectsKey = @"SparkObjects";

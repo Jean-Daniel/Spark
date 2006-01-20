@@ -12,20 +12,21 @@
 
 #ifdef __OBJC__
 
-#import <SparkKit/ShadowMacros.h>
+#import <ShadowKit/ShadowMacros.h>
 
-#import <SparkKit/ShadowAEUtils.h>
-#import <SparkKit/ShadowAEObjCUtils.h>
+#import <ShadowKit/ShadowAEUtils.h>
+#import <ShadowKit/ShadowAEObjCUtils.h>
 
-#import <SparkKit/SKAlias.h>
-#import <SparkKit/SKApplication.h>
+#import <ShadowKit/SKAlias.h>
+#import <ShadowKit/SKApplication.h>
 
-#import <SparkKit/SKExtensions.h>
-#import <SparkKit/SKAppKitExtensions.h>
+#import <ShadowKit/SKExtensions.h>
+#import <ShadowKit/SKAppKitExtensions.h>
 
 #else
 
-#include <SparkKit/ShadowAEUtils.h>
+#include <ShadowKit/ShadowMacros.h>
+#include <ShadowKit/ShadowAEUtils.h>
 
 #endif /* __OBJC__ */
 

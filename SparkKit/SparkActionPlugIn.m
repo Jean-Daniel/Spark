@@ -6,13 +6,13 @@
 //  Copyright (c) 2004 Shadow Lab. All rights reserved.
 //
 
-#import "SparkActionPlugIn.h"
+#import <SparkKit/SparkActionPlugIn.h>
 
-#import "ShadowMacros.h"
-#import "SparkAlert.h"
-#import "SparkAction.h"
-#import "Spark_Private.h"
-#import "SparkConstantes.h"
+#import <ShadowKit/ShadowMacros.h>
+#import <SparkKit/SparkAlert.h>
+#import <SparkKit/SparkAction.h>
+#import <SparkKit/Spark_Private.h>
+#import <SparkKit/SparkConstantes.h>
 
 @implementation SparkActionPlugIn
 

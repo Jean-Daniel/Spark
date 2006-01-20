@@ -6,13 +6,13 @@
 //  Copyright 2004 Shadow Lab. All rights reserved.
 //
 
-#import "SKFunctions.h"
-#import "ShadowMacros.h"
-#import "SKExtensions.h"
+#import <ShadowKit/SKFunctions.h>
+#import <ShadowKit/ShadowMacros.h>
+#import <ShadowKit/SKExtensions.h>
 
-#import "SparkApplicationLibrary.h"
-#import "SparkApplication.h"
-#import "SparkLibrary.h"
+#import <SparkKit/SparkApplicationLibrary.h>
+#import <SparkKit/SparkApplication.h>
+#import <SparkKit/SparkLibrary.h>
 
 #define kSparkApplicationLibraryVersion_1_0		0x100
 #define kSparkApplicationLibraryCurrentVersion	kSparkApplicationLibraryVersion_1_0

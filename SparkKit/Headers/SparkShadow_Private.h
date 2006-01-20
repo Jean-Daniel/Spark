@@ -1,6 +1,6 @@
 /*
  *  SparkShadow_Private.h
- *  SparkKit
+ *  ShadowKit
  *
  *  Created by Fox on 12/08/04.
  *  Copyright 2004 Shadow Lab. All rights reserved.
@@ -12,25 +12,27 @@
 
 #ifdef __OBJC__
 
-#import <SparkKit/SKFunctions.h>
-#import <SparkKit/SKFSFunctions.h>
-#import <SparkKit/SKLSFunctions.h>
-#import <SparkKit/SKProcessFunctions.h>
+#import <ShadowKit/SKFunctions.h>
+#import <ShadowKit/SKFSFunctions.h>
+#import <ShadowKit/SKLSFunctions.h>
+#import <ShadowKit/SKProcessFunctions.h>
 
-#import <SparkKit/SKIconUtils.h>
-#import <SparkKit/SKImageUtils.h>
+#import <ShadowKit/SKIconUtils.h>
+#import <ShadowKit/SKImageUtils.h>
 
-#import <SparkKit/SKShadowLabel.h>
-#import <SparkKit/SKImageAndTextCell.h>
+#import <ShadowKit/SKShadowLabel.h>
+#import <ShadowKit/SKTableDataSource.h>
+#import <ShadowKit/SKImageAndTextCell.h>
+#import <ShadowKit/SKWindowController.h>
 
 #else
 
-#include <SparkKit/SKFunctions.h>
-#include <SparkKit/SKFSFunctions.h>
-#include <SparkKit/SKLSFunctions.h>
-#include <SparkKit/SKProcessFunctions.h>
+#include <ShadowKit/SKFunctions.h>
+#include <ShadowKit/SKFSFunctions.h>
+#include <ShadowKit/SKLSFunctions.h>
+#include <ShadowKit/SKProcessFunctions.h>
 
-#include <SparkKit/SKIconUtils.h>
+#include <ShadowKit/SKIconUtils.h>
 
 #endif
 

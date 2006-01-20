@@ -6,11 +6,11 @@
 //  Copyright (c) 2004 Shadow Lab. All rights reserved.
 //
 
-#import "SparkKeyList.h"
+#import <SparkKit/SparkKeyList.h>
 
-#import "SparkHotKey.h"
-#import "SparkLibrary.h"
-#import "SparkKeyLibrary.h"
+#import <SparkKit/SparkHotKey.h>
+#import <SparkKit/SparkLibrary.h>
+#import <SparkKit/SparkKeyLibrary.h>
 
 @interface SparkKeyList (Private)
 - (void)registerForNotification;

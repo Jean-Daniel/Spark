@@ -7,7 +7,6 @@
  *
  */
 
-#import <Foundation/Foundation.h>
 #import <SparkKit/SparkShadow.h>
 
 #import <SparkKit/SparkAction.h>

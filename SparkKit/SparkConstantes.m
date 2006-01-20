@@ -7,7 +7,7 @@
  *
  */
 
-#import "SparkConstantes.h"
+#import <SparkKit/SparkConstantes.h>
 
 NSString * const kSparkFolderName = @"Spark";
 

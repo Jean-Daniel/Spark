@@ -51,6 +51,7 @@
 #include <SparkKit/SparkKitBase.h>
 #include <SparkKit/SparkConstantes.h>
 #include <SparkKit/SparkShadow.h>
+#include <SparkKit/SparkShadow_Private.h>
 
 #endif /* __OBJC__ */
 

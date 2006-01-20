@@ -6,19 +6,19 @@
 //  Copyright 2004 Shadow Lab. All rights reserved.
 //
 
-#import "SparkLibrary.h"
+#import <SparkKit/SparkLibrary.h>
 
-#import "ShadowMacros.h"
-#import "SKFunctions.h"
-#import "SKFSFunctions.h"
+#import <ShadowKit/ShadowMacros.h>
+#import <ShadowKit/SKFunctions.h>
+#import <ShadowKit/SKFSFunctions.h>
 
-#import "SparkConstantes.h"
-#import "SparkObjectsLibrary.h"
+#import <SparkKit/SparkConstantes.h>
+#import <SparkKit/SparkObjectsLibrary.h>
 
-#import "SparkKeyLibrary.h"
-#import "SparkListLibrary.h"
-#import "SparkActionLibrary.h"
-#import "SparkApplicationLibrary.h"
+#import <SparkKit/SparkKeyLibrary.h>
+#import <SparkKit/SparkListLibrary.h>
+#import <SparkKit/SparkActionLibrary.h>
+#import <SparkKit/SparkApplicationLibrary.h>
 
 NSString * const kSparkLibraryFileExtension = @"splib";
 NSPropertyListFormat SparkLibraryFileFormat = NSPropertyListBinaryFormat_v1_0;

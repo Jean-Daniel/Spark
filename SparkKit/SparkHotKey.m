@@ -11,25 +11,25 @@
 #endif
 
 #import <HotKeyToolKit/HotKeyToolKit.h>
-#import "ShadowMacros.h"
-#import "SKImageUtils.h"
-#import "SKAppKitExtensions.h"
+#import <ShadowKit/ShadowMacros.h>
+#import <ShadowKit/SKImageUtils.h>
+#import <ShadowKit/SKAppKitExtensions.h>
 
-#import "SparkHotKey.h"
+#import <SparkKit/SparkHotKey.h>
 
-#import "Extension.h"
-#import "SparkAlert.h"
+#import <SparkKit/Extension.h>
+#import <SparkKit/SparkAlert.h>
 
-#import "SparkAction.h"
-#import "SparkLibrary.h"
-#import "Spark_Private.h"
-#import "SparkObjectList.h"
-#import "SparkKeyLibrary.h"
-#import "SparkApplication.h"
-#import "SparkListLibrary.h"
-#import "SparkActionLibrary.h"
-#import "SparkApplicationList.h"
-#import "SparkApplicationLibrary.h"
+#import <SparkKit/SparkAction.h>
+#import <SparkKit/SparkLibrary.h>
+#import <SparkKit/Spark_Private.h>
+#import <SparkKit/SparkObjectList.h>
+#import <SparkKit/SparkKeyLibrary.h>
+#import <SparkKit/SparkApplication.h>
+#import <SparkKit/SparkListLibrary.h>
+#import <SparkKit/SparkActionLibrary.h>
+#import <SparkKit/SparkApplicationList.h>
+#import <SparkKit/SparkApplicationLibrary.h>
 
 #define ICON_SIZE		16
 

@@ -6,8 +6,8 @@
 //  Copyright 2004 Shadow Lab. All rights reserved.
 //
 
-#import "ShadowMacros.h"
-#import "SparkSerialization.h"
+#import <ShadowKit/ShadowMacros.h>
+#import <SparkKit/SparkSerialization.h>
 
 static NSString * const kSparkSerializationIsaKey = @"isa";
 static NSString * const kSparkSerializationClassKey = @"Class";

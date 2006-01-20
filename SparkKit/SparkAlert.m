@@ -6,8 +6,8 @@
 //  Copyright (c) 2004 Shadow Lab. All rights reserved.
 //
 
-#import "SparkAlert.h"
-#import "SparkConstantes.h"
+#import <SparkKit/SparkAlert.h>
+#import <SparkKit/SparkConstantes.h>
 
 @implementation SparkAlert
 

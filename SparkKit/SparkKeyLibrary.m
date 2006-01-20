@@ -6,19 +6,19 @@
 //  Copyright (c) 2004 Shadow Lab. All rights reserved.
 //
 
-#import "SparkKeyLibrary.h"
+#import <SparkKit/SparkKeyLibrary.h>
 
-#import "ShadowMacros.h"
+#import <ShadowKit/ShadowMacros.h>
 
-#import "SparkAction.h"
-#import "SparkHotKey.h"
-#import "SparkApplication.h"
+#import <SparkKit/SparkAction.h>
+#import <SparkKit/SparkHotKey.h>
+#import <SparkKit/SparkApplication.h>
 
-#import "SparkLibrary.h"
-#import "SparkActionLibrary.h"
-#import "SparkApplicationLibrary.h"
-#import "SparkLibraryObject.h"
-#import "SparkApplicationList.h"
+#import <SparkKit/SparkLibrary.h>
+#import <SparkKit/SparkActionLibrary.h>
+#import <SparkKit/SparkApplicationLibrary.h>
+#import <SparkKit/SparkLibraryObject.h>
+#import <SparkKit/SparkApplicationList.h>
 
 NSString* const kSparkLibraryDidAddKeyNotification = @"SparkLibraryDidAddKeyNotification";
 NSString* const kSparkLibraryDidUpdateKeyNotification = @"SparkLibraryDidUpdateKeyNotification";

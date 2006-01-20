@@ -6,10 +6,11 @@
 //  Copyright (c) 2004 Shadow Lab. All rights reserved.
 //
 
-#import "Extension.h"
-#import "ShadowMacros.h"
-#import "SparkConstantes.h"
-#import "SparkMultipleAlerts.h"
+#import <ShadowKit/ShadowMacros.h>
+
+#import <SparkKit/Extension.h>
+#import <SparkKit/SparkConstantes.h>
+#import <SparkKit/SparkMultipleAlerts.h>
 
 void SparkDisplayAlerts(NSArray *items) {
   if ([items count] == 1) {

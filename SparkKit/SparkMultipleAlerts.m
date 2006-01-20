@@ -6,13 +6,13 @@
 //  Copyright (c) 2004 __MyCompanyName__. All rights reserved.
 //
 
-#import "SKFunctions.h"
-#import "ShadowMacros.h"
-#import "SKExtensions.h"
-#import "SKAppKitExtensions.h"
+#import <ShadowKit/SKFunctions.h>
+#import <ShadowKit/ShadowMacros.h>
+#import <ShadowKit/SKExtensions.h>
+#import <ShadowKit/SKAppKitExtensions.h>
 
-#import "SparkAlert.h"
-#import "SparkMultipleAlerts.h"
+#import <SparkKit/SparkAlert.h>
+#import <SparkKit/SparkMultipleAlerts.h>
 
 @interface SparkMultipleAlerts (Private)
 - (void)refreshUI;

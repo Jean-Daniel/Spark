@@ -6,15 +6,15 @@
 //  Copyright 2004 Shadow Lab. All rights reserved.
 //
 
-#import "SparkObjectList.h"
+#import <SparkKit/SparkObjectList.h>
 
-#import "SKFunctions.h"
-#import "ShadowMacros.h"
-#import "SKExtensions.h"
-#import "SKAppKitExtensions.h"
+#import <ShadowKit/SKFunctions.h>
+#import <ShadowKit/ShadowMacros.h>
+#import <ShadowKit/SKExtensions.h>
+#import <ShadowKit/SKAppKitExtensions.h>
 
-#import "SparkLibrary.h"
-#import "SparkObjectsLibrary.h"
+#import <SparkKit/SparkLibrary.h>
+#import <SparkKit/SparkObjectsLibrary.h>
 
 static NSString * kSparkObjectListKeys = @"ObjectList";
 

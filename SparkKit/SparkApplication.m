@@ -6,16 +6,16 @@
 //  Copyright 2004 Shadow Lab. All rights reserved.
 //
 
-#import "SparkApplication.h"
-#import "SparkLibrary.h"
-#import "SparkApplicationLibrary.h"
+#import <SparkKit/SparkApplication.h>
+#import <SparkKit/SparkLibrary.h>
+#import <SparkKit/SparkApplicationLibrary.h>
 
-#import "SKFunctions.h"
-#import "SKExtensions.h"
-#import "ShadowMacros.h"
-#import "SKImageUtils.h"
-#import "SKApplication.h"
-#import "SKAppKitExtensions.h"
+#import <ShadowKit/SKFunctions.h>
+#import <ShadowKit/SKExtensions.h>
+#import <ShadowKit/ShadowMacros.h>
+#import <ShadowKit/SKImageUtils.h>
+#import <ShadowKit/SKApplication.h>
+#import <ShadowKit/SKAppKitExtensions.h>
 
 static NSString * const kSparkApplicationKey = @"SparkApplication";
 

@@ -11,7 +11,6 @@
  	@abstract SparkAction Declaration.
 */
 
-#import <Cocoa/Cocoa.h>
 #import <SparkKit/SparkKitBase.h>
 #import <SparkKit/SparkLibraryObject.h>
 

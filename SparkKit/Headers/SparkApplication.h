@@ -6,7 +6,6 @@
 //  Copyright 2004 Shadow Lab. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
 #import <SparkKit/SparkLibraryObject.h>
 
 @class SKApplication;
@@ -29,6 +28,7 @@
 @end
 
 @interface _SparkSystemApplication : SparkApplication {
+
 }
 + (id)application;
 @end

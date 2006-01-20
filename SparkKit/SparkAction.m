@@ -6,17 +6,17 @@
 //  Copyright 2004 Shadow Lab. All rights reserved.
 //
 
-#import "SparkAction.h"
+#import <SparkKit/SparkAction.h>
 #import <HotKeyToolKit/HotKeyToolKit.h>
-#import "ShadowMacros.h"
-#import "SKImageUtils.h"
+#import <ShadowKit/ShadowMacros.h>
+#import <ShadowKit/SKImageUtils.h>
 
-#import "SparkActionLibrary.h"
-#import "SparkActionLoader.h"
-#import "SparkConstantes.h"
-#import "Spark_Private.h"
-#import "SparkLibrary.h"
-#import "SparkHotKey.h"
+#import <SparkKit/SparkActionLibrary.h>
+#import <SparkKit/SparkActionLoader.h>
+#import <SparkKit/SparkConstantes.h>
+#import <SparkKit/Spark_Private.h>
+#import <SparkKit/SparkLibrary.h>
+#import <SparkKit/SparkHotKey.h>
 
 
 #define ICON_SIZE		16

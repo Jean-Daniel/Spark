@@ -6,7 +6,7 @@
 //  Copyright 2004 Shadow Lab. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 #import <SparkKit/SparkKitBase.h>
 
 SPARK_EXPORT

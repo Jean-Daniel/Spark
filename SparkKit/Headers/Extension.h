@@ -6,7 +6,6 @@
 //  Copyright (c) 2004 Shadow Lab. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import <SparkKit/SparkAlert.h>
 
 void SparkLaunchEditor();

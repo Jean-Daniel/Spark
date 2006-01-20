@@ -9,7 +9,6 @@
     @header 	SparkLibraryObject.
  	@abstract	SparkLibraryObject Declaration.
 */
-#import <Cocoa/Cocoa.h>
 #import <SparkKit/SparkSerialization.h>
 
 /*!

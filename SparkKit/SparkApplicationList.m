@@ -6,10 +6,10 @@
 //  Copyright 2004 Shadow Lab. All rights reserved.
 //
 
-#import "SparkApplicationList.h"
-#import "SparkLibrary.h"
-#import "SparkApplicationLibrary.h"
-#import "SparkApplication.h"
+#import <SparkKit/SparkApplicationList.h>
+#import <SparkKit/SparkLibrary.h>
+#import <SparkKit/SparkApplicationLibrary.h>
+#import <SparkKit/SparkApplication.h>
 
 @interface SparkApplicationList (Private)
 - (void)registerForNotification;

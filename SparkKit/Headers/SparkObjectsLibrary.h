@@ -6,7 +6,6 @@
 //  Copyright (c) 2004 Shadow Lab. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import <SparkKit/SparkKitBase.h>
 #import <SparkKit/SparkSerialization.h>
 

@@ -6,11 +6,11 @@
 //  Copyright (c) 2004 Shadow Lab. All rights reserved.
 //
 
-#import "SparkActionLoader.h"
-#import "SparkPlugIn.h"
-#import "SparkAction.h"
-#import "SparkActionPlugIn.h"
-#import "Spark_Private.h"
+#import <SparkKit/SparkActionLoader.h>
+#import <SparkKit/SparkPlugIn.h>
+#import <SparkKit/SparkAction.h>
+#import <SparkKit/SparkActionPlugIn.h>
+#import <SparkKit/Spark_Private.h>
 
 @implementation SparkActionLoader
 

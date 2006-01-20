@@ -6,11 +6,11 @@
 //  Copyright (c) 2004 Shadow Lab. All rights reserved.
 //
 
-#import "SparkListLibrary.h"
+#import <SparkKit/SparkListLibrary.h>
 
-#import "SparkObjectList.h"
-#import "SparkKeyLibrary.h"
-#import "SparkLibraryObject.h"
+#import <SparkKit/SparkObjectList.h>
+#import <SparkKit/SparkKeyLibrary.h>
+#import <SparkKit/SparkLibraryObject.h>
 
 NSString* const kSparkLibraryDidAddListNotification = @"SparkLibraryDidAddListNotification";
 NSString* const kSparkLibraryDidRemoveListNotification = @"SparkLibraryDidRemoveListNotification";

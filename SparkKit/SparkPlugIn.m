@@ -6,8 +6,8 @@
 //  Copyright (c) 2004 Shadow Lab. All rights reserved.
 //
 
-#import "SparkPlugIn.h"
-#import "Spark_Private.h"
+#import <SparkKit/SparkPlugIn.h>
+#import <SparkKit/Spark_Private.h>
 
 @implementation SparkPlugIn
 

@@ -6,16 +6,16 @@
 //  Copyright (c) 2004 Shadow Lab. All rights reserved.
 //
 
-#import "SKFunctions.h"
-#import "ShadowMacros.h"
-#import "SKExtensions.h"
-#import "SKFSFunctions.h"
+#import <ShadowKit/SKFunctions.h>
+#import <ShadowKit/ShadowMacros.h>
+#import <ShadowKit/SKExtensions.h>
+#import <ShadowKit/SKFSFunctions.h>
 
-#import "SparkConstantes.h"
+#import <SparkKit/SparkConstantes.h>
 
-#import "SparkPlugInLoader.h"
-#import "SparkPlugIn.h"
-#import "Extension.h"
+#import <SparkKit/SparkPlugInLoader.h>
+#import <SparkKit/SparkPlugIn.h>
+#import <SparkKit/Extension.h>
 
 static void PlugInsFolderDidChange(FNMessage message, OptionBits flags, void * manager, FNSubscriptionRef subscription);
 

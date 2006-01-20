@@ -6,11 +6,11 @@
 //  Copyright 2004 Shadow Lab. All rights reserved.
 //
 
-#import "SparkActionList.h"
+#import <SparkKit/SparkActionList.h>
 
-#import "SparkAction.h"
-#import "SparkLibrary.h"
-#import "SparkActionLibrary.h"
+#import <SparkKit/SparkAction.h>
+#import <SparkKit/SparkLibrary.h>
+#import <SparkKit/SparkActionLibrary.h>
 
 @interface SparkActionList (Private)
 - (void)registerForNotification;
