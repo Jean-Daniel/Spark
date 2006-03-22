@@ -35,7 +35,8 @@ static const UInt16 kKCHRKeyCount = 127;
 OSStatus HKCurrentKeyMap(UniChar *keyMap[], UInt16 *keyCount, UInt16 *mapCount, UInt16 *modifiers[]) {
   KeyboardLayoutRef ref;
   KeyboardLayoutKind kind;
-  KeyboardLayoutPropertyTag type = -1;
+  /* type is unsigned */
+  KeyboardLayoutPropertyTag type = 0xffff;
   void *layout;
   
   *keyMap = nil;
@@ -56,10 +57,10 @@ OSStatus HKCurrentKeyMap(UniChar *keyMap[], UInt16 *keyCount, UInt16 *mapCount, 
         type = kKLKCHRData;
         break;
       default:
-        type = -1;
+        type = 0xffff;
     }
   }
-  if (type != -1) {
+  if (type != 0xffff) {
     err = KLGetKeyboardLayoutProperty(ref, type, (void *)&layout);
   }
   if (noErr == err) {

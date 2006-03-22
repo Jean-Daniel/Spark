@@ -16,8 +16,8 @@
 
 enum {
   kHKActiveApplication = 0,
-  kHKUnknowCreator	   = -1,
-  kHKSystemWide		   = -2
+  kHKUnknowCreator	   = kUnknownType,
+  kHKSystemWide		   = 'syst'
 };
 
 CGError HKSendHotKey(CGCharCode character, CGKeyCode keycode, unsigned int modifier);
