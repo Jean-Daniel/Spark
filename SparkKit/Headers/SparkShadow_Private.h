@@ -28,6 +28,7 @@
 #else
 
 #include <ShadowKit/SKFunctions.h>
+#include <ShadowKit/SKLoginItems.h>
 #include <ShadowKit/SKFSFunctions.h>
 #include <ShadowKit/SKLSFunctions.h>
 #include <ShadowKit/SKProcessFunctions.h>

@@ -119,7 +119,7 @@ static NSString * kSparkObjectListKeys = @"ObjectList";
 - (unsigned)indexOfObject:(SparkLibraryObject *)object {
   NSParameterAssert(object != nil);
   NSParameterAssert([object uid] != nil);
-  int index;
+  unsigned index;
   for (index = 0; index < [_objects count]; index++) {
     if ([object isEqualToLibraryObject:[_objects objectAtIndex:index]]) {
       return index;
