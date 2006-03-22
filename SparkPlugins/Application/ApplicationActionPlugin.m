@@ -18,6 +18,7 @@ NSString * const kApplicationActionBundleIdentifier = @"org.shadowlab.spark.appl
 @implementation ApplicationActionPlugin
 
 + (void)initialize {
+  [self setKeys:[NSArray arrayWithObject:@"appAction"] triggerChangeNotificationsForDependentKey:@"useFrontApplication"];
   [self setKeys:[NSArray arrayWithObject:@"appAction"] triggerChangeNotificationsForDependentKey:@"displayLaunchOptions"];
 }
 
@@ -43,17 +44,16 @@ NSString * const kApplicationActionBundleIdentifier = @"org.shadowlab.spark.appl
 }
 
 - (NSAlert *)sparkEditorShouldConfigureAction {
-  if (![self appPath]) {
+  if (([self appAction] != kHideFrontTag && [self appAction] != kHideAllTag) && ![self appPath]) {
     return [NSAlert alertWithMessageText:NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_APPLICATION_ALERT", nil, ApplicationActionBundle,
                                                                             @"Create Action without Application Error * Title *")
                            defaultButton:NSLocalizedStringFromTableInBundle(@"OK", nil, ApplicationActionBundle,
-                                                                           @"Alert default button")
+                                                                            @"Alert default button")
                          alternateButton:nil
                              otherButton:nil
                informativeTextWithFormat:NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_APPLICATION_ALERT_MSG", nil, ApplicationActionBundle,
                                                                             @"Create Action without Application Error * Msg *")];
-  }
-  else if ([[[self name] stringByTrimmingWhitespaceAndNewline] length] == 0) {
+  } else if ([[[self name] stringByTrimmingWhitespaceAndNewline] length] == 0) {
     [self setName:_appName];
   }
   return nil;
@@ -92,6 +92,10 @@ NSString * const kApplicationActionBundleIdentifier = @"org.shadowlab.spark.appl
 
 /*===============================================*/
 
+- (BOOL)useFrontApplication {
+  return [self appAction] == kHideFrontTag || [self appAction] == kHideAllTag;
+}
+
 - (BOOL)displayLaunchOptions {
   return [self appAction] != kOpenActionTag && [self appAction] != kOpenCloseActionTag;
 }
@@ -99,6 +103,10 @@ NSString * const kApplicationActionBundleIdentifier = @"org.shadowlab.spark.appl
 - (NSString *)actionDescription:(id)key {
   id act;
   switch ([self appAction]) {
+    case kHideFrontTag:
+      act = NSLocalizedStringFromTableInBundle(@"DESC_HIDE_FRONT", nil,ApplicationActionBundle,
+                                               @"Hide Front Applications * Action Description *");
+      break;
     case kHideAllTag:
       act = NSLocalizedStringFromTableInBundle(@"DESC_HIDE_ALL", nil,ApplicationActionBundle,
                                                @"Hide All Applications * Action Description *");
@@ -123,8 +131,10 @@ NSString * const kApplicationActionBundleIdentifier = @"org.shadowlab.spark.appl
       act = NSLocalizedStringFromTableInBundle(@"DESC_ERROR", nil,ApplicationActionBundle,
                                          @"Unknow Action * Action Description *");
   }
-  return [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"DESCRIPTION", nil,ApplicationActionBundle,
-                                                                       @"Description: %1$@ => Action, %2$@ => App Name"), act, _appName];
+  if (_appName)
+    return [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"DESCRIPTION", nil,ApplicationActionBundle,
+                                                                         @"Description: %1$@ => Action, %2$@ => App Name"), act, _appName];
+  else return act;
 }
 
 - (NSString *)appPath {
@@ -133,7 +143,7 @@ NSString * const kApplicationActionBundleIdentifier = @"org.shadowlab.spark.appl
 
 - (void)setAppPath:(NSString *)appPath {
   [(ApplicationAction *)[self sparkAction] setPath:appPath];
-    
+  
   [self setAppName:[[[NSFileManager defaultManager] displayNameAtPath:[self appPath]] stringByDeletingPathExtension]];
   id icon = ([self appPath]) ? [[NSWorkspace sharedWorkspace] iconForFile:[self appPath]] : nil;
   [self setAppIcon:icon];
@@ -168,6 +178,12 @@ NSString * const kApplicationActionBundleIdentifier = @"org.shadowlab.spark.appl
 
 - (void)setAppAction:(int)newAction {
   [[self sparkAction] setAppAction:newAction];
+  if ([self useFrontApplication]) {
+    [self setAppName:nil];
+    [self setAppIcon:nil];
+  } else {
+    [self setAppPath:[self appPath]];
+  }
 }
 
 #pragma mark -

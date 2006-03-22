@@ -61,8 +61,10 @@ static NSString * const kHotKeyBundleIdKey = @"BundleID";
       if (bundleId)
         [alias setBundleIdentifier:bundleId];      
     }
-    [self setAlias:alias];
-    [alias release];
+    if (alias) {
+      [self setAlias:alias];
+      [alias release];
+    }
     [self setAppAction:[[plist objectForKey:kHotKeyActionKey] intValue]];
     [self setFlags:[[plist objectForKey:kHotKeyFlagsKey] intValue]];
   }
@@ -76,8 +78,10 @@ static NSString * const kHotKeyBundleIdKey = @"BundleID";
 
 - (NSMutableDictionary *)propertyList {
   id dico = [super propertyList];
-  id aliasData = [_alias data]; // !!!:fox:20040315 No exception if aliasData is nil
-  [dico setObject:((aliasData != nil) ? aliasData : [NSNull null]) forKey:kHotKeyAliasKey];
+  id aliasData = [_alias data];
+  if (aliasData) {
+    [dico setObject:aliasData forKey:kHotKeyAliasKey];
+  }
   id sign = [self sign];
   if (sign)
     [dico setObject:sign forKey:kHotKeySignKey];
@@ -90,12 +94,15 @@ static NSString * const kHotKeyBundleIdKey = @"BundleID";
 }
 
 - (SparkAlert *)check {
-  if ([self path] == nil) {
-    id title = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"INVALID_APPLICATION_ALERT", nil,ApplicationActionBundle,
-                                                                             @"Check * App Not Found *") , [self name]];
-    return [SparkAlert alertWithMessageText:title
-                  informativeTextWithFormat:NSLocalizedStringFromTableInBundle(@"INVALID_APPLICATION_ALERT_MSG",
-                                                                               nil,ApplicationActionBundle,@"Check * App Not Found *"), [self name]];
+  /* Don't check path if hide or hide all */
+  if (_appAction != kHideFrontTag && _appAction != kHideAllTag) {
+    if ([self path] == nil) {
+      id title = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"INVALID_APPLICATION_ALERT", nil,ApplicationActionBundle,
+                                                                               @"Check * App Not Found *") , [self name]];
+      return [SparkAlert alertWithMessageText:title
+                    informativeTextWithFormat:NSLocalizedStringFromTableInBundle(@"INVALID_APPLICATION_ALERT_MSG",
+                                                                                 nil,ApplicationActionBundle,@"Check * App Not Found *"), [self name]];
+    }
   }
   return nil;
 }
@@ -104,8 +111,11 @@ static NSString * const kHotKeyBundleIdKey = @"BundleID";
   id alert = [self check];
   if (alert == nil) {
     switch (_appAction) {
+      case kHideFrontTag:
+        [self hideFront];
+        break;
       case kHideAllTag:
-        [self hideAll];
+        [self hideOthers];
         break;
       case kOpenActionTag:
         [self launchApplication];
@@ -191,7 +201,14 @@ static NSString * const kHotKeyBundleIdKey = @"BundleID";
   return (psn->highLongOfPSN != kNoProcess) || (psn->lowLongOfPSN != kNoProcess);
 }
 
-- (void)hideAll {
+- (void)hideFront {
+  ProcessSerialNumber front = {kNoProcess, kNoProcess};
+  if (noErr == GetFrontProcess(&front)) {
+    ShowHideProcess(&front, false);
+  }
+}
+
+- (void)hideOthers {
   ProcessSerialNumber front = {kNoProcess, kNoProcess};
   GetFrontProcess(&front);
 
@@ -209,6 +226,8 @@ static NSString * const kHotKeyBundleIdKey = @"BundleID";
   if (!(_flags & kLSLaunchNewInstance) && [self getApplicationProcess:&psn]) {
     SetFrontProcess(&psn);
     ShadowAESendSimpleEventToProcess(&psn, kCoreEventClass, kAEReopenApplication);
+    if (_flags & kLSLaunchAndHideOthers)
+      [self hideOthers];
   } else {
     [self launchAppWithFlag:kLSLaunchDefaults | _flags];
   }

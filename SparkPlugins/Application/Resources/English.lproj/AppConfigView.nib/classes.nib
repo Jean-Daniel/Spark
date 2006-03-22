@@ -4,9 +4,15 @@
             ACTIONS = {chooseApplication = id; }; 
             CLASS = ApplicationActionPlugin; 
             LANGUAGE = ObjC; 
+            OUTLETS = {iconView = NSImageView; }; 
             SUPERCLASS = SparkActionPlugin; 
         }, 
-        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {"" = id; }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
         {
             CLASS = SparkActionPlugin; 
             LANGUAGE = ObjC; 

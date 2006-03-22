@@ -26,7 +26,8 @@
 - (void)setFlags:(int)flags;
 - (int)flags;
 
-- (void)hideAll;
+- (void)hideFront;
+- (void)hideOthers;
 - (void)launchApplication;
 - (void)quitApplication;
 - (void)toggleApplicationState;

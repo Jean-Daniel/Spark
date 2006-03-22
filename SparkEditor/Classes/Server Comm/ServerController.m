@@ -7,6 +7,7 @@
 //
 #import <SparkKit/SparkKit.h>
 
+#import "Preferences.h"
 #import "ScriptHandler.h"
 #import "ServerController.h"
 #import "SparkServerProtocol.h"
@@ -50,7 +51,6 @@ NSString * const kSparkHotKeyStateDidChangeNotification = @"SparkHotKeyStateDidC
 /* If a daemon is runnnig, check if it is the bundled Daemon.
  * If not, kill it and launch the bundled one */
 - (void)checkRunningDaemon {
-#if !defined (DEBUG)
   id sparkPath = [[NSBundle mainBundle] bundlePath];
   ProcessSerialNumber psn = SKGetProcessWithSignature(kSparkDaemonHFSCreatorType);
   if (psn.lowLongOfPSN != kNoProcess) {
@@ -60,6 +60,7 @@ NSString * const kSparkHotKeyStateDidChangeNotification = @"SparkHotKeyStateDidC
       id daemonPath = (id)CFURLCopyFileSystemPath(url, kCFURLPOSIXPathStyle);
       [(id)url release];
       if (daemonPath && ![daemonPath hasPrefix:sparkPath]) {
+#if !defined (DEBUG)
         if ([self serverProxy]) {
           DLog(@"Shut Down old daemon");
           [self shutDownServer];
@@ -75,13 +76,14 @@ NSString * const kSparkHotKeyStateDidChangeNotification = @"SparkHotKeyStateDidC
         }
         [self shutDownServer];
         [self startServer];
+#else
+#warning Disable Check Daemon
+        DLog(@"Found old daemon at %@", daemonPath);
+#endif
       }
       [daemonPath release];
     }
   }
-#else
-#warning Disable Check Daemon
-#endif
 }
 
 - (void)registerNotification {
@@ -181,7 +183,7 @@ NSString * const kSparkHotKeyStateDidChangeNotification = @"SparkHotKeyStateDidC
   if (kSparkDaemonStarted != [[self class] serverState]) {
     [SparkDefaultLibrary() synchronize];
     id path = [[[NSBundle mainBundle] executablePath] stringByDeletingLastPathComponent];
-    if (![[NSWorkspace sharedWorkspace] launchApplication:[path stringByAppendingPathComponent:@"Spark Daemon.app"]]) {
+    if (![[NSWorkspace sharedWorkspace] launchApplication:[path stringByAppendingPathComponent:(id)kSparkDaemonExecutable]]) {
       DLog(@"Error cannot launch daemon app");
       [[NSApp delegate] setServerState:kSparkDaemonError];
     }

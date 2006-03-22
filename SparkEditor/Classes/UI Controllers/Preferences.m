@@ -7,9 +7,11 @@
 //
 
 #import <SparkKit/SparkKit.h>
+#import <ShadowKit/SKLoginItems.h>
+
 #import "Preferences.h"
 
-#define SPARK_LAUNCHER		@"Spark Daemon"
+CFStringRef const kSparkDaemonExecutable = CFSTR("Spark Daemon.app");
 
 NSString * const kSparkPrefVersion = @"SparkVersion";
 NSString * const kSparkPrefAutoStart = @"SparkAutoStart";
@@ -44,7 +46,7 @@ NSString * const kSparkPrefAppActionApplicationLibrary = @"SparkPrefAppActionApp
 - (void)awakeFromNib {
   BOOL value = [[NSUserDefaults standardUserDefaults] boolForKey:kSparkPrefAutoStart];
   [self setValue:SKBool(value) forKey:@"runAutomatically"];
-  autoStartBak = autoStart;
+  autoStartBak = value;
 }
 
 - (IBAction)close:(id)sender {
@@ -119,102 +121,82 @@ static void SetSparkKitSingleKeyMode(int mode) {
 }
 
 + (BOOL)autoStart {
-  BOOL start = NO;
-  id items = (id)CFPreferencesCopyValue(CFSTR("AutoLaunchedApplicationDictionary"),
-                                        CFSTR("loginwindow"),
-                                        kCFPreferencesCurrentUser,
-                                        kCFPreferencesAnyHost);
-  items = [[items autorelease] mutableCopy];
-  id loginItems = [items objectEnumerator];
-  id item;
-  while ((item = [loginItems nextObject]) && !start) {
-    NSRange range = [[item objectForKey:@"Path"] rangeOfString:SPARK_LAUNCHER options:nil];
-    if (range.location != NSNotFound) {
-      start = YES;
-    }
+//  BOOL start = NO;
+//  id items = (id)CFPreferencesCopyValue(CFSTR("AutoLaunchedApplicationDictionary"),
+//                                        CFSTR("loginwindow"),
+//                                        kCFPreferencesCurrentUser,
+//                                        kCFPreferencesAnyHost);
+//  items = [[items autorelease] mutableCopy];
+//  id loginItems = [items objectEnumerator];
+//  id item;
+//  while ((item = [loginItems nextObject]) && !start) {
+//    NSRange range = [[item objectForKey:@"Path"] rangeOfString:kSparkDaemonExecutable options:nil];
+//    if (range.location != NSNotFound) {
+//      start = YES;
+//    }
+//  }
+//  [items release];
+//  return start;
+  return [[NSUserDefaults standardUserDefaults] boolForKey:kSparkPrefAutoStart];
+}
+
+static __inline__ BOOL __CFFileURLCompare(CFURLRef url1, CFURLRef url2) {
+  FSRef r1, r2;
+  if (CFURLGetFSRef(url1, &r1) && CFURLGetFSRef(url2, &r2)) {
+    return FSCompareFSRefs(&r1, &r2) == noErr;
   }
-  [items release];
-  return start;
+  return NO;
 }
 
 + (void)setAutoStart:(BOOL)flag {
-  id items = (id)CFPreferencesCopyValue(CFSTR("AutoLaunchedApplicationDictionary"),
-                                        CFSTR("loginwindow"),
-                                        kCFPreferencesCurrentUser,
-                                        kCFPreferencesAnyHost);
-  items = (items != nil) ? [[items autorelease] mutableCopy] : [[NSMutableArray alloc] init];
-  id path = [[NSBundle mainBundle] pathForAuxiliaryExecutable:[SPARK_LAUNCHER stringByAppendingPathExtension:@"app"]];
-  if (flag) {
-    DLog(@"Auto Start On");
-    if (![self autoStart]) {
-      SKAlias *alias = [SKAlias aliasWithPath:path];
-      id data = [alias data];
-      if (!data) {
-        NSLog(@"Error unable to find Daemon at path: %@", path);
-        return;
+  CFArrayRef items = SKLoginItemCopyItems();
+  if (items) {
+    CFBundleRef bundle = CFBundleGetMainBundle();
+    CFURLRef sparkd = CFBundleCopyAuxiliaryExecutableURL(bundle, kSparkDaemonExecutable);
+    if (sparkd) {
+      CFIndex idx;
+      BOOL shouldAdd = YES;
+      CFIndex count = CFArrayGetCount(items);
+      /* Should start from last index else removing an item will change enumeration */
+      for (idx = count-1; idx >= 0; idx--) {
+        CFDictionaryRef item = CFArrayGetValueAtIndex(items, idx);
+        CFURLRef itemURL = CFDictionaryGetValue(item, kSKLoginItemURL);
+        if (itemURL) {
+          CFStringRef name = CFURLCopyLastPathComponent(itemURL);
+          if (name) {
+            if (CFEqual(name, kSparkDaemonExecutable)) {
+              if (!flag || !__CFFileURLCompare(itemURL, sparkd)) {
+                DLog(@"Item no longer valid! %@", itemURL);
+#if !defined(DEBUG)
+                SKLoginItemRemoveItemAtIndex(idx);
+#endif
+              } else {
+                DLog(@"Current item is ok");
+                shouldAdd = NO;
+              }
+            } 
+            CFRelease(name);
+          }
+        }
       }
-      id dico = [NSMutableDictionary dictionary];
-      [dico setObject:[path stringByAbbreviatingWithTildeInPath] forKey:@"Path"];
-      [dico setObject:data forKey:@"AliasData"];
-      [dico setObject:SKBool(YES) forKey:@"Hide"];
-      [items insertObject:dico atIndex:0];
-    }
-  }
-  else {
-    DLog(@"AutoStart Off");
-    id loginItems = [items objectEnumerator];
-    id item;
-    while (item = [loginItems nextObject]) {
-      NSRange range = [[item objectForKey:@"Path"] rangeOfString:SPARK_LAUNCHER options:nil];
-      if (range.location != NSNotFound) {
-        [items removeObject:item];
+      if (flag && shouldAdd) {
+#if !defined(DEBUG)
+        SKLoginItemAppendItemURL(sparkd, YES);
+#else
+        DLog(@"Add login item: %@", sparkd);
+#endif
       }
+      CFRelease(sparkd);
+    } else {
+      DLog(@"Warning: Spark Daemon cannot be found");
     }
+    CFRelease(items);
   }
-  CFPreferencesSetValue(CFSTR("AutoLaunchedApplicationDictionary"),
-                        (CFPropertyListRef)items,
-                        CFSTR("loginwindow"),
-                        kCFPreferencesCurrentUser,
-                        kCFPreferencesAnyHost);
-  CFPreferencesSynchronize(CFSTR("loginwindow"), kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
-  [items release];
 }
 
 + (void)verifyAutoStart {
-#ifndef DEBUG
   BOOL state = [[NSUserDefaults standardUserDefaults] boolForKey:kSparkPrefAutoStart];
-
-  // Si Auto start activŽ dans les prefs
-  if (state) {
-    /* Dans tout les cas on vŽrifie */
-    id items = (id)CFPreferencesCopyValue(CFSTR("AutoLaunchedApplicationDictionary"),
-                                          CFSTR("loginwindow"),
-                                          kCFPreferencesCurrentUser,
-                                          kCFPreferencesAnyHost);
-    [items autorelease];
-    // On regarde s'il est dans les login items.
-    id loginItems = [items objectEnumerator];
-    id item;
-    while (item = [loginItems nextObject]) {
-      NSRange range = [[item objectForKey:@"Path"] rangeOfString:SPARK_LAUNCHER options:nil];
-      /* 
-       * Si on le trouve, on vŽrifie que l'alias est valide, et qu'il pointe bien sur le daemon contenu dans l'appli.
-       * S'il n'est pas bon, on le supprime.
-       */
-      if (range.location != NSNotFound) {
-        SKAlias *alias = [SKAlias aliasWithData:[item objectForKey:@"AliasData"]];
-        if (![alias path] || [[[NSBundle mainBundle] bundlePath] rangeOfString:[alias path] options:nil].location == NSNotFound) {
-          [self setAutoStart:NO];
-          break;
-        }
-        else return;
-      }
-    }
-  }
   [self setAutoStart:state];
-#else
-#warning Disable Verify Autostart.
-#endif
 }
 
 #pragma mark -
@@ -259,27 +241,31 @@ static void SetSparkKitSingleKeyMode(int mode) {
     
     [prefs removeObjectForKey:@"SelectedList"];
     
-    id items = (id)CFPreferencesCopyValue(CFSTR("AutoLaunchedApplicationDictionary"),
-                                          CFSTR("loginwindow"),
-                                          kCFPreferencesCurrentUser,
-                                          kCFPreferencesAnyHost);
-    // On regarde s'il est dans les login items.
-    id loginItems = [items objectEnumerator];
-    id item;
-    while (item = [loginItems nextObject]) {
-      NSRange range = [[item objectForKey:@"Path"] rangeOfString:@"SparkDaemonHelper" options:nil];
-      // Si on le trouve, on vŽrifie que l'alias est valide, s'il ne l'est pas, on le supprime.
-      if (range.location != NSNotFound) {
-        [items removeObject:item];
+    /* Remove deprecated items */
+    CFArrayRef items = SKLoginItemCopyItems();
+    if (items) {
+      CFIndex idx;
+      CFIndex count = CFArrayGetCount(items);
+      /* Should start from last index else removing an item will change enumeration */
+      for (idx = count-1; idx >= 0; idx--) {
+        CFDictionaryRef item = CFArrayGetValueAtIndex(items, idx);
+        CFURLRef itemURL = CFDictionaryGetValue(item, kSKLoginItemURL);
+        if (itemURL) {
+          CFStringRef name = CFURLCopyLastPathComponent(itemURL);
+          if (name) {
+            if (CFEqual(name, @"SparkDaemonHelper")) {
+              DLog(@"Item no longer valid! %@", itemURL);
+#if !defined(DEBUG)
+              SKLoginItemRemoveItemAtIndex(idx);
+#endif
+            } 
+            CFRelease(name);
+          }
+        }
       }
-    }
-    CFPreferencesSetValue(CFSTR("AutoLaunchedApplicationDictionary"),
-                          (CFPropertyListRef)items,
-                          CFSTR("loginwindow"),
-                          kCFPreferencesCurrentUser,
-                          kCFPreferencesAnyHost);
-    CFPreferencesSynchronize(CFSTR("loginwindow"), kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
-    [items release];
+      CFRelease(items);
+    }    
+    
     [prefs setInteger:kSparkCurrentVersion forKey:@"SparkVersion"];
     [prefs synchronize];
   }

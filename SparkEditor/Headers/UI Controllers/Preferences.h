@@ -11,6 +11,8 @@
 #define kSparkVersion_2_0		0x200
 #define kSparkCurrentVersion	kSparkVersion_2_0
 
+extern CFStringRef const kSparkDaemonExecutable;
+
 extern NSString * const kSparkPrefVersion;
 extern NSString * const kSparkPrefAutoStart;
 extern NSString * const kSparkPrefSingleKeyMode;

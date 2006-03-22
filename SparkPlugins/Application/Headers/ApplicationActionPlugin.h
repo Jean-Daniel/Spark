@@ -17,7 +17,8 @@ enum {
   kQuitActionTag 		= 2,
   kOpenCloseActionTag	= 4,
   kKillActionTag 		= 3, 
-  kHideAllTag			= 5
+  kHideAllTag			= 5,
+  kHideFrontTag			= 6
 };
 
 @interface ApplicationActionPlugin : SparkActionPlugIn {

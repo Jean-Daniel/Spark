@@ -6,6 +6,29 @@
 	objectVersion = 42;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		98DBB865099F4B0500927F3B /* All */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 98DBB880099F4B8600927F3B /* Build configuration list for PBXAggregateTarget "All" */;
+			buildPhases = (
+			);
+			buildSettings = {
+				PRODUCT_NAME = All;
+			};
+			dependencies = (
+				982020DF09D1FB540001A92A /* PBXTargetDependency */,
+				982020DD09D1FB540001A92A /* PBXTargetDependency */,
+				982020DB09D1FB540001A92A /* PBXTargetDependency */,
+				98DBB871099F4B4000927F3B /* PBXTargetDependency */,
+				98DBB86F099F4B3800927F3B /* PBXTargetDependency */,
+				98DBB86D099F4B3400927F3B /* PBXTargetDependency */,
+				98DBB875099F4B5B00927F3B /* PBXTargetDependency */,
+			);
+			name = All;
+			productName = All;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		980DA19106E65FF30038EE2A /* ActionLibraryList.m in Sources */ = {isa = PBXBuildFile; fileRef = 980DA18F06E65FF30038EE2A /* ActionLibraryList.m */; };
@@ -279,6 +302,27 @@
 /* End PBXBuildStyle section */
 
 /* Begin PBXContainerItemProxy section */
+		982020DA09D1FB540001A92A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 98EF830F0864630B007BC81A /* SparkKit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
+			remoteInfo = SparkKit;
+		};
+		982020DC09D1FB540001A92A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 98EF830F0864630B007BC81A /* SparkKit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 98C56D33096B348400ABE1EF;
+			remoteInfo = ShadowKit;
+		};
+		982020DE09D1FB540001A92A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 98EF8306086462FF007BC81A /* HotKeyToolKit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
+			remoteInfo = HotKeyToolKit;
+		};
 		9840A78008D334BF00C33314 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 98EF830F0864630B007BC81A /* SparkKit.xcodeproj */;
@@ -300,12 +344,33 @@
 			remoteGlobalIDString = 98C56D34096B348400ABE1EF;
 			remoteInfo = ShadowKit;
 		};
-		98C12FC908CE157F0015CB91 /* PBXContainerItemProxy */ = {
+		98DBB86C099F4B3400927F3B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 987E6BB206D76DF300C7F41C /* Spark Plugins.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 98FC452006063BAD003617CA;
+			remoteInfo = All;
+		};
+		98DBB86E099F4B3800927F3B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 98C7035C07BAAED700F7AD87 /* Plugins Factory.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = 98FC452006063BAD003617CA;
 			remoteInfo = All;
+		};
+		98DBB870099F4B4000927F3B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 985F8DFD077253C70014830F /* SparkServer.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 98B20D6906A54814008BA3F6;
+			remoteInfo = "Spark Daemon";
+		};
+		98DBB874099F4B5B00927F3B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D1107260486CEB800E47090;
+			remoteInfo = Spark;
 		};
 		98EF828D0864622E007BC81A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -418,20 +483,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
 			remoteInfo = SparkKit;
-		};
-		98EF832008646367007BC81A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 987E6BB206D76DF300C7F41C /* Spark Plugins.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 98FC452006063BAD003617CA;
-			remoteInfo = All;
-		};
-		98EF832208646371007BC81A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 985F8DFD077253C70014830F /* SparkServer.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 98B20D6906A54814008BA3F6;
-			remoteInfo = "Spark Daemon";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -1378,9 +1429,6 @@
 			dependencies = (
 				9840A78308D334BF00C33314 /* PBXTargetDependency */,
 				9840A78108D334BF00C33314 /* PBXTargetDependency */,
-				98EF832108646367007BC81A /* PBXTargetDependency */,
-				98C12FCA08CE157F0015CB91 /* PBXTargetDependency */,
-				98EF832308646371007BC81A /* PBXTargetDependency */,
 			);
 			name = Spark;
 			productInstallPath = "$(HOME)/Applications";
@@ -1427,6 +1475,7 @@
 				},
 			);
 			targets = (
+				98DBB865099F4B0500927F3B /* All */,
 				8D1107260486CEB800E47090 /* Spark */,
 			);
 		};
@@ -1705,6 +1754,21 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		982020DB09D1FB540001A92A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SparkKit;
+			targetProxy = 982020DA09D1FB540001A92A /* PBXContainerItemProxy */;
+		};
+		982020DD09D1FB540001A92A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ShadowKit;
+			targetProxy = 982020DC09D1FB540001A92A /* PBXContainerItemProxy */;
+		};
+		982020DF09D1FB540001A92A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = HotKeyToolKit;
+			targetProxy = 982020DE09D1FB540001A92A /* PBXContainerItemProxy */;
+		};
 		9840A78108D334BF00C33314 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = SparkKit;
@@ -1715,20 +1779,25 @@
 			name = HotKeyToolKit;
 			targetProxy = 9840A78208D334BF00C33314 /* PBXContainerItemProxy */;
 		};
-		98C12FCA08CE157F0015CB91 /* PBXTargetDependency */ = {
+		98DBB86D099F4B3400927F3B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = All;
-			targetProxy = 98C12FC908CE157F0015CB91 /* PBXContainerItemProxy */;
+			targetProxy = 98DBB86C099F4B3400927F3B /* PBXContainerItemProxy */;
 		};
-		98EF832108646367007BC81A /* PBXTargetDependency */ = {
+		98DBB86F099F4B3800927F3B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = All;
-			targetProxy = 98EF832008646367007BC81A /* PBXContainerItemProxy */;
+			targetProxy = 98DBB86E099F4B3800927F3B /* PBXContainerItemProxy */;
 		};
-		98EF832308646371007BC81A /* PBXTargetDependency */ = {
+		98DBB871099F4B4000927F3B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "Spark Daemon";
-			targetProxy = 98EF832208646371007BC81A /* PBXContainerItemProxy */;
+			targetProxy = 98DBB870099F4B4000927F3B /* PBXContainerItemProxy */;
+		};
+		98DBB875099F4B5B00927F3B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8D1107260486CEB800E47090 /* Spark */;
+			targetProxy = 98DBB874099F4B5B00927F3B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -2028,6 +2097,42 @@
 			};
 			name = "Universal Binary";
 		};
+		98DBB881099F4B8600927F3B /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = All;
+			};
+			name = Development;
+		};
+		98DBB882099F4B8600927F3B /* Profiling */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = All;
+			};
+			name = Profiling;
+		};
+		98DBB883099F4B8600927F3B /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				PRODUCT_NAME = All;
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+		98DBB884099F4B8600927F3B /* Universal Binary */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = All;
+			};
+			name = "Universal Binary";
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -2049,6 +2154,17 @@
 				98B4E0A50939D5F0009F2007 /* Profiling */,
 				98BC60580857BB9400A2041F /* Deployment */,
 				98C12BD608CE11B30015CB91 /* Universal Binary */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		98DBB880099F4B8600927F3B /* Build configuration list for PBXAggregateTarget "All" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				98DBB881099F4B8600927F3B /* Development */,
+				98DBB882099F4B8600927F3B /* Profiling */,
+				98DBB883099F4B8600927F3B /* Deployment */,
+				98DBB884099F4B8600927F3B /* Universal Binary */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;

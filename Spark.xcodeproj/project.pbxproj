@@ -404,8 +404,6 @@
 		98660C6F06E7113A00049957 /* SparkObjectList.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = SparkObjectList.m; path = SparkKit/SparkObjectList.m; sourceTree = "<group>"; };
 		98660C7006E7114800049957 /* SparkActionList.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SparkActionList.h; sourceTree = "<group>"; };
 		98660C7106E7114D00049957 /* SparkObjectList.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SparkObjectList.h; sourceTree = "<group>"; };
-		986AFA8506D67B0B00B84D2D /* SKApplication.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SKApplication.m; sourceTree = "<group>"; };
-		986AFA8706D67B1400B84D2D /* SKApplication.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = SKApplication.h; path = Headers/SKApplication.h; sourceTree = "<group>"; };
 		9878FBD406C0604500AA3120 /* AEScript.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = AEScript.c; sourceTree = "<group>"; };
 		9878FBD706C0604500AA3120 /* AEScript.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AEScript.h; sourceTree = "<group>"; };
 		9878FBD806C0604500AA3120 /* SparkDaemon.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SparkDaemon.h; sourceTree = "<group>"; };
@@ -524,22 +522,6 @@
 		98C6E56006FBA5CB000AFA2F /* SparkApplicationLibrary.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = SparkApplicationLibrary.m; path = SparkKit/SparkApplicationLibrary.m; sourceTree = "<group>"; };
 		98D614B106B3DBA100CBC985 /* SparkKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SparkKit.xcodeproj; path = SparkKit/SparkKit.xcodeproj; sourceTree = "<group>"; };
 		98D61B8506B3E5FB00CBC985 /* HotKeyToolKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = HotKeyToolKit.xcodeproj; path = HotKeyToolKit/HotKeyToolKit.xcodeproj; sourceTree = "<group>"; };
-		98E6565806B3F74100F73A19 /* ShadowAEObjCUtils.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ShadowAEObjCUtils.h; path = Headers/ShadowAEObjCUtils.h; sourceTree = "<group>"; };
-		98E6565906B3F74100F73A19 /* ShadowAEUtils.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ShadowAEUtils.h; path = Headers/ShadowAEUtils.h; sourceTree = "<group>"; };
-		98E6565A06B3F74100F73A19 /* ShadowKit.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ShadowKit.h; path = Headers/ShadowKit.h; sourceTree = "<group>"; };
-		98E6565B06B3F74100F73A19 /* SKAlias.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = SKAlias.h; path = Headers/SKAlias.h; sourceTree = "<group>"; };
-		98E6565D06B3F74100F73A19 /* SKExtensions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = SKExtensions.h; path = Headers/SKExtensions.h; sourceTree = "<group>"; };
-		98E6565E06B3F74100F73A19 /* SKFunctions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = SKFunctions.h; path = Headers/SKFunctions.h; sourceTree = "<group>"; };
-		98E6565F06B3F74100F73A19 /* SKImageAndTextCell.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SKImageAndTextCell.h; sourceTree = "<group>"; };
-		98E6566006B3F74100F73A19 /* SKShadowLabel.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SKShadowLabel.h; sourceTree = "<group>"; };
-		98E6566106B3F74100F73A19 /* ShadowAEObjCUtils.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ShadowAEObjCUtils.m; sourceTree = "<group>"; };
-		98E6566206B3F74100F73A19 /* ShadowAEUtils.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = ShadowAEUtils.c; sourceTree = "<group>"; };
-		98E6566306B3F74100F73A19 /* SKAlias.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SKAlias.m; sourceTree = "<group>"; };
-		98E6566406B3F74100F73A19 /* SKApplicationAlias.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SKApplicationAlias.m; sourceTree = "<group>"; };
-		98E6566506B3F74100F73A19 /* SKExtensions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SKExtensions.m; sourceTree = "<group>"; };
-		98E6566606B3F74100F73A19 /* SKFunctions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SKFunctions.m; sourceTree = "<group>"; };
-		98E6566706B3F74100F73A19 /* SKImageAndTextCell.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SKImageAndTextCell.m; sourceTree = "<group>"; };
-		98E6566806B3F74100F73A19 /* SKShadowLabel.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SKShadowLabel.m; sourceTree = "<group>"; };
 		98E6572D06B406FE00F73A19 /* SparkMultipleAlerts.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = SparkMultipleAlerts.m; path = SparkKit/SparkMultipleAlerts.m; sourceTree = "<group>"; };
 		98E6572E06B406FE00F73A19 /* SparkAlert.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = SparkAlert.m; path = SparkKit/SparkAlert.m; sourceTree = "<group>"; };
 		98E6572F06B406FE00F73A19 /* SparkListLibrary.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = SparkListLibrary.m; path = SparkKit/SparkListLibrary.m; sourceTree = "<group>"; };
@@ -1113,60 +1095,9 @@
 		98E6565606B3F74100F73A19 /* ShadowKit */ = {
 			isa = PBXGroup;
 			children = (
-				98E6565A06B3F74100F73A19 /* ShadowKit.h */,
-				98E6566906B3F78F00F73A19 /* AppKit */,
-				98E6566A06B3F79400F73A19 /* Foundation */,
 			);
-			name = ShadowKit;
-			path = ../ShadowKit/ShadowKit;
-			sourceTree = "<group>";
-		};
-		98E6565706B3F74100F73A19 /* Headers */ = {
-			isa = PBXGroup;
-			children = (
-				98E6566006B3F74100F73A19 /* SKShadowLabel.h */,
-				98E6565F06B3F74100F73A19 /* SKImageAndTextCell.h */,
-			);
-			path = Headers;
-			sourceTree = "<group>";
-		};
-		98E6566906B3F78F00F73A19 /* AppKit */ = {
-			isa = PBXGroup;
-			children = (
-				98E6565706B3F74100F73A19 /* Headers */,
-				98E6566806B3F74100F73A19 /* SKShadowLabel.m */,
-				98E6566706B3F74100F73A19 /* SKImageAndTextCell.m */,
-			);
-			name = AppKit;
-			sourceTree = "<group>";
-		};
-		98E6566A06B3F79400F73A19 /* Foundation */ = {
-			isa = PBXGroup;
-			children = (
-				98E6566B06B3F7A300F73A19 /* Headers */,
-				98E6566306B3F74100F73A19 /* SKAlias.m */,
-				98E6566406B3F74100F73A19 /* SKApplicationAlias.m */,
-				98E6566606B3F74100F73A19 /* SKFunctions.m */,
-				98E6566506B3F74100F73A19 /* SKExtensions.m */,
-				986AFA8506D67B0B00B84D2D /* SKApplication.m */,
-				98E6566206B3F74100F73A19 /* ShadowAEUtils.c */,
-				98E6566106B3F74100F73A19 /* ShadowAEObjCUtils.m */,
-			);
-			name = Foundation;
-			sourceTree = "<group>";
-		};
-		98E6566B06B3F7A300F73A19 /* Headers */ = {
-			isa = PBXGroup;
-			children = (
-				98E6565806B3F74100F73A19 /* ShadowAEObjCUtils.h */,
-				98E6565906B3F74100F73A19 /* ShadowAEUtils.h */,
-				98E6565B06B3F74100F73A19 /* SKAlias.h */,
-				98E6565D06B3F74100F73A19 /* SKExtensions.h */,
-				98E6565E06B3F74100F73A19 /* SKFunctions.h */,
-				986AFA8706D67B1400B84D2D /* SKApplication.h */,
-			);
-			name = Headers;
-			sourceTree = "<group>";
+			path = ShadowKit;
+			sourceTree = SHADOWKIT_ROOT;
 		};
 		98E6572C06B406E700F73A19 /* SparkKit */ = {
 			isa = PBXGroup;
