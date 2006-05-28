@@ -11,6 +11,7 @@
 SPARK_EXPORT NSString * const kSparkDidAddPlugInNotification;
 SPARK_EXPORT NSString * const kSparkDidRemovePlugInNotification;
 
+#warning Should extends SKPluginLoader
 @interface SparkPlugInLoader : NSObject {
   id sk_plugIns;
   

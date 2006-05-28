@@ -7,7 +7,10 @@
 //
 
 #import "SparkDaemon.h"
+#include <unistd.h>
 #import <SparkKit/SparkKit.h>
+#import <ShadowKit/SKFunctions.h>
+
 #import "AEScript.h"
 
 #if defined (DEBUG)
@@ -41,13 +44,18 @@ int main(int argc, const char *argv[]) {
 
 @implementation SparkDaemon
 
+- (void)checkAndLoad:(id)sender {
+  ShadowTrace();
+  [self checkActions];
+  [self loadKeys];
+}
+
 - (id)init {
   if (self = [super init]) {
     if (![self setPlugInPath] || ![self connect]) {
       [self release];
       self = nil;
-    }
-    else {
+    } else {
 #if defined (DEBUG)
       [[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
         @"1", @"NSScriptingDebugLogLevel",
@@ -55,8 +63,43 @@ int main(int argc, const char *argv[]) {
 #endif
       [SparkLibraryObject setLoadUI:NO];
       [NSApp setDelegate:self];
-      [self checkActions];
-      [self loadKeys];
+      
+      int delay = 0;
+      /* SparkDaemonDelay */
+      ProcessSerialNumber psn = {kNoProcess, kCurrentProcess};
+      CFDictionaryRef infos = ProcessInformationCopyDictionary(&psn, kProcessDictionaryIncludeAllInformationMask);
+      if (infos) {
+        CFNumberRef parent = CFDictionaryGetValue(infos, CFSTR("ParentPSN"));
+        if (parent) {
+          CFNumberGetValue(parent, kCFNumberLongLongType, &psn);
+          CFRelease(infos);
+          infos = ProcessInformationCopyDictionary(&psn, kProcessDictionaryIncludeAllInformationMask);
+          if (infos) {
+            CFStringRef creator = CFDictionaryGetValue(infos, CFSTR("FileCreator"));
+            if (creator) {
+              OSType sign = SKGetOSTypeFromString(creator);
+              if (sign != kSparkHFSCreatorType) {
+                CFNumberRef value = CFPreferencesCopyAppValue(CFSTR("SparkDaemonDelay"), (CFStringRef)kSparkBundleIdentifier);
+                if (value) {
+                  delay = [(id)value intValue];
+                  CFRelease(value);
+                }
+              }
+            }
+            CFRelease(infos);
+          }
+        }
+      }
+      if (delay) {
+        DLog(@"Delay load: %i", delay);
+        [NSTimer scheduledTimerWithTimeInterval:delay
+                                         target:self
+                                       selector:@selector(checkAndLoad:)
+                                       userInfo:nil
+                                        repeats:NO];
+      } else {
+        [self checkAndLoad:nil];
+      }
     }
   }
   return self;
@@ -76,7 +119,7 @@ int main(int argc, const char *argv[]) {
     spark = CFBundleCreate(kCFAllocatorDefault, sparkUrl);
     if (spark) {
       CFStringRef identifier = CFBundleGetIdentifier(spark);
-      if (CFEqual(identifier, kSparkBundleIdentifier)) {
+      if (identifier && CFEqual(identifier, kSparkBundleIdentifier)) {
         CFStringRef plugPath = nil;
         CFURLRef plugUrl = CFBundleCopyBuiltInPlugInsURL(spark);
         if (plugUrl) {
