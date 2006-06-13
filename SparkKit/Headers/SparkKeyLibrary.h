@@ -15,8 +15,8 @@
 
 //+ (SparkKeyLibrary *)sharedLibrary;
 
-- (NSArray *)keysWithKeycode:(unsigned short)keycode modifier:(int)modifier;
-- (SparkHotKey *)activeKeyWithKeycode:(unsigned short)keycode modifier:(int)modifier;
+- (NSArray *)keysWithKeycode:(unsigned short)keycode modifier:(unsigned int)modifier;
+- (SparkHotKey *)activeKeyWithKeycode:(unsigned short)keycode modifier:(unsigned int)modifier;
 
 - (NSSet *)keysUsingAction:(SparkAction *)action;
 - (NSSet *)keysUsingActions:(NSSet *)actionsUids;

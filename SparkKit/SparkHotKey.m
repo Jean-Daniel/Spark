@@ -10,6 +10,8 @@
 #warning Debug defined in SparkKit!
 #endif
 
+volatile int SparkGDBWorkaround = 0;
+
 #import <HotKeyToolKit/HotKeyToolKit.h>
 #import <ShadowKit/ShadowMacros.h>
 #import <ShadowKit/SKImageUtils.h>

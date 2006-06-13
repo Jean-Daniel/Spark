@@ -77,9 +77,9 @@ int main(int argc, const char *argv[]) {
     [[KVBSparkObjectList class] poseAsClass:[SparkObjectList class]];
     [[CheckActiveSparkHotKey class] poseAsClass:[SparkHotKey class]];
     
-    SparkDefaultLibrary(); // Chargement de la bibliothque
-    [ServerController start]; // DŽmarrage de la connexion avec le serveur
-    [self setServerState:[ServerController serverState]]; // Analyse de l'Žtat du serveur
+    SparkDefaultLibrary(); // Chargement de la bibliothÃ¨que
+    [ServerController start]; // DÃ©marrage de la connexion avec le serveur
+    [self setServerState:[ServerController serverState]]; // Analyse de l'Ã©tat du serveur
     @try {
       [Preferences checkVersion];
       [Preferences verifyAutoStart];
@@ -104,9 +104,9 @@ int main(int argc, const char *argv[]) {
   [self createDebugMenu];
 #endif
   [self createAboutMenu];
-  [self openLibraryWindow:nil]; // Ouvre la fentre principale (Library.nib)
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sparkDidChangePlugIn:) name:kSparkDidAddPlugInNotification object:nil];
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sparkDidChangePlugIn:) name:kSparkDidRemovePlugInNotification object:nil];
+  [self openLibraryWindow:nil]; // Ouvre la fenÃªtre principale (Library.nib)
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sparkDidChangePlugIn:) name:SKPluginLoaderDidLoadPluginNotification object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sparkDidChangePlugIn:) name:SKPluginLoaderDidRemovePluginNotification object:nil];
 }
 
 #pragma mark -
@@ -284,9 +284,9 @@ int main(int argc, const char *argv[]) {
 }
 
 - (BOOL)openPlugin:(NSString *)filename {
-  /* Verifier que le plugin n'est pas dŽjˆ installŽ.
-  ¥ Si installŽ => Si version supŽrieur, proposer de remplacer, redŽmarrer server, demander de redŽmarrer Žditeur.
-  ¥ Si non installŽ => Proposer d'installer dans ­ domaines (Utilisateur et ordinateur).
+  /* Verifier que le plugin n'est pas dÃ©jÃ  installÃ©.
+  â€¢ Si installÃ© => Si version supÃ©rieur, proposer de remplacer, redÃ©marrer server, demander de redÃ©marrer Ã©diteur.
+  â€¢ Si non installÃ© => Proposer d'installer dans â‰  domaines (Utilisateur et ordinateur).
   */
   id installer = nil;
   CFBundleRef dest = nil;
@@ -297,7 +297,7 @@ int main(int argc, const char *argv[]) {
   }
   id identifier = (id)CFBundleGetIdentifier(src);
   
-  id plugins = [[[SparkActionLoader sharedLoader] plugIns] objectEnumerator];
+  id plugins = [[[SparkActionLoader sharedLoader] plugins] objectEnumerator];
   id plugin;
   while (plugin = [plugins nextObject]) {
     if ([identifier isEqualToString:[plugin bundleIdentifier]]) {
@@ -460,7 +460,7 @@ int main(int argc, const char *argv[]) {
     [aboutMenu removeItemAtIndex:0];
   }
   id desc = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES selector:@selector(caseInsensitiveCompare:)];
-  id plugins = [[[SparkActionLoader sharedLoader] plugIns] sortedArrayUsingDescriptors:[NSArray arrayWithObject:desc]];
+  id plugins = [[[SparkActionLoader sharedLoader] plugins] sortedArrayUsingDescriptors:[NSArray arrayWithObject:desc]];
   [desc release];
   plugins = [plugins objectEnumerator];
   id plugin;

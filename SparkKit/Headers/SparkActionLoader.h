@@ -9,7 +9,7 @@
 /*!
     @header SparkActionLoader
 */
-#import <SparkKit/SparkPlugInLoader.h>
+#import <ShadowKit/SKPluginLoader.h>
 
 @class SparkPlugIn, SparkAction;
 
@@ -17,11 +17,13 @@
     @class		SparkActionLoader
     @abstract   Action extension is "spact".
 */
-@interface SparkActionLoader : SparkPlugInLoader {
+@interface SparkActionLoader : SKPluginLoader {
 
 }
 
-- (BOOL)isValidPlugIn:(Class)principalClass;
++ (NSString *)buildInPath;
++ (void)setBuildInPath:(NSString *)newPath;
+
 - (SparkPlugIn *)plugInForAction:(SparkAction *)action;
 
 @end

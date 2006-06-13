@@ -23,7 +23,7 @@ static NSComparisonResult CompareActionList(id object1, id object2, void *contex
   if (self = [super initWithLibraryNibNamed:@"ActionLibrary"]) {
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(sparkDidAddPlugin:)
-                                                 name:kSparkDidAddPlugInNotification
+                                                 name:SKPluginLoaderDidLoadPluginNotification
                                                object:nil];
   }
   return self;
@@ -80,7 +80,7 @@ static NSComparisonResult CompareActionList(id object1, id object2, void *contex
 - (NSArray *)actionsLists {
   if (nil == _actionsLists) {
     _actionsLists = [[NSMutableArray alloc] init];
-    id plugins = [[[SparkActionLoader sharedLoader] plugIns] objectEnumerator];
+    id plugins = [[[SparkActionLoader sharedLoader] plugins] objectEnumerator];
     id plugin;
     while (plugin = [plugins nextObject]) {
       id list = [[ActionPlugInList alloc] initWithPlugIn:plugin];

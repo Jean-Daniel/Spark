@@ -119,7 +119,7 @@
   [url release];
   path = [path stringByDeletingLastPathComponent];
   DLog(@"Search Domain: %@", path);
-  int domain = [[SparkPlugInLoader plugInPaths] indexOfObject:path];
+  int domain = [[[SparkActionLoader sharedLoader] folders] indexOfObject:path];
   if (domain != NSNotFound) {
     return [self removePlugin:_dest fromDomain:domain];
   }
@@ -176,11 +176,11 @@
   [url release];
   NSFileManager *manager = [NSFileManager defaultManager];
   if ([manager fileExistsAtPath:srcPath]) {
-    id destination = [[SparkPlugInLoader plugInPaths] objectAtIndex:0];
+    id destination = [[[SparkActionLoader sharedLoader] folders] objectAtIndex:0];
     destination = [destination stringByAppendingPathComponent:[srcPath lastPathComponent]];
     if ([manager copyPath:srcPath toPath:destination handler:nil]) {
       FSRef folder;
-      if ([[[SparkPlugInLoader plugInPaths] objectAtIndex:0] getFSRef:&folder]) {
+      if ([[[[SparkActionLoader sharedLoader] folders] objectAtIndex:0] getFSRef:&folder]) {
         FNNotify(&folder, kFNDirectoryModifiedMessage, kNilOptions);
       }
       return YES;
@@ -193,7 +193,7 @@
 
 - (BOOL)copyPluginForComputer {
   OSStatus err = noErr;
-  id destination = [[SparkPlugInLoader plugInPaths] objectAtIndex:1];
+  id destination = [[[SparkActionLoader sharedLoader] folders] objectAtIndex:1];
   NSURL *url = (id)CFBundleCopyBundleURL(_src);
   NSString *srcPath = [url path];
   [url release];

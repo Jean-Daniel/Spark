@@ -20,8 +20,8 @@
     [self setImage:gear forSegment:0];
     [[self cell] setToolTip:NSLocalizedString(@"CREATE_KEY_TOOLTIP", @"Segment Menu ToolTips") forSegment:0];
     [[self cell] setTrackingMode:NSSegmentSwitchTrackingMomentary];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sparkDidAddPlugIn:) name:kSparkDidAddPlugInNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sparkDidRemovePlugIn:) name:kSparkDidRemovePlugInNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sparkDidAddPlugIn:) name:SKPluginLoaderDidLoadPluginNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sparkDidRemovePlugIn:) name:SKPluginLoaderDidRemovePluginNotification object:nil];
   }
   return self;
 }
@@ -55,7 +55,7 @@
 NSMenu *NewActionMenu() {
   id menu = [[NSMenu alloc] initWithTitle:NSLocalizedString(@"NEW_KEY_MENU", @"New Key Menu Title")];
   id desc = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES selector:@selector(caseInsensitiveCompare:)];
-  id plugIns = [[[SparkActionLoader sharedLoader] plugIns] sortedArrayUsingDescriptors:[NSArray arrayWithObject:desc]];
+  id plugIns = [[[SparkActionLoader sharedLoader] plugins] sortedArrayUsingDescriptors:[NSArray arrayWithObject:desc]];
   [desc release];
   plugIns = [plugIns objectEnumerator];
   id plugIn;

@@ -265,7 +265,7 @@ CFXMLTreeRef TreeWithData(CFStringRef data) {
   id sortedKeys = nil;
   if ([[list objects] count] > 0) {
     sortedKeys = [[[list objects] sortedArrayUsingDescriptors:descs] mutableCopy];
-    id plugins = [[[[SparkActionLoader sharedLoader] plugIns] sortedArrayUsingDescriptors:descs] objectEnumerator];
+    id plugins = [[[[SparkActionLoader sharedLoader] plugins] sortedArrayUsingDescriptors:descs] objectEnumerator];
     id plugin;
     while (plugin = [plugins nextObject]) {
       NSMutableArray *keys = [[NSMutableArray alloc] init];

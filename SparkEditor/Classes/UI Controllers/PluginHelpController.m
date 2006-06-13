@@ -12,8 +12,8 @@
 }
 
 - (void)awakeFromNib {
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadPlugInMenu:) name:kSparkDidAddPlugInNotification object:nil];
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadPlugInMenu:) name:kSparkDidRemovePlugInNotification object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadPlugInMenu:) name:SKPluginLoaderDidLoadPluginNotification object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadPlugInMenu:) name:SKPluginLoaderDidRemovePluginNotification object:nil];
   [[self window] setFrameUsingName:@"PlugInsHelpWindow"];
   [self reloadPlugInMenu:nil];
 }
@@ -28,7 +28,7 @@
   
   id menu = [popupMenu menu];
   id desc = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES selector:@selector(caseInsensitiveCompare:)];
-  id plugIns = [[[SparkActionLoader sharedLoader] plugIns] sortedArrayUsingDescriptors:[NSArray arrayWithObject:desc]];
+  id plugIns = [[[SparkActionLoader sharedLoader] plugins] sortedArrayUsingDescriptors:[NSArray arrayWithObject:desc]];
   [desc release];
   plugIns = [plugIns objectEnumerator];
   id plugIn;

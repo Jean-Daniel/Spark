@@ -12,25 +12,31 @@
 #import <SparkKit/SparkActionPlugIn.h>
 #import <SparkKit/Spark_Private.h>
 
+static
+NSString *buildInPath = nil;
+
 @implementation SparkActionLoader
 
 + (id)sharedLoader {
   static id loader = nil;
   if (!loader) {
-    loader = [[self alloc] init];
+    loader = [[self alloc] initWithDomains:kSKDefaultDomains subscribe:NO];
   }
   return loader;
 }
 
-- (id)loadPlugInBundle:(NSBundle *)bundle {
-  id plug = nil;
-  Class principalClass = [bundle principalClass];
-  if (principalClass) {
-    if (![self plugInForClass:principalClass] && [self isValidPlugIn:principalClass]) {
-      plug = [SparkPlugIn plugInWithBundle:bundle];
-    }
++ (NSString *)extension {
+  return @"spact";
+}
+
++ (NSString *)buildInPath {
+  return (buildInPath) ? buildInPath : [[NSBundle mainBundle] builtInPlugInsPath];
+}
++ (void)setBuildInPath:(NSString *)newPath {
+  if (buildInPath != newPath) {
+    [buildInPath release];
+    buildInPath = [newPath copy];
   }
-  return plug;
 }
 
 - (BOOL)isValidPlugIn:(Class)principalClass {
@@ -41,8 +47,19 @@
   return [action isSubclassOfClass:[SparkAction class]];
 }
 
+- (id)createPluginForBundle:(NSBundle *)bundle {
+  id plug = nil;
+  Class principalClass = [bundle principalClass];
+  if (principalClass) {
+    if ([self isValidPlugIn:principalClass]) {
+      plug = [SparkPlugIn plugInWithBundle:bundle];
+    }
+  }
+  return plug;
+}
+
 - (SparkPlugIn *)plugInForAction:(SparkAction *)action {
-  id plugins = [[self plugIns] objectEnumerator];
+  id plugins = [[self plugins] objectEnumerator];
   id plugin;
   while (plugin = [plugins nextObject]) {
     if ([action isKindOfClass:[plugin actionClass]]) {
@@ -50,10 +67,6 @@
     }
   }
   return nil;
-}
-
-+ (NSString *)extension {
-  return @"spact";
 }
 
 @end

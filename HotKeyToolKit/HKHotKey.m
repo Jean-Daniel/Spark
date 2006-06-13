@@ -15,6 +15,8 @@
 #warning Debug defined in HotKeyToolKit!	
 #endif
 
+volatile int HKGDBWorkaround = 0;
+
 @interface HKHotKey (Private) 
 - (void)_invalidateTimer;
 @end

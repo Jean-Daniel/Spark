@@ -195,7 +195,7 @@ NSString * const kActionEditorDidChangePluginNotification = @"ActionEditorDidCha
 #pragma mark -
 #pragma mark Plugin Manipulation
 - (SparkPlugIn *)selectedPlugin {
-  return (_plugin) ? [[SparkActionLoader sharedLoader] plugInForClass:[_plugin class]] : nil;
+  return (_plugin) ? [[SparkActionLoader sharedLoader] pluginForClass:[_plugin class]] : nil;
 }
 
 - (void)selectActionPlugin:(SparkPlugIn *)plugin {
@@ -340,7 +340,7 @@ NSString * const kActionEditorDidChangePluginNotification = @"ActionEditorDidCha
   id menu = [categoriePopup menu];
   
   id desc = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES selector:@selector(caseInsensitiveCompare:)];
-  id plugIns = [[[SparkActionLoader sharedLoader] plugIns] sortedArrayUsingDescriptors:[NSArray arrayWithObject:desc]];
+  id plugIns = [[[SparkActionLoader sharedLoader] plugins] sortedArrayUsingDescriptors:[NSArray arrayWithObject:desc]];
   [desc release];
   plugIns = [plugIns objectEnumerator];
   id plugIn;

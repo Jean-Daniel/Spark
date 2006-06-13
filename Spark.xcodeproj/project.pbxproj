@@ -12,16 +12,6 @@
 			buildConfigurationList = 98FF7B270857B50600611EDE /* Build configuration list for PBXAggregateTarget "Frameworks" */;
 			buildPhases = (
 			);
-			buildSettings = {
-				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = Frameworks;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
 			dependencies = (
 				98EF838D086464FC007BC81A /* PBXTargetDependency */,
 				98EF838B086464FC007BC81A /* PBXTargetDependency */,
@@ -34,16 +24,6 @@
 			buildConfigurationList = 98FF7B310857B50600611EDE /* Build configuration list for PBXAggregateTarget "Plugins" */;
 			buildPhases = (
 			);
-			buildSettings = {
-				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = Test;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
 			dependencies = (
 				98EF839508646510007BC81A /* PBXTargetDependency */,
 			);
@@ -55,11 +35,6 @@
 			buildConfigurationList = 98FF7B360857B50600611EDE /* Build configuration list for PBXAggregateTarget "All" */;
 			buildPhases = (
 			);
-			buildSettings = {
-				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = All;
-				SECTORDER_FLAGS = "";
-			};
 			dependencies = (
 				9840325D06067AB700AB5262 /* PBXTargetDependency */,
 				9889CF4606B418550037768F /* PBXTargetDependency */,
@@ -74,16 +49,6 @@
 			buildConfigurationList = 98FF7B2C0857B50600611EDE /* Build configuration list for PBXAggregateTarget "Daemon" */;
 			buildPhases = (
 			);
-			buildSettings = {
-				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = "Daemon & Co.";
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
 			dependencies = (
 				98EF839108646508007BC81A /* PBXTargetDependency */,
 			);
@@ -95,16 +60,6 @@
 			buildConfigurationList = 98FF7B3B0857B50600611EDE /* Build configuration list for PBXAggregateTarget "Spark" */;
 			buildPhases = (
 			);
-			buildSettings = {
-				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = Spark;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
 			dependencies = (
 				98E65AB706B4101000F73A19 /* PBXTargetDependency */,
 				98C12D1908CE14B60015CB91 /* PBXTargetDependency */,
@@ -113,85 +68,6 @@
 			productName = Spark;
 		};
 /* End PBXAggregateTarget section */
-
-/* Begin PBXBuildStyle section */
-		4A9504CCFFE6A4B311CA0CBA /* Development */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				DEAD_CODE_STRIPPING = NO;
-				DEPLOYMENT_POSTPROCESSING = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
-				GCC_WARN_UNINITIALIZED_AUTOS = NO;
-				GCC_WARN_UNUSED_VALUE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				PRESERVE_DEAD_CODE_INITS_AND_TERMS = NO;
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				ZERO_LINK = YES;
-			};
-			name = Development;
-		};
-		4A9504CDFFE6A4B311CA0CBA /* Deployment */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				DEAD_CODE_STRIPPING = YES;
-				DEPLOYMENT_POSTPROCESSING = YES;
-				GCC_DYNAMIC_NO_PIC = YES;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_OPTIMIZATION_LEVEL = s;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					NS_BLOCK_ASSERTIONS,
-					DEBUG_ASSERT_PRODUCTION_CODE,
-				);
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_VALUE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				PRESERVE_DEAD_CODE_INITS_AND_TERMS = YES;
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				ZERO_LINK = NO;
-			};
-			name = Deployment;
-		};
-		983CF4F705C193CF00AE5B1C /* Developement Safe Compile */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-				GCC_DYNAMIC_NO_PIC = YES;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = NS_BLOCK_ASSERTIONS;
-				GCC_WARN_UNUSED_VALUE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				ZERO_LINK = NO;
-			};
-			name = "Developement Safe Compile";
-		};
-/* End PBXBuildStyle section */
 
 /* Begin PBXContainerItemProxy section */
 		9840325C06067AB700AB5262 /* PBXContainerItemProxy */ = {
@@ -1264,13 +1140,6 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 98FF7B400857B50600611EDE /* Build configuration list for PBXProject "Spark" */;
-			buildSettings = {
-			};
-			buildStyles = (
-				4A9504CCFFE6A4B311CA0CBA /* Development */,
-				4A9504CDFFE6A4B311CA0CBA /* Deployment */,
-				983CF4F705C193CF00AE5B1C /* Developement Safe Compile */,
-			);
 			hasScannedForEncodings = 1;
 			mainGroup = 29B97314FDCFA39411CA2CEA /* Spark */;
 			projectDirPath = "";

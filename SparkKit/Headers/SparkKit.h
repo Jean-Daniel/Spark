@@ -22,7 +22,6 @@
 #import <SparkKit/Spark_Private.h>
 
 #import <SparkKit/SparkPlugIn.h>
-#import <SparkKit/SparkPlugInLoader.h>
 #import <SparkKit/SparkActionLoader.h>
 
 #import <SparkKit/SparkSerialization.h>

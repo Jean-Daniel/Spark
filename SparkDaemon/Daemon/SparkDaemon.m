@@ -139,7 +139,7 @@ int main(int argc, const char *argv[]) {
         }
         if (plugPath) {
           result = YES;
-          [SparkPlugInLoader setBuildInPath:(id)plugPath];
+          [SparkActionLoader setBuildInPath:(id)plugPath];
           CFRelease(plugPath);
           plugPath = nil;
         }

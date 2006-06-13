@@ -94,7 +94,7 @@ NSString* const kSparkLibraryDidRemoveKeyNotification = @"SparkLibraryDidRemoveK
   }
 }
 
-- (NSArray *)keysWithKeycode:(unsigned short)keycode modifier:(int)modifier {
+- (NSArray *)keysWithKeycode:(unsigned short)keycode modifier:(unsigned int)modifier {
   NSMutableArray *result = [NSMutableArray array];
   id keys = [self objectEnumerator];
   id key;
@@ -104,7 +104,7 @@ NSString* const kSparkLibraryDidRemoveKeyNotification = @"SparkLibraryDidRemoveK
   }
   return result;
 }
-- (SparkHotKey *)activeKeyWithKeycode:(unsigned short)keycode modifier:(int)modifier {
+- (SparkHotKey *)activeKeyWithKeycode:(unsigned short)keycode modifier:(unsigned int)modifier {
   id keys = [self objectEnumerator];
   id key;
   while (key = [keys nextObject]) {
