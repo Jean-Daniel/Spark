@@ -9,6 +9,8 @@
 #import "PluginInstaller.h"
 #import "ScriptHandler.h"
 #include <Security/Security.h>
+#import <ShadowKit/SKFSFunctions.h>
+#import <SparkKit/SparkActionLoader.h>
 #include <SecurityFoundation/SFAuthorization.h>
 
 #define RM			"/bin/rm"

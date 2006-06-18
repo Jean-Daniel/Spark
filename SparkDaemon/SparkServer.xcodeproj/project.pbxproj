@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		981B5FE509386BAD0024C0D9 /* ShadowMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = 981B5FE409386BAD0024C0D9 /* ShadowMacros.h */; };
 		985E3ADA0788A0DE00C85CF8 /* SparkDaemonSuite.scriptTerminology in Resources */ = {isa = PBXBuildFile; fileRef = 985E3AD90788A0DE00C85CF8 /* SparkDaemonSuite.scriptTerminology */; };
 		985E3ADB0788A0E100C85CF8 /* Spark Scripting.r in Rez */ = {isa = PBXBuildFile; fileRef = 987E6D3F06D7E0D900C7F41C /* Spark Scripting.r */; };
 		9867565A096B3B9000BB8A25 /* ShadowKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98675654096B3B6F00BB8A25 /* ShadowKit.framework */; };
@@ -82,9 +81,7 @@
 		981B5FD409386B470024C0D9 /* ShadowCommon.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowCommon.xcconfig; sourceTree = "<group>"; };
 		981B5FD509386B470024C0D9 /* ShadowDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowDebug.xcconfig; sourceTree = "<group>"; };
 		981B5FD609386B470024C0D9 /* ShadowRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowRelease.xcconfig; sourceTree = "<group>"; };
-		981B5FD709386B470024C0D9 /* ShadowTest.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowTest.xcconfig; sourceTree = "<group>"; };
 		981B5FD809386B470024C0D9 /* ShadowUniversal.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowUniversal.xcconfig; sourceTree = "<group>"; };
-		981B5FE409386BAD0024C0D9 /* ShadowMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShadowMacros.h; path = ShadowKit/Base/Headers/ShadowMacros.h; sourceTree = SHADOWKIT_ROOT; };
 		98402CEE060670AC00AB5262 /* AEScript.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = AEScript.c; sourceTree = "<group>"; };
 		98402CF1060670AC00AB5262 /* AEScript.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AEScript.h; sourceTree = "<group>"; };
 		98402CF2060670AC00AB5262 /* SparkDaemon.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SparkDaemon.h; sourceTree = "<group>"; };
@@ -148,7 +145,6 @@
 		29B97314FDCFA39411CA2CEA /* Spark */ = {
 			isa = PBXGroup;
 			children = (
-				981B5FE409386BAD0024C0D9 /* ShadowMacros.h */,
 				98402CED0606708800AB5262 /* Daemon */,
 				98CE5BFB0774EF34006EB5A5 /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
@@ -174,7 +170,6 @@
 			children = (
 				981B5FD409386B470024C0D9 /* ShadowCommon.xcconfig */,
 				981B5FD509386B470024C0D9 /* ShadowDebug.xcconfig */,
-				981B5FD709386B470024C0D9 /* ShadowTest.xcconfig */,
 				981B5FD609386B470024C0D9 /* ShadowRelease.xcconfig */,
 				981B5FD809386B470024C0D9 /* ShadowUniversal.xcconfig */,
 			);
@@ -256,7 +251,6 @@
 				98B20D6E06A5491C008BA3F6 /* SparkDaemon.h in Headers */,
 				98B20D6F06A5491C008BA3F6 /* SparkServerProtocol.h in Headers */,
 				98F2DECE0715E3D2001BBF29 /* SparkAppleScriptSuite.h in Headers */,
-				981B5FE509386BAD0024C0D9 /* ShadowMacros.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -388,22 +382,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		98B4E0DA0939D639009F2007 /* Profiling */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = "Spark Daemon.plist";
-				INSTALL_PATH = "$(USER_APPS_DIR)";
-				PRODUCT_NAME = "Spark Daemon";
-			};
-			name = Profiling;
-		};
-		98B4E0DB0939D639009F2007 /* Profiling */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 981B5FD709386B470024C0D9 /* ShadowTest.xcconfig */;
-			buildSettings = {
-			};
-			name = Profiling;
-		};
 		98C128D108CE0E9E0015CB91 /* Universal Binary */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -417,6 +395,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 981B5FD809386B470024C0D9 /* ShadowUniversal.xcconfig */;
 			buildSettings = {
+				SYMROOT = ../build;
 			};
 			name = "Universal Binary";
 		};
@@ -442,6 +421,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 981B5FD509386B470024C0D9 /* ShadowDebug.xcconfig */;
 			buildSettings = {
+				SYMROOT = ../build;
 			};
 			name = Development;
 		};
@@ -449,6 +429,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 981B5FD609386B470024C0D9 /* ShadowRelease.xcconfig */;
 			buildSettings = {
+				SYMROOT = ../build;
 			};
 			name = Deployment;
 		};
@@ -459,7 +440,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				98EF7DEB08645714007BC81A /* Development */,
-				98B4E0DA0939D639009F2007 /* Profiling */,
 				98EF7DEC08645714007BC81A /* Deployment */,
 				98C128D108CE0E9E0015CB91 /* Universal Binary */,
 			);
@@ -470,7 +450,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				98EF7DF008645714007BC81A /* Development */,
-				98B4E0DB0939D639009F2007 /* Profiling */,
 				98EF7DF108645714007BC81A /* Deployment */,
 				98C128D208CE0E9E0015CB91 /* Universal Binary */,
 			);

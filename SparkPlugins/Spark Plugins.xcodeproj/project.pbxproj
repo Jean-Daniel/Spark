@@ -1345,115 +1345,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		98B4E1F50939D683009F2007 /* Profiling */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = Power/Info.plist;
-				PRODUCT_NAME = PowerAction;
-			};
-			name = Profiling;
-		};
-		98B4E1F60939D683009F2007 /* Profiling */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = iTunes/Info.plist;
-				PRODUCT_NAME = iTunesAction;
-			};
-			name = Profiling;
-		};
-		98B4E1F70939D683009F2007 /* Profiling */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = Documents/Info.plist;
-				PRODUCT_NAME = DocumentAction;
-			};
-			name = Profiling;
-		};
-		98B4E1F80939D683009F2007 /* Profiling */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = Application/Info.plist;
-				PRODUCT_NAME = ApplicationAction;
-			};
-			name = Profiling;
-		};
-		98B4E1F90939D683009F2007 /* Profiling */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = "Apple Script/Info.plist";
-				PRODUCT_NAME = AppleScriptAction;
-			};
-			name = Profiling;
-		};
-		98B4E1FA0939D683009F2007 /* Profiling */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				DEAD_CODE_STRIPPING = NO;
-				DEPLOYMENT_POSTPROCESSING = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = NO;
-				GCC_WARN_UNUSED_VALUE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				PRESERVE_DEAD_CODE_INITS_AND_TERMS = NO;
-				PRODUCT_NAME = All;
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				ZERO_LINK = YES;
-			};
-			name = Profiling;
-		};
-		98B4E1FB0939D683009F2007 /* Profiling */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				DEAD_CODE_STRIPPING = NO;
-				DEPLOYMENT_POSTPROCESSING = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
-				GCC_WARN_UNINITIALIZED_AUTOS = NO;
-				GCC_WARN_UNUSED_VALUE = YES;
-				INSTALL_PATH = /usr/local/bin;
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRESERVE_DEAD_CODE_INITS_AND_TERMS = NO;
-				PRODUCT_NAME = Labo;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				ZERO_LINK = YES;
-			};
-			name = Profiling;
-		};
-		98B4E1FC0939D683009F2007 /* Profiling */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 981B624409386E340024C0D9 /* ShadowTest.xcconfig */;
-			buildSettings = {
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_PREFIX_HEADER = Spark.pch;
-				MACH_O_TYPE = mh_bundle;
-				WRAPPER_EXTENSION = spact;
-			};
-			name = Profiling;
-		};
 		98C12C7708CE11FC0015CB91 /* Universal Binary */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1558,8 +1449,8 @@
 			baseConfigurationReference = 981B624509386E340024C0D9 /* ShadowUniversal.xcconfig */;
 			buildSettings = {
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_PREFIX_HEADER = Spark.pch;
 				MACH_O_TYPE = mh_bundle;
+				SYMROOT = ../build;
 				WRAPPER_EXTENSION = spact;
 			};
 			name = "Universal Binary";
@@ -1766,8 +1657,8 @@
 			baseConfigurationReference = 981B624209386E340024C0D9 /* ShadowDebug.xcconfig */;
 			buildSettings = {
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_PREFIX_HEADER = Spark.pch;
 				MACH_O_TYPE = mh_bundle;
+				SYMROOT = ../build;
 				WRAPPER_EXTENSION = spact;
 			};
 			name = Development;
@@ -1777,8 +1668,8 @@
 			baseConfigurationReference = 981B624309386E340024C0D9 /* ShadowRelease.xcconfig */;
 			buildSettings = {
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_PREFIX_HEADER = Spark.pch;
 				MACH_O_TYPE = mh_bundle;
+				SYMROOT = ../build;
 				WRAPPER_EXTENSION = spact;
 			};
 			name = Deployment;
@@ -1790,7 +1681,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				98EF7EC908645A0E007BC81A /* Development */,
-				98B4E1F50939D683009F2007 /* Profiling */,
 				98EF7ECA08645A0E007BC81A /* Deployment */,
 				98C12C7708CE11FC0015CB91 /* Universal Binary */,
 			);
@@ -1801,7 +1691,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				98EF7ECD08645A0E007BC81A /* Development */,
-				98B4E1F60939D683009F2007 /* Profiling */,
 				98EF7ECE08645A0E007BC81A /* Deployment */,
 				98C12C7808CE11FC0015CB91 /* Universal Binary */,
 			);
@@ -1812,7 +1701,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				98EF7ED108645A0E007BC81A /* Development */,
-				98B4E1F70939D683009F2007 /* Profiling */,
 				98EF7ED208645A0E007BC81A /* Deployment */,
 				98C12C7908CE11FC0015CB91 /* Universal Binary */,
 			);
@@ -1823,7 +1711,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				98EF7ED508645A0E007BC81A /* Development */,
-				98B4E1F80939D683009F2007 /* Profiling */,
 				98EF7ED608645A0E007BC81A /* Deployment */,
 				98C12C7A08CE11FC0015CB91 /* Universal Binary */,
 			);
@@ -1834,7 +1721,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				98EF7ED908645A0E007BC81A /* Development */,
-				98B4E1F90939D683009F2007 /* Profiling */,
 				98EF7EDA08645A0E007BC81A /* Deployment */,
 				98C12C7B08CE11FC0015CB91 /* Universal Binary */,
 			);
@@ -1845,7 +1731,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				98EF7EDD08645A0E007BC81A /* Development */,
-				98B4E1FA0939D683009F2007 /* Profiling */,
 				98EF7EDE08645A0E007BC81A /* Deployment */,
 				98C12C7C08CE11FC0015CB91 /* Universal Binary */,
 			);
@@ -1856,7 +1741,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				98EF7EE108645A0E007BC81A /* Development */,
-				98B4E1FB0939D683009F2007 /* Profiling */,
 				98EF7EE208645A0E007BC81A /* Deployment */,
 				98C12C7D08CE11FC0015CB91 /* Universal Binary */,
 			);
@@ -1867,7 +1751,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				98EF7EE508645A0E007BC81A /* Development */,
-				98B4E1FC0939D683009F2007 /* Profiling */,
 				98EF7EE608645A0E007BC81A /* Deployment */,
 				98C12C7E08CE11FC0015CB91 /* Universal Binary */,
 			);

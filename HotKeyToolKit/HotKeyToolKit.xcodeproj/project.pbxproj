@@ -57,7 +57,6 @@
 		981B5F3E093868ED0024C0D9 /* ShadowCommon.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowCommon.xcconfig; sourceTree = "<group>"; };
 		981B5F3F093868ED0024C0D9 /* ShadowDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowDebug.xcconfig; sourceTree = "<group>"; };
 		981B5F40093868ED0024C0D9 /* ShadowRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowRelease.xcconfig; sourceTree = "<group>"; };
-		981B5F41093868ED0024C0D9 /* ShadowTest.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowTest.xcconfig; sourceTree = "<group>"; };
 		981B5F42093868ED0024C0D9 /* ShadowUniversal.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowUniversal.xcconfig; sourceTree = "<group>"; };
 		982B010A05FE954600E8776D /* HKKeyboardUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKKeyboardUtils.h; path = Headers/HKKeyboardUtils.h; sourceTree = SOURCE_ROOT; };
 		982B010B05FE954600E8776D /* HKKeyboardUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKKeyboardUtils.m; sourceTree = "<group>"; };
@@ -203,7 +202,6 @@
 				981B5F3E093868ED0024C0D9 /* ShadowCommon.xcconfig */,
 				981B5F3F093868ED0024C0D9 /* ShadowDebug.xcconfig */,
 				981B5F40093868ED0024C0D9 /* ShadowRelease.xcconfig */,
-				981B5F41093868ED0024C0D9 /* ShadowTest.xcconfig */,
 				981B5F42093868ED0024C0D9 /* ShadowUniversal.xcconfig */,
 			);
 			path = Configurations;
@@ -456,7 +454,6 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
-				MACH_O_TYPE = mh_dylib;
 				OTHER_LDFLAGS = (
 					"-seg1addr",
 					0xD0000000,
@@ -515,81 +512,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 981B5F40093868ED0024C0D9 /* ShadowRelease.xcconfig */;
 			buildSettings = {
-				GCC_PREFIX_HEADER = "Cocoa-Carbon.pch";
+				GCC_PREFIX_HEADER = "$(SHADOWKIT_ROOT)/Cocoa-Carbon.pch";
+				SYMROOT = ../build;
 			};
 			name = Deployment;
-		};
-		98B4E0B40939D614009F2007 /* Profiling */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DYLIB_COMPATIBILITY_VERSION = 2;
-				DYLIB_CURRENT_VERSION = 2;
-				FRAMEWORK_VERSION = A;
-				GCC_DYNAMIC_NO_PIC = NO;
-				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "@executable_path/../Frameworks";
-				MACH_O_TYPE = mh_dylib;
-				OTHER_LDFLAGS = (
-					"-seg1addr",
-					0xD0000000,
-				);
-				PRODUCT_NAME = HotKeyToolKit;
-			};
-			name = Profiling;
-		};
-		98B4E0B50939D614009F2007 /* Profiling */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				DEAD_CODE_STRIPPING = NO;
-				DEPLOYMENT_POSTPROCESSING = NO;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_VERSION = A;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Cocoa_Carbon_Prefix.pch;
-				GCC_PREPROCESSOR_DEFINITIONS = "";
-				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
-				GCC_WARN_UNINITIALIZED_AUTOS = NO;
-				GCC_WARN_UNKNOWN_PRAGMAS = NO;
-				GCC_WARN_UNUSED_VALUE = YES;
-				INFOPLIST_FILE = Test/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				OTHER_CFLAGS = "-fobjc-exceptions";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-					"-framework",
-					SenTestingKit,
-				);
-				PRESERVE_DEAD_CODE_INITS_AND_TERMS = NO;
-				PRODUCT_NAME = Testing;
-				SECTORDER_FLAGS = "";
-				TEST_AFTER_BUILD = YES;
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				ZERO_LINK = YES;
-			};
-			name = Profiling;
-		};
-		98B4E0B60939D614009F2007 /* Profiling */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 981B5F41093868ED0024C0D9 /* ShadowTest.xcconfig */;
-			buildSettings = {
-				GCC_PREFIX_HEADER = "Cocoa-Carbon.pch";
-			};
-			name = Profiling;
 		};
 		98C1287D08CE0D620015CB91 /* Universal Binary */ = {
 			isa = XCBuildConfiguration;
@@ -600,7 +526,6 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
-				MACH_O_TYPE = mh_dylib;
 				OTHER_LDFLAGS = (
 					"-seg1addr",
 					0xD0000000,
@@ -658,7 +583,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 981B5F42093868ED0024C0D9 /* ShadowUniversal.xcconfig */;
 			buildSettings = {
-				GCC_PREFIX_HEADER = "Cocoa-Carbon.pch";
+				GCC_PREFIX_HEADER = "$(SHADOWKIT_ROOT)/Cocoa-Carbon.pch";
+				SYMROOT = ../build;
 			};
 			name = "Universal Binary";
 		};
@@ -671,7 +597,6 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
-				MACH_O_TYPE = mh_dylib;
 				OTHER_LDFLAGS = (
 					"-seg1addr",
 					0xD0000000,
@@ -730,7 +655,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 981B5F3F093868ED0024C0D9 /* ShadowDebug.xcconfig */;
 			buildSettings = {
-				GCC_PREFIX_HEADER = "Cocoa-Carbon.pch";
+				GCC_PREFIX_HEADER = "$(SHADOWKIT_ROOT)/Cocoa-Carbon.pch";
+				SYMROOT = ../build;
 			};
 			name = Development;
 		};
@@ -741,7 +667,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				98EF7D5508645328007BC81A /* Development */,
-				98B4E0B40939D614009F2007 /* Profiling */,
 				981B5F510938699D0024C0D9 /* Deployment */,
 				98C1287D08CE0D620015CB91 /* Universal Binary */,
 			);
@@ -752,7 +677,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				98EF7D5908645328007BC81A /* Development */,
-				98B4E0B50939D614009F2007 /* Profiling */,
 				981B5F520938699D0024C0D9 /* Deployment */,
 				98C1287E08CE0D620015CB91 /* Universal Binary */,
 			);
@@ -763,7 +687,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				98EF7D5D08645328007BC81A /* Development */,
-				98B4E0B60939D614009F2007 /* Profiling */,
 				981B5F530938699D0024C0D9 /* Deployment */,
 				98C1287F08CE0D620015CB91 /* Universal Binary */,
 			);

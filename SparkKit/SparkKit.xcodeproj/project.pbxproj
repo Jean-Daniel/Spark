@@ -1072,6 +1072,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 981B5F8109386A590024C0D9 /* ShadowDebug.xcconfig */;
 			buildSettings = {
+				SYMROOT = ../build;
 			};
 			name = Development;
 		};
@@ -1079,32 +1080,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 981B5F8209386A590024C0D9 /* ShadowRelease.xcconfig */;
 			buildSettings = {
+				SYMROOT = ../build;
 			};
 			name = Deployment;
-		};
-		98B4E0BB0939D616009F2007 /* Profiling */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_VERSION = B;
-				GCC_DYNAMIC_NO_PIC = NO;
-				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "@executable_path/../Frameworks";
-				OTHER_LDFLAGS = (
-					"-seg1addr",
-					0xD0200000,
-				);
-				PRODUCT_NAME = SparkKit;
-			};
-			name = Profiling;
-		};
-		98B4E0BC0939D616009F2007 /* Profiling */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 981B5F8309386A590024C0D9 /* ShadowTest.xcconfig */;
-			buildSettings = {
-			};
-			name = Profiling;
 		};
 		98C128F208CE0EDE0015CB91 /* Universal Binary */ = {
 			isa = XCBuildConfiguration;
@@ -1127,6 +1105,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 981B5F8409386A590024C0D9 /* ShadowUniversal.xcconfig */;
 			buildSettings = {
+				SYMROOT = ../build;
 			};
 			name = "Universal Binary";
 		};
@@ -1145,22 +1124,6 @@
 				PRODUCT_NAME = ShadowKit;
 			};
 			name = Development;
-		};
-		98C56D38096B348600ABE1EF /* Profiling */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				GCC_DYNAMIC_NO_PIC = NO;
-				INFOPLIST_FILE = ShadowKit/Info.plist;
-				INSTALL_PATH = "@executable_path/../Frameworks";
-				OTHER_LDFLAGS = (
-					"-seg1addr",
-					0xD0300000,
-				);
-				PRODUCT_NAME = ShadowKit;
-			};
-			name = Profiling;
 		};
 		98C56D39096B348600ABE1EF /* Deployment */ = {
 			isa = XCBuildConfiguration;
@@ -1201,7 +1164,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9848D887085638FD006B5130 /* Development */,
-				98B4E0BB0939D616009F2007 /* Profiling */,
 				9848D888085638FD006B5130 /* Deployment */,
 				98C128F208CE0EDE0015CB91 /* Universal Binary */,
 			);
@@ -1212,7 +1174,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9848D88B085638FD006B5130 /* Development */,
-				98B4E0BC0939D616009F2007 /* Profiling */,
 				9848D88C085638FD006B5130 /* Deployment */,
 				98C128F308CE0EDE0015CB91 /* Universal Binary */,
 			);
@@ -1223,7 +1184,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				98C56D37096B348600ABE1EF /* Development */,
-				98C56D38096B348600ABE1EF /* Profiling */,
 				98C56D39096B348600ABE1EF /* Deployment */,
 				98C56D3A096B348600ABE1EF /* Universal Binary */,
 			);

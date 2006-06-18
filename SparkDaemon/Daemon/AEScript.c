@@ -11,6 +11,7 @@
 
 #include <SparkKit/SparkKit.h>
 #include "SparkAppleScriptSuite.h"
+#include <ApplicationServices/ApplicationServices.h>
 
 OSStatus GetEditorIsTrapping(Boolean *trapping) {
   OSStatus err = noErr;

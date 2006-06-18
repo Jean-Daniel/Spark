@@ -7,7 +7,6 @@
  *
  */
 
-#include <Carbon/Carbon.h>
 #include "SparkServerProtocol.h"
 
 OSStatus GetEditorIsTrapping(Boolean *trapping);

@@ -1169,7 +1169,6 @@
 			baseConfigurationReference = 981B605A09386C450024C0D9 /* ShadowTest.xcconfig */;
 			buildSettings = {
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_PREFIX_HEADER = Spark.pch;
 				MACH_O_TYPE = mh_bundle;
 				WRAPPER_EXTENSION = spact;
 			};
@@ -1256,7 +1255,6 @@
 			baseConfigurationReference = 981B605B09386C450024C0D9 /* ShadowUniversal.xcconfig */;
 			buildSettings = {
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_PREFIX_HEADER = Spark.pch;
 				MACH_O_TYPE = mh_bundle;
 				WRAPPER_EXTENSION = spact;
 			};
@@ -1418,7 +1416,6 @@
 			baseConfigurationReference = 981B605809386C450024C0D9 /* ShadowDebug.xcconfig */;
 			buildSettings = {
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_PREFIX_HEADER = Spark.pch;
 				MACH_O_TYPE = mh_bundle;
 				WRAPPER_EXTENSION = spact;
 			};
@@ -1429,7 +1426,6 @@
 			baseConfigurationReference = 981B605909386C450024C0D9 /* ShadowRelease.xcconfig */;
 			buildSettings = {
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_PREFIX_HEADER = Spark.pch;
 				MACH_O_TYPE = mh_bundle;
 				WRAPPER_EXTENSION = spact;
 			};

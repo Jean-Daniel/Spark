@@ -374,10 +374,6 @@
 		98B481CB07738234005E79E7 /* PluginMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PluginMenu.h; sourceTree = "<group>"; };
 		98B481CF0773829A005E79E7 /* SparkObjectsLibrary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SparkObjectsLibrary.m; path = SparkKit/SparkObjectsLibrary.m; sourceTree = "<group>"; };
 		98B481D0077382BB005E79E7 /* SparkObjectsLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkObjectsLibrary.h; sourceTree = "<group>"; };
-		98B54AE606D21155001BDF93 /* KeyStrokeHotKey.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = KeyStrokeHotKey.h; sourceTree = "<group>"; };
-		98B54AE706D21155001BDF93 /* KeyStrokeKeySet.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = KeyStrokeKeySet.h; sourceTree = "<group>"; };
-		98B54AE906D21155001BDF93 /* KeyStrokeHotKey.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = KeyStrokeHotKey.m; sourceTree = "<group>"; };
-		98B54AEA06D21155001BDF93 /* KeyStrokeKeySet.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = KeyStrokeKeySet.m; sourceTree = "<group>"; };
 		98B54B3A06D21156001BDF93 /* ShellHotKey.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ShellHotKey.h; sourceTree = "<group>"; };
 		98B54B3B06D21156001BDF93 /* ShellKeySet.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ShellKeySet.h; sourceTree = "<group>"; };
 		98B54B4906D21156001BDF93 /* ShellHotKey.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ShellHotKey.m; sourceTree = "<group>"; };
@@ -403,7 +399,6 @@
 		98E6572F06B406FE00F73A19 /* SparkListLibrary.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = SparkListLibrary.m; path = SparkKit/SparkListLibrary.m; sourceTree = "<group>"; };
 		98E6573006B406FE00F73A19 /* SparkKeyLibrary.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = SparkKeyLibrary.m; path = SparkKit/SparkKeyLibrary.m; sourceTree = "<group>"; };
 		98E6573306B406FE00F73A19 /* Extension.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = Extension.m; path = SparkKit/Extension.m; sourceTree = "<group>"; };
-		98E6573406B406FE00F73A19 /* SparkPlugInLoader.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = SparkPlugInLoader.m; path = SparkKit/SparkPlugInLoader.m; sourceTree = "<group>"; };
 		98E6573506B406FE00F73A19 /* SparkLibraryObject.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = SparkLibraryObject.m; path = SparkKit/SparkLibraryObject.m; sourceTree = "<group>"; };
 		98E6573606B406FE00F73A19 /* SparkActionPlugin.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = SparkActionPlugin.m; path = SparkKit/SparkActionPlugin.m; sourceTree = "<group>"; };
 		98E6573706B406FE00F73A19 /* SparkActionLoader.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = SparkActionLoader.m; path = SparkKit/SparkActionLoader.m; sourceTree = "<group>"; };
@@ -426,7 +421,6 @@
 		98E6575006B4070900F73A19 /* SparkListLibrary.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SparkListLibrary.h; sourceTree = "<group>"; };
 		98E6575206B4070900F73A19 /* SparkMultipleAlerts.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SparkMultipleAlerts.h; sourceTree = "<group>"; };
 		98E6575306B4070900F73A19 /* SparkPlugIn.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SparkPlugIn.h; sourceTree = "<group>"; };
-		98E6575406B4070900F73A19 /* SparkPlugInLoader.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SparkPlugInLoader.h; sourceTree = "<group>"; };
 		98E65AB006B40FDD00F73A19 /* Spark Editor.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "Spark Editor.xcodeproj"; path = "SparkEditor/Spark Editor.xcodeproj"; sourceTree = "<group>"; };
 		98FF14DB05EACAE90005F402 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = /System/Library/Frameworks/WebKit.framework; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
@@ -862,8 +856,6 @@
 			isa = PBXGroup;
 			children = (
 				98B54AE506D21155001BDF93 /* Headers */,
-				98B54AE906D21155001BDF93 /* KeyStrokeHotKey.m */,
-				98B54AEA06D21155001BDF93 /* KeyStrokeKeySet.m */,
 			);
 			path = KeyStroke;
 			sourceTree = "<group>";
@@ -871,8 +863,6 @@
 		98B54AE506D21155001BDF93 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
-				98B54AE606D21155001BDF93 /* KeyStrokeHotKey.h */,
-				98B54AE706D21155001BDF93 /* KeyStrokeKeySet.h */,
 			);
 			path = Headers;
 			sourceTree = "<group>";
@@ -1047,7 +1037,6 @@
 			isa = PBXGroup;
 			children = (
 				98E6575306B4070900F73A19 /* SparkPlugIn.h */,
-				98E6575406B4070900F73A19 /* SparkPlugInLoader.h */,
 				98E6574706B4070900F73A19 /* SparkActionLoader.h */,
 			);
 			name = Loader;
@@ -1081,7 +1070,6 @@
 			isa = PBXGroup;
 			children = (
 				98E6573A06B406FE00F73A19 /* SparkPlugIn.m */,
-				98E6573406B406FE00F73A19 /* SparkPlugInLoader.m */,
 				98E6573706B406FE00F73A19 /* SparkActionLoader.m */,
 			);
 			name = Loader;

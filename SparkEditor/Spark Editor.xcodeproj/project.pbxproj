@@ -420,7 +420,6 @@
 		981B64FD09386F350024C0D9 /* ShadowCommon.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowCommon.xcconfig; sourceTree = "<group>"; };
 		981B64FE09386F350024C0D9 /* ShadowDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowDebug.xcconfig; sourceTree = "<group>"; };
 		981B64FF09386F350024C0D9 /* ShadowRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowRelease.xcconfig; sourceTree = "<group>"; };
-		981B650009386F350024C0D9 /* ShadowTest.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowTest.xcconfig; sourceTree = "<group>"; };
 		981B650109386F350024C0D9 /* ShadowUniversal.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowUniversal.xcconfig; sourceTree = "<group>"; };
 		981FB3F606FF56FA003CDEF5 /* ObjectsTableDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjectsTableDataSource.m; sourceTree = "<group>"; };
 		981FB3F806FF5708003CDEF5 /* ObjectsTableDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectsTableDataSource.h; sourceTree = "<group>"; };
@@ -721,7 +720,6 @@
 			children = (
 				981B64FD09386F350024C0D9 /* ShadowCommon.xcconfig */,
 				981B64FE09386F350024C0D9 /* ShadowDebug.xcconfig */,
-				981B650009386F350024C0D9 /* ShadowTest.xcconfig */,
 				981B64FF09386F350024C0D9 /* ShadowRelease.xcconfig */,
 				981B650109386F350024C0D9 /* ShadowUniversal.xcconfig */,
 			);
@@ -1862,24 +1860,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		98B4E0A40939D5F0009F2007 /* Profiling */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Applications";
-				PRODUCT_NAME = Spark;
-				WRAPPER_EXTENSION = app;
-			};
-			name = Profiling;
-		};
-		98B4E0A50939D5F0009F2007 /* Profiling */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 981B650009386F350024C0D9 /* ShadowTest.xcconfig */;
-			buildSettings = {
-				GCC_PREFIX_HEADER = Spark.pch;
-			};
-			name = Profiling;
-		};
 		98BC60520857BB9400A2041F /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1904,7 +1884,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 981B64FE09386F350024C0D9 /* ShadowDebug.xcconfig */;
 			buildSettings = {
-				GCC_PREFIX_HEADER = Spark.pch;
+				SYMROOT = ../build;
 			};
 			name = Development;
 		};
@@ -1912,7 +1892,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 981B64FF09386F350024C0D9 /* ShadowRelease.xcconfig */;
 			buildSettings = {
-				GCC_PREFIX_HEADER = Spark.pch;
+				SYMROOT = ../build;
 			};
 			name = Deployment;
 		};
@@ -1930,7 +1910,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 981B650109386F350024C0D9 /* ShadowUniversal.xcconfig */;
 			buildSettings = {
-				GCC_PREFIX_HEADER = Spark.pch;
+				SYMROOT = ../build;
 			};
 			name = "Universal Binary";
 		};
@@ -1944,13 +1924,6 @@
 				PRODUCT_NAME = All;
 			};
 			name = Development;
-		};
-		98DBB882099F4B8600927F3B /* Profiling */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = All;
-			};
-			name = Profiling;
 		};
 		98DBB883099F4B8600927F3B /* Deployment */ = {
 			isa = XCBuildConfiguration;
@@ -1977,7 +1950,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				98BC60520857BB9400A2041F /* Development */,
-				98B4E0A40939D5F0009F2007 /* Profiling */,
 				98BC60530857BB9400A2041F /* Deployment */,
 				98C12BD508CE11B30015CB91 /* Universal Binary */,
 			);
@@ -1988,7 +1960,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				98BC60570857BB9400A2041F /* Development */,
-				98B4E0A50939D5F0009F2007 /* Profiling */,
 				98BC60580857BB9400A2041F /* Deployment */,
 				98C12BD608CE11B30015CB91 /* Universal Binary */,
 			);
@@ -1999,7 +1970,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				98DBB881099F4B8600927F3B /* Development */,
-				98DBB882099F4B8600927F3B /* Profiling */,
 				98DBB883099F4B8600927F3B /* Deployment */,
 				98DBB884099F4B8600927F3B /* Universal Binary */,
 			);
