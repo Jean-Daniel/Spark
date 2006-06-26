@@ -121,15 +121,7 @@ CFArrayRef iTunesGetPlaylists() {
   
   err = ShadowAECreateEventWithTargetSignature(kITunesSignature, kAECoreSuite, kAEGetData, &theEvent);
   if (noErr == err) {
-    AEDesc keyData;
-    AEEventID evntId = kAEAll;
-    ShadowAENullDesc(&keyData);
-    err = AECreateDesc(typeAbsoluteOrdinal, &evntId, sizeof(AEEventID), &keyData);
-    
-    if (noErr == err) {
-      err = ShadowAEAddIndexObjectSpecifier(&theEvent, keyDirectObject, 'cPly', kAEAll, NULL);
-    }
-    ShadowAEDisposeDesc(&keyData);
+    err = ShadowAEAddIndexObjectSpecifier(&theEvent, keyDirectObject, 'cPly', kAEAll, NULL);
   }
   if (noErr == err) {
     err = ShadowAEAddMagnitude(&theEvent);
@@ -237,6 +229,136 @@ OSStatus iTunesRateCurrentSong(UInt16 rate) {
   ShadowAEDisposeDesc(&currentTrack);
   ShadowAEDisposeDesc(&theEvent);
   return err;
+}
+
+OSStatus __inline__ _iTunesCreateEvent(AEEventClass class, AEEventID method, AppleEvent *event) {
+  ShadowAENullDesc(event);
+  
+  OSStatus err = ShadowAECreateEventWithTargetSignature(kITunesSignature, class, method, event);
+  require_noerr(err, bail);
+  
+  err = ShadowAEAddMagnitude(event);
+  require_noerr(err, bail);
+  
+  err = ShadowAEAddSubject(event);
+  require_noerr(err, bail);
+  
+  return noErr;
+bail:
+    ShadowAEDisposeDesc(event);
+  return err;
+}
+CFStringRef _iTunesCopyStringProperty(OSType property) {
+  CFStringRef str = NULL;
+  AEDesc track = {typeNull, NULL};
+  AppleEvent theEvent = {typeNull, NULL};
+  
+  /* tell application "iTunes" to get... */
+  OSStatus err = _iTunesCreateEvent(kAECoreSuite, kAEGetData, &theEvent);
+  require_noerr(err, bail);
+  
+  /* current track of application */
+  err = ShadowAECreatePropertyObjectSpecifier('cTrk', 'pTrk', NULL, &track);
+  require_noerr(err, bail);
+  
+  /* ...'property' of current track */
+  err = ShadowAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeUnicodeText, property, &track);
+  require_noerr(err, bail);
+  
+  err = ShadowAESendEventReturnCFString(&theEvent, &str);
+  
+bail:
+  ShadowAEDisposeDesc(&theEvent);
+  ShadowAEDisposeDesc(&track);
+
+  return str;
+}
+
+CFDataRef _iTunesCopyArtwork(int idx) {
+  CFDataRef data = NULL;
+  AEDesc arts = {typeNull, NULL};
+  AEDesc track = {typeNull, NULL};
+  AppleEvent theEvent = {typeNull, NULL};
+  
+  /* tell application "iTunes" to get... */
+  OSStatus err = _iTunesCreateEvent(kAECoreSuite, kAECountElements, &theEvent);
+  require_noerr(err, bail);
+  
+  OSType type = 'cArt';
+  err = AEPutParamPtr(&theEvent, 'kocl', typeType, &type, sizeof(type));
+  require_noerr(err, bail);
+  
+  err = ShadowAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, 'cTrk', 'pTrk', NULL);
+  require_noerr(err, bail);
+  
+  SInt32 count = 0;
+  err = ShadowAESendEventReturnSInt32(&theEvent, &count);
+  require_noerr(err, bail);
+  
+  if (count > 0) {
+    ShadowAEDisposeDesc(&theEvent);
+    
+    err = _iTunesCreateEvent(kAECoreSuite, kAEGetData, &theEvent);
+    require_noerr(err, bail);
+
+    /* current track of application */
+    err = ShadowAECreatePropertyObjectSpecifier('cTrk', 'pTrk', NULL, &track);
+    require_noerr(err, bail);
+    
+    /* artwork idx of current track */
+    err = ShadowAECreateIndexObjectSpecifier('cArt', idx, &track, &arts);
+    require_noerr(err, bail);
+  
+    /* ...'data' of artwork */
+    err = ShadowAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, 'PICT', 'pPCT', &arts);
+    require_noerr(err, bail);
+  
+    err = ShadowAESendEventReturnCFData(&theEvent, 'PICT', &data);
+  }
+bail:
+  ShadowAEDisposeDesc(&theEvent);
+  ShadowAEDisposeDesc(&track);
+  ShadowAEDisposeDesc(&arts);  
+  
+  return data;
+}
+
+CFDictionaryRef iTunesCopyCurrentTrackProperties(OSStatus *error) {
+  OSType state = 0;
+  OSStatus err = iTunesGetState(&state);
+  if (err != noErr || state != kiTunesStatePlaying) {
+    return NULL;
+  }
+  
+  CFMutableDictionaryRef properties = CFDictionaryCreateMutable(kCFAllocatorDefault, 0,
+                                                                &kCFTypeDictionaryKeyCallBacks, 
+                                                                &kCFTypeDictionaryValueCallBacks);
+  
+  CFStringRef str = _iTunesCopyStringProperty('pnam');
+  if (str) {
+    CFDictionarySetValue(properties, CFSTR("Name"), str);
+    CFRelease(str);
+  }
+  
+  str = _iTunesCopyStringProperty('pArt');
+  if (str) {
+    CFDictionarySetValue(properties, CFSTR("Artist"), str);
+    CFRelease(str);
+  }
+  
+  str = _iTunesCopyStringProperty('pAlb');
+  if (str) {
+    CFDictionarySetValue(properties, CFSTR("Album"), str);
+    CFRelease(str);
+  }
+  
+//  CFDataRef picture = _iTunesCopyArtwork(1);
+//  if (picture) {
+//    CFDictionarySetValue(properties, CFSTR("Artwork"), picture);
+//    CFRelease(picture);
+//  }
+  
+  return properties;
 }
 
 #pragma mark -

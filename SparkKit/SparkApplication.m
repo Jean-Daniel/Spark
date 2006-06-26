@@ -12,7 +12,6 @@
 
 #import <ShadowKit/SKFunctions.h>
 #import <ShadowKit/SKExtensions.h>
-#import <ShadowKit/ShadowMacros.h>
 #import <ShadowKit/SKImageUtils.h>
 #import <ShadowKit/SKApplication.h>
 #import <ShadowKit/SKAppKitExtensions.h>

@@ -8,7 +8,6 @@
 
 #import <SparkKit/SparkActionPlugIn.h>
 
-#import <ShadowKit/ShadowMacros.h>
 #import <SparkKit/SparkAlert.h>
 #import <SparkKit/SparkAction.h>
 #import <SparkKit/Spark_Private.h>

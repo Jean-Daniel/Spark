@@ -6,8 +6,6 @@
 //  Copyright (c) 2004 Shadow Lab. All rights reserved.
 //
 
-#import <ShadowKit/ShadowMacros.h>
-
 #import <SparkKit/Extension.h>
 #import <SparkKit/SparkConstantes.h>
 #import <SparkKit/SparkMultipleAlerts.h>

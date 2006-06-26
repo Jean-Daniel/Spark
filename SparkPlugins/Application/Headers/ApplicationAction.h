@@ -8,23 +8,29 @@
 
 #import <SparkKit/SparkKit_API.h>
 
-@class SKApplicationAlias;
+@class SKBezelItem, SKApplicationAlias;
 @interface ApplicationAction : SparkAction <NSCoding, NSCopying> {
-  SKApplicationAlias *_alias;
-  int _appAction;
-  int _flags;
+  @private
+  int sa_flags;
+  int sa_appAction;
+  SKBezelItem *sa_bezel;
+  SKApplicationAlias *sa_alias;
 }
 
 - (NSString *)sign;
 - (NSString *)bundleId;
-- (void)setPath:(NSString *)path;
+
 - (NSString *)path;
-- (void)setAlias:(SKApplicationAlias *)alias;
-- (SKApplicationAlias *)alias;
-- (void)setAppAction:(int)action;
-- (int)appAction;
-- (void)setFlags:(int)flags;
+- (void)setPath:(NSString *)path;
+
 - (int)flags;
+- (void)setFlags:(int)flags;
+
+- (int)appAction;
+- (void)setAppAction:(int)action;
+
+- (SKApplicationAlias *)alias;
+- (void)setAlias:(SKApplicationAlias *)alias;
 
 - (void)hideFront;
 - (void)hideOthers;
@@ -35,4 +41,5 @@
 - (void)relaunchApplication;
 
 - (BOOL)launchAppWithFlag:(int)flag;
+
 @end

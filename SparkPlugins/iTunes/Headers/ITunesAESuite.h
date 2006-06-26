@@ -20,17 +20,30 @@ enum {
   kiTunesStateRewinding		= 'kPSR'
 };
 
-extern const OSType kITunesSignature;
+SK_PRIVATE
+const OSType kITunesSignature;
 
-extern OSStatus iTunesGetVisualState(Boolean *state);
-extern OSStatus iTunesSetVisualState(Boolean state);
+SK_PRIVATE
+OSStatus iTunesGetVisualState(Boolean *state);
+SK_PRIVATE
+OSStatus iTunesSetVisualState(Boolean state);
 
-extern OSStatus iTunesGetVolume(SInt16 *volume);
-extern OSStatus iTunesSetVolume(SInt16 volume);
+SK_PRIVATE
+OSStatus iTunesGetVolume(SInt16 *volume);
+SK_PRIVATE
+OSStatus iTunesSetVolume(SInt16 volume);
 
-extern CFArrayRef iTunesGetPlaylists();
-extern OSStatus   iTunesPlayPlaylist(CFStringRef name);
+SK_PRIVATE
+CFArrayRef iTunesGetPlaylists();
+SK_PRIVATE
+OSStatus   iTunesPlayPlaylist(CFStringRef name);
 
-extern OSStatus iTunesGetPlayerState(OSType *state);
-extern OSStatus iTunesRateCurrentSong(UInt16 rate);
+SK_PRIVATE
+OSStatus iTunesGetPlayerState(OSType *state);
+SK_PRIVATE
+OSStatus iTunesRateCurrentSong(UInt16 rate);
+
+SK_PRIVATE
+CFDictionaryRef iTunesCopyCurrentTrackProperties(OSStatus *error);
+
 #endif

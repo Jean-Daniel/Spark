@@ -7,7 +7,6 @@
 //
 
 #import <ShadowKit/SKFunctions.h>
-#import <ShadowKit/ShadowMacros.h>
 #import <ShadowKit/SKExtensions.h>
 
 #import <SparkKit/SparkApplicationLibrary.h>

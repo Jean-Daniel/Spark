@@ -8,7 +8,6 @@
 
 #import <SparkKit/SparkLibraryObject.h>
 #import <SparkKit/Spark_Private.h>
-#import <ShadowKit/ShadowMacros.h>
 
 static NSString* const kSparkLibraryObjectUIDKey = @"UID";
 static NSString* const kSparkLibraryObjectNameKey = @"Name";

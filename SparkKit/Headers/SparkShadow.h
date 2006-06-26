@@ -7,12 +7,10 @@
  *
  */
 
-#ifndef __SPARK_SHADOW__
-#define __SPARK_SHADOW__
+#if !defined(__SPARK_SHADOW_H)
+#define __SPARK_SHADOW_H 1
 
-#ifdef __OBJC__
-
-#import <ShadowKit/ShadowMacros.h>
+#if defined(__OBJC__)
 
 #import <ShadowKit/ShadowAEUtils.h>
 #import <ShadowKit/ShadowAEObjCUtils.h>
@@ -25,10 +23,9 @@
 
 #else
 
-#include <ShadowKit/ShadowMacros.h>
 #include <ShadowKit/ShadowAEUtils.h>
 
 #endif /* __OBJC__ */
 
-#endif /* __SPARK_SHADOW__ */
+#endif /* __SPARK_SHADOW_H */
 

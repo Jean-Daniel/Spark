@@ -8,7 +8,6 @@
 
 #import <SparkKit/SparkAction.h>
 #import <HotKeyToolKit/HotKeyToolKit.h>
-#import <ShadowKit/ShadowMacros.h>
 #import <ShadowKit/SKImageUtils.h>
 
 #import <SparkKit/SparkActionLibrary.h>

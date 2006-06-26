@@ -84,7 +84,6 @@ OSStatus HKCurrentKeyMap(UniChar *keyMap[], UInt16 *keyCount, UInt16 *mapCount, 
 
 #pragma mark -
 #pragma mark Statics Functions Definition
-
 UInt16 KCHRKeyboardMapCount(void *layout) {
   UInt16 mapCount = 1;
   if (YES == HKUseFullKeyMap) { /* See KCHR reference for details */

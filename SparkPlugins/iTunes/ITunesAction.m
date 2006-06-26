@@ -10,6 +10,7 @@
 #import "ITunesAction.h"
 
 #import "ITunesAESuite.h"
+#import <ShadowKit/SKBezelItem.h>
 
 static NSString* const kITunesRateKey = @"iTunesTrackTrate";
 static NSString* const kITunesActionKey = @"iTunesAction";
@@ -29,16 +30,16 @@ static NSString* const kITunesPlaylistKey = @"iTunesPlaylist";
 
 - (id)copyWithZone:(NSZone *)zone {
   ITunesAction* copy = [super copyWithZone:zone];
-  copy->_iTunesAction = _iTunesAction;
-  copy->_rating = _rating;
-  copy->_playlist = [_playlist copy];
+  copy->ia_action = ia_action;
+  copy->ia_rating = ia_rating;
+  copy->ia_playlist = [ia_playlist copy];
   return copy;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
-  [coder encodeInt:_rating forKey:kITunesRateKey];
-  [coder encodeInt:_iTunesAction forKey:kITunesActionKey];
+  [coder encodeInt:ia_rating forKey:kITunesRateKey];
+  [coder encodeInt:ia_action forKey:kITunesActionKey];
   [coder encodeObject:[self playlist] forKey:kITunesPlaylistKey];
   return;
 }
@@ -66,7 +67,8 @@ Get all values you set in the -propertyList method et configure your Action */
 }
 
 - (void)dealloc {
-  [_playlist release];
+  [ia_bezel release];
+  [ia_playlist release];
   [super dealloc];
 }
 
@@ -120,8 +122,24 @@ See the PropertyList documentation to know more about it */
   return 0;
 }
 
-/* This is the main method (the entry point) of a Action. Actually, the alert returned isn't display but maybe in a next version 
-so you can return one */
+- (void)displayTrackInfo {
+  NSDictionary *dict = (id)iTunesCopyCurrentTrackProperties(NULL);
+  if (dict) {
+    if (!ia_bezel) {
+      [NSBundle loadNibNamed:@"iTunesTrack" owner:self];
+      ia_bezel = [[SKBezelItem alloc] initWithContent:[artwork superview]];
+      [ia_bezel setDelay:1];
+      [ia_bezel setAdjustSize:YES];
+      [ia_bezel setFrameOrigin:NSMakePoint(50, 50)];
+    }
+    [track setStringValue:[dict objectForKey:@"Name"]];
+    [artist setStringValue:[dict objectForKey:@"Artist"]];
+    [album setStringValue:[dict objectForKey:@"Album"]];
+    [ia_bezel display:nil];
+    [dict release];
+  }
+}
+
 - (SparkAlert *)execute {
   SparkAlert *alert = [self check];
   if (alert == nil) {
@@ -140,9 +158,11 @@ so you can return one */
         break;
       case kiTunesNextTrack:
         [self sendAppleEvent:'Next'];
+        [self displayTrackInfo];
         break;
       case kiTunesBackTrack:
         [self sendAppleEvent:'Back'];
+        [self displayTrackInfo];
         break;
       case kiTunesStop:
         [self sendAppleEvent:'Stop'];
@@ -174,31 +194,31 @@ so you can return one */
 ****************************************************************************************/
 
 - (SInt16)rating {
-  return _rating;
+  return ia_rating;
 }
 
 - (void)setRating:(SInt16)aRate {
-  _rating = aRate;
+  ia_rating = aRate;
 }
 
 - (NSString *)playlist {
-  return _playlist;
+  return ia_playlist;
 }
 
 - (void)setPlaylist:(NSString *)newPlaylist {
-  if (_playlist != newPlaylist) {
-    [_playlist release];
-    _playlist = [newPlaylist copy];
+  if (ia_playlist != newPlaylist) {
+    [ia_playlist release];
+    ia_playlist = [newPlaylist copy];
   }
 }
 
 - (iTunesAction)iTunesAction {
-  return _iTunesAction;
+  return ia_action;
 }
 
 - (void)setITunesAction:(iTunesAction)newITunesAction {
-  if (_iTunesAction != newITunesAction) {
-    _iTunesAction = newITunesAction;
+  if (ia_action != newITunesAction) {
+    ia_action = newITunesAction;
   }
 }
 

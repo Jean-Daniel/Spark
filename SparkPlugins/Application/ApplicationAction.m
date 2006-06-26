@@ -10,10 +10,12 @@
 #import "ApplicationActionPlugin.h"
 #import "ASExtension.h"
 
-static NSString * const kHotKeyAliasKey = @"App Alias";
+#import <ShadowKit/SKBezelItem.h>
+
 static NSString * const kHotKeySignKey = @"App Sign";
 static NSString * const kHotKeyActionKey = @"Action";
 static NSString * const kHotKeyFlagsKey = @"LSFlags";
+static NSString * const kHotKeyAliasKey = @"App Alias";
 static NSString * const kHotKeyBundleIdKey = @"BundleID";
 
 @implementation ApplicationAction
@@ -22,26 +24,26 @@ static NSString * const kHotKeyBundleIdKey = @"BundleID";
 
 - (id)copyWithZone:(NSZone *)zone {
   ApplicationAction* copy = [super copyWithZone:zone];
-  copy->_appAction = _appAction;
-  copy->_flags = _flags;
-  [copy setAlias:_alias];
+  copy->sa_appAction = sa_appAction;
+  copy->sa_flags = sa_flags;
+  [copy setAlias:sa_alias];
   return copy;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
-  [coder encodeInt:_flags forKey:kHotKeyFlagsKey];
-  [coder encodeInt:_appAction forKey:kHotKeyActionKey];
-  if (_alias)
-    [coder encodeObject:_alias forKey:kHotKeyAliasKey];
+  [coder encodeInt:sa_flags forKey:kHotKeyFlagsKey];
+  [coder encodeInt:sa_appAction forKey:kHotKeyActionKey];
+  if (sa_alias)
+    [coder encodeObject:sa_alias forKey:kHotKeyAliasKey];
   return;
 }
 
 - (id)initWithCoder:(NSCoder *)coder {
   if (self = [super initWithCoder:coder]) {
-    _flags = [coder decodeIntForKey:kHotKeyFlagsKey];
-    _appAction = [coder decodeIntForKey:kHotKeyActionKey];
-    _alias = [[coder decodeObjectForKey:kHotKeyAliasKey] retain];
+    sa_flags = [coder decodeIntForKey:kHotKeyFlagsKey];
+    sa_appAction = [coder decodeIntForKey:kHotKeyActionKey];
+    sa_alias = [[coder decodeObjectForKey:kHotKeyAliasKey] retain];
   }
   return self;
 }
@@ -72,13 +74,14 @@ static NSString * const kHotKeyBundleIdKey = @"BundleID";
 }
 
 - (void)dealloc {
-  [_alias release];
+  [sa_alias release];
+  [sa_bezel release];
   [super dealloc];
 }
 
 - (NSMutableDictionary *)propertyList {
   id dico = [super propertyList];
-  id aliasData = [_alias data];
+  id aliasData = [sa_alias data];
   if (aliasData) {
     [dico setObject:aliasData forKey:kHotKeyAliasKey];
   }
@@ -88,14 +91,14 @@ static NSString * const kHotKeyBundleIdKey = @"BundleID";
   id bundleId = [self bundleId];
   if (bundleId)
     [dico setObject:bundleId forKey:kHotKeyBundleIdKey];
-  [dico setObject:SKInt(_appAction) forKey:kHotKeyActionKey];
-  [dico setObject:SKInt(_flags) forKey:kHotKeyFlagsKey];
+  [dico setObject:SKInt(sa_appAction) forKey:kHotKeyActionKey];
+  [dico setObject:SKInt(sa_flags) forKey:kHotKeyFlagsKey];
   return dico;
 }
 
 - (SparkAlert *)check {
   /* Don't check path if hide or hide all */
-  if (_appAction != kHideFrontTag && _appAction != kHideAllTag) {
+  if (sa_appAction != kHideFrontTag && sa_appAction != kHideAllTag) {
     if ([self path] == nil) {
       id title = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"INVALID_APPLICATION_ALERT", nil,ApplicationActionBundle,
                                                                                @"Check * App Not Found *") , [self name]];
@@ -110,7 +113,7 @@ static NSString * const kHotKeyBundleIdKey = @"BundleID";
 - (SparkAlert *)execute {
   id alert = [self check];
   if (alert == nil) {
-    switch (_appAction) {
+    switch (sa_appAction) {
       case kHideFrontTag:
         [self hideFront];
         break;
@@ -135,51 +138,51 @@ static NSString * const kHotKeyBundleIdKey = @"BundleID";
 }
 
 - (NSString *)sign {
-  id sign = [_alias signature];
+  id sign = [sa_alias signature];
   return ([sign isEqualToString:@"????"]) ? nil : sign;
 }
 
 - (void)setPath:(NSString *)path {
-  if (_alias) {
-    [_alias release];
-    _alias = nil;
+  if (sa_alias) {
+    [sa_alias release];
+    sa_alias = nil;
   }
-  _alias = [[SKApplicationAlias alloc] initWithPath:path];
+  sa_alias = [[SKApplicationAlias alloc] initWithPath:path];
 }
 
 - (NSString *)path {
-  return [_alias path];
+  return [sa_alias path];
 }
 
 - (void)setAlias:(SKApplicationAlias *)alias {
-  if (_alias != alias) {
-    [_alias release];
-    _alias = [alias copy];
+  if (sa_alias != alias) {
+    [sa_alias release];
+    sa_alias = [alias copy];
   }
 }
 
 - (SKApplicationAlias *)alias {
-  return _alias;
+  return sa_alias;
 }
 
 - (void)setAppAction:(int)action {
-  _appAction = action;
+  sa_appAction = action;
 }
 
 - (int)appAction {
-  return _appAction;
+  return sa_appAction;
 }
 
 - (void)setFlags:(int)flags {
-  _flags = flags;
+  sa_flags = flags;
 }
 
 - (int)flags {
-  return _flags;
+  return sa_flags;
 }
 
 - (NSString *)bundleId {
-  return [_alias bundleIdentifier];
+  return [sa_alias bundleIdentifier];
 }
 
 
@@ -221,20 +224,25 @@ static NSString * const kHotKeyBundleIdKey = @"BundleID";
 }
 
 - (void)launchApplication {
-  DLog(@"Open Application");
   ProcessSerialNumber psn;
-  if (!(_flags & kLSLaunchNewInstance) && [self getApplicationProcess:&psn]) {
+  if (!(sa_flags & kLSLaunchNewInstance) && [self getApplicationProcess:&psn]) {
     SetFrontProcess(&psn);
     ShadowAESendSimpleEventToProcess(&psn, kCoreEventClass, kAEReopenApplication);
-    if (_flags & kLSLaunchAndHideOthers)
+    if (sa_flags & kLSLaunchAndHideOthers)
       [self hideOthers];
   } else {
-    [self launchAppWithFlag:kLSLaunchDefaults | _flags];
+    [self launchAppWithFlag:kLSLaunchDefaults | sa_flags];
   }
+  if (!sa_bezel) {
+    NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:[self path]];
+    if (icon) [icon setSize:NSMakeSize(128, 128)];
+    sa_bezel = [[SKBezelItem alloc] initWithContent:icon];
+    [sa_bezel setDelay:1];
+  }
+  [sa_bezel display:nil];
 }
 
 - (void)quitApplication {
-  DLog(@"Quit Application");
   ProcessSerialNumber psn;
   if ([self getApplicationProcess:&psn]) {
     QuitApplication(&psn);

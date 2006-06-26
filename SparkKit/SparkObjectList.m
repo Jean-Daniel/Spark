@@ -9,7 +9,6 @@
 #import <SparkKit/SparkObjectList.h>
 
 #import <ShadowKit/SKFunctions.h>
-#import <ShadowKit/ShadowMacros.h>
 #import <ShadowKit/SKExtensions.h>
 #import <ShadowKit/SKAppKitExtensions.h>
 

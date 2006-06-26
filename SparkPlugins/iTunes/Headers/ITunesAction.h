@@ -9,10 +9,18 @@
 #import <SparkKit/SparkKit.h>
 #import "ITunesActionPlugin.h"
 
+@class SKBezelItem;
 @interface ITunesAction : SparkAction <NSCoding, NSCopying> {
-  iTunesAction _iTunesAction;
-  NSString *_playlist;
-  SInt16 _rating;
+  IBOutlet NSTextField *track;
+  IBOutlet NSTextField *artist;
+  IBOutlet NSTextField *album;
+  IBOutlet NSImageView *artwork;
+  @private
+  SKBezelItem *ia_bezel;
+  
+  iTunesAction ia_action;
+  NSString *ia_playlist;
+  SInt16 ia_rating;
 }
 
 - (SInt16)rating;

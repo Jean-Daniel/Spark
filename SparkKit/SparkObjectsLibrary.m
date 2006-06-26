@@ -8,8 +8,6 @@
 
 #import <SparkKit/SparkObjectsLibrary.h>
 
-#import <ShadowKit/ShadowMacros.h>
-
 #import <SparkKit/Extension.h>
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkConstantes.h>
