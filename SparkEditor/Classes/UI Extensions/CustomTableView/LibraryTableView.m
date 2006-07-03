@@ -45,10 +45,8 @@
 
 + (NSImage *)headerCellColor {
   static NSImage *img = nil;
-  @synchronized (self) {
-    if (nil == img) {
-      img = [NSImage imageNamed:@"HeaderCell"];
-    }
+  if (nil == img) {
+    img = [NSImage imageNamed:@"HeaderCell"];
   }
   return img;
 }

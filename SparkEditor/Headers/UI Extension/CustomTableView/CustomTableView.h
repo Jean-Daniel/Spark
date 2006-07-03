@@ -8,11 +8,9 @@
 
 extern NSString * const kCustomTableViewDidBecomeFirstResponder;
 
-@interface CustomTableView : NSTableView {
+#import <ShadowKit/SKTableView.h>
+
+@interface CustomTableView : SKTableView {
 }
 
-@end
-
-@interface NSObject (CustomTableViewDelegate)
-- (void)deleteSelectionInTableView:(CustomTableView *)view;
 @end

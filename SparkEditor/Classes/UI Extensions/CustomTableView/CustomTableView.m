@@ -21,42 +21,12 @@ NSString * const kCustomTableViewDidBecomeFirstResponder = @"CustomTableViewDidB
   return NO;
 }
 
-- (BOOL)validateMenuItem:(NSMenuItem*)anItem {
-  if ([anItem action] == @selector(delete:)) {
-    return [self numberOfSelectedRows] != 0;
-  }
-  return YES;
-}
-
-- (IBAction)delete:(id)sender {
-  if ([[self delegate] respondsToSelector:@selector(deleteSelectionInTableView:)]) {
-    [[self delegate] deleteSelectionInTableView:self];
-  } else {
-    NSBeep();
-  }
-}
-
-- (void)keyDown:(NSEvent *)theEvent {
-  switch ([theEvent keyCode]) {
-    case kVirtualDeleteKey:
-    case kVirtualForwardDeleteKey:
-      [self delete:nil];
-      break;
-    case kVirtualReturnKey:
-    case kVirtualEnterKey:
-      if ([self target] && [self doubleAction] && [[self target] respondsToSelector:[self doubleAction]]) {
-        [[self target] performSelector:[self doubleAction] withObject:self];
-      }
-      break;
-    default:
-      [super keyDown:theEvent];
-  }
-}
-
+//- (NSImage *)dragImageForRowsWithIndexes:(NSIndexSet *)dragRows tableColumns:(NSArray *)tableColumns
+//                                   event:(NSEvent*)dragEvent offset:(NSPointPointer)dragImageOffset {
 - (NSImage *)dragImageForRows:(NSArray *)dragRows event:(NSEvent *)dragEvent dragImageOffset:(NSPointPointer)dragImageOffset {
-  id anImage = [super dragImageForRows:dragRows event:dragEvent dragImageOffset:dragImageOffset];
+  NSImage *anImage = [super dragImageForRows:dragRows event:dragEvent dragImageOffset:dragImageOffset];
   
-  id columns = [self tableColumns];
+  NSArray *columns = [self tableColumns];
   if ([columns count] < 2)
     return anImage;
   
@@ -85,7 +55,8 @@ NSString * const kCustomTableViewDidBecomeFirstResponder = @"CustomTableViewDidB
     imgRect.origin.y -= offset;
     imgRect.origin.y = [anImage size].height - imgRect.origin.y - NSHeight(imgRect);
     
-    NSRectFillUsingOperation(imgRect, NSCompositeDestinationOver);
+    [NSBezierPath fillRect:imgRect];
+//    NSRectFillUsingOperation(imgRect, NSCompositeDestinationOver);
     [NSBezierPath strokeRect:imgRect];    
   }
   [anImage unlockFocus];

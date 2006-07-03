@@ -126,6 +126,8 @@
 		98E03CB00A4D2AC900C0800A /* SKBezelItemContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 98E03CAD0A4D2AC900C0800A /* SKBezelItemContent.m */; };
 		98E03CB10A4D2AC900C0800A /* SKBezelItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 98E03CAE0A4D2AC900C0800A /* SKBezelItem.m */; };
 		98E03CC80A4D2BA000C0800A /* SKClassCluster.h in Headers */ = {isa = PBXBuildFile; fileRef = 98E03CC70A4D2BA000C0800A /* SKClassCluster.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		98F5C8140A59B574007BEB21 /* SKTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98F5C8130A59B574007BEB21 /* SKTableView.m */; };
+		98F5C8160A59B585007BEB21 /* SKTableView.h in Headers */ = {isa = PBXBuildFile; fileRef = 98F5C8150A59B585007BEB21 /* SKTableView.h */; settings = {ATTRIBUTES = (Private, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -301,6 +303,8 @@
 		98E455C708104B3E00B7899F /* SKAppKitExtensions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SKAppKitExtensions.h; sourceTree = "<group>"; };
 		98E66C7F0759F7E90048A37D /* SKIconUtils.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = SKIconUtils.c; sourceTree = "<group>"; };
 		98E66C820759F7F60048A37D /* SKIconUtils.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = SKIconUtils.h; path = Headers/SKIconUtils.h; sourceTree = "<group>"; };
+		98F5C8130A59B574007BEB21 /* SKTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKTableView.m; sourceTree = "<group>"; };
+		98F5C8150A59B585007BEB21 /* SKTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKTableView.h; sourceTree = "<group>"; };
 		98FB5DDE060D0FFC0074131E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -542,6 +546,7 @@
 			isa = PBXGroup;
 			children = (
 				98E03CA70A4D2A9D00C0800A /* SKBezelItem.h */,
+				98F5C8150A59B585007BEB21 /* SKTableView.h */,
 				98E03CAA0A4D2AB200C0800A /* SKCGFunctions.h */,
 				98725D1406CB9F1B0072B8E4 /* SKShadowLabel.h */,
 				986758D2096B404600BB8A25 /* SKTableDataSource.h */,
@@ -589,6 +594,7 @@
 			children = (
 				98725D2006CB9F310072B8E4 /* Headers */,
 				98E03CAE0A4D2AC900C0800A /* SKBezelItem.m */,
+				98F5C8130A59B574007BEB21 /* SKTableView.m */,
 				98E03CAC0A4D2AC900C0800A /* SKCGFunctions.m */,
 				98725D3306CB9FBC0072B8E4 /* SKShadowLabel.m */,
 				986758CF096B403300BB8A25 /* SKTableDataSource.m */,
@@ -843,6 +849,7 @@
 				98E03CAB0A4D2AB200C0800A /* SKCGFunctions.h in Headers */,
 				98E03CC80A4D2BA000C0800A /* SKClassCluster.h in Headers */,
 				983975830A58667E00F79B40 /* SKIOKitFunctions.h in Headers */,
+				98F5C8160A59B585007BEB21 /* SKTableView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1045,6 +1052,7 @@
 				98E03CB00A4D2AC900C0800A /* SKBezelItemContent.m in Sources */,
 				98E03CB10A4D2AC900C0800A /* SKBezelItem.m in Sources */,
 				9839758F0A58669C00F79B40 /* SKIOKitFunctions.c in Sources */,
+				98F5C8140A59B574007BEB21 /* SKTableView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

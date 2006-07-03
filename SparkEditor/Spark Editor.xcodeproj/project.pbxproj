@@ -747,7 +747,6 @@
 				98593CDA073EE6A8003BA845 /* Import/Export */,
 				98240185060C7B0700A0DB07 /* Server Comm */,
 				98240197060C7B0700A0DB07 /* UI Extensions */,
-				98C38148083D050D00340894 /* ShadowKit */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -1133,29 +1132,6 @@
 				98240183060C7B0700A0DB07 /* ActionPlugInList.m */,
 			);
 			name = Plugins;
-			sourceTree = "<group>";
-		};
-		98C38148083D050D00340894 /* ShadowKit */ = {
-			isa = PBXGroup;
-			children = (
-				98C38155083D053C00340894 /* AppKit */,
-			);
-			path = ShadowKit;
-			sourceTree = SHADOWKIT_ROOT;
-		};
-		98C38155083D053C00340894 /* AppKit */ = {
-			isa = PBXGroup;
-			children = (
-				98C38156083D053C00340894 /* Headers */,
-			);
-			path = AppKit;
-			sourceTree = "<group>";
-		};
-		98C38156083D053C00340894 /* Headers */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Headers;
 			sourceTree = "<group>";
 		};
 		98E1F9D706F35B2100DDA29E /* Editors */ = {

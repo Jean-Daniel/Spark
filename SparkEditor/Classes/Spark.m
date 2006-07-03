@@ -49,7 +49,7 @@ int main(int argc, const char *argv[]) {
 - (void)sendEvent:(NSEvent *)event {
   if (([event type] == NSKeyDown || [event type] == NSKeyUp) && [event keyCode] == kVirtualHelpKey) {
     id window = [self keyWindow];
-    if ([window isKindOfClass:[HKTrapWindow class]] && [window isTrapping]) {
+    if ([window respondsToSelector:@selector(isTrapping)] && [window isTrapping]) {
       [window sendEvent:event];
       return;
     }
