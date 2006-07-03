@@ -295,7 +295,7 @@ CFDataRef _iTunesCopyArtwork(int idx) {
   err = ShadowAESendEventReturnSInt32(&theEvent, &count);
   require_noerr(err, bail);
   
-  if (count > 0) {
+  if (count >= idx) {
     ShadowAEDisposeDesc(&theEvent);
     
     err = _iTunesCreateEvent(kAECoreSuite, kAEGetData, &theEvent);

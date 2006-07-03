@@ -5,11 +5,11 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
-	<string>PowerAction</string>
+	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIconFile</key>
 	<string></string>
 	<key>CFBundleIdentifier</key>
-	<string>org.shadowlab.spark.power</string>
+	<string>org.shadowlab.spark.system</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>
@@ -17,14 +17,14 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>2.0</string>
+	<string>2.1</string>
 	<key>NSMainNibFile</key>
-	<string>PowerConfigView</string>
+	<string>SystemConfigView</string>
 	<key>NSPrincipalClass</key>
-	<string>PowerActionPlugin</string>
+	<string>SystemActionPlugin</string>
 	<key>SparkActionClass</key>
-	<string>PowerAction</string>
+	<string>SystemAction</string>
 	<key>SparkPluginIcon</key>
-	<string>PowerIcon</string>
+	<string>SystemIcon</string>
 </dict>
 </plist>

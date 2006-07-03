@@ -1,42 +1,45 @@
 //
-//  PowerAction.m
+//  SystemAction.m
 //  Spark
 //
 //  Created by Fox on Wed Feb 18 2004.
 //  Copyright (c) 2004 Shadow Lab. All rights reserved.
 //
 
-#import "PowerAction.h"
-#import "PowerActionPlugin.h"
-#import <ApplicationServices/ApplicationServices.h>
+#import "SystemAction.h"
+#import <ShadowKit/SKIOKitFunctions.h>
 
-#define SYSTEM_EVENT		@"/System/Library/CoreServices/System Events.app"
-#define kFastUserSwitcherPath		@"/System/Library/CoreServices/Menu Extras/User.menu/Contents/Resources/CGSession"
-#define kScreenSaverEngine			@"/System/Library/Frameworks/ScreenSaver.framework/Resources/ScreenSaverEngine.app/Contents/MacOS/ScreenSaverEngine"
+static NSString * const 
+kFastUserSwitcherPath = @"/System/Library/CoreServices/Menu Extras/User.menu/Contents/Resources/CGSession";
+static NSString * const 
+kScreenSaverEngine = @"/System/Library/Frameworks/ScreenSaver.framework/Resources/ScreenSaverEngine.app/Contents/MacOS/ScreenSaverEngine";
 
-static void PowerFastLogOut();
+NSString * const
+kSystemActionBundleIdentifier = @"org.shadowlab.spark.system";
 
-static NSString* const kPowerActionKey = @"PowerAction";
+static void SystemFastLogOut();
 
-@implementation PowerAction
+static NSString* const kSystemActionKey = @"SystemAction";
+
+@implementation SystemAction
 
 #pragma mark Protocols Implementation
 
 - (id)copyWithZone:(NSZone *)zone {
-  PowerAction* copy = [super copyWithZone:zone];
-  copy->_powerAction = _powerAction;
+  SystemAction* copy = [super copyWithZone:zone];
+  copy->sa_action = sa_action;
   return copy;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
-  [coder encodeInt:_powerAction forKey:kPowerActionKey];
+  [coder encodeInt:[self action] forKey:kSystemActionKey];
   return;
 }
 
 - (id)initWithCoder:(NSCoder *)coder {
   if (self = [super initWithCoder:coder]) {
-    [self setPowerAction:[coder decodeIntForKey:kPowerActionKey]];
+    [self setAction:[coder decodeIntForKey:kSystemActionKey]];
   }
   return self;
 }
@@ -45,44 +48,47 @@ static NSString* const kPowerActionKey = @"PowerAction";
 #pragma mark Required Methods.
 - (id)initFromPropertyList:(id)plist {
   if (self = [super initFromPropertyList:plist]) {
-    [self setPowerAction:[[plist objectForKey:kPowerActionKey] intValue]];
+    [self setAction:[[plist objectForKey:kSystemActionKey] intValue]];
   }
   return self;
 }
 
 - (NSMutableDictionary *)propertyList {
   NSMutableDictionary *dico = [super propertyList];
-  [dico setObject:SKInt([self powerAction]) forKey:kPowerActionKey];
+  [dico setObject:SKInt([self action]) forKey:kSystemActionKey];
   return dico;
 }
 
-- (int)powerAction {
-  return _powerAction;
+- (SystemActionType)action {
+  return sa_action;
 }
 
-- (void)setPowerAction:(int)newAction {
-  if (_powerAction != newAction) {
-    _powerAction = newAction;
-  }
+- (void)setAction:(SystemActionType)newAction {
+  sa_action = newAction;
 }
 
 - (SparkAlert *)check {
-  switch ([self powerAction]) {
-    case kPowerLogOut:
-    case kPowerSleep:
-    case kPowerRestart:
-    case kPowerShutDown:
-    case kPowerFastLogOut:
-    case kPowerScreenSaver:
+  switch ([self action]) {
+    case kSystemLogOut:
+    case kSystemSleep:
+    case kSystemRestart:
+    case kSystemShutDown:
+    case kSystemFastLogOut:
+    case kSystemScreenSaver:
+      // System events
+    case kSystemMute:
+    case kSystemEject:
+    case kSystemVolumeUp:
+    case kSystemVolumeDown:
       return nil;
     default:
       return [SparkAlert alertWithMessageText:NSLocalizedStringFromTableInBundle(@"INVALID_ACTION_ALERT",
                                                                                  nil,
-                                                                                 kPowerActionBundle,
+                                                                                 kSystemActionBundle,
                                                                                  @"Error When trying to execute but Action unknown ** Title **")
                     informativeTextWithFormat:NSLocalizedStringFromTableInBundle(@"INVALID_ACTION_ALERT_MSG",
                                                                                  nil,
-                                                                                 kPowerActionBundle,
+                                                                                 kSystemActionBundle,
                                                                                  @"Error When trying to execute but Action unknown ** Msg **")];
   }
 }
@@ -90,24 +96,40 @@ static NSString* const kPowerActionKey = @"PowerAction";
 - (SparkAlert *)execute {
   SparkAlert *alert = [self check];
   if (alert == nil) {
-    switch ([self powerAction]) {
-      case kPowerLogOut:
+    switch ([self action]) {
+      case kSystemLogOut:
         [self logout];
         break;
-      case kPowerSleep:
-        [self sleep];
+      case kSystemSleep:
+        SKHIDPostSystemDefinedEvent(kSKHIDSleepEvent);
+        //        [self sleep];
         break;
-      case kPowerRestart:
-        [self restart];
+      case kSystemRestart:
+        SKHIDPostSystemDefinedEvent(kSKHIDRestartEvent);
+        //        [self restart];
         break;
-      case kPowerShutDown:
-        [self shutDown];
+      case kSystemShutDown:
+        SKHIDPostSystemDefinedEvent(kSKHIDShutdownEvent);
+        //        [self shutDown];
         break;
-      case kPowerFastLogOut:
+      case kSystemFastLogOut:
         [self fastLogout];
         break;
-      case kPowerScreenSaver:
+      case kSystemScreenSaver:
         [self screenSaver];
+        break;
+      case kSystemMute:
+        SKHIDPostAuxKey(kSKKeyMute);
+        break;
+      case kSystemEject:
+        SKHIDPostAuxKey(kSKKeyEject);
+        //SKHIDPostSystemDefinedEvent(kSKHIDEjectKey);
+        break;
+      case kSystemVolumeUp:
+        SKHIDPostAuxKey(kSKKeySoundUp);
+        break;
+      case kSystemVolumeDown:
+        SKHIDPostAuxKey(kSKKeySoundDown);
         break;
     }
   }
@@ -115,12 +137,12 @@ static NSString* const kPowerActionKey = @"PowerAction";
 }
 
 #pragma mark -
-- (void)launchSystemEvent {
-  ProcessSerialNumber p = SKGetProcessWithSignature('sevs');
-  if ( (p.highLongOfPSN == kNoProcess) && (p.lowLongOfPSN == kNoProcess)) {
-    [[NSWorkspace sharedWorkspace] launchApplication:SYSTEM_EVENT showIcon:NO autolaunch:NO];
-  }
-}
+//- (void)launchSystemEvent {
+//  ProcessSerialNumber p = SKGetProcessWithSignature('sevs');
+//  if ( (p.highLongOfPSN == kNoProcess) && (p.lowLongOfPSN == kNoProcess)) {
+//    [[NSWorkspace sharedWorkspace] launchApplication:SYSTEM_EVENT showIcon:NO autolaunch:NO];
+//  }
+//}
 
 /*
 kAELogOut                     = 'logo',
@@ -149,7 +171,7 @@ kAEShowShutdownDialog         = 'rsdn'
 }
 
 - (void)fastLogout {
-  PowerFastLogOut();
+  SystemFastLogOut();
 }
 
 - (void)screenSaver {
@@ -172,7 +194,7 @@ kAEShowShutdownDialog         = 'rsdn'
 
 @end
 
-static void PowerFastLogOut() {
+static void SystemFastLogOut() {
   NSTask *task = [[NSTask alloc] init];
   [task setLaunchPath:kFastUserSwitcherPath];
   [task setArguments:[NSArray arrayWithObject:@"-suspend"]];
@@ -180,3 +202,18 @@ static void PowerFastLogOut() {
   [task waitUntilExit];
   [task release];
 }
+
+#pragma mark -
+@interface PowerAction : SparkAction {
+}
+@end
+
+@implementation PowerAction
+
+- (id)initFromPropertyList:(id)plist {
+  [self release];
+  return [[SystemAction alloc] initFromPropertyList:plist];
+}
+
+@end
+

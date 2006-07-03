@@ -261,7 +261,11 @@ See the PropertyList documentation to know more about it */
 }
 
 - (void)ejectCD {
-  HKSendHotKeyToApplication('e', kHKNilVirtualKeyCode, NSCommandKeyMask, kITunesSignature, nil);
+  CGKeyCode code = HKMapGetKeycodeAndModifierForUnichar('e', NULL, NULL);
+  if (code != kHKInvalidVirtualKeyCode) {
+    HKEventTarget target = { signature:kITunesSignature };
+    HKEventPostKeystrokeToTarget(code, kCGEventFlagMaskCommand, target, kHKEventTargetSignature, NULL);
+  }
 }
 
 - (SparkAlert *)playPlaylist:(NSString *)name {
