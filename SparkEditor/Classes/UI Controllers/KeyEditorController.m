@@ -125,8 +125,8 @@ static NSComparisonResult CompareMapEntries(id obj1, id obj2, void *controller);
     _hotKey = [newKey retain];
     [self didChangeValueForKey:@"shortCut"];
     id undo = [self undoManager];
-    [[undo prepareWithInvocationTarget:_hotKey] setKeycode:[_hotKey keycode] andCharacter:[_hotKey character]];
-    [[undo prepareWithInvocationTarget:_hotKey] setModifier:[_hotKey modifier]];
+    [[undo prepareWithInvocationTarget:_hotKey] setRawkey:[_hotKey rawkey]];
+    //[[undo prepareWithInvocationTarget:_hotKey] setModifier:[_hotKey modifier]];
     
     [self setKeyName:[_hotKey name]];
     [self setKeyComment:[_hotKey comment]];
@@ -448,8 +448,8 @@ static NSComparisonResult CompareMapEntries(id obj1, id obj2, void *controller);
   id info = [aNotification userInfo];
   [self willChangeValueForKey:@"shortCut"];
   [_hotKey setModifier:[[info objectForKey:kHKEventModifierKey] unsignedIntValue]];
-  [_hotKey setKeycode:[[info objectForKey:kHKEventKeyCodeKey] unsignedShortValue]
-         andCharacter:[[info objectForKey:kHKEventCharacterKey] unsignedShortValue]];
+  [_hotKey setKeycode:[[info objectForKey:kHKEventKeyCodeKey] unsignedShortValue]];
+//         andCharacter:[[info objectForKey:kHKEventCharacterKey] unsignedShortValue]];
   [self didChangeValueForKey:@"shortCut"];
 }
 

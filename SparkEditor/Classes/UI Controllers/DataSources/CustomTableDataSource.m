@@ -37,4 +37,8 @@
   return NO;
 }
 
+- (BOOL)tableView:(NSTableView *)aTableView writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard*)pboard {
+  return NO;
+}
+
 @end

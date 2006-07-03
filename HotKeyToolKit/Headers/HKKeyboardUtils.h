@@ -12,13 +12,19 @@
 */
 #include <CoreServices/CoreServices.h>
 
-/*!
-    @function 	HKCurrentKeyMap
-    @abstract   Create the KeyMap for the current Keyboard layout.
-    @param      keyMap On return, a Unichar array allocated into the default NSZone. You are responsible to free it.
-    @param      keyCount On return, the size of a keyMap.
-    @param      mapCount On return, the number of keyMap.
- 	@param		modifiers On return, contains an <i>mapCount</i> length array of modifiers.
-    @result     Return an Error code.
-*/
-OSStatus HKCurrentKeyMap(UniChar *keyMap[], UInt16 *keyCount, UInt16 *mapCount, UInt16 *modifiers[]);
+typedef struct HKKeyMapContext HKKeyMapContext;
+typedef UniChar (*HKBaseCharacterForKeyCodeFunction)(void *ctxt, UInt32 keycode);
+typedef UniChar (*HKCharacterForKeyCodeFunction)(void *ctxt, UInt32 keycode, UInt32 modifier);
+typedef UInt32 (*HKKeycodesForCharacterFunction)(void *ctxt, UniChar character, UInt32 *keys, UInt32 *modifiers, UInt32 maxsize);
+typedef void (*HKContextDealloc)(HKKeyMapContext *ctxt);
+
+struct HKKeyMapContext {
+  void *data;
+  HKContextDealloc dealloc;
+  HKBaseCharacterForKeyCodeFunction baseMap;
+  HKCharacterForKeyCodeFunction fullMap;
+  HKKeycodesForCharacterFunction reverseMap;
+};
+
+OSStatus HKKeyMapContextWithKCHRData(const void *layout, Boolean reverse, HKKeyMapContext *ctxt);
+OSStatus HKKeyMapContextWithUchrData(const UCKeyboardLayout *layout, Boolean reverse, HKKeyMapContext *ctxt);

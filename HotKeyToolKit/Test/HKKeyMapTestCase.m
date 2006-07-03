@@ -11,12 +11,8 @@
 
 @implementation HKKeyMapTestCase
 
-+ (void)initialize {
-  HKUseFullKeyMap = YES;
-}
-
 - (void)setUp {
-  STAssertNotNil(HKCurrentKeyMapName(), @"Error while loading keymap"); /* Load the key Map */
+  STAssertNotNil(HKMapGetCurrentMapName(), @"Error while loading keymap"); /* Load the key Map */
 }
 
 - (void)tearDown {
@@ -24,16 +20,22 @@
 }
 
 - (void)testReverseMapping {
-  unichar character = 'a';
-  CGKeyCode keycode = HKKeycodeForUnichar(character);
-  unichar reverseChar = HKUnicharForKeycode(keycode);
-  STAssertEquals(character, reverseChar, @"%i != %i", character, reverseChar);
+  UniChar character = 's';
+  UInt32 keycode = HKMapGetKeycodeAndModifierForUnichar(character, NULL, NULL);
+  STAssertTrue(keycode != kHKInvalidVirtualKeyCode, @"Reverse mapping does not work");
   
-  CGKeyCode keycode2 = HKKeycodeForUnichar('A');
-  STAssertEquals(keycode, keycode2, @"Check if full mapping is enable", keycode, keycode2);
+  UniChar reverseChar = HKMapGetUnicharForKeycode(keycode);
+  STAssertTrue(reverseChar != kHKNilUnichar, @"Reverse mapping does not work");
+  STAssertEquals(reverseChar, character, @"Reverse mapping does not work");
   
-  unsigned int codes = HKKeycodeAndModifierForUnichar('A');
-  STAssertEquals(codes & 0xffff0000, (unsigned)NSShiftKeyMask, @"Invalid Mask for reverse mapping");
+  UInt32 keycode2 = HKMapGetKeycodeAndModifierForUnichar('S', NULL, NULL);
+  STAssertEquals(keycode, keycode2, @"'s' and 'S' should have same keycode");
+  
+  UInt32 modifier, count;
+  UInt32 scode = HKMapGetKeycodeAndModifierForUnichar('S', &modifier, &count);
+  STAssertTrue(count == 1, @"Invalid keys count for reverse mapping");
+  STAssertTrue(scode == keycode, @"Invalid keycode for reverse mapping");
+  STAssertTrue(modifier == NSShiftKeyMask, @"Invalid modifier for reverse mapping");
 }
 
 @end

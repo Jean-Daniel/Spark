@@ -42,8 +42,8 @@ static NSString * const kHotKeyApplicationMap = @"ApplicationMap";
 SparkFilterMode SparkKeyStrokeFilterMode = kSparkEnableSingleFunctionKey;
 
 /*
- Fonction qui permet de définir la validité d'un raccouci. Depuis 10.3, les raccourcis sans "modifier" sont acceptés.
- Jugés trop génant, seul les touches Fx peuvent être utilisées sans "modifier"
+ Fonction qui permet de d√©finir la validit√© d'un raccouci. Depuis 10.3, les raccourcis sans "modifier" sont accept√©s.
+ Jug√©s trop g√©nant, seul les touches Fx peuvent √™tre utilis√©es sans "modifier"
 */
 static const int kCommonModifierMask = NSShiftKeyMask | NSControlKeyMask | NSAlternateKeyMask | NSCommandKeyMask;
 
@@ -106,13 +106,9 @@ static BOOL KeyStrokeFilter(UInt16 code, UInt32 modifier) {
 @implementation SparkHotKey
 
 + (void)initialize {
-  static BOOL tooLate = NO;
-  if (!tooLate) {
-    /* Configure HotKeyToolKit */
-    HKUseFullKeyMap = YES;
+  if ([SparkHotKey class] == self) {
     [HKHotKeyManager setShortcutFilter:KeyStrokeFilter];
     [[SparkHotKeyManager class] poseAsClass:[HKHotKeyManager class]];
-    tooLate = YES;
   }
 }
 

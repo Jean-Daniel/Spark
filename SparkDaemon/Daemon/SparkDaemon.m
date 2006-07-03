@@ -10,6 +10,7 @@
 #include <unistd.h>
 #import <SparkKit/SparkKit.h>
 #import <ShadowKit/SKFunctions.h>
+#import <HotKeyToolKit/HotKeyToolKit.h>
 
 #import "AEScript.h"
 
@@ -52,7 +53,7 @@ int main(int argc, const char *argv[]) {
 
 - (id)init {
   if (self = [super init]) {
-    if (![self setPlugInPath] || ![self connect]) {
+    if (![self connect]) { // ![self setPlugInPath] || 
       [self release];
       self = nil;
     } else {
@@ -110,46 +111,46 @@ int main(int argc, const char *argv[]) {
   [super dealloc];
 }
 
-- (BOOL)setPlugInPath {
-  BOOL result = NO;
-  CFBundleRef spark = nil;
-  id path = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"../../../"];
-  CFURLRef sparkUrl = CFURLCreateWithFileSystemPath(kCFAllocatorDefault,(CFStringRef)path, kCFURLPOSIXPathStyle, YES);
-  if (sparkUrl) {
-    spark = CFBundleCreate(kCFAllocatorDefault, sparkUrl);
-    if (spark) {
-      CFStringRef identifier = CFBundleGetIdentifier(spark);
-      if (identifier && CFEqual(identifier, kSparkBundleIdentifier)) {
-        CFStringRef plugPath = nil;
-        CFURLRef plugUrl = CFBundleCopyBuiltInPlugInsURL(spark);
-        if (plugUrl) {
-          plugPath = CFURLCopyFileSystemPath(plugUrl, kCFURLPOSIXPathStyle);
-          CFRelease(plugUrl);
-          plugUrl = nil;
-        }
-        if (plugPath) {
-          plugUrl = CFURLCreateCopyAppendingPathComponent(kCFAllocatorDefault, sparkUrl, plugPath, YES);
-          CFRelease(plugPath);
-          plugPath = nil;
-        }
-        if (plugUrl) {
-          plugPath = CFURLCopyFileSystemPath(plugUrl, kCFURLPOSIXPathStyle);
-          CFRelease(plugUrl);
-          plugUrl = nil;
-        }
-        if (plugPath) {
-          result = YES;
-          [SparkActionLoader setBuildInPath:(id)plugPath];
-          CFRelease(plugPath);
-          plugPath = nil;
-        }
-      }
-      CFRelease(spark);
-    }
-    CFRelease(sparkUrl);
-  }
-  return result;
-}
+//- (BOOL)setPlugInPath {
+//  BOOL result = NO;
+//  CFBundleRef spark = nil;
+//  id path = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"../../../"];
+//  CFURLRef sparkUrl = CFURLCreateWithFileSystemPath(kCFAllocatorDefault,(CFStringRef)path, kCFURLPOSIXPathStyle, YES);
+//  if (sparkUrl) {
+//    spark = CFBundleCreate(kCFAllocatorDefault, sparkUrl);
+//    if (spark) {
+//      CFStringRef identifier = CFBundleGetIdentifier(spark);
+//      if (identifier && CFEqual(identifier, kSparkBundleIdentifier)) {
+//        CFStringRef plugPath = nil;
+//        CFURLRef plugUrl = CFBundleCopyBuiltInPlugInsURL(spark);
+//        if (plugUrl) {
+//          plugPath = CFURLCopyFileSystemPath(plugUrl, kCFURLPOSIXPathStyle);
+//          CFRelease(plugUrl);
+//          plugUrl = nil;
+//        }
+//        if (plugPath) {
+//          plugUrl = CFURLCreateCopyAppendingPathComponent(kCFAllocatorDefault, sparkUrl, plugPath, YES);
+//          CFRelease(plugPath);
+//          plugPath = nil;
+//        }
+//        if (plugUrl) {
+//          plugPath = CFURLCopyFileSystemPath(plugUrl, kCFURLPOSIXPathStyle);
+//          CFRelease(plugUrl);
+//          plugUrl = nil;
+//        }
+//        if (plugPath) {
+//          result = YES;
+//          [SparkActionLoader setBuildInPath:(id)plugPath];
+//          CFRelease(plugPath);
+//          plugPath = nil;
+//        }
+//      }
+//      CFRelease(spark);
+//    }
+//    CFRelease(sparkUrl);
+//  }
+//  return result;
+//}
 
 - (void)checkActions {
   CFBooleanRef blockAlertRef = CFPreferencesCopyAppValue((CFStringRef)@"SDBlockAlertOnLoad", (CFStringRef)kSparkBundleIdentifier);
@@ -182,11 +183,10 @@ int main(int argc, const char *argv[]) {
     @try {
       [item setTarget:self];
       [item setAction:@selector(executeHotKey:)];
-      if ([item isActive] /* && ![item isInvalid] */) { // Faut-il activer une clé invalide ??
+      if ([item isActive] /* && ![item isInvalid] */) { // Faut-il activer une cl√© invalide ??
         [item setRegistred:YES];
       }
-    }
-    @catch (id exception) {
+    } @catch (id exception) {
       SKLogException(exception);
     }
   }
@@ -240,12 +240,10 @@ int main(int argc, const char *argv[]) {
   Boolean trapping;
   DLog(@"Processing event");
   if ((noErr == GetEditorIsTrapping(&trapping)) && trapping) {
-    [sender sendHotKeyToApplicationWithSignature:kSparkHFSCreatorType bundleId:nil];
+    [sender sendKeystrokeToApplication:kSparkHFSCreatorType bundle:nil];
     return;
   }
-  // Recursive loop are avoid by low level lock (-[HKHotKey invoke]).
-//  BOOL ok = [sender isRegistred];
-//  if (ok) [sender setRegistred:NO];
+  // We prevent Recursive call in -[HKHotKey invoke], so don't have to check here.
   [sender retain];
   @try {
     alert = [sender execute];
@@ -254,7 +252,6 @@ int main(int argc, const char *argv[]) {
     NSBeep();
   }
   [sender release];
-//  if (ok) [sender setRegistred:YES];
   if (alert != nil) {
     CFPreferencesAppSynchronize((CFStringRef)kSparkBundleIdentifier);
     CFBooleanRef blockAlertRef = CFPreferencesCopyAppValue((CFStringRef)@"SDBlockAlertOnExecute", (CFStringRef)kSparkBundleIdentifier);

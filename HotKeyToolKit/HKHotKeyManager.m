@@ -10,6 +10,8 @@
 
 #import "HKHotKey.h"
 
+#include <Carbon/Carbon.h>
+
 #import "HKHotKeyManager.h"
 #import "HKHotKeyRegister.h"
 
@@ -81,9 +83,7 @@ BOOL HKTraceHotKeyEvents = NO;
   if ([key isValid] && ![keys objectForKey:key]) {
     UInt32 mask = [key modifier];
     UInt16 keycode = [key keycode];
-#if defined(DEBUG)
-    NSLog(@"%@ Code: %i, mask: %i, character: %C",NSStringFromSelector(_cmd), keycode, mask, [key character]);
-#endif
+    DLog(@"%@ Code: %i, mask: %x, character: %C",NSStringFromSelector(_cmd), keycode, mask, [key character]);
     EventHotKeyID hotKeyId = {kHKHotKeyEventSignature, (unsigned)key};
     EventHotKeyRef ref = HKRegisterHotKey(keycode, mask, hotKeyId);
     if (ref) {

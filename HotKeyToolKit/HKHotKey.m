@@ -10,6 +10,7 @@
 
 #import "HKKeyMap.h"
 #import "HKHotKeyManager.h"
+#include <IOKit/hidsystem/event_status_driver.h>
 
 #if defined(DEBUG)
 #warning Debug defined in HotKeyToolKit!	
@@ -19,6 +20,9 @@ volatile int HKGDBWorkaround = 0;
 
 @interface HKHotKey (Private) 
 - (void)_invalidateTimer;
+
+- (BOOL)shouldChangeKeystroke;
+
 @end
 
 @implementation HKHotKey
@@ -72,10 +76,10 @@ volatile int HKGDBWorkaround = 0;
 + (id)hotkey {
   return [[[self alloc] init] autorelease];
 }
-+ (id)hotkeyWithKeycode:(int)code modifier:(int)modifier {
++ (id)hotkeyWithKeycode:(UInt32)code modifier:(UInt32)modifier {
   return [[[self alloc] initWithKeycode:code modifier:modifier] autorelease];
 }
-+ (id)hotkeyWithUnichar:(unichar)character modifier:(int)modifier {
++ (id)hotkeyWithUnichar:(UniChar)character modifier:(UInt32)modifier {
   return [[[self alloc] initWithUnichar:character modifier:modifier] autorelease];
 }
 
@@ -86,12 +90,12 @@ volatile int HKGDBWorkaround = 0;
   if (self = [super init]) {
     hk_isRegistred = NO;
     hk_character = kHKNilUnichar;
-    hk_keycode = kHKNilVirtualKeyCode;
+    hk_keycode = kHKInvalidVirtualKeyCode;
   }
   return self;
 }
 
-- (id)initWithKeycode:(int)code modifier:(int)modifier {
+- (id)initWithKeycode:(UInt32)code modifier:(UInt32)modifier {
   if (self = [self init]) {
     [self setModifier:modifier];
     [self setKeycode:code];
@@ -99,7 +103,7 @@ volatile int HKGDBWorkaround = 0;
   return self;
 }
 
-- (id)initWithUnichar:(unichar)character modifier:(int)modifier {
+- (id)initWithUnichar:(UniChar)character modifier:(UInt32)modifier {
   if (self = [self init]) {
     [self setModifier:modifier];
     [self setCharacter:character];
@@ -124,11 +128,12 @@ volatile int HKGDBWorkaround = 0;
 #pragma mark Misc Properties
 
 - (BOOL)isValid {
-  return ([self character] != kHKNilUnichar) && ([self keycode] != kHKNilVirtualKeyCode);
+  return ([self character] != kHKNilUnichar) && ([self keycode] != kHKInvalidVirtualKeyCode);
 }
 
 - (NSString*)shortCut {
-  return HKStringRepresentationForCharacterAndModifier([self character], hk_mask);
+  return HKMapGetStringRepresentationForCharacterAndModifier([self character], 
+                                                             HKUtilsConvertModifier(hk_mask, kHKModifierFormatCocoa, kHKModifierFormatNative));
 }
 - (void)setShortCut:(NSString *)sc {
 #pragma unused(sc)
@@ -136,44 +141,42 @@ volatile int HKGDBWorkaround = 0;
 
 #pragma mark -
 #pragma mark iVar Accessors.
+- (BOOL)shouldChangeKeystroke {
+  if ([self isRegistred]) {
+    [NSException raise:@"HKInvalidHotKeyChangeException" format:@"Cannot change keystroke when Hotkey is registred"];
+    return NO;
+  }
+  return YES;
+}
 
-- (unsigned int)modifier {
+- (UInt32)modifier {
   return hk_mask;
 }
-- (void)setModifier:(unsigned int)modifier {
-  if (![self isRegistred]) {
+- (void)setModifier:(UInt32)modifier {
+  if ([self shouldChangeKeystroke])
     hk_mask = modifier;
-  }
-  else {
-    [NSException raise:@"HKInvalidHotKeyChangeException" format:@"Cannot change modifier when Hotkey is registred"];
-  }
 }
 
-- (unsigned short)keycode {
-  if (hk_keycode == kHKNilVirtualKeyCode && hk_character != kHKNilUnichar)
-    [self setKeycode:HKKeycodeForUnichar(hk_character) andCharacter:hk_character];
+- (UInt32)keycode {
   return hk_keycode;
 }
-- (void)setKeycode:(unsigned short)keycode {
-  [self setKeycode:keycode andCharacter:kHKNilUnichar];
+- (void)setKeycode:(UInt32)keycode {
+  if ([self shouldChangeKeystroke]) {
+    hk_keycode = keycode;
+    if (hk_keycode != kHKInvalidVirtualKeyCode) {
+      hk_character = HKMapGetUnicharForKeycode(hk_keycode);  
+    } else {
+      hk_character = kHKNilUnichar;
+    }
+  }
 }
 
-- (unichar)character {
-  if (hk_character == kHKNilUnichar && hk_keycode != kHKNilVirtualKeyCode)
-    [self setKeycode:hk_keycode andCharacter:HKUnicharForKeycode(hk_keycode)];
+- (UniChar)character {
   return hk_character;
 }
-- (void)setCharacter:(unichar)character {
-  [self setKeycode:kHKNilVirtualKeyCode andCharacter:character];
-}
-
-- (void)setKeycode:(unsigned short)keycode andCharacter:(unichar)character {
-  if (![self isRegistred]) { 
-    hk_keycode = keycode;
-    hk_character = character;
-  }
-  else {
-    [NSException raise:@"HKInvalidHotKeyChangeException" format:@"Cannot change keycode or character when Hotkey is registred"];
+- (void)setCharacter:(UniChar)character {
+  if ([self shouldChangeKeystroke]) {
+    [self setKeycode:HKMapGetKeycodeAndModifierForUnichar(character, NULL, NULL)];
   }
 }
 
@@ -232,7 +235,7 @@ volatile int HKGDBWorkaround = 0;
 }
 
 #pragma mark Key Serialization
-- (unsigned)rawkey {
+- (UInt32)rawkey {
   unsigned hotkey = [self character];
   hotkey &= 0xffff;
   hotkey |= [self modifier] & 0x00ff0000;
@@ -240,27 +243,24 @@ volatile int HKGDBWorkaround = 0;
   return hotkey;
 }
 
-- (void)setRawkey:(unsigned)rawkey {
-  unichar character = rawkey & 0xffff;
-  unsigned int modifier = rawkey & 0x00ff0000;
-  unsigned short keycode = (rawkey & 0xff000000) >> 24;
-  if (keycode == 0xff) keycode = kHKNilVirtualKeyCode;
+- (void)setRawkey:(UInt32)rawkey {
+  UniChar character = rawkey & 0xffff;
+  UInt32 modifier = rawkey & 0x00ff0000;
+  UInt16 keycode = (rawkey & 0xff000000) >> 24;
+  if (keycode == 0xff) keycode = kHKInvalidVirtualKeyCode;
   BOOL isSpecialKey = (modifier & (NSNumericPadKeyMask | NSFunctionKeyMask)) != 0;
   if (!isSpecialKey) {
     /* If key is a number (not in numpad) we use keycode, because american keyboard use number */
-    switch (character) {
-      case '0' ... '9':
-        isSpecialKey = YES;
-        break;
-    }
+    if (character >= '0' && character <= '9')
+      isSpecialKey = YES;
   }
   /* Si le keycode est dŽfini et que c'est une touche spŽcial (fonction ou pavŽe numŽrique) */
-  if (isSpecialKey && (kHKNilVirtualKeyCode != keycode)) {
+  if (isSpecialKey && (kHKInvalidVirtualKeyCode != keycode)) {
     [self setKeycode:keycode];
   } else { /* Sinon on utilise le character si il peut tre utilisŽ */
     [self setCharacter:character];
     short unsigned newCode = [self keycode];
-    if (kHKNilVirtualKeyCode == newCode) {
+    if (kHKInvalidVirtualKeyCode == newCode) {
       [self setKeycode:keycode];
     }
   }
@@ -273,7 +273,7 @@ volatile int HKGDBWorkaround = 0;
   [self _invalidateTimer];
   [self invoke];
   if ([self keyRepeat] > 0) {
-    id fire = [[NSDate alloc] initWithTimeIntervalSinceNow:HKGetSystemInitialKeyRepeatInterval()];
+    id fire = [[NSDate alloc] initWithTimeIntervalSinceNow:HKGetSystemKeyRepeatThreshold()];
     hk_repeatTimer = [[NSTimer alloc] initWithFireDate:fire interval:[self keyRepeat] target:self selector:@selector(invoke:) userInfo:nil repeats:YES];
     [fire release];
     [[NSRunLoop currentRunLoop] addTimer:hk_repeatTimer forMode:NSDefaultRunLoopMode];
@@ -293,15 +293,11 @@ volatile int HKGDBWorkaround = 0;
       }
     } 
     @catch (id exception) {
-#if defined(DEBUG)
-      NSLog(@"Exception occured in [%@ %@]: %@", NSStringFromClass([self class]), NSStringFromSelector(_cmd), exception);
-#endif
+      SKLogException(exception);
     }
     hk_lock = NO;
   } else {
-#if defined(DEBUG)
-    NSLog(@"WARNING: Recursive call in %@", self);
-#endif
+    DLog(@"WARNING: Recursive call in %@", self);
     // Maybe resend event ?
   }
 }
@@ -317,9 +313,7 @@ volatile int HKGDBWorkaround = 0;
 }
 
 - (void)invoke:(NSTimer *)timer {
-#if defined (DEBUG)
-  NSLog(@"Repeat Key");
-#endif
+  DLog(@"Repeat Key");
   [self invoke];
 }
 
@@ -327,21 +321,15 @@ volatile int HKGDBWorkaround = 0;
 
 #pragma mark -
 NSTimeInterval HKGetSystemKeyRepeatInterval() {
-  Boolean exist;
-  CFPreferencesSynchronize(kCFPreferencesAnyApplication, kCFPreferencesCurrentUser, kCFPreferencesAnyHost);  
-  CFIndex pref = CFPreferencesGetAppIntegerValue(CFSTR("KeyRepeat"), kCFPreferencesAnyApplication, &exist);
-  if (!exist) {
-    pref = 6;
-  }
-  return 0.015 * pref;
+  NXEventHandle handle = NXOpenEventStatus();
+  double value = NXKeyRepeatInterval(handle);
+  NXCloseEventStatus(handle);
+  return value;
 }
 
-NSTimeInterval HKGetSystemInitialKeyRepeatInterval() {
-  Boolean exist;
-  CFPreferencesSynchronize(kCFPreferencesAnyApplication, kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
-  CFIndex pref = CFPreferencesGetAppIntegerValue(CFSTR("InitialKeyRepeat"), kCFPreferencesAnyApplication, &exist);
-  if (!exist) {
-    pref = 35;
-  }
-  return 0.015 * pref;
+NSTimeInterval HKGetSystemKeyRepeatThreshold() {
+  NXEventHandle handle = NXOpenEventStatus();
+  double value = NXKeyRepeatThreshold(handle);
+  NXCloseEventStatus(handle);
+  return value;
 }

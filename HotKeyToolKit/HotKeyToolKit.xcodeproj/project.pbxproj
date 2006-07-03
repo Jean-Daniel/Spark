@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
-		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
 		982B010C05FE954600E8776D /* HKKeyboardUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 982B010A05FE954600E8776D /* HKKeyboardUtils.h */; };
 		982B010D05FE954600E8776D /* HKKeyboardUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 982B010B05FE954600E8776D /* HKKeyboardUtils.m */; };
 		984426C305F942E400551005 /* ShortCut.strings in Resources */ = {isa = PBXBuildFile; fileRef = 984426C105F942E400551005 /* ShortCut.strings */; };
@@ -26,20 +25,40 @@
 		984426E105F943A100551005 /* HKTrapWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 984426DC05F943A100551005 /* HKTrapWindow.m */; };
 		984426E505F9442200551005 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 984426E405F9442200551005 /* Carbon.framework */; };
 		9844277A05F9444000551005 /* HKHotKeyRegister.m in Sources */ = {isa = PBXBuildFile; fileRef = 9844277905F9444000551005 /* HKHotKeyRegister.m */; };
-		985B62ED0719E1750073D36F /* HKHotKeyTestCase.h in Headers */ = {isa = PBXBuildFile; fileRef = 985B62EB0719E1750073D36F /* HKHotKeyTestCase.h */; };
-		985B62EE0719E1750073D36F /* HKHotKeyTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 985B62EC0719E1750073D36F /* HKHotKeyTestCase.m */; };
-		985B6B120719E37E0073D36F /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* HotKeyToolKit.framework */; };
-		985B6D180719ED7E0073D36F /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 985B6D170719ED7E0073D36F /* Info.plist */; };
-		985B6D1B0719EDCC0073D36F /* HKKeyMapTestCase.h in Headers */ = {isa = PBXBuildFile; fileRef = 985B6D190719EDCC0073D36F /* HKKeyMapTestCase.h */; };
-		985B6D1C0719EDCC0073D36F /* HKKeyMapTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 985B6D1A0719EDCC0073D36F /* HKKeyMapTestCase.m */; };
-		98C0DB240719422400AC65C0 /* HKAXUIHotKey.h in Headers */ = {isa = PBXBuildFile; fileRef = 98C0DB230719422400AC65C0 /* HKAXUIHotKey.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		98E2716206D0FB980017BDF7 /* HKAXUIExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 98E2716006D0FB980017BDF7 /* HKAXUIExtensions.m */; };
-		98E2716406D0FBB80017BDF7 /* HKAXUIExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 98E2716306D0FBB80017BDF7 /* HKAXUIExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		98EF7D840864538D007BC81A /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF7D6F0864538C007BC81A /* SenTestingKit.framework */; };
+		98643E630A556A1100260086 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
+		98643F0E0A556F4500260086 /* HKKeyMapTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 985B6D1A0719EDCC0073D36F /* HKKeyMapTestCase.m */; };
+		98643F0F0A556F4500260086 /* HKHotKeyTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 985B62EC0719E1750073D36F /* HKHotKeyTestCase.m */; };
+		98643F130A556F4E00260086 /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* HotKeyToolKit.framework */; };
+		98C61C2F0A5814130004E6EF /* Runner.m in Sources */ = {isa = PBXBuildFile; fileRef = 98E204820A56FDFC00EB74E1 /* Runner.m */; };
+		98C61C3C0A5814430004E6EF /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* HotKeyToolKit.framework */; };
+		98C61C5A0A58144C0004E6EF /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
+		98C61C6A0A5814C50004E6EF /* UITester.nib in Resources */ = {isa = PBXBuildFile; fileRef = 98C61C650A5814C50004E6EF /* UITester.nib */; };
+		98DD3E4C0A57B1B600F059E5 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98DD3DAC0A57B1B600F059E5 /* IOKit.framework */; };
+		98DD3FE30A57C2A200F059E5 /* ModifierMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 98DD3FE20A57C2A200F059E5 /* ModifierMap.m */; };
+		98DD42460A57C9BC00F059E5 /* HKEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 98DD42450A57C9BC00F059E5 /* HKEvent.m */; };
+		98DD424A0A57C9C800F059E5 /* HKEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 98DD42490A57C9C800F059E5 /* HKEvent.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		98DD467F0A57ED3E00F059E5 /* HKEventCompat.m in Sources */ = {isa = PBXBuildFile; fileRef = 98DD467E0A57ED3E00F059E5 /* HKEventCompat.m */; };
+		98E204AB0A56FE8700EB74E1 /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* HotKeyToolKit.framework */; };
+		98E204B40A56FE9300EB74E1 /* Runner.m in Sources */ = {isa = PBXBuildFile; fileRef = 98E204820A56FDFC00EB74E1 /* Runner.m */; };
+		98E204CB0A56FEF500EB74E1 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		985B6B1D0719E3860073D36F /* PBXContainerItemProxy */ = {
+		98643F100A556F4600260086 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
+			remoteInfo = HotKeyToolKit;
+		};
+		98C61C390A5814330004E6EF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216 /* HotKeyToolKit */;
+			remoteInfo = HotKeyToolKit;
+		};
+		98E204A40A56FE7F00EB74E1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
 			proxyType = 1;
@@ -77,14 +96,25 @@
 		984426E405F9442200551005 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		9844277905F9444000551005 /* HKHotKeyRegister.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = HKHotKeyRegister.m; sourceTree = "<group>"; };
 		984BCDC4060C7E4D0043CDEA /* HotKeyToolKit.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = HotKeyToolKit.icns; sourceTree = "<group>"; };
-		985B62B60719E09D0073D36F /* Testing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Testing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		985B62EB0719E1750073D36F /* HKHotKeyTestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKHotKeyTestCase.h; sourceTree = "<group>"; };
 		985B62EC0719E1750073D36F /* HKHotKeyTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKHotKeyTestCase.m; sourceTree = "<group>"; };
 		985B6D170719ED7E0073D36F /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
 		985B6D190719EDCC0073D36F /* HKKeyMapTestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKKeyMapTestCase.h; sourceTree = "<group>"; };
 		985B6D1A0719EDCC0073D36F /* HKKeyMapTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKKeyMapTestCase.m; sourceTree = "<group>"; };
+		98643F000A556F2200260086 /* Test.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Test.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		98643F010A556F2200260086 /* Test-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Test-Info.plist"; sourceTree = "<group>"; };
 		9864CB72060D11DD00228F30 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
 		98C0DB230719422400AC65C0 /* HKAXUIHotKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKAXUIHotKey.h; sourceTree = "<group>"; };
+		98C61C1A0A5813EB0004E6EF /* UITester.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UITester.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		98C61C1C0A5813EB0004E6EF /* UITester-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "UITester-Info.plist"; sourceTree = "<group>"; };
+		98C61C650A5814C50004E6EF /* UITester.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = UITester.nib; sourceTree = "<group>"; };
+		98DD3DAC0A57B1B600F059E5 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
+		98DD3FE20A57C2A200F059E5 /* ModifierMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModifierMap.m; sourceTree = "<group>"; };
+		98DD42450A57C9BC00F059E5 /* HKEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKEvent.m; sourceTree = "<group>"; };
+		98DD42490A57C9C800F059E5 /* HKEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKEvent.h; sourceTree = "<group>"; };
+		98DD467E0A57ED3E00F059E5 /* HKEventCompat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKEventCompat.m; sourceTree = "<group>"; };
+		98E204820A56FDFC00EB74E1 /* Runner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Runner.m; sourceTree = "<group>"; };
+		98E204A00A56FE6500EB74E1 /* Runner */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Runner; sourceTree = BUILT_PRODUCTS_DIR; };
 		98E2716006D0FB980017BDF7 /* HKAXUIExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKAXUIExtensions.m; sourceTree = "<group>"; };
 		98E2716306D0FBB80017BDF7 /* HKAXUIExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKAXUIExtensions.h; sourceTree = "<group>"; };
 		98EF7D6F0864538C007BC81A /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = /System/Library/Frameworks/SenTestingKit.framework; sourceTree = "<absolute>"; };
@@ -95,17 +125,35 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */,
+				98643E630A556A1100260086 /* Cocoa.framework in Frameworks */,
 				984426E505F9442200551005 /* Carbon.framework in Frameworks */,
+				98DD3E4C0A57B1B600F059E5 /* IOKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		985B62B30719E09D0073D36F /* Frameworks */ = {
+		98643EFD0A556F2200260086 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				985B6B120719E37E0073D36F /* HotKeyToolKit.framework in Frameworks */,
-				98EF7D840864538D007BC81A /* SenTestingKit.framework in Frameworks */,
+				98643F130A556F4E00260086 /* HotKeyToolKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		98C61C180A5813EB0004E6EF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				98C61C5A0A58144C0004E6EF /* Cocoa.framework in Frameworks */,
+				98C61C3C0A5814430004E6EF /* HotKeyToolKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		98E2049E0A56FE6500EB74E1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				98E204CB0A56FEF500EB74E1 /* Cocoa.framework in Frameworks */,
+				98E204AB0A56FE8700EB74E1 /* HotKeyToolKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -116,7 +164,9 @@
 			isa = PBXGroup;
 			children = (
 				8DC2EF5B0486A6940098B216 /* HotKeyToolKit.framework */,
-				985B62B60719E09D0073D36F /* Testing.framework */,
+				98643F000A556F2200260086 /* Test.octest */,
+				98E204A00A56FE6500EB74E1 /* Runner */,
+				98C61C1A0A5813EB0004E6EF /* UITester.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -131,6 +181,8 @@
 				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
 				034768DFFF38A50411DB9C8B /* Products */,
 				981B5F3C093868ED0024C0D9 /* Configurations */,
+				98643F010A556F2200260086 /* Test-Info.plist */,
+				98C61C1C0A5813EB0004E6EF /* UITester-Info.plist */,
 			);
 			name = HotKeyToolKit;
 			sourceTree = "<group>";
@@ -160,6 +212,8 @@
 			children = (
 				984426CD05F9430700551005 /* HotKeyToolKit.h */,
 				984426C605F9430700551005 /* Headers */,
+				98DD42450A57C9BC00F059E5 /* HKEvent.m */,
+				98DD467E0A57ED3E00F059E5 /* HKEventCompat.m */,
 				984426D905F943A100551005 /* HKHotKey.m */,
 				984426D805F943A100551005 /* HKKeyMap.m */,
 				984426DC05F943A100551005 /* HKTrapWindow.m */,
@@ -173,9 +227,10 @@
 		1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				98EF7D6F0864538C007BC81A /* SenTestingKit.framework */,
+				98DD3DAC0A57B1B600F059E5 /* IOKit.framework */,
 				1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */,
 				984426E405F9442200551005 /* Carbon.framework */,
+				98EF7D6F0864538C007BC81A /* SenTestingKit.framework */,
 			);
 			name = "Linked Frameworks";
 			sourceTree = "<group>";
@@ -210,6 +265,7 @@
 		984426C605F9430700551005 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				98DD42490A57C9C800F059E5 /* HKEvent.h */,
 				984426C705F9430700551005 /* HKHotKey.h */,
 				984426CB05F9430700551005 /* HKKeyMap.h */,
 				98C0DB230719422400AC65C0 /* HKAXUIHotKey.h */,
@@ -235,6 +291,7 @@
 			isa = PBXGroup;
 			children = (
 				984426DB05F943A100551005 /* KeyMap.m */,
+				98DD3FE20A57C2A200F059E5 /* ModifierMap.m */,
 				982B010B05FE954600E8776D /* HKKeyboardUtils.m */,
 				9844277905F9444000551005 /* HKHotKeyRegister.m */,
 			);
@@ -249,6 +306,8 @@
 				985B62EB0719E1750073D36F /* HKHotKeyTestCase.h */,
 				985B62EC0719E1750073D36F /* HKHotKeyTestCase.m */,
 				985B6D170719ED7E0073D36F /* Info.plist */,
+				98E204820A56FDFC00EB74E1 /* Runner.m */,
+				98C61C650A5814C50004E6EF /* UITester.nib */,
 			);
 			name = Testing;
 			path = Test;
@@ -269,17 +328,7 @@
 				984426D505F9430700551005 /* HotKeyToolKit.h in Headers */,
 				984426D605F9430700551005 /* KeyMap.h in Headers */,
 				982B010C05FE954600E8776D /* HKKeyboardUtils.h in Headers */,
-				98E2716406D0FBB80017BDF7 /* HKAXUIExtensions.h in Headers */,
-				98C0DB240719422400AC65C0 /* HKAXUIHotKey.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		985B62B00719E09D0073D36F /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				985B62ED0719E1750073D36F /* HKHotKeyTestCase.h in Headers */,
-				985B6D1B0719EDCC0073D36F /* HKKeyMapTestCase.h in Headers */,
+				98DD424A0A57C9C800F059E5 /* HKEvent.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -306,25 +355,59 @@
 			productReference = 8DC2EF5B0486A6940098B216 /* HotKeyToolKit.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		985B62B50719E09D0073D36F /* Testing */ = {
+		98643EFF0A556F2200260086 /* Test */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 98EF7D5808645328007BC81A /* Build configuration list for PBXNativeTarget "Testing" */;
+			buildConfigurationList = 98643F080A556F2300260086 /* Build configuration list for PBXNativeTarget "Test" */;
 			buildPhases = (
-				985B62B00719E09D0073D36F /* Headers */,
-				985B62B10719E09D0073D36F /* Resources */,
-				985B62B20719E09D0073D36F /* Sources */,
-				985B62B30719E09D0073D36F /* Frameworks */,
-				985B62B40719E09D0073D36F /* ShellScript */,
+				98643EFB0A556F2200260086 /* Resources */,
+				98643EFC0A556F2200260086 /* Sources */,
+				98643EFD0A556F2200260086 /* Frameworks */,
+				98643EFE0A556F2200260086 /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				985B6B1E0719E3860073D36F /* PBXTargetDependency */,
+				98643F110A556F4600260086 /* PBXTargetDependency */,
 			);
-			name = Testing;
-			productName = Testing;
-			productReference = 985B62B60719E09D0073D36F /* Testing.framework */;
-			productType = "com.apple.product-type.framework";
+			name = Test;
+			productName = Test;
+			productReference = 98643F000A556F2200260086 /* Test.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+		98C61C190A5813EB0004E6EF /* UITester */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 98C61C200A5813EF0004E6EF /* Build configuration list for PBXNativeTarget "UITester" */;
+			buildPhases = (
+				98C61C160A5813EB0004E6EF /* Resources */,
+				98C61C170A5813EB0004E6EF /* Sources */,
+				98C61C180A5813EB0004E6EF /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				98C61C3A0A5814330004E6EF /* PBXTargetDependency */,
+			);
+			name = UITester;
+			productName = UITester;
+			productReference = 98C61C1A0A5813EB0004E6EF /* UITester.app */;
+			productType = "com.apple.product-type.application";
+		};
+		98E2049F0A56FE6500EB74E1 /* Runner */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 98E204C30A56FEDD00EB74E1 /* Build configuration list for PBXNativeTarget "Runner" */;
+			buildPhases = (
+				98E2049D0A56FE6500EB74E1 /* Sources */,
+				98E2049E0A56FE6500EB74E1 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				98E204A50A56FE7F00EB74E1 /* PBXTargetDependency */,
+			);
+			name = Runner;
+			productName = Runner;
+			productReference = 98E204A00A56FE6500EB74E1 /* Runner */;
+			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
 
@@ -337,7 +420,9 @@
 			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
 			projectDirPath = "";
 			targets = (
-				985B62B50719E09D0073D36F /* Testing */,
+				98643EFF0A556F2200260086 /* Test */,
+				98E2049F0A56FE6500EB74E1 /* Runner */,
+				98C61C190A5813EB0004E6EF /* UITester */,
 				8DC2EF4F0486A6940098B216 /* HotKeyToolKit */,
 			);
 		};
@@ -353,11 +438,18 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		985B62B10719E09D0073D36F /* Resources */ = {
+		98643EFB0A556F2200260086 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				985B6D180719ED7E0073D36F /* Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		98C61C160A5813EB0004E6EF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				98C61C6A0A5814C50004E6EF /* UITester.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -374,7 +466,7 @@
 /* End PBXRezBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		985B62B40719E09D0073D36F /* ShellScript */ = {
+		98643EFE0A556F2200260086 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -385,7 +477,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = /Developer/Tools/RunTargetUnitTests;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -401,26 +493,54 @@
 				984426E105F943A100551005 /* HKTrapWindow.m in Sources */,
 				9844277A05F9444000551005 /* HKHotKeyRegister.m in Sources */,
 				982B010D05FE954600E8776D /* HKKeyboardUtils.m in Sources */,
-				98E2716206D0FB980017BDF7 /* HKAXUIExtensions.m in Sources */,
+				98DD3FE30A57C2A200F059E5 /* ModifierMap.m in Sources */,
+				98DD42460A57C9BC00F059E5 /* HKEvent.m in Sources */,
+				98DD467F0A57ED3E00F059E5 /* HKEventCompat.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		985B62B20719E09D0073D36F /* Sources */ = {
+		98643EFC0A556F2200260086 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				985B62EE0719E1750073D36F /* HKHotKeyTestCase.m in Sources */,
-				985B6D1C0719EDCC0073D36F /* HKKeyMapTestCase.m in Sources */,
+				98643F0E0A556F4500260086 /* HKKeyMapTestCase.m in Sources */,
+				98643F0F0A556F4500260086 /* HKHotKeyTestCase.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		98C61C170A5813EB0004E6EF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				98C61C2F0A5814130004E6EF /* Runner.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		98E2049D0A56FE6500EB74E1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				98E204B40A56FE9300EB74E1 /* Runner.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		985B6B1E0719E3860073D36F /* PBXTargetDependency */ = {
+		98643F110A556F4600260086 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 8DC2EF4F0486A6940098B216 /* HotKeyToolKit */;
-			targetProxy = 985B6B1D0719E3860073D36F /* PBXContainerItemProxy */;
+			targetProxy = 98643F100A556F4600260086 /* PBXContainerItemProxy */;
+		};
+		98C61C3A0A5814330004E6EF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8DC2EF4F0486A6940098B216 /* HotKeyToolKit */;
+			targetProxy = 98C61C390A5814330004E6EF /* PBXContainerItemProxy */;
+		};
+		98E204A50A56FE7F00EB74E1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8DC2EF4F0486A6940098B216 /* HotKeyToolKit */;
+			targetProxy = 98E204A40A56FE7F00EB74E1 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -462,60 +582,67 @@
 			};
 			name = Deployment;
 		};
-		981B5F520938699D0024C0D9 /* Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				DEAD_CODE_STRIPPING = NO;
-				DEPLOYMENT_POSTPROCESSING = NO;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_VERSION = A;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Cocoa_Carbon_Prefix.pch;
-				GCC_PREPROCESSOR_DEFINITIONS = "";
-				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
-				GCC_WARN_UNINITIALIZED_AUTOS = NO;
-				GCC_WARN_UNKNOWN_PRAGMAS = NO;
-				GCC_WARN_UNUSED_VALUE = YES;
-				INFOPLIST_FILE = Test/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				OTHER_CFLAGS = "-fobjc-exceptions";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-					"-framework",
-					SenTestingKit,
-				);
-				PRESERVE_DEAD_CODE_INITS_AND_TERMS = NO;
-				PRODUCT_NAME = Testing;
-				SECTORDER_FLAGS = "";
-				TEST_AFTER_BUILD = YES;
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				ZERO_LINK = YES;
-			};
-			name = Deployment;
-		};
 		981B5F530938699D0024C0D9 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 981B5F40093868ED0024C0D9 /* ShadowRelease.xcconfig */;
 			buildSettings = {
-				GCC_PREFIX_HEADER = "$(SHADOWKIT_ROOT)/Cocoa-Carbon.pch";
 				SYMROOT = ../build;
 			};
 			name = Deployment;
+		};
+		98643F090A556F2300260086 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				INFOPLIST_FILE = "Test-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Cocoa,
+					"-framework",
+					SenTestingKit,
+				);
+				PRODUCT_NAME = Test;
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Development;
+		};
+		98643F0A0A556F2300260086 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				INFOPLIST_FILE = "Test-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Cocoa,
+					"-framework",
+					SenTestingKit,
+				);
+				PRODUCT_NAME = Test;
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Deployment;
+		};
+		98643F0B0A556F2300260086 /* Universal Binary */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				INFOPLIST_FILE = "Test-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Cocoa,
+					"-framework",
+					SenTestingKit,
+				);
+				PRODUCT_NAME = Test;
+				WRAPPER_EXTENSION = octest;
+			};
+			name = "Universal Binary";
 		};
 		98C1287D08CE0D620015CB91 /* Universal Binary */ = {
 			isa = XCBuildConfiguration;
@@ -534,57 +661,88 @@
 			};
 			name = "Universal Binary";
 		};
-		98C1287E08CE0D620015CB91 /* Universal Binary */ = {
+		98C1287F08CE0D620015CB91 /* Universal Binary */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 981B5F42093868ED0024C0D9 /* ShadowUniversal.xcconfig */;
+			buildSettings = {
+				SYMROOT = ../build;
+			};
+			name = "Universal Binary";
+		};
+		98C61C210A5813EF0004E6EF /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = "UITester-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				PRODUCT_NAME = UITester;
+			};
+			name = Development;
+		};
+		98C61C230A5813EF0004E6EF /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = "UITester-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				PRODUCT_NAME = UITester;
+			};
+			name = Deployment;
+		};
+		98C61C240A5813EF0004E6EF /* Universal Binary */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = "UITester-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				PRODUCT_NAME = UITester;
+			};
+			name = "Universal Binary";
+		};
+		98E204C40A56FEDD00EB74E1 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INSTALL_PATH = "$(HOME)/bin";
+				PRODUCT_NAME = Runner;
+			};
+			name = Development;
+		};
+		98E204C50A56FEDD00EB74E1 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
-				DEAD_CODE_STRIPPING = NO;
-				DEPLOYMENT_POSTPROCESSING = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_VERSION = A;
-				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Cocoa_Carbon_Prefix.pch;
-				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNKNOWN_PRAGMAS = NO;
-				GCC_WARN_UNUSED_VALUE = YES;
-				INFOPLIST_FILE = Test/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				OTHER_CFLAGS = "-fobjc-exceptions";
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INSTALL_PATH = "$(HOME)/bin";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
 					"-framework",
 					AppKit,
-					"-framework",
-					SenTestingKit,
 				);
-				PRESERVE_DEAD_CODE_INITS_AND_TERMS = NO;
-				PRODUCT_NAME = Testing;
-				SECTORDER_FLAGS = "";
-				TEST_AFTER_BUILD = YES;
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
+				PREBINDING = NO;
+				PRODUCT_NAME = Runner;
 				ZERO_LINK = NO;
 			};
-			name = "Universal Binary";
+			name = Deployment;
 		};
-		98C1287F08CE0D620015CB91 /* Universal Binary */ = {
+		98E204C60A56FEDD00EB74E1 /* Universal Binary */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 981B5F42093868ED0024C0D9 /* ShadowUniversal.xcconfig */;
 			buildSettings = {
-				GCC_PREFIX_HEADER = "$(SHADOWKIT_ROOT)/Cocoa-Carbon.pch";
-				SYMROOT = ../build;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INSTALL_PATH = "$(HOME)/bin";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = Runner;
+				ZERO_LINK = YES;
 			};
 			name = "Universal Binary";
 		};
@@ -605,57 +763,10 @@
 			};
 			name = Development;
 		};
-		98EF7D5908645328007BC81A /* Development */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				DEAD_CODE_STRIPPING = NO;
-				DEPLOYMENT_POSTPROCESSING = NO;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_VERSION = A;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Cocoa_Carbon_Prefix.pch;
-				GCC_PREPROCESSOR_DEFINITIONS = "";
-				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
-				GCC_WARN_UNINITIALIZED_AUTOS = NO;
-				GCC_WARN_UNKNOWN_PRAGMAS = NO;
-				GCC_WARN_UNUSED_VALUE = YES;
-				INFOPLIST_FILE = Test/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				OTHER_CFLAGS = "-fobjc-exceptions";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-					"-framework",
-					SenTestingKit,
-				);
-				PRESERVE_DEAD_CODE_INITS_AND_TERMS = NO;
-				PRODUCT_NAME = Testing;
-				SECTORDER_FLAGS = "";
-				TEST_AFTER_BUILD = YES;
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				ZERO_LINK = YES;
-			};
-			name = Development;
-		};
 		98EF7D5D08645328007BC81A /* Development */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 981B5F3F093868ED0024C0D9 /* ShadowDebug.xcconfig */;
 			buildSettings = {
-				GCC_PREFIX_HEADER = "$(SHADOWKIT_ROOT)/Cocoa-Carbon.pch";
 				SYMROOT = ../build;
 			};
 			name = Development;
@@ -663,22 +774,42 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		98643F080A556F2300260086 /* Build configuration list for PBXNativeTarget "Test" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				98643F090A556F2300260086 /* Development */,
+				98643F0A0A556F2300260086 /* Deployment */,
+				98643F0B0A556F2300260086 /* Universal Binary */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		98C61C200A5813EF0004E6EF /* Build configuration list for PBXNativeTarget "UITester" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				98C61C210A5813EF0004E6EF /* Development */,
+				98C61C230A5813EF0004E6EF /* Deployment */,
+				98C61C240A5813EF0004E6EF /* Universal Binary */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		98E204C30A56FEDD00EB74E1 /* Build configuration list for PBXNativeTarget "Runner" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				98E204C40A56FEDD00EB74E1 /* Development */,
+				98E204C50A56FEDD00EB74E1 /* Deployment */,
+				98E204C60A56FEDD00EB74E1 /* Universal Binary */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
 		98EF7D5408645328007BC81A /* Build configuration list for PBXNativeTarget "HotKeyToolKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				98EF7D5508645328007BC81A /* Development */,
 				981B5F510938699D0024C0D9 /* Deployment */,
 				98C1287D08CE0D620015CB91 /* Universal Binary */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
-		};
-		98EF7D5808645328007BC81A /* Build configuration list for PBXNativeTarget "Testing" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				98EF7D5908645328007BC81A /* Development */,
-				981B5F520938699D0024C0D9 /* Deployment */,
-				98C1287E08CE0D620015CB91 /* Universal Binary */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;

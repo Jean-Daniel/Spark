@@ -14,6 +14,17 @@
 #include <ApplicationServices/ApplicationServices.h>
 
 OSStatus GetEditorIsTrapping(Boolean *trapping) {
+  ProcessSerialNumber psn;
+  if (noErr == GetFrontProcess(&psn)) {
+    ProcessInfoRec info;
+    info.processInfoLength = sizeof(info);
+    info.processName = NULL;
+    info.processAppSpec = NULL;
+    if (noErr == GetProcessInformation(&psn, &info) && kSparkHFSCreatorType != info.processSignature) {
+      if (trapping) *trapping = false;
+      return noErr;
+    }
+  }
   OSStatus err = noErr;
   AEDesc theEvent;
   ShadowAENullDesc(&theEvent);

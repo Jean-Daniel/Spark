@@ -9,7 +9,7 @@
 #import <SenTestingKit/SenTestingKit.h>
 
 @class HKHotKey;
-@interface HKHotKeyTestCase : SenTestCase {
+@interface HKHotKeyTests : SenTestCase {
   HKHotKey *_hotkey;
 }
 

@@ -12,8 +12,7 @@
 #import <Foundation/Foundation.h>
 
 #pragma mark Constants definition
-extern const unsigned short kHKNilVirtualKeyCode;
-extern const unichar kHKNilUnichar;
+extern const UniChar kHKNilUnichar;
 
 /*!
     @enum 		Virtual Keycodes
@@ -103,7 +102,10 @@ enum {
   kVirtualDownArrowKey = 0x07D,
   /* others keys */
   kVirtualClearLineKey = 0x047,
-  kVirtualSpaceKey = 0x031
+  kVirtualSpaceKey = 0x031,
+  
+  /* Invalid */
+  kHKInvalidVirtualKeyCode = 0xffff,
 };
 
 /*!
@@ -190,20 +192,27 @@ enum {
 #pragma mark Public Functions Declaration
 
 /*!
-	@function 	HKKeycodeForUnichar
-	@abstract   Reverse mapping function.
-	@param      charCode
-	@result     Returns a virtual keycode.
+@function 
+ @abstract   Advanced reverse mapping function.
+ @param      character
+ @param      modifier On return, first keystroke modifier. Pass <code>NULL</code> if you do not want it.
+ @param      count On return, count of keystokes needed to generate this character. Pass <code>NULL</code> if you do not want it.
+ @result     Returns virtual keycode of the first keystroke needed ot generate <code>character</code>.
  */
-extern unsigned short HKKeycodeForUnichar(unichar charCode);
+extern
+UInt32 HKMapGetKeycodeAndModifierForUnichar(UniChar character, UInt32 *modifier, UInt32 *count);
 
 /*!
-	@function 	HKKeycodeForUnichar
-	@abstract   Advanced reverse mapping function.
-	@param      charCode
-	@result     Returns a virtual keycode and modifiers combination.
+@function 
+ @abstract   Advanced reverse mapping function.
+ @param      character
+ @param      keys
+ @param      modifiers
+ @param      maxcount Size of keys and modifiers.
+ @result     Returns Count of keystroke needed to generate character. Can be more than maxcount.
  */
-extern unsigned int HKKeycodeAndModifierForUnichar(unichar character);
+extern 
+UInt32 HKMapGetKeycodesAndModifiersForUnichar(UniChar character, UInt32 *keys, UInt32 *modifiers, UInt32 maxcount);
 
 /*!
 	@function 	HKUnicharForKeycode
@@ -212,13 +221,15 @@ extern unsigned int HKKeycodeAndModifierForUnichar(unichar character);
 	@param      keycode A virtual keycode.
 	@result     an Unichar corresponding to keycode passed.
  */
-extern unichar HKUnicharForKeycode(unsigned short keycode);
+extern
+UniChar HKMapGetUnicharForKeycode(UInt32 keycode);
 
 /*!
     @function 	HKCurrentKeyMapName
     @abstract   Returns the name of the current keyMap.
 */
-extern NSString* HKCurrentKeyMapName();
+extern
+NSString* HKMapGetCurrentMapName();
 
 /*!
     @function 	HKStringRepresentationForCharacterAndModifier
@@ -226,13 +237,14 @@ extern NSString* HKCurrentKeyMapName();
     @param      character 
     @param      modifier If <i>modifier</i> is nil, return a representation of the key Unichar.
 */
-extern NSString* HKStringRepresentationForCharacterAndModifier(unichar character, unsigned int modifier);
+extern 
+NSString* HKMapGetStringRepresentationForCharacterAndModifier(UniChar character, UInt32 modifier);
 
-/*
- 	If set to YES, HotKeyToolKit will use a full keymap and not limit the keymap to unmodified characters.
- 	Use more memory and is usefull only if you use reverse mapping. (Unichar to keycode)
- 	Default is NO.
- */
+typedef enum {
+  kHKModifierFormatNative,
+  kHKModifierFormatCarbon,
+  kHKModifierFormatCocoa,
+} HKModifierFormat;
 
 /*!
 	@function 	HKCocoaToCarbonModifier
@@ -241,7 +253,5 @@ extern NSString* HKStringRepresentationForCharacterAndModifier(unichar character
 	@param      mask A Cocoa modifier mask.
 	@result     Return a carbon modifier.
  */
-extern UInt32 HKCocoaToCarbonModifier(UInt32 mask);
-extern UInt32 HKCarbonToCocoaModifier(UInt32 mask);
-
-extern BOOL HKUseFullKeyMap;
+extern
+UInt32 HKUtilsConvertModifier(UInt32 modifier, HKModifierFormat input, HKModifierFormat output);

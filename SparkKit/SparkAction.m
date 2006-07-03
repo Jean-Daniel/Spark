@@ -270,7 +270,7 @@ inline NSTimeInterval SparkGetDefaultKeyRepeatInterval() {
 }
 
 - (SparkAlert *)hotKeyShouldExecuteAction:(SparkHotKey *)hotkey {
-  [hotkey sendHotKey];
+  [hotkey sendKeystroke];
   return nil;
 }
 

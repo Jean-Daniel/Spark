@@ -11,6 +11,11 @@
 
 @implementation ObjectsTableDataSource
 
+/* Compatibility with Mac OS X.3 */
+- (BOOL)tableView:(NSTableView *)aTableView writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard*)pboard {
+  return [self tableView:aTableView writeRows:[rowIndexes toArray] toPasteboard:pboard];
+}
+
 - (BOOL)tableView:(NSTableView *)tableView writeRows:(NSArray *)rows toPasteboard:(NSPasteboard *)pboard {
   id pboardType = [self pasteboardType];
   if (!pboardType) {
@@ -28,6 +33,5 @@
   [uids release];
   return YES;
 }
-
 
 @end

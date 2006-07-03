@@ -35,6 +35,7 @@
 		983975020A58638500F79B40 /* SystemActionPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 983975000A58638500F79B40 /* SystemActionPlugin.h */; };
 		983975030A58638500F79B40 /* SystemAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 983975010A58638500F79B40 /* SystemAction.h */; };
 		983976950A5868DD00F79B40 /* SystemConfigView.nib in Resources */ = {isa = PBXBuildFile; fileRef = 9839768F0A5868DC00F79B40 /* SystemConfigView.nib */; };
+		985106B50A590AA200C98B1F /* SystemActionHelp.html in Resources */ = {isa = PBXBuildFile; fileRef = 985106B30A590AA200C98B1F /* SystemActionHelp.html */; };
 		9856561B08E590B800066835 /* ScreenSaver.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 9856561A08E590B800066835 /* ScreenSaver.tiff */; };
 		986756F1096B3C1E00BB8A25 /* ShadowKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 986756D4096B3C0500BB8A25 /* ShadowKit.framework */; };
 		986756F2096B3C2100BB8A25 /* ShadowKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 986756D4096B3C0500BB8A25 /* ShadowKit.framework */; };
@@ -87,7 +88,6 @@
 		98FC450506063AA7003617CA /* ShutDown.png in Resources */ = {isa = PBXBuildFile; fileRef = 98FC44F106063AA7003617CA /* ShutDown.png */; };
 		98FC450606063AA7003617CA /* Sleep.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98FC44F206063AA7003617CA /* Sleep.tif */; };
 		98FC451106063AF8003617CA /* Help in Resources */ = {isa = PBXBuildFile; fileRef = 98FC450806063AF8003617CA /* Help */; };
-		98FC451506063B0D003617CA /* PowerActionHelp.html in Resources */ = {isa = PBXBuildFile; fileRef = 98FC451306063B0D003617CA /* PowerActionHelp.html */; };
 		98FC451B06063B14003617CA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 98FC451806063B14003617CA /* InfoPlist.strings */; };
 		98FC453B06063BF2003617CA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 		98FC456006063C8F003617CA /* AppleScriptAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 98FC454506063C8E003617CA /* AppleScriptAction.m */; };
@@ -228,7 +228,6 @@
 		983975000A58638500F79B40 /* SystemActionPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemActionPlugin.h; sourceTree = "<group>"; };
 		983975010A58638500F79B40 /* SystemAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemAction.h; sourceTree = "<group>"; };
 		983976900A5868DC00F79B40 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SystemConfigView.nib; sourceTree = "<group>"; };
-		983CE316060646EC007D4E6D /* French */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; lineEnding = 0; name = French; path = French.lproj/PowerActionHelp.html; sourceTree = "<group>"; };
 		983CE317060646F2007D4E6D /* French */ = {isa = PBXFileReference; lastKnownFileType = folder; name = French; path = French.lproj/Help; sourceTree = "<group>"; };
 		983CE3240606474A007D4E6D /* French */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = French; path = French.lproj/iTunesHelp.html; sourceTree = "<group>"; };
 		983CE3250606474E007D4E6D /* French */ = {isa = PBXFileReference; lastKnownFileType = folder; name = French; path = French.lproj/Help; sourceTree = "<group>"; };
@@ -238,6 +237,8 @@
 		983CE335060647CD007D4E6D /* French */ = {isa = PBXFileReference; lastKnownFileType = folder; name = French; path = French.lproj/Help; sourceTree = "<group>"; };
 		983CE33A060647FB007D4E6D /* French */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = French; path = French.lproj/AppleScriptHelp.html; sourceTree = "<group>"; };
 		983CE33B06064805007D4E6D /* French */ = {isa = PBXFileReference; lastKnownFileType = folder; name = French; path = French.lproj/Help; sourceTree = "<group>"; };
+		985106B40A590AA200C98B1F /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = English; path = English.lproj/SystemActionHelp.html; sourceTree = "<group>"; };
+		985106BC0A590ABC00C98B1F /* French */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = French; path = French.lproj/SystemActionHelp.html; sourceTree = "<group>"; };
 		9856561A08E590B800066835 /* ScreenSaver.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = ScreenSaver.tiff; sourceTree = "<group>"; };
 		985B6F070719F8860073D36F /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		98641DF8060A33750033892D /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -283,7 +284,6 @@
 		98FC44F106063AA7003617CA /* ShutDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ShutDown.png; sourceTree = "<group>"; };
 		98FC44F206063AA7003617CA /* Sleep.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Sleep.tif; sourceTree = "<group>"; };
 		98FC450906063AF8003617CA /* English */ = {isa = PBXFileReference; lastKnownFileType = folder; name = English; path = English.lproj/Help; sourceTree = "<group>"; };
-		98FC451406063B0D003617CA /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = English; path = English.lproj/PowerActionHelp.html; sourceTree = "<group>"; };
 		98FC451906063B14003617CA /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = Resources/English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		98FC453F06063BF2003617CA /* AppleScriptAction.spact */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppleScriptAction.spact; sourceTree = BUILT_PRODUCTS_DIR; };
 		98FC454506063C8E003617CA /* AppleScriptAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = AppleScriptAction.m; sourceTree = "<group>"; };
@@ -596,7 +596,7 @@
 				98FC44EF06063AA7003617CA /* SystemIcon.tif */,
 				98FC450706063ACC003617CA /* images */,
 				98BA1A090A583493004914E9 /* Localizable.strings */,
-				98FC451306063B0D003617CA /* PowerActionHelp.html */,
+				985106B30A590AA200C98B1F /* SystemActionHelp.html */,
 				98FC450806063AF8003617CA /* Help */,
 			);
 			path = Resources;
@@ -1011,11 +1011,11 @@
 				98FC450506063AA7003617CA /* ShutDown.png in Resources */,
 				98FC450606063AA7003617CA /* Sleep.tif in Resources */,
 				98FC451106063AF8003617CA /* Help in Resources */,
-				98FC451506063B0D003617CA /* PowerActionHelp.html in Resources */,
 				98FC451B06063B14003617CA /* InfoPlist.strings in Resources */,
 				9856561B08E590B800066835 /* ScreenSaver.tiff in Resources */,
 				98BA1A0B0A583493004914E9 /* Localizable.strings in Resources */,
 				983976950A5868DD00F79B40 /* SystemConfigView.nib in Resources */,
+				985106B50A590AA200C98B1F /* SystemActionHelp.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1165,6 +1165,15 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		985106B30A590AA200C98B1F /* SystemActionHelp.html */ = {
+			isa = PBXVariantGroup;
+			children = (
+				985106B40A590AA200C98B1F /* English */,
+				985106BC0A590ABC00C98B1F /* French */,
+			);
+			name = SystemActionHelp.html;
+			sourceTree = "<group>";
+		};
 		98BA1A090A583493004914E9 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1224,15 +1233,6 @@
 				983CE317060646F2007D4E6D /* French */,
 			);
 			name = Help;
-			sourceTree = "<group>";
-		};
-		98FC451306063B0D003617CA /* PowerActionHelp.html */ = {
-			isa = PBXVariantGroup;
-			children = (
-				98FC451406063B0D003617CA /* English */,
-				983CE316060646EC007D4E6D /* French */,
-			);
-			name = PowerActionHelp.html;
 			sourceTree = "<group>";
 		};
 		98FC451806063B14003617CA /* InfoPlist.strings */ = {

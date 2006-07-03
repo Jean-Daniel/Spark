@@ -9,7 +9,7 @@
 #import "HKHotKeyTestCase.h"
 #import <HotKeyToolKit/HotKeyToolKit.h>
 
-@implementation HKHotKeyTestCase
+@implementation HKHotKeyTests
 
 - (void)setUp {
   _hotkey = [[HKHotKey alloc] init];
@@ -23,7 +23,7 @@
   [_hotkey setCharacter:kHKNilUnichar];
   STAssertFalse([_hotkey isValid], @"Hotkey %@ shouldn't be valid", _hotkey);
   
-  [_hotkey setKeycode:kHKNilVirtualKeyCode];
+  [_hotkey setKeycode:kHKInvalidVirtualKeyCode];
   STAssertFalse([_hotkey isValid], @"Hotkey %@ shouldn't be valid", _hotkey);
   
   [_hotkey setCharacter:'a'];
@@ -35,9 +35,9 @@
 
 - (void)testKeycodeCharacterDepedencies {
   [_hotkey setCharacter:kHKNilUnichar];
-  STAssertEquals([_hotkey keycode], kHKNilVirtualKeyCode, @"%@ keycode should be kHKNilVirtualKeyCode", _hotkey);
+  STAssertTrue([_hotkey keycode] == kHKInvalidVirtualKeyCode, @"%@ keycode should be kHKInvalidVirtualKeyCode", _hotkey);
   
-  [_hotkey setKeycode:kHKNilVirtualKeyCode];
+  [_hotkey setKeycode:kHKInvalidVirtualKeyCode];
   STAssertEquals([_hotkey character], kHKNilUnichar, @"%@ character should be kHKNilUnichar", _hotkey);
 }
 

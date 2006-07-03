@@ -10,62 +10,10 @@
 #import "HKHotKeyRegister.h"
 #import "HKKeyMap.h"
 
-UInt32 HKCocoaToCarbonModifier(UInt32 mask) {
-  UInt32 carbonMask = 0;
-  if (NSControlKeyMask & mask) {
-    carbonMask |= controlKey; // Ctrl
-  }
-  if (NSAlternateKeyMask & mask) {
-    carbonMask |= optionKey; // Opt
-  }
-  if (NSShiftKeyMask & mask) {
-    carbonMask |= shiftKey; // Shift
-  }
-  if (NSCommandKeyMask & mask) {
-    carbonMask |= cmdKey; //Cmd
-  }
-/*
-  if (NSNumericPadKeyMask & mask) {
-    carbonMask |= kEventKeyModifierNumLockMask; //numpad
-  }
-  if (NSFunctionKeyMask & mask) {
-    carbonMask |= kEventKeyModifierFnBit;
-  }
- */
-  return carbonMask;
-}
-
-UInt32 HKCarbonToCocoaModifier(UInt32 mask) {
-  UInt32 cocoaMask = 0;
-  if ((controlKey | rightControlKey) & mask) {
-    cocoaMask |= NSControlKeyMask; // Ctrl
-  }
-  if ((optionKey | rightOptionKey) & mask) {
-    cocoaMask |= NSAlternateKeyMask; // Opt
-  }
-  if ((shiftKey | rightShiftKey) & mask) {
-    cocoaMask |= NSShiftKeyMask; // Shift
-  }
-  if (cmdKey & mask) {
-    cocoaMask |= NSCommandKeyMask; //Cmd
-  }
-  if (alphaLock & mask) {
-    cocoaMask |= NSAlphaShiftKeyMask; //Caps lock
-  }
-/*
-  if (kEventKeyModifierNumLockMask & mask) {
-    cocoaMask |= NSNumericPadKeyMask; //numpad
-  }
-  if (kEventKeyModifierFnBit & mask) {
-    cocoaMask |= NSFunctionKeyMask;
-  }
- */
-  return cocoaMask;
-}
-
 EventHotKeyRef HKRegisterHotKey(UInt16 keycode, UInt32 modifier, EventHotKeyID hotKeyId) {
   EventHotKeyRef outRef;
-  UInt32 mask = HKCocoaToCarbonModifier(modifier);
+  /* Convert from cocoa to carbon */
+  UInt32 mask = HKUtilsConvertModifier(modifier, kHKModifierFormatCocoa, kHKModifierFormatCarbon);
   OSStatus err = RegisterEventHotKey (keycode,
                                       mask,
                                       hotKeyId,

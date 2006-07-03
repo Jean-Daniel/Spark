@@ -6,6 +6,8 @@
 //  Copyright (c) 2004 Shadow Lab. All rights reserved.
 //
 
+#include <Carbon/Carbon.h>
+
 #import "HKKeyMap.h"
 #import "KeyMap.h"
 
@@ -14,60 +16,43 @@
 #define kHotKeyToolKitBundleIdentifier		@"org.shadowlab.HotKeyToolKit"
 #define kHotKeyToolKitBundle				[NSBundle bundleWithIdentifier:kHotKeyToolKitBundleIdentifier]
 
-const unsigned short kHKNilVirtualKeyCode = 0xffff;
-const unichar kHKNilUnichar = 0xffff;
+static
+BOOL HKUseReverseKeyMap = YES;
+
+const UniChar kHKNilUnichar = 0xffff;
 
 static HKKeyMapRef SharedKeyMap() {
   static HKKeyMapRef sharedKeyMap = nil;
   if (nil == sharedKeyMap) {
-    sharedKeyMap = HKKeyMapCreate();
+    KeyboardLayoutRef ref;
+    if (noErr == KLGetCurrentKeyboardLayout(&ref)) { // KLGetKeyboardLayoutWithName(CFSTR("U.S."), &ref)) { //
+      sharedKeyMap = HKKeyMapCreate(ref, HKUseReverseKeyMap);
+    }
     if (nil == sharedKeyMap) {
-      NSLog(@"Unable to init Translate Table");
+      DLog(@"Unable to init Translate Table");
+    } else {
+      DLog(@"Translate Table initialized");
     }
-#if defined(DEBUG)
-    else {
-      NSLog(@"Translate Table initialized");
-    }
-#endif
   }
   return sharedKeyMap;
 }
 
 #pragma mark -
 #pragma mark Statics Functions Declaration
-static unsigned short HKSpecialKeyCodeForUnichar(unichar charCode);
-static NSString *HKModifierStringForMask(unsigned int mask);
-static NSString *HKStringForUnichar(unichar unicode);
+static 
+UInt32 HKMapGetSpecialKeyCodeForUnichar(UniChar charCode);
+static
+NSString *HKMapGetModifierStringForMask(UInt32 mask);
+static
+NSString *HKMapGetStringForUnichar(UniChar unicode);
 
 #pragma mark -
 #pragma mark Publics Functions Definition
-
-unsigned int HKKeycodeAndModifierForUnichar(unichar character) {
-  unsigned int keycodes = kHKNilVirtualKeyCode;
-  if (character != kHKNilUnichar) {
-    keycodes = HKSpecialKeyCodeForUnichar(character);
-    if (keycodes == kHKNilVirtualKeyCode) {
-      keycodes = HKKeyMapUnicharToKeycodes(SharedKeyMap(), character);
-    }
-  }
-  return keycodes;
-}
-
-unsigned short HKKeycodeForUnichar(unichar character) {
-  unsigned short keycode = kHKNilVirtualKeyCode;
-  unsigned int codes = HKKeycodeAndModifierForUnichar(character);
-  if (codes != kHKNilVirtualKeyCode) {
-    keycode = codes & 0xffff;
-  }
-  return keycode;
-}
-
-unichar HKUnicharForKeycode(unsigned short keycode) {
-  unichar unicode;
-  if (keycode == kHKNilVirtualKeyCode) {
-    unicode = kHKNilUnichar; 
-  }
-  else {
+UniChar HKMapGetUnicharForKeycode(UInt32 keycode) {
+  UniChar unicode = kHKNilUnichar;
+  if (keycode == kHKInvalidVirtualKeyCode) {
+    return unicode;
+  } else {
     switch (keycode) {
       /* functions keys */
       case kVirtualF1Key:
@@ -175,27 +160,58 @@ unichar HKUnicharForKeycode(unsigned short keycode) {
         unicode = kSpaceUnicode;
         break;
       default:
-        unicode = HKKeyMapKeycodeToUniChar(SharedKeyMap(), keycode);
+        unicode = HKKeyMapGetUnicharForKeycode(SharedKeyMap(), keycode);
     }
   }
   return unicode;
 }
 
-NSString* HKCurrentKeyMapName() {
+NSString* HKMapGetCurrentMapName() {
   return (NSString *)HKKeyMapGetName(SharedKeyMap());
 }
 
-NSString* HKStringRepresentationForCharacterAndModifier(unichar character, unsigned int modifier) {
+NSString* HKMapGetStringRepresentationForCharacterAndModifier(UniChar character, UInt32 modifier) {
   if (character != kHKNilUnichar) {
-    return [HKModifierStringForMask(modifier) stringByAppendingString:HKStringForUnichar(character)];
+    return [HKMapGetModifierStringForMask(modifier) stringByAppendingString:HKMapGetStringForUnichar(character)];
   }
   return nil;
 }
 
+#pragma mark Reverse Mapping
+UInt32 HKMapGetKeycodeAndModifierForUnichar(UniChar character, UInt32 *modifier, UInt32 *count) {
+  if (kHKNilUnichar == character)
+    return kHKInvalidVirtualKeyCode;
+  UInt32 key[1], mod[1];
+  UInt32 cnt = HKMapGetKeycodesAndModifiersForUnichar(character, key, mod, 1);
+  if (!cnt || kHKInvalidVirtualKeyCode == key[0])
+    return kHKInvalidVirtualKeyCode;
+  if (count) *count = cnt;
+  if (modifier) *modifier = mod[0];
+  
+  return key[0];
+}
+
+UInt32 HKMapGetKeycodesAndModifiersForUnichar(UniChar character, UInt32 *keys, UInt32 *modifiers, UInt32 maxcount) {
+  UInt32 count = 0;
+  if (character != kHKNilUnichar) {
+    UInt32 keycode = HKMapGetSpecialKeyCodeForUnichar(character);
+    if (keycode == kHKInvalidVirtualKeyCode) {
+      count = HKKeyMapGetKeycodesForUnichar(SharedKeyMap(), character, keys, modifiers, maxcount);
+    } else {
+      count = 1;
+      if (maxcount > 0) {
+        keys[0] = keycode & 0xffff;
+        modifiers[0] = 0;
+      }
+    }
+  }
+  return count;
+}
+
 #pragma mark -
 #pragma mark Statics Functions Definition
-unsigned short HKSpecialKeyCodeForUnichar(unichar character) {
-  unsigned short keyCode = kHKNilVirtualKeyCode;
+UInt32 HKMapGetSpecialKeyCodeForUnichar(UniChar character) {
+  UInt32 keyCode = kHKInvalidVirtualKeyCode;
   switch (character) {
     /* functions keys */
     case kF1Unicode:
@@ -306,27 +322,29 @@ unsigned short HKSpecialKeyCodeForUnichar(unichar character) {
   return keyCode;
 }
 
-NSString* HKModifierStringForMask(unsigned int mask) {
-  unichar *modifier = NSZoneMalloc(nil, 4*sizeof(unichar));
-  unichar *symbol = modifier;
-  if (NSControlKeyMask & mask) {
+NSString* HKMapGetModifierStringForMask(UInt32 mask) {
+  UniChar modifier[5];
+  UniChar *symbol = modifier;
+  if (kCGEventFlagMaskAlphaShift & mask) {
+    *(symbol++) = 0x21ea; // Caps lock
+  }
+  if (kCGEventFlagMaskControl & mask) {
     *(symbol++) = kControlUnicode; // Ctrl
   }
-  if (NSAlternateKeyMask & mask) {
+  if (kCGEventFlagMaskAlternate & mask) {
     *(symbol++) = kOptionUnicode; // Opt
   }
-  if (NSShiftKeyMask & mask) {
+  if (kCGEventFlagMaskShift & mask) {
     *(symbol++) = kShiftUnicode; // Shift
   }
-  if (NSCommandKeyMask & mask) {
+  if (kCGEventFlagMaskCommand & mask) {
     *(symbol++) = kCommandUnicode; //Cmd
   }
   NSString *result = [NSString stringWithCharacters:modifier length:symbol - modifier];
-  NSZoneFree(nil, modifier);
   return result;
 }
 
-NSString* HKStringForUnichar(unichar character) {
+NSString* HKMapGetStringForUnichar(UniChar character) {
   id str = nil;
   if (kHKNilUnichar == character)
     return str;

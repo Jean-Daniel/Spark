@@ -7,14 +7,13 @@
 //
 
 #import "SparkServerProtocol.h"
-#import <HotKeyToolKit/HotKeyToolKit.h>
 
 @class SparkHotKey, SparkKeyLibrary, SparkActionLibrary;
 
 @interface SparkDaemon : NSObject {
 }
 
-- (BOOL)setPlugInPath;
+//- (BOOL)setPlugInPath;
 
 - (void)loadKeys;
 - (void)checkActions;

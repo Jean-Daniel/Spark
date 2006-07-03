@@ -44,6 +44,9 @@
 		983961E30606809200E0353D /* PluginIcon.tif in Resources */ = {isa = PBXBuildFile; fileRef = 983961E20606809200E0353D /* PluginIcon.tif */; };
 		983961E50606809E00E0353D /* ActionIcon.tif in Resources */ = {isa = PBXBuildFile; fileRef = 983961E40606809E00E0353D /* ActionIcon.tif */; };
 		983961E7060680AB00E0353D /* SparkKit.icns in Resources */ = {isa = PBXBuildFile; fileRef = 983961E6060680AB00E0353D /* SparkKit.icns */; };
+		983975830A58667E00F79B40 /* SKIOKitFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 983975820A58667E00F79B40 /* SKIOKitFunctions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9839758F0A58669C00F79B40 /* SKIOKitFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = 9839758E0A58669C00F79B40 /* SKIOKitFunctions.c */; };
+		983976350A5866BF00F79B40 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 983975950A5866BF00F79B40 /* IOKit.framework */; };
 		98632FFD06E5B2520029CEB7 /* SparkActionLibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = 98632FFB06E5B2520029CEB7 /* SparkActionLibrary.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		9863300006E5B26D0029CEB7 /* SparkActionLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 98632FFF06E5B26D0029CEB7 /* SparkActionLibrary.m */; };
 		98675536096B35E900BB8A25 /* ShadowAEUtils.c in Sources */ = {isa = PBXBuildFile; fileRef = 98725D2806CB9FB30072B8E4 /* ShadowAEUtils.c */; };
@@ -126,6 +129,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		98643F060A556F2300260086 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 98D708A7087A622A006BC4D1 /* HotKeyToolKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 98643F000A556F2200260086;
+			remoteInfo = Test;
+		};
 		9867556A096B367F00BB8A25 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
@@ -133,12 +143,12 @@
 			remoteGlobalIDString = 98C56D33096B348400ABE1EF;
 			remoteInfo = ShadowKit;
 		};
-		98D708AC087A622A006BC4D1 /* PBXContainerItemProxy */ = {
+		98C61C980A5816060004E6EF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 98D708A7087A622A006BC4D1 /* HotKeyToolKit.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 985B62B60719E09D0073D36F;
-			remoteInfo = Testing;
+			remoteGlobalIDString = 98C61C1A0A5813EB0004E6EF;
+			remoteInfo = UITester;
 		};
 		98D708AE087A622A006BC4D1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -153,6 +163,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = HotKeyToolKit;
+		};
+		98DD3CE40A57AABA00F059E5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 98D708A7087A622A006BC4D1 /* HotKeyToolKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 98E204A00A56FE6500EB74E1;
+			remoteInfo = Runner;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -203,6 +220,9 @@
 		983961E20606809200E0353D /* PluginIcon.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = PluginIcon.tif; sourceTree = "<group>"; };
 		983961E40606809E00E0353D /* ActionIcon.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = ActionIcon.tif; sourceTree = "<group>"; };
 		983961E6060680AB00E0353D /* SparkKit.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = SparkKit.icns; sourceTree = "<group>"; };
+		983975820A58667E00F79B40 /* SKIOKitFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKIOKitFunctions.h; sourceTree = "<group>"; };
+		9839758E0A58669C00F79B40 /* SKIOKitFunctions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = SKIOKitFunctions.c; sourceTree = "<group>"; };
+		983975950A5866BF00F79B40 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
 		98632FFB06E5B2520029CEB7 /* SparkActionLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkActionLibrary.h; sourceTree = "<group>"; };
 		98632FFF06E5B26D0029CEB7 /* SparkActionLibrary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkActionLibrary.m; sourceTree = "<group>"; };
 		986758CE096B403300BB8A25 /* SKWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKWindowController.m; sourceTree = "<group>"; };
@@ -300,6 +320,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				98675577096B36BD00BB8A25 /* Cocoa.framework in Frameworks */,
+				983976350A5866BF00F79B40 /* IOKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -370,6 +391,7 @@
 		1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				983975950A5866BF00F79B40 /* IOKit.framework */,
 				1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */,
 			);
 			name = "Linked Frameworks";
@@ -559,8 +581,7 @@
 				65245F390A2AFE4200ACB971 /* SKPluginLoader.m */,
 				98725D3606CB9FC60072B8E4 /* SKApplicationAlias.m */,
 			);
-			name = Foundation;
-			path = ../../ShadowKit/ShadowKit/Foundation;
+			path = Foundation;
 			sourceTree = "<group>";
 		};
 		98725D2606CB9F860072B8E4 /* AppKit */ = {
@@ -674,6 +695,7 @@
 				98DCC180096C67C4003106E2 /* SKLoginItems.c */,
 				98C78D6907D9E716006D9CC1 /* SKFSFunctions.m */,
 				98C78D6A07D9E716006D9CC1 /* SKLSFunctions.m */,
+				9839758E0A58669C00F79B40 /* SKIOKitFunctions.c */,
 				98C78D6B07D9E716006D9CC1 /* SKProcessFunctions.m */,
 			);
 			path = Functions;
@@ -685,6 +707,7 @@
 				98DCC186096C67CF003106E2 /* SKLoginItems.h */,
 				98C78D6507D9E716006D9CC1 /* SKFSFunctions.h */,
 				98C78D6607D9E716006D9CC1 /* SKLSFunctions.h */,
+				983975820A58667E00F79B40 /* SKIOKitFunctions.h */,
 				98C78D6707D9E716006D9CC1 /* SKProcessFunctions.h */,
 			);
 			path = Headers;
@@ -747,7 +770,9 @@
 		98D708A8087A622A006BC4D1 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				98D708AD087A622A006BC4D1 /* Testing.framework */,
+				98643F070A556F2300260086 /* Test.octest */,
+				98DD3CE50A57AABA00F059E5 /* Runner */,
+				98C61C990A5816060004E6EF /* UITester.app */,
 				98D708AF087A622A006BC4D1 /* HotKeyToolKit.framework */,
 			);
 			name = Products;
@@ -817,6 +842,7 @@
 				98E03CA90A4D2A9D00C0800A /* SKBezelItem.h in Headers */,
 				98E03CAB0A4D2AB200C0800A /* SKCGFunctions.h in Headers */,
 				98E03CC80A4D2BA000C0800A /* SKClassCluster.h in Headers */,
+				983975830A58667E00F79B40 /* SKIOKitFunctions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -887,11 +913,18 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		98D708AD087A622A006BC4D1 /* Testing.framework */ = {
+		98643F070A556F2300260086 /* Test.octest */ = {
 			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Testing.framework;
-			remoteRef = 98D708AC087A622A006BC4D1 /* PBXContainerItemProxy */;
+			fileType = wrapper.cfbundle;
+			path = Test.octest;
+			remoteRef = 98643F060A556F2300260086 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		98C61C990A5816060004E6EF /* UITester.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = UITester.app;
+			remoteRef = 98C61C980A5816060004E6EF /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		98D708AF087A622A006BC4D1 /* HotKeyToolKit.framework */ = {
@@ -899,6 +932,13 @@
 			fileType = wrapper.framework;
 			path = HotKeyToolKit.framework;
 			remoteRef = 98D708AE087A622A006BC4D1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		98DD3CE50A57AABA00F059E5 /* Runner */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = Runner;
+			remoteRef = 98DD3CE40A57AABA00F059E5 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -1004,6 +1044,7 @@
 				98E03CAF0A4D2AC900C0800A /* SKCGFunctions.m in Sources */,
 				98E03CB00A4D2AC900C0800A /* SKBezelItemContent.m in Sources */,
 				98E03CB10A4D2AC900C0800A /* SKBezelItem.m in Sources */,
+				9839758F0A58669C00F79B40 /* SKIOKitFunctions.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

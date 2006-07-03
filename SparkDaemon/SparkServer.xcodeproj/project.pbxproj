@@ -18,12 +18,9 @@
 		98B20D7306A54924008BA3F6 /* ServerProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 98402CF6060670AC00AB5262 /* ServerProtocol.m */; };
 		98B20D7406A54924008BA3F6 /* SparkDaemon.m in Sources */ = {isa = PBXBuildFile; fileRef = 98402CFF0606714300AB5262 /* SparkDaemon.m */; };
 		98B20D9A06A5492E008BA3F6 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
-		98B453900973133C00BD0A82 /* ShadowKit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 98675654096B3B6F00BB8A25 /* ShadowKit.framework */; };
 		98CE5BFF0774EF5B006EB5A5 /* Spark.icns in Resources */ = {isa = PBXBuildFile; fileRef = 98CE5BFE0774EF5A006EB5A5 /* Spark.icns */; };
 		98EF7E520864588C007BC81A /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF7E4A08645876007BC81A /* HotKeyToolKit.framework */; };
 		98EF7E530864588F007BC81A /* SparkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF7E5108645883007BC81A /* SparkKit.framework */; };
-		98EF7E5A086458C7007BC81A /* SparkKit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF7E5108645883007BC81A /* SparkKit.framework */; };
-		98EF7E5B086458C7007BC81A /* HotKeyToolKit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF7E4A08645876007BC81A /* HotKeyToolKit.framework */; };
 		98F2DECE0715E3D2001BBF29 /* SparkAppleScriptSuite.h in Headers */ = {isa = PBXBuildFile; fileRef = 98F2DECD0715E3D2001BBF29 /* SparkAppleScriptSuite.h */; };
 /* End PBXBuildFile section */
 
@@ -35,12 +32,26 @@
 			remoteGlobalIDString = 98C56D34096B348400ABE1EF;
 			remoteInfo = ShadowKit;
 		};
-		98EF7E4708645876007BC81A /* PBXContainerItemProxy */ = {
+		98C61C280A58140B0004E6EF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 98EF7E4108645876007BC81A /* HotKeyToolKit.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 985B62B60719E09D0073D36F;
-			remoteInfo = Testing;
+			remoteGlobalIDString = 98C61C1A0A5813EB0004E6EF;
+			remoteInfo = UITester;
+		};
+		98DC31710A57FDA3001E1415 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 98EF7E4108645876007BC81A /* HotKeyToolKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 98643F000A556F2200260086;
+			remoteInfo = Test;
+		};
+		98DC31730A57FDA3001E1415 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 98EF7E4108645876007BC81A /* HotKeyToolKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 98E204A00A56FE6500EB74E1;
+			remoteInfo = Runner;
 		};
 		98EF7E4908645876007BC81A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -57,22 +68,6 @@
 			remoteInfo = SparkKit;
 		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		98EF7E54086458AE007BC81A /* Copy Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 12;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				98EF7E5A086458C7007BC81A /* SparkKit.framework in Copy Frameworks */,
-				98B453900973133C00BD0A82 /* ShadowKit.framework in Copy Frameworks */,
-				98EF7E5B086458C7007BC81A /* HotKeyToolKit.framework in Copy Frameworks */,
-			);
-			name = "Copy Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
@@ -225,7 +220,9 @@
 		98EF7E4208645876007BC81A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				98EF7E4808645876007BC81A /* Testing.framework */,
+				98DC31720A57FDA3001E1415 /* Test.octest */,
+				98DC31740A57FDA3001E1415 /* Runner */,
+				98C61C290A58140B0004E6EF /* UITester.app */,
 				98EF7E4A08645876007BC81A /* HotKeyToolKit.framework */,
 			);
 			name = Products;
@@ -263,10 +260,10 @@
 			buildPhases = (
 				98B20D6506A54814008BA3F6 /* Headers */,
 				98B20D6606A54814008BA3F6 /* Resources */,
-				98EF7E54086458AE007BC81A /* Copy Frameworks */,
 				98B20D6706A54814008BA3F6 /* Sources */,
 				98B20D6806A54814008BA3F6 /* Frameworks */,
 				987E6D9206D7E13900C7F41C /* Rez */,
+				98C6184B0A5804CB0004E6EF /* Create links */,
 			);
 			buildRules = (
 			);
@@ -310,11 +307,25 @@
 			remoteRef = 98675653096B3B6F00BB8A25 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		98EF7E4808645876007BC81A /* Testing.framework */ = {
+		98C61C290A58140B0004E6EF /* UITester.app */ = {
 			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Testing.framework;
-			remoteRef = 98EF7E4708645876007BC81A /* PBXContainerItemProxy */;
+			fileType = wrapper.application;
+			path = UITester.app;
+			remoteRef = 98C61C280A58140B0004E6EF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		98DC31720A57FDA3001E1415 /* Test.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Test.octest;
+			remoteRef = 98DC31710A57FDA3001E1415 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		98DC31740A57FDA3001E1415 /* Runner */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = Runner;
+			remoteRef = 98DC31730A57FDA3001E1415 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		98EF7E4A08645876007BC81A /* HotKeyToolKit.framework */ = {
@@ -356,6 +367,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXRezBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		98C6184B0A5804CB0004E6EF /* Create links */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Create links";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/tcsh;
+			shellScript = "cd \"${BUILT_PRODUCTS_DIR}\"\n\nif (! -l \"${FRAMEWORKS_FOLDER_PATH}\") then \nrm -rf \"${FRAMEWORKS_FOLDER_PATH}\"\nln -s ../../../Frameworks \"${FRAMEWORKS_FOLDER_PATH}\"\nendif\n\nif (! -l \"${PLUGINS_FOLDER_PATH}\") then \nrm -rf \"${PLUGINS_FOLDER_PATH}\"\nln -s ../../../PlugIns \"${PLUGINS_FOLDER_PATH}\"\nendif\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		98B20D6706A54814008BA3F6 /* Sources */ = {

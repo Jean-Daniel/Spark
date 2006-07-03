@@ -12,12 +12,10 @@
 */
 
 
-
 #import <HotKeyToolKit/HKHotKey.h>
-#import <HotKeyToolKit/HKAXUIHotKey.h>
+
+#import <HotKeyToolKit/HKEvent.h>
+#import <HotKeyToolKit/HKKeyMap.h>
 
 #import <HotKeyToolKit/HKTrapWindow.h>
 #import <HotKeyToolKit/HKHotKeyManager.h>
-
-#import <HotKeyToolKit/HKKeyMap.h>
-#import <HotKeyToolKit/HKAXUIExtensions.h>

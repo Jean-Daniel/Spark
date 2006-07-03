@@ -102,28 +102,32 @@ NSString * const kHKTrapWindowKeyCatchedNotification = @"kHKTrapWindowKeyCatched
     } else {
       needProcess = NO;
     }
-    if (!needProcess) {
+    if (needProcess) {
+      [super sendEvent:theEvent];
+    } else {
       int code = [theEvent keyCode];
       int mask = [theEvent modifierFlags] & 0x00ff0000;
       unichar character = 0;
 #if defined(DEBUG)
-      NSLog(@"Code: %i, modifier: %i", code, mask);
+      NSLog(@"Code: %i, modifier: %x", code, mask);
       if (mask & NSNumericPadKeyMask)
         NSLog(@"NumericPad");
 #endif
+      if (mask & NSAlphaShiftKeyMask) {
+        mask &= ~NSAlphaShiftKeyMask;
+        DLog(@"Remove caps lock modifier");
+      }
       /* If verify and verification return NO */
       if (hk_twFlags.verify && ![HKHotKeyManager isValidHotKeyCode:code withModifier:mask]) {
         mask = 0;
         character = kHKNilUnichar;
-        code = kHKNilVirtualKeyCode;
+        code = kHKInvalidVirtualKeyCode;
         NSBeep();
-#if defined(DEBUG)
-        NSLog(@"Invalid Key");
-#endif
+        DLog(@"Invalid Key");
       } else {
-        character = HKUnicharForKeycode(code);
+        character = HKMapGetUnicharForKeycode(code);
         if (kHKNilUnichar == character) {
-          code = kHKNilVirtualKeyCode;
+          code = kHKInvalidVirtualKeyCode;
           mask = 0;
           NSBeep();
         }
@@ -136,9 +140,7 @@ NSString * const kHKTrapWindowKeyCatchedNotification = @"kHKTrapWindowKeyCatched
       [[NSNotificationCenter defaultCenter] postNotificationName:kHKTrapWindowKeyCatchedNotification
                                                           object:self
                                                         userInfo:userInfo];
-    } else { /* needProcess */
-      [super sendEvent:theEvent];
-    }
+    } /* needProcess */
   } else { /* Not a KeyDown Event or not trapping */
     [super sendEvent:theEvent];
   }

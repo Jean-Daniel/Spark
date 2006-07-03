@@ -11,11 +11,6 @@
 #import "HKAXUIHotKey.h"
 #import "HKKeyMap.h"
 
-#pragma mark Statics Functions Declaration
-static ProcessSerialNumber HKGetProcessWithSignature(OSType type);
-static ProcessSerialNumber HKGetProcessWithBundleIdentifier(CFStringRef bundleId);
-static ProcessSerialNumber HKGetProcessWithProperty(CFStringRef property, CFPropertyListRef value);
-
 #pragma mark -
 #pragma mark Publics Functions Definitions
 CGError HKSendHotKey(CGCharCode character, CGKeyCode keycode, unsigned int modifier) {
@@ -25,8 +20,8 @@ CGError HKSendHotKey(CGCharCode character, CGKeyCode keycode, unsigned int modif
   if (kHKNilUnichar == character) character = HKUnicharForKeycode(keycode);
   if (kHKNilUnichar == character) return kCGErrorIllegalArgument;
   
-  if (kHKNilVirtualKeyCode == keycode) keycode = HKKeycodeForUnichar(character);
-  if (kHKNilVirtualKeyCode == keycode) return kCGErrorIllegalArgument;
+  if (kHKInvalidVirtualKeyCode == keycode) keycode = HKKeycodeForUnichar(character);
+  if (kHKInvalidVirtualKeyCode == keycode) return kCGErrorIllegalArgument;
   
   CGInhibitLocalEvents(YES);
   CGEnableEventStateCombining(NO);
@@ -101,8 +96,8 @@ AXError HKSendHotKeyToProcess(CGCharCode character, CGKeyCode keycode, unsigned 
   if (kHKNilUnichar == character) character = HKUnicharForKeycode(keycode);
   if (kHKNilUnichar == character) return kAXErrorIllegalArgument;
   
-  if (kHKNilVirtualKeyCode == keycode) keycode = HKKeycodeForUnichar(character);
-  if (kHKNilVirtualKeyCode == keycode) return kAXErrorIllegalArgument;
+  if (kHKInvalidVirtualKeyCode == keycode) keycode = HKKeycodeForUnichar(character);
+  if (kHKInvalidVirtualKeyCode == keycode) return kAXErrorIllegalArgument;
 
   /* Creating AXUIElement with process */
   if (psn == nil) {
@@ -189,43 +184,3 @@ AXError HKSendHotKeyToProcess(CGCharCode character, CGKeyCode keycode, unsigned 
 
 @end
 
-#pragma mark -
-#pragma mark Statics Functions Definition
-ProcessSerialNumber HKGetProcessWithSignature(OSType type) {
-  ProcessSerialNumber psn = {kNoProcess, kNoProcess};
-  CFStringRef sign = CFStringCreateWithBytes(kCFAllocatorDefault, (UInt8 *)&type, sizeof(OSType), kCFStringEncodingMacRoman, NO);
-  if (nil != sign) {
-    psn = HKGetProcessWithProperty(CFSTR("FileCreator"), sign);
-    CFRelease(sign);
-  }
-  return psn;
-}
-
-ProcessSerialNumber HKGetProcessWithBundleIdentifier(CFStringRef bundleId) {
-  return HKGetProcessWithProperty(kCFBundleIdentifierKey, bundleId);
-}
-
-ProcessSerialNumber HKGetProcessWithProperty(CFStringRef property, CFPropertyListRef value) {
-  ProcessSerialNumber serialNumber = {kNoProcess, kNoProcess};
-  CFPropertyListRef procValue;
-  CFDictionaryRef info;
-  
-  if (!value) {
-    return serialNumber;
-  }
-  while (procNotFound != GetNextProcess(&serialNumber))  {
-    info = ProcessInformationCopyDictionary(&serialNumber, kProcessDictionaryIncludeAllInformationMask);
-    if (info) {
-      procValue = CFDictionaryGetValue(info, property);
-      
-      if (procValue && (CFEqual(procValue, value)) ) {
-        CFRelease(info);
-        info = NULL;
-        break;
-      }
-      CFRelease(info);
-      info = NULL;
-    }
-  }
-  return serialNumber; 
-}

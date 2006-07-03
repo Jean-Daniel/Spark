@@ -60,7 +60,6 @@ NSString * const kCustomTableViewDidBecomeFirstResponder = @"CustomTableViewDidB
   if ([columns count] < 2)
     return anImage;
   
-  
   float width = [[columns objectAtIndex:0] width];
   width += [[columns objectAtIndex:1] width];
   dragImageOffset->x = 0;

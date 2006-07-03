@@ -24,11 +24,6 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		650A68DE0A2B3976008769DF /* PowerAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 6540B6E809E6430800D0E8FB /* PowerAction.spact */; };
-		650A68DF0A2B3976008769DF /* iTunesAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 6540B6EA09E6430800D0E8FB /* iTunesAction.spact */; };
-		650A68E00A2B3976008769DF /* DocumentAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 6540B6EC09E6430800D0E8FB /* DocumentAction.spact */; };
-		650A68E10A2B3976008769DF /* ApplicationAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 6540B6EE09E6430800D0E8FB /* ApplicationAction.spact */; };
-		650A68E20A2B3976008769DF /* AppleScriptAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 6540B6F009E6430800D0E8FB /* AppleScriptAction.spact */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		980DA19106E65FF30038EE2A /* ActionLibraryList.m in Sources */ = {isa = PBXBuildFile; fileRef = 980DA18F06E65FF30038EE2A /* ActionLibraryList.m */; };
 		980DA19406E660080038EE2A /* ActionLibraryList.h in Headers */ = {isa = PBXBuildFile; fileRef = 980DA19206E660080038EE2A /* ActionLibraryList.h */; };
@@ -183,6 +178,11 @@
 		98D1E8B2078564B8002DDB31 /* Update.strings in Resources */ = {isa = PBXBuildFile; fileRef = 98D1E8B0078564B8002DDB31 /* Update.strings */; };
 		98D1EBC2076D802A0031EBC8 /* stop_downb.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98D1EBC1076D802A0031EBC8 /* stop_downb.tif */; };
 		98D1EBC8076D80D70031EBC8 /* start_downb.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98D1EBC7076D80D70031EBC8 /* start_downb.tif */; };
+		98DD455F0A57DE9A00F059E5 /* SystemAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 6540B6E809E6430800D0E8FB /* SystemAction.spact */; };
+		98DD45600A57DE9A00F059E5 /* iTunesAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 6540B6EA09E6430800D0E8FB /* iTunesAction.spact */; };
+		98DD45610A57DE9A00F059E5 /* DocumentAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 6540B6EC09E6430800D0E8FB /* DocumentAction.spact */; };
+		98DD45620A57DE9A00F059E5 /* ApplicationAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 6540B6EE09E6430800D0E8FB /* ApplicationAction.spact */; };
+		98DD45630A57DE9A00F059E5 /* AppleScriptAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 6540B6F009E6430800D0E8FB /* AppleScriptAction.spact */; };
 		98DD524B071092E600B33C4B /* ChoosePanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 98DD5249071092E600B33C4B /* ChoosePanel.m */; };
 		98DD524E071092F500B33C4B /* ChoosePanel.h in Headers */ = {isa = PBXBuildFile; fileRef = 98DD524C071092F500B33C4B /* ChoosePanel.h */; };
 		98DE1EB106FCC876006876A3 /* KeyPlugInList.m in Sources */ = {isa = PBXBuildFile; fileRef = 98DE1EB006FCC876006876A3 /* KeyPlugInList.m */; };
@@ -324,6 +324,13 @@
 			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = HotKeyToolKit;
 		};
+		98643F030A556F2300260086 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 98EF8306086462FF007BC81A /* HotKeyToolKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 98643F000A556F2200260086;
+			remoteInfo = Test;
+		};
 		986757DB096B3F2400BB8A25 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 98EF830F0864630B007BC81A /* SparkKit.xcodeproj */;
@@ -338,6 +345,13 @@
 			remoteGlobalIDString = 98B20D6906A54814008BA3F6;
 			remoteInfo = "Spark Daemon";
 		};
+		98C61C1E0A5813ED0004E6EF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 98EF8306086462FF007BC81A /* HotKeyToolKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 98C61C1A0A5813EB0004E6EF;
+			remoteInfo = UITester;
+		};
 		98DBB874099F4B5B00927F3B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
@@ -345,12 +359,12 @@
 			remoteGlobalIDString = 8D1107260486CEB800E47090;
 			remoteInfo = Spark;
 		};
-		98EF830B086462FF007BC81A /* PBXContainerItemProxy */ = {
+		98E204A90A56FE8600EB74E1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 98EF8306086462FF007BC81A /* HotKeyToolKit.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 985B62B60719E09D0073D36F;
-			remoteInfo = Testing;
+			remoteGlobalIDString = 98E204A00A56FE6500EB74E1;
+			remoteInfo = Runner;
 		};
 		98EF830D086462FF007BC81A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -399,11 +413,11 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				650A68DE0A2B3976008769DF /* PowerAction.spact in Copy Plugins */,
-				650A68DF0A2B3976008769DF /* iTunesAction.spact in Copy Plugins */,
-				650A68E00A2B3976008769DF /* DocumentAction.spact in Copy Plugins */,
-				650A68E10A2B3976008769DF /* ApplicationAction.spact in Copy Plugins */,
-				650A68E20A2B3976008769DF /* AppleScriptAction.spact in Copy Plugins */,
+				98DD455F0A57DE9A00F059E5 /* SystemAction.spact in Copy Plugins */,
+				98DD45600A57DE9A00F059E5 /* iTunesAction.spact in Copy Plugins */,
+				98DD45610A57DE9A00F059E5 /* DocumentAction.spact in Copy Plugins */,
+				98DD45620A57DE9A00F059E5 /* ApplicationAction.spact in Copy Plugins */,
+				98DD45630A57DE9A00F059E5 /* AppleScriptAction.spact in Copy Plugins */,
 			);
 			name = "Copy Plugins";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -494,7 +508,6 @@
 		984BCE3C060C7E990043CDEA /* stop_down.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = stop_down.tif; sourceTree = "<group>"; };
 		984BCE3E060C7E990043CDEA /* LibraryFile.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = LibraryFile.icns; sourceTree = "<group>"; };
 		984BCE3F060C7E990043CDEA /* Plugin.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Plugin.icns; sourceTree = "<group>"; };
-		984BCE40060C7E990043CDEA /* Spark Disk.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "Spark Disk.icns"; sourceTree = "<group>"; };
 		984BCE41060C7E990043CDEA /* Spark.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Spark.icns; sourceTree = "<group>"; };
 		984BCE43060C7E990043CDEA /* LibraryIcon.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = LibraryIcon.tif; sourceTree = "<group>"; };
 		984BCE44060C7E990043CDEA /* PlugInListIcon.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = PlugInListIcon.tif; sourceTree = "<group>"; };
@@ -568,7 +581,6 @@
 		98B07ED806FA45D600C1E88B /* ApplicationsTableDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplicationsTableDataSource.h; sourceTree = "<group>"; };
 		98B07EE606FA483600C1E88B /* ApplicationListIcon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = ApplicationListIcon.tiff; sourceTree = "<group>"; };
 		98B5507A06D23AE5001BDF93 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/Library.nib; sourceTree = "<group>"; };
-		98B5511A06D25A7D001BDF93 /* Spark.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Spark.pch; sourceTree = SOURCE_ROOT; };
 		98B5517C06D274B3001BDF93 /* DaemonPref.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = DaemonPref.tiff; sourceTree = "<group>"; };
 		98B5517D06D274B4001BDF93 /* EditorPref.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = EditorPref.tiff; sourceTree = "<group>"; };
 		98B6283E06FB951400766FCC /* ActionLibraryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionLibraryController.m; sourceTree = "<group>"; };
@@ -693,8 +705,8 @@
 			isa = PBXGroup;
 			children = (
 				6540B6E609E6430800D0E8FB /* Labo */,
-				6540B6E809E6430800D0E8FB /* PowerAction.spact */,
 				6540B6EA09E6430800D0E8FB /* iTunesAction.spact */,
+				6540B6E809E6430800D0E8FB /* SystemAction.spact */,
 				6540B6EC09E6430800D0E8FB /* DocumentAction.spact */,
 				6540B6EE09E6430800D0E8FB /* ApplicationAction.spact */,
 				6540B6F009E6430800D0E8FB /* AppleScriptAction.spact */,
@@ -919,7 +931,6 @@
 				984BCE3F060C7E990043CDEA /* Plugin.icns */,
 				98451105075A0304000D3F88 /* ListFile.icns */,
 				984BCE3E060C7E990043CDEA /* LibraryFile.icns */,
-				984BCE40060C7E990043CDEA /* Spark Disk.icns */,
 				98E66CC30759FA7C0048A37D /* ActionSparkList.icns */,
 				98E66CC10759FA7C0048A37D /* HotKeySparkList.icns */,
 				98E66CC20759FA7C0048A37D /* ApplicationSparkList.icns */,
@@ -966,7 +977,6 @@
 			isa = PBXGroup;
 			children = (
 				984BCE6C060C7FEC0043CDEA /* Spark.h */,
-				98B5511A06D25A7D001BDF93 /* Spark.pch */,
 				98E65ABB06B410A900F73A19 /* SparkServerProtocol.h */,
 				98F2DEBC0715E21F001BBF29 /* SparkAppleScriptSuite.h */,
 				984BCE6D060C7FEC0043CDEA /* UI Controllers */,
@@ -1175,7 +1185,9 @@
 		98EF8307086462FF007BC81A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				98EF830C086462FF007BC81A /* Testing.framework */,
+				98643F040A556F2300260086 /* Test.octest */,
+				98E204AA0A56FE8600EB74E1 /* Runner */,
+				98C61C1F0A5813ED0004E6EF /* UITester.app */,
 				98EF830E086462FF007BC81A /* HotKeyToolKit.framework */,
 			);
 			name = Products;
@@ -1346,10 +1358,10 @@
 			remoteRef = 6540B6E509E6430800D0E8FB /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		6540B6E809E6430800D0E8FB /* PowerAction.spact */ = {
+		6540B6E809E6430800D0E8FB /* SystemAction.spact */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = PowerAction.spact;
+			path = SystemAction.spact;
 			remoteRef = 6540B6E709E6430800D0E8FB /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -1423,6 +1435,13 @@
 			remoteRef = 6540B70909E6431600D0E8FB /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		98643F040A556F2300260086 /* Test.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Test.octest;
+			remoteRef = 98643F030A556F2300260086 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		986757DC096B3F2400BB8A25 /* ShadowKit.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -1430,11 +1449,18 @@
 			remoteRef = 986757DB096B3F2400BB8A25 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		98EF830C086462FF007BC81A /* Testing.framework */ = {
+		98C61C1F0A5813ED0004E6EF /* UITester.app */ = {
 			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Testing.framework;
-			remoteRef = 98EF830B086462FF007BC81A /* PBXContainerItemProxy */;
+			fileType = wrapper.application;
+			path = UITester.app;
+			remoteRef = 98C61C1E0A5813ED0004E6EF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		98E204AA0A56FE8600EB74E1 /* Runner */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = Runner;
+			remoteRef = 98E204A90A56FE8600EB74E1 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		98EF830E086462FF007BC81A /* HotKeyToolKit.framework */ = {

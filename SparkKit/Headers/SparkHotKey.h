@@ -172,16 +172,14 @@ void SparkDecodeHotKey(HKHotKey *key, unsigned hotkey);
 - (SEL)action;
 - (void)setAction:(SEL)aSelector;
 
-- (unsigned int)modifier;
-- (void)setModifier:(unsigned int)modifier;
+- (UInt32)modifier;
+- (void)setModifier:(UInt32)modifier;
 
-- (unsigned short)keycode; 
-- (void)setKeycode:(unsigned short)keycode;
+- (UInt32)keycode; 
+- (void)setKeycode:(UInt32)keycode;
 
-- (unichar)character;
-- (void)setCharacter:(unichar)character;
-
-- (void)setKeycode:(unsigned short)keycode andCharacter:(unichar)character;
+- (UniChar)character;
+- (void)setCharacter:(UniChar)character;
 
 - (BOOL)isRegistred;
 - (BOOL)setRegistred:(BOOL)flag;
@@ -191,8 +189,11 @@ void SparkDecodeHotKey(HKHotKey *key, unsigned hotkey);
 
 - (NSString *)shortCut;
 
-- (CGError)sendHotKey;
-- (AXError)sendHotKeyToApplicationWithSignature:(OSType)sign bundleId:(NSString *)bundleId;
+- (BOOL)sendKeystroke;
+- (BOOL)sendKeystrokeToApplication:(OSType)signature bundle:(NSString *)bundleId;
+
+- (UInt32)rawkey;
+- (void)setRawkey:(UInt32)rawkey;
 
 @end
 
