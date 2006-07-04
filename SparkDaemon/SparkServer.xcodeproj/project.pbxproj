@@ -11,6 +11,7 @@
 		985E3ADB0788A0E100C85CF8 /* Spark Scripting.r in Rez */ = {isa = PBXBuildFile; fileRef = 987E6D3F06D7E0D900C7F41C /* Spark Scripting.r */; };
 		9867565A096B3B9000BB8A25 /* ShadowKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98675654096B3B6F00BB8A25 /* ShadowKit.framework */; };
 		986B2201077474490086463D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 986B21FF077474490086463D /* InfoPlist.strings */; };
+		987261D40A5A4B5D004F6584 /* SparkSuite.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 987261D30A5A4B5D004F6584 /* SparkSuite.sdef */; };
 		98B20D6D06A5491C008BA3F6 /* AEScript.h in Headers */ = {isa = PBXBuildFile; fileRef = 98402CF1060670AC00AB5262 /* AEScript.h */; };
 		98B20D6E06A5491C008BA3F6 /* SparkDaemon.h in Headers */ = {isa = PBXBuildFile; fileRef = 98402CF2060670AC00AB5262 /* SparkDaemon.h */; };
 		98B20D6F06A5491C008BA3F6 /* SparkServerProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 98402CF4060670AC00AB5262 /* SparkServerProtocol.h */; };
@@ -85,6 +86,7 @@
 		98402CFF0606714300AB5262 /* SparkDaemon.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SparkDaemon.m; sourceTree = "<group>"; };
 		985E3AD90788A0DE00C85CF8 /* SparkDaemonSuite.scriptTerminology */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = SparkDaemonSuite.scriptTerminology; sourceTree = "<group>"; };
 		986B2200077474490086463D /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = Daemon/Resources/English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		987261D30A5A4B5D004F6584 /* SparkSuite.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.sdef; name = SparkSuite.sdef; path = "../SparkEditor/AppleScript Suite/SparkSuite.sdef"; sourceTree = SOURCE_ROOT; };
 		987E6D2F06D7DA0800C7F41C /* SparkAEHandle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkAEHandle.m; sourceTree = "<group>"; };
 		987E6D3106D7DA1700C7F41C /* SparkAEHandle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkAEHandle.h; sourceTree = "<group>"; };
 		987E6D3E06D7E0D900C7F41C /* SparkDaemonSuite.scriptSuite */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SparkDaemonSuite.scriptSuite; sourceTree = "<group>"; };
@@ -199,6 +201,7 @@
 		987E6D3A06D7E0B800C7F41C /* AppleScript */ = {
 			isa = PBXGroup;
 			children = (
+				987261D30A5A4B5D004F6584 /* SparkSuite.sdef */,
 				987E6D3F06D7E0D900C7F41C /* Spark Scripting.r */,
 				987E6D3E06D7E0D900C7F41C /* SparkDaemonSuite.scriptSuite */,
 				985E3AD90788A0DE00C85CF8 /* SparkDaemonSuite.scriptTerminology */,
@@ -352,6 +355,7 @@
 				986B2201077474490086463D /* InfoPlist.strings in Resources */,
 				98CE5BFF0774EF5B006EB5A5 /* Spark.icns in Resources */,
 				985E3ADA0788A0DE00C85CF8 /* SparkDaemonSuite.scriptTerminology in Resources */,
+				987261D40A5A4B5D004F6584 /* SparkSuite.sdef in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
