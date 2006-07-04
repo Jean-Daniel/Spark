@@ -55,7 +55,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216 /* HotKeyToolKit */;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = HotKeyToolKit;
 		};
 		98E204A40A56FE7F00EB74E1 /* PBXContainerItemProxy */ = {
@@ -104,8 +104,7 @@
 		98643F000A556F2200260086 /* Test.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Test.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		98643F010A556F2200260086 /* Test-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Test-Info.plist"; sourceTree = "<group>"; };
 		9864CB72060D11DD00228F30 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
-		98C0DB230719422400AC65C0 /* HKAXUIHotKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKAXUIHotKey.h; sourceTree = "<group>"; };
-		98C61C1A0A5813EB0004E6EF /* UITester.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UITester.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		98C61C1A0A5813EB0004E6EF /* UITester.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = UITester.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		98C61C1C0A5813EB0004E6EF /* UITester-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "UITester-Info.plist"; sourceTree = "<group>"; };
 		98C61C650A5814C50004E6EF /* UITester.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = UITester.nib; sourceTree = "<group>"; };
 		98DD3DAC0A57B1B600F059E5 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
@@ -116,7 +115,6 @@
 		98E204820A56FDFC00EB74E1 /* Runner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Runner.m; sourceTree = "<group>"; };
 		98E204A00A56FE6500EB74E1 /* Runner */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Runner; sourceTree = BUILT_PRODUCTS_DIR; };
 		98E2716006D0FB980017BDF7 /* HKAXUIExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKAXUIExtensions.m; sourceTree = "<group>"; };
-		98E2716306D0FBB80017BDF7 /* HKAXUIExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKAXUIExtensions.h; sourceTree = "<group>"; };
 		98EF7D6F0864538C007BC81A /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = /System/Library/Frameworks/SenTestingKit.framework; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
@@ -268,10 +266,8 @@
 				98DD42490A57C9C800F059E5 /* HKEvent.h */,
 				984426C705F9430700551005 /* HKHotKey.h */,
 				984426CB05F9430700551005 /* HKKeyMap.h */,
-				98C0DB230719422400AC65C0 /* HKAXUIHotKey.h */,
 				984426CC05F9430700551005 /* HKTrapWindow.h */,
 				984426C905F9430700551005 /* HKHotKeyManager.h */,
-				98E2716306D0FBB80017BDF7 /* HKAXUIExtensions.h */,
 				984426D705F9431D00551005 /* Private */,
 			);
 			path = Headers;

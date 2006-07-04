@@ -36,11 +36,17 @@ NSTimeInterval HKGetSystemKeyRepeatThreshold();
   @private
   id hk_target;
   SEL hk_action;
-  BOOL hk_isRegistred;
   NSTimer *hk_repeatTimer;
   NSTimeInterval hk_keyRepeat;
   
-  BOOL hk_lock;
+  struct _hk_hkFlags {
+    unsigned int lock:1;
+    unsigned int invoked:1;
+    unsigned int onrelease:1;
+    unsigned int registred:1;
+    unsigned int reserved:12;
+  } hk_hkFlags;
+  
   UInt32 hk_mask;
   UInt16 hk_keycode;
   UniChar hk_character;
@@ -180,6 +186,9 @@ NSTimeInterval HKGetSystemKeyRepeatThreshold();
   	@param		aSelector the receiver action.
    */
 - (void)setAction:(SEL)aSelector;
+
+- (BOOL)invokeOnKeyUp;
+- (void)setInvokeOnKeyUp:(BOOL)flag;
 
   /*!
   @method

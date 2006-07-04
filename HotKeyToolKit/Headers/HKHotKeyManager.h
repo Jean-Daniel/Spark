@@ -15,7 +15,7 @@
  				<i>modifier</i> is a Cocoa Modifier constant combination.
 */
 
-typedef BOOL (*HKHotKeyFilter)(UInt16 keycode, UInt32 modifier);
+typedef BOOL (*HKHotKeyFilter)(UInt32 keycode, UInt32 modifier);
 
 @class HKHotKey;
 
@@ -24,12 +24,9 @@ typedef BOOL (*HKHotKeyFilter)(UInt16 keycode, UInt32 modifier);
     @abstract   HotKeyManager is used to register and unregister HKHotKey. It dispatch Global HotKey event.
 */
 @interface HKHotKeyManager : NSObject {
-  @protected
-  id keys;
-  
   @private
-  void* handlerRef; /* EventHandlerRef handlerRef */
-  void* handlerUPP; /* EventHandlerUPP handlerUPP */
+  void* hk_handler; /* EventHandlerRef handlerRef */
+  NSMapTable *hk_keys;
 }
 
 /*!
@@ -40,7 +37,7 @@ typedef BOOL (*HKHotKeyFilter)(UInt16 keycode, UInt32 modifier);
  	@param		modifier the modifier keys.
  	@result		Returns YES if the keystrock is valid.
 */
-+ (BOOL)isValidHotKeyCode:(UInt16)code withModifier:(UInt32)modifier;
++ (BOOL)isValidHotKeyCode:(UInt32)code withModifier:(UInt32)modifier;
 
 
 /*!

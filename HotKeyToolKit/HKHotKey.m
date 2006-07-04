@@ -19,7 +19,7 @@
 volatile int HKGDBWorkaround = 0;
 
 @interface HKHotKey (Private) 
-- (void)_invalidateTimer;
+- (void)hk_invalidateTimer;
 
 - (BOOL)shouldChangeKeystroke;
 
@@ -40,7 +40,7 @@ volatile int HKGDBWorkaround = 0;
   copy->hk_keyRepeat = hk_keyRepeat;
   
   /* Key isn't registred */
-  copy->hk_isRegistred = NO;
+  copy->hk_hkFlags.onrelease = hk_hkFlags.onrelease;
   return copy;
 }
 
@@ -88,7 +88,6 @@ volatile int HKGDBWorkaround = 0;
 
 - (id)init {
   if (self = [super init]) {
-    hk_isRegistred = NO;
     hk_character = kHKNilUnichar;
     hk_keycode = kHKInvalidVirtualKeyCode;
   }
@@ -112,7 +111,7 @@ volatile int HKGDBWorkaround = 0;
 }
 
 - (void)dealloc {
-  [self _invalidateTimer];
+  [self hk_invalidateTimer];
   [self setRegistred:NO];
   [super dealloc];
 }
@@ -195,7 +194,7 @@ volatile int HKGDBWorkaround = 0;
 }
 
 - (BOOL)isRegistred {
-  return hk_isRegistred;
+  return hk_hkFlags.registred;
 }
 - (BOOL)setRegistred:(BOOL)flag {
   // Si la clŽ n'est pas valide
@@ -204,26 +203,32 @@ volatile int HKGDBWorkaround = 0;
   }
   BOOL result;
   @synchronized (self) {
+    flag = flag ? 1 : 0;
     // Si la clŽ est dŽja dans l'Žtat demandŽ
-    if (flag == hk_isRegistred) {
+    if (flag == hk_hkFlags.registred) {
       return YES;
     }
     result = YES;
-    if (flag) { // Si on veut l'enregister
+    if (flag) { // if register
       if ([[HKHotKeyManager sharedManager] registerHotKey:self]) {
-        hk_isRegistred = YES; // On note qu'elle est enregistrŽ
-      }
-      else {
+        hk_hkFlags.registred = 1; // Set registred flag
+      } else {
         result = NO;
       }
-    }
-    else { // Si on veut la supprimer
-      [self _invalidateTimer];
+    } else { // If unregister
+      [self hk_invalidateTimer];
       result = [[HKHotKeyManager sharedManager] unregisterHotKey:self];
-      hk_isRegistred = NO;
+      hk_hkFlags.registred = 0;
     }
   }
   return result;
+}
+
+- (BOOL)invokeOnKeyUp {
+  return hk_hkFlags.onrelease;
+}
+- (void)setInvokeOnKeyUp:(BOOL)flag {
+  SKSetFlag(hk_hkFlags.onrelease, flag);
 }
 
 - (NSTimeInterval)keyRepeat {
@@ -270,23 +275,32 @@ volatile int HKGDBWorkaround = 0;
 #pragma mark -
 #pragma mark Invoke
 - (void)keyPressed {
-  [self _invalidateTimer];
-  [self invoke];
-  if ([self keyRepeat] > 0) {
-    id fire = [[NSDate alloc] initWithTimeIntervalSinceNow:HKGetSystemKeyRepeatThreshold()];
-    hk_repeatTimer = [[NSTimer alloc] initWithFireDate:fire interval:[self keyRepeat] target:self selector:@selector(invoke:) userInfo:nil repeats:YES];
-    [fire release];
-    [[NSRunLoop currentRunLoop] addTimer:hk_repeatTimer forMode:NSDefaultRunLoopMode];
+  [self hk_invalidateTimer];
+  if (hk_hkFlags.onrelease) {
+    hk_hkFlags.invoked = 0;
+  } else {
+    /* Flags used to avoid double invocation if mode change during invoke */
+    hk_hkFlags.invoked = 1;
+    [self invoke];
+    if ([self keyRepeat] > 0) {
+      NSDate *fire = [[NSDate alloc] initWithTimeIntervalSinceNow:HKGetSystemKeyRepeatThreshold()];
+      hk_repeatTimer = [[NSTimer alloc] initWithFireDate:fire interval:[self keyRepeat] target:self selector:@selector(hk_invoke:) userInfo:nil repeats:YES];
+      [fire release];
+      [[NSRunLoop currentRunLoop] addTimer:hk_repeatTimer forMode:NSDefaultRunLoopMode];
+    }
   }
 }
 
 - (void)keyReleased {
-  [self _invalidateTimer];
+  [self hk_invalidateTimer];
+  if (hk_hkFlags.onrelease && !hk_hkFlags.invoked) {
+    [self invoke];
+  }
 }
 
 - (void)invoke {
-  if (!hk_lock) {
-    hk_lock = YES;
+  if (!hk_hkFlags.lock) {
+    hk_hkFlags.lock = 1;
     @try {
       if (hk_action && [hk_target respondsToSelector:hk_action]) {
         [hk_target performSelector:hk_action withObject:self];
@@ -295,7 +309,7 @@ volatile int HKGDBWorkaround = 0;
     @catch (id exception) {
       SKLogException(exception);
     }
-    hk_lock = NO;
+    hk_hkFlags.lock = 0;
   } else {
     DLog(@"WARNING: Recursive call in %@", self);
     // Maybe resend event ?
@@ -304,7 +318,7 @@ volatile int HKGDBWorkaround = 0;
 
 #pragma mark -
 #pragma mark Private
-- (void)_invalidateTimer {
+- (void)hk_invalidateTimer {
   if (hk_repeatTimer) {
     [hk_repeatTimer invalidate];
     [hk_repeatTimer release];
@@ -312,7 +326,7 @@ volatile int HKGDBWorkaround = 0;
   }
 }
 
-- (void)invoke:(NSTimer *)timer {
+- (void)hk_invoke:(NSTimer *)timer {
   DLog(@"Repeat Key");
   [self invoke];
 }

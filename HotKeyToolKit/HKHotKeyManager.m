@@ -29,6 +29,13 @@ BOOL HKTraceHotKeyEvents = NO;
 
 @implementation HKHotKeyManager
 
+static EventHandlerUPP kHKHandlerUPP = NULL;
++ (void)initialize {
+  if ([HKHotKeyManager class] == self) {
+    kHKHandlerUPP = NewEventHandlerUPP(HandleHotKeyEvent);
+  }
+}
+
 + (HKHotKeyManager *)sharedManager {
   static id sharedManager = nil;
   @synchronized (self) {
@@ -42,7 +49,6 @@ BOOL HKTraceHotKeyEvents = NO;
 - (id)init {
   if (self = [super init]) {
     EventHandlerRef ref;
-    EventHandlerUPP upp;
     EventTypeSpec eventTypes[2];
 
     eventTypes[0].eventClass = kEventClassKeyboard;
@@ -50,17 +56,13 @@ BOOL HKTraceHotKeyEvents = NO;
 
     eventTypes[1].eventClass = kEventClassKeyboard;
     eventTypes[1].eventKind  = kEventHotKeyReleased;
-
-    upp = NewEventHandlerUPP(HandleHotKeyEvent);
     
-    if (noErr != InstallApplicationEventHandler(upp, 2, eventTypes, self, &ref)) {
+    if (noErr != InstallApplicationEventHandler(kHKHandlerUPP, 2, eventTypes, self, &ref)) {
       [self release];
       self = nil;
-    }
-    else {
-      handlerRef = ref;
-      handlerUPP = upp;
-      keys = [[NSMutableDictionary alloc] init];
+    } else {
+      hk_handler = ref;
+      hk_keys = NSCreateMapTable(NSNonRetainedObjectMapKeyCallBacks, NSNonOwnedPointerMapValueCallBacks, 0);
     }
   }
   return self;
@@ -68,26 +70,21 @@ BOOL HKTraceHotKeyEvents = NO;
 
 - (void)dealloc {
   [self unregisterAll];
-  [keys release];
-  if (handlerRef) {
-    RemoveEventHandler(handlerRef);
-  }
-  if (handlerUPP) {
-    DisposeEventHandlerUPP(handlerUPP);
-  }
+  if (hk_keys) NSFreeMapTable(hk_keys);
+  if (hk_handler) RemoveEventHandler(hk_handler);
   [super dealloc];
 }
 
 - (BOOL)registerHotKey:(HKHotKey *)key {
   // Si la cle est valide est non enregistré
-  if ([key isValid] && ![keys objectForKey:key]) {
+  if ([key isValid] && !NSMapGet(hk_keys, key)) {
     UInt32 mask = [key modifier];
-    UInt16 keycode = [key keycode];
-    DLog(@"%@ Code: %i, mask: %x, character: %C",NSStringFromSelector(_cmd), keycode, mask, [key character]);
+    UInt32 keycode = [key keycode];
+    DLog(@"%@ Code: %i, mask: %x, character: %C", NSStringFromSelector(_cmd), keycode, mask, [key character]);
     EventHotKeyID hotKeyId = {kHKHotKeyEventSignature, (unsigned)key};
     EventHotKeyRef ref = HKRegisterHotKey(keycode, mask, hotKeyId);
     if (ref) {
-      [keys setObject:[NSValue valueWithPointer:ref] forKey:[NSValue valueWithPointer:key]];
+      NSMapInsert(hk_keys, key, ref);
       return YES;
     }
   }
@@ -96,24 +93,27 @@ BOOL HKTraceHotKeyEvents = NO;
 
 - (BOOL)unregisterHotKey:(HKHotKey *)key {
   if ([key isRegistred]) {
-    EventHotKeyRef ref = [[keys objectForKey:[NSValue valueWithPointer:key]] pointerValue];
+    EventHotKeyRef ref = NSMapGet(hk_keys, key);
     NSAssert(ref != nil, @"Unable to find Carbon HotKey Handler");
     
     BOOL result = (ref) ? HKUnregisterHotKey(ref) : NO;
     
-    [keys removeObjectForKey:key];
+    NSMapRemove(hk_keys, key);
     return result;
   }
   return NO;
 }
 
 - (void)unregisterAll {
-  EventHotKeyRef ref;
-  NSEnumerator *refs = [keys objectEnumerator];
-  while (ref = [[refs nextObject] pointerValue]) {
-    HKUnregisterHotKey(ref);
+  void *key = nil;
+  EventHotKeyRef ref = NULL;
+  
+  NSMapEnumerator refs = NSEnumerateMapTable(hk_keys);
+  while (NSNextMapEnumeratorPair(&refs, &key, (void **)&ref)) {
+    if (ref)
+      HKUnregisterHotKey(ref);
   }
-  [keys removeAllObjects];
+  NSResetMapTable(hk_keys);
 }
 
 - (OSStatus)handleCarbonEvent:(EventRef)theEvent {
@@ -174,7 +174,7 @@ static HKHotKeyFilter _filter;
 }
 
 #pragma mark -
-+ (BOOL)isValidHotKeyCode:(UInt16)code withModifier:(UInt32)modifier {
++ (BOOL)isValidHotKeyCode:(UInt32)code withModifier:(UInt32)modifier {
   BOOL isValid = YES;
   // Si un filtre est utilisé, on l'utilise.
   if (_filter != nil) {
