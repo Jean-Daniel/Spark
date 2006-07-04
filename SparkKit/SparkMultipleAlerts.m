@@ -6,8 +6,6 @@
 //  Copyright (c) 2004 __MyCompanyName__. All rights reserved.
 //
 
-#import <ShadowKit/SKFunctions.h>
-#import <ShadowKit/SKExtensions.h>
 #import <ShadowKit/SKAppKitExtensions.h>
 
 #import <SparkKit/SparkAlert.h>
@@ -22,7 +20,7 @@
 
 - (id)init {
   if (self = [super init]) {
-    _alerts = [[NSMutableArray alloc] init];
+    sp_alerts = [[NSMutableArray alloc] init];
   }
   return self;
 }
@@ -43,17 +41,15 @@
 
 - (void)dealloc {
   [self close:nil];
-  [_alerts release];
-  _alerts = nil;
-  [_nibFile release];
-  _nibFile = nil;
+  [sp_nib release];
+  [sp_alerts release];
   [super dealloc];
 }
 
 - (NSString *)errorString {
   return [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"ERROR_COUNTER", 
                                                                        nil, SKCurrentBundle(), @"Mutiple Alerts Counter"),
-    selectedIndex + 1, [self alertCount]];
+    sp_index + 1, [self alertCount]];
 }
 
 - (void)awakeFromNib {
@@ -69,15 +65,15 @@
 }
 
 - (void)refreshUI {
-  id alert = [_alerts objectAtIndex:selectedIndex];
-  if ([_alerts count] < 2) {
+  id alert = [sp_alerts objectAtIndex:sp_index];
+  if ([sp_alerts count] < 2) {
     [previousButton setHidden:YES];
     [nextButton setHidden:YES];
   } else {
     [previousButton setHidden:NO];
     [nextButton setHidden:NO];
-    [previousButton setEnabled:selectedIndex > 0];
-    [nextButton setEnabled:selectedIndex != ([_alerts count] -1)];
+    [previousButton setEnabled:sp_index > 0];
+    [nextButton setEnabled:sp_index != ([sp_alerts count] -1)];
   }
   [counter setStringValue:[self errorString]];
   
@@ -130,12 +126,12 @@
 }
 
 - (IBAction)next:(id)sender {
-  selectedIndex++;
+  sp_index++;
   [self refreshUI];
 }
 
 - (IBAction)previous:(id)sender {
-  selectedIndex--;
+  sp_index--;
   [self refreshUI];
 }
 
@@ -148,26 +144,26 @@
     [alertWindow autorelease];
     alertWindow = nil;
   }
-  if (_selfRetain) {
-    _selfRetain = NO;
+  if (sp_retain) {
+    sp_retain = NO;
     [self release];
   }
 }
 
 - (NSArray *)alerts {
-  return _alerts;
+  return sp_alerts;
 }
 
 - (int)alertCount {
-  return [_alerts count];
+  return [sp_alerts count];
 }
 
 - (void)addAlert:(SparkAlert *)alert {
-  [_alerts addObject:alert];
+  [sp_alerts addObject:alert];
 }
 
 - (void)addAlerts:(NSArray *)alerts {
-  [_alerts addObjectsFromArray:alerts];
+  [sp_alerts addObjectsFromArray:alerts];
 }
 
 - (void)addAlertWithMessageText:(NSString *)message informativeTextWithFormat:(NSString *)format,... {
@@ -182,37 +178,37 @@
 }
 
 - (void)insertAlert:(SparkAlert *)alert atIndex:(int)index {
-  [_alerts insertObject:alert atIndex:index];
+  [sp_alerts insertObject:alert atIndex:index];
 }
 
 - (void)removeAlert:(SparkAlert *)alert {
-  [_alerts removeObject:alert];
+  [sp_alerts removeObject:alert];
 }
 
 - (void)removeAlertAtIndex:(int)index {
-  [_alerts removeObjectAtIndex:index];
+  [sp_alerts removeObjectAtIndex:index];
 }
 
 - (void)removeAlerts:(NSArray *)alerts {
-  [_alerts removeObjectsInArray:alerts];
+  [sp_alerts removeObjectsInArray:alerts];
 }
 
 - (void)removeAllAlerts {
-  [_alerts removeAllObjects];
+  [sp_alerts removeAllObjects];
 }
 
 - (void)loadInterface {
-  if (_nibFile == nil) {
-    _nibFile = [[NSNib alloc] initWithNibNamed:@"MultipleAlerts" bundle:SKCurrentBundle()];
+  if (sp_nib == nil) {
+    sp_nib = [[NSNib alloc] initWithNibNamed:@"MultipleAlerts" bundle:SKCurrentBundle()];
   }
   if (alertWindow == nil) {
-    [_nibFile instantiateNibWithOwner:self topLevelObjects:nil];
+    [sp_nib instantiateNibWithOwner:self topLevelObjects:nil];
   }
 }
 
 - (void)beginSheetModalForWindow:(NSWindow *)window modalDelegate:(id)delegate didEndSelector:(SEL)didEndSelector contextInfo:(void *)contextInfo {
   [self retain];
-  _selfRetain = YES;
+  sp_retain = YES;
   if (![alertWindow isSheet]) {
     [self loadInterface];
     [NSApp beginSheet:alertWindow modalForWindow:window modalDelegate:delegate didEndSelector:didEndSelector contextInfo:contextInfo];
@@ -221,10 +217,42 @@
 
 - (void)showAlerts {
   [self retain];
-  _selfRetain = YES;
+  sp_retain = YES;
   [self loadInterface];
   [alertWindow makeKeyAndOrderFront:self];
 }
 
-
 @end
+
+#pragma mark -
+static
+void SparkLaunchEditor() {
+  NSBundle *bundle = [NSBundle mainBundle];
+  if ([[bundle bundleIdentifier] isEqualToString:kSparkBundleIdentifier]) {
+    [NSApp activateIgnoringOtherApps:NO];
+  } else if ([[bundle bundleIdentifier] isEqualToString:kSparkDaemonBundleIdentifier]) {
+    NSString *sparkPath = [[bundle bundlePath] stringByAppendingPathComponent:@"../../../"];
+    DLog(@"%@", [[NSFileManager defaultManager] displayNameAtPath:sparkPath]);
+    [[NSWorkspace sharedWorkspace] launchApplication:sparkPath];
+  }
+}
+
+void SparkDisplayAlerts(NSArray *items) {
+  if ([items count] == 1) {
+    SparkAlert *alert = [items objectAtIndex:0];
+    id other = [alert hideSparkButton] ? nil : NSLocalizedStringFromTableInBundle(@"LAUNCH_SPARK_BUTTON", nil,
+                                                                                  [NSBundle bundleWithIdentifier:kSparkKitBundleIdentifier],
+                                                                                  @"Open Spark Alert Button");
+    [NSApp activateIgnoringOtherApps:YES];
+    if (NSRunAlertPanel([alert messageText],[alert informativeText], @"OK", nil, other) == NSAlertOtherReturn) {
+      SparkLaunchEditor();
+    }
+  }
+  else if ([items count] > 1) {
+    id alerts = [[SparkMultipleAlerts alloc] initWithAlerts:items];
+    [alerts showAlerts];
+    [alerts autorelease];
+  }  
+}
+
+

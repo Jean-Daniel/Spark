@@ -12,9 +12,10 @@
 
 volatile int SparkGDBWorkaround = 0;
 
-#import <HotKeyToolKit/HotKeyToolKit.h>
+
 #import <ShadowKit/SKImageUtils.h>
 #import <ShadowKit/SKAppKitExtensions.h>
+#import <HotKeyToolKit/HotKeyToolKit.h>
 
 #import <SparkKit/SparkHotKey.h>
 
@@ -485,6 +486,26 @@ void SparkDecodeHotKey(HKHotKey *key, unsigned hotkey) {
 
 @end
 
+#pragma mark -
+#pragma mark Key Repeat Support Implementation
+__inline__ NSTimeInterval SparkGetDefaultKeyRepeatInterval() {
+  return HKGetSystemKeyRepeatInterval();
+}
+
+@interface HKHotKeyManager (Private)
+- (void)_hotKeyPressed:(HKHotKey *)key;
+@end
+
+@implementation SparkHotKeyManager
+
+- (void)_hotKeyPressed:(HKHotKey *)key {
+  id sparkKey = [key target];
+  id action = [sparkKey currentAction];
+  [key setKeyRepeat:(action) ? [action repeatInterval] : 0];
+  [super _hotKeyPressed:key];
+}
+
+@end
 
 static NSString * const kSparkApplicationToActionMap = @"ApplicationMap";
 static NSString * const kSparkListToActionMap = @"ApplicationListMap";

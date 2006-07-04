@@ -48,6 +48,7 @@ id SparkNotificationObject(NSNotification *aNotification);
 - (NSEnumerator *)objectEnumerator;
 
 - (BOOL)containsObject:(id<SparkLibraryObject>)object;
+
 - (id)objectWithId:(id)uid;
 - (NSArray *)objectsWithIds:(NSArray *)ids;
 

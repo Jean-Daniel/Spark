@@ -6,37 +6,25 @@
 //  Copyright (c) 2004 Shadow Lab. All rights reserved.
 //
 
+#import "SparkPrivate.h"
 #import <SparkKit/SparkPlugIn.h>
-#import <SparkKit/Spark_Private.h>
 
 @implementation SparkPlugIn
 
 + (void)initialize {
-  static BOOL tooLate;
-  if (NO == tooLate) {
+  if ([SparkPlugIn class] == self) {
     [self exposeBinding:@"path"];
     [self exposeBinding:@"name"];
     [self exposeBinding:@"icon"];
-    tooLate = YES;
   }
 }
 
 - (id)initWithBundle:(NSBundle *)bundle {
   if (self = [super init]) {
     //[[NSScriptSuiteRegistry sharedScriptSuiteRegistry] loadSuitesFromBundle:bundle];
-    _plugInClass = [bundle principalClass];
+    sp_class = [bundle principalClass];
     [self setPath:[bundle bundlePath]];
     [self setBundleIdentifier:[bundle bundleIdentifier]];
-  }
-  return self;
-}
-
-- (id)initWithName:(NSString *)name icon:(NSImage *)icon class:(Class)class {
-  if (self = [super init]) {
-    _name = [name retain];
-    _icon = [icon retain];
-    [self setPath:[[NSBundle bundleForClass:class] bundlePath]];
-    _plugInClass = class;
   }
   return self;
 }
@@ -45,72 +33,56 @@
   return [[[self alloc] initWithBundle:bundle] autorelease]; 
 }
 
-+ (id)plugInWithName:(NSString *)name icon:(NSImage *)icon class:(Class)class {
-  return [[[self alloc] initWithName:name icon:icon class:class] autorelease];
-}
-
 - (void)dealloc {
-  [_name release];
-  [_path release];
-  [_icon release];
-  [_bundleId release];
+  [sp_name release];
+  [sp_path release];
+  [sp_icon release];
+  [sp_bundle release];
   [super dealloc];
 }
 
 - (NSString *)name {
-  if (_name == nil) {
-    [self setName:[_plugInClass plugInName]];
+  if (sp_name == nil) {
+    [self setName:[sp_class plugInName]];
   }
-  return _name;
+  return sp_name;
 }
 - (void)setName:(NSString *)newName {
-  if (_name != newName) {
-    [_name release];
-    _name = [newName retain];
-  }
+  SKSetterRetain(sp_name, newName);
 }
 
 - (NSString *)path {
-  return _path;
+  return sp_path;
 }
 
 - (void)setPath:(NSString *)newPath {
-  if (_path != newPath) {
-    [_path release];
-    _path = [newPath retain];
-  }
+  SKSetterRetain(sp_path, newPath);
 }
 
 - (NSImage *)icon {
-  if (_icon == nil) {
-    [self setIcon:[_plugInClass plugInIcon]];
+  if (sp_icon == nil) {
+    [self setIcon:[sp_class plugInIcon]];
   }
-  return _icon;
+  return sp_icon;
 }
 - (void)setIcon:(NSImage *)icon {
-  if (_icon != icon) {
-    [_icon release];
-    _icon = [icon retain];
-  }
+  SKSetterRetain(sp_icon, icon);
 }
 
 - (NSString *)bundleIdentifier {
-  return _bundleId;
+  return sp_bundle;
 }
 
-- (void)setBundleIdentifier:(NSString *)anIdentifier {
-  if (_bundleId != anIdentifier) {
-    [_bundleId release];
-    _bundleId = [anIdentifier copy];
-  }
+- (void)setBundleIdentifier:(NSString *)identifier {
+  SKSetterRetain(sp_bundle, identifier);
 }
 
 - (Class)principalClass {
-  return _plugInClass;
+  return sp_class;
 }
 
 - (Class)actionClass {
-  return [_plugInClass actionClass];
+  return [sp_class actionClass];
 }
 
 - (NSString *)description {

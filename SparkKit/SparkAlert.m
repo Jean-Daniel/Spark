@@ -6,8 +6,8 @@
 //  Copyright (c) 2004 Shadow Lab. All rights reserved.
 //
 
+#import <SparkKit/SparkKit.h>
 #import <SparkKit/SparkAlert.h>
-#import <SparkKit/SparkConstantes.h>
 
 @implementation SparkAlert
 
@@ -19,8 +19,8 @@
 }
 
 - (void)dealloc {
-  [_messageText release];
-  [_informativeText release];
+  [sp_message release];
+  [sp_informative release];
   [super dealloc];
 }
 
@@ -46,30 +46,24 @@
 }
 
 - (NSString *)messageText {
-  return _messageText;
+  return sp_message;
 }
-- (void)setMessageText:(NSString *)newMessageText {
-  if (_messageText != newMessageText) {
-    [_messageText release];
-    _messageText = [newMessageText copy];
-  }
+- (void)setMessageText:(NSString *)message {
+  SKSetterCopy(sp_message, message);
 }
 
 - (NSString *)informativeText {
-  return _informativeText;
+  return sp_informative;
 }
-- (void)setInformativeText:(NSString *)newInformativeText {
-  if (_informativeText != newInformativeText) {
-    [_informativeText release];
-    _informativeText = [newInformativeText copy];
-  }
+- (void)setInformativeText:(NSString *)string {
+  SKSetterCopy(sp_informative, string);
 }
 
 - (BOOL)hideSparkButton {
-  return _hideSparkButton;
+  return sp_hide;
 }
 - (void)setHideSparkButton:(BOOL)flag {
-  _hideSparkButton = flag;
+  sp_hide = flag;
 }
 
 @end

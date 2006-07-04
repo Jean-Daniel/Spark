@@ -8,12 +8,10 @@
 
 #import <SparkKit/SparkActionLoader.h>
 #import <SparkKit/SparkPlugIn.h>
-#import <SparkKit/SparkAction.h>
-#import <SparkKit/SparkActionPlugIn.h>
-#import <SparkKit/Spark_Private.h>
+//#import <SparkKit/SparkAction.h>
 
-static
-NSString *buildInPath = nil;
+#import "SparkPrivate.h"
+#import <SparkKit/SparkActionPlugIn.h>
 
 @implementation SparkActionLoader
 
@@ -29,15 +27,10 @@ NSString *buildInPath = nil;
   return @"spact";
 }
 
-+ (NSString *)buildInPath {
-  return (buildInPath) ? buildInPath : [[NSBundle mainBundle] builtInPlugInsPath];
++ (NSString *)supportFolderName {
+  return kSparkFolderName;
 }
-+ (void)setBuildInPath:(NSString *)newPath {
-  if (buildInPath != newPath) {
-    [buildInPath release];
-    buildInPath = [newPath copy];
-  }
-}
+
 
 - (BOOL)isValidPlugIn:(Class)principalClass {
   if (![principalClass isSubclassOfClass:[SparkActionPlugIn class]]) {
@@ -50,10 +43,8 @@ NSString *buildInPath = nil;
 - (id)createPluginForBundle:(NSBundle *)bundle {
   id plug = nil;
   Class principalClass = [bundle principalClass];
-  if (principalClass) {
-    if ([self isValidPlugIn:principalClass]) {
-      plug = [SparkPlugIn plugInWithBundle:bundle];
-    }
+  if (principalClass && [self isValidPlugIn:principalClass]) {
+    plug = [SparkPlugIn plugInWithBundle:bundle];
   }
   return plug;
 }

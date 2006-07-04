@@ -6,52 +6,77 @@
 //  Copyright (c) 2004 Shadow Lab. All rights reserved.
 //
 
-#ifndef __SPARK_KIT__
-#define __SPARK_KIT__
+#if !defined(__SPARKKIT_H)
+#define __SPARKKIT_H 1
 
-#ifdef __OBJC__
-
-#import <SparkKit/SparkKitBase.h>
-#import <SparkKit/SparkConstantes.h>
-
-#import <SparkKit/SparkAction.h>
-#import <SparkKit/SparkActionPlugIn.h>
-#import <SparkKit/SparkAlert.h>
-#import <SparkKit/SparkMultipleAlerts.h>
-
-#import <SparkKit/Spark_Private.h>
-
-#import <SparkKit/SparkPlugIn.h>
-#import <SparkKit/SparkActionLoader.h>
-
-#import <SparkKit/SparkSerialization.h>
-#import <SparkKit/SparkLibraryObject.h>
-#import <SparkKit/SparkHotKey.h>
-#import <SparkKit/SparkApplication.h>
-
-#import <SparkKit/SparkObjectList.h>
-#import <SparkKit/SparkKeyList.h>
-#import <SparkKit/SparkActionList.h>
-#import <SparkKit/SparkApplicationList.h>
-
-#import <SparkKit/SparkLibrary.h>
-#import <SparkKit/SparkObjectsLibrary.h>
-#import <SparkKit/SparkKeyLibrary.h>
-#import <SparkKit/SparkListLibrary.h>
-#import <SparkKit/SparkActionLibrary.h>
-#import <SparkKit/SparkApplicationLibrary.h>
-
-#import <SparkKit/Extension.h>
-#import <SparkKit/SparkShadow.h>
-#import <SparkKit/SparkShadow_Private.h>
-
+#if defined(__OBJC__)
+#import <Cocoa/Cocoa.h>
 #else
+#include <ApplicationServices/ApplicationServices.h>
+#endif
 
-#include <SparkKit/SparkKitBase.h>
-#include <SparkKit/SparkConstantes.h>
-#include <SparkKit/SparkShadow.h>
-#include <SparkKit/SparkShadow_Private.h>
+#pragma mark Base Macros
 
+#if defined(__cplusplus)
+#if defined (__GNUC__) && (__GNUC__ >= 4)
+#define SPARK_EXPORT extern "C" __attribute__((visibility("default")))
+#else
+#define SPARK_EXPORT extern "C"
+#endif
+#define __inline__ inline
+#endif
+
+#if !defined(SPARK_EXPORT)
+#if defined (__GNUC__) && (__GNUC__ >= 4)
+#define SPARK_EXPORT extern __attribute__((visibility("default")))
+#else
+#define SPARK_EXPORT extern
+#endif
+#endif
+
+#if !defined(SPARK_INLINE)
+#if defined (__GNUC__) && (__GNUC__ >= 4) && !defined(DEBUG)
+#define SPARK_INLINE static __inline__ __attribute__((always_inline))
+#else
+#define SPARK_INLINE static __inline__
+#endif
+#endif
+
+#if !defined(SPARK_PRIVATE)
+#if defined (__GNUC__) && (__GNUC__ >= 4) && !defined(DEBUG)
+#define SPARK_PRIVATE __private_extern__ __attribute__((visibility("hidden")))
+#else
+#define SPARK_PRIVATE __private_extern__
+#endif
+#endif
+
+#if !defined(SPARK_EXTERN_INLINE)
+#define SPARK_EXTERN_INLINE extern __inline__
+#endif
+
+#pragma mark -
+#pragma mark Constants
+#if defined(__OBJC__)
+SPARK_EXPORT NSString * const kSparkFolderName;
+
+SPARK_EXPORT NSString * const kSparkHFSCreator;
+SPARK_EXPORT NSString * const kSparkDaemonHFSCreator;
+SPARK_EXPORT NSString * const kSparkBundleIdentifier;
+SPARK_EXPORT NSString * const kSparkKitBundleIdentifier;
+SPARK_EXPORT NSString * const kSparkDaemonBundleIdentifier;
+#else 
+SPARK_EXPORT CFStringRef const kSparkFolderName;
+
+SPARK_EXPORT CFStringRef const kSparkHFSCreator;
+SPARK_EXPORT CFStringRef const kSparkDaemonHFSCreator;
+SPARK_EXPORT CFStringRef const kSparkBundleIdentifier;
+SPARK_EXPORT CFStringRef const kSparkKitBundleIdentifier;
+SPARK_EXPORT CFStringRef const kSparkDaemonBundleIdentifier;
 #endif /* __OBJC__ */
 
-#endif /* __SPARK_KIT__ */
+SPARK_EXPORT
+const OSType kSparkHFSCreatorType;
+SPARK_EXPORT
+const OSType kSparkDaemonHFSCreatorType;
+
+#endif /* __SPARKKIT_H */

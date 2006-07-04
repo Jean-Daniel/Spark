@@ -38,12 +38,12 @@ void SparkDecodeHotKey(HKHotKey *key, unsigned hotkey);
 */
 @interface SparkHotKey : SparkLibraryObject <NSCopying, SparkSerialization> {
 @private
-  id _target;
-  SEL _action;
-  BOOL _active; 
-  HKHotKey *_hotkey;
-  NSString *_comment;
-  SparkApplicationToActionMap *_actions;
+  BOOL sp_active;
+  SparkAction *sp_action;
+  /* Forward */
+  id sp_itarget;
+  SEL sp_iaction;
+  HKHotKey *sp_hotkey;
 }
 
 #pragma mark -
@@ -62,13 +62,6 @@ void SparkDecodeHotKey(HKHotKey *key, unsigned hotkey);
  */
 + (id)hotKeyWithName:(NSString *)name;
 
-/*!
-    @method     hotKeyFromPropertyList:
-	@abstract   (description)
-	@param      plist A dictionary containing every keys/values you added into propertyList method.
-	@result     A deserialized HotKey.
- */
-+ (id)hotKeyFromPropertyList:(id)plist;
 
 #pragma mark Methods from Superclass
 - (id)init;
@@ -93,18 +86,6 @@ void SparkDecodeHotKey(HKHotKey *key, unsigned hotkey);
 #pragma mark Accessors
 - (BOOL)isActive;
 - (void)setActive:(BOOL)flag;
-
-/*!
-	@method     comment
-	@abstract   Returns the comment for this Action.
- */
-- (NSString *)comment;
-/*!
-	@method     setComment:
-	@abstract   Sets the comment for this Action.
-	@param      aComment A comment.
- */
-- (void)setComment:(NSString *)aComment;
 
 /*!
     @method     isInvalid

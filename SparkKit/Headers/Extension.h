@@ -6,10 +6,7 @@
 //  Copyright (c) 2004 Shadow Lab. All rights reserved.
 //
 
-#import <SparkKit/SparkAlert.h>
-
-void SparkLaunchEditor();
-void SparkDisplayAlerts(NSArray *items);
+#import <SparkKit/SparkKit.h>
 
 @interface NSString (Spark_Extension)
 

@@ -6,25 +6,25 @@
 //  Copyright (c) 2004 __MyCompanyName__. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+#import <SparkKit/SparkKit.h>
+
+SPARK_EXPORT
+void SparkDisplayAlerts(NSArray *items);
 
 @interface SparkMultipleAlerts : NSObject {
-  IBOutlet NSButton *previousButton;
   IBOutlet NSButton *nextButton;
+  IBOutlet NSButton *previousButton;
   IBOutlet NSButton *openSparkButton;
   
   IBOutlet NSTextField *counter;
-  
+  IBOutlet NSWindow *alertWindow;
   IBOutlet NSTextView *messageText;
   IBOutlet NSTextView *informativeText;
-  
-  IBOutlet NSWindow *alertWindow; 
-  
 @private
-  id _alerts;
-  id _nibFile;
-  BOOL _selfRetain;
-  unsigned selectedIndex;
+  id sp_alerts;
+  NSNib *sp_nib;
+  BOOL sp_retain;
+  unsigned sp_index;
 }
 
 - (id)initWithAlert:(SparkAlert *)alert;

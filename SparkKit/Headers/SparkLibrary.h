@@ -6,48 +6,48 @@
 //  Copyright 2004 Shadow Lab. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import <SparkKit/SparkKitBase.h>
+#import <SparkKit/SparkKit.h>
+#import <ShadowKit/SKCArray.h>
+
+SPARK_EXPORT
+NSPropertyListFormat SparkLibraryFileFormat;
 
 SPARK_EXPORT
 NSString * const kSparkLibraryFileExtension;
 
 SPARK_EXPORT
-const unsigned int kSparkLibraryCurrentVersion;
+const UInt32 kSparkLibraryCurrentVersion;
 
-SPARK_EXPORT
-NSPropertyListFormat SparkLibraryFileFormat;
-
-@class SparkObjectsLibrary, SparkKeyLibrary, SparkListLibrary, SparkActionLibrary, SparkApplicationLibrary;
+//@class SparkObjectsLibrary, SparkKeyLibrary, SparkListLibrary, SparkActionLibrary, SparkApplicationLibrary;
 @interface SparkLibrary : NSObject {
 @private
-  NSString *_filename;
-  unsigned int	_version;
-  NSMutableDictionary *_libraries;
+  UInt32 sp_version;
+  NSString *sp_file;
+  SKCArrayRef sp_relations;
+  NSMutableDictionary *sp_libraries;
 }
 
-+ (SparkLibrary *)defaultLibrary;
-+ (void)setDefaultLibrary:(SparkLibrary *)aLibrary;
++ (SparkLibrary *)sharedLibrary;
 
 - (id)initWithPath:(NSString *)path;
 
-- (BOOL)load;
-- (BOOL)reload;
+//- (BOOL)load;
+//- (BOOL)reload;
+//
+//- (void)importsObjectsFromLibrary:(SparkLibrary *)aLibrary;
 
-- (void)importsObjectsFromLibrary:(SparkLibrary *)aLibrary;
+- (NSString *)path;
+- (void)setPath:(NSString *)file;
 
-- (NSString *)file;
-- (void)setFile:(NSString *)file;
+//- (SparkKeyLibrary *)keyLibrary;
+//- (SparkListLibrary *)listLibrary;
+//- (SparkActionLibrary *)actionLibrary;
+//- (SparkApplicationLibrary *)applicationLibrary;
 
-- (SparkKeyLibrary *)keyLibrary;
-- (SparkListLibrary *)listLibrary;
-- (SparkActionLibrary *)actionLibrary;
-- (SparkApplicationLibrary *)applicationLibrary;
-
-- (void)flush; /* WARNING: Delete Library Contents */
-- (BOOL)synchronize;
-- (NSFileWrapper *)fileWrapper;
-- (BOOL)writeToFile:(NSString *)file atomically:(BOOL)flag;
+//- (void)flush; /* WARNING: Delete Library Contents */
+//- (BOOL)synchronize;
+//- (NSFileWrapper *)fileWrapper;
+//- (BOOL)writeToFile:(NSString *)file atomically:(BOOL)flag;
 
 @end
 
@@ -55,17 +55,14 @@ NSPropertyListFormat SparkLibraryFileFormat;
 SPARK_EXPORT
 NSString *SparkLibraryFolder();
 
-SPARK_EXTERN_INLINE
-SparkLibrary *SparkDefaultLibrary();
+SPARK_EXPORT
+SparkLibrary *SparkSharedLibrary();
 
-SPARK_EXTERN_INLINE
-SparkKeyLibrary *SparkDefaultKeyLibrary();
+SPARK_EXPORT
+SparkActionLibrary *SparkSharedActionLibrary();
 
-SPARK_EXTERN_INLINE
-SparkListLibrary *SparkDefaultListLibrary();
+SPARK_EXPORT
+SparkTriggerLibrary *SparkSharedTriggerLibrary();
 
-SPARK_EXTERN_INLINE
-SparkActionLibrary *SparkDefaultActionLibrary();
-
-SPARK_EXTERN_INLINE
-SparkApplicationLibrary *SparkDefaultApplicationLibrary();
+SPARK_EXPORT
+SparkApplicationLibrary *SparkSharedApplicationLibrary();

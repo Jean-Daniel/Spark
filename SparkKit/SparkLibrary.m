@@ -39,11 +39,15 @@ NSString * const kSparkLibraryDefaultFileName = @"SparkLibrary_Debug.splib";
 NSString * const kSparkLibraryDefaultFileName = @"SparkLibrary.splib";
 #endif
 
-static NSString *SparkDefaultLibraryPath();
+SK_INLINE 
+NSString *SparkDefaultLibraryPath() {
+  return [SparkLibraryFolder() stringByAppendingPathComponent:kSparkLibraryDefaultFileName];
+}
 
 #define kSparkLibraryVersion_1_0		0x100
+#define kSparkLibraryVersion_2_0		0x200
 
-const unsigned int kSparkLibraryCurrentVersion = kSparkLibraryVersion_1_0;
+const unsigned int kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_0;
 
 @implementation SparkLibrary
 
@@ -55,16 +59,16 @@ const unsigned int kSparkLibraryCurrentVersion = kSparkLibraryVersion_1_0;
   return shared;
 }
 
-+ (void)setDefaultLibrary:(SparkLibrary *)aLibrary {
-  SparkLibrary *lib = [self defaultLibrary];
-  if ([aLibrary->_libraries count] != [lib->_libraries count]) {
-    [NSException raise:@"Invalid Library Exception" format:@"Cannot set default library."];
-  }
-  [lib->_libraries removeAllObjects];
-  [lib->_libraries addEntriesFromDictionary:aLibrary->_libraries];
-  [[lib->_libraries allValues] makeObjectsPerformSelector:@selector(setLibrary:) withObject:lib];
-  [lib synchronize];
-}
+//+ (void)setDefaultLibrary:(SparkLibrary *)aLibrary {
+//  SparkLibrary *lib = [self defaultLibrary];
+//  if ([aLibrary->_libraries count] != [lib->_libraries count]) {
+//    [NSException raise:@"Invalid Library Exception" format:@"Cannot set default library."];
+//  }
+//  [lib->_libraries removeAllObjects];
+//  [lib->_libraries addEntriesFromDictionary:aLibrary->_libraries];
+//  [[lib->_libraries allValues] makeObjectsPerformSelector:@selector(setLibrary:) withObject:lib];
+//  [lib synchronize];
+//}
 
 #pragma mark -
 - (id)init {
@@ -73,8 +77,8 @@ const unsigned int kSparkLibraryCurrentVersion = kSparkLibraryVersion_1_0;
 
 - (id)initWithPath:(NSString *)path {
   if (self = [super init]) {
-    _libraries = [[NSMutableDictionary alloc] init];
-    [self setFile:path];
+    sp_libraries = [[NSMutableDictionary alloc] init];
+    [self setPath:path];
     if (![self load]) {
       [self release];
       self = nil;
@@ -84,13 +88,14 @@ const unsigned int kSparkLibraryCurrentVersion = kSparkLibraryVersion_1_0;
 }
 
 - (void)dealloc {
-  [_filename release];
-  [_libraries release];
+  [sp_file release];
+  [sp_libraries release];
+  if (sp_relations) SKCArrayDeallocate(sp_relations);
   [super dealloc];
 }
 
 - (NSString *)description {
-  return [NSString stringWithFormat:@"<%@ %p> %@", NSStringFromClass([self class]), self, _libraries];
+  return [NSString stringWithFormat:@"<%@ %p> %@", [self class], self, sp_libraries];
 }
 
 #pragma mark -
@@ -419,16 +424,6 @@ NSString *SparkLibraryFolder() {
     [[NSFileManager defaultManager] createDirectoryAtPath:folder attributes:nil];
   }
   return folder;
-}
-
-static NSString *SparkDefaultLibraryPath() {
-  NSString *folder = SparkLibraryFolder();
-  id contents = [[NSFileManager defaultManager] directoryContentsAtPath:folder];
-  if ([contents containsObject:kSparkLibraryDefaultFileName] || ![contents containsObject:@"Keys.plist"]) {
-    return [folder stringByAppendingPathComponent:kSparkLibraryDefaultFileName];
-  } else {
-    return folder;
-  }
 }
 
 __inline__ SparkLibrary *SparkDefaultLibrary() {

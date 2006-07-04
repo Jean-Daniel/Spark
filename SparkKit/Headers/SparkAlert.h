@@ -8,21 +8,20 @@
  */
 /*!
     @header SparkAlert
-    @abstract   SparkAlert Declaration
+    @abstract SparkAlert Declaration
 */
-
 #import <Foundation/Foundation.h>
 
 /*!
-    @class 		SparkAlert
-    @abstract   A simple Alert class use to define an Alert dialog in SparkDaemon. Since Daemon doesn't 
- 				use AppKit, it cannot display windows, so don't need to use NSAlert that allocate NSWindow and more.
+    @class SparkAlert
+    @abstract A simple Alert class use to wrap alerts dialog. 
+ 	Usefull to display many errors in one windows (SparkMultipleAlerts) or to defere alert window creation.
 */
 @interface SparkAlert : NSObject {
 @private
-  NSString *_messageText;
-  NSString *_informativeText;
-  BOOL _hideSparkButton;
+  BOOL sp_hide;
+  NSString *sp_message;
+  NSString *sp_informative;
 }
 
 /*!

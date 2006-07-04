@@ -7,37 +7,6 @@
 //
 
 #import <SparkKit/Extension.h>
-#import <SparkKit/SparkConstantes.h>
-#import <SparkKit/SparkMultipleAlerts.h>
-
-void SparkDisplayAlerts(NSArray *items) {
-  if ([items count] == 1) {
-    SparkAlert *alert = [items objectAtIndex:0];
-    id other = [alert hideSparkButton] ? nil : NSLocalizedStringFromTableInBundle(@"LAUNCH_SPARK_BUTTON", nil,
-                                                                                  [NSBundle bundleWithIdentifier:kSparkKitBundleIdentifier],
-                                                                                  @"Open Spark Alert Button");
-    [NSApp activateIgnoringOtherApps:YES];
-    if (NSRunAlertPanel([alert messageText],[alert informativeText], @"OK", nil, other) == NSAlertOtherReturn) {
-      SparkLaunchEditor();
-    }
-  }
-  else if ([items count] > 1) {
-    id alerts = [[SparkMultipleAlerts alloc] initWithAlerts:items];
-    [alerts showAlerts];
-    [alerts autorelease];
-  }  
-}
-
-void SparkLaunchEditor() {
-  NSBundle *bundle = [NSBundle mainBundle];
-  if ([[bundle bundleIdentifier] isEqualToString:kSparkBundleIdentifier]) {
-    [NSApp activateIgnoringOtherApps:NO];
-  } else if ([[bundle bundleIdentifier] isEqualToString:kSparkDaemonBundleIdentifier]) {
-    NSString *sparkPath = [[bundle bundlePath] stringByAppendingPathComponent:@"../../../"];
-    DLog(@"%@", [[NSFileManager defaultManager] displayNameAtPath:sparkPath]);
-    [[NSWorkspace sharedWorkspace] launchApplication:sparkPath];
-  }
-}
 
 /* String Extension */
 @implementation NSString (Spark_Extension)

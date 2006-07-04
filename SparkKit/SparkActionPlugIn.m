@@ -6,34 +6,32 @@
 //  Copyright (c) 2004 Shadow Lab. All rights reserved.
 //
 
-#import <SparkKit/SparkActionPlugIn.h>
+#import "SparkPrivate.h"
 
-#import <SparkKit/SparkAlert.h>
 #import <SparkKit/SparkAction.h>
-#import <SparkKit/Spark_Private.h>
-#import <SparkKit/SparkConstantes.h>
+#import <SparkKit/SparkActionPlugIn.h>
+#import <ShadowKit/SKAppKitExtensions.h>
 
 @implementation SparkActionPlugIn
 
 - (void)dealloc {
-  [_name release];
-  [_icon release];
-  [_undo release];
-  [_action release];
+  [sp_name release];
+  [sp_icon release];
+  [sp_action release];
   [super dealloc];
 }
 
 - (void)setActionView:(NSView *)actionView {
-  _actionView = actionView;
+  sp_view = actionView;
 }
 
 - (NSView *)actionView {
-  if (!_actionView) {
+  if (!sp_view) {
     id bundle = SKCurrentBundle();
     [NSBundle loadNibNamed:[bundle objectForInfoDictionaryKey:@"NSMainNibFile"] owner:self];
-    [_actionView autorelease];
+    [sp_view autorelease];
   }
-  return _actionView;
+  return sp_view;
 }
 
 - (void)loadSparkAction:(SparkAction *)action toEdit:(BOOL)flag {
@@ -44,7 +42,7 @@
 }
 
 - (id)sparkAction {
-  return _action;
+  return sp_action;
 }
 
 - (NSAlert *)sparkEditorShouldConfigureAction {
@@ -52,53 +50,38 @@
 }
 
 - (void)configureAction {
-  [_action setName:[self name]];
-  [_action setIcon:[self icon]];
+  [sp_action setName:[self name]];
+  [sp_action setIcon:[self icon]];
 }
 
 - (void)revertEditing {
 }
 
 - (NSString *)name {
-  return _name;
+  return sp_name;
 }
 
 - (void)setName:(NSString *)newName {
-  if (_name != newName) {
-    [_name release];
-    _name = [newName copy];
-  }
+  SKSetterCopy(sp_name, newName);
 }
 
 - (NSImage *)icon {
-  return _icon;
+  return sp_icon;
 }
 
 - (void)setIcon:(NSImage *)newIcon {
-  if (_icon != newIcon) {
-    [_icon release];
-    _icon = [newIcon copy];
-  }
+  SKSetterRetain(sp_icon, newIcon);
 }
 
+/* Compat */
 - (NSUndoManager *)undoManager {
-  return _undo;
+  return nil;
 }
 
 #pragma mark -
 #pragma mark Private Methods
 - (void)setSparkAction:(SparkAction *)action {
-  if (_action != action) {
-    [_action release];
-    _action = [action retain];
-  }
-}
-
-- (void)setUndoManager:(NSUndoManager *)manager {
-  if (_undo != manager) {
-    [_undo release];
-    _undo = [manager retain];
-  }
+  SKSetterRetain(sp_action, action);
 }
 
 #pragma mark -
@@ -115,8 +98,8 @@
 }
 
 + (NSString *)plugInName {
-  id bundle = SKCurrentBundle();
-  id name = [bundle objectForInfoDictionaryKey:@"SparkPluginName"];
+  NSBundle *bundle = SKCurrentBundle();
+  NSString *name = [bundle objectForInfoDictionaryKey:@"SparkPluginName"];
   if (name) {
     return name;
   }
@@ -125,14 +108,11 @@
 }
 
 + (NSImage *)plugInIcon {
-  id image = nil;
-  if ([SparkLibraryObject loadUI]) {
-    id bundle = SKCurrentBundle();
-    id name = [bundle objectForInfoDictionaryKey:@"SparkPluginIcon"];
-    image = [NSImage imageNamed:name inBundle:bundle];
-    if (!image) {
-      image = [NSImage imageNamed:@"PluginIcon" inBundle:[NSBundle bundleWithIdentifier:kSparkKitBundleIdentifier]];
-    }
+  NSBundle *bundle = SKCurrentBundle();
+  NSString *name = [bundle objectForInfoDictionaryKey:@"SparkPluginIcon"];
+  NSImage *image = [NSImage imageNamed:name inBundle:bundle];
+  if (!image) {
+    image = [NSImage imageNamed:@"PluginIcon" inBundle:[NSBundle bundleWithIdentifier:kSparkKitBundleIdentifier]];
   }
   return image;
 }

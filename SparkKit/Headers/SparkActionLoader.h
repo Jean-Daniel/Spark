@@ -7,22 +7,19 @@
 //
 
 /*!
-    @header SparkActionLoader
-*/
+@header SparkActionLoader
+ */
 #import <ShadowKit/SKPluginLoader.h>
 
 @class SparkPlugIn, SparkAction;
 
 /*!
-    @class		SparkActionLoader
-    @abstract   Action extension is "spact".
+@class SparkActionLoader
+@abstract Action extension is "spact".
 */
 @interface SparkActionLoader : SKPluginLoader {
-
+  
 }
-
-+ (NSString *)buildInPath;
-+ (void)setBuildInPath:(NSString *)newPath;
 
 - (SparkPlugIn *)plugInForAction:(SparkAction *)action;
 

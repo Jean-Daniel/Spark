@@ -6,17 +6,13 @@
 //  Copyright 2004 Shadow Lab. All rights reserved.
 //
 
+#import "SparkPrivate.h"
+#import <SparkKit/SparkKit.h>
 #import <SparkKit/SparkAction.h>
-#import <HotKeyToolKit/HotKeyToolKit.h>
-#import <ShadowKit/SKImageUtils.h>
-
-#import <SparkKit/SparkActionLibrary.h>
 #import <SparkKit/SparkActionLoader.h>
-#import <SparkKit/SparkConstantes.h>
-#import <SparkKit/Spark_Private.h>
-#import <SparkKit/SparkLibrary.h>
-#import <SparkKit/SparkHotKey.h>
 
+#import <ShadowKit/SKImageUtils.h>
+#import <ShadowKit/SKAppKitExtensions.h>
 
 #define ICON_SIZE		16
 
@@ -25,8 +21,6 @@ static NSString * const kSparkActionIsCustomKey = @"IsCustom";
 static NSString * const kSparkActionCategorieKey = @"Categorie";
 static NSString * const kSparkActionShortDescriptionKey = @"ShortDescription";
 
-const int kSparkActionVersion_1_0 = 0x100;
-
 #pragma mark -
 @implementation SparkAction
 
@@ -34,21 +28,25 @@ const int kSparkActionVersion_1_0 = 0x100;
 #pragma mark NSCoding
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
-  [coder encodeBytes:(const uint8_t *)&sk_saflags length:sizeof(sk_saflags) forKey:@"SAFlags"];
-  [coder encodeInt:sk_version forKey:kSparkActionVersionKey];
-  if (nil != sk_categorie)
-    [coder encodeObject:sk_categorie forKey:kSparkActionCategorieKey];
-  if (nil != sk_shortDesc)
-    [coder encodeObject:sk_shortDesc forKey:kSparkActionShortDescriptionKey];
+  
+  UInt32 flags = 0;
+  if (sp_saFlags.invalid) flags |= 1 << 0;
+  if (sp_saFlags.custom) flags |= 1 << 1;
+  [coder encodeInt:flags forKey:@"SAFlags"];
+  [coder encodeInt:sp_version forKey:kSparkActionVersionKey];
+  if (nil != sp_categorie)
+    [coder encodeObject:sp_categorie forKey:kSparkActionCategorieKey];
+  if (nil != sp_description)
+    [coder encodeObject:sp_description forKey:kSparkActionShortDescriptionKey];
   return;
 }
 
 - (id)initWithCoder:(NSCoder *)coder {
   if (self = [super initWithCoder:coder]) {
-    unsigned length;
-    const uint8_t *buffer = [coder decodeBytesForKey:@"SAFlags" returnedLength:&length];
-    memcpy(&sk_saflags, buffer, MIN(length, sizeof(sk_saflags)));
-    sk_version = [coder decodeIntForKey:kSparkActionVersionKey];
+    UInt32 flags = [coder decodeIntForKey:@"SAFlags"];
+    if (flags & (1 << 0)) sp_saFlags.invalid = 1;
+    if (flags & (1 << 1)) sp_saFlags.custom = 1;
+    sp_version = [coder decodeIntForKey:kSparkActionVersionKey];
     [self setCategorie:[coder decodeObjectForKey:kSparkActionCategorieKey]];
     [self setShortDescription:[coder decodeObjectForKey:kSparkActionShortDescriptionKey]];
   }
@@ -58,46 +56,36 @@ const int kSparkActionVersion_1_0 = 0x100;
 #pragma mark NSCopying
 - (id)copyWithZone:(NSZone *)zone {
   SparkAction* copy = [super copyWithZone:zone];
-  copy->sk_saflags = sk_saflags;
-  copy->sk_version = sk_version;
-  [copy setCategorie:sk_categorie];
-  [copy setShortDescription:sk_shortDesc];
+  copy->sp_saFlags = sp_saFlags;
+  copy->sp_version = sp_version;
+  [copy setCategorie:sp_categorie];
+  [copy setShortDescription:sp_description];
   return copy;
 }
 
 #pragma mark SparkSerialization
-- (NSMutableDictionary *)propertyList {
-  NSMutableDictionary *dico = [super propertyList];
-  
-  [dico setObject:SKBool(sk_saflags.custom) forKey:kSparkActionIsCustomKey];
+- (BOOL)serialize:(NSMutableDictionary *)plist {
+  [plist setObject:SKBool(sp_saFlags.custom) forKey:kSparkActionIsCustomKey];
   
   if ([self version])
-    [dico setObject:SKInt([self version]) forKey:kSparkActionVersionKey];
+    [plist setObject:SKInt([self version]) forKey:kSparkActionVersionKey];
   
-  if (nil != sk_categorie)
-    [dico setObject:sk_categorie forKey:kSparkActionCategorieKey];
-  if (nil != sk_shortDesc)
-    [dico setObject:sk_shortDesc forKey:kSparkActionShortDescriptionKey];
+  if (nil != sp_categorie)
+    [plist setObject:sp_categorie forKey:kSparkActionCategorieKey];
+  if (nil != sp_description)
+    [plist setObject:sp_description forKey:kSparkActionShortDescriptionKey];
   
-  return dico;
+  return YES;
 }
-- (id)initFromPropertyList:(NSDictionary *)plist {
-  if (self = [super initFromPropertyList:plist]) {
+- (id)initWithSerializedValues:(NSDictionary *)plist {
+  if (self = [super initWithSerializedValues:plist]) {
     id version = [plist objectForKey:kSparkActionVersionKey];
     [self setVersion:(nil != version) ? [version intValue] : kSparkActionVersion_1_0];
     
-    if ([SparkLibraryObject loadUI]) {
-      [self setCategorie:[plist objectForKey:kSparkActionCategorieKey]];
-      [self setShortDescription:[plist objectForKey:kSparkActionShortDescriptionKey]];
-    }
+    [self setCategorie:[plist objectForKey:kSparkActionCategorieKey]];
+    [self setShortDescription:[plist objectForKey:kSparkActionShortDescriptionKey]];
     
     [self setCustom:[[plist objectForKey:kSparkActionIsCustomKey] boolValue]];
-//    if (![self categorie]) {
-//      id plugin = [[SparkActionLoader sharedLoader] plugInForAction:self];
-//      if (plugin) {
-//        [self setCategorie:[plugin name]];
-//      }
-//    }
   }
   return self;
 }
@@ -116,8 +104,8 @@ const int kSparkActionVersion_1_0 = 0x100;
 }
 
 - (void)dealloc {
-  [sk_shortDesc release];
-  [sk_categorie release];
+  [sp_description release];
+  [sp_categorie release];
   [super dealloc];
 }
 
@@ -150,44 +138,34 @@ const int kSparkActionVersion_1_0 = 0x100;
 }
 
 - (int)version {
-  return sk_version;
+  return sp_version;
 }
 - (void)setVersion:(int)newVersion {
-  sk_version = newVersion;
+  sp_version = newVersion;
 }
 
 - (NSString *)categorie {
-  if (!sk_categorie) {
+  if (!sp_categorie) {
     id plugin = [[SparkActionLoader sharedLoader] plugInForAction:self];
     if (plugin) {
       [self setCategorie:[plugin name]];
     }
   }
-  return sk_categorie;
+  return sp_categorie;
 }
 - (void)setCategorie:(NSString *)categorie {
-  if (sk_categorie != categorie) { 
-    [sk_categorie release];
-    sk_categorie = [categorie copy];
-  }
+  SKSetterCopy(sp_categorie, categorie);
 }
 
 - (NSString *)shortDescription {
-  return sk_shortDesc;
+  return sp_description;
 }
 - (void)setShortDescription:(NSString *)desc {
-  if (sk_shortDesc != desc) { 
-    [sk_shortDesc release];
-    sk_shortDesc = [desc copy];
-  }
+  SKSetterCopy(sp_description, desc);
 }
 
 - (NSTimeInterval)repeatInterval {
   return 0;
-}
-
-- (SparkObjectsLibrary *)objectsLibrary {
-  return [[self library] actionLibrary];
 }
 
 @end
@@ -200,41 +178,28 @@ const int kSparkActionVersion_1_0 = 0x100;
 }
 
 - (BOOL)isInvalid {
-  return sk_saflags.invalid;
+  return sp_saFlags.invalid;
 }
 - (void)setInvalid:(BOOL)flag {
-  sk_saflags.invalid = flag ? 1 : 0;
+  SKSetFlag(sp_saFlags.invalid, flag);
 }
 
 - (BOOL)isCustom {
-  return sk_saflags.custom;
+  return sp_saFlags.custom;
 }
 
-- (void)setCustom:(BOOL)custom {
-  sk_saflags.custom = custom ? 1 : 0;
+- (void)setCustom:(BOOL)flag {
+  SKSetFlag(sp_saFlags.custom, flag);
 }
 
 @end
 
+/*
 #pragma mark -
-#pragma mark Key Repeat Support Implementation
-
-inline NSTimeInterval SparkGetDefaultKeyRepeatInterval() {
-  return HKGetSystemKeyRepeatInterval();
+@interface _SparkIgnoreAction : SparkAction {
+  
 }
-
-@interface HKHotKeyManager (Private)
-- (void)_hotKeyPressed:(HKHotKey *)key;
-@end
-
-@implementation SparkHotKeyManager
-
-- (void)_hotKeyPressed:(HKHotKey *)key {
-  id sparkKey = [key target];
-  id action = [sparkKey currentAction];
-  [key setKeyRepeat:(action) ? [action repeatInterval] : 0];
-  [super _hotKeyPressed:key];
-}
++ (id)action;
 
 @end
 
@@ -255,8 +220,8 @@ inline NSTimeInterval SparkGetDefaultKeyRepeatInterval() {
   return self;
 }
 
-- (id)initFromPropertyList:(id)plist {
-  if (self = [super initFromPropertyList:plist]) {
+- (id)initWithSerializedValues:(NSDictionary *)plist {
+  if (self = [super initWithSerializedValues:plist]) {
     [self setName:NSLocalizedStringFromTableInBundle(@"IGNORE_ACTION_NAME",
                                                      nil, SKCurrentBundle(),
                                                      @"Ignore Action Name")];
@@ -289,3 +254,4 @@ inline NSTimeInterval SparkGetDefaultKeyRepeatInterval() {
 - (void)setShortDescription:(NSString *)description {}
 
 @end
+*/

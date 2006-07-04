@@ -13,42 +13,29 @@
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
 		9805FD390773B47700B1A341 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9805FD370773B47700B1A341 /* Localizable.strings */; };
-		980DA1C306E667FE0038EE2A /* SparkObjectList.h in Headers */ = {isa = PBXBuildFile; fileRef = 980DA1C106E667FE0038EE2A /* SparkObjectList.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		980DA1C606E668110038EE2A /* SparkObjectList.m in Sources */ = {isa = PBXBuildFile; fileRef = 980DA1C506E668110038EE2A /* SparkObjectList.m */; };
-		980DA1EC06E6707E0038EE2A /* SparkActionList.m in Sources */ = {isa = PBXBuildFile; fileRef = 980DA1EB06E6707E0038EE2A /* SparkActionList.m */; };
-		980DA1EF06E670880038EE2A /* SparkActionList.h in Headers */ = {isa = PBXBuildFile; fileRef = 980DA1ED06E670880038EE2A /* SparkActionList.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		980BCE390A5B17BF0036AD2A /* SKCArray.c in Sources */ = {isa = PBXBuildFile; fileRef = 980BCE380A5B17BF0036AD2A /* SKCArray.c */; };
+		980BCE3B0A5B17C90036AD2A /* SKCArray.h in Headers */ = {isa = PBXBuildFile; fileRef = 980BCE3A0A5B17C90036AD2A /* SKCArray.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		981EBB610A5AE7B9001C2FB3 /* SparkKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 9825B1F305FE3ECB00655E6A /* SparkKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		981EBBD60A5AEA5C001C2FB3 /* SparkKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 98B54BE006D214C2001BDF93 /* SparkKit.m */; };
+		981EBBE00A5AEA9C001C2FB3 /* SparkAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 98CF376B06E51E9E00894E4B /* SparkAction.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		981EBBE10A5AEA9F001C2FB3 /* SparkAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 98CF376F06E51EAC00894E4B /* SparkAction.m */; };
+		981EBC100A5AEF8F001C2FB3 /* SKSerialization.h in Headers */ = {isa = PBXBuildFile; fileRef = 981EBC0F0A5AEF8F001C2FB3 /* SKSerialization.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		981EBC1B0A5AEFC5001C2FB3 /* SKSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 981EBC1A0A5AEFC5001C2FB3 /* SKSerialization.m */; };
+		981EBC590A5AF3F9001C2FB3 /* SparkLibraryObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 9825B1F605FE3ECB00655E6A /* SparkLibraryObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		981EBC720A5AF4C8001C2FB3 /* SparkLibraryObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9825B1FB05FE3ECB00655E6A /* SparkLibraryObject.m */; };
+		981EBEBC0A5B0B2C001C2FB3 /* SparkAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 9887E7B30608BE4B009A6DCD /* SparkAlert.m */; };
+		981EBEBD0A5B0B34001C2FB3 /* SparkAlert.h in Headers */ = {isa = PBXBuildFile; fileRef = 9887E7B50608BE60009A6DCD /* SparkAlert.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		981EBEBE0A5B0B3F001C2FB3 /* SparkMultipleAlerts.h in Headers */ = {isa = PBXBuildFile; fileRef = 98CF6FAA06B3DB030017D206 /* SparkMultipleAlerts.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		981EBEBF0A5B0B43001C2FB3 /* SparkMultipleAlerts.m in Sources */ = {isa = PBXBuildFile; fileRef = 98CF6FA806B3DAEA0017D206 /* SparkMultipleAlerts.m */; };
+		981EBF2D0A5B0DF8001C2FB3 /* SparkPluginAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 9825B1F405FE3ECB00655E6A /* SparkPluginAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		981EBF6D0A5B0F42001C2FB3 /* SparkTrigger.h in Headers */ = {isa = PBXBuildFile; fileRef = 981EBF6C0A5B0F42001C2FB3 /* SparkTrigger.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		9825AFBC06FB76BD003A4088 /* ApplicationList.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 9825AFBB06FB76BD003A4088 /* ApplicationList.tiff */; };
-		9825B1FF05FE3ECB00655E6A /* SparkKeyLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 9825B1DE05FE3ECB00655E6A /* SparkKeyLibrary.m */; };
-		9825B20005FE3ECB00655E6A /* SparkListLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 9825B1DF05FE3ECB00655E6A /* SparkListLibrary.m */; };
-		9825B20305FE3ECB00655E6A /* Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 9825B1E205FE3ECB00655E6A /* Extension.m */; };
-		9825B20405FE3ECB00655E6A /* SparkKeyList.m in Sources */ = {isa = PBXBuildFile; fileRef = 9825B1E305FE3ECB00655E6A /* SparkKeyList.m */; };
-		9825B20505FE3ECB00655E6A /* SparkPlugIn.m in Sources */ = {isa = PBXBuildFile; fileRef = 9825B1E405FE3ECB00655E6A /* SparkPlugIn.m */; };
-		9825B20605FE3ECB00655E6A /* SparkHotKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 9825B1E505FE3ECB00655E6A /* SparkHotKey.m */; };
-		9825B20705FE3ECB00655E6A /* SparkObjectsLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 9825B1E605FE3ECB00655E6A /* SparkObjectsLibrary.m */; };
-		9825B20805FE3ECB00655E6A /* Extension.h in Headers */ = {isa = PBXBuildFile; fileRef = 9825B1E805FE3ECB00655E6A /* Extension.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		9825B20C05FE3ECB00655E6A /* SparkHotKey.h in Headers */ = {isa = PBXBuildFile; fileRef = 9825B1EC05FE3ECB00655E6A /* SparkHotKey.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		9825B20E05FE3ECB00655E6A /* SparkActionLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 9825B1EE05FE3ECB00655E6A /* SparkActionLoader.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		9825B20F05FE3ECB00655E6A /* SparkKeyLibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = 9825B1EF05FE3ECB00655E6A /* SparkKeyLibrary.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		9825B21005FE3ECB00655E6A /* SparkKeyList.h in Headers */ = {isa = PBXBuildFile; fileRef = 9825B1F005FE3ECB00655E6A /* SparkKeyList.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		9825B21105FE3ECB00655E6A /* SparkActionPlugIn.h in Headers */ = {isa = PBXBuildFile; fileRef = 9825B1F105FE3ECB00655E6A /* SparkActionPlugIn.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		9825B21205FE3ECB00655E6A /* Spark_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 9825B1F205FE3ECB00655E6A /* Spark_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		9825B21305FE3ECB00655E6A /* SparkKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 9825B1F305FE3ECB00655E6A /* SparkKit.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		9825B21405FE3ECB00655E6A /* SparkKit_API.h in Headers */ = {isa = PBXBuildFile; fileRef = 9825B1F405FE3ECB00655E6A /* SparkKit_API.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		9825B21505FE3ECB00655E6A /* SparkObjectsLibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = 9825B1F505FE3ECB00655E6A /* SparkObjectsLibrary.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		9825B21605FE3ECB00655E6A /* SparkLibraryObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 9825B1F605FE3ECB00655E6A /* SparkLibraryObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		9825B21705FE3ECB00655E6A /* SparkListLibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = 9825B1F705FE3ECB00655E6A /* SparkListLibrary.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		9825B21805FE3ECB00655E6A /* SparkPlugIn.h in Headers */ = {isa = PBXBuildFile; fileRef = 9825B1F805FE3ECB00655E6A /* SparkPlugIn.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		9825B21A05FE3ECB00655E6A /* SparkActionLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 9825B1FA05FE3ECB00655E6A /* SparkActionLoader.m */; };
-		9825B21B05FE3ECB00655E6A /* SparkLibraryObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9825B1FB05FE3ECB00655E6A /* SparkLibraryObject.m */; };
-		9825B21D05FE3ECB00655E6A /* SparkActionPlugIn.m in Sources */ = {isa = PBXBuildFile; fileRef = 9825B1FD05FE3ECB00655E6A /* SparkActionPlugIn.m */; };
 		983961E30606809200E0353D /* PluginIcon.tif in Resources */ = {isa = PBXBuildFile; fileRef = 983961E20606809200E0353D /* PluginIcon.tif */; };
 		983961E50606809E00E0353D /* ActionIcon.tif in Resources */ = {isa = PBXBuildFile; fileRef = 983961E40606809E00E0353D /* ActionIcon.tif */; };
 		983961E7060680AB00E0353D /* SparkKit.icns in Resources */ = {isa = PBXBuildFile; fileRef = 983961E6060680AB00E0353D /* SparkKit.icns */; };
 		983975830A58667E00F79B40 /* SKIOKitFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 983975820A58667E00F79B40 /* SKIOKitFunctions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9839758F0A58669C00F79B40 /* SKIOKitFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = 9839758E0A58669C00F79B40 /* SKIOKitFunctions.c */; };
 		983976350A5866BF00F79B40 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 983975950A5866BF00F79B40 /* IOKit.framework */; };
-		98632FFD06E5B2520029CEB7 /* SparkActionLibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = 98632FFB06E5B2520029CEB7 /* SparkActionLibrary.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		9863300006E5B26D0029CEB7 /* SparkActionLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 98632FFF06E5B26D0029CEB7 /* SparkActionLibrary.m */; };
 		98675536096B35E900BB8A25 /* ShadowAEUtils.c in Sources */ = {isa = PBXBuildFile; fileRef = 98725D2806CB9FB30072B8E4 /* ShadowAEUtils.c */; };
 		98675537096B35E900BB8A25 /* SKIconUtils.c in Sources */ = {isa = PBXBuildFile; fileRef = 98E66C7F0759F7E90048A37D /* SKIconUtils.c */; };
 		98675538096B35E900BB8A25 /* SKFSFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 98C78D6507D9E716006D9CC1 /* SKFSFunctions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -86,33 +73,20 @@
 		986758D5096B404600BB8A25 /* SKWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 986758D3096B404600BB8A25 /* SKWindowController.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		986DB09307135AC100C65FF2 /* CustomKeyIcon.tif in Resources */ = {isa = PBXBuildFile; fileRef = 986DB09207135AC100C65FF2 /* CustomKeyIcon.tif */; };
 		986DB09507135B1A00C65FF2 /* KeyIcon.tif in Resources */ = {isa = PBXBuildFile; fileRef = 986DB09407135B1A00C65FF2 /* KeyIcon.tif */; };
+		986F24AD0A5ADBB2002F0FA5 /* SparkActionLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 9825B1FA05FE3ECB00655E6A /* SparkActionLoader.m */; };
+		986F24AE0A5ADBB7002F0FA5 /* SparkPlugIn.m in Sources */ = {isa = PBXBuildFile; fileRef = 9825B1E405FE3ECB00655E6A /* SparkPlugIn.m */; };
+		986F24B40A5ADBD4002F0FA5 /* SparkPlugIn.h in Headers */ = {isa = PBXBuildFile; fileRef = 9825B1F805FE3ECB00655E6A /* SparkPlugIn.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		986F24B50A5ADBD6002F0FA5 /* SparkActionLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 9825B1EE05FE3ECB00655E6A /* SparkActionLoader.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		986F24FB0A5ADD3E002F0FA5 /* SparkActionPlugIn.m in Sources */ = {isa = PBXBuildFile; fileRef = 9825B1FD05FE3ECB00655E6A /* SparkActionPlugIn.m */; };
+		986F24FF0A5ADD53002F0FA5 /* SparkActionPlugIn.h in Headers */ = {isa = PBXBuildFile; fileRef = 9825B1F105FE3ECB00655E6A /* SparkActionPlugIn.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		986F25750A5ADF21002F0FA5 /* SparkPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 9825B1F205FE3ECB00655E6A /* SparkPrivate.h */; settings = {ATTRIBUTES = (); }; };
 		986F7A4107071B2F00064694 /* SystemApplication.tif in Resources */ = {isa = PBXBuildFile; fileRef = 986F7A4007071B2F00064694 /* SystemApplication.tif */; };
-		98725CF806CB9E390072B8E4 /* SparkShadow.h in Headers */ = {isa = PBXBuildFile; fileRef = 98725CF706CB9E390072B8E4 /* SparkShadow.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		98725D4A06CBA1250072B8E4 /* SparkShadow_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 98725D4906CBA1250072B8E4 /* SparkShadow_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		98777B28074C16B000C063B2 /* SparkLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 98777B27074C16B000C063B2 /* SparkLibrary.m */; };
-		98777B2A074C16BE00C063B2 /* SparkLibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = 98777B29074C16BE00C063B2 /* SparkLibrary.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		987D7D95074E9FDD00496C45 /* SparkKitBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 987D7D94074E9FDD00496C45 /* SparkKitBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		9887E7B40608BE4B009A6DCD /* SparkAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 9887E7B30608BE4B009A6DCD /* SparkAlert.m */; };
-		9887E7B60608BE60009A6DCD /* SparkAlert.h in Headers */ = {isa = PBXBuildFile; fileRef = 9887E7B50608BE60009A6DCD /* SparkAlert.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		98B54BD406D213A5001BDF93 /* SparkConstantes.h in Headers */ = {isa = PBXBuildFile; fileRef = 98B54BD306D213A5001BDF93 /* SparkConstantes.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		98B54BE106D214C2001BDF93 /* SparkConstantes.m in Sources */ = {isa = PBXBuildFile; fileRef = 98B54BE006D214C2001BDF93 /* SparkConstantes.m */; };
-		98B54E6F06F9AE37009C825F /* SparkApplicationList.m in Sources */ = {isa = PBXBuildFile; fileRef = 98B54E6E06F9AE37009C825F /* SparkApplicationList.m */; };
-		98B54E7206F9AE46009C825F /* SparkApplicationList.h in Headers */ = {isa = PBXBuildFile; fileRef = 98B54E7006F9AE46009C825F /* SparkApplicationList.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		98B54E7906F9AE99009C825F /* SparkSerialization.h in Headers */ = {isa = PBXBuildFile; fileRef = 98B54E7706F9AE99009C825F /* SparkSerialization.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		98B54E7C06F9AEB0009C825F /* SparkSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 98B54E7B06F9AEB0009C825F /* SparkSerialization.m */; };
-		98B5513006FA030A009C825F /* SparkApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 98B5512F06FA030A009C825F /* SparkApplication.m */; };
-		98B5513306FA031B009C825F /* SparkApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = 98B5513106FA031B009C825F /* SparkApplication.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		98B6567B06F8FBD6007D6BB7 /* SparkApplicationLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 98B6567A06F8FBD6007D6BB7 /* SparkApplicationLibrary.m */; };
-		98B6567E06F8FBE5007D6BB7 /* SparkApplicationLibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = 98B6567C06F8FBE5007D6BB7 /* SparkApplicationLibrary.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		988C8B720A5B1E5C0053B4C6 /* SparkTrigger.m in Sources */ = {isa = PBXBuildFile; fileRef = 988C8B710A5B1E5C0053B4C6 /* SparkTrigger.m */; };
 		98BCF0C40708BDA70039136F /* IgnoreAction.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98BCF0C30708BDA70039136F /* IgnoreAction.tif */; };
 		98C56D45096B353F00ABE1EF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 98C56D40096B353900ABE1EF /* InfoPlist.strings */; };
 		98C6DEC606FB9CD6000AFA2F /* ActionList.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98C6DEC506FB9CD6000AFA2F /* ActionList.tif */; };
 		98C6E0EC06FB9F74000AFA2F /* KeyList.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98C6E0EB06FB9F74000AFA2F /* KeyList.tif */; };
-		98CF376D06E51E9E00894E4B /* SparkAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 98CF376B06E51E9E00894E4B /* SparkAction.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		98CF377006E51EAC00894E4B /* SparkAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 98CF376F06E51EAC00894E4B /* SparkAction.m */; };
 		98CF6FA706B3DAD50017D206 /* MultipleAlerts.nib in Resources */ = {isa = PBXBuildFile; fileRef = 98CF6FA506B3DAD50017D206 /* MultipleAlerts.nib */; };
-		98CF6FA906B3DAEA0017D206 /* SparkMultipleAlerts.m in Sources */ = {isa = PBXBuildFile; fileRef = 98CF6FA806B3DAEA0017D206 /* SparkMultipleAlerts.m */; };
-		98CF6FAB06B3DB030017D206 /* SparkMultipleAlerts.h in Headers */ = {isa = PBXBuildFile; fileRef = 98CF6FAA06B3DB030017D206 /* SparkMultipleAlerts.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		98CF6FB006B3DB2B0017D206 /* Forward.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98CF6FAC06B3DB2B0017D206 /* Forward.tif */; };
 		98CF6FB106B3DB2B0017D206 /* ForwardPressedBlue.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98CF6FAD06B3DB2B0017D206 /* ForwardPressedBlue.tif */; };
 		98CF6FB206B3DB2B0017D206 /* BackPressedBlue.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98CF6FAE06B3DB2B0017D206 /* BackPressedBlue.tif */; };
@@ -184,17 +158,19 @@
 		65245F3B0A2AFE4D00ACB971 /* SKPluginLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKPluginLoader.h; sourceTree = "<group>"; };
 		8DC2EF5B0486A6940098B216 /* SparkKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SparkKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9805FD380773B47700B1A341 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
-		980DA1C106E667FE0038EE2A /* SparkObjectList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkObjectList.h; sourceTree = "<group>"; };
+		980BCE380A5B17BF0036AD2A /* SKCArray.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = SKCArray.c; sourceTree = "<group>"; };
+		980BCE3A0A5B17C90036AD2A /* SKCArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKCArray.h; path = Headers/SKCArray.h; sourceTree = "<group>"; };
 		980DA1C506E668110038EE2A /* SparkObjectList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkObjectList.m; sourceTree = "<group>"; };
 		980DA1EB06E6707E0038EE2A /* SparkActionList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkActionList.m; sourceTree = "<group>"; };
-		980DA1ED06E670880038EE2A /* SparkActionList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkActionList.h; sourceTree = "<group>"; };
 		981B5F8009386A590024C0D9 /* ShadowCommon.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowCommon.xcconfig; sourceTree = "<group>"; };
 		981B5F8109386A590024C0D9 /* ShadowDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowDebug.xcconfig; sourceTree = "<group>"; };
 		981B5F8209386A590024C0D9 /* ShadowRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowRelease.xcconfig; sourceTree = "<group>"; };
-		981B5F8309386A590024C0D9 /* ShadowTest.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowTest.xcconfig; sourceTree = "<group>"; };
 		981B5F8409386A590024C0D9 /* ShadowUniversal.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowUniversal.xcconfig; sourceTree = "<group>"; };
 		981E75C9076A151F00B0D29B /* SKImageUtils.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SKImageUtils.m; sourceTree = "<group>"; };
 		981E75CC076A153A00B0D29B /* SKImageUtils.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = SKImageUtils.h; path = Headers/SKImageUtils.h; sourceTree = "<group>"; };
+		981EBC0F0A5AEF8F001C2FB3 /* SKSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKSerialization.h; sourceTree = "<group>"; };
+		981EBC1A0A5AEFC5001C2FB3 /* SKSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKSerialization.m; sourceTree = "<group>"; };
+		981EBF6C0A5B0F42001C2FB3 /* SparkTrigger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkTrigger.h; sourceTree = "<group>"; };
 		9825AFBB06FB76BD003A4088 /* ApplicationList.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = ApplicationList.tiff; sourceTree = "<group>"; };
 		9825B1DE05FE3ECB00655E6A /* SparkKeyLibrary.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SparkKeyLibrary.m; sourceTree = "<group>"; };
 		9825B1DF05FE3ECB00655E6A /* SparkListLibrary.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SparkListLibrary.m; sourceTree = "<group>"; };
@@ -206,15 +182,11 @@
 		9825B1E805FE3ECB00655E6A /* Extension.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Extension.h; sourceTree = "<group>"; };
 		9825B1EC05FE3ECB00655E6A /* SparkHotKey.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SparkHotKey.h; sourceTree = "<group>"; };
 		9825B1EE05FE3ECB00655E6A /* SparkActionLoader.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SparkActionLoader.h; sourceTree = "<group>"; };
-		9825B1EF05FE3ECB00655E6A /* SparkKeyLibrary.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SparkKeyLibrary.h; sourceTree = "<group>"; };
-		9825B1F005FE3ECB00655E6A /* SparkKeyList.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SparkKeyList.h; sourceTree = "<group>"; };
 		9825B1F105FE3ECB00655E6A /* SparkActionPlugIn.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SparkActionPlugIn.h; sourceTree = "<group>"; };
-		9825B1F205FE3ECB00655E6A /* Spark_Private.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Spark_Private.h; sourceTree = "<group>"; };
+		9825B1F205FE3ECB00655E6A /* SparkPrivate.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = SparkPrivate.h; path = Headers/SparkPrivate.h; sourceTree = "<group>"; };
 		9825B1F305FE3ECB00655E6A /* SparkKit.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = SparkKit.h; path = Headers/SparkKit.h; sourceTree = "<group>"; };
-		9825B1F405FE3ECB00655E6A /* SparkKit_API.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SparkKit_API.h; sourceTree = "<group>"; };
-		9825B1F505FE3ECB00655E6A /* SparkObjectsLibrary.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SparkObjectsLibrary.h; sourceTree = "<group>"; };
+		9825B1F405FE3ECB00655E6A /* SparkPluginAPI.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SparkPluginAPI.h; sourceTree = "<group>"; };
 		9825B1F605FE3ECB00655E6A /* SparkLibraryObject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SparkLibraryObject.h; sourceTree = "<group>"; };
-		9825B1F705FE3ECB00655E6A /* SparkListLibrary.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SparkListLibrary.h; sourceTree = "<group>"; };
 		9825B1F805FE3ECB00655E6A /* SparkPlugIn.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SparkPlugIn.h; sourceTree = "<group>"; };
 		9825B1FA05FE3ECB00655E6A /* SparkActionLoader.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SparkActionLoader.m; sourceTree = "<group>"; };
 		9825B1FB05FE3ECB00655E6A /* SparkLibraryObject.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SparkLibraryObject.m; sourceTree = "<group>"; };
@@ -225,7 +197,6 @@
 		983975820A58667E00F79B40 /* SKIOKitFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKIOKitFunctions.h; sourceTree = "<group>"; };
 		9839758E0A58669C00F79B40 /* SKIOKitFunctions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = SKIOKitFunctions.c; sourceTree = "<group>"; };
 		983975950A5866BF00F79B40 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
-		98632FFB06E5B2520029CEB7 /* SparkActionLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkActionLibrary.h; sourceTree = "<group>"; };
 		98632FFF06E5B26D0029CEB7 /* SparkActionLibrary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkActionLibrary.m; sourceTree = "<group>"; };
 		986758CE096B403300BB8A25 /* SKWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKWindowController.m; sourceTree = "<group>"; };
 		986758CF096B403300BB8A25 /* SKTableDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKTableDataSource.m; sourceTree = "<group>"; };
@@ -235,8 +206,17 @@
 		986AFA3206D65E1A00B84D2D /* SKApplication.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SKApplication.h; sourceTree = "<group>"; };
 		986DB09207135AC100C65FF2 /* CustomKeyIcon.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = CustomKeyIcon.tif; sourceTree = "<group>"; };
 		986DB09407135B1A00C65FF2 /* KeyIcon.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = KeyIcon.tif; sourceTree = "<group>"; };
+		986F247B0A5AD511002F0FA5 /* SparkObjectList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkObjectList.h; sourceTree = "<group>"; };
+		986F247C0A5AD511002F0FA5 /* SparkKeyList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkKeyList.h; sourceTree = "<group>"; };
+		986F247D0A5AD511002F0FA5 /* SparkActionList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkActionList.h; sourceTree = "<group>"; };
+		986F247E0A5AD511002F0FA5 /* SparkApplicationList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkApplicationList.h; sourceTree = "<group>"; };
+		986F24850A5AD545002F0FA5 /* SparkActionLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkActionLibrary.h; sourceTree = "<group>"; };
+		986F24860A5AD545002F0FA5 /* SparkKeyLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkKeyLibrary.h; sourceTree = "<group>"; };
+		986F24870A5AD545002F0FA5 /* SparkApplicationLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkApplicationLibrary.h; sourceTree = "<group>"; };
+		986F24880A5AD545002F0FA5 /* SparkLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkLibrary.h; sourceTree = "<group>"; };
+		986F24890A5AD545002F0FA5 /* SparkObjectsLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkObjectsLibrary.h; sourceTree = "<group>"; };
+		986F248F0A5AD556002F0FA5 /* SparkListLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkListLibrary.h; sourceTree = "<group>"; };
 		986F7A4007071B2F00064694 /* SystemApplication.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SystemApplication.tif; sourceTree = "<group>"; };
-		98725CF706CB9E390072B8E4 /* SparkShadow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SparkShadow.h; path = Headers/SparkShadow.h; sourceTree = "<group>"; };
 		98725D0E06CB9F1B0072B8E4 /* ShadowAEUtils.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ShadowAEUtils.h; sourceTree = "<group>"; };
 		98725D1006CB9F1B0072B8E4 /* ShadowAEObjCUtils.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ShadowAEObjCUtils.h; sourceTree = "<group>"; };
 		98725D1106CB9F1B0072B8E4 /* SKImageAndTextCell.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SKImageAndTextCell.h; sourceTree = "<group>"; };
@@ -252,22 +232,15 @@
 		98725D3306CB9FBC0072B8E4 /* SKShadowLabel.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SKShadowLabel.m; sourceTree = "<group>"; };
 		98725D3606CB9FC60072B8E4 /* SKApplicationAlias.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SKApplicationAlias.m; sourceTree = "<group>"; };
 		98725D3706CB9FC60072B8E4 /* SKAlias.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SKAlias.m; sourceTree = "<group>"; };
-		98725D4906CBA1250072B8E4 /* SparkShadow_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SparkShadow_Private.h; path = Headers/SparkShadow_Private.h; sourceTree = "<group>"; };
 		98777B27074C16B000C063B2 /* SparkLibrary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkLibrary.m; sourceTree = "<group>"; };
-		98777B29074C16BE00C063B2 /* SparkLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkLibrary.h; sourceTree = "<group>"; };
-		987D7D94074E9FDD00496C45 /* SparkKitBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkKitBase.h; sourceTree = "<group>"; };
 		9887E7B30608BE4B009A6DCD /* SparkAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkAlert.m; sourceTree = "<group>"; };
 		9887E7B50608BE60009A6DCD /* SparkAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkAlert.h; sourceTree = "<group>"; };
-		98B54BD306D213A5001BDF93 /* SparkConstantes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkConstantes.h; sourceTree = "<group>"; };
-		98B54BE006D214C2001BDF93 /* SparkConstantes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkConstantes.m; sourceTree = "<group>"; };
+		988C8B710A5B1E5C0053B4C6 /* SparkTrigger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkTrigger.m; sourceTree = "<group>"; };
+		98B54BE006D214C2001BDF93 /* SparkKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkKit.m; sourceTree = "<group>"; };
 		98B54E6E06F9AE37009C825F /* SparkApplicationList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkApplicationList.m; sourceTree = "<group>"; };
-		98B54E7006F9AE46009C825F /* SparkApplicationList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkApplicationList.h; sourceTree = "<group>"; };
-		98B54E7706F9AE99009C825F /* SparkSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkSerialization.h; sourceTree = "<group>"; };
-		98B54E7B06F9AEB0009C825F /* SparkSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkSerialization.m; sourceTree = "<group>"; };
 		98B5512F06FA030A009C825F /* SparkApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkApplication.m; sourceTree = "<group>"; };
 		98B5513106FA031B009C825F /* SparkApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkApplication.h; sourceTree = "<group>"; };
 		98B6567A06F8FBD6007D6BB7 /* SparkApplicationLibrary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkApplicationLibrary.m; sourceTree = "<group>"; };
-		98B6567C06F8FBE5007D6BB7 /* SparkApplicationLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkApplicationLibrary.h; sourceTree = "<group>"; };
 		98BCF0C30708BDA70039136F /* IgnoreAction.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = IgnoreAction.tif; sourceTree = "<group>"; };
 		98C56D34096B348400ABE1EF /* ShadowKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ShadowKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		98C56D41096B353900ABE1EF /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -380,13 +353,12 @@
 		08FB77AEFE84172EC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				9825B1F205FE3ECB00655E6A /* SparkPrivate.h */,
 				9825B1F305FE3ECB00655E6A /* SparkKit.h */,
-				98725CF706CB9E390072B8E4 /* SparkShadow.h */,
-				98725D4906CBA1250072B8E4 /* SparkShadow_Private.h */,
-				9825B1E705FE3ECB00655E6A /* Headers */,
-				9825B22F05FE3F8200655E6A /* Plugin SDK */,
-				9825B23005FE3F9D00655E6A /* Library */,
+				98B54BE006D214C2001BDF93 /* SparkKit.m */,
 				9825B23105FE3FB300655E6A /* Loader */,
+				9825B22F05FE3F8200655E6A /* Plugin API */,
+				9825B23005FE3F9D00655E6A /* Library */,
 				9825B23305FE3FCE00655E6A /* Private */,
 			);
 			name = Classes;
@@ -422,7 +394,6 @@
 			children = (
 				981B5F8009386A590024C0D9 /* ShadowCommon.xcconfig */,
 				981B5F8109386A590024C0D9 /* ShadowDebug.xcconfig */,
-				981B5F8309386A590024C0D9 /* ShadowTest.xcconfig */,
 				981B5F8209386A590024C0D9 /* ShadowRelease.xcconfig */,
 				981B5F8409386A590024C0D9 /* ShadowUniversal.xcconfig */,
 			);
@@ -432,77 +403,39 @@
 		9825B1E705FE3ECB00655E6A /* Headers */ = {
 			isa = PBXGroup;
 			children = (
-				9825B22C05FE3F1000655E6A /* Plugin SDK */,
-				9825B22B05FE3EFD00655E6A /* Library */,
-				9825B22E05FE3F4800655E6A /* Loader */,
 				9825B22D05FE3F2000655E6A /* Private */,
 			);
 			path = Headers;
-			sourceTree = "<group>";
-		};
-		9825B22B05FE3EFD00655E6A /* Library */ = {
-			isa = PBXGroup;
-			children = (
-				9825B1EC05FE3ECB00655E6A /* SparkHotKey.h */,
-				98B5513106FA031B009C825F /* SparkApplication.h */,
-				98B54E7706F9AE99009C825F /* SparkSerialization.h */,
-				98777B2C074C16DE00C063B2 /* Lists */,
-				98777B2B074C16D100C063B2 /* Library */,
-			);
-			name = Library;
-			sourceTree = "<group>";
-		};
-		9825B22C05FE3F1000655E6A /* Plugin SDK */ = {
-			isa = PBXGroup;
-			children = (
-				987D7D94074E9FDD00496C45 /* SparkKitBase.h */,
-				9825B1F405FE3ECB00655E6A /* SparkKit_API.h */,
-				98CF376B06E51E9E00894E4B /* SparkAction.h */,
-				9825B1F105FE3ECB00655E6A /* SparkActionPlugIn.h */,
-				98B54BD306D213A5001BDF93 /* SparkConstantes.h */,
-				9825B1F605FE3ECB00655E6A /* SparkLibraryObject.h */,
-				9887E7B50608BE60009A6DCD /* SparkAlert.h */,
-				98CF6FAA06B3DB030017D206 /* SparkMultipleAlerts.h */,
-			);
-			name = "Plugin SDK";
 			sourceTree = "<group>";
 		};
 		9825B22D05FE3F2000655E6A /* Private */ = {
 			isa = PBXGroup;
 			children = (
 				9825B1E805FE3ECB00655E6A /* Extension.h */,
-				9825B1F205FE3ECB00655E6A /* Spark_Private.h */,
 			);
 			name = Private;
 			sourceTree = "<group>";
 		};
-		9825B22E05FE3F4800655E6A /* Loader */ = {
+		9825B22F05FE3F8200655E6A /* Plugin API */ = {
 			isa = PBXGroup;
 			children = (
-				9825B1F805FE3ECB00655E6A /* SparkPlugIn.h */,
-				9825B1EE05FE3ECB00655E6A /* SparkActionLoader.h */,
-			);
-			name = Loader;
-			sourceTree = "<group>";
-		};
-		9825B22F05FE3F8200655E6A /* Plugin SDK */ = {
-			isa = PBXGroup;
-			children = (
+				986F24FC0A5ADD42002F0FA5 /* Headers */,
 				9887E7B30608BE4B009A6DCD /* SparkAlert.m */,
 				98CF376F06E51EAC00894E4B /* SparkAction.m */,
 				9825B1FD05FE3ECB00655E6A /* SparkActionPlugIn.m */,
 				9825B1FB05FE3ECB00655E6A /* SparkLibraryObject.m */,
 				98CF6FA806B3DAEA0017D206 /* SparkMultipleAlerts.m */,
 			);
-			name = "Plugin SDK";
+			name = "Plugin API";
 			sourceTree = "<group>";
 		};
 		9825B23005FE3F9D00655E6A /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				986F24690A5AD498002F0FA5 /* Headers */,
+				988C8B710A5B1E5C0053B4C6 /* SparkTrigger.m */,
 				9825B1E505FE3ECB00655E6A /* SparkHotKey.m */,
 				98B5512F06FA030A009C825F /* SparkApplication.m */,
-				98B54E7B06F9AEB0009C825F /* SparkSerialization.m */,
 				98B9EFEC070BDEF400452DF2 /* Lists */,
 				98B9EFED070BDEFC00452DF2 /* Library */,
 			);
@@ -512,6 +445,7 @@
 		9825B23105FE3FB300655E6A /* Loader */ = {
 			isa = PBXGroup;
 			children = (
+				986F24AF0A5ADBBD002F0FA5 /* Headers */,
 				9825B1E405FE3ECB00655E6A /* SparkPlugIn.m */,
 				9825B1FA05FE3ECB00655E6A /* SparkActionLoader.m */,
 			);
@@ -521,10 +455,66 @@
 		9825B23305FE3FCE00655E6A /* Private */ = {
 			isa = PBXGroup;
 			children = (
+				9825B1E705FE3ECB00655E6A /* Headers */,
 				9825B1E205FE3ECB00655E6A /* Extension.m */,
-				98B54BE006D214C2001BDF93 /* SparkConstantes.m */,
 			);
 			name = Private;
+			sourceTree = "<group>";
+		};
+		986F24690A5AD498002F0FA5 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				981EBF6C0A5B0F42001C2FB3 /* SparkTrigger.h */,
+				9825B1EC05FE3ECB00655E6A /* SparkHotKey.h */,
+				98B5513106FA031B009C825F /* SparkApplication.h */,
+			);
+			path = Headers;
+			sourceTree = "<group>";
+		};
+		986F246A0A5AD4A8002F0FA5 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				986F247C0A5AD511002F0FA5 /* SparkKeyList.h */,
+				986F247B0A5AD511002F0FA5 /* SparkObjectList.h */,
+				986F247D0A5AD511002F0FA5 /* SparkActionList.h */,
+				986F247E0A5AD511002F0FA5 /* SparkApplicationList.h */,
+			);
+			path = Headers;
+			sourceTree = "<group>";
+		};
+		986F246B0A5AD4B3002F0FA5 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				986F24880A5AD545002F0FA5 /* SparkLibrary.h */,
+				986F248F0A5AD556002F0FA5 /* SparkListLibrary.h */,
+				986F24860A5AD545002F0FA5 /* SparkKeyLibrary.h */,
+				986F24850A5AD545002F0FA5 /* SparkActionLibrary.h */,
+				986F24890A5AD545002F0FA5 /* SparkObjectsLibrary.h */,
+				986F24870A5AD545002F0FA5 /* SparkApplicationLibrary.h */,
+			);
+			path = Headers;
+			sourceTree = "<group>";
+		};
+		986F24AF0A5ADBBD002F0FA5 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				9825B1F805FE3ECB00655E6A /* SparkPlugIn.h */,
+				9825B1EE05FE3ECB00655E6A /* SparkActionLoader.h */,
+			);
+			path = Headers;
+			sourceTree = "<group>";
+		};
+		986F24FC0A5ADD42002F0FA5 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				9825B1F405FE3ECB00655E6A /* SparkPluginAPI.h */,
+				9887E7B50608BE60009A6DCD /* SparkAlert.h */,
+				98CF376B06E51E9E00894E4B /* SparkAction.h */,
+				9825B1F105FE3ECB00655E6A /* SparkActionPlugIn.h */,
+				9825B1F605FE3ECB00655E6A /* SparkLibraryObject.h */,
+				98CF6FAA06B3DB030017D206 /* SparkMultipleAlerts.h */,
+			);
+			path = Headers;
 			sourceTree = "<group>";
 		};
 		98725D0406CB9E540072B8E4 /* ShadowKit */ = {
@@ -571,8 +561,9 @@
 			isa = PBXGroup;
 			children = (
 				98725D1306CB9F1B0072B8E4 /* SKAlias.h */,
-				65245F3B0A2AFE4D00ACB971 /* SKPluginLoader.h */,
 				986AFA3206D65E1A00B84D2D /* SKApplication.h */,
+				981EBC0F0A5AEF8F001C2FB3 /* SKSerialization.h */,
+				65245F3B0A2AFE4D00ACB971 /* SKPluginLoader.h */,
 			);
 			path = Headers;
 			sourceTree = "<group>";
@@ -583,6 +574,7 @@
 				98725D2206CB9F530072B8E4 /* Headers */,
 				98725D3706CB9FC60072B8E4 /* SKAlias.m */,
 				986AFA2F06D65E0800B84D2D /* SKApplication.m */,
+				981EBC1A0A5AEFC5001C2FB3 /* SKSerialization.m */,
 				65245F390A2AFE4200ACB971 /* SKPluginLoader.m */,
 				98725D3606CB9FC60072B8E4 /* SKApplicationAlias.m */,
 			);
@@ -616,30 +608,6 @@
 			path = AppleEvent;
 			sourceTree = "<group>";
 		};
-		98777B2B074C16D100C063B2 /* Library */ = {
-			isa = PBXGroup;
-			children = (
-				98777B29074C16BE00C063B2 /* SparkLibrary.h */,
-				9825B1F505FE3ECB00655E6A /* SparkObjectsLibrary.h */,
-				9825B1F705FE3ECB00655E6A /* SparkListLibrary.h */,
-				9825B1EF05FE3ECB00655E6A /* SparkKeyLibrary.h */,
-				98632FFB06E5B2520029CEB7 /* SparkActionLibrary.h */,
-				98B6567C06F8FBE5007D6BB7 /* SparkApplicationLibrary.h */,
-			);
-			name = Library;
-			sourceTree = "<group>";
-		};
-		98777B2C074C16DE00C063B2 /* Lists */ = {
-			isa = PBXGroup;
-			children = (
-				980DA1C106E667FE0038EE2A /* SparkObjectList.h */,
-				9825B1F005FE3ECB00655E6A /* SparkKeyList.h */,
-				980DA1ED06E670880038EE2A /* SparkActionList.h */,
-				98B54E7006F9AE46009C825F /* SparkApplicationList.h */,
-			);
-			name = Lists;
-			sourceTree = "<group>";
-		};
 		98888BBA06067E9C008117C3 /* Images */ = {
 			isa = PBXGroup;
 			children = (
@@ -663,8 +631,9 @@
 		98B9EFEC070BDEF400452DF2 /* Lists */ = {
 			isa = PBXGroup;
 			children = (
-				980DA1C506E668110038EE2A /* SparkObjectList.m */,
+				986F246A0A5AD4A8002F0FA5 /* Headers */,
 				9825B1E305FE3ECB00655E6A /* SparkKeyList.m */,
+				980DA1C506E668110038EE2A /* SparkObjectList.m */,
 				980DA1EB06E6707E0038EE2A /* SparkActionList.m */,
 				98B54E6E06F9AE37009C825F /* SparkApplicationList.m */,
 			);
@@ -674,11 +643,12 @@
 		98B9EFED070BDEFC00452DF2 /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				986F246B0A5AD4B3002F0FA5 /* Headers */,
 				98777B27074C16B000C063B2 /* SparkLibrary.m */,
-				9825B1E605FE3ECB00655E6A /* SparkObjectsLibrary.m */,
 				9825B1DF05FE3ECB00655E6A /* SparkListLibrary.m */,
 				9825B1DE05FE3ECB00655E6A /* SparkKeyLibrary.m */,
 				98632FFF06E5B26D0029CEB7 /* SparkActionLibrary.m */,
+				9825B1E605FE3ECB00655E6A /* SparkObjectsLibrary.m */,
 				98B6567A06F8FBD6007D6BB7 /* SparkApplicationLibrary.m */,
 			);
 			name = Library;
@@ -723,6 +693,7 @@
 			isa = PBXGroup;
 			children = (
 				98D3ACDE079D6FB000DDB6CE /* Headers */,
+				980BCE380A5B17BF0036AD2A /* SKCArray.c */,
 				98725D2B06CB9FB30072B8E4 /* SKFunctions.m */,
 				98725D2C06CB9FB30072B8E4 /* SKExtensions.m */,
 			);
@@ -758,6 +729,7 @@
 		98D3ACDE079D6FB000DDB6CE /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				980BCE3A0A5B17C90036AD2A /* SKCArray.h */,
 				98725D1606CB9F1B0072B8E4 /* SKFunctions.h */,
 				98725D1206CB9F1B0072B8E4 /* SKExtensions.h */,
 				98E03CC70A4D2BA000C0800A /* SKClassCluster.h */,
@@ -791,34 +763,17 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9825B20805FE3ECB00655E6A /* Extension.h in Headers */,
-				9825B20C05FE3ECB00655E6A /* SparkHotKey.h in Headers */,
-				9825B20E05FE3ECB00655E6A /* SparkActionLoader.h in Headers */,
-				9825B20F05FE3ECB00655E6A /* SparkKeyLibrary.h in Headers */,
-				9825B21005FE3ECB00655E6A /* SparkKeyList.h in Headers */,
-				9825B21105FE3ECB00655E6A /* SparkActionPlugIn.h in Headers */,
-				9825B21205FE3ECB00655E6A /* Spark_Private.h in Headers */,
-				9825B21305FE3ECB00655E6A /* SparkKit.h in Headers */,
-				9825B21405FE3ECB00655E6A /* SparkKit_API.h in Headers */,
-				9825B21505FE3ECB00655E6A /* SparkObjectsLibrary.h in Headers */,
-				9825B21605FE3ECB00655E6A /* SparkLibraryObject.h in Headers */,
-				9825B21705FE3ECB00655E6A /* SparkListLibrary.h in Headers */,
-				9825B21805FE3ECB00655E6A /* SparkPlugIn.h in Headers */,
-				9887E7B60608BE60009A6DCD /* SparkAlert.h in Headers */,
-				98CF6FAB06B3DB030017D206 /* SparkMultipleAlerts.h in Headers */,
-				98725CF806CB9E390072B8E4 /* SparkShadow.h in Headers */,
-				98725D4A06CBA1250072B8E4 /* SparkShadow_Private.h in Headers */,
-				98B54BD406D213A5001BDF93 /* SparkConstantes.h in Headers */,
-				98CF376D06E51E9E00894E4B /* SparkAction.h in Headers */,
-				98632FFD06E5B2520029CEB7 /* SparkActionLibrary.h in Headers */,
-				980DA1C306E667FE0038EE2A /* SparkObjectList.h in Headers */,
-				980DA1EF06E670880038EE2A /* SparkActionList.h in Headers */,
-				98B6567E06F8FBE5007D6BB7 /* SparkApplicationLibrary.h in Headers */,
-				98B54E7206F9AE46009C825F /* SparkApplicationList.h in Headers */,
-				98B54E7906F9AE99009C825F /* SparkSerialization.h in Headers */,
-				98B5513306FA031B009C825F /* SparkApplication.h in Headers */,
-				98777B2A074C16BE00C063B2 /* SparkLibrary.h in Headers */,
-				987D7D95074E9FDD00496C45 /* SparkKitBase.h in Headers */,
+				986F24B40A5ADBD4002F0FA5 /* SparkPlugIn.h in Headers */,
+				986F24B50A5ADBD6002F0FA5 /* SparkActionLoader.h in Headers */,
+				986F24FF0A5ADD53002F0FA5 /* SparkActionPlugIn.h in Headers */,
+				986F25750A5ADF21002F0FA5 /* SparkPrivate.h in Headers */,
+				981EBB610A5AE7B9001C2FB3 /* SparkKit.h in Headers */,
+				981EBBE00A5AEA9C001C2FB3 /* SparkAction.h in Headers */,
+				981EBC590A5AF3F9001C2FB3 /* SparkLibraryObject.h in Headers */,
+				981EBEBD0A5B0B34001C2FB3 /* SparkAlert.h in Headers */,
+				981EBEBE0A5B0B3F001C2FB3 /* SparkMultipleAlerts.h in Headers */,
+				981EBF2D0A5B0DF8001C2FB3 /* SparkPluginAPI.h in Headers */,
+				981EBF6D0A5B0F42001C2FB3 /* SparkTrigger.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -850,6 +805,8 @@
 				98E03CC80A4D2BA000C0800A /* SKClassCluster.h in Headers */,
 				983975830A58667E00F79B40 /* SKIOKitFunctions.h in Headers */,
 				98F5C8160A59B585007BEB21 /* SKTableView.h in Headers */,
+				981EBC100A5AEF8F001C2FB3 /* SKSerialization.h in Headers */,
+				980BCE3B0A5B17C90036AD2A /* SKCArray.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1000,28 +957,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9825B1FF05FE3ECB00655E6A /* SparkKeyLibrary.m in Sources */,
-				9825B20005FE3ECB00655E6A /* SparkListLibrary.m in Sources */,
-				9825B20305FE3ECB00655E6A /* Extension.m in Sources */,
-				9825B20405FE3ECB00655E6A /* SparkKeyList.m in Sources */,
-				9825B20505FE3ECB00655E6A /* SparkPlugIn.m in Sources */,
-				9825B20605FE3ECB00655E6A /* SparkHotKey.m in Sources */,
-				9825B20705FE3ECB00655E6A /* SparkObjectsLibrary.m in Sources */,
-				9825B21A05FE3ECB00655E6A /* SparkActionLoader.m in Sources */,
-				9825B21B05FE3ECB00655E6A /* SparkLibraryObject.m in Sources */,
-				9825B21D05FE3ECB00655E6A /* SparkActionPlugIn.m in Sources */,
-				9887E7B40608BE4B009A6DCD /* SparkAlert.m in Sources */,
-				98CF6FA906B3DAEA0017D206 /* SparkMultipleAlerts.m in Sources */,
-				98B54BE106D214C2001BDF93 /* SparkConstantes.m in Sources */,
-				98CF377006E51EAC00894E4B /* SparkAction.m in Sources */,
-				9863300006E5B26D0029CEB7 /* SparkActionLibrary.m in Sources */,
-				980DA1C606E668110038EE2A /* SparkObjectList.m in Sources */,
-				980DA1EC06E6707E0038EE2A /* SparkActionList.m in Sources */,
-				98B6567B06F8FBD6007D6BB7 /* SparkApplicationLibrary.m in Sources */,
-				98B54E6F06F9AE37009C825F /* SparkApplicationList.m in Sources */,
-				98B54E7C06F9AEB0009C825F /* SparkSerialization.m in Sources */,
-				98B5513006FA030A009C825F /* SparkApplication.m in Sources */,
-				98777B28074C16B000C063B2 /* SparkLibrary.m in Sources */,
+				986F24AD0A5ADBB2002F0FA5 /* SparkActionLoader.m in Sources */,
+				986F24AE0A5ADBB7002F0FA5 /* SparkPlugIn.m in Sources */,
+				986F24FB0A5ADD3E002F0FA5 /* SparkActionPlugIn.m in Sources */,
+				981EBBD60A5AEA5C001C2FB3 /* SparkKit.m in Sources */,
+				981EBBE10A5AEA9F001C2FB3 /* SparkAction.m in Sources */,
+				981EBC720A5AF4C8001C2FB3 /* SparkLibraryObject.m in Sources */,
+				981EBEBC0A5B0B2C001C2FB3 /* SparkAlert.m in Sources */,
+				981EBEBF0A5B0B43001C2FB3 /* SparkMultipleAlerts.m in Sources */,
+				988C8B720A5B1E5C0053B4C6 /* SparkTrigger.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1053,6 +997,8 @@
 				98E03CB10A4D2AC900C0800A /* SKBezelItem.m in Sources */,
 				9839758F0A58669C00F79B40 /* SKIOKitFunctions.c in Sources */,
 				98F5C8140A59B574007BEB21 /* SKTableView.m in Sources */,
+				981EBC1B0A5AEFC5001C2FB3 /* SKSerialization.m in Sources */,
+				980BCE390A5B17BF0036AD2A /* SKCArray.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

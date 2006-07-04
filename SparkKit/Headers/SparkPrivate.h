@@ -7,12 +7,8 @@
  *
  */
 
-#import <SparkKit/SparkShadow.h>
-
 #import <SparkKit/SparkAction.h>
 #import <SparkKit/SparkActionPlugIn.h>
-#import <SparkKit/SparkLibraryObject.h>
-#import <HotKeyToolKit/HotKeyToolKit.h>
 
 @interface SparkActionPlugIn (Private)
 
@@ -29,13 +25,7 @@
 + (NSString *)helpFile;
 
 - (void)setSparkAction:(SparkAction *)anAction;
-- (void)setUndoManager:(NSUndoManager *)manager;
 
-@end
-
-@class SparkObjectsLibrary;
-@interface SparkLibraryObject (Private)
-- (SparkObjectsLibrary *)objectsLibrary;
 @end
 
 @class SparkHotKey;
@@ -49,15 +39,4 @@
 - (BOOL)isCustom;
 - (void)setCustom:(BOOL)custom;
 
-@end
-
-@interface _SparkIgnoreAction : SparkAction {
-  
-}
-+ (id)action;
-
-@end
-
-@interface SparkHotKeyManager : HKHotKeyManager {
-}
 @end

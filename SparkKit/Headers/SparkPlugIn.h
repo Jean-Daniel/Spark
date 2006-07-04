@@ -5,25 +5,23 @@
 //  Created by Fox on Fri Dec 12 2003.
 //  Copyright (c) 2004 Shadow Lab. All rights reserved.
 //
-#import <Foundation/Foundation.h>
 
 /*!
     @class 		SparkPlugIn
     @abstract   Represent a Spark Plugin Bundle.
 */
 @interface SparkPlugIn : NSObject {
-  NSString *_name;
-  NSString *_path;
-  NSImage  *_icon;
-  NSString *_bundleId;
-  Class    _plugInClass;
+  @private
+  Class sp_class;
+  NSString *sp_name;
+  NSString *sp_path;
+  NSImage  *sp_icon;
+  NSString *sp_bundle;
 }
 
 - (id)initWithBundle:(NSBundle *)bundle;
-- (id)initWithName:(NSString *)name icon:(NSImage *)icon class:(Class)class;
 
 + (id)plugInWithBundle:(NSBundle *)bundle;
-+ (id)plugInWithName:(NSString *)name icon:(NSImage *)icon class:(Class)class;
 
 /*!
     @method     name
