@@ -7,21 +7,16 @@
 //
 
 #import <SparkKit/SparkApplication.h>
-#import <SparkKit/SparkLibrary.h>
-#import <SparkKit/SparkApplicationLibrary.h>
 
-#import <ShadowKit/SKFunctions.h>
-#import <ShadowKit/SKExtensions.h>
 #import <ShadowKit/SKImageUtils.h>
 #import <ShadowKit/SKApplication.h>
-#import <ShadowKit/SKAppKitExtensions.h>
 
 static NSString * const kSparkApplicationKey = @"SparkApplication";
 
 #pragma mark -
-@interface SKApplication (SparkSerialization) <SparkSerialization>
-- (id)initFromPropertyList:(id)plist;
-- (id)propertyList;
+@interface SKApplication (SparkSerialization)
+- (BOOL)serialize:(NSMutableDictionary *)plist;
+- (id)initWithSerializedValues:(NSDictionary *)plist;
 @end
 
 @implementation SparkApplication
@@ -30,12 +25,12 @@ static NSString * const kSparkApplicationKey = @"SparkApplication";
 #pragma mark NSCoding
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
-  [coder encodeObject:_application forKey:kSparkApplicationKey];
+  [coder encodeObject:sp_application forKey:kSparkApplicationKey];
   return;
 }
 - (id)initWithCoder:(NSCoder *)coder {
   if (self = [super initWithCoder:coder]) {
-    _application = [[coder decodeObjectForKey:kSparkApplicationKey] retain];
+    sp_application = [[coder decodeObjectForKey:kSparkApplicationKey] retain];
   }
   return self;
 }
@@ -43,20 +38,20 @@ static NSString * const kSparkApplicationKey = @"SparkApplication";
 #pragma mark NSCopying
 - (id)copyWithZone:(NSZone *)zone {
   SparkApplication* copy = [super copyWithZone:zone];
-  copy->_application = [_application copy];
+  copy->sp_application = [sp_application copy];
   return copy;
 }
 
 #pragma mark SparkSerialization
-- (NSMutableDictionary *)propertyList {
-  id plist = [super propertyList];
-  if ([_application identifier])
-    [plist setObject:[_application propertyList] forKey:kSparkApplicationKey];
-  return plist;
+- (BOOL)serialize:(NSMutableDictionary *)plist {
+  [super serialize:plist];
+  if ([sp_application identifier])
+    return [sp_application serialize:plist];
+  return YES;
 }
-- (id)initFromPropertyList:(NSDictionary *)plist {
-  if (self = [super initFromPropertyList:plist]) {
-    _application = [[SKApplication alloc] initFromPropertyList:[plist objectForKey:kSparkApplicationKey]];
+- (id)initWithSerializedValues:(NSDictionary *)plist {
+  if (self = [super initWithSerializedValues:plist]) {
+    sp_application = [[SKApplication alloc] initWithSerializedValues:plist];
   }
   return self;
 }
@@ -65,7 +60,7 @@ static NSString * const kSparkApplicationKey = @"SparkApplication";
 #pragma mark Init & Dealloc Methods
 - (id)init {
   if (self = [super init]) {
-    _application = [[SKApplication alloc] init];
+    sp_application = [[SKApplication alloc] init];
   }
   return self;
 }
@@ -73,7 +68,7 @@ static NSString * const kSparkApplicationKey = @"SparkApplication";
 - (id)initWithPath:(NSString *)path {
   if (self = [super init]) {
     [self setPath:path];
-    if (!_application) {
+    if (!sp_application) {
       DLog(@"Invalid app at path: %@", path);
       [self release];
       self = nil;
@@ -83,47 +78,43 @@ static NSString * const kSparkApplicationKey = @"SparkApplication";
 }
 
 - (void)dealloc {
-  [_application release];
+  [sp_application release];
   [super dealloc];
 }
 
 #pragma mark -
 #pragma mark Accessors
 - (NSString *)path {
-  return [_application path];
+  return [sp_application path];
 }
 - (void)setPath:(NSString *)path {
-  if (_application) {
-    [_application release];
+  if (sp_application) {
+    [sp_application release];
   }
-  _application = [[SKApplication alloc] initWithPath:path];
-  if (_application) {
-    [self setName:[_application name]];
+  sp_application = [[SKApplication alloc] initWithPath:path];
+  if (sp_application) {
+    [self setName:[sp_application name]];
     [self setIcon:SKResizedIcon([[NSWorkspace sharedWorkspace] iconForFile:path], NSMakeSize(16, 16))];
-    [_application setName:nil];
+    [sp_application setName:nil];
   }
 }
 
 - (NSString *)identifier {
-  return [_application identifier];
+  return [sp_application identifier];
 }
 
 - (NSString *)signature {
-  return ([_application idType] == kSKApplicationOSType) ? [_application identifier] : nil;
+  return ([sp_application idType] == kSKApplicationOSType) ? [sp_application identifier] : nil;
 }
 - (void)setSignature:(NSString *)signature {
-  [_application setIdentifier:signature type:kSKApplicationOSType];
+  [sp_application setIdentifier:signature type:kSKApplicationOSType];
 }
 
 - (NSString *)bundleIdentifier {
-  return ([_application idType] == kSKApplicationBundleIdentifier) ? [_application identifier] : nil;
+  return ([sp_application idType] == kSKApplicationBundleIdentifier) ? [sp_application identifier] : nil;
 }
 - (void)setBundleIdentifier:(NSString *)identifier {
-  [_application setIdentifier:identifier type:kSKApplicationBundleIdentifier];
-}
-
-- (SparkObjectsLibrary *)objectsLibrary {
-  return [[self library] applicationLibrary];
+  [sp_application setIdentifier:identifier type:kSKApplicationBundleIdentifier];
 }
 
 @end
@@ -135,7 +126,7 @@ static NSString * const kSKApplicationIdentifier = @"Identifier";
 
 @implementation SKApplication (SparkSerialization)
 
-- (id)initFromPropertyList:(id)plist {
+- (id)initWithSerializedValues:(NSDictionary *)plist {
   if (self = [super init]) {
     [self setName:[plist objectForKey:kSKApplicationName]];
     [self setIdentifier:[plist objectForKey:kSKApplicationIdentifier]
@@ -144,52 +135,52 @@ static NSString * const kSKApplicationIdentifier = @"Identifier";
   return self;
 }
 
-- (id)propertyList {
-  return [NSDictionary dictionaryWithObjectsAndKeys:
-    SKInt([self idType]), kSKApplicationIdType,
-    [self identifier], kSKApplicationIdentifier,
-    [self name], kSKApplicationName, /* if name is nil, it is just ignored */
-    nil];
+- (BOOL)serialize:(NSMutableDictionary *)plist {
+  [plist setObject:SKInt([self idType]) forKey:kSKApplicationIdType];
+  [plist setObject:[self identifier] forKey:kSKApplicationIdentifier];
+  if ([self name])
+    [plist setObject:[self name] forKey:kSKApplicationName];
+  return YES;
 }
 
 @end
 
 #pragma mark -
-@implementation _SparkSystemApplication
-
-+ (id)application {
-  return [[[self alloc] init] autorelease];
-}
-
-- (id)init {
-  if (self = [super init]) {
-    [self setName:NSLocalizedStringFromTableInBundle(@"SYSTEM_APP_NAME",
-                                                     nil, SKCurrentBundle(),
-                                                     @"Default Application")];
-    [self setIcon:[NSImage imageNamed:@"SystemApplication" inBundle:SKCurrentBundle()]];
-  }
-  return self;
-}
-
-- (id)initFromPropertyList:(id)plist {
-  if (self = [super initFromPropertyList:plist]) {
-    [self setName:NSLocalizedStringFromTableInBundle(@"SYSTEM_APP_NAME",
-                                                     nil, SKCurrentBundle(),
-                                                     @"Default Application")];
-    [self setIcon:[NSImage imageNamed:@"SystemApplication" inBundle:SKCurrentBundle()]];
-  }
-  return self;
-}
-
-- (NSString *)identifier {
-  return [self signature];
-}
-
-- (NSString *)signature {
-  return SKFileTypeForHFSTypeCode('****');
-}
-- (void)setBundleIdentifier:(NSString *)identifier {}
-- (void)setSignature:(NSString *)sign {}
-- (void)setPath:(NSString *)path {}
-
-@end
+//@implementation _SparkSystemApplication
+//
+//+ (id)application {
+//  return [[[self alloc] init] autorelease];
+//}
+//
+//- (id)init {
+//  if (self = [super init]) {
+//    [self setName:NSLocalizedStringFromTableInBundle(@"SYSTEM_APP_NAME",
+//                                                     nil, SKCurrentBundle(),
+//                                                     @"Default Application")];
+//    [self setIcon:[NSImage imageNamed:@"SystemApplication" inBundle:SKCurrentBundle()]];
+//  }
+//  return self;
+//}
+//
+//- (id)initFromPropertyList:(id)plist {
+//  if (self = [super initFromPropertyList:plist]) {
+//    [self setName:NSLocalizedStringFromTableInBundle(@"SYSTEM_APP_NAME",
+//                                                     nil, SKCurrentBundle(),
+//                                                     @"Default Application")];
+//    [self setIcon:[NSImage imageNamed:@"SystemApplication" inBundle:SKCurrentBundle()]];
+//  }
+//  return self;
+//}
+//
+//- (NSString *)identifier {
+//  return [self signature];
+//}
+//
+//- (NSString *)signature {
+//  return SKFileTypeForHFSTypeCode('****');
+//}
+//- (void)setBundleIdentifier:(NSString *)identifier {}
+//- (void)setSignature:(NSString *)sign {}
+//- (void)setPath:(NSString *)path {}
+//
+//@end

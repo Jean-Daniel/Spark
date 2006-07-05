@@ -15,10 +15,25 @@ NSPropertyListFormat SparkLibraryFileFormat;
 SPARK_EXPORT
 NSString * const kSparkLibraryFileExtension;
 
-SPARK_EXPORT
-const UInt32 kSparkLibraryCurrentVersion;
+#pragma mark -
+@class SparkLibrary, SparkObjectsLibrary;
 
-//@class SparkObjectsLibrary, SparkKeyLibrary, SparkListLibrary, SparkActionLibrary, SparkApplicationLibrary;
+SPARK_EXPORT
+NSString *SparkLibraryFolder();
+
+SPARK_EXPORT
+SparkLibrary *SparkSharedLibrary();
+
+SPARK_EXPORT
+SparkObjectsLibrary *SparkSharedActionLibrary();
+
+SPARK_EXPORT
+SparkObjectsLibrary *SparkSharedTriggerLibrary();
+
+SPARK_EXPORT
+SparkObjectsLibrary *SparkSharedApplicationLibrary();
+
+#pragma mark -
 @interface SparkLibrary : NSObject {
 @private
   UInt32 sp_version;
@@ -31,38 +46,17 @@ const UInt32 kSparkLibraryCurrentVersion;
 
 - (id)initWithPath:(NSString *)path;
 
-//- (BOOL)load;
-//- (BOOL)reload;
-//
-//- (void)importsObjectsFromLibrary:(SparkLibrary *)aLibrary;
-
 - (NSString *)path;
 - (void)setPath:(NSString *)file;
 
-//- (SparkKeyLibrary *)keyLibrary;
-//- (SparkListLibrary *)listLibrary;
-//- (SparkActionLibrary *)actionLibrary;
-//- (SparkApplicationLibrary *)applicationLibrary;
+- (SparkObjectsLibrary *)actionLibrary;
+- (SparkObjectsLibrary *)triggerLibrary;
+- (SparkObjectsLibrary *)applicationLibrary;
 
-//- (void)flush; /* WARNING: Delete Library Contents */
-//- (BOOL)synchronize;
-//- (NSFileWrapper *)fileWrapper;
-//- (BOOL)writeToFile:(NSString *)file atomically:(BOOL)flag;
+- (BOOL)synchronize;
+- (BOOL)writeToFile:(NSString *)file atomically:(BOOL)flag;
+
+- (NSFileWrapper *)fileWrapper:(NSError **)outError;
+- (BOOL)readFromFileWrapper:(NSFileWrapper *)fileWrapper error:(NSError **)outError;
 
 @end
-
-#pragma mark -
-SPARK_EXPORT
-NSString *SparkLibraryFolder();
-
-SPARK_EXPORT
-SparkLibrary *SparkSharedLibrary();
-
-SPARK_EXPORT
-SparkActionLibrary *SparkSharedActionLibrary();
-
-SPARK_EXPORT
-SparkTriggerLibrary *SparkSharedTriggerLibrary();
-
-SPARK_EXPORT
-SparkApplicationLibrary *SparkSharedApplicationLibrary();

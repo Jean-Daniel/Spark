@@ -37,10 +37,10 @@ NSString* const kSparkLibraryObjectIconKey = @"Icon";
 }
 
 - (id)initWithCoder:(NSCoder *)coder {
-  if (self = [super init]) {
-    [self setUid:[coder decodeInt32ForKey:kSparkLibraryObjectUIDKey]];
-    [self setIcon:[coder decodeObjectForKey:kSparkLibraryObjectIconKey]];
-    [self setName:[coder decodeObjectForKey:kSparkLibraryObjectNameKey]];
+  NSImage *icon = [coder decodeObjectForKey:kSparkLibraryObjectIconKey];
+  NSString *name = [coder decodeObjectForKey:kSparkLibraryObjectNameKey];
+  if (self = [self initWithName:name icon:icon]) {
+    [self setUID:[coder decodeInt32ForKey:kSparkLibraryObjectUIDKey]];
   }
   return self;
 }
@@ -60,7 +60,11 @@ NSString* const kSparkLibraryObjectIconKey = @"Icon";
   return [NSMutableDictionary dictionary];
 }
 - (id)initFromPropertyList:(NSDictionary *)plist {
-  return [super init];
+  NSString *name = [plist objectForKey:kSparkLibraryObjectNameKey];
+  NSImage *icon = [[NSImage alloc] initWithData:[plist objectForKey:kSparkLibraryObjectIconKey]];
+  self = [self initWithName:name icon:icon];
+  [icon release];
+  return self;
 }
 
 - (BOOL)serialize:(NSMutableDictionary *)plist {
@@ -84,22 +88,14 @@ NSString* const kSparkLibraryObjectIconKey = @"Icon";
   if (SKInstanceImplementSelector([self class], @selector(initFromPropertyList:))) {
     self = [self initFromPropertyList:plist];
   } else {
-    self = [super init];
+    NSString *name = [plist objectForKey:kSparkLibraryObjectNameKey];
+    NSImage *icon = [[NSImage alloc] initWithData:[plist objectForKey:kSparkLibraryObjectIconKey]];
+    self = [self initWithName:name icon:icon];
+    [icon release];
   }
   if (self) {
-    NSString *name = [plist objectForKey:kSparkLibraryObjectNameKey];
-    if (name) {
-      [self setName:name];
-      [self setLibrary:[plist objectForKey:@"_SparkLibrary_"]];
-      [self setUid:[[plist objectForKey:kSparkLibraryObjectUIDKey] unsignedIntValue]];
-      /* Load icon */
-      NSImage *icon = [[NSImage alloc] initWithData:[plist objectForKey:kSparkLibraryObjectIconKey]];
-      [self setIcon:icon];
-      [icon release];
-    } else {
-      [self release];
-      self = nil;
-    }
+    [self setLibrary:[plist objectForKey:@"_SparkLibrary_"]];
+    [self setUID:[[plist objectForKey:kSparkLibraryObjectUIDKey] unsignedIntValue]];
   }
   return self;
 }
@@ -161,7 +157,7 @@ NSString* const kSparkLibraryObjectIconKey = @"Icon";
 - (UInt32)uid {
   return sp_uid;
 }
-- (void)setUid:(UInt32)uid {
+- (void)setUID:(UInt32)uid {
   sp_uid = uid;
 }
 

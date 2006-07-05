@@ -65,6 +65,7 @@ static NSString * const kSparkActionShortDescriptionKey = @"ShortDescription";
 
 #pragma mark SparkSerialization
 - (BOOL)serialize:(NSMutableDictionary *)plist {
+  [super serialize:plist];
   [plist setObject:SKBool(sp_saFlags.custom) forKey:kSparkActionIsCustomKey];
   
   if ([self version])

@@ -9,8 +9,8 @@
 #import <SparkKit/SparkLibraryObject.h>
 
 @class SKApplication;
-@interface SparkApplication : SparkLibraryObject <SparkSerialization> {
-  SKApplication *_application;
+@interface SparkApplication : SparkLibraryObject {
+  SKApplication *sp_application;
 }
 
 - (id)initWithPath:(NSString *)path;
@@ -25,10 +25,4 @@
 - (NSString *)bundleIdentifier;
 - (void)setBundleIdentifier:(NSString *)identifier;
 
-@end
-
-@interface _SparkSystemApplication : SparkApplication {
-
-}
-+ (id)application;
 @end

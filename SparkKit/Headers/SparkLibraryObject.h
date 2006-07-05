@@ -124,7 +124,7 @@
    @abstract Don't call this method directly. This method is called by Library.
    @param uid (description)
    */
-- (void)setUid:(UInt32)uid;
+- (void)setUID:(UInt32)uid;
   /*!
   @method
    @abstract Returns the receiver Library.

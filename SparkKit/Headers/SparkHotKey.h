@@ -7,12 +7,12 @@
  */
 
 /*!
-	@header 	SparkHotKey
+@header 	SparkHotKey
 	@abstract   Define a HotKey.
  */
 
-#import <SparkKit/SparkKitBase.h>
-#import <SparkKit/SparkLibraryObject.h>
+#import <SparkKit/SparkKit.h>
+#import <SparkKit/SparkTrigger.h>
 
 typedef enum {
   kSparkDisableAllSingleKey,
@@ -24,121 +24,21 @@ typedef enum {
 SPARK_EXPORT
 SparkFilterMode SparkKeyStrokeFilterMode;
 
-@class HKHotKey;
-SPARK_EXPORT
-unsigned SparkEncodeHotKey(HKHotKey *key);
-SPARK_EXPORT
-void SparkDecodeHotKey(HKHotKey *key, unsigned hotkey);
-
-@class SparkAction, SparkAlert, SparkApplication, SparkApplicationList, SparkApplicationToActionMap;
 #pragma mark -
 /*!
-    @class 		SparkHotKey
-    @abstract   SparkHotKey is the class that represent hotKeys used in Spark.
+@class 		SparkHotKey
+@abstract   SparkHotKey is the class that represent hotKeys used in Spark.
 */
-@interface SparkHotKey : SparkLibraryObject <NSCopying, SparkSerialization> {
-@private
-  BOOL sp_active;
-  SparkAction *sp_action;
-  /* Forward */
-  id sp_itarget;
-  SEL sp_iaction;
+@class HKHotKey;
+@interface SparkHotKey : SparkTrigger <NSCoding, NSCopying> {
+  @private
   HKHotKey *sp_hotkey;
 }
 
 #pragma mark -
-#pragma mark Convenients Constructors.
-/*!
-	@method     hotKey
-	@abstract   A new created SparkHotKey.
- */
-+ (id)hotKey;
-
-/*!
-	@method     hotKeyWithName:
-	@abstract   Create a new SparkHotKey with an new uniq ID.
- 	@param		name The name of the new SparkHotKey.
- 	@result		A new created SparkHotKey.
- */
-+ (id)hotKeyWithName:(NSString *)name;
-
-
 #pragma mark Methods from Superclass
-- (id)init;
-
-/*!
-	@method     initFromPropertyList:
-	@abstract   Required! Subclasses must always call parent method.
- 	@param      plist A dictionary containing every keys/values you added into <i>-propertyList</i> method.
-	@result     A deserialized HotKey.
-*/
-- (id)initFromPropertyList:(NSDictionary *)plist;
-
-/*!
-    @method     propertyList
-    @abstract   Required! Serialization method. This method must always call super method before adding its own value.
-    @discussion This method convert an hotKey into serializable representation so you must only add PropertyList Objects
- 				into the return Dictionary.
-    @result     A propertyList representation for this HotKey.
-*/
-- (NSMutableDictionary *)propertyList;
-
-#pragma mark Accessors
-- (BOOL)isActive;
-- (void)setActive:(BOOL)flag;
-
-/*!
-    @method     isInvalid
-    @abstract   (brief description)
-    @result     Returns NO if receiver is valid and all this actions are valid too.
-*/
-- (BOOL)isInvalid;
-
-@end
-
-#pragma mark -
-@interface SparkHotKey (MutlipleActionsSupport)
-
-- (SparkAlert *)execute;
-- (SparkAction *)currentAction;
-
-- (SparkAction *)defaultAction;
-- (void)setDefaultAction:(SparkAction *)anAction;
-
-- (void)setAction:(SparkAction *)anAction forApplication:(SparkApplication *)application;
-- (void)setAction:(SparkAction *)anAction forApplicationList:(SparkApplicationList *)list;
-
-- (BOOL)hasManyActions;
-- (void)removeAllActions;
-
-- (SparkApplicationToActionMap *)map;
-
-- (NSSet *)listsUids;
-- (NSSet *)actionsUids;
-- (NSSet *)applicationsUids;
-
-#pragma mark UID Update
-- (void)updateListUid:(NSArray *)uids;
-- (void)updateActionUid:(NSArray *)uids;
-- (void)updateApplicationUid:(NSArray *)uids;
-
-@end
-
-#pragma mark -
-@interface SparkHotKey (Forwarding)
-
-- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector;
-+ (NSMethodSignature *)instanceMethodSignatureForSelector:(SEL)aSelector;
-
-- (void)forwardInvocation:(NSInvocation *)anInvocation;
-
-- (BOOL)respondsToSelector:(SEL)aSelector;
-+ (BOOL)instancesRespondToSelector:(SEL)aSelector;
-
-- (BOOL)isKindOfClass:(Class)aClass;
-+ (BOOL)isSubclassOfClass:(Class)aClass;
-
-- (id)valueForUndefinedKey:(NSString *)key;
+- (BOOL)serialize:(NSMutableDictionary *)plist;
+- (id)initWithSerializedValues:(NSDictionary *)plist;
 
 @end
 
@@ -173,53 +73,8 @@ void SparkDecodeHotKey(HKHotKey *key, unsigned hotkey);
 - (BOOL)sendKeystroke;
 - (BOOL)sendKeystrokeToApplication:(OSType)signature bundle:(NSString *)bundleId;
 
-- (UInt32)rawkey;
-- (void)setRawkey:(UInt32)rawkey;
+- (UInt64)rawkey;
+- (void)setRawkey:(UInt64)rawkey;
 
 @end
 
-#pragma mark -
-@interface SparkApplicationToActionMap : NSObject <SparkSerialization> {
-  SparkLibrary *_library;
-  NSMutableDictionary *_listMap;
-  NSMutableDictionary *_simpleMap;
-}
-
-- (unsigned)count;
-
-- (NSSet *)actions;
-- (NSSet *)actionsUids;
-- (NSSet *)applications;
-- (NSSet *)applicationsUids;
-- (NSSet *)lists;
-- (NSSet *)listsUids;
-
-- (SparkAction *)actionForFrontProcess;
-/*!
-    @method     actionForApplication:
-    @abstract   Method use to determine what action use for a specified Application.
- 				This method looks into all applications, and then, if no one correspond, it looks into lists.
-    @param      application An application.
-    @result     An action bound to a specified application, or to a list containing this application.
-*/
-- (SparkAction *)actionForApplication:(SparkApplication *)application;
-
-- (SparkAction *)actionForEntry:(id)entry;
-
-- (void)setAction:(SparkAction *)anAction forApplication:(SparkApplication *)application;
-- (void)setAction:(SparkAction *)anAction forApplicationList:(SparkApplicationList *)list;
-
-- (void)removeAllActions;
-- (void)removeAction:(SparkAction *)action;
-- (void)removeApplication:(SparkApplication *)application;
-- (void)removeApplicationList:(SparkApplicationList *)list;
-
-- (SparkLibrary *)library;
-- (void)setLibrary:(SparkLibrary *)aLibrary;
-
-#pragma mark UID Update
-- (void)updateListUid:(id)uid newUid:(id)newUid;
-- (void)updateActionUid:(id)uid newUid:(id)newUid;
-- (void)updateApplicationUid:(id)uid newUid:(id)newUid;
-
-@end

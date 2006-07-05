@@ -28,7 +28,7 @@ enum {
  This default time can be changed by the user in «System Preferences».
  @result		Returns the system default time interval for repeat keys.
  */
-SPARK_EXTERN_INLINE
+SPARK_EXPORT
 NSTimeInterval SparkGetDefaultKeyRepeatInterval();
 
 /*!
