@@ -240,18 +240,18 @@ volatile int HKGDBWorkaround = 0;
 }
 
 #pragma mark Key Serialization
-- (UInt32)rawkey {
-  unsigned hotkey = [self character];
+- (UInt64)rawkey {
+  UInt64 hotkey = [self character];
   hotkey &= 0xffff;
   hotkey |= [self modifier] & 0x00ff0000;
   hotkey |= ([self keycode] << 24) & 0xff000000;
   return hotkey;
 }
 
-- (void)setRawkey:(UInt32)rawkey {
-  UniChar character = rawkey & 0xffff;
+- (void)setRawkey:(UInt64)rawkey {
+  UniChar character = rawkey & 0x0000ffff;
   UInt32 modifier = rawkey & 0x00ff0000;
-  UInt16 keycode = (rawkey & 0xff000000) >> 24;
+  UInt32 keycode = (rawkey & 0xff000000) >> 24;
   if (keycode == 0xff) keycode = kHKInvalidVirtualKeyCode;
   BOOL isSpecialKey = (modifier & (NSNumericPadKeyMask | NSFunctionKeyMask)) != 0;
   if (!isSpecialKey) {
@@ -281,7 +281,7 @@ volatile int HKGDBWorkaround = 0;
   } else {
     /* Flags used to avoid double invocation if mode change during invoke */
     hk_hkFlags.invoked = 1;
-    [self invoke];
+    [self invoke:NO];
     if ([self keyRepeat] > 0) {
       NSDate *fire = [[NSDate alloc] initWithTimeIntervalSinceNow:HKGetSystemKeyRepeatThreshold()];
       hk_repeatTimer = [[NSTimer alloc] initWithFireDate:fire interval:[self keyRepeat] target:self selector:@selector(hk_invoke:) userInfo:nil repeats:YES];
@@ -294,12 +294,13 @@ volatile int HKGDBWorkaround = 0;
 - (void)keyReleased {
   [self hk_invalidateTimer];
   if (hk_hkFlags.onrelease && !hk_hkFlags.invoked) {
-    [self invoke];
+    [self invoke:NO];
   }
 }
 
-- (void)invoke {
+- (void)invoke:(BOOL)repeat {
   if (!hk_hkFlags.lock) {
+    [self willInvoke:repeat];
     hk_hkFlags.lock = 1;
     @try {
       if (hk_action && [hk_target respondsToSelector:hk_action]) {
@@ -310,11 +311,15 @@ volatile int HKGDBWorkaround = 0;
       SKLogException(exception);
     }
     hk_hkFlags.lock = 0;
+    [self didInvoke:repeat];
   } else {
     DLog(@"WARNING: Recursive call in %@", self);
     // Maybe resend event ?
   }
 }
+
+- (void)willInvoke:(BOOL)repeat {}
+- (void)didInvoke:(BOOL)repeat {}
 
 #pragma mark -
 #pragma mark Private
@@ -327,8 +332,7 @@ volatile int HKGDBWorkaround = 0;
 }
 
 - (void)hk_invoke:(NSTimer *)timer {
-  DLog(@"Repeat Key");
-  [self invoke];
+  [self invoke:YES];
 }
 
 @end

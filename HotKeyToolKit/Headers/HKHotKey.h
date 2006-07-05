@@ -95,7 +95,7 @@ NSTimeInterval HKGetSystemKeyRepeatThreshold();
    */
 - (id)initWithKeycode:(UInt32)code modifier:(UInt32)modifier;
   /*!
-    @method
+  @method
    @abstract   Initializes a newly allocated hotkey.
    @param      character (description)
    @param      modifier (description)
@@ -224,23 +224,26 @@ NSTimeInterval HKGetSystemKeyRepeatThreshold();
    @discussion This method can be usefull to serialize an hotkey or to save a keystae with one call.
    @result     A single integer representing receiver character, modifier and keycode.
    */
-- (UInt32)rawkey;
+- (UInt64)rawkey;
   /*!
   @method
    @abstract   Restore the receiver  character, keycode and modifier.
    @param      rawkey A rawkey.
    */
-- (void)setRawkey:(UInt32)rawkey;
+- (void)setRawkey:(UInt64)rawkey;
 
   /*!
   @method
    @abstract   Make target perform action.
    */
-- (void)invoke;
+- (void)invoke:(BOOL)repeat;
 
 #pragma mark Callback Methods
 - (void)keyPressed;
 - (void)keyReleased;
+
+- (void)willInvoke:(BOOL)repeat;
+- (void)didInvoke:(BOOL)repeat;
 
 @end
 
