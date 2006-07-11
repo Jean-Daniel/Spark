@@ -9,6 +9,7 @@
 
 #include "ASExtension.h"
 #include <SparkKit/SparkKit.h>
+#include <ShadowKit/ShadowAEUtils.h>
 
 OSStatus QuitApplication(ProcessSerialNumber *psn) {
   return ShadowAESendSimpleEventToProcess(psn, kCoreEventClass, kAEQuitApplication);

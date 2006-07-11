@@ -1,10 +1,10 @@
-//
-//  SKHotKeyRegister.m
-//  Spark
-//
-//  Created by Fox on Sun Dec 14 2003.
-//  Copyright (c) 2004 Shadow Lab. All rights reserved.
-//
+/*
+ *  HKHotKeyRegister.m
+ *  HotKeyToolKit
+ *
+ *  Created by Grayfox.
+ *  Copyright 2004-2006 Shadow Lab. All rights reserved.
+ */
 
 #include <Carbon/Carbon.h>
 #import "HKHotKeyRegister.h"
@@ -14,12 +14,12 @@ EventHotKeyRef HKRegisterHotKey(UInt16 keycode, UInt32 modifier, EventHotKeyID h
   EventHotKeyRef outRef;
   /* Convert from cocoa to carbon */
   UInt32 mask = HKUtilsConvertModifier(modifier, kHKModifierFormatCocoa, kHKModifierFormatCarbon);
-  OSStatus err = RegisterEventHotKey (keycode,
-                                      mask,
-                                      hotKeyId,
-                                      GetApplicationEventTarget(),
-                                      0,
-                                      &outRef);
+  OSStatus err = RegisterEventHotKey(keycode,
+                                     mask,
+                                     hotKeyId,
+                                     GetApplicationEventTarget(),
+                                     0,
+                                     &outRef);
 #if defined(DEBUG)
   switch (err) {
     case noErr:

@@ -1,9 +1,10 @@
-//
-//  HotKeyManager.h
-//
-//  Created by Fox on Sat Nov 29 2003.
-//  Copyright (c) 2004 Shadow Lab. All rights reserved.
-//
+/*
+ *  HKHotKeyManager.h
+ *  HotKeyToolKit
+ *
+ *  Created by Grayfox.
+ *  Copyright 2004-2006 Shadow Lab. All rights reserved.
+ */
 /*!
     @header HKHotKeyManager
 */
@@ -26,6 +27,7 @@ typedef BOOL (*HKHotKeyFilter)(UInt32 keycode, UInt32 modifier);
 @interface HKHotKeyManager : NSObject {
   @private
   void* hk_handler; /* EventHandlerRef handlerRef */
+  NSMapTable *hk_refs;
   NSMapTable *hk_keys;
 }
 
@@ -75,6 +77,12 @@ typedef BOOL (*HKHotKeyFilter)(UInt32 keycode, UInt32 modifier);
 */
 - (void)unregisterAll;
 
+
+/* Protected */
+- (void)hotKeyPressed:(HKHotKey *)key;
+- (void)hotKeyReleased:(HKHotKey *)key;
+
 @end
 
+/* Debugging purpose */
 extern BOOL HKTraceHotKeyEvents;

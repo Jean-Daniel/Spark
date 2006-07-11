@@ -14,6 +14,12 @@
 #import "ITunesAESuite.h"
 #import "ITunesAction.h"
 
+#import <ShadowKit/SKExtensions.h>
+#import <ShadowKit/SKFSFunctions.h>
+#import <ShadowKit/SKAppKitExtensions.h>
+
+volatile int SparkiTunesGDBWorkaround = 0;
+
 NSString * const kiTunesActionBundleIdentifier = @"org.shadowlab.spark.iTunes";
 
 @implementation ITunesActionPlugin

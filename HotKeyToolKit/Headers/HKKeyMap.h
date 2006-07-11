@@ -1,9 +1,10 @@
-//
-//  KeyCodeFunctions.h
-//
-//  Created by Fox on Tue Dec 09 2003.
-//  Copyright (c) 2004 Shadow Lab. All rights reserved.
-//
+/*
+ *  HKKeyMap.h
+ *  HotKeyToolKit
+ *
+ *  Created by Grayfox.
+ *  Copyright 2004-2006 Shadow Lab. All rights reserved.
+ */
 /*!
 	@header HKKeyMap
 	@abstract   A set of converter to map between Keyboard Hardware keycode and represented character.

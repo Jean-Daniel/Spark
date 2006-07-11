@@ -1,9 +1,9 @@
 /* AppleScriptActionPlugin */
 
-#import <SparkKit/SparkKit.h>
-#import <Cocoa/Cocoa.h>
+#import <SparkKit/SparkPluginAPI.h>
 
-extern NSString * const kASActionBundleIdentifier;
+SPARK_PRIVATE
+NSString * const kASActionBundleIdentifier;
 
 #define AppleScriptActionBundle		[NSBundle bundleWithIdentifier:kASActionBundleIdentifier]
 

@@ -10,7 +10,12 @@
 #import "ApplicationActionPlugin.h"
 #import "ASExtension.h"
 
+#import <ShadowKit/SKAlias.h>
 #import <ShadowKit/SKBezelItem.h>
+#import <ShadowKit/SKFunctions.h>
+#import <ShadowKit/ShadowAEUtils.h>
+#import <ShadowKit/SKApplication.h>
+#import <ShadowKit/SKProcessFunctions.h>
 
 static NSString * const kHotKeySignKey = @"App Sign";
 static NSString * const kHotKeyActionKey = @"Action";
@@ -24,7 +29,7 @@ static NSString * const kHotKeyBundleIdKey = @"BundleID";
 
 - (id)copyWithZone:(NSZone *)zone {
   ApplicationAction* copy = [super copyWithZone:zone];
-  copy->sa_appAction = sa_appAction;
+  copy->sa_action = sa_action;
   copy->sa_flags = sa_flags;
   [copy setAlias:sa_alias];
   return copy;
@@ -33,7 +38,7 @@ static NSString * const kHotKeyBundleIdKey = @"BundleID";
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
   [coder encodeInt:sa_flags forKey:kHotKeyFlagsKey];
-  [coder encodeInt:sa_appAction forKey:kHotKeyActionKey];
+  [coder encodeInt:sa_action forKey:kHotKeyActionKey];
   if (sa_alias)
     [coder encodeObject:sa_alias forKey:kHotKeyAliasKey];
   return;
@@ -42,7 +47,7 @@ static NSString * const kHotKeyBundleIdKey = @"BundleID";
 - (id)initWithCoder:(NSCoder *)coder {
   if (self = [super initWithCoder:coder]) {
     sa_flags = [coder decodeIntForKey:kHotKeyFlagsKey];
-    sa_appAction = [coder decodeIntForKey:kHotKeyActionKey];
+    sa_action = [coder decodeIntForKey:kHotKeyActionKey];
     sa_alias = [[coder decodeObjectForKey:kHotKeyAliasKey] retain];
   }
   return self;
@@ -54,12 +59,12 @@ static NSString * const kHotKeyBundleIdKey = @"BundleID";
   if (self = [super initFromPropertyList:plist]) {
     SKApplicationAlias *alias = [[SKApplicationAlias alloc] initWithData:[plist objectForKey:kHotKeyAliasKey]];
     if (![alias path]) {// !!!:fox:20040315 => alias never nil so use alias->path for test (V1.0)
-      id sign = [plist objectForKey:kHotKeySignKey];
+      OSType sign = [[plist objectForKey:kHotKeySignKey] unsignedIntValue];
       if (sign)
         [alias setSignature:sign];
     }
     if (![alias path]) {
-      id bundleId = [plist objectForKey:kHotKeyBundleIdKey];
+      NSString *bundleId = [plist objectForKey:kHotKeyBundleIdKey];
       if (bundleId)
         [alias setBundleIdentifier:bundleId];      
     }
@@ -67,7 +72,7 @@ static NSString * const kHotKeyBundleIdKey = @"BundleID";
       [self setAlias:alias];
       [alias release];
     }
-    [self setAppAction:[[plist objectForKey:kHotKeyActionKey] intValue]];
+    [self setAction:[[plist objectForKey:kHotKeyActionKey] intValue]];
     [self setFlags:[[plist objectForKey:kHotKeyFlagsKey] intValue]];
   }
   return self;
@@ -85,20 +90,20 @@ static NSString * const kHotKeyBundleIdKey = @"BundleID";
   if (aliasData) {
     [dico setObject:aliasData forKey:kHotKeyAliasKey];
   }
-  id sign = [self sign];
+  OSType sign = [self signature];
   if (sign)
-    [dico setObject:sign forKey:kHotKeySignKey];
-  id bundleId = [self bundleId];
+    [dico setObject:SKUInt(sign) forKey:kHotKeySignKey];
+  id bundleId = [self bundleIdentifier];
   if (bundleId)
     [dico setObject:bundleId forKey:kHotKeyBundleIdKey];
-  [dico setObject:SKInt(sa_appAction) forKey:kHotKeyActionKey];
+  [dico setObject:SKInt(sa_action) forKey:kHotKeyActionKey];
   [dico setObject:SKInt(sa_flags) forKey:kHotKeyFlagsKey];
   return dico;
 }
 
 - (SparkAlert *)check {
   /* Don't check path if hide or hide all */
-  if (sa_appAction != kHideFrontTag && sa_appAction != kHideAllTag) {
+  if (sa_action != kHideFrontTag && sa_action != kHideAllTag) {
     if ([self path] == nil) {
       id title = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"INVALID_APPLICATION_ALERT", nil,ApplicationActionBundle,
                                                                                @"Check * App Not Found *") , [self name]];
@@ -113,7 +118,7 @@ static NSString * const kHotKeyBundleIdKey = @"BundleID";
 - (SparkAlert *)execute {
   id alert = [self check];
   if (alert == nil) {
-    switch (sa_appAction) {
+    switch (sa_action) {
       case kHideFrontTag:
         [self hideFront];
         break;
@@ -137,9 +142,13 @@ static NSString * const kHotKeyBundleIdKey = @"BundleID";
   return alert;
 }
 
-- (NSString *)sign {
-  id sign = [sa_alias signature];
-  return ([sign isEqualToString:@"????"]) ? nil : sign;
+- (OSType)signature {
+  OSType sign = [sa_alias signature];
+  return sign == kUnknownType ? 0 : sign;
+}
+
+- (NSString *)bundleIdentifier {
+  return [sa_alias bundleIdentifier];
 }
 
 - (void)setPath:(NSString *)path {
@@ -165,12 +174,12 @@ static NSString * const kHotKeyBundleIdKey = @"BundleID";
   return sa_alias;
 }
 
-- (void)setAppAction:(int)action {
-  sa_appAction = action;
+- (void)setAction:(int)action {
+  sa_action = action;
 }
 
-- (int)appAction {
-  return sa_appAction;
+- (int)action {
+  return sa_action;
 }
 
 - (void)setFlags:(int)flags {
@@ -181,22 +190,17 @@ static NSString * const kHotKeyBundleIdKey = @"BundleID";
   return sa_flags;
 }
 
-- (NSString *)bundleId {
-  return [sa_alias bundleIdentifier];
-}
-
-
 #pragma mark -
 
 - (BOOL)getApplicationProcess:(ProcessSerialNumber *)psn {
   psn->highLongOfPSN = kNoProcess;
   psn->lowLongOfPSN = kNoProcess;
-  id sign = [self sign];
+  OSType sign = [self signature];
   if (sign) {
-    *psn = SKGetProcessWithSignature(SKHFSTypeCodeFromFileType(sign));
+    *psn = SKGetProcessWithSignature(sign);
   } 
   if (kNoProcess == psn->lowLongOfPSN && kNoProcess == psn->highLongOfPSN) {
-    id bundle = [self bundleId];
+    NSString *bundle = [self bundleIdentifier];
     if (bundle) {
       *psn = SKGetProcessWithBundleIdentifier((CFStringRef)bundle);
     }
@@ -216,8 +220,9 @@ static NSString * const kHotKeyBundleIdKey = @"BundleID";
   GetFrontProcess(&front);
 
   ProcessSerialNumber psn = {kNoProcess, kNoProcess};
-  while (noErr == GetNextProcess(&psn) && psn.lowLongOfPSN != kNoProcess) {
-    if (psn.lowLongOfPSN != front.lowLongOfPSN || psn.highLongOfPSN != front.highLongOfPSN) {
+  while (noErr == GetNextProcess(&psn)) {
+    Boolean same;
+    if (noErr == SameProcess(&front, &psn, &same) && !same) {
       ShowHideProcess(&psn, false);
     }
   }

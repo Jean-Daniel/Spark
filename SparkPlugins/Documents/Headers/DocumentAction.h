@@ -6,7 +6,7 @@
 //  Copyright (c) 2004 Shadow Lab. All rights reserved.
 //
 
-#import <SparkKit/SparkKit_API.h>
+#import <SparkKit/SparkPluginAPI.h>
 
 typedef enum {
   kDocumentActionOpen,
@@ -18,10 +18,10 @@ typedef enum {
 
 @class SKAlias, SKApplicationAlias;
 @interface DocumentAction : SparkAction <NSCoding, NSCopying> {
-  DocumentActionType _docAction;
-  NSString *_url;
-  SKAlias *_docAlias;
-  SKApplicationAlias *_appAlias;
+  DocumentActionType da_action;
+  NSString *da_url;
+  SKAlias *da_docAlias;
+  SKApplicationAlias *da_appAlias;
 }
 
 - (DocumentActionType)docAction;

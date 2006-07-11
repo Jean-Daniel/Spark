@@ -1,10 +1,10 @@
-//
-//  TrapField.m
-//  Short-Cut
-//
-//  Created by Fox on Thu Nov 27 2003.
-//  Copyright (c) 2004 Shadow Lab. All rights reserved.
-//
+/*
+ *  HKTrapWindow.m
+ *  HotKeyToolKit
+ *
+ *  Created by Grayfox.
+ *  Copyright 2004-2006 Shadow Lab. All rights reserved.
+ */
 
 #import "HKTrapWindow.h"
 #import "HKKeyMap.h"
@@ -24,18 +24,15 @@ NSString * const kHKTrapWindowKeyCatchedNotification = @"kHKTrapWindowKeyCatched
   [super dealloc];
 }
 
-- (void)removeDelegate {
-  [[NSNotificationCenter defaultCenter] removeObserver:[self delegate] name:nil object:self];
-}
-
 - (void)setDelegate:(id)delegate {
   if ([self delegate]) {
-    [self removeDelegate];
-  }
-  if (delegate && [delegate respondsToSelector:@selector(trapWindowCatchHotKey:)]) {
-    [[NSNotificationCenter defaultCenter] addObserver:delegate selector:@selector(trapWindowCatchHotKey:) name:kHKTrapWindowKeyCatchedNotification object:self];
+    [[NSNotificationCenter defaultCenter] removeObserver:[self delegate]
+                                                    name:kHKTrapWindowKeyCatchedNotification
+                                                  object:self];
   }
   [super setDelegate:delegate];
+  if (delegate)
+    SKRegisterDelegateForNotification(delegate, @selector(trapWindowCatchHotKey:), kHKTrapWindowKeyCatchedNotification);
 }
 #pragma mark -
 #pragma mark Trap accessor
@@ -44,11 +41,11 @@ NSString * const kHKTrapWindowKeyCatchedNotification = @"kHKTrapWindowKeyCatched
 }
 
 - (void)setTrapping:(BOOL)flag {
-  if (nil == trapField) {
-    hk_twFlags.trap = flag ? 1 : 0;
+  if (!hk_trapField) {
+    SKSetFlag(hk_twFlags.trap, flag);
   } else {
     if (flag)
-      [self makeFirstResponder:trapField];
+      [self makeFirstResponder:hk_trapField];
     else
       [self makeFirstResponder:self];
   }
@@ -58,29 +55,29 @@ NSString * const kHKTrapWindowKeyCatchedNotification = @"kHKTrapWindowKeyCatched
   return hk_twFlags.verify;
 }
 - (void)setVerifyHotKey:(BOOL)flag {
-  hk_twFlags.verify = flag ? 1 : 0;
+  SKSetFlag(hk_twFlags.verify, flag);
 }
 
 #pragma mark -
 #pragma mark Trap Observer.
 - (NSTextField *)trapField {
-  return trapField;
+  return hk_trapField;
 }
 - (void)setTrapField:(NSTextField *)newTrapField {
-  trapField = newTrapField;
+  hk_trapField = newTrapField;
 }
 
 - (void)endEditingFor:(id)anObject {
   [super endEditingFor:anObject];
-  if (nil != trapField)
-    hk_twFlags.trap = (anObject == trapField) ? 1 : 0;
+  if (hk_trapField)
+    hk_twFlags.trap = (anObject == hk_trapField) ? 1 : 0;
 }
 
 #pragma mark -
 #pragma mark Event Trap.
 - (BOOL)performKeyEquivalent:(NSEvent *)theEvent {
   BOOL perform;
-  if ([self delegate] && [[self delegate] respondsToSelector:@selector(trapWindow:needPerformKeyEquivalent:)])  {
+  if (SKDelegateHandle([self delegate], trapWindow:needPerformKeyEquivalent:))  {
     perform = [[self delegate] trapWindow:self needPerformKeyEquivalent:theEvent];
   } else {
     perform = NO;
@@ -97,7 +94,7 @@ NSString * const kHKTrapWindowKeyCatchedNotification = @"kHKTrapWindowKeyCatched
 - (void)sendEvent:(NSEvent *)theEvent {
   if ([theEvent type] == NSKeyDown && hk_twFlags.trap) {
     BOOL needProcess;
-    if ([self delegate] && [[self delegate] respondsToSelector:@selector(trapWindow:needProceedKeyEvent:)])  {
+    if (SKDelegateHandle([self delegate], trapWindow:needProceedKeyEvent:))  {
       needProcess = [[self delegate] trapWindow:self needProceedKeyEvent:theEvent];
     } else {
       needProcess = NO;
@@ -105,11 +102,11 @@ NSString * const kHKTrapWindowKeyCatchedNotification = @"kHKTrapWindowKeyCatched
     if (needProcess) {
       [super sendEvent:theEvent];
     } else {
-      int code = [theEvent keyCode];
-      int mask = [theEvent modifierFlags] & 0x00ff0000;
+      UInt32 code = [theEvent keyCode];
+      UInt32 mask = [theEvent modifierFlags] & NSDeviceIndependentModifierFlagsMask; //0x00ff0000;
       unichar character = 0;
 #if defined(DEBUG)
-      NSLog(@"Code: %i, modifier: %x", code, mask);
+      NSLog(@"Code: %u, modifier: %x", code, mask);
       if (mask & NSNumericPadKeyMask)
         NSLog(@"NumericPad");
 #endif
@@ -132,10 +129,10 @@ NSString * const kHKTrapWindowKeyCatchedNotification = @"kHKTrapWindowKeyCatched
           NSBeep();
         }
       }
-      id userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-        [NSNumber numberWithUnsignedShort:code], kHKEventKeyCodeKey,
-        [NSNumber numberWithUnsignedInt:mask], kHKEventModifierKey,
-        [NSNumber numberWithUnsignedShort:character], kHKEventCharacterKey,
+      NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+        SKUInt(code), kHKEventKeyCodeKey,
+        SKUInt(mask), kHKEventModifierKey,
+        SKUInt(character), kHKEventCharacterKey,
         nil];
       [[NSNotificationCenter defaultCenter] postNotificationName:kHKTrapWindowKeyCatchedNotification
                                                           object:self

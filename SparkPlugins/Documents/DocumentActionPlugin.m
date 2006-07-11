@@ -10,9 +10,13 @@
 #warning Debug defined in DocumentAction!
 #endif
 
+#import <ShadowKit/SKAppKitExtensions.h>
+
 #import "DocumentAction.h"
 #import "DocumentActionPlugin.h"
 #import "ApplicationMenu.h"
+
+volatile int SparkDocumentGDBWorkaround = 0;
 
 NSString * const kDocumentActionBundleIdentifier = @"org.shadowlab.spark.document";
 

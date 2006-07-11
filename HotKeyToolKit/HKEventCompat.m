@@ -2,8 +2,8 @@
  *  HKEventCompat.m
  *  HotKeyToolKit
  *
- *  Created by Grayfox on 02/07/06.
- *  Copyright 2006 Shadow Lab. All rights reserved.
+ *  Created by Grayfox.
+ *  Copyright 2004-2006 Shadow Lab. All rights reserved.
  */
 
 #include "HKEvent.h"

@@ -1,10 +1,10 @@
-//
-//  KeyCodeFunctions.m
-//  Short-Cut
-//
-//  Created by Fox on Tue Dec 09 2003.
-//  Copyright (c) 2004 Shadow Lab. All rights reserved.
-//
+/*
+ *  KeyCodeFunctions.m
+ *  HotKeyToolKit
+ *
+ *  Created by Grayfox.
+ *  Copyright 2004-2006 Shadow Lab. All rights reserved.
+ */
 
 #include <Carbon/Carbon.h>
 

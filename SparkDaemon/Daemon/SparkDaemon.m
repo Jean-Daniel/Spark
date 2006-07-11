@@ -16,7 +16,7 @@
 
 #if defined (DEBUG)
 #warning Debug defined in Spark Daemon!
-#import <HotKeyToolKit/HotKeyToolKit.h>
+#include <ShadowKit/ShadowAEUtils.h>
 #endif
 
 int main(int argc, const char *argv[]) {
@@ -62,7 +62,6 @@ int main(int argc, const char *argv[]) {
         @"1", @"NSScriptingDebugLogLevel",
         nil]];
 #endif
-      [SparkLibraryObject setLoadUI:NO];
       [NSApp setDelegate:self];
       
       int delay = 0;
@@ -110,47 +109,6 @@ int main(int argc, const char *argv[]) {
   [[NSConnection defaultConnection] invalidate];
   [super dealloc];
 }
-
-//- (BOOL)setPlugInPath {
-//  BOOL result = NO;
-//  CFBundleRef spark = nil;
-//  id path = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"../../../"];
-//  CFURLRef sparkUrl = CFURLCreateWithFileSystemPath(kCFAllocatorDefault,(CFStringRef)path, kCFURLPOSIXPathStyle, YES);
-//  if (sparkUrl) {
-//    spark = CFBundleCreate(kCFAllocatorDefault, sparkUrl);
-//    if (spark) {
-//      CFStringRef identifier = CFBundleGetIdentifier(spark);
-//      if (identifier && CFEqual(identifier, kSparkBundleIdentifier)) {
-//        CFStringRef plugPath = nil;
-//        CFURLRef plugUrl = CFBundleCopyBuiltInPlugInsURL(spark);
-//        if (plugUrl) {
-//          plugPath = CFURLCopyFileSystemPath(plugUrl, kCFURLPOSIXPathStyle);
-//          CFRelease(plugUrl);
-//          plugUrl = nil;
-//        }
-//        if (plugPath) {
-//          plugUrl = CFURLCreateCopyAppendingPathComponent(kCFAllocatorDefault, sparkUrl, plugPath, YES);
-//          CFRelease(plugPath);
-//          plugPath = nil;
-//        }
-//        if (plugUrl) {
-//          plugPath = CFURLCopyFileSystemPath(plugUrl, kCFURLPOSIXPathStyle);
-//          CFRelease(plugUrl);
-//          plugUrl = nil;
-//        }
-//        if (plugPath) {
-//          result = YES;
-//          [SparkActionLoader setBuildInPath:(id)plugPath];
-//          CFRelease(plugPath);
-//          plugPath = nil;
-//        }
-//      }
-//      CFRelease(spark);
-//    }
-//    CFRelease(sparkUrl);
-//  }
-//  return result;
-//}
 
 - (void)checkActions {
   CFBooleanRef blockAlertRef = CFPreferencesCopyAppValue((CFStringRef)@"SDBlockAlertOnLoad", (CFStringRef)kSparkBundleIdentifier);

@@ -13,13 +13,17 @@
 #import "ApplicationAction.h"
 #import "ApplicationActionPlugin.h"
 
+#import <ShadowKit/SKExtensions.h>
+
+volatile int SparkApplicationGDBWorkaround = 0;
+
 NSString * const kApplicationActionBundleIdentifier = @"org.shadowlab.spark.application";
 
 @implementation ApplicationActionPlugin
 
 + (void)initialize {
-  [self setKeys:[NSArray arrayWithObject:@"appAction"] triggerChangeNotificationsForDependentKey:@"useFrontApplication"];
-  [self setKeys:[NSArray arrayWithObject:@"appAction"] triggerChangeNotificationsForDependentKey:@"displayLaunchOptions"];
+  [self setKeys:[NSArray arrayWithObject:@"action"] triggerChangeNotificationsForDependentKey:@"useFrontApplication"];
+  [self setKeys:[NSArray arrayWithObject:@"action"] triggerChangeNotificationsForDependentKey:@"displayLaunchOptions"];
 }
 
 - (void)dealloc {
@@ -29,22 +33,22 @@ NSString * const kApplicationActionBundleIdentifier = @"org.shadowlab.spark.appl
 }
 /*===============================================*/
 
-- (void)loadSparkAction:(id)sparkAction toEdit:(BOOL)edit {
+- (void)loadSparkAction:(ApplicationAction *)sparkAction toEdit:(BOOL)edit {
   [super loadSparkAction:sparkAction toEdit:edit];
   if (edit) {
     id undo = [self undoManager];
     [undo registerUndoWithTarget:self selector:@selector(setAppPath:) object:[sparkAction path]];
-    [[undo prepareWithInvocationTarget:self] setAppAction:[sparkAction appAction]];
+    [(ApplicationActionPlugin *)[undo prepareWithInvocationTarget:self] setAction:[sparkAction action]];
     [self setFlags:[sparkAction flags]];
     [self setAppPath:[sparkAction path]];
-    [self setAppAction:[sparkAction appAction]];
+    [self setAction:[sparkAction action]];
   } else {
-    [self setAppAction:kOpenActionTag];
+    [self setAction:kOpenActionTag];
   }
 }
 
 - (NSAlert *)sparkEditorShouldConfigureAction {
-  if (([self appAction] != kHideFrontTag && [self appAction] != kHideAllTag) && ![self appPath]) {
+  if (([self action] != kHideFrontTag && [self action] != kHideAllTag) && ![self appPath]) {
     return [NSAlert alertWithMessageText:NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_APPLICATION_ALERT", nil, ApplicationActionBundle,
                                                                             @"Create Action without Application Error * Title *")
                            defaultButton:NSLocalizedStringFromTableInBundle(@"OK", nil, ApplicationActionBundle,
@@ -61,9 +65,9 @@ NSString * const kApplicationActionBundleIdentifier = @"org.shadowlab.spark.appl
 
 - (void)configureAction {
   [super configureAction];
-  ApplicationAction *appAction = [self sparkAction];
-  [appAction setFlags:flags];
-  [appAction setShortDescription:[self actionDescription:appAction]];
+  ApplicationAction *action = [self sparkAction];
+  [action setFlags:flags];
+  [action setShortDescription:[self actionDescription:action]];
 }
 
 #pragma mark -
@@ -93,16 +97,16 @@ NSString * const kApplicationActionBundleIdentifier = @"org.shadowlab.spark.appl
 /*===============================================*/
 
 - (BOOL)useFrontApplication {
-  return [self appAction] == kHideFrontTag || [self appAction] == kHideAllTag;
+  return [self action] == kHideFrontTag || [self action] == kHideAllTag;
 }
 
 - (BOOL)displayLaunchOptions {
-  return [self appAction] != kOpenActionTag && [self appAction] != kOpenCloseActionTag;
+  return [self action] != kOpenActionTag && [self action] != kOpenCloseActionTag;
 }
 
 - (NSString *)actionDescription:(id)key {
   id act;
-  switch ([self appAction]) {
+  switch ([self action]) {
     case kHideFrontTag:
       act = NSLocalizedStringFromTableInBundle(@"DESC_HIDE_FRONT", nil,ApplicationActionBundle,
                                                @"Hide Front Applications * Action Description *");
@@ -172,12 +176,12 @@ NSString * const kApplicationActionBundleIdentifier = @"org.shadowlab.spark.appl
   }
 }
 
-- (int)appAction {
-  return [[self sparkAction] appAction];
+- (int)action {
+  return (int)[[self sparkAction] action];
 }
 
-- (void)setAppAction:(int)newAction {
-  [[self sparkAction] setAppAction:newAction];
+- (void)setAction:(int)newAction {
+  [(ApplicationAction *)[self sparkAction] setAction:newAction];
   if ([self useFrontApplication]) {
     [self setAppName:nil];
     [self setAppIcon:nil];

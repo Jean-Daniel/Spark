@@ -6,19 +6,19 @@
 //  Copyright (c) 2004 Shadow Lab. All rights reserved.
 //
 
-#import <SparkKit/SparkKit_API.h>
+#import <SparkKit/SparkPluginAPI.h>
 
 @class SKBezelItem, SKApplicationAlias;
 @interface ApplicationAction : SparkAction <NSCoding, NSCopying> {
   @private
   int sa_flags;
-  int sa_appAction;
+  int sa_action;
   SKBezelItem *sa_bezel;
   SKApplicationAlias *sa_alias;
 }
 
-- (NSString *)sign;
-- (NSString *)bundleId;
+- (OSType)signature;
+- (NSString *)bundleIdentifier;
 
 - (NSString *)path;
 - (void)setPath:(NSString *)path;
@@ -26,8 +26,8 @@
 - (int)flags;
 - (void)setFlags:(int)flags;
 
-- (int)appAction;
-- (void)setAppAction:(int)action;
+- (int)action;
+- (void)setAction:(int)action;
 
 - (SKApplicationAlias *)alias;
 - (void)setAlias:(SKApplicationAlias *)alias;

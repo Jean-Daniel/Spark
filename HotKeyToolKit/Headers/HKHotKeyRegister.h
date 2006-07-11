@@ -1,10 +1,10 @@
-//
-//  SKHotKeyRegister.h
-//  Spark
-//
-//  Created by Fox on Sun Dec 14 2003.
-//  Copyright (c) 2004 Shadow Lab. All rights reserved.
-//
+/*
+ *  HKHotKeyRegister.h
+ *  HotKeyToolKit
+ *
+ *  Created by Grayfox.
+ *  Copyright 2004-2006 Shadow Lab. All rights reserved.
+ */
 /*!
     @header HKHotKeyRegister
 */

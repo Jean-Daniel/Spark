@@ -11,7 +11,7 @@
 
 #include <SparkKit/SparkKit.h>
 #include "SparkAppleScriptSuite.h"
-#include <ApplicationServices/ApplicationServices.h>
+#include <ShadowKit/ShadowAEUtils.h>
 
 OSStatus GetEditorIsTrapping(Boolean *trapping) {
   ProcessSerialNumber psn;

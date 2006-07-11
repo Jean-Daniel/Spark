@@ -8,6 +8,7 @@
  */
 
 #include "ITunesAESuite.h"
+#include <ShadowKit/ShadowAEUtils.h>
 
 const OSType kITunesSignature = 'hook';
 

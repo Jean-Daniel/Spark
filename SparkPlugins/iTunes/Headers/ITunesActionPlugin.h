@@ -6,10 +6,10 @@
 //  Copyright (c) 2004 Shadow Lab. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
-#import <SparkKit/SparkKit.h>
+#import <SparkKit/SparkPluginAPI.h>
 
-extern NSString * const kiTunesActionBundleIdentifier;
+SPARK_PRIVATE
+NSString * const kiTunesActionBundleIdentifier;
 
 #define kiTunesActionBundle		[NSBundle bundleWithIdentifier:kiTunesActionBundleIdentifier]
 

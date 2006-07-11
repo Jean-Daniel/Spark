@@ -15,15 +15,10 @@
             SUPERCLASS = NSObject; 
         }, 
         {
-            ACTIONS = {
-                checkForNewVersion = id; 
-                openListWindow = id; 
-                openPreferences = id; 
-                showPlugInHelp = id; 
-            }; 
+            ACTIONS = {checkForNewVersion = id; showPlugInHelp = id; showPreferences = id; }; 
             CLASS = Spark; 
             LANGUAGE = ObjC; 
-            OUTLETS = {aboutMenu = NSMenu; exportView = NSView; }; 
+            OUTLETS = {aboutMenu = NSMenu; }; 
             SUPERCLASS = NSObject; 
         }
     ); 

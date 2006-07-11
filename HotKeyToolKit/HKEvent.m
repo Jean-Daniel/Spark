@@ -2,8 +2,8 @@
  *  HKEvent.m
  *  HotKeyToolKit
  *
- *  Created by Grayfox on 02/07/06.
- *  Copyright 2006 Shadow Lab. All rights reserved.
+ *  Created by Grayfox.
+ *  Copyright 2004-2006 Shadow Lab. All rights reserved.
  */
 
 #import "HKEvent.h"
@@ -24,7 +24,7 @@ static Boolean HKEventCompat = NO;
 
 static void __HKEventInitialize() __attribute__((constructor));
 static void __HKEventInitialize() {
-  if (CGEventCreateKeyboardEvent) {
+  if (CGEventCreateKeyboardEvent != NULL) {
     _HKEventPostKeyStroke = __HKEventPostKeystroke;
   } else {
     HKEventCompat = YES;
@@ -107,7 +107,7 @@ static
 Boolean __HKEventPostCharacterKeystrokes(UniChar character, CGEventSourceRef source, void *psn) {
   /* WARNING: look like CGEvent does not support null source */
   BOOL isource = NO;
-  if (!source && CGEventSourceCreate) {
+  if (!source && CGEventSourceCreate != NULL) {
     isource = YES;
     source = CGEventSourceCreate(kCGEventSourceStatePrivate);
   }

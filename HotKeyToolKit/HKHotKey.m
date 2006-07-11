@@ -1,10 +1,10 @@
-//
-//  HKHotKey.m
-//  Spark
-//
-//  Created by Fox on Mon Jan 05 2004.
-//  Copyright (c) 2004 Shadow Lab. All rights reserved.
-//
+/*
+ *  HKHotKey.m
+ *  HotKeyToolKit
+ *
+ *  Created by Grayfox.
+ *  Copyright 2004-2006 Shadow Lab. All rights reserved.
+ */
 
 #import "HKHotKey.h"
 
@@ -130,11 +130,12 @@ volatile int HKGDBWorkaround = 0;
   return ([self character] != kHKNilUnichar) && ([self keycode] != kHKInvalidVirtualKeyCode);
 }
 
-- (NSString*)shortCut {
+- (NSString*)shortcut {
   return HKMapGetStringRepresentationForCharacterAndModifier([self character], 
                                                              HKUtilsConvertModifier(hk_mask, kHKModifierFormatCocoa, kHKModifierFormatNative));
 }
-- (void)setShortCut:(NSString *)sc {
+/* KVC compliance */
+- (void)setShortcut:(NSString *)sc {
 #pragma unused(sc)
 }
 

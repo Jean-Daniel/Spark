@@ -1,0 +1,43 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = NSObject; LANGUAGE = ObjC; }, 
+        {CLASS = SEBackgroundView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
+        {
+            CLASS = SELibraryWindow; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                appSource = SKTableDataSource; 
+                appTable = SKTableView; 
+                search = NSSearchField; 
+                triggers = SETriggersController; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {CLASS = SESplitView; LANGUAGE = ObjC; SUPERCLASS = NSSplitView; }, 
+        {CLASS = SETableView; LANGUAGE = ObjC; SUPERCLASS = SKTableView; }, 
+        {CLASS = SETableViewCell; LANGUAGE = ObjC; SUPERCLASS = SKImageAndTextCell; }, 
+        {
+            CLASS = SETriggersController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {outline = SKOutlineView; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = SKImageAndTextCell; LANGUAGE = ObjC; SUPERCLASS = NSTextFieldCell; }, 
+        {CLASS = SKOutlineView; LANGUAGE = ObjC; SUPERCLASS = NSOutlineView; }, 
+        {CLASS = SKShadowLabel; LANGUAGE = ObjC; SUPERCLASS = NSTextField; }, 
+        {
+            ACTIONS = {search = id; }; 
+            CLASS = SKTableDataSource; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSArrayController; 
+        }, 
+        {
+            ACTIONS = {delete = id; }; 
+            CLASS = SKTableView; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSTableView; 
+        }
+    ); 
+    IBVersion = 1; 
+}

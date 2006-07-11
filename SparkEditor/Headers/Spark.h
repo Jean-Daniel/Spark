@@ -6,24 +6,29 @@
 //  Copyright (c) 2004 Shadow Lab. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
-#import "SparkExporter.h"
-#import "SparkServerProtocol.h"
+//#import "SparkExporter.h"
+#import "SparkAppleScriptSuite.h"
 
 @class SparkLibrary;
+@class SELibraryWindow;
+@class SEPreferencesWindow;
+
+@interface SparkEditor : NSApplication {
+}
+
+@end
+
+
 @interface Spark : NSObject {
   IBOutlet NSMenu *aboutMenu;
-  /* Export List */
-  IBOutlet NSView *exportView;
-  SparkExportFormat exportFormat;
+  SELibraryWindow *se_mainWindow;
   
   /* Global windows */
-  id libraryWindow;
-  id prefWindows;
-  id plugInHelpWindow;
+  SEPreferencesWindow *se_preferences;
+//  id plugInHelpWindow;
   
 /* Scripting Addition */
-  DaemonStatus serverState;
+  DaemonStatus se_serverState;
 }
 
 #pragma mark Restart Functions
@@ -32,20 +37,21 @@
 
 #pragma mark Menu IBActions
 - (IBAction)startStopServer:(id)sender;
-- (IBAction)openInspector:(id)sender;
-- (IBAction)openPreferences:(id)sender;
-- (IBAction)openLibraryWindow:(id)sender;
+//- (IBAction)openInspector:(id)sender;
+- (IBAction)showPreferences:(id)sender;
+
+- (IBAction)showMainWindow:(id)sender;
 
 #pragma mark Import/Export Support
-- (IBAction)importLibrary:(id)sender;
+//- (IBAction)importLibrary:(id)sender;
 
 #pragma mark PlugIn Help Support
-- (id)plugInHelpWindow;
+//- (id)plugInHelpWindow;
 - (IBAction)showPlugInHelp:(id)sender; 
 - (void)showPlugInHelpPage:(NSString *)page;
 
 #pragma mark Live Update Support
-- (IBAction)checkForNewVersion:(id)sender;
+//- (IBAction)checkForNewVersion:(id)sender;
 
 - (void)createAboutMenu;
 #if defined (DEBUG)

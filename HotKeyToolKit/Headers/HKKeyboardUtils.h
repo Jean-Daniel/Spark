@@ -1,10 +1,9 @@
 /*
- *  UCKeyboardUtils.h
+ *  HKKeyboardUtils.h
  *  HotKeyToolKit
  *
- *  Created by Fox on Wed Mar 10 2004.
- *  Copyright (c) 2004 Shadow Lab. All rights reserved.
- *
+ *  Created by Grayfox.
+ *  Copyright 2004-2006 Shadow Lab. All rights reserved.
  */
 /*!
     @header		HKKeyboardUtils

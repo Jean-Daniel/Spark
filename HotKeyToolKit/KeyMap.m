@@ -1,10 +1,9 @@
 /*
- *  KeyMap.c
- *  Short-Cut
+ *  KeyMap.m
+ *  HotKeyToolKit
  *
- *  Created by Fox on Tue Dec 09 2003.
- *  Copyright (c) 2004 Shadow Lab. All rights reserved.
- *
+ *  Created by Grayfox.
+ *  Copyright 2004-2006 Shadow Lab. All rights reserved.
  */
 
 #include <Carbon/Carbon.h>

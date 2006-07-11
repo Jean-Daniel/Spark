@@ -6,10 +6,11 @@
 //  Copyright (c) 2004 Shadow Lab. All rights reserved.
 //
 
-#import <SparkKit/SparkKit.h>
+
 #import "DocumentAction.h"
 
-extern NSString * const kDocumentActionBundleIdentifier;
+SPARK_PRIVATE
+NSString * const kDocumentActionBundleIdentifier;
 
 #define kDocumentActionBundle		[NSBundle bundleWithIdentifier:kDocumentActionBundleIdentifier]
 

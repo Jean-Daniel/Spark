@@ -1,10 +1,10 @@
-//
-//  HKHotKey.h
-//  Spark
-//
-//  Created by Fox on Mon Jan 05 2004.
-//  Copyright (c) 2004 Shadow Lab. All rights reserved.
-//
+/*
+ *  HKHotKey.h
+ *  HotKeyToolKit
+ *
+ *  Created by Grayfox.
+ *  Copyright 2004-2006 Shadow Lab. All rights reserved.
+ */
 /*!
 @header HKHotKey
  */
@@ -117,7 +117,7 @@ NSTimeInterval HKGetSystemKeyRepeatThreshold();
   @method
    @abstract Returns an NSString representation of the shortcut using symbolic characters when possible.
    */
-- (NSString*)shortCut;
+- (NSString*)shortcut;
 
 #pragma mark -
 #pragma mark iVar Accessors.

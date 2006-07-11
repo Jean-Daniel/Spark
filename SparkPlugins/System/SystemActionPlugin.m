@@ -11,6 +11,11 @@
 #endif
 
 #import "SystemActionPlugin.h"
+#import <ShadowKit/SKExtensions.h>
+#import <ShadowKit/SKFSFunctions.h>
+#import <ShadowKit/SKAppKitExtensions.h>
+
+volatile int SparkSystemGDBWorkaround = 0;
 
 @implementation SystemActionPlugin
 

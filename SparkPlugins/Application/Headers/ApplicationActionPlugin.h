@@ -6,9 +6,10 @@
 //  Copyright (c) 2004 Shadow Lab. All rights reserved.
 //
 
-#import <SparkKit/SparkKit.h>
+#import <SparkKit/SparkPluginAPI.h>
 
-extern NSString * const kApplicationActionBundleIdentifier;
+SPARK_PRIVATE
+NSString * const kApplicationActionBundleIdentifier;
 
 #define ApplicationActionBundle			[NSBundle bundleWithIdentifier:kApplicationActionBundleIdentifier]
 
@@ -40,8 +41,8 @@ enum {
 
 - (NSString *)actionDescription:(id)key;
 
-- (int)appAction;
-- (void)setAppAction:(int)newAction;
+- (int)action;
+- (void)setAction:(int)newAction;
 
 - (void)setFlags:(int)value;
 - (BOOL)dontSwitch;

@@ -11,6 +11,9 @@
 
 #import "ITunesAESuite.h"
 #import <ShadowKit/SKBezelItem.h>
+#import <ShadowKit/SKLSFunctions.h>
+#import <ShadowKit/ShadowAEUtils.h>
+#import <HotKeyToolKit/HotKeyToolKit.h>
 
 static NSString* const kITunesRateKey = @"iTunesTrackTrate";
 static NSString* const kITunesActionKey = @"iTunesAction";
@@ -223,7 +226,7 @@ See the PropertyList documentation to know more about it */
 }
 
 - (void)launchITunes {
-  [[NSWorkspace sharedWorkspace] launchApplication:SKFindApplicationWithSignature(@"hook")];
+  [[NSWorkspace sharedWorkspace] launchApplication:SKFindApplicationForSignature('hook')];
 }
 
 - (void)quitITunes {

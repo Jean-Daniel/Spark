@@ -6,7 +6,7 @@
 //  Copyright (c) 2004 Shadow Lab. All rights reserved.
 //
 
-#import "ScriptHandler.h"
+#import "SEScriptHandler.h"
 
 extern NSString * const kSparkListDidChangeNotification;
 extern NSString * const kSparkActionDidChangeNotification;
@@ -14,7 +14,6 @@ extern NSString * const kSparkHotKeyDidChangeNotification;
 extern NSString * const kSparkApplicationDidChangeNotification;
 
 extern NSString * const kSparkHotKeyStateDidChangeNotification;
-
 
 @interface ServerController : NSObject {
 

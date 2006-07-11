@@ -6,14 +6,20 @@
 //  Copyright (c) 2004 Shadow Lab. All rights reserved.
 //
 
-#ifndef __SPARK_SERVER_PROTOCOL
-#define __SPARK_SERVER_PROTOCOL
+#if !defined(__SPARK_SERVER_PROTOCOL_H)
+#define __SPARK_SERVER_PROTOCOL_H 1
 
 #import "SparkAppleScriptSuite.h"
 
-#ifdef __OBJC__
+enum {
+  kSparkActionObjectType = 'acti',
+  kSparkTriggerObjectType = 'trig',
+  kSparkApplicationObjectType = 'appl'
+};
 
-#ifdef DEBUG
+#if defined(__OBJC__)
+
+#if defined(DEBUG)
 #define kSparkConnectionName		@"SparkServer_Debug"
 #else
 #define kSparkConnectionName		@"SparkServer"
@@ -23,25 +29,14 @@
 
 - (oneway void)shutDown;
 
-- (oneway void)addList:(bycopy id)plist;
-- (oneway void)updateList:(bycopy id)plist;
-- (oneway void)removeList:(unsigned)uid;
+- (oneway void)addObject:(bycopy id)plist type:(in OSType)type;
+- (oneway void)updateObject:(bycopy id)plist type:(in OSType)type;
+- (oneway void)removeObject:(in UInt32)uid type:(in OSType)type;
 
-- (oneway void)addAction:(bycopy id)plist;
-- (oneway void)updateAction:(bycopy id)plist;
-- (oneway void)removeAction:(unsigned)uid;
-
-- (oneway void)addHotKey:(bycopy id)plist;
-- (oneway void)updateHotKey:(bycopy id)plist;
-- (oneway void)removeHotKey:(unsigned)uid;
-- (BOOL)setActive:(BOOL)flag forHotKey:(unsigned)keyUid;
-
-- (oneway void)addApplication:(bycopy id)plist;
-- (oneway void)updateApplication:(bycopy id)plist;
-- (oneway void)removeApplication:(unsigned)uid;
+//- (BOOL)setTrigger:(UInt32)uid enabled:(BOOL)flag;
 
 @end
 
-#endif  /* __OBJC__ */
+#endif /* __OBJC__ */
 
-#endif /* __SPARK_SERVER_PROTOCOL */
+#endif /* __SPARK_SERVER_PROTOCOL_H */

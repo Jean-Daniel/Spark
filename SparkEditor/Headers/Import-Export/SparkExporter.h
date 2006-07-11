@@ -14,8 +14,6 @@ extern NSString * const kSparkKeyFileExtension;
 extern const OSType kSparkListFileType;
 extern NSString * const kSparkListFileExtension;
 
-extern NSString * const kSparkLibraryFileExtension;
-
 extern NSString * const kSparkExportListKey;
 extern NSString * const kSparkExportListObjects;
 extern NSString * const kSparkExportListVersion;

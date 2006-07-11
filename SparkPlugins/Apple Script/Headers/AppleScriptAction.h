@@ -6,8 +6,7 @@
 //  Copyright (c) 2004 Shadow Lab. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import <SparkKit/SparkKit.h>
+#import <SparkKit/SparkPluginAPI.h>
 
 @class SKAlias;
 @interface AppleScriptAction : SparkAction <NSCoding, NSCopying> {

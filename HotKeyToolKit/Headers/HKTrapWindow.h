@@ -1,13 +1,13 @@
-//
-//  TrapField.h
-//  Short-Cut
-//
-//  Created by Fox on Thu Nov 27 2003.
-//  Copyright (c) 2004 Shadow Lab. All rights reserved.
-//
+/*
+ *  HKTrapWindow.h
+ *  HotKeyToolKit
+ *
+ *  Created by Grayfox.
+ *  Copyright 2004-2006 Shadow Lab. All rights reserved.
+ */
 /*!
     @header HKTrapWindow
-*/
+ */
 
 #import <Cocoa/Cocoa.h>
 
@@ -38,7 +38,6 @@ extern NSString * const kHKEventCharacterKey;
 			it set the value of this textField to the shortCut String Description.
 */
 @interface HKTrapWindow : NSWindow {
-  IBOutlet NSTextField *trapField;
 @private
   struct _hk_twFlags {
     unsigned int trap:1;
@@ -46,6 +45,7 @@ extern NSString * const kHKEventCharacterKey;
     unsigned int verify:1;
     unsigned int :5;
   } hk_twFlags;
+  NSTextField *hk_trapField;
 }
 
 - (BOOL)isTrapping;
@@ -71,7 +71,7 @@ extern NSString * const kHKEventCharacterKey;
     @abstract   This method permit to block some key equivalent and to handle others (like ESC key equivalent).
     @param      window The Trap Window.
     @param      theEvent 
-    @result     If return YES, key equivalents are handle as in normal Windows. If return NO they are not processed.
+    @result     If returns YES, key equivalents are handle as in normal Windows. If returns NO they are not processed.
 */
 - (BOOL)trapWindow:(HKTrapWindow *)window needPerformKeyEquivalent:(NSEvent *)theEvent;
 
@@ -81,7 +81,7 @@ extern NSString * const kHKEventCharacterKey;
  				Return YES to proceed the event and don't catch it.
     @param      window The Trap Window.
     @param      theEvent The event to proceed.
-    @result     if return YES, the event is proceed and not catch.
+    @result     if returns YES, the event is proceed and not catch.
 */
 - (BOOL)trapWindow:(HKTrapWindow *)window needProceedKeyEvent:(NSEvent *)theEvent;
 

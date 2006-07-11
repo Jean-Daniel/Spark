@@ -13,6 +13,10 @@
 #import "AppleScriptActionPlugin.h"
 #import "AppleScriptAction.h"
 
+#import <ShadowKit/SKAppKitExtensions.h>
+
+volatile int SparkAppleScriptGDBWorkaround = 0;
+
 enum {
   kSourceTab,
   kFileTab
@@ -85,7 +89,7 @@ NSString * const kASActionBundleIdentifier = @"org.shadowlab.spark.applescript";
 - (void)configureAction {
   AppleScriptAction *action = [self sparkAction];
   [action setName:[self name]];
-  [action setIcon:[[self class] plugInIcon]];
+  [action setIcon:[NSImage imageNamed:@"AppleScriptIcon" inBundle:AppleScriptActionBundle]];
   switch (tabIndex) {
     case kSourceTab:
       [action setScriptFile:nil]; // Au cas ou on mette à jour un clé.

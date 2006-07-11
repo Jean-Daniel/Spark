@@ -7,6 +7,8 @@
 //
 
 #import "SystemAction.h"
+#import <ShadowKit/SKFSFunctions.h>
+#import <ShadowKit/ShadowAEUtils.h>
 #import <ShadowKit/SKIOKitFunctions.h>
 
 static NSString * const 

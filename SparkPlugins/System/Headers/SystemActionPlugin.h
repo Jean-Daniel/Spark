@@ -6,7 +6,7 @@
 //  Copyright (c) 2004 Shadow Lab. All rights reserved.
 //
 
-#import <SparkKit/SparkKit.h>
+#import <SparkKit/SparkPluginAPI.h>
 #import "SystemAction.h"
 
 @interface SystemActionPlugin : SparkActionPlugIn {
