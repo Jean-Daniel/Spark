@@ -230,7 +230,7 @@ UniChar HKMapGetUnicharForKeycode(UInt32 keycode);
     @abstract   Returns the name of the current keyMap.
 */
 extern
-NSString* HKMapGetCurrentMapName();
+NSString* HKMapGetCurrentMapName(void);
 
 /*!
     @function 	HKStringRepresentationForCharacterAndModifier

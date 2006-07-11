@@ -17,7 +17,7 @@
  @result Returns the key repeat interval setted in "System Preferences".
  */
 extern
-NSTimeInterval HKGetSystemKeyRepeatInterval();
+NSTimeInterval HKGetSystemKeyRepeatInterval(void);
 
 /*!
 @function
@@ -25,7 +25,7 @@ NSTimeInterval HKGetSystemKeyRepeatInterval();
  @result Returns the initial key repeat interval setted in "System Preferences".
  */
 extern 
-NSTimeInterval HKGetSystemKeyRepeatThreshold();
+NSTimeInterval HKGetSystemKeyRepeatThreshold(void);
 
 /*!
 @class HKHotKey

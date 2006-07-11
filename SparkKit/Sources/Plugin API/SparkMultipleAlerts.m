@@ -9,6 +9,7 @@
 #import <ShadowKit/SKAppKitExtensions.h>
 
 #import <SparkKit/SparkAlert.h>
+#import <SparkKit/SparkActionPlugIn.h>
 #import <SparkKit/SparkMultipleAlerts.h>
 
 @interface SparkMultipleAlerts (Private)
@@ -79,7 +80,7 @@
   
   float deltaWin = 0;
   float deltaH = [self setText:[alert messageText] inField:messageText];
-  if (deltaH) {
+  if (SKFloatEquals(0, deltaH)) {
     NSRect frame = [[messageText enclosingScrollView] frame];
     frame.origin.y -= deltaH;
     frame.size.height += deltaH;
@@ -90,7 +91,7 @@
     deltaWin += deltaH;
   }
   deltaH = [self setText:[alert informativeText] inField:informativeText];
-  if (deltaH) {
+  if (SKFloatEquals(0, deltaH)) {
     NSRect frame = [[informativeText enclosingScrollView] frame];
     frame.origin.y -= deltaH;
     frame.size.height += deltaH;
@@ -177,16 +178,16 @@
   [self addAlert:alert];
 }
 
-- (void)insertAlert:(SparkAlert *)alert atIndex:(int)index {
-  [sp_alerts insertObject:alert atIndex:index];
+- (void)insertAlert:(SparkAlert *)alert atIndex:(int)anIndex {
+  [sp_alerts insertObject:alert atIndex:anIndex];
 }
 
 - (void)removeAlert:(SparkAlert *)alert {
   [sp_alerts removeObject:alert];
 }
 
-- (void)removeAlertAtIndex:(int)index {
-  [sp_alerts removeObjectAtIndex:index];
+- (void)removeAlertAtIndex:(int)anIndex {
+  [sp_alerts removeObjectAtIndex:anIndex];
 }
 
 - (void)removeAlerts:(NSArray *)alerts {

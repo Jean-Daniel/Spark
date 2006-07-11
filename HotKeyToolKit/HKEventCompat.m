@@ -17,6 +17,9 @@ void __HKEventPostKeyboardEvent(CGEventSourceRef source, CGKeyCode keycode, AXUI
     CGPostKeyboardEvent(0, keycode, down);
 }
 
+SK_PRIVATE
+void __HKEventCompatPostKeystroke(CGKeyCode keycode, CGEventFlags modifier, void *source, ProcessSerialNumber *psn);
+
 void __HKEventCompatPostKeystroke(CGKeyCode keycode, CGEventFlags modifier, void *source, ProcessSerialNumber *psn) {
   AXUIElementRef app = nil;
   

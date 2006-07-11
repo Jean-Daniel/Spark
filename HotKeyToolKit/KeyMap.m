@@ -55,7 +55,7 @@ void HKKeyMapRelease(HKKeyMapRef keymap) {
 
 #pragma mark -
 #pragma mark Public Functions Definition.
-OSStatus HKKeyMapValidate(HKKeyMapRef keyMap, Boolean *wasChanged) {
+OSStatus HKKeyMapCheckCurrentMap(HKKeyMapRef keyMap, Boolean *wasChanged) {
   SInt32 theID = CurrentKCHRId();
   if (theID != keyMap->identifier) {
     if (wasChanged)

@@ -157,12 +157,12 @@
   }
 }
 
-- (id)outlineView:(NSOutlineView *)outlineView child:(int)index ofItem:(id)item {
+- (id)outlineView:(NSOutlineView *)outlineView child:(int)anIndex ofItem:(id)item {
   if (!item) {
-    return [se_plugins objectAtIndex:index];
+    return [se_plugins objectAtIndex:anIndex];
   } else if ([item isKindOfClass:[SparkPlugIn class]]) {
     NSArray *entries = NSMapGet(se_entries, item);
-    return entries ? [entries objectAtIndex:index] : nil;
+    return entries ? [entries objectAtIndex:anIndex] : nil;
   } else {
     return nil;
   }

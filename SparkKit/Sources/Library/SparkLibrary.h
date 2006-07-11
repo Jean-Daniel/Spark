@@ -19,10 +19,10 @@ SPARK_EXPORT
 NSString * const kSparkLibraryDefaultFileName;
 
 SPARK_EXPORT
-NSString *SparkLibraryFolder();
+NSString *SparkLibraryFolder(void);
 
 SK_INLINE 
-NSString *SparkSharedLibraryPath() {
+NSString *SparkSharedLibraryPath(void) {
   return [SparkLibraryFolder() stringByAppendingPathComponent:kSparkLibraryDefaultFileName];
 }
 
@@ -34,16 +34,16 @@ enum {
 @class SparkLibrary, SparkObjectsLibrary;
 
 SPARK_EXPORT
-SparkLibrary *SparkSharedLibrary();
+SparkLibrary *SparkSharedLibrary(void);
 
 SPARK_EXPORT
-SparkObjectsLibrary *SparkSharedActionLibrary();
+SparkObjectsLibrary *SparkSharedActionLibrary(void);
 
 SPARK_EXPORT
-SparkObjectsLibrary *SparkSharedTriggerLibrary();
+SparkObjectsLibrary *SparkSharedTriggerLibrary(void);
 
 SPARK_EXPORT
-SparkObjectsLibrary *SparkSharedApplicationLibrary();
+SparkObjectsLibrary *SparkSharedApplicationLibrary(void);
 
 typedef struct _SparkEntry {
   UInt32 action;

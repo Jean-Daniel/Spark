@@ -22,7 +22,7 @@ void __HKEventCompatPostKeystroke(CGKeyCode keycode, CGEventFlags modifier, CGEv
 
 static Boolean HKEventCompat = NO;
 
-static void __HKEventInitialize() __attribute__((constructor));
+static void __HKEventInitialize(void) __attribute__((constructor));
 static void __HKEventInitialize() {
   if (CGEventCreateKeyboardEvent != NULL) {
     _HKEventPostKeyStroke = __HKEventPostKeystroke;

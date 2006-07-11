@@ -6,8 +6,8 @@
  *  Copyright 2004-2006 Shadow Lab. All rights reserved.
  */
 
-#import "HKTrapWindow.h"
 #import "HKKeyMap.h"
+#import "HKTrapWindow.h"
 #import "HKHotKeyManager.h"
 
 #pragma mark Constants Definition

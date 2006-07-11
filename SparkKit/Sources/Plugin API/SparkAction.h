@@ -29,7 +29,7 @@ enum {
  @result		Returns the system default time interval for repeat keys.
  */
 SPARK_EXPORT
-NSTimeInterval SparkGetDefaultKeyRepeatInterval();
+NSTimeInterval SparkGetDefaultKeyRepeatInterval(void);
 
 /*!
 @class 		SparkAction

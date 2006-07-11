@@ -133,7 +133,7 @@ static UInt32 UchrKeycodesForCharacter(UchrContext *ctxt, UniChar character, UIn
     imodifiers[count] = m;
     count++;
     if (d) {
-      flat = (int)NSMapGet(ctxt->stats, (void *)d);
+      flat = (UInt32)NSMapGet(ctxt->stats, (void *)d);
     } else {
       flat = 0;
     }
@@ -272,7 +272,7 @@ OSStatus HKKeyMapContextWithUchrData(const UCKeyboardLayout *layout, Boolean rev
   if (header->keyStateRecordsIndexOffset) {
     const UCKeyStateRecordsIndex *records = data + header->keyStateRecordsIndexOffset;
     for (idx=0; idx < records->keyStateRecordCount; idx++) {
-      int code = (int)NSMapGet(deadr, (void *)idx);
+      UInt32 code = (UInt32)NSMapGet(deadr, (void *)idx);
       if (0 == code) {
         NSLog(@"Unreachable block: %u", idx);
       } else {
