@@ -15,7 +15,7 @@
 			<enumerator name="ask" code="ask " description="Ask the user whether or not to save the file."/>
 		</enumeration>
 		<class name="application" code="capp" plural="applications">
-			<cocoa class="SparkApplication"/>
+			<cocoa class="SparkEditor"/>
 			<element type="window" access="r">
 				<cocoa key="orderedWindows"/>
 			</element>

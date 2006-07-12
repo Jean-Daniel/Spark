@@ -1,6 +1,7 @@
 {
     IBClasses = (
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = HKTrapWindow; LANGUAGE = ObjC; SUPERCLASS = NSWindow; }, 
         {
             ACTIONS = {cancel = id; ok = id; }; 
             CLASS = SEEntryEditor; 

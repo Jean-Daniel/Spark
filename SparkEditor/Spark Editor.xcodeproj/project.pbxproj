@@ -39,6 +39,9 @@
 		9824024F060C7B3100A0DB07 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 982401EB060C7B3000A0DB07 /* Localizable.strings */; };
 		9824025A060C7B3100A0DB07 /* Read First.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 98240201060C7B3000A0DB07 /* Read First.rtf */; };
 		9824025B060C7B3100A0DB07 /* shcts.html in Resources */ = {isa = PBXBuildFile; fileRef = 98240203060C7B3000A0DB07 /* shcts.html */; };
+		98418EA90A65968A003FD0D7 /* SEHotKeyTrap.h in Headers */ = {isa = PBXBuildFile; fileRef = 98418EA70A659689003FD0D7 /* SEHotKeyTrap.h */; };
+		98418EAA0A65968A003FD0D7 /* SEHotKeyTrap.m in Sources */ = {isa = PBXBuildFile; fileRef = 98418EA80A659689003FD0D7 /* SEHotKeyTrap.m */; };
+		98418FC40A659F80003FD0D7 /* SparkSuite.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 984BCE5F060C7EBD0043CDEA /* SparkSuite.sdef */; };
 		984196DF0A5E54740009A093 /* SETableView.h in Headers */ = {isa = PBXBuildFile; fileRef = 984196DD0A5E54740009A093 /* SETableView.h */; };
 		984196E00A5E54740009A093 /* SETableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 984196DE0A5E54740009A093 /* SETableView.m */; };
 		984199350A5E67BE0009A093 /* Add.png in Resources */ = {isa = PBXBuildFile; fileRef = 984199310A5E67BE0009A093 /* Add.png */; };
@@ -52,8 +55,6 @@
 		984BCE56060C7E990043CDEA /* LibraryFile.icns in Resources */ = {isa = PBXBuildFile; fileRef = 984BCE3E060C7E990043CDEA /* LibraryFile.icns */; };
 		984BCE57060C7E990043CDEA /* Plugin.icns in Resources */ = {isa = PBXBuildFile; fileRef = 984BCE3F060C7E990043CDEA /* Plugin.icns */; };
 		984BCE59060C7E990043CDEA /* Spark.icns in Resources */ = {isa = PBXBuildFile; fileRef = 984BCE41060C7E990043CDEA /* Spark.icns */; };
-		984DF18A06D8058200F86667 /* Spark Scripting.r in Rez */ = {isa = PBXBuildFile; fileRef = 984DF18906D8058200F86667 /* Spark Scripting.r */; };
-		984DF18C06D8058C00F86667 /* SparkSuite.scriptSuite in Resources */ = {isa = PBXBuildFile; fileRef = 984DF18B06D8058C00F86667 /* SparkSuite.scriptSuite */; };
 		985AF8D40A5C2CF900397FAA /* Spark Daemon.app in Copy Daemon */ = {isa = PBXBuildFile; fileRef = 650A68CE0A2B3947008769DF /* Spark Daemon.app */; };
 		985AF8E90A5C2D8300397FAA /* Spark.h in Headers */ = {isa = PBXBuildFile; fileRef = 984BCE6C060C7FEC0043CDEA /* Spark.h */; };
 		985AF9FB0A5C33D400397FAA /* SELibraryWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 985AF9FA0A5C33D400397FAA /* SELibraryWindow.m */; };
@@ -91,7 +92,6 @@
 		98F746160A5C576A003D4BE1 /* SESplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98F746150A5C576A003D4BE1 /* SESplitView.m */; };
 		98F747850A5C69A0003D4BE1 /* SEHeaderCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 98F747830A5C69A0003D4BE1 /* SEHeaderCell.h */; };
 		98F747860A5C69A0003D4BE1 /* SEHeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 98F747840A5C69A0003D4BE1 /* SEHeaderCell.m */; };
-		98F7E0680788823F000FC257 /* SparkSuite.scriptTerminology in Resources */ = {isa = PBXBuildFile; fileRef = 98F7E0670788823F000FC257 /* SparkSuite.scriptTerminology */; };
 		98FB0A630A5D09D400129126 /* SEBackgroundView.h in Headers */ = {isa = PBXBuildFile; fileRef = 98FB0A610A5D09D400129126 /* SEBackgroundView.h */; };
 		98FB0A640A5D09D400129126 /* SEBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98FB0A620A5D09D400129126 /* SEBackgroundView.m */; };
 		98FF14DC05EACAE90005F402 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98FF14DB05EACAE90005F402 /* WebKit.framework */; };
@@ -378,6 +378,8 @@
 		9837AA72071B0E7F0057584D /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/TableAlert.nib; sourceTree = "<group>"; };
 		9837AA74071B11130057584D /* TableAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableAlertController.m; sourceTree = "<group>"; };
 		9837AA76071B11240057584D /* TableAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableAlertController.h; sourceTree = "<group>"; };
+		98418EA70A659689003FD0D7 /* SEHotKeyTrap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEHotKeyTrap.h; sourceTree = "<group>"; };
+		98418EA80A659689003FD0D7 /* SEHotKeyTrap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEHotKeyTrap.m; sourceTree = "<group>"; };
 		984196BB0A5E52670009A093 /* System.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = System.tif; sourceTree = "<group>"; };
 		984196DD0A5E54740009A093 /* SETableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SETableView.h; sourceTree = "<group>"; };
 		984196DE0A5E54740009A093 /* SETableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SETableView.m; sourceTree = "<group>"; };
@@ -416,9 +418,7 @@
 		984BCE43060C7E990043CDEA /* LibraryIcon.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = LibraryIcon.tif; sourceTree = "<group>"; };
 		984BCE44060C7E990043CDEA /* PlugInListIcon.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = PlugInListIcon.tif; sourceTree = "<group>"; };
 		984BCE45060C7E990043CDEA /* Warning.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Warning.tiff; sourceTree = "<group>"; };
-		984BCE5E060C7EBD0043CDEA /* CustomCoreSuite.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = CustomCoreSuite.sdef; sourceTree = "<group>"; };
-		984BCE5F060C7EBD0043CDEA /* SparkEditorSuite.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SparkEditorSuite.sdef; sourceTree = "<group>"; };
-		984BCE60060C7EBD0043CDEA /* SparkSuite.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SparkSuite.sdef; sourceTree = "<group>"; };
+		984BCE5F060C7EBD0043CDEA /* SparkSuite.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.sdef; path = SparkSuite.sdef; sourceTree = "<group>"; };
 		984BCE66060C7FEC0043CDEA /* KeyLibraryList.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = KeyLibraryList.h; sourceTree = "<group>"; };
 		984BCE67060C7FEC0043CDEA /* ActionPlugInList.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ActionPlugInList.h; sourceTree = "<group>"; };
 		984BCE6A060C7FEC0043CDEA /* SEScriptHandler.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = SEScriptHandler.h; path = "../../Headers/Server Comm/SEScriptHandler.h"; sourceTree = "<group>"; };
@@ -435,8 +435,6 @@
 		984BCE7D060C7FEC0043CDEA /* KeysTableView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = KeysTableView.h; sourceTree = "<group>"; };
 		984BCE7E060C7FEC0043CDEA /* LibraryTableView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LibraryTableView.h; sourceTree = "<group>"; };
 		984BCE80060C7FEC0043CDEA /* PluginMenu.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PluginMenu.h; sourceTree = "<group>"; };
-		984DF18906D8058200F86667 /* Spark Scripting.r */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.rez; lineEnding = 1; name = "Spark Scripting.r"; path = "AppleScript Suite/spark/Spark Scripting.r"; sourceTree = SOURCE_ROOT; };
-		984DF18B06D8058C00F86667 /* SparkSuite.scriptSuite */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; lineEnding = 0; name = SparkSuite.scriptSuite; path = "AppleScript Suite/spark/SparkSuite.scriptSuite"; sourceTree = SOURCE_ROOT; };
 		98593CDF073EE728003BA845 /* ExporterUI.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ExporterUI.m; sourceTree = "<group>"; };
 		98593CE3073EE736003BA845 /* SparkExporter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SparkExporter.m; sourceTree = "<group>"; };
 		98593CF0073EE812003BA845 /* SparkExporter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SparkExporter.h; sourceTree = "<group>"; };
@@ -527,7 +525,6 @@
 		98F746150A5C576A003D4BE1 /* SESplitView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SESplitView.m; sourceTree = "<group>"; };
 		98F747830A5C69A0003D4BE1 /* SEHeaderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEHeaderCell.h; sourceTree = "<group>"; };
 		98F747840A5C69A0003D4BE1 /* SEHeaderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEHeaderCell.m; sourceTree = "<group>"; };
-		98F7E0670788823F000FC257 /* SparkSuite.scriptTerminology */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = SparkSuite.scriptTerminology; path = "AppleScript Suite/spark/SparkSuite.scriptTerminology"; sourceTree = SOURCE_ROOT; };
 		98FB0A610A5D09D400129126 /* SEBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEBackgroundView.h; sourceTree = "<group>"; };
 		98FB0A620A5D09D400129126 /* SEBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEBackgroundView.m; sourceTree = "<group>"; };
 		98FF14DB05EACAE90005F402 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = /System/Library/Frameworks/WebKit.framework; sourceTree = "<absolute>"; };
@@ -736,6 +733,7 @@
 				98F746150A5C576A003D4BE1 /* SESplitView.m */,
 				984196DE0A5E54740009A093 /* SETableView.m */,
 				98F747840A5C69A0003D4BE1 /* SEHeaderCell.m */,
+				98418EA80A659689003FD0D7 /* SEHotKeyTrap.m */,
 				98FB0A620A5D09D400129126 /* SEBackgroundView.m */,
 				9824019E060C7B0700A0DB07 /* PluginMenu.m */,
 				98C76E7D06FC213B0085EC78 /* ActionEditor.m */,
@@ -767,9 +765,6 @@
 				986F865D0707415800064694 /* Editors.strings */,
 				986F865207073F8200064694 /* Libraries.strings */,
 				982401EB060C7B3000A0DB07 /* Localizable.strings */,
-				984DF18906D8058200F86667 /* Spark Scripting.r */,
-				984DF18B06D8058C00F86667 /* SparkSuite.scriptSuite */,
-				98F7E0670788823F000FC257 /* SparkSuite.scriptTerminology */,
 				982401E1060C7B3000A0DB07 /* Credits.rtf */,
 				98240201060C7B3000A0DB07 /* Read First.rtf */,
 				98240203060C7B3000A0DB07 /* shcts.html */,
@@ -912,9 +907,7 @@
 		984BCE5D060C7EBD0043CDEA /* AppleScript Suite */ = {
 			isa = PBXGroup;
 			children = (
-				984BCE60060C7EBD0043CDEA /* SparkSuite.sdef */,
-				984BCE5F060C7EBD0043CDEA /* SparkEditorSuite.sdef */,
-				984BCE5E060C7EBD0043CDEA /* CustomCoreSuite.sdef */,
+				984BCE5F060C7EBD0043CDEA /* SparkSuite.sdef */,
 			);
 			path = "AppleScript Suite";
 			sourceTree = "<group>";
@@ -1117,6 +1110,7 @@
 				98F746130A5C575C003D4BE1 /* SESplitView.h */,
 				984196DD0A5E54740009A093 /* SETableView.h */,
 				98F747830A5C69A0003D4BE1 /* SEHeaderCell.h */,
+				98418EA70A659689003FD0D7 /* SEHotKeyTrap.h */,
 				98FB0A610A5D09D400129126 /* SEBackgroundView.h */,
 			);
 			name = Headers;
@@ -1211,6 +1205,7 @@
 				981A88B90A61967600753369 /* SEVirtualPlugIn.h in Headers */,
 				981A8A360A61A25800753369 /* SETriggerEntry.h in Headers */,
 				981A8A9B0A61A4D600753369 /* SEEntryEditor.h in Headers */,
+				98418EA90A65968A003FD0D7 /* SEHotKeyTrap.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1428,8 +1423,6 @@
 				986F865F0707415800064694 /* Editors.strings in Resources */,
 				986F865407073F8200064694 /* Libraries.strings in Resources */,
 				9824024F060C7B3100A0DB07 /* Localizable.strings in Resources */,
-				984DF18C06D8058C00F86667 /* SparkSuite.scriptSuite in Resources */,
-				98F7E0680788823F000FC257 /* SparkSuite.scriptTerminology in Resources */,
 				98E66CC60759FA7C0048A37D /* ActionSparkList.icns in Resources */,
 				98E66CC50759FA7C0048A37D /* ApplicationSparkList.icns in Resources */,
 				98E66CC40759FA7C0048A37D /* HotKeySparkList.icns in Resources */,
@@ -1450,6 +1443,7 @@
 				98DDEA060A61372800D76698 /* SEActionEditor.nib in Resources */,
 				981A8A6E0A61A3BB00753369 /* IgnoreAction.tif in Resources */,
 				981A8A950A61A49D00753369 /* SEEntryEditor.nib in Resources */,
+				98418FC40A659F80003FD0D7 /* SparkSuite.sdef in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1460,7 +1454,6 @@
 			isa = PBXRezBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				984DF18A06D8058200F86667 /* Spark Scripting.r in Rez */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1483,6 +1476,7 @@
 				981A88BA0A61967600753369 /* SEVirtualPlugIn.m in Sources */,
 				981A8A370A61A25800753369 /* SETriggerEntry.m in Sources */,
 				981A8A9F0A61A4E400753369 /* SEEntryEditor.m in Sources */,
+				98418EAA0A65968A003FD0D7 /* SEHotKeyTrap.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

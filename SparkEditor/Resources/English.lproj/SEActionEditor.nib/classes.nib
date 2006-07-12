@@ -9,10 +9,11 @@
                 application = NSTextField; 
                 icon = NSImageView; 
                 pluginView = NSView; 
-                trap = NSTextField; 
+                trap = SEHotKeyTrap; 
             }; 
             SUPERCLASS = SKViewController; 
         }, 
+        {CLASS = SEHotKeyTrap; LANGUAGE = ObjC; SUPERCLASS = NSControl; }, 
         {CLASS = SKImageAndTextCell; LANGUAGE = ObjC; SUPERCLASS = NSTextFieldCell; }, 
         {
             CLASS = SKViewController; 

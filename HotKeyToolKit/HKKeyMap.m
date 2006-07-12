@@ -171,7 +171,7 @@ NSString* HKMapGetCurrentMapName() {
 }
 
 NSString* HKMapGetStringRepresentationForCharacterAndModifier(UniChar character, UInt32 modifier) {
-  if (character != kHKNilUnichar) {
+  if (character && character != kHKNilUnichar) {
     return [HKMapGetModifierStringForMask(modifier) stringByAppendingString:HKMapGetStringForUnichar(character)];
   }
   return nil;

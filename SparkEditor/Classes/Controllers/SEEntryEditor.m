@@ -9,6 +9,9 @@
 #import "SEEntryEditor.h"
 #import "SEActionEditor.h"
 
+#import <SparkKit/SparkHotKey.h>
+#import <HotKeyToolKit/HotKeyToolKit.h>
+
 @implementation SEEntryEditor
 
 - (id)init {
@@ -39,6 +42,24 @@
 
 - (IBAction)cancel:(id)sender {
   [self close:sender];
+}
+
+#pragma mark Trap Delegate
+- (BOOL)trapWindow:(HKTrapWindow *)window needPerformKeyEquivalent:(NSEvent *)theEvent {
+  return SKFloatEquals([theEvent timestamp], 0);
+}
+
+- (BOOL)trapWindow:(HKTrapWindow *)window needProceedKeyEvent:(NSEvent *)theEvent {
+  if (kSparkEnableAllSingleKey == SparkKeyStrokeFilterMode) {
+    return NO;
+  } else {
+    UInt16 code = [theEvent keyCode];
+    UInt32 mask = [theEvent modifierFlags] & NSDeviceIndependentModifierFlagsMask;
+    return mask ? NO : (code == kVirtualEnterKey)
+      || (code == kVirtualReturnKey)
+      || (code == kVirtualEscapeKey)
+      || (code == kVirtualTabKey);
+  }
 }
 
 @end
