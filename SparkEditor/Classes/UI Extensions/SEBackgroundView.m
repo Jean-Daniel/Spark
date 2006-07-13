@@ -34,14 +34,12 @@ CGFunctionRef SEBackgroundShadingFunction(CGColorSpaceRef colorspace) {
 static NSImage *SETopShadingImage = nil;
 static NSImage *SEBottomShadingImage = nil;
 
-static NSColor *SEBottomLineColor = nil;
-static NSColor *SEBackgroundLineColor = nil;
-
 static const float se_top = 46;
 static const float se_bottom = 35;
 
 @implementation SEBackgroundView
 
+static
 NSImage *SECreateShadingImage(float height) {
   NSImage *img = [[NSImage alloc] initWithSize:NSMakeSize(128, height)];
   CGPoint startPoint = CGPointMake(0, 0), endPoint = CGPointMake(0, height);
@@ -63,9 +61,6 @@ NSImage *SECreateShadingImage(float height) {
 
 + (void)initialize {
   if ([SEBackgroundView class] == self) {
-    SEBottomLineColor = [[NSColor colorWithDeviceWhite:.2745 alpha:1] retain];
-    SEBackgroundLineColor = [[NSColor colorWithDeviceWhite:.978 alpha:1] retain];
-    
     SETopShadingImage = SECreateShadingImage(se_top);
     SEBottomShadingImage = SECreateShadingImage(se_bottom);
   }
@@ -107,10 +102,10 @@ NSImage *SECreateShadingImage(float height) {
   if (NSIntersectsRect(gradient, rect)) {
     [SEBottomShadingImage drawInRect:gradient fromRect:NSMakeRect(0, 0, 128, se_bottom) operation:NSCompositeSourceOver fraction:1];
 
-    [SEBackgroundLineColor setStroke];
+    CGContextSetGrayStrokeColor([[NSGraphicsContext currentContext] graphicsPort], .978, 1);
     [NSBezierPath strokeLineFromPoint:NSMakePoint(0, se_bottom - .5) toPoint:NSMakePoint(NSMaxX(bounds), se_bottom - .5)];
     
-    [SEBottomLineColor setStroke];
+    CGContextSetGrayStrokeColor([[NSGraphicsContext currentContext] graphicsPort], .2745, 1);
     [NSBezierPath strokeLineFromPoint:NSMakePoint(0, .5) toPoint:NSMakePoint(NSMaxX(bounds), .5)];
   }
 }

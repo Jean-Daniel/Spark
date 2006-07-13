@@ -251,5 +251,4 @@ NSString * const kDocumentActionBundleIdentifier = @"org.shadowlab.spark.documen
   }
 }
 
-
 @end

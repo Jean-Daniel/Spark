@@ -19,7 +19,7 @@ kScreenSaverEngine = @"/System/Library/Frameworks/ScreenSaver.framework/Resource
 NSString * const
 kSystemActionBundleIdentifier = @"org.shadowlab.spark.system";
 
-static void SystemFastLogOut();
+static void SystemFastLogOut(void);
 
 static NSString* const kSystemActionKey = @"SystemAction";
 

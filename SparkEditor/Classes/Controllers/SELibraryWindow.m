@@ -54,6 +54,13 @@ NSComparisonResult SparkAppCompare(id app1, id app2, void *source) {
   [header release];
   [appTable setCornerView:[[[SEHeaderCellCorner alloc] init] autorelease]];
   
+  header = [[SEHeaderCell alloc] initTextCell:@"Library"];
+  [header setAlignment:NSCenterTextAlignment];
+  [header setFont:[NSFont systemFontOfSize:11]];
+  [[[libraryTable tableColumns] objectAtIndex:0] setHeaderCell:header];
+  [header release];
+  [libraryTable setCornerView:[[[SEHeaderCellCorner alloc] init] autorelease]];
+  
   //[appTable registerForDraggedTypes:[NSArray arrayWithObjects:@"SparkApplicationDragType", nil]];
 }
 

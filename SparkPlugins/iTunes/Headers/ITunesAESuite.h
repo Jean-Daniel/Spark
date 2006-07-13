@@ -34,7 +34,7 @@ SK_PRIVATE
 OSStatus iTunesSetVolume(SInt16 volume);
 
 SK_PRIVATE
-CFArrayRef iTunesGetPlaylists();
+CFArrayRef iTunesGetPlaylists(void);
 SK_PRIVATE
 OSStatus   iTunesPlayPlaylist(CFStringRef name);
 

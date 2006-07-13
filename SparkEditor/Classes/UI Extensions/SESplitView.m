@@ -12,7 +12,6 @@ static NSImage *XECenterDividerImage = nil;
 static NSImage *XEVerticalDividerImage = nil;
 static NSImage *XEHorizontalDividerImage = nil;
 
-static NSColor *SparkSplitBackground = nil;
 @implementation SESplitView
 
 + (void)initialize {
@@ -20,8 +19,6 @@ static NSColor *SparkSplitBackground = nil;
     XECenterDividerImage = [[NSImage imageNamed:@"SESplitDot"] retain];
     XEVerticalDividerImage = [[NSImage imageNamed:@"SEVSplitBar"] retain];
     XEHorizontalDividerImage = [[NSImage imageNamed:@"SEHSplitBar"] retain];
-    
-    SparkSplitBackground = [[NSColor colorWithDeviceWhite:.933 alpha:1] retain];
   }
 }
 
@@ -47,7 +44,7 @@ static NSColor *SparkSplitBackground = nil;
     src.size = [background size];
     [background drawInRect:aRect fromRect:src operation:NSCompositeSourceOver fraction:1];
   } else {
-    [SparkSplitBackground setFill];
+    CGContextSetGrayStrokeColor([[NSGraphicsContext currentContext] graphicsPort], .933, 1);
     [NSBezierPath fillRect:aRect];
   }
   /* Draw the center image */

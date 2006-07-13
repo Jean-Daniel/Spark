@@ -191,6 +191,7 @@
 //      [cell setEnabled:NO];
     } else {
       [cell setTextColor:[NSColor blackColor]];
+      [cell setFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]];
     }
   } else {
     SETriggerEntry *entry = item;
@@ -198,9 +199,15 @@
       [cell setTransparent:NO];
 //      [cell setEnabled:YES];
     } else if ([se_app uid] != 0 && [[entry action] isEqualToLibraryObject:[se_defaults actionForTrigger:[entry trigger]]]) {
+      [cell setFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]];
       [cell setTextColor:[outlineView isRowSelected:[outlineView rowForItem:item]] ? [NSColor selectedControlTextColor] : [NSColor grayColor]];
     } else {
       [cell setTextColor:[NSColor blackColor]];
+      if ([se_app uid] == 0) {
+        [cell setFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]];
+      } else {
+        [cell setFont:[NSFont boldSystemFontOfSize:[NSFont smallSystemFontSize]]];
+      }
     }
   }
 }

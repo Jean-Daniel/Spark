@@ -12,7 +12,6 @@ static
 NSImage *SEHeaderCellCreateShading(float height, Boolean flipped);
 
 #pragma mark -
-static NSColor *SEHeaderLineColor = nil;
 static NSColor *SEHeaderTextColor = nil;
 static NSColor *SEHeaderShadowColor = nil;
 
@@ -27,7 +26,6 @@ static NSColor *SEHeaderShadowColor = nil;
 #pragma mark -
 + (void)initialize {
   if ([SEHeaderCell class] == self) {
-    SEHeaderLineColor = [[NSColor colorWithDeviceWhite:.400 alpha:1] retain];
     SEHeaderTextColor = [[NSColor colorWithDeviceWhite:0.80 alpha:1] retain];
     SEHeaderShadowColor = [[NSColor colorWithDeviceWhite:0.15 alpha:1] retain];
   }
@@ -39,10 +37,9 @@ static NSColor *SEHeaderShadowColor = nil;
 }
 
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {
-  [NSBezierPath setDefaultLineWidth:1];
-  [SEHeaderLineColor setStroke];
-  
   float y = NSMaxY(cellFrame) - 0.5;
+  [NSBezierPath setDefaultLineWidth:1];
+  CGContextSetGrayStrokeColor([[NSGraphicsContext currentContext] graphicsPort], .400, 1);
   [NSBezierPath strokeLineFromPoint:NSMakePoint(NSMinX(cellFrame), y) toPoint:NSMakePoint(NSMaxX(cellFrame), y)];  
   
   cellFrame.origin.y++;
@@ -75,7 +72,8 @@ static NSColor *SEHeaderShadowColor = nil;
   }
   [se_background compositeToPoint:NSMakePoint(0, 1) operation:NSCompositeSourceOver];
   
-  [SEHeaderLineColor setStroke];
+  [NSBezierPath setDefaultLineWidth:1];
+  CGContextSetGrayStrokeColor([[NSGraphicsContext currentContext] graphicsPort], .400, 1);
   [NSBezierPath strokeLineFromPoint:NSMakePoint(0, .5) toPoint:NSMakePoint(NSWidth(frame), .5)];
   
   [NSBezierPath strokeLineFromPoint:NSMakePoint(NSWidth(frame), 0) toPoint:NSMakePoint(NSWidth(frame), NSHeight(frame))];

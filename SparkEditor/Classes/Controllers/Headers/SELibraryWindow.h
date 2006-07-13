@@ -15,6 +15,8 @@
   IBOutlet NSSearchField *search;
   IBOutlet SKTableView *appTable;
   IBOutlet SKTableDataSource *appSource;
+  
+  IBOutlet SKTableView *libraryTable;
   IBOutlet SETriggersController *triggers;
 }
 

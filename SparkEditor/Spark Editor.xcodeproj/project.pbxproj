@@ -63,6 +63,13 @@
 		9867589E096B3F4200BB8A25 /* ShadowKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 986757DC096B3F2400BB8A25 /* ShadowKit.framework */; };
 		986F865407073F8200064694 /* Libraries.strings in Resources */ = {isa = PBXBuildFile; fileRef = 986F865207073F8200064694 /* Libraries.strings */; };
 		986F865F0707415800064694 /* Editors.strings in Resources */ = {isa = PBXBuildFile; fileRef = 986F865D0707415800064694 /* Editors.strings */; };
+		989044A60A667C1F0024EC52 /* SparkSuite.scriptSuite in Resources */ = {isa = PBXBuildFile; fileRef = 989044A30A667C1F0024EC52 /* SparkSuite.scriptSuite */; };
+		989044A70A667C1F0024EC52 /* Scripting.r in Rez */ = {isa = PBXBuildFile; fileRef = 989044A40A667C1F0024EC52 /* Scripting.r */; };
+		989044A80A667C1F0024EC52 /* SparkSuite.scriptTerminology in Resources */ = {isa = PBXBuildFile; fileRef = 989044A50A667C1F0024EC52 /* SparkSuite.scriptTerminology */; };
+		989045160A6689CC0024EC52 /* AddMini.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 9877192706D48E12008A7AE8 /* AddMini.tiff */; };
+		989045170A6689CD0024EC52 /* AddMini_Pressed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 9877192606D48E12008A7AE8 /* AddMini_Pressed.tiff */; };
+		989045180A6689D10024EC52 /* RemoveMini_Pressed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 9877192506D48E12008A7AE8 /* RemoveMini_Pressed.tiff */; };
+		989045190A6689D10024EC52 /* RemoveMini.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 9877192806D48E12008A7AE8 /* RemoveMini.tiff */; };
 		98920FEA0A5F012200A50A78 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 982401ED060C7B3000A0DB07 /* MainMenu.nib */; };
 		98B2C6C50A617AA200D9D719 /* SEScriptHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 98240186060C7B0700A0DB07 /* SEScriptHandler.m */; };
 		98B2C6C60A617AA500D9D719 /* SEScriptHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 984BCE6A060C7FEC0043CDEA /* SEScriptHandler.h */; };
@@ -470,6 +477,9 @@
 		988BDFA106FCF2C600DFEFA8 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/KeyLibrary.nib; sourceTree = "<group>"; };
 		988DD3AF06F1CE3C0067590D /* CustomOutlineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomOutlineView.m; sourceTree = "<group>"; };
 		988DD3B106F1CE510067590D /* CustomOutlineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomOutlineView.h; sourceTree = "<group>"; };
+		989044A30A667C1F0024EC52 /* SparkSuite.scriptSuite */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SparkSuite.scriptSuite; sourceTree = "<group>"; };
+		989044A40A667C1F0024EC52 /* Scripting.r */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.rez; path = Scripting.r; sourceTree = "<group>"; };
+		989044A50A667C1F0024EC52 /* SparkSuite.scriptTerminology */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SparkSuite.scriptTerminology; sourceTree = "<group>"; };
 		989BC6E706E8495900B01F3E /* ActionEditorController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionEditorController.m; sourceTree = "<group>"; };
 		989BC6E906E8496500B01F3E /* ActionEditorController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionEditorController.h; sourceTree = "<group>"; };
 		98A91DA8074F55460029D278 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/Importer.nib; sourceTree = "<group>"; };
@@ -907,7 +917,10 @@
 		984BCE5D060C7EBD0043CDEA /* AppleScript Suite */ = {
 			isa = PBXGroup;
 			children = (
+				989044A40A667C1F0024EC52 /* Scripting.r */,
 				984BCE5F060C7EBD0043CDEA /* SparkSuite.sdef */,
+				989044A30A667C1F0024EC52 /* SparkSuite.scriptSuite */,
+				989044A50A667C1F0024EC52 /* SparkSuite.scriptTerminology */,
 			);
 			path = "AppleScript Suite";
 			sourceTree = "<group>";
@@ -1444,6 +1457,12 @@
 				981A8A6E0A61A3BB00753369 /* IgnoreAction.tif in Resources */,
 				981A8A950A61A49D00753369 /* SEEntryEditor.nib in Resources */,
 				98418FC40A659F80003FD0D7 /* SparkSuite.sdef in Resources */,
+				989044A60A667C1F0024EC52 /* SparkSuite.scriptSuite in Resources */,
+				989044A80A667C1F0024EC52 /* SparkSuite.scriptTerminology in Resources */,
+				989045160A6689CC0024EC52 /* AddMini.tiff in Resources */,
+				989045170A6689CD0024EC52 /* AddMini_Pressed.tiff in Resources */,
+				989045180A6689D10024EC52 /* RemoveMini_Pressed.tiff in Resources */,
+				989045190A6689D10024EC52 /* RemoveMini.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1454,6 +1473,7 @@
 			isa = PBXRezBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				989044A70A667C1F0024EC52 /* Scripting.r in Rez */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

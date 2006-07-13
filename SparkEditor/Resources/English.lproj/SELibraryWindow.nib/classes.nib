@@ -9,6 +9,7 @@
             OUTLETS = {
                 appSource = SKTableDataSource; 
                 appTable = SKTableView; 
+                libraryTable = SKTableView; 
                 search = NSSearchField; 
                 triggers = SETriggersController; 
             }; 
