@@ -1,10 +1,11 @@
-//
-//  SparkKit.h
-//  Spark
-//
-//  Created by Fox on Sat Nov 29 2003.
-//  Copyright (c) 2004 Shadow Lab. All rights reserved.
-//
+/*
+ *  SparkKit.h
+ *  SparkKit
+ *
+ *  Created by Black Moon Team.
+ *  Copyright © 2004 - 2006 Shadow Lab. All rights reserved.
+ *
+ */
 
 #if !defined(__SPARKKIT_H)
 #define __SPARKKIT_H 1

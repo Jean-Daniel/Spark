@@ -1,10 +1,11 @@
-//
-//  HotKey.m
-//  Short-Cut
-//
-//  Created by Fox on Sat Nov 29 2003.
-//  Copyright (c) 2004 Shadow Lab. All rights reserved.
-//
+/*
+ *  SparkHotKey.m
+ *  SparkKit
+ *
+ *  Created by Black Moon Team.
+ *  Copyright © 2004 - 2006 Shadow Lab. All rights reserved.
+ *
+ */
 
 #import <ShadowKit/SKImageUtils.h>
 #import <ShadowKit/SKForwarding.h>

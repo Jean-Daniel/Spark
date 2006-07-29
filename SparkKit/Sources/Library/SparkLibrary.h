@@ -1,10 +1,11 @@
-//
-//  SparkLibrary.h
-//  SparkKit
-//
-//  Created by Grayfox on 18/11/2004.
-//  Copyright 2004 Shadow Lab. All rights reserved.
-//
+/*
+ *  SparkLibrary.h
+ *  SparkKit
+ *
+ *  Created by Black Moon Team.
+ *  Copyright © 2004 - 2006 Shadow Lab. All rights reserved.
+ *
+ */
 
 #import <SparkKit/SparkKit.h>
 #import <ShadowKit/SKCArray.h>

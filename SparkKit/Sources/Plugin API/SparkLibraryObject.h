@@ -1,9 +1,11 @@
-//
-//  SparkLibraryObject.h
-//
-//  Created by Fox on Fri Jan 23 2004.
-//  Copyright (c) 2004 Shadow Lab. All rights reserved.
-//
+/*
+ *  SparkLibraryObject.h
+ *  SparkKit
+ *
+ *  Created by Black Moon Team.
+ *  Copyright © 2004 - 2006 Shadow Lab. All rights reserved.
+ *
+ */
 
 /*!
 @header 	SparkLibraryObject.

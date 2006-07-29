@@ -1,10 +1,11 @@
-//
-//  SparkApplication.m
-//  SparkKit
-//
-//  Created by Grayfox on 16/09/04.
-//  Copyright 2004 Shadow Lab. All rights reserved.
-//
+/*
+ *  SparkApplication.m
+ *  SparkKit
+ *
+ *  Created by Black Moon Team.
+ *  Copyright © 2004 - 2006 Shadow Lab. All rights reserved.
+ *
+ */
 
 #import <SparkKit/SparkApplication.h>
 
@@ -82,6 +83,17 @@ static NSString * const kSparkApplicationKey = @"SparkApplication";
   [super dealloc];
 }
 
+- (BOOL)isEqual:(id)object {
+  if (self == object)
+    return YES;
+  else if ([object isKindOfClass:[SparkApplication class]])
+    return [sp_application isEqual:((SparkApplication *)object)->sp_application];
+  else return NO;
+}
+- (unsigned)hash {
+  return [sp_application hash];
+}
+
 #pragma mark -
 #pragma mark Accessors
 - (NSString *)path {
@@ -99,23 +111,23 @@ static NSString * const kSparkApplicationKey = @"SparkApplication";
   }
 }
 
-- (NSString *)identifier {
-  return [sp_application identifier];
-}
+//- (NSString *)identifier {
+//  return [sp_application identifier];
+//}
 
-- (NSString *)signature {
-  return ([sp_application idType] == kSKApplicationOSType) ? [sp_application identifier] : nil;
+- (OSType)signature {
+  return [sp_application signature];
 }
-- (void)setSignature:(NSString *)signature {
-  [sp_application setIdentifier:signature type:kSKApplicationOSType];
-}
-
+//- (void)setSignature:(NSString *)signature {
+//  [sp_application setIdentifier:signature type:kSKApplicationOSType];
+//}
+//
 - (NSString *)bundleIdentifier {
-  return ([sp_application idType] == kSKApplicationBundleIdentifier) ? [sp_application identifier] : nil;
+  return [sp_application bundleIdentifier];
 }
-- (void)setBundleIdentifier:(NSString *)identifier {
-  [sp_application setIdentifier:identifier type:kSKApplicationBundleIdentifier];
-}
+//- (void)setBundleIdentifier:(NSString *)identifier {
+//  [sp_application setIdentifier:identifier type:kSKApplicationBundleIdentifier];
+//}
 
 @end
 
@@ -146,43 +158,3 @@ static NSString * const kSKApplicationIdentifier = @"Identifier";
 }
 
 @end
-
-#pragma mark -
-//@implementation _SparkSystemApplication
-//
-//+ (id)application {
-//  return [[[self alloc] init] autorelease];
-//}
-//
-//- (id)init {
-//  if (self = [super init]) {
-//    [self setName:NSLocalizedStringFromTableInBundle(@"SYSTEM_APP_NAME",
-//                                                     nil, SKCurrentBundle(),
-//                                                     @"Default Application")];
-//    [self setIcon:[NSImage imageNamed:@"SystemApplication" inBundle:SKCurrentBundle()]];
-//  }
-//  return self;
-//}
-//
-//- (id)initFromPropertyList:(id)plist {
-//  if (self = [super initFromPropertyList:plist]) {
-//    [self setName:NSLocalizedStringFromTableInBundle(@"SYSTEM_APP_NAME",
-//                                                     nil, SKCurrentBundle(),
-//                                                     @"Default Application")];
-//    [self setIcon:[NSImage imageNamed:@"SystemApplication" inBundle:SKCurrentBundle()]];
-//  }
-//  return self;
-//}
-//
-//- (NSString *)identifier {
-//  return [self signature];
-//}
-//
-//- (NSString *)signature {
-//  return SKFileTypeForHFSTypeCode('****');
-//}
-//- (void)setBundleIdentifier:(NSString *)identifier {}
-//- (void)setSignature:(NSString *)sign {}
-//- (void)setPath:(NSString *)path {}
-//
-//@end

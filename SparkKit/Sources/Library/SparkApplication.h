@@ -1,15 +1,17 @@
-//
-//  SparkApplication.h
-//  SparkKit
-//
-//  Created by Grayfox on 16/09/04.
-//  Copyright 2004 Shadow Lab. All rights reserved.
-//
+/*
+ *  SparkApplication.h
+ *  SparkKit
+ *
+ *  Created by Black Moon Team.
+ *  Copyright © 2004 - 2006 Shadow Lab. All rights reserved.
+ *
+ */
 
 #import <SparkKit/SparkLibraryObject.h>
 
 @class SKApplication;
 @interface SparkApplication : SparkLibraryObject {
+  @private
   SKApplication *sp_application;
 }
 
@@ -18,11 +20,11 @@
 - (NSString *)path;
 - (void)setPath:(NSString *)path;
 
-- (NSString *)identifier;
+//- (NSString *)identifier;
 
-- (NSString *)signature;
-- (void)setSignature:(NSString *)signature;
+- (OSType)signature;
+//- (void)setSignature:(NSString *)signature;
 - (NSString *)bundleIdentifier;
-- (void)setBundleIdentifier:(NSString *)identifier;
+//- (void)setBundleIdentifier:(NSString *)identifier;
 
 @end

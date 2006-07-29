@@ -19,6 +19,8 @@
 		981EBC100A5AEF8F001C2FB3 /* SKSerialization.h in Headers */ = {isa = PBXBuildFile; fileRef = 981EBC0F0A5AEF8F001C2FB3 /* SKSerialization.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		981EBC1B0A5AEFC5001C2FB3 /* SKSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 981EBC1A0A5AEFC5001C2FB3 /* SKSerialization.m */; };
 		9825AFBC06FB76BD003A4088 /* ApplicationList.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 9825AFBB06FB76BD003A4088 /* ApplicationList.tiff */; };
+		982AF4210A7A80B700D17D65 /* SKEnumerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 982AF4200A7A80B700D17D65 /* SKEnumerator.m */; };
+		982AF4250A7A80C200D17D65 /* SKEnumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 982AF4240A7A80C200D17D65 /* SKEnumerator.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		983961E30606809200E0353D /* PluginIcon.tif in Resources */ = {isa = PBXBuildFile; fileRef = 983961E20606809200E0353D /* PluginIcon.tif */; };
 		983961E50606809E00E0353D /* SparkAction.tif in Resources */ = {isa = PBXBuildFile; fileRef = 983961E40606809E00E0353D /* SparkAction.tif */; };
 		983961E7060680AB00E0353D /* SparkKit.icns in Resources */ = {isa = PBXBuildFile; fileRef = 983961E6060680AB00E0353D /* SparkKit.icns */; };
@@ -187,6 +189,8 @@
 		981EBC0F0A5AEF8F001C2FB3 /* SKSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SKSerialization.h; sourceTree = "<group>"; };
 		981EBC1A0A5AEFC5001C2FB3 /* SKSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SKSerialization.m; sourceTree = "<group>"; };
 		9825AFBB06FB76BD003A4088 /* ApplicationList.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = ApplicationList.tiff; sourceTree = "<group>"; };
+		982AF4200A7A80B700D17D65 /* SKEnumerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKEnumerator.m; sourceTree = "<group>"; };
+		982AF4240A7A80C200D17D65 /* SKEnumerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKEnumerator.h; sourceTree = "<group>"; };
 		983961E20606809200E0353D /* PluginIcon.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = PluginIcon.tif; sourceTree = "<group>"; };
 		983961E40606809E00E0353D /* SparkAction.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SparkAction.tif; sourceTree = "<group>"; };
 		983961E6060680AB00E0353D /* SparkKit.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = SparkKit.icns; sourceTree = "<group>"; };
@@ -529,6 +533,7 @@
 			children = (
 				98725D1306CB9F1B0072B8E4 /* SKAlias.h */,
 				986AFA3206D65E1A00B84D2D /* SKApplication.h */,
+				982AF4240A7A80C200D17D65 /* SKEnumerator.h */,
 				981EBC0F0A5AEF8F001C2FB3 /* SKSerialization.h */,
 				65245F3B0A2AFE4D00ACB971 /* SKPluginLoader.h */,
 			);
@@ -540,6 +545,7 @@
 			children = (
 				98725D2206CB9F530072B8E4 /* Headers */,
 				98725D3706CB9FC60072B8E4 /* SKAlias.m */,
+				982AF4200A7A80B700D17D65 /* SKEnumerator.m */,
 				986AFA2F06D65E0800B84D2D /* SKApplication.m */,
 				981EBC1A0A5AEFC5001C2FB3 /* SKSerialization.m */,
 				65245F390A2AFE4200ACB971 /* SKPluginLoader.m */,
@@ -752,6 +758,7 @@
 				98E3B39C0A5BE11800FFF5E8 /* SKForwarding.h in Headers */,
 				98DAB1CD0A5E8C2100EB6CB3 /* SKOutlineView.h in Headers */,
 				98DDE9840A612E4D00D76698 /* SKViewController.h in Headers */,
+				982AF4250A7A80C200D17D65 /* SKEnumerator.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -952,6 +959,7 @@
 				980B128B0A5BAB9C008F6DBC /* SKCFContext.m in Sources */,
 				98DAB1CB0A5E8C1500EB6CB3 /* SKOutlineView.m in Sources */,
 				98DDE9820A612E4000D76698 /* SKViewController.m in Sources */,
+				982AF4210A7A80B700D17D65 /* SKEnumerator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

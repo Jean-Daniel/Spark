@@ -1,10 +1,11 @@
-//
-//  HotKeyConfig.m
-//  Short-Cut
-//
-//  Created by Fox on Mon Dec 08 2003.
-//  Copyright (c) 2004 Shadow Lab. All rights reserved.
-//
+/* 
+ *  SparkActionPlugIn.m
+ *  SparkKit
+ *
+ *  Created by Black Moon Team.
+ *  Copyright © 2004 - 2006 Shadow Lab. All rights reserved.
+ *
+ */
 
 #import "SparkPrivate.h"
 

@@ -1,10 +1,11 @@
-//
-//  PlugIns.m
-//  Spark
-//
-//  Created by Fox on Fri Dec 12 2003.
-//  Copyright (c) 2004 Shadow Lab. All rights reserved.
-//
+/*
+ *  SparkPlugIn.m
+ *  SparkKit
+ *
+ *  Created by Black Moon Team.
+ *  Copyright © 2004 - 2006 Shadow Lab. All rights reserved.
+ *
+ */
 
 #import "SparkPrivate.h"
 #import <SparkKit/SparkPlugIn.h>

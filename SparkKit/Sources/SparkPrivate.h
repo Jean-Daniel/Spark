@@ -1,9 +1,9 @@
 /*
- *  SparkActionPlugIn_Private.h
- *  Spark
+ *  SparkPrivate.h
+ *  SparkKit
  *
- *  Created by Fox on Sun Feb 29 2004.
- *  Copyright (c) 2004 Shadow Lab. All rights reserved.
+ *  Created by Black Moon Team.
+ *  Copyright © 2004 - 2006 Shadow Lab. All rights reserved.
  *
  */
 

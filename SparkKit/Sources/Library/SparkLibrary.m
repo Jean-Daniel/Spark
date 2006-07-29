@@ -1,10 +1,11 @@
-//
-//  SparkLibrary.m
-//  SparkKit
-//
-//  Created by Grayfox on 18/11/2004.
-//  Copyright 2004 Shadow Lab. All rights reserved.
-//
+/*
+ *  SparkLibrary.m
+ *  SparkKit
+ *
+ *  Created by Black Moon Team.
+ *  Copyright © 2004 - 2006 Shadow Lab. All rights reserved.
+ *
+ */
 
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkActionLoader.h>
@@ -385,7 +386,7 @@ bail:
     if (![class isEqualToString:@"_SparkSystemApplication"]) {
       SparkApplication *app = SKDeserializeObject(plist, nil);
       if (app && [app isKindOfClass:[SparkApplication class]]) {
-        if ([[app signature] isEqualToString:@"MACS"]) {
+        if ([app signature] == 'MACS') {
           finder = [app uid];
           [app setUID:1];
         } else {

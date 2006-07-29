@@ -1,10 +1,11 @@
-//
-//  SparkActionLoader.m
-//  Spark
-//
-//  Created by Fox on Thu Jan 22 2004.
-//  Copyright (c) 2004 Shadow Lab. All rights reserved.
-//
+/*
+ *  SparkActionLoader.m
+ *  SparkKit
+ *
+ *  Created by Black Moon Team.
+ *  Copyright © 2004 - 2006 Shadow Lab. All rights reserved.
+ *
+ */
 
 #import <SparkKit/SparkActionLoader.h>
 #import <SparkKit/SparkPlugIn.h>

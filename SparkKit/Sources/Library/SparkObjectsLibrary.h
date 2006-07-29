@@ -1,24 +1,24 @@
-//
-//  SparkObjectsLibrary.h
-//  Spark
-//
-//  Created by Fox on Fri Dec 12 2003.
-//  Copyright (c) 2004 Shadow Lab. All rights reserved.
-//
+/*
+ *  SparkObjectsLibrary.h
+ *  SparkKit
+ *
+ *  Created by Black Moon Team.
+ *  Copyright © 2004 - 2006 Shadow Lab. All rights reserved.
+ *
+ */
 
 #import <SparkKit/SparkKit.h>
 #import <SparkKit/SparkLibraryObject.h>
 
 /*!
 @class SparkObjectsLibrary
-@abstract   (description)
+@abstract Spark Objects Library.
 */
-
 @class SparkLibrary;
 @interface SparkObjectsLibrary : NSObject {
 @private
   UInt32 sp_uid;
-  CFMutableDictionaryRef sp_objects;
+  NSMapTable *sp_objects;
 
   SparkLibrary *sp_library;
 }
@@ -82,6 +82,6 @@ SPARK_EXPORT
 NSString * const kSparkNotificationObject;
 
 SPARK_INLINE
-id SparkNotificationObject(NSNotification *aNotification) {
+SparkLibraryObject *SparkNotificationObject(NSNotification *aNotification) {
   return [[aNotification userInfo] objectForKey:kSparkNotificationObject];
 }

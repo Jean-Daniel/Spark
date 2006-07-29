@@ -1,10 +1,11 @@
-//
-//  SparkMultipleAlerts.h
-//  Labo Test
-//
-//  Created by Fox on Sun Jul 25 2004.
-//  Copyright (c) 2004 __MyCompanyName__. All rights reserved.
-//
+/*
+ *  SparkMultipleAlerts.h
+ *  SparkKit
+ *
+ *  Created by Black Moon Team.
+ *  Copyright © 2004 - 2006 Shadow Lab. All rights reserved.
+ *
+ */
 
 #import <SparkKit/SparkKit.h>
 

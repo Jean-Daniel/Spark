@@ -1,10 +1,11 @@
-//
-//  SparkAlert.m
-//  SparkKit
-//
-//  Created by Fox on Wed Mar 17 2004.
-//  Copyright (c) 2004 Shadow Lab. All rights reserved.
-//
+/*
+ *  SparkAlert.m
+ *  SparkKit
+ *
+ *  Created by Black Moon Team.
+ *  Copyright © 2004 - 2006 Shadow Lab. All rights reserved.
+ *
+ */
 
 #import <SparkKit/SparkKit.h>
 #import <SparkKit/SparkAlert.h>

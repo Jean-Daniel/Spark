@@ -1,9 +1,9 @@
 /*
- *  SparkConstantes.c
+ *  SparkKit.m
  *  SparkKit
  *
- *  Created by Fox on 17/08/04.
- *  Copyright 2004 Shadow Lab. All rights reserved.
+ *  Created by Black Moon Team.
+ *  Copyright © 2004 - 2006 Shadow Lab. All rights reserved.
  *
  */
 

@@ -1,14 +1,14 @@
 /*
- *  HotKey.h
- *  Short-Cut
+ *  SparkHotKey.h
+ *  SparkKit
  *
- *  Created by Fox on Sat Nov 29 2003.
- *  Copyright (c) 2004 Shadow Lab. All rights reserved.
+ *  Created by Black Moon Team.
+ *  Copyright © 2004 - 2006 Shadow Lab. All rights reserved.
+ *
  */
-
 /*!
-@header 	SparkHotKey
-	@abstract   Define a HotKey.
+@header SparkHotKey
+ @abstract Define a SparkHotKey.
  */
 
 #import <SparkKit/SparkKit.h>

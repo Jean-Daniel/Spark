@@ -1,10 +1,11 @@
-//
-//  SparkAction.m
-//  SparkKit
-//
-//  Created by Fox on 31/08/04.
-//  Copyright 2004 Shadow Lab. All rights reserved.
-//
+/*
+ *  SparkAction.m
+ *  SparkKit
+ *
+ *  Created by Black Moon Team.
+ *  Copyright © 2004 - 2006 Shadow Lab. All rights reserved.
+ *
+ */
 
 #import "SparkPrivate.h"
 #import <SparkKit/SparkKit.h>

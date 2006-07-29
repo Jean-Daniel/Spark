@@ -1,23 +1,23 @@
-//
-//  SparkObjectsLibrary.m
-//  Spark
-//
-//  Created by Fox on Fri Dec 12 2003.
-//  Copyright (c) 2004 Shadow Lab. All rights reserved.
-//
+/*
+ *  SparkObjectsLibrary.m
+ *  SparkKit
+ *
+ *  Created by Black Moon Team.
+ *  Copyright © 2004 - 2006 Shadow Lab. All rights reserved.
+ *
+ */
 
 #import <SparkKit/SparkObjectsLibrary.h>
 
 #import <libkern/OSAtomic.h>
 #import <ShadowKit/SKCFContext.h>
+#import <ShadowKit/SKEnumerator.h>
 #import <ShadowKit/SKSerialization.h>
 #import <ShadowKit/SKAppKitExtensions.h>
 
 #import <SparkKit/SparkLibrary.h>
 
-static NSString * const kSparkLibraryVersionKey = @"SparkVersion";
-static NSString * const kSparkLibraryObjectsKey = @"SparkObjects";
-
+/* Notifications */
 NSString * const kSparkNotificationObject = @"SparkNotificationObject";
 
 NSString* const kSparkLibraryWillAddObjectNotification = @"SparkLibraryWillAddObject";
@@ -30,7 +30,14 @@ NSString* const kSparkLibraryWillRemoveObjectNotification = @"kSparkLibraryWillR
 NSString* const kSparkLibraryDidRemoveObjectNotification = @"SparkLibraryDidRemoveObject";
 
 #define kSparkLibraryVersion2_0		(UInt32)0x200
-static const unsigned int kSparkObjectsLibraryCurrentVersion = kSparkLibraryVersion2_0;
+static
+const unsigned int kSparkObjectsLibraryCurrentVersion = kSparkLibraryVersion2_0;
+
+/* Library Keys */
+static
+NSString * const kSparkLibraryVersionKey = @"SparkVersion";
+static
+NSString * const kSparkLibraryObjectsKey = @"SparkObjects";
 
 #pragma mark -
 @implementation SparkObjectsLibrary
@@ -50,14 +57,14 @@ static const unsigned int kSparkObjectsLibraryCurrentVersion = kSparkLibraryVers
   if (self = [super init]) {
     [self setLibrary:aLibrary];
     sp_uid = kSparkLibraryReserved;
-    sp_objects = CFDictionaryCreateMutable(kCFAllocatorDefault, 0, &kSKIntDictionaryKeyCallBacks, &kSKNSObjectDictionaryValueCallBacks);
+    sp_objects = NSCreateMapTable(NSIntMapKeyCallBacks, NSObjectMapValueCallBacks, 0);
   }
   return self;
 }
 
 - (void)dealloc {
   if (sp_objects)
-    CFRelease(sp_objects);
+    NSFreeMapTable(sp_objects);
   [super dealloc];
 }
 
@@ -77,43 +84,48 @@ static const unsigned int kSparkObjectsLibraryCurrentVersion = kSparkLibraryVers
 
 #pragma mark -
 - (UInt32)count {
-  return sp_objects ? CFDictionaryGetCount(sp_objects) : 0;
+  return sp_objects ? NSCountMapTable(sp_objects) : 0;
 }
 
 - (NSArray *)objects {
-  unsigned count = CFDictionaryGetCount(sp_objects);
-  SparkLibraryObject *values[count];
-  CFDictionaryGetKeysAndValues(sp_objects, NULL, (const void **)values);
-  return [NSArray arrayWithObjects:values count:count];
+  return sp_objects ? NSAllMapTableValues(sp_objects) : [NSArray array];
 }
 - (NSEnumerator *)objectEnumerator {
-  // Look like it works but not really safe with int key
-  //return [(id)sp_objects objectEnumerator];
-  return [[self objects] objectEnumerator];
+  return SKMapTableEnumerator(sp_objects, NO);
 }
 
 - (BOOL)containsObject:(SparkLibraryObject *)object {
-  return object ? CFDictionaryContainsKey(sp_objects, (void *)[object uid]) : NO;
+  return object ? NSMapMember(sp_objects, (void *)[object uid], NULL, NULL) : NO;
 }
 
 - (id)objectForUID:(UInt32)uid {
-  return uid ? (id)CFDictionaryGetValue(sp_objects, (void *)uid) : nil;
+  return uid ? (id)NSMapGet(sp_objects, (void *)uid) : nil;
 }
 
 #pragma mark -
+- (void)postNotification:(NSString *)name object:(SparkLibraryObject *)object {
+  [[NSNotificationCenter defaultCenter] postNotificationName:name
+                                                      object:self
+                                                    userInfo:object ? [NSDictionary dictionaryWithObject:object
+                                                                                                  forKey:kSparkNotificationObject] : nil
+    ];
+}
+
 - (BOOL)addObject:(SparkLibraryObject *)object {
   NSParameterAssert(object != nil);
   @try {
-    // Will add object
     if (![self containsObject:object]) {
       if (![object uid]) {
         [object setUID:[self nextUID]];
       } else if ([object uid] > sp_uid) {
         sp_uid = [object uid];
       }
-      CFDictionarySetValue(sp_objects, (void *)[object uid], object);
+      // Will add object
+      [self postNotification:kSparkLibraryWillAddObjectNotification object:object];
+      NSMapInsert(sp_objects, (void *)[object uid], object);
       [object setLibrary:[self library]];
-      // Did add
+      // Did add object
+      [self postNotification:kSparkLibraryDidAddObjectNotification object:object];
       return YES;
     } else { /* If object already in Library */
       [self updateObject:object];
@@ -140,9 +152,11 @@ static const unsigned int kSparkObjectsLibraryCurrentVersion = kSparkLibraryVers
   SparkLibraryObject *old = [self objectForUID:[object uid]];
   if (old && (old != object)) {
     // Will update
-    CFDictionarySetValue(sp_objects, (void *)[object uid], object);
+    [self postNotification:kSparkLibraryWillUpdateObjectNotification object:old];
+    NSMapInsert(sp_objects, (void *)[object uid], object);
     [object setLibrary:[self library]];
     // Did update
+    [self postNotification:kSparkLibraryDidUpdateObjectNotification object:object];
     return YES;
   }
   return NO;
@@ -153,9 +167,11 @@ static const unsigned int kSparkObjectsLibraryCurrentVersion = kSparkLibraryVers
   if (object && [self containsObject:object]) {
     [object retain];
     // Will remove
+    [self postNotification:kSparkLibraryWillRemoveObjectNotification object:object];
     [object setLibrary:nil];
-    CFDictionaryRemoveValue(sp_objects, (void *)[object uid]);
+    NSMapRemove(sp_objects, (void *)[object uid]);
     // Did remove
+    [self postNotification:kSparkLibraryDidRemoveObjectNotification object:object];
     [object release];
   }
 }

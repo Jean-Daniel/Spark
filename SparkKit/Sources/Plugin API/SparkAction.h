@@ -1,11 +1,11 @@
-//
-//  SparkAction.h
-//  SparkKit
-//
-//  Created by Fox on 31/08/04.
-//  Copyright 2004 Shadow Lab. All rights reserved.
-//
-
+/*
+ *  SparkAction.h
+ *  SparkKit
+ *
+ *  Created by Black Moon Team.
+ *  Copyright © 2004 - 2006 Shadow Lab. All rights reserved.
+ *
+ */
 /*!
 @header SparkAction
  @abstract SparkAction Declaration.

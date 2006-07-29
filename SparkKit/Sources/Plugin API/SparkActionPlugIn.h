@@ -1,9 +1,9 @@
 /*
- *  SparkActionPlugin.h
- *  Short-Cut
+ *  SparkActionPlugIn.h
+ *  SparkKit
  *
- *  Created by Fox on Mon Dec 08 2003.
- *  Copyright (c) 2004 Shadow Lab. All rights reserved.
+ *  Created by Black Moon Team.
+ *  Copyright © 2004 - 2006 Shadow Lab. All rights reserved.
  *
  */
 

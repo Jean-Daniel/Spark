@@ -2,8 +2,9 @@
  *  SparkTrigger.h
  *  SparkKit
  *
- *  Created by Grayfox on 04/07/06.
- *  Copyright 2006 Shadow Lab. All rights reserved.
+ *  Created by Black Moon Team.
+ *  Copyright © 2004 - 2006 Shadow Lab. All rights reserved.
+ *
  */
 
 #import <SparkKit/SparkLibraryObject.h>

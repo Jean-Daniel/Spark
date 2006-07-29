@@ -1,10 +1,11 @@
-//
-//  SparkLibraryObject.m
-//  Spark
-//
-//  Created by Fox on Fri Jan 23 2004.
-//  Copyright (c) 2004 Shadow Lab. All rights reserved.
-//
+/*
+ *  SparkLibraryObject.m
+ *  SparkKit
+ *
+ *  Created by Black Moon Team.
+ *  Copyright © 2004 - 2006 Shadow Lab. All rights reserved.
+ *
+ */
 
 #import <ShadowKit/SKFunctions.h>
 #import <SparkKit/SparkLibraryObject.h>
