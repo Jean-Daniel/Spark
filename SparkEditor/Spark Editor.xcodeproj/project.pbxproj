@@ -39,6 +39,7 @@
 		9824024F060C7B3100A0DB07 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 982401EB060C7B3000A0DB07 /* Localizable.strings */; };
 		9824025A060C7B3100A0DB07 /* Read First.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 98240201060C7B3000A0DB07 /* Read First.rtf */; };
 		9824025B060C7B3100A0DB07 /* shcts.html in Resources */ = {isa = PBXBuildFile; fileRef = 98240203060C7B3000A0DB07 /* shcts.html */; };
+		982AF3E50A7A7C9100D17D65 /* Library.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98F3635806FF72D900FD6673 /* Library.tif */; };
 		98418EA90A65968A003FD0D7 /* SEHotKeyTrap.h in Headers */ = {isa = PBXBuildFile; fileRef = 98418EA70A659689003FD0D7 /* SEHotKeyTrap.h */; };
 		98418EAA0A65968A003FD0D7 /* SEHotKeyTrap.m in Sources */ = {isa = PBXBuildFile; fileRef = 98418EA80A659689003FD0D7 /* SEHotKeyTrap.m */; };
 		98418FC40A659F80003FD0D7 /* SparkSuite.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 984BCE5F060C7EBD0043CDEA /* SparkSuite.sdef */; };
@@ -71,10 +72,17 @@
 		989045180A6689D10024EC52 /* RemoveMini_Pressed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 9877192506D48E12008A7AE8 /* RemoveMini_Pressed.tiff */; };
 		989045190A6689D10024EC52 /* RemoveMini.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 9877192806D48E12008A7AE8 /* RemoveMini.tiff */; };
 		98920FEA0A5F012200A50A78 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 982401ED060C7B3000A0DB07 /* MainMenu.nib */; };
+		98A662960A66FB7700A7B020 /* applelogo.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98A662950A66FB7700A7B020 /* applelogo.tif */; };
+		98A6629D0A66FC6F00A7B020 /* start.tif in Resources */ = {isa = PBXBuildFile; fileRef = 984BCE39060C7E990043CDEA /* start.tif */; };
+		98A6629F0A66FC7300A7B020 /* start_down.tif in Resources */ = {isa = PBXBuildFile; fileRef = 984BCE3A060C7E990043CDEA /* start_down.tif */; };
+		98A9226C0A7B8EC300DF1998 /* SEApplicationSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 98A9226B0A7B8EC300DF1998 /* SEApplicationSource.m */; };
+		98A922700A7B8ED300DF1998 /* SEApplicationSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 98A9226F0A7B8ED300DF1998 /* SEApplicationSource.h */; };
 		98B2C6C50A617AA200D9D719 /* SEScriptHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 98240186060C7B0700A0DB07 /* SEScriptHandler.m */; };
 		98B2C6C60A617AA500D9D719 /* SEScriptHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 984BCE6A060C7FEC0043CDEA /* SEScriptHandler.h */; };
 		98B45364097312D600BD0A82 /* ShadowKit.framework in Copy Framework */ = {isa = PBXBuildFile; fileRef = 986757DC096B3F2400BB8A25 /* ShadowKit.framework */; };
 		98D1E8B2078564B8002DDB31 /* Update.strings in Resources */ = {isa = PBXBuildFile; fileRef = 98D1E8B0078564B8002DDB31 /* Update.strings */; };
+		98DAC9DE0A67EBE2001C36D1 /* SEApplicationView.h in Headers */ = {isa = PBXBuildFile; fileRef = 98DAC9DC0A67EBE2001C36D1 /* SEApplicationView.h */; };
+		98DAC9DF0A67EBE2001C36D1 /* SEApplicationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98DAC9DD0A67EBE2001C36D1 /* SEApplicationView.m */; };
 		98DD455F0A57DE9A00F059E5 /* SystemAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 6540B6E809E6430800D0E8FB /* SystemAction.spact */; };
 		98DD45600A57DE9A00F059E5 /* iTunesAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 6540B6EA09E6430800D0E8FB /* iTunesAction.spact */; };
 		98DD45610A57DE9A00F059E5 /* DocumentAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 6540B6EC09E6430800D0E8FB /* DocumentAction.spact */; };
@@ -376,6 +384,7 @@
 		9825AF4906FB5B94003A4088 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/ActionLibrary.nib; sourceTree = "<group>"; };
 		9825AF4C06FB5CD4003A4088 /* ApplicationLibraryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplicationLibraryController.m; sourceTree = "<group>"; };
 		9825AF4E06FB5CF8003A4088 /* ApplicationLibraryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplicationLibraryController.h; sourceTree = "<group>"; };
+		982AF3E40A7A7C8C00D17D65 /* CustomKeysList.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = CustomKeysList.tif; sourceTree = "<group>"; };
 		98300525076FC21B003A260D /* PluginInstaller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PluginInstaller.m; sourceTree = "<group>"; };
 		98300527076FC231003A260D /* PluginInstaller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PluginInstaller.h; sourceTree = "<group>"; };
 		98300532076FC3D2003A260D /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/PluginInstall.nib; sourceTree = "<group>"; };
@@ -482,7 +491,10 @@
 		989044A50A667C1F0024EC52 /* SparkSuite.scriptTerminology */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SparkSuite.scriptTerminology; sourceTree = "<group>"; };
 		989BC6E706E8495900B01F3E /* ActionEditorController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionEditorController.m; sourceTree = "<group>"; };
 		989BC6E906E8496500B01F3E /* ActionEditorController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionEditorController.h; sourceTree = "<group>"; };
+		98A662950A66FB7700A7B020 /* applelogo.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = applelogo.tif; sourceTree = "<group>"; };
 		98A91DA8074F55460029D278 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/Importer.nib; sourceTree = "<group>"; };
+		98A9226B0A7B8EC300DF1998 /* SEApplicationSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEApplicationSource.m; sourceTree = "<group>"; };
+		98A9226F0A7B8ED300DF1998 /* SEApplicationSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEApplicationSource.h; sourceTree = "<group>"; };
 		98AC962D073F57FB0004BD09 /* SparkImporter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SparkImporter.m; sourceTree = "<group>"; };
 		98AEEFF4073690F0000913F3 /* KeyWarningList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyWarningList.m; sourceTree = "<group>"; };
 		98AEEFF607369107000913F3 /* KeyWarningList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyWarningList.h; sourceTree = "<group>"; };
@@ -509,6 +521,8 @@
 		98D1E8B1078564B8002DDB31 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Update.strings; sourceTree = "<group>"; };
 		98D1EBC1076D802A0031EBC8 /* stop_downb.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = stop_downb.tif; sourceTree = "<group>"; };
 		98D1EBC7076D80D70031EBC8 /* start_downb.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = start_downb.tif; sourceTree = "<group>"; };
+		98DAC9DC0A67EBE2001C36D1 /* SEApplicationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEApplicationView.h; sourceTree = "<group>"; };
+		98DAC9DD0A67EBE2001C36D1 /* SEApplicationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEApplicationView.m; sourceTree = "<group>"; };
 		98DCBDEC060C80DD00B3E0AE /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = SOURCE_ROOT; };
 		98DD5249071092E600B33C4B /* ChoosePanel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChoosePanel.m; sourceTree = "<group>"; };
 		98DD524C071092F500B33C4B /* ChoosePanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChoosePanel.h; sourceTree = "<group>"; };
@@ -528,7 +542,7 @@
 		98EF8306086462FF007BC81A /* HotKeyToolKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = HotKeyToolKit.xcodeproj; path = ../HotKeyToolKit/HotKeyToolKit.xcodeproj; sourceTree = SOURCE_ROOT; };
 		98EF830F0864630B007BC81A /* SparkKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SparkKit.xcodeproj; path = ../SparkKit/SparkKit.xcodeproj; sourceTree = SOURCE_ROOT; };
 		98F2DEBC0715E21F001BBF29 /* SparkAppleScriptSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkAppleScriptSuite.h; sourceTree = "<group>"; };
-		98F3635806FF72D900FD6673 /* CustomKeysList.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = CustomKeysList.tif; sourceTree = "<group>"; };
+		98F3635806FF72D900FD6673 /* Library.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Library.tif; sourceTree = "<group>"; };
 		98F4A9B80770C8630074FE70 /* SecurityFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SecurityFoundation.framework; path = /System/Library/Frameworks/SecurityFoundation.framework; sourceTree = "<absolute>"; };
 		98F746010A5C560A003D4BE1 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SELibraryWindow.nib; sourceTree = "<group>"; };
 		98F746130A5C575C003D4BE1 /* SESplitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SESplitView.h; sourceTree = "<group>"; };
@@ -744,6 +758,7 @@
 				984196DE0A5E54740009A093 /* SETableView.m */,
 				98F747840A5C69A0003D4BE1 /* SEHeaderCell.m */,
 				98418EA80A659689003FD0D7 /* SEHotKeyTrap.m */,
+				98DAC9DD0A67EBE2001C36D1 /* SEApplicationView.m */,
 				98FB0A620A5D09D400129126 /* SEBackgroundView.m */,
 				9824019E060C7B0700A0DB07 /* PluginMenu.m */,
 				98C76E7D06FC213B0085EC78 /* ActionEditor.m */,
@@ -893,6 +908,7 @@
 		984BCE42060C7E990043CDEA /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				98A662950A66FB7700A7B020 /* applelogo.tif */,
 				981A8A6D0A61A3BB00753369 /* IgnoreAction.tif */,
 				980DA1A706E6628A0038EE2A /* ActionListIcon.tif */,
 				986691ED06F7B4B6002C4E98 /* ActionsItem.tif */,
@@ -900,7 +916,8 @@
 				98B07EE606FA483600C1E88B /* ApplicationListIcon.tiff */,
 				986691FA06F7B590002C4E98 /* ApplicationsItem.tif */,
 				98B68D760715D13F00207120 /* Comment.tiff */,
-				98F3635806FF72D900FD6673 /* CustomKeysList.tif */,
+				982AF3E40A7A7C8C00D17D65 /* CustomKeysList.tif */,
+				98F3635806FF72D900FD6673 /* Library.tif */,
 				98B5517C06D274B3001BDF93 /* DaemonPref.tiff */,
 				98B5517D06D274B4001BDF93 /* EditorPref.tiff */,
 				98CEBEDF0739A0F4004A2A2C /* Inspector.tif */,
@@ -1050,6 +1067,7 @@
 				981A8A9E0A61A4E400753369 /* SEEntryEditor.m */,
 				98DDE9770A612DFF00D76698 /* SEActionEditor.m */,
 				985AF9FA0A5C33D400397FAA /* SELibraryWindow.m */,
+				98A9226B0A7B8EC300DF1998 /* SEApplicationSource.m */,
 				98EA6B290A5E7C280019E26C /* SETriggersController.m */,
 			);
 			path = Controllers;
@@ -1061,6 +1079,7 @@
 				981A8A9A0A61A4D600753369 /* SEEntryEditor.h */,
 				98DDE9730A612DED00D76698 /* SEActionEditor.h */,
 				985AFA000A5C33D900397FAA /* SELibraryWindow.h */,
+				98A9226F0A7B8ED300DF1998 /* SEApplicationSource.h */,
 				98EA6B2F0A5E7C2D0019E26C /* SETriggersController.h */,
 			);
 			path = Headers;
@@ -1124,6 +1143,7 @@
 				984196DD0A5E54740009A093 /* SETableView.h */,
 				98F747830A5C69A0003D4BE1 /* SEHeaderCell.h */,
 				98418EA70A659689003FD0D7 /* SEHotKeyTrap.h */,
+				98DAC9DC0A67EBE2001C36D1 /* SEApplicationView.h */,
 				98FB0A610A5D09D400129126 /* SEBackgroundView.h */,
 			);
 			name = Headers;
@@ -1219,6 +1239,8 @@
 				981A8A360A61A25800753369 /* SETriggerEntry.h in Headers */,
 				981A8A9B0A61A4D600753369 /* SEEntryEditor.h in Headers */,
 				98418EA90A65968A003FD0D7 /* SEHotKeyTrap.h in Headers */,
+				98DAC9DE0A67EBE2001C36D1 /* SEApplicationView.h in Headers */,
+				98A922700A7B8ED300DF1998 /* SEApplicationSource.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1463,6 +1485,10 @@
 				989045170A6689CD0024EC52 /* AddMini_Pressed.tiff in Resources */,
 				989045180A6689D10024EC52 /* RemoveMini_Pressed.tiff in Resources */,
 				989045190A6689D10024EC52 /* RemoveMini.tiff in Resources */,
+				98A662960A66FB7700A7B020 /* applelogo.tif in Resources */,
+				98A6629D0A66FC6F00A7B020 /* start.tif in Resources */,
+				98A6629F0A66FC7300A7B020 /* start_down.tif in Resources */,
+				982AF3E50A7A7C9100D17D65 /* Library.tif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1497,6 +1523,8 @@
 				981A8A370A61A25800753369 /* SETriggerEntry.m in Sources */,
 				981A8A9F0A61A4E400753369 /* SEEntryEditor.m in Sources */,
 				98418EAA0A65968A003FD0D7 /* SEHotKeyTrap.m in Sources */,
+				98DAC9DF0A67EBE2001C36D1 /* SEApplicationView.m in Sources */,
+				98A9226C0A7B8EC300DF1998 /* SEApplicationSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

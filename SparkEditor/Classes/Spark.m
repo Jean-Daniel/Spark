@@ -55,6 +55,10 @@ NSArray *gSortByNameDescriptors = nil;
   [super sendEvent:event];
 }
 
+- (NSWindow *)libraryWindow {
+  return [[self delegate] mainWindow];
+}
+
 @end
 
 #pragma mark -
@@ -147,7 +151,11 @@ NSArray *gSortByNameDescriptors = nil;
 //          contextInfo: nil];
 //  }
 //}
-//
+
+- (NSWindow *)mainWindow {
+  return [se_mainWindow window];
+}
+
 - (IBAction)showMainWindow:(id)sender {
   if (!se_mainWindow) {
     se_mainWindow = [[SELibraryWindow alloc] init];
@@ -454,7 +462,7 @@ NSArray *gSortByNameDescriptors = nil;
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
-//  [SparkSharedLibrary() synchronize];
+  [SparkSharedLibrary() synchronize];
   [[NSUserDefaults standardUserDefaults] synchronize];
 }
 

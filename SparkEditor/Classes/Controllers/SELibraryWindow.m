@@ -3,28 +3,27 @@
 //  Spark Editor
 //
 //  Created by Jean-Daniel Dupas on 05/07/06.
-//  Copyright 2006 Adamentium. All rights reserved.
+//  Copyright 2006 Shadow Lab. All rights reserved.
 //
 
 #import "SELibraryWindow.h"
 
 #import "SEHeaderCell.h"
+#import "SEVirtualPlugIn.h"
+#import "SEApplicationView.h"
 #import "SETriggersController.h"
 
+#import <ShadowKit/SKTableView.h>
 #import <ShadowKit/SKFunctions.h>
 #import <ShadowKit/SKTableDataSource.h>
+#import <ShadowKit/SKImageAndTextCell.h>
+
+#import <SparkKit/SparkList.h>
+#import <SparkKit/SparkPlugIn.h>
 
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkApplication.h>
-#import <SparkKit/SparkObjectsLibrary.h>
-
-static
-NSComparisonResult SparkAppCompare(id app1, id app2, void *source) {
-  if ([app1 uid] < kSparkLibraryReserved || [app2 uid] < kSparkLibraryReserved) {
-    return [app1 uid] - [app2 uid];
-  }
-  return [[app1 name] caseInsensitiveCompare:[app2 name]];
-}
+#import <SparkKit/SparkActionLoader.h>
 
 @implementation SELibraryWindow
 
@@ -38,15 +37,20 @@ NSComparisonResult SparkAppCompare(id app1, id app2, void *source) {
   [super dealloc];
 }
 
+- (void)didSelectApplication:(int)anIndex {
+  NSArray *objects = [appSource arrangedObjects];
+  if (anIndex >= 0 && (unsigned)anIndex < [objects count]) {
+    [appField setApplication:[objects objectAtIndex:anIndex]];
+  } else {
+    [appField setApplication:nil];
+  }
+}
+
 - (void)awakeFromNib {
+  [appTable registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, nil]];
+  [self didSelectApplication:0];
   
-  [appSource setCompareFunction:SparkAppCompare];
-  /* Load applications */
-  [appSource addObject:[SparkApplication objectWithName:@"Any Application" icon:[NSImage imageNamed:@"System"]]];
-  [appSource addObjects:[SparkSharedApplicationLibrary() objects]];
-  [appSource rearrangeObjects];
-  [appSource setSelectionIndex:0];
-  
+  /* Configure Application Header Cell */
   SEHeaderCell *header = [[SEHeaderCell alloc] initTextCell:@"Front Application"];
   [header setAlignment:NSCenterTextAlignment];
   [header setFont:[NSFont systemFontOfSize:11]];
@@ -54,6 +58,7 @@ NSComparisonResult SparkAppCompare(id app1, id app2, void *source) {
   [header release];
   [appTable setCornerView:[[[SEHeaderCellCorner alloc] init] autorelease]];
   
+  /* Configure Library Header Cell */
   header = [[SEHeaderCell alloc] initTextCell:@"Library"];
   [header setAlignment:NSCenterTextAlignment];
   [header setFont:[NSFont systemFontOfSize:11]];
@@ -61,7 +66,19 @@ NSComparisonResult SparkAppCompare(id app1, id app2, void *source) {
   [header release];
   [libraryTable setCornerView:[[[SEHeaderCellCorner alloc] init] autorelease]];
   
-  //[appTable registerForDraggedTypes:[NSArray arrayWithObjects:@"SparkApplicationDragType", nil]];
+  NSArray *plugins = [[SparkActionLoader sharedLoader] plugins];
+  unsigned idx = [plugins count];
+  while (idx-- > 0) {
+    SparkPlugIn *plugin = [plugins objectAtIndex:idx];
+    SparkList *list = [[SparkList alloc] initWithName:[plugin name] icon:[plugin icon]];
+    [list setUID:UINT32_MAX];
+    [listSource addObject:list];
+    [list release];
+  }
+  [listSource addObjects:[SparkSharedListSet() objects]];
+  [listSource addObject:[SparkList objectWithName:@"Library" icon:[NSImage imageNamed:@"Library"]]];
+  [listSource setCompareFunction:SparkObjectCompare];
+  [listSource rearrangeObjects];
 }
 
 - (void)windowDidLoad {
@@ -71,41 +88,26 @@ NSComparisonResult SparkAppCompare(id app1, id app2, void *source) {
   [[self window] display];
 }
 
+- (IBAction)newList:(id)sender {
+  SparkList *list = [[SparkList alloc] initWithName:@"New List"];
+  [SparkSharedListSet() addObject:list];
+  [list release];
+  [listSource addObject:list];
+  [listSource rearrangeObjects];
+  // Edit new list name
+}
+
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification {
   NSTableView *table = [aNotification object];
-  int selection = [table selectedRow];
-  if (selection >= 0) {
-    SparkApplication *app = [[appSource arrangedObjects] objectAtIndex:selection];
-    [triggers setApplication:app];
+  if (table == appTable) {
+    [self didSelectApplication:[table selectedRow]];
   }
 }
 
-#pragma mark Drag & Drop
-//- (BOOL)tableView:(NSTableView *)tv writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard*)pboard {
-//  NSArray *applications = [[appSource arrangedObjects] objectsAtIndexes:rowIndexes];
-//  [pboard declareTypes:[NSArray arrayWithObject:@"SparkApplicationDragType"] owner:self];
-//  NSMutableArray *ids = [[NSMutableArray alloc] init];
-//  unsigned idx = [applications count];
-//  while (idx-- > 0) {
-//    [ids addObject:SKUInt([[applications objectAtIndex:idx] uid])];
-//  }
-//  [pboard setPropertyList:ids forType:@"SparkApplicationDragType"];
-//  [ids release];
-//  return NO;
-//}
-
-//- (NSDragOperation)tableView:(NSTableView *)tableView validateDrop:(id <NSDraggingInfo>)info proposedRow:(int)row proposedDropOperation:(NSTableViewDropOperation)operation {
-//  NSPasteboard *pboard = [info draggingPasteboard];
-//  if ([[pboard types] containsObject:@"SparkApplicationDragType"]) {
-//    if (NSTableViewDropAbove == operation && row >= 2) {
-//      return NSDragOperationMove;
-//    }
-//  }
-//  return NSDragOperationNone;
-//}
-
-//- (BOOL)tableView:(NSTableView *)aTableView acceptDrop:(id <NSDraggingInfo>)info row:(int)row dropOperation:(NSTableViewDropOperation)operation {
-//  return NO;
-//}
+- (void)deleteSelectionInTableView:(NSTableView *)aTableView {
+  if (aTableView == appTable) {
+    [appSource deleteSelection:nil];
+  }
+}
 
 @end

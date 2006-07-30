@@ -16,6 +16,8 @@
 @interface SparkEditor : NSApplication {
 }
 
+- (NSWindow *)libraryWindow;
+
 @end
 
 

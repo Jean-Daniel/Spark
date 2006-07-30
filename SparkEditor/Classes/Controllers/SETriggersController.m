@@ -3,7 +3,7 @@
 //  Spark Editor
 //
 //  Created by Jean-Daniel Dupas on 07/07/06.
-//  Copyright 2006 Adamentium. All rights reserved.
+//  Copyright 2006 Shadow Lab. All rights reserved.
 //
 
 #import "SETriggersController.h"

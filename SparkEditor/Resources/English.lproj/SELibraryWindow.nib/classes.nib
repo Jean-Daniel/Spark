@@ -2,14 +2,24 @@
     IBClasses = (
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {CLASS = NSObject; LANGUAGE = ObjC; }, 
+        {
+            ACTIONS = {deleteSelection = id; newApplication = id; }; 
+            CLASS = SEApplicationSource; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = SKTableDataSource; 
+        }, 
+        {CLASS = SEApplicationView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
         {CLASS = SEBackgroundView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
         {
+            ACTIONS = {newList = id; }; 
             CLASS = SELibraryWindow; 
             LANGUAGE = ObjC; 
             OUTLETS = {
+                appField = SEApplicationView; 
                 appSource = SKTableDataSource; 
                 appTable = SKTableView; 
                 libraryTable = SKTableView; 
+                listSource = SKTableDataSource; 
                 search = NSSearchField; 
                 triggers = SETriggersController; 
             }; 

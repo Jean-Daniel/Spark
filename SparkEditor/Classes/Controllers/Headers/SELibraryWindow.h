@@ -3,21 +3,25 @@
  *  Spark Editor
  *
  *  Created by Jean-Daniel Dupas on 05/07/06.
- *  Copyright 2006 Adamentium. All rights reserved.
+ *  Copyright 2006 Shadow Lab. All rights reserved.
  *
  */
 
 #import <Cocoa/Cocoa.h>
 
-@class SKTableView, SKTableDataSource;
-@class SETriggersController;
+@class SETriggersController, SEApplicationView;
+@class SKTableView, SKTableDataSource, SEApplicationSource;
 @interface SELibraryWindow : NSWindowController {
   IBOutlet NSSearchField *search;
   IBOutlet SKTableView *appTable;
-  IBOutlet SKTableDataSource *appSource;
+  IBOutlet SEApplicationSource *appSource;
+  
+  IBOutlet SKTableDataSource *listSource;
   
   IBOutlet SKTableView *libraryTable;
   IBOutlet SETriggersController *triggers;
+  
+  IBOutlet SEApplicationView *appField;
 }
 
 @end
