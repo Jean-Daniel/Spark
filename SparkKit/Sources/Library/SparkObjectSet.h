@@ -1,5 +1,5 @@
 /*
- *  SparkObjectsLibrary.h
+ *  SparkObjectSet.h
  *  SparkKit
  *
  *  Created by Black Moon Team.
@@ -11,11 +11,11 @@
 #import <SparkKit/SparkObject.h>
 
 /*!
-@class SparkObjectsLibrary
+@class SparkObjectSet
 @abstract Spark Objects Library.
 */
 @class SparkLibrary;
-@interface SparkObjectsLibrary : NSObject {
+@interface SparkObjectSet : NSObject {
 @private
   UInt32 sp_uid;
   NSMapTable *sp_objects;
@@ -80,8 +80,13 @@ NSString * const kSparkLibraryDidRemoveObjectNotification;
 
 SPARK_EXPORT
 NSString * const kSparkNotificationObject;
+SPARK_EXPORT
+NSString * const kSparkNotificationUpdatedObject;
 
 SPARK_INLINE
 SparkObject *SparkNotificationObject(NSNotification *aNotification) {
   return [[aNotification userInfo] objectForKey:kSparkNotificationObject];
 }
+
+SPARK_EXPORT
+NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void *source);

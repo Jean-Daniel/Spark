@@ -65,16 +65,15 @@ SparkFilterMode SparkKeyStrokeFilterMode;
 - (BOOL)isRegistred;
 - (BOOL)setRegistred:(BOOL)flag;
 
-- (NSTimeInterval)keyRepeat;
-- (void)setKeyRepeat:(NSTimeInterval)interval;
+- (NSTimeInterval)repeatInterval;
+- (void)setRepeatInterval:(NSTimeInterval)interval;
 
-- (NSString *)shortCut;
-
-- (BOOL)sendKeystroke;
-- (BOOL)sendKeystrokeToApplication:(OSType)signature bundle:(NSString *)bundleId;
+- (NSString *)shortcut;
 
 - (UInt64)rawkey;
 - (void)setRawkey:(UInt64)rawkey;
 
-@end
+- (BOOL)sendKeystroke;
+- (BOOL)sendKeystrokeToApplication:(OSType)signature bundle:(NSString *)bundleId;
 
+@end

@@ -6,48 +6,153 @@
  *  Copyright 2006 Shadow Lab. All rights reserved.
  */
 
-#import "SparkList.h"
+#import <SparkKit/SparkList.h>
+#import <SparkKit/SparkLibrary.h>
+#import <SparkKit/SparkObjectSet.h>
+
+#import <ShadowKit/SKSerialization.h>
+#import <ShadowKit/SKAppKitExtensions.h>
 
 static 
 NSString * const kSparkObjectsKey = @"SparkObjects";
 
 @implementation SparkList
 
-- (id)initWithLibrary:(SparkObjectsLibrary *)aLibrary {
+- (id)init {
+  return [self initWithObjectSet:nil];
+}
+
+- (id)initWithObjectSet:(SparkObjectSet *)aLibrary {
   if (self = [super init]) {
-    [self setLibrary:aLibrary];
+    [self setObjectSet:aLibrary];
+    sp_entries = [[NSMutableArray alloc] init];
   }
   return self;
 }
 
 - (void)dealloc {
-  [self setLibrary:nil];
+  [self setObjectSet:nil];
   [sp_entries release];
+  [sp_ctxt release];
   [super dealloc];
 }
 
-- (void)setLibrary:(SparkObjectsLibrary *)library {
-  if (sp_lib != library) {
-    /* unregister notifications */
-    sp_lib = library;
-    /* register notifications */
+- (NSImage *)icon {
+  NSImage *icon = [super icon];
+  if (!icon) {
+    icon = [NSImage imageNamed:@"KeyList" inBundle:SKCurrentBundle()];
+    [self setIcon:icon];
   }
+  return icon;
+}
+
+- (void)setObjectSet:(SparkObjectSet *)library {
+  if (sp_set != library) {
+    /* unregister notifications */
+    if (sp_set) {
+      [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                      name:nil
+                                                    object:sp_set];
+    }
+    sp_set = library;
+    /* register notifications */
+    if (sp_set) {
+      /* Add */
+      [[NSNotificationCenter defaultCenter] addObserver:self
+                                               selector:@selector(didAddObject:)
+                                                  name:kSparkLibraryDidAddObjectNotification
+                                                 object:sp_set];
+      /* Remove */
+      [[NSNotificationCenter defaultCenter] addObserver:self
+                                               selector:@selector(didRemoveObject:)
+                                                   name:kSparkLibraryDidRemoveObjectNotification
+                                                 object:sp_set];
+      /* Update */
+      [[NSNotificationCenter defaultCenter] addObserver:self
+                                               selector:@selector(didUpdateObject:)
+                                                   name:kSparkLibraryDidUpdateObjectNotification
+                                                 object:sp_set];
+    }
+  }
+}
+
+- (void)setListFilter:(SparkListFilter)aFilter context:(id)aCtxt {
+  sp_filter = aFilter;
+  SKSetterRetain(sp_ctxt, aCtxt);
 }
 
 - (BOOL)serialize:(NSMutableDictionary *)plist {
   [super serialize:plist];
+  NSMutableArray *objects = [[NSMutableArray alloc] init];
+  
+  SparkObject *entry;
+  NSEnumerator *entries = [sp_entries objectEnumerator];
+  while (entry = [entries nextObject]) {
+    [objects addObject:SKUInt([entry uid])];
+  }
+  [plist setObject:objects forKey:kSparkObjectsKey];
+  
+  [objects release];
+  return YES;
 }
 
-- (id)initWithLibrary:(SparkObjectsLibrary *)library serializedValues:(NSDictionary *)plist  {
+- (id)initWithObjectSet:(SparkObjectSet *)library serializedValues:(NSDictionary *)plist  {
   if (self = [super initWithSerializedValues:plist]) {
-    [self setLibrary:library];
+    [self setObjectSet:library];
     // Load plist
+    NSNumber *entry;
+    sp_entries = [[NSMutableArray alloc] init];
+    NSEnumerator *entries = [[plist objectForKey:kSparkObjectsKey] objectEnumerator];
+    while (entry = [entries nextObject]) {
+      SparkObject *object = [library objectForUID:[entry unsignedIntValue]];
+      if (object)
+        [sp_entries addObject:object];
+      else
+        DLog(@"Cannot resolve reference %@", entry);
+    }
   }
   return self;
 }
 
+- (void)addObject:(SparkObject *)anObject {
+  [sp_entries addObject:anObject];
+}
+
 #pragma mark -
+- (void)didAddObject:(NSNotification *)aNotification {
+  SparkObject *object = SparkNotificationObject(aNotification);
+  if (object && sp_filter && sp_filter(object, sp_ctxt)) {
+    [self addObject:object];
+  }
+}
+- (void)didUpdateObject:(NSNotification *)aNotification {
+  unsigned idx = 0;
+  SparkObject *previous = [[aNotification userInfo] objectForKey:kSparkNotificationUpdatedObject];
+  if (previous && (idx = [sp_entries indexOfObject:previous]) != NSNotFound) {
+    SparkObject *object = SparkNotificationObject(aNotification);
+    if (object) {
+      [sp_entries replaceObjectAtIndex:idx withObject:object];
+    }
+  }
+}
+- (void)didRemoveObject:(NSNotification *)aNotification {
+  SparkObject *object = SparkNotificationObject(aNotification);
+  if (object)
+    [sp_entries removeObject:object];
+}
 
+@end
 
+#pragma mark -
+@implementation SparkListSet
+
+static id _SparkListDeserialize(Class cls, NSDictionary *plist, void *ctxt) {
+  return [cls instancesRespondToSelector:@selector(initWithObjectSet:serializedValues:)] ? 
+  [[cls alloc] initWithObjectSet:[(id)ctxt triggerSet] serializedValues:plist] : nil;
+}
+
+- (SparkObject *)deserialize:(NSDictionary *)plist error:(OSStatus *)error {
+  return SKDeserializeObjectWithFunction(plist, error, _SparkListDeserialize, [self library]);
+}
 
 @end

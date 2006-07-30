@@ -10,8 +10,9 @@
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkActionLoader.h>
 #import <SparkKit/SparkObject.h>
-#import <SparkKit/SparkObjectsLibrary.h>
+#import <SparkKit/SparkObjectSet.h>
 
+#import <SparkKit/SparkList.h>
 #import <SparkKit/SparkAction.h>
 #import <SparkKit/SparkTrigger.h>
 #import <SparkKit/SparkApplication.h>
@@ -25,14 +26,16 @@ NSString * const kSparkLibraryFileExtension = @"splib";
 
 NSPropertyListFormat SparkLibraryFileFormat = NSPropertyListBinaryFormat_v1_0;
 
+static NSString * const kSparkListsFile = @"SparkLists";
 static NSString * const kSparkActionsFile = @"SparkActions";
 static NSString * const kSparkEntriesFile = @"SparkEntries";
 static NSString * const kSparkTriggersFile = @"SparkTriggers";
 static NSString * const kSparkApplicationsFile = @"SparkApplications";
 
-static NSString * const kSparkActionLibrary = @"SparkActionLibrary";
-static NSString * const kSparkTriggerLibrary = @"SparkTriggerLibrary";
-static NSString * const kSparkApplicationLibrary = @"SparkApplicationLibrary";
+static NSString * const kSparkListSetKey = @"SparkListSet";
+static NSString * const kSparkActionLibrary = @"SparkActionSet";
+static NSString * const kSparkTriggerLibrary = @"SparkTriggerSet";
+static NSString * const kSparkApplicationLibrary = @"SparkApplicationSet";
 
 #ifdef DEBUG
 #warning Using Development Spark Library
@@ -88,12 +91,15 @@ const UInt32 kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_0;
   if (self = [super init]) {
     /* Create defaults libraries */
     sp_libraries = [[NSMutableDictionary alloc] init];
-    [sp_libraries setObject:[SparkObjectsLibrary objectsLibraryWithLibrary:self]
+    [sp_libraries setObject:[SparkObjectSet objectsLibraryWithLibrary:self]
                      forKey:kSparkActionLibrary];
-    [sp_libraries setObject:[SparkObjectsLibrary objectsLibraryWithLibrary:self]
+    [sp_libraries setObject:[SparkObjectSet objectsLibraryWithLibrary:self]
                      forKey:kSparkTriggerLibrary];
-    [sp_libraries setObject:[SparkObjectsLibrary objectsLibraryWithLibrary:self] 
+    [sp_libraries setObject:[SparkObjectSet objectsLibraryWithLibrary:self] 
                      forKey:kSparkApplicationLibrary];
+    /* List Set */
+    [sp_libraries setObject:[SparkListSet objectsLibraryWithLibrary:self] 
+                     forKey:kSparkListSetKey];
     
     /* Create relation table */
     sp_relations = SKCArrayCreate(sizeof(SparkEntry), 0);
@@ -115,21 +121,25 @@ const UInt32 kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_0;
 
 #pragma mark -
 #pragma mark Objects Libraries Accessors
-- (id)libraryForKey:(NSString *)aKey {
+- (SparkObjectSet *)objectSetForKey:(NSString *)aKey {
   NSAssert1([sp_libraries objectForKey:aKey] != nil, @"Library for key: %@ doesn't exist", aKey);
   return [sp_libraries objectForKey:aKey];
 }
 
-- (SparkObjectsLibrary *)actionLibrary {
-  return [self libraryForKey:kSparkActionLibrary];
+- (SparkObjectSet *)listSet {
+  return [self objectSetForKey:kSparkListSetKey];
 }
 
-- (SparkObjectsLibrary *)triggerLibrary {
-  return [self libraryForKey:kSparkTriggerLibrary];
+- (SparkObjectSet *)actionSet {
+  return [self objectSetForKey:kSparkActionLibrary];
 }
 
-- (SparkObjectsLibrary *)applicationLibrary {
-  return [self libraryForKey:kSparkApplicationLibrary];
+- (SparkObjectSet *)triggerSet {
+  return [self objectSetForKey:kSparkTriggerLibrary];
+}
+
+- (SparkObjectSet *)applicationSet {
+  return [self objectSetForKey:kSparkApplicationLibrary];
 }
 
 #pragma mark -
@@ -193,24 +203,31 @@ const UInt32 kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_0;
   
   NSFileWrapper *file;
   /* SparkActions */
-  file = [[self actionLibrary] fileWrapper:outError];
+  file = [[self actionSet] fileWrapper:outError];
   require(file != nil, bail);
   
   [file setPreferredFilename:kSparkActionsFile];
   [library addFileWrapper:file];
   
   /* SparkHotKeys */
-  file = [[self triggerLibrary] fileWrapper:outError];
+  file = [[self triggerSet] fileWrapper:outError];
   require(file != nil, bail);
   
   [file setPreferredFilename:kSparkTriggersFile];
   [library addFileWrapper:file];
   
   /* SparkApplications */
-  file = [[self applicationLibrary] fileWrapper:outError];
+  file = [[self applicationSet] fileWrapper:outError];
   require(file != nil, bail);
   
   [file setPreferredFilename:kSparkApplicationsFile];
+  [library addFileWrapper:file];
+  
+  /* SparkLists */
+  file = [[self listSet] fileWrapper:outError];
+  require(file != nil, bail);
+  
+  [file setPreferredFilename:kSparkListsFile];
   [library addFileWrapper:file];
   
   /* Library Entries */
@@ -255,7 +272,7 @@ bail:
       result = [self readLibraryFromFileWrapper:fileWrapper error:outError];
       break;
   }
-  SparkApplication *finder = [[self applicationLibrary] objectForUID:1];
+  SparkApplication *finder = [[self applicationSet] objectForUID:1];
   if (!finder) {
 //    NString *path = SKLS
 //    finder = [SparkApplication appli
@@ -269,8 +286,8 @@ bail:
 #pragma mark Library Queries
 - (NSDictionary *)triggersForApplication:(UInt32)application {
   UInt32 count = SKCArrayCount(sp_relations);
-  SparkObjectsLibrary *actions = [self actionLibrary];
-  SparkObjectsLibrary *triggers = [self triggerLibrary];
+  SparkObjectSet *actions = [self actionSet];
+  SparkObjectSet *triggers = [self triggerSet];
   SparkEntry *entry = SKCArrayGetInternalArray(sp_relations);
   
   CFMutableDictionaryRef result = CFDictionaryCreateMutable(kCFAllocatorDefault, 0, 
@@ -339,22 +356,26 @@ bail:
 }
 
 - (BOOL)readLibraryFromFileWrapper:(NSFileWrapper *)wrapper error:(NSError **)error {
-  DLog(@"Loading Library!");
+  DLog(@"Loading Library !");
   BOOL ok = NO;
   NSDictionary *files = [wrapper fileWrappers];
   
-  SparkObjectsLibrary *library = [self actionLibrary];
-  ok = [library readFromFileWrapper:[files objectForKey:kSparkActionsFile] error:error];
+  SparkObjectSet *set = [self actionSet];
+  ok = [set readFromFileWrapper:[files objectForKey:kSparkActionsFile] error:error];
   require(ok, bail);
   
-  library = [self triggerLibrary];
-  ok = [library readFromFileWrapper:[files objectForKey:kSparkTriggersFile] error:error];
+  set = [self triggerSet];
+  ok = [set readFromFileWrapper:[files objectForKey:kSparkTriggersFile] error:error];
   require(ok, bail);
   
-  library = [self applicationLibrary];
-  ok = [library readFromFileWrapper:[files objectForKey:kSparkApplicationsFile] error:error];
+  set = [self applicationSet];
+  ok = [set readFromFileWrapper:[files objectForKey:kSparkApplicationsFile] error:error];
   require(ok, bail);
 
+  set = [self listSet];
+  ok = [set readFromFileWrapper:[files objectForKey:kSparkListsFile] error:error];
+  require(ok, bail);
+  
   /* Load entries */
   NSData *data = [[files objectForKey:kSparkEntriesFile] regularFileContents];
   require(data && [self readEntries:data], bail);
@@ -374,10 +395,10 @@ bail:
   NSArray *objects = nil;
   NSDictionary *plist = nil;
   NSEnumerator *enumerator = nil;
-  SparkObjectsLibrary *library = nil;
+  SparkObjectSet *library = nil;
   
   /* Load Applications. Ignore old '_SparkSystemApplication' items */
-  library = [self applicationLibrary];
+  library = [self applicationSet];
   
   objects = [[wrapper propertyListForFilename:kSparkApplicationsFile] objectForKey:@"SparkObjects"];
   enumerator = [objects objectEnumerator];
@@ -401,7 +422,7 @@ bail:
   
   objects = [[wrapper propertyListForFilename:@"SparkKeys"] objectForKey:@"SparkObjects"];
   enumerator = [objects objectEnumerator];
-  library = [self triggerLibrary];
+  library = [self triggerSet];
   while (plist = [enumerator nextObject]) {
     SparkTrigger *trigger = SKDeserializeObject(plist, nil);      
     if (trigger && [trigger isKindOfClass:[SparkTrigger class]]) {
@@ -440,7 +461,7 @@ bail:
   objects = [[wrapper propertyListForFilename:kSparkActionsFile] objectForKey:@"SparkObjects"];
   /* Load Actions. Ignore old '_SparkIgnoreAction' items */
   enumerator = [objects objectEnumerator];
-  library = [self actionLibrary];
+  library = [self actionSet];
   while (plist = [enumerator nextObject]) {
     NSString *class = [plist objectForKey:@"isa"];
     if (![class isEqualToString:@"_SparkIgnoreAction"]) {
@@ -458,11 +479,38 @@ bail:
     }
   }
   
+  objects = [[wrapper propertyListForFilename:kSparkListsFile] objectForKey:@"SparkObjects"];
+  /* Load Key Lists as Trigger Lists. */
+  enumerator = [objects objectEnumerator];
+  library = [self listSet];
+  while (plist = [enumerator nextObject]) {
+    NSString *class = [plist objectForKey:@"isa"];
+    if ([class isEqualToString:@"SparkKeyList"]) {
+      SparkList *list = [[SparkList alloc] initWithObjectSet:library];
+      [list setName:[plist objectForKey:@"Name"]];
+      
+      NSNumber *uid;
+      NSEnumerator *uids = [[plist objectForKey:@"ObjectList"] objectEnumerator];
+      while (uid = [uids nextObject]) {
+        SparkObject *object = [[self triggerSet] objectForUID:[uid unsignedIntValue] + kSparkLibraryReserved];
+        if (object) {
+          [list addObject:object];
+        } else {
+          DLog(@"Cannot resolve list entry: %u", [uid unsignedIntValue]);
+        }
+      }
+
+      [library addObject:list];
+      [list release];
+    }
+  }
+  
+  
   {
     /* Cleanup */
     SparkTrigger *trigger = nil;
     NSMutableArray *tmp = [[NSMutableArray alloc] init];
-    enumerator = [[self triggerLibrary] objectEnumerator];
+    enumerator = [[self triggerSet] objectEnumerator];
     while (trigger = [enumerator nextObject]) {
       if (!CFSetContainsValue(triggers, (void *)[trigger uid])) {
         [tmp addObject:trigger];
@@ -470,7 +518,7 @@ bail:
     }
     if ([tmp count]) {
       DLog(@"Remove invalid triggers: %@", tmp);
-      [[self triggerLibrary] removeObjectsInArray:tmp];
+      [[self triggerSet] removeObjectsInArray:tmp];
     }
     [tmp release];
   }
@@ -496,15 +544,19 @@ SparkLibrary *SparkSharedLibrary() {
   return [SparkLibrary sharedLibrary];
 }
 
-SparkObjectsLibrary *SparkSharedActionLibrary() {
-  return [[SparkLibrary sharedLibrary] actionLibrary];
+SparkObjectSet *SparkSharedListSet() {
+  return [[SparkLibrary sharedLibrary] listSet];
 }
 
-SparkObjectsLibrary *SparkSharedTriggerLibrary() {
-  return [[SparkLibrary sharedLibrary] triggerLibrary];
+SparkObjectSet *SparkSharedActionSet() {
+  return [[SparkLibrary sharedLibrary] actionSet];
 }
 
-SparkObjectsLibrary *SparkSharedApplicationLibrary() {
-  return [[SparkLibrary sharedLibrary] applicationLibrary];
+SparkObjectSet *SparkSharedTriggerSet() {
+  return [[SparkLibrary sharedLibrary] triggerSet];
+}
+
+SparkObjectSet *SparkSharedApplicationSet() {
+  return [[SparkLibrary sharedLibrary] applicationSet];
 }
 

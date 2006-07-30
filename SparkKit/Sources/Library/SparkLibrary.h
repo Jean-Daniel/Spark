@@ -32,19 +32,19 @@ enum {
 };
 
 #pragma mark -
-@class SparkLibrary, SparkObjectsLibrary;
+@class SparkLibrary, SparkObjectSet;
 
 SPARK_EXPORT
 SparkLibrary *SparkSharedLibrary(void);
 
 SPARK_EXPORT
-SparkObjectsLibrary *SparkSharedActionLibrary(void);
-
+SparkObjectSet *SparkSharedListSet(void);
 SPARK_EXPORT
-SparkObjectsLibrary *SparkSharedTriggerLibrary(void);
-
+SparkObjectSet *SparkSharedActionSet(void);
 SPARK_EXPORT
-SparkObjectsLibrary *SparkSharedApplicationLibrary(void);
+SparkObjectSet *SparkSharedTriggerSet(void);
+SPARK_EXPORT
+SparkObjectSet *SparkSharedApplicationSet(void);
 
 typedef struct _SparkEntry {
   UInt32 action;
@@ -70,9 +70,9 @@ typedef struct _SparkEntry {
 
 - (BOOL)readLibrary:(NSError **)error;
 
-- (SparkObjectsLibrary *)actionLibrary;
-- (SparkObjectsLibrary *)triggerLibrary;
-- (SparkObjectsLibrary *)applicationLibrary;
+- (SparkObjectSet *)actionSet;
+- (SparkObjectSet *)triggerSet;
+- (SparkObjectSet *)applicationSet;
 
 - (BOOL)synchronize;
 - (BOOL)writeToFile:(NSString *)file atomically:(BOOL)flag;

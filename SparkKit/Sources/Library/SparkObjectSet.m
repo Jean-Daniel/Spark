@@ -1,5 +1,5 @@
 /*
- *  SparkObjectsLibrary.m
+ *  SparkObjectSet.m
  *  SparkKit
  *
  *  Created by Black Moon Team.
@@ -7,7 +7,7 @@
  *
  */
 
-#import <SparkKit/SparkObjectsLibrary.h>
+#import <SparkKit/SparkObjectSet.h>
 
 #import <libkern/OSAtomic.h>
 #import <ShadowKit/SKCFContext.h>
@@ -19,6 +19,7 @@
 
 /* Notifications */
 NSString * const kSparkNotificationObject = @"SparkNotificationObject";
+NSString * const kSparkNotificationUpdatedObject = @"SparkUpdatedObject";
 
 NSString* const kSparkLibraryWillAddObjectNotification = @"SparkLibraryWillAddObject";
 NSString* const kSparkLibraryDidAddObjectNotification = @"SparkLibraryDidAddObject";
@@ -31,7 +32,7 @@ NSString* const kSparkLibraryDidRemoveObjectNotification = @"SparkLibraryDidRemo
 
 #define kSparkLibraryVersion2_0		(UInt32)0x200
 static
-const unsigned int kSparkObjectsLibraryCurrentVersion = kSparkLibraryVersion2_0;
+const unsigned int kSparkObjectSetCurrentVersion = kSparkLibraryVersion2_0;
 
 /* Library Keys */
 static
@@ -39,8 +40,26 @@ NSString * const kSparkLibraryVersionKey = @"SparkVersion";
 static
 NSString * const kSparkObjectsKey = @"SparkObjects";
 
+NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void *source) {
+  if ([obj1 uid] < kSparkLibraryReserved) {
+    if ([obj2 uid] < kSparkLibraryReserved) {
+      /* obj1 and obj2 are reserved objects */
+      return [obj1 uid] - [obj2 uid];
+    } else {
+      /* obj1 reserved and obj2 standard */
+      return NSOrderedAscending;
+    }
+  } else if ([obj2 uid] < kSparkLibraryReserved) {
+    /* obj2 reserved and obj1 standard */
+    return NSOrderedDescending;
+  } else {
+    /* obj1 and obj2 are standard */
+    return [[obj1 name] caseInsensitiveCompare:[obj2 name]];
+  }
+}
+
 #pragma mark -
-@implementation SparkObjectsLibrary
+@implementation SparkObjectSet
 
 + (id)objectsLibraryWithLibrary:(SparkLibrary *)aLibrary {
   return [[[self alloc] initWithLibrary:aLibrary] autorelease];
@@ -107,8 +126,7 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
   [[NSNotificationCenter defaultCenter] postNotificationName:name
                                                       object:self
                                                     userInfo:object ? [NSDictionary dictionaryWithObject:object
-                                                                                                  forKey:kSparkNotificationObject] : nil
-    ];
+                                                                                                  forKey:kSparkNotificationObject] : nil];
 }
 
 - (BOOL)addObject:(SparkObject *)object {
@@ -156,7 +174,11 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
     NSMapInsert(sp_objects, (void *)[object uid], object);
     [object setLibrary:[self library]];
     // Did update
-    [self postNotification:kSparkLibraryDidUpdateObjectNotification object:object];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kSparkLibraryDidUpdateObjectNotification
+                                                        object:self
+                                                      userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                        object, kSparkNotificationObject,
+                                                        old, kSparkNotificationUpdatedObject, nil]];
     return YES;
   }
   return NO;
@@ -183,15 +205,19 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
   }
 }
 
+- (NSDictionary *)serialize:(SparkObject *)anObject error:(OSStatus *)error {
+  return SKSerializeObject(anObject, error);
+}
+
 - (NSFileWrapper *)fileWrapper:(NSError **)outError {
   NSMutableArray *objects = [[NSMutableArray alloc] init];
   NSMutableDictionary *plist = [[NSMutableDictionary alloc] init];
-  [plist setObject:SKUInt(kSparkObjectsLibraryCurrentVersion) forKey:kSparkLibraryVersionKey];
+  [plist setObject:SKUInt(kSparkObjectSetCurrentVersion) forKey:kSparkLibraryVersionKey];
   
   SparkObject *object;
   NSEnumerator *enumerator = [self objectEnumerator];
   while (object = [enumerator nextObject]) {
-    NSDictionary *serialize = SKSerializeObject(object, nil);
+    NSDictionary *serialize = [self serialize:object error:NULL];
     if (serialize && [NSPropertyListSerialization propertyList:serialize isValidForFormat:SparkLibraryFileFormat]) {
       [objects addObject:serialize];
     } else {
@@ -206,6 +232,10 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
   [plist release];
   
   return [[[NSFileWrapper alloc] initRegularFileWithContents:data] autorelease];
+}
+
+- (SparkObject *)deserialize:(NSDictionary *)plist error:(OSStatus *)error {
+  return SKDeserializeObject(plist, error);
 }
 
 - (BOOL)readFromFileWrapper:(NSFileWrapper *)fileWrapper error:(NSError **)outError {
@@ -224,7 +254,7 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
   NSEnumerator *enumerator = [objects objectEnumerator];
   while (serialize = [enumerator nextObject]) {
     OSStatus err;
-    SparkObject *object = SKDeserializeObject(serialize, &err);
+    SparkObject *object = [self deserialize:serialize error:&err];
     /* If class not found */
     if (!object && kSKClassNotFoundError == err) {
       object = [[SparkPlaceHolder alloc] initWithSerializedValues:serialize];
@@ -254,15 +284,6 @@ bail:
 
 - (void)setCurrentUID:(UInt32)uid {
   sp_uid = uid;
-}
-#pragma mark -
-- (void)postNotification:(NSString *)name withObject:(id)object {
-  if ([self library]) {
-    [[NSNotificationCenter defaultCenter] postNotificationName:name
-                                                        object:[self library]
-                                                      userInfo:[NSDictionary dictionaryWithObject:object
-                                                                                           forKey:kSparkNotificationObject]];
-  }
 }
 
 @end

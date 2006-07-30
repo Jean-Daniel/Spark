@@ -41,8 +41,8 @@
 		984A38B00A60060200DA6455 /* SparkHotKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 984A38A60A60060200DA6455 /* SparkHotKey.m */; };
 		984A38B10A60060200DA6455 /* SparkLibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = 984A38A70A60060200DA6455 /* SparkLibrary.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		984A38B20A60060200DA6455 /* SparkLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 984A38A80A60060200DA6455 /* SparkLibrary.m */; };
-		984A38B30A60060200DA6455 /* SparkObjectsLibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = 984A38A90A60060200DA6455 /* SparkObjectsLibrary.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		984A38B40A60060200DA6455 /* SparkObjectsLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 984A38AA0A60060200DA6455 /* SparkObjectsLibrary.m */; };
+		984A38B30A60060200DA6455 /* SparkObjectSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 984A38A90A60060200DA6455 /* SparkObjectSet.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		984A38B40A60060200DA6455 /* SparkObjectSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 984A38AA0A60060200DA6455 /* SparkObjectSet.m */; };
 		984A38B50A60060200DA6455 /* SparkTrigger.h in Headers */ = {isa = PBXBuildFile; fileRef = 984A38AB0A60060200DA6455 /* SparkTrigger.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		984A38B60A60060200DA6455 /* SparkTrigger.m in Sources */ = {isa = PBXBuildFile; fileRef = 984A38AC0A60060200DA6455 /* SparkTrigger.m */; };
 		984A38C30A60060A00DA6455 /* SparkAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 984A38B80A60060A00DA6455 /* SparkAction.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -95,7 +95,7 @@
 		986DB09507135B1A00C65FF2 /* KeyIcon.tif in Resources */ = {isa = PBXBuildFile; fileRef = 986DB09407135B1A00C65FF2 /* KeyIcon.tif */; };
 		986F7A4107071B2F00064694 /* SystemApplication.tif in Resources */ = {isa = PBXBuildFile; fileRef = 986F7A4007071B2F00064694 /* SystemApplication.tif */; };
 		989EF9EA0A7CC4BB00721386 /* SparkList.m in Sources */ = {isa = PBXBuildFile; fileRef = 989EF9E90A7CC4BB00721386 /* SparkList.m */; };
-		989EF9EE0A7CC4C900721386 /* SparkList.h in Headers */ = {isa = PBXBuildFile; fileRef = 989EF9ED0A7CC4C900721386 /* SparkList.h */; };
+		989EF9EE0A7CC4C900721386 /* SparkList.h in Headers */ = {isa = PBXBuildFile; fileRef = 989EF9ED0A7CC4C900721386 /* SparkList.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		98A923B90A7BC6E300DF1998 /* Application.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98A923B80A7BC6E200DF1998 /* Application.tiff */; };
 		98BCF0C40708BDA70039136F /* IgnoreAction.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98BCF0C30708BDA70039136F /* IgnoreAction.tif */; };
 		98C56D45096B353F00ABE1EF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 98C56D40096B353900ABE1EF /* InfoPlist.strings */; };
@@ -215,8 +215,8 @@
 		984A38A60A60060200DA6455 /* SparkHotKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkHotKey.m; sourceTree = "<group>"; };
 		984A38A70A60060200DA6455 /* SparkLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkLibrary.h; sourceTree = "<group>"; };
 		984A38A80A60060200DA6455 /* SparkLibrary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkLibrary.m; sourceTree = "<group>"; };
-		984A38A90A60060200DA6455 /* SparkObjectsLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkObjectsLibrary.h; sourceTree = "<group>"; };
-		984A38AA0A60060200DA6455 /* SparkObjectsLibrary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkObjectsLibrary.m; sourceTree = "<group>"; };
+		984A38A90A60060200DA6455 /* SparkObjectSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkObjectSet.h; sourceTree = "<group>"; };
+		984A38AA0A60060200DA6455 /* SparkObjectSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkObjectSet.m; sourceTree = "<group>"; };
 		984A38AB0A60060200DA6455 /* SparkTrigger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkTrigger.h; sourceTree = "<group>"; };
 		984A38AC0A60060200DA6455 /* SparkTrigger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkTrigger.m; sourceTree = "<group>"; };
 		984A38B80A60060A00DA6455 /* SparkAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkAction.h; sourceTree = "<group>"; };
@@ -447,8 +447,8 @@
 				984A38A80A60060200DA6455 /* SparkLibrary.m */,
 				984A38AC0A60060200DA6455 /* SparkTrigger.m */,
 				984A38A60A60060200DA6455 /* SparkHotKey.m */,
+				984A38AA0A60060200DA6455 /* SparkObjectSet.m */,
 				984A38A40A60060200DA6455 /* SparkApplication.m */,
-				984A38AA0A60060200DA6455 /* SparkObjectsLibrary.m */,
 			);
 			name = Library;
 			path = Sources/Library;
@@ -475,8 +475,8 @@
 				984A38A70A60060200DA6455 /* SparkLibrary.h */,
 				984A38AB0A60060200DA6455 /* SparkTrigger.h */,
 				984A38A50A60060200DA6455 /* SparkHotKey.h */,
+				984A38A90A60060200DA6455 /* SparkObjectSet.h */,
 				984A38A30A60060200DA6455 /* SparkApplication.h */,
-				984A38A90A60060200DA6455 /* SparkObjectsLibrary.h */,
 			);
 			name = Headers;
 			sourceTree = "<group>";
@@ -722,7 +722,7 @@
 				984A38AD0A60060200DA6455 /* SparkApplication.h in Headers */,
 				984A38AF0A60060200DA6455 /* SparkHotKey.h in Headers */,
 				984A38B10A60060200DA6455 /* SparkLibrary.h in Headers */,
-				984A38B30A60060200DA6455 /* SparkObjectsLibrary.h in Headers */,
+				984A38B30A60060200DA6455 /* SparkObjectSet.h in Headers */,
 				984A38B50A60060200DA6455 /* SparkTrigger.h in Headers */,
 				984A38C30A60060A00DA6455 /* SparkAction.h in Headers */,
 				984A38C50A60060A00DA6455 /* SparkActionPlugIn.h in Headers */,
@@ -927,7 +927,7 @@
 				984A38AE0A60060200DA6455 /* SparkApplication.m in Sources */,
 				984A38B00A60060200DA6455 /* SparkHotKey.m in Sources */,
 				984A38B20A60060200DA6455 /* SparkLibrary.m in Sources */,
-				984A38B40A60060200DA6455 /* SparkObjectsLibrary.m in Sources */,
+				984A38B40A60060200DA6455 /* SparkObjectSet.m in Sources */,
 				984A38B60A60060200DA6455 /* SparkTrigger.m in Sources */,
 				984A38C40A60060A00DA6455 /* SparkAction.m in Sources */,
 				984A38C60A60060A00DA6455 /* SparkActionPlugIn.m in Sources */,

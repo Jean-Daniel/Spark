@@ -7,18 +7,42 @@
  */
 
 #import <SparkKit/SparkObject.h>
+#import <SparkKit/SparkObjectSet.h>
 
-@class SparkObjectsLibrary; 
+typedef BOOL(*SparkListFilter)(SparkObject *, id ctxt);
+
 @interface SparkList : SparkObject {
   @private
   NSMutableArray *sp_entries;
-  SparkObjectsLibrary *sp_lib; /* weak reference */
+  
+  SparkObjectSet *sp_set; /* weak reference */
+  
+  id sp_ctxt;
+  SparkListFilter sp_filter;
+  
+  struct _sp_slFlags {
+    unsigned int builtin:1;
+    unsigned int reserved:31;
+  } sp_slFlags;
 }
 
-- (void)setLibrary:(SparkObjectsLibrary *)library;
+- (id)initWithObjectSet:(SparkObjectSet *)library;
+
+- (void)setObjectSet:(SparkObjectSet *)library;
+
+- (void)setListFilter:(SparkListFilter)aFilter context:(id)aCtxt;
 
 /* Special initializer */
-- (id)initWithLibrary:(SparkObjectsLibrary *)library
+- (id)initWithObjectSet:(SparkObjectSet *)library
      serializedValues:(NSDictionary *)plist;
 
+- (void)addObject:(SparkObject *)anObject;
+
+@end
+
+#pragma mark -
+/* Same as Object Set but override deserialization */
+@interface SparkListSet : SparkObjectSet {
+}
+- (SparkObject *)deserialize:(NSDictionary *)plist error:(OSStatus *)error;
 @end

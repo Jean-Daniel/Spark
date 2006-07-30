@@ -11,7 +11,7 @@
 #import <SparkKit/SparkKit.h>
 #import <SparkKit/SparkAction.h>
 #import <SparkKit/SparkActionLoader.h>
-#import <SparkKit/SparkObjectsLibrary.h>
+#import <SparkKit/SparkObjectSet.h>
 
 #import <ShadowKit/SKImageUtils.h>
 #import <ShadowKit/SKAppKitExtensions.h>

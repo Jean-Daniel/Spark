@@ -202,7 +202,7 @@ NSTimeInterval SparkGetDefaultKeyRepeatInterval() {
     // Adjust repeat delay.
     __attribute__((unused)) SparkHotKey *key = [self target];
     SparkAction *action = nil; // Resolve action for trigger: key
-    [self setKeyRepeat:(action) ? [action repeatInterval] : 0];    
+    [self setRepeatInterval:(action) ? [action repeatInterval] : 0];    
   }
 }
 
