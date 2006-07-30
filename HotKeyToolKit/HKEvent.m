@@ -52,30 +52,23 @@ void __HKEventPostKeystroke(CGKeyCode keycode, CGEventFlags modifier, CGEventSou
     source = CGEventSourceCreate(kCGEventSourceStatePrivate);
   }
   
-  DLog(@"*********** Post Keystroke ***********");
   /* Sending Modifier Keydown events */
   if (kCGEventFlagMaskAlphaShift & modifier) {
-    NSLog(@"\t- Caps lock");
     __HKEventPostKeyboardEvent(source, kVirtualCapsLockKey, psn, YES);
   }
   if (kCGEventFlagMaskShift & modifier) {
-    NSLog(@"\t- Shift");
     __HKEventPostKeyboardEvent(source, kVirtualShiftKey, psn, YES);
   }
   if (kCGEventFlagMaskControl & modifier) {
-    NSLog(@"\t- Control");
     __HKEventPostKeyboardEvent(source, kVirtualControlKey, psn, YES);
   }
   if (kCGEventFlagMaskAlternate & modifier) {
-    NSLog(@"\t- Option");
     __HKEventPostKeyboardEvent(source, kVirtualOptionKey, psn, YES);
   }
   if (kCGEventFlagMaskCommand & modifier) {
-    NSLog(@"\t- Command");
     __HKEventPostKeyboardEvent(source, kVirtualCommandKey, psn, YES);
   }
   
-  NSLog(@"\t- Keycode: %i", keycode);
   /* Sending Character Key events */
   __HKEventPostKeyboardEvent(source, keycode , psn, YES);
   __HKEventPostKeyboardEvent(source, keycode, psn, NO);
@@ -97,7 +90,6 @@ void __HKEventPostKeystroke(CGKeyCode keycode, CGEventFlags modifier, CGEventSou
     __HKEventPostKeyboardEvent(source, kVirtualCapsLockKey, psn, NO);
   }
   
-  DLog(@"*********** End Post Keystroke ***********");
   if (isource) {
     CFRelease(source);
   }
@@ -106,7 +98,7 @@ void __HKEventPostKeystroke(CGKeyCode keycode, CGEventFlags modifier, CGEventSou
 static
 Boolean __HKEventPostCharacterKeystrokes(UniChar character, CGEventSourceRef source, void *psn) {
   /* WARNING: look like CGEvent does not support null source */
-  BOOL isource = NO;
+  BOOL isource = NO; /* YES if internal source and should be released */ 
   if (!source && CGEventSourceCreate != NULL) {
     isource = YES;
     source = CGEventSourceCreate(kCGEventSourceStatePrivate);

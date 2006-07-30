@@ -7,7 +7,7 @@
  */
 /*!
 	@header HKKeyMap
-	@abstract   A set of converter to map between Keyboard Hardware keycode and represented character.
+	@abstract A set of converter to map between Keyboard Hardware keycode and represented character.
 */
 
 #import <Foundation/Foundation.h>
@@ -207,16 +207,16 @@ UInt32 HKMapGetKeycodeAndModifierForUnichar(UniChar character, UInt32 *modifier,
 @function 
  @abstract   Advanced reverse mapping function.
  @param      character
- @param      keys
- @param      modifiers
- @param      maxcount Size of keys and modifiers.
+ @param      keys On return, an array of virtual keycode.
+ @param      modifiers  On return, an array of modifiers.
+ @param      maxcount Size of keys and modifiers array.
  @result     Returns Count of keystroke needed to generate character. Can be more than maxcount.
  */
 extern 
 UInt32 HKMapGetKeycodesAndModifiersForUnichar(UniChar character, UInt32 *keys, UInt32 *modifiers, UInt32 maxcount);
 
 /*!
-	@function 	HKUnicharForKeycode
+	@function
 	@abstract   Mapping function.
 	@discussion If the unichar is not a simple printable char, return one of the Unicode Constant.
 	@param      keycode A virtual keycode.
@@ -226,14 +226,14 @@ extern
 UniChar HKMapGetUnicharForKeycode(UInt32 keycode);
 
 /*!
-    @function 	HKCurrentKeyMapName
+    @function
     @abstract   Returns the name of the current keyMap.
 */
 extern
 NSString* HKMapGetCurrentMapName(void);
 
 /*!
-    @function 	HKStringRepresentationForCharacterAndModifier
+    @function
     @abstract   Returns a String representation of the Shortcut, or nil if character is 0.
     @param      character 
     @param      modifier If <i>modifier</i> is nil, return a representation of the key Unichar.
@@ -242,15 +242,14 @@ extern
 NSString* HKMapGetStringRepresentationForCharacterAndModifier(UniChar character, UInt32 modifier);
 
 typedef enum {
-  kHKModifierFormatNative,
-  kHKModifierFormatCarbon,
-  kHKModifierFormatCocoa,
+  kHKModifierFormatNative, /* kCGEventFlagsMask */
+  kHKModifierFormatCarbon, /* Carbon Event modifiers */
+  kHKModifierFormatCocoa, /* NSEvent modifiers */
 } HKModifierFormat;
 
 /*!
-	@function 	HKCocoaToCarbonModifier
-	@abstract   Cocoa modifier constant and Carbon modifier constant are not the same. This function convert a Cocoa modifier into 
-				Carbon modifier.
+	@function
+	@abstract   Convert modifiers from one domain to another domain. All HKKeyMap function use native domain modifiers.
 	@param      mask A Cocoa modifier mask.
 	@result     Return a carbon modifier.
  */

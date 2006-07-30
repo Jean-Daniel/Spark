@@ -37,7 +37,7 @@ volatile int HKGDBWorkaround = 0;
   copy->hk_character = hk_character;
     
   copy->hk_repeatTimer = nil;
-  copy->hk_keyRepeat = hk_keyRepeat;
+  copy->hk_repeatInterval = hk_repeatInterval;
   
   /* Key isn't registred */
   copy->hk_hkFlags.onrelease = hk_hkFlags.onrelease;
@@ -52,7 +52,7 @@ volatile int HKGDBWorkaround = 0;
   [aCoder encodeInt:hk_keycode forKey:@"HKKeycode"];
   [aCoder encodeInt:hk_character forKey:@"HKCharacter"];
   
-  [aCoder encodeInt:hk_keyRepeat forKey:@"HKCharacter"];
+  [aCoder encodeDouble:hk_repeatInterval forKey:@"HKRepeatInterval"];
 }
 
 - (id)initWithCoder:(NSCoder *)aCoder {
@@ -66,7 +66,7 @@ volatile int HKGDBWorkaround = 0;
     hk_keycode = [aCoder decodeIntForKey:@"HKKeycode"];
     hk_character = [aCoder decodeIntForKey:@"HKCharacter"];
     
-    hk_keyRepeat = [aCoder decodeDoubleForKey:@"HKCharacter"];
+    hk_repeatInterval = [aCoder decodeDoubleForKey:@"HKRepeatInterval"];
   }
   return self;
 }
@@ -117,9 +117,9 @@ volatile int HKGDBWorkaround = 0;
 }
 
 - (NSString *)description {
-  return [NSString stringWithFormat:@"<%@, %p> {keycode:0x%x character:%C modifier:0x%x repeat:%f isRegistred:%@ }",
-    [self className], self,
-    [self keycode], [self character], [self modifier], [self keyRepeat],
+  return [NSString stringWithFormat:@"<%@ %p> {keycode:0x%x character:0x%x modifier:0x%x repeat:%f isRegistred:%@ }",
+    [self class], self,
+    [self keycode], [self character], [self modifier], [self repeatInterval],
     ([self isRegistred] ? @"YES" : @"NO")];
 }
 
@@ -232,12 +232,12 @@ volatile int HKGDBWorkaround = 0;
   SKSetFlag(hk_hkFlags.onrelease, flag);
 }
 
-- (NSTimeInterval)keyRepeat {
-  return hk_keyRepeat;
+- (NSTimeInterval)repeatInterval {
+  return hk_repeatInterval;
 }
 
-- (void)setKeyRepeat:(NSTimeInterval)interval {
-  hk_keyRepeat = interval;
+- (void)setRepeatInterval:(NSTimeInterval)interval {
+  hk_repeatInterval = interval;
 }
 
 #pragma mark Key Serialization
@@ -283,9 +283,9 @@ volatile int HKGDBWorkaround = 0;
     /* Flags used to avoid double invocation if mode change during invoke */
     hk_hkFlags.invoked = 1;
     [self invoke:NO];
-    if ([self keyRepeat] > 0) {
+    if ([self repeatInterval] > 0) {
       NSDate *fire = [[NSDate alloc] initWithTimeIntervalSinceNow:HKGetSystemKeyRepeatThreshold()];
-      hk_repeatTimer = [[NSTimer alloc] initWithFireDate:fire interval:[self keyRepeat] target:self selector:@selector(hk_invoke:) userInfo:nil repeats:YES];
+      hk_repeatTimer = [[NSTimer alloc] initWithFireDate:fire interval:[self repeatInterval] target:self selector:@selector(hk_invoke:) userInfo:nil repeats:YES];
       [fire release];
       [[NSRunLoop currentRunLoop] addTimer:hk_repeatTimer forMode:NSDefaultRunLoopMode];
     }

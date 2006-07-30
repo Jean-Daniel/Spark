@@ -37,7 +37,7 @@ NSTimeInterval HKGetSystemKeyRepeatThreshold(void);
   id hk_target;
   SEL hk_action;
   NSTimer *hk_repeatTimer;
-  NSTimeInterval hk_keyRepeat;
+  NSTimeInterval hk_repeatInterval;
   
   struct _hk_hkFlags {
     unsigned int lock:1;
@@ -210,13 +210,13 @@ NSTimeInterval HKGetSystemKeyRepeatThreshold(void);
    @abstract   Returns the time interval between two repeat key down event.
    @result     Returns a time interval in seconds or 0 if autorepeat isn't active for the receiver.
    */
-- (NSTimeInterval)keyRepeat;
+- (NSTimeInterval)repeatInterval;
   /*!
   @method
    @abstract   Sets the time interva between two autorepeat key down events.
    @param      interval the time interval in seconds, or 0 to desactivate autorepeat for the receiver.
    */
-- (void)setKeyRepeat:(NSTimeInterval)interval;
+- (void)setRepeatInterval:(NSTimeInterval)interval;
 
   /*!
   @method

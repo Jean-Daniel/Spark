@@ -20,7 +20,7 @@ static
 const OSType kHKHotKeyEventSignature = 'HkTk';
 
 static 
-OSStatus HandleHotKeyEvent(EventHandlerCallRef nextHandler,EventRef theEvent,void *userData);
+OSStatus _HandleHotKeyEvent(EventHandlerCallRef nextHandler,EventRef theEvent,void *userData);
 
 static int32_t gHotKeyUID = 0;
 
@@ -36,7 +36,7 @@ BOOL HKTraceHotKeyEvents = NO;
 static EventHandlerUPP kHKHandlerUPP = NULL;
 + (void)initialize {
   if ([HKHotKeyManager class] == self) {
-    kHKHandlerUPP = NewEventHandlerUPP(HandleHotKeyEvent);
+    kHKHandlerUPP = NewEventHandlerUPP(_HandleHotKeyEvent);
   }
 }
 
@@ -89,7 +89,9 @@ static EventHandlerUPP kHKHandlerUPP = NULL;
     UInt32 mask = [key modifier];
     UInt32 keycode = [key keycode];
     UInt32 uid = OSAtomicIncrement32(&gHotKeyUID);
-    DLog(@"%@ Code: %i, mask: %x, character: %C", NSStringFromSelector(_cmd), keycode, mask, [key character]);
+    if (HKTraceHotKeyEvents) {
+      NSLog(@"Register HotKey %@", key);
+    }
     EventHotKeyID hotKeyId = {kHKHotKeyEventSignature, uid};
     EventHotKeyRef ref = HKRegisterHotKey(keycode, mask, hotKeyId);
     if (ref) {
@@ -107,6 +109,10 @@ static EventHandlerUPP kHKHandlerUPP = NULL;
     NSAssert(ref != nil, @"Unable to find Carbon HotKey Handler");
     
     BOOL result = (ref) ? HKUnregisterHotKey(ref) : NO;
+    
+    if (HKTraceHotKeyEvents) {
+      NSLog(@"Unregister HotKey: %@", key);
+    }
     
     NSMapRemove(hk_refs, key);
 
@@ -229,6 +235,6 @@ static HKHotKeyFilter _filter;
 
 #pragma mark -
 #pragma mark Carbon Event Handler
-OSStatus HandleHotKeyEvent(EventHandlerCallRef nextHandler,EventRef theEvent,void *userData) {
+OSStatus _HandleHotKeyEvent(EventHandlerCallRef nextHandler,EventRef theEvent,void *userData) {
   return [(id)userData handleCarbonEvent:theEvent];
 }

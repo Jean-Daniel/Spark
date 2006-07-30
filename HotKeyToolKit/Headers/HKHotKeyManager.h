@@ -26,7 +26,7 @@ typedef BOOL (*HKHotKeyFilter)(UInt32 keycode, UInt32 modifier);
 */
 @interface HKHotKeyManager : NSObject {
   @private
-  void* hk_handler; /* EventHandlerRef handlerRef */
+  void *hk_handler; /* EventHandlerRef */
   NSMapTable *hk_refs;
   NSMapTable *hk_keys;
 }
