@@ -23,10 +23,10 @@ enum {
 #define kSparkActionCurrentVersion	kSparkActionVersion_2_0;
 
 /*!
-@function	SparkGetDefaultKeyRepeatInterval
- @abstract	Returns the system default time interval for repeat keys.
+@function SparkGetDefaultKeyRepeatInterval
+ @abstract Returns the system default time interval for repeat keys.
  This default time can be changed by the user in «System Preferences».
- @result		Returns the system default time interval for repeat keys.
+ @result Returns the system default time interval for repeat keys.
  */
 SPARK_EXPORT
 NSTimeInterval SparkGetDefaultKeyRepeatInterval(void);
@@ -37,8 +37,8 @@ NSTimeInterval SparkGetDefaultKeyRepeatInterval(void);
 
 @discussion Subclass must override methods:
 <ul style="list-style:none">
-<li>-initFromPropertyList:</li>
-<li>-propertyList</li>
+<li>-initWithSerializedValues:</li>
+<li>-serialize:</li>
 <li>-check (optional)</li>
 <li>-execute</li>
 <ul>
@@ -64,7 +64,7 @@ NSTimeInterval SparkGetDefaultKeyRepeatInterval(void);
 - (BOOL)serialize:(NSMutableDictionary *)plist;
   /*!
   @method
-   @abstract Create a new object by unserializing plist.
+   @abstract Required! Create a new object by unserializing plist.
    @param plist A serialized form of an object. <i>plist</i> contains all keys/values pairs added into -serialize: method.
    @result A new deserialized object.
    */

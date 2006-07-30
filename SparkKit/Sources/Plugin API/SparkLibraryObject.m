@@ -30,7 +30,7 @@ NSString* const kSparkLibraryObjectIconKey = @"Icon";
 #pragma mark NSCoding
 - (void)encodeWithCoder:(NSCoder *)coder {
   [coder encodeInt32:sp_uid forKey:kSparkLibraryObjectUIDKey];
-  if (nil != sp_name)
+  if (sp_name)
     [coder encodeObject:sp_name forKey:kSparkLibraryObjectNameKey];
   if (sp_icon)
     [coder encodeObject:[sp_icon TIFFRepresentationUsingCompression:NSTIFFCompressionLZW factor:1] forKey:kSparkLibraryObjectIconKey];
@@ -86,6 +86,7 @@ NSString* const kSparkLibraryObjectIconKey = @"Icon";
 }
 
 - (id)initWithSerializedValues:(NSDictionary *)plist {
+  /* Compatibility */
   if (SKInstanceImplementSelector([self class], @selector(initFromPropertyList:))) {
     self = [self initFromPropertyList:plist];
   } else {

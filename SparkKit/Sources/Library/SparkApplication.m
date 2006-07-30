@@ -9,8 +9,9 @@
 
 #import <SparkKit/SparkApplication.h>
 
-#import <ShadowKit/SKImageUtils.h>
+//#import <ShadowKit/SKImageUtils.h>
 #import <ShadowKit/SKApplication.h>
+#import <ShadowKit/SKAppKitExtensions.h>
 
 static NSString * const kSparkApplicationKey = @"SparkApplication";
 
@@ -106,9 +107,23 @@ static NSString * const kSparkApplicationKey = @"SparkApplication";
   sp_application = [[SKApplication alloc] initWithPath:path];
   if (sp_application) {
     [self setName:[sp_application name]];
-    [self setIcon:SKResizedIcon([[NSWorkspace sharedWorkspace] iconForFile:path], NSMakeSize(16, 16))];
     [sp_application setName:nil];
+    /* Reset icon data */
+    [self setIcon:nil];
   }
+}
+
+/* Loading workspace icon is slow, so use lazy loading */
+- (NSImage *)icon {
+  if (![super icon]) {
+    NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:[sp_application path]];
+    //SKResizedIcon([[NSWorkspace sharedWorkspace] iconForFile:path], NSMakeSize(16, 16));
+    if (!icon) {
+      icon = [NSImage imageNamed:@"Application" inBundle:SKCurrentBundle()];
+    }
+    [self setIcon:icon];
+  }
+  return [super icon];
 }
 
 //- (NSString *)identifier {
