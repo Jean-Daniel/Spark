@@ -3,7 +3,7 @@
  *  SparkKit
  *
  *  Created by Black Moon Team.
- *  Copyright © 2004 - 2006 Shadow Lab. All rights reserved.
+ *  Copyright (c) 2004 - 2006 Shadow Lab. All rights reserved.
  *
  */
 /*!
@@ -12,7 +12,7 @@
  */
 
 #import <SparkKit/SparkKit.h>
-#import <SparkKit/SparkLibraryObject.h>
+#import <SparkKit/SparkObject.h>
 
 @class SparkAlert;
 
@@ -43,7 +43,7 @@ NSTimeInterval SparkGetDefaultKeyRepeatInterval(void);
 <li>-execute</li>
 <ul>
 */
-@interface SparkAction : SparkLibraryObject <NSCopying, NSCoding> {
+@interface SparkAction : SparkObject <NSCopying, NSCoding> {
   @private
   int sp_version;
   struct _sp_saFlags {

@@ -3,13 +3,13 @@
  *  SparkKit
  *
  *  Created by Black Moon Team.
- *  Copyright © 2004 - 2006 Shadow Lab. All rights reserved.
+ *  Copyright (c) 2004 - 2006 Shadow Lab. All rights reserved.
  *
  */
 
-#import <SparkKit/SparkLibraryObject.h>
+#import <SparkKit/SparkObject.h>
 
-@interface SparkTrigger : SparkLibraryObject <NSCoding, NSCopying> {
+@interface SparkTrigger : SparkObject <NSCoding, NSCopying> {
   @private
   id sp_target;
   SEL sp_action;

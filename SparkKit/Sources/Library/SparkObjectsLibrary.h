@@ -3,12 +3,12 @@
  *  SparkKit
  *
  *  Created by Black Moon Team.
- *  Copyright © 2004 - 2006 Shadow Lab. All rights reserved.
+ *  Copyright (c) 2004 - 2006 Shadow Lab. All rights reserved.
  *
  */
 
 #import <SparkKit/SparkKit.h>
-#import <SparkKit/SparkLibraryObject.h>
+#import <SparkKit/SparkObject.h>
 
 /*!
 @class SparkObjectsLibrary
@@ -34,13 +34,13 @@
 - (NSArray *)objects;
 - (NSEnumerator *)objectEnumerator;
 
-- (BOOL)containsObject:(SparkLibraryObject *)object;
+- (BOOL)containsObject:(SparkObject *)object;
 
 - (id)objectForUID:(UInt32)uid;
 
-- (BOOL)addObject:(SparkLibraryObject *)object;
-- (BOOL)updateObject:(SparkLibraryObject *)object;
-- (void)removeObject:(SparkLibraryObject *)object;
+- (BOOL)addObject:(SparkObject *)object;
+- (BOOL)updateObject:(SparkObject *)object;
+- (void)removeObject:(SparkObject *)object;
 
 - (int)addObjectsFromArray:(NSArray *)objects;
 - (void)removeObjectsInArray:(NSArray *)newObjects;
@@ -55,7 +55,7 @@
 @end
 
 #pragma mark -
-@interface SparkPlaceHolder : SparkLibraryObject {
+@interface SparkPlaceHolder : SparkObject {
   @private 
   NSDictionary *sp_plist;
 }
@@ -82,6 +82,6 @@ SPARK_EXPORT
 NSString * const kSparkNotificationObject;
 
 SPARK_INLINE
-SparkLibraryObject *SparkNotificationObject(NSNotification *aNotification) {
+SparkObject *SparkNotificationObject(NSNotification *aNotification) {
   return [[aNotification userInfo] objectForKey:kSparkNotificationObject];
 }

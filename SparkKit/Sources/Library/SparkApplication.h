@@ -3,14 +3,14 @@
  *  SparkKit
  *
  *  Created by Black Moon Team.
- *  Copyright © 2004 - 2006 Shadow Lab. All rights reserved.
+ *  Copyright (c) 2004 - 2006 Shadow Lab. All rights reserved.
  *
  */
 
-#import <SparkKit/SparkLibraryObject.h>
+#import <SparkKit/SparkObject.h>
 
 @class SKApplication;
-@interface SparkApplication : SparkLibraryObject {
+@interface SparkApplication : SparkObject {
   @private
   SKApplication *sp_application;
 }

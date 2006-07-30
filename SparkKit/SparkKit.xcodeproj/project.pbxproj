@@ -51,8 +51,8 @@
 		984A38C60A60060A00DA6455 /* SparkActionPlugIn.m in Sources */ = {isa = PBXBuildFile; fileRef = 984A38BB0A60060A00DA6455 /* SparkActionPlugIn.m */; };
 		984A38C70A60060A00DA6455 /* SparkAlert.h in Headers */ = {isa = PBXBuildFile; fileRef = 984A38BC0A60060A00DA6455 /* SparkAlert.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		984A38C80A60060A00DA6455 /* SparkAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 984A38BD0A60060A00DA6455 /* SparkAlert.m */; };
-		984A38C90A60060A00DA6455 /* SparkLibraryObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 984A38BE0A60060A00DA6455 /* SparkLibraryObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		984A38CA0A60060A00DA6455 /* SparkLibraryObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 984A38BF0A60060A00DA6455 /* SparkLibraryObject.m */; };
+		984A38C90A60060A00DA6455 /* SparkObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 984A38BE0A60060A00DA6455 /* SparkObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		984A38CA0A60060A00DA6455 /* SparkObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 984A38BF0A60060A00DA6455 /* SparkObject.m */; };
 		984A38CB0A60060A00DA6455 /* SparkMultipleAlerts.h in Headers */ = {isa = PBXBuildFile; fileRef = 984A38C00A60060A00DA6455 /* SparkMultipleAlerts.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		984A38CC0A60060A00DA6455 /* SparkMultipleAlerts.m in Sources */ = {isa = PBXBuildFile; fileRef = 984A38C10A60060A00DA6455 /* SparkMultipleAlerts.m */; };
 		984A38CD0A60060A00DA6455 /* SparkPluginAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 984A38C20A60060A00DA6455 /* SparkPluginAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -225,8 +225,8 @@
 		984A38BB0A60060A00DA6455 /* SparkActionPlugIn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkActionPlugIn.m; sourceTree = "<group>"; };
 		984A38BC0A60060A00DA6455 /* SparkAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkAlert.h; sourceTree = "<group>"; };
 		984A38BD0A60060A00DA6455 /* SparkAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkAlert.m; sourceTree = "<group>"; };
-		984A38BE0A60060A00DA6455 /* SparkLibraryObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkLibraryObject.h; sourceTree = "<group>"; };
-		984A38BF0A60060A00DA6455 /* SparkLibraryObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkLibraryObject.m; sourceTree = "<group>"; };
+		984A38BE0A60060A00DA6455 /* SparkObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkObject.h; sourceTree = "<group>"; };
+		984A38BF0A60060A00DA6455 /* SparkObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkObject.m; sourceTree = "<group>"; };
 		984A38C00A60060A00DA6455 /* SparkMultipleAlerts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkMultipleAlerts.h; sourceTree = "<group>"; };
 		984A38C10A60060A00DA6455 /* SparkMultipleAlerts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkMultipleAlerts.m; sourceTree = "<group>"; };
 		984A38C20A60060A00DA6455 /* SparkPluginAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkPluginAPI.h; sourceTree = "<group>"; };
@@ -445,8 +445,8 @@
 				984A38CE0A60061500DA6455 /* Headers */,
 				989EF9E90A7CC4BB00721386 /* SparkList.m */,
 				984A38A80A60060200DA6455 /* SparkLibrary.m */,
-				984A38A60A60060200DA6455 /* SparkHotKey.m */,
 				984A38AC0A60060200DA6455 /* SparkTrigger.m */,
+				984A38A60A60060200DA6455 /* SparkHotKey.m */,
 				984A38A40A60060200DA6455 /* SparkApplication.m */,
 				984A38AA0A60060200DA6455 /* SparkObjectsLibrary.m */,
 			);
@@ -460,8 +460,8 @@
 				984A38CF0A60063500DA6455 /* Headers */,
 				984A38BD0A60060A00DA6455 /* SparkAlert.m */,
 				984A38B90A60060A00DA6455 /* SparkAction.m */,
+				984A38BF0A60060A00DA6455 /* SparkObject.m */,
 				984A38BB0A60060A00DA6455 /* SparkActionPlugIn.m */,
-				984A38BF0A60060A00DA6455 /* SparkLibraryObject.m */,
 				984A38C10A60060A00DA6455 /* SparkMultipleAlerts.m */,
 			);
 			name = "Plugin API";
@@ -473,8 +473,8 @@
 			children = (
 				989EF9ED0A7CC4C900721386 /* SparkList.h */,
 				984A38A70A60060200DA6455 /* SparkLibrary.h */,
-				984A38A50A60060200DA6455 /* SparkHotKey.h */,
 				984A38AB0A60060200DA6455 /* SparkTrigger.h */,
+				984A38A50A60060200DA6455 /* SparkHotKey.h */,
 				984A38A30A60060200DA6455 /* SparkApplication.h */,
 				984A38A90A60060200DA6455 /* SparkObjectsLibrary.h */,
 			);
@@ -487,8 +487,8 @@
 				984A38C20A60060A00DA6455 /* SparkPluginAPI.h */,
 				984A38BC0A60060A00DA6455 /* SparkAlert.h */,
 				984A38B80A60060A00DA6455 /* SparkAction.h */,
+				984A38BE0A60060A00DA6455 /* SparkObject.h */,
 				984A38BA0A60060A00DA6455 /* SparkActionPlugIn.h */,
-				984A38BE0A60060A00DA6455 /* SparkLibraryObject.h */,
 				984A38C00A60060A00DA6455 /* SparkMultipleAlerts.h */,
 			);
 			name = Headers;
@@ -727,7 +727,7 @@
 				984A38C30A60060A00DA6455 /* SparkAction.h in Headers */,
 				984A38C50A60060A00DA6455 /* SparkActionPlugIn.h in Headers */,
 				984A38C70A60060A00DA6455 /* SparkAlert.h in Headers */,
-				984A38C90A60060A00DA6455 /* SparkLibraryObject.h in Headers */,
+				984A38C90A60060A00DA6455 /* SparkObject.h in Headers */,
 				984A38CB0A60060A00DA6455 /* SparkMultipleAlerts.h in Headers */,
 				984A38CD0A60060A00DA6455 /* SparkPluginAPI.h in Headers */,
 				989EF9EE0A7CC4C900721386 /* SparkList.h in Headers */,
@@ -932,7 +932,7 @@
 				984A38C40A60060A00DA6455 /* SparkAction.m in Sources */,
 				984A38C60A60060A00DA6455 /* SparkActionPlugIn.m in Sources */,
 				984A38C80A60060A00DA6455 /* SparkAlert.m in Sources */,
-				984A38CA0A60060A00DA6455 /* SparkLibraryObject.m in Sources */,
+				984A38CA0A60060A00DA6455 /* SparkObject.m in Sources */,
 				984A38CC0A60060A00DA6455 /* SparkMultipleAlerts.m in Sources */,
 				989EF9EA0A7CC4BB00721386 /* SparkList.m in Sources */,
 			);

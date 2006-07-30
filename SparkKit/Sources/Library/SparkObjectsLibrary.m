@@ -3,7 +3,7 @@
  *  SparkKit
  *
  *  Created by Black Moon Team.
- *  Copyright © 2004 - 2006 Shadow Lab. All rights reserved.
+ *  Copyright (c) 2004 - 2006 Shadow Lab. All rights reserved.
  *
  */
 
@@ -37,7 +37,7 @@ const unsigned int kSparkObjectsLibraryCurrentVersion = kSparkLibraryVersion2_0;
 static
 NSString * const kSparkLibraryVersionKey = @"SparkVersion";
 static
-NSString * const kSparkLibraryObjectsKey = @"SparkObjects";
+NSString * const kSparkObjectsKey = @"SparkObjects";
 
 #pragma mark -
 @implementation SparkObjectsLibrary
@@ -94,7 +94,7 @@ NSString * const kSparkLibraryObjectsKey = @"SparkObjects";
   return SKMapTableEnumerator(sp_objects, NO);
 }
 
-- (BOOL)containsObject:(SparkLibraryObject *)object {
+- (BOOL)containsObject:(SparkObject *)object {
   return object ? NSMapMember(sp_objects, (void *)[object uid], NULL, NULL) : NO;
 }
 
@@ -103,7 +103,7 @@ NSString * const kSparkLibraryObjectsKey = @"SparkObjects";
 }
 
 #pragma mark -
-- (void)postNotification:(NSString *)name object:(SparkLibraryObject *)object {
+- (void)postNotification:(NSString *)name object:(SparkObject *)object {
   [[NSNotificationCenter defaultCenter] postNotificationName:name
                                                       object:self
                                                     userInfo:object ? [NSDictionary dictionaryWithObject:object
@@ -111,7 +111,7 @@ NSString * const kSparkLibraryObjectsKey = @"SparkObjects";
     ];
 }
 
-- (BOOL)addObject:(SparkLibraryObject *)object {
+- (BOOL)addObject:(SparkObject *)object {
   NSParameterAssert(object != nil);
   @try {
     if (![self containsObject:object]) {
@@ -138,7 +138,7 @@ NSString * const kSparkLibraryObjectsKey = @"SparkObjects";
 }
 - (int)addObjectsFromArray:(NSArray *)objects {
   int count = 0;
-  SparkLibraryObject *item = nil;
+  SparkObject *item = nil;
   NSEnumerator *items = [objects objectEnumerator];
   while (item = [items nextObject]) {
     count += ([self addObject:item]) ? 1 : 0;
@@ -147,9 +147,9 @@ NSString * const kSparkLibraryObjectsKey = @"SparkObjects";
 }
 
 #pragma mark -
-- (BOOL)updateObject:(SparkLibraryObject *)object {
+- (BOOL)updateObject:(SparkObject *)object {
   NSParameterAssert([self containsObject:object]);
-  SparkLibraryObject *old = [self objectForUID:[object uid]];
+  SparkObject *old = [self objectForUID:[object uid]];
   if (old && (old != object)) {
     // Will update
     [self postNotification:kSparkLibraryWillUpdateObjectNotification object:old];
@@ -163,7 +163,7 @@ NSString * const kSparkLibraryObjectsKey = @"SparkObjects";
 }
 
 #pragma mark -
-- (void)removeObject:(SparkLibraryObject *)object {
+- (void)removeObject:(SparkObject *)object {
   if (object && [self containsObject:object]) {
     [object retain];
     // Will remove
@@ -176,7 +176,7 @@ NSString * const kSparkLibraryObjectsKey = @"SparkObjects";
   }
 }
 - (void)removeObjectsInArray:(NSArray *)objects {
-  SparkLibraryObject *item = nil;
+  SparkObject *item = nil;
   NSEnumerator *items = [objects objectEnumerator];
   while (item = [items nextObject]) {
     [self removeObject:item];
@@ -188,7 +188,7 @@ NSString * const kSparkLibraryObjectsKey = @"SparkObjects";
   NSMutableDictionary *plist = [[NSMutableDictionary alloc] init];
   [plist setObject:SKUInt(kSparkObjectsLibraryCurrentVersion) forKey:kSparkLibraryVersionKey];
   
-  SparkLibraryObject *object;
+  SparkObject *object;
   NSEnumerator *enumerator = [self objectEnumerator];
   while (object = [enumerator nextObject]) {
     NSDictionary *serialize = SKSerializeObject(object, nil);
@@ -199,7 +199,7 @@ NSString * const kSparkLibraryObjectsKey = @"SparkObjects";
     }
   }
   
-  [plist setObject:objects forKey:kSparkLibraryObjectsKey];
+  [plist setObject:objects forKey:kSparkObjectsKey];
   [objects release];
   
   NSData *data = [NSPropertyListSerialization dataFromPropertyList:plist format:SparkLibraryFileFormat errorDescription:nil];
@@ -217,14 +217,14 @@ NSString * const kSparkLibraryObjectsKey = @"SparkObjects";
                                                                    format:nil errorDescription:nil];
   require(plist, bail);
   
-  NSArray *objects = [plist objectForKey:kSparkLibraryObjectsKey];
+  NSArray *objects = [plist objectForKey:kSparkObjectsKey];
   require(objects, bail);
   
   NSDictionary *serialize;
   NSEnumerator *enumerator = [objects objectEnumerator];
   while (serialize = [enumerator nextObject]) {
     OSStatus err;
-    SparkLibraryObject *object = SKDeserializeObject(serialize, &err);
+    SparkObject *object = SKDeserializeObject(serialize, &err);
     /* If class not found */
     if (!object && kSKClassNotFoundError == err) {
       object = [[SparkPlaceHolder alloc] initWithSerializedValues:serialize];

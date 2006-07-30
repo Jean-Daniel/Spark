@@ -1,24 +1,24 @@
 /*
- *  SparkLibraryObject.h
+ *  SparkObject.h
  *  SparkKit
  *
  *  Created by Black Moon Team.
- *  Copyright © 2004 - 2006 Shadow Lab. All rights reserved.
+ *  Copyright (c) 2004 - 2006 Shadow Lab. All rights reserved.
  *
  */
 
 /*!
-@header 	SparkLibraryObject.
- @abstract	SparkLibraryObject Declaration.
+@header 	SparkObject.
+ @abstract	SparkObject Declaration.
  */
 
 /*!
-@class SparkLibraryObject
+@class SparkObject
 @abstract   Abstract super class for all serializable Spark Objects.
-@discussion You never need intanciate a SparkLibraryObject directly. This is an Abstract class.
+@discussion You never need intanciate a SparkObject directly. This is an Abstract class.
 */
 @class SparkLibrary;
-@interface SparkLibraryObject : NSObject <NSCoding, NSCopying> {
+@interface SparkObject : NSObject <NSCoding, NSCopying> {
   @private
   UInt32 sp_uid;
   NSImage *sp_icon;
@@ -118,7 +118,7 @@
    @param      object The object to compare.
    @result     Return YES if the receiver respresents the same object than <i>object</i>.
    */
-- (BOOL)isEqualToLibraryObject:(SparkLibraryObject *)object;
+- (BOOL)isEqualToLibraryObject:(SparkObject *)object;
 
 #pragma mark Internal Methods
   /*!

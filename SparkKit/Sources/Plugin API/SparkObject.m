@@ -1,26 +1,26 @@
 /*
- *  SparkLibraryObject.m
+ *  SparkObject.m
  *  SparkKit
  *
  *  Created by Black Moon Team.
- *  Copyright © 2004 - 2006 Shadow Lab. All rights reserved.
+ *  Copyright (c) 2004 - 2006 Shadow Lab. All rights reserved.
  *
  */
 
 #import <ShadowKit/SKFunctions.h>
-#import <SparkKit/SparkLibraryObject.h>
+#import <SparkKit/SparkObject.h>
 
 static
-NSString* const kSparkLibraryObjectUIDKey = @"UID";
+NSString* const kSparkObjectUIDKey = @"UID";
 static
-NSString* const kSparkLibraryObjectNameKey = @"Name";
+NSString* const kSparkObjectNameKey = @"Name";
 static
-NSString* const kSparkLibraryObjectIconKey = @"Icon";
+NSString* const kSparkObjectIconKey = @"Icon";
 
-@implementation SparkLibraryObject
+@implementation SparkObject
 
 + (void)initialize {
-  if ([SparkLibraryObject class] == self) {
+  if ([SparkObject class] == self) {
     [self exposeBinding:@"name"];
     [self exposeBinding:@"icon"];
   }
@@ -29,26 +29,26 @@ NSString* const kSparkLibraryObjectIconKey = @"Icon";
 #pragma mark -
 #pragma mark NSCoding
 - (void)encodeWithCoder:(NSCoder *)coder {
-  [coder encodeInt32:sp_uid forKey:kSparkLibraryObjectUIDKey];
+  [coder encodeInt32:sp_uid forKey:kSparkObjectUIDKey];
   if (sp_name)
-    [coder encodeObject:sp_name forKey:kSparkLibraryObjectNameKey];
+    [coder encodeObject:sp_name forKey:kSparkObjectNameKey];
   if (sp_icon)
-    [coder encodeObject:[sp_icon TIFFRepresentationUsingCompression:NSTIFFCompressionLZW factor:1] forKey:kSparkLibraryObjectIconKey];
+    [coder encodeObject:[sp_icon TIFFRepresentationUsingCompression:NSTIFFCompressionLZW factor:1] forKey:kSparkObjectIconKey];
   return;
 }
 
 - (id)initWithCoder:(NSCoder *)coder {
-  NSImage *icon = [coder decodeObjectForKey:kSparkLibraryObjectIconKey];
-  NSString *name = [coder decodeObjectForKey:kSparkLibraryObjectNameKey];
+  NSImage *icon = [coder decodeObjectForKey:kSparkObjectIconKey];
+  NSString *name = [coder decodeObjectForKey:kSparkObjectNameKey];
   if (self = [self initWithName:name icon:icon]) {
-    [self setUID:[coder decodeInt32ForKey:kSparkLibraryObjectUIDKey]];
+    [self setUID:[coder decodeInt32ForKey:kSparkObjectUIDKey]];
   }
   return self;
 }
 
 #pragma mark NSCopying
 - (id)copyWithZone:(NSZone *)zone {
-  SparkLibraryObject* copy = (id)NSCopyObject(self, 0, zone);
+  SparkObject* copy = (id)NSCopyObject(self, 0, zone);
   copy->sp_uid = sp_uid;
   copy->sp_name = [sp_name retain];
   copy->sp_icon = [sp_icon retain];
@@ -61,19 +61,19 @@ NSString* const kSparkLibraryObjectIconKey = @"Icon";
   return [NSMutableDictionary dictionary];
 }
 - (id)initFromPropertyList:(NSDictionary *)plist {
-  NSString *name = [plist objectForKey:kSparkLibraryObjectNameKey];
-  NSImage *icon = [[NSImage alloc] initWithData:[plist objectForKey:kSparkLibraryObjectIconKey]];
+  NSString *name = [plist objectForKey:kSparkObjectNameKey];
+  NSImage *icon = [[NSImage alloc] initWithData:[plist objectForKey:kSparkObjectIconKey]];
   self = [self initWithName:name icon:icon];
   [icon release];
   return self;
 }
 
 - (BOOL)serialize:(NSMutableDictionary *)plist {
-  [plist setObject:SKUInt(sp_uid) forKey:kSparkLibraryObjectUIDKey];
+  [plist setObject:SKUInt(sp_uid) forKey:kSparkObjectUIDKey];
   if (sp_name)
-    [plist setObject:sp_name forKey:kSparkLibraryObjectNameKey];
+    [plist setObject:sp_name forKey:kSparkObjectNameKey];
   if (sp_icon) {
-    [plist setObject:[sp_icon TIFFRepresentationUsingCompression:NSTIFFCompressionLZW factor:1] forKey:kSparkLibraryObjectIconKey];
+    [plist setObject:[sp_icon TIFFRepresentationUsingCompression:NSTIFFCompressionLZW factor:1] forKey:kSparkObjectIconKey];
   }
   /* Compatibility */
   if (SKInstanceImplementSelector([self class], @selector(propertyList))) {
@@ -90,14 +90,14 @@ NSString* const kSparkLibraryObjectIconKey = @"Icon";
   if (SKInstanceImplementSelector([self class], @selector(initFromPropertyList:))) {
     self = [self initFromPropertyList:plist];
   } else {
-    NSString *name = [plist objectForKey:kSparkLibraryObjectNameKey];
-    NSImage *icon = [[NSImage alloc] initWithData:[plist objectForKey:kSparkLibraryObjectIconKey]];
+    NSString *name = [plist objectForKey:kSparkObjectNameKey];
+    NSImage *icon = [[NSImage alloc] initWithData:[plist objectForKey:kSparkObjectIconKey]];
     self = [self initWithName:name icon:icon];
     [icon release];
   }
   if (self) {
     [self setLibrary:[plist objectForKey:@"_SparkLibrary_"]];
-    [self setUID:[[plist objectForKey:kSparkLibraryObjectUIDKey] unsignedIntValue]];
+    [self setUID:[[plist objectForKey:kSparkObjectUIDKey] unsignedIntValue]];
   }
   return self;
 }
@@ -144,7 +144,7 @@ NSString* const kSparkLibraryObjectIconKey = @"Icon";
   [super dealloc];
 }
 
-- (NSComparisonResult)compare:(SparkLibraryObject *)anObject {
+- (NSComparisonResult)compare:(SparkObject *)anObject {
   return [self uid] - [anObject uid];
 }
 
@@ -170,7 +170,7 @@ NSString* const kSparkLibraryObjectIconKey = @"Icon";
   return ([object class] == [self class]) && ([object uid] == [self uid]);
 }
 
-- (BOOL)isEqualToLibraryObject:(SparkLibraryObject *)object {
+- (BOOL)isEqualToLibraryObject:(SparkObject *)object {
   return ([object uid] == [self uid]);
 }
 
