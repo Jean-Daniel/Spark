@@ -16,6 +16,7 @@
 		980B12AD0A5BABAE008F6DBC /* SKCFContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 980B12AC0A5BABAE008F6DBC /* SKCFContext.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		980BCE390A5B17BF0036AD2A /* SKCArray.c in Sources */ = {isa = PBXBuildFile; fileRef = 980BCE380A5B17BF0036AD2A /* SKCArray.c */; };
 		980BCE3B0A5B17C90036AD2A /* SKCArray.h in Headers */ = {isa = PBXBuildFile; fileRef = 980BCE3A0A5B17C90036AD2A /* SKCArray.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		980EEB2E0A7E8A0B00013CF5 /* SimpleList.png in Resources */ = {isa = PBXBuildFile; fileRef = 980EEB2D0A7E8A0B00013CF5 /* SimpleList.png */; };
 		981EBC100A5AEF8F001C2FB3 /* SKSerialization.h in Headers */ = {isa = PBXBuildFile; fileRef = 981EBC0F0A5AEF8F001C2FB3 /* SKSerialization.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		981EBC1B0A5AEFC5001C2FB3 /* SKSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 981EBC1A0A5AEFC5001C2FB3 /* SKSerialization.m */; };
 		9825AFBC06FB76BD003A4088 /* ApplicationList.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 9825AFBB06FB76BD003A4088 /* ApplicationList.tiff */; };
@@ -100,7 +101,6 @@
 		98BCF0C40708BDA70039136F /* IgnoreAction.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98BCF0C30708BDA70039136F /* IgnoreAction.tif */; };
 		98C56D45096B353F00ABE1EF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 98C56D40096B353900ABE1EF /* InfoPlist.strings */; };
 		98C6DEC606FB9CD6000AFA2F /* ActionList.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98C6DEC506FB9CD6000AFA2F /* ActionList.tif */; };
-		98C6E0EC06FB9F74000AFA2F /* KeyList.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98C6E0EB06FB9F74000AFA2F /* KeyList.tif */; };
 		98CF6FA706B3DAD50017D206 /* MultipleAlerts.nib in Resources */ = {isa = PBXBuildFile; fileRef = 98CF6FA506B3DAD50017D206 /* MultipleAlerts.nib */; };
 		98CF6FB006B3DB2B0017D206 /* Forward.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98CF6FAC06B3DB2B0017D206 /* Forward.tif */; };
 		98CF6FB106B3DB2B0017D206 /* ForwardPressedBlue.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98CF6FAD06B3DB2B0017D206 /* ForwardPressedBlue.tif */; };
@@ -183,6 +183,7 @@
 		980B12AC0A5BABAE008F6DBC /* SKCFContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = SKCFContext.h; path = Headers/SKCFContext.h; sourceTree = "<group>"; };
 		980BCE380A5B17BF0036AD2A /* SKCArray.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; lineEnding = 0; path = SKCArray.c; sourceTree = "<group>"; };
 		980BCE3A0A5B17C90036AD2A /* SKCArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = SKCArray.h; path = Headers/SKCArray.h; sourceTree = "<group>"; };
+		980EEB2D0A7E8A0B00013CF5 /* SimpleList.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SimpleList.png; sourceTree = "<group>"; };
 		981B5F8009386A590024C0D9 /* ShadowCommon.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowCommon.xcconfig; sourceTree = "<group>"; };
 		981B5F8109386A590024C0D9 /* ShadowDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowDebug.xcconfig; sourceTree = "<group>"; };
 		981B5F8209386A590024C0D9 /* ShadowRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowRelease.xcconfig; sourceTree = "<group>"; };
@@ -598,6 +599,7 @@
 				986DB09407135B1A00C65FF2 /* KeyIcon.tif */,
 				98F867260A600D24009C68F9 /* Warning.tiff */,
 				98C6DEC506FB9CD6000AFA2F /* ActionList.tif */,
+				980EEB2D0A7E8A0B00013CF5 /* SimpleList.png */,
 				98A923B80A7BC6E200DF1998 /* Application.tiff */,
 				98BCF0C30708BDA70039136F /* IgnoreAction.tif */,
 				986DB09207135AC100C65FF2 /* CustomKeyIcon.tif */,
@@ -885,7 +887,6 @@
 				98CF6FB306B3DB2B0017D206 /* Back.tif in Resources */,
 				9825AFBC06FB76BD003A4088 /* ApplicationList.tiff in Resources */,
 				98C6DEC606FB9CD6000AFA2F /* ActionList.tif in Resources */,
-				98C6E0EC06FB9F74000AFA2F /* KeyList.tif in Resources */,
 				986F7A4107071B2F00064694 /* SystemApplication.tif in Resources */,
 				98BCF0C40708BDA70039136F /* IgnoreAction.tif in Resources */,
 				986DB09307135AC100C65FF2 /* CustomKeyIcon.tif in Resources */,
@@ -893,6 +894,7 @@
 				9805FD390773B47700B1A341 /* Localizable.strings in Resources */,
 				98F867270A600D24009C68F9 /* Warning.tiff in Resources */,
 				98A923B90A7BC6E300DF1998 /* Application.tiff in Resources */,
+				980EEB2E0A7E8A0B00013CF5 /* SimpleList.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

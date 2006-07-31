@@ -9,7 +9,7 @@
 
 #import <SparkKit/SparkApplication.h>
 
-//#import <ShadowKit/SKImageUtils.h>
+#import <ShadowKit/SKImageUtils.h>
 #import <ShadowKit/SKApplication.h>
 #import <ShadowKit/SKAppKitExtensions.h>
 

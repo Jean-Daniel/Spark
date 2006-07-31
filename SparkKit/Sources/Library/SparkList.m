@@ -40,7 +40,7 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
 - (NSImage *)icon {
   NSImage *icon = [super icon];
   if (!icon) {
-    icon = [NSImage imageNamed:@"KeyList" inBundle:SKCurrentBundle()];
+    icon = [NSImage imageNamed:@"SimpleList" inBundle:SKCurrentBundle()];
     [self setIcon:icon];
   }
   return icon;
@@ -82,7 +82,13 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
 }
 
 - (BOOL)serialize:(NSMutableDictionary *)plist {
+  /* Do not save list icon */
+  NSImage *icon = [[super icon] retain];
+  [super setIcon:nil];
   [super serialize:plist];
+  [super setIcon:icon];
+  [icon release];
+  
   NSMutableArray *objects = [[NSMutableArray alloc] init];
   
   SparkObject *entry;
