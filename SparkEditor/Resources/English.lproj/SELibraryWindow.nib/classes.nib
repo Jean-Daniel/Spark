@@ -10,6 +10,7 @@
         }, 
         {CLASS = SEApplicationView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
         {CLASS = SEBackgroundView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
+        {CLASS = SELibrarySource; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
             ACTIONS = {newList = id; }; 
             CLASS = SELibraryWindow; 
@@ -19,7 +20,7 @@
                 appSource = SKTableDataSource; 
                 appTable = SKTableView; 
                 libraryTable = SKTableView; 
-                listSource = SKTableDataSource; 
+                listSource = SELibrarySource; 
                 search = NSSearchField; 
                 triggers = SETriggersController; 
             }; 

@@ -116,8 +116,8 @@ static NSString * const kSparkApplicationKey = @"SparkApplication";
 /* Loading workspace icon is slow, so use lazy loading */
 - (NSImage *)icon {
   if (![super icon]) {
-    NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:[sp_application path]];
-    //SKResizedIcon([[NSWorkspace sharedWorkspace] iconForFile:path], NSMakeSize(16, 16));
+    //NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:[sp_application path]];
+    NSImage *icon = SKResizedIcon([[NSWorkspace sharedWorkspace] iconForFile:[sp_application path]], NSMakeSize(32, 32));
     if (!icon) {
       icon = [NSImage imageNamed:@"Application" inBundle:SKCurrentBundle()];
     }

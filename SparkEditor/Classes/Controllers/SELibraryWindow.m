@@ -10,6 +10,7 @@
 
 #import "SEHeaderCell.h"
 #import "SEVirtualPlugIn.h"
+#import "SELibrarySource.h"
 #import "SEApplicationView.h"
 #import "SETriggersController.h"
 
@@ -17,6 +18,7 @@
 #import <ShadowKit/SKFunctions.h>
 #import <ShadowKit/SKTableDataSource.h>
 #import <ShadowKit/SKImageAndTextCell.h>
+#import <ShadowKit/SKAppKitExtensions.h>
 
 #import <SparkKit/SparkList.h>
 #import <SparkKit/SparkPlugIn.h>
@@ -71,14 +73,20 @@
   while (idx-- > 0) {
     SparkPlugIn *plugin = [plugins objectAtIndex:idx];
     SparkList *list = [[SparkList alloc] initWithName:[plugin name] icon:[plugin icon]];
-    [list setUID:UINT32_MAX];
+    [list setUID:128];
     [listSource addObject:list];
     [list release];
   }
   [listSource addObjects:[SparkSharedListSet() objects]];
   [listSource addObject:[SparkList objectWithName:@"Library" icon:[NSImage imageNamed:@"Library"]]];
-  [listSource setCompareFunction:SparkObjectCompare];
   [listSource rearrangeObjects];
+  
+  [libraryTable setTarget:self];
+  [libraryTable setDoubleAction:@selector(libraryDoubleAction:)];
+}
+
+- (IBAction)libraryDoubleAction:(id)sender {
+  ShadowTrace();
 }
 
 - (void)windowDidLoad {
@@ -93,7 +101,6 @@
   [SparkSharedListSet() addObject:list];
   [list release];
   [listSource addObject:list];
-  [listSource rearrangeObjects];
   // Edit new list name
 }
 

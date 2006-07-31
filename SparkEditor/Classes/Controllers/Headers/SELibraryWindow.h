@@ -10,13 +10,13 @@
 #import <Cocoa/Cocoa.h>
 
 @class SETriggersController, SEApplicationView;
-@class SKTableView, SKTableDataSource, SEApplicationSource;
+@class SKTableView, SKTableDataSource, SELibrarySource, SEApplicationSource;
 @interface SELibraryWindow : NSWindowController {
   IBOutlet NSSearchField *search;
   IBOutlet SKTableView *appTable;
   IBOutlet SEApplicationSource *appSource;
   
-  IBOutlet SKTableDataSource *listSource;
+  IBOutlet SELibrarySource *listSource;
   
   IBOutlet SKTableView *libraryTable;
   IBOutlet SETriggersController *triggers;
