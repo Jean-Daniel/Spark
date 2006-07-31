@@ -25,7 +25,6 @@
 
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkApplication.h>
-#import <SparkKit/SparkActionLoader.h>
 
 @implementation SELibraryWindow
 
@@ -68,19 +67,6 @@
   [header release];
   [libraryTable setCornerView:[[[SEHeaderCellCorner alloc] init] autorelease]];
   
-  NSArray *plugins = [[SparkActionLoader sharedLoader] plugins];
-  unsigned idx = [plugins count];
-  while (idx-- > 0) {
-    SparkPlugIn *plugin = [plugins objectAtIndex:idx];
-    SparkList *list = [[SparkList alloc] initWithName:[plugin name] icon:[plugin icon]];
-    [list setUID:128];
-    [listSource addObject:list];
-    [list release];
-  }
-  [listSource addObjects:[SparkSharedListSet() objects]];
-  [listSource addObject:[SparkList objectWithName:@"Library" icon:[NSImage imageNamed:@"Library"]]];
-  [listSource rearrangeObjects];
-  
   [libraryTable setTarget:self];
   [libraryTable setDoubleAction:@selector(libraryDoubleAction:)];
 }
@@ -96,12 +82,8 @@
   [[self window] display];
 }
 
-- (IBAction)newList:(id)sender {
-  SparkList *list = [[SparkList alloc] initWithName:@"New List"];
-  [SparkSharedListSet() addObject:list];
-  [list release];
-  [listSource addObject:list];
-  // Edit new list name
+- (void)source:(SELibrarySource *)aSource didChangeSelection:(SparkList *)list {
+  ShadowTrace();
 }
 
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification {

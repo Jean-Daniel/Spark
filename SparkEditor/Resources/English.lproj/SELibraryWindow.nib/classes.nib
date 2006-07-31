@@ -10,9 +10,14 @@
         }, 
         {CLASS = SEApplicationView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
         {CLASS = SEBackgroundView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
-        {CLASS = SELibrarySource; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
             ACTIONS = {newList = id; }; 
+            CLASS = SELibrarySource; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {delegate = id; table = SETableView; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
             CLASS = SELibraryWindow; 
             LANGUAGE = ObjC; 
             OUTLETS = {

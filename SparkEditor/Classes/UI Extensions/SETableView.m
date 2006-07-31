@@ -58,4 +58,20 @@
   [img drawInRect:[self rectOfRow:[self selectedRow]] fromRect:imgRect operation:NSCompositeSourceOver fraction:1];
 }
 
+- (void)textDidEndEditing:(NSNotification *)aNotification {
+  //[super textDidEndEditing:aNotification];
+  NSString *text = [[aNotification object] string];
+  [[self dataSource] tableView:self
+                setObjectValue:text
+                forTableColumn:[[self tableColumns] objectAtIndex:0]
+                           row:[self editedRow]];
+  
+  [[[[self tableColumns] objectAtIndex:0] dataCell] endEditing:[aNotification object]];
+  [[self window] makeFirstResponder:self];
+  [self reloadData];
+  
+//  [self setNeedsDisplayInRect:[self rectOfRow:[self selectedRow]]];
+  //[self selectRow:[self selectedRow] byExtendingSelection:NO];  
+}
+
 @end
