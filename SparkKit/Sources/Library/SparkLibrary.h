@@ -55,7 +55,7 @@ typedef struct _SparkEntry {
 #pragma mark -
 @class SparkApplication;
 @interface SparkLibrary : NSObject {
-@private
+  @private
   NSString *sp_file;
   SKCArrayRef sp_relations;
   NSMutableDictionary *sp_libraries;
@@ -80,7 +80,13 @@ typedef struct _SparkEntry {
 - (NSFileWrapper *)fileWrapper:(NSError **)outError;
 - (BOOL)readFromFileWrapper:(NSFileWrapper *)fileWrapper error:(NSError **)outError;
 
-/* Library Queries */
+  /* Library Queries */
+  /*!
+  @method     
+   @abstract Query triggers and action for an application UID.
+   @discussion (comprehensive description)
+   @result Returns a dictionary that contains triggers as keys, and corresponding actions as value.
+   */
 - (NSDictionary *)triggersForApplication:(UInt32)application;
 
 @end

@@ -30,12 +30,15 @@ typedef BOOL(*SparkListFilter)(SparkObject *, id ctxt);
 
 - (void)setObjectSet:(SparkObjectSet *)library;
 
+- (void)reload;
+- (id)filterContext;
 - (void)setListFilter:(SparkListFilter)aFilter context:(id)aCtxt;
 
 /* Special initializer */
 - (id)initWithObjectSet:(SparkObjectSet *)library
      serializedValues:(NSDictionary *)plist;
 
+- (unsigned)count;
 - (void)addObject:(SparkObject *)anObject;
 
 @end

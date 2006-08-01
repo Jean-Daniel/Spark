@@ -13,6 +13,7 @@
   SparkApplication *se_app;
   
   float se_width;
+  NSImage *se_icon;
   NSString *se_title;
 }
 

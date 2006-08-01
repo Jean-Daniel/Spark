@@ -52,6 +52,20 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
   return icon;
 }
 
+- (void)reload {
+  /* Refresh objects */
+  [sp_entries removeAllObjects];
+  if (sp_filter && sp_set) {
+    SparkObject *object;
+    NSEnumerator *objects = [sp_set objectEnumerator];
+    while (object = [objects nextObject]) {
+      if (sp_filter(object, sp_ctxt)) {
+        [self addObject:object];
+      }
+    }
+  }
+}
+
 - (void)setObjectSet:(SparkObjectSet *)library {
   if (sp_set != library) {
     /* unregister notifications */
@@ -79,23 +93,20 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
                                                    name:kSparkLibraryDidUpdateObjectNotification
                                                  object:sp_set];
     }
+    /* Refresh contents if smart list */
+    if (sp_filter)
+      [self reload];
   }
 }
 
+- (id)filterContext {
+  return sp_ctxt;
+}
 - (void)setListFilter:(SparkListFilter)aFilter context:(id)aCtxt {
   sp_filter = aFilter;
   SKSetterRetain(sp_ctxt, aCtxt);
-  /* Refresh objects */
-  [sp_entries removeAllObjects];
-  if (sp_filter && sp_set) {
-    SparkObject *object;
-    NSEnumerator *objects = [sp_set objectEnumerator];
-    while (object = [objects nextObject]) {
-      if (sp_filter(object, sp_ctxt)) {
-        [self addObject:object];
-      }
-    }
-  } 
+  /* Refresh contents */
+  [self reload];
 }
 
 - (BOOL)serialize:(NSMutableDictionary *)plist {
@@ -137,6 +148,9 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
   return self;
 }
 
+- (unsigned)count {
+  return [sp_entries count];
+}
 - (void)addObject:(SparkObject *)anObject {
   [sp_entries addObject:anObject];
 }
@@ -150,14 +164,25 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
 }
 - (void)didUpdateObject:(NSNotification *)aNotification {
   unsigned idx = 0;
+  SparkObject *object = SparkNotificationObject(aNotification);
   SparkObject *previous = [[aNotification userInfo] objectForKey:kSparkNotificationUpdatedObject];
+  /* If contains old value */
   if (previous && (idx = [sp_entries indexOfObject:previous]) != NSNotFound) {
-    SparkObject *object = SparkNotificationObject(aNotification);
-    if (object) {
+    /* If is not smart, or updated object is always valid, replace old value */
+    if (!sp_filter || sp_filter(object, sp_ctxt)) {
       [sp_entries replaceObjectAtIndex:idx withObject:object];
+    } else {
+      /* remove old value */
+      [sp_entries removeObjectAtIndex:idx];
+    }
+  } else {
+    /* Do not contains previous value but updated object is valid */
+    if (sp_filter && sp_filter(object, sp_ctxt)) {
+      [self addObject:object];
     }
   }
 }
+
 - (void)didRemoveObject:(NSNotification *)aNotification {
   SparkObject *object = SparkNotificationObject(aNotification);
   if (object)

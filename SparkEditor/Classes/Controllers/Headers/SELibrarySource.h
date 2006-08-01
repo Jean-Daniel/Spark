@@ -9,12 +9,14 @@
 
 #import <Foundation/Foundation.h>
 
-@class SparkList, SETableView;
+@class SparkList, SETableView, SETriggerEntrySet;
 @interface SELibrarySource : NSObject {
   IBOutlet SETableView *table;
   @private
   id se_delegate;
   NSMutableArray *se_content;
+  /* shared filter triggers */
+  SETriggerEntrySet *se_triggers;
 }
 
 - (IBAction)newList:(id)sender;

@@ -9,6 +9,9 @@
 
 #import <Cocoa/Cocoa.h>
 
+SK_EXPORT
+NSString * const SEApplicationDidChangeNotification;
+
 @class SETriggersController, SEApplicationView, SparkList;
 @class SKTableView, SKTableDataSource, SELibrarySource, SEApplicationSource;
 @interface SELibraryWindow : NSWindowController {

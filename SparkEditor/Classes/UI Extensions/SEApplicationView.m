@@ -23,6 +23,7 @@
 
 - (void)dealloc {
   [se_app release];
+  [se_icon release];
   [super dealloc];
 }
 
@@ -47,6 +48,21 @@
     }
     se_width = se_title ? [se_title sizeWithAttributes:nil].width : 0;
     
+    /* Cache icon */
+    [se_icon release];
+    se_icon = nil;
+    if (se_app) {
+      if (0 == [se_app uid]) {
+        se_icon = [[NSImage imageNamed:@"applelogo"] retain];
+      } else if ([se_app path]) {
+        se_icon = [[[NSWorkspace sharedWorkspace] iconForFile:[se_app path]] retain];
+      } else if ([se_app icon]) {
+        se_icon = [[se_app icon] retain];
+      } else {
+        se_icon = [[[NSWorkspace sharedWorkspace] iconForFileType:@"app"] retain];
+      }
+    }
+    
     [self setNeedsDisplay:YES];
   }
 }
@@ -70,25 +86,25 @@ static const float kAVImageRightMargin = 6.f;
     CGContextSetGrayFillColor(ctxt, 0, .050);
     CGContextDrawPath(ctxt,kCGPathFillStroke);
     
-    NSImage *img = nil;
-    if (0 == [se_app uid]) {
-      img = [NSImage imageNamed:@"applelogo"];
-    } else if ([se_app path]) {
-      img = [[NSWorkspace sharedWorkspace] iconForFile:[se_app path]];
-    } else if ([se_app icon]) {
-      img = [se_app icon];
-    } else {
-      img = [[NSWorkspace sharedWorkspace] iconForFileType:@"app"];
-    }
+    //NSImage *img = nil;
+//    if (0 == [se_app uid]) {
+//      img = [NSImage imageNamed:@"applelogo"];
+//    } else if ([se_app path]) {
+//      img = [[NSWorkspace sharedWorkspace] iconForFile:[se_app path]];
+//    } else if ([se_app icon]) {
+//      img = [se_app icon];
+//    } else {
+//      img = [[NSWorkspace sharedWorkspace] iconForFileType:@"app"];
+//    }
     
-    if (img) {
+    if (se_icon) {
       NSRect source = NSZeroRect;
-      source.size = [img size];
+      source.size = [se_icon size];
       /* paint icon with y=3 because lots of icon look better */
-      [img drawInRect:NSMakeRect(x, 3, kAVImageSize, kAVImageSize)
-             fromRect:source
-            operation:NSCompositeSourceOver
-             fraction:1];
+      [se_icon drawInRect:NSMakeRect(x, 3, kAVImageSize, kAVImageSize)
+                 fromRect:source
+                operation:NSCompositeSourceOver
+                 fraction:1];
     }
     
     [[SKShadowLabel defaultShadow] set];

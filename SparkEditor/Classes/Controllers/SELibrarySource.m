@@ -8,8 +8,11 @@
 
 #import "SELibrarySource.h"
 #import "SEHeaderCell.h"
+#import "SETriggerEntry.h"
+#import "SELibraryWindow.h"
 
 #import <SparkKit/SparkList.h>
+#import <SparkKit/SparkPlugIn.h>
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkActionLoader.h>
 
@@ -40,8 +43,26 @@ NSComparisonResult SECompareList(SparkList *l1, SparkList *l2, void *ctxt) {
 }
 
 static 
-BOOL SEPluginLibraryFilter(SparkObject *object, id ctxt) {
+BOOL SELibraryFilter(SparkObject *object, id ctxt) {
   return YES;
+}
+
+@interface SEPluginFilter : NSObject {
+  @private
+  Class se_action;
+  SETriggerEntrySet *se_triggers;
+}
+
+- (void)setActionClass:(Class)cls;
+- (void)setTriggers:(SETriggerEntrySet *)triggers;
+
+- (BOOL)isValidTrigger:(SparkTrigger *)aTrigger;
+
+@end
+
+static 
+BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
+  return [ctxt isValidTrigger:(id)object];
 }
 
 @implementation SELibrarySource
@@ -49,20 +70,31 @@ BOOL SEPluginLibraryFilter(SparkObject *object, id ctxt) {
 - (id)init {
   if (self = [super init]) {
     se_content = [[NSMutableArray alloc] init];
+    se_triggers = [[SETriggerEntrySet alloc] init];
+    
     /* Add library… */
     SparkList *library = [SparkList objectWithName:@"Library" icon:[NSImage imageNamed:@"Library"]];
     [library setObjectSet:SparkSharedTriggerSet()];
-    [library setListFilter:SEPluginLibraryFilter context:nil];
+    [library setListFilter:SELibraryFilter context:nil];
     [se_content addObject:library];
     
     /* …, plugins list… */
     NSArray *plugins = [[SparkActionLoader sharedLoader] plugins];
     unsigned uid = 128;
     unsigned idx = [plugins count];
+    [se_triggers addEntriesFromDictionary:[SparkSharedLibrary() triggersForApplication:0]];
     while (idx-- > 0) {
       SparkPlugIn *plugin = [plugins objectAtIndex:idx];
       SparkList *list = [[SparkList alloc] initWithName:[plugin name] icon:[plugin icon]];
+      [list setObjectSet:SparkSharedTriggerSet()];
       [list setUID:uid++];
+      
+      SEPluginFilter *filter = [[SEPluginFilter alloc] init];
+      [filter setActionClass:[plugin actionClass]];
+      [filter setTriggers:se_triggers];
+      [list setListFilter:SEPluginListFilter context:filter];
+      [filter release];
+      
       [se_content addObject:list];
       [list release];
     }
@@ -70,12 +102,19 @@ BOOL SEPluginLibraryFilter(SparkObject *object, id ctxt) {
     [se_content addObjectsFromArray:[SparkSharedListSet() objects]];
     
     [self rearrangeObjects];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didChangeApplication:)
+                                                 name:SEApplicationDidChangeNotification
+                                               object:nil];
   }
   return self;
 }
 
 - (void)dealloc {
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
   [se_content release];
+  [se_triggers release];
   [super dealloc];
 }
 
@@ -186,6 +225,52 @@ BOOL SEPluginLibraryFilter(SparkObject *object, id ctxt) {
       [se_delegate source:self didChangeSelection:[se_content objectAtIndex:idx]];
     }
   }
+}
+
+- (void)didChangeApplication:(NSNotification *)aNotification {
+  [se_triggers removeAllEntries];
+  [se_triggers addEntriesFromDictionary:[SparkSharedLibrary() triggersForApplication:0]];
+  SparkApplication *application = [aNotification object];
+  if ([application uid] != 0) {
+    [se_triggers addEntriesFromDictionary:[SparkSharedLibrary() triggersForApplication:[application uid]]];
+  }
+  
+  SparkList *list;
+  NSEnumerator *lists = [se_content objectEnumerator];
+  while (list = [lists nextObject]) {
+    SEPluginFilter *ctxt = [list filterContext];
+    if (ctxt && [ctxt isKindOfClass:[SEPluginFilter class]]) {
+      [list reload];
+      DLog(@"%@ => %i triggers", [list name], [list count]);
+    }
+  }
+}
+
+@end
+
+#pragma mark -
+@implementation SEPluginFilter
+
+- (void)dealloc {
+  [se_triggers release];
+  [super dealloc];
+}
+
+- (void)setActionClass:(Class)cls {
+  se_action = cls;
+}
+
+- (void)setTriggers:(SETriggerEntrySet *)triggers {
+  SKSetterRetain(se_triggers, triggers);
+}
+
+- (BOOL)isValidTrigger:(SparkTrigger *)aTrigger {
+  if (se_triggers && se_action) {
+    SparkAction *action = [se_triggers actionForTrigger:aTrigger];
+    if (action)
+      return [action isKindOfClass:se_action];
+  }
+  return NO;
 }
 
 @end

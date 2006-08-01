@@ -26,6 +26,8 @@
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkApplication.h>
 
+NSString * const SEApplicationDidChangeNotification = @"SEApplicationDidChange";
+
 @implementation SELibraryWindow
 
 - (id)init {
@@ -39,12 +41,15 @@
 }
 
 - (void)didSelectApplication:(int)anIndex {
+  SparkApplication *application = nil;
   NSArray *objects = [appSource arrangedObjects];
   if (anIndex >= 0 && (unsigned)anIndex < [objects count]) {
-    [appField setApplication:[objects objectAtIndex:anIndex]];
-  } else {
-    [appField setApplication:nil];
+    application = [objects objectAtIndex:anIndex];
   }
+  [appField setApplication:application];
+  [[NSNotificationCenter defaultCenter] postNotificationName:SEApplicationDidChangeNotification
+                                                      object:application
+                                                    userInfo:nil];
 }
 
 - (void)awakeFromNib {
@@ -59,7 +64,6 @@
   [header release];
   [appTable setCornerView:[[[SEHeaderCellCorner alloc] init] autorelease]];
   
- 
   [libraryTable setTarget:self];
   [libraryTable setDoubleAction:@selector(libraryDoubleAction:)];
 }

@@ -20,6 +20,7 @@
 #import <ShadowKit/SKCFContext.h>
 #import <ShadowKit/SKExtensions.h>
 #import <ShadowKit/SKFSFunctions.h>
+#import <ShadowKit/SKLSFunctions.h>
 #import <ShadowKit/SKSerialization.h>
 
 NSString * const kSparkLibraryFileExtension = @"splib";
@@ -39,9 +40,9 @@ static NSString * const kSparkApplicationLibrary = @"SparkApplicationSet";
 
 #ifdef DEBUG
 #warning Using Development Spark Library
-NSString * const kSparkLibraryDefaultFileName = @"SparkLibrary v3_Debug.splib";
+NSString * const kSparkLibraryDefaultFileName = @"Spark3 Library_Debug.splib";
 #else
-NSString * const kSparkLibraryDefaultFileName = @"SparkLibrary v3.splib";
+NSString * const kSparkLibraryDefaultFileName = @"Spark3 Library.splib";
 #endif
 
 typedef struct {
@@ -274,8 +275,13 @@ bail:
   }
   SparkApplication *finder = [[self applicationSet] objectForUID:1];
   if (!finder) {
-//    NString *path = SKLS
-//    finder = [SparkApplication appli
+    NSString *path = SKFindApplicationForSignature('MACS');
+    NSAssert(path, @"Could not locate Finder");
+    if (path && (finder = [[SparkApplication alloc] initWithPath:path])) {
+      [finder setUID:1];
+      [[self applicationSet] addObject:finder];
+      [finder release];
+    }
   }
   return result;
 bail:
@@ -296,7 +302,8 @@ bail:
   while (count-- > 0) {
     if (application == entry->application) {
       SparkAction *action = [actions objectForUID:entry->action];
-      SparkTrigger *trigger = [triggers objectForUID:entry->trigger];
+      /* if action not found, no need to look for trigger, but should not append */
+      SparkTrigger *trigger = action ? [triggers objectForUID:entry->trigger] : nil;
       if (action && trigger) {
         // Add entry
         CFDictionarySetValue(result, trigger, action);
