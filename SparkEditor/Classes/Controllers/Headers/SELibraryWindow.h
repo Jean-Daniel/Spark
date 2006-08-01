@@ -9,19 +9,24 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class SETriggersController, SEApplicationView;
+@class SETriggersController, SEApplicationView, SparkList;
 @class SKTableView, SKTableDataSource, SELibrarySource, SEApplicationSource;
 @interface SELibraryWindow : NSWindowController {
   IBOutlet NSSearchField *search;
+  IBOutlet SEApplicationView *appField;
+  
+  /* Application */
   IBOutlet SKTableView *appTable;
   IBOutlet SEApplicationSource *appSource;
   
+  /* Library */
+  IBOutlet SKTableView *libraryTable;
   IBOutlet SELibrarySource *listSource;
   
-  IBOutlet SKTableView *libraryTable;
+  /* Triggers */
   IBOutlet SETriggersController *triggers;
-  
-  IBOutlet SEApplicationView *appField;
+  @private
+    SparkList *se_list;
 }
 
 @end

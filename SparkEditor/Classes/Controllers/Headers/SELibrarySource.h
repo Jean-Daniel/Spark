@@ -17,10 +17,14 @@
   NSMutableArray *se_content;
 }
 
+- (IBAction)newList:(id)sender;
+
 - (void)rearrangeObjects;
 
 - (id)delegate;
 - (void)setDelegate:(id)aDelegate;
+
+- (id)objectAtIndex:(unsigned)idx;
 
 @end
 

@@ -54,6 +54,13 @@ static NSString * const kSparkApplicationKey = @"SparkApplication";
 - (id)initWithSerializedValues:(NSDictionary *)plist {
   if (self = [super initWithSerializedValues:plist]) {
     sp_application = [[SKApplication alloc] initWithSerializedValues:plist];
+    /* Update values */
+    NSString *path = [sp_application path];
+    if (path) {
+      NSString *name = [[NSFileManager defaultManager] displayNameAtPath:path];
+      if (name)
+        [self setName:name];
+    }
   }
   return self;
 }

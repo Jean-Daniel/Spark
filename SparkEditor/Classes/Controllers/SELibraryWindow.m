@@ -59,20 +59,21 @@
   [header release];
   [appTable setCornerView:[[[SEHeaderCellCorner alloc] init] autorelease]];
   
-  /* Configure Library Header Cell */
-  header = [[SEHeaderCell alloc] initTextCell:@"Library"];
-  [header setAlignment:NSCenterTextAlignment];
-  [header setFont:[NSFont systemFontOfSize:11]];
-  [[[libraryTable tableColumns] objectAtIndex:0] setHeaderCell:header];
-  [header release];
-  [libraryTable setCornerView:[[[SEHeaderCellCorner alloc] init] autorelease]];
-  
+ 
   [libraryTable setTarget:self];
   [libraryTable setDoubleAction:@selector(libraryDoubleAction:)];
 }
 
 - (IBAction)libraryDoubleAction:(id)sender {
-  ShadowTrace();
+  int idx = [libraryTable selectedRow];
+  if (idx > 0) {
+    SparkObject *object = [listSource objectAtIndex:idx];
+    if ([object uid] > kSparkLibraryReserved) {
+      [libraryTable editColumn:0 row:idx withEvent:nil select:YES];
+    } else {
+      ShadowTrace();
+    }
+  }
 }
 
 - (void)windowDidLoad {
@@ -83,7 +84,10 @@
 }
 
 - (void)source:(SELibrarySource *)aSource didChangeSelection:(SparkList *)list {
-  ShadowTrace();
+  if (se_list != list) {
+    se_list = list;
+    ShadowTrace();
+  }
 }
 
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification {
@@ -97,6 +101,11 @@
   if (aTableView == appTable) {
     [appSource deleteSelection:nil];
   }
+}
+
+/* Enable menu item */
+- (IBAction)newList:(id)sender {
+  [listSource newList:sender];
 }
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "SELibrarySource.h"
+#import "SEHeaderCell.h"
 
 #import <SparkKit/SparkList.h>
 #import <SparkKit/SparkLibrary.h>
@@ -38,20 +39,30 @@ NSComparisonResult SECompareList(SparkList *l1, SparkList *l2, void *ctxt) {
   return [[l1 name] caseInsensitiveCompare:[l2 name]];
 }
 
+static 
+BOOL SEPluginLibraryFilter(SparkObject *object, id ctxt) {
+  return YES;
+}
+
 @implementation SELibrarySource
 
 - (id)init {
   if (self = [super init]) {
     se_content = [[NSMutableArray alloc] init];
     /* Add library… */
-    [se_content addObject:[SparkList objectWithName:@"Library" icon:[NSImage imageNamed:@"Library"]]];
+    SparkList *library = [SparkList objectWithName:@"Library" icon:[NSImage imageNamed:@"Library"]];
+    [library setObjectSet:SparkSharedTriggerSet()];
+    [library setListFilter:SEPluginLibraryFilter context:nil];
+    [se_content addObject:library];
+    
     /* …, plugins list… */
     NSArray *plugins = [[SparkActionLoader sharedLoader] plugins];
+    unsigned uid = 128;
     unsigned idx = [plugins count];
     while (idx-- > 0) {
       SparkPlugIn *plugin = [plugins objectAtIndex:idx];
       SparkList *list = [[SparkList alloc] initWithName:[plugin name] icon:[plugin icon]];
-      [list setUID:128];
+      [list setUID:uid++];
       [se_content addObject:list];
       [list release];
     }
@@ -69,6 +80,14 @@ NSComparisonResult SECompareList(SparkList *l1, SparkList *l2, void *ctxt) {
 }
 
 - (void)awakeFromNib {
+  /* Configure Library Header Cell */
+  SEHeaderCell *header = [[SEHeaderCell alloc] initTextCell:@"HotKey List"];
+  [header setAlignment:NSCenterTextAlignment];
+  [header setFont:[NSFont systemFontOfSize:11]];
+  [[[table tableColumns] objectAtIndex:0] setHeaderCell:header];
+  [header release];
+  [table setCornerView:[[[SEHeaderCellCorner alloc] init] autorelease]];
+  
   if (se_delegate)
     [self tableViewSelectionDidChange:nil];
 }

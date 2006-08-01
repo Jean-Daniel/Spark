@@ -23,8 +23,14 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
 }
 
 - (id)initWithObjectSet:(SparkObjectSet *)aLibrary {
-  if (self = [super init]) {
+  if (self = [self initWithName:nil icon:nil]) {
     [self setObjectSet:aLibrary];
+  }
+  return self;
+}
+
+- (id)initWithName:(NSString *)name icon:(NSImage *)icon {
+  if (self = [super initWithName:name icon:icon]) {
     sp_entries = [[NSMutableArray alloc] init];
   }
   return self;
@@ -79,6 +85,17 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
 - (void)setListFilter:(SparkListFilter)aFilter context:(id)aCtxt {
   sp_filter = aFilter;
   SKSetterRetain(sp_ctxt, aCtxt);
+  /* Refresh objects */
+  [sp_entries removeAllObjects];
+  if (sp_filter && sp_set) {
+    SparkObject *object;
+    NSEnumerator *objects = [sp_set objectEnumerator];
+    while (object = [objects nextObject]) {
+      if (sp_filter(object, sp_ctxt)) {
+        [self addObject:object];
+      }
+    }
+  } 
 }
 
 - (BOOL)serialize:(NSMutableDictionary *)plist {
