@@ -9,6 +9,7 @@
 #import "SELibraryWindow.h"
 
 #import "SEHeaderCell.h"
+#import "SETriggerEntry.h"
 #import "SEVirtualPlugIn.h"
 #import "SELibrarySource.h"
 #import "SEApplicationView.h"
@@ -26,17 +27,22 @@
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkApplication.h>
 
-NSString * const SEApplicationDidChangeNotification = @"SEApplicationDidChange";
+NSString * const SETriggersDidChangeNotification = @"SETriggersDidChange";
 
 @implementation SELibraryWindow
 
 - (id)init {
   if (self = [super initWithWindowNibName:@"SELibraryWindow"]) {
+    se_triggers = [[SETriggerEntrySet alloc] init];
+    se_defaults = [[SETriggerEntrySet alloc] init];
+    [se_defaults addEntriesFromDictionary:[SparkSharedLibrary() triggersForApplication:0]];
   }
   return self;
 }
 
 - (void)dealloc {
+  [se_defaults release];
+  [se_triggers release];
   [super dealloc];
 }
 
@@ -45,11 +51,21 @@ NSString * const SEApplicationDidChangeNotification = @"SEApplicationDidChange";
   NSArray *objects = [appSource arrangedObjects];
   if (anIndex >= 0 && (unsigned)anIndex < [objects count]) {
     application = [objects objectAtIndex:anIndex];
+    [appField setApplication:application];
+    
+    [se_triggers removeAllEntries];
+    [se_triggers addEntriesFromEntrySet:se_defaults];
+    if ([application uid] != 0) {
+      NSDictionary *entries = [SparkSharedLibrary() triggersForApplication:[application uid]];
+      if ([entries count]) {
+        [se_triggers addEntriesFromDictionary:entries];
+        DLog(@"Entries: %@", entries);
+      }
+    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:SETriggersDidChangeNotification
+                                                        object:se_triggers
+                                                      userInfo:[NSDictionary dictionaryWithObject:application forKey:@"application"]];
   }
-  [appField setApplication:application];
-  [[NSNotificationCenter defaultCenter] postNotificationName:SEApplicationDidChangeNotification
-                                                      object:application
-                                                    userInfo:nil];
 }
 
 - (void)awakeFromNib {
@@ -66,6 +82,9 @@ NSString * const SEApplicationDidChangeNotification = @"SEApplicationDidChange";
   
   [libraryTable setTarget:self];
   [libraryTable setDoubleAction:@selector(libraryDoubleAction:)];
+  
+  [appField setTarget:appDrawer];
+  [appField setAction:@selector(toggle:)];
 }
 
 - (IBAction)libraryDoubleAction:(id)sender {
@@ -87,24 +106,16 @@ NSString * const SEApplicationDidChangeNotification = @"SEApplicationDidChange";
   [[self window] display];
 }
 
-- (void)source:(SELibrarySource *)aSource didChangeSelection:(SparkList *)list {
-  if (se_list != list) {
-    se_list = list;
-    ShadowTrace();
-  }
+- (void)source:(SELibrarySource *)aSource didChangeSelection:(SparkList *)aList {
+  [triggers setList:aList];
 }
 
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification {
-  NSTableView *table = [aNotification object];
-  if (table == appTable) {
-    [self didSelectApplication:[table selectedRow]];
-  }
+  [self didSelectApplication:[[aNotification object] selectedRow]];
 }
 
 - (void)deleteSelectionInTableView:(NSTableView *)aTableView {
-  if (aTableView == appTable) {
-    [appSource deleteSelection:nil];
-  }
+  [appSource deleteSelection:nil];
 }
 
 /* Enable menu item */

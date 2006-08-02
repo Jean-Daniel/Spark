@@ -104,6 +104,27 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		980E09560A8102F3003FD547 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 98EF813208645F24007BC81A /* HotKeyToolKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 98643F000A556F2200260086 /* Test.octest */;
+			remoteInfo = Test;
+		};
+		980E09580A8102F3003FD547 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 98EF813208645F24007BC81A /* HotKeyToolKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 98E204A00A56FE6500EB74E1 /* Runner */;
+			remoteInfo = Runner;
+		};
+		980E095A0A8102F3003FD547 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 98EF813208645F24007BC81A /* HotKeyToolKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 98C61C1A0A5813EB0004E6EF /* UITester.app */;
+			remoteInfo = UITester;
+		};
 		9867577D096B3E7C00BB8A25 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 98EF813C08645F2C007BC81A /* SparkKit.xcodeproj */;
@@ -124,13 +145,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 98074A0007EA45EA0001A600;
 			remoteInfo = Grayscale;
-		};
-		98EF813808645F24007BC81A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 98EF813208645F24007BC81A /* HotKeyToolKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 985B62B60719E09D0073D36F;
-			remoteInfo = Testing;
 		};
 		98EF813A08645F24007BC81A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -586,7 +600,9 @@
 		98EF813308645F24007BC81A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				98EF813908645F24007BC81A /* Testing.framework */,
+				980E09570A8102F3003FD547 /* Test.octest */,
+				980E09590A8102F3003FD547 /* Runner */,
+				980E095B0A8102F3003FD547 /* UITester.app */,
 				98EF813B08645F24007BC81A /* HotKeyToolKit.framework */,
 			);
 			name = Products;
@@ -809,18 +825,32 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		980E09570A8102F3003FD547 /* Test.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Test.octest;
+			remoteRef = 980E09560A8102F3003FD547 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		980E09590A8102F3003FD547 /* Runner */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = Runner;
+			remoteRef = 980E09580A8102F3003FD547 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		980E095B0A8102F3003FD547 /* UITester.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = UITester.app;
+			remoteRef = 980E095A0A8102F3003FD547 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		9867577E096B3E7C00BB8A25 /* ShadowKit.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = ShadowKit.framework;
 			remoteRef = 9867577D096B3E7C00BB8A25 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		98EF813908645F24007BC81A /* Testing.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Testing.framework;
-			remoteRef = 98EF813808645F24007BC81A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		98EF813B08645F24007BC81A /* HotKeyToolKit.framework */ = {

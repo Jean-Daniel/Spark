@@ -19,6 +19,7 @@
 
 - (BOOL)isEnabled;
 - (NSString *)name;
+- (NSString *)categorie;
 - (NSString *)shortDescription;
 - (NSString *)triggerDescription;
 

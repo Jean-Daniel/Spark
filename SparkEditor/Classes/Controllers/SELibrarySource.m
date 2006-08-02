@@ -70,7 +70,6 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
 - (id)init {
   if (self = [super init]) {
     se_content = [[NSMutableArray alloc] init];
-    se_triggers = [[SETriggerEntrySet alloc] init];
     
     /* Add library… */
     SparkList *library = [SparkList objectWithName:@"Library" icon:[NSImage imageNamed:@"Library"]];
@@ -82,7 +81,6 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
     NSArray *plugins = [[SparkActionLoader sharedLoader] plugins];
     unsigned uid = 128;
     unsigned idx = [plugins count];
-    [se_triggers addEntriesFromDictionary:[SparkSharedLibrary() triggersForApplication:0]];
     while (idx-- > 0) {
       SparkPlugIn *plugin = [plugins objectAtIndex:idx];
       SparkList *list = [[SparkList alloc] initWithName:[plugin name] icon:[plugin icon]];
@@ -91,7 +89,7 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
       
       SEPluginFilter *filter = [[SEPluginFilter alloc] init];
       [filter setActionClass:[plugin actionClass]];
-      [filter setTriggers:se_triggers];
+      [filter setTriggers:nil];
       [list setListFilter:SEPluginListFilter context:filter];
       [filter release];
       
@@ -104,8 +102,8 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
     [self rearrangeObjects];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didChangeApplication:)
-                                                 name:SEApplicationDidChangeNotification
+                                             selector:@selector(didChangeTriggers:)
+                                                 name:SETriggersDidChangeNotification
                                                object:nil];
   }
   return self;
@@ -114,7 +112,6 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
 - (void)dealloc {
   [[NSNotificationCenter defaultCenter] removeObserver:self];
   [se_content release];
-  [se_triggers release];
   [super dealloc];
 }
 
@@ -227,21 +224,14 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
   }
 }
 
-- (void)didChangeApplication:(NSNotification *)aNotification {
-  [se_triggers removeAllEntries];
-  [se_triggers addEntriesFromDictionary:[SparkSharedLibrary() triggersForApplication:0]];
-  SparkApplication *application = [aNotification object];
-  if ([application uid] != 0) {
-    [se_triggers addEntriesFromDictionary:[SparkSharedLibrary() triggersForApplication:[application uid]]];
-  }
-  
+- (void)didChangeTriggers:(NSNotification *)aNotification {
   SparkList *list;
   NSEnumerator *lists = [se_content objectEnumerator];
   while (list = [lists nextObject]) {
     SEPluginFilter *ctxt = [list filterContext];
     if (ctxt && [ctxt isKindOfClass:[SEPluginFilter class]]) {
+      [ctxt setTriggers:[aNotification object]];
       [list reload];
-      DLog(@"%@ => %i triggers", [list name], [list count]);
     }
   }
 }

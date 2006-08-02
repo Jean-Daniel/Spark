@@ -51,6 +51,9 @@
 - (NSString *)name {
   return [se_action name];
 }
+- (NSString *)categorie {
+  return [se_action categorie];
+}
 - (NSString *)shortDescription {
   return [se_action shortDescription];
 }

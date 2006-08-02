@@ -96,13 +96,13 @@
 		98E66CC40759FA7C0048A37D /* HotKeySparkList.icns in Resources */ = {isa = PBXBuildFile; fileRef = 98E66CC10759FA7C0048A37D /* HotKeySparkList.icns */; };
 		98E66CC50759FA7C0048A37D /* ApplicationSparkList.icns in Resources */ = {isa = PBXBuildFile; fileRef = 98E66CC20759FA7C0048A37D /* ApplicationSparkList.icns */; };
 		98E66CC60759FA7C0048A37D /* ActionSparkList.icns in Resources */ = {isa = PBXBuildFile; fileRef = 98E66CC30759FA7C0048A37D /* ActionSparkList.icns */; };
-		98EA6B2A0A5E7C280019E26C /* SETriggersController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98EA6B290A5E7C280019E26C /* SETriggersController.m */; };
 		98EA6B300A5E7C2D0019E26C /* SETriggersController.h in Headers */ = {isa = PBXBuildFile; fileRef = 98EA6B2F0A5E7C2D0019E26C /* SETriggersController.h */; };
 		98EA6B550A5E83120019E26C /* System.tif in Resources */ = {isa = PBXBuildFile; fileRef = 984196BB0A5E52670009A093 /* System.tif */; };
 		98EF831508646313007BC81A /* SparkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF83140864630B007BC81A /* SparkKit.framework */; };
 		98EF831608646316007BC81A /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF830E086462FF007BC81A /* HotKeyToolKit.framework */; };
 		98EF83170864631B007BC81A /* SparkKit.framework in Copy Framework */ = {isa = PBXBuildFile; fileRef = 98EF83140864630B007BC81A /* SparkKit.framework */; };
 		98EF831808646321007BC81A /* HotKeyToolKit.framework in Copy Framework */ = {isa = PBXBuildFile; fileRef = 98EF830E086462FF007BC81A /* HotKeyToolKit.framework */; };
+		98F177FB0A80EA8500654AC5 /* SETriggersController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98EA6B290A5E7C280019E26C /* SETriggersController.m */; };
 		98F4A9B90770C8630074FE70 /* SecurityFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98F4A9B80770C8630074FE70 /* SecurityFoundation.framework */; };
 		98F746020A5C560A003D4BE1 /* SELibraryWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 98F746000A5C560A003D4BE1 /* SELibraryWindow.nib */; };
 		98F746140A5C575C003D4BE1 /* SESplitView.h in Headers */ = {isa = PBXBuildFile; fileRef = 98F746130A5C575C003D4BE1 /* SESplitView.h */; };
@@ -1521,7 +1521,6 @@
 				98F747860A5C69A0003D4BE1 /* SEHeaderCell.m in Sources */,
 				98FB0A640A5D09D400129126 /* SEBackgroundView.m in Sources */,
 				984196E00A5E54740009A093 /* SETableView.m in Sources */,
-				98EA6B2A0A5E7C280019E26C /* SETriggersController.m in Sources */,
 				98DDE9780A612DFF00D76698 /* SEActionEditor.m in Sources */,
 				98B2C6C50A617AA200D9D719 /* SEScriptHandler.m in Sources */,
 				981A88BA0A61967600753369 /* SEVirtualPlugIn.m in Sources */,
@@ -1531,6 +1530,7 @@
 				98DAC9DF0A67EBE2001C36D1 /* SEApplicationView.m in Sources */,
 				98A9226C0A7B8EC300DF1998 /* SEApplicationSource.m in Sources */,
 				983BE16E0A7E402600E0228F /* SELibrarySource.m in Sources */,
+				98F177FB0A80EA8500654AC5 /* SETriggersController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -54,12 +54,14 @@ static NSString * const kSparkApplicationKey = @"SparkApplication";
 - (id)initWithSerializedValues:(NSDictionary *)plist {
   if (self = [super initWithSerializedValues:plist]) {
     sp_application = [[SKApplication alloc] initWithSerializedValues:plist];
-    /* Update values */
+    /* Update name and icon */
     NSString *path = [sp_application path];
     if (path) {
       NSString *name = [[NSFileManager defaultManager] displayNameAtPath:path];
       if (name)
         [self setName:name];
+      /* Reset icon, it will be lazy load later */
+      [self setIcon:nil];
     }
   }
   return self;
@@ -169,6 +171,7 @@ static NSString * const kSKApplicationIdentifier = @"Identifier";
     } 
     [self setIdentifier:[plist objectForKey:kSKApplicationIdentifier]
                    type:[[plist objectForKey:kSKApplicationIdType] intValue]];
+    
   }
   return self;
 }

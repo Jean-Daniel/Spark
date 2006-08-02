@@ -11,8 +11,5 @@
 
 @implementation GrayscaleActionPlugin
 
-- (void)dealloc {
-  [super dealloc];
-}
 
 @end

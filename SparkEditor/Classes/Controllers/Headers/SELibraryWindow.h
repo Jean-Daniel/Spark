@@ -10,15 +10,16 @@
 #import <Cocoa/Cocoa.h>
 
 SK_EXPORT
-NSString * const SEApplicationDidChangeNotification;
+NSString * const SETriggersDidChangeNotification;
 
-@class SETriggersController, SEApplicationView, SparkList;
+@class SETriggersController, SEApplicationView, SETriggerEntrySet, SparkList;
 @class SKTableView, SKTableDataSource, SELibrarySource, SEApplicationSource;
 @interface SELibraryWindow : NSWindowController {
   IBOutlet NSSearchField *search;
   IBOutlet SEApplicationView *appField;
   
   /* Application */
+  IBOutlet NSDrawer *appDrawer;
   IBOutlet SKTableView *appTable;
   IBOutlet SEApplicationSource *appSource;
   
@@ -29,7 +30,8 @@ NSString * const SEApplicationDidChangeNotification;
   /* Triggers */
   IBOutlet SETriggersController *triggers;
   @private
-    SparkList *se_list;
+  SETriggerEntrySet *se_defaults; /* system triger cache */
+  SETriggerEntrySet *se_triggers; /* shared triggers */
 }
 
 @end

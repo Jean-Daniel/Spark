@@ -9,21 +9,19 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class SKOutlineView;
-@class SparkApplication, SETriggerEntrySet;
+@class SKTableView;
+@class SparkList, SparkApplication, SETriggerEntrySet;
 @interface SETriggersController : NSObject {
-  IBOutlet SKOutlineView *outline;
+  IBOutlet SKTableView *table;
+  
   @private
-    NSMutableArray *se_plugins;
-  SparkApplication *se_app;
+    SparkList *se_list; /* Selected list */
   /* Internal storage */
-  NSMapTable *se_entries;
-  SETriggerEntrySet *se_defaults;
+  NSMutableArray *se_entries;
   SETriggerEntrySet *se_triggers;
 }
 
-- (SparkApplication *)application;
-- (void)setApplication:(SparkApplication *)application;
+- (void)setList:(SparkList *)aList;
 
 @end
 

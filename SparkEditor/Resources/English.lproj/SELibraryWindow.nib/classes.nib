@@ -21,6 +21,7 @@
             CLASS = SELibraryWindow; 
             LANGUAGE = ObjC; 
             OUTLETS = {
+                appDrawer = NSDrawer; 
                 appField = SEApplicationView; 
                 appSource = SKTableDataSource; 
                 appTable = SKTableView; 
@@ -37,7 +38,7 @@
         {
             CLASS = SETriggersController; 
             LANGUAGE = ObjC; 
-            OUTLETS = {outline = SKOutlineView; }; 
+            OUTLETS = {table = SKTableView; }; 
             SUPERCLASS = NSObject; 
         }, 
         {CLASS = SKImageAndTextCell; LANGUAGE = ObjC; SUPERCLASS = NSTextFieldCell; }, 
