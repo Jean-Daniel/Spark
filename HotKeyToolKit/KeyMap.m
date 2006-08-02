@@ -156,3 +156,10 @@ void HKKeyMapDispose(HKKeyMapRef keyMap) {
     bzero(&keyMap->ctxt, sizeof(keyMap->ctxt));
   }
 }
+
+void HKKeyMapDump(HKKeyMapRef map, FILE *f, bool reverse) {
+#if defined(DEBUG)
+  if (map->ctxt.dump)
+    map->ctxt.dump(map->ctxt.data, f, reverse);
+#endif
+}

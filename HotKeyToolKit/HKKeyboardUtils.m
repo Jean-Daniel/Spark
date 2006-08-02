@@ -22,7 +22,8 @@ static __inline__
 UInt32 __HKUtilsFlatKey(UInt32 code, UInt32 modifier, UInt32 dead) {
   check(code < 128);
   /* Avoid null code */
-  return ((code ? : 0xff) & 0xff) | (modifier & 0x3ff00) | (dead & 0x3fff) << 18;
+  /* modifier: modifier use only 16 high bits and 0x3ff00 is 0x3ff << 8 */
+  return ((code ? : 0xff) & 0xff) | ((modifier >> 8) & 0x3ff00) | (dead & 0x3fff) << 18;
 }
 static __inline__
 UInt32 __HKUtilsFlatDead(UInt32 flat, UInt32 dead) {
@@ -33,7 +34,7 @@ static __inline__
 void __HKUtilsDeflatKey(UInt32 key, UInt32 *code, UInt32 *modifier, UInt32 *dead) {
   *code = key & 0xff;
   if (*code == 0xff) *code = 0;
-  *modifier = key & 0x3ff00;
+  *modifier = (key & 0x3ff00) << 8;
   *dead = (key >> 18) & 0x3fff;
 }
 
@@ -171,12 +172,22 @@ const UCKeyboardTypeHeader *UCKeyboardHeaderForCurrentKeyboard(const UCKeyboardL
   return head;
 }
 
+#if defined(DEBUG)
+static
+void UchrDumpStorage(UchrContext *ctxt, FILE *f, bool reverse) {
+  
+}
+#endif
+
 #pragma mark -
 OSStatus HKKeyMapContextWithUchrData(const UCKeyboardLayout *layout, Boolean reverse, HKKeyMapContext *ctxt) {
   ctxt->dealloc = UchrContextDealloc;
   ctxt->baseMap = (HKBaseCharacterForKeyCodeFunction)UchrBaseCharacterForKeyCode;
   ctxt->fullMap = (HKCharacterForKeyCodeFunction)UchrCharacterForKeyCode;
   ctxt->reverseMap = (HKKeycodesForCharacterFunction)UchrKeycodesForCharacter;
+#if defined(DEBUG)
+  ctxt->dump = (HKDumpInternalStorageFunction)UchrDumpStorage;
+#endif
   
   // Allocate UCHR Context
   ctxt->data = calloc(1, sizeof(UchrContext));
@@ -403,6 +414,35 @@ static UInt32 KCHRKeycodesForCharacter(KCHRContext *ctxt, UniChar character, UIn
   return count;
 }
 
+#if defined(DEBUG)
+static
+void KCHRDumpStorage(KCHRContext *ctxt, FILE *f, bool reverse) {
+  fprintf(f, "=================== Unicode Table ===================\n");
+  int idx = 0;
+  while (idx < 256) {
+    fprintf(f, "- (0x%x) => (0x%x)\n", idx, ctxt->unicode[idx]);
+    idx++;
+  }
+  if (!reverse) {
+    fprintf(f, "=================== Base Map ===================\n");
+    UInt32 keycode = 0;
+    while (keycode < 128) {
+      fprintf(f, "- %lu => %c (0x%x)\n", keycode, ctxt->map[keycode], ctxt->map[keycode]);
+      keycode++;
+    }
+  } else {
+    NSMapEnumerator enume = NSEnumerateMapTable(ctxt->chars);
+    UInt32 key, value;
+    UInt32 k = 0, m = 0, d = 0;
+    while (NSNextMapEnumeratorPair(&enume, (void **)&key, (void **)&value)) {
+      __HKUtilsDeflatKey(value, &k, &m, &d);
+      fprintf(f, "- %c (0x%x) => %lu, 0x%x, %lu\n", (int)key, (int)key, k, (int)m, d);
+    }
+    NSEndMapTableEnumeration(&enume);
+  }
+}
+#endif
+
 static NSMapTable *UpgradeToUnicode(ScriptCode script, UInt32 *keys, UInt32 count, UniChar *umap, Boolean reverse);
 
 #pragma mark -
@@ -411,6 +451,9 @@ OSStatus HKKeyMapContextWithKCHRData(const void *layout, Boolean reverse, HKKeyM
   ctxt->baseMap = (HKBaseCharacterForKeyCodeFunction)KCHRBaseCharacterForKeyCode;
   ctxt->fullMap = (HKCharacterForKeyCodeFunction)KCHRCharacterForKeyCode;
   ctxt->reverseMap = (HKKeycodesForCharacterFunction)KCHRKeycodesForCharacter;
+#if defined(DEBUG)
+  ctxt->dump = (HKDumpInternalStorageFunction)KCHRDumpStorage;
+#endif
   
   // Allocate KCHR Context
   ctxt->data = calloc(1, sizeof(KCHRContext));

@@ -17,12 +17,19 @@ typedef UniChar (*HKCharacterForKeyCodeFunction)(void *ctxt, UInt32 keycode, UIn
 typedef UInt32 (*HKKeycodesForCharacterFunction)(void *ctxt, UniChar character, UInt32 *keys, UInt32 *modifiers, UInt32 maxsize);
 typedef void (*HKContextDealloc)(HKKeyMapContext *ctxt);
 
+#if defined (DEBUG)
+typedef void (*HKDumpInternalStorageFunction)(void *ctxt, FILE *f, bool reverse);
+#endif
+
 struct HKKeyMapContext {
   void *data;
   HKContextDealloc dealloc;
   HKBaseCharacterForKeyCodeFunction baseMap;
   HKCharacterForKeyCodeFunction fullMap;
   HKKeycodesForCharacterFunction reverseMap;
+#if defined (DEBUG)
+  HKDumpInternalStorageFunction dump;
+#endif
 };
 
 OSStatus HKKeyMapContextWithKCHRData(const void *layout, Boolean reverse, HKKeyMapContext *ctxt);

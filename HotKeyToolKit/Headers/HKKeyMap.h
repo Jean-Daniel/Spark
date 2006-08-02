@@ -255,3 +255,8 @@ typedef enum {
  */
 extern
 UInt32 HKUtilsConvertModifier(UInt32 modifier, HKModifierFormat input, HKModifierFormat output);
+
+
+extern
+void HKMapDumpInternalStorage(bool reverse);
+

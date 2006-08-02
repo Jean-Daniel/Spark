@@ -38,4 +38,18 @@
   STAssertTrue(modifier == NSShiftKeyMask, @"Invalid modifier for reverse mapping");
 }
 
+- (void)testAdvancedReverseMapping {
+  UInt32 keycode = HKMapGetKeycodeAndModifierForUnichar('n', NULL, NULL);
+  UniChar character = 0x00D1; /* 'Ñ' */
+  UInt32 keycodes[8], modifiers[8];
+  UInt32 count = HKMapGetKeycodesAndModifiersForUnichar(character, keycodes, modifiers, 8);
+  STAssertTrue(count == 2, @"Invalid keys count for reverse mapping");
+  
+  STAssertTrue(keycodes[0] == keycode, @"Invalid modifier for tilde");
+  STAssertTrue(modifiers[0] == kCGEventFlagMaskAlternate, @"Invalid modifier for tilde");
+  
+  STAssertTrue(keycodes[1] == keycode, @"Invalid modifier for tilde");
+  STAssertTrue(modifiers[1] == kCGEventFlagMaskShift, @"Invalid modifier for tilde");
+}
+
 @end

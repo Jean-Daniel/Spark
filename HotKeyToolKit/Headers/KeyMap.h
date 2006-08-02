@@ -88,3 +88,5 @@ UniChar HKKeyMapGetUnicharForKeycode(HKKeyMapRef currentKeyMap, UInt32 virtualKe
  */
 UniChar HKKeyMapGetUnicharForKeycodeAndModifier(HKKeyMapRef currentKeyMap, UInt32 virtualKeyCode, UInt32 modifiers);
 
+void HKKeyMapDump(HKKeyMapRef keyMap, FILE *f, bool reverse);
+
