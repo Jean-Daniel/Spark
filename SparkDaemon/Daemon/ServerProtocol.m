@@ -7,7 +7,10 @@
 //
 
 #import "SparkDaemon.h"
-#import <SparkKit/SparkKit.h>
+
+#import <SparkKit/SparkTrigger.h>
+#import <SparkKit/SparkLibrary.h>
+#import <SparkKit/SparkObjectSet.h>
 
 @implementation SparkDaemon (SparkServerProtocol)
 
@@ -152,10 +155,49 @@
 //  }
 //  return NO;
 //}
-//
-//- (void)shutDown {
-//  ShadowTrace();
-//  [self terminate];
-//}
+
+- (void)updateTrigger:(UInt32)uid enabled:(BOOL)flag {
+  @try {
+    SparkTrigger *trigger;
+    if ((trigger = [SparkSharedTriggerSet() objectForUID:uid]) && XOR(flag, [trigger isEnabled])) {
+      [trigger setEnabled:flag];
+      [trigger setRegistred:flag];
+    }
+  } @catch (id exception) {
+    SKLogException(exception);
+  }
+}
+
+#pragma mark -
+#pragma mark Shutdown
+- (void)shutdown {
+  ShadowTrace();
+  [self terminate];
+}
+
+#pragma mark Trigger Status
+- (void)enableTrigger:(UInt32)uid {
+  ShadowTrace();
+  [self updateTrigger:uid enabled:YES];
+}
+
+- (void)disableTrigger:(UInt32)uid {
+  ShadowTrace();
+  [self updateTrigger:uid enabled:NO];
+}
+
+#pragma mark Entries Management
+- (void)addEntry:(SparkEntry *)entry {
+}
+- (void)removeEntryAtIndex:(UInt32)idx {
+}
+
+#pragma mark Objects Management
+- (void)addObject:(id)plist type:(OSType)type {
+}
+- (void)updateObject:(id)plist type:(OSType)type {
+}
+- (void)removeObject:(UInt32)uid type:(OSType)type {
+}
 
 @end

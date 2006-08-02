@@ -7,7 +7,9 @@
  *
  */
 
-#include "SparkServerProtocol.h"
+#import <SparkKit/SparkAppleScriptSuite.h>
 
-OSStatus GetEditorIsTrapping(Boolean *trapping);
-OSStatus SendStateToEditor(DaemonStatus state);
+SK_PRIVATE
+OSStatus SDGetEditorIsTrapping(Boolean *trapping);
+SK_PRIVATE
+OSStatus SDSendStateToEditor(DaemonStatus state);

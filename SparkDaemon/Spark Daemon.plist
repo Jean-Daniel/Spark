@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
-	<string>Spark Daemon</string>
+	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleGetInfoString</key>
 	<string></string>
 	<key>CFBundleIconFile</key>
@@ -21,16 +21,10 @@
 	<key>CFBundleSignature</key>
 	<string>SprS</string>
 	<key>CFBundleVersion</key>
-	<string>2.2.0</string>
+	<string>3.0</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>10.3</string>
 	<key>LSUIElement</key>
 	<string>1</string>
-	<key>NSAppleScriptEnabled</key>
-	<string>YES</string>
-	<key>NSMainNibFile</key>
-	<string>MainMenu</string>
-	<key>NSPrincipalClass</key>
-	<string>NSApplication</string>
 </dict>
 </plist>

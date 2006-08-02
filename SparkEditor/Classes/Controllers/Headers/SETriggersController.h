@@ -22,6 +22,7 @@
 }
 
 - (void)setList:(SparkList *)aList;
+- (void)setTriggers:(SETriggerEntrySet *)triggers application:(SparkApplication *)anApplication;
 
 @end
 

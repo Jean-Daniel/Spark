@@ -46,6 +46,7 @@
 - (NSEnumerator *)entryEnumerator;
 
 - (SETriggerEntry *)entryAtIndex:(unsigned)idx;
+- (SETriggerEntry *)entryForTrigger:(SparkTrigger *)aTrigger;
 
 - (BOOL)containsTrigger:(SparkTrigger *)trigger;
 - (SparkAction *)actionForTrigger:(SparkTrigger *)trigger;

@@ -6,23 +6,19 @@
 //  Copyright (c) 2004 Shadow Lab. All rights reserved.
 //
 
-#import "SparkServerProtocol.h"
+#import <SparkKit/SparkServerProtocol.h>
 
-@class SparkHotKey, SparkKeyLibrary, SparkActionLibrary;
-
+@class SparkTrigger, SparkLibrary, SparkActionLibrary;
 @interface SparkDaemon : NSObject {
 }
 
-//- (BOOL)setPlugInPath;
-
-- (void)loadKeys;
+- (BOOL)openConnection;
+- (void)loadTriggers;
 - (void)checkActions;
 
-- (void)addKey:(SparkHotKey *)key;
-- (void)updateKey:(SparkHotKey *)key;
-- (void)removeKey:(SparkHotKey *)key;
+- (void)didAddTrigger:(SparkTrigger *)aTrigger;
+- (void)willRemoveTrigger:(SparkTrigger *)aTrigger;
 
-- (BOOL)connect;
 - (void)run;
 - (void)terminate;
 
@@ -30,23 +26,16 @@
 
 @interface SparkDaemon (SparkServerProtocol) <SparkServer>
 
-- (void)shutDown;
+- (void)shutdown;
 
-- (void)addList:(id)plist;
-- (void)updateList:(id)plist;
-- (void)removeList:(unsigned)uid;
+- (void)enableTrigger:(UInt32)uid;
+- (void)disableTrigger:(UInt32)uid;
 
-- (void)addAction:(id)plist;
-- (void)updateAction:(id)plist;
-- (void)removeAction:(unsigned)uid;
+- (void)addEntry:(SparkEntry *)entry;
+- (void)removeEntryAtIndex:(UInt32)idx;
 
-- (void)addApplication:(id)plist;
-- (void)updateApplication:(id)plist;
-- (void)removeApplication:(unsigned)uid;
-
-- (void)addHotKey:(id)plist;
-- (void)updateHotKey:(id)plist;
-- (void)removeHotKey:(unsigned)uid;
-- (BOOL)setActive:(BOOL)flag forHotKey:(unsigned)keyUid;
+- (void)addObject:(id)plist type:(OSType)type;
+- (void)updateObject:(id)plist type:(OSType)type;
+- (void)removeObject:(UInt32)uid type:(OSType)type;
 
 @end

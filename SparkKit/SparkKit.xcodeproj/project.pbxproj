@@ -57,6 +57,8 @@
 		984A38CB0A60060A00DA6455 /* SparkMultipleAlerts.h in Headers */ = {isa = PBXBuildFile; fileRef = 984A38C00A60060A00DA6455 /* SparkMultipleAlerts.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		984A38CC0A60060A00DA6455 /* SparkMultipleAlerts.m in Sources */ = {isa = PBXBuildFile; fileRef = 984A38C10A60060A00DA6455 /* SparkMultipleAlerts.m */; };
 		984A38CD0A60060A00DA6455 /* SparkPluginAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 984A38C20A60060A00DA6455 /* SparkPluginAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		985B76520A813F490003A59C /* SparkServerProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 985B76510A813F490003A59C /* SparkServerProtocol.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		985B765A0A813F960003A59C /* SparkAppleScriptSuite.h in Headers */ = {isa = PBXBuildFile; fileRef = 985B76590A813F960003A59C /* SparkAppleScriptSuite.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		98675536096B35E900BB8A25 /* ShadowAEUtils.c in Sources */ = {isa = PBXBuildFile; fileRef = 98725D2806CB9FB30072B8E4 /* ShadowAEUtils.c */; };
 		98675537096B35E900BB8A25 /* SKIconUtils.c in Sources */ = {isa = PBXBuildFile; fileRef = 98E66C7F0759F7E90048A37D /* SKIconUtils.c */; };
 		98675538096B35E900BB8A25 /* SKFSFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 98C78D6507D9E716006D9CC1 /* SKFSFunctions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -231,6 +233,8 @@
 		984A38C00A60060A00DA6455 /* SparkMultipleAlerts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkMultipleAlerts.h; sourceTree = "<group>"; };
 		984A38C10A60060A00DA6455 /* SparkMultipleAlerts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkMultipleAlerts.m; sourceTree = "<group>"; };
 		984A38C20A60060A00DA6455 /* SparkPluginAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkPluginAPI.h; sourceTree = "<group>"; };
+		985B76510A813F490003A59C /* SparkServerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SparkServerProtocol.h; path = Sources/SparkServerProtocol.h; sourceTree = "<group>"; };
+		985B76590A813F960003A59C /* SparkAppleScriptSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SparkAppleScriptSuite.h; path = Sources/SparkAppleScriptSuite.h; sourceTree = "<group>"; };
 		986758CE096B403300BB8A25 /* SKWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SKWindowController.m; sourceTree = "<group>"; };
 		986758CF096B403300BB8A25 /* SKTableDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SKTableDataSource.m; sourceTree = "<group>"; };
 		986758D2096B404600BB8A25 /* SKTableDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SKTableDataSource.h; sourceTree = "<group>"; };
@@ -373,6 +377,8 @@
 				984A388F0A60040700DA6455 /* SparkKit.h */,
 				984A388E0A60040700DA6455 /* SparkKit.m */,
 				984A388D0A60040600DA6455 /* SparkPrivate.h */,
+				985B76510A813F490003A59C /* SparkServerProtocol.h */,
+				985B76590A813F960003A59C /* SparkAppleScriptSuite.h */,
 				984A38600A60036E00DA6455 /* Loader */,
 				984A38A20A60060200DA6455 /* Library */,
 				984A38B70A60060A00DA6455 /* Plugin API */,
@@ -733,6 +739,8 @@
 				984A38CB0A60060A00DA6455 /* SparkMultipleAlerts.h in Headers */,
 				984A38CD0A60060A00DA6455 /* SparkPluginAPI.h in Headers */,
 				989EF9EE0A7CC4C900721386 /* SparkList.h in Headers */,
+				985B76520A813F490003A59C /* SparkServerProtocol.h in Headers */,
+				985B765A0A813F960003A59C /* SparkAppleScriptSuite.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

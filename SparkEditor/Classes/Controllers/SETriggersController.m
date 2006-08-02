@@ -25,17 +25,11 @@
 - (id)init {
   if (self = [super init]) {
     se_entries = [[NSMutableArray alloc] init];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didChangeTriggers:)
-                                                 name:SETriggersDidChangeNotification
-                                               object:nil];
   }
   return self;
 }
 
 - (void)dealloc {
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
   [se_list release];
   [se_entries release];
   [super dealloc];
@@ -64,11 +58,11 @@
 }
 
 - (void)sortTriggers:(NSArray *)descriptors {
-  [se_entries sortUsingDescriptors:descriptors];
+  [se_entries sortUsingDescriptors:descriptors ? : gSortByNameDescriptors];
 }
 
-- (void)didChangeTriggers:(NSNotification *)aNotification {
-  se_triggers = [aNotification object];
+- (void)setTriggers:(SETriggerEntrySet *)triggers application:(SparkApplication *)anApplication {
+  se_triggers = triggers;
   // Reload data
   [self loadTriggers];
 }
@@ -76,14 +70,16 @@
 - (void)loadTriggers {
   [se_entries removeAllObjects];
   if (se_list) {
-    SETriggerEntry *entry = nil;
-    NSEnumerator *entries = [se_triggers entryEnumerator];
-    while (entry = [entries nextObject]) {
-      [se_entries addObject:entry];
+    SparkTrigger *trigger;
+    NSEnumerator *triggers = [se_list objectEnumerator];
+    while (trigger = [triggers nextObject]) {
+      SETriggerEntry *entry = [se_triggers entryForTrigger:trigger];
+      if (entry)
+        [se_entries addObject:entry];
     }
-    [self sortTriggers:gSortByNameDescriptors];
-    [table reloadData];
+    [self sortTriggers:[table sortDescriptors]];
   }
+  [table reloadData];
 }
 
 - (void)setList:(SparkList *)aList {

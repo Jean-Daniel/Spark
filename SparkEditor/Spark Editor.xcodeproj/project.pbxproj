@@ -536,7 +536,6 @@
 		98DE1EB206FCC887006876A3 /* KeyPlugInList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyPlugInList.h; sourceTree = "<group>"; };
 		98E1F9D806F35B3800DDA29E /* ObjectEditorController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjectEditorController.m; sourceTree = "<group>"; };
 		98E1F9DB06F35B5100DDA29E /* ObjectEditorController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectEditorController.h; sourceTree = "<group>"; };
-		98E65ABB06B410A900F73A19 /* SparkServerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = SparkServerProtocol.h; path = ../SparkDaemon/SparkServerProtocol.h; sourceTree = SOURCE_ROOT; };
 		98E66CC10759FA7C0048A37D /* HotKeySparkList.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = HotKeySparkList.icns; sourceTree = "<group>"; };
 		98E66CC20759FA7C0048A37D /* ApplicationSparkList.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = ApplicationSparkList.icns; sourceTree = "<group>"; };
 		98E66CC30759FA7C0048A37D /* ActionSparkList.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = ActionSparkList.icns; sourceTree = "<group>"; };
@@ -1055,7 +1054,6 @@
 			isa = PBXGroup;
 			children = (
 				984BCE6C060C7FEC0043CDEA /* Spark.h */,
-				98E65ABB06B410A900F73A19 /* SparkServerProtocol.h */,
 				98F2DEBC0715E21F001BBF29 /* SparkAppleScriptSuite.h */,
 			);
 			name = Headers;

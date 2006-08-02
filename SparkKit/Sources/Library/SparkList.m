@@ -151,6 +151,9 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
 - (unsigned)count {
   return [sp_entries count];
 }
+- (NSEnumerator *)objectEnumerator {
+  return [sp_entries objectEnumerator];
+}
 - (void)addObject:(SparkObject *)anObject {
   [sp_entries addObject:anObject];
 }

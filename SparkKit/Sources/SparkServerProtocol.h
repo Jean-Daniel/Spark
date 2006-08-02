@@ -1,23 +1,24 @@
-//
-//  SparkServerProtocol.h
-//  Spark
-//
-//  Created by Fox on Thu Dec 11 2003.
-//  Copyright (c) 2004 Shadow Lab. All rights reserved.
-//
+/*
+ *  SparkServerProtocol.h
+ *  SparkKit
+ *
+ *  Created by Black Moon Team.
+ *  Copyright (c) 2004 - 2006 Shadow Lab. All rights reserved.
+ *
+ */
 
 #if !defined(__SPARK_SERVER_PROTOCOL_H)
 #define __SPARK_SERVER_PROTOCOL_H 1
 
-#import "SparkAppleScriptSuite.h"
-
 enum {
-  kSparkActionObjectType = 'acti',
-  kSparkTriggerObjectType = 'trig',
-  kSparkApplicationObjectType = 'appl'
+  kSparkActionType = 'acti',
+  kSparkTriggerType = 'trig',
+  kSparkApplicationType = 'appl'
 };
 
 #if defined(__OBJC__)
+
+#import <SparkKit/SparkLibrary.h>
 
 #if defined(DEBUG)
 #define kSparkConnectionName		@"SparkServer_Debug"
@@ -27,13 +28,17 @@ enum {
 
 @protocol SparkServer
 
-- (oneway void)shutDown;
+- (oneway void)shutdown;
+
+- (oneway void)enableTrigger:(in UInt32)uid;
+- (oneway void)disableTrigger:(in UInt32)uid;
+
+- (oneway void)addEntry:(in SparkEntry *)entry;
+- (oneway void)removeEntryAtIndex:(in UInt32)idx;
 
 - (oneway void)addObject:(bycopy id)plist type:(in OSType)type;
 - (oneway void)updateObject:(bycopy id)plist type:(in OSType)type;
 - (oneway void)removeObject:(in UInt32)uid type:(in OSType)type;
-
-//- (BOOL)setTrigger:(UInt32)uid enabled:(BOOL)flag;
 
 @end
 

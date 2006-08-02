@@ -120,6 +120,16 @@
   return [se_entries objectAtIndex:idx];
 }
 
+- (SETriggerEntry *)entryForTrigger:(SparkTrigger *)aTrigger {
+  unsigned idx = [se_entries count];
+  while (idx-- > 0) {
+    SETriggerEntry *entry = [se_entries objectAtIndex:idx];
+    if ([entry trigger] == aTrigger)
+      return entry;
+  }
+  return nil;
+}
+
 - (BOOL)containsTrigger:(SparkTrigger *)trigger {
   return NSMapGet(se_set, trigger) != nil;
 }

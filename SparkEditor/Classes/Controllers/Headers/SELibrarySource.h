@@ -9,7 +9,8 @@
 
 #import <Foundation/Foundation.h>
 
-@class SparkList, SETableView, SETriggerEntrySet;
+@class SparkList, SparkApplication;
+@class SETableView, SETriggerEntrySet;
 @interface SELibrarySource : NSObject {
   IBOutlet SETableView *table;
   @private
@@ -26,6 +27,7 @@
 
 - (id)objectAtIndex:(unsigned)idx;
 
+- (void)setTriggers:(SETriggerEntrySet *)triggers application:(SparkApplication *)anApplication;
 @end
 
 @interface NSObject (SELibrarySourceDelegate)

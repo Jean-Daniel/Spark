@@ -107,7 +107,7 @@ static const float kAVImageRightMargin = 6.f;
     CGContextSetShouldAntialias(ctxt, true);
     CGContextSetInterpolationQuality(ctxt, kCGInterpolationHigh);
     
-    CGRect cgrect = CGRectMake(0, 0.5, se_width + kAVImageSize + kAVImageRightMargin + 2 * kAVMargin - 0.5, kAVImageSize + 4);
+    CGRect cgrect = CGRectMake(.5f, .5f, NSWidth([self bounds]) - 1, kAVImageSize + 4);
     SKCGContextAddRoundRect(ctxt, cgrect, 5);
     
     CGContextSetGrayStrokeColor(ctxt, 0.5, 1);

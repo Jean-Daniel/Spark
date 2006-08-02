@@ -9,9 +9,6 @@
 /* Begin PBXBuildFile section */
 		9867565A096B3B9000BB8A25 /* ShadowKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98675654096B3B6F00BB8A25 /* ShadowKit.framework */; };
 		986B2201077474490086463D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 986B21FF077474490086463D /* InfoPlist.strings */; };
-		98B20D6D06A5491C008BA3F6 /* AEScript.h in Headers */ = {isa = PBXBuildFile; fileRef = 98402CF1060670AC00AB5262 /* AEScript.h */; };
-		98B20D6E06A5491C008BA3F6 /* SparkDaemon.h in Headers */ = {isa = PBXBuildFile; fileRef = 98402CF2060670AC00AB5262 /* SparkDaemon.h */; };
-		98B20D6F06A5491C008BA3F6 /* SparkServerProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 98402CF4060670AC00AB5262 /* SparkServerProtocol.h */; };
 		98B20D7006A54924008BA3F6 /* AEScript.c in Sources */ = {isa = PBXBuildFile; fileRef = 98402CEE060670AC00AB5262 /* AEScript.c */; };
 		98B20D7306A54924008BA3F6 /* ServerProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 98402CF6060670AC00AB5262 /* ServerProtocol.m */; };
 		98B20D7406A54924008BA3F6 /* SparkDaemon.m in Sources */ = {isa = PBXBuildFile; fileRef = 98402CFF0606714300AB5262 /* SparkDaemon.m */; };
@@ -19,10 +16,16 @@
 		98CE5BFF0774EF5B006EB5A5 /* Spark.icns in Resources */ = {isa = PBXBuildFile; fileRef = 98CE5BFE0774EF5A006EB5A5 /* Spark.icns */; };
 		98EF7E520864588C007BC81A /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF7E4A08645876007BC81A /* HotKeyToolKit.framework */; };
 		98EF7E530864588F007BC81A /* SparkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF7E5108645883007BC81A /* SparkKit.framework */; };
-		98F2DECE0715E3D2001BBF29 /* SparkAppleScriptSuite.h in Headers */ = {isa = PBXBuildFile; fileRef = 98F2DECD0715E3D2001BBF29 /* SparkAppleScriptSuite.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		985B78A40A8151960003A59C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 98EF7E4B08645883007BC81A /* SparkKit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
+			remoteInfo = SparkKit;
+		};
 		98675653096B3B6F00BB8A25 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 98EF7E4B08645883007BC81A /* SparkKit.xcodeproj */;
@@ -78,18 +81,14 @@
 		98402CEE060670AC00AB5262 /* AEScript.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = AEScript.c; sourceTree = "<group>"; };
 		98402CF1060670AC00AB5262 /* AEScript.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AEScript.h; sourceTree = "<group>"; };
 		98402CF2060670AC00AB5262 /* SparkDaemon.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SparkDaemon.h; sourceTree = "<group>"; };
-		98402CF4060670AC00AB5262 /* SparkServerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SparkServerProtocol.h; sourceTree = SOURCE_ROOT; };
 		98402CF6060670AC00AB5262 /* ServerProtocol.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ServerProtocol.m; sourceTree = "<group>"; };
 		98402CFF0606714300AB5262 /* SparkDaemon.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SparkDaemon.m; sourceTree = "<group>"; };
 		986B2200077474490086463D /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = Daemon/Resources/English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		987E6D2F06D7DA0800C7F41C /* SparkAEHandle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkAEHandle.m; sourceTree = "<group>"; };
-		987E6D3106D7DA1700C7F41C /* SparkAEHandle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkAEHandle.h; sourceTree = "<group>"; };
 		98B20D6A06A54814008BA3F6 /* Spark Daemon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Spark Daemon.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		98B20D6C06A54814008BA3F6 /* Spark Daemon.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Spark Daemon.plist"; sourceTree = "<group>"; };
 		98CE5BFE0774EF5A006EB5A5 /* Spark.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Spark.icns; sourceTree = "<group>"; };
 		98EF7E4108645876007BC81A /* HotKeyToolKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = HotKeyToolKit.xcodeproj; path = ../HotKeyToolKit/HotKeyToolKit.xcodeproj; sourceTree = SOURCE_ROOT; };
 		98EF7E4B08645883007BC81A /* SparkKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SparkKit.xcodeproj; path = ../SparkKit/SparkKit.xcodeproj; sourceTree = SOURCE_ROOT; };
-		98F2DECD0715E3D2001BBF29 /* SparkAppleScriptSuite.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = SparkAppleScriptSuite.h; path = ../SparkEditor/Headers/SparkAppleScriptSuite.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,8 +117,8 @@
 		1058C7A2FEA54F0111CA2CBB /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
 				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
+				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
 			);
 			name = "Other Frameworks";
 			sourceTree = "<group>";
@@ -173,7 +172,6 @@
 				98402CEE060670AC00AB5262 /* AEScript.c */,
 				98402CFF0606714300AB5262 /* SparkDaemon.m */,
 				98402CF6060670AC00AB5262 /* ServerProtocol.m */,
-				987E6D2F06D7DA0800C7F41C /* SparkAEHandle.m */,
 			);
 			path = Daemon;
 			sourceTree = "<group>";
@@ -183,9 +181,6 @@
 			children = (
 				98402CF1060670AC00AB5262 /* AEScript.h */,
 				98402CF2060670AC00AB5262 /* SparkDaemon.h */,
-				987E6D3106D7DA1700C7F41C /* SparkAEHandle.h */,
-				98402CF4060670AC00AB5262 /* SparkServerProtocol.h */,
-				98F2DECD0715E3D2001BBF29 /* SparkAppleScriptSuite.h */,
 			);
 			path = Headers;
 			sourceTree = "<group>";
@@ -222,35 +217,20 @@
 		};
 /* End PBXGroup section */
 
-/* Begin PBXHeadersBuildPhase section */
-		98B20D6506A54814008BA3F6 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				98B20D6D06A5491C008BA3F6 /* AEScript.h in Headers */,
-				98B20D6E06A5491C008BA3F6 /* SparkDaemon.h in Headers */,
-				98B20D6F06A5491C008BA3F6 /* SparkServerProtocol.h in Headers */,
-				98F2DECE0715E3D2001BBF29 /* SparkAppleScriptSuite.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXHeadersBuildPhase section */
-
 /* Begin PBXNativeTarget section */
 		98B20D6906A54814008BA3F6 /* Spark Daemon */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 98EF7DEA08645714007BC81A /* Build configuration list for PBXNativeTarget "Spark Daemon" */;
 			buildPhases = (
-				98B20D6506A54814008BA3F6 /* Headers */,
 				98B20D6606A54814008BA3F6 /* Resources */,
 				98B20D6706A54814008BA3F6 /* Sources */,
 				98B20D6806A54814008BA3F6 /* Frameworks */,
-				987E6D9206D7E13900C7F41C /* Rez */,
 				98C6184B0A5804CB0004E6EF /* Create links */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				985B78A50A8151960003A59C /* PBXTargetDependency */,
 			);
 			name = "Spark Daemon";
 			productName = "Spark Daemon 2";
@@ -339,16 +319,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXRezBuildPhase section */
-		987E6D9206D7E13900C7F41C /* Rez */ = {
-			isa = PBXRezBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXRezBuildPhase section */
-
 /* Begin PBXShellScriptBuildPhase section */
 		98C6184B0A5804CB0004E6EF /* Create links */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -378,6 +348,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		985B78A50A8151960003A59C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SparkKit;
+			targetProxy = 985B78A40A8151960003A59C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		986B21FF077474490086463D /* InfoPlist.strings */ = {

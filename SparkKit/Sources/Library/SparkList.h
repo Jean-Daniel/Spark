@@ -39,6 +39,7 @@ typedef BOOL(*SparkListFilter)(SparkObject *, id ctxt);
      serializedValues:(NSDictionary *)plist;
 
 - (unsigned)count;
+- (NSEnumerator *)objectEnumerator;
 - (void)addObject:(SparkObject *)anObject;
 
 @end

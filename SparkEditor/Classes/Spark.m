@@ -70,7 +70,7 @@ NSArray *gSortByNameDescriptors = nil;
 #if defined (DEBUG)
     [[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
 //      @"YES", @"NSShowNonLocalizedStrings",
-      //@"NO", @"NSShowAllViews",
+      @"NO", @"NSShowAllViews",
       //@"6", @"NSDragManagerLogLevel",
       //@"YES", @"NSShowNonLocalizableStrings",
       //@"1", @"NSScriptingDebugLogLevel",

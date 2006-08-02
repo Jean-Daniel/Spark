@@ -1,9 +1,9 @@
 /*
  *  SparkAppleScriptSuite.h
- *  Spark Editor
+ *  SparkKit
  *
- *  Created by Grayfox on 07/10/04.
- *  Copyright 2004 Shadow Lab. All rights reserved.
+ *  Created by Black Moon Team.
+ *  Copyright (c) 2004 - 2006 Shadow Lab. All rights reserved.
  *
  */
 
@@ -22,6 +22,6 @@ enum {
 };
 
 enum {
-    kSparkDaemonStatusType = 'dast',
+  kSparkDaemonStatusType = 'dast',
 };
 

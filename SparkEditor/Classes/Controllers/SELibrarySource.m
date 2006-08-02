@@ -100,17 +100,11 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
     [se_content addObjectsFromArray:[SparkSharedListSet() objects]];
     
     [self rearrangeObjects];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didChangeTriggers:)
-                                                 name:SETriggersDidChangeNotification
-                                               object:nil];
   }
   return self;
 }
 
 - (void)dealloc {
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
   [se_content release];
   [super dealloc];
 }
@@ -224,13 +218,13 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
   }
 }
 
-- (void)didChangeTriggers:(NSNotification *)aNotification {
+- (void)setTriggers:(SETriggerEntrySet *)triggers application:(SparkApplication *)anApplication {
   SparkList *list;
   NSEnumerator *lists = [se_content objectEnumerator];
   while (list = [lists nextObject]) {
     SEPluginFilter *ctxt = [list filterContext];
     if (ctxt && [ctxt isKindOfClass:[SEPluginFilter class]]) {
-      [ctxt setTriggers:[aNotification object]];
+      [ctxt setTriggers:triggers];
       [list reload];
     }
   }

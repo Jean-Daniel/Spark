@@ -10,39 +10,49 @@
 #include "AEScript.h"
 
 #include <SparkKit/SparkKit.h>
-#include "SparkAppleScriptSuite.h"
+
 #include <ShadowKit/ShadowAEUtils.h>
 
-OSStatus GetEditorIsTrapping(Boolean *trapping) {
+OSStatus SDGetEditorIsTrapping(Boolean *trapping) {
+  check(trapping);
+  *trapping = FALSE;
   ProcessSerialNumber psn;
-  if (noErr == GetFrontProcess(&psn)) {
-    ProcessInfoRec info;
-    info.processInfoLength = sizeof(info);
-    info.processName = NULL;
-    info.processAppSpec = NULL;
-    if (noErr == GetProcessInformation(&psn, &info) && kSparkHFSCreatorType != info.processSignature) {
-      if (trapping) *trapping = false;
-      return noErr;
-    }
-  }
-  OSStatus err = noErr;
-  AEDesc theEvent;
-  ShadowAENullDesc(&theEvent);
-  err = ShadowAECreateEventWithTargetSignature(kSparkHFSCreatorType, kAECoreSuite, kAEGetData, &theEvent);
-  if (noErr == err) {
+  OSStatus err = GetFrontProcess(&psn);
+  require_noerr(err, bail);
+  
+  /* Check front process */
+  ProcessInfoRec info;
+  info.processInfoLength = sizeof(info);
+  info.processName = NULL;
+  info.processAppSpec = NULL;
+  err = GetProcessInformation(&psn, &info);
+  require_noerr(err, bail);
+  
+  /* If Spark Editor is the front process, send apple event */
+  if (kSparkHFSCreatorType == info.processSignature) {
+    AEDesc theEvent;
+    ShadowAENullDesc(&theEvent);
+    err = ShadowAECreateEventWithTargetProcess(&psn, kAECoreSuite, kAEGetData, &theEvent);
+    require_noerr(err, bail);
+    
     err = ShadowAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty, kSparkEditorIsTrapping, NULL);
-  }
-  if (noErr == err) {
+    require_noerr(err, fevent);
+    
     err = ShadowAEAddMagnitude(&theEvent);
-  }
-  if (noErr == err) {
+    require_noerr(err, fevent);
+    
+    
     err = ShadowAESendEventReturnBoolean(&theEvent, trapping);
-    ShadowAEDisposeDesc(&theEvent);
+    /* Release Apple event descriptor */
+fevent:
+      ShadowAEDisposeDesc(&theEvent);
   }
+  
+bail:
   return err;
 }
 
-OSStatus SendStateToEditor(DaemonStatus state) {
+OSStatus SDSendStateToEditor(DaemonStatus state) {
   OSStatus err = noErr;
   AEDesc theEvent;
   ShadowAENullDesc(&theEvent);

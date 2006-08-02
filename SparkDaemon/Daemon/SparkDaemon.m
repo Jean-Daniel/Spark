@@ -7,9 +7,16 @@
 //
 
 #import "SparkDaemon.h"
+
 #include <unistd.h>
+
 #import <SparkKit/SparkKit.h>
+#import <SparkKit/SparkAlert.h>
+#import <SparkKit/SparkActionPlugIn.h>
+
 #import <ShadowKit/SKFunctions.h>
+#import <ShadowKit/SKProcessFunctions.h>
+
 #import <HotKeyToolKit/HotKeyToolKit.h>
 
 #import "AEScript.h"
@@ -24,18 +31,18 @@ int main(int argc, const char *argv[]) {
   ShadowAEDebug = YES;
   HKTraceHotKeyEvents = YES;
 #endif
-  id pool = [[NSAutoreleasePool alloc] init];
+  NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
   NSApplicationLoad();
-  id server = nil;
+  SparkDaemon *server;
   if (server = [[SparkDaemon alloc] init]) {
-    SendStateToEditor(kSparkDaemonStarted);
+    SDSendStateToEditor(kSparkDaemonStarted);
+    /* Cleanup pool */
     [pool release];
     pool = [[NSAutoreleasePool alloc] init];
     [server run];
-  }
-  else {
-    NSBeep();
-    SendStateToEditor(kSparkDaemonError);
+  } else {
+    // Run Alert panel ?
+    SDSendStateToEditor(kSparkDaemonError);
   }
   [server release];
   
@@ -45,17 +52,17 @@ int main(int argc, const char *argv[]) {
 
 @implementation SparkDaemon
 
+/* Timer callback */
 - (void)checkAndLoad:(id)sender {
-  ShadowTrace();
   [self checkActions];
-  [self loadKeys];
+  [self loadTriggers];
 }
 
 - (id)init {
   if (self = [super init]) {
-    if (![self connect]) { // ![self setPlugInPath] || 
+    if (![self openConnection]) {
       [self release];
-      self = nil;
+      self = nil; 
     } else {
 #if defined (DEBUG)
       [[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
@@ -72,25 +79,20 @@ int main(int argc, const char *argv[]) {
         CFNumberRef parent = CFDictionaryGetValue(infos, CFSTR("ParentPSN"));
         if (parent) {
           CFNumberGetValue(parent, kCFNumberLongLongType, &psn);
-          CFRelease(infos);
-          infos = ProcessInformationCopyDictionary(&psn, kProcessDictionaryIncludeAllInformationMask);
-          if (infos) {
-            CFStringRef creator = CFDictionaryGetValue(infos, CFSTR("FileCreator"));
-            if (creator) {
-              OSType sign = SKGetOSTypeFromString(creator);
-              if (sign != kSparkHFSCreatorType) {
-                CFNumberRef value = CFPreferencesCopyAppValue(CFSTR("SparkDaemonDelay"), (CFStringRef)kSparkBundleIdentifier);
-                if (value) {
-                  delay = [(id)value intValue];
-                  CFRelease(value);
-                }
-              }
+          
+          /* If launch by something that is not Spark Editor */
+          OSType sign = SKGetProcessSignature(&psn);
+          if (sign != kSparkHFSCreatorType) {
+            CFNumberRef value = CFPreferencesCopyAppValue(CFSTR("SparkDaemonDelay"), (CFStringRef)kSparkBundleIdentifier);
+            if (value) {
+              CFNumberGetValue(value, kCFNumberIntType, &delay);
+              CFRelease(value);
             }
-            CFRelease(infos);
           }
         }
+        CFRelease(infos);
       }
-      if (delay) {
+      if (delay > 0) {
         DLog(@"Delay load: %i", delay);
         [NSTimer scheduledTimerWithTimeInterval:delay
                                          target:self
@@ -110,16 +112,31 @@ int main(int argc, const char *argv[]) {
   [super dealloc];
 }
 
+- (BOOL)openConnection {
+  NSProtocolChecker *checker = [[NSProtocolChecker alloc] initWithTarget:self
+                                                                protocol:@protocol(SparkServer)]; 
+  NSConnection *connection = [NSConnection defaultConnection];
+  [connection setRootObject:checker];
+  [checker release];
+  if (![connection registerName:kSparkConnectionName]) {
+    DLog(@"Error While opening Connection");
+    return NO;
+  } else {
+    DLog(@"Connection OK, Spark Daemon Ready");
+  }
+  return YES;
+}
+
 - (void)checkActions {
-  CFBooleanRef blockAlertRef = CFPreferencesCopyAppValue((CFStringRef)@"SDBlockAlertOnLoad", (CFStringRef)kSparkBundleIdentifier);
   BOOL blockAlert = NO;
+  CFBooleanRef blockAlertRef = CFPreferencesCopyAppValue(CFSTR("SDBlockAlertOnLoad"), (CFStringRef)kSparkBundleIdentifier);
   if (blockAlertRef != nil) {
     blockAlert = CFBooleanGetValue(blockAlertRef);
     CFRelease(blockAlertRef);
   }
   if (!blockAlert) {
-    id items = [SparkDefaultActionLibrary() objectEnumerator];
     id item;
+    NSEnumerator *items = [SparkSharedActionSet() objectEnumerator];
     NSMutableArray *errors = [[NSMutableArray alloc] init];
     while (item = [items nextObject]) {
       id alert = ([item check]);
@@ -134,15 +151,15 @@ int main(int argc, const char *argv[]) {
   }
 }
 
-- (void)loadKeys {
-  id items = [SparkDefaultKeyLibrary() objectEnumerator];
-  SparkHotKey *item;
-  while (item = [items nextObject]) {
+- (void)loadTriggers {
+  SparkTrigger *trigger;
+  NSEnumerator *triggers = [SparkSharedTriggerSet() objectEnumerator];
+  while (trigger = [triggers nextObject]) {
     @try {
-      [item setTarget:self];
-      [item setAction:@selector(executeHotKey:)];
-      if ([item isActive] /* && ![item isInvalid] */) { // Faut-il activer une clé invalide ??
-        [item setRegistred:YES];
+      [trigger setTarget:self];
+      [trigger setAction:@selector(executeTrigger:)];
+      if ([trigger isEnabled] /* && ![item isInvalid] */) { // Faut-il activer une clé invalide ??
+        [trigger setRegistred:YES];
       }
     } @catch (id exception) {
       SKLogException(exception);
@@ -150,79 +167,56 @@ int main(int argc, const char *argv[]) {
   }
 }
 
-- (BOOL)connect {
-  NSConnection *theConnection;
-  id checker = [[NSProtocolChecker alloc] initWithTarget:self protocol:@protocol(SparkServer)]; 
-  theConnection = [NSConnection defaultConnection];
-  [theConnection setRootObject:checker];
-  [checker release];
-  if ([theConnection registerName:kSparkConnectionName] == NO) {
-    NSLog(@"Error While opening Connection");
-    return NO;
+- (void)didAddTrigger:(SparkTrigger *)aTrigger {
+  [aTrigger setTarget:self];
+  [aTrigger setAction:@selector(executeTrigger:)];
+  if ([aTrigger isEnabled]) {
+    [aTrigger setRegistred:YES];
   }
-#if defined(DEBUG)
-  else {
-    NSLog(@"Connection OK, Spark Daemon Ready");
-  }
-#endif
-  return YES;
 }
 
-- (void)addKey:(SparkHotKey *)key {
-  [key setTarget:self];
-  [key setAction:@selector(executeHotKey:)];
-  [SparkDefaultKeyLibrary() addObject:key];
-  if ([key isActive]) {
-    [key setRegistred:YES];
+- (void)willRemoveTrigger:(SparkTrigger *)aTrigger {
+  if ([aTrigger isRegistred]) {
+    [aTrigger setRegistred:NO];
   }
-}
-- (void)updateKey:(SparkHotKey *)key {
-  id old = [SparkDefaultKeyLibrary() objectWithId:[key uid]];
-  [old setRegistred:NO];
-  [key setTarget:self];
-  [key setAction:@selector(executeHotKey:)];
-  [SparkDefaultKeyLibrary() updateObject:key];
-  if ([key isActive]) {
-    [key setRegistred:YES];
-  }
-}
-- (void)removeKey:(SparkHotKey *)key {
-  if ([key isRegistred]) {
-    [key setRegistred:NO];
-  }
-  [SparkDefaultKeyLibrary() removeObject:key];
 }
 
-- (IBAction)executeHotKey:(id)sender {
-  id alert = nil;
+- (IBAction)executeTrigger:(id)trigger {
   Boolean trapping;
-  DLog(@"Processing event");
-  if ((noErr == GetEditorIsTrapping(&trapping)) && trapping) {
-    [sender sendKeystrokeToApplication:kSparkHFSCreatorType bundle:nil];
+  SparkAlert *alert = nil;
+  DLog(@"Start handle event");
+  /* If Spark Editor is trapping, forward keystroke */
+  if ((noErr == SDGetEditorIsTrapping(&trapping)) && trapping) {
+    [trigger sendKeystrokeToApplication:kSparkHFSCreatorType bundle:nil];
     return;
   }
-  // We prevent Recursive call in -[HKHotKey invoke], so don't have to check here.
-  [sender retain];
+  /* Warning: trigger can be release during it's own invocation, so retain it */
+  [trigger retain];
   @try {
-    alert = [sender execute];
+    alert = [trigger execute];
   } @catch (id exception) {
     SKLogException(exception);
     NSBeep();
   }
-  [sender release];
-  if (alert != nil) {
+  [trigger release];
+  /* If alert not null */
+  if (alert) {
+    /* Read last change from file system */
     CFPreferencesAppSynchronize((CFStringRef)kSparkBundleIdentifier);
-    CFBooleanRef blockAlertRef = CFPreferencesCopyAppValue((CFStringRef)@"SDBlockAlertOnExecute", (CFStringRef)kSparkBundleIdentifier);
-    if (blockAlertRef == nil || !CFBooleanGetValue(blockAlertRef)) {
-      SparkDisplayAlert(alert);
+    /* Check if need display alert */
+    CFBooleanRef displayAlertRef = CFPreferencesCopyAppValue(CFSTR("SDDisplayAlertOnExecute"), (CFStringRef)kSparkBundleIdentifier);
+    if (displayAlertRef) {
+      if (CFBooleanGetValue(displayAlertRef))
+        SparkDisplayAlert(alert);
+      CFRelease(displayAlertRef);
     }
-    [(id)blockAlertRef release];
   }
-  DLog(@"End Processing event.");
+  DLog(@"Finish handle event");
 }
 
 - (void)run {
   [NSApp run];
+  //[[NSRunLoop currentRunLoop] run];
 }
 
 - (void)terminate {
@@ -233,7 +227,7 @@ int main(int argc, const char *argv[]) {
 #pragma mark Application Delegate
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
-  SendStateToEditor(kSparkDaemonStopped);
+  SDSendStateToEditor(kSparkDaemonStopped);
 }
 
 @end

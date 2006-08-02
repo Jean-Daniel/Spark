@@ -27,8 +27,6 @@
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkApplication.h>
 
-NSString * const SETriggersDidChangeNotification = @"SETriggersDidChange";
-
 @implementation SELibraryWindow
 
 - (id)init {
@@ -59,12 +57,12 @@ NSString * const SETriggersDidChangeNotification = @"SETriggersDidChange";
       NSDictionary *entries = [SparkSharedLibrary() triggersForApplication:[application uid]];
       if ([entries count]) {
         [se_triggers addEntriesFromDictionary:entries];
-        DLog(@"Entries: %@", entries);
       }
     }
-    [[NSNotificationCenter defaultCenter] postNotificationName:SETriggersDidChangeNotification
-                                                        object:se_triggers
-                                                      userInfo:[NSDictionary dictionaryWithObject:application forKey:@"application"]];
+    // Update lists
+    [listSource setTriggers:se_triggers application:application];
+    // Update triggers table
+    [triggers setTriggers:se_triggers application:application];
   }
 }
 
