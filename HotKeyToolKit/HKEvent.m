@@ -9,6 +9,8 @@
 #import "HKEvent.h"
 #import "HKKeyMap.h"
 
+#include <unistd.h>
+
 static ProcessSerialNumber HKGetProcessWithSignature(OSType type);
 static ProcessSerialNumber HKGetProcessWithBundleIdentifier(CFStringRef bundleId);
 
@@ -41,6 +43,8 @@ void __HKEventPostKeyboardEvent(CGEventSourceRef source, CGKeyCode keycode, void
   else
     CGEventPost(kCGHIDEventTap, event);
   CFRelease(event);
+  /* Avoid to fast typing (1 ms) */
+  usleep(1000);
 }
 
 static

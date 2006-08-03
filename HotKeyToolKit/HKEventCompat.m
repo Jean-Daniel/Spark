@@ -9,12 +9,16 @@
 #include "HKEvent.h"
 #include "HKKeyMap.h"
 
+#include <unistd.h>
+
 static __inline__ 
 void __HKEventPostKeyboardEvent(CGEventSourceRef source, CGKeyCode keycode, AXUIElementRef app, Boolean down) {
   if (app)
     AXUIElementPostKeyboardEvent(app, 0, keycode, down);
   else
     CGPostKeyboardEvent(0, keycode, down);
+  /* Avoid to fast typing */
+  usleep(1000);
 }
 
 SK_PRIVATE
