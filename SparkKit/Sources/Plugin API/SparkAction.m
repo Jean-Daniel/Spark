@@ -81,7 +81,14 @@ static NSString * const kSparkActionShortDescriptionKey = @"ShortDescription";
     id version = [plist objectForKey:kSparkActionVersionKey];
     [self setVersion:(nil != version) ? [version intValue] : kSparkActionVersion_1_0];
     
-    [self setCategorie:[plist objectForKey:kSparkActionCategorieKey]];
+    /* Update categorie */
+    SparkPlugIn *plugin = [[SparkActionLoader sharedLoader] pluginForClass:[self class]];
+    if (plugin && [plugin name]) {
+      [self setCategorie:[plugin name]];
+    } else {
+      [self setCategorie:[plist objectForKey:kSparkActionCategorieKey]];
+    }
+    
     [self setShortDescription:[plist objectForKey:kSparkActionShortDescriptionKey]];
   }
   return self;

@@ -11,11 +11,11 @@
 #import <SparkKit/SparkObject.h>
 
 static
-NSString* const kSparkObjectUIDKey = @"UID";
+NSString* const kSparkObjectUIDKey = @"SparkObjectUID";
 static
-NSString* const kSparkObjectNameKey = @"Name";
+NSString* const kSparkObjectNameKey = @"SparkObjectName";
 static
-NSString* const kSparkObjectIconKey = @"Icon";
+NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
 
 @implementation SparkObject
 
@@ -62,7 +62,14 @@ NSString* const kSparkObjectIconKey = @"Icon";
 }
 - (id)initFromPropertyList:(NSDictionary *)plist {
   NSString *name = [plist objectForKey:kSparkObjectNameKey];
-  NSImage *icon = [[NSImage alloc] initWithData:[plist objectForKey:kSparkObjectIconKey]];
+  if (!name)
+    name = [plist objectForKey:@"Name"];
+  
+  NSData *bitmap = [plist objectForKey:kSparkObjectIconKey];
+  if (!bitmap)
+    bitmap = [plist objectForKey:@"Icon"];
+  NSImage *icon = (bitmap) ? [[NSImage alloc] initWithData:bitmap] : nil;
+  
   self = [self initWithName:name icon:icon];
   [icon release];
   return self;
@@ -91,13 +98,21 @@ NSString* const kSparkObjectIconKey = @"Icon";
     self = [self initFromPropertyList:plist];
   } else {
     NSString *name = [plist objectForKey:kSparkObjectNameKey];
-    NSImage *icon = [[NSImage alloc] initWithData:[plist objectForKey:kSparkObjectIconKey]];
+    if (!name)
+      name = [plist objectForKey:@"Name"];
+    
+    NSData *bitmap = [plist objectForKey:kSparkObjectIconKey];
+    if (!bitmap)
+      bitmap = [plist objectForKey:@"Icon"];
+    NSImage *icon = (bitmap) ? [[NSImage alloc] initWithData:bitmap] : nil;
     self = [self initWithName:name icon:icon];
     [icon release];
   }
   if (self) {
-    [self setLibrary:[plist objectForKey:@"_SparkLibrary_"]];
-    [self setUID:[[plist objectForKey:kSparkObjectUIDKey] unsignedIntValue]];
+    NSNumber *value = [plist objectForKey:kSparkObjectUIDKey];
+    if (!value)
+      value = [plist objectForKey:@"UID"];
+    [self setUID:value ? [value unsignedIntValue] : 0];
   }
   return self;
 }

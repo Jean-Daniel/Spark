@@ -126,7 +126,8 @@ static NSString * const kSparkApplicationKey = @"SparkApplication";
 - (NSImage *)icon {
   if (![super icon]) {
     //NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:[sp_application path]];
-    NSImage *icon = SKResizedIcon([[NSWorkspace sharedWorkspace] iconForFile:[sp_application path]], NSMakeSize(32, 32));
+    NSString *path = [sp_application path];
+    NSImage *icon = path ? SKResizedIcon([[NSWorkspace sharedWorkspace] iconForFile:[sp_application path]], NSMakeSize(32, 32)) : nil;
     if (!icon) {
       icon = [NSImage imageNamed:@"Application" inBundle:SKCurrentBundle()];
     }
@@ -156,22 +157,28 @@ static NSString * const kSparkApplicationKey = @"SparkApplication";
 @end
 
 #pragma mark -
-static NSString * const kSKApplicationName = @"Name";
-static NSString * const kSKApplicationIdType = @"IDType";
-static NSString * const kSKApplicationIdentifier = @"Identifier";
+static
+NSString * const kSKApplicationIdType = @"SKApplicationType";
+static
+NSString * const kSKApplicationIdentifier = @"SKApplicationIdentifier";
 
 @implementation SKApplication (SparkSerialization)
 
 - (id)initWithSerializedValues:(NSDictionary *)plist {
   if (self = [super init]) {
-    [self setName:[plist objectForKey:kSKApplicationName]];
     /* Compatibility with Library version 1.0 */
+    NSString *identifier;
+    SKApplicationIdentifier type;
     if ([plist objectForKey:@"SparkApplication"]) {
       plist = [plist objectForKey:@"SparkApplication"];
-    } 
-    [self setIdentifier:[plist objectForKey:kSKApplicationIdentifier]
-                   type:[[plist objectForKey:kSKApplicationIdType] intValue]];
+      identifier = [plist objectForKey:@"Identifier"];
+      type = [[plist objectForKey:@"IDType"] intValue];
+    } else {
+      identifier = [plist objectForKey:kSKApplicationIdentifier];
+      type = [[plist objectForKey:kSKApplicationIdType] intValue];
+    }
     
+    [self setIdentifier:identifier type:type];
   }
   return self;
 }

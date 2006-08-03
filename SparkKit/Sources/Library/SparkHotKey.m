@@ -19,10 +19,8 @@
 
 #define ICON_SIZE		16
 
-static NSString * const kHotKeyKeycodeKey = @"KeyCode";
-static NSString * const kHotKeyCommentKey = @"Comment";
-static NSString * const kHotKeyIsActiveKey = @"IsActive";
-static NSString * const kHotKeyApplicationMap = @"ApplicationMap";
+static
+NSString * const kHotKeyRawCodeKey = @"STRawKey";
 
 SparkFilterMode SparkKeyStrokeFilterMode = kSparkEnableSingleFunctionKey;
 
@@ -104,12 +102,12 @@ BOOL KeyStrokeFilter(UInt32 code, UInt32 modifier) {
 #pragma mark NSCoding
 - (void)encodeWithCoder:(NSCoder *)aCoder {
   [super encodeWithCoder:aCoder];
-  [aCoder encodeInt64:[sp_hotkey rawkey] forKey:kHotKeyKeycodeKey];
+  [aCoder encodeInt64:[sp_hotkey rawkey] forKey:kHotKeyRawCodeKey];
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
   if (self = [super initWithCoder:aDecoder]) {
-    UInt64 hotkey = [aDecoder decodeInt64ForKey:kHotKeyKeycodeKey];
+    UInt64 hotkey = [aDecoder decodeInt64ForKey:kHotKeyRawCodeKey];
     [sp_hotkey setRawkey:hotkey];
   }
   return self;
@@ -126,13 +124,16 @@ BOOL KeyStrokeFilter(UInt32 code, UInt32 modifier) {
 - (BOOL)serialize:(NSMutableDictionary *)plist {
   [super serialize:plist];
   UInt64 hotkey = [sp_hotkey rawkey];
-  [plist setObject:SKULongLong(hotkey) forKey:kHotKeyKeycodeKey];
+  [plist setObject:SKULongLong(hotkey) forKey:kHotKeyRawCodeKey];
   return YES;
 }
 
 - (id)initWithSerializedValues:(NSDictionary *)plist {
   if (self = [super initWithSerializedValues:plist]) {
-    UInt64 hotkey = [[plist objectForKey:kHotKeyKeycodeKey] unsignedLongLongValue];
+    UInt64 hotkey = [[plist objectForKey:kHotKeyRawCodeKey] unsignedLongLongValue];
+    if (!hotkey) {
+      hotkey = [[plist objectForKey:@"KeyCode"] unsignedLongLongValue];
+    }
     [sp_hotkey setRawkey:hotkey];
   }
   return self;
