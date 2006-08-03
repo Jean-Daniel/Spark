@@ -9,7 +9,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class SKTableView;
+@class SKTableView, SEEntryEditor;
 @class SparkList, SparkApplication, SETriggerEntrySet;
 @interface SETriggersController : NSObject {
   IBOutlet SKTableView *table;
@@ -17,6 +17,8 @@
   @private
     UInt32 se_filter;
     SparkList *se_list; /* Selected list */
+    SEEntryEditor *se_editor;
+    
   /* Internal storage */
   NSMutableArray *se_entries;
   SETriggerEntrySet *se_triggers;

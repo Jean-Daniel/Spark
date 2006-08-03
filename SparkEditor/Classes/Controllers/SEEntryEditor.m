@@ -8,8 +8,11 @@
 
 #import "SEEntryEditor.h"
 #import "SEActionEditor.h"
+#import "SETriggerEntry.h"
 
 #import <SparkKit/SparkHotKey.h>
+#import <SparkKit/SparkApplication.h>
+
 #import <HotKeyToolKit/HotKeyToolKit.h>
 
 @implementation SEEntryEditor
@@ -42,6 +45,13 @@
 
 - (IBAction)cancel:(id)sender {
   [self close:sender];
+}
+
+- (void)setEntry:(SETriggerEntry *)anEntry {
+  [se_editor setSparkAction:[anEntry action]];
+}
+- (void)setApplication:(SparkApplication *)anApplication {
+  [se_editor setApplication:anApplication];
 }
 
 #pragma mark Trap Delegate

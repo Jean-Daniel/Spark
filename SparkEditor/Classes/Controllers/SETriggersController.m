@@ -11,6 +11,7 @@
 #import "SEVirtualPlugIn.h"
 #import "SETriggerEntry.h"
 #import "SETriggerCell.h"
+#import "SEEntryEditor.h"
 
 #import <ShadowKit/SKTableView.h>
 
@@ -57,8 +58,22 @@
     idx = [table clickedRow];
   }
   if (idx >= 0) {
-    DLog(@"Edit %@", [se_entries objectAtIndex:idx]);
+    if (!se_editor) {
+      se_editor = [[SEEntryEditor alloc] init];
+    }
+    [se_editor setEntry:[se_entries objectAtIndex:idx]];
+    [se_editor setApplication:se_application];
+    
+    [NSApp beginSheet:[se_editor window]
+       modalForWindow:[sender window]
+        modalDelegate:self
+       didEndSelector:@selector(editorDidEnd:returnCode:contextInfo:)
+          contextInfo:nil];
   }
+}
+
+- (void)editorDidEnd:(NSWindow *)sheet returnCode:(int)returnCode  contextInfo:(void  *)contextInfo {
+  ShadowTrace();
 }
 
 - (IBAction)changeFilter:(id)sender {

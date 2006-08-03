@@ -8,9 +8,14 @@
 
 #import <ShadowKit/SKWindowController.h>
 
-@class SEActionEditor;
+@class SparkApplication;
+@class SETriggerEntry, SEActionEditor;
 @interface SEEntryEditor : SKWindowController {
+  @private
   SEActionEditor *se_editor;
 }
+
+- (void)setEntry:(SETriggerEntry *)anEntry;
+- (void)setApplication:(SparkApplication *)anApplication;
 
 @end

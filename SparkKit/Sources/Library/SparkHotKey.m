@@ -130,11 +130,11 @@ BOOL KeyStrokeFilter(UInt32 code, UInt32 modifier) {
 
 - (id)initWithSerializedValues:(NSDictionary *)plist {
   if (self = [super initWithSerializedValues:plist]) {
-    UInt64 hotkey = [[plist objectForKey:kHotKeyRawCodeKey] unsignedLongLongValue];
-    if (!hotkey) {
-      hotkey = [[plist objectForKey:@"KeyCode"] unsignedLongLongValue];
-    }
-    [sp_hotkey setRawkey:hotkey];
+    NSNumber *value = [plist objectForKey:kHotKeyRawCodeKey];
+    if (!value)
+      value = [plist objectForKey:@"KeyCode"];
+
+    [sp_hotkey setRawkey:value ? [value unsignedLongLongValue] : 0];
   }
   return self;
 }

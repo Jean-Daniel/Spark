@@ -49,6 +49,68 @@ static const float kAVImageRightMargin = 6.f;
   se_action = anAction;
 }
 
+- (void)viewDidMoveToWindow {
+  /* Set dark if window is not textured */
+  BOOL flag = ([[self window] styleMask] & NSTexturedBackgroundWindowMask) == 0;
+  SKSetFlag(se_saFlags.dark, flag);
+}
+
+- (void)setIcon:(NSImage *)anImage {
+  SKSetterRetain(se_icon, anImage);
+}
+- (void)setTitle:(NSString *)title {
+  if (title != se_title) {
+    /* Cache informations */
+    [se_title release];
+    se_title = [title retain];
+    
+    se_width = se_title ? [se_title sizeWithAttributes:nil].width : 0;
+    
+    NSRect frame = [self frame];
+    NSRect dirty = frame;
+    if (se_width > 0) {
+      float x = 0;
+      switch (se_saFlags.align) {
+        case 0: /* center */
+          x = AVG(NSWidth([self bounds]), - (se_width + kAVImageSize + kAVImageRightMargin));
+          x -= kAVMargin;
+          /* Make sure x is an integer value */
+          x = floorf(x);
+          break;
+        case 1: /* left */
+          x = 0;
+          break;
+        case 2: /* right */
+          x = NSWidth([self bounds]) - (se_width + kAVImageSize + kAVImageRightMargin);
+          break;
+      }
+      
+      frame.origin.x += x;
+      frame.size.width = se_width + kAVImageSize + kAVImageRightMargin + 2 * kAVMargin + 1;
+      
+      if (NSWidth(frame) > NSWidth([self bounds])) {
+        dirty = frame;
+      }
+    } else {
+      float x = 0;
+      switch (se_saFlags.align) {
+        case 0: /* center */
+          x = NSWidth([self bounds]) / 2;
+          break;
+        case 1: /* left */
+          x = 0;
+          break;
+        case 2: /* right */
+          x = NSWidth([self bounds]);
+          break;
+      }
+      frame.origin.x += x;
+    }
+    [self setFrame:frame];
+    [[self superview] setNeedsDisplayInRect:dirty];
+  }
+}
+
 - (SparkApplication *)application {
   return se_app;
 }
@@ -56,48 +118,31 @@ static const float kAVImageRightMargin = 6.f;
   if (se_app != anApp) {
     [se_app release];
     se_app = [anApp retain];
-    /* Cache informations */
-    [se_title release];
-    if (se_app && [se_app uid] == 0) {
-      se_title = @"Globals HotKeys";
-    } else {
-      se_title = se_app ? [[NSString alloc] initWithFormat:@"%@ HotKeys", [se_app name]] : nil;
-      //se_title = se_app ? [[se_app name] retain] : nil;
-    }
-    se_width = se_title ? [se_title sizeWithAttributes:nil].width : 0;
     
     /* Cache icon */
-    [se_icon release];
-    se_icon = nil;
+    NSImage *icon = nil;
     if (se_app) {
       if (0 == [se_app uid]) {
-        se_icon = [[NSImage imageNamed:@"applelogo"] retain];
+        icon = [NSImage imageNamed:@"applelogo"];
       } else if ([se_app path]) {
-        se_icon = [[[NSWorkspace sharedWorkspace] iconForFile:[se_app path]] retain];
+        icon = [[NSWorkspace sharedWorkspace] iconForFile:[se_app path]];
       } else if ([se_app icon]) {
-        se_icon = [[se_app icon] retain];
+        icon = [se_app icon];
       } else {
-        se_icon = [[[NSWorkspace sharedWorkspace] iconForFileType:@"app"] retain];
+        icon = [[NSWorkspace sharedWorkspace] iconForFileType:@"app"];
       }
     }
+    [self setIcon:icon];
     
-    NSRect frame = [self frame];
-    NSRect dirty = frame;
-    if (se_width > 0) {
-      float x = AVG(NSWidth([self bounds]), - (se_width + kAVImageSize + kAVImageRightMargin));
-      /* Make sure x is an integer value */
-      x = floorf(x);
-      frame.origin.x += x - kAVMargin;
-      frame.size.width = se_width + kAVImageSize + kAVImageRightMargin + 2 * kAVMargin + 1;
-      
-      if (x - kAVMargin < 0) {
-        dirty = frame;
-      }
+    /* Update title and refresh (in setTitle:) */
+    NSString *title = nil;
+    if (se_app && [se_app uid] == 0) {
+      title = @"Globals HotKeys";
     } else {
-      frame.origin.x += NSWidth([self bounds]) / 2;
+      title = se_app ? [[NSString alloc] initWithFormat:@"%@ HotKeys", [se_app name]] : nil;
     }
-    [self setFrame:frame];
-    [[self superview] setNeedsDisplayInRect:dirty];
+    [self setTitle:title];
+    [title release];
   }
 }
 
@@ -110,8 +155,13 @@ static const float kAVImageRightMargin = 6.f;
     CGRect cgrect = CGRectMake(.5f, .5f, NSWidth([self bounds]) - 1, kAVImageSize + 4);
     SKCGContextAddRoundRect(ctxt, cgrect, 5);
     
-    CGContextSetGrayStrokeColor(ctxt, 0.5, 1);
-    CGContextSetGrayFillColor(ctxt, 0, se_highlight ? .15f : .05f);
+    if (se_saFlags.dark) {
+      CGContextSetGrayStrokeColor(ctxt, 0.75, 1);
+      CGContextSetGrayFillColor(ctxt, 0.70f, se_saFlags.highlight ? .40f : .25f);
+    } else {
+      CGContextSetGrayStrokeColor(ctxt, 0.5, 1);
+      CGContextSetGrayFillColor(ctxt, 0, se_saFlags.highlight ? .15f : .05f);
+    }
     CGContextDrawPath(ctxt,kCGPathFillStroke);
     
     if (se_icon) {
@@ -123,18 +173,19 @@ static const float kAVImageRightMargin = 6.f;
                 operation:NSCompositeSourceOver
                  fraction:1];
     }
-    
-    [[SKShadowLabel defaultShadow] set];
+    if (!se_saFlags.dark) {
+      [[SKShadowLabel defaultShadow] set];
+    }
     [se_title drawAtPoint:NSMakePoint(kAVMargin + kAVImageSize + kAVImageRightMargin, 8) withAttributes:nil];
   }
 }
 
 - (void)highlight:(BOOL)flag {
-  if (XOR(flag, se_highlight)) {
-    se_highlight = flag;
+  BOOL high = se_saFlags.highlight;
+  if (XOR(flag, high)) {
+    SKSetFlag(se_saFlags.highlight, flag);
     [self setNeedsDisplay:YES];
   }
-  
 }
 
 - (BOOL)mouseDownCanMoveWindow {
@@ -147,6 +198,10 @@ static const float kAVImageRightMargin = 6.f;
 }
 
 - (void)mouseDown:(NSEvent *)theEvent {
+  /* No action, so don't need to handle event */
+  if (!se_action)
+    return;
+  
   BOOL keepOn = YES;
   
   NSPoint mouseLoc = [self convertPoint:[theEvent locationInWindow] fromView:nil];

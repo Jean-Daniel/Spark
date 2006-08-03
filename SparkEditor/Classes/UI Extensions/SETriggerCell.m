@@ -22,7 +22,7 @@
       [self font], NSFontAttributeName, nil]].width;
     
     float y = NSMinY(cellFrame) + 7.5f;
-    twidth = MIN(NSWidth(cellFrame) - 4, twidth + 1);
+    twidth = MIN(NSWidth(cellFrame) - 4, twidth + 2);
     [NSBezierPath strokeLineFromPoint:NSMakePoint(NSMinX(cellFrame) + 2, y) toPoint:NSMakePoint(NSMinX(cellFrame) + twidth, y)];
   }
 }

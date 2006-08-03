@@ -7,8 +7,10 @@
  */
 
 #import "SEActionEditor.h"
+#import "SETriggerEntry.h"
 #import "SEVirtualPlugIn.h"
 
+#import <SparkKit/SparkApplication.h>
 #import <SparkKit/SparkActionLoader.h>
 
 @implementation SEActionEditor
@@ -30,6 +32,14 @@
 - (void)dealloc {
   [se_plugins release];
   [super dealloc];
+}
+
+- (void)setSparkAction:(SparkAction *)anAction {
+  
+}
+- (void)setApplication:(SparkApplication *)anApplication {
+  [appField setApplication:anApplication];
+  [appField setTitle:[anApplication name]];
 }
 
 - (int)numberOfRowsInTableView:(NSTableView *)tableView {

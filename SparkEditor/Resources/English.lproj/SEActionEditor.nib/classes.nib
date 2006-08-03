@@ -5,13 +5,14 @@
         {
             CLASS = SEActionEditor; 
             LANGUAGE = ObjC; 
-            OUTLETS = {
-                application = NSTextField; 
-                icon = NSImageView; 
-                pluginView = NSView; 
-                trap = SEHotKeyTrap; 
-            }; 
+            OUTLETS = {appField = SEApplicationView; pluginView = NSView; trap = SEHotKeyTrap; }; 
             SUPERCLASS = SKViewController; 
+        }, 
+        {
+            CLASS = SEApplicationView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {"se_target" = id; }; 
+            SUPERCLASS = NSView; 
         }, 
         {CLASS = SEHotKeyTrap; LANGUAGE = ObjC; SUPERCLASS = NSControl; }, 
         {CLASS = SKImageAndTextCell; LANGUAGE = ObjC; SUPERCLASS = NSTextFieldCell; }, 
