@@ -15,11 +15,18 @@
   IBOutlet SKTableView *table;
   
   @private
+    UInt32 se_filter;
     SparkList *se_list; /* Selected list */
   /* Internal storage */
   NSMutableArray *se_entries;
   SETriggerEntrySet *se_triggers;
+  
+  /* Internal Cache */
+  SparkApplication *se_application;
+  SETriggerEntrySet *se_defaults;
 }
+
+- (void)loadTriggers; /* Reload data */
 
 - (void)setList:(SparkList *)aList;
 - (void)setTriggers:(SETriggerEntrySet *)triggers application:(SparkApplication *)anApplication;

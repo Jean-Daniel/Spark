@@ -10,6 +10,7 @@
 #import "SELibraryWindow.h"
 #import "SEVirtualPlugIn.h"
 #import "SETriggerEntry.h"
+#import "SETriggerCell.h"
 
 #import <ShadowKit/SKTableView.h>
 
@@ -25,6 +26,8 @@
 - (id)init {
   if (self = [super init]) {
     se_entries = [[NSMutableArray alloc] init];
+    se_defaults = [[SETriggerEntrySet alloc] init];
+    [se_defaults addEntriesFromDictionary:[SparkSharedLibrary() triggersForApplication:0]];
   }
   return self;
 }
@@ -32,6 +35,7 @@
 - (void)dealloc {
   [se_list release];
   [se_entries release];
+  [se_defaults release];
   [super dealloc];
 }
 
@@ -53,8 +57,20 @@
     idx = [table clickedRow];
   }
   if (idx >= 0) {
-    DLog(@"%@", [se_entries objectAtIndex:idx]);
+    DLog(@"Edit %@", [se_entries objectAtIndex:idx]);
   }
+}
+
+- (IBAction)changeFilter:(id)sender {
+  switch ([sender indexOfSelectedItem]) {
+    case 0:
+      se_filter = 0;
+      break;
+    case 1:
+      se_filter = 1;
+      break;
+  }
+  [self loadTriggers];
 }
 
 - (void)sortTriggers:(NSArray *)descriptors {
@@ -63,6 +79,7 @@
 
 - (void)setTriggers:(SETriggerEntrySet *)triggers application:(SparkApplication *)anApplication {
   se_triggers = triggers;
+  se_application = anApplication;
   // Reload data
   [self loadTriggers];
 }
@@ -74,8 +91,10 @@
     NSEnumerator *triggers = [se_list objectEnumerator];
     while (trigger = [triggers nextObject]) {
       SETriggerEntry *entry = [se_triggers entryForTrigger:trigger];
-      if (entry)
-        [se_entries addObject:entry];
+      if (entry) {
+        if ([se_application uid] == 0 || !se_filter || [entry action] != [se_defaults actionForTrigger:trigger]) 
+          [se_entries addObject:entry];
+      }
     }
     [self sortTriggers:[table sortDescriptors]];
   }
@@ -112,18 +131,29 @@
 }
 
 - (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
-  SETriggerEntry *entry = [se_entries objectAtIndex:rowIndex];
-//  if ([se_app uid] != 0 && [[entry action] isEqualToLibraryObject:[se_defaults actionForTrigger:[entry trigger]]]) {
-//    [cell setFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]];
-//    [cell setTextColor:[outlineView isRowSelected:[outlineView rowForItem:item]] ? [NSColor selectedControlTextColor] : [NSColor grayColor]];
-//  } else {
-//    [cell setTextColor:[NSColor blackColor]];
-//    if ([se_app uid] == 0) {
-//      [cell setFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]];
-//    } else {
-//      [cell setFont:[NSFont boldSystemFontOfSize:[NSFont smallSystemFontSize]]];
-//    }
-//  }
+  /* Reset Line status */
+  if ([aCell respondsToSelector:@selector(setDrawLineOver:)])
+    [aCell setDrawLineOver:NO];
+  
+  /* Text field cell */
+  if ([aCell respondsToSelector:@selector(setTextColor:)]) {
+    SETriggerEntry *entry = [se_entries objectAtIndex:rowIndex];
+    if ([se_application uid] != 0 && [[entry action] isEqualToLibraryObject:[se_defaults actionForTrigger:[entry trigger]]]) {
+      //    [cell setFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]];
+      [aCell setFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]];
+      [aCell setTextColor:[aTableView isRowSelected:rowIndex] ? [NSColor selectedControlTextColor] : [NSColor darkGrayColor]];
+    } else {
+      [aCell setTextColor:[NSColor blackColor]];
+      /* If gloabl action and global app is selected */
+      if ([se_application uid] == 0) {
+        [aCell setFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]];
+      } else {
+        if ([aCell respondsToSelector:@selector(setDrawLineOver:)])
+          [aCell setDrawLineOver:YES];
+        [aCell setFont:[NSFont boldSystemFontOfSize:[NSFont smallSystemFontSize]]];
+      }
+    }
+  }
 }
 
 - (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
@@ -147,7 +177,7 @@
 
 - (BOOL)tableView:(NSTableView *)aTableView shouldEditTableColumn:(NSTableColumn *)tableColumn row:(int)rowIndex {
   /* Should not allow all columns */
-  return YES;
+  return [[tableColumn identifier] isEqualToString:@"__item__"];
 }
 
 @end

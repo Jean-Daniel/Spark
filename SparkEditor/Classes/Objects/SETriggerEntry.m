@@ -60,6 +60,7 @@
 - (NSString *)triggerDescription {
   return [se_trigger triggerDescription];
 }
+
 @end
 
 @implementation SETriggerEntrySet

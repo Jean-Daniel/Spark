@@ -111,7 +111,7 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
 
 - (void)awakeFromNib {
   /* Configure Library Header Cell */
-  SEHeaderCell *header = [[SEHeaderCell alloc] initTextCell:@"HotKey List"];
+  SEHeaderCell *header = [[SEHeaderCell alloc] initTextCell:@"HotKey Groups"];
   [header setAlignment:NSCenterTextAlignment];
   [header setFont:[NSFont systemFontOfSize:11]];
   [[[table tableColumns] objectAtIndex:0] setHeaderCell:header];

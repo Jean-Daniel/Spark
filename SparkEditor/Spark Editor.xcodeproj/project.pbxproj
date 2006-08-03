@@ -40,6 +40,8 @@
 		9824025A060C7B3100A0DB07 /* Read First.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 98240201060C7B3000A0DB07 /* Read First.rtf */; };
 		9824025B060C7B3100A0DB07 /* shcts.html in Resources */ = {isa = PBXBuildFile; fileRef = 98240203060C7B3000A0DB07 /* shcts.html */; };
 		982AF3E50A7A7C9100D17D65 /* Library.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98F3635806FF72D900FD6673 /* Library.tif */; };
+		9831335F0A825E0600F733FB /* SETriggerCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 9831335D0A825E0600F733FB /* SETriggerCell.h */; };
+		983133600A825E0600F733FB /* SETriggerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9831335E0A825E0600F733FB /* SETriggerCell.m */; };
 		983BE16E0A7E402600E0228F /* SELibrarySource.m in Sources */ = {isa = PBXBuildFile; fileRef = 983BE16C0A7E402600E0228F /* SELibrarySource.m */; };
 		983BE1740A7E402F00E0228F /* SELibrarySource.h in Headers */ = {isa = PBXBuildFile; fileRef = 983BE1730A7E402F00E0228F /* SELibrarySource.h */; };
 		98418EA90A65968A003FD0D7 /* SEHotKeyTrap.h in Headers */ = {isa = PBXBuildFile; fileRef = 98418EA70A659689003FD0D7 /* SEHotKeyTrap.h */; };
@@ -392,6 +394,8 @@
 		983039FA0787298900BA91E0 /* Browser.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Browser.tif; sourceTree = "<group>"; };
 		983039FB0787298900BA91E0 /* Browser_downb.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Browser_downb.tif; sourceTree = "<group>"; };
 		983039FC0787298900BA91E0 /* Browser_down.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Browser_down.tif; sourceTree = "<group>"; };
+		9831335D0A825E0600F733FB /* SETriggerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SETriggerCell.h; sourceTree = "<group>"; };
+		9831335E0A825E0600F733FB /* SETriggerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SETriggerCell.m; sourceTree = "<group>"; };
 		9837AA72071B0E7F0057584D /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/TableAlert.nib; sourceTree = "<group>"; };
 		9837AA74071B11130057584D /* TableAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableAlertController.m; sourceTree = "<group>"; };
 		9837AA76071B11240057584D /* TableAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableAlertController.h; sourceTree = "<group>"; };
@@ -759,6 +763,7 @@
 				98F746150A5C576A003D4BE1 /* SESplitView.m */,
 				984196DE0A5E54740009A093 /* SETableView.m */,
 				98F747840A5C69A0003D4BE1 /* SEHeaderCell.m */,
+				9831335E0A825E0600F733FB /* SETriggerCell.m */,
 				98418EA80A659689003FD0D7 /* SEHotKeyTrap.m */,
 				98DAC9DD0A67EBE2001C36D1 /* SEApplicationView.m */,
 				98FB0A620A5D09D400129126 /* SEBackgroundView.m */,
@@ -1144,6 +1149,7 @@
 				98F746130A5C575C003D4BE1 /* SESplitView.h */,
 				984196DD0A5E54740009A093 /* SETableView.h */,
 				98F747830A5C69A0003D4BE1 /* SEHeaderCell.h */,
+				9831335D0A825E0600F733FB /* SETriggerCell.h */,
 				98418EA70A659689003FD0D7 /* SEHotKeyTrap.h */,
 				98DAC9DC0A67EBE2001C36D1 /* SEApplicationView.h */,
 				98FB0A610A5D09D400129126 /* SEBackgroundView.h */,
@@ -1244,6 +1250,7 @@
 				98DAC9DE0A67EBE2001C36D1 /* SEApplicationView.h in Headers */,
 				98A922700A7B8ED300DF1998 /* SEApplicationSource.h in Headers */,
 				983BE1740A7E402F00E0228F /* SELibrarySource.h in Headers */,
+				9831335F0A825E0600F733FB /* SETriggerCell.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1529,6 +1536,7 @@
 				98A9226C0A7B8EC300DF1998 /* SEApplicationSource.m in Sources */,
 				983BE16E0A7E402600E0228F /* SELibrarySource.m in Sources */,
 				98F177FB0A80EA8500654AC5 /* SETriggersController.m in Sources */,
+				983133600A825E0600F733FB /* SETriggerCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

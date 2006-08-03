@@ -7,7 +7,7 @@
 //
 
 //#import "SparkExporter.h"
-#import "SparkAppleScriptSuite.h"
+#import <SparkKit/SparkAppleScriptSuite.h>
 
 @class SparkLibrary;
 @class SELibraryWindow;
