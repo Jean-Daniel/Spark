@@ -72,7 +72,7 @@ static const float kAVImageRightMargin = 6.f;
       float x = 0;
       switch (se_saFlags.align) {
         case 0: /* center */
-          x = AVG(NSWidth([self bounds]), - (se_width + kAVImageSize + kAVImageRightMargin));
+          x = AVG(NSWidth([[self superview] bounds]), - (se_width + kAVImageSize + kAVImageRightMargin));
           x -= kAVMargin;
           /* Make sure x is an integer value */
           x = floorf(x);
@@ -82,10 +82,11 @@ static const float kAVImageRightMargin = 6.f;
           break;
         case 2: /* right */
           x = NSWidth([self bounds]) - (se_width + kAVImageSize + kAVImageRightMargin);
+          
           break;
       }
       
-      frame.origin.x += x;
+      frame.origin.x = x;
       frame.size.width = se_width + kAVImageSize + kAVImageRightMargin + 2 * kAVMargin + 1;
       
       if (NSWidth(frame) > NSWidth([self bounds])) {
@@ -156,7 +157,7 @@ static const float kAVImageRightMargin = 6.f;
     SKCGContextAddRoundRect(ctxt, cgrect, 5);
     
     if (se_saFlags.dark) {
-      CGContextSetGrayStrokeColor(ctxt, 0.75, 1);
+      CGContextSetGrayStrokeColor(ctxt, 0.50, 0.60);
       CGContextSetGrayFillColor(ctxt, 0.70f, se_saFlags.highlight ? .40f : .25f);
     } else {
       CGContextSetGrayStrokeColor(ctxt, 0.5, 1);

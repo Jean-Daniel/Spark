@@ -8,6 +8,9 @@
 
 #import <HotKeyToolKit/HKHotKey.h>
 
+/* Sleeping interval between 2 key events (microseconds). Defaults: 5 ms */
+extern UInt32 HKEventSleepInterval;
+
 extern
 void HKEventPostKeystroke(CGKeyCode keycode, CGEventFlags modifier, CGEventSourceRef source);
 

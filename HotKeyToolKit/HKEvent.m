@@ -35,6 +35,8 @@ static void __HKEventInitialize() {
 }
 
 #pragma mark -
+UInt32 HKEventSleepInterval = 5000;
+
 static __inline__ 
 void __HKEventPostKeyboardEvent(CGEventSourceRef source, CGKeyCode keycode, void *psn, Boolean down) {
   CGEventRef event = CGEventCreateKeyboardEvent(source, keycode, down);
@@ -43,8 +45,8 @@ void __HKEventPostKeyboardEvent(CGEventSourceRef source, CGKeyCode keycode, void
   else
     CGEventPost(kCGHIDEventTap, event);
   CFRelease(event);
-  /* Avoid to fast typing (1 ms) */
-  usleep(1000);
+  /* Avoid to fast typing (5 ms by default) */
+  usleep(HKEventSleepInterval);
 }
 
 static
@@ -58,6 +60,7 @@ void __HKEventPostKeystroke(CGKeyCode keycode, CGEventFlags modifier, CGEventSou
   
   /* Sending Modifier Keydown events */
   if (kCGEventFlagMaskAlphaShift & modifier) {
+    /* Lock Caps Lock */
     __HKEventPostKeyboardEvent(source, kVirtualCapsLockKey, psn, YES);
   }
   if (kCGEventFlagMaskShift & modifier) {
@@ -91,6 +94,7 @@ void __HKEventPostKeystroke(CGKeyCode keycode, CGEventFlags modifier, CGEventSou
     __HKEventPostKeyboardEvent(source, kVirtualShiftKey, psn, NO);
   }
   if (kCGEventFlagMaskAlphaShift & modifier) {
+    /* Unlock Caps Lock */
     __HKEventPostKeyboardEvent(source, kVirtualCapsLockKey, psn, NO);
   }
   

@@ -12,11 +12,18 @@
 @implementation HKKeyMapTestCase
 
 - (void)setUp {
-  STAssertNotNil(HKMapGetCurrentMapName(), @"Error while loading keymap"); /* Load the key Map */
+  /* Load the key Map */
+  STAssertNotNil(HKMapGetCurrentMapName(), @"Error while loading keymap");
 }
 
 - (void)tearDown {
 
+}
+
+- (void)testDeadKeyRepresentation {
+  UInt32 keycode = 33; // ^ key on french keyboard
+  UniChar chr = HKMapGetUnicharForKeycode(keycode);
+  STAssertTrue('^' == chr, @"HKMapGetUnicharForKeycode return '%C' (0x%x) instead of '^'", chr, chr);
 }
 
 - (void)testReverseMapping {

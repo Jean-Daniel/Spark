@@ -57,6 +57,10 @@ static NSImage *_HKCreateShading(NSControlTint tint);
 
 /* If not a mouse down event, start to capture */
 - (BOOL)acceptsFirstResponder {
+  return YES;
+}
+
+- (BOOL)becomeFirstResponder {
   NSEvent *event = [NSApp currentEvent];
   /* If not a mouse down event => trap enabled. */
   /* Event is null if we are the first key view. We want to avoid trap without user interaction */
@@ -331,6 +335,7 @@ static NSImage *_HKCreateShading(NSControlTint tint);
   if (!se_htFlags.disabled && XOR(flag, trap)) {
     SKSetFlag(se_htFlags.trap, flag);
     if (se_htFlags.trap) {
+      NSAssert([[self window] firstResponder] == self, @"Must be first responder");
       NSPoint mouse = [self convertPoint:[[self window] mouseLocationOutsideOfEventStream] fromView:nil];
       se_htFlags.hint = [self isInButtonRect:mouse] ? 1 : 0;
       se_tracker = [self addTrackingRect:NSMakeRect(NSWidth([self bounds]) - CAPS_WIDTH + 4, 2, CAPS_WIDTH - 4, kHKTrapHeight - 4)

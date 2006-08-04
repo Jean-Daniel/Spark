@@ -544,9 +544,9 @@ OSStatus HKKeyMapContextWithKCHRData(const void *layout, Boolean reverse, HKKeyM
     } else {
       entry += size;
     }
-    /* Save terminator into fast map */
-    if (tmod[table] == 0 && kchr->map[key] == kHKNilUnichar && entry->output != 0) {
-      kchr->map[key] = entry->output;
+    /* Save terminator into fast map. Terminator is registred in first entry byte (entry->previous, not entry->output) */
+    if (tmod[table] == 0 && kchr->map[key] == kHKNilUnichar && entry->previous != 0) {
+      kchr->map[key] = entry->previous;
     }
     /* advance to next record */
     record = record + 4 + (size * 2) + 2;

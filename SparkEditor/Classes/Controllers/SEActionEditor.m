@@ -34,6 +34,10 @@
   [super dealloc];
 }
 
+- (void)awakeFromNib {
+  
+}
+
 - (void)setSparkAction:(SparkAction *)anAction {
   
 }

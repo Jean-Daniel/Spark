@@ -60,6 +60,8 @@
   if (idx >= 0) {
     if (!se_editor) {
       se_editor = [[SEEntryEditor alloc] init];
+      /* Load */
+      [se_editor window];
     }
     [se_editor setEntry:[se_entries objectAtIndex:idx]];
     [se_editor setApplication:se_application];

@@ -25,7 +25,8 @@ static HKKeyMapRef SharedKeyMap() {
   static HKKeyMapRef sharedKeyMap = nil;
   if (nil == sharedKeyMap) {
     KeyboardLayoutRef ref;
-    if (noErr == KLGetCurrentKeyboardLayout(&ref)) { // KLGetKeyboardLayoutWithName(CFSTR("U.S."), &ref)) { //
+    if (noErr == KLGetCurrentKeyboardLayout(&ref)) {
+    //if (noErr == KLGetKeyboardLayoutWithName(CFSTR("US Extended"), &ref)) {
       sharedKeyMap = HKKeyMapCreate(ref, HKUseReverseKeyMap);
     }
     if (nil == sharedKeyMap) {
