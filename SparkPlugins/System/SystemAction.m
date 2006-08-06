@@ -8,7 +8,7 @@
 
 #import "SystemAction.h"
 #import <ShadowKit/SKFSFunctions.h>
-#import <ShadowKit/ShadowAEUtils.h>
+#import <ShadowKit/SKAEFunctions.h>
 #import <ShadowKit/SKIOKitFunctions.h>
 
 static NSString * const 
@@ -154,22 +154,22 @@ kAEShowShutdownDialog         = 'rsdn'
  */
 - (void)logout {
   ProcessSerialNumber psn = {0, kSystemProcess};
-  ShadowAESendSimpleEventToProcess(&psn, kCoreEventClass, kAELogOut);
+  SKAESendSimpleEventToProcess(&psn, kCoreEventClass, kAELogOut);
 }
 
 - (void)sleep {
   ProcessSerialNumber psn = {0, kSystemProcess};
-  ShadowAESendSimpleEventToProcess(&psn, kCoreEventClass, 'slep');
+  SKAESendSimpleEventToProcess(&psn, kCoreEventClass, 'slep');
 }
 
 - (void)restart {
   ProcessSerialNumber psn = {0, kSystemProcess};
-  ShadowAESendSimpleEventToProcess(&psn, kCoreEventClass, 'rest');
+  SKAESendSimpleEventToProcess(&psn, kCoreEventClass, 'rest');
 }
 
 - (void)shutDown {
   ProcessSerialNumber psn = {0, kSystemProcess};
-  ShadowAESendSimpleEventToProcess(&psn, kCoreEventClass, 'shut');
+  SKAESendSimpleEventToProcess(&psn, kCoreEventClass, 'shut');
 }
 
 - (void)fastLogout {

@@ -8,7 +8,7 @@
  */
 
 #include "ITunesAESuite.h"
-#include <ShadowKit/ShadowAEUtils.h>
+#include <ShadowKit/SKAEFunctions.h>
 
 const OSType kITunesSignature = 'hook';
 
@@ -20,21 +20,21 @@ static OSStatus iTunesGetPlaylist(CFStringRef name, AEDesc *playlist);
 OSStatus iTunesGetVisualState(Boolean *state) {
   OSStatus err = noErr;
   AEDesc theEvent;
-  ShadowAENullDesc(&theEvent);
+  SKAENullDesc(&theEvent);
   
-  err = ShadowAECreateEventWithTargetSignature(kITunesSignature, kAECoreSuite, kAEGetData, &theEvent);
+  err = SKAECreateEventWithTargetSignature(kITunesSignature, kAECoreSuite, kAEGetData, &theEvent);
   if (noErr == err) {
-    err = ShadowAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty, 'pVsE', NULL);
+    err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty, 'pVsE', NULL);
   }
   if (noErr == err) {
-    err = ShadowAEAddMagnitude(&theEvent);
+    err = SKAEAddMagnitude(&theEvent);
   }
   if (noErr == err) {
-    err = ShadowAEAddSubject(&theEvent);
+    err = SKAEAddSubject(&theEvent);
   }
   if (noErr == err) {
-    err = ShadowAESendEventReturnBoolean(&theEvent, state);
-    ShadowAEDisposeDesc(&theEvent);
+    err = SKAESendEventReturnBoolean(&theEvent, state);
+    SKAEDisposeDesc(&theEvent);
   }
   return err;
 }
@@ -42,24 +42,24 @@ OSStatus iTunesGetVisualState(Boolean *state) {
 OSStatus iTunesSetVisualState(Boolean state) {
   OSStatus err = noErr;
   AEDesc theEvent;
-  ShadowAENullDesc(&theEvent);
+  SKAENullDesc(&theEvent);
   
-  err = ShadowAECreateEventWithTargetSignature(kITunesSignature, kAECoreSuite, kAESetData, &theEvent);
+  err = SKAECreateEventWithTargetSignature(kITunesSignature, kAECoreSuite, kAESetData, &theEvent);
   if (noErr == err) {
-    err = ShadowAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty,'pVsE', NULL);
+    err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty,'pVsE', NULL);
   }
   if (noErr == err) {
-    err = ShadowAEAddBoolean(&theEvent, keyAEData, state);
+    err = SKAEAddBoolean(&theEvent, keyAEData, state);
   }
   if (noErr == err) {
-    err = ShadowAEAddMagnitude(&theEvent);
+    err = SKAEAddMagnitude(&theEvent);
   }
   if (noErr == err) {
-    err = ShadowAEAddSubject(&theEvent);
+    err = SKAEAddSubject(&theEvent);
   }
   if (noErr == err) {
-    err = ShadowAESendEventNoReply(&theEvent);
-    ShadowAEDisposeDesc(&theEvent);
+    err = SKAESendEventNoReply(&theEvent);
+    SKAEDisposeDesc(&theEvent);
   }
   return err;
 }
@@ -67,21 +67,21 @@ OSStatus iTunesSetVisualState(Boolean state) {
 OSStatus iTunesGetVolume(SInt16 *volume) {
   OSStatus err = noErr;
   AEDesc theEvent;
-  ShadowAENullDesc(&theEvent);
+  SKAENullDesc(&theEvent);
   
-  err = ShadowAECreateEventWithTargetSignature(kITunesSignature, kAECoreSuite, kAEGetData, &theEvent);
+  err = SKAECreateEventWithTargetSignature(kITunesSignature, kAECoreSuite, kAEGetData, &theEvent);
   if (noErr == err) {
-    err = ShadowAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty,'pVol', NULL);
+    err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty,'pVol', NULL);
   }
   if (noErr == err) {
-    err = ShadowAEAddMagnitude(&theEvent);
+    err = SKAEAddMagnitude(&theEvent);
   }
   if (noErr == err) {
-    err = ShadowAEAddSubject(&theEvent);
+    err = SKAEAddSubject(&theEvent);
   }
   if (noErr == err) {
-    err = ShadowAESendEventReturnSInt16(&theEvent, volume);
-    ShadowAEDisposeDesc(&theEvent);
+    err = SKAESendEventReturnSInt16(&theEvent, volume);
+    SKAEDisposeDesc(&theEvent);
   }
   return err;
 }
@@ -89,24 +89,24 @@ OSStatus iTunesGetVolume(SInt16 *volume) {
 OSStatus iTunesSetVolume(SInt16 volume) {
   OSStatus err = noErr;
   AEDesc theEvent;
-  ShadowAENullDesc(&theEvent);
+  SKAENullDesc(&theEvent);
   
-  err = ShadowAECreateEventWithTargetSignature(kITunesSignature, kAECoreSuite, kAESetData, &theEvent);
+  err = SKAECreateEventWithTargetSignature(kITunesSignature, kAECoreSuite, kAESetData, &theEvent);
   if (noErr == err) {
-    err = ShadowAEAddSInt16(&theEvent, keyAEData, volume); 
+    err = SKAEAddSInt16(&theEvent, keyAEData, volume); 
   }
   if (noErr == err) {
-    err = ShadowAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty,'pVol', NULL);
+    err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty,'pVol', NULL);
   }
   if (noErr == err) {
-    err = ShadowAEAddMagnitude(&theEvent);
+    err = SKAEAddMagnitude(&theEvent);
   }
   if (noErr == err) {
-    err = ShadowAEAddSubject(&theEvent);
+    err = SKAEAddSubject(&theEvent);
   }
   if (noErr == err) {
-    err = ShadowAESendEventNoReply(&theEvent);
-    ShadowAEDisposeDesc(&theEvent);
+    err = SKAESendEventNoReply(&theEvent);
+    SKAEDisposeDesc(&theEvent);
   }
   return err;
 }
@@ -116,82 +116,82 @@ CFArrayRef iTunesGetPlaylists() {
   CFArrayRef names = NULL;
   
   AEDesc theEvent;
-  ShadowAENullDesc(&theEvent);
+  SKAENullDesc(&theEvent);
   AEDescList playlists;
-  ShadowAENullDesc(&playlists);
+  SKAENullDesc(&playlists);
   
-  err = ShadowAECreateEventWithTargetSignature(kITunesSignature, kAECoreSuite, kAEGetData, &theEvent);
+  err = SKAECreateEventWithTargetSignature(kITunesSignature, kAECoreSuite, kAEGetData, &theEvent);
   if (noErr == err) {
-    err = ShadowAEAddIndexObjectSpecifier(&theEvent, keyDirectObject, 'cPly', kAEAll, NULL);
+    err = SKAEAddIndexObjectSpecifier(&theEvent, keyDirectObject, 'cPly', kAEAll, NULL);
   }
   if (noErr == err) {
-    err = ShadowAEAddMagnitude(&theEvent);
+    err = SKAEAddMagnitude(&theEvent);
   }
   if (noErr == err) {
-    err = ShadowAEAddSubject(&theEvent);
+    err = SKAEAddSubject(&theEvent);
   }
   if (noErr == err) {
-    err = ShadowAESendEventReturnAEDescList(&theEvent, &playlists);
-    ShadowAEDisposeDesc(&theEvent);
+    err = SKAESendEventReturnAEDescList(&theEvent, &playlists);
+    SKAEDisposeDesc(&theEvent);
   }
   if (noErr == err) {
     names = GetPlaylistsNames(&playlists);
-    ShadowAEDisposeDesc(&playlists);
+    SKAEDisposeDesc(&playlists);
   }
   return names;
 }
 
 OSStatus iTunesPlayPlaylist(CFStringRef name)  {
   AppleEvent theEvent;
-  ShadowAENullDesc(&theEvent);
+  SKAENullDesc(&theEvent);
   AEDesc playlist;
-  ShadowAENullDesc(&playlist);
+  SKAENullDesc(&playlist);
   
   OSStatus err = iTunesGetPlaylist(name, &playlist);
   require_noerr(err, bail);
   
-//  err = ShadowAESendSimpleEvent(kITunesSignature, 'hook', 'Stop');
+//  err = SKAESendSimpleEvent(kITunesSignature, 'hook', 'Stop');
 //  require_noerr(err, bail);
   
   err = ShufflePlaylistIfNeeded(&playlist);
   require_noerr(err, bail);
   
-  err = ShadowAECreateEventWithTargetSignature(kITunesSignature, 'hook', 'Play', &theEvent);
+  err = SKAECreateEventWithTargetSignature(kITunesSignature, 'hook', 'Play', &theEvent);
   require_noerr(err, bail);
   
   err = AEPutParamDesc(&theEvent, keyDirectObject, &playlist);
   require_noerr(err, bail);
   
-  err = ShadowAEAddMagnitude(&theEvent);
+  err = SKAEAddMagnitude(&theEvent);
   require_noerr(err, bail);
   
-  err = ShadowAEAddSubject(&theEvent);
+  err = SKAEAddSubject(&theEvent);
   require_noerr(err, bail);
   
-  err = ShadowAESendEventNoReply(&theEvent);
+  err = SKAESendEventNoReply(&theEvent);
 
 bail:
-  ShadowAEDisposeDesc(&theEvent);
-  ShadowAEDisposeDesc(&playlist);
+  SKAEDisposeDesc(&theEvent);
+  SKAEDisposeDesc(&playlist);
   return err;
 }
 
 OSStatus iTunesGetState(OSType *status) {
   AppleEvent theEvent;
-  OSStatus err = ShadowAECreateEventWithTargetSignature(kITunesSignature, kAECoreSuite, kAEGetData, &theEvent);
+  OSStatus err = SKAECreateEventWithTargetSignature(kITunesSignature, kAECoreSuite, kAEGetData, &theEvent);
   if (noErr == err) {
-    err = ShadowAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty, 'pPlS', NULL);
+    err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty, 'pPlS', NULL);
   }
   if (noErr == err) {
-    err = ShadowAEAddSubject(&theEvent);
+    err = SKAEAddSubject(&theEvent);
   }
   if (noErr == err) {
-    err = ShadowAEAddMagnitude(&theEvent);
+    err = SKAEAddMagnitude(&theEvent);
   }
   if (noErr == err) {
-    err = ShadowAESendEventReturnData(&theEvent, typeEnumerated, NULL, status, sizeof(OSType), NULL);
+    err = SKAESendEventReturnData(&theEvent, typeEnumerated, NULL, status, sizeof(OSType), NULL);
   }
-  ShadowAEDisposeDesc(&theEvent);
+  SKAEDisposeDesc(&theEvent);
   return err;
 }
 
@@ -206,47 +206,47 @@ OSStatus iTunesRateCurrentSong(UInt16 rate) {
     return noErr;
   }
   if (noErr == err) {
-    err = ShadowAECreateEventWithTargetSignature(kITunesSignature, kAECoreSuite, kAESetData, &theEvent);
+    err = SKAECreateEventWithTargetSignature(kITunesSignature, kAECoreSuite, kAESetData, &theEvent);
   }
   if (noErr == err) {
-    err = ShadowAECreatePropertyObjectSpecifier('cTrk', 'pTrk', NULL, &currentTrack);
+    err = SKAECreatePropertyObjectSpecifier('cTrk', 'pTrk', NULL, &currentTrack);
   }
   if (noErr == err) {
-    err = ShadowAEAddSInt16(&theEvent, keyAEData, (SInt16)rate); 
+    err = SKAEAddSInt16(&theEvent, keyAEData, (SInt16)rate); 
   }
   if (noErr == err) {
-    err = ShadowAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeInteger, 'pRte', &currentTrack);
+    err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeInteger, 'pRte', &currentTrack);
   }
   if (noErr == err) {
-    err = ShadowAEAddMagnitude(&theEvent);
+    err = SKAEAddMagnitude(&theEvent);
   }
   if (noErr == err) {
-    err = ShadowAEAddSubject(&theEvent);
+    err = SKAEAddSubject(&theEvent);
   }
   if (noErr == err) {
-    err = ShadowAESendEventNoReply(&theEvent);
+    err = SKAESendEventNoReply(&theEvent);
   }
-  ShadowAEDisposeDesc(&rateProperty);  
-  ShadowAEDisposeDesc(&currentTrack);
-  ShadowAEDisposeDesc(&theEvent);
+  SKAEDisposeDesc(&rateProperty);  
+  SKAEDisposeDesc(&currentTrack);
+  SKAEDisposeDesc(&theEvent);
   return err;
 }
 
 OSStatus __inline__ _iTunesCreateEvent(AEEventClass class, AEEventID method, AppleEvent *event) {
-  ShadowAENullDesc(event);
+  SKAENullDesc(event);
   
-  OSStatus err = ShadowAECreateEventWithTargetSignature(kITunesSignature, class, method, event);
+  OSStatus err = SKAECreateEventWithTargetSignature(kITunesSignature, class, method, event);
   require_noerr(err, bail);
   
-  err = ShadowAEAddMagnitude(event);
+  err = SKAEAddMagnitude(event);
   require_noerr(err, bail);
   
-  err = ShadowAEAddSubject(event);
+  err = SKAEAddSubject(event);
   require_noerr(err, bail);
   
   return noErr;
 bail:
-    ShadowAEDisposeDesc(event);
+    SKAEDisposeDesc(event);
   return err;
 }
 CFStringRef _iTunesCopyStringProperty(OSType property) {
@@ -259,18 +259,18 @@ CFStringRef _iTunesCopyStringProperty(OSType property) {
   require_noerr(err, bail);
   
   /* current track of application */
-  err = ShadowAECreatePropertyObjectSpecifier('cTrk', 'pTrk', NULL, &track);
+  err = SKAECreatePropertyObjectSpecifier('cTrk', 'pTrk', NULL, &track);
   require_noerr(err, bail);
   
   /* ...'property' of current track */
-  err = ShadowAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeUnicodeText, property, &track);
+  err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeUnicodeText, property, &track);
   require_noerr(err, bail);
   
-  err = ShadowAESendEventReturnCFString(&theEvent, &str);
+  err = SKAESendEventReturnCFString(&theEvent, &str);
   
 bail:
-  ShadowAEDisposeDesc(&theEvent);
-  ShadowAEDisposeDesc(&track);
+  SKAEDisposeDesc(&theEvent);
+  SKAEDisposeDesc(&track);
 
   return str;
 }
@@ -289,37 +289,37 @@ CFDataRef _iTunesCopyArtwork(int idx) {
   err = AEPutParamPtr(&theEvent, 'kocl', typeType, &type, sizeof(type));
   require_noerr(err, bail);
   
-  err = ShadowAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, 'cTrk', 'pTrk', NULL);
+  err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, 'cTrk', 'pTrk', NULL);
   require_noerr(err, bail);
   
   SInt32 count = 0;
-  err = ShadowAESendEventReturnSInt32(&theEvent, &count);
+  err = SKAESendEventReturnSInt32(&theEvent, &count);
   require_noerr(err, bail);
   
   if (count >= idx) {
-    ShadowAEDisposeDesc(&theEvent);
+    SKAEDisposeDesc(&theEvent);
     
     err = _iTunesCreateEvent(kAECoreSuite, kAEGetData, &theEvent);
     require_noerr(err, bail);
 
     /* current track of application */
-    err = ShadowAECreatePropertyObjectSpecifier('cTrk', 'pTrk', NULL, &track);
+    err = SKAECreatePropertyObjectSpecifier('cTrk', 'pTrk', NULL, &track);
     require_noerr(err, bail);
     
     /* artwork idx of current track */
-    err = ShadowAECreateIndexObjectSpecifier('cArt', idx, &track, &arts);
+    err = SKAECreateIndexObjectSpecifier('cArt', idx, &track, &arts);
     require_noerr(err, bail);
   
     /* ...'data' of artwork */
-    err = ShadowAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, 'PICT', 'pPCT', &arts);
+    err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, 'PICT', 'pPCT', &arts);
     require_noerr(err, bail);
   
-    err = ShadowAESendEventReturnCFData(&theEvent, 'PICT', &data);
+    err = SKAESendEventReturnCFData(&theEvent, 'PICT', &data);
   }
 bail:
-  ShadowAEDisposeDesc(&theEvent);
-  ShadowAEDisposeDesc(&track);
-  ShadowAEDisposeDesc(&arts);  
+  SKAEDisposeDesc(&theEvent);
+  SKAEDisposeDesc(&track);
+  SKAEDisposeDesc(&arts);  
   
   return data;
 }
@@ -366,48 +366,48 @@ CFDictionaryRef iTunesCopyCurrentTrackProperties(OSStatus *error) {
 OSStatus IsPlaylistShuffle(AEDesc *playlist, Boolean *shuffle) {
   AppleEvent theEvent;
   OSStatus err = noErr;
-  ShadowAENullDesc(&theEvent);
+  SKAENullDesc(&theEvent);
   
-  err = ShadowAECreateEventWithTargetSignature(kITunesSignature, kAECoreSuite, kAEGetData, &theEvent);
+  err = SKAECreateEventWithTargetSignature(kITunesSignature, kAECoreSuite, kAEGetData, &theEvent);
   require_noerr(err, bail);
   
   /* get pShf of playlist */
-  err = ShadowAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty, 'pShf', playlist);
+  err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty, 'pShf', playlist);
   require_noerr(err, bail);
   
-  err = ShadowAEAddMagnitude(&theEvent);
+  err = SKAEAddMagnitude(&theEvent);
   require_noerr(err, bail);
   
-  err = ShadowAESendEventReturnBoolean(&theEvent, shuffle);
+  err = SKAESendEventReturnBoolean(&theEvent, shuffle);
   
 bail:
-  ShadowAEDisposeDesc(&theEvent);
+  SKAEDisposeDesc(&theEvent);
   return err;
 }
 
 OSStatus SetPlaylistShuffle(AEDesc *playlist, Boolean shuffle) {
   AppleEvent theEvent;
   OSStatus err = noErr;
-  ShadowAENullDesc(&theEvent);
+  SKAENullDesc(&theEvent);
   
-  err = ShadowAECreateEventWithTargetSignature(kITunesSignature, kAECoreSuite, kAESetData, &theEvent);
+  err = SKAECreateEventWithTargetSignature(kITunesSignature, kAECoreSuite, kAESetData, &theEvent);
   require_noerr(err, bail);
   
   /* set pShf of playlist */
-  err = ShadowAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty, 'pShf', playlist);
+  err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty, 'pShf', playlist);
   require_noerr(err, bail);
   
   /* to shuffle */
-  err = ShadowAEAddBoolean(&theEvent, keyAEData, shuffle);
+  err = SKAEAddBoolean(&theEvent, keyAEData, shuffle);
   require_noerr(err, bail);
   
-  err = ShadowAEAddMagnitude(&theEvent);
+  err = SKAEAddMagnitude(&theEvent);
   require_noerr(err, bail);
   
-  err = ShadowAESendEventNoReply(&theEvent);
+  err = SKAESendEventNoReply(&theEvent);
   
 bail:
-    ShadowAEDisposeDesc(&theEvent);
+    SKAEDisposeDesc(&theEvent);
   return err;
 }
 
@@ -433,49 +433,49 @@ bail:
 #pragma mark -
 OSStatus iTunesGetPlaylist(CFStringRef name, AEDesc *playlist) {
   AppleEvent theEvent;
-  OSStatus err = ShadowAECreateEventWithTargetSignature(kITunesSignature, kAECoreSuite, kAEGetData, &theEvent);
+  OSStatus err = SKAECreateEventWithTargetSignature(kITunesSignature, kAECoreSuite, kAEGetData, &theEvent);
   require_noerr(err, bail);
   
-  err = ShadowAEAddNameObjectSpecifier(&theEvent, keyDirectObject, 'cPly', name, NULL);
+  err = SKAEAddNameObjectSpecifier(&theEvent, keyDirectObject, 'cPly', name, NULL);
   require_noerr(err, bail);
   
-  err = ShadowAEAddMagnitude(&theEvent);
+  err = SKAEAddMagnitude(&theEvent);
   require_noerr(err, bail);
   
-  err = ShadowAESendEventReturnAEDesc(&theEvent, typeWildCard, playlist);
+  err = SKAESendEventReturnAEDesc(&theEvent, typeWildCard, playlist);
   require_noerr(err, bail);
   
 bail:
-    ShadowAEDisposeDesc(&theEvent);
+    SKAEDisposeDesc(&theEvent);
   return err;
 }
 
 CFStringRef GetContainerName(AEDesc *container) {
   AppleEvent theEvent;
   CFStringRef name = NULL;
-  OSStatus err = ShadowAECreateEventWithTargetSignature(kITunesSignature, kAECoreSuite, kAEGetData, &theEvent);
+  OSStatus err = SKAECreateEventWithTargetSignature(kITunesSignature, kAECoreSuite, kAEGetData, &theEvent);
   
   if (noErr == err) {
-    err = ShadowAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty, 'pnam', container);
+    err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty, 'pnam', container);
   }
   if (noErr == err) {
-    err = ShadowAESendEventReturnCFString(&theEvent, &name);
-    ShadowAEDisposeDesc(&theEvent);
+    err = SKAESendEventReturnCFString(&theEvent, &name);
+    SKAEDisposeDesc(&theEvent);
   }
   return name;
 }
 
 CFArrayRef GetPlaylistsNames(AEDescList *items) {
-  int count = 0, index;
+  int count = 0, idx;
   long listsCount;
   CFMutableArrayRef names = NULL;
   OSStatus err = AECountItems (items, &listsCount);
   
   if (noErr == err) {
     names = CFArrayCreateMutable(kCFAllocatorDefault, listsCount, &kCFTypeArrayCallBacks);
-    for (index = 1; (index <= listsCount); index++) {
+    for (idx = 1; (idx <= listsCount); idx++) {
       AEDesc listDesc;
-      err = AEGetNthDesc(items, index, typeWildCard, NULL, &listDesc);
+      err = AEGetNthDesc(items, idx, typeWildCard, NULL, &listDesc);
       if (noErr == err) {
         // Si c'est un objet, on le transforme en FSRef.
         if (typeObjectSpecifier == listDesc.descriptorType) {
@@ -490,7 +490,7 @@ CFArrayRef GetPlaylistsNames(AEDescList *items) {
         if (noErr == err) {
           count++;
         }
-        ShadowAEDisposeDesc(&listDesc);
+        SKAEDisposeDesc(&listDesc);
       }
     } // End for
   }

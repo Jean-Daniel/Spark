@@ -9,10 +9,10 @@
 
 #include "ASExtension.h"
 #include <SparkKit/SparkKit.h>
-#include <ShadowKit/ShadowAEUtils.h>
+#include <ShadowKit/SKAEFunctions.h>
 
 OSStatus QuitApplication(ProcessSerialNumber *psn) {
-  return ShadowAESendSimpleEventToProcess(psn, kCoreEventClass, kAEQuitApplication);
+  return SKAESendSimpleEventToProcess(psn, kCoreEventClass, kAEQuitApplication);
 }
 
 OSErr KillApplication(ProcessSerialNumber *psn) {

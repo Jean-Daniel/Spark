@@ -12,7 +12,7 @@
 #import <ShadowKit/SKAlias.h>
 #import <ShadowKit/SKFunctions.h>
 #import <ShadowKit/SKFSFunctions.h>
-#import <ShadowKit/ShadowAEUtils.h>
+#import <ShadowKit/SKAEFunctions.h>
 
 static NSString* const kDocumentActionURLKey = @"DocumentURL";
 static NSString* const kDocumentActionSignKey = @"AppSign";
@@ -171,7 +171,7 @@ static NSString* const kDocumentActionApplicationKey = @"AppAlias";
   long count = 0;
   
   // Get Finder Selection.
-  OSStatus err = ShadowAEGetFinderSelection(&selection);
+  OSStatus err = SKAEGetFinderSelection(&selection);
   if (noErr == err) {
     // Get selection Count
     err = AECountItems(&selection, &count);
@@ -181,7 +181,7 @@ static NSString* const kDocumentActionApplicationKey = @"AppAlias";
     FSRef *refs = NSZoneCalloc(nil, count, sizeof(FSRef));
     int realCount;
     // Get FSRef for these items.
-    err = ShadowAEFinderSelectionToFSRefs(&selection ,refs, count, &realCount);
+    err = SKAEFinderSelectionToFSRefs(&selection ,refs, count, &realCount);
     if (noErr == err && realCount > 0) {
       LSLaunchFSRefSpec spec;
       FSRef app;
@@ -202,7 +202,7 @@ static NSString* const kDocumentActionApplicationKey = @"AppAlias";
     }
     NSZoneFree(nil, refs);
   }
-  ShadowAEDisposeDesc(&selection);
+  SKAEDisposeDesc(&selection);
 }
 
 - (BOOL)isFinderForeground {

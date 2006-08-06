@@ -13,7 +13,7 @@
 #import <ShadowKit/SKAlias.h>
 #import <ShadowKit/SKBezelItem.h>
 #import <ShadowKit/SKFunctions.h>
-#import <ShadowKit/ShadowAEUtils.h>
+#import <ShadowKit/SKAEFunctions.h>
 #import <ShadowKit/SKApplication.h>
 #import <ShadowKit/SKProcessFunctions.h>
 
@@ -232,7 +232,7 @@ static NSString * const kHotKeyBundleIdKey = @"BundleID";
   ProcessSerialNumber psn;
   if (!(sa_flags & kLSLaunchNewInstance) && [self getApplicationProcess:&psn]) {
     SetFrontProcess(&psn);
-    ShadowAESendSimpleEventToProcess(&psn, kCoreEventClass, kAEReopenApplication);
+    SKAESendSimpleEventToProcess(&psn, kCoreEventClass, kAEReopenApplication);
     if (sa_flags & kLSLaunchAndHideOthers)
       [self hideOthers];
   } else {

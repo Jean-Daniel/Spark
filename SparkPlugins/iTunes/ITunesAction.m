@@ -12,7 +12,7 @@
 #import "ITunesAESuite.h"
 #import <ShadowKit/SKBezelItem.h>
 #import <ShadowKit/SKLSFunctions.h>
-#import <ShadowKit/ShadowAEUtils.h>
+#import <ShadowKit/SKAEFunctions.h>
 #import <HotKeyToolKit/HotKeyToolKit.h>
 
 static NSString* const kITunesRateKey = @"iTunesTrackTrate";
@@ -230,11 +230,11 @@ See the PropertyList documentation to know more about it */
 }
 
 - (void)quitITunes {
-  ShadowAESendSimpleEvent(kITunesSignature, kCoreEventClass, kAEQuitApplication);
+  SKAESendSimpleEvent(kITunesSignature, kCoreEventClass, kAEQuitApplication);
 }
 
 - (void)sendAppleEvent:(OSType)eventType {
-  ShadowAESendSimpleEvent(kITunesSignature, 'hook', eventType);
+  SKAESendSimpleEvent(kITunesSignature, 'hook', eventType);
 }
 
 - (void)switchVisualStat {
