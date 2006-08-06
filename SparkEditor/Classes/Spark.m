@@ -20,6 +20,7 @@
 #import <HotKeyToolKit/HotKeyToolKit.h>
 
 #import "SELibraryWindow.h"
+#import "SEServerConnection.h"
 
 int main(int argc, const char *argv[]) {
 #if defined(DEBUG)
@@ -36,6 +37,7 @@ NSArray *gSortByNameDescriptors = nil;
 
 @implementation SparkEditor 
 
+/* Create shared sort descriptor */
 + (void)initialize {
   if ([SparkEditor class] == self) {
     NSSortDescriptor *desc = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES selector:@selector(caseInsensitiveCompare:)];
@@ -44,6 +46,15 @@ NSArray *gSortByNameDescriptors = nil;
   }
 }
 
+/* Initialize daemon status */
+- (id)init {
+  if (self = [super init]) {
+    se_status = kSparkDaemonStopped;
+  }
+  return self;
+}
+
+/* Intercepts help keydown events */
 - (void)sendEvent:(NSEvent *)event {
   if (([event type] == NSKeyDown || [event type] == NSKeyUp) && [event keyCode] == kVirtualHelpKey) {
     id window = [self keyWindow];
@@ -53,10 +64,6 @@ NSArray *gSortByNameDescriptors = nil;
     }
   } 
   [super sendEvent:event];
-}
-
-- (NSWindow *)libraryWindow {
-  return [[self delegate] mainWindow];
 }
 
 @end
@@ -76,10 +83,14 @@ NSArray *gSortByNameDescriptors = nil;
       //@"1", @"NSScriptingDebugLogLevel",
       nil]];
 #endif
+    /* First load Library */
     SparkLibrary *library = SparkSharedLibrary();
+    /* Get default library path */
     NSString *path = [library path];
+    /* If library does not exist, check for previous version library */
     if (![[NSFileManager defaultManager] fileExistsAtPath:path]) {
       NSString *old = [SparkLibraryFolder() stringByAppendingPathComponent:@"SparkLibrary.splib"];
+      /* If old library exists, load it, and resave it into new format */
       if ([[NSFileManager defaultManager] fileExistsAtPath:old]) {
         [library setPath:old];
         [library readLibrary:nil];
@@ -90,9 +101,8 @@ NSArray *gSortByNameDescriptors = nil;
       // Run alert panel
       DLog(@"Cannot read library");
     }
-    
-    //    [ServerController start]; // Démarrage de la connexion avec le serveur
-    //    [self setServerState:[ServerController serverState]]; // Analyse de l'état du serveur
+  
+    /* Register defaults */
     //    @try {
     //      [Preferences checkVersion];
     //      [Preferences verifyAutoStart];
@@ -106,8 +116,8 @@ NSArray *gSortByNameDescriptors = nil;
 
 - (void)dealloc {
   [[NSNotificationCenter defaultCenter] removeObserver:self];
-//  [prefWindows release];
   [se_mainWindow release];
+//  [prefWindows release];
 //  [plugInHelpWindow release];
   [super dealloc];
 }
@@ -117,9 +127,29 @@ NSArray *gSortByNameDescriptors = nil;
   [self createDebugMenu];
 #endif
   [self createAboutMenu];
+  
+  /* Register for server status event and start connection */
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(serverStatusDidChange:)
+                                               name:SEServerStatusDidChangeNotification
+                                             object:nil];
+  if ([[SEServerConnection defaultConnection] connect]) {
+    [NSApp setServerStatus:kSparkDaemonStarted];
+  } else {
+    [NSApp setServerStatus:kSparkDaemonStopped];
+  }
+  
   [self showMainWindow:nil];
-//  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sparkDidChangePlugIn:) name:SKPluginLoaderDidLoadPluginNotification object:nil];
-//  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sparkDidChangePlugIn:) name:SKPluginLoaderDidRemovePluginNotification object:nil];
+}
+
+- (void)serverStatusDidChange:(NSNotification *)aNotification {
+  SparkDaemonStatus status = [[aNotification object] serverStatus];
+  NSString *title = nil;
+  if (kSparkDaemonStarted == status)
+    title = NSLocalizedString(@"ACTIVE_SPARK_MENU", @"Spark Daemon Menu Title * Active *");
+  else
+    title = NSLocalizedString(@"DEACTIVE_SPARK_MENU", @"Spark Daemon Menu Title * Desactive *");
+  [statusMenuItem setTitle:title];
 }
 
 #pragma mark -
@@ -247,12 +277,12 @@ NSArray *gSortByNameDescriptors = nil;
 //  }
 //}
 
-- (void)checkUpdateAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(NSDictionary *)plist {
-  if(NSAlertDefaultReturn == returnCode) {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:NSLocalizedStringFromTable(@"UPDATE_PAGE_URL",
-                                                                                           @"Update", @"The url of the update page. Do not localize.")]];
-  }
-}
+//- (void)checkUpdateAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(NSDictionary *)plist {
+//  if(NSAlertDefaultReturn == returnCode) {
+//    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:NSLocalizedStringFromTable(@"UPDATE_PAGE_URL",
+//                                                                                           @"Update", @"The url of the update page. Do not localize.")]];
+//  }
+//}
 
 #pragma mark -
 #pragma mark Restart Functions
@@ -266,15 +296,15 @@ NSArray *gSortByNameDescriptors = nil;
 }
 
 + (void)restartSpark {
-  if ([[NSWorkspace sharedWorkspace] openURLs:[NSArray arrayWithObject:[NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]]]
-                      withAppBundleIdentifier:nil
-                                      options:NSWorkspaceLaunchDefault | NSWorkspaceLaunchNewInstance
-               additionalEventParamDescriptor:nil
-                            launchIdentifiers:nil]) {
-    [NSApp terminate:nil];
-  } else {
-    [NSException raise:NSInternalInconsistencyException format:@"Unable to create new Spark instance"];
-  }
+//  if ([[NSWorkspace sharedWorkspace] openURLs:[NSArray arrayWithObject:[NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]]]
+//                      withAppBundleIdentifier:nil
+//                                      options:NSWorkspaceLaunchDefault | NSWorkspaceLaunchNewInstance
+//               additionalEventParamDescriptor:nil
+//                            launchIdentifiers:nil]) {
+//    [NSApp terminate:nil];
+//  } else {
+//    [NSException raise:NSInternalInconsistencyException format:@"Unable to create new Spark instance"];
+//  }
 }
 
 #pragma mark -
@@ -432,13 +462,13 @@ NSArray *gSortByNameDescriptors = nil;
 
 - (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename {
   if ([[NSWorkspace sharedWorkspace] isFilePackageAtPath:filename]) {
-    if ([[filename pathExtension] isEqualToString:[SparkActionLoader extension]]) {
-      if ([self openPluginBundle:filename])
-        return YES;
-    } else if ([[filename pathExtension] isEqualToString:kSparkLibraryFileExtension]) {
-      if ([self openLibraryFile:filename])
-        return YES;
-    }
+//    if ([[filename pathExtension] isEqualToString:[SparkActionLoader extension]]) {
+//      if ([self openPluginBundle:filename])
+//        return YES;
+//    } else if ([[filename pathExtension] isEqualToString:kSparkLibraryFileExtension]) {
+//      if ([self openLibraryFile:filename])
+//        return YES;
+//    }
   } else {
 //    OSType type = [[[NSFileManager defaultManager] fileAttributesAtPath:filename traverseLink:NO] fileHFSTypeCode];
 //    if ([[filename pathExtension] isEqualToString:kSparkListFileExtension] || type == kSparkListFileType) { // Il faudrait aussi verifier le type.
@@ -446,18 +476,18 @@ NSArray *gSortByNameDescriptors = nil;
 //        return YES;
 //    }
   }
-  NSAlert *error = [NSAlert alertWithMessageText:
-    [NSString stringWithFormat:NSLocalizedString(@"INVALID_FILE_ALERT",
-                                                 @"Import failed (%@ => filename) * Title *"), [filename lastPathComponent]]
-                                   defaultButton:NSLocalizedString(@"OK", @"Alert default button") 
-                                 alternateButton:nil
-                                     otherButton:nil
-                       informativeTextWithFormat:NSLocalizedString(@"INVALID_FILE_ALERT_MSG",
-                                                                   @"Open failed * Msg *")];
-  [error beginSheetModalForWindow:[se_mainWindow window]
-                    modalDelegate:nil
-                   didEndSelector:nil
-                      contextInfo:nil];
+//  NSAlert *error = [NSAlert alertWithMessageText:
+//    [NSString stringWithFormat:NSLocalizedString(@"INVALID_FILE_ALERT",
+//                                                 @"Import failed (%@ => filename) * Title *"), [filename lastPathComponent]]
+//                                   defaultButton:NSLocalizedString(@"OK", @"Alert default button") 
+//                                 alternateButton:nil
+//                                     otherButton:nil
+//                       informativeTextWithFormat:NSLocalizedString(@"INVALID_FILE_ALERT_MSG",
+//                                                                   @"Open failed * Msg *")];
+//  [error beginSheetModalForWindow:[se_mainWindow window]
+//                    modalDelegate:nil
+//                   didEndSelector:nil
+//                      contextInfo:nil];
   return NO;
 }
 
@@ -477,14 +507,13 @@ NSArray *gSortByNameDescriptors = nil;
   while ([aboutMenu numberOfItems]) {
     [aboutMenu removeItemAtIndex:0];
   }
-  id desc = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES selector:@selector(caseInsensitiveCompare:)];
-  id plugins = [[[SparkActionLoader sharedLoader] plugins] sortedArrayUsingDescriptors:[NSArray arrayWithObject:desc]];
-  [desc release];
-  plugins = [plugins objectEnumerator];
-  id plugin;
+  NSArray *items = [[[SparkActionLoader sharedLoader] plugins] sortedArrayUsingDescriptors:gSortByNameDescriptors];
+  
+  SparkPlugIn *plugin;
+  NSEnumerator *plugins = [items objectEnumerator];
   while (plugin = [plugins nextObject]) {
-    id menuItem = [[NSMenuItem alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"ABOUT_PLUGIN_MENU_ITEM", @"About Plugin (%@ => Plugin name)"), [plugin name]]
-                                             action:@selector(aboutPlugin:) keyEquivalent:@""];
+    NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"ABOUT_PLUGIN_MENU_ITEM", @"About Plugin (%@ => Plugin name)"), [plugin name]]
+                                                      action:@selector(aboutPlugin:) keyEquivalent:@""];
     [menuItem setImage:[plugin icon]];
     [menuItem setRepresentedObject:plugin];
     [aboutMenu addItem:menuItem];
@@ -493,38 +522,33 @@ NSArray *gSortByNameDescriptors = nil;
 }
 
 - (IBAction)aboutPlugin:(id)sender {
-  id plugin = [sender representedObject];
-  id opts = [NSMutableDictionary dictionary];
+  SparkPlugIn *plugin = [sender representedObject];
+  NSMutableDictionary *opts = [NSMutableDictionary dictionary];
   
   [opts setObject:[NSString stringWithFormat:NSLocalizedString(@"ABOUT_PLUGIN_BOX_TITLE", @"About Plugin (%@ => Plugin name)"), [plugin name]] forKey:@"ApplicationName"];
   NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:[plugin path]];
   [icon setSize:NSMakeSize(64, 64)];
   [opts setObject:icon forKey:@"ApplicationIcon"];
-  id bundle = [NSBundle bundleWithPath:[plugin path]];
+  NSBundle *bundle = [NSBundle bundleWithPath:[plugin path]];
   
-  id value = nil;
-  id credits = nil;
+  NSString *credits = nil;
   if ((credits = [bundle pathForResource:@"Credits" ofType:@"html"]) ||
       (credits = [bundle pathForResource:@"Credits" ofType:@"rtf"]) ||
       (credits = [bundle pathForResource:@"Credits" ofType:@"rtfd"])) {
-    value = [[NSAttributedString alloc] initWithURL:[NSURL fileURLWithPath:credits] documentAttributes:nil];
-    [opts setObject:value forKey:@"Credits"];
-    [value release];
+    NSAttributedString *str = [[NSAttributedString alloc] initWithURL:[NSURL fileURLWithPath:credits] documentAttributes:nil];
+    [opts setObject:str forKey:@"Credits"];
+    [str release];
   } else {
     [opts setObject:@"" forKey:@"Credits"];
   }
   
-  value = [bundle objectForInfoDictionaryKey:@"CFBundleVersion"];
+  id value = [bundle objectForInfoDictionaryKey:@"CFBundleVersion"];
   [opts setObject:(value) ? value : @"" forKey:@"Version"];
   value = [bundle objectForInfoDictionaryKey:@"NSHumanReadableCopyright"];
   [opts setObject:(value) ? value : @"" forKey:@"Copyright"];
   value = [bundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
   [opts setObject:(value) ? value : @"" forKey:@"ApplicationVersion"];
   [NSApp orderFrontStandardAboutPanelWithOptions:opts];
-}
-
-- (void)sparkDidChangePlugIn:(NSNotification *)aNotification {
-  [self createAboutMenu];
 }
 
 #pragma mark -

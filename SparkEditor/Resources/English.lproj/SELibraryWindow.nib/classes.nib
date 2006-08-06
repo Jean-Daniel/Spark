@@ -6,6 +6,7 @@
             ACTIONS = {deleteSelection = id; newApplication = id; }; 
             CLASS = SEApplicationSource; 
             LANGUAGE = ObjC; 
+            OUTLETS = {libraryWindow = NSWindow; }; 
             SUPERCLASS = SKTableDataSource; 
         }, 
         {CLASS = SEApplicationView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 

@@ -8,8 +8,6 @@
 
 #import "SEApplicationSource.h"
 
-#import "Spark.h"
-
 #import <ShadowKit/SKLSFunctions.h>
 #import <ShadowKit/SKFSFunctions.h>
 
@@ -131,7 +129,7 @@
   [openPanel beginSheetForDirectory:nil
                                file:nil
                               types:[NSArray arrayWithObjects:@"app", nil, NSFileTypeForHFSTypeCode('APPL'), nil]
-                     modalForWindow:[NSApp libraryWindow]
+                     modalForWindow:libraryWindow
                       modalDelegate:self
                      didEndSelector:@selector(newApplicationDidEnd:returnCode:object:)
                         contextInfo:nil];

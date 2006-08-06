@@ -7,54 +7,11 @@
 //
 
 #import "SEScriptHandler.h"
-#import "ServerController.h"
-#import <SparkKit/SparkKit.h>
 
-NSString* const kSPServerStatChangeNotification = @"Server State Change";
-
-@implementation Spark (AppleScriptExtension)
-
-- (BOOL)application:(NSApplication *)sender delegateHandlesKey:(NSString *)key {
-  return [key isEqualToString:@"serverState"]
-  || [key isEqualToString:@"trapping"];
-}
-
-- (NSString *)serverStateTitle {
-  if (kSparkDaemonStarted == se_serverState) {
-    return NSLocalizedString(@"DEACTIVE_SPARK_MENU",
-                             @"Spark Daemon Menu Title * Desactive *");
-  } else {
-    return NSLocalizedString(@"ACTIVE_SPARK_MENU",
-                             @"Spark Daemon Menu Title * Active *");
-  }
-}
-
-- (DaemonStatus)serverState {
-  return se_serverState;
-}
-- (void)setServerState:(DaemonStatus)state {
-  if (kSparkDaemonError == state) {
-    DLog(@"Error while starting daemon");
-    state = kSparkDaemonStopped;
-  }
-  [self willChangeValueForKey:@"serverStateTitle"];
-  se_serverState = state;
-  [[NSNotificationCenter defaultCenter] postNotificationName:kSPServerStatChangeNotification object:self];
-  [self didChangeValueForKey:@"serverStateTitle"];
-}
-
-- (BOOL)isTrapping {
-  id window = [NSApp keyWindow];
-  if (window && [window respondsToSelector:@selector(isTrapping)]) {
-    return [window isTrapping];
-  }
-  return NO;
-}
-
-@end
+NSString* const SEServerStatusDidChangeNotification = @"SEServerStatusDidChange";
 
 #pragma mark -
-@implementation SparkEditor (SparkScriptSuite)
+@implementation SparkEditor (SEScriptHandler)
 
 - (void)handleHelpScriptCommand:(NSScriptCommand *)scriptCommand {
   NSString *page = [[scriptCommand arguments] objectForKey:@"Page"];
@@ -63,6 +20,29 @@ NSString* const kSPServerStatChangeNotification = @"Server State Change";
   } else {
     [[self delegate] showPlugInHelp:nil];
   }
+}
+
+#pragma mark Trapping property accessor
+- (BOOL)isTrapping {
+  id window = [NSApp keyWindow];
+  if (window && [window respondsToSelector:@selector(isTrapping)]) {
+    return [window isTrapping];
+  }
+  return NO;
+}
+
+#pragma mark -
+- (SparkDaemonStatus)serverStatus {
+  return se_status;
+}
+- (void)setServerStatus:(SparkDaemonStatus)theStatus {
+  if (kSparkDaemonError == theStatus) {
+    DLog(@"Error while starting daemon");
+    theStatus = kSparkDaemonStopped;
+  }
+  se_status = theStatus;
+  [[NSNotificationCenter defaultCenter] postNotificationName:SEServerStatusDidChangeNotification 
+                                                      object:self];
 }
 
 @end

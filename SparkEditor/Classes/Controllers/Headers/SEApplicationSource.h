@@ -9,6 +9,7 @@
 #import <ShadowKit/SKTableDataSource.h>
 
 @interface SEApplicationSource : SKTableDataSource {
+  IBOutlet NSWindow *libraryWindow;
   @private
   NSMutableSet *se_path;
   NSMutableSet *se_cache;

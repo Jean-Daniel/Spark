@@ -18,7 +18,7 @@
             ACTIONS = {checkForNewVersion = id; showPlugInHelp = id; showPreferences = id; }; 
             CLASS = Spark; 
             LANGUAGE = ObjC; 
-            OUTLETS = {aboutMenu = NSMenu; }; 
+            OUTLETS = {aboutMenu = NSMenu; statusMenuItem = NSMenuItem; }; 
             SUPERCLASS = NSObject; 
         }
     ); 

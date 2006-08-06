@@ -4,7 +4,7 @@
 <dictionary title="Spark Terminology">
 	<suite name="Spark Suite" code="Sprk" description="Some Spark privates extensions. Do not use please!.">
 		<cocoa name="SparkSuite"/>
-		<enumeration hidden="yes" name="daemon states" code="dast">
+		<enumeration hidden="yes" name="daemon status" code="dast">
 			<enumerator name="started" code="strt" description="Daemon started."/>
 			<enumerator name="stopped" code="stop" description="Daemon stopped."/>
 			<enumerator name="error" code="erro" description="Error prevent starting."/>
@@ -20,8 +20,8 @@
 				<cocoa key="orderedWindows"/>
 			</element>
 			<!--hidden=&quot;hidden&quot;-->
-			<property hidden="yes" name="daemon status" code="srvS" description="Status of the daemon application." type="daemon states">
-				<cocoa key="serverState"/>
+			<property hidden="yes" name="daemon status" code="srvS" description="Status of the daemon application." type="daemon status">
+				<cocoa key="serverStatus"/>
 			</property>
 			<property hidden="yes" name="trapping" code="Trap" description="If Editor is currently trapping keyboards event." type="boolean" access="r">
 				<cocoa key="trapping"/>

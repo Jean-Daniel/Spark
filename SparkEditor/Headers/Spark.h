@@ -14,23 +14,21 @@
 @class SEPreferencesWindow;
 
 @interface SparkEditor : NSApplication {
+  /* Scripting Addition */
+  SparkDaemonStatus se_status;
 }
-
-- (NSWindow *)libraryWindow;
 
 @end
 
 
 @interface Spark : NSObject {
   IBOutlet NSMenu *aboutMenu;
-  SELibraryWindow *se_mainWindow;
-  
-  /* Global windows */
+  IBOutlet NSMenuItem *statusMenuItem;
+  @private
+    /* Global windows */
+    SELibraryWindow *se_mainWindow;
   SEPreferencesWindow *se_preferences;
 //  id plugInHelpWindow;
-  
-/* Scripting Addition */
-  DaemonStatus se_serverState;
 }
 
 #pragma mark Restart Functions
