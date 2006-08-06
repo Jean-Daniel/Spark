@@ -11,7 +11,8 @@
 
 #include <SparkKit/SparkKit.h>
 
-#include <ShadowKit/ShadowAEUtils.h>
+#include <ShadowKit/SKAEFunctions.h>
+#include <ShadowKit/SKProcessFunctions.h>
 
 OSStatus SDGetEditorIsTrapping(Boolean *trapping) {
   check(trapping);
@@ -31,45 +32,46 @@ OSStatus SDGetEditorIsTrapping(Boolean *trapping) {
   /* If Spark Editor is the front process, send apple event */
   if (kSparkHFSCreatorType == info.processSignature) {
     AEDesc theEvent;
-    ShadowAENullDesc(&theEvent);
-    err = ShadowAECreateEventWithTargetProcess(&psn, kAECoreSuite, kAEGetData, &theEvent);
+    SKAENullDesc(&theEvent);
+    err = SKAECreateEventWithTargetProcess(&psn, kAECoreSuite, kAEGetData, &theEvent);
     require_noerr(err, bail);
     
-    err = ShadowAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty, kSparkEditorIsTrapping, NULL);
+    err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty, kSparkEditorIsTrapping, NULL);
     require_noerr(err, fevent);
     
-    err = ShadowAEAddMagnitude(&theEvent);
+    err = SKAEAddMagnitude(&theEvent);
     require_noerr(err, fevent);
     
-    
-    err = ShadowAESendEventReturnBoolean(&theEvent, trapping);
+    err = SKAESendEventReturnBoolean(&theEvent, trapping);
     /* Release Apple event descriptor */
 fevent:
-      ShadowAEDisposeDesc(&theEvent);
+      SKAEDisposeDesc(&theEvent);
   }
   
 bail:
   return err;
 }
 
-OSStatus SDSendStateToEditor(DaemonStatus state) {
+OSStatus SDSendStateToEditor(SparkDaemonStatus state) {
   OSStatus err = noErr;
-  AEDesc theEvent;
-  ShadowAENullDesc(&theEvent);
-  
-  err = ShadowAECreateEventWithTargetSignature(kSparkHFSCreatorType, kAECoreSuite, kAESetData, &theEvent);
-  if (noErr == err) {
-    err = ShadowAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty, kSparkEditorDaemonStatus, NULL);
+  ProcessSerialNumber psn = SKGetProcessWithSignature(kSparkHFSCreatorType);
+  if (psn.lowLongOfPSN != kNoProcess) {
+    AEDesc theEvent;
+    SKAENullDesc(&theEvent);
+    err = SKAECreateEventWithTargetProcess(&psn, kAECoreSuite, kAESetData, &theEvent);
+    if (noErr == err) {
+      err = AEPutParamPtr(&theEvent, keyAEData, typeEnumeration, &state, sizeof(state));
+    }
+    if (noErr == err) {
+      err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty, kSparkEditorDaemonStatus, NULL);
+    }
+    if (noErr == err) {
+      err = SKAEAddMagnitude(&theEvent);
+    }
+    if (noErr == err) {
+      err = SKAESendEventNoReply(&theEvent);
+    }
+    SKAEDisposeDesc(&theEvent);
   }
-  if (noErr == err) {
-    err = ShadowAEAddSInt32(&theEvent, keyAEData, state);
-  }
-  if (noErr == err) {
-    err = ShadowAEAddMagnitude(&theEvent);
-  }
-  if (noErr == err) {
-    err = ShadowAESendEventNoReply(&theEvent);
-  }
-  ShadowAEDisposeDesc(&theEvent);
   return err;
 }

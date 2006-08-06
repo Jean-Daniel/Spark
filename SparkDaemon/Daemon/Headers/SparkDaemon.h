@@ -20,7 +20,6 @@
 - (void)willRemoveTrigger:(SparkTrigger *)aTrigger;
 
 - (void)run;
-- (void)terminate;
 
 @end
 

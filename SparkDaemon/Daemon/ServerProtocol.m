@@ -172,7 +172,7 @@
 #pragma mark Shutdown
 - (void)shutdown {
   ShadowTrace();
-  [self terminate];
+  [NSApp terminate:nil];
 }
 
 #pragma mark Trigger Status

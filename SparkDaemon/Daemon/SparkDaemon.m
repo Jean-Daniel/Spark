@@ -23,12 +23,12 @@
 
 #if defined (DEBUG)
 #warning Debug defined in Spark Daemon!
-#include <ShadowKit/ShadowAEUtils.h>
+#include <ShadowKit/SKAEFunctions.h>
 #endif
 
 int main(int argc, const char *argv[]) {
 #if defined (DEBUG)
-  ShadowAEDebug = YES;
+  SKAEDebug = YES;
   HKTraceHotKeyEvents = YES;
 #endif
   NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
@@ -54,8 +54,11 @@ int main(int argc, const char *argv[]) {
 
 /* Timer callback */
 - (void)checkAndLoad:(id)sender {
-  [self checkActions];
-  [self loadTriggers];
+//  [SparkSharedLibrary() readLibrary:nil];
+  DLog(@"Library loaded");
+//  [self checkActions];
+//  [self loadTriggers];
+  DLog(@"Trigger registred");
 }
 
 - (id)init {
@@ -122,7 +125,7 @@ int main(int argc, const char *argv[]) {
     DLog(@"Error While opening Connection");
     return NO;
   } else {
-    DLog(@"Connection OK, Spark Daemon Ready");
+    DLog(@"Connection OK");
   }
   return YES;
 }
@@ -158,7 +161,7 @@ int main(int argc, const char *argv[]) {
     @try {
       [trigger setTarget:self];
       [trigger setAction:@selector(executeTrigger:)];
-      if ([trigger isEnabled] /* && ![item isInvalid] */) { // Faut-il activer une clé invalide ??
+      if ([trigger isEnabled] /* && ![item isInvalid] */) {
         [trigger setRegistred:YES];
       }
     } @catch (id exception) {
@@ -215,19 +218,17 @@ int main(int argc, const char *argv[]) {
 }
 
 - (void)run {
+  DLog(@"Waiting events");
   [NSApp run];
-  //[[NSRunLoop currentRunLoop] run];
-}
-
-- (void)terminate {
-  [NSApp terminate:nil];
 }
 
 #pragma mark -
 #pragma mark Application Delegate
-
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
   SDSendStateToEditor(kSparkDaemonStopped);
+  /* Invalidate connection. dealloc would probably not be called, so it is not a good candidate for this purpose */
+  [[NSConnection defaultConnection] invalidate];
+  [[HKHotKeyManager sharedManager] unregisterAll];
 }
 
 @end
