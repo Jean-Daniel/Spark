@@ -8,13 +8,16 @@
 
 #import <ShadowKit/SKWindowController.h>
 
-@class SparkApplication;
-@class SETriggerEntry, SEActionEditor;
+@class SparkApplication, SparkPlugIn;
+@class SETriggerEntry, SETableView, SEApplicationView;
 @interface SEEntryEditor : SKWindowController {
+  IBOutlet SETableView *typeTable;
+  IBOutlet SEApplicationView *appField;
   @private
-  SEActionEditor *se_editor;
+    NSMutableArray *se_plugins;
 }
 
+- (void)setActionType:(SparkPlugIn *)type;
 - (void)setEntry:(SETriggerEntry *)anEntry;
 - (void)setApplication:(SparkApplication *)anApplication;
 

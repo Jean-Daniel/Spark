@@ -8,7 +8,6 @@
 
 #import "SETriggersController.h"
 #import "SELibraryWindow.h"
-#import "SEVirtualPlugIn.h"
 #import "SETriggerEntry.h"
 #import "SETriggerCell.h"
 #import "SEEntryEditor.h"

@@ -10,7 +10,6 @@
 
 #import "SEHeaderCell.h"
 #import "SETriggerEntry.h"
-#import "SEVirtualPlugIn.h"
 #import "SELibrarySource.h"
 #import "SEApplicationView.h"
 #import "SETriggersController.h"
@@ -88,11 +87,27 @@
 - (IBAction)libraryDoubleAction:(id)sender {
   int idx = [libraryTable selectedRow];
   if (idx > 0) {
-    SparkObject *object = [listSource objectAtIndex:idx];
+    SparkList *object = [listSource objectAtIndex:idx];
     if ([object uid] > kSparkLibraryReserved) {
       [libraryTable editColumn:0 row:idx withEvent:nil select:YES];
     } else {
-      ShadowTrace();
+      SparkPlugIn *plugin = [listSource pluginForList:object];
+      if (plugin) {
+        DLog(@"Create New HotKey of type: %@", plugin);
+        if (!se_editor) {
+          se_editor = [[SEEntryEditor alloc] init];
+          /* Load */
+          [se_editor window];
+        }
+        [se_editor setActionType:plugin];
+        [se_editor setApplication:[appField application]];
+        
+        [NSApp beginSheet:[se_editor window]
+           modalForWindow:[sender window]
+            modalDelegate:nil
+           didEndSelector:NULL
+              contextInfo:nil];
+      }
     }
   }
 }

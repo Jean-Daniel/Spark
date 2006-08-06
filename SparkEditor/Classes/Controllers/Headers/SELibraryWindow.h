@@ -9,8 +9,10 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class SETriggersController, SEApplicationView, SETriggerEntrySet, SparkList;
-@class SKTableView, SKTableDataSource, SELibrarySource, SEApplicationSource;
+@class SparkList;
+@class SETableView, SKTableView, SKTableDataSource;
+@class SEApplicationView, SETriggerEntrySet, SEEntryEditor;
+@class SELibrarySource, SEApplicationSource, SETriggersController;
 @interface SELibraryWindow : NSWindowController {
   IBOutlet NSSearchField *search;
   IBOutlet SEApplicationView *appField;
@@ -21,12 +23,13 @@
   IBOutlet SEApplicationSource *appSource;
   
   /* Library */
-  IBOutlet SKTableView *libraryTable;
+  IBOutlet SETableView *libraryTable;
   IBOutlet SELibrarySource *listSource;
   
   /* Triggers */
   IBOutlet SETriggersController *triggers;
   @private
+    SEEntryEditor *se_editor;
   SETriggerEntrySet *se_defaults; /* system triger cache */
   SETriggerEntrySet *se_triggers; /* shared triggers */
 }

@@ -6,6 +6,9 @@
  *  Copyright 2006 Shadow Lab. All rights reserved.
  */
 
+SK_PRIVATE
+NSArray *gSortByNameDescriptors;
+
 #pragma mark -
 @class SparkAction, SparkTrigger;
 @interface SETriggerEntry : NSObject {

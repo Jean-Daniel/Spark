@@ -5,7 +5,12 @@
         {
             CLASS = SEActionEditor; 
             LANGUAGE = ObjC; 
-            OUTLETS = {appField = SEApplicationView; pluginView = NSView; trap = SEHotKeyTrap; }; 
+            OUTLETS = {
+                appField = SEApplicationView; 
+                pluginView = NSView; 
+                trap = SEHotKeyTrap; 
+                typeField = NSButton; 
+            }; 
             SUPERCLASS = SKViewController; 
         }, 
         {
@@ -15,6 +20,7 @@
             SUPERCLASS = NSView; 
         }, 
         {CLASS = SEHotKeyTrap; LANGUAGE = ObjC; SUPERCLASS = NSControl; }, 
+        {CLASS = SEImageAndTextLabel; LANGUAGE = ObjC; SUPERCLASS = NSTextField; }, 
         {CLASS = SKImageAndTextCell; LANGUAGE = ObjC; SUPERCLASS = NSTextFieldCell; }, 
         {
             CLASS = SKViewController; 

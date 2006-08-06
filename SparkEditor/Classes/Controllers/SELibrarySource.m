@@ -7,6 +7,7 @@
 //
 
 #import "SELibrarySource.h"
+#import "SETableView.h"
 #import "SEHeaderCell.h"
 #import "SETriggerEntry.h"
 #import "SELibraryWindow.h"
@@ -29,16 +30,26 @@ NSComparisonResult SECompareList(SparkList *l1, SparkList *l2, void *ctxt) {
     return NSOrderedDescending;
   }
   /* Seconds, plugins */
+  if ([l1 uid] < 200) {
+    if ([l2 uid] < 200) {
+      return [[l1 name] caseInsensitiveCompare:[l2 name]];
+    } else {
+      return NSOrderedAscending;
+    }
+  } else if ([l2 uid] < 200) {
+    return NSOrderedDescending;
+  }
+  /* Third, Other reserved */
   if ([l1 uid] < kSparkLibraryReserved) {
     if ([l2 uid] < kSparkLibraryReserved) {
-      return [[l1 name] caseInsensitiveCompare:[l2 name]];
+      return [l1 uid] - [l2 uid];
     } else {
       return NSOrderedAscending;
     }
   } else if ([l2 uid] < kSparkLibraryReserved) {
     return NSOrderedDescending;
   }
-  
+  /* Finally, list */
   return [[l1 name] caseInsensitiveCompare:[l2 name]];
 }
 
@@ -53,6 +64,7 @@ BOOL SELibraryFilter(SparkObject *object, id ctxt) {
   SETriggerEntrySet *se_triggers;
 }
 
+- (Class)actionClass;
 - (void)setActionClass:(Class)cls;
 - (void)setTriggers:(SETriggerEntrySet *)triggers;
 
@@ -79,11 +91,13 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
     
     /* …, plugins list… */
     NSArray *plugins = [[SparkActionLoader sharedLoader] plugins];
+    se_plugins = NSCreateMapTable(NSObjectMapKeyCallBacks,NSObjectMapValueCallBacks, [plugins count]);
     unsigned uid = 128;
     unsigned idx = [plugins count];
     while (idx-- > 0) {
       SparkPlugIn *plugin = [plugins objectAtIndex:idx];
       SparkList *list = [[SparkList alloc] initWithName:[plugin name] icon:[plugin icon]];
+      NSMapInsert(se_plugins, list, plugin);
       [list setObjectSet:SparkSharedTriggerSet()];
       [list setUID:uid++];
       
@@ -98,6 +112,14 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
     }
     /* …and User defined lists */
     [se_content addObjectsFromArray:[SparkSharedListSet() objects]];
+    /* Separators */
+    SparkObject *separator = [SparkList objectWithName:SETableSeparator icon:nil];
+    [separator setUID:10];
+    [se_content addObject:separator];
+    
+    separator = [SparkList objectWithName:SETableSeparator icon:nil];
+    [separator setUID:200];
+    [se_content addObject:separator];
     
     [self rearrangeObjects];
   }
@@ -106,6 +128,8 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
 
 - (void)dealloc {
   [se_content release];
+  if (se_plugins)
+    NSFreeMapTable(se_plugins);
   [super dealloc];
 }
 
@@ -117,6 +141,19 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
   [[[table tableColumns] objectAtIndex:0] setHeaderCell:header];
   [header release];
   [table setCornerView:[[[SEHeaderCellCorner alloc] init] autorelease]];
+
+  [table setHighlightShading:[NSColor colorWithDeviceRed:.340f
+                                                   green:.606f
+                                                    blue:.890f
+                                                   alpha:1]
+                      bottom:[NSColor colorWithDeviceRed:0
+                                                   green:.312f
+                                                    blue:.790f
+                                                   alpha:1]
+                      border:[NSColor colorWithDeviceRed:.239f
+                                                   green:.482f
+                                                    blue:.855f
+                                                   alpha:1]];
   
   if (se_delegate)
     [self tableViewSelectionDidChange:nil];
@@ -136,6 +173,10 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
 
 - (id)objectAtIndex:(unsigned)idx {
   return [se_content objectAtIndex:idx];
+}
+
+- (SparkPlugIn *)pluginForList:(SparkList *)aList {
+  return NSMapGet(se_plugins, aList);
 }
 
 - (void)addObject:(SparkObject *)object {
@@ -218,6 +259,14 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
   }
 }
 
+/* Separator Implementation */
+- (float)tableView:(NSTableView *)tableView heightOfRow:(int)row {
+  return row >= 0 && [[[se_content objectAtIndex:row] name] isEqualToString:SETableSeparator] ? 1 : [tableView rowHeight];
+}
+- (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(int)rowIndex {
+  return rowIndex >= 0 ? ![[[se_content objectAtIndex:rowIndex] name] isEqualToString:SETableSeparator] : YES;
+}
+
 - (void)setTriggers:(SETriggerEntrySet *)triggers application:(SparkApplication *)anApplication {
   SparkList *list;
   NSEnumerator *lists = [se_content objectEnumerator];
@@ -240,6 +289,9 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
   [super dealloc];
 }
 
+- (Class)actionClass {
+  return se_action;
+}
 - (void)setActionClass:(Class)cls {
   se_action = cls;
 }

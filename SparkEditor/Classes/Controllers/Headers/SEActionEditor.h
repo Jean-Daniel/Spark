@@ -8,16 +8,17 @@
 
 #import <ShadowKit/SKViewController.h>
 
-@class SparkAction, SparkApplication;
 @class SEHotKeyTrap, SEApplicationView;
+@class SparkAction, SparkApplication, SparkPlugIn;
 @interface SEActionEditor : SKViewController {
   IBOutlet SEApplicationView *appField;
   IBOutlet NSView *pluginView;
   IBOutlet SEHotKeyTrap *trap;
-  @private
-  NSMutableArray *se_plugins;
+
+  IBOutlet id typeField;
 }
 
+- (void)setActionType:(SparkPlugIn *)type;
 - (void)setSparkAction:(SparkAction *)anAction;
 - (void)setApplication:(SparkApplication *)anApplication;
 

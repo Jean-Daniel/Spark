@@ -536,7 +536,7 @@ NSArray *gSortByNameDescriptors = nil;
   id menu = [[NSMenu alloc] initWithTitle:@"Debug"];
   [menu addItemWithTitle:@"Install" action:@selector(openInstaller:) keyEquivalent:@""];
   [menu addItemWithTitle:@"Importer" action:@selector(openImporter:) keyEquivalent:@""];
-  [menu addItemWithTitle:@"Action Chooser" action:@selector(openActionChooser:) keyEquivalent:@""];
+  [menu addItemWithTitle:@"Type Chooser" action:@selector(openTypeChooser:) keyEquivalent:@""];
   [menu addItemWithTitle:@"Entry Editor" action:@selector(openEntryEditor:) keyEquivalent:@""];
   [menu addItem:[NSMenuItem separatorItem]];
   [menu addItemWithTitle:@"Clean Library" action:@selector(cleanLibrary:) keyEquivalent:@""];
@@ -557,18 +557,20 @@ NSArray *gSortByNameDescriptors = nil;
           contextInfo: nil];
   }
 }
-//
-//- (IBAction)openActionChooser:(id)sender {
-//  if (libraryWindow) {
-//    id actionChooser = [[ChoosePanel alloc] initWithObjectType:kSparkAction];
-//    [NSApp beginSheet: [actionChooser window]
-//       modalForWindow: [libraryWindow window]
-//        modalDelegate: self
-//       didEndSelector: @selector(sheetDidEnd:returnCode:context:)
-//          contextInfo: nil];
-//  }
-//}
-//
+
+@class SETypeChooser;
+- (IBAction)openTypeChooser:(id)sender {
+  if (se_mainWindow) {
+    id chooser = [[SETypeChooser alloc] init];
+    [chooser setReleasedWhenClosed:YES];
+    [NSApp beginSheet: [chooser window]
+       modalForWindow: [se_mainWindow window]
+        modalDelegate: nil
+       didEndSelector: NULL
+          contextInfo: nil];
+  }
+}
+
 //- (IBAction)openImporter:(id)sender {
 //  if (libraryWindow) {
 //    SparkImporter *panel = [[SparkImporter alloc] init];

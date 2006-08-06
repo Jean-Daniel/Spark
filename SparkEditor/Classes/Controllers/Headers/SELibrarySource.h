@@ -9,12 +9,13 @@
 
 #import <Foundation/Foundation.h>
 
-@class SparkList, SparkApplication;
 @class SETableView, SETriggerEntrySet;
+@class SparkList, SparkApplication, SparkPlugIn;
 @interface SELibrarySource : NSObject {
   IBOutlet SETableView *table;
   @private
   id se_delegate;
+  NSMapTable *se_plugins;
   NSMutableArray *se_content;
 }
 
@@ -26,6 +27,7 @@
 - (void)setDelegate:(id)aDelegate;
 
 - (id)objectAtIndex:(unsigned)idx;
+- (SparkPlugIn *)pluginForList:(SparkList *)aList;
 
 - (void)setTriggers:(SETriggerEntrySet *)triggers application:(SparkApplication *)anApplication;
 @end

@@ -8,20 +8,30 @@
 
 #import "SETableView.h"
 
+#import <ShadowKit/SKCGFunctions.h>
+
+NSString * const SETableSeparator = @"-\e";
+
 @implementation SETableViewCell
 
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {
-  if ([self isHighlighted]) {
-    cellFrame.origin.y++;
-    [self setTextColor:[NSColor colorWithDeviceWhite:0.35 alpha:.5]];
-    [super drawWithFrame:cellFrame inView:controlView];
-    
-    cellFrame.origin.y--;
-    [self setTextColor:[NSColor whiteColor]]; 
-    [super drawWithFrame:cellFrame inView:controlView];
+  if ([[self title] isEqualToString:SETableSeparator]) {
+    [[NSColor lightGrayColor] setStroke];
+    [NSBezierPath strokeLineFromPoint:NSMakePoint(NSMinX(cellFrame), NSMidY(cellFrame)) 
+                              toPoint:NSMakePoint(NSMaxX(cellFrame), NSMidY(cellFrame))];
   } else {
-    [self setTextColor:[NSColor blackColor]];
-    [super drawWithFrame:cellFrame inView:controlView];
+    if ([self isHighlighted]) {
+      cellFrame.origin.y++;
+      [self setTextColor:[NSColor colorWithDeviceWhite:0.35 alpha:.5]];
+      [super drawWithFrame:cellFrame inView:controlView];
+      
+      cellFrame.origin.y--;
+      [self setTextColor:[NSColor whiteColor]]; 
+      [super drawWithFrame:cellFrame inView:controlView];
+    } else {
+      [self setTextColor:[NSColor blackColor]];
+      [super drawWithFrame:cellFrame inView:controlView];
+    }
   }
 }
 
@@ -39,16 +49,31 @@
 @implementation SETableView
 
 - (NSImage *)highlightedCellColor {
-  static NSImage *highlighted = nil, *highlightedH = nil;
+  static NSImage *highlighted = nil;
   @synchronized ([SETableView class]) {
     if (nil == highlighted) {
       highlighted = [[NSImage imageNamed:@"Highlight"] retain];
       [highlighted setFlipped:YES];
-      highlightedH = [[NSImage imageNamed:@"HighlightFocus"] retain];
-      [highlightedH setFlipped:YES];
     }
   }
-  return ([[self window] isKeyWindow] && [[self window] firstResponder] == self) ? highlightedH : highlighted;
+  return ([[self window] isKeyWindow] && [[self window] firstResponder] == self) ? se_highlight : highlighted;
+}
+
+- (void)setHighlightShading:(NSColor *)aColor bottom:(NSColor *)end border:(NSColor *)border {
+  SKSimpleShadingInfo ctxt;
+  [[aColor colorUsingColorSpaceName:NSDeviceRGBColorSpace] getRed:&ctxt.start[0] green:&ctxt.start[1] blue:&ctxt.start[2] alpha:&ctxt.start[3]];
+  [[end colorUsingColorSpaceName:NSDeviceRGBColorSpace] getRed:&ctxt.end[0] green:&ctxt.end[1] blue:&ctxt.end[2] alpha:&ctxt.end[3]];
+  NSImage *img = SKCGCreateVerticalShading(64, [self rowHeight] + 2, SKSimpleShadingFunction, &ctxt);
+  
+  if (border) {
+    [img lockFocus];
+    [border setStroke];
+    float y = 0.5;
+    [NSBezierPath strokeLineFromPoint:NSMakePoint(0, y) toPoint:NSMakePoint(64, y)];
+    [img unlockFocus];
+  }
+  
+  se_highlight = [img retain];
 }
 
 - (void)highlightSelectionInClipRect:(NSRect)clipRect {
@@ -59,19 +84,17 @@
 }
 
 - (void)textDidEndEditing:(NSNotification *)aNotification {
-  //[super textDidEndEditing:aNotification];
   NSString *text = [[aNotification object] string];
-  [[self dataSource] tableView:self
-                setObjectValue:text
-                forTableColumn:[[self tableColumns] objectAtIndex:0]
-                           row:[self editedRow]];
+  /* Notify data source */
+  if (SKDelegateHandle([self dataSource], tableView:setObjectValue:forTableColumn:row:))
+    [[self dataSource] tableView:self
+                  setObjectValue:text
+                  forTableColumn:[[self tableColumns] objectAtIndex:0]
+                             row:[self editedRow]];
   
   [[[[self tableColumns] objectAtIndex:0] dataCell] endEditing:[aNotification object]];
   [[self window] makeFirstResponder:self];
   [self reloadData];
-  
-//  [self setNeedsDisplayInRect:[self rectOfRow:[self selectedRow]]];
-  //[self selectRow:[self selectedRow] byExtendingSelection:NO];  
 }
 
 @end

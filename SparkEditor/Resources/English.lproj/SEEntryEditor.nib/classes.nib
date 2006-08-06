@@ -2,13 +2,24 @@
     IBClasses = (
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {CLASS = HKTrapWindow; LANGUAGE = ObjC; SUPERCLASS = NSWindow; }, 
+        {CLASS = NSObject; LANGUAGE = ObjC; }, 
         {
-            ACTIONS = {cancel = id; ok = id; }; 
+            CLASS = SEApplicationView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {"se_target" = id; }; 
+            SUPERCLASS = NSView; 
+        }, 
+        {
             CLASS = SEEntryEditor; 
             LANGUAGE = ObjC; 
-            OUTLETS = {editor = NSView; help = NSButton; }; 
+            OUTLETS = {appField = SEApplicationView; typeTable = SETableView; }; 
             SUPERCLASS = SKWindowController; 
         }, 
+        {CLASS = SEHotKeyTrap; LANGUAGE = ObjC; SUPERCLASS = NSControl; }, 
+        {CLASS = SETableView; LANGUAGE = ObjC; SUPERCLASS = SKTableView; }, 
+        {CLASS = SETableViewCell; LANGUAGE = ObjC; SUPERCLASS = SKImageAndTextCell; }, 
+        {CLASS = SKImageAndTextCell; LANGUAGE = ObjC; SUPERCLASS = NSTextFieldCell; }, 
+        {CLASS = SKTableView; LANGUAGE = ObjC; SUPERCLASS = NSTableView; }, 
         {
             ACTIONS = {close = id; }; 
             CLASS = SKWindowController; 

@@ -9,9 +9,15 @@
 #import <ShadowKit/SKTableView.h>
 #import <ShadowKit/SKImageAndTextCell.h>
 
-@interface SETableView : SKTableView {
+SK_PRIVATE
+NSString * const SETableSeparator;
 
+@interface SETableView : SKTableView {
+  @private
+  NSImage *se_highlight;
 }
+
+- (void)setHighlightShading:(NSColor *)aColor bottom:(NSColor *)end border:(NSColor *)border;
 
 @end
 

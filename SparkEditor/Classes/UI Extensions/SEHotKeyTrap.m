@@ -12,7 +12,8 @@
 
 /* Trap shading */
 static NSImage *hk_shading = nil;
-static NSDictionary *hk_style = nil;
+static NSDictionary *hk_style = nil; /* String style */
+static NSDictionary *hk_pstyle = nil; /* Placeholder style */
 
 static NSImage *_HKCreateShading(NSControlTint tint);
 
@@ -39,7 +40,12 @@ static NSImage *_HKCreateShading(NSControlTint tint);
     
     hk_style = [[NSDictionary alloc] initWithObjectsAndKeys:
       [NSFont systemFontOfSize:[NSFont smallSystemFontSize]], NSFontAttributeName,
-      [NSColor darkGrayColor], NSForegroundColorAttributeName,
+      [NSColor blackColor], NSForegroundColorAttributeName,
+      nil];
+    
+    hk_pstyle = [[NSDictionary alloc] initWithObjectsAndKeys:
+      [NSFont systemFontOfSize:[NSFont smallSystemFontSize]], NSFontAttributeName,
+      [NSColor grayColor], NSForegroundColorAttributeName,
       nil];
   }
 }
@@ -142,9 +148,9 @@ static NSImage *_HKCreateShading(NSControlTint tint);
 
 #define kHKTrapHeight	22
 #define kHKTrapMinimumWidth		48
-#define CAPS_WIDTH 24
-#define LEFT_MARGIN 2
-#define RIGHT_MARGIN 4
+#define CAPS_WIDTH 19
+#define LEFT_MARGIN 1.5f
+#define RIGHT_MARGIN 1.5f
 
 // Prevent from being too small
 - (void)setFrameSize:(NSSize)newSize {
@@ -169,13 +175,15 @@ static NSImage *_HKCreateShading(NSControlTint tint);
   
   NSRect bounds = [self bounds];
   bounds.size.height = kHKTrapHeight;
+  bounds.origin.x = LEFT_MARGIN;
+  bounds.size.width = NSWidth(bounds) - (LEFT_MARGIN + RIGHT_MARGIN);
   
   if ([self isTrapping]) {
     /* If trapping, round cell with 2px border and right caps with snapback icon */
     CGMutablePathRef field = CGPathCreateMutable();
-    SKCGPathAddRoundRect(field, NULL, CGRectMake(LEFT_MARGIN + 2, 2, NSWidth(bounds) - CAPS_WIDTH, NSHeight(bounds) - 4), (NSHeight(bounds) - 4) / 2);
+    SKCGPathAddRoundRect(field, NULL, CGRectMake(NSMinX(bounds) + 2, 2, NSWidth(bounds) - CAPS_WIDTH, NSHeight(bounds) - 4), (NSHeight(bounds) - 4) / 2);
     CGMutablePathRef border = CGPathCreateMutable();
-    SKCGPathAddRoundRect(border, NULL, CGRectMake(LEFT_MARGIN, 0, NSWidth(bounds) - RIGHT_MARGIN, NSHeight(bounds)), NSHeight(bounds) / 2);
+    SKCGPathAddRoundRect(border, NULL, CGRectMake(NSMinX(bounds), 0, NSWidth(bounds), NSHeight(bounds)), NSHeight(bounds) / 2);
     
     /* Draw white field */
     CGContextBeginPath(ctxt);
@@ -216,18 +224,30 @@ static NSImage *_HKCreateShading(NSControlTint tint);
     CGContextClip(ctxt);
     
     NSString *text = nil;
+    NSDictionary *style = hk_pstyle;
     /* Draw string content */
     if (se_htFlags.hint) {
-      NSString *key = HKMapGetStringRepresentationForCharacterAndModifier(se_character, se_modifier);
-      text = key ? [NSString stringWithFormat:@"Revert to %@", key] : @"Cancel";
+      if (se_htFlags.cancel) {
+        NSString *key = HKMapGetStringRepresentationForCharacterAndModifier(se_character, se_modifier);
+        text = key ? [NSString stringWithFormat:@"Revert to %@", key] : @"Cancel";
+      } else {
+//        if (se_character == se_bcharacter && se_modifier == se_bmodifier && se_keycode == se_bkeycode) {
+//          text = @"Cancel";
+//        } else {
+        NSString *key = HKMapGetStringRepresentationForCharacterAndModifier(se_bcharacter, se_bmodifier);
+        text = key ? [NSString stringWithFormat:@"Save %@", key] : @"Cancel";
+//        }
+      }
     } else if (se_str) {
       text = se_str;
+      style = hk_style;
     } else {
       // draw placeholder
       text = @"Type hotkey";
     }
-    float width = [text sizeWithAttributes:hk_style].width;
-    [text drawAtPoint:NSMakePoint((NSWidth(bounds) - width) / 2.0, 4.5) withAttributes:hk_style];
+    float width = [text sizeWithAttributes:style].width;
+    /* Should add CAPS_WIDTH to really center string, but not visually pleasant */
+    [text drawAtPoint:NSMakePoint(NSMidX(bounds) - (/* CAPS_WIDTH */ + width) / 2.0, 4.5) withAttributes:style];
     
     CGContextRestoreGState(ctxt);
     CGPathRelease(border);
@@ -237,7 +257,12 @@ static NSImage *_HKCreateShading(NSControlTint tint);
     CGContextSaveGState(ctxt);
     CGContextSetGrayFillColor(ctxt, 1.f, 1.f);
     
-    CGContextTranslateCTM(ctxt, NSWidth(bounds) - CAPS_WIDTH + 7, 6);
+    if (se_htFlags.cancel) { /* Draw snap back arrow */
+      CGContextTranslateCTM(ctxt, NSMaxX(bounds) - CAPS_WIDTH + 4.5f, 5);
+    } else { /* Draw commit arrow */
+      CGContextTranslateCTM(ctxt, NSMaxX(bounds) - CAPS_WIDTH + 4.5f, 17);
+      CGContextScaleCTM(ctxt, 1, -1);
+    }
     CGContextBeginPath(ctxt);
     CGContextMoveToPoint(ctxt, 0, 7.5);
     CGContextAddLineToPoint(ctxt, 4, 3.5);
@@ -258,14 +283,14 @@ static NSImage *_HKCreateShading(NSControlTint tint);
     /* Draw field with light gray border */
     CGContextSetGrayStrokeColor(ctxt, 0.667, 1);
     CGContextBeginPath(ctxt);
-    SKCGContextAddRoundRect(ctxt, CGRectMake(LEFT_MARGIN + 1, 1.5, NSWidth(bounds) - RIGHT_MARGIN, NSHeight(bounds) - 3), (NSHeight(bounds) - 3) / 2);
+    SKCGContextAddRoundRect(ctxt, CGRectMake(NSMinX(bounds) + 1, 1.5, NSWidth(bounds) - 2, NSHeight(bounds) - 3), (NSHeight(bounds) - 3) / 2);
     CGContextClosePath(ctxt);
     CGContextDrawPath(ctxt, kCGPathFillStroke);
     
     if (![self isEmpty]) {
       // Draw shortcut string
       float width = [se_str sizeWithAttributes:hk_style].width;
-      [se_str drawAtPoint:NSMakePoint((NSWidth(bounds) - width) / 2.0, 4.5) withAttributes:hk_style];
+      [se_str drawAtPoint:NSMakePoint(NSMidX(bounds) - width / 2.0, 4.5) withAttributes:hk_style];
       
       if (!se_htFlags.disabled) {
         /* Draw round delete button */
@@ -274,11 +299,11 @@ static NSImage *_HKCreateShading(NSControlTint tint);
         } else {
           CGContextSetGrayFillColor(ctxt, 0.789, 1);
         }
-        CGContextAddEllipseInRect(ctxt, CGRectMake(NSWidth(bounds) - 19, 4, 14, 14));
+        CGContextAddEllipseInRect(ctxt, CGRectMake(NSMaxX(bounds) - 18.5f, 4, 14, 14));
         CGContextFillPath(ctxt);
         
         float length = 3;
-        CGContextTranslateCTM(ctxt, NSWidth(bounds) - 12, 11);
+        CGContextTranslateCTM(ctxt, NSMaxX(bounds) - 11.5f, 11);
         
         CGContextSetLineWidth(ctxt, 1.25);
         CGContextSetGrayStrokeColor(ctxt, 1, 1);
@@ -291,12 +316,32 @@ static NSImage *_HKCreateShading(NSControlTint tint);
       }
     } else {
       // draw placeholder
-      NSString *placeholder = @"click to record hotkey";
-      float width = [placeholder sizeWithAttributes:hk_style].width - 1;
-      [placeholder drawAtPoint:NSMakePoint((NSWidth(bounds) - width) / 2.0, 4.5) withAttributes:hk_style];
+      NSString *placeholder = @"click to record shortcut";
+      float width = [placeholder sizeWithAttributes:hk_pstyle].width;
+      [placeholder drawAtPoint:NSMakePoint(NSMidX(bounds) - width / 2.f, 4.5) withAttributes:hk_pstyle];
     }
     CGContextRestoreGState(ctxt);
   }
+}
+
+- (void)keyDown:(NSEvent *)theEvent {
+  /* No modifier and cancel pressed */
+  if (se_htFlags.trap && ([theEvent modifierFlags] & SEValidModifiersFlags) == 0) {
+    if ([[theEvent characters] isEqualToString:@"\e"]) {
+      [self revert];
+      [self setTrapping:NO];
+      return;
+    } else if ([[theEvent characters] isEqualToString:@"\r"] || [[theEvent characters] isEqualToString:@"\003"]) {
+      [self save];
+      [self setTrapping:NO];
+      return;
+    }
+  }
+  [super keyDown:theEvent];
+}
+
+- (void)cancelOperation:(id)sender {
+  ShadowTrace();
 }
 
 #pragma mark -
@@ -376,9 +421,14 @@ static NSImage *_HKCreateShading(NSControlTint tint);
       se_character = kHKNilUnichar;
       se_keycode = kHKInvalidVirtualKeyCode;
     } else {
-      [self revert];
+      /* Check if we use cancel mode */
+      if (se_htFlags.cancel) {
+        [self revert];
+      } else {
+        [self save];
+      }
       [self setTrapping:NO];
-    }  
+    }
   } else if (!se_htFlags.inbutton && !inButton) {
     if (![self isTrapping]) {
       [self setTrapping:YES];

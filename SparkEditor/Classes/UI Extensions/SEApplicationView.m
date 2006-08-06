@@ -127,6 +127,16 @@ static const float kAVImageRightMargin = 6.f;
         icon = [NSImage imageNamed:@"applelogo"];
       } else if ([se_app path]) {
         icon = [[NSWorkspace sharedWorkspace] iconForFile:[se_app path]];
+        if (icon && [[NSWindow class] instancesRespondToSelector:@selector(userSpaceScaleFactor)]) {
+          float scale = [[self window] userSpaceScaleFactor];
+          if (scale > 1) {
+            NSSize size = [icon size];
+            size.width = MIN(256, size.width * scale);
+            size.height = MIN(256, size.height * scale);
+            [icon setSize:size];
+          }
+        }
+        
       } else if ([se_app icon]) {
         icon = [se_app icon];
       } else {
@@ -158,22 +168,32 @@ static const float kAVImageRightMargin = 6.f;
     
     if (se_saFlags.dark) {
       CGContextSetGrayStrokeColor(ctxt, 0.50, 0.60);
-      CGContextSetGrayFillColor(ctxt, 0.70f, se_saFlags.highlight ? .40f : .25f);
+      CGContextSetGrayFillColor(ctxt, 0.65f, se_saFlags.highlight ? .40f : .25f);
     } else {
       CGContextSetGrayStrokeColor(ctxt, 0.5, 1);
-      CGContextSetGrayFillColor(ctxt, 0, se_saFlags.highlight ? .15f : .05f);
+      CGContextSetGrayFillColor(ctxt, 0, se_saFlags.highlight ? .15f : .08f);
     }
-    CGContextDrawPath(ctxt,kCGPathFillStroke);
     
+    if (!se_saFlags.highlight) {
+      CGContextDrawPath(ctxt, kCGPathFillStroke);
+    }
+    
+    /* Draw icon */
     if (se_icon) {
       NSRect source = NSZeroRect;
       source.size = [se_icon size];
-      /* paint icon with y=3 because lots of icon look better */
+      /* paint icon with y=3 (instead of 2) because lots of icon look better */
       [se_icon drawInRect:NSMakeRect(kAVMargin, 3, kAVImageSize, kAVImageSize)
                  fromRect:source
                 operation:NSCompositeSourceOver
                  fraction:1];
     }
+    
+    if (se_saFlags.highlight) {
+      CGContextDrawPath(ctxt, kCGPathFillStroke);
+    }
+    
+    /* Draw string */
     if (!se_saFlags.dark) {
       [[SKShadowLabel defaultShadow] set];
     }

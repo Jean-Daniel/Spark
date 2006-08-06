@@ -10,33 +10,75 @@
 #import "SEActionEditor.h"
 #import "SETriggerEntry.h"
 
+#import "SETableView.h"
+#import "SEHeaderCell.h"
+#import "SEHotKeyTrap.h"
+
+#import <SparkKit/SparkPlugIn.h>
 #import <SparkKit/SparkHotKey.h>
 #import <SparkKit/SparkApplication.h>
+#import <SparkKit/SparkActionLoader.h>
 
 #import <HotKeyToolKit/HotKeyToolKit.h>
 
 @implementation SEEntryEditor
 
 - (id)init {
-  if (self = [super initWithWindowNibName:@"SEEntryEditor"]) {
+  if (self = [super init]) {
+    SparkPlugIn *plugin; 
+    se_plugins = [[NSMutableArray alloc] init];
+    NSEnumerator *plugins = [[SparkActionLoader sharedLoader] objectEnumerator];
+    while (plugin = [plugins nextObject]) {
+      [se_plugins addObject:plugin];
+    }
+    [se_plugins sortUsingDescriptors:gSortByNameDescriptors];
     
+    plugin = [[SparkPlugIn alloc] init];
+    [plugin setName:@"Globals Setting"];
+    [plugin setIcon:[NSImage imageNamed:@"applelogo"]];
+    [se_plugins insertObject:plugin atIndex:0];
+    [plugin release];
+    
+    plugin = [[SparkPlugIn alloc] init];
+    [plugin setName:@"Ignore Spark"];
+    [plugin setIcon:[NSImage imageNamed:@"IgnoreAction"]];
+    [se_plugins insertObject:plugin atIndex:1];
+    [plugin release];
+    
+    plugin = [[SparkPlugIn alloc] init];
+    [plugin setName:SETableSeparator];
+    [se_plugins insertObject:plugin atIndex:2];
+    [plugin release];
   }
   return self;
 }
 
 - (void)dealloc {
-  [se_editor release];
+
   [super dealloc];
 }
 
-/* Internal method called by nib loader */
-- (void)setEditor:(NSView *)editor {
-  NSAssert(se_editor == nil, @"Set editor call while editor already initialized");
-  NSView *parent = [editor superview];
-  [editor removeFromSuperview];
-  se_editor = [[SEActionEditor alloc] init];
-  [[se_editor view] setFrame:[editor frame]];
-  [parent addSubview:[se_editor view]];
+- (void)awakeFromNib {
+  /* Configure Library Header Cell */
+  SEHeaderCell *header = [[SEHeaderCell alloc] initTextCell:@"HotKey Type"];
+  [header setAlignment:NSCenterTextAlignment];
+  [header setFont:[NSFont systemFontOfSize:11]];
+  [[[typeTable tableColumns] objectAtIndex:0] setHeaderCell:header];
+  [header release];
+  [typeTable setCornerView:[[[SEHeaderCellCorner alloc] initWithFrame:NSMakeRect(0, 0, 22, 22)] autorelease]];
+  
+  [typeTable setHighlightShading:[NSColor colorWithDeviceRed:.340f
+                                                       green:.606f
+                                                        blue:.890f
+                                                       alpha:1]
+                          bottom:[NSColor colorWithDeviceRed:0
+                                                       green:.312f
+                                                        blue:.790f
+                                                       alpha:1]
+                          border:[NSColor colorWithDeviceRed:.239f
+                                                       green:.482f
+                                                        blue:.855f
+                                                       alpha:1]];
 }
 
 - (IBAction)ok:(id)sender {
@@ -47,16 +89,38 @@
   [self close:sender];
 }
 
+- (void)setActionType:(SparkPlugIn *)type {
+  //[se_editor setActionType:type];
+}
 - (void)setEntry:(SETriggerEntry *)anEntry {
-  [se_editor setSparkAction:[anEntry action]];
+  //[se_editor setSparkAction:[anEntry action]];
 }
 - (void)setApplication:(SparkApplication *)anApplication {
-  [se_editor setApplication:anApplication];
+  [appField setApplication:anApplication];
+  [appField setTitle:[NSString stringWithFormat:@"%@ HotKey", [anApplication name]]];
+}
+
+- (int)numberOfRowsInTableView:(NSTableView *)aTableView {
+  return [se_plugins count];
+}
+
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
+  return [se_plugins objectAtIndex:rowIndex];
+}
+
+/* Separator Implementation */
+- (float)tableView:(NSTableView *)tableView heightOfRow:(int)row {
+  return row >= 0 && [[[se_plugins objectAtIndex:row] name] isEqualToString:SETableSeparator] ? 1 : [tableView rowHeight];
+}
+- (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(int)rowIndex {
+  return rowIndex >= 0 ? ![[[se_plugins objectAtIndex:rowIndex] name] isEqualToString:SETableSeparator] : YES;
 }
 
 #pragma mark Trap Delegate
 - (BOOL)trapWindow:(HKTrapWindow *)window needPerformKeyEquivalent:(NSEvent *)theEvent {
-  return SKFloatEquals([theEvent timestamp], 0);
+  /* No modifier and cancel pressed */
+  return ([theEvent modifierFlags] & SEValidModifiersFlags) == 0
+  && [[theEvent characters] isEqualToString:@"\e"];
 }
 
 - (BOOL)trapWindow:(HKTrapWindow *)window needProceedKeyEvent:(NSEvent *)theEvent {
@@ -64,7 +128,7 @@
     return NO;
   } else {
     UInt16 code = [theEvent keyCode];
-    UInt32 mask = [theEvent modifierFlags] & NSDeviceIndependentModifierFlagsMask;
+    UInt32 mask = [theEvent modifierFlags] & SEValidModifiersFlags;
     return mask ? NO : (code == kVirtualEnterKey)
       || (code == kVirtualReturnKey)
       || (code == kVirtualEscapeKey)

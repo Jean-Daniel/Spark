@@ -25,8 +25,6 @@
 
 /* Begin PBXBuildFile section */
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
-		981A88B90A61967600753369 /* SEVirtualPlugIn.h in Headers */ = {isa = PBXBuildFile; fileRef = 981A88B70A61967600753369 /* SEVirtualPlugIn.h */; };
-		981A88BA0A61967600753369 /* SEVirtualPlugIn.m in Sources */ = {isa = PBXBuildFile; fileRef = 981A88B80A61967600753369 /* SEVirtualPlugIn.m */; };
 		981A8A360A61A25800753369 /* SETriggerEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = 981A8A340A61A25800753369 /* SETriggerEntry.h */; };
 		981A8A370A61A25800753369 /* SETriggerEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 981A8A350A61A25800753369 /* SETriggerEntry.m */; };
 		981A8A6E0A61A3BB00753369 /* IgnoreAction.tif in Resources */ = {isa = PBXBuildFile; fileRef = 981A8A6D0A61A3BB00753369 /* IgnoreAction.tif */; };
@@ -52,7 +50,6 @@
 		984199350A5E67BE0009A093 /* Add.png in Resources */ = {isa = PBXBuildFile; fileRef = 984199310A5E67BE0009A093 /* Add.png */; };
 		984199360A5E67BE0009A093 /* AddDown.png in Resources */ = {isa = PBXBuildFile; fileRef = 984199320A5E67BE0009A093 /* AddDown.png */; };
 		984199370A5E67BE0009A093 /* Highlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 984199330A5E67BE0009A093 /* Highlight.png */; };
-		984199380A5E67BE0009A093 /* HighlightFocus.png in Resources */ = {isa = PBXBuildFile; fileRef = 984199340A5E67BE0009A093 /* HighlightFocus.png */; };
 		9841993C0A5E67DC0009A093 /* SESplitDot.tif in Resources */ = {isa = PBXBuildFile; fileRef = 984199390A5E67DC0009A093 /* SESplitDot.tif */; };
 		9841993D0A5E67DC0009A093 /* SEHSplitBar.tif in Resources */ = {isa = PBXBuildFile; fileRef = 9841993A0A5E67DC0009A093 /* SEHSplitBar.tif */; };
 		9841993E0A5E67DC0009A093 /* SEVSplitBar.tif in Resources */ = {isa = PBXBuildFile; fileRef = 9841993B0A5E67DC0009A093 /* SEVSplitBar.tif */; };
@@ -95,6 +92,10 @@
 		98DDE9740A612DED00D76698 /* SEActionEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 98DDE9730A612DED00D76698 /* SEActionEditor.h */; };
 		98DDE9780A612DFF00D76698 /* SEActionEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 98DDE9770A612DFF00D76698 /* SEActionEditor.m */; };
 		98DDEA060A61372800D76698 /* SEActionEditor.nib in Resources */ = {isa = PBXBuildFile; fileRef = 98DDEA040A61372800D76698 /* SEActionEditor.nib */; };
+		98E033D00A84C04F00BED686 /* SETypeChooser.m in Sources */ = {isa = PBXBuildFile; fileRef = 98E033CF0A84C04F00BED686 /* SETypeChooser.m */; };
+		98E033D20A84C06100BED686 /* SETypeChooser.h in Headers */ = {isa = PBXBuildFile; fileRef = 98E033D10A84C06100BED686 /* SETypeChooser.h */; };
+		98E034160A84C4CE00BED686 /* SETypeCell.nib in Resources */ = {isa = PBXBuildFile; fileRef = 98E034140A84C4CE00BED686 /* SETypeCell.nib */; };
+		98E0341A0A84C4E500BED686 /* SETypeChooser.nib in Resources */ = {isa = PBXBuildFile; fileRef = 98E034180A84C4E500BED686 /* SETypeChooser.nib */; };
 		98E66CC40759FA7C0048A37D /* HotKeySparkList.icns in Resources */ = {isa = PBXBuildFile; fileRef = 98E66CC10759FA7C0048A37D /* HotKeySparkList.icns */; };
 		98E66CC50759FA7C0048A37D /* ApplicationSparkList.icns in Resources */ = {isa = PBXBuildFile; fileRef = 98E66CC20759FA7C0048A37D /* ApplicationSparkList.icns */; };
 		98E66CC60759FA7C0048A37D /* ActionSparkList.icns in Resources */ = {isa = PBXBuildFile; fileRef = 98E66CC30759FA7C0048A37D /* ActionSparkList.icns */; };
@@ -334,10 +335,7 @@
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		980DA18F06E65FF30038EE2A /* ActionLibraryList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionLibraryList.m; sourceTree = "<group>"; };
-		980DA19206E660080038EE2A /* ActionLibraryList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionLibraryList.h; sourceTree = "<group>"; };
 		980DA1A706E6628A0038EE2A /* ActionListIcon.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = ActionListIcon.tif; sourceTree = "<group>"; };
-		981A88B70A61967600753369 /* SEVirtualPlugIn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEVirtualPlugIn.h; sourceTree = "<group>"; };
-		981A88B80A61967600753369 /* SEVirtualPlugIn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEVirtualPlugIn.m; sourceTree = "<group>"; };
 		981A8A340A61A25800753369 /* SETriggerEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SETriggerEntry.h; sourceTree = "<group>"; };
 		981A8A350A61A25800753369 /* SETriggerEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SETriggerEntry.m; sourceTree = "<group>"; };
 		981A8A6D0A61A3BB00753369 /* IgnoreAction.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = IgnoreAction.tif; sourceTree = "<group>"; };
@@ -352,7 +350,6 @@
 		981FB3F806FF5708003CDEF5 /* ObjectsTableDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectsTableDataSource.h; sourceTree = "<group>"; };
 		981FB40406FF579A003CDEF5 /* ListsTableDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListsTableDataSource.m; sourceTree = "<group>"; };
 		981FB40606FF57A9003CDEF5 /* ListsTableDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListsTableDataSource.h; sourceTree = "<group>"; };
-		9820C71406F1E8A20007C08D /* CustomActionList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomActionList.h; sourceTree = "<group>"; };
 		98240159060C7ABE00A0DB07 /* Spark.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spark.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		98240182060C7B0700A0DB07 /* KeyLibraryList.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = KeyLibraryList.m; sourceTree = "<group>"; };
 		98240183060C7B0700A0DB07 /* ActionPlugInList.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ActionPlugInList.m; sourceTree = "<group>"; };
@@ -442,8 +439,6 @@
 		984BCE44060C7E990043CDEA /* PlugInListIcon.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = PlugInListIcon.tif; sourceTree = "<group>"; };
 		984BCE45060C7E990043CDEA /* Warning.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Warning.tiff; sourceTree = "<group>"; };
 		984BCE5F060C7EBD0043CDEA /* SparkSuite.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.sdef; path = SparkSuite.sdef; sourceTree = "<group>"; };
-		984BCE66060C7FEC0043CDEA /* KeyLibraryList.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = KeyLibraryList.h; sourceTree = "<group>"; };
-		984BCE67060C7FEC0043CDEA /* ActionPlugInList.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ActionPlugInList.h; sourceTree = "<group>"; };
 		984BCE6A060C7FEC0043CDEA /* SEScriptHandler.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = SEScriptHandler.h; path = "../../Headers/Server Comm/SEScriptHandler.h"; sourceTree = "<group>"; };
 		984BCE6B060C7FEC0043CDEA /* ServerController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ServerController.h; sourceTree = "<group>"; };
 		984BCE6C060C7FEC0043CDEA /* Spark.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Spark.h; sourceTree = "<group>"; };
@@ -504,9 +499,7 @@
 		98A9226F0A7B8ED300DF1998 /* SEApplicationSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEApplicationSource.h; sourceTree = "<group>"; };
 		98AC962D073F57FB0004BD09 /* SparkImporter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SparkImporter.m; sourceTree = "<group>"; };
 		98AEEFF4073690F0000913F3 /* KeyWarningList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyWarningList.m; sourceTree = "<group>"; };
-		98AEEFF607369107000913F3 /* KeyWarningList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyWarningList.h; sourceTree = "<group>"; };
 		98B07E4406FA33E200C1E88B /* ApplicationLibraryList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplicationLibraryList.m; sourceTree = "<group>"; };
-		98B07E4606FA33F100C1E88B /* ApplicationLibraryList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplicationLibraryList.h; sourceTree = "<group>"; };
 		98B07ED606FA45C600C1E88B /* ApplicationsTableDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplicationsTableDataSource.m; sourceTree = "<group>"; };
 		98B07ED806FA45D600C1E88B /* ApplicationsTableDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplicationsTableDataSource.h; sourceTree = "<group>"; };
 		98B07EE606FA483600C1E88B /* ApplicationListIcon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = ApplicationListIcon.tiff; sourceTree = "<group>"; };
@@ -537,7 +530,10 @@
 		98DDE9770A612DFF00D76698 /* SEActionEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEActionEditor.m; sourceTree = "<group>"; };
 		98DDEA050A61372800D76698 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SEActionEditor.nib; sourceTree = "<group>"; };
 		98DE1EB006FCC876006876A3 /* KeyPlugInList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyPlugInList.m; sourceTree = "<group>"; };
-		98DE1EB206FCC887006876A3 /* KeyPlugInList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyPlugInList.h; sourceTree = "<group>"; };
+		98E033CF0A84C04F00BED686 /* SETypeChooser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SETypeChooser.m; sourceTree = "<group>"; };
+		98E033D10A84C06100BED686 /* SETypeChooser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SETypeChooser.h; sourceTree = "<group>"; };
+		98E034150A84C4CE00BED686 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SETypeCell.nib; sourceTree = "<group>"; };
+		98E034190A84C4E500BED686 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SETypeChooser.nib; sourceTree = "<group>"; };
 		98E1F9D806F35B3800DDA29E /* ObjectEditorController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjectEditorController.m; sourceTree = "<group>"; };
 		98E1F9DB06F35B5100DDA29E /* ObjectEditorController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectEditorController.h; sourceTree = "<group>"; };
 		98E66CC10759FA7C0048A37D /* HotKeySparkList.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = HotKeySparkList.icns; sourceTree = "<group>"; };
@@ -547,7 +543,6 @@
 		98EA6B2F0A5E7C2D0019E26C /* SETriggersController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SETriggersController.h; sourceTree = "<group>"; };
 		98EF8306086462FF007BC81A /* HotKeyToolKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = HotKeyToolKit.xcodeproj; path = ../HotKeyToolKit/HotKeyToolKit.xcodeproj; sourceTree = SOURCE_ROOT; };
 		98EF830F0864630B007BC81A /* SparkKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SparkKit.xcodeproj; path = ../SparkKit/SparkKit.xcodeproj; sourceTree = SOURCE_ROOT; };
-		98F2DEBC0715E21F001BBF29 /* SparkAppleScriptSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkAppleScriptSuite.h; sourceTree = "<group>"; };
 		98F3635806FF72D900FD6673 /* Library.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Library.tif; sourceTree = "<group>"; };
 		98F4A9B80770C8630074FE70 /* SecurityFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SecurityFoundation.framework; path = /System/Library/Frameworks/SecurityFoundation.framework; sourceTree = "<absolute>"; };
 		98F746010A5C560A003D4BE1 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SELibraryWindow.nib; sourceTree = "<group>"; };
@@ -673,8 +668,6 @@
 			children = (
 				981A8A340A61A25800753369 /* SETriggerEntry.h */,
 				981A8A350A61A25800753369 /* SETriggerEntry.m */,
-				981A88B70A61967600753369 /* SEVirtualPlugIn.h */,
-				981A88B80A61967600753369 /* SEVirtualPlugIn.m */,
 			);
 			path = Objects;
 			sourceTree = "<group>";
@@ -953,25 +946,10 @@
 			children = (
 				984BCE6D060C7FEC0043CDEA /* UI Controllers */,
 				984BCE69060C7FEC0043CDEA /* Server Comm */,
-				984BCE65060C7FEC0043CDEA /* Library */,
 				98593CED073EE7DE003BA845 /* Import/Export */,
 				984BCE7A060C7FEC0043CDEA /* UI Extension */,
 			);
 			path = Headers;
-			sourceTree = "<group>";
-		};
-		984BCE65060C7FEC0043CDEA /* Library */ = {
-			isa = PBXGroup;
-			children = (
-				984BCE66060C7FEC0043CDEA /* KeyLibraryList.h */,
-				980DA19206E660080038EE2A /* ActionLibraryList.h */,
-				98B07E4606FA33F100C1E88B /* ApplicationLibraryList.h */,
-				98DE1EB206FCC887006876A3 /* KeyPlugInList.h */,
-				984BCE67060C7FEC0043CDEA /* ActionPlugInList.h */,
-				98AEEFF607369107000913F3 /* KeyWarningList.h */,
-				9820C71406F1E8A20007C08D /* CustomActionList.h */,
-			);
-			path = Library;
 			sourceTree = "<group>";
 		};
 		984BCE69060C7FEC0043CDEA /* Server Comm */ = {
@@ -1059,7 +1037,6 @@
 			isa = PBXGroup;
 			children = (
 				984BCE6C060C7FEC0043CDEA /* Spark.h */,
-				98F2DEBC0715E21F001BBF29 /* SparkAppleScriptSuite.h */,
 			);
 			name = Headers;
 			path = ../Headers;
@@ -1071,6 +1048,7 @@
 				985AF9DC0A5C335D00397FAA /* Headers */,
 				981A8A9E0A61A4E400753369 /* SEEntryEditor.m */,
 				98DDE9770A612DFF00D76698 /* SEActionEditor.m */,
+				98E033CF0A84C04F00BED686 /* SETypeChooser.m */,
 				983BE16C0A7E402600E0228F /* SELibrarySource.m */,
 				985AF9FA0A5C33D400397FAA /* SELibraryWindow.m */,
 				98A9226B0A7B8EC300DF1998 /* SEApplicationSource.m */,
@@ -1084,6 +1062,7 @@
 			children = (
 				981A8A9A0A61A4D600753369 /* SEEntryEditor.h */,
 				98DDE9730A612DED00D76698 /* SEActionEditor.h */,
+				98E033D10A84C06100BED686 /* SETypeChooser.h */,
 				983BE1730A7E402F00E0228F /* SELibrarySource.h */,
 				985AFA000A5C33D900397FAA /* SELibraryWindow.h */,
 				98A9226F0A7B8ED300DF1998 /* SEApplicationSource.h */,
@@ -1223,6 +1202,8 @@
 				98F746000A5C560A003D4BE1 /* SELibraryWindow.nib */,
 				98DDEA040A61372800D76698 /* SEActionEditor.nib */,
 				981A8A930A61A49D00753369 /* SEEntryEditor.nib */,
+				98E034140A84C4CE00BED686 /* SETypeCell.nib */,
+				98E034180A84C4E500BED686 /* SETypeChooser.nib */,
 			);
 			name = Editors;
 			sourceTree = "<group>";
@@ -1243,7 +1224,6 @@
 				98EA6B300A5E7C2D0019E26C /* SETriggersController.h in Headers */,
 				98DDE9740A612DED00D76698 /* SEActionEditor.h in Headers */,
 				98B2C6C60A617AA500D9D719 /* SEScriptHandler.h in Headers */,
-				981A88B90A61967600753369 /* SEVirtualPlugIn.h in Headers */,
 				981A8A360A61A25800753369 /* SETriggerEntry.h in Headers */,
 				981A8A9B0A61A4D600753369 /* SEEntryEditor.h in Headers */,
 				98418EA90A65968A003FD0D7 /* SEHotKeyTrap.h in Headers */,
@@ -1251,6 +1231,7 @@
 				98A922700A7B8ED300DF1998 /* SEApplicationSource.h in Headers */,
 				983BE1740A7E402F00E0228F /* SELibrarySource.h in Headers */,
 				9831335F0A825E0600F733FB /* SETriggerCell.h in Headers */,
+				98E033D20A84C06100BED686 /* SETypeChooser.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1479,7 +1460,6 @@
 				984199350A5E67BE0009A093 /* Add.png in Resources */,
 				984199360A5E67BE0009A093 /* AddDown.png in Resources */,
 				984199370A5E67BE0009A093 /* Highlight.png in Resources */,
-				984199380A5E67BE0009A093 /* HighlightFocus.png in Resources */,
 				9841993C0A5E67DC0009A093 /* SESplitDot.tif in Resources */,
 				9841993D0A5E67DC0009A093 /* SEHSplitBar.tif in Resources */,
 				9841993E0A5E67DC0009A093 /* SEVSplitBar.tif in Resources */,
@@ -1499,6 +1479,8 @@
 				98A6629D0A66FC6F00A7B020 /* start.tif in Resources */,
 				98A6629F0A66FC7300A7B020 /* start_down.tif in Resources */,
 				982AF3E50A7A7C9100D17D65 /* Library.tif in Resources */,
+				98E034160A84C4CE00BED686 /* SETypeCell.nib in Resources */,
+				98E0341A0A84C4E500BED686 /* SETypeChooser.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1528,7 +1510,6 @@
 				984196E00A5E54740009A093 /* SETableView.m in Sources */,
 				98DDE9780A612DFF00D76698 /* SEActionEditor.m in Sources */,
 				98B2C6C50A617AA200D9D719 /* SEScriptHandler.m in Sources */,
-				981A88BA0A61967600753369 /* SEVirtualPlugIn.m in Sources */,
 				981A8A370A61A25800753369 /* SETriggerEntry.m in Sources */,
 				981A8A9F0A61A4E400753369 /* SEEntryEditor.m in Sources */,
 				98418EAA0A65968A003FD0D7 /* SEHotKeyTrap.m in Sources */,
@@ -1537,6 +1518,7 @@
 				983BE16E0A7E402600E0228F /* SELibrarySource.m in Sources */,
 				98F177FB0A80EA8500654AC5 /* SETriggersController.m in Sources */,
 				983133600A825E0600F733FB /* SETriggerCell.m in Sources */,
+				98E033D00A84C04F00BED686 /* SETypeChooser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1805,6 +1787,22 @@
 				98DDEA050A61372800D76698 /* English */,
 			);
 			name = SEActionEditor.nib;
+			sourceTree = "<group>";
+		};
+		98E034140A84C4CE00BED686 /* SETypeCell.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				98E034150A84C4CE00BED686 /* English */,
+			);
+			name = SETypeCell.nib;
+			sourceTree = "<group>";
+		};
+		98E034180A84C4E500BED686 /* SETypeChooser.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				98E034190A84C4E500BED686 /* English */,
+			);
+			name = SETypeChooser.nib;
 			sourceTree = "<group>";
 		};
 		98F746000A5C560A003D4BE1 /* SELibraryWindow.nib */ = {
