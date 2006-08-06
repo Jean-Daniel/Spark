@@ -6,15 +6,18 @@
  *  Copyright 2004-2006 Shadow Lab. All rights reserved.
  */
 
+#import <ApplicationServices/ApplicationServices.h>
+#import <HotKeyToolKit/HKBase.h>
 #import <HotKeyToolKit/HKHotKey.h>
 
 /* Sleeping interval between 2 key events (microseconds). Defaults: 5 ms */
-extern UInt32 HKEventSleepInterval;
+HK_EXPORT
+UInt32 HKEventSleepInterval;
 
-extern
+HK_EXPORT
 void HKEventPostKeystroke(CGKeyCode keycode, CGEventFlags modifier, CGEventSourceRef source);
 
-extern
+HK_EXPORT
 Boolean HKEventPostCharacterKeystrokes(UniChar character, CGEventSourceRef source);
 
 typedef union {
@@ -39,10 +42,10 @@ typedef enum {
  @param      psn The target process serial number or nil to send event to front process.
  @result     Returns true of successfully sent.
  */
-extern 
+HK_EXPORT
 Boolean HKEventPostKeystrokeToTarget(CGKeyCode keycode, CGEventFlags modifier, HKEventTarget target, HKEventTargetType type, CGEventSourceRef source);
 
-extern 
+HK_EXPORT
 Boolean HKEventPostCharacterKeystrokesToTarget(UniChar character, HKEventTarget target, HKEventTargetType type, CGEventSourceRef source);
 
 @interface HKHotKey (HKEventExtension)

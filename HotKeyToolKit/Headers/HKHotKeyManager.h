@@ -8,6 +8,8 @@
 /*!
     @header HKHotKeyManager
 */
+#import <Foundation/Foundation.h>
+#import <HotKeyToolKit/HKBase.h>
 
 /*!
     @typedef 	HKHotKeyFilter CallBack.
@@ -85,4 +87,5 @@ typedef BOOL (*HKHotKeyFilter)(UInt32 keycode, UInt32 modifier);
 @end
 
 /* Debugging purpose */
-extern BOOL HKTraceHotKeyEvents;
+HK_EXPORT
+BOOL HKTraceHotKeyEvents;

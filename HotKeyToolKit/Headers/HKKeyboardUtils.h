@@ -10,6 +10,7 @@
     @abstract   Abstract layer to access KeyMap on KCHR Keyboard or uchr Keyboard.
 */
 #include <CoreServices/CoreServices.h>
+#import <HotKeyToolKit/HKBase.h>
 
 typedef struct HKKeyMapContext HKKeyMapContext;
 typedef UniChar (*HKBaseCharacterForKeyCodeFunction)(void *ctxt, UInt32 keycode);
@@ -32,5 +33,7 @@ struct HKKeyMapContext {
 #endif
 };
 
+HK_PRIVATE
 OSStatus HKKeyMapContextWithKCHRData(const void *layout, Boolean reverse, HKKeyMapContext *ctxt);
+HK_PRIVATE
 OSStatus HKKeyMapContextWithUchrData(const UCKeyboardLayout *layout, Boolean reverse, HKKeyMapContext *ctxt);

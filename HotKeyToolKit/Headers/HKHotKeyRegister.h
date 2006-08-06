@@ -8,6 +8,7 @@
 /*!
     @header HKHotKeyRegister
 */
+#import <HotKeyToolKit/HKBase.h>
 
 /*!
     @function   HKRegisterHotKey
@@ -17,6 +18,7 @@
     @param      hotKeyId An uniq HotKeyID passed as parameter in callback function.
     @result     Returns a EventHotKeyRef that you must keep to unregister the HotKey.
 */
+HK_PRIVATE
 EventHotKeyRef HKRegisterHotKey(UInt16 keycode, UInt32 modifier, EventHotKeyID hotKeyId);
 /*!
     @function   UnregisterHotKey
@@ -24,4 +26,5 @@ EventHotKeyRef HKRegisterHotKey(UInt16 keycode, UInt32 modifier, EventHotKeyID h
     @param      ref The event HotKey Reference obtains during registration.
     @result     Return YES if the key is succesfully unregistred.
 */
+HK_PRIVATE
 BOOL HKUnregisterHotKey(EventHotKeyRef ref);

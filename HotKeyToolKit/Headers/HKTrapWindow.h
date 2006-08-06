@@ -10,6 +10,7 @@
  */
 
 #import <Cocoa/Cocoa.h>
+#import <HotKeyToolKit/HKBase.h>
 
 #pragma mark Constants Declaration
 /*!
@@ -20,11 +21,15 @@
 				- kHKEventModifierKey: A NSNumber<br />
 				- kHKEventCharacterKey: A NSNumber<br />
 */
-extern NSString * const kHKTrapWindowKeyCatchedNotification;
+HK_EXPORT
+NSString * const kHKTrapWindowKeyCatchedNotification;
 
-extern NSString * const kHKEventKeyCodeKey;
-extern NSString * const kHKEventModifierKey;
-extern NSString * const kHKEventCharacterKey;
+HK_EXPORT
+NSString * const kHKEventKeyCodeKey;
+HK_EXPORT
+NSString * const kHKEventModifierKey;
+HK_EXPORT
+NSString * const kHKEventCharacterKey;
 
 #pragma mark -
 /*!

@@ -8,15 +8,15 @@
 /*!
 @header HKHotKey
  */
-
 #import <Foundation/Foundation.h>
+#import <HotKeyToolKit/HKBase.h>
 
 /*!
 @function
  @abstract Returns the time interval between two repeat key down event.
  @result Returns the key repeat interval setted in "System Preferences".
  */
-extern
+HK_EXPORT
 NSTimeInterval HKGetSystemKeyRepeatInterval(void);
 
 /*!
@@ -24,7 +24,7 @@ NSTimeInterval HKGetSystemKeyRepeatInterval(void);
  @abstract Returns the time interval between a key is pressed and system start to repeat key down event.
  @result Returns the initial key repeat interval setted in "System Preferences".
  */
-extern 
+HK_EXPORT 
 NSTimeInterval HKGetSystemKeyRepeatThreshold(void);
 
 /*!

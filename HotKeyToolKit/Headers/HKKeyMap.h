@@ -11,9 +11,11 @@
 */
 
 #import <Foundation/Foundation.h>
+#import <HotKeyToolKit/HKBase.h>
 
 #pragma mark Constants definition
-extern const UniChar kHKNilUnichar;
+HK_EXPORT
+const UniChar kHKNilUnichar;
 
 /*!
     @enum 		Virtual Keycodes
@@ -200,7 +202,7 @@ enum {
  @param      count On return, count of keystokes needed to generate this character. Pass <code>NULL</code> if you do not want it.
  @result     Returns virtual keycode of the first keystroke needed ot generate <code>character</code>.
  */
-extern
+HK_EXPORT
 UInt32 HKMapGetKeycodeAndModifierForUnichar(UniChar character, UInt32 *modifier, UInt32 *count);
 
 /*!
@@ -212,7 +214,7 @@ UInt32 HKMapGetKeycodeAndModifierForUnichar(UniChar character, UInt32 *modifier,
  @param      maxcount Size of keys and modifiers array.
  @result     Returns Count of keystroke needed to generate character. Can be more than maxcount.
  */
-extern 
+HK_EXPORT 
 UInt32 HKMapGetKeycodesAndModifiersForUnichar(UniChar character, UInt32 *keys, UInt32 *modifiers, UInt32 maxcount);
 
 /*!
@@ -222,14 +224,14 @@ UInt32 HKMapGetKeycodesAndModifiersForUnichar(UniChar character, UInt32 *keys, U
 	@param      keycode A virtual keycode.
 	@result     an Unichar corresponding to keycode passed.
  */
-extern
+HK_EXPORT
 UniChar HKMapGetUnicharForKeycode(UInt32 keycode);
 
 /*!
     @function
     @abstract   Returns the name of the current keyMap.
 */
-extern
+HK_EXPORT
 NSString* HKMapGetCurrentMapName(void);
 
 /*!
@@ -238,7 +240,7 @@ NSString* HKMapGetCurrentMapName(void);
     @param      character 
     @param      modifier If <i>modifier</i> is nil, return a representation of the key Unichar.
 */
-extern 
+HK_EXPORT 
 NSString* HKMapGetStringRepresentationForCharacterAndModifier(UniChar character, UInt32 modifier);
 
 typedef enum {
@@ -253,10 +255,9 @@ typedef enum {
 	@param      mask A Cocoa modifier mask.
 	@result     Return a carbon modifier.
  */
-extern
+HK_EXPORT
 UInt32 HKUtilsConvertModifier(UInt32 modifier, HKModifierFormat input, HKModifierFormat output);
 
-
-extern
+HK_EXPORT
 void HKMapDumpInternalStorage(bool reverse);
 

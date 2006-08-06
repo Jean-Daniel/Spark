@@ -11,9 +11,9 @@
 #import "HKHotKeyManager.h"
 
 #pragma mark Constants Definition
-NSString * const kHKEventKeyCodeKey = @"Keycode";
-NSString * const kHKEventModifierKey = @"Modifier";
-NSString * const kHKEventCharacterKey = @"Character";
+NSString * const kHKEventKeyCodeKey = @"EventKeycode";
+NSString * const kHKEventModifierKey = @"EventModifier";
+NSString * const kHKEventCharacterKey = @"EventCharacter";
 NSString * const kHKTrapWindowKeyCatchedNotification = @"kHKTrapWindowKeyCatched";
 
 #pragma mark -
@@ -76,17 +76,18 @@ NSString * const kHKTrapWindowKeyCatchedNotification = @"kHKTrapWindowKeyCatched
 #pragma mark -
 #pragma mark Event Trap.
 - (BOOL)performKeyEquivalent:(NSEvent *)theEvent {
-  BOOL perform;
-  if (SKDelegateHandle([self delegate], trapWindow:needPerformKeyEquivalent:))  {
-    perform = [[self delegate] trapWindow:self needPerformKeyEquivalent:theEvent];
-  } else {
-    perform = NO;
-  }
-  if (hk_twFlags.trap && !hk_twFlags.block && !perform) {
-    hk_twFlags.block = 1;
-    [self sendEvent:theEvent];
-    hk_twFlags.block = 0;
-    return YES;
+  if (hk_twFlags.trap &&  !hk_twFlags.block) {
+    BOOL perform = NO;
+    if (SKDelegateHandle([self delegate], trapWindow:needPerformKeyEquivalent:))  {
+      perform = [[self delegate] trapWindow:self needPerformKeyEquivalent:theEvent];
+    }
+    /* If should not perform */
+    if (!perform) {
+      hk_twFlags.block = 1;
+      [self sendEvent:theEvent];
+      hk_twFlags.block = 0;
+      return YES;
+    }
   }
   return [super performKeyEquivalent:theEvent];
 }
