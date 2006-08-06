@@ -22,6 +22,7 @@
 #import <ShadowKit/SKFSFunctions.h>
 #import <ShadowKit/SKLSFunctions.h>
 #import <ShadowKit/SKSerialization.h>
+#import <ShadowKit/SKAppKitExtensions.h>
 
 NSString * const kSparkLibraryFileExtension = @"splib";
 
@@ -37,6 +38,8 @@ static NSString * const kSparkListSetKey = @"SparkListSet";
 static NSString * const kSparkActionLibrary = @"SparkActionSet";
 static NSString * const kSparkTriggerLibrary = @"SparkTriggerSet";
 static NSString * const kSparkApplicationLibrary = @"SparkApplicationSet";
+
+static SparkAction *gSparkIgnoreAction = nil;
 
 #ifdef DEBUG
 #warning Using Development Spark Library
@@ -72,6 +75,8 @@ const UInt32 kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_0;
   // Make sure plugin are loaded
   if ([SparkLibrary class] == self) {
     [SparkActionLoader sharedLoader];
+    gSparkIgnoreAction = [[SparkAction alloc] initWithName:@"Ignore Spark" 
+                                                      icon:[NSImage imageNamed:@"IgnoreAction" inBundle:SKCurrentBundle()]];
   }
 }
 
@@ -301,7 +306,7 @@ bail:
                                                             &kSKNSObjectDictionaryValueCallBacks);
   while (count-- > 0) {
     if (application == entry->application) {
-      SparkAction *action = [actions objectForUID:entry->action];
+      SparkAction *action = entry->action ? [actions objectForUID:entry->action] : gSparkIgnoreAction;
       /* if action not found, no need to look for trigger, but should not append */
       SparkTrigger *trigger = action ? [triggers objectForUID:entry->trigger] : nil;
       if (action && trigger) {
@@ -445,6 +450,7 @@ bail:
       while (key = [entries nextObject]) {
         SparkEntry entry;
         entry.action = [[map objectForKey:key] unsignedIntValue];
+        /* If action is not 'Ignore Spark', adjust uid. */
         if (entry.action) entry.action += kSparkLibraryReserved;
         entry.trigger = [trigger uid];
         entry.application = [key intValue];
@@ -478,7 +484,7 @@ bail:
         if (CFSetContainsValue(actions, (void *)[action uid])) {
           [library addObject:action];
         } else {
-          DLog(@"Ignore orphan item: %@", action);
+          DLog(@"Ignore orphan action: %@", action);
         }
       } else {
         DLog(@"Discard invalid action: %@", action);

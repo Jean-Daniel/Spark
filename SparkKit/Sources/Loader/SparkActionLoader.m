@@ -48,15 +48,19 @@
   return plug;
 }
 
-- (SparkPlugIn *)plugInForAction:(SparkAction *)action {
+- (SparkPlugIn *)plugInForActionClass:(Class)cls {
   SInt32 count = [[self plugins] count];
   while (count-- > 0) {
     SparkPlugIn *plugin = [[self plugins] objectAtIndex:count];
-    if ([action isKindOfClass:[plugin actionClass]]) {
+    if ([cls isSubclassOfClass:[plugin actionClass]]) {
       return plugin;
     }
   }
   return nil;
+}
+
+- (SparkPlugIn *)plugInForAction:(SparkAction *)action {
+  return [self plugInForActionClass:[action class]];
 }
 
 @end

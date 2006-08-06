@@ -23,5 +23,6 @@
 }
 
 - (SparkPlugIn *)plugInForAction:(SparkAction *)action;
+- (SparkPlugIn *)plugInForActionClass:(Class)cls;
 
 @end

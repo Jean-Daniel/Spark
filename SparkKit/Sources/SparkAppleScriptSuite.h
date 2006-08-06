@@ -11,7 +11,7 @@ typedef enum {
   kSparkDaemonStarted = 'strt',
   kSparkDaemonStopped = 'stop',
   kSparkDaemonError = 'erro'
-} DaemonStatus;
+} SparkDaemonStatus;
 
 enum {
   kSparkEditorScriptSuite = 'Sprk',

@@ -111,7 +111,7 @@
   return image;
 }
 
-+ (NSString *)helpFile {
+ + (NSString *)helpFile {
   NSString *path = nil;
   NSBundle *bundle = SKCurrentBundle();
   NSString *help = [bundle objectForInfoDictionaryKey:@"SparkHelpFile"];
@@ -127,6 +127,26 @@
       path = [bundle pathForResource:help ofType:@"rtfd"];
   }
   return path;
+}
+
+@end
+
+#pragma mark -
+@implementation SparkActionPlugIn (SparkExtended)
+
++ (NSImage *)descriptionIcon {
+  NSBundle *bundle = SKCurrentBundle();
+  NSString *name = [bundle objectForInfoDictionaryKey:@"SparkPluginDescriptionIcon"];
+  return [NSImage imageNamed:name inBundle:bundle];
+}
+
++ (NSString *)plugInDescription {
+  NSBundle *bundle = SKCurrentBundle();
+  NSString *desc = [bundle objectForInfoDictionaryKey:@"SparkPluginDescription"];
+  if (!desc) {
+    desc = @"";
+  }
+  return desc;
 }
 
 @end

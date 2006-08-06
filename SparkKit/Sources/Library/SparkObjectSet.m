@@ -325,5 +325,31 @@ static NSImage *__SparkWarningImage = nil;
   return NO;
 }
 
+- (void)forwardInvocation:(NSInvocation *)invocation {
+  DLog(@"-[%@ %@]", [self class], NSStringFromSelector([invocation selector]));
+  if ([[invocation methodSignature] methodReturnLength] > 0) {
+    char buffer[32];
+    bzero(buffer, 32);
+    [invocation setReturnValue:buffer];
+  }
+}
+
+@class SparkAction, SparkTrigger, SparkList;
+- (NSMethodSignature *)methodSignatureForSelector:(SEL)sel {
+  if ([self respondsToSelector:sel])
+    return [super methodSignatureForSelector:sel];
+  if ([[SparkAction class] instancesRespondToSelector:sel])
+    return [[SparkAction class] instanceMethodSignatureForSelector:sel];
+  if ([[SparkTrigger class] instancesRespondToSelector:sel])
+    return [[SparkTrigger class] instanceMethodSignatureForSelector:sel];
+  if ([[SparkApplication class] instancesRespondToSelector:sel])
+    return [[SparkApplication class] instanceMethodSignatureForSelector:sel];
+  if ([[SparkList class] instancesRespondToSelector:sel])
+    return [[SparkList class] instanceMethodSignatureForSelector:sel];
+  return nil;
+}
+
+//+ (BOOL)respondsToSelector:(SEL)aSelector {
+//}
 
 @end
