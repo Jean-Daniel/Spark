@@ -324,17 +324,45 @@ static NSImage *_HKCreateShading(NSControlTint tint);
   }
 }
 
+- (void)clear {
+  if (!se_htFlags.trap) {
+    [se_str release];
+    se_str = nil;
+    se_character = kHKNilUnichar;
+    se_keycode = kHKInvalidVirtualKeyCode;
+  }
+}
+
 - (void)keyDown:(NSEvent *)theEvent {
   /* No modifier and cancel pressed */
-  if (se_htFlags.trap && ([theEvent modifierFlags] & SEValidModifiersFlags) == 0) {
-    if ([[theEvent characters] isEqualToString:@"\e"]) {
-      [self revert];
-      [self setTrapping:NO];
-      return;
-    } else if ([[theEvent characters] isEqualToString:@"\r"] || [[theEvent characters] isEqualToString:@"\003"]) {
-      [self save];
-      [self setTrapping:NO];
-      return;
+  if (([theEvent modifierFlags] & SEValidModifiersFlags) == 0 && [[theEvent characters] length] > 0) {
+    unichar chr = [[theEvent characters] characterAtIndex:0];
+    if (se_htFlags.trap) {
+      switch (chr) {
+        case '\e':
+          [self revert];
+          [self setTrapping:NO];
+          return;
+        case '\r':
+        case 0x03:
+          [self save];
+          [self setTrapping:NO];
+          return;
+      }
+    } else {
+      switch (chr) {
+      /* Return or num pad enter */
+        case '\r':
+        case 0x03:
+          [self setTrapping:YES];
+          return;
+          /* Delete */
+        case 0x007f:
+        case NSDeleteFunctionKey:
+          [self clear];
+          [self setNeedsDisplay:YES];
+          return;
+      }
     }
   }
   [super keyDown:theEvent];
@@ -416,10 +444,7 @@ static NSImage *_HKCreateShading(NSControlTint tint);
   BOOL inButton = [self isInButtonRect:mouseLoc];
   if (se_htFlags.inbutton && inButton) {
     if (![self isTrapping]) {
-      [se_str release];
-      se_str = nil;
-      se_character = kHKNilUnichar;
-      se_keycode = kHKInvalidVirtualKeyCode;
+      [self clear];
     } else {
       /* Check if we use cancel mode */
       if (se_htFlags.cancel) {

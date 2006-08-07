@@ -361,7 +361,6 @@
 		9825AF2306FB4490003A4088 /* LibraryController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = LibraryController.m; sourceTree = "<group>"; };
 		9825AF4606FB5AB6003A4088 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/ApplicationLibrary.nib; sourceTree = "<group>"; };
 		9825AF4906FB5B94003A4088 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/ActionLibrary.nib; sourceTree = "<group>"; };
-		9825AF4C06FB5CD4003A4088 /* ApplicationLibraryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplicationLibraryController.m; sourceTree = "<group>"; };
 		98300525076FC21B003A260D /* PluginInstaller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PluginInstaller.m; sourceTree = "<group>"; };
 		98300527076FC231003A260D /* PluginInstaller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PluginInstaller.h; sourceTree = "<group>"; };
 		98300532076FC3D2003A260D /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/PluginInstall.nib; sourceTree = "<group>"; };
@@ -462,8 +461,6 @@
 		989044A30A667C1F0024EC52 /* SparkSuite.scriptSuite */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SparkSuite.scriptSuite; sourceTree = "<group>"; };
 		989044A40A667C1F0024EC52 /* Scripting.r */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.rez; path = Scripting.r; sourceTree = "<group>"; };
 		989044A50A667C1F0024EC52 /* SparkSuite.scriptTerminology */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SparkSuite.scriptTerminology; sourceTree = "<group>"; };
-		989BC6E706E8495900B01F3E /* ActionEditorController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionEditorController.m; sourceTree = "<group>"; };
-		989BC6E906E8496500B01F3E /* ActionEditorController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionEditorController.h; sourceTree = "<group>"; };
 		98A662950A66FB7700A7B020 /* applelogo.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = applelogo.tif; sourceTree = "<group>"; };
 		98A91DA8074F55460029D278 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/Importer.nib; sourceTree = "<group>"; };
 		98A9226B0A7B8EC300DF1998 /* SEApplicationSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEApplicationSource.m; sourceTree = "<group>"; };
@@ -473,14 +470,10 @@
 		98B5507A06D23AE5001BDF93 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/Library.nib; sourceTree = "<group>"; };
 		98B5517C06D274B3001BDF93 /* DaemonPref.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = DaemonPref.tiff; sourceTree = "<group>"; };
 		98B5517D06D274B4001BDF93 /* EditorPref.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = EditorPref.tiff; sourceTree = "<group>"; };
-		98B6283E06FB951400766FCC /* ActionLibraryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionLibraryController.m; sourceTree = "<group>"; };
-		98B6284006FB952400766FCC /* ActionLibraryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionLibraryController.h; sourceTree = "<group>"; };
 		98B68D750715D13F00207120 /* Advanced.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Advanced.tiff; sourceTree = "<group>"; };
 		98B68D760715D13F00207120 /* Comment.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Comment.tiff; sourceTree = "<group>"; };
 		98B68D7C0715D64800207120 /* Simple.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Simple.tiff; sourceTree = "<group>"; };
 		98BCF0670708A9100039136F /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/AppActionEditor.nib; sourceTree = "<group>"; };
-		98BCF0690708A95D0039136F /* AppActionEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppActionEditor.m; sourceTree = "<group>"; };
-		98BCF06B0708A9750039136F /* AppActionEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppActionEditor.h; sourceTree = "<group>"; };
 		98C7035C07BAAED700F7AD87 /* Plugins Factory.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "Plugins Factory.xcodeproj"; path = "../Plugins Factory/Plugins Factory.xcodeproj"; sourceTree = SOURCE_ROOT; };
 		98C76E7D06FC213B0085EC78 /* ActionEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActionEditor.m; path = "Classes/UI Extensions/ActionEditor.m"; sourceTree = "<group>"; };
 		98C76E9006FC27D50085EC78 /* ActionEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionEditor.h; sourceTree = "<group>"; };
@@ -735,7 +728,6 @@
 			children = (
 				9825AF1D06FB446E003A4088 /* LibraryController.h */,
 				984BCE75060C7FEC0043CDEA /* KeyLibraryController.h */,
-				98B6284006FB952400766FCC /* ActionLibraryController.h */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -882,12 +874,12 @@
 		984BCE6D060C7FEC0043CDEA /* UI Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				98E1F9DA06F35B4800DDA29E /* Editors */,
+				9834216E0708C8F700F95E26 /* Libraries */,
 				988BDF8406FCECAE00DFEFA8 /* LibraryWindowController.h */,
 				986691AA06F7A907002C4E98 /* InspectorController.h */,
 				98DD524C071092F500B33C4B /* ChoosePanel.h */,
 				9837AA76071B11240057584D /* TableAlertController.h */,
-				9834216E0708C8F700F95E26 /* Libraries */,
-				98E1F9DA06F35B4800DDA29E /* Editors */,
 				984BCE73060C7FEC0043CDEA /* FirstRunController.h */,
 				984BCE78060C7FEC0043CDEA /* PluginHelpController.h */,
 				98300527076FC231003A260D /* PluginInstaller.h */,
@@ -972,8 +964,6 @@
 			children = (
 				9825AF2306FB4490003A4088 /* LibraryController.m */,
 				98240191060C7B0700A0DB07 /* KeyLibraryController.m */,
-				98B6283E06FB951400766FCC /* ActionLibraryController.m */,
-				9825AF4C06FB5CD4003A4088 /* ApplicationLibraryController.m */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1002,8 +992,8 @@
 		98B704BB0A86208E00DB692D /* Deprecated */ = {
 			isa = PBXGroup;
 			children = (
-				98B704BC0A86209F00DB692D /* Classes */,
 				984BCE64060C7FEC0043CDEA /* Headers */,
+				98B704BC0A86209F00DB692D /* Classes */,
 			);
 			name = Deprecated;
 			sourceTree = "<group>";
@@ -1038,10 +1028,8 @@
 			isa = PBXGroup;
 			children = (
 				98E1F9D806F35B3800DDA29E /* ObjectEditorController.m */,
-				989BC6E706E8495900B01F3E /* ActionEditorController.m */,
 				98240194060C7B0700A0DB07 /* ListEditorController.m */,
 				98240190060C7B0700A0DB07 /* KeyEditorController.m */,
-				98BCF0690708A95D0039136F /* AppActionEditor.m */,
 			);
 			name = Editors;
 			sourceTree = "<group>";
@@ -1050,10 +1038,8 @@
 			isa = PBXGroup;
 			children = (
 				98E1F9DB06F35B5100DDA29E /* ObjectEditorController.h */,
-				989BC6E906E8496500B01F3E /* ActionEditorController.h */,
 				984BCE74060C7FEC0043CDEA /* KeyEditorController.h */,
 				984BCE77060C7FEC0043CDEA /* ListEditorController.h */,
-				98BCF06B0708A9750039136F /* AppActionEditor.h */,
 			);
 			name = Editors;
 			sourceTree = "<group>";
