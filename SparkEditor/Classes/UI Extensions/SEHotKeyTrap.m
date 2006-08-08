@@ -540,3 +540,34 @@ static NSImage *_HKCreateShading(NSControlTint tint) {
   return SKCGCreateVerticalShading(32, kHKTrapHeight, __HKTrapShadingFunction, NULL);
 }
 
+//
+//@implementation SEHotKeyTrap (NSAccessibility)
+//
+//- (BOOL)accessibilityIsIgnored {
+//  return NO;
+//}
+//
+//- (id)accessibilityHitTest:(NSPoint)point {
+//  return self;
+//}
+//
+//- (id)accessibilityFocusedUIElement {
+//  return self;
+//}
+//
+//- (NSArray *)accessibilityActionNames {
+//  return [NSArray arrayWithObjects:NSAccessibilityPressAction, NSAccessibilityConfirmAction, NSAccessibilityCancelAction, NSAccessibilityDeleteAction, nil];
+//}
+//
+//- (NSString *)accessibilityActionDescription:(NSString *)action {
+//  return NSAccessibilityActionDescription(action);
+//}
+//
+//- (id)accessibilityAttributeValue:(NSString *)attribute {
+//  if ([attribute isEqualToString:NSAccessibilityRoleAttribute])
+//    return NSAccessibilityTextFieldRole;
+//  else return [super accessibilityAttributeValue:attribute];
+//}
+//
+//@end
+
