@@ -10,7 +10,6 @@
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 		982B010C05FE954600E8776D /* HKKeyboardUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 982B010A05FE954600E8776D /* HKKeyboardUtils.h */; };
 		982B010D05FE954600E8776D /* HKKeyboardUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 982B010B05FE954600E8776D /* HKKeyboardUtils.m */; };
-		984426C305F942E400551005 /* ShortCut.strings in Resources */ = {isa = PBXBuildFile; fileRef = 984426C105F942E400551005 /* ShortCut.strings */; };
 		984426CF05F9430700551005 /* HKHotKey.h in Headers */ = {isa = PBXBuildFile; fileRef = 984426C705F9430700551005 /* HKHotKey.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		984426D105F9430700551005 /* HKHotKeyManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 984426C905F9430700551005 /* HKHotKeyManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		984426D205F9430700551005 /* HKHotKeyRegister.h in Headers */ = {isa = PBXBuildFile; fileRef = 984426CA05F9430700551005 /* HKHotKeyRegister.h */; settings = {ATTRIBUTES = (); }; };
@@ -34,6 +33,7 @@
 		98C61C3C0A5814430004E6EF /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* HotKeyToolKit.framework */; };
 		98C61C5A0A58144C0004E6EF /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
 		98C61C6A0A5814C50004E6EF /* UITester.nib in Resources */ = {isa = PBXBuildFile; fileRef = 98C61C650A5814C50004E6EF /* UITester.nib */; };
+		98DD082F0A8A8F1D0082AF03 /* Keyboard.strings in Resources */ = {isa = PBXBuildFile; fileRef = 98DD082D0A8A8F1D0082AF03 /* Keyboard.strings */; };
 		98DD3E4C0A57B1B600F059E5 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98DD3DAC0A57B1B600F059E5 /* IOKit.framework */; };
 		98DD3FE30A57C2A200F059E5 /* ModifierMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 98DD3FE20A57C2A200F059E5 /* ModifierMap.m */; };
 		98DD42460A57C9BC00F059E5 /* HKEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 98DD42450A57C9BC00F059E5 /* HKEvent.m */; };
@@ -80,8 +80,6 @@
 		981B5F42093868ED0024C0D9 /* ShadowUniversal.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowUniversal.xcconfig; sourceTree = "<group>"; };
 		982B010A05FE954600E8776D /* HKKeyboardUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HKKeyboardUtils.h; path = Headers/HKKeyboardUtils.h; sourceTree = SOURCE_ROOT; };
 		982B010B05FE954600E8776D /* HKKeyboardUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKKeyboardUtils.m; sourceTree = "<group>"; };
-		984426C405F942EC00551005 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/ShortCut.strings; sourceTree = "<group>"; };
-		984426C505F942F800551005 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		984426C705F9430700551005 /* HKHotKey.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = HKHotKey.h; sourceTree = "<group>"; };
 		984426C905F9430700551005 /* HKHotKeyManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = HKHotKeyManager.h; sourceTree = "<group>"; };
 		984426CA05F9430700551005 /* HKHotKeyRegister.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = HKHotKeyRegister.h; sourceTree = "<group>"; };
@@ -106,9 +104,10 @@
 		98643F010A556F2200260086 /* Test-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Test-Info.plist"; sourceTree = "<group>"; };
 		9864CB72060D11DD00228F30 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
 		98B703D00A86146400DB692D /* HKBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKBase.h; sourceTree = "<group>"; };
-		98C61C1A0A5813EB0004E6EF /* UITester.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UITester.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		98C61C1A0A5813EB0004E6EF /* UITester.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = UITester.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		98C61C1C0A5813EB0004E6EF /* UITester-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "UITester-Info.plist"; sourceTree = "<group>"; };
 		98C61C650A5814C50004E6EF /* UITester.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = UITester.nib; sourceTree = "<group>"; };
+		98DD082E0A8A8F1D0082AF03 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Keyboard.strings; sourceTree = "<group>"; };
 		98DD3DAC0A57B1B600F059E5 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
 		98DD3FE20A57C2A200F059E5 /* ModifierMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModifierMap.m; sourceTree = "<group>"; };
 		98DD42450A57C9BC00F059E5 /* HKEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKEvent.m; sourceTree = "<group>"; };
@@ -200,8 +199,8 @@
 			children = (
 				984BCDC4060C7E4D0043CDEA /* HotKeyToolKit.icns */,
 				9864CB72060D11DD00228F30 /* Info.plist */,
-				984426C105F942E400551005 /* ShortCut.strings */,
 				089C1666FE841158C02AAC07 /* InfoPlist.strings */,
+				98DD082D0A8A8F1D0082AF03 /* Keyboard.strings */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -432,7 +431,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */,
-				984426C305F942E400551005 /* ShortCut.strings in Resources */,
+				98DD082F0A8A8F1D0082AF03 /* Keyboard.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -547,17 +546,16 @@
 			isa = PBXVariantGroup;
 			children = (
 				089C1667FE841158C02AAC07 /* English */,
-				984426C505F942F800551005 /* French */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		984426C105F942E400551005 /* ShortCut.strings */ = {
+		98DD082D0A8A8F1D0082AF03 /* Keyboard.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				984426C405F942EC00551005 /* English */,
+				98DD082E0A8A8F1D0082AF03 /* English */,
 			);
-			name = ShortCut.strings;
+			name = Keyboard.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

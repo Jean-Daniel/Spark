@@ -351,16 +351,16 @@ static NSImage *_HKCreateShading(NSControlTint tint);
       }
     } else {
       switch (chr) {
-      /* Return or num pad enter */
-        case '\r':
-        case 0x03:
-          [self setTrapping:YES];
-          return;
-          /* Delete */
+        /* Delete */
         case 0x007f:
         case NSDeleteFunctionKey:
           [self clear];
           [self setNeedsDisplay:YES];
+          return;
+          /* Return or num pad enter */
+        case '\r':
+        case 0x03:
+          [self setTrapping:YES];
           return;
       }
     }
@@ -540,34 +540,88 @@ static NSImage *_HKCreateShading(NSControlTint tint) {
   return SKCGCreateVerticalShading(32, kHKTrapHeight, __HKTrapShadingFunction, NULL);
 }
 
-//
-//@implementation SEHotKeyTrap (NSAccessibility)
-//
-//- (BOOL)accessibilityIsIgnored {
-//  return NO;
-//}
-//
-//- (id)accessibilityHitTest:(NSPoint)point {
-//  return self;
-//}
-//
-//- (id)accessibilityFocusedUIElement {
-//  return self;
-//}
-//
-//- (NSArray *)accessibilityActionNames {
-//  return [NSArray arrayWithObjects:NSAccessibilityPressAction, NSAccessibilityConfirmAction, NSAccessibilityCancelAction, NSAccessibilityDeleteAction, nil];
-//}
-//
-//- (NSString *)accessibilityActionDescription:(NSString *)action {
-//  return NSAccessibilityActionDescription(action);
-//}
-//
-//- (id)accessibilityAttributeValue:(NSString *)attribute {
-//  if ([attribute isEqualToString:NSAccessibilityRoleAttribute])
-//    return NSAccessibilityTextFieldRole;
-//  else return [super accessibilityAttributeValue:attribute];
-//}
-//
-//@end
+@interface SEHotKeyTrapButton : NSProxy {
+
+}
+
+@end
+
+@implementation SEHotKeyTrap (NSAccessibility)
+
+- (BOOL)accessibilityIsIgnored {
+  return NO;
+}
+
+- (id)accessibilityHitTest:(NSPoint)point {
+  return [self isInButtonRect:[self convertPoint:point fromView:nil]] ? nil : self;
+}
+
+- (id)accessibilityFocusedUIElement {
+  return self;
+}
+
+- (NSArray *)accessibilityActionNames {
+  return [NSArray arrayWithObjects:NSAccessibilityConfirmAction, NSAccessibilityCancelAction, NSAccessibilityDeleteAction, nil];
+}
+
+- (NSString *)accessibilityActionDescription:(NSString *)action {
+  return NSAccessibilityActionDescription(action);
+}
+
+- (void)accessibilityPerformAction:(NSString *)action {
+  if ([action isEqualToString:NSAccessibilityConfirmAction]) {
+    if (se_htFlags.trap) {
+      [self save];
+      [self setTrapping:NO];
+    } else {
+      [self setTrapping:YES];
+    }
+  } else if ([action isEqualToString:NSAccessibilityCancelAction]) {
+    if (se_htFlags.trap) {
+      [self revert];
+      [self setTrapping:NO];
+    }
+  } else if ([action isEqualToString:NSAccessibilityDeleteAction]) {
+    if (!se_htFlags.trap && ![self isEmpty]) {
+      [self clear];
+    }
+  } else {
+    [super accessibilityPerformAction:action];
+  }
+}
+
+- (NSArray *)accessibilityAttributeNames {
+  NSMutableArray *attr = [[super accessibilityAttributeNames] mutableCopy];
+  if (![attr containsObject:NSAccessibilityValueAttribute])
+    [attr addObject:NSAccessibilityValueAttribute];
+  if (![attr containsObject:NSAccessibilitySelectedAttribute])
+    [attr addObject:NSAccessibilitySelectedAttribute];
+  return [attr autorelease];
+}
+
+- (id)accessibilityAttributeValue:(NSString *)attribute {
+  if ([attribute isEqualToString:NSAccessibilityRoleAttribute])
+    return @"SparkHotKeyFieldRole";
+  else if ([attribute isEqualToString:NSAccessibilityRoleDescriptionAttribute])
+    return @"hotkey field";
+  else if ([attribute isEqualToString:NSAccessibilityValueAttribute]) {
+    if (se_htFlags.trap) {
+      return HKMapGetSpeakableStringRepresentationForCharacterAndModifier(se_bcharacter, se_bmodifier);
+    } else if (![self isEmpty]) {
+      return HKMapGetSpeakableStringRepresentationForCharacterAndModifier(se_character, se_modifier);
+    } else {
+      return nil;
+    }
+  } else if ([attribute isEqualToString:NSAccessibilityHelpAttribute]) {
+    if (se_htFlags.trap) 
+      return @"type a keystroke combination and confirm to save it";
+    else
+      return @"confirm to edit keystroke combination";
+  } else if ([attribute isEqualToString:NSAccessibilitySelectedAttribute]) {
+    return SKBool(se_htFlags.trap);
+  }
+  else return [super accessibilityAttributeValue:attribute];
+}
+
+@end
 

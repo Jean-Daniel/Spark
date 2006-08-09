@@ -243,6 +243,9 @@ NSString* HKMapGetCurrentMapName(void);
 HK_EXPORT 
 NSString* HKMapGetStringRepresentationForCharacterAndModifier(UniChar character, UInt32 modifier);
 
+HK_EXPORT 
+NSString* HKMapGetSpeakableStringRepresentationForCharacterAndModifier(UniChar character, UInt32 modifier);
+
 typedef enum {
   kHKModifierFormatNative, /* kCGEventFlagsMask */
   kHKModifierFormatCarbon, /* Carbon Event modifiers */

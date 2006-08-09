@@ -136,4 +136,10 @@
   [listSource newList:sender];
 }
 
+- (IBAction)search:(id)sender {
+//  id child = [[search accessibilityAttributeValue:NSAccessibilityChildrenAttribute] objectAtIndex:0];
+//  NSLog(@"%@", [child accessibilityAttributeValue:NSAccessibilityChildrenAttribute]);
+//  NSLog(@"%@", [child accessibilityAttributeValue:NSAccessibilityClearButtonAttribute]);
+}
+
 @end

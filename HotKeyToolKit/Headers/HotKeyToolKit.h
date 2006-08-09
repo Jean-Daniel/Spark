@@ -5,12 +5,12 @@
  *  Created by Grayfox.
  *  Copyright 2004-2006 Shadow Lab. All rights reserved.
  */
-
 /*!
     @header		HotKeyToolKit
     @abstract   Import all HotKeyToolKit Public headers.
 */
 
+#import <HotKeyToolKit/HKBase.h>
 #import <HotKeyToolKit/HKHotKey.h>
 
 #import <HotKeyToolKit/HKEvent.h>

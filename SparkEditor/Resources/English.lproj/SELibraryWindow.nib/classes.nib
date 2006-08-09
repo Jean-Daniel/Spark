@@ -19,6 +19,7 @@
             SUPERCLASS = NSObject; 
         }, 
         {
+            ACTIONS = {search = id; }; 
             CLASS = SELibraryWindow; 
             LANGUAGE = ObjC; 
             OUTLETS = {

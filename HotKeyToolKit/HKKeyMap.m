@@ -47,7 +47,9 @@ void HKMapDumpInternalStorage(bool reverse) {
 static 
 UInt32 HKMapGetSpecialKeyCodeForUnichar(UniChar charCode);
 static
-NSString *HKMapGetModifierStringForMask(UInt32 mask);
+NSString *HKMapGetModifierString(UInt32 mask);
+static
+NSString *HKMapGetSpeakableModifierString(UInt32 mask);
 static
 NSString *HKMapGetStringForUnichar(UniChar unicode);
 
@@ -177,7 +179,24 @@ NSString* HKMapGetCurrentMapName() {
 
 NSString* HKMapGetStringRepresentationForCharacterAndModifier(UniChar character, UInt32 modifier) {
   if (character && character != kHKNilUnichar) {
-    return [HKMapGetModifierStringForMask(modifier) stringByAppendingString:HKMapGetStringForUnichar(character)];
+    NSString *mod = HKMapGetModifierString(modifier);
+    if ([mod length] > 0) {
+      return [mod stringByAppendingString:HKMapGetStringForUnichar(character)];
+    } else {
+      return HKMapGetStringForUnichar(character);
+    }
+  }
+  return nil;
+}
+
+NSString* HKMapGetSpeakableStringRepresentationForCharacterAndModifier(UniChar character, UInt32 modifier) {
+  if (character && character != kHKNilUnichar) {
+    NSString *mod = HKMapGetSpeakableModifierString(modifier);
+    if ([mod length] > 0) {
+      return [NSString stringWithFormat:@"%@ + %@", mod, HKMapGetStringForUnichar(character)];
+    } else {
+      return HKMapGetStringForUnichar(character);
+    }
   }
   return nil;
 }
@@ -327,7 +346,7 @@ UInt32 HKMapGetSpecialKeyCodeForUnichar(UniChar character) {
   return keyCode;
 }
 
-NSString* HKMapGetModifierStringForMask(UInt32 mask) {
+NSString* HKMapGetModifierString(UInt32 mask) {
   UniChar modifier[5];
   UniChar *symbol = modifier;
   if (kCGEventFlagMaskAlphaShift & mask) {
@@ -345,8 +364,36 @@ NSString* HKMapGetModifierStringForMask(UInt32 mask) {
   if (kCGEventFlagMaskCommand & mask) {
     *(symbol++) = kCommandUnicode; //Cmd
   }
-  NSString *result = [NSString stringWithCharacters:modifier length:symbol - modifier];
+  NSString *result = symbol - modifier > 0 ? [NSString stringWithCharacters:modifier length:symbol - modifier] : nil;
   return result;
+}
+
+NSString* HKMapGetSpeakableModifierString(UInt32 mask) {
+  NSMutableString *str = mask ? [[NSMutableString alloc] init] : nil;
+  if (kCGEventFlagMaskAlphaShift & mask) {
+    [str appendString:NSLocalizedStringFromTableInBundle(@"Caps Lock", @"Keyboard", kHotKeyToolKitBundle, @"Caps Lock Modifier")];
+  }
+  if (kCGEventFlagMaskControl & mask) {
+    if ([str length])
+      [str appendString:@" + "];
+    [str appendString:NSLocalizedStringFromTableInBundle(@"Control", @"Keyboard", kHotKeyToolKitBundle, @"Control Modifier")];
+  }
+  if (kCGEventFlagMaskAlternate & mask) {
+    if ([str length])
+      [str appendString:@" + "];
+    [str appendString:NSLocalizedStringFromTableInBundle(@"Option", @"Keyboard", kHotKeyToolKitBundle, @"Option Modifier")];
+  }
+  if (kCGEventFlagMaskShift & mask) {
+    if ([str length])
+      [str appendString:@" + "];
+    [str appendString:NSLocalizedStringFromTableInBundle(@"Shift", @"Keyboard", kHotKeyToolKitBundle, @"Shift Modifier")];
+  }
+  if (kCGEventFlagMaskCommand & mask) {
+    if ([str length])
+      [str appendString:@" + "];
+    [str appendString:NSLocalizedStringFromTableInBundle(@"Command", @"Keyboard", kHotKeyToolKitBundle, @"Command Modifier")];
+  }
+  return [str autorelease];
 }
 
 NSString* HKMapGetStringForUnichar(UniChar character) {
@@ -355,62 +402,62 @@ NSString* HKMapGetStringForUnichar(UniChar character) {
     return str;
   switch (character) {
     case kF1Unicode:
-      str = NSLocalizedStringFromTableInBundle(@"F1", @"ShortCut", kHotKeyToolKitBundle, @"F1 Key display String");
+      str = NSLocalizedStringFromTableInBundle(@"F1", @"Keyboard", kHotKeyToolKitBundle, @"F1 Key display String");
       break;
     case kF2Unicode:
-      str = NSLocalizedStringFromTableInBundle(@"F2", @"ShortCut", kHotKeyToolKitBundle, @"F2 Key display String");
+      str = NSLocalizedStringFromTableInBundle(@"F2", @"Keyboard", kHotKeyToolKitBundle, @"F2 Key display String");
       break;
     case kF3Unicode:
-      str = NSLocalizedStringFromTableInBundle(@"F3", @"ShortCut", kHotKeyToolKitBundle, @"F3 Key display String");
+      str = NSLocalizedStringFromTableInBundle(@"F3", @"Keyboard", kHotKeyToolKitBundle, @"F3 Key display String");
       break;
     case kF4Unicode:
-      str = NSLocalizedStringFromTableInBundle(@"F4", @"ShortCut", kHotKeyToolKitBundle, @"F4 Key display String");
+      str = NSLocalizedStringFromTableInBundle(@"F4", @"Keyboard", kHotKeyToolKitBundle, @"F4 Key display String");
       break;
       /* functions Unicodes */
     case kF5Unicode:
-      str = NSLocalizedStringFromTableInBundle(@"F5", @"ShortCut", kHotKeyToolKitBundle, @"F5 Key display String");
+      str = NSLocalizedStringFromTableInBundle(@"F5", @"Keyboard", kHotKeyToolKitBundle, @"F5 Key display String");
       break;
     case kF6Unicode:
-      str = NSLocalizedStringFromTableInBundle(@"F6", @"ShortCut", kHotKeyToolKitBundle, @"F6 Key display String");
+      str = NSLocalizedStringFromTableInBundle(@"F6", @"Keyboard", kHotKeyToolKitBundle, @"F6 Key display String");
       break;
     case kF7Unicode:
-      str = NSLocalizedStringFromTableInBundle(@"F7", @"ShortCut", kHotKeyToolKitBundle, @"F7 Key display String");
+      str = NSLocalizedStringFromTableInBundle(@"F7", @"Keyboard", kHotKeyToolKitBundle, @"F7 Key display String");
       break;
     case kF8Unicode:
-      str = NSLocalizedStringFromTableInBundle(@"F8", @"ShortCut", kHotKeyToolKitBundle, @"F8 Key display String");
+      str = NSLocalizedStringFromTableInBundle(@"F8", @"Keyboard", kHotKeyToolKitBundle, @"F8 Key display String");
       break;
       /* functions Unicodes */
     case kF9Unicode:
-      str = NSLocalizedStringFromTableInBundle(@"F9", @"ShortCut", kHotKeyToolKitBundle, @"F9 Key display String");
+      str = NSLocalizedStringFromTableInBundle(@"F9", @"Keyboard", kHotKeyToolKitBundle, @"F9 Key display String");
       break;
     case kF10Unicode:
-      str = NSLocalizedStringFromTableInBundle(@"F10", @"ShortCut", kHotKeyToolKitBundle, @"F10 Key display String");
+      str = NSLocalizedStringFromTableInBundle(@"F10", @"Keyboard", kHotKeyToolKitBundle, @"F10 Key display String");
       break;
     case kF11Unicode:
-      str = NSLocalizedStringFromTableInBundle(@"F11", @"ShortCut", kHotKeyToolKitBundle, @"F11 Key display String");
+      str = NSLocalizedStringFromTableInBundle(@"F11", @"Keyboard", kHotKeyToolKitBundle, @"F11 Key display String");
       break;
     case kF12Unicode:
-      str = NSLocalizedStringFromTableInBundle(@"F12", @"ShortCut", kHotKeyToolKitBundle, @"F12 Key display String");
+      str = NSLocalizedStringFromTableInBundle(@"F12", @"Keyboard", kHotKeyToolKitBundle, @"F12 Key display String");
       break;
       /* functions Unicodes */
     case kF13Unicode:
-      str = NSLocalizedStringFromTableInBundle(@"F13", @"ShortCut", kHotKeyToolKitBundle, @"F13 Key display String");
+      str = NSLocalizedStringFromTableInBundle(@"F13", @"Keyboard", kHotKeyToolKitBundle, @"F13 Key display String");
       break;
     case kF14Unicode:
-      str = NSLocalizedStringFromTableInBundle(@"F14", @"ShortCut", kHotKeyToolKitBundle, @"F14 Key display String");
+      str = NSLocalizedStringFromTableInBundle(@"F14", @"Keyboard", kHotKeyToolKitBundle, @"F14 Key display String");
       break;
     case kF15Unicode:
-      str = NSLocalizedStringFromTableInBundle(@"F15", @"ShortCut", kHotKeyToolKitBundle, @"F15 Key display String");
+      str = NSLocalizedStringFromTableInBundle(@"F15", @"Keyboard", kHotKeyToolKitBundle, @"F15 Key display String");
       break;
     case kF16Unicode:
-      str = NSLocalizedStringFromTableInBundle(@"F16", @"ShortCut", kHotKeyToolKitBundle, @"F16 Key display String");
+      str = NSLocalizedStringFromTableInBundle(@"F16", @"Keyboard", kHotKeyToolKitBundle, @"F16 Key display String");
       break;
       /* editing utility Unicodes */
     case kHelpUnicode:
-      str = NSLocalizedStringFromTableInBundle(@"help", @"ShortCut", kHotKeyToolKitBundle, @"Help Key display String");
+      str = NSLocalizedStringFromTableInBundle(@"help", @"Keyboard", kHotKeyToolKitBundle, @"Help Key display String");
       break;
     case kSpaceUnicode:
-      str = NSLocalizedStringFromTableInBundle(@"spc", @"ShortCut", kHotKeyToolKitBundle, @"Space Key display String");
+      str = NSLocalizedStringFromTableInBundle(@"spc", @"Keyboard", kHotKeyToolKitBundle, @"Space Key display String");
       break;
       /* Special Chars */
     case kDeleteUnicode:
