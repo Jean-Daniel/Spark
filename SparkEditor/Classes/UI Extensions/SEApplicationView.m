@@ -254,3 +254,57 @@ static const float kAVImageRightMargin = 6.f;
 }
 
 @end
+
+@implementation SEApplicationView (NSAccessibility)
+
+- (BOOL)accessibilityIsIgnored {
+  return NO;
+}
+
+- (id)accessibilityHitTest:(NSPoint)point {
+  return self;
+}
+
+- (id)accessibilityFocusedUIElement {
+  return self;
+}
+
+- (NSArray *)accessibilityActionNames {
+  return [NSArray arrayWithObject:NSAccessibilityPressAction];
+}
+
+- (NSString *)accessibilityActionDescription:(NSString *)action {
+  return NSAccessibilityActionDescription(action);
+}
+
+- (void)accessibilityPerformAction:(NSString *)action {
+  if ([action isEqualToString:NSAccessibilityPressAction]) {
+    [self mouseClick:nil];
+  } else {
+    [super accessibilityPerformAction:action];
+  }
+}
+
+- (NSArray *)accessibilityAttributeNames {
+  NSMutableArray *attr = [[super accessibilityAttributeNames] mutableCopy];
+  if (![attr containsObject:NSAccessibilityValueAttribute])
+    [attr addObject:NSAccessibilityValueAttribute];
+  if (![attr containsObject:NSAccessibilityEnabledAttribute])
+    [attr addObject:NSAccessibilityEnabledAttribute];
+  return [attr autorelease];
+}
+
+- (id)accessibilityAttributeValue:(NSString *)attribute {
+  if ([attribute isEqualToString:NSAccessibilityRoleAttribute])
+    return NSAccessibilityButtonRole;
+  else if ([attribute isEqualToString:NSAccessibilityRoleDescriptionAttribute])
+    return NSAccessibilityRoleDescription(NSAccessibilityButtonRole, nil);
+  else if ([attribute isEqualToString:NSAccessibilityValueAttribute]) {
+    return se_title;
+  } else if ([attribute isEqualToString:NSAccessibilityEnabledAttribute]) {
+    return SKBool(se_action != NULL);
+  }
+  else return [super accessibilityAttributeValue:attribute];
+}
+
+@end

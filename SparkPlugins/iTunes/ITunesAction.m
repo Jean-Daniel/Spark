@@ -15,17 +15,15 @@
 #import <ShadowKit/SKAEFunctions.h>
 #import <HotKeyToolKit/HotKeyToolKit.h>
 
-static NSString* const kITunesRateKey = @"iTunesTrackTrate";
+static NSString* const kITunesRateKey = @"iTunesTrackRate";
 static NSString* const kITunesActionKey = @"iTunesAction";
 static NSString* const kITunesPlaylistKey = @"iTunesPlaylist";
 
 @implementation ITunesAction
 
 + (void)initialize {
-  static BOOL tooLate = NO;
-  if (!tooLate) {
+  if ([ITunesAction class] == self) {
     [self setVersion:0x100];
-    tooLate = YES;
   }
 }
 
@@ -58,15 +56,19 @@ static NSString* const kITunesPlaylistKey = @"iTunesPlaylist";
 
 #pragma mark -
 #pragma mark Required Methods.
-/* initFromPropertyList is called when a Action is loaded. You must call [super initFromPropertyList:plist].
-Get all values you set in the -propertyList method et configure your Action */
-- (id)initFromPropertyList:(id)plist {
-  if (self = [super initFromPropertyList:plist]) {
+/* initWithSerializedValues: is called when a Action is loaded. You must call [super initWithSerializedValues:plist].
+Get all values you set in the -serialize method et configure your Action */
+- (id)initWithSerializedValues:(id)plist {
+  if (self = [super initWithSerializedValues:plist]) {
     [self setITunesAction:[[plist objectForKey:kITunesActionKey] intValue]];
-    [self setRating:[[plist objectForKey:kITunesRateKey] unsignedShortValue]];
+    NSNumber *rate = [plist objectForKey:kITunesRateKey];
+    /* Typo compat */
+    if (!rate)
+      rate = [plist objectForKey:@"iTunesTrackTrate"]; 
+    [self setRating:[rate unsignedShortValue]];
     [self setPlaylist:[plist objectForKey:kITunesPlaylistKey]];
   }
-  return self;
+return self;
 }
 
 - (void)dealloc {
@@ -77,13 +79,13 @@ Get all values you set in the -propertyList method et configure your Action */
 
 /* Use to transform and record you Action in a file. The dictionary returned must contains only PList objects 
 See the PropertyList documentation to know more about it */
-- (NSMutableDictionary *)propertyList {
-  NSMutableDictionary *dico = [super propertyList];
-  [dico setObject:SKUInt([self rating]) forKey:kITunesRateKey];
-  [dico setObject:SKInt([self iTunesAction]) forKey:kITunesActionKey];
+- (BOOL)serialize:(NSMutableDictionary *)plist {
+  [super serialize:plist];
+  [plist setObject:SKUInt([self rating]) forKey:kITunesRateKey];
+  [plist setObject:SKInt([self iTunesAction]) forKey:kITunesActionKey];
   if ([self playlist])
-    [dico setObject:[self playlist] forKey:kITunesPlaylistKey];
-  return dico;
+    [plist setObject:[self playlist] forKey:kITunesPlaylistKey];
+  return YES;
 }
 
 - (SparkAlert *)check {
@@ -132,6 +134,7 @@ See the PropertyList documentation to know more about it */
       [NSBundle loadNibNamed:@"iTunesTrack" owner:self];
       ia_bezel = [[SKBezelItem alloc] initWithContent:[artwork superview]];
       [ia_bezel setDelay:1];
+      [ia_bezel setOneShot:YES];
       [ia_bezel setAdjustSize:YES];
       [ia_bezel setFrameOrigin:NSMakePoint(50, 50)];
     }
@@ -208,25 +211,22 @@ See the PropertyList documentation to know more about it */
   return ia_playlist;
 }
 
-- (void)setPlaylist:(NSString *)newPlaylist {
-  if (ia_playlist != newPlaylist) {
-    [ia_playlist release];
-    ia_playlist = [newPlaylist copy];
-  }
+- (void)setPlaylist:(NSString *)aPlaylist {
+  SKSetterCopy(ia_playlist, aPlaylist);
 }
 
 - (iTunesAction)iTunesAction {
   return ia_action;
 }
 
-- (void)setITunesAction:(iTunesAction)newITunesAction {
-  if (ia_action != newITunesAction) {
-    ia_action = newITunesAction;
-  }
+- (void)setITunesAction:(iTunesAction)anAction {
+  ia_action = anAction;
 }
 
 - (void)launchITunes {
-  [[NSWorkspace sharedWorkspace] launchApplication:SKFindApplicationForSignature('hook')];
+  NSString *iTunes = SKFindApplicationForSignature('hook');
+  if (iTunes)
+    [[NSWorkspace sharedWorkspace] launchApplication:iTunes];
 }
 
 - (void)quitITunes {

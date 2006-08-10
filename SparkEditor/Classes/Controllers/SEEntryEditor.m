@@ -79,6 +79,12 @@
                                                        green:.482f
                                                         blue:.855f
                                                        alpha:1]];
+  
+  id plugin = [[[[se_plugins objectAtIndex:7] pluginClass] alloc] init];
+  NSView *view = [plugin actionView];
+  [view setFrameOrigin:NSZeroPoint];
+  [view setFrameSize:[pluginView frame].size];
+  [pluginView addSubview:view];
 }
 
 - (IBAction)ok:(id)sender {

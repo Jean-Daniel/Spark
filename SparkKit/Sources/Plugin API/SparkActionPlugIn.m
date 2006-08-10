@@ -27,7 +27,9 @@
 - (NSView *)actionView {
   if (!sp_view) {
     NSBundle * bundle = SKCurrentBundle();
-    [NSBundle loadNibNamed:[bundle objectForInfoDictionaryKey:@"NSMainNibFile"] owner:self];
+    if (![NSBundle loadNibNamed:[bundle objectForInfoDictionaryKey:@"NSMainNibFile"] owner:self]) {
+      NSLog(@"%@: Error while loading nib file %@", [self class], [bundle objectForInfoDictionaryKey:@"NSMainNibFile"]);
+    }
     [sp_view autorelease];
   }
   return sp_view;

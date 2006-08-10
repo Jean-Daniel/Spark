@@ -11,6 +11,7 @@
 @class SparkApplication, SparkPlugIn;
 @class SETriggerEntry, SETableView, SEApplicationView;
 @interface SEEntryEditor : SKWindowController {
+  IBOutlet NSView *pluginView;
   IBOutlet SETableView *typeTable;
   IBOutlet SEApplicationView *appField;
   @private

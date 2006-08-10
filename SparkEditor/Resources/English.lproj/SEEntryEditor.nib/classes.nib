@@ -12,7 +12,7 @@
         {
             CLASS = SEEntryEditor; 
             LANGUAGE = ObjC; 
-            OUTLETS = {appField = SEApplicationView; typeTable = SETableView; }; 
+            OUTLETS = {appField = SEApplicationView; pluginView = NSView; typeTable = SETableView; }; 
             SUPERCLASS = SKWindowController; 
         }, 
         {CLASS = SEHotKeyTrap; LANGUAGE = ObjC; SUPERCLASS = NSControl; }, 

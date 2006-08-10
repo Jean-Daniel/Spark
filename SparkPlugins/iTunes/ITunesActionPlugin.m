@@ -25,10 +25,8 @@ NSString * const kiTunesActionBundleIdentifier = @"org.shadowlab.spark.iTunes";
 @implementation ITunesActionPlugin
 
 + (void)initialize {
-  static BOOL tooLate = NO;
-  if (!tooLate) {
+  if ([ITunesActionPlugin class] == self) {
     [self setKeys:[NSArray arrayWithObject:@"iTunesAction"] triggerChangeNotificationsForDependentKey:@"detailViewIndex"];
-    tooLate = YES;
   }
 }
 
@@ -43,19 +41,9 @@ NSString * const kiTunesActionBundleIdentifier = @"org.shadowlab.spark.iTunes";
 }
 
 - (void)dealloc {
-  [_playlist release];
-  [_playlists release];
+  [it_playlist release];
+  [it_playlists release];
   [super dealloc];
-}
-
-- (void)bindFields {
-  [nameField bind:@"value"
-         toObject:self
-      withKeyPath:@"sparkAction.name"
-          options:[NSDictionary dictionaryWithObjectsAndKeys:
-            SKBool(YES), @"NSContinuouslyUpdatesValue",
-            [self defaultName], @"NSNullPlaceholder",
-            nil]];
 }
 
 /* This function is called when the user open the iTunes Action Editor Panel */
@@ -65,8 +53,6 @@ NSString * const kiTunesActionBundleIdentifier = @"org.shadowlab.spark.iTunes";
   
   /* if flag == NO, the user want to create a new Action, else he wants to edit an existing Action */
   if (flag) {
-    [[self undoManager] registerUndoWithTarget:sparkAction selector:@selector(setName:) object:[sparkAction name]];
-    [[[self undoManager] prepareWithInvocationTarget:self] setITunesAction:[sparkAction iTunesAction]];
     /* Set Action menu on the Action action */
     [self setITunesAction:[sparkAction iTunesAction]];
     [self setRate:[sparkAction rating] / 20];
@@ -78,7 +64,6 @@ NSString * const kiTunesActionBundleIdentifier = @"org.shadowlab.spark.iTunes";
     /* Default action for the iTunes Action Menu */
     [self setITunesAction:kiTunesPlayPause];
   }
-  [self bindFields];
 }
 
 - (NSAlert *)sparkEditorShouldConfigureAction {
@@ -160,8 +145,7 @@ NSString * const kiTunesActionBundleIdentifier = @"org.shadowlab.spark.iTunes";
 - (void)setITunesAction:(iTunesAction)newAction {
   if ([self iTunesAction] != newAction) {
     [[self sparkAction] setITunesAction:newAction];
-    [nameField unbind:@"value"];
-    [self bindFields];
+    [nameField setPlaceholderString:[self defaultName]];
     if (kiTunesPlayPlaylist == newAction && ![self playlists]) {
       [self loadPlaylists];
       [self setPlaylist:[[self playlists] objectAtIndex:0]];
@@ -181,37 +165,31 @@ NSString * const kiTunesActionBundleIdentifier = @"org.shadowlab.spark.iTunes";
 }
 
 - (unsigned)rate {
-  return _rate;
+  return it_rate;
 }
 
 - (void)setRate:(unsigned)newRate {
-  _rate = newRate;
+  it_rate = newRate;
 }
 
 - (NSString *)playlist {
-  return _playlist;
+  return it_playlist;
 }
 
-- (void)setPlaylist:(NSString *)newPlaylist {
-  if (_playlist != newPlaylist) {
-    [_playlist release];
-    _playlist = [newPlaylist retain];
-  }
+- (void)setPlaylist:(NSString *)aPlaylist {
+  SKSetterCopy(it_playlist, aPlaylist);
 }
 
 - (NSArray *)playlists {
-  return _playlists;
+  return it_playlists;
 }
 
-- (void)setPlaylists:(NSArray *)newPlaylists {
-  if (_playlists != newPlaylists) {
-    [_playlists release];
-    _playlists = [newPlaylists retain];
-  }
+- (void)setPlaylists:(NSArray *)thePlaylists {
+  SKSetterRetain(it_playlists, thePlaylists);
 }
 
 - (NSString *)shortDescription {
-  id desc = nil;
+  NSString *desc = nil;
   switch ([self iTunesAction]) {
     case kiTunesLaunch:
       desc = NSLocalizedStringFromTableInBundle(@"DESC_LAUNCH", nil, kiTunesActionBundle,

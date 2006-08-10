@@ -31,9 +31,11 @@ typedef enum {
 @interface ITunesActionPlugin : SparkActionPlugIn {
   IBOutlet id nameField;
   IBOutlet id detailView;
-  NSString *_playlist;
-  NSArray *_playlists;
-  unsigned _rate;
+  @private
+    BOOL it_play;
+  unsigned it_rate;
+  NSString *it_playlist;
+  NSArray *it_playlists;
 }
 
 - (iTunesAction)iTunesAction;

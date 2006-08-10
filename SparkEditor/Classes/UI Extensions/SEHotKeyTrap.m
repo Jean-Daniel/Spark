@@ -540,12 +540,6 @@ static NSImage *_HKCreateShading(NSControlTint tint) {
   return SKCGCreateVerticalShading(32, kHKTrapHeight, __HKTrapShadingFunction, NULL);
 }
 
-@interface SEHotKeyTrapButton : NSProxy {
-
-}
-
-@end
-
 @implementation SEHotKeyTrap (NSAccessibility)
 
 - (BOOL)accessibilityIsIgnored {
@@ -553,7 +547,7 @@ static NSImage *_HKCreateShading(NSControlTint tint) {
 }
 
 - (id)accessibilityHitTest:(NSPoint)point {
-  return [self isInButtonRect:[self convertPoint:point fromView:nil]] ? nil : self;
+  return self;
 }
 
 - (id)accessibilityFocusedUIElement {
@@ -624,4 +618,3 @@ static NSImage *_HKCreateShading(NSControlTint tint) {
 }
 
 @end
-
