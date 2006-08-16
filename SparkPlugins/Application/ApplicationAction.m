@@ -197,12 +197,12 @@ static NSString * const kHotKeyBundleIdKey = @"BundleID";
   psn->lowLongOfPSN = kNoProcess;
   OSType sign = [self signature];
   if (sign) {
-    *psn = SKGetProcessWithSignature(sign);
+    *psn = SKProcessGetProcessWithSignature(sign);
   } 
   if (kNoProcess == psn->lowLongOfPSN && kNoProcess == psn->highLongOfPSN) {
     NSString *bundle = [self bundleIdentifier];
     if (bundle) {
-      *psn = SKGetProcessWithBundleIdentifier((CFStringRef)bundle);
+      *psn = SKProcessGetProcessWithBundleIdentifier((CFStringRef)bundle);
     }
   }
   return (psn->highLongOfPSN != kNoProcess) || (psn->lowLongOfPSN != kNoProcess);

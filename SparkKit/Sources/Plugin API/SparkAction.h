@@ -111,16 +111,16 @@ NSTimeInterval SparkGetDefaultKeyRepeatInterval(void);
 - (void)setCategorie:(NSString *)categorie;
 
   /*!
-  @method     shortDescription
+  @method
    @abstract   Returns the short Description for this Action.
    */
-- (NSString *)shortDescription;
+- (NSString *)actionDescription;
   /*!
-  @method     setShortDescription:
+  @method
    @abstract   Sets the short description for this Action.
    @param      desc The short description.
    */
-- (void)setShortDescription:(NSString *)desc;
+- (void)setActionDescription:(NSString *)desc;
 
   /*!
   @method     repeatInterval

@@ -23,7 +23,7 @@ NSArray *gSortByNameDescriptors;
 - (BOOL)isEnabled;
 - (NSString *)name;
 - (NSString *)categorie;
-- (NSString *)shortDescription;
+- (NSString *)actionDescription;
 - (NSString *)triggerDescription;
 
 - (SparkAction *)action;

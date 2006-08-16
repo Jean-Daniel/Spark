@@ -9,7 +9,7 @@
 #import <SparkKit/SparkKit_API.h>
 
 @interface MyActionPlugin : SparkActionPlugIn {
-  int beepCount;
+
 }
 
 - (int)beepCount;

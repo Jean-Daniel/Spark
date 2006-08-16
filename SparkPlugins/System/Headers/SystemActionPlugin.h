@@ -10,8 +10,8 @@
 #import "SystemAction.h"
 
 @interface SystemActionPlugin : SparkActionPlugIn {
-  IBOutlet id nameField;
-  IBOutlet id actionMenu;
+  IBOutlet NSTextField *nameField;
+  IBOutlet NSPopUpButton *actionMenu;
 }
 
 - (SystemActionType)action;

@@ -1,5 +1,5 @@
 /*
- *  SparkKit_API.h
+ *  SparkPluginAPI.h
  *  SparkKit
  *
  *  Created by Black Moon Team.

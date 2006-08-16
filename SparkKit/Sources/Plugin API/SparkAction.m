@@ -20,7 +20,7 @@
 
 static NSString * const kSparkActionVersionKey = @"Version";
 static NSString * const kSparkActionCategorieKey = @"Categorie";
-static NSString * const kSparkActionShortDescriptionKey = @"ShortDescription";
+static NSString * const kSparkActionDescriptionKey = @"ShortDescription";
 
 #pragma mark -
 @implementation SparkAction
@@ -37,7 +37,7 @@ static NSString * const kSparkActionShortDescriptionKey = @"ShortDescription";
   if (nil != sp_categorie)
     [coder encodeObject:sp_categorie forKey:kSparkActionCategorieKey];
   if (nil != sp_description)
-    [coder encodeObject:sp_description forKey:kSparkActionShortDescriptionKey];
+    [coder encodeObject:sp_description forKey:kSparkActionDescriptionKey];
   return;
 }
 
@@ -47,7 +47,7 @@ static NSString * const kSparkActionShortDescriptionKey = @"ShortDescription";
     if (flags & (1 << 0)) sp_saFlags.invalid = 1;
     sp_version = [coder decodeIntForKey:kSparkActionVersionKey];
     [self setCategorie:[coder decodeObjectForKey:kSparkActionCategorieKey]];
-    [self setShortDescription:[coder decodeObjectForKey:kSparkActionShortDescriptionKey]];
+    [self setActionDescription:[coder decodeObjectForKey:kSparkActionDescriptionKey]];
   }
   return self;
 }
@@ -72,7 +72,7 @@ static NSString * const kSparkActionShortDescriptionKey = @"ShortDescription";
   if (nil != sp_categorie)
     [plist setObject:sp_categorie forKey:kSparkActionCategorieKey];
   if (nil != sp_description)
-    [plist setObject:sp_description forKey:kSparkActionShortDescriptionKey];
+    [plist setObject:sp_description forKey:kSparkActionDescriptionKey];
   
   return YES;
 }
@@ -89,7 +89,7 @@ static NSString * const kSparkActionShortDescriptionKey = @"ShortDescription";
       [self setCategorie:[plist objectForKey:kSparkActionCategorieKey]];
     }
     
-    [self setShortDescription:[plist objectForKey:kSparkActionShortDescriptionKey]];
+    [self setActionDescription:[plist objectForKey:kSparkActionDescriptionKey]];
   }
   return self;
 }
@@ -158,15 +158,23 @@ static NSString * const kSparkActionShortDescriptionKey = @"ShortDescription";
   SKSetterCopy(sp_categorie, categorie);
 }
 
-- (NSString *)shortDescription {
+- (NSString *)actionDescription {
   return sp_description;
 }
-- (void)setShortDescription:(NSString *)desc {
+- (void)setActionDescription:(NSString *)desc {
   SKSetterCopy(sp_description, desc);
 }
 
 - (NSTimeInterval)repeatInterval {
   return 0;
+}
+
+/* Compatibility */
+- (NSString *)shortDescription {
+  return [self actionDescription];
+}
+- (void)setShortDescription:(NSString *)desc {
+  [self setActionDescription:desc];
 }
 
 @end
@@ -197,12 +205,12 @@ static NSString * const kSparkActionShortDescriptionKey = @"ShortDescription";
 }
 - (void)setCategorie:(NSString *)categorie {}
 
-- (NSString *)shortDescription {
+- (NSString *)actionDescription {
   return NSLocalizedStringFromTableInBundle(@"Missing Plugin",
                                             nil, SKCurrentBundle(),
                                             @"Placeholder description");
 }
-- (void)setShortDescription:(NSString *)description {}
+- (void)setActionDescription:(NSString *)description {}
 
 @end
 

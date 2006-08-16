@@ -81,7 +81,7 @@ If you use this class in IB, you can define an Outlet with name actionView.
 
   /*!
   @method
-   @abstract Returns the Action currently edited by the receiver.
+   @abstract Returns the action currently edited by the receiver.
    */
 - (id)sparkAction;
 
@@ -95,7 +95,7 @@ If you use this class in IB, you can define an Outlet with name actionView.
   /*!
   @method
    @abstract Set the receiver <i>sparkAction</i> name.
-   @param name The name of this Action.
+   @param name The new name.
    */
 - (void)setName:(NSString *)name;
 
@@ -107,15 +107,8 @@ If you use this class in IB, you can define an Outlet with name actionView.
   /*!
   @method
    @abstract Sets the receiver <i>sparkAction</i> icon.
-   @param icon The icon to set or nil if you want to use default Action icon.
+   @param icon The new icon or nil if you want to use default action icon.
    */
 - (void)setIcon:(NSImage *)icon;
-
-@end
-
-@interface SparkActionPlugIn (SparkExtended)
-
-+ (NSImage *)descriptionIcon;
-+ (NSString *)plugInDescription;
 
 @end

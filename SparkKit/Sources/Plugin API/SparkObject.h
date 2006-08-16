@@ -48,12 +48,12 @@
    */
 + (id)objectWithName:(NSString *)name icon:(NSImage *)icon;
 
-/*!
+  /*!
 @method     initWithName:
- @abstract   Create a new SparkObject with an new uniq ID.
- @param      name The name of the new SparkObject.
- @result     A new created SparkObject.
- */
+   @abstract   Create a new SparkObject with an new uniq ID.
+   @param      name The name of the new SparkObject.
+   @result     A new created SparkObject.
+   */
 - (id)initWithName:(NSString *)name;
   /*!
     @method     initWithName:icon:

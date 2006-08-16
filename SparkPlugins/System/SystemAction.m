@@ -19,9 +19,11 @@ kScreenSaverEngine = @"/System/Library/Frameworks/ScreenSaver.framework/Resource
 NSString * const
 kSystemActionBundleIdentifier = @"org.shadowlab.spark.system";
 
-static void SystemFastLogOut(void);
+static 
+void SystemFastLogOut(void);
 
-static NSString* const kSystemActionKey = @"SystemAction";
+static 
+NSString * const kSystemActionKey = @"SystemAction";
 
 @implementation SystemAction
 
@@ -48,17 +50,19 @@ static NSString* const kSystemActionKey = @"SystemAction";
 
 #pragma mark -
 #pragma mark Required Methods.
-- (id)initFromPropertyList:(id)plist {
-  if (self = [super initFromPropertyList:plist]) {
+- (id)initWithSerializedValues:(NSDictionary *)plist {
+  if (self = [super initWithSerializedValues:plist]) {
     [self setAction:[[plist objectForKey:kSystemActionKey] intValue]];
   }
   return self;
 }
 
-- (NSMutableDictionary *)propertyList {
-  NSMutableDictionary *dico = [super propertyList];
-  [dico setObject:SKInt([self action]) forKey:kSystemActionKey];
-  return dico;
+- (BOOL)serialize:(NSMutableDictionary *)plist {
+  if ([super serialize:plist]) {
+    [plist setObject:SKInt([self action]) forKey:kSystemActionKey];
+    return YES;
+  }
+  return NO;
 }
 
 - (SystemActionType)action {
@@ -146,6 +150,20 @@ static NSString* const kSystemActionKey = @"SystemAction";
 //  }
 //}
 
+extern Boolean CGDisplayUsesForceToGray();
+extern void CGDisplayForceToGray(Boolean gray);
+
+extern Boolean CGDisplayUsesInvertedPolarity();
+extern void CGDisplaySetInvertedPolarity(Boolean inverted);
+
+- (void)toggleGray {
+  CGDisplayForceToGray(!CGDisplayUsesForceToGray());
+}
+
+- (void)togglePolarity {
+  CGDisplaySetInvertedPolarity(!CGDisplayUsesInvertedPolarity());
+}
+
 /*
 kAELogOut                     = 'logo',
 kAEReallyLogOut               = 'rlgo',
@@ -196,7 +214,8 @@ kAEShowShutdownDialog         = 'rsdn'
 
 @end
 
-static void SystemFastLogOut() {
+static 
+void SystemFastLogOut() {
   NSTask *task = [[NSTask alloc] init];
   [task setLaunchPath:kFastUserSwitcherPath];
   [task setArguments:[NSArray arrayWithObject:@"-suspend"]];
@@ -212,9 +231,9 @@ static void SystemFastLogOut() {
 
 @implementation PowerAction
 
-- (id)initFromPropertyList:(id)plist {
+- (id)initWithSerializedValues:(NSDictionary *)plist {
   [self release];
-  return [[SystemAction alloc] initFromPropertyList:plist];
+  return [[SystemAction alloc] initWithSerializedValues:plist];
 }
 
 @end

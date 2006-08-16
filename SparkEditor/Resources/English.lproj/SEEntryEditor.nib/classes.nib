@@ -18,6 +18,7 @@
         {CLASS = SEHotKeyTrap; LANGUAGE = ObjC; SUPERCLASS = NSControl; }, 
         {CLASS = SETableView; LANGUAGE = ObjC; SUPERCLASS = SKTableView; }, 
         {CLASS = SETableViewCell; LANGUAGE = ObjC; SUPERCLASS = SKImageAndTextCell; }, 
+        {CLASS = SETrapWindow; LANGUAGE = ObjC; SUPERCLASS = HKTrapWindow; }, 
         {CLASS = SKImageAndTextCell; LANGUAGE = ObjC; SUPERCLASS = NSTextFieldCell; }, 
         {CLASS = SKTableView; LANGUAGE = ObjC; SUPERCLASS = NSTableView; }, 
         {

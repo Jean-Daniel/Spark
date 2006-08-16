@@ -15,7 +15,11 @@
   IBOutlet SETableView *typeTable;
   IBOutlet SEApplicationView *appField;
   @private
-    NSMutableArray *se_plugins;
+    NSSize se_min;
+  NSView *se_view;
+  NSMutableArray *se_views;
+  NSMutableArray *se_plugins;
+  NSMutableArray *se_instances;
 }
 
 - (void)setActionType:(SparkPlugIn *)type;

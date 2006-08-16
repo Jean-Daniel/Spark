@@ -11,6 +11,7 @@
 #endif
 
 #import "SystemActionPlugin.h"
+#import <ShadowKit/SKFunctions.h>
 #import <ShadowKit/SKExtensions.h>
 #import <ShadowKit/SKFSFunctions.h>
 #import <ShadowKit/SKAppKitExtensions.h>
@@ -19,20 +20,10 @@ volatile int SparkSystemGDBWorkaround = 0;
 
 @implementation SystemActionPlugin
 
-- (void)bindFields {
-  [nameField bind:@"value"
-         toObject:self
-      withKeyPath:@"sparkAction.name"
-          options:[NSDictionary dictionaryWithObjectsAndKeys:
-            SKBool(YES), @"NSContinuouslyUpdatesValue",
-            [self shortDescription], @"NSNullPlaceholder",
-            nil]];
-}
-
 - (void)awakeFromNib {
   NSMenu *menu = [actionMenu menu];
-  SInt32 macVersion;
-  if (Gestalt(gestaltSystemVersion, &macVersion) == noErr && macVersion >= 0x1040) {
+  if (SKSystemMajorVersion() >= 10 && SKSystemMinorVersion() >= 4) {
+    /* Screen saver work only with MAC OS X.4 and later */
     NSMenuItem *item = [NSMenuItem separatorItem];
     [item setTag:-1];
     [menu addItem:item];
@@ -44,26 +35,23 @@ volatile int SparkSystemGDBWorkaround = 0;
   }
 }
 
-- (void)loadSparkAction:(id)sparkAction toEdit:(BOOL)flag {
-  [super loadSparkAction:sparkAction toEdit:flag];
+- (void)loadSparkAction:(SystemAction *)sparkAction toEdit:(BOOL)flag {
   if (flag) {
-    [[self undoManager] registerUndoWithTarget:sparkAction selector:@selector(setName:) object:[sparkAction name]];
-    [[[self undoManager] prepareWithInvocationTarget:self] setAction:[sparkAction action]];
-
-    [self setAction:[(SystemAction *)sparkAction action]];
+    [nameField setStringValue:[sparkAction name]];
+    [self setAction:[sparkAction action]];
   }
-  [self bindFields];
 }
 
-- (NSAlert *)controllerShouldConfigureAction {
-  return nil;
+- (NSAlert *)sparkEditorShouldConfigureAction {
+  [super setName:[nameField stringValue]];
+  return [super sparkEditorShouldConfigureAction];
 }
 
 - (void)configureAction {
-  SystemAction *powerAction = [self sparkAction];
+  SystemAction *action = [self sparkAction];
   /* Set Name */
-  if ([[[powerAction name] stringByTrimmingWhitespaceAndNewline] length] == 0)
-    [powerAction setName:[self shortDescription]];
+  if ([[[action name] stringByTrimmingWhitespaceAndNewline] length] == 0)
+    [action setName:[self shortDescription]];
   NSString *iconName = nil;
   switch ([self action]) {
     case kSystemLogOut:
@@ -96,8 +84,8 @@ volatile int SparkSystemGDBWorkaround = 0;
       break;
   }
   if (iconName)
-    [powerAction setIcon:[NSImage imageNamed:iconName inBundle:kSystemActionBundle]];
-  [powerAction setShortDescription:[self shortDescription]];
+    [action setIcon:[NSImage imageNamed:iconName inBundle:kSystemActionBundle]];
+  [action setShortDescription:[self shortDescription]];
 }
 
 #pragma mark -
@@ -108,8 +96,7 @@ volatile int SparkSystemGDBWorkaround = 0;
 - (void)setAction:(SystemActionType)newAction {
   if ([self action] != newAction) {
     [(SystemAction *)[self sparkAction] setAction:newAction];
-    [nameField unbind:@"value"];
-    [self bindFields];
+    [[nameField cell] setPlaceholderString:[self shortDescription]];
   }
 }
 

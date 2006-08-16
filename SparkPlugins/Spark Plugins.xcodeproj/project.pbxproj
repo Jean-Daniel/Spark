@@ -34,7 +34,6 @@
 		983974FF0A58637400F79B40 /* SystemAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 983974FD0A58637400F79B40 /* SystemAction.m */; };
 		983975020A58638500F79B40 /* SystemActionPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 983975000A58638500F79B40 /* SystemActionPlugin.h */; };
 		983975030A58638500F79B40 /* SystemAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 983975010A58638500F79B40 /* SystemAction.h */; };
-		983976950A5868DD00F79B40 /* SystemConfigView.nib in Resources */ = {isa = PBXBuildFile; fileRef = 9839768F0A5868DC00F79B40 /* SystemConfigView.nib */; };
 		985106B50A590AA200C98B1F /* SystemActionHelp.html in Resources */ = {isa = PBXBuildFile; fileRef = 985106B30A590AA200C98B1F /* SystemActionHelp.html */; };
 		9856561B08E590B800066835 /* ScreenSaver.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 9856561A08E590B800066835 /* ScreenSaver.tiff */; };
 		986756F1096B3C1E00BB8A25 /* ShadowKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 986756D4096B3C0500BB8A25 /* ShadowKit.framework */; };
@@ -48,6 +47,10 @@
 		98B5515506D25F06001BDF93 /* Eject.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98B5515406D25F06001BDF93 /* Eject.tif */; };
 		98BA1A0B0A583493004914E9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 98BA1A090A583493004914E9 /* Localizable.strings */; };
 		98DA320F0A8AF6F8009EC42C /* iTunesPlugin.nib in Resources */ = {isa = PBXBuildFile; fileRef = 98DA32090A8AF6F8009EC42C /* iTunesPlugin.nib */; };
+		98DAB9850A90F4E9001F3125 /* SystemPlugin.nib in Resources */ = {isa = PBXBuildFile; fileRef = 98DAB97F0A90F4E9001F3125 /* SystemPlugin.nib */; };
+		98DABB160A90F7A0001F3125 /* SystemPlugin.png in Resources */ = {isa = PBXBuildFile; fileRef = 98DABB150A90F79F001F3125 /* SystemPlugin.png */; };
+		98DD5E350A91CE5C00FB5814 /* ApplicationPlugin.png in Resources */ = {isa = PBXBuildFile; fileRef = 98DD5E340A91CE5C00FB5814 /* ApplicationPlugin.png */; };
+		98DD5E380A91CFD600FB5814 /* DocumentPlugin.png in Resources */ = {isa = PBXBuildFile; fileRef = 98DD5E370A91CFD600FB5814 /* DocumentPlugin.png */; };
 		98DEF22D0A4E786700E49F89 /* iTunesTrack.nib in Resources */ = {isa = PBXBuildFile; fileRef = 98DEF22C0A4E786700E49F89 /* iTunesTrack.nib */; };
 		98E6A8F2060636AE000CCBE1 /* Back.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98E6A8D8060636AE000CCBE1 /* Back.tiff */; };
 		98E6A8F6060636AE000CCBE1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 98E6A8DD060636AE000CCBE1 /* InfoPlist.strings */; };
@@ -228,7 +231,6 @@
 		983974FD0A58637400F79B40 /* SystemAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemAction.m; sourceTree = "<group>"; };
 		983975000A58638500F79B40 /* SystemActionPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemActionPlugin.h; sourceTree = "<group>"; };
 		983975010A58638500F79B40 /* SystemAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemAction.h; sourceTree = "<group>"; };
-		983976900A5868DC00F79B40 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SystemConfigView.nib; sourceTree = "<group>"; };
 		983CE317060646F2007D4E6D /* French */ = {isa = PBXFileReference; lastKnownFileType = folder; name = French; path = French.lproj/Help; sourceTree = "<group>"; };
 		983CE3240606474A007D4E6D /* French */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = French; path = French.lproj/iTunesHelp.html; sourceTree = "<group>"; };
 		983CE3250606474E007D4E6D /* French */ = {isa = PBXFileReference; lastKnownFileType = folder; name = French; path = French.lproj/Help; sourceTree = "<group>"; };
@@ -252,6 +254,10 @@
 		98C7DDF80713C852007F9CEF /* Switcher.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Switcher.h; sourceTree = "<group>"; };
 		98C7E30E06064B47003BF04D /* Icons.psd */ = {isa = PBXFileReference; lastKnownFileType = file; path = Icons.psd; sourceTree = "<group>"; };
 		98DA320A0A8AF6F8009EC42C /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Resources/English.lproj/iTunesPlugin.nib; sourceTree = "<group>"; };
+		98DAB9800A90F4E9001F3125 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Resources/English.lproj/SystemPlugin.nib; sourceTree = "<group>"; };
+		98DABB150A90F79F001F3125 /* SystemPlugin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SystemPlugin.png; sourceTree = "<group>"; };
+		98DD5E340A91CE5C00FB5814 /* ApplicationPlugin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ApplicationPlugin.png; sourceTree = "<group>"; };
+		98DD5E370A91CFD600FB5814 /* DocumentPlugin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DocumentPlugin.png; sourceTree = "<group>"; };
 		98DEF22C0A4E786700E49F89 /* iTunesTrack.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = iTunesTrack.nib; path = Resources/iTunesTrack.nib; sourceTree = "<group>"; };
 		98E1CC570607765F00FA3599 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
 		98E1CC590607767300FA3599 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -577,7 +583,7 @@
 				983974FC0A58637400F79B40 /* SystemActionPlugin.m */,
 				98641DF8060A33750033892D /* Info.plist */,
 				98FC451806063B14003617CA /* InfoPlist.strings */,
-				9839768F0A5868DC00F79B40 /* SystemConfigView.nib */,
+				98DAB97F0A90F4E9001F3125 /* SystemPlugin.nib */,
 				98FC44DD06063AA6003617CA /* Resources */,
 			);
 			path = System;
@@ -613,6 +619,7 @@
 				98FC44ED06063AA7003617CA /* LogOut.png */,
 				98FC44F106063AA7003617CA /* ShutDown.png */,
 				9856561A08E590B800066835 /* ScreenSaver.tiff */,
+				98DABB150A90F79F001F3125 /* SystemPlugin.png */,
 			);
 			name = images;
 			sourceTree = "<group>";
@@ -621,8 +628,8 @@
 			isa = PBXGroup;
 			children = (
 				98FC454706063C8E003617CA /* Headers */,
-				98FC454606063C8E003617CA /* AppleScriptActionPlugin.m */,
 				98FC454506063C8E003617CA /* AppleScriptAction.m */,
+				98FC454606063C8E003617CA /* AppleScriptActionPlugin.m */,
 				98E1CC570607765F00FA3599 /* Info.plist */,
 				98FC458206063CD0003617CA /* InfoPlist.strings */,
 				98FC458606063CE0003617CA /* AppleScriptView.nib */,
@@ -693,6 +700,7 @@
 			isa = PBXGroup;
 			children = (
 				98FC45F606063DD1003617CA /* AppIcon.tif */,
+				98DD5E340A91CE5C00FB5814 /* ApplicationPlugin.png */,
 				98FC461606063DF8003617CA /* ApplicationHelp.html */,
 				98FC461C06063E06003617CA /* Help */,
 				98FC462506063E19003617CA /* Localizable.strings */,
@@ -729,6 +737,7 @@
 			isa = PBXGroup;
 			children = (
 				98FC48F50606444A003617CA /* DocumentIcon.tif */,
+				98DD5E370A91CFD600FB5814 /* DocumentPlugin.png */,
 				98F7FE700607969F006FD336 /* Warning.tiff */,
 				98F7FE7B06079E9C006FD336 /* Selection.tiff */,
 				98EDC3590736E6C700EF9F2B /* URLIcon.tiff */,
@@ -1018,8 +1027,9 @@
 				98FC451B06063B14003617CA /* InfoPlist.strings in Resources */,
 				9856561B08E590B800066835 /* ScreenSaver.tiff in Resources */,
 				98BA1A0B0A583493004914E9 /* Localizable.strings in Resources */,
-				983976950A5868DD00F79B40 /* SystemConfigView.nib in Resources */,
 				985106B50A590AA200C98B1F /* SystemActionHelp.html in Resources */,
+				98DAB9850A90F4E9001F3125 /* SystemPlugin.nib in Resources */,
+				98DABB160A90F7A0001F3125 /* SystemPlugin.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1050,6 +1060,7 @@
 				98FC462206063E06003617CA /* Help in Resources */,
 				98FC462706063E19003617CA /* InfoPlist.strings in Resources */,
 				98FC462806063E19003617CA /* Localizable.strings in Resources */,
+				98DD5E350A91CE5C00FB5814 /* ApplicationPlugin.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1066,6 +1077,7 @@
 				98F7FE710607969F006FD336 /* Warning.tiff in Resources */,
 				98F7FE7C06079E9D006FD336 /* Selection.tiff in Resources */,
 				98EDC35A0736E6C700EF9F2B /* URLIcon.tiff in Resources */,
+				98DD5E380A91CFD600FB5814 /* DocumentPlugin.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1160,15 +1172,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		9839768F0A5868DC00F79B40 /* SystemConfigView.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				983976900A5868DC00F79B40 /* English */,
-			);
-			name = SystemConfigView.nib;
-			path = Resources;
-			sourceTree = "<group>";
-		};
 		985106B30A590AA200C98B1F /* SystemActionHelp.html */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1192,6 +1195,14 @@
 				98DA320A0A8AF6F8009EC42C /* English */,
 			);
 			name = iTunesPlugin.nib;
+			sourceTree = "<group>";
+		};
+		98DAB97F0A90F4E9001F3125 /* SystemPlugin.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				98DAB9800A90F4E9001F3125 /* English */,
+			);
+			name = SystemPlugin.nib;
 			sourceTree = "<group>";
 		};
 		98E6A8DD060636AE000CCBE1 /* InfoPlist.strings */ = {

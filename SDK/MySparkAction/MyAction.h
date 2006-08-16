@@ -6,13 +6,14 @@
 //  Copyright (c) 2004 ShadowLab. All rights reserved.
 //
 
-#import <SparkKit/SparkKit_API.h>
+#import <SparkKit/SparkPluginAPI.h>
 
 @interface MyAction : SparkAction {
-  int beepCount;
+  @private
+  unsigned my_count;
 }
 
 - (int)beepCount;
-- (void)setBeepCount:(int)newBeepCount;
+- (void)setBeepCount:(int)aBeepCount;
 
 @end

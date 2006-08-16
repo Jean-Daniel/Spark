@@ -54,8 +54,8 @@
 - (NSString *)categorie {
   return [se_action categorie];
 }
-- (NSString *)shortDescription {
-  return [se_action shortDescription];
+- (NSString *)actionDescription {
+  return [se_action actionDescription];
 }
 - (NSString *)triggerDescription {
   return [se_trigger triggerDescription];

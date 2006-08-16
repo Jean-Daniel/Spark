@@ -145,7 +145,7 @@ NSString * const kiTunesActionBundleIdentifier = @"org.shadowlab.spark.iTunes";
 - (void)setITunesAction:(iTunesAction)newAction {
   if ([self iTunesAction] != newAction) {
     [[self sparkAction] setITunesAction:newAction];
-    [nameField setPlaceholderString:[self defaultName]];
+    [[nameField cell] setPlaceholderString:[self defaultName]];
     if (kiTunesPlayPlaylist == newAction && ![self playlists]) {
       [self loadPlaylists];
       [self setPlaylist:[[self playlists] objectAtIndex:0]];

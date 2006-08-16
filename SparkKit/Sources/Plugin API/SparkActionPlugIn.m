@@ -11,6 +11,8 @@
 
 #import <SparkKit/SparkAction.h>
 #import <SparkKit/SparkActionPlugIn.h>
+
+#import <ShadowKit/SKExtensions.h>
 #import <ShadowKit/SKAppKitExtensions.h>
 
 @implementation SparkActionPlugIn
@@ -36,7 +38,7 @@
 }
 
 - (void)loadSparkAction:(SparkAction *)action toEdit:(BOOL)flag {
-  // does nothing
+  // does nothing since name and icon are store in sp_action.
 }
 
 - (id)sparkAction {
@@ -44,13 +46,12 @@
 }
 
 - (NSAlert *)sparkEditorShouldConfigureAction {
-  // Does nothing
+  // Name should be check after 'configure action' to allow user to set it later.
   return nil;
 }
 
 - (void)configureAction {
-  [sp_action setName:[self name]];
-  [sp_action setIcon:[self icon]];
+  // does nothing
 }
 
 - (NSString *)name {
@@ -69,13 +70,12 @@
   [sp_action setIcon:icon];
 }
 
+#pragma mark -
+#pragma mark Private Methods
 /* Compat */
 - (NSUndoManager *)undoManager {
   return nil;
 }
-
-#pragma mark -
-#pragma mark Private Methods
 - (void)setSparkAction:(SparkAction *)action {
   SKSetterRetain(sp_action, action);
 }
@@ -129,26 +129,6 @@
       path = [bundle pathForResource:help ofType:@"rtfd"];
   }
   return path;
-}
-
-@end
-
-#pragma mark -
-@implementation SparkActionPlugIn (SparkExtended)
-
-+ (NSImage *)descriptionIcon {
-  NSBundle *bundle = SKCurrentBundle();
-  NSString *name = [bundle objectForInfoDictionaryKey:@"SparkPluginDescriptionIcon"];
-  return [NSImage imageNamed:name inBundle:bundle];
-}
-
-+ (NSString *)plugInDescription {
-  NSBundle *bundle = SKCurrentBundle();
-  NSString *desc = [bundle objectForInfoDictionaryKey:@"SparkPluginDescription"];
-  if (!desc) {
-    desc = @"";
-  }
-  return desc;
 }
 
 @end

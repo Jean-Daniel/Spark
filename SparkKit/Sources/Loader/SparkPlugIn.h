@@ -18,8 +18,6 @@
   NSString *sp_path;
   NSImage  *sp_icon;
   NSString *sp_bundle;
-  NSImage *sp_descIcon;
-  NSString *sp_description;
 }
 
 - (id)initWithBundle:(NSBundle *)bundle;
@@ -59,12 +57,6 @@
 
 - (NSString *)bundleIdentifier;
 - (void)setBundleIdentifier:(NSString *)anIdentifier;
-
-- (NSString *)plugInDescription;
-- (void)setPlugInDescription:(NSString *)aDescription;
-
-- (NSImage *)descriptionIcon;
-- (void)setDescriptionIcon:(NSImage *)anImage;
 
 /*!
   @method

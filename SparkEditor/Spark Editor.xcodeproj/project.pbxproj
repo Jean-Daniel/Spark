@@ -85,8 +85,6 @@
 		98DD45610A57DE9A00F059E5 /* DocumentAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 6540B6EC09E6430800D0E8FB /* DocumentAction.spact */; };
 		98DD45620A57DE9A00F059E5 /* ApplicationAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 6540B6EE09E6430800D0E8FB /* ApplicationAction.spact */; };
 		98DD45630A57DE9A00F059E5 /* AppleScriptAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 6540B6F009E6430800D0E8FB /* AppleScriptAction.spact */; };
-		98DDE9740A612DED00D76698 /* SEActionEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 98DDE9730A612DED00D76698 /* SEActionEditor.h */; };
-		98DDE9780A612DFF00D76698 /* SEActionEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 98DDE9770A612DFF00D76698 /* SEActionEditor.m */; };
 		98EA6B300A5E7C2D0019E26C /* SETriggersController.h in Headers */ = {isa = PBXBuildFile; fileRef = 98EA6B2F0A5E7C2D0019E26C /* SETriggersController.h */; };
 		98EA6B550A5E83120019E26C /* System.tif in Resources */ = {isa = PBXBuildFile; fileRef = 984196BB0A5E52670009A093 /* System.tif */; };
 		98EF831508646313007BC81A /* SparkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF83140864630B007BC81A /* SparkKit.framework */; };
@@ -486,8 +484,6 @@
 		98DCBDEC060C80DD00B3E0AE /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = SOURCE_ROOT; };
 		98DD5249071092E600B33C4B /* ChoosePanel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChoosePanel.m; sourceTree = "<group>"; };
 		98DD524C071092F500B33C4B /* ChoosePanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChoosePanel.h; sourceTree = "<group>"; };
-		98DDE9730A612DED00D76698 /* SEActionEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEActionEditor.h; sourceTree = "<group>"; };
-		98DDE9770A612DFF00D76698 /* SEActionEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEActionEditor.m; sourceTree = "<group>"; };
 		98E1F9D806F35B3800DDA29E /* ObjectEditorController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjectEditorController.m; sourceTree = "<group>"; };
 		98E1F9DB06F35B5100DDA29E /* ObjectEditorController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectEditorController.h; sourceTree = "<group>"; };
 		98E66CC10759FA7C0048A37D /* HotKeySparkList.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = HotKeySparkList.icns; sourceTree = "<group>"; };
@@ -937,7 +933,6 @@
 			children = (
 				985AF9DC0A5C335D00397FAA /* Headers */,
 				981A8A9E0A61A4E400753369 /* SEEntryEditor.m */,
-				98DDE9770A612DFF00D76698 /* SEActionEditor.m */,
 				983BE16C0A7E402600E0228F /* SELibrarySource.m */,
 				985AF9FA0A5C33D400397FAA /* SELibraryWindow.m */,
 				98A9226B0A7B8EC300DF1998 /* SEApplicationSource.m */,
@@ -950,7 +945,6 @@
 			isa = PBXGroup;
 			children = (
 				981A8A9A0A61A4D600753369 /* SEEntryEditor.h */,
-				98DDE9730A612DED00D76698 /* SEActionEditor.h */,
 				983BE1730A7E402F00E0228F /* SELibrarySource.h */,
 				985AFA000A5C33D900397FAA /* SELibraryWindow.h */,
 				98A9226F0A7B8ED300DF1998 /* SEApplicationSource.h */,
@@ -1101,7 +1095,6 @@
 				98FB0A630A5D09D400129126 /* SEBackgroundView.h in Headers */,
 				984196DF0A5E54740009A093 /* SETableView.h in Headers */,
 				98EA6B300A5E7C2D0019E26C /* SETriggersController.h in Headers */,
-				98DDE9740A612DED00D76698 /* SEActionEditor.h in Headers */,
 				98B2C6C60A617AA500D9D719 /* SEScriptHandler.h in Headers */,
 				981A8A360A61A25800753369 /* SETriggerEntry.h in Headers */,
 				981A8A9B0A61A4D600753369 /* SEEntryEditor.h in Headers */,
@@ -1375,7 +1368,6 @@
 				98F747860A5C69A0003D4BE1 /* SEHeaderCell.m in Sources */,
 				98FB0A640A5D09D400129126 /* SEBackgroundView.m in Sources */,
 				984196E00A5E54740009A093 /* SETableView.m in Sources */,
-				98DDE9780A612DFF00D76698 /* SEActionEditor.m in Sources */,
 				98B2C6C50A617AA200D9D719 /* SEScriptHandler.m in Sources */,
 				981A8A370A61A25800753369 /* SETriggerEntry.m in Sources */,
 				981A8A9F0A61A4E400753369 /* SEEntryEditor.m in Sources */,
