@@ -17,6 +17,6 @@
 - (SystemActionType)action;
 - (void)setAction:(SystemActionType)anAction;
 
-- (NSString *)shortDescription;
+- (NSString *)actionDescription;
 
 @end

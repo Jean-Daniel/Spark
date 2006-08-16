@@ -81,11 +81,14 @@ NSString * const kSystemActionKey = @"SystemAction";
     case kSystemShutDown:
     case kSystemFastLogOut:
     case kSystemScreenSaver:
-      // System events
-    case kSystemMute:
-    case kSystemEject:
-    case kSystemVolumeUp:
-    case kSystemVolumeDown:
+      /* Accessibility */
+    case kSystemSwitchPolarity:
+    case kSystemSwitchGrayscale:
+      /* System Event */
+//    case kSystemMute:
+//    case kSystemEject:
+//    case kSystemVolumeUp:
+//    case kSystemVolumeDown:
       return nil;
     default:
       return [SparkAlert alertWithMessageText:NSLocalizedStringFromTableInBundle(@"INVALID_ACTION_ALERT",
@@ -124,19 +127,26 @@ NSString * const kSystemActionKey = @"SystemAction";
       case kSystemScreenSaver:
         [self screenSaver];
         break;
-      case kSystemMute:
-        SKHIDPostAuxKey(kSKKeyMute);
+        /* Accessibility */
+      case kSystemSwitchPolarity:
+        [self togglePolarity];
         break;
-      case kSystemEject:
-        SKHIDPostAuxKey(kSKKeyEject);
-        //SKHIDPostSystemDefinedEvent(kSKHIDEjectKey);
+      case kSystemSwitchGrayscale:
+        [self toggleGray];
         break;
-      case kSystemVolumeUp:
-        SKHIDPostAuxKey(kSKKeySoundUp);
-        break;
-      case kSystemVolumeDown:
-        SKHIDPostAuxKey(kSKKeySoundDown);
-        break;
+//      case kSystemMute:
+//        SKHIDPostAuxKey(kSKKeyMute);
+//        break;
+//      case kSystemEject:
+//        SKHIDPostAuxKey(kSKKeyEject);
+//        //SKHIDPostSystemDefinedEvent(kSKHIDEjectKey);
+//        break;
+//      case kSystemVolumeUp:
+//        SKHIDPostAuxKey(kSKKeySoundUp);
+//        break;
+//      case kSystemVolumeDown:
+//        SKHIDPostAuxKey(kSKKeySoundDown);
+//        break;
     }
   }
   return alert;

@@ -51,7 +51,7 @@ volatile int SparkSystemGDBWorkaround = 0;
   SystemAction *action = [self sparkAction];
   /* Set Name */
   if ([[[action name] stringByTrimmingWhitespaceAndNewline] length] == 0)
-    [action setName:[self shortDescription]];
+    [action setName:[self actionDescription]];
   NSString *iconName = nil;
   switch ([self action]) {
     case kSystemLogOut:
@@ -70,22 +70,28 @@ volatile int SparkSystemGDBWorkaround = 0;
     case kSystemScreenSaver:
       iconName = @"ScreenSaver";
       break;
-    case kSystemMute:
+    case kSystemSwitchGrayscale:
       iconName = @"ScreenSaver";
       break;
-    case kSystemEject:
+    case kSystemSwitchPolarity:
       iconName = @"ScreenSaver";
       break;
-    case kSystemVolumeUp:
-      iconName = @"ScreenSaver";
-      break;
-    case kSystemVolumeDown:
-      iconName = @"ScreenSaver";
-      break;
+//    case kSystemMute:
+//      iconName = @"ScreenSaver";
+//      break;
+//    case kSystemEject:
+//      iconName = @"ScreenSaver";
+//      break;
+//    case kSystemVolumeUp:
+//      iconName = @"ScreenSaver";
+//      break;
+//    case kSystemVolumeDown:
+//      iconName = @"ScreenSaver";
+//      break;
   }
   if (iconName)
     [action setIcon:[NSImage imageNamed:iconName inBundle:kSystemActionBundle]];
-  [action setShortDescription:[self shortDescription]];
+  [action setActionDescription:[self actionDescription]];
 }
 
 #pragma mark -
@@ -96,11 +102,11 @@ volatile int SparkSystemGDBWorkaround = 0;
 - (void)setAction:(SystemActionType)newAction {
   if ([self action] != newAction) {
     [(SystemAction *)[self sparkAction] setAction:newAction];
-    [[nameField cell] setPlaceholderString:[self shortDescription]];
+    [[nameField cell] setPlaceholderString:[self actionDescription]];
   }
 }
 
-- (NSString *)shortDescription {
+- (NSString *)actionDescription {
   id desc = nil;
   switch ([self action]) {
     case kSystemLogOut:
@@ -127,22 +133,31 @@ volatile int SparkSystemGDBWorkaround = 0;
       desc = NSLocalizedStringFromTableInBundle(@"DESC_SCREEN_SAVER", nil, kSystemActionBundle,
                                                 @"Screen Saver * Action Description *");
       break;
-    case kSystemMute:
-      desc = NSLocalizedStringFromTableInBundle(@"DESC_SOUND_MUTE", nil, kSystemActionBundle,
-                                                @"Mute * Action Description *");
+    case kSystemSwitchGrayscale:
+      desc = NSLocalizedStringFromTableInBundle(@"DESC_SWITCH_GRAYSCALE", nil, kSystemActionBundle,
+                                                @"Switch Grayscale * Action Description *");
       break;
-    case kSystemEject:
-      desc = NSLocalizedStringFromTableInBundle(@"DESC_EJECT", nil, kSystemActionBundle,
-                                                @"Eject * Action Description *");
+    case kSystemSwitchPolarity:
+      desc = NSLocalizedStringFromTableInBundle(@"DESC_SWITCH_POLARITY", nil, kSystemActionBundle,
+                                                @"Switch Polarity * Action Description *");
       break;
-    case kSystemVolumeUp:
-      desc = NSLocalizedStringFromTableInBundle(@"DESC_SOUND_UP", nil, kSystemActionBundle,
-                                                @"Sound up * Action Description *");
-      break;
-    case kSystemVolumeDown:
-      desc = NSLocalizedStringFromTableInBundle(@"DESC_SOUND_DOWN", nil, kSystemActionBundle,
-                                                @"Sound down * Action Description *");
-      break;
+      
+//    case kSystemMute:
+//      desc = NSLocalizedStringFromTableInBundle(@"DESC_SOUND_MUTE", nil, kSystemActionBundle,
+//                                                @"Mute * Action Description *");
+//      break;
+//    case kSystemEject:
+//      desc = NSLocalizedStringFromTableInBundle(@"DESC_EJECT", nil, kSystemActionBundle,
+//                                                @"Eject * Action Description *");
+//      break;
+//    case kSystemVolumeUp:
+//      desc = NSLocalizedStringFromTableInBundle(@"DESC_SOUND_UP", nil, kSystemActionBundle,
+//                                                @"Sound up * Action Description *");
+//      break;
+//    case kSystemVolumeDown:
+//      desc = NSLocalizedStringFromTableInBundle(@"DESC_SOUND_DOWN", nil, kSystemActionBundle,
+//                                                @"Sound down * Action Description *");
+//      break;
     default:
       desc = NSLocalizedStringFromTableInBundle(@"DESC_ERROR", nil, kSystemActionBundle,
                                                 @"Error * Action Description *");

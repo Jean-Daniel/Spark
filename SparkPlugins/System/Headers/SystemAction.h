@@ -15,11 +15,14 @@ typedef enum {
   kSystemShutDown,
   kSystemFastLogOut,
   kSystemScreenSaver,
+  /* Accessibility */
+  kSystemSwitchGrayscale,
+  kSystemSwitchPolarity,
   /* System event */
-  kSystemMute,
-  kSystemEject,
-  kSystemVolumeUp,
-  kSystemVolumeDown,
+//  kSystemMute,
+//  kSystemEject,
+//  kSystemVolumeUp,
+//  kSystemVolumeDown,
 } SystemActionType;
 
 extern NSString * const kSystemActionBundleIdentifier;
@@ -39,5 +42,8 @@ extern NSString * const kSystemActionBundleIdentifier;
 - (void)shutDown;
 - (void)fastLogout;
 - (void)screenSaver;
+
+- (void)toggleGray;
+- (void)togglePolarity;
 
 @end

@@ -54,7 +54,7 @@ bail:
 
 OSStatus SDSendStateToEditor(SparkDaemonStatus state) {
   OSStatus err = noErr;
-  ProcessSerialNumber psn = SKGetProcessWithSignature(kSparkHFSCreatorType);
+  ProcessSerialNumber psn = SKProcessGetProcessWithSignature(kSparkHFSCreatorType);
   if (psn.lowLongOfPSN != kNoProcess) {
     AEDesc theEvent;
     SKAENullDesc(&theEvent);
