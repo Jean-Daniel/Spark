@@ -48,7 +48,8 @@ NSTimeInterval SparkGetDefaultKeyRepeatInterval(void);
   int sp_version;
   struct _sp_saFlags {
     unsigned int invalid:1;
-    unsigned int :15;
+    unsigned int editable:1;
+    unsigned int :14;
   } sp_saFlags;
   NSString *sp_categorie, *sp_description;
 }
@@ -69,6 +70,9 @@ NSTimeInterval SparkGetDefaultKeyRepeatInterval(void);
    @result A new deserialized object.
    */
 - (id)initWithSerializedValues:(NSDictionary *)plist;
+
+- (BOOL)isEditable;
+- (void)setEditable:(BOOL)flag;
 
   /*!
   @method     check

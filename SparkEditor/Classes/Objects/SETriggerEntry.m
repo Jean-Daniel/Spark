@@ -28,6 +28,13 @@
   [super dealloc];
 }
 
+- (int)type {
+  return se_type;
+}
+- (void)setType:(int)type {
+  se_type = type;
+}
+
 - (SparkAction *)action {
   return se_action;
 }

@@ -70,6 +70,10 @@
   [sp_action setIcon:icon];
 }
 
+- (BOOL)isEditable {
+  return [sp_action isEditable];
+}
+
 #pragma mark -
 #pragma mark Private Methods
 /* Compat */
@@ -77,7 +81,13 @@
   return nil;
 }
 - (void)setSparkAction:(SparkAction *)action {
+  [self willChangeValueForKey:@"name"];
+  [self willChangeValueForKey:@"icon"];
+  [self willChangeValueForKey:@"editable"];
   SKSetterRetain(sp_action, action);
+  [self didChangeValueForKey:@"editable"];
+  [self didChangeValueForKey:@"icon"];
+  [self didChangeValueForKey:@"name"];
 }
 
 #pragma mark -

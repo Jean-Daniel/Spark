@@ -9,10 +9,17 @@
 SK_PRIVATE
 NSArray *gSortByNameDescriptors;
 
+enum {
+  kSEEntryTypeDefault = 0,
+  kSEEntryTypeCustom,
+  kSEEntryTypeIgnore
+};
+
 #pragma mark -
 @class SparkAction, SparkTrigger;
 @interface SETriggerEntry : NSObject {
   @private
+  int se_type;
   SparkAction *se_action;
   SparkTrigger *se_trigger;
 }
@@ -25,6 +32,9 @@ NSArray *gSortByNameDescriptors;
 - (NSString *)categorie;
 - (NSString *)actionDescription;
 - (NSString *)triggerDescription;
+
+- (int)type;
+- (void)setType:(int)type;
 
 - (SparkAction *)action;
 - (void)setAction:(SparkAction *)action;

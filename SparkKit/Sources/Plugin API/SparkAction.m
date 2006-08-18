@@ -126,6 +126,13 @@ static NSString * const kSparkActionDescriptionKey = @"ShortDescription";
 
 #pragma mark -
 #pragma mark Accessors
+- (BOOL)isEditable {
+  return sp_saFlags.editable;
+}
+- (void)setEditable:(BOOL)flag {
+  SKSetFlag(sp_saFlags.editable, flag);
+}
+
 - (NSImage *)icon {
   NSImage *icon = [super icon];
   if (!icon) {
@@ -169,14 +176,6 @@ static NSString * const kSparkActionDescriptionKey = @"ShortDescription";
   return 0;
 }
 
-/* Compatibility */
-- (NSString *)shortDescription {
-  return [self actionDescription];
-}
-- (void)setShortDescription:(NSString *)desc {
-  [self setActionDescription:desc];
-}
-
 @end
 
 #pragma mark -
@@ -191,6 +190,14 @@ static NSString * const kSparkActionDescriptionKey = @"ShortDescription";
 }
 - (void)setInvalid:(BOOL)flag {
   SKSetFlag(sp_saFlags.invalid, flag);
+}
+
+/* Compatibility */
+- (NSString *)shortDescription {
+  return [self actionDescription];
+}
+- (void)setShortDescription:(NSString *)desc {
+  [self setActionDescription:desc];
 }
 
 @end

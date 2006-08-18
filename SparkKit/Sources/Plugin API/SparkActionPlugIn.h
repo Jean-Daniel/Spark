@@ -32,6 +32,7 @@ If you use this class in IB, you can define an Outlet with name actionView.
   @private
   NSView *sp_view;
   SparkAction *sp_action;
+  
   /*Keep binary compatibility */
   void *sp_reserved;
   void *sp_reserved2;
@@ -110,5 +111,7 @@ If you use this class in IB, you can define an Outlet with name actionView.
    @param icon The new icon or nil if you want to use default action icon.
    */
 - (void)setIcon:(NSImage *)icon;
+
+- (BOOL)isEditable;
 
 @end

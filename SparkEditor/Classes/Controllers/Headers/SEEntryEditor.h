@@ -18,11 +18,13 @@
     NSSize se_min;
   NSView *se_view;
   NSMutableArray *se_views;
+  NSMutableArray *se_actions;
   NSMutableArray *se_plugins;
   NSMutableArray *se_instances;
 }
 
 - (void)setActionType:(SparkPlugIn *)type;
+
 - (void)setEntry:(SETriggerEntry *)anEntry;
 - (void)setApplication:(SparkApplication *)anApplication;
 

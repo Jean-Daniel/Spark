@@ -84,7 +84,7 @@ int main(int argc, const char *argv[]) {
           CFNumberGetValue(parent, kCFNumberLongLongType, &psn);
           
           /* If launch by something that is not Spark Editor */
-          OSType sign = SKGetProcessSignature(&psn);
+          OSType sign = SKProcessGetSignature(&psn);
           if (sign != kSparkHFSCreatorType) {
             CFNumberRef value = CFPreferencesCopyAppValue(CFSTR("SparkDaemonDelay"), (CFStringRef)kSparkBundleIdentifier);
             if (value) {

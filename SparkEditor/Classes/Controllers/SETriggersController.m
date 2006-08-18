@@ -28,6 +28,12 @@
     se_entries = [[NSMutableArray alloc] init];
     se_defaults = [[SETriggerEntrySet alloc] init];
     [se_defaults addEntriesFromDictionary:[SparkSharedLibrary() triggersForApplication:0]];
+    
+    SETriggerEntry *entry;
+    NSEnumerator *entries = [se_defaults entryEnumerator];
+    while (entry = [entries nextObject]) {
+      [entry setType:kSEEntryTypeDefault];
+    }
   }
   return self;
 }
@@ -108,8 +114,15 @@
     while (trigger = [triggers nextObject]) {
       SETriggerEntry *entry = [se_triggers entryForTrigger:trigger];
       if (entry) {
-        if ([se_application uid] == 0 || !se_filter || [entry action] != [se_defaults actionForTrigger:trigger]) 
+        /* If system app, or if display all, or if is a custom action */
+        if ([se_application uid] == 0 || !se_filter || [entry action] != [se_defaults actionForTrigger:trigger]) {
+          if (0 == [[entry action] uid])
+            [entry setType:kSEEntryTypeIgnore];
+          else if ([entry action] != [se_defaults actionForTrigger:trigger])
+            [entry setType:kSEEntryTypeCustom];
+          
           [se_entries addObject:entry];
+        }
       }
     }
     [self sortTriggers:[table sortDescriptors]];
@@ -154,7 +167,7 @@
   /* Text field cell */
   if ([aCell respondsToSelector:@selector(setTextColor:)]) {
     SETriggerEntry *entry = [se_entries objectAtIndex:rowIndex];
-    if ([se_application uid] != 0 && [[entry action] isEqualToLibraryObject:[se_defaults actionForTrigger:[entry trigger]]]) {
+    if ([se_application uid] != 0 && kSEEntryTypeDefault == [entry type]) {
       //    [cell setFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]];
       [aCell setFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]];
       [aCell setTextColor:[aTableView isRowSelected:rowIndex] ? [NSColor selectedControlTextColor] : [NSColor darkGrayColor]];
@@ -164,7 +177,7 @@
       if ([se_application uid] == 0) {
         [aCell setFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]];
       } else {
-        if ([aCell respondsToSelector:@selector(setDrawLineOver:)])
+        if ([entry type] == kSEEntryTypeIgnore && [aCell respondsToSelector:@selector(setDrawLineOver:)])
           [aCell setDrawLineOver:YES];
         [aCell setFont:[NSFont boldSystemFontOfSize:[NSFont smallSystemFontSize]]];
       }
