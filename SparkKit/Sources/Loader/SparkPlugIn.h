@@ -14,6 +14,7 @@
 @interface SparkPlugIn : NSObject {
   @private
   Class sp_class;
+  NSNib *sp_nib;
   NSString *sp_name;
   NSString *sp_path;
   NSImage  *sp_icon;
@@ -65,8 +66,12 @@
 - (Class)actionClass;
 /*!
   @method
- @abstract Returns the plugin principal class.
+ @abstract Returns a new plugin instance.
 */
-- (Class)pluginClass;
+- (id)instantiatePlugin;
 
+@end
+
+@interface SparkPlugIn (SparkBuiltInPlugIn)
+- (id)initWithClass:(Class)cls;
 @end

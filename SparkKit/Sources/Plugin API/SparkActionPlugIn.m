@@ -18,22 +18,23 @@
 @implementation SparkActionPlugIn
 
 - (void)dealloc {
+  [sp_view release];
   [sp_action release];
   [super dealloc];
 }
 
 - (void)setActionView:(NSView *)actionView {
-  sp_view = actionView;
+  SKSetterRetain(sp_view, actionView);
 }
 
 - (NSView *)actionView {
-  if (!sp_view) {
-    NSBundle * bundle = SKCurrentBundle();
-    if (![NSBundle loadNibNamed:[bundle objectForInfoDictionaryKey:@"NSMainNibFile"] owner:self]) {
-      NSLog(@"%@: Error while loading nib file %@", [self class], [bundle objectForInfoDictionaryKey:@"NSMainNibFile"]);
-    }
-    [sp_view autorelease];
-  }
+//  if (!sp_view) {
+//    NSBundle *bundle = SKCurrentBundle();
+//    NSString *nib = [bundle objectForInfoDictionaryKey:@"NSMainNibFile"];
+//    if (![NSBundle loadNibNamed:nib owner:self]) {
+//      NSLog(@"%@: Error while loading nib file %@", [self class], nib);
+//    }
+//  }
   return sp_view;
 }
 
@@ -76,10 +77,6 @@
 
 #pragma mark -
 #pragma mark Private Methods
-/* Compat */
-- (NSUndoManager *)undoManager {
-  return nil;
-}
 - (void)setSparkAction:(SparkAction *)action {
   [self willChangeValueForKey:@"name"];
   [self willChangeValueForKey:@"icon"];
@@ -88,6 +85,11 @@
   [self didChangeValueForKey:@"editable"];
   [self didChangeValueForKey:@"icon"];
   [self didChangeValueForKey:@"name"];
+}
+
+/* Compat */
+- (NSUndoManager *)undoManager {
+  return nil;
 }
 
 #pragma mark -
@@ -139,6 +141,12 @@
       path = [bundle pathForResource:help ofType:@"rtfd"];
   }
   return path;
+}
+
++ (NSString *)nibPath {
+  NSBundle *bundle = SKCurrentBundle();
+  NSString *name = [bundle objectForInfoDictionaryKey:@"NSMainNibFile"];
+  return name ? [bundle pathForResource:name ofType:@"nib"] : nil;
 }
 
 @end

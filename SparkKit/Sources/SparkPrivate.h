@@ -12,6 +12,8 @@
 
 @interface SparkActionPlugIn (Private)
 
++ (NSString *)nibPath;
+
 /* SparkActionClass */
 + (Class)actionClass;
 

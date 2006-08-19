@@ -40,6 +40,7 @@
 }
 
 - (void)dealloc {
+  [sp_nib release];
   [sp_name release];
   [sp_path release];
   [sp_icon release];
@@ -47,6 +48,24 @@
   [super dealloc];
 }
 
+- (unsigned)hash {
+  return [sp_bundle hash];
+}
+
+- (BOOL)isEqual:(id)object {
+  if (!object || ![object isKindOfClass:[SparkPlugIn class]])
+    return NO;
+  
+  return [sp_bundle isEqual:[object bundleIdentifier]];
+}
+
+- (NSString *)description {
+  return [NSString stringWithFormat:@"<%@ %p> {Name: %@, Class: %@}",
+    [self class], self,
+    [self name], sp_class];
+}
+
+#pragma mark -
 - (NSString *)name {
   if (sp_name == nil) {
     [self setName:[sp_class plugInName]];
@@ -82,18 +101,36 @@
   SKSetterRetain(sp_bundle, identifier);
 }
 
-- (Class)pluginClass {
-  return sp_class;
+- (id)instantiatePlugin {
+  if (!sp_nib) {
+    NSString *path = [sp_class nibPath];
+    if (path) {
+      NSURL *url = [NSURL fileURLWithPath:path];
+      sp_nib = [[NSNib alloc] initWithContentsOfURL:url];
+    } else {
+      DLog(@"Invalid plugin nib path");
+    }
+  }
+  SparkPlugIn *plugin = [[sp_class alloc] init];
+  [sp_nib instantiateNibWithOwner:plugin topLevelObjects:nil];
+  return [plugin autorelease];
 }
 
 - (Class)actionClass {
   return [sp_class actionClass];
 }
 
-- (NSString *)description {
-  return [NSString stringWithFormat:@"<%@ %p> {Name: %@,\nPlugInClass: %@}",
-    [self class], self,
-    [self name], [self pluginClass]];
+@end
+
+@implementation SparkPlugIn (SparkBuiltInPlugIn)
+
+- (id)initWithClass:(Class)cls {
+  if (self = [self init]) {
+    sp_class = cls;
+  }
+  return self;
 }
 
+
 @end
+

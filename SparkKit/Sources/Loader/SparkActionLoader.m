@@ -16,7 +16,7 @@
 @implementation SparkActionLoader
 
 + (id)sharedLoader {
-  static id loader = nil;
+  static SparkActionLoader *loader = nil;
   if (!loader) {
     loader = [[self alloc] initWithDomains:kSKDefaultDomains subscribe:NO];
   }
