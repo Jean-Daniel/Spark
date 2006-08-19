@@ -16,16 +16,16 @@
   IBOutlet SEApplicationView *appField;
   @private
     NSSize se_min;
-  NSView *se_view;
-  NSMutableArray *se_views;
-  NSMutableArray *se_actions;
-  NSMutableArray *se_plugins;
-  NSMutableArray *se_instances;
+  NSView *se_view; /* current view */
+  SETriggerEntry *se_entry; /* Edited entry */
+  NSMutableArray *se_plugins; /* plugins list */
+  
+  NSMapTable *se_instances; /* plugin instances */
 }
 
-- (void)setActionType:(SparkPlugIn *)type;
-
 - (void)setEntry:(SETriggerEntry *)anEntry;
+
+- (void)setActionType:(SparkPlugIn *)type;
 - (void)setApplication:(SparkApplication *)anApplication;
 
 @end

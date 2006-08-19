@@ -50,8 +50,8 @@
   [table setTarget:self];
   [table setDoubleAction:@selector(doubleAction:)];
   
-  [table setAutosaveName:@"SparkTriggerTable"];
-  [table setAutosaveTableColumns:YES];
+//  [table setAutosaveName:@"SparkTriggerTable"];
+//  [table setAutosaveTableColumns:YES];
 }
 
 - (IBAction)doubleAction:(id)sender {
@@ -206,7 +206,7 @@
 
 - (BOOL)tableView:(NSTableView *)aTableView shouldEditTableColumn:(NSTableColumn *)tableColumn row:(int)rowIndex {
   /* Should not allow all columns */
-  return [[tableColumn identifier] isEqualToString:@"__item__"];
+  return [[tableColumn identifier] isEqualToString:@"__item__"] || [[tableColumn identifier] isEqualToString:@"enabled"];
 }
 
 @end

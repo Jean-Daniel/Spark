@@ -47,37 +47,7 @@
 
 /*
 - (NSImage *)dragImageForRows:(NSArray *)dragRows event:(NSEvent *)dragEvent dragImageOffset:(NSPointPointer)dragImageOffset {
-  id anImage = [super dragImageForRows:dragRows event:dragEvent dragImageOffset:dragImageOffset];
-
-  float width = [[self tableColumnWithIdentifier:@"active"] width];
-  width += [[self tableColumnWithIdentifier:@"name"] width];
-  dragImageOffset->x = 0;
-  NSSize size = NSMakeSize(width+1, [anImage size].height +1);
-  [anImage setSize:size];
-  
-  int count = [dragRows count];
-  int i;
-  float offset = MAXFLOAT;
-  for (i=0; i<count; i++) {
-    offset = MIN(NSMinY([self rectOfRow:[[dragRows objectAtIndex:i] intValue]]), offset);
-  }
-  offset--;
-  [anImage lockFocus];
-  [NSBezierPath setDefaultLineWidth:0];
-  [[NSGraphicsContext currentContext] setShouldAntialias:NO];  
-  [[NSColor colorWithCalibratedWhite:0.80 alpha:0.45] setFill];
-  [[NSColor grayColor] setStroke];
-  for (i=0; i<count; i++) {
-    NSRect imgRect = [self rectOfRow:[[dragRows objectAtIndex:i] intValue]];
-    imgRect.size.width = width;
-    imgRect.size.height -= 2;
-    imgRect.origin.y -= offset;
-    imgRect.origin.y = [anImage size].height - imgRect.origin.y - NSHeight(imgRect);
-    
-    NSRectFillUsingOperation(imgRect, NSCompositeDestinationOver);
-    [NSBezierPath strokeRect:imgRect];    
-  }
-  [anImage unlockFocus];
+...
 //  if (count > 0) {
 //    id badge = [self badgeWithCount:count];
 //    NSSize size = NSMakeSize(width,
@@ -90,6 +60,7 @@
 //  }
   return anImage;
 }
+
 */
 //- (NSImage *)badgeWithCount:(int)count {
 //  id img = nil;

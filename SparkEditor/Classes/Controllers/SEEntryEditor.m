@@ -12,6 +12,7 @@
 #import "SETableView.h"
 #import "SEHeaderCell.h"
 #import "SEHotKeyTrap.h"
+#import "SEBuiltInPlugin.h"
 
 #import <SparkKit/SparkPlugIn.h>
 #import <SparkKit/SparkHotKey.h>
@@ -20,10 +21,6 @@
 #import <SparkKit/SparkActionPlugIn.h>
 
 #import <HotKeyToolKit/HotKeyToolKit.h>
-
-@interface SETrapWindow : HKTrapWindow {
-}
-@end
 
 #pragma mark -
 @implementation SEEntryEditor
@@ -38,39 +35,30 @@
     }
     [se_plugins sortUsingDescriptors:gSortByNameDescriptors];
 
-    /* Add special objects and separator */
-//    plugin = [[SparkPlugIn alloc] init];
-//    [plugin setName:@"Globals Setting"];
-//    [plugin setIcon:[NSImage imageNamed:@"applelogo"]];
-//    [se_plugins insertObject:plugin atIndex:0];
-//    [plugin release];
-//    
-//    plugin = [[SparkPlugIn alloc] init];
-//    [plugin setName:@"Ignore Spark"];
-//    [plugin setIcon:[NSImage imageNamed:@"IgnoreAction"]];
-//    [se_plugins insertObject:plugin atIndex:1];
-//    [plugin release];
-//    
-//    plugin = [[SparkPlugIn alloc] init];
-//    [plugin setName:SETableSeparator];
-//    [se_plugins insertObject:plugin atIndex:2];
-//    [plugin release];
+    /* Create Ignore plugin */
+    plugin = [[SparkPlugIn alloc] initWithClass:[SEInheritsPlugin class]];
+    [se_plugins insertObject:plugin atIndex:0];
+    [plugin release];
     
-    unsigned count = [se_plugins count];
-    se_instances = [[NSMutableArray alloc] initWithCapacity:count];
-    while (count-- > 0) {
-      [se_instances addObject:[NSNull null]];
-    }
-    se_views = [se_instances mutableCopy];
+    /* Create Ignore plugin */
+    plugin = [[SparkPlugIn alloc] initWithClass:[SEIgnorePlugin class]];
+    [se_plugins insertObject:plugin atIndex:1];
+    [plugin release];
     
+    plugin = [[SparkPlugIn alloc] init];
+    [plugin setName:SETableSeparator];
+    [se_plugins insertObject:plugin atIndex:2];
+    [plugin release];
+    
+    se_instances = NSCreateMapTable(NSObjectMapKeyCallBacks, NSObjectMapValueCallBacks, [se_plugins count]);
   }
   return self;
 }
 
 - (void)dealloc {
-  [se_views release];
   [se_plugins release];
-  [se_instances release];
+  if (se_instances)
+    NSFreeMapTable(se_instances);
   [super dealloc];
 }
 
@@ -141,100 +129,105 @@
   return rowIndex >= 0 ? ![[[se_plugins objectAtIndex:rowIndex] name] isEqualToString:SETableSeparator] : YES;
 }
 
-SK_INLINE
-BOOL _IsViewResizable(NSView *aView) {
-  unsigned int mask = [aView autoresizingMask];
-  return (mask & (NSViewWidthSizable | NSViewHeightSizable)) != 0;
+- (SparkActionPlugIn *)se_instanceForClass:(Class)aClass {
+  NSParameterAssert([aClass isSubclassOfClass:[SparkActionPlugIn class]]);
+  SparkActionPlugIn *plugin = [[aClass alloc] init];
+  
+  // Load and configure plugin view
+  NSView *view = [plugin actionView];
+  [view setFrameOrigin:NSZeroPoint];
+  
+  // Set plugin action
+  //[plugin setSparkAction:theAction];
+  //[plugin loadSparkAction:theAction toEdit:YES];
+  
+  return [plugin autorelease];
 }
 
 - (void)setActionType:(SparkPlugIn *)aPlugin {
-  unsigned int row = [se_plugins indexOfObject:aPlugin];
-  if (row != NSNotFound) {
-    SparkActionPlugIn *plugin = [se_instances objectAtIndex:row];
-    if ([NSNull null] == (id)plugin) {
-      if ([[se_plugins objectAtIndex:row] pluginClass]) {
-        // create plugin instance when needed
-        plugin = [[[[se_plugins objectAtIndex:row] pluginClass] alloc] init];
-        [se_instances replaceObjectAtIndex:row withObject:plugin];
-        [plugin release];
-        
-        // Load plugin view
-        NSView *view = [plugin actionView];
-        [view setFrameOrigin:NSZeroPoint];
-        [se_views replaceObjectAtIndex:row withObject:view];
-        // load action into plugin.
-      } else {
-        DLog(@"Special plugin");
-      }     
-    }
-    /* Remove previous view */
-    if (se_view)
-      [se_view removeFromSuperview];
-    
-    se_view = [se_views objectAtIndex:row];
-    NSAssert2([se_view isKindOfClass:[NSView class]], @"Invalid view for plugin: %@, row: %u", plugin, row);
-    
-    // Adjust view and window frame
-    NSRect vrect = NSZeroRect; /* view rect */
-    vrect.size = [se_view frame].size;
-    
-    // View smaller than limit.
-    if (NSWidth(vrect) < se_min.width) {
-      // Adjust width
-      if ([se_view autoresizingMask] & NSViewWidthSizable) {
-        vrect.size.width = se_min.width;
-      } else {
-        vrect.origin.x = roundf(AVG(se_min.width, -NSWidth(vrect)));
-      }
-    }
-    if (NSHeight(vrect) < se_min.height) {
-      // Adjust height
-      if ([se_view autoresizingMask] & NSViewHeightSizable) {
-        vrect.size.height = se_min.height;
-      } else {
-        vrect.origin.y = roundf(AVG(se_min.height, -NSHeight(vrect)));
-      }
-    }
-    [se_view setFrame:vrect];
-    
-    /* current size */
-    NSSize csize = [pluginView frame].size;
-    /* destination rect */
-    NSRect drect = vrect;
-    drect.size.width = MAX(NSWidth(vrect), se_min.width);
-    drect.size.height = MAX(NSHeight(vrect), se_min.height);
-    /* compute delta between current size and destination size */
-    NSSize delta = {NSWidth(drect) - csize.width, NSHeight(drect) - csize.height};
-    
-    /* Resize window frame */
-    NSRect wframe = [[self window] frame];
-    wframe.size.width += delta.width;
-    wframe.size.height += delta.height;
-    wframe.origin.x -= delta.width / 2;
-    wframe.origin.y -= delta.height;
-    [[self window] setFrame:wframe display:YES animate:YES];
-    
-    /* Adjust window attributes */
-    NSSize smax = [[self window] frame].size;
-    smax.height += 22;
-    unsigned int mask = [se_view autoresizingMask];
-    if (mask & NSViewWidthSizable) {
-      smax.width = MAXFLOAT;
-    }
-    if (mask & NSViewHeightSizable) {
-      smax.height = MAXFLOAT;
-    }
-    if (MAXFLOAT <= smax.width || MAXFLOAT <= smax.height) {
-      [[self window] setShowsResizeIndicator:YES];
-      [[self window] setContentMinSize:NSMakeSize(0, 300)];
-    } else {
-      [[self window] setShowsResizeIndicator:NO];
-      [[self window] setContentMinSize:smax];
-    }
-    [[self window] setContentMaxSize:smax];
-    
-    [pluginView addSubview:se_view];
+  SparkActionPlugIn *instance = NSMapGet(se_instances, aPlugin);
+  if (!instance) {
+    instance = [aPlugin instantiatePlugin];
+    if (instance)
+      NSMapInsert(se_instances, aPlugin, instance);
+//    if ([aPlugin pluginClass]) {
+//      SparkActionPlugIn *instance = [self se_instanceForClass:[aPlugin pluginClass]];
+
+//    } else if ([[aPlugin bundleIdentifier] isEqualToString:SEInheritPluginIdentifier]) {
+//      DLog(@"Global settings");
+//    } else if ([[aPlugin bundleIdentifier] isEqualToString:SEIgnorePluginIdentifier]) {
+//      DLog(@"Ignore action");
+//    } else {
+//      DLog(@"Invalid plugin");
+//    }
   }
+  /* Remove previous view */
+  if (se_view)
+    [se_view removeFromSuperview];
+  
+  se_view = [instance actionView];
+  NSAssert1([se_view isKindOfClass:[NSView class]], @"Invalid view for plugin: %@", instance);
+  
+  // Adjust view and window frame
+  NSRect vrect = NSZeroRect; /* view rect */
+  vrect.size = [se_view frame].size;
+  
+  // View smaller than limit.
+  if (NSWidth(vrect) < se_min.width) {
+    // Adjust width
+    if ([se_view autoresizingMask] & NSViewWidthSizable) {
+      vrect.size.width = se_min.width;
+    } else {
+      vrect.origin.x = roundf(AVG(se_min.width, -NSWidth(vrect)));
+    }
+  }
+  if (NSHeight(vrect) < se_min.height) {
+    // Adjust height
+    if ([se_view autoresizingMask] & NSViewHeightSizable) {
+      vrect.size.height = se_min.height;
+    } else {
+      vrect.origin.y = roundf(AVG(se_min.height, -NSHeight(vrect)));
+    }
+  }
+  [se_view setFrame:vrect];
+  
+  /* current size */
+  NSSize csize = [pluginView frame].size;
+  /* destination rect */
+  NSRect drect = vrect;
+  drect.size.width = MAX(NSWidth(vrect), se_min.width);
+  drect.size.height = MAX(NSHeight(vrect), se_min.height);
+  /* compute delta between current size and destination size */
+  NSSize delta = {NSWidth(drect) - csize.width, NSHeight(drect) - csize.height};
+  
+  /* Resize window frame */
+  NSRect wframe = [[self window] frame];
+  wframe.size.width += delta.width;
+  wframe.size.height += delta.height;
+  wframe.origin.x -= delta.width / 2;
+  wframe.origin.y -= delta.height;
+  [[self window] setFrame:wframe display:YES animate:YES];
+  
+  /* Adjust window attributes */
+  NSSize smax = [[self window] frame].size;
+  smax.height += 22;
+  unsigned int mask = [se_view autoresizingMask];
+  if (mask & NSViewWidthSizable) {
+    smax.width = MAXFLOAT;
+  }
+  if (mask & NSViewHeightSizable) {
+    smax.height = MAXFLOAT;
+  }
+  if (MAXFLOAT <= smax.width || MAXFLOAT <= smax.height) {
+    [[self window] setShowsResizeIndicator:YES];
+    [[self window] setContentMinSize:NSMakeSize(0, 300)];
+  } else {
+    [[self window] setShowsResizeIndicator:NO];
+    [[self window] setContentMinSize:smax];
+  }
+  [[self window] setContentMaxSize:smax];
+  
+  [pluginView addSubview:se_view];
 }
 
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification {
@@ -267,6 +260,11 @@ BOOL _IsViewResizable(NSView *aView) {
 @end
 
 #pragma mark -
+/* Implements faster resizing */
+@interface SETrapWindow : HKTrapWindow {
+}
+@end
+
 @implementation SETrapWindow
 
 - (NSTimeInterval)animationResizeTime:(NSRect)newFrame {
