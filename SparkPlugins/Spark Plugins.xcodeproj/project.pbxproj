@@ -27,7 +27,6 @@
 /* Begin PBXBuildFile section */
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 		980D926206E61DB80038EE2A /* DocumentAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 980D926106E61DB80038EE2A /* DocumentAction.h */; };
-		98328827079602CC00DB780A /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 985B6F070719F8860073D36F /* Carbon.framework */; };
 		98328828079602CC00DB780A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 		9832882E079602EC00DB780A /* Labo.m in Sources */ = {isa = PBXBuildFile; fileRef = 9832882D079602EC00DB780A /* Labo.m */; };
 		983974FE0A58637400F79B40 /* SystemActionPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 983974FC0A58637400F79B40 /* SystemActionPlugin.m */; };
@@ -47,6 +46,8 @@
 		98AA290F060C659F0039844B /* VolumeDown.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98AA290D060C659F0039844B /* VolumeDown.tif */; };
 		98B5515506D25F06001BDF93 /* Eject.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98B5515406D25F06001BDF93 /* Eject.tif */; };
 		98BA1A0B0A583493004914E9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 98BA1A090A583493004914E9 /* Localizable.strings */; };
+		98BB26350A98F22B00124AB9 /* SparkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF7F5108645B7F007BC81A /* SparkKit.framework */; };
+		98BB26CD0A98F23E00124AB9 /* SystemAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 983974FD0A58637400F79B40 /* SystemAction.m */; };
 		98DA320F0A8AF6F8009EC42C /* iTunesPlugin.nib in Resources */ = {isa = PBXBuildFile; fileRef = 98DA32090A8AF6F8009EC42C /* iTunesPlugin.nib */; };
 		98DAB9850A90F4E9001F3125 /* SystemPlugin.nib in Resources */ = {isa = PBXBuildFile; fileRef = 98DAB97F0A90F4E9001F3125 /* SystemPlugin.nib */; };
 		98DABB160A90F7A0001F3125 /* SystemPlugin.png in Resources */ = {isa = PBXBuildFile; fileRef = 98DABB150A90F79F001F3125 /* SystemPlugin.png */; };
@@ -69,7 +70,6 @@
 		98E6A9530606385A000CCBE1 /* ITunesAESuite.h in Headers */ = {isa = PBXBuildFile; fileRef = 98E6A9500606385A000CCBE1 /* ITunesAESuite.h */; };
 		98E6A9540606385A000CCBE1 /* ITunesAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 98E6A9510606385A000CCBE1 /* ITunesAction.h */; };
 		98E6A9550606385A000CCBE1 /* ITunesActionPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 98E6A9520606385A000CCBE1 /* ITunesActionPlugin.h */; };
-		98EA90D70A4DC6AF0091B8FF /* ITunesAESuite.c in Sources */ = {isa = PBXBuildFile; fileRef = 98E6A94C06063852000CCBE1 /* ITunesAESuite.c */; };
 		98EA90EB0A4DC6F50091B8FF /* ShadowKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 986756D4096B3C0500BB8A25 /* ShadowKit.framework */; };
 		98EDC35A0736E6C700EF9F2B /* URLIcon.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98EDC3590736E6C700EF9F2B /* URLIcon.tiff */; };
 		98EDC3790736E86C00EF9F2B /* Launch.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98EDC3780736E86C00EF9F2B /* Launch.tiff */; };
@@ -226,7 +226,7 @@
 		981B624209386E340024C0D9 /* ShadowDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowDebug.xcconfig; sourceTree = "<group>"; };
 		981B624309386E340024C0D9 /* ShadowRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowRelease.xcconfig; sourceTree = "<group>"; };
 		981B624509386E340024C0D9 /* ShadowUniversal.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowUniversal.xcconfig; sourceTree = "<group>"; };
-		9832875F079602BE00DB780A /* Labo */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "compiled.mach-o.executable"; path = Labo; sourceTree = BUILT_PRODUCTS_DIR; };
+		9832875F079602BE00DB780A /* Labo */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Labo; sourceTree = BUILT_PRODUCTS_DIR; };
 		9832882D079602EC00DB780A /* Labo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Labo.m; sourceTree = "<group>"; };
 		983974FC0A58637400F79B40 /* SystemActionPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemActionPlugin.m; sourceTree = "<group>"; };
 		983974FD0A58637400F79B40 /* SystemAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemAction.m; sourceTree = "<group>"; };
@@ -353,10 +353,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				98328827079602CC00DB780A /* Carbon.framework in Frameworks */,
 				98328828079602CC00DB780A /* Cocoa.framework in Frameworks */,
-				98EF7F5908645BA7007BC81A /* HotKeyToolKit.framework in Frameworks */,
+				98BB26350A98F22B00124AB9 /* SparkKit.framework in Frameworks */,
 				98EA90EB0A4DC6F50091B8FF /* ShadowKit.framework in Frameworks */,
+				98EF7F5908645BA7007BC81A /* HotKeyToolKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -505,8 +505,8 @@
 			isa = PBXGroup;
 			children = (
 				98E6A8D00606368F000CCBE1 /* Headers */,
-				98E6A94B06063852000CCBE1 /* ITunesAction.m */,
 				98E6A94C06063852000CCBE1 /* ITunesAESuite.c */,
+				98E6A94B06063852000CCBE1 /* ITunesAction.m */,
 				98E6A94A06063852000CCBE1 /* ITunesActionPlugin.m */,
 				98E1CC5D0607769E00FA3599 /* Info.plist */,
 				98E6A8DD060636AE000CCBE1 /* InfoPlist.strings */,
@@ -520,9 +520,9 @@
 		98E6A8D00606368F000CCBE1 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
-				98E6A9520606385A000CCBE1 /* ITunesActionPlugin.h */,
 				98E6A9510606385A000CCBE1 /* ITunesAction.h */,
 				98E6A9500606385A000CCBE1 /* ITunesAESuite.h */,
+				98E6A9520606385A000CCBE1 /* ITunesActionPlugin.h */,
 			);
 			path = Headers;
 			sourceTree = "<group>";
@@ -715,9 +715,9 @@
 			isa = PBXGroup;
 			children = (
 				98FC48EF0606444A003617CA /* Headers */,
-				98FC48EE0606444A003617CA /* DocumentActionPlugin.m */,
-				98FC48ED0606444A003617CA /* DocumentAction.m */,
 				98FC48EC0606444A003617CA /* ApplicationMenu.m */,
+				98FC48ED0606444A003617CA /* DocumentAction.m */,
+				98FC48EE0606444A003617CA /* DocumentActionPlugin.m */,
 				98E1CC5B0607768E00FA3599 /* Info.plist */,
 				98FC491D0606447A003617CA /* InfoPlist.strings */,
 				98FC48F60606444A003617CA /* DocConfigView.nib */,
@@ -1103,7 +1103,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9832882E079602EC00DB780A /* Labo.m in Sources */,
-				98EA90D70A4DC6AF0091B8FF /* ITunesAESuite.c in Sources */,
+				98BB26CD0A98F23E00124AB9 /* SystemAction.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

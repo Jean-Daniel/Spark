@@ -26,11 +26,11 @@ typedef enum {
   kiTunesEjectCD		= 9,
   kiTunesPlayPlaylist	= 10,
   kiTunesRateTrack		= 11,
-}iTunesAction;
+} iTunesAction;
 
 @interface ITunesActionPlugin : SparkActionPlugIn {
-  IBOutlet id nameField;
-  IBOutlet id detailView;
+  IBOutlet NSTextField *nameField;
+  IBOutlet NSTabView *optionsView;
   @private
     BOOL it_play;
   unsigned it_rate;
@@ -41,12 +41,10 @@ typedef enum {
 - (iTunesAction)iTunesAction;
 - (void)setITunesAction:(iTunesAction)newAction;
 
-- (NSString *)shortDescription;
+- (NSString *)actionDescription;
 
 - (unsigned)rate;
 - (void)setRate:(unsigned)rate;
-
-- (unsigned)detailViewIndex;
 
 - (NSString *)playlist;
 - (void)setPlaylist:(NSString *)aPlaylist;

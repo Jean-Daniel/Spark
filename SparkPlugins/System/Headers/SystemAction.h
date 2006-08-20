@@ -25,12 +25,17 @@ typedef enum {
 //  kSystemVolumeDown,
 } SystemActionType;
 
-extern NSString * const kSystemActionBundleIdentifier;
+SK_PRIVATE
+NSString * const kSystemActionBundleIdentifier;
 
 #define kSystemActionBundle		[NSBundle bundleWithIdentifier:kSystemActionBundleIdentifier]
 
 @interface SystemAction : SparkAction <NSCoding, NSCopying> {
   SystemActionType sa_action;
+  struct _sa_saFlags {
+    unsigned int confirm:1;
+    unsigned int reserved:31;
+  } sa_saFlags;
 }
 
 - (SystemActionType)action;
@@ -45,5 +50,8 @@ extern NSString * const kSystemActionBundleIdentifier;
 
 - (void)toggleGray;
 - (void)togglePolarity;
+
+- (BOOL)shouldConfirm;
+- (void)setShouldConfirm:(BOOL)flag;
 
 @end

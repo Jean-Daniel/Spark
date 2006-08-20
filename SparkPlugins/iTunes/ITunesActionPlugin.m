@@ -24,12 +24,6 @@ NSString * const kiTunesActionBundleIdentifier = @"org.shadowlab.spark.iTunes";
 
 @implementation ITunesActionPlugin
 
-+ (void)initialize {
-  if ([ITunesActionPlugin class] == self) {
-    [self setKeys:[NSArray arrayWithObject:@"iTunesAction"] triggerChangeNotificationsForDependentKey:@"detailViewIndex"];
-  }
-}
-
 + (BOOL)automaticallyNotifiesObserversForKey:(NSString *)key {
   return ![key isEqualToString:@"playlists"];
 }
@@ -123,7 +117,7 @@ NSString * const kiTunesActionBundleIdentifier = @"org.shadowlab.spark.iTunes";
     [iAction setIcon:[NSImage imageNamed:iconName inBundle:kiTunesActionBundle]];
   
   /* Set Description */
-  [iAction setShortDescription:[self shortDescription]];
+  [iAction setActionDescription:[self actionDescription]];
 }
 
 #pragma mark ее ITunesActionPlugin & configView Specific methodes ее
@@ -132,7 +126,7 @@ NSString * const kiTunesActionBundleIdentifier = @"org.shadowlab.spark.iTunes";
 ********************************************************************************************************/
 
 - (void)loadPlaylists {
-  id lists = [[self class] iTunesPlaylists];
+  NSArray *lists = [[self class] iTunesPlaylists];
   [self willChangeValueForKey:@"playlists"];
   [self setPlaylists:lists];
   [self didChangeValueForKey:@"playlists"];
@@ -145,23 +139,28 @@ NSString * const kiTunesActionBundleIdentifier = @"org.shadowlab.spark.iTunes";
 - (void)setITunesAction:(iTunesAction)newAction {
   if ([self iTunesAction] != newAction) {
     [[self sparkAction] setITunesAction:newAction];
-    [[nameField cell] setPlaceholderString:[self defaultName]];
     if (kiTunesPlayPlaylist == newAction && ![self playlists]) {
       [self loadPlaylists];
       [self setPlaylist:[[self playlists] objectAtIndex:0]];
     }
   }
-}
-
-- (unsigned)detailViewIndex {
+  [[nameField cell] setPlaceholderString:[self defaultName]];
+  int idx = -1;
   switch ([self iTunesAction]) {
-    case kiTunesPlayPlaylist:
-      return 1;
+    case kiTunesLaunch:
+      idx = 0;
+      break;
     case kiTunesRateTrack:
-      return 2;
+      idx = 1;
+      break;
+    case kiTunesPlayPlaylist:
+      idx = 2;
+      break;
     default:
-      return 0;
+      idx = 3;
+      break;
   }
+  [optionsView selectTabViewItemAtIndex:idx];
 }
 
 - (unsigned)rate {
@@ -188,7 +187,7 @@ NSString * const kiTunesActionBundleIdentifier = @"org.shadowlab.spark.iTunes";
   SKSetterRetain(it_playlists, thePlaylists);
 }
 
-- (NSString *)shortDescription {
+- (NSString *)actionDescription {
   NSString *desc = nil;
   switch ([self iTunesAction]) {
     case kiTunesLaunch:
@@ -257,47 +256,46 @@ NSString * const kiTunesActionBundleIdentifier = @"org.shadowlab.spark.iTunes";
       return NSLocalizedStringFromTableInBundle(@"DEFAULT_RATE_TRACK_NAME", nil, kiTunesActionBundle,
                                                 @"Rate Track * Default Name *");
     default:
-      return [self shortDescription];
+      return [self actionDescription];
   }
 }
 
 #pragma mark -
 #pragma mark iTunes Playlists
-+ (NSArray *)iTunesPlaylists {
-  NSMutableArray *playlists = (id)iTunesGetPlaylists();
-  if (nil == playlists) {
-    FSRef folder;
-    NSString *path = nil;
-    NSString *file = nil;
-    /* Get User Music Folder */
-    if (noErr == FSFindFolder(kUserDomain, kMusicDocumentsFolderType, kDontCreateFolder, &folder)) {
-      path = [NSString stringFromFSRef:&folder];
-      if (path) {
-        /* Get User Music Library */
-        file = [path stringByAppendingPathComponent:@"/iTunes/iTunes Music Library.xml"];
-      }
-    }
 
+static 
+NSString *iTunesFindLibraryFile(int folder) {
+  FSRef ref;
+  NSString *file = nil;
+  /* Get User Special Folder */
+  if (noErr == FSFindFolder(kUserDomain, folder, kDontCreateFolder, &ref)) {
+    file = [NSString stringFromFSRef:&ref];
+    if (file) {
+      /* Get User Music Library */
+      file = [file stringByAppendingPathComponent:@"/iTunes/iTunes Music Library.xml"];
+    }
+  }
+  return file;
+}
+
++ (NSArray *)iTunesPlaylists {
+  NSMutableArray *playlists = (id)iTunesCopyPlaylists();
+  if (nil == playlists) {
+    /* Search in User Music Folder */
+    NSString *file = iTunesFindLibraryFile(kMusicDocumentsFolderType);
+    
     /* If doesn't exists Search in Document folder */
     if (!file || ![[NSFileManager defaultManager] fileExistsAtPath:file]) {
-      path = nil;
-      file = nil;
-      if (noErr == FSFindFolder(kUserDomain, kDocumentsFolderType, kDontCreateFolder, &folder)) {
-        path = [NSString stringFromFSRef:&folder];
-        if (path) {
-          /* Get User Music Library */
-          file = [path stringByAppendingPathComponent:@"/iTunes/iTunes Music Library.xml"];
-        }
-      }
+      file = iTunesFindLibraryFile(kDocumentsFolderType);
       if (!file || ![[NSFileManager defaultManager] fileExistsAtPath:file])
         return nil;
     }
     
-    id library = [[NSDictionary alloc] initWithContentsOfFile:file];
+    NSDictionary *library = [[NSDictionary alloc] initWithContentsOfFile:file];
     if (library) {
       playlists = [[NSMutableArray alloc] init];
-      id lists = [[library objectForKey:@"Playlists"] objectEnumerator];
-      id list;
+      NSDictionary *list;
+      NSEnumerator *lists = [[library objectForKey:@"Playlists"] objectEnumerator];
       while (list = [lists nextObject]) {
         [playlists addObject:[list objectForKey:@"Name"]];
       }

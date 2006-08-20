@@ -20,6 +20,11 @@ volatile int SparkSystemGDBWorkaround = 0;
 
 @implementation SystemActionPlugin
 
+- (void)dealloc {
+  ShadowTrace();
+  [super dealloc];
+}
+
 - (void)awakeFromNib {
   NSMenu *menu = [actionMenu menu];
   if (SKSystemMajorVersion() >= 10 && SKSystemMinorVersion() >= 4) {
@@ -37,21 +42,27 @@ volatile int SparkSystemGDBWorkaround = 0;
 
 - (void)loadSparkAction:(SystemAction *)sparkAction toEdit:(BOOL)flag {
   if (flag) {
-    [nameField setStringValue:[sparkAction name]];
+    if ([sparkAction name])
+      [nameField setStringValue:[sparkAction name]];
+    /* Force update menu + placeholder */
     [self setAction:[sparkAction action]];
   }
 }
 
 - (NSAlert *)sparkEditorShouldConfigureAction {
-  [super setName:[nameField stringValue]];
   return [super sparkEditorShouldConfigureAction];
 }
 
 - (void)configureAction {
   SystemAction *action = [self sparkAction];
+  
   /* Set Name */
-  if ([[[action name] stringByTrimmingWhitespaceAndNewline] length] == 0)
+  NSString *name = [nameField stringValue];
+  if ([[name stringByTrimmingWhitespaceAndNewline] length] == 0)
     [action setName:[self actionDescription]];
+  else 
+    [action setName:name];
+  
   NSString *iconName = nil;
   switch ([self action]) {
     case kSystemLogOut:
@@ -71,10 +82,10 @@ volatile int SparkSystemGDBWorkaround = 0;
       iconName = @"ScreenSaver";
       break;
     case kSystemSwitchGrayscale:
-      iconName = @"ScreenSaver";
+      iconName = @"SwitchGrayscale";
       break;
     case kSystemSwitchPolarity:
-      iconName = @"ScreenSaver";
+      iconName = @"SwitchPolarity";
       break;
 //    case kSystemMute:
 //      iconName = @"ScreenSaver";
@@ -102,8 +113,24 @@ volatile int SparkSystemGDBWorkaround = 0;
 - (void)setAction:(SystemActionType)newAction {
   if ([self action] != newAction) {
     [(SystemAction *)[self sparkAction] setAction:newAction];
-    [[nameField cell] setPlaceholderString:[self actionDescription]];
   }
+  [[nameField cell] setPlaceholderString:[self actionDescription]];
+  switch (newAction) {
+    case kSystemLogOut:
+    case kSystemRestart:
+    case kSystemShutDown:
+      [displayBox setHidden:NO];
+      break;
+    default:
+      [displayBox setHidden:YES];
+  }
+}
+
+- (BOOL)shouldConfirm {
+  return [[self sparkAction] shouldConfirm];
+}
+- (void)setShouldConfirm:(BOOL)flag {
+  [[self sparkAction] setShouldConfirm:flag];
 }
 
 - (NSString *)actionDescription {

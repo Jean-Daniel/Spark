@@ -7,6 +7,8 @@
 //
 
 #import "SystemAction.h"
+
+#import <ShadowKit/SKFunctions.h>
 #import <ShadowKit/SKFSFunctions.h>
 #import <ShadowKit/SKAEFunctions.h>
 #import <ShadowKit/SKIOKitFunctions.h>
@@ -24,26 +26,30 @@ void SystemFastLogOut(void);
 
 static 
 NSString * const kSystemActionKey = @"SystemAction";
+static
+NSString * const kSystemConfirmKey = @"SystemConfirm";
 
 @implementation SystemAction
 
 #pragma mark Protocols Implementation
-
 - (id)copyWithZone:(NSZone *)zone {
   SystemAction* copy = [super copyWithZone:zone];
   copy->sa_action = sa_action;
+  copy->sa_saFlags = sa_saFlags;
   return copy;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
   [coder encodeInt:[self action] forKey:kSystemActionKey];
+  [coder encodeBool:sa_saFlags.confirm forKey:kSystemConfirmKey];
   return;
 }
 
 - (id)initWithCoder:(NSCoder *)coder {
   if (self = [super initWithCoder:coder]) {
     [self setAction:[coder decodeIntForKey:kSystemActionKey]];
+    [self setShouldConfirm:[coder decodeBoolForKey:kSystemConfirmKey]];
   }
   return self;
 }
@@ -153,13 +159,6 @@ NSString * const kSystemActionKey = @"SystemAction";
 }
 
 #pragma mark -
-//- (void)launchSystemEvent {
-//  ProcessSerialNumber p = SKGetProcessWithSignature('sevs');
-//  if ( (p.highLongOfPSN == kNoProcess) && (p.lowLongOfPSN == kNoProcess)) {
-//    [[NSWorkspace sharedWorkspace] launchApplication:SYSTEM_EVENT showIcon:NO autolaunch:NO];
-//  }
-//}
-
 extern Boolean CGDisplayUsesForceToGray();
 extern void CGDisplayForceToGray(Boolean gray);
 
@@ -182,7 +181,7 @@ kAEShowShutdownDialog         = 'rsdn'
  */
 - (void)logout {
   ProcessSerialNumber psn = {0, kSystemProcess};
-  SKAESendSimpleEventToProcess(&psn, kCoreEventClass, kAELogOut);
+  SKAESendSimpleEventToProcess(&psn, kCoreEventClass, [self shouldConfirm] ? kAELogOut : kAEReallyLogOut);
 }
 
 - (void)sleep {
@@ -192,12 +191,19 @@ kAEShowShutdownDialog         = 'rsdn'
 
 - (void)restart {
   ProcessSerialNumber psn = {0, kSystemProcess};
-  SKAESendSimpleEventToProcess(&psn, kCoreEventClass, 'rest');
+  SKAESendSimpleEventToProcess(&psn, kCoreEventClass, [self shouldConfirm] ? kAEShowRestartDialog : 'rest');
 }
 
 - (void)shutDown {
   ProcessSerialNumber psn = {0, kSystemProcess};
-  SKAESendSimpleEventToProcess(&psn, kCoreEventClass, 'shut');
+  SKAESendSimpleEventToProcess(&psn, kCoreEventClass, [self shouldConfirm] ? kAEShowShutdownDialog : 'shut');
+}
+
+- (BOOL)shouldConfirm {
+  return sa_saFlags.confirm;
+}
+- (void)setShouldConfirm:(BOOL)flag {
+  SKSetFlag(sa_saFlags.confirm, flag);
 }
 
 - (void)fastLogout {
@@ -205,8 +211,7 @@ kAEShowShutdownDialog         = 'rsdn'
 }
 
 - (void)screenSaver {
-  SInt32 macVersion;
-  if (Gestalt(gestaltSystemVersion, &macVersion) == noErr && macVersion >= 0x1040) {
+  if (SKSystemMajorVersion() >= 10 && SKSystemMinorVersion() >= 4) {
     FSRef engine;
     if ([kScreenSaverEngine getFSRef:&engine]) {
       LSLaunchFSRefSpec spec;
@@ -243,7 +248,10 @@ void SystemFastLogOut() {
 
 - (id)initWithSerializedValues:(NSDictionary *)plist {
   [self release];
-  return [[SystemAction alloc] initWithSerializedValues:plist];
+  if (self = [[SystemAction alloc] initWithSerializedValues:plist]) {
+    [self setAction:[[plist objectForKey:@"PowerAction"] intValue]];
+  }
+  return self;
 }
 
 @end

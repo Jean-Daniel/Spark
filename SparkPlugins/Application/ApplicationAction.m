@@ -31,7 +31,7 @@ static NSString * const kHotKeyBundleIdKey = @"BundleID";
   ApplicationAction* copy = [super copyWithZone:zone];
   copy->sa_action = sa_action;
   copy->sa_flags = sa_flags;
-  [copy setAlias:sa_alias];
+  copy->sa_alias = [sa_alias copy];
   return copy;
 }
 
@@ -164,10 +164,7 @@ static NSString * const kHotKeyBundleIdKey = @"BundleID";
 }
 
 - (void)setAlias:(SKApplicationAlias *)alias {
-  if (sa_alias != alias) {
-    [sa_alias release];
-    sa_alias = [alias copy];
-  }
+  SKSetterCopy(sa_alias, alias);
 }
 
 - (SKApplicationAlias *)alias {

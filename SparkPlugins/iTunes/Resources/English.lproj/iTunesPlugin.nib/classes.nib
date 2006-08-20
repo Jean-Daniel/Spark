@@ -4,11 +4,11 @@
         {
             CLASS = ITunesActionPlugin; 
             LANGUAGE = ObjC; 
-            OUTLETS = {nameField = NSTextField; }; 
-            SUPERCLASS = SparkActionPlugin; 
+            OUTLETS = {nameField = NSTextField; optionsView = NSTabView; }; 
+            SUPERCLASS = SparkActionPlugIn; 
         }, 
         {
-            CLASS = SparkActionPlugin; 
+            CLASS = SparkActionPlugIn; 
             LANGUAGE = ObjC; 
             OUTLETS = {actionView = NSView; }; 
             SUPERCLASS = NSObject; 

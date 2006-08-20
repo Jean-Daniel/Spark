@@ -12,7 +12,7 @@
 
 const OSType kITunesSignature = 'hook';
 
-static CFArrayRef GetPlaylistsNames(AEDescList *items);
+static CFArrayRef iTunesCopyPlaylistsNames(AEDescList *items);
 static OSStatus ShufflePlaylistIfNeeded(AEDesc *playlist);
 static OSStatus iTunesGetPlaylist(CFStringRef name, AEDesc *playlist);
 
@@ -111,7 +111,7 @@ OSStatus iTunesSetVolume(SInt16 volume) {
   return err;
 }
 
-CFArrayRef iTunesGetPlaylists() {
+CFArrayRef iTunesCopyPlaylists() {
   OSStatus err = noErr;
   CFArrayRef names = NULL;
   
@@ -135,7 +135,7 @@ CFArrayRef iTunesGetPlaylists() {
     SKAEDisposeDesc(&theEvent);
   }
   if (noErr == err) {
-    names = GetPlaylistsNames(&playlists);
+    names = iTunesCopyPlaylistsNames(&playlists);
     SKAEDisposeDesc(&playlists);
   }
   return names;
@@ -465,7 +465,7 @@ CFStringRef GetContainerName(AEDesc *container) {
   return name;
 }
 
-CFArrayRef GetPlaylistsNames(AEDescList *items) {
+CFArrayRef iTunesCopyPlaylistsNames(AEDescList *items) {
   int count = 0, idx;
   long listsCount;
   CFMutableArrayRef names = NULL;
