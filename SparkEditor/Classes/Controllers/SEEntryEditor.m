@@ -13,13 +13,16 @@
 #import "SEHeaderCell.h"
 #import "SEHotKeyTrap.h"
 #import "SEBuiltInPlugin.h"
+#import "SEApplicationView.h"
 
 #import <SparkKit/SparkPlugIn.h>
 #import <SparkKit/SparkHotKey.h>
+#import <SparkKit/SparkPrivate.h>
 #import <SparkKit/SparkApplication.h>
 #import <SparkKit/SparkActionLoader.h>
 #import <SparkKit/SparkActionPlugIn.h>
 
+#import <ShadowKit/SKFunctions.h>
 #import <HotKeyToolKit/HotKeyToolKit.h>
 
 #pragma mark -
@@ -35,27 +38,14 @@
     }
     [se_plugins sortUsingDescriptors:gSortByNameDescriptors];
 
-    /* Create Ignore plugin */
-    plugin = [[SparkPlugIn alloc] initWithClass:[SEInheritsPlugin class]];
-    [se_plugins insertObject:plugin atIndex:0];
-    [plugin release];
-    
-    /* Create Ignore plugin */
-    plugin = [[SparkPlugIn alloc] initWithClass:[SEIgnorePlugin class]];
-    [se_plugins insertObject:plugin atIndex:1];
-    [plugin release];
-    
-    plugin = [[SparkPlugIn alloc] init];
-    [plugin setName:SETableSeparator];
-    [se_plugins insertObject:plugin atIndex:2];
-    [plugin release];
-    
+    se_views = [[NSMutableArray alloc] init];
     se_instances = NSCreateMapTable(NSObjectMapKeyCallBacks, NSObjectMapValueCallBacks, [se_plugins count]);
   }
   return self;
 }
 
 - (void)dealloc {
+  [se_views release];
   [se_plugins release];
   if (se_instances)
     NSFreeMapTable(se_instances);
@@ -105,12 +95,94 @@
   [self close:sender];
 }
 
-- (void)setEntry:(SETriggerEntry *)anEntry {
-  //[se_editor setSparkAction:[anEntry action]];
+- (void)updatePlugins {
+  /* plugins list should contains global and ignore if:
+   - Application uid != 0.
+   - Edit an existing entry (is updating).
+  */
+  BOOL advanced = [[appField application] uid] != 0;
+  advanced = advanced && (se_entry != nil);
+  
+  if (advanced) {
+    if ([[se_plugins objectAtIndex:0] actionClass] != Nil) {
+      /* Should add custom plugins */
+      
+      /* Create Inherits plugin */
+      SparkPlugIn *plugin = [[SparkPlugIn alloc] initWithClass:[SEInheritsPlugin class]];
+      [se_plugins insertObject:plugin atIndex:0];
+      [plugin release];
+      
+      /* Create Ignore plugin */
+      plugin = [[SparkPlugIn alloc] initWithClass:[SEIgnorePlugin class]];
+      [se_plugins insertObject:plugin atIndex:1];
+      [plugin release];
+      
+      plugin = [[SparkPlugIn alloc] init];
+      [plugin setName:SETableSeparator];
+      [se_plugins insertObject:plugin atIndex:2];
+      [plugin release];
+      [typeTable reloadData];
+    }
+  } else {
+    if ([[se_plugins objectAtIndex:0] actionClass] == Nil) {
+      /* Should remove custom plugins */
+      [se_plugins removeObjectsInRange:NSMakeRange(0, 3)];
+      [typeTable reloadData];
+    }
+  }
 }
+
+- (void)setEntry:(SETriggerEntry *)anEntry {
+  SKSetterRetain(se_entry, anEntry);
+  /* Remove plugins instances */
+  [se_views removeAllObjects];
+  NSResetMapTable(se_instances);
+  
+  /* Update plugins list if needed */
+  [self updatePlugins];
+  
+  /* Select plugin type */
+  SparkPlugIn *type = nil;
+  if (se_entry) {
+    switch ([se_entry type]) {
+      case kSEEntryTypeInherit:
+        type = [se_plugins objectAtIndex:0];
+        [trap setEnabled:NO];
+        break;
+      case kSEEntryTypeIgnore:
+        type = [se_plugins objectAtIndex:1];
+        [trap setEnabled:NO];
+        break;
+      case kSEEntryTypeDefault:
+        type = [[SparkActionLoader sharedLoader] plugInForAction:[se_entry action]];
+        [trap setEnabled:YES];
+        break;
+    }
+  } else {
+    [trap setEnabled:YES];
+  }
+  if (type)
+    [self setActionType:type];
+  
+  /* Load trigger value */
+  SEHotKey key = {kHKInvalidVirtualKeyCode, 0, kHKNilUnichar};
+  if (se_entry) {
+    SparkHotKey *hotkey = [se_entry trigger];
+    key.keycode = [hotkey keycode];
+    key.modifiers = [hotkey modifier];
+    key.character = [hotkey character];
+  }
+  [trap setHotKey:key];
+}
+
 - (void)setApplication:(SparkApplication *)anApplication {
-  [appField setApplication:anApplication];
-  [appField setTitle:[NSString stringWithFormat:@"%@ HotKey", [anApplication name]]];
+  SparkApplication *previous = [appField application];
+  if (previous != anApplication) {
+    /* Set Application */
+    [appField setApplication:anApplication];
+    [appField setTitle:[NSString stringWithFormat:@"%@ HotKey", [anApplication name]]];
+    [self updatePlugins];
+  }
 }
 
 - (int)numberOfRowsInTableView:(NSTableView *)aTableView {
@@ -129,105 +201,139 @@
   return rowIndex >= 0 ? ![[[se_plugins objectAtIndex:rowIndex] name] isEqualToString:SETableSeparator] : YES;
 }
 
-- (SparkActionPlugIn *)se_instanceForClass:(Class)aClass {
-  NSParameterAssert([aClass isSubclassOfClass:[SparkActionPlugIn class]]);
-  SparkActionPlugIn *plugin = [[aClass alloc] init];
+- (void)recalculateKeyViewLoop {
+  NSView *first = [se_view nextValidKeyView];
+  NSView *last = nil;
+  NSView *view = first;
+  NSMutableSet *views = [[NSMutableSet alloc] initWithObjects:first, nil];
   
-  // Load and configure plugin view
-  NSView *view = [plugin actionView];
-  [view setFrameOrigin:NSZeroPoint];
+  while ((view = [view nextKeyView]) && ![views containsObject:view] && [view isDescendantOf:se_view]) {
+    last = view;
+    [views addObject:view];
+  }
+  [views release];
   
-  // Set plugin action
-  //[plugin setSparkAction:theAction];
-  //[plugin loadSparkAction:theAction toEdit:YES];
-  
-  return [plugin autorelease];
+  if (first && first != se_view) {
+    [trap setNextKeyView:first];
+    if (last) {
+      [last setNextKeyView:[pluginView nextValidKeyView]];
+    } else {
+      [first setNextKeyView:[pluginView nextValidKeyView]];
+    }
+  } else {
+    /* Could not create a valid loop, ask he window to do it */
+    if ([[self window] respondsToSelector:@selector(recalculateKeyViewLoop)]) {
+      [[self window] recalculateKeyViewLoop];
+    } else {
+      [trap setNextKeyView:[pluginView nextValidKeyView]];
+    }
+  }
 }
 
 - (void)setActionType:(SparkPlugIn *)aPlugin {
   SparkActionPlugIn *instance = NSMapGet(se_instances, aPlugin);
   if (!instance) {
     instance = [aPlugin instantiatePlugin];
-    if (instance)
+    if (instance) {
       NSMapInsert(se_instances, aPlugin, instance);
-//    if ([aPlugin pluginClass]) {
-//      SparkActionPlugIn *instance = [self se_instanceForClass:[aPlugin pluginClass]];
-
-//    } else if ([[aPlugin bundleIdentifier] isEqualToString:SEInheritPluginIdentifier]) {
-//      DLog(@"Global settings");
-//    } else if ([[aPlugin bundleIdentifier] isEqualToString:SEIgnorePluginIdentifier]) {
-//      DLog(@"Ignore action");
-//    } else {
-//      DLog(@"Invalid plugin");
-//    }
+      
+      /* Become view ownership */
+      [se_views addObject:[instance actionView]];
+      /* Say instance to no longer retain the view, so we no longer get a retain cycle. */
+      [instance releaseViewOwnership];
+      
+      // Set plugin action
+      Class cls = [aPlugin actionClass];
+      SparkAction *action = nil;
+      /* Special built-in plugins, or good plugin */
+      if (!cls || [[se_entry action] isKindOfClass:cls]) {
+        action = [se_entry action];
+        if (SKImplementsSelector(action, @selector(copyWithZone:))) {
+          action = [[action copy] autorelease];
+        } else {
+          DLog(@"WARNING: %@ does not implements NSCopying.", [action class]);
+          action = [action duplicate];
+        }
+      } else {
+        action = [[[cls alloc] init] autorelease];
+      }
+      [instance setSparkAction:action];
+      [instance loadSparkAction:action toEdit:se_entry != nil];
+    }
   }
   /* Remove previous view */
-  if (se_view)
+  if (se_view != [instance actionView]) {
     [se_view removeFromSuperview];
-  
-  se_view = [instance actionView];
-  NSAssert1([se_view isKindOfClass:[NSView class]], @"Invalid view for plugin: %@", instance);
-  
-  // Adjust view and window frame
-  NSRect vrect = NSZeroRect; /* view rect */
-  vrect.size = [se_view frame].size;
-  
-  // View smaller than limit.
-  if (NSWidth(vrect) < se_min.width) {
-    // Adjust width
-    if ([se_view autoresizingMask] & NSViewWidthSizable) {
-      vrect.size.width = se_min.width;
-    } else {
-      vrect.origin.x = roundf(AVG(se_min.width, -NSWidth(vrect)));
+    
+    se_view = [instance actionView];
+    NSAssert1([se_view isKindOfClass:[NSView class]], @"Invalid view for plugin: %@", instance);
+    
+    // Adjust view and window frame
+    NSRect vrect = NSZeroRect; /* view rect */
+    vrect.size = [se_view frame].size;
+    
+    // View smaller than limit.
+    if (NSWidth(vrect) < se_min.width) {
+      // Adjust width
+      if ([se_view autoresizingMask] & NSViewWidthSizable) {
+        vrect.size.width = se_min.width;
+      } else {
+        vrect.origin.x = roundf(AVG(se_min.width, -NSWidth(vrect)));
+      }
     }
-  }
-  if (NSHeight(vrect) < se_min.height) {
-    // Adjust height
-    if ([se_view autoresizingMask] & NSViewHeightSizable) {
-      vrect.size.height = se_min.height;
-    } else {
-      vrect.origin.y = roundf(AVG(se_min.height, -NSHeight(vrect)));
+    if (NSHeight(vrect) < se_min.height) {
+      // Adjust height
+      if ([se_view autoresizingMask] & NSViewHeightSizable) {
+        vrect.size.height = se_min.height;
+      } else {
+        vrect.origin.y = roundf(AVG(se_min.height, -NSHeight(vrect)));
+      }
     }
+    [se_view setFrame:vrect];
+    
+    /* current size */
+    NSSize csize = [pluginView frame].size;
+    /* destination rect */
+    NSRect drect = vrect;
+    drect.size.width = MAX(NSWidth(vrect), se_min.width);
+    drect.size.height = MAX(NSHeight(vrect), se_min.height);
+    /* compute delta between current size and destination size */
+    NSSize delta = {NSWidth(drect) - csize.width, NSHeight(drect) - csize.height};
+    
+    /* Resize window frame */
+    NSRect wframe = [[self window] frame];
+    wframe.size.width += delta.width;
+    wframe.size.height += delta.height;
+    wframe.origin.x -= delta.width / 2;
+    wframe.origin.y -= delta.height;
+    [[self window] setFrame:wframe display:YES animate:YES];
+    
+    /* Adjust window attributes */
+    NSSize smax = [[self window] frame].size;
+    smax.height += 22;
+    unsigned int mask = [se_view autoresizingMask];
+    if (mask & NSViewWidthSizable) {
+      smax.width = MAXFLOAT;
+    }
+    if (mask & NSViewHeightSizable) {
+      smax.height = MAXFLOAT;
+    }
+    if (MAXFLOAT <= smax.width || MAXFLOAT <= smax.height) {
+      [[self window] setShowsResizeIndicator:YES];
+      [[self window] setContentMinSize:NSMakeSize(0, 300)];
+    } else {
+      [[self window] setShowsResizeIndicator:NO];
+      [[self window] setContentMinSize:smax];
+    }
+    [[self window] setContentMaxSize:smax];
+    
+    [pluginView addSubview:se_view];
+    [self recalculateKeyViewLoop];
+    
+    unsigned row = [se_plugins indexOfObject:aPlugin];
+    if (row != NSNotFound && (int)row != [typeTable selectedRow])
+      [typeTable selectRow:row byExtendingSelection:NO];
   }
-  [se_view setFrame:vrect];
-  
-  /* current size */
-  NSSize csize = [pluginView frame].size;
-  /* destination rect */
-  NSRect drect = vrect;
-  drect.size.width = MAX(NSWidth(vrect), se_min.width);
-  drect.size.height = MAX(NSHeight(vrect), se_min.height);
-  /* compute delta between current size and destination size */
-  NSSize delta = {NSWidth(drect) - csize.width, NSHeight(drect) - csize.height};
-  
-  /* Resize window frame */
-  NSRect wframe = [[self window] frame];
-  wframe.size.width += delta.width;
-  wframe.size.height += delta.height;
-  wframe.origin.x -= delta.width / 2;
-  wframe.origin.y -= delta.height;
-  [[self window] setFrame:wframe display:YES animate:YES];
-  
-  /* Adjust window attributes */
-  NSSize smax = [[self window] frame].size;
-  smax.height += 22;
-  unsigned int mask = [se_view autoresizingMask];
-  if (mask & NSViewWidthSizable) {
-    smax.width = MAXFLOAT;
-  }
-  if (mask & NSViewHeightSizable) {
-    smax.height = MAXFLOAT;
-  }
-  if (MAXFLOAT <= smax.width || MAXFLOAT <= smax.height) {
-    [[self window] setShowsResizeIndicator:YES];
-    [[self window] setContentMinSize:NSMakeSize(0, 300)];
-  } else {
-    [[self window] setShowsResizeIndicator:NO];
-    [[self window] setContentMinSize:smax];
-  }
-  [[self window] setContentMaxSize:smax];
-  
-  [pluginView addSubview:se_view];
 }
 
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification {
@@ -260,9 +366,10 @@
 @end
 
 #pragma mark -
-/* Implements faster resizing */
+/* Custom resize animation time */
 @interface SETrapWindow : HKTrapWindow {
 }
+- (NSTimeInterval)animationResizeTime:(NSRect)newFrame;
 @end
 
 @implementation SETrapWindow

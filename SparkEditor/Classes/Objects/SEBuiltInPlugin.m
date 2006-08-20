@@ -11,7 +11,7 @@
 @implementation SEIgnorePlugin
 
 + (Class)actionClass {
-  return nil;
+  return Nil;
 }
 
 + (NSString *)plugInName {
@@ -35,7 +35,7 @@
 @implementation SEInheritsPlugin
 
 + (Class)actionClass {
-  return nil;
+  return Nil;
 }
 
 + (NSString *)plugInName {

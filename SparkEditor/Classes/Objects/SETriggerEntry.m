@@ -42,7 +42,7 @@
   SKSetterRetain(se_action, action);
 }
 
-- (SparkTrigger *)trigger {
+- (id)trigger {
   return se_trigger;
 }
 - (void)setTrigger:(SparkTrigger *)trigger {

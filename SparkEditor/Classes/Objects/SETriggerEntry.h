@@ -11,7 +11,7 @@ NSArray *gSortByNameDescriptors;
 
 enum {
   kSEEntryTypeDefault = 0,
-  kSEEntryTypeCustom,
+  kSEEntryTypeInherit,
   kSEEntryTypeIgnore
 };
 
@@ -39,7 +39,7 @@ enum {
 - (SparkAction *)action;
 - (void)setAction:(SparkAction *)action;
 
-- (SparkTrigger *)trigger;
+- (id)trigger;
 - (void)setTrigger:(SparkTrigger *)trigger;
 
 @end

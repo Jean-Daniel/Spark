@@ -12,18 +12,19 @@ enum {
   SEValidModifiersFlags = NSShiftKeyMask | NSControlKeyMask | NSAlternateKeyMask | NSCommandKeyMask
 };
 
-@interface SEHotKeyTrap : NSControl {
+typedef struct _SEHotKey {
+  UInt16 keycode;
+  UInt32 modifiers;
+  UniChar character;
+} SEHotKey;
+
+@interface SEHotKeyTrap : NSView {
   @private
   NSString *se_str;
   /* State */
-  UInt16 se_keycode;
-  UInt32 se_modifier;
-  UniChar se_character;
-
+  SEHotKey se_hotkey;
   /* Backup */
-  UInt16 se_bkeycode;
-  UInt32 se_bmodifier;
-  UniChar se_bcharacter;
+  SEHotKey se_bhotkey;
   
   struct _se_htFlags {
     unsigned int trap:1;
@@ -37,6 +38,20 @@ enum {
   } se_htFlags;
 
   NSTrackingRectTag se_tracker;
+  id se_target;
+  SEL se_action;
 }
+
+- (id)target;
+- (void)setTarget:(id)aTarget;
+
+- (SEL)action;
+- (void)setAction:(SEL)anAction;
+
+- (SEHotKey)hotkey;
+- (void)setHotKey:(SEHotKey)anHotkey;
+
+- (BOOL)isEnabled;
+- (void)setEnabled:(BOOL)flag;
 
 @end

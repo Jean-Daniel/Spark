@@ -12,10 +12,15 @@
         {
             CLASS = SEEntryEditor; 
             LANGUAGE = ObjC; 
-            OUTLETS = {appField = SEApplicationView; pluginView = NSView; typeTable = SETableView; }; 
+            OUTLETS = {
+                appField = SEApplicationView; 
+                pluginView = NSView; 
+                trap = SEHotKeyTrap; 
+                typeTable = SETableView; 
+            }; 
             SUPERCLASS = SKWindowController; 
         }, 
-        {CLASS = SEHotKeyTrap; LANGUAGE = ObjC; SUPERCLASS = NSControl; }, 
+        {CLASS = SEHotKeyTrap; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
         {CLASS = SETableView; LANGUAGE = ObjC; SUPERCLASS = SKTableView; }, 
         {CLASS = SETableViewCell; LANGUAGE = ObjC; SUPERCLASS = SKImageAndTextCell; }, 
         {CLASS = SETrapWindow; LANGUAGE = ObjC; SUPERCLASS = HKTrapWindow; }, 

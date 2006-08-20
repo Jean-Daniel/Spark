@@ -68,8 +68,8 @@
       /* Load */
       [se_editor window];
     }
-    [se_editor setEntry:[se_entries objectAtIndex:idx]];
     [se_editor setApplication:se_application];
+    [se_editor setEntry:[se_entries objectAtIndex:idx]];
     
     [NSApp beginSheet:[se_editor window]
        modalForWindow:[sender window]
@@ -118,8 +118,8 @@
         if ([se_application uid] == 0 || !se_filter || [entry action] != [se_defaults actionForTrigger:trigger]) {
           if (0 == [[entry action] uid])
             [entry setType:kSEEntryTypeIgnore];
-          else if ([entry action] != [se_defaults actionForTrigger:trigger])
-            [entry setType:kSEEntryTypeCustom];
+          else if ([se_application uid] != 0 && [entry action] == [se_defaults actionForTrigger:trigger])
+            [entry setType:kSEEntryTypeInherit];
           
           [se_entries addObject:entry];
         }
@@ -167,7 +167,7 @@
   /* Text field cell */
   if ([aCell respondsToSelector:@selector(setTextColor:)]) {
     SETriggerEntry *entry = [se_entries objectAtIndex:rowIndex];
-    if ([se_application uid] != 0 && kSEEntryTypeDefault == [entry type]) {
+    if (kSEEntryTypeInherit == [entry type]) {
       //    [cell setFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]];
       [aCell setFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]];
       [aCell setTextColor:[aTableView isRowSelected:rowIndex] ? [NSColor selectedControlTextColor] : [NSColor darkGrayColor]];

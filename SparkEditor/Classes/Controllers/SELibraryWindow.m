@@ -9,6 +9,7 @@
 #import "SELibraryWindow.h"
 
 #import "SEHeaderCell.h"
+#import "SEEntryEditor.h"
 #import "SETriggerEntry.h"
 #import "SELibrarySource.h"
 #import "SEApplicationView.h"
@@ -93,14 +94,14 @@
     } else {
       SparkPlugIn *plugin = [listSource pluginForList:object];
       if (plugin) {
-        DLog(@"Create New HotKey of type: %@", plugin);
         if (!se_editor) {
           se_editor = [[SEEntryEditor alloc] init];
           /* Load */
           [se_editor window];
         }
-        [se_editor setActionType:plugin];
         [se_editor setApplication:[appField application]];
+        [se_editor setEntry:nil];
+        [se_editor setActionType:plugin];
         
         [NSApp beginSheet:[se_editor window]
            modalForWindow:[sender window]

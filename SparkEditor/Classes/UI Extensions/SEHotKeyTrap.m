@@ -107,17 +107,17 @@ static NSImage *_HKCreateShading(NSControlTint tint);
   unsigned int nkey = [[info objectForKey:kHKEventKeyCodeKey] intValue];
   unsigned int nmodifier = [[info objectForKey:kHKEventModifierKey] intValue];
   /* Anti trap hack. If pressed tab and tab is already saved, stop recording */
-  if (se_bkeycode == kVirtualTabKey && (se_bmodifier & NSDeviceIndependentModifierFlagsMask) == 0 &&
-      nkey == se_bkeycode && nmodifier == se_bmodifier) {
+  if (se_bhotkey.keycode == kVirtualTabKey && (se_bhotkey.modifiers & NSDeviceIndependentModifierFlagsMask) == 0 &&
+      nkey == se_bhotkey.keycode && nmodifier == se_bhotkey.modifiers) {
     /* Will call -resignFirstResponder */
     [[self window] makeFirstResponder:[self nextValidKeyView]];
   } else {
-    se_bkeycode = nkey;
-    se_bmodifier = nmodifier;
-    se_bcharacter = [[info objectForKey:kHKEventCharacterKey] intValue];
+    se_bhotkey.keycode = nkey;
+    se_bhotkey.modifiers = nmodifier;
+    se_bhotkey.character = [[info objectForKey:kHKEventCharacterKey] intValue];
     
     [se_str release];
-    se_str = [HKMapGetStringRepresentationForCharacterAndModifier(se_bcharacter, se_bmodifier) retain];
+    se_str = [HKMapGetStringRepresentationForCharacterAndModifier(se_bhotkey.character, se_bhotkey.modifiers) retain];
     if (se_htFlags.traponce)
       [self setTrapping:NO];
     else
@@ -228,13 +228,13 @@ static NSImage *_HKCreateShading(NSControlTint tint);
     /* Draw string content */
     if (se_htFlags.hint) {
       if (se_htFlags.cancel) {
-        NSString *key = HKMapGetStringRepresentationForCharacterAndModifier(se_character, se_modifier);
+        NSString *key = HKMapGetStringRepresentationForCharacterAndModifier(se_hotkey.character, se_hotkey.modifiers);
         text = key ? [NSString stringWithFormat:@"Revert to %@", key] : @"Cancel";
       } else {
-//        if (se_character == se_bcharacter && se_modifier == se_bmodifier && se_keycode == se_bkeycode) {
+//        if (se_character == se_bhotkey.character && se_modifier == se_bhotkey.modifiers && se_keycode == se_bhotkey.keycode) {
 //          text = @"Cancel";
 //        } else {
-        NSString *key = HKMapGetStringRepresentationForCharacterAndModifier(se_bcharacter, se_bmodifier);
+        NSString *key = HKMapGetStringRepresentationForCharacterAndModifier(se_bhotkey.character, se_bhotkey.modifiers);
         text = key ? [NSString stringWithFormat:@"Save %@", key] : @"Cancel";
 //        }
       }
@@ -246,8 +246,8 @@ static NSImage *_HKCreateShading(NSControlTint tint);
       text = @"Type hotkey";
     }
     float width = [text sizeWithAttributes:style].width;
-    /* Should add CAPS_WIDTH to really center string, but not visually pleasant */
-    [text drawAtPoint:NSMakePoint(NSMidX(bounds) - (/* CAPS_WIDTH */ + width) / 2.0, 4.5) withAttributes:style];
+
+    [text drawAtPoint:NSMakePoint(NSMidX(bounds) - (CAPS_WIDTH + width) / 2.0, 4.5) withAttributes:style];
     
     CGContextRestoreGState(ctxt);
     CGPathRelease(border);
@@ -290,7 +290,12 @@ static NSImage *_HKCreateShading(NSControlTint tint);
     if (![self isEmpty]) {
       // Draw shortcut string
       float width = [se_str sizeWithAttributes:hk_style].width;
-      [se_str drawAtPoint:NSMakePoint(NSMidX(bounds) - width / 2.0, 4.5) withAttributes:hk_style];
+      NSPoint point;
+      if (se_htFlags.disabled)
+        point = NSMakePoint(NSMidX(bounds) - width / 2.0, 4.5);
+      else
+        point = NSMakePoint(NSMidX(bounds) - (CAPS_WIDTH + width) / 2.0, 4.5);
+      [se_str drawAtPoint:point withAttributes:se_htFlags.disabled ? hk_pstyle : hk_style];
       
       if (!se_htFlags.disabled) {
         /* Draw round delete button */
@@ -316,7 +321,7 @@ static NSImage *_HKCreateShading(NSControlTint tint);
       }
     } else {
       // draw placeholder
-      NSString *placeholder = @"click to record shortcut";
+      NSString *placeholder = @"click to edit";
       float width = [placeholder sizeWithAttributes:hk_pstyle].width;
       [placeholder drawAtPoint:NSMakePoint(NSMidX(bounds) - width / 2.f, 4.5) withAttributes:hk_pstyle];
     }
@@ -328,8 +333,9 @@ static NSImage *_HKCreateShading(NSControlTint tint);
   if (!se_htFlags.trap) {
     [se_str release];
     se_str = nil;
-    se_character = kHKNilUnichar;
-    se_keycode = kHKInvalidVirtualKeyCode;
+    se_hotkey.character = kHKNilUnichar;
+    se_hotkey.keycode = kHKInvalidVirtualKeyCode;
+    [self setNeedsDisplay:YES];
   }
 }
 
@@ -374,6 +380,39 @@ static NSImage *_HKCreateShading(NSControlTint tint);
 
 #pragma mark -
 #pragma mark Event Handling
+- (id)target {
+  return se_target;
+}
+- (void)setTarget:(id)aTarget {
+  se_target = aTarget;
+}
+
+- (SEL)action {
+  return se_action;
+}
+- (void)setAction:(SEL)anAction {
+  se_action = anAction;
+}
+
+- (SEHotKey)hotkey {
+  return se_hotkey;
+}
+- (void)setHotKey:(SEHotKey)anHotkey {
+  se_hotkey = anHotkey;
+  /* Update string representation */
+  [se_str release]; 
+  se_str = [HKMapGetStringRepresentationForCharacterAndModifier(se_hotkey.character, se_hotkey.modifiers) retain];
+  /* Refresh */
+  [self setNeedsDisplay:YES];
+}
+
+- (BOOL)isEnabled {
+  return se_htFlags.disabled == 0;
+}
+- (void)setEnabled:(BOOL)flag {
+  SKSetFlag(se_htFlags.disabled, !flag);
+}
+
 - (BOOL)isEmpty {
   return se_str == nil;
 }
@@ -389,14 +428,14 @@ static NSImage *_HKCreateShading(NSControlTint tint);
 }
 
 - (void)save {
-  se_keycode = se_bkeycode;
-  se_modifier = se_bmodifier;
-  se_character = se_bcharacter;
+  se_hotkey = se_bhotkey;
+  if ([self target] && [self action])
+    [[self target] performSelector:[self action] withObject:self];
 }
 
 - (void)revert {
   [se_str release];
-  se_str = [HKMapGetStringRepresentationForCharacterAndModifier(se_character, se_modifier) retain];
+  se_str = [HKMapGetStringRepresentationForCharacterAndModifier(se_hotkey.character, se_hotkey.modifiers) retain];
 }
 
 - (BOOL)isTrapping {
@@ -600,9 +639,9 @@ static NSImage *_HKCreateShading(NSControlTint tint) {
     return @"hotkey field";
   else if ([attribute isEqualToString:NSAccessibilityValueAttribute]) {
     if (se_htFlags.trap) {
-      return HKMapGetSpeakableStringRepresentationForCharacterAndModifier(se_bcharacter, se_bmodifier);
+      return HKMapGetSpeakableStringRepresentationForCharacterAndModifier(se_bhotkey.character, se_bhotkey.modifiers);
     } else if (![self isEmpty]) {
-      return HKMapGetSpeakableStringRepresentationForCharacterAndModifier(se_character, se_modifier);
+      return HKMapGetSpeakableStringRepresentationForCharacterAndModifier(se_hotkey.character, se_hotkey.modifiers);
     } else {
       return nil;
     }
