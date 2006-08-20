@@ -83,7 +83,7 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
     [plist setObject:[sp_icon TIFFRepresentationUsingCompression:NSTIFFCompressionLZW factor:1] forKey:kSparkObjectIconKey];
   }
   /* Compatibility */
-  if (SKInstanceImplementSelector([self class], @selector(propertyList))) {
+  if (SKInstanceImplementsSelector([self class], @selector(propertyList))) {
     id dico = [self propertyList];
     if (dico) {
       [plist addEntriesFromDictionary:dico];
@@ -94,7 +94,7 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
 
 - (id)initWithSerializedValues:(NSDictionary *)plist {
   /* Compatibility */
-  if (SKInstanceImplementSelector([self class], @selector(initFromPropertyList:))) {
+  if (SKInstanceImplementsSelector([self class], @selector(initFromPropertyList:))) {
     self = [self initFromPropertyList:plist];
   } else {
     NSString *name = [plist objectForKey:kSparkObjectNameKey];

@@ -33,7 +33,7 @@
 		984A38670A60036E00DA6455 /* SparkPlugIn.h in Headers */ = {isa = PBXBuildFile; fileRef = 984A38630A60036E00DA6455 /* SparkPlugIn.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		984A38680A60036E00DA6455 /* SparkPlugIn.m in Sources */ = {isa = PBXBuildFile; fileRef = 984A38640A60036E00DA6455 /* SparkPlugIn.m */; };
 		984A388A0A6003B800DA6455 /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 984A38870A6003A300DA6455 /* HotKeyToolKit.framework */; };
-		984A38900A60040700DA6455 /* SparkPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 984A388D0A60040600DA6455 /* SparkPrivate.h */; };
+		984A38900A60040700DA6455 /* SparkPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 984A388D0A60040600DA6455 /* SparkPrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		984A38910A60040700DA6455 /* SparkKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 984A388E0A60040700DA6455 /* SparkKit.m */; };
 		984A38920A60040700DA6455 /* SparkKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 984A388F0A60040700DA6455 /* SparkKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		984A38AD0A60060200DA6455 /* SparkApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = 984A38A30A60060200DA6455 /* SparkApplication.h */; settings = {ATTRIBUTES = (Private, ); }; };

@@ -487,7 +487,7 @@ bail:
           DLog(@"Ignore orphan action: %@", action);
         }
       } else {
-        DLog(@"Discard invalid action: %@", action);
+        DLog(@"Discard invalid action: %@", plist);
       }
     }
   }

@@ -18,23 +18,13 @@
 @implementation SparkActionPlugIn
 
 - (void)dealloc {
-  [sp_view release];
+  if (sp_sapFlags.ownership)
+    [sp_view release];
   [sp_action release];
   [super dealloc];
 }
 
-- (void)setActionView:(NSView *)actionView {
-  SKSetterRetain(sp_view, actionView);
-}
-
 - (NSView *)actionView {
-//  if (!sp_view) {
-//    NSBundle *bundle = SKCurrentBundle();
-//    NSString *nib = [bundle objectForInfoDictionaryKey:@"NSMainNibFile"];
-//    if (![NSBundle loadNibNamed:nib owner:self]) {
-//      NSLog(@"%@: Error while loading nib file %@", [self class], nib);
-//    }
-//  }
   return sp_view;
 }
 
@@ -85,6 +75,19 @@
   [self didChangeValueForKey:@"editable"];
   [self didChangeValueForKey:@"icon"];
   [self didChangeValueForKey:@"name"];
+}
+/* Called by Nib Loader only. Action view is a nib root object, so we should not retain it */
+- (void)setActionView:(NSView *)actionView {
+  sp_view = actionView;
+  sp_sapFlags.ownership = 1;
+}
+
+- (void)releaseViewOwnership {
+  /* If was ownership, release the view */
+  if (sp_sapFlags.ownership) {
+    [sp_view release];
+    sp_sapFlags.ownership = 0;
+  }
 }
 
 /* Compat */

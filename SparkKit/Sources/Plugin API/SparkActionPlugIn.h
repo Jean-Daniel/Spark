@@ -33,10 +33,14 @@ If you use this class in IB, you can define an Outlet with name actionView.
   NSView *sp_view;
   SparkAction *sp_action;
   
+  struct _sp_sapFlags {
+    unsigned int ownership:1;
+    unsigned int reserved:31;
+  } sp_sapFlags;
+  
   /*Keep binary compatibility */
   void *sp_reserved;
   void *sp_reserved2;
-  void *sp_reserved3;
 }
 
 /*!

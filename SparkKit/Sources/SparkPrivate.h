@@ -26,12 +26,16 @@
 /* SparkHelpFile */
 + (NSString *)helpFile;
 
+/* Some kind of hack to resolve binding cyclic memory problem. */
+- (void)releaseViewOwnership;
 - (void)setSparkAction:(SparkAction *)anAction;
 
 @end
 
 @class SparkHotKey;
 @interface SparkAction (Private)
+
+- (id)duplicate;
 
 - (SparkAlert *)hotKeyShouldExecuteAction:(SparkHotKey *)hotkey;
 

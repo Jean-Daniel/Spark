@@ -14,6 +14,7 @@
 #import <SparkKit/SparkObjectSet.h>
 
 #import <ShadowKit/SKImageUtils.h>
+#import <ShadowKit/SKSerialization.h>
 #import <ShadowKit/SKAppKitExtensions.h>
 
 #define ICON_SIZE		16
@@ -180,6 +181,15 @@ static NSString * const kSparkActionDescriptionKey = @"ShortDescription";
 
 #pragma mark -
 @implementation SparkAction (Private)
+
+- (id)duplicate {
+  /* Copying fallback when instance does not implements copyWithZone: */
+  id copy = nil;
+  NSDictionary *plist = SKSerializeObject(self, NULL);
+  if (plist)
+    copy = SKDeserializeObject(plist, NULL);
+  return copy;
+}
 
 - (SparkAlert *)hotKeyShouldExecuteAction:(SparkHotKey *)hotkey {
   return [self execute];

@@ -111,7 +111,7 @@
       DLog(@"Invalid plugin nib path");
     }
   }
-  SparkPlugIn *plugin = [[sp_class alloc] init];
+  SparkActionPlugIn *plugin = [[sp_class alloc] init];
   [sp_nib instantiateNibWithOwner:plugin topLevelObjects:nil];
   return [plugin autorelease];
 }
