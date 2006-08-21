@@ -26,11 +26,27 @@
     
   NSMutableArray *se_views; /* binding cycle hack */
   NSMapTable *se_instances; /* plugin instances */
+  
+  id se_delegate;
 }
 
+- (id)delegate;
+- (void)setDelegate:(id)aDelegate;
+
+- (SETriggerEntry *)entry;
 - (void)setEntry:(SETriggerEntry *)anEntry;
 
+- (SparkPlugIn *)actionType;
 - (void)setActionType:(SparkPlugIn *)type;
+
+- (SparkApplication *)application;
 - (void)setApplication:(SparkApplication *)anApplication;
+
+@end
+
+@interface NSObject (SEEntryEditorDelegate)
+
+- (BOOL)editor:(SEEntryEditor *)theEditor shouldCreateEntry:(SETriggerEntry *)entry;
+- (BOOL)editor:(SEEntryEditor *)theEditor shouldUpdateEntry:(SETriggerEntry *)entry;
 
 @end

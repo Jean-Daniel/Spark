@@ -363,9 +363,8 @@ static NSImage *_HKCreateShading(NSControlTint tint);
           [self clear];
           [self setNeedsDisplay:YES];
           return;
-          /* Return or num pad enter */
-        case '\r':
-        case 0x03:
+          /* Space */
+        case ' ':
           [self setTrapping:YES];
           return;
       }

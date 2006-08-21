@@ -248,10 +248,11 @@ void SystemFastLogOut() {
 
 - (id)initWithSerializedValues:(NSDictionary *)plist {
   [self release];
-  if (self = [[SystemAction alloc] initWithSerializedValues:plist]) {
-    [self setAction:[[plist objectForKey:@"PowerAction"] intValue]];
+  SystemAction *action;
+  if (action = [[SystemAction alloc] initWithSerializedValues:plist]) {
+    [action setAction:[[plist objectForKey:@"PowerAction"] intValue]];
   }
-  return self;
+  return action;
 }
 
 @end

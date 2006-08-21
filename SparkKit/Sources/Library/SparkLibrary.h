@@ -80,6 +80,9 @@ typedef struct _SparkEntry {
 - (NSFileWrapper *)fileWrapper:(NSError **)outError;
 - (BOOL)readFromFileWrapper:(NSFileWrapper *)fileWrapper error:(NSError **)outError;
 
+#pragma mark Entries Manipulation
+- (void)addEntry:(SparkEntry *)entry;
+
   /* Library Queries */
   /*!
   @method     

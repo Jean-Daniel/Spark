@@ -146,7 +146,7 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
       [self postNotification:kSparkLibraryDidAddObjectNotification object:object];
       return YES;
     } else { /* If object already in Library */
-      [self updateObject:object];
+      return [self updateObject:object];
     }
   }
   @catch (id exception) {

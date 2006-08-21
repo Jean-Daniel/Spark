@@ -1,10 +1,10 @@
-//
-//  MyAction.h
-//  MySparkAction
-//
-//  Created by Fox on Sat Mar 20 2004.
-//  Copyright (c) 2004 ShadowLab. All rights reserved.
-//
+/*
+ *  MyAction.h
+ *  MySparkAction
+ *
+ *  Created by Black Moon Team.
+ *  Copyright (c) ShadowLab. 2004 - 2006.
+ */
 
 #import <SparkKit/SparkPluginAPI.h>
 

@@ -1,19 +1,15 @@
-//
-//  MyActionPlugin.m
-//  MySparkAction
-//
-//  Created by Fox on Sat Mar 20 2004.
-//  Copyright (c) 2004 ShadowLab. All rights reserved.
-//
+/*
+ *  MyActionPlugin.m
+ *  MySparkAction
+ *
+ *  Created by Black Moon Team.
+ *  Copyright (c) ShadowLab. 2004 - 2006.
+ */
 
 #import "MyActionPlugin.h"
 #import "MyAction.h"
 
 @implementation MyActionPlugin
-
-- (void)dealloc {
-  [super dealloc];
-}
 
 /* This function is called when the user open MyAction Editor Panel in Spark. Default implementation does nothing. */
 - (void)loadSparkAction:(id)sparkAction toEdit:(BOOL)flag {

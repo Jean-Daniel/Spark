@@ -24,6 +24,7 @@
 #import <SparkKit/SparkList.h>
 #import <SparkKit/SparkPlugIn.h>
 
+#import <SparkKit/SparkAction.h>
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkApplication.h>
 
@@ -101,6 +102,7 @@
         }
         [se_editor setApplication:[appField application]];
         [se_editor setEntry:nil];
+        [se_editor setDelegate:self];
         [se_editor setActionType:plugin];
         
         [NSApp beginSheet:[se_editor window]
@@ -111,6 +113,18 @@
       }
     }
   }
+}
+
+- (BOOL)editor:(SEEntryEditor *)theEditor shouldCreateEntry:(SETriggerEntry *)entry {
+  DLog(@"Create entry: %@", entry);
+  [SparkSharedTriggerSet() addObject:[entry trigger]];
+  [SparkSharedActionSet() addObject:[entry action]];
+  SparkEntry spEntry;
+  spEntry.action = [[entry action] uid];
+  spEntry.trigger = [[entry trigger] uid];
+  spEntry.application = [[theEditor application] uid];
+  [SparkSharedLibrary() addEntry:&spEntry];
+  return YES;
 }
 
 - (void)windowDidLoad {

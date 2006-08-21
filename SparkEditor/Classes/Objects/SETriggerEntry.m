@@ -28,6 +28,11 @@
   [super dealloc];
 }
 
+- (NSString *)description {
+  return [NSString stringWithFormat:@"{ Trigger: %@, Action: %@ }", se_trigger, se_action];
+}
+
+#pragma mark -
 - (int)type {
   return se_type;
 }

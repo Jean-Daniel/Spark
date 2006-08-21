@@ -68,19 +68,21 @@
       /* Load */
       [se_editor window];
     }
+    [se_editor setDelegate:self];
     [se_editor setApplication:se_application];
     [se_editor setEntry:[se_entries objectAtIndex:idx]];
     
     [NSApp beginSheet:[se_editor window]
        modalForWindow:[sender window]
-        modalDelegate:self
-       didEndSelector:@selector(editorDidEnd:returnCode:contextInfo:)
+        modalDelegate:nil
+       didEndSelector:NULL
           contextInfo:nil];
   }
 }
 
-- (void)editorDidEnd:(NSWindow *)sheet returnCode:(int)returnCode  contextInfo:(void  *)contextInfo {
-  ShadowTrace();
+- (BOOL)editor:(SEEntryEditor *)theEditor shouldUpdateEntry:(SETriggerEntry *)entry {
+  DLog(@"Update entry: %@", entry);
+  return YES;
 }
 
 - (IBAction)changeFilter:(id)sender {

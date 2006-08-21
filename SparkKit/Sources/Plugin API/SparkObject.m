@@ -164,9 +164,9 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
 }
 
 - (NSString *)description {
-  return [NSString stringWithFormat:@"<%@ %p> {uid:%u name:%@ icon:%@}",
+  return [NSString stringWithFormat:@"<%@ %p> {uid:%u name:%@}",
     [self class], self,
-    sp_uid, sp_name, sp_icon];
+    sp_uid, sp_name];
 }
 
 #pragma mark -

@@ -1,10 +1,10 @@
-//
-//  MyAction.m
-//  MySparkAction
-//
-//  Created by Fox on Sat Mar 20 2004.
-//  Copyright (c) 2004 shadowlab. All rights reserved.
-//
+/*
+ *  MyAction.m
+ *  MySparkAction
+ *
+ *  Created by Black Moon Team.
+ *  Copyright (c) ShadowLab. 2004 - 2006.
+ */
 
 #import "MyAction.h"
 
@@ -23,7 +23,7 @@ Get all values you set in the -serialize: method and configure your Action */
 
 /* Use to transform and record you Action in a file. The dictionary returned must contains only PList objects 
 See the PropertyList documentation to know more about it */
-- (BOOL)serialize:(NSDictionary *)plist {
+- (BOOL)serialize:(NSMutableDictionary *)plist {
   if ([super serialize:plist]) {
     [plist setObject:[NSNumber numberWithUnsignedInt:my_count] forKey:kMyBeepCountKey];
     return YES;
@@ -48,6 +48,7 @@ In our case, beepCount is always right exept if an user edit the library file ma
                                       otherButton:nil
                         informativeTextWithFormat:@"You set beep Count to : %i", my_count];
   [dialog runModal];
+  return nil;
 }
 
 #pragma mark -

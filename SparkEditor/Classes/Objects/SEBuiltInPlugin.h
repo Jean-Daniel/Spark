@@ -12,11 +12,15 @@
 
 }
 
+- (int)type;
+
 @end
 
 @interface SEInheritsPlugin : SparkActionPlugIn {
   
 }
+
+- (int)type;
 
 @end
 

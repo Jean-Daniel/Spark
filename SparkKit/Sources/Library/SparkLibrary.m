@@ -294,6 +294,11 @@ bail:
 }
 
 #pragma mark -
+- (void)addEntry:(SparkEntry *)entry {
+  SKCArrayAppendItem(sp_relations, entry);
+  // Notify
+}
+
 #pragma mark Library Queries
 - (NSDictionary *)triggersForApplication:(UInt32)application {
   UInt32 count = SKCArrayCount(sp_relations);

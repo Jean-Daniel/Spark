@@ -7,8 +7,13 @@
  */
 
 #import "SEBuiltInPlugin.h"
+#import "SETriggerEntry.h"
 
 @implementation SEIgnorePlugin
+
+- (int)type {
+  return kSEEntryTypeIgnore;
+}
 
 + (Class)actionClass {
   return Nil;
@@ -33,6 +38,10 @@
 @end
 
 @implementation SEInheritsPlugin
+
+- (int)type {
+  return kSEEntryTypeInherit;
+}
 
 + (Class)actionClass {
   return Nil;

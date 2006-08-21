@@ -88,6 +88,13 @@
   se_min.height -= delta.height;
 }
 
+- (id)delegate {
+  return se_delegate;
+}
+- (void)setDelegate:(id)aDelegate {
+  se_delegate = aDelegate;
+}
+
 - (IBAction)close:(id)sender {
   [super close:sender];
   /* Cleanup */
@@ -99,12 +106,13 @@
   NSResetMapTable(se_instances);
 }
 
-- (IBAction)update:(id)sender {
-  [self close:sender];
+- (void)create:(SETriggerEntry *)entry {
+  if (!SKDelegateHandle(se_delegate, editor:shouldCreateEntry:) || [se_delegate editor:self shouldCreateEntry:entry])
+    [self close:nil];
 }
-
-- (IBAction)create:(id)sender {
-  [self close:sender];
+- (void)update:(SETriggerEntry *)entry {
+  if (!SKDelegateHandle(se_delegate, editor:shouldUpdateEntry:) || [se_delegate editor:self shouldUpdateEntry:entry])
+    [self close:nil];
 }
 
 - (IBAction)ok:(id)sender {
@@ -142,11 +150,21 @@
   if (alert) { 
     [alert runModal];
   } else {
-    if (se_entry) {
-      [self update:sender];
-    } else {
-      [self create:sender];
+    SparkHotKey *hkey = [[SparkHotKey alloc] init];
+    [hkey setKeycode:key.keycode];
+    [hkey setModifier:key.modifiers];
+    [hkey setCharacter:key.character];
+    SETriggerEntry *entry = [[SETriggerEntry alloc] initWithTrigger:hkey action:[se_plugin sparkAction]];
+    if ([se_plugin respondsToSelector:@selector(type)]) {
+      [entry setType:[(SEIgnorePlugin *)se_plugin type]];
     }
+    if (se_entry) {
+      [self update:entry];
+    } else {
+      [self create:entry];
+    }
+    [entry release];
+    [hkey release];
   }
 }
 
@@ -190,7 +208,14 @@
     }
   }
 }
+- (SparkPlugIn *)actionType {
+  int row = [typeTable selectedRow];
+  return row >= 0 ? [se_plugins objectAtIndex:row] : nil;
+}
 
+- (SETriggerEntry *)entry {
+  return se_entry;
+}
 - (void)setEntry:(SETriggerEntry *)anEntry {
   SKSetterRetain(se_entry, anEntry);
   
@@ -234,6 +259,9 @@
   [trap setHotKey:key];
 }
 
+- (SparkApplication *)application {
+  return [appField application];
+}
 - (void)setApplication:(SparkApplication *)anApplication {
   SparkApplication *previous = [appField application];
   if (previous != anApplication) {
@@ -261,6 +289,10 @@
 }
 
 - (void)recalculateKeyViewLoop {
+  if ([[self window] respondsToSelector:@selector(recalculateKeyViewLoop)]) {
+    [[self window] recalculateKeyViewLoop];
+    return;
+  }
   NSView *first = [se_view nextValidKeyView];
   NSView *last = nil;
   NSView *view = first;

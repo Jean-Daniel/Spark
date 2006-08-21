@@ -137,7 +137,7 @@ static NSString * const kSparkActionDescriptionKey = @"ShortDescription";
 - (NSImage *)icon {
   NSImage *icon = [super icon];
   if (!icon) {
-    [self setIcon:[NSImage imageNamed:@"SparkAction" inBundle:SKCurrentBundle()]];
+    [self setIcon:[NSImage imageNamed:@"SparkAction" inBundle:[NSBundle bundleWithIdentifier:kSparkKitBundleIdentifier]]];
     icon = [super icon];
   }
   return icon;

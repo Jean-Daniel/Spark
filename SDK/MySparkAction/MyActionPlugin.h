@@ -1,12 +1,12 @@
-//
-//  MyActionPlugin.h
-//  MySparkAction
-//
-//  Created by Fox on Sat Mar 20 2004.
-//  Copyright (c) 2004 ShadowLab. All rights reserved.
-//
+/*
+ *  MyActionPlugin.h
+ *  MySparkAction
+ *
+ *  Created by Black Moon Team.
+ *  Copyright (c) ShadowLab. 2004 - 2006.
+ */
 
-#import <SparkKit/SparkKit_API.h>
+#import <SparkKit/SparkPluginAPI.h>
 
 @interface MyActionPlugin : SparkActionPlugIn {
 
