@@ -172,22 +172,12 @@ const UCKeyboardTypeHeader *UCKeyboardHeaderForCurrentKeyboard(const UCKeyboardL
   return head;
 }
 
-#if defined(DEBUG)
-static
-void UchrDumpStorage(UchrContext *ctxt, FILE *f, bool reverse) {
-  
-}
-#endif
-
 #pragma mark -
 OSStatus HKKeyMapContextWithUchrData(const UCKeyboardLayout *layout, Boolean reverse, HKKeyMapContext *ctxt) {
   ctxt->dealloc = UchrContextDealloc;
   ctxt->baseMap = (HKBaseCharacterForKeyCodeFunction)UchrBaseCharacterForKeyCode;
   ctxt->fullMap = (HKCharacterForKeyCodeFunction)UchrCharacterForKeyCode;
   ctxt->reverseMap = (HKKeycodesForCharacterFunction)UchrKeycodesForCharacter;
-#if defined(DEBUG)
-  ctxt->dump = (HKDumpInternalStorageFunction)UchrDumpStorage;
-#endif
   
   // Allocate UCHR Context
   ctxt->data = calloc(1, sizeof(UchrContext));
@@ -414,35 +404,6 @@ static UInt32 KCHRKeycodesForCharacter(KCHRContext *ctxt, UniChar character, UIn
   return count;
 }
 
-#if defined(DEBUG)
-static
-void KCHRDumpStorage(KCHRContext *ctxt, FILE *f, bool reverse) {
-  fprintf(f, "=================== Unicode Table ===================\n");
-  int idx = 0;
-  while (idx < 256) {
-    fprintf(f, "- (0x%x) => (0x%x)\n", idx, ctxt->unicode[idx]);
-    idx++;
-  }
-  if (!reverse) {
-    fprintf(f, "=================== Base Map ===================\n");
-    UInt32 keycode = 0;
-    while (keycode < 128) {
-      fprintf(f, "- %lu => %c (0x%x)\n", keycode, ctxt->map[keycode], ctxt->map[keycode]);
-      keycode++;
-    }
-  } else {
-    NSMapEnumerator enume = NSEnumerateMapTable(ctxt->chars);
-    UInt32 key, value;
-    UInt32 k = 0, m = 0, d = 0;
-    while (NSNextMapEnumeratorPair(&enume, (void **)&key, (void **)&value)) {
-      __HKUtilsDeflatKey(value, &k, &m, &d);
-      fprintf(f, "- %c (0x%x) => %lu, 0x%x, %lu\n", (int)key, (int)key, k, (int)m, d);
-    }
-    NSEndMapTableEnumeration(&enume);
-  }
-}
-#endif
-
 static NSMapTable *UpgradeToUnicode(ScriptCode script, UInt32 *keys, UInt32 count, UniChar *umap, Boolean reverse);
 
 #pragma mark -
@@ -451,10 +412,7 @@ OSStatus HKKeyMapContextWithKCHRData(const void *layout, Boolean reverse, HKKeyM
   ctxt->baseMap = (HKBaseCharacterForKeyCodeFunction)KCHRBaseCharacterForKeyCode;
   ctxt->fullMap = (HKCharacterForKeyCodeFunction)KCHRCharacterForKeyCode;
   ctxt->reverseMap = (HKKeycodesForCharacterFunction)KCHRKeycodesForCharacter;
-#if defined(DEBUG)
-  ctxt->dump = (HKDumpInternalStorageFunction)KCHRDumpStorage;
-#endif
-  
+
   // Allocate KCHR Context
   ctxt->data = calloc(1, sizeof(KCHRContext));
   KCHRContext *kchr = (KCHRContext *)ctxt->data;

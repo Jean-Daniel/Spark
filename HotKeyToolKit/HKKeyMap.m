@@ -38,10 +38,6 @@ static HKKeyMapRef SharedKeyMap() {
   return sharedKeyMap;
 }
 
-void HKMapDumpInternalStorage(bool reverse) {
-  HKKeyMapDump(SharedKeyMap(), stderr, reverse);
-}
-
 #pragma mark -
 #pragma mark Statics Functions Declaration
 static 

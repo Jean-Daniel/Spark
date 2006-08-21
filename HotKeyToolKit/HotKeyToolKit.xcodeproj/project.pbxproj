@@ -104,7 +104,7 @@
 		98643F010A556F2200260086 /* Test-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Test-Info.plist"; sourceTree = "<group>"; };
 		9864CB72060D11DD00228F30 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
 		98B703D00A86146400DB692D /* HKBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKBase.h; sourceTree = "<group>"; };
-		98C61C1A0A5813EB0004E6EF /* UITester.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UITester.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		98C61C1A0A5813EB0004E6EF /* UITester.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = UITester.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		98C61C1C0A5813EB0004E6EF /* UITester-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "UITester-Info.plist"; sourceTree = "<group>"; };
 		98C61C650A5814C50004E6EF /* UITester.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = UITester.nib; sourceTree = "<group>"; };
 		98DD082E0A8A8F1D0082AF03 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Keyboard.strings; sourceTree = "<group>"; };
@@ -114,7 +114,7 @@
 		98DD42490A57C9C800F059E5 /* HKEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKEvent.h; sourceTree = "<group>"; };
 		98DD467E0A57ED3E00F059E5 /* HKEventCompat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKEventCompat.m; sourceTree = "<group>"; };
 		98E204820A56FDFC00EB74E1 /* Runner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Runner.m; sourceTree = "<group>"; };
-		98E204A00A56FE6500EB74E1 /* Runner */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "compiled.mach-o.executable"; path = Runner; sourceTree = BUILT_PRODUCTS_DIR; };
+		98E204A00A56FE6500EB74E1 /* Runner */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Runner; sourceTree = BUILT_PRODUCTS_DIR; };
 		98EF7D6F0864538C007BC81A /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = /System/Library/Frameworks/SenTestingKit.framework; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
@@ -268,24 +268,24 @@
 				984426CB05F9430700551005 /* HKKeyMap.h */,
 				984426CC05F9430700551005 /* HKTrapWindow.h */,
 				984426C905F9430700551005 /* HKHotKeyManager.h */,
-				984426D705F9431D00551005 /* Private */,
 			);
 			path = Headers;
 			sourceTree = "<group>";
 		};
-		984426D705F9431D00551005 /* Private */ = {
+		984426D705F9431D00551005 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
 				984426CE05F9430700551005 /* KeyMap.h */,
 				982B010A05FE954600E8776D /* HKKeyboardUtils.h */,
 				984426CA05F9430700551005 /* HKHotKeyRegister.h */,
 			);
-			name = Private;
+			path = Headers;
 			sourceTree = "<group>";
 		};
 		984426E305F943A800551005 /* Private */ = {
 			isa = PBXGroup;
 			children = (
+				984426D705F9431D00551005 /* Headers */,
 				984426DB05F943A100551005 /* KeyMap.m */,
 				98DD3FE20A57C2A200F059E5 /* ModifierMap.m */,
 				982B010B05FE954600E8776D /* HKKeyboardUtils.m */,
@@ -486,12 +486,12 @@
 				984426DD05F943A100551005 /* HKKeyMap.m in Sources */,
 				984426DE05F943A100551005 /* HKHotKey.m in Sources */,
 				984426DF05F943A100551005 /* HKHotKeyManager.m in Sources */,
-				984426E005F943A100551005 /* KeyMap.m in Sources */,
 				984426E105F943A100551005 /* HKTrapWindow.m in Sources */,
 				9844277A05F9444000551005 /* HKHotKeyRegister.m in Sources */,
-				982B010D05FE954600E8776D /* HKKeyboardUtils.m in Sources */,
-				98DD3FE30A57C2A200F059E5 /* ModifierMap.m in Sources */,
 				98DD42460A57C9BC00F059E5 /* HKEvent.m in Sources */,
+				984426E005F943A100551005 /* KeyMap.m in Sources */,
+				98DD3FE30A57C2A200F059E5 /* ModifierMap.m in Sources */,
+				982B010D05FE954600E8776D /* HKKeyboardUtils.m in Sources */,
 				98DD467F0A57ED3E00F059E5 /* HKEventCompat.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

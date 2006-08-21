@@ -44,10 +44,14 @@
 #endif
 
 #if !defined(SPARK_PRIVATE)
-#if defined (__GNUC__) && (__GNUC__ >= 4) && !defined(DEBUG)
+#if !defined(SPARK_PRIVATE)
+#if defined(DEBUG)
+#define SPARK_PRIVATE SPARK_EXPORT
+#elif defined (__GNUC__) && (__GNUC__ >= 4)
 #define SPARK_PRIVATE __private_extern__ __attribute__((visibility("hidden")))
 #else
 #define SPARK_PRIVATE __private_extern__
+#endif /* DEBUG */
 #endif
 #endif
 

@@ -260,7 +260,3 @@ typedef enum {
  */
 HK_EXPORT
 UInt32 HKUtilsConvertModifier(UInt32 modifier, HKModifierFormat input, HKModifierFormat output);
-
-HK_EXPORT
-void HKMapDumpInternalStorage(bool reverse);
-

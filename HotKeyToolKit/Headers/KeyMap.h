@@ -9,6 +9,8 @@
 @header KeyMap
  */
 
+#import <HotKeyToolKit/HKBase.h>
+
 #pragma mark Type definition.
 /*!
 @typedef HKKeyMapRef
@@ -24,6 +26,7 @@ typedef struct __HKKeyMap* HKKeyMapRef;
  To release memory allocated in currentKeyMap, use the <code>HKKeyMapRelease</code> function.
 	@result Returns the keymap corresponding to the current keyboard.
  */
+HK_PRIVATE
 HKKeyMapRef HKKeyMapCreate(void *layout, Boolean reverse);
 
 /*!	
@@ -31,6 +34,7 @@ HKKeyMapRef HKKeyMapCreate(void *layout, Boolean reverse);
 @abstract Release memory allocated by <i>HKKeyMapCreate</i>.
 @param keymap The keyMap to release.
 */
+HK_PRIVATE
 void HKKeyMapRelease(HKKeyMapRef keymap);
 
 #pragma mark -
@@ -44,6 +48,7 @@ void HKKeyMapRelease(HKKeyMapRef keymap);
  @param wasChanged En retour, true si la table a été modifiée.
  @result Returns noErr if no error.
  */
+HK_PRIVATE
 OSStatus HKKeyMapCheckCurrentMap(HKKeyMapRef currentKeyMap, Boolean *wasChanged);
 
 /*!
@@ -51,12 +56,14 @@ OSStatus HKKeyMapCheckCurrentMap(HKKeyMapRef currentKeyMap, Boolean *wasChanged)
  @abstract Returns the name of <i>keymap</i>.
  @param keymap
  */
+HK_PRIVATE
 CFStringRef HKKeyMapGetName(HKKeyMapRef keymap);
 /*!
 @function
  @abstract Returns the localized name of <i>keymap</i>.
  @param keymap
  */
+HK_PRIVATE
 CFStringRef HKKeyMapGetLocalizedName(HKKeyMapRef keymap);
 
 /*!
@@ -69,6 +76,7 @@ CFStringRef HKKeyMapGetLocalizedName(HKKeyMapRef keymap);
  @param charCode The unichar you want to convert.
  @result Return the virtual keycode associated with this unichar character or kHKInvalidVirtualKeyCode.
  */
+HK_PRIVATE
 UInt32 HKKeyMapGetKeycodesForUnichar(HKKeyMapRef keyMap, UniChar character, UInt32 *keys, UInt32 *modifiers, UInt32 maxsize);
 
 /*!
@@ -78,6 +86,7 @@ UInt32 HKKeyMapGetKeycodesForUnichar(HKKeyMapRef keyMap, UniChar character, UInt
  @param virtualKeyCode The virtual keycode you want to convert.
  @result Returns kHKNilUnichar if no character was found.
  */
+HK_PRIVATE
 UniChar HKKeyMapGetUnicharForKeycode(HKKeyMapRef currentKeyMap, UInt32 virtualKeyCode);
 
 /*!
@@ -86,7 +95,6 @@ UniChar HKKeyMapGetUnicharForKeycode(HKKeyMapRef currentKeyMap, UInt32 virtualKe
  @param virtualKeyCode The virtual keycode you want to convert.
  @result Returns kHKNilUnichar if no character was found.
  */
+HK_PRIVATE
 UniChar HKKeyMapGetUnicharForKeycodeAndModifier(HKKeyMapRef currentKeyMap, UInt32 virtualKeyCode, UInt32 modifiers);
-
-void HKKeyMapDump(HKKeyMapRef keyMap, FILE *f, bool reverse);
 

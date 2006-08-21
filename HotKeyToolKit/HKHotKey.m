@@ -16,13 +16,10 @@
 #warning Debug defined in HotKeyToolKit!	
 #endif
 
-volatile int HKGDBWorkaround = 0;
-
 @interface HKHotKey (Private) 
 - (void)hk_invalidateTimer;
 
 - (BOOL)shouldChangeKeystroke;
-
 @end
 
 @implementation HKHotKey
