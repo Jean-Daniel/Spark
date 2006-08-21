@@ -23,6 +23,7 @@
 #import <SparkKit/SparkActionPlugIn.h>
 
 #import <ShadowKit/SKFunctions.h>
+#import <ShadowKit/SKExtensions.h>
 #import <HotKeyToolKit/HotKeyToolKit.h>
 
 #pragma mark -
@@ -87,8 +88,66 @@
   se_min.height -= delta.height;
 }
 
-- (IBAction)ok:(id)sender {
+- (IBAction)close:(id)sender {
+  [super close:sender];
+  /* Cleanup */
+  [se_view removeFromSuperview];
+  se_view = nil;
+  se_plugin = nil;
+  /* Remove plugins instances */
+  [se_views removeAllObjects];
+  NSResetMapTable(se_instances);
+}
+
+- (IBAction)update:(id)sender {
   [self close:sender];
+}
+
+- (IBAction)create:(id)sender {
+  [self close:sender];
+}
+
+- (IBAction)ok:(id)sender {
+  /* Check trigger */
+  NSAlert *alert = nil;
+  SEHotKey key = [trap hotkey];
+  if (kHKInvalidVirtualKeyCode == key.keycode || kHKNilUnichar == key.character) {
+    alert = [NSAlert alertWithMessageText:NSLocalizedStringFromTable(@"INVALID_TRIGGER_ALERT",
+                                                                     @"EntryEditor", @"Invalid HotKey - Title")
+                            defaultButton:NSLocalizedStringFromTable(@"OK",
+                                                                     @"EntryEditor", @"Alert default button")
+                          alternateButton:nil
+                              otherButton:nil
+                informativeTextWithFormat:NSLocalizedStringFromTable(@"INVALID_TRIGGER_ALERT_MSG",
+                                                                     @"EntryEditor", @"Invalid HotKey - Message")];
+  }
+  /* Then check action */
+  if (!alert)
+    alert = [se_plugin sparkEditorShouldConfigureAction];
+  if (!alert) {
+    [se_plugin configureAction];
+    // Check name
+    NSString *name = [[se_plugin sparkAction] name];
+    if ([[name stringByTrimmingWhitespace] length] == 0) {
+      alert = [NSAlert alertWithMessageText:NSLocalizedStringFromTable(@"EMPTY_NAME_ALERT",
+                                                                       @"EntryEditor", @"Empty Action Name - Title")
+                              defaultButton:NSLocalizedStringFromTable(@"OK",
+                                                                       @"EntryEditor", @"Alert default button")
+                            alternateButton:nil
+                                otherButton:nil
+                  informativeTextWithFormat:NSLocalizedStringFromTable(@"EMPTY_NAME_ALERT_MSG",
+                                                                       @"EntryEditor", @"Empty Action Name - Message")];
+    }
+  }
+  if (alert) { 
+    [alert runModal];
+  } else {
+    if (se_entry) {
+      [self update:sender];
+    } else {
+      [self create:sender];
+    }
+  }
 }
 
 - (IBAction)cancel:(id)sender {
@@ -134,9 +193,6 @@
 
 - (void)setEntry:(SETriggerEntry *)anEntry {
   SKSetterRetain(se_entry, anEntry);
-  /* Remove plugins instances */
-  [se_views removeAllObjects];
-  NSResetMapTable(se_instances);
   
   /* Update plugins list if needed */
   [self updatePlugins];
@@ -158,8 +214,11 @@
         [trap setEnabled:YES];
         break;
     }
+    [ibConfirm setTitle:@"Update"];
   } else {
+    // set create
     [trap setEnabled:YES];
+    [ibConfirm setTitle:@"Create"];
   }
   if (type)
     [self setActionType:type];
@@ -231,22 +290,24 @@
 }
 
 - (void)setActionType:(SparkPlugIn *)aPlugin {
-  SparkActionPlugIn *instance = NSMapGet(se_instances, aPlugin);
-  if (!instance) {
-    instance = [aPlugin instantiatePlugin];
-    if (instance) {
-      NSMapInsert(se_instances, aPlugin, instance);
+  se_plugin = NSMapGet(se_instances, aPlugin);
+  if (!se_plugin) {
+    se_plugin = [aPlugin instantiatePlugin];
+    if (se_plugin) {
+      NSMapInsert(se_instances, aPlugin, se_plugin);
       
       /* Become view ownership */
-      [se_views addObject:[instance actionView]];
-      /* Say instance to no longer retain the view, so we no longer get a retain cycle. */
-      [instance releaseViewOwnership];
+      [se_views addObject:[se_plugin actionView]];
+      /* Say se_plugin to no longer retain the view, so we no longer get a retain cycle. */
+      [se_plugin releaseViewOwnership];
       
       // Set plugin action
+      BOOL edit = NO;
       Class cls = [aPlugin actionClass];
       SparkAction *action = nil;
       /* Special built-in plugins, or good plugin */
       if (!cls || [[se_entry action] isKindOfClass:cls]) {
+        edit = YES;
         action = [se_entry action];
         if (SKImplementsSelector(action, @selector(copyWithZone:))) {
           action = [[action copy] autorelease];
@@ -257,16 +318,16 @@
       } else {
         action = [[[cls alloc] init] autorelease];
       }
-      [instance setSparkAction:action];
-      [instance loadSparkAction:action toEdit:se_entry != nil];
+      [se_plugin setSparkAction:action];
+      [se_plugin loadSparkAction:action toEdit:edit];
     }
   }
   /* Remove previous view */
-  if (se_view != [instance actionView]) {
+  if (se_view != [se_plugin actionView]) {
     [se_view removeFromSuperview];
     
-    se_view = [instance actionView];
-    NSAssert1([se_view isKindOfClass:[NSView class]], @"Invalid view for plugin: %@", instance);
+    se_view = [se_plugin actionView];
+    NSAssert1([se_view isKindOfClass:[NSView class]], @"Invalid view for plugin: %@", se_plugin);
     
     // Adjust view and window frame
     NSRect vrect = NSZeroRect; /* view rect */

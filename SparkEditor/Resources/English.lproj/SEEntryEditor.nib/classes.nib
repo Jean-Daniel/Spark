@@ -10,10 +10,12 @@
             SUPERCLASS = NSView; 
         }, 
         {
+            ACTIONS = {cancel = id; ok = id; }; 
             CLASS = SEEntryEditor; 
             LANGUAGE = ObjC; 
             OUTLETS = {
                 appField = SEApplicationView; 
+                ibConfirm = NSButton; 
                 pluginView = NSView; 
                 trap = SEHotKeyTrap; 
                 typeTable = SETableView; 

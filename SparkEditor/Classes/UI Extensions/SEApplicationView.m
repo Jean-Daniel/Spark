@@ -31,6 +31,10 @@ static const float kAVImageRightMargin = 6.f;
   [super dealloc];
 }
 
+- (BOOL)acceptsFirstResponder {
+  return se_action != nil;
+}
+
 - (BOOL)isOpaque {
   return NO;
 }
@@ -173,9 +177,17 @@ static const float kAVImageRightMargin = 6.f;
       CGContextSetGrayStrokeColor(ctxt, 0.5, 1);
       CGContextSetGrayFillColor(ctxt, 0, se_saFlags.highlight ? .15f : .08f);
     }
-    
+
+    /* Draw before image if not highlight */
     if (!se_saFlags.highlight) {
+//      if (se_action) {
+//        CGContextSaveGState(ctxt);
+//        NSSetFocusRingStyle(NSFocusRingBelow);
+//      }
       CGContextDrawPath(ctxt, kCGPathFillStroke);
+//      if (se_action) {
+//        CGContextRestoreGState(ctxt);
+//      }
     }
     
     /* Draw icon */
@@ -249,6 +261,22 @@ static const float kAVImageRightMargin = 6.f;
           /* Ignore any other kind of event. */
           break;
       }
+    }
+  }
+}
+
+- (void)keyDown:(NSEvent *)theEvent {
+  if (!se_action)
+    return;
+  
+  NSString *chr = [theEvent characters];
+  if ([chr length]) {
+    switch ([chr characterAtIndex:0]) {
+      case ' ':
+      case '\r':
+      case 0x03:
+        [se_target performSelector:se_action withObject:self];
+        break;
     }
   }
 }

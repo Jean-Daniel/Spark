@@ -183,32 +183,7 @@
 	<key>Name</key>
 	<string>Default</string>
 	<key>Notifications</key>
-	<array>
-		<dict>
-			<key>XCObserverAutoDisconnectKey</key>
-			<true/>
-			<key>XCObserverDefintionKey</key>
-			<dict>
-				<key>PBXStatusErrorsKey</key>
-				<integer>0</integer>
-			</dict>
-			<key>XCObserverFactoryKey</key>
-			<string>XCPerspectivesSpecificationIdentifier</string>
-			<key>XCObserverGUIDKey</key>
-			<string>XCObserverProjectIdentifier</string>
-			<key>XCObserverNotificationKey</key>
-			<string>PBXStatusBuildStateMessageNotification</string>
-			<key>XCObserverTargetKey</key>
-			<string>XCMainBuildResultsModuleGUID</string>
-			<key>XCObserverTriggerKey</key>
-			<string>awakenModuleWithObserver:</string>
-			<key>XCObserverValidationKey</key>
-			<dict>
-				<key>PBXStatusErrorsKey</key>
-				<integer>2</integer>
-			</dict>
-		</dict>
-	</array>
+	<array/>
 	<key>OpenEditors</key>
 	<array/>
 	<key>PerspectiveWidths</key>
@@ -222,14 +197,14 @@
 			<key>ChosenToolbarItems</key>
 			<array>
 				<string>active-target-popup</string>
+				<string>action</string>
 				<string>active-buildstyle-popup</string>
 				<string>NSToolbarFlexibleSpaceItem</string>
 				<string>buildOrClean</string>
 				<string>build-and-runOrDebug</string>
 				<string>com.apple.ide.PBXToolbarStopButton</string>
 				<string>get-info</string>
-				<string>NSToolbarSpaceItem</string>
-				<string>servicesModulebuild</string>
+				<string>toggle-editor</string>
 				<string>NSToolbarFlexibleSpaceItem</string>
 				<string>com.apple.pbx.toolbar.searchfield</string>
 			</array>
@@ -310,7 +285,7 @@
 							<real>186</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>143 37 1140 707 0 0 1024 746 </string>
+						<string>291 155 1140 707 0 0 1680 1028 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -347,7 +322,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {932, 0}}</string>
 								<key>RubberWindowFrame</key>
-								<string>143 37 1140 707 0 0 1024 746 </string>
+								<string>291 155 1140 707 0 0 1680 1028 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -367,7 +342,7 @@
 								<key>Frame</key>
 								<string>{{0, 5}, {932, 661}}</string>
 								<key>RubberWindowFrame</key>
-								<string>143 37 1140 707 0 0 1024 746 </string>
+								<string>291 155 1140 707 0 0 1680 1028 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
@@ -391,9 +366,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>98E0361D0A84EF4E00BED686</string>
+				<string>9893982F0A99A73F00ED547B</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>98E0361E0A84EF4E00BED686</string>
+				<string>989398300A99A73F00ED547B</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -512,9 +487,9 @@
 	<key>StatusbarIsVisible</key>
 	<true/>
 	<key>TimeStamp</key>
-	<real>176484170.63733801</real>
+	<real>0.0</real>
 	<key>ToolbarDisplayMode</key>
-	<integer>2</integer>
+	<integer>1</integer>
 	<key>ToolbarIsVisible</key>
 	<true/>
 	<key>ToolbarSizeMode</key>
@@ -527,10 +502,11 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>/Volumes/Stock/Users/fox/Projects/Exploitables/Spark/Spark.xcodeproj</string>
+		<string>98C089BE083BC63D0028C9CA</string>
+		<string>/Users/fox/Projects/Exploitables/Spark/Spark.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>143 37 1140 707 0 0 1024 746 </string>
+	<string>291 155 1140 707 0 0 1680 1028 </string>
 	<key>WindowTools</key>
 	<array>
 		<dict>
@@ -609,7 +585,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>98C089BE083BC63D0028C9CA</string>
-				<string>98805B740A7E167500615A25</string>
+				<string>989398240A99A73300ED547B</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
