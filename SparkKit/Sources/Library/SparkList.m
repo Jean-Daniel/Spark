@@ -13,6 +13,8 @@
 #import <ShadowKit/SKSerialization.h>
 #import <ShadowKit/SKAppKitExtensions.h>
 
+NSString * const SparkListDidChangeNotification = @"SparkListDidReload";
+
 static 
 NSString * const kSparkObjectsKey = @"SparkObjects";
 
@@ -53,16 +55,20 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
 }
 
 - (void)reload {
-  /* Refresh objects */
-  [sp_entries removeAllObjects];
-  if (sp_filter && sp_set) {
-    SparkObject *object;
-    NSEnumerator *objects = [sp_set objectEnumerator];
-    while (object = [objects nextObject]) {
-      if (sp_filter(object, sp_ctxt)) {
-        [self addObject:object];
+  if (sp_filter) {
+    /* Refresh objects */
+    [sp_entries removeAllObjects];
+    if (sp_set) {
+      SparkObject *object;
+      NSEnumerator *objects = [sp_set objectEnumerator];
+      while (object = [objects nextObject]) {
+        if (sp_filter(object, sp_ctxt)) {
+          [self addObject:object];
+        }
       }
     }
+    [[NSNotificationCenter defaultCenter] postNotificationName:SparkListDidChangeNotification
+                                                        object:self];
   }
 }
 

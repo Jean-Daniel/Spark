@@ -10,6 +10,13 @@
 
 @implementation SETriggerEntry
 
+- (id)copyWithZone:(NSZone *)aZone {
+  SETriggerEntry *copy = (SETriggerEntry *)NSCopyObject(self, 0, aZone);
+  [copy->se_action retain];
+  [copy->se_trigger retain];
+  return copy;
+}
+
 + (id)entryWithTrigger:(SparkTrigger *)aTrigger action:(SparkAction *)anAction {
   return [[[self alloc] initWithTrigger:aTrigger action:anAction] autorelease];
 }
@@ -110,7 +117,7 @@
   SETriggerEntry *entry = nil;
   NSEnumerator *entries = [set entryEnumerator];
   while (entry = [entries nextObject]) {
-    SETriggerEntry *copy = [[SETriggerEntry alloc] initWithTrigger:[entry trigger] action:[entry action]];
+    SETriggerEntry *copy = [entry copy];
     [self addEntry:copy];
     [copy release];
   }

@@ -95,6 +95,7 @@
 		986DB09307135AC100C65FF2 /* CustomKeyIcon.tif in Resources */ = {isa = PBXBuildFile; fileRef = 986DB09207135AC100C65FF2 /* CustomKeyIcon.tif */; };
 		986DB09507135B1A00C65FF2 /* KeyIcon.tif in Resources */ = {isa = PBXBuildFile; fileRef = 986DB09407135B1A00C65FF2 /* KeyIcon.tif */; };
 		986F7A4107071B2F00064694 /* SystemApplication.tif in Resources */ = {isa = PBXBuildFile; fileRef = 986F7A4007071B2F00064694 /* SystemApplication.tif */; };
+		987283260A9B317D0098C22F /* SKSingleton.h in Headers */ = {isa = PBXBuildFile; fileRef = 987283250A9B317D0098C22F /* SKSingleton.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		989EF9EA0A7CC4BB00721386 /* SparkList.m in Sources */ = {isa = PBXBuildFile; fileRef = 989EF9E90A7CC4BB00721386 /* SparkList.m */; };
 		989EF9EE0A7CC4C900721386 /* SparkList.h in Headers */ = {isa = PBXBuildFile; fileRef = 989EF9ED0A7CC4C900721386 /* SparkList.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		98A923B90A7BC6E300DF1998 /* Application.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98A923B80A7BC6E200DF1998 /* Application.tiff */; };
@@ -257,6 +258,7 @@
 		98725D3306CB9FBC0072B8E4 /* SKShadowLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SKShadowLabel.m; sourceTree = "<group>"; };
 		98725D3606CB9FC60072B8E4 /* SKApplicationAlias.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SKApplicationAlias.m; sourceTree = "<group>"; };
 		98725D3706CB9FC60072B8E4 /* SKAlias.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SKAlias.m; sourceTree = "<group>"; };
+		987283250A9B317D0098C22F /* SKSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKSingleton.h; path = Headers/SKSingleton.h; sourceTree = "<group>"; };
 		989EF9E90A7CC4BB00721386 /* SparkList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkList.m; sourceTree = "<group>"; };
 		989EF9ED0A7CC4C900721386 /* SparkList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkList.h; sourceTree = "<group>"; };
 		98A923B80A7BC6E200DF1998 /* Application.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Application.tiff; sourceTree = "<group>"; };
@@ -683,6 +685,7 @@
 			children = (
 				9848B2C60A5D658B00344521 /* ShadowMacros.h */,
 				980BCE3A0A5B17C90036AD2A /* SKCArray.h */,
+				987283250A9B317D0098C22F /* SKSingleton.h */,
 				98725D1606CB9F1B0072B8E4 /* SKFunctions.h */,
 				980B12AC0A5BABAE008F6DBC /* SKCFContext.h */,
 				98725D1206CB9F1B0072B8E4 /* SKExtensions.h */,
@@ -763,6 +766,7 @@
 				982AF4250A7A80C200D17D65 /* SKEnumerator.h in Headers */,
 				98E033F00A84C3FC00BED686 /* SKCustomViewCell.h in Headers */,
 				98665E640A86A70300CF8291 /* SKAEFunctions.h in Headers */,
+				987283260A9B317D0098C22F /* SKSingleton.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

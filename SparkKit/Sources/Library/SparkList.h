@@ -11,6 +11,9 @@
 
 typedef BOOL(*SparkListFilter)(SparkObject *, id ctxt);
 
+SPARK_EXPORT
+NSString * const SparkListDidChangeNotification;
+
 @interface SparkList : SparkObject {
   @private
   NSMutableArray *sp_entries;

@@ -94,6 +94,7 @@ NSString * const SETableSeparator = @"-\e";
   
   [[[[self tableColumns] objectAtIndex:0] dataCell] endEditing:[aNotification object]];
   [[self window] makeFirstResponder:self];
+  /* Reload change */
   [self reloadData];
 }
 

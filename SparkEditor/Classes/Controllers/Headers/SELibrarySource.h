@@ -16,6 +16,7 @@
   @private
   id se_delegate;
   NSMapTable *se_plugins;
+  SparkList *se_overwrite;
   NSMutableArray *se_content;
 }
 
@@ -29,12 +30,10 @@
 - (id)objectAtIndex:(unsigned)idx;
 - (SparkPlugIn *)pluginForList:(SparkList *)aList;
 
-- (void)setTriggers:(SETriggerEntrySet *)triggers application:(SparkApplication *)anApplication;
 @end
 
 @interface NSObject (SELibrarySourceDelegate)
 
 - (void)source:(SELibrarySource *)aSource didChangeSelection:(SparkList *)list;
-- (void)source:(SELibrarySource *)aSource didAddList:(SparkList *)aList atIndex:(unsigned)anIndex;
 
 @end

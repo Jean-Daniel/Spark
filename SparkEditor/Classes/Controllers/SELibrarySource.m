@@ -11,11 +11,14 @@
 #import "SEHeaderCell.h"
 #import "SETriggerEntry.h"
 #import "SELibraryWindow.h"
+#import "SEEntriesManager.h"
 
 #import <SparkKit/SparkList.h>
 #import <SparkKit/SparkPlugIn.h>
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkActionLoader.h>
+
+#import <ShadowKit/SKExtensions.h>
 
 static 
 NSComparisonResult SECompareList(SparkList *l1, SparkList *l2, void *ctxt) {
@@ -58,23 +61,22 @@ BOOL SELibraryFilter(SparkObject *object, id ctxt) {
   return YES;
 }
 
-@interface SEPluginFilter : NSObject {
-  @private
-  Class se_action;
-  SETriggerEntrySet *se_triggers;
+static 
+BOOL SEOverwriteListFilter(SparkObject *object, id ctxt) {
+  SETriggerEntrySet *triggers = [[SEEntriesManager sharedManager] overwrites];
+  return [triggers containsTrigger:(id)object];
 }
-
-- (Class)actionClass;
-- (void)setActionClass:(Class)cls;
-- (void)setTriggers:(SETriggerEntrySet *)triggers;
-
-- (BOOL)isValidTrigger:(SparkTrigger *)aTrigger;
-
-@end
 
 static 
 BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
-  return [ctxt isValidTrigger:(id)object];
+  Class kind = (Class)ctxt;
+  if (kind) {
+    SETriggerEntrySet *triggers = [[SEEntriesManager sharedManager] snapshot];
+    SparkAction *action = [triggers actionForTrigger:(id)object];
+    if (action)
+      return [action isKindOfClass:kind];
+  }
+  return NO;
 }
 
 @implementation SELibrarySource
@@ -97,39 +99,52 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
     while (idx-- > 0) {
       SparkPlugIn *plugin = [plugins objectAtIndex:idx];
       SparkList *list = [[SparkList alloc] initWithName:[plugin name] icon:[plugin icon]];
-      NSMapInsert(se_plugins, list, plugin);
       [list setObjectSet:SparkSharedTriggerSet()];
+      NSMapInsert(se_plugins, list, plugin);
       [list setUID:uid++];
-      
-      SEPluginFilter *filter = [[SEPluginFilter alloc] init];
-      [filter setActionClass:[plugin actionClass]];
-      [filter setTriggers:nil];
-      [list setListFilter:SEPluginListFilter context:filter];
-      [filter release];
-      
+      [list setListFilter:SEPluginListFilter context:[plugin actionClass]];
       [se_content addObject:list];
       [list release];
     }
     /* …and User defined lists */
     [se_content addObjectsFromArray:[SparkSharedListSet() objects]];
-    /* Separators */
+    
+    /* Overwrite list */
+    se_overwrite = [[SparkList alloc] initWithName:@"Overwrite" icon:[NSImage imageNamed:@"Overwrite"]];
+    [se_overwrite setListFilter:SEOverwriteListFilter context:nil];
+    [se_overwrite setObjectSet:SparkSharedTriggerSet()];
+    [se_overwrite setUID:9];
+    
+    /* First Separators */
     SparkObject *separator = [SparkList objectWithName:SETableSeparator icon:nil];
     [separator setUID:10];
     [se_content addObject:separator];
     
+    /* Second Separators */
     separator = [SparkList objectWithName:SETableSeparator icon:nil];
     [separator setUID:200];
     [se_content addObject:separator];
     
     [self rearrangeObjects];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didReloadEntries:)
+                                                 name:SEEntriesManagerDidReloadNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(applicationDidChange:)
+                                                 name:SEApplicationDidChangeNotification
+                                               object:nil];
   }
   return self;
 }
 
 - (void)dealloc {
   [se_content release];
+  [se_overwrite release];
   if (se_plugins)
     NSFreeMapTable(se_plugins);
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
   [super dealloc];
 }
 
@@ -222,14 +237,10 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
   [se_content addObject:list];
   [self rearrangeObjects];
   [table reloadData];
+  /* Edit new list name */
   unsigned idx = [se_content indexOfObjectIdenticalTo:list];
-  // Notify delegate with list and index.
-  if (SKDelegateHandle(se_delegate, source:didAddList:atIndex:)) {
-    [se_delegate source:self didAddList:list atIndex:idx];
-  } else {
-    [table selectRow:idx byExtendingSelection:NO];
-    [table editColumn:0 row:idx withEvent:nil select:YES];
-  }
+  [table selectRow:idx byExtendingSelection:NO];
+  [table editColumn:0 row:idx withEvent:nil select:YES];
 }
 
 - (void)deleteSelectionInTableView:(NSTableView *)aTableView {
@@ -243,6 +254,10 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
       /* last item */
       if ((unsigned)idx == [se_content count]) {
         [aTableView selectRow:[se_content count] - 1 byExtendingSelection:NO];
+      }
+      if (idx == [aTableView selectedRow]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:NSTableViewSelectionDidChangeNotification
+                                                            object:aTableView];
       }
     } else {
       NSBeep();
@@ -261,52 +276,46 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
 
 /* Separator Implementation */
 - (float)tableView:(NSTableView *)tableView heightOfRow:(int)row {
-  return row >= 0 && [[[se_content objectAtIndex:row] name] isEqualToString:SETableSeparator] ? 1 : [tableView rowHeight];
+  return row >= 0 && (unsigned)row < [se_content count] && [[[se_content objectAtIndex:row] name] isEqualToString:SETableSeparator] ? 1 : [tableView rowHeight];
 }
 - (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(int)rowIndex {
-  return rowIndex >= 0 ? ![[[se_content objectAtIndex:rowIndex] name] isEqualToString:SETableSeparator] : YES;
+  return rowIndex >= 0 && (unsigned)rowIndex < [se_content count] ? ![[[se_content objectAtIndex:rowIndex] name] isEqualToString:SETableSeparator] : YES;
 }
 
-- (void)setTriggers:(SETriggerEntrySet *)triggers application:(SparkApplication *)anApplication {
-  SparkList *list;
-  NSEnumerator *lists = [se_content objectEnumerator];
-  while (list = [lists nextObject]) {
-    SEPluginFilter *ctxt = [list filterContext];
-    if (ctxt && [ctxt isKindOfClass:[SEPluginFilter class]]) {
-      [ctxt setTriggers:triggers];
-      [list reload];
+- (void)applicationDidChange:(NSNotification *)aNotification {
+  SEEntriesManager *manager = [aNotification object];
+  if ([[manager application] uid]) {
+    [se_overwrite setName:[[manager application] name]];
+    [se_overwrite setIcon:[[manager application] icon]];
+    if (![se_content containsObjectIdenticalTo:se_overwrite]) {
+      int row = [table selectedRow];
+      [se_content insertObject:se_overwrite atIndex:1];
+      [table reloadData];
+      /* Conserve selection */
+      if (row >= 1 && (row + 1)< (int)[se_content count]) {
+        [table selectRow:row + 1 byExtendingSelection:NO];
+      }
+    } else {
+      int idx = [se_content indexOfObjectIdenticalTo:se_overwrite];
+      [table setNeedsDisplayInRect:[table frameOfCellAtColumn:0 row:idx]];
+    }
+  } else {
+    int idx = [se_content indexOfObjectIdenticalTo:se_overwrite];
+    if (NSNotFound != idx) {
+      int row = [table selectedRow];
+      [se_content removeObjectAtIndex:idx];
+      if (row >= idx && row != 0) {
+        [table selectRow:row - 1 byExtendingSelection:NO];
+      }
+      [table reloadData];
     }
   }
 }
 
-@end
-
-#pragma mark -
-@implementation SEPluginFilter
-
-- (void)dealloc {
-  [se_triggers release];
-  [super dealloc];
-}
-
-- (Class)actionClass {
-  return se_action;
-}
-- (void)setActionClass:(Class)cls {
-  se_action = cls;
-}
-
-- (void)setTriggers:(SETriggerEntrySet *)triggers {
-  SKSetterRetain(se_triggers, triggers);
-}
-
-- (BOOL)isValidTrigger:(SparkTrigger *)aTrigger {
-  if (se_triggers && se_action) {
-    SparkAction *action = [se_triggers actionForTrigger:aTrigger];
-    if (action)
-      return [action isKindOfClass:se_action];
-  }
-  return NO;
+- (void)didReloadEntries:(NSNotification *)aNotification {
+  /* Reload dynamic lists (plugins + overwrite) */
+  [se_overwrite reload];
+  [NSAllMapTableKeys(se_plugins) makeObjectsPerformSelector:@selector(reload)];
 }
 
 @end

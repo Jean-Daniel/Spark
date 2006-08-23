@@ -7,6 +7,7 @@
 //
 
 #import "SETriggersController.h"
+#import "SEEntriesManager.h"
 #import "SELibraryWindow.h"
 #import "SETriggerEntry.h"
 #import "SETriggerCell.h"
@@ -16,6 +17,7 @@
 
 #import <SparkKit/SparkLibrary.h>
 
+#import <SparkKit/SparkList.h>
 #import <SparkKit/SparkAction.h>
 #import <SparkKit/SparkTrigger.h>
 #import <SparkKit/SparkApplication.h>
@@ -26,14 +28,10 @@
 - (id)init {
   if (self = [super init]) {
     se_entries = [[NSMutableArray alloc] init];
-    se_defaults = [[SETriggerEntrySet alloc] init];
-    [se_defaults addEntriesFromDictionary:[SparkSharedLibrary() triggersForApplication:0]];
-    
-    SETriggerEntry *entry;
-    NSEnumerator *entries = [se_defaults entryEnumerator];
-    while (entry = [entries nextObject]) {
-      [entry setType:kSEEntryTypeDefault];
-    }
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didReloadEntries:) 
+                                                 name:SparkListDidChangeNotification
+                                               object:nil];
   }
   return self;
 }
@@ -41,7 +39,7 @@
 - (void)dealloc {
   [se_list release];
   [se_entries release];
-  [se_defaults release];
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
   [super dealloc];
 }
 
@@ -63,49 +61,13 @@
     idx = [table clickedRow];
   }
   if (idx >= 0) {
-    if (!se_editor) {
-      se_editor = [[SEEntryEditor alloc] init];
-      /* Load */
-      [se_editor window];
-    }
-    [se_editor setDelegate:self];
-    [se_editor setApplication:se_application];
-    [se_editor setEntry:[se_entries objectAtIndex:idx]];
-    
-    [NSApp beginSheet:[se_editor window]
-       modalForWindow:[sender window]
-        modalDelegate:nil
-       didEndSelector:NULL
-          contextInfo:nil];
+    SETriggerEntry *entry = [se_entries objectAtIndex:idx];
+    [[SEEntriesManager sharedManager] editEntry:entry modalForWindow:[sender window]];
   }
-}
-
-- (BOOL)editor:(SEEntryEditor *)theEditor shouldUpdateEntry:(SETriggerEntry *)entry {
-  DLog(@"Update entry: %@", entry);
-  return YES;
-}
-
-- (IBAction)changeFilter:(id)sender {
-  switch ([sender indexOfSelectedItem]) {
-    case 0:
-      se_filter = 0;
-      break;
-    case 1:
-      se_filter = 1;
-      break;
-  }
-  [self loadTriggers];
 }
 
 - (void)sortTriggers:(NSArray *)descriptors {
   [se_entries sortUsingDescriptors:descriptors ? : gSortByNameDescriptors];
-}
-
-- (void)setTriggers:(SETriggerEntrySet *)triggers application:(SparkApplication *)anApplication {
-  se_triggers = triggers;
-  se_application = anApplication;
-  // Reload data
-  [self loadTriggers];
 }
 
 - (void)loadTriggers {
@@ -113,23 +75,21 @@
   if (se_list) {
     SparkTrigger *trigger;
     NSEnumerator *triggers = [se_list objectEnumerator];
+    /*  Get current snapshot */
+    SETriggerEntrySet *snapshot = [[SEEntriesManager sharedManager] snapshot];
     while (trigger = [triggers nextObject]) {
-      SETriggerEntry *entry = [se_triggers entryForTrigger:trigger];
+      SETriggerEntry *entry = [snapshot entryForTrigger:trigger];
       if (entry) {
-        /* If system app, or if display all, or if is a custom action */
-        if ([se_application uid] == 0 || !se_filter || [entry action] != [se_defaults actionForTrigger:trigger]) {
-          if (0 == [[entry action] uid])
-            [entry setType:kSEEntryTypeIgnore];
-          else if ([se_application uid] != 0 && [entry action] == [se_defaults actionForTrigger:trigger])
-            [entry setType:kSEEntryTypeInherit];
-          
-          [se_entries addObject:entry];
-        }
+        [se_entries addObject:entry];
       }
     }
     [self sortTriggers:[table sortDescriptors]];
   }
   [table reloadData];
+}
+
+- (void)didReloadEntries:(NSNotification *)notification {
+  [self loadTriggers];
 }
 
 - (void)setList:(SparkList *)aList {
@@ -169,16 +129,17 @@
   /* Text field cell */
   if ([aCell respondsToSelector:@selector(setTextColor:)]) {
     SETriggerEntry *entry = [se_entries objectAtIndex:rowIndex];
-    if (kSEEntryTypeInherit == [entry type]) {
-      //    [cell setFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]];
+    SparkApplication *application = [[SEEntriesManager sharedManager] application];
+    /* If Inherits */
+    if ([application uid] != 0 && kSEEntryTypeGlobal == [entry type]) {
       [aCell setFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]];
       [aCell setTextColor:[aTableView isRowSelected:rowIndex] ? [NSColor selectedControlTextColor] : [NSColor darkGrayColor]];
     } else {
       [aCell setTextColor:[NSColor blackColor]];
-      /* If gloabl action and global app is selected */
-      if ([se_application uid] == 0) {
+      /* If Global application */
+      if ([application uid] == 0) {
         [aCell setFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]];
-      } else {
+      } else { /* Custom action */
         if ([entry type] == kSEEntryTypeIgnore && [aCell respondsToSelector:@selector(setDrawLineOver:)])
           [aCell setDrawLineOver:YES];
         [aCell setFont:[NSFont boldSystemFontOfSize:[NSFont smallSystemFontSize]]];

@@ -198,12 +198,14 @@
       [plugin setName:SETableSeparator];
       [se_plugins insertObject:plugin atIndex:2];
       [plugin release];
+      /* Reload new plugins */
       [typeTable reloadData];
     }
   } else {
     if ([[se_plugins objectAtIndex:0] actionClass] == Nil) {
       /* Should remove custom plugins */
       [se_plugins removeObjectsInRange:NSMakeRange(0, 3)];
+      /* Reload to remove plugins */
       [typeTable reloadData];
     }
   }
@@ -226,15 +228,18 @@
   SparkPlugIn *type = nil;
   if (se_entry) {
     switch ([se_entry type]) {
-      case kSEEntryTypeInherit:
-        type = [se_plugins objectAtIndex:0];
-        [trap setEnabled:NO];
-        break;
       case kSEEntryTypeIgnore:
         type = [se_plugins objectAtIndex:1];
         [trap setEnabled:NO];
         break;
-      case kSEEntryTypeDefault:
+      case kSEEntryTypeGlobal:
+        if ([[appField application] uid] != 0) {
+          type = [se_plugins objectAtIndex:0];
+          [trap setEnabled:NO];
+          break;
+        }
+        // else fall througt
+      case kSEEntryTypeOverwrite:
         type = [[SparkActionLoader sharedLoader] plugInForAction:[se_entry action]];
         [trap setEnabled:YES];
         break;

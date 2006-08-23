@@ -27,11 +27,10 @@
   IBOutlet SELibrarySource *listSource;
   
   /* Triggers */
-  IBOutlet SETriggersController *triggers;
-  @private
-    SEEntryEditor *se_editor;
-  SETriggerEntrySet *se_defaults; /* system triger cache */
-  SETriggerEntrySet *se_triggers; /* shared triggers */
+  IBOutlet SETriggersController *triggers;  
 }
 
 @end
+
+SK_PRIVATE
+NSString * const SELibraryDidCreateEntryNotification;

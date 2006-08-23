@@ -26,14 +26,12 @@
 /* Begin PBXBuildFile section */
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		980AB1F10A9759DD00A6115E /* SEBuiltInPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 980AB1EF0A9759DD00A6115E /* SEBuiltInPlugin.h */; };
-		980AB1F20A9759DD00A6115E /* SEBuiltInPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 980AB1F00A9759DD00A6115E /* SEBuiltInPlugin.m */; };
 		980AB2160A975B9600A6115E /* SEIgnorePlugin.nib in Resources */ = {isa = PBXBuildFile; fileRef = 980AB2140A975B9600A6115E /* SEIgnorePlugin.nib */; };
 		981A8A360A61A25800753369 /* SETriggerEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = 981A8A340A61A25800753369 /* SETriggerEntry.h */; };
 		981A8A370A61A25800753369 /* SETriggerEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 981A8A350A61A25800753369 /* SETriggerEntry.m */; };
 		981A8A6E0A61A3BB00753369 /* IgnoreAction.tif in Resources */ = {isa = PBXBuildFile; fileRef = 981A8A6D0A61A3BB00753369 /* IgnoreAction.tif */; };
 		981A8A950A61A49D00753369 /* SEEntryEditor.nib in Resources */ = {isa = PBXBuildFile; fileRef = 981A8A930A61A49D00753369 /* SEEntryEditor.nib */; };
 		981A8A9B0A61A4D600753369 /* SEEntryEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 981A8A9A0A61A4D600753369 /* SEEntryEditor.h */; };
-		981A8A9F0A61A4E400753369 /* SEEntryEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 981A8A9E0A61A4E400753369 /* SEEntryEditor.m */; };
 		982401C0060C7B0700A0DB07 /* Spark.m in Sources */ = {isa = PBXBuildFile; fileRef = 98240188060C7B0700A0DB07 /* Spark.m */; };
 		9824024A060C7B3100A0DB07 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 982401E1060C7B3000A0DB07 /* Credits.rtf */; };
 		9824024C060C7B3100A0DB07 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 982401E5060C7B3000A0DB07 /* InfoPlist.strings */; };
@@ -41,11 +39,12 @@
 		9824025B060C7B3100A0DB07 /* shcts.html in Resources */ = {isa = PBXBuildFile; fileRef = 98240203060C7B3000A0DB07 /* shcts.html */; };
 		982AF3E50A7A7C9100D17D65 /* Library.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98F3635806FF72D900FD6673 /* Library.tif */; };
 		9831335F0A825E0600F733FB /* SETriggerCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 9831335D0A825E0600F733FB /* SETriggerCell.h */; };
+		9831BFE30A9C2BD6001DA7AD /* SELibrarySource.m in Sources */ = {isa = PBXBuildFile; fileRef = 983BE16C0A7E402600E0228F /* SELibrarySource.m */; };
+		9831BFEF0A9C2C2D001DA7AD /* SEEntryEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 981A8A9E0A61A4E400753369 /* SEEntryEditor.m */; };
 		98362B070A9763F500F97F50 /* SparkIgnore.png in Resources */ = {isa = PBXBuildFile; fileRef = 98362B060A9763F500F97F50 /* SparkIgnore.png */; };
 		98362B480A97664100F97F50 /* SEInheritsPlugin.nib in Resources */ = {isa = PBXBuildFile; fileRef = 98362B420A97664100F97F50 /* SEInheritsPlugin.nib */; };
 		9838ECA20A8646DA000AF1B5 /* SEServerConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 984BCE6B060C7FEC0043CDEA /* SEServerConnection.h */; };
 		9838ECA30A8646DC000AF1B5 /* SEServerConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 98240187060C7B0700A0DB07 /* SEServerConnection.m */; };
-		983BE16E0A7E402600E0228F /* SELibrarySource.m in Sources */ = {isa = PBXBuildFile; fileRef = 983BE16C0A7E402600E0228F /* SELibrarySource.m */; };
 		983BE1740A7E402F00E0228F /* SELibrarySource.h in Headers */ = {isa = PBXBuildFile; fileRef = 983BE1730A7E402F00E0228F /* SELibrarySource.h */; };
 		98418EA90A65968A003FD0D7 /* SEHotKeyTrap.h in Headers */ = {isa = PBXBuildFile; fileRef = 98418EA70A659689003FD0D7 /* SEHotKeyTrap.h */; };
 		98418FC40A659F80003FD0D7 /* SparkSuite.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 984BCE5F060C7EBD0043CDEA /* SparkSuite.sdef */; };
@@ -66,6 +65,8 @@
 		985AFA010A5C33D900397FAA /* SELibraryWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 985AFA000A5C33D900397FAA /* SELibraryWindow.h */; };
 		985F8D540772479C0014830F /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 985F8D530772479C0014830F /* Security.framework */; };
 		9867589E096B3F4200BB8A25 /* ShadowKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 986757DC096B3F2400BB8A25 /* ShadowKit.framework */; };
+		9872830F0A9B30B60098C22F /* SEEntriesManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 9872830D0A9B30B60098C22F /* SEEntriesManager.h */; };
+		987283100A9B30B60098C22F /* SEEntriesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9872830E0A9B30B60098C22F /* SEEntriesManager.m */; };
 		989045160A6689CC0024EC52 /* AddMini.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 9877192706D48E12008A7AE8 /* AddMini.tiff */; };
 		989045170A6689CD0024EC52 /* AddMini_Pressed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 9877192606D48E12008A7AE8 /* AddMini_Pressed.tiff */; };
 		989045180A6689D10024EC52 /* RemoveMini_Pressed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 9877192506D48E12008A7AE8 /* RemoveMini_Pressed.tiff */; };
@@ -95,11 +96,13 @@
 		98DD45630A57DE9A00F059E5 /* AppleScriptAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 6540B6F009E6430800D0E8FB /* AppleScriptAction.spact */; };
 		98EA6B300A5E7C2D0019E26C /* SETriggersController.h in Headers */ = {isa = PBXBuildFile; fileRef = 98EA6B2F0A5E7C2D0019E26C /* SETriggersController.h */; };
 		98EA6B550A5E83120019E26C /* System.tif in Resources */ = {isa = PBXBuildFile; fileRef = 984196BB0A5E52670009A093 /* System.tif */; };
+		98ECA7490A9BA7D900F89B58 /* SEBuiltInPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 980AB1F00A9759DD00A6115E /* SEBuiltInPlugin.m */; };
+		98ECA7E80A9BAF3600F89B58 /* SETriggersController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98EA6B290A5E7C280019E26C /* SETriggersController.m */; };
+		98ECA80A0A9BB19500F89B58 /* Overwrite.png in Resources */ = {isa = PBXBuildFile; fileRef = 98ECA8090A9BB19500F89B58 /* Overwrite.png */; };
 		98EF831508646313007BC81A /* SparkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF83140864630B007BC81A /* SparkKit.framework */; };
 		98EF831608646316007BC81A /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF830E086462FF007BC81A /* HotKeyToolKit.framework */; };
 		98EF83170864631B007BC81A /* SparkKit.framework in Copy Framework */ = {isa = PBXBuildFile; fileRef = 98EF83140864630B007BC81A /* SparkKit.framework */; };
 		98EF831808646321007BC81A /* HotKeyToolKit.framework in Copy Framework */ = {isa = PBXBuildFile; fileRef = 98EF830E086462FF007BC81A /* HotKeyToolKit.framework */; };
-		98F177FB0A80EA8500654AC5 /* SETriggersController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98EA6B290A5E7C280019E26C /* SETriggersController.m */; };
 		98F4A9B90770C8630074FE70 /* SecurityFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98F4A9B80770C8630074FE70 /* SecurityFoundation.framework */; };
 		98F746020A5C560A003D4BE1 /* SELibraryWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 98F746000A5C560A003D4BE1 /* SELibraryWindow.nib */; };
 		98F746140A5C575C003D4BE1 /* SESplitView.h in Headers */ = {isa = PBXBuildFile; fileRef = 98F746130A5C575C003D4BE1 /* SESplitView.h */; };
@@ -443,8 +446,8 @@
 		986F865307073F8200064694 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Libraries.strings; sourceTree = "<group>"; };
 		986F865E0707415800064694 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Editors.strings; sourceTree = "<group>"; };
 		98705F9106D2B7C40020634A /* Toolbar.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Toolbar.tif; sourceTree = "<group>"; };
-		98762B32074F537200D0A4C1 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/ListEditor.nib; sourceTree = "<group>"; };
-		98762B34074F537200D0A4C1 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/ActionEditor.nib; sourceTree = "<group>"; };
+		9872830D0A9B30B60098C22F /* SEEntriesManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEntriesManager.h; sourceTree = "<group>"; };
+		9872830E0A9B30B60098C22F /* SEEntriesManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEntriesManager.m; sourceTree = "<group>"; };
 		9877192506D48E12008A7AE8 /* RemoveMini_Pressed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = RemoveMini_Pressed.tiff; sourceTree = "<group>"; };
 		9877192606D48E12008A7AE8 /* AddMini_Pressed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = AddMini_Pressed.tiff; sourceTree = "<group>"; };
 		9877192706D48E12008A7AE8 /* AddMini.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = AddMini.tiff; sourceTree = "<group>"; };
@@ -484,6 +487,7 @@
 		98E66CC30759FA7C0048A37D /* ActionSparkList.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = ActionSparkList.icns; sourceTree = "<group>"; };
 		98EA6B290A5E7C280019E26C /* SETriggersController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SETriggersController.m; sourceTree = "<group>"; };
 		98EA6B2F0A5E7C2D0019E26C /* SETriggersController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SETriggersController.h; sourceTree = "<group>"; };
+		98ECA8090A9BB19500F89B58 /* Overwrite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Overwrite.png; sourceTree = "<group>"; };
 		98EF8306086462FF007BC81A /* HotKeyToolKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = HotKeyToolKit.xcodeproj; path = ../HotKeyToolKit/HotKeyToolKit.xcodeproj; sourceTree = SOURCE_ROOT; };
 		98EF830F0864630B007BC81A /* SparkKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SparkKit.xcodeproj; path = ../SparkKit/SparkKit.xcodeproj; sourceTree = SOURCE_ROOT; };
 		98F3635806FF72D900FD6673 /* Library.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Library.tif; sourceTree = "<group>"; };
@@ -613,6 +617,8 @@
 				981A8A350A61A25800753369 /* SETriggerEntry.m */,
 				980AB1EF0A9759DD00A6115E /* SEBuiltInPlugin.h */,
 				980AB1F00A9759DD00A6115E /* SEBuiltInPlugin.m */,
+				9872830D0A9B30B60098C22F /* SEEntriesManager.h */,
+				9872830E0A9B30B60098C22F /* SEEntriesManager.m */,
 			);
 			path = Objects;
 			sourceTree = "<group>";
@@ -820,6 +826,7 @@
 		984BCE42060C7E990043CDEA /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				98ECA8090A9BB19500F89B58 /* Overwrite.png */,
 				98A662950A66FB7700A7B020 /* applelogo.tif */,
 				981A8A6D0A61A3BB00753369 /* IgnoreAction.tif */,
 				98362B060A9763F500F97F50 /* SparkIgnore.png */,
@@ -1039,8 +1046,6 @@
 		98F98272074F52040001910B /* Editors */ = {
 			isa = PBXGroup;
 			children = (
-				98762B31074F537200D0A4C1 /* ListEditor.nib */,
-				98762B33074F537200D0A4C1 /* ActionEditor.nib */,
 				98300531076FC3D2003A260D /* PluginInstall.nib */,
 			);
 			name = Editors;
@@ -1070,6 +1075,7 @@
 				9831335F0A825E0600F733FB /* SETriggerCell.h in Headers */,
 				9838ECA20A8646DA000AF1B5 /* SEServerConnection.h in Headers */,
 				980AB1F10A9759DD00A6115E /* SEBuiltInPlugin.h in Headers */,
+				9872830F0A9B30B60098C22F /* SEEntriesManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1310,6 +1316,7 @@
 				980AB2160A975B9600A6115E /* SEIgnorePlugin.nib in Resources */,
 				98362B070A9763F500F97F50 /* SparkIgnore.png in Resources */,
 				98362B480A97664100F97F50 /* SEInheritsPlugin.nib in Resources */,
+				98ECA80A0A9BB19500F89B58 /* Overwrite.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1335,12 +1342,8 @@
 				985AF9FB0A5C33D400397FAA /* SELibraryWindow.m in Sources */,
 				98B2C6C50A617AA200D9D719 /* SEScriptHandler.m in Sources */,
 				981A8A370A61A25800753369 /* SETriggerEntry.m in Sources */,
-				981A8A9F0A61A4E400753369 /* SEEntryEditor.m in Sources */,
 				98A9226C0A7B8EC300DF1998 /* SEApplicationSource.m in Sources */,
-				983BE16E0A7E402600E0228F /* SELibrarySource.m in Sources */,
-				98F177FB0A80EA8500654AC5 /* SETriggersController.m in Sources */,
 				9838ECA30A8646DC000AF1B5 /* SEServerConnection.m in Sources */,
-				980AB1F20A9759DD00A6115E /* SEBuiltInPlugin.m in Sources */,
 				98BDF01C0A999DCB002778B3 /* SEApplicationView.m in Sources */,
 				98BDF0200A999DD2002778B3 /* SETableView.m in Sources */,
 				98BDF0240A999DD9002778B3 /* SEHeaderCell.m in Sources */,
@@ -1348,6 +1351,11 @@
 				98BDF02F0A999DEE002778B3 /* SESplitView.m in Sources */,
 				98BDF0330A999DF5002778B3 /* SEBackgroundView.m in Sources */,
 				98BDF0370A999E00002778B3 /* SEHotKeyTrap.m in Sources */,
+				987283100A9B30B60098C22F /* SEEntriesManager.m in Sources */,
+				98ECA7490A9BA7D900F89B58 /* SEBuiltInPlugin.m in Sources */,
+				98ECA7E80A9BAF3600F89B58 /* SETriggersController.m in Sources */,
+				9831BFE30A9C2BD6001DA7AD /* SELibrarySource.m in Sources */,
+				9831BFEF0A9C2C2D001DA7AD /* SEEntryEditor.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1520,22 +1528,6 @@
 				986F865E0707415800064694 /* English */,
 			);
 			name = Editors.strings;
-			sourceTree = "<group>";
-		};
-		98762B31074F537200D0A4C1 /* ListEditor.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				98762B32074F537200D0A4C1 /* English */,
-			);
-			name = ListEditor.nib;
-			sourceTree = "<group>";
-		};
-		98762B33074F537200D0A4C1 /* ActionEditor.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				98762B34074F537200D0A4C1 /* English */,
-			);
-			name = ActionEditor.nib;
 			sourceTree = "<group>";
 		};
 		98A91DA7074F55460029D278 /* Importer.nib */ = {

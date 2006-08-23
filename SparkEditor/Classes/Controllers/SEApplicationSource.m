@@ -25,10 +25,6 @@
   [self addObjects:[library objects]];
   [self rearrangeObjects];
   [self setSelectionIndex:0];
-//  [[NSNotificationCenter defaultCenter] addObserver:self
-//                                           selector:@selector(didAddApplication:)
-//                                               name:kSparkLibraryDidAddObjectNotification
-//                                             object:library];
   se_cache = [[NSMutableSet alloc] initWithArray:[library objects]];
 }
 

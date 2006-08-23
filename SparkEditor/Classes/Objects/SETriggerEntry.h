@@ -10,14 +10,14 @@ SK_PRIVATE
 NSArray *gSortByNameDescriptors;
 
 enum {
-  kSEEntryTypeDefault = 0,
-  kSEEntryTypeInherit,
+  kSEEntryTypeGlobal = 0,
+  kSEEntryTypeOverwrite,
   kSEEntryTypeIgnore
 };
 
 #pragma mark -
 @class SparkAction, SparkTrigger;
-@interface SETriggerEntry : NSObject {
+@interface SETriggerEntry : NSObject <NSCopying> {
   @private
   int se_type;
   SparkAction *se_action;

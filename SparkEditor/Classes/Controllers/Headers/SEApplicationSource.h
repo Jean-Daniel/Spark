@@ -15,4 +15,6 @@
   NSMutableSet *se_cache;
 }
 
+- (IBAction)deleteSelection:(id)sender;
+
 @end

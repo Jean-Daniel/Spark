@@ -21,6 +21,7 @@
     NSSize se_min;
   NSView *se_view; /* current view */
   SETriggerEntry *se_entry; /* Edited entry */
+  
   NSMutableArray *se_plugins; /* plugins list */
   SparkActionPlugIn *se_plugin; /* current action plugin */
     

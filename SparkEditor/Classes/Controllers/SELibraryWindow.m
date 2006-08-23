@@ -12,7 +12,9 @@
 #import "SEEntryEditor.h"
 #import "SETriggerEntry.h"
 #import "SELibrarySource.h"
+#import "SEEntriesManager.h"
 #import "SEApplicationView.h"
+#import "SEApplicationSource.h"
 #import "SETriggersController.h"
 
 #import <ShadowKit/SKTableView.h>
@@ -32,16 +34,12 @@
 
 - (id)init {
   if (self = [super initWithWindowNibName:@"SELibraryWindow"]) {
-    se_triggers = [[SETriggerEntrySet alloc] init];
-    se_defaults = [[SETriggerEntrySet alloc] init];
-    [se_defaults addEntriesFromDictionary:[SparkSharedLibrary() triggersForApplication:0]];
+
   }
   return self;
 }
 
 - (void)dealloc {
-  [se_defaults release];
-  [se_triggers release];
   [super dealloc];
 }
 
@@ -52,25 +50,14 @@
     application = [objects objectAtIndex:anIndex];
     [appField setApplication:application];
     
-    [se_triggers removeAllEntries];
-    [se_triggers addEntriesFromEntrySet:se_defaults];
-    if ([application uid] != 0) {
-      NSDictionary *entries = [SparkSharedLibrary() triggersForApplication:[application uid]];
-      if ([entries count]) {
-        [se_triggers addEntriesFromDictionary:entries];
-      }
-    }
-    // Update lists
-    [listSource setTriggers:se_triggers application:application];
-    // Update triggers table
-    [triggers setTriggers:se_triggers application:application];
+    // Shared Manager set application
+    [[SEEntriesManager sharedManager] setApplication:application];
   }
 }
 
 - (void)awakeFromNib {
   [appTable registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, nil]];
-  [self didSelectApplication:0];
-  
+ 
   /* Configure Application Header Cell */
   SEHeaderCell *header = [[SEHeaderCell alloc] initTextCell:@"Front Application"];
   [header setAlignment:NSCenterTextAlignment];
@@ -78,12 +65,17 @@
   [[[appTable tableColumns] objectAtIndex:0] setHeaderCell:header];
   [header release];
   [appTable setCornerView:[[[SEHeaderCellCorner alloc] init] autorelease]];
-  
+
+  /* Configure list double action */
   [libraryTable setTarget:self];
   [libraryTable setDoubleAction:@selector(libraryDoubleAction:)];
   
+  /* Configure application field */
   [appField setTarget:appDrawer];
   [appField setAction:@selector(toggle:)];
+  
+  /* Refresh Tables */
+  [self didSelectApplication:0];
 }
 
 - (IBAction)libraryDoubleAction:(id)sender {
@@ -95,36 +87,11 @@
     } else {
       SparkPlugIn *plugin = [listSource pluginForList:object];
       if (plugin) {
-        if (!se_editor) {
-          se_editor = [[SEEntryEditor alloc] init];
-          /* Load */
-          [se_editor window];
-        }
-        [se_editor setApplication:[appField application]];
-        [se_editor setEntry:nil];
-        [se_editor setDelegate:self];
-        [se_editor setActionType:plugin];
-        
-        [NSApp beginSheet:[se_editor window]
-           modalForWindow:[sender window]
-            modalDelegate:nil
-           didEndSelector:NULL
-              contextInfo:nil];
+        // Shared manager -> create entry:type
+        [[SEEntriesManager sharedManager] createEntry:plugin modalForWindow:[self window]];
       }
     }
   }
-}
-
-- (BOOL)editor:(SEEntryEditor *)theEditor shouldCreateEntry:(SETriggerEntry *)entry {
-  DLog(@"Create entry: %@", entry);
-  [SparkSharedTriggerSet() addObject:[entry trigger]];
-  [SparkSharedActionSet() addObject:[entry action]];
-  SparkEntry spEntry;
-  spEntry.action = [[entry action] uid];
-  spEntry.trigger = [[entry trigger] uid];
-  spEntry.application = [[theEditor application] uid];
-  [SparkSharedLibrary() addEntry:&spEntry];
-  return YES;
 }
 
 - (void)windowDidLoad {
@@ -134,16 +101,28 @@
   [[self window] display];
 }
 
+/* Selected list did change */
 - (void)source:(SELibrarySource *)aSource didChangeSelection:(SparkList *)aList {
   [triggers setList:aList];
 }
 
+/* Selected application change */
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification {
   [self didSelectApplication:[[aNotification object] selectedRow]];
 }
 
 - (void)deleteSelectionInTableView:(NSTableView *)aTableView {
+  SparkApplication *application = nil;
+  int idx = [aTableView selectedRow];
+  NSArray *objects = [appSource arrangedObjects];
+  if (idx >= 0 && (unsigned)idx < [objects count]) {
+    application = [objects objectAtIndex:idx];
+  }
   [appSource deleteSelection:nil];
+  
+  if (application && idx == [aTableView selectedRow] && [objects objectAtIndex:idx] != application) {
+    [self didSelectApplication:idx];
+  }
 }
 
 /* Enable menu item */
@@ -152,9 +131,7 @@
 }
 
 - (IBAction)search:(id)sender {
-//  id child = [[search accessibilityAttributeValue:NSAccessibilityChildrenAttribute] objectAtIndex:0];
-//  NSLog(@"%@", [child accessibilityAttributeValue:NSAccessibilityChildrenAttribute]);
-//  NSLog(@"%@", [child accessibilityAttributeValue:NSAccessibilityClearButtonAttribute]);
+
 }
 
 @end

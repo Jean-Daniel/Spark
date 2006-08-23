@@ -183,32 +183,7 @@
 	<key>Name</key>
 	<string>Default</string>
 	<key>Notifications</key>
-	<array>
-		<dict>
-			<key>XCObserverAutoDisconnectKey</key>
-			<true/>
-			<key>XCObserverDefintionKey</key>
-			<dict>
-				<key>PBXStatusErrorsKey</key>
-				<integer>0</integer>
-			</dict>
-			<key>XCObserverFactoryKey</key>
-			<string>XCPerspectivesSpecificationIdentifier</string>
-			<key>XCObserverGUIDKey</key>
-			<string>XCObserverProjectIdentifier</string>
-			<key>XCObserverNotificationKey</key>
-			<string>PBXStatusBuildStateMessageNotification</string>
-			<key>XCObserverTargetKey</key>
-			<string>XCMainBuildResultsModuleGUID</string>
-			<key>XCObserverTriggerKey</key>
-			<string>awakenModuleWithObserver:</string>
-			<key>XCObserverValidationKey</key>
-			<dict>
-				<key>PBXStatusErrorsKey</key>
-				<integer>2</integer>
-			</dict>
-		</dict>
-	</array>
+	<array/>
 	<key>OpenEditors</key>
 	<array/>
 	<key>PerspectiveWidths</key>
@@ -222,14 +197,14 @@
 			<key>ChosenToolbarItems</key>
 			<array>
 				<string>active-target-popup</string>
+				<string>action</string>
 				<string>active-buildstyle-popup</string>
 				<string>NSToolbarFlexibleSpaceItem</string>
 				<string>buildOrClean</string>
 				<string>build-and-runOrDebug</string>
 				<string>com.apple.ide.PBXToolbarStopButton</string>
 				<string>get-info</string>
-				<string>NSToolbarSpaceItem</string>
-				<string>servicesModulebuild</string>
+				<string>toggle-editor</string>
 				<string>NSToolbarFlexibleSpaceItem</string>
 				<string>com.apple.pbx.toolbar.searchfield</string>
 			</array>
@@ -244,6 +219,8 @@
 			<key>Layout</key>
 			<array>
 				<dict>
+					<key>BecomeActive</key>
+					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -282,12 +259,15 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateExpansionKey</key>
 							<array>
 								<string>0867D691FE84028FC02AAC07</string>
-								<string>98725D0406CB9E540072B8E4</string>
+								<string>08FB77AEFE84172EC02AAC07</string>
+								<string>984A38A20A60060200DA6455</string>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>2</integer>
+									<integer>10</integer>
+									<integer>8</integer>
+									<integer>1</integer>
 									<integer>0</integer>
 								</array>
 							</array>
@@ -313,7 +293,7 @@
 							<real>181</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>4 39 1020 707 0 0 1024 746 </string>
+						<string>660 321 1020 707 0 0 1680 1028 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -350,7 +330,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {795, 0}}</string>
 								<key>RubberWindowFrame</key>
-								<string>4 39 1020 707 0 0 1024 746 </string>
+								<string>660 321 1020 707 0 0 1680 1028 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -358,8 +338,6 @@
 							<string>0pt</string>
 						</dict>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -372,7 +350,7 @@
 								<key>Frame</key>
 								<string>{{0, 5}, {795, 661}}</string>
 								<key>RubberWindowFrame</key>
-								<string>4 39 1020 707 0 0 1024 746 </string>
+								<string>660 321 1020 707 0 0 1680 1028 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
@@ -396,9 +374,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>987389580A9A578800103FEB</string>
+				<string>9867B6750A9CC8DC003B50F3</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>987389590A9A578800103FEB</string>
+				<string>9867B6760A9CC8DC003B50F3</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -517,9 +495,9 @@
 	<key>StatusbarIsVisible</key>
 	<true/>
 	<key>TimeStamp</key>
-	<real>177887722.771878</real>
+	<real>0.0</real>
 	<key>ToolbarDisplayMode</key>
-	<integer>2</integer>
+	<integer>1</integer>
 	<key>ToolbarIsVisible</key>
 	<true/>
 	<key>ToolbarSizeMode</key>
@@ -533,10 +511,10 @@
 	<key>WindowOrderList</key>
 	<array>
 		<string>98EF7DD5086456F8007BC81A</string>
-		<string>/Volumes/Stock/Users/fox/Projects/Exploitables/Spark/SparkKit/SparkKit.xcodeproj</string>
+		<string>/Users/fox/Projects/Exploitables/Spark/SparkKit/SparkKit.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>4 39 1020 707 0 0 1024 746 </string>
+	<string>660 321 1020 707 0 0 1680 1028 </string>
 	<key>WindowTools</key>
 	<array>
 		<dict>
@@ -566,7 +544,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {836, 0}}</string>
 								<key>RubberWindowFrame</key>
-								<string>128 155 836 526 0 0 1024 746 </string>
+								<string>575 325 836 526 0 0 1680 1028 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -585,14 +563,14 @@
 								<key>XCBuildResultsTrigger_Collapse</key>
 								<integer>1021</integer>
 								<key>XCBuildResultsTrigger_Open</key>
-								<integer>1012</integer>
+								<integer>1011</integer>
 							</dict>
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
 								<string>{{0, 5}, {836, 480}}</string>
 								<key>RubberWindowFrame</key>
-								<string>128 155 836 526 0 0 1024 746 </string>
+								<string>575 325 836 526 0 0 1680 1028 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXBuildResultsModule</string>
@@ -615,14 +593,14 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>98EF7DD5086456F8007BC81A</string>
-				<string>987389600A9A58CD00103FEB</string>
+				<string>9867B6700A9CC8C0003B50F3</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.build</string>
 			<key>WindowString</key>
-			<string>128 155 836 526 0 0 1024 746 </string>
+			<string>575 325 836 526 0 0 1680 1028 </string>
 			<key>WindowToolGUID</key>
 			<string>98EF7DD5086456F8007BC81A</string>
 			<key>WindowToolIsVisible</key>

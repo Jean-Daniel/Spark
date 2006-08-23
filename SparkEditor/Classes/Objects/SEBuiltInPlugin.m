@@ -40,7 +40,7 @@
 @implementation SEInheritsPlugin
 
 - (int)type {
-  return kSEEntryTypeInherit;
+  return kSEEntryTypeGlobal;
 }
 
 + (Class)actionClass {
