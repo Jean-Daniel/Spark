@@ -1,9 +1,10 @@
 {
     IBClasses = (
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = SEFirstRun; LANGUAGE = ObjC; SUPERCLASS = SKWindowController; }, 
         {
-            ACTIONS = {closeSheet = id; }; 
-            CLASS = FirstRunController; 
+            ACTIONS = {close = id; }; 
+            CLASS = SKWindowController; 
             LANGUAGE = ObjC; 
             SUPERCLASS = NSWindowController; 
         }

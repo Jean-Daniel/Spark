@@ -55,21 +55,25 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
 }
 
 - (void)reload {
-  if (sp_filter) {
+  if ([self isDynamic]) {
     /* Refresh objects */
     [sp_entries removeAllObjects];
-    if (sp_set) {
+    if (sp_filter && sp_set) {
       SparkObject *object;
       NSEnumerator *objects = [sp_set objectEnumerator];
       while (object = [objects nextObject]) {
         if (sp_filter(object, sp_ctxt)) {
-          [self addObject:object];
+          [sp_entries addObject:object];
         }
       }
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:SparkListDidChangeNotification
                                                         object:self];
   }
+}
+
+- (BOOL)isDynamic {
+  return sp_filter != NULL;
 }
 
 - (void)setObjectSet:(SparkObjectSet *)library {
@@ -162,6 +166,29 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
 }
 - (void)addObject:(SparkObject *)anObject {
   [sp_entries addObject:anObject];
+  [[NSNotificationCenter defaultCenter] postNotificationName:SparkListDidChangeNotification
+                                                      object:self];
+}
+- (void)addObjectsFromArray:(NSArray *)anArray {
+  [sp_entries addObjectsFromArray:anArray];
+  [[NSNotificationCenter defaultCenter] postNotificationName:SparkListDidChangeNotification
+                                                      object:self];  
+}
+
+- (void)removeObject:(SparkObject *)anObject {
+  unsigned idx = [sp_entries indexOfObject:anObject];
+  if (idx != NSNotFound) {
+    [sp_entries removeObjectAtIndex:idx];
+    [[NSNotificationCenter defaultCenter] postNotificationName:SparkListDidChangeNotification
+                                                        object:self];
+  }
+}
+- (void)removeObjectsInArray:(NSArray *)anArray {
+  unsigned cnt = [sp_entries count];
+  [sp_entries removeObjectsInArray:anArray];
+  if (cnt != [sp_entries count])
+    [[NSNotificationCenter defaultCenter] postNotificationName:SparkListDidChangeNotification
+                                                        object:self];
 }
 
 #pragma mark -

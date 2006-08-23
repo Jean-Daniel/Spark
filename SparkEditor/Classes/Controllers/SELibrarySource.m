@@ -135,6 +135,10 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
                                              selector:@selector(applicationDidChange:)
                                                  name:SEApplicationDidChangeNotification
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didCreateEntry:)
+                                                 name:SEEntriesManagerDidCreateEntryNotification
+                                               object:nil];
   }
   return self;
 }
@@ -192,6 +196,14 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
 
 - (SparkPlugIn *)pluginForList:(SparkList *)aList {
   return NSMapGet(se_plugins, aList);
+}
+- (SparkList *)listForPlugin:(SparkPlugIn *)aPlugin {
+  for (unsigned idx = 0; idx < [se_content count]; idx++) {
+    SparkList *list = [se_content objectAtIndex:idx];
+    if ([list filterContext] == [aPlugin actionClass])
+      return list;
+  }
+  return nil;
 }
 
 - (void)addObject:(SparkObject *)object {
@@ -291,7 +303,7 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
       int row = [table selectedRow];
       [se_content insertObject:se_overwrite atIndex:1];
       [table reloadData];
-      /* Conserve selection */
+      /* Preserve selection */
       if (row >= 1 && (row + 1)< (int)[se_content count]) {
         [table selectRow:row + 1 byExtendingSelection:NO];
       }
@@ -316,6 +328,28 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
   /* Reload dynamic lists (plugins + overwrite) */
   [se_overwrite reload];
   [NSAllMapTableKeys(se_plugins) makeObjectsPerformSelector:@selector(reload)];
+}
+
+- (void)didCreateEntry:(NSNotification *)aNotification {
+  unsigned idx = [table selectedRow];
+  if (idx >= 0) {
+    SparkList *list = [se_content objectAtIndex:idx];
+    SETriggerEntry *entry = [aNotification object];
+    if (![list isDynamic]) {
+      [list addObject:[entry trigger]];
+    } else if (NSMapMember(se_plugins, list, NULL, NULL)) {
+      SparkPlugIn *plugin = [[SparkActionLoader sharedLoader] plugInForAction:[entry action]];
+      if (![plugin isEqual:[self pluginForList:list]]) {
+        // select plugin list
+        SparkList *plist = [self listForPlugin:plugin];
+        if (plist) {
+          idx = [se_content indexOfObject:plist];
+          [table selectRow:idx byExtendingSelection:NO];
+        }
+      }
+    }
+  }
+  
 }
 
 @end

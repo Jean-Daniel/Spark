@@ -34,6 +34,7 @@ NSString * const SparkListDidChangeNotification;
 - (void)setObjectSet:(SparkObjectSet *)library;
 
 - (void)reload;
+- (BOOL)isDynamic;
 - (id)filterContext;
 - (void)setListFilter:(SparkListFilter)aFilter context:(id)aCtxt;
 
@@ -44,6 +45,10 @@ NSString * const SparkListDidChangeNotification;
 - (unsigned)count;
 - (NSEnumerator *)objectEnumerator;
 - (void)addObject:(SparkObject *)anObject;
+- (void)addObjectsFromArray:(NSArray *)anArray;
+
+- (void)removeObject:(SparkObject *)anObject;
+- (void)removeObjectsInArray:(NSArray *)anArray;
 
 @end
 

@@ -16,7 +16,7 @@
   SparkApplication *se_app;
   SETriggerEntrySet *se_globals;
   SETriggerEntrySet *se_snapshot;
-  SETriggerEntrySet *se_overwites;
+  SETriggerEntrySet *se_overwrites;
 }
 
 /* All globals entries */
@@ -38,6 +38,8 @@ SK_PRIVATE
 NSString * const SEApplicationDidChangeNotification;
 SK_PRIVATE
 NSString * const SEEntriesManagerDidReloadNotification;
+SK_PRIVATE
+NSString * const SEEntriesManagerDidCreateEntryNotification;
 
 @interface SEEntriesManager (ShadowSingleton)
 

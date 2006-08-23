@@ -141,6 +141,7 @@ NSArray *gSortByNameDescriptors = nil;
   }
   
   [self showMainWindow:nil];
+  [self displayFirstRunIfNeeded];
 }
 
 - (void)serverStatusDidChange:(NSNotification *)aNotification {

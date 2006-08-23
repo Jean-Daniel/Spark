@@ -76,6 +76,7 @@
   
   /* Refresh Tables */
   [self didSelectApplication:0];
+  [triggers loadTriggers];
 }
 
 - (IBAction)libraryDoubleAction:(id)sender {

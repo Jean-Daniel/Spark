@@ -10,13 +10,16 @@
 #import "SETriggerEntry.h"
 #import "SEEntryEditor.h"
 
+#import <SparkKit/SparkAction.h>
 #import <SparkKit/SparkLibrary.h>
+#import <SparkKit/SparkObjectSet.h>
 #import <SparkKit/SparkApplication.h>
 
 #import <ShadowKit/SKSingleton.h>
 
 NSString * const SEApplicationDidChangeNotification = @"SEApplicationDidChange";
 NSString * const SEEntriesManagerDidReloadNotification = @"SEEntriesManagerDidReload";
+NSString * const SEEntriesManagerDidCreateEntryNotification = @"SEEntriesManagerDidCreateEntry";
 
 @implementation SEEntriesManager
 
@@ -24,7 +27,7 @@ NSString * const SEEntriesManagerDidReloadNotification = @"SEEntriesManagerDidRe
   if (self = [super init]) {
     se_globals = [[SETriggerEntrySet alloc] init];
     se_snapshot = [[SETriggerEntrySet alloc] init];
-    se_overwites = [[SETriggerEntrySet alloc] init];
+    se_overwrites = [[SETriggerEntrySet alloc] init];
     /* Init globals */
     [se_globals addEntriesFromDictionary:[SparkSharedLibrary() triggersForApplication:0]];
   }
@@ -36,7 +39,7 @@ NSString * const SEEntriesManagerDidReloadNotification = @"SEEntriesManagerDidRe
   [se_editor release];
   [se_globals release];
   [se_snapshot release];
-  [se_overwites release];
+  [se_overwrites release];
   [super dealloc];
 }
 
@@ -47,12 +50,12 @@ NSString * const SEEntriesManagerDidReloadNotification = @"SEEntriesManagerDidRe
   return se_snapshot;
 }
 - (SETriggerEntrySet *)overwrites {
-  return se_overwites;
+  return se_overwrites;
 }
 
 - (void)refresh {
   [se_snapshot removeAllEntries];
-  [se_overwites removeAllEntries];
+  [se_overwrites removeAllEntries];
   
   /* Add defaults */
   [se_snapshot addEntriesFromEntrySet:se_globals];
@@ -73,11 +76,11 @@ NSString * const SEEntriesManagerDidReloadNotification = @"SEEntriesManagerDidRe
           [entry setType:kSEEntryTypeOverwrite];
         }
         
-        [se_overwites addEntry:entry];
+        [se_overwrites addEntry:entry];
         [entry release];
       }
       /* Merge */
-      [se_snapshot addEntriesFromEntrySet:se_overwites];
+      [se_snapshot addEntriesFromEntrySet:se_overwrites];
     }
   }
   [[NSNotificationCenter defaultCenter] postNotificationName:SEEntriesManagerDidReloadNotification
@@ -134,22 +137,37 @@ NSString * const SEEntriesManagerDidReloadNotification = @"SEEntriesManagerDidRe
 }
 
 - (BOOL)editor:(SEEntryEditor *)theEditor shouldCreateEntry:(SETriggerEntry *)entry {
-  //  [SparkSharedTriggerSet() addObject:[entry trigger]];
-  //  [SparkSharedActionSet() addObject:[entry action]];
-  //  SparkEntry spEntry;
-  //  spEntry.action = [[entry action] uid];
-  //  spEntry.trigger = [[entry trigger] uid];
-  //  spEntry.application = [[theEditor application] uid];
-  //  [SparkSharedLibrary() addEntry:&spEntry];
+  /* We have to update manager first, because dynamic lists filters use it */
+  [[entry action] setUID:[SparkSharedActionSet() nextUID]];
+  [[entry trigger] setUID:[SparkSharedTriggerSet() nextUID]];
   
-  //  if (0 == spEntry.application) {
-  //    [se_defaults addEntry:entry];
-  //  } else if ([[appField application] uid] == spEntry.application) {
-  //    [se_triggers addEntry:entry];
-  //  }
-  //  [[NSNotificationCenter defaultCenter] postNotificationName:SELibraryDidCreateEntryNotification
-  //                                                      object:entry
-  //                                                    userInfo:nil];
+  /* Create an entry with new uid */
+  SparkEntry spEntry;
+  spEntry.action = [[entry action] uid];
+  spEntry.trigger = [[entry trigger] uid];
+  spEntry.application = [[theEditor application] uid];
+  
+  if (0 == spEntry.application) {
+    [se_globals addEntry:entry];
+  } else if ([[self application] uid] == spEntry.application) {
+    [se_overwrites addEntry:entry];
+  }
+  [se_snapshot addEntry:entry];
+  
+  /* Then we add the object into the library */
+  [SparkSharedTriggerSet() addObject:[entry trigger]];
+  [SparkSharedActionSet() addObject:[entry action]];
+  
+  /* And we create the library entry */
+  [SparkSharedLibrary() addEntry:&spEntry];
+  
+  /* Enable the new trigger if possible */
+  // TODO
+  
+  /* Notify listeners */
+  [[NSNotificationCenter defaultCenter] postNotificationName:SEEntriesManagerDidCreateEntryNotification
+                                                      object:entry
+                                                    userInfo:nil];
   return YES;
 }
 

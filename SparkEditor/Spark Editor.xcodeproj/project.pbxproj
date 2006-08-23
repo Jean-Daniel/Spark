@@ -25,6 +25,9 @@
 
 /* Begin PBXBuildFile section */
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		9803A1090A9CFE9700B7DBBA /* SEFirstRun.m in Sources */ = {isa = PBXBuildFile; fileRef = 9803A1080A9CFE9700B7DBBA /* SEFirstRun.m */; };
+		9803A10B0A9CFEA400B7DBBA /* SEFirstRun.h in Headers */ = {isa = PBXBuildFile; fileRef = 9803A10A0A9CFEA400B7DBBA /* SEFirstRun.h */; };
+		9803A1420A9D01CB00B7DBBA /* SEFirstRun.nib in Resources */ = {isa = PBXBuildFile; fileRef = 9803A13C0A9D01CA00B7DBBA /* SEFirstRun.nib */; };
 		980AB1F10A9759DD00A6115E /* SEBuiltInPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 980AB1EF0A9759DD00A6115E /* SEBuiltInPlugin.h */; };
 		980AB2160A975B9600A6115E /* SEIgnorePlugin.nib in Resources */ = {isa = PBXBuildFile; fileRef = 980AB2140A975B9600A6115E /* SEIgnorePlugin.nib */; };
 		981A8A360A61A25800753369 /* SETriggerEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = 981A8A340A61A25800753369 /* SETriggerEntry.h */; };
@@ -328,6 +331,9 @@
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		9803A1080A9CFE9700B7DBBA /* SEFirstRun.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEFirstRun.m; sourceTree = "<group>"; };
+		9803A10A0A9CFEA400B7DBBA /* SEFirstRun.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEFirstRun.h; sourceTree = "<group>"; };
+		9803A13D0A9D01CB00B7DBBA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SEFirstRun.nib; sourceTree = "<group>"; };
 		980AB1EF0A9759DD00A6115E /* SEBuiltInPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEBuiltInPlugin.h; sourceTree = "<group>"; };
 		980AB1F00A9759DD00A6115E /* SEBuiltInPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEBuiltInPlugin.m; sourceTree = "<group>"; };
 		980AB2150A975B9600A6115E /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SEIgnorePlugin.nib; sourceTree = "<group>"; };
@@ -346,7 +352,6 @@
 		98240186060C7B0700A0DB07 /* SEScriptHandler.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SEScriptHandler.m; sourceTree = "<group>"; };
 		98240187060C7B0700A0DB07 /* SEServerConnection.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SEServerConnection.m; sourceTree = "<group>"; };
 		98240188060C7B0700A0DB07 /* Spark.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Spark.m; sourceTree = "<group>"; };
-		9824018F060C7B0700A0DB07 /* FirstRunController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = FirstRunController.m; sourceTree = "<group>"; };
 		98240190060C7B0700A0DB07 /* KeyEditorController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = KeyEditorController.m; sourceTree = "<group>"; };
 		98240191060C7B0700A0DB07 /* KeyLibraryController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = KeyLibraryController.m; sourceTree = "<group>"; };
 		98240195060C7B0700A0DB07 /* PluginHelpController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PluginHelpController.m; sourceTree = "<group>"; };
@@ -355,7 +360,6 @@
 		9824019A060C7B0700A0DB07 /* KeysTableView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = KeysTableView.m; sourceTree = "<group>"; };
 		9824019E060C7B0700A0DB07 /* PluginMenu.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = PluginMenu.m; path = "Classes/UI Extensions/PluginMenu.m"; sourceTree = "<group>"; };
 		982401E2060C7B3000A0DB07 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = English; path = English.lproj/Credits.rtf; sourceTree = "<group>"; };
-		982401E4060C7B3000A0DB07 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/FirstRun.nib; sourceTree = "<group>"; };
 		982401E6060C7B3000A0DB07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		982401EE060C7B3000A0DB07 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		982401FC060C7B3000A0DB07 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/PluginHelp.nib; sourceTree = "<group>"; };
@@ -425,7 +429,6 @@
 		984BCE6A060C7FEC0043CDEA /* SEScriptHandler.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SEScriptHandler.h; sourceTree = "<group>"; };
 		984BCE6B060C7FEC0043CDEA /* SEServerConnection.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SEServerConnection.h; sourceTree = "<group>"; };
 		984BCE6C060C7FEC0043CDEA /* Spark.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Spark.h; path = ../Headers/Spark.h; sourceTree = "<group>"; };
-		984BCE73060C7FEC0043CDEA /* FirstRunController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = FirstRunController.h; sourceTree = "<group>"; };
 		984BCE74060C7FEC0043CDEA /* KeyEditorController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = KeyEditorController.h; sourceTree = "<group>"; };
 		984BCE75060C7FEC0043CDEA /* KeyLibraryController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = KeyLibraryController.h; path = "Headers/UI Controllers/KeyLibraryController.h"; sourceTree = SOURCE_ROOT; };
 		984BCE78060C7FEC0043CDEA /* PluginHelpController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PluginHelpController.h; sourceTree = "<group>"; };
@@ -471,8 +474,6 @@
 		98B68D760715D13F00207120 /* Comment.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Comment.tiff; sourceTree = "<group>"; };
 		98B68D7C0715D64800207120 /* Simple.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Simple.tiff; sourceTree = "<group>"; };
 		98C7035C07BAAED700F7AD87 /* Plugins Factory.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "Plugins Factory.xcodeproj"; path = "../Plugins Factory/Plugins Factory.xcodeproj"; sourceTree = SOURCE_ROOT; };
-		98C76E7D06FC213B0085EC78 /* ActionEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActionEditor.m; path = "Classes/UI Extensions/ActionEditor.m"; sourceTree = "<group>"; };
-		98C76E9006FC27D50085EC78 /* ActionEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionEditor.h; sourceTree = "<group>"; };
 		98CEBEDF0739A0F4004A2A2C /* Inspector.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Inspector.tif; sourceTree = "<group>"; };
 		98D1E8B1078564B8002DDB31 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Update.strings; sourceTree = "<group>"; };
 		98D1EBC1076D802A0031EBC8 /* stop_downb.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = stop_downb.tif; sourceTree = "<group>"; };
@@ -665,7 +666,6 @@
 				986691AF06F7A93D002C4E98 /* Libraries */,
 				98240196060C7B0700A0DB07 /* Preferences.m */,
 				98300525076FC21B003A260D /* PluginInstaller.m */,
-				9824018F060C7B0700A0DB07 /* FirstRunController.m */,
 				9837AA74071B11130057584D /* TableAlertController.m */,
 				98240195060C7B0700A0DB07 /* PluginHelpController.m */,
 				988BDF8206FCEC9A00DFEFA8 /* LibraryWindowController.m */,
@@ -746,6 +746,7 @@
 			children = (
 				985A43A20A862609005CC63B /* Deprecated */,
 				982401ED060C7B3000A0DB07 /* MainMenu.nib */,
+				9803A13C0A9D01CA00B7DBBA /* SEFirstRun.nib */,
 				981A8A930A61A49D00753369 /* SEEntryEditor.nib */,
 				980AB2140A975B9600A6115E /* SEIgnorePlugin.nib */,
 				98362B420A97664100F97F50 /* SEInheritsPlugin.nib */,
@@ -877,7 +878,6 @@
 				9834216E0708C8F700F95E26 /* Libraries */,
 				984BCE79060C7FEC0043CDEA /* Preferences.h */,
 				98300527076FC231003A260D /* PluginInstaller.h */,
-				984BCE73060C7FEC0043CDEA /* FirstRunController.h */,
 				9837AA76071B11240057584D /* TableAlertController.h */,
 				984BCE78060C7FEC0043CDEA /* PluginHelpController.h */,
 				988BDF8406FCECAE00DFEFA8 /* LibraryWindowController.h */,
@@ -889,7 +889,6 @@
 			isa = PBXGroup;
 			children = (
 				984BCE80060C7FEC0043CDEA /* PluginMenu.h */,
-				98C76E9006FC27D50085EC78 /* ActionEditor.h */,
 			);
 			path = "UI Extension";
 			sourceTree = "<group>";
@@ -921,6 +920,7 @@
 			isa = PBXGroup;
 			children = (
 				985AF9DC0A5C335D00397FAA /* Headers */,
+				9803A1080A9CFE9700B7DBBA /* SEFirstRun.m */,
 				981A8A9E0A61A4E400753369 /* SEEntryEditor.m */,
 				983BE16C0A7E402600E0228F /* SELibrarySource.m */,
 				985AF9FA0A5C33D400397FAA /* SELibraryWindow.m */,
@@ -933,6 +933,7 @@
 		985AF9DC0A5C335D00397FAA /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				9803A10A0A9CFEA400B7DBBA /* SEFirstRun.h */,
 				981A8A9A0A61A4D600753369 /* SEEntryEditor.h */,
 				983BE1730A7E402F00E0228F /* SELibrarySource.h */,
 				985AFA000A5C33D900397FAA /* SELibraryWindow.h */,
@@ -955,7 +956,6 @@
 			isa = PBXGroup;
 			children = (
 				98A91DA7074F55460029D278 /* Importer.nib */,
-				982401E3060C7B3000A0DB07 /* FirstRun.nib */,
 				9837AA71071B0E7F0057584D /* TableAlert.nib */,
 			);
 			name = Sheets;
@@ -985,7 +985,6 @@
 				98240189060C7B0700A0DB07 /* UI Controllers */,
 				98593CDA073EE6A8003BA845 /* Import/Export */,
 				9824019E060C7B0700A0DB07 /* PluginMenu.m */,
-				98C76E7D06FC213B0085EC78 /* ActionEditor.m */,
 				98240198060C7B0700A0DB07 /* CustomTableView */,
 			);
 			name = Classes;
@@ -1076,6 +1075,7 @@
 				9838ECA20A8646DA000AF1B5 /* SEServerConnection.h in Headers */,
 				980AB1F10A9759DD00A6115E /* SEBuiltInPlugin.h in Headers */,
 				9872830F0A9B30B60098C22F /* SEEntriesManager.h in Headers */,
+				9803A10B0A9CFEA400B7DBBA /* SEFirstRun.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1317,6 +1317,7 @@
 				98362B070A9763F500F97F50 /* SparkIgnore.png in Resources */,
 				98362B480A97664100F97F50 /* SEInheritsPlugin.nib in Resources */,
 				98ECA80A0A9BB19500F89B58 /* Overwrite.png in Resources */,
+				9803A1420A9D01CB00B7DBBA /* SEFirstRun.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1356,6 +1357,7 @@
 				98ECA7E80A9BAF3600F89B58 /* SETriggersController.m in Sources */,
 				9831BFE30A9C2BD6001DA7AD /* SELibrarySource.m in Sources */,
 				9831BFEF0A9C2C2D001DA7AD /* SEEntryEditor.m in Sources */,
+				9803A1090A9CFE9700B7DBBA /* SEFirstRun.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1390,6 +1392,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		9803A13C0A9D01CA00B7DBBA /* SEFirstRun.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9803A13D0A9D01CB00B7DBBA /* English */,
+			);
+			name = SEFirstRun.nib;
+			sourceTree = "<group>";
+		};
 		980AB2140A975B9600A6115E /* SEIgnorePlugin.nib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1413,14 +1423,6 @@
 				98240226060C7B3000A0DB07 /* French */,
 			);
 			name = Credits.rtf;
-			sourceTree = "<group>";
-		};
-		982401E3060C7B3000A0DB07 /* FirstRun.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				982401E4060C7B3000A0DB07 /* English */,
-			);
-			name = FirstRun.nib;
 			sourceTree = "<group>";
 		};
 		982401E5060C7B3000A0DB07 /* InfoPlist.strings */ = {

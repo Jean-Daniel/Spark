@@ -37,9 +37,9 @@
 
 #pragma mark Menu IBActions
 - (IBAction)startStopServer:(id)sender;
-//- (IBAction)openInspector:(id)sender;
 - (IBAction)showPreferences:(id)sender;
 
+- (NSWindow *)mainWindow;
 - (IBAction)showMainWindow:(id)sender;
 
 #pragma mark Import/Export Support
@@ -59,3 +59,8 @@
 #endif
 
 @end
+
+@interface Spark (SEFirstRun)
+- (void)displayFirstRunIfNeeded;
+@end
+

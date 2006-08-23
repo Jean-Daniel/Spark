@@ -29,7 +29,7 @@
   if (self = [super init]) {
     se_entries = [[NSMutableArray alloc] init];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didReloadEntries:) 
+                                             selector:@selector(listDidChange:) 
                                                  name:SparkListDidChangeNotification
                                                object:nil];
   }
@@ -88,8 +88,9 @@
   [table reloadData];
 }
 
-- (void)didReloadEntries:(NSNotification *)notification {
-  [self loadTriggers];
+- (void)listDidChange:(NSNotification *)notification {
+  if ([notification object] == se_list)
+    [self loadTriggers];
 }
 
 - (void)setList:(SparkList *)aList {
