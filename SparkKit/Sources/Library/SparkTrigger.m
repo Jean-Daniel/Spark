@@ -76,6 +76,10 @@
   }
 }
 
+- (BOOL)isEqualToTrigger:(SparkTrigger *)aTrigger {
+  return [self isEqual:aTrigger];
+}
+
 - (BOOL)setRegistred:(BOOL)flag {
   return NO;
 }

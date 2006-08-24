@@ -1,10 +1,10 @@
-//
-//  SETriggerCell.h
-//  Spark Editor
-//
-//  Created by Jean-Daniel Dupas on 03/08/06.
-//  Copyright 2006 Adamentium. All rights reserved.
-//
+/*
+ *  SETriggerCell.h
+ *  Spark Editor
+ *
+ *  Created by Black Moon Team.
+ *  Copyright (c) 2004 - 2006 Shadow Lab. All rights reserved.
+ */
 
 #import <ShadowKit/SKImageAndTextCell.h>
 

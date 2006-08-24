@@ -1,10 +1,10 @@
-//
-//  SEEntriesManager.h
-//  Spark Editor
-//
-//  Created by Jean-Daniel Dupas on 22/08/06.
-//  Copyright 2006 Adamentium. All rights reserved.
-//
+/*
+ *  SEEntriesManager.h
+ *  Spark Editor
+ *
+ *  Created by Black Moon Team.
+ *  Copyright (c) 2004 - 2006 Shadow Lab. All rights reserved.
+ */
 
 #import <Cocoa/Cocoa.h>
 
@@ -28,6 +28,8 @@
 
 - (SparkApplication *)application;
 - (void)setApplication:(SparkApplication *)anApplication;
+
+- (void)removeEntries:(NSArray *)entries;
 
 - (void)createEntry:(SparkPlugIn *)aPlugin modalForWindow:(NSWindow *)aWindow;
 - (void)editEntry:(SETriggerEntry *)anEntry modalForWindow:(NSWindow *)aWindow;

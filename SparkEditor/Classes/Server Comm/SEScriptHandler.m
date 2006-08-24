@@ -1,10 +1,10 @@
-//
-//  ScriptHandler.m
-//  Short-Cut
-//
-//  Created by Fox on Wed Dec 10 2003.
-//  Copyright (c) 2004 Shadow Lab. All rights reserved.
-//
+/*
+ *  ScriptHandler.m
+ *  Spark Editor
+ *
+ *  Created by Black Moon Team.
+ *  Copyright (c) 2004 - 2006 Shadow Lab. All rights reserved.
+ */
 
 #import "SEScriptHandler.h"
 

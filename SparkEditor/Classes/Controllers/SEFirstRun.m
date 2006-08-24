@@ -2,8 +2,8 @@
  *  SEFirstRun.m
  *  Spark Editor
  *
- *  Created by Grayfox on 23/08/06.
- *  Copyright 2006 Shadow Lab. All rights reserved.
+ *  Created by Black Moon Team.
+ *  Copyright (c) 2004 - 2006 Shadow Lab. All rights reserved.
  */
 
 #import "SEFirstRun.h"
@@ -36,6 +36,9 @@ static const int kSparkVersion = 0x030000; /* 3.0.0 */
 
 - (void)awakeFromNib {
   NSString *path = [[NSBundle mainBundle] pathForResource:@"Read First" ofType:@"rtf"];
+  NSURL *url = [NSURL fileURLWithPath:path];
+  NSTextStorage *storage = [[NSTextStorage alloc] initWithURL:url documentAttributes:nil];
+  [[ibText layoutManager] replaceTextStorage:storage];
 }
 
 - (IBAction)close:(id)sender {

@@ -171,6 +171,7 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
   if (old && (old != object)) {
     // Will update
     [self postNotification:kSparkLibraryWillUpdateObjectNotification object:old];
+    // Update
     NSMapInsert(sp_objects, (void *)[object uid], object);
     [object setLibrary:[self library]];
     // Did update
@@ -190,6 +191,7 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
     [object retain];
     // Will remove
     [self postNotification:kSparkLibraryWillRemoveObjectNotification object:object];
+    // Remove
     [object setLibrary:nil];
     NSMapRemove(sp_objects, (void *)[object uid]);
     // Did remove

@@ -1,10 +1,10 @@
-//
-//  ServerController.h
-//  Spark
-//
-//  Created by Fox on Sun Dec 14 2003.
-//  Copyright (c) 2004 Shadow Lab. All rights reserved.
-//
+/*
+ *  ServerController.h
+ *  Spark Editor
+ *
+ *  Created by Black Moon Team.
+ *  Copyright (c) 2004 - 2006 Shadow Lab. All rights reserved.
+ */
 
 #import "SEScriptHandler.h"
 #import <SparkKit/SparkServerProtocol.h>

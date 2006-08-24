@@ -170,6 +170,10 @@ BOOL KeyStrokeFilter(UInt32 code, UInt32 modifier) {
   return [sp_hotkey shortcut];
 }
 
+- (BOOL)isEqualToTrigger:(SparkTrigger *)aTrigger {
+  return [aTrigger isKindOfClass:[SparkHotKey class]] && [self rawkey] == [(id)aTrigger rawkey];
+}
+
 #pragma mark -
 #pragma mark Accessors
 - (NSImage *)icon {

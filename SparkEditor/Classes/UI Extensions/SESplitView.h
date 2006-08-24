@@ -1,10 +1,10 @@
-//
-//  XESplitView.h
-//  MacPHP
-//
-//  Created by Grayfox on 17/06/05.
-//  Copyright 2005 Shadow Lab. All rights reserved.
-//
+/*
+ *  SESplitView.h
+ *  Spark Editor
+ *
+ *  Created by Black Moon Team.
+ *  Copyright (c) 2004 - 2006 Shadow Lab. All rights reserved.
+ */
 
 #import <Cocoa/Cocoa.h>
 

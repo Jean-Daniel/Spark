@@ -1,10 +1,10 @@
-//
-//  Spark.m
-//  Spark
-//
-//  Created by Fox on Fri Dec 12 2003.
-//  Copyright (c) 2004 Shadow Lab. All rights reserved.
-//
+/*
+ *  Spark.m
+ *  Spark Editor
+ *
+ *  Created by Black Moon Team.
+ *  Copyright (c) 2004 - 2006 Shadow Lab. All rights reserved.
+ */
 
 #import "Spark.h"
 

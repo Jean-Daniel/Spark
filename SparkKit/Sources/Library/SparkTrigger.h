@@ -34,4 +34,7 @@
 - (BOOL)setRegistred:(BOOL)flag;
 - (NSString *)triggerDescription;
 
+/* Return YES only if the two trigger are equivalents */
+- (BOOL)isEqualToTrigger:(SparkTrigger *)aTrigger;
+
 @end

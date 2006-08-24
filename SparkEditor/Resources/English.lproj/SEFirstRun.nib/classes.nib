@@ -6,6 +6,7 @@
             ACTIONS = {close = id; }; 
             CLASS = SKWindowController; 
             LANGUAGE = ObjC; 
+            OUTLETS = {ibAutoStart = NSButton; ibStartNow = NSButton; ibText = NSTextView; }; 
             SUPERCLASS = NSWindowController; 
         }
     ); 

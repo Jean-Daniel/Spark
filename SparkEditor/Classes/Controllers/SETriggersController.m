@@ -1,10 +1,10 @@
-//
-//  SETriggersController.m
-//  Spark Editor
-//
-//  Created by Jean-Daniel Dupas on 07/07/06.
-//  Copyright 2006 Shadow Lab. All rights reserved.
-//
+/*
+ *  SETriggersController.m
+ *  Spark Editor
+ *
+ *  Created by Black Moon Team.
+ *  Copyright (c) 2004 - 2006 Shadow Lab. All rights reserved.
+ */
 
 #import "SETriggersController.h"
 #import "SEEntriesManager.h"
@@ -103,6 +103,13 @@
 }
 
 #pragma mark -
+- (void)deleteSelectionInTableView:(NSTableView *)aTableView {
+  NSIndexSet *indexes = [aTableView selectedRowIndexes];
+  NSArray *items = indexes ? [se_entries objectsAtIndexes:indexes] : nil;
+  if (items)
+    [[SEEntriesManager sharedManager] removeEntries:items];
+}
+
 - (int)numberOfRowsInTableView:(NSTableView *)aTableView {
   return [se_entries count];
 }

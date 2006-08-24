@@ -1,10 +1,11 @@
-//
-//  ServerController.m
-//  Spark
-//
-//  Created by Fox on Sun Dec 14 2003.
-//  Copyright (c) 2004 Shadow Lab. All rights reserved.
-//
+/*
+ *  ServerController.m
+ *  Spark Editor
+ *
+ *  Created by Black Moon Team.
+ *  Copyright (c) 2004 - 2006 Shadow Lab. All rights reserved.
+ */
+
 #import <SparkKit/SparkKit.h>
 
 //#import "SEPreferences.h"

@@ -1,16 +1,17 @@
-//
-//  SEEntriesManager.m
-//  Spark Editor
-//
-//  Created by Jean-Daniel Dupas on 22/08/06.
-//  Copyright 2006 Adamentium. All rights reserved.
-//
+/*
+ *  SEEntriesManager.m
+ *  Spark Editor
+ *
+ *  Created by Black Moon Team.
+ *  Copyright (c) 2004 - 2006 Shadow Lab. All rights reserved.
+ */
 
 #import "SEEntriesManager.h"
 #import "SETriggerEntry.h"
 #import "SEEntryEditor.h"
 
 #import <SparkKit/SparkAction.h>
+#import <SparkKit/SparkTrigger.h>
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkObjectSet.h>
 #import <SparkKit/SparkApplication.h>
@@ -112,6 +113,10 @@ NSString * const SEEntriesManagerDidCreateEntryNotification = @"SEEntriesManager
   return se_editor;
 }
 
+- (void)removeEntries:(NSArray *)entries {
+  DLog(@"Remove %@", entries);
+}
+
 /* Create Entry with type */
 - (void)createEntry:(SparkPlugIn *)aPlugin modalForWindow:(NSWindow *)aWindow {
   SEEntryEditor *editor = [self editor];
@@ -168,6 +173,35 @@ NSString * const SEEntriesManagerDidCreateEntryNotification = @"SEEntriesManager
   [[NSNotificationCenter defaultCenter] postNotificationName:SEEntriesManagerDidCreateEntryNotification
                                                       object:entry
                                                     userInfo:nil];
+  return YES;
+}
+
+- (BOOL)editor:(SEEntryEditor *)theEditor shouldUpdateEntry:(SETriggerEntry *)entry {
+  SETriggerEntry *orig = [theEditor entry];
+  
+  /* If global context and trigger change, should ask user if we have to change all entries */
+  if ([[self application] uid] == 0 && ![[entry trigger] isEqualToTrigger:[orig trigger]]) {
+    DLog(@"Ask for change");
+    /* If change all */
+    if (YES) {
+      /* Set UID */
+      [[entry trigger] setUID:[[orig trigger] uid]];
+      /* Update old entry */
+      [orig setTrigger:[entry trigger]];
+      /* Update library */
+      [SparkSharedTriggerSet() updateObject:[entry trigger]];
+    } else {
+      /* Create an new trigger */
+      [[entry trigger] setUID:[SparkSharedTriggerSet() nextUID]];
+      /* Should remove old trigger if no longer used */
+      // TODO
+      
+      /* Update old entry */
+      [orig setTrigger:[entry trigger]];
+      /* Update library */
+      [SparkSharedTriggerSet() addObject:[entry trigger]];
+    }
+  }
   return YES;
 }
 
