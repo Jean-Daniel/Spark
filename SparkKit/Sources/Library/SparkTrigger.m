@@ -31,13 +31,12 @@
 
 - (BOOL)serialize:(NSMutableDictionary *)plist {
   [super serialize:plist];
-  [plist setObject:SKBool(sp_stFlags.enabled) forKey:@"STEnabled"];
   return YES;
 }
 
 - (id)initWithSerializedValues:(NSDictionary *)plist {
   if (self = [super initWithSerializedValues:plist]) {
-    sp_stFlags.enabled = [[plist objectForKey:@"STEnabled"] boolValue] ? 1 : 0;
+
   }
   return self;
 }

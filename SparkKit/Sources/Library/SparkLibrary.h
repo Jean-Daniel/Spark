@@ -8,7 +8,6 @@
  */
 
 #import <SparkKit/SparkKit.h>
-#import <ShadowKit/SKCArray.h>
 
 SPARK_EXPORT
 NSPropertyListFormat SparkLibraryFileFormat;
@@ -32,10 +31,12 @@ enum {
 };
 
 #pragma mark -
-@class SparkLibrary, SparkObjectSet;
+@class SparkLibrary, SparkObjectSet, SparkEntryManager;
 
 SPARK_EXPORT
 SparkLibrary *SparkSharedLibrary(void);
+SPARK_EXPORT
+SparkEntryManager *SparkSharedManager(void);
 
 SPARK_EXPORT
 SparkObjectSet *SparkSharedListSet(void);
@@ -46,19 +47,14 @@ SparkObjectSet *SparkSharedTriggerSet(void);
 SPARK_EXPORT
 SparkObjectSet *SparkSharedApplicationSet(void);
 
-typedef struct _SparkEntry {
-  UInt32 action;
-  UInt32 trigger;
-  UInt32 application;
-} SparkEntry;
-
 #pragma mark -
-@class SparkApplication;
+@class SparkApplication, SparkEntryManager;
 @interface SparkLibrary : NSObject {
   @private
   NSString *sp_file;
-  SKCArrayRef sp_relations;
-  NSMutableDictionary *sp_libraries;
+  
+  SparkObjectSet *sp_objects[4];
+  SparkEntryManager *sp_relations;
 }
 
 + (SparkLibrary *)sharedLibrary;
@@ -74,23 +70,13 @@ typedef struct _SparkEntry {
 - (SparkObjectSet *)triggerSet;
 - (SparkObjectSet *)applicationSet;
 
+- (SparkEntryManager *)entryManager;
+
 - (BOOL)synchronize;
 - (BOOL)writeToFile:(NSString *)file atomically:(BOOL)flag;
 
 - (NSFileWrapper *)fileWrapper:(NSError **)outError;
 - (BOOL)readFromFileWrapper:(NSFileWrapper *)fileWrapper error:(NSError **)outError;
-
-#pragma mark Entries Manipulation
-- (void)addEntry:(SparkEntry *)entry;
-
-  /* Library Queries */
-  /*!
-  @method     
-   @abstract Query triggers and action for an application UID.
-   @discussion (comprehensive description)
-   @result Returns a dictionary that contains triggers as keys, and corresponding actions as value.
-   */
-- (NSDictionary *)triggersForApplication:(UInt32)application;
 
 @end
 

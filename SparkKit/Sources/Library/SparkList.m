@@ -140,7 +140,7 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
   return YES;
 }
 
-- (id)initWithObjectSet:(SparkObjectSet *)library serializedValues:(NSDictionary *)plist  {
+- (id)initWithSerializedValues:(NSDictionary *)plist objectSet:(SparkObjectSet *)library  {
   if (self = [super initWithSerializedValues:plist]) {
     [self setObjectSet:library];
     // Load plist
@@ -231,8 +231,8 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
 @implementation SparkListSet
 
 static id _SparkListDeserialize(Class cls, NSDictionary *plist, void *ctxt) {
-  return [cls instancesRespondToSelector:@selector(initWithObjectSet:serializedValues:)] ? 
-  [[cls alloc] initWithObjectSet:[(id)ctxt triggerSet] serializedValues:plist] : nil;
+  return [cls instancesRespondToSelector:@selector(initWithSerializedValues:objectSet:)] ? 
+  [[cls alloc] initWithSerializedValues:plist objectSet:[(id)ctxt triggerSet]] : nil;
 }
 
 - (SparkObject *)deserialize:(NSDictionary *)plist error:(OSStatus *)error {

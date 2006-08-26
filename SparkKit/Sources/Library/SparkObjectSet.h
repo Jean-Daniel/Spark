@@ -41,6 +41,7 @@
 - (BOOL)addObject:(SparkObject *)object;
 - (BOOL)updateObject:(SparkObject *)object;
 - (void)removeObject:(SparkObject *)object;
+- (void)removeObjectWithUID:(UInt32)uid;
 
 - (int)addObjectsFromArray:(NSArray *)objects;
 - (void)removeObjectsInArray:(NSArray *)newObjects;

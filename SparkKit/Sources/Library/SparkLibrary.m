@@ -9,12 +9,13 @@
 
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkActionLoader.h>
-#import <SparkKit/SparkObject.h>
 #import <SparkKit/SparkObjectSet.h>
+#import <SparkKit/SparkEntryManager.h>
 
 #import <SparkKit/SparkList.h>
 #import <SparkKit/SparkAction.h>
 #import <SparkKit/SparkTrigger.h>
+#import <SparkKit/SparkPrivate.h>
 #import <SparkKit/SparkApplication.h>
 
 #import <ShadowKit/SKCFContext.h>
@@ -34,12 +35,12 @@ static NSString * const kSparkEntriesFile = @"SparkEntries";
 static NSString * const kSparkTriggersFile = @"SparkTriggers";
 static NSString * const kSparkApplicationsFile = @"SparkApplications";
 
-static NSString * const kSparkListSetKey = @"SparkListSet";
-static NSString * const kSparkActionLibrary = @"SparkActionSet";
-static NSString * const kSparkTriggerLibrary = @"SparkTriggerSet";
-static NSString * const kSparkApplicationLibrary = @"SparkApplicationSet";
-
-static SparkAction *gSparkIgnoreAction = nil;
+enum {
+  kSparkActionSet = 0,
+  kSparkTriggerSet = 1,
+  kSparkApplicationSet = 2,
+  kSparkListSet = 3
+};
 
 #ifdef DEBUG
 #warning Using Development Spark Library
@@ -47,17 +48,6 @@ NSString * const kSparkLibraryDefaultFileName = @"Spark3 Library_Debug.splib";
 #else
 NSString * const kSparkLibraryDefaultFileName = @"Spark3 Library.splib";
 #endif
-
-typedef struct {
-  OSType magic;
-  UInt32 version;
-  /* Version 0 header */
-  UInt32 count;
-  SparkEntry entries[0];
-} SparkEntryHeader;
-
-#define SPARK_MAGIC		'SpEn'
-#define SPARK_CIGAM		'nEpS'
 
 #define kSparkLibraryVersion_1_0		0x100
 #define kSparkLibraryVersion_2_0		0x200
@@ -69,14 +59,18 @@ const UInt32 kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_0;
 - (BOOL)readVersion1LibraryFromFileWrapper:(NSFileWrapper *)wrapper error:(NSError **)error;
 @end
 
+@interface SparkEntryManager (SparkVersion1Library)
+- (void)postProcess;
+- (BOOL)isOrphanTrigger:(UInt32)aTrigger;
+- (void)removeEntriesForAction:(UInt32)action;
+@end
+
 @implementation SparkLibrary
 
 + (void)initialize {
   // Make sure plugin are loaded
   if ([SparkLibrary class] == self) {
     [SparkActionLoader sharedLoader];
-    gSparkIgnoreAction = [[SparkAction alloc] initWithName:@"Ignore Spark" 
-                                                      icon:[NSImage imageNamed:@"IgnoreAction" inBundle:SKCurrentBundle()]];
   }
 }
 
@@ -95,57 +89,53 @@ const UInt32 kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_0;
 
 - (id)initWithPath:(NSString *)path {
   if (self = [super init]) {
+    [self setPath:path];
     /* Create defaults libraries */
-    sp_libraries = [[NSMutableDictionary alloc] init];
-    [sp_libraries setObject:[SparkObjectSet objectsLibraryWithLibrary:self]
-                     forKey:kSparkActionLibrary];
-    [sp_libraries setObject:[SparkObjectSet objectsLibraryWithLibrary:self]
-                     forKey:kSparkTriggerLibrary];
-    [sp_libraries setObject:[SparkObjectSet objectsLibraryWithLibrary:self] 
-                     forKey:kSparkApplicationLibrary];
+    for (int idx = 0; idx < kSparkListSet; idx++) {
+      sp_objects[idx] = [[SparkObjectSet alloc] initWithLibrary:self];
+    }
     /* List Set */
-    [sp_libraries setObject:[SparkListSet objectsLibraryWithLibrary:self] 
-                     forKey:kSparkListSetKey];
+    sp_objects[kSparkListSet] = [[SparkListSet alloc] initWithLibrary:self];
     
     /* Create relation table */
-    sp_relations = SKCArrayCreate(sizeof(SparkEntry), 0);
-    [self setPath:path];
+    sp_relations = [[SparkEntryManager alloc] initWithLibrary:self];
   }
   return self;
 }
 
 - (void)dealloc {
   [sp_file release];
-  [sp_libraries release];
-  if (sp_relations) SKCArrayDeallocate(sp_relations);
+  for (int idx = 0; idx < 4; idx++) {
+    [sp_objects[idx] release];
+  }
+  [sp_relations release];
   [super dealloc];
 }
 
 - (NSString *)description {
-  return [NSString stringWithFormat:@"<%@ %p> %@", [self class], self, sp_libraries];
+  return [NSString stringWithFormat:@"<%@ %p>", [self class], self];
 }
 
 #pragma mark -
 #pragma mark Objects Libraries Accessors
-- (SparkObjectSet *)objectSetForKey:(NSString *)aKey {
-  NSAssert1([sp_libraries objectForKey:aKey] != nil, @"Library for key: %@ doesn't exist", aKey);
-  return [sp_libraries objectForKey:aKey];
-}
-
 - (SparkObjectSet *)listSet {
-  return [self objectSetForKey:kSparkListSetKey];
+  return sp_objects[kSparkListSet];
 }
 
 - (SparkObjectSet *)actionSet {
-  return [self objectSetForKey:kSparkActionLibrary];
+  return sp_objects[kSparkActionSet];
 }
 
 - (SparkObjectSet *)triggerSet {
-  return [self objectSetForKey:kSparkTriggerLibrary];
+  return sp_objects[kSparkTriggerSet];
 }
 
 - (SparkObjectSet *)applicationSet {
-  return [self objectSetForKey:kSparkApplicationLibrary];
+  return sp_objects[kSparkApplicationSet];
+}
+
+- (SparkEntryManager *)entryManager {
+  return sp_relations;
 }
 
 #pragma mark -
@@ -187,21 +177,6 @@ const UInt32 kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_0;
   return NO;  
 }
 
-- (NSData *)sp_saveEntries {
-  UInt32 count = SKCArrayCount(sp_relations);
-  UInt32 size = count * sizeof(SparkEntry) + sizeof(SparkEntryHeader);
-  NSMutableData *data = [[NSMutableData alloc] initWithCapacity:size];
-  /* Write header */
-  [data setLength:sizeof(SparkEntryHeader)];
-  SparkEntryHeader *header = [data mutableBytes];
-  header->magic = SPARK_MAGIC;
-  header->version = 0;
-  header->count = count;
-  /* Write contents */
-  [data appendBytes:SKCArrayGetInternalArray(sp_relations) length:count * sizeof(SparkEntry)];
-  return [data autorelease];
-}
-
 - (NSFileWrapper *)fileWrapper:(NSError **)outError {
   if (outError) *outError = nil;
   
@@ -237,7 +212,11 @@ const UInt32 kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_0;
   [library addFileWrapper:file];
   
   /* Library Entries */
-  [library addRegularFileWithContents:[self sp_saveEntries] preferredFilename:kSparkEntriesFile];
+  file = [[self entryManager] fileWrapper:outError];
+  require(file != nil, bail);
+  
+  [file setPreferredFilename:kSparkEntriesFile];
+  [library addFileWrapper:file];
   
   NSDictionary *info = [NSDictionary dictionaryWithObjectsAndKeys:
     SKUInt(kSparkLibraryCurrentVersion), @"Version",
@@ -293,84 +272,10 @@ bail:
     return NO;
 }
 
-#pragma mark -
-- (void)addEntry:(SparkEntry *)entry {
-  SKCArrayAppendItem(sp_relations, entry);
-  // Notify
-}
-
-#pragma mark Library Queries
-- (NSDictionary *)triggersForApplication:(UInt32)application {
-  UInt32 count = SKCArrayCount(sp_relations);
-  SparkObjectSet *actions = [self actionSet];
-  SparkObjectSet *triggers = [self triggerSet];
-  SparkEntry *entry = SKCArrayGetInternalArray(sp_relations);
-  
-  CFMutableDictionaryRef result = CFDictionaryCreateMutable(kCFAllocatorDefault, 0, 
-                                                            &kSKNSObjectDictionaryKeyCallBacks, 
-                                                            &kSKNSObjectDictionaryValueCallBacks);
-  while (count-- > 0) {
-    if (application == entry->application) {
-      SparkAction *action = entry->action ? [actions objectForUID:entry->action] : gSparkIgnoreAction;
-      /* if action not found, no need to look for trigger, but should not append */
-      SparkTrigger *trigger = action ? [triggers objectForUID:entry->trigger] : nil;
-      if (action && trigger) {
-        // Add entry
-        CFDictionarySetValue(result, trigger, action);
-      }
-    }
-    entry++;
-  }
-  return [(id)result autorelease];
-}
-
 @end
 
 #pragma mark -
 @implementation SparkLibrary (SparkLibraryLoader)
-#define SparkReadField(field)	({swap ? OSSwapInt32(field) : field; })
-- (BOOL)readEntries:(NSData *)data {
-  BOOL swap = NO;
-  const SparkEntryHeader *header = NULL;
-  
-  const void *bytes = [data bytes];
-  header = bytes;
-  switch (header->magic) {
-    case SPARK_CIGAM:
-      swap = YES;
-      // fall 
-    case SPARK_MAGIC:
-      break;
-    default:
-      // Invalid header
-      return NO;
-  }
-  
-  // No need to check version
-  
-  const SparkEntry *entries = NULL;
-  UInt32 count = SparkReadField(header->count);
-  
-  if ([data length] < count * sizeof(SparkEntry) + sizeof(SparkEntryHeader)) {
-    DLog(@"Unexpected end of file");
-    return NO;
-  }
-  
-  /* Adjust array size to avoid resizing */
-  SKCArraySetCapacity(sp_relations, count);
-  
-  entries = header->entries;
-  while (count-- > 0) {
-    SparkEntry entry;
-    entry.action = SparkReadField(entries->action);
-    entry.trigger = SparkReadField(entries->trigger);
-    entry.application = SparkReadField(entries->application);
-    SKCArrayAppendItem(sp_relations, &entry);
-    entries++;
-  }
-  
-  return YES;
-}
 
 - (BOOL)readLibraryFromFileWrapper:(NSFileWrapper *)wrapper error:(NSError **)error {
   DLog(@"Loading Library !");
@@ -394,8 +299,9 @@ bail:
   require(ok, bail);
   
   /* Load entries */
-  NSData *data = [[files objectForKey:kSparkEntriesFile] regularFileContents];
-  require(data && [self readEntries:data], bail);
+  SparkEntryManager *manager = [self entryManager];
+  ok = [manager readFromFileWrapper:[files objectForKey:kSparkEntriesFile] error:error];
+  require(ok, bail);
   
   return YES;
 bail:
@@ -443,20 +349,27 @@ bail:
   while (plist = [enumerator nextObject]) {
     SparkTrigger *trigger = SKDeserializeObject(plist, nil);      
     if (trigger && [trigger isKindOfClass:[SparkTrigger class]]) {
-      [trigger setEnabled:[[plist objectForKey:@"IsActive"] boolValue]];
       [trigger setName:nil];
       [trigger setIcon:nil];
       [trigger setUID:[trigger uid] + kSparkLibraryReserved];
       [library addObject:trigger];
       
       NSString *key;
+      UInt32 status = [[plist objectForKey:@"IsActive"] unsignedIntValue];
       NSDictionary *map = [[plist objectForKey:@"ApplicationMap"] objectForKey:@"ApplicationMap"];
       NSEnumerator *entries = [map keyEnumerator];
       while (key = [entries nextObject]) {
-        SparkEntry entry;
+        SparkLibraryEntry entry;
+        entry.status = status;
         entry.action = [[map objectForKey:key] unsignedIntValue];
         /* If action is not 'Ignore Spark', adjust uid. */
-        if (entry.action) entry.action += kSparkLibraryReserved;
+        if (entry.action) {
+          entry.action += kSparkLibraryReserved;
+        } else {
+          /* Should set status = 0 and action = action for trigger/application */
+          entry.status = 0;
+          entry.action = 0; /* Will be adjust later */
+        }
         entry.trigger = [trigger uid];
         entry.application = [key intValue];
         if (entry.application) {
@@ -465,8 +378,9 @@ bail:
           else
             entry.application += kSparkLibraryReserved;
         }
-        if (entry.action || entry.application) {
-          SKCArrayAppendItem(sp_relations, &entry);
+        /* Should avoid action double usage, except for ignore action. */
+        if (entry.action || entry.application && (entry.action == 0 || !CFSetContainsValue(actions, (void *)entry.action))) {
+          [sp_relations addLibraryEntry:&entry];
           CFSetAddValue(actions, (void *)entry.action);
           CFSetAddValue(triggers, (void *)entry.trigger);
         }
@@ -475,6 +389,7 @@ bail:
       DLog(@"Discard invalid trigger: %@", trigger);
     }
   }
+  
   
   objects = [[wrapper propertyListForFilename:kSparkActionsFile] objectForKey:@"SparkObjects"];
   /* Load Actions. Ignore old '_SparkIgnoreAction' items */
@@ -493,6 +408,8 @@ bail:
         }
       } else {
         DLog(@"Discard invalid action: %@", plist);
+        UInt32 uid = [[plist objectForKey:@"UID"] unsignedIntValue];
+        [sp_relations removeEntriesForAction:uid + kSparkLibraryReserved];
       }
     }
   }
@@ -504,8 +421,8 @@ bail:
   while (plist = [enumerator nextObject]) {
     NSString *class = [plist objectForKey:@"isa"];
     if ([class isEqualToString:@"SparkKeyList"]) {
-      SparkList *list = [[SparkList alloc] initWithObjectSet:library];
-      [list setName:[plist objectForKey:@"Name"]];
+      SparkList *list = [[SparkList alloc] initWithName:[plist objectForKey:@"Name"]];
+      [list setObjectSet:[self triggerSet]];
       
       NSNumber *uid;
       NSEnumerator *uids = [[plist objectForKey:@"ObjectList"] objectEnumerator];
@@ -517,12 +434,10 @@ bail:
           DLog(@"Cannot resolve list entry: %u", [uid unsignedIntValue]);
         }
       }
-
       [library addObject:list];
       [list release];
     }
   }
-  
   
   {
     /* Cleanup */
@@ -540,6 +455,8 @@ bail:
     }
     [tmp release];
   }
+  
+  [sp_relations postProcess];
   
   CFRelease(triggers);
   CFRelease(actions);
@@ -560,6 +477,10 @@ NSString *SparkLibraryFolder() {
 
 SparkLibrary *SparkSharedLibrary() {
   return [SparkLibrary sharedLibrary];
+}
+
+SparkEntryManager *SparkSharedManager() {
+  return [[SparkLibrary sharedLibrary] entryManager];
 }
 
 SparkObjectSet *SparkSharedListSet() {

@@ -26,7 +26,10 @@
 /* SparkHelpFile */
 + (NSString *)helpFile;
 
-/* Some kind of hack to resolve binding cyclic memory problem. */
+/* Some kind of hack to resolve binding cyclic memory problem. 
+- releaseViewOwnership says to the receiver that it no longer need retain
+  the view because something else retained it. So SparkActionPlugin instance release
+  the view end retain cycle is broken. */
 - (void)releaseViewOwnership;
 - (void)setSparkAction:(SparkAction *)anAction;
 
@@ -37,9 +40,19 @@
 
 - (id)duplicate;
 
-- (SparkAlert *)hotKeyShouldExecuteAction:(SparkHotKey *)hotkey;
-
 - (BOOL)isInvalid;
 - (void)setInvalid:(BOOL)flag;
+
+- (BOOL)isEnabled;
+- (void)setEnabled:(BOOL)flag;
+
+  /*!
+  @method     setCategorie:
+   @abstract   Sets the categorie for this Action.
+   @param      categorie Action categorie.
+   */
+- (void)setCategorie:(NSString *)categorie;
+
+- (SparkAlert *)hotKeyShouldExecuteAction:(SparkHotKey *)hotkey;
 
 @end

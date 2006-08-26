@@ -39,8 +39,8 @@ NSString * const SparkListDidChangeNotification;
 - (void)setListFilter:(SparkListFilter)aFilter context:(id)aCtxt;
 
 /* Special initializer */
-- (id)initWithObjectSet:(SparkObjectSet *)library
-     serializedValues:(NSDictionary *)plist;
+- (id)initWithSerializedValues:(NSDictionary *)plist
+                     objectSet:(SparkObjectSet *)library;
 
 - (unsigned)count;
 - (NSEnumerator *)objectEnumerator;

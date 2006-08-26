@@ -16,7 +16,8 @@
   
   struct _sp_stFlags {
     unsigned int enabled:1;
-    unsigned int reserved:31;
+    unsigned int overwrite:1;
+    unsigned int reserved:30;
   } sp_stFlags;
 }
 

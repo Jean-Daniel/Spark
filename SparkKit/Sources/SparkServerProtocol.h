@@ -18,8 +18,6 @@ enum {
 
 #if defined(__OBJC__)
 
-#import <SparkKit/SparkLibrary.h>
-
 #if defined(DEBUG)
 #define kSparkConnectionName		@"SparkServer_Debug"
 #else
@@ -30,11 +28,8 @@ enum {
 
 - (oneway void)shutdown;
 
-- (oneway void)enableTrigger:(in UInt32)uid;
-- (oneway void)disableTrigger:(in UInt32)uid;
-
-- (oneway void)addEntry:(in SparkEntry *)entry;
-- (oneway void)removeEntryAtIndex:(in UInt32)idx;
+//- (oneway void)addEntry:(in SparkFlatEntry *)entry;
+//- (oneway void)removeEntry:(in SparkFlatEntry *)entry;
 
 - (oneway void)addObject:(bycopy id)plist type:(in OSType)type;
 - (oneway void)updateObject:(bycopy id)plist type:(in OSType)type;

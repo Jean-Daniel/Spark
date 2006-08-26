@@ -61,10 +61,6 @@
   [sp_action setIcon:icon];
 }
 
-- (BOOL)isEditable {
-  return [sp_action isEditable];
-}
-
 #pragma mark -
 #pragma mark Private Methods
 - (void)setSparkAction:(SparkAction *)action {

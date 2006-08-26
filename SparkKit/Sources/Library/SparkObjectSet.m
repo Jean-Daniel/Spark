@@ -199,6 +199,12 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
     [object release];
   }
 }
+- (void)removeObjectWithUID:(UInt32)uid {
+  SparkObject *object = [self objectForUID:uid];
+  if (object)
+    [self removeObject:object];
+}
+
 - (void)removeObjectsInArray:(NSArray *)objects {
   SparkObject *item = nil;
   NSEnumerator *items = [objects objectEnumerator];

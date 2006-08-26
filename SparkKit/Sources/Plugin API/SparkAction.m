@@ -19,9 +19,9 @@
 
 #define ICON_SIZE		16
 
-static NSString * const kSparkActionVersionKey = @"Version";
-static NSString * const kSparkActionCategorieKey = @"Categorie";
-static NSString * const kSparkActionDescriptionKey = @"ShortDescription";
+static NSString * const kSparkActionFlagsKey = @"SAFlags";
+static NSString * const kSparkActionVersionKey = @"SAVersion";
+static NSString * const kSparkActionDescriptionKey = @"SADescription";
 
 #pragma mark -
 @implementation SparkAction
@@ -33,10 +33,11 @@ static NSString * const kSparkActionDescriptionKey = @"ShortDescription";
   
   UInt32 flags = 0;
   if (sp_saFlags.invalid) flags |= 1 << 0;
+  if (sp_saFlags.enabled) flags |= 1 << 1;
   [coder encodeInt:flags forKey:@"SAFlags"];
   [coder encodeInt:sp_version forKey:kSparkActionVersionKey];
   if (nil != sp_categorie)
-    [coder encodeObject:sp_categorie forKey:kSparkActionCategorieKey];
+    [coder encodeObject:sp_categorie forKey:@"SACategorie"];
   if (nil != sp_description)
     [coder encodeObject:sp_description forKey:kSparkActionDescriptionKey];
   return;
@@ -46,8 +47,9 @@ static NSString * const kSparkActionDescriptionKey = @"ShortDescription";
   if (self = [super initWithCoder:coder]) {
     UInt32 flags = [coder decodeIntForKey:@"SAFlags"];
     if (flags & (1 << 0)) sp_saFlags.invalid = 1;
+    if (flags & (1 << 1)) sp_saFlags.enabled = 1;
     sp_version = [coder decodeIntForKey:kSparkActionVersionKey];
-    [self setCategorie:[coder decodeObjectForKey:kSparkActionCategorieKey]];
+    [self setCategorie:[coder decodeObjectForKey:@"SACategorie"]];
     [self setActionDescription:[coder decodeObjectForKey:kSparkActionDescriptionKey]];
   }
   return self;
@@ -70,27 +72,37 @@ static NSString * const kSparkActionDescriptionKey = @"ShortDescription";
   if ([self version])
     [plist setObject:SKInt([self version]) forKey:kSparkActionVersionKey];
   
-  if (nil != sp_categorie)
-    [plist setObject:sp_categorie forKey:kSparkActionCategorieKey];
   if (nil != sp_description)
     [plist setObject:sp_description forKey:kSparkActionDescriptionKey];
-  
+
+  UInt32 flags = 0;
+  if (sp_saFlags.enabled) flags |= 1 << 0;
+  [plist setObject:SKUInt(flags) forKey:@"SAFlags"];
+
   return YES;
 }
 - (id)initWithSerializedValues:(NSDictionary *)plist {
   if (self = [super initWithSerializedValues:plist]) {
-    id version = [plist objectForKey:kSparkActionVersionKey];
+    NSNumber *version = [plist objectForKey:kSparkActionVersionKey];
+    if (!version)
+      version = [plist objectForKey:@"Version"];
     [self setVersion:(nil != version) ? [version intValue] : kSparkActionVersion_1_0];
+    
+    NSString *description = [plist objectForKey:kSparkActionDescriptionKey];
+    if (!description)
+      description = [plist objectForKey:@"ShortDescription"];
+    [self setActionDescription:description];
+    
+    UInt32 flags = [[plist objectForKey:@"SAFlags"] unsignedIntValue];
+    if (flags & (1 << 0)) [self setEnabled:YES];
     
     /* Update categorie */
     SparkPlugIn *plugin = [[SparkActionLoader sharedLoader] pluginForClass:[self class]];
     if (plugin && [plugin name]) {
       [self setCategorie:[plugin name]];
     } else {
-      [self setCategorie:[plist objectForKey:kSparkActionCategorieKey]];
+      [self setCategorie:@"<undefined>"];
     }
-    
-    [self setActionDescription:[plist objectForKey:kSparkActionDescriptionKey]];
   }
   return self;
 }
@@ -114,6 +126,12 @@ static NSString * const kSparkActionDescriptionKey = @"ShortDescription";
   [super dealloc];
 }
 
+- (NSString *)description {
+  return [NSString stringWithFormat:@"<%@ %p> {uid:%u name:%@ enabled:%@}",
+    [self class], self,
+    [self uid], [self name], [self isEnabled] ? @"YES" : @"NO"];
+}
+
 #pragma mark -
 #pragma mark Public Methods
 - (SparkAlert *)check {
@@ -127,13 +145,6 @@ static NSString * const kSparkActionDescriptionKey = @"ShortDescription";
 
 #pragma mark -
 #pragma mark Accessors
-- (BOOL)isEditable {
-  return sp_saFlags.editable;
-}
-- (void)setEditable:(BOOL)flag {
-  SKSetFlag(sp_saFlags.editable, flag);
-}
-
 - (NSImage *)icon {
   NSImage *icon = [super icon];
   if (!icon) {
@@ -155,15 +166,12 @@ static NSString * const kSparkActionDescriptionKey = @"ShortDescription";
 
 - (NSString *)categorie {
   if (!sp_categorie) {
-    id plugin = [[SparkActionLoader sharedLoader] plugInForAction:self];
+    SparkPlugIn *plugin = [[SparkActionLoader sharedLoader] plugInForAction:self];
     if (plugin) {
       [self setCategorie:[plugin name]];
     }
   }
   return sp_categorie;
-}
-- (void)setCategorie:(NSString *)categorie {
-  SKSetterCopy(sp_categorie, categorie);
 }
 
 - (NSString *)actionDescription {
@@ -200,6 +208,16 @@ static NSString * const kSparkActionDescriptionKey = @"ShortDescription";
 }
 - (void)setInvalid:(BOOL)flag {
   SKSetFlag(sp_saFlags.invalid, flag);
+}
+- (BOOL)isEnabled {
+  return sp_saFlags.enabled;
+}
+- (void)setEnabled:(BOOL)flag {
+  SKSetFlag(sp_saFlags.enabled, flag);
+}
+
+- (void)setCategorie:(NSString *)categorie {
+  SKSetterCopy(sp_categorie, categorie);
 }
 
 /* Compatibility */
