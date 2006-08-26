@@ -74,7 +74,7 @@ if (server = [self serverProxy]) {	\
       [se_server setProtocolForProxy:@protocol(SparkServer)];
       DLog(@"Server Connection OK");
     } else {
-      DLog(@"Server connection failed");
+      DLog(@"Server Connection down");
     }
   } @catch (id exception) {
     SKLogException(exception);
@@ -117,60 +117,6 @@ if (server = [self serverProxy]) {	\
   }
 }
 
-//- (void)registerNotification {
-//  id center = [NSNotificationCenter defaultCenter];
-//  /* Hotkey */
-//  [center addObserver:self
-//             selector:@selector(addKeyNotification:)
-//                 name:kSparkLibraryDidAddKeyNotification
-//               object:SparkDefaultLibrary()];
-//  [center addObserver:self
-//             selector:@selector(removeKeyNotification:)
-//                 name:kSparkLibraryDidRemoveKeyNotification
-//               object:SparkDefaultLibrary()];
-//  [center addObserver:self
-//             selector:@selector(updateKeyNotification:)
-//                 name:kSparkHotKeyDidChangeNotification
-//               object:nil];
-//  [center addObserver:self
-//             selector:@selector(keyStatDidChangeNotification:)
-//                 name:kSparkHotKeyStateDidChangeNotification
-//               object:nil];
-//}
-
-//#pragma mark -
-//#pragma mark HotKeys
-//- (void)addKeyNotification:(NSNotification *)aNotification {
-//  ShadowTrace();
-//  SparkRemoteMsgSend(addHotKey:, SparkSerializeObject(SparkNotificationObject(aNotification)), @"Add Key on server");
-//}
-//- (void)updateKeyNotification:(NSNotification *)aNotification {
-//  ShadowTrace();
-//  SparkRemoteMsgSend(updateHotKey:, SparkSerializeObject([aNotification object]), @"Update Key on server");
-//}
-//- (void)removeKeyNotification:(NSNotification *)aNotification {
-//  ShadowTrace();
-//  SparkRemoteMsgSend(removeHotKey:, [[SparkNotificationObject(aNotification) uid] unsignedIntValue], @"Remove Key from server");
-//}
-//
-//- (void)keyStatDidChangeNotification:(NSNotification *)aNotification {
-//  id key = [aNotification object];
-//  if (([key library] == SparkDefaultLibrary())
-//      && [SparkDefaultKeyLibrary() objectWithId:[key uid]]) {
-//    ShadowTrace();
-//    id<SparkServer> server;
-//    if (server = [self serverProxy]) {
-//      @try {
-//        [server setActive:[key isActive] forHotKey:[[key uid] unsignedIntValue]];
-//      }
-//      @catch (id exception) {
-//        SKLogException(exception);
-//      }
-//      DLog(@"State Change Notification");
-//    }
-//  }
-//}
-
 @end
 
 #if 0
@@ -188,7 +134,7 @@ if (server = [self serverProxy]) {	\
       if (daemonPath && ![daemonPath hasPrefix:sparkPath]) {
 #if !defined (DEBUG)
         if ([self serverProxy]) {
-          DLog(@"Shut Down old daemon");
+          DLog(@"Shut down old daemon");
           [self shutDownServer];
         } else {
           pid_t pid;

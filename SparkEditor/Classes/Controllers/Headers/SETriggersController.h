@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 @class SKTableView, SEEntryEditor;
-@class SparkList, SparkApplication, SETriggerEntrySet;
+@class SparkList, SparkApplication, SESparkEntrySet;
 @interface SETriggersController : NSObject {
   IBOutlet SKTableView *table;
   @private

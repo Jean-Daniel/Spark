@@ -63,7 +63,7 @@ BOOL SELibraryFilter(SparkObject *object, id ctxt) {
 
 static 
 BOOL SEOverwriteListFilter(SparkObject *object, id ctxt) {
-  SETriggerEntrySet *triggers = [[SEEntriesManager sharedManager] overwrites];
+  SESparkEntrySet *triggers = [[SEEntriesManager sharedManager] overwrites];
   return [triggers containsTrigger:(id)object];
 }
 
@@ -71,7 +71,7 @@ static
 BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
   Class kind = (Class)ctxt;
   if (kind) {
-    SETriggerEntrySet *triggers = [[SEEntriesManager sharedManager] snapshot];
+    SESparkEntrySet *triggers = [[SEEntriesManager sharedManager] snapshot];
     SparkAction *action = [triggers actionForTrigger:(id)object];
     if (action)
       return [action isKindOfClass:kind];
@@ -327,6 +327,8 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
 - (void)didReloadEntries:(NSNotification *)aNotification {
   /* Reload dynamic lists (plugins + overwrite) */
   [se_overwrite reload];
+  /* Reload library to notify list change */
+  [[se_content objectAtIndex:0] reload];
   [NSAllMapTableKeys(se_plugins) makeObjectsPerformSelector:@selector(reload)];
 }
 
@@ -334,7 +336,7 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
   unsigned idx = [table selectedRow];
   if (idx >= 0) {
     SparkList *list = [se_content objectAtIndex:idx];
-    SETriggerEntry *entry = [aNotification object];
+    SparkEntry *entry = [aNotification object];
     if (![list isDynamic]) {
       [list addObject:[entry trigger]];
     } else if (NSMapMember(se_plugins, list, NULL, NULL)) {

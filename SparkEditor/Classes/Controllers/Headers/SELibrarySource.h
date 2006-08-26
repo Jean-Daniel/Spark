@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class SETableView, SETriggerEntrySet;
+@class SETableView, SESparkEntrySet;
 @class SparkList, SparkApplication, SparkPlugIn;
 @interface SELibrarySource : NSObject {
   IBOutlet SETableView *table;

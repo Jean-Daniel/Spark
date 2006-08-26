@@ -21,7 +21,7 @@
 #import <SparkKit/SparkAction.h>
 #import <SparkKit/SparkTrigger.h>
 #import <SparkKit/SparkApplication.h>
-#import <SparkKit/SparkActionLoader.h>
+#import <SparkKit/SparkEntryManager.h>
 
 @implementation SETriggersController
 
@@ -61,7 +61,7 @@
     idx = [table clickedRow];
   }
   if (idx >= 0) {
-    SETriggerEntry *entry = [se_entries objectAtIndex:idx];
+    SparkEntry *entry = [se_entries objectAtIndex:idx];
     [[SEEntriesManager sharedManager] editEntry:entry modalForWindow:[sender window]];
   }
 }
@@ -76,9 +76,9 @@
     SparkTrigger *trigger;
     NSEnumerator *triggers = [se_list objectEnumerator];
     /*  Get current snapshot */
-    SETriggerEntrySet *snapshot = [[SEEntriesManager sharedManager] snapshot];
+    SESparkEntrySet *snapshot = [[SEEntriesManager sharedManager] snapshot];
     while (trigger = [triggers nextObject]) {
-      SETriggerEntry *entry = [snapshot entryForTrigger:trigger];
+      SparkEntry *entry = [snapshot entryForTrigger:trigger];
       if (entry) {
         [se_entries addObject:entry];
       }
@@ -115,14 +115,14 @@
 }
 
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
-  SETriggerEntry *entry = [se_entries objectAtIndex:rowIndex];
+  SparkEntry *entry = [se_entries objectAtIndex:rowIndex];
   if ([[aTableColumn identifier] isEqualToString:@"__item__"]) {
     return entry;
   } else {
     if ([[aTableColumn identifier] isEqualToString:@"trigger"]) {
-      return [[entry trigger] triggerDescription];
+      return [entry triggerDescription];
     } else if ([[aTableColumn identifier] isEqualToString:@"enabled"]) {
-      return SKBool([[entry trigger] isEnabled]);
+      return SKBool([SparkSharedManager() statusForEntry:entry]);
     } else {
       return [entry valueForKey:[aTableColumn identifier]];
     }
@@ -136,10 +136,10 @@
   
   /* Text field cell */
   if ([aCell respondsToSelector:@selector(setTextColor:)]) {
-    SETriggerEntry *entry = [se_entries objectAtIndex:rowIndex];
+    SparkEntry *entry = [se_entries objectAtIndex:rowIndex];
     SparkApplication *application = [[SEEntriesManager sharedManager] application];
     /* If Inherits */
-    if ([application uid] != 0 && kSEEntryTypeGlobal == [entry type]) {
+    if ([application uid] != 0 && [[entry application] uid] == 0) {
       [aCell setFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]];
       [aCell setTextColor:[aTableView isRowSelected:rowIndex] ? [NSColor selectedControlTextColor] : [NSColor darkGrayColor]];
     } else {
@@ -148,7 +148,7 @@
       if ([application uid] == 0) {
         [aCell setFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]];
       } else { /* Custom action */
-        if ([entry type] == kSEEntryTypeIgnore && [aCell respondsToSelector:@selector(setDrawLineOver:)])
+        if (![SparkSharedManager() statusForEntry:entry] && [aCell respondsToSelector:@selector(setDrawLineOver:)])
           [aCell setDrawLineOver:YES];
         [aCell setFont:[NSFont boldSystemFontOfSize:[NSFont smallSystemFontSize]]];
       }
@@ -157,12 +157,18 @@
 }
 
 - (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
-  SETriggerEntry *entry = [se_entries objectAtIndex:rowIndex];
+  SparkEntry *entry = [se_entries objectAtIndex:rowIndex];
   if ([[aTableColumn identifier] isEqualToString:@"enabled"]) {
-    [[entry trigger] setEnabled:[anObject boolValue]];
+    SparkApplication *application = [[SEEntriesManager sharedManager] application];
+    if ([application uid] == 0 || [[entry application] uid] != 0) {
+      [SparkSharedManager() setStatus:[anObject boolValue] forEntry:entry];
+    } else {
+      /* Inherits: should create an new entry */
+      DLog(@"Change Inherits status");
+    }
   } else if ([[aTableColumn identifier] isEqualToString:@"__item__"]) {
     if ([anObject length] > 0) {
-      [[entry action] setName:anObject];
+      [entry setName:anObject];
     } else {
       NSBeep();
       // Be more verbose maybe?

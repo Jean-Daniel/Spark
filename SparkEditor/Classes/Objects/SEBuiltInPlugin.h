@@ -8,19 +8,9 @@
 
 #import <SparkKit/SparkActionPlugIn.h>
 
-@interface SEIgnorePlugin : SparkActionPlugIn {
-
-}
-
-- (int)type;
-
-@end
-
 @interface SEInheritsPlugin : SparkActionPlugIn {
   
 }
-
-- (int)type;
 
 @end
 

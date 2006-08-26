@@ -15,6 +15,7 @@
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkObjectSet.h>
 #import <SparkKit/SparkApplication.h>
+#import <SparkKit/SparkEntryManager.h>
 
 #import <ShadowKit/SKSingleton.h>
 
@@ -26,11 +27,11 @@ NSString * const SEEntriesManagerDidCreateEntryNotification = @"SEEntriesManager
 
 - (id)init {
   if (self = [super init]) {
-    se_globals = [[SETriggerEntrySet alloc] init];
-    se_snapshot = [[SETriggerEntrySet alloc] init];
-    se_overwrites = [[SETriggerEntrySet alloc] init];
+    se_globals = [[SESparkEntrySet alloc] init];
+    se_snapshot = [[SESparkEntrySet alloc] init];
+    se_overwrites = [[SESparkEntrySet alloc] init];
     /* Init globals */
-    [se_globals addEntriesFromDictionary:[SparkSharedLibrary() triggersForApplication:0]];
+    [se_globals addEntriesFromArray:[SparkSharedManager() entriesForApplication:0]];
   }
   return self;
 }
@@ -44,13 +45,13 @@ NSString * const SEEntriesManagerDidCreateEntryNotification = @"SEEntriesManager
   [super dealloc];
 }
 
-- (SETriggerEntrySet *)globals {
+- (SESparkEntrySet *)globals {
   return se_globals;
 }
-- (SETriggerEntrySet *)snapshot {
+- (SESparkEntrySet *)snapshot {
   return se_snapshot;
 }
-- (SETriggerEntrySet *)overwrites {
+- (SESparkEntrySet *)overwrites {
   return se_overwrites;
 }
 
@@ -63,23 +64,10 @@ NSString * const SEEntriesManagerDidCreateEntryNotification = @"SEEntriesManager
 
   /* Add overwrite if needed */
   if ([se_app uid] != 0) {
-    NSDictionary *entries = [SparkSharedLibrary() triggersForApplication:[se_app uid]];
+    NSArray *entries = [SparkSharedManager() entriesForApplication:[se_app uid]];
+    
     if ([entries count]) {
-      SparkTrigger *key = nil;
-      NSEnumerator *keys = [entries keyEnumerator];
-      while (key = [keys nextObject]) {
-        SETriggerEntry *entry = [[SETriggerEntry alloc] initWithTrigger:key action:[entries objectForKey:key]];
-        
-        /* If not ignore, overwrite defaults action */
-        if (0 == [[entry action] uid]) {
-          [entry setType:kSEEntryTypeIgnore];
-        } else {
-          [entry setType:kSEEntryTypeOverwrite];
-        }
-        
-        [se_overwrites addEntry:entry];
-        [entry release];
-      }
+      [se_overwrites addEntriesFromArray:entries];
       /* Merge */
       [se_snapshot addEntriesFromEntrySet:se_overwrites];
     }
@@ -130,7 +118,7 @@ NSString * const SEEntriesManagerDidCreateEntryNotification = @"SEEntriesManager
         contextInfo:nil];
 }
 
-- (void)editEntry:(SETriggerEntry *)anEntry modalForWindow:(NSWindow *)aWindow {
+- (void)editEntry:(SparkEntry *)anEntry modalForWindow:(NSWindow *)aWindow {
   SEEntryEditor *editor = [self editor];
   [editor setEntry:anEntry];
   
@@ -141,67 +129,107 @@ NSString * const SEEntriesManagerDidCreateEntryNotification = @"SEEntriesManager
         contextInfo:nil];
 }
 
-- (BOOL)editor:(SEEntryEditor *)theEditor shouldCreateEntry:(SETriggerEntry *)entry {
-  /* We have to update manager first, because dynamic lists filters use it */
-  [[entry action] setUID:[SparkSharedActionSet() nextUID]];
-  [[entry trigger] setUID:[SparkSharedTriggerSet() nextUID]];
+- (BOOL)editor:(SEEntryEditor *)theEditor shouldCreateEntry:(SparkEntry *)entry {
+  /* First validate entry type: check if trigger do not already exist for globals */
+//  SETriggerEntry *global;
+//  SparkTrigger *trig = [entry trigger];
+//  NSEnumerator *globals = [se_globals entryEnumerator];
+//  while (global = [globals nextObject]) {
+//    if ([trig isEqualToTrigger:[global trigger]]) {
+//      [entry setTrigger:[global trigger]];
+//      break;
+//    }
+//  }
   
-  /* Create an entry with new uid */
-  SparkEntry spEntry;
-  spEntry.action = [[entry action] uid];
-  spEntry.trigger = [[entry trigger] uid];
-  spEntry.application = [[theEditor application] uid];
-  
-  if (0 == spEntry.application) {
-    [se_globals addEntry:entry];
-  } else if ([[self application] uid] == spEntry.application) {
-    [se_overwrites addEntry:entry];
-  }
-  [se_snapshot addEntry:entry];
-  
-  /* Then we add the object into the library */
-  [SparkSharedTriggerSet() addObject:[entry trigger]];
-  [SparkSharedActionSet() addObject:[entry action]];
-  
-  /* And we create the library entry */
-  [SparkSharedLibrary() addEntry:&spEntry];
-  
-  /* Enable the new trigger if possible */
-  // TODO
-  
-  /* Notify listeners */
-  [[NSNotificationCenter defaultCenter] postNotificationName:SEEntriesManagerDidCreateEntryNotification
-                                                      object:entry
-                                                    userInfo:nil];
+//  /* Get UID "manually" to update manager first */
+//  [[entry action] setUID:[SparkSharedActionSet() nextUID]];
+//  /* If trigger is not already in the library */
+//  if (![SparkSharedTriggerSet() containsObject:[entry trigger]])
+//    [[entry trigger] setUID:[SparkSharedTriggerSet() nextUID]];
+//  
+//  /* Create an entry with new uid */
+//  SparkEntry spEntry;
+//  spEntry.action = [[entry action] uid];
+//  spEntry.trigger = [[entry trigger] uid];
+//  spEntry.application = [[theEditor application] uid];
+//  
+//  /* We have to update manager first, because dynamic lists filters use it */
+//  if (0 == spEntry.application) {
+//    [se_globals addEntry:entry];
+//  } else if ([[self application] uid] == spEntry.application) {
+//    [se_overwrites addEntry:entry];
+//  }
+//  [se_snapshot addEntry:entry];
+//  
+//  /* Then we add the object into the library */
+//  [SparkSharedTriggerSet() addObject:[entry trigger]];
+//  [SparkSharedActionSet() addObject:[entry action]];
+//  
+//  /* And we create the library entry */
+//  [SparkSharedLibrary() addEntry:&spEntry];
+//  
+//  /* Enable the new action if possible */
+//  // TODO
+//  
+//  /* Notify listeners */
+//  [[NSNotificationCenter defaultCenter] postNotificationName:SEEntriesManagerDidCreateEntryNotification
+//                                                      object:entry
+//                                                    userInfo:nil];
   return YES;
 }
 
-- (BOOL)editor:(SEEntryEditor *)theEditor shouldUpdateEntry:(SETriggerEntry *)entry {
-  SETriggerEntry *orig = [theEditor entry];
-  
-  /* If global context and trigger change, should ask user if we have to change all entries */
-  if ([[self application] uid] == 0 && ![[entry trigger] isEqualToTrigger:[orig trigger]]) {
-    DLog(@"Ask for change");
-    /* If change all */
-    if (YES) {
-      /* Set UID */
-      [[entry trigger] setUID:[[orig trigger] uid]];
-      /* Update old entry */
-      [orig setTrigger:[entry trigger]];
-      /* Update library */
-      [SparkSharedTriggerSet() updateObject:[entry trigger]];
-    } else {
-      /* Create an new trigger */
-      [[entry trigger] setUID:[SparkSharedTriggerSet() nextUID]];
-      /* Should remove old trigger if no longer used */
-      // TODO
-      
-      /* Update old entry */
-      [orig setTrigger:[entry trigger]];
-      /* Update library */
-      [SparkSharedTriggerSet() addObject:[entry trigger]];
-    }
-  }
+- (BOOL)editor:(SEEntryEditor *)theEditor shouldUpdateEntry:(SparkEntry *)entry {
+//  SETriggerEntry *orig = [theEditor entry];
+//  
+//  /* First case: global context */
+//  if ([[self application] uid] == 0) {
+//    /* First set uid */
+//    [[entry action] setUID:[[orig action] uid]];
+//    /* Then update original entry */
+//    [orig setAction:[entry action]];
+//    /* Finally update library */
+//    [SparkSharedActionSet() updateObject:[orig action]];
+//  } else {
+//    int tOrig = [orig type];
+//    int tEntry = [entry type];
+//    if (tOrig == tEntry) {
+//      if (kSEEntryTypeOverwrite == tOrig) {
+//        // Update
+//      }
+//    } else if (kSEEntryTypeGlobal == tOrig) {
+//      // Create
+//    } else if (kSEEntryTypeGlobal == tEntry) {
+//      // Remove
+//    } else {
+//      // Update
+//    }
+//  }
+//  
+//  return YES;
+//  /* If global context and trigger change, should ask user if we have to change all entries */
+//  if ([[self application] uid] == 0 && ![[entry trigger] isEqualToTrigger:[orig trigger]]) {
+//    DLog(@"Ask for change");
+//    /* If change all */
+//    if (YES) {
+//      /* Set UID */
+//      [[entry trigger] setUID:[[orig trigger] uid]];
+//      /* Update old entry */
+//      [orig setTrigger:[entry trigger]];
+//      /* Update library */
+//      [SparkSharedTriggerSet() updateObject:[entry trigger]];
+//    } else {
+//      /* Create an new trigger */
+//      [[entry trigger] setUID:[SparkSharedTriggerSet() nextUID]];
+//      /* Should remove old trigger if no longer used */
+//      // TODO
+//      
+//      /* Update old entry */
+//      [orig setTrigger:[entry trigger]];
+//      /* Update library */
+//      [SparkSharedTriggerSet() addObject:[entry trigger]];
+//    }
+//  }
+//  return YES;
   return YES;
 }
 

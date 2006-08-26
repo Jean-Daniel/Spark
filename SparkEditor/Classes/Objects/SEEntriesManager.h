@@ -9,22 +9,23 @@
 #import <Cocoa/Cocoa.h>
 
 @class SparkLibrary, SparkApplication, SparkPlugIn;
-@class SETriggerEntrySet, SEEntryEditor, SETriggerEntry;
+@class SESparkEntrySet, SEEntryEditor;
+@class SparkEntry;
 @interface SEEntriesManager : NSObject {
   @private
   SEEntryEditor *se_editor;
   SparkApplication *se_app;
-  SETriggerEntrySet *se_globals;
-  SETriggerEntrySet *se_snapshot;
-  SETriggerEntrySet *se_overwrites;
+  SESparkEntrySet *se_globals;
+  SESparkEntrySet *se_snapshot;
+  SESparkEntrySet *se_overwrites;
 }
 
 /* All globals entries */
-- (SETriggerEntrySet *)globals;
+- (SESparkEntrySet *)globals;
 /* Current entryset */
-- (SETriggerEntrySet *)snapshot;
+- (SESparkEntrySet *)snapshot;
 /* Current application entries */
-- (SETriggerEntrySet *)overwrites;
+- (SESparkEntrySet *)overwrites;
 
 - (SparkApplication *)application;
 - (void)setApplication:(SparkApplication *)anApplication;
@@ -32,7 +33,7 @@
 - (void)removeEntries:(NSArray *)entries;
 
 - (void)createEntry:(SparkPlugIn *)aPlugin modalForWindow:(NSWindow *)aWindow;
-- (void)editEntry:(SETriggerEntry *)anEntry modalForWindow:(NSWindow *)aWindow;
+- (void)editEntry:(SparkEntry *)anEntry modalForWindow:(NSWindow *)aWindow;
 
 @end
 

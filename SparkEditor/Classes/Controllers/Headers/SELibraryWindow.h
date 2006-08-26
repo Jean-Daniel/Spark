@@ -10,7 +10,7 @@
 
 @class SparkList;
 @class SETableView, SKTableView, SKTableDataSource;
-@class SEApplicationView, SETriggerEntrySet, SEEntryEditor;
+@class SEApplicationView, SESparkEntrySet, SEEntryEditor;
 @class SELibrarySource, SEApplicationSource, SETriggersController;
 @interface SELibraryWindow : NSWindowController {
   IBOutlet NSSearchField *search;

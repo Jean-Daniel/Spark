@@ -155,8 +155,10 @@
     [hkey setModifier:key.modifiers];
     [hkey setCharacter:key.character];
     SETriggerEntry *entry = [[SETriggerEntry alloc] initWithTrigger:hkey action:[se_plugin sparkAction]];
-    if ([se_plugin respondsToSelector:@selector(type)]) {
-      [entry setType:[(SEIgnorePlugin *)se_plugin type]];
+    if ([se_plugin respondsToSelector:@selector(se_type)]) {
+      [entry setType:[(SEIgnorePlugin *)se_plugin se_type]];
+    } else { /* Standard Spark Plugin: Set Global if application is 0 else set overwrite */
+      [entry setType:[[self application] uid] == 0 ? kSEEntryTypeGlobal : kSEEntryTypeOverwrite];
     }
     if (se_entry) {
       [self update:entry];
@@ -342,8 +344,11 @@
       BOOL edit = NO;
       Class cls = [aPlugin actionClass];
       SparkAction *action = nil;
-      /* Special built-in plugins, or good plugin */
-      if (!cls || [[se_entry action] isKindOfClass:cls]) {
+      
+      if (!cls) { /* Special built-in plugins, do not copy */
+        edit = YES;
+        action = [se_entry action];
+      } else if ([[se_entry action] isKindOfClass:cls]) { /* If is action editor, set a copy */ 
         edit = YES;
         action = [se_entry action];
         if (SKImplementsSelector(action, @selector(copyWithZone:))) {
@@ -352,10 +357,12 @@
           DLog(@"WARNING: %@ does not implements NSCopying.", [action class]);
           action = [action duplicate];
         }
-      } else {
+      } else { /* Other cases, create new action */
         action = [[[cls alloc] init] autorelease];
       }
+      /* Set plugin's spark action */
       [se_plugin setSparkAction:action];
+      /* Send plugin API notification */
       [se_plugin loadSparkAction:action toEdit:edit];
     }
   }
