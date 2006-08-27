@@ -9,7 +9,7 @@
 #import "SELibrarySource.h"
 #import "SETableView.h"
 #import "SEHeaderCell.h"
-#import "SETriggerEntry.h"
+#import "SESparkEntrySet.h"
 #import "SELibraryWindow.h"
 #import "SEEntriesManager.h"
 
@@ -332,6 +332,7 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
   [NSAllMapTableKeys(se_plugins) makeObjectsPerformSelector:@selector(reload)];
 }
 
+/* Adjust list selection */
 - (void)didCreateEntry:(NSNotification *)aNotification {
   unsigned idx = [table selectedRow];
   if (idx >= 0) {

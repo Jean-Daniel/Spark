@@ -7,7 +7,7 @@
  */
 
 #import "SEEntryEditor.h"
-#import "SETriggerEntry.h"
+#import "SESparkEntrySet.h"
 
 #import "SETableView.h"
 #import "SEHeaderCell.h"
@@ -17,6 +17,7 @@
 
 #import <SparkKit/SparkPlugIn.h>
 #import <SparkKit/SparkHotKey.h>
+#import <SparkKit/SparkEntry.h>
 #import <SparkKit/SparkPrivate.h>
 #import <SparkKit/SparkApplication.h>
 #import <SparkKit/SparkActionLoader.h>
@@ -83,7 +84,7 @@
   NSSize scur = [[self window] frame].size;
   NSSize delta = { scur.width - smin.width, scur.height - smin.height };
   
-  se_min = [pluginView frame].size;
+  se_min = [ibPlugin frame].size;
   se_min.width -= delta.width;
   se_min.height -= delta.height;
 }
@@ -106,11 +107,11 @@
   NSResetMapTable(se_instances);
 }
 
-- (void)create:(SETriggerEntry *)entry {
+- (void)create:(SparkEntry *)entry {
   if (!SKDelegateHandle(se_delegate, editor:shouldCreateEntry:) || [se_delegate editor:self shouldCreateEntry:entry])
     [self close:nil];
 }
-- (void)update:(SETriggerEntry *)entry {
+- (void)update:(SparkEntry *)entry {
   if (!SKDelegateHandle(se_delegate, editor:shouldUpdateEntry:) || [se_delegate editor:self shouldUpdateEntry:entry])
     [self close:nil];
 }
@@ -118,16 +119,18 @@
 - (IBAction)ok:(id)sender {
   /* Check trigger */
   NSAlert *alert = nil;
+  /* End editing if needed */
+  [trap validate:sender];
   SEHotKey key = [trap hotkey];
   if (kHKInvalidVirtualKeyCode == key.keycode || kHKNilUnichar == key.character) {
     alert = [NSAlert alertWithMessageText:NSLocalizedStringFromTable(@"INVALID_TRIGGER_ALERT",
-                                                                     @"EntryEditor", @"Invalid HotKey - Title")
+                                                                     @"SEEditor", @"Invalid HotKey - Title")
                             defaultButton:NSLocalizedStringFromTable(@"OK",
-                                                                     @"EntryEditor", @"Alert default button")
+                                                                     @"SEEditor", @"Alert default button")
                           alternateButton:nil
                               otherButton:nil
                 informativeTextWithFormat:NSLocalizedStringFromTable(@"INVALID_TRIGGER_ALERT_MSG",
-                                                                     @"EntryEditor", @"Invalid HotKey - Message")];
+                                                                     @"SEEditor", @"Invalid HotKey - Message")];
   }
   /* Then check action */
   if (!alert)
@@ -138,27 +141,28 @@
     NSString *name = [[se_plugin sparkAction] name];
     if ([[name stringByTrimmingWhitespace] length] == 0) {
       alert = [NSAlert alertWithMessageText:NSLocalizedStringFromTable(@"EMPTY_NAME_ALERT",
-                                                                       @"EntryEditor", @"Empty Action Name - Title")
+                                                                       @"SEEditor", @"Empty Action Name - Title")
                               defaultButton:NSLocalizedStringFromTable(@"OK",
-                                                                       @"EntryEditor", @"Alert default button")
+                                                                       @"SEEditor", @"Alert default button")
                             alternateButton:nil
                                 otherButton:nil
                   informativeTextWithFormat:NSLocalizedStringFromTable(@"EMPTY_NAME_ALERT_MSG",
-                                                                       @"EntryEditor", @"Empty Action Name - Message")];
+                                                                       @"SEEditor", @"Empty Action Name - Message")];
     }
   }
   if (alert) { 
     [alert runModal];
   } else {
-    SparkHotKey *hkey = [[SparkHotKey alloc] init];
-    [hkey setKeycode:key.keycode];
-    [hkey setModifier:key.modifiers];
-    [hkey setCharacter:key.character];
-    SETriggerEntry *entry = [[SETriggerEntry alloc] initWithTrigger:hkey action:[se_plugin sparkAction]];
-    if ([se_plugin respondsToSelector:@selector(se_type)]) {
-      [entry setType:[(SEIgnorePlugin *)se_plugin se_type]];
-    } else { /* Standard Spark Plugin: Set Global if application is 0 else set overwrite */
-      [entry setType:[[self application] uid] == 0 ? kSEEntryTypeGlobal : kSEEntryTypeOverwrite];
+    SparkEntry *entry = nil;
+    if (![se_plugin isKindOfClass:[SEInheritsPlugin class]]) {
+      SparkHotKey *hkey = [[SparkHotKey alloc] init];
+      [hkey setKeycode:key.keycode];
+      [hkey setModifier:key.modifiers];
+      [hkey setCharacter:key.character];
+      entry = [[SparkEntry alloc] initWithAction:[se_plugin sparkAction]
+                                         trigger:hkey
+                                     application:[self application]];
+      [hkey release];
     }
     if (se_entry) {
       [self update:entry];
@@ -166,7 +170,6 @@
       [self create:entry];
     }
     [entry release];
-    [hkey release];
   }
 }
 
@@ -174,13 +177,23 @@
   [self close:sender];
 }
 
+- (IBAction)openHelp:(id)sender {
+  // Open plugin help (selected plugin)
+  //[[NSApp delegate] showPlugInHelpPage:[[se_plugin class] plugInName]];
+//  [[NSHelpManager sharedHelpManager] openHelpAnchor:@"SparkMultipleActionsKey"
+//                                             inBook:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleHelpBookName"]];
+}
+
+#pragma mark -
 - (void)updatePlugins {
-  /* plugins list should contains global and ignore if:
+  /* plugins list should contains "Inherit" if:
    - Application uid != 0.
    - Edit an existing entry (is updating).
+   - Not a specific action (else global action is nil).
   */
-  BOOL advanced = [[appField application] uid] != 0;
+  BOOL advanced = [[self application] uid] != 0;
   advanced = advanced && (se_entry != nil);
+  advanced = advanced && ([se_entry type] != kSparkEntryTypeSpecific);
   
   if (advanced) {
     if ([[se_plugins objectAtIndex:0] actionClass] != Nil) {
@@ -191,14 +204,9 @@
       [se_plugins insertObject:plugin atIndex:0];
       [plugin release];
       
-      /* Create Ignore plugin */
-      plugin = [[SparkPlugIn alloc] initWithClass:[SEIgnorePlugin class]];
-      [se_plugins insertObject:plugin atIndex:1];
-      [plugin release];
-      
       plugin = [[SparkPlugIn alloc] init];
       [plugin setName:SETableSeparator];
-      [se_plugins insertObject:plugin atIndex:2];
+      [se_plugins insertObject:plugin atIndex:1];
       [plugin release];
       /* Reload new plugins */
       [typeTable reloadData];
@@ -206,7 +214,7 @@
   } else {
     if ([[se_plugins objectAtIndex:0] actionClass] == Nil) {
       /* Should remove custom plugins */
-      [se_plugins removeObjectsInRange:NSMakeRange(0, 3)];
+      [se_plugins removeObjectsInRange:NSMakeRange(0, 2)];
       /* Reload to remove plugins */
       [typeTable reloadData];
     }
@@ -217,10 +225,10 @@
   return row >= 0 ? [se_plugins objectAtIndex:row] : nil;
 }
 
-- (SETriggerEntry *)entry {
+- (SparkEntry *)entry {
   return se_entry;
 }
-- (void)setEntry:(SETriggerEntry *)anEntry {
+- (void)setEntry:(SparkEntry *)anEntry {
   SKSetterRetain(se_entry, anEntry);
   
   /* Update plugins list if needed */
@@ -230,27 +238,27 @@
   SparkPlugIn *type = nil;
   if (se_entry) {
     switch ([se_entry type]) {
-      case kSEEntryTypeIgnore:
-        type = [se_plugins objectAtIndex:1];
-        [trap setEnabled:NO];
-        break;
-      case kSEEntryTypeGlobal:
-        if ([[appField application] uid] != 0) {
+      case kSparkEntryTypeDefault:
+      case kSparkEntryTypeWeakOverWrite:
+        if ([[self application] uid] != 0) {
           type = [se_plugins objectAtIndex:0];
           [trap setEnabled:NO];
           break;
         }
-        // else fall througt
-      case kSEEntryTypeOverwrite:
+        // else fall through
+      default:
+        // TODO. trap should not be enabled ?
         type = [[SparkActionLoader sharedLoader] plugInForAction:[se_entry action]];
         [trap setEnabled:YES];
         break;
     }
-    [ibConfirm setTitle:@"Update"];
+    [ibConfirm setTitle:NSLocalizedStringFromTable(@"ENTRY_EDITOR_UPDATE",
+                                                   @"SEEditor", @"Entry Editor Update Button")];
   } else {
     // set create
     [trap setEnabled:YES];
-    [ibConfirm setTitle:@"Create"];
+    [ibConfirm setTitle:NSLocalizedStringFromTable(@"ENTRY_EDITOR_CREATE",
+                                                   @"SEEditor", @"Entry Editor Update Button")];
   }
   if (type)
     [self setActionType:type];
@@ -314,16 +322,16 @@
   if (first && first != se_view) {
     [trap setNextKeyView:first];
     if (last) {
-      [last setNextKeyView:[pluginView nextValidKeyView]];
+      [last setNextKeyView:[ibPlugin nextValidKeyView]];
     } else {
-      [first setNextKeyView:[pluginView nextValidKeyView]];
+      [first setNextKeyView:[ibPlugin nextValidKeyView]];
     }
   } else {
     /* Could not create a valid loop, ask he window to do it */
     if ([[self window] respondsToSelector:@selector(recalculateKeyViewLoop)]) {
       [[self window] recalculateKeyViewLoop];
     } else {
-      [trap setNextKeyView:[pluginView nextValidKeyView]];
+      [trap setNextKeyView:[ibPlugin nextValidKeyView]];
     }
   }
 }
@@ -365,7 +373,13 @@
       /* Send plugin API notification */
       [se_plugin loadSparkAction:action toEdit:edit];
     }
-  }
+  } /* if (!se_plugin) */
+  
+  /* Configure Help Button */
+  BOOL hasHelp = nil != [[se_plugin class] helpFile];
+  [ibHelp setHidden:!hasHelp];
+  [ibHelp setEnabled:hasHelp];
+  
   /* Remove previous view */
   if (se_view != [se_plugin actionView]) {
     [se_view removeFromSuperview];
@@ -397,7 +411,7 @@
     [se_view setFrame:vrect];
     
     /* current size */
-    NSSize csize = [pluginView frame].size;
+    NSSize csize = [ibPlugin frame].size;
     /* destination rect */
     NSRect drect = vrect;
     drect.size.width = MAX(NSWidth(vrect), se_min.width);
@@ -432,7 +446,7 @@
     }
     [[self window] setContentMaxSize:smax];
     
-    [pluginView addSubview:se_view];
+    [ibPlugin addSubview:se_view];
     [self recalculateKeyViewLoop];
     
     unsigned row = [se_plugins indexOfObject:aPlugin];
@@ -480,8 +494,13 @@
 @implementation SETrapWindow
 
 - (NSTimeInterval)animationResizeTime:(NSRect)newFrame {
+  NSEvent *event = [NSApp currentEvent];
   float delta = ABS(NSHeight([self frame]) - NSHeight(newFrame));
-  return (0.13 * delta / 150.);
+  if (([event modifierFlags] & NSDeviceIndependentModifierFlagsMask) == NSShiftKeyMask) {
+    return (1.25f * delta / 150.);
+  } else {
+    return (0.13 * delta / 150.);
+  }
 }
 
 @end

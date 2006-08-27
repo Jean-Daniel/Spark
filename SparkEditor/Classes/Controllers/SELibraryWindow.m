@@ -10,7 +10,7 @@
 
 #import "SEHeaderCell.h"
 #import "SEEntryEditor.h"
-#import "SETriggerEntry.h"
+#import "SESparkEntrySet.h"
 #import "SELibrarySource.h"
 #import "SEEntriesManager.h"
 #import "SEApplicationView.h"

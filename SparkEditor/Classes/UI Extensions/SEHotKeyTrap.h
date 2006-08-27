@@ -54,4 +54,8 @@ typedef struct _SEHotKey {
 - (BOOL)isEnabled;
 - (void)setEnabled:(BOOL)flag;
 
+- (IBAction)validate:(id)sender;
+- (IBAction)delete:(id)sender;
+- (IBAction)cancel:(id)sender;
+
 @end

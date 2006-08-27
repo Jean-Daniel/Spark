@@ -1,12 +1,12 @@
 /*
- *  SETriggerEntry.m
+ *  SESparkEntrySet.m
  *  Spark Editor
  *
  *  Created by Black Moon Team.
  *  Copyright (c) 2004 - 2006 Shadow Lab. All rights reserved.
  */
 
-#import "SETriggerEntry.h"
+#import "SESparkEntrySet.h"
 
 #import <SparkKit/SparkPrivate.h>
 
@@ -39,6 +39,10 @@
   [super dealloc];
 }
 
+#pragma mark -
+- (unsigned)count {
+  return [se_entries count];
+}
 - (void)removeAllEntries {
   NSResetMapTable(se_set);
   [se_entries removeAllObjects];

@@ -148,9 +148,11 @@ NSArray *gSortByNameDescriptors = nil;
   SparkDaemonStatus status = [[aNotification object] serverStatus];
   NSString *title = nil;
   if (kSparkDaemonStarted == status)
-    title = NSLocalizedString(@"ACTIVE_SPARK_MENU", @"Spark Daemon Menu Title * Active *");
+    title = NSLocalizedString(@"ACTIVE_SPARK_MENU", 
+                              @"Spark Daemon Menu Title * Active *");
   else
-    title = NSLocalizedString(@"DEACTIVE_SPARK_MENU", @"Spark Daemon Menu Title * Desactive *");
+    title = NSLocalizedString(@"DEACTIVE_SPARK_MENU", 
+                              @"Spark Daemon Menu Title * Desactive *");
   [statusMenuItem setTitle:title];
 }
 
@@ -514,7 +516,8 @@ NSArray *gSortByNameDescriptors = nil;
   SparkPlugIn *plugin;
   NSEnumerator *plugins = [items objectEnumerator];
   while (plugin = [plugins nextObject]) {
-    NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"ABOUT_PLUGIN_MENU_ITEM", @"About Plugin (%@ => Plugin name)"), [plugin name]]
+    NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"ABOUT_PLUGIN_MENU_ITEM",
+                                                                                                          @"About Plugin (%@ => Plugin name)"), [plugin name]]
                                                       action:@selector(aboutPlugin:) keyEquivalent:@""];
     [menuItem setImage:[plugin icon]];
     [menuItem setRepresentedObject:plugin];
@@ -527,7 +530,9 @@ NSArray *gSortByNameDescriptors = nil;
   SparkPlugIn *plugin = [sender representedObject];
   NSMutableDictionary *opts = [NSMutableDictionary dictionary];
   
-  [opts setObject:[NSString stringWithFormat:NSLocalizedString(@"ABOUT_PLUGIN_BOX_TITLE", @"About Plugin (%@ => Plugin name)"), [plugin name]] forKey:@"ApplicationName"];
+  [opts setObject:[NSString stringWithFormat:NSLocalizedString(@"ABOUT_PLUGIN_BOX_TITLE", 
+                                                               @"About Plugin (%@ => Plugin name)"), [plugin name]] 
+           forKey:@"ApplicationName"];
   NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:[plugin path]];
   [icon setSize:NSMakeSize(64, 64)];
   [opts setObject:icon forKey:@"ApplicationIcon"];

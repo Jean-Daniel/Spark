@@ -12,11 +12,13 @@
 @class SETableView, SEApplicationView, SEHotKeyTrap;
 @class SparkEntry;
 @interface SEEntryEditor : SKWindowController {
-  IBOutlet NSView *pluginView;
-  IBOutlet SETableView *typeTable;
+  IBOutlet NSView *ibPlugin;
   IBOutlet SEHotKeyTrap *trap;
-  IBOutlet NSButton *ibConfirm;
+  IBOutlet SETableView *typeTable;
   IBOutlet SEApplicationView *appField;
+  
+  IBOutlet NSButton *ibHelp;
+  IBOutlet NSButton *ibConfirm;
   @private
     NSSize se_min;
   NSView *se_view; /* current view */

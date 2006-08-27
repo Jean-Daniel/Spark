@@ -373,8 +373,23 @@ static NSImage *_HKCreateShading(NSControlTint tint);
   [super keyDown:theEvent];
 }
 
-- (void)cancelOperation:(id)sender {
-  ShadowTrace();
+- (IBAction)validate:(id)sender {
+  if (se_htFlags.trap) {
+    [self save];
+    [self setTrapping:NO];
+  }
+}
+
+- (IBAction)cancel:(id)sender {
+  if (se_htFlags.trap) {
+    [self revert];
+    [self setTrapping:NO];
+  }
+}
+- (IBAction)delete:(id)sender {
+  if (!se_htFlags.trap && ![self isEmpty]) {
+    [self clear];
+  }
 }
 
 #pragma mark -
@@ -603,20 +618,14 @@ static NSImage *_HKCreateShading(NSControlTint tint) {
 - (void)accessibilityPerformAction:(NSString *)action {
   if ([action isEqualToString:NSAccessibilityConfirmAction]) {
     if (se_htFlags.trap) {
-      [self save];
-      [self setTrapping:NO];
+      [self validate:nil];
     } else {
       [self setTrapping:YES];
     }
   } else if ([action isEqualToString:NSAccessibilityCancelAction]) {
-    if (se_htFlags.trap) {
-      [self revert];
-      [self setTrapping:NO];
-    }
+    [self cancel:nil];
   } else if ([action isEqualToString:NSAccessibilityDeleteAction]) {
-    if (!se_htFlags.trap && ![self isEmpty]) {
-      [self clear];
-    }
+    [self delete:nil];
   } else {
     [super accessibilityPerformAction:action];
   }

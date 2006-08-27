@@ -1,5 +1,5 @@
 /*
- *  SETriggerEntry.h
+ *  SESparkEntrySet.h
  *  Spark Editor
  *
  *  Created by Black Moon Team.
@@ -22,6 +22,9 @@ NSArray *gSortByNameDescriptors;
   NSMapTable *se_set;
   NSMutableArray *se_entries;
 }
+
+- (unsigned)count;
+
 - (void)removeAllEntries;
 
 - (void)addEntry:(SparkEntry *)entry;

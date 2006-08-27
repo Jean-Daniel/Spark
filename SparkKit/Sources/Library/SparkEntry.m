@@ -43,6 +43,13 @@
   return [NSString stringWithFormat:@"{ Trigger: %@, Action: %@ }", sp_trigger, sp_action];
 }
 
+- (BOOL)isEqualToEntry:(SparkEntry *)anEntry {
+  return
+  [sp_action uid] == [[anEntry action] uid] &&
+  [sp_trigger uid] == [[anEntry trigger] uid] &&
+  [sp_application uid] == [[anEntry application] uid];
+}
+
 #pragma mark -
 - (SparkAction *)action {
   return sp_action;
@@ -63,6 +70,13 @@
 }
 - (void)setApplication:(SparkApplication *)anApplication {
   SKSetterRetain(sp_application, anApplication);
+}
+
+- (SparkEntryType)type {
+  return sp_seFlags.type;
+}
+- (void)setType:(SparkEntryType)type {
+  sp_seFlags.type = type;
 }
 
 - (BOOL)isEnabled {

@@ -27,6 +27,7 @@ typedef struct _SparkLibraryEntry {
 - (id)initWithLibrary:(SparkLibrary *)aLibrary;
 
 - (void)addEntry:(SparkEntry *)anEntry;
+- (void)updateEntry:(SparkEntry *)anEntry;
 - (void)removeEntry:(SparkEntry *)anEntry;
 
 - (BOOL)statusForEntry:(SparkEntry *)anEntry;
@@ -36,10 +37,15 @@ typedef struct _SparkLibraryEntry {
 - (NSArray *)entriesForTrigger:(UInt32)aTrigger;
 - (NSArray *)entriesForApplication:(UInt32)anApplication;
 
+- (BOOL)containsEntryForAction:(UInt32)anAction;
+- (BOOL)containsEntryForTrigger:(UInt32)aTrigger;
+- (BOOL)containsEntryForApplication:(UInt32)anApplication;
+
 - (BOOL)containsEntryForTrigger:(UInt32)aTrigger application:(UInt32)anApplication;
+- (SparkEntry *)entryForTrigger:(UInt32)aTrigger application:(UInt32)anApplication;
 - (SparkAction *)actionForTrigger:(UInt32)aTrigger application:(UInt32)anApplication;
 
-/* Do not use */
+/* Private */
 - (void)addLibraryEntry:(SparkLibraryEntry *)anEntry;
 
 @end
