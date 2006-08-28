@@ -27,7 +27,8 @@ NSArray *gSortByNameDescriptors;
 
 - (void)removeAllEntries;
 
-- (void)addEntry:(SparkEntry *)entry;
+- (void)addEntry:(SparkEntry *)anEntry;
+- (void)replaceEntry:(SparkEntry *)anEntry withEntry:(SparkEntry *)newEntry;
 
 - (void)addEntriesFromEntrySet:(SESparkEntrySet *)set;
 - (void)addEntriesFromArray:(NSArray *)entries;

@@ -134,6 +134,7 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
 
 - (BOOL)addObject:(SparkObject *)object {
   NSParameterAssert(object != nil);
+  NSParameterAssert(![self containsObject:object]);
   @try {
     if (![self containsObject:object]) {
       if (![object uid]) {

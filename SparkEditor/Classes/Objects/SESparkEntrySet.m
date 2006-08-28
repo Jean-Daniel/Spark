@@ -58,6 +58,15 @@
   [se_entries addObject:entry];
   NSMapInsert(se_set, [entry trigger], entry);
 }
+- (void)replaceEntry:(SparkEntry *)anEntry withEntry:(SparkEntry *)newEntry {
+  unsigned idx = [se_entries indexOfObjectIdenticalTo:anEntry];
+  NSAssert(idx != NSNotFound, @"Invalid entry parameter.");
+  
+  [se_entries replaceObjectAtIndex:idx withObject:newEntry];
+  NSMapRemove(se_set, [anEntry trigger]);
+  NSMapInsert(se_set, [newEntry trigger], newEntry);
+}
+
 - (void)addEntriesFromEntrySet:(SESparkEntrySet *)set {
   SparkEntry *entry = nil;
   NSEnumerator *entries = [set entryEnumerator];
