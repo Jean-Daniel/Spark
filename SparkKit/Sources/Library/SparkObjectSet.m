@@ -114,7 +114,10 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
 }
 
 - (BOOL)containsObject:(SparkObject *)object {
-  return object ? NSMapMember(sp_objects, (void *)[object uid], NULL, NULL) : NO;
+  return object ? [self containsObjectWithUID:[object uid]] : NO;
+}
+- (BOOL)containsObjectWithUID:(UInt32)uid {
+  return NSMapMember(sp_objects, (void *)uid, NULL, NULL);
 }
 
 - (id)objectForUID:(UInt32)uid {

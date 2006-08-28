@@ -29,6 +29,7 @@ typedef struct _SparkLibraryEntry {
 - (void)addEntry:(SparkEntry *)anEntry;
 - (void)updateEntry:(SparkEntry *)anEntry;
 - (void)removeEntry:(SparkEntry *)anEntry;
+- (void)replaceEntry:(SparkEntry *)anEntry withEntry:(SparkEntry *)newEntry;
 
 - (BOOL)statusForEntry:(SparkEntry *)anEntry;
 - (void)setStatus:(BOOL)status forEntry:(SparkEntry *)anEntry;

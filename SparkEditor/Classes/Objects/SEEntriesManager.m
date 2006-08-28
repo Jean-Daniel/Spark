@@ -215,101 +215,59 @@ NSString * const SEEntriesManagerDidCreateEntryNotification = @"SEEntriesManager
 
 - (BOOL)editor:(SEEntryEditor *)theEditor shouldUpdateEntry:(SparkEntry *)anEntry {
   SparkEntry *edited = [theEditor entry];
+  /* If should use default action */
   if (!anEntry) {
     if (kSparkEntryTypeOverWrite == [edited type])
       [self removeEntry:edited];
   } else {
-    // If update trigger, should validate trigger
+    /* If trigger has changed */
     if (![[edited trigger] isEqualToTrigger:[anEntry trigger]]) {
       SparkTrigger *trigger = [self libraryTriggerForTrigger:[anEntry trigger]];
+      /* If trigger already exists */
       if (trigger) {
+        /* Update new entry trigger */
         [anEntry setTrigger:trigger];
+        /* Get previous entry that use this trigger */
         SparkEntry *previous = [SparkSharedManager() entryForTrigger:[trigger uid]
                                                          application:[[anEntry application] uid]];
+        /* Already used by previous */
         if (previous) {
+          /* Is previous a weak action */
           if (kSparkEntryTypeWeakOverWrite == [previous type]) {
             DLog(@"Overwrite a weak overwrite entry");
-            /* Remove edited action */
-            [SparkSharedManager() removeEntry:edited];
-            /* Add action to library, and update the entry. */
-            [SparkSharedActionSet() addObject:[anEntry action]];
-            /* 'anEntry' MUST have same trigger and application than 'previous', else update will failed. */
-            [SparkSharedManager() updateEntry:anEntry];
-            [self refresh];
+            /* Remove weak entry */
+            [SparkSharedManager() removeEntry:previous];
           } else {
+            /* Already used by a real entry */
             NSRunAlertPanel(@"This action could not be created because an other action already use the same shortcut.",
                             @"Change the shortcut for your new action.",
                             @"OK", nil, nil);
             DLog(@"Already contains an entry for this application and trigger");
             return NO;
           }
-        } else {
-          DLog(@"Update action using existing trigger");
-          /* Remove edited action */
-          [SparkSharedManager() removeEntry:edited];
-          /* Trigger exist but is not used for this application */
-          [SparkSharedActionSet() addObject:[anEntry action]];
-          /* Add new entry */
-          [SparkSharedManager() addEntry:anEntry];
-          [self refresh];
-        }
+        } 
+      } else { /* Trigger does not already exists */
+        [SparkSharedTriggerSet() addObject:[anEntry trigger]];
       }
-    } else { /* Trigger was not edited */
-      
-      
+      /* Trigger has changed and edited entry is a default entry */
+      if ([edited type] == kSparkEntryTypeDefault) {
+        /* Update weak entry */
+        // TODO
+        // [[edited trigger] uid] => [[anEntry trigger] uid]
+      }
+    } else { /* Trigger does not change */
+      [anEntry setTrigger:[edited trigger]];
     }
+    /* Now update action */
+    [SparkSharedActionSet() addObject:[anEntry action]];
+    if ([edited type] == kSparkEntryTypeDefault && [[edited application] uid] != 0) {
+      [SparkSharedManager() addEntry:anEntry];
+    } else {
+      [SparkSharedManager() replaceEntry:edited withEntry:anEntry];
+    }
+    [SparkSharedManager() setStatus:YES forEntry:anEntry];
   }
-//  SETriggerEntry *orig = [theEditor entry];
-//  
-//  /* First case: global context */
-//  if ([[self application] uid] == 0) {
-//    /* First set uid */
-//    [[entry action] setUID:[[orig action] uid]];
-//    /* Then update original entry */
-//    [orig setAction:[entry action]];
-//    /* Finally update library */
-//    [SparkSharedActionSet() updateObject:[orig action]];
-//  } else {
-//    int tOrig = [orig type];
-//    int tEntry = [entry type];
-//    if (tOrig == tEntry) {
-//      if (kSEEntryTypeOverwrite == tOrig) {
-//        // Update
-//      }
-//    } else if (kSEEntryTypeGlobal == tOrig) {
-//      // Create
-//    } else if (kSEEntryTypeGlobal == tEntry) {
-//      // Remove
-//    } else {
-//      // Update
-//    }
-//  }
-//  
-//  return YES;
-//  /* If global context and trigger change, should ask user if we have to change all entries */
-//  if ([[self application] uid] == 0 && ![[entry trigger] isEqualToTrigger:[orig trigger]]) {
-//    DLog(@"Ask for change");
-//    /* If change all */
-//    if (YES) {
-//      /* Set UID */
-//      [[entry trigger] setUID:[[orig trigger] uid]];
-//      /* Update old entry */
-//      [orig setTrigger:[entry trigger]];
-//      /* Update library */
-//      [SparkSharedTriggerSet() updateObject:[entry trigger]];
-//    } else {
-//      /* Create an new trigger */
-//      [[entry trigger] setUID:[SparkSharedTriggerSet() nextUID]];
-//      /* Should remove old trigger if no longer used */
-//      // TODO
-//      
-//      /* Update old entry */
-//      [orig setTrigger:[entry trigger]];
-//      /* Update library */
-//      [SparkSharedTriggerSet() addObject:[entry trigger]];
-//    }
-//  }
-//  return YES;
+  [self refresh];
   return YES;
 }
 

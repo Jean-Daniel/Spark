@@ -80,19 +80,29 @@ Boolean _SparkEntryIsEqual(const void *obj1, const void *obj2) {
 
 #pragma mark -
 - (void)addLibraryEntry:(SparkLibraryEntry *)anEntry {
-  if (!CFSetContainsValue(sp_set, &anEntry)) {
+  if (!CFSetContainsValue(sp_set, anEntry)) {
     SparkLibraryEntry *entry = malloc(sizeof(*entry));
     *entry = *anEntry;
     CFSetAddValue(sp_set, entry);
     CFArrayAppendValue(sp_entries, entry);
   }
 }
-- (void)removeLibraryEntry:(SparkLibraryEntry *)anEntry {  
-  if (CFSetContainsValue(sp_set, &anEntry)) {
-    CFSetRemoveValue(sp_set, &anEntry);
-    CFIndex idx = CFArrayGetFirstIndexOfValue(sp_entries, CFRangeMake(0, CFArrayGetCount(sp_entries)), &anEntry);
+- (void)removeLibraryEntry:(const SparkLibraryEntry *)anEntry {  
+  if (CFSetContainsValue(sp_set, anEntry)) {
+    CFSetRemoveValue(sp_set, anEntry);
+    CFIndex idx = CFArrayGetFirstIndexOfValue(sp_entries, CFRangeMake(0, CFArrayGetCount(sp_entries)), anEntry);
+    NSAssert(idx != kCFNotFound, @"Cannot found object in manager array, but found in set");
     if (idx != kCFNotFound)
       CFArrayRemoveValueAtIndex(sp_entries, idx);
+    
+    /* Remove orphan action */
+    if (![self containsEntryForAction:anEntry->action]) {
+      [[sp_library actionSet] removeObjectWithUID:anEntry->action];
+    }
+    /* Remove orphan trigger */
+    if (![self containsEntryForTrigger:anEntry->trigger]) {
+      [[sp_library triggerSet] removeObjectWithUID:anEntry->trigger];
+    }
   }
 }
 
@@ -128,6 +138,31 @@ Boolean _SparkEntryIsEqual(const void *obj1, const void *obj2) {
   }
 }
 
+- (void)replaceEntry:(SparkEntry *)anEntry withEntry:(SparkEntry *)newEntry {
+  SparkLibraryEntry *entry = [self libraryEntryForEntry:anEntry];
+  if (entry) {
+    UInt32 action = entry->action;
+    UInt32 trigger = entry->trigger;
+    
+    // Will update
+    entry->status = [newEntry isEnabled];
+    entry->action = [[newEntry action] uid];
+    entry->trigger = [[newEntry trigger] uid];
+    entry->application = [[newEntry application] uid];
+    /* Update type */
+    [newEntry setType:[self typeForLibraryEntry:entry]];
+    /* Remove orphan action */
+    if (action != entry->action && ![self containsEntryForAction:action]) {
+      [[sp_library actionSet] removeObjectWithUID:action];
+    }
+    /* Remove orphan trigger */
+    if (trigger != entry->trigger && ![self containsEntryForTrigger:trigger]) {
+      [[sp_library triggerSet] removeObjectWithUID:trigger];
+    }
+    // Did update
+  }
+}
+
 - (void)removeEntry:(SparkEntry *)anEntry {
   NSParameterAssert([self containsEntryForTrigger:[[anEntry trigger] uid] 
                                       application:[[anEntry application] uid]]);
@@ -137,14 +172,6 @@ Boolean _SparkEntryIsEqual(const void *obj1, const void *obj2) {
   entry.trigger = [[anEntry trigger] uid];
   entry.application = [[anEntry application] uid];
   [self removeLibraryEntry:&entry];
-  /* Remove orphan action */
-  if (![self containsEntryForAction:entry.action]) {
-    [[sp_library actionSet] removeObjectWithUID:entry.action];
-  }
-  /* Remove orphan trigger */
-  if (![self containsEntryForTrigger:entry.trigger]) {
-    [[sp_library triggerSet] removeObjectWithUID:entry.trigger];
-  }
   // Did remove
 }
 
@@ -292,40 +319,18 @@ Boolean _SparkEntryIsEqual(const void *obj1, const void *obj2) {
 
 @implementation SparkEntryManager (SparkVersion1Library)
 
-- (BOOL)isOrphanTrigger:(UInt32)aTrigger {
-  Boolean orphan = YES;
-  CFIndex count = CFArrayGetCount(sp_entries);
-  while (orphan && count-- > 0) {
-    const SparkLibraryEntry *entry = CFArrayGetValueAtIndex(sp_entries, count);
-    if (entry->trigger == aTrigger)
-      orphan = NO;
-  }
-  return orphan;
-}
-
-- (void)_removeInvalidEntry:(const SparkLibraryEntry *)entry atIndex:(UInt32)idx {
-  CFSetRemoveValue(sp_set, entry);
-  CFArrayRemoveValueAtIndex(sp_entries, idx);
-  /* Check for orphan trigger */
-  if ([self isOrphanTrigger:entry->trigger]) {
-    DLog(@"Remove orphan trigger: %i", entry->trigger);
-    [[sp_library triggerSet] removeObjectWithUID:entry->trigger];
-  }
-}
-
 - (void)removeEntriesForAction:(UInt32)action {
   CFIndex count = CFArrayGetCount(sp_entries);
   while (count-- > 0) {
     const SparkLibraryEntry *entry = CFArrayGetValueAtIndex(sp_entries, count);
     if (entry->action == action) {
-      [self _removeInvalidEntry:entry atIndex:count];
+      [self removeLibraryEntry:entry];
     }
   }
 }
 
 - (void)postProcess {
   CFIndex idx = CFArrayGetCount(sp_entries) -1;
-  
   /* Resolve Ignore Actions */
   while (idx >= 0) {
     SparkLibraryEntry *entry = (SparkLibraryEntry *)CFArrayGetValueAtIndex(sp_entries, idx);
@@ -337,9 +342,24 @@ Boolean _SparkEntryIsEqual(const void *obj1, const void *obj2) {
       idx--;
     } else {
       DLog(@"Remove Invalid Ignore entry.");
-      [self _removeInvalidEntry:entry atIndex:idx];
+      [self removeLibraryEntry:entry];
     }
-  } 
+  }
+  
+  /* Check all triggers and actions */
+  idx = CFArrayGetCount(sp_entries) -1;
+  SparkObjectSet *actions = [sp_library actionSet];
+  SparkObjectSet *triggers = [sp_library triggerSet];
+  /* Resolve Ignore Actions */
+  while (idx >= 0) {
+    SparkLibraryEntry *entry = (SparkLibraryEntry *)CFArrayGetValueAtIndex(sp_entries, idx);
+    if (![actions containsObjectWithUID:entry->action] || ![triggers containsObjectWithUID:entry->trigger]) {
+      DLog(@"Remove Illegal entry { %u, %u, %u }", entry->action, entry->trigger, entry->application);
+      [self removeLibraryEntry:entry];
+    } else {
+      idx--;
+    }
+  }
 }
 
 @end
