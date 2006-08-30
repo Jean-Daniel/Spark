@@ -8,8 +8,8 @@
 
 #import "SEApplicationSource.h"
 
-#import <ShadowKit/SKLSFunctions.h>
 #import <ShadowKit/SKFSFunctions.h>
+#import <ShadowKit/SKAppKitExtensions.h>
 
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkObjectSet.h>

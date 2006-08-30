@@ -11,6 +11,7 @@
 #import <SparkKit/SparkEntry.h>
 #import <SparkKit/SparkAction.h>
 #import <SparkKit/SparkLibrary.h>
+#import <SparkKit/SparkTrigger.h>
 #import <SparkKit/SparkObjectSet.h>
 
 @interface SparkEntry (SparkManagerExtension)
@@ -39,6 +40,32 @@ static
 Boolean _SparkEntryIsEqual(const void *obj1, const void *obj2) {
   const SparkLibraryEntry *e1 = obj1, *e2 = obj2;
   return e1->trigger == e2->trigger && e1->application == e2->application;
+}
+
+NSString * const SparkEntryNotificationKey = @"SparkEntryNotificationKey";
+NSString * const SparkEntryReplacedNotificationKey = @"SparkEntryReplacedNotificationKey";
+
+NSString * const SparkEntryManagerWillAddEntryNotification = @"SparkEntryManagerWillAddEntry";
+NSString * const SparkEntryManagerDidAddEntryNotification = @"SparkEntryManagerDidAddEntry";
+NSString * const SparkEntryManagerWillUpdateEntryNotification = @"SparkEntryManagerWillUpdateEntry";
+NSString * const SparkEntryManagerDidUpdateEntryNotification = @"SparkEntryManagerDidUpdateEntry";
+NSString * const SparkEntryManagerWillRemoveEntryNotification = @"SparkEntryManagerWillRemoveEntry";
+NSString * const SparkEntryManagerDidRemoveEntryNotification = @"SparkEntryManagerDidRemoveEntry";
+
+SK_INLINE
+void SparkEntryManagerPostNotification(NSString *name, SparkEntryManager *self, SparkEntry *object) {
+  [[NSNotificationCenter defaultCenter] postNotificationName:name
+                                                      object:self
+                                                    userInfo:[NSDictionary dictionaryWithObject:object
+                                                                                         forKey:SparkEntryNotificationKey]];
+}
+SK_INLINE
+void SparkEntryManagerPostUpdateNotification(NSString *name, SparkEntryManager *self, SparkEntry *replaced, SparkEntry *object) {
+  [[NSNotificationCenter defaultCenter] postNotificationName:name
+                                                      object:self
+                                                    userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                      object, SparkEntryNotificationKey,
+                                                      replaced, SparkEntryReplacedNotificationKey, nil]];
 }
 
 @implementation SparkEntryManager
@@ -79,14 +106,69 @@ Boolean _SparkEntryIsEqual(const void *obj1, const void *obj2) {
 }
 
 #pragma mark -
+#pragma mark Low-Level Methods
+SK_INLINE
+BOOL SparkEntryIsCustomTrigger(const SparkLibraryEntry *entry) {
+  return (entry->application);
+}
+
+/* Check if contains, and update has many status */
+- (void)checkTriggerValidity:(UInt32)trigger {
+  BOOL contains = NO;
+  CFIndex count = CFArrayGetCount(sp_entries);
+  while (count-- > 0) {
+    const SparkLibraryEntry *entry = CFArrayGetValueAtIndex(sp_entries, count);
+    if (entry->trigger == trigger) {
+      contains = YES;
+      if (SparkEntryIsCustomTrigger(entry)) {
+        [[[sp_library triggerSet] objectForUID:trigger] setHasManyAction:YES];
+        return;
+      }
+    }
+  }
+  if (!contains)
+    [[sp_library triggerSet] removeObjectWithUID:trigger];
+  else
+    [[[sp_library triggerSet] objectForUID:trigger] setHasManyAction:NO];
+}
+
 - (void)addLibraryEntry:(SparkLibraryEntry *)anEntry {
   if (!CFSetContainsValue(sp_set, anEntry)) {
     SparkLibraryEntry *entry = malloc(sizeof(*entry));
     *entry = *anEntry;
     CFSetAddValue(sp_set, entry);
     CFArrayAppendValue(sp_entries, entry);
+    /* Update trigger flag */
+    if (SparkEntryIsCustomTrigger(entry)) {
+      [[[sp_library triggerSet] objectForUID:entry->trigger] setHasManyAction:YES];
+    }
   }
 }
+- (void)replaceLibraryEntry:(SparkLibraryEntry *)anEntry withLibraryEntry:(SparkLibraryEntry *)newEntry {
+  UInt32 action = anEntry->action;
+  UInt32 trigger = anEntry->trigger;
+  
+  /* Should update Set too */
+  BOOL update = NO;
+  if (_SparkEntryHash(anEntry) != _SparkEntryHash(newEntry)) {
+    update = YES;
+    CFSetRemoveValue(sp_set, anEntry);
+  }
+    
+  /* Copy all values */
+  anEntry = newEntry;
+  
+  if (update)
+    CFSetAddValue(sp_set, anEntry);
+  
+  /* Remove orphan action */
+  if (action != anEntry->action && ![self containsEntryForAction:action]) {
+    [[sp_library actionSet] removeObjectWithUID:action];
+  }
+  /* Update trigger */
+  [self checkTriggerValidity:trigger];
+}
+
 - (void)removeLibraryEntry:(const SparkLibraryEntry *)anEntry {  
   if (CFSetContainsValue(sp_set, anEntry)) {
     CFSetRemoveValue(sp_set, anEntry);
@@ -100,79 +182,26 @@ Boolean _SparkEntryIsEqual(const void *obj1, const void *obj2) {
       [[sp_library actionSet] removeObjectWithUID:anEntry->action];
     }
     /* Remove orphan trigger */
-    if (![self containsEntryForTrigger:anEntry->trigger]) {
-      [[sp_library triggerSet] removeObjectWithUID:anEntry->trigger];
-    }
+    [self checkTriggerValidity:anEntry->trigger];
   }
 }
 
-- (void)addEntry:(SparkEntry *)anEntry {
-  NSParameterAssert(![self containsEntryForTrigger:[[anEntry trigger] uid] 
-                                       application:[[anEntry application] uid]]);
-  // Will add
-  SparkLibraryEntry entry;
-  entry.status = 0;
-  entry.action = [[anEntry action] uid];
-  entry.trigger = [[anEntry trigger] uid];
-  entry.application = [[anEntry application] uid];
-  [self addLibraryEntry:&entry];
-  /* Update type */
-  [anEntry setType:[self typeForLibraryEntry:&entry]];
-  // Did add
+- (void)setStatus:(BOOL)status forLibraryEntry:(SparkLibraryEntry *)anEntry {
+  NSParameterAssert(anEntry != NULL);
+  anEntry->status = status ? 1 : 0;
 }
 
-- (void)updateEntry:(SparkEntry *)anEntry {
-  SparkLibraryEntry *entry = [self libraryEntryForEntry:anEntry];
-  if (entry) {
-    UInt32 action = entry->action;
-    // Will update
-    entry->status = [anEntry isEnabled];
-    entry->action = [[anEntry action] uid];
-    /* Update type */
-    [anEntry setType:[self typeForLibraryEntry:entry]];
-    /* Remove orphan action */
-    if (![self containsEntryForAction:action]) {
-      [[sp_library actionSet] removeObjectWithUID:action];
-    }
-    // Did update
-  }
-}
-
-- (void)replaceEntry:(SparkEntry *)anEntry withEntry:(SparkEntry *)newEntry {
-  SparkLibraryEntry *entry = [self libraryEntryForEntry:anEntry];
-  if (entry) {
-    UInt32 action = entry->action;
-    UInt32 trigger = entry->trigger;
-    
-    // Will update
-    entry->status = [newEntry isEnabled];
-    entry->action = [[newEntry action] uid];
-    entry->trigger = [[newEntry trigger] uid];
-    entry->application = [[newEntry application] uid];
-    /* Update type */
-    [newEntry setType:[self typeForLibraryEntry:entry]];
-    /* Remove orphan action */
-    if (action != entry->action && ![self containsEntryForAction:action]) {
-      [[sp_library actionSet] removeObjectWithUID:action];
-    }
-    /* Remove orphan trigger */
-    if (trigger != entry->trigger && ![self containsEntryForTrigger:trigger]) {
-      [[sp_library triggerSet] removeObjectWithUID:trigger];
-    }
-    // Did update
-  }
-}
-
-- (void)removeEntry:(SparkEntry *)anEntry {
-  NSParameterAssert([self containsEntryForTrigger:[[anEntry trigger] uid] 
-                                      application:[[anEntry application] uid]]);
-  // Will remove
-  SparkLibraryEntry entry;
-  entry.action = [[anEntry action] uid];
-  entry.trigger = [[anEntry trigger] uid];
-  entry.application = [[anEntry application] uid];
-  [self removeLibraryEntry:&entry];
-  // Did remove
+- (SparkEntry *)entryForLibraryEntry:(const SparkLibraryEntry *)anEntry {
+  NSParameterAssert(anEntry != NULL);
+  SparkAction *action = [[sp_library actionSet] objectForUID:anEntry->action];
+  SparkTrigger *trigger = [[sp_library triggerSet] objectForUID:anEntry->trigger];
+  SparkApplication *application = [[sp_library applicationSet] objectForUID:anEntry->application];
+  SparkEntry *object = [[SparkEntry alloc] initWithAction:action
+                                                  trigger:trigger
+                                              application:application];
+  [object setType:[self typeForLibraryEntry:anEntry]];
+  [object setEnabled:anEntry->status];
+  return [object autorelease];
 }
 
 - (SparkEntryType)typeForLibraryEntry:(const SparkLibraryEntry *)anEntry {
@@ -196,19 +225,6 @@ Boolean _SparkEntryIsEqual(const void *obj1, const void *obj2) {
   return type;
 }
 
-- (SparkEntry *)entryForLibraryEntry:(const SparkLibraryEntry *)anEntry {
-  NSParameterAssert(anEntry != NULL);
-  SparkAction *action = [[sp_library actionSet] objectForUID:anEntry->action];
-  SparkTrigger *trigger = [[sp_library triggerSet] objectForUID:anEntry->trigger];
-  SparkApplication *application = [[sp_library applicationSet] objectForUID:anEntry->application];
-  SparkEntry *object = [[SparkEntry alloc] initWithAction:action
-                                                  trigger:trigger
-                                              application:application];
-  [object setType:[self typeForLibraryEntry:anEntry]];
-  [object setEnabled:anEntry->status];
-  return [object autorelease];
-}
-
 - (NSArray *)entriesForField:(unsigned)anIndex uid:(UInt32)uid {
   NSMutableArray *result = [[NSMutableArray alloc] init];
   
@@ -228,16 +244,6 @@ Boolean _SparkEntryIsEqual(const void *obj1, const void *obj2) {
   return [result autorelease];
 }
 
-- (NSArray *)entriesForAction:(UInt32)anAction {
-  return [self entriesForField:1 uid:anAction];
-}
-- (NSArray *)entriesForTrigger:(UInt32)aTrigger {
-  return [self entriesForField:2 uid:aTrigger];
-}
-- (NSArray *)entriesForApplication:(UInt32)anApplication {
-  return [self entriesForField:3 uid:anApplication];
-}
-
 - (BOOL)containsEntryForField:(unsigned)anIndex uid:(UInt32)uid {
   UInt32 count = CFArrayGetCount(sp_entries);
   while (count-- > 0) {
@@ -251,32 +257,6 @@ Boolean _SparkEntryIsEqual(const void *obj1, const void *obj2) {
     }
   }
   return NO;
-}
-
-- (BOOL)containsEntryForAction:(UInt32)anAction {
-  return [self containsEntryForField:1 uid:anAction];
-}
-- (BOOL)containsEntryForTrigger:(UInt32)aTrigger {
-  return [self containsEntryForField:2 uid:aTrigger];
-}
-- (BOOL)containsEntryForApplication:(UInt32)anApplication {
-  return [self containsEntryForField:3 uid:anApplication];
-}
-
-- (BOOL)statusForEntry:(SparkEntry *)anEntry {
-  return [anEntry isEnabled];
-}
-
-- (void)setStatus:(BOOL)status forEntry:(SparkEntry *)anEntry {
-  SparkLibraryEntry search;
-  search.action = 0;
-  search.trigger = [[anEntry trigger] uid];
-  search.application = [[anEntry application] uid];
-  SparkLibraryEntry *entry = (SparkLibraryEntry *)CFSetGetValue(sp_set, &search);
-  if (entry) {
-    [anEntry setEnabled:status];
-    entry->status = status ? 1 : 0;
-  }
 }
 
 - (BOOL)containsEntryForTrigger:(UInt32)aTrigger application:(UInt32)anApplication {
@@ -299,6 +279,104 @@ Boolean _SparkEntryIsEqual(const void *obj1, const void *obj2) {
   return [self libraryEntryForTrigger:[[anEntry trigger] uid] application:[[anEntry application] uid]];
 }
 
+#pragma mark -
+#pragma mark High-Level Methods
+- (void)addEntry:(SparkEntry *)anEntry {
+  NSParameterAssert(![self containsEntry:anEntry]);
+  
+  // Will add
+  SparkEntryManagerPostNotification(SparkEntryManagerWillAddEntryNotification, self, anEntry);
+  SparkLibraryEntry entry;
+  entry.status = 0;
+  entry.action = [[anEntry action] uid];
+  entry.trigger = [[anEntry trigger] uid];
+  entry.application = [[anEntry application] uid];
+  [self addLibraryEntry:&entry];
+  /* Update type */
+  [anEntry setType:[self typeForLibraryEntry:&entry]];
+  // Did add
+  SparkEntryManagerPostNotification(SparkEntryManagerDidAddEntryNotification, self, anEntry);
+}
+
+- (void)replaceEntry:(SparkEntry *)anEntry withEntry:(SparkEntry *)newEntry {
+  NSParameterAssert([self containsEntry:anEntry]);
+  SparkLibraryEntry *entry = [self libraryEntryForEntry:anEntry];
+  if (entry) {
+    // Will update
+    SparkEntryManagerPostUpdateNotification(SparkEntryManagerWillUpdateEntryNotification, self, anEntry, newEntry);
+    SparkLibraryEntry update;
+    update.status = [newEntry isEnabled] ? 1 : 0;
+    update.action = [[newEntry action] uid];
+    update.trigger = [[newEntry trigger] uid];
+    update.application = [[newEntry application] uid];
+    
+    [self replaceLibraryEntry:entry withLibraryEntry:&update];
+    /* Update type */
+    [newEntry setType:[self typeForLibraryEntry:entry]];
+    // Did update
+    SparkEntryManagerPostUpdateNotification(SparkEntryManagerDidUpdateEntryNotification, self, anEntry, newEntry);
+  }
+}
+
+- (void)removeEntry:(SparkEntry *)anEntry {
+  NSParameterAssert([self containsEntry:anEntry]);
+  // Will remove
+  SparkEntryManagerPostNotification(SparkEntryManagerWillRemoveEntryNotification, self, anEntry);
+  SparkLibraryEntry entry;
+  entry.action = [[anEntry action] uid];
+  entry.trigger = [[anEntry trigger] uid];
+  entry.application = [[anEntry application] uid];
+  [self removeLibraryEntry:&entry];
+  // Did remove
+  SparkEntryManagerPostNotification(SparkEntryManagerDidRemoveEntryNotification, self, anEntry);
+}
+
+- (NSArray *)entriesForAction:(UInt32)anAction {
+  return [self entriesForField:1 uid:anAction];
+}
+- (NSArray *)entriesForTrigger:(UInt32)aTrigger {
+  return [self entriesForField:2 uid:aTrigger];
+}
+- (NSArray *)entriesForApplication:(UInt32)anApplication {
+  return [self entriesForField:3 uid:anApplication];
+}
+
+- (BOOL)containsEntry:(SparkEntry *)anEntry {
+  return [self containsEntryForTrigger:[[anEntry trigger] uid] application:[[anEntry application] uid]];
+}
+
+- (BOOL)containsEntryForAction:(UInt32)anAction {
+  return [self containsEntryForField:1 uid:anAction];
+}
+- (BOOL)containsEntryForTrigger:(UInt32)aTrigger {
+  return [self containsEntryForField:2 uid:aTrigger];
+}
+- (BOOL)containsEntryForApplication:(UInt32)anApplication {
+  return [self containsEntryForField:3 uid:anApplication];
+}
+- (BOOL)containsActiveEntryForTrigger:(UInt32)aTrigger {
+  UInt32 count = CFArrayGetCount(sp_entries);
+  while (count-- > 0) {
+    const SparkLibraryEntry *entry = CFArrayGetValueAtIndex(sp_entries, count);
+    if (entry->status && (entry->trigger == aTrigger)) {
+      return YES;
+    }
+  }
+  return NO;
+}
+
+- (BOOL)statusForEntry:(SparkEntry *)anEntry {
+  return [anEntry isEnabled];
+}
+
+- (void)setStatus:(BOOL)status forEntry:(SparkEntry *)anEntry {
+  SparkLibraryEntry *entry = [self libraryEntryForEntry:anEntry];
+  if (entry) {
+    [anEntry setEnabled:status];
+    [self setStatus:status forLibraryEntry:entry];
+  }
+}
+
 - (SparkEntry *)entryForTrigger:(UInt32)aTrigger application:(UInt32)anApplication {
   const SparkLibraryEntry *entry = [self libraryEntryForTrigger:aTrigger application:anApplication];
   if (entry) {
@@ -307,9 +385,11 @@ Boolean _SparkEntryIsEqual(const void *obj1, const void *obj2) {
   return nil;
 }
 
-- (SparkAction *)actionForTrigger:(UInt32)aTrigger application:(UInt32)anApplication {
+- (SparkAction *)actionForTrigger:(UInt32)aTrigger application:(UInt32)anApplication status:(BOOL *)status {
   const SparkLibraryEntry *entry = [self libraryEntryForTrigger:aTrigger application:anApplication];
-  if (entry && entry->status) {
+  if (entry) {
+    if (status)
+      *status = entry->status;
     return [[sp_library actionSet] objectForUID:entry->action];
   }
   return nil;
@@ -338,27 +418,32 @@ Boolean _SparkEntryIsEqual(const void *obj1, const void *obj2) {
       SparkLibraryEntry *global = [self libraryEntryForTrigger:entry->trigger application:0];
       entry->action = global ? global->action : 0;
     } 
-    if (entry->action) {
-      idx--;
-    } else {
+    if (!entry->action) {
       DLog(@"Remove Invalid Ignore entry.");
       [self removeLibraryEntry:entry];
     }
+    idx--;
   }
   
   /* Check all triggers and actions */
   idx = CFArrayGetCount(sp_entries) -1;
   SparkObjectSet *actions = [sp_library actionSet];
   SparkObjectSet *triggers = [sp_library triggerSet];
+  SparkObjectSet *applications = [sp_library applicationSet];
   /* Resolve Ignore Actions */
   while (idx >= 0) {
     SparkLibraryEntry *entry = (SparkLibraryEntry *)CFArrayGetValueAtIndex(sp_entries, idx);
-    if (![actions containsObjectWithUID:entry->action] || ![triggers containsObjectWithUID:entry->trigger]) {
+    NSAssert(entry != NULL, @"Illegale null entry");
+    if (![actions containsObjectWithUID:entry->action] || 
+        ![triggers containsObjectWithUID:entry->trigger] || 
+        (entry->application && ![applications containsObjectWithUID:entry->application])) {
       DLog(@"Remove Illegal entry { %u, %u, %u }", entry->action, entry->trigger, entry->application);
       [self removeLibraryEntry:entry];
     } else {
-      idx--;
+      if (SparkEntryIsCustomTrigger(entry))
+        [[triggers objectForUID:entry->trigger] setHasManyAction:YES];
     }
+    idx--;
   }
 }
 
@@ -442,6 +527,7 @@ typedef struct {
     return NO;
   }
   
+  SparkObjectSet *triggers = [sp_library triggerSet];
   const SparkLibraryEntry *entries = header->entries;
   while (count-- > 0) {
     SparkLibraryEntry entry;
@@ -450,6 +536,8 @@ typedef struct {
     entry.trigger = SparkReadField(entries->trigger);
     entry.application = SparkReadField(entries->application);
     [self addLibraryEntry:&entry];
+    if (SparkEntryIsCustomTrigger(&entry))
+      [[triggers objectForUID:entry.trigger] setHasManyAction:YES];
     entries++;
   }
   

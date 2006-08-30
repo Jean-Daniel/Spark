@@ -1,10 +1,10 @@
-//
-//  ServerProtocol.m
-//  Spark Server
-//
-//  Created by Fox on Tue Jan 20 2004.
-//  Copyright (c) 2004 Shadow Lab. All rights reserved.
-//
+/*
+ *  ServerProtocol.m
+ *  SparkServer
+ *
+ *  Created by Black Moon Team.
+ *  Copyright (c) 2004 - 2006 Shadow Lab. All rights reserved.
+ */
 
 #import "SparkDaemon.h"
 
@@ -12,192 +12,121 @@
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkObjectSet.h>
 
-@implementation SparkDaemon (SparkServerProtocol)
-
-//- (void)addObject:(id)plist intoLibrary:(SparkObjectsLibrary *)library {
-//  NSParameterAssert(plist != nil);
-//  NSParameterAssert(library != nil);
-//  @try {
-//    id object = nil;
-//    if (object = SparkDeserializeObject(plist)) {
-//      [library addObject:object];
-//    } else {
-//      DLog(@"Error while deserializing object: %@", plist);
-//    }
-//  }
-//  @catch (id exception) {
-//    SKLogException(exception);
-//  }  
-//}
-//- (void)updateObject:(id)plist intoLibrary:(SparkObjectsLibrary *)library {
-//  NSParameterAssert(plist != nil);
-//  NSParameterAssert(library != nil);
-//  @try {
-//    id object;
-//    if (object = SparkDeserializeObject(plist)) {
-//      [library updateObject:object];
-//    } else {
-//      DLog(@"Error while deserializing object: %@", plist);
-//    }
-//  }
-//  @catch (id exception) {
-//    SKLogException(exception);
-//  }
-//}
-//- (void)removeObjectWithUid:(unsigned)uid fromLibrary:(SparkObjectsLibrary *)library {
-//  NSParameterAssert(library != nil);
-//  @try {
-//    id object;
-//    if (object = [library objectWithId:SKUInt(uid)]) {
-//      [library removeObject:object];
-//    }
-//  }
-//  @catch (id exception) {
-//    SKLogException(exception);
-//  }
-//}
-
-//#pragma mark List
-//- (void)addList:(id)plist {
-//  ShadowTrace();
-//  [self addObject:plist intoLibrary:SparkDefaultListLibrary()];
-//}
-//- (void)updateList:(id)plist {
-//  ShadowTrace();
-//  [self updateObject:plist intoLibrary:SparkDefaultListLibrary()];
-//}
-//- (void)removeList:(unsigned)uid {
-//  ShadowTrace();
-//  [self removeObjectWithUid:uid fromLibrary:SparkDefaultListLibrary()];
-//}
-//
-//#pragma mark Action
-//- (void)addAction:(id)plist {
-//  ShadowTrace();
-//  [self addObject:plist intoLibrary:SparkDefaultActionLibrary()];
-//}
-//- (void)updateAction:(id)plist {
-//  ShadowTrace();
-//  [self updateObject:plist intoLibrary:SparkDefaultActionLibrary()];
-//}
-//- (void)removeAction:(unsigned)uid {
-//  ShadowTrace();
-//  [self removeObjectWithUid:uid fromLibrary:SparkDefaultActionLibrary()];
-//}
-//
-//#pragma mark Application
-//- (void)addApplication:(id)plist {
-//  ShadowTrace();
-//  [self addObject:plist intoLibrary:SparkDefaultApplicationLibrary()];
-//}
-//- (void)updateApplication:(id)plist {
-//  ShadowTrace();
-//  [self updateObject:plist intoLibrary:SparkDefaultApplicationLibrary()];
-//}
-//- (void)removeApplication:(unsigned)uid {
-//  ShadowTrace();
-//  [self removeObjectWithUid:uid fromLibrary:SparkDefaultApplicationLibrary()];
-//}
-
-//#pragma mark HotKey
-//- (void)addHotKey:(id)plist {
-//  ShadowTrace();
-//  @try {
-//    id key = SparkDeserializeObject(plist);
-//    if (nil != key) {
-//      [self addKey:key];
-//    } else {
-//      DLog(@"Unable to load key: %@", plist);
-//    }
-//  }
-//  @catch (id exception) {
-//    SKLogException(exception);
-//  }
-//}
-//- (void)updateHotKey:(id)plist {
-//  ShadowTrace();
-//  @try {
-//    id key = SparkDeserializeObject(plist);
-//    if (nil != key) {
-//      [self updateKey:key];
-//    } else {
-//      DLog(@"Unable to load object: %@", plist);
-//    }
-//  }
-//  @catch (id exception) {
-//    SKLogException(exception);
-//  }
-//}
-//- (void)removeHotKey:(unsigned)keyUid {
-//  ShadowTrace();
-//  @try {
-//    id key;
-//    if (key = [SparkDefaultKeyLibrary() objectWithId:SKUInt(keyUid)]) {
-//      [self removeKey:key];
-//    }
-//  }
-//  @catch (id exception) {
-//    SKLogException(exception);
-//  }
-//}
-
-//- (BOOL)setActive:(BOOL)flag forHotKey:(UInt32)keyUid {
-//  ShadowTrace();
-//  @try {
-//    id key;
-//    if (key = [SparkSharedTriggerLibrary() objectWithUID:keyUid]) {
-//      BOOL result = [key setRegistred:flag];
-//      return result;
-//    }
-//  }
-//  @catch (id exception) {
-//    SKLogException(exception);
-//  }
-//  return NO;
-//}
-
-- (void)updateTrigger:(UInt32)uid enabled:(BOOL)flag {
-  @try {
-    SparkTrigger *trigger;
-    if ((trigger = [SparkSharedTriggerSet() objectForUID:uid]) && XOR(flag, [trigger isEnabled])) {
-      [trigger setEnabled:flag];
-      [trigger setRegistred:flag];
-    }
-  } @catch (id exception) {
-    SKLogException(exception);
+SK_INLINE
+SparkObjectSet *SDObjectSetForType(OSType type) {
+  SparkObjectSet *set = nil;
+  switch (type) {
+    case kSparkActionType:
+      set = SparkSharedActionSet();
+      break;
+    case kSparkTriggerType:
+      set = SparkSharedTriggerSet();
+      break;
+    case kSparkApplicationType:
+      set = SparkSharedApplicationSet();
+      break;
   }
+  return set;
 }
 
-#pragma mark -
+@implementation SparkDaemon (SparkServerProtocol)
+
 #pragma mark Shutdown
 - (void)shutdown {
   ShadowTrace();
   [NSApp terminate:nil];
 }
 
-#pragma mark Trigger Status
-- (void)enableTrigger:(UInt32)uid {
-  ShadowTrace();
-  [self updateTrigger:uid enabled:YES];
+#pragma mark Objects Management
+- (void)addObject:(id)plist type:(OSType)type {
+  SparkObjectSet *set = SDObjectSetForType(type);
+  if (set) {
+    SparkObject *object = [set deserialize:plist error:nil];
+    if (object) {
+      [set addObject:object];
+    }
+  }
 }
-
-- (void)disableTrigger:(UInt32)uid {
-  ShadowTrace();
-  [self updateTrigger:uid enabled:NO];
+- (void)updateObject:(id)plist type:(OSType)type {
+  SparkObjectSet *set = SDObjectSetForType(type);
+  if (set) {
+    SparkObject *object = [set deserialize:plist error:nil];
+    if (object) {
+      /* Trigger state is handled in notification */
+      [set updateObject:object];
+    }
+  }
+}
+- (void)removeObject:(UInt32)uid type:(OSType)type {
+  SparkObjectSet *set = SDObjectSetForType(type);
+  if (set) {
+    /* Trigger desactivation is handled in notification */
+    [set removeObjectWithUID:uid];
+  }
 }
 
 #pragma mark Entries Management
-- (void)addEntry:(SparkEntry *)entry {
+- (void)addLibraryEntry:(SparkLibraryEntry *)anEntry {
+  SparkEntryManager *manager = SparkSharedManager();
+  [manager addLibraryEntry:anEntry];
+  /* Trigger can have a new active action */
+  SparkTrigger *trigger = [SparkSharedTriggerSet() objectForUID:anEntry->trigger];
+  if (![trigger isRegistred] && [manager containsActiveEntryForTrigger:anEntry->trigger]) {
+    [trigger setRegistred:YES];
+  }
 }
-- (void)removeEntryAtIndex:(UInt32)idx {
+- (void)removeLibraryEntry:(SparkLibraryEntry *)anEntry {
+  SparkEntryManager *manager = SparkSharedManager();
+  [manager removeLibraryEntry:anEntry];
+  /* If trigger was not removed, it can be invalid */
+  SparkTrigger *trigger = [SparkSharedTriggerSet() objectForUID:anEntry->trigger];
+  if (trigger && [trigger isRegistred] && ![manager containsActiveEntryForTrigger:anEntry->trigger]) {
+    [trigger setRegistred:NO];
+  }
+}
+- (void)replaceLibraryEntry:(SparkLibraryEntry *)anEntry withLibraryEntry:(SparkLibraryEntry *)newEntry {
+  SparkEntryManager *manager = SparkSharedManager();
+  [manager replaceLibraryEntry:anEntry withLibraryEntry:newEntry];
+  /* Should check trigger */
+  SparkTrigger *trigger = [SparkSharedTriggerSet() objectForUID:newEntry->trigger];
+  if (![trigger isRegistred] && [manager containsActiveEntryForTrigger:newEntry->trigger]) {
+    [trigger setRegistred:YES];
+  } else if ([trigger isRegistred] && ![manager containsActiveEntryForTrigger:newEntry->trigger]) {
+    [trigger setRegistred:NO];
+  }
 }
 
-#pragma mark Objects Management
-- (void)addObject:(id)plist type:(OSType)type {
+- (void)setStatus:(BOOL)status forLibraryEntry:(SparkLibraryEntry *)anEntry {
+  SparkEntryManager *manager = SparkSharedManager();
+  [manager setStatus:status forLibraryEntry:anEntry];
+  /* Should check trigger */
+  SparkTrigger *trigger = [SparkSharedTriggerSet() objectForUID:anEntry->trigger];
+  if (status && ![trigger isRegistred] && [manager containsActiveEntryForTrigger:anEntry->trigger]) {
+    [trigger setRegistred:YES];
+  } else if (!status && [trigger isRegistred] && ![manager containsActiveEntryForTrigger:anEntry->trigger]) {
+    [trigger setRegistred:NO];
+  }
 }
-- (void)updateObject:(id)plist type:(OSType)type {
+
+#pragma mark -
+#pragma mark Notifications
+- (void)willRemoveTrigger:(NSNotification *)aNotification {
+  ShadowTrace();
+  SparkTrigger *trigger = SparkNotificationObject(aNotification);
+  if ([trigger isRegistred])
+    [trigger setRegistred:NO];
 }
-- (void)removeObject:(UInt32)uid type:(OSType)type {
+
+/* Should never append */
+- (void)willUpdateTrigger:(NSNotification *)aNotification {
+  ShadowTrace();
+  SparkTrigger *trigger = SparkNotificationObject(aNotification);
+  if ([trigger isRegistred]) {
+    [trigger setRegistred:NO];
+    /* Active new trigger */
+    trigger = [[aNotification userInfo] objectForKey:kSparkNotificationUpdatedObject];
+    [trigger setRegistred:YES];
+  }
 }
 
 @end

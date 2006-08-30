@@ -73,7 +73,7 @@ NSArray *gSortByNameDescriptors = nil;
 
 #pragma mark Init And Destroy
 - (id)init {
-  if (self = [super init]) { 
+  if (self = [super init]) {
 #if defined (DEBUG)
     [[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
       //@"YES", @"NSShowNonLocalizedStrings",

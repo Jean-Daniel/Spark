@@ -194,6 +194,7 @@ static BOOL SearchHotKey(NSString *search, id object, void *context) {
       [weak setApplication:application];
       [SparkSharedManager() addEntry:weak];
       [SparkSharedManager() setStatus:[anObject boolValue] forEntry:weak];
+      [[SEEntriesManager sharedManager] refresh];
     }
   } else if ([[aTableColumn identifier] isEqualToString:@"__item__"]) {
     if ([anObject length] > 0) {

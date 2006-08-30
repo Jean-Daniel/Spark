@@ -48,6 +48,8 @@
 - (void)removeObjectsInArray:(NSArray *)newObjects;
 
 - (NSFileWrapper *)fileWrapper:(NSError **)outError;
+- (NSDictionary *)serialize:(SparkObject *)object error:(OSStatus *)error;
+- (SparkObject *)deserialize:(NSDictionary *)plist error:(OSStatus *)error;
 - (BOOL)readFromFileWrapper:(NSFileWrapper *)fileWrapper error:(NSError **)outError;
 
 #pragma mark UID Management
@@ -86,7 +88,7 @@ SPARK_EXPORT
 NSString * const kSparkNotificationUpdatedObject;
 
 SPARK_INLINE
-SparkObject *SparkNotificationObject(NSNotification *aNotification) {
+id SparkNotificationObject(NSNotification *aNotification) {
   return [[aNotification userInfo] objectForKey:kSparkNotificationObject];
 }
 

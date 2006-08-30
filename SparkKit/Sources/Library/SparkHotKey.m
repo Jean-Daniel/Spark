@@ -155,14 +155,20 @@ BOOL KeyStrokeFilter(UInt32 code, UInt32 modifier) {
   [super dealloc];
 }
 
-#pragma mark -
-#pragma mark Public Methods
 - (NSString *)description {
   return [NSString stringWithFormat:@"<%@ %p> {uid:%u name:%@ hotkey:%@}",
     [self class], self,
     [self uid], [self name], sp_hotkey];
 }
 
+#pragma mark -
+#pragma mark Public Methods
+- (void)bypass {
+  [sp_hotkey sendKeystrokeToApplication:kSparkHFSCreatorType bundle:nil];
+}
+- (BOOL)isRegistred {
+  return [sp_hotkey isRegistred];
+}
 - (BOOL)setRegistred:(BOOL)flag {
   return [sp_hotkey setRegistred:flag];
 }

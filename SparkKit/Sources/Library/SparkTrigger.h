@@ -30,8 +30,14 @@
 - (BOOL)isEnabled;
 - (void)setEnabled:(BOOL)flag;
 
+- (BOOL)hasManyAction;
+- (void)setHasManyAction:(BOOL)flag;
+
 - (IBAction)trigger:(id)sender;
-/* To override */
+
+  /* To override */
+- (void)bypass;
+- (BOOL)isRegistred;
 - (BOOL)setRegistred:(BOOL)flag;
 - (NSString *)triggerDescription;
 

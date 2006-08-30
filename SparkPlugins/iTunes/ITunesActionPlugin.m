@@ -54,6 +54,7 @@ NSString * const kiTunesActionBundleIdentifier = @"org.shadowlab.spark.iTunes";
       [self loadPlaylists];
       [self setPlaylist:[sparkAction playlist]];
     }
+    [nameField setStringValue:[sparkAction name] ? : @""];
   } else {
     /* Default action for the iTunes Action Menu */
     [self setITunesAction:kiTunesPlayPause];
@@ -72,6 +73,7 @@ NSString * const kiTunesActionBundleIdentifier = @"org.shadowlab.spark.iTunes";
   /* Get the current Action */
   ITunesAction *iAction = [self sparkAction];
   /* Set Name */
+  [iAction setName:[nameField stringValue]];
   if ([[[iAction name] stringByTrimmingWhitespaceAndNewline] length] == 0)
     [iAction setName:[self defaultName]];
   [iAction setPlaylist:([self iTunesAction] == kiTunesPlayPlaylist) ? [self playlist] : nil];

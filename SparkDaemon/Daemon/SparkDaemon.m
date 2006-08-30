@@ -1,18 +1,27 @@
-//
-//  main.m
-//  Spark
-//
-//  Created by Fox on Fri Dec 12 2003.
-//  Copyright (c) 2004 Shadow Lab. All rights reserved.
-//
+/*
+ *  SparkDaemon.m
+ *  SparkServer
+ *
+ *  Created by Black Moon Team.
+ *  Copyright (c) 2004 - 2006 Shadow Lab. All rights reserved.
+ */
 
 #import "SparkDaemon.h"
 
 #include <unistd.h>
 
 #import <SparkKit/SparkKit.h>
-#import <SparkKit/SparkAlert.h>
+
+#import <SparkKit/SparkLibrary.h>
+#import <SparkKit/SparkObjectSet.h>
+#import <SparkKit/SparkEntryManager.h>
+/* Display alert */
 #import <SparkKit/SparkActionPlugIn.h>
+
+#import <SparkKit/SparkAlert.h>
+#import <SparkKit/SparkAction.h>
+#import <SparkKit/SparkTrigger.h>
+#import <SparkKit/SparkApplication.h>
 
 #import <ShadowKit/SKFunctions.h>
 #import <ShadowKit/SKProcessFunctions.h>
@@ -54,10 +63,10 @@ int main(int argc, const char *argv[]) {
 
 /* Timer callback */
 - (void)checkAndLoad:(id)sender {
-//  [SparkSharedLibrary() readLibrary:nil];
+  [SparkSharedLibrary() readLibrary:nil];
   DLog(@"Library loaded");
 //  [self checkActions];
-//  [self loadTriggers];
+  [self loadTriggers];
   DLog(@"Trigger registred");
 }
 
@@ -105,6 +114,14 @@ int main(int argc, const char *argv[]) {
       } else {
         [self checkAndLoad:nil];
       }
+      [[NSNotificationCenter defaultCenter] addObserver:self
+                                               selector:@selector(willUpdateTrigger:)
+                                                   name:kSparkLibraryWillUpdateObjectNotification
+                                                 object:SparkSharedTriggerSet()];
+      [[NSNotificationCenter defaultCenter] addObserver:self
+                                               selector:@selector(willRemoveTrigger:)
+                                                   name:kSparkLibraryWillRemoveObjectNotification
+                                                 object:SparkSharedTriggerSet()];
     }
   }
   return self;
@@ -112,6 +129,7 @@ int main(int argc, const char *argv[]) {
 
 - (void)dealloc {
   [[NSConnection defaultConnection] invalidate];
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
   [super dealloc];
 }
 
@@ -131,37 +149,38 @@ int main(int argc, const char *argv[]) {
 }
 
 - (void)checkActions {
-  BOOL blockAlert = NO;
-  CFBooleanRef blockAlertRef = CFPreferencesCopyAppValue(CFSTR("SDBlockAlertOnLoad"), (CFStringRef)kSparkBundleIdentifier);
-  if (blockAlertRef != nil) {
-    blockAlert = CFBooleanGetValue(blockAlertRef);
-    CFRelease(blockAlertRef);
-  }
-  if (!blockAlert) {
-    id item;
-    NSEnumerator *items = [SparkSharedActionSet() objectEnumerator];
-    NSMutableArray *errors = [[NSMutableArray alloc] init];
-    while (item = [items nextObject]) {
-      id alert = ([item check]);
-      if (alert != nil) {
-        [item setInvalid:YES];
-        [alert setHideSparkButton:NO];
-        [errors addObject:alert];
-      }
-    }
-    SparkDisplayAlerts(errors);
-    [errors release];
-  }
+//  BOOL blockAlert = NO;
+//  CFBooleanRef blockAlertRef = CFPreferencesCopyAppValue(CFSTR("SDBlockAlertOnLoad"), (CFStringRef)kSparkBundleIdentifier);
+//  if (blockAlertRef != nil) {
+//    blockAlert = CFBooleanGetValue(blockAlertRef);
+//    CFRelease(blockAlertRef);
+//  }
+//  if (!blockAlert) {
+//    id item;
+//    NSEnumerator *items = [SparkSharedActionSet() objectEnumerator];
+//    NSMutableArray *errors = [[NSMutableArray alloc] init];
+//    while (item = [items nextObject]) {
+//      id alert = ([item check]);
+//      if (alert != nil) {
+//        [item setInvalid:YES];
+//        [alert setHideSparkButton:NO];
+//        [errors addObject:alert];
+//      }
+//    }
+//    SparkDisplayAlerts(errors);
+//    [errors release];
+//  }
 }
 
 - (void)loadTriggers {
   SparkTrigger *trigger;
+  SparkEntryManager *manager = SparkSharedManager();
   NSEnumerator *triggers = [SparkSharedTriggerSet() objectEnumerator];
   while (trigger = [triggers nextObject]) {
     @try {
       [trigger setTarget:self];
       [trigger setAction:@selector(executeTrigger:)];
-      if ([trigger isEnabled] /* && ![item isInvalid] */) {
+      if ([manager containsActiveEntryForTrigger:[trigger uid]]) {
         [trigger setRegistred:YES];
       }
     } @catch (id exception) {
@@ -170,42 +189,77 @@ int main(int argc, const char *argv[]) {
   }
 }
 
-- (void)didAddTrigger:(SparkTrigger *)aTrigger {
-  [aTrigger setTarget:self];
-  [aTrigger setAction:@selector(executeTrigger:)];
-  if ([aTrigger isEnabled]) {
-    [aTrigger setRegistred:YES];
+- (SparkApplication *)frontApplication {
+  SparkApplication *front = nil;
+  /* Try signature */
+  OSType sign = SKProcessGetFrontProcessSignature();
+  if (sign && kUnknownType != sign) {
+    SparkApplication *app;
+    NSEnumerator *apps = [SparkSharedApplicationSet() objectEnumerator];
+    while (app = [apps nextObject]) {
+      if ([app signature] == sign) {
+        front = app;
+        break;
+      }
+    }
   }
+  /* Try bundle identifier */
+  if (!front) {
+    NSString *bundle = SKProcessGetFrontProcessBundleIdentifier();
+    if (bundle) {
+      SparkApplication *app;
+      NSEnumerator *apps = [SparkSharedApplicationSet() objectEnumerator];
+      while (app = [apps nextObject]) {
+        if ([[app bundleIdentifier] isEqualToString:bundle]) {
+          front = app;
+          break;
+        }
+      }
+    }
+  }
+  return front;
 }
 
-- (void)willRemoveTrigger:(SparkTrigger *)aTrigger {
-  if ([aTrigger isRegistred]) {
-    [aTrigger setRegistred:NO];
-  }
-}
-
-- (IBAction)executeTrigger:(id)trigger {
+- (IBAction)executeTrigger:(SparkTrigger *)trigger {
   Boolean trapping;
   SparkAlert *alert = nil;
   DLog(@"Start handle event");
   /* If Spark Editor is trapping, forward keystroke */
   if ((noErr == SDGetEditorIsTrapping(&trapping)) && trapping) {
-    [trigger sendKeystrokeToApplication:kSparkHFSCreatorType bundle:nil];
+    [trigger bypass];
     return;
   }
   /* Warning: trigger can be release during it's own invocation, so retain it */
   [trigger retain];
   @try {
-    alert = [trigger execute];
+    BOOL status = YES;
+    SparkAction *action = nil;
+    /* If action depends front application */
+    if ([trigger hasManyAction]) {      
+      SparkApplication *front = [self frontApplication];
+      if (front) {
+        /* Get action for front application */
+        action = [SparkSharedManager() actionForTrigger:[trigger uid] application:[front uid] status:&status];
+      }
+    }
+    /* No action found, use default */
+    if (!action) {
+      action = [SparkSharedManager() actionForTrigger:[trigger uid] application:0 status:&status];
+    }
+    /* Action exists and is enabled */
+    if (status && action) {
+      alert = [action execute];
+    } else {
+      [trigger bypass];
+    }
   } @catch (id exception) {
     SKLogException(exception);
     NSBeep();
   }
   [trigger release];
+  
   /* If alert not null */
   if (alert) {
-    /* Read last change from file system */
-    CFPreferencesAppSynchronize((CFStringRef)kSparkBundleIdentifier);
     /* Check if need display alert */
     CFBooleanRef displayAlertRef = CFPreferencesCopyAppValue(CFSTR("SDDisplayAlertOnExecute"), (CFStringRef)kSparkBundleIdentifier);
     if (displayAlertRef) {

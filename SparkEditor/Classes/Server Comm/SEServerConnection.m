@@ -6,11 +6,12 @@
  *  Copyright (c) 2004 - 2006 Shadow Lab. All rights reserved.
  */
 
-#import <SparkKit/SparkKit.h>
-
-//#import "SEPreferences.h"
 #import "SEServerConnection.h"
+
 #import "SEScriptHandler.h"
+
+#import <SparkKit/SparkKit.h>
+#import <SparkKit/SparkObjectSet.h>
 
 #define SparkRemoteMsgSend(method, object, log)		    \
 id<SparkServer> server;				\
@@ -40,14 +41,28 @@ if (server = [self serverProxy]) {	\
 
 - (id)init {
   if (self = [super init]) {
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(connectionDidDie:)
-                                                 name:NSConnectionDidDieNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(serverStatusDidChange:)
-                                                 name:SEServerStatusDidChangeNotification
-                                               object:nil];
+    NSNotificationCenter *center  =[NSNotificationCenter defaultCenter];
+    [center addObserver:self
+               selector:@selector(connectionDidDie:)
+                   name:NSConnectionDidDieNotification
+                 object:nil];
+    [center addObserver:self
+               selector:@selector(serverStatusDidChange:)
+                   name:SEServerStatusDidChangeNotification
+                 object:nil];
+    
+    [center addObserver:self
+               selector:@selector(didAddObject:)
+                   name:kSparkLibraryDidAddObjectNotification 
+                 object:nil];
+    [center addObserver:self
+               selector:@selector(didUpdateObject:)
+                   name:kSparkLibraryDidUpdateObjectNotification 
+                 object:nil];
+    [center addObserver:self
+               selector:@selector(willRemoveObject:)
+                   name:kSparkLibraryWillRemoveObjectNotification 
+                 object:nil];
   }
   return self;
 }
@@ -117,11 +132,59 @@ if (server = [self serverProxy]) {	\
   }
 }
 
+#pragma mark -
+#pragma mark Spark Library Synchronization
+@class SparkTrigger, SparkApplication;
+
+SK_INLINE
+OSType SEServerObjectType(SparkObject *anObject) {
+  if ([anObject isKindOfClass:[SparkAction class]])
+    return kSparkActionType;
+  if ([anObject isKindOfClass:[SparkTrigger class]])
+    return kSparkTriggerType;
+  if ([anObject isKindOfClass:[SparkApplication class]])
+    return kSparkApplicationType;
+  return 0;
+}
+
+- (void)didAddObject:(NSNotification *)aNotification {
+  if ([self isConnected]) {
+    OSType type;
+    SparkObject *object = SparkNotificationObject(aNotification);
+    if (object && (type = SEServerObjectType(object))) {
+      NSDictionary *plist = [[aNotification object] serialize:object error:NULL];
+      if (plist)
+        [[self server] addObject:plist type:type];
+    }
+  }
+}
+
+- (void)didUpdateObject:(NSNotification *)aNotification {
+  if ([self isConnected]) {
+    OSType type;
+    SparkObject *object = SparkNotificationObject(aNotification);
+    if (object && (type = SEServerObjectType(object))) {
+      NSDictionary *plist = [[aNotification object] serialize:object error:NULL];
+      if (plist)
+        [[self server] updateObject:plist type:type];
+    }
+  }
+}
+
+- (void)willRemoveObject:(NSNotification *)aNotification {
+  if ([self isConnected]) {
+    OSType type;
+    SparkObject *object = SparkNotificationObject(aNotification);
+    if (object && (type = SEServerObjectType(object))) {
+      [[self server] removeObject:[object uid] type:type];
+    }
+  }
+}
+
 @end
 
 #if 0
-/* If a daemon is runnnig, check if it is the bundled Daemon.
-* If not, kill it and launch the bundled one */
+/* If a daemon is runnnig, check if it is the bundled Daemon. If not, kill it and launch the bundled one */
 - (void)checkRunningDaemon {
   id sparkPath = [[NSBundle mainBundle] bundlePath];
   ProcessSerialNumber psn = SKGetProcessWithSignature(kSparkDaemonHFSCreatorType);

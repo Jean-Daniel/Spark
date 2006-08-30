@@ -109,11 +109,21 @@ NSString * const SEEntriesManagerDidCreateEntryNotification = @"SEEntriesManager
   return se_editor;
 }
 
-- (void)removeEntry:(SparkEntry *)anEntry {
-  DLog(@"Remove %@", anEntry);
-}
-- (void)removeEntries:(NSArray *)entries {
-  DLog(@"Remove %@", entries);
+- (unsigned)removeEntries:(NSArray *)entries {
+  BOOL refresh = NO;
+  unsigned removed = 0;
+  int count = [entries count];
+  while (count-- > 0) {
+    SparkEntry *entry = [entries objectAtIndex:count];
+    if ([entry type] != kSparkEntryTypeDefault || [[self application] uid] == 0) {
+      removed++;
+      refresh = YES;
+      [SparkSharedManager() removeEntry:entry];
+    }
+  }
+  if (refresh)
+    [self refresh];
+  return removed;
 }
 
 /* Create Entry with type */
@@ -205,7 +215,7 @@ NSString * const SEEntriesManagerDidCreateEntryNotification = @"SEEntriesManager
   /* If should use default action */
   if (!anEntry) {
     if (kSparkEntryTypeOverWrite == [edited type])
-      [self removeEntry:edited];
+      [SparkSharedManager() removeEntry:edited];
   } else {
     /* If trigger has changed */
     if (![[edited trigger] isEqualToTrigger:[anEntry trigger]]) {

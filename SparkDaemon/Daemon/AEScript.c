@@ -1,10 +1,9 @@
 /*
  *  AEScript.c
- *  Spark Server
+ *  SparkServer
  *
- *  Created by Fox on Tue Dec 16 2003.
- *  Copyright (c) 2004 Shadow Lab. All rights reserved.
- *
+ *  Created by Black Moon Team.
+ *  Copyright (c) 2004 - 2006 Shadow Lab. All rights reserved.
  */
 
 #include "AEScript.h"

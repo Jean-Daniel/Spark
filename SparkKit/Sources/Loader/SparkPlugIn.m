@@ -30,7 +30,7 @@
     [self setPath:[bundle bundlePath]];
     [self setBundleIdentifier:[bundle bundleIdentifier]];
     /* Extend applescript support */
-    [[NSScriptSuiteRegistry sharedScriptSuiteRegistry] loadSuitesFromBundle:bundle];
+    //[[NSScriptSuiteRegistry sharedScriptSuiteRegistry] loadSuitesFromBundle:bundle];
   }
   return self;
 }

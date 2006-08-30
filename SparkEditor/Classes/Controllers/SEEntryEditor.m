@@ -134,9 +134,17 @@
   }
   /* Then check action */
   if (!alert)
-    alert = [se_plugin sparkEditorShouldConfigureAction];
+    @try {
+      alert = [se_plugin sparkEditorShouldConfigureAction];
+    } @catch (id exception) {
+      SKLogException(exception);
+    }
   if (!alert) {
-    [se_plugin configureAction];
+    @try {
+      [se_plugin configureAction];
+    } @catch (id exception) {
+      SKLogException(exception);
+    }
     // Check name
     NSString *name = [[se_plugin sparkAction] name];
     if ([[name stringByTrimmingWhitespace] length] == 0) {
@@ -370,8 +378,13 @@
       }
       /* Set plugin's spark action */
       [se_plugin setSparkAction:action];
+      
       /* Send plugin API notification */
-      [se_plugin loadSparkAction:action toEdit:edit];
+      @try {
+        [se_plugin loadSparkAction:action toEdit:edit];
+      } @catch (id exception) {
+        SKLogException(exception);
+      }
     }
   } /* if (!se_plugin) */
   

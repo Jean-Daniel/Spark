@@ -302,14 +302,14 @@
 		};
 		98E6582906B40E7C00F73A19 /* Copy Daemon */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 8;
+			buildActionMask = 12;
 			dstPath = "";
 			dstSubfolderSpec = 6;
 			files = (
 				985AF8D40A5C2CF900397FAA /* Spark Daemon.app in Copy Daemon */,
 			);
 			name = "Copy Daemon";
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 		98E659ED06B40F4500F73A19 /* Copy Plugins */ = {
 			isa = PBXCopyFilesBuildPhase;

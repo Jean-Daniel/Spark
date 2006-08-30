@@ -63,6 +63,13 @@
   SKSetFlag(sp_stFlags.enabled, flag);
 }
 
+- (BOOL)hasManyAction {
+  return sp_stFlags.overwrite;
+}
+- (void)setHasManyAction:(BOOL)flag {
+  SKSetFlag(sp_stFlags.overwrite, flag);
+}
+
 - (NSString *)triggerDescription {
   return @"<trigger>";
 }
@@ -79,6 +86,11 @@
   return [self isEqual:aTrigger];
 }
 
+- (void)bypass {
+}
+- (BOOL)isRegistred {
+  return NO;
+}
 - (BOOL)setRegistred:(BOOL)flag {
   return NO;
 }

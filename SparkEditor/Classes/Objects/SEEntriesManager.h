@@ -30,7 +30,7 @@
 - (SparkApplication *)application;
 - (void)setApplication:(SparkApplication *)anApplication;
 
-- (void)removeEntries:(NSArray *)entries;
+- (unsigned)removeEntries:(NSArray *)entries;
 
 - (void)createEntry:(SparkPlugIn *)aPlugin modalForWindow:(NSWindow *)aWindow;
 - (void)editEntry:(SparkEntry *)anEntry modalForWindow:(NSWindow *)aWindow;

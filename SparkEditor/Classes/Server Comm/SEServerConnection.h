@@ -26,7 +26,3 @@
 - (id<SparkServer>)server;
 
 @end
-
-//- (void)checkRunningDaemon;
-//- (void)startServer;
-//- (void)shutdownServer;
