@@ -7,7 +7,9 @@
  */
 
 #import "SEFirstRun.h"
+
 #import "Spark.h"
+#import "SEServerConnection.h"
 
 static const int kSparkVersion = 0x030000; /* 3.0.0 */
 
@@ -42,6 +44,9 @@ static const int kSparkVersion = 0x030000; /* 3.0.0 */
 }
 
 - (IBAction)close:(id)sender {
+  if ([ibStartNow state] == NSOnState) {
+    SELaunchSparkDaemon();
+  }
   //if (autorun) {
 //    [Preferences setAutoStart:YES];
 //  }

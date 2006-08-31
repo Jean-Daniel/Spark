@@ -276,9 +276,10 @@ static const float kAVImageRightMargin = 6.f;
       case '\r':
       case 0x03:
         [se_target performSelector:se_action withObject:self];
-        break;
+        return;
     }
   }
+  [super keyDown:theEvent];
 }
 
 @end

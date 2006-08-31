@@ -59,8 +59,8 @@ static BOOL SearchHotKey(NSString *search, id object, void *context) {
   [table setTarget:self];
   [table setDoubleAction:@selector(doubleAction:)];
   
-//  [table setAutosaveName:@"SparkTriggerTable"];
-//  [table setAutosaveTableColumns:YES];
+  [table setAutosaveName:@"SparkMainEntryTable"];
+  [table setAutosaveTableColumns:YES];
 }
 
 - (IBAction)doubleAction:(id)sender {

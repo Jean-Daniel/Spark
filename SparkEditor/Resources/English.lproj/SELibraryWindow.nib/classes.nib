@@ -19,7 +19,7 @@
             SUPERCLASS = NSObject; 
         }, 
         {
-            ACTIONS = {search = id; }; 
+            ACTIONS = {search = id; toggleDaemon = id; }; 
             CLASS = SELibraryWindow; 
             LANGUAGE = ObjC; 
             OUTLETS = {
@@ -27,6 +27,8 @@
                 appField = SEApplicationView; 
                 appSource = SKTableDataSource; 
                 appTable = SKTableView; 
+                ibDaemon = NSButton; 
+                ibStatus = NSTextField; 
                 libraryTable = SKTableView; 
                 listSource = SELibrarySource; 
                 search = NSSearchField; 

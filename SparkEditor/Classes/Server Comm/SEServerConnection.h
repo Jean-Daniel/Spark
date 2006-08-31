@@ -20,9 +20,16 @@
 
 + (SEServerConnection *)defaultConnection;
 
+- (void)close;
+
 - (BOOL)connect;
 - (BOOL)isConnected;
 
 - (id<SparkServer>)server;
 
 @end
+
+SK_PRIVATE
+BOOL SELaunchSparkDaemon(void);
+SK_PRIVATE
+void SEServerStartConnection(void);

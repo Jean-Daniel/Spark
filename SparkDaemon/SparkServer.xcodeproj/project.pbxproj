@@ -225,7 +225,8 @@
 				98B20D6606A54814008BA3F6 /* Resources */,
 				98B20D6706A54814008BA3F6 /* Sources */,
 				98B20D6806A54814008BA3F6 /* Frameworks */,
-				98C6184B0A5804CB0004E6EF /* Create links */,
+				9843EE8A0AA700840051AD0E /* Create Debug Links */,
+				98C6184B0A5804CB0004E6EF /* Create Release Links */,
 			);
 			buildRules = (
 			);
@@ -320,17 +321,31 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		98C6184B0A5804CB0004E6EF /* Create links */ = {
+		9843EE8A0AA700840051AD0E /* Create Debug Links */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Create links";
+			name = "Create Debug Links";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/tcsh;
+			shellScript = "cd \"${BUILT_PRODUCTS_DIR}\"\n\nif (! -l \"${FRAMEWORKS_FOLDER_PATH}\") then \nrm -rf \"${FRAMEWORKS_FOLDER_PATH}\"\nln -s ../../Spark.app/Contents/Frameworks \"${FRAMEWORKS_FOLDER_PATH}\"\nendif\n\nif (! -l \"${PLUGINS_FOLDER_PATH}\") then \nrm -rf \"${PLUGINS_FOLDER_PATH}\"\nln -s ../../Spark.app/Contents/PlugIns \"${PLUGINS_FOLDER_PATH}\"\nendif\n";
+		};
+		98C6184B0A5804CB0004E6EF /* Create Release Links */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 8;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Create Release Links";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/tcsh;
 			shellScript = "cd \"${BUILT_PRODUCTS_DIR}\"\n\nif (! -l \"${FRAMEWORKS_FOLDER_PATH}\") then \nrm -rf \"${FRAMEWORKS_FOLDER_PATH}\"\nln -s ../../../Frameworks \"${FRAMEWORKS_FOLDER_PATH}\"\nendif\n\nif (! -l \"${PLUGINS_FOLDER_PATH}\") then \nrm -rf \"${PLUGINS_FOLDER_PATH}\"\nln -s ../../../PlugIns \"${PLUGINS_FOLDER_PATH}\"\nendif\n";
 		};

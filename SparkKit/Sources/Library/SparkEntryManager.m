@@ -51,6 +51,8 @@ NSString * const SparkEntryManagerWillUpdateEntryNotification = @"SparkEntryMana
 NSString * const SparkEntryManagerDidUpdateEntryNotification = @"SparkEntryManagerDidUpdateEntry";
 NSString * const SparkEntryManagerWillRemoveEntryNotification = @"SparkEntryManagerWillRemoveEntry";
 NSString * const SparkEntryManagerDidRemoveEntryNotification = @"SparkEntryManagerDidRemoveEntry";
+NSString * const SparkEntryManagerWillChangeEntryStatusNotification = @"SparkEntryManagerWillChangeEntryStatus";
+NSString * const SparkEntryManagerDidChangeEntryStatusNotification = @"SparkEntryManagerDidChangeEntryStatus";
 
 SK_INLINE
 void SparkEntryManagerPostNotification(NSString *name, SparkEntryManager *self, SparkEntry *object) {
@@ -145,28 +147,35 @@ BOOL SparkEntryIsCustomTrigger(const SparkLibraryEntry *entry) {
   }
 }
 - (void)replaceLibraryEntry:(SparkLibraryEntry *)anEntry withLibraryEntry:(SparkLibraryEntry *)newEntry {
-  UInt32 action = anEntry->action;
-  UInt32 trigger = anEntry->trigger;
+  NSParameterAssert(anEntry != NULL);
+  NSParameterAssert(newEntry != NULL);
   
-  /* Should update Set too */
-  BOOL update = NO;
-  if (_SparkEntryHash(anEntry) != _SparkEntryHash(newEntry)) {
-    update = YES;
-    CFSetRemoveValue(sp_set, anEntry);
-  }
+  /* Make sure we are using internal storage pointer */
+  anEntry = (SparkLibraryEntry *)CFSetGetValue(sp_set, anEntry);
+  if (anEntry) {
+    UInt32 action = anEntry->action;
+    UInt32 trigger = anEntry->trigger;
     
-  /* Copy all values */
-  anEntry = newEntry;
-  
-  if (update)
-    CFSetAddValue(sp_set, anEntry);
-  
-  /* Remove orphan action */
-  if (action != anEntry->action && ![self containsEntryForAction:action]) {
-    [[sp_library actionSet] removeObjectWithUID:action];
+    /* Should update Set too */
+    BOOL update = NO;
+    if (_SparkEntryHash(anEntry) != _SparkEntryHash(newEntry)) {
+      update = YES;
+      CFSetRemoveValue(sp_set, anEntry);
+    }
+    
+    /* Copy all values */
+    anEntry = newEntry;
+    
+    if (update)
+      CFSetAddValue(sp_set, anEntry);
+    
+    /* Remove orphan action */
+    if (action != anEntry->action && ![self containsEntryForAction:action]) {
+      [[sp_library actionSet] removeObjectWithUID:action];
+    }
+    /* Update trigger */
+    [self checkTriggerValidity:trigger];
   }
-  /* Update trigger */
-  [self checkTriggerValidity:trigger];
 }
 
 - (void)removeLibraryEntry:(const SparkLibraryEntry *)anEntry {  
@@ -188,7 +197,10 @@ BOOL SparkEntryIsCustomTrigger(const SparkLibraryEntry *entry) {
 
 - (void)setStatus:(BOOL)status forLibraryEntry:(SparkLibraryEntry *)anEntry {
   NSParameterAssert(anEntry != NULL);
-  anEntry->status = status ? 1 : 0;
+  /* Make sure we are using internal storage pointer */
+  anEntry = (SparkLibraryEntry *)CFSetGetValue(sp_set, anEntry);
+  if (anEntry)
+    anEntry->status = status ? 1 : 0;
 }
 
 - (SparkEntry *)entryForLibraryEntry:(const SparkLibraryEntry *)anEntry {
@@ -372,8 +384,10 @@ BOOL SparkEntryIsCustomTrigger(const SparkLibraryEntry *entry) {
 - (void)setStatus:(BOOL)status forEntry:(SparkEntry *)anEntry {
   SparkLibraryEntry *entry = [self libraryEntryForEntry:anEntry];
   if (entry) {
+    SparkEntryManagerPostNotification(SparkEntryManagerWillChangeEntryStatusNotification, self, anEntry);
     [anEntry setEnabled:status];
     [self setStatus:status forLibraryEntry:entry];
+    SparkEntryManagerPostNotification(SparkEntryManagerDidChangeEntryStatusNotification, self, anEntry);
   }
 }
 

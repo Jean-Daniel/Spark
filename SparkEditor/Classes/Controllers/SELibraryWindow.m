@@ -8,14 +8,18 @@
 
 #import "SELibraryWindow.h"
 
+#import "Spark.h"
 #import "SEHeaderCell.h"
 #import "SEEntryEditor.h"
+#import "SEScriptHandler.h"
 #import "SESparkEntrySet.h"
 #import "SELibrarySource.h"
 #import "SEEntriesManager.h"
 #import "SEApplicationView.h"
 #import "SEApplicationSource.h"
 #import "SETriggersController.h"
+
+#import "SEServerConnection.h"
 
 #import <ShadowKit/SKTableView.h>
 #import <ShadowKit/SKFunctions.h>
@@ -34,12 +38,16 @@
 
 - (id)init {
   if (self = [super initWithWindowNibName:@"SELibraryWindow"]) {
-
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didChangeStatus:)
+                                                 name:SEServerStatusDidChangeNotification
+                                               object:nil];
   }
   return self;
 }
 
 - (void)dealloc {
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
   [super dealloc];
 }
 
@@ -77,6 +85,8 @@
   /* Refresh Tables */
   [self didSelectApplication:0];
   [triggers loadTriggers];
+  
+  [self performSelector:@selector(didChangeStatus:) withObject:nil];
 }
 
 - (IBAction)libraryDoubleAction:(id)sender {
@@ -133,6 +143,36 @@
 
 - (IBAction)search:(id)sender {
 
+}
+
+- (IBAction)toggleDaemon:(id)sender {
+  [[NSApp delegate] toggleServer:sender];
+}
+
+- (void)didChangeStatus:(NSNotification *)aNotification {
+  NSString *str = @"";
+  NSImage *up = nil, *down = nil;
+  SparkDaemonStatus status = [NSApp serverStatus];
+  switch (status) {
+    case kSparkDaemonStarted:
+      str = @"Spark is active";
+      up = [NSImage imageNamed:@"stop"];
+      down = [NSColor currentControlTint] == NSBlueControlTint ? [NSImage imageNamed:@"stop_bdown"] : [NSImage imageNamed:@"stop_gdown"];
+      break;
+    case kSparkDaemonStopped:
+      str = @"Spark is disabled";
+      up = [NSImage imageNamed:@"start"];
+      down = [NSColor currentControlTint] == NSBlueControlTint ? [NSImage imageNamed:@"start_bdown"] : [NSImage imageNamed:@"start_gdown"];
+      break;
+    case kSparkDaemonError:
+      str = @"Unexpected error occured";
+      break;
+  }
+  [ibStatus setStringValue:str];
+  if (up && down) {
+    [ibDaemon setImage:up];
+    [ibDaemon setAlternateImage:down];
+  }
 }
 
 @end

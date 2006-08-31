@@ -134,11 +134,8 @@ NSArray *gSortByNameDescriptors = nil;
                                            selector:@selector(serverStatusDidChange:)
                                                name:SEServerStatusDidChangeNotification
                                              object:nil];
-  if ([[SEServerConnection defaultConnection] connect]) {
-    [NSApp setServerStatus:kSparkDaemonStarted];
-  } else {
-    [NSApp setServerStatus:kSparkDaemonStopped];
-  }
+  /* Check daemon path and connect */
+  SEServerStartConnection();
   
   [self showMainWindow:nil];
   [self displayFirstRunIfNeeded];
@@ -158,13 +155,12 @@ NSArray *gSortByNameDescriptors = nil;
 
 #pragma mark -
 #pragma mark Menu IBActions
-- (IBAction)startStopServer:(id)sender {
-//  if ([self serverState] != kSparkDaemonStarted) {
-//    [[ServerController sharedController] startServer];
-//  }
-//  else {
-//    [[ServerController sharedController] shutDownServer];
-//  }
+- (IBAction)toggleServer:(id)sender {
+  if ([NSApp serverStatus] == kSparkDaemonStarted) {
+    [[SEServerConnection defaultConnection] close];
+  } else {
+    SELaunchSparkDaemon();
+  }
 }
 
 //- (IBAction)openInspector:(id)sender {

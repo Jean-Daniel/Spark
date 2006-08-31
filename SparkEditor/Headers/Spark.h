@@ -36,7 +36,7 @@
 + (void)restartDaemon;
 
 #pragma mark Menu IBActions
-- (IBAction)startStopServer:(id)sender;
+- (IBAction)toggleServer:(id)sender;
 - (IBAction)showPreferences:(id)sender;
 
 - (NSWindow *)mainWindow;

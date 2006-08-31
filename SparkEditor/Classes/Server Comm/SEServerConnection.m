@@ -11,19 +11,15 @@
 #import "SEScriptHandler.h"
 
 #import <SparkKit/SparkKit.h>
+#import <SparkKit/SparkEntry.h>
+#import <SparkKit/SparkAction.h>
+#import <SparkKit/SparkLibrary.h>
+#import <SparkKit/SparkTrigger.h>
 #import <SparkKit/SparkObjectSet.h>
+#import <SparkKit/SparkApplication.h>
 
-#define SparkRemoteMsgSend(method, object, log)		    \
-id<SparkServer> server;				\
-if (server = [self serverProxy]) {	\
-  @try {							\
-    [server method object];			\
-  }									\
-  @catch (id exception) {			\
-    SKLogException(exception);		\
-  }									\
-  DLog(log);						\
-}
+#import <ShadowKit/SKFSFunctions.h>
+#import <ShadowKit/SKProcessFunctions.h>
 
 @implementation SEServerConnection
 
@@ -63,6 +59,24 @@ if (server = [self serverProxy]) {	\
                selector:@selector(willRemoveObject:)
                    name:kSparkLibraryWillRemoveObjectNotification 
                  object:nil];
+    
+    /* Entry Manager */
+    [center addObserver:self
+               selector:@selector(didAddEntry:)
+                   name:SparkEntryManagerDidAddEntryNotification 
+                 object:nil];
+    [center addObserver:self
+               selector:@selector(didUpdateEntry:)
+                   name:SparkEntryManagerDidUpdateEntryNotification 
+                 object:nil];
+    [center addObserver:self
+               selector:@selector(willRemoveEntry:)
+                   name:SparkEntryManagerWillRemoveEntryNotification 
+                 object:nil];
+    [center addObserver:self
+               selector:@selector(didChangeStatus:)
+                   name:SparkEntryManagerDidChangeEntryStatusNotification 
+                 object:nil];
   }
   return self;
 }
@@ -71,6 +85,19 @@ if (server = [self serverProxy]) {	\
   [[NSNotificationCenter defaultCenter] removeObserver:self];
   [se_server release];
   [super dealloc];
+}
+#pragma mark -
+
+- (void)close {
+  if ([self isConnected]) {
+    if ([(id)[self server] respondsToSelector:@selector(shutdown)]) {
+      [[self server] shutdown];
+    } else {
+      ProcessSerialNumber psn = SKProcessGetProcessWithSignature(kSparkDaemonHFSCreatorType);
+      if (psn.lowLongOfPSN != kNoProcess)
+        KillProcess(&psn);
+    }
+  }
 }
 
 - (BOOL)connect {
@@ -110,6 +137,7 @@ if (server = [self serverProxy]) {	\
     DLog(@"Connection did close");
     [se_server release];
     se_server = nil;
+    [NSApp setServerStatus:kSparkDaemonStopped];
   }
 }
 
@@ -134,8 +162,6 @@ if (server = [self serverProxy]) {	\
 
 #pragma mark -
 #pragma mark Spark Library Synchronization
-@class SparkTrigger, SparkApplication;
-
 SK_INLINE
 OSType SEServerObjectType(SparkObject *anObject) {
   if ([anObject isKindOfClass:[SparkAction class]])
@@ -181,60 +207,99 @@ OSType SEServerObjectType(SparkObject *anObject) {
   }
 }
 
+/* Entries */
+- (void)didAddEntry:(NSNotification *)aNotification {
+  if ([self isConnected]) {
+    SparkEntry *entry = [[aNotification userInfo] objectForKey:SparkEntryNotificationKey];
+    if (entry) {
+      SparkLibraryEntry *lentry = [[aNotification object] libraryEntryForEntry:entry];
+      if (lentry) {
+        [[self server] addLibraryEntry:lentry];
+      }
+    }
+  }
+}
+- (void)didUpdateEntry:(NSNotification *)aNotification {
+  if ([self isConnected]) {
+    SparkEntry *entry = [[aNotification userInfo] objectForKey:SparkEntryNotificationKey];
+    SparkEntry *previous = [[aNotification userInfo] objectForKey:SparkEntryReplacedNotificationKey];
+    
+    if (entry && previous) {
+      SparkLibraryEntry *lentry = [[aNotification object] libraryEntryForEntry:entry];
+      if (lentry) {
+        SparkLibraryEntry lprevious;
+        lprevious.status = [SparkSharedManager() statusForEntry:previous];
+        lprevious.action = [[previous action] uid];
+        lprevious.trigger = [[previous trigger] uid];
+        lprevious.application = [[previous application] uid];
+        [[self server] replaceLibraryEntry:&lprevious withLibraryEntry:lentry];
+      }
+    }
+  }
+}
+- (void)willRemoveEntry:(NSNotification *)aNotification {
+  if ([self isConnected]) {
+    SparkEntry *entry = [[aNotification userInfo] objectForKey:SparkEntryNotificationKey];
+    if (entry) {
+      SparkLibraryEntry *lentry = [[aNotification object] libraryEntryForEntry:entry];
+      if (lentry) {
+        [[self server] removeLibraryEntry:lentry];
+      }
+    }
+  }
+}
+
+- (void)didChangeStatus:(NSNotification *)aNotification {
+  if ([self isConnected]) {
+    SparkEntry *entry = [[aNotification userInfo] objectForKey:SparkEntryNotificationKey];
+    if (entry) {
+      SparkLibraryEntry *lentry = [[aNotification object] libraryEntryForEntry:entry];
+      if (lentry) {
+        [[self server] setStatus:[SparkSharedManager() statusForEntry:entry] forLibraryEntry:lentry];
+      }
+    }
+  }
+}
+
 @end
 
-#if 0
-/* If a daemon is runnnig, check if it is the bundled Daemon. If not, kill it and launch the bundled one */
-- (void)checkRunningDaemon {
-  id sparkPath = [[NSBundle mainBundle] bundlePath];
-  ProcessSerialNumber psn = SKGetProcessWithSignature(kSparkDaemonHFSCreatorType);
+static 
+NSString * const kSparkDaemonExecutableName = @"Spark Daemon.app";
+
+BOOL SELaunchSparkDaemon() {
+  if (kSparkDaemonStarted != [NSApp serverStatus]) {
+    [SparkSharedLibrary() synchronize];
+    NSString *path = [[NSBundle mainBundle] pathForAuxiliaryExecutable:kSparkDaemonExecutableName];
+    if (!path || ![[NSWorkspace sharedWorkspace] launchApplication:path]) {
+      DLog(@"Error cannot launch daemon app");
+      [NSApp setServerStatus:kSparkDaemonError];
+      return NO;
+    }
+  }  
+  return YES;
+}
+
+void SEServerStartConnection() {
+  /* Verify daemon validity */
+  ProcessSerialNumber psn = SKProcessGetProcessWithSignature(kSparkDaemonHFSCreatorType);
   if (psn.lowLongOfPSN != kNoProcess) {
-    FSRef location;
-    if (noErr == GetProcessBundleLocation(&psn, &location)) {
-      CFURLRef url = CFURLCreateFromFSRef(kCFAllocatorDefault, &location);
-      id daemonPath = (id)CFURLCopyFileSystemPath(url, kCFURLPOSIXPathStyle);
-      [(id)url release];
-      if (daemonPath && ![daemonPath hasPrefix:sparkPath]) {
+    FSRef dRef;
+    NSString *path = [[NSBundle mainBundle] pathForAuxiliaryExecutable:kSparkDaemonExecutableName];
+    if (path && [path getFSRef:&dRef]) {
+      FSRef location;
+      if (noErr == GetProcessBundleLocation(&psn, &location) && noErr != FSCompareFSRefs(&location, &dRef)) {
+        DLog(@"Killing Running daemon.");
 #if !defined (DEBUG)
-        if ([self serverProxy]) {
-          DLog(@"Shut down old daemon");
-          [self shutDownServer];
-        } else {
-          pid_t pid;
-          if (noErr == GetProcessPID(&psn, &pid)) {
-            DLog(@"Nice kill old daemon");
-            kill(pid, SIGTERM);
-          } else {
-            DLog(@"Violent kill old daemon");
-            KillProcess(&psn);
-          }
-        }
-        [self shutDownServer];
-        [self startServer];
-#else
-#warning Disable Check Daemon
-        DLog(@"Found old daemon at %@", daemonPath);
+        KillProcess(&psn);
+        SELaunchSparkDaemon();
 #endif
       }
-      [daemonPath release];
     }
   }
-}
-
-- (void)startServer {
-  if (kSparkDaemonStarted != [[self class] serverState]) {
-    [SparkDefaultLibrary() synchronize];
-    id path = [[[NSBundle mainBundle] executablePath] stringByDeletingLastPathComponent];
-    if (![[NSWorkspace sharedWorkspace] launchApplication:[path stringByAppendingPathComponent:(id)kSparkDaemonExecutable]]) {
-      DLog(@"Error cannot launch daemon app");
-      [[NSApp delegate] setServerState:kSparkDaemonError];
-    }
-  }
-  else {
-    // Dire à Spark que le serveur tourne déjà
-    DLog(@"Daemon already running");
-    [[NSApp delegate] setServerState:kSparkDaemonStarted];
+  
+  if ([[SEServerConnection defaultConnection] connect]) {
+    [NSApp setServerStatus:kSparkDaemonStarted];
+  } else {
+    [NSApp setServerStatus:kSparkDaemonStopped];
   }
 }
-
-#endif /* 0 */

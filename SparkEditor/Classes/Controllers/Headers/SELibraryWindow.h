@@ -13,8 +13,10 @@
 @class SEApplicationView, SESparkEntrySet, SEEntryEditor;
 @class SELibrarySource, SEApplicationSource, SETriggersController;
 @interface SELibraryWindow : NSWindowController {
+  IBOutlet NSButton *ibDaemon;
+  IBOutlet NSTextField *ibStatus;
   IBOutlet NSSearchField *search;
-  IBOutlet SEApplicationView *appField;
+  IBOutlet SEApplicationView *appField;  
   
   /* Application */
   IBOutlet NSDrawer *appDrawer;

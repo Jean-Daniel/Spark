@@ -335,12 +335,7 @@
       [first setNextKeyView:[ibPlugin nextValidKeyView]];
     }
   } else {
-    /* Could not create a valid loop, ask he window to do it */
-    if ([[self window] respondsToSelector:@selector(recalculateKeyViewLoop)]) {
-      [[self window] recalculateKeyViewLoop];
-    } else {
-      [trap setNextKeyView:[ibPlugin nextValidKeyView]];
-    }
+    [trap setNextKeyView:[ibPlugin nextValidKeyView]];
   }
 }
 

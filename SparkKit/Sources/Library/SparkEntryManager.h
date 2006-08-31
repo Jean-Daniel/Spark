@@ -54,6 +54,7 @@ typedef struct _SparkLibraryEntry {
 - (void)removeLibraryEntry:(const SparkLibraryEntry *)anEntry;
 - (void)replaceLibraryEntry:(SparkLibraryEntry *)anEntry withLibraryEntry:(SparkLibraryEntry *)newEntry;
 
+- (SparkLibraryEntry *)libraryEntryForEntry:(SparkEntry *)anEntry;
 - (void)setStatus:(BOOL)status forLibraryEntry:(SparkLibraryEntry *)anEntry;
 
 @end
@@ -77,6 +78,11 @@ SPARK_EXPORT
 NSString * const SparkEntryManagerWillRemoveEntryNotification;
 SPARK_EXPORT
 NSString * const SparkEntryManagerDidRemoveEntryNotification;
+
+SPARK_EXPORT
+NSString * const SparkEntryManagerWillChangeEntryStatusNotification;
+SPARK_EXPORT
+NSString * const SparkEntryManagerDidChangeEntryStatusNotification;
 
 @interface SparkEntryManager (SparkSerialization)
 - (NSFileWrapper *)fileWrapper:(NSError **)outError;
