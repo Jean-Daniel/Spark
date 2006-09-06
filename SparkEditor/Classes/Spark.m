@@ -19,6 +19,7 @@
 #import <SparkKit/SparkActionLoader.h>
 #import <HotKeyToolKit/HotKeyToolKit.h>
 
+#import "SEPreferences.h"
 #import "SELibraryWindow.h"
 #import "SEEntriesManager.h"
 #import "SEServerConnection.h"
@@ -145,7 +146,7 @@ NSArray *gSortByNameDescriptors = nil;
 - (void)serverStatusDidChange:(NSNotification *)aNotification {
   SparkDaemonStatus status = [[aNotification object] serverStatus];
   NSString *title = nil;
-  if (kSparkDaemonStarted == status)
+  if (kSparkDaemonStarted != status)
     title = NSLocalizedString(@"ACTIVE_SPARK_MENU", 
                               @"Spark Daemon Menu Title * Active *");
   else
@@ -196,19 +197,15 @@ NSArray *gSortByNameDescriptors = nil;
 //}
 //
 - (IBAction)showPreferences:(id)sender {
-  
+  if (!se_preferences) {
+    se_preferences = [[SEPreferences alloc] init];
+  }
+  [NSApp beginSheet:[se_preferences window]
+     modalForWindow:[self mainWindow]
+      modalDelegate: nil
+     didEndSelector: nil
+        contextInfo: nil];
 }
-//  if (!prefWindows) {
-//    prefWindows = [[Preferences alloc] init];
-//  }
-//  if (libraryWindow) {
-//    [NSApp beginSheet: [prefWindows window]
-//       modalForWindow: [libraryWindow window]
-//        modalDelegate: nil
-//       didEndSelector: nil
-//          contextInfo: nil];
-//  }
-//}
 
 - (NSWindow *)mainWindow {
   return [se_mainWindow window];

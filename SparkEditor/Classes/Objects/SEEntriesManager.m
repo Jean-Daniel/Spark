@@ -23,6 +23,7 @@ NSString * const SEApplicationDidChangeNotification = @"SEApplicationDidChange";
 NSString * const SEEntriesManagerDidReloadNotification = @"SEEntriesManagerDidReload";
 NSString * const SEEntriesManagerDidCreateEntryNotification = @"SEEntriesManagerDidCreateEntry";
 NSString * const SEEntriesManagerDidUpdateEntryNotification = @"SEEntriesManagerDidUpdateEntry";
+NSString * const SEEntriesManagerDidCreateWeakEntryNotification = @"SEEntriesManagerDidCreateWeakEntry";
 
 @implementation SEEntriesManager
 
@@ -134,6 +135,21 @@ NSString * const SEEntriesManagerDidUpdateEntryNotification = @"SEEntriesManager
   if (refresh)
     [self refresh];
   return removed;
+}
+
+- (SparkEntry *)createWeakEntryForEntry:(SparkEntry *)anEntry {
+  NSParameterAssert([[self application] uid] != 0);
+  SparkEntry *weak = [anEntry copy];
+  [weak setApplication:[self application]];
+  /* Update storage */
+  [se_snapshot addEntry:weak];
+  [se_overwrites addEntry:weak];
+  
+  [SparkSharedManager() addEntry:weak];
+  
+  [[NSNotificationCenter defaultCenter] postNotificationName:SEEntriesManagerDidCreateWeakEntryNotification
+                                                      object:weak];
+  return [weak autorelease];
 }
 
 /* Create Entry with type */
@@ -306,7 +322,7 @@ NSString * const SEEntriesManagerDidUpdateEntryNotification = @"SEEntriesManager
   }
   [self refresh];
   [[NSNotificationCenter defaultCenter] postNotificationName:SEEntriesManagerDidUpdateEntryNotification
-                                                      object:anEntry ? : [se_snapshot entryForTrigger:[[edited trigger] uid]]
+                                                      object:anEntry ? : [se_snapshot entryForTrigger:[edited trigger]]
                                                     userInfo:nil];
   return YES;
 }

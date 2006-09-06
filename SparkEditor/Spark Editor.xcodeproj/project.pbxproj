@@ -80,6 +80,8 @@
 		98A712510A866062000A3489 /* Scripting.r in Rez */ = {isa = PBXBuildFile; fileRef = 989044A40A667C1F0024EC52 /* Scripting.r */; };
 		98A9226C0A7B8EC300DF1998 /* SEApplicationSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 98A9226B0A7B8EC300DF1998 /* SEApplicationSource.m */; };
 		98A922700A7B8ED300DF1998 /* SEApplicationSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 98A9226F0A7B8ED300DF1998 /* SEApplicationSource.h */; };
+		98AC52D20AAF7FF40071EAA7 /* SEPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 98AC52D10AAF7FF40071EAA7 /* SEPreferences.m */; };
+		98AC52D40AAF80010071EAA7 /* SEPreferences.h in Headers */ = {isa = PBXBuildFile; fileRef = 98AC52D30AAF80010071EAA7 /* SEPreferences.h */; };
 		98B2C6C50A617AA200D9D719 /* SEScriptHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 98240186060C7B0700A0DB07 /* SEScriptHandler.m */; };
 		98B2C6C60A617AA500D9D719 /* SEScriptHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 984BCE6A060C7FEC0043CDEA /* SEScriptHandler.h */; };
 		98B45364097312D600BD0A82 /* ShadowKit.framework in Copy Framework */ = {isa = PBXBuildFile; fileRef = 986757DC096B3F2400BB8A25 /* ShadowKit.framework */; };
@@ -457,6 +459,8 @@
 		98A91DA8074F55460029D278 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/Importer.nib; sourceTree = "<group>"; };
 		98A9226B0A7B8EC300DF1998 /* SEApplicationSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEApplicationSource.m; sourceTree = "<group>"; };
 		98A9226F0A7B8ED300DF1998 /* SEApplicationSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEApplicationSource.h; sourceTree = "<group>"; };
+		98AC52D10AAF7FF40071EAA7 /* SEPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEPreferences.m; sourceTree = "<group>"; };
+		98AC52D30AAF80010071EAA7 /* SEPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEPreferences.h; sourceTree = "<group>"; };
 		98AC962D073F57FB0004BD09 /* SparkImporter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SparkImporter.m; sourceTree = "<group>"; };
 		98B07EE606FA483600C1E88B /* ApplicationListIcon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = ApplicationListIcon.tiff; sourceTree = "<group>"; };
 		98B5517C06D274B3001BDF93 /* DaemonPref.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = DaemonPref.tiff; sourceTree = "<group>"; };
@@ -858,6 +862,7 @@
 				985AF9DC0A5C335D00397FAA /* Headers */,
 				9803A1080A9CFE9700B7DBBA /* SEFirstRun.m */,
 				981A8A9E0A61A4E400753369 /* SEEntryEditor.m */,
+				98AC52D10AAF7FF40071EAA7 /* SEPreferences.m */,
 				983BE16C0A7E402600E0228F /* SELibrarySource.m */,
 				985AF9FA0A5C33D400397FAA /* SELibraryWindow.m */,
 				98A9226B0A7B8EC300DF1998 /* SEApplicationSource.m */,
@@ -871,6 +876,7 @@
 			children = (
 				9803A10A0A9CFEA400B7DBBA /* SEFirstRun.h */,
 				981A8A9A0A61A4D600753369 /* SEEntryEditor.h */,
+				98AC52D30AAF80010071EAA7 /* SEPreferences.h */,
 				983BE1730A7E402F00E0228F /* SELibrarySource.h */,
 				985AFA000A5C33D900397FAA /* SELibraryWindow.h */,
 				98A9226F0A7B8ED300DF1998 /* SEApplicationSource.h */,
@@ -1000,6 +1006,7 @@
 				980AB1F10A9759DD00A6115E /* SEBuiltInPlugin.h in Headers */,
 				9872830F0A9B30B60098C22F /* SEEntriesManager.h in Headers */,
 				9803A10B0A9CFEA400B7DBBA /* SEFirstRun.h in Headers */,
+				98AC52D40AAF80010071EAA7 /* SEPreferences.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1288,6 +1295,7 @@
 				9831BFE30A9C2BD6001DA7AD /* SELibrarySource.m in Sources */,
 				9803A1090A9CFE9700B7DBBA /* SEFirstRun.m in Sources */,
 				98E128D70AA0EFAC00D5884A /* SEEntryEditor.m in Sources */,
+				98AC52D20AAF7FF40071EAA7 /* SEPreferences.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

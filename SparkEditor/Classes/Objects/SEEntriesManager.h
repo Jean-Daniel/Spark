@@ -34,6 +34,8 @@
 
 - (unsigned)removeEntries:(NSArray *)entries;
 
+- (SparkEntry *)createWeakEntryForEntry:(SparkEntry *)anEntry;
+
 - (void)createEntry:(SparkPlugIn *)aPlugin modalForWindow:(NSWindow *)aWindow;
 - (void)editEntry:(SparkEntry *)anEntry modalForWindow:(NSWindow *)aWindow;
 
@@ -48,6 +50,8 @@ NSString * const SEEntriesManagerDidCreateEntryNotification;
 
 SK_PRIVATE
 NSString * const SEEntriesManagerDidUpdateEntryNotification;
+SK_PRIVATE
+NSString * const SEEntriesManagerDidCreateWeakEntryNotification;
 
 @interface SEEntriesManager (ShadowSingleton)
 

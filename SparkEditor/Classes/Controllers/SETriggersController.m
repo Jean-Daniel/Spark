@@ -48,6 +48,11 @@ static BOOL SearchHotKey(NSString *search, id object, void *context) {
                                                  name:SEEntriesManagerDidUpdateEntryNotification
                                                object:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(managerDidReload:) 
+                                                 name:SEEntriesManagerDidReloadNotification
+                                               object:nil];
+    
   }
   return self;
 }
@@ -69,6 +74,12 @@ static BOOL SearchHotKey(NSString *search, id object, void *context) {
 }
 
 - (IBAction)doubleAction:(id)sender {
+  /* Does not support multi-edition */
+  if ([table numberOfSelectedRows] != 1) {
+    NSBeep();
+    return;
+  }
+  
   int idx = -1;
   NSEvent *event = [NSApp currentEvent];
   if ([event type] == NSKeyDown) {
@@ -81,6 +92,7 @@ static BOOL SearchHotKey(NSString *search, id object, void *context) {
     [[SEEntriesManager sharedManager] editEntry:entry modalForWindow:[sender window]];
   }
 }
+/* Select updated entry */
 - (void)didUpdateEntry:(NSNotification *)aNotification {
   SparkEntry *entry = [aNotification object];
   if (entry && [se_entries containsObject:entry]) {
@@ -109,6 +121,12 @@ static BOOL SearchHotKey(NSString *search, id object, void *context) {
     [self sortTriggers:[table sortDescriptors]];
   }
   [table reloadData];
+}
+
+- (void)managerDidReload:(NSNotification *)notification {
+  /* Static list will not notify change, so we have to force reload */
+  if (se_list && ![se_list isDynamic])
+    [self loadTriggers];
 }
 
 - (void)listDidChange:(NSNotification *)notification {
@@ -198,18 +216,14 @@ static BOOL SearchHotKey(NSString *search, id object, void *context) {
   SparkEntry *entry = [se_entries objectAtIndex:rowIndex];
   if ([[aTableColumn identifier] isEqualToString:@"enabled"]) {
     SparkApplication *application = [[SEEntriesManager sharedManager] application];
-    if ([application uid] == 0 || kSparkEntryTypeDefault != [entry type]) {
-      [SparkSharedManager() setStatus:[anObject boolValue] forEntry:entry];
-      [aTableView setNeedsDisplayInRect:[aTableView rectOfRow:rowIndex]];
-    } else {
+    if ([application uid] != 0 && kSparkEntryTypeDefault == [entry type]) {
       /* Inherits: should create an new entry */
-      DLog(@"Create weak overwrite entry");
-      SparkEntry *weak = [entry copy];
-      [weak setApplication:application];
-      [SparkSharedManager() addEntry:weak];
-      [SparkSharedManager() setStatus:[anObject boolValue] forEntry:weak];
-      [[SEEntriesManager sharedManager] refresh];
+      entry = [[SEEntriesManager sharedManager] createWeakEntryForEntry:entry];
+      [se_entries replaceObjectAtIndex:rowIndex withObject:entry];
+      [SparkSharedManager() setStatus:[anObject boolValue] forEntry:entry];
     }
+    [SparkSharedManager() setStatus:[anObject boolValue] forEntry:entry];
+    [aTableView setNeedsDisplayInRect:[aTableView rectOfRow:rowIndex]];
   } else if ([[aTableColumn identifier] isEqualToString:@"__item__"]) {
     if ([anObject length] > 0) {
       [entry setName:anObject];

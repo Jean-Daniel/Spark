@@ -38,7 +38,7 @@
 
 - (id)init {
   if (self = [super init]) {
-    NSNotificationCenter *center  =[NSNotificationCenter defaultCenter];
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center addObserver:self
                selector:@selector(connectionDidDie:)
                    name:NSConnectionDidDieNotification
@@ -309,7 +309,7 @@ void SEServerStartConnection() {
     if (path && [path getFSRef:&dRef]) {
       FSRef location;
       if (noErr == GetProcessBundleLocation(&psn, &location) && noErr != FSCompareFSRefs(&location, &dRef)) {
-        DLog(@"Killing Running daemon.");
+        DLog(@"Should Kill Running daemon.");
 #if !defined (DEBUG)
         KillProcess(&psn);
         SELaunchSparkDaemon();

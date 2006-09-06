@@ -139,6 +139,10 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
                                              selector:@selector(didCreateEntry:)
                                                  name:SEEntriesManagerDidCreateEntryNotification
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didCreateWeakEntry:)
+                                                 name:SEEntriesManagerDidCreateWeakEntryNotification
+                                               object:nil];
   }
   return self;
 }
@@ -330,6 +334,11 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
   /* Reload library to notify list change */
   [[se_content objectAtIndex:0] reload];
   [NSAllMapTableKeys(se_plugins) makeObjectsPerformSelector:@selector(reload)];
+}
+
+- (void)didCreateWeakEntry:(NSNotification *)aNotification {
+  /* Reload dynamic lists (plugins + overwrite) */
+  [se_overwrite reload];
 }
 
 /* Adjust list selection */

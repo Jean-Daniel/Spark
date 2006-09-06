@@ -468,7 +468,7 @@ bail:
 #pragma mark -
 #pragma mark Utilities Functions
 NSString *SparkLibraryFolder() {
-  NSString *folder = [SKFindFolder(kPreferencesFolderType, kUserDomain) stringByAppendingPathComponent:kSparkFolderName];
+  NSString *folder = [SKFSFindFolder(kPreferencesFolderType, kUserDomain) stringByAppendingPathComponent:kSparkFolderName];
   if (folder && ![[NSFileManager defaultManager] fileExistsAtPath:folder]) {
     [[NSFileManager defaultManager] createDirectoryAtPath:folder attributes:nil];
   }
