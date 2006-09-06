@@ -132,28 +132,34 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
                                                                                                   forKey:kSparkNotificationObject] : nil];
 }
 
+- (void)_checkUID:(SparkObject *)anObject {
+  if (![anObject uid]) {
+    [anObject setUID:[self nextUID]];
+  } else if ([anObject uid] > sp_uid) {
+    sp_uid = [anObject uid];
+  }
+}
+
+- (void)_addObject:(SparkObject *)object {
+  NSMapInsert(sp_objects, (void *)[object uid], object);
+  [object setLibrary:[self library]];
+}
+
 - (BOOL)addObject:(SparkObject *)object {
   NSParameterAssert(object != nil);
   NSParameterAssert(![self containsObject:object]);
   @try {
     if (![self containsObject:object]) {
-      if (![object uid]) {
-        [object setUID:[self nextUID]];
-      } else if ([object uid] > sp_uid) {
-        sp_uid = [object uid];
-      }
+      [self _checkUID:object];
       // Will add object
       [self postNotification:kSparkLibraryWillAddObjectNotification object:object];
-      NSMapInsert(sp_objects, (void *)[object uid], object);
-      [object setLibrary:[self library]];
+      
+      [self _addObject:object];
       // Did add object
       [self postNotification:kSparkLibraryDidAddObjectNotification object:object];
       return YES;
-    } else { /* If object already in Library */
-      return [self updateObject:object];
     }
-  }
-  @catch (id exception) {
+  } @catch (id exception) {
     SKLogException(exception);
   }
   return NO;
@@ -254,6 +260,18 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
   NSData *data = [fileWrapper regularFileContents];
   require(data, bail);
   
+  /* Remove all */
+  SparkObject *sobject = nil;
+  NSMapEnumerator sobjects = NSEnumerateMapTable(sp_objects);
+  while (NSNextMapEnumeratorPair(&sobjects, NULL, (void **)&sobject)) {
+    [sobject setLibrary:nil];
+  }
+  NSEndMapTableEnumeration(&sobjects);
+  
+  /* Reset map and uid */
+  NSResetMapTable(sp_objects);
+  sp_uid = kSparkLibraryReserved;
+  
   NSDictionary *plist = [NSPropertyListSerialization propertyListFromData:data 
                                                          mutabilityOption:NSPropertyListImmutable
                                                                    format:nil errorDescription:nil];
@@ -272,8 +290,10 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
       object = [[SparkPlaceHolder alloc] initWithSerializedValues:serialize];
       [object autorelease];
     }
-    if (object) {
-      [self addObject:object];
+    if (object && ![self containsObject:object]) {
+      /* Avoid notifications */
+      [self _checkUID:object];
+      [self _addObject:object];
     } else {
       DLog(@"Invalid object: %@", serialize);
     }

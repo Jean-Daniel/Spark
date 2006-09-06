@@ -19,6 +19,7 @@
 #import <SparkKit/SparkApplication.h>
 
 #import <ShadowKit/SKFSFunctions.h>
+#import <ShadowKit/SKLSFunctions.h>
 #import <ShadowKit/SKProcessFunctions.h>
 
 @implementation SEServerConnection
@@ -88,7 +89,12 @@
 }
 #pragma mark -
 
-- (void)close {
+- (void)restart {
+  se_scFlags.restart = 1;
+  [self shutdown];
+}
+
+- (void)shutdown {
   if ([self isConnected]) {
     if ([(id)[self server] respondsToSelector:@selector(shutdown)]) {
       [[self server] shutdown];
@@ -137,7 +143,13 @@
     DLog(@"Connection did close");
     [se_server release];
     se_server = nil;
-    [NSApp setServerStatus:kSparkDaemonStopped];
+    if (se_scFlags.restart) {
+      se_scFlags.restart = 0;
+      if (!SELaunchSparkDaemon())
+        [NSApp setServerStatus:kSparkDaemonError];
+    } else {
+      [NSApp setServerStatus:kSparkDaemonStopped];
+    }
   }
 }
 
@@ -266,11 +278,20 @@ OSType SEServerObjectType(SparkObject *anObject) {
 static 
 NSString * const kSparkDaemonExecutableName = @"Spark Daemon.app";
 
+SK_INLINE
+NSString *SEServerPath() {
+#if defined(DEBUG)
+  return kSparkDaemonExecutableName;
+#else
+  return [[NSBundle mainBundle] pathForAuxiliaryExecutable:kSparkDaemonExecutableName];
+#endif
+}
+
 BOOL SELaunchSparkDaemon() {
-  if (kSparkDaemonStarted != [NSApp serverStatus]) {
-    [SparkSharedLibrary() synchronize];
-    NSString *path = [[NSBundle mainBundle] pathForAuxiliaryExecutable:kSparkDaemonExecutableName];
-    if (!path || ![[NSWorkspace sharedWorkspace] launchApplication:path]) {
+  [SparkSharedLibrary() synchronize];
+  NSString *path = SEServerPath();
+  if (path) {
+    if (noErr != SKLSLaunchApplicationAtPath((CFStringRef)path, kCFURLPOSIXPathStyle, kLSLaunchDefaults | kLSLaunchDontSwitch)) {
       DLog(@"Error cannot launch daemon app");
       [NSApp setServerStatus:kSparkDaemonError];
       return NO;
@@ -284,7 +305,7 @@ void SEServerStartConnection() {
   ProcessSerialNumber psn = SKProcessGetProcessWithSignature(kSparkDaemonHFSCreatorType);
   if (psn.lowLongOfPSN != kNoProcess) {
     FSRef dRef;
-    NSString *path = [[NSBundle mainBundle] pathForAuxiliaryExecutable:kSparkDaemonExecutableName];
+    NSString *path = SEServerPath();
     if (path && [path getFSRef:&dRef]) {
       FSRef location;
       if (noErr == GetProcessBundleLocation(&psn, &location) && noErr != FSCompareFSRefs(&location, &dRef)) {

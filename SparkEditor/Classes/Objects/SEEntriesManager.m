@@ -22,6 +22,7 @@
 NSString * const SEApplicationDidChangeNotification = @"SEApplicationDidChange";
 NSString * const SEEntriesManagerDidReloadNotification = @"SEEntriesManagerDidReload";
 NSString * const SEEntriesManagerDidCreateEntryNotification = @"SEEntriesManagerDidCreateEntry";
+NSString * const SEEntriesManagerDidUpdateEntryNotification = @"SEEntriesManagerDidUpdateEntry";
 
 @implementation SEEntriesManager
 
@@ -74,6 +75,15 @@ NSString * const SEEntriesManagerDidCreateEntryNotification = @"SEEntriesManager
   }
   [[NSNotificationCenter defaultCenter] postNotificationName:SEEntriesManagerDidReloadNotification
                                                       object:self];
+}
+- (void)reload {
+  [se_globals removeAllEntries];
+  [se_globals addEntriesFromArray:[SparkSharedManager() entriesForApplication:0]];
+  [self refresh];
+}
+
+- (void)libraryDidReload:(NSNotification *)aNotification {
+  [self reload];
 }
 
 - (SparkApplication *)application {
@@ -242,15 +252,29 @@ NSString * const SEEntriesManagerDidCreateEntryNotification = @"SEEntriesManager
             DLog(@"Already contains an entry for this application and trigger");
             return NO;
           }
-        } 
+        }
       } else { /* Trigger does not already exists */
+        DLog(@"Create new trigger");
         [SparkSharedTriggerSet() addObject:[anEntry trigger]];
       }
       /* Trigger has changed and edited entry is a default entry */
-      if ([edited type] == kSparkEntryTypeDefault) {
+      if ([edited type] == kSparkEntryTypeDefault && [[edited application] uid] == 0) {
         /* Update weak entry */
-        // TODO
-        // [[edited trigger] uid] => [[anEntry trigger] uid]
+        NSArray *entries = [SparkSharedManager() entriesForAction:[[edited action] uid]];
+        unsigned count = [entries count];
+        /* At least two */
+        if (count > 1) {
+          while (count-- > 0) {
+            SparkEntry *weak = [entries objectAtIndex:count];
+            /* Do not update edited entry */
+            if ([[weak application] uid] != 0) {
+              SparkEntry *update = [weak copy];
+              [update setTrigger:[anEntry trigger]];
+              [SparkSharedManager() replaceEntry:weak withEntry:update];
+              [update release];
+            }
+          }
+        }
       }
     } else { /* Trigger does not change */
       [anEntry setTrigger:[edited trigger]];
@@ -279,9 +303,11 @@ NSString * const SEEntriesManagerDidCreateEntryNotification = @"SEEntriesManager
     if ([[anEntry application] uid] == 0) {
       [se_globals replaceEntry:edited withEntry:anEntry];
     }
-    [self refresh];
   }
   [self refresh];
+  [[NSNotificationCenter defaultCenter] postNotificationName:SEEntriesManagerDidUpdateEntryNotification
+                                                      object:anEntry ? : [se_snapshot entryForTrigger:[[edited trigger] uid]]
+                                                    userInfo:nil];
   return YES;
 }
 

@@ -20,6 +20,8 @@
   SESparkEntrySet *se_overwrites;
 }
 
+- (void)reload;
+
 /* All globals entries */
 - (SESparkEntrySet *)globals;
 /* Current entryset */
@@ -43,6 +45,9 @@ SK_PRIVATE
 NSString * const SEEntriesManagerDidReloadNotification;
 SK_PRIVATE
 NSString * const SEEntriesManagerDidCreateEntryNotification;
+
+SK_PRIVATE
+NSString * const SEEntriesManagerDidUpdateEntryNotification;
 
 @interface SEEntriesManager (ShadowSingleton)
 

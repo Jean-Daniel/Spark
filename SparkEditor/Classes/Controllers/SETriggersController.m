@@ -43,6 +43,11 @@ static BOOL SearchHotKey(NSString *search, id object, void *context) {
                                              selector:@selector(listDidChange:) 
                                                  name:SparkListDidChangeNotification
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didUpdateEntry:) 
+                                                 name:SEEntriesManagerDidUpdateEntryNotification
+                                               object:nil];
+    
   }
   return self;
 }
@@ -74,6 +79,13 @@ static BOOL SearchHotKey(NSString *search, id object, void *context) {
   if (idx >= 0) {
     SparkEntry *entry = [se_entries objectAtIndex:idx];
     [[SEEntriesManager sharedManager] editEntry:entry modalForWindow:[sender window]];
+  }
+}
+- (void)didUpdateEntry:(NSNotification *)aNotification {
+  SparkEntry *entry = [aNotification object];
+  if (entry && [se_entries containsObject:entry]) {
+    int idx = [se_entries indexOfObject:entry];
+    [table selectRow:idx byExtendingSelection:NO];
   }
 }
 
@@ -117,8 +129,10 @@ static BOOL SearchHotKey(NSString *search, id object, void *context) {
 - (void)deleteSelectionInTableView:(NSTableView *)aTableView {
   NSIndexSet *indexes = [aTableView selectedRowIndexes];
   NSArray *items = indexes ? [se_entries objectsAtIndexes:indexes] : nil;
-  if (items)
+  if (items) {
+    // TODO: Check item consequences.
     [[SEEntriesManager sharedManager] removeEntries:items];
+  }
 }
 
 - (int)numberOfRowsInTableView:(NSTableView *)aTableView {

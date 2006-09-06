@@ -44,7 +44,7 @@ static const int kSparkVersion = 0x030000; /* 3.0.0 */
 }
 
 - (IBAction)close:(id)sender {
-  if ([ibStartNow state] == NSOnState) {
+  if ([ibStartNow state] == NSOnState && kSparkDaemonStarted != [NSApp serverStatus]) {
     SELaunchSparkDaemon();
   }
   //if (autorun) {

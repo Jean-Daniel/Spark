@@ -13,14 +13,16 @@
   @private
   struct _se_scFlags {
     unsigned int fail:1;
-    unsigned int reserved:31;
+    unsigned int restart:1;
+    unsigned int reserved:30;
   } se_scFlags;
   NSDistantObject<SparkServer> *se_server;
 }
 
 + (SEServerConnection *)defaultConnection;
 
-- (void)close;
+- (void)restart;
+- (void)shutdown;
 
 - (BOOL)connect;
 - (BOOL)isConnected;

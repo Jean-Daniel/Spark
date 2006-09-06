@@ -20,6 +20,7 @@
 #import <HotKeyToolKit/HotKeyToolKit.h>
 
 #import "SELibraryWindow.h"
+#import "SEEntriesManager.h"
 #import "SEServerConnection.h"
 
 int main(int argc, const char *argv[]) {
@@ -155,9 +156,36 @@ NSArray *gSortByNameDescriptors = nil;
 
 #pragma mark -
 #pragma mark Menu IBActions
+- (IBAction)revert:(id)sender {
+  [[NSAlert alertWithMessageText:@"You are about to revert all changed perform since Spark Launch."
+                   defaultButton:@"Revert"
+                 alternateButton:@"Cancel"
+                     otherButton:nil
+       informativeTextWithFormat:@"Revert will restore your database."] beginSheetModalForWindow:[self mainWindow]
+                                                 modalDelegate:self
+                                                didEndSelector:@selector(revertPanelDidEnd:returnCode:contextInfo:)
+                                                   contextInfo:nil];
+}
+
+- (void)revertPanelDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void  *)contextInfo {
+  if (NSOKButton == returnCode) {
+    NSError *error = nil;
+    [SparkSharedLibrary() readLibrary:&error];
+    if (error) {
+      [[NSAlert alertWithError:error] runModal];
+    } else {
+      [[SEEntriesManager sharedManager] reload];
+    }
+    if ([NSApp serverStatus] == kSparkDaemonStarted) {
+      [[SEServerConnection defaultConnection] restart];
+    }
+  }
+}
+
+
 - (IBAction)toggleServer:(id)sender {
   if ([NSApp serverStatus] == kSparkDaemonStarted) {
-    [[SEServerConnection defaultConnection] close];
+    [[SEServerConnection defaultConnection] shutdown];
   } else {
     SELaunchSparkDaemon();
   }

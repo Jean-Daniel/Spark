@@ -164,7 +164,7 @@ BOOL SparkEntryIsCustomTrigger(const SparkLibraryEntry *entry) {
     }
     
     /* Copy all values */
-    anEntry = newEntry;
+    *anEntry = *newEntry;
     
     if (update)
       CFSetAddValue(sp_set, anEntry);
@@ -503,6 +503,10 @@ typedef struct {
 #define SparkReadField(field)	({swap ? OSSwapInt32(field) : field; })
 
 - (BOOL)readFromFileWrapper:(NSFileWrapper *)fileWrapper error:(NSError **)outError {
+  /* Cleanup */
+  CFSetRemoveAllValues(sp_set);
+  CFArrayRemoveAllValues(sp_entries);
+  
   NSData *data = [fileWrapper regularFileContents];
   
   BOOL swap = NO;

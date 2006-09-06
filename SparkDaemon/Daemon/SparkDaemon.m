@@ -279,7 +279,7 @@ int main(int argc, const char *argv[]) {
 #pragma mark -
 #pragma mark Application Delegate
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
-  SDSendStateToEditor(kSparkDaemonStopped);
+  //SDSendStateToEditor(kSparkDaemonStopped);
   /* Invalidate connection. dealloc would probably not be called, so it is not a good candidate for this purpose */
   [[NSConnection defaultConnection] invalidate];
   [[HKHotKeyManager sharedManager] unregisterAll];
