@@ -9,10 +9,11 @@
 #import <SparkKit/SparkPluginAPI.h>
 
 @interface MyActionPlugin : SparkActionPlugIn {
-
+  @private
+  NSString *my_message;
 }
 
-- (int)beepCount;
-- (void)setBeepCount:(int)newBeepCount;
+- (NSString *)message;
+- (void)setMessage:(NSString *)aMessage;
 
 @end

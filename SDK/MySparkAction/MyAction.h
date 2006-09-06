@@ -10,10 +10,10 @@
 
 @interface MyAction : SparkAction {
   @private
-  unsigned my_count;
+  NSString *my_message;
 }
 
-- (int)beepCount;
-- (void)setBeepCount:(int)aBeepCount;
+- (NSString *)message;
+- (void)setMessage:(NSString *)aMessage;
 
 @end

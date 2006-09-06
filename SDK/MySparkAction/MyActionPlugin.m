@@ -16,7 +16,9 @@
   /* if flag == NO, the user want to create a new Action, else he wants to edit an existing Action */
   if (!flag) {
     /* Configure default beep count for new actions */
-    [self setBeepCount:5];
+    [self setMessage:@"Sample Message"];
+  } else {
+    [self setMessage:[sparkAction message]];
   }
 }
 
@@ -25,12 +27,12 @@
 - (NSAlert *)sparkEditorShouldConfigureAction {
   /* You can verify action settings and tell the user if he did someting wrong. 
   In this example, we check the beep count, and return an error if it is less than 1 or more than 9 */
-  if ([self beepCount] < 1 || [self beepCount] > 9) {
-    return [NSAlert alertWithMessageText:@"Beep Count is not valid"
+  if ([[self message] length] < 5 || [[self message] length] > 128) {
+    return [NSAlert alertWithMessageText:@"Invalid message"
                            defaultButton:@"OK"
                          alternateButton:nil
                              otherButton:nil
-               informativeTextWithFormat:@"Beep Count must be more than 0 and less than 10."];
+               informativeTextWithFormat:@"Your message MUST be at least 5 characters and contains less than 128 characters."];
   }
   return nil;
 }
@@ -43,19 +45,19 @@ action's icon and action's name are already setted, else you have to set them he
   MyAction *myAction = [self sparkAction];
   
   /* In this sample, we bind name, so don't have to set it, but icon should updated */
-  [myAction setIcon:[self icon]];
-  
-  /* Set ActionDescription */
-  [myAction setActionDescription:[NSString stringWithFormat:@"Beep %i times", [self beepCount]]];
+  [myAction setMessage:[self message]];
 }
 
 #pragma mark -
 #pragma mark Plugin Specifics methods
-- (int)beepCount {
-  return [[self sparkAction] beepCount];
+- (NSString *)message {
+  return my_message;
 }
-- (void)setBeepCount:(int)newBeepCount {
-  [[self sparkAction] setBeepCount:newBeepCount];
+- (void)setMessage:(NSString *)aMessage {
+  if (my_message != aMessage) {
+    [my_message release];
+    my_message = [aMessage retain];
+  }
 }
 
 @end
