@@ -82,6 +82,9 @@
   }
 }
 
+- (NSArray *)allObjects {
+  return se_entries;
+}
 - (NSEnumerator *)entryEnumerator {
   return [se_entries objectEnumerator];
 }

@@ -28,6 +28,7 @@ typedef struct _SparkLibraryEntry {
 
 - (void)addEntry:(SparkEntry *)anEntry;
 - (void)removeEntry:(SparkEntry *)anEntry;
+- (void)removeEntries:(NSArray *)theEntries;
 - (void)replaceEntry:(SparkEntry *)anEntry withEntry:(SparkEntry *)newEntry;
 
 - (BOOL)statusForEntry:(SparkEntry *)anEntry;
@@ -49,7 +50,6 @@ typedef struct _SparkLibraryEntry {
 
 /* Private */
 #pragma mark Low-Level Methods
-
 - (void)addLibraryEntry:(SparkLibraryEntry *)anEntry;
 - (void)removeLibraryEntry:(const SparkLibraryEntry *)anEntry;
 - (void)replaceLibraryEntry:(SparkLibraryEntry *)anEntry withLibraryEntry:(SparkLibraryEntry *)newEntry;

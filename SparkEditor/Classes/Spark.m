@@ -176,6 +176,8 @@ NSArray *gSortByNameDescriptors = nil;
       [[NSAlert alertWithError:error] runModal];
     } else {
       [[SEEntriesManager sharedManager] reload];
+      [[NSNotificationCenter defaultCenter] postNotificationName:@"SEDidReloadLibrary"
+                                                          object:nil];
     }
     if ([NSApp serverStatus] == kSparkDaemonStarted) {
       [[SEServerConnection defaultConnection] restart];

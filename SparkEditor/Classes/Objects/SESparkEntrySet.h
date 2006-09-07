@@ -33,6 +33,7 @@ NSArray *gSortByNameDescriptors;
 - (void)addEntriesFromEntrySet:(SESparkEntrySet *)set;
 - (void)addEntriesFromArray:(NSArray *)entries;
 
+- (NSArray *)allObjects;
 - (NSEnumerator *)entryEnumerator;
 
 - (BOOL)containsTrigger:(SparkTrigger *)trigger;

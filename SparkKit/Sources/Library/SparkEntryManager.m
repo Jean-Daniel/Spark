@@ -20,7 +20,6 @@
 @end
 
 @interface SparkEntryManager (SparkPrivate)
-- (SparkLibraryEntry *)libraryEntryForEntry:(SparkEntry *)anEntry;
 - (SparkEntryType)typeForLibraryEntry:(const SparkLibraryEntry *)anEntry;
 - (SparkLibraryEntry *)libraryEntryForTrigger:(UInt32)aTrigger application:(UInt32)anApplication;
 @end
@@ -341,6 +340,13 @@ BOOL SparkEntryIsCustomTrigger(const SparkLibraryEntry *entry) {
   [self removeLibraryEntry:&entry];
   // Did remove
   SparkEntryManagerPostNotification(SparkEntryManagerDidRemoveEntryNotification, self, anEntry);
+}
+
+- (void)removeEntries:(NSArray *)theEntries {
+  unsigned count = [theEntries count];
+  while (count-- > 0) {
+    [self removeEntry:[theEntries objectAtIndex:count]];
+  }
 }
 
 - (NSArray *)entriesForAction:(UInt32)anAction {

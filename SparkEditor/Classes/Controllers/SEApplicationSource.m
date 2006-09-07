@@ -7,6 +7,7 @@
  */
 
 #import "SEApplicationSource.h"
+#import "SEEntriesManager.h"
 
 #import <ShadowKit/SKFSFunctions.h>
 #import <ShadowKit/SKAppKitExtensions.h>
@@ -17,15 +18,28 @@
 
 @implementation SEApplicationSource
 
+- (void)reload {
+  [self removeAllObjects];
+  
+  [self addObject:[SparkApplication objectWithName:@"Globals" icon:[NSImage imageNamed:@"System"]]];
+  [self addObjects:[SparkSharedApplicationSet() objects]];
+  [self rearrangeObjects];
+  
+  [se_cache removeAllObjects];
+  [se_cache addObjectsFromArray:[SparkSharedApplicationSet() objects]];
+}
+
 - (void)se_init {
   [self setCompareFunction:SparkObjectCompare];
+  se_cache = [[NSMutableSet alloc] init];
+  
   /* Load applications */
-  SparkObjectSet *library = SparkSharedApplicationSet();
-  [self addObject:[SparkApplication objectWithName:@"Globals" icon:[NSImage imageNamed:@"System"]]];
-  [self addObjects:[library objects]];
-  [self rearrangeObjects];
+  [self reload];
   [self setSelectionIndex:0];
-  se_cache = [[NSMutableSet alloc] initWithArray:[library objects]];
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(didReloadLibrary:)
+                                               name:@"SEDidReloadLibrary"
+                                             object:nil];
 }
 
 - (id)initWithCoder:(NSCoder *)aCoder {
@@ -45,7 +59,17 @@
 - (void)dealloc {
   [se_path release];
   [se_cache release];
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
   [super dealloc];
+}
+
+#pragma mark -
+- (void)didReloadLibrary:(NSNotification *)aNotification {
+  SparkApplication *app = [self selectedObject];
+  [self reload];
+  if (![self setSelectedObject:app]) {
+    [self setSelectionIndex:0];
+  }
 }
 
 - (NSDragOperation)tableView:(NSTableView *)tableView validateDrop:(id <NSDraggingInfo>)info proposedRow:(int)row proposedDropOperation:(NSTableViewDropOperation)operation {
@@ -140,19 +164,38 @@
 }
 
 - (IBAction)deleteSelection:(id)sender {
-  NSArray *selection = [self selectedObjects];
-  unsigned idx = [selection count];
-  while (idx-- > 0) {
-    SparkObjectSet *library = SparkSharedApplicationSet();
-    SparkObject *object = [selection objectAtIndex:idx];
-    if ([object uid] > kSparkLibraryReserved) {
-      [se_cache removeObject:object];
-      [library removeObject:object];
-      [self removeObject:object];
-    } else {
-      NSBeep();
+  if ([libraryWindow attachedSheet] == nil) { /* Ignore if modal sheet open on main window */
+    unsigned idx = [self selectionIndex];
+    if (idx > 0) { /* If valid selection (should always append) */
+      int result = NSOKButton;
+      SparkObject *object = [self objectAtIndex:idx];
+      if ([object uid] > kSparkLibraryReserved) { /* If not a reserved object */
+        unsigned count = [[[SEEntriesManager sharedManager] overwrites] count];
+        /* If no custom key or if user want to ignore warning, do not display sheet */
+        if (count > 0 && ![[NSUserDefaults standardUserDefaults] boolForKey:@"SparkConfirmDeleteApplication"]) {
+          NSAlert *alert = [NSAlert alertWithMessageText:@"Deleting app will delete all custom hotkeys"
+                                           defaultButton:@"Delete"
+                                         alternateButton:@"Cancel"
+                                             otherButton:nil
+                               informativeTextWithFormat:@"Cannot be cancel, etc."];
+          [alert addUserDefaultCheckBoxWithTitle:@"do not show again" andKey:@"SparkConfirmDeleteApplication"];
+          /* Do not use sheet because caller assume it is synchrone */
+          result = [alert runModal];
+        } 
+        if (NSOKButton == result) {
+          if (count > 0) {
+            NSArray *entries = [[[SEEntriesManager sharedManager] overwrites] allObjects];
+            [SparkSharedManager() removeEntries:entries];
+          }
+          [SparkSharedApplicationSet() removeObject:object];
+          [se_cache removeObject:object];
+          [self removeObject:object];
+          return;
+        }
+      }
     }
   }
+  NSBeep();
 }
 
 - (BOOL)panel:(id)sender shouldShowFilename:(NSString *)filename {
