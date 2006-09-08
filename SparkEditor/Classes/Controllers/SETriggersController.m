@@ -148,6 +148,14 @@ static BOOL SearchHotKey(NSString *search, id object, void *context) {
   NSIndexSet *indexes = [aTableView selectedRowIndexes];
   NSArray *items = indexes ? [se_entries objectsAtIndexes:indexes] : nil;
   if (items) {
+    BOOL hasCustom = NO;
+    SparkApplication *application = [[SEEntriesManager sharedManager] application];
+    if ([application uid] == 0) {
+      int count = [items count];
+      while (count-- > 0) {
+        
+      }
+    }
     // TODO: Check item consequences.
     [[SEEntriesManager sharedManager] removeEntries:items];
   }

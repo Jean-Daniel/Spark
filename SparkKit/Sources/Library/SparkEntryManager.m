@@ -177,13 +177,31 @@ BOOL SparkEntryIsCustomTrigger(const SparkLibraryEntry *entry) {
   }
 }
 
+- (void)removeEntriesForAction:(UInt32)action {
+  CFIndex count = CFArrayGetCount(sp_entries);
+  while (count-- > 0) {
+    const SparkLibraryEntry *entry = CFArrayGetValueAtIndex(sp_entries, count);
+    if (entry->action == action) {
+      [self removeLibraryEntry:entry];
+    }
+  }
+}
+
 - (void)removeLibraryEntry:(const SparkLibraryEntry *)anEntry {  
   if (CFSetContainsValue(sp_set, anEntry)) {
+    BOOL global = anEntry->application == 0;
+    UInt32 action = anEntry->action;
+
     CFSetRemoveValue(sp_set, anEntry);
     CFIndex idx = CFArrayGetFirstIndexOfValue(sp_entries, CFRangeMake(0, CFArrayGetCount(sp_entries)), anEntry);
     NSAssert(idx != kCFNotFound, @"Cannot found object in manager array, but found in set");
     if (idx != kCFNotFound)
       CFArrayRemoveValueAtIndex(sp_entries, idx);
+    
+    if (global) {
+      /* Remove weak entries */
+      [self removeEntriesForAction:action];
+    }
     
     /* Remove orphan action */
     if (![self containsEntryForAction:anEntry->action]) {
@@ -418,16 +436,6 @@ BOOL SparkEntryIsCustomTrigger(const SparkLibraryEntry *entry) {
 @end
 
 @implementation SparkEntryManager (SparkVersion1Library)
-
-- (void)removeEntriesForAction:(UInt32)action {
-  CFIndex count = CFArrayGetCount(sp_entries);
-  while (count-- > 0) {
-    const SparkLibraryEntry *entry = CFArrayGetValueAtIndex(sp_entries, count);
-    if (entry->action == action) {
-      [self removeLibraryEntry:entry];
-    }
-  }
-}
 
 - (void)postProcess {
   CFIndex idx = CFArrayGetCount(sp_entries) -1;
