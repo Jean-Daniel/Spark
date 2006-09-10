@@ -194,10 +194,10 @@ NSArray *gSortByNameDescriptors = nil;
   }
 }
 
-//- (IBAction)openInspector:(id)sender {
-//  [[InspectorController sharedInspector] showWindow:nil];
-//}
-//
+- (NSWindow *)mainWindow {
+  return [se_mainWindow window];
+}
+
 - (IBAction)showPreferences:(id)sender {
   if (!se_preferences) {
     se_preferences = [[SEPreferences alloc] init];
@@ -207,10 +207,6 @@ NSArray *gSortByNameDescriptors = nil;
       modalDelegate: nil
      didEndSelector: nil
         contextInfo: nil];
-}
-
-- (NSWindow *)mainWindow {
-  return [se_mainWindow window];
 }
 
 - (IBAction)showMainWindow:(id)sender {

@@ -18,10 +18,6 @@
 #import <ShadowKit/SKFSFunctions.h>
 #import <ShadowKit/SKAppKitExtensions.h>
 
-volatile int SparkiTunesGDBWorkaround = 0;
-
-NSString * const kiTunesActionBundleIdentifier = @"org.shadowlab.spark.iTunes";
-
 @implementation ITunesActionPlugin
 
 + (BOOL)automaticallyNotifiesObserversForKey:(NSString *)key {
@@ -42,9 +38,6 @@ NSString * const kiTunesActionBundleIdentifier = @"org.shadowlab.spark.iTunes";
 
 /* This function is called when the user open the iTunes Action Editor Panel */
 - (void)loadSparkAction:(id)sparkAction toEdit:(BOOL)flag {
-  /* Super loadSparkAction:toEdit: set name and icon of self */
-  [super loadSparkAction:sparkAction toEdit:flag];
-  
   /* if flag == NO, the user want to create a new Action, else he wants to edit an existing Action */
   if (flag) {
     /* Set Action menu on the Action action */
@@ -62,9 +55,7 @@ NSString * const kiTunesActionBundleIdentifier = @"org.shadowlab.spark.iTunes";
 }
 
 - (NSAlert *)sparkEditorShouldConfigureAction {
-  /* This is a basic plugIn so there is nothing required */
-  /* If plugIn configuration require something the user don't set,
-  tell him here by returning a NSAlert */
+  
   return nil;
 }
 
@@ -76,8 +67,10 @@ NSString * const kiTunesActionBundleIdentifier = @"org.shadowlab.spark.iTunes";
   [iAction setName:[nameField stringValue]];
   if ([[[iAction name] stringByTrimmingWhitespaceAndNewline] length] == 0)
     [iAction setName:[self defaultName]];
+  
   [iAction setPlaylist:([self iTunesAction] == kiTunesPlayPlaylist) ? [self playlist] : nil];
   [iAction setRating:[self rate] * 20];
+  
   /* Set Icon */
   NSString  *iconName = nil;
   switch ([self iTunesAction]) {
@@ -98,6 +91,9 @@ NSString * const kiTunesActionBundleIdentifier = @"org.shadowlab.spark.iTunes";
       break;
     case kiTunesStop:
       iconName = @"Stop";
+      break;
+    case kiTunesShowTrackInfo:
+      iconName = @"TrackInfo";
       break;
     case kiTunesVisual:
       iconName = @"Visual";
@@ -158,8 +154,13 @@ NSString * const kiTunesActionBundleIdentifier = @"org.shadowlab.spark.iTunes";
     case kiTunesPlayPlaylist:
       idx = 2;
       break;
-    default:
+    case kiTunesPlayPause:
+    case kiTunesBackTrack:
+    case kiTunesNextTrack:
       idx = 3;
+      break;
+    default:
+      idx = 4;
       break;
   }
   [optionsView selectTabViewItemAtIndex:idx];
@@ -281,7 +282,7 @@ NSString *iTunesFindLibraryFile(int folder) {
 }
 
 + (NSArray *)iTunesPlaylists {
-  NSMutableArray *playlists = (id)iTunesCopyPlaylists();
+  NSMutableArray *playlists = (id)iTunesCopyPlaylistNames();
   if (nil == playlists) {
     /* Search in User Music Folder */
     NSString *file = iTunesFindLibraryFile(kMusicDocumentsFolderType);

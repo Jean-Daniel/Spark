@@ -257,12 +257,12 @@
     if (character >= '0' && character <= '9')
       isSpecialKey = YES;
   }
-  /* Si le keycode est dŽfini et que c'est une touche spŽcial (fonction ou pavŽe numŽrique) */
+  /* If keycode defined and isSpecialKey (fonction or numpad) */
   if (isSpecialKey && (kHKInvalidVirtualKeyCode != keycode)) {
     [self setKeycode:keycode];
-  } else { /* Sinon on utilise le character si il peut tre utilisŽ */
+  } else { /* Else try to resolve character */
     [self setCharacter:character];
-    short unsigned newCode = [self keycode];
+    UInt32 newCode = [self keycode];
     if (kHKInvalidVirtualKeyCode == newCode) {
       [self setKeycode:keycode];
     }
@@ -282,7 +282,12 @@
     [self invoke:NO];
     if ([self repeatInterval] > 0) {
       NSDate *fire = [[NSDate alloc] initWithTimeIntervalSinceNow:HKGetSystemKeyRepeatThreshold()];
-      hk_repeatTimer = [[NSTimer alloc] initWithFireDate:fire interval:[self repeatInterval] target:self selector:@selector(hk_invoke:) userInfo:nil repeats:YES];
+      hk_repeatTimer = [[NSTimer alloc] initWithFireDate:fire 
+                                                interval:[self repeatInterval]
+                                                  target:self
+                                                selector:@selector(hk_invoke:)
+                                                userInfo:nil
+                                                 repeats:YES];
       [fire release];
       [[NSRunLoop currentRunLoop] addTimer:hk_repeatTimer forMode:NSDefaultRunLoopMode];
     }

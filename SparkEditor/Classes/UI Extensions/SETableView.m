@@ -63,7 +63,7 @@ NSString * const SETableSeparator = @"-\e";
   SKSimpleShadingInfo ctxt;
   [[aColor colorUsingColorSpaceName:NSDeviceRGBColorSpace] getRed:&ctxt.start[0] green:&ctxt.start[1] blue:&ctxt.start[2] alpha:&ctxt.start[3]];
   [[end colorUsingColorSpaceName:NSDeviceRGBColorSpace] getRed:&ctxt.end[0] green:&ctxt.end[1] blue:&ctxt.end[2] alpha:&ctxt.end[3]];
-  NSImage *img = SKCGCreateVerticalShading(64, [self rowHeight] + 2, SKSimpleShadingFunction, &ctxt);
+  NSImage *img = SKCGCreateVerticalShadingImage(64, [self rowHeight] + 2, SKCGSimpleShadingFunction, &ctxt);
   
   if (border) {
     [img lockFocus];

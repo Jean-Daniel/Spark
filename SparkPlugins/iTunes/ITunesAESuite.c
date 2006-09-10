@@ -8,234 +8,20 @@
  */
 
 #include "ITunesAESuite.h"
+#include <ShadowKit/SKLSFunctions.h>
 #include <ShadowKit/SKAEFunctions.h>
 
-const OSType kITunesSignature = 'hook';
+static 
+CFArrayRef iTunesCopyPlaylistNamesFromList(AEDescList *items);
 
-static CFArrayRef iTunesCopyPlaylistsNames(AEDescList *items);
-static OSStatus ShufflePlaylistIfNeeded(AEDesc *playlist);
-static OSStatus iTunesGetPlaylist(CFStringRef name, AEDesc *playlist);
+static
+OSStatus iTunesReshufflePlaylist(iTunesPlaylist *playlist);
 
-#pragma mark -
-OSStatus iTunesGetVisualState(Boolean *state) {
-  OSStatus err = noErr;
-  AEDesc theEvent;
-  SKAENullDesc(&theEvent);
-  
-  err = SKAECreateEventWithTargetSignature(kITunesSignature, kAECoreSuite, kAEGetData, &theEvent);
-  if (noErr == err) {
-    err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty, 'pVsE', NULL);
-  }
-  if (noErr == err) {
-    err = SKAEAddMagnitude(&theEvent);
-  }
-  if (noErr == err) {
-    err = SKAEAddSubject(&theEvent);
-  }
-  if (noErr == err) {
-    err = SKAESendEventReturnBoolean(&theEvent, state);
-    SKAEDisposeDesc(&theEvent);
-  }
-  return err;
-}
-
-OSStatus iTunesSetVisualState(Boolean state) {
-  OSStatus err = noErr;
-  AEDesc theEvent;
-  SKAENullDesc(&theEvent);
-  
-  err = SKAECreateEventWithTargetSignature(kITunesSignature, kAECoreSuite, kAESetData, &theEvent);
-  if (noErr == err) {
-    err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty,'pVsE', NULL);
-  }
-  if (noErr == err) {
-    err = SKAEAddBoolean(&theEvent, keyAEData, state);
-  }
-  if (noErr == err) {
-    err = SKAEAddMagnitude(&theEvent);
-  }
-  if (noErr == err) {
-    err = SKAEAddSubject(&theEvent);
-  }
-  if (noErr == err) {
-    err = SKAESendEventNoReply(&theEvent);
-    SKAEDisposeDesc(&theEvent);
-  }
-  return err;
-}
-
-OSStatus iTunesGetVolume(SInt16 *volume) {
-  OSStatus err = noErr;
-  AEDesc theEvent;
-  SKAENullDesc(&theEvent);
-  
-  err = SKAECreateEventWithTargetSignature(kITunesSignature, kAECoreSuite, kAEGetData, &theEvent);
-  if (noErr == err) {
-    err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty,'pVol', NULL);
-  }
-  if (noErr == err) {
-    err = SKAEAddMagnitude(&theEvent);
-  }
-  if (noErr == err) {
-    err = SKAEAddSubject(&theEvent);
-  }
-  if (noErr == err) {
-    err = SKAESendEventReturnSInt16(&theEvent, volume);
-    SKAEDisposeDesc(&theEvent);
-  }
-  return err;
-}
-
-OSStatus iTunesSetVolume(SInt16 volume) {
-  OSStatus err = noErr;
-  AEDesc theEvent;
-  SKAENullDesc(&theEvent);
-  
-  err = SKAECreateEventWithTargetSignature(kITunesSignature, kAECoreSuite, kAESetData, &theEvent);
-  if (noErr == err) {
-    err = SKAEAddSInt16(&theEvent, keyAEData, volume); 
-  }
-  if (noErr == err) {
-    err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty,'pVol', NULL);
-  }
-  if (noErr == err) {
-    err = SKAEAddMagnitude(&theEvent);
-  }
-  if (noErr == err) {
-    err = SKAEAddSubject(&theEvent);
-  }
-  if (noErr == err) {
-    err = SKAESendEventNoReply(&theEvent);
-    SKAEDisposeDesc(&theEvent);
-  }
-  return err;
-}
-
-CFArrayRef iTunesCopyPlaylists() {
-  OSStatus err = noErr;
-  CFArrayRef names = NULL;
-  
-  AEDesc theEvent;
-  SKAENullDesc(&theEvent);
-  AEDescList playlists;
-  SKAENullDesc(&playlists);
-  
-  err = SKAECreateEventWithTargetSignature(kITunesSignature, kAECoreSuite, kAEGetData, &theEvent);
-  if (noErr == err) {
-    err = SKAEAddIndexObjectSpecifier(&theEvent, keyDirectObject, 'cPly', kAEAll, NULL);
-  }
-  if (noErr == err) {
-    err = SKAEAddMagnitude(&theEvent);
-  }
-  if (noErr == err) {
-    err = SKAEAddSubject(&theEvent);
-  }
-  if (noErr == err) {
-    err = SKAESendEventReturnAEDescList(&theEvent, &playlists);
-    SKAEDisposeDesc(&theEvent);
-  }
-  if (noErr == err) {
-    names = iTunesCopyPlaylistsNames(&playlists);
-    SKAEDisposeDesc(&playlists);
-  }
-  return names;
-}
-
-OSStatus iTunesPlayPlaylist(CFStringRef name)  {
-  AppleEvent theEvent;
-  SKAENullDesc(&theEvent);
-  AEDesc playlist;
-  SKAENullDesc(&playlist);
-  
-  OSStatus err = iTunesGetPlaylist(name, &playlist);
-  require_noerr(err, bail);
-  
-//  err = SKAESendSimpleEvent(kITunesSignature, 'hook', 'Stop');
-//  require_noerr(err, bail);
-  
-  err = ShufflePlaylistIfNeeded(&playlist);
-  require_noerr(err, bail);
-  
-  err = SKAECreateEventWithTargetSignature(kITunesSignature, 'hook', 'Play', &theEvent);
-  require_noerr(err, bail);
-  
-  err = AEPutParamDesc(&theEvent, keyDirectObject, &playlist);
-  require_noerr(err, bail);
-  
-  err = SKAEAddMagnitude(&theEvent);
-  require_noerr(err, bail);
-  
-  err = SKAEAddSubject(&theEvent);
-  require_noerr(err, bail);
-  
-  err = SKAESendEventNoReply(&theEvent);
-
-bail:
-  SKAEDisposeDesc(&theEvent);
-  SKAEDisposeDesc(&playlist);
-  return err;
-}
-
-OSStatus iTunesGetState(OSType *status) {
-  AppleEvent theEvent;
-  OSStatus err = SKAECreateEventWithTargetSignature(kITunesSignature, kAECoreSuite, kAEGetData, &theEvent);
-  if (noErr == err) {
-    err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty, 'pPlS', NULL);
-  }
-  if (noErr == err) {
-    err = SKAEAddSubject(&theEvent);
-  }
-  if (noErr == err) {
-    err = SKAEAddMagnitude(&theEvent);
-  }
-  if (noErr == err) {
-    err = SKAESendEventReturnData(&theEvent, typeEnumerated, NULL, status, sizeof(OSType), NULL);
-  }
-  SKAEDisposeDesc(&theEvent);
-  return err;
-}
-
-OSStatus iTunesRateCurrentSong(UInt16 rate) {
-  AEDesc currentTrack = {typeNull, NULL};
-  AEDesc rateProperty = {typeNull, NULL};
-  AppleEvent theEvent = {typeNull, NULL};
-  OSType state = 0;
-  
-  OSStatus err = iTunesGetState(&state);
-  if (state != kiTunesStatePlaying) {
-    return noErr;
-  }
-  if (noErr == err) {
-    err = SKAECreateEventWithTargetSignature(kITunesSignature, kAECoreSuite, kAESetData, &theEvent);
-  }
-  if (noErr == err) {
-    err = SKAECreatePropertyObjectSpecifier('cTrk', 'pTrk', NULL, &currentTrack);
-  }
-  if (noErr == err) {
-    err = SKAEAddSInt16(&theEvent, keyAEData, (SInt16)rate); 
-  }
-  if (noErr == err) {
-    err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeInteger, 'pRte', &currentTrack);
-  }
-  if (noErr == err) {
-    err = SKAEAddMagnitude(&theEvent);
-  }
-  if (noErr == err) {
-    err = SKAEAddSubject(&theEvent);
-  }
-  if (noErr == err) {
-    err = SKAESendEventNoReply(&theEvent);
-  }
-  SKAEDisposeDesc(&rateProperty);  
-  SKAEDisposeDesc(&currentTrack);
-  SKAEDisposeDesc(&theEvent);
-  return err;
-}
-
-OSStatus __inline__ _iTunesCreateEvent(AEEventClass class, AEEventID method, AppleEvent *event) {
+SK_INLINE
+OSStatus _iTunesCreateEvent(AEEventClass class, AEEventID method, AppleEvent *event) {
   SKAENullDesc(event);
   
-  OSStatus err = SKAECreateEventWithTargetSignature(kITunesSignature, class, method, event);
+  OSStatus err = SKAECreateEventWithTargetSignature(kiTunesSignature, class, method, event);
   require_noerr(err, bail);
   
   err = SKAEAddMagnitude(event);
@@ -249,46 +35,373 @@ bail:
     SKAEDisposeDesc(event);
   return err;
 }
-CFStringRef _iTunesCopyStringProperty(OSType property) {
-  CFStringRef str = NULL;
-  AEDesc track = {typeNull, NULL};
-  AppleEvent theEvent = {typeNull, NULL};
+
+#pragma mark -
+#pragma mark Commands
+OSStatus iTunesLaunch(LSLaunchFlags flags) {
+  FSRef iTunes;
+  OSStatus err = SKLSGetApplicationForSignature(kiTunesSignature, &iTunes);
+  if (noErr == err) {
+    err = SKLSLaunchApplication(&iTunes, flags);
+  }
+  return err;
+}
+
+#pragma mark iTunes Properties
+OSStatus iTunesGetPlayerState(ITunesState *state) {
+  AppleEvent theEvent;
+  OSStatus err = _iTunesCreateEvent(kAECoreSuite, kAEGetData, &theEvent);
+  require_noerr(err, bail);
   
+  err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty, 'pPlS', NULL);
+  require_noerr(err, bail);
+
+  err = SKAESendEventReturnData(&theEvent, typeEnumerated, NULL, state, sizeof(OSType), NULL);
+  require_noerr(err, bail);
+  
+bail:
+    SKAEDisposeDesc(&theEvent);
+  return err;
+}
+
+OSStatus iTunesGetVisualEnabled(Boolean *state) {
+  AppleEvent theEvent;
+  OSStatus err = _iTunesCreateEvent(kAECoreSuite, kAEGetData, &theEvent);
+  require_noerr(err, bail);
+  
+  err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty, 'pVsE', NULL);
+  require_noerr(err, bail);
+  
+  err = SKAESendEventReturnBoolean(&theEvent, state);
+  require_noerr(err, bail);
+  
+bail:
+    SKAEDisposeDesc(&theEvent);
+  return err;
+}
+
+OSStatus iTunesSetVisualEnabled(Boolean state) {
+  AppleEvent theEvent;
+  OSStatus err = _iTunesCreateEvent(kAECoreSuite, kAESetData, &theEvent);
+  require_noerr(err, bail);
+  
+  err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty,'pVsE', NULL);
+  require_noerr(err, bail);
+  
+  err = SKAEAddBoolean(&theEvent, keyAEData, state);
+  require_noerr(err, bail);
+  
+  err = SKAESendEventNoReply(&theEvent);
+  require_noerr(err, bail);
+  
+bail:
+    SKAEDisposeDesc(&theEvent);
+  return err;
+}
+
+OSStatus iTunesGetSoundVolume(SInt16 *volume) {
+  AppleEvent theEvent;
+  OSStatus err = _iTunesCreateEvent(kAECoreSuite, kAEGetData, &theEvent);
+  require_noerr(err, bail);
+  
+  err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty,'pVol', NULL);
+  require_noerr(err, bail);
+  
+  err = SKAESendEventReturnSInt16(&theEvent, volume);
+  require_noerr(err, bail);
+  
+bail:
+    SKAEDisposeDesc(&theEvent);
+  return err;
+}
+OSStatus iTunesSetSoundVolume(SInt16 volume) {
+  AppleEvent theEvent;
+  OSStatus err = _iTunesCreateEvent(kAECoreSuite, kAESetData, &theEvent);
+  require_noerr(err, bail);
+  
+  err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty,'pVol', NULL);
+  require_noerr(err, bail);
+  
+  err = SKAEAddSInt16(&theEvent, keyAEData, volume); 
+  require_noerr(err, bail);
+  
+  err = SKAESendEventNoReply(&theEvent);
+  require_noerr(err, bail);
+
+bail:
+    SKAEDisposeDesc(&theEvent);
+  return err;
+}
+
+#pragma mark -
+#pragma mark Tracks
+OSStatus iTunesSetTrackRate(iTunesTrack *track, UInt32 rate) {
+  AppleEvent theEvent;
+  /* tell application "iTunes" to set ... */
+  OSStatus err = _iTunesCreateEvent(kAECoreSuite, kAESetData, &theEvent);
+  require_noerr(err, bail);
+  
+  /* ... rate of track 'track' */
+  err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeUInt32, kiTunesRateKey, track);
+  require_noerr(err, bail);
+  
+  /* ... to 'rate' */
+  err = SKAEAddUInt32(&theEvent, keyAEData, rate);
+  require_noerr(err, bail);
+  
+  err = SKAESendEventNoReply(&theEvent);
+  require_noerr(err, bail);
+  
+bail:
+    SKAEDisposeDesc(&theEvent);
+  return err;
+}
+OSStatus iTunesGetTrackRate(iTunesTrack *track, UInt32 *rate) {
+  AppleEvent theEvent;
+  /* tell application "iTunes" to get ... */
+  OSStatus err = _iTunesCreateEvent(kAECoreSuite, kAESetData, &theEvent);
+  require_noerr(err, bail);
+  
+  /* ... rate of track 'track' */
+  err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeSInt16, kiTunesRateKey, track);
+  require_noerr(err, bail);
+  
+  err = SKAESendEventReturnUInt32(&theEvent, rate);
+  require_noerr(err, bail);
+  
+bail:
+    SKAEDisposeDesc(&theEvent);
+  return err;
+}
+
+OSStatus iTunesGetCurrentTrack(iTunesTrack *track) {
+  AppleEvent theEvent;
   /* tell application "iTunes" to get... */
   OSStatus err = _iTunesCreateEvent(kAECoreSuite, kAEGetData, &theEvent);
   require_noerr(err, bail);
   
-  /* current track of application */
-  err = SKAECreatePropertyObjectSpecifier('cTrk', 'pTrk', NULL, &track);
+  /* current track */
+  err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, 'cTrk', 'pTrk', NULL);
   require_noerr(err, bail);
   
-  /* ...'property' of current track */
-  err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeUnicodeText, property, &track);
+  /* Do not force return type to 'cTrk', because iTunes returns a 'cTrk' subclass */
+  err = SKAESendEventReturnAEDesc(&theEvent, typeWildCard, track);
   require_noerr(err, bail);
-  
-  err = SKAESendEventReturnCFString(&theEvent, &str);
   
 bail:
-  SKAEDisposeDesc(&theEvent);
-  SKAEDisposeDesc(&track);
-
-  return str;
+    SKAEDisposeDesc(&theEvent);
+  return err;
 }
 
+OSStatus iTunesSetCurrentTrackRate(UInt32 rate) {
+  AEDesc track;
+  SKAENullDesc(&track);
+  
+  ITunesState state = 0;
+  OSStatus err = iTunesGetPlayerState(&state);
+  require_noerr(err, bail);
+  
+  /* Does nothing if not playing */
+  if (state == kiTunesStatePlaying) {
+    err = iTunesGetCurrentTrack(&track);
+    require_noerr(err, bail);
+    
+    err = iTunesSetTrackRate(&track, rate);
+    require_noerr(err, bail);
+  }
+
+bail:
+    SKAEDisposeDesc(&track);
+  return err;
+}
+
+OSStatus iTunesGetTrackStringProperty(iTunesTrack *track, ITunesTrackProperty property, CFStringRef *value) {
+  AppleEvent theEvent;
+  /* tell application "iTunes" to get ... */
+  OSStatus err = _iTunesCreateEvent(kAECoreSuite, kAEGetData, &theEvent);
+  require_noerr(err, bail);
+  
+  /* ... 'property' of track 'track' */
+  err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeUnicodeText, property, track);
+  require_noerr(err, bail);
+  
+  err = SKAESendEventReturnCFString(&theEvent, value);
+  require_noerr(err, bail);
+  
+bail:
+    SKAEDisposeDesc(&theEvent);
+  return err;
+}
+
+OSStatus iTunesGetTrackIntegerProperty(iTunesTrack *track, ITunesTrackProperty property, SInt32 *value) {
+  AppleEvent theEvent;
+  /* tell application "iTunes" to get ... */
+  OSStatus err = _iTunesCreateEvent(kAECoreSuite, kAEGetData, &theEvent);
+  require_noerr(err, bail);
+  
+  /* ... 'property' of track 'track' */
+  err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeSInt32, property, track);
+  require_noerr(err, bail);
+  
+  err = SKAESendEventReturnSInt32(&theEvent, value);
+  require_noerr(err, bail);
+  
+bail:
+    SKAEDisposeDesc(&theEvent);
+  return err;
+}
+
+#pragma mark -
+#pragma mark Playlists
+OSStatus iTunesPlayPlaylist(iTunesPlaylist *playlist) {
+  AppleEvent theEvent;
+  SKAENullDesc(&theEvent);
+  
+  OSStatus err = iTunesReshufflePlaylist(playlist);
+  require_noerr(err, bail);
+  
+  err = _iTunesCreateEvent(kiTunesSuite, kiTunesCommandPlay, &theEvent);
+  require_noerr(err, bail);
+  
+  err = SKAEAddAEDesc(&theEvent, keyDirectObject, playlist);
+  require_noerr(err, bail);
+  
+  err = SKAESendEventNoReply(&theEvent);
+  require_noerr(err, bail);
+  
+bail:
+    SKAEDisposeDesc(&theEvent);
+  return err; 
+}
+
+OSStatus iTunesPlayPlaylistWithName(CFStringRef name) {
+  iTunesPlaylist playlist;
+  SKAENullDesc(&playlist);
+  
+  OSStatus err = iTunesGetPlaylistWithName(name, &playlist);
+  require_noerr(err, bail);
+  
+  err = iTunesPlayPlaylist(&playlist);
+  require_noerr(err, bail);
+  
+bail:
+    SKAEDisposeDesc(&playlist);
+  return err; 
+}
+
+OSStatus iTunesGetCurrentPlaylist(iTunesPlaylist *playlist) {
+  AppleEvent theEvent;
+  /* tell application "iTunes" to get... */
+  OSStatus err = _iTunesCreateEvent(kAECoreSuite, kAEGetData, &theEvent);
+  require_noerr(err, bail);
+  
+  /* current playlist */
+  err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, 'cPly', 'pPla', NULL);
+  require_noerr(err, bail);
+  
+  err = SKAESendEventReturnAEDesc(&theEvent, typeWildCard, playlist);
+  require_noerr(err, bail);
+  
+bail:
+    SKAEDisposeDesc(&theEvent);
+  return err;
+}
+
+OSStatus iTunesGetPlaylistWithName(CFStringRef name, iTunesPlaylist *playlist) {
+  AppleEvent theEvent;
+  /* tell application "iTunes" to get ... */
+  OSStatus err = _iTunesCreateEvent(kAECoreSuite, kAEGetData, &theEvent);
+  require_noerr(err, bail);
+  
+  /* ... playlist "name" */
+  err = SKAEAddNameObjectSpecifier(&theEvent, keyDirectObject, 'cPly', name, NULL);
+  require_noerr(err, bail);
+  
+  err = SKAESendEventReturnAEDesc(&theEvent, typeWildCard, playlist);
+  require_noerr(err, bail);
+  
+bail:
+    SKAEDisposeDesc(&theEvent);
+  return err;
+}
+
+#pragma mark -
+static
+OSStatus iTunesGetPlaylistShuffle(iTunesPlaylist *playlist, Boolean *shuffle) {
+  AppleEvent theEvent;
+  /* tell application "iTunes" to get ... */
+  OSStatus err = _iTunesCreateEvent(kAECoreSuite, kAEGetData, &theEvent);
+  require_noerr(err, bail);
+  
+  /* ... shuffle of playlist 'playlist' */
+  err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty, 'pShf', playlist);
+  require_noerr(err, bail);
+  
+  err = SKAESendEventReturnBoolean(&theEvent, shuffle);
+  require_noerr(err, bail);
+  
+bail:
+    SKAEDisposeDesc(&theEvent);
+  return err;
+}
+static
+OSStatus iTunesSetPlaylistShuffle(iTunesPlaylist *playlist, Boolean shuffle) {
+  AppleEvent theEvent;
+  /* tell application "iTunes" to set ... */
+  OSStatus err = _iTunesCreateEvent(kAECoreSuite, kAESetData, &theEvent);
+  require_noerr(err, bail);
+  
+  /* ... shuffle of playlist 'playlist' ... */
+  err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty, 'pShf', playlist);
+  require_noerr(err, bail);
+  
+  /* ... to 'shuffle' */
+  err = SKAEAddBoolean(&theEvent, keyAEData, shuffle);
+  require_noerr(err, bail);
+  
+  err = SKAESendEventNoReply(&theEvent);
+  require_noerr(err, bail);
+  
+bail:
+    SKAEDisposeDesc(&theEvent);
+  return err;
+}
+
+OSStatus iTunesReshufflePlaylist(iTunesPlaylist *playlist) {
+  OSStatus err;
+  Boolean shuffle;
+  
+  err = iTunesGetPlaylistShuffle(playlist, &shuffle);
+  require_noerr(err, bail);
+  
+  if (shuffle) {
+    err = iTunesSetPlaylistShuffle(playlist, FALSE);
+    require_noerr(err, bail);
+    
+    err = iTunesSetPlaylistShuffle(playlist, TRUE);
+    require_noerr(err, bail);
+  }
+bail:
+    return err;
+}
+
+#pragma mark -
 CFDataRef _iTunesCopyArtwork(int idx) {
   CFDataRef data = NULL;
   AEDesc arts = {typeNull, NULL};
   AEDesc track = {typeNull, NULL};
   AppleEvent theEvent = {typeNull, NULL};
   
-  /* tell application "iTunes" to get... */
+  /* tell application "iTunes" to get count of ... */
   OSStatus err = _iTunesCreateEvent(kAECoreSuite, kAECountElements, &theEvent);
   require_noerr(err, bail);
   
+  /* ... artworks */
   OSType type = 'cArt';
-  err = AEPutParamPtr(&theEvent, 'kocl', typeType, &type, sizeof(type));
+  err = AEPutParamPtr(&theEvent, keyAEObjectClass /* 'kocl' */, typeType, &type, sizeof(type));
   require_noerr(err, bail);
   
+  /* ... of current track */
   err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, 'cTrk', 'pTrk', NULL);
   require_noerr(err, bail);
   
@@ -298,11 +411,11 @@ CFDataRef _iTunesCopyArtwork(int idx) {
   
   if (count >= idx) {
     SKAEDisposeDesc(&theEvent);
-    
+    /* tell application "iTunes" to get ... */
     err = _iTunesCreateEvent(kAECoreSuite, kAEGetData, &theEvent);
     require_noerr(err, bail);
 
-    /* current track of application */
+    /* current track */
     err = SKAECreatePropertyObjectSpecifier('cTrk', 'pTrk', NULL, &track);
     require_noerr(err, bail);
     
@@ -310,7 +423,7 @@ CFDataRef _iTunesCopyArtwork(int idx) {
     err = SKAECreateIndexObjectSpecifier('cArt', idx, &track, &arts);
     require_noerr(err, bail);
   
-    /* ...'data' of artwork */
+    /* ...'data' of artwork idx of current track as PICT */
     err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, 'PICT', 'pPCT', &arts);
     require_noerr(err, bail);
   
@@ -324,149 +437,113 @@ bail:
   return data;
 }
 
-CFDictionaryRef iTunesCopyCurrentTrackProperties(OSStatus *error) {
-  OSType state = 0;
-  OSStatus err = iTunesGetState(&state);
-  if (err != noErr || state != kiTunesStatePlaying) {
-    return NULL;
-  }
-  
-  CFMutableDictionaryRef properties = CFDictionaryCreateMutable(kCFAllocatorDefault, 0,
-                                                                &kCFTypeDictionaryKeyCallBacks, 
-                                                                &kCFTypeDictionaryValueCallBacks);
-  
-  CFStringRef str = _iTunesCopyStringProperty('pnam');
-  if (str) {
-    CFDictionarySetValue(properties, CFSTR("Name"), str);
-    CFRelease(str);
-  }
-  
-  str = _iTunesCopyStringProperty('pArt');
-  if (str) {
-    CFDictionarySetValue(properties, CFSTR("Artist"), str);
-    CFRelease(str);
-  }
-  
-  str = _iTunesCopyStringProperty('pAlb');
-  if (str) {
-    CFDictionarySetValue(properties, CFSTR("Album"), str);
-    CFRelease(str);
-  }
-  
-//  CFDataRef picture = _iTunesCopyArtwork(1);
-//  if (picture) {
-//    CFDictionarySetValue(properties, CFSTR("Artwork"), picture);
-//    CFRelease(picture);
-//  }
-  
-  return properties;
-}
-
 #pragma mark -
-OSStatus IsPlaylistShuffle(AEDesc *playlist, Boolean *shuffle) {
-  AppleEvent theEvent;
-  OSStatus err = noErr;
-  SKAENullDesc(&theEvent);
+SK_INLINE
+OSStatus _iTunesGetLibrarySourceOperand(AEDesc *operand) {
+  /* Prepare operand 1: kind of examined object */
+  AEDesc obj;
+  SKAENullDesc(&obj);
   
-  err = SKAECreateEventWithTargetSignature(kITunesSignature, kAECoreSuite, kAEGetData, &theEvent);
+  OSStatus err = AECreateDesc(typeObjectBeingExamined, NULL, 0, &obj);
   require_noerr(err, bail);
   
-  /* get pShf of playlist */
-  err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty, 'pShf', playlist);
+  err = SKAECreatePropertyObjectSpecifier(typeProperty, 'pKnd', &obj, operand);
   require_noerr(err, bail);
-  
-  err = SKAEAddMagnitude(&theEvent);
-  require_noerr(err, bail);
-  
-  err = SKAESendEventReturnBoolean(&theEvent, shuffle);
   
 bail:
+    SKAEDisposeDesc(&obj);
+  return err;
+}
+
+/* source whose kind is library => source where kind of examined object equals type 'kLib' */
+static OSStatus _iTunesGetLibrarySources(AEDesc *sources) {
+  /* Prepare operand 1: kind of examined object */
+  AEDesc type;
+  AEDesc property;
+  AEDesc comparaison;
+  SKAENullDesc(&type);
+  SKAENullDesc(&property);
+  SKAENullDesc(&comparaison);
+  
+  OSStatus err = _iTunesGetLibrarySourceOperand(&property);
+  require_noerr(err, bail);
+  
+  OSType kind = 'kLib';
+  err = AECreateDesc(typeType, &kind, sizeof(kind), &type);
+  require_noerr(err, bail);
+  
+  err = CreateCompDescriptor(kAEEquals,
+                             &property,
+                             &type,
+                             FALSE,
+                             &comparaison);
+  require_noerr(err, bail);
+  
+  err = SKAECreateObjectSpecifier('cSrc', formTest, &comparaison, NULL, sources);
+  require_noerr(err, bail);
+  
+bail:
+    SKAEDisposeDesc(&type);
+  SKAEDisposeDesc(&property);
+  SKAEDisposeDesc(&comparaison);
+  return err;
+}
+
+static OSStatus iTunesGetLibrarySource(AEDesc *source) {
+  AEDesc sources;
+  SKAENullDesc(&sources);
+  
+  OSStatus err = _iTunesGetLibrarySources(&sources);
+  require_noerr(err, bail);
+  
+  err = SKAECreateIndexObjectSpecifier('cSrc', 1, &sources, source);
+  require_noerr(err, bail);
+  
+bail:
+    SKAEDisposeDesc(&sources);
+  return err;
+}
+
+CFArrayRef iTunesCopyPlaylistNames(void) {
+  CFArrayRef result = NULL;
+  AEDesc theEvent;
+  AEDescList names;
+  SKAENullDesc(&names);
+  AEDesc source;
+  SKAENullDesc(&source);
+  AEDesc playlists;
+  SKAENullDesc(&playlists);
+  
+  /* tell application "iTunes" to get ... */
+  OSStatus err = _iTunesCreateEvent(kAECoreSuite, kAEGetData, &theEvent);
+  require_noerr(err, bail);
+  
+  err = iTunesGetLibrarySource(&source);
+  require_noerr(err, bail);
+  
+  /* playlists of (first source whose kind is library) */
+  err = SKAECreateIndexObjectSpecifier('cPly', kAEAll, &source, &playlists);
+  require_noerr(err, bail);
+  
+  /* name of playlists */
+  err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeUnicodeText, kiTunesNameKey, &playlists);
+  require_noerr(err, bail);
+  
+  err = SKAESendEventReturnAEDescList(&theEvent, &names);
+  require_noerr(err, bail);
+  
+  result = iTunesCopyPlaylistNamesFromList(&names);
+  
+bail:
+    SKAEDisposeDesc(&names);
   SKAEDisposeDesc(&theEvent);
-  return err;
+  SKAEDisposeDesc(&playlists);
+  return result;
 }
 
-OSStatus SetPlaylistShuffle(AEDesc *playlist, Boolean shuffle) {
-  AppleEvent theEvent;
-  OSStatus err = noErr;
-  SKAENullDesc(&theEvent);
-  
-  err = SKAECreateEventWithTargetSignature(kITunesSignature, kAECoreSuite, kAESetData, &theEvent);
-  require_noerr(err, bail);
-  
-  /* set pShf of playlist */
-  err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty, 'pShf', playlist);
-  require_noerr(err, bail);
-  
-  /* to shuffle */
-  err = SKAEAddBoolean(&theEvent, keyAEData, shuffle);
-  require_noerr(err, bail);
-  
-  err = SKAEAddMagnitude(&theEvent);
-  require_noerr(err, bail);
-  
-  err = SKAESendEventNoReply(&theEvent);
-  
-bail:
-    SKAEDisposeDesc(&theEvent);
-  return err;
-}
 
-OSStatus ShufflePlaylistIfNeeded(AEDesc *playlist) {
-  OSStatus err;
-  Boolean shuffle;
-  
-  err = IsPlaylistShuffle(playlist, &shuffle);
-  require_noerr(err, bail);
-  
-  if (!shuffle) {
-    return err;
-  }
-  err = SetPlaylistShuffle(playlist, FALSE);
-  require_noerr(err, bail);
-  
-  err = SetPlaylistShuffle(playlist, TRUE);
-  
-bail:
-  return err;
-}
-
-#pragma mark -
-OSStatus iTunesGetPlaylist(CFStringRef name, AEDesc *playlist) {
-  AppleEvent theEvent;
-  OSStatus err = SKAECreateEventWithTargetSignature(kITunesSignature, kAECoreSuite, kAEGetData, &theEvent);
-  require_noerr(err, bail);
-  
-  err = SKAEAddNameObjectSpecifier(&theEvent, keyDirectObject, 'cPly', name, NULL);
-  require_noerr(err, bail);
-  
-  err = SKAEAddMagnitude(&theEvent);
-  require_noerr(err, bail);
-  
-  err = SKAESendEventReturnAEDesc(&theEvent, typeWildCard, playlist);
-  require_noerr(err, bail);
-  
-bail:
-    SKAEDisposeDesc(&theEvent);
-  return err;
-}
-
-CFStringRef GetContainerName(AEDesc *container) {
-  AppleEvent theEvent;
-  CFStringRef name = NULL;
-  OSStatus err = SKAECreateEventWithTargetSignature(kITunesSignature, kAECoreSuite, kAEGetData, &theEvent);
-  
-  if (noErr == err) {
-    err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty, 'pnam', container);
-  }
-  if (noErr == err) {
-    err = SKAESendEventReturnCFString(&theEvent, &name);
-    SKAEDisposeDesc(&theEvent);
-  }
-  return name;
-}
-
-CFArrayRef iTunesCopyPlaylistsNames(AEDescList *items) {
-  int count = 0, idx;
+CFArrayRef iTunesCopyPlaylistNamesFromList(AEDescList *items) {
+  int idx;
   long listsCount;
   CFMutableArrayRef names = NULL;
   OSStatus err = AECountItems (items, &listsCount);
@@ -477,18 +554,12 @@ CFArrayRef iTunesCopyPlaylistsNames(AEDescList *items) {
       AEDesc listDesc;
       err = AEGetNthDesc(items, idx, typeWildCard, NULL, &listDesc);
       if (noErr == err) {
-        // Si c'est un objet, on le transforme en FSRef.
-        if (typeObjectSpecifier == listDesc.descriptorType) {
-          CFStringRef name = GetContainerName(&listDesc);
+        CFStringRef name = NULL;
+        if (noErr == SKAEGetCFStringFromDescriptor(&listDesc, &name) && name) {
           if (name) {
             CFArrayAppendValue(names, name);
             CFRelease(name);
           }
-        } else {
-          // ???
-        }
-        if (noErr == err) {
-          count++;
         }
         SKAEDisposeDesc(&listDesc);
       }

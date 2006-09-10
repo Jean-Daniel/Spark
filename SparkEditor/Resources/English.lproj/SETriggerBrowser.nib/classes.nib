@@ -1,12 +1,8 @@
 {
     IBClasses = (
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
-        {
-            ACTIONS = {close = id; }; 
-            CLASS = SEPreferences; 
-            LANGUAGE = ObjC; 
-            SUPERCLASS = SKWindowController; 
-        }, 
+        {CLASS = SESplitView; LANGUAGE = ObjC; SUPERCLASS = NSSplitView; }, 
+        {CLASS = SETriggerBrowser; LANGUAGE = ObjC; SUPERCLASS = SKWindowController; }, 
         {
             CLASS = SKWindowController; 
             LANGUAGE = ObjC; 

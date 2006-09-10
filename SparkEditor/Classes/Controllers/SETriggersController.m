@@ -19,6 +19,7 @@
 
 #import <SparkKit/SparkList.h>
 #import <SparkKit/SparkAction.h>
+#import <SparkKit/SparkHotKey.h>
 #import <SparkKit/SparkTrigger.h>
 #import <SparkKit/SparkApplication.h>
 #import <SparkKit/SparkEntryManager.h>
@@ -152,8 +153,12 @@ static BOOL SearchHotKey(NSString *search, id object, void *context) {
     SparkApplication *application = [[SEEntriesManager sharedManager] application];
     if ([application uid] == 0) {
       int count = [items count];
-      while (count-- > 0) {
-        
+      while (count-- > 0 && !hasCustom) {
+        SparkEntry *entry = [se_entries objectAtIndex:count];
+        hasCustom |= [SparkSharedManager() containsOverwriteEntryForTrigger:[[entry trigger] uid]];
+      }
+      if (hasCustom) {
+        DLog(@"WARNING: Has Custom");
       }
     }
     // TODO: Check item consequences.
@@ -254,3 +259,10 @@ static BOOL SearchHotKey(NSString *search, id object, void *context) {
 
 @end
 
+@implementation SparkEntry (SETriggerSort)
+
+- (UInt32)triggerValue {
+  return [[self trigger] character] << 16 | [[self trigger] modifier] & 0xff;
+}
+
+@end

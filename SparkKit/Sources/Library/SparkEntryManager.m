@@ -400,6 +400,16 @@ BOOL SparkEntryIsCustomTrigger(const SparkLibraryEntry *entry) {
   }
   return NO;
 }
+- (BOOL)containsOverwriteEntryForTrigger:(UInt32)aTrigger {
+  UInt32 count = CFArrayGetCount(sp_entries);
+  while (count-- > 0) {
+    const SparkLibraryEntry *entry = CFArrayGetValueAtIndex(sp_entries, count);
+    if (entry->application && (entry->trigger == aTrigger)) {
+      return YES;
+    }
+  }
+  return NO;
+}
 
 - (BOOL)statusForEntry:(SparkEntry *)anEntry {
   return [anEntry isEnabled];

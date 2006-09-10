@@ -8,25 +8,7 @@
 
 #import <SparkKit/SparkPluginAPI.h>
 
-SPARK_PRIVATE
-NSString * const kiTunesActionBundleIdentifier;
-
-#define kiTunesActionBundle		[NSBundle bundleWithIdentifier:kiTunesActionBundleIdentifier]
-
-typedef enum {
-  kiTunesLaunch			= 0,
-  kiTunesQuit			= 1,
-  kiTunesPlayPause		= 2,
-  kiTunesBackTrack		= 3,
-  kiTunesNextTrack		= 4,
-  kiTunesStop			= 5,
-  kiTunesVisual			= 6,
-  kiTunesVolumeDown		= 7,
-  kiTunesVolumeUp		= 8,
-  kiTunesEjectCD		= 9,
-  kiTunesPlayPlaylist	= 10,
-  kiTunesRateTrack		= 11,
-} iTunesAction;
+#import "ITunesAction.h"
 
 @interface ITunesActionPlugin : SparkActionPlugIn {
   IBOutlet NSTextField *nameField;

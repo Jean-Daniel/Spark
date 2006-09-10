@@ -15,15 +15,17 @@
 #import <ShadowKit/SKAEFunctions.h>
 #import <HotKeyToolKit/HotKeyToolKit.h>
 
-static NSString* const kITunesRateKey = @"iTunesTrackRate";
+static NSString* const kITunesFlagsKey = @"iTunesFlags";
 static NSString* const kITunesActionKey = @"iTunesAction";
 static NSString* const kITunesPlaylistKey = @"iTunesPlaylist";
+
+NSString * const kiTunesActionBundleIdentifier = @"org.shadowlab.spark.iTunes";
 
 @implementation ITunesAction
 
 + (void)initialize {
   if ([ITunesAction class] == self) {
-    [self setVersion:0x100];
+    [self setVersion:0x200];
   }
 }
 
@@ -32,22 +34,41 @@ static NSString* const kITunesPlaylistKey = @"iTunesPlaylist";
 - (id)copyWithZone:(NSZone *)zone {
   ITunesAction* copy = [super copyWithZone:zone];
   copy->ia_action = ia_action;
-  copy->ia_rating = ia_rating;
-  copy->ia_playlist = [ia_playlist copy];
+  copy->ia_iaFlags = ia_iaFlags;
+  copy->ia_playlist = [ia_playlist retain];
   return copy;
+}
+
+- (UInt32)encodeFlags {
+  UInt32 flags = 0;
+  flags |= ia_iaFlags.rate;
+  if (ia_iaFlags.autoplay) flags |= 1 << 7;
+  if (ia_iaFlags.background) flags |= 1 << 8;
+  flags |= ia_iaFlags.visual << 9;
+  return flags;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
-  [coder encodeInt:ia_rating forKey:kITunesRateKey];
+  
   [coder encodeInt:ia_action forKey:kITunesActionKey];
+  [coder encodeInt:[self encodeFlags] forKey:kITunesFlagsKey];
   [coder encodeObject:[self playlist] forKey:kITunesPlaylistKey];
   return;
 }
 
+- (void)decodeFlags:(UInt32)flags {
+  ia_iaFlags.rate = flags & 0x7f; /* bits 0 to 6 */
+  
+  if (flags & 1 << 7) ia_iaFlags.autoplay = 1; /* bits 7 */
+  if (flags & 1 << 8) ia_iaFlags.background = 1; /* bits 8 */
+  
+  ia_iaFlags.visual = (flags >> 9) & 0x3; /* bits 9 and 10 */
+}
+
 - (id)initWithCoder:(NSCoder *)coder {
   if (self = [super initWithCoder:coder]) {
-    [self setRating:[coder decodeIntForKey:kITunesRateKey]];
+    [self decodeFlags:[coder decodeIntForKey:kITunesFlagsKey]];
     [self setITunesAction:[coder decodeIntForKey:kITunesActionKey]];
     [self setPlaylist:[coder decodeObjectForKey:kITunesPlaylistKey]];
   }
@@ -60,19 +81,22 @@ static NSString* const kITunesPlaylistKey = @"iTunesPlaylist";
 Get all values you set in the -serialize method et configure your Action */
 - (id)initWithSerializedValues:(id)plist {
   if (self = [super initWithSerializedValues:plist]) {
-    [self setITunesAction:[[plist objectForKey:kITunesActionKey] intValue]];
-    NSNumber *rate = [plist objectForKey:kITunesRateKey];
-    /* Typo compat */
-    if (!rate)
-      rate = [plist objectForKey:@"iTunesTrackTrate"]; 
-    [self setRating:[rate unsignedShortValue]];
     [self setPlaylist:[plist objectForKey:kITunesPlaylistKey]];
+    [self setITunesAction:[[plist objectForKey:kITunesActionKey] intValue]];
+    
+    switch ([self version]) {
+      case 0x100:
+        [self setRating:[[plist objectForKey:@"iTunesTrackTrate"] intValue]];
+        break;
+      case 0x200:
+        [self decodeFlags:[[plist objectForKey:kITunesFlagsKey] unsignedIntValue]];
+        break;
+    }
   }
 return self;
 }
 
 - (void)dealloc {
-  [ia_bezel release];
   [ia_playlist release];
   [super dealloc];
 }
@@ -81,7 +105,7 @@ return self;
 See the PropertyList documentation to know more about it */
 - (BOOL)serialize:(NSMutableDictionary *)plist {
   [super serialize:plist];
-  [plist setObject:SKUInt([self rating]) forKey:kITunesRateKey];
+  [plist setObject:SKUInt([self encodeFlags]) forKey:kITunesFlagsKey];
   [plist setObject:SKInt([self iTunesAction]) forKey:kITunesActionKey];
   if ([self playlist])
     [plist setObject:[self playlist] forKey:kITunesPlaylistKey];
@@ -96,6 +120,7 @@ See the PropertyList documentation to know more about it */
     case kiTunesNextTrack:
     case kiTunesBackTrack:
     case kiTunesStop:
+    case kiTunesShowTrackInfo:
     case kiTunesVisual:
     case kiTunesVolumeDown:
     case kiTunesVolumeUp:
@@ -128,50 +153,59 @@ See the PropertyList documentation to know more about it */
 }
 
 - (void)displayTrackInfo {
-  NSDictionary *dict = (id)iTunesCopyCurrentTrackProperties(NULL);
-  if (dict) {
-    if (!ia_bezel) {
-      [NSBundle loadNibNamed:@"iTunesTrack" owner:self];
-      ia_bezel = [[SKBezelItem alloc] initWithContent:[artwork superview]];
-      [ia_bezel setDelay:1];
-      [ia_bezel setOneShot:YES];
-      [ia_bezel setAdjustSize:YES];
-      [ia_bezel setFrameOrigin:NSMakePoint(50, 50)];
-    }
-    [track setStringValue:[dict objectForKey:@"Name"]];
-    [artist setStringValue:[dict objectForKey:@"Artist"]];
-    [album setStringValue:[dict objectForKey:@"Album"]];
-    [ia_bezel display:nil];
-    [dict release];
-  }
+//  NSDictionary *dict = (id)iTunesCopyCurrentTrackProperties(NULL);
+//  if (dict) {
+//    if (!ia_bezel) {
+//      [NSBundle loadNibNamed:@"iTunesTrack" owner:self];
+//      ia_bezel = [[SKBezelItem alloc] initWithContent:[artwork superview]];
+//      [ia_bezel setDelay:1];
+//      [ia_bezel setOneShot:YES];
+//      [ia_bezel setAdjustSize:YES];
+//      [ia_bezel setFrameOrigin:NSMakePoint(50, 50)];
+//    }
+//    [track setStringValue:[dict objectForKey:@"Name"]];
+//    [artist setStringValue:[dict objectForKey:@"Artist"]];
+//    [album setStringValue:[dict objectForKey:@"Album"]];
+//    [ia_bezel display:nil];
+//    [dict release];
+//  }
 }
 
 - (SparkAlert *)execute {
   SparkAlert *alert = [self check];
   if (alert == nil) {
     switch ([self iTunesAction]) {
-      case kiTunesLaunch:
-        [self launchITunes];
+      case kiTunesLaunch: {
+        LSLaunchFlags flags = kLSLaunchDefaults;
+        if (ia_iaFlags.background)
+          flags |= kLSLaunchDontSwitch;
+        iTunesLaunch(flags);
+        if (ia_iaFlags.autoplay)
+          iTunesSendCommand(kiTunesCommandPlay);
+      }
         break;
       case kiTunesQuit:
-        [self quitITunes];
+        iTunesQuit();
         break;
       case kiTunesPlayPause:
-        [self sendAppleEvent:'PlPs'];
+        iTunesSendCommand(kiTunesCommandPlayPause);
         break;
       case kiTunesPlayPlaylist:
         alert = [self playPlaylist:[self playlist]];
         break;
       case kiTunesNextTrack:
-        [self sendAppleEvent:'Next'];
+        iTunesSendCommand(kiTunesCommandNextTrack);
         [self displayTrackInfo];
         break;
       case kiTunesBackTrack:
-        [self sendAppleEvent:'Back'];
+        iTunesSendCommand(kiTunesCommandPreviousTrack);
         [self displayTrackInfo];
         break;
       case kiTunesStop:
-        [self sendAppleEvent:'Stop'];
+        iTunesSendCommand(kiTunesCommandStopPlaying);
+        break;
+      case kiTunesShowTrackInfo:
+        [self displayTrackInfo];
         break;
       case kiTunesVisual:
         [self switchVisualStat];
@@ -186,7 +220,7 @@ See the PropertyList documentation to know more about it */
         [self ejectCD];
         break;
       case kiTunesRateTrack:
-        iTunesRateCurrentSong([self rating]);
+        iTunesSetCurrentTrackRate([self rating]);
         break;
     }
   }
@@ -200,11 +234,11 @@ See the PropertyList documentation to know more about it */
 ****************************************************************************************/
 
 - (SInt16)rating {
-  return ia_rating;
+  return ia_iaFlags.rate;
 }
 
 - (void)setRating:(SInt16)aRate {
-  ia_rating = aRate;
+  ia_iaFlags.rate = (aRate > 100) ? 100 : ((aRate < 0) ? 0 : aRate);
 }
 
 - (NSString *)playlist {
@@ -223,58 +257,45 @@ See the PropertyList documentation to know more about it */
   ia_action = anAction;
 }
 
-- (void)launchITunes {
-  NSString *iTunes = SKFindApplicationForSignature('hook');
-  if (iTunes)
-    [[NSWorkspace sharedWorkspace] launchApplication:iTunes];
-}
-
-- (void)quitITunes {
-  SKAESendSimpleEvent(kITunesSignature, kCoreEventClass, kAEQuitApplication);
-}
-
-- (void)sendAppleEvent:(OSType)eventType {
-  SKAESendSimpleEvent(kITunesSignature, 'hook', eventType);
-}
-
 - (void)switchVisualStat {
   Boolean state;
-  OSStatus err = iTunesGetVisualState(&state);
+  OSStatus err = iTunesGetVisualEnabled(&state);
   if (noErr == err) {
-    iTunesSetVisualState(!state);
+    iTunesSetVisualEnabled(!state);
   }
 }
 
 - (void)volumeUp {
   SInt16 volume = 0;
-  if (noErr == iTunesGetVolume(&volume)) {
+  if (noErr == iTunesGetSoundVolume(&volume)) {
     SInt16 newVol = MIN(100, volume + 5);
     if (newVol != volume)
-      iTunesSetVolume(newVol);
+      iTunesSetSoundVolume(newVol);
   }
 }
 
 - (void)volumeDown {
   SInt16 volume = 0;
-  if (noErr == iTunesGetVolume(&volume)) {
+  if (noErr == iTunesGetSoundVolume(&volume)) {
     SInt16 newVol = MAX(0, volume - 5);
     if (newVol != volume)
-      iTunesSetVolume(newVol);
+      iTunesSetSoundVolume(newVol);
   }
 }
 
 - (void)ejectCD {
   CGKeyCode code = HKMapGetKeycodeAndModifierForUnichar('e', NULL, NULL);
   if (code != kHKInvalidVirtualKeyCode) {
-    HKEventTarget target = { signature:kITunesSignature };
+    HKEventTarget target = { signature:kiTunesSignature };
     HKEventPostKeystrokeToTarget(code, kCGEventFlagMaskCommand, target, kHKEventTargetSignature, NULL);
   }
 }
 
 - (SparkAlert *)playPlaylist:(NSString *)name {
-  OSStatus err = iTunesPlayPlaylist((CFStringRef)name);
+  OSStatus err = iTunesPlayPlaylistWithName((CFStringRef)name);
   if (err == errAENoSuchObject) {
-    return [SparkAlert alertWithMessageText:@"Impossible de jouer la Playlist." informativeTextWithFormat:@"La Playlist %@ est introuvable.", name];
+    return [SparkAlert alertWithMessageText:@"Impossible de jouer la Playlist demandee."
+                  informativeTextWithFormat:@"La Playlist %@ est introuvable.", name];
   }
   return nil;
 }

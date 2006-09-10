@@ -6,25 +6,19 @@
 	<string>English</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
-	<key>CFBundleIconFile</key>
-	<string></string>
 	<key>CFBundleIdentifier</key>
-	<string>org.shadowlab.spark.application</string>
+	<string>org.shadowlab.spark.Simulator</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>
-	<string>BNDL</string>
+	<string>APPL</string>
 	<key>CFBundleSignature</key>
-	<string>Sprk</string>
+	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>3.0</string>
+	<string>1.0</string>
 	<key>NSMainNibFile</key>
-	<string>ApplicationPlugin</string>
+	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
-	<string>ApplicationActionPlugin</string>
-	<key>SparkActionClass</key>
-	<string>ApplicationAction</string>
-	<key>SparkPluginIcon</key>
-	<string>AppIcon</string>
+	<string>NSApplication</string>
 </dict>
 </plist>

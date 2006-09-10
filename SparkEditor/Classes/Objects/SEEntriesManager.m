@@ -133,7 +133,7 @@ NSString * const SEEntriesManagerDidCreateWeakEntryNotification = @"SEEntriesMan
     }
   }
   if (refresh)
-    [self refresh];
+    [self reload]; // full reload
   return removed;
 }
 

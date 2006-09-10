@@ -94,6 +94,12 @@
 		986DB09507135B1A00C65FF2 /* KeyIcon.tif in Resources */ = {isa = PBXBuildFile; fileRef = 986DB09407135B1A00C65FF2 /* KeyIcon.tif */; };
 		986F7A4107071B2F00064694 /* SystemApplication.tif in Resources */ = {isa = PBXBuildFile; fileRef = 986F7A4007071B2F00064694 /* SystemApplication.tif */; };
 		987283260A9B317D0098C22F /* SKSingleton.h in Headers */ = {isa = PBXBuildFile; fileRef = 987283250A9B317D0098C22F /* SKSingleton.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		98789B600AB48C1900C35052 /* SKBezelItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 98789B5A0AB48C1900C35052 /* SKBezelItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		98789B610AB48C1900C35052 /* SKBezelItemContent.h in Headers */ = {isa = PBXBuildFile; fileRef = 98789B5B0AB48C1900C35052 /* SKBezelItemContent.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		98789B620AB48C1900C35052 /* SKNotificationWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 98789B5C0AB48C1900C35052 /* SKNotificationWindow.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		98789B630AB48C1900C35052 /* SKBezelItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 98789B5D0AB48C1900C35052 /* SKBezelItem.m */; };
+		98789B640AB48C1900C35052 /* SKBezelItemContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 98789B5E0AB48C1900C35052 /* SKBezelItemContent.m */; };
+		98789B650AB48C1900C35052 /* SKNotificationWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 98789B5F0AB48C1900C35052 /* SKNotificationWindow.m */; };
 		989EF9EA0A7CC4BB00721386 /* SparkList.m in Sources */ = {isa = PBXBuildFile; fileRef = 989EF9E90A7CC4BB00721386 /* SparkList.m */; };
 		989EF9EE0A7CC4C900721386 /* SparkList.h in Headers */ = {isa = PBXBuildFile; fileRef = 989EF9ED0A7CC4C900721386 /* SparkList.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		98A923B90A7BC6E300DF1998 /* Application.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98A923B80A7BC6E200DF1998 /* Application.tiff */; };
@@ -113,12 +119,8 @@
 		98DDE9840A612E4D00D76698 /* SKViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 98DDE9830A612E4D00D76698 /* SKViewController.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		98E033EE0A84C3F000BED686 /* SKCustomViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 98E033ED0A84C3F000BED686 /* SKCustomViewCell.m */; };
 		98E033F00A84C3FC00BED686 /* SKCustomViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 98E033EF0A84C3FC00BED686 /* SKCustomViewCell.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		98E03CA80A4D2A9D00C0800A /* SKBezelItemContent.h in Headers */ = {isa = PBXBuildFile; fileRef = 98E03CA60A4D2A9D00C0800A /* SKBezelItemContent.h */; settings = {ATTRIBUTES = (); }; };
-		98E03CA90A4D2A9D00C0800A /* SKBezelItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 98E03CA70A4D2A9D00C0800A /* SKBezelItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		98E03CAB0A4D2AB200C0800A /* SKCGFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 98E03CAA0A4D2AB200C0800A /* SKCGFunctions.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		98E03CAF0A4D2AC900C0800A /* SKCGFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 98E03CAC0A4D2AC900C0800A /* SKCGFunctions.m */; };
-		98E03CB00A4D2AC900C0800A /* SKBezelItemContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 98E03CAD0A4D2AC900C0800A /* SKBezelItemContent.m */; };
-		98E03CB10A4D2AC900C0800A /* SKBezelItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 98E03CAE0A4D2AC900C0800A /* SKBezelItem.m */; };
 		98E03CC80A4D2BA000C0800A /* SKClassCluster.h in Headers */ = {isa = PBXBuildFile; fileRef = 98E03CC70A4D2BA000C0800A /* SKClassCluster.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		98E3B39C0A5BE11800FFF5E8 /* SKForwarding.h in Headers */ = {isa = PBXBuildFile; fileRef = 98E3B39B0A5BE11800FFF5E8 /* SKForwarding.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		98EDA3C20A9FA1A100519E9B /* SparkEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 98EDA3C10A9FA1A100519E9B /* SparkEntry.m */; };
@@ -259,6 +261,12 @@
 		98725D3606CB9FC60072B8E4 /* SKApplicationAlias.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SKApplicationAlias.m; sourceTree = "<group>"; };
 		98725D3706CB9FC60072B8E4 /* SKAlias.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SKAlias.m; sourceTree = "<group>"; };
 		987283250A9B317D0098C22F /* SKSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKSingleton.h; path = Headers/SKSingleton.h; sourceTree = "<group>"; };
+		98789B5A0AB48C1900C35052 /* SKBezelItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKBezelItem.h; sourceTree = "<group>"; };
+		98789B5B0AB48C1900C35052 /* SKBezelItemContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKBezelItemContent.h; sourceTree = "<group>"; };
+		98789B5C0AB48C1900C35052 /* SKNotificationWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKNotificationWindow.h; sourceTree = "<group>"; };
+		98789B5D0AB48C1900C35052 /* SKBezelItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKBezelItem.m; sourceTree = "<group>"; };
+		98789B5E0AB48C1900C35052 /* SKBezelItemContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKBezelItemContent.m; sourceTree = "<group>"; };
+		98789B5F0AB48C1900C35052 /* SKNotificationWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKNotificationWindow.m; sourceTree = "<group>"; };
 		989EF9E90A7CC4BB00721386 /* SparkList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkList.m; sourceTree = "<group>"; };
 		989EF9ED0A7CC4C900721386 /* SparkList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkList.h; sourceTree = "<group>"; };
 		98A923B80A7BC6E200DF1998 /* Application.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Application.tiff; sourceTree = "<group>"; };
@@ -287,12 +295,8 @@
 		98DDE9830A612E4D00D76698 /* SKViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKViewController.h; sourceTree = "<group>"; };
 		98E033ED0A84C3F000BED686 /* SKCustomViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKCustomViewCell.m; sourceTree = "<group>"; };
 		98E033EF0A84C3FC00BED686 /* SKCustomViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKCustomViewCell.h; sourceTree = "<group>"; };
-		98E03CA60A4D2A9D00C0800A /* SKBezelItemContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SKBezelItemContent.h; sourceTree = "<group>"; };
-		98E03CA70A4D2A9D00C0800A /* SKBezelItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SKBezelItem.h; sourceTree = "<group>"; };
 		98E03CAA0A4D2AB200C0800A /* SKCGFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SKCGFunctions.h; sourceTree = "<group>"; };
 		98E03CAC0A4D2AC900C0800A /* SKCGFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SKCGFunctions.m; sourceTree = "<group>"; };
-		98E03CAD0A4D2AC900C0800A /* SKBezelItemContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SKBezelItemContent.m; sourceTree = "<group>"; };
-		98E03CAE0A4D2AC900C0800A /* SKBezelItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SKBezelItem.m; sourceTree = "<group>"; };
 		98E03CC70A4D2BA000C0800A /* SKClassCluster.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = SKClassCluster.h; path = Headers/SKClassCluster.h; sourceTree = "<group>"; };
 		98E3B39B0A5BE11800FFF5E8 /* SKForwarding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = SKForwarding.h; path = Headers/SKForwarding.h; sourceTree = "<group>"; };
 		98E455C508104B3300B7899F /* SKAppKitExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SKAppKitExtensions.m; sourceTree = "<group>"; };
@@ -519,6 +523,7 @@
 				98D3ACDB079D6F8500DDB6CE /* Icons */,
 				98725D2606CB9F860072B8E4 /* AppKit */,
 				98D3ACDC079D6F8B00DDB6CE /* Images */,
+				98789B580AB48C1900C35052 /* BezelItem */,
 				98C78D6307D9E716006D9CC1 /* Functions */,
 				98725D2506CB9F7C0072B8E4 /* Foundation */,
 			);
@@ -528,7 +533,6 @@
 		98725D2006CB9F310072B8E4 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
-				98E03CA70A4D2A9D00C0800A /* SKBezelItem.h */,
 				98F5C8150A59B585007BEB21 /* SKTableView.h */,
 				98DAB1CC0A5E8C2100EB6CB3 /* SKOutlineView.h */,
 				98E03CAA0A4D2AB200C0800A /* SKCGFunctions.h */,
@@ -536,7 +540,6 @@
 				98DDE9830A612E4D00D76698 /* SKViewController.h */,
 				98E033EF0A84C3FC00BED686 /* SKCustomViewCell.h */,
 				986758D2096B404600BB8A25 /* SKTableDataSource.h */,
-				98E03CA60A4D2A9D00C0800A /* SKBezelItemContent.h */,
 				98E455C708104B3E00B7899F /* SKAppKitExtensions.h */,
 				986758D3096B404600BB8A25 /* SKWindowController.h */,
 				98725D1106CB9F1B0072B8E4 /* SKImageAndTextCell.h */,
@@ -574,7 +577,6 @@
 			isa = PBXGroup;
 			children = (
 				98725D2006CB9F310072B8E4 /* Headers */,
-				98E03CAE0A4D2AC900C0800A /* SKBezelItem.m */,
 				98F5C8130A59B574007BEB21 /* SKTableView.m */,
 				98DAB1CA0A5E8C1500EB6CB3 /* SKOutlineView.m */,
 				98E03CAC0A4D2AC900C0800A /* SKCGFunctions.m */,
@@ -582,12 +584,32 @@
 				98DDE9810A612E4000D76698 /* SKViewController.m */,
 				98E033ED0A84C3F000BED686 /* SKCustomViewCell.m */,
 				986758CF096B403300BB8A25 /* SKTableDataSource.m */,
-				98E03CAD0A4D2AC900C0800A /* SKBezelItemContent.m */,
 				98E455C508104B3300B7899F /* SKAppKitExtensions.m */,
 				986758CE096B403300BB8A25 /* SKWindowController.m */,
 				98725D3206CB9FBC0072B8E4 /* SKImageAndTextCell.m */,
 			);
 			path = AppKit;
+			sourceTree = "<group>";
+		};
+		98789B580AB48C1900C35052 /* BezelItem */ = {
+			isa = PBXGroup;
+			children = (
+				98789B590AB48C1900C35052 /* Headers */,
+				98789B5D0AB48C1900C35052 /* SKBezelItem.m */,
+				98789B5E0AB48C1900C35052 /* SKBezelItemContent.m */,
+				98789B5F0AB48C1900C35052 /* SKNotificationWindow.m */,
+			);
+			path = BezelItem;
+			sourceTree = "<group>";
+		};
+		98789B590AB48C1900C35052 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				98789B5A0AB48C1900C35052 /* SKBezelItem.h */,
+				98789B5B0AB48C1900C35052 /* SKBezelItemContent.h */,
+				98789B5C0AB48C1900C35052 /* SKNotificationWindow.h */,
+			);
+			path = Headers;
 			sourceTree = "<group>";
 		};
 		98888BBA06067E9C008117C3 /* Images */ = {
@@ -759,8 +781,6 @@
 				986758D5096B404600BB8A25 /* SKWindowController.h in Headers */,
 				98DCC187096C67CF003106E2 /* SKLoginItems.h in Headers */,
 				65245F3C0A2AFE4D00ACB971 /* SKPluginLoader.h in Headers */,
-				98E03CA80A4D2A9D00C0800A /* SKBezelItemContent.h in Headers */,
-				98E03CA90A4D2A9D00C0800A /* SKBezelItem.h in Headers */,
 				98E03CAB0A4D2AB200C0800A /* SKCGFunctions.h in Headers */,
 				98E03CC80A4D2BA000C0800A /* SKClassCluster.h in Headers */,
 				983975830A58667E00F79B40 /* SKIOKitFunctions.h in Headers */,
@@ -774,6 +794,9 @@
 				98E033F00A84C3FC00BED686 /* SKCustomViewCell.h in Headers */,
 				98665E640A86A70300CF8291 /* SKAEFunctions.h in Headers */,
 				987283260A9B317D0098C22F /* SKSingleton.h in Headers */,
+				98789B600AB48C1900C35052 /* SKBezelItem.h in Headers */,
+				98789B610AB48C1900C35052 /* SKBezelItemContent.h in Headers */,
+				98789B620AB48C1900C35052 /* SKNotificationWindow.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -967,8 +990,6 @@
 				98DCC181096C67C4003106E2 /* SKLoginItems.c in Sources */,
 				65245F3A0A2AFE4200ACB971 /* SKPluginLoader.m in Sources */,
 				98E03CAF0A4D2AC900C0800A /* SKCGFunctions.m in Sources */,
-				98E03CB00A4D2AC900C0800A /* SKBezelItemContent.m in Sources */,
-				98E03CB10A4D2AC900C0800A /* SKBezelItem.m in Sources */,
 				9839758F0A58669C00F79B40 /* SKIOKitFunctions.c in Sources */,
 				98F5C8140A59B574007BEB21 /* SKTableView.m in Sources */,
 				981EBC1B0A5AEFC5001C2FB3 /* SKSerialization.m in Sources */,
@@ -978,6 +999,9 @@
 				982AF4210A7A80B700D17D65 /* SKEnumerator.m in Sources */,
 				98E033EE0A84C3F000BED686 /* SKCustomViewCell.m in Sources */,
 				98665E620A86A6F900CF8291 /* SKAEFunctions.c in Sources */,
+				98789B630AB48C1900C35052 /* SKBezelItem.m in Sources */,
+				98789B640AB48C1900C35052 /* SKBezelItemContent.m in Sources */,
+				98789B650AB48C1900C35052 /* SKNotificationWindow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

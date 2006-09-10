@@ -16,12 +16,6 @@
 
 @class SparkAlert;
 
-enum {
-  kSparkActionVersion_1_0 = 0x100,
-  kSparkActionVersion_2_0 = 0x200
-};
-#define kSparkActionCurrentVersion	kSparkActionVersion_2_0;
-
 /*!
 @function SparkGetDefaultKeyRepeatInterval
  @abstract Returns the system default time interval for repeat keys.

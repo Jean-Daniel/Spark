@@ -42,7 +42,9 @@ typedef struct _SparkLibraryEntry {
 - (BOOL)containsEntryForAction:(UInt32)anAction;
 - (BOOL)containsEntryForTrigger:(UInt32)aTrigger;
 - (BOOL)containsEntryForApplication:(UInt32)anApplication;
+
 - (BOOL)containsActiveEntryForTrigger:(UInt32)aTrigger;
+- (BOOL)containsOverwriteEntryForTrigger:(UInt32)aTrigger;
 
 - (BOOL)containsEntryForTrigger:(UInt32)aTrigger application:(UInt32)anApplication;
 - (SparkEntry *)entryForTrigger:(UInt32)aTrigger application:(UInt32)anApplication;

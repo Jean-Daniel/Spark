@@ -566,13 +566,8 @@ static const float *_shader2 = hk_aqua2;
 
 static 
 void __HKTrapShadingFunction (void *pinfo, const float *in, float *out) {
-  float v;
-  size_t k, components;
-  SKCGShadingInfo *info = pinfo;
-  components = info->components;
-  
-  v = *in;
-  for (k = 0; k < components -1; k++)
+  float v = *in;
+  for (int k = 0; k < 4 -1; k++)
     *out++ = MIN(_shader[k], _shader2[k]) + ABS(_shader[k] - _shader2[k]) * v;
   *out++ = 1;
 }
@@ -590,7 +585,7 @@ static NSImage *_HKCreateShading(NSControlTint tint) {
       break;
   }
   
-  return SKCGCreateVerticalShading(32, kHKTrapHeight, __HKTrapShadingFunction, NULL);
+  return SKCGCreateVerticalShadingImage(32, kHKTrapHeight, __HKTrapShadingFunction, NULL);
 }
 
 @implementation SEHotKeyTrap (NSAccessibility)

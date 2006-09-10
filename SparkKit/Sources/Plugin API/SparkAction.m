@@ -21,6 +21,7 @@
 
 static NSString * const kSparkActionFlagsKey = @"SAFlags";
 static NSString * const kSparkActionVersionKey = @"SAVersion";
+static NSString * const kSparkActionCategorieKey = @"SACategorie";
 static NSString * const kSparkActionDescriptionKey = @"SADescription";
 
 #pragma mark -
@@ -34,10 +35,10 @@ static NSString * const kSparkActionDescriptionKey = @"SADescription";
   UInt32 flags = 0;
   if (sp_saFlags.invalid) flags |= 1 << 0;
   if (sp_saFlags.enabled) flags |= 1 << 1;
-  [coder encodeInt:flags forKey:@"SAFlags"];
+  [coder encodeInt:flags forKey:kSparkActionFlagsKey];
   [coder encodeInt:sp_version forKey:kSparkActionVersionKey];
   if (nil != sp_categorie)
-    [coder encodeObject:sp_categorie forKey:@"SACategorie"];
+    [coder encodeObject:sp_categorie forKey:kSparkActionCategorieKey];
   if (nil != sp_description)
     [coder encodeObject:sp_description forKey:kSparkActionDescriptionKey];
   return;
@@ -45,11 +46,11 @@ static NSString * const kSparkActionDescriptionKey = @"SADescription";
 
 - (id)initWithCoder:(NSCoder *)coder {
   if (self = [super initWithCoder:coder]) {
-    UInt32 flags = [coder decodeIntForKey:@"SAFlags"];
+    UInt32 flags = [coder decodeIntForKey:kSparkActionFlagsKey];
     if (flags & (1 << 0)) sp_saFlags.invalid = 1;
     if (flags & (1 << 1)) sp_saFlags.enabled = 1;
     sp_version = [coder decodeIntForKey:kSparkActionVersionKey];
-    [self setCategorie:[coder decodeObjectForKey:@"SACategorie"]];
+    [self setCategorie:[coder decodeObjectForKey:kSparkActionCategorieKey]];
     [self setActionDescription:[coder decodeObjectForKey:kSparkActionDescriptionKey]];
   }
   return self;
@@ -75,9 +76,12 @@ static NSString * const kSparkActionDescriptionKey = @"SADescription";
   if (nil != sp_description)
     [plist setObject:sp_description forKey:kSparkActionDescriptionKey];
 
+  if (nil != sp_categorie)
+    [plist setObject:sp_categorie forKey:kSparkActionCategorieKey];
+  
   UInt32 flags = 0;
   if (sp_saFlags.enabled) flags |= 1 << 0;
-  [plist setObject:SKUInt(flags) forKey:@"SAFlags"];
+  [plist setObject:SKUInt(flags) forKey:kSparkActionFlagsKey];
 
   return YES;
 }
@@ -86,14 +90,14 @@ static NSString * const kSparkActionDescriptionKey = @"SADescription";
     NSNumber *version = [plist objectForKey:kSparkActionVersionKey];
     if (!version)
       version = [plist objectForKey:@"Version"];
-    [self setVersion:(nil != version) ? [version intValue] : kSparkActionVersion_1_0];
+    [self setVersion:(version) ? [version intValue] : 0];
     
     NSString *description = [plist objectForKey:kSparkActionDescriptionKey];
     if (!description)
       description = [plist objectForKey:@"ShortDescription"];
     [self setActionDescription:description];
     
-    UInt32 flags = [[plist objectForKey:@"SAFlags"] unsignedIntValue];
+    UInt32 flags = [[plist objectForKey:kSparkActionFlagsKey] unsignedIntValue];
     if (flags & (1 << 0)) [self setEnabled:YES];
     
     /* Update categorie */
@@ -101,7 +105,7 @@ static NSString * const kSparkActionDescriptionKey = @"SADescription";
     if (plugin && [plugin name]) {
       [self setCategorie:[plugin name]];
     } else {
-      [self setCategorie:@"<undefined>"];
+      [self setCategorie:[plist objectForKey:kSparkActionCategorieKey]];
     }
   }
   return self;

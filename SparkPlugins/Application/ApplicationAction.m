@@ -8,7 +8,6 @@
 
 #import "ApplicationAction.h"
 #import "ApplicationActionPlugin.h"
-#import "ASExtension.h"
 
 #import <ShadowKit/SKAlias.h>
 #import <ShadowKit/SKBezelItem.h>
@@ -244,17 +243,21 @@ static NSString * const kHotKeyBundleIdKey = @"BundleID";
   [sa_bezel display:nil];
 }
 
+- (void)quitProcess:(ProcessSerialNumber *)psn {
+  SKAESendSimpleEventToProcess(psn, kCoreEventClass, kAEQuitApplication);
+}
+
 - (void)quitApplication {
   ProcessSerialNumber psn;
   if ([self getApplicationProcess:&psn]) {
-    QuitApplication(&psn);
+    [self quitProcess:&psn];
   }
 }
 
 - (void)toggleApplicationState {
   ProcessSerialNumber psn;
   if ([self getApplicationProcess:&psn]) {
-    QuitApplication(&psn);
+    [self quitProcess:&psn];
   } else {
     [self launchApplication];
   }
@@ -264,7 +267,7 @@ static NSString * const kHotKeyBundleIdKey = @"BundleID";
   DLog(@"Kill Application");
   ProcessSerialNumber psn;
   if ([self getApplicationProcess:&psn]) {
-    KillApplication(&psn);
+    KillProcess(&psn);
   }
 }
 
