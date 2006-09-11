@@ -53,6 +53,14 @@ static NSString * const kHotKeyBundleIdKey = @"BundleID";
 }
 
 #pragma mark -
+- (id)init {
+  if (self = [super init]) {
+    //[self setVersion:0x200];
+  }
+  return self;
+}
+
+#pragma mark -
 #pragma mark Required Methods.
 - (id)initFromPropertyList:(id)plist {
   if (self = [super initFromPropertyList:plist]) {

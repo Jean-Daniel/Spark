@@ -2,8 +2,8 @@
  *  ITunesInfo.m
  *  Spark Plugins
  *
- *  Created by Grayfox on 10/09/06.
- *  Copyright 2006 Shadow Lab. All rights reserved.
+ *  Created by Black Moon Team.
+ *  Copyright (c) Shadow Lab. 2004 - 2006. All rights reserved.
  */
 
 #import "ITunesInfo.h"
@@ -11,10 +11,55 @@
 #import <ShadowKit/SKCGFunctions.h>
 #import <ShadowKit/SKNotificationWindow.h>
 
+const ITunesVisual kiTunesDefaultSettings = {
+  YES, 1.f, { -2, 0 },
+  { 0, 0, 0, 1 },
+  {.086f, .251f, .502f, 1 },
+  {.961f, .969f, .988f, 1 },
+  {.620f, .710f, .886f, 1 },
+};
+
+@interface ITunesInfoView : NSView {
+  @private
+  float border[4];
+  CGShadingRef shading;
+  SKSimpleShadingInfo info;
+}
+
+- (void)setVisual:(ITunesVisual *)visual;
+
+- (NSColor *)borderColor;
+- (void)setBorderColor:(NSColor *)aColor;
+
+- (NSColor *)backgroundColor;
+- (void)setBackgroundColor:(NSColor *)aColor;
+
+- (NSColor *)backgroundTopColor;
+- (void)setBackgroundTopColor:(NSColor *)aColor;
+
+- (NSColor *)backgroundBottomColor;
+- (void)setBackgroundBottomColor:(NSColor *)aColor;
+
+@end
+
 @implementation ITunesInfo
 
 + (void)initialize {
   [NSColor setIgnoresAlpha:NO];
+}
+
++ (ITunesInfo *)sharedWindow {
+  static ITunesInfo *shared = nil;
+  if (shared)
+    return shared;
+  else {
+    @synchronized(self) {
+      if (!shared) {
+        shared = [[ITunesInfo alloc] init];
+      }
+    }
+  }
+  return shared;
 }
 
 - (id)init {
@@ -38,12 +83,24 @@
 }
 
 #pragma mark -
+- (void)setVisual:(ITunesVisual *)visual {
+  [self setDelay:visual->delay];
+  [self setPosition:visual->location];
+  [self setHasShadow:visual->shadow];
+  [self setTextColor:[NSColor colorWithCalibratedRed:visual->text[0] green:visual->text[1] blue:visual->text[2] alpha:visual->text[3]]];
+  [[[self window] contentView] setVisual:visual];
+}
+
 - (void)setDelay:(float)aDelay {
   [(id)[self window] setDelay:aDelay];
 }
 
 - (void)setPosition:(NSPoint)aPoint {
   
+}
+
+- (void)setHasShadow:(BOOL)hasShadow {
+  [[self window] setHasShadow:hasShadow];
 }
 
 - (IBAction)display:(id)sender {
@@ -213,6 +270,14 @@
   [super dealloc];
 }
 
+- (void)clearShading {
+  if (shading) {
+    CGShadingRelease(shading);
+    shading = NULL;
+  }
+  [self setNeedsDisplay:YES];
+}
+
 - (void)drawRect:(NSRect)aRect {
   CGContextRef ctxt = [[NSGraphicsContext currentContext] graphicsPort];
   
@@ -243,6 +308,14 @@
   CGContextDrawPath(ctxt, kCGPathEOFill);
 }
 
+#pragma mark -
+- (void)setVisual:(ITunesVisual *)visual {
+  memcpy(border, visual->border, sizeof(border));
+  memcpy(info.end, visual->border, sizeof(visual->backbot));
+  memcpy(info.start, visual->border, sizeof(visual->backtop));
+  [self clearShading];
+}
+
 - (NSColor *)borderColor {
   return [NSColor colorWithCalibratedRed:border[0] green:border[1] blue:border[2] alpha:border[3]];
 }
@@ -260,11 +333,7 @@
   info.start[1] = 0.8 + info.end[1] * 0.2;
   info.start[2] = 0.8 + info.end[2] * 0.2;
   info.start[3] = 0.8 + info.end[3] * 0.2;
-  if (shading) {
-    CGShadingRelease(shading);
-    shading = NULL;
-  }
-  [self setNeedsDisplay:YES];
+  [self clearShading];
 }
 
 - (NSColor *)backgroundTopColor {
@@ -272,11 +341,7 @@
 }
 - (void)setBackgroundTopColor:(NSColor *)aColor {
   [[aColor colorUsingColorSpaceName:NSCalibratedRGBColorSpace] getComponents:info.start];
-  if (shading) {
-    CGShadingRelease(shading);
-    shading = NULL;
-  }
-  [self setNeedsDisplay:YES];
+  [self clearShading];
 }
 
 - (NSColor *)backgroundBottomColor {
@@ -284,11 +349,7 @@
 }
 - (void)setBackgroundBottomColor:(NSColor *)aColor {
   [[aColor colorUsingColorSpaceName:NSCalibratedRGBColorSpace] getComponents:info.end];
-  if (shading) {
-    CGShadingRelease(shading);
-    shading = NULL;
-  }
-  [self setNeedsDisplay:YES];
+  [self clearShading];
 }
 
 @end

@@ -1,10 +1,9 @@
 /*
- *  iTunesAESuite.h
- *  Spark
+ *  ITunesAESuite.h
+ *  Spark Plugins
  *
- *  Created by Fox on Sun Mar 07 2004.
- *  Copyright (c) 2004 Shadow Lab. All rights reserved.
- *
+ *  Created by Black Moon Team.
+ *  Copyright (c) Shadow Lab. 2004 - 2006. All rights reserved.
  */
 
 #if !defined(__ITUNES_SUITE_H_)

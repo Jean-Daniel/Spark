@@ -1,10 +1,10 @@
-//
-//  ITunesActionPlugin.h
-//  Spark
-//
-//  Created by Fox on Sun Feb 15 2004.
-//  Copyright (c) 2004 Shadow Lab. All rights reserved.
-//
+/*
+ *  ITunesActionPlugin.h
+ *  Spark Plugins
+ *
+ *  Created by Black Moon Team.
+ *  Copyright (c) Shadow Lab. 2004 - 2006. All rights reserved.
+ */
 
 #import <SparkKit/SparkPluginAPI.h>
 
@@ -14,8 +14,11 @@
   IBOutlet NSTextField *nameField;
   IBOutlet NSTabView *optionsView;
   @private
-    BOOL it_play;
-  unsigned it_rate;
+    struct _ia_apFlags {
+      unsigned int play:1;
+      unsigned int background:1;
+      unsigned int reserved:30;
+    } ia_apFlags;
   NSString *it_playlist;
   NSArray *it_playlists;
 }
@@ -23,10 +26,8 @@
 - (iTunesAction)iTunesAction;
 - (void)setITunesAction:(iTunesAction)newAction;
 
-- (NSString *)actionDescription;
-
-- (unsigned)rate;
-- (void)setRate:(unsigned)rate;
+- (SInt32)rating;
+- (void)setRating:(SInt32)rate;
 
 - (NSString *)playlist;
 - (void)setPlaylist:(NSString *)aPlaylist;

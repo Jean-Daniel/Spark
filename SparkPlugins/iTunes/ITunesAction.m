@@ -1,17 +1,19 @@
-//
-//  ITunesAction.m
-//  Spark
-//
-//  Created by Fox on Sun Feb 15 2004.
-//  Copyright (c) 2004 Shadow Lab. All rights reserved.
-//
+/*
+ *  ITunesAction.m
+ *  Spark Plugins
+ *
+ *  Created by Black Moon Team.
+ *  Copyright (c) Shadow Lab. 2004 - 2006. All rights reserved.
+ */
 
-#import "ITunesAction.h"
 #import "ITunesAction.h"
 
 #import "ITunesAESuite.h"
+
+#import <ShadowKit/SKFunctions.h>
 #import <ShadowKit/SKLSFunctions.h>
 #import <ShadowKit/SKAEFunctions.h>
+
 #import <HotKeyToolKit/HotKeyToolKit.h>
 
 static NSString* const kITunesFlagsKey = @"iTunesFlags";
@@ -19,6 +21,25 @@ static NSString* const kITunesActionKey = @"iTunesAction";
 static NSString* const kITunesPlaylistKey = @"iTunesPlaylist";
 
 NSString * const kiTunesActionBundleIdentifier = @"org.shadowlab.spark.iTunes";
+
+static const iTunesAction _kActionsMap[] = {
+  kiTunesLaunch,
+  kiTunesQuit,
+  kiTunesPlayPause,
+  kiTunesBackTrack,
+  kiTunesNextTrack,
+  kiTunesStop,
+  kiTunesVisual,
+  kiTunesVolumeDown,
+  kiTunesVolumeUp,
+  kiTunesEjectCD,
+  kiTunesPlayPlaylist,
+  kiTunesRateTrack
+};
+SK_INLINE
+iTunesAction _iTunesConvertAction(int act) {
+  return act >= 0 && act < 11 ? _kActionsMap[act] : 0;
+}
 
 @implementation ITunesAction
 
@@ -34,9 +55,10 @@ NSString * const kiTunesActionBundleIdentifier = @"org.shadowlab.spark.iTunes";
 - (UInt32)encodeFlags {
   UInt32 flags = 0;
   flags |= ia_iaFlags.rate;
-  if (ia_iaFlags.autoplay) flags |= 1 << 7;
-  if (ia_iaFlags.background) flags |= 1 << 8;
-  flags |= ia_iaFlags.visual << 9;
+  if (ia_iaFlags.hide) flags |= 1 << 7;
+  if (ia_iaFlags.autoplay) flags |= 1 << 8;
+  if (ia_iaFlags.background) flags |= 1 << 9;
+  flags |= ia_iaFlags.visual << 10;
   return flags;
 }
 
@@ -51,10 +73,11 @@ NSString * const kiTunesActionBundleIdentifier = @"org.shadowlab.spark.iTunes";
 - (void)decodeFlags:(UInt32)flags {
   ia_iaFlags.rate = flags & 0x7f; /* bits 0 to 6 */
   
-  if (flags & 1 << 7) ia_iaFlags.autoplay = 1; /* bits 7 */
-  if (flags & 1 << 8) ia_iaFlags.background = 1; /* bits 8 */
+  if (flags & 1 << 7) ia_iaFlags.hide = 1; /* bit 7 */
+  if (flags & 1 << 8) ia_iaFlags.autoplay = 1; /* bit 8 */
+  if (flags & 1 << 9) ia_iaFlags.background = 1; /* bit 9 */
   
-  ia_iaFlags.visual = (flags >> 9) & 0x3; /* bits 9 and 10 */
+  ia_iaFlags.visual = (flags >> 10) & 0x3; /* bits 10 and 11 */
 }
 
 - (id)initWithCoder:(NSCoder *)coder {
@@ -66,6 +89,7 @@ NSString * const kiTunesActionBundleIdentifier = @"org.shadowlab.spark.iTunes";
   return self;
 }
 
+#pragma mark -
 - (id)init {
   if (self = [super init]) {
     [self setVersion:0x200];
@@ -73,48 +97,22 @@ NSString * const kiTunesActionBundleIdentifier = @"org.shadowlab.spark.iTunes";
   return self;
 }
 
-SK_INLINE
-iTunesAction _iTunesConvertAction(int act) {
-  switch (act) {
-    case 0:
-      return kiTunesLaunch;
-    case 1:
-      return kiTunesQuit;
-    case 2:
-      return kiTunesPlayPause;
-    case 3:
-      return kiTunesBackTrack;
-    case 4:
-      return kiTunesNextTrack;
-    case 5:
-      return kiTunesStop;
-    case 6:
-      return kiTunesVisual;
-    case 7:
-      return kiTunesVolumeDown;
-    case 8:
-      return kiTunesVolumeUp;
-    case 9:
-      return kiTunesEjectCD;
-    case 10:
-      return kiTunesPlayPlaylist;
-    case 11:
-      return kiTunesRateTrack;
-  }
-  return 0;
+- (void)dealloc {
+  [ia_playlist release];
+  if (visual)
+    NSZoneFree(nil, visual);
+  [super dealloc];
 }
 
 #pragma mark -
 #pragma mark Required Methods.
-/* initWithSerializedValues: is called when a Action is loaded. You must call [super initWithSerializedValues:plist].
-Get all values you set in the -serialize method et configure your Action */
 - (id)initWithSerializedValues:(id)plist {
   if (self = [super initWithSerializedValues:plist]) {
     [self setPlaylist:[plist objectForKey:kITunesPlaylistKey]];
     switch ([self version]) {
       case 0x200:
         [self decodeFlags:[[plist objectForKey:kITunesFlagsKey] unsignedIntValue]];
-        [self setITunesAction:[[plist objectForKey:kITunesActionKey] unsignedIntValue]];
+        [self setITunesAction:SKHFSTypeCodeFromFileType([plist objectForKey:kITunesActionKey])];
         break;
       default: /* Old version */
         [self setVersion:0x200];
@@ -122,21 +120,17 @@ Get all values you set in the -serialize method et configure your Action */
         [self setITunesAction:_iTunesConvertAction([[plist objectForKey:kITunesActionKey] intValue])];
         break;
     }
+    NSString *description = ITunesActionDescription(self);
+    if (description)
+      [self setActionDescription:description];
   }
 return self;
 }
 
-- (void)dealloc {
-  [ia_playlist release];
-  [super dealloc];
-}
-
-/* Use to transform and record you Action in a file. The dictionary returned must contains only PList objects 
-See the PropertyList documentation to know more about it */
 - (BOOL)serialize:(NSMutableDictionary *)plist {
   [super serialize:plist];
   [plist setObject:SKUInt([self encodeFlags]) forKey:kITunesFlagsKey];
-  [plist setObject:SKUInt([self iTunesAction]) forKey:kITunesActionKey];
+  [plist setObject:SKFileTypeForHFSTypeCode([self iTunesAction]) forKey:kITunesActionKey];
   if ([self playlist])
     [plist setObject:[self playlist] forKey:kITunesPlaylistKey];
   return YES;
@@ -182,31 +176,14 @@ See the PropertyList documentation to know more about it */
   return 0;
 }
 
-- (void)displayTrackInfo {
-//  NSDictionary *dict = (id)iTunesCopyCurrentTrackProperties(NULL);
-//  if (dict) {
-//    if (!ia_bezel) {
-//      [NSBundle loadNibNamed:@"iTunesTrack" owner:self];
-//      ia_bezel = [[SKBezelItem alloc] initWithContent:[artwork superview]];
-//      [ia_bezel setDelay:1];
-//      [ia_bezel setOneShot:YES];
-//      [ia_bezel setAdjustSize:YES];
-//      [ia_bezel setFrameOrigin:NSMakePoint(50, 50)];
-//    }
-//    [track setStringValue:[dict objectForKey:@"Name"]];
-//    [artist setStringValue:[dict objectForKey:@"Artist"]];
-//    [album setStringValue:[dict objectForKey:@"Album"]];
-//    [ia_bezel display:nil];
-//    [dict release];
-//  }
-}
-
 - (SparkAlert *)execute {
   SparkAlert *alert = [self check];
   if (alert == nil) {
     switch ([self iTunesAction]) {
       case kiTunesLaunch: {
         LSLaunchFlags flags = kLSLaunchDefaults;
+        if (ia_iaFlags.hide)
+          flags |= kLSLaunchAndHide;
         if (ia_iaFlags.background)
           flags |= kLSLaunchDontSwitch;
         iTunesLaunch(flags);
@@ -225,17 +202,17 @@ See the PropertyList documentation to know more about it */
         break;
       case kiTunesNextTrack:
         iTunesSendCommand(kiTunesCommandNextTrack);
-        [self displayTrackInfo];
+        //[self displayTrackInfo];
         break;
       case kiTunesBackTrack:
         iTunesSendCommand(kiTunesCommandPreviousTrack);
-        [self displayTrackInfo];
+        //[self displayTrackInfo];
         break;
       case kiTunesStop:
         iTunesSendCommand(kiTunesCommandStopPlaying);
         break;
       case kiTunesShowTrackInfo:
-        [self displayTrackInfo];
+        //[self displayTrackInfo];
         break;
       case kiTunesVisual:
         [self switchVisualStat];
@@ -262,12 +239,11 @@ See the PropertyList documentation to know more about it */
 /****************************************************************************************
 *                             iTunes Action specific Methods							*
 ****************************************************************************************/
-
-- (SInt16)rating {
+- (SInt32)rating {
   return ia_iaFlags.rate;
 }
 
-- (void)setRating:(SInt16)aRate {
+- (void)setRating:(SInt32)aRate {
   ia_iaFlags.rate = (aRate > 100) ? 100 : ((aRate < 0) ? 0 : aRate);
 }
 
@@ -287,6 +263,7 @@ See the PropertyList documentation to know more about it */
   ia_action = anAction;
 }
 
+#pragma mark -
 - (void)switchVisualStat {
   Boolean state;
   OSStatus err = iTunesGetVisualEnabled(&state);
@@ -331,3 +308,65 @@ See the PropertyList documentation to know more about it */
 }
 
 @end
+
+NSString *ITunesActionDescription(ITunesAction *action) {
+  NSString *desc = nil;
+  NSBundle *bundle = kiTunesActionBundle;
+  switch ([action iTunesAction]) {
+    case kiTunesLaunch:
+      desc = NSLocalizedStringFromTableInBundle(@"DESC_LAUNCH", nil, bundle,
+                                                @"Launch iTunes * Action Description *");
+      break;
+    case kiTunesQuit:
+      desc = NSLocalizedStringFromTableInBundle(@"DESC_QUIT", nil, bundle,
+                                                @"Quit iTunes * Action Description *");
+      break;
+    case kiTunesPlayPause:
+      desc = NSLocalizedStringFromTableInBundle(@"DESC_PLAY_PAUSE", nil, bundle,
+                                                @"Play/Pause * Action Description *");
+      break;
+    case kiTunesPlayPlaylist:
+      desc = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"DESC_PLAY_LIST", nil, bundle,
+                                                                           @"Play Playlist * Action Description * (%@ = playlist name)"),
+        [action playlist]];
+      break;
+    case kiTunesRateTrack:
+      desc = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"DESC_RATE_TRACK", nil, bundle,
+                                                                           @"Rate Track * Action Description * (%i = rating)"),
+        [action rating]];
+      break;
+    case kiTunesNextTrack:
+      desc = NSLocalizedStringFromTableInBundle(@"DESC_NEXT", nil, bundle,
+                                                @"Next Track * Action Description *");
+      break;
+    case kiTunesBackTrack:
+      desc = NSLocalizedStringFromTableInBundle(@"DESC_PREVIOUS", nil, bundle,
+                                                @"Previous Track * Action Description *");
+      break;
+    case kiTunesStop:
+      desc = NSLocalizedStringFromTableInBundle(@"DESC_STOP", nil, bundle,
+                                                @"Stop * Action Description *");
+      break;
+    case kiTunesShowTrackInfo:
+      desc = NSLocalizedStringFromTableInBundle(@"DESC_TRACK_INFO", nil, bundle,
+                                                @"Track Info * Action Description *");
+    case kiTunesVisual:
+      desc = NSLocalizedStringFromTableInBundle(@"DESC_VISUAL", nil, bundle,
+                                                @"Start/Stop Visual * Action Description *");
+      break;
+    case kiTunesVolumeDown:
+      desc = NSLocalizedStringFromTableInBundle(@"DESC_VOLUME_DOWN", nil, bundle,
+                                                @"Volume Down * Action Description *");
+      break;
+    case kiTunesVolumeUp:
+      desc = NSLocalizedStringFromTableInBundle(@"DESC_VOLUME_UP", nil, bundle,
+                                                @"Volume Up * Action Description *");
+      break;
+    case kiTunesEjectCD:
+      desc = NSLocalizedStringFromTableInBundle(@"DESC_EJECT", nil, bundle,
+                                                @"Eject CD * Action Description *");
+      break;
+  }
+  return desc;
+}
+

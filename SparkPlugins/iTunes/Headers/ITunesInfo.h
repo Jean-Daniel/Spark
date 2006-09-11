@@ -2,12 +2,26 @@
  *  ITunesInfo.h
  *  Spark Plugins
  *
- *  Created by Grayfox on 10/09/06.
- *  Copyright 2006 Shadow Lab. All rights reserved.
+ *  Created by Black Moon Team.
+ *  Copyright (c) Shadow Lab. 2004 - 2006. All rights reserved.
  */
 
 #import <Cocoa/Cocoa.h>
 #import "ITunesAESuite.h"
+
+typedef struct _ITunesVisual {
+  BOOL shadow;
+  float delay;
+  NSPoint location;
+  /* Colors */ 
+  float text[4];
+  float border[4];
+  float backtop[4];
+  float backbot[4];
+} ITunesVisual;
+
+SK_PRIVATE
+const ITunesVisual kiTunesDefaultSettings;
 
 @interface ITunesInfo : NSWindowController {
   IBOutlet NSTextField *ibName;
@@ -18,17 +32,22 @@
   IBOutlet NSTextField *ibRate;
 }
 
-- (void)setDelay:(float)aDelay;
-- (void)setPosition:(NSPoint)aPoint;
++ (ITunesInfo *)sharedWindow;
 
 - (IBAction)display:(id)sender;
 
 - (void)setTrack:(iTunesTrack *)track;
 
+/* Settings */
+- (void)setVisual:(ITunesVisual *)visual;
+
+- (void)setDelay:(float)aDelay;
+- (void)setPosition:(NSPoint)aPoint;
+- (void)setHasShadow:(BOOL)hasShadow;
+
+- (NSColor *)textColor;
 - (void)setTextColor:(NSColor *)aColor;
 
-- (void)setOrigin:(NSPoint)origin;
-
 - (NSColor *)borderColor;
 - (void)setBorderColor:(NSColor *)aColor;
 
@@ -43,25 +62,54 @@
 
 @end
 
-#import <ShadowKit/SKCGFunctions.h>
-
-@interface ITunesInfoView : NSView {
-  @private
-  float border[4];
-  CGShadingRef shading;
-  SKSimpleShadingInfo info;
+SK_INLINE
+UInt64 ITunesVisualPackColor(float color[4]) {
+  UInt64 pack = 0;
+  pack |= (llround(color[0] * 0xffff) & 0xffff) << 0;
+  pack |= (llround(color[1] * 0xffff) & 0xffff) << 16;
+  pack |= (llround(color[2] * 0xffff) & 0xffff) << 32;
+  pack |= (llround(color[3] * 0xffff) & 0xffff) << 48;
+  return pack;
 }
 
-- (NSColor *)borderColor;
-- (void)setBorderColor:(NSColor *)aColor;
+SK_INLINE
+void ITunesVisualUnpackColor(UInt64 pack, float color[4]) {
+  color[0] = (double)((pack >> 0) & 0xffff) / 0xffff;
+  color[1] = (double)((pack >> 16) & 0xffff) / 0xffff;
+  color[2] = (double)((pack >> 32) & 0xffff) / 0xffff;
+  color[3] = (double)((pack >> 48) & 0xffff) / 0xffff;
+}
 
-- (NSColor *)backgroundColor;
-- (void)setBackgroundColor:(NSColor *)aColor;
+typedef struct _ITunesVisualPack {
+  UInt8 shadow;
+  UInt64 colors[4];
+  CFSwappedFloat32 delay, x, y;
+} ITunesVisualPack;
 
-- (NSColor *)backgroundTopColor;
-- (void)setBackgroundTopColor:(NSColor *)aColor;
+SK_INLINE
+NSData *ITunesPackVisual(ITunesVisual *visual) {
+  NSMutableData *data = [[NSMutableData alloc] initWithCapacity:sizeof(ITunesVisualPack)];
+  ITunesVisualPack *pack = [data mutableBytes];
+  pack->shadow = visual->shadow ? 1 : 0;
+  pack->delay = CFConvertFloat32HostToSwapped(visual->delay);
+  pack->x = CFConvertFloat32HostToSwapped(visual->location.x);
+  pack->y = CFConvertFloat32HostToSwapped(visual->location.y);
+  pack->colors[0] = OSSwapHostToBigInt64(ITunesVisualPackColor(visual->text));
+  pack->colors[1] = OSSwapHostToBigInt64(ITunesVisualPackColor(visual->border));
+  pack->colors[2] = OSSwapHostToBigInt64(ITunesVisualPackColor(visual->backtop));
+  pack->colors[3] = OSSwapHostToBigInt64(ITunesVisualPackColor(visual->backbot));
+  return [data autorelease];
+}
 
-- (NSColor *)backgroundBottomColor;
-- (void)setBackgroundBottomColor:(NSColor *)aColor;
-
-@end
+SK_INLINE
+void ITunesUnpackVisual(NSData *data, ITunesVisual *visual) {
+  const ITunesVisualPack *pack = [data bytes];
+  visual->shadow = pack->shadow != 0;
+  visual->delay = CFConvertFloat32SwappedToHost(pack->delay);
+  visual->location.x = CFConvertFloat32SwappedToHost(pack->x);
+  visual->location.y = CFConvertFloat32SwappedToHost(pack->y);
+  ITunesVisualUnpackColor(OSSwapBigToHostInt64(pack->colors[0]), visual->text);
+  ITunesVisualUnpackColor(OSSwapBigToHostInt64(pack->colors[1]), visual->border);
+  ITunesVisualUnpackColor(OSSwapBigToHostInt64(pack->colors[2]), visual->backtop);
+  ITunesVisualUnpackColor(OSSwapBigToHostInt64(pack->colors[3]), visual->backbot);
+}

@@ -1,14 +1,10 @@
-//
-//  ITunesActionPlugin.m
-//  Spark
-//
-//  Created by Fox on Sun Feb 15 2004.
-//  Copyright (c) 2004 Shadow Lab. All rights reserved.
-//
-
-#if defined (DEBUG)
-#warning Debug defined in iTunesAction!
-#endif
+/*
+ *  ITunesActionPlugin.m
+ *  Spark Plugins
+ *
+ *  Created by Black Moon Team.
+ *  Copyright (c) Shadow Lab. 2004 - 2006. All rights reserved.
+ */
 
 #import "ITunesActionPlugin.h"
 #import "ITunesAESuite.h"
@@ -42,7 +38,6 @@
   if (flag) {
     /* Set Action menu on the Action action */
     [self setITunesAction:[sparkAction iTunesAction]];
-    [self setRate:[sparkAction rating] / 20];
     if ([sparkAction playlist]) {
       [self loadPlaylists];
       [self setPlaylist:[sparkAction playlist]];
@@ -69,7 +64,6 @@
     [iAction setName:[self defaultName]];
   
   [iAction setPlaylist:([self iTunesAction] == kiTunesPlayPlaylist) ? [self playlist] : nil];
-  [iAction setRating:[self rate] * 20];
   
   /* Set Icon */
   NSString  *iconName = nil;
@@ -115,7 +109,7 @@
     [iAction setIcon:[NSImage imageNamed:iconName inBundle:kiTunesActionBundle]];
   
   /* Set Description */
-  [iAction setActionDescription:[self actionDescription]];
+  [iAction setActionDescription:ITunesActionDescription(iAction)];
 }
 
 #pragma mark ее ITunesActionPlugin & configView Specific methodes ее
@@ -166,12 +160,12 @@
   [optionsView selectTabViewItemAtIndex:idx];
 }
 
-- (unsigned)rate {
-  return it_rate;
+- (SInt32)rating {
+  return [[self sparkAction] rating] / 20;
 }
 
-- (void)setRate:(unsigned)newRate {
-  it_rate = newRate;
+- (void)setRating:(SInt32)rate {
+  [[self sparkAction] setRating:rate * 20];
 }
 
 - (NSString *)playlist {
@@ -190,66 +184,6 @@
   SKSetterRetain(it_playlists, thePlaylists);
 }
 
-- (NSString *)actionDescription {
-  NSString *desc = nil;
-  switch ([self iTunesAction]) {
-    case kiTunesLaunch:
-      desc = NSLocalizedStringFromTableInBundle(@"DESC_LAUNCH", nil, kiTunesActionBundle,
-                                                @"Launch iTunes * Action Description *");
-      break;
-    case kiTunesQuit:
-      desc = NSLocalizedStringFromTableInBundle(@"DESC_QUIT", nil, kiTunesActionBundle,
-                                                @"Quit iTunes * Action Description *");
-      break;
-    case kiTunesPlayPause:
-      desc = NSLocalizedStringFromTableInBundle(@"DESC_PLAY_PAUSE", nil, kiTunesActionBundle,
-                                                @"Play/Pause * Action Description *");
-      break;
-    case kiTunesPlayPlaylist:
-      desc = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"DESC_PLAY_LIST", nil, kiTunesActionBundle,
-                                                                           @"Play Playlist * Action Description * (%@ = playlist name)"),
-        [self playlist]];
-      break;
-    case kiTunesRateTrack:
-      desc = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"DESC_RATE_TRACK", nil, kiTunesActionBundle,
-                                                                           @"Rate Track * Action Description * (%i = rating)"),
-        [self rate]];
-      break;
-    case kiTunesNextTrack:
-      desc = NSLocalizedStringFromTableInBundle(@"DESC_NEXT", nil, kiTunesActionBundle,
-                                                @"Next Track * Action Description *");
-      break;
-    case kiTunesBackTrack:
-      desc = NSLocalizedStringFromTableInBundle(@"DESC_PREVIOUS", nil, kiTunesActionBundle,
-                                                @"Previous Track * Action Description *");
-      break;
-    case kiTunesStop:
-      desc = NSLocalizedStringFromTableInBundle(@"DESC_STOP", nil, kiTunesActionBundle,
-                                                @"Stop * Action Description *");
-      break;
-    case kiTunesVisual:
-      desc = NSLocalizedStringFromTableInBundle(@"DESC_VISUAL", nil, kiTunesActionBundle,
-                                                @"Start/Stop Visual * Action Description *");
-      break;
-    case kiTunesVolumeDown:
-      desc = NSLocalizedStringFromTableInBundle(@"DESC_VOLUME_DOWN", nil, kiTunesActionBundle,
-                                                @"Volume Down * Action Description *");
-      break;
-    case kiTunesVolumeUp:
-      desc = NSLocalizedStringFromTableInBundle(@"DESC_VOLUME_UP", nil, kiTunesActionBundle,
-                                                @"Volume Up * Action Description *");
-      break;
-    case kiTunesEjectCD:
-      desc = NSLocalizedStringFromTableInBundle(@"DESC_EJECT", nil, kiTunesActionBundle,
-                                                @"Eject CD * Action Description *");
-      break;
-    default:
-      desc = NSLocalizedStringFromTableInBundle(@"DESC_ERROR", nil, kiTunesActionBundle,
-                                                @"Unknown Action * Action Description *");
-  }
-  return desc;
-}
-
 - (NSString *)defaultName {
   switch ([self iTunesAction]) {
     case kiTunesPlayPlaylist:
@@ -259,13 +193,12 @@
       return NSLocalizedStringFromTableInBundle(@"DEFAULT_RATE_TRACK_NAME", nil, kiTunesActionBundle,
                                                 @"Rate Track * Default Name *");
     default:
-      return [self actionDescription];
+      return ITunesActionDescription([self sparkAction]);
   }
 }
 
 #pragma mark -
 #pragma mark iTunes Playlists
-
 static 
 NSString *iTunesFindLibraryFile(int folder) {
   FSRef ref;
