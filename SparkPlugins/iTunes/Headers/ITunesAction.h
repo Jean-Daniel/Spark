@@ -13,28 +13,54 @@ NSString * const kiTunesActionBundleIdentifier;
 #define kiTunesActionBundle		[NSBundle bundleWithIdentifier:kiTunesActionBundleIdentifier]
 
 typedef enum {
-  kiTunesLaunch			= 0,
-  kiTunesQuit			= 1,
-  kiTunesPlayPause		= 2,
-  kiTunesBackTrack		= 3,
-  kiTunesNextTrack		= 4,
-  kiTunesStop			= 5,
-  kiTunesVisual			= 6,
-  kiTunesVolumeDown		= 7,
-  kiTunesVolumeUp		= 8,
-  kiTunesEjectCD		= 9,
-  kiTunesPlayPlaylist	= 10,
-  kiTunesRateTrack		= 11,
-  kiTunesShowTrackInfo	= 12,
+  kiTunesLaunch					= 'Laun', /* 1281455470 */
+  kiTunesQuit						= 'Quit', /* 1366649204 */
+  
+  kiTunesStop						= 'Stop', /* 1400139632 */
+  kiTunesPlayPause			= 'PlPs', /* 1349275763 */
+  kiTunesBackTrack			= 'Back', /* 1113678699 */
+  kiTunesNextTrack			= 'Next', /* 1315272820 */
+  
+  kiTunesRateTrack			= 'RaTr', /* 1382110322 */
+  kiTunesPlayPlaylist		= 'PlPy', /* 1349275769 */
+  kiTunesShowTrackInfo	= 'TrIn', /* 1416776046 */
+  
+  kiTunesVolumeUp				= 'VoUp', /* 1450136944 */
+  kiTunesVolumeDown			= 'VoDo', /* 1450132591 */
+  
+  kiTunesVisual					= 'Visu', /* 1449751413 */
+  kiTunesEjectCD				= 'Ejec', /* 1164600675 */
 } iTunesAction;
 
-@class SKBezelItem;
+typedef struct _ITunesVisual {
+  float delay;
+  NSPoint location;
+  /* Colors */ 
+  float text[4];
+  float border[4];
+  float backtop[4];
+  float backbot[4];
+} ITunesVisual;
+
+SK_INLINE
+UInt64 ITunesVisualPackColor(float color[4]) {
+  UInt64 pack = 0;
+  pack |= (llround(color[0] * 0xffff) & 0xffff) << 0;
+  pack |= (llround(color[1] * 0xffff) & 0xffff) << 16;
+  pack |= (llround(color[2] * 0xffff) & 0xffff) << 32;
+  pack |= (llround(color[3] * 0xffff) & 0xffff) << 48;
+  return pack;
+}
+
+SK_INLINE
+void ITunesVisualUnpackColor(UInt64 pack, float color[4]) {
+  color[0] = (double)((pack >> 0) & 0xffff) / 0xffff;
+  color[1] = (double)((pack >> 16) & 0xffff) / 0xffff;
+  color[2] = (double)((pack >> 32) & 0xffff) / 0xffff;
+  color[3] = (double)((pack >> 48) & 0xffff) / 0xffff;
+}
+
 @interface ITunesAction : SparkAction <NSCoding, NSCopying> {
-  IBOutlet NSTextField *track;
-  IBOutlet NSTextField *artist;
-  IBOutlet NSTextField *album;
-  IBOutlet NSImageView *artwork;
-  
   @private
     iTunesAction ia_action;
   NSString *ia_playlist;
@@ -48,6 +74,8 @@ typedef enum {
     unsigned int visual:2; /* visual type: none, default, custom */
     unsigned int reserved:21;
   } ia_iaFlags;
+  
+  ITunesVisual *visual;
 }
 
 - (SInt16)rating;

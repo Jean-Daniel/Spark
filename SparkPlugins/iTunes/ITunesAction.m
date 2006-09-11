@@ -10,7 +10,6 @@
 #import "ITunesAction.h"
 
 #import "ITunesAESuite.h"
-#import <ShadowKit/SKBezelItem.h>
 #import <ShadowKit/SKLSFunctions.h>
 #import <ShadowKit/SKAEFunctions.h>
 #import <HotKeyToolKit/HotKeyToolKit.h>
@@ -23,14 +22,7 @@ NSString * const kiTunesActionBundleIdentifier = @"org.shadowlab.spark.iTunes";
 
 @implementation ITunesAction
 
-+ (void)initialize {
-  if ([ITunesAction class] == self) {
-    [self setVersion:0x200];
-  }
-}
-
 #pragma mark Protocols Implementation
-
 - (id)copyWithZone:(NSZone *)zone {
   ITunesAction* copy = [super copyWithZone:zone];
   copy->ia_action = ia_action;
@@ -50,7 +42,6 @@ NSString * const kiTunesActionBundleIdentifier = @"org.shadowlab.spark.iTunes";
 
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
-  
   [coder encodeInt:ia_action forKey:kITunesActionKey];
   [coder encodeInt:[self encodeFlags] forKey:kITunesFlagsKey];
   [coder encodeObject:[self playlist] forKey:kITunesPlaylistKey];
@@ -75,6 +66,44 @@ NSString * const kiTunesActionBundleIdentifier = @"org.shadowlab.spark.iTunes";
   return self;
 }
 
+- (id)init {
+  if (self = [super init]) {
+    [self setVersion:0x200];
+  }
+  return self;
+}
+
+SK_INLINE
+iTunesAction _iTunesConvertAction(int act) {
+  switch (act) {
+    case 0:
+      return kiTunesLaunch;
+    case 1:
+      return kiTunesQuit;
+    case 2:
+      return kiTunesPlayPause;
+    case 3:
+      return kiTunesBackTrack;
+    case 4:
+      return kiTunesNextTrack;
+    case 5:
+      return kiTunesStop;
+    case 6:
+      return kiTunesVisual;
+    case 7:
+      return kiTunesVolumeDown;
+    case 8:
+      return kiTunesVolumeUp;
+    case 9:
+      return kiTunesEjectCD;
+    case 10:
+      return kiTunesPlayPlaylist;
+    case 11:
+      return kiTunesRateTrack;
+  }
+  return 0;
+}
+
 #pragma mark -
 #pragma mark Required Methods.
 /* initWithSerializedValues: is called when a Action is loaded. You must call [super initWithSerializedValues:plist].
@@ -82,14 +111,15 @@ Get all values you set in the -serialize method et configure your Action */
 - (id)initWithSerializedValues:(id)plist {
   if (self = [super initWithSerializedValues:plist]) {
     [self setPlaylist:[plist objectForKey:kITunesPlaylistKey]];
-    [self setITunesAction:[[plist objectForKey:kITunesActionKey] intValue]];
-    
     switch ([self version]) {
-      case 0x100:
-        [self setRating:[[plist objectForKey:@"iTunesTrackTrate"] intValue]];
-        break;
       case 0x200:
         [self decodeFlags:[[plist objectForKey:kITunesFlagsKey] unsignedIntValue]];
+        [self setITunesAction:[[plist objectForKey:kITunesActionKey] unsignedIntValue]];
+        break;
+      default: /* Old version */
+        [self setVersion:0x200];
+        [self setRating:[[plist objectForKey:@"iTunesTrackTrate"] intValue]];
+        [self setITunesAction:_iTunesConvertAction([[plist objectForKey:kITunesActionKey] intValue])];
         break;
     }
   }
@@ -106,7 +136,7 @@ See the PropertyList documentation to know more about it */
 - (BOOL)serialize:(NSMutableDictionary *)plist {
   [super serialize:plist];
   [plist setObject:SKUInt([self encodeFlags]) forKey:kITunesFlagsKey];
-  [plist setObject:SKInt([self iTunesAction]) forKey:kITunesActionKey];
+  [plist setObject:SKUInt([self iTunesAction]) forKey:kITunesActionKey];
   if ([self playlist])
     [plist setObject:[self playlist] forKey:kITunesPlaylistKey];
   return YES;

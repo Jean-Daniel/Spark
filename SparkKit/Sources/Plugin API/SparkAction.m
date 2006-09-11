@@ -161,10 +161,10 @@ static NSString * const kSparkActionDescriptionKey = @"SADescription";
   [super setIcon:SKResizedIcon(icon, NSMakeSize(ICON_SIZE, ICON_SIZE))];
 }
 
-- (int)version {
+- (UInt32)version {
   return sp_version;
 }
-- (void)setVersion:(int)newVersion {
+- (void)setVersion:(UInt32)newVersion {
   sp_version = newVersion;
 }
 

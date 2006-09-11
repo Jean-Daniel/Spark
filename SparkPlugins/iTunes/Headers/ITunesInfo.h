@@ -18,9 +18,28 @@
   IBOutlet NSTextField *ibRate;
 }
 
+- (void)setDelay:(float)aDelay;
+- (void)setPosition:(NSPoint)aPoint;
+
 - (IBAction)display:(id)sender;
 
 - (void)setTrack:(iTunesTrack *)track;
+
+- (void)setTextColor:(NSColor *)aColor;
+
+- (void)setOrigin:(NSPoint)origin;
+
+- (NSColor *)borderColor;
+- (void)setBorderColor:(NSColor *)aColor;
+
+- (NSColor *)backgroundColor;
+- (void)setBackgroundColor:(NSColor *)aColor;
+
+- (NSColor *)backgroundTopColor;
+- (void)setBackgroundTopColor:(NSColor *)aColor;
+
+- (NSColor *)backgroundBottomColor;
+- (void)setBackgroundBottomColor:(NSColor *)aColor;
 
 @end
 
@@ -28,8 +47,21 @@
 
 @interface ITunesInfoView : NSView {
   @private
+  float border[4];
   CGShadingRef shading;
   SKSimpleShadingInfo info;
 }
+
+- (NSColor *)borderColor;
+- (void)setBorderColor:(NSColor *)aColor;
+
+- (NSColor *)backgroundColor;
+- (void)setBackgroundColor:(NSColor *)aColor;
+
+- (NSColor *)backgroundTopColor;
+- (void)setBackgroundTopColor:(NSColor *)aColor;
+
+- (NSColor *)backgroundBottomColor;
+- (void)setBackgroundBottomColor:(NSColor *)aColor;
 
 @end

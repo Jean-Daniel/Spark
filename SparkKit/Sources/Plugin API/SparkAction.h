@@ -39,7 +39,7 @@ NSTimeInterval SparkGetDefaultKeyRepeatInterval(void);
 */
 @interface SparkAction : SparkObject <NSCopying, NSCoding> {
   @private
-  int sp_version;
+  UInt32 sp_version;
   struct _sp_saFlags {
     unsigned int invalid:1;
     unsigned int enabled:1;
@@ -85,13 +85,13 @@ NSTimeInterval SparkGetDefaultKeyRepeatInterval(void);
   @method     version
    @abstract   Returns the Action version. If nothing specified, use the class version.
    */
-- (int)version;
+- (UInt32)version;
   /*!
   @method     setVersion:
    @abstract   Sets the version for this Action.
    @param      newVersion Action version
    */
-- (void)setVersion:(int)version;
+- (void)setVersion:(UInt32)version;
 
   /*!
   @method     categorie

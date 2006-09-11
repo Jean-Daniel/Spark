@@ -10,6 +10,7 @@
 
 @class ITunesInfo;
 @interface Simulator : NSObject {
+  NSString *color;
   ITunesInfo *info;
 }
 

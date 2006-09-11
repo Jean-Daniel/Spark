@@ -13,12 +13,13 @@
 
 @implementation ITunesInfo
 
++ (void)initialize {
+  [NSColor setIgnoresAlpha:NO];
+}
+
 - (id)init {
   NSWindow *info = [[SKNotificationWindow alloc] init];
-  [info setOneShot:NO];
   [info setHasShadow:YES];
-  [info setIgnoresMouseEvents:NO];
-  [info setMovableByWindowBackground:YES];
   if (self = [super initWithWindow:info]) {
     [NSBundle loadNibNamed:@"iTunesInfo" owner:self];
   }
@@ -27,15 +28,22 @@
 }
 
 - (void)dealloc {
-  
   [super dealloc];
 }
 
 - (void)setIbView:(NSView *)aView {
   /* Nib root object should be release */
   [[self window] setContentSize:[aView bounds].size];
-  [[self window] setFrameOrigin:NSMakePoint(150, 150)];
   [[self window] setContentView:[aView autorelease]];
+}
+
+#pragma mark -
+- (void)setDelay:(float)aDelay {
+  [(id)[self window] setDelay:aDelay];
+}
+
+- (void)setPosition:(NSPoint)aPoint {
+  
 }
 
 - (IBAction)display:(id)sender {
@@ -44,12 +52,17 @@
 
 - (void)setDuration:(SInt32)aTime rate:(SInt32)rate {
   NSString *str = nil;
-  if (aTime > 3600 * 24) {
-    str = NULL; // TODO: [NSString stringWithFormat:@"%i:%.2i:%.2i:%.2i - ", aTime / 60, aTime % 60]
-  } else if (aTime > 3600) {
-    str = [NSString stringWithFormat:@"%i:%.2i:%.2i -", aTime / 3600, (aTime % 3600) / 60, aTime % 60];
-  } else if (aTime > 0) {
-    str = [NSString stringWithFormat:@"%i:%.2i -", aTime / 60, aTime % 60];
+  SInt32 days = aTime / (3600 * 24);
+  SInt32 hours = (aTime % (3600 * 24)) / 3600;
+  SInt32 minutes = (aTime % 3600) / 60;
+  SInt32 seconds = aTime % 60;
+  
+  if (days > 0) {
+    str = [NSString stringWithFormat:@"%i:%.2i:%.2i:%.2i - ", days, hours, minutes, seconds];
+  } else if (hours > 0) {
+    str = [NSString stringWithFormat:@"%i:%.2i:%.2i -", hours, minutes, seconds];
+  } else if (seconds > 0) {
+    str = [NSString stringWithFormat:@"%i:%.2i -", minutes, seconds];
   } else {
     str = @" -";
   }
@@ -126,6 +139,50 @@
   [self setDuration:duration rate:rate];
 }
 
+- (void)setOrigin:(NSPoint)origin {
+  [[self window] setFrameOrigin:origin];
+}
+
+- (NSColor *)textColor {
+  return [ibName textColor];
+}
+
+- (void)setTextColor:(NSColor *)aColor {
+  [ibName setTextColor:aColor];
+  [ibAlbum setTextColor:aColor];
+  [ibArtist setTextColor:aColor];
+  
+  [ibTime setTextColor:aColor];
+  [ibRate setTextColor:aColor];
+}
+
+- (NSColor *)borderColor {
+  return [(id)[[self window] contentView] borderColor];
+}
+- (void)setBorderColor:(NSColor *)aColor {
+  [(id)[[self window] contentView] setBorderColor:aColor];
+}
+
+- (NSColor *)backgroundColor {
+  return [(id)[[self window] contentView] backgroundColor];
+}
+- (void)setBackgroundColor:(NSColor *)aColor {
+  [(id)[[self window] contentView] setBackgroundColor:aColor];
+}
+
+- (NSColor *)backgroundTopColor {
+  return [(id)[[self window] contentView] backgroundTopColor];
+}
+- (void)setBackgroundTopColor:(NSColor *)aColor {
+  [(id)[[self window] contentView] setBackgroundTopColor:aColor];
+}
+
+- (NSColor *)backgroundBottomColor {
+  return [(id)[[self window] contentView] backgroundBottomColor];
+}
+- (void)setBackgroundBottomColor:(NSColor *)aColor {
+  [(id)[[self window] contentView] setBackgroundBottomColor:aColor];
+}
 @end
 
 @implementation ITunesInfoView
@@ -141,7 +198,11 @@
     info.end[1] = .710f;
     info.end[2] = .886f;
     info.end[3] = 1;
-    shading = SKCGCreateShading(CGPointMake(0, NSHeight(frame)), CGPointZero, SKCGSimpleShadingFunction, &info);
+    
+    border[0] = .086f;
+    border[1] = .251f;
+    border[2] = .502f;
+    border[3] = 1;
   }
   return self;
 }
@@ -166,6 +227,8 @@
   
   CGContextSaveGState(ctxt);
   CGContextClip(ctxt);
+  if (!shading)
+    shading = SKCGCreateShading(CGPointMake(0, NSHeight([self bounds])), CGPointZero, SKCGSimpleShadingFunction, &info);
   CGContextDrawShading(ctxt, shading);
   CGContextRestoreGState(ctxt);
   
@@ -176,8 +239,56 @@
   rect.size.width -= 6;
   rect.size.height -= 6;
   SKCGContextAddRoundRect(ctxt, rect, 5);
-  CGContextSetRGBFillColor(ctxt,.086f, .251f, .502f, 1);
+  CGContextSetRGBFillColor(ctxt, border[0], border[1], border[2], border[3]);
   CGContextDrawPath(ctxt, kCGPathEOFill);
+}
+
+- (NSColor *)borderColor {
+  return [NSColor colorWithCalibratedRed:border[0] green:border[1] blue:border[2] alpha:border[3]];
+}
+
+- (void)setBorderColor:(NSColor *)aColor {
+  [[aColor colorUsingColorSpaceName:NSCalibratedRGBColorSpace] getComponents:border];
+  [self setNeedsDisplay:YES];
+}
+- (NSColor *)backgroundColor {
+  return [NSColor colorWithCalibratedRed:info.end[0] green:info.end[1] blue:info.end[2] alpha:info.end[3]];
+}
+- (void)setBackgroundColor:(NSColor *)aColor {
+  [[aColor colorUsingColorSpaceName:NSCalibratedRGBColorSpace] getComponents:info.end];
+  info.start[0] = 0.8 + info.end[0] * 0.2;
+  info.start[1] = 0.8 + info.end[1] * 0.2;
+  info.start[2] = 0.8 + info.end[2] * 0.2;
+  info.start[3] = 0.8 + info.end[3] * 0.2;
+  if (shading) {
+    CGShadingRelease(shading);
+    shading = NULL;
+  }
+  [self setNeedsDisplay:YES];
+}
+
+- (NSColor *)backgroundTopColor {
+  return [NSColor colorWithCalibratedRed:info.start[0] green:info.start[1] blue:info.start[2] alpha:info.start[3]];
+}
+- (void)setBackgroundTopColor:(NSColor *)aColor {
+  [[aColor colorUsingColorSpaceName:NSCalibratedRGBColorSpace] getComponents:info.start];
+  if (shading) {
+    CGShadingRelease(shading);
+    shading = NULL;
+  }
+  [self setNeedsDisplay:YES];
+}
+
+- (NSColor *)backgroundBottomColor {
+  return [NSColor colorWithCalibratedRed:info.end[0] green:info.end[1] blue:info.end[2] alpha:info.end[3]];
+}
+- (void)setBackgroundBottomColor:(NSColor *)aColor {
+  [[aColor colorUsingColorSpaceName:NSCalibratedRGBColorSpace] getComponents:info.end];
+  if (shading) {
+    CGShadingRelease(shading);
+    shading = NULL;
+  }
+  [self setNeedsDisplay:YES];
 }
 
 @end
