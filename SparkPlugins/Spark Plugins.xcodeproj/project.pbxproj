@@ -59,6 +59,8 @@
 		98B5515506D25F06001BDF93 /* Eject.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98B5515406D25F06001BDF93 /* Eject.tif */; };
 		98BA1A0B0A583493004914E9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 98BA1A090A583493004914E9 /* Localizable.strings */; };
 		98BB26350A98F22B00124AB9 /* SparkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF7F5108645B7F007BC81A /* SparkKit.framework */; };
+		98BD2E4F0AB6DD2E0063CDEB /* ITunesVisualSetting.h in Headers */ = {isa = PBXBuildFile; fileRef = 98BD2E4E0AB6DD2E0063CDEB /* ITunesVisualSetting.h */; };
+		98BD2E5D0AB6DD480063CDEB /* ITunesVisualSetting.m in Sources */ = {isa = PBXBuildFile; fileRef = 98BD2E5C0AB6DD480063CDEB /* ITunesVisualSetting.m */; };
 		98DA320F0A8AF6F8009EC42C /* iTunesPlugin.nib in Resources */ = {isa = PBXBuildFile; fileRef = 98DA32090A8AF6F8009EC42C /* iTunesPlugin.nib */; };
 		98DAB9850A90F4E9001F3125 /* SystemPlugin.nib in Resources */ = {isa = PBXBuildFile; fileRef = 98DAB97F0A90F4E9001F3125 /* SystemPlugin.nib */; };
 		98DABB160A90F7A0001F3125 /* SystemPlugin.png in Resources */ = {isa = PBXBuildFile; fileRef = 98DABB150A90F79F001F3125 /* SystemPlugin.png */; };
@@ -269,6 +271,8 @@
 		98AA290D060C659F0039844B /* VolumeDown.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = VolumeDown.tif; sourceTree = "<group>"; };
 		98B5515406D25F06001BDF93 /* Eject.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Eject.tif; sourceTree = "<group>"; };
 		98BA1A0A0A583493004914E9 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
+		98BD2E4E0AB6DD2E0063CDEB /* ITunesVisualSetting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITunesVisualSetting.h; sourceTree = "<group>"; };
+		98BD2E5C0AB6DD480063CDEB /* ITunesVisualSetting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ITunesVisualSetting.m; sourceTree = "<group>"; };
 		98C7DDF60713C84B007F9CEF /* Switcher.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = Switcher.m; sourceTree = "<group>"; };
 		98C7DDF80713C852007F9CEF /* Switcher.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Switcher.h; sourceTree = "<group>"; };
 		98C7E30E06064B47003BF04D /* Icons.psd */ = {isa = PBXFileReference; lastKnownFileType = file; path = Icons.psd; sourceTree = "<group>"; };
@@ -545,6 +549,7 @@
 				98E6A94B06063852000CCBE1 /* ITunesAction.m */,
 				98E6A94C06063852000CCBE1 /* ITunesAESuite.c */,
 				98E6A94A06063852000CCBE1 /* ITunesActionPlugin.m */,
+				98BD2E5C0AB6DD480063CDEB /* ITunesVisualSetting.m */,
 				98E1CC5D0607769E00FA3599 /* Info.plist */,
 				98E6A8DD060636AE000CCBE1 /* InfoPlist.strings */,
 				98DEF22C0A4E786700E49F89 /* iTunesInfo.nib */,
@@ -561,6 +566,7 @@
 				98E6A9510606385A000CCBE1 /* ITunesAction.h */,
 				98E6A9500606385A000CCBE1 /* ITunesAESuite.h */,
 				98E6A9520606385A000CCBE1 /* ITunesActionPlugin.h */,
+				98BD2E4E0AB6DD2E0063CDEB /* ITunesVisualSetting.h */,
 			);
 			path = Headers;
 			sourceTree = "<group>";
@@ -798,6 +804,7 @@
 				98E6A9540606385A000CCBE1 /* ITunesAction.h in Headers */,
 				98E6A9550606385A000CCBE1 /* ITunesActionPlugin.h in Headers */,
 				98789CAF0AB48D5A00C35052 /* ITunesInfo.h in Headers */,
+				98BD2E4F0AB6DD2E0063CDEB /* ITunesVisualSetting.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1160,6 +1167,7 @@
 				98E6A94E06063852000CCBE1 /* ITunesAction.m in Sources */,
 				98E6A94F06063852000CCBE1 /* ITunesAESuite.c in Sources */,
 				98789CB30AB48D8200C35052 /* ITunesInfo.m in Sources */,
+				98BD2E5D0AB6DD480063CDEB /* ITunesVisualSetting.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

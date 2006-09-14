@@ -84,6 +84,13 @@
 			remoteGlobalIDString = 983674730699D34900DF2C6A;
 			remoteInfo = Plugins;
 		};
+		985187A40AB81D5600685FF7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 983674620699D31000DF2C6A /* Spark Plugins.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 98789DD20AB4A10D00C35052 /* Simulator.app */;
+			remoteInfo = Simulator;
+		};
 		9867592A096B41BC00BB8A25 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 98D614B106B3DBA100CBC985 /* SparkKit.xcodeproj */;
@@ -1102,6 +1109,7 @@
 			isa = PBXGroup;
 			children = (
 				98EF835A086464D2007BC81A /* Labo */,
+				985187A50AB81D5600685FF7 /* Simulator.app */,
 				98EF835E086464D2007BC81A /* iTunesAction.spact */,
 				98EF835C086464D2007BC81A /* SystemAction.spact */,
 				98EF8360086464D2007BC81A /* DocumentAction.spact */,
@@ -1180,6 +1188,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		985187A50AB81D5600685FF7 /* Simulator.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = Simulator.app;
+			remoteRef = 985187A40AB81D5600685FF7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		9867592B096B41BC00BB8A25 /* ShadowKit.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;

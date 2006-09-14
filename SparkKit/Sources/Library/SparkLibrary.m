@@ -303,6 +303,8 @@ bail:
   ok = [manager readFromFileWrapper:[files objectForKey:kSparkEntriesFile] error:error];
   require(ok, bail);
   
+  [manager postProcess];
+  
   return YES;
 bail:
   return NO;

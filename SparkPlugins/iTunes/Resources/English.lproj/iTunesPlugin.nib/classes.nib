@@ -9,8 +9,19 @@
         {
             CLASS = ITunesActionPlugin; 
             LANGUAGE = ObjC; 
-            OUTLETS = {nameField = NSTextField; optionsView = NSTabView; }; 
+            OUTLETS = {
+                ibName = NSTextField; 
+                ibTabView = NSTabView; 
+                ibVisual = ITunesVisualSettings; 
+            }; 
             SUPERCLASS = SparkActionPlugIn; 
+        }, 
+        {
+            ACTIONS = {defaultSettings = id; hide = id; preview = id; show = id; }; 
+            CLASS = ITunesVisualSetting; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {ibShow = NSButton; }; 
+            SUPERCLASS = NSObject; 
         }, 
         {
             CLASS = SparkActionPlugIn; 

@@ -11,13 +11,61 @@
 #import <ShadowKit/SKCGFunctions.h>
 #import <ShadowKit/SKNotificationWindow.h>
 
+#define kiTunesVisualDefaultPosition	{ -2e8, 0 }
+
+const NSPoint kiTunesUpperLeft = { -1e8, 0 };
+const NSPoint kiTunesUpperRight = kiTunesVisualDefaultPosition;
+const NSPoint kiTunesBottomLeft = { -3e8, 0 };
+const NSPoint kiTunesBottomRight = { -4e8, 0 };
+
 const ITunesVisual kiTunesDefaultSettings = {
-  YES, 1.f, { -2, 0 },
+  YES, 1.f, kiTunesVisualDefaultPosition,
   { 0, 0, 0, 1 },
-  {.086f, .251f, .502f, 1 },
-  {.961f, .969f, .988f, 1 },
-  {.620f, .710f, .886f, 1 },
+  /* Gray */
+  {.188, .192f, .200f, 1 },
+  {.957f, .961f, .973f, 1 },
+  {.682f, .703f, .733f, 1 },
+  /* Blue */
+//  {.314f, .439f, .682f, 1 },
+//  {.961f, .969f, .988f, 1 },
+//  {.620f, .710f, .886f, 1 },
 };
+
+enum {
+  kiTunesVisualUL,
+  kiTunesVisualUR,
+  kiTunesVisualBL,
+  kiTunesVisualBR,
+  kiTunesVisualOther,
+};
+
+SK_INLINE
+int _iTunesGetTypeForLocation(NSPoint point) {
+  if (SKFloatEquals(point.x, kiTunesUpperLeft.x))
+    return kiTunesVisualUL;
+  if (SKFloatEquals(point.x, kiTunesUpperRight.x))
+    return kiTunesVisualUR;
+  if (SKFloatEquals(point.x, kiTunesBottomLeft.x))
+    return kiTunesVisualBL;
+  if (SKFloatEquals(point.x, kiTunesBottomRight.x))
+    return kiTunesVisualBR;
+  
+  return kiTunesVisualOther;
+}
+SK_INLINE
+NSPoint _iTunesGetLocationForType(int type) {
+  switch (type) {
+    case kiTunesVisualUL:
+      return kiTunesUpperLeft;
+    case kiTunesVisualUR:
+      return kiTunesUpperRight;
+    case kiTunesVisualBL:
+      return kiTunesBottomLeft;
+    case kiTunesVisualBR:
+      return kiTunesBottomRight;
+  }
+  return NSZeroPoint;
+}
 
 @interface ITunesInfoView : NSView {
   @private
@@ -26,7 +74,7 @@ const ITunesVisual kiTunesDefaultSettings = {
   SKSimpleShadingInfo info;
 }
 
-- (void)setVisual:(ITunesVisual *)visual;
+- (void)setVisual:(const ITunesVisual *)visual;
 
 - (NSColor *)borderColor;
 - (void)setBorderColor:(NSColor *)aColor;
@@ -67,6 +115,7 @@ const ITunesVisual kiTunesDefaultSettings = {
   [info setHasShadow:YES];
   if (self = [super initWithWindow:info]) {
     [NSBundle loadNibNamed:@"iTunesInfo" owner:self];
+    [self setVisual:&kiTunesDefaultSettings];
   }
   [info release];
   return self;
@@ -83,7 +132,20 @@ const ITunesVisual kiTunesDefaultSettings = {
 }
 
 #pragma mark -
-- (void)setVisual:(ITunesVisual *)visual {
+- (void)getVisual:(ITunesVisual *)visual {
+  /* Get delay */
+  visual->delay = [self delay];
+  /* Get location */
+  if (ia_loc != kiTunesVisualOther) visual->location = _iTunesGetLocationForType(ia_loc);
+  else visual->location = [[self window] frame].origin;
+  /* Get shadow */
+  visual->shadow = [[self window] hasShadow];
+  /* Get text color */
+  [[[self textColor] colorUsingColorSpaceName:NSCalibratedRGBColorSpace] getComponents:visual->text];
+  [(id)[[self window] contentView] getVisual:visual];
+}
+
+- (void)setVisual:(const ITunesVisual *)visual {
   [self setDelay:visual->delay];
   [self setPosition:visual->location];
   [self setHasShadow:visual->shadow];
@@ -91,12 +153,38 @@ const ITunesVisual kiTunesDefaultSettings = {
   [[[self window] contentView] setVisual:visual];
 }
 
+- (float)delay {
+  return [(id)[self window] delay];
+}
 - (void)setDelay:(float)aDelay {
   [(id)[self window] setDelay:aDelay];
 }
 
+#define SCREEN_MARGIN 17
 - (void)setPosition:(NSPoint)aPoint {
-  
+  NSPoint origin = aPoint;
+  NSRect bounds = [[self window] frame];
+  NSRect screen = [[NSScreen mainScreen] frame];
+  ia_loc = _iTunesGetTypeForLocation(aPoint);
+  switch (ia_loc) {
+    case kiTunesVisualUL:
+      origin.x = SCREEN_MARGIN;
+      origin.y = NSHeight(screen) - NSHeight(bounds) - SCREEN_MARGIN - 22; // menu bar
+      break;
+    case kiTunesVisualUR:
+      origin.x = NSWidth(screen) - NSWidth(bounds) - SCREEN_MARGIN;
+      origin.y = NSHeight(screen) - NSHeight(bounds) - SCREEN_MARGIN - 22;
+      break;
+    case kiTunesVisualBL:
+      origin.x = SCREEN_MARGIN;
+      origin.y = SCREEN_MARGIN + 22;
+      break;
+    case kiTunesVisualBR:
+      origin.x = NSWidth(screen) - NSWidth(bounds) - SCREEN_MARGIN;
+      origin.y = SCREEN_MARGIN + 22; // like that
+      break;
+  }
+  [[self window] setFrameOrigin:origin];
 }
 
 - (void)setHasShadow:(BOOL)hasShadow {
@@ -246,20 +334,7 @@ const ITunesVisual kiTunesDefaultSettings = {
 
 - (id)initWithFrame:(NSRect)frame {
   if (self = [super initWithFrame:frame]) {
-    info.start[0] = .961f;
-    info.start[1] = .969f;
-    info.start[2] = .988f;
-    info.start[3] = 1;
-
-    info.end[0] = .620f;
-    info.end[1] = .710f;
-    info.end[2] = .886f;
-    info.end[3] = 1;
-    
-    border[0] = .086f;
-    border[1] = .251f;
-    border[2] = .502f;
-    border[3] = 1;
+    [self setVisual:&kiTunesDefaultSettings];
   }
   return self;
 }
@@ -278,6 +353,17 @@ const ITunesVisual kiTunesDefaultSettings = {
   [self setNeedsDisplay:YES];
 }
 
+static
+void iTunesShadingFunction(void *pinfo, const float *in, float *out) {
+  float v;
+  SKSimpleShadingInfo *ctxt = pinfo;
+
+  v = *in;
+  for (int k = 0; k < 4; k++) {
+    *out++ = ctxt->start[k] - (ctxt->start[k] - ctxt->end[k]) * pow(sin(M_PI_2 * v), 2);
+  }
+}
+
 - (void)drawRect:(NSRect)aRect {
   CGContextRef ctxt = [[NSGraphicsContext currentContext] graphicsPort];
   
@@ -293,7 +379,7 @@ const ITunesVisual kiTunesDefaultSettings = {
   CGContextSaveGState(ctxt);
   CGContextClip(ctxt);
   if (!shading)
-    shading = SKCGCreateShading(CGPointMake(0, NSHeight([self bounds])), CGPointZero, SKCGSimpleShadingFunction, &info);
+    shading = SKCGCreateShading(CGPointMake(0, NSHeight([self bounds])), CGPointZero, iTunesShadingFunction, &info);
   CGContextDrawShading(ctxt, shading);
   CGContextRestoreGState(ctxt);
   
@@ -309,10 +395,16 @@ const ITunesVisual kiTunesDefaultSettings = {
 }
 
 #pragma mark -
-- (void)setVisual:(ITunesVisual *)visual {
-  memcpy(border, visual->border, sizeof(border));
-  memcpy(info.end, visual->border, sizeof(visual->backbot));
-  memcpy(info.start, visual->border, sizeof(visual->backtop));
+- (void)getVisual:(ITunesVisual *)visual {
+  memcpy(visual->border, border, sizeof(visual->border));
+  memcpy(visual->backbot, info.end, sizeof(visual->backbot));
+  memcpy(visual->backtop, info.start, sizeof(visual->backtop));
+}
+
+- (void)setVisual:(const ITunesVisual *)visual {
+  memcpy(border, visual->border, sizeof(visual->border));
+  memcpy(info.end, visual->backbot, sizeof(visual->backbot));
+  memcpy(info.start, visual->backtop, sizeof(visual->backtop));
   [self clearShading];
 }
 
@@ -329,10 +421,10 @@ const ITunesVisual kiTunesDefaultSettings = {
 }
 - (void)setBackgroundColor:(NSColor *)aColor {
   [[aColor colorUsingColorSpaceName:NSCalibratedRGBColorSpace] getComponents:info.end];
-  info.start[0] = 0.8 + info.end[0] * 0.2;
-  info.start[1] = 0.8 + info.end[1] * 0.2;
-  info.start[2] = 0.8 + info.end[2] * 0.2;
-  info.start[3] = 0.8 + info.end[3] * 0.2;
+  info.start[0] = 0.75 + info.end[0] * 0.25;
+  info.start[1] = 0.75 + info.end[1] * 0.25;
+  info.start[2] = 0.75 + info.end[2] * 0.25;
+  info.start[3] = 0.75 + info.end[3] * 0.25;
   [self clearShading];
 }
 

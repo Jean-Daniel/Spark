@@ -21,6 +21,15 @@ typedef struct _ITunesVisual {
 } ITunesVisual;
 
 SK_PRIVATE
+const NSPoint kiTunesUpperLeft;
+SK_PRIVATE
+const NSPoint kiTunesUpperRight;
+SK_PRIVATE
+const NSPoint kiTunesBottomLeft;
+SK_PRIVATE
+const NSPoint kiTunesBottomRight;
+
+SK_PRIVATE
 const ITunesVisual kiTunesDefaultSettings;
 
 @interface ITunesInfo : NSWindowController {
@@ -30,6 +39,8 @@ const ITunesVisual kiTunesDefaultSettings;
   
   IBOutlet NSTextField *ibTime;
   IBOutlet NSTextField *ibRate;
+  @private
+    int ia_loc;
 }
 
 + (ITunesInfo *)sharedWindow;
@@ -39,8 +50,10 @@ const ITunesVisual kiTunesDefaultSettings;
 - (void)setTrack:(iTunesTrack *)track;
 
 /* Settings */
-- (void)setVisual:(ITunesVisual *)visual;
+- (void)getVisual:(ITunesVisual *)visual;
+- (void)setVisual:(const ITunesVisual *)visual;
 
+- (float)delay;
 - (void)setDelay:(float)aDelay;
 - (void)setPosition:(NSPoint)aPoint;
 - (void)setHasShadow:(BOOL)hasShadow;

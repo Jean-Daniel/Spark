@@ -10,9 +10,11 @@
 
 #import "ITunesAction.h"
 
+@class ITunesVisualSetting;
 @interface ITunesActionPlugin : SparkActionPlugIn {
-  IBOutlet NSTextField *nameField;
-  IBOutlet NSTabView *optionsView;
+  IBOutlet NSTextField *ibName;
+  IBOutlet NSTabView *ibTabView;
+  IBOutlet ITunesVisualSetting *ibVisual;
   @private
     struct _ia_apFlags {
       unsigned int play:1;

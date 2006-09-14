@@ -7,8 +7,10 @@
  */
 
 #import "ITunesActionPlugin.h"
-#import "ITunesAESuite.h"
+
 #import "ITunesAction.h"
+#import "ITunesAESuite.h"
+#import "ITunesVisualSetting.h"
 
 #import <ShadowKit/SKExtensions.h>
 #import <ShadowKit/SKFSFunctions.h>
@@ -20,6 +22,12 @@
   return ![key isEqualToString:@"playlists"];
 }
 
++ (void)initialize {
+  if (self == [ITunesActionPlugin class]) {
+    [self setKeys:[NSArray arrayWithObject:@"sparkAction"] triggerChangeNotificationsForDependentKey:@"showInfo"];
+  }
+}
+
 - (id)init {
   if (self = [super init]) {
   }
@@ -27,6 +35,7 @@
 }
 
 - (void)dealloc {
+  [ibVisual release]; // IB root object
   [it_playlist release];
   [it_playlists release];
   [super dealloc];
@@ -42,11 +51,24 @@
       [self loadPlaylists];
       [self setPlaylist:[sparkAction playlist]];
     }
-    [nameField setStringValue:[sparkAction name] ? : @""];
+    [ibName setStringValue:[sparkAction name] ? : @""];
+    switch ([sparkAction visualMode]) {
+      case kiTunesSettingCustom: {
+        const ITunesVisual *visual = [sparkAction visual];
+        if (visual) {
+          [ibVisual setVisual:visual];
+        }
+      }
+        break;
+      case kiTunesSettingDefault:
+        break;
+    }
+    [ibVisual setConfiguration:[sparkAction visualMode]];
   } else {
     /* Default action for the iTunes Action Menu */
     [self setITunesAction:kiTunesPlayPause];
   }
+  [ibVisual setDelegate:self];
 }
 
 - (NSAlert *)sparkEditorShouldConfigureAction {
@@ -59,7 +81,7 @@
   /* Get the current Action */
   ITunesAction *iAction = [self sparkAction];
   /* Set Name */
-  [iAction setName:[nameField stringValue]];
+  [iAction setName:[ibName stringValue]];
   if ([[[iAction name] stringByTrimmingWhitespaceAndNewline] length] == 0)
     [iAction setName:[self defaultName]];
   
@@ -112,10 +134,24 @@
   [iAction setActionDescription:ITunesActionDescription(iAction)];
 }
 
+- (void)settingWillChangeConfiguration:(ITunesVisualSetting *)settings {
+  
+}
+- (void)settingDidChangeConfiguration:(ITunesVisualSetting *)settings {
+
+}
+
 #pragma mark ее ITunesActionPlugin & configView Specific methodes ее
 /********************************************************************************************************
 *                             ITunesActionPlugin & configView Specific methodes							*
 ********************************************************************************************************/
+
+- (BOOL)showInfo {
+  return [[self sparkAction] showInfo];
+}
+- (void)setShowInfo:(BOOL)flag {
+  [[self sparkAction] setShowInfo:flag];
+}
 
 - (void)loadPlaylists {
   NSArray *lists = [[self class] iTunesPlaylists];
@@ -136,7 +172,7 @@
       [self setPlaylist:[[self playlists] objectAtIndex:0]];
     }
   }
-  [[nameField cell] setPlaceholderString:[self defaultName]];
+  [[ibName cell] setPlaceholderString:[self defaultName]];
   int idx = -1;
   switch ([self iTunesAction]) {
     case kiTunesLaunch:
@@ -157,15 +193,15 @@
       idx = 4;
       break;
   }
-  [optionsView selectTabViewItemAtIndex:idx];
+  [ibTabView selectTabViewItemAtIndex:idx];
 }
 
 - (SInt32)rating {
-  return [[self sparkAction] rating] / 20;
+  return [[self sparkAction] rating] / 10;
 }
 
 - (void)setRating:(SInt32)rate {
-  [[self sparkAction] setRating:rate * 20];
+  [[self sparkAction] setRating:rate * 10];
 }
 
 - (NSString *)playlist {

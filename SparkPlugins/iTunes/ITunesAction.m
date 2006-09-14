@@ -49,6 +49,10 @@ iTunesAction _iTunesConvertAction(int act) {
   copy->ia_action = ia_action;
   copy->ia_iaFlags = ia_iaFlags;
   copy->ia_playlist = [ia_playlist retain];
+  if (ia_visual) {
+    copy->ia_visual = NSZoneMalloc(nil, sizeof(*ia_visual));
+    memcpy(copy->ia_visual, ia_visual, sizeof(*ia_visual));
+  }
   return copy;
 }
 
@@ -58,7 +62,9 @@ iTunesAction _iTunesConvertAction(int act) {
   if (ia_iaFlags.hide) flags |= 1 << 7;
   if (ia_iaFlags.autoplay) flags |= 1 << 8;
   if (ia_iaFlags.background) flags |= 1 << 9;
-  flags |= ia_iaFlags.visual << 10;
+  /* Visual */
+  if (ia_iaFlags.show) flags |= 1 << 10;
+  flags |= ia_iaFlags.visual << 11;
   return flags;
 }
 
@@ -72,12 +78,12 @@ iTunesAction _iTunesConvertAction(int act) {
 
 - (void)decodeFlags:(UInt32)flags {
   ia_iaFlags.rate = flags & 0x7f; /* bits 0 to 6 */
-  
   if (flags & 1 << 7) ia_iaFlags.hide = 1; /* bit 7 */
   if (flags & 1 << 8) ia_iaFlags.autoplay = 1; /* bit 8 */
   if (flags & 1 << 9) ia_iaFlags.background = 1; /* bit 9 */
-  
-  ia_iaFlags.visual = (flags >> 10) & 0x3; /* bits 10 and 11 */
+  /* Visual */
+  if (flags & 1 << 10) ia_iaFlags.show = 1; /* bit 10 */
+  ia_iaFlags.visual = (flags >> 11) & 0x3; /* bits 11 and 12 */
 }
 
 - (id)initWithCoder:(NSCoder *)coder {
@@ -99,8 +105,8 @@ iTunesAction _iTunesConvertAction(int act) {
 
 - (void)dealloc {
   [ia_playlist release];
-  if (visual)
-    NSZoneFree(nil, visual);
+  if (ia_visual)
+    NSZoneFree(nil, ia_visual);
   [super dealloc];
 }
 
@@ -261,6 +267,24 @@ return self;
 
 - (void)setITunesAction:(iTunesAction)anAction {
   ia_action = anAction;
+}
+
+- (const ITunesVisual *)visual {
+  return ia_visual;
+}
+
+- (BOOL)showInfo {
+  return ia_iaFlags.show;
+}
+- (void)setShowInfo:(BOOL)flag {
+  SKSetFlag(ia_iaFlags.show, flag);
+}
+
+- (int)visualMode {
+  return ia_iaFlags.visual;
+}
+- (void)setVisualMode:(int)mode {
+  ia_iaFlags.visual = mode;
 }
 
 #pragma mark -

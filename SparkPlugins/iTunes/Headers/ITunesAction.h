@@ -46,11 +46,12 @@ typedef enum {
     unsigned int autoplay:1;
     unsigned int background:1;
     /* visuals settings */
-    unsigned int visual:2; /* visual type: none, default, custom */
-    unsigned int reserved:21;
+    unsigned int show:1; /* visual enabled */
+    unsigned int visual:2; /* visual type: default, custom */
+    unsigned int reserved:19;
   } ia_iaFlags;
   
-  ITunesVisual *visual;
+  ITunesVisual *ia_visual;
 }
 
 - (SInt32)rating;
@@ -61,6 +62,14 @@ typedef enum {
 
 - (iTunesAction)iTunesAction;
 - (void)setITunesAction:(iTunesAction)newAction;
+
+- (const ITunesVisual *)visual;
+
+- (BOOL)showInfo;
+- (void)setShowInfo:(BOOL)flag;
+
+- (int)visualMode;
+- (void)setVisualMode:(int)mode;
 
 - (void)switchVisualStat;
 - (void)volumeUp;

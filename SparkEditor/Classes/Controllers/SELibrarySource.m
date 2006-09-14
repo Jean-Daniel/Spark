@@ -164,7 +164,10 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
   [[[table tableColumns] objectAtIndex:0] setHeaderCell:header];
   [header release];
   [table setCornerView:[[[SEHeaderCellCorner alloc] init] autorelease]];
-
+//  NSRect rect = [[table headerView] frame];
+//  rect.size.height += 1;
+//  [[table headerView] setFrame:rect];
+  
   [table setHighlightShading:[NSColor colorWithDeviceRed:.340f
                                                    green:.606f
                                                     blue:.890f
