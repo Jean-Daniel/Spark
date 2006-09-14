@@ -93,16 +93,16 @@ void ITunesVisualUnpackColor(UInt64 pack, float color[4]) {
   color[3] = (double)((pack >> 48) & 0xffff) / 0xffff;
 }
 
-typedef struct _ITunesVisualPack {
+typedef struct _ITunesPackedVisual {
   UInt8 shadow;
   UInt64 colors[4];
   CFSwappedFloat32 delay, x, y;
-} ITunesVisualPack;
+} ITunesPackedVisual;
 
 SK_INLINE
-NSData *ITunesPackVisual(ITunesVisual *visual) {
-  NSMutableData *data = [[NSMutableData alloc] initWithCapacity:sizeof(ITunesVisualPack)];
-  ITunesVisualPack *pack = [data mutableBytes];
+NSData *ITunesVisualPack(ITunesVisual *visual) {
+  NSMutableData *data = [[NSMutableData alloc] initWithCapacity:sizeof(ITunesPackedVisual)];
+  ITunesPackedVisual *pack = [data mutableBytes];
   pack->shadow = visual->shadow ? 1 : 0;
   pack->delay = CFConvertFloat32HostToSwapped(visual->delay);
   pack->x = CFConvertFloat32HostToSwapped(visual->location.x);
@@ -115,8 +115,8 @@ NSData *ITunesPackVisual(ITunesVisual *visual) {
 }
 
 SK_INLINE
-void ITunesUnpackVisual(NSData *data, ITunesVisual *visual) {
-  const ITunesVisualPack *pack = [data bytes];
+void ITunesVisualUnpack(NSData *data, ITunesVisual *visual) {
+  const ITunesPackedVisual *pack = [data bytes];
   visual->shadow = pack->shadow != 0;
   visual->delay = CFConvertFloat32SwappedToHost(pack->delay);
   visual->location.x = CFConvertFloat32SwappedToHost(pack->x);

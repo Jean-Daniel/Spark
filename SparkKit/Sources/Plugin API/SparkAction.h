@@ -17,13 +17,25 @@
 @class SparkAlert;
 
 /*!
-@function SparkGetDefaultKeyRepeatInterval
+@function
  @abstract Returns the system default time interval for repeat keys.
  This default time can be changed by the user in «System Preferences».
  @result Returns the system default time interval for repeat keys.
  */
 SPARK_EXPORT
 NSTimeInterval SparkGetDefaultKeyRepeatInterval(void);
+
+typedef enum {
+  kSparkEditorContext,
+  kSparkDaemonContext,
+} SparkContext;
+
+/*!
+@function
+ @result Returns current execution context.
+ */
+SPARK_EXPORT
+SparkContext SparkGetCurrentContext(void);
 
 /*!
 @class 		SparkAction

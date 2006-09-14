@@ -90,6 +90,14 @@ If you use this class in IB, you can define an Outlet with name actionView.
    */
 - (id)sparkAction;
 
+#pragma mark Hook entry points
+/* Those methods does nothing. Subclasses can override those methods to perform whatever actions are necessary. */
+- (void)pluginViewWillBecomeVisible;
+- (void)pluginViewDidBecomeVisible;
+
+- (void)pluginViewWillBecomeHidden;
+- (void)pluginViewDidBecomeHidden;
+
 #pragma mark -
 #pragma mark Convenient Accessors
   /*!

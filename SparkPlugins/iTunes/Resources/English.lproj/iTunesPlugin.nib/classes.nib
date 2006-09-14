@@ -10,9 +10,10 @@
             CLASS = ITunesActionPlugin; 
             LANGUAGE = ObjC; 
             OUTLETS = {
+                ibBackground = NSButton; 
                 ibName = NSTextField; 
                 ibTabView = NSTabView; 
-                ibVisual = ITunesVisualSettings; 
+                ibVisual = ITunesVisualSetting; 
             }; 
             SUPERCLASS = SparkActionPlugIn; 
         }, 

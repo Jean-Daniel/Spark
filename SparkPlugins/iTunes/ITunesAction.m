@@ -18,6 +18,7 @@
 
 static NSString* const kITunesFlagsKey = @"iTunesFlags";
 static NSString* const kITunesActionKey = @"iTunesAction";
+static NSString* const kITunesVisualKey = @"iTunesVisual";
 static NSString* const kITunesPlaylistKey = @"iTunesPlaylist";
 
 NSString * const kiTunesActionBundleIdentifier = @"org.shadowlab.spark.iTunes";
@@ -73,6 +74,9 @@ iTunesAction _iTunesConvertAction(int act) {
   [coder encodeInt:ia_action forKey:kITunesActionKey];
   [coder encodeInt:[self encodeFlags] forKey:kITunesFlagsKey];
   [coder encodeObject:[self playlist] forKey:kITunesPlaylistKey];
+  if (ia_visual) {
+    [coder encodeBytes:(void *)ia_visual length:sizeof(*ia_visual) forKey:kITunesVisualKey];
+  }
   return;
 }
 
@@ -91,6 +95,13 @@ iTunesAction _iTunesConvertAction(int act) {
     [self decodeFlags:[coder decodeIntForKey:kITunesFlagsKey]];
     [self setITunesAction:[coder decodeIntForKey:kITunesActionKey]];
     [self setPlaylist:[coder decodeObjectForKey:kITunesPlaylistKey]];
+    
+    unsigned length = 0;
+    const void *visual = [coder decodeBytesForKey:kITunesVisualKey returnedLength:&length];
+    if (visual != NULL && sizeof(*ia_visual) == length) {
+      ia_visual = NSZoneMalloc(nil, sizeof(*ia_visual));
+      memcpy(ia_visual, visual, sizeof(*ia_visual));
+    }
   }
   return self;
 }
@@ -119,6 +130,11 @@ iTunesAction _iTunesConvertAction(int act) {
       case 0x200:
         [self decodeFlags:[[plist objectForKey:kITunesFlagsKey] unsignedIntValue]];
         [self setITunesAction:SKHFSTypeCodeFromFileType([plist objectForKey:kITunesActionKey])];
+        NSData *data = [plist objectForKey:kITunesVisualKey];
+        if (data) {
+          ia_visual = NSZoneMalloc(nil, sizeof(*ia_visual));
+          ITunesVisualUnpack(data, ia_visual);
+        }
         break;
       default: /* Old version */
         [self setVersion:0x200];
@@ -126,6 +142,7 @@ iTunesAction _iTunesConvertAction(int act) {
         [self setITunesAction:_iTunesConvertAction([[plist objectForKey:kITunesActionKey] intValue])];
         break;
     }
+    /* Update description */
     NSString *description = ITunesActionDescription(self);
     if (description)
       [self setActionDescription:description];
@@ -139,6 +156,13 @@ return self;
   [plist setObject:SKFileTypeForHFSTypeCode([self iTunesAction]) forKey:kITunesActionKey];
   if ([self playlist])
     [plist setObject:[self playlist] forKey:kITunesPlaylistKey];
+  if (ia_visual) {
+    NSData *data = ITunesVisualPack(ia_visual);
+    if (data)
+      [plist setObject:data forKey:kITunesVisualKey];
+    else
+      DLog(@"ERROR: Could not pack visual settings");
+  }
   return YES;
 }
 
@@ -279,6 +303,12 @@ return self;
 - (void)setShowInfo:(BOOL)flag {
   SKSetFlag(ia_iaFlags.show, flag);
 }
+- (BOOL)launchHide { return ia_iaFlags.hide; }
+- (BOOL)launchPlay { return ia_iaFlags.autoplay; }
+- (BOOL)launchBackground { return ia_iaFlags.background; }
+- (void)setLaunchHide:(BOOL)flag { SKSetFlag(ia_iaFlags.hide, flag); }
+- (void)setLaunchPlay:(BOOL)flag { SKSetFlag(ia_iaFlags.autoplay, flag); }
+- (void)setLaunchBackground:(BOOL)flag { SKSetFlag(ia_iaFlags.background, flag); }
 
 - (int)visualMode {
   return ia_iaFlags.visual;

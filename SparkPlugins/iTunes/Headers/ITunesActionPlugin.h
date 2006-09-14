@@ -14,6 +14,7 @@
 @interface ITunesActionPlugin : SparkActionPlugIn {
   IBOutlet NSTextField *ibName;
   IBOutlet NSTabView *ibTabView;
+  IBOutlet NSButton *ibBackground;
   IBOutlet ITunesVisualSetting *ibVisual;
   @private
     struct _ia_apFlags {
@@ -41,5 +42,13 @@
 
 - (void)loadPlaylists;
 + (NSArray *)iTunesPlaylists;
+
+/* Launch flags */
+- (BOOL)lsPlay;
+- (void)setLsPlay:(BOOL)flag;
+- (BOOL)lsHide;
+- (void)setLsHide:(BOOL)flag;
+- (BOOL)lsBackground;
+- (void)setLsBackground:(BOOL)flag;
 
 @end

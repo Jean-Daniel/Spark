@@ -18,10 +18,6 @@
 
 @implementation ITunesActionPlugin
 
-+ (BOOL)automaticallyNotifiesObserversForKey:(NSString *)key {
-  return ![key isEqualToString:@"playlists"];
-}
-
 + (void)initialize {
   if (self == [ITunesActionPlugin class]) {
     [self setKeys:[NSArray arrayWithObject:@"sparkAction"] triggerChangeNotificationsForDependentKey:@"showInfo"];
@@ -134,18 +130,23 @@
   [iAction setActionDescription:ITunesActionDescription(iAction)];
 }
 
-- (void)settingWillChangeConfiguration:(ITunesVisualSetting *)settings {
+- (void)pluginViewWillBecomeHidden {
+  if ([ibVisual configuration] == kiTunesSettingDefault) {
+    // Update defaut configuration
+  }
+}
+
+- (void)settingWillChangeConfiguration:()settings {
+   if ([settings configuration] == kiTunesSettingDefault) {
+     // Update default
+   }
+}
+
+- (void)settingDidChangeConfiguration:(ITunesVisualSetting *)settings {
   
 }
-- (void)settingDidChangeConfiguration:(ITunesVisualSetting *)settings {
 
-}
-
-#pragma mark ее ITunesActionPlugin & configView Specific methodes ее
-/********************************************************************************************************
-*                             ITunesActionPlugin & configView Specific methodes							*
-********************************************************************************************************/
-
+#pragma mark ITunesActionPlugin Specific methods
 - (BOOL)showInfo {
   return [[self sparkAction] showInfo];
 }
@@ -155,9 +156,7 @@
 
 - (void)loadPlaylists {
   NSArray *lists = [[self class] iTunesPlaylists];
-  [self willChangeValueForKey:@"playlists"];
   [self setPlaylists:lists];
-  [self didChangeValueForKey:@"playlists"];
 }
 
 - (iTunesAction)iTunesAction {
@@ -212,14 +211,31 @@
   SKSetterCopy(it_playlist, aPlaylist);
 }
 
-- (NSArray *)playlists {
-  return it_playlists;
+- (BOOL)lsPlay {
+  return [[self sparkAction] launchPlay];
+}
+- (void)setLsPlay:(BOOL)flag {
+  [[self sparkAction] setLaunchPlay:flag];
+}
+- (BOOL)lsHide { 
+  return [[self sparkAction] launchHide]; 
+}
+- (void)setLsHide:(BOOL)flag {
+  [self willChangeValueForKey:@"lsBackground"];
+  /* If hide, disable and force background */
+  [[self sparkAction] setLaunchHide:flag];
+  [self didChangeValueForKey:@"lsBackground"];
+  [ibBackground setEnabled:!flag];
 }
 
-- (void)setPlaylists:(NSArray *)thePlaylists {
-  SKSetterRetain(it_playlists, thePlaylists);
+- (BOOL)lsBackground { 
+  return [[self sparkAction] launchHide] || [[self sparkAction] launchBackground];
+}
+- (void)setLsBackground:(BOOL)flag {
+  [[self sparkAction] setLaunchBackground:flag];
 }
 
+#pragma mark -
 - (NSString *)defaultName {
   switch ([self iTunesAction]) {
     case kiTunesPlayPlaylist:
@@ -235,6 +251,13 @@
 
 #pragma mark -
 #pragma mark iTunes Playlists
+- (NSArray *)playlists {
+  return it_playlists;
+}
+- (void)setPlaylists:(NSArray *)thePlaylists {
+  SKSetterRetain(it_playlists, thePlaylists);
+}
+
 static 
 NSString *iTunesFindLibraryFile(int folder) {
   FSRef ref;

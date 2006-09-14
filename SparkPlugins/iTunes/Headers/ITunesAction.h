@@ -71,6 +71,13 @@ typedef enum {
 - (int)visualMode;
 - (void)setVisualMode:(int)mode;
 
+- (BOOL)launchHide;
+- (void)setLaunchHide:(BOOL)flag;
+- (BOOL)launchPlay;
+- (void)setLaunchPlay:(BOOL)flag;
+- (BOOL)launchBackground;
+- (void)setLaunchBackground:(BOOL)flag;
+
 - (void)switchVisualStat;
 - (void)volumeUp;
 - (void)volumeDown;

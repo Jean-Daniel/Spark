@@ -99,7 +99,9 @@
 - (IBAction)close:(id)sender {
   [super close:sender];
   /* Cleanup */
+  [se_plugin pluginViewWillBecomeHidden];
   [se_view removeFromSuperview];
+  [se_plugin pluginViewDidBecomeHidden];
   se_view = nil;
   se_plugin = nil;
   /* Remove plugins instances */
@@ -340,6 +342,7 @@
 }
 
 - (void)setActionType:(SparkPlugIn *)aPlugin {
+  SparkActionPlugIn *previousPlugin = se_plugin;
   se_plugin = NSMapGet(se_instances, aPlugin);
   if (!se_plugin) {
     se_plugin = [aPlugin instantiatePlugin];
@@ -390,7 +393,9 @@
   
   /* Remove previous view */
   if (se_view != [se_plugin actionView]) {
+    [previousPlugin pluginViewWillBecomeHidden];
     [se_view removeFromSuperview];
+    [previousPlugin pluginViewDidBecomeHidden];
     
     se_view = [se_plugin actionView];
     NSAssert1([se_view isKindOfClass:[NSView class]], @"Invalid view for plugin: %@", se_plugin);
@@ -454,8 +459,10 @@
     }
     [[self window] setContentMaxSize:smax];
     
+    [se_plugin pluginViewWillBecomeVisible];
     [ibPlugin addSubview:se_view];
     [self recalculateKeyViewLoop];
+    [se_plugin pluginViewDidBecomeVisible];
     
     unsigned row = [se_plugins indexOfObject:aPlugin];
     if (row != NSNotFound && (int)row != [typeTable selectedRow])

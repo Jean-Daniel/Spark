@@ -28,12 +28,12 @@
   return sp_view;
 }
 
-- (void)loadSparkAction:(SparkAction *)action toEdit:(BOOL)flag {
-  // does nothing since name and icon are store in sp_action.
-}
-
 - (id)sparkAction {
   return sp_action;
+}
+
+- (void)loadSparkAction:(SparkAction *)action toEdit:(BOOL)flag {
+  // does nothing since name and icon are store in sp_action.
 }
 
 - (NSAlert *)sparkEditorShouldConfigureAction {
@@ -45,6 +45,14 @@
   // does nothing
 }
 
+#pragma mark Notifications
+- (void)pluginViewWillBecomeVisible {}
+- (void)pluginViewDidBecomeVisible {}
+
+- (void)pluginViewWillBecomeHidden {}
+- (void)pluginViewDidBecomeHidden {}
+
+#pragma mark Accessors
 - (NSString *)name {
   return [sp_action name];
 }

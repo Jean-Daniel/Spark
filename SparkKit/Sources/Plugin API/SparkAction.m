@@ -24,6 +24,17 @@ static NSString * const kSparkActionVersionKey = @"SAVersion";
 static NSString * const kSparkActionCategorieKey = @"SACategorie";
 static NSString * const kSparkActionDescriptionKey = @"SADescription";
 
+SparkContext SparkGetCurrentContext() {
+  static SparkContext ctxt = 0xffffffff;
+  if (0xffffffff == ctxt) {
+    if ([[[NSBundle mainBundle] bundleIdentifier] isEqualToString:kSparkDaemonBundleIdentifier])
+      ctxt = kSparkDaemonContext;
+    else
+      ctxt = kSparkEditorContext;
+  }
+  return ctxt;
+}
+
 #pragma mark -
 @implementation SparkAction
 
