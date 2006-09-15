@@ -20,6 +20,11 @@ typedef struct _ITunesVisual {
   float backbot[4];
 } ITunesVisual;
 
+enum {
+  kiTunesSettingDefault = 0,
+  kiTunesSettingCustom = 1,
+};
+
 SK_PRIVATE
 const NSPoint kiTunesUpperLeft;
 SK_PRIVATE
@@ -102,6 +107,7 @@ typedef struct _ITunesPackedVisual {
 SK_INLINE
 NSData *ITunesVisualPack(ITunesVisual *visual) {
   NSMutableData *data = [[NSMutableData alloc] initWithCapacity:sizeof(ITunesPackedVisual)];
+  [data setLength:sizeof(ITunesPackedVisual)];
   ITunesPackedVisual *pack = [data mutableBytes];
   pack->shadow = visual->shadow ? 1 : 0;
   pack->delay = CFConvertFloat32HostToSwapped(visual->delay);
@@ -115,7 +121,12 @@ NSData *ITunesVisualPack(ITunesVisual *visual) {
 }
 
 SK_INLINE
-void ITunesVisualUnpack(NSData *data, ITunesVisual *visual) {
+BOOL ITunesVisualUnpack(NSData *data, ITunesVisual *visual) {
+  NSCParameterAssert(visual != NULL);
+  if (!data || [data length] != sizeof(ITunesPackedVisual)) {
+    return NO;
+  }
+  bzero(visual, sizeof(*visual));
   const ITunesPackedVisual *pack = [data bytes];
   visual->shadow = pack->shadow != 0;
   visual->delay = CFConvertFloat32SwappedToHost(pack->delay);
@@ -125,4 +136,5 @@ void ITunesVisualUnpack(NSData *data, ITunesVisual *visual) {
   ITunesVisualUnpackColor(OSSwapBigToHostInt64(pack->colors[1]), visual->border);
   ITunesVisualUnpackColor(OSSwapBigToHostInt64(pack->colors[2]), visual->backtop);
   ITunesVisualUnpackColor(OSSwapBigToHostInt64(pack->colors[3]), visual->backbot);
+  return YES;
 }

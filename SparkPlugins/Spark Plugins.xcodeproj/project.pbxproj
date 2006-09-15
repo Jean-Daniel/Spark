@@ -243,17 +243,7 @@
 		983974FD0A58637400F79B40 /* SystemAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemAction.m; sourceTree = "<group>"; };
 		983975000A58638500F79B40 /* SystemActionPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemActionPlugin.h; sourceTree = "<group>"; };
 		983975010A58638500F79B40 /* SystemAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemAction.h; sourceTree = "<group>"; };
-		983CE317060646F2007D4E6D /* French */ = {isa = PBXFileReference; lastKnownFileType = folder; name = French; path = French.lproj/Help; sourceTree = "<group>"; };
-		983CE3240606474A007D4E6D /* French */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = French; path = French.lproj/iTunesHelp.html; sourceTree = "<group>"; };
-		983CE3250606474E007D4E6D /* French */ = {isa = PBXFileReference; lastKnownFileType = folder; name = French; path = French.lproj/Help; sourceTree = "<group>"; };
-		983CE32E0606478D007D4E6D /* French */ = {isa = PBXFileReference; lastKnownFileType = folder; name = French; path = French.lproj/Help; sourceTree = "<group>"; };
-		983CE33306064794007D4E6D /* French */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = French; path = French.lproj/DocumentHelp.html; sourceTree = "<group>"; };
-		983CE334060647C9007D4E6D /* French */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = French; path = French.lproj/ApplicationHelp.html; sourceTree = "<group>"; };
-		983CE335060647CD007D4E6D /* French */ = {isa = PBXFileReference; lastKnownFileType = folder; name = French; path = French.lproj/Help; sourceTree = "<group>"; };
-		983CE33A060647FB007D4E6D /* French */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = French; path = French.lproj/AppleScriptHelp.html; sourceTree = "<group>"; };
-		983CE33B06064805007D4E6D /* French */ = {isa = PBXFileReference; lastKnownFileType = folder; name = French; path = French.lproj/Help; sourceTree = "<group>"; };
 		985106B40A590AA200C98B1F /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = English; path = English.lproj/SystemActionHelp.html; sourceTree = "<group>"; };
-		985106BC0A590ABC00C98B1F /* French */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = French; path = French.lproj/SystemActionHelp.html; sourceTree = "<group>"; };
 		9856561A08E590B800066835 /* ScreenSaver.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = ScreenSaver.tiff; sourceTree = "<group>"; };
 		985B6F070719F8860073D36F /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		98641DF8060A33750033892D /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -261,7 +251,7 @@
 		98789CAE0AB48D5A00C35052 /* ITunesInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITunesInfo.h; sourceTree = "<group>"; };
 		98789CB20AB48D8200C35052 /* ITunesInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ITunesInfo.m; sourceTree = "<group>"; };
 		98789DC40AB4A0D900C35052 /* Simulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Simulator.m; sourceTree = "<group>"; };
-		98789DD20AB4A10D00C35052 /* Simulator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Simulator.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		98789DD20AB4A10D00C35052 /* Simulator.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Simulator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		98789DDF0AB4A1D300C35052 /* MainMenu.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = MainMenu.nib; sourceTree = "<group>"; };
 		98789DE80AB4A1EE00C35052 /* Simulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Simulator.h; sourceTree = "<group>"; };
 		9878A0B20AB4BFC100C35052 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
@@ -1263,7 +1253,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				985106B40A590AA200C98B1F /* English */,
-				985106BC0A590ABC00C98B1F /* French */,
 			);
 			name = SystemActionHelp.html;
 			sourceTree = "<group>";
@@ -1321,7 +1310,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				98E6A90806063703000CCBE1 /* English */,
-				983CE3240606474A007D4E6D /* French */,
 			);
 			name = iTunesHelp.html;
 			sourceTree = "<group>";
@@ -1330,7 +1318,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				98E6A9130606371A000CCBE1 /* English */,
-				983CE3250606474E007D4E6D /* French */,
 			);
 			name = Help;
 			sourceTree = "<group>";
@@ -1339,7 +1326,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				98FC450906063AF8003617CA /* English */,
-				983CE317060646F2007D4E6D /* French */,
 			);
 			name = Help;
 			sourceTree = "<group>";
@@ -1356,7 +1342,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				98FC457606063CC6003617CA /* English */,
-				983CE33A060647FB007D4E6D /* French */,
 			);
 			name = AppleScriptHelp.html;
 			sourceTree = "<group>";
@@ -1365,7 +1350,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				98FC457806063CC6003617CA /* English */,
-				983CE33B06064805007D4E6D /* French */,
 			);
 			name = Help;
 			sourceTree = "<group>";
@@ -1399,7 +1383,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				98FC461706063DF8003617CA /* English */,
-				983CE334060647C9007D4E6D /* French */,
 			);
 			name = ApplicationHelp.html;
 			sourceTree = "<group>";
@@ -1408,7 +1391,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				98FC461D06063E06003617CA /* English */,
-				983CE335060647CD007D4E6D /* French */,
 			);
 			name = Help;
 			sourceTree = "<group>";
@@ -1443,7 +1425,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				98FC49120606446F003617CA /* English */,
-				983CE33306064794007D4E6D /* French */,
 			);
 			name = DocumentHelp.html;
 			sourceTree = "<group>";
@@ -1452,7 +1433,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				98FC49140606446F003617CA /* English */,
-				983CE32E0606478D007D4E6D /* French */,
 			);
 			name = Help;
 			sourceTree = "<group>";

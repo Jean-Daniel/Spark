@@ -8,13 +8,21 @@
 
 #import "ITunesVisualSetting.h"
 
+@interface ITunesVisualSetting (ITunesPrivate)
+- (void)updateLocation:(int)idx;
+@end
+
 @implementation ITunesVisualSetting
+
++ (BOOL)automaticallyNotifiesObserversForKey:(NSString *)key {
+  return ![key isEqualToString:@"location"];
+}
 
 - (id)init {
   if (self = [super init]) {
     ia_info = [[ITunesInfo alloc] init];
     ia_config = kiTunesSettingDefault;
-    [self setLocation:1];
+    [self updateLocation:1];
     [self setColorComponent:0];
   }
   return self;
@@ -77,22 +85,31 @@ int _iTunesGetIndexForPoint(NSPoint point) {
   return 5;
 }
 
+- (void)updateLocation:(int)idx {
+  [self willChangeValueForKey:@"location"];
+  switch (idx) {
+    case 0 ... 3:
+      ia_loc = idx;
+      [[ia_info window] setMovableByWindowBackground:NO];
+      [ia_info setPosition:_iTunesGetPointForIndex(idx)];
+      break;
+    default:
+      ia_loc = -1;
+      [[ia_info window] setMovableByWindowBackground:YES];
+      [ia_info setPosition:[[ia_info window] frame].origin];
+  }
+  [self didChangeValueForKey:@"location"];
+}
+
 - (int)location {
   return ia_loc >= 0 ? ia_loc : 5;
 }
 - (void)setLocation:(int)idx {
-  switch (idx) {
-    case 0 ... 3:
-      ia_loc = idx;
-      [ia_info setPosition:_iTunesGetPointForIndex(idx)];
-      [[ia_info window] setMovableByWindowBackground:NO];
-      break;
-    default:
-      ia_loc = -1;
-      [[ia_info window] center];
-      [[ia_info window] setMovableByWindowBackground:YES];
-      [self show:nil];
-  }  
+  [self updateLocation:idx];
+  if (ia_loc < 0) {
+    [[ia_info window] center];
+    [self show:nil];
+  }
 }
 
 - (float)delay {
@@ -160,10 +177,10 @@ int _iTunesGetIndexForPoint(NSPoint point) {
 }
 - (void)setConfiguration:(int)aConfig {
   if (ia_config != aConfig) {
-    if (SKDelegateHandle(ia_delegate, settingWillChangeConfiguration))
+    if (SKDelegateHandle(ia_delegate, settingWillChangeConfiguration:))
       [ia_delegate settingWillChangeConfiguration:self];
     ia_config = aConfig;
-    if (SKDelegateHandle(ia_delegate, settingDidChangeConfiguration))
+    if (SKDelegateHandle(ia_delegate, settingDidChangeConfiguration:))
       [ia_delegate settingDidChangeConfiguration:self];
   }
 }
@@ -180,7 +197,7 @@ int _iTunesGetIndexForPoint(NSPoint point) {
   [self didChangeValueForKey:@"shadow"];
   [self didChangeValueForKey:@"color"];
   [self didChangeValueForKey:@"delay"];
-  [self setLocation:_iTunesGetIndexForPoint(visual->location)];
+  [self updateLocation:_iTunesGetIndexForPoint(visual->location)];
 }
 
 - (IBAction)defaultSettings:(id)sender {

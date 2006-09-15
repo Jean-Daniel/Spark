@@ -46,14 +46,10 @@
 - (int)configuration;
 - (void)setConfiguration:(int)aConfig;
 
+- (void)getVisual:(ITunesVisual *)visual;
 - (void)setVisual:(const ITunesVisual *)visual;
 
 @end
-
-enum {
-  kiTunesSettingDefault = 0,
-  kiTunesSettingCustom = 1,
-};
 
 @interface NSObject (ITunesVisualSettingDelegate)
 

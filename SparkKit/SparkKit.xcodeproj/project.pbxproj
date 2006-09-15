@@ -17,7 +17,6 @@
 		980EEB2E0A7E8A0B00013CF5 /* SimpleList.png in Resources */ = {isa = PBXBuildFile; fileRef = 980EEB2D0A7E8A0B00013CF5 /* SimpleList.png */; };
 		981EBC100A5AEF8F001C2FB3 /* SKSerialization.h in Headers */ = {isa = PBXBuildFile; fileRef = 981EBC0F0A5AEF8F001C2FB3 /* SKSerialization.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		981EBC1B0A5AEFC5001C2FB3 /* SKSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 981EBC1A0A5AEFC5001C2FB3 /* SKSerialization.m */; };
-		9825AFBC06FB76BD003A4088 /* ApplicationList.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 9825AFBB06FB76BD003A4088 /* ApplicationList.tiff */; };
 		982AF4210A7A80B700D17D65 /* SKEnumerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 982AF4200A7A80B700D17D65 /* SKEnumerator.m */; };
 		982AF4250A7A80C200D17D65 /* SKEnumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 982AF4240A7A80C200D17D65 /* SKEnumerator.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		983961E30606809200E0353D /* PluginIcon.tif in Resources */ = {isa = PBXBuildFile; fileRef = 983961E20606809200E0353D /* PluginIcon.tif */; };
@@ -90,7 +89,6 @@
 		986758D1096B403300BB8A25 /* SKTableDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 986758CF096B403300BB8A25 /* SKTableDataSource.m */; };
 		986758D4096B404600BB8A25 /* SKTableDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 986758D2096B404600BB8A25 /* SKTableDataSource.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		986758D5096B404600BB8A25 /* SKWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 986758D3096B404600BB8A25 /* SKWindowController.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		986DB09307135AC100C65FF2 /* CustomKeyIcon.tif in Resources */ = {isa = PBXBuildFile; fileRef = 986DB09207135AC100C65FF2 /* CustomKeyIcon.tif */; };
 		986DB09507135B1A00C65FF2 /* KeyIcon.tif in Resources */ = {isa = PBXBuildFile; fileRef = 986DB09407135B1A00C65FF2 /* KeyIcon.tif */; };
 		986F7A4107071B2F00064694 /* SystemApplication.tif in Resources */ = {isa = PBXBuildFile; fileRef = 986F7A4007071B2F00064694 /* SystemApplication.tif */; };
 		987283260A9B317D0098C22F /* SKSingleton.h in Headers */ = {isa = PBXBuildFile; fileRef = 987283250A9B317D0098C22F /* SKSingleton.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -102,10 +100,8 @@
 		98789B650AB48C1900C35052 /* SKNotificationWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 98789B5F0AB48C1900C35052 /* SKNotificationWindow.m */; };
 		989EF9EA0A7CC4BB00721386 /* SparkList.m in Sources */ = {isa = PBXBuildFile; fileRef = 989EF9E90A7CC4BB00721386 /* SparkList.m */; };
 		989EF9EE0A7CC4C900721386 /* SparkList.h in Headers */ = {isa = PBXBuildFile; fileRef = 989EF9ED0A7CC4C900721386 /* SparkList.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		98A923B90A7BC6E300DF1998 /* Application.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98A923B80A7BC6E200DF1998 /* Application.tiff */; };
 		98BCF0C40708BDA70039136F /* IgnoreAction.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98BCF0C30708BDA70039136F /* IgnoreAction.tif */; };
 		98C56D45096B353F00ABE1EF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 98C56D40096B353900ABE1EF /* InfoPlist.strings */; };
-		98C6DEC606FB9CD6000AFA2F /* ActionList.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98C6DEC506FB9CD6000AFA2F /* ActionList.tif */; };
 		98CF6FA706B3DAD50017D206 /* MultipleAlerts.nib in Resources */ = {isa = PBXBuildFile; fileRef = 98CF6FA506B3DAD50017D206 /* MultipleAlerts.nib */; };
 		98CF6FB006B3DB2B0017D206 /* Forward.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98CF6FAC06B3DB2B0017D206 /* Forward.tif */; };
 		98CF6FB106B3DB2B0017D206 /* ForwardPressedBlue.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98CF6FAD06B3DB2B0017D206 /* ForwardPressedBlue.tif */; };
@@ -911,15 +907,11 @@
 				98CF6FB106B3DB2B0017D206 /* ForwardPressedBlue.tif in Resources */,
 				98CF6FB206B3DB2B0017D206 /* BackPressedBlue.tif in Resources */,
 				98CF6FB306B3DB2B0017D206 /* Back.tif in Resources */,
-				9825AFBC06FB76BD003A4088 /* ApplicationList.tiff in Resources */,
-				98C6DEC606FB9CD6000AFA2F /* ActionList.tif in Resources */,
 				986F7A4107071B2F00064694 /* SystemApplication.tif in Resources */,
 				98BCF0C40708BDA70039136F /* IgnoreAction.tif in Resources */,
-				986DB09307135AC100C65FF2 /* CustomKeyIcon.tif in Resources */,
 				986DB09507135B1A00C65FF2 /* KeyIcon.tif in Resources */,
 				9805FD390773B47700B1A341 /* Localizable.strings in Resources */,
 				98F867270A600D24009C68F9 /* Warning.tiff in Resources */,
-				98A923B90A7BC6E300DF1998 /* Application.tiff in Resources */,
 				980EEB2E0A7E8A0B00013CF5 /* SimpleList.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -54,6 +54,9 @@ typedef enum {
   ITunesVisual *ia_visual;
 }
 
++ (ITunesVisual *)defaultVisual;
++ (void)setDefaultVisual:(const ITunesVisual *)visual;
+
 - (SInt32)rating;
 - (void)setRating:(SInt32)aRate;
 
@@ -64,6 +67,7 @@ typedef enum {
 - (void)setITunesAction:(iTunesAction)newAction;
 
 - (const ITunesVisual *)visual;
+- (void)setVisual:(const ITunesVisual *)visual;
 
 - (BOOL)showInfo;
 - (void)setShowInfo:(BOOL)flag;

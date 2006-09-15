@@ -375,14 +375,7 @@
         action = [[[cls alloc] init] autorelease];
       }
       /* Set plugin's spark action */
-      [se_plugin setSparkAction:action];
-      
-      /* Send plugin API notification */
-      @try {
-        [se_plugin loadSparkAction:action toEdit:edit];
-      } @catch (id exception) {
-        SKLogException(exception);
-      }
+      [se_plugin setSparkAction:action edit:edit];
     }
   } /* if (!se_plugin) */
   

@@ -78,7 +78,12 @@ int main(int argc, const char *argv[]) {
     } else {
 #if defined (DEBUG)
       [[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"1", @"NSScriptingDebugLogLevel",
+        @"YES", @"NSShowNonLocalizedStrings",
+        //@"YES", @"NSShowAllViews",
+        //SKFloat(0.15f), @"NSWindowResizeTime",
+        //@"6", @"NSDragManagerLogLevel",
+        //@"YES", @"NSShowNonLocalizableStrings",
+        //@"1", @"NSScriptingDebugLogLevel",
         nil]];
 #endif
       [NSApp setDelegate:self];

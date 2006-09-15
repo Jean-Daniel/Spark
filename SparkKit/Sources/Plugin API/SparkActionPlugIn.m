@@ -71,15 +71,24 @@
 
 #pragma mark -
 #pragma mark Private Methods
-- (void)setSparkAction:(SparkAction *)action {
+- (void)setSparkAction:(SparkAction *)action edit:(BOOL)flag {
+  [self willChangeValueForKey:@"sparkAction"];
+  
   [self willChangeValueForKey:@"name"];
   [self willChangeValueForKey:@"icon"];
-  [self willChangeValueForKey:@"editable"];
   SKSetterRetain(sp_action, action);
-  [self didChangeValueForKey:@"editable"];
   [self didChangeValueForKey:@"icon"];
   [self didChangeValueForKey:@"name"];
+  
+  /* Send plugin API notification */
+  @try {
+    [self loadSparkAction:action toEdit:flag];
+  } @catch (id exception) {
+    SKLogException(exception);
+  }
+  [self didChangeValueForKey:@"sparkAction"];
 }
+
 /* Called by Nib Loader only. Action view is a nib root object, so we should not retain it */
 - (void)setActionView:(NSView *)actionView {
   sp_view = actionView;

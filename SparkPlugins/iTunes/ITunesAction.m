@@ -44,6 +44,108 @@ iTunesAction _iTunesConvertAction(int act) {
 
 @implementation ITunesAction
 
+static ITunesVisual defaultVisual = {delay: -1};
++ (ITunesVisual *)defaultVisual {
+  if (defaultVisual.delay >= 0) {
+    return &defaultVisual;
+  } else {
+    @synchronized(self) {
+      if (defaultVisual.delay < 0) {
+        CFPreferencesAppSynchronize((CFStringRef)kiTunesActionBundleIdentifier);
+        CFDataRef data = CFPreferencesCopyAppValue(CFSTR("iTunesSharedVisual"), (CFStringRef)kiTunesActionBundleIdentifier);
+        if (data) {
+          if (!ITunesVisualUnpack((id)data, &defaultVisual)) {
+            DLog(@"Invalid shared visual: %@", data);
+            CFPreferencesSetAppValue(CFSTR("iTunesSharedVisual"), NULL, (CFStringRef)kiTunesActionBundleIdentifier);
+          }
+          CFRelease(data);
+        }
+      }
+      /* Check visual */
+      if (defaultVisual.delay < 0) {
+        memcpy(&defaultVisual, &kiTunesDefaultSettings, sizeof(defaultVisual));
+      }
+    }
+  }
+  return &defaultVisual;
+}
+
++ (void)setDefaultVisual:(const ITunesVisual *)visual {
+  BOOL change = NO;
+  NSData *data = nil;
+  if (visual) {
+    if (memcmp(visual, &defaultVisual, sizeof(*visual))) {
+      memcpy(&defaultVisual, visual, sizeof(defaultVisual));
+      data = ITunesVisualPack(&defaultVisual);
+      if (data) {
+        CFPreferencesSetAppValue(CFSTR("iTunesSharedVisual"), (CFDataRef)data, (CFStringRef)kiTunesActionBundleIdentifier);
+      }
+      change = YES;
+    }
+  } else {
+    /* Remove key */
+    CFPreferencesSetAppValue(CFSTR("iTunesSharedVisual"), NULL, (CFStringRef)kiTunesActionBundleIdentifier);
+    /* Reset to default */
+    if (memcmp(&kiTunesDefaultSettings, &defaultVisual, sizeof(*visual))) {
+      memcpy(&defaultVisual, &kiTunesDefaultSettings, sizeof(defaultVisual));
+      change = YES;
+    }
+  }
+  if (change && kSparkEditorContext == SparkGetCurrentContext()) {
+    /* Reload configuration server side */
+    AppleEvent aevt;
+    SKAENullDesc(&aevt);
+    OSStatus err = SKAECreateEventWithTargetSignature(kSparkDaemonHFSCreatorType, 'SprI', 'ReDe', &aevt);
+    require_noerr(err, bail);
+    
+    err = SKAEAddSubject(&aevt);
+    require_noerr(err, bail);
+    
+    err = SKAEAddCFData(&aevt, keyDirectObject, (CFDataRef)data);
+    require_noerr(err, bail);
+    
+    err = SKAESendEventNoReply(&aevt);
+    check_noerr(err);
+    
+bail:
+      SKAEDisposeDesc(&aevt);
+  }
+}
+
++ (void)initialize {
+  if ([ITunesAction class] == self) {
+    if (kSparkDaemonContext == SparkGetCurrentContext()) {
+      [[NSAppleEventManager sharedAppleEventManager] setEventHandler:self
+                                                         andSelector:@selector(handleAppleEvent:withReplyEvent:)
+                                                       forEventClass:'SprI'
+                                                          andEventID:'ReDe'];
+    } else {
+      [[NSNotificationCenter defaultCenter] addObserver:self
+                                               selector:@selector(willTerminate:)
+                                                   name:NSApplicationWillTerminateNotification
+                                                 object:nil];
+    }
+  }
+}
+
++ (void)willTerminate:(NSNotification *)aNotification {
+  CFPreferencesAppSynchronize((CFStringRef)kiTunesActionBundleIdentifier);
+}
+
++ (void)handleAppleEvent:(NSAppleEventDescriptor *)event withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
+  /* Invalidate visual cache */
+  CFDataRef data = NULL;
+  if (noErr == SKAEGetCFDataFromAppleEvent([event aeDesc], keyDirectObject, typeData, &data)) {
+    if (data) {
+      if (!ITunesVisualUnpack((id)data, &defaultVisual))
+        [self setDefaultVisual:&kiTunesDefaultSettings];
+      CFRelease(data);
+    } else {
+      [self setDefaultVisual:&kiTunesDefaultSettings];
+    }
+  }
+}
+
 #pragma mark Protocols Implementation
 - (id)copyWithZone:(NSZone *)zone {
   ITunesAction* copy = [super copyWithZone:zone];
@@ -133,7 +235,10 @@ iTunesAction _iTunesConvertAction(int act) {
         NSData *data = [plist objectForKey:kITunesVisualKey];
         if (data) {
           ia_visual = NSZoneMalloc(nil, sizeof(*ia_visual));
-          ITunesVisualUnpack(data, ia_visual);
+          if (!ITunesVisualUnpack(data, ia_visual)) {
+            NSZoneFree(nil, ia_visual);
+            DLog(@"Error while unpacking visual");
+          }
         }
         break;
       default: /* Old version */
@@ -206,6 +311,34 @@ return self;
   return 0;
 }
 
+- (void)displayTrackNotification {
+  iTunesTrack track;
+  SKAENullDesc(&track);
+  ITunesInfo *info = [ITunesInfo sharedWindow];
+  if (noErr == iTunesGetCurrentTrack(&track)) {
+    [info setTrack:&track];
+    SKAEDisposeDesc(&track);
+    switch ([self visualMode]) {
+      case kiTunesSettingCustom:
+        if (ia_visual) {
+          [info setVisual:ia_visual];
+          break;
+        }
+        // fall
+      case kiTunesSettingDefault:
+        [info setVisual:[[self class] defaultVisual]];
+    }
+    [info display:nil];
+  }
+}
+
+- (void)displayInfoIfNeeded {
+  ITunesState state;
+  if ([self showInfo] && noErr == iTunesGetPlayerState(&state) && kiTunesStatePlaying == state) {
+    [self displayTrackNotification];
+  }
+}
+
 - (SparkAlert *)execute {
   SparkAlert *alert = [self check];
   if (alert == nil) {
@@ -213,8 +346,8 @@ return self;
       case kiTunesLaunch: {
         LSLaunchFlags flags = kLSLaunchDefaults;
         if (ia_iaFlags.hide)
-          flags |= kLSLaunchAndHide;
-        if (ia_iaFlags.background)
+          flags |= kLSLaunchAndHide | kLSLaunchDontSwitch;
+        else if (ia_iaFlags.background)
           flags |= kLSLaunchDontSwitch;
         iTunesLaunch(flags);
         if (ia_iaFlags.autoplay)
@@ -226,23 +359,24 @@ return self;
         break;
       case kiTunesPlayPause:
         iTunesSendCommand(kiTunesCommandPlayPause);
+        [self displayInfoIfNeeded];
         break;
       case kiTunesPlayPlaylist:
         alert = [self playPlaylist:[self playlist]];
         break;
       case kiTunesNextTrack:
         iTunesSendCommand(kiTunesCommandNextTrack);
-        //[self displayTrackInfo];
+        [self displayInfoIfNeeded];
         break;
       case kiTunesBackTrack:
         iTunesSendCommand(kiTunesCommandPreviousTrack);
-        //[self displayTrackInfo];
+        [self displayInfoIfNeeded];
         break;
       case kiTunesStop:
         iTunesSendCommand(kiTunesCommandStopPlaying);
         break;
       case kiTunesShowTrackInfo:
-        //[self displayTrackInfo];
+        [self displayTrackNotification];
         break;
       case kiTunesVisual:
         [self switchVisualStat];
@@ -267,7 +401,7 @@ return self;
 #pragma mark -
 #pragma mark iTunes Action specific Methods
 /****************************************************************************************
-*                             iTunes Action specific Methods							*
+*                             	iTunes Action specific Methods													*
 ****************************************************************************************/
 - (SInt32)rating {
   return ia_iaFlags.rate;
@@ -295,6 +429,16 @@ return self;
 
 - (const ITunesVisual *)visual {
   return ia_visual;
+}
+- (void)setVisual:(const ITunesVisual *)visual {
+  if (visual) {
+    if (!ia_visual)
+      ia_visual = NSZoneMalloc(nil, sizeof(*ia_visual));
+    memcpy(ia_visual, visual, sizeof(*ia_visual));
+  } else if (ia_visual) {
+    NSZoneFree(nil, ia_visual);
+    ia_visual = NULL;
+  }
 }
 
 - (BOOL)showInfo {

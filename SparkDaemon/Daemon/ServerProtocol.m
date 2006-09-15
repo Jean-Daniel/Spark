@@ -31,6 +31,11 @@ SparkObjectSet *SDObjectSetForType(OSType type) {
 
 @implementation SparkDaemon (SparkServerProtocol)
 
+- (void)registerTrigger:(SparkTrigger *)aTrigger {
+  [aTrigger setTarget:self];
+  [aTrigger setAction:@selector(executeTrigger:)]; 
+}
+
 #pragma mark Shutdown
 - (void)shutdown {
   ShadowTrace();
@@ -39,25 +44,34 @@ SparkObjectSet *SDObjectSetForType(OSType type) {
 
 #pragma mark Objects Management
 - (void)addObject:(id)plist type:(OSType)type {
+  ShadowTrace();
   SparkObjectSet *set = SDObjectSetForType(type);
   if (set) {
     SparkObject *object = [set deserialize:plist error:nil];
     if (object) {
       [set addObject:object];
+      if (kSparkTriggerType == type) {
+        [self registerTrigger:(SparkTrigger *)object];
+      }
     }
   }
 }
 - (void)updateObject:(id)plist type:(OSType)type {
+  ShadowTrace();
   SparkObjectSet *set = SDObjectSetForType(type);
   if (set) {
     SparkObject *object = [set deserialize:plist error:nil];
     if (object) {
       /* Trigger state is handled in notification */
       [set updateObject:object];
+      if (kSparkTriggerType == type) {
+        [self registerTrigger:(SparkTrigger *)object];
+      }
     }
   }
 }
 - (void)removeObject:(UInt32)uid type:(OSType)type {
+  ShadowTrace();
   SparkObjectSet *set = SDObjectSetForType(type);
   if (set) {
     /* Trigger desactivation is handled in notification */
@@ -67,6 +81,7 @@ SparkObjectSet *SDObjectSetForType(OSType type) {
 
 #pragma mark Entries Management
 - (void)addLibraryEntry:(SparkLibraryEntry *)anEntry {
+  ShadowTrace();
   SparkEntryManager *manager = SparkSharedManager();
   [manager addLibraryEntry:anEntry];
   /* Trigger can have a new active action */
@@ -76,6 +91,7 @@ SparkObjectSet *SDObjectSetForType(OSType type) {
   }
 }
 - (void)removeLibraryEntry:(SparkLibraryEntry *)anEntry {
+  ShadowTrace();
   SparkEntryManager *manager = SparkSharedManager();
   [manager removeLibraryEntry:anEntry];
   /* If trigger was not removed, it can be invalid */
@@ -85,6 +101,7 @@ SparkObjectSet *SDObjectSetForType(OSType type) {
   }
 }
 - (void)replaceLibraryEntry:(SparkLibraryEntry *)anEntry withLibraryEntry:(SparkLibraryEntry *)newEntry {
+  ShadowTrace();
   SparkEntryManager *manager = SparkSharedManager();
   [manager replaceLibraryEntry:anEntry withLibraryEntry:newEntry];
   /* Should check trigger */
@@ -97,6 +114,7 @@ SparkObjectSet *SDObjectSetForType(OSType type) {
 }
 
 - (void)setStatus:(BOOL)status forLibraryEntry:(SparkLibraryEntry *)anEntry {
+  ShadowTrace();
   SparkEntryManager *manager = SparkSharedManager();
   [manager setStatus:status forLibraryEntry:anEntry];
   /* Should check trigger */

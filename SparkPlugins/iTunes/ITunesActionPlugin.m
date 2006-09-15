@@ -20,6 +20,8 @@
 
 + (void)initialize {
   if (self == [ITunesActionPlugin class]) {
+    [self setKeys:[NSArray arrayWithObject:@"sparkAction"] triggerChangeNotificationsForDependentKey:@"lsPlay"];
+    [self setKeys:[NSArray arrayWithObject:@"sparkAction"] triggerChangeNotificationsForDependentKey:@"rating"];
     [self setKeys:[NSArray arrayWithObject:@"sparkAction"] triggerChangeNotificationsForDependentKey:@"showInfo"];
   }
 }
@@ -41,6 +43,7 @@
 - (void)loadSparkAction:(id)sparkAction toEdit:(BOOL)flag {
   /* if flag == NO, the user want to create a new Action, else he wants to edit an existing Action */
   if (flag) {
+    [self setLsHide:[sparkAction launchHide]];
     /* Set Action menu on the Action action */
     [self setITunesAction:[sparkAction iTunesAction]];
     if ([sparkAction playlist]) {
@@ -57,12 +60,14 @@
       }
         break;
       case kiTunesSettingDefault:
+        [ibVisual setVisual:[ITunesAction defaultVisual]];
         break;
     }
     [ibVisual setConfiguration:[sparkAction visualMode]];
   } else {
     /* Default action for the iTunes Action Menu */
     [self setITunesAction:kiTunesPlayPause];
+    [ibVisual setVisual:[ITunesAction defaultVisual]];
   }
   [ibVisual setDelegate:self];
 }
@@ -128,22 +133,51 @@
   
   /* Set Description */
   [iAction setActionDescription:ITunesActionDescription(iAction)];
+  
+  [iAction setVisualMode:[ibVisual configuration]];
+  
+  /* Save visual if needed */
+  if ([ibVisual configuration] == kiTunesSettingCustom) {
+    ITunesVisual visual;
+    [ibVisual getVisual:&visual];
+    [iAction setVisual:&visual];
+  }
 }
 
 - (void)pluginViewWillBecomeHidden {
   if ([ibVisual configuration] == kiTunesSettingDefault) {
     // Update defaut configuration
+    ITunesVisual visual;
+    [ibVisual getVisual:&visual];
+    [ITunesAction setDefaultVisual:&visual];
   }
 }
 
-- (void)settingWillChangeConfiguration:()settings {
-   if ([settings configuration] == kiTunesSettingDefault) {
-     // Update default
-   }
+- (void)settingWillChangeConfiguration:(ITunesVisualSetting *)settings {
+  ITunesVisual visual;
+  [settings getVisual:&visual];
+  switch ([settings configuration]) {
+    case kiTunesSettingCustom:
+      [[self sparkAction] setVisual:&visual];
+      break;
+    case kiTunesSettingDefault:
+      [ITunesAction setDefaultVisual:&visual];
+      break;
+  }
 }
 
 - (void)settingDidChangeConfiguration:(ITunesVisualSetting *)settings {
-  
+  // Load corresponding configuration
+  switch ([settings configuration]) {
+    case kiTunesSettingCustom: {
+      const ITunesVisual *visual = [[self sparkAction] visual];
+      [settings setVisual:visual ? : &kiTunesDefaultSettings];
+    }
+      break;
+    case kiTunesSettingDefault:
+      [settings setVisual:[ITunesAction defaultVisual]];
+      break;
+  }
 }
 
 #pragma mark ITunesActionPlugin Specific methods

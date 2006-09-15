@@ -7,6 +7,7 @@
  */
 
 #import "ITunesInfo.h"
+#import "ITunesAction.h"
 
 #import <ShadowKit/SKCGFunctions.h>
 #import <ShadowKit/SKNotificationWindow.h>
@@ -122,6 +123,7 @@ NSPoint _iTunesGetLocationForType(int type) {
 }
 
 - (void)dealloc {
+  [[self window] close];
   [super dealloc];
 }
 
@@ -133,6 +135,7 @@ NSPoint _iTunesGetLocationForType(int type) {
 
 #pragma mark -
 - (void)getVisual:(ITunesVisual *)visual {
+  bzero(visual, sizeof(*visual));
   /* Get delay */
   visual->delay = [self delay];
   /* Get location */
@@ -218,24 +221,39 @@ NSPoint _iTunesGetLocationForType(int type) {
   origin.x = NSMaxX([ibTime frame]);
   [ibRate setFrameOrigin:origin];
   
-  if (rate > 90) {
+  if (rate > 95) {
     // 5 stars
-    str = NSLocalizedString(@"*****", @"5 stars rate");
-  } else if (rate > 70) {
-    // 4 stars
-    str = NSLocalizedString(@"****", @"4 stars rate");
-  } else if (rate > 50) {
-    // 3 stars
-    str = NSLocalizedString(@"***", @"3 stars rate");
-  } else if (rate > 30) {
-    // 2 stars
-    str = NSLocalizedString(@"**", @"2 stars rate");
-  } else if (rate > 10) {
+    str = NSLocalizedStringFromTableInBundle(@"*****", nil, kiTunesActionBundle, @"5 stars rate");
+  } else if (rate > 85) {
     // 1 star
-    str = NSLocalizedString(@"*", @"1 star rate");
+    str = NSLocalizedStringFromTableInBundle(@"**** 1/2", nil, kiTunesActionBundle, @"4,5 star rate");
+  }  else if (rate > 75) {
+    // 4 stars
+    str = NSLocalizedStringFromTableInBundle(@"****", nil, kiTunesActionBundle, @"4 stars rate");
+  } else if (rate > 65) {
+    // 1 star
+    str = NSLocalizedStringFromTableInBundle(@"*** 1/2", nil, kiTunesActionBundle, @"3,5 star rate");
+  }  else if (rate > 55) {
+    // 3 stars
+    str = NSLocalizedStringFromTableInBundle(@"***", nil, kiTunesActionBundle, @"3 stars rate");
+  } else if (rate > 45) {
+    // 1 star
+    str = NSLocalizedStringFromTableInBundle(@"** 1/2", nil, kiTunesActionBundle, @"2,5 star rate");
+  }  else if (rate > 35) {
+    // 2 stars
+    str = NSLocalizedStringFromTableInBundle(@"**", nil, kiTunesActionBundle, @"2 stars rate");
+  } else if (rate > 25) {
+    // 1 star
+    str = NSLocalizedStringFromTableInBundle(@"* 1/2", nil, kiTunesActionBundle, @"1,5 star rate");
+  }  else if (rate > 15) {
+    // 1 star
+    str = NSLocalizedStringFromTableInBundle(@"*", nil, kiTunesActionBundle, @"1 star rate");
+  } else if (rate > 5) {
+    // 1 star
+    str = NSLocalizedStringFromTableInBundle(@"1/2", nil, kiTunesActionBundle, @"0,5 star rate");
   } else {
     // 0 star
-    str = NSLocalizedString(@"ooooo", @"0 star rate");
+    str = NSLocalizedStringFromTableInBundle(@"ooooo", nil, kiTunesActionBundle, @"0 star rate");
   }
   [ibRate setStringValue:str];
 }

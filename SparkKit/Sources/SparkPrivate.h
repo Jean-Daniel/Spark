@@ -31,7 +31,7 @@
   the view because something else retained it. So SparkActionPlugin instance release
   the view end retain cycle is broken. */
 - (void)releaseViewOwnership;
-- (void)setSparkAction:(SparkAction *)anAction;
+- (void)setSparkAction:(SparkAction *)anAction edit:(BOOL)flag;
 
 @end
 
