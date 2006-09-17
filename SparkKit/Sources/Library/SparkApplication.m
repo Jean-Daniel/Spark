@@ -7,18 +7,13 @@
  */
 
 #import <SparkKit/SparkApplication.h>
+#import <SparkKit/SparkShadowKit.h>
 
 #import <ShadowKit/SKImageUtils.h>
 #import <ShadowKit/SKApplication.h>
 #import <ShadowKit/SKAppKitExtensions.h>
 
 static NSString * const kSparkApplicationKey = @"SparkApplication";
-
-#pragma mark -
-@interface SKApplication (SparkSerialization)
-- (BOOL)serialize:(NSMutableDictionary *)plist;
-- (id)initWithSerializedValues:(NSDictionary *)plist;
-@end
 
 @implementation SparkApplication
 
@@ -183,8 +178,10 @@ NSString * const kSKApplicationIdentifier = @"SKApplicationIdentifier";
 }
 
 - (BOOL)serialize:(NSMutableDictionary *)plist {
-  [plist setObject:SKInt([self idType]) forKey:kSKApplicationIdType];
-  [plist setObject:[self identifier] forKey:kSKApplicationIdentifier];
+  if ([self identifier]) {
+    [plist setObject:SKInt([self idType]) forKey:kSKApplicationIdType];
+    [plist setObject:[self identifier] forKey:kSKApplicationIdentifier];
+  }
   return YES;
 }
 

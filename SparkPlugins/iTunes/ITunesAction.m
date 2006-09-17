@@ -1,3 +1,4 @@
+
 /*
  *  ITunesAction.m
  *  Spark Plugins
@@ -10,9 +11,13 @@
 
 #import "ITunesAESuite.h"
 
+#import <ShadowKit/SKIconView.h>
+#import <ShadowKit/SKBezelItem.h>
+
 #import <ShadowKit/SKFunctions.h>
 #import <ShadowKit/SKLSFunctions.h>
 #import <ShadowKit/SKAEFunctions.h>
+#import <ShadowKit/SKProcessFunctions.h>
 
 #import <HotKeyToolKit/HotKeyToolKit.h>
 
@@ -93,8 +98,8 @@ static ITunesVisual defaultVisual = {delay: -1};
   }
   if (change && kSparkEditorContext == SparkGetCurrentContext()) {
     /* Reload configuration server side */
-    AppleEvent aevt;
-    SKAENullDesc(&aevt);
+    AppleEvent aevt = SKAEEmptyDesc();
+
     OSStatus err = SKAECreateEventWithTargetSignature(kSparkDaemonHFSCreatorType, 'SprI', 'ReDe', &aevt);
     require_noerr(err, bail);
     
@@ -163,11 +168,12 @@ bail:
   UInt32 flags = 0;
   flags |= ia_iaFlags.rate;
   if (ia_iaFlags.hide) flags |= 1 << 7;
-  if (ia_iaFlags.autoplay) flags |= 1 << 8;
-  if (ia_iaFlags.background) flags |= 1 << 9;
+  if (ia_iaFlags.notify) flags |= 1 << 8;
+  if (ia_iaFlags.autoplay) flags |= 1 << 9;
+  if (ia_iaFlags.background) flags |= 1 << 10;
   /* Visual */
-  if (ia_iaFlags.show) flags |= 1 << 10;
-  flags |= ia_iaFlags.visual << 11;
+  if (ia_iaFlags.show) flags |= 1 << 16;
+  flags |= ia_iaFlags.visual << 17;
   return flags;
 }
 
@@ -185,11 +191,12 @@ bail:
 - (void)decodeFlags:(UInt32)flags {
   ia_iaFlags.rate = flags & 0x7f; /* bits 0 to 6 */
   if (flags & 1 << 7) ia_iaFlags.hide = 1; /* bit 7 */
-  if (flags & 1 << 8) ia_iaFlags.autoplay = 1; /* bit 8 */
-  if (flags & 1 << 9) ia_iaFlags.background = 1; /* bit 9 */
+  if (flags & 1 << 8) ia_iaFlags.notify = 1; /* bit 8 */
+  if (flags & 1 << 9) ia_iaFlags.autoplay = 1; /* bit 9 */
+  if (flags & 1 << 10) ia_iaFlags.background = 1; /* bit 10 */
   /* Visual */
-  if (flags & 1 << 10) ia_iaFlags.show = 1; /* bit 10 */
-  ia_iaFlags.visual = (flags >> 11) & 0x3; /* bits 11 and 12 */
+  if (flags & 1 << 16) ia_iaFlags.show = 1; /* bit 16 */
+  ia_iaFlags.visual = (flags >> 17) & 0x3; /* bits 17 and 18 */
 }
 
 - (id)initWithCoder:(NSCoder *)coder {
@@ -231,7 +238,7 @@ bail:
     switch ([self version]) {
       case 0x200:
         [self decodeFlags:[[plist objectForKey:kITunesFlagsKey] unsignedIntValue]];
-        [self setITunesAction:SKHFSTypeCodeFromFileType([plist objectForKey:kITunesActionKey])];
+        [self setITunesAction:SKOSTypeFromString([plist objectForKey:kITunesActionKey])];
         NSData *data = [plist objectForKey:kITunesVisualKey];
         if (data) {
           ia_visual = NSZoneMalloc(nil, sizeof(*ia_visual));
@@ -258,7 +265,7 @@ return self;
 - (BOOL)serialize:(NSMutableDictionary *)plist {
   [super serialize:plist];
   [plist setObject:SKUInt([self encodeFlags]) forKey:kITunesFlagsKey];
-  [plist setObject:SKFileTypeForHFSTypeCode([self iTunesAction]) forKey:kITunesActionKey];
+  [plist setObject:SKStringForOSType([self iTunesAction]) forKey:kITunesActionKey];
   if ([self playlist])
     [plist setObject:[self playlist] forKey:kITunesPlaylistKey];
   if (ia_visual) {
@@ -312,8 +319,8 @@ return self;
 }
 
 - (void)displayTrackNotification {
-  iTunesTrack track;
-  SKAENullDesc(&track);
+  iTunesTrack track = SKAEEmptyDesc();
+
   ITunesInfo *info = [ITunesInfo sharedWindow];
   if (noErr == iTunesGetCurrentTrack(&track)) {
     [info setTrack:&track];
@@ -339,19 +346,41 @@ return self;
   }
 }
 
+- (void)notifyLaunch {
+  static SKBezelItem *notify = nil;
+  if (!notify) {
+    IconRef ref = NULL;
+    SKIconView *icon = [[SKIconView alloc] initWithFrame:NSMakeRect(0, 0, 128, 128)];
+    if (noErr == GetIconRef(kOnSystemDisk, kiTunesSignature, 'APPL', &ref)) {
+      [icon setIconRef:ref];
+      ReleaseIconRef(ref);
+    }
+    notify = [[SKBezelItem alloc] initWithContent:icon];
+    [icon release];
+  }
+  [notify display:nil];
+}
+
 - (SparkAlert *)execute {
   SparkAlert *alert = [self check];
   if (alert == nil) {
     switch ([self iTunesAction]) {
       case kiTunesLaunch: {
-        LSLaunchFlags flags = kLSLaunchDefaults;
-        if (ia_iaFlags.hide)
-          flags |= kLSLaunchAndHide | kLSLaunchDontSwitch;
-        else if (ia_iaFlags.background)
-          flags |= kLSLaunchDontSwitch;
-        iTunesLaunch(flags);
-        if (ia_iaFlags.autoplay)
-          iTunesSendCommand(kiTunesCommandPlay);
+        ProcessSerialNumber psn = {0, kNoProcess};
+        SKProcessGetProcessWithSignature(kiTunesSignature);
+        if (psn.lowLongOfPSN != kNoProcess) {
+          LSLaunchFlags flags = kLSLaunchDefaults;
+          if (ia_iaFlags.hide)
+            flags |= kLSLaunchAndHide | kLSLaunchDontSwitch;
+          else if (ia_iaFlags.background)
+            flags |= kLSLaunchDontSwitch;
+          iTunesLaunch(flags);
+          if (ia_iaFlags.notify) {
+            [self notifyLaunch];
+          }
+          if (ia_iaFlags.autoplay)
+            iTunesSendCommand(kiTunesCommandPlay);
+        }
       }
         break;
       case kiTunesQuit:
@@ -401,7 +430,7 @@ return self;
 #pragma mark -
 #pragma mark iTunes Action specific Methods
 /****************************************************************************************
-*                             	iTunes Action specific Methods													*
+*                             	iTunes Action specific Methods							*
 ****************************************************************************************/
 - (SInt32)rating {
   return ia_iaFlags.rate;
@@ -449,9 +478,11 @@ return self;
 }
 - (BOOL)launchHide { return ia_iaFlags.hide; }
 - (BOOL)launchPlay { return ia_iaFlags.autoplay; }
+- (BOOL)launchNotify { return ia_iaFlags.notify; }
 - (BOOL)launchBackground { return ia_iaFlags.background; }
 - (void)setLaunchHide:(BOOL)flag { SKSetFlag(ia_iaFlags.hide, flag); }
 - (void)setLaunchPlay:(BOOL)flag { SKSetFlag(ia_iaFlags.autoplay, flag); }
+- (void)setLaunchNotify:(BOOL)flag { SKSetFlag(ia_iaFlags.notify, flag); }
 - (void)setLaunchBackground:(BOOL)flag { SKSetFlag(ia_iaFlags.background, flag); }
 
 - (int)visualMode {
@@ -530,8 +561,8 @@ NSString *ITunesActionDescription(ITunesAction *action) {
       break;
     case kiTunesRateTrack:
       desc = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"DESC_RATE_TRACK", nil, bundle,
-                                                                           @"Rate Track * Action Description * (%i = rating)"),
-        [action rating]];
+                                                                           @"Rate Track * Action Description * (%.1f = rating)"),
+        [action rating] / 20.0];
       break;
     case kiTunesNextTrack:
       desc = NSLocalizedStringFromTableInBundle(@"DESC_NEXT", nil, bundle,
@@ -548,6 +579,7 @@ NSString *ITunesActionDescription(ITunesAction *action) {
     case kiTunesShowTrackInfo:
       desc = NSLocalizedStringFromTableInBundle(@"DESC_TRACK_INFO", nil, bundle,
                                                 @"Track Info * Action Description *");
+      break;
     case kiTunesVisual:
       desc = NSLocalizedStringFromTableInBundle(@"DESC_VISUAL", nil, bundle,
                                                 @"Start/Stop Visual * Action Description *");

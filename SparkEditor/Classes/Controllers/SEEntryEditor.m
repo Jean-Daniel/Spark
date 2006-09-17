@@ -445,7 +445,8 @@
     }
     if (MAXFLOAT <= smax.width || MAXFLOAT <= smax.height) {
       [[self window] setShowsResizeIndicator:YES];
-      [[self window] setContentMinSize:NSMakeSize(0, 300)];
+      // TODO compute min size.
+      [[self window] setContentMinSize:NSMakeSize(400, 300)];
     } else {
       [[self window] setShowsResizeIndicator:NO];
       [[self window] setContentMinSize:smax];

@@ -349,6 +349,11 @@ static NSImage *__SparkWarningImage = nil;
   [super dealloc];
 }
 
+#pragma mark -
+- (NSDictionary *)values {
+  return sp_plist;
+}
+
 - (BOOL)serialize:(NSMutableDictionary *)plist {
   if (sp_plist) {
     [plist addEntriesFromDictionary:sp_plist];
@@ -362,6 +367,7 @@ static NSImage *__SparkWarningImage = nil;
   if ([[invocation methodSignature] methodReturnLength] > 0) {
     char buffer[32];
     bzero(buffer, 32);
+    /* setReturnValue auto compute the value size */
     [invocation setReturnValue:buffer];
   }
 }

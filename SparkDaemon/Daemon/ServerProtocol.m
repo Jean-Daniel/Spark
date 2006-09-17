@@ -7,6 +7,7 @@
  */
 
 #import "SparkDaemon.h"
+#import "SparkServerVersion.h"
 
 #import <SparkKit/SparkTrigger.h>
 #import <SparkKit/SparkLibrary.h>
@@ -34,6 +35,10 @@ SparkObjectSet *SDObjectSetForType(OSType type) {
 - (void)registerTrigger:(SparkTrigger *)aTrigger {
   [aTrigger setTarget:self];
   [aTrigger setAction:@selector(executeTrigger:)]; 
+}
+
+- (int)version {
+  return kSparkServerVersion;
 }
 
 #pragma mark Shutdown

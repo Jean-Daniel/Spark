@@ -54,6 +54,8 @@
 		9878A0B30AB4BFC100C35052 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9878A0B20AB4BFC100C35052 /* Localizable.strings */; };
 		9885E08B0AB2CC04006FE0CA /* ApplicationPlugin.nib in Resources */ = {isa = PBXBuildFile; fileRef = 9885E0850AB2CC04006FE0CA /* ApplicationPlugin.nib */; };
 		988CC7410A88E58000C208C6 /* iTunes.png in Resources */ = {isa = PBXBuildFile; fileRef = 988CC7400A88E58000C208C6 /* iTunes.png */; };
+		9894903C0ABC699B00423136 /* ITunesAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 98E6A94B06063852000CCBE1 /* ITunesAction.m */; };
+		9894904A0ABC69B400423136 /* SparkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF7F5108645B7F007BC81A /* SparkKit.framework */; };
 		98AA290E060C659F0039844B /* VolumeUp.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98AA290C060C659F0039844B /* VolumeUp.tif */; };
 		98AA290F060C659F0039844B /* VolumeDown.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98AA290D060C659F0039844B /* VolumeDown.tif */; };
 		98B5515506D25F06001BDF93 /* Eject.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98B5515406D25F06001BDF93 /* Eject.tif */; };
@@ -125,9 +127,9 @@
 		98FC458806063CE0003617CA /* AppleScriptView.nib in Resources */ = {isa = PBXBuildFile; fileRef = 98FC458606063CE0003617CA /* AppleScriptView.nib */; };
 		98FC459F06063D6A003617CA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 		98FC460306063DD1003617CA /* ApplicationAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 98FC45ED06063DD1003617CA /* ApplicationAction.m */; };
-		98FC460406063DD1003617CA /* ApplicationActionPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 98FC45EE06063DD1003617CA /* ApplicationActionPlugin.m */; };
+		98FC460406063DD1003617CA /* ApplicationPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 98FC45EE06063DD1003617CA /* ApplicationPlugin.m */; };
 		98FC460606063DD2003617CA /* ApplicationAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 98FC45F106063DD1003617CA /* ApplicationAction.h */; };
-		98FC460706063DD2003617CA /* ApplicationActionPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 98FC45F206063DD1003617CA /* ApplicationActionPlugin.h */; };
+		98FC460706063DD2003617CA /* ApplicationPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 98FC45F206063DD1003617CA /* ApplicationPlugin.h */; };
 		98FC460A06063DD2003617CA /* AppIcon.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98FC45F606063DD1003617CA /* AppIcon.tif */; };
 		98FC461B06063DF8003617CA /* ApplicationHelp.html in Resources */ = {isa = PBXBuildFile; fileRef = 98FC461606063DF8003617CA /* ApplicationHelp.html */; };
 		98FC462206063E06003617CA /* Help in Resources */ = {isa = PBXBuildFile; fileRef = 98FC461C06063E06003617CA /* Help */; };
@@ -251,7 +253,7 @@
 		98789CAE0AB48D5A00C35052 /* ITunesInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITunesInfo.h; sourceTree = "<group>"; };
 		98789CB20AB48D8200C35052 /* ITunesInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ITunesInfo.m; sourceTree = "<group>"; };
 		98789DC40AB4A0D900C35052 /* Simulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Simulator.m; sourceTree = "<group>"; };
-		98789DD20AB4A10D00C35052 /* Simulator.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Simulator.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		98789DD20AB4A10D00C35052 /* Simulator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Simulator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		98789DDF0AB4A1D300C35052 /* MainMenu.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = MainMenu.nib; sourceTree = "<group>"; };
 		98789DE80AB4A1EE00C35052 /* Simulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Simulator.h; sourceTree = "<group>"; };
 		9878A0B20AB4BFC100C35052 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
@@ -323,9 +325,9 @@
 		98FC458706063CE0003617CA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Resources/English.lproj/AppleScriptView.nib; sourceTree = "<group>"; };
 		98FC45A306063D6A003617CA /* ApplicationAction.spact */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ApplicationAction.spact; sourceTree = BUILT_PRODUCTS_DIR; };
 		98FC45ED06063DD1003617CA /* ApplicationAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ApplicationAction.m; path = Application/ApplicationAction.m; sourceTree = SOURCE_ROOT; };
-		98FC45EE06063DD1003617CA /* ApplicationActionPlugin.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ApplicationActionPlugin.m; sourceTree = "<group>"; };
+		98FC45EE06063DD1003617CA /* ApplicationPlugin.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ApplicationPlugin.m; sourceTree = "<group>"; };
 		98FC45F106063DD1003617CA /* ApplicationAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ApplicationAction.h; sourceTree = "<group>"; };
-		98FC45F206063DD1003617CA /* ApplicationActionPlugin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ApplicationActionPlugin.h; sourceTree = "<group>"; };
+		98FC45F206063DD1003617CA /* ApplicationPlugin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ApplicationPlugin.h; sourceTree = "<group>"; };
 		98FC45F606063DD1003617CA /* AppIcon.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = AppIcon.tif; sourceTree = "<group>"; };
 		98FC461706063DF8003617CA /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = English; path = English.lproj/ApplicationHelp.html; sourceTree = "<group>"; };
 		98FC461D06063E06003617CA /* English */ = {isa = PBXFileReference; lastKnownFileType = folder; name = English; path = English.lproj/Help; sourceTree = "<group>"; };
@@ -374,6 +376,7 @@
 			files = (
 				98789E030AB4A25900C35052 /* Cocoa.framework in Frameworks */,
 				98789E1F0AB4A2E400C35052 /* ShadowKit.framework in Frameworks */,
+				9894904A0ABC69B400423136 /* SparkKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -711,8 +714,8 @@
 			isa = PBXGroup;
 			children = (
 				98FC45F006063DD1003617CA /* Headers */,
+				98FC45EE06063DD1003617CA /* ApplicationPlugin.m */,
 				98FC45ED06063DD1003617CA /* ApplicationAction.m */,
-				98FC45EE06063DD1003617CA /* ApplicationActionPlugin.m */,
 				98E1CC590607767300FA3599 /* Info.plist */,
 				98FC462306063E19003617CA /* InfoPlist.strings */,
 				9885E0850AB2CC04006FE0CA /* ApplicationPlugin.nib */,
@@ -724,8 +727,8 @@
 		98FC45F006063DD1003617CA /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				98FC45F206063DD1003617CA /* ApplicationPlugin.h */,
 				98FC45F106063DD1003617CA /* ApplicationAction.h */,
-				98FC45F206063DD1003617CA /* ApplicationActionPlugin.h */,
 			);
 			path = Headers;
 			sourceTree = "<group>";
@@ -821,7 +824,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				98FC460606063DD2003617CA /* ApplicationAction.h in Headers */,
-				98FC460706063DD2003617CA /* ApplicationActionPlugin.h in Headers */,
+				98FC460706063DD2003617CA /* ApplicationPlugin.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1178,6 +1181,7 @@
 				98789DDC0AB4A17C00C35052 /* Simulator.m in Sources */,
 				98789E0D0AB4A27600C35052 /* ITunesInfo.m in Sources */,
 				9878A0340AB4B8FD00C35052 /* ITunesAESuite.c in Sources */,
+				9894903C0ABC699B00423136 /* ITunesAction.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1204,7 +1208,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				98FC460306063DD1003617CA /* ApplicationAction.m in Sources */,
-				98FC460406063DD1003617CA /* ApplicationActionPlugin.m in Sources */,
+				98FC460406063DD1003617CA /* ApplicationPlugin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -87,6 +87,7 @@
 		98B20D6A06A54814008BA3F6 /* Spark Daemon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Spark Daemon.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		98B20D6C06A54814008BA3F6 /* Spark Daemon.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Spark Daemon.plist"; sourceTree = "<group>"; };
 		98CE5BFE0774EF5A006EB5A5 /* Spark.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Spark.icns; sourceTree = "<group>"; };
+		98EE9E6E0ABBFFB700296C08 /* SparkServerVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkServerVersion.h; sourceTree = "<group>"; };
 		98EF7E4108645876007BC81A /* HotKeyToolKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = HotKeyToolKit.xcodeproj; path = ../HotKeyToolKit/HotKeyToolKit.xcodeproj; sourceTree = SOURCE_ROOT; };
 		98EF7E4B08645883007BC81A /* SparkKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SparkKit.xcodeproj; path = ../SparkKit/SparkKit.xcodeproj; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -181,6 +182,7 @@
 			children = (
 				98402CF1060670AC00AB5262 /* AEScript.h */,
 				98402CF2060670AC00AB5262 /* SparkDaemon.h */,
+				98EE9E6E0ABBFFB700296C08 /* SparkServerVersion.h */,
 			);
 			path = Headers;
 			sourceTree = "<group>";

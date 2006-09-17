@@ -11,6 +11,11 @@
 
 @implementation SparkTrigger
 
+static SparkAction *sp_spAction = nil;
++ (SparkAction *)currentAction {
+  return sp_spAction;
+}
+
 #pragma mark Copying
 - (id)copyWithZone:(NSZone *)aZone {
   SparkTrigger *copy = [super copyWithZone:aZone];
@@ -39,6 +44,10 @@
 
   }
   return self;
+}
+
+- (void)dealloc {
+  [super dealloc];
 }
 
 #pragma mark Implementation
@@ -93,6 +102,13 @@
 }
 - (BOOL)setRegistred:(BOOL)flag {
   return NO;
+}
+
+- (void)willTriggerAction:(SparkAction *)anAction {
+  SKSetterRetain(sp_spAction, anAction);
+}
+
+- (void)didTriggerAction:(SparkAction *)anAction {
 }
 
 @end

@@ -9,6 +9,7 @@
 
 #import <SparkKit/SparkObject.h>
 
+@class SparkAction;
 @interface SparkTrigger : SparkObject <NSCoding, NSCopying> {
   @private
   id sp_target;
@@ -20,6 +21,8 @@
     unsigned int reserved:30;
   } sp_stFlags;
 }
+
++ (SparkAction *)currentAction;
 
 - (id)target;
 - (void)setTarget:(id)target;
@@ -40,6 +43,10 @@
 - (BOOL)isRegistred;
 - (BOOL)setRegistred:(BOOL)flag;
 - (NSString *)triggerDescription;
+
+/* Optional */
+- (void)willTriggerAction:(SparkAction *)anAction;
+- (void)didTriggerAction:(SparkAction *)anAction;
 
 /* Return YES only if the two trigger are equivalents */
 - (BOOL)isEqualToTrigger:(SparkTrigger *)aTrigger;

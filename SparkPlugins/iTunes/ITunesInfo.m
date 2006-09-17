@@ -209,7 +209,7 @@ NSPoint _iTunesGetLocationForType(int type) {
     str = [NSString stringWithFormat:@"%i:%.2i:%.2i:%.2i - ", days, hours, minutes, seconds];
   } else if (hours > 0) {
     str = [NSString stringWithFormat:@"%i:%.2i:%.2i -", hours, minutes, seconds];
-  } else if (seconds > 0) {
+  } else if (minutes > 0 || seconds > 0) {
     str = [NSString stringWithFormat:@"%i:%.2i -", minutes, seconds];
   } else {
     str = @" -";
@@ -255,7 +255,7 @@ NSPoint _iTunesGetLocationForType(int type) {
     // 0 star
     str = NSLocalizedStringFromTableInBundle(@"ooooo", nil, kiTunesActionBundle, @"0 star rate");
   }
-  [ibRate setStringValue:str];
+  [ibRate setStringValue:str ? : @""];
 }
 
 - (void)setTrack:(iTunesTrack *)track {

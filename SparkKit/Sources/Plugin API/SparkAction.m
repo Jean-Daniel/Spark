@@ -249,11 +249,9 @@ SparkContext SparkGetCurrentContext() {
 @implementation SparkPlaceHolder (SparkAction)
 
 - (NSString *)categorie {
-  return NSLocalizedStringFromTableInBundle(@"Undefined",
-                                            nil, SKCurrentBundle(),
-                                            @"Placeholder categorie");
+  return [[self values] objectForKey:kSparkActionCategorieKey];
 }
-- (void)setCategorie:(NSString *)categorie {}
+//- (void)setCategorie:(NSString *)categorie {}
 
 - (NSString *)actionDescription {
   return NSLocalizedStringFromTableInBundle(@"Missing Plugin",

@@ -7,6 +7,7 @@
  */
 
 #import "SEServerConnection.h"
+#import "SparkServerVersion.h"
 
 #import "SEScriptHandler.h"
 
@@ -21,6 +22,8 @@
 #import <ShadowKit/SKFSFunctions.h>
 #import <ShadowKit/SKLSFunctions.h>
 #import <ShadowKit/SKProcessFunctions.h>
+
+#define SparkRemoteMessage(msg)		({ @try { [[self server] msg]; } @catch (id exception) { SKLogException(exception); } })
 
 @implementation SEServerConnection
 
@@ -88,27 +91,47 @@
   [super dealloc];
 }
 #pragma mark -
+- (int)version {
+  if ([self isConnected]) {
+    if ([[self server] respondsToSelector:@selector(version)]) {
+      @try {
+        return [[self server] version];
+      } @catch (id exception) {
+        SKLogException(exception);
+      }
+    } 
+    return 0;
+  }
+  return -1;
+}
 
 - (void)restart {
-  se_scFlags.restart = 1;
-  [self shutdown];
+  if ([self isConnected]) {
+    se_scFlags.restart = 1;
+    [self shutdown];
+  }
 }
 
 - (void)shutdown {
   if ([self isConnected]) {
-    if ([(id)[self server] respondsToSelector:@selector(shutdown)]) {
-      [[self server] shutdown];
-    } else {
-      ProcessSerialNumber psn = SKProcessGetProcessWithSignature(kSparkDaemonHFSCreatorType);
-      if (psn.lowLongOfPSN != kNoProcess)
-        KillProcess(&psn);
+    if ([[self server] respondsToSelector:@selector(shutdown)]) {
+      @try {
+        [[self server] shutdown];
+        return;
+      } @catch (id exception) {
+        SKLogException(exception);
+      }
     }
+    ProcessSerialNumber psn = SKProcessGetProcessWithSignature(kSparkDaemonHFSCreatorType);
+    if (psn.lowLongOfPSN != kNoProcess)
+      KillProcess(&psn);
   }
 }
 
 - (BOOL)connect {
   if ([self isConnected])
     return YES;
+  /* Not connected but server alive */
   if (se_server) {
     DLog(@"Undetected invalid connection");
     [se_server release];
@@ -134,7 +157,7 @@
   return se_server && [[se_server connectionForProxy] isValid];
 }
 
-- (id<SparkServer>)server {
+- (NSDistantObject<SparkServer> *)server {
   return se_server;
 }
 
@@ -191,8 +214,9 @@ OSType SEServerObjectType(SparkObject *anObject) {
     SparkObject *object = SparkNotificationObject(aNotification);
     if (object && (type = SEServerObjectType(object))) {
       NSDictionary *plist = [[aNotification object] serialize:object error:NULL];
-      if (plist)
-        [[self server] addObject:plist type:type];
+      if (plist) {
+        SparkRemoteMessage(addObject:plist type:type);
+      }
     }
   }
 }
@@ -203,8 +227,9 @@ OSType SEServerObjectType(SparkObject *anObject) {
     SparkObject *object = SparkNotificationObject(aNotification);
     if (object && (type = SEServerObjectType(object))) {
       NSDictionary *plist = [[aNotification object] serialize:object error:NULL];
-      if (plist)
-        [[self server] updateObject:plist type:type];
+      if (plist) {
+        SparkRemoteMessage(updateObject:plist type:type);
+      }
     }
   }
 }
@@ -214,7 +239,7 @@ OSType SEServerObjectType(SparkObject *anObject) {
     OSType type;
     SparkObject *object = SparkNotificationObject(aNotification);
     if (object && (type = SEServerObjectType(object))) {
-      [[self server] removeObject:[object uid] type:type];
+      SparkRemoteMessage(removeObject:[object uid] type:type);
     }
   }
 }
@@ -226,7 +251,7 @@ OSType SEServerObjectType(SparkObject *anObject) {
     if (entry) {
       SparkLibraryEntry *lentry = [[aNotification object] libraryEntryForEntry:entry];
       if (lentry) {
-        [[self server] addLibraryEntry:lentry];
+        SparkRemoteMessage(addLibraryEntry:lentry);
       }
     }
   }
@@ -244,7 +269,7 @@ OSType SEServerObjectType(SparkObject *anObject) {
         lprevious.action = [[previous action] uid];
         lprevious.trigger = [[previous trigger] uid];
         lprevious.application = [[previous application] uid];
-        [[self server] replaceLibraryEntry:&lprevious withLibraryEntry:lentry];
+        SparkRemoteMessage(replaceLibraryEntry:&lprevious withLibraryEntry:lentry);
       }
     }
   }
@@ -255,7 +280,7 @@ OSType SEServerObjectType(SparkObject *anObject) {
     if (entry) {
       SparkLibraryEntry *lentry = [[aNotification object] libraryEntryForEntry:entry];
       if (lentry) {
-        [[self server] removeLibraryEntry:lentry];
+        SparkRemoteMessage(removeLibraryEntry:lentry);
       }
     }
   }
@@ -267,7 +292,7 @@ OSType SEServerObjectType(SparkObject *anObject) {
     if (entry) {
       SparkLibraryEntry *lentry = [[aNotification object] libraryEntryForEntry:entry];
       if (lentry) {
-        [[self server] setStatus:[SparkSharedManager() statusForEntry:entry] forLibraryEntry:lentry];
+        SparkRemoteMessage(setStatus:[SparkSharedManager() statusForEntry:entry] forLibraryEntry:lentry);
       }
     }
   }
@@ -319,7 +344,13 @@ void SEServerStartConnection() {
   }
   
   if ([[SEServerConnection defaultConnection] connect]) {
-    [NSApp setServerStatus:kSparkDaemonStarted];
+    int sversion = [[SEServerConnection defaultConnection] version];
+    if (sversion >= 0 && sversion < kSparkServerVersion) {
+      DLog(@"Daemon older than expected. Restart it");
+      [[SEServerConnection defaultConnection] restart];
+    } else {
+      [NSApp setServerStatus:kSparkDaemonStarted];
+    }
   } else {
     [NSApp setServerStatus:kSparkDaemonStopped];
   }

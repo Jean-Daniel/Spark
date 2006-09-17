@@ -164,7 +164,7 @@ BOOL KeyStrokeFilter(UInt32 code, UInt32 modifier) {
 #pragma mark -
 #pragma mark Public Methods
 - (void)bypass {
-  [sp_hotkey sendKeystrokeToApplication:kSparkHFSCreatorType bundle:nil];
+  [sp_hotkey sendKeystroke];
 }
 - (BOOL)isRegistred {
   return [sp_hotkey isRegistred];
@@ -208,12 +208,11 @@ NSTimeInterval SparkGetDefaultKeyRepeatInterval() {
 
 @implementation HKHotKey (SparkRepeat)
 
-- (void)willInvoke:(BOOL)repeat {
+- (void)didInvoke:(BOOL)repeat {
   if (!repeat && ![self invokeOnKeyUp]) {
     // Adjust repeat delay.
-    __attribute__((unused)) SparkHotKey *key = [self target];
-    SparkAction *action = nil; // Resolve action for trigger: key
-    [self setRepeatInterval:(action) ? [action repeatInterval] : 0];    
+    SparkAction *action = [SparkTrigger currentAction];
+    [self setRepeatInterval:(action) ? [action repeatInterval] : HKGetSystemKeyRepeatInterval()];    
   }
 }
 

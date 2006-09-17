@@ -1,53 +1,76 @@
-//
-//  ApplicationAction.m
-//  Spark
-//
-//  Created by Fox on Wed Dec 10 2003.
-//  Copyright (c) 2004 Shadow Lab. All rights reserved.
-//
+/*
+ *  ApplicationAction.m
+ *  Spark Plugins
+ *
+ *  Created by Black Moon Team.
+ *  Copyright (c) Shadow Lab. 2004 - 2006. All rights reserved.
+ */
 
 #import "ApplicationAction.h"
-#import "ApplicationActionPlugin.h"
+
+#import <SparkKit/SparkShadowKit.h>
 
 #import <ShadowKit/SKAlias.h>
+#import <ShadowKit/SKIconView.h>
 #import <ShadowKit/SKBezelItem.h>
 #import <ShadowKit/SKFunctions.h>
 #import <ShadowKit/SKAEFunctions.h>
+#import <ShadowKit/SKFSFunctions.h>
 #import <ShadowKit/SKApplication.h>
 #import <ShadowKit/SKProcessFunctions.h>
 
-static NSString * const kHotKeySignKey = @"App Sign";
-static NSString * const kHotKeyActionKey = @"Action";
-static NSString * const kHotKeyFlagsKey = @"LSFlags";
-static NSString * const kHotKeyAliasKey = @"App Alias";
-static NSString * const kHotKeyBundleIdKey = @"BundleID";
+static NSString * const kApplicationNameKey = @"ApplicationName";
+static NSString * const kApplicationFlagsKey = @"ApplicationFlags";
+static NSString * const kApplicationActionKey = @"ApplicationAction";
+
+static NSString * const kApplicationAliasKey = @"ApplicationAlias";
+/* Only for coding */
+static NSString * const kApplicationIdentifierKey = @"kApplicationIdentifierKey";
+
+static
+SKBezelItem *ApplicationSharedVisual() {
+  static SKBezelItem *visual = nil;
+  if (visual)
+    return visual;
+  @synchronized ([ApplicationAction class]) {
+    if (!visual) {
+      visual = [[SKBezelItem alloc] initWithContent:[[SKIconView alloc] initWithFrame:NSMakeRect(0, 0, 128, 128)]];
+    }
+  }
+  return visual;
+}
 
 @implementation ApplicationAction
-
 #pragma mark Protocols Implementation
-
 - (id)copyWithZone:(NSZone *)zone {
   ApplicationAction* copy = [super copyWithZone:zone];
-  copy->sa_action = sa_action;
-  copy->sa_flags = sa_flags;
-  copy->sa_alias = [sa_alias copy];
+  copy->aa_flags = aa_flags;
+  copy->aa_action = aa_action;
+  
+  copy->aa_alias = [aa_alias copy];
+  copy->aa_application = [aa_application copy];
   return copy;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
-  [coder encodeInt:sa_flags forKey:kHotKeyFlagsKey];
-  [coder encodeInt:sa_action forKey:kHotKeyActionKey];
-  if (sa_alias)
-    [coder encodeObject:sa_alias forKey:kHotKeyAliasKey];
+  [coder encodeInt:aa_flags forKey:kApplicationFlagsKey];
+  [coder encodeInt:aa_action forKey:kApplicationActionKey];
+  
+  if (aa_alias)
+    [coder encodeObject:aa_alias forKey:kApplicationAliasKey];
+  if (aa_application)
+    [coder encodeObject:aa_application forKey:kApplicationIdentifierKey];
   return;
 }
 
 - (id)initWithCoder:(NSCoder *)coder {
   if (self = [super initWithCoder:coder]) {
-    sa_flags = [coder decodeIntForKey:kHotKeyFlagsKey];
-    sa_action = [coder decodeIntForKey:kHotKeyActionKey];
-    sa_alias = [[coder decodeObjectForKey:kHotKeyAliasKey] retain];
+    aa_flags = [coder decodeIntForKey:kApplicationFlagsKey];
+    aa_action = [coder decodeIntForKey:kApplicationActionKey];
+    
+    aa_alias = [[coder decodeObjectForKey:kApplicationAliasKey] retain];
+    aa_application = [[coder decodeObjectForKey:kApplicationIdentifierKey] retain];
   }
   return self;
 }
@@ -55,161 +78,189 @@ static NSString * const kHotKeyBundleIdKey = @"BundleID";
 #pragma mark -
 - (id)init {
   if (self = [super init]) {
-    //[self setVersion:0x200];
+    [self setVersion:0x200];
   }
   return self;
 }
 
 #pragma mark -
 #pragma mark Required Methods.
-- (id)initFromPropertyList:(id)plist {
-  if (self = [super initFromPropertyList:plist]) {
-    SKApplicationAlias *alias = [[SKApplicationAlias alloc] initWithData:[plist objectForKey:kHotKeyAliasKey]];
-    if (![alias path]) {// !!!:fox:20040315 => alias never nil so use alias->path for test (V1.0)
-      OSType sign = [[plist objectForKey:kHotKeySignKey] unsignedIntValue];
-      if (sign)
-        [alias setSignature:sign];
+SK_INLINE
+ApplicationActionType _ApplicationTypeFromTag(int tag) {
+  switch (tag) {
+    case 0:
+      return kApplicationLaunch;
+    case 2:
+      return kApplicationQuit;
+    case 4:
+      return kApplicationToggle;
+    case 3:
+      return kApplicationForceQuit;
+    case 5:
+      return kApplicationHideOther;
+    case 6:
+      return kApplicationHideFront;
+  }
+  return 0;
+}
+
+- (void)initFromOldPropertyList:(id)plist {
+  /* Simply load alias and application without control (lazy resolution) */
+  aa_alias = [[SKAlias alloc] initWithData:[plist objectForKey:@"App Alias"]];
+  aa_application = [[SKApplication alloc] init];
+  OSType sign = [[plist objectForKey:@"App Sign"] intValue];
+  if (sign) {
+    [aa_application setSignature:sign];
+  } else {
+    NSString *bundle = [plist objectForKey:@"BundleID"];
+    if (bundle) {
+      [aa_application setBundleIdentifier:bundle];
     }
-    if (![alias path]) {
-      NSString *bundleId = [plist objectForKey:kHotKeyBundleIdKey];
-      if (bundleId)
-        [alias setBundleIdentifier:bundleId];      
+  }
+
+  [self setFlags:[[plist objectForKey:@"LSFlags"] intValue]];
+  [self setAction:_ApplicationTypeFromTag([[plist objectForKey:@"Action"] intValue])];
+}
+
+- (id)initWithSerializedValues:(NSDictionary *)plist {
+  if (self = [super initWithSerializedValues:plist]) {
+    if ([self version] < 0x200) {
+      [self initFromOldPropertyList:plist];
+      [self setVersion:0x200];
+    } else {
+      [self setFlags:[[plist objectForKey:kApplicationFlagsKey] unsignedIntValue]];
+      [self setAction:SKOSTypeFromString([plist objectForKey:kApplicationActionKey])];
+      
+      switch ([self action]) {
+        case kApplicationHideFront:
+        case kApplicationHideOther:
+          break;
+        default:
+          aa_application = [[SKApplication alloc] initWithSerializedValues:plist];
+          aa_alias = [[SKAlias alloc] initWithData:[plist objectForKey:kApplicationAliasKey]];
+      }
     }
-    if (alias) {
-      [self setAlias:alias];
-      [alias release];
-    }
-    [self setAction:[[plist objectForKey:kHotKeyActionKey] intValue]];
-    [self setFlags:[[plist objectForKey:kHotKeyFlagsKey] intValue]];
   }
   return self;
 }
 
 - (void)dealloc {
-  [sa_alias release];
-  [sa_bezel release];
+  [aa_alias release];
+  [aa_application release];
   [super dealloc];
 }
 
-- (NSMutableDictionary *)propertyList {
-  id dico = [super propertyList];
-  id aliasData = [sa_alias data];
-  if (aliasData) {
-    [dico setObject:aliasData forKey:kHotKeyAliasKey];
+#pragma mark -
+- (BOOL)serialize:(NSMutableDictionary *)plist {
+  if ([super serialize:plist]) {
+    /* Do not serialize alias and application is useless */
+    switch ([self action]) {
+      case kApplicationHideFront:
+      case kApplicationHideOther:
+        break;
+      default: {
+        NSData *alias = [aa_alias data];
+        if (alias)
+          [plist setObject:alias forKey:kApplicationAliasKey];
+        
+        if (aa_application)
+          [aa_application serialize:plist];
+        
+        NSString *name = [[NSFileManager defaultManager] displayNameAtPath:[self path]];
+        if (name)
+          [plist setObject:name forKey:kApplicationNameKey];
+      }
+    }
+    
+    [plist setObject:SKUInt(aa_flags) forKey:kApplicationFlagsKey];
+    [plist setObject:SKStringForOSType(aa_action) forKey:kApplicationActionKey];
+    return YES;
   }
-  OSType sign = [self signature];
-  if (sign)
-    [dico setObject:SKUInt(sign) forKey:kHotKeySignKey];
-  id bundleId = [self bundleIdentifier];
-  if (bundleId)
-    [dico setObject:bundleId forKey:kHotKeyBundleIdKey];
-  [dico setObject:SKInt(sa_action) forKey:kHotKeyActionKey];
-  [dico setObject:SKInt(sa_flags) forKey:kHotKeyFlagsKey];
-  return dico;
+  return NO;
 }
 
 - (SparkAlert *)check {
   /* Don't check path if hide or hide all */
-  if (sa_action != kHideFrontTag && sa_action != kHideAllTag) {
-    if ([self path] == nil) {
-      id title = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"INVALID_APPLICATION_ALERT", nil,ApplicationActionBundle,
-                                                                               @"Check * App Not Found *") , [self name]];
-      return [SparkAlert alertWithMessageText:title
-                    informativeTextWithFormat:NSLocalizedStringFromTableInBundle(@"INVALID_APPLICATION_ALERT_MSG",
-                                                                                 nil,ApplicationActionBundle,@"Check * App Not Found *"), [self name]];
-    }
-  }
+//  if (sa_action != kHideFrontTag && sa_action != kHideAllTag) {
+//    if ([self path] == nil) {
+//      id title = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"INVALID_APPLICATION_ALERT", nil,ApplicationActionBundle,
+//                                                                               @"Check * App Not Found *") , [self name]];
+//      return [SparkAlert alertWithMessageText:title
+//                    informativeTextWithFormat:NSLocalizedStringFromTableInBundle(@"INVALID_APPLICATION_ALERT_MSG",
+//                                                                                 nil,ApplicationActionBundle,@"Check * App Not Found *"), [self name]];
+//    }
+//  }
   return nil;
 }
 
 - (SparkAlert *)execute {
   id alert = [self check];
   if (alert == nil) {
-    switch (sa_action) {
-      case kHideFrontTag:
-        [self hideFront];
-        break;
-      case kHideAllTag:
-        [self hideOthers];
-        break;
-      case kOpenActionTag:
+    switch (aa_action) {
+      case kApplicationLaunch:
         [self launchApplication];
         break;
-      case kOpenCloseActionTag:
-        [self toggleApplicationState];
-        break;
-      case kQuitActionTag:
+      case kApplicationQuit:
         [self quitApplication];
         break;
-      case kKillActionTag:
+      case kApplicationToggle:
+        [self toggleApplicationState];
+        break;
+      case kApplicationForceQuit:
         [self killApplication];
+        break;
+      case kApplicationHideFront:
+        [self hideFront];
+        break;
+      case kApplicationHideOther:
+        [self hideOthers];
         break;
     }
   }
   return alert;
 }
 
-- (OSType)signature {
-  OSType sign = [sa_alias signature];
-  return sign == kUnknownType ? 0 : sign;
-}
-
-- (NSString *)bundleIdentifier {
-  return [sa_alias bundleIdentifier];
-}
-
 - (void)setPath:(NSString *)path {
-  if (sa_alias) {
-    [sa_alias release];
-    sa_alias = nil;
-  }
-  sa_alias = [[SKApplicationAlias alloc] initWithPath:path];
+  if (aa_alias)
+    [aa_alias setPath:path];
+  else
+    aa_alias = [[SKAlias alloc] initWithPath:path];
+  
+  [aa_application release];
+  aa_application = path ? [[SKApplication alloc] initWithPath:path] : nil;
 }
 
 - (NSString *)path {
-  return [sa_alias path];
+  return [aa_alias path] ? : [aa_application path];
 }
 
-- (void)setAlias:(SKApplicationAlias *)alias {
-  SKSetterCopy(sa_alias, alias);
+- (void)setAlias:(SKAlias *)alias {
+  SKSetterCopy(aa_alias, alias);
 }
 
-- (SKApplicationAlias *)alias {
-  return sa_alias;
+- (SKAlias *)alias {
+  return aa_alias;
 }
 
-- (void)setAction:(int)action {
-  sa_action = action;
+- (ApplicationActionType)action {
+  return aa_action;
+}
+- (void)setAction:(ApplicationActionType)action {
+  aa_action = action;
 }
 
-- (int)action {
-  return sa_action;
+- (LSLaunchFlags)flags {
+  return aa_flags;
 }
-
-- (void)setFlags:(int)flags {
-  sa_flags = flags;
-}
-
-- (int)flags {
-  return sa_flags;
+- (void)setFlags:(LSLaunchFlags)flags {
+  aa_flags = flags;
 }
 
 #pragma mark -
 
 - (BOOL)getApplicationProcess:(ProcessSerialNumber *)psn {
-  psn->highLongOfPSN = kNoProcess;
-  psn->lowLongOfPSN = kNoProcess;
-  OSType sign = [self signature];
-  if (sign) {
-    *psn = SKProcessGetProcessWithSignature(sign);
-  } 
-  if (kNoProcess == psn->lowLongOfPSN && kNoProcess == psn->highLongOfPSN) {
-    NSString *bundle = [self bundleIdentifier];
-    if (bundle) {
-      *psn = SKProcessGetProcessWithBundleIdentifier((CFStringRef)bundle);
-    }
-  }
-  return (psn->highLongOfPSN != kNoProcess) || (psn->lowLongOfPSN != kNoProcess);
+  *psn = [aa_application process];
+  return psn->lowLongOfPSN != kNoProcess;
 }
 
 - (void)hideFront {
@@ -223,32 +274,33 @@ static NSString * const kHotKeyBundleIdKey = @"BundleID";
   ProcessSerialNumber front = {kNoProcess, kNoProcess};
   GetFrontProcess(&front);
 
-  ProcessSerialNumber psn = {kNoProcess, kNoProcess};
-  while (noErr == GetNextProcess(&psn)) {
+  /* ShowHideProcess can change process order, and potentialy affect enumeration */
+  ProcessSerialNumber processes[64];
+  ProcessSerialNumber *psn = processes;
+  psn->lowLongOfPSN = kNoProcess;
+  psn->highLongOfPSN = 0;
+  while (noErr == GetNextProcess(psn)) {
     Boolean same;
-    if (noErr == SameProcess(&front, &psn, &same) && !same) {
-      ShowHideProcess(&psn, false);
+    if (noErr == SameProcess(&front, psn, &same) && !same) {
+      psn++;
     }
+  }
+  psn = processes;
+  while (psn->lowLongOfPSN != kNoProcess) {
+    ShowHideProcess(psn++, false);
   }
 }
 
 - (void)launchApplication {
   ProcessSerialNumber psn;
-  if (!(sa_flags & kLSLaunchNewInstance) && [self getApplicationProcess:&psn]) {
-    SetFrontProcess(&psn);
+  if (!(aa_flags & kLSLaunchNewInstance) && [self getApplicationProcess:&psn]) {
+    SetFrontProcess(&psn); // kSetFrontProcessFrontWindowOnly
     SKAESendSimpleEventToProcess(&psn, kCoreEventClass, kAEReopenApplication);
-    if (sa_flags & kLSLaunchAndHideOthers)
+    if (aa_flags & kLSLaunchAndHideOthers)
       [self hideOthers];
   } else {
-    [self launchAppWithFlag:kLSLaunchDefaults | sa_flags];
+    [self launchAppWithFlag:kLSLaunchDefaults | aa_flags];
   }
-  if (!sa_bezel) {
-    NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:[self path]];
-    if (icon) [icon setSize:NSMakeSize(128, 128)];
-    sa_bezel = [[SKBezelItem alloc] initWithContent:icon];
-    [sa_bezel setDelay:1];
-  }
-  [sa_bezel display:nil];
 }
 
 - (void)quitProcess:(ProcessSerialNumber *)psn {
@@ -286,21 +338,55 @@ static NSString * const kHotKeyBundleIdKey = @"BundleID";
 }
 
 - (BOOL)launchAppWithFlag:(int)flag {
-  LSLaunchURLSpec spec;
   BOOL result = NO;
-  CFStringRef path = (CFStringRef)[self path];
-  if (path != nil) {
-    spec.appURL = (CFURLRef)CFURLCreateWithFileSystemPath(kCFAllocatorDefault, path, kCFURLPOSIXPathStyle, NO);
-    if (spec.appURL != nil) {
-      spec.itemURLs = nil;
-      spec.passThruParams = nil;
-      spec.launchFlags = flag | kLSLaunchDefaults;
-      spec.asyncRefCon = nil;
-      result = (noErr == LSOpenFromURLSpec(&spec, nil));
-      CFRelease(spec.appURL);
-    }
+  FSRef ref;
+  LSLaunchFSRefSpec spec;
+  bzero(&spec, sizeof(spec));
+  NSString *path = [self path];
+  if (path != nil && [path getFSRef:&ref]) {
+    spec.appRef = &ref;
+    spec.launchFlags = flag | kLSLaunchDefaults;
+    result = (noErr == LSOpenFromRefSpec(&spec, nil));
   }
   return result;
 }
 
 @end
+
+NSString *ApplicationActionDescription(ApplicationAction *anAction, NSString *name) {
+  NSString *desc = nil;
+  switch ([anAction action]) {
+    case kApplicationHideFront:
+      desc = NSLocalizedStringFromTableInBundle(@"DESC_HIDE_FRONT", nil,ApplicationActionBundle,
+                                               @"Hide Front Applications * Action Description *");
+      break;
+    case kApplicationHideOther:
+      desc = NSLocalizedStringFromTableInBundle(@"DESC_HIDE_ALL", nil,ApplicationActionBundle,
+                                               @"Hide All Applications * Action Description *");
+      break;
+    case kApplicationLaunch:
+      desc = NSLocalizedStringFromTableInBundle(@"DESC_LAUNCH", nil,ApplicationActionBundle,
+                                               @"Launch Application * Action Description *");
+      break;
+    case kApplicationToggle:
+      desc = NSLocalizedStringFromTableInBundle(@"DESC_SWITCH_OPEN_CLOSE", nil,ApplicationActionBundle,
+                                               @"Open/Close Application * Action Description *");
+      break;
+    case kApplicationQuit:
+      desc = NSLocalizedStringFromTableInBundle(@"DESC_QUIT", nil,ApplicationActionBundle,
+                                               @"Quit Application * Action Description *");
+      break;
+    case kApplicationForceQuit:
+      desc = NSLocalizedStringFromTableInBundle(@"DESC_FORCE_QUIT", nil,ApplicationActionBundle,
+                                               @"Force Quit Application * Action Description *");
+      break;
+    default:
+      desc = NSLocalizedStringFromTableInBundle(@"DESC_ERROR", nil,ApplicationActionBundle,
+                                               @"Unknow Action * Action Description *");
+  }
+  if (name)
+    return [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"DESCRIPTION", nil,ApplicationActionBundle,
+                                                                         @"Description: %1$@ => Action, %2$@ => App Name"), desc, name];
+  else return desc;
+}
+

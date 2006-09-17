@@ -1,10 +1,10 @@
 {
     IBClasses = (
         {
-            ACTIONS = {chooseApplication = id; }; 
+            ACTIONS = {back = id; chooseApplication = id; options = id; }; 
             CLASS = ApplicationActionPlugin; 
             LANGUAGE = ObjC; 
-            OUTLETS = {iconView = NSImageView; }; 
+            OUTLETS = {ibIcon = NSImageView; ibOptions = NSButton; ibTab = NSTabView; }; 
             SUPERCLASS = SparkActionPlugin; 
         }, 
         {

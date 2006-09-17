@@ -1,36 +1,47 @@
-//
-//  ApplicationAction.h
-//  Spark
-//
-//  Created by Fox on Wed Dec 10 2003.
-//  Copyright (c) 2004 Shadow Lab. All rights reserved.
-//
+/*
+ *  ApplicationAction.h
+ *  Spark Plugins
+ *
+ *  Created by Black Moon Team.
+ *  Copyright (c) Shadow Lab. 2004 - 2006. All rights reserved.
+ */
 
 #import <SparkKit/SparkPluginAPI.h>
 
-@class SKBezelItem, SKApplicationAlias;
+SPARK_PRIVATE
+NSString * const kApplicationActionBundleIdentifier;
+
+#define ApplicationActionBundle			[NSBundle bundleWithIdentifier:kApplicationActionBundleIdentifier]
+
+typedef enum {
+  kApplicationLaunch	= 'Open', /* 1332766062 */
+  kApplicationQuit		= 'Quit', /* 1366649204 */
+  kApplicationToggle	= 'Togl', /* 1416587116 */
+  kApplicationForceQuit	= 'FQit', /* 1179740532 */
+  kApplicationHideOther	= 'HidO', /* 1214866511 */
+  kApplicationHideFront	= 'HidF', /* 1214866502 */
+} ApplicationActionType;
+
+@class SKAlias, SKApplication;
 @interface ApplicationAction : SparkAction <NSCoding, NSCopying> {
   @private
-  int sa_flags;
-  int sa_action;
-  SKBezelItem *sa_bezel;
-  SKApplicationAlias *sa_alias;
+  int aa_action;
+  SKAlias *aa_alias;
+  LSLaunchFlags aa_flags;
+  SKApplication *aa_application;
 }
-
-- (OSType)signature;
-- (NSString *)bundleIdentifier;
 
 - (NSString *)path;
 - (void)setPath:(NSString *)path;
 
-- (int)flags;
-- (void)setFlags:(int)flags;
+- (SKAlias *)alias;
+- (void)setAlias:(SKAlias *)alias;
 
-- (int)action;
-- (void)setAction:(int)action;
+- (LSLaunchFlags)flags;
+- (void)setFlags:(LSLaunchFlags)flags;
 
-- (SKApplicationAlias *)alias;
-- (void)setAlias:(SKApplicationAlias *)alias;
+- (ApplicationActionType)action;
+- (void)setAction:(ApplicationActionType)action;
 
 - (void)hideFront;
 - (void)hideOthers;
@@ -43,3 +54,7 @@
 - (BOOL)launchAppWithFlag:(int)flag;
 
 @end
+
+SK_PRIVATE
+NSString *ApplicationActionDescription(ApplicationAction *anAction, NSString *name);
+

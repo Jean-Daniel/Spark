@@ -16,12 +16,12 @@ typedef enum {
   kDocumentActionOpenURL
 } DocumentActionType;
 
-@class SKAlias, SKApplicationAlias;
+@class SKAlias;
 @interface DocumentAction : SparkAction <NSCoding, NSCopying> {
   DocumentActionType da_action;
   NSString *da_url;
   SKAlias *da_docAlias;
-  SKApplicationAlias *da_appAlias;
+  SKAlias *da_appAlias;
 }
 
 - (DocumentActionType)docAction;
@@ -35,8 +35,8 @@ typedef enum {
 
 - (SKAlias *)docAlias;
 - (void)setDocAlias:(SKAlias *)newDocAlias;
-- (SKApplicationAlias *)appAlias;
-- (void)setAppAlias:(SKApplicationAlias *)newAppAlias;
+- (SKAlias *)appAlias;
+- (void)setAppAlias:(SKAlias *)newAppAlias;
 
 - (BOOL)isFinderForeground;
 - (void)openSelection;

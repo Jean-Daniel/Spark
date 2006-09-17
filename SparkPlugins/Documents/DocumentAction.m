@@ -67,10 +67,10 @@ static NSString* const kDocumentActionApplicationKey = @"AppAlias";
       [self setDocAlias:[SKAlias aliasWithData:[plist objectForKey:kDocumentActionDocumentKey]]];
     }
     if (da_action == kDocumentActionOpenWith || da_action == kDocumentActionOpenSelectionWith) {
-      SKApplicationAlias *app = [SKApplicationAlias aliasWithData:[plist objectForKey:kDocumentActionApplicationKey]];
-      if (![app path]) {
-        [app setSignature:[[plist objectForKey:kDocumentActionSignKey] unsignedIntValue]];
-      }
+      SKAlias *app = [SKAlias aliasWithData:[plist objectForKey:kDocumentActionApplicationKey]];
+//      if (![app path]) {
+//        [app setSignature:[[plist objectForKey:kDocumentActionSignKey] unsignedIntValue]];
+//      }
       [self setAppAlias:app];
     }
     if (da_action == kDocumentActionOpenURL) {
@@ -95,8 +95,8 @@ static NSString* const kDocumentActionApplicationKey = @"AppAlias";
   }
   if (da_action == kDocumentActionOpenWith || da_action == kDocumentActionOpenSelectionWith) {
     if (da_appAlias) {
-      if ([da_appAlias signature])
-        [dico setObject:SKUInt([da_appAlias signature]) forKey:kDocumentActionSignKey];
+//      if ([da_appAlias signature])
+//        [dico setObject:SKUInt([da_appAlias signature]) forKey:kDocumentActionSignKey];
       id aliasData = [da_appAlias data];
       if (aliasData != nil)
         [dico setObject:aliasData forKey:kDocumentActionApplicationKey];
@@ -232,7 +232,7 @@ static NSString* const kDocumentActionApplicationKey = @"AppAlias";
 }
 
 - (void)setAppPath:(NSString *)path {
-  id app = [SKApplicationAlias aliasWithPath:path];
+  id app = [SKAlias aliasWithPath:path];
   [self setAppAlias:([app path]) ? app : nil];
 }
 
@@ -252,11 +252,11 @@ static NSString* const kDocumentActionApplicationKey = @"AppAlias";
   SKSetterRetain(da_docAlias, alias);
 }
 
-- (SKApplicationAlias *)appAlias {
+- (SKAlias *)appAlias {
   return da_appAlias;
 }
 
-- (void)setAppAlias:(SKApplicationAlias *)alias {
+- (void)setAppAlias:(SKAlias *)alias {
   SKSetterRetain(da_appAlias, alias);
 }
 

@@ -18,7 +18,7 @@ OSStatus iTunesReshufflePlaylist(iTunesPlaylist *playlist);
 
 SK_INLINE
 OSStatus _iTunesCreateEvent(AEEventClass class, AEEventID method, AppleEvent *event) {
-  SKAENullDesc(event);
+  SKAEInitDesc(event);
   
   OSStatus err = SKAECreateEventWithTargetSignature(kiTunesSignature, class, method, event);
   require_noerr(err, bail);
@@ -193,8 +193,7 @@ bail:
 }
 
 OSStatus iTunesSetCurrentTrackRate(UInt32 rate) {
-  AEDesc track;
-  SKAENullDesc(&track);
+  AEDesc track = SKAEEmptyDesc();
   
   ITunesState state = 0;
   OSStatus err = iTunesGetPlayerState(&state);
@@ -253,8 +252,7 @@ bail:
 #pragma mark -
 #pragma mark Playlists
 OSStatus iTunesPlayPlaylist(iTunesPlaylist *playlist) {
-  AppleEvent theEvent;
-  SKAENullDesc(&theEvent);
+  AppleEvent theEvent = SKAEEmptyDesc();
   
   OSStatus err = iTunesReshufflePlaylist(playlist);
   require_noerr(err, bail);
@@ -274,8 +272,7 @@ bail:
 }
 
 OSStatus iTunesPlayPlaylistWithName(CFStringRef name) {
-  iTunesPlaylist playlist;
-  SKAENullDesc(&playlist);
+  iTunesPlaylist playlist = SKAEEmptyDesc();
   
   OSStatus err = iTunesGetPlaylistWithName(name, &playlist);
   require_noerr(err, bail);
@@ -440,8 +437,7 @@ bail:
 SK_INLINE
 OSStatus _iTunesGetLibrarySourceOperand(AEDesc *operand) {
   /* Prepare operand 1: kind of examined object */
-  AEDesc obj;
-  SKAENullDesc(&obj);
+  AEDesc obj = SKAEEmptyDesc();
   
   OSStatus err = AECreateDesc(typeObjectBeingExamined, NULL, 0, &obj);
   require_noerr(err, bail);
@@ -457,12 +453,9 @@ bail:
 /* source whose kind is library => source where kind of examined object equals type 'kLib' */
 static OSStatus _iTunesGetLibrarySources(AEDesc *sources) {
   /* Prepare operand 1: kind of examined object */
-  AEDesc type;
-  AEDesc property;
-  AEDesc comparaison;
-  SKAENullDesc(&type);
-  SKAENullDesc(&property);
-  SKAENullDesc(&comparaison);
+  AEDesc type = SKAEEmptyDesc();
+  AEDesc property = SKAEEmptyDesc();
+  AEDesc comparaison = SKAEEmptyDesc();
   
   OSStatus err = _iTunesGetLibrarySourceOperand(&property);
   require_noerr(err, bail);
@@ -489,8 +482,7 @@ bail:
 }
 
 static OSStatus iTunesGetLibrarySource(AEDesc *source) {
-  AEDesc sources;
-  SKAENullDesc(&sources);
+  AEDesc sources = SKAEEmptyDesc();
   
   OSStatus err = _iTunesGetLibrarySources(&sources);
   require_noerr(err, bail);
@@ -505,13 +497,11 @@ bail:
 
 CFArrayRef iTunesCopyPlaylistNames(void) {
   CFArrayRef result = NULL;
-  AEDesc theEvent;
-  AEDescList names;
-  SKAENullDesc(&names);
-  AEDesc source;
-  SKAENullDesc(&source);
-  AEDesc playlists;
-  SKAENullDesc(&playlists);
+  AEDesc theEvent = SKAEEmptyDesc();
+  AEDescList names = SKAEEmptyDesc();
+  
+  AEDesc source = SKAEEmptyDesc();
+  AEDesc playlists = SKAEEmptyDesc();
   
   /* tell application "iTunes" to get ... */
   OSStatus err = _iTunesCreateEvent(kAECoreSuite, kAEGetData, &theEvent);

@@ -63,6 +63,9 @@
   @private 
   NSDictionary *sp_plist;
 }
+
+- (NSDictionary *)values;
+
 @end
 
 #pragma mark -

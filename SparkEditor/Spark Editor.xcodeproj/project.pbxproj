@@ -113,6 +113,7 @@
 		98ECA7490A9BA7D900F89B58 /* SEBuiltInPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 980AB1F00A9759DD00A6115E /* SEBuiltInPlugin.m */; };
 		98ECA7E80A9BAF3600F89B58 /* SETriggersController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98EA6B290A5E7C280019E26C /* SETriggersController.m */; };
 		98ECA80A0A9BB19500F89B58 /* Overwrite.png in Resources */ = {isa = PBXBuildFile; fileRef = 98ECA8090A9BB19500F89B58 /* Overwrite.png */; };
+		98EE9E750ABC001A00296C08 /* SparkServerVersion.h in Headers */ = {isa = PBXBuildFile; fileRef = 98EE9E740ABC001A00296C08 /* SparkServerVersion.h */; };
 		98EF831508646313007BC81A /* SparkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF83140864630B007BC81A /* SparkKit.framework */; };
 		98EF831608646316007BC81A /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF830E086462FF007BC81A /* HotKeyToolKit.framework */; };
 		98EF83170864631B007BC81A /* SparkKit.framework in Copy Framework */ = {isa = PBXBuildFile; fileRef = 98EF83140864630B007BC81A /* SparkKit.framework */; };
@@ -498,6 +499,7 @@
 		98EA6B290A5E7C280019E26C /* SETriggersController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SETriggersController.m; sourceTree = "<group>"; };
 		98EA6B2F0A5E7C2D0019E26C /* SETriggersController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SETriggersController.h; sourceTree = "<group>"; };
 		98ECA8090A9BB19500F89B58 /* Overwrite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Overwrite.png; sourceTree = "<group>"; };
+		98EE9E740ABC001A00296C08 /* SparkServerVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SparkServerVersion.h; path = ../SparkDaemon/Daemon/Headers/SparkServerVersion.h; sourceTree = SOURCE_ROOT; };
 		98EF8306086462FF007BC81A /* HotKeyToolKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = HotKeyToolKit.xcodeproj; path = ../HotKeyToolKit/HotKeyToolKit.xcodeproj; sourceTree = SOURCE_ROOT; };
 		98EF830F0864630B007BC81A /* SparkKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SparkKit.xcodeproj; path = ../SparkKit/SparkKit.xcodeproj; sourceTree = SOURCE_ROOT; };
 		98F3635806FF72D900FD6673 /* Library.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Library.tif; sourceTree = "<group>"; };
@@ -663,6 +665,7 @@
 			children = (
 				984BCE6A060C7FEC0043CDEA /* SEScriptHandler.h */,
 				98240186060C7B0700A0DB07 /* SEScriptHandler.m */,
+				98EE9E740ABC001A00296C08 /* SparkServerVersion.h */,
 				984BCE6B060C7FEC0043CDEA /* SEServerConnection.h */,
 				98240187060C7B0700A0DB07 /* SEServerConnection.m */,
 			);
@@ -1025,6 +1028,7 @@
 				9803A10B0A9CFEA400B7DBBA /* SEFirstRun.h in Headers */,
 				98AC52D40AAF80010071EAA7 /* SEPreferences.h in Headers */,
 				9830D97A0AB46B7A00C316FE /* SETriggerBrowser.h in Headers */,
+				98EE9E750ABC001A00296C08 /* SparkServerVersion.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

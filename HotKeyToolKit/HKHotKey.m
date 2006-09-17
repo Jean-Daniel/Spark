@@ -12,10 +12,6 @@
 #import "HKHotKeyManager.h"
 #include <IOKit/hidsystem/event_status_driver.h>
 
-#if defined(DEBUG)
-#warning Debug defined in HotKeyToolKit!	
-#endif
-
 @interface HKHotKey (Private) 
 - (void)hk_invalidateTimer;
 
@@ -277,7 +273,7 @@
   if (hk_hkFlags.onrelease) {
     hk_hkFlags.invoked = 0;
   } else {
-    /* Flags used to avoid double invocation if mode change during invoke */
+    /* Flags used to avoid double invocation if 'on release' change during invoke */
     hk_hkFlags.invoked = 1;
     [self invoke:NO];
     if ([self repeatInterval] > 0) {

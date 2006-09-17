@@ -28,6 +28,8 @@ enum {
 
 @protocol SparkServer
 
+- (int)version;
+
 - (oneway void)shutdown;
 
 - (oneway void)addObject:(bycopy id)plist type:(in OSType)type;

@@ -59,6 +59,13 @@ int main(int argc, const char *argv[]) {
   return 0;
 }
 
+static
+OSErr SparkDaemonAEQuitHandler(const AppleEvent *theAppleEvent, AppleEvent *reply, long handlerRefcon) {
+  ShadowCTrace();
+  [NSApp terminate:nil];
+  return noErr;
+}
+
 @implementation SparkDaemon
 
 /* Timer callback */
@@ -87,7 +94,12 @@ int main(int argc, const char *argv[]) {
         nil]];
 #endif
       [NSApp setDelegate:self];
-      
+      /* Init core Apple Event handlers */
+      AEInstallEventHandler (kCoreEventClass,
+                             kAEQuitApplication,
+                             NewAEEventHandlerUPP(SparkDaemonAEQuitHandler),
+                             0, FALSE);
+         
       int delay = 0;
       /* SparkDaemonDelay */
       ProcessSerialNumber psn = {kNoProcess, kCurrentProcess};
@@ -251,12 +263,14 @@ int main(int argc, const char *argv[]) {
     if (!action) {
       action = [SparkSharedManager() actionForTrigger:[trigger uid] application:0 status:&status];
     }
+    [trigger willTriggerAction:status ? action : nil];
     /* Action exists and is enabled */
     if (status && action) {
       alert = [action execute];
     } else {
       [trigger bypass];
     }
+    [trigger didTriggerAction:status ? action : nil];
   } @catch (id exception) {
     SKLogException(exception);
     NSBeep();

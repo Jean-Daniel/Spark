@@ -27,7 +27,8 @@
 - (BOOL)connect;
 - (BOOL)isConnected;
 
-- (id<SparkServer>)server;
+- (int)version;
+- (NSDistantObject<SparkServer> *)server;
 
 @end
 
