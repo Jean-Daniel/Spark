@@ -27,6 +27,9 @@
 - (ApplicationActionType)action;
 - (void)setAction:(ApplicationActionType)anAction;
 
+- (int)visual;
+- (void)setVisual:(int)visual;
+
 - (void)setPath:(NSString *)path;
 - (void)setFlags:(LSLaunchFlags)value;
 

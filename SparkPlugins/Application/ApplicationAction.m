@@ -41,6 +41,24 @@ SKBezelItem *ApplicationSharedVisual() {
 }
 
 @implementation ApplicationAction
+
+static ApplicationVisualSetting SharedSettings = {NO, NO};
++ (void)initialize {
+  if ([ApplicationAction class] == self) {
+    CFBooleanRef value = CFPreferencesCopyAppValue(CFSTR("AAVisualLaunch"), (CFStringRef)kSparkBundleIdentifier);
+    if (!value || CFBooleanGetValue(value))
+      SharedSettings.launch = YES;
+    if (value)
+      CFRelease(value);
+
+    value = CFPreferencesCopyAppValue(CFSTR("AAVisualActivate"), (CFStringRef)kSparkBundleIdentifier);
+    if (!value || CFBooleanGetValue(value))
+      SharedSettings.activation = YES;
+    if (value)
+      CFRelease(value);
+  }
+}
+
 #pragma mark Protocols Implementation
 - (id)copyWithZone:(NSZone *)zone {
   ApplicationAction* copy = [super copyWithZone:zone];

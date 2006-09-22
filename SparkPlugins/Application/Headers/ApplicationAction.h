@@ -22,6 +22,11 @@ typedef enum {
   kApplicationHideFront	= 'HidF', /* 1214866502 */
 } ApplicationActionType;
 
+typedef struct {
+  BOOL launch;
+  BOOL activation;
+} ApplicationVisualSetting;
+
 @class SKAlias, SKApplication;
 @interface ApplicationAction : SparkAction <NSCoding, NSCopying> {
   @private
@@ -29,6 +34,15 @@ typedef enum {
   SKAlias *aa_alias;
   LSLaunchFlags aa_flags;
   SKApplication *aa_application;
+  struct _aa_aaFlags {
+    unsigned int active:2;
+    unsigned int reopen:1;
+    
+    unsigned int visual:1;
+    unsigned int atLaunch:1;
+    unsigned int atActivate:1;
+    unsigned int reserved:26;
+  } aa_aaFlags;
 }
 
 - (NSString *)path;
@@ -39,6 +53,18 @@ typedef enum {
 
 - (LSLaunchFlags)flags;
 - (void)setFlags:(LSLaunchFlags)flags;
+
+- (BOOL)reopen;
+- (void)setReopen:(BOOL)flag;
+
+- (int)activation;
+- (void)setActivation:(int)actv;
+
+- (BOOL)sharedVisual;
+- (void)setSharedVisual:(BOOL)flag;
+
+- (void)getVisualSettings:(ApplicationVisualSetting *)settings;
+- (void)setVisualSettings:(ApplicationVisualSetting *)settings;
 
 - (ApplicationActionType)action;
 - (void)setAction:(ApplicationActionType)action;
