@@ -413,6 +413,7 @@ static NSImage *_HKCreateShading(NSControlTint tint);
 }
 - (void)setHotKey:(SEHotKey)anHotkey {
   se_hotkey = anHotkey;
+  se_bhotkey = anHotkey;
   /* Update string representation */
   [se_str release]; 
   se_str = [HKMapGetStringRepresentationForCharacterAndModifier(se_hotkey.character, se_hotkey.modifiers) retain];
@@ -462,6 +463,7 @@ static NSImage *_HKCreateShading(NSControlTint tint);
     SKSetFlag(se_htFlags.trap, flag);
     if (se_htFlags.trap) {
       NSAssert([[self window] firstResponder] == self, @"Must be first responder");
+      se_bhotkey = se_hotkey; /* init edited value */
       NSPoint mouse = [self convertPoint:[[self window] mouseLocationOutsideOfEventStream] fromView:nil];
       se_htFlags.hint = [self isInButtonRect:mouse] ? 1 : 0;
       se_tracker = [self addTrackingRect:NSMakeRect(NSWidth([self bounds]) - CAPS_WIDTH + 4, 2, CAPS_WIDTH - 4, kHKTrapHeight - 4)

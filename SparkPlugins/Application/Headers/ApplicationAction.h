@@ -11,7 +11,7 @@
 SPARK_PRIVATE
 NSString * const kApplicationActionBundleIdentifier;
 
-#define ApplicationActionBundle			[NSBundle bundleWithIdentifier:kApplicationActionBundleIdentifier]
+#define kApplicationActionBundle			[NSBundle bundleWithIdentifier:kApplicationActionBundleIdentifier]
 
 typedef enum {
   kApplicationLaunch	= 'Open', /* 1332766062 */
@@ -22,7 +22,7 @@ typedef enum {
   kApplicationHideFront	= 'HidF', /* 1214866502 */
 } ApplicationActionType;
 
-typedef struct {
+typedef struct _ApplicationVisualSetting {
   BOOL launch;
   BOOL activation;
 } ApplicationVisualSetting;
@@ -32,7 +32,7 @@ typedef struct {
   @private
   int aa_action;
   SKAlias *aa_alias;
-  LSLaunchFlags aa_flags;
+  LSLaunchFlags aa_lsFlags;
   SKApplication *aa_application;
   struct _aa_aaFlags {
     unsigned int active:2;
@@ -44,6 +44,9 @@ typedef struct {
     unsigned int reserved:26;
   } aa_aaFlags;
 }
+
++ (void)getSharedSettings:(ApplicationVisualSetting *)settings;
++ (void)setSharedSettings:(ApplicationVisualSetting *)settings;
 
 - (NSString *)path;
 - (void)setPath:(NSString *)path;
@@ -60,8 +63,8 @@ typedef struct {
 - (int)activation;
 - (void)setActivation:(int)actv;
 
-- (BOOL)sharedVisual;
-- (void)setSharedVisual:(BOOL)flag;
+- (BOOL)usesSharedVisual;
+- (void)setUsesSharedVisual:(BOOL)flag;
 
 - (void)getVisualSettings:(ApplicationVisualSetting *)settings;
 - (void)setVisualSettings:(ApplicationVisualSetting *)settings;

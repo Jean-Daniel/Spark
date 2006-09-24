@@ -4,7 +4,14 @@
             ACTIONS = {back = id; chooseApplication = id; options = id; }; 
             CLASS = ApplicationActionPlugin; 
             LANGUAGE = ObjC; 
-            OUTLETS = {ibIcon = NSImageView; ibOptions = NSButton; ibTab = NSTabView; }; 
+            OUTLETS = {
+                ibAppView = NSView; 
+                ibApplication = NSTextField; 
+                ibIcon = NSImageView; 
+                ibName = NSTextField; 
+                ibOptions = NSButton; 
+                ibTab = NSTabView; 
+            }; 
             SUPERCLASS = SparkActionPlugin; 
         }, 
         {
@@ -13,6 +20,7 @@
             LANGUAGE = ObjC; 
             SUPERCLASS = NSObject; 
         }, 
+        {CLASS = SKImageView; LANGUAGE = ObjC; SUPERCLASS = NSImageView; }, 
         {
             CLASS = SparkActionPlugin; 
             LANGUAGE = ObjC; 

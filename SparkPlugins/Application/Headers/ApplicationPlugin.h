@@ -10,14 +10,21 @@
 
 #import "ApplicationAction.h"
 
+@class SKImageView;
 @interface ApplicationActionPlugin : SparkActionPlugIn {
+  IBOutlet NSView *ibAppView;
   IBOutlet NSButton *ibOptions;
+  IBOutlet NSTextField *ibApplication;
+  
   IBOutlet NSTabView *ibTab;
-  IBOutlet NSImageView *ibIcon;
+  IBOutlet NSTextField *ibName;
+  IBOutlet SKImageView *ibIcon;
   @private
     NSImage *aa_icon;
   NSString *aa_name;
+  NSString *aa_path;
   LSLaunchFlags aa_flags;
+  ApplicationVisualSetting aa_settings;
 }
 
 - (IBAction)back:(id)sender;
@@ -29,6 +36,9 @@
 
 - (int)visual;
 - (void)setVisual:(int)visual;
+
+- (BOOL)notifyLaunch;
+- (BOOL)notifyActivation;
 
 - (void)setPath:(NSString *)path;
 - (void)setFlags:(LSLaunchFlags)value;

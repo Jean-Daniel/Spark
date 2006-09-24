@@ -243,6 +243,7 @@ NSString * const SEEntriesManagerDidCreateWeakEntryNotification = @"SEEntriesMan
     if (kSparkEntryTypeOverWrite == [edited type])
       [SparkSharedManager() removeEntry:edited];
   } else {
+    NSParameterAssert([[anEntry trigger] isValid]);
     /* If trigger has changed */
     if (![[edited trigger] isEqualToTrigger:[anEntry trigger]]) {
       SparkTrigger *trigger = [self libraryTriggerForTrigger:[anEntry trigger]];

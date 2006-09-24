@@ -8,7 +8,9 @@
 
 #import "ApplicationPlugin.h"
 
+#import <ShadowKit/SKImageView.h>
 #import <ShadowKit/SKExtensions.h>
+#import <ShadowKit/SKAppKitExtensions.h>
 
 NSString * const kApplicationActionBundleIdentifier = @"org.shadowlab.spark.application";
 
@@ -17,15 +19,31 @@ NSString * const kApplicationActionBundleIdentifier = @"org.shadowlab.spark.appl
 - (void)dealloc {
   [aa_name release];
   [aa_icon release];
+  [aa_path release];
   [super dealloc];
 }
-/*===============================================*/
+- (void)awakeFromNib {
+  [ibIcon setImageInterpolation:NSImageInterpolationHigh];
+}
 
+/*===============================================*/
 - (void)loadSparkAction:(ApplicationAction *)sparkAction toEdit:(BOOL)edit {
+  [self willChangeValueForKey:@"visual"];
+  [self willChangeValueForKey:@"notifyLaunch"];
+  [self willChangeValueForKey:@"notifyActivation"];
+  if ([sparkAction usesSharedVisual]) {
+    [ApplicationAction getSharedSettings:&aa_settings];
+  } else {
+    [sparkAction getVisualSettings:&aa_settings];
+  }
+  [self didChangeValueForKey:@"notifyActivation"];
+  [self didChangeValueForKey:@"notifyLaunch"];
+  [self didChangeValueForKey:@"visual"];
   if (edit) {
     [self setPath:[sparkAction path]];
     [self setFlags:[sparkAction flags]];
     [self setAction:[sparkAction action]];
+    [ibName setStringValue:[sparkAction name] ? : @""];
   } else {
     [self setAction:kApplicationLaunch];
   }
@@ -51,7 +69,21 @@ NSString * const kApplicationActionBundleIdentifier = @"org.shadowlab.spark.appl
   [super configureAction];
   ApplicationAction *action = [self sparkAction];
   [action setFlags:aa_flags];
-//  [action setShortDescription:[self actionDescription:action]];
+  
+  /* Save visual if needed */
+  if (![action usesSharedVisual]) {
+    [action setVisualSettings:&aa_settings];
+  }
+  
+  [action setName:[ibName stringValue]];
+  [action setActionDescription:ApplicationActionDescription(action, aa_name)];
+}
+
+- (void)pluginViewWillBecomeHidden {
+  if ([[self sparkAction] usesSharedVisual]) {
+    // Update defaut configuration
+    [ApplicationAction setSharedSettings:&aa_settings];
+  }
 }
 
 #pragma mark -
@@ -86,35 +118,12 @@ NSString * const kApplicationActionBundleIdentifier = @"org.shadowlab.spark.appl
 /*===============================================*/
 
 - (void)setPath:(NSString *)aPath {
-//  [(ApplicationAction *)[self sparkAction] setPath:appPath];
-//  
-//  [self setAppName:[[[NSFileManager defaultManager] displayNameAtPath:[self appPath]] stringByDeletingPathExtension]];
-//  id icon = ([self appPath]) ? [[NSWorkspace sharedWorkspace] iconForFile:[self appPath]] : nil;
-//  [self setAppIcon:icon];
+  SKSetterRetain(aa_path, aPath);
+  NSString *name = [[[NSFileManager defaultManager] displayNameAtPath:aPath] stringByDeletingPathExtension];
+  [ibApplication setStringValue:name ? : @""];
+  [[ibName cell] setPlaceholderString:name ? : @"Action Name"];
+  [ibIcon setImage:aPath ? [[NSWorkspace sharedWorkspace] iconForFile:aPath] : [NSImage imageNamed:@"undefined" inBundle:kApplicationActionBundle]];
 }
-
-//- (NSString *)appName { return [[_appName retain] autorelease]; }
-//- (void)setAppName:(NSString *)appName { 
-//  if (appName != _appName) {
-//    NSString *name = [[self name] stringByTrimmingWhitespaceAndNewline];
-//    if (![name length] || [name isEqualToString:_appName]) {
-//      [self setName:appName];
-//    }
-//    [_appName release];
-//    _appName = [appName copy];
-//  }
-//}
-//
-//- (NSImage *)appIcon { 
-//  return _appIcon;
-//}
-//- (void)setAppIcon:(NSString *)appIcon {
-//  if (appIcon != _appIcon) {
-//    [_appIcon release];
-//    _appIcon = [appIcon retain];
-//    [self setIcon:_appIcon];
-//  }
-//}
 
 - (ApplicationActionType)action {
   return [(ApplicationAction *)[self sparkAction] action];
@@ -123,10 +132,74 @@ NSString * const kApplicationActionBundleIdentifier = @"org.shadowlab.spark.appl
 - (void)setAction:(ApplicationActionType)newAction {
   [(ApplicationAction *)[self sparkAction] setAction:newAction];
   // Adjust interface.
+  [ibAppView setHidden:NO];
   switch (newAction) {
     case kApplicationLaunch:
+      [ibOptions setHidden:NO];
+      [ibOptions setEnabled:YES];
+      break;
+    case kApplicationHideFront:
+    case kApplicationHideOther:
+      [ibAppView setHidden:YES];
+      // Fall thought
+    default:
+      [ibOptions setHidden:YES];
+      [ibOptions setEnabled:NO];
       break;
   }
+  /* Update placeholder */
+  switch (newAction) {
+    case kApplicationHideFront:
+      [[ibName cell] setPlaceholderString:@"Hide Front"];
+      break;
+    case kApplicationHideOther: 
+      [[ibName cell] setPlaceholderString:@"Hide Others"];
+      break;
+    default: {
+      NSString *name = [ibApplication stringValue];
+      [[ibName cell] setPlaceholderString:[name length] > 0 ? name : @"Action Name"];
+      break;
+    }
+  }
+}
+
+- (int)visual {
+  return [[self sparkAction] usesSharedVisual] ? 0 : 1;
+}
+- (void)setVisual:(int)visual {
+  BOOL shared = [[self sparkAction] usesSharedVisual];
+  [self willChangeValueForKey:@"notifyLaunch"];
+  [self willChangeValueForKey:@"notifyActivation"];
+  switch (visual) {
+    case 0:
+      if (!shared) {
+        [[self sparkAction] setUsesSharedVisual:YES];
+        [[self sparkAction] setVisualSettings:&aa_settings];
+        [ApplicationAction getSharedSettings:&aa_settings];
+      }
+      break;
+    case 1:
+      if (shared) {
+        [[self sparkAction] setUsesSharedVisual:NO];
+        [ApplicationAction setSharedSettings:&aa_settings];
+        [[self sparkAction] getVisualSettings:&aa_settings];
+      }
+  }
+  [self didChangeValueForKey:@"notifyActivation"];
+  [self didChangeValueForKey:@"notifyLaunch"];
+}
+
+- (BOOL)notifyLaunch {
+  return aa_settings.launch;
+}
+- (void)setNotifyLaunch:(BOOL)flag {
+  aa_settings.launch = flag;
+}
+- (BOOL)notifyActivation {
+  return aa_settings.activation;
+}
+- (void)setNotifyActivation:(BOOL)flag {
+  aa_settings.activation = flag;
 }
 
 #pragma mark -
