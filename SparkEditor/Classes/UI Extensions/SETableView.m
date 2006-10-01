@@ -22,7 +22,7 @@ NSString * const SETableSeparator = @"-\e";
   } else {
     if ([self isHighlighted]) {
       cellFrame.origin.y++;
-      [self setTextColor:[NSColor colorWithDeviceWhite:0.35 alpha:.5]];
+      [self setTextColor:[NSColor colorWithCalibratedWhite:0.35 alpha:.5]];
       [super drawWithFrame:cellFrame inView:controlView];
       
       cellFrame.origin.y--;

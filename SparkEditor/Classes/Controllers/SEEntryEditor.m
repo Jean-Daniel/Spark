@@ -63,15 +63,15 @@
   [header release];
   [typeTable setCornerView:[[[SEHeaderCellCorner alloc] initWithFrame:NSMakeRect(0, 0, 22, 22)] autorelease]];
   
-  [typeTable setHighlightShading:[NSColor colorWithDeviceRed:.340f
+  [typeTable setHighlightShading:[NSColor colorWithCalibratedRed:.340f
                                                        green:.606f
                                                         blue:.890f
                                                        alpha:1]
-                          bottom:[NSColor colorWithDeviceRed:0
+                          bottom:[NSColor colorWithCalibratedRed:0
                                                        green:.312f
                                                         blue:.790f
                                                        alpha:1]
-                          border:[NSColor colorWithDeviceRed:.239f
+                          border:[NSColor colorWithCalibratedRed:.239f
                                                        green:.482f
                                                         blue:.855f
                                                        alpha:1]];

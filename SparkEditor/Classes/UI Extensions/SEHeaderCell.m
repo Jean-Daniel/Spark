@@ -26,8 +26,8 @@ static NSColor *SEHeaderShadowColor = nil;
 #pragma mark -
 + (void)initialize {
   if ([SEHeaderCell class] == self) {
-    SEHeaderTextColor = [[NSColor colorWithDeviceWhite:0.80 alpha:1] retain];
-    SEHeaderShadowColor = [[NSColor colorWithDeviceWhite:0.15 alpha:1] retain];
+    SEHeaderTextColor = [[NSColor colorWithCalibratedWhite:0.80 alpha:1] retain];
+    SEHeaderShadowColor = [[NSColor colorWithCalibratedWhite:0.15 alpha:1] retain];
   }
 }
 

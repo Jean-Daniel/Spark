@@ -168,18 +168,18 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
 //  rect.size.height += 1;
 //  [[table headerView] setFrame:rect];
   
-  [table setHighlightShading:[NSColor colorWithDeviceRed:.340f
-                                                   green:.606f
-                                                    blue:.890f
-                                                   alpha:1]
-                      bottom:[NSColor colorWithDeviceRed:0
-                                                   green:.312f
-                                                    blue:.790f
-                                                   alpha:1]
-                      border:[NSColor colorWithDeviceRed:.239f
-                                                   green:.482f
-                                                    blue:.855f
-                                                   alpha:1]];
+  [table setHighlightShading:[NSColor colorWithCalibratedRed:.340f
+                                                       green:.606f
+                                                        blue:.890f
+                                                       alpha:1]
+                      bottom:[NSColor colorWithCalibratedRed:0
+                                                       green:.312f
+                                                        blue:.790f
+                                                       alpha:1]
+                      border:[NSColor colorWithCalibratedRed:.239f
+                                                       green:.482f
+                                                        blue:.855f
+                                                       alpha:1]];
   
   if (se_delegate)
     [self tableViewSelectionDidChange:nil];

@@ -108,7 +108,7 @@
 - (void)windowDidLoad {
   [[self window] center];
   [[self window] setFrameAutosaveName:@"SparkMainWindow"];
-  [[self window] setBackgroundColor:[NSColor colorWithDeviceWhite:.773 alpha:1]];
+  [[self window] setBackgroundColor:[NSColor colorWithCalibratedWhite:.773 alpha:1]];
   [[self window] display];
 }
 
