@@ -7,8 +7,9 @@
  *
  */
 
-#import <ShadowKit/SKFunctions.h>
 #import <SparkKit/SparkObject.h>
+
+#import <ShadowKit/SKFunctions.h>
 
 static
 NSString* const kSparkObjectUIDKey = @"SparkObjectUID";
@@ -16,6 +17,17 @@ static
 NSString* const kSparkObjectNameKey = @"SparkObjectName";
 static
 NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
+
+SparkContext SparkGetCurrentContext() {
+  static SparkContext ctxt = 0xffffffff;
+  if (0xffffffff == ctxt) {
+    if ([[[NSBundle mainBundle] bundleIdentifier] isEqualToString:kSparkDaemonBundleIdentifier])
+      ctxt = kSparkDaemonContext;
+    else
+      ctxt = kSparkEditorContext;
+  }
+  return ctxt;
+}
 
 @implementation SparkObject
 
@@ -101,10 +113,14 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
     if (!name)
       name = [plist objectForKey:@"Name"];
     
-    NSData *bitmap = [plist objectForKey:kSparkObjectIconKey];
-    if (!bitmap)
-      bitmap = [plist objectForKey:@"Icon"];
-    NSImage *icon = (bitmap) ? [[NSImage alloc] initWithData:bitmap] : nil;
+    NSImage *icon = nil;
+    if (kSparkEditorContext == SparkGetCurrentContext()) {
+      NSData *bitmap = [plist objectForKey:kSparkObjectIconKey];
+      if (!bitmap)
+        bitmap = [plist objectForKey:@"Icon"];
+      if (bitmap)
+        icon = [[NSImage alloc] initWithData:bitmap];
+    }
     self = [self initWithName:name icon:icon];
     [icon release];
   }

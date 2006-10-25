@@ -382,58 +382,6 @@ bail:
 }
 
 #pragma mark -
-CFDataRef _iTunesCopyArtwork(int idx) {
-  CFDataRef data = NULL;
-  AEDesc arts = {typeNull, NULL};
-  AEDesc track = {typeNull, NULL};
-  AppleEvent theEvent = {typeNull, NULL};
-  
-  /* tell application "iTunes" to get count of ... */
-  OSStatus err = _iTunesCreateEvent(kAECoreSuite, kAECountElements, &theEvent);
-  require_noerr(err, bail);
-  
-  /* ... artworks */
-  OSType type = 'cArt';
-  err = AEPutParamPtr(&theEvent, keyAEObjectClass /* 'kocl' */, typeType, &type, sizeof(type));
-  require_noerr(err, bail);
-  
-  /* ... of current track */
-  err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, 'cTrk', 'pTrk', NULL);
-  require_noerr(err, bail);
-  
-  SInt32 count = 0;
-  err = SKAESendEventReturnSInt32(&theEvent, &count);
-  require_noerr(err, bail);
-  
-  if (count >= idx) {
-    SKAEDisposeDesc(&theEvent);
-    /* tell application "iTunes" to get ... */
-    err = _iTunesCreateEvent(kAECoreSuite, kAEGetData, &theEvent);
-    require_noerr(err, bail);
-
-    /* current track */
-    err = SKAECreatePropertyObjectSpecifier('cTrk', 'pTrk', NULL, &track);
-    require_noerr(err, bail);
-    
-    /* artwork idx of current track */
-    err = SKAECreateIndexObjectSpecifier('cArt', idx, &track, &arts);
-    require_noerr(err, bail);
-  
-    /* ...'data' of artwork idx of current track as PICT */
-    err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, 'PICT', 'pPCT', &arts);
-    require_noerr(err, bail);
-  
-    err = SKAESendEventReturnCFData(&theEvent, 'PICT', &data);
-  }
-bail:
-  SKAEDisposeDesc(&theEvent);
-  SKAEDisposeDesc(&track);
-  SKAEDisposeDesc(&arts);  
-  
-  return data;
-}
-
-#pragma mark -
 SK_INLINE
 OSStatus _iTunesGetLibrarySourceOperand(AEDesc *operand) {
   /* Prepare operand 1: kind of examined object */

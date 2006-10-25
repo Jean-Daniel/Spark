@@ -11,7 +11,6 @@
  @abstract SparkAction Declaration.
  */
 
-#import <SparkKit/SparkKit.h>
 #import <SparkKit/SparkObject.h>
 
 @class SparkAlert;
@@ -24,18 +23,6 @@
  */
 SPARK_EXPORT
 NSTimeInterval SparkGetDefaultKeyRepeatInterval(void);
-
-typedef enum {
-  kSparkEditorContext,
-  kSparkDaemonContext,
-} SparkContext;
-
-/*!
-@function
- @result Returns current execution context.
- */
-SPARK_EXPORT
-SparkContext SparkGetCurrentContext(void);
 
 /*!
 @class 		SparkAction
