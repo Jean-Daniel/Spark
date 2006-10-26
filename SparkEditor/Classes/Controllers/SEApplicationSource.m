@@ -72,24 +72,6 @@
   }
 }
 
-- (NSDragOperation)tableView:(NSTableView *)tableView validateDrop:(id <NSDraggingInfo>)info proposedRow:(int)row proposedDropOperation:(NSTableViewDropOperation)operation {
-  NSPasteboard *pboard = [info draggingPasteboard];
-  /* Drop above and contains files */
-  if (NSTableViewDropAbove == operation && [[pboard types] containsObject:NSFilenamesPboardType]) {
-    /* search if contains at least one application */
-    NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
-    unsigned idx = [files count];
-    while (idx-- > 0) {
-      NSString *file = [files objectAtIndex:idx];
-      if ([[NSWorkspace sharedWorkspace] isApplicationAtPath:file]) {
-        
-        return NSDragOperationCopy;
-      }
-    }
-  }
-  return NSDragOperationNone;
-}
-
 - (unsigned)addApplications:(NSArray *)files {
   unsigned count = 0;
   unsigned idx = [files count];
@@ -117,17 +99,6 @@
   if (count > 0)
     [self rearrangeObjects];
   return count;
-}
-
-- (BOOL)tableView:(NSTableView *)aTableView acceptDrop:(id <NSDraggingInfo>)info row:(int)row dropOperation:(NSTableViewDropOperation)operation {
-  unsigned count = 0;
-  NSPasteboard *pboard = [info draggingPasteboard];
-  /* Drop above and contains files */
-  if (NSTableViewDropAbove == operation && [[pboard types] containsObject:NSFilenamesPboardType]) {
-    NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
-    count = [self addApplications:files];
-  }
-  return count > 0;
 }
 
 - (IBAction)newApplication:(id)sender {
@@ -196,6 +167,35 @@
     }
   }
   NSBeep();
+}
+
+- (NSDragOperation)tableView:(NSTableView *)tableView validateDrop:(id <NSDraggingInfo>)info proposedRow:(int)row proposedDropOperation:(NSTableViewDropOperation)operation {
+  NSPasteboard *pboard = [info draggingPasteboard];
+  /* Drop above and contains files */
+  if (NSTableViewDropAbove == operation && [[pboard types] containsObject:NSFilenamesPboardType]) {
+    /* search if contains at least one application */
+    NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
+    unsigned idx = [files count];
+    while (idx-- > 0) {
+      NSString *file = [files objectAtIndex:idx];
+      if ([[NSWorkspace sharedWorkspace] isApplicationAtPath:file]) {
+        
+        return NSDragOperationCopy;
+      }
+    }
+  }
+  return NSDragOperationNone;
+}
+
+- (BOOL)tableView:(NSTableView *)aTableView acceptDrop:(id <NSDraggingInfo>)info row:(int)row dropOperation:(NSTableViewDropOperation)operation {
+  unsigned count = 0;
+  NSPasteboard *pboard = [info draggingPasteboard];
+  /* Drop above and contains files */
+  if (NSTableViewDropAbove == operation && [[pboard types] containsObject:NSFilenamesPboardType]) {
+    NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
+    count = [self addApplications:files];
+  }
+  return count > 0;
 }
 
 - (BOOL)panel:(id)sender shouldShowFilename:(NSString *)filename {

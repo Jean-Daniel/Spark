@@ -50,18 +50,21 @@ NSString * const kApplicationActionBundleIdentifier = @"org.shadowlab.spark.appl
 }
 
 - (NSAlert *)sparkEditorShouldConfigureAction {
-//  if (([self action] != kHideFrontTag && [self action] != kHideAllTag) && ![self appPath]) {
-//    return [NSAlert alertWithMessageText:NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_APPLICATION_ALERT", nil, ApplicationActionBundle,
-//                                                                            @"Create Action without Application Error * Title *")
-//                           defaultButton:NSLocalizedStringFromTableInBundle(@"OK", nil, ApplicationActionBundle,
-//                                                                            @"Alert default button")
-//                         alternateButton:nil
-//                             otherButton:nil
-//               informativeTextWithFormat:NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_APPLICATION_ALERT_MSG", nil, ApplicationActionBundle,
-//                                                                            @"Create Action without Application Error * Msg *")];
-//  } else if ([[[self name] stringByTrimmingWhitespaceAndNewline] length] == 0) {
-//    [self setName:_appName];
-//  }
+  switch ([self action]) {
+    case kApplicationHideFront:
+    case kApplicationHideOther:
+      break;
+    default:
+      if (!aa_path)
+        return [NSAlert alertWithMessageText:NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_APPLICATION_ALERT", nil, kApplicationActionBundle,
+                                                                                @"Create Action without Application Error * Title *")
+                               defaultButton:NSLocalizedStringFromTableInBundle(@"OK", nil, kApplicationActionBundle,
+                                                                                @"Alert default button")
+                             alternateButton:nil
+                                 otherButton:nil
+                   informativeTextWithFormat:NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_APPLICATION_ALERT_MSG", nil, kApplicationActionBundle,
+                                                                                @"Create Action without Application Error * Msg *")];
+  }
   return nil;
 }
 
@@ -75,6 +78,14 @@ NSString * const kApplicationActionBundleIdentifier = @"org.shadowlab.spark.appl
     [action setVisualSettings:&aa_settings];
   }
   
+  switch ([self action]) {
+    case kApplicationHideFront:
+    case kApplicationHideOther:
+      [action setPath:nil];
+      break;
+    default:
+      [action setPath:aa_path];
+  }
   [action setName:[ibName stringValue]];
   [action setActionDescription:ApplicationActionDescription(action, aa_name)];
 }

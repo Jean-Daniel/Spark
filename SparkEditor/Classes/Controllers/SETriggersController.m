@@ -192,13 +192,17 @@ static BOOL SearchHotKey(NSString *search, id object, void *context) {
   
   /* Text field cell */
   if ([aCell respondsToSelector:@selector(setTextColor:)]) {
+    SparkEntry *entry = [se_entries objectAtIndex:rowIndex];
     SparkApplication *application = [[SEEntriesManager sharedManager] application];
     
     if (0 == [application uid]) {
       [aCell setTextColor:[NSColor controlTextColor]];
-      [aCell setFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]];
+      if ([SparkSharedManager() containsOverwriteEntryForTrigger:[[entry trigger] uid]]) {
+        [aCell setFont:[NSFont boldSystemFontOfSize:[NSFont smallSystemFontSize]]];
+      } else {
+        [aCell setFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]];
+      }
     } else {
-      SparkEntry *entry = [se_entries objectAtIndex:rowIndex];
       switch ([entry type]) {
         case kSparkEntryTypeDefault:
           /* Inherits */

@@ -91,6 +91,7 @@ NSString * const kSystemConfirmKey = @"SystemConfirm";
     case kSystemSwitchPolarity:
     case kSystemSwitchGrayscale:
       /* System Event */
+    case kSystemEmptyTrash:
 //    case kSystemMute:
 //    case kSystemEject:
 //    case kSystemVolumeUp:
@@ -140,6 +141,10 @@ NSString * const kSystemConfirmKey = @"SystemConfirm";
       case kSystemSwitchGrayscale:
         [self toggleGray];
         break;
+        
+      case kSystemEmptyTrash:
+        [self emptyTrash];
+        break;
 //      case kSystemMute:
 //        SKHIDPostAuxKey(kSKKeyMute);
 //        break;
@@ -171,6 +176,25 @@ extern void CGDisplaySetInvertedPolarity(Boolean inverted);
 
 - (void)togglePolarity {
   CGDisplaySetInvertedPolarity(!CGDisplayUsesInvertedPolarity());
+}
+
+- (void)emptyTrash {
+  AppleEvent aevt = SKAEEmptyDesc();
+  
+  OSStatus err = SKAECreateEventWithTargetBundleID(CFSTR("com.apple.Finder"), 'fndr', 'empt', &aevt);
+  require_noerr(err, bail);
+  
+  err = SKAEAddPropertyObjectSpecifier(&aevt, keyDirectObject, 'ctrs', 'trsh', NULL);
+  require_noerr(err, bail);
+  
+  SKAEAddSubject(&aevt);
+  SKAEAddMagnitude(&aevt);
+  
+  err = SKAESendEventNoReply(&aevt);
+  check_noerr(err);
+  
+bail:
+    SKAEDisposeDesc(&aevt);
 }
 
 /*

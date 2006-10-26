@@ -122,6 +122,15 @@
   [self didSelectApplication:[[aNotification object] selectedRow]];
 }
 
+- (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
+  SparkApplication *item = [appSource objectAtIndex:rowIndex];
+  if ([item uid] && [SparkSharedManager() containsEntryForApplication:[item uid]]) {
+    [aCell setFont:[NSFont boldSystemFontOfSize:[NSFont smallSystemFontSize]]];
+  } else {
+    [aCell setFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]];
+  }
+}
+
 - (void)deleteSelectionInTableView:(NSTableView *)aTableView {
   SparkApplication *application = nil;
   int idx = [aTableView selectedRow];

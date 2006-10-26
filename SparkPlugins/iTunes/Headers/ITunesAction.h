@@ -15,23 +15,23 @@ NSString * const kiTunesActionBundleIdentifier;
 #define kiTunesActionBundle		[NSBundle bundleWithIdentifier:kiTunesActionBundleIdentifier]
 
 typedef enum {
-  kiTunesLaunch				= 'Laun', /* 1281455470 */
-  kiTunesQuit				= 'Quit', /* 1366649204 */
+  kiTunesLaunch        = 'Laun', /* 1281455470 */
+  kiTunesQuit          = 'Quit', /* 1366649204 */
   
-  kiTunesStop				= 'Stop', /* 1400139632 */
-  kiTunesPlayPause			= 'PlPs', /* 1349275763 */
-  kiTunesBackTrack			= 'Back', /* 1113678699 */
-  kiTunesNextTrack			= 'Next', /* 1315272820 */
+  kiTunesStop          = 'Stop', /* 1400139632 */
+  kiTunesPlayPause     = 'PlPs', /* 1349275763 */
+  kiTunesBackTrack     = 'Back', /* 1113678699 */
+  kiTunesNextTrack     = 'Next', /* 1315272820 */
   
-  kiTunesRateTrack			= 'RaTr', /* 1382110322 */
-  kiTunesPlayPlaylist		= 'PlPy', /* 1349275769 */
-  kiTunesShowTrackInfo		= 'TrIn', /* 1416776046 */
+  kiTunesRateTrack     = 'RaTr', /* 1382110322 */
+  kiTunesPlayPlaylist  = 'PlPy', /* 1349275769 */
+  kiTunesShowTrackInfo = 'TrIn', /* 1416776046 */
   
-  kiTunesVolumeUp			= 'VoUp', /* 1450136944 */
-  kiTunesVolumeDown			= 'VoDo', /* 1450132591 */
+  kiTunesVolumeUp      = 'VoUp', /* 1450136944 */
+  kiTunesVolumeDown    = 'VoDo', /* 1450132591 */
   
-  kiTunesVisual				= 'Visu', /* 1449751413 */
-  kiTunesEjectCD			= 'Ejec', /* 1164600675 */
+  kiTunesVisual        = 'Visu', /* 1449751413 */
+  kiTunesEjectCD       = 'Ejec', /* 1164600675 */
 } iTunesAction;
 
 @interface ITunesAction : SparkAction <NSCoding, NSCopying> {

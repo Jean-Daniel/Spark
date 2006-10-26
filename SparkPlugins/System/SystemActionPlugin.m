@@ -16,8 +16,6 @@
 #import <ShadowKit/SKFSFunctions.h>
 #import <ShadowKit/SKAppKitExtensions.h>
 
-volatile int SparkSystemGDBWorkaround = 0;
-
 @implementation SystemActionPlugin
 
 - (void)dealloc {
@@ -46,6 +44,8 @@ volatile int SparkSystemGDBWorkaround = 0;
       [nameField setStringValue:[sparkAction name]];
     /* Force update menu + placeholder */
     [self setAction:[sparkAction action]];
+  } else {
+    [self setAction:kSystemLogOut];
   }
 }
 
@@ -86,6 +86,9 @@ volatile int SparkSystemGDBWorkaround = 0;
       break;
     case kSystemSwitchPolarity:
       iconName = @"SwitchPolarity";
+      break;
+    case kSystemEmptyTrash:
+      iconName = @"SystemTrash";
       break;
 //    case kSystemMute:
 //      iconName = @"ScreenSaver";
@@ -168,7 +171,10 @@ volatile int SparkSystemGDBWorkaround = 0;
       desc = NSLocalizedStringFromTableInBundle(@"DESC_SWITCH_POLARITY", nil, kSystemActionBundle,
                                                 @"Switch Polarity * Action Description *");
       break;
-      
+    case kSystemEmptyTrash:
+      desc = NSLocalizedStringFromTableInBundle(@"DESC_EMPTY_TRASH", nil, kSystemActionBundle,
+                                                @"Empty trash * Action Description *");
+      break;
 //    case kSystemMute:
 //      desc = NSLocalizedStringFromTableInBundle(@"DESC_SOUND_MUTE", nil, kSystemActionBundle,
 //                                                @"Mute * Action Description *");
