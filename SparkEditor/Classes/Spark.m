@@ -10,8 +10,8 @@
 
 #if defined (DEBUG)
 #import "SEEntryEditor.h"
+#import "SETriggerBrowser.h"
 #import <Foundation/NSDebug.h>
-#warning Debug defined in Spark!
 #endif
 
 #import <SparkKit/SparkKit.h>
@@ -588,6 +588,7 @@ NSArray *gSortByNameDescriptors = nil;
   [menu addItemWithTitle:@"Importer" action:@selector(openImporter:) keyEquivalent:@""];
   [menu addItemWithTitle:@"Type Chooser" action:@selector(openTypeChooser:) keyEquivalent:@""];
   [menu addItemWithTitle:@"Entry Editor" action:@selector(openEntryEditor:) keyEquivalent:@""];
+  [menu addItemWithTitle:@"Trigger Browser" action:@selector(openTriggerBrowser:) keyEquivalent:@""];
   [menu addItem:[NSMenuItem separatorItem]];
   [menu addItemWithTitle:@"Clean Library" action:@selector(cleanLibrary:) keyEquivalent:@""];
   [debugMenu setSubmenu:menu];
@@ -596,7 +597,6 @@ NSArray *gSortByNameDescriptors = nil;
   [debugMenu release];
 }
 
-@class SEEntryEditor;
 - (IBAction)openEntryEditor:(id)sender {
   if (se_mainWindow) {
     SEEntryEditor *editor = [[SEEntryEditor alloc] init];
@@ -606,6 +606,12 @@ NSArray *gSortByNameDescriptors = nil;
        didEndSelector: @selector(sheetDidEnd:returnCode:context:)
           contextInfo: nil];
   }
+}
+
+- (IBAction)openTriggerBrowser:(id)sender {
+  SETriggerBrowser *browser = [[SETriggerBrowser alloc] init];
+  [browser setReleasedWhenClosed:YES];
+  [browser showWindow:sender];
 }
 
 @class SETypeChooser;

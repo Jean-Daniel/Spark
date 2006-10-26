@@ -1,8 +1,23 @@
 {
     IBClasses = (
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = NSObject; LANGUAGE = ObjC; }, 
         {CLASS = SESplitView; LANGUAGE = ObjC; SUPERCLASS = NSSplitView; }, 
-        {CLASS = SETriggerBrowser; LANGUAGE = ObjC; SUPERCLASS = SKWindowController; }, 
+        {CLASS = SETableView; LANGUAGE = ObjC; SUPERCLASS = SKTableView; }, 
+        {CLASS = SETableViewCell; LANGUAGE = ObjC; SUPERCLASS = SKImageAndTextCell; }, 
+        {
+            CLASS = SETriggerBrowser; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {ibTriggers = SETableView; }; 
+            SUPERCLASS = SKWindowController; 
+        }, 
+        {CLASS = SKImageAndTextCell; LANGUAGE = ObjC; SUPERCLASS = NSTextFieldCell; }, 
+        {
+            ACTIONS = {delete = id; }; 
+            CLASS = SKTableView; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSTableView; 
+        }, 
         {
             CLASS = SKWindowController; 
             LANGUAGE = ObjC; 

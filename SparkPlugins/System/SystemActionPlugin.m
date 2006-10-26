@@ -6,10 +6,6 @@
 //  Copyright (c) 2004 Shadow Lab. All rights reserved.
 //
 
-#if defined (DEBUG)
-#warning Debug defined in SystemAction!
-#endif
-
 #import "SystemActionPlugin.h"
 #import <ShadowKit/SKFunctions.h>
 #import <ShadowKit/SKExtensions.h>

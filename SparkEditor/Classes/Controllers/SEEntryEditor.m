@@ -484,6 +484,10 @@
   } else {
     UInt16 code = [theEvent keyCode];
     UInt32 mask = [theEvent modifierFlags] & SEValidModifiersFlags;
+    /* Shift tab is a navigation shortcut */
+    if (NSShiftKeyMask == mask && code == kVirtualTabKey)
+      return YES;
+    
     return mask ? NO : (code == kVirtualEnterKey)
       || (code == kVirtualReturnKey)
       || (code == kVirtualEscapeKey)

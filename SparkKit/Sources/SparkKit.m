@@ -9,10 +9,6 @@
 
 #import <SparkKit/SparkKit.h>
 
-#if defined (DEBUG)
-#warning Debug defined in SparkKit!
-#endif
-
 NSString * const kSparkFolderName = @"Spark";
 
 NSString * const kSparkHFSCreator = @"Sprk";

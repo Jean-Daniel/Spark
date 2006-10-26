@@ -8,8 +8,9 @@
 
 #import <ShadowKit/SKWindowController.h>
 
+@class SETableView;
 @interface SETriggerBrowser : SKWindowController {
-  
+  IBOutlet SETableView *ibTriggers;
 }
 
 @end

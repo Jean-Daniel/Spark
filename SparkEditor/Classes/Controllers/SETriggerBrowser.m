@@ -8,6 +8,8 @@
 
 #import "SETriggerBrowser.h"
 
+#import "SETableView.h"
+#import "SEHeaderCell.h"
 
 @implementation SETriggerBrowser
 
@@ -22,5 +24,30 @@
   [super dealloc];
 }
 
+- (void)awakeFromNib {
+  /* Configure Library Header Cell */
+  SEHeaderCell *header = [[SEHeaderCell alloc] initTextCell:@"Shortcuts"];
+  [header setAlignment:NSCenterTextAlignment];
+  [header setFont:[NSFont systemFontOfSize:11]];
+  [[[ibTriggers tableColumns] objectAtIndex:0] setHeaderCell:header];
+  [header release];
+  [ibTriggers setCornerView:[[[SEHeaderCellCorner alloc] init] autorelease]];
+  //  NSRect rect = [[table headerView] frame];
+  //  rect.size.height += 1;
+  //  [[table headerView] setFrame:rect];
+  
+  [ibTriggers setHighlightShading:[NSColor colorWithCalibratedRed:.340f
+                                                            green:.606f
+                                                             blue:.890f
+                                                            alpha:1]
+                           bottom:[NSColor colorWithCalibratedRed:0
+                                                            green:.312f
+                                                             blue:.790f
+                                                            alpha:1]
+                           border:[NSColor colorWithCalibratedRed:.239f
+                                                            green:.482f
+                                                             blue:.855f
+                                                            alpha:1]];
+}
 
 @end

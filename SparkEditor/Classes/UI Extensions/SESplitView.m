@@ -44,7 +44,7 @@ static NSImage *XEHorizontalDividerImage = nil;
     src.size = [background size];
     [background drawInRect:aRect fromRect:src operation:NSCompositeSourceOver fraction:1];
   } else {
-    CGContextSetGrayStrokeColor([[NSGraphicsContext currentContext] graphicsPort], .933, 1);
+    CGContextSetGrayFillColor([[NSGraphicsContext currentContext] graphicsPort], .933, 1);
     [NSBezierPath fillRect:aRect];
   }
   /* Draw the center image */

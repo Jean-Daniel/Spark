@@ -31,7 +31,6 @@
 #import "AEScript.h"
 
 #if defined (DEBUG)
-#warning Debug defined in Spark Daemon!
 #include <ShadowKit/SKAEFunctions.h>
 #endif
 
