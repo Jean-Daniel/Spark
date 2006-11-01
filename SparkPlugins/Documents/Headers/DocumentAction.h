@@ -8,38 +8,41 @@
 
 #import <SparkKit/SparkPluginAPI.h>
 
-typedef enum {
+enum {
   kDocumentActionOpen,
   kDocumentActionOpenWith,
   kDocumentActionOpenSelection,
   kDocumentActionOpenSelectionWith,
   kDocumentActionOpenURL
-} DocumentActionType;
+};
 
-@class SKAlias;
+SPARK_PRIVATE
+NSString * const kDocumentActionBundleIdentifier;
+
+#define kDocumentActionBundle		[NSBundle bundleWithIdentifier:kDocumentActionBundleIdentifier]
+
+@class SKAlias, SKApplication;
 @interface DocumentAction : SparkAction <NSCoding, NSCopying> {
-  DocumentActionType da_action;
+  int da_action;
+  SKAlias *da_doc;
   NSString *da_url;
-  SKAlias *da_docAlias;
-  SKAlias *da_appAlias;
+  SKApplication *da_app;
 }
 
-- (DocumentActionType)docAction;
-- (void)setDocAction:(DocumentActionType)newAction;
+- (int)action;
+- (void)setAction:(int)anAction;
 
-- (void)setDocPath:(NSString *)path;
-- (void)setAppPath:(NSString *)path;
+- (void)setDocumentPath:(NSString *)path;
+- (void)setApplicationPath:(NSString *)path;
 
 - (NSString *)url;
-- (void)setUrl:(NSString *)url;
+- (void)setURL:(NSString *)url;
 
-- (SKAlias *)docAlias;
-- (void)setDocAlias:(SKAlias *)newDocAlias;
-- (SKAlias *)appAlias;
-- (void)setAppAlias:(SKAlias *)newAppAlias;
+- (SKAlias *)document;
+- (void)setDocument:(SKAlias *)aDoc;
+- (SKApplication *)application;
+- (void)setApplication:(SKApplication *)anApplication;
 
-- (BOOL)isFinderForeground;
 - (void)openSelection;
-- (SparkAlert *)openURL;
 
 @end

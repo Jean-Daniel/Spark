@@ -7,29 +7,37 @@
 //
 
 #import "ApplicationMenu.h"
-#import "DocumentActionPlugin.h"
+
+#import "DocumentAction.h"
 
 @implementation ApplicationMenu
 
 - (id)initWithCoder:(NSCoder *)coder {
-  self = [super initWithCoder:coder];
-  [self removeAllItems];
-  id menu = [self menu];
-  [self setAutoenablesItems:NO];
-  [menu addItem:[NSMenuItem separatorItem]];
-  [menu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"CHOOSE_MENU", nil,
-                                                            kDocumentActionBundle,
-                                                            @"Title of the Choose MenuItem item in the (With Application:) Menu")
-                  action:@selector(choose:) keyEquivalent:@""];
-  [[menu itemAtIndex:1] setTarget:self];
-  [self selectItemAtIndex:1];
-  hasCustomApp = YES;
+  if (self = [super initWithCoder:coder]) {
+    [self removeAllItems];
+    NSMenu *menu = [self menu];
+    [self setAutoenablesItems:NO];
+    [menu addItem:[NSMenuItem separatorItem]];
+    /* Append choose menu item */
+    NSString *title = NSLocalizedStringFromTableInBundle(@"CHOOSE_MENU", nil,
+                                                         kDocumentActionBundle,
+                                                         @"Title of the Choose MenuItem item in the (With Application:) Menu");
+    NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:title
+                                                  action:@selector(choose:) 
+                                           keyEquivalent:@""];
+    [item setTarget:self];
+    [menu addItem:item];
+    [item release];
+    [self selectItemAtIndex:1];
+    
+    da_custom = YES;
+  }
   return self;
 }
 
 - (IBAction)choose:(id)sender {
   NSOpenPanel *oPanel = [NSOpenPanel openPanel];
-  [oPanel setAllowsMultipleSelection:NO];
+  [oPanel setAllowsMultipleSelection:YES];
   [oPanel beginSheetForDirectory:nil
                             file:nil
                            types:[NSArray arrayWithObjects:@"app", @"APPL", nil]
@@ -43,11 +51,15 @@
   if (returnCode == NSCancelButton) {
     return;
   }
-  if (!hasCustomApp) {
+  if (!da_custom) {
     [[self menu] insertItem:[NSMenuItem separatorItem] atIndex:0];
-    hasCustomApp = YES;
+    da_custom = YES;
   }
-  [[self menu] insertItem:[self itemForPath:[[sheet filenames] objectAtIndex:0]] atIndex:0];
+  NSString *path;
+  NSEnumerator *files = [[sheet filenames] reverseObjectEnumerator];
+  while (path = [files nextObject]) {
+    [[self menu] insertItem:[self itemForPath:path] atIndex:0];
+  }
   [self selectItemAtIndex:0];
 }
 
@@ -55,33 +67,44 @@
   while ([self numberOfItems] > 2) {
     [self removeItemAtIndex:0];
   }
-  hasCustomApp = NO;
+  da_custom = NO;
   if (path) {
-    id url = [NSURL fileURLWithPath:path];
-    id listAppl = (id)LSCopyApplicationURLsForURL((CFURLRef)url, kLSRolesAll);
-    id desc = [[NSSortDescriptor alloc] initWithKey:@"path.lastPathComponent" ascending:NO selector:@selector(caseInsensitiveCompare:)];
-    id apps = [[listAppl sortedArrayUsingDescriptors:[NSArray arrayWithObject:desc]] objectEnumerator];
-    [desc release];
-    id app;
-    while (app = [apps nextObject]) {
-      [[self menu] insertItem:[self itemForPath:[app path]] atIndex:0];
+    NSURL *url = [NSURL fileURLWithPath:path];
+    if (url) {
+      NSArray *applications = (id)LSCopyApplicationURLsForURL((CFURLRef)url, kLSRolesAll);
+      if ([applications count]) {
+        NSURL *first = [applications objectAtIndex:0];
+        /* Sort applications */
+        NSSortDescriptor *desc = [[NSSortDescriptor alloc] initWithKey:@"path.lastPathComponent" ascending:NO selector:@selector(caseInsensitiveCompare:)];
+        NSArray *sorted = [applications sortedArrayUsingDescriptors:[NSArray arrayWithObject:desc]];
+        NSEnumerator *urls = [sorted objectEnumerator];
+        [desc release];
+        
+        NSURL *application;
+        while (application = [urls nextObject]) {
+          if ([application isFileURL])
+            [[self menu] insertItem:[self itemForPath:[application path]] atIndex:0];
+        }
+        [self selectItemAtIndex:[sorted indexOfObjectIdenticalTo:first]];
+      }
+      [applications release];
     }
-    [self selectItemAtIndex:0];
-    [listAppl release];
-  }
-  else {
+  } else {
     [self selectItemAtIndex:1];
   }
 }
 
 - (NSMenuItem *)itemForPath:(NSString *)path {
-  id name = [[[NSFileManager defaultManager] displayNameAtPath:path] stringByDeletingPathExtension];
-  id icon = [[NSWorkspace sharedWorkspace] iconForFile:path];
-  id object = [NSDictionary dictionaryWithObjectsAndKeys:path, @"path", name, @"name", icon, @"icon", nil];
-  id item = [[NSMenuItem alloc] initWithTitle:name action:@selector(appChange:) keyEquivalent:@""];
+  NSString *name = [[[NSFileManager defaultManager] displayNameAtPath:path] stringByDeletingPathExtension];
+  
+  NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:path];
   [icon setSize:NSMakeSize(16,16)];
+  
+  NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:name action:nil keyEquivalent:@""];
+  [item setRepresentedObject:[NSDictionary dictionaryWithObjectsAndKeys:path, @"path", name, @"name", icon, @"icon", nil]];
   [item setImage:icon];
-  [item setRepresentedObject:object];
+  
   return [item autorelease];
 }
+
 @end

@@ -7,74 +7,120 @@
 //
 
 #import "DocumentAction.h"
-#import "DocumentActionPlugin.h"
+
+#import <SparkKit/SparkShadowKit.h>
 
 #import <ShadowKit/SKAlias.h>
 #import <ShadowKit/SKFunctions.h>
-#import <ShadowKit/SKFSFunctions.h>
 #import <ShadowKit/SKAEFunctions.h>
+#import <ShadowKit/SKProcessFunctions.h>
 
-static NSString* const kDocumentActionURLKey = @"DocumentURL";
-static NSString* const kDocumentActionSignKey = @"AppSign";
-static NSString* const kDocumentActionTypeKey = @"DocAction";
-static NSString* const kDocumentActionDocumentKey = @"DocAlias";
-static NSString* const kDocumentActionApplicationKey = @"AppAlias";
+static NSString * const kDocumentActionURLKey = @"DocumentURL";
+static NSString * const kDocumentActionKey = @"DocumentAction";
+static NSString * const kDocumentActionAliasKey = @"DocumentAlias";
+static NSString * const kDocumentActionApplicationKey = @"DocumentApplication";
+
+NSString * const kDocumentActionBundleIdentifier = @"org.shadowlab.spark.document";
 
 @implementation DocumentAction
-
-+ (void)initialize {
-  static BOOL tooLate = NO;
-  if (!tooLate ) {
-    [self setVersion:0x110];
-    tooLate = YES;
-  }
-}
 
 #pragma mark Protocols Implementation
 - (id)copyWithZone:(NSZone *)zone {
   DocumentAction* copy = [super copyWithZone:zone];
   copy->da_action = da_action;
-  copy->da_docAlias = [da_docAlias copy];
-  copy->da_appAlias = [da_appAlias copy];
+  copy->da_doc = [da_doc copy];
+  copy->da_app = [da_app copy];
   return copy;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
-  [coder encodeInt:da_action forKey:kDocumentActionTypeKey];
-  if (da_docAlias)
-    [coder encodeObject:da_docAlias forKey:kDocumentActionDocumentKey];
-  if (da_appAlias)
-    [coder encodeObject:da_appAlias forKey:kDocumentActionApplicationKey];
+  [coder encodeInt:da_action forKey:kDocumentActionKey];
+  if (da_doc)
+    [coder encodeObject:da_doc forKey:kDocumentActionAliasKey];
+  if (da_app)
+    [coder encodeObject:da_app forKey:kDocumentActionApplicationKey];
   return;
 }
 
 - (id)initWithCoder:(NSCoder *)coder {
   if (self = [super initWithCoder:coder]) {
-    da_action = [coder decodeIntForKey:kDocumentActionTypeKey];
-    da_docAlias = [[coder decodeObjectForKey:kDocumentActionDocumentKey] retain];
-    da_appAlias = [[coder decodeObjectForKey:kDocumentActionApplicationKey] retain];
+    da_action = [coder decodeIntForKey:kDocumentActionKey];
+    da_doc = [[coder decodeObjectForKey:kDocumentActionAliasKey] retain];
+    da_app = [[coder decodeObjectForKey:kDocumentActionApplicationKey] retain];
   }
   return self;
 }
 
 #pragma mark -
 #pragma mark Required Methods.
-- (id)initFromPropertyList:(id)plist {
-  if (self = [super initFromPropertyList:plist]) {
-    [self setDocAction:[[plist objectForKey:kDocumentActionTypeKey] intValue]];
-    if (da_action == kDocumentActionOpen || da_action == kDocumentActionOpenWith) {
-      [self setDocAlias:[SKAlias aliasWithData:[plist objectForKey:kDocumentActionDocumentKey]]];
+- (id)init {
+  if (self = [super init]) {
+    [self setVersion:0x200];
+  }
+  return self;
+}
+
+SK_INLINE
+OSType _DocumentActionFromFlag(int flag) {
+  switch (flag) {
+    case 0:
+      return kDocumentActionOpen;
+    case 1:
+      return kDocumentActionOpenWith;
+    case 2:
+      return kDocumentActionOpenSelection;
+    case 3:
+      return kDocumentActionOpenSelectionWith;
+    case 4:
+      return kDocumentActionOpenURL;
+  }
+  return 0;
+}
+
+- (void)initFromOldPropertyList:(id)plist {
+  [self setAction:_DocumentActionFromFlag([[plist objectForKey:@"DocAction"] intValue])];
+  if (da_action == kDocumentActionOpen || da_action == kDocumentActionOpenWith) {
+    NSData *data = [plist objectForKey:@"DocAlias"];
+    if (data)
+      da_doc = [[SKAlias alloc] initWithData:data];
+  }
+  if (da_action == kDocumentActionOpenWith || da_action == kDocumentActionOpenSelectionWith) {
+    NSData *data = [plist objectForKey:@"AppAlias"];
+    if (data) {
+      SKAlias *app = [[SKAlias alloc] initWithData:data];
+      if ([app path]) {
+        da_app = [[SKApplication alloc] initWithPath:[app path]];
+      }
+      [app release];
     }
-    if (da_action == kDocumentActionOpenWith || da_action == kDocumentActionOpenSelectionWith) {
-      SKAlias *app = [SKAlias aliasWithData:[plist objectForKey:kDocumentActionApplicationKey]];
-//      if (![app path]) {
-//        [app setSignature:[[plist objectForKey:kDocumentActionSignKey] unsignedIntValue]];
-//      }
-      [self setAppAlias:app];
-    }
-    if (da_action == kDocumentActionOpenURL) {
-      [self setUrl:[plist objectForKey:kDocumentActionURLKey]];
+  }
+  if (da_action == kDocumentActionOpenURL) {
+    [self setURL:[plist objectForKey:@"DocumentURL"]];
+  }
+}
+
+- (id)initWithSerializedValues:(NSDictionary *)plist {
+  if (self = [super initWithSerializedValues:plist]) {
+    if ([self version] < 0x200) {
+      [self initFromOldPropertyList:plist];
+      [self setVersion:0x200];
+    } else {
+      [self setAction:SKOSTypeFromString([plist objectForKey:kDocumentActionKey])];
+      
+      if (da_action == kDocumentActionOpen || da_action == kDocumentActionOpenWith) {
+        NSData *data = [plist objectForKey:kDocumentActionAliasKey];
+        if (data)
+          da_doc = [[SKAlias alloc] initWithData:data];
+      }
+      
+      if (da_action == kDocumentActionOpenWith || da_action == kDocumentActionOpenSelectionWith) {
+        da_app = [[SKApplication alloc] initWithSerializedValues:plist];
+      }
+      
+      if (da_action == kDocumentActionOpenURL) {
+        [self setURL:[plist objectForKey:kDocumentActionURLKey]];
+      }
     }
   }
   return self;
@@ -82,58 +128,65 @@ static NSString* const kDocumentActionApplicationKey = @"AppAlias";
 
 - (void)dealloc {
   [da_url release];
-  [da_docAlias release];
-  [da_appAlias release];
+  [da_doc release];
+  [da_app release];
   [super dealloc];
 }
 
-- (NSMutableDictionary *)propertyList {
-  id dico = [super propertyList];
-  [dico setObject:SKInt(da_action) forKey:kDocumentActionTypeKey];
-  if (da_action == kDocumentActionOpen || da_action == kDocumentActionOpenWith) {
-    [dico setObject:[da_docAlias data] forKey:kDocumentActionDocumentKey];
-  }
-  if (da_action == kDocumentActionOpenWith || da_action == kDocumentActionOpenSelectionWith) {
-    if (da_appAlias) {
-//      if ([da_appAlias signature])
-//        [dico setObject:SKUInt([da_appAlias signature]) forKey:kDocumentActionSignKey];
-      id aliasData = [da_appAlias data];
-      if (aliasData != nil)
-        [dico setObject:aliasData forKey:kDocumentActionApplicationKey];
+- (BOOL)serialize:(NSMutableDictionary *)plist {
+  if ([super serialize:plist]) {
+    [plist setObject:SKStringForOSType(da_action) forKey:kDocumentActionKey];
+    if (da_action == kDocumentActionOpen || da_action == kDocumentActionOpenWith) {
+      NSData *data = [da_doc data];
+      if (data) {
+        [plist setObject:data forKey:kDocumentActionAliasKey];
+      } else {
+        DLog(@"Invalid document alias");
+        return NO;
+      }
+    }
+    if (da_action == kDocumentActionOpenWith || da_action == kDocumentActionOpenSelectionWith) {
+      if (![da_app serialize:plist]) {
+        DLog(@"Invalid Open With Application.");
+        return NO;
+      }
+    }
+    if (da_action == kDocumentActionOpenURL) {
+      if (da_url) {
+        [plist setObject:da_url forKey:kDocumentActionURLKey];
+      } else {
+        DLog(@"Invalid Document URL");
+        return NO;
+      }
     }
   }
-  if (da_action == kDocumentActionOpenURL) {
-    if (da_url) {
-      [dico setObject:da_url forKey:kDocumentActionURLKey];
-    }
-  }
-  return dico;
+  return YES;
 }
 
 - (SparkAlert *)check {
   id alert = nil;
-  if (da_action == kDocumentActionOpen || da_action == kDocumentActionOpenWith) {
-    if ([[self docAlias] path] == nil) {
-      //Alert Doc invalide
-      alert = [SparkAlert alertWithMessageText:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"INVALID_DOCUMENT_ALERT", nil, 
-                                                                                                             kDocumentActionBundle,
-                                                                                                             @"Document not found * Check Title *"), [self name]]
-                     informativeTextWithFormat:NSLocalizedStringFromTableInBundle(@"INVALID_DOCUMENT_ALERT_MSG", nil, 
-                                                                                  kDocumentActionBundle,
-                                                                                  @"Document not found  * Check Msg *"), [self name]];
-    }
-  }
-  if (da_action == kDocumentActionOpenWith || da_action == kDocumentActionOpenSelectionWith) {
-    if ([[self appAlias] path] == nil) {
-      //Alert App Invalide
-      alert = [SparkAlert alertWithMessageText:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"INVALID_APPLICATION_ALERT", nil, 
-                                                                                                             kDocumentActionBundle,
-                                                                                                             @"Application not found * Check Title *"), [self name]]
-                     informativeTextWithFormat:NSLocalizedStringFromTableInBundle(@"INVALID_APPLICATION_ALERT_MSG", nil, 
-                                                                                  kDocumentActionBundle,
-                                                                                  @"Application not found  * Check Msg *"), [self name]];
-    }
-  }
+//  if (da_action == kDocumentActionOpen || da_action == kDocumentActionOpenWith) {
+//    if ([[self docAlias] path] == nil) {
+//      //Alert Doc invalide
+//      alert = [SparkAlert alertWithMessageText:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"INVALID_DOCUMENT_ALERT", nil, 
+//                                                                                                             kDocumentActionBundle,
+//                                                                                                             @"Document not found * Check Title *"), [self name]]
+//                     informativeTextWithFormat:NSLocalizedStringFromTableInBundle(@"INVALID_DOCUMENT_ALERT_MSG", nil, 
+//                                                                                  kDocumentActionBundle,
+//                                                                                  @"Document not found  * Check Msg *"), [self name]];
+//    }
+//  }
+//  if (da_action == kDocumentActionOpenWith || da_action == kDocumentActionOpenSelectionWith) {
+//    if ([[self appAlias] path] == nil) {
+//      //Alert App Invalide
+//      alert = [SparkAlert alertWithMessageText:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"INVALID_APPLICATION_ALERT", nil, 
+//                                                                                                             kDocumentActionBundle,
+//                                                                                                             @"Application not found * Check Title *"), [self name]]
+//                     informativeTextWithFormat:NSLocalizedStringFromTableInBundle(@"INVALID_APPLICATION_ALERT_MSG", nil, 
+//                                                                                  kDocumentActionBundle,
+//                                                                                  @"Application not found  * Check Msg *"), [self name]];
+//    }
+//  }
   return alert;
 }
 
@@ -141,27 +194,21 @@ static NSString* const kDocumentActionApplicationKey = @"AppAlias";
   id alert = [self check];
   if (alert == nil) {
     if (da_action == kDocumentActionOpen || da_action == kDocumentActionOpenWith) {
-      if (![[NSWorkspace sharedWorkspace] openFile:[[self docAlias] path] withApplication:[[self appAlias] path]]) {
+      if (![[NSWorkspace sharedWorkspace] openFile:[[self document] path] withApplication:[[self application] path]]) {
         NSBeep();
         // Impossible d'ouvrir le document (alert = ?)
       }
     } else if (da_action == kDocumentActionOpenSelection || da_action == kDocumentActionOpenSelectionWith) {
       // Check if Finder is foreground
-      if ([self isFinderForeground]) {
+      if (SKProcessGetFrontProcessSignature() == 'MACS') {
         [self openSelection];
       }
     } else if (da_action == kDocumentActionOpenURL) {
-      alert = [self openURL];
+      if (![[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:da_url]]) {
+        NSBeep();
+        /* alert = []; */
+      }
     }
-  }
-  return alert;
-}
-
-- (SparkAlert *)openURL {
-  id alert = nil;
-  if (![[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:da_url]]) {
-    // TODO
-    /* alert = []; */
   }
   return alert;
 }
@@ -178,18 +225,17 @@ static NSString* const kDocumentActionApplicationKey = @"AppAlias";
   }
   if (noErr == err && count > 0) {
     // if selected items
-    FSRef *refs = NSZoneCalloc(nil, count, sizeof(FSRef));
     int realCount;
+    FSRef *refs = NSZoneCalloc(nil, count, sizeof(FSRef));
     // Get FSRef for these items.
-    err = SKAEFinderSelectionToFSRefs(&selection ,refs, count, &realCount);
+    err = SKAEFinderSelectionToFSRefs(&selection , refs, count, &realCount);
     if (noErr == err && realCount > 0) {
-      LSLaunchFSRefSpec spec;
       FSRef app;
+      LSLaunchFSRefSpec spec;
       
-      if ([[[self appAlias] path] getFSRef:&app]) {
+      if ([[self application] getFSRef:&app]) {
         spec.appRef = &app;
-      }
-      else {
+      } else {
         spec.appRef = nil;
       }
       
@@ -205,59 +251,48 @@ static NSString* const kDocumentActionApplicationKey = @"AppAlias";
   SKAEDisposeDesc(&selection);
 }
 
-- (BOOL)isFinderForeground {
-  ProcessSerialNumber psn;
-  BOOL frontmost = NO;
-  GetFrontProcess(&psn);
-  if (psn.lowLongOfPSN != kNoProcess) {
-    id info = (id)ProcessInformationCopyDictionary(&psn, 0); //kProcessDictionaryIncludeAllInformationMask);
-    UInt32 sign = SKHFSTypeCodeFromFileType([info objectForKey:@"FileCreator"]);
-    frontmost = (sign == 'MACS');
-    [info release];
-  }
-  return frontmost;
-}
-
-- (DocumentActionType)docAction {
+- (int)action {
   return da_action;
 }
 
-- (void)setDocAction:(DocumentActionType)newAction {
+- (void)setAction:(int)newAction {
   da_action = newAction;
 }
 
-
-- (void)setDocPath:(NSString *)path {
-  [self setDocAlias:[SKAlias aliasWithPath:path]];
+- (void)setDocumentPath:(NSString *)path {
+  if (path)
+    [self setDocument:[SKAlias aliasWithPath:path]];
+  else
+    [self setDocument:nil];
 }
 
-- (void)setAppPath:(NSString *)path {
-  id app = [SKAlias aliasWithPath:path];
-  [self setAppAlias:([app path]) ? app : nil];
+- (void)setApplicationPath:(NSString *)path {
+  if (path)
+    [self setApplication:[SKApplication applicationWithPath:path]];
+  else
+    [self setApplication:nil];
 }
 
 - (NSString *)url {
   return da_url;
 }
 
-- (void)setUrl:(NSString *)url {
+- (void)setURL:(NSString *)url {
   SKSetterRetain(da_url, url);
 }
 
-- (SKAlias *)docAlias {
-  return da_docAlias;
+- (SKAlias *)document {
+  return da_doc;
+}
+- (void)setDocument:(SKAlias *)alias {
+  SKSetterRetain(da_doc, alias);
 }
 
-- (void)setDocAlias:(SKAlias *)alias {
-  SKSetterRetain(da_docAlias, alias);
+- (SKApplication *)application {
+  return da_app;
 }
-
-- (SKAlias *)appAlias {
-  return da_appAlias;
-}
-
-- (void)setAppAlias:(SKAlias *)alias {
-  SKSetterRetain(da_appAlias, alias);
+- (void)setApplication:(SKApplication *)anApplication {
+  SKSetterRetain(da_app, anApplication);
 }
 
 @end

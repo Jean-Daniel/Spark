@@ -6,35 +6,26 @@
 //  Copyright (c) 2004 Shadow Lab. All rights reserved.
 //
 
-#if defined (DEBUG)
-#warning Debug defined in DocumentAction!
-#endif
-
-#import <ShadowKit/SKAppKitExtensions.h>
+#import "DocumentActionPlugin.h"
 
 #import "DocumentAction.h"
-#import "DocumentActionPlugin.h"
 #import "ApplicationMenu.h"
 
-volatile int SparkDocumentGDBWorkaround = 0;
-
-NSString * const kDocumentActionBundleIdentifier = @"org.shadowlab.spark.document";
+#import <ShadowKit/SKAppKitExtensions.h>
 
 @implementation DocumentActionPlugin
 
 + (void)initialize {
-  static BOOL tooLate = NO;
-  if (!tooLate ) {
+  if ([DocumentActionPlugin class] == self) {
     [self setKeys:[NSArray arrayWithObject:@"action"] triggerChangeNotificationsForDependentKey:@"tabIndex"];
     [self setKeys:[NSArray arrayWithObject:@"action"] triggerChangeNotificationsForDependentKey:@"displayWithMenu"];
-    tooLate = YES;
   }
 }
 
 - (void)dealloc {
-  [_docPath release];
-  [_docName release];
-  [_docIcon release];
+  [da_path release];
+  [da_name release];
+  [da_icon release];
   [super dealloc];
 }
 /*===============================================*/

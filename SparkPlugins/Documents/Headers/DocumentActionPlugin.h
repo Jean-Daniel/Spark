@@ -6,38 +6,22 @@
 //  Copyright (c) 2004 Shadow Lab. All rights reserved.
 //
 
-
-#import "DocumentAction.h"
-
-SPARK_PRIVATE
-NSString * const kDocumentActionBundleIdentifier;
-
-#define kDocumentActionBundle		[NSBundle bundleWithIdentifier:kDocumentActionBundleIdentifier]
+#import <SparkKit/SparkPluginAPI.h>
 
 @interface DocumentActionPlugin : SparkActionPlugIn {
   @private
-  IBOutlet id appMenu;
-  IBOutlet id nameField;
-  DocumentActionType action;
+  IBOutlet NSPopUpButton *ibMenu;
+  IBOutlet NSTextField *ibName;
   
-  NSString *_docPath;
-  NSString *_docName;
-  NSImage *_docIcon;
-  int flags;
+  int da_flags;
+  NSImage *da_icon;
+  NSString *da_name;
+  NSString *da_path;
 }
 
 - (IBAction)chooseDocument:(id)sender;
 
-- (NSString *)shortDescription;
 - (void)setFile:(NSString *)file;
-
-- (NSString *)name;
-- (NSString *)appPath;
-@end
-
-@interface DocumentActionPlugin (KVC_Compliance)
-- (DocumentActionType)action;
-- (void)setAction:(DocumentActionType)newAction;
 
 - (int)tabIndex;
 - (void)setTabIndex:(int)newTabIndex;
@@ -45,9 +29,10 @@ NSString * const kDocumentActionBundleIdentifier;
 - (BOOL)displayWithMenu;
 - (void)setDisplayWithMenu:(BOOL)newDisplayWithMenu;
 
-- (NSString *)docName;
-- (void)setDocName:(NSString *)newDocName;
+- (NSString *)documentName;
+- (void)setDocumentName:(NSString *)newDocName;
 
-- (NSImage *)docIcon;
-- (void)setDocIcon:(NSImage *)newDocIcon;
+- (NSImage *)documentIcon;
+- (void)setDocumentIcon:(NSImage *)newDocIcon;
+
 @end
