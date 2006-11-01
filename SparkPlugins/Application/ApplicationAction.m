@@ -41,6 +41,14 @@ SKBezelItem *ApplicationSharedVisual() {
   return visual;
 }
 
+static 
+void ApplicationDisplayNotification(IconRef anIcon) {
+  SKBezelItem *shared = ApplicationSharedVisual();
+  SKIconView *icns = [shared content];
+  [icns setIconRef:anIcon];
+  [shared display:nil];
+}
+
 @implementation ApplicationAction
 
 static 
@@ -123,14 +131,13 @@ ApplicationVisualSetting AASharedSettings = {NO, NO};
 bail:
       SKAEDisposeDesc(&aevt);
   }
-  
 }
 
 + (void)handleAppleEvent:(NSAppleEventDescriptor *)event withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
   UInt32 flags = 0;
   if (noErr == SKAEGetUInt32FromAppleEvent([event aeDesc], keyDirectObject, &flags)) {
     AASharedSettings.launch = flags & (1 << 0);
-    AASharedSettings.activation = flags & (1 << 0);
+    AASharedSettings.activation = flags & (1 << 1);
   }
 }
 
@@ -262,9 +269,12 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
         case kApplicationHideFront:
         case kApplicationHideOther:
           break;
-        default:
+        default: {
           aa_application = [[SKApplication alloc] initWithSerializedValues:plist];
-          aa_alias = [[SKAlias alloc] initWithData:[plist objectForKey:kApplicationAliasKey]];
+          NSData *data = [plist objectForKey:kApplicationAliasKey];
+          if (data)
+            aa_alias = [[SKAlias alloc] initWithData:data];
+        }
       }
     }
   }
@@ -272,6 +282,10 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
 }
 
 - (void)dealloc {
+  if (aa_icon) {
+    ReleaseIconRef(aa_icon);
+    aa_icon = NULL;
+  }
   [aa_alias release];
   [aa_application release];
   [super dealloc];
@@ -337,6 +351,7 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
       case kApplicationForceQuit:
         [self killApplication];
         break;
+        
       case kApplicationHideFront:
         [self hideFront];
         break;
@@ -414,8 +429,20 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
   aa_aaFlags.atActivate = settings->activation;
 }
 
-#pragma mark -
+- (void)displayNotification {
+  if (!aa_icon) {
+    FSRef path;
+    if ([[self path] getFSRef:&path]) {
+      GetIconRefFromFileInfo(&path, 0, NULL,
+                             kFSCatInfoNone, NULL,
+                             kIconServicesNoBadgeFlag, 
+                             &aa_icon, NULL);
+    }
+  }
+  ApplicationDisplayNotification(aa_icon);
+}
 
+#pragma mark -
 - (BOOL)getApplicationProcess:(ProcessSerialNumber *)psn {
   *psn = [aa_application process];
   return psn->lowLongOfPSN != kNoProcess;
@@ -433,7 +460,7 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
   GetFrontProcess(&front);
 
   /* ShowHideProcess can change process order, and potentialy affect enumeration */
-  ProcessSerialNumber processes[64];
+  ProcessSerialNumber processes[128];
   ProcessSerialNumber *psn = processes;
   psn->lowLongOfPSN = kNoProcess;
   psn->highLongOfPSN = 0;
@@ -451,13 +478,30 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
 
 - (void)launchApplication {
   ProcessSerialNumber psn;
+  ApplicationVisualSetting settings;
+  if ([self usesSharedVisual])
+    [ApplicationAction getSharedSettings:&settings];
+  else
+    [self getVisualSettings:&settings];
+  
   if (!(aa_lsFlags & kLSLaunchNewInstance) && [self getApplicationProcess:&psn]) {
-    SetFrontProcess(&psn); // kSetFrontProcessFrontWindowOnly
-    SKAESendSimpleEventToProcess(&psn, kCoreEventClass, kAEReopenApplication);
-    if (aa_lsFlags & kLSLaunchAndHideOthers)
-      [self hideOthers];
+    if ([self activation] == 1) {
+      SetFrontProcessWithOptions(&psn, kSetFrontProcessFrontWindowOnly);
+    } else if ([self activation] == 2) {
+      SetFrontProcess(&psn);
+    }
+    if ([self activation]) {
+      if ([self reopen])
+        SKAESendSimpleEventToProcess(&psn, kCoreEventClass, kAEReopenApplication);
+      if (aa_lsFlags & kLSLaunchAndHideOthers)
+        [self hideOthers];
+      if (settings.activation)
+        [self displayNotification];
+    }
   } else {
     [self launchAppWithFlag:kLSLaunchDefaults | aa_lsFlags];
+    if (settings.launch)
+      [self displayNotification];
   }
 }
 
@@ -477,22 +521,18 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
   if ([self getApplicationProcess:&psn]) {
     [self quitProcess:&psn];
   } else {
+    /* toogle incompatible with new instance */
+    if (aa_lsFlags & kLSLaunchNewInstance)
+      aa_lsFlags &= ~kLSLaunchNewInstance;
     [self launchApplication];
   }
 }
 
 - (void)killApplication {
-  DLog(@"Kill Application");
   ProcessSerialNumber psn;
   if ([self getApplicationProcess:&psn]) {
     KillProcess(&psn);
   }
-}
-
-- (void)relaunchApplication {
-  DLog(@"relaunch Application");
-  [self quitApplication];
-  [self launchApplication];
 }
 
 - (BOOL)launchAppWithFlag:(int)flag {

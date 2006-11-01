@@ -18,7 +18,6 @@ NSString * const kApplicationActionBundleIdentifier = @"org.shadowlab.spark.appl
 
 - (void)dealloc {
   [aa_name release];
-  [aa_icon release];
   [aa_path release];
   [super dealloc];
 }
@@ -26,7 +25,7 @@ NSString * const kApplicationActionBundleIdentifier = @"org.shadowlab.spark.appl
   [ibIcon setImageInterpolation:NSImageInterpolationHigh];
 }
 
-/*===============================================*/
+#pragma mark -
 - (void)loadSparkAction:(ApplicationAction *)sparkAction toEdit:(BOOL)edit {
   [self willChangeValueForKey:@"visual"];
   [self willChangeValueForKey:@"notifyLaunch"];
@@ -85,8 +84,13 @@ NSString * const kApplicationActionBundleIdentifier = @"org.shadowlab.spark.appl
       break;
     default:
       [action setPath:aa_path];
+      [action setIcon:[ibIcon image]];
   }
-  [action setName:[ibName stringValue]];
+  if ([ibName stringValue] && [[ibName stringValue] length])
+    [action setName:[ibName stringValue]];
+  else
+    [action setName:[[ibName cell] placeholderString]]; 
+  
   [action setActionDescription:ApplicationActionDescription(action, aa_name)];
 }
 
@@ -126,8 +130,7 @@ NSString * const kApplicationActionBundleIdentifier = @"org.shadowlab.spark.appl
   }
 }
 
-/*===============================================*/
-
+#pragma mark -
 - (void)setPath:(NSString *)aPath {
   SKSetterRetain(aa_path, aPath);
   NSString *name = [[[NSFileManager defaultManager] displayNameAtPath:aPath] stringByDeletingPathExtension];
@@ -146,6 +149,7 @@ NSString * const kApplicationActionBundleIdentifier = @"org.shadowlab.spark.appl
   [ibAppView setHidden:NO];
   switch (newAction) {
     case kApplicationLaunch:
+    case kApplicationToggle:
       [ibOptions setHidden:NO];
       [ibOptions setEnabled:YES];
       break;
@@ -182,14 +186,14 @@ NSString * const kApplicationActionBundleIdentifier = @"org.shadowlab.spark.appl
   [self willChangeValueForKey:@"notifyLaunch"];
   [self willChangeValueForKey:@"notifyActivation"];
   switch (visual) {
-    case 0:
+    case 0: // Shared visual
       if (!shared) {
         [[self sparkAction] setUsesSharedVisual:YES];
         [[self sparkAction] setVisualSettings:&aa_settings];
         [ApplicationAction getSharedSettings:&aa_settings];
       }
       break;
-    case 1:
+    case 1: // This action only
       if (shared) {
         [[self sparkAction] setUsesSharedVisual:NO];
         [ApplicationAction setSharedSettings:&aa_settings];

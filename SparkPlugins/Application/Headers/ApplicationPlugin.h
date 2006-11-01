@@ -20,7 +20,6 @@
   IBOutlet NSTextField *ibName;
   IBOutlet SKImageView *ibIcon;
   @private
-    NSImage *aa_icon;
   NSString *aa_name;
   NSString *aa_path;
   LSLaunchFlags aa_flags;

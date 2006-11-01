@@ -43,6 +43,7 @@ typedef struct _ApplicationVisualSetting {
     unsigned int atActivate:1;
     unsigned int reserved:26;
   } aa_aaFlags;
+  IconRef aa_icon;
 }
 
 + (void)getSharedSettings:(ApplicationVisualSetting *)settings;
@@ -72,13 +73,13 @@ typedef struct _ApplicationVisualSetting {
 - (ApplicationActionType)action;
 - (void)setAction:(ApplicationActionType)action;
 
-- (void)hideFront;
-- (void)hideOthers;
 - (void)launchApplication;
 - (void)quitApplication;
 - (void)toggleApplicationState;
 - (void)killApplication;
-- (void)relaunchApplication;
+
+- (void)hideFront;
+- (void)hideOthers;
 
 - (BOOL)launchAppWithFlag:(int)flag;
 
