@@ -74,6 +74,8 @@ OSType _DocumentActionFromFlag(int flag) {
       return kDocumentActionOpenSelectionWith;
     case 4:
       return kDocumentActionOpenURL;
+    default:
+      DLog(@"Invalid Action: %ld", flag);
   }
   return 0;
 }
@@ -296,3 +298,35 @@ OSType _DocumentActionFromFlag(int flag) {
 }
 
 @end
+
+NSString *DocumentActionDescription(DocumentAction *anAction, NSString *document, NSString *application) {
+  NSString *desc = nil;
+  switch ([anAction action]) {
+    case kDocumentActionOpen:
+    case kDocumentActionOpenWith:
+      desc = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"DESC_OPEN", nil,
+                                                                           kDocumentActionBundle,
+                                                                           @"Short description"), document];
+      break;
+    case kDocumentActionOpenSelection:
+      desc = NSLocalizedStringFromTableInBundle(@"DESC_OPEN_SELECTION", nil, 
+                                                kDocumentActionBundle,
+                                                @"Short description");
+      break;
+    case kDocumentActionOpenSelectionWith:
+      desc = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"DESC_OPEN_SELECTION_WITH", nil, 
+                                                                           kDocumentActionBundle,
+                                                                           @"Short description"), application];
+      break;
+    case kDocumentActionOpenURL:
+      desc = NSLocalizedStringFromTableInBundle(@"DESC_OPEN_URL", nil, 
+                                                kDocumentActionBundle,
+                                                @"Short description");
+      break;
+    default:
+      desc = @"Invalid Action";
+  }
+  return desc;
+}
+
+

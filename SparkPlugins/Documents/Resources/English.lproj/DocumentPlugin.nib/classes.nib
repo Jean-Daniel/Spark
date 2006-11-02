@@ -5,7 +5,7 @@
             ACTIONS = {chooseDocument = id; }; 
             CLASS = DocumentActionPlugin; 
             LANGUAGE = ObjC; 
-            OUTLETS = {appMenu = id; nameField = id; }; 
+            OUTLETS = {ibMenu = NSPopUpButton; ibName = NSTextField; }; 
             SUPERCLASS = SparkActionPlugin; 
         }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 

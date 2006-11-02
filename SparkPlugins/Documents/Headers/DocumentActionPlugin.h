@@ -21,7 +21,11 @@
 
 - (IBAction)chooseDocument:(id)sender;
 
-- (void)setFile:(NSString *)file;
+- (NSString *)document;
+- (void)setDocument:(NSString *)aPath;
+
+- (NSString *)application;
+- (void)setApplication:(NSString *)aPath;
 
 - (int)tabIndex;
 - (void)setTabIndex:(int)newTabIndex;

@@ -9,11 +9,11 @@
 #import <SparkKit/SparkPluginAPI.h>
 
 enum {
-  kDocumentActionOpen,
-  kDocumentActionOpenWith,
-  kDocumentActionOpenSelection,
-  kDocumentActionOpenSelectionWith,
-  kDocumentActionOpenURL
+  kDocumentActionOpen              = 'Open',
+  kDocumentActionOpenWith          = 'OpWi',
+  kDocumentActionOpenSelection     = 'OpSe',
+  kDocumentActionOpenSelectionWith = 'OpSW',
+  kDocumentActionOpenURL           = 'OURL',
 };
 
 SPARK_PRIVATE
@@ -46,3 +46,6 @@ NSString * const kDocumentActionBundleIdentifier;
 - (void)openSelection;
 
 @end
+
+SK_PRIVATE
+NSString *DocumentActionDescription(DocumentAction *anAction, NSString *document, NSString *application);
