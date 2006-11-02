@@ -10,7 +10,6 @@
 
 #import <SparkKit/SparkShadowKit.h>
 
-#import <ShadowKit/SKAlias.h>
 #import <ShadowKit/SKIconView.h>
 #import <ShadowKit/SKBezelItem.h>
 #import <ShadowKit/SKFunctions.h>
@@ -23,7 +22,6 @@ static NSString * const kApplicationFlagsKey = @"ApplicationFlags";
 static NSString * const kApplicationActionKey = @"ApplicationAction";
 static NSString * const kApplicationLSFlagsKey = @"ApplicationLSFlags";
 
-static NSString * const kApplicationAliasKey = @"ApplicationAlias";
 /* Only for coding */
 static NSString * const kApplicationIdentifierKey = @"kApplicationIdentifierKey";
 
@@ -148,7 +146,6 @@ bail:
   copy->aa_lsFlags = aa_lsFlags;
   copy->aa_aaFlags = aa_aaFlags;
   
-  copy->aa_alias = [aa_alias copy];
   copy->aa_application = [aa_application copy];
   return copy;
 }
@@ -169,8 +166,6 @@ bail:
   [coder encodeInt:aa_lsFlags forKey:kApplicationLSFlagsKey];
   [coder encodeInt:[self encodeFlags] forKey:kApplicationFlagsKey];
   
-  if (aa_alias)
-    [coder encodeObject:aa_alias forKey:kApplicationAliasKey];
   if (aa_application)
     [coder encodeObject:aa_application forKey:kApplicationIdentifierKey];
   return;
@@ -190,7 +185,6 @@ bail:
     aa_lsFlags = [coder decodeIntForKey:kApplicationLSFlagsKey];
     [self decodeFlags:[coder decodeIntForKey:kApplicationFlagsKey]];
       
-    aa_alias = [[coder decodeObjectForKey:kApplicationAliasKey] retain];
     aa_application = [[coder decodeObjectForKey:kApplicationIdentifierKey] retain];
   }
   return self;
@@ -238,15 +232,24 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
 - (void)initFromOldPropertyList:(id)plist {
   /* Simply load alias and application without control (lazy resolution) */
   [self initFlags];
-  aa_alias = [[SKAlias alloc] initWithData:[plist objectForKey:@"App Alias"]];
-  aa_application = [[SKApplication alloc] init];
-  OSType sign = [[plist objectForKey:@"App Sign"] intValue];
-  if (sign) {
-    [aa_application setSignature:sign];
-  } else {
-    NSString *bundle = [plist objectForKey:@"BundleID"];
-    if (bundle) {
-      [aa_application setBundleIdentifier:bundle];
+  
+  SKAlias *alias = nil;
+  NSData *data = [plist objectForKey:@"App Alias"];
+  if (data) {
+    alias = [[SKAlias alloc] initWithData:data];
+    aa_application = [[SKAliasedApplication alloc] initWithAlias:alias];
+    [alias release];
+  }
+  if (!aa_application) {
+    aa_application = [[SKAliasedApplication alloc] init];
+    OSType sign = [[plist objectForKey:@"App Sign"] intValue];
+    if (sign) {
+      [aa_application setSignature:sign];
+    } else {
+      NSString *bundle = [plist objectForKey:@"BundleID"];
+      if (bundle) {
+        [aa_application setBundleIdentifier:bundle];
+      }
     }
   }
 
@@ -270,9 +273,6 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
           break;
         default: {
           aa_application = [[SKApplication alloc] initWithSerializedValues:plist];
-          NSData *data = [plist objectForKey:kApplicationAliasKey];
-          if (data)
-            aa_alias = [[SKAlias alloc] initWithData:data];
         }
       }
     }
@@ -285,7 +285,6 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
     ReleaseIconRef(aa_icon);
     aa_icon = NULL;
   }
-  [aa_alias release];
   [aa_application release];
   [super dealloc];
 }
@@ -299,10 +298,6 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
       case kApplicationHideOther:
         break;
       default: {
-        NSData *alias = [aa_alias data];
-        if (alias)
-          [plist setObject:alias forKey:kApplicationAliasKey];
-        
         if (aa_application)
           [aa_application serialize:plist];
         
@@ -363,25 +358,18 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
 }
 
 - (void)setPath:(NSString *)path {
-  if (aa_alias)
-    [aa_alias setPath:path];
-  else
-    aa_alias = [[SKAlias alloc] initWithPath:path];
-  
-  [aa_application release];
-  aa_application = path ? [[SKApplication alloc] initWithPath:path] : nil;
+  if (!aa_application && path)
+    aa_application = [[SKAliasedApplication alloc] initWithPath:path];
+  else if (path)
+    [aa_application setPath:path];
+  else if (aa_application) {
+    [aa_application release];
+    aa_application = nil;
+  }
 }
 
 - (NSString *)path {
-  return [aa_alias path] ? : [aa_application path];
-}
-
-- (void)setAlias:(SKAlias *)alias {
-  SKSetterCopy(aa_alias, alias);
-}
-
-- (SKAlias *)alias {
-  return aa_alias;
+  return [aa_application path];
 }
 
 - (ApplicationActionType)action {

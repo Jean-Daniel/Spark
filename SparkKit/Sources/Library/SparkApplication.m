@@ -186,3 +186,27 @@ NSString * const kSKApplicationIdentifier = @"SKApplicationIdentifier";
 }
 
 @end
+
+@implementation SKAliasedApplication (SparkSerialization)
+
+- (BOOL)serialize:(NSMutableDictionary *)plist {
+  if ([super serialize:plist]) {
+    NSData *alias = [[self alias] data];
+    if (alias)
+      [plist setObject:alias forKey:@"SKApplicationAlias"];
+    return YES;
+  }
+  return NO;
+}
+
+- (id)initWithSerializedValues:(NSDictionary *)plist {
+  if (self = [super initWithSerializedValues:plist]) {
+    NSData *alias = [plist objectForKey:@"SKApplicationAlias"];
+    if (alias) {
+      sk_alias = [[SKAlias alloc] initWithData:alias];
+    }
+  }
+  return self;
+}
+
+@end

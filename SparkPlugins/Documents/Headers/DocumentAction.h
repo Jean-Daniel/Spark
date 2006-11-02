@@ -21,12 +21,12 @@ NSString * const kDocumentActionBundleIdentifier;
 
 #define kDocumentActionBundle		[NSBundle bundleWithIdentifier:kDocumentActionBundleIdentifier]
 
-@class SKAlias, SKApplication;
+@class SKAlias, SKAliasedApplication;
 @interface DocumentAction : SparkAction <NSCoding, NSCopying> {
   int da_action;
   SKAlias *da_doc;
   NSString *da_url;
-  SKApplication *da_app;
+  SKAliasedApplication *da_app;
 }
 
 - (int)action;
@@ -40,8 +40,8 @@ NSString * const kDocumentActionBundleIdentifier;
 
 - (SKAlias *)document;
 - (void)setDocument:(SKAlias *)aDoc;
-- (SKApplication *)application;
-- (void)setApplication:(SKApplication *)anApplication;
+- (SKAliasedApplication *)application;
+- (void)setApplication:(SKAliasedApplication *)anApplication;
 
 - (void)openSelection;
 

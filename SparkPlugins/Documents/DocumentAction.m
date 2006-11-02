@@ -18,6 +18,7 @@
 static NSString * const kDocumentActionURLKey = @"DocumentURL";
 static NSString * const kDocumentActionKey = @"DocumentAction";
 static NSString * const kDocumentActionAliasKey = @"DocumentAlias";
+/* NSCoding only */
 static NSString * const kDocumentActionApplicationKey = @"DocumentApplication";
 
 NSString * const kDocumentActionBundleIdentifier = @"org.shadowlab.spark.document";
@@ -92,7 +93,7 @@ OSType _DocumentActionFromFlag(int flag) {
     if (data) {
       SKAlias *app = [[SKAlias alloc] initWithData:data];
       if ([app path]) {
-        da_app = [[SKApplication alloc] initWithPath:[app path]];
+        da_app = [[SKAliasedApplication alloc] initWithPath:[app path]];
       }
       [app release];
     }
@@ -117,7 +118,7 @@ OSType _DocumentActionFromFlag(int flag) {
       }
       
       if (da_action == kDocumentActionOpenWith || da_action == kDocumentActionOpenSelectionWith) {
-        da_app = [[SKApplication alloc] initWithSerializedValues:plist];
+        da_app = [[SKAliasedApplication alloc] initWithSerializedValues:plist];
       }
       
       if (da_action == kDocumentActionOpenURL) {
@@ -256,7 +257,6 @@ OSType _DocumentActionFromFlag(int flag) {
 - (int)action {
   return da_action;
 }
-
 - (void)setAction:(int)newAction {
   da_action = newAction;
 }
@@ -270,7 +270,7 @@ OSType _DocumentActionFromFlag(int flag) {
 
 - (void)setApplicationPath:(NSString *)path {
   if (path)
-    [self setApplication:[SKApplication applicationWithPath:path]];
+    [self setApplication:[SKAliasedApplication applicationWithPath:path]];
   else
     [self setApplication:nil];
 }
@@ -278,7 +278,6 @@ OSType _DocumentActionFromFlag(int flag) {
 - (NSString *)url {
   return da_url;
 }
-
 - (void)setURL:(NSString *)url {
   SKSetterRetain(da_url, url);
 }
@@ -290,10 +289,10 @@ OSType _DocumentActionFromFlag(int flag) {
   SKSetterRetain(da_doc, alias);
 }
 
-- (SKApplication *)application {
+- (SKAliasedApplication *)application {
   return da_app;
 }
-- (void)setApplication:(SKApplication *)anApplication {
+- (void)setApplication:(SKAliasedApplication *)anApplication {
   SKSetterRetain(da_app, anApplication);
 }
 
@@ -303,28 +302,33 @@ NSString *DocumentActionDescription(DocumentAction *anAction, NSString *document
   NSString *desc = nil;
   switch ([anAction action]) {
     case kDocumentActionOpen:
-    case kDocumentActionOpenWith:
       desc = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"DESC_OPEN", nil,
                                                                            kDocumentActionBundle,
-                                                                           @"Short description"), document];
+                                                                           @"Open * description *"), document];
+      break;
+    case kDocumentActionOpenWith:
+      desc = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"DESC_OPEN_WITH", nil,
+                                                                           kDocumentActionBundle,
+                                                                           @"Open with (%$1@ => document, %$2@ => application) * description *"), 
+        document, application];
       break;
     case kDocumentActionOpenSelection:
       desc = NSLocalizedStringFromTableInBundle(@"DESC_OPEN_SELECTION", nil, 
                                                 kDocumentActionBundle,
-                                                @"Short description");
+                                                @"Open Selection * description *");
       break;
     case kDocumentActionOpenSelectionWith:
       desc = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"DESC_OPEN_SELECTION_WITH", nil, 
                                                                            kDocumentActionBundle,
-                                                                           @"Short description"), application];
+                                                                           @"Open Selection with (%@ => application) * description *"), application];
       break;
     case kDocumentActionOpenURL:
       desc = NSLocalizedStringFromTableInBundle(@"DESC_OPEN_URL", nil, 
                                                 kDocumentActionBundle,
-                                                @"Short description");
+                                                @"Open URL * description *");
       break;
     default:
-      desc = @"Invalid Action";
+      desc = @"<Invalid Action>";
   }
   return desc;
 }

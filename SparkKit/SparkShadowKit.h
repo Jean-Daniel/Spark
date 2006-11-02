@@ -7,6 +7,7 @@
  */
 
 #import <ShadowKit/SKApplication.h>
+#import <ShadowKit/SKAliasedApplication.h>
 
 #pragma mark -
 @interface SKApplication (SparkSerialization)
@@ -14,3 +15,7 @@
 - (id)initWithSerializedValues:(NSDictionary *)plist;
 @end
 
+@interface SKAliasedApplication (SparkSerialization)
+- (BOOL)serialize:(NSMutableDictionary *)plist;
+- (id)initWithSerializedValues:(NSDictionary *)plist;
+@end

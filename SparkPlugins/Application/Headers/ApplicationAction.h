@@ -27,13 +27,12 @@ typedef struct _ApplicationVisualSetting {
   BOOL activation;
 } ApplicationVisualSetting;
 
-@class SKAlias, SKApplication;
+@class SKAliasedApplication;
 @interface ApplicationAction : SparkAction <NSCoding, NSCopying> {
   @private
   int aa_action;
-  SKAlias *aa_alias;
   LSLaunchFlags aa_lsFlags;
-  SKApplication *aa_application;
+  SKAliasedApplication *aa_application;
   struct _aa_aaFlags {
     unsigned int active:2;
     unsigned int reopen:1;
@@ -51,9 +50,6 @@ typedef struct _ApplicationVisualSetting {
 
 - (NSString *)path;
 - (void)setPath:(NSString *)path;
-
-- (SKAlias *)alias;
-- (void)setAlias:(SKAlias *)alias;
 
 - (LSLaunchFlags)flags;
 - (void)setFlags:(LSLaunchFlags)flags;
