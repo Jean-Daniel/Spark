@@ -1,10 +1,10 @@
-//
-//  SystemAction.m
-//  Spark
-//
-//  Created by Fox on Wed Feb 18 2004.
-//  Copyright (c) 2004 Shadow Lab. All rights reserved.
-//
+/*
+ *  SystemAction.m
+ *  Spark Plugins
+ *
+ *  Created by Black Moon Team.
+ *  Copyright (c) 2004 - 2006 Shadow Lab. All rights reserved.
+ */
 
 #import "SystemAction.h"
 
@@ -59,6 +59,12 @@ NSString * const kSystemConfirmKey = @"SystemConfirm";
 - (id)initWithSerializedValues:(NSDictionary *)plist {
   if (self = [super initWithSerializedValues:plist]) {
     [self setAction:[[plist objectForKey:kSystemActionKey] intValue]];
+    [self setShouldConfirm:[[plist objectForKey:kSystemConfirmKey] boolValue]];
+    
+    /* Update description */
+    NSString *description = SystemActionDescription(self);
+    if (description)
+      [self setActionDescription:description];
   }
   return self;
 }
@@ -66,6 +72,7 @@ NSString * const kSystemConfirmKey = @"SystemConfirm";
 - (BOOL)serialize:(NSMutableDictionary *)plist {
   if ([super serialize:plist]) {
     [plist setObject:SKInt([self action]) forKey:kSystemActionKey];
+    [plist setObject:SKBool([self shouldConfirm]) forKey:kSystemConfirmKey];
     return YES;
   }
   return NO;
@@ -117,16 +124,13 @@ NSString * const kSystemConfirmKey = @"SystemConfirm";
         [self logout];
         break;
       case kSystemSleep:
-        SKHIDPostSystemDefinedEvent(kSKHIDSleepEvent);
-        //        [self sleep];
+        [self sleep];
         break;
       case kSystemRestart:
-        SKHIDPostSystemDefinedEvent(kSKHIDRestartEvent);
-        //        [self restart];
+        [self restart];
         break;
       case kSystemShutDown:
-        SKHIDPostSystemDefinedEvent(kSKHIDShutdownEvent);
-        //        [self shutDown];
+        [self shutDown];
         break;
       case kSystemFastLogOut:
         [self fastLogout];
@@ -203,16 +207,11 @@ kAEReallyLogOut               = 'rlgo',
 kAEShowRestartDialog          = 'rrst',
 kAEShowShutdownDialog         = 'rsdn'
  */
+
 - (void)logout {
   ProcessSerialNumber psn = {0, kSystemProcess};
   SKAESendSimpleEventToProcess(&psn, kCoreEventClass, [self shouldConfirm] ? kAELogOut : kAEReallyLogOut);
 }
-
-- (void)sleep {
-  ProcessSerialNumber psn = {0, kSystemProcess};
-  SKAESendSimpleEventToProcess(&psn, kCoreEventClass, 'slep');
-}
-
 - (void)restart {
   ProcessSerialNumber psn = {0, kSystemProcess};
   SKAESendSimpleEventToProcess(&psn, kCoreEventClass, [self shouldConfirm] ? kAEShowRestartDialog : 'rest');
@@ -230,6 +229,10 @@ kAEShowShutdownDialog         = 'rsdn'
   SKSetFlag(sa_saFlags.confirm, flag);
 }
 
+- (void)sleep {
+  ProcessSerialNumber psn = {0, kSystemProcess};
+  SKAESendSimpleEventToProcess(&psn, kCoreEventClass, 'slep');
+}
 - (void)fastLogout {
   SystemFastLogOut();
 }
@@ -243,10 +246,6 @@ kAEShowShutdownDialog         = 'rsdn'
       spec.appRef = &engine;
       spec.launchFlags = kLSLaunchDefaults;
       LSOpenFromRefSpec(&spec, nil);
-//      LSApplicationParameters parameters;
-//      memset(&parameters, 0, sizeof(parameters));
-//      parameters.application = &engine;
-//      LSOpenApplication(&parameters, nil);
     }
   }
 }
@@ -270,14 +269,95 @@ void SystemFastLogOut() {
 
 @implementation PowerAction
 
+SK_INLINE
+OSType SystemActionFromFlag(int flag) {
+  switch (flag) {
+    case 0:
+      return kSystemLogOut;
+    case 1:
+      return kSystemSleep;
+    case 2:
+      return kSystemRestart;
+    case 3:
+      return kSystemShutDown;
+    case 4:
+      return kSystemFastLogOut;
+    case 5:
+      return kSystemScreenSaver;
+  }
+  return 0;
+}
 - (id)initWithSerializedValues:(NSDictionary *)plist {
   [self release];
   SystemAction *action;
   if (action = [[SystemAction alloc] initWithSerializedValues:plist]) {
-    [action setAction:[[plist objectForKey:@"PowerAction"] intValue]];
+    [action setAction:SystemActionFromFlag([[plist objectForKey:@"PowerAction"] intValue])];
+    [action setShouldConfirm:YES];
   }
   return action;
 }
 
 @end
+
+NSString *SystemActionDescription(SystemAction *anAction) {
+  NSString *desc = nil;
+  switch ([anAction action]) {
+    case kSystemLogOut:
+      desc = NSLocalizedStringFromTableInBundle(@"DESC_LOGOUT", nil, kSystemActionBundle,
+                                                @"LogOut * Action Description *");
+      break;
+    case kSystemSleep:
+      desc = NSLocalizedStringFromTableInBundle(@"DESC_SLEEP", nil, kSystemActionBundle,
+                                                @"Sleep * Action Description *");
+      break;
+    case kSystemRestart:
+      desc = NSLocalizedStringFromTableInBundle(@"DESC_RESTART", nil, kSystemActionBundle,
+                                                @"Restart * Action Description *");
+      break;
+    case kSystemShutDown:
+      desc = NSLocalizedStringFromTableInBundle(@"DESC_SHUTDOWN", nil, kSystemActionBundle,
+                                                @"ShutDown * Action Description *");
+      break;
+    case kSystemFastLogOut:
+      desc = NSLocalizedStringFromTableInBundle(@"DESC_FAST_LOGOUT", nil, kSystemActionBundle,
+                                                @"Fast Logout * Action Description *");
+      break;
+    case kSystemScreenSaver:
+      desc = NSLocalizedStringFromTableInBundle(@"DESC_SCREEN_SAVER", nil, kSystemActionBundle,
+                                                @"Screen Saver * Action Description *");
+      break;
+    case kSystemSwitchGrayscale:
+      desc = NSLocalizedStringFromTableInBundle(@"DESC_SWITCH_GRAYSCALE", nil, kSystemActionBundle,
+                                                @"Switch Grayscale * Action Description *");
+      break;
+    case kSystemSwitchPolarity:
+      desc = NSLocalizedStringFromTableInBundle(@"DESC_SWITCH_POLARITY", nil, kSystemActionBundle,
+                                                @"Switch Polarity * Action Description *");
+      break;
+    case kSystemEmptyTrash:
+      desc = NSLocalizedStringFromTableInBundle(@"DESC_EMPTY_TRASH", nil, kSystemActionBundle,
+                                                @"Empty trash * Action Description *");
+      break;
+      //    case kSystemMute:
+      //      desc = NSLocalizedStringFromTableInBundle(@"DESC_SOUND_MUTE", nil, kSystemActionBundle,
+      //                                                @"Mute * Action Description *");
+      //      break;
+      //    case kSystemEject:
+      //      desc = NSLocalizedStringFromTableInBundle(@"DESC_EJECT", nil, kSystemActionBundle,
+      //                                                @"Eject * Action Description *");
+      //      break;
+      //    case kSystemVolumeUp:
+      //      desc = NSLocalizedStringFromTableInBundle(@"DESC_SOUND_UP", nil, kSystemActionBundle,
+      //                                                @"Sound up * Action Description *");
+      //      break;
+      //    case kSystemVolumeDown:
+      //      desc = NSLocalizedStringFromTableInBundle(@"DESC_SOUND_DOWN", nil, kSystemActionBundle,
+      //                                                @"Sound down * Action Description *");
+      //      break;
+    default:
+      desc = NSLocalizedStringFromTableInBundle(@"DESC_ERROR", nil, kSystemActionBundle,
+                                                @"Error * Action Description *");
+  }
+  return desc;
+}
 

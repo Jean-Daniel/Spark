@@ -1,10 +1,10 @@
-//
-//  SystemActionPlugin.m
-//  Spark
-//
-//  Created by Fox on Wed Feb 18 2004.
-//  Copyright (c) 2004 Shadow Lab. All rights reserved.
-//
+/*
+ *  SystemActionPlugin.m
+ *  Spark Plugins
+ *
+ *  Created by Black Moon Team.
+ *  Copyright (c) 2004 - 2006 Shadow Lab. All rights reserved.
+ */
 
 #import "SystemActionPlugin.h"
 #import <ShadowKit/SKFunctions.h>
@@ -15,7 +15,6 @@
 @implementation SystemActionPlugin
 
 - (void)dealloc {
-  ShadowTrace();
   [super dealloc];
 }
 
@@ -36,12 +35,15 @@
 
 - (void)loadSparkAction:(SystemAction *)sparkAction toEdit:(BOOL)flag {
   if (flag) {
+    [self willChangeValueForKey:@"shouldConfirm"];
     if ([sparkAction name])
       [nameField setStringValue:[sparkAction name]];
     /* Force update menu + placeholder */
     [self setAction:[sparkAction action]];
+    [self didChangeValueForKey:@"shouldConfirm"];
   } else {
     [self setAction:kSystemLogOut];
+    [self setShouldConfirm:YES];
   }
 }
 
@@ -55,7 +57,7 @@
   /* Set Name */
   NSString *name = [nameField stringValue];
   if ([[name stringByTrimmingWhitespaceAndNewline] length] == 0)
-    [action setName:[self actionDescription]];
+    [action setName:SystemActionDescription(action)];
   else 
     [action setName:name];
   
@@ -101,7 +103,7 @@
   }
   if (iconName)
     [action setIcon:[NSImage imageNamed:iconName inBundle:kSystemActionBundle]];
-  [action setActionDescription:[self actionDescription]];
+  [action setActionDescription:SystemActionDescription(action)];
 }
 
 #pragma mark -
@@ -113,7 +115,7 @@
   if ([self action] != newAction) {
     [(SystemAction *)[self sparkAction] setAction:newAction];
   }
-  [[nameField cell] setPlaceholderString:[self actionDescription]];
+  [[nameField cell] setPlaceholderString:SystemActionDescription([self sparkAction])];
   switch (newAction) {
     case kSystemLogOut:
     case kSystemRestart:
@@ -130,68 +132,6 @@
 }
 - (void)setShouldConfirm:(BOOL)flag {
   [[self sparkAction] setShouldConfirm:flag];
-}
-
-- (NSString *)actionDescription {
-  id desc = nil;
-  switch ([self action]) {
-    case kSystemLogOut:
-      desc = NSLocalizedStringFromTableInBundle(@"DESC_LOGOUT", nil, kSystemActionBundle,
-                                                @"LogOut * Action Description *");
-      break;
-    case kSystemSleep:
-      desc = NSLocalizedStringFromTableInBundle(@"DESC_SLEEP", nil, kSystemActionBundle,
-                                                @"Sleep * Action Description *");
-      break;
-    case kSystemRestart:
-      desc = NSLocalizedStringFromTableInBundle(@"DESC_RESTART", nil, kSystemActionBundle,
-                                                @"Restart * Action Description *");
-      break;
-    case kSystemShutDown:
-      desc = NSLocalizedStringFromTableInBundle(@"DESC_SHUTDOWN", nil, kSystemActionBundle,
-                                                @"ShutDown * Action Description *");
-      break;
-    case kSystemFastLogOut:
-      desc = NSLocalizedStringFromTableInBundle(@"DESC_FAST_LOGOUT", nil, kSystemActionBundle,
-                                                @"Fast Logout * Action Description *");
-      break;
-    case kSystemScreenSaver:
-      desc = NSLocalizedStringFromTableInBundle(@"DESC_SCREEN_SAVER", nil, kSystemActionBundle,
-                                                @"Screen Saver * Action Description *");
-      break;
-    case kSystemSwitchGrayscale:
-      desc = NSLocalizedStringFromTableInBundle(@"DESC_SWITCH_GRAYSCALE", nil, kSystemActionBundle,
-                                                @"Switch Grayscale * Action Description *");
-      break;
-    case kSystemSwitchPolarity:
-      desc = NSLocalizedStringFromTableInBundle(@"DESC_SWITCH_POLARITY", nil, kSystemActionBundle,
-                                                @"Switch Polarity * Action Description *");
-      break;
-    case kSystemEmptyTrash:
-      desc = NSLocalizedStringFromTableInBundle(@"DESC_EMPTY_TRASH", nil, kSystemActionBundle,
-                                                @"Empty trash * Action Description *");
-      break;
-//    case kSystemMute:
-//      desc = NSLocalizedStringFromTableInBundle(@"DESC_SOUND_MUTE", nil, kSystemActionBundle,
-//                                                @"Mute * Action Description *");
-//      break;
-//    case kSystemEject:
-//      desc = NSLocalizedStringFromTableInBundle(@"DESC_EJECT", nil, kSystemActionBundle,
-//                                                @"Eject * Action Description *");
-//      break;
-//    case kSystemVolumeUp:
-//      desc = NSLocalizedStringFromTableInBundle(@"DESC_SOUND_UP", nil, kSystemActionBundle,
-//                                                @"Sound up * Action Description *");
-//      break;
-//    case kSystemVolumeDown:
-//      desc = NSLocalizedStringFromTableInBundle(@"DESC_SOUND_DOWN", nil, kSystemActionBundle,
-//                                                @"Sound down * Action Description *");
-//      break;
-    default:
-      desc = NSLocalizedStringFromTableInBundle(@"DESC_ERROR", nil, kSystemActionBundle,
-                                                @"Error * Action Description *");
-  }
-  return desc;
 }
 
 @end

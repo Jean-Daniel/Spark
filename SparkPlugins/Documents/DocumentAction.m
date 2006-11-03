@@ -1,10 +1,10 @@
-//
-//  ApplicationAction.m
-//  Spark
-//
-//  Created by Fox on Wed Dec 10 2003.
-//  Copyright (c) 2004 Shadow Lab. All rights reserved.
-//
+/*
+ *  DocumentAction.m
+ *  Spark Plugins
+ *
+ *  Created by Black Moon Team.
+ *  Copyright (c) 2004 - 2006 Shadow Lab. All rights reserved.
+ */
 
 #import "DocumentAction.h"
 
@@ -125,6 +125,10 @@ OSType _DocumentActionFromFlag(int flag) {
         [self setURL:[plist objectForKey:kDocumentActionURLKey]];
       }
     }
+    /* Update description */
+    NSString *description = DocumentActionDescription(self);
+    if (description)
+      [self setActionDescription:description];
   }
   return self;
 }
@@ -298,19 +302,25 @@ OSType _DocumentActionFromFlag(int flag) {
 
 @end
 
-NSString *DocumentActionDescription(DocumentAction *anAction, NSString *document, NSString *application) {
+NSString *DocumentActionDescription(DocumentAction *anAction) {
   NSString *desc = nil;
   switch ([anAction action]) {
-    case kDocumentActionOpen:
+    case kDocumentActionOpen: {
+      NSString *path = [[anAction document] path];
+      NSString *document = path ? [[NSFileManager defaultManager] displayNameAtPath:path] : nil;
       desc = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"DESC_OPEN", nil,
                                                                            kDocumentActionBundle,
-                                                                           @"Open * description *"), document];
+                                                                           @"Open (%@ => document) * description *"), document];
+    }
       break;
-    case kDocumentActionOpenWith:
+    case kDocumentActionOpenWith: {
+      NSString *path = [[anAction document] path];
+      NSString *document = path ? [[NSFileManager defaultManager] displayNameAtPath:path] : nil;
       desc = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"DESC_OPEN_WITH", nil,
                                                                            kDocumentActionBundle,
-                                                                           @"Open with (%$1@ => document, %$2@ => application) * description *"), 
-        document, application];
+                                                                           @"Open with (%1$@ => document, %2$@ => application) * description *"),
+        document, [[anAction application] name]];
+    }
       break;
     case kDocumentActionOpenSelection:
       desc = NSLocalizedStringFromTableInBundle(@"DESC_OPEN_SELECTION", nil, 
@@ -320,7 +330,7 @@ NSString *DocumentActionDescription(DocumentAction *anAction, NSString *document
     case kDocumentActionOpenSelectionWith:
       desc = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"DESC_OPEN_SELECTION_WITH", nil, 
                                                                            kDocumentActionBundle,
-                                                                           @"Open Selection with (%@ => application) * description *"), application];
+                                                                           @"Open Selection with (%@ => application) * description *"), [[anAction application] name]];
       break;
     case kDocumentActionOpenURL:
       desc = NSLocalizedStringFromTableInBundle(@"DESC_OPEN_URL", nil, 

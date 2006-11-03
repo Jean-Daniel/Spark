@@ -1,10 +1,11 @@
-//
-//  Controller.m
-//  Labo Test
-//
-//  Created by Fox on Sat Nov 29 2003.
-//  Copyright (c) 2003 __MyCompanyName__. All rights reserved.
-//
+/*
+ *  Switcher.m
+ *  Spark Plugins
+ *
+ *  Created by Black Moon Team.
+ *  Copyright (c) 2004 - 2006 Shadow Lab. All rights reserved.
+ */
+
 
 #import "Controller.h"
 

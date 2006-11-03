@@ -137,10 +137,10 @@
 		98FC462706063E19003617CA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 98FC462306063E19003617CA /* InfoPlist.strings */; };
 		98FC462806063E19003617CA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 98FC462506063E19003617CA /* Localizable.strings */; };
 		98FC463C0606437C003617CA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
-		98FC49020606444B003617CA /* ApplicationMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 98FC48EC0606444A003617CA /* ApplicationMenu.m */; };
+		98FC49020606444B003617CA /* DAApplicationMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 98FC48EC0606444A003617CA /* DAApplicationMenu.m */; };
 		98FC49030606444B003617CA /* DocumentAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 98FC48ED0606444A003617CA /* DocumentAction.m */; };
 		98FC49040606444B003617CA /* DocumentActionPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 98FC48EE0606444A003617CA /* DocumentActionPlugin.m */; };
-		98FC49050606444B003617CA /* ApplicationMenu.h in Headers */ = {isa = PBXBuildFile; fileRef = 98FC48F00606444A003617CA /* ApplicationMenu.h */; };
+		98FC49050606444B003617CA /* DAApplicationMenu.h in Headers */ = {isa = PBXBuildFile; fileRef = 98FC48F00606444A003617CA /* DAApplicationMenu.h */; };
 		98FC49070606444B003617CA /* DocumentActionPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 98FC48F20606444A003617CA /* DocumentActionPlugin.h */; };
 		98FC49090606444B003617CA /* DocumentIcon.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98FC48F50606444A003617CA /* DocumentIcon.tif */; };
 		98FC49190606446F003617CA /* DocumentHelp.html in Resources */ = {isa = PBXBuildFile; fileRef = 98FC49110606446F003617CA /* DocumentHelp.html */; };
@@ -335,10 +335,10 @@
 		98FC462406063E19003617CA /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		98FC462606063E19003617CA /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		98FC46400606437C003617CA /* DocumentAction.spact */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DocumentAction.spact; sourceTree = BUILT_PRODUCTS_DIR; };
-		98FC48EC0606444A003617CA /* ApplicationMenu.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ApplicationMenu.m; sourceTree = "<group>"; };
+		98FC48EC0606444A003617CA /* DAApplicationMenu.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DAApplicationMenu.m; sourceTree = "<group>"; };
 		98FC48ED0606444A003617CA /* DocumentAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DocumentAction.m; sourceTree = "<group>"; };
 		98FC48EE0606444A003617CA /* DocumentActionPlugin.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DocumentActionPlugin.m; sourceTree = "<group>"; };
-		98FC48F00606444A003617CA /* ApplicationMenu.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ApplicationMenu.h; sourceTree = "<group>"; };
+		98FC48F00606444A003617CA /* DAApplicationMenu.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DAApplicationMenu.h; sourceTree = "<group>"; };
 		98FC48F20606444A003617CA /* DocumentActionPlugin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DocumentActionPlugin.h; sourceTree = "<group>"; };
 		98FC48F50606444A003617CA /* DocumentIcon.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = DocumentIcon.tif; sourceTree = "<group>"; };
 		98FC49120606446F003617CA /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = English; path = English.lproj/DocumentHelp.html; sourceTree = "<group>"; };
@@ -750,8 +750,8 @@
 			isa = PBXGroup;
 			children = (
 				98FC48EF0606444A003617CA /* Headers */,
-				98FC48EC0606444A003617CA /* ApplicationMenu.m */,
 				98FC48ED0606444A003617CA /* DocumentAction.m */,
+				98FC48EC0606444A003617CA /* DAApplicationMenu.m */,
 				98FC48EE0606444A003617CA /* DocumentActionPlugin.m */,
 				98E1CC5B0607768E00FA3599 /* Info.plist */,
 				98FC491D0606447A003617CA /* InfoPlist.strings */,
@@ -764,9 +764,9 @@
 		98FC48EF0606444A003617CA /* Headers */ = {
 			isa = PBXGroup;
 			children = (
-				98FC48F00606444A003617CA /* ApplicationMenu.h */,
-				98FC48F20606444A003617CA /* DocumentActionPlugin.h */,
 				980D926106E61DB80038EE2A /* DocumentAction.h */,
+				98FC48F00606444A003617CA /* DAApplicationMenu.h */,
+				98FC48F20606444A003617CA /* DocumentActionPlugin.h */,
 			);
 			path = Headers;
 			sourceTree = "<group>";
@@ -832,7 +832,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				98FC49050606444B003617CA /* ApplicationMenu.h in Headers */,
+				98FC49050606444B003617CA /* DAApplicationMenu.h in Headers */,
 				98FC49070606444B003617CA /* DocumentActionPlugin.h in Headers */,
 				980D926206E61DB80038EE2A /* DocumentAction.h in Headers */,
 			);
@@ -1216,7 +1216,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				98FC49020606444B003617CA /* ApplicationMenu.m in Sources */,
+				98FC49020606444B003617CA /* DAApplicationMenu.m in Sources */,
 				98FC49030606444B003617CA /* DocumentAction.m in Sources */,
 				98FC49040606444B003617CA /* DocumentActionPlugin.m in Sources */,
 			);

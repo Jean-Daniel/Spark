@@ -1,15 +1,15 @@
-//
-//  DocumentActionPlugin.m
-//  Short-Cut
-//
-//  Created by Fox on Mon Dec 08 2003.
-//  Copyright (c) 2004 Shadow Lab. All rights reserved.
-//
+/*
+ *  DocumentActionPlugin.m
+ *  Spark Plugins
+ *
+ *  Created by Black Moon Team.
+ *  Copyright (c) 2004 - 2006 Shadow Lab. All rights reserved.
+ */
 
 #import "DocumentActionPlugin.h"
 
 #import "DocumentAction.h"
-#import "ApplicationMenu.h"
+#import "DAApplicationMenu.h"
 
 #import <ShadowKit/SKAppKitExtensions.h>
 
@@ -32,8 +32,8 @@
 /*===============================================*/
 
 - (void)loadSparkAction:(DocumentAction *)sparkAction toEdit:(BOOL)edit {
-  [self willChangeValueForKey:@"action"];
   if (edit) {
+    [self willChangeValueForKey:@"action"];
     [ibName setStringValue:([sparkAction name]) ? [sparkAction name] : @""];
     
     if ([sparkAction action] == kDocumentActionOpen || [sparkAction action] == kDocumentActionOpenWith) {
@@ -42,50 +42,51 @@
     if ([sparkAction action] == kDocumentActionOpenWith || [sparkAction action] == kDocumentActionOpenSelectionWith) {
       [self setApplication:[[sparkAction application] path]];
     }
+    [self didChangeValueForKey:@"action"];
+  } else {
+    [self setAction:kDocumentActionOpen];
   }
-  [self didChangeValueForKey:@"action"];
 }
 
 - (NSAlert *)sparkEditorShouldConfigureAction {
-//  if ((action == kDocumentActionOpen || action == kDocumentActionOpenWith) &&  _docPath == nil) {
-//    return [NSAlert alertWithMessageText:NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_DOCUMENT_ALERT", nil, 
-//                                                                            kDocumentActionBundle,
-//                                                                            @"Error when user try to create/update Action without choose document * Title *")
-//                           defaultButton:NSLocalizedStringFromTableInBundle(@"OK", nil, 
-//                                                                            kDocumentActionBundle,
-//                                                                            @"Alert default button")
-//                         alternateButton:nil
-//                             otherButton:nil
-//               informativeTextWithFormat:NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_DOCUMENT_ALERT_MSG", nil, 
-//                                                                            kDocumentActionBundle,
-//                                                                            @"Error when user try to create/update Action without choose document * Msg *")];
-//  }
-//  else if ((action == kDocumentActionOpenWith || action == kDocumentActionOpenSelectionWith) && [self appPath] == nil) {
-//    return [NSAlert alertWithMessageText:NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_APPLICATION_ALERT", nil, 
-//                                                                            kDocumentActionBundle,
-//                                                                            @"Error when user try to create/update Action without choose application * Title *")
-//                           defaultButton:NSLocalizedStringFromTableInBundle(@"OK", nil, 
-//                                                                            kDocumentActionBundle,
-//                                                                            @"Alert default button")
-//                         alternateButton:nil
-//                             otherButton:nil
-//               informativeTextWithFormat:NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_APPLICATION_ALERT_MSG", nil, 
-//                                                                            kDocumentActionBundle,
-//                                                                            @"Error when user try to create/update Action without choose application * Msg *")];
-//  } else if (action == kDocumentActionOpenURL && ![[self sparkAction] url]) {
-//    return [NSAlert alertWithMessageText:NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_URL_ALERT", nil, 
-//                                                                            kDocumentActionBundle,
-//                                                                            @"Error when user try to create/update Action without choose application * Title *")
-//                           defaultButton:NSLocalizedStringFromTableInBundle(@"OK", nil, 
-//                                                                            kDocumentActionBundle,
-//                                                                            @"Alert default button")
-//                         alternateButton:nil
-//                             otherButton:nil
-//               informativeTextWithFormat:NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_URL_ALERT_MSG", nil, 
-//                                                                            kDocumentActionBundle,
-//                                                                            @"Error when user try to create/update Action without choose application * Msg *")];    
-//  }
-//  return nil;
+  int action = [self action];
+  if ((action == kDocumentActionOpen || action == kDocumentActionOpenWith) && !da_path) {
+    return [NSAlert alertWithMessageText:NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_DOCUMENT_ALERT", nil, 
+                                                                            kDocumentActionBundle,
+                                                                            @"Error when user try to create/update Action without choose document * Title *")
+                           defaultButton:NSLocalizedStringFromTableInBundle(@"OK", nil, 
+                                                                            kDocumentActionBundle,
+                                                                            @"Alert default button")
+                         alternateButton:nil
+                             otherButton:nil
+               informativeTextWithFormat:NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_DOCUMENT_ALERT_MSG", nil, 
+                                                                            kDocumentActionBundle,
+                                                                            @"Error when user try to create/update Action without choose document * Msg *")];
+  } else if ((action == kDocumentActionOpenWith || action == kDocumentActionOpenSelectionWith) && ![self application]) {
+    return [NSAlert alertWithMessageText:NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_APPLICATION_ALERT", nil, 
+                                                                            kDocumentActionBundle,
+                                                                            @"Error when user try to create/update Action without choose application * Title *")
+                           defaultButton:NSLocalizedStringFromTableInBundle(@"OK", nil, 
+                                                                            kDocumentActionBundle,
+                                                                            @"Alert default button")
+                         alternateButton:nil
+                             otherButton:nil
+               informativeTextWithFormat:NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_APPLICATION_ALERT_MSG", nil, 
+                                                                            kDocumentActionBundle,
+                                                                            @"Error when user try to create/update Action without choose application * Msg *")];
+  } else if (action == kDocumentActionOpenURL && ![self url]) {
+    return [NSAlert alertWithMessageText:NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_URL_ALERT", nil, 
+                                                                            kDocumentActionBundle,
+                                                                            @"Error when user try to create/update Action without choose application * Title *")
+                           defaultButton:NSLocalizedStringFromTableInBundle(@"OK", nil, 
+                                                                            kDocumentActionBundle,
+                                                                            @"Alert default button")
+                         alternateButton:nil
+                             otherButton:nil
+               informativeTextWithFormat:NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_URL_ALERT_MSG", nil, 
+                                                                            kDocumentActionBundle,
+                                                                            @"Error when user try to create/update Action without choose application * Msg *")];    
+  }
   return nil;
 }
 
@@ -117,7 +118,7 @@
     [action setApplicationPath:[self application]];
   }
   
-  //[action setActionDescription:[self shortDescription]];
+  [action setActionDescription:DocumentActionDescription(action)];
 }
 
 #pragma mark -
@@ -137,7 +138,7 @@
 }
 
 - (void)chooseItemPanel:(NSOpenPanel *)sheet returnCode:(int)returnCode contextInfo:(id)contextInfo {
-  if (returnCode == NSCancelButton) {
+  if (returnCode == NSCancelButton || [[sheet filenames] count] == 0) {
     return;
   }
   [self setDocument:[[sheet filenames] objectAtIndex:0]];
@@ -150,10 +151,13 @@
   if (da_path != file) {
     [da_path release];
     da_path = [file copy];
+    [ibMenu loadAppForDocument:da_path];
     if (da_path) {
-      [ibMenu loadAppForDocument:da_path];
-      [self setDocumentName:[[[NSFileManager defaultManager] displayNameAtPath:da_path] stringByDeletingPathExtension]];
       [self setDocumentIcon:[[NSWorkspace sharedWorkspace] iconForFile:da_path]];
+      [self setDocumentName:[[NSFileManager defaultManager] displayNameAtPath:da_path]];
+    } else {
+      [self setDocumentName:nil];
+      [self setDocumentIcon:nil];
     }
   }
 }
@@ -164,6 +168,24 @@
     return [item objectForKey:@"path"];
   }
   return nil;
+}
+- (void)setApplication:(NSString *)aPath {
+  unsigned idx = [ibMenu numberOfItems];
+  while (idx-- > 0) {
+    id obj = [[ibMenu itemAtIndex:idx] representedObject];
+    if (obj && [obj isKindOfClass:[NSDictionary class]]) {
+      NSString *path = [obj objectForKey:@"path"];
+      if (path && [path isEqualToString:aPath]) {
+        [ibMenu selectItemAtIndex:idx];
+        return;
+      }
+    }
+  }
+  NSMenuItem *item = [ibMenu itemForPath:aPath];
+  if (item) {
+    [[ibMenu menu] insertItem:item atIndex:0];
+    [ibMenu selectItemAtIndex:0];
+  }
 }
 
 - (NSString *)url {

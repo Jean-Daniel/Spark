@@ -1,16 +1,16 @@
-//
-//  ApplicationMenu.m
-//  Spark
-//
-//  Created by Fox on Thu Feb 19 2004.
-//  Copyright (c) 2004 Shadow Lab. All rights reserved.
-//
+/*
+ *  DAApplicationMenu.m
+ *  Spark Plugins
+ *
+ *  Created by Black Moon Team.
+ *  Copyright (c) 2004 - 2006 Shadow Lab. All rights reserved.
+ */
 
-#import "ApplicationMenu.h"
+#import "DAApplicationMenu.h"
 
 #import "DocumentAction.h"
 
-@implementation ApplicationMenu
+@implementation DAApplicationMenu
 
 - (id)initWithCoder:(NSCoder *)coder {
   if (self = [super initWithCoder:coder]) {

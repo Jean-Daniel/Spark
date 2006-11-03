@@ -1,19 +1,19 @@
-//
-//  ApplicationAction.h
-//  Spark
-//
-//  Created by Fox on Wed Dec 10 2003.
-//  Copyright (c) 2004 Shadow Lab. All rights reserved.
-//
+/*
+ *  DocumentAction.h
+ *  Spark Plugins
+ *
+ *  Created by Black Moon Team.
+ *  Copyright (c) 2004 - 2006 Shadow Lab. All rights reserved.
+ */
 
 #import <SparkKit/SparkPluginAPI.h>
 
 enum {
-  kDocumentActionOpen              = 'Open',
-  kDocumentActionOpenWith          = 'OpWi',
-  kDocumentActionOpenSelection     = 'OpSe',
-  kDocumentActionOpenSelectionWith = 'OpSW',
-  kDocumentActionOpenURL           = 'OURL',
+  kDocumentActionOpen              = 'Open', /* 1332766062 */
+  kDocumentActionOpenWith          = 'OpWi', /* 1332762473 */
+  kDocumentActionOpenSelection     = 'OpSe', /* 1332761445 */
+  kDocumentActionOpenSelectionWith = 'OpSW', /* 1332761431 */
+  kDocumentActionOpenURL           = 'OURL', /* 1330991692 */
 };
 
 SPARK_PRIVATE
@@ -48,4 +48,4 @@ NSString * const kDocumentActionBundleIdentifier;
 @end
 
 SK_PRIVATE
-NSString *DocumentActionDescription(DocumentAction *anAction, NSString *document, NSString *application);
+NSString *DocumentActionDescription(DocumentAction *anAction);

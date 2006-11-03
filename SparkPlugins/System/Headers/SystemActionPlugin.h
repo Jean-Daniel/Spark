@@ -1,10 +1,10 @@
-//
-//  SystemActionPlugin.h
-//  Spark
-//
-//  Created by Fox on Wed Feb 18 2004.
-//  Copyright (c) 2004 Shadow Lab. All rights reserved.
-//
+/*
+ *  SystemActionPlugin.h
+ *  Spark Plugins
+ *
+ *  Created by Black Moon Team.
+ *  Copyright (c) 2004 - 2006 Shadow Lab. All rights reserved.
+ */
 
 #import <SparkKit/SparkPluginAPI.h>
 #import "SystemAction.h"
@@ -18,6 +18,7 @@
 - (SystemActionType)action;
 - (void)setAction:(SystemActionType)anAction;
 
-- (NSString *)actionDescription;
+- (BOOL)shouldConfirm;
+- (void)setShouldConfirm:(BOOL)flag;
 
 @end

@@ -1,11 +1,11 @@
 {
     IBClasses = (
-        {CLASS = ApplicationMenu; LANGUAGE = ObjC; SUPERCLASS = NSPopUpButton; }, 
+        {CLASS = DAApplicationMenu; LANGUAGE = ObjC; SUPERCLASS = NSPopUpButton; }, 
         {
             ACTIONS = {chooseDocument = id; }; 
             CLASS = DocumentActionPlugin; 
             LANGUAGE = ObjC; 
-            OUTLETS = {ibMenu = NSPopUpButton; ibName = NSTextField; }; 
+            OUTLETS = {ibMenu = DAApplicationMenu; ibName = NSTextField; }; 
             SUPERCLASS = SparkActionPlugin; 
         }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 

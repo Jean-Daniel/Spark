@@ -3,7 +3,7 @@
  *  Spark Plugins
  *
  *  Created by Black Moon Team.
- *  Copyright (c) Shadow Lab. 2004 - 2006. All rights reserved.
+ *  Copyright (c) 2004 - 2006 Shadow Lab. All rights reserved.
  */
 
 #import "ApplicationAction.h"
@@ -272,11 +272,15 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
         case kApplicationHideOther:
           break;
         default: {
-          aa_application = [[SKApplication alloc] initWithSerializedValues:plist];
+          aa_application = [[SKAliasedApplication alloc] initWithSerializedValues:plist];
         }
       }
     }
   }
+  /* Update description */
+  NSString *description = [aa_application name] ? ApplicationActionDescription(self, [aa_application name]) : nil;
+  if (description)
+    [self setActionDescription:description];
   return self;
 }
 

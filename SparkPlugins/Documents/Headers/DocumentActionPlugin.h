@@ -1,16 +1,17 @@
-//
-//  DocumentActionPlugIn.h
-//  Short-Cut
-//
-//  Created by Fox on Mon Dec 08 2003.
-//  Copyright (c) 2004 Shadow Lab. All rights reserved.
-//
+/*
+ *  DocumentActionPlugIn.h
+ *  Spark Plugins
+ *
+ *  Created by Black Moon Team.
+ *  Copyright (c) 2004 - 2006 Shadow Lab. All rights reserved.
+ */
 
 #import <SparkKit/SparkPluginAPI.h>
 
+@class DAApplicationMenu;
 @interface DocumentActionPlugin : SparkActionPlugIn {
   @private
-  IBOutlet NSPopUpButton *ibMenu;
+  IBOutlet DAApplicationMenu *ibMenu;
   IBOutlet NSTextField *ibName;
   
   int da_flags;
@@ -20,6 +21,12 @@
 }
 
 - (IBAction)chooseDocument:(id)sender;
+
+- (NSString *)url;
+- (void)setUrl:(NSString *)anUrl;
+
+- (int)action;
+- (void)setAction:(int)anAction;
 
 - (NSString *)document;
 - (void)setDocument:(NSString *)aPath;

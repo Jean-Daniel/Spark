@@ -130,23 +130,13 @@ static NSString * const kSparkApplicationKey = @"SparkApplication";
   return [super icon];
 }
 
-//- (NSString *)identifier {
-//  return [sp_application identifier];
-//}
-
 - (OSType)signature {
   return [sp_application signature];
 }
-//- (void)setSignature:(NSString *)signature {
-//  [sp_application setIdentifier:signature type:kSKApplicationOSType];
-//}
-//
+
 - (NSString *)bundleIdentifier {
   return [sp_application bundleIdentifier];
 }
-//- (void)setBundleIdentifier:(NSString *)identifier {
-//  [sp_application setIdentifier:identifier type:kSKApplicationBundleIdentifier];
-//}
 
 @end
 
@@ -173,12 +163,16 @@ NSString * const kSKApplicationIdentifier = @"SKApplicationIdentifier";
     }
     
     [self setIdentifier:identifier type:type];
+    
+    [self setName:[plist objectForKey:@"SKApplicationName"]];
   }
   return self;
 }
 
 - (BOOL)serialize:(NSMutableDictionary *)plist {
   if ([self identifier]) {
+    if ([self name])
+      [plist setObject:[self name] forKey:@"SKApplicationName"];
     [plist setObject:SKInt([self idType]) forKey:kSKApplicationIdType];
     [plist setObject:[self identifier] forKey:kSKApplicationIdentifier];
   }
@@ -200,12 +194,14 @@ NSString * const kSKApplicationIdentifier = @"SKApplicationIdentifier";
 }
 
 - (id)initWithSerializedValues:(NSDictionary *)plist {
+  sk_lock = YES;
   if (self = [super initWithSerializedValues:plist]) {
     NSData *alias = [plist objectForKey:@"SKApplicationAlias"];
     if (alias) {
       sk_alias = [[SKAlias alloc] initWithData:alias];
     }
   }
+  sk_lock = NO;
   return self;
 }
 

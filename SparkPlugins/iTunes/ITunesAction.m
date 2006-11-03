@@ -1,10 +1,9 @@
-
 /*
  *  ITunesAction.m
  *  Spark Plugins
  *
  *  Created by Black Moon Team.
- *  Copyright (c) Shadow Lab. 2004 - 2006. All rights reserved.
+ *  Copyright (c) 2004 - 2006 Shadow Lab. All rights reserved.
  */
 
 #import "ITunesAction.h"
@@ -414,6 +413,7 @@ return self;
         break;
       case kiTunesRateTrack:
         iTunesSetCurrentTrackRate([self rating]);
+        [self displayInfoIfNeeded];
         break;
     }
   }
@@ -552,10 +552,16 @@ NSString *ITunesActionDescription(ITunesAction *action) {
                                                                            @"Play Playlist * Action Description * (%@ = playlist name)"),
         [action playlist]];
       break;
-    case kiTunesRateTrack:
+    case kiTunesRateTrack: {
+      char rate[32];
+      if ([action rating] % 20)
+        snprintf(rate, 32, "%.1f", [action rating] / 20.0);
+      else
+        snprintf(rate, 32, "%li", [action rating] / 20);
       desc = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"DESC_RATE_TRACK", nil, bundle,
-                                                                           @"Rate Track * Action Description * (%.1f = rating)"),
-        [action rating] / 20.0];
+                                                                           @"Rate Track * Action Description * (%s = rating)"),
+        rate];
+    }
       break;
     case kiTunesNextTrack:
       desc = NSLocalizedStringFromTableInBundle(@"DESC_NEXT", nil, bundle,

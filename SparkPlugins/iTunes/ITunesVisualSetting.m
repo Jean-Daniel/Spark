@@ -3,7 +3,7 @@
  *  Spark Plugins
  *
  *  Created by Black Moon Team.
- *  Copyright (c) Shadow Lab. 2004 - 2006. All rights reserved.
+ *  Copyright (c) 2004 - 2006 Shadow Lab. All rights reserved.
  */
 
 #import "ITunesVisualSetting.h"

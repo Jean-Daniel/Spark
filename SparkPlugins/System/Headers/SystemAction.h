@@ -1,10 +1,10 @@
-//
-//  SystemAction.h
-//  Spark
-//
-//  Created by Fox on Wed Feb 18 2004.
-//  Copyright (c) 2004 Shadow Lab. All rights reserved.
-//
+/*
+ *  SystemAction.h
+ *  Spark Plugins
+ *
+ *  Created by Black Moon Team.
+ *  Copyright (c) 2004 - 2006 Shadow Lab. All rights reserved.
+ */
 
 #import <SparkKit/SparkPluginAPI.h>
 
@@ -13,7 +13,7 @@ typedef enum {
   kSystemSleep           = 'Slep', /* 1399612784 */
   kSystemRestart         = 'Rest', /* 1382380404 */
   kSystemShutDown        = 'Halt', /* 1214344308 */
-  kSystemFastLogOut      = 'FLgo', /* 1179414375 */
+  kSystemFastLogOut      = 'FLog', /* 1179414375 */
   kSystemScreenSaver     = 'ScSa', /* 1399018337 */
   /* Accessibility */
   kSystemSwitchGrayscale = 'Gray', /* 1198678393 */
@@ -58,3 +58,6 @@ NSString * const kSystemActionBundleIdentifier;
 - (void)setShouldConfirm:(BOOL)flag;
 
 @end
+
+SK_PRIVATE 
+NSString *SystemActionDescription(SystemAction *anAction);

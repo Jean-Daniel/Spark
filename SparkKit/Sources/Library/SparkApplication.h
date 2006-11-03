@@ -19,11 +19,7 @@
 - (NSString *)path;
 - (void)setPath:(NSString *)path;
 
-//- (NSString *)identifier;
-
 - (OSType)signature;
-//- (void)setSignature:(NSString *)signature;
 - (NSString *)bundleIdentifier;
-//- (void)setBundleIdentifier:(NSString *)identifier;
 
 @end
