@@ -3,7 +3,7 @@
  *  Spark Plugins
  *
  *  Created by Black Moon Team.
- *  Copyright (c) 2004 - 2006 Shadow Lab. All rights reserved.
+ *  Copyright (c) 2004 - 2006, Shadow Lab. All rights reserved.
  */
 
 #import "ITunesAction.h"
@@ -251,7 +251,7 @@ bail:
     if (description)
       [self setActionDescription:description];
   }
-return self;
+  return self;
 }
 
 - (BOOL)serialize:(NSMutableDictionary *)plist {

@@ -3,7 +3,7 @@
  *  Spark Plugins
  *
  *  Created by Black Moon Team.
- *  Copyright (c) 2004 - 2006 Shadow Lab. All rights reserved.
+ *  Copyright (c) 2004 - 2006, Shadow Lab. All rights reserved.
  */
 
 #import "ITunesActionPlugin.h"
@@ -12,6 +12,7 @@
 #import "ITunesAESuite.h"
 #import "ITunesVisualSetting.h"
 
+#import <ShadowKit/SKAlias.h>
 #import <ShadowKit/SKExtensions.h>
 #import <ShadowKit/SKFSFunctions.h>
 #import <ShadowKit/SKLSFunctions.h>
@@ -310,6 +311,24 @@ NSImage *ITunesGetApplicationIcon() {
   SKSetterRetain(it_playlists, thePlaylists);
 }
 
+static
+NSString *iTunesGetLibraryPath() {
+  NSString *path = nil;
+  CFDataRef data = CFPreferencesCopyValue(CFSTR("alis:1:iTunes Library Location"),
+                                          CFSTR("com.apple.iTunes"),
+                                          kCFPreferencesCurrentUser,
+                                          kCFPreferencesAnyHost);
+  if (data) {
+    SKAlias *alias = [[SKAlias alloc] initWithData:(id)data];
+    if (alias) {
+      path = [[alias path] stringByAppendingPathComponent:@"iTunes Music Library.xml"];
+      [alias release];
+    }
+    CFRelease(data);
+  }
+  return path;
+}
+
 static 
 NSString *iTunesFindLibraryFile(int folder) {
   FSRef ref;
@@ -328,14 +347,18 @@ NSString *iTunesFindLibraryFile(int folder) {
 + (NSArray *)iTunesPlaylists {
   NSMutableArray *playlists = (id)iTunesCopyPlaylistNames();
   if (nil == playlists) {
-    /* Search in User Music Folder */
-    NSString *file = iTunesFindLibraryFile(kMusicDocumentsFolderType);
+    /* First check user preferences */
+    NSString *file = iTunesGetLibraryPath();
     
-    /* If doesn't exists Search in Document folder */
     if (!file || ![[NSFileManager defaultManager] fileExistsAtPath:file]) {
-      file = iTunesFindLibraryFile(kDocumentsFolderType);
-      if (!file || ![[NSFileManager defaultManager] fileExistsAtPath:file])
-        return nil;
+      /* Search in User Music Folder */
+      file = iTunesFindLibraryFile(kMusicDocumentsFolderType);
+      /* If doesn't exists Search in Document folder */
+      if (!file || ![[NSFileManager defaultManager] fileExistsAtPath:file]) {
+        file = iTunesFindLibraryFile(kDocumentsFolderType);
+        if (!file || ![[NSFileManager defaultManager] fileExistsAtPath:file])
+          return nil;
+      }
     }
     
     NSDictionary *library = [[NSDictionary alloc] initWithContentsOfFile:file];

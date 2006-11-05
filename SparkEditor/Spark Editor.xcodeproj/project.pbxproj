@@ -382,7 +382,6 @@
 		98240186060C7B0700A0DB07 /* SEScriptHandler.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SEScriptHandler.m; sourceTree = "<group>"; };
 		98240187060C7B0700A0DB07 /* SEServerConnection.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SEServerConnection.m; sourceTree = "<group>"; };
 		98240188060C7B0700A0DB07 /* Spark.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Spark.m; sourceTree = "<group>"; };
-		98240195060C7B0700A0DB07 /* PluginHelpController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = PluginHelpController.m; path = "Classes/UI Controllers/PluginHelpController.m"; sourceTree = "<group>"; };
 		98240196060C7B0700A0DB07 /* Preferences.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = Preferences.m; path = "Classes/UI Controllers/Preferences.m"; sourceTree = "<group>"; };
 		9824019A060C7B0700A0DB07 /* KeysTableView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = KeysTableView.m; path = "Classes/UI Extensions/CustomTableView/KeysTableView.m"; sourceTree = "<group>"; };
 		9824019E060C7B0700A0DB07 /* PluginMenu.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = PluginMenu.m; path = "Classes/UI Extensions/PluginMenu.m"; sourceTree = "<group>"; };
@@ -447,7 +446,6 @@
 		984BCE6A060C7FEC0043CDEA /* SEScriptHandler.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SEScriptHandler.h; sourceTree = "<group>"; };
 		984BCE6B060C7FEC0043CDEA /* SEServerConnection.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SEServerConnection.h; sourceTree = "<group>"; };
 		984BCE6C060C7FEC0043CDEA /* Spark.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Spark.h; path = ../Headers/Spark.h; sourceTree = "<group>"; };
-		984BCE78060C7FEC0043CDEA /* PluginHelpController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PluginHelpController.h; path = "UI Controllers/PluginHelpController.h"; sourceTree = "<group>"; };
 		984BCE79060C7FEC0043CDEA /* Preferences.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Preferences.h; path = "UI Controllers/Preferences.h"; sourceTree = "<group>"; };
 		984BCE80060C7FEC0043CDEA /* PluginMenu.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PluginMenu.h; path = "UI Extension/PluginMenu.h"; sourceTree = "<group>"; };
 		98593CDF073EE728003BA845 /* ExporterUI.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ExporterUI.m; sourceTree = "<group>"; };
@@ -860,7 +858,6 @@
 				984BCE79060C7FEC0043CDEA /* Preferences.h */,
 				98300527076FC231003A260D /* PluginInstaller.h */,
 				9837AA76071B11240057584D /* TableAlertController.h */,
-				984BCE78060C7FEC0043CDEA /* PluginHelpController.h */,
 			);
 			path = Headers;
 			sourceTree = "<group>";
@@ -956,7 +953,6 @@
 				98300525076FC21B003A260D /* PluginInstaller.m */,
 				9824019A060C7B0700A0DB07 /* KeysTableView.m */,
 				9837AA74071B11130057584D /* TableAlertController.m */,
-				98240195060C7B0700A0DB07 /* PluginHelpController.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";

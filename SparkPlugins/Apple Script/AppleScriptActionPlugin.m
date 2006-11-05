@@ -1,10 +1,10 @@
-//
-//  AppleScriptAction.m
-//  Spark
-//
-//  Created by Fox on Fri Feb 20 2004.
-//  Copyright (c) 2004 Shadow Lab. All rights reserved.
-//
+/*
+ *  AppleScriptActionPlugin.m
+ *  Spark Plugins
+ *
+ *  Created by Black Moon Team.
+ *  Copyright (c) 2004 - 2006, Shadow Lab. All rights reserved.
+ */
 
 #import "AppleScriptActionPlugin.h"
 #import "AppleScriptAction.h"
@@ -25,8 +25,7 @@ enum {
 };
 
 @interface AppleScriptNSPlugin : AppleScriptActionPlugin {
-  /* AppleScript */
-  NSAppleScript *as_script;
+  /* NSAppleScript */
 }
 
 - (NSAlert *)alertForScriptError:(NSDictionary *)errors;
@@ -70,15 +69,12 @@ SKClassCluster(AppleScriptActionPlugin);
 - (void)loadSparkAction:(id)sparkAction toEdit:(BOOL)edit {
   id value;
   [ibScript setSource:@""];
-  if (value = [sparkAction file]) {
-    [self setScriptFile:value];
+  if (value = [sparkAction scriptAlias]) {
+    [self setScriptFile:[value path]];
     [self setValue:SKInt(kAppleScriptFileTab) forKey:@"selectedTab"];
-  } else if (value = [sparkAction script]) {
-    NSString *src = [value source];
-    if (src) {
-      [ibScript setSource:src];
-      [self compile:nil];
-    }
+  } else if (value = [sparkAction scriptSource]) {
+    [ibScript setSource:value];
+    [self compile:nil];
   }
 }
 
@@ -347,7 +343,6 @@ static NSDictionary *sAttributes = nil;
 }
 
 - (void)dealloc {
-  [as_script release];
   [super dealloc];
 }
 
