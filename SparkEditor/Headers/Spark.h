@@ -28,7 +28,6 @@
     /* Global windows */
     SELibraryWindow *se_mainWindow;
   SEPreferencesWindow *se_preferences;
-//  id plugInHelpWindow;
 }
 
 #pragma mark Restart Functions
@@ -46,8 +45,7 @@
 //- (IBAction)importLibrary:(id)sender;
 
 #pragma mark PlugIn Help Support
-//- (id)plugInHelpWindow;
-- (IBAction)showPlugInHelp:(id)sender; 
+- (IBAction)showPlugInHelp:(id)sender;
 - (void)showPlugInHelpPage:(NSString *)page;
 
 #pragma mark Live Update Support

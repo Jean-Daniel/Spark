@@ -34,6 +34,11 @@
 		981A8A6E0A61A3BB00753369 /* IgnoreAction.tif in Resources */ = {isa = PBXBuildFile; fileRef = 981A8A6D0A61A3BB00753369 /* IgnoreAction.tif */; };
 		981A8A950A61A49D00753369 /* SEEntryEditor.nib in Resources */ = {isa = PBXBuildFile; fileRef = 981A8A930A61A49D00753369 /* SEEntryEditor.nib */; };
 		981A8A9B0A61A4D600753369 /* SEEntryEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 981A8A9A0A61A4D600753369 /* SEEntryEditor.h */; };
+		982312860AFE3F2100675226 /* SEVSplitBar.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 982312810AFE3F2100675226 /* SEVSplitBar.tiff */; };
+		982312870AFE3F2100675226 /* SESplitDot.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 982312820AFE3F2100675226 /* SESplitDot.tiff */; };
+		982312880AFE3F2100675226 /* SEForward.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 982312830AFE3F2100675226 /* SEForward.tiff */; };
+		982312890AFE3F2100675226 /* SEBack.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 982312840AFE3F2100675226 /* SEBack.tiff */; };
+		9823128A0AFE3F2100675226 /* SEHSplitBar.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 982312850AFE3F2100675226 /* SEHSplitBar.tiff */; };
 		982401C0060C7B0700A0DB07 /* Spark.m in Sources */ = {isa = PBXBuildFile; fileRef = 98240188060C7B0700A0DB07 /* Spark.m */; };
 		9824024A060C7B3100A0DB07 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 982401E1060C7B3000A0DB07 /* Credits.rtf */; };
 		9824024C060C7B3100A0DB07 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 982401E5060C7B3000A0DB07 /* InfoPlist.strings */; };
@@ -56,9 +61,6 @@
 		984199350A5E67BE0009A093 /* Add.png in Resources */ = {isa = PBXBuildFile; fileRef = 984199310A5E67BE0009A093 /* Add.png */; };
 		984199360A5E67BE0009A093 /* AddDown.png in Resources */ = {isa = PBXBuildFile; fileRef = 984199320A5E67BE0009A093 /* AddDown.png */; };
 		984199370A5E67BE0009A093 /* Highlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 984199330A5E67BE0009A093 /* Highlight.png */; };
-		9841993C0A5E67DC0009A093 /* SESplitDot.tif in Resources */ = {isa = PBXBuildFile; fileRef = 984199390A5E67DC0009A093 /* SESplitDot.tif */; };
-		9841993D0A5E67DC0009A093 /* SEHSplitBar.tif in Resources */ = {isa = PBXBuildFile; fileRef = 9841993A0A5E67DC0009A093 /* SEHSplitBar.tif */; };
-		9841993E0A5E67DC0009A093 /* SEVSplitBar.tif in Resources */ = {isa = PBXBuildFile; fileRef = 9841993B0A5E67DC0009A093 /* SEVSplitBar.tif */; };
 		98451106075A0304000D3F88 /* Splist.icns in Resources */ = {isa = PBXBuildFile; fileRef = 98451105075A0304000D3F88 /* Splist.icns */; };
 		984BCE56060C7E990043CDEA /* Splib.icns in Resources */ = {isa = PBXBuildFile; fileRef = 984BCE3E060C7E990043CDEA /* Splib.icns */; };
 		984BCE57060C7E990043CDEA /* Spact.icns in Resources */ = {isa = PBXBuildFile; fileRef = 984BCE3F060C7E990043CDEA /* Spact.icns */; };
@@ -101,6 +103,11 @@
 		98D377CD0AA73DD300947217 /* stop_bdown.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98D377C90AA73DD300947217 /* stop_bdown.tiff */; };
 		98D377E30AA73E5600947217 /* stop.tif in Resources */ = {isa = PBXBuildFile; fileRef = 984BCE3B060C7E990043CDEA /* stop.tif */; };
 		98D590F30AA18A430081A713 /* SEEditor.strings in Resources */ = {isa = PBXBuildFile; fileRef = 98D590F10AA18A430081A713 /* SEEditor.strings */; };
+		98DA2B0A0AFDF2E700E394CD /* SEPluginHelp.m in Sources */ = {isa = PBXBuildFile; fileRef = 98DA2B090AFDF2E600E394CD /* SEPluginHelp.m */; };
+		98DA2B0C0AFDF2F500E394CD /* SEPluginHelp.h in Headers */ = {isa = PBXBuildFile; fileRef = 98DA2B0B0AFDF2F500E394CD /* SEPluginHelp.h */; };
+		98DA2BC30AFE008400E394CD /* Back.tif in Resources */ = {isa = PBXBuildFile; fileRef = 984BCE34060C7E990043CDEA /* Back.tif */; };
+		98DA2BC40AFE008700E394CD /* Forward.tif in Resources */ = {isa = PBXBuildFile; fileRef = 984BCE36060C7E990043CDEA /* Forward.tif */; };
+		98DA2BCA0AFE011400E394CD /* SEPluginHelp.nib in Resources */ = {isa = PBXBuildFile; fileRef = 98DA2BC80AFE011400E394CD /* SEPluginHelp.nib */; };
 		98DAC9DE0A67EBE2001C36D1 /* SEApplicationView.h in Headers */ = {isa = PBXBuildFile; fileRef = 98DAC9DC0A67EBE2001C36D1 /* SEApplicationView.h */; };
 		98DD455F0A57DE9A00F059E5 /* SystemAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 6540B6E809E6430800D0E8FB /* SystemAction.spact */; };
 		98DD45600A57DE9A00F059E5 /* iTunesAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 6540B6EA09E6430800D0E8FB /* iTunesAction.spact */; };
@@ -366,6 +373,11 @@
 		981B64FE09386F350024C0D9 /* ShadowDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowDebug.xcconfig; sourceTree = "<group>"; };
 		981B64FF09386F350024C0D9 /* ShadowRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowRelease.xcconfig; sourceTree = "<group>"; };
 		981B650109386F350024C0D9 /* ShadowUniversal.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowUniversal.xcconfig; sourceTree = "<group>"; };
+		982312810AFE3F2100675226 /* SEVSplitBar.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SEVSplitBar.tiff; sourceTree = "<group>"; };
+		982312820AFE3F2100675226 /* SESplitDot.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SESplitDot.tiff; sourceTree = "<group>"; };
+		982312830AFE3F2100675226 /* SEForward.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SEForward.tiff; sourceTree = "<group>"; };
+		982312840AFE3F2100675226 /* SEBack.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SEBack.tiff; sourceTree = "<group>"; };
+		982312850AFE3F2100675226 /* SEHSplitBar.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SEHSplitBar.tiff; sourceTree = "<group>"; };
 		98240159060C7ABE00A0DB07 /* Spark.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spark.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		98240186060C7B0700A0DB07 /* SEScriptHandler.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SEScriptHandler.m; sourceTree = "<group>"; };
 		98240187060C7B0700A0DB07 /* SEServerConnection.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SEServerConnection.m; sourceTree = "<group>"; };
@@ -377,7 +389,6 @@
 		982401E2060C7B3000A0DB07 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = English; path = English.lproj/Credits.rtf; sourceTree = "<group>"; };
 		982401E6060C7B3000A0DB07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		982401EE060C7B3000A0DB07 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
-		982401FC060C7B3000A0DB07 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/PluginHelp.nib; sourceTree = "<group>"; };
 		982401FE060C7B3000A0DB07 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/Preferences.nib; sourceTree = "<group>"; };
 		98240202060C7B3000A0DB07 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = English; path = "English.lproj/Read First.rtf"; sourceTree = "<group>"; };
 		98240204060C7B3000A0DB07 /* English */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.html; name = English; path = English.lproj/shcts.html; sourceTree = "<group>"; };
@@ -408,9 +419,6 @@
 		984199320A5E67BE0009A093 /* AddDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AddDown.png; sourceTree = "<group>"; };
 		984199330A5E67BE0009A093 /* Highlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Highlight.png; sourceTree = "<group>"; };
 		984199340A5E67BE0009A093 /* HighlightFocus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HighlightFocus.png; sourceTree = "<group>"; };
-		984199390A5E67DC0009A093 /* SESplitDot.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SESplitDot.tif; sourceTree = "<group>"; };
-		9841993A0A5E67DC0009A093 /* SEHSplitBar.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SEHSplitBar.tif; sourceTree = "<group>"; };
-		9841993B0A5E67DC0009A093 /* SEVSplitBar.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SEVSplitBar.tif; sourceTree = "<group>"; };
 		98451105075A0304000D3F88 /* Splist.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Splist.icns; sourceTree = "<group>"; };
 		984AFB530773813D00859149 /* Check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Check.png; sourceTree = "<group>"; };
 		984AFB540773813D00859149 /* Uncheck.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Uncheck.png; sourceTree = "<group>"; };
@@ -490,6 +498,9 @@
 		98D377C80AA73DD300947217 /* start_bdown.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = start_bdown.tiff; sourceTree = "<group>"; };
 		98D377C90AA73DD300947217 /* stop_bdown.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = stop_bdown.tiff; sourceTree = "<group>"; };
 		98D590F20AA18A430081A713 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/SEEditor.strings; sourceTree = "<group>"; };
+		98DA2B090AFDF2E600E394CD /* SEPluginHelp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEPluginHelp.m; sourceTree = "<group>"; };
+		98DA2B0B0AFDF2F500E394CD /* SEPluginHelp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEPluginHelp.h; sourceTree = "<group>"; };
+		98DA2BC90AFE011400E394CD /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SEPluginHelp.nib; sourceTree = "<group>"; };
 		98DAC9DC0A67EBE2001C36D1 /* SEApplicationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEApplicationView.h; sourceTree = "<group>"; };
 		98DAC9DD0A67EBE2001C36D1 /* SEApplicationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEApplicationView.m; sourceTree = "<group>"; };
 		98DCBDEC060C80DD00B3E0AE /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = SOURCE_ROOT; };
@@ -706,13 +717,15 @@
 		984199300A5E67BE0009A093 /* SELibrary */ = {
 			isa = PBXGroup;
 			children = (
+				982312810AFE3F2100675226 /* SEVSplitBar.tiff */,
+				982312820AFE3F2100675226 /* SESplitDot.tiff */,
+				982312830AFE3F2100675226 /* SEForward.tiff */,
+				982312840AFE3F2100675226 /* SEBack.tiff */,
+				982312850AFE3F2100675226 /* SEHSplitBar.tiff */,
 				984199310A5E67BE0009A093 /* Add.png */,
 				984199320A5E67BE0009A093 /* AddDown.png */,
 				984199330A5E67BE0009A093 /* Highlight.png */,
 				984199340A5E67BE0009A093 /* HighlightFocus.png */,
-				984199390A5E67DC0009A093 /* SESplitDot.tif */,
-				9841993A0A5E67DC0009A093 /* SEHSplitBar.tif */,
-				9841993B0A5E67DC0009A093 /* SEVSplitBar.tif */,
 			);
 			path = SELibrary;
 			sourceTree = "<group>";
@@ -723,6 +736,7 @@
 				985A43A20A862609005CC63B /* Deprecated */,
 				982401ED060C7B3000A0DB07 /* MainMenu.nib */,
 				9803A13C0A9D01CA00B7DBBA /* SEFirstRun.nib */,
+				98DA2BC80AFE011400E394CD /* SEPluginHelp.nib */,
 				981A8A930A61A49D00753369 /* SEEntryEditor.nib */,
 				987235390AA7552C0085C028 /* SEPreferences.nib */,
 				98362B420A97664100F97F50 /* SEInheritsPlugin.nib */,
@@ -879,6 +893,7 @@
 			children = (
 				985AF9DC0A5C335D00397FAA /* Headers */,
 				9803A1080A9CFE9700B7DBBA /* SEFirstRun.m */,
+				98DA2B090AFDF2E600E394CD /* SEPluginHelp.m */,
 				981A8A9E0A61A4E400753369 /* SEEntryEditor.m */,
 				98AC52D10AAF7FF40071EAA7 /* SEPreferences.m */,
 				983BE16C0A7E402600E0228F /* SELibrarySource.m */,
@@ -894,6 +909,7 @@
 			isa = PBXGroup;
 			children = (
 				9803A10A0A9CFEA400B7DBBA /* SEFirstRun.h */,
+				98DA2B0B0AFDF2F500E394CD /* SEPluginHelp.h */,
 				981A8A9A0A61A4D600753369 /* SEEntryEditor.h */,
 				98AC52D30AAF80010071EAA7 /* SEPreferences.h */,
 				983BE1730A7E402F00E0228F /* SELibrarySource.h */,
@@ -917,7 +933,6 @@
 		98762B3E074F53B400D0A4C1 /* Panels */ = {
 			isa = PBXGroup;
 			children = (
-				982401FB060C7B3000A0DB07 /* PluginHelp.nib */,
 				982401FD060C7B3000A0DB07 /* Preferences.nib */,
 			);
 			name = Panels;
@@ -1029,6 +1044,7 @@
 				98AC52D40AAF80010071EAA7 /* SEPreferences.h in Headers */,
 				9830D97A0AB46B7A00C316FE /* SETriggerBrowser.h in Headers */,
 				98EE9E750ABC001A00296C08 /* SparkServerVersion.h in Headers */,
+				98DA2B0C0AFDF2F500E394CD /* SEPluginHelp.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1257,9 +1273,6 @@
 				984199350A5E67BE0009A093 /* Add.png in Resources */,
 				984199360A5E67BE0009A093 /* AddDown.png in Resources */,
 				984199370A5E67BE0009A093 /* Highlight.png in Resources */,
-				9841993C0A5E67DC0009A093 /* SESplitDot.tif in Resources */,
-				9841993D0A5E67DC0009A093 /* SEHSplitBar.tif in Resources */,
-				9841993E0A5E67DC0009A093 /* SEVSplitBar.tif in Resources */,
 				98EA6B550A5E83120019E26C /* System.tif in Resources */,
 				98920FEA0A5F012200A50A78 /* MainMenu.nib in Resources */,
 				981A8A6E0A61A3BB00753369 /* IgnoreAction.tif in Resources */,
@@ -1285,6 +1298,14 @@
 				98D377E30AA73E5600947217 /* stop.tif in Resources */,
 				9872353B0AA7552C0085C028 /* SEPreferences.nib in Resources */,
 				9830D9850AB46C5400C316FE /* SETriggerBrowser.nib in Resources */,
+				98DA2BC30AFE008400E394CD /* Back.tif in Resources */,
+				98DA2BC40AFE008700E394CD /* Forward.tif in Resources */,
+				98DA2BCA0AFE011400E394CD /* SEPluginHelp.nib in Resources */,
+				982312860AFE3F2100675226 /* SEVSplitBar.tiff in Resources */,
+				982312870AFE3F2100675226 /* SESplitDot.tiff in Resources */,
+				982312880AFE3F2100675226 /* SEForward.tiff in Resources */,
+				982312890AFE3F2100675226 /* SEBack.tiff in Resources */,
+				9823128A0AFE3F2100675226 /* SEHSplitBar.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1327,6 +1348,7 @@
 				98E128D70AA0EFAC00D5884A /* SEEntryEditor.m in Sources */,
 				98AC52D20AAF7FF40071EAA7 /* SEPreferences.m in Sources */,
 				9830D9760AB46B7000C316FE /* SETriggerBrowser.m in Sources */,
+				98DA2B0A0AFDF2E700E394CD /* SEPluginHelp.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1399,14 +1421,6 @@
 				982401EE060C7B3000A0DB07 /* English */,
 			);
 			name = MainMenu.nib;
-			sourceTree = "<group>";
-		};
-		982401FB060C7B3000A0DB07 /* PluginHelp.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				982401FC060C7B3000A0DB07 /* English */,
-			);
-			name = PluginHelp.nib;
 			sourceTree = "<group>";
 		};
 		982401FD060C7B3000A0DB07 /* Preferences.nib */ = {
@@ -1529,6 +1543,14 @@
 			name = SEEditor.strings;
 			sourceTree = "<group>";
 		};
+		98DA2BC80AFE011400E394CD /* SEPluginHelp.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				98DA2BC90AFE011400E394CD /* English */,
+			);
+			name = SEPluginHelp.nib;
+			sourceTree = "<group>";
+		};
 		98F746000A5C560A003D4BE1 /* SELibraryWindow.nib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1543,6 +1565,7 @@
 		98BC60520857BB9400A2041F /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CURRENT_PROJECT_VERSION = 650;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = Spark;

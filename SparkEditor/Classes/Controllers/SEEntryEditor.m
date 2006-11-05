@@ -10,6 +10,7 @@
 #import "SESparkEntrySet.h"
 
 #import "SETableView.h"
+#import "SEPluginHelp.h"
 #import "SEHeaderCell.h"
 #import "SEHotKeyTrap.h"
 #import "SEBuiltInPlugin.h"
@@ -140,24 +141,40 @@
       alert = [se_plugin sparkEditorShouldConfigureAction];
     } @catch (id exception) {
       SKLogException(exception);
+      NSString *name = [exception respondsToSelector:@selector(name)] ? [exception name] : @"<undefined>";
+      NSString *message = [exception respondsToSelector:@selector(reason)] ? [exception reason] : [exception description];
+      alert = [NSAlert alertWithMessageText:@"UNEXPECTED_PLUGIN_ERROR"
+                              defaultButton:@"OK"
+                            alternateButton:nil
+                                otherButton:nil
+                  informativeTextWithFormat:@"%@: %@", name, message];
     }
   if (!alert) {
     @try {
       [se_plugin configureAction];
+      
+      // Check name
+      NSString *name = [[se_plugin sparkAction] name];
+      if ([[name stringByTrimmingWhitespace] length] == 0) {
+        alert = [NSAlert alertWithMessageText:NSLocalizedStringFromTable(@"EMPTY_NAME_ALERT",
+                                                                         @"SEEditor", @"Empty Action Name - Title")
+                                defaultButton:NSLocalizedStringFromTable(@"OK",
+                                                                         @"SEEditor", @"Alert default button")
+                              alternateButton:nil
+                                  otherButton:nil
+                    informativeTextWithFormat:NSLocalizedStringFromTable(@"EMPTY_NAME_ALERT_MSG",
+                                                                         @"SEEditor", @"Empty Action Name - Message")];
+      }
+      
     } @catch (id exception) {
       SKLogException(exception);
-    }
-    // Check name
-    NSString *name = [[se_plugin sparkAction] name];
-    if ([[name stringByTrimmingWhitespace] length] == 0) {
-      alert = [NSAlert alertWithMessageText:NSLocalizedStringFromTable(@"EMPTY_NAME_ALERT",
-                                                                       @"SEEditor", @"Empty Action Name - Title")
-                              defaultButton:NSLocalizedStringFromTable(@"OK",
-                                                                       @"SEEditor", @"Alert default button")
+      NSString *name = [exception respondsToSelector:@selector(name)] ? [exception name] : @"<undefined>";
+      NSString *message = [exception respondsToSelector:@selector(reason)] ? [exception reason] : [exception description];
+      alert = [NSAlert alertWithMessageText:@"UNEXPECTED_PLUGIN_ERROR"
+                              defaultButton:@"OK"
                             alternateButton:nil
                                 otherButton:nil
-                  informativeTextWithFormat:NSLocalizedStringFromTable(@"EMPTY_NAME_ALERT_MSG",
-                                                                       @"SEEditor", @"Empty Action Name - Message")];
+                  informativeTextWithFormat:@"%@: %@", name, message];
     }
   }
   if (alert) { 
@@ -189,9 +206,8 @@
 
 - (IBAction)openHelp:(id)sender {
   // Open plugin help (selected plugin)
-  //[[NSApp delegate] showPlugInHelpPage:[[se_plugin class] plugInName]];
-//  [[NSHelpManager sharedHelpManager] openHelpAnchor:@"SparkMultipleActionsKey"
-//                                             inBook:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleHelpBookName"]];
+  [[SEPluginHelp sharedPluginHelp] setPlugin:[self actionType]];
+  [[SEPluginHelp sharedPluginHelp] showWindow:sender];
 }
 
 #pragma mark -

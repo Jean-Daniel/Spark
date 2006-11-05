@@ -10,7 +10,7 @@
             SUPERCLASS = NSView; 
         }, 
         {
-            ACTIONS = {cancel = id; ok = id; }; 
+            ACTIONS = {cancel = id; ok = id; openHelp = id; }; 
             CLASS = SEEntryEditor; 
             LANGUAGE = ObjC; 
             OUTLETS = {

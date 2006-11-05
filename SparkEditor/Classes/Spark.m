@@ -19,6 +19,7 @@
 #import <SparkKit/SparkActionLoader.h>
 #import <HotKeyToolKit/HotKeyToolKit.h>
 
+#import "SEPluginHelp.h"
 #import "SEPreferences.h"
 #import "SELibraryWindow.h"
 #import "SEEntriesManager.h"
@@ -120,8 +121,7 @@ NSArray *gSortByNameDescriptors = nil;
 - (void)dealloc {
   [[NSNotificationCenter defaultCenter] removeObserver:self];
   [se_mainWindow release];
-//  [prefWindows release];
-//  [plugInHelpWindow release];
+  [se_preferences release];
   [super dealloc];
 }
 
@@ -238,20 +238,12 @@ NSArray *gSortByNameDescriptors = nil;
 #pragma mark -
 #pragma mark PlugIn Help Support
 - (IBAction)showPlugInHelp:(id)sender {
-//  [[self plugInHelpWindow] showWindow:nil];
+  [[SEPluginHelp sharedPluginHelp] showWindow:sender];
 }
 
-//- (id)plugInHelpWindow {
-//  if (!plugInHelpWindow) {
-//    plugInHelpWindow = [[PlugInHelpController alloc] init];
-//    [plugInHelpWindow window];
-//  }
-//  return plugInHelpWindow;
-//}
-//
 - (void)showPlugInHelpPage:(NSString *)page {
-//  [[self plugInHelpWindow] setHelpPage:page];
-//  [self showPlugInHelp:nil];
+  [[SEPluginHelp sharedPluginHelp] setPage:page];
+  [[SEPluginHelp sharedPluginHelp] showWindow:self];
 }
 
 #pragma mark -
