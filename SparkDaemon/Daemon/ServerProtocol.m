@@ -32,7 +32,7 @@ SparkObjectSet *SDObjectSetForType(OSType type) {
 
 @implementation SparkDaemon (SparkServerProtocol)
 
-- (void)registerTrigger:(SparkTrigger *)aTrigger {
+- (void)configureTrigger:(SparkTrigger *)aTrigger {
   [aTrigger setTarget:self];
   [aTrigger setAction:@selector(executeTrigger:)]; 
 }
@@ -56,7 +56,7 @@ SparkObjectSet *SDObjectSetForType(OSType type) {
     if (object) {
       [set addObject:object];
       if (kSparkTriggerType == type) {
-        [self registerTrigger:(SparkTrigger *)object];
+        [self configureTrigger:(SparkTrigger *)object];
       }
     }
   }
@@ -70,7 +70,7 @@ SparkObjectSet *SDObjectSetForType(OSType type) {
       /* Trigger state is handled in notification */
       [set updateObject:object];
       if (kSparkTriggerType == type) {
-        [self registerTrigger:(SparkTrigger *)object];
+        [self configureTrigger:(SparkTrigger *)object];
       }
     }
   }
@@ -89,32 +89,38 @@ SparkObjectSet *SDObjectSetForType(OSType type) {
   ShadowTrace();
   SparkEntryManager *manager = SparkSharedManager();
   [manager addLibraryEntry:anEntry];
-  /* Trigger can have a new active action */
-  SparkTrigger *trigger = [SparkSharedTriggerSet() objectForUID:anEntry->trigger];
-  if (![trigger isRegistred] && [manager containsActiveEntryForTrigger:anEntry->trigger]) {
-    [trigger setRegistred:YES];
+  if ([self isEnabled]) {
+    /* Trigger can have a new active action */
+    SparkTrigger *trigger = [SparkSharedTriggerSet() objectForUID:anEntry->trigger];
+    if (![trigger isRegistred] && [manager containsActiveEntryForTrigger:anEntry->trigger]) {
+      [trigger setRegistred:YES];
+    }
   }
 }
 - (void)removeLibraryEntry:(SparkLibraryEntry *)anEntry {
   ShadowTrace();
   SparkEntryManager *manager = SparkSharedManager();
   [manager removeLibraryEntry:anEntry];
-  /* If trigger was not removed, it can be invalid */
-  SparkTrigger *trigger = [SparkSharedTriggerSet() objectForUID:anEntry->trigger];
-  if (trigger && [trigger isRegistred] && ![manager containsActiveEntryForTrigger:anEntry->trigger]) {
-    [trigger setRegistred:NO];
+  if ([self isEnabled]) {
+    /* If trigger was not removed, it can be invalid */
+    SparkTrigger *trigger = [SparkSharedTriggerSet() objectForUID:anEntry->trigger];
+    if (trigger && [trigger isRegistred] && ![manager containsActiveEntryForTrigger:anEntry->trigger]) {
+      [trigger setRegistred:NO];
+    }
   }
 }
 - (void)replaceLibraryEntry:(SparkLibraryEntry *)anEntry withLibraryEntry:(SparkLibraryEntry *)newEntry {
   ShadowTrace();
   SparkEntryManager *manager = SparkSharedManager();
   [manager replaceLibraryEntry:anEntry withLibraryEntry:newEntry];
-  /* Should check trigger */
-  SparkTrigger *trigger = [SparkSharedTriggerSet() objectForUID:newEntry->trigger];
-  if (![trigger isRegistred] && [manager containsActiveEntryForTrigger:newEntry->trigger]) {
-    [trigger setRegistred:YES];
-  } else if ([trigger isRegistred] && ![manager containsActiveEntryForTrigger:newEntry->trigger]) {
-    [trigger setRegistred:NO];
+  if ([self isEnabled]) {
+    /* Should check trigger */
+    SparkTrigger *trigger = [SparkSharedTriggerSet() objectForUID:newEntry->trigger];
+    if (![trigger isRegistred] && [manager containsActiveEntryForTrigger:newEntry->trigger]) {
+      [trigger setRegistred:YES];
+    } else if ([trigger isRegistred] && ![manager containsActiveEntryForTrigger:newEntry->trigger]) {
+      [trigger setRegistred:NO];
+    }
   }
 }
 
@@ -123,11 +129,13 @@ SparkObjectSet *SDObjectSetForType(OSType type) {
   SparkEntryManager *manager = SparkSharedManager();
   [manager setStatus:status forLibraryEntry:anEntry];
   /* Should check trigger */
-  SparkTrigger *trigger = [SparkSharedTriggerSet() objectForUID:anEntry->trigger];
-  if (status && ![trigger isRegistred] && [manager containsActiveEntryForTrigger:anEntry->trigger]) {
-    [trigger setRegistred:YES];
-  } else if (!status && [trigger isRegistred] && ![manager containsActiveEntryForTrigger:anEntry->trigger]) {
-    [trigger setRegistred:NO];
+  if ([self isEnabled]) {
+    SparkTrigger *trigger = [SparkSharedTriggerSet() objectForUID:anEntry->trigger];
+    if (status && ![trigger isRegistred] && [manager containsActiveEntryForTrigger:anEntry->trigger]) {
+      [trigger setRegistred:YES];
+    } else if (!status && [trigger isRegistred] && ![manager containsActiveEntryForTrigger:anEntry->trigger]) {
+      [trigger setRegistred:NO];
+    }
   }
 }
 
@@ -135,20 +143,24 @@ SparkObjectSet *SDObjectSetForType(OSType type) {
 #pragma mark Notifications
 - (void)willRemoveTrigger:(NSNotification *)aNotification {
   ShadowTrace();
-  SparkTrigger *trigger = SparkNotificationObject(aNotification);
-  if ([trigger isRegistred])
-    [trigger setRegistred:NO];
+  if ([self isEnabled]) {
+    SparkTrigger *trigger = SparkNotificationObject(aNotification);
+    if ([trigger isRegistred])
+      [trigger setRegistred:NO];
+  }
 }
 
 /* Should never append */
 - (void)willUpdateTrigger:(NSNotification *)aNotification {
   ShadowTrace();
-  SparkTrigger *trigger = SparkNotificationObject(aNotification);
-  if ([trigger isRegistred]) {
-    [trigger setRegistred:NO];
-    /* Active new trigger */
-    trigger = [[aNotification userInfo] objectForKey:kSparkNotificationUpdatedObject];
-    [trigger setRegistred:YES];
+  if ([self isEnabled]) {
+    SparkTrigger *trigger = SparkNotificationObject(aNotification);
+    if ([trigger isRegistred]) {
+      [trigger setRegistred:NO];
+      /* Active new trigger */
+      trigger = [[aNotification userInfo] objectForKey:kSparkNotificationUpdatedObject];
+      [trigger setRegistred:YES];
+    }
   }
 }
 

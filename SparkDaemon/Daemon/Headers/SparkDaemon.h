@@ -10,14 +10,19 @@
 
 @class SparkTrigger, SparkLibrary, SparkActionLibrary;
 @interface SparkDaemon : NSObject {
-  
+  BOOL sd_disabled;
 }
 
 - (BOOL)openConnection;
 - (void)loadTriggers;
+- (void)unloadTriggers;
+
 - (void)checkActions;
 
 - (void)run;
+
+- (BOOL)isEnabled;
+- (void)setEnabled:(BOOL)flag;
 
 @end
 

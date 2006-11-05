@@ -26,12 +26,11 @@
 #import <ShadowKit/SKFunctions.h>
 #import <ShadowKit/SKProcessFunctions.h>
 
-#import <HotKeyToolKit/HotKeyToolKit.h>
-
 #import "AEScript.h"
 
 #if defined (DEBUG)
-#include <ShadowKit/SKAEFunctions.h>
+#import <ShadowKit/SKAEFunctions.h>
+#import <HotKeyToolKit/HotKeyToolKit.h>
 #endif
 
 int main(int argc, const char *argv[]) {
@@ -149,6 +148,21 @@ OSErr SparkDaemonAEQuitHandler(const AppleEvent *theAppleEvent, AppleEvent *repl
   [super dealloc];
 }
 
+#pragma mark -
+- (BOOL)isEnabled {
+  return !sd_disabled;
+}
+
+- (void)setEnabled:(BOOL)enabled {
+  if (XOR(!enabled, sd_disabled)) {
+    sd_disabled = !enabled;
+    if (sd_disabled)
+      [self unloadTriggers];
+    else
+      [self loadTriggers];
+  }
+}
+
 - (BOOL)openConnection {
   NSProtocolChecker *checker = [[NSProtocolChecker alloc] initWithTarget:self
                                                                 protocol:@protocol(SparkServer)]; 
@@ -196,8 +210,24 @@ OSErr SparkDaemonAEQuitHandler(const AppleEvent *theAppleEvent, AppleEvent *repl
     @try {
       [trigger setTarget:self];
       [trigger setAction:@selector(executeTrigger:)];
-      if ([manager containsActiveEntryForTrigger:[trigger uid]]) {
-        [trigger setRegistred:YES];
+      if (![trigger isRegistred]) {
+        if ([manager containsActiveEntryForTrigger:[trigger uid]]) {
+          [trigger setRegistred:YES];
+        }
+      }
+    } @catch (id exception) {
+      SKLogException(exception);
+    }
+  }
+}
+
+- (void)unloadTriggers {
+  SparkTrigger *trigger;
+  NSEnumerator *triggers = [SparkSharedTriggerSet() objectEnumerator];
+  while (trigger = [triggers nextObject]) {
+    @try {
+      if ([trigger isRegistred]) {
+        [trigger setRegistred:NO];
       }
     } @catch (id exception) {
       SKLogException(exception);
@@ -265,7 +295,9 @@ OSErr SparkDaemonAEQuitHandler(const AppleEvent *theAppleEvent, AppleEvent *repl
     [trigger willTriggerAction:status ? action : nil];
     /* Action exists and is enabled */
     if (status && action) {
-      alert = [action execute];
+      alert = [action shouldPerformAction];
+      if (!alert)
+        alert = [action performAction];
     } else {
       [trigger bypass];
     }
@@ -297,10 +329,9 @@ OSErr SparkDaemonAEQuitHandler(const AppleEvent *theAppleEvent, AppleEvent *repl
 #pragma mark -
 #pragma mark Application Delegate
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
-  //SDSendStateToEditor(kSparkDaemonStopped);
   /* Invalidate connection. dealloc would probably not be called, so it is not a good candidate for this purpose */
   [[NSConnection defaultConnection] invalidate];
-  [[HKHotKeyManager sharedManager] unregisterAll];
+  [self unloadTriggers];
 }
 
 @end
