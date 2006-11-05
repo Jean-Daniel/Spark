@@ -101,6 +101,13 @@
   SKSetterRetain(sp_bundle, identifier);
 }
 
+- (NSURL *)helpURL {
+  NSString *help = [sp_class helpFile];
+  if (help)
+    return [NSURL fileURLWithPath:help];
+  return nil;
+}
+
 - (id)instantiatePlugin {
   if (!sp_nib) {
     NSString *path = [sp_class nibPath];

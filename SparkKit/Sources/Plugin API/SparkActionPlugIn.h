@@ -125,3 +125,21 @@ If you use this class in IB, you can define an Outlet with name actionView.
 - (void)setIcon:(NSImage *)icon;
 
 @end
+
+@interface SparkActionPlugIn (SparkDynamicPlugIn)
+
++ (NSString *)nibPath;
+
+  /* SparkActionClass */
++ (Class)actionClass;
+
+  /* SparkPluginName */
++ (NSString *)plugInName;
+
+  /* SparkPluginIcon */
++ (NSImage *)plugInIcon;
+
+  /* SparkHelpFile */
++ (NSString *)helpFile;
+
+@end

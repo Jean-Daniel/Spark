@@ -138,12 +138,17 @@ static NSString * const kSparkActionDescriptionKey = @"SADescription";
 
 #pragma mark -
 #pragma mark Public Methods
-- (SparkAlert *)check {
+- (SparkAlert *)shouldPerformAction {
+  if ([self respondsToSelector:@selector(check)])
+    return [self performSelector:@selector(check)];
   return nil;
 }
 
-- (SparkAlert *)execute {
-  NSBeep();
+- (SparkAlert *)performAction {
+  if ([self respondsToSelector:@selector(execute)])
+    return [self performSelector:@selector(execute)];
+  else
+    NSBeep();
   return nil;
 }
 
@@ -204,7 +209,7 @@ static NSString * const kSparkActionDescriptionKey = @"SADescription";
 }
 
 - (SparkAlert *)hotKeyShouldExecuteAction:(SparkHotKey *)hotkey {
-  return [self execute];
+  return [self performAction];
 }
 
 - (BOOL)isInvalid {

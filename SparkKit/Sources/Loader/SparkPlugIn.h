@@ -59,6 +59,8 @@
 - (NSString *)bundleIdentifier;
 - (void)setBundleIdentifier:(NSString *)anIdentifier;
 
+- (NSURL *)helpURL;
+
 /*!
   @method
  @abstract Returns the Action Class provided by this plugin.

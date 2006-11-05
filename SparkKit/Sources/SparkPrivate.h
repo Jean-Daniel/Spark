@@ -12,24 +12,10 @@
 
 @interface SparkActionPlugIn (Private)
 
-+ (NSString *)nibPath;
-
-/* SparkActionClass */
-+ (Class)actionClass;
-
-/* SparkPluginName */
-+ (NSString *)plugInName;
-
-/* SparkPluginIcon */
-+ (NSImage *)plugInIcon;
-
-/* SparkHelpFile */
-+ (NSString *)helpFile;
-
 /* Some kind of hack to resolve binding cyclic memory problem. 
 - releaseViewOwnership says to the receiver that it no longer need retain
   the view because something else retained it. So SparkActionPlugin instance release
-  the view end retain cycle is broken. */
+  the view and breaks the retain cycle. */
 - (void)releaseViewOwnership;
 - (void)setSparkAction:(SparkAction *)anAction edit:(BOOL)flag;
 

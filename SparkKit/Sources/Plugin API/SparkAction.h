@@ -32,8 +32,8 @@ NSTimeInterval SparkGetDefaultKeyRepeatInterval(void);
 <ul style="list-style:none">
 <li>-initWithSerializedValues:</li>
 <li>-serialize:</li>
-<li>-check (optional)</li>
-<li>-execute</li>
+<li>-shouldPerformAction (optional)</li>
+<li>-performAction</li>
 <ul>
 */
 @interface SparkAction : SparkObject <NSCopying, NSCoding> {
@@ -65,35 +65,35 @@ NSTimeInterval SparkGetDefaultKeyRepeatInterval(void);
 - (id)initWithSerializedValues:(NSDictionary *)plist;
 
   /*!
-  @method     check
-   @abstract   Optional! Called just after a key were loaded.
+  @method
+   @abstract   Optional! Called before each action execution, and when action are loaded into the editor.
    @discussion Subclasses should override this method to check if the action is valid.
    @result     Return nil if the action is valid and ready to be executed.
    */
-- (SparkAlert *)check;
+- (SparkAlert *)shouldPerformAction;
 
   /*!
-  @method     execute
+  @method
    @abstract   Required!
    @discussion Subclasses must overwrite this method.
-   @result     <i>nil</i> if this SparkAction is executed whitout problem.
+   @result     Returns <i>nil</i> if this SparkAction is executed whitout problem.
    */
-- (SparkAlert *)execute;
+- (SparkAlert *)performAction;
 
   /*!
-  @method     version
+  @method
    @abstract   Returns the Action version. If nothing specified, use the class version.
    */
 - (UInt32)version;
   /*!
-  @method     setVersion:
+  @method
    @abstract   Sets the version for this Action.
    @param      newVersion Action version
    */
 - (void)setVersion:(UInt32)version;
 
   /*!
-  @method     categorie
+  @method
    @abstract   Returns the Action categorie.
    */
 - (NSString *)categorie;
@@ -111,7 +111,7 @@ NSTimeInterval SparkGetDefaultKeyRepeatInterval(void);
 - (void)setActionDescription:(NSString *)desc;
 
   /*!
-  @method     repeatInterval
+  @method
    @abstract   Returns the time interval between two events repetition.
    @result     0 to disable auto repeate, <em>SparkGetDefaultKeyRepeatInterval()</em> to use system defined repeat interval.
    */
