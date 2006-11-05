@@ -8,18 +8,28 @@
 
 #import <SparkKit/SparkPluginAPI.h>
 
+SPARK_PRIVATE
+NSString * const kASActionBundleIdentifier;
+
+#define AppleScriptActionBundle		[NSBundle bundleWithIdentifier:kASActionBundleIdentifier]
+
 @class SKAlias;
 @interface AppleScriptAction : SparkAction <NSCoding, NSCopying> {
-  NSAppleScript *_script;
-  SKAlias *_scriptAlias;
+  @private
+  id as_script;
+  SKAlias *as_alias;
 }
 
-- (SKAlias *)scriptAlias;
-- (void)setScriptAlias:(SKAlias *)newScriptAlias;
+- (id)script;
+- (void)setScript:(id)aScript;
 
-- (NSAppleScript *)script;
-- (void)setScript:(NSAppleScript *)newScript;
-- (NSString *)scriptFile;
-- (void)setScriptFile:(NSString *)newScriptFile;
+- (NSString *)file;
+- (void)setFile:(NSString *)aFile;
+
+- (SKAlias *)scriptAlias;
+- (void)setScriptAlias:(SKAlias *)anAlias;
 
 @end
+
+SPARK_PRIVATE
+NSString *AppleScriptActionDescription(AppleScriptAction *anAction);

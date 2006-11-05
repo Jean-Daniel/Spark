@@ -86,7 +86,7 @@ NSString * const kSystemConfirmKey = @"SystemConfirm";
   sa_action = newAction;
 }
 
-- (SparkAlert *)check {
+- (SparkAlert *)shouldPerformAction {
   switch ([self action]) {
     case kSystemLogOut:
     case kSystemSleep:
@@ -116,55 +116,39 @@ NSString * const kSystemConfirmKey = @"SystemConfirm";
   }
 }
 
-- (SparkAlert *)execute {
-  SparkAlert *alert = [self check];
-  if (alert == nil) {
-    switch ([self action]) {
-      case kSystemLogOut:
-        [self logout];
-        break;
-      case kSystemSleep:
-        [self sleep];
-        break;
-      case kSystemRestart:
-        [self restart];
-        break;
-      case kSystemShutDown:
-        [self shutDown];
-        break;
-      case kSystemFastLogOut:
-        [self fastLogout];
-        break;
-      case kSystemScreenSaver:
-        [self screenSaver];
-        break;
-        /* Accessibility */
-      case kSystemSwitchPolarity:
-        [self togglePolarity];
-        break;
-      case kSystemSwitchGrayscale:
-        [self toggleGray];
-        break;
-        
-      case kSystemEmptyTrash:
-        [self emptyTrash];
-        break;
-//      case kSystemMute:
-//        SKHIDPostAuxKey(kSKKeyMute);
-//        break;
-//      case kSystemEject:
-//        SKHIDPostAuxKey(kSKKeyEject);
-//        //SKHIDPostSystemDefinedEvent(kSKHIDEjectKey);
-//        break;
-//      case kSystemVolumeUp:
-//        SKHIDPostAuxKey(kSKKeySoundUp);
-//        break;
-//      case kSystemVolumeDown:
-//        SKHIDPostAuxKey(kSKKeySoundDown);
-//        break;
-    }
+- (SparkAlert *)performAction {
+  switch ([self action]) {
+    case kSystemLogOut:
+      [self logout];
+      break;
+    case kSystemSleep:
+      [self sleep];
+      break;
+    case kSystemRestart:
+      [self restart];
+      break;
+    case kSystemShutDown:
+      [self shutDown];
+      break;
+    case kSystemFastLogOut:
+      [self fastLogout];
+      break;
+    case kSystemScreenSaver:
+      [self screenSaver];
+      break;
+      /* Accessibility */
+    case kSystemSwitchPolarity:
+      [self togglePolarity];
+      break;
+    case kSystemSwitchGrayscale:
+      [self toggleGray];
+      break;
+      
+    case kSystemEmptyTrash:
+      [self emptyTrash];
+      break;
   }
-  return alert;
+  return nil;
 }
 
 #pragma mark -

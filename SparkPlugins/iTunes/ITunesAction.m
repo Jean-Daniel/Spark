@@ -270,7 +270,7 @@ return self;
   return YES;
 }
 
-- (SparkAlert *)check {
+- (SparkAlert *)shouldPerformAction {
   switch ([self iTunesAction]) {
     case kiTunesLaunch:
     case kiTunesQuit:
@@ -353,69 +353,67 @@ return self;
   [notify display:nil];
 }
 
-- (SparkAlert *)execute {
-  SparkAlert *alert = [self check];
-  if (alert == nil) {
-    switch ([self iTunesAction]) {
-      case kiTunesLaunch: {
-        ProcessSerialNumber psn = {0, kNoProcess};
-        SKProcessGetProcessWithSignature(kiTunesSignature);
-        if (psn.lowLongOfPSN != kNoProcess) {
-          LSLaunchFlags flags = kLSLaunchDefaults;
-          if (ia_iaFlags.hide)
-            flags |= kLSLaunchAndHide | kLSLaunchDontSwitch;
-          else if (ia_iaFlags.background)
-            flags |= kLSLaunchDontSwitch;
-          iTunesLaunch(flags);
-          if (ia_iaFlags.notify) {
-            [self notifyLaunch];
-          }
-          if (ia_iaFlags.autoplay)
-            iTunesSendCommand(kiTunesCommandPlay);
+- (SparkAlert *)performAction {
+  SparkAlert *alert = nil;
+  switch ([self iTunesAction]) {
+    case kiTunesLaunch: {
+      ProcessSerialNumber psn = {0, kNoProcess};
+      SKProcessGetProcessWithSignature(kiTunesSignature);
+      if (psn.lowLongOfPSN == kNoProcess) {
+        LSLaunchFlags flags = kLSLaunchDefaults;
+        if (ia_iaFlags.hide)
+          flags |= kLSLaunchAndHide | kLSLaunchDontSwitch;
+        else if (ia_iaFlags.background)
+          flags |= kLSLaunchDontSwitch;
+        iTunesLaunch(flags);
+        if (ia_iaFlags.notify) {
+          [self notifyLaunch];
         }
+        if (ia_iaFlags.autoplay)
+          iTunesSendCommand(kiTunesCommandPlay);
       }
-        break;
-      case kiTunesQuit:
-        iTunesQuit();
-        break;
-      case kiTunesPlayPause:
-        iTunesSendCommand(kiTunesCommandPlayPause);
-        [self displayInfoIfNeeded];
-        break;
-      case kiTunesPlayPlaylist:
-        alert = [self playPlaylist:[self playlist]];
-        break;
-      case kiTunesNextTrack:
-        iTunesSendCommand(kiTunesCommandNextTrack);
-        [self displayInfoIfNeeded];
-        break;
-      case kiTunesBackTrack:
-        iTunesSendCommand(kiTunesCommandPreviousTrack);
-        [self displayInfoIfNeeded];
-        break;
-      case kiTunesStop:
-        iTunesSendCommand(kiTunesCommandStopPlaying);
-        break;
-      case kiTunesShowTrackInfo:
-        [self displayTrackNotification];
-        break;
-      case kiTunesVisual:
-        [self switchVisualStat];
-        break;
-      case kiTunesVolumeDown:
-        [self volumeDown];
-        break;
-      case kiTunesVolumeUp:
-        [self volumeUp];
-        break;
-      case kiTunesEjectCD:
-        [self ejectCD];
-        break;
-      case kiTunesRateTrack:
-        iTunesSetCurrentTrackRate([self rating]);
-        [self displayInfoIfNeeded];
-        break;
     }
+      break;
+    case kiTunesQuit:
+      iTunesQuit();
+      break;
+    case kiTunesPlayPause:
+      iTunesSendCommand(kiTunesCommandPlayPause);
+      [self displayInfoIfNeeded];
+      break;
+    case kiTunesPlayPlaylist:
+      alert = [self playPlaylist:[self playlist]];
+      break;
+    case kiTunesNextTrack:
+      iTunesSendCommand(kiTunesCommandNextTrack);
+      [self displayInfoIfNeeded];
+      break;
+    case kiTunesBackTrack:
+      iTunesSendCommand(kiTunesCommandPreviousTrack);
+      [self displayInfoIfNeeded];
+      break;
+    case kiTunesStop:
+      iTunesSendCommand(kiTunesCommandStopPlaying);
+      break;
+    case kiTunesShowTrackInfo:
+      [self displayTrackNotification];
+      break;
+    case kiTunesVisual:
+      [self switchVisualStat];
+      break;
+    case kiTunesVolumeDown:
+      [self volumeDown];
+      break;
+    case kiTunesVolumeUp:
+      [self volumeUp];
+      break;
+    case kiTunesEjectCD:
+      [self ejectCD];
+      break;
+    case kiTunesRateTrack:
+      iTunesSetCurrentTrackRate([self rating]);
+      [self displayInfoIfNeeded];
+      break;
   }
   return alert;
 }

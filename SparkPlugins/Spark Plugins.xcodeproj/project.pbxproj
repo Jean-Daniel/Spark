@@ -53,6 +53,7 @@
 		98789E1F0AB4A2E400C35052 /* ShadowKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 986756D4096B3C0500BB8A25 /* ShadowKit.framework */; };
 		9878A0340AB4B8FD00C35052 /* ITunesAESuite.c in Sources */ = {isa = PBXBuildFile; fileRef = 98E6A94C06063852000CCBE1 /* ITunesAESuite.c */; };
 		9878A0B30AB4BFC100C35052 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9878A0B20AB4BFC100C35052 /* Localizable.strings */; };
+		9879207E0AFCC750004EA7B5 /* AppleScriptPlugin.nib in Resources */ = {isa = PBXBuildFile; fileRef = 987920780AFCC74F004EA7B5 /* AppleScriptPlugin.nib */; };
 		9885E08B0AB2CC04006FE0CA /* ApplicationPlugin.nib in Resources */ = {isa = PBXBuildFile; fileRef = 9885E0850AB2CC04006FE0CA /* ApplicationPlugin.nib */; };
 		988CC7410A88E58000C208C6 /* iTunes.png in Resources */ = {isa = PBXBuildFile; fileRef = 988CC7400A88E58000C208C6 /* iTunes.png */; };
 		9894903C0ABC699B00423136 /* ITunesAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 98E6A94B06063852000CCBE1 /* ITunesAction.m */; };
@@ -125,7 +126,6 @@
 		98FC457F06063CC6003617CA /* Help in Resources */ = {isa = PBXBuildFile; fileRef = 98FC457706063CC6003617CA /* Help */; };
 		98FC458406063CD0003617CA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 98FC458006063CD0003617CA /* Localizable.strings */; };
 		98FC458506063CD0003617CA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 98FC458206063CD0003617CA /* InfoPlist.strings */; };
-		98FC458806063CE0003617CA /* AppleScriptView.nib in Resources */ = {isa = PBXBuildFile; fileRef = 98FC458606063CE0003617CA /* AppleScriptView.nib */; };
 		98FC459F06063D6A003617CA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 		98FC460306063DD1003617CA /* ApplicationAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 98FC45ED06063DD1003617CA /* ApplicationAction.m */; };
 		98FC460406063DD1003617CA /* ApplicationPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 98FC45EE06063DD1003617CA /* ApplicationPlugin.m */; };
@@ -254,10 +254,12 @@
 		98789CAE0AB48D5A00C35052 /* ITunesInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITunesInfo.h; sourceTree = "<group>"; };
 		98789CB20AB48D8200C35052 /* ITunesInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ITunesInfo.m; sourceTree = "<group>"; };
 		98789DC40AB4A0D900C35052 /* Simulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Simulator.m; sourceTree = "<group>"; };
-		98789DD20AB4A10D00C35052 /* Simulator.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Simulator.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		98789DD20AB4A10D00C35052 /* Simulator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Simulator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		98789DDF0AB4A1D300C35052 /* MainMenu.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = MainMenu.nib; sourceTree = "<group>"; };
 		98789DE80AB4A1EE00C35052 /* Simulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Simulator.h; sourceTree = "<group>"; };
 		9878A0B20AB4BFC100C35052 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
+		987920790AFCC74F004EA7B5 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Resources/English.lproj/AppleScriptPlugin.nib; sourceTree = "<group>"; };
+		987920920AFCCB61004EA7B5 /* OSAKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OSAKit.framework; path = /System/Library/Frameworks/OSAKit.framework; sourceTree = "<absolute>"; };
 		9885E0860AB2CC04006FE0CA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Resources/English.lproj/ApplicationPlugin.nib; sourceTree = "<group>"; };
 		988CC7400A88E58000C208C6 /* iTunes.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iTunes.png; sourceTree = "<group>"; };
 		98AA290C060C659F0039844B /* VolumeUp.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = VolumeUp.tif; sourceTree = "<group>"; };
@@ -323,7 +325,6 @@
 		98FC457806063CC6003617CA /* English */ = {isa = PBXFileReference; lastKnownFileType = folder; name = English; path = English.lproj/Help; sourceTree = "<group>"; };
 		98FC458106063CD0003617CA /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		98FC458306063CD0003617CA /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		98FC458706063CE0003617CA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Resources/English.lproj/AppleScriptView.nib; sourceTree = "<group>"; };
 		98FC45A306063D6A003617CA /* ApplicationAction.spact */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ApplicationAction.spact; sourceTree = BUILT_PRODUCTS_DIR; };
 		98FC45ED06063DD1003617CA /* ApplicationAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ApplicationAction.m; path = Application/ApplicationAction.m; sourceTree = SOURCE_ROOT; };
 		98FC45EE06063DD1003617CA /* ApplicationPlugin.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ApplicationPlugin.m; sourceTree = "<group>"; };
@@ -483,8 +484,9 @@
 		1058C7AEFEA557BF11CA2CBB /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				089C1672FE841209C02AAC07 /* Foundation.framework */,
+				987920920AFCCB61004EA7B5 /* OSAKit.framework */,
 				089C167FFE841241C02AAC07 /* AppKit.framework */,
+				089C1672FE841209C02AAC07 /* Foundation.framework */,
 			);
 			name = "Other Frameworks";
 			sourceTree = "<group>";
@@ -671,8 +673,8 @@
 				98FC454606063C8E003617CA /* AppleScriptActionPlugin.m */,
 				98E1CC570607765F00FA3599 /* Info.plist */,
 				98FC458206063CD0003617CA /* InfoPlist.strings */,
-				98FC458606063CE0003617CA /* AppleScriptView.nib */,
 				98FC454B06063C8E003617CA /* Resources */,
+				987920780AFCC74F004EA7B5 /* AppleScriptPlugin.nib */,
 			);
 			name = AppleScript;
 			path = "Apple Script";
@@ -1113,7 +1115,7 @@
 				98FC457F06063CC6003617CA /* Help in Resources */,
 				98FC458406063CD0003617CA /* Localizable.strings in Resources */,
 				98FC458506063CD0003617CA /* InfoPlist.strings in Resources */,
-				98FC458806063CE0003617CA /* AppleScriptView.nib in Resources */,
+				9879207E0AFCC750004EA7B5 /* AppleScriptPlugin.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1269,6 +1271,14 @@
 			name = DocumentPlugin.nib;
 			sourceTree = "<group>";
 		};
+		987920780AFCC74F004EA7B5 /* AppleScriptPlugin.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				987920790AFCC74F004EA7B5 /* English */,
+			);
+			name = AppleScriptPlugin.nib;
+			sourceTree = "<group>";
+		};
 		9885E0850AB2CC04006FE0CA /* ApplicationPlugin.nib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1381,14 +1391,6 @@
 			);
 			name = InfoPlist.strings;
 			path = Resources;
-			sourceTree = "<group>";
-		};
-		98FC458606063CE0003617CA /* AppleScriptView.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				98FC458706063CE0003617CA /* English */,
-			);
-			name = AppleScriptView.nib;
 			sourceTree = "<group>";
 		};
 		98FC461606063DF8003617CA /* ApplicationHelp.html */ = {
@@ -1523,6 +1525,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				INFOPLIST_FILE = "Apple Script/Info.plist";
+				OTHER_LDFLAGS = (
+					"$(OTHER_LDFLAGS)",
+					"$(OTHER_LDFLAGS_$(CURRENT_ARCH))",
+					"-weak_framework",
+					OSAKit,
+				);
 				PRODUCT_NAME = AppleScriptAction;
 			};
 			name = "Universal Binary";
@@ -1641,6 +1649,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				INFOPLIST_FILE = "Apple Script/Info.plist";
+				OTHER_LDFLAGS = (
+					"$(OTHER_LDFLAGS)",
+					"$(OTHER_LDFLAGS_$(CURRENT_ARCH))",
+					"-framework",
+					OSAKit,
+				);
 				PRODUCT_NAME = AppleScriptAction;
 			};
 			name = Development;
@@ -1649,6 +1663,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				INFOPLIST_FILE = "Apple Script/Info.plist";
+				OTHER_LDFLAGS = (
+					"$(OTHER_LDFLAGS)",
+					"$(OTHER_LDFLAGS_$(CURRENT_ARCH))",
+					"-weak_framework",
+					OSAKit,
+				);
 				PRODUCT_NAME = AppleScriptAction;
 			};
 			name = Deployment;

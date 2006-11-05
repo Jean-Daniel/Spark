@@ -170,51 +170,48 @@ OSType _DocumentActionFromFlag(int flag) {
   return YES;
 }
 
-- (SparkAlert *)check {
-  id alert = nil;
-//  if (da_action == kDocumentActionOpen || da_action == kDocumentActionOpenWith) {
-//    if ([[self docAlias] path] == nil) {
-//      //Alert Doc invalide
-//      alert = [SparkAlert alertWithMessageText:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"INVALID_DOCUMENT_ALERT", nil, 
-//                                                                                                             kDocumentActionBundle,
-//                                                                                                             @"Document not found * Check Title *"), [self name]]
-//                     informativeTextWithFormat:NSLocalizedStringFromTableInBundle(@"INVALID_DOCUMENT_ALERT_MSG", nil, 
-//                                                                                  kDocumentActionBundle,
-//                                                                                  @"Document not found  * Check Msg *"), [self name]];
-//    }
-//  }
-//  if (da_action == kDocumentActionOpenWith || da_action == kDocumentActionOpenSelectionWith) {
-//    if ([[self appAlias] path] == nil) {
-//      //Alert App Invalide
-//      alert = [SparkAlert alertWithMessageText:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"INVALID_APPLICATION_ALERT", nil, 
-//                                                                                                             kDocumentActionBundle,
-//                                                                                                             @"Application not found * Check Title *"), [self name]]
-//                     informativeTextWithFormat:NSLocalizedStringFromTableInBundle(@"INVALID_APPLICATION_ALERT_MSG", nil, 
-//                                                                                  kDocumentActionBundle,
-//                                                                                  @"Application not found  * Check Msg *"), [self name]];
-//    }
-//  }
-  return alert;
+- (SparkAlert *)shouldPerformAction {
+  if (da_action == kDocumentActionOpen || da_action == kDocumentActionOpenWith) {
+    if (![[self document] path]) {
+      //Alert Doc invalide
+      return [SparkAlert alertWithMessageText:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"INVALID_DOCUMENT_ALERT", nil, 
+                                                                                                            kDocumentActionBundle,
+                                                                                                            @"Document not found * Check Title *"), [self name]]
+                    informativeTextWithFormat:NSLocalizedStringFromTableInBundle(@"INVALID_DOCUMENT_ALERT_MSG", nil, 
+                                                                                 kDocumentActionBundle,
+                                                                                 @"Document not found  * Check Msg *"), [self name]];
+    }
+  }
+  if (da_action == kDocumentActionOpenWith || da_action == kDocumentActionOpenSelectionWith) {
+    if (![[self application] path]) {
+      //Alert App Invalide
+      return [SparkAlert alertWithMessageText:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"INVALID_APPLICATION_ALERT", nil, 
+                                                                                                            kDocumentActionBundle,
+                                                                                                            @"Application not found * Check Title *"), [self name]]
+                    informativeTextWithFormat:NSLocalizedStringFromTableInBundle(@"INVALID_APPLICATION_ALERT_MSG", nil, 
+                                                                                 kDocumentActionBundle,
+                                                                                 @"Application not found  * Check Msg *"), [self name]];
+    }
+  }
+  return nil;
 }
 
-- (SparkAlert *)execute {
-  id alert = [self check];
-  if (alert == nil) {
-    if (da_action == kDocumentActionOpen || da_action == kDocumentActionOpenWith) {
-      if (![[NSWorkspace sharedWorkspace] openFile:[[self document] path] withApplication:[[self application] path]]) {
-        NSBeep();
-        // Impossible d'ouvrir le document (alert = ?)
-      }
-    } else if (da_action == kDocumentActionOpenSelection || da_action == kDocumentActionOpenSelectionWith) {
-      // Check if Finder is foreground
-      if (SKProcessGetFrontProcessSignature() == 'MACS') {
-        [self openSelection];
-      }
-    } else if (da_action == kDocumentActionOpenURL) {
-      if (![[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:da_url]]) {
-        NSBeep();
-        /* alert = []; */
-      }
+- (SparkAlert *)performAction {
+  SparkAlert *alert = nil;
+  if (da_action == kDocumentActionOpen || da_action == kDocumentActionOpenWith) {
+    if (![[NSWorkspace sharedWorkspace] openFile:[[self document] path] withApplication:[[self application] path]]) {
+      NSBeep();
+      // Impossible d'ouvrir le document (alert = ?)
+    }
+  } else if (da_action == kDocumentActionOpenSelection || da_action == kDocumentActionOpenSelectionWith) {
+    // Check if Finder is foreground
+    if (SKProcessGetFrontProcessSignature() == 'MACS') {
+      [self openSelection];
+    }
+  } else if (da_action == kDocumentActionOpenURL) {
+    if (![[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:da_url]]) {
+      NSBeep();
+      /* alert = []; */
     }
   }
   return alert;

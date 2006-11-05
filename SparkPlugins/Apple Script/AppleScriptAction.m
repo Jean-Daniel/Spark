@@ -9,34 +9,35 @@
 #import "AppleScriptAction.h"
 #import "AppleScriptActionPlugin.h"
 
-static NSString* const kASActionScriptDataKey = @"Script Data";
-static NSString* const kASActionScriptFileKey = @"Script File";
+static NSString * const kASActionScriptDataKey = @"Script Data";
+static NSString * const kASActionScriptFileKey = @"Script File";
+
+NSString * const kASActionBundleIdentifier = @"org.shadowlab.spark.applescript";
 
 @implementation AppleScriptAction
 
 #pragma mark Protocols Implementation
 - (id)copyWithZone:(NSZone *)zone {
   AppleScriptAction* copy = [super copyWithZone:zone];
-  copy->_script = [_script copy];
-  copy->_scriptAlias = [_scriptAlias copy];
+  copy->as_script = [as_script copy];
+  copy->as_alias = [as_alias copy];
   return copy;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
-  if (_script) 
-    [coder encodeObject:[_script source] forKey:kASActionScriptDataKey];
-  if (_scriptAlias)
-    [coder encodeObject:_scriptAlias forKey:kASActionScriptFileKey];
-  return;
+  if (as_script) 
+    [coder encodeObject:[as_script source] forKey:kASActionScriptDataKey];
+  if (as_alias)
+    [coder encodeObject:as_alias forKey:kASActionScriptFileKey];
 }
 
 - (id)initWithCoder:(NSCoder *)coder {
   if (self = [super initWithCoder:coder]) {
-    id src = [coder decodeObjectForKey:kASActionScriptDataKey];
+    NSString *src = [coder decodeObjectForKey:kASActionScriptDataKey];
     if (nil != src)
-      _script = [[NSAppleScript alloc] initWithSource:src];
-    _scriptAlias = [[coder decodeObjectForKey:kASActionScriptFileKey] retain];
+      as_script = [[NSAppleScript alloc] initWithSource:src];
+    as_alias = [[coder decodeObjectForKey:kASActionScriptFileKey] retain];
   }
   return self;
 }
@@ -63,8 +64,8 @@ static NSString* const kASActionScriptFileKey = @"Script File";
 }
 
 - (void)dealloc {
-  [_scriptAlias release];
-  [_script release];
+  [as_alias release];
+  [as_script release];
   [super dealloc];
 }
 
@@ -83,13 +84,13 @@ static NSString* const kASActionScriptFileKey = @"Script File";
   return plist;
 }
 
-- (SparkAlert *)execute {
+- (SparkAlert *)performAction {
   id error = nil;
   id alert = nil;
   if ([self script] != nil) {
     [[self script] executeAndReturnError:&error];
-  } else if ([self scriptFile] != nil) {
-    id scriptUrl = [NSURL fileURLWithPath:[self scriptFile]];
+  } else if ([self file] != nil) {
+    id scriptUrl = [NSURL fileURLWithPath:[self file]];
     id script = [[NSAppleScript alloc] initWithContentsOfURL:scriptUrl
                                                        error:nil];
     [self setScript:script];
@@ -113,42 +114,44 @@ static NSString* const kASActionScriptFileKey = @"Script File";
 }
 
 - (SKAlias *)scriptAlias {
-  return _scriptAlias;
+  return as_alias;
+}
+- (void)setScriptAlias:(SKAlias *)anAlias {
+  SKSetterRetain(as_alias, anAlias);
 }
 
-- (void)setScriptAlias:(SKAlias *)newScriptAlias {
-  if (_scriptAlias != newScriptAlias) {
-    [_scriptAlias release];
-    _scriptAlias = [newScriptAlias retain];
-  }
+- (id)script {
+  return as_script;
+}
+- (void)setScript:(id)aScript {
+  SKSetterRetain(as_script, aScript);
 }
 
-
-- (NSAppleScript *)script {
-  return [[_script retain] autorelease];
-}
-
-- (void)setScript:(NSAppleScript *)newScript {
-  if (_script != newScript) {
-    [_script release];
-    _script = [newScript retain];
-  }
-}
-
-- (NSString *)scriptFile {
+- (NSString *)file {
   return [[self scriptAlias] path];
 }
-
-- (void)setScriptFile:(NSString *)newScriptFile {
-  if (newScriptFile != nil) {
-    SKAlias *alias = [[SKAlias alloc] initWithPath:newScriptFile];
+- (void)setFile:(NSString *)aFile {
+  if (aFile != nil) {
+    SKAlias *alias = [[SKAlias alloc] initWithPath:aFile];
     [self setScriptAlias:alias];
     [alias release];
-  }
-  else {
+  } else {
     [self setScriptAlias:nil];
   }
 }
 
-
 @end
+
+NSString *AppleScriptActionDescription(AppleScriptAction *anAction) {
+  if ([anAction script]) {
+    return NSLocalizedStringFromTableInBundle(@"DESC_EXECUTE_SOURCE", nil, AppleScriptActionBundle,
+                                              @"Simple Script Action Description");
+  } else if ([anAction file]) {
+    return [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"DESC_EXECUTE_FILE", nil, AppleScriptActionBundle,
+                                                                         @"File Script Action Description (%@ => File name)"),
+      [[anAction file] lastPathComponent]];
+  } else {
+    return @"<Invalid Description>";
+  }
+}
+

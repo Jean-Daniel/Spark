@@ -12,10 +12,10 @@
 #import <ShadowKit/SKCGFunctions.h>
 #import <ShadowKit/SKNotificationWindow.h>
 
-#define kiTunesVisualDefaultPosition	{ -2e8, 0 }
+#define kiTunesVisualDefaultPosition	{ -1e8, 0 }
 
-const NSPoint kiTunesUpperLeft = { -1e8, 0 };
-const NSPoint kiTunesUpperRight = kiTunesVisualDefaultPosition;
+const NSPoint kiTunesUpperLeft = kiTunesVisualDefaultPosition;
+const NSPoint kiTunesUpperRight = { -2e8, 0 };
 const NSPoint kiTunesBottomLeft = { -3e8, 0 };
 const NSPoint kiTunesBottomRight = { -4e8, 0 };
 

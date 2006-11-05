@@ -14,7 +14,18 @@
 
 #import <ShadowKit/SKExtensions.h>
 #import <ShadowKit/SKFSFunctions.h>
+#import <ShadowKit/SKLSFunctions.h>
 #import <ShadowKit/SKAppKitExtensions.h>
+
+static 
+NSImage *ITunesGetApplicationIcon() {
+  NSImage *icon = nil;
+  NSString *itunes = SKFindApplicationForSignature(kiTunesSignature);
+  if (itunes) {
+    icon = [[NSWorkspace sharedWorkspace] iconForFile:itunes];
+  }
+  return icon;
+}
 
 @implementation ITunesActionPlugin
 
@@ -37,6 +48,13 @@
   [it_playlist release];
   [it_playlists release];
   [super dealloc];
+}
+
+#pragma mark -
+- (void)awakeFromNib {
+  NSImage *icon = ITunesGetApplicationIcon();
+  if (icon)
+    [ibIcon setImage:icon];
 }
 
 /* This function is called when the user open the iTunes Action Editor Panel */
@@ -332,6 +350,17 @@ NSString *iTunesFindLibraryFile(int folder) {
     [library release];
   }
   return [playlists autorelease];
+}
+
+#pragma mark -
+#pragma mark Dynamic Plugin
++ (NSImage *)plugInIcon {
+  NSImage *icon = ITunesGetApplicationIcon();
+  if (icon)
+    [icon setSize:NSMakeSize(16, 16)];
+  else
+    icon = [super plugInIcon];
+  return icon;
 }
 
 @end

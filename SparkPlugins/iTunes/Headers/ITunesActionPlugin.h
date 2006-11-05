@@ -13,6 +13,7 @@
 @class ITunesVisualSetting;
 @interface ITunesActionPlugin : SparkActionPlugIn {
   IBOutlet NSTextField *ibName;
+  IBOutlet NSImageView *ibIcon;
   IBOutlet NSTabView *ibTabView;
   IBOutlet NSButton *ibBackground;
   IBOutlet ITunesVisualSetting *ibVisual;

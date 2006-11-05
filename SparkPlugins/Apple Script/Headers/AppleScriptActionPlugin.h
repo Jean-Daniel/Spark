@@ -2,41 +2,33 @@
 
 #import <SparkKit/SparkPluginAPI.h>
 
-SPARK_PRIVATE
-NSString * const kASActionBundleIdentifier;
-
-#define AppleScriptActionBundle		[NSBundle bundleWithIdentifier:kASActionBundleIdentifier]
-
 @interface AppleScriptActionPlugin : SparkActionPlugIn {
-  IBOutlet id textView;
-  id attr;
-  id _script;
-  id _scriptFile;
-  
-  int tabIndex;
+  IBOutlet id ibScript;
+  @private
+    NSString *as_file;
+  int as_tidx;
 }
 
-- (IBAction)checkSyntax:(id)sender;
+- (IBAction)compile:(id)sender;
+
 - (IBAction)run:(id)sender;
 - (IBAction)open:(id)sender;
 - (IBAction)import:(id)sender;
 
 - (IBAction)launchEditor:(id)sender;
 
-- (NSAlert *)checkSyntax;
 - (NSAlert *)compileScript:(NSAppleScript *)script;
-- (NSAlert *)alertForScriptError:(NSDictionary *)errors;
 
-- (void)setAttributes;
+- (NSString *)scriptFile;
+- (void)setScriptFile:(NSString *)aFile;
 
-- (id)script;
-- (void)setScript:(id)newScript;
-
-- (id)scriptFile;
-- (void)setScriptFile:(id)newScriptFile;
+- (int)selectedTab;
+- (void)setSelectedTab:(int)tab;
 
 @end
 
 @interface SourceView : NSTextView {
 }
+- (NSString *)source;
+- (void)setSource:(NSString *)src;
 @end

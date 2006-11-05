@@ -319,44 +319,46 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
   return NO;
 }
 
-- (SparkAlert *)check {
-  /* Don't check path if hide or hide all */
-//  if (sa_action != kHideFrontTag && sa_action != kHideAllTag) {
-//    if ([self path] == nil) {
-//      id title = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"INVALID_APPLICATION_ALERT", nil, kApplicationActionBundle,
-//                                                                               @"Check * App Not Found *") , [self name]];
-//      return [SparkAlert alertWithMessageText:title
-//                    informativeTextWithFormat:NSLocalizedStringFromTableInBundle(@"INVALID_APPLICATION_ALERT_MSG",
-//                                                                                 nil, kApplicationActionBundle,@"Check * App Not Found *"), [self name]];
-//    }
-//  }
+- (SparkAlert *)shouldPerformAction {
+  switch (aa_action) {
+    case kApplicationLaunch:
+    case kApplicationQuit:
+    case kApplicationToggle:
+    case kApplicationForceQuit:
+      if (![self path]) {
+        NSString *title = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"INVALID_APPLICATION_ALERT", nil, kApplicationActionBundle,
+                                                                                        @"Check * App Not Found *") , [self name]];
+        return [SparkAlert alertWithMessageText:title
+                      informativeTextWithFormat:NSLocalizedStringFromTableInBundle(@"INVALID_APPLICATION_ALERT_MSG",
+                                                                                   nil, kApplicationActionBundle,@"Check * App Not Found *"), [self name]];
+      }
+      break;
+  }
   return nil;
 }
 
-- (SparkAlert *)execute {
-  id alert = [self check];
-  if (alert == nil) {
-    switch (aa_action) {
-      case kApplicationLaunch:
-        [self launchApplication];
-        break;
-      case kApplicationQuit:
-        [self quitApplication];
-        break;
-      case kApplicationToggle:
-        [self toggleApplicationState];
-        break;
-      case kApplicationForceQuit:
-        [self killApplication];
-        break;
-        
-      case kApplicationHideFront:
-        [self hideFront];
-        break;
-      case kApplicationHideOther:
-        [self hideOthers];
-        break;
-    }
+- (SparkAlert *)performAction {
+  SparkAlert *alert = nil;
+  switch (aa_action) {
+    case kApplicationLaunch:
+      [self launchApplication];
+      break;
+    case kApplicationQuit:
+      [self quitApplication];
+      break;
+    case kApplicationToggle:
+      [self toggleApplicationState];
+      break;
+    case kApplicationForceQuit:
+      [self killApplication];
+      break;
+      
+    case kApplicationHideFront:
+      [self hideFront];
+      break;
+    case kApplicationHideOther:
+      [self hideOthers];
+      break;
   }
   return alert;
 }
