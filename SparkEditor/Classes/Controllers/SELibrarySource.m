@@ -110,7 +110,7 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
     [se_content addObjectsFromArray:[SparkSharedListSet() objects]];
     
     /* Overwrite list */
-    se_overwrite = [[SparkList alloc] initWithName:@"Overwrite" icon:[NSImage imageNamed:@"Overwrite"]];
+    se_overwrite = [[SparkList alloc] initWithName:@"Overwrite" icon:[NSImage imageNamed:@"application"]];
     [se_overwrite setListFilter:SEOverwriteListFilter context:nil];
     [se_overwrite setObjectSet:SparkSharedTriggerSet()];
     [se_overwrite setUID:9];
@@ -272,7 +272,13 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
       [aTableView reloadData];
       /* last item */
       if ((unsigned)idx == [se_content count]) {
-        [aTableView selectRow:[se_content count] - 1 byExtendingSelection:NO];
+        while (idx-- > 0) {
+          if ([self tableView:aTableView shouldSelectRow:idx]) {
+            [aTableView selectRow:idx byExtendingSelection:NO];
+            break;
+          }
+        }
+        //[aTableView selectRow:[se_content count] - 1 byExtendingSelection:NO];
       }
       if (idx == [aTableView selectedRow]) {
         [[NSNotificationCenter defaultCenter] postNotificationName:NSTableViewSelectionDidChangeNotification

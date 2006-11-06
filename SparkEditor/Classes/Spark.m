@@ -17,6 +17,8 @@
 #import <SparkKit/SparkKit.h>
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkActionLoader.h>
+#import <SparkKit/SparkBuiltInAction.h>
+
 #import <HotKeyToolKit/HotKeyToolKit.h>
 
 #import "SEPluginHelp.h"
@@ -57,6 +59,11 @@ NSArray *gSortByNameDescriptors = nil;
   return self;
 }
 
+- (void) dealloc {
+  [se_plugins release];
+  [super dealloc];
+}
+
 /* Intercepts help keydown events */
 - (void)sendEvent:(NSEvent *)event {
   if (([event type] == NSKeyDown || [event type] == NSKeyUp) && [event keyCode] == kVirtualHelpKey) {
@@ -67,6 +74,27 @@ NSArray *gSortByNameDescriptors = nil;
     }
   } 
   [super sendEvent:event];
+}
+
+- (NSMenu *)pluginsMenu {
+  if (!se_plugins) {
+    se_plugins = [[NSMenu alloc] initWithTitle:NSLocalizedString(@"NEW_TRIGGER_MENU", @"New Trigger Menu Title")];
+    NSArray *plugins = [[[SparkActionLoader sharedLoader] plugins] sortedArrayUsingDescriptors:gSortByNameDescriptors];
+    
+    SparkPlugIn *plugin;
+    NSEnumerator *items = [plugins objectEnumerator];
+    int idx = 1;
+    while (plugin = [items nextObject]) {
+      NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:[plugin name] action:@selector(newTriggerFromMenu:) keyEquivalent:@""];
+      [item setImage:[plugin icon]];
+      [item setRepresentedObject:plugin];
+      if (idx < 10) 
+        [item setKeyEquivalent:[NSString stringWithFormat:@"%i", idx++]];
+      [se_plugins addItem:item];
+      [item release];
+    }
+  }
+  return se_plugins;
 }
 
 @end
@@ -87,6 +115,9 @@ NSArray *gSortByNameDescriptors = nil;
       //@"1", @"NSScriptingDebugLogLevel",
       nil]];
 #endif
+    /* Register Built-in plugin */
+    [[SparkActionLoader sharedLoader] registerPlugInClass:[SparkBuiltInActionPlugin class]];
+    
     /* First load Library */
     SparkLibrary *library = SparkSharedLibrary();
     /* Get default library path */
@@ -130,6 +161,9 @@ NSArray *gSortByNameDescriptors = nil;
   [self createDebugMenu];
 #endif
   [self createAboutMenu];
+  
+  NSMenu *file = [[[NSApp mainMenu] itemWithTag:1] submenu];
+  [file setSubmenu:[NSApp pluginsMenu] forItem:[file itemWithTag:1]];
   
   /* Register for server status event and start connection */
   [[NSNotificationCenter defaultCenter] addObserver:self

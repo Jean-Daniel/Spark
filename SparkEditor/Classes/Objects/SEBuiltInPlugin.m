@@ -8,7 +8,13 @@
 
 #import "SEBuiltInPlugin.h"
 
+#import <ShadowKit/SKImageView.h>
+
 @implementation SEInheritsPlugin
+
+- (void)awakeFromNib {
+  [ibIcon setImageInterpolation:NSImageInterpolationHigh];
+}
 
 + (Class)actionClass {
   return Nil;

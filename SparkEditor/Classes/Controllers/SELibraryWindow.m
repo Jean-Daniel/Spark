@@ -87,6 +87,10 @@
   [triggers loadTriggers];
   
   [self performSelector:@selector(didChangeStatus:) withObject:nil];
+  
+  /* Configure New Plugin Menu */
+  [ibMenu setMenu:[NSApp pluginsMenu] forSegment:0];
+  [[ibMenu cell] setToolTip:NSLocalizedString(@"CREATE_TRIGGER_TOOLTIP", @"Segment Menu ToolTips") forSegment:0];
 }
 
 - (IBAction)libraryDoubleAction:(id)sender {
@@ -102,6 +106,14 @@
         [[SEEntriesManager sharedManager] createEntry:plugin modalForWindow:[self window]];
       }
     }
+  }
+}
+
+- (IBAction)newTriggerFromMenu:(id)sender {
+  if ([sender respondsToSelector:@selector(representedObject)]) {
+    id object = [sender representedObject];
+    if ([object isKindOfClass:[SparkPlugIn class]])
+      [[SEEntriesManager sharedManager] createEntry:[sender representedObject] modalForWindow:[self window]];
   }
 }
 
@@ -164,17 +176,17 @@
   SparkDaemonStatus status = [NSApp serverStatus];
   switch (status) {
     case kSparkDaemonStarted:
-      str = @"Spark is active";
+      str = NSLocalizedString(@"Spark is active", @"Spark Daemon status string");
       up = [NSImage imageNamed:@"stop"];
       down = [NSColor currentControlTint] == NSBlueControlTint ? [NSImage imageNamed:@"stop_bdown"] : [NSImage imageNamed:@"stop_gdown"];
       break;
     case kSparkDaemonStopped:
-      str = @"Spark is disabled";
+      str = NSLocalizedString(@"Spark is disabled", @"Spark Daemon status string");
       up = [NSImage imageNamed:@"start"];
       down = [NSColor currentControlTint] == NSBlueControlTint ? [NSImage imageNamed:@"start_bdown"] : [NSImage imageNamed:@"start_gdown"];
       break;
     case kSparkDaemonError:
-      str = @"Unexpected error occured";
+      str = NSLocalizedString(@"Unexpected error occured", @"Spark Daemon status string");
       break;
   }
   [ibStatus setStringValue:str];

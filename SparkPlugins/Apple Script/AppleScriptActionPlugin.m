@@ -25,7 +25,7 @@ enum {
 };
 
 @interface AppleScriptNSPlugin : AppleScriptActionPlugin {
-  /* NSAppleScript */
+  
 }
 
 - (NSAlert *)alertForScriptError:(NSDictionary *)errors;
@@ -108,6 +108,13 @@ SKClassCluster(AppleScriptActionPlugin);
   return alert;
 }
 
+- (IBAction)compile:(id)sender {
+  SKClusterException();
+}
+
+- (IBAction)run:(id)sender {
+  SKClusterException();
+}
 - (NSAlert *)compileScript:(NSAppleScript *)script {
   SKClusterException();
   return nil;
@@ -152,37 +159,6 @@ SKClassCluster(AppleScriptActionPlugin);
       break;
   }
   [action setActionDescription:AppleScriptActionDescription(action)];
-}
-
-#pragma mark -
-- (IBAction)compile:(id)sender {
-//  id alert = nil;
-//  [self setScript:nil];
-//  if ([[textView textStorage] length]) {
-//    if (alert = [self checkSyntax]) {
-//      [alert beginSheetModalForWindow:[textView window]
-//                        modalDelegate:nil
-//                       didEndSelector:nil
-//                          contextInfo:nil];
-//    }
-//  } 
-}
-
-- (IBAction)run:(id)sender {
-//  [self checkSyntax:nil];
-//  id script = [self script];
-//  if (script) {
-//    id error = nil;
-//    if (![script executeAndReturnError:&error]) {
-//      id alert = [self alertForScriptError:error];
-//      [alert setMessageText:NSLocalizedStringFromTableInBundle(@"EXECUTION_ERROR_ALERT", nil, AppleScriptActionBundle,
-//                                                               @"Execution Error * Title *")];
-//      [alert beginSheetModalForWindow:[textView window]
-//                        modalDelegate:nil
-//                       didEndSelector:nil
-//                          contextInfo:nil];
-//    }
-//  }
 }
 
 #pragma mark Open
@@ -333,7 +309,7 @@ dispose:
 static NSDictionary *sAttributes = nil;
 
 + (void)initialize {
-  if ([AppleScriptActionPlugin class] == self) {
+  if ([AppleScriptNSPlugin class] == self) {
     sAttributes = [[NSDictionary alloc] initWithObjectsAndKeys:
       SKInt(NSUnderlineStyleNone), NSUnderlineStyleAttributeName,
       [NSFont userFixedPitchFontOfSize:10], NSFontAttributeName,
@@ -347,9 +323,44 @@ static NSDictionary *sAttributes = nil;
 }
 
 - (void)awakeFromNib {
-  [ibScript setTextFont:[sAttributes objectForKey:NSFontAttributeName]];
+  [ibScript setFont:[sAttributes objectForKey:NSFontAttributeName]];
   [ibScript setTextColor:[sAttributes objectForKey:NSForegroundColorAttributeName]];
   [ibScript setTypingAttributes:sAttributes];
+}
+
+- (void)highlightSource:(NSAppleScript *)script {
+  if ([script isCompiled]) {
+    NSRange range = [ibScript selectedRange];
+    NSAttributedString *str = [script richTextSource];
+    [[ibScript textStorage] setAttributedString:str];
+    [ibScript setSelectedRange:range];
+  }
+}
+
+- (IBAction)compile:(id)sender {
+  NSString *source = [ibScript source];
+  if (source && [source length] > 0) {
+    NSAppleScript *script = [[NSAppleScript alloc] initWithSource:source];
+    NSDictionary *error = nil;
+    if (![script compileAndReturnError:&error]) {
+      [[self alertForScriptError:error] runModal];
+    } else {
+      [self highlightSource:script];
+    }
+  }
+}
+
+- (IBAction)run:(id)sender {
+  NSString *source = [ibScript source];
+  if (source && [source length] > 0) {
+    NSAppleScript *script = [[NSAppleScript alloc] initWithSource:source];
+    NSDictionary *error = nil;
+    if (![script executeAndReturnError:&error]) {
+      [[self alertForScriptError:error] runModal];
+    } else {
+      [self highlightSource:script];
+    }
+  }
 }
 
 - (NSAlert *)alertForScriptError:(NSDictionary *)errors {

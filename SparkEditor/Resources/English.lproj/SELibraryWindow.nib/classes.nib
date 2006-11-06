@@ -2,6 +2,7 @@
     IBClasses = (
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {CLASS = NSObject; LANGUAGE = ObjC; }, 
+        {CLASS = NSSegmentedControl; LANGUAGE = ObjC; SUPERCLASS = NSControl; }, 
         {
             ACTIONS = {deleteSelection = id; newApplication = id; }; 
             CLASS = SEApplicationSource; 
@@ -28,6 +29,7 @@
                 appSource = SKTableDataSource; 
                 appTable = SKTableView; 
                 ibDaemon = NSButton; 
+                ibMenu = NSSegmentedControl; 
                 ibStatus = NSTextField; 
                 libraryTable = SKTableView; 
                 listSource = SELibrarySource; 

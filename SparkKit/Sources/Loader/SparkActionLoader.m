@@ -63,4 +63,15 @@
   return [self plugInForActionClass:[action class]];
 }
 
+- (SparkPlugIn *)registerPlugInClass:(Class)aClass {
+  if ([self isValidPlugIn:aClass]) {
+    SparkPlugIn *plugin = [[SparkPlugIn alloc] initWithClass:aClass];
+    if (plugin) {
+      [self registerPlugin:plugin withIdentifier:NSStringFromClass(aClass)];
+    }
+    return plugin;
+  }
+  return nil;
+}
+
 @end

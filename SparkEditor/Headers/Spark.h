@@ -15,8 +15,11 @@
 
 @interface SparkEditor : NSApplication {
   /* Scripting Addition */
+  NSMenu *se_plugins;
   SparkDaemonStatus se_status;
 }
+
+- (NSMenu *)pluginsMenu;
 
 @end
 

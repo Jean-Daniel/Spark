@@ -100,6 +100,10 @@
 		9887389A0ABC1B4300DD19BB /* SparkShadowKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 988738990ABC1B4300DD19BB /* SparkShadowKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		989EF9EA0A7CC4BB00721386 /* SparkList.m in Sources */ = {isa = PBXBuildFile; fileRef = 989EF9E90A7CC4BB00721386 /* SparkList.m */; };
 		989EF9EE0A7CC4C900721386 /* SparkList.h in Headers */ = {isa = PBXBuildFile; fileRef = 989EF9ED0A7CC4C900721386 /* SparkList.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		98A854E40AFF9BFE00088961 /* SparkBuiltInAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 98A854E20AFF9BFE00088961 /* SparkBuiltInAction.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		98A854E50AFF9BFE00088961 /* SparkBuiltInAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 98A854E30AFF9BFE00088961 /* SparkBuiltInAction.m */; };
+		98A8554C0AFF9D8C00088961 /* spark.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98A8554B0AFF9D8C00088961 /* spark.tiff */; };
+		98A856510AFFB1A200088961 /* SparkPlugin.nib in Resources */ = {isa = PBXBuildFile; fileRef = 98A8564F0AFFB1A200088961 /* SparkPlugin.nib */; };
 		98BCF0C40708BDA70039136F /* IgnoreAction.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98BCF0C30708BDA70039136F /* IgnoreAction.tif */; };
 		98C56D45096B353F00ABE1EF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 98C56D40096B353900ABE1EF /* InfoPlist.strings */; };
 		98CF6FA706B3DAD50017D206 /* MultipleAlerts.nib in Resources */ = {isa = PBXBuildFile; fileRef = 98CF6FA506B3DAD50017D206 /* MultipleAlerts.nib */; };
@@ -278,6 +282,10 @@
 		988738990ABC1B4300DD19BB /* SparkShadowKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkShadowKit.h; sourceTree = "<group>"; };
 		989EF9E90A7CC4BB00721386 /* SparkList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkList.m; sourceTree = "<group>"; };
 		989EF9ED0A7CC4C900721386 /* SparkList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkList.h; sourceTree = "<group>"; };
+		98A854E20AFF9BFE00088961 /* SparkBuiltInAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkBuiltInAction.h; sourceTree = "<group>"; };
+		98A854E30AFF9BFE00088961 /* SparkBuiltInAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkBuiltInAction.m; sourceTree = "<group>"; };
+		98A8554B0AFF9D8C00088961 /* spark.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = spark.tiff; sourceTree = "<group>"; };
+		98A856500AFFB1A200088961 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SparkPlugin.nib; sourceTree = "<group>"; };
 		98A923B80A7BC6E200DF1998 /* Application.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Application.tiff; sourceTree = "<group>"; };
 		98BCF0C30708BDA70039136F /* IgnoreAction.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = IgnoreAction.tif; sourceTree = "<group>"; };
 		98C56D34096B348400ABE1EF /* ShadowKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ShadowKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -399,6 +407,7 @@
 				089C1666FE841158C02AAC07 /* InfoPlist.strings */,
 				9805FD370773B47700B1A341 /* Localizable.strings */,
 				98CF6FA506B3DAD50017D206 /* MultipleAlerts.nib */,
+				98A8564F0AFFB1A200088961 /* SparkPlugin.nib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -454,6 +463,7 @@
 				984A386A0A60037D00DA6455 /* Headers */,
 				984A38640A60036E00DA6455 /* SparkPlugIn.m */,
 				984A38620A60036E00DA6455 /* SparkActionLoader.m */,
+				98A854E30AFF9BFE00088961 /* SparkBuiltInAction.m */,
 			);
 			name = Loader;
 			path = Sources/Loader;
@@ -464,6 +474,7 @@
 			children = (
 				984A38630A60036E00DA6455 /* SparkPlugIn.h */,
 				984A38610A60036E00DA6455 /* SparkActionLoader.h */,
+				98A854E20AFF9BFE00088961 /* SparkBuiltInAction.h */,
 			);
 			name = Headers;
 			sourceTree = "<group>";
@@ -638,6 +649,7 @@
 		98888BBA06067E9C008117C3 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				98A8554B0AFF9D8C00088961 /* spark.tiff */,
 				98C6E0EB06FB9F74000AFA2F /* KeyList.tif */,
 				986DB09407135B1A00C65FF2 /* KeyIcon.tif */,
 				98F867260A600D24009C68F9 /* Warning.tiff */,
@@ -818,6 +830,7 @@
 				98EDA3C40A9FA1B000519E9B /* SparkEntry.h in Headers */,
 				98EDA3E40A9FA2FB00519E9B /* SparkEntryManager.h in Headers */,
 				9887389A0ABC1B4300DD19BB /* SparkShadowKit.h in Headers */,
+				98A854E40AFF9BFE00088961 /* SparkBuiltInAction.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -982,6 +995,8 @@
 				9805FD390773B47700B1A341 /* Localizable.strings in Resources */,
 				98F867270A600D24009C68F9 /* Warning.tiff in Resources */,
 				980EEB2E0A7E8A0B00013CF5 /* SimpleList.png in Resources */,
+				98A8554C0AFF9D8C00088961 /* spark.tiff in Resources */,
+				98A856510AFFB1A200088961 /* SparkPlugin.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1029,6 +1044,7 @@
 				989EF9EA0A7CC4BB00721386 /* SparkList.m in Sources */,
 				98EDA3C20A9FA1A100519E9B /* SparkEntry.m in Sources */,
 				98EDA3F30A9FA34100519E9B /* SparkEntryManager.m in Sources */,
+				98A854E50AFF9BFE00088961 /* SparkBuiltInAction.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1105,6 +1121,14 @@
 			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
+		98A8564F0AFFB1A200088961 /* SparkPlugin.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				98A856500AFFB1A200088961 /* English */,
+			);
+			name = SparkPlugin.nib;
+			sourceTree = "<group>";
+		};
 		98C56D40096B353900ABE1EF /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1127,8 +1151,9 @@
 		9848D887085638FD006B5130 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CURRENT_PROJECT_VERSION = 300.0;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = "${CURRENT_PROJECT_VERSION}";
 				FRAMEWORK_VERSION = B;
 				GCC_DYNAMIC_NO_PIC = NO;
 				INFOPLIST_FILE = Info.plist;
@@ -1144,8 +1169,9 @@
 		9848D888085638FD006B5130 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CURRENT_PROJECT_VERSION = 300.0;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = "${CURRENT_PROJECT_VERSION}";
 				FRAMEWORK_VERSION = B;
 				GCC_DYNAMIC_NO_PIC = NO;
 				INFOPLIST_FILE = Info.plist;
@@ -1177,8 +1203,9 @@
 		98C128F208CE0EDE0015CB91 /* Universal Binary */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CURRENT_PROJECT_VERSION = 300.0;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = "${CURRENT_PROJECT_VERSION}";
 				FRAMEWORK_VERSION = B;
 				GCC_DYNAMIC_NO_PIC = NO;
 				INFOPLIST_FILE = Info.plist;
@@ -1202,8 +1229,9 @@
 		98C56D37096B348600ABE1EF /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CURRENT_PROJECT_VERSION = 300.0;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = "${CURRENT_PROJECT_VERSION}";
 				GCC_DYNAMIC_NO_PIC = NO;
 				INFOPLIST_FILE = ShadowKit/Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -1218,8 +1246,9 @@
 		98C56D39096B348600ABE1EF /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CURRENT_PROJECT_VERSION = 300.0;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = "${CURRENT_PROJECT_VERSION}";
 				GCC_DYNAMIC_NO_PIC = NO;
 				INFOPLIST_FILE = ShadowKit/Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -1234,8 +1263,9 @@
 		98C56D3A096B348600ABE1EF /* Universal Binary */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CURRENT_PROJECT_VERSION = 300.0;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = "${CURRENT_PROJECT_VERSION}";
 				GCC_DYNAMIC_NO_PIC = NO;
 				INFOPLIST_FILE = ShadowKit/Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";

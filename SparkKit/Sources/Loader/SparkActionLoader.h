@@ -22,6 +22,8 @@
   
 }
 
+- (SparkPlugIn *)registerPlugInClass:(Class)aClass;
+
 - (SparkPlugIn *)plugInForAction:(SparkAction *)action;
 - (SparkPlugIn *)plugInForActionClass:(Class)cls;
 

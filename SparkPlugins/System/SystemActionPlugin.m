@@ -21,7 +21,7 @@
 - (void)awakeFromNib {
   NSMenu *menu = [actionMenu menu];
   if (SKSystemMajorVersion() >= 10 && SKSystemMinorVersion() >= 4) {
-    /* Screen saver work only with MAC OS X.4 and later */
+    /* Screen saver work only with Mac OS X.4 and later */
     NSMenuItem *item = [NSMenuItem separatorItem];
     [item setTag:-1];
     [menu addItem:item];
