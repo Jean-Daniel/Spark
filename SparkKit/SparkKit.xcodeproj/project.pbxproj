@@ -462,8 +462,8 @@
 			children = (
 				984A386A0A60037D00DA6455 /* Headers */,
 				984A38640A60036E00DA6455 /* SparkPlugIn.m */,
-				984A38620A60036E00DA6455 /* SparkActionLoader.m */,
 				98A854E30AFF9BFE00088961 /* SparkBuiltInAction.m */,
+				984A38620A60036E00DA6455 /* SparkActionLoader.m */,
 			);
 			name = Loader;
 			path = Sources/Loader;
@@ -473,8 +473,8 @@
 			isa = PBXGroup;
 			children = (
 				984A38630A60036E00DA6455 /* SparkPlugIn.h */,
-				984A38610A60036E00DA6455 /* SparkActionLoader.h */,
 				98A854E20AFF9BFE00088961 /* SparkBuiltInAction.h */,
+				984A38610A60036E00DA6455 /* SparkActionLoader.h */,
 			);
 			name = Headers;
 			sourceTree = "<group>";

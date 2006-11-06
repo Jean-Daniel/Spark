@@ -75,6 +75,12 @@
 		9872830F0A9B30B60098C22F /* SEEntriesManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 9872830D0A9B30B60098C22F /* SEEntriesManager.h */; };
 		987283100A9B30B60098C22F /* SEEntriesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9872830E0A9B30B60098C22F /* SEEntriesManager.m */; };
 		9875D9250AFF6FA3001511B5 /* application.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 986691FA06F7B590002C4E98 /* application.tiff */; };
+		988107AD0AFFF1390010CDD5 /* SETriggerTable.h in Headers */ = {isa = PBXBuildFile; fileRef = 988107AB0AFFF1390010CDD5 /* SETriggerTable.h */; };
+		988107AE0AFFF1390010CDD5 /* SETriggerTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 988107AC0AFFF1390010CDD5 /* SETriggerTable.m */; };
+		988107F10AFFF9390010CDD5 /* badge-3.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 988107ED0AFFF9390010CDD5 /* badge-3.tiff */; };
+		988107F20AFFF9390010CDD5 /* badge-4.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 988107EE0AFFF9390010CDD5 /* badge-4.tiff */; };
+		988107F30AFFF9390010CDD5 /* badge-1&2.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 988107EF0AFFF9390010CDD5 /* badge-1&2.tiff */; };
+		988107F40AFFF9390010CDD5 /* badge-5.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 988107F00AFFF9390010CDD5 /* badge-5.tiff */; };
 		988D85680AA242500027C21D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 985A43AD0A8626F3005CC63B /* Localizable.strings */; };
 		989045160A6689CC0024EC52 /* add_mini.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 9877192706D48E12008A7AE8 /* add_mini.tiff */; };
 		989045170A6689CD0024EC52 /* add_mini_down.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 9877192606D48E12008A7AE8 /* add_mini_down.tiff */; };
@@ -381,7 +387,6 @@
 		98240187060C7B0700A0DB07 /* SEServerConnection.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SEServerConnection.m; sourceTree = "<group>"; };
 		98240188060C7B0700A0DB07 /* Spark.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Spark.m; sourceTree = "<group>"; };
 		98240196060C7B0700A0DB07 /* Preferences.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = Preferences.m; path = "Classes/UI Controllers/Preferences.m"; sourceTree = "<group>"; };
-		9824019A060C7B0700A0DB07 /* KeysTableView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = KeysTableView.m; path = "Classes/UI Extensions/CustomTableView/KeysTableView.m"; sourceTree = "<group>"; };
 		982401E2060C7B3000A0DB07 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = English; path = English.lproj/Credits.rtf; sourceTree = "<group>"; };
 		982401E6060C7B3000A0DB07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		982401EE060C7B3000A0DB07 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
@@ -416,10 +421,6 @@
 		984AFB530773813D00859149 /* Check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Check.png; sourceTree = "<group>"; };
 		984AFB540773813D00859149 /* Uncheck.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Uncheck.png; sourceTree = "<group>"; };
 		984BCB9D060C7C7B0043CDEA /* English */ = {isa = PBXFileReference; lastKnownFileType = folder; name = English; path = "English.lproj/Spark Help"; sourceTree = "<group>"; };
-		984BCE2C060C7E990043CDEA /* countBadge1&2.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "countBadge1&2.tiff"; sourceTree = "<group>"; };
-		984BCE2D060C7E990043CDEA /* countBadge3.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = countBadge3.tiff; sourceTree = "<group>"; };
-		984BCE2E060C7E990043CDEA /* countBadge4.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = countBadge4.tiff; sourceTree = "<group>"; };
-		984BCE2F060C7E990043CDEA /* countBadge5.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = countBadge5.tiff; sourceTree = "<group>"; };
 		984BCE38060C7E990043CDEA /* SEGearMenu.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SEGearMenu.tiff; sourceTree = "<group>"; };
 		984BCE39060C7E990043CDEA /* start.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = start.tiff; sourceTree = "<group>"; };
 		984BCE3B060C7E990043CDEA /* stop.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = stop.tiff; sourceTree = "<group>"; };
@@ -457,6 +458,12 @@
 		9877192806D48E12008A7AE8 /* remove_mini.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = remove_mini.tiff; sourceTree = "<group>"; };
 		98771C4406D4AC1D008A7AE8 /* Small_Gear.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Small_Gear.tiff; sourceTree = "<group>"; };
 		987E6BB206D76DF300C7F41C /* Spark Plugins.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "Spark Plugins.xcodeproj"; path = "../SparkPlugins/Spark Plugins.xcodeproj"; sourceTree = SOURCE_ROOT; };
+		988107AB0AFFF1390010CDD5 /* SETriggerTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SETriggerTable.h; sourceTree = "<group>"; };
+		988107AC0AFFF1390010CDD5 /* SETriggerTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SETriggerTable.m; sourceTree = "<group>"; };
+		988107ED0AFFF9390010CDD5 /* badge-3.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "badge-3.tiff"; sourceTree = "<group>"; };
+		988107EE0AFFF9390010CDD5 /* badge-4.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "badge-4.tiff"; sourceTree = "<group>"; };
+		988107EF0AFFF9390010CDD5 /* badge-1&2.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "badge-1&2.tiff"; sourceTree = "<group>"; };
+		988107F00AFFF9390010CDD5 /* badge-5.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "badge-5.tiff"; sourceTree = "<group>"; };
 		989044A30A667C1F0024EC52 /* SparkSuite.scriptSuite */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SparkSuite.scriptSuite; sourceTree = "<group>"; };
 		989044A40A667C1F0024EC52 /* Scripting.r */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.rez; path = Scripting.r; sourceTree = "<group>"; };
 		989044A50A667C1F0024EC52 /* SparkSuite.scriptTerminology */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SparkSuite.scriptTerminology; sourceTree = "<group>"; };
@@ -667,6 +674,7 @@
 				98F747840A5C69A0003D4BE1 /* SEHeaderCell.m */,
 				9831335E0A825E0600F733FB /* SETriggerCell.m */,
 				98418EA80A659689003FD0D7 /* SEHotKeyTrap.m */,
+				988107AC0AFFF1390010CDD5 /* SETriggerTable.m */,
 				98DAC9DD0A67EBE2001C36D1 /* SEApplicationView.m */,
 				98FB0A620A5D09D400129126 /* SEBackgroundView.m */,
 			);
@@ -736,10 +744,10 @@
 		984BCE2B060C7E990043CDEA /* Badges */ = {
 			isa = PBXGroup;
 			children = (
-				984BCE2C060C7E990043CDEA /* countBadge1&2.tiff */,
-				984BCE2D060C7E990043CDEA /* countBadge3.tiff */,
-				984BCE2E060C7E990043CDEA /* countBadge4.tiff */,
-				984BCE2F060C7E990043CDEA /* countBadge5.tiff */,
+				988107EF0AFFF9390010CDD5 /* badge-1&2.tiff */,
+				988107ED0AFFF9390010CDD5 /* badge-3.tiff */,
+				988107EE0AFFF9390010CDD5 /* badge-4.tiff */,
+				988107F00AFFF9390010CDD5 /* badge-5.tiff */,
 			);
 			path = Badges;
 			sourceTree = "<group>";
@@ -906,7 +914,6 @@
 				98593CDA073EE6A8003BA845 /* Import/Export */,
 				98240196060C7B0700A0DB07 /* Preferences.m */,
 				98300525076FC21B003A260D /* PluginInstaller.m */,
-				9824019A060C7B0700A0DB07 /* KeysTableView.m */,
 				9837AA74071B11130057584D /* TableAlertController.m */,
 			);
 			name = Classes;
@@ -932,6 +939,7 @@
 				98F747830A5C69A0003D4BE1 /* SEHeaderCell.h */,
 				9831335D0A825E0600F733FB /* SETriggerCell.h */,
 				98418EA70A659689003FD0D7 /* SEHotKeyTrap.h */,
+				988107AB0AFFF1390010CDD5 /* SETriggerTable.h */,
 				98DAC9DC0A67EBE2001C36D1 /* SEApplicationView.h */,
 				98FB0A610A5D09D400129126 /* SEBackgroundView.h */,
 			);
@@ -996,6 +1004,7 @@
 				9830D97A0AB46B7A00C316FE /* SETriggerBrowser.h in Headers */,
 				98EE9E750ABC001A00296C08 /* SparkServerVersion.h in Headers */,
 				98DA2B0C0AFDF2F500E394CD /* SEPluginHelp.h in Headers */,
+				988107AD0AFFF1390010CDD5 /* SETriggerTable.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1256,6 +1265,10 @@
 				9823128A0AFE3F2100675226 /* SEHSplitBar.tiff in Resources */,
 				9875D9250AFF6FA3001511B5 /* application.tiff in Resources */,
 				98A852D60AFF930B00088961 /* SEGearMenu.tiff in Resources */,
+				988107F10AFFF9390010CDD5 /* badge-3.tiff in Resources */,
+				988107F20AFFF9390010CDD5 /* badge-4.tiff in Resources */,
+				988107F30AFFF9390010CDD5 /* badge-1&2.tiff in Resources */,
+				988107F40AFFF9390010CDD5 /* badge-5.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1299,6 +1312,7 @@
 				98AC52D20AAF7FF40071EAA7 /* SEPreferences.m in Sources */,
 				9830D9760AB46B7000C316FE /* SETriggerBrowser.m in Sources */,
 				98DA2B0A0AFDF2E700E394CD /* SEPluginHelp.m in Sources */,
+				988107AE0AFFF1390010CDD5 /* SETriggerTable.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

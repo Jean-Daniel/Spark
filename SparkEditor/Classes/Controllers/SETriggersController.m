@@ -72,6 +72,8 @@ static BOOL SearchHotKey(NSString *search, id object, void *context) {
   
   [table setAutosaveName:@"SparkMainEntryTable"];
   [table setAutosaveTableColumns:YES];
+  
+  [table setVerticalMotionCanBeginDrag:YES];
 }
 
 - (IBAction)doubleAction:(id)sender {
@@ -259,6 +261,20 @@ static BOOL SearchHotKey(NSString *search, id object, void *context) {
 - (BOOL)tableView:(NSTableView *)aTableView shouldEditTableColumn:(NSTableColumn *)tableColumn row:(int)rowIndex {
   /* Should not allow all columns */
   return [[tableColumn identifier] isEqualToString:@"__item__"] || [[tableColumn identifier] isEqualToString:@"enabled"];
+}
+
+#pragma mark Drag & Drop
+- (BOOL)tableView:(NSTableView *)aTableView writeRows:(NSArray *)rows toPasteboard:(NSPasteboard *)pboard {
+  NSMutableIndexSet *idxes = [NSMutableIndexSet indexSet];
+  unsigned count = [rows count];
+  while (count-- > 0) {
+    [idxes addIndex:[[rows objectAtIndex:count] unsignedIntValue]];
+  }
+  return [self tableView:aTableView writeRowsWithIndexes:idxes toPasteboard:pboard];
+}
+- (BOOL)tableView:(NSTableView *)aTableView writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard*)pboard {
+  ShadowTrace();
+  return YES;
 }
 
 @end

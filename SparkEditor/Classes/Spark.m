@@ -86,7 +86,13 @@ NSArray *gSortByNameDescriptors = nil;
     int idx = 1;
     while (plugin = [items nextObject]) {
       NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:[plugin name] action:@selector(newTriggerFromMenu:) keyEquivalent:@""];
-      [item setImage:[plugin icon]];
+      NSImage *icon = [[plugin icon] copy];
+      if (icon) {
+        [icon setScalesWhenResized:YES];
+        [icon setSize:NSMakeSize(16, 16)];
+        [item setImage:icon];
+        [icon release];
+      }
       [item setRepresentedObject:plugin];
       if (idx < 10) 
         [item setKeyEquivalent:[NSString stringWithFormat:@"%i", idx++]];
