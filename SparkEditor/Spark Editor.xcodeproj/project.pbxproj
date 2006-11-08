@@ -81,6 +81,7 @@
 		988107F20AFFF9390010CDD5 /* badge-4.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 988107EE0AFFF9390010CDD5 /* badge-4.tiff */; };
 		988107F30AFFF9390010CDD5 /* badge-1&2.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 988107EF0AFFF9390010CDD5 /* badge-1&2.tiff */; };
 		988107F40AFFF9390010CDD5 /* badge-5.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 988107F00AFFF9390010CDD5 /* badge-5.tiff */; };
+		9888D06F0B02441100B81BDB /* TextAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 9888CEDD0B02440700B81BDB /* TextAction.spact */; };
 		988D85680AA242500027C21D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 985A43AD0A8626F3005CC63B /* Localizable.strings */; };
 		989045160A6689CC0024EC52 /* add_mini.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 9877192706D48E12008A7AE8 /* add_mini.tiff */; };
 		989045170A6689CD0024EC52 /* add_mini_down.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 9877192606D48E12008A7AE8 /* add_mini_down.tiff */; };
@@ -258,6 +259,13 @@
 			remoteGlobalIDString = 98C56D34096B348400ABE1EF;
 			remoteInfo = ShadowKit;
 		};
+		9888CEDC0B02440700B81BDB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 987E6BB206D76DF300C7F41C /* Spark Plugins.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9888CE220B02412200B81BDB /* TextAction.spact */;
+			remoteInfo = Text;
+		};
 		98920FA30A5EFF9800A50A78 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 98EF830F0864630B007BC81A /* SparkKit.xcodeproj */;
@@ -347,6 +355,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				9888D06F0B02441100B81BDB /* TextAction.spact in Copy Plugins */,
 				98DD455F0A57DE9A00F059E5 /* SystemAction.spact in Copy Plugins */,
 				98DD45600A57DE9A00F059E5 /* iTunesAction.spact in Copy Plugins */,
 				98DD45610A57DE9A00F059E5 /* DocumentAction.spact in Copy Plugins */,
@@ -594,6 +603,7 @@
 			children = (
 				6540B6E609E6430800D0E8FB /* Labo */,
 				983E7CC50AB4C301002F3974 /* Simulator.app */,
+				9888CEDD0B02440700B81BDB /* TextAction.spact */,
 				6540B6EA09E6430800D0E8FB /* iTunesAction.spact */,
 				6540B6E809E6430800D0E8FB /* SystemAction.spact */,
 				6540B6EC09E6430800D0E8FB /* DocumentAction.spact */,
@@ -1184,6 +1194,13 @@
 			fileType = wrapper.framework;
 			path = ShadowKit.framework;
 			remoteRef = 986757DB096B3F2400BB8A25 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9888CEDD0B02440700B81BDB /* TextAction.spact */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = TextAction.spact;
+			remoteRef = 9888CEDC0B02440700B81BDB /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		98C61C1F0A5813ED0004E6EF /* UITester.app */ = {

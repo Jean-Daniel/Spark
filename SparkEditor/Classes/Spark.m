@@ -122,7 +122,7 @@ NSArray *gSortByNameDescriptors = nil;
       nil]];
 #endif
     /* Register Built-in plugin */
-    [[SparkActionLoader sharedLoader] registerPlugInClass:[SparkBuiltInActionPlugin class]];
+    //[[SparkActionLoader sharedLoader] registerPlugInClass:[SparkBuiltInActionPlugin class]];
     
     /* First load Library */
     SparkLibrary *library = SparkSharedLibrary();

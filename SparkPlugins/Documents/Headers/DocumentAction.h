@@ -11,6 +11,7 @@
 enum {
   kDocumentActionOpen              = 'Open', /* 1332766062 */
   kDocumentActionOpenWith          = 'OpWi', /* 1332762473 */
+  kDocumentActionReveal            = 'Reva', /* 1382381153 */
   kDocumentActionOpenSelection     = 'OpSe', /* 1332761445 */
   kDocumentActionOpenSelectionWith = 'OpSW', /* 1332761431 */
   kDocumentActionOpenURL           = 'OURL', /* 1330991692 */

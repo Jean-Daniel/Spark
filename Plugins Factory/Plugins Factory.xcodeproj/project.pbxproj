@@ -23,11 +23,6 @@
 
 /* Begin PBXBuildFile section */
 		98074A1007EA45EA0001A600 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
-		98074A6F07EA46F90001A600 /* GrayscaleView.nib in Resources */ = {isa = PBXBuildFile; fileRef = 98074A6A07EA46F90001A600 /* GrayscaleView.nib */; };
-		98074A7007EA46F90001A600 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 98074A6C07EA46F90001A600 /* InfoPlist.strings */; };
-		98074A7107EA46F90001A600 /* GrayscaleIcon.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98074A6E07EA46F90001A600 /* GrayscaleIcon.tiff */; };
-		98074A7507EA47050001A600 /* GrayscaleAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 98074A7307EA47050001A600 /* GrayscaleAction.h */; };
-		98074A7607EA47050001A600 /* GrayscaleActionPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 98074A7407EA47050001A600 /* GrayscaleActionPlugin.h */; };
 		9833252A078F437B0047E227 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 		98332532078F43CC0047E227 /* DockActionPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 98332530078F43CC0047E227 /* DockActionPlugin.h */; };
 		98332533078F43CC0047E227 /* DockActionPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 98332531078F43CC0047E227 /* DockActionPlugin.m */; };
@@ -83,8 +78,6 @@
 		98E1CF77060778F800FA3599 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 98E1CF73060778F800FA3599 /* InfoPlist.strings */; };
 		98E1CF78060778F800FA3599 /* ArchivesConfigView.nib in Resources */ = {isa = PBXBuildFile; fileRef = 98E1CF75060778F800FA3599 /* ArchivesConfigView.nib */; };
 		98E42D1B0628206500EB150F /* ShellKeyIcon.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98E42D1A0628206500EB150F /* ShellKeyIcon.tiff */; };
-		98E5530C07EA4A8E00D522F1 /* GrayscaleAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 980749FA07EA45DC0001A600 /* GrayscaleAction.m */; };
-		98E5530D07EA4A8E00D522F1 /* GrayscaleActionPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 980749FD07EA45DC0001A600 /* GrayscaleActionPlugin.m */; };
 		98EE18D307BABCFE008AE24D /* AddMini.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98EE18CF07BABCFE008AE24D /* AddMini.tiff */; };
 		98EE18D407BABCFE008AE24D /* RemoveMini.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98EE18D007BABCFE008AE24D /* RemoveMini.tiff */; };
 		98EE18D507BABCFE008AE24D /* RemoveMini_Pressed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98EE18D107BABCFE008AE24D /* RemoveMini_Pressed.tiff */; };
@@ -166,15 +159,7 @@
 		089C1672FE841209C02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		980749FA07EA45DC0001A600 /* GrayscaleAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = GrayscaleAction.m; sourceTree = "<group>"; };
-		980749FD07EA45DC0001A600 /* GrayscaleActionPlugin.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = GrayscaleActionPlugin.m; sourceTree = "<group>"; };
-		980749FF07EA45DC0001A600 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
 		98074A1307EA45EA0001A600 /* GrayscaleAction.spact */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GrayscaleAction.spact; sourceTree = BUILT_PRODUCTS_DIR; };
-		98074A6B07EA46F90001A600 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/GrayscaleView.nib; sourceTree = "<group>"; };
-		98074A6D07EA46F90001A600 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		98074A6E07EA46F90001A600 /* GrayscaleIcon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = GrayscaleIcon.tiff; sourceTree = "<group>"; };
-		98074A7307EA47050001A600 /* GrayscaleAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GrayscaleAction.h; sourceTree = "<group>"; };
-		98074A7407EA47050001A600 /* GrayscaleActionPlugin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GrayscaleActionPlugin.h; sourceTree = "<group>"; };
 		981B605709386C450024C0D9 /* ShadowCommon.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowCommon.xcconfig; sourceTree = "<group>"; };
 		981B605809386C450024C0D9 /* ShadowDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowDebug.xcconfig; sourceTree = "<group>"; };
 		981B605909386C450024C0D9 /* ShadowRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowRelease.xcconfig; sourceTree = "<group>"; };
@@ -347,7 +332,6 @@
 				989E9D470718940C00DB4E93 /* Text */,
 				98332516078F43700047E227 /* Dock */,
 				98E1CC2D060774BD00FA3599 /* Archives */,
-				980749F407EA45DC0001A600 /* Grayscale */,
 				988BC50206411B330096DD7D /* KeyStroke */,
 				98975AAB061E222300BC40ED /* ShellScript */,
 			);
@@ -383,37 +367,6 @@
 				98074A1307EA45EA0001A600 /* GrayscaleAction.spact */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		980749F407EA45DC0001A600 /* Grayscale */ = {
-			isa = PBXGroup;
-			children = (
-				98074A7207EA47050001A600 /* Headers */,
-				980749FA07EA45DC0001A600 /* GrayscaleAction.m */,
-				980749FD07EA45DC0001A600 /* GrayscaleActionPlugin.m */,
-				980749FF07EA45DC0001A600 /* Info.plist */,
-				98074A6C07EA46F90001A600 /* InfoPlist.strings */,
-				98074A6A07EA46F90001A600 /* GrayscaleView.nib */,
-				98074A6907EA46F90001A600 /* Resources */,
-			);
-			path = Grayscale;
-			sourceTree = "<group>";
-		};
-		98074A6907EA46F90001A600 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				98074A6E07EA46F90001A600 /* GrayscaleIcon.tiff */,
-			);
-			path = Resources;
-			sourceTree = "<group>";
-		};
-		98074A7207EA47050001A600 /* Headers */ = {
-			isa = PBXGroup;
-			children = (
-				98074A7307EA47050001A600 /* GrayscaleAction.h */,
-				98074A7407EA47050001A600 /* GrayscaleActionPlugin.h */,
-			);
-			path = Headers;
 			sourceTree = "<group>";
 		};
 		981B605609386C450024C0D9 /* Configurations */ = {
@@ -624,8 +577,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				98074A7507EA47050001A600 /* GrayscaleAction.h in Headers */,
-				98074A7607EA47050001A600 /* GrayscaleActionPlugin.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -874,9 +825,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				98074A7007EA46F90001A600 /* InfoPlist.strings in Resources */,
-				98074A6F07EA46F90001A600 /* GrayscaleView.nib in Resources */,
-				98074A7107EA46F90001A600 /* GrayscaleIcon.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -949,8 +897,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				98E5530C07EA4A8E00D522F1 /* GrayscaleAction.m in Sources */,
-				98E5530D07EA4A8E00D522F1 /* GrayscaleActionPlugin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1017,24 +963,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		98074A6A07EA46F90001A600 /* GrayscaleView.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				98074A6B07EA46F90001A600 /* English */,
-			);
-			name = GrayscaleView.nib;
-			path = Resources;
-			sourceTree = "<group>";
-		};
-		98074A6C07EA46F90001A600 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				98074A6D07EA46F90001A600 /* English */,
-			);
-			name = InfoPlist.strings;
-			path = Resources;
-			sourceTree = "<group>";
-		};
 		98332535078F443A0047E227 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (

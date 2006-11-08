@@ -111,7 +111,7 @@ OSType _DocumentActionFromFlag(int flag) {
     } else {
       [self setAction:SKOSTypeFromString([plist objectForKey:kDocumentActionKey])];
       
-      if (da_action == kDocumentActionOpen || da_action == kDocumentActionOpenWith) {
+      if (da_action == kDocumentActionOpen || da_action == kDocumentActionOpenWith || da_action == kDocumentActionReveal) {
         NSData *data = [plist objectForKey:kDocumentActionAliasKey];
         if (data)
           da_doc = [[SKAlias alloc] initWithData:data];
@@ -143,7 +143,7 @@ OSType _DocumentActionFromFlag(int flag) {
 - (BOOL)serialize:(NSMutableDictionary *)plist {
   if ([super serialize:plist]) {
     [plist setObject:SKStringForOSType(da_action) forKey:kDocumentActionKey];
-    if (da_action == kDocumentActionOpen || da_action == kDocumentActionOpenWith) {
+    if (da_action == kDocumentActionOpen || da_action == kDocumentActionOpenWith || da_action == kDocumentActionReveal) {
       NSData *data = [da_doc data];
       if (data) {
         [plist setObject:data forKey:kDocumentActionAliasKey];
@@ -171,7 +171,7 @@ OSType _DocumentActionFromFlag(int flag) {
 }
 
 - (SparkAlert *)shouldPerformAction {
-  if (da_action == kDocumentActionOpen || da_action == kDocumentActionOpenWith) {
+  if (da_action == kDocumentActionOpen || da_action == kDocumentActionOpenWith || da_action == kDocumentActionReveal) {
     if (![[self document] path]) {
       //Alert Doc invalide
       return [SparkAlert alertWithMessageText:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"INVALID_DOCUMENT_ALERT", nil, 
@@ -212,6 +212,27 @@ OSType _DocumentActionFromFlag(int flag) {
     if (![[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:da_url]]) {
       NSBeep();
       /* alert = []; */
+    }
+  } else if (da_action == kDocumentActionReveal) {
+    AliasHandle alias = [[self document] aliasHandle];
+    if (alias) {
+      AppleEvent aevt = SKAEEmptyDesc();
+      OSStatus err = SKAECreateEventWithTargetSignature('MACS', kAEMiscStandards, kAEMakeObjectsVisible, &aevt);
+      if (noErr == err) {
+        err = SKAEAddAEDescWithData(&aevt, keyDirectObject, typeAlias, *alias, SKGetAliasSize(alias));
+      }
+      if (noErr == err) {
+        SKAEAddSubject(&aevt);
+        err = SKAESendEventNoReply(&aevt);
+      }
+      SKAEDisposeDesc(&aevt);
+      if (noErr == err)
+        err = SKAESendSimpleEvent('MACS', kAEMiscStandards,kAEActivate);
+      
+      if (noErr != err)
+        NSBeep();
+    } else {
+      NSBeep();
     }
   }
   return alert;
@@ -317,6 +338,14 @@ NSString *DocumentActionDescription(DocumentAction *anAction) {
                                                                            kDocumentActionBundle,
                                                                            @"Open with (%1$@ => document, %2$@ => application) * description *"),
         document, [[anAction application] name]];
+    }
+      break;
+    case kDocumentActionReveal: {
+      NSString *path = [[anAction document] path];
+      NSString *document = path ? [[NSFileManager defaultManager] displayNameAtPath:path] : nil;
+      desc = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"DESC_REVEAL_DOCUMENT", nil,
+                                                                           kDocumentActionBundle,
+                                                                           @"Open with (%@ => document) * description *"), document];
     }
       break;
     case kDocumentActionOpenSelection:

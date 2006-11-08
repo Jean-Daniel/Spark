@@ -36,7 +36,7 @@
     [self willChangeValueForKey:@"action"];
     [ibName setStringValue:([sparkAction name]) ? [sparkAction name] : @""];
     
-    if ([sparkAction action] == kDocumentActionOpen || [sparkAction action] == kDocumentActionOpenWith) {
+    if ([sparkAction action] == kDocumentActionOpen || [sparkAction action] == kDocumentActionOpenWith || [sparkAction action] == kDocumentActionReveal) {
       [self setDocument:[[sparkAction document] path]];
     }
     if ([sparkAction action] == kDocumentActionOpenWith || [sparkAction action] == kDocumentActionOpenSelectionWith) {
@@ -50,7 +50,7 @@
 
 - (NSAlert *)sparkEditorShouldConfigureAction {
   int action = [self action];
-  if ((action == kDocumentActionOpen || action == kDocumentActionOpenWith) && !da_path) {
+  if ((action == kDocumentActionOpen || action == kDocumentActionOpenWith || action == kDocumentActionReveal) && !da_path) {
     return [NSAlert alertWithMessageText:NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_DOCUMENT_ALERT", nil, 
                                                                             kDocumentActionBundle,
                                                                             @"Error when user try to create/update Action without choose document * Title *")
@@ -102,7 +102,7 @@
   [action setApplicationPath:nil];
   
   /* Set Icon */
-  if ([action action] == kDocumentActionOpen || [action action] == kDocumentActionOpenWith) {
+  if ([action action] == kDocumentActionOpen || [action action] == kDocumentActionOpenWith || [action action] == kDocumentActionReveal) {
     [action setIcon:da_icon];
     [action setDocumentPath:[self document]];
   } else if ([action action] == kDocumentActionOpenSelection) {
@@ -205,6 +205,7 @@
 - (int)tabIndex {
   switch ([self action]) {
     case kDocumentActionOpen:
+    case kDocumentActionReveal:
     case kDocumentActionOpenWith:
       return 0;
     case kDocumentActionOpenURL:
