@@ -138,7 +138,7 @@ static NSString * const kSparkActionDescriptionKey = @"SADescription";
 
 #pragma mark -
 #pragma mark Public Methods
-- (SparkAlert *)shouldPerformAction {
+- (SparkAlert *)actionDidLoad {
   if ([self respondsToSelector:@selector(check)])
     return [self performSelector:@selector(check)];
   return nil;

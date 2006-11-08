@@ -146,7 +146,7 @@ SKClassCluster(AppleScriptAction);
     } else if ([self scriptSource]) {
       NSData *data = [[self scriptSource] dataUsingEncoding:NSUTF8StringEncoding];
       if (data) {
-        [plist setObject:SKStringForOSType('file') forKey:kOSAScriptActionTypeKey];
+        [plist setObject:SKStringForOSType('src ') forKey:kOSAScriptActionTypeKey];
         [plist setObject:data forKey:kOSAScriptActionDataKey];
         return YES;
       }

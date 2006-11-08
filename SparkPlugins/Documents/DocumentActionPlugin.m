@@ -36,10 +36,10 @@
     [self willChangeValueForKey:@"action"];
     [ibName setStringValue:([sparkAction name]) ? [sparkAction name] : @""];
     
-    if ([sparkAction action] == kDocumentActionOpen || [sparkAction action] == kDocumentActionOpenWith || [sparkAction action] == kDocumentActionReveal) {
+    if (DocumentActionNeedDocument([sparkAction action])) {
       [self setDocument:[[sparkAction document] path]];
     }
-    if ([sparkAction action] == kDocumentActionOpenWith || [sparkAction action] == kDocumentActionOpenSelectionWith) {
+    if (DocumentActionNeedApplication([sparkAction action])) {
       [self setApplication:[[sparkAction application] path]];
     }
     [self didChangeValueForKey:@"action"];
@@ -50,7 +50,7 @@
 
 - (NSAlert *)sparkEditorShouldConfigureAction {
   int action = [self action];
-  if ((action == kDocumentActionOpen || action == kDocumentActionOpenWith || action == kDocumentActionReveal) && !da_path) {
+  if (DocumentActionNeedDocument(action) && !da_path) {
     return [NSAlert alertWithMessageText:NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_DOCUMENT_ALERT", nil, 
                                                                             kDocumentActionBundle,
                                                                             @"Error when user try to create/update Action without choose document * Title *")
@@ -62,7 +62,7 @@
                informativeTextWithFormat:NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_DOCUMENT_ALERT_MSG", nil, 
                                                                             kDocumentActionBundle,
                                                                             @"Error when user try to create/update Action without choose document * Msg *")];
-  } else if ((action == kDocumentActionOpenWith || action == kDocumentActionOpenSelectionWith) && ![self application]) {
+  } else if (DocumentActionNeedApplication(action) && ![self application]) {
     return [NSAlert alertWithMessageText:NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_APPLICATION_ALERT", nil, 
                                                                             kDocumentActionBundle,
                                                                             @"Error when user try to create/update Action without choose application * Title *")
@@ -102,7 +102,7 @@
   [action setApplicationPath:nil];
   
   /* Set Icon */
-  if ([action action] == kDocumentActionOpen || [action action] == kDocumentActionOpenWith || [action action] == kDocumentActionReveal) {
+  if (DocumentActionNeedDocument([action action])) {
     [action setIcon:da_icon];
     [action setDocumentPath:[self document]];
   } else if ([action action] == kDocumentActionOpenSelection) {
@@ -114,7 +114,7 @@
   }
   
   /* Set App Path */
-  if ([action action] == kDocumentActionOpenWith || [action action] == kDocumentActionOpenSelectionWith) {
+  if (DocumentActionNeedApplication([action action])) {
     [action setApplicationPath:[self application]];
   }
   
@@ -217,7 +217,7 @@
 - (void)setTabIndex:(int)newTabIndex {}
 
 - (BOOL)displayWithMenu {
-  return [self action] == kDocumentActionOpenWith || [self action] == kDocumentActionOpenSelectionWith;
+  return DocumentActionNeedApplication([self action]);
 }
 
 - (void)setDisplayWithMenu:(BOOL)newDisplayWithMenu { }

@@ -270,7 +270,7 @@ bail:
   return YES;
 }
 
-- (SparkAlert *)shouldPerformAction {
+- (SparkAlert *)actionDidLoad {
   switch ([self iTunesAction]) {
     case kiTunesLaunch:
     case kiTunesQuit:

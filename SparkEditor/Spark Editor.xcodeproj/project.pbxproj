@@ -263,7 +263,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 987E6BB206D76DF300C7F41C /* Spark Plugins.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 9888CE220B02412200B81BDB /* TextAction.spact */;
+			remoteGlobalIDString = 9888CE220B02412200B81BDB;
 			remoteInfo = Text;
 		};
 		98920FA30A5EFF9800A50A78 /* PBXContainerItemProxy */ = {
@@ -399,7 +399,6 @@
 		982401E2060C7B3000A0DB07 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = English; path = English.lproj/Credits.rtf; sourceTree = "<group>"; };
 		982401E6060C7B3000A0DB07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		982401EE060C7B3000A0DB07 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
-		982401FE060C7B3000A0DB07 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/Preferences.nib; sourceTree = "<group>"; };
 		98240202060C7B3000A0DB07 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = English; path = "English.lproj/Read First.rtf"; sourceTree = "<group>"; };
 		98240204060C7B3000A0DB07 /* English */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.html; name = English; path = English.lproj/shcts.html; sourceTree = "<group>"; };
 		98300525076FC21B003A260D /* PluginInstaller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PluginInstaller.m; path = "Classes/UI Controllers/PluginInstaller.m"; sourceTree = "<group>"; };
@@ -425,7 +424,6 @@
 		984199310A5E67BE0009A093 /* Add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Add.png; sourceTree = "<group>"; };
 		984199320A5E67BE0009A093 /* AddDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AddDown.png; sourceTree = "<group>"; };
 		984199330A5E67BE0009A093 /* Highlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Highlight.png; sourceTree = "<group>"; };
-		984199340A5E67BE0009A093 /* HighlightFocus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HighlightFocus.png; sourceTree = "<group>"; };
 		98451105075A0304000D3F88 /* Splist.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Splist.icns; sourceTree = "<group>"; };
 		984AFB530773813D00859149 /* Check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Check.png; sourceTree = "<group>"; };
 		984AFB540773813D00859149 /* Uncheck.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Uncheck.png; sourceTree = "<group>"; };
@@ -718,7 +716,6 @@
 				984199310A5E67BE0009A093 /* Add.png */,
 				984199320A5E67BE0009A093 /* AddDown.png */,
 				984199330A5E67BE0009A093 /* Highlight.png */,
-				984199340A5E67BE0009A093 /* HighlightFocus.png */,
 			);
 			path = SELibrary;
 			sourceTree = "<group>";
@@ -726,7 +723,6 @@
 		984BCA56060C7BDB0043CDEA /* Interface */ = {
 			isa = PBXGroup;
 			children = (
-				985A43A20A862609005CC63B /* Deprecated */,
 				982401ED060C7B3000A0DB07 /* MainMenu.nib */,
 				9803A13C0A9D01CA00B7DBBA /* SEFirstRun.nib */,
 				98DA2BC80AFE011400E394CD /* SEPluginHelp.nib */,
@@ -849,16 +845,6 @@
 			path = "Classes/Import-Export";
 			sourceTree = "<group>";
 		};
-		985A43A20A862609005CC63B /* Deprecated */ = {
-			isa = PBXGroup;
-			children = (
-				98762B3D074F53A900D0A4C1 /* Sheets */,
-				98762B3E074F53B400D0A4C1 /* Panels */,
-				98F98272074F52040001910B /* Editors */,
-			);
-			name = Deprecated;
-			sourceTree = "<group>";
-		};
 		985AF9DB0A5C335D00397FAA /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -897,16 +883,10 @@
 			children = (
 				98A91DA7074F55460029D278 /* Importer.nib */,
 				9837AA71071B0E7F0057584D /* TableAlert.nib */,
+				98300531076FC3D2003A260D /* PluginInstall.nib */,
 			);
 			name = Sheets;
-			sourceTree = "<group>";
-		};
-		98762B3E074F53B400D0A4C1 /* Panels */ = {
-			isa = PBXGroup;
-			children = (
-				982401FD060C7B3000A0DB07 /* Preferences.nib */,
-			);
-			name = Panels;
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		98B704BB0A86208E00DB692D /* Deprecated */ = {
@@ -914,6 +894,7 @@
 			children = (
 				984BCE64060C7FEC0043CDEA /* Headers */,
 				98B704BC0A86209F00DB692D /* Classes */,
+				98762B3D074F53A900D0A4C1 /* Sheets */,
 			);
 			name = Deprecated;
 			sourceTree = "<group>";
@@ -974,14 +955,6 @@
 				986757DC096B3F2400BB8A25 /* ShadowKit.framework */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		98F98272074F52040001910B /* Editors */ = {
-			isa = PBXGroup;
-			children = (
-				98300531076FC3D2003A260D /* PluginInstall.nib */,
-			);
-			name = Editors;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1402,14 +1375,6 @@
 				982401EE060C7B3000A0DB07 /* English */,
 			);
 			name = MainMenu.nib;
-			sourceTree = "<group>";
-		};
-		982401FD060C7B3000A0DB07 /* Preferences.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				982401FE060C7B3000A0DB07 /* English */,
-			);
-			name = Preferences.nib;
 			sourceTree = "<group>";
 		};
 		98240201060C7B3000A0DB07 /* Read First.rtf */ = {

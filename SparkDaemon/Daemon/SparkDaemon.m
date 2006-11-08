@@ -70,7 +70,7 @@ OSErr SparkDaemonAEQuitHandler(const AppleEvent *theAppleEvent, AppleEvent *repl
 - (void)checkAndLoad:(id)sender {
   [SparkSharedLibrary() readLibrary:nil];
   DLog(@"Library loaded");
-//  [self checkActions];
+  [self checkActions];
   [self loadTriggers];
   DLog(@"Trigger registred");
 }
@@ -179,27 +179,28 @@ OSErr SparkDaemonAEQuitHandler(const AppleEvent *theAppleEvent, AppleEvent *repl
 }
 
 - (void)checkActions {
-//  BOOL blockAlert = NO;
-//  CFBooleanRef blockAlertRef = CFPreferencesCopyAppValue(CFSTR("SDBlockAlertOnLoad"), (CFStringRef)kSparkBundleIdentifier);
-//  if (blockAlertRef != nil) {
-//    blockAlert = CFBooleanGetValue(blockAlertRef);
-//    CFRelease(blockAlertRef);
-//  }
-//  if (!blockAlert) {
-//    id item;
-//    NSEnumerator *items = [SparkSharedActionSet() objectEnumerator];
-//    NSMutableArray *errors = [[NSMutableArray alloc] init];
-//    while (item = [items nextObject]) {
-//      id alert = ([item check]);
-//      if (alert != nil) {
-//        [item setInvalid:YES];
-//        [alert setHideSparkButton:NO];
-//        [errors addObject:alert];
-//      }
-//    }
-//    SparkDisplayAlerts(errors);
-//    [errors release];
-//  }
+  Boolean display = true;
+  CFBooleanRef ref = CFPreferencesCopyAppValue(CFSTR("SDBlockAlertOnLoad"), (CFStringRef)kSparkBundleIdentifier);
+  if (ref) {
+    display = !CFBooleanGetValue(ref);
+    CFRelease(ref);
+  }
+  /* Send actionDidLoad message to all actions */
+  SparkAction *action;
+  NSEnumerator *actions = [SparkSharedActionSet() objectEnumerator];
+  NSMutableArray *errors = display ? [[NSMutableArray alloc] init] : nil;
+  while (action = [actions nextObject]) {
+    SparkAlert *alert = [action actionDidLoad];
+    if (alert && display) {
+      [alert setHideSparkButton:NO];
+      [errors addObject:alert];
+    }
+  }
+  /* Display errors of needed */
+  if (display) {
+    SparkDisplayAlerts(errors);
+    [errors release];
+  }
 }
 
 - (void)loadTriggers {
@@ -295,9 +296,7 @@ OSErr SparkDaemonAEQuitHandler(const AppleEvent *theAppleEvent, AppleEvent *repl
     [trigger willTriggerAction:status ? action : nil];
     /* Action exists and is enabled */
     if (status && action) {
-      alert = [action shouldPerformAction];
-      if (!alert)
-        alert = [action performAction];
+      alert = [action performAction];
     } else {
       [trigger bypass];
     }

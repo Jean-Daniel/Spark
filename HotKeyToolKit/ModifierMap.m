@@ -17,7 +17,8 @@ typedef struct __ModifierMap {
   } entries[];
 } ModifierMap;
 
-static const ModifierMap _kHKUtilsNativeToCococaMap = {
+static const
+ModifierMap _kHKUtilsNativeToCococaMap = {
 size:5,
 entries:{
 {kCGEventFlagMaskCommand, NSCommandKeyMask},
@@ -45,7 +46,8 @@ entries:{
 {NSFunctionKeyMask, kCGEventFlagMaskSecondaryFn},
 }};
 
-static const ModifierMap _kHKUtilsNativeToCarbonMap = {
+static const
+ModifierMap _kHKUtilsNativeToCarbonMap = {
 size:5,
 entries:{
 {kCGEventFlagMaskCommand, cmdKey},
@@ -69,7 +71,8 @@ entries:{
 {rightControlKey, kCGEventFlagMaskControl},
 }};
 
-static const ModifierMap _kHKUtilsCocoaToCarbon = {
+static const
+ModifierMap _kHKUtilsCocoaToCarbon = {
 size:5,
 entries:{
 {NSAlphaShiftKeyMask, alphaLock},
@@ -78,7 +81,8 @@ entries:{
 {NSAlternateKeyMask, optionKey},
 {NSCommandKeyMask, cmdKey},
 }};
-static const ModifierMap _kHKUtilsCarbonToCocoa = {
+static const
+ModifierMap _kHKUtilsCarbonToCocoa = {
 size:8,
 entries:{
 {cmdKey, NSCommandKeyMask},
@@ -92,7 +96,8 @@ entries:{
 {rightControlKey, NSControlKeyMask},
 }};
 
-static UInt32 _HKUtilsConvertModifier(UInt32 modifier, const ModifierMap *map) {
+static
+UInt32 _HKUtilsConvertModifier(UInt32 modifier, const ModifierMap *map) {
   unsigned idx = 0;
   UInt32 result = 0;
   while (idx < map->size) {

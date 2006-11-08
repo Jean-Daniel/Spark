@@ -11,33 +11,33 @@
 
 #include <unistd.h>
 
-static ProcessSerialNumber HKGetProcessWithSignature(OSType type);
-static ProcessSerialNumber HKGetProcessWithBundleIdentifier(CFStringRef bundleId);
+static ProcessSerialNumber _HKGetProcessWithSignature(OSType type);
+static ProcessSerialNumber _HKGetProcessWithBundleIdentifier(CFStringRef bundleId);
 
 static 
 void (*_HKEventPostKeyStroke)(CGKeyCode keycode, CGEventFlags modifier, CGEventSourceRef source, void *psn) = nil;
 
 static
-void __HKEventPostKeystroke(CGKeyCode keycode, CGEventFlags modifier, CGEventSourceRef source, void *psn);
-__private_extern__
-void __HKEventCompatPostKeystroke(CGKeyCode keycode, CGEventFlags modifier, CGEventSourceRef source, void *psn);
+void _HKEventPostKeystroke(CGKeyCode keycode, CGEventFlags modifier, CGEventSourceRef source, void *psn);
+HK_PRIVATE
+void _HKEventCompatPostKeystroke(CGKeyCode keycode, CGEventFlags modifier, CGEventSourceRef source, void *psn);
 
 static Boolean HKEventCompat = NO;
 
 static void __HKEventInitialize(void) __attribute__((constructor));
 static void __HKEventInitialize() {
   if (CGEventCreateKeyboardEvent != NULL) {
-    _HKEventPostKeyStroke = __HKEventPostKeystroke;
+    _HKEventPostKeyStroke = _HKEventPostKeystroke;
   } else {
     HKEventCompat = YES;
-    _HKEventPostKeyStroke = __HKEventCompatPostKeystroke;
+    _HKEventPostKeyStroke = _HKEventCompatPostKeystroke;
   }
 }
 
 #pragma mark -
 UInt32 HKEventSleepInterval = 5000;
 
-static __inline__ 
+HK_INLINE
 void __HKEventPostKeyboardEvent(CGEventSourceRef source, CGKeyCode keycode, void *psn, Boolean down) {
   CGEventRef event = CGEventCreateKeyboardEvent(source, keycode, down);
   if (psn)
@@ -50,7 +50,7 @@ void __HKEventPostKeyboardEvent(CGEventSourceRef source, CGKeyCode keycode, void
 }
 
 static
-void __HKEventPostKeystroke(CGKeyCode keycode, CGEventFlags modifier, CGEventSourceRef source, void *psn) {
+void _HKEventPostKeystroke(CGKeyCode keycode, CGEventFlags modifier, CGEventSourceRef source, void *psn) {
   /* WARNING: look like CGEvent does not support null source */
   BOOL isource = NO;
   if (!source) {
@@ -104,7 +104,7 @@ void __HKEventPostKeystroke(CGKeyCode keycode, CGEventFlags modifier, CGEventSou
 }
 
 static
-Boolean __HKEventPostCharacterKeystrokes(UniChar character, CGEventSourceRef source, void *psn) {
+Boolean _HKEventPostCharacterKeystrokes(UniChar character, CGEventSourceRef source, void *psn) {
   /* WARNING: look like CGEvent does not support null source */
   BOOL isource = NO; /* YES if internal source and should be released */ 
   if (!source && CGEventSourceCreate != NULL) {
@@ -133,7 +133,7 @@ void HKEventPostKeystroke(CGKeyCode keycode, CGEventFlags modifier, CGEventSourc
 }
 
 Boolean HKEventPostCharacterKeystrokes(UniChar character, CGEventSourceRef source) {
-  return __HKEventPostCharacterKeystrokes(character, source, NULL);
+  return _HKEventPostCharacterKeystrokes(character, source, NULL);
 }
 
 Boolean HKEventPostKeystrokeToTarget(CGKeyCode keycode, CGEventFlags modifier, HKEventTarget target, HKEventTargetType type, CGEventSourceRef source) {
@@ -146,10 +146,10 @@ Boolean HKEventPostKeystrokeToTarget(CGKeyCode keycode, CGEventFlags modifier, H
       _HKEventPostKeyStroke(keycode, modifier, source, target.psn);
       return YES;
     case kHKEventTargetBundle:
-      psn = HKGetProcessWithBundleIdentifier(target.bundle);
+      psn = _HKGetProcessWithBundleIdentifier(target.bundle);
       break;
     case kHKEventTargetSignature:
-      psn = HKGetProcessWithSignature(target.signature);
+      psn = _HKGetProcessWithSignature(target.signature);
       break;
   }
   if (psn.lowLongOfPSN != kNoProcess) {
@@ -163,20 +163,20 @@ Boolean HKEventPostCharacterKeystrokesToTarget(UniChar character, HKEventTarget 
   ProcessSerialNumber psn = {kNoProcess, kNoProcess};
   switch (type) {
     case kHKEventTargetSystem:
-      __HKEventPostCharacterKeystrokes(character, source, NULL);
+      _HKEventPostCharacterKeystrokes(character, source, NULL);
       return YES;
     case kHKEventTargetProcess:
-      __HKEventPostCharacterKeystrokes(character, source, target.psn);
+      _HKEventPostCharacterKeystrokes(character, source, target.psn);
       return YES;
     case kHKEventTargetBundle:
-      psn = HKGetProcessWithBundleIdentifier(target.bundle);
+      psn = _HKGetProcessWithBundleIdentifier(target.bundle);
       break;
     case kHKEventTargetSignature:
-      psn = HKGetProcessWithSignature(target.signature);
+      psn = _HKGetProcessWithSignature(target.signature);
       break;
   }
   if (psn.lowLongOfPSN != kNoProcess) {
-    __HKEventPostCharacterKeystrokes(character, source, &psn);
+    _HKEventPostCharacterKeystrokes(character, source, &psn);
     return YES;
   }
   return NO;
@@ -184,7 +184,7 @@ Boolean HKEventPostCharacterKeystrokesToTarget(UniChar character, HKEventTarget 
 
 #pragma mark -
 #pragma mark Statics Functions Definition
-ProcessSerialNumber HKGetProcessWithSignature(OSType type) {
+ProcessSerialNumber _HKGetProcessWithSignature(OSType type) {
   ProcessSerialNumber serialNumber = {kNoProcess, kNoProcess};
   if (type) {
     ProcessInfoRec info;
@@ -200,7 +200,7 @@ ProcessSerialNumber HKGetProcessWithSignature(OSType type) {
   return serialNumber; 
 }
 
-ProcessSerialNumber HKGetProcessWithBundleIdentifier(CFStringRef bundleId) {
+ProcessSerialNumber _HKGetProcessWithBundleIdentifier(CFStringRef bundleId) {
   ProcessSerialNumber serialNumber = {kNoProcess, kNoProcess};
   CFPropertyListRef procValue;
   CFDictionaryRef info;

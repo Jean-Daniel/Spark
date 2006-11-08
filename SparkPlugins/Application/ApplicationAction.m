@@ -319,7 +319,26 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
   return NO;
 }
 
-- (SparkAlert *)shouldPerformAction {
+/* Do not check application path at load time */
+- (SparkAlert *)actionDidLoad {
+  switch (aa_action) {
+    case kApplicationLaunch:
+    case kApplicationQuit:
+    case kApplicationToggle:
+    case kApplicationForceQuit:
+      
+    case kApplicationHideOther:
+    case kApplicationHideFront:
+      break;
+      
+    default:
+      return [SparkAlert alertWithMessageText:@"INVALID_ACTION_ALERT"
+                    informativeTextWithFormat:@"INVALID_ACTION_ALERT_MSG"];
+  }
+  return nil;
+}
+
+- (SparkAlert *)verify {
   switch (aa_action) {
     case kApplicationLaunch:
     case kApplicationQuit:
@@ -338,27 +357,29 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
 }
 
 - (SparkAlert *)performAction {
-  SparkAlert *alert = nil;
-  switch (aa_action) {
-    case kApplicationLaunch:
-      [self launchApplication];
-      break;
-    case kApplicationQuit:
-      [self quitApplication];
-      break;
-    case kApplicationToggle:
-      [self toggleApplicationState];
-      break;
-    case kApplicationForceQuit:
-      [self killApplication];
-      break;
-      
-    case kApplicationHideFront:
-      [self hideFront];
-      break;
-    case kApplicationHideOther:
-      [self hideOthers];
-      break;
+  SparkAlert *alert = [self verify];
+  if (!alert) {
+    switch (aa_action) {
+      case kApplicationLaunch:
+        [self launchApplication];
+        break;
+      case kApplicationQuit:
+        [self quitApplication];
+        break;
+      case kApplicationToggle:
+        [self toggleApplicationState];
+        break;
+      case kApplicationForceQuit:
+        [self killApplication];
+        break;
+        
+      case kApplicationHideFront:
+        [self hideFront];
+        break;
+      case kApplicationHideOther:
+        [self hideOthers];
+        break;
+    }
   }
   return alert;
 }

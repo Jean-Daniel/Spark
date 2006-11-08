@@ -13,8 +13,9 @@
 			buildPhases = (
 			);
 			dependencies = (
-				98FC452206063BB2003617CA /* PBXTargetDependency */,
+				986439420B0283B7003BF4F3 /* PBXTargetDependency */,
 				98FC452406063BB2003617CA /* PBXTargetDependency */,
+				98FC452206063BB2003617CA /* PBXTargetDependency */,
 				98FC487D060643E4003617CA /* PBXTargetDependency */,
 				98FC462A06063E2F003617CA /* PBXTargetDependency */,
 				98FC458A06063CF3003617CA /* PBXTargetDependency */,
@@ -161,6 +162,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		986439410B0283B7003BF4F3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9888CDFA0B02412200B81BDB;
+			remoteInfo = Text;
+		};
 		986756D3096B3C0500BB8A25 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 98EF7F4B08645B7F007BC81A /* SparkKit.xcodeproj */;
@@ -1339,6 +1347,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		986439420B0283B7003BF4F3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9888CDFA0B02412200B81BDB /* Text */;
+			targetProxy = 986439410B0283B7003BF4F3 /* PBXContainerItemProxy */;
+		};
 		98FC452206063BB2003617CA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 98FC44BA06063A21003617CA /* System */;

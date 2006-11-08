@@ -21,16 +21,64 @@ struct __HKKeyMap {
 };
 
 #pragma mark -
-#pragma mark Statics Functions Declaration
-static OSStatus HKKeyMapInit(HKKeyMapRef currentKeyMap);
-static void HKKeyMapDispose(HKKeyMapRef keyMap);
-
-static inline UInt32 CurrentKCHRId(void) {
+#pragma mark Statics Functions
+HK_INLINE
+UInt32 __CurrentKCHRId(void) {
   UInt32 uid = 0;
   KeyboardLayoutRef ref;
   KLGetCurrentKeyboardLayout(&ref);
   KLGetKeyboardLayoutProperty(ref, kKLIdentifier, (void *)&uid);
   return uid;
+}
+
+static
+OSStatus _HKKeyMapInit(HKKeyMapRef keyMap) {
+  /* find the current layout resource ID */
+  KeyboardLayoutKind kind = 0;
+  KeyboardLayoutPropertyTag tag = 0;
+  KLGetKeyboardLayoutProperty(keyMap->keyboard, kKLIdentifier, (void *)&(keyMap->identifier));
+  
+  OSStatus err = KLGetKeyboardLayoutProperty(keyMap->keyboard, kKLKind, (void *)&kind);
+  if (noErr == err) {
+    switch (kind) {
+      case kKLuchrKind:
+      case kKLKCHRuchrKind:
+        // Load uchr data
+        tag = kKLuchrData;
+        break;
+      case kKLKCHRKind:
+        // load kchr data
+        tag = kKLKCHRData;
+        break;
+    }
+  }
+  const void *data = NULL;
+  if (noErr == err) {
+    err = KLGetKeyboardLayoutProperty(keyMap->keyboard, tag, (void *)&data);
+  }
+  if (noErr == err) {
+    switch (kind) {
+      case kKLuchrKind:
+      case kKLKCHRuchrKind:
+        // Load uchr data
+        err = HKKeyMapContextWithUchrData(data, keyMap->reverse, &keyMap->ctxt);
+        break;
+      case kKLKCHRKind:
+        // load kchr data
+        err = HKKeyMapContextWithKCHRData(data, keyMap->reverse, &keyMap->ctxt);
+        break;
+    }
+  }
+  return err;
+}
+
+static
+void _HKKeyMapDispose(HKKeyMapRef keyMap) {
+  keyMap->keyboard = NULL;
+  if (keyMap->ctxt.dealloc) {
+    keyMap->ctxt.dealloc(&keyMap->ctxt);
+    bzero(&keyMap->ctxt, sizeof(keyMap->ctxt));
+  }
 }
 
 #pragma mark -
@@ -40,7 +88,7 @@ HKKeyMapRef HKKeyMapCreate(void *layout, Boolean reverse) {
   if (nil != keymap) {
     keymap->reverse = reverse;
     keymap->keyboard = layout;
-    if (noErr != HKKeyMapInit(keymap)) {
+    if (noErr != _HKKeyMapInit(keymap)) {
       HKKeyMapRelease(keymap);
       keymap = nil;
     }
@@ -49,19 +97,19 @@ HKKeyMapRef HKKeyMapCreate(void *layout, Boolean reverse) {
 }
 
 void HKKeyMapRelease(HKKeyMapRef keymap) {
-  HKKeyMapDispose(keymap);
+  _HKKeyMapDispose(keymap);
   NSZoneFree(nil, keymap);
 }
 
 #pragma mark -
 #pragma mark Public Functions Definition.
 OSStatus HKKeyMapCheckCurrentMap(HKKeyMapRef keyMap, Boolean *wasChanged) {
-  SInt32 theID = CurrentKCHRId();
+  SInt32 theID = __CurrentKCHRId();
   if (theID != keyMap->identifier) {
     if (wasChanged)
       *wasChanged = YES;
-    HKKeyMapDispose(keyMap);
-    return HKKeyMapInit(keyMap);
+    _HKKeyMapDispose(keyMap);
+    return _HKKeyMapInit(keyMap);
   }
   else {
     if (wasChanged)
@@ -106,53 +154,3 @@ CFStringRef HKKeyMapGetLocalizedName(HKKeyMapRef keymap) {
   return str;
 }
 
-#pragma mark -
-#pragma mark Statics Functions Definition.
-
-OSStatus HKKeyMapInit(HKKeyMapRef keyMap) {
-  /* find the current layout resource ID */
-  KeyboardLayoutKind kind = 0;
-  KeyboardLayoutPropertyTag tag = 0;
-  KLGetKeyboardLayoutProperty(keyMap->keyboard, kKLIdentifier, (void *)&(keyMap->identifier));
-
-  OSStatus err = KLGetKeyboardLayoutProperty(keyMap->keyboard, kKLKind, (void *)&kind);
-  if (noErr == err) {
-    switch (kind) {
-      case kKLuchrKind:
-      case kKLKCHRuchrKind:
-        // Load uchr data
-        tag = kKLuchrData;
-        break;
-      case kKLKCHRKind:
-        // load kchr data
-        tag = kKLKCHRData;
-        break;
-    }
-  }
-  const void *data = NULL;
-  if (noErr == err) {
-    err = KLGetKeyboardLayoutProperty(keyMap->keyboard, tag, (void *)&data);
-  }
-  if (noErr == err) {
-    switch (kind) {
-      case kKLuchrKind:
-      case kKLKCHRuchrKind:
-        // Load uchr data
-        err = HKKeyMapContextWithUchrData(data, keyMap->reverse, &keyMap->ctxt);
-        break;
-      case kKLKCHRKind:
-        // load kchr data
-        err = HKKeyMapContextWithKCHRData(data, keyMap->reverse, &keyMap->ctxt);
-        break;
-    }
-  }
-  return err;
-}
-
-void HKKeyMapDispose(HKKeyMapRef keyMap) {
-  keyMap->keyboard = NULL;
-  if (keyMap->ctxt.dealloc) {
-    keyMap->ctxt.dealloc(&keyMap->ctxt);
-    bzero(&keyMap->ctxt, sizeof(keyMap->ctxt));
-  }
-}

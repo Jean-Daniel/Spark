@@ -11,7 +11,7 @@
 
 #include <unistd.h>
 
-static __inline__ 
+HK_INLINE
 void __HKEventPostKeyboardEvent(CGEventSourceRef source, CGKeyCode keycode, AXUIElementRef app, Boolean down) {
   if (app)
     AXUIElementPostKeyboardEvent(app, 0, keycode, down);
@@ -21,10 +21,10 @@ void __HKEventPostKeyboardEvent(CGEventSourceRef source, CGKeyCode keycode, AXUI
   usleep(HKEventSleepInterval);
 }
 
-SK_PRIVATE
-void __HKEventCompatPostKeystroke(CGKeyCode keycode, CGEventFlags modifier, void *source, ProcessSerialNumber *psn);
+HK_PRIVATE
+void _HKEventCompatPostKeystroke(CGKeyCode keycode, CGEventFlags modifier, void *source, ProcessSerialNumber *psn);
 
-void __HKEventCompatPostKeystroke(CGKeyCode keycode, CGEventFlags modifier, void *source, ProcessSerialNumber *psn) {
+void _HKEventCompatPostKeystroke(CGKeyCode keycode, CGEventFlags modifier, void *source, ProcessSerialNumber *psn) {
   AXUIElementRef app = nil;
   
   if (psn && (psn->lowLongOfPSN != kNoProcess || psn->highLongOfPSN != kNoProcess)) {

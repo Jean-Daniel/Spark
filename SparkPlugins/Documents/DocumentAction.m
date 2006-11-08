@@ -83,12 +83,12 @@ OSType _DocumentActionFromFlag(int flag) {
 
 - (void)initFromOldPropertyList:(id)plist {
   [self setAction:_DocumentActionFromFlag([[plist objectForKey:@"DocAction"] intValue])];
-  if (da_action == kDocumentActionOpen || da_action == kDocumentActionOpenWith) {
+  if (DocumentActionNeedDocument(da_action)) {
     NSData *data = [plist objectForKey:@"DocAlias"];
     if (data)
       da_doc = [[SKAlias alloc] initWithData:data];
   }
-  if (da_action == kDocumentActionOpenWith || da_action == kDocumentActionOpenSelectionWith) {
+  if (DocumentActionNeedApplication(da_action)) {
     NSData *data = [plist objectForKey:@"AppAlias"];
     if (data) {
       SKAlias *app = [[SKAlias alloc] initWithData:data];
@@ -111,13 +111,13 @@ OSType _DocumentActionFromFlag(int flag) {
     } else {
       [self setAction:SKOSTypeFromString([plist objectForKey:kDocumentActionKey])];
       
-      if (da_action == kDocumentActionOpen || da_action == kDocumentActionOpenWith || da_action == kDocumentActionReveal) {
+      if (DocumentActionNeedDocument(da_action)) {
         NSData *data = [plist objectForKey:kDocumentActionAliasKey];
         if (data)
           da_doc = [[SKAlias alloc] initWithData:data];
       }
       
-      if (da_action == kDocumentActionOpenWith || da_action == kDocumentActionOpenSelectionWith) {
+      if (DocumentActionNeedApplication(da_action)) {
         da_app = [[SKAliasedApplication alloc] initWithSerializedValues:plist];
       }
       
@@ -143,7 +143,7 @@ OSType _DocumentActionFromFlag(int flag) {
 - (BOOL)serialize:(NSMutableDictionary *)plist {
   if ([super serialize:plist]) {
     [plist setObject:SKStringForOSType(da_action) forKey:kDocumentActionKey];
-    if (da_action == kDocumentActionOpen || da_action == kDocumentActionOpenWith || da_action == kDocumentActionReveal) {
+    if (DocumentActionNeedDocument(da_action)) {
       NSData *data = [da_doc data];
       if (data) {
         [plist setObject:data forKey:kDocumentActionAliasKey];
@@ -152,7 +152,7 @@ OSType _DocumentActionFromFlag(int flag) {
         return NO;
       }
     }
-    if (da_action == kDocumentActionOpenWith || da_action == kDocumentActionOpenSelectionWith) {
+    if (DocumentActionNeedApplication(da_action)) {
       if (![da_app serialize:plist]) {
         DLog(@"Invalid Open With Application.");
         return NO;
@@ -170,8 +170,8 @@ OSType _DocumentActionFromFlag(int flag) {
   return YES;
 }
 
-- (SparkAlert *)shouldPerformAction {
-  if (da_action == kDocumentActionOpen || da_action == kDocumentActionOpenWith || da_action == kDocumentActionReveal) {
+- (SparkAlert *)actionDidLoad {
+  if (DocumentActionNeedDocument(da_action)) {
     if (![[self document] path]) {
       //Alert Doc invalide
       return [SparkAlert alertWithMessageText:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"INVALID_DOCUMENT_ALERT", nil, 
@@ -182,7 +182,7 @@ OSType _DocumentActionFromFlag(int flag) {
                                                                                  @"Document not found  * Check Msg *"), [self name]];
     }
   }
-  if (da_action == kDocumentActionOpenWith || da_action == kDocumentActionOpenSelectionWith) {
+  if (DocumentActionNeedApplication(da_action)) {
     if (![[self application] path]) {
       //Alert App Invalide
       return [SparkAlert alertWithMessageText:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"INVALID_APPLICATION_ALERT", nil, 
@@ -198,42 +198,56 @@ OSType _DocumentActionFromFlag(int flag) {
 
 - (SparkAlert *)performAction {
   SparkAlert *alert = nil;
-  if (da_action == kDocumentActionOpen || da_action == kDocumentActionOpenWith) {
-    if (![[NSWorkspace sharedWorkspace] openFile:[[self document] path] withApplication:[[self application] path]]) {
-      NSBeep();
-      // Impossible d'ouvrir le document (alert = ?)
-    }
-  } else if (da_action == kDocumentActionOpenSelection || da_action == kDocumentActionOpenSelectionWith) {
-    // Check if Finder is foreground
-    if (SKProcessGetFrontProcessSignature() == 'MACS') {
-      [self openSelection];
-    }
-  } else if (da_action == kDocumentActionOpenURL) {
-    if (![[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:da_url]]) {
-      NSBeep();
-      /* alert = []; */
-    }
-  } else if (da_action == kDocumentActionReveal) {
-    AliasHandle alias = [[self document] aliasHandle];
-    if (alias) {
-      AppleEvent aevt = SKAEEmptyDesc();
-      OSStatus err = SKAECreateEventWithTargetSignature('MACS', kAEMiscStandards, kAEMakeObjectsVisible, &aevt);
-      if (noErr == err) {
-        err = SKAEAddAEDescWithData(&aevt, keyDirectObject, typeAlias, *alias, SKGetAliasSize(alias));
-      }
-      if (noErr == err) {
-        SKAEAddSubject(&aevt);
-        err = SKAESendEventNoReply(&aevt);
-      }
-      SKAEDisposeDesc(&aevt);
-      if (noErr == err)
-        err = SKAESendSimpleEvent('MACS', kAEMiscStandards,kAEActivate);
-      
-      if (noErr != err)
+  switch (da_action) {
+    case kDocumentActionOpen:
+    case kDocumentActionOpenWith: {
+      if (![[NSWorkspace sharedWorkspace] openFile:[[self document] path] withApplication:[[self application] path]]) {
         NSBeep();
-    } else {
-      NSBeep();
+        // Impossible d'ouvrir le document (alert = ?)
+      }
     }
+      break;
+    case kDocumentActionOpenSelection:
+    case kDocumentActionOpenSelectionWith: {
+      // Check if Finder is foreground
+      if (SKProcessGetFrontProcessSignature() == 'MACS') {
+        [self openSelection];
+      }
+    }
+      break;
+    case kDocumentActionOpenURL: {
+      if (![[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:da_url]]) {
+        NSBeep();
+        /* alert = []; */
+      }
+    }
+      break;
+    case kDocumentActionReveal: {
+      AliasHandle alias = [[self document] aliasHandle];
+      if (alias) {
+        AppleEvent aevt = SKAEEmptyDesc();
+        OSStatus err = SKAECreateEventWithTargetSignature('MACS', kAEMiscStandards, kAEMakeObjectsVisible, &aevt);
+        if (noErr == err) {
+          err = SKAEAddAEDescWithData(&aevt, keyDirectObject, typeAlias, *alias, SKGetAliasSize(alias));
+        }
+        if (noErr == err) {
+          SKAEAddSubject(&aevt);
+          err = SKAESendEventNoReply(&aevt);
+        }
+        SKAEDisposeDesc(&aevt);
+        if (noErr == err)
+          err = SKAESendSimpleEvent('MACS', kAEMiscStandards,kAEActivate);
+        
+        if (noErr != err)
+          NSBeep();
+      } else {
+        NSBeep();
+      }
+    }
+      break;
+      
+    default:
+      NSBeep();
   }
   return alert;
 }

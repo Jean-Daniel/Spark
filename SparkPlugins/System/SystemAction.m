@@ -86,7 +86,7 @@ NSString * const kSystemConfirmKey = @"SystemConfirm";
   sa_action = newAction;
 }
 
-- (SparkAlert *)shouldPerformAction {
+- (SparkAlert *)actionDidLoad {
   switch ([self action]) {
     case kSystemLogOut:
     case kSystemSleep:
@@ -147,6 +147,9 @@ NSString * const kSystemConfirmKey = @"SystemConfirm";
     case kSystemEmptyTrash:
       [self emptyTrash];
       break;
+      
+    default:
+      NSBeep();
   }
   return nil;
 }

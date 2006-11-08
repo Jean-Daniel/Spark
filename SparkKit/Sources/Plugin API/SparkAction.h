@@ -66,17 +66,17 @@ NSTimeInterval SparkGetDefaultKeyRepeatInterval(void);
 
   /*!
   @method
-   @abstract   Optional! Called before each action execution, and when action are loaded into the editor.
+   @abstract   Optional! Called when action are loaded.
    @discussion Subclasses should override this method to check if the action is valid.
    @result     Return nil if the action is valid and ready to be executed.
    */
-- (SparkAlert *)shouldPerformAction;
+- (SparkAlert *)actionDidLoad;
 
   /*!
   @method
    @abstract   Required!
    @discussion Subclasses must overwrite this method.
-   @result     Returns <i>nil</i> if this SparkAction is executed whitout problem.
+   @result     Returns <i>nil</i> if this SparkAction is successfully executed.
    */
 - (SparkAlert *)performAction;
 

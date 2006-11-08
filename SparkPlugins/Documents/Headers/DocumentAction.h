@@ -10,8 +10,8 @@
 
 enum {
   kDocumentActionOpen              = 'Open', /* 1332766062 */
-  kDocumentActionOpenWith          = 'OpWi', /* 1332762473 */
   kDocumentActionReveal            = 'Reva', /* 1382381153 */
+  kDocumentActionOpenWith          = 'OpWi', /* 1332762473 */
   kDocumentActionOpenSelection     = 'OpSe', /* 1332761445 */
   kDocumentActionOpenSelectionWith = 'OpSW', /* 1332761431 */
   kDocumentActionOpenURL           = 'OURL', /* 1330991692 */
@@ -50,3 +50,24 @@ NSString * const kDocumentActionBundleIdentifier;
 
 SK_PRIVATE
 NSString *DocumentActionDescription(DocumentAction *anAction);
+
+SK_INLINE
+BOOL DocumentActionNeedDocument(int act) {
+  switch (act) {
+    case kDocumentActionOpen:
+    case kDocumentActionReveal:
+    case kDocumentActionOpenWith:
+      return YES;
+  }
+  return NO;
+}
+
+SK_INLINE
+BOOL DocumentActionNeedApplication(int act) {
+  switch (act) {
+    case kDocumentActionOpenWith:
+    case kDocumentActionOpenSelectionWith:
+      return YES;
+  }
+  return NO;
+}
