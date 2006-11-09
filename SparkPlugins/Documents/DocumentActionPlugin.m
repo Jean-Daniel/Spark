@@ -200,6 +200,24 @@
 }
 - (void)setAction:(int)anAction {
   [(DocumentAction *)[self sparkAction] setAction:anAction];
+  
+  switch ([self action]) {
+    case kDocumentActionOpen:
+    case kDocumentActionReveal:
+    case kDocumentActionOpenWith:
+      [[ibName cell] setPlaceholderString:[[self documentName] stringByDeletingPathExtension] ? : @""];
+      break;
+    case kDocumentActionOpenSelection:
+    case kDocumentActionOpenSelectionWith:
+      [[ibName cell] setPlaceholderString:@"Open selection"];
+      break;
+    case kDocumentActionOpenURL:
+      [[ibName cell] setPlaceholderString:@"Open URL"];
+      break;
+    default:
+      [[ibName cell] setPlaceholderString:@""];
+  }
+  
 }
 
 - (int)tabIndex {
@@ -229,6 +247,7 @@
 
 - (void)setDocumentName:(NSString *)aName {
   SKSetterCopy(da_name, aName);
+  [[ibName cell] setPlaceholderString:[aName stringByDeletingPathExtension] ? : @""];
 }
 
 - (NSImage *)documentIcon {

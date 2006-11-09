@@ -73,7 +73,8 @@
     if (url) {
       NSArray *applications = (id)LSCopyApplicationURLsForURL((CFURLRef)url, kLSRolesAll);
       if ([applications count]) {
-        NSURL *first = [applications objectAtIndex:0];
+        CFURLRef prefered = NULL;
+        LSGetApplicationForURL((CFURLRef)url, kLSRolesAll, NULL, &prefered);
         /* Sort applications */
         NSSortDescriptor *desc = [[NSSortDescriptor alloc] initWithKey:@"path.lastPathComponent" ascending:NO selector:@selector(caseInsensitiveCompare:)];
         NSArray *sorted = [applications sortedArrayUsingDescriptors:[NSArray arrayWithObject:desc]];
@@ -85,7 +86,14 @@
           if ([application isFileURL])
             [[self menu] insertItem:[self itemForPath:[application path]] atIndex:0];
         }
-        [self selectItemAtIndex:[sorted indexOfObjectIdenticalTo:first]];
+        if (prefered) {
+          int idx = [sorted indexOfObject:(id)prefered];
+          if (idx >= 0) {
+            idx++;
+            [self selectItemAtIndex:[sorted count] - idx];
+          }
+          CFRelease(prefered);
+        }
       }
       [applications release];
     }
