@@ -33,10 +33,6 @@
   SEPreferencesWindow *se_preferences;
 }
 
-#pragma mark Restart Functions
-+ (void)restartSpark;
-+ (void)restartDaemon;
-
 #pragma mark Menu IBActions
 - (IBAction)toggleServer:(id)sender;
 - (IBAction)showPreferences:(id)sender;

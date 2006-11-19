@@ -26,12 +26,17 @@
 
 - (void)awakeFromNib {
   /* Configure Library Header Cell */
-  SEHeaderCell *header = [[SEHeaderCell alloc] initTextCell:@"Shortcuts"];
-  [header setAlignment:NSCenterTextAlignment];
-  [header setFont:[NSFont systemFontOfSize:11]];
-  [[[ibTriggers tableColumns] objectAtIndex:0] setHeaderCell:header];
-  [header release];
-  [ibTriggers setCornerView:[[[SEHeaderCellCorner alloc] init] autorelease]];
+//  NSString *title = @"Shortcuts";
+//  int idx = [[ibTriggers tableColumns] count];
+//  while (idx-- > 0) {
+//    SEHeaderCell *header = [[SEHeaderCell alloc] initTextCell:title];
+//    [header setAlignment:NSCenterTextAlignment];
+//    [header setFont:[NSFont systemFontOfSize:11]];
+//    [[[ibTriggers tableColumns] objectAtIndex:idx] setHeaderCell:header];
+//    [header release];
+//    title = @"";
+//  }
+//  [ibTriggers setCornerView:[[[SEHeaderCellCorner alloc] init] autorelease]];
   //  NSRect rect = [[table headerView] frame];
   //  rect.size.height += 1;
   //  [[table headerView] setFrame:rect];

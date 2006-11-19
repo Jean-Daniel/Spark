@@ -11,6 +11,7 @@
 #if defined (DEBUG)
 #import "SEEntryEditor.h"
 #import "SETriggerBrowser.h"
+#import "SEPluginInstaller.h"
 #import <Foundation/NSDebug.h>
 #endif
 
@@ -340,29 +341,6 @@ NSArray *gSortByNameDescriptors = nil;
 //}
 
 #pragma mark -
-#pragma mark Restart Functions
-+ (void)restartDaemon {
-//  BOOL running = ([[ServerController sharedController] serverProxy] != nil);
-//  if (running) {
-//    [[ServerController sharedController] shutDownServer];
-//    [NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.5]];
-//  }
-//  [[ServerController sharedController] startServer];
-}
-
-+ (void)restartSpark {
-//  if ([[NSWorkspace sharedWorkspace] openURLs:[NSArray arrayWithObject:[NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]]]
-//                      withAppBundleIdentifier:nil
-//                                      options:NSWorkspaceLaunchDefault | NSWorkspaceLaunchNewInstance
-//               additionalEventParamDescriptor:nil
-//                            launchIdentifiers:nil]) {
-//    [NSApp terminate:nil];
-//  } else {
-//    [NSException raise:NSInternalInconsistencyException format:@"Unable to create new Spark instance"];
-//  }
-}
-
-#pragma mark -
 #pragma mark Open File & Sheet Did End
 //- (BOOL)openList:(NSString *)filename {
 //  id plist = nil;
@@ -496,10 +474,6 @@ NSArray *gSortByNameDescriptors = nil;
 //  return YES;
 //}
 
-- (void)sheetDidEnd:(id)sheet returnCode:(int)code context:(void *)context {
-  [[sheet windowController] autorelease];
-}
-
 #pragma mark -
 #pragma mark Windows Delegate
 - (void)windowWillClose:(NSNotification *)aNotification {
@@ -621,6 +595,7 @@ NSArray *gSortByNameDescriptors = nil;
   [menu addItemWithTitle:@"Type Chooser" action:@selector(openTypeChooser:) keyEquivalent:@""];
   [menu addItemWithTitle:@"Entry Editor" action:@selector(openEntryEditor:) keyEquivalent:@""];
   [menu addItemWithTitle:@"Trigger Browser" action:@selector(openTriggerBrowser:) keyEquivalent:@""];
+  [menu addItemWithTitle:@"Install plugin" action:@selector(openInstaller:) keyEquivalent:@""];
   [menu addItem:[NSMenuItem separatorItem]];
   [menu addItemWithTitle:@"Clean Library" action:@selector(cleanLibrary:) keyEquivalent:@""];
   [debugMenu setSubmenu:menu];
@@ -632,10 +607,11 @@ NSArray *gSortByNameDescriptors = nil;
 - (IBAction)openEntryEditor:(id)sender {
   if (se_mainWindow) {
     SEEntryEditor *editor = [[SEEntryEditor alloc] init];
+    [editor setReleasedWhenClosed:YES];
     [NSApp beginSheet: [editor window]
        modalForWindow: [se_mainWindow window]
         modalDelegate: self
-       didEndSelector: @selector(sheetDidEnd:returnCode:context:)
+       didEndSelector: NULL
           contextInfo: nil];
   }
 }
@@ -673,16 +649,15 @@ NSArray *gSortByNameDescriptors = nil;
 //  }
 //}
 //
-//- (IBAction)openInstaller:(id)sender {
-//  if (libraryWindow) {
-//    id panel = [[PluginInstaller alloc] init];
-//    [NSApp beginSheet: [panel window]
-//       modalForWindow: [libraryWindow window]
-//        modalDelegate: self
-//       didEndSelector: @selector(sheetDidEnd:returnCode:context:)
-//          contextInfo: nil];
-//  }
-//}
+- (IBAction)openInstaller:(id)sender {
+  SEPluginInstaller *panel = [[SEPluginInstaller alloc] init];
+  [panel setReleasedWhenClosed:YES];
+  [NSApp beginSheet:[panel window]
+     modalForWindow:[self mainWindow]
+      modalDelegate:self
+     didEndSelector:NULL
+        contextInfo:nil];
+}
 
 #endif
 

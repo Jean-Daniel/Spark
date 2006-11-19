@@ -1,15 +1,19 @@
-//
-//  TextAction.h
-//  Spark Plugins
-//
-//  Created by Grayfox on 08/11/06.
-//  Copyright 2006 Adamentium. All rights reserved.
-//
+/*
+ *  TextAction.h
+ *  Spark Plugins
+ *
+ *  Created by Black Moon Team.
+ *  Copyright (c) 2004 - 2006, Shadow Lab. All rights reserved.
+ */
 
 #import <SparkKit/SparkPluginAPI.h>
 
 @interface TextAction : SparkAction {
-
+  NSString *ta_str;
 }
+
+- (NSString *)string;
+- (void)setString:(NSString *)aString;
+
 
 @end

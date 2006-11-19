@@ -112,6 +112,9 @@
 		98D377CD0AA73DD300947217 /* stop_bdown.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98D377C90AA73DD300947217 /* stop_bdown.tiff */; };
 		98D377E30AA73E5600947217 /* stop.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 984BCE3B060C7E990043CDEA /* stop.tiff */; };
 		98D590F30AA18A430081A713 /* SEEditor.strings in Resources */ = {isa = PBXBuildFile; fileRef = 98D590F10AA18A430081A713 /* SEEditor.strings */; };
+		98DA08E20B0A5D270016B465 /* SEPluginInstaller.m in Sources */ = {isa = PBXBuildFile; fileRef = 98DA08E10B0A5D270016B465 /* SEPluginInstaller.m */; };
+		98DA08E60B0A5D390016B465 /* SEPluginInstaller.h in Headers */ = {isa = PBXBuildFile; fileRef = 98DA08E50B0A5D390016B465 /* SEPluginInstaller.h */; };
+		98DA08F30B0A5DC30016B465 /* SEPluginInstaller.nib in Resources */ = {isa = PBXBuildFile; fileRef = 98DA08ED0B0A5DC30016B465 /* SEPluginInstaller.nib */; };
 		98DA2B0A0AFDF2E700E394CD /* SEPluginHelp.m in Sources */ = {isa = PBXBuildFile; fileRef = 98DA2B090AFDF2E600E394CD /* SEPluginHelp.m */; };
 		98DA2B0C0AFDF2F500E394CD /* SEPluginHelp.h in Headers */ = {isa = PBXBuildFile; fileRef = 98DA2B0B0AFDF2F500E394CD /* SEPluginHelp.h */; };
 		98DA2BCA0AFE011400E394CD /* SEPluginHelp.nib in Resources */ = {isa = PBXBuildFile; fileRef = 98DA2BC80AFE011400E394CD /* SEPluginHelp.nib */; };
@@ -196,13 +199,6 @@
 			remoteGlobalIDString = 9833252D078F437B0047E227;
 			remoteInfo = Dock;
 		};
-		6540B70109E6431600D0E8FB /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 98C7035C07BAAED700F7AD87 /* Plugins Factory.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 989E9D650718941100DB4E93;
-			remoteInfo = Text;
-		};
 		6540B70309E6431600D0E8FB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 98C7035C07BAAED700F7AD87 /* Plugins Factory.xcodeproj */;
@@ -216,13 +212,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 98074A1307EA45EA0001A600;
 			remoteInfo = Grayscale;
-		};
-		6540B70709E6431600D0E8FB /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 98C7035C07BAAED700F7AD87 /* Plugins Factory.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 988BC4FB06411AB30096DD7D;
-			remoteInfo = Keystroke;
 		};
 		6540B70909E6431600D0E8FB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -403,7 +392,6 @@
 		98240204060C7B3000A0DB07 /* English */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.html; name = English; path = English.lproj/shcts.html; sourceTree = "<group>"; };
 		98300525076FC21B003A260D /* PluginInstaller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PluginInstaller.m; path = "Classes/UI Controllers/PluginInstaller.m"; sourceTree = "<group>"; };
 		98300527076FC231003A260D /* PluginInstaller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PluginInstaller.h; path = "UI Controllers/PluginInstaller.h"; sourceTree = "<group>"; };
-		98300532076FC3D2003A260D /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/PluginInstall.nib; sourceTree = "<group>"; };
 		9830D9750AB46B7000C316FE /* SETriggerBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SETriggerBrowser.m; sourceTree = "<group>"; };
 		9830D9790AB46B7A00C316FE /* SETriggerBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SETriggerBrowser.h; sourceTree = "<group>"; };
 		9830D9840AB46C5400C316FE /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SETriggerBrowser.nib; sourceTree = "<group>"; };
@@ -488,6 +476,9 @@
 		98D377C80AA73DD300947217 /* start_bdown.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = start_bdown.tiff; sourceTree = "<group>"; };
 		98D377C90AA73DD300947217 /* stop_bdown.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = stop_bdown.tiff; sourceTree = "<group>"; };
 		98D590F20AA18A430081A713 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/SEEditor.strings; sourceTree = "<group>"; };
+		98DA08E10B0A5D270016B465 /* SEPluginInstaller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEPluginInstaller.m; sourceTree = "<group>"; };
+		98DA08E50B0A5D390016B465 /* SEPluginInstaller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEPluginInstaller.h; sourceTree = "<group>"; };
+		98DA08EE0B0A5DC30016B465 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SEPluginInstaller.nib; sourceTree = "<group>"; };
 		98DA2B090AFDF2E600E394CD /* SEPluginHelp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEPluginHelp.m; sourceTree = "<group>"; };
 		98DA2B0B0AFDF2F500E394CD /* SEPluginHelp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEPluginHelp.h; sourceTree = "<group>"; };
 		98DA2BC90AFE011400E394CD /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SEPluginHelp.nib; sourceTree = "<group>"; };
@@ -615,10 +606,8 @@
 			isa = PBXGroup;
 			children = (
 				6540B70009E6431600D0E8FB /* DockAction.spact */,
-				6540B70209E6431600D0E8FB /* TextAction.spact */,
 				6540B70409E6431600D0E8FB /* ArchivesHotKey.spact */,
 				6540B70609E6431600D0E8FB /* GrayscaleAction.spact */,
-				6540B70809E6431600D0E8FB /* KeyStrokeAction.spact */,
 				6540B70A09E6431600D0E8FB /* ShellHotKey.spact */,
 			);
 			name = Products;
@@ -729,6 +718,7 @@
 				981A8A930A61A49D00753369 /* SEEntryEditor.nib */,
 				987235390AA7552C0085C028 /* SEPreferences.nib */,
 				98362B420A97664100F97F50 /* SEInheritsPlugin.nib */,
+				98DA08ED0B0A5DC30016B465 /* SEPluginInstaller.nib */,
 				98F746000A5C560A003D4BE1 /* SELibraryWindow.nib */,
 				9830D9830AB46C5400C316FE /* SETriggerBrowser.nib */,
 			);
@@ -854,6 +844,7 @@
 				981A8A9E0A61A4E400753369 /* SEEntryEditor.m */,
 				98AC52D10AAF7FF40071EAA7 /* SEPreferences.m */,
 				983BE16C0A7E402600E0228F /* SELibrarySource.m */,
+				98DA08E10B0A5D270016B465 /* SEPluginInstaller.m */,
 				985AF9FA0A5C33D400397FAA /* SELibraryWindow.m */,
 				9830D9750AB46B7000C316FE /* SETriggerBrowser.m */,
 				98A9226B0A7B8EC300DF1998 /* SEApplicationSource.m */,
@@ -870,6 +861,7 @@
 				981A8A9A0A61A4D600753369 /* SEEntryEditor.h */,
 				98AC52D30AAF80010071EAA7 /* SEPreferences.h */,
 				983BE1730A7E402F00E0228F /* SELibrarySource.h */,
+				98DA08E50B0A5D390016B465 /* SEPluginInstaller.h */,
 				985AFA000A5C33D900397FAA /* SELibraryWindow.h */,
 				9830D9790AB46B7A00C316FE /* SETriggerBrowser.h */,
 				98A9226F0A7B8ED300DF1998 /* SEApplicationSource.h */,
@@ -883,7 +875,6 @@
 			children = (
 				98A91DA7074F55460029D278 /* Importer.nib */,
 				9837AA71071B0E7F0057584D /* TableAlert.nib */,
-				98300531076FC3D2003A260D /* PluginInstall.nib */,
 			);
 			name = Sheets;
 			path = Resources;
@@ -988,6 +979,7 @@
 				98EE9E750ABC001A00296C08 /* SparkServerVersion.h in Headers */,
 				98DA2B0C0AFDF2F500E394CD /* SEPluginHelp.h in Headers */,
 				988107AD0AFFF1390010CDD5 /* SETriggerTable.h in Headers */,
+				98DA08E60B0A5D390016B465 /* SEPluginInstaller.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1113,13 +1105,6 @@
 			remoteRef = 6540B6FF09E6431600D0E8FB /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		6540B70209E6431600D0E8FB /* TextAction.spact */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = TextAction.spact;
-			remoteRef = 6540B70109E6431600D0E8FB /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		6540B70409E6431600D0E8FB /* ArchivesHotKey.spact */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
@@ -1132,13 +1117,6 @@
 			fileType = wrapper.cfbundle;
 			path = GrayscaleAction.spact;
 			remoteRef = 6540B70509E6431600D0E8FB /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		6540B70809E6431600D0E8FB /* KeyStrokeAction.spact */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = KeyStrokeAction.spact;
-			remoteRef = 6540B70709E6431600D0E8FB /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		6540B70A09E6431600D0E8FB /* ShellHotKey.spact */ = {
@@ -1259,6 +1237,7 @@
 				988107F20AFFF9390010CDD5 /* badge-4.tiff in Resources */,
 				988107F30AFFF9390010CDD5 /* badge-1&2.tiff in Resources */,
 				988107F40AFFF9390010CDD5 /* badge-5.tiff in Resources */,
+				98DA08F30B0A5DC30016B465 /* SEPluginInstaller.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1303,6 +1282,7 @@
 				9830D9760AB46B7000C316FE /* SETriggerBrowser.m in Sources */,
 				98DA2B0A0AFDF2E700E394CD /* SEPluginHelp.m in Sources */,
 				988107AE0AFFF1390010CDD5 /* SETriggerTable.m in Sources */,
+				98DA08E20B0A5D270016B465 /* SEPluginInstaller.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1393,14 +1373,6 @@
 			name = shcts.html;
 			sourceTree = "<group>";
 		};
-		98300531076FC3D2003A260D /* PluginInstall.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				98300532076FC3D2003A260D /* English */,
-			);
-			name = PluginInstall.nib;
-			sourceTree = "<group>";
-		};
 		9830D9830AB46C5400C316FE /* SETriggerBrowser.nib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1487,6 +1459,14 @@
 				98D590F20AA18A430081A713 /* English */,
 			);
 			name = SEEditor.strings;
+			sourceTree = "<group>";
+		};
+		98DA08ED0B0A5DC30016B465 /* SEPluginInstaller.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				98DA08EE0B0A5DC30016B465 /* English */,
+			);
+			name = SEPluginInstaller.nib;
 			sourceTree = "<group>";
 		};
 		98DA2BC80AFE011400E394CD /* SEPluginHelp.nib */ = {

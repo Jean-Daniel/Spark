@@ -7,7 +7,12 @@
             OUTLETS = {actionView = NSView; }; 
             SUPERCLASS = NSObject; 
         }, 
-        {CLASS = TextActionPlugin; LANGUAGE = ObjC; SUPERCLASS = SparkActionPlugIn; }
+        {
+            CLASS = TextActionPlugin; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {ibText = NSTextView; }; 
+            SUPERCLASS = SparkActionPlugIn; 
+        }
     ); 
     IBVersion = 1; 
 }

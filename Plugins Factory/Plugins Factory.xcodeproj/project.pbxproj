@@ -14,7 +14,6 @@
 			);
 			dependencies = (
 				98C1304B08CE15BA0015CB91 /* PBXTargetDependency */,
-				989DD1120794AB36004E4CFA /* PBXTargetDependency */,
 			);
 			name = All;
 			productName = All;
@@ -31,23 +30,12 @@
 		9833253C078F44700047E227 /* DockAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 9833253B078F44700047E227 /* DockAction.h */; };
 		983EFC8D07905AA2002171F5 /* Dock.m in Sources */ = {isa = PBXBuildFile; fileRef = 983EFC8B07905AA2002171F5 /* Dock.m */; };
 		983EFC8F07905AB7002171F5 /* Dock.h in Headers */ = {isa = PBXBuildFile; fileRef = 983EFC8E07905AB7002171F5 /* Dock.h */; };
-		9840AC8808D3410900C33314 /* KeyStrokeIcon.tif in Resources */ = {isa = PBXBuildFile; fileRef = 9840AC8708D3410900C33314 /* KeyStrokeIcon.tif */; };
-		985B6F080719F8870073D36F /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 985B6F070719F8860073D36F /* Carbon.framework */; };
 		986757AC096B3EE900BB8A25 /* ShadowKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9867577E096B3E7C00BB8A25 /* ShadowKit.framework */; };
-		986757AD096B3EEC00BB8A25 /* ShadowKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9867577E096B3E7C00BB8A25 /* ShadowKit.framework */; };
 		9884615F0623682C00E3DE04 /* Remove_shell.tif in Resources */ = {isa = PBXBuildFile; fileRef = 9884615B0623682C00E3DE04 /* Remove_shell.tif */; };
 		988461600623682C00E3DE04 /* Remove_shell_Pressed.tif in Resources */ = {isa = PBXBuildFile; fileRef = 9884615C0623682C00E3DE04 /* Remove_shell_Pressed.tif */; };
 		988461610623682C00E3DE04 /* Add_shell.tif in Resources */ = {isa = PBXBuildFile; fileRef = 9884615D0623682C00E3DE04 /* Add_shell.tif */; };
 		988461620623682C00E3DE04 /* Add_shell_Pressed.tif in Resources */ = {isa = PBXBuildFile; fileRef = 9884615E0623682C00E3DE04 /* Add_shell_Pressed.tif */; };
 		988B9DC906293A0800FADDCF /* Finder_s.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 988B9DC806293A0800FADDCF /* Finder_s.tiff */; };
-		988BC4F706411AB30096DD7D /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
-		988BC50A06411BB00096DD7D /* KeyStrokeActionPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 988BC50306411BB00096DD7D /* KeyStrokeActionPlugin.m */; };
-		988BC50C06411BB00096DD7D /* KeyStrokeAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 988BC50606411BB00096DD7D /* KeyStrokeAction.h */; };
-		988BC50D06411BB00096DD7D /* KeyStrokeActionPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 988BC50706411BB00096DD7D /* KeyStrokeActionPlugin.h */; };
-		988BC50F06411BB00096DD7D /* KeyStrokeAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 988BC50906411BB00096DD7D /* KeyStrokeAction.m */; };
-		988BC51106411BC00096DD7D /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 988BC51006411BC00096DD7D /* Info.plist */; };
-		988BC51906411BEA0096DD7D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 988BC51306411BEA0096DD7D /* InfoPlist.strings */; };
-		988BC51A06411BEA0096DD7D /* KeyStrokeView.nib in Resources */ = {isa = PBXBuildFile; fileRef = 988BC51506411BEA0096DD7D /* KeyStrokeView.nib */; };
 		98975AC7061E22AF00BC40ED /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 		98975ACD061E235600BC40ED /* ShellKeySet.m in Sources */ = {isa = PBXBuildFile; fileRef = 98975AAD061E223800BC40ED /* ShellKeySet.m */; };
 		98975ACE061E235600BC40ED /* ShellHotKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 98975AB1061E228500BC40ED /* ShellHotKey.m */; };
@@ -56,19 +44,7 @@
 		98975AF9061E24BF00BC40ED /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 98975AF7061E24BF00BC40ED /* InfoPlist.strings */; };
 		98975B78061E278500BC40ED /* ShellScriptView.nib in Resources */ = {isa = PBXBuildFile; fileRef = 98975B76061E278500BC40ED /* ShellScriptView.nib */; };
 		98975B84061E27C800BC40ED /* ShellPluginIcon.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98975B83061E27C800BC40ED /* ShellPluginIcon.tiff */; };
-		989E9D620718941100DB4E93 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
-		989E9DA60718957700DB4E93 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 989E9DA40718957700DB4E93 /* InfoPlist.strings */; };
-		989EAB9B071897CA00DB4E93 /* TextConfiguration.nib in Resources */ = {isa = PBXBuildFile; fileRef = 989EAB99071897CA00DB4E93 /* TextConfiguration.nib */; };
-		989EABA80718981600DB4E93 /* TextIcon.tif in Resources */ = {isa = PBXBuildFile; fileRef = 989EABA70718981600DB4E93 /* TextIcon.tif */; };
-		989EABAB0718983F00DB4E93 /* TextAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 989EABA90718983F00DB4E93 /* TextAction.h */; };
-		989EABAE0718986100DB4E93 /* TextAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 989EABAD0718986100DB4E93 /* TextAction.m */; };
-		989EABB20718989600DB4E93 /* TextActionPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 989EABB00718989600DB4E93 /* TextActionPlugin.h */; };
-		989EABB5071898BD00DB4E93 /* TextActionPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 989EABB4071898BD00DB4E93 /* TextActionPlugin.m */; };
 		98BD1202078F46BA00A77736 /* DockConfigView.nib in Resources */ = {isa = PBXBuildFile; fileRef = 98BD1200078F46BA00A77736 /* DockConfigView.nib */; };
-		98C0D36A07192BDE00AC65C0 /* TextEventManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 98C0D36907192BDE00AC65C0 /* TextEventManager.h */; };
-		98C0D36E07192C4A00AC65C0 /* TextEventManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 98C0D36C07192C4A00AC65C0 /* TextEventManager.m */; };
-		98D812B108E580B5007E6C14 /* Up.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98D812AF08E580B5007E6C14 /* Up.tif */; };
-		98D812B208E580B5007E6C14 /* Down.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98D812B008E580B5007E6C14 /* Down.tif */; };
 		98E1CB470607743500FA3599 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 		98E1CC4C060774DA00FA3599 /* ArchivesKeySet.m in Sources */ = {isa = PBXBuildFile; fileRef = 98E1CC48060774DA00FA3599 /* ArchivesKeySet.m */; };
 		98E1CC4F060774DA00FA3599 /* ArchivesHotKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 98E1CC4B060774DA00FA3599 /* ArchivesHotKey.m */; };
@@ -78,20 +54,12 @@
 		98E1CF77060778F800FA3599 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 98E1CF73060778F800FA3599 /* InfoPlist.strings */; };
 		98E1CF78060778F800FA3599 /* ArchivesConfigView.nib in Resources */ = {isa = PBXBuildFile; fileRef = 98E1CF75060778F800FA3599 /* ArchivesConfigView.nib */; };
 		98E42D1B0628206500EB150F /* ShellKeyIcon.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98E42D1A0628206500EB150F /* ShellKeyIcon.tiff */; };
-		98EE18D307BABCFE008AE24D /* AddMini.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98EE18CF07BABCFE008AE24D /* AddMini.tiff */; };
-		98EE18D407BABCFE008AE24D /* RemoveMini.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98EE18D007BABCFE008AE24D /* RemoveMini.tiff */; };
-		98EE18D507BABCFE008AE24D /* RemoveMini_Pressed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98EE18D107BABCFE008AE24D /* RemoveMini_Pressed.tiff */; };
-		98EE18D607BABCFE008AE24D /* AddMini_Pressed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98EE18D207BABCFE008AE24D /* AddMini_Pressed.tiff */; };
 		98EF814D08645F7A007BC81A /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF813B08645F24007BC81A /* HotKeyToolKit.framework */; };
 		98EF814E08645F7A007BC81A /* SparkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF814208645F2D007BC81A /* SparkKit.framework */; };
-		98EF814F08645F7D007BC81A /* SparkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF814208645F2D007BC81A /* SparkKit.framework */; };
-		98EF815008645F7D007BC81A /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF813B08645F24007BC81A /* HotKeyToolKit.framework */; };
 		98EF815108645F80007BC81A /* SparkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF814208645F2D007BC81A /* SparkKit.framework */; };
 		98EF815208645F80007BC81A /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF813B08645F24007BC81A /* HotKeyToolKit.framework */; };
 		98EF815408645F84007BC81A /* SparkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF814208645F2D007BC81A /* SparkKit.framework */; };
 		98EF815508645F84007BC81A /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF813B08645F24007BC81A /* HotKeyToolKit.framework */; };
-		98EF815608645F87007BC81A /* SparkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF814208645F2D007BC81A /* SparkKit.framework */; };
-		98EF815708645F87007BC81A /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF813B08645F24007BC81A /* HotKeyToolKit.framework */; };
 		98EF815808645F89007BC81A /* SparkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF814208645F2D007BC81A /* SparkKit.framework */; };
 		98EF815908645F8A007BC81A /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF813B08645F24007BC81A /* HotKeyToolKit.framework */; };
 /* End PBXBuildFile section */
@@ -124,13 +92,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 98C56D34096B348400ABE1EF;
 			remoteInfo = ShadowKit;
-		};
-		989DD1110794AB36004E4CFA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 988BC4DF06411AB30096DD7D;
-			remoteInfo = Keystroke;
 		};
 		98C1304A08CE15BA0015CB91 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -180,7 +141,6 @@
 		9884615D0623682C00E3DE04 /* Add_shell.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Add_shell.tif; sourceTree = "<group>"; };
 		9884615E0623682C00E3DE04 /* Add_shell_Pressed.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Add_shell_Pressed.tif; sourceTree = "<group>"; };
 		988B9DC806293A0800FADDCF /* Finder_s.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Finder_s.tiff; sourceTree = "<group>"; };
-		988BC4FB06411AB30096DD7D /* KeyStrokeAction.spact */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KeyStrokeAction.spact; sourceTree = BUILT_PRODUCTS_DIR; };
 		988BC50306411BB00096DD7D /* KeyStrokeActionPlugin.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = KeyStrokeActionPlugin.m; sourceTree = "<group>"; };
 		988BC50606411BB00096DD7D /* KeyStrokeAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = KeyStrokeAction.h; sourceTree = "<group>"; };
 		988BC50706411BB00096DD7D /* KeyStrokeActionPlugin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = KeyStrokeActionPlugin.h; sourceTree = "<group>"; };
@@ -197,18 +157,7 @@
 		98975AF8061E24BF00BC40ED /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = Resources/English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		98975B77061E278500BC40ED /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = ShellScript/Resources/English.lproj/ShellScriptView.nib; sourceTree = "<group>"; };
 		98975B83061E27C800BC40ED /* ShellPluginIcon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = ShellPluginIcon.tiff; sourceTree = "<group>"; };
-		989E9D650718941100DB4E93 /* TextAction.spact */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TextAction.spact; sourceTree = BUILT_PRODUCTS_DIR; };
-		989E9D660718941100DB4E93 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
-		989E9DA50718957700DB4E93 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		989EAB9A071897CA00DB4E93 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Text/Resources/English.lproj/TextConfiguration.nib; sourceTree = "<group>"; };
-		989EABA70718981600DB4E93 /* TextIcon.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = TextIcon.tif; sourceTree = "<group>"; };
-		989EABA90718983F00DB4E93 /* TextAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextAction.h; sourceTree = "<group>"; };
-		989EABAD0718986100DB4E93 /* TextAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TextAction.m; sourceTree = "<group>"; };
-		989EABB00718989600DB4E93 /* TextActionPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextActionPlugin.h; sourceTree = "<group>"; };
-		989EABB4071898BD00DB4E93 /* TextActionPlugin.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TextActionPlugin.m; sourceTree = "<group>"; };
 		98BD1201078F46BA00A77736 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/DockConfigView.nib; sourceTree = "<group>"; };
-		98C0D36907192BDE00AC65C0 /* TextEventManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TextEventManager.h; sourceTree = "<group>"; };
-		98C0D36C07192C4A00AC65C0 /* TextEventManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextEventManager.m; sourceTree = "<group>"; };
 		98D812AF08E580B5007E6C14 /* Up.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Up.tif; sourceTree = "<group>"; };
 		98D812B008E580B5007E6C14 /* Down.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Down.tif; sourceTree = "<group>"; };
 		98E1CB4B0607743500FA3599 /* ArchivesHotKey.spact */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ArchivesHotKey.spact; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -251,17 +200,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		988BC4F606411AB30096DD7D /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				988BC4F706411AB30096DD7D /* Cocoa.framework in Frameworks */,
-				98EF815608645F87007BC81A /* SparkKit.framework in Frameworks */,
-				98EF815708645F87007BC81A /* HotKeyToolKit.framework in Frameworks */,
-				986757AD096B3EEC00BB8A25 /* ShadowKit.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		98975AC6061E22AF00BC40ED /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -269,17 +207,6 @@
 				98975AC7061E22AF00BC40ED /* Cocoa.framework in Frameworks */,
 				98EF815808645F89007BC81A /* SparkKit.framework in Frameworks */,
 				98EF815908645F8A007BC81A /* HotKeyToolKit.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		989E9D610718941100DB4E93 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				989E9D620718941100DB4E93 /* Cocoa.framework in Frameworks */,
-				985B6F080719F8870073D36F /* Carbon.framework in Frameworks */,
-				98EF814F08645F7D007BC81A /* SparkKit.framework in Frameworks */,
-				98EF815008645F7D007BC81A /* HotKeyToolKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -329,7 +256,6 @@
 		08FB77AFFE84173DC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				989E9D470718940C00DB4E93 /* Text */,
 				98332516078F43700047E227 /* Dock */,
 				98E1CC2D060774BD00FA3599 /* Archives */,
 				988BC50206411B330096DD7D /* KeyStroke */,
@@ -360,10 +286,8 @@
 			isa = PBXGroup;
 			children = (
 				9833252D078F437B0047E227 /* DockAction.spact */,
-				989E9D650718941100DB4E93 /* TextAction.spact */,
 				98975ACB061E22AF00BC40ED /* ShellHotKey.spact */,
 				98E1CB4B0607743500FA3599 /* ArchivesHotKey.spact */,
-				988BC4FB06411AB30096DD7D /* KeyStrokeAction.spact */,
 				98074A1307EA45EA0001A600 /* GrayscaleAction.spact */,
 			);
 			name = Products;
@@ -486,39 +410,6 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		989E9D470718940C00DB4E93 /* Text */ = {
-			isa = PBXGroup;
-			children = (
-				989E9DA0071894ED00DB4E93 /* Headers */,
-				989EABAD0718986100DB4E93 /* TextAction.m */,
-				989EABB4071898BD00DB4E93 /* TextActionPlugin.m */,
-				98C0D36C07192C4A00AC65C0 /* TextEventManager.m */,
-				989E9D660718941100DB4E93 /* Info.plist */,
-				989E9DA40718957700DB4E93 /* InfoPlist.strings */,
-				989EAB99071897CA00DB4E93 /* TextConfiguration.nib */,
-				989E9DA1071894ED00DB4E93 /* Resources */,
-			);
-			path = Text;
-			sourceTree = "<group>";
-		};
-		989E9DA0071894ED00DB4E93 /* Headers */ = {
-			isa = PBXGroup;
-			children = (
-				989EABA90718983F00DB4E93 /* TextAction.h */,
-				989EABB00718989600DB4E93 /* TextActionPlugin.h */,
-				98C0D36907192BDE00AC65C0 /* TextEventManager.h */,
-			);
-			path = Headers;
-			sourceTree = "<group>";
-		};
-		989E9DA1071894ED00DB4E93 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				989EABA70718981600DB4E93 /* TextIcon.tif */,
-			);
-			path = Resources;
-			sourceTree = "<group>";
-		};
 		98E1CC2D060774BD00FA3599 /* Archives */ = {
 			isa = PBXGroup;
 			children = (
@@ -590,31 +481,12 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		988BC4E006411AB30096DD7D /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				988BC50C06411BB00096DD7D /* KeyStrokeAction.h in Headers */,
-				988BC50D06411BB00096DD7D /* KeyStrokeActionPlugin.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		98975AB4061E22AF00BC40ED /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				98975ADA061E237600BC40ED /* ShellKeySet.h in Headers */,
 				98975ADB061E237600BC40ED /* ShellHotKey.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		989E9D500718941100DB4E93 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				989EABAB0718983F00DB4E93 /* TextAction.h in Headers */,
-				989EABB20718989600DB4E93 /* TextActionPlugin.h in Headers */,
-				98C0D36A07192BDE00AC65C0 /* TextEventManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -668,25 +540,6 @@
 			productReference = 9833252D078F437B0047E227 /* DockAction.spact */;
 			productType = "com.apple.product-type.bundle";
 		};
-		988BC4DF06411AB30096DD7D /* Keystroke */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 98EF811B08645F04007BC81A /* Build configuration list for PBXNativeTarget "Keystroke" */;
-			buildPhases = (
-				988BC4E006411AB30096DD7D /* Headers */,
-				988BC4E406411AB30096DD7D /* Resources */,
-				988BC4F206411AB30096DD7D /* Sources */,
-				988BC4F606411AB30096DD7D /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = Keystroke;
-			productInstallPath = "$(HOME)/Library/Bundles";
-			productName = "Spark Plugins";
-			productReference = 988BC4FB06411AB30096DD7D /* KeyStrokeAction.spact */;
-			productType = "com.apple.product-type.bundle";
-		};
 		98975AB3061E22AF00BC40ED /* ShellScript */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 98EF811F08645F04007BC81A /* Build configuration list for PBXNativeTarget "ShellScript" */;
@@ -704,25 +557,6 @@
 			productInstallPath = "$(HOME)/Library/Bundles";
 			productName = "Spark Plugins";
 			productReference = 98975ACB061E22AF00BC40ED /* ShellHotKey.spact */;
-			productType = "com.apple.product-type.bundle";
-		};
-		989E9D4F0718941100DB4E93 /* Text */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 98EF811308645F04007BC81A /* Build configuration list for PBXNativeTarget "Text" */;
-			buildPhases = (
-				989E9D500718941100DB4E93 /* Headers */,
-				989E9D5E0718941100DB4E93 /* Sources */,
-				989E9D530718941100DB4E93 /* Resources */,
-				989E9D610718941100DB4E93 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = Text;
-			productInstallPath = "$(HOME)/Library/Bundles";
-			productName = "Spark Plugins";
-			productReference = 989E9D650718941100DB4E93 /* TextAction.spact */;
 			productType = "com.apple.product-type.bundle";
 		};
 		98E1CB310607743500FA3599 /* Archives */ = {
@@ -766,10 +600,8 @@
 			targets = (
 				98FC452006063BAD003617CA /* All */,
 				98332517078F437B0047E227 /* Dock */,
-				989E9D4F0718941100DB4E93 /* Text */,
 				98E1CB310607743500FA3599 /* Archives */,
 				98074A0007EA45EA0001A600 /* Grayscale */,
-				988BC4DF06411AB30096DD7D /* Keystroke */,
 				98975AB3061E22AF00BC40ED /* ShellScript */,
 			);
 		};
@@ -837,23 +669,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		988BC4E406411AB30096DD7D /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				988BC51106411BC00096DD7D /* Info.plist in Resources */,
-				988BC51906411BEA0096DD7D /* InfoPlist.strings in Resources */,
-				988BC51A06411BEA0096DD7D /* KeyStrokeView.nib in Resources */,
-				98EE18D307BABCFE008AE24D /* AddMini.tiff in Resources */,
-				98EE18D407BABCFE008AE24D /* RemoveMini.tiff in Resources */,
-				98EE18D507BABCFE008AE24D /* RemoveMini_Pressed.tiff in Resources */,
-				98EE18D607BABCFE008AE24D /* AddMini_Pressed.tiff in Resources */,
-				9840AC8808D3410900C33314 /* KeyStrokeIcon.tif in Resources */,
-				98D812B108E580B5007E6C14 /* Up.tif in Resources */,
-				98D812B208E580B5007E6C14 /* Down.tif in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		98975AB8061E22AF00BC40ED /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -867,16 +682,6 @@
 				988461620623682C00E3DE04 /* Add_shell_Pressed.tif in Resources */,
 				98E42D1B0628206500EB150F /* ShellKeyIcon.tiff in Resources */,
 				988B9DC906293A0800FADDCF /* Finder_s.tiff in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		989E9D530718941100DB4E93 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				989E9DA60718957700DB4E93 /* InfoPlist.strings in Resources */,
-				989EAB9B071897CA00DB4E93 /* TextConfiguration.nib in Resources */,
-				989EABA80718981600DB4E93 /* TextIcon.tif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -910,31 +715,12 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		988BC4F206411AB30096DD7D /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				988BC50A06411BB00096DD7D /* KeyStrokeActionPlugin.m in Sources */,
-				988BC50F06411BB00096DD7D /* KeyStrokeAction.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		98975AC2061E22AF00BC40ED /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				98975ACD061E235600BC40ED /* ShellKeySet.m in Sources */,
 				98975ACE061E235600BC40ED /* ShellHotKey.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		989E9D5E0718941100DB4E93 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				989EABAE0718986100DB4E93 /* TextAction.m in Sources */,
-				989EABB5071898BD00DB4E93 /* TextActionPlugin.m in Sources */,
-				98C0D36E07192C4A00AC65C0 /* TextEventManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -950,11 +736,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		989DD1120794AB36004E4CFA /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 988BC4DF06411AB30096DD7D /* Keystroke */;
-			targetProxy = 989DD1110794AB36004E4CFA /* PBXContainerItemProxy */;
-		};
 		98C1304B08CE15BA0015CB91 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 98074A0007EA45EA0001A600 /* Grayscale */;
@@ -1003,23 +784,6 @@
 			name = ShellScriptView.nib;
 			sourceTree = SOURCE_ROOT;
 		};
-		989E9DA40718957700DB4E93 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				989E9DA50718957700DB4E93 /* English */,
-			);
-			name = InfoPlist.strings;
-			path = Resources;
-			sourceTree = "<group>";
-		};
-		989EAB99071897CA00DB4E93 /* TextConfiguration.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				989EAB9A071897CA00DB4E93 /* English */,
-			);
-			name = TextConfiguration.nib;
-			sourceTree = SOURCE_ROOT;
-		};
 		98BD1200078F46BA00A77736 /* DockConfigView.nib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1052,14 +816,6 @@
 			buildSettings = {
 				INFOPLIST_FILE = Grayscale/Info.plist;
 				PRODUCT_NAME = GrayscaleAction;
-			};
-			name = Profiling;
-		};
-		98B4E1180939D65F009F2007 /* Profiling */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = KeyStroke/Info.plist;
-				PRODUCT_NAME = KeyStrokeAction;
 			};
 			name = Profiling;
 		};
@@ -1098,14 +854,6 @@
 			};
 			name = Profiling;
 		};
-		98B4E11B0939D65F009F2007 /* Profiling */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = Text/Info.plist;
-				PRODUCT_NAME = TextAction;
-			};
-			name = Profiling;
-		};
 		98B4E11C0939D65F009F2007 /* Profiling */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1140,27 +888,11 @@
 			};
 			name = "Universal Binary";
 		};
-		98C12CF308CE144E0015CB91 /* Universal Binary */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = Text/Info.plist;
-				PRODUCT_NAME = TextAction;
-			};
-			name = "Universal Binary";
-		};
 		98C12CF408CE144E0015CB91 /* Universal Binary */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				INFOPLIST_FILE = Archives/Info.plist;
 				PRODUCT_NAME = ArchivesHotKey;
-			};
-			name = "Universal Binary";
-		};
-		98C12CF508CE144E0015CB91 /* Universal Binary */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = KeyStroke/Info.plist;
-				PRODUCT_NAME = KeyStrokeAction;
 			};
 			name = "Universal Binary";
 		};
@@ -1234,22 +966,6 @@
 			};
 			name = Deployment;
 		};
-		98EF811408645F04007BC81A /* Development */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = Text/Info.plist;
-				PRODUCT_NAME = TextAction;
-			};
-			name = Development;
-		};
-		98EF811508645F04007BC81A /* Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = Text/Info.plist;
-				PRODUCT_NAME = TextAction;
-			};
-			name = Deployment;
-		};
 		98EF811808645F04007BC81A /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1263,22 +979,6 @@
 			buildSettings = {
 				INFOPLIST_FILE = Archives/Info.plist;
 				PRODUCT_NAME = ArchivesHotKey;
-			};
-			name = Deployment;
-		};
-		98EF811C08645F04007BC81A /* Development */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = KeyStroke/Info.plist;
-				PRODUCT_NAME = KeyStrokeAction;
-			};
-			name = Development;
-		};
-		98EF811D08645F04007BC81A /* Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = KeyStroke/Info.plist;
-				PRODUCT_NAME = KeyStrokeAction;
 			};
 			name = Deployment;
 		};
@@ -1403,17 +1103,6 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
 		};
-		98EF811308645F04007BC81A /* Build configuration list for PBXNativeTarget "Text" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				98EF811408645F04007BC81A /* Development */,
-				98B4E11B0939D65F009F2007 /* Profiling */,
-				98EF811508645F04007BC81A /* Deployment */,
-				98C12CF308CE144E0015CB91 /* Universal Binary */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
-		};
 		98EF811708645F04007BC81A /* Build configuration list for PBXNativeTarget "Archives" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1421,17 +1110,6 @@
 				98B4E11C0939D65F009F2007 /* Profiling */,
 				98EF811908645F04007BC81A /* Deployment */,
 				98C12CF408CE144E0015CB91 /* Universal Binary */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
-		};
-		98EF811B08645F04007BC81A /* Build configuration list for PBXNativeTarget "Keystroke" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				98EF811C08645F04007BC81A /* Development */,
-				98B4E1180939D65F009F2007 /* Profiling */,
-				98EF811D08645F04007BC81A /* Deployment */,
-				98C12CF508CE144E0015CB91 /* Universal Binary */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
