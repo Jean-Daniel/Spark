@@ -6,9 +6,12 @@
  *  Copyright (c) 2004 - 2006, Shadow Lab. All rights reserved.
  */
 
+#include <unistd.h>
+
 #import "SystemActionPlugin.h"
 #import <ShadowKit/SKFunctions.h>
 #import <ShadowKit/SKExtensions.h>
+#import <ShadowKit/SKDSFunctions.h>
 #import <ShadowKit/SKFSFunctions.h>
 #import <ShadowKit/SKAppKitExtensions.h>
 
@@ -30,6 +33,36 @@
     [item setTag:kSystemScreenSaver];
     [menu addItem:item];
     [item release];
+    
+    item = [[NSMenuItem alloc] initWithTitle:@"Switch to..." action:nil keyEquivalent:@""];
+    [item setTag:kSystemSwitch];
+    [menu insertItem:item atIndex:1];
+    [item release];
+    /* Build user swithcing menu */
+    CFArrayRef users;
+    BOOL separator = NO;
+    if (noErr == SKDSGetVisibleUsers(&users, kDS1AttrUniqueID, kDS1AttrDistinguishedName, NULL)) {
+      CFIndex cnt = CFArrayGetCount(users);
+      for (CFIndex idx = 0; idx < cnt; idx++) {
+        CFDictionaryRef user = CFArrayGetValueAtIndex(users, idx);
+        CFStringRef suid = CFDictionaryGetValue(user, CFSTR(kDS1AttrUniqueID));
+        if (suid && (unsigned)CFStringGetIntValue(suid) != getuid()) {
+          CFStringRef name = CFDictionaryGetValue(user, CFSTR(kDS1AttrDistinguishedName));
+          if (name) {
+            if (!separator) {
+              separator = YES;
+              [[ibUsers menu] insertItem:[NSMenuItem separatorItem] atIndex:0];
+              [[ibUsers itemAtIndex:0] setTag:-1];
+            }
+            item = [[NSMenuItem alloc] initWithTitle:(id)name action:NULL keyEquivalent:@""];
+            [item setTag:CFStringGetIntValue(suid)];
+            [[ibUsers menu] insertItem:item atIndex:0];
+            [item release];
+          }
+        }
+      }
+      CFRelease(users);
+    }
   }
 }
 
@@ -40,6 +73,9 @@
       [nameField setStringValue:[sparkAction name]];
     /* Force update menu + placeholder */
     [self setAction:[sparkAction action]];
+    if (kSystemSwitch == [self action]) {
+      [ibUsers selectItemWithTag:[sparkAction userID]];
+    }
     [self didChangeValueForKey:@"shouldConfirm"];
   } else {
     [self setAction:kSystemLogOut];
@@ -53,6 +89,9 @@
 
 - (void)configureAction {
   SystemAction *action = [self sparkAction];
+  /* Reset */
+  [action setUserID:0];
+  [action setUserName:nil];
   
   /* Set Name */
   NSString *name = [nameField stringValue];
@@ -61,11 +100,19 @@
   else 
     [action setName:name];
   
+  if (kSystemSwitch == [self action]) {
+    NSMenuItem *item = [ibUsers selectedItem];
+    if ([item tag]) {
+      [action setUserID:[item tag]];
+      [action setUserName:[item title]];
+    }
+  }
+  
   NSString *iconName = nil;
   switch ([self action]) {
     case kSystemLogOut:
-    case kSystemFastLogOut:
-      iconName = @"LogOut";
+    case kSystemSwitch:
+      iconName = @"Switch";
       break;
     case kSystemSleep:
       iconName = @"Sleep";
@@ -120,9 +167,15 @@
     case kSystemLogOut:
     case kSystemRestart:
     case kSystemShutDown:
+      [ibUsers setHidden:YES];
       [displayBox setHidden:NO];
       break;
+    case kSystemSwitch:
+      [ibUsers setHidden:NO];
+      [displayBox setHidden:YES];
+      break;
     default:
+      [ibUsers setHidden:YES];
       [displayBox setHidden:YES];
   }
 }

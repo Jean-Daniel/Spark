@@ -12,6 +12,8 @@
 @interface SystemActionPlugin : SparkActionPlugIn {
   IBOutlet NSButton *displayBox;
   IBOutlet NSTextField *nameField;
+  
+  IBOutlet NSPopUpButton *ibUsers;
   IBOutlet NSPopUpButton *actionMenu;
 }
 

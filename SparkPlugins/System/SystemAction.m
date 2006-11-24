@@ -8,6 +8,8 @@
 
 #import "SystemAction.h"
 
+#include <unistd.h>
+
 #import <ShadowKit/SKFunctions.h>
 #import <ShadowKit/SKFSFunctions.h>
 #import <ShadowKit/SKAEFunctions.h>
@@ -23,11 +25,18 @@ kSystemActionBundleIdentifier = @"org.shadowlab.spark.system";
 
 static 
 void SystemFastLogOut(void);
+static 
+void SystemSwitchToUser(uid_t uid);
 
 static 
 NSString * const kSystemActionKey = @"SystemAction";
 static
 NSString * const kSystemConfirmKey = @"SystemConfirm";
+
+static
+NSString * const kSystemUserUIDKey = @"SystemUserUID";
+static
+NSString * const kSystemUserNameKey = @"SystemUserName";
 
 @implementation SystemAction
 
@@ -61,6 +70,10 @@ NSString * const kSystemConfirmKey = @"SystemConfirm";
     [self setAction:[[plist objectForKey:kSystemActionKey] intValue]];
     [self setShouldConfirm:[[plist objectForKey:kSystemConfirmKey] boolValue]];
     
+    if (kSystemSwitch == [self action]) {
+      [self setUserName:[plist objectForKey:kSystemUserNameKey]];
+      [self setUserID:[[plist objectForKey:kSystemUserUIDKey] unsignedIntValue]];
+    }
     /* Update description */
     NSString *description = SystemActionDescription(self);
     if (description)
@@ -73,6 +86,10 @@ NSString * const kSystemConfirmKey = @"SystemConfirm";
   if ([super serialize:plist]) {
     [plist setObject:SKInt([self action]) forKey:kSystemActionKey];
     [plist setObject:SKBool([self shouldConfirm]) forKey:kSystemConfirmKey];
+    if (kSystemSwitch == [self action] && [self userID] && [self userName]) {
+      [plist setObject:SKUInt([self userID]) forKey:kSystemUserUIDKey];
+      [plist setObject:[self userName] forKey:kSystemUserNameKey];
+    }
     return YES;
   }
   return NO;
@@ -92,7 +109,7 @@ NSString * const kSystemConfirmKey = @"SystemConfirm";
     case kSystemSleep:
     case kSystemRestart:
     case kSystemShutDown:
-    case kSystemFastLogOut:
+    case kSystemSwitch:
     case kSystemScreenSaver:
       /* Accessibility */
     case kSystemSwitchPolarity:
@@ -112,7 +129,7 @@ NSString * const kSystemConfirmKey = @"SystemConfirm";
                     informativeTextWithFormat:NSLocalizedStringFromTableInBundle(@"INVALID_ACTION_ALERT_MSG",
                                                                                  nil,
                                                                                  kSystemActionBundle,
-                                                                                 @"Error When trying to execute but Action unknown ** Msg **")];
+                                                                                 @"Error When trying to execute but Action unknown ** Msg **"), [self name]];
   }
 }
 
@@ -130,8 +147,8 @@ NSString * const kSystemConfirmKey = @"SystemConfirm";
     case kSystemShutDown:
       [self shutDown];
       break;
-    case kSystemFastLogOut:
-      [self fastLogout];
+    case kSystemSwitch:
+      [self switchSession];
       break;
     case kSystemScreenSaver:
       [self screenSaver];
@@ -188,6 +205,20 @@ bail:
     SKAEDisposeDesc(&aevt);
 }
 
+- (uid_t)userID {
+  return sa_uid;
+}
+- (void)setUserID:(uid_t)uid {
+  sa_uid = uid;
+}
+
+- (NSString *)userName {
+  return sa_uname;
+}
+- (void)setUserName:(NSString *)aName {
+  SKSetterRetain(sa_uname, aName);
+}
+
 /*
 kAELogOut                     = 'logo',
 kAEReallyLogOut               = 'rlgo',
@@ -220,8 +251,11 @@ kAEShowShutdownDialog         = 'rsdn'
   ProcessSerialNumber psn = {0, kSystemProcess};
   SKAESendSimpleEventToProcess(&psn, kCoreEventClass, 'slep');
 }
-- (void)fastLogout {
-  SystemFastLogOut();
+- (void)switchSession {
+  if (0 == sa_uid) 
+    SystemFastLogOut();
+  else if (getuid() != sa_uid)
+    SystemSwitchToUser(sa_uid);
 }
 
 - (void)screenSaver {
@@ -249,6 +283,16 @@ void SystemFastLogOut() {
   [task release];
 }
 
+static 
+void SystemSwitchToUser(uid_t uid) {
+  NSTask *task = [[NSTask alloc] init];
+  [task setLaunchPath:kFastUserSwitcherPath];
+  [task setArguments:[NSArray arrayWithObjects:@"-switchToUserID", [NSString stringWithFormat:@"%u", uid], nil]];
+  [task launch];
+  [task waitUntilExit];
+  [task release];
+}
+
 #pragma mark -
 @interface PowerAction : SparkAction {
 }
@@ -268,7 +312,7 @@ OSType SystemActionFromFlag(int flag) {
     case 3:
       return kSystemShutDown;
     case 4:
-      return kSystemFastLogOut;
+      return kSystemSwitch;
     case 5:
       return kSystemScreenSaver;
   }
@@ -286,6 +330,7 @@ OSType SystemActionFromFlag(int flag) {
 
 @end
 
+#pragma mark -
 NSString *SystemActionDescription(SystemAction *anAction) {
   NSString *desc = nil;
   switch ([anAction action]) {
@@ -305,9 +350,15 @@ NSString *SystemActionDescription(SystemAction *anAction) {
       desc = NSLocalizedStringFromTableInBundle(@"DESC_SHUTDOWN", nil, kSystemActionBundle,
                                                 @"ShutDown * Action Description *");
       break;
-    case kSystemFastLogOut:
-      desc = NSLocalizedStringFromTableInBundle(@"DESC_FAST_LOGOUT", nil, kSystemActionBundle,
-                                                @"Fast Logout * Action Description *");
+    case kSystemSwitch:
+      if ([anAction userID]) {
+        NSString *loc = NSLocalizedStringFromTableInBundle(@"Switch to %@", nil, kSystemActionBundle,
+                                                           @"Switch to * Action Description * (%@ => user name)");
+        desc = [NSString stringWithFormat:loc, [anAction userName]];
+      } else {
+        desc = NSLocalizedStringFromTableInBundle(@"DESC_FAST_SWITCH", nil, kSystemActionBundle,
+                                                  @"Fast Logout * Action Description *");
+      }
       break;
     case kSystemScreenSaver:
       desc = NSLocalizedStringFromTableInBundle(@"DESC_SCREEN_SAVER", nil, kSystemActionBundle,
