@@ -7,6 +7,8 @@
  */
 
 #import "SEPluginHelp.h"
+#import "SESparkEntrySet.h"
+#import "SEPluginInstaller.h"
 
 #import <WebKit/WebKit.h>
 
@@ -33,13 +35,52 @@
 
 - (id)init {
   if (self = [super init]) {
+    /* Dynamic plugin */
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didLoadPlugin:)
+                                                 name:SEPluginInstallerDidInstallPluginNotification
+                                               object:nil];
   }
   return self;
 }
 
 - (void)dealloc {
-  
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
   [super dealloc];
+}
+
+- (void)loadPluginMenu {
+  NSMenu *aMenu = [[NSMenu alloc] initWithTitle:@"Plugins"];
+  NSEnumerator *plugins = [[[[SparkActionLoader sharedLoader] plugins] sortedArrayUsingDescriptors:gSortByNameDescriptors] objectEnumerator];
+  
+  SparkPlugIn *plugin;
+  while (plugin = [plugins nextObject]) {
+    NSURL *help = [plugin helpURL];
+    if (help) {
+      NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:[plugin name] action:nil keyEquivalent:@""];
+      [item setImage:[plugin icon]];
+      [item setRepresentedObject:[help absoluteString]];
+      [aMenu addItem:item];
+      [item release];
+    }
+  }
+  
+  if (!se_plugins) {
+    se_plugins = [ibHead addMenu:aMenu position:kSKHeaderLeft];
+    [se_plugins setTarget:self];
+    [se_plugins setAction:@selector(selectPlugin:)];
+  } else {
+    [se_plugins setMenu:aMenu];
+  }
+  
+  if ([aMenu numberOfItems])
+    [self selectPlugin:[aMenu itemAtIndex:0]];
+  
+  [aMenu release];
+}
+
+- (void)didLoadPlugin:(NSNotification *)aNotification {
+  [self loadPluginMenu];
 }
 
 - (void)awakeFromNib {
@@ -54,31 +95,7 @@
     [se_next setAction:@selector(goForward:)];
     [se_next bind:@"enabled" toObject:ibWeb withKeyPath:@"canGoForward" options:nil];
     
-    NSMenu *aMenu = [[NSMenu alloc] initWithTitle:@"Plugins"];
-    NSSortDescriptor *desc = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES selector:@selector(caseInsensitiveCompare:)];
-    NSEnumerator *plugins = [[[[SparkActionLoader sharedLoader] plugins] sortedArrayUsingDescriptors:[NSArray arrayWithObject:desc]] objectEnumerator];
-    [desc release];
-    
-    SparkPlugIn *plugin;
-    while (plugin = [plugins nextObject]) {
-      NSURL *help = [plugin helpURL];
-      if (help) {
-        NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:[plugin name] action:nil keyEquivalent:@""];
-        [item setImage:[plugin icon]];
-        [item setRepresentedObject:[help absoluteString]];
-        [aMenu addItem:item];
-        [item release];
-      }
-    }
-    
-    se_plugins = [ibHead addMenu:aMenu position:kSKHeaderLeft];
-    [se_plugins setTarget:self];
-    [se_plugins setAction:@selector(selectPlugin:)];
-    
-    if ([aMenu numberOfItems])
-      [self selectPlugin:[aMenu itemAtIndex:0]];
-    
-    [aMenu release];
+    [self loadPluginMenu];
   }
 }
 

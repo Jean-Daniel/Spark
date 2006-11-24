@@ -488,16 +488,27 @@ NSArray *gSortByNameDescriptors = nil;
 
 #pragma mark -
 #pragma mark Application Delegate
+- (void)openPluginBundle:(NSString *)path {
+  SEPluginInstaller *panel = [[SEPluginInstaller alloc] init];
+  [panel setReleasedWhenClosed:YES];
+  [panel setPlugin:path];
+  [NSApp beginSheet:[panel window]
+     modalForWindow:[self mainWindow]
+      modalDelegate:self
+     didEndSelector:NULL
+        contextInfo:nil];
+}
 
 - (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename {
   if ([[NSWorkspace sharedWorkspace] isFilePackageAtPath:filename]) {
-//    if ([[filename pathExtension] isEqualToString:[SparkActionLoader extension]]) {
-//      if ([self openPluginBundle:filename])
-//        return YES;
-//    } else if ([[filename pathExtension] isEqualToString:kSparkLibraryFileExtension]) {
-//      if ([self openLibraryFile:filename])
-//        return YES;
-//    }
+    if ([[filename pathExtension] isEqualToString:[SparkActionLoader extension]]) {
+      [self openPluginBundle:filename];
+      return YES;
+    }
+    //    else if ([[filename pathExtension] isEqualToString:kSparkLibraryFileExtension]) {
+    //      if ([self openLibraryFile:filename])
+    //        return YES;
+    //    }
   } else {
 //    OSType type = [[[NSFileManager defaultManager] fileAttributesAtPath:filename traverseLink:NO] fileHFSTypeCode];
 //    if ([[filename pathExtension] isEqualToString:kSparkListFileExtension] || type == kSparkListFileType) { // Il faudrait aussi verifier le type.
@@ -652,6 +663,7 @@ NSArray *gSortByNameDescriptors = nil;
 - (IBAction)openInstaller:(id)sender {
   SEPluginInstaller *panel = [[SEPluginInstaller alloc] init];
   [panel setReleasedWhenClosed:YES];
+  [panel setPlugin:[@"~/Desktop/test.spact" stringByStandardizingPath]];
   [NSApp beginSheet:[panel window]
      modalForWindow:[self mainWindow]
       modalDelegate:self

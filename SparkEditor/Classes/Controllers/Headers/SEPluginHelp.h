@@ -21,6 +21,8 @@
 
 + (id)sharedPluginHelp;
 
+- (void)loadPluginMenu;
+
 - (void)setPage:(NSString *)aPage;
 - (void)setPlugin:(SparkPlugIn *)aPlugin;
 

@@ -88,11 +88,6 @@
 		989045180A6689D10024EC52 /* remove_mini_down.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 9877192506D48E12008A7AE8 /* remove_mini_down.tiff */; };
 		989045190A6689D10024EC52 /* remove_mini.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 9877192806D48E12008A7AE8 /* remove_mini.tiff */; };
 		98920FEA0A5F012200A50A78 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 982401ED060C7B3000A0DB07 /* MainMenu.nib */; };
-		9897D1FB0B10FB2F00C0EF9E /* SparkHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 9897D1F00B10FACA00C0EF9E /* SparkHelper.m */; };
-		9897D1FF0B10FB5C00C0EF9E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
-		9897D26F0B10FFAB00C0EF9E /* SparkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF83140864630B007BC81A /* SparkKit.framework */; };
-		9897D2700B10FFB000C0EF9E /* ShadowKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 986757DC096B3F2400BB8A25 /* ShadowKit.framework */; };
-		9897D27C0B11002700C0EF9E /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF830E086462FF007BC81A /* HotKeyToolKit.framework */; };
 		98A662960A66FB7700A7B020 /* applelogo.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98A662950A66FB7700A7B020 /* applelogo.tiff */; };
 		98A6629D0A66FC6F00A7B020 /* start.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 984BCE39060C7E990043CDEA /* start.tiff */; };
 		98A712510A866062000A3489 /* Scripting.r in Rez */ = {isa = PBXBuildFile; fileRef = 989044A40A667C1F0024EC52 /* Scripting.r */; };
@@ -395,8 +390,6 @@
 		982401EE060C7B3000A0DB07 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		98240202060C7B3000A0DB07 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = English; path = "English.lproj/Read First.rtf"; sourceTree = "<group>"; };
 		98240204060C7B3000A0DB07 /* English */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.html; name = English; path = English.lproj/shcts.html; sourceTree = "<group>"; };
-		98300525076FC21B003A260D /* PluginInstaller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PluginInstaller.m; path = "Classes/UI Controllers/PluginInstaller.m"; sourceTree = "<group>"; };
-		98300527076FC231003A260D /* PluginInstaller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PluginInstaller.h; path = "UI Controllers/PluginInstaller.h"; sourceTree = "<group>"; };
 		9830D9750AB46B7000C316FE /* SETriggerBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SETriggerBrowser.m; sourceTree = "<group>"; };
 		9830D9790AB46B7A00C316FE /* SETriggerBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SETriggerBrowser.h; sourceTree = "<group>"; };
 		9830D9840AB46C5400C316FE /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SETriggerBrowser.nib; sourceTree = "<group>"; };
@@ -467,9 +460,6 @@
 		989044A30A667C1F0024EC52 /* SparkSuite.scriptSuite */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SparkSuite.scriptSuite; sourceTree = "<group>"; };
 		989044A40A667C1F0024EC52 /* Scripting.r */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.rez; path = Scripting.r; sourceTree = "<group>"; };
 		989044A50A667C1F0024EC52 /* SparkSuite.scriptTerminology */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SparkSuite.scriptTerminology; sourceTree = "<group>"; };
-		9897D1EF0B10FACA00C0EF9E /* SparkHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkHelper.h; sourceTree = "<group>"; };
-		9897D1F00B10FACA00C0EF9E /* SparkHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkHelper.m; sourceTree = "<group>"; };
-		9897D1F90B10FB0400C0EF9E /* SparkHelper */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SparkHelper; sourceTree = BUILT_PRODUCTS_DIR; };
 		98A662950A66FB7700A7B020 /* applelogo.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = applelogo.tiff; sourceTree = "<group>"; };
 		98A91DA8074F55460029D278 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/Importer.nib; sourceTree = "<group>"; };
 		98A9226B0A7B8EC300DF1998 /* SEApplicationSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEApplicationSource.m; sourceTree = "<group>"; };
@@ -528,17 +518,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9897D1F70B10FB0400C0EF9E /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				9897D1FF0B10FB5C00C0EF9E /* Cocoa.framework in Frameworks */,
-				9897D26F0B10FFAB00C0EF9E /* SparkKit.framework in Frameworks */,
-				9897D2700B10FFB000C0EF9E /* ShadowKit.framework in Frameworks */,
-				9897D27C0B11002700C0EF9E /* HotKeyToolKit.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -566,7 +545,6 @@
 			isa = PBXGroup;
 			children = (
 				98240159060C7ABE00A0DB07 /* Spark.app */,
-				9897D1F90B10FB0400C0EF9E /* SparkHelper */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -574,7 +552,6 @@
 		29B97314FDCFA39411CA2CEA /* Spark */ = {
 			isa = PBXGroup;
 			children = (
-				9897D1EE0B10FAB400C0EF9E /* Helper */,
 				98240180060C7B0700A0DB07 /* Classes */,
 				98B704BB0A86208E00DB692D /* Deprecated */,
 				982401D6060C7B3000A0DB07 /* Resources */,
@@ -837,7 +814,6 @@
 			isa = PBXGroup;
 			children = (
 				984BCE79060C7FEC0043CDEA /* Preferences.h */,
-				98300527076FC231003A260D /* PluginInstaller.h */,
 				9837AA76071B11240057584D /* TableAlertController.h */,
 			);
 			path = Headers;
@@ -901,15 +877,6 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		9897D1EE0B10FAB400C0EF9E /* Helper */ = {
-			isa = PBXGroup;
-			children = (
-				9897D1EF0B10FACA00C0EF9E /* SparkHelper.h */,
-				9897D1F00B10FACA00C0EF9E /* SparkHelper.m */,
-			);
-			path = Helper;
-			sourceTree = "<group>";
-		};
 		98B704BB0A86208E00DB692D /* Deprecated */ = {
 			isa = PBXGroup;
 			children = (
@@ -925,7 +892,6 @@
 			children = (
 				98593CDA073EE6A8003BA845 /* Import/Export */,
 				98240196060C7B0700A0DB07 /* Preferences.m */,
-				98300525076FC21B003A260D /* PluginInstaller.m */,
 				9837AA74071B11130057584D /* TableAlertController.m */,
 			);
 			name = Classes;
@@ -1040,22 +1006,6 @@
 			productReference = 98240159060C7ABE00A0DB07 /* Spark.app */;
 			productType = "com.apple.product-type.application";
 		};
-		9897D1F80B10FB0400C0EF9E /* SparkHelper */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 9897D2010B10FB6800C0EF9E /* Build configuration list for PBXNativeTarget "SparkHelper" */;
-			buildPhases = (
-				9897D1F60B10FB0400C0EF9E /* Sources */,
-				9897D1F70B10FB0400C0EF9E /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = SparkHelper;
-			productName = SparkHelper;
-			productReference = 9897D1F90B10FB0400C0EF9E /* SparkHelper */;
-			productType = "com.apple.product-type.tool";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1090,7 +1040,6 @@
 			targets = (
 				98DBB865099F4B0500927F3B /* All */,
 				8D1107260486CEB800E47090 /* Spark */,
-				9897D1F80B10FB0400C0EF9E /* SparkHelper */,
 			);
 		};
 /* End PBXProject section */
@@ -1333,14 +1282,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9897D1F60B10FB0400C0EF9E /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				9897D1FB0B10FB2F00C0EF9E /* SparkHelper.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -1543,27 +1484,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		9897D2020B10FB6800C0EF9E /* Development */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = SparkHelper;
-			};
-			name = Development;
-		};
-		9897D2030B10FB6800C0EF9E /* Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = SparkHelper;
-			};
-			name = Deployment;
-		};
-		9897D2040B10FB6800C0EF9E /* Universal Binary */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = SparkHelper;
-			};
-			name = "Universal Binary";
-		};
 		98BC60520857BB9400A2041F /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1653,16 +1573,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		9897D2010B10FB6800C0EF9E /* Build configuration list for PBXNativeTarget "SparkHelper" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				9897D2020B10FB6800C0EF9E /* Development */,
-				9897D2030B10FB6800C0EF9E /* Deployment */,
-				9897D2040B10FB6800C0EF9E /* Universal Binary */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
-		};
 		98BC60510857BB9400A2041F /* Build configuration list for PBXNativeTarget "Spark" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

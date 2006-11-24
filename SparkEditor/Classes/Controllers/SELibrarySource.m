@@ -12,6 +12,7 @@
 #import "SESparkEntrySet.h"
 #import "SELibraryWindow.h"
 #import "SEEntriesManager.h"
+#import "SEPluginInstaller.h"
 
 #import <SparkKit/SparkList.h>
 #import <SparkKit/SparkPlugIn.h>
@@ -81,6 +82,35 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
 
 @implementation SELibrarySource
 
+- (void)buildPluginLists {
+  NSArray *plugins = [[SparkActionLoader sharedLoader] plugins];
+  if (se_plugins) {
+    [se_content removeObjectsInArray:NSAllMapTableKeys(se_plugins)];
+    NSResetMapTable(se_plugins);
+  } else {
+    se_plugins = NSCreateMapTable(NSObjectMapKeyCallBacks, NSObjectMapValueCallBacks, [plugins count]);
+  }
+  
+  unsigned uid = 128;
+  unsigned idx = [plugins count];
+  while (idx-- > 0) {
+    SparkPlugIn *plugin = [plugins objectAtIndex:idx];
+    SparkList *list = [[SparkList alloc] initWithName:[plugin name] icon:[plugin icon]];
+    [list setObjectSet:SparkSharedTriggerSet()];
+    [list setUID:uid++]; // UID MUST BE set before insertion, since -hash use it.
+    NSMapInsert(se_plugins, list, plugin);
+    [list setListFilter:SEPluginListFilter context:[plugin actionClass]];
+    [se_content addObject:list];
+    [list release];
+  }
+}
+
+- (void)didLoadPlugin:(NSNotification *)aNotification {
+  [self buildPluginLists];
+  [self rearrangeObjects];
+  [table reloadData];
+}
+
 - (id)init {
   if (self = [super init]) {
     se_content = [[NSMutableArray alloc] init];
@@ -92,20 +122,8 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
     [se_content addObject:library];
     
     /* …, plugins list… */
-    NSArray *plugins = [[SparkActionLoader sharedLoader] plugins];
-    se_plugins = NSCreateMapTable(NSObjectMapKeyCallBacks,NSObjectMapValueCallBacks, [plugins count]);
-    unsigned uid = 128;
-    unsigned idx = [plugins count];
-    while (idx-- > 0) {
-      SparkPlugIn *plugin = [plugins objectAtIndex:idx];
-      SparkList *list = [[SparkList alloc] initWithName:[plugin name] icon:[plugin icon]];
-      [list setObjectSet:SparkSharedTriggerSet()];
-      [list setUID:uid++]; // UID MUST BE set before insertion, since -hash use it.
-      NSMapInsert(se_plugins, list, plugin);
-      [list setListFilter:SEPluginListFilter context:[plugin actionClass]];
-      [se_content addObject:list];
-      [list release];
-    }
+    [self buildPluginLists];
+    
     /* …and User defined lists */
     [se_content addObjectsFromArray:[SparkSharedListSet() objects]];
     
@@ -142,6 +160,12 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didCreateWeakEntry:)
                                                  name:SEEntriesManagerDidCreateWeakEntryNotification
+                                               object:nil];
+    
+    /* Dynamic plugin */
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didLoadPlugin:)
+                                                 name:SEPluginInstallerDidInstallPluginNotification
                                                object:nil];
   }
   return self;
