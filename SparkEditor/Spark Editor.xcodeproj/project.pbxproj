@@ -14,8 +14,8 @@
 			);
 			dependencies = (
 				98920FA40A5EFF9800A50A78 /* PBXTargetDependency */,
-				98F252E80A5DA6A100DCA753 /* PBXTargetDependency */,
 				9848ACDA0A5D4FDD00344521 /* PBXTargetDependency */,
+				98D52B0D0B19A3AB00C8425C /* PBXTargetDependency */,
 				98DBB875099F4B5B00927F3B /* PBXTargetDependency */,
 			);
 			name = All;
@@ -25,15 +25,9 @@
 
 /* Begin PBXBuildFile section */
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
-		9803A1090A9CFE9700B7DBBA /* SEFirstRun.m in Sources */ = {isa = PBXBuildFile; fileRef = 9803A1080A9CFE9700B7DBBA /* SEFirstRun.m */; };
-		9803A10B0A9CFEA400B7DBBA /* SEFirstRun.h in Headers */ = {isa = PBXBuildFile; fileRef = 9803A10A0A9CFEA400B7DBBA /* SEFirstRun.h */; };
 		9803A1420A9D01CB00B7DBBA /* SEFirstRun.nib in Resources */ = {isa = PBXBuildFile; fileRef = 9803A13C0A9D01CA00B7DBBA /* SEFirstRun.nib */; };
-		980AB1F10A9759DD00A6115E /* SEBuiltInPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 980AB1EF0A9759DD00A6115E /* SEBuiltInPlugin.h */; };
-		981A8A360A61A25800753369 /* SESparkEntrySet.h in Headers */ = {isa = PBXBuildFile; fileRef = 981A8A340A61A25800753369 /* SESparkEntrySet.h */; };
-		981A8A370A61A25800753369 /* SESparkEntrySet.m in Sources */ = {isa = PBXBuildFile; fileRef = 981A8A350A61A25800753369 /* SESparkEntrySet.m */; };
 		981A8A6E0A61A3BB00753369 /* IgnoreAction.tif in Resources */ = {isa = PBXBuildFile; fileRef = 981A8A6D0A61A3BB00753369 /* IgnoreAction.tif */; };
 		981A8A950A61A49D00753369 /* SEEntryEditor.nib in Resources */ = {isa = PBXBuildFile; fileRef = 981A8A930A61A49D00753369 /* SEEntryEditor.nib */; };
-		981A8A9B0A61A4D600753369 /* SEEntryEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 981A8A9A0A61A4D600753369 /* SEEntryEditor.h */; };
 		982312860AFE3F2100675226 /* SEVSplitBar.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 982312810AFE3F2100675226 /* SEVSplitBar.tiff */; };
 		982312870AFE3F2100675226 /* SESplitDot.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 982312820AFE3F2100675226 /* SESplitDot.tiff */; };
 		982312880AFE3F2100675226 /* SEForward.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 982312830AFE3F2100675226 /* SEForward.tiff */; };
@@ -45,19 +39,10 @@
 		9824025A060C7B3100A0DB07 /* Read First.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 98240201060C7B3000A0DB07 /* Read First.rtf */; };
 		9824025B060C7B3100A0DB07 /* shcts.html in Resources */ = {isa = PBXBuildFile; fileRef = 98240203060C7B3000A0DB07 /* shcts.html */; };
 		982AF3E50A7A7C9100D17D65 /* Library.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98F3635806FF72D900FD6673 /* Library.tiff */; };
-		9830D9760AB46B7000C316FE /* SETriggerBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 9830D9750AB46B7000C316FE /* SETriggerBrowser.m */; };
-		9830D97A0AB46B7A00C316FE /* SETriggerBrowser.h in Headers */ = {isa = PBXBuildFile; fileRef = 9830D9790AB46B7A00C316FE /* SETriggerBrowser.h */; };
 		9830D9850AB46C5400C316FE /* SETriggerBrowser.nib in Resources */ = {isa = PBXBuildFile; fileRef = 9830D9830AB46C5400C316FE /* SETriggerBrowser.nib */; };
-		9831335F0A825E0600F733FB /* SETriggerCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 9831335D0A825E0600F733FB /* SETriggerCell.h */; };
-		9831BFE30A9C2BD6001DA7AD /* SELibrarySource.m in Sources */ = {isa = PBXBuildFile; fileRef = 983BE16C0A7E402600E0228F /* SELibrarySource.m */; };
 		98362B070A9763F500F97F50 /* SparkIgnore.png in Resources */ = {isa = PBXBuildFile; fileRef = 98362B060A9763F500F97F50 /* SparkIgnore.png */; };
 		98362B480A97664100F97F50 /* SEInheritsPlugin.nib in Resources */ = {isa = PBXBuildFile; fileRef = 98362B420A97664100F97F50 /* SEInheritsPlugin.nib */; };
-		9838ECA20A8646DA000AF1B5 /* SEServerConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 984BCE6B060C7FEC0043CDEA /* SEServerConnection.h */; };
-		9838ECA30A8646DC000AF1B5 /* SEServerConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 98240187060C7B0700A0DB07 /* SEServerConnection.m */; };
-		983BE1740A7E402F00E0228F /* SELibrarySource.h in Headers */ = {isa = PBXBuildFile; fileRef = 983BE1730A7E402F00E0228F /* SELibrarySource.h */; };
-		98418EA90A65968A003FD0D7 /* SEHotKeyTrap.h in Headers */ = {isa = PBXBuildFile; fileRef = 98418EA70A659689003FD0D7 /* SEHotKeyTrap.h */; };
 		98418FC40A659F80003FD0D7 /* SparkSuite.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 984BCE5F060C7EBD0043CDEA /* SparkSuite.sdef */; };
-		984196DF0A5E54740009A093 /* SETableView.h in Headers */ = {isa = PBXBuildFile; fileRef = 984196DD0A5E54740009A093 /* SETableView.h */; };
 		984199350A5E67BE0009A093 /* Add.png in Resources */ = {isa = PBXBuildFile; fileRef = 984199310A5E67BE0009A093 /* Add.png */; };
 		984199360A5E67BE0009A093 /* AddDown.png in Resources */ = {isa = PBXBuildFile; fileRef = 984199320A5E67BE0009A093 /* AddDown.png */; };
 		984199370A5E67BE0009A093 /* Highlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 984199330A5E67BE0009A093 /* Highlight.png */; };
@@ -65,18 +50,10 @@
 		984BCE56060C7E990043CDEA /* Splib.icns in Resources */ = {isa = PBXBuildFile; fileRef = 984BCE3E060C7E990043CDEA /* Splib.icns */; };
 		984BCE57060C7E990043CDEA /* Spact.icns in Resources */ = {isa = PBXBuildFile; fileRef = 984BCE3F060C7E990043CDEA /* Spact.icns */; };
 		984BCE59060C7E990043CDEA /* Spark.icns in Resources */ = {isa = PBXBuildFile; fileRef = 984BCE41060C7E990043CDEA /* Spark.icns */; };
-		985AF8D40A5C2CF900397FAA /* Spark Daemon.app in Copy Daemon */ = {isa = PBXBuildFile; fileRef = 650A68CE0A2B3947008769DF /* Spark Daemon.app */; };
 		985AF8E90A5C2D8300397FAA /* Spark.h in Headers */ = {isa = PBXBuildFile; fileRef = 984BCE6C060C7FEC0043CDEA /* Spark.h */; };
-		985AF9FB0A5C33D400397FAA /* SELibraryWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 985AF9FA0A5C33D400397FAA /* SELibraryWindow.m */; };
-		985AFA010A5C33D900397FAA /* SELibraryWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 985AFA000A5C33D900397FAA /* SELibraryWindow.h */; };
-		985F8D540772479C0014830F /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 985F8D530772479C0014830F /* Security.framework */; };
 		9867589E096B3F4200BB8A25 /* ShadowKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 986757DC096B3F2400BB8A25 /* ShadowKit.framework */; };
 		9872353B0AA7552C0085C028 /* SEPreferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = 987235390AA7552C0085C028 /* SEPreferences.nib */; };
-		9872830F0A9B30B60098C22F /* SEEntriesManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 9872830D0A9B30B60098C22F /* SEEntriesManager.h */; };
-		987283100A9B30B60098C22F /* SEEntriesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9872830E0A9B30B60098C22F /* SEEntriesManager.m */; };
 		9875D9250AFF6FA3001511B5 /* application.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 986691FA06F7B590002C4E98 /* application.tiff */; };
-		988107AD0AFFF1390010CDD5 /* SETriggerTable.h in Headers */ = {isa = PBXBuildFile; fileRef = 988107AB0AFFF1390010CDD5 /* SETriggerTable.h */; };
-		988107AE0AFFF1390010CDD5 /* SETriggerTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 988107AC0AFFF1390010CDD5 /* SETriggerTable.m */; };
 		988107F10AFFF9390010CDD5 /* badge-3.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 988107ED0AFFF9390010CDD5 /* badge-3.tiff */; };
 		988107F20AFFF9390010CDD5 /* badge-4.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 988107EE0AFFF9390010CDD5 /* badge-4.tiff */; };
 		988107F30AFFF9390010CDD5 /* badge-1&2.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 988107EF0AFFF9390010CDD5 /* badge-1&2.tiff */; };
@@ -92,64 +69,80 @@
 		98A6629D0A66FC6F00A7B020 /* start.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 984BCE39060C7E990043CDEA /* start.tiff */; };
 		98A712510A866062000A3489 /* Scripting.r in Rez */ = {isa = PBXBuildFile; fileRef = 989044A40A667C1F0024EC52 /* Scripting.r */; };
 		98A852D60AFF930B00088961 /* SEGearMenu.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 984BCE38060C7E990043CDEA /* SEGearMenu.tiff */; };
-		98A9226C0A7B8EC300DF1998 /* SEApplicationSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 98A9226B0A7B8EC300DF1998 /* SEApplicationSource.m */; };
-		98A922700A7B8ED300DF1998 /* SEApplicationSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 98A9226F0A7B8ED300DF1998 /* SEApplicationSource.h */; };
-		98AC52D20AAF7FF40071EAA7 /* SEPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 98AC52D10AAF7FF40071EAA7 /* SEPreferences.m */; };
-		98AC52D40AAF80010071EAA7 /* SEPreferences.h in Headers */ = {isa = PBXBuildFile; fileRef = 98AC52D30AAF80010071EAA7 /* SEPreferences.h */; };
-		98B2C6C50A617AA200D9D719 /* SEScriptHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 98240186060C7B0700A0DB07 /* SEScriptHandler.m */; };
-		98B2C6C60A617AA500D9D719 /* SEScriptHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 984BCE6A060C7FEC0043CDEA /* SEScriptHandler.h */; };
 		98B45364097312D600BD0A82 /* ShadowKit.framework in Copy Framework */ = {isa = PBXBuildFile; fileRef = 986757DC096B3F2400BB8A25 /* ShadowKit.framework */; };
-		98BDF01C0A999DCB002778B3 /* SEApplicationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98DAC9DD0A67EBE2001C36D1 /* SEApplicationView.m */; };
-		98BDF0200A999DD2002778B3 /* SETableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 984196DE0A5E54740009A093 /* SETableView.m */; };
-		98BDF0240A999DD9002778B3 /* SEHeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 98F747840A5C69A0003D4BE1 /* SEHeaderCell.m */; };
-		98BDF0280A999DE4002778B3 /* SETriggerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9831335E0A825E0600F733FB /* SETriggerCell.m */; };
-		98BDF02F0A999DEE002778B3 /* SESplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98F746150A5C576A003D4BE1 /* SESplitView.m */; };
-		98BDF0330A999DF5002778B3 /* SEBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98FB0A620A5D09D400129126 /* SEBackgroundView.m */; };
-		98BDF0370A999E00002778B3 /* SEHotKeyTrap.m in Sources */ = {isa = PBXBuildFile; fileRef = 98418EA80A659689003FD0D7 /* SEHotKeyTrap.m */; };
 		98D377CA0AA73DD300947217 /* stop_gdown.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98D377C60AA73DD300947217 /* stop_gdown.tiff */; };
 		98D377CB0AA73DD300947217 /* start_gdown.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98D377C70AA73DD300947217 /* start_gdown.tiff */; };
 		98D377CC0AA73DD300947217 /* start_bdown.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98D377C80AA73DD300947217 /* start_bdown.tiff */; };
 		98D377CD0AA73DD300947217 /* stop_bdown.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98D377C90AA73DD300947217 /* stop_bdown.tiff */; };
 		98D377E30AA73E5600947217 /* stop.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 984BCE3B060C7E990043CDEA /* stop.tiff */; };
+		98D526F20B199FC500C8425C /* SEScriptHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D526EE0B199FC500C8425C /* SEScriptHandler.h */; };
+		98D526F30B199FC500C8425C /* SEScriptHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D526EF0B199FC500C8425C /* SEScriptHandler.m */; };
+		98D526F40B199FC500C8425C /* SEServerConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D526F00B199FC500C8425C /* SEServerConnection.h */; };
+		98D526F50B199FC500C8425C /* SEServerConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D526F10B199FC500C8425C /* SEServerConnection.m */; };
+		98D526F70B199FE400C8425C /* SDVersion.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D526F60B199FE400C8425C /* SDVersion.h */; };
+		98D52B0B0B19A39900C8425C /* Spark Daemon.app in Copy Daemon */ = {isa = PBXBuildFile; fileRef = 98D52B0A0B19A38400C8425C /* Spark Daemon.app */; };
+		98D52B270B19A44A00C8425C /* SEApplicationView.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D52B170B19A44A00C8425C /* SEApplicationView.h */; };
+		98D52B280B19A44A00C8425C /* SEApplicationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B180B19A44A00C8425C /* SEApplicationView.m */; };
+		98D52B290B19A44A00C8425C /* SEBackgroundView.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D52B190B19A44A00C8425C /* SEBackgroundView.h */; };
+		98D52B2A0B19A44A00C8425C /* SEBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B1A0B19A44A00C8425C /* SEBackgroundView.m */; };
+		98D52B2B0B19A44A00C8425C /* SEHeaderCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D52B1B0B19A44A00C8425C /* SEHeaderCell.h */; };
+		98D52B2C0B19A44A00C8425C /* SEHeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B1C0B19A44A00C8425C /* SEHeaderCell.m */; };
+		98D52B2D0B19A44A00C8425C /* SEHotKeyTrap.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D52B1D0B19A44A00C8425C /* SEHotKeyTrap.h */; };
+		98D52B2E0B19A44A00C8425C /* SEHotKeyTrap.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B1E0B19A44A00C8425C /* SEHotKeyTrap.m */; };
+		98D52B2F0B19A44A00C8425C /* SESplitView.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D52B1F0B19A44A00C8425C /* SESplitView.h */; };
+		98D52B300B19A44A00C8425C /* SESplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B200B19A44A00C8425C /* SESplitView.m */; };
+		98D52B310B19A44A00C8425C /* SETableView.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D52B210B19A44A00C8425C /* SETableView.h */; };
+		98D52B320B19A44A00C8425C /* SETableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B220B19A44A00C8425C /* SETableView.m */; };
+		98D52B330B19A44A00C8425C /* SETriggerCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D52B230B19A44A00C8425C /* SETriggerCell.h */; };
+		98D52B340B19A44A00C8425C /* SETriggerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B240B19A44A00C8425C /* SETriggerCell.m */; };
+		98D52B350B19A44A00C8425C /* SETriggerTable.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D52B250B19A44A00C8425C /* SETriggerTable.h */; };
+		98D52B360B19A44A00C8425C /* SETriggerTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B260B19A44A00C8425C /* SETriggerTable.m */; };
+		98D52B430B19A4C000C8425C /* SEBuiltInPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D52B3B0B19A4C000C8425C /* SEBuiltInPlugin.h */; };
+		98D52B440B19A4C000C8425C /* SEBuiltInPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B3C0B19A4C000C8425C /* SEBuiltInPlugin.m */; };
+		98D52B450B19A4C000C8425C /* SEEntriesManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D52B3D0B19A4C000C8425C /* SEEntriesManager.h */; };
+		98D52B460B19A4C000C8425C /* SEEntriesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B3E0B19A4C000C8425C /* SEEntriesManager.m */; };
+		98D52B470B19A4C000C8425C /* SESparkEntrySet.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D52B3F0B19A4C000C8425C /* SESparkEntrySet.h */; };
+		98D52B480B19A4C000C8425C /* SESparkEntrySet.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B400B19A4C000C8425C /* SESparkEntrySet.m */; };
+		98D52B490B19A4C000C8425C /* SETriggerEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D52B410B19A4C000C8425C /* SETriggerEntry.h */; };
+		98D52B4A0B19A4C000C8425C /* SETriggerEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B420B19A4C000C8425C /* SETriggerEntry.m */; };
+		98D52B590B19A59700C8425C /* SEApplicationSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D52B4F0B19A59700C8425C /* SEApplicationSource.h */; };
+		98D52B5A0B19A59700C8425C /* SEApplicationSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B500B19A59700C8425C /* SEApplicationSource.m */; };
+		98D52B5B0B19A59700C8425C /* SEEntryEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D52B510B19A59700C8425C /* SEEntryEditor.h */; };
+		98D52B5C0B19A59700C8425C /* SEEntryEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B520B19A59700C8425C /* SEEntryEditor.m */; };
+		98D52B5D0B19A59700C8425C /* SELibrarySource.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D52B530B19A59700C8425C /* SELibrarySource.h */; };
+		98D52B5E0B19A59700C8425C /* SELibrarySource.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B540B19A59700C8425C /* SELibrarySource.m */; };
+		98D52B5F0B19A59700C8425C /* SELibraryWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D52B550B19A59700C8425C /* SELibraryWindow.h */; };
+		98D52B600B19A59700C8425C /* SELibraryWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B560B19A59700C8425C /* SELibraryWindow.m */; };
+		98D52B610B19A59700C8425C /* SETriggersController.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D52B570B19A59700C8425C /* SETriggersController.h */; };
+		98D52B620B19A59700C8425C /* SETriggersController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B580B19A59700C8425C /* SETriggersController.m */; };
+		98D52B720B19A63700C8425C /* SEFirstRun.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D52B680B19A63700C8425C /* SEFirstRun.h */; };
+		98D52B730B19A63700C8425C /* SEFirstRun.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B690B19A63700C8425C /* SEFirstRun.m */; };
+		98D52B740B19A63700C8425C /* SEPluginHelp.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D52B6A0B19A63700C8425C /* SEPluginHelp.h */; };
+		98D52B750B19A63700C8425C /* SEPluginHelp.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B6B0B19A63700C8425C /* SEPluginHelp.m */; };
+		98D52B760B19A63700C8425C /* SEPluginInstaller.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D52B6C0B19A63700C8425C /* SEPluginInstaller.h */; };
+		98D52B770B19A63700C8425C /* SEPluginInstaller.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B6D0B19A63700C8425C /* SEPluginInstaller.m */; };
+		98D52B780B19A63700C8425C /* SEPreferences.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D52B6E0B19A63700C8425C /* SEPreferences.h */; };
+		98D52B790B19A63700C8425C /* SEPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B6F0B19A63700C8425C /* SEPreferences.m */; };
+		98D52B7A0B19A63700C8425C /* SETriggerBrowser.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D52B700B19A63700C8425C /* SETriggerBrowser.h */; };
+		98D52B7B0B19A63700C8425C /* SETriggerBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B710B19A63700C8425C /* SETriggerBrowser.m */; };
 		98D590F30AA18A430081A713 /* SEEditor.strings in Resources */ = {isa = PBXBuildFile; fileRef = 98D590F10AA18A430081A713 /* SEEditor.strings */; };
-		98DA08E20B0A5D270016B465 /* SEPluginInstaller.m in Sources */ = {isa = PBXBuildFile; fileRef = 98DA08E10B0A5D270016B465 /* SEPluginInstaller.m */; };
-		98DA08E60B0A5D390016B465 /* SEPluginInstaller.h in Headers */ = {isa = PBXBuildFile; fileRef = 98DA08E50B0A5D390016B465 /* SEPluginInstaller.h */; };
 		98DA08F30B0A5DC30016B465 /* SEPluginInstaller.nib in Resources */ = {isa = PBXBuildFile; fileRef = 98DA08ED0B0A5DC30016B465 /* SEPluginInstaller.nib */; };
-		98DA2B0A0AFDF2E700E394CD /* SEPluginHelp.m in Sources */ = {isa = PBXBuildFile; fileRef = 98DA2B090AFDF2E600E394CD /* SEPluginHelp.m */; };
-		98DA2B0C0AFDF2F500E394CD /* SEPluginHelp.h in Headers */ = {isa = PBXBuildFile; fileRef = 98DA2B0B0AFDF2F500E394CD /* SEPluginHelp.h */; };
 		98DA2BCA0AFE011400E394CD /* SEPluginHelp.nib in Resources */ = {isa = PBXBuildFile; fileRef = 98DA2BC80AFE011400E394CD /* SEPluginHelp.nib */; };
-		98DAC9DE0A67EBE2001C36D1 /* SEApplicationView.h in Headers */ = {isa = PBXBuildFile; fileRef = 98DAC9DC0A67EBE2001C36D1 /* SEApplicationView.h */; };
 		98DD455F0A57DE9A00F059E5 /* SystemAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 6540B6E809E6430800D0E8FB /* SystemAction.spact */; };
 		98DD45600A57DE9A00F059E5 /* iTunesAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 6540B6EA09E6430800D0E8FB /* iTunesAction.spact */; };
 		98DD45610A57DE9A00F059E5 /* DocumentAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 6540B6EC09E6430800D0E8FB /* DocumentAction.spact */; };
 		98DD45620A57DE9A00F059E5 /* ApplicationAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 6540B6EE09E6430800D0E8FB /* ApplicationAction.spact */; };
 		98DD45630A57DE9A00F059E5 /* AppleScriptAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 6540B6F009E6430800D0E8FB /* AppleScriptAction.spact */; };
-		98E128D70AA0EFAC00D5884A /* SEEntryEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 981A8A9E0A61A4E400753369 /* SEEntryEditor.m */; };
-		98EA6B300A5E7C2D0019E26C /* SETriggersController.h in Headers */ = {isa = PBXBuildFile; fileRef = 98EA6B2F0A5E7C2D0019E26C /* SETriggersController.h */; };
 		98EA6B550A5E83120019E26C /* System.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 984196BB0A5E52670009A093 /* System.tiff */; };
-		98ECA7490A9BA7D900F89B58 /* SEBuiltInPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 980AB1F00A9759DD00A6115E /* SEBuiltInPlugin.m */; };
-		98ECA7E80A9BAF3600F89B58 /* SETriggersController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98EA6B290A5E7C280019E26C /* SETriggersController.m */; };
-		98EE9E750ABC001A00296C08 /* SparkServerVersion.h in Headers */ = {isa = PBXBuildFile; fileRef = 98EE9E740ABC001A00296C08 /* SparkServerVersion.h */; };
 		98EF831508646313007BC81A /* SparkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF83140864630B007BC81A /* SparkKit.framework */; };
 		98EF831608646316007BC81A /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF830E086462FF007BC81A /* HotKeyToolKit.framework */; };
 		98EF83170864631B007BC81A /* SparkKit.framework in Copy Framework */ = {isa = PBXBuildFile; fileRef = 98EF83140864630B007BC81A /* SparkKit.framework */; };
 		98EF831808646321007BC81A /* HotKeyToolKit.framework in Copy Framework */ = {isa = PBXBuildFile; fileRef = 98EF830E086462FF007BC81A /* HotKeyToolKit.framework */; };
-		98F4A9B90770C8630074FE70 /* SecurityFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98F4A9B80770C8630074FE70 /* SecurityFoundation.framework */; };
 		98F746020A5C560A003D4BE1 /* SELibraryWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 98F746000A5C560A003D4BE1 /* SELibraryWindow.nib */; };
-		98F746140A5C575C003D4BE1 /* SESplitView.h in Headers */ = {isa = PBXBuildFile; fileRef = 98F746130A5C575C003D4BE1 /* SESplitView.h */; };
-		98F747850A5C69A0003D4BE1 /* SEHeaderCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 98F747830A5C69A0003D4BE1 /* SEHeaderCell.h */; };
-		98FB0A630A5D09D400129126 /* SEBackgroundView.h in Headers */ = {isa = PBXBuildFile; fileRef = 98FB0A610A5D09D400129126 /* SEBackgroundView.h */; };
 		98FF14DC05EACAE90005F402 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98FF14DB05EACAE90005F402 /* WebKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		650A68CD0A2B3947008769DF /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 985F8DFD077253C70014830F /* SparkServer.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 98B20D6A06A54814008BA3F6;
-			remoteInfo = "Spark Daemon";
-		};
 		6540B6E509E6430800D0E8FB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 987E6BB206D76DF300C7F41C /* Spark Plugins.xcodeproj */;
@@ -269,6 +262,20 @@
 			remoteGlobalIDString = 98C61C1A0A5813EB0004E6EF;
 			remoteInfo = UITester;
 		};
+		98D52B090B19A38400C8425C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 985F8DFD077253C70014830F /* SparkDaemon.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 98B20D6A06A54814008BA3F6 /* Spark Daemon.app */;
+			remoteInfo = "Spark Daemon";
+		};
+		98D52B0C0B19A3AB00C8425C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 985F8DFD077253C70014830F /* SparkDaemon.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 98B20D6906A54814008BA3F6 /* Spark Daemon */;
+			remoteInfo = "Spark Daemon";
+		};
 		98DBB874099F4B5B00927F3B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
@@ -296,13 +303,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
 			remoteInfo = SparkKit;
-		};
-		98F252E70A5DA6A100DCA753 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 985F8DFD077253C70014830F /* SparkServer.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 98B20D6906A54814008BA3F6;
-			remoteInfo = "Spark Daemon";
 		};
 		98F746320A5C5808003D4BE1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -333,7 +333,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 6;
 			files = (
-				985AF8D40A5C2CF900397FAA /* Spark Daemon.app in Copy Daemon */,
+				98D52B0B0B19A39900C8425C /* Spark Daemon.app in Copy Daemon */,
 			);
 			name = "Copy Daemon";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -360,17 +360,9 @@
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
-		9803A1080A9CFE9700B7DBBA /* SEFirstRun.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEFirstRun.m; sourceTree = "<group>"; };
-		9803A10A0A9CFEA400B7DBBA /* SEFirstRun.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEFirstRun.h; sourceTree = "<group>"; };
 		9803A13D0A9D01CB00B7DBBA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SEFirstRun.nib; sourceTree = "<group>"; };
-		980AB1EF0A9759DD00A6115E /* SEBuiltInPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEBuiltInPlugin.h; sourceTree = "<group>"; };
-		980AB1F00A9759DD00A6115E /* SEBuiltInPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEBuiltInPlugin.m; sourceTree = "<group>"; };
-		981A8A340A61A25800753369 /* SESparkEntrySet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SESparkEntrySet.h; sourceTree = "<group>"; };
-		981A8A350A61A25800753369 /* SESparkEntrySet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SESparkEntrySet.m; sourceTree = "<group>"; };
 		981A8A6D0A61A3BB00753369 /* IgnoreAction.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = IgnoreAction.tif; sourceTree = "<group>"; };
 		981A8A940A61A49D00753369 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SEEntryEditor.nib; sourceTree = "<group>"; };
-		981A8A9A0A61A4D600753369 /* SEEntryEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEntryEditor.h; sourceTree = "<group>"; };
-		981A8A9E0A61A4E400753369 /* SEEntryEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEntryEditor.m; sourceTree = "<group>"; };
 		981B64FD09386F350024C0D9 /* ShadowCommon.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowCommon.xcconfig; sourceTree = "<group>"; };
 		981B64FE09386F350024C0D9 /* ShadowDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowDebug.xcconfig; sourceTree = "<group>"; };
 		981B64FF09386F350024C0D9 /* ShadowRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowRelease.xcconfig; sourceTree = "<group>"; };
@@ -381,8 +373,6 @@
 		982312840AFE3F2100675226 /* SEBack.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SEBack.tiff; sourceTree = "<group>"; };
 		982312850AFE3F2100675226 /* SEHSplitBar.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SEHSplitBar.tiff; sourceTree = "<group>"; };
 		98240159060C7ABE00A0DB07 /* Spark.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spark.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		98240186060C7B0700A0DB07 /* SEScriptHandler.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SEScriptHandler.m; sourceTree = "<group>"; };
-		98240187060C7B0700A0DB07 /* SEServerConnection.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SEServerConnection.m; sourceTree = "<group>"; };
 		98240188060C7B0700A0DB07 /* Spark.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Spark.m; sourceTree = "<group>"; };
 		98240196060C7B0700A0DB07 /* Preferences.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = Preferences.m; path = "Classes/UI Controllers/Preferences.m"; sourceTree = "<group>"; };
 		982401E2060C7B3000A0DB07 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = English; path = English.lproj/Credits.rtf; sourceTree = "<group>"; };
@@ -390,23 +380,13 @@
 		982401EE060C7B3000A0DB07 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		98240202060C7B3000A0DB07 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = English; path = "English.lproj/Read First.rtf"; sourceTree = "<group>"; };
 		98240204060C7B3000A0DB07 /* English */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.html; name = English; path = English.lproj/shcts.html; sourceTree = "<group>"; };
-		9830D9750AB46B7000C316FE /* SETriggerBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SETriggerBrowser.m; sourceTree = "<group>"; };
-		9830D9790AB46B7A00C316FE /* SETriggerBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SETriggerBrowser.h; sourceTree = "<group>"; };
 		9830D9840AB46C5400C316FE /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SETriggerBrowser.nib; sourceTree = "<group>"; };
-		9831335D0A825E0600F733FB /* SETriggerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SETriggerCell.h; sourceTree = "<group>"; };
-		9831335E0A825E0600F733FB /* SETriggerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SETriggerCell.m; sourceTree = "<group>"; };
 		98362B060A9763F500F97F50 /* SparkIgnore.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SparkIgnore.png; sourceTree = "<group>"; };
 		98362B430A97664100F97F50 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SEInheritsPlugin.nib; sourceTree = "<group>"; };
 		9837AA72071B0E7F0057584D /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/TableAlert.nib; sourceTree = "<group>"; };
 		9837AA74071B11130057584D /* TableAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TableAlertController.m; path = "Classes/UI Controllers/TableAlertController.m"; sourceTree = "<group>"; };
 		9837AA76071B11240057584D /* TableAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TableAlertController.h; path = "UI Controllers/TableAlertController.h"; sourceTree = "<group>"; };
-		983BE16C0A7E402600E0228F /* SELibrarySource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SELibrarySource.m; sourceTree = "<group>"; };
-		983BE1730A7E402F00E0228F /* SELibrarySource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SELibrarySource.h; sourceTree = "<group>"; };
-		98418EA70A659689003FD0D7 /* SEHotKeyTrap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEHotKeyTrap.h; sourceTree = "<group>"; };
-		98418EA80A659689003FD0D7 /* SEHotKeyTrap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEHotKeyTrap.m; sourceTree = "<group>"; };
 		984196BB0A5E52670009A093 /* System.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = System.tiff; sourceTree = "<group>"; };
-		984196DD0A5E54740009A093 /* SETableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SETableView.h; sourceTree = "<group>"; };
-		984196DE0A5E54740009A093 /* SETableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SETableView.m; sourceTree = "<group>"; };
 		984199310A5E67BE0009A093 /* Add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Add.png; sourceTree = "<group>"; };
 		984199320A5E67BE0009A093 /* AddDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AddDown.png; sourceTree = "<group>"; };
 		984199330A5E67BE0009A093 /* Highlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Highlight.png; sourceTree = "<group>"; };
@@ -424,35 +404,26 @@
 		984BCE44060C7E990043CDEA /* PlugInListIcon.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = PlugInListIcon.tif; sourceTree = "<group>"; };
 		984BCE45060C7E990043CDEA /* Warning.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Warning.tiff; sourceTree = "<group>"; };
 		984BCE5F060C7EBD0043CDEA /* SparkSuite.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.sdef; path = SparkSuite.sdef; sourceTree = "<group>"; };
-		984BCE6A060C7FEC0043CDEA /* SEScriptHandler.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SEScriptHandler.h; sourceTree = "<group>"; };
-		984BCE6B060C7FEC0043CDEA /* SEServerConnection.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SEServerConnection.h; sourceTree = "<group>"; };
-		984BCE6C060C7FEC0043CDEA /* Spark.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Spark.h; path = ../Headers/Spark.h; sourceTree = "<group>"; };
+		984BCE6C060C7FEC0043CDEA /* Spark.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Spark.h; sourceTree = "<group>"; };
 		984BCE79060C7FEC0043CDEA /* Preferences.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Preferences.h; path = "UI Controllers/Preferences.h"; sourceTree = "<group>"; };
 		98593CDF073EE728003BA845 /* ExporterUI.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ExporterUI.m; sourceTree = "<group>"; };
 		98593CE3073EE736003BA845 /* SparkExporter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SparkExporter.m; sourceTree = "<group>"; };
 		98593CF0073EE812003BA845 /* SparkExporter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = SparkExporter.h; path = "../../Headers/Import-Export/SparkExporter.h"; sourceTree = "<group>"; };
 		98593CF2073EE82A003BA845 /* SparkImporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SparkImporter.h; path = "../../Headers/Import-Export/SparkImporter.h"; sourceTree = "<group>"; };
 		985A43AE0A8626F3005CC63B /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
-		985AF9FA0A5C33D400397FAA /* SELibraryWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SELibraryWindow.m; sourceTree = "<group>"; };
-		985AFA000A5C33D900397FAA /* SELibraryWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SELibraryWindow.h; sourceTree = "<group>"; };
-		985F8D530772479C0014830F /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
-		985F8DFD077253C70014830F /* SparkServer.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SparkServer.xcodeproj; path = ../SparkDaemon/SparkServer.xcodeproj; sourceTree = SOURCE_ROOT; };
+		985F8DFD077253C70014830F /* SparkDaemon.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SparkDaemon.xcodeproj; path = ../SparkDaemon/SparkDaemon.xcodeproj; sourceTree = SOURCE_ROOT; };
 		98660E8806E71A7A00049957 /* MiniPlus.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = MiniPlus.tiff; sourceTree = "<group>"; };
 		986691ED06F7B4B6002C4E98 /* action.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = action.tiff; sourceTree = "<group>"; };
 		986691FA06F7B590002C4E98 /* application.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = application.tiff; sourceTree = "<group>"; };
 		986F865307073F8200064694 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Libraries.strings; sourceTree = "<group>"; };
 		986F865E0707415800064694 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Editors.strings; sourceTree = "<group>"; };
 		9872353A0AA7552C0085C028 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SEPreferences.nib; sourceTree = "<group>"; };
-		9872830D0A9B30B60098C22F /* SEEntriesManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEntriesManager.h; sourceTree = "<group>"; };
-		9872830E0A9B30B60098C22F /* SEEntriesManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEntriesManager.m; sourceTree = "<group>"; };
 		9877192506D48E12008A7AE8 /* remove_mini_down.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = remove_mini_down.tiff; sourceTree = "<group>"; };
 		9877192606D48E12008A7AE8 /* add_mini_down.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = add_mini_down.tiff; sourceTree = "<group>"; };
 		9877192706D48E12008A7AE8 /* add_mini.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = add_mini.tiff; sourceTree = "<group>"; };
 		9877192806D48E12008A7AE8 /* remove_mini.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = remove_mini.tiff; sourceTree = "<group>"; };
 		98771C4406D4AC1D008A7AE8 /* Small_Gear.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Small_Gear.tiff; sourceTree = "<group>"; };
 		987E6BB206D76DF300C7F41C /* Spark Plugins.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "Spark Plugins.xcodeproj"; path = "../SparkPlugins/Spark Plugins.xcodeproj"; sourceTree = SOURCE_ROOT; };
-		988107AB0AFFF1390010CDD5 /* SETriggerTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SETriggerTable.h; sourceTree = "<group>"; };
-		988107AC0AFFF1390010CDD5 /* SETriggerTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SETriggerTable.m; sourceTree = "<group>"; };
 		988107ED0AFFF9390010CDD5 /* badge-3.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "badge-3.tiff"; sourceTree = "<group>"; };
 		988107EE0AFFF9390010CDD5 /* badge-4.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "badge-4.tiff"; sourceTree = "<group>"; };
 		988107EF0AFFF9390010CDD5 /* badge-1&2.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "badge-1&2.tiff"; sourceTree = "<group>"; };
@@ -462,10 +433,6 @@
 		989044A50A667C1F0024EC52 /* SparkSuite.scriptTerminology */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SparkSuite.scriptTerminology; sourceTree = "<group>"; };
 		98A662950A66FB7700A7B020 /* applelogo.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = applelogo.tiff; sourceTree = "<group>"; };
 		98A91DA8074F55460029D278 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/Importer.nib; sourceTree = "<group>"; };
-		98A9226B0A7B8EC300DF1998 /* SEApplicationSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEApplicationSource.m; sourceTree = "<group>"; };
-		98A9226F0A7B8ED300DF1998 /* SEApplicationSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEApplicationSource.h; sourceTree = "<group>"; };
-		98AC52D10AAF7FF40071EAA7 /* SEPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEPreferences.m; sourceTree = "<group>"; };
-		98AC52D30AAF80010071EAA7 /* SEPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEPreferences.h; sourceTree = "<group>"; };
 		98AC962D073F57FB0004BD09 /* SparkImporter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SparkImporter.m; sourceTree = "<group>"; };
 		98C7035C07BAAED700F7AD87 /* Plugins Factory.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "Plugins Factory.xcodeproj"; path = "../Plugins Factory/Plugins Factory.xcodeproj"; sourceTree = SOURCE_ROOT; };
 		98D1E8B1078564B8002DDB31 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Update.strings; sourceTree = "<group>"; };
@@ -473,33 +440,66 @@
 		98D377C70AA73DD300947217 /* start_gdown.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = start_gdown.tiff; sourceTree = "<group>"; };
 		98D377C80AA73DD300947217 /* start_bdown.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = start_bdown.tiff; sourceTree = "<group>"; };
 		98D377C90AA73DD300947217 /* stop_bdown.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = stop_bdown.tiff; sourceTree = "<group>"; };
+		98D526EE0B199FC500C8425C /* SEScriptHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEScriptHandler.h; sourceTree = "<group>"; };
+		98D526EF0B199FC500C8425C /* SEScriptHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEScriptHandler.m; sourceTree = "<group>"; };
+		98D526F00B199FC500C8425C /* SEServerConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEServerConnection.h; sourceTree = "<group>"; };
+		98D526F10B199FC500C8425C /* SEServerConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEServerConnection.m; sourceTree = "<group>"; };
+		98D526F60B199FE400C8425C /* SDVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDVersion.h; path = ../SparkDaemon/Sources/SDVersion.h; sourceTree = SOURCE_ROOT; };
+		98D52B170B19A44A00C8425C /* SEApplicationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEApplicationView.h; sourceTree = "<group>"; };
+		98D52B180B19A44A00C8425C /* SEApplicationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEApplicationView.m; sourceTree = "<group>"; };
+		98D52B190B19A44A00C8425C /* SEBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEBackgroundView.h; sourceTree = "<group>"; };
+		98D52B1A0B19A44A00C8425C /* SEBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEBackgroundView.m; sourceTree = "<group>"; };
+		98D52B1B0B19A44A00C8425C /* SEHeaderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEHeaderCell.h; sourceTree = "<group>"; };
+		98D52B1C0B19A44A00C8425C /* SEHeaderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEHeaderCell.m; sourceTree = "<group>"; };
+		98D52B1D0B19A44A00C8425C /* SEHotKeyTrap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEHotKeyTrap.h; sourceTree = "<group>"; };
+		98D52B1E0B19A44A00C8425C /* SEHotKeyTrap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEHotKeyTrap.m; sourceTree = "<group>"; };
+		98D52B1F0B19A44A00C8425C /* SESplitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SESplitView.h; sourceTree = "<group>"; };
+		98D52B200B19A44A00C8425C /* SESplitView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SESplitView.m; sourceTree = "<group>"; };
+		98D52B210B19A44A00C8425C /* SETableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SETableView.h; sourceTree = "<group>"; };
+		98D52B220B19A44A00C8425C /* SETableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SETableView.m; sourceTree = "<group>"; };
+		98D52B230B19A44A00C8425C /* SETriggerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SETriggerCell.h; sourceTree = "<group>"; };
+		98D52B240B19A44A00C8425C /* SETriggerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SETriggerCell.m; sourceTree = "<group>"; };
+		98D52B250B19A44A00C8425C /* SETriggerTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SETriggerTable.h; sourceTree = "<group>"; };
+		98D52B260B19A44A00C8425C /* SETriggerTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SETriggerTable.m; sourceTree = "<group>"; };
+		98D52B3B0B19A4C000C8425C /* SEBuiltInPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEBuiltInPlugin.h; sourceTree = "<group>"; };
+		98D52B3C0B19A4C000C8425C /* SEBuiltInPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEBuiltInPlugin.m; sourceTree = "<group>"; };
+		98D52B3D0B19A4C000C8425C /* SEEntriesManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEntriesManager.h; sourceTree = "<group>"; };
+		98D52B3E0B19A4C000C8425C /* SEEntriesManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEntriesManager.m; sourceTree = "<group>"; };
+		98D52B3F0B19A4C000C8425C /* SESparkEntrySet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SESparkEntrySet.h; sourceTree = "<group>"; };
+		98D52B400B19A4C000C8425C /* SESparkEntrySet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SESparkEntrySet.m; sourceTree = "<group>"; };
+		98D52B410B19A4C000C8425C /* SETriggerEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SETriggerEntry.h; sourceTree = "<group>"; };
+		98D52B420B19A4C000C8425C /* SETriggerEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SETriggerEntry.m; sourceTree = "<group>"; };
+		98D52B4F0B19A59700C8425C /* SEApplicationSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEApplicationSource.h; sourceTree = "<group>"; };
+		98D52B500B19A59700C8425C /* SEApplicationSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEApplicationSource.m; sourceTree = "<group>"; };
+		98D52B510B19A59700C8425C /* SEEntryEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEntryEditor.h; sourceTree = "<group>"; };
+		98D52B520B19A59700C8425C /* SEEntryEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEntryEditor.m; sourceTree = "<group>"; };
+		98D52B530B19A59700C8425C /* SELibrarySource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SELibrarySource.h; sourceTree = "<group>"; };
+		98D52B540B19A59700C8425C /* SELibrarySource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SELibrarySource.m; sourceTree = "<group>"; };
+		98D52B550B19A59700C8425C /* SELibraryWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SELibraryWindow.h; sourceTree = "<group>"; };
+		98D52B560B19A59700C8425C /* SELibraryWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SELibraryWindow.m; sourceTree = "<group>"; };
+		98D52B570B19A59700C8425C /* SETriggersController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SETriggersController.h; sourceTree = "<group>"; };
+		98D52B580B19A59700C8425C /* SETriggersController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SETriggersController.m; sourceTree = "<group>"; };
+		98D52B680B19A63700C8425C /* SEFirstRun.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEFirstRun.h; sourceTree = "<group>"; };
+		98D52B690B19A63700C8425C /* SEFirstRun.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEFirstRun.m; sourceTree = "<group>"; };
+		98D52B6A0B19A63700C8425C /* SEPluginHelp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEPluginHelp.h; sourceTree = "<group>"; };
+		98D52B6B0B19A63700C8425C /* SEPluginHelp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEPluginHelp.m; sourceTree = "<group>"; };
+		98D52B6C0B19A63700C8425C /* SEPluginInstaller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEPluginInstaller.h; sourceTree = "<group>"; };
+		98D52B6D0B19A63700C8425C /* SEPluginInstaller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEPluginInstaller.m; sourceTree = "<group>"; };
+		98D52B6E0B19A63700C8425C /* SEPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEPreferences.h; sourceTree = "<group>"; };
+		98D52B6F0B19A63700C8425C /* SEPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEPreferences.m; sourceTree = "<group>"; };
+		98D52B700B19A63700C8425C /* SETriggerBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SETriggerBrowser.h; sourceTree = "<group>"; };
+		98D52B710B19A63700C8425C /* SETriggerBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SETriggerBrowser.m; sourceTree = "<group>"; };
 		98D590F20AA18A430081A713 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/SEEditor.strings; sourceTree = "<group>"; };
-		98DA08E10B0A5D270016B465 /* SEPluginInstaller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEPluginInstaller.m; sourceTree = "<group>"; };
-		98DA08E50B0A5D390016B465 /* SEPluginInstaller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEPluginInstaller.h; sourceTree = "<group>"; };
 		98DA08EE0B0A5DC30016B465 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SEPluginInstaller.nib; sourceTree = "<group>"; };
-		98DA2B090AFDF2E600E394CD /* SEPluginHelp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEPluginHelp.m; sourceTree = "<group>"; };
-		98DA2B0B0AFDF2F500E394CD /* SEPluginHelp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEPluginHelp.h; sourceTree = "<group>"; };
 		98DA2BC90AFE011400E394CD /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SEPluginHelp.nib; sourceTree = "<group>"; };
-		98DAC9DC0A67EBE2001C36D1 /* SEApplicationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEApplicationView.h; sourceTree = "<group>"; };
-		98DAC9DD0A67EBE2001C36D1 /* SEApplicationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEApplicationView.m; sourceTree = "<group>"; };
 		98DCBDEC060C80DD00B3E0AE /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = SOURCE_ROOT; };
 		98E66CC10759FA7C0048A37D /* HotKeySparkList.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = HotKeySparkList.icns; sourceTree = "<group>"; };
 		98E66CC20759FA7C0048A37D /* ApplicationSparkList.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = ApplicationSparkList.icns; sourceTree = "<group>"; };
 		98E66CC30759FA7C0048A37D /* ActionSparkList.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = ActionSparkList.icns; sourceTree = "<group>"; };
-		98EA6B290A5E7C280019E26C /* SETriggersController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SETriggersController.m; sourceTree = "<group>"; };
-		98EA6B2F0A5E7C2D0019E26C /* SETriggersController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SETriggersController.h; sourceTree = "<group>"; };
-		98EE9E740ABC001A00296C08 /* SparkServerVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SparkServerVersion.h; path = ../SparkDaemon/Daemon/Headers/SparkServerVersion.h; sourceTree = SOURCE_ROOT; };
 		98EF8306086462FF007BC81A /* HotKeyToolKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = HotKeyToolKit.xcodeproj; path = ../HotKeyToolKit/HotKeyToolKit.xcodeproj; sourceTree = SOURCE_ROOT; };
 		98EF830F0864630B007BC81A /* SparkKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SparkKit.xcodeproj; path = ../SparkKit/SparkKit.xcodeproj; sourceTree = SOURCE_ROOT; };
 		98F3635806FF72D900FD6673 /* Library.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Library.tiff; sourceTree = "<group>"; };
-		98F4A9B80770C8630074FE70 /* SecurityFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SecurityFoundation.framework; path = /System/Library/Frameworks/SecurityFoundation.framework; sourceTree = "<absolute>"; };
 		98F746010A5C560A003D4BE1 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SELibraryWindow.nib; sourceTree = "<group>"; };
-		98F746130A5C575C003D4BE1 /* SESplitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SESplitView.h; sourceTree = "<group>"; };
-		98F746150A5C576A003D4BE1 /* SESplitView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SESplitView.m; sourceTree = "<group>"; };
-		98F747830A5C69A0003D4BE1 /* SEHeaderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEHeaderCell.h; sourceTree = "<group>"; };
-		98F747840A5C69A0003D4BE1 /* SEHeaderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEHeaderCell.m; sourceTree = "<group>"; };
-		98FB0A610A5D09D400129126 /* SEBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEBackgroundView.h; sourceTree = "<group>"; };
-		98FB0A620A5D09D400129126 /* SEBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEBackgroundView.m; sourceTree = "<group>"; };
 		98FF14DB05EACAE90005F402 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = /System/Library/Frameworks/WebKit.framework; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
@@ -510,8 +510,6 @@
 			files = (
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				98FF14DC05EACAE90005F402 /* WebKit.framework in Frameworks */,
-				985F8D540772479C0014830F /* Security.framework in Frameworks */,
-				98F4A9B90770C8630074FE70 /* SecurityFoundation.framework in Frameworks */,
 				98EF831508646313007BC81A /* SparkKit.framework in Frameworks */,
 				98EF831608646316007BC81A /* HotKeyToolKit.framework in Frameworks */,
 				9867589E096B3F4200BB8A25 /* ShadowKit.framework in Frameworks */,
@@ -526,8 +524,6 @@
 			children = (
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
 				98FF14DB05EACAE90005F402 /* WebKit.framework */,
-				985F8D530772479C0014830F /* Security.framework */,
-				98F4A9B80770C8630074FE70 /* SecurityFoundation.framework */,
 			);
 			name = "Linked Frameworks";
 			sourceTree = "<group>";
@@ -552,14 +548,14 @@
 		29B97314FDCFA39411CA2CEA /* Spark */ = {
 			isa = PBXGroup;
 			children = (
-				98240180060C7B0700A0DB07 /* Classes */,
+				98240180060C7B0700A0DB07 /* Sources */,
 				98B704BB0A86208E00DB692D /* Deprecated */,
 				982401D6060C7B3000A0DB07 /* Resources */,
 				984BCE5D060C7EBD0043CDEA /* AppleScript Suite */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				98EF830F0864630B007BC81A /* SparkKit.xcodeproj */,
-				985F8DFD077253C70014830F /* SparkServer.xcodeproj */,
+				985F8DFD077253C70014830F /* SparkDaemon.xcodeproj */,
 				987E6BB206D76DF300C7F41C /* Spark Plugins.xcodeproj */,
 				98C7035C07BAAED700F7AD87 /* Plugins Factory.xcodeproj */,
 				98EF8306086462FF007BC81A /* HotKeyToolKit.xcodeproj */,
@@ -575,14 +571,6 @@
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		650A68CA0A2B3947008769DF /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				650A68CE0A2B3947008769DF /* Spark Daemon.app */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		6540B6DC09E6430800D0E8FB /* Products */ = {
@@ -611,19 +599,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		981A88B60A61966400753369 /* Objects */ = {
-			isa = PBXGroup;
-			children = (
-				980AB1EF0A9759DD00A6115E /* SEBuiltInPlugin.h */,
-				980AB1F00A9759DD00A6115E /* SEBuiltInPlugin.m */,
-				981A8A340A61A25800753369 /* SESparkEntrySet.h */,
-				981A8A350A61A25800753369 /* SESparkEntrySet.m */,
-				9872830D0A9B30B60098C22F /* SEEntriesManager.h */,
-				9872830E0A9B30B60098C22F /* SEEntriesManager.m */,
-			);
-			path = Objects;
-			sourceTree = "<group>";
-		};
 		981B64FC09386F350024C0D9 /* Configurations */ = {
 			isa = PBXGroup;
 			children = (
@@ -635,45 +610,18 @@
 			path = Configurations;
 			sourceTree = SHADOWKIT_ROOT;
 		};
-		98240180060C7B0700A0DB07 /* Classes */ = {
+		98240180060C7B0700A0DB07 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
 				984BCE6C060C7FEC0043CDEA /* Spark.h */,
 				98240188060C7B0700A0DB07 /* Spark.m */,
-				981A88B60A61966400753369 /* Objects */,
-				985AF9DB0A5C335D00397FAA /* Controllers */,
-				98240185060C7B0700A0DB07 /* Server Comm */,
-				98240197060C7B0700A0DB07 /* UI Extensions */,
+				98D52B3A0B19A4C000C8425C /* Model */,
+				98D52B670B19A63700C8425C /* Windows */,
+				98D52B160B19A44A00C8425C /* HI Elements */,
+				98D52B4E0B19A59700C8425C /* Main Window */,
+				98D526ED0B199FC500C8425C /* Daemon Connection */,
 			);
-			path = Classes;
-			sourceTree = "<group>";
-		};
-		98240185060C7B0700A0DB07 /* Server Comm */ = {
-			isa = PBXGroup;
-			children = (
-				984BCE6A060C7FEC0043CDEA /* SEScriptHandler.h */,
-				98240186060C7B0700A0DB07 /* SEScriptHandler.m */,
-				98EE9E740ABC001A00296C08 /* SparkServerVersion.h */,
-				984BCE6B060C7FEC0043CDEA /* SEServerConnection.h */,
-				98240187060C7B0700A0DB07 /* SEServerConnection.m */,
-			);
-			path = "Server Comm";
-			sourceTree = "<group>";
-		};
-		98240197060C7B0700A0DB07 /* UI Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				98DDE9580A6128AC00D76698 /* Headers */,
-				98F746150A5C576A003D4BE1 /* SESplitView.m */,
-				984196DE0A5E54740009A093 /* SETableView.m */,
-				98F747840A5C69A0003D4BE1 /* SEHeaderCell.m */,
-				9831335E0A825E0600F733FB /* SETriggerCell.m */,
-				98418EA80A659689003FD0D7 /* SEHotKeyTrap.m */,
-				988107AC0AFFF1390010CDD5 /* SETriggerTable.m */,
-				98DAC9DD0A67EBE2001C36D1 /* SEApplicationView.m */,
-				98FB0A620A5D09D400129126 /* SEBackgroundView.m */,
-			);
-			path = "UI Extensions";
+			path = Sources;
 			sourceTree = "<group>";
 		};
 		982401D6060C7B3000A0DB07 /* Resources */ = {
@@ -832,41 +780,6 @@
 			path = "Classes/Import-Export";
 			sourceTree = "<group>";
 		};
-		985AF9DB0A5C335D00397FAA /* Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				985AF9DC0A5C335D00397FAA /* Headers */,
-				9803A1080A9CFE9700B7DBBA /* SEFirstRun.m */,
-				98DA2B090AFDF2E600E394CD /* SEPluginHelp.m */,
-				981A8A9E0A61A4E400753369 /* SEEntryEditor.m */,
-				98AC52D10AAF7FF40071EAA7 /* SEPreferences.m */,
-				983BE16C0A7E402600E0228F /* SELibrarySource.m */,
-				98DA08E10B0A5D270016B465 /* SEPluginInstaller.m */,
-				985AF9FA0A5C33D400397FAA /* SELibraryWindow.m */,
-				9830D9750AB46B7000C316FE /* SETriggerBrowser.m */,
-				98A9226B0A7B8EC300DF1998 /* SEApplicationSource.m */,
-				98EA6B290A5E7C280019E26C /* SETriggersController.m */,
-			);
-			path = Controllers;
-			sourceTree = "<group>";
-		};
-		985AF9DC0A5C335D00397FAA /* Headers */ = {
-			isa = PBXGroup;
-			children = (
-				9803A10A0A9CFEA400B7DBBA /* SEFirstRun.h */,
-				98DA2B0B0AFDF2F500E394CD /* SEPluginHelp.h */,
-				981A8A9A0A61A4D600753369 /* SEEntryEditor.h */,
-				98AC52D30AAF80010071EAA7 /* SEPreferences.h */,
-				983BE1730A7E402F00E0228F /* SELibrarySource.h */,
-				98DA08E50B0A5D390016B465 /* SEPluginInstaller.h */,
-				985AFA000A5C33D900397FAA /* SELibraryWindow.h */,
-				9830D9790AB46B7A00C316FE /* SETriggerBrowser.h */,
-				98A9226F0A7B8ED300DF1998 /* SEApplicationSource.h */,
-				98EA6B2F0A5E7C2D0019E26C /* SETriggersController.h */,
-			);
-			path = Headers;
-			sourceTree = "<group>";
-		};
 		98762B3D074F53A900D0A4C1 /* Sheets */ = {
 			isa = PBXGroup;
 			children = (
@@ -897,6 +810,130 @@
 			name = Classes;
 			sourceTree = "<group>";
 		};
+		98D526ED0B199FC500C8425C /* Daemon Connection */ = {
+			isa = PBXGroup;
+			children = (
+				98D526F60B199FE400C8425C /* SDVersion.h */,
+				98D526EE0B199FC500C8425C /* SEScriptHandler.h */,
+				98D526EF0B199FC500C8425C /* SEScriptHandler.m */,
+				98D526F00B199FC500C8425C /* SEServerConnection.h */,
+				98D526F10B199FC500C8425C /* SEServerConnection.m */,
+			);
+			path = "Daemon Connection";
+			sourceTree = "<group>";
+		};
+		98D52B060B19A38400C8425C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				98D52B0A0B19A38400C8425C /* Spark Daemon.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		98D52B160B19A44A00C8425C /* HI Elements */ = {
+			isa = PBXGroup;
+			children = (
+				98D52B380B19A45400C8425C /* Headers */,
+				98D52B200B19A44A00C8425C /* SESplitView.m */,
+				98D52B220B19A44A00C8425C /* SETableView.m */,
+				98D52B240B19A44A00C8425C /* SETriggerCell.m */,
+				98D52B1C0B19A44A00C8425C /* SEHeaderCell.m */,
+				98D52B1E0B19A44A00C8425C /* SEHotKeyTrap.m */,
+				98D52B260B19A44A00C8425C /* SETriggerTable.m */,
+				98D52B180B19A44A00C8425C /* SEApplicationView.m */,
+				98D52B1A0B19A44A00C8425C /* SEBackgroundView.m */,
+			);
+			path = "HI Elements";
+			sourceTree = "<group>";
+		};
+		98D52B380B19A45400C8425C /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				98D52B1F0B19A44A00C8425C /* SESplitView.h */,
+				98D52B210B19A44A00C8425C /* SETableView.h */,
+				98D52B230B19A44A00C8425C /* SETriggerCell.h */,
+				98D52B1B0B19A44A00C8425C /* SEHeaderCell.h */,
+				98D52B1D0B19A44A00C8425C /* SEHotKeyTrap.h */,
+				98D52B250B19A44A00C8425C /* SETriggerTable.h */,
+				98D52B170B19A44A00C8425C /* SEApplicationView.h */,
+				98D52B190B19A44A00C8425C /* SEBackgroundView.h */,
+			);
+			name = Headers;
+			sourceTree = "<group>";
+		};
+		98D52B3A0B19A4C000C8425C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				98D52B4B0B19A4C700C8425C /* Headers */,
+				98D52B3C0B19A4C000C8425C /* SEBuiltInPlugin.m */,
+				98D52B420B19A4C000C8425C /* SETriggerEntry.m */,
+				98D52B400B19A4C000C8425C /* SESparkEntrySet.m */,
+				98D52B3E0B19A4C000C8425C /* SEEntriesManager.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		98D52B4B0B19A4C700C8425C /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				98D52B3B0B19A4C000C8425C /* SEBuiltInPlugin.h */,
+				98D52B410B19A4C000C8425C /* SETriggerEntry.h */,
+				98D52B3F0B19A4C000C8425C /* SESparkEntrySet.h */,
+				98D52B3D0B19A4C000C8425C /* SEEntriesManager.h */,
+			);
+			name = Headers;
+			sourceTree = "<group>";
+		};
+		98D52B4E0B19A59700C8425C /* Main Window */ = {
+			isa = PBXGroup;
+			children = (
+				98D52B630B19A5AD00C8425C /* Headers */,
+				98D52B520B19A59700C8425C /* SEEntryEditor.m */,
+				98D52B540B19A59700C8425C /* SELibrarySource.m */,
+				98D52B560B19A59700C8425C /* SELibraryWindow.m */,
+				98D52B500B19A59700C8425C /* SEApplicationSource.m */,
+				98D52B580B19A59700C8425C /* SETriggersController.m */,
+			);
+			path = "Main Window";
+			sourceTree = "<group>";
+		};
+		98D52B630B19A5AD00C8425C /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				98D52B510B19A59700C8425C /* SEEntryEditor.h */,
+				98D52B530B19A59700C8425C /* SELibrarySource.h */,
+				98D52B550B19A59700C8425C /* SELibraryWindow.h */,
+				98D52B4F0B19A59700C8425C /* SEApplicationSource.h */,
+				98D52B570B19A59700C8425C /* SETriggersController.h */,
+			);
+			name = Headers;
+			sourceTree = "<group>";
+		};
+		98D52B670B19A63700C8425C /* Windows */ = {
+			isa = PBXGroup;
+			children = (
+				98D52B7C0B19A64100C8425C /* Headers */,
+				98D52B690B19A63700C8425C /* SEFirstRun.m */,
+				98D52B6B0B19A63700C8425C /* SEPluginHelp.m */,
+				98D52B6F0B19A63700C8425C /* SEPreferences.m */,
+				98D52B6D0B19A63700C8425C /* SEPluginInstaller.m */,
+				98D52B710B19A63700C8425C /* SETriggerBrowser.m */,
+			);
+			path = Windows;
+			sourceTree = "<group>";
+		};
+		98D52B7C0B19A64100C8425C /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				98D52B680B19A63700C8425C /* SEFirstRun.h */,
+				98D52B6A0B19A63700C8425C /* SEPluginHelp.h */,
+				98D52B6E0B19A63700C8425C /* SEPreferences.h */,
+				98D52B6C0B19A63700C8425C /* SEPluginInstaller.h */,
+				98D52B700B19A63700C8425C /* SETriggerBrowser.h */,
+			);
+			name = Headers;
+			sourceTree = "<group>";
+		};
 		98D590F60AA18A4E0081A713 /* Localization */ = {
 			isa = PBXGroup;
 			children = (
@@ -907,21 +944,6 @@
 				985A43AD0A8626F3005CC63B /* Localizable.strings */,
 			);
 			name = Localization;
-			sourceTree = "<group>";
-		};
-		98DDE9580A6128AC00D76698 /* Headers */ = {
-			isa = PBXGroup;
-			children = (
-				98F746130A5C575C003D4BE1 /* SESplitView.h */,
-				984196DD0A5E54740009A093 /* SETableView.h */,
-				98F747830A5C69A0003D4BE1 /* SEHeaderCell.h */,
-				9831335D0A825E0600F733FB /* SETriggerCell.h */,
-				98418EA70A659689003FD0D7 /* SEHotKeyTrap.h */,
-				988107AB0AFFF1390010CDD5 /* SETriggerTable.h */,
-				98DAC9DC0A67EBE2001C36D1 /* SEApplicationView.h */,
-				98FB0A610A5D09D400129126 /* SEBackgroundView.h */,
-			);
-			name = Headers;
 			sourceTree = "<group>";
 		};
 		98EF8307086462FF007BC81A /* Products */ = {
@@ -952,30 +974,31 @@
 			buildActionMask = 2147483647;
 			files = (
 				985AF8E90A5C2D8300397FAA /* Spark.h in Headers */,
-				985AFA010A5C33D900397FAA /* SELibraryWindow.h in Headers */,
-				98F746140A5C575C003D4BE1 /* SESplitView.h in Headers */,
-				98F747850A5C69A0003D4BE1 /* SEHeaderCell.h in Headers */,
-				98FB0A630A5D09D400129126 /* SEBackgroundView.h in Headers */,
-				984196DF0A5E54740009A093 /* SETableView.h in Headers */,
-				98EA6B300A5E7C2D0019E26C /* SETriggersController.h in Headers */,
-				98B2C6C60A617AA500D9D719 /* SEScriptHandler.h in Headers */,
-				981A8A360A61A25800753369 /* SESparkEntrySet.h in Headers */,
-				981A8A9B0A61A4D600753369 /* SEEntryEditor.h in Headers */,
-				98418EA90A65968A003FD0D7 /* SEHotKeyTrap.h in Headers */,
-				98DAC9DE0A67EBE2001C36D1 /* SEApplicationView.h in Headers */,
-				98A922700A7B8ED300DF1998 /* SEApplicationSource.h in Headers */,
-				983BE1740A7E402F00E0228F /* SELibrarySource.h in Headers */,
-				9831335F0A825E0600F733FB /* SETriggerCell.h in Headers */,
-				9838ECA20A8646DA000AF1B5 /* SEServerConnection.h in Headers */,
-				980AB1F10A9759DD00A6115E /* SEBuiltInPlugin.h in Headers */,
-				9872830F0A9B30B60098C22F /* SEEntriesManager.h in Headers */,
-				9803A10B0A9CFEA400B7DBBA /* SEFirstRun.h in Headers */,
-				98AC52D40AAF80010071EAA7 /* SEPreferences.h in Headers */,
-				9830D97A0AB46B7A00C316FE /* SETriggerBrowser.h in Headers */,
-				98EE9E750ABC001A00296C08 /* SparkServerVersion.h in Headers */,
-				98DA2B0C0AFDF2F500E394CD /* SEPluginHelp.h in Headers */,
-				988107AD0AFFF1390010CDD5 /* SETriggerTable.h in Headers */,
-				98DA08E60B0A5D390016B465 /* SEPluginInstaller.h in Headers */,
+				98D526F20B199FC500C8425C /* SEScriptHandler.h in Headers */,
+				98D526F40B199FC500C8425C /* SEServerConnection.h in Headers */,
+				98D526F70B199FE400C8425C /* SDVersion.h in Headers */,
+				98D52B270B19A44A00C8425C /* SEApplicationView.h in Headers */,
+				98D52B290B19A44A00C8425C /* SEBackgroundView.h in Headers */,
+				98D52B2B0B19A44A00C8425C /* SEHeaderCell.h in Headers */,
+				98D52B2D0B19A44A00C8425C /* SEHotKeyTrap.h in Headers */,
+				98D52B2F0B19A44A00C8425C /* SESplitView.h in Headers */,
+				98D52B310B19A44A00C8425C /* SETableView.h in Headers */,
+				98D52B330B19A44A00C8425C /* SETriggerCell.h in Headers */,
+				98D52B350B19A44A00C8425C /* SETriggerTable.h in Headers */,
+				98D52B430B19A4C000C8425C /* SEBuiltInPlugin.h in Headers */,
+				98D52B450B19A4C000C8425C /* SEEntriesManager.h in Headers */,
+				98D52B470B19A4C000C8425C /* SESparkEntrySet.h in Headers */,
+				98D52B490B19A4C000C8425C /* SETriggerEntry.h in Headers */,
+				98D52B590B19A59700C8425C /* SEApplicationSource.h in Headers */,
+				98D52B5B0B19A59700C8425C /* SEEntryEditor.h in Headers */,
+				98D52B5D0B19A59700C8425C /* SELibrarySource.h in Headers */,
+				98D52B5F0B19A59700C8425C /* SELibraryWindow.h in Headers */,
+				98D52B610B19A59700C8425C /* SETriggersController.h in Headers */,
+				98D52B720B19A63700C8425C /* SEFirstRun.h in Headers */,
+				98D52B740B19A63700C8425C /* SEPluginHelp.h in Headers */,
+				98D52B760B19A63700C8425C /* SEPluginInstaller.h in Headers */,
+				98D52B780B19A63700C8425C /* SEPreferences.h in Headers */,
+				98D52B7A0B19A63700C8425C /* SETriggerBrowser.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1029,12 +1052,12 @@
 					ProjectRef = 987E6BB206D76DF300C7F41C /* Spark Plugins.xcodeproj */;
 				},
 				{
-					ProductGroup = 98EF83100864630B007BC81A /* Products */;
-					ProjectRef = 98EF830F0864630B007BC81A /* SparkKit.xcodeproj */;
+					ProductGroup = 98D52B060B19A38400C8425C /* Products */;
+					ProjectRef = 985F8DFD077253C70014830F /* SparkDaemon.xcodeproj */;
 				},
 				{
-					ProductGroup = 650A68CA0A2B3947008769DF /* Products */;
-					ProjectRef = 985F8DFD077253C70014830F /* SparkServer.xcodeproj */;
+					ProductGroup = 98EF83100864630B007BC81A /* Products */;
+					ProjectRef = 98EF830F0864630B007BC81A /* SparkKit.xcodeproj */;
 				},
 			);
 			targets = (
@@ -1045,13 +1068,6 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		650A68CE0A2B3947008769DF /* Spark Daemon.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = "Spark Daemon.app";
-			remoteRef = 650A68CD0A2B3947008769DF /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		6540B6E609E6430800D0E8FB /* Labo */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.executable";
@@ -1157,6 +1173,13 @@
 			remoteRef = 98C61C1E0A5813ED0004E6EF /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		98D52B0A0B19A38400C8425C /* Spark Daemon.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = "Spark Daemon.app";
+			remoteRef = 98D52B090B19A38400C8425C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		98E204AA0A56FE8600EB74E1 /* Runner */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.executable";
@@ -1256,29 +1279,30 @@
 			buildActionMask = 2147483647;
 			files = (
 				982401C0060C7B0700A0DB07 /* Spark.m in Sources */,
-				985AF9FB0A5C33D400397FAA /* SELibraryWindow.m in Sources */,
-				98B2C6C50A617AA200D9D719 /* SEScriptHandler.m in Sources */,
-				981A8A370A61A25800753369 /* SESparkEntrySet.m in Sources */,
-				98A9226C0A7B8EC300DF1998 /* SEApplicationSource.m in Sources */,
-				9838ECA30A8646DC000AF1B5 /* SEServerConnection.m in Sources */,
-				98BDF01C0A999DCB002778B3 /* SEApplicationView.m in Sources */,
-				98BDF0200A999DD2002778B3 /* SETableView.m in Sources */,
-				98BDF0240A999DD9002778B3 /* SEHeaderCell.m in Sources */,
-				98BDF0280A999DE4002778B3 /* SETriggerCell.m in Sources */,
-				98BDF02F0A999DEE002778B3 /* SESplitView.m in Sources */,
-				98BDF0330A999DF5002778B3 /* SEBackgroundView.m in Sources */,
-				98BDF0370A999E00002778B3 /* SEHotKeyTrap.m in Sources */,
-				987283100A9B30B60098C22F /* SEEntriesManager.m in Sources */,
-				98ECA7490A9BA7D900F89B58 /* SEBuiltInPlugin.m in Sources */,
-				98ECA7E80A9BAF3600F89B58 /* SETriggersController.m in Sources */,
-				9831BFE30A9C2BD6001DA7AD /* SELibrarySource.m in Sources */,
-				9803A1090A9CFE9700B7DBBA /* SEFirstRun.m in Sources */,
-				98E128D70AA0EFAC00D5884A /* SEEntryEditor.m in Sources */,
-				98AC52D20AAF7FF40071EAA7 /* SEPreferences.m in Sources */,
-				9830D9760AB46B7000C316FE /* SETriggerBrowser.m in Sources */,
-				98DA2B0A0AFDF2E700E394CD /* SEPluginHelp.m in Sources */,
-				988107AE0AFFF1390010CDD5 /* SETriggerTable.m in Sources */,
-				98DA08E20B0A5D270016B465 /* SEPluginInstaller.m in Sources */,
+				98D526F30B199FC500C8425C /* SEScriptHandler.m in Sources */,
+				98D526F50B199FC500C8425C /* SEServerConnection.m in Sources */,
+				98D52B280B19A44A00C8425C /* SEApplicationView.m in Sources */,
+				98D52B2A0B19A44A00C8425C /* SEBackgroundView.m in Sources */,
+				98D52B2C0B19A44A00C8425C /* SEHeaderCell.m in Sources */,
+				98D52B2E0B19A44A00C8425C /* SEHotKeyTrap.m in Sources */,
+				98D52B300B19A44A00C8425C /* SESplitView.m in Sources */,
+				98D52B320B19A44A00C8425C /* SETableView.m in Sources */,
+				98D52B340B19A44A00C8425C /* SETriggerCell.m in Sources */,
+				98D52B360B19A44A00C8425C /* SETriggerTable.m in Sources */,
+				98D52B440B19A4C000C8425C /* SEBuiltInPlugin.m in Sources */,
+				98D52B460B19A4C000C8425C /* SEEntriesManager.m in Sources */,
+				98D52B480B19A4C000C8425C /* SESparkEntrySet.m in Sources */,
+				98D52B4A0B19A4C000C8425C /* SETriggerEntry.m in Sources */,
+				98D52B5A0B19A59700C8425C /* SEApplicationSource.m in Sources */,
+				98D52B5C0B19A59700C8425C /* SEEntryEditor.m in Sources */,
+				98D52B5E0B19A59700C8425C /* SELibrarySource.m in Sources */,
+				98D52B600B19A59700C8425C /* SELibraryWindow.m in Sources */,
+				98D52B620B19A59700C8425C /* SETriggersController.m in Sources */,
+				98D52B730B19A63700C8425C /* SEFirstRun.m in Sources */,
+				98D52B750B19A63700C8425C /* SEPluginHelp.m in Sources */,
+				98D52B770B19A63700C8425C /* SEPluginInstaller.m in Sources */,
+				98D52B790B19A63700C8425C /* SEPreferences.m in Sources */,
+				98D52B7B0B19A63700C8425C /* SETriggerBrowser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1295,15 +1319,15 @@
 			name = SparkKit;
 			targetProxy = 98920FA30A5EFF9800A50A78 /* PBXContainerItemProxy */;
 		};
+		98D52B0D0B19A3AB00C8425C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Spark Daemon";
+			targetProxy = 98D52B0C0B19A3AB00C8425C /* PBXContainerItemProxy */;
+		};
 		98DBB875099F4B5B00927F3B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 8D1107260486CEB800E47090 /* Spark */;
 			targetProxy = 98DBB874099F4B5B00927F3B /* PBXContainerItemProxy */;
-		};
-		98F252E80A5DA6A100DCA753 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "Spark Daemon";
-			targetProxy = 98F252E70A5DA6A100DCA753 /* PBXContainerItemProxy */;
 		};
 		98F746330A5C5808003D4BE1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

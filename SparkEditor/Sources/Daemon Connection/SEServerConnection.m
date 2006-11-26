@@ -7,7 +7,7 @@
  */
 
 #import "SEServerConnection.h"
-#import "SparkServerVersion.h"
+#import "SDVersion.h"
 
 #import "SEScriptHandler.h"
 
@@ -131,6 +131,7 @@
 - (BOOL)connect {
   if ([self isConnected])
     return YES;
+  
   /* Not connected but server alive */
   if (se_server) {
     DLog(@"Undetected invalid connection");
@@ -168,8 +169,7 @@
     se_server = nil;
     if (se_scFlags.restart) {
       se_scFlags.restart = 0;
-      if (!SELaunchSparkDaemon())
-        [NSApp setServerStatus:kSparkDaemonError];
+      SELaunchSparkDaemon();
     } else {
       [NSApp setServerStatus:kSparkDaemonStopped];
     }
