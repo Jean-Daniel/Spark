@@ -25,14 +25,14 @@ static HKKeyMapRef SharedKeyMap() {
   static HKKeyMapRef sharedKeyMap = nil;
   if (nil == sharedKeyMap) {
     KeyboardLayoutRef ref;
+//  if (noErr == KLGetKeyboardLayoutWithName(CFSTR("US Extended"), &ref)) {
     if (noErr == KLGetCurrentKeyboardLayout(&ref)) {
-    //if (noErr == KLGetKeyboardLayoutWithName(CFSTR("US Extended"), &ref)) {
       sharedKeyMap = HKKeyMapCreate(ref, HKUseReverseKeyMap);
     }
     if (nil == sharedKeyMap) {
-      DLog(@"Unable to init Translate Table");
+      DLog(@"Error while initializing Keyboard Map");
     } else {
-      DLog(@"Translate Table initialized");
+      DLog(@"Keyboard Map initialized");
     }
   }
   return sharedKeyMap;

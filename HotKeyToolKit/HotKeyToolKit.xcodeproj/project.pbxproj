@@ -572,8 +572,11 @@
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				OTHER_LDFLAGS = (
+					"$(OTHER_LDFLAGS)",
+					"$(OTHER_LDFLAGS_$(CURRENT_ARCH))",
 					"-seg1addr",
 					0xD0000000,
+					"-header-pad_max_install_names",
 				);
 				PRODUCT_NAME = HotKeyToolKit;
 			};
@@ -652,8 +655,11 @@
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				OTHER_LDFLAGS = (
+					"$(OTHER_LDFLAGS)",
+					"$(OTHER_LDFLAGS_$(CURRENT_ARCH))",
 					"-seg1addr",
 					0xD0000000,
+					"-header-pad_max_install_names",
 				);
 				PRODUCT_NAME = HotKeyToolKit;
 			};
@@ -755,8 +761,11 @@
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				OTHER_LDFLAGS = (
+					"$(OTHER_LDFLAGS)",
+					"$(OTHER_LDFLAGS_$(CURRENT_ARCH))",
 					"-seg1addr",
 					0xD0000000,
+					"-header-pad_max_install_names",
 				);
 				PRODUCT_NAME = HotKeyToolKit;
 			};
