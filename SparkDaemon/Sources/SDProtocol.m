@@ -7,7 +7,7 @@
  */
 
 #import "SparkDaemon.h"
-#import "SparkServerVersion.h"
+#import "SDVersion.h"
 
 #import <SparkKit/SparkTrigger.h>
 #import <SparkKit/SparkLibrary.h>

@@ -6,7 +6,7 @@
  *  Copyright (c) 2004 - 2006 Shadow Lab. All rights reserved.
  */
 
-#include "AEScript.h"
+#include "SDAEHandlers.h"
 
 #include <SparkKit/SparkKit.h>
 

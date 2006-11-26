@@ -7,14 +7,12 @@
  */
 
 #import "SparkDaemon.h"
-
-#include <unistd.h>
+#import "SDAEHandlers.h"
 
 #import <SparkKit/SparkKit.h>
 
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkObjectSet.h>
-#import <SparkKit/SparkEntryManager.h>
 /* Display alert */
 #import <SparkKit/SparkActionPlugIn.h>
 
@@ -23,10 +21,7 @@
 #import <SparkKit/SparkTrigger.h>
 #import <SparkKit/SparkApplication.h>
 
-#import <ShadowKit/SKFunctions.h>
 #import <ShadowKit/SKProcessFunctions.h>
-
-#import "AEScript.h"
 
 #if defined (DEBUG)
 #import <ShadowKit/SKAEFunctions.h>
