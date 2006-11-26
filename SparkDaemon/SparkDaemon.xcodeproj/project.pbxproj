@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		983AFC260B19A74300173464 /* Spark.icns in Resources */ = {isa = PBXBuildFile; fileRef = 983AFC250B19A74300173464 /* Spark.icns */; };
 		9867565A096B3B9000BB8A25 /* ShadowKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98675654096B3B6F00BB8A25 /* ShadowKit.framework */; };
 		98B20D9A06A5492E008BA3F6 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		98D528DF0B19A14800C8425C /* SDAEHandlers.c in Sources */ = {isa = PBXBuildFile; fileRef = 98D528D90B19A14800C8425C /* SDAEHandlers.c */; };
@@ -77,6 +78,7 @@
 		981B5FD509386B470024C0D9 /* ShadowDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowDebug.xcconfig; sourceTree = "<group>"; };
 		981B5FD609386B470024C0D9 /* ShadowRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowRelease.xcconfig; sourceTree = "<group>"; };
 		981B5FD809386B470024C0D9 /* ShadowUniversal.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowUniversal.xcconfig; sourceTree = "<group>"; };
+		983AFC250B19A74300173464 /* Spark.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Spark.icns; path = ../SparkEditor/Resources/Images/icns/Spark.icns; sourceTree = SOURCE_ROOT; };
 		98B20D6A06A54814008BA3F6 /* Spark Daemon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Spark Daemon.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		98D528D90B19A14800C8425C /* SDAEHandlers.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = SDAEHandlers.c; sourceTree = "<group>"; };
 		98D528DA0B19A14800C8425C /* SDAEHandlers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDAEHandlers.h; sourceTree = "<group>"; };
@@ -168,6 +170,7 @@
 			isa = PBXGroup;
 			children = (
 				98D528F20B19A1AF00C8425C /* Info.plist */,
+				983AFC250B19A74300173464 /* Spark.icns */,
 				98D528E60B19A18B00C8425C /* InfoPlist.strings */,
 			);
 			path = Resources;
@@ -312,6 +315,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				98D528E80B19A18B00C8425C /* InfoPlist.strings in Resources */,
+				983AFC260B19A74300173464 /* Spark.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -30,8 +30,9 @@ OSStatus SDGetEditorIsTrapping(Boolean *trapping) {
   
   /* If Spark Editor is the front process, send apple event */
   if (kSparkHFSCreatorType == info.processSignature) {
+    AEDesc reply = SKAEEmptyDesc();
     AEDesc theEvent = SKAEEmptyDesc();
-
+    
     err = SKAECreateEventWithTargetProcess(&psn, kAECoreSuite, kAEGetData, &theEvent);
     require_noerr(err, bail);
     
@@ -40,11 +41,18 @@ OSStatus SDGetEditorIsTrapping(Boolean *trapping) {
     
     err = SKAEAddMagnitude(&theEvent);
     require_noerr(err, fevent);
+
+    SKTimeUnit start = SKTimeGetCurrent();
+    /* Timeout: 500 ms */
+    err = SKAESendEvent(&theEvent, kAEWaitReply, 2000, &reply);
+    fprintf(stderr, "Elapsed time: %lu ms\n", SKTimeDeltaMillis(start, SKTimeGetCurrent()));
+    require_noerr(err, fevent);
     
-    err = SKAESendEventReturnBoolean(&theEvent, trapping);
+    err = SKAEGetBooleanFromAppleEvent(&reply, keyDirectObject, trapping);
     /* Release Apple event descriptor */
 fevent:
       SKAEDisposeDesc(&theEvent);
+    SKAEDisposeDesc(&reply);
   }
   
 bail:

@@ -124,10 +124,10 @@ SparkObjectSet *SDObjectSetForType(OSType type) {
   }
 }
 
-- (void)setStatus:(BOOL)status forLibraryEntry:(SparkLibraryEntry *)anEntry {
+- (void)libraryEntry:(SparkLibraryEntry *)anEntry setEnabled:(BOOL)status {
   ShadowTrace();
   SparkEntryManager *manager = SparkSharedManager();
-  [manager setStatus:status forLibraryEntry:anEntry];
+  [manager libraryEntry:anEntry setEnabled:status];
   /* Should check trigger */
   if ([self isEnabled]) {
     SparkTrigger *trigger = [SparkSharedTriggerSet() objectForUID:anEntry->trigger];

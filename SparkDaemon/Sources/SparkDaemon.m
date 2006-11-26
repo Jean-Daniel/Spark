@@ -281,12 +281,12 @@ OSErr SparkDaemonAEQuitHandler(const AppleEvent *theAppleEvent, AppleEvent *repl
       SparkApplication *front = [self frontApplication];
       if (front) {
         /* Get action for front application */
-        action = [SparkSharedManager() actionForTrigger:[trigger uid] application:[front uid] status:&status];
+        action = [SparkSharedManager() actionForTrigger:[trigger uid] application:[front uid] enabled:&status];
       }
     }
     /* No action found, use default */
     if (!action) {
-      action = [SparkSharedManager() actionForTrigger:[trigger uid] application:0 status:&status];
+      action = [SparkSharedManager() actionForTrigger:[trigger uid] application:0 enabled:&status];
     }
     [trigger willTriggerAction:status ? action : nil];
     /* Action exists and is enabled */
