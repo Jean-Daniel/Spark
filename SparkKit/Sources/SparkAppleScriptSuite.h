@@ -24,4 +24,3 @@ enum {
 enum {
   kSparkDaemonStatusType = 'dast',
 };
-

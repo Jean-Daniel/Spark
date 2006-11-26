@@ -15,7 +15,6 @@
 
 #import <ShadowKit/SKImageUtils.h>
 #import <ShadowKit/SKSerialization.h>
-#import <ShadowKit/SKAppKitExtensions.h>
 
 #define ICON_SIZE		16
 
@@ -34,7 +33,6 @@ static NSString * const kSparkActionDescriptionKey = @"SADescription";
   
   UInt32 flags = 0;
   if (sp_saFlags.invalid) flags |= 1 << 0;
-  if (sp_saFlags.enabled) flags |= 1 << 1;
   [coder encodeInt:flags forKey:kSparkActionFlagsKey];
   [coder encodeInt:sp_version forKey:kSparkActionVersionKey];
   if (nil != sp_categorie)
@@ -48,7 +46,6 @@ static NSString * const kSparkActionDescriptionKey = @"SADescription";
   if (self = [super initWithCoder:coder]) {
     UInt32 flags = [coder decodeIntForKey:kSparkActionFlagsKey];
     if (flags & (1 << 0)) sp_saFlags.invalid = 1;
-    if (flags & (1 << 1)) sp_saFlags.enabled = 1;
     sp_version = [coder decodeIntForKey:kSparkActionVersionKey];
     [self setCategorie:[coder decodeObjectForKey:kSparkActionCategorieKey]];
     [self setActionDescription:[coder decodeObjectForKey:kSparkActionDescriptionKey]];
@@ -78,10 +75,6 @@ static NSString * const kSparkActionDescriptionKey = @"SADescription";
 
   if (nil != sp_categorie)
     [plist setObject:sp_categorie forKey:kSparkActionCategorieKey];
-  
-  UInt32 flags = 0;
-  if (sp_saFlags.enabled) flags |= 1 << 0;
-  [plist setObject:SKUInt(flags) forKey:kSparkActionFlagsKey];
 
   return YES;
 }
@@ -96,9 +89,6 @@ static NSString * const kSparkActionDescriptionKey = @"SADescription";
     if (!description)
       description = [plist objectForKey:@"ShortDescription"];
     [self setActionDescription:description];
-    
-    UInt32 flags = [[plist objectForKey:kSparkActionFlagsKey] unsignedIntValue];
-    if (flags & (1 << 0)) [self setEnabled:YES];
     
     /* Update categorie */
     SparkPlugIn *plugin = [[SparkActionLoader sharedLoader] pluginForClass:[self class]];
@@ -130,12 +120,6 @@ static NSString * const kSparkActionDescriptionKey = @"SADescription";
   [super dealloc];
 }
 
-- (NSString *)description {
-  return [NSString stringWithFormat:@"<%@ %p> {uid:%u name:%@ enabled:%@}",
-    [self class], self,
-    [self uid], [self name], [self isEnabled] ? @"YES" : @"NO"];
-}
-
 #pragma mark -
 #pragma mark Public Methods
 - (SparkAlert *)actionDidLoad {
@@ -154,14 +138,6 @@ static NSString * const kSparkActionDescriptionKey = @"SADescription";
 
 #pragma mark -
 #pragma mark Accessors
-- (NSImage *)icon {
-  NSImage *icon = [super icon];
-  if (!icon) {
-    [self setIcon:[NSImage imageNamed:@"SparkAction" inBundle:[NSBundle bundleWithIdentifier:kSparkKitBundleIdentifier]]];
-    icon = [super icon];
-  }
-  return icon;
-}
 - (void)setIcon:(NSImage *)icon {
   [super setIcon:SKResizedIcon(icon, NSMakeSize(ICON_SIZE, ICON_SIZE))];
 }
@@ -217,12 +193,6 @@ static NSString * const kSparkActionDescriptionKey = @"SADescription";
 }
 - (void)setInvalid:(BOOL)flag {
   SKSetFlag(sp_saFlags.invalid, flag);
-}
-- (BOOL)isEnabled {
-  return sp_saFlags.enabled;
-}
-- (void)setEnabled:(BOOL)flag {
-  SKSetFlag(sp_saFlags.enabled, flag);
 }
 
 - (void)setCategorie:(NSString *)categorie {

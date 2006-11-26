@@ -91,7 +91,7 @@ SparkContext SparkGetCurrentContext() {
   [plist setObject:SKUInt(sp_uid) forKey:kSparkObjectUIDKey];
   if (sp_name)
     [plist setObject:sp_name forKey:kSparkObjectNameKey];
-  if (sp_icon) {
+  if (sp_icon && [self shouldSaveIcon]) {
     [plist setObject:[sp_icon TIFFRepresentationUsingCompression:NSTIFFCompressionLZW factor:1] forKey:kSparkObjectIconKey];
   }
   /* Compatibility */
@@ -212,6 +212,9 @@ SparkContext SparkGetCurrentContext() {
 }
 - (void)setIcon:(NSImage *)icon {
   SKSetterRetain(sp_icon, icon);
+}
+- (BOOL)shouldSaveIcon {
+  return YES;
 }
 
 - (NSString *)name {

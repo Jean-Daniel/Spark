@@ -95,35 +95,41 @@ SparkContext SparkGetCurrentContext(void);
 - (id)initWithSerializedValues:(NSDictionary *)plist;
 
   /*!
-  @method     uid
+  @method
    @abstract   Returns the UID of this object. Uid of an object is set at creation time and shouldn't be changed. 
    */
 - (UInt32)uid;
 
   /*!
-  @method     name
+  @method
    @abstract   Returns the name for this object.
    */
 - (NSString *)name;
   /*!
-  @method     setName:
+  @method
    @abstract   Sets the name for this object.
    @param      name The Name to set.
    */
 - (void)setName:(NSString *)name;
 
   /*!
-  @method     icon
+  @method
    @abstract   Returns the icon for this object.
    */
 - (NSImage *)icon;
   /*!
-  @method     setIcon:
+  @method
    @abstract   Sets the icon for this object.
    @param      icon The icon to set.
    */
 - (void)setIcon:(NSImage *)icon;
 
+  /*!
+  @method
+   @abstract   Allows to not save the icon in SparkLibrary.
+   @result    Returns YES by default.
+   */
+- (BOOL)shouldSaveIcon;
 
   /*!
     @method     isEqualToLibraryObject:

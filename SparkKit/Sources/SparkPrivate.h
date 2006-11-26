@@ -29,9 +29,6 @@
 - (BOOL)isInvalid;
 - (void)setInvalid:(BOOL)flag;
 
-- (BOOL)isEnabled;
-- (void)setEnabled:(BOOL)flag;
-
   /*!
   @method     setCategorie:
    @abstract   Sets the categorie for this Action.

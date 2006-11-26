@@ -69,6 +69,32 @@ void SparkEntryManagerPostUpdateNotification(NSString *name, SparkEntryManager *
                                                       replaced, SparkEntryReplacedNotificationKey, nil]];
 }
 
+SK_INLINE
+BOOL SparkLibraryEntryIsEnabled(const SparkLibraryEntry *entry) {
+  return (entry->flags & kSparkEntryEnabled) != 0;
+}
+SK_INLINE
+void SparkLibraryEntrySetEnabled(SparkLibraryEntry *entry, BOOL enabled) {
+  if (enabled)
+    entry->flags |= kSparkEntryEnabled;
+  else
+    entry->flags &= ~kSparkEntryEnabled;
+}
+SK_INLINE
+BOOL SparkLibraryEntryIsVisible(const SparkLibraryEntry *entry) {
+  return (entry->flags & kSparkEntryHidden) == 0;
+}
+SK_INLINE
+void SparkLibraryEntrySetVisible(SparkLibraryEntry *entry, BOOL visible) {
+  if (visible)
+    entry->flags &= ~kSparkEntryHidden;
+  else
+    entry->flags |= kSparkEntryHidden;
+}
+SK_INLINE
+BOOL SparkLibraryEntryIsActive(const SparkLibraryEntry *entry) {
+  return SparkLibraryEntryIsEnabled(entry) && SparkLibraryEntryIsVisible(entry);
+}
 @implementation SparkEntryManager
 
 - (id)init {
@@ -212,12 +238,12 @@ BOOL SparkEntryIsCustomTrigger(const SparkLibraryEntry *entry) {
   }
 }
 
-- (void)setStatus:(BOOL)status forLibraryEntry:(SparkLibraryEntry *)anEntry {
+- (void)libraryEntry:(SparkLibraryEntry *)anEntry setEnabled:(BOOL)flag {
   NSParameterAssert(anEntry != NULL);
   /* Make sure we are using internal storage pointer */
   anEntry = (SparkLibraryEntry *)CFSetGetValue(sp_set, anEntry);
   if (anEntry)
-    anEntry->status = status ? 1 : 0;
+    SparkLibraryEntrySetEnabled(anEntry, flag);
 }
 
 - (SparkEntry *)entryForLibraryEntry:(const SparkLibraryEntry *)anEntry {
@@ -229,7 +255,7 @@ BOOL SparkEntryIsCustomTrigger(const SparkLibraryEntry *entry) {
                                                   trigger:trigger
                                               application:application];
   [object setType:[self typeForLibraryEntry:anEntry]];
-  [object setEnabled:anEntry->status];
+  [object setEnabled:SparkLibraryEntryIsEnabled(anEntry)];
   return [object autorelease];
 }
 
@@ -316,7 +342,7 @@ BOOL SparkEntryIsCustomTrigger(const SparkLibraryEntry *entry) {
   // Will add
   SparkEntryManagerPostNotification(SparkEntryManagerWillAddEntryNotification, self, anEntry);
   SparkLibraryEntry entry;
-  entry.status = 0;
+  entry.flags = 0;
   entry.action = [[anEntry action] uid];
   entry.trigger = [[anEntry trigger] uid];
   entry.application = [[anEntry application] uid];
@@ -334,7 +360,8 @@ BOOL SparkEntryIsCustomTrigger(const SparkLibraryEntry *entry) {
     // Will update
     SparkEntryManagerPostUpdateNotification(SparkEntryManagerWillUpdateEntryNotification, self, anEntry, newEntry);
     SparkLibraryEntry update;
-    update.status = [newEntry isEnabled] ? 1 : 0;
+    update.flags = 0;
+    SparkLibraryEntrySetEnabled(&update, [newEntry isEnabled]);
     update.action = [[newEntry action] uid];
     update.trigger = [[newEntry trigger] uid];
     update.application = [[newEntry application] uid];
@@ -394,7 +421,7 @@ BOOL SparkEntryIsCustomTrigger(const SparkLibraryEntry *entry) {
   UInt32 count = CFArrayGetCount(sp_entries);
   while (count-- > 0) {
     const SparkLibraryEntry *entry = CFArrayGetValueAtIndex(sp_entries, count);
-    if (entry->status && (entry->trigger == aTrigger)) {
+    if ((entry->trigger == aTrigger) && SparkLibraryEntryIsActive(entry)) {
       return YES;
     }
   }
@@ -411,16 +438,16 @@ BOOL SparkEntryIsCustomTrigger(const SparkLibraryEntry *entry) {
   return NO;
 }
 
-- (BOOL)statusForEntry:(SparkEntry *)anEntry {
+- (BOOL)isEntryEnabled:(SparkEntry *)anEntry {
   return [anEntry isEnabled];
 }
 
-- (void)setStatus:(BOOL)status forEntry:(SparkEntry *)anEntry {
+- (void)entry:(SparkEntry *)anEntry setEnabled:(BOOL)flag {
   SparkLibraryEntry *entry = [self libraryEntryForEntry:anEntry];
   if (entry) {
     SparkEntryManagerPostNotification(SparkEntryManagerWillChangeEntryStatusNotification, self, anEntry);
-    [anEntry setEnabled:status];
-    [self setStatus:status forLibraryEntry:entry];
+    [anEntry setEnabled:flag];
+    [self libraryEntry:entry setEnabled:flag];
     SparkEntryManagerPostNotification(SparkEntryManagerDidChangeEntryStatusNotification, self, anEntry);
   }
 }
@@ -433,11 +460,11 @@ BOOL SparkEntryIsCustomTrigger(const SparkLibraryEntry *entry) {
   return nil;
 }
 
-- (SparkAction *)actionForTrigger:(UInt32)aTrigger application:(UInt32)anApplication status:(BOOL *)status {
+- (SparkAction *)actionForTrigger:(UInt32)aTrigger application:(UInt32)anApplication enabled:(BOOL *)status {
   const SparkLibraryEntry *entry = [self libraryEntryForTrigger:aTrigger application:anApplication];
   if (entry) {
     if (status)
-      *status = entry->status;
+      *status = SparkLibraryEntryIsEnabled(entry);
     return [[sp_library actionSet] objectForUID:entry->action];
   }
   return nil;
@@ -573,7 +600,7 @@ typedef struct {
   const SparkLibraryEntry *entries = header->entries;
   while (count-- > 0) {
     SparkLibraryEntry entry;
-    entry.status = SparkReadField(entries->status);
+    entry.flags = SparkReadField(entries->flags);
     entry.action = SparkReadField(entries->action);
     entry.trigger = SparkReadField(entries->trigger);
     entry.application = SparkReadField(entries->application);

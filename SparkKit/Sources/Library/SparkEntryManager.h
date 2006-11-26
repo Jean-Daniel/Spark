@@ -9,11 +9,16 @@
 #import <SparkKit/SparkKit.h>
 
 typedef struct _SparkLibraryEntry {
-  UInt32 status;
+  UInt32 flags;
   UInt32 action;
   UInt32 trigger;
   UInt32 application;
 } SparkLibraryEntry;
+
+enum {
+  kSparkEntryEnabled = 1 << 0,
+  kSparkEntryHidden = 1 << 1,
+};
 
 @class SparkAction;
 @class SparkLibrary, SparkEntry;
@@ -31,8 +36,8 @@ typedef struct _SparkLibraryEntry {
 - (void)removeEntries:(NSArray *)theEntries;
 - (void)replaceEntry:(SparkEntry *)anEntry withEntry:(SparkEntry *)newEntry;
 
-- (BOOL)statusForEntry:(SparkEntry *)anEntry;
-- (void)setStatus:(BOOL)status forEntry:(SparkEntry *)anEntry;
+- (BOOL)isEntryEnabled:(SparkEntry *)anEntry;
+- (void)entry:(SparkEntry *)anEntry setEnabled:(BOOL)flag;
 
 - (NSArray *)entriesForAction:(UInt32)anAction;
 - (NSArray *)entriesForTrigger:(UInt32)aTrigger;
@@ -48,7 +53,7 @@ typedef struct _SparkLibraryEntry {
 
 - (BOOL)containsEntryForTrigger:(UInt32)aTrigger application:(UInt32)anApplication;
 - (SparkEntry *)entryForTrigger:(UInt32)aTrigger application:(UInt32)anApplication;
-- (SparkAction *)actionForTrigger:(UInt32)aTrigger application:(UInt32)anApplication status:(BOOL *)status;
+- (SparkAction *)actionForTrigger:(UInt32)aTrigger application:(UInt32)anApplication enabled:(BOOL *)status;
 
 /* Private */
 #pragma mark Low-Level Methods
@@ -57,7 +62,7 @@ typedef struct _SparkLibraryEntry {
 - (void)replaceLibraryEntry:(SparkLibraryEntry *)anEntry withLibraryEntry:(SparkLibraryEntry *)newEntry;
 
 - (SparkLibraryEntry *)libraryEntryForEntry:(SparkEntry *)anEntry;
-- (void)setStatus:(BOOL)status forLibraryEntry:(SparkLibraryEntry *)anEntry;
+- (void)libraryEntry:(SparkLibraryEntry *)anEntry setEnabled:(BOOL)flag;
 
 @end
 

@@ -9,6 +9,16 @@
 #import <SparkKit/SparkEntry.h>
 #import <SparkKit/SparkAction.h>
 
+#import <ShadowKit/SKAppKitExtensions.h>
+
+static
+NSImage *SparkEntryDefaultIcon() {
+  static NSImage *image = nil;
+  if (!image) 
+    image = [[NSImage imageNamed:@"SparkAction" inBundle:[NSBundle bundleWithIdentifier:kSparkKitBundleIdentifier]] retain];
+  return image;
+}
+
 @implementation SparkEntry
 
 - (id)copyWithZone:(NSZone *)aZone {
@@ -87,7 +97,7 @@
 }
 
 - (NSImage *)icon {
-  return [sp_action icon];
+  return [sp_action icon] ? : SparkEntryDefaultIcon();
 }
 - (void)setIcon:(NSImage *)anIcon {
   [sp_action setIcon:anIcon];

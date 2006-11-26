@@ -41,7 +41,7 @@ enum {
 - (oneway void)removeLibraryEntry:(in SparkLibraryEntry *)anEntry;
 - (oneway void)replaceLibraryEntry:(in SparkLibraryEntry *)anEntry withLibraryEntry:(in SparkLibraryEntry *)newEntry;
 
-- (oneway void)setStatus:(BOOL)status forLibraryEntry:(in SparkLibraryEntry *)anEntry;
+- (oneway void)libraryEntry:(in SparkLibraryEntry *)anEntry setEnabled:(BOOL)enabled;
 
 @end
 

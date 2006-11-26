@@ -362,14 +362,14 @@ bail:
       NSEnumerator *entries = [map keyEnumerator];
       while (key = [entries nextObject]) {
         SparkLibraryEntry entry;
-        entry.status = status;
+        entry.flags = status ? kSparkEntryEnabled : 0;
         entry.action = [[map objectForKey:key] unsignedIntValue];
         /* If action is not 'Ignore Spark', adjust uid. */
         if (entry.action) {
           entry.action += kSparkLibraryReserved;
         } else {
           /* Should set status = 0 and action = action for trigger/application */
-          entry.status = 0;
+          entry.flags = 0;
           entry.action = 0; /* Will be adjust later */
         }
         entry.trigger = [trigger uid];

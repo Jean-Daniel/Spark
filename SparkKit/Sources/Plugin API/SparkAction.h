@@ -41,8 +41,7 @@ NSTimeInterval SparkGetDefaultKeyRepeatInterval(void);
   UInt32 sp_version;
   struct _sp_saFlags {
     unsigned int invalid:1;
-    unsigned int enabled:1;
-    unsigned int :14;
+    unsigned int :15;
   } sp_saFlags;
   NSString *sp_categorie, *sp_description;
 }
@@ -110,6 +109,8 @@ NSTimeInterval SparkGetDefaultKeyRepeatInterval(void);
    */
 - (void)setActionDescription:(NSString *)desc;
 
+#pragma mark -
+#pragma mark Advanced
   /*!
   @method
    @abstract   Returns the time interval between two events repetition.
