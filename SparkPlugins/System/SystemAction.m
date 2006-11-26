@@ -8,12 +8,13 @@
 
 #import "SystemAction.h"
 
+/* getuid() */
 #include <unistd.h>
 
 #import <ShadowKit/SKFunctions.h>
 #import <ShadowKit/SKFSFunctions.h>
 #import <ShadowKit/SKAEFunctions.h>
-#import <ShadowKit/SKIOKitFunctions.h>
+#import <ShadowKit/SKAppKitExtensions.h>
 
 static NSString * const 
 kFastUserSwitcherPath = @"/System/Library/CoreServices/Menu Extras/User.menu/Contents/Resources/CGSession";
@@ -65,6 +66,13 @@ NSString * const kSystemUserNameKey = @"SystemUserName";
 
 #pragma mark -
 #pragma mark Required Methods.
+- (id)init {
+  if (self = [super init]) {
+    [self setVersion:0x100];
+  }
+  return self;
+}
+
 - (id)initWithSerializedValues:(NSDictionary *)plist {
   if (self = [super initWithSerializedValues:plist]) {
     [self setAction:[[plist objectForKey:kSystemActionKey] intValue]];
@@ -95,6 +103,19 @@ NSString * const kSystemUserNameKey = @"SystemUserName";
   return NO;
 }
 
+- (BOOL)shouldSaveIcon {
+  return NO;
+}
+/* Icon lazy loading */
+- (NSImage *)icon {
+  NSImage *icon = [super icon];
+  if (!icon) {
+    icon = SystemActionIcon(self);
+    [super setIcon:icon];
+  }
+  return icon;
+}
+
 - (SystemActionType)action {
   return sa_action;
 }
@@ -116,10 +137,6 @@ NSString * const kSystemUserNameKey = @"SystemUserName";
     case kSystemSwitchGrayscale:
       /* System Event */
     case kSystemEmptyTrash:
-//    case kSystemMute:
-//    case kSystemEject:
-//    case kSystemVolumeUp:
-//    case kSystemVolumeDown:
       return nil;
     default:
       return [SparkAlert alertWithMessageText:NSLocalizedStringFromTableInBundle(@"INVALID_ACTION_ALERT",
@@ -324,6 +341,9 @@ OSType SystemActionFromFlag(int flag) {
   if (action = [[SystemAction alloc] initWithSerializedValues:plist]) {
     [action setAction:SystemActionFromFlag([[plist objectForKey:@"PowerAction"] intValue])];
     [action setShouldConfirm:YES];
+    
+    [action setVersion:0x100];
+    [action setActionDescription:SystemActionDescription(action)];
   }
   return action;
 }
@@ -331,32 +351,76 @@ OSType SystemActionFromFlag(int flag) {
 @end
 
 #pragma mark -
-NSString *SystemActionDescription(SystemAction *anAction) {
-  NSString *desc = nil;
+NSImage *SystemActionIcon(SystemAction *anAction) {
+  NSString *icon = nil;
   switch ([anAction action]) {
     case kSystemLogOut:
-      desc = NSLocalizedStringFromTableInBundle(@"DESC_LOGOUT", nil, kSystemActionBundle,
-                                                @"LogOut * Action Description *");
+      icon = @"Logout";
       break;
+    case kSystemSwitch:
+      icon = [anAction userID] ? @"Switch" : @"Logout";
+      break;
+    case kSystemSleep:
+      icon = @"Sleep";
+      break;
+    case kSystemRestart:
+      icon = @"Restart";
+      break;
+    case kSystemShutDown:
+      icon = @"Shutdown";
+      break;
+    case kSystemScreenSaver:
+      icon = @"ScreenSaver";
+      break;
+    case kSystemSwitchGrayscale:
+      icon = @"SwitchGrayscale";
+      break;
+    case kSystemSwitchPolarity:
+      icon = @"SwitchPolarity";
+      break;
+    case kSystemEmptyTrash:
+      icon = @"SystemTrash";
+      break;
+  }
+  return icon ? [NSImage imageNamed:icon inBundle:kSystemActionBundle] : nil;
+}
+
+NSString *SystemActionDescription(SystemAction *anAction) {
+  NSString *desc = nil;
+  NSString *confirm = [anAction shouldConfirm] ? 
+    NSLocalizedStringFromTableInBundle(@"...", nil, kSystemActionBundle,
+                                       @"Should confirm dots * Action description *") : nil;
+  
+  switch ([anAction action]) {
     case kSystemSleep:
       desc = NSLocalizedStringFromTableInBundle(@"DESC_SLEEP", nil, kSystemActionBundle,
                                                 @"Sleep * Action Description *");
       break;
+    case kSystemLogOut:
+      desc = NSLocalizedStringFromTableInBundle(@"DESC_LOGOUT", nil, kSystemActionBundle,
+                                                @"LogOut * Action Description *");
+      if (confirm)
+        desc = [desc stringByAppendingString:confirm];
+        break;
     case kSystemRestart:
       desc = NSLocalizedStringFromTableInBundle(@"DESC_RESTART", nil, kSystemActionBundle,
                                                 @"Restart * Action Description *");
+      if (confirm)
+        desc = [desc stringByAppendingString:confirm];
       break;
     case kSystemShutDown:
       desc = NSLocalizedStringFromTableInBundle(@"DESC_SHUTDOWN", nil, kSystemActionBundle,
                                                 @"ShutDown * Action Description *");
+      if (confirm)
+        desc = [desc stringByAppendingString:confirm];
       break;
     case kSystemSwitch:
       if ([anAction userID]) {
-        NSString *loc = NSLocalizedStringFromTableInBundle(@"Switch to %@", nil, kSystemActionBundle,
+        NSString *loc = NSLocalizedStringFromTableInBundle(@"DESC_FAST_SWITCH", nil, kSystemActionBundle,
                                                            @"Switch to * Action Description * (%@ => user name)");
         desc = [NSString stringWithFormat:loc, [anAction userName]];
       } else {
-        desc = NSLocalizedStringFromTableInBundle(@"DESC_FAST_SWITCH", nil, kSystemActionBundle,
+        desc = NSLocalizedStringFromTableInBundle(@"DESC_FAST_LOGOUT", nil, kSystemActionBundle,
                                                   @"Fast Logout * Action Description *");
       }
       break;
@@ -376,25 +440,9 @@ NSString *SystemActionDescription(SystemAction *anAction) {
       desc = NSLocalizedStringFromTableInBundle(@"DESC_EMPTY_TRASH", nil, kSystemActionBundle,
                                                 @"Empty trash * Action Description *");
       break;
-      //    case kSystemMute:
-      //      desc = NSLocalizedStringFromTableInBundle(@"DESC_SOUND_MUTE", nil, kSystemActionBundle,
-      //                                                @"Mute * Action Description *");
-      //      break;
-      //    case kSystemEject:
-      //      desc = NSLocalizedStringFromTableInBundle(@"DESC_EJECT", nil, kSystemActionBundle,
-      //                                                @"Eject * Action Description *");
-      //      break;
-      //    case kSystemVolumeUp:
-      //      desc = NSLocalizedStringFromTableInBundle(@"DESC_SOUND_UP", nil, kSystemActionBundle,
-      //                                                @"Sound up * Action Description *");
-      //      break;
-      //    case kSystemVolumeDown:
-      //      desc = NSLocalizedStringFromTableInBundle(@"DESC_SOUND_DOWN", nil, kSystemActionBundle,
-      //                                                @"Sound down * Action Description *");
-      //      break;
     default:
-      desc = NSLocalizedStringFromTableInBundle(@"DESC_ERROR", nil, kSystemActionBundle,
-                                                @"Error * Action Description *");
+      desc = NSLocalizedStringFromTableInBundle(@"DESC_INVALID", nil, kSystemActionBundle,
+                                                @"Invalid Action * Action Description *");
   }
   return desc;
 }

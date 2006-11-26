@@ -69,4 +69,6 @@ NSString * const kSystemActionBundleIdentifier;
 @end
 
 SK_PRIVATE 
+NSImage *SystemActionIcon(SystemAction *anAction);
+SK_PRIVATE 
 NSString *SystemActionDescription(SystemAction *anAction);

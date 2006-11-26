@@ -94,4 +94,7 @@ typedef enum {
 @end
 
 SK_PRIVATE
+NSImage *ITunesActionIcon(ITunesAction *action);
+
+SK_PRIVATE
 NSString *ITunesActionDescription(ITunesAction *action);

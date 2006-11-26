@@ -8,7 +8,7 @@
 
 #import "SEScriptHandler.h"
 
-NSString* const SEServerStatusDidChangeNotification = @"SEServerStatusDidChange";
+NSString * const SEServerStatusDidChangeNotification = @"SEServerStatusDidChange";
 
 #pragma mark -
 @implementation SparkEditor (SEScriptHandler)

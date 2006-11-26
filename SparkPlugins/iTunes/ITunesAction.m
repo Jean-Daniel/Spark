@@ -17,6 +17,7 @@
 #import <ShadowKit/SKLSFunctions.h>
 #import <ShadowKit/SKAEFunctions.h>
 #import <ShadowKit/SKProcessFunctions.h>
+#import <ShadowKit/SKAppKitExtensions.h>
 
 #import <HotKeyToolKit/HotKeyToolKit.h>
 
@@ -418,6 +419,19 @@ bail:
   return alert;
 }
 
+- (BOOL)shouldSaveIcon {
+  return NO;
+}
+/* Icon lazy loading */
+- (NSImage *)icon {
+  NSImage *icon = [super icon];
+  if (!icon) {
+    icon = ITunesActionIcon(self);
+    [super setIcon:icon];
+  }
+  return icon;
+}
+
 #pragma mark -
 #pragma mark iTunes Action specific Methods
 /****************************************************************************************
@@ -528,6 +542,52 @@ bail:
 }
 
 @end
+
+NSImage *ITunesActionIcon(ITunesAction *action) {
+  NSString *icon = nil;
+  switch ([action iTunesAction]) {
+    case kiTunesLaunch:
+      icon = @"Launch";
+      break;
+    case kiTunesQuit:
+      icon = @"Quit";
+      break;   
+    case kiTunesPlayPause:
+      icon = @"Play";
+      break;
+    case kiTunesPlayPlaylist:
+      icon = @"Play";
+      break;
+    case kiTunesBackTrack:
+      icon = @"Back";
+      break;
+    case kiTunesNextTrack:
+      icon = @"Next";
+      break;
+    case kiTunesStop:
+      icon = @"Stop";
+      break;
+    case kiTunesShowTrackInfo:
+      icon = @"TrackInfo";
+      break;
+    case kiTunesRateTrack:
+      icon = @"RateTrack";
+      break;
+    case kiTunesVisual:
+      icon = @"Visual";
+      break;
+    case kiTunesVolumeDown:
+      icon = @"VolumeDown";
+      break;
+    case kiTunesVolumeUp:
+      icon = @"VolumeUp";
+      break;
+    case kiTunesEjectCD:
+      icon = @"Eject";
+      break;
+  }
+  return icon ? [NSImage imageNamed:icon inBundle:kiTunesActionBundle] : nil;
+}
 
 NSString *ITunesActionDescription(ITunesAction *action) {
   NSString *desc = nil;

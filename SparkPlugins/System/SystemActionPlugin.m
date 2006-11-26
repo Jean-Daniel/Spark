@@ -13,7 +13,6 @@
 #import <ShadowKit/SKExtensions.h>
 #import <ShadowKit/SKDSFunctions.h>
 #import <ShadowKit/SKFSFunctions.h>
-#import <ShadowKit/SKAppKitExtensions.h>
 
 @implementation SystemActionPlugin
 
@@ -22,23 +21,28 @@
 }
 
 - (void)awakeFromNib {
-  NSMenu *menu = [actionMenu menu];
   if (SKSystemMajorVersion() >= 10 && SKSystemMinorVersion() >= 4) {
-    /* Screen saver work only with Mac OS X.4 and later */
+    NSMenu *menu = [ibActions menu];
+    /* Screen saver and switch work only with Mac OS X.4 and later */
     NSMenuItem *item = [NSMenuItem separatorItem];
     [item setTag:-1];
     [menu addItem:item];
     
-    item = [[NSMenuItem alloc] initWithTitle:@"Screen Saver" action:nil keyEquivalent:@""];
+    item = [[NSMenuItem alloc] initWithTitle:NSLocalizedStringFromTableInBundle(@"Screen Saver", nil, kSystemActionBundle,
+                                                                                @"Screen Saver Menu Item")
+                                      action:nil keyEquivalent:@""];
     [item setTag:kSystemScreenSaver];
     [menu addItem:item];
     [item release];
     
-    item = [[NSMenuItem alloc] initWithTitle:@"Switch to..." action:nil keyEquivalent:@""];
+    item = [[NSMenuItem alloc] initWithTitle:NSLocalizedStringFromTableInBundle(@"Switch to...", nil, kSystemActionBundle,
+                                                                                @"Switch to... Menu Item")
+                                      action:nil keyEquivalent:@""];
     [item setTag:kSystemSwitch];
     [menu insertItem:item atIndex:1];
     [item release];
-    /* Build user swithcing menu */
+    
+    /* Build user switching menu */
     CFArrayRef users;
     BOOL separator = NO;
     if (noErr == SKDSGetVisibleUsers(&users, kDS1AttrUniqueID, kDS1AttrDistinguishedName, NULL)) {
@@ -70,7 +74,7 @@
   if (flag) {
     [self willChangeValueForKey:@"shouldConfirm"];
     if ([sparkAction name])
-      [nameField setStringValue:[sparkAction name]];
+      [ibName setStringValue:[sparkAction name]];
     /* Force update menu + placeholder */
     [self setAction:[sparkAction action]];
     if (kSystemSwitch == [self action]) {
@@ -94,7 +98,7 @@
   [action setUserName:nil];
   
   /* Set Name */
-  NSString *name = [nameField stringValue];
+  NSString *name = [ibName stringValue];
   if ([[name stringByTrimmingWhitespaceAndNewline] length] == 0)
     [action setName:SystemActionDescription(action)];
   else 
@@ -108,48 +112,7 @@
     }
   }
   
-  NSString *iconName = nil;
-  switch ([self action]) {
-    case kSystemLogOut:
-    case kSystemSwitch:
-      iconName = @"Switch";
-      break;
-    case kSystemSleep:
-      iconName = @"Sleep";
-      break;
-    case kSystemRestart:
-      iconName = @"Restart";
-      break;
-    case kSystemShutDown:
-      iconName = @"ShutDown";
-      break;
-    case kSystemScreenSaver:
-      iconName = @"ScreenSaver";
-      break;
-    case kSystemSwitchGrayscale:
-      iconName = @"SwitchGrayscale";
-      break;
-    case kSystemSwitchPolarity:
-      iconName = @"SwitchPolarity";
-      break;
-    case kSystemEmptyTrash:
-      iconName = @"SystemTrash";
-      break;
-//    case kSystemMute:
-//      iconName = @"ScreenSaver";
-//      break;
-//    case kSystemEject:
-//      iconName = @"ScreenSaver";
-//      break;
-//    case kSystemVolumeUp:
-//      iconName = @"ScreenSaver";
-//      break;
-//    case kSystemVolumeDown:
-//      iconName = @"ScreenSaver";
-//      break;
-  }
-  if (iconName)
-    [action setIcon:[NSImage imageNamed:iconName inBundle:kSystemActionBundle]];
+  [action setIcon:SystemActionIcon(action)];
   [action setActionDescription:SystemActionDescription(action)];
 }
 
@@ -162,7 +125,7 @@
   if ([self action] != newAction) {
     [(SystemAction *)[self sparkAction] setAction:newAction];
   }
-  [[nameField cell] setPlaceholderString:SystemActionDescription([self sparkAction])];
+  [[ibName cell] setPlaceholderString:SystemActionDescription([self sparkAction])];
   switch (newAction) {
     case kSystemLogOut:
     case kSystemRestart:

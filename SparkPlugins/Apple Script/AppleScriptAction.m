@@ -13,6 +13,7 @@
 #import <ShadowKit/SKAlias.h>
 #import <ShadowKit/SKFunctions.h>
 #import <ShadowKit/SKClassCluster.h>
+#import <ShadowKit/SKAppKitExtensions.h>
 
 static NSString * const kOSAScriptActionDataKey = @"OSAScriptData";
 static NSString * const kOSAScriptActionTypeKey = @"OSAScriptType";
@@ -153,6 +154,18 @@ SKClassCluster(AppleScriptAction);
     } 
   }
   return NO;
+}
+- (BOOL)shouldSaveIcon {
+  return NO;
+}
+/* Icon lazy loading */
+- (NSImage *)icon {
+  NSImage *icon = [super icon];
+  if (!icon) {
+    icon = [NSImage imageNamed:@"AppleScriptIcon" inBundle:AppleScriptActionBundle];
+    [super setIcon:icon];
+  }
+  return icon;
 }
 
 - (SKAlias *)scriptAlias {

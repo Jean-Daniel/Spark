@@ -12,6 +12,7 @@
 @class SparkList, SparkApplication, SESparkEntrySet;
 @interface SETriggersController : NSObject {
   IBOutlet SKTableView *table;
+  IBOutlet NSSearchField *ibSearch;
   @private
     UInt32 se_filter;
   
@@ -19,6 +20,7 @@
   SparkList *se_list; 
   /* Internal storage */
   NSMutableArray *se_entries;
+  NSMutableArray *se_snapshot;
 }
 
 - (void)loadTriggers; /* Reload data */

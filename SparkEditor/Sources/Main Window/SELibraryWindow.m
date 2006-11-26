@@ -162,10 +162,6 @@
   [listSource newList:sender];
 }
 
-- (IBAction)search:(id)sender {
-
-}
-
 - (IBAction)toggleDaemon:(id)sender {
   [[NSApp delegate] toggleServer:sender];
 }

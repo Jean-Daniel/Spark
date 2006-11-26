@@ -16,7 +16,6 @@
 #import <ShadowKit/SKExtensions.h>
 #import <ShadowKit/SKFSFunctions.h>
 #import <ShadowKit/SKLSFunctions.h>
-#import <ShadowKit/SKAppKitExtensions.h>
 
 static 
 NSImage *ITunesGetApplicationIcon() {
@@ -108,47 +107,7 @@ NSImage *ITunesGetApplicationIcon() {
   [iAction setPlaylist:([self iTunesAction] == kiTunesPlayPlaylist) ? [self playlist] : nil];
   
   /* Set Icon */
-  NSString  *iconName = nil;
-  switch ([self iTunesAction]) {
-    case kiTunesLaunch:
-      iconName = @"Launch";
-      break;
-    case kiTunesPlayPause:
-      iconName = @"Play";
-      break;
-    case kiTunesPlayPlaylist:
-      iconName = @"Play";
-      break;
-    case kiTunesBackTrack:
-      iconName = @"Back";
-      break;
-    case kiTunesNextTrack:
-      iconName = @"Next";
-      break;
-    case kiTunesStop:
-      iconName = @"Stop";
-      break;
-    case kiTunesShowTrackInfo:
-      iconName = @"TrackInfo";
-      break;
-    case kiTunesVisual:
-      iconName = @"Visual";
-      break;
-    case kiTunesVolumeDown:
-      iconName = @"VolumeDown";
-      break;
-    case kiTunesVolumeUp:
-      iconName = @"VolumeUp";
-      break;
-    case kiTunesEjectCD:
-      iconName = @"Eject";
-      break;
-    default:
-      iconName = nil;
-      break;
-  }
-  if (iconName)
-    [iAction setIcon:[NSImage imageNamed:iconName inBundle:kiTunesActionBundle]];
+  [iAction setIcon:ITunesActionIcon(iAction)];
   
   /* Set Description */
   [iAction setActionDescription:ITunesActionDescription(iAction)];

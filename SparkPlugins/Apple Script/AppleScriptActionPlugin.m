@@ -15,7 +15,6 @@
 #import <ShadowKit/SKProcessFunctions.h>
 
 #import <ShadowKit/SKClassCluster.h>
-#import <ShadowKit/SKAppKitExtensions.h>
 
 #import <OSAKit/OSAKit.h>
 
@@ -147,7 +146,7 @@ SKClassCluster(AppleScriptActionPlugin);
 
 - (void)configureAction {
   AppleScriptAction *action = [self sparkAction];
-  [action setIcon:[NSImage imageNamed:@"AppleScriptIcon" inBundle:AppleScriptActionBundle]];
+  
   switch (as_tidx) {
     case kAppleScriptSourceTab:
       [action setScriptSource:[ibScript source]];
@@ -158,6 +157,8 @@ SKClassCluster(AppleScriptActionPlugin);
       [action setFile:[self scriptFile]];
       break;
   }
+  
+  [action setIcon:nil];
   [action setActionDescription:AppleScriptActionDescription(action)];
 }
 

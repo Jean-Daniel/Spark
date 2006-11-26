@@ -43,10 +43,10 @@
 
 #pragma mark -
 - (int)type {
-  return se_type;
+  return se_teFlags.type;
 }
 - (void)setType:(int)type {
-  se_type = type;
+  se_teFlags.type = type;
 }
 
 - (SparkAction *)action {
@@ -64,10 +64,10 @@
 }
 
 - (BOOL)isEnabled {
-  return [se_action isEnabled];
+  return se_teFlags.enabled;
 }
 - (void)setEnabled:(BOOL)enabled {
-  [se_action setEnabled:enabled];
+  SKSetFlag(se_teFlags.enabled, enabled);
 }
 
 - (NSImage *)icon {

@@ -24,22 +24,28 @@
 #import <SparkKit/SparkApplication.h>
 #import <SparkKit/SparkEntryManager.h>
 
-#if 0
-static BOOL SearchHotKey(NSString *search, id object, void *context) {
-  BOOL ok;
-  if (nil == search) return YES;
-  ok = [[object name] rangeOfString:search options:NSCaseInsensitiveSearch].location != NSNotFound;
-  if (!ok) 
-    ok = [[object shortDescription] rangeOfString:search options:NSCaseInsensitiveSearch].location != NSNotFound;
-  return ok;
+SK_INLINE
+BOOL SEFilterEntry(NSString *search, SparkEntry *entry) {
+  if (!search) return YES;
+
+  if ([[entry name] rangeOfString:search options:NSCaseInsensitiveSearch].location != NSNotFound)
+    return YES;
+  
+  if ([[entry actionDescription] rangeOfString:search options:NSCaseInsensitiveSearch].location != NSNotFound)
+    return YES;
+  
+  if ([[entry categorie] rangeOfString:search options:NSCaseInsensitiveSearch].location != NSNotFound)
+    return YES;
+  
+  return NO;
 }
-#endif
 
 @implementation SETriggersController
 
 - (id)init {
   if (self = [super init]) {
     se_entries = [[NSMutableArray alloc] init];
+    se_snapshot = [[NSMutableArray alloc] init];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(listDidChange:) 
                                                  name:SparkListDidChangeNotification
@@ -61,6 +67,7 @@ static BOOL SearchHotKey(NSString *search, id object, void *context) {
 - (void)dealloc {
   [se_list release];
   [se_entries release];
+  [se_snapshot release];
   [[NSNotificationCenter defaultCenter] removeObserver:self];
   [super dealloc];
 }
@@ -74,6 +81,30 @@ static BOOL SearchHotKey(NSString *search, id object, void *context) {
   [table setAutosaveTableColumns:YES];
   
   [table setVerticalMotionCanBeginDrag:YES];
+}
+
+- (void)sortTriggers:(NSArray *)descriptors {
+  [se_entries sortUsingDescriptors:descriptors ? : gSortByNameDescriptors];
+}
+
+- (void)filterEntries:(NSString *)search {
+  [se_entries removeAllObjects];
+  if (!search || ![search length]) {
+    [se_entries addObjectsFromArray:se_snapshot];
+  } else {
+    unsigned count = [se_snapshot count];
+    while (count-- > 0) {
+      SparkEntry *entry = [se_snapshot objectAtIndex:count];
+      if (SEFilterEntry(search, entry))
+        [se_entries addObject:entry];
+    }
+  }
+  [self sortTriggers:[table sortDescriptors]];
+}
+
+- (IBAction)search:(id)sender {
+  [self filterEntries:[sender stringValue]];
+  [table reloadData];
 }
 
 - (IBAction)doubleAction:(id)sender {
@@ -104,12 +135,8 @@ static BOOL SearchHotKey(NSString *search, id object, void *context) {
   }
 }
 
-- (void)sortTriggers:(NSArray *)descriptors {
-  [se_entries sortUsingDescriptors:descriptors ? : gSortByNameDescriptors];
-}
-
 - (void)loadTriggers {
-  [se_entries removeAllObjects];
+  [se_snapshot removeAllObjects];
   if (se_list) {
     SparkTrigger *trigger;
     NSEnumerator *triggers = [se_list objectEnumerator];
@@ -118,10 +145,11 @@ static BOOL SearchHotKey(NSString *search, id object, void *context) {
     while (trigger = [triggers nextObject]) {
       SparkEntry *entry = [snapshot entryForTrigger:trigger];
       if (entry) {
-        [se_entries addObject:entry];
+        [se_snapshot addObject:entry];
       }
     }
-    [self sortTriggers:[table sortDescriptors]];
+    /* Filter entries */
+    [self filterEntries:[ibSearch stringValue]];
   }
   [table reloadData];
 }
@@ -180,7 +208,7 @@ static BOOL SearchHotKey(NSString *search, id object, void *context) {
     if ([[aTableColumn identifier] isEqualToString:@"trigger"]) {
       return [entry triggerDescription];
     } else if ([[aTableColumn identifier] isEqualToString:@"enabled"]) {
-      return SKBool([SparkSharedManager() statusForEntry:entry]);
+      return SKBool([SparkSharedManager() isEntryEnabled:entry]);
     } else {
       return [entry valueForKey:[aTableColumn identifier]];
     }
@@ -198,6 +226,7 @@ static BOOL SearchHotKey(NSString *search, id object, void *context) {
     SparkApplication *application = [[SEEntriesManager sharedManager] application];
     
     if (0 == [application uid]) {
+      /* Global key */
       [aCell setTextColor:[NSColor controlTextColor]];
       if ([SparkSharedManager() containsOverwriteEntryForTrigger:[[entry trigger] uid]]) {
         [aCell setFont:[NSFont boldSystemFontOfSize:[NSFont smallSystemFontSize]]];
@@ -222,7 +251,7 @@ static BOOL SearchHotKey(NSString *search, id object, void *context) {
         case kSparkEntryTypeWeakOverWrite:
           [aCell setTextColor:[NSColor magentaColor]];
           [aCell setFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]];
-          if (![SparkSharedManager() statusForEntry:entry] && [aCell respondsToSelector:@selector(setDrawLineOver:)]) {
+          if (![SparkSharedManager() isEntryEnabled:entry] && [aCell respondsToSelector:@selector(setDrawLineOver:)]) {
             [aCell setDrawLineOver:YES];
           }
           break;
@@ -239,9 +268,8 @@ static BOOL SearchHotKey(NSString *search, id object, void *context) {
       /* Inherits: should create an new entry */
       entry = [[SEEntriesManager sharedManager] createWeakEntryForEntry:entry];
       [se_entries replaceObjectAtIndex:rowIndex withObject:entry];
-      [SparkSharedManager() setStatus:[anObject boolValue] forEntry:entry];
     }
-    [SparkSharedManager() setStatus:[anObject boolValue] forEntry:entry];
+    [SparkSharedManager() entry:entry setEnabled:[anObject boolValue]];
     [aTableView setNeedsDisplayInRect:[aTableView rectOfRow:rowIndex]];
   } else if ([[aTableColumn identifier] isEqualToString:@"__item__"]) {
     if ([anObject length] > 0) {

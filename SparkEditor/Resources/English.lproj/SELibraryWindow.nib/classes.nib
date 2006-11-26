@@ -20,7 +20,7 @@
             SUPERCLASS = NSObject; 
         }, 
         {
-            ACTIONS = {search = id; toggleDaemon = id; }; 
+            ACTIONS = {toggleDaemon = id; }; 
             CLASS = SELibraryWindow; 
             LANGUAGE = ObjC; 
             OUTLETS = {
@@ -33,7 +33,6 @@
                 ibStatus = NSTextField; 
                 libraryTable = SKTableView; 
                 listSource = SELibrarySource; 
-                search = NSSearchField; 
                 triggers = SETriggersController; 
             }; 
             SUPERCLASS = NSWindowController; 
@@ -44,9 +43,10 @@
         {CLASS = SETriggerCell; LANGUAGE = ObjC; SUPERCLASS = SKImageAndTextCell; }, 
         {CLASS = SETriggerTable; LANGUAGE = ObjC; SUPERCLASS = SKTableView; }, 
         {
+            ACTIONS = {search = id; }; 
             CLASS = SETriggersController; 
             LANGUAGE = ObjC; 
-            OUTLETS = {table = SKTableView; }; 
+            OUTLETS = {ibSearch = NSSearchField; table = SKTableView; }; 
             SUPERCLASS = NSObject; 
         }, 
         {CLASS = SKImageAndTextCell; LANGUAGE = ObjC; SUPERCLASS = NSTextFieldCell; }, 

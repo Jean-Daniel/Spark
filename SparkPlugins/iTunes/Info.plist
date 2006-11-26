@@ -19,7 +19,9 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>3.0</string>
+	<string>${CURRENT_PROJECT_VERSION}</string>
+    <key>CFBundleShortVersionString</key>
+    <string>3.0</string>
 	<key>NSMainNibFile</key>
 	<string>iTunesPlugin</string>
 	<key>NSPrincipalClass</key>

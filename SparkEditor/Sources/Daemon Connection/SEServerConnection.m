@@ -265,7 +265,7 @@ OSType SEServerObjectType(SparkObject *anObject) {
       SparkLibraryEntry *lentry = [[aNotification object] libraryEntryForEntry:entry];
       if (lentry) {
         SparkLibraryEntry lprevious;
-        lprevious.status = [SparkSharedManager() statusForEntry:previous];
+        lprevious.flags = [[aNotification object] isEntryEnabled:previous] ? kSparkEntryEnabled : 0;
         lprevious.action = [[previous action] uid];
         lprevious.trigger = [[previous trigger] uid];
         lprevious.application = [[previous application] uid];
@@ -292,7 +292,7 @@ OSType SEServerObjectType(SparkObject *anObject) {
     if (entry) {
       SparkLibraryEntry *lentry = [[aNotification object] libraryEntryForEntry:entry];
       if (lentry) {
-        SparkRemoteMessage(setStatus:[SparkSharedManager() statusForEntry:entry] forLibraryEntry:lentry);
+        SparkRemoteMessage(libraryEntry:lentry setEnabled:[SparkSharedManager() isEntryEnabled:entry]);
       }
     }
   }

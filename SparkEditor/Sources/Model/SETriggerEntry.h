@@ -19,7 +19,11 @@ enum {
 @class SparkAction, SparkTrigger;
 @interface SETriggerEntry : NSObject <NSCopying> {
   @private
-  int se_type;
+  struct _se_teFlags {
+    unsigned int type:7;
+    unsigned int enabled:1;
+    unsigned int reserved:24;
+  } se_teFlags;
   SparkAction *se_action;
   SparkTrigger *se_trigger;
 }

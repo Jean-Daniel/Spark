@@ -221,7 +221,7 @@ NSString * const SEEntriesManagerDidCreateWeakEntryNotification = @"SEEntriesMan
   /* Now create action */
   [SparkSharedActionSet() addObject:[anEntry action]];
   [SparkSharedManager() addEntry:anEntry];
-  [SparkSharedManager() setStatus:YES forEntry:anEntry];
+  [SparkSharedManager() entry:anEntry setEnabled:YES];
   
   /* Application uid == 0 */
   if ([anEntry type] == kSparkEntryTypeDefault) {
@@ -313,8 +313,8 @@ NSString * const SEEntriesManagerDidCreateWeakEntryNotification = @"SEEntriesMan
       DLog(@"Replace Entry");
       [SparkSharedManager() replaceEntry:edited withEntry:anEntry];
     }
-    if ([SparkSharedManager() statusForEntry:edited])
-      [SparkSharedManager() setStatus:YES forEntry:anEntry];
+    if ([SparkSharedManager() isEntryEnabled:edited])
+      [SparkSharedManager() entry:anEntry setEnabled:YES];
     
     /* Update cache */
     if ([[anEntry application] uid] == 0) {

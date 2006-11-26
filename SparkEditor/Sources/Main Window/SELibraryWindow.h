@@ -15,7 +15,6 @@
 @interface SELibraryWindow : NSWindowController {
   IBOutlet NSButton *ibDaemon;
   IBOutlet NSTextField *ibStatus;
-  IBOutlet NSSearchField *search;
   IBOutlet NSSegmentedControl *ibMenu;
   IBOutlet SEApplicationView *appField;  
   
