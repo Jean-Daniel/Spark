@@ -88,7 +88,7 @@
         }
         if (prefered) {
           int idx = [sorted indexOfObject:(id)prefered];
-          if (idx >= 0) {
+          if (idx != NSNotFound) {
             idx++;
             [self selectItemAtIndex:[sorted count] - idx];
           }

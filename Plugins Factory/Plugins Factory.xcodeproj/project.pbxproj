@@ -13,7 +13,6 @@
 			buildPhases = (
 			);
 			dependencies = (
-				98C1304B08CE15BA0015CB91 /* PBXTargetDependency */,
 			);
 			name = All;
 			productName = All;
@@ -21,7 +20,6 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		98074A1007EA45EA0001A600 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 		9833252A078F437B0047E227 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 		98332532078F43CC0047E227 /* DockActionPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 98332530078F43CC0047E227 /* DockActionPlugin.h */; };
 		98332533078F43CC0047E227 /* DockActionPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 98332531078F43CC0047E227 /* DockActionPlugin.m */; };
@@ -30,7 +28,6 @@
 		9833253C078F44700047E227 /* DockAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 9833253B078F44700047E227 /* DockAction.h */; };
 		983EFC8D07905AA2002171F5 /* Dock.m in Sources */ = {isa = PBXBuildFile; fileRef = 983EFC8B07905AA2002171F5 /* Dock.m */; };
 		983EFC8F07905AB7002171F5 /* Dock.h in Headers */ = {isa = PBXBuildFile; fileRef = 983EFC8E07905AB7002171F5 /* Dock.h */; };
-		986757AC096B3EE900BB8A25 /* ShadowKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9867577E096B3E7C00BB8A25 /* ShadowKit.framework */; };
 		9884615F0623682C00E3DE04 /* Remove_shell.tif in Resources */ = {isa = PBXBuildFile; fileRef = 9884615B0623682C00E3DE04 /* Remove_shell.tif */; };
 		988461600623682C00E3DE04 /* Remove_shell_Pressed.tif in Resources */ = {isa = PBXBuildFile; fileRef = 9884615C0623682C00E3DE04 /* Remove_shell_Pressed.tif */; };
 		988461610623682C00E3DE04 /* Add_shell.tif in Resources */ = {isa = PBXBuildFile; fileRef = 9884615D0623682C00E3DE04 /* Add_shell.tif */; };
@@ -58,8 +55,6 @@
 		98EF814E08645F7A007BC81A /* SparkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF814208645F2D007BC81A /* SparkKit.framework */; };
 		98EF815108645F80007BC81A /* SparkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF814208645F2D007BC81A /* SparkKit.framework */; };
 		98EF815208645F80007BC81A /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF813B08645F24007BC81A /* HotKeyToolKit.framework */; };
-		98EF815408645F84007BC81A /* SparkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF814208645F2D007BC81A /* SparkKit.framework */; };
-		98EF815508645F84007BC81A /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF813B08645F24007BC81A /* HotKeyToolKit.framework */; };
 		98EF815808645F89007BC81A /* SparkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF814208645F2D007BC81A /* SparkKit.framework */; };
 		98EF815908645F8A007BC81A /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF813B08645F24007BC81A /* HotKeyToolKit.framework */; };
 /* End PBXBuildFile section */
@@ -93,13 +88,6 @@
 			remoteGlobalIDString = 98C56D34096B348400ABE1EF;
 			remoteInfo = ShadowKit;
 		};
-		98C1304A08CE15BA0015CB91 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 98074A0007EA45EA0001A600;
-			remoteInfo = Grayscale;
-		};
 		98EF813A08645F24007BC81A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 98EF813208645F24007BC81A /* HotKeyToolKit.xcodeproj */;
@@ -120,7 +108,6 @@
 		089C1672FE841209C02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		98074A1307EA45EA0001A600 /* GrayscaleAction.spact */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GrayscaleAction.spact; sourceTree = BUILT_PRODUCTS_DIR; };
 		981B605709386C450024C0D9 /* ShadowCommon.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowCommon.xcconfig; sourceTree = "<group>"; };
 		981B605809386C450024C0D9 /* ShadowDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowDebug.xcconfig; sourceTree = "<group>"; };
 		981B605909386C450024C0D9 /* ShadowRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowRelease.xcconfig; sourceTree = "<group>"; };
@@ -179,17 +166,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		98074A0F07EA45EA0001A600 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				98074A1007EA45EA0001A600 /* Cocoa.framework in Frameworks */,
-				98EF815408645F84007BC81A /* SparkKit.framework in Frameworks */,
-				98EF815508645F84007BC81A /* HotKeyToolKit.framework in Frameworks */,
-				986757AC096B3EE900BB8A25 /* ShadowKit.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		98332529078F437B0047E227 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -288,7 +264,6 @@
 				9833252D078F437B0047E227 /* DockAction.spact */,
 				98975ACB061E22AF00BC40ED /* ShellHotKey.spact */,
 				98E1CB4B0607743500FA3599 /* ArchivesHotKey.spact */,
-				98074A1307EA45EA0001A600 /* GrayscaleAction.spact */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -464,13 +439,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		98074A0107EA45EA0001A600 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		98332518078F437B0047E227 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -502,25 +470,6 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		98074A0007EA45EA0001A600 /* Grayscale */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 98EF812708645F04007BC81A /* Build configuration list for PBXNativeTarget "Grayscale" */;
-			buildPhases = (
-				98074A0107EA45EA0001A600 /* Headers */,
-				98074A0C07EA45EA0001A600 /* Sources */,
-				98074A0407EA45EA0001A600 /* Resources */,
-				98074A0F07EA45EA0001A600 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = Grayscale;
-			productInstallPath = "$(HOME)/Library/Bundles";
-			productName = "Spark Plugins";
-			productReference = 98074A1307EA45EA0001A600 /* GrayscaleAction.spact */;
-			productType = "com.apple.product-type.bundle";
-		};
 		98332517078F437B0047E227 /* Dock */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 98EF810F08645F04007BC81A /* Build configuration list for PBXNativeTarget "Dock" */;
@@ -601,7 +550,6 @@
 				98FC452006063BAD003617CA /* All */,
 				98332517078F437B0047E227 /* Dock */,
 				98E1CB310607743500FA3599 /* Archives */,
-				98074A0007EA45EA0001A600 /* Grayscale */,
 				98975AB3061E22AF00BC40ED /* ShellScript */,
 			);
 		};
@@ -653,13 +601,6 @@
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
-		98074A0407EA45EA0001A600 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		9833251B078F437B0047E227 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -698,13 +639,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		98074A0C07EA45EA0001A600 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		98332526078F437B0047E227 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -734,14 +668,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		98C1304B08CE15BA0015CB91 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 98074A0007EA45EA0001A600 /* Grayscale */;
-			targetProxy = 98C1304A08CE15BA0015CB91 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		98332535078F443A0047E227 /* InfoPlist.strings */ = {
@@ -811,14 +737,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		98B4E1170939D65F009F2007 /* Profiling */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = Grayscale/Info.plist;
-				PRODUCT_NAME = GrayscaleAction;
-			};
-			name = Profiling;
-		};
 		98B4E1190939D65F009F2007 /* Profiling */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -929,14 +847,6 @@
 					"-Wno-unknown-pragmas",
 				);
 				ZERO_LINK = NO;
-			};
-			name = "Universal Binary";
-		};
-		98C12CF808CE144E0015CB91 /* Universal Binary */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = Grayscale/Info.plist;
-				PRODUCT_NAME = GrayscaleAction;
 			};
 			name = "Universal Binary";
 		};
@@ -1053,22 +963,6 @@
 			};
 			name = Deployment;
 		};
-		98EF812808645F04007BC81A /* Development */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = Grayscale/Info.plist;
-				PRODUCT_NAME = GrayscaleAction;
-			};
-			name = Development;
-		};
-		98EF812908645F04007BC81A /* Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = Grayscale/Info.plist;
-				PRODUCT_NAME = GrayscaleAction;
-			};
-			name = Deployment;
-		};
 		98EF812C08645F04007BC81A /* Development */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 981B605809386C450024C0D9 /* ShadowDebug.xcconfig */;
@@ -1132,17 +1026,6 @@
 				98B4E1190939D65F009F2007 /* Profiling */,
 				98EF812508645F04007BC81A /* Deployment */,
 				98C12CF708CE144E0015CB91 /* Universal Binary */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
-		};
-		98EF812708645F04007BC81A /* Build configuration list for PBXNativeTarget "Grayscale" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				98EF812808645F04007BC81A /* Development */,
-				98B4E1170939D65F009F2007 /* Profiling */,
-				98EF812908645F04007BC81A /* Deployment */,
-				98C12CF808CE144E0015CB91 /* Universal Binary */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;

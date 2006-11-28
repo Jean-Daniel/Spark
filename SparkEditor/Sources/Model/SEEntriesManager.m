@@ -208,11 +208,19 @@ NSString * const SEEntriesManagerDidCreateWeakEntryNotification = @"SEEntriesMan
         [SparkSharedManager() removeEntry:previous];
       } else {
         /* Already used by a real entry */
-        NSRunAlertPanel(@"This action could not be created because an other action already use the same shortcut.",
-                        @"Change the shortcut for your new action.",
-                        @"OK", nil, nil);
-        DLog(@"Already contains an entry for this application and trigger");
-        return NO;
+        int result = NSRunAlertPanel([NSString stringWithFormat:@"The '%@' action already use the same shortcut.", [previous name]],
+                                     @"Do you want to replace the action '%@' by you new action?",
+                                     @"Replace", @"Cancel", nil, [previous name]);
+        if (NSOKButton == result) {
+          [SparkSharedManager() removeEntry:previous];
+          /* Removing previous can invalidate trigger */
+          if (![SparkSharedTriggerSet() containsObjectWithUID:[trigger uid]]) {
+//            [trigger setUID:0];
+            [SparkSharedTriggerSet() addObject:trigger];
+          }
+        } else {
+          return NO;
+        }
       }
     } 
   } else { /* Trigger does not already exists */

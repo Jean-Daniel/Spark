@@ -550,13 +550,13 @@ NSImage *ITunesActionIcon(ITunesAction *action) {
       icon = @"Launch";
       break;
     case kiTunesQuit:
-      icon = @"Quit";
+      icon = @"Launch";
       break;   
     case kiTunesPlayPause:
       icon = @"Play";
       break;
     case kiTunesPlayPlaylist:
-      icon = @"Play";
+      icon = @"playlist";
       break;
     case kiTunesBackTrack:
       icon = @"Back";
@@ -568,10 +568,10 @@ NSImage *ITunesActionIcon(ITunesAction *action) {
       icon = @"Stop";
       break;
     case kiTunesShowTrackInfo:
-      icon = @"TrackInfo";
+      icon = @"info";
       break;
     case kiTunesRateTrack:
-      icon = @"RateTrack";
+      icon = @"rating";
       break;
     case kiTunesVisual:
       icon = @"Visual";

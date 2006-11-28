@@ -199,13 +199,6 @@
 			remoteGlobalIDString = 98E1CB4B0607743500FA3599;
 			remoteInfo = Archives;
 		};
-		6540B70509E6431600D0E8FB /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 98C7035C07BAAED700F7AD87 /* Plugins Factory.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 98074A1307EA45EA0001A600;
-			remoteInfo = Grayscale;
-		};
 		6540B70909E6431600D0E8FB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 98C7035C07BAAED700F7AD87 /* Plugins Factory.xcodeproj */;
@@ -593,7 +586,6 @@
 			children = (
 				6540B70009E6431600D0E8FB /* DockAction.spact */,
 				6540B70409E6431600D0E8FB /* ArchivesHotKey.spact */,
-				6540B70609E6431600D0E8FB /* GrayscaleAction.spact */,
 				6540B70A09E6431600D0E8FB /* ShellHotKey.spact */,
 			);
 			name = Products;
@@ -1122,13 +1114,6 @@
 			fileType = wrapper.cfbundle;
 			path = ArchivesHotKey.spact;
 			remoteRef = 6540B70309E6431600D0E8FB /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		6540B70609E6431600D0E8FB /* GrayscaleAction.spact */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = GrayscaleAction.spact;
-			remoteRef = 6540B70509E6431600D0E8FB /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		6540B70A09E6431600D0E8FB /* ShellHotKey.spact */ = {
