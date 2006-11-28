@@ -8,6 +8,8 @@
 
 #import "ITunesVisualSetting.h"
 
+#import "ITunesAction.h"
+
 @interface ITunesVisualSetting (ITunesPrivate)
 - (void)updateLocation:(int)idx;
 @end
@@ -38,7 +40,8 @@
   [[ia_info window] close];
   [[ia_info window] setIgnoresMouseEvents:YES];
   
-  [ibShow setTitle:@"Show"];
+  [ibShow setTitle:NSLocalizedStringFromTableInBundle(@"Show", nil, kiTunesActionBundle,
+                                                      @"Hide/Show button * Visual settings *")];
   [ibShow setState:NSOffState];
   [ibShow setAction:@selector(show:)];
 }
@@ -47,7 +50,8 @@
   [[ia_info window] setIgnoresMouseEvents:NO];
   [ia_info showWindow:sender];
 
-  [ibShow setTitle:@"Hide"];
+  [ibShow setTitle:NSLocalizedStringFromTableInBundle(@"Hide", nil, kiTunesActionBundle,
+                                                      @"Hide/Show button * Visual settings *")];
   [ibShow setState:NSOnState];
   [ibShow setAction:@selector(hide:)];
 }

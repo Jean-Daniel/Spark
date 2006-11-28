@@ -20,16 +20,16 @@ const NSPoint kiTunesBottomLeft = { -3e8, 0 };
 const NSPoint kiTunesBottomRight = { -4e8, 0 };
 
 const ITunesVisual kiTunesDefaultSettings = {
-  YES, 1.f, kiTunesVisualDefaultPosition,
+  YES, 1.5f, kiTunesVisualDefaultPosition,
   { 0, 0, 0, 1 },
   /* Gray */
-  {.188, .192f, .200f, 1 },
-  {.957f, .961f, .973f, 1 },
-  {.682f, .703f, .733f, 1 },
+//  {.188, .192f, .200f, 1 },
+//  {.957f, .961f, .973f, 1 },
+//  {.682f, .703f, .733f, 1 },
   /* Blue */
-//  {.314f, .439f, .682f, 1 },
-//  {.961f, .969f, .988f, 1 },
-//  {.620f, .710f, .886f, 1 },
+  {.055f, .282f, .341f, 1 },
+  {.961f, .969f, .988f, 1 },
+  {.620f, .710f, .886f, 1 },
 };
 
 enum {
@@ -41,7 +41,7 @@ enum {
 };
 
 SK_INLINE
-int _iTunesGetTypeForLocation(NSPoint point) {
+int __iTunesGetTypeForLocation(NSPoint point) {
   if (SKFloatEquals(point.x, kiTunesUpperLeft.x))
     return kiTunesVisualUL;
   if (SKFloatEquals(point.x, kiTunesUpperRight.x))
@@ -54,7 +54,7 @@ int _iTunesGetTypeForLocation(NSPoint point) {
   return kiTunesVisualOther;
 }
 SK_INLINE
-NSPoint _iTunesGetLocationForType(int type) {
+NSPoint __iTunesGetLocationForType(int type) {
   switch (type) {
     case kiTunesVisualUL:
       return kiTunesUpperLeft;
@@ -139,7 +139,7 @@ NSPoint _iTunesGetLocationForType(int type) {
   /* Get delay */
   visual->delay = [self delay];
   /* Get location */
-  if (ia_loc != kiTunesVisualOther) visual->location = _iTunesGetLocationForType(ia_loc);
+  if (ia_loc != kiTunesVisualOther) visual->location = __iTunesGetLocationForType(ia_loc);
   else visual->location = [[self window] frame].origin;
   /* Get shadow */
   visual->shadow = [[self window] hasShadow];
@@ -168,7 +168,7 @@ NSPoint _iTunesGetLocationForType(int type) {
   NSPoint origin = aPoint;
   NSRect bounds = [[self window] frame];
   NSRect screen = [[NSScreen mainScreen] frame];
-  ia_loc = _iTunesGetTypeForLocation(aPoint);
+  ia_loc = __iTunesGetTypeForLocation(aPoint);
   switch (ia_loc) {
     case kiTunesVisualUL:
       origin.x = SCREEN_MARGIN;
@@ -268,7 +268,7 @@ NSPoint _iTunesGetLocationForType(int type) {
     CFRelease(value);
     value = NULL;
   } else {
-    [ibName setStringValue:@"<untiled>"];
+    [ibName setStringValue:NSLocalizedStringFromTableInBundle(@"<untiled>", nil, kiTunesActionBundle, @"Untitled track info")];
   }
   
   /* Album */

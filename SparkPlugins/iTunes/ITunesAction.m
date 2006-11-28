@@ -296,11 +296,11 @@ bail:
         [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"INVALID_ACTION",
                                                                       nil,
                                                                       kiTunesActionBundle,
-                                                                      @"Error: Action unknown ** Title ** (param: name)"), [self name]]
+                                                                      @"Error: Action unknown * Title * (%@ => name)"), [self name]]
                     informativeTextWithFormat:NSLocalizedStringFromTableInBundle(@"INVALID_ACTION_MSG",
                                                                                  nil,
                                                                                  kiTunesActionBundle,
-                                                                                 @"Error: Action unknown ** Msg **"), [self name]];
+                                                                                 @"Error: Action unknown * Msg * (%@ => name)"), [self name]];
   }
 }
 
@@ -535,8 +535,15 @@ bail:
 - (SparkAlert *)playPlaylist:(NSString *)name {
   OSStatus err = iTunesPlayPlaylistWithName((CFStringRef)name);
   if (err == errAENoSuchObject) {
-    return [SparkAlert alertWithMessageText:@"Impossible de jouer la Playlist demandee."
-                  informativeTextWithFormat:@"La Playlist %@ est introuvable.", name];
+    return [SparkAlert alertWithMessageText:
+      [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"PLAYLIST_NOT_FOUND",
+                                                                    nil,
+                                                                    kiTunesActionBundle,
+                                                                    @"Error: no such object playlist * Title * (%@ => name)"), name]
+                  informativeTextWithFormat:NSLocalizedStringFromTableInBundle(@"PLAYLIST_NOT_FOUND_MSG",
+                                                                               nil,
+                                                                               kiTunesActionBundle,
+                                                                               @"Error: no such playlist * Msg * (%@ => name)"), name];
   }
   return nil;
 }
