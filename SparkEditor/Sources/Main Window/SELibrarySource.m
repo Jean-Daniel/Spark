@@ -95,13 +95,15 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
   unsigned idx = [plugins count];
   while (idx-- > 0) {
     SparkPlugIn *plugin = [plugins objectAtIndex:idx];
-    SparkList *list = [[SparkList alloc] initWithName:[plugin name] icon:[plugin icon]];
-    [list setObjectSet:SparkSharedTriggerSet()];
-    [list setUID:uid++]; // UID MUST BE set before insertion, since -hash use it.
-    NSMapInsert(se_plugins, list, plugin);
-    [list setListFilter:SEPluginListFilter context:[plugin actionClass]];
-    [se_content addObject:list];
-    [list release];
+    if ([plugin isEnabled]) {
+      SparkList *list = [[SparkList alloc] initWithName:[plugin name] icon:[plugin icon]];
+      [list setObjectSet:SparkSharedTriggerSet()];
+      [list setUID:uid++]; // UID MUST BE set before insertion, since -hash use it.
+      NSMapInsert(se_plugins, list, plugin);
+      [list setListFilter:SEPluginListFilter context:[plugin actionClass]];
+      [se_content addObject:list];
+      [list release];
+    }
   }
 }
 

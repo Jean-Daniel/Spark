@@ -37,7 +37,6 @@ int main(int argc, const char *argv[]) {
   NSApplicationLoad();
   SparkDaemon *server;
   if (server = [[SparkDaemon alloc] init]) {
-    SDSendStateToEditor(kSparkDaemonStarted);
     /* Cleanup pool */
     [pool release];
     pool = [[NSAutoreleasePool alloc] init];
@@ -92,7 +91,10 @@ OSErr SparkDaemonAEQuitHandler(const AppleEvent *theAppleEvent, AppleEvent *repl
                              kAEQuitApplication,
                              NewAEEventHandlerUPP(SparkDaemonAEQuitHandler),
                              0, FALSE);
-         
+      
+      /* Send signal to editor */
+      SDSendStateToEditor(kSparkDaemonStarted);
+      
       int delay = 0;
       /* SparkDaemonDelay */
       ProcessSerialNumber psn = {kNoProcess, kCurrentProcess};

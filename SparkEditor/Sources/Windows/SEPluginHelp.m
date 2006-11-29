@@ -7,7 +7,8 @@
  */
 
 #import "SEPluginHelp.h"
-#import "SESparkEntrySet.h"
+
+#import "Spark.h"
 #import "SEPluginInstaller.h"
 
 #import <WebKit/WebKit.h>
@@ -55,13 +56,15 @@
   
   SparkPlugIn *plugin;
   while (plugin = [plugins nextObject]) {
-    NSURL *help = [plugin helpURL];
-    if (help) {
-      NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:[plugin name] action:nil keyEquivalent:@""];
-      [item setImage:[plugin icon]];
-      [item setRepresentedObject:[help absoluteString]];
-      [aMenu addItem:item];
-      [item release];
+    if ([plugin isEnabled]) {
+      NSURL *help = [plugin helpURL];
+      if (help) {
+        NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:[plugin name] action:nil keyEquivalent:@""];
+        [item setImage:[plugin icon]];
+        [item setRepresentedObject:[help absoluteString]];
+        [aMenu addItem:item];
+        [item release];
+      }
     }
   }
   

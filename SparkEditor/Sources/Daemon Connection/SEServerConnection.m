@@ -292,7 +292,10 @@ OSType SEServerObjectType(SparkObject *anObject) {
     if (entry) {
       SparkLibraryEntry *lentry = [[aNotification object] libraryEntryForEntry:entry];
       if (lentry) {
-        SparkRemoteMessage(libraryEntry:lentry setEnabled:[entry isEnabled]);
+        if ([entry isEnabled])
+          SparkRemoteMessage(enableLibraryEntry:lentry);
+        else
+          SparkRemoteMessage(disableLibraryEntry:lentry);
       }
     }
   }

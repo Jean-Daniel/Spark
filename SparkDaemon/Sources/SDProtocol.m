@@ -124,16 +124,27 @@ SparkObjectSet *SDObjectSetForType(OSType type) {
   }
 }
 
-- (void)libraryEntry:(SparkLibraryEntry *)anEntry setEnabled:(BOOL)status {
+- (void)enableLibraryEntry:(SparkLibraryEntry *)anEntry {
   ShadowTrace();
   SparkEntryManager *manager = SparkSharedManager();
-  [manager libraryEntry:anEntry setEnabled:status];
+  [manager enableLibraryEntry:anEntry];
   /* Should check trigger */
   if ([self isEnabled]) {
     SparkTrigger *trigger = [SparkSharedTriggerSet() objectForUID:anEntry->trigger];
-    if (status && ![trigger isRegistred] && [manager containsActiveEntryForTrigger:anEntry->trigger]) {
+    if (![trigger isRegistred] && [manager containsActiveEntryForTrigger:anEntry->trigger]) {
       [trigger setRegistred:YES];
-    } else if (!status && [trigger isRegistred] && ![manager containsActiveEntryForTrigger:anEntry->trigger]) {
+    }
+  }
+}
+
+- (void)disableLibraryEntry:(SparkLibraryEntry *)anEntry {
+  ShadowTrace();
+  SparkEntryManager *manager = SparkSharedManager();
+  [manager disableLibraryEntry:anEntry];
+  /* Should check trigger */
+  if ([self isEnabled]) {
+    SparkTrigger *trigger = [SparkSharedTriggerSet() objectForUID:anEntry->trigger];
+    if ([trigger isRegistred] && ![manager containsActiveEntryForTrigger:anEntry->trigger]) {
       [trigger setRegistred:NO];
     }
   }

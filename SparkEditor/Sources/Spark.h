@@ -9,6 +9,9 @@
 //#import "SparkExporter.h"
 #import <SparkKit/SparkAppleScriptSuite.h>
 
+SK_PRIVATE
+NSArray *gSortByNameDescriptors;
+
 @class SparkLibrary;
 @class SELibraryWindow;
 @class SEPreferencesWindow;
@@ -30,7 +33,7 @@
   @private
     /* Global windows */
     SELibraryWindow *se_mainWindow;
-  SEPreferencesWindow *se_preferences;
+  //SEPreferencesWindow *se_preferences;
 }
 
 #pragma mark Menu IBActions

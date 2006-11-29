@@ -10,7 +10,9 @@
 
 @interface SEPreferences : SKWindowController {
   @private
-  NSMutableDictionary *se_plugins;
+  IBOutlet NSOutlineView *ibPlugins;
+  
+  NSMutableArray *se_plugins;
 }
 
 @end

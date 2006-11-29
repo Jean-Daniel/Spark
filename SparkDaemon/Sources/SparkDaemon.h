@@ -38,6 +38,7 @@
 - (void)removeLibraryEntry:(SparkLibraryEntry *)anEntry;
 - (void)replaceLibraryEntry:(SparkLibraryEntry *)anEntry withLibraryEntry:(SparkLibraryEntry *)newEntry;
 
-- (void)libraryEntry:(SparkLibraryEntry *)anEntry setEnabled:(BOOL)enabled;
+- (void)enableLibraryEntry:(SparkLibraryEntry *)anEntry;
+- (void)disableLibraryEntry:(SparkLibraryEntry *)anEntry;
 
 @end

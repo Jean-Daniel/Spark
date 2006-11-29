@@ -6,9 +6,6 @@
  *  Copyright (c) 2004 - 2006 Shadow Lab. All rights reserved.
  */
 
-SK_PRIVATE
-NSArray *gSortByNameDescriptors;
-
 enum {
   kSEEntryTypeGlobal = 0,
   kSEEntryTypeOverwrite,

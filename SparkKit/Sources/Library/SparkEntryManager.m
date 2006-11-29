@@ -627,6 +627,8 @@ typedef struct {
 }
 
 - (void)postProcess {
+  SKTimeUnit start = SKTimeGetCurrent();
+  
   CFIndex idx = CFArrayGetCount(sp_entries) -1;
   /* Resolve Ignore Actions */
   while (idx >= 0) {
@@ -668,6 +670,8 @@ typedef struct {
     }
     idx--;
   }
+  
+  NSLog(@"Post Processing: %qu us", SKTimeDeltaMicro(start, SKTimeGetCurrent()));
 }
 
 @end

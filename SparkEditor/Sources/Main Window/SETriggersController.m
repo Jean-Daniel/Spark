@@ -12,6 +12,7 @@
 #import "SESparkEntrySet.h"
 #import "SETriggerCell.h"
 #import "SEEntryEditor.h"
+#import "Spark.h"
 
 #import <ShadowKit/SKTableView.h>
 
@@ -249,7 +250,7 @@ BOOL SEFilterEntry(NSString *search, SparkEntry *entry) {
         case kSparkEntryTypeWeakOverWrite:
           [aCell setTextColor:[NSColor magentaColor]];
           [aCell setFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]];
-          if (![SparkSharedManager() isEntryEnabled:entry] && [aCell respondsToSelector:@selector(setDrawLineOver:)]) {
+          if (![entry isEnabled] && [aCell respondsToSelector:@selector(setDrawLineOver:)]) {
             [aCell setDrawLineOver:YES];
           }
           break;
@@ -275,7 +276,11 @@ BOOL SEFilterEntry(NSString *search, SparkEntry *entry) {
       entry = [[SEEntriesManager sharedManager] createWeakEntryForEntry:entry];
       [se_entries replaceObjectAtIndex:rowIndex withObject:entry];
     }
-    [SparkSharedManager() entry:entry setEnabled:[anObject boolValue]];
+    if ([anObject boolValue])
+      [SparkSharedManager() enableEntry:entry];
+    else
+      [SparkSharedManager() disableEntry:entry];
+    
     [aTableView setNeedsDisplayInRect:[aTableView rectOfRow:rowIndex]];
   } else if ([[aTableColumn identifier] isEqualToString:@"__item__"]) {
     if ([anObject length] > 0) {

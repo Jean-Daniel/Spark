@@ -9,6 +9,7 @@
 #import "SEEntryEditor.h"
 #import "SESparkEntrySet.h"
 
+#import "Spark.h"
 #import "SETableView.h"
 #import "SEPluginHelp.h"
 #import "SEHeaderCell.h"

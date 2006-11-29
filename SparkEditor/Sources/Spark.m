@@ -38,8 +38,6 @@ int main(int argc, const char *argv[]) {
   return NSApplicationMain(argc, argv);
 }
 
-SK_PRIVATE
-NSArray *gSortByNameDescriptors;
 NSArray *gSortByNameDescriptors = nil;
 
 @implementation SparkEditor 
@@ -160,7 +158,7 @@ NSArray *gSortByNameDescriptors = nil;
 - (void)dealloc {
   [[NSNotificationCenter defaultCenter] removeObserver:self];
   [se_mainWindow release];
-  [se_preferences release];
+  //[se_preferences release];
   [super dealloc];
 }
 
@@ -241,10 +239,12 @@ NSArray *gSortByNameDescriptors = nil;
 }
 
 - (IBAction)showPreferences:(id)sender {
-  if (!se_preferences) {
-    se_preferences = [[SEPreferences alloc] init];
-  }
-  [NSApp beginSheet:[se_preferences window]
+//  if (!se_preferences) {
+//    se_preferences = [[SEPreferences alloc] init];
+//  }
+  SEPreferences *preferences = [[SEPreferences alloc] init];
+  [preferences setReleasedWhenClosed:YES];
+  [NSApp beginSheet:[preferences window]
      modalForWindow:[self mainWindow]
       modalDelegate: nil
      didEndSelector: nil

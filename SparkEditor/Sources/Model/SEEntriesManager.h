@@ -19,7 +19,7 @@
   SESparkEntrySet *se_snapshot;
   SESparkEntrySet *se_overwrites;
 }
-
+/* Flush cache and reload */
 - (void)reload;
 
 /* All globals entries */
