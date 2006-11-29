@@ -17,9 +17,11 @@ typedef enum {
   kApplicationLaunch	= 'Open', /* 1332766062 */
   kApplicationQuit		= 'Quit', /* 1366649204 */
   kApplicationToggle	= 'Togl', /* 1416587116 */
-  kApplicationForceQuit	= 'FQit', /* 1179740532 */
   kApplicationHideOther	= 'HidO', /* 1214866511 */
   kApplicationHideFront	= 'HidF', /* 1214866502 */
+  
+  kApplicationForceQuitFront	= 'FQiF', /* 1179740486 */
+  kApplicationForceQuitDialog	= 'FQit', /* 1179740532 */
 } ApplicationActionType;
 
 typedef struct _ApplicationVisualSetting {
@@ -72,7 +74,9 @@ typedef struct _ApplicationVisualSetting {
 - (void)launchApplication;
 - (void)quitApplication;
 - (void)toggleApplicationState;
-- (void)killApplication;
+
+- (void)forceQuitFront;
+- (void)forceQuitDialog;
 
 - (void)hideFront;
 - (void)hideOthers;

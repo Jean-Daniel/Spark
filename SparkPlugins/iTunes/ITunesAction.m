@@ -79,11 +79,17 @@ static ITunesVisual defaultVisual = {delay: -1};
   BOOL change = NO;
   NSData *data = nil;
   if (visual) {
-    if (memcmp(visual, &defaultVisual, sizeof(*visual))) {
-      memcpy(&defaultVisual, visual, sizeof(defaultVisual));
-      data = ITunesVisualPack(&defaultVisual);
-      if (data && kSparkEditorContext == SparkGetCurrentContext()) {
-        CFPreferencesSetAppValue(CFSTR("iTunesSharedVisual"), (CFDataRef)data, (CFStringRef)kSparkBundleIdentifier);
+    /* If visual as changed */
+    if (!ITunesVisualIsEqualTo(visual, &defaultVisual)) {
+      /* If settings equals defaults settings */
+      if (ITunesVisualIsEqualTo(visual, &kiTunesDefaultSettings)) {
+        CFPreferencesSetAppValue(CFSTR("iTunesSharedVisual"), NULL, (CFStringRef)kSparkBundleIdentifier);
+      } else {
+        memcpy(&defaultVisual, visual, sizeof(defaultVisual));
+        data = ITunesVisualPack(&defaultVisual);
+        if (data && kSparkEditorContext == SparkGetCurrentContext()) {
+          CFPreferencesSetAppValue(CFSTR("iTunesSharedVisual"), (CFDataRef)data, (CFStringRef)kSparkBundleIdentifier);
+        }
       }
       change = YES;
     }
@@ -93,7 +99,7 @@ static ITunesVisual defaultVisual = {delay: -1};
       CFPreferencesSetAppValue(CFSTR("iTunesSharedVisual"), NULL, (CFStringRef)kSparkBundleIdentifier);
     }
     /* Reset to default */
-    if (memcmp(&kiTunesDefaultSettings, &defaultVisual, sizeof(*visual))) {
+    if (!ITunesVisualIsEqualTo(&kiTunesDefaultSettings, &defaultVisual)) {
       memcpy(&defaultVisual, &kiTunesDefaultSettings, sizeof(defaultVisual));
       change = YES;
     }

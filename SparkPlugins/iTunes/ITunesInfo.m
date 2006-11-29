@@ -27,7 +27,7 @@ const ITunesVisual kiTunesDefaultSettings = {
 //  {.957f, .961f, .973f, 1 },
 //  {.682f, .703f, .733f, 1 },
   /* Blue */
-  {.055f, .282f, .341f, 1 },
+  {.149f, .271f, .478f, 1 },
   {.961f, .969f, .988f, 1 },
   {.620f, .710f, .886f, 1 },
 };
@@ -66,6 +66,29 @@ NSPoint __iTunesGetLocationForType(int type) {
       return kiTunesBottomRight;
   }
   return NSZeroPoint;
+}
+
+SK_INLINE
+BOOL __FloatEquals(float a, float b) { double __delta = a - b; return (__delta < 1e-5 && __delta > -1e-5); }
+
+SK_INLINE
+BOOL __ITunesVisualCompareColors(const float c1[4], const float c2[4]) {
+  for (int idx = 0; idx < 4; idx++)
+    if (!__FloatEquals(c1[idx], c2[idx])) return NO;
+  return YES;
+}
+
+BOOL ITunesVisualIsEqualTo(const ITunesVisual *v1, const ITunesVisual *v2) {
+  if (v1->shadow != v2->shadow) return NO;
+  if (!__FloatEquals(v1->delay, v2->delay)) return NO;
+  if (!__FloatEquals(v1->location.x, v2->location.x) || !__FloatEquals(v1->location.y, v2->location.y)) return NO;
+  
+  if (!__ITunesVisualCompareColors(v1->text, v2->text)) return NO;
+  if (!__ITunesVisualCompareColors(v1->border, v2->border)) return NO;
+  if (!__ITunesVisualCompareColors(v1->backtop, v2->backtop)) return NO;
+  if (!__ITunesVisualCompareColors(v1->backbot, v2->backbot)) return NO;
+  
+  return YES;
 }
 
 @interface ITunesInfoView : NSView {

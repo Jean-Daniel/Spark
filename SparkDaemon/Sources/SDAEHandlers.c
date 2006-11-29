@@ -29,7 +29,7 @@ OSStatus SDGetEditorIsTrapping(Boolean *trapping) {
   require_noerr(err, bail);
   
   /* If Spark Editor is the front process, send apple event */
-  if (kSparkHFSCreatorType == info.processSignature) {
+  if (kSparkEditorHFSCreatorType == info.processSignature) {
     AEDesc reply = SKAEEmptyDesc();
     AEDesc theEvent = SKAEEmptyDesc();
     
@@ -61,7 +61,7 @@ bail:
 
 OSStatus SDSendStateToEditor(SparkDaemonStatus state) {
   OSStatus err = noErr;
-  ProcessSerialNumber psn = SKProcessGetProcessWithSignature(kSparkHFSCreatorType);
+  ProcessSerialNumber psn = SKProcessGetProcessWithSignature(kSparkEditorHFSCreatorType);
   if (psn.lowLongOfPSN != kNoProcess) {
     AEDesc theEvent = SKAEEmptyDesc();
 

@@ -20,6 +20,9 @@ typedef struct _ITunesVisual {
   float backbot[4];
 } ITunesVisual;
 
+SK_PRIVATE
+BOOL ITunesVisualIsEqualTo(const ITunesVisual *v1, const ITunesVisual *v2);
+
 enum {
   kiTunesSettingDefault = 0,
   kiTunesSettingCustom = 1,

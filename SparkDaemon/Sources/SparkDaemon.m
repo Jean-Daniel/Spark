@@ -104,7 +104,7 @@ OSErr SparkDaemonAEQuitHandler(const AppleEvent *theAppleEvent, AppleEvent *repl
           
           /* If launch by something that is not Spark Editor */
           OSType sign = SKProcessGetSignature(&psn);
-          if (sign != kSparkHFSCreatorType) {
+          if (sign != kSparkEditorHFSCreatorType) {
             CFNumberRef value = CFPreferencesCopyAppValue(CFSTR("SparkDaemonDelay"), (CFStringRef)kSparkBundleIdentifier);
             if (value) {
               CFNumberGetValue(value, kCFNumberIntType, &delay);
@@ -281,12 +281,12 @@ OSErr SparkDaemonAEQuitHandler(const AppleEvent *theAppleEvent, AppleEvent *repl
       SparkApplication *front = [self frontApplication];
       if (front) {
         /* Get action for front application */
-        action = [SparkSharedManager() actionForTrigger:[trigger uid] application:[front uid] enabled:&status];
+        action = [SparkSharedManager() actionForTrigger:[trigger uid] application:[front uid] isActive:&status];
       }
     }
     /* No action found, use default */
     if (!action) {
-      action = [SparkSharedManager() actionForTrigger:[trigger uid] application:0 enabled:&status];
+      action = [SparkSharedManager() actionForTrigger:[trigger uid] application:0 isActive:&status];
     }
     [trigger willTriggerAction:status ? action : nil];
     /* Action exists and is enabled */

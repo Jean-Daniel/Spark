@@ -209,10 +209,14 @@
       break;
     case kDocumentActionOpenSelection:
     case kDocumentActionOpenSelectionWith:
-      [[ibName cell] setPlaceholderString:@"Open selection"];
+      [[ibName cell] setPlaceholderString:NSLocalizedStringFromTableInBundle(@"OPEN_SELECTION_PLACEHOLDER", nil, 
+                                                                             kDocumentActionBundle,
+                                                                             @"Open Selection * Placeholder *")];
       break;
     case kDocumentActionOpenURL:
-      [[ibName cell] setPlaceholderString:@"Open URL"];
+      [[ibName cell] setPlaceholderString:NSLocalizedStringFromTableInBundle(@"OPEN_URL_PLACEHOLDER", nil, 
+                                                                             kDocumentActionBundle,
+                                                                             @"Open URL * Placeholder *")];
       break;
     default:
       [[ibName cell] setPlaceholderString:@""];

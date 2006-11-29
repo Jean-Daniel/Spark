@@ -220,7 +220,7 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
     case 4:
       return kApplicationToggle;
     case 3:
-      return kApplicationForceQuit;
+      return kApplicationForceQuitDialog;
     case 5:
       return kApplicationHideOther;
     case 6:
@@ -325,10 +325,12 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
     case kApplicationLaunch:
     case kApplicationQuit:
     case kApplicationToggle:
-    case kApplicationForceQuit:
-      
+      /* Hide */
     case kApplicationHideOther:
     case kApplicationHideFront:
+      /* Kill */
+    case kApplicationForceQuitFront:
+    case kApplicationForceQuitDialog:
       break;
       
     default:
@@ -343,7 +345,6 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
     case kApplicationLaunch:
     case kApplicationQuit:
     case kApplicationToggle:
-    case kApplicationForceQuit:
       if (![self path]) {
         NSString *title = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"INVALID_APPLICATION_ALERT", nil, kApplicationActionBundle,
                                                                                         @"Check * App Not Found *") , [self name]];
@@ -369,15 +370,19 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
       case kApplicationToggle:
         [self toggleApplicationState];
         break;
-      case kApplicationForceQuit:
-        [self killApplication];
-        break;
         
       case kApplicationHideFront:
         [self hideFront];
         break;
       case kApplicationHideOther:
         [self hideOthers];
+        break;
+        
+      case kApplicationForceQuitFront:
+        [self forceQuitFront];
+        break;
+      case kApplicationForceQuitDialog:
+        [self forceQuitDialog];
         break;
     }
   }
@@ -542,11 +547,15 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
   }
 }
 
-- (void)killApplication {
+- (void)forceQuitFront {
   ProcessSerialNumber psn;
-  if ([self getApplicationProcess:&psn]) {
+  if (noErr == GetFrontProcess(&psn))
     KillProcess(&psn);
-  }
+}
+
+- (void)forceQuitDialog {
+  ProcessSerialNumber psn = {0, kSystemProcess};
+  SKAESendSimpleEventToProcess(&psn, kCoreEventClass, 'apwn');
 }
 
 - (BOOL)launchAppWithFlag:(int)flag {
@@ -568,14 +577,6 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
 NSString *ApplicationActionDescription(ApplicationAction *anAction, NSString *name) {
   NSString *desc = nil;
   switch ([anAction action]) {
-    case kApplicationHideFront:
-      desc = NSLocalizedStringFromTableInBundle(@"DESC_HIDE_FRONT", nil, kApplicationActionBundle,
-                                               @"Hide Front Applications * Action Description *");
-      break;
-    case kApplicationHideOther:
-      desc = NSLocalizedStringFromTableInBundle(@"DESC_HIDE_ALL", nil, kApplicationActionBundle,
-                                               @"Hide All Applications * Action Description *");
-      break;
     case kApplicationLaunch:
       desc = NSLocalizedStringFromTableInBundle(@"DESC_LAUNCH", nil, kApplicationActionBundle,
                                                @"Launch Application * Action Description *");
@@ -588,9 +589,23 @@ NSString *ApplicationActionDescription(ApplicationAction *anAction, NSString *na
       desc = NSLocalizedStringFromTableInBundle(@"DESC_QUIT", nil, kApplicationActionBundle,
                                                @"Quit Application * Action Description *");
       break;
-    case kApplicationForceQuit:
-      desc = NSLocalizedStringFromTableInBundle(@"DESC_FORCE_QUIT", nil, kApplicationActionBundle,
-                                               @"Force Quit Application * Action Description *");
+      
+    case kApplicationHideFront:
+      desc = NSLocalizedStringFromTableInBundle(@"DESC_HIDE_FRONT", nil, kApplicationActionBundle,
+                                                @"Hide Front Applications * Action Description *");
+      break;
+    case kApplicationHideOther:
+      desc = NSLocalizedStringFromTableInBundle(@"DESC_HIDE_ALL", nil, kApplicationActionBundle,
+                                                @"Hide All Applications * Action Description *");
+      break;
+      
+    case kApplicationForceQuitFront:
+      desc = NSLocalizedStringFromTableInBundle(@"DESC_FORCE_QUIT_FRONT", nil, kApplicationActionBundle,
+                                               @"Force Quit Front * Action Description *");
+      break;
+    case kApplicationForceQuitDialog:
+      desc = NSLocalizedStringFromTableInBundle(@"DESC_FORCE_QUIT_DIALOG", nil, kApplicationActionBundle,
+                                                @"Force Quit Dialog * Action Description *");
       break;
     default:
       desc = NSLocalizedStringFromTableInBundle(@"DESC_ERROR", nil, kApplicationActionBundle,

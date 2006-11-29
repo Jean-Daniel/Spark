@@ -52,6 +52,8 @@ NSString * const kApplicationActionBundleIdentifier = @"org.shadowlab.spark.appl
   switch ([self action]) {
     case kApplicationHideFront:
     case kApplicationHideOther:
+    case kApplicationForceQuitFront:
+    case kApplicationForceQuitDialog:
       break;
     default:
       if (!aa_path)
@@ -80,6 +82,8 @@ NSString * const kApplicationActionBundleIdentifier = @"org.shadowlab.spark.appl
   switch ([self action]) {
     case kApplicationHideFront:
     case kApplicationHideOther:
+    case kApplicationForceQuitFront:
+    case kApplicationForceQuitDialog:
       [action setPath:nil];
       break;
     default:
@@ -155,6 +159,8 @@ NSString * const kApplicationActionBundleIdentifier = @"org.shadowlab.spark.appl
       break;
     case kApplicationHideFront:
     case kApplicationHideOther:
+    case kApplicationForceQuitFront:
+    case kApplicationForceQuitDialog:
       [ibAppView setHidden:YES];
       // Fall thought
     default:
@@ -165,10 +171,10 @@ NSString * const kApplicationActionBundleIdentifier = @"org.shadowlab.spark.appl
   /* Update placeholder */
   switch (newAction) {
     case kApplicationHideFront:
-      [[ibName cell] setPlaceholderString:@"Hide Front"];
-      break;
     case kApplicationHideOther: 
-      [[ibName cell] setPlaceholderString:@"Hide Others"];
+    case kApplicationForceQuitFront:
+    case kApplicationForceQuitDialog:
+      [[ibName cell] setPlaceholderString:ApplicationActionDescription([self sparkAction], nil)];
       break;
     default: {
       NSString *name = [ibApplication stringValue];
