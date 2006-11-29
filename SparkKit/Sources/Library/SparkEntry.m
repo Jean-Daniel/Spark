@@ -89,11 +89,22 @@ NSImage *SparkEntryDefaultIcon() {
   sp_seFlags.type = type;
 }
 
+- (BOOL)isActive {
+  return [self isEnabled] && [self isPlugged];
+}
+
 - (BOOL)isEnabled {
   return sp_seFlags.enabled;
 }
 - (void)setEnabled:(BOOL)enabled {
   SKSetFlag(sp_seFlags.enabled, enabled);
+}
+
+- (BOOL)isPlugged {
+  return !sp_seFlags.unplugged;
+}
+- (void)setPlugged:(BOOL)flag {
+  SKSetFlag(sp_seFlags.unplugged, !flag);
 }
 
 - (NSImage *)icon {

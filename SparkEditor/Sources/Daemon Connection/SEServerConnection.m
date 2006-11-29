@@ -79,7 +79,7 @@
                  object:nil];
     [center addObserver:self
                selector:@selector(didChangeStatus:)
-                   name:SparkEntryManagerDidChangeEntryStatusNotification 
+                   name:SparkEntryManagerDidChangeEntryEnabledNotification 
                  object:nil];
   }
   return self;
@@ -265,7 +265,7 @@ OSType SEServerObjectType(SparkObject *anObject) {
       SparkLibraryEntry *lentry = [[aNotification object] libraryEntryForEntry:entry];
       if (lentry) {
         SparkLibraryEntry lprevious;
-        lprevious.flags = [[aNotification object] isEntryEnabled:previous] ? kSparkEntryEnabled : 0;
+        lprevious.flags = [previous isEnabled] ? kSparkEntryEnabled : 0;
         lprevious.action = [[previous action] uid];
         lprevious.trigger = [[previous trigger] uid];
         lprevious.application = [[previous application] uid];
@@ -292,7 +292,7 @@ OSType SEServerObjectType(SparkObject *anObject) {
     if (entry) {
       SparkLibraryEntry *lentry = [[aNotification object] libraryEntryForEntry:entry];
       if (lentry) {
-        SparkRemoteMessage(libraryEntry:lentry setEnabled:[SparkSharedManager() isEntryEnabled:entry]);
+        SparkRemoteMessage(libraryEntry:lentry setEnabled:[entry isEnabled]);
       }
     }
   }

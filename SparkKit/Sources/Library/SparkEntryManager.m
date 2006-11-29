@@ -14,12 +14,19 @@
 #import <SparkKit/SparkTrigger.h>
 #import <SparkKit/SparkObjectSet.h>
 
-@interface SparkEntry (SparkManagerExtension)
-- (BOOL)isEnabled;
-- (void)setEnabled:(BOOL)enabled;
+/* Plugin status */
+#import <SparkKit/SparkPlugIn.h>
+#import <SparkKit/SparkActionLoader.h>
+
+@interface SparkEntry (SparkEntryManager)
+
+- (void)setEnabled:(BOOL)flag;
+- (void)setPlugged:(BOOL)flag;
+
 @end
 
 @interface SparkEntryManager (SparkPrivate)
+- (void)entry:(SparkEntry *)anEntry setEnabled:(BOOL)flag;
 - (SparkEntryType)typeForLibraryEntry:(const SparkLibraryEntry *)anEntry;
 - (SparkLibraryEntry *)libraryEntryForTrigger:(UInt32)aTrigger application:(UInt32)anApplication;
 @end
@@ -46,12 +53,13 @@ NSString * const SparkEntryReplacedNotificationKey = @"SparkEntryReplacedNotific
 
 NSString * const SparkEntryManagerWillAddEntryNotification = @"SparkEntryManagerWillAddEntry";
 NSString * const SparkEntryManagerDidAddEntryNotification = @"SparkEntryManagerDidAddEntry";
+
 NSString * const SparkEntryManagerWillUpdateEntryNotification = @"SparkEntryManagerWillUpdateEntry";
 NSString * const SparkEntryManagerDidUpdateEntryNotification = @"SparkEntryManagerDidUpdateEntry";
 NSString * const SparkEntryManagerWillRemoveEntryNotification = @"SparkEntryManagerWillRemoveEntry";
 NSString * const SparkEntryManagerDidRemoveEntryNotification = @"SparkEntryManagerDidRemoveEntry";
-NSString * const SparkEntryManagerWillChangeEntryStatusNotification = @"SparkEntryManagerWillChangeEntryStatus";
-NSString * const SparkEntryManagerDidChangeEntryStatusNotification = @"SparkEntryManagerDidChangeEntryStatus";
+
+NSString * const SparkEntryManagerDidChangeEntryEnabledNotification = @"SparkEntryManagerDidChangeEntryEnabled";
 
 SK_INLINE
 void SparkEntryManagerPostNotification(NSString *name, SparkEntryManager *self, SparkEntry *object) {
@@ -80,26 +88,32 @@ void SparkLibraryEntrySetEnabled(SparkLibraryEntry *entry, BOOL enabled) {
   else
     entry->flags &= ~kSparkEntryEnabled;
 }
+
 SK_INLINE
-BOOL SparkLibraryEntryIsVisible(const SparkLibraryEntry *entry) {
-  return (entry->flags & kSparkEntryHidden) == 0;
+BOOL SparkLibraryEntryIsPlugged(const SparkLibraryEntry *entry) {
+  return (entry->flags & kSparkEntryUnplugged) == 0;
 }
 SK_INLINE
-void SparkLibraryEntrySetVisible(SparkLibraryEntry *entry, BOOL visible) {
-  if (visible)
-    entry->flags &= ~kSparkEntryHidden;
+void SparkLibraryEntrySetPlugged(SparkLibraryEntry *entry, BOOL flag) {
+  if (flag)
+    entry->flags &= ~kSparkEntryUnplugged;
   else
-    entry->flags |= kSparkEntryHidden;
+    entry->flags |= kSparkEntryUnplugged;
 }
+
 SK_INLINE
 BOOL SparkLibraryEntryIsActive(const SparkLibraryEntry *entry) {
-  return SparkLibraryEntryIsEnabled(entry) && SparkLibraryEntryIsVisible(entry);
+  return SparkLibraryEntryIsEnabled(entry) && SparkLibraryEntryIsPlugged(entry);
 }
+
 @implementation SparkEntryManager
 
 - (id)init {
   if (self = [self initWithLibrary:nil]) {
-
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didChangePluginStatus:) 
+                                                 name:SparkPlugInDidChangeEnabledNotification
+                                               object:nil];
   }
   return self;
 }
@@ -238,14 +252,6 @@ BOOL SparkEntryIsCustomTrigger(const SparkLibraryEntry *entry) {
   }
 }
 
-- (void)libraryEntry:(SparkLibraryEntry *)anEntry setEnabled:(BOOL)flag {
-  NSParameterAssert(anEntry != NULL);
-  /* Make sure we are using internal storage pointer */
-  anEntry = (SparkLibraryEntry *)CFSetGetValue(sp_set, anEntry);
-  if (anEntry)
-    SparkLibraryEntrySetEnabled(anEntry, flag);
-}
-
 - (SparkEntry *)entryForLibraryEntry:(const SparkLibraryEntry *)anEntry {
   NSParameterAssert(anEntry != NULL);
   SparkAction *action = [[sp_library actionSet] objectForUID:anEntry->action];
@@ -255,7 +261,10 @@ BOOL SparkEntryIsCustomTrigger(const SparkLibraryEntry *entry) {
                                                   trigger:trigger
                                               application:application];
   [object setType:[self typeForLibraryEntry:anEntry]];
+  /* Set flags */
   [object setEnabled:SparkLibraryEntryIsEnabled(anEntry)];
+  [object setPlugged:SparkLibraryEntryIsPlugged(anEntry)];
+
   return [object autorelease];
 }
 
@@ -335,14 +344,68 @@ BOOL SparkEntryIsCustomTrigger(const SparkLibraryEntry *entry) {
 }
 
 #pragma mark -
+#pragma mark Entry Management - Enabled
+- (void)setEnabled:(BOOL)flag forEntry:(SparkEntry *)anEntry {
+  SparkLibraryEntry *entry = [self libraryEntryForEntry:anEntry];
+  if (entry) {
+    /* update entry */
+    [anEntry setEnabled:flag];
+    /* Update library entry */
+    SparkLibraryEntrySetEnabled(entry, flag);
+    SparkEntryManagerPostNotification(SparkEntryManagerDidChangeEntryEnabledNotification, self, anEntry);
+  }
+}
+
+- (void)enableEntry:(SparkEntry *)anEntry {
+  [self setEnabled:YES forEntry:anEntry];
+}
+- (void)disableEntry:(SparkEntry *)anEntry {
+  [self setEnabled:NO forEntry:anEntry];
+}
+
+- (void)setEnabled:(BOOL)flag forLibraryEntry:(SparkLibraryEntry *)anEntry {
+  NSParameterAssert(anEntry != NULL);
+  /* Make sure we are using internal storage pointer */
+  anEntry = (SparkLibraryEntry *)CFSetGetValue(sp_set, anEntry);
+  if (anEntry)
+    SparkLibraryEntrySetEnabled(anEntry, flag);
+}
+
+- (void)enableLibraryEntry:(SparkLibraryEntry *)anEntry {
+  [self setEnabled:YES forLibraryEntry:anEntry];
+}
+- (void)disableLibraryEntry:(SparkLibraryEntry *)anEntry {
+  [self setEnabled:NO forLibraryEntry:anEntry];
+}
+
+#pragma mark Entry Management - Plugged
+- (void)didChangePluginStatus:(NSNotification *)aNotification {
+  SparkPlugIn *plugin = [aNotification object];
+  
+  BOOL flag = [plugin isEnabled];
+  Class cls = [plugin actionClass];
+  UInt32 count = CFArrayGetCount(sp_entries);
+  SparkObjectSet *actions = [sp_library actionSet];
+  while (count-- > 0) {
+    SparkLibraryEntry *entry = (SparkLibraryEntry *)CFArrayGetValueAtIndex(sp_entries, count);
+    NSAssert(entry, @"Invalid entry in entry manager");
+    
+    SparkAction *act = [actions objectForUID:entry->action];
+    if ([act isKindOfClass:cls]) {
+      /* Update library entry */
+      SparkLibraryEntrySetPlugged(entry, flag);
+    }
+  }
+}
+
+#pragma mark -
 #pragma mark High-Level Methods
 - (void)addEntry:(SparkEntry *)anEntry {
   NSParameterAssert(![self containsEntry:anEntry]);
   
   // Will add
   SparkEntryManagerPostNotification(SparkEntryManagerWillAddEntryNotification, self, anEntry);
-  SparkLibraryEntry entry;
-  entry.flags = 0;
+  SparkLibraryEntry entry = { 0, 0, 0, 0 };
   entry.action = [[anEntry action] uid];
   entry.trigger = [[anEntry trigger] uid];
   entry.application = [[anEntry application] uid];
@@ -359,9 +422,11 @@ BOOL SparkEntryIsCustomTrigger(const SparkLibraryEntry *entry) {
   if (entry) {
     // Will update
     SparkEntryManagerPostUpdateNotification(SparkEntryManagerWillUpdateEntryNotification, self, anEntry, newEntry);
-    SparkLibraryEntry update;
-    update.flags = 0;
+    SparkLibraryEntry update = { 0, 0, 0, 0 };
+    /* Set flags */
     SparkLibraryEntrySetEnabled(&update, [newEntry isEnabled]);
+    SparkLibraryEntrySetPlugged(&update, [newEntry isPlugged]);
+    
     update.action = [[newEntry action] uid];
     update.trigger = [[newEntry trigger] uid];
     update.application = [[newEntry application] uid];
@@ -438,20 +503,6 @@ BOOL SparkEntryIsCustomTrigger(const SparkLibraryEntry *entry) {
   return NO;
 }
 
-- (BOOL)isEntryEnabled:(SparkEntry *)anEntry {
-  return [anEntry isEnabled];
-}
-
-- (void)entry:(SparkEntry *)anEntry setEnabled:(BOOL)flag {
-  SparkLibraryEntry *entry = [self libraryEntryForEntry:anEntry];
-  if (entry) {
-    SparkEntryManagerPostNotification(SparkEntryManagerWillChangeEntryStatusNotification, self, anEntry);
-    [anEntry setEnabled:flag];
-    [self libraryEntry:entry setEnabled:flag];
-    SparkEntryManagerPostNotification(SparkEntryManagerDidChangeEntryStatusNotification, self, anEntry);
-  }
-}
-
 - (SparkEntry *)entryForTrigger:(UInt32)aTrigger application:(UInt32)anApplication {
   const SparkLibraryEntry *entry = [self libraryEntryForTrigger:aTrigger application:anApplication];
   if (entry) {
@@ -460,11 +511,11 @@ BOOL SparkEntryIsCustomTrigger(const SparkLibraryEntry *entry) {
   return nil;
 }
 
-- (SparkAction *)actionForTrigger:(UInt32)aTrigger application:(UInt32)anApplication enabled:(BOOL *)status {
+- (SparkAction *)actionForTrigger:(UInt32)aTrigger application:(UInt32)anApplication isActive:(BOOL *)active {
   const SparkLibraryEntry *entry = [self libraryEntryForTrigger:aTrigger application:anApplication];
   if (entry) {
-    if (status)
-      *status = SparkLibraryEntryIsEnabled(entry);
+    if (active)
+      *active = SparkLibraryEntryIsActive(entry);
     return [[sp_library actionSet] objectForUID:entry->action];
   }
   return nil;
@@ -472,47 +523,6 @@ BOOL SparkEntryIsCustomTrigger(const SparkLibraryEntry *entry) {
 
 @end
 
-@implementation SparkEntryManager (SparkVersion1Library)
-
-- (void)postProcess {
-  CFIndex idx = CFArrayGetCount(sp_entries) -1;
-  /* Resolve Ignore Actions */
-  while (idx >= 0) {
-    SparkLibraryEntry *entry = (SparkLibraryEntry *)CFArrayGetValueAtIndex(sp_entries, idx);
-    if (!entry->action) {
-      SparkLibraryEntry *global = [self libraryEntryForTrigger:entry->trigger application:0];
-      entry->action = global ? global->action : 0;
-    } 
-    if (!entry->action) {
-      DLog(@"Remove Invalid Ignore entry.");
-      [self removeLibraryEntry:entry];
-    }
-    idx--;
-  }
-  
-  /* Check all triggers and actions */
-  idx = CFArrayGetCount(sp_entries) -1;
-  SparkObjectSet *actions = [sp_library actionSet];
-  SparkObjectSet *triggers = [sp_library triggerSet];
-  SparkObjectSet *applications = [sp_library applicationSet];
-  /* Resolve Ignore Actions */
-  while (idx >= 0) {
-    SparkLibraryEntry *entry = (SparkLibraryEntry *)CFArrayGetValueAtIndex(sp_entries, idx);
-    NSAssert(entry != NULL, @"Illegale null entry");
-    if (![actions containsObjectWithUID:entry->action] || 
-        ![triggers containsObjectWithUID:entry->trigger] || 
-        (entry->application && ![applications containsObjectWithUID:entry->application])) {
-      DLog(@"Remove Illegal entry { %u, %u, %u }", entry->action, entry->trigger, entry->application);
-      [self removeLibraryEntry:entry];
-    } else {
-      if (SparkEntryIsCustomTrigger(entry))
-        [[triggers objectForUID:entry->trigger] setHasManyAction:YES];
-    }
-    idx--;
-  }
-}
-
-@end
 
 #pragma mark -
 typedef struct {
@@ -582,7 +592,7 @@ typedef struct {
   if (SparkReadField(header->version) != 0) {
     DLog(@"Unsupported version: %x", SparkReadField(header->version));
     if (outError) *outError = [NSError errorWithDomain:NSCocoaErrorDomain
-                                                  code:-1
+                                                  code:-2
                                               userInfo:nil];
     return NO;
   }
@@ -591,7 +601,7 @@ typedef struct {
   if ([data length] < count * sizeof(SparkLibraryEntry) + sizeof(SparkEntryHeader)) {
     DLog(@"Unexpected end of file");
     if (outError) *outError = [NSError errorWithDomain:NSCocoaErrorDomain
-                                                  code:-2
+                                                  code:-3
                                               userInfo:nil];
     return NO;
   }
@@ -610,7 +620,54 @@ typedef struct {
     entries++;
   }
   
+  /* cleanup */
+  [self postProcess];
+  
   return YES;
+}
+
+- (void)postProcess {
+  CFIndex idx = CFArrayGetCount(sp_entries) -1;
+  /* Resolve Ignore Actions */
+  while (idx >= 0) {
+    SparkLibraryEntry *entry = (SparkLibraryEntry *)CFArrayGetValueAtIndex(sp_entries, idx);
+    if (!entry->action) {
+      SparkLibraryEntry *global = [self libraryEntryForTrigger:entry->trigger application:0];
+      entry->action = global ? global->action : 0;
+    } 
+    if (!entry->action) {
+      DLog(@"Remove Invalid Ignore entry.");
+      [self removeLibraryEntry:entry];
+    }
+    idx--;
+  }
+  
+  /* Check all triggers and actions */
+  idx = CFArrayGetCount(sp_entries) -1;
+  SparkObjectSet *actions = [sp_library actionSet];
+  SparkObjectSet *triggers = [sp_library triggerSet];
+  SparkObjectSet *applications = [sp_library applicationSet];
+  SparkActionLoader *loader = [SparkActionLoader sharedLoader];
+  /* Resolve Ignore Actions */
+  while (idx >= 0) {
+    SparkLibraryEntry *entry = (SparkLibraryEntry *)CFArrayGetValueAtIndex(sp_entries, idx);
+    NSAssert(entry != NULL, @"Illegale null entry");
+    if (![actions containsObjectWithUID:entry->action] || 
+        ![triggers containsObjectWithUID:entry->trigger] || 
+        (entry->application && ![applications containsObjectWithUID:entry->application])) {
+      DLog(@"Remove Illegal entry { %u, %u, %u }", entry->action, entry->trigger, entry->application);
+      [self removeLibraryEntry:entry];
+    } else {
+      if (SparkEntryIsCustomTrigger(entry))
+        [[triggers objectForUID:entry->trigger] setHasManyAction:YES];
+      /* Check if plugin is enabled */
+      SparkAction *action = [actions objectForUID:entry->action];
+      SparkPlugIn *plugin = [loader plugInForAction:action];
+      if (plugin)
+        SparkLibraryEntrySetPlugged(entry, [plugin isEnabled]);
+    }
+    idx--;
+  }
 }
 
 @end

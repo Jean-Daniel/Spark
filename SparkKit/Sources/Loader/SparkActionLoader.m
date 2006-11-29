@@ -31,6 +31,7 @@
   return kSparkFolderName;
 }
 
+#pragma mark Instance Methods Override
 - (BOOL)isValidPlugIn:(Class)principalClass {
   if (![principalClass isSubclassOfClass:[SparkActionPlugIn class]]) {
     return NO;
@@ -48,10 +49,12 @@
   return plug;
 }
 
+#pragma mark -
 - (SparkPlugIn *)plugInForActionClass:(Class)cls {
-  SInt32 count = [[self plugins] count];
+  NSArray *plugins = [self plugins];
+  SInt32 count = [plugins count];
   while (count-- > 0) {
-    SparkPlugIn *plugin = [[self plugins] objectAtIndex:count];
+    SparkPlugIn *plugin = [plugins objectAtIndex:count];
     if ([cls isSubclassOfClass:[plugin actionClass]]) {
       return plugin;
     }

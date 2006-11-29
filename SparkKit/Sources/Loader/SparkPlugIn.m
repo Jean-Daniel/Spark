@@ -14,14 +14,37 @@
 #import <ShadowKit/SKImageUtils.h>
 #import <ShadowKit/SKCGFunctions.h>
 
+NSString * const SparkPlugInDidChangeEnabledNotification = @"SparkPlugInDidChangeEnabled";
+
 @implementation SparkPlugIn
 
-+ (void)initialize {
-  if ([SparkPlugIn class] == self) {
-    [self exposeBinding:@"path"];
-    [self exposeBinding:@"name"];
-    [self exposeBinding:@"icon"];
+/* Check status */
+static 
+BOOL SparkPlugInIsEnabled(NSString *identifier) {
+  BOOL enabled = YES;
+  CFDictionaryRef plugins = CFPreferencesCopyAppValue(CFSTR("SparkPlugins"), (CFStringRef)kSparkBundleIdentifier);
+  if (plugins) {
+    CFBooleanRef status = CFDictionaryGetValue(plugins, identifier);
+    if (status)
+      enabled = CFBooleanGetValue(status);
+    
+    CFRelease(plugins);
   }
+  return enabled;
+}
+static 
+void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
+  CFMutableDictionaryRef plugins = NULL;
+  CFDictionaryRef prefs = CFPreferencesCopyAppValue(CFSTR("SparkPlugins"), (CFStringRef)kSparkBundleIdentifier);
+  if (!prefs) {
+    plugins = CFDictionaryCreateMutable(kCFAllocatorDefault, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+  } else {
+    plugins = CFDictionaryCreateMutableCopy(kCFAllocatorDefault, 0, plugins);
+    CFRelease(prefs);
+  }
+  CFDictionarySetValue(plugins, identifier, enabled ? kCFBooleanTrue : kCFBooleanFalse);
+  CFPreferencesSetAppValue(CFSTR("SparkPlugins"), plugins, (CFStringRef)kSparkBundleIdentifier);
+  CFRelease(plugins);
 }
 
 - (id)initWithBundle:(NSBundle *)bundle {
@@ -29,6 +52,10 @@
     sp_class = [bundle principalClass];
     [self setPath:[bundle bundlePath]];
     [self setBundleIdentifier:[bundle bundleIdentifier]];
+    
+    /* Set status */
+    SKSetFlag(sp_spFlags.disabled, !SparkPlugInIsEnabled([bundle bundleIdentifier]));
+    
     /* Extend applescript support */
     //[[NSScriptSuiteRegistry sharedScriptSuiteRegistry] loadSuitesFromBundle:bundle];
   }
@@ -94,6 +121,22 @@
   SKSetterRetain(sp_icon, icon);
 }
 
+- (BOOL)isEnabled {
+  return !sp_spFlags.disabled;
+}
+- (void)setEnabled:(BOOL)flag {
+  BOOL enabled = [self isEnabled];
+  /* If status change */
+  if (XOR(enabled, flag)) {
+    SKSetFlag(sp_spFlags.disabled, !flag);
+    /* Update preferences */
+    SparkPlugInSetEnabled([self bundleIdentifier] ? : NSStringFromClass(sp_class), flag);
+    [[NSNotificationCenter defaultCenter] postNotificationName:SparkPlugInDidChangeEnabledNotification
+                                                        object:self];
+    
+  }
+}
+
 - (NSString *)bundleIdentifier {
   return sp_bundle;
 }
@@ -134,6 +177,8 @@
 - (id)initWithClass:(Class)cls {
   if (self = [self init]) {
     sp_class = cls;
+    
+    SKSetFlag(sp_spFlags.disabled, !SparkPlugInIsEnabled(NSStringFromClass(cls)));
   }
   return self;
 }

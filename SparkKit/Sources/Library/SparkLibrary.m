@@ -60,7 +60,6 @@ const UInt32 kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_0;
 @end
 
 @interface SparkEntryManager (SparkVersion1Library)
-- (void)postProcess;
 - (BOOL)isOrphanTrigger:(UInt32)aTrigger;
 - (void)removeEntriesForAction:(UInt32)action;
 @end
@@ -302,8 +301,6 @@ bail:
   SparkEntryManager *manager = [self entryManager];
   ok = [manager readFromFileWrapper:[files objectForKey:kSparkEntriesFile] error:error];
   require(ok, bail);
-  
-  [manager postProcess];
   
   return YES;
 bail:

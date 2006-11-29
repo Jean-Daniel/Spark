@@ -9,7 +9,8 @@
 #import <ShadowKit/SKWindowController.h>
 
 @interface SEPreferences : SKWindowController {
-
+  @private
+  NSMutableDictionary *se_plugins;
 }
 
 @end

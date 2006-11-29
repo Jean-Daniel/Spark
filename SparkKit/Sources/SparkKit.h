@@ -36,14 +36,13 @@
 #endif
 
 #if !defined(SPARK_INLINE)
-#if defined (__GNUC__) && (__GNUC__ >= 4) && !defined(DEBUG)
+#if defined (__GNUC__) && (__GNUC__ >= 4) && !defined(NO_INLINE)
 #define SPARK_INLINE static __inline__ __attribute__((always_inline))
 #else
 #define SPARK_INLINE static __inline__
 #endif
 #endif
 
-#if !defined(SPARK_PRIVATE)
 #if !defined(SPARK_PRIVATE)
 #if defined(DEBUG)
 #define SPARK_PRIVATE SPARK_EXPORT
@@ -52,7 +51,6 @@
 #else
 #define SPARK_PRIVATE __private_extern__
 #endif /* DEBUG */
-#endif
 #endif
 
 #if !defined(SPARK_EXTERN_INLINE)
@@ -64,7 +62,7 @@
 #if defined(__OBJC__)
 SPARK_EXPORT NSString * const kSparkFolderName;
 
-SPARK_EXPORT NSString * const kSparkHFSCreator;
+SPARK_EXPORT NSString * const kSparkEditorHFSCreator;
 SPARK_EXPORT NSString * const kSparkDaemonHFSCreator;
 SPARK_EXPORT NSString * const kSparkBundleIdentifier;
 SPARK_EXPORT NSString * const kSparkKitBundleIdentifier;
@@ -72,7 +70,7 @@ SPARK_EXPORT NSString * const kSparkDaemonBundleIdentifier;
 #else 
 SPARK_EXPORT CFStringRef const kSparkFolderName;
 
-SPARK_EXPORT CFStringRef const kSparkHFSCreator;
+SPARK_EXPORT CFStringRef const kSparkEditorHFSCreator;
 SPARK_EXPORT CFStringRef const kSparkDaemonHFSCreator;
 SPARK_EXPORT CFStringRef const kSparkBundleIdentifier;
 SPARK_EXPORT CFStringRef const kSparkKitBundleIdentifier;
@@ -80,7 +78,7 @@ SPARK_EXPORT CFStringRef const kSparkDaemonBundleIdentifier;
 #endif /* __OBJC__ */
 
 SPARK_EXPORT
-const OSType kSparkHFSCreatorType;
+const OSType kSparkEditorHFSCreatorType;
 SPARK_EXPORT
 const OSType kSparkDaemonHFSCreatorType;
 

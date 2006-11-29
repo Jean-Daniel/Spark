@@ -7,6 +7,11 @@
  *
  */
 
+#import <SparkKit/SparkKit.h>
+
+SPARK_EXPORT
+NSString * const SparkPlugInDidChangeEnabledNotification;
+
 /*!
     @class 		SparkPlugIn
     @abstract   Represent a Spark Plugin Bundle.
@@ -19,6 +24,11 @@
   NSString *sp_path;
   NSImage  *sp_icon;
   NSString *sp_bundle;
+  
+  struct _sp_spFlags {
+    unsigned int disabled:1;
+    unsigned int reserved:15;
+  } sp_spFlags;
 }
 
 - (id)initWithBundle:(NSBundle *)bundle;
@@ -55,6 +65,9 @@
 */
 - (NSImage *)icon;
 - (void)setIcon:(NSImage *)newIcon;
+
+- (BOOL)isEnabled;
+- (void)setEnabled:(BOOL)flag;
 
 - (NSString *)bundleIdentifier;
 - (void)setBundleIdentifier:(NSString *)anIdentifier;

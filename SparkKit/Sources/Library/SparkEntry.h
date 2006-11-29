@@ -26,7 +26,8 @@ typedef enum {
   struct _sp_seFlags {
     unsigned int type:8;
     unsigned int enabled:1;
-    unsigned int reserved:23;
+    unsigned int unplugged:1;
+    unsigned int reserved:22;
   } sp_seFlags;
 }
 
@@ -53,6 +54,10 @@ typedef enum {
 
 - (NSString *)name;
 - (void)setName:(NSString *)aName;
+
+- (BOOL)isActive;
+- (BOOL)isEnabled;
+- (BOOL)isPlugged;
 
 - (NSString *)categorie;
 - (NSString *)actionDescription;

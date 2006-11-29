@@ -11,11 +11,18 @@
 
 NSString * const kSparkFolderName = @"Spark";
 
-NSString * const kSparkHFSCreator = @"Sprk";
+NSString * const kSparkEditorHFSCreator = @"Sprk";
 NSString * const kSparkDaemonHFSCreator = @"SprS";
+
+/* Spark Core preferences */
+#if defined(DEBUG)
+NSString * const kSparkBundleIdentifier = @"org.shadowlab.Spark-debug";
+#else
 NSString * const kSparkBundleIdentifier = @"org.shadowlab.Spark";
+#endif
+
 NSString * const kSparkKitBundleIdentifier = @"org.shadowlab.SparkKit";
 NSString * const kSparkDaemonBundleIdentifier = @"org.shadowlab.SparkDaemon";
 
-const OSType kSparkHFSCreatorType = 'Sprk';
+const OSType kSparkEditorHFSCreatorType = 'Sprk';
 const OSType kSparkDaemonHFSCreatorType = 'SprS';

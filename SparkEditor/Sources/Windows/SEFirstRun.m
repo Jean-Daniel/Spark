@@ -11,12 +11,24 @@
 #import "Spark.h"
 #import "SEServerConnection.h"
 
+#import <ShadowKit/SKFunctions.h>
+
 static const int kSparkVersion = 0x030000; /* 3.0.0 */
 
 @implementation Spark (SEFirstRun)
 
 - (void)displayFirstRunIfNeeded {
   int version = [[NSUserDefaults standardUserDefaults] integerForKey:@"SparkVersion"];
+  if (0 == version) {
+    /* SparkEditor preferences does not exists => Clear old .Spark Preferences */
+    CFArrayRef keys = CFPreferencesCopyKeyList((CFStringRef)kSparkBundleIdentifier, kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
+    if (keys) {
+      CFPreferencesSetMultiple(nil, keys,
+                               (CFStringRef)kSparkBundleIdentifier, kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
+      CFPreferencesSynchronize((CFStringRef)kSparkBundleIdentifier, kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
+      CFRelease(keys);
+    }
+  }
   if (version < kSparkVersion) {
     SEFirstRun *first = [[SEFirstRun alloc] init];
     [first setReleasedWhenClosed:YES];

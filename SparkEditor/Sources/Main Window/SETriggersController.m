@@ -204,14 +204,10 @@ BOOL SEFilterEntry(NSString *search, SparkEntry *entry) {
   SparkEntry *entry = [se_entries objectAtIndex:rowIndex];
   if ([[aTableColumn identifier] isEqualToString:@"__item__"]) {
     return entry;
+  } else if ([[aTableColumn identifier] isEqualToString:@"trigger"]) {
+    return [entry triggerDescription];
   } else {
-    if ([[aTableColumn identifier] isEqualToString:@"trigger"]) {
-      return [entry triggerDescription];
-    } else if ([[aTableColumn identifier] isEqualToString:@"enabled"]) {
-      return SKBool([SparkSharedManager() isEntryEnabled:entry]);
-    } else {
-      return [entry valueForKey:[aTableColumn identifier]];
-    }
+    return [entry valueForKey:[aTableColumn identifier]];
   }
 }
 
@@ -220,9 +216,10 @@ BOOL SEFilterEntry(NSString *search, SparkEntry *entry) {
   if ([aCell respondsToSelector:@selector(setDrawLineOver:)])
     [aCell setDrawLineOver:NO];
   
+  SparkEntry *entry = [se_entries objectAtIndex:rowIndex];
+  
   /* Text field cell */
-  if ([aCell respondsToSelector:@selector(setTextColor:)]) {
-    SparkEntry *entry = [se_entries objectAtIndex:rowIndex];
+  if ([aCell respondsToSelector:@selector(setTextColor:)]) {  
     SparkApplication *application = [[SEEntriesManager sharedManager] application];
     
     if (0 == [application uid]) {
@@ -240,7 +237,8 @@ BOOL SEFilterEntry(NSString *search, SparkEntry *entry) {
           [aCell setFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]];
           [aCell setTextColor:[aTableView isRowSelected:rowIndex] ? [NSColor selectedControlTextColor] : [NSColor darkGrayColor]];
           break;
-        case kSparkEntryTypeSpecific:
+        case kSparkEntryTypeSpecific: 
+          /* Is only defined for a specific application */
           [aCell setTextColor:[NSColor orangeColor]];
           [aCell setFont:[NSFont boldSystemFontOfSize:[NSFont smallSystemFontSize]]];
           break;
@@ -257,12 +255,20 @@ BOOL SEFilterEntry(NSString *search, SparkEntry *entry) {
           break;
       }
     }
+    /* handle case where plugin is disabled */
+    if (![entry isPlugged]) {
+      [aCell setTextColor:[aTableView isRowSelected:rowIndex] ? [NSColor selectedControlTextColor] : [NSColor disabledControlTextColor]];
+    }
+  } else if ([aCell respondsToSelector:@selector(setEnabled:)]) {
+    /* Button cell */
+    /* handle case where plugin is disabled */
+    [aCell setEnabled:[entry isPlugged]];
   }
 }
 
 - (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
   SparkEntry *entry = [se_entries objectAtIndex:rowIndex];
-  if ([[aTableColumn identifier] isEqualToString:@"enabled"]) {
+  if ([[aTableColumn identifier] isEqualToString:@"active"]) {
     SparkApplication *application = [[SEEntriesManager sharedManager] application];
     if ([application uid] != 0 && kSparkEntryTypeDefault == [entry type]) {
       /* Inherits: should create an new entry */

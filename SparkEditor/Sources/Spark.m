@@ -8,10 +8,11 @@
 
 #import "Spark.h"
 
+#import "SEPluginInstaller.h"
+
 #if defined (DEBUG)
 #import "SEEntryEditor.h"
 #import "SETriggerBrowser.h"
-#import "SEPluginInstaller.h"
 #import <Foundation/NSDebug.h>
 #endif
 
@@ -534,6 +535,7 @@ NSArray *gSortByNameDescriptors = nil;
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
   [SparkSharedLibrary() synchronize];
   [[NSUserDefaults standardUserDefaults] synchronize];
+  CFPreferencesAppSynchronize((CFStringRef)kSparkBundleIdentifier);
 }
 
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication {
@@ -606,7 +608,6 @@ NSArray *gSortByNameDescriptors = nil;
   [menu addItemWithTitle:@"Type Chooser" action:@selector(openTypeChooser:) keyEquivalent:@""];
   [menu addItemWithTitle:@"Entry Editor" action:@selector(openEntryEditor:) keyEquivalent:@""];
   [menu addItemWithTitle:@"Trigger Browser" action:@selector(openTriggerBrowser:) keyEquivalent:@""];
-  [menu addItemWithTitle:@"Install plugin" action:@selector(openInstaller:) keyEquivalent:@""];
   [menu addItem:[NSMenuItem separatorItem]];
   [menu addItemWithTitle:@"Clean Library" action:@selector(cleanLibrary:) keyEquivalent:@""];
   [debugMenu setSubmenu:menu];
@@ -660,16 +661,6 @@ NSArray *gSortByNameDescriptors = nil;
 //  }
 //}
 //
-- (IBAction)openInstaller:(id)sender {
-  SEPluginInstaller *panel = [[SEPluginInstaller alloc] init];
-  [panel setReleasedWhenClosed:YES];
-  [panel setPlugin:[@"~/Desktop/test.spact" stringByStandardizingPath]];
-  [NSApp beginSheet:[panel window]
-     modalForWindow:[self mainWindow]
-      modalDelegate:self
-     didEndSelector:NULL
-        contextInfo:nil];
-}
 
 #endif
 

@@ -19,7 +19,6 @@
 @abstract Action extension is "spact".
 */
 @interface SparkActionLoader : SKPluginLoader {
-  
 }
 
 - (SparkPlugIn *)registerPlugInClass:(Class)aClass;

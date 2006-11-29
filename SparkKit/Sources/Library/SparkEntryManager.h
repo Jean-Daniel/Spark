@@ -17,7 +17,7 @@ typedef struct _SparkLibraryEntry {
 
 enum {
   kSparkEntryEnabled = 1 << 0,
-  kSparkEntryHidden = 1 << 1,
+  kSparkEntryUnplugged = 1 << 1,
 };
 
 @class SparkAction;
@@ -36,8 +36,8 @@ enum {
 - (void)removeEntries:(NSArray *)theEntries;
 - (void)replaceEntry:(SparkEntry *)anEntry withEntry:(SparkEntry *)newEntry;
 
-- (BOOL)isEntryEnabled:(SparkEntry *)anEntry;
-- (void)entry:(SparkEntry *)anEntry setEnabled:(BOOL)flag;
+- (void)enableEntry:(SparkEntry *)anEntry;
+- (void)disableEntry:(SparkEntry *)anEntry;
 
 - (NSArray *)entriesForAction:(UInt32)anAction;
 - (NSArray *)entriesForTrigger:(UInt32)aTrigger;
@@ -53,7 +53,7 @@ enum {
 
 - (BOOL)containsEntryForTrigger:(UInt32)aTrigger application:(UInt32)anApplication;
 - (SparkEntry *)entryForTrigger:(UInt32)aTrigger application:(UInt32)anApplication;
-- (SparkAction *)actionForTrigger:(UInt32)aTrigger application:(UInt32)anApplication enabled:(BOOL *)status;
+- (SparkAction *)actionForTrigger:(UInt32)aTrigger application:(UInt32)anApplication isActive:(BOOL *)status;
 
 /* Private */
 #pragma mark Low-Level Methods
@@ -62,7 +62,9 @@ enum {
 - (void)replaceLibraryEntry:(SparkLibraryEntry *)anEntry withLibraryEntry:(SparkLibraryEntry *)newEntry;
 
 - (SparkLibraryEntry *)libraryEntryForEntry:(SparkEntry *)anEntry;
-- (void)libraryEntry:(SparkLibraryEntry *)anEntry setEnabled:(BOOL)flag;
+
+- (void)enableLibraryEntry:(SparkLibraryEntry *)anEntry;
+- (void)disableLibraryEntry:(SparkLibraryEntry *)anEntry;
 
 @end
 
@@ -87,12 +89,13 @@ SPARK_EXPORT
 NSString * const SparkEntryManagerDidRemoveEntryNotification;
 
 SPARK_EXPORT
-NSString * const SparkEntryManagerWillChangeEntryStatusNotification;
-SPARK_EXPORT
-NSString * const SparkEntryManagerDidChangeEntryStatusNotification;
+NSString * const SparkEntryManagerDidChangeEntryEnabledNotification;
 
 @interface SparkEntryManager (SparkSerialization)
 - (NSFileWrapper *)fileWrapper:(NSError **)outError;
+
 - (BOOL)readFromFileWrapper:(NSFileWrapper *)fileWrapper error:(NSError **)outError;
+- (void)postProcess;
+
 @end
 
