@@ -12,7 +12,11 @@
   @private
   IBOutlet NSOutlineView *ibPlugins;
   
+  NSMapTable *se_counts;
+  NSMapTable *se_status;
   NSMutableArray *se_plugins;
 }
+
++ (BOOL)synchronize;
 
 @end

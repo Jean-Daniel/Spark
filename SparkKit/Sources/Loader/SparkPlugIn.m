@@ -39,7 +39,7 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
   if (!prefs) {
     plugins = CFDictionaryCreateMutable(kCFAllocatorDefault, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
   } else {
-    plugins = CFDictionaryCreateMutableCopy(kCFAllocatorDefault, 0, plugins);
+    plugins = CFDictionaryCreateMutableCopy(kCFAllocatorDefault, 0, prefs);
     CFRelease(prefs);
   }
   CFDictionarySetValue(plugins, identifier, enabled ? kCFBooleanTrue : kCFBooleanFalse);

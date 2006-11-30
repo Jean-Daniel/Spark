@@ -110,10 +110,7 @@ BOOL SparkLibraryEntryIsActive(const SparkLibraryEntry *entry) {
 
 - (id)init {
   if (self = [self initWithLibrary:nil]) {
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didChangePluginStatus:) 
-                                                 name:SparkPlugInDidChangeEnabledNotification
-                                               object:nil];
+    
   }
   return self;
 }
@@ -133,6 +130,11 @@ BOOL SparkLibraryEntryIsActive(const SparkLibraryEntry *entry) {
     setcb.hash = _SparkEntryHash;
     setcb.equal = _SparkEntryIsEqual;
     sp_set = CFSetCreateMutable(kCFAllocatorDefault, 0, &setcb);
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didChangePluginStatus:) 
+                                                 name:SparkPlugInDidChangeEnabledNotification
+                                               object:nil];
   }
   return self;
 }
@@ -380,6 +382,7 @@ BOOL SparkEntryIsCustomTrigger(const SparkLibraryEntry *entry) {
 
 #pragma mark Entry Management - Plugged
 - (void)didChangePluginStatus:(NSNotification *)aNotification {
+  ShadowTrace();
   SparkPlugIn *plugin = [aNotification object];
   
   BOOL flag = [plugin isEnabled];

@@ -8,12 +8,12 @@
 
 #import "SEPluginInstaller.h"
 
+#import "Spark.h"
+
 #import <ShadowKit/SKFSFunctions.h>
 #import <ShadowKit/SKAEFunctions.h>
 
 #import <SparkKit/SparkActionLoader.h>
-
-NSString * const SEPluginInstallerDidInstallPluginNotification = @"SEPluginInstallerDidInstallPlugin";
 
 @implementation SEPluginInstaller
 
@@ -48,7 +48,7 @@ NSString * const SEPluginInstallerDidInstallPluginNotification = @"SEPluginInsta
     [self close:sender];
     [[SparkActionLoader sharedLoader] loadPlugin:path];
     [[NSWorkspace sharedWorkspace] openFile:[path stringByDeletingLastPathComponent]];
-    [[NSNotificationCenter defaultCenter] postNotificationName:SEPluginInstallerDidInstallPluginNotification
+    [[NSNotificationCenter defaultCenter] postNotificationName:SESparkEditorDidChangePluginStatusNotification
                                                         object:nil];
   } else {
     DLog(@"Plugin installation failed");

@@ -7,12 +7,12 @@
  */
 
 #import "SELibrarySource.h"
+#import "Spark.h"
 #import "SETableView.h"
 #import "SEHeaderCell.h"
 #import "SESparkEntrySet.h"
 #import "SELibraryWindow.h"
 #import "SEEntriesManager.h"
-#import "SEPluginInstaller.h"
 
 #import <SparkKit/SparkList.h>
 #import <SparkKit/SparkPlugIn.h>
@@ -107,10 +107,26 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
   }
 }
 
-- (void)didLoadPlugin:(NSNotification *)aNotification {
+- (void)didChangePluginList:(NSNotification *)aNotification {
+  int idx = [table selectedRow];
   [self buildPluginLists];
   [self rearrangeObjects];
   [table reloadData];
+  /* TODO: Adjust selection */
+  int row = [table selectedRow];
+  while (row > 0) {
+    if ([[[se_content objectAtIndex:row] name] isEqualToString:SETableSeparator]) {
+      row--;
+    } else {
+      break;
+    }
+  }
+  if (row != [table selectedRow]) {
+    [table selectRow:row byExtendingSelection:NO];
+  } else if (idx == row)  {
+    [[NSNotificationCenter defaultCenter] postNotificationName:NSTableViewSelectionDidChangeNotification
+                                                        object:table];
+  }
 }
 
 - (id)init {
@@ -166,8 +182,8 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
     
     /* Dynamic plugin */
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didLoadPlugin:)
-                                                 name:SEPluginInstallerDidInstallPluginNotification
+                                             selector:@selector(didChangePluginList:)
+                                                 name:SESparkEditorDidChangePluginStatusNotification
                                                object:nil];
   }
   return self;
@@ -208,7 +224,8 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
                                                        alpha:1]];
   
   if (se_delegate)
-    [self tableViewSelectionDidChange:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:NSTableViewSelectionDidChangeNotification
+                                                        object:table];
 }
 
 - (id)delegate {

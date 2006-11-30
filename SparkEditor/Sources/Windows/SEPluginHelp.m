@@ -9,7 +9,6 @@
 #import "SEPluginHelp.h"
 
 #import "Spark.h"
-#import "SEPluginInstaller.h"
 
 #import <WebKit/WebKit.h>
 
@@ -39,7 +38,7 @@
     /* Dynamic plugin */
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didLoadPlugin:)
-                                                 name:SEPluginInstallerDidInstallPluginNotification
+                                                 name:SESparkEditorDidChangePluginStatusNotification
                                                object:nil];
   }
   return self;

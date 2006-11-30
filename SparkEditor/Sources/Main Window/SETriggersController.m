@@ -124,7 +124,10 @@ BOOL SEFilterEntry(NSString *search, SparkEntry *entry) {
   }
   if (idx >= 0) {
     SparkEntry *entry = [se_entries objectAtIndex:idx];
-    [[SEEntriesManager sharedManager] editEntry:entry modalForWindow:[sender window]];
+    if ([entry isPlugged])
+      [[SEEntriesManager sharedManager] editEntry:entry modalForWindow:[sender window]];
+    else
+      NSBeep();
   }
 }
 /* Select updated entry */
@@ -145,7 +148,7 @@ BOOL SEFilterEntry(NSString *search, SparkEntry *entry) {
     SESparkEntrySet *snapshot = [[SEEntriesManager sharedManager] snapshot];
     while (trigger = [triggers nextObject]) {
       SparkEntry *entry = [snapshot entryForTrigger:trigger];
-      if (entry) {
+      if (entry && [entry isPlugged]) {
         [se_snapshot addObject:entry];
       }
     }

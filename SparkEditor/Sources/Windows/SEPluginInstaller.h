@@ -8,9 +8,6 @@
 
 #import <ShadowKit/SKWindowController.h>
 
-SK_PRIVATE
-NSString * const SEPluginInstallerDidInstallPluginNotification;
-
 @interface SEPluginInstaller : SKWindowController {
   @private
   IBOutlet NSMatrix *ibMatrix;

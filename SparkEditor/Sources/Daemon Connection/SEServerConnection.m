@@ -9,6 +9,7 @@
 #import "SEServerConnection.h"
 #import "SDVersion.h"
 
+#import "SEPreferences.h"
 #import "SEScriptHandler.h"
 
 #import <SparkKit/SparkKit.h>
@@ -316,6 +317,7 @@ NSString *SEServerPath() {
 }
 
 BOOL SELaunchSparkDaemon() {
+  [SEPreferences synchronize];
   [SparkSharedLibrary() synchronize];
   NSString *path = SEServerPath();
   if (path) {

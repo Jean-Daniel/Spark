@@ -39,6 +39,7 @@ int main(int argc, const char *argv[]) {
 }
 
 NSArray *gSortByNameDescriptors = nil;
+NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEditorDidChangePluginStatus";
 
 @implementation SparkEditor 
 
@@ -55,12 +56,17 @@ NSArray *gSortByNameDescriptors = nil;
 - (id)init {
   if (self = [super init]) {
     se_status = kSparkDaemonStopped;
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didChangePlugins:)
+                                                 name:SESparkEditorDidChangePluginStatusNotification
+                                               object:nil];
   }
   return self;
 }
 
-- (void) dealloc {
+- (void)dealloc {
   [se_plugins release];
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
   [super dealloc];
 }
 
@@ -76,15 +82,14 @@ NSArray *gSortByNameDescriptors = nil;
   [super sendEvent:event];
 }
 
-- (NSMenu *)pluginsMenu {
-  if (!se_plugins) {
-    se_plugins = [[NSMenu alloc] initWithTitle:NSLocalizedString(@"NEW_TRIGGER_MENU", @"New Trigger Menu Title")];
-    NSArray *plugins = [[[SparkActionLoader sharedLoader] plugins] sortedArrayUsingDescriptors:gSortByNameDescriptors];
-    
-    SparkPlugIn *plugin;
-    NSEnumerator *items = [plugins objectEnumerator];
-    int idx = 1;
-    while (plugin = [items nextObject]) {
+- (void)populateMenu:(NSMenu *)menu {
+  NSArray *plugins = [[[SparkActionLoader sharedLoader] plugins] sortedArrayUsingDescriptors:gSortByNameDescriptors];
+  
+  SparkPlugIn *plugin;
+  NSEnumerator *items = [plugins objectEnumerator];
+  int idx = 1;
+  while (plugin = [items nextObject]) {
+    if ([plugin isEnabled]) {
       NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:[plugin name] action:@selector(newTriggerFromMenu:) keyEquivalent:@""];
       NSImage *icon = [[plugin icon] copy];
       if (icon) {
@@ -96,11 +101,28 @@ NSArray *gSortByNameDescriptors = nil;
       [item setRepresentedObject:plugin];
       if (idx < 10) 
         [item setKeyEquivalent:[NSString stringWithFormat:@"%i", idx++]];
-      [se_plugins addItem:item];
+      [menu addItem:item];
       [item release];
     }
   }
+}
+
+- (NSMenu *)pluginsMenu {
+  if (!se_plugins) {
+    se_plugins = [[NSMenu alloc] initWithTitle:NSLocalizedString(@"NEW_TRIGGER_MENU", @"New Trigger Menu Title")];
+    [self populateMenu:se_plugins];
+  }
   return se_plugins;
+}
+
+- (void)didChangePlugins:(NSNotification *)aNotification {
+  if (se_plugins) {
+    unsigned count = [se_plugins numberOfItems];
+    while (count-- > 0) {
+      [se_plugins removeItemAtIndex:count];
+    }
+    [self populateMenu:se_plugins];
+  }
 }
 
 @end
@@ -158,7 +180,6 @@ NSArray *gSortByNameDescriptors = nil;
 - (void)dealloc {
   [[NSNotificationCenter defaultCenter] removeObserver:self];
   [se_mainWindow release];
-  //[se_preferences release];
   [super dealloc];
 }
 
@@ -170,6 +191,11 @@ NSArray *gSortByNameDescriptors = nil;
   
   NSMenu *file = [[[NSApp mainMenu] itemWithTag:1] submenu];
   [file setSubmenu:[NSApp pluginsMenu] forItem:[file itemWithTag:1]];
+
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(didChangePlugins:)
+                                               name:SESparkEditorDidChangePluginStatusNotification
+                                             object:nil];
   
   /* Register for server status event and start connection */
   [[NSNotificationCenter defaultCenter] addObserver:self
@@ -239,9 +265,6 @@ NSArray *gSortByNameDescriptors = nil;
 }
 
 - (IBAction)showPreferences:(id)sender {
-//  if (!se_preferences) {
-//    se_preferences = [[SEPreferences alloc] init];
-//  }
   SEPreferences *preferences = [[SEPreferences alloc] init];
   [preferences setReleasedWhenClosed:YES];
   [NSApp beginSheet:[preferences window]
@@ -533,9 +556,8 @@ NSArray *gSortByNameDescriptors = nil;
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
+  [SEPreferences synchronize];
   [SparkSharedLibrary() synchronize];
-  [[NSUserDefaults standardUserDefaults] synchronize];
-  CFPreferencesAppSynchronize((CFStringRef)kSparkBundleIdentifier);
 }
 
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication {
@@ -546,22 +568,30 @@ NSArray *gSortByNameDescriptors = nil;
 #pragma mark About Plugins Menu
 
 - (void)createAboutMenu {
-  while ([aboutMenu numberOfItems]) {
-    [aboutMenu removeItemAtIndex:0];
+  unsigned count = [aboutMenu numberOfItems];
+  while (count-- > 0) {
+    [aboutMenu removeItemAtIndex:count];
   }
+  
   NSArray *items = [[[SparkActionLoader sharedLoader] plugins] sortedArrayUsingDescriptors:gSortByNameDescriptors];
   
   SparkPlugIn *plugin;
   NSEnumerator *plugins = [items objectEnumerator];
   while (plugin = [plugins nextObject]) {
-    NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"ABOUT_PLUGIN_MENU_ITEM",
-                                                                                                          @"About Plugin (%@ => Plugin name)"), [plugin name]]
-                                                      action:@selector(aboutPlugin:) keyEquivalent:@""];
-    [menuItem setImage:[plugin icon]];
-    [menuItem setRepresentedObject:plugin];
-    [aboutMenu addItem:menuItem];
-    [menuItem release];
+    if ([plugin isEnabled]) {
+      NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"ABOUT_PLUGIN_MENU_ITEM",
+                                                                                                            @"About Plugin (%@ => Plugin name)"), [plugin name]]
+                                                        action:@selector(aboutPlugin:) keyEquivalent:@""];
+      [menuItem setImage:[plugin icon]];
+      [menuItem setRepresentedObject:plugin];
+      [aboutMenu addItem:menuItem];
+      [menuItem release];
+    }
   }
+}
+
+- (void)didChangePlugins:(NSNotification *)sender {
+  [self createAboutMenu];
 }
 
 - (IBAction)aboutPlugin:(id)sender {

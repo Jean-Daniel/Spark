@@ -11,10 +11,11 @@
 
 SK_PRIVATE
 NSArray *gSortByNameDescriptors;
+SK_PRIVATE
+NSString * const SESparkEditorDidChangePluginStatusNotification;
 
 @class SparkLibrary;
 @class SELibraryWindow;
-@class SEPreferencesWindow;
 
 @interface SparkEditor : NSApplication {
   /* Scripting Addition */
@@ -33,7 +34,6 @@ NSArray *gSortByNameDescriptors;
   @private
     /* Global windows */
     SELibraryWindow *se_mainWindow;
-  //SEPreferencesWindow *se_preferences;
 }
 
 #pragma mark Menu IBActions
