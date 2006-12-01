@@ -19,6 +19,16 @@
 - (void)releaseViewOwnership;
 - (void)setSparkAction:(SparkAction *)anAction edit:(BOOL)flag;
 
+/* Built-in plugin support */
+
+/* Returns default value */
++ (BOOL)isEnabled;
+
++ (NSString *)identifier;
+
+/* Returns the version string */
++ (NSString *)versionString;
+
 @end
 
 @class SparkHotKey;

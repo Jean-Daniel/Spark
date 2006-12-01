@@ -48,8 +48,6 @@
     [self close:sender];
     [[SparkActionLoader sharedLoader] loadPlugin:path];
     [[NSWorkspace sharedWorkspace] openFile:[path stringByDeletingLastPathComponent]];
-    [[NSNotificationCenter defaultCenter] postNotificationName:SESparkEditorDidChangePluginStatusNotification
-                                                        object:nil];
   } else {
     DLog(@"Plugin installation failed");
   }

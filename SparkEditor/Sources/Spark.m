@@ -19,7 +19,6 @@
 #import <SparkKit/SparkKit.h>
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkActionLoader.h>
-#import <SparkKit/SparkBuiltInAction.h>
 
 #import <HotKeyToolKit/HotKeyToolKit.h>
 
@@ -59,6 +58,10 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didChangePlugins:)
                                                  name:SESparkEditorDidChangePluginStatusNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didChangePlugins:)
+                                                 name:SparkActionLoaderDidRegisterPlugInNotification
                                                object:nil];
   }
   return self;
@@ -144,7 +147,7 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
       nil]];
 #endif
     /* Register Built-in plugin */
-    //[[SparkActionLoader sharedLoader] registerPlugInClass:[SparkBuiltInActionPlugin class]];
+
     
     /* First load Library */
     SparkLibrary *library = SparkSharedLibrary();
@@ -195,6 +198,10 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
   [[NSNotificationCenter defaultCenter] addObserver:self
                                            selector:@selector(didChangePlugins:)
                                                name:SESparkEditorDidChangePluginStatusNotification
+                                             object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(didChangePlugins:)
+                                               name:SparkActionLoaderDidRegisterPlugInNotification
                                              object:nil];
   
   /* Register for server status event and start connection */

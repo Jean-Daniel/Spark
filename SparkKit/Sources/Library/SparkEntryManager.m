@@ -133,7 +133,7 @@ BOOL SparkLibraryEntryIsActive(const SparkLibraryEntry *entry) {
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didChangePluginStatus:) 
-                                                 name:SparkPlugInDidChangeEnabledNotification
+                                                 name:SparkPlugInDidChangeStatusNotification
                                                object:nil];
   }
   return self;
@@ -382,7 +382,6 @@ BOOL SparkEntryIsCustomTrigger(const SparkLibraryEntry *entry) {
 
 #pragma mark Entry Management - Plugged
 - (void)didChangePluginStatus:(NSNotification *)aNotification {
-  ShadowTrace();
   SparkPlugIn *plugin = [aNotification object];
   
   BOOL flag = [plugin isEnabled];

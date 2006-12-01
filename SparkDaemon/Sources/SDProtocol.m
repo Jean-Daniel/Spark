@@ -12,6 +12,7 @@
 #import <SparkKit/SparkTrigger.h>
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkObjectSet.h>
+#import <SparkKit/SparkActionLoader.h>
 
 SK_INLINE
 SparkObjectSet *SDObjectSetForType(OSType type) {
@@ -28,6 +29,21 @@ SparkObjectSet *SDObjectSetForType(OSType type) {
       break;
   }
   return set;
+}
+
+static
+void SparkDaemonCheckTrigger(SparkTrigger *trigger) {
+  if (trigger) {
+    if ([trigger isRegistred]) {
+      if (![SparkSharedManager() containsActiveEntryForTrigger:[trigger uid]]) {
+        [trigger setRegistred:NO];
+      }
+    } else {
+      if ([SparkSharedManager() containsActiveEntryForTrigger:[trigger uid]]) {
+        [trigger setRegistred:YES];
+      }
+    }
+  }
 }
 
 @implementation SparkDaemon (SparkServerProtocol)
@@ -91,10 +107,7 @@ SparkObjectSet *SDObjectSetForType(OSType type) {
   [manager addLibraryEntry:anEntry];
   if ([self isEnabled]) {
     /* Trigger can have a new active action */
-    SparkTrigger *trigger = [SparkSharedTriggerSet() objectForUID:anEntry->trigger];
-    if (![trigger isRegistred] && [manager containsActiveEntryForTrigger:anEntry->trigger]) {
-      [trigger setRegistred:YES];
-    }
+    SparkDaemonCheckTrigger([SparkSharedTriggerSet() objectForUID:anEntry->trigger]);
   }
 }
 - (void)removeLibraryEntry:(SparkLibraryEntry *)anEntry {
@@ -103,10 +116,7 @@ SparkObjectSet *SDObjectSetForType(OSType type) {
   [manager removeLibraryEntry:anEntry];
   if ([self isEnabled]) {
     /* If trigger was not removed, it can be invalid */
-    SparkTrigger *trigger = [SparkSharedTriggerSet() objectForUID:anEntry->trigger];
-    if (trigger && [trigger isRegistred] && ![manager containsActiveEntryForTrigger:anEntry->trigger]) {
-      [trigger setRegistred:NO];
-    }
+    SparkDaemonCheckTrigger([SparkSharedTriggerSet() objectForUID:anEntry->trigger]);
   }
 }
 - (void)replaceLibraryEntry:(SparkLibraryEntry *)anEntry withLibraryEntry:(SparkLibraryEntry *)newEntry {
@@ -115,12 +125,7 @@ SparkObjectSet *SDObjectSetForType(OSType type) {
   [manager replaceLibraryEntry:anEntry withLibraryEntry:newEntry];
   if ([self isEnabled]) {
     /* Should check trigger */
-    SparkTrigger *trigger = [SparkSharedTriggerSet() objectForUID:newEntry->trigger];
-    if (![trigger isRegistred] && [manager containsActiveEntryForTrigger:newEntry->trigger]) {
-      [trigger setRegistred:YES];
-    } else if ([trigger isRegistred] && ![manager containsActiveEntryForTrigger:newEntry->trigger]) {
-      [trigger setRegistred:NO];
-    }
+    SparkDaemonCheckTrigger([SparkSharedTriggerSet() objectForUID:newEntry->trigger]);
   }
 }
 
@@ -130,10 +135,7 @@ SparkObjectSet *SDObjectSetForType(OSType type) {
   [manager enableLibraryEntry:anEntry];
   /* Should check trigger */
   if ([self isEnabled]) {
-    SparkTrigger *trigger = [SparkSharedTriggerSet() objectForUID:anEntry->trigger];
-    if (![trigger isRegistred] && [manager containsActiveEntryForTrigger:anEntry->trigger]) {
-      [trigger setRegistred:YES];
-    }
+    SparkDaemonCheckTrigger([SparkSharedTriggerSet() objectForUID:anEntry->trigger]);
   }
 }
 
@@ -143,10 +145,38 @@ SparkObjectSet *SDObjectSetForType(OSType type) {
   [manager disableLibraryEntry:anEntry];
   /* Should check trigger */
   if ([self isEnabled]) {
-    SparkTrigger *trigger = [SparkSharedTriggerSet() objectForUID:anEntry->trigger];
-    if ([trigger isRegistred] && ![manager containsActiveEntryForTrigger:anEntry->trigger]) {
-      [trigger setRegistred:NO];
+    SparkDaemonCheckTrigger([SparkSharedTriggerSet() objectForUID:anEntry->trigger]);
+  }
+}
+
+#pragma mark Plugins Management
+- (void)enablePlugIn:(NSString *)identifier {
+  SparkPlugIn *plugin = [[SparkActionLoader sharedLoader] pluginForIdentifier:identifier];
+  if (plugin) {
+    [plugin setEnabled:YES];
+    if ([self isEnabled]) {
+      [self registerTriggers];
     }
+  } else {
+    DLog(@"Cannot find plugin: %@", identifier);
+  }
+}
+- (void)disablePlugIn:(NSString *)identifier {
+  SparkPlugIn *plugin = [[SparkActionLoader sharedLoader] pluginForIdentifier:identifier];
+  if (plugin) {
+    [plugin setEnabled:NO];
+    if ([self isEnabled]) {
+      [self registerTriggers];
+    }
+  } else {
+    DLog(@"Cannot find plugin: %@", identifier);
+  }
+}
+
+- (void)registerPlugIn:(NSString *)path {
+  SparkPlugIn *plugin = [[SparkActionLoader sharedLoader] loadPlugin:path];
+  if (!plugin) {
+    DLog(@"Error while loading plugin: %@", path);
   }
 }
 

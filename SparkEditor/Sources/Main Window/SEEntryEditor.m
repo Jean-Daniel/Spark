@@ -34,16 +34,9 @@
 
 - (id)init {
   if (self = [super init]) {
-    SparkPlugIn *plugin; 
-    se_plugins = [[NSMutableArray alloc] init];
-    NSEnumerator *plugins = [[SparkActionLoader sharedLoader] objectEnumerator];
-    while (plugin = [plugins nextObject]) {
-      [se_plugins addObject:plugin];
-    }
-    [se_plugins sortUsingDescriptors:gSortByNameDescriptors];
-
     se_views = [[NSMutableArray alloc] init];
-    se_instances = NSCreateMapTable(NSObjectMapKeyCallBacks, NSObjectMapValueCallBacks, [se_plugins count]);
+    se_plugins = [[NSMutableArray alloc] init];
+    se_instances = NSCreateMapTable(NSObjectMapKeyCallBacks, NSObjectMapValueCallBacks, 0);
   }
   return self;
 }
@@ -213,6 +206,19 @@
 
 #pragma mark -
 - (void)updatePlugins {
+  /* First, remove all objects */
+  [se_plugins removeAllObjects];
+  
+  /* Then add standards plugins */
+  SparkPlugIn *plugin;
+  NSEnumerator *plugins = [[SparkActionLoader sharedLoader] objectEnumerator];
+  while (plugin = [plugins nextObject]) {
+    if ([plugin isEnabled])
+      [se_plugins addObject:plugin];
+  }
+  /* and sort */
+  [se_plugins sortUsingDescriptors:gSortByNameDescriptors];
+  
   /* plugins list should contains "Inherit" if:
    - Application uid != 0.
    - Edit an existing entry (is updating).
@@ -223,30 +229,19 @@
   advanced = advanced && ([se_entry type] != kSparkEntryTypeSpecific);
   
   if (advanced) {
-    if ([[se_plugins objectAtIndex:0] actionClass] != Nil) {
-      /* Should add custom plugins */
+    /* Create Inherits plugin */
+    plugin = [[SparkPlugIn alloc] initWithClass:[SEInheritsPlugin class] identifier:@"org.shadowlab.spark.plugin.inherits"];
+    [se_plugins insertObject:plugin atIndex:0];
+    [plugin release];
       
-      /* Create Inherits plugin */
-      SparkPlugIn *plugin = [[SparkPlugIn alloc] initWithClass:[SEInheritsPlugin class]];
-      [se_plugins insertObject:plugin atIndex:0];
-      [plugin release];
-      
-      plugin = [[SparkPlugIn alloc] init];
-      [plugin setName:SETableSeparator];
-      [se_plugins insertObject:plugin atIndex:1];
-      [plugin release];
-      /* Reload new plugins */
-      [typeTable reloadData];
-    }
-  } else {
-    if ([[se_plugins objectAtIndex:0] actionClass] == Nil) {
-      /* Should remove custom plugins */
-      [se_plugins removeObjectsInRange:NSMakeRange(0, 2)];
-      /* Reload to remove plugins */
-      [typeTable reloadData];
-    }
+    plugin = [[SparkPlugIn alloc] init];
+    [plugin setName:SETableSeparator];
+    [se_plugins insertObject:plugin atIndex:1];
+    [plugin release];
   }
+  [typeTable reloadData];
 }
+
 - (SparkPlugIn *)actionType {
   int row = [typeTable selectedRow];
   return row >= 0 ? [se_plugins objectAtIndex:row] : nil;
@@ -287,8 +282,9 @@
     [ibConfirm setTitle:NSLocalizedStringFromTable(@"ENTRY_EDITOR_CREATE",
                                                    @"SEEditor", @"Entry Editor Update Button")];
   }
-  if (type)
-    [self setActionType:type];
+  if (type) {
+    [self setActionType:type force:YES];
+  }
   
   /* Load trigger value */
   SEHotKey key = {kHKInvalidVirtualKeyCode, 0, kHKNilUnichar};
@@ -359,6 +355,34 @@
 }
 
 - (void)setActionType:(SparkPlugIn *)aPlugin {
+  [self setActionType:aPlugin force:NO];
+}
+
+- (void)loadEntry:(Class)cls {
+  // Set plugin action
+  BOOL edit = NO;
+  SparkAction *action = nil;
+  if (!cls) { /* Special built-in plugins, do not copy */
+    NSAssert(se_entry, @"Invalid entry");
+    edit = YES;
+    action = [se_entry action];
+  } else if (se_entry && [[se_entry action] isKindOfClass:cls]) { /* If is action editor, set a copy */ 
+    edit = YES;
+    action = [se_entry action];
+    if (SKImplementsSelector(action, @selector(copyWithZone:))) {
+      action = [[action copy] autorelease];
+    } else {
+      DLog(@"WARNING: %@ does not implements NSCopying.", [action class]);
+      action = [action duplicate];
+    }
+  } else { /* Other cases, create new action */
+    action = [[[cls alloc] init] autorelease];
+	}
+  /* Set plugin's spark action */
+	[se_plugin setSparkAction:action edit:edit];
+}
+
+- (void)setActionType:(SparkPlugIn *)aPlugin force:(BOOL)force {
   SparkActionPlugIn *previousPlugin = se_plugin;
   se_plugin = NSMapGet(se_instances, aPlugin);
   if (!se_plugin) {
@@ -370,30 +394,11 @@
       [se_views addObject:[se_plugin actionView]];
       /* Say se_plugin to no longer retain the view, so we no longer get a retain cycle. */
       [se_plugin releaseViewOwnership];
-      
-      // Set plugin action
-      BOOL edit = NO;
-      Class cls = [aPlugin actionClass];
-      SparkAction *action = nil;
-      
-      if (!cls) { /* Special built-in plugins, do not copy */
-        edit = YES;
-        action = [se_entry action];
-      } else if ([[se_entry action] isKindOfClass:cls]) { /* If is action editor, set a copy */ 
-        edit = YES;
-        action = [se_entry action];
-        if (SKImplementsSelector(action, @selector(copyWithZone:))) {
-          action = [[action copy] autorelease];
-        } else {
-          DLog(@"WARNING: %@ does not implements NSCopying.", [action class]);
-          action = [action duplicate];
-        }
-      } else { /* Other cases, create new action */
-        action = [[[cls alloc] init] autorelease];
-      }
-      /* Set plugin's spark action */
-      [se_plugin setSparkAction:action edit:edit];
+            
+      [self loadEntry:[aPlugin actionClass]];
     }
+  } else if (force) {
+    [self loadEntry:[aPlugin actionClass]];
   } /* if (!se_plugin) */
   
   /* Configure Help Button */

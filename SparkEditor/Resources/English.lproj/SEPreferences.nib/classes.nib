@@ -9,6 +9,7 @@
             SUPERCLASS = SKWindowController; 
         }, 
         {CLASS = SKImageAndTextCell; LANGUAGE = ObjC; SUPERCLASS = NSTextFieldCell; }, 
+        {CLASS = SKOutlineView; LANGUAGE = ObjC; SUPERCLASS = NSOutlineView; }, 
         {
             CLASS = SKWindowController; 
             LANGUAGE = ObjC; 

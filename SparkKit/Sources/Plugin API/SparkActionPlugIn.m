@@ -141,7 +141,7 @@
   return image;
 }
 
- + (NSString *)helpFile {
++ (NSString *)helpFile {
   NSString *path = nil;
   NSBundle *bundle = SKCurrentBundle();
   NSString *help = [bundle objectForInfoDictionaryKey:@"SparkHelpFile"];
@@ -163,6 +163,22 @@
   NSBundle *bundle = SKCurrentBundle();
   NSString *name = [bundle objectForInfoDictionaryKey:@"NSMainNibFile"];
   return name ? [bundle pathForResource:name ofType:@"nib"] : nil;
+}
+
+#pragma mark Built-in plugin support
+
+/* Returns default value */
++ (BOOL)isEnabled {
+  return YES;
+}
+
++ (NSString *)identifier {
+  return NSStringFromClass(self);
+}
+
+/* Returns the version string */
++ (NSString *)versionString {
+  return nil;
 }
 
 @end

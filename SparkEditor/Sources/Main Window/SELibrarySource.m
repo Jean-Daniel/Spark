@@ -185,6 +185,10 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
                                              selector:@selector(didChangePluginList:)
                                                  name:SESparkEditorDidChangePluginStatusNotification
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didChangePluginList:)
+                                                 name:SparkActionLoaderDidRegisterPlugInNotification
+                                               object:nil];
   }
   return self;
 }

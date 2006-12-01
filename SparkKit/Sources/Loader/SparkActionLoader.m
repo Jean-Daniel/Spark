@@ -8,10 +8,12 @@
  */
 
 #import <SparkKit/SparkActionLoader.h>
-#import <SparkKit/SparkPlugIn.h>
 
 #import "SparkPrivate.h"
+#import <SparkKit/SparkPlugIn.h>
 #import <SparkKit/SparkActionPlugIn.h>
+
+NSString * const SparkActionLoaderDidRegisterPlugInNotification = @"SparkActionLoaderDidRegisterPlugIn";
 
 @implementation SparkActionLoader
 
@@ -44,9 +46,9 @@
   SparkPlugIn *plug = nil;
   Class principalClass = [bundle principalClass];
   if (principalClass && [self isValidPlugIn:principalClass]) {
-    plug = [SparkPlugIn plugInWithBundle:bundle];
+    plug = [[SparkPlugIn alloc] initWithBundle:bundle];
   }
-  return plug;
+  return [plug autorelease];
 }
 
 #pragma mark -
@@ -68,13 +70,22 @@
 
 - (SparkPlugIn *)registerPlugInClass:(Class)aClass {
   if ([self isValidPlugIn:aClass]) {
-    SparkPlugIn *plugin = [[SparkPlugIn alloc] initWithClass:aClass];
+    SparkPlugIn *plugin = [[SparkPlugIn alloc] initWithClass:aClass identifier:[aClass identifier]];
     if (plugin) {
-      [self registerPlugin:plugin withIdentifier:NSStringFromClass(aClass)];
+      [self registerPlugin:plugin withIdentifier:[plugin identifier]];
     }
     return plugin;
   }
   return nil;
+}
+
+- (id)loadPlugin:(NSString *)path {
+  SparkPlugIn *plugin = [super loadPlugin:path];
+  if (plugin) {
+    [[NSNotificationCenter defaultCenter] postNotificationName:SparkActionLoaderDidRegisterPlugInNotification
+                                                        object:plugin];
+  }
+  return plugin;
 }
 
 @end

@@ -41,6 +41,7 @@
 
 - (SparkPlugIn *)actionType;
 - (void)setActionType:(SparkPlugIn *)type;
+- (void)setActionType:(SparkPlugIn *)aPlugin force:(BOOL)force;
 
 - (SparkApplication *)application;
 - (void)setApplication:(SparkApplication *)anApplication;

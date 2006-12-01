@@ -42,10 +42,8 @@ OSStatus SDGetEditorIsTrapping(Boolean *trapping) {
     err = SKAEAddMagnitude(&theEvent);
     require_noerr(err, fevent);
 
-    SKTimeUnit start = SKTimeGetCurrent();
-    /* Timeout: 500 ms */
-    err = SKAESendEvent(&theEvent, kAEWaitReply, 2000, &reply);
-    fprintf(stderr, "Elapsed time: %lu ms\n", SKTimeDeltaMillis(start, SKTimeGetCurrent()));
+    /* Timeout: 500 ms ?? */
+    err = SKAESendEvent(&theEvent, kAEWaitReply, 500, &reply);
     require_noerr(err, fevent);
     
     err = SKAEGetBooleanFromAppleEvent(&reply, keyDirectObject, trapping);

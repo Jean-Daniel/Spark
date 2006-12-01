@@ -40,6 +40,10 @@
                                              selector:@selector(didLoadPlugin:)
                                                  name:SESparkEditorDidChangePluginStatusNotification
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didLoadPlugin:)
+                                                 name:SparkActionLoaderDidRegisterPlugInNotification
+                                               object:nil];
   }
   return self;
 }
@@ -66,6 +70,20 @@
       }
     }
   }
+
+  if (![aMenu numberOfItems]) {
+    NSURL *help = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"nohelp" ofType:@"html"]];
+    NSAssert(help, @"nohelp.html not found");
+    if (help) {
+      NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:@"no help" action:nil keyEquivalent:@""];
+      [item setImage:[NSImage imageNamed:@"plugin"]];
+      [item setRepresentedObject:[help absoluteString]];
+      [aMenu addItem:item];
+      [item release];
+    } else {
+      [[ibWeb mainFrame] loadHTMLString:@"no plugin help available" baseURL:nil];
+    }
+  }
   
   if (!se_plugins) {
     se_plugins = [ibHead addMenu:aMenu position:kSKHeaderLeft];
@@ -75,8 +93,9 @@
     [se_plugins setMenu:aMenu];
   }
   
-  if ([aMenu numberOfItems])
+  if ([aMenu numberOfItems]) {
     [self selectPlugin:[aMenu itemAtIndex:0]];
+  }
   
   [aMenu release];
 }
@@ -97,6 +116,7 @@
     [se_next setAction:@selector(goForward:)];
     [se_next bind:@"enabled" toObject:ibWeb withKeyPath:@"canGoForward" options:nil];
     
+    [ibWeb setFrameLoadDelegate:self];
     [self loadPluginMenu];
   }
 }
@@ -117,6 +137,12 @@
     [[ibWeb backForwardList] setCapacity:0];
     [ibWeb setValue:path forKey:@"mainFrameURL"];
     [[ibWeb backForwardList] setCapacity:10];
+  }
+}
+
+- (void)webView:(WebView *)sender didReceiveTitle:(NSString *)title forFrame:(WebFrame *)frame {
+  if (frame == [sender mainFrame]) {
+    [[sender window] setTitle:title];
   }
 }
 

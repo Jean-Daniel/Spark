@@ -75,8 +75,10 @@
     [self willChangeValueForKey:@"shouldConfirm"];
     if ([sparkAction name])
       [ibName setStringValue:[sparkAction name]];
+    
     /* Force update menu + placeholder */
     [self setAction:[sparkAction action]];
+    
     if (kSystemSwitch == [self action]) {
       [ibUsers selectItemWithTag:[sparkAction userID]];
     }

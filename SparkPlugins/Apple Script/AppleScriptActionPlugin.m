@@ -419,6 +419,9 @@ static NSDictionary *sAttributes = nil;
 
 - (void)awakeFromNib {
   OSAScriptView *view = [[OSAScriptView alloc] initWithFrame:[ibScript frame]];
+  [view setHorizontallyResizable:YES];
+//  [[self enclosingScrollView] setHasHorizontalScroller:YES];
+  [[view textContainer] setContainerSize:NSMakeSize(MAXFLOAT, MAXFLOAT)];
   NSScrollView *parent = [ibScript enclosingScrollView];
   [parent setDocumentView:view];
   [as_ctrl setScriptView:view];

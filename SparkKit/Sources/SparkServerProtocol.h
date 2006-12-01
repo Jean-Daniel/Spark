@@ -44,6 +44,12 @@ enum {
 - (oneway void)enableLibraryEntry:(in SparkLibraryEntry *)anEntry;
 - (oneway void)disableLibraryEntry:(in SparkLibraryEntry *)anEntry;
 
+#pragma mark Plugins Management
+- (oneway void)enablePlugIn:(bycopy NSString *)plugin;
+- (oneway void)disablePlugIn:(bycopy NSString *)plugin;
+
+- (oneway void)registerPlugIn:(bycopy NSString *)bundlePath;
+
 @end
 
 #endif /* __OBJC__ */

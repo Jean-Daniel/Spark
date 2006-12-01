@@ -17,6 +17,7 @@
 #import <SparkKit/SparkTrigger.h>
 #import <SparkKit/SparkPrivate.h>
 #import <SparkKit/SparkApplication.h>
+#import <SparkKit/SparkBuiltInAction.h>
 
 #import <ShadowKit/SKCFContext.h>
 #import <ShadowKit/SKExtensions.h>
@@ -67,9 +68,9 @@ const UInt32 kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_0;
 @implementation SparkLibrary
 
 + (void)initialize {
-  // Make sure plugin are loaded
   if ([SparkLibrary class] == self) {
-    [SparkActionLoader sharedLoader];
+    /* Register Built-In Plugin (and make sure other plugins are loaded) */
+    [[SparkActionLoader sharedLoader] registerPlugInClass:[SparkBuiltInActionPlugin class]];
   }
 }
 

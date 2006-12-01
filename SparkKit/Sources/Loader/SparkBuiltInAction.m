@@ -32,6 +32,19 @@
   return [SKCurrentBundle() pathForResource:@"SparkPlugin" ofType:@"nib"];
 }
 
+/* default status */
++ (BOOL)isEnabled {
+  return NO;
+}
+
++ (NSString *)identifier {
+  return @"org.shadowlab.spark.plugin.spark";
+}
+
+/* Returns the version string */
++ (NSString *)versionString {
+  return @"1.0";
+}
 
 @end
 

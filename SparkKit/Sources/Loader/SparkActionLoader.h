@@ -10,9 +10,13 @@
 /*!
 @header SparkActionLoader
  */
+#import <SparkKit/SparkKit.h>
 #import <ShadowKit/SKPluginLoader.h>
 
 @class SparkPlugIn, SparkAction;
+
+SPARK_EXPORT
+NSString * const SparkActionLoaderDidRegisterPlugInNotification;
 
 /*!
 @class SparkActionLoader
@@ -21,6 +25,7 @@
 @interface SparkActionLoader : SKPluginLoader {
 }
 
+- (id)loadPlugin:(NSString *)path;
 - (SparkPlugIn *)registerPlugInClass:(Class)aClass;
 
 - (SparkPlugIn *)plugInForAction:(SparkAction *)action;

@@ -14,11 +14,13 @@
 
 #import <SparkKit/SparkKit.h>
 #import <SparkKit/SparkEntry.h>
+#import <SparkKit/SparkPlugIn.h>
 #import <SparkKit/SparkAction.h>
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkTrigger.h>
 #import <SparkKit/SparkObjectSet.h>
 #import <SparkKit/SparkApplication.h>
+#import <SparkKit/SparkActionLoader.h>
 
 #import <ShadowKit/SKFSFunctions.h>
 #import <ShadowKit/SKLSFunctions.h>
@@ -79,8 +81,18 @@
                    name:SparkEntryManagerWillRemoveEntryNotification 
                  object:nil];
     [center addObserver:self
-               selector:@selector(didChangeStatus:)
+               selector:@selector(didChangeEntryStatus:)
                    name:SparkEntryManagerDidChangeEntryEnabledNotification 
+                 object:nil];
+    
+    /* Plugins */
+    [center addObserver:self
+               selector:@selector(didChangePluginStatus:)
+                   name:SparkPlugInDidChangeStatusNotification
+                 object:nil];
+    [center addObserver:self
+               selector:@selector(didRegisterPlugIn:)
+                   name:SparkActionLoaderDidRegisterPlugInNotification
                  object:nil];
   }
   return self;
@@ -287,7 +299,7 @@ OSType SEServerObjectType(SparkObject *anObject) {
   }
 }
 
-- (void)didChangeStatus:(NSNotification *)aNotification {
+- (void)didChangeEntryStatus:(NSNotification *)aNotification {
   if ([self isConnected]) {
     SparkEntry *entry = [[aNotification userInfo] objectForKey:SparkEntryNotificationKey];
     if (entry) {
@@ -299,6 +311,24 @@ OSType SEServerObjectType(SparkObject *anObject) {
           SparkRemoteMessage(disableLibraryEntry:lentry);
       }
     }
+  }
+}
+
+#pragma mark Plugins
+- (void)didRegisterPlugIn:(NSNotification *)aNotification {
+  if ([self isConnected]) {
+    SparkPlugIn *plugin = [aNotification object];
+    SparkRemoteMessage(registerPlugIn:[plugin path]);
+  }
+}
+
+- (void)didChangePluginStatus:(NSNotification *)aNotification {
+  if ([self isConnected]) {
+    SparkPlugIn *plugin = [aNotification object];
+    if ([plugin isEnabled])
+      SparkRemoteMessage(enablePlugIn:[plugin identifier]);
+    else
+      SparkRemoteMessage(disablePlugIn:[plugin identifier]);
   }
 }
 

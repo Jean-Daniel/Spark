@@ -175,4 +175,14 @@
   }
 }
 
+- (void)deleteSelectionInOutlineView:(NSOutlineView *)aView {
+  int row = [aView selectedRow];
+  if (row > 0) {
+    id item = [aView itemAtRow:row];
+    if (item && [item isKindOfClass:[SparkPlugIn class]]) {
+      DLog(@"Delete plugin: %@", item);
+    }
+  }
+}
+
 @end

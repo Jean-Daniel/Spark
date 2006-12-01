@@ -58,6 +58,12 @@ OSErr SparkDaemonAEQuitHandler(const AppleEvent *theAppleEvent, AppleEvent *repl
   return noErr;
 }
 
+static
+OSErr SparkDaemonAESetEnabled(const AppleEvent *theAppleEvent, AppleEvent *reply, long handlerRefcon) {
+  ShadowCTrace();
+  return noErr;
+}
+
 @implementation SparkDaemon
 
 /* Timer callback */
@@ -87,10 +93,15 @@ OSErr SparkDaemonAEQuitHandler(const AppleEvent *theAppleEvent, AppleEvent *repl
 #endif
       [NSApp setDelegate:self];
       /* Init core Apple Event handlers */
-      AEInstallEventHandler (kCoreEventClass,
-                             kAEQuitApplication,
-                             NewAEEventHandlerUPP(SparkDaemonAEQuitHandler),
-                             0, FALSE);
+      AEInstallEventHandler(kCoreEventClass,
+                            kAEQuitApplication,
+                            NewAEEventHandlerUPP(SparkDaemonAEQuitHandler),
+                            0, FALSE);
+      
+      AEInstallEventHandler('SprS',
+                            'pEna',
+                            NewAEEventHandlerUPP(SparkDaemonAESetEnabled),
+                            0, FALSE);
       
       /* Send signal to editor */
       SDSendStateToEditor(kSparkDaemonStarted);
@@ -202,15 +213,31 @@ OSErr SparkDaemonAEQuitHandler(const AppleEvent *theAppleEvent, AppleEvent *repl
 
 - (void)loadTriggers {
   SparkTrigger *trigger;
-  SparkEntryManager *manager = SparkSharedManager();
   NSEnumerator *triggers = [SparkSharedTriggerSet() objectEnumerator];
   while (trigger = [triggers nextObject]) {
     @try {
       [trigger setTarget:self];
       [trigger setAction:@selector(executeTrigger:)];
+    } @catch (id exception) {
+      SKLogException(exception);
+    }
+  }
+  [self registerTriggers];
+}
+
+- (void)registerTriggers {
+  SparkTrigger *trigger;
+  SparkEntryManager *manager = SparkSharedManager();
+  NSEnumerator *triggers = [SparkSharedTriggerSet() objectEnumerator];
+  while (trigger = [triggers nextObject]) {
+    @try {
       if (![trigger isRegistred]) {
         if ([manager containsActiveEntryForTrigger:[trigger uid]]) {
           [trigger setRegistred:YES];
+        }
+      } else {
+        if (![manager containsActiveEntryForTrigger:[trigger uid]]) {
+          [trigger setRegistred:NO];
         }
       }
     } @catch (id exception) {

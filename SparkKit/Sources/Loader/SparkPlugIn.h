@@ -10,7 +10,7 @@
 #import <SparkKit/SparkKit.h>
 
 SPARK_EXPORT
-NSString * const SparkPlugInDidChangeEnabledNotification;
+NSString * const SparkPlugInDidChangeStatusNotification;
 
 /*!
     @class 		SparkPlugIn
@@ -23,7 +23,8 @@ NSString * const SparkPlugInDidChangeEnabledNotification;
   NSString *sp_name;
   NSString *sp_path;
   NSImage  *sp_icon;
-  NSString *sp_bundle;
+  NSString *sp_version;
+  NSString *sp_identifier;
   
   struct _sp_spFlags {
     unsigned int disabled:1;
@@ -33,7 +34,8 @@ NSString * const SparkPlugInDidChangeEnabledNotification;
 
 - (id)initWithBundle:(NSBundle *)bundle;
 
-+ (id)plugInWithBundle:(NSBundle *)bundle;
+/* Designated */
+- (id)initWithClass:(Class)cls identifier:(NSString *)identifier;
 
 /*!
   @method
@@ -69,8 +71,11 @@ NSString * const SparkPlugInDidChangeEnabledNotification;
 - (BOOL)isEnabled;
 - (void)setEnabled:(BOOL)flag;
 
-- (NSString *)bundleIdentifier;
-- (void)setBundleIdentifier:(NSString *)anIdentifier;
+- (NSString *)version;
+- (void)setVersion:(NSString *)version;
+
+- (NSString *)identifier;
+- (void)setIdentifier:(NSString *)anIdentifier;
 
 - (NSURL *)helpURL;
 
@@ -88,5 +93,5 @@ NSString * const SparkPlugInDidChangeEnabledNotification;
 @end
 
 @interface SparkPlugIn (SparkBuiltInPlugIn)
-- (id)initWithClass:(Class)cls;
+;
 @end

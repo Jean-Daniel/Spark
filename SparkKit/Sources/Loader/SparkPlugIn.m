@@ -14,24 +14,27 @@
 #import <ShadowKit/SKImageUtils.h>
 #import <ShadowKit/SKCGFunctions.h>
 
-NSString * const SparkPlugInDidChangeEnabledNotification = @"SparkPlugInDidChangeEnabled";
+NSString * const SparkPlugInDidChangeStatusNotification = @"SparkPlugInDidChangeStatus";
 
 @implementation SparkPlugIn
 
 /* Check status */
 static 
-BOOL SparkPlugInIsEnabled(NSString *identifier) {
+BOOL SparkPlugInIsEnabled(NSString *identifier, BOOL *exists) {
   BOOL enabled = YES;
+  if (exists) *exists = NO;
   CFDictionaryRef plugins = CFPreferencesCopyAppValue(CFSTR("SparkPlugins"), (CFStringRef)kSparkBundleIdentifier);
   if (plugins) {
     CFBooleanRef status = CFDictionaryGetValue(plugins, identifier);
-    if (status)
+    if (status) {
+      if (exists) *exists = YES;
       enabled = CFBooleanGetValue(status);
-    
+    }
     CFRelease(plugins);
   }
   return enabled;
 }
+
 static 
 void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
   CFMutableDictionaryRef plugins = NULL;
@@ -47,14 +50,40 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
   CFRelease(plugins);
 }
 
-- (id)initWithBundle:(NSBundle *)bundle {
+- (id)init {
+  [self release];
+  [NSException raise:NSIllegalSelectorException format:@"Invalid initializer."];
+  return nil;
+}
+
+- (id)initWithClass:(Class)cls identifier:(NSString *)identifier {
+  if (![cls isSubclassOfClass:[SparkActionPlugIn class]]) {
+    [self release];
+    [NSException raise:NSInvalidArgumentException format:@"Invalid action plugin class."];  
+    return nil;
+  } 
+  
   if (self = [super init]) {
-    sp_class = [bundle principalClass];
-    [self setPath:[bundle bundlePath]];
-    [self setBundleIdentifier:[bundle bundleIdentifier]];
+    sp_class = cls;
+    [self setIdentifier:identifier];
+    
+    [self setVersion:[cls versionString]];
     
     /* Set status */
-    SKSetFlag(sp_spFlags.disabled, !SparkPlugInIsEnabled([bundle bundleIdentifier]));
+    BOOL exists;
+    BOOL status = SparkPlugInIsEnabled(identifier, &exists);
+    if (exists)
+      SKSetFlag(sp_spFlags.disabled, !status);
+    else
+      SKSetFlag(sp_spFlags.disabled, ![sp_class isEnabled]);
+  }
+  return self;
+}
+
+- (id)initWithBundle:(NSBundle *)bundle {
+  if (self = [self initWithClass:[bundle principalClass]
+                      identifier:[bundle bundleIdentifier]]) {
+    [self setPath:[bundle bundlePath]];
     
     /* Extend applescript support */
     //[[NSScriptSuiteRegistry sharedScriptSuiteRegistry] loadSuitesFromBundle:bundle];
@@ -62,34 +91,32 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
   return self;
 }
 
-+ (id)plugInWithBundle:(NSBundle *)bundle {
-  return [[[self alloc] initWithBundle:bundle] autorelease]; 
-}
-
 - (void)dealloc {
   [sp_nib release];
   [sp_name release];
   [sp_path release];
   [sp_icon release];
-  [sp_bundle release];
+  [sp_version release];
+  [sp_identifier release];
   [super dealloc];
 }
 
 - (unsigned)hash {
-  return [sp_bundle hash];
+  return [sp_identifier hash];
 }
 
 - (BOOL)isEqual:(id)object {
   if (!object || ![object isKindOfClass:[SparkPlugIn class]])
     return NO;
   
-  return [sp_bundle isEqual:[object bundleIdentifier]];
+  return [sp_identifier isEqual:[object identifier]];
 }
 
 - (NSString *)description {
-  return [NSString stringWithFormat:@"<%@ %p> {Name: %@, Class: %@}",
+  return [NSString stringWithFormat:@"<%@ %p> {Name: %@, Class: %@, Status: %@}",
     [self class], self,
-    [self name], sp_class];
+    [self name], sp_class,
+    ([self isEnabled] ? @"On" : @"Off")];
 }
 
 #pragma mark -
@@ -130,18 +157,31 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
   if (XOR(enabled, flag)) {
     SKSetFlag(sp_spFlags.disabled, !flag);
     /* Update preferences */
-    SparkPlugInSetEnabled([self bundleIdentifier] ? : NSStringFromClass(sp_class), flag);
-    [[NSNotificationCenter defaultCenter] postNotificationName:SparkPlugInDidChangeEnabledNotification
+    SparkPlugInSetEnabled([self identifier], flag);
+    [[NSNotificationCenter defaultCenter] postNotificationName:SparkPlugInDidChangeStatusNotification
                                                         object:self];
     
   }
 }
 
-- (NSString *)bundleIdentifier {
-  return sp_bundle;
+- (NSString *)version {
+  if (!sp_version && [self path]) {
+    // Try to init version
+    NSBundle *bundle = [NSBundle bundleWithPath:[self path]];
+    if (bundle != [NSBundle mainBundle])
+      sp_version = [[bundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"] retain];
+  }
+  return sp_version;
 }
-- (void)setBundleIdentifier:(NSString *)identifier {
-  SKSetterRetain(sp_bundle, identifier);
+- (void)setVersion:(NSString *)version {
+  SKSetterCopy(sp_version, version);
+}
+
+- (NSString *)identifier {
+  return sp_identifier;
+}
+- (void)setIdentifier:(NSString *)identifier {
+  SKSetterRetain(sp_identifier, identifier);
 }
 
 - (NSURL *)helpURL {
@@ -169,20 +209,6 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
 - (Class)actionClass {
   return [sp_class actionClass];
 }
-
-@end
-
-@implementation SparkPlugIn (SparkBuiltInPlugIn)
-
-- (id)initWithClass:(Class)cls {
-  if (self = [self init]) {
-    sp_class = cls;
-    
-    SKSetFlag(sp_spFlags.disabled, !SparkPlugInIsEnabled(NSStringFromClass(cls)));
-  }
-  return self;
-}
-
 
 @end
 

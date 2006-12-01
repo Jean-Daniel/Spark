@@ -14,8 +14,10 @@
 }
 
 - (BOOL)openConnection;
+
 - (void)loadTriggers;
 - (void)unloadTriggers;
+- (void)registerTriggers;
 
 - (void)checkActions;
 
@@ -28,17 +30,25 @@
 
 @interface SparkDaemon (SparkServerProtocol) <SparkServer>
 
+- (int)version;
 - (void)shutdown;
 
 - (void)addObject:(id)plist type:(OSType)type;
 - (void)updateObject:(id)plist type:(OSType)type;
 - (void)removeObject:(UInt32)uid type:(OSType)type;
 
+#pragma mark Entries Management
 - (void)addLibraryEntry:(SparkLibraryEntry *)anEntry;
 - (void)removeLibraryEntry:(SparkLibraryEntry *)anEntry;
 - (void)replaceLibraryEntry:(SparkLibraryEntry *)anEntry withLibraryEntry:(SparkLibraryEntry *)newEntry;
 
 - (void)enableLibraryEntry:(SparkLibraryEntry *)anEntry;
 - (void)disableLibraryEntry:(SparkLibraryEntry *)anEntry;
+
+#pragma mark Plugins Management
+- (void)enablePlugIn:(NSString *)plugin;
+- (void)disablePlugIn:(NSString *)plugin;
+
+- (void)registerPlugIn:(NSString *)plugin;
 
 @end
