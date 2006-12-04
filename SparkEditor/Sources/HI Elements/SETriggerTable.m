@@ -16,7 +16,7 @@
   if (isLocal) {
     return NSDragOperationCopy | NSDragOperationGeneric | NSDragOperationMove | NSDragOperationDelete;
   } 
-  return NSDragOperationEvery;
+  return NSDragOperationNone;
 }
 
 //- (void)dragImage:(NSImage *)anImage at:(NSPoint)imageLoc offset:(NSSize)mouseOffset event:(NSEvent *)theEvent pasteboard:(NSPasteboard *)pboard source:(id)sourceObject slideBack:(BOOL)slideBack {

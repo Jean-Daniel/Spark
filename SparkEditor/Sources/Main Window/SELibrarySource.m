@@ -16,6 +16,7 @@
 
 #import <SparkKit/SparkList.h>
 #import <SparkKit/SparkPlugIn.h>
+#import <SparkKit/SparkTrigger.h>
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkActionLoader.h>
 
@@ -213,6 +214,7 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
 //  NSRect rect = [[table headerView] frame];
 //  rect.size.height += 1;
 //  [[table headerView] setFrame:rect];
+  [table registerForDraggedTypes:[NSArray arrayWithObject:SparkTriggerListPboardType]];
   
   [table setHighlightShading:[NSColor colorWithCalibratedRed:.340f
                                                        green:.606f
@@ -292,6 +294,32 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
   if (rowIndex >= 0) {
     SparkObject *item = [se_content objectAtIndex:rowIndex];
     return [item uid] > kSparkLibraryReserved;
+  }
+  return NO;
+}
+
+- (NSDragOperation)tableView:(NSTableView *)aTableView validateDrop:(id <NSDraggingInfo>)info proposedRow:(int)row proposedDropOperation:(NSTableViewDropOperation)operation {
+  if (NSTableViewDropOn == operation) {
+    SparkList *list = [se_content objectAtIndex:row];
+    if (![list isDynamic] && [[[info draggingPasteboard] types] containsObject:SparkTriggerListPboardType])
+      return NSDragOperationCopy;
+  }
+  return NSDragOperationNone;
+}
+
+- (BOOL)tableView:(NSTableView *)aTableView acceptDrop:(id <NSDraggingInfo>)info row:(int)row dropOperation:(NSTableViewDropOperation)operation {
+  if (NSTableViewDropOn == operation) {
+    SparkList *list = [se_content objectAtIndex:row];
+    SparkObjectSet *triggers = SparkSharedTriggerSet();
+    NSArray *uids = [[info draggingPasteboard] propertyListForType:SparkTriggerListPboardType];
+    for (unsigned idx = 0; idx < [uids count]; idx++) {
+      NSNumber *uid = [uids objectAtIndex:idx];
+      SparkTrigger *trigger = [triggers objectForUID:[uid unsignedIntValue]];
+      if (trigger && ![list containsObject:trigger]) {
+        [list addObject:trigger];
+      }
+    }
+    return YES;
   }
   return NO;
 }

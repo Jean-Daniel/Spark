@@ -22,6 +22,9 @@
 /* Flush cache and reload */
 - (void)reload;
 
+/* reload without flushing cache */
+- (void)refresh;
+
 /* All globals entries */
 - (SESparkEntrySet *)globals;
 /* Current entryset */

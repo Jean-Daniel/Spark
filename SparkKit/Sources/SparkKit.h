@@ -82,4 +82,11 @@ const OSType kSparkEditorHFSCreatorType;
 SPARK_EXPORT
 const OSType kSparkDaemonHFSCreatorType;
 
+/* Misc Apple event helpers */
+
+/* Use this constant to send events to the finder.
+It will allows to easily replace the Finder by another application */
+SPARK_EXPORT
+OSType kSparkFinderCreatorType;
+
 #endif /* __SPARKKIT_H */

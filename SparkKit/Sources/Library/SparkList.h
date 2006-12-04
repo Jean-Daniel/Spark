@@ -47,6 +47,8 @@ NSString * const SparkListDidChangeNotification;
 - (void)addObject:(SparkObject *)anObject;
 - (void)addObjectsFromArray:(NSArray *)anArray;
 
+- (BOOL)containsObject:(SparkObject *)anObject;
+
 - (void)removeObject:(SparkObject *)anObject;
 - (void)removeObjectsInArray:(NSArray *)anArray;
 

@@ -15,6 +15,7 @@
 #import "Spark.h"
 
 #import <ShadowKit/SKTableView.h>
+#import <ShadowKit/SKExtensions.h>
 
 #import <SparkKit/SparkLibrary.h>
 
@@ -146,9 +147,10 @@ BOOL SEFilterEntry(NSString *search, SparkEntry *entry) {
     NSEnumerator *triggers = [se_list objectEnumerator];
     /*  Get current snapshot */
     SESparkEntrySet *snapshot = [[SEEntriesManager sharedManager] snapshot];
+    BOOL hide = [[NSUserDefaults standardUserDefaults] boolForKey:@"SparkHideDisabled"];
     while (trigger = [triggers nextObject]) {
       SparkEntry *entry = [snapshot entryForTrigger:trigger];
-      if (entry && [entry isPlugged]) {
+      if (entry && (!hide || [entry isPlugged])) {
         [se_snapshot addObject:entry];
       }
     }
@@ -182,21 +184,30 @@ BOOL SEFilterEntry(NSString *search, SparkEntry *entry) {
 - (void)deleteSelectionInTableView:(NSTableView *)aTableView {
   NSIndexSet *indexes = [aTableView selectedRowIndexes];
   NSArray *items = indexes ? [se_entries objectsAtIndexes:indexes] : nil;
-  if (items) {
-    BOOL hasCustom = NO;
-    SparkApplication *application = [[SEEntriesManager sharedManager] application];
-    if ([application uid] == 0) {
-      int count = [items count];
-      while (count-- > 0 && !hasCustom) {
-        SparkEntry *entry = [se_entries objectAtIndex:count];
-        hasCustom |= [SparkSharedManager() containsOverwriteEntryForTrigger:[[entry trigger] uid]];
+  if (items && [items count]) {
+    if ([se_list isDynamic]) {
+      BOOL hasCustom = NO;
+      SparkApplication *application = [[SEEntriesManager sharedManager] application];
+      if ([application uid] == 0) {
+        int count = [items count];
+        while (count-- > 0 && !hasCustom) {
+          SparkEntry *entry = [se_entries objectAtIndex:count];
+          hasCustom |= [SparkSharedManager() containsOverwriteEntryForTrigger:[[entry trigger] uid]];
+        }
+        if (hasCustom) {
+          DLog(@"WARNING: Has Custom");
+        }
       }
-      if (hasCustom) {
-        DLog(@"WARNING: Has Custom");
+      // TODO: Check item consequences.
+      [[SEEntriesManager sharedManager] removeEntries:items];
+    } else {
+      // User list
+      int count = [items count];
+      while (count-- > 0) {
+        SparkEntry *entry = [se_entries objectAtIndex:count];
+        [se_list removeObject:[entry trigger]];
       }
     }
-    // TODO: Check item consequences.
-    [[SEEntriesManager sharedManager] removeEntries:items];
   }
 }
 
@@ -315,7 +326,20 @@ BOOL SEFilterEntry(NSString *search, SparkEntry *entry) {
   return [self tableView:aTableView writeRowsWithIndexes:idxes toPasteboard:pboard];
 }
 - (BOOL)tableView:(NSTableView *)aTableView writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard*)pboard {
-  ShadowTrace();
+  if (![rowIndexes count])
+    return NO;
+  
+  int idx = 0;
+  NSMutableArray *triggers = [[NSMutableArray alloc] init];
+  SKIndexEnumerator *indexes = [rowIndexes indexEnumerator];
+  while ((idx = [indexes nextIndex]) != NSNotFound) {
+    SparkTrigger *trigger = [[se_entries objectAtIndex:idx] trigger];
+    [triggers addObject:[NSNumber numberWithUnsignedInt:[trigger uid]]];
+  }
+  [pboard declareTypes:[NSArray arrayWithObject:SparkTriggerListPboardType] owner:self];
+  [pboard setPropertyList:triggers forType:SparkTriggerListPboardType];
+  [triggers release];
+  
   return YES;
 }
 

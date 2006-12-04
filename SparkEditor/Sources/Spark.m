@@ -38,6 +38,7 @@ int main(int argc, const char *argv[]) {
 }
 
 NSArray *gSortByNameDescriptors = nil;
+NSString * const SparkTriggerListPboardType = @"SparkTriggerListPboardType";
 NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEditorDidChangePluginStatus";
 
 @implementation SparkEditor 

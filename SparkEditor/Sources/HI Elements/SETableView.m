@@ -83,6 +83,10 @@ NSString * const SETableSeparator = @"-\e";
   [img drawInRect:[self rectOfRow:[self selectedRow]] fromRect:imgRect operation:NSCompositeSourceOver fraction:1];
 }
 
+//- (void)drawRow:(int)rowIndex clipRect:(NSRect)clipRect {
+//  [super drawRow:rowIndex clipRect:clipRect];
+//}
+
 - (void)textDidEndEditing:(NSNotification *)aNotification {
   NSString *text = [[aNotification object] string];
   /* Notify data source */
@@ -97,49 +101,5 @@ NSString * const SETableSeparator = @"-\e";
   /* Reload change */
   [self reloadData];
 }
-
-#if 0
-//- (NSImage *)dragImageForRowsWithIndexes:(NSIndexSet *)dragRows tableColumns:(NSArray *)tableColumns
-//                                   event:(NSEvent*)dragEvent offset:(NSPointPointer)dragImageOffset {
-- (NSImage *)dragImageForRows:(NSArray *)dragRows event:(NSEvent *)dragEvent dragImageOffset:(NSPointPointer)dragImageOffset {
-  NSImage *anImage = [super dragImageForRows:dragRows event:dragEvent dragImageOffset:dragImageOffset];
-  
-  NSArray *columns = [self tableColumns];
-  if ([columns count] < 2)
-    return anImage;
-  
-  float width = [[columns objectAtIndex:0] width];
-  width += [[columns objectAtIndex:1] width];
-  dragImageOffset->x = 0;
-  NSSize size = NSMakeSize(width+1, [anImage size].height +1);
-  [anImage setSize:size];
-  
-  int count = [dragRows count];
-  int i;
-  float offset = MAXFLOAT;
-  for (i=0; i<count; i++) {
-    offset = MIN(NSMinY([self rectOfRow:[[dragRows objectAtIndex:i] intValue]]), offset);
-  }
-  offset--;
-  [anImage lockFocus];
-  [NSBezierPath setDefaultLineWidth:0];
-  [[NSGraphicsContext currentContext] setShouldAntialias:NO];  
-  [[NSColor colorWithCalibratedWhite:0.80 alpha:0.45] setFill];
-  [[NSColor grayColor] setStroke];
-  for (i=0; i<count; i++) {
-    NSRect imgRect = [self rectOfRow:[[dragRows objectAtIndex:i] intValue]];
-    imgRect.size.width = width;
-    imgRect.size.height -= 2;
-    imgRect.origin.y -= offset;
-    imgRect.origin.y = [anImage size].height - imgRect.origin.y - NSHeight(imgRect);
-    
-    [NSBezierPath fillRect:imgRect];
-    //    NSRectFillUsingOperation(imgRect, NSCompositeDestinationOver);
-    [NSBezierPath strokeRect:imgRect];    
-  }
-  [anImage unlockFocus];
-  return anImage;
-}
-#endif
 
 @end

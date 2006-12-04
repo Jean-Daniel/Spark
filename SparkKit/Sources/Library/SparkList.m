@@ -175,6 +175,10 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
                                                       object:self];  
 }
 
+- (BOOL)containsObject:(SparkObject *)anObject {
+  return [sp_entries containsObject:anObject];
+}
+
 - (void)removeObject:(SparkObject *)anObject {
   unsigned idx = [sp_entries indexOfObject:anObject];
   if (idx != NSNotFound) {

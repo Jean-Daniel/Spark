@@ -121,6 +121,8 @@
                                                         object:nil];
     /* Invalidate entries cache */
     [[SEEntriesManager sharedManager] reload];
+  } else {
+    [[SEEntriesManager sharedManager] refresh];
   }
   [super close:sender];
 }

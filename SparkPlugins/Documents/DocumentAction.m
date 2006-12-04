@@ -210,7 +210,7 @@ OSType _DocumentActionFromFlag(int flag) {
     case kDocumentActionOpenSelection:
     case kDocumentActionOpenSelectionWith: {
       // Check if Finder is foreground
-      if (SKProcessGetFrontProcessSignature() == 'MACS') {
+      if (SKProcessGetFrontProcessSignature() == kSparkFinderCreatorType) {
         [self openSelection];
       }
     }
@@ -226,7 +226,7 @@ OSType _DocumentActionFromFlag(int flag) {
       AliasHandle alias = [[self document] aliasHandle];
       if (alias) {
         AppleEvent aevt = SKAEEmptyDesc();
-        OSStatus err = SKAECreateEventWithTargetSignature('MACS', kAEMiscStandards, kAEMakeObjectsVisible, &aevt);
+        OSStatus err = SKAECreateEventWithTargetSignature(kSparkFinderCreatorType, kAEMiscStandards, kAEMakeObjectsVisible, &aevt);
         if (noErr == err) {
           err = SKAEAddAEDescWithData(&aevt, keyDirectObject, typeAlias, *alias, SKGetAliasSize(alias));
         }
@@ -236,7 +236,7 @@ OSType _DocumentActionFromFlag(int flag) {
         }
         SKAEDisposeDesc(&aevt);
         if (noErr == err)
-          err = SKAESendSimpleEvent('MACS', kAEMiscStandards,kAEActivate);
+          err = SKAESendSimpleEvent(kSparkFinderCreatorType, kAEMiscStandards, kAEActivate);
         
         if (noErr != err)
           NSBeep();

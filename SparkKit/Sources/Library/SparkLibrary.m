@@ -259,7 +259,7 @@ bail:
   }
   SparkApplication *finder = [[self applicationSet] objectForUID:1];
   if (!finder) {
-    NSString *path = SKFindApplicationForSignature('MACS');
+    NSString *path = SKFindApplicationForSignature(kSparkFinderCreatorType);
     NSAssert(path, @"Could not locate Finder");
     if (path && (finder = [[SparkApplication alloc] initWithPath:path])) {
       [finder setUID:1];
@@ -330,7 +330,7 @@ bail:
     if (![class isEqualToString:@"_SparkSystemApplication"]) {
       SparkApplication *app = SKDeserializeObject(plist, nil);
       if (app && [app isKindOfClass:[SparkApplication class]]) {
-        if ([app signature] == 'MACS') {
+        if ([app signature] == kSparkFinderCreatorType) {
           finder = [app uid];
           [app setUID:1];
         } else {

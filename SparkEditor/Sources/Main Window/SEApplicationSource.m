@@ -67,7 +67,7 @@
 - (void)didReloadLibrary:(NSNotification *)aNotification {
   SparkApplication *app = [self selectedObject];
   [self reload];
-  if (![self setSelectedObject:app]) {
+  if (![self setSelectedObject:app] || NSNotFound == [self selectionIndex]) {
     [self setSelectionIndex:0];
   }
 }
