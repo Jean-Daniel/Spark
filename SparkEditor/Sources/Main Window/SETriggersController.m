@@ -83,6 +83,8 @@ BOOL SEFilterEntry(NSString *search, SparkEntry *entry) {
   [table setAutosaveTableColumns:YES];
   
   [table setVerticalMotionCanBeginDrag:YES];
+  
+  [table setContinueEditing:NO];
 }
 
 - (void)sortTriggers:(NSArray *)descriptors {
@@ -284,18 +286,23 @@ BOOL SEFilterEntry(NSString *search, SparkEntry *entry) {
 - (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
   SparkEntry *entry = [se_entries objectAtIndex:rowIndex];
   if ([[aTableColumn identifier] isEqualToString:@"active"]) {
-    SparkApplication *application = [[SEEntriesManager sharedManager] application];
-    if ([application uid] != 0 && kSparkEntryTypeDefault == [entry type]) {
-      /* Inherits: should create an new entry */
-      entry = [[SEEntriesManager sharedManager] createWeakEntryForEntry:entry];
-      [se_entries replaceObjectAtIndex:rowIndex withObject:entry];
+    NSEvent *evnt = [NSApp currentEvent];
+    if (evnt && [evnt type] == NSLeftMouseUp && ([evnt modifierFlags] & NSAlternateKeyMask)) {
+      DLog(@"Check/uncheck all");
+    } else {
+      SparkApplication *application = [[SEEntriesManager sharedManager] application];
+      if ([application uid] != 0 && kSparkEntryTypeDefault == [entry type]) {
+        /* Inherits: should create an new entry */
+        entry = [[SEEntriesManager sharedManager] createWeakEntryForEntry:entry];
+        [se_entries replaceObjectAtIndex:rowIndex withObject:entry];
+      }
+      if ([anObject boolValue])
+        [SparkSharedManager() enableEntry:entry];
+      else
+        [SparkSharedManager() disableEntry:entry];
+      
+      [aTableView setNeedsDisplayInRect:[aTableView rectOfRow:rowIndex]];
     }
-    if ([anObject boolValue])
-      [SparkSharedManager() enableEntry:entry];
-    else
-      [SparkSharedManager() disableEntry:entry];
-    
-    [aTableView setNeedsDisplayInRect:[aTableView rectOfRow:rowIndex]];
   } else if ([[aTableColumn identifier] isEqualToString:@"__item__"]) {
     if ([anObject length] > 0) {
       [entry setName:anObject];
