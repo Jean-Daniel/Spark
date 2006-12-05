@@ -80,3 +80,6 @@ SparkObjectSet *SparkSharedApplicationSet(void);
 
 @end
 
+#pragma mark Debugger
+SPARK_EXPORT
+void SparkDumpTriggers(SparkLibrary *aLibrary);

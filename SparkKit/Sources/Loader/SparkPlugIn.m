@@ -51,9 +51,10 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
 }
 
 - (id)init {
-  [self release];
-  [NSException raise:NSIllegalSelectorException format:@"Invalid initializer."];
-  return nil;
+  if (self = [super init]) {
+    // Should not create valid plugin with this method.
+  }
+  return self;
 }
 
 - (id)initWithClass:(Class)cls identifier:(NSString *)identifier {

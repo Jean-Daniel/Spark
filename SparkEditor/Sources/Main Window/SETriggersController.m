@@ -87,6 +87,25 @@ BOOL SEFilterEntry(NSString *search, SparkEntry *entry) {
   [table setContinueEditing:NO];
 }
 
+- (void)setListEnabled:(BOOL)flag {
+  SparkApplication *application = [[SEEntriesManager sharedManager] application];
+  if ([application uid] == 0) {
+    int idx = [se_entries count];
+    SparkEntryManager *manager = SparkSharedManager();
+    SEL method = flag ? @selector(enableEntry:) : @selector(disableEntry:);
+    while (idx-- > 0) {
+      SparkEntry *entry = [se_entries objectAtIndex:idx];
+      if (XOR([entry isEnabled], flag)) {
+      [manager performSelector:method withObject:entry];
+      }
+    }
+    [table reloadData];
+  } else {
+    NSBeep();
+    // TODO
+  }
+}
+
 - (void)sortTriggers:(NSArray *)descriptors {
   [se_entries sortUsingDescriptors:descriptors ? : gSortByNameDescriptors];
 }
@@ -193,7 +212,7 @@ BOOL SEFilterEntry(NSString *search, SparkEntry *entry) {
       if ([application uid] == 0) {
         int count = [items count];
         while (count-- > 0 && !hasCustom) {
-          SparkEntry *entry = [se_entries objectAtIndex:count];
+          SparkEntry *entry = [items objectAtIndex:count];
           hasCustom |= [SparkSharedManager() containsOverwriteEntryForTrigger:[[entry trigger] uid]];
         }
         if (hasCustom) {
@@ -206,7 +225,7 @@ BOOL SEFilterEntry(NSString *search, SparkEntry *entry) {
       // User list
       int count = [items count];
       while (count-- > 0) {
-        SparkEntry *entry = [se_entries objectAtIndex:count];
+        SparkEntry *entry = [items objectAtIndex:count];
         [se_list removeObject:[entry trigger]];
       }
     }
@@ -288,7 +307,7 @@ BOOL SEFilterEntry(NSString *search, SparkEntry *entry) {
   if ([[aTableColumn identifier] isEqualToString:@"active"]) {
     NSEvent *evnt = [NSApp currentEvent];
     if (evnt && [evnt type] == NSLeftMouseUp && ([evnt modifierFlags] & NSAlternateKeyMask)) {
-      DLog(@"Check/uncheck all");
+      [self setListEnabled:[anObject boolValue]];
     } else {
       SparkApplication *application = [[SEEntriesManager sharedManager] application];
       if ([application uid] != 0 && kSparkEntryTypeDefault == [entry type]) {

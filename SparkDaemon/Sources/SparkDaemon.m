@@ -10,6 +10,7 @@
 #import "SDAEHandlers.h"
 
 #import <SparkKit/SparkKit.h>
+#import <SparkKit/SparkPrivate.h>
 
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkObjectSet.h>
@@ -59,12 +60,22 @@ OSErr SparkDaemonAEQuitHandler(const AppleEvent *theAppleEvent, AppleEvent *repl
 }
 
 static
-OSErr SparkDaemonAESetEnabled(const AppleEvent *theAppleEvent, AppleEvent *reply, long handlerRefcon) {
+OSErr SparkDaemonAESetValue(const AppleEvent *theAppleEvent, AppleEvent *reply, long handlerRefcon) {
   ShadowCTrace();
-  return noErr;
+  return errAENoSuchObject;
+}
+
+static
+OSErr SparkDaemonAEGetValue(const AppleEvent *theAppleEvent, AppleEvent *reply, long handlerRefcon) {
+  ShadowCTrace();
+  return errAENoSuchObject;
 }
 
 @implementation SparkDaemon
+
+- (BOOL)application:(NSApplication *)sender delegateHandlesKey:(NSString *)key {
+  return [key isEqualToString:@"enabled"];
+}
 
 /* Timer callback */
 - (void)checkAndLoad:(id)sender {
@@ -93,15 +104,23 @@ OSErr SparkDaemonAESetEnabled(const AppleEvent *theAppleEvent, AppleEvent *reply
 #endif
       [NSApp setDelegate:self];
       /* Init core Apple Event handlers */
+      /*
       AEInstallEventHandler(kCoreEventClass,
                             kAEQuitApplication,
                             NewAEEventHandlerUPP(SparkDaemonAEQuitHandler),
                             0, FALSE);
       
-      AEInstallEventHandler('SprS',
-                            'pEna',
-                            NewAEEventHandlerUPP(SparkDaemonAESetEnabled),
+      AEInstallEventHandler(kAECoreSuite,
+                            'setd',
+                            NewAEEventHandlerUPP(SparkDaemonAESetValue),
                             0, FALSE);
+
+      AEInstallEventHandler(kAECoreSuite,
+                            'getd',
+                            NewAEEventHandlerUPP(SparkDaemonAEGetValue),
+                            0, FALSE);
+      */
+      [NSScriptSuiteRegistry sharedScriptSuiteRegistry];
       
       /* Send signal to editor */
       SDSendStateToEditor(kSparkDaemonStarted);
@@ -164,10 +183,10 @@ OSErr SparkDaemonAESetEnabled(const AppleEvent *theAppleEvent, AppleEvent *reply
 - (void)setEnabled:(BOOL)enabled {
   if (XOR(!enabled, sd_disabled)) {
     sd_disabled = !enabled;
-    if (sd_disabled)
-      [self unloadTriggers];
+    if (enabled)
+      [self registerTriggers];
     else
-      [self loadTriggers];
+      [self unregisterVolatileTriggers];
   }
 }
 
@@ -246,12 +265,26 @@ OSErr SparkDaemonAESetEnabled(const AppleEvent *theAppleEvent, AppleEvent *reply
   }
 }
 
-- (void)unloadTriggers {
+- (void)unregisterTriggers {
   SparkTrigger *trigger;
   NSEnumerator *triggers = [SparkSharedTriggerSet() objectEnumerator];
   while (trigger = [triggers nextObject]) {
     @try {
       if ([trigger isRegistred]) {
+        [trigger setRegistred:NO];
+      }
+    } @catch (id exception) {
+      SKLogException(exception);
+    }
+  }
+}
+- (void)unregisterVolatileTriggers {
+  SparkTrigger *trigger;
+  SparkEntryManager *manager = SparkSharedManager();
+  NSEnumerator *triggers = [SparkSharedTriggerSet() objectEnumerator];
+  while (trigger = [triggers nextObject]) {
+    @try {
+      if ([trigger isRegistred] && ![manager containsPermanentEntryForTrigger:[trigger uid]]) {
         [trigger setRegistred:NO];
       }
     } @catch (id exception) {
@@ -313,18 +346,21 @@ OSErr SparkDaemonAESetEnabled(const AppleEvent *theAppleEvent, AppleEvent *reply
         action = [SparkSharedManager() actionForTrigger:[trigger uid] application:[front uid] isActive:&status];
       }
     }
-    /* No action found, use default */
+    /* No specific action found, use default */
     if (!action) {
       action = [SparkSharedManager() actionForTrigger:[trigger uid] application:0 isActive:&status];
     }
-    [trigger willTriggerAction:status ? action : nil];
-    /* Action exists and is enabled */
-    if (status && action) {
-      alert = [action performAction];
-    } else {
-      [trigger bypass];
+    /* If daemon is disabled, only permanent action are performed */
+    if (action && ([self isEnabled] || [action isPermanent])) {
+      [trigger willTriggerAction:status ? action : nil];
+      /* Action exists and is enabled */
+      if (status) {
+        alert = [action performAction];
+      } else {
+        [trigger bypass];
+      }
+      [trigger didTriggerAction:status ? action : nil];
     }
-    [trigger didTriggerAction:status ? action : nil];
   } @catch (id exception) {
     SKLogException(exception);
     NSBeep();
@@ -354,7 +390,7 @@ OSErr SparkDaemonAESetEnabled(const AppleEvent *theAppleEvent, AppleEvent *reply
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
   /* Invalidate connection. dealloc would probably not be called, so it is not a good candidate for this purpose */
   [[NSConnection defaultConnection] invalidate];
-  [self unloadTriggers];
+  [self unregisterTriggers];
 }
 
 @end

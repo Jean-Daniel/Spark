@@ -16,8 +16,12 @@ typedef struct _SparkLibraryEntry {
 } SparkLibraryEntry;
 
 enum {
+  /* Persistents flags */
   kSparkEntryEnabled = 1 << 0,
-  kSparkEntryUnplugged = 1 << 1,
+  /* Volatile flags */
+  kSparkEntryUnplugged = 1 << 16,
+  kSparkEntryPermanent = 1 << 17,
+  kSparkPersistentFlags = 0xffff,
 };
 
 @class SparkAction;
@@ -50,6 +54,7 @@ enum {
 
 - (BOOL)containsActiveEntryForTrigger:(UInt32)aTrigger;
 - (BOOL)containsOverwriteEntryForTrigger:(UInt32)aTrigger;
+- (BOOL)containsPermanentEntryForTrigger:(UInt32)aTrigger;
 
 - (BOOL)containsEntryForTrigger:(UInt32)aTrigger application:(UInt32)anApplication;
 - (SparkEntry *)entryForTrigger:(UInt32)aTrigger application:(UInt32)anApplication;

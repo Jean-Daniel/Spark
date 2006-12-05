@@ -195,6 +195,10 @@ static NSString * const kSparkActionDescriptionKey = @"SADescription";
   SKSetFlag(sp_saFlags.invalid, flag);
 }
 
+- (BOOL)isPermanent {
+  return NO;
+}
+
 - (void)setCategorie:(NSString *)categorie {
   SKSetterCopy(sp_categorie, categorie);
 }

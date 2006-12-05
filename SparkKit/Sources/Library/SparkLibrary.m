@@ -499,3 +499,13 @@ SparkObjectSet *SparkSharedApplicationSet() {
   return [[SparkLibrary sharedLibrary] applicationSet];
 }
 
+#pragma mark -
+void SparkDumpTriggers(SparkLibrary *aLibrary) {
+  SparkTrigger *trigger = nil;
+  NSEnumerator *triggers = [[aLibrary triggerSet] objectEnumerator];
+  fprintf(stderr, "Triggers: %lu\n {", [[aLibrary triggerSet] count]);
+  while (trigger = [triggers nextObject]) {
+    fprintf(stderr, "\t- %lu: %s\n", [trigger uid], [[trigger triggerDescription] UTF8String]);
+  }
+  fprintf(stderr, "}\n");
+}

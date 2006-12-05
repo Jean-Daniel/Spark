@@ -16,8 +16,9 @@
 - (BOOL)openConnection;
 
 - (void)loadTriggers;
-- (void)unloadTriggers;
 - (void)registerTriggers;
+- (void)unregisterTriggers;
+- (void)unregisterVolatileTriggers;
 
 - (void)checkActions;
 

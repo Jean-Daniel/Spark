@@ -8,6 +8,8 @@
 
 #import <Sparkkit/SparkEntryManager.h>
 
+#import <SparkKit/SparkPrivate.h>
+
 #import <SparkKit/SparkEntry.h>
 #import <SparkKit/SparkAction.h>
 #import <SparkKit/SparkLibrary.h>
@@ -102,6 +104,18 @@ void SparkLibraryEntrySetPlugged(SparkLibraryEntry *entry, BOOL flag) {
 }
 
 SK_INLINE
+BOOL SparkLibraryEntryIsPermanent(const SparkLibraryEntry *entry) {
+  return (entry->flags & kSparkEntryPermanent) != 0;
+}
+SK_INLINE
+void SparkLibraryEntrySetPermanent(SparkLibraryEntry *entry, BOOL flag) {
+  if (flag)
+    entry->flags |= kSparkEntryPermanent;
+  else
+    entry->flags &= ~kSparkEntryPermanent;
+}
+
+SK_INLINE
 BOOL SparkLibraryEntryIsActive(const SparkLibraryEntry *entry) {
   return SparkLibraryEntryIsEnabled(entry) && SparkLibraryEntryIsPlugged(entry);
 }
@@ -181,6 +195,7 @@ BOOL SparkEntryIsCustomTrigger(const SparkLibraryEntry *entry) {
     *entry = *anEntry;
     CFSetAddValue(sp_set, entry);
     CFArrayAppendValue(sp_entries, entry);
+    
     /* Update trigger flag */
     if (SparkEntryIsCustomTrigger(entry)) {
       [[[sp_library triggerSet] objectForUID:entry->trigger] setHasManyAction:YES];
@@ -349,7 +364,7 @@ BOOL SparkEntryIsCustomTrigger(const SparkLibraryEntry *entry) {
 #pragma mark Entry Management - Enabled
 - (void)setEnabled:(BOOL)flag forEntry:(SparkEntry *)anEntry {
   SparkLibraryEntry *entry = [self libraryEntryForEntry:anEntry];
-  if (entry) {
+  if (entry && XOR(flag, SparkLibraryEntryIsEnabled(entry))) {
     /* update entry */
     [anEntry setEnabled:flag];
     /* Update library entry */
@@ -402,6 +417,19 @@ BOOL SparkEntryIsCustomTrigger(const SparkLibraryEntry *entry) {
 
 #pragma mark -
 #pragma mark High-Level Methods
+static
+void SparkLibraryEntryInitFlags(SparkLibraryEntry *lentry, SparkEntry *entry) {
+  /* Set flags */    
+  SparkAction *action = [entry action];
+  NSCAssert1(action, @"Invalid entry: %@", entry);
+  SparkLibraryEntrySetEnabled(lentry, [entry isEnabled]);
+  /* Set permanent status */
+  SparkLibraryEntrySetPermanent(lentry, [action isPermanent]);
+  /* Check plugin status */
+  SparkPlugIn *plugin = [[SparkActionLoader sharedLoader] plugInForAction:action];
+  SparkLibraryEntrySetPlugged(lentry, plugin ? [plugin isEnabled] : YES);
+}
+
 - (void)addEntry:(SparkEntry *)anEntry {
   NSParameterAssert(![self containsEntry:anEntry]);
   
@@ -411,9 +439,16 @@ BOOL SparkEntryIsCustomTrigger(const SparkLibraryEntry *entry) {
   entry.action = [[anEntry action] uid];
   entry.trigger = [[anEntry trigger] uid];
   entry.application = [[anEntry application] uid];
+  
+  /* New entry is disabled */
+  [anEntry setEnabled:NO];
+  SparkLibraryEntryInitFlags(&entry, anEntry);
+  
   [self addLibraryEntry:&entry];
-  /* Update type */
+  /* Update entry */
   [anEntry setType:[self typeForLibraryEntry:&entry]];
+  [anEntry setPlugged:SparkLibraryEntryIsPlugged(&entry)]; 
+
   // Did add
   SparkEntryManagerPostNotification(SparkEntryManagerDidAddEntryNotification, self, anEntry);
 }
@@ -425,13 +460,13 @@ BOOL SparkEntryIsCustomTrigger(const SparkLibraryEntry *entry) {
     // Will update
     SparkEntryManagerPostUpdateNotification(SparkEntryManagerWillUpdateEntryNotification, self, anEntry, newEntry);
     SparkLibraryEntry update = { 0, 0, 0, 0 };
-    /* Set flags */
-    SparkLibraryEntrySetEnabled(&update, [newEntry isEnabled]);
-    SparkLibraryEntrySetPlugged(&update, [newEntry isPlugged]);
-    
+
+    /* Set entry uids */
     update.action = [[newEntry action] uid];
     update.trigger = [[newEntry trigger] uid];
     update.application = [[newEntry application] uid];
+    /* Init flags */
+    SparkLibraryEntryInitFlags(&update, newEntry);
     
     [self replaceLibraryEntry:entry withLibraryEntry:&update];
     /* Update type */
@@ -504,6 +539,16 @@ BOOL SparkEntryIsCustomTrigger(const SparkLibraryEntry *entry) {
   }
   return NO;
 }
+- (BOOL)containsPermanentEntryForTrigger:(UInt32)aTrigger {
+  UInt32 count = CFArrayGetCount(sp_entries);
+  while (count-- > 0) {
+    const SparkLibraryEntry *entry = CFArrayGetValueAtIndex(sp_entries, count);
+    if ((entry->trigger == aTrigger) && SparkLibraryEntryIsPermanent(entry)) {
+      return YES;
+    }
+  }
+  return NO;
+}
 
 - (SparkEntry *)entryForTrigger:(UInt32)aTrigger application:(UInt32)anApplication {
   const SparkLibraryEntry *entry = [self libraryEntryForTrigger:aTrigger application:anApplication];
@@ -554,7 +599,9 @@ typedef struct {
   /* Write contents */
   while (count-- > 0) {
     const SparkLibraryEntry *entry = CFArrayGetValueAtIndex(sp_entries, count);
-    [data appendBytes:entry length:sizeof(*entry)];
+    SparkLibraryEntry buffer = *entry;
+    buffer.flags &= kSparkPersistentFlags,
+    [data appendBytes:&buffer length:sizeof(buffer)];
   } 
 
   NSFileWrapper *wrapper = [[NSFileWrapper alloc] initRegularFileWithContents:data];
@@ -608,7 +655,6 @@ typedef struct {
     return NO;
   }
   
-  SparkObjectSet *triggers = [sp_library triggerSet];
   const SparkLibraryEntry *entries = header->entries;
   while (count-- > 0) {
     SparkLibraryEntry entry;
@@ -617,8 +663,6 @@ typedef struct {
     entry.trigger = SparkReadField(entries->trigger);
     entry.application = SparkReadField(entries->application);
     [self addLibraryEntry:&entry];
-    if (SparkEntryIsCustomTrigger(&entry))
-      [[triggers objectForUID:entry.trigger] setHasManyAction:YES];
     entries++;
   }
   
@@ -629,8 +673,6 @@ typedef struct {
 }
 
 - (void)postProcess {
-  SKTimeUnit start = SKTimeGetCurrent();
-  
   CFIndex idx = CFArrayGetCount(sp_entries) -1;
   /* Resolve Ignore Actions */
   while (idx >= 0) {
@@ -656,24 +698,27 @@ typedef struct {
   while (idx >= 0) {
     SparkLibraryEntry *entry = (SparkLibraryEntry *)CFArrayGetValueAtIndex(sp_entries, idx);
     NSAssert(entry != NULL, @"Illegale null entry");
-    if (![actions containsObjectWithUID:entry->action] || 
-        ![triggers containsObjectWithUID:entry->trigger] || 
+    SparkAction *action = [actions objectForUID:entry->action];
+    
+    if (!action || ![triggers containsObjectWithUID:entry->trigger] || 
         (entry->application && ![applications containsObjectWithUID:entry->application])) {
       DLog(@"Remove Illegal entry { %u, %u, %u }", entry->action, entry->trigger, entry->application);
       [self removeLibraryEntry:entry];
     } else {
       if (SparkEntryIsCustomTrigger(entry))
         [[triggers objectForUID:entry->trigger] setHasManyAction:YES];
+      
+      /* Set permanent */
+      if ([action isPermanent])
+        SparkLibraryEntrySetPermanent(entry, YES);
+      
       /* Check if plugin is enabled */
-      SparkAction *action = [actions objectForUID:entry->action];
       SparkPlugIn *plugin = [loader plugInForAction:action];
       if (plugin)
         SparkLibraryEntrySetPlugged(entry, [plugin isEnabled]);
     }
     idx--;
   }
-  
-  NSLog(@"Post Processing: %qu us", SKTimeDeltaMicro(start, SKTimeGetCurrent()));
 }
 
 @end
