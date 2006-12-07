@@ -58,6 +58,37 @@
 #endif
 
 #pragma mark -
+#pragma mark Utilities
+
+typedef enum {
+  kSparkEditorContext,
+  kSparkDaemonContext,
+} SparkContext;
+
+/*!
+@function
+ @result Returns current execution context.
+ */
+SPARK_EXPORT
+SparkContext SparkGetCurrentContext(void);
+
+SPARK_EXPORT
+void SparkLaunchEditor(void);
+
+#if defined(__OBJC__)
+/*!
+@function    SparkDisplayAlerts
+ @abstract   Display alert dialog.
+ @discussion Can be use in during a key execution to display an alert message. As Spark Daemon is 
+ a background application, you cannot use NSAlert and other graphics objects.
+ @param      alerts An Array of <code>SparkAlert</code>.
+ */
+SPARK_EXPORT
+void SparkDisplayAlerts(NSArray *alerts);
+#define SparkDisplayAlert(alert)		SparkDisplayAlerts([NSArray arrayWithObject:alert])
+#endif
+
+#pragma mark -
 #pragma mark Constants
 #if defined(__OBJC__)
 SPARK_EXPORT NSString * const kSparkFolderName;

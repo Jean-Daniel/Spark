@@ -52,25 +52,6 @@ int main(int argc, const char *argv[]) {
   return 0;
 }
 
-static
-OSErr SparkDaemonAEQuitHandler(const AppleEvent *theAppleEvent, AppleEvent *reply, long handlerRefcon) {
-  ShadowCTrace();
-  [NSApp terminate:nil];
-  return noErr;
-}
-
-static
-OSErr SparkDaemonAESetValue(const AppleEvent *theAppleEvent, AppleEvent *reply, long handlerRefcon) {
-  ShadowCTrace();
-  return errAENoSuchObject;
-}
-
-static
-OSErr SparkDaemonAEGetValue(const AppleEvent *theAppleEvent, AppleEvent *reply, long handlerRefcon) {
-  ShadowCTrace();
-  return errAENoSuchObject;
-}
-
 @implementation SparkDaemon
 
 - (BOOL)application:(NSApplication *)sender delegateHandlesKey:(NSString *)key {
@@ -104,22 +85,6 @@ OSErr SparkDaemonAEGetValue(const AppleEvent *theAppleEvent, AppleEvent *reply, 
 #endif
       [NSApp setDelegate:self];
       /* Init core Apple Event handlers */
-      /*
-      AEInstallEventHandler(kCoreEventClass,
-                            kAEQuitApplication,
-                            NewAEEventHandlerUPP(SparkDaemonAEQuitHandler),
-                            0, FALSE);
-      
-      AEInstallEventHandler(kAECoreSuite,
-                            'setd',
-                            NewAEEventHandlerUPP(SparkDaemonAESetValue),
-                            0, FALSE);
-
-      AEInstallEventHandler(kAECoreSuite,
-                            'getd',
-                            NewAEEventHandlerUPP(SparkDaemonAEGetValue),
-                            0, FALSE);
-      */
       [NSScriptSuiteRegistry sharedScriptSuiteRegistry];
       
       /* Send signal to editor */

@@ -14,18 +14,6 @@
 
 #import <SparkKit/SparkKit.h>
 
-typedef enum {
-  kSparkEditorContext,
-  kSparkDaemonContext,
-} SparkContext;
-
-/*!
-@function
- @result Returns current execution context.
- */
-SPARK_EXPORT
-SparkContext SparkGetCurrentContext(void);
-
 /*!
 @class SparkObject
 @abstract   Abstract super class for all serializable Spark Objects.

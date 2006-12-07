@@ -14,6 +14,7 @@
 		98D528E00B19A14800C8425C /* SDProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D528DB0B19A14800C8425C /* SDProtocol.m */; };
 		98D528E10B19A14800C8425C /* SparkDaemon.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D528DE0B19A14800C8425C /* SparkDaemon.m */; };
 		98D528E80B19A18B00C8425C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 98D528E60B19A18B00C8425C /* InfoPlist.strings */; };
+		98D75E3D0B28BAA1001393F7 /* SparkDaemon.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 98D75E3C0B28BAA1001393F7 /* SparkDaemon.sdef */; };
 		98EF7E520864588C007BC81A /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF7E4A08645876007BC81A /* HotKeyToolKit.framework */; };
 		98EF7E530864588F007BC81A /* SparkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF7E5108645883007BC81A /* SparkKit.framework */; };
 /* End PBXBuildFile section */
@@ -88,6 +89,7 @@
 		98D528DE0B19A14800C8425C /* SparkDaemon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkDaemon.m; sourceTree = "<group>"; };
 		98D528E70B19A18B00C8425C /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		98D528F20B19A1AF00C8425C /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = SOURCE_ROOT; };
+		98D75E3C0B28BAA1001393F7 /* SparkDaemon.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.sdef; path = SparkDaemon.sdef; sourceTree = "<group>"; };
 		98EF7E4108645876007BC81A /* HotKeyToolKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = HotKeyToolKit.xcodeproj; path = ../HotKeyToolKit/HotKeyToolKit.xcodeproj; sourceTree = SOURCE_ROOT; };
 		98EF7E4B08645883007BC81A /* SparkKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SparkKit.xcodeproj; path = ../SparkKit/SparkKit.xcodeproj; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -172,6 +174,7 @@
 				98D528F20B19A1AF00C8425C /* Info.plist */,
 				983AFC250B19A74300173464 /* Spark.icns */,
 				98D528E60B19A18B00C8425C /* InfoPlist.strings */,
+				98D75E3C0B28BAA1001393F7 /* SparkDaemon.sdef */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -316,6 +319,7 @@
 			files = (
 				98D528E80B19A18B00C8425C /* InfoPlist.strings in Resources */,
 				983AFC260B19A74300173464 /* Spark.icns in Resources */,
+				98D75E3D0B28BAA1001393F7 /* SparkDaemon.sdef in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -45,3 +45,30 @@ void __SparkInitializeLibrary() {
     CFRelease(str);
   }
 }
+
+#pragma mark -
+#pragma mark Utilities
+SparkContext SparkGetCurrentContext() {
+  static SparkContext ctxt = 0xffffffff;
+  if (0xffffffff == ctxt) {
+    if ([[[NSBundle mainBundle] bundleIdentifier] isEqualToString:kSparkDaemonBundleIdentifier])
+      ctxt = kSparkDaemonContext;
+    else
+      ctxt = kSparkEditorContext;
+  }
+  return ctxt;
+}
+
+void SparkLaunchEditor() {
+  switch (SparkGetCurrentContext()) {
+    case kSparkEditorContext:
+      [NSApp activateIgnoringOtherApps:NO];
+      break;
+    case kSparkDaemonContext: {
+      NSString *sparkPath = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"../../../"];
+      [[NSWorkspace sharedWorkspace] launchApplication:sparkPath];
+    }
+      break;
+  }
+}
+

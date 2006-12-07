@@ -227,18 +227,6 @@
 @end
 
 #pragma mark -
-static
-void SparkLaunchEditor() {
-  NSBundle *bundle = [NSBundle mainBundle];
-  if ([[bundle bundleIdentifier] isEqualToString:kSparkBundleIdentifier]) {
-    [NSApp activateIgnoringOtherApps:NO];
-  } else if ([[bundle bundleIdentifier] isEqualToString:kSparkDaemonBundleIdentifier]) {
-    NSString *sparkPath = [[bundle bundlePath] stringByAppendingPathComponent:@"../../../"];
-    DLog(@"%@", [[NSFileManager defaultManager] displayNameAtPath:sparkPath]);
-    [[NSWorkspace sharedWorkspace] launchApplication:sparkPath];
-  }
-}
-
 void SparkDisplayAlerts(NSArray *items) {
   if ([items count] == 1) {
     SparkAlert *alert = [items objectAtIndex:0];

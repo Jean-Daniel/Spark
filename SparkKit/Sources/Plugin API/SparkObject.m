@@ -18,17 +18,6 @@ NSString* const kSparkObjectNameKey = @"SparkObjectName";
 static
 NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
 
-SparkContext SparkGetCurrentContext() {
-  static SparkContext ctxt = 0xffffffff;
-  if (0xffffffff == ctxt) {
-    if ([[[NSBundle mainBundle] bundleIdentifier] isEqualToString:kSparkDaemonBundleIdentifier])
-      ctxt = kSparkDaemonContext;
-    else
-      ctxt = kSparkEditorContext;
-  }
-  return ctxt;
-}
-
 @implementation SparkObject
 
 + (void)initialize {

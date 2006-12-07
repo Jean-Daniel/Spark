@@ -10,17 +10,6 @@
 #import <SparkKit/SparkKit.h>
 
 /*!
-@function	SparkDisplayAlerts
- @abstract Display alert dialog.
-	@discussion Can be use in during a key execution to display an alert message. As Spark Daemon is 
- a background application, you cannot use NSAlert and other graphics objects.
- @param alerts An Array of <code>SparkAlert</code>.
- */
-SPARK_EXPORT
-void SparkDisplayAlerts(NSArray *alerts);
-#define SparkDisplayAlert(alert)		SparkDisplayAlerts([NSArray arrayWithObject:alert])
-
-/*!
 @class SparkActionPlugIn
 @abstract This class is the base class to do a Spark PlugIn. If you want to add some kind of Action to Spark, 
 you will use a subclass of SparkActionPlugIn.
