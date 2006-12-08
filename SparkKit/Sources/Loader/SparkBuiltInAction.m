@@ -54,10 +54,27 @@
 #pragma mark -
 @implementation SparkBuiltInAction
 
+static
+NSImage *SparkDaemonStatusIcon(BOOL status) {
+  static NSImage *__enabled = nil, *__disabled = nil;
+  if (!__enabled) {
+    __enabled = [[NSImage imageNamed:@"spark" inBundle:[NSBundle bundleWithIdentifier:kSparkKitBundleIdentifier]] retain];
+    __disabled = [[NSImage imageNamed:@"SparkDisabled" inBundle:[NSBundle bundleWithIdentifier:kSparkKitBundleIdentifier]] retain];
+  }
+  return status ? __enabled : __disabled;
+}
+
 - (id)copyWithZone:(NSZone *)aZone {
   SparkBuiltInAction *copy = [super copyWithZone:aZone];
   copy->sp_list = [sp_list retain];
   return copy;
+}
+
+- (id)init {
+  if (self = [super init]) {
+    sp_action = kSparkSDActionLaunchEditor;
+  }
+  return self;
 }
 
 #pragma mark -
@@ -82,6 +99,11 @@
 
 - (SparkAlert *)actionDidLoad {
   return nil;
+}
+
+static 
+void SparkSDActionDisplayStatus(BOOL status) {
+  
 }
 
 static

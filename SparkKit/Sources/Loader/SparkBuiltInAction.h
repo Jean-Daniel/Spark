@@ -10,7 +10,7 @@
 #import <SparkKit/SparkActionPlugIn.h>
 
 enum {
-  kSparkSDActionLaunchEditor     = 'OpSE', /* 1332761445 */
+  kSparkSDActionLaunchEditor     = 'OpSe', /* 1332761445 */
   kSparkSDActionSwitchStatus     = 'SwSt', /* 1400329076 */
   kSparkSDActionSwitchListStatus = 'SwLi', /* 1400327273 */
 };

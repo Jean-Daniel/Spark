@@ -13,10 +13,10 @@
 
 static
 NSImage *SparkEntryDefaultIcon() {
-  static NSImage *image = nil;
-  if (!image) 
-    image = [[NSImage imageNamed:@"SparkAction" inBundle:[NSBundle bundleWithIdentifier:kSparkKitBundleIdentifier]] retain];
-  return image;
+  static NSImage *__simage = nil;
+  if (!__simage) 
+    __simage = [[NSImage imageNamed:@"SparkEntry" inBundle:[NSBundle bundleWithIdentifier:kSparkKitBundleIdentifier]] retain];
+  return __simage;
 }
 
 @implementation SparkEntry

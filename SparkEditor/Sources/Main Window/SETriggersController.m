@@ -88,22 +88,19 @@ BOOL SEFilterEntry(NSString *search, SparkEntry *entry) {
 }
 
 - (void)setListEnabled:(BOOL)flag {
-  SparkApplication *application = [[SEEntriesManager sharedManager] application];
-  if ([application uid] == 0) {
-    int idx = [se_entries count];
-    SparkEntryManager *manager = SparkSharedManager();
-    SEL method = flag ? @selector(enableEntry:) : @selector(disableEntry:);
-    while (idx-- > 0) {
-      SparkEntry *entry = [se_entries objectAtIndex:idx];
+  UInt32 app = [[[SEEntriesManager sharedManager] application] uid];
+  int idx = [se_entries count];
+  SparkEntryManager *manager = SparkSharedManager();
+  SEL method = flag ? @selector(enableEntry:) : @selector(disableEntry:);
+  while (idx-- > 0) {
+    SparkEntry *entry = [se_entries objectAtIndex:idx];
+    if ([[entry application] uid] == app) {
       if (XOR([entry isEnabled], flag)) {
-      [manager performSelector:method withObject:entry];
+        [manager performSelector:method withObject:entry];
       }
     }
-    [table reloadData];
-  } else {
-    NSBeep();
-    // TODO
   }
+  [table reloadData];
 }
 
 - (void)sortTriggers:(NSArray *)descriptors {

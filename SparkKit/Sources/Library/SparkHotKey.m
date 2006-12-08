@@ -185,7 +185,7 @@ BOOL KeyStrokeFilter(UInt32 code, UInt32 modifier) {
 - (NSImage *)icon {
   NSImage *icon = [super icon];
   if (!icon) {
-    [self setIcon:[NSImage imageNamed:@"KeyIcon" inBundle:SKCurrentBundle()]];
+    [self setIcon:[NSImage imageNamed:@"hotkey" inBundle:SKCurrentBundle()]];
     icon = [super icon];
   }
   return icon;

@@ -64,6 +64,9 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
                                              selector:@selector(didChangePlugins:)
                                                  name:SparkActionLoaderDidRegisterPlugInNotification
                                                object:nil];
+    /* Load script */
+    [[NSScriptSuiteRegistry sharedScriptSuiteRegistry] loadSuitesFromBundle:[NSBundle bundleWithIdentifier:kSparkKitBundleIdentifier]];
+    DLog(@"%@", [[NSScriptSuiteRegistry sharedScriptSuiteRegistry] suiteNames]);
   }
   return self;
 }

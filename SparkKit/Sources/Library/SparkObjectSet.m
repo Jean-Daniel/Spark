@@ -326,7 +326,7 @@ bail:
 static NSImage *__SparkWarningImage = nil;
 + (void)initialize {
   if ([SparkPlaceHolder class] == self) {
-    __SparkWarningImage = [NSImage imageNamed:@"Warning" inBundle:SKCurrentBundle()];
+    __SparkWarningImage = [[NSImage imageNamed:@"Warning" inBundle:SKCurrentBundle()] retain];
   }
 }
 
