@@ -9,23 +9,22 @@
 #import "SEFirstRun.h"
 
 #import "Spark.h"
+#import "SEPreferences.h"
 #import "SEServerConnection.h"
 
 #import <ShadowKit/SKFunctions.h>
 
-static const int kSparkVersion = 0x030000; /* 3.0.0 */
-
 @implementation Spark (SEFirstRun)
 
 - (void)displayFirstRunIfNeeded {
-  int version = [[NSUserDefaults standardUserDefaults] integerForKey:@"SparkVersion"];
+  UInt32 version = [[NSUserDefaults standardUserDefaults] integerForKey:kSparkPrefVersion];
   if (0 == version) {
-    /* SparkEditor preferences does not exists => Clear old .Spark Preferences */
-    CFArrayRef keys = CFPreferencesCopyKeyList((CFStringRef)kSparkBundleIdentifier, kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
+    /* SparkEditor preferences does not exists => Clear old .Spark Preferences if exists */
+    CFArrayRef keys = CFPreferencesCopyKeyList((CFStringRef)kSparkPreferencesIdentifier, kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
     if (keys) {
       CFPreferencesSetMultiple(nil, keys,
-                               (CFStringRef)kSparkBundleIdentifier, kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
-      CFPreferencesSynchronize((CFStringRef)kSparkBundleIdentifier, kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
+                               (CFStringRef)kSparkPreferencesIdentifier, kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
+      CFPreferencesSynchronize((CFStringRef)kSparkPreferencesIdentifier, kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
       CFRelease(keys);
     }
   }
@@ -59,11 +58,8 @@ static const int kSparkVersion = 0x030000; /* 3.0.0 */
   if ([ibStartNow state] == NSOnState && kSparkDaemonStarted != [NSApp serverStatus]) {
     SELaunchSparkDaemon();
   }
-  //if (autorun) {
-//    [Preferences setAutoStart:YES];
-//  }
-//  [[NSUserDefaults standardUserDefaults] setBool:autorun forKey:kSparkPrefAutoStart];
-  [[NSUserDefaults standardUserDefaults] setInteger:kSparkVersion forKey:@"SparkVersion"];
+  SEPreferencesSetLoginItemStatus(NSOnState == [ibAutoStart state]);
+  [[NSUserDefaults standardUserDefaults] setInteger:kSparkVersion forKey:kSparkPrefVersion];
   [super close:sender];  
 }
 

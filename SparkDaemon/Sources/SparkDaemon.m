@@ -11,6 +11,7 @@
 
 #import <SparkKit/SparkKit.h>
 #import <SparkKit/SparkPrivate.h>
+#import <SparkKit/SparkFunctions.h>
 
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkObjectSet.h>
@@ -102,7 +103,7 @@ int main(int argc, const char *argv[]) {
           /* If launch by something that is not Spark Editor */
           OSType sign = SKProcessGetSignature(&psn);
           if (sign != kSparkEditorHFSCreatorType) {
-            CFNumberRef value = CFPreferencesCopyAppValue(CFSTR("SparkDaemonDelay"), (CFStringRef)kSparkBundleIdentifier);
+            CFNumberRef value = CFPreferencesCopyAppValue(CFSTR("SDDelayStartup"), (CFStringRef)kSparkPreferencesIdentifier);
             if (value) {
               CFNumberGetValue(value, kCFNumberIntType, &delay);
               CFRelease(value);
@@ -172,7 +173,7 @@ int main(int argc, const char *argv[]) {
 
 - (void)checkActions {
   Boolean display = true;
-  CFBooleanRef ref = CFPreferencesCopyAppValue(CFSTR("SDBlockAlertOnLoad"), (CFStringRef)kSparkBundleIdentifier);
+  CFBooleanRef ref = CFPreferencesCopyAppValue(CFSTR("SDBlockAlertOnLoad"), (CFStringRef)kSparkPreferencesIdentifier);
   if (ref) {
     display = !CFBooleanGetValue(ref);
     CFRelease(ref);
@@ -316,15 +317,20 @@ int main(int argc, const char *argv[]) {
       action = [SparkSharedManager() actionForTrigger:[trigger uid] application:0 isActive:&status];
     }
     /* If daemon is disabled, only permanent action are performed */
-    if (action && ([self isEnabled] || [action isPermanent])) {
-      [trigger willTriggerAction:status ? action : nil];
-      /* Action exists and is enabled */
-      if (status) {
-        alert = [action performAction];
+    if (action) {
+      if ([self isEnabled] || [action isPermanent]) {
+        [trigger willTriggerAction:status ? action : nil];
+        /* Action exists and is enabled */
+        if (status) {
+          alert = [action performAction];
+        } else {
+          [trigger bypass];
+        }
+        [trigger didTriggerAction:status ? action : nil];
       } else {
+        // Daemon disabled => bypass
         [trigger bypass];
       }
-      [trigger didTriggerAction:status ? action : nil];
     }
   } @catch (id exception) {
     SKLogException(exception);
@@ -335,7 +341,7 @@ int main(int argc, const char *argv[]) {
   /* If alert not null */
   if (alert) {
     /* Check if need display alert */
-    CFBooleanRef displayAlertRef = CFPreferencesCopyAppValue(CFSTR("SDDisplayAlertOnExecute"), (CFStringRef)kSparkBundleIdentifier);
+    CFBooleanRef displayAlertRef = CFPreferencesCopyAppValue(CFSTR("SDDisplayAlertOnExecute"), (CFStringRef)kSparkPreferencesIdentifier);
     if (displayAlertRef) {
       if (CFBooleanGetValue(displayAlertRef))
         SparkDisplayAlert(alert);

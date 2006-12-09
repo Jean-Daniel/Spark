@@ -32,9 +32,9 @@
 /*===============================================*/
 
 - (void)loadSparkAction:(DocumentAction *)sparkAction toEdit:(BOOL)edit {
+  [ibName setStringValue:[sparkAction name] ? : @""];
   if (edit) {
     [self willChangeValueForKey:@"action"];
-    [ibName setStringValue:([sparkAction name]) ? [sparkAction name] : @""];
     
     if (DocumentActionNeedDocument([sparkAction action])) {
       [self setDocument:[[sparkAction document] path]];

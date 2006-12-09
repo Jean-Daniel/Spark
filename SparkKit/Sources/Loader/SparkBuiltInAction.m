@@ -8,6 +8,8 @@
 
 #import <SparkKit/SparkBuiltInAction.h>
 
+#import <SparkKit/SparkFunctions.h>
+
 #import <ShadowKit/SKFunctions.h>
 #import <ShadowKit/SKAEFunctions.h>
 #import <ShadowKit/SKAppKitExtensions.h>
@@ -58,8 +60,8 @@ static
 NSImage *SparkDaemonStatusIcon(BOOL status) {
   static NSImage *__enabled = nil, *__disabled = nil;
   if (!__enabled) {
-    __enabled = [[NSImage imageNamed:@"spark" inBundle:[NSBundle bundleWithIdentifier:kSparkKitBundleIdentifier]] retain];
-    __disabled = [[NSImage imageNamed:@"SparkDisabled" inBundle:[NSBundle bundleWithIdentifier:kSparkKitBundleIdentifier]] retain];
+    __enabled = [[NSImage imageNamed:@"enabled" inBundle:[NSBundle bundleWithIdentifier:kSparkKitBundleIdentifier]] retain];
+    __disabled = [[NSImage imageNamed:@"disabled" inBundle:[NSBundle bundleWithIdentifier:kSparkKitBundleIdentifier]] retain];
   }
   return status ? __enabled : __disabled;
 }
@@ -101,11 +103,6 @@ NSImage *SparkDaemonStatusIcon(BOOL status) {
   return nil;
 }
 
-static 
-void SparkSDActionDisplayStatus(BOOL status) {
-  
-}
-
 static
 void SparkSDActionToggleDaemonStatus() {
   /* MUST use kCurrentProcess, else the event will be handle in the event loop => dead lock */
@@ -142,6 +139,7 @@ void SparkSDActionToggleDaemonStatus() {
     err = SKAESendEventNoReply(&aevt);
     require_noerr(err, bail);
     
+    SparkNotificationDisplayImage(SparkDaemonStatusIcon(!status), -1);
 bail:
     SKAEDisposeDesc(&aevt);
   }

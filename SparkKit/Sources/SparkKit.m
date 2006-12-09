@@ -16,15 +16,15 @@ NSString * const kSparkFolderName = @"Spark";
 NSString * const kSparkEditorHFSCreator = @"Sprk";
 NSString * const kSparkDaemonHFSCreator = @"SprS";
 
-/* Spark Core preferences */
-#if defined(DEBUG)
-NSString * const kSparkBundleIdentifier = @"org.shadowlab.Spark-debug";
-#else
-NSString * const kSparkBundleIdentifier = @"org.shadowlab.Spark";
-#endif
-
 NSString * const kSparkKitBundleIdentifier = @"org.shadowlab.SparkKit";
 NSString * const kSparkDaemonBundleIdentifier = @"org.shadowlab.SparkDaemon";
+
+/* Spark Core preferences */
+#if defined(DEBUG)
+NSString * const kSparkPreferencesIdentifier = @"org.shadowlab.Spark-debug";
+#else
+NSString * const kSparkPreferencesIdentifier = @"org.shadowlab.Spark";
+#endif
 
 OSType kSparkFinderCreatorType;
 const OSType kSparkEditorHFSCreatorType = 'Sprk';
@@ -33,10 +33,10 @@ const OSType kSparkDaemonHFSCreatorType = 'SprS';
 static __attribute__((constructor)) 
 void __SparkInitializeLibrary() {
   kSparkFinderCreatorType = 'MACS';
-  CFStringRef str = CFPreferencesCopyAppValue(CFSTR("SparkFinderSignature"), (CFStringRef)kSparkBundleIdentifier);
+  CFStringRef str = CFPreferencesCopyAppValue(CFSTR("SparkFinderSignature"), (CFStringRef)kSparkPreferencesIdentifier);
   if (str) {
     if (!CFStringGetTypeID() == CFGetTypeID(str)) {
-      CFPreferencesSetAppValue(CFSTR("SparkFinderSignature"), NULL, (CFStringRef)kSparkBundleIdentifier);
+      CFPreferencesSetAppValue(CFSTR("SparkFinderSignature"), NULL, (CFStringRef)kSparkPreferencesIdentifier);
     } else {
       OSType type = SKGetOSTypeFromString(str);
       if (type && type != kUnknownType)
@@ -45,30 +45,3 @@ void __SparkInitializeLibrary() {
     CFRelease(str);
   }
 }
-
-#pragma mark -
-#pragma mark Utilities
-SparkContext SparkGetCurrentContext() {
-  static SparkContext ctxt = 0xffffffff;
-  if (0xffffffff == ctxt) {
-    if ([[[NSBundle mainBundle] bundleIdentifier] isEqualToString:kSparkDaemonBundleIdentifier])
-      ctxt = kSparkDaemonContext;
-    else
-      ctxt = kSparkEditorContext;
-  }
-  return ctxt;
-}
-
-void SparkLaunchEditor() {
-  switch (SparkGetCurrentContext()) {
-    case kSparkEditorContext:
-      [NSApp activateIgnoringOtherApps:NO];
-      break;
-    case kSparkDaemonContext: {
-      NSString *sparkPath = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"../../../"];
-      [[NSWorkspace sharedWorkspace] launchApplication:sparkPath];
-    }
-      break;
-  }
-}
-

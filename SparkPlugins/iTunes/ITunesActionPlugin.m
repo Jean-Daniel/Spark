@@ -59,6 +59,7 @@ NSImage *ITunesGetApplicationIcon() {
 
 /* This function is called when the user open the iTunes Action Editor Panel */
 - (void)loadSparkAction:(id)sparkAction toEdit:(BOOL)flag {
+  [ibName setStringValue:[sparkAction name] ? : @""];
   /* if flag == NO, the user want to create a new Action, else he wants to edit an existing Action */
   if (flag) {
     [self setLsHide:[sparkAction launchHide]];
@@ -68,7 +69,6 @@ NSImage *ITunesGetApplicationIcon() {
       [self loadPlaylists];
       [self setPlaylist:[sparkAction playlist]];
     }
-    [ibName setStringValue:[sparkAction name] ? : @""];
     switch ([sparkAction visualMode]) {
       case kiTunesSettingCustom: {
         const ITunesVisual *visual = [sparkAction visual];

@@ -16,9 +16,8 @@
   SEL sp_action;
   
   struct _sp_stFlags {
-    unsigned int enabled:1;
     unsigned int overwrite:1;
-    unsigned int reserved:30;
+    unsigned int reserved:31;
   } sp_stFlags;
 }
 
@@ -29,9 +28,6 @@
 
 - (SEL)action;
 - (void)setAction:(SEL)action;
-
-- (BOOL)isEnabled;
-- (void)setEnabled:(BOOL)flag;
 
 - (BOOL)hasManyAction;
 - (void)setHasManyAction:(BOOL)flag;

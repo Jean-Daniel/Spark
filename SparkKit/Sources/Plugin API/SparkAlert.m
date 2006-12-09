@@ -9,12 +9,13 @@
 
 #import <SparkKit/SparkKit.h>
 #import <SparkKit/SparkAlert.h>
+#import <SparkKit/SparkFunctions.h>
 
 @implementation SparkAlert
 
 - (id)init {
   if (self = [super init]) {
-    [self setHideSparkButton:[[[NSBundle mainBundle] bundleIdentifier] isEqualToString:kSparkBundleIdentifier]];
+    [self setHideSparkButton:SparkGetCurrentContext() == kSparkEditorContext];
   }
   return self;
 }

@@ -46,6 +46,12 @@ NSTimeInterval SparkGetDefaultKeyRepeatInterval(void);
   NSString *sp_categorie, *sp_description;
 }
 
+/* Designated initializer */
+- (id)init;
+
+  /* Load common properties from an other action */
+- (void)setPropertiesFromAction:(SparkAction *)anAction;
+
 /*!
 @method
  @abstract Required! Serialization method. This method MUST always call super method before adding its own value.

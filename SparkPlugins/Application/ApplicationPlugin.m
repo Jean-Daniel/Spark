@@ -42,10 +42,10 @@ NSString * const kApplicationActionBundleIdentifier = @"org.shadowlab.spark.appl
     [self setPath:[sparkAction path]];
     [self setFlags:[sparkAction flags]];
     [self setAction:[sparkAction action]];
-    [ibName setStringValue:[sparkAction name] ? : @""];
   } else {
     [self setAction:kApplicationLaunch];
   }
+  [ibName setStringValue:[sparkAction name] ? : @""];
 }
 
 - (NSAlert *)sparkEditorShouldConfigureAction {

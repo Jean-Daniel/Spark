@@ -122,7 +122,13 @@ static NSString * const kSparkActionDescriptionKey = @"SADescription";
 
 #pragma mark -
 #pragma mark Public Methods
+- (void)setPropertiesFromAction:(SparkAction *)anAction {
+  /* Copy name */
+  [self setName:[anAction name]];
+}
+
 - (SparkAlert *)actionDidLoad {
+  /* Compatibility */
   if ([self respondsToSelector:@selector(check)])
     return [self performSelector:@selector(check)];
   return nil;

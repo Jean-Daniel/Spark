@@ -28,6 +28,9 @@
 #import "SEEntriesManager.h"
 #import "SEServerConnection.h"
 
+
+const UInt32 kSparkVersion = 0x030000; /* 3.0.0 */
+
 int main(int argc, const char *argv[]) {
 #if defined(DEBUG)
   NSDebugEnabled = YES;
@@ -64,9 +67,8 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
                                              selector:@selector(didChangePlugins:)
                                                  name:SparkActionLoaderDidRegisterPlugInNotification
                                                object:nil];
-    /* Load script */
-    [[NSScriptSuiteRegistry sharedScriptSuiteRegistry] loadSuitesFromBundle:[NSBundle bundleWithIdentifier:kSparkKitBundleIdentifier]];
-    DLog(@"%@", [[NSScriptSuiteRegistry sharedScriptSuiteRegistry] suiteNames]);
+    /* Force script system initialization */
+    [NSScriptSuiteRegistry sharedScriptSuiteRegistry];
   }
   return self;
 }
@@ -173,13 +175,7 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
     }
   
     /* Register defaults */
-    //    @try {
-    //      [Preferences checkVersion];
-    //      [Preferences verifyAutoStart];
-    //    } @catch (id exception) {
-    //      SKLogException(exception);
-    //    }
-    //    [Preferences setDefaultsValues];
+    [SEPreferences setup];
   }
   return self;
 }

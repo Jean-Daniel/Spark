@@ -1,10 +1,11 @@
-//
-//  SparkScriptApplication.m
-//  SparkKit
-//
-//  Created by Grayfox on 08/12/06.
-//  Copyright 2006 Adamentium. All rights reserved.
-//
+/*
+ *  SparkScriptApplication.m
+ *  SparkKit
+ *
+ *  Created by Black Moon Team.
+ *  Copyright (c) 2004 - 2006 Shadow Lab. All rights reserved.
+ *
+ */
 
 #import <SparkKit/SparkLibrary.h>
 

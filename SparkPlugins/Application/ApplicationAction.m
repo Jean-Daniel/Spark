@@ -10,8 +10,6 @@
 
 #import <SparkKit/SparkShadowKit.h>
 
-#import <ShadowKit/SKIconView.h>
-#import <ShadowKit/SKBezelItem.h>
 #import <ShadowKit/SKFunctions.h>
 #import <ShadowKit/SKAEFunctions.h>
 #import <ShadowKit/SKFSFunctions.h>
@@ -25,27 +23,6 @@ static NSString * const kApplicationLSFlagsKey = @"ApplicationLSFlags";
 /* Only for coding */
 static NSString * const kApplicationIdentifierKey = @"kApplicationIdentifierKey";
 
-static
-SKBezelItem *ApplicationSharedVisual() {
-  static SKBezelItem *visual = nil;
-  if (visual)
-    return visual;
-  @synchronized ([ApplicationAction class]) {
-    if (!visual) {
-      visual = [[SKBezelItem alloc] initWithContent:[[SKIconView alloc] initWithFrame:NSMakeRect(0, 0, 128, 128)]];
-    }
-  }
-  return visual;
-}
-
-static 
-void ApplicationDisplayNotification(IconRef anIcon) {
-  SKBezelItem *shared = ApplicationSharedVisual();
-  SKIconView *icns = [shared content];
-  [icns setIconRef:anIcon];
-  [shared display:nil];
-}
-
 @implementation ApplicationAction
 
 static 
@@ -53,13 +30,13 @@ ApplicationVisualSetting AASharedSettings = {NO, NO};
 
 + (void)initialize {
   if ([ApplicationAction class] == self) {
-    CFBooleanRef value = CFPreferencesCopyAppValue(CFSTR("AAVisualLaunch"), (CFStringRef)kSparkBundleIdentifier);
+    CFBooleanRef value = CFPreferencesCopyAppValue(CFSTR("AAVisualLaunch"), (CFStringRef)kSparkPreferencesIdentifier);
     if (!value || CFBooleanGetValue(value))
       AASharedSettings.launch = YES;
     if (value)
       CFRelease(value);
 
-    value = CFPreferencesCopyAppValue(CFSTR("AAVisualActivate"), (CFStringRef)kSparkBundleIdentifier);
+    value = CFPreferencesCopyAppValue(CFSTR("AAVisualActivate"), (CFStringRef)kSparkPreferencesIdentifier);
     if (value && CFBooleanGetValue(value))
       AASharedSettings.activation = YES;
     if (value)
@@ -85,15 +62,15 @@ ApplicationVisualSetting AASharedSettings = {NO, NO};
       change = YES;
       CFPreferencesSetAppValue(CFSTR("AAVisualLaunch"), 
                                settings->launch ? kCFBooleanTrue : kCFBooleanFalse,
-                               (CFStringRef)kSparkBundleIdentifier);
+                               (CFStringRef)kSparkPreferencesIdentifier);
       CFPreferencesSetAppValue(CFSTR("AAVisualActivate"), 
                                settings->activation ? kCFBooleanTrue : kCFBooleanFalse,
-                               (CFStringRef)kSparkBundleIdentifier);
+                               (CFStringRef)kSparkPreferencesIdentifier);
     }
   } else {
     // Remove key
-    CFPreferencesSetAppValue(CFSTR("AAVisualLaunch"), NULL, (CFStringRef)kSparkBundleIdentifier);
-    CFPreferencesSetAppValue(CFSTR("AAVisualActivate"), NULL, (CFStringRef)kSparkBundleIdentifier);
+    CFPreferencesSetAppValue(CFSTR("AAVisualLaunch"), NULL, (CFStringRef)kSparkPreferencesIdentifier);
+    CFPreferencesSetAppValue(CFSTR("AAVisualActivate"), NULL, (CFStringRef)kSparkPreferencesIdentifier);
     
     change = (!AASharedSettings.launch || !AASharedSettings.activation);
     if (change) {
@@ -458,7 +435,7 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
                              &aa_icon, NULL);
     }
   }
-  ApplicationDisplayNotification(aa_icon);
+  SparkNotificationDisplayIcon(aa_icon, -1);
 }
 
 #pragma mark -

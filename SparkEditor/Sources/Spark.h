@@ -6,7 +6,6 @@
  *  Copyright (c) 2004 - 2006, Shadow Lab. All rights reserved.
  */
 
-//#import "SparkExporter.h"
 #import <SparkKit/SparkAppleScriptSuite.h>
 
 SK_PRIVATE
@@ -16,9 +15,12 @@ NSString * const SparkTriggerListPboardType;
 SK_PRIVATE
 NSString * const SESparkEditorDidChangePluginStatusNotification;
 
+/* Spark current version */
+SK_PRIVATE
+const UInt32 kSparkVersion;
+
 @class SparkLibrary;
 @class SELibraryWindow;
-
 @interface SparkEditor : NSApplication {
   /* Scripting Addition */
   NSMenu *se_plugins;

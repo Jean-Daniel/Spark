@@ -21,14 +21,15 @@
   IBOutlet NSButton *ibConfirm;
   @private
     NSSize se_min;
-  NSView *se_view; /* current view */
+  NSView *se_view; /* current view __weak */
   SparkEntry *se_entry; /* Edited entry */
   
   NSMutableArray *se_plugins; /* plugins list */
-  SparkActionPlugIn *se_plugin; /* current action plugin */
+  SparkActionPlugIn *se_plugin; /* current action plugin __weak */
     
   NSMutableArray *se_views; /* binding cycle hack */
   NSMapTable *se_instances; /* plugin instances */
+  NSMapTable *se_sizes; /* plugin min sizes */
   
   id se_delegate;
 }

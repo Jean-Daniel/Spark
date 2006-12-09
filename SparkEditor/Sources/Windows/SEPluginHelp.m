@@ -123,7 +123,10 @@
 
 #pragma mark -
 - (void)setPage:(NSString *)aPage {
-  
+  if (aPage && [se_plugins indexOfItemWithTitle:aPage] != NSNotFound) {
+    [se_plugins selectItemWithTitle:aPage];
+    [self selectPlugin:nil];
+  }
 }
 
 - (void)setPlugin:(SparkPlugIn *)aPlugin {

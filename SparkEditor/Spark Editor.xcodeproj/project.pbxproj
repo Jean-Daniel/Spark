@@ -368,7 +368,6 @@
 		982312850AFE3F2100675226 /* SEHSplitBar.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SEHSplitBar.tiff; sourceTree = "<group>"; };
 		98240159060C7ABE00A0DB07 /* Spark.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spark.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		98240188060C7B0700A0DB07 /* Spark.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Spark.m; sourceTree = "<group>"; };
-		98240196060C7B0700A0DB07 /* Preferences.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = Preferences.m; path = "Classes/UI Controllers/Preferences.m"; sourceTree = "<group>"; };
 		982401E2060C7B3000A0DB07 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = English; path = English.lproj/Credits.rtf; sourceTree = "<group>"; };
 		982401E6060C7B3000A0DB07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		982401EE060C7B3000A0DB07 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
@@ -381,7 +380,7 @@
 		98362B430A97664100F97F50 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SEInheritsPlugin.nib; sourceTree = "<group>"; };
 		9837AA72071B0E7F0057584D /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/TableAlert.nib; sourceTree = "<group>"; };
 		9837AA74071B11130057584D /* TableAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TableAlertController.m; path = "Classes/UI Controllers/TableAlertController.m"; sourceTree = "<group>"; };
-		9837AA76071B11240057584D /* TableAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TableAlertController.h; path = "UI Controllers/TableAlertController.h"; sourceTree = "<group>"; };
+		9837AA76071B11240057584D /* TableAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TableAlertController.h; path = "Headers/UI Controllers/TableAlertController.h"; sourceTree = "<group>"; };
 		984196BB0A5E52670009A093 /* System.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = System.tiff; sourceTree = "<group>"; };
 		984199310A5E67BE0009A093 /* Add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Add.png; sourceTree = "<group>"; };
 		984199320A5E67BE0009A093 /* AddDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AddDown.png; sourceTree = "<group>"; };
@@ -398,7 +397,6 @@
 		984BCE41060C7E990043CDEA /* Spark.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Spark.icns; sourceTree = "<group>"; };
 		984BCE5F060C7EBD0043CDEA /* SparkSuite.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.sdef; path = SparkSuite.sdef; sourceTree = "<group>"; };
 		984BCE6C060C7FEC0043CDEA /* Spark.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Spark.h; sourceTree = "<group>"; };
-		984BCE79060C7FEC0043CDEA /* Preferences.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Preferences.h; path = "UI Controllers/Preferences.h"; sourceTree = "<group>"; };
 		98593CDF073EE728003BA845 /* ExporterUI.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ExporterUI.m; sourceTree = "<group>"; };
 		98593CE3073EE736003BA845 /* SparkExporter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SparkExporter.m; sourceTree = "<group>"; };
 		98593CF0073EE812003BA845 /* SparkExporter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = SparkExporter.h; path = "../../Headers/Import-Export/SparkExporter.h"; sourceTree = "<group>"; };
@@ -743,15 +741,6 @@
 			path = "AppleScript Suite";
 			sourceTree = "<group>";
 		};
-		984BCE64060C7FEC0043CDEA /* Headers */ = {
-			isa = PBXGroup;
-			children = (
-				984BCE79060C7FEC0043CDEA /* Preferences.h */,
-				9837AA76071B11240057584D /* TableAlertController.h */,
-			);
-			path = Headers;
-			sourceTree = "<group>";
-		};
 		98593CDA073EE6A8003BA845 /* Import/Export */ = {
 			isa = PBXGroup;
 			children = (
@@ -778,7 +767,6 @@
 		98B704BB0A86208E00DB692D /* Deprecated */ = {
 			isa = PBXGroup;
 			children = (
-				984BCE64060C7FEC0043CDEA /* Headers */,
 				98B704BC0A86209F00DB692D /* Classes */,
 				98762B3D074F53A900D0A4C1 /* Sheets */,
 			);
@@ -789,7 +777,7 @@
 			isa = PBXGroup;
 			children = (
 				98593CDA073EE6A8003BA845 /* Import/Export */,
-				98240196060C7B0700A0DB07 /* Preferences.m */,
+				9837AA76071B11240057584D /* TableAlertController.h */,
 				9837AA74071B11130057584D /* TableAlertController.m */,
 			);
 			name = Classes;

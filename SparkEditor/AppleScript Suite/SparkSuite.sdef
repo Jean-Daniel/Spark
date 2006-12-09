@@ -211,7 +211,7 @@
 			</parameter>
 		</command>
 	</suite>
-	<suite hidden="yes" name="Spark Suite" code="SpSu">
+	<suite name="Spark Suite" code="SpSu">
 		<class name="plugin" code="cPlg" description="Spark Action Plugin" plural="plugins" inherits="item">
 			<cocoa class="SparkPlugIn"/>
 			<property name="icon" code="pIco" description="Plugin icon" type="image"/>
@@ -226,15 +226,31 @@
 			<element type="trigger">
 				<accessor style="id"/>
 			</element>
-			<property name="path" code="pFil" description="Library persistent location" type="file">
-				<cocoa key="path"/>
+			<property name="location" code="pLoc" description="Library persistent location" type="file">
+				<cocoa key="location"/>
 			</property>
 		</class>
-		<class name="action" code="cAct" description="Spark Action" plural="actions">
+		<class name="action" code="cAct" description="Spark Action" plural="actions" inherits="spark object">
 			<cocoa class="SparkAction"/>
+			<property name="version" code="vers" description="Action version" type="integer"/>
+			<property name="categorie" code="pCat" type="text" access="r"/>
+			<property name="description" code="pDes" type="text">
+				<cocoa key="actionDescription"/>
+			</property>
 		</class>
 		<class name="trigger" code="cTrg" description="Spark Trigger" plural="triggers">
 			<cocoa class="SparkTrigger"/>
+		</class>
+		<class hidden="yes" name="spark object" code="cSpO" description="Abstract Spark Object" plural="spark objects" inherits="item">
+			<cocoa class="SparkObject"/>
+			<property name="uid" code="ID  " description="Uniq identifier" type="integer">
+				<cocoa key="uid"/>
+			</property>
+			<property name="icon" code="pIco" description="Object icon" type="image"/>
+			<property name="name" code="pnam" description="Object name" type="text"/>
+			<property name="library" code="pLib" description="Parent library" type="library" access="r">
+				<cocoa key="library"/>
+			</property>
 		</class>
 	</suite>
 	<suite name="Spark Editor Suite" code="Sprk" description="Some Spark privates extensions. Do not use please!.">
@@ -244,11 +260,11 @@
 			<enumerator name="stopped" code="stop" description="Daemon stopped."/>
 			<enumerator name="error" code="erro" description="Error prevent starting."/>
 		</enumeration>
-		<class hidden="yes" name="application" code="capp" description="Spark application object." plural="applications" inherits="item">
+		<class name="application" code="capp" description="Spark application object." plural="applications" inherits="item">
 			<contents name="contents" description="Main Spark library" type="library">
 				<cocoa key="library"/>
 			</contents>
-			<cocoa class="NSApplication"/>
+			<cocoa class="SparkEditor"/>
 			<element description="Spark plugin" type="plugin"/>
 			<element type="window" access="r">
 				<cocoa key="orderedWindows"/>

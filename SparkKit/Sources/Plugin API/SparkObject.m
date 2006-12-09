@@ -8,6 +8,7 @@
  */
 
 #import <SparkKit/SparkObject.h>
+#import <SparkKit/SparkFunctions.h>
 
 #import <ShadowKit/SKFunctions.h>
 

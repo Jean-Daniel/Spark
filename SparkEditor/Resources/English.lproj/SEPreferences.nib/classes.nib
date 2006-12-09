@@ -5,7 +5,7 @@
             ACTIONS = {close = id; }; 
             CLASS = SEPreferences; 
             LANGUAGE = ObjC; 
-            OUTLETS = {ibPlugins = NSOutlineView; }; 
+            OUTLETS = {ibController = NSObjectController; ibPlugins = NSOutlineView; }; 
             SUPERCLASS = SKWindowController; 
         }, 
         {CLASS = SKImageAndTextCell; LANGUAGE = ObjC; SUPERCLASS = NSTextFieldCell; }, 

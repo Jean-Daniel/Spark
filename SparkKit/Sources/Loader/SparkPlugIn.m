@@ -23,7 +23,7 @@ static
 BOOL SparkPlugInIsEnabled(NSString *identifier, BOOL *exists) {
   BOOL enabled = YES;
   if (exists) *exists = NO;
-  CFDictionaryRef plugins = CFPreferencesCopyAppValue(CFSTR("SparkPlugins"), (CFStringRef)kSparkBundleIdentifier);
+  CFDictionaryRef plugins = CFPreferencesCopyAppValue(CFSTR("SparkPlugins"), (CFStringRef)kSparkPreferencesIdentifier);
   if (plugins) {
     CFBooleanRef status = CFDictionaryGetValue(plugins, identifier);
     if (status) {
@@ -38,7 +38,7 @@ BOOL SparkPlugInIsEnabled(NSString *identifier, BOOL *exists) {
 static 
 void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
   CFMutableDictionaryRef plugins = NULL;
-  CFDictionaryRef prefs = CFPreferencesCopyAppValue(CFSTR("SparkPlugins"), (CFStringRef)kSparkBundleIdentifier);
+  CFDictionaryRef prefs = CFPreferencesCopyAppValue(CFSTR("SparkPlugins"), (CFStringRef)kSparkPreferencesIdentifier);
   if (!prefs) {
     plugins = CFDictionaryCreateMutable(kCFAllocatorDefault, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
   } else {
@@ -46,7 +46,7 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
     CFRelease(prefs);
   }
   CFDictionarySetValue(plugins, identifier, enabled ? kCFBooleanTrue : kCFBooleanFalse);
-  CFPreferencesSetAppValue(CFSTR("SparkPlugins"), plugins, (CFStringRef)kSparkBundleIdentifier);
+  CFPreferencesSetAppValue(CFSTR("SparkPlugins"), plugins, (CFStringRef)kSparkPreferencesIdentifier);
   CFRelease(plugins);
 }
 

@@ -71,10 +71,9 @@
 }
 
 - (void)loadSparkAction:(SystemAction *)sparkAction toEdit:(BOOL)flag {
+  [ibName setStringValue:[sparkAction name] ? : @""];
   if (flag) {
     [self willChangeValueForKey:@"shouldConfirm"];
-    if ([sparkAction name])
-      [ibName setStringValue:[sparkAction name]];
     
     /* Force update menu + placeholder */
     [self setAction:[sparkAction action]];

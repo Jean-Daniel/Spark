@@ -334,11 +334,9 @@ OSType SEServerObjectType(SparkObject *anObject) {
 
 @end
 
-static 
 NSString * const kSparkDaemonExecutableName = @"Spark Daemon.app";
 
-SK_INLINE
-NSString *SEServerPath() {
+NSString *SESparkDaemonPath() {
 #if defined(DEBUG)
   return kSparkDaemonExecutableName;
 #else
@@ -349,7 +347,7 @@ NSString *SEServerPath() {
 BOOL SELaunchSparkDaemon() {
   [SEPreferences synchronize];
   [SparkSharedLibrary() synchronize];
-  NSString *path = SEServerPath();
+  NSString *path = SESparkDaemonPath();
   if (path) {
     if (noErr != SKLSLaunchApplicationAtPath((CFStringRef)path, kCFURLPOSIXPathStyle, kLSLaunchDefaults | kLSLaunchDontSwitch)) {
       DLog(@"Error cannot launch daemon app");
@@ -365,7 +363,7 @@ void SEServerStartConnection() {
   ProcessSerialNumber psn = SKProcessGetProcessWithSignature(kSparkDaemonHFSCreatorType);
   if (psn.lowLongOfPSN != kNoProcess) {
     FSRef dRef;
-    NSString *path = SEServerPath();
+    NSString *path = SESparkDaemonPath();
     if (path && [path getFSRef:&dRef]) {
       FSRef location;
       if (noErr == GetProcessBundleLocation(&psn, &location) && noErr != FSCompareFSRefs(&location, &dRef)) {

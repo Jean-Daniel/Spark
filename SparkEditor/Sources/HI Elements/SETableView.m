@@ -83,9 +83,24 @@ NSString * const SETableSeparator = @"-\e";
   [img drawInRect:[self rectOfRow:[self selectedRow]] fromRect:imgRect operation:NSCompositeSourceOver fraction:1];
 }
 
-//- (void)drawRow:(int)rowIndex clipRect:(NSRect)clipRect {
-//  [super drawRow:rowIndex clipRect:clipRect];
-//}
+/* Nasty private override */
+- (void)_drawDropHighlightOnRow:(int)row {
+  CGContextRef ctxt = [[NSGraphicsContext currentContext] graphicsPort];
+  CGContextSaveGState(ctxt);
+  
+  CGRect rect = CGRectFromNSRect([self rectOfRow:row]);
+  CGContextClipToRect(ctxt, rect);
+  rect.origin.x += 1;
+  rect.origin.y += 1;
+  rect.size.width -= 2;
+  rect.size.height -= 2;
+  SKCGContextAddRoundRect(ctxt, rect, 4);
+  CGContextSetRGBStrokeColor(ctxt, 0.027, 0.322, 0.843, 1);
+  CGContextSetLineWidth(ctxt, 2);
+  CGContextStrokePath(ctxt);
+  
+  CGContextRestoreGState(ctxt);
+}
 
 - (void)textDidEndEditing:(NSNotification *)aNotification {
   NSString *text = [[aNotification object] string];

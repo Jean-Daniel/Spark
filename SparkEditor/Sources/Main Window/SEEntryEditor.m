@@ -36,16 +36,18 @@
   if (self = [super init]) {
     se_views = [[NSMutableArray alloc] init];
     se_plugins = [[NSMutableArray alloc] init];
+    se_sizes = NSCreateMapTable(NSObjectMapKeyCallBacks, NSObjectMapValueCallBacks, 0);
     se_instances = NSCreateMapTable(NSObjectMapKeyCallBacks, NSObjectMapValueCallBacks, 0);
   }
   return self;
 }
 
 - (void)dealloc {
+  [se_entry release];
   [se_views release];
   [se_plugins release];
-  if (se_instances)
-    NSFreeMapTable(se_instances);
+  if (se_sizes) NSFreeMapTable(se_sizes);
+  if (se_instances) NSFreeMapTable(se_instances);
   [super dealloc];
 }
 
@@ -102,6 +104,9 @@
   /* Remove plugins instances */
   [se_views removeAllObjects];
   NSResetMapTable(se_instances);
+  /* Release entry */
+  [se_entry release];
+  se_entry = nil;
 }
 
 - (void)create:(SparkEntry *)entry {
@@ -377,9 +382,11 @@
     }
   } else { /* Other cases, create new action */
     action = [[[cls alloc] init] autorelease];
-	}
+    if ([se_entry action])
+      [action setPropertiesFromAction:[se_entry action]];
+  }
   /* Set plugin's spark action */
-	[se_plugin setSparkAction:action edit:edit];
+  [se_plugin setSparkAction:action edit:edit];
 }
 
 - (void)setActionType:(SparkPlugIn *)aPlugin force:(BOOL)force {
@@ -457,7 +464,7 @@
     
     /* Adjust window attributes */
     NSSize smax = [[self window] frame].size;
-    smax.height += 22;
+    smax.height += 22; // bug ??
     unsigned int mask = [se_view autoresizingMask];
     if (mask & NSViewWidthSizable) {
       smax.width = MAXFLOAT;
@@ -468,7 +475,17 @@
     if (MAXFLOAT <= smax.width || MAXFLOAT <= smax.height) {
       [[self window] setShowsResizeIndicator:YES];
       // TODO compute min size.
-      [[self window] setContentMinSize:NSMakeSize(400, 300)];
+      NSSize min;
+      NSValue *vmin = NSMapGet(se_sizes, se_plugin);
+      if (!vmin) {
+        min = [[self window] frame].size;
+        vmin = [NSValue valueWithSize:min];
+        NSMapInsert(se_sizes, se_plugin, vmin);
+      } else {
+        min = [vmin sizeValue];
+      }
+      
+      [[self window] setContentMinSize:min];
     } else {
       [[self window] setShowsResizeIndicator:NO];
       [[self window] setContentMinSize:smax];
@@ -532,7 +549,7 @@
   NSEvent *event = [NSApp currentEvent];
   float delta = ABS(NSHeight([self frame]) - NSHeight(newFrame));
   if (([event modifierFlags] & NSDeviceIndependentModifierFlagsMask) == NSShiftKeyMask) {
-    return (1.25f * delta / 150.);
+    return (1.f * delta / 150.); //(1.25f * delta / 150.);
   } else {
     return (0.13 * delta / 150.);
   }

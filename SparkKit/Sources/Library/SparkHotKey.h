@@ -15,10 +15,10 @@
 #import <SparkKit/SparkTrigger.h>
 
 typedef enum {
-  kSparkDisableAllSingleKey,
-  kSparkEnableSingleFunctionKey,
-  kSparkEnableAllSingleButNavigation,
-  kSparkEnableAllSingleKey,
+  kSparkDisableAllSingleKey           = 0,
+  kSparkEnableSingleFunctionKey       = 1, /* Default */
+  kSparkEnableAllSingleButNavigation  = 2,
+  kSparkEnableAllSingleKey            = 3,
 } SparkFilterMode;
 
 SPARK_EXPORT

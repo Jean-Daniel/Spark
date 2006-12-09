@@ -9,6 +9,7 @@
 #import <ShadowKit/SKWindowController.h>
 
 @interface SEFirstRun : SKWindowController {
+  @private
   IBOutlet NSTextView *ibText;
   IBOutlet NSButton *ibStartNow;
   IBOutlet NSButton *ibAutoStart;

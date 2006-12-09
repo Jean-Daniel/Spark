@@ -10,20 +10,70 @@
 
 #import "Spark.h"
 #import "SEEntriesManager.h"
+#import "SEServerConnection.h"
 
 #import <SparkKit/SparkKit.h>
 #import <SparkKit/SparkPlugIn.h>
+#import <SparkKit/SparkHotKey.h>
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkActionLoader.h>
 
+#import <ShadowKit/SKLoginItems.h>
+
+/* If daemon should delay library loading at startup */
+CFStringRef kSparkGlobalPrefDelayStartup = CFSTR("SDDelayStartup");
+
+NSString * const kSparkPrefVersion = @"SparkVersion";
+
+/* Hide entry is plugin is disabled */
+NSString * const kSparkPrefHideDisabled = @"SparkHideDisabled";
+/* If daemon should automatically start at login */
+NSString * const kSparkPrefStartAtLogin = @"SparkStartAtLogin";
+/* Define which single key shortcut is allow */
+NSString * const kSparkPrefSingleKeyMode = @"SparkSingleKeyMode";
+
+static
+void _SEPreferencesUpdateLoginItem(void);
+
+SK_INLINE
+BOOL __SEPreferencesLoginItemStatus() {
+  return [[NSUserDefaults standardUserDefaults] boolForKey:kSparkPrefStartAtLogin];
+}
+
+void SEPreferencesSetLoginItemStatus(BOOL status) {
+  [[NSUserDefaults standardUserDefaults] setBool:status forKey:kSparkPrefStartAtLogin];
+  _SEPreferencesUpdateLoginItem();
+}
+
+SK_INLINE
+void __SetSparkKitSingleKeyMode(int mode) {
+  SparkKeyStrokeFilterMode = (mode >= 0 && mode <= 3) ? mode : kSparkEnableSingleFunctionKey;
+}
+
 @implementation SEPreferences
 
++ (void)setup {
+  NSDictionary *values = [NSDictionary dictionaryWithObjectsAndKeys:
+    SKBool(NO), kSparkPrefHideDisabled,
+    SKBool(YES), kSparkPrefStartAtLogin,
+    SKInt(kSparkEnableSingleFunctionKey), kSparkPrefSingleKeyMode,
+    nil];
+  [[NSUserDefaults standardUserDefaults] registerDefaults:values];
+  
+  /* Verify login items */
+  _SEPreferencesUpdateLoginItem();
+  
+  /* Configure Single key mode */
+  __SetSparkKitSingleKeyMode([[NSUserDefaults standardUserDefaults] integerForKey:kSparkPrefSingleKeyMode]);
+}
+
 + (BOOL)synchronize {
-  return [[NSUserDefaults standardUserDefaults] synchronize] && CFPreferencesAppSynchronize((CFStringRef)kSparkBundleIdentifier);
+  return [[NSUserDefaults standardUserDefaults] synchronize] && CFPreferencesAppSynchronize((CFStringRef)kSparkPreferencesIdentifier);
 }
 
 - (id)init {
   if (self = [super init]) {
+    se_login = __SEPreferencesLoginItemStatus();
     se_counts = NSCreateMapTable(NSObjectMapKeyCallBacks, NSObjectMapValueCallBacks, 0);
     se_status = NSCreateMapTable(NSObjectMapKeyCallBacks, NSIntMapValueCallBacks, 0);
     se_plugins = [[NSMutableArray alloc] init];
@@ -124,7 +174,44 @@
   } else {
     [[SEEntriesManager sharedManager] refresh];
   }
+  /* Check login items */
+  if (se_login != __SEPreferencesLoginItemStatus())
+    _SEPreferencesUpdateLoginItem();
+  
+  /* Unbind to release */
+  [ibController setContent:nil];
+  
   [super close:sender];
+}
+
+#pragma mark -
+#pragma mark Preferences
+- (float)delay {
+  float value = 0;
+  CFNumberRef ref = CFPreferencesCopyAppValue(kSparkGlobalPrefDelayStartup, (CFStringRef)kSparkPreferencesIdentifier);
+  if (ref) {
+    CFNumberGetValue(ref, kCFNumberFloatType, &value);
+    CFRelease(ref);
+  }
+  return value;
+}
+- (void)setDelay:(float)delay {
+  CFNumberRef ref = CFNumberCreate(kCFAllocatorDefault, kCFNumberFloatType, &delay);
+  if (ref) {
+    CFPreferencesSetAppValue(kSparkGlobalPrefDelayStartup, ref, (CFStringRef)kSparkPreferencesIdentifier);
+    CFRelease(ref);
+  }
+}
+
+#pragma mark Single Key Mode
+- (int)singleKeyMode {
+  int mode = SparkKeyStrokeFilterMode;
+  return (mode >= 0 && mode <= 3) ? mode : kSparkEnableSingleFunctionKey;
+}
+
+- (void)setSingleKeyMode:(int)mode {
+  __SetSparkKitSingleKeyMode(mode);
+  [[NSUserDefaults standardUserDefaults] setInteger:mode forKey:kSparkPrefSingleKeyMode];
 }
 
 #pragma mark -
@@ -188,3 +275,58 @@
 }
 
 @end
+
+#pragma mark -
+SK_INLINE
+BOOL __CFFileURLCompare(CFURLRef url1, CFURLRef url2) {
+  FSRef r1, r2;
+  if (CFURLGetFSRef(url1, &r1) && CFURLGetFSRef(url2, &r2)) {
+    return FSCompareFSRefs(&r1, &r2) == noErr;
+  }
+  return NO;
+}
+
+void _SEPreferencesUpdateLoginItem() {
+  BOOL status = __SEPreferencesLoginItemStatus();
+  
+  CFArrayRef items = SKLoginItemCopyItems();
+  if (items) {
+    NSString *sparkd = SESparkDaemonPath();
+    NSURL *durl = sparkd ? [NSURL fileURLWithPath:sparkd] : NULL;
+    
+    if (durl) {
+      BOOL shouldAdd = status;
+      CFIndex idx = CFArrayGetCount(items);
+      while (idx-- > 0) {
+        CFDictionaryRef item = CFArrayGetValueAtIndex(items, idx);
+        CFURLRef itemURL = CFDictionaryGetValue(item, kSKLoginItemURL);
+        if (itemURL) {
+          CFStringRef name = CFURLCopyLastPathComponent(itemURL);
+          if (name) {
+            if (CFEqual(name, kSparkDaemonExecutableName)) {
+              if (!status || !__CFFileURLCompare(itemURL, (CFURLRef)durl)) {
+                DLog(@"Remove login item: %@", itemURL);
+#if !defined(DEBUG)
+                SKLoginItemRemoveItemAtIndex(idx);
+#endif
+              } else {
+                DLog(@"Valid login item found");
+                shouldAdd = NO;
+              }
+            } 
+            CFRelease(name);
+          }
+        }
+      }
+      /* Append login item if needed */
+      if (shouldAdd) {
+#if !defined(DEBUG)
+        SKLoginItemAppendItemURL((CFURLRef)durl, YES);
+#else
+        DLog(@"Add login item: %@", durl);
+#endif
+      }
+    }
+    CFRelease(items);
+  }
+}

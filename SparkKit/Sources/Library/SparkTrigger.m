@@ -25,11 +25,10 @@ static SparkAction *sp_spAction = nil;
 #pragma mark Coding
 - (void)encodeWithCoder:(NSCoder *)aCoder {
   [super encodeWithCoder:aCoder];
-  [aCoder encodeInt:sp_stFlags.enabled forKey:@"STEnabled"];
 }
 - (id)initWithCoder:(NSCoder *)aDecoder {
   if (self = [super initWithCoder:aDecoder]) {
-    SKSetFlag(sp_stFlags.enabled, [aDecoder decodeIntForKey:@"STEnabled"]);
+
   }
   return self;
 }
@@ -63,13 +62,6 @@ static SparkAction *sp_spAction = nil;
 }
 - (void)setAction:(SEL)action {
   sp_action = action;
-}
-
-- (BOOL)isEnabled {
-  return sp_stFlags.enabled;
-}
-- (void)setEnabled:(BOOL)flag {
-  SKSetFlag(sp_stFlags.enabled, flag);
 }
 
 - (BOOL)hasManyAction {

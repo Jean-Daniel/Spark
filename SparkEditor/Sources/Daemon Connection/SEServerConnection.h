@@ -33,6 +33,11 @@
 @end
 
 SK_PRIVATE
+NSString * const kSparkDaemonExecutableName;
+
+SK_PRIVATE
 BOOL SELaunchSparkDaemon(void);
+SK_PRIVATE
+NSString *SESparkDaemonPath(void);
 SK_PRIVATE
 void SEServerStartConnection(void);

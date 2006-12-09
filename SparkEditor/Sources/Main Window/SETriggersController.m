@@ -10,6 +10,7 @@
 #import "SEEntriesManager.h"
 #import "SELibraryWindow.h"
 #import "SESparkEntrySet.h"
+#import "SEPreferences.h"
 #import "SETriggerCell.h"
 #import "SEEntryEditor.h"
 #import "Spark.h"
@@ -165,7 +166,7 @@ BOOL SEFilterEntry(NSString *search, SparkEntry *entry) {
     NSEnumerator *triggers = [se_list objectEnumerator];
     /*  Get current snapshot */
     SESparkEntrySet *snapshot = [[SEEntriesManager sharedManager] snapshot];
-    BOOL hide = [[NSUserDefaults standardUserDefaults] boolForKey:@"SparkHideDisabled"];
+    BOOL hide = [[NSUserDefaults standardUserDefaults] boolForKey:kSparkPrefHideDisabled];
     while (trigger = [triggers nextObject]) {
       SparkEntry *entry = [snapshot entryForTrigger:trigger];
       if (entry && (!hide || [entry isPlugged])) {

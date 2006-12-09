@@ -10,9 +10,6 @@
 
 #import "ITunesAESuite.h"
 
-#import <ShadowKit/SKIconView.h>
-#import <ShadowKit/SKBezelItem.h>
-
 #import <ShadowKit/SKFunctions.h>
 #import <ShadowKit/SKLSFunctions.h>
 #import <ShadowKit/SKAEFunctions.h>
@@ -56,12 +53,12 @@ static ITunesVisual defaultVisual = {delay: -1};
   } else {
     @synchronized(self) {
       if (defaultVisual.delay < 0) {
-        CFPreferencesAppSynchronize((CFStringRef)kSparkBundleIdentifier);
-        CFDataRef data = CFPreferencesCopyAppValue(CFSTR("iTunesSharedVisual"), (CFStringRef)kSparkBundleIdentifier);
+        CFPreferencesAppSynchronize((CFStringRef)kSparkPreferencesIdentifier);
+        CFDataRef data = CFPreferencesCopyAppValue(CFSTR("iTunesSharedVisual"), (CFStringRef)kSparkPreferencesIdentifier);
         if (data) {
           if (!ITunesVisualUnpack((id)data, &defaultVisual)) {
             DLog(@"Invalid shared visual: %@", data);
-            CFPreferencesSetAppValue(CFSTR("iTunesSharedVisual"), NULL, (CFStringRef)kSparkBundleIdentifier);
+            CFPreferencesSetAppValue(CFSTR("iTunesSharedVisual"), NULL, (CFStringRef)kSparkPreferencesIdentifier);
           }
           CFRelease(data);
         }
@@ -83,12 +80,12 @@ static ITunesVisual defaultVisual = {delay: -1};
     if (!ITunesVisualIsEqualTo(visual, &defaultVisual)) {
       /* If settings equals defaults settings */
       if (ITunesVisualIsEqualTo(visual, &kiTunesDefaultSettings)) {
-        CFPreferencesSetAppValue(CFSTR("iTunesSharedVisual"), NULL, (CFStringRef)kSparkBundleIdentifier);
+        CFPreferencesSetAppValue(CFSTR("iTunesSharedVisual"), NULL, (CFStringRef)kSparkPreferencesIdentifier);
       } else {
         memcpy(&defaultVisual, visual, sizeof(defaultVisual));
         data = ITunesVisualPack(&defaultVisual);
         if (data && kSparkEditorContext == SparkGetCurrentContext()) {
-          CFPreferencesSetAppValue(CFSTR("iTunesSharedVisual"), (CFDataRef)data, (CFStringRef)kSparkBundleIdentifier);
+          CFPreferencesSetAppValue(CFSTR("iTunesSharedVisual"), (CFDataRef)data, (CFStringRef)kSparkPreferencesIdentifier);
         }
       }
       change = YES;
@@ -96,7 +93,7 @@ static ITunesVisual defaultVisual = {delay: -1};
   } else {
     if (kSparkEditorContext == SparkGetCurrentContext()) {
       /* Remove key */
-      CFPreferencesSetAppValue(CFSTR("iTunesSharedVisual"), NULL, (CFStringRef)kSparkBundleIdentifier);
+      CFPreferencesSetAppValue(CFSTR("iTunesSharedVisual"), NULL, (CFStringRef)kSparkPreferencesIdentifier);
     }
     /* Reset to default */
     if (!ITunesVisualIsEqualTo(&kiTunesDefaultSettings, &defaultVisual)) {
@@ -346,18 +343,11 @@ bail:
 }
 
 - (void)notifyLaunch {
-  static SKBezelItem *notify = nil;
-  if (!notify) {
-    IconRef ref = NULL;
-    SKIconView *icon = [[SKIconView alloc] initWithFrame:NSMakeRect(0, 0, 128, 128)];
-    if (noErr == GetIconRef(kOnSystemDisk, kiTunesSignature, 'APPL', &ref)) {
-      [icon setIconRef:ref];
-      ReleaseIconRef(ref);
-    }
-    notify = [[SKBezelItem alloc] initWithContent:icon];
-    [icon release];
+  IconRef ref = NULL;
+  if (noErr == GetIconRef(kOnSystemDisk, kiTunesSignature, 'APPL', &ref)) {
+    SparkNotificationDisplayIcon(ref, -1);
+    ReleaseIconRef(ref);
   }
-  [notify display:nil];
 }
 
 - (SparkAlert *)performAction {

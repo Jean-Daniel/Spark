@@ -301,7 +301,7 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
 - (NSDragOperation)tableView:(NSTableView *)aTableView validateDrop:(id <NSDraggingInfo>)info proposedRow:(int)row proposedDropOperation:(NSTableViewDropOperation)operation {
   if (NSTableViewDropOn == operation) {
     SparkList *list = [se_content objectAtIndex:row];
-    if (![list isDynamic] && [[[info draggingPasteboard] types] containsObject:SparkTriggerListPboardType])
+    if ([list uid] > kSparkLibraryReserved && ![list isDynamic] && [[[info draggingPasteboard] types] containsObject:SparkTriggerListPboardType])
       return NSDragOperationCopy;
   }
   return NSDragOperationNone;
