@@ -95,7 +95,7 @@ NSString * const kApplicationActionBundleIdentifier = @"org.shadowlab.spark.appl
   else
     [action setName:[[ibName cell] placeholderString]]; 
   
-  [action setActionDescription:ApplicationActionDescription(action, aa_name)];
+  [action setActionDescription:ApplicationActionDescription(action, [[action application] name])];
 }
 
 - (void)pluginViewWillBecomeHidden {

@@ -71,6 +71,8 @@ typedef struct _ApplicationVisualSetting {
 - (ApplicationActionType)action;
 - (void)setAction:(ApplicationActionType)action;
 
+- (SKAliasedApplication *)application;
+
 - (void)launchApplication;
 - (void)quitApplication;
 - (void)toggleApplicationState;

@@ -11,9 +11,10 @@
 #import <SparkKit/SparkAlert.h>
 #import <SparkKit/SparkMultipleAlerts.h>
 
-#import <ShadowKit/SKBezelItem.h>
 #import <ShadowKit/SKIconView.h>
 #import <ShadowKit/SKImageView.h>
+#import <ShadowKit/SKBezelItem.h>
+#import <ShadowKit/SKProcessFunctions.h>
 
 #pragma mark Utilities
 void SparkLaunchEditor() {
@@ -22,8 +23,19 @@ void SparkLaunchEditor() {
       [NSApp activateIgnoringOtherApps:NO];
       break;
     case kSparkDaemonContext: {
-      NSString *sparkPath = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"../../../"];
-      [[NSWorkspace sharedWorkspace] launchApplication:sparkPath];
+      ProcessSerialNumber psn = SKProcessGetProcessWithSignature(kSparkEditorHFSCreatorType);
+      if (psn.lowLongOfPSN != kNoProcess) {
+        SetFrontProcess(&psn);
+        SKAESendSimpleEvent(kSparkEditorHFSCreatorType, kCoreEventClass, kAEReopenApplication);
+      } else {
+#if defined(DEBUG)
+        NSString *sparkPath = @"./Spark.app";
+        [[NSWorkspace sharedWorkspace] openFile:sparkPath];
+#else
+        NSString *sparkPath = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"../../../"];
+        [[NSWorkspace sharedWorkspace] launchApplication:sparkPath];
+#endif   
+      }
     }
       break;
   }

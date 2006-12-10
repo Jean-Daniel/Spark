@@ -474,7 +474,6 @@
     }
     if (MAXFLOAT <= smax.width || MAXFLOAT <= smax.height) {
       [[self window] setShowsResizeIndicator:YES];
-      // TODO compute min size.
       NSSize min;
       NSValue *vmin = NSMapGet(se_sizes, se_plugin);
       if (!vmin) {

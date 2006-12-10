@@ -113,7 +113,7 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
   [self buildPluginLists];
   [self rearrangeObjects];
   [table reloadData];
-  /* TODO: Adjust selection */
+  /* Adjust selection */
   int row = [table selectedRow];
   while (row > 0) {
     if ([[[se_content objectAtIndex:row] name] isEqualToString:SETableSeparator]) {

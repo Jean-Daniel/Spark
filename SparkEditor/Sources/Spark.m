@@ -640,10 +640,7 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
 - (void)createDebugMenu {
   id debugMenu = [[NSMenuItem alloc] initWithTitle:@"" action:nil keyEquivalent:@""];
   id menu = [[NSMenu alloc] initWithTitle:@"Debug"];
-  [menu addItemWithTitle:@"Install" action:@selector(openInstaller:) keyEquivalent:@""];
   [menu addItemWithTitle:@"Importer" action:@selector(openImporter:) keyEquivalent:@""];
-  [menu addItemWithTitle:@"Type Chooser" action:@selector(openTypeChooser:) keyEquivalent:@""];
-  [menu addItemWithTitle:@"Entry Editor" action:@selector(openEntryEditor:) keyEquivalent:@""];
   [menu addItemWithTitle:@"Trigger Browser" action:@selector(openTriggerBrowser:) keyEquivalent:@""];
   [menu addItem:[NSMenuItem separatorItem]];
   [menu addItemWithTitle:@"Clean Library" action:@selector(cleanLibrary:) keyEquivalent:@""];
@@ -653,35 +650,10 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
   [debugMenu release];
 }
 
-- (IBAction)openEntryEditor:(id)sender {
-  if (se_mainWindow) {
-    SEEntryEditor *editor = [[SEEntryEditor alloc] init];
-    [editor setReleasedWhenClosed:YES];
-    [NSApp beginSheet: [editor window]
-       modalForWindow: [se_mainWindow window]
-        modalDelegate: self
-       didEndSelector: NULL
-          contextInfo: nil];
-  }
-}
-
 - (IBAction)openTriggerBrowser:(id)sender {
   SETriggerBrowser *browser = [[SETriggerBrowser alloc] init];
   [browser setReleasedWhenClosed:YES];
   [browser showWindow:sender];
-}
-
-@class SETypeChooser;
-- (IBAction)openTypeChooser:(id)sender {
-  if (se_mainWindow) {
-    id chooser = [[SETypeChooser alloc] init];
-    [chooser setReleasedWhenClosed:YES];
-    [NSApp beginSheet: [chooser window]
-       modalForWindow: [se_mainWindow window]
-        modalDelegate: nil
-       didEndSelector: NULL
-          contextInfo: nil];
-  }
 }
 
 //- (IBAction)openImporter:(id)sender {

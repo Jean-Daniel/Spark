@@ -54,6 +54,23 @@
 @end
 
 #pragma mark -
+static 
+NSImage *SparkSDActionIcon(SparkBuiltInAction *action) {
+  NSString *icon = nil;
+  switch ([action action]) {
+    case kSparkSDActionLaunchEditor:
+      icon = @"spark";
+      break;
+    case kSparkSDActionSwitchStatus:
+      icon = @"switch-status";
+      break;
+    case kSparkSDActionSwitchListStatus:
+      icon = @"SimpleList";
+      break;
+  }
+  return icon ? [NSImage imageNamed:icon inBundle:[NSBundle bundleWithIdentifier:kSparkKitBundleIdentifier]] : nil;
+}
+
 @implementation SparkBuiltInAction
 
 static
@@ -157,6 +174,19 @@ bail:
       NSBeep();
   }
   return nil;
+}
+
+- (BOOL)shouldSaveIcon {
+  return NO;
+}
+/* Icon lazy loading */
+- (NSImage *)icon {
+  NSImage *icon = [super icon];
+  if (!icon) {
+    icon = SparkSDActionIcon(self);
+    [super setIcon:icon];
+  }
+  return icon;
 }
 
 #pragma mark -

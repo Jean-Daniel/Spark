@@ -253,8 +253,9 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
         }
       }
     }
+    
     /* Update description */
-    NSString *description = [aa_application name] ? ApplicationActionDescription(self, [aa_application name]) : nil;
+    NSString *description = ApplicationActionDescription(self, [aa_application name]);
     if (description)
       [self setActionDescription:description];
   }
@@ -366,6 +367,9 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
   return alert;
 }
 
+- (NSString *)path {
+  return [aa_application path];
+}
 - (void)setPath:(NSString *)path {
   if (!aa_application && path)
     aa_application = [[SKAliasedApplication alloc] initWithPath:path];
@@ -377,15 +381,15 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
   }
 }
 
-- (NSString *)path {
-  return [aa_application path];
-}
-
 - (ApplicationActionType)action {
   return aa_action;
 }
 - (void)setAction:(ApplicationActionType)action {
   aa_action = action;
+}
+
+- (SKAliasedApplication *)application {
+  return aa_application;
 }
 
 - (LSLaunchFlags)flags {

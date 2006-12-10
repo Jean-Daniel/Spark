@@ -129,6 +129,8 @@
 		98DA2F280AFE193300E394CD /* SKColor.h in Headers */ = {isa = PBXBuildFile; fileRef = 98DA2F270AFE193300E394CD /* SKColor.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		98DAB1CB0A5E8C1500EB6CB3 /* SKOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98DAB1CA0A5E8C1500EB6CB3 /* SKOutlineView.m */; };
 		98DAB1CD0A5E8C2100EB6CB3 /* SKOutlineView.h in Headers */ = {isa = PBXBuildFile; fileRef = 98DAB1CC0A5E8C2100EB6CB3 /* SKOutlineView.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		98DC55290B2CA9340051E04B /* SparkDisabled.png in Resources */ = {isa = PBXBuildFile; fileRef = 98D886E20B2967A900E661EF /* SparkDisabled.png */; };
+		98DC55490B2CAA7D0051E04B /* switch-status.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98BCF0C30708BDA70039136F /* switch-status.tiff */; };
 		98DCC181096C67C4003106E2 /* SKLoginItems.c in Sources */ = {isa = PBXBuildFile; fileRef = 98DCC180096C67C4003106E2 /* SKLoginItems.c */; };
 		98DCC187096C67CF003106E2 /* SKLoginItems.h in Headers */ = {isa = PBXBuildFile; fileRef = 98DCC186096C67CF003106E2 /* SKLoginItems.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		98DDE9820A612E4000D76698 /* SKViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98DDE9810A612E4000D76698 /* SKViewController.m */; };
@@ -295,7 +297,7 @@
 		98A8554B0AFF9D8C00088961 /* spark.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = spark.tiff; sourceTree = "<group>"; };
 		98A856500AFFB1A200088961 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SparkPlugin.nib; sourceTree = "<group>"; };
 		98A923B80A7BC6E200DF1998 /* Application.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Application.tiff; sourceTree = "<group>"; };
-		98BCF0C30708BDA70039136F /* IgnoreAction.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = IgnoreAction.tif; sourceTree = "<group>"; };
+		98BCF0C30708BDA70039136F /* switch-status.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "switch-status.tiff"; sourceTree = "<group>"; };
 		98C56D34096B348400ABE1EF /* ShadowKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ShadowKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		98C56D41096B353900ABE1EF /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		98C56D42096B353900ABE1EF /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Info.plist; path = ShadowKit/Info.plist; sourceTree = SOURCE_ROOT; };
@@ -683,7 +685,7 @@
 				980EEB2D0A7E8A0B00013CF5 /* SimpleList.png */,
 				98A923B80A7BC6E200DF1998 /* Application.tiff */,
 				98D886E20B2967A900E661EF /* SparkDisabled.png */,
-				98BCF0C30708BDA70039136F /* IgnoreAction.tif */,
+				98BCF0C30708BDA70039136F /* switch-status.tiff */,
 				986DB09207135AC100C65FF2 /* CustomKeyIcon.tif */,
 				9825AFBB06FB76BD003A4088 /* ApplicationList.tiff */,
 				986F7A4007071B2F00064694 /* SystemApplication.tif */,
@@ -1036,6 +1038,8 @@
 				98D886E10B29678D00E661EF /* SparkEntry.tiff in Resources */,
 				9862860D0B2AE6BC00866A34 /* disabled.png in Resources */,
 				986286250B2AE8DF00866A34 /* enabled.png in Resources */,
+				98DC55290B2CA9340051E04B /* SparkDisabled.png in Resources */,
+				98DC55490B2CAA7D0051E04B /* switch-status.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
