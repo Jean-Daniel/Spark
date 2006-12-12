@@ -14,6 +14,7 @@ NSString * const SETableSeparator;
 
 @interface SETableView : SKTableView {
   @private
+  BOOL se_lock;
   NSImage *se_highlight;
 }
 

@@ -85,21 +85,33 @@ NSString * const SETableSeparator = @"-\e";
 
 /* Nasty private override */
 - (void)_drawDropHighlightOnRow:(int)row {
-  CGContextRef ctxt = [[NSGraphicsContext currentContext] graphicsPort];
-  CGContextSaveGState(ctxt);
-  
-  CGRect rect = CGRectFromNSRect([self rectOfRow:row]);
-  CGContextClipToRect(ctxt, rect);
-  rect.origin.x += 1;
-  rect.origin.y += 1;
-  rect.size.width -= 2;
-  rect.size.height -= 2;
-  SKCGContextAddRoundRect(ctxt, rect, 4);
-  CGContextSetRGBStrokeColor(ctxt, 0.027, 0.322, 0.843, 1);
-  CGContextSetLineWidth(ctxt, 2);
-  CGContextStrokePath(ctxt);
-  
-  CGContextRestoreGState(ctxt);
+  /* As it is a private method, we have to avoid recursive call,
+  even if it does not occured actually */
+  if (!se_lock) {
+    se_lock = YES;
+    CGContextRef ctxt = [[NSGraphicsContext currentContext] graphicsPort];
+    CGContextSaveGState(ctxt);
+    
+    CGRect rect = CGRectFromNSRect([self rectOfRow:row]);
+    CGContextClipToRect(ctxt, rect);
+    rect.origin.x += 1;
+    rect.origin.y += 1;
+    rect.size.width -= 2;
+    rect.size.height -= 2;
+    
+    /* draw background */
+    SKCGContextAddRoundRect(ctxt, rect, 5);
+    CGContextSetRGBFillColor(ctxt, 0.027f, 0.322f, 0.843f, .15f);
+    CGContextFillPath(ctxt);
+    
+    SKCGContextAddRoundRect(ctxt, rect, 5);
+    CGContextSetRGBStrokeColor(ctxt, 0.027f, 0.322f, 0.843f, 1);
+    CGContextSetLineWidth(ctxt, 2);
+    CGContextStrokePath(ctxt);
+    
+    CGContextRestoreGState(ctxt);
+    se_lock = NO;
+  }
 }
 
 - (void)textDidEndEditing:(NSNotification *)aNotification {

@@ -137,6 +137,7 @@ NSString * const kSystemUserNameKey = @"SystemUserName";
     case kSystemSwitchGrayscale:
       /* System Event */
     case kSystemEmptyTrash:
+    case kSystemKeyboardViewer:
       return nil;
     default:
       return [SparkAlert alertWithMessageText:NSLocalizedStringFromTableInBundle(@"INVALID_ACTION_ALERT",
@@ -181,7 +182,9 @@ NSString * const kSystemUserNameKey = @"SystemUserName";
     case kSystemEmptyTrash:
       [self emptyTrash];
       break;
-      
+    case kSystemKeyboardViewer:
+      SKLSLaunchApplicationWithBundleIdentifier(CFSTR("com.apple.KeyboardViewerServer"), kLSLaunchDefaults);
+      break;
     default:
       NSBeep();
   }
@@ -380,6 +383,8 @@ NSImage *SystemActionIcon(SystemAction *anAction) {
       break;
     case kSystemEmptyTrash:
       icon = @"SystemTrash";
+    case kSystemKeyboardViewer:
+      icon = @"Keyboard";
       break;
   }
   return icon ? [NSImage imageNamed:icon inBundle:kSystemActionBundle] : nil;
@@ -439,6 +444,9 @@ NSString *SystemActionDescription(SystemAction *anAction) {
     case kSystemEmptyTrash:
       desc = NSLocalizedStringFromTableInBundle(@"DESC_EMPTY_TRASH", nil, kSystemActionBundle,
                                                 @"Empty trash * Action Description *");
+      break;
+    case kSystemKeyboardViewer:
+      desc = @"Keyboard Viewer";
       break;
     default:
       desc = NSLocalizedStringFromTableInBundle(@"DESC_INVALID", nil, kSystemActionBundle,

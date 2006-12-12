@@ -20,6 +20,7 @@ typedef enum {
   kSystemSwitchPolarity  = 'Pola', /* 1349479521 */
   /* System event */
   kSystemEmptyTrash      = 'Epty', /* 1164997753 */
+  kSystemKeyboardViewer  = 'KbVi', /* 1264735849 */
 //  kSystemMute,
 //  kSystemEject,
 //  kSystemVolumeUp,

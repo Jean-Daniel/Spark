@@ -31,6 +31,7 @@
 		980EE8130B1C9CCF006B33DE /* rating.png in Resources */ = {isa = PBXBuildFile; fileRef = 980EE8120B1C9CCF006B33DE /* rating.png */; };
 		980EE81A0B1CA12C006B33DE /* info.png in Resources */ = {isa = PBXBuildFile; fileRef = 980EE8190B1CA12C006B33DE /* info.png */; };
 		980EE8280B1CA21E006B33DE /* playlist.png in Resources */ = {isa = PBXBuildFile; fileRef = 980EE8270B1CA21E006B33DE /* playlist.png */; };
+		98201D090B2E9F8A0096EF78 /* Keyboard.png in Resources */ = {isa = PBXBuildFile; fileRef = 98201D080B2E9F8A0096EF78 /* Keyboard.png */; };
 		98328828079602CC00DB780A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 		9832882E079602EC00DB780A /* Labo.m in Sources */ = {isa = PBXBuildFile; fileRef = 9832882D079602EC00DB780A /* Labo.m */; };
 		983974FE0A58637400F79B40 /* SystemActionPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 983974FC0A58637400F79B40 /* SystemActionPlugin.m */; };
@@ -272,6 +273,7 @@
 		981B624209386E340024C0D9 /* ShadowDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowDebug.xcconfig; sourceTree = "<group>"; };
 		981B624309386E340024C0D9 /* ShadowRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowRelease.xcconfig; sourceTree = "<group>"; };
 		981B624509386E340024C0D9 /* ShadowUniversal.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowUniversal.xcconfig; sourceTree = "<group>"; };
+		98201D080B2E9F8A0096EF78 /* Keyboard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Keyboard.png; sourceTree = "<group>"; };
 		9832875F079602BE00DB780A /* Labo */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Labo; sourceTree = BUILT_PRODUCTS_DIR; };
 		9832882D079602EC00DB780A /* Labo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Labo.m; sourceTree = "<group>"; };
 		983974FC0A58637400F79B40 /* SystemActionPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemActionPlugin.m; sourceTree = "<group>"; };
@@ -297,7 +299,7 @@
 		98789CAE0AB48D5A00C35052 /* ITunesInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITunesInfo.h; sourceTree = "<group>"; };
 		98789CB20AB48D8200C35052 /* ITunesInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ITunesInfo.m; sourceTree = "<group>"; };
 		98789DC40AB4A0D900C35052 /* Simulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Simulator.m; sourceTree = "<group>"; };
-		98789DD20AB4A10D00C35052 /* Simulator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Simulator.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		98789DD20AB4A10D00C35052 /* Simulator.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Simulator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		98789DDF0AB4A1D300C35052 /* MainMenu.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = MainMenu.nib; sourceTree = "<group>"; };
 		98789DE80AB4A1EE00C35052 /* Simulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Simulator.h; sourceTree = "<group>"; };
 		9878A0B20AB4BFC100C35052 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
@@ -583,6 +585,7 @@
 				984AB9910B19FCFF00DA2DD0 /* Switch.png */,
 				984AB9950B19FCFF00DA2DD0 /* Logout.png */,
 				984AB9940B19FCFF00DA2DD0 /* Restart.png */,
+				98201D080B2E9F8A0096EF78 /* Keyboard.png */,
 				984AB9930B19FCFF00DA2DD0 /* Shutdown.png */,
 				984AB9900B19FCFF00DA2DD0 /* SystemIcon.png */,
 				984AB9920B19FCFF00DA2DD0 /* ScreenSaver.png */,
@@ -1240,6 +1243,7 @@
 				984AB9A40B19FE7D00DA2DD0 /* SystemTrash.png in Resources */,
 				984AB9AC0B1A004800DA2DD0 /* SwitchGrayscale.png in Resources */,
 				984AB9AF0B1A00BD00DA2DD0 /* SwitchPolarity.png in Resources */,
+				98201D090B2E9F8A0096EF78 /* Keyboard.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -14,6 +14,7 @@
 #import <ShadowKit/SKIconView.h>
 #import <ShadowKit/SKImageView.h>
 #import <ShadowKit/SKBezelItem.h>
+#import <ShadowKit/SKAEFunctions.h>
 #import <ShadowKit/SKProcessFunctions.h>
 
 #pragma mark Utilities

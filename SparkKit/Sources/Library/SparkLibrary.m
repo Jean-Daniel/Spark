@@ -258,13 +258,17 @@ bail:
       break;
   }
   SparkApplication *finder = [[self applicationSet] objectForUID:1];
-  if (!finder) {
+  if (!finder || [finder signature] != kSparkFinderCreatorType) {
     NSString *path = SKFindApplicationForSignature(kSparkFinderCreatorType);
     NSAssert(path, @"Could not locate Finder");
-    if (path && (finder = [[SparkApplication alloc] initWithPath:path])) {
-      [finder setUID:1];
-      [[self applicationSet] addObject:finder];
-      [finder release];
+    if (path) {
+      if (finder) {
+        [finder setPath:path];
+      } else if (finder = [[SparkApplication alloc] initWithPath:path]) {
+        [finder setUID:1];
+        [[self applicationSet] addObject:finder];
+        [finder release];
+      }
     }
   }
   return result;

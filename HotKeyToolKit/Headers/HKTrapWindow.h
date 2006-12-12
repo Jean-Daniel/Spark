@@ -47,7 +47,7 @@ NSString * const kHKEventCharacterKey;
   struct _hk_twFlags {
     unsigned int trap:1;
     unsigned int block:1;
-    unsigned int verify:1;
+    unsigned int skipverify:1;
     unsigned int :5;
   } hk_twFlags;
   NSTextField *hk_trapField;
