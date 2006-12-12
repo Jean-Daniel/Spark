@@ -43,7 +43,45 @@ BOOL SEFilterEntry(NSString *search, SparkEntry *entry) {
   return NO;
 }
 
+typedef struct _SETriggerStyle {
+  BOOL bold;
+  BOOL strike;
+  NSColor *standard, *selected;
+} SETriggerStyle;
+
+static
+SETriggerStyle styles[6];
+
 @implementation SETriggersController
+
++ (void)initialize {
+  if ([SETriggersController class] == self) {
+    /* Standard (global) */
+    styles[0] = (SETriggerStyle){NO, NO,
+      [[NSColor controlTextColor] retain],
+      [[NSColor selectedTextColor] retain]};
+    /* Global overrided */
+    styles[1] = (SETriggerStyle){YES, NO,
+      [[NSColor controlTextColor] retain],
+      [[NSColor selectedTextColor] retain]};
+    /* Inherits */
+    styles[2] = (SETriggerStyle){NO, NO,
+      [[NSColor darkGrayColor] retain],
+      [[NSColor selectedTextColor] retain]};
+    /* Override */
+    styles[3] = (SETriggerStyle){YES, NO,
+      [[NSColor colorWithCalibratedRed:.067f green:.357f blue:.420f alpha:1] retain],
+      [[NSColor colorWithCalibratedRed:.886f green:.914f blue:.996f alpha:1] retain]};
+    /* Specifics */
+    styles[4] = (SETriggerStyle){NO, NO,
+      [[NSColor orangeColor] retain],
+      [[NSColor colorWithCalibratedWhite:.95f alpha:1] retain]};
+    /* Weak Override */
+    styles[5] = (SETriggerStyle){NO, YES,
+      [[NSColor purpleColor] retain],
+      [[NSColor colorWithCalibratedWhite:.95f alpha:1] retain]};
+  }
+}
 
 - (id)init {
   if (self = [super init]) {
@@ -246,52 +284,53 @@ BOOL SEFilterEntry(NSString *search, SparkEntry *entry) {
 }
 
 - (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
-  /* Reset Line status */
-  if ([aCell respondsToSelector:@selector(setDrawLineOver:)])
-    [aCell setDrawLineOver:NO];
-  
   SparkEntry *entry = [se_entries objectAtIndex:rowIndex];
   
   /* Text field cell */
   if ([aCell respondsToSelector:@selector(setTextColor:)]) {  
     SparkApplication *application = [[SEEntriesManager sharedManager] application];
     
+    SInt32 idx = -1;
     if (0 == [application uid]) {
       /* Global key */
-      [aCell setTextColor:[NSColor controlTextColor]];
       if ([SparkSharedManager() containsOverwriteEntryForTrigger:[[entry trigger] uid]]) {
-        [aCell setFont:[NSFont boldSystemFontOfSize:[NSFont smallSystemFontSize]]];
+        idx = 1;
       } else {
-        [aCell setFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]];
+        idx = 0;
       }
     } else {
       switch ([entry type]) {
         case kSparkEntryTypeDefault:
           /* Inherits */
-          [aCell setFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]];
-          [aCell setTextColor:[aTableView isRowSelected:rowIndex] ? [NSColor selectedControlTextColor] : [NSColor darkGrayColor]];
+          idx = 2;
+          break;
+        case kSparkEntryTypeOverWrite:
+          idx = 3;
           break;
         case kSparkEntryTypeSpecific: 
           /* Is only defined for a specific application */
-          [aCell setTextColor:[NSColor orangeColor]];
-          [aCell setFont:[NSFont boldSystemFontOfSize:[NSFont smallSystemFontSize]]];
-          break;
-        case kSparkEntryTypeOverWrite:
-          [aCell setTextColor:[NSColor greenColor]];
-          [aCell setFont:[NSFont boldSystemFontOfSize:[NSFont smallSystemFontSize]]];
+          idx = 4;
           break;
         case kSparkEntryTypeWeakOverWrite:
-          [aCell setTextColor:[NSColor magentaColor]];
-          [aCell setFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]];
-          if (![entry isEnabled] && [aCell respondsToSelector:@selector(setDrawLineOver:)]) {
-            [aCell setDrawLineOver:YES];
-          }
+          idx = 5;
           break;
       }
     }
-    /* handle case where plugin is disabled */
-    if (![entry isPlugged]) {
-      [aCell setTextColor:[aTableView isRowSelected:rowIndex] ? [NSColor selectedControlTextColor] : [NSColor disabledControlTextColor]];
+    if (idx >= 0) {
+      NSWindow *window = [aTableView window];
+      BOOL selected = ([window isKeyWindow] && [window firstResponder] == aTableView) && [aTableView isRowSelected:rowIndex];
+      if ([entry isPlugged]) {
+        [aCell setTextColor:selected ? styles[idx].selected : styles[idx].standard];
+      } else {
+        /* handle case where plugin is disabled */
+        [aCell setTextColor:selected ? [NSColor selectedControlTextColor] : [NSColor disabledControlTextColor]];
+      }
+      /* Set Line status */
+      if ([aCell respondsToSelector:@selector(setDrawLineOver:)])
+        [aCell setDrawLineOver:styles[idx].strike && ![entry isEnabled]];
+      
+      float size = [NSFont smallSystemFontSize];
+      [aCell setFont:styles[idx].bold ? [NSFont boldSystemFontOfSize:size] : [NSFont systemFontOfSize:size]];
     }
   } else if ([aCell respondsToSelector:@selector(setEnabled:)]) {
     /* Button cell */

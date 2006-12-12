@@ -59,7 +59,7 @@ NSImage *SparkSDActionIcon(SparkBuiltInAction *action) {
   NSString *icon = nil;
   switch ([action action]) {
     case kSparkSDActionLaunchEditor:
-      icon = @"spark";
+      icon = @"spark-editor";
       break;
     case kSparkSDActionSwitchStatus:
       icon = @"switch-status";
