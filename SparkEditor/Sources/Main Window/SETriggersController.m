@@ -75,11 +75,11 @@ SETriggerStyle styles[6];
     /* Specifics */
     styles[4] = (SETriggerStyle){NO, NO,
       [[NSColor orangeColor] retain],
-      [[NSColor colorWithCalibratedWhite:.95f alpha:1] retain]};
+      [[NSColor colorWithCalibratedRed:.992f green:.875f blue:.749f alpha:1] retain]};
     /* Weak Override */
     styles[5] = (SETriggerStyle){NO, YES,
-      [[NSColor purpleColor] retain],
-      [[NSColor colorWithCalibratedWhite:.95f alpha:1] retain]};
+      [[NSColor colorWithCalibratedRed:.463f green:.016f blue:.314f alpha:1] retain],
+      [[NSColor colorWithCalibratedRed:.984f green:.890f blue:1.00f alpha:1] retain]};
   }
 }
 

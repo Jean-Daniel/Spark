@@ -225,16 +225,12 @@ OSType _DocumentActionFromFlag(int flag) {
     case kDocumentActionReveal: {
       AliasHandle alias = [[self document] aliasHandle];
       if (alias) {
-        AppleEvent aevt = SKAEEmptyDesc();
-        OSStatus err = SKAECreateEventWithTargetSignature(kSparkFinderCreatorType, kAEMiscStandards, kAEMakeObjectsVisible, &aevt);
+        AEDesc desc = SKAEEmptyDesc();
+        OSStatus err = AECreateDesc(typeAlias, *alias, SKGetAliasSize(alias), &desc);
         if (noErr == err) {
-          err = SKAEAddAEDescWithData(&aevt, keyDirectObject, typeAlias, *alias, SKGetAliasSize(alias));
+          err = SKAEFinderRevealItem(&desc);
+          SKAEDisposeDesc(&desc);
         }
-        if (noErr == err) {
-          SKAEAddSubject(&aevt);
-          err = SKAESendEventNoReply(&aevt);
-        }
-        SKAEDisposeDesc(&aevt);
         if (noErr == err)
           err = SKAESendSimpleEvent(kSparkFinderCreatorType, kAEMiscStandards, kAEActivate);
         
@@ -257,7 +253,7 @@ OSType _DocumentActionFromFlag(int flag) {
   long count = 0;
   
   // Get Finder Selection.
-  OSStatus err = SKAEGetFinderSelection(&selection);
+  OSStatus err = SKAEFinderGetSelection(&selection);
   if (noErr == err) {
     // Get selection Count
     err = AECountItems(&selection, &count);

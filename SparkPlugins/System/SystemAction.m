@@ -13,6 +13,7 @@
 
 #import <ShadowKit/SKFunctions.h>
 #import <ShadowKit/SKFSFunctions.h>
+#import <ShadowKit/SKLSFunctions.h>
 #import <ShadowKit/SKAEFunctions.h>
 #import <ShadowKit/SKAppKitExtensions.h>
 
