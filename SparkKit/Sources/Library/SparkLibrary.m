@@ -70,7 +70,8 @@ const UInt32 kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_0;
 + (void)initialize {
   if ([SparkLibrary class] == self) {
     /* Register Built-In Plugin (and make sure other plugins are loaded) */
-    [[SparkActionLoader sharedLoader] registerPlugInClass:[SparkBuiltInActionPlugin class]];
+    [SparkActionLoader sharedLoader];
+    //    [[SparkActionLoader sharedLoader] registerPlugInClass:[SparkBuiltInActionPlugin class]];
   }
 }
 
@@ -146,6 +147,10 @@ const UInt32 kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_0;
 
 - (void)setPath:(NSString *)file {
   SKSetterCopy(sp_file, file);
+}
+
+- (NSUndoManager *)undoManager {
+  return nil;
 }
 
 - (BOOL)synchronize {

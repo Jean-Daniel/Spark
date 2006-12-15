@@ -101,6 +101,10 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
   sp_library = aLibrary;
 }
 
+- (NSUndoManager *)undoManager {
+  return [[self library] undoManager];
+}
+
 #pragma mark -
 - (UInt32)count {
   return sp_objects ? NSCountMapTable(sp_objects) : 0;
@@ -132,7 +136,7 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
                                                                                                   forKey:kSparkNotificationObject] : nil];
 }
 
-- (void)_checkUID:(SparkObject *)anObject {
+- (void)sp_checkUID:(SparkObject *)anObject {
   if (![anObject uid]) {
     [anObject setUID:[self nextUID]];
   } else if ([anObject uid] > sp_uid) {
@@ -140,7 +144,7 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
   }
 }
 
-- (void)_addObject:(SparkObject *)object {
+- (void)sp_addObject:(SparkObject *)object {
   NSMapInsert(sp_objects, (void *)[object uid], object);
   [object setLibrary:[self library]];
 }
@@ -150,11 +154,20 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
   NSParameterAssert(![self containsObject:object]);
   @try {
     if (![self containsObject:object]) {
-      [self _checkUID:object];
+    {
+      UInt32 uid = [object uid], luid = [self currentUID];
+      /* Update Object UID */
+      [self sp_checkUID:object];
+      /* Check change and prepare undo */
+      if (uid != [object uid])
+        [[[self undoManager] prepareWithInvocationTarget:object] setUID:uid];
+      if (luid != [self currentUID])
+        [[[self undoManager] prepareWithInvocationTarget:self] setCurrentUID:uid];
+      [[self undoManager] registerUndoWithTarget:self selector:@selector(removeObject:) object:object];
+    } 
       // Will add object
       [self postNotification:kSparkLibraryWillAddObjectNotification object:object];
-      
-      [self _addObject:object];
+      [self sp_addObject:object];
       // Did add object
       [self postNotification:kSparkLibraryDidAddObjectNotification object:object];
       return YES;
@@ -179,9 +192,13 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
   NSParameterAssert([self containsObject:object]);
   SparkObject *old = [self objectForUID:[object uid]];
   if (old && (old != object)) {
+    /* Register undo => [self updateObject:old]; */
+    [[self undoManager] registerUndoWithTarget:self selector:@selector(updateObject:) object:old];
+    
     // Will update
     [self postNotification:kSparkLibraryWillUpdateObjectNotification object:old];
     // Update
+    [old setLibrary:nil];
     NSMapInsert(sp_objects, (void *)[object uid], object);
     [object setLibrary:[self library]];
     // Did update
@@ -198,6 +215,9 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
 #pragma mark -
 - (void)removeObject:(SparkObject *)object {
   if (object && [self containsObject:object]) {
+    /* Register undo => [self addObject:object]; */
+    [[self undoManager] registerUndoWithTarget:self selector:@selector(addObject:) object:object];
+    
     [object retain];
     // Will remove
     [self postNotification:kSparkLibraryWillRemoveObjectNotification object:object];
@@ -280,6 +300,9 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
   NSArray *objects = [plist objectForKey:kSparkObjectsKey];
   require(objects, bail);
   
+  /* Disable undo */
+  [[self undoManager] disableUndoRegistration];
+  
   NSDictionary *serialize;
   NSEnumerator *enumerator = [objects objectEnumerator];
   while (serialize = [enumerator nextObject]) {
@@ -292,12 +315,14 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
     }
     if (object && ![self containsObject:object]) {
       /* Avoid notifications */
-      [self _checkUID:object];
-      [self _addObject:object];
+      [self sp_checkUID:object];
+      [self sp_addObject:object];
     } else {
       DLog(@"Invalid object: %@", serialize);
     }
   }
+  /* enable undo */
+  [[self undoManager] enableUndoRegistration];
   
   return YES;
 bail:

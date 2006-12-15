@@ -29,7 +29,7 @@
 #import "SEServerConnection.h"
 
 
-const UInt32 kSparkVersion = 0x030000; /* 3.0.0 */
+const UInt32 kSparkVersion = 0x020500; /* 3.0.0 */
 
 int main(int argc, const char *argv[]) {
 #if defined(DEBUG)
@@ -589,7 +589,11 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
       NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"ABOUT_PLUGIN_MENU_ITEM",
                                                                                                             @"About Plugin (%@ => Plugin name)"), [plugin name]]
                                                         action:@selector(aboutPlugin:) keyEquivalent:@""];
-      [menuItem setImage:[plugin icon]];
+      NSImage *img = [[plugin icon] copy];
+      [img setScalesWhenResized:YES];
+      [img setSize:NSMakeSize(16, 16)];
+      [menuItem setImage:img];
+      [img release];
       [menuItem setRepresentedObject:plugin];
       [aboutMenu addItem:menuItem];
       [menuItem release];
@@ -608,28 +612,33 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
   [opts setObject:[NSString stringWithFormat:NSLocalizedString(@"ABOUT_PLUGIN_BOX_TITLE", 
                                                                @"About Plugin (%@ => Plugin name)"), [plugin name]] 
            forKey:@"ApplicationName"];
-  NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:[plugin path]];
-  [icon setSize:NSMakeSize(64, 64)];
-  [opts setObject:icon forKey:@"ApplicationIcon"];
-  NSBundle *bundle = [NSBundle bundleWithPath:[plugin path]];
+  if ([plugin path]) {
+    NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:[plugin path]];
+    [icon setSize:NSMakeSize(64, 64)];
+    [opts setObject:icon forKey:@"ApplicationIcon"];
+    NSBundle *bundle = [NSBundle bundleWithPath:[plugin path]];
   
-  NSString *credits = nil;
-  if ((credits = [bundle pathForResource:@"Credits" ofType:@"html"]) ||
-      (credits = [bundle pathForResource:@"Credits" ofType:@"rtf"]) ||
-      (credits = [bundle pathForResource:@"Credits" ofType:@"rtfd"])) {
-    NSAttributedString *str = [[NSAttributedString alloc] initWithURL:[NSURL fileURLWithPath:credits] documentAttributes:nil];
-    [opts setObject:str forKey:@"Credits"];
-    [str release];
+    NSString *credits = nil;
+    if ((credits = [bundle pathForResource:@"Credits" ofType:@"html"]) ||
+        (credits = [bundle pathForResource:@"Credits" ofType:@"rtf"]) ||
+        (credits = [bundle pathForResource:@"Credits" ofType:@"rtfd"])) {
+      NSAttributedString *str = [[NSAttributedString alloc] initWithURL:[NSURL fileURLWithPath:credits] documentAttributes:nil];
+      [opts setObject:str forKey:@"Credits"];
+      [str release];
+    } else {
+      [opts setObject:@"" forKey:@"Credits"];
+    }
+    
+    id value = [bundle objectForInfoDictionaryKey:@"CFBundleVersion"];
+    [opts setObject:(value) ? value : @"" forKey:@"Version"];
+    value = [bundle objectForInfoDictionaryKey:@"NSHumanReadableCopyright"];
+    [opts setObject:(value) ? value : @"" forKey:@"Copyright"];
   } else {
     [opts setObject:@"" forKey:@"Credits"];
+    [opts setObject:@"" forKey:@"Version"];
   }
   
-  id value = [bundle objectForInfoDictionaryKey:@"CFBundleVersion"];
-  [opts setObject:(value) ? value : @"" forKey:@"Version"];
-  value = [bundle objectForInfoDictionaryKey:@"NSHumanReadableCopyright"];
-  [opts setObject:(value) ? value : @"" forKey:@"Copyright"];
-  value = [bundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-  [opts setObject:(value) ? value : @"" forKey:@"ApplicationVersion"];
+  [opts setObject:[plugin version] ? : @"" forKey:@"ApplicationVersion"];
   [NSApp orderFrontStandardAboutPanelWithOptions:opts];
 }
 

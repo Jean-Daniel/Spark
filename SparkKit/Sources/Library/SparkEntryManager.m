@@ -162,6 +162,10 @@ BOOL SparkLibraryEntryIsActive(const SparkLibraryEntry *entry) {
   [super dealloc];
 }
 
+- (NSUndoManager *)undoManager {
+  return [sp_library undoManager];
+}
+
 #pragma mark -
 #pragma mark Low-Level Methods
 SK_INLINE
@@ -189,6 +193,7 @@ BOOL SparkEntryIsCustomTrigger(const SparkLibraryEntry *entry) {
     [[[sp_library triggerSet] objectForUID:trigger] setHasManyAction:NO];
 }
 
+#pragma mark Entry Manipulation
 - (void)addLibraryEntry:(SparkLibraryEntry *)anEntry {
   if (!CFSetContainsValue(sp_set, anEntry)) {
     SparkLibraryEntry *entry = malloc(sizeof(*entry));
@@ -269,6 +274,7 @@ BOOL SparkEntryIsCustomTrigger(const SparkLibraryEntry *entry) {
   }
 }
 
+#pragma mark Query
 - (SparkEntry *)entryForLibraryEntry:(const SparkLibraryEntry *)anEntry {
   NSParameterAssert(anEntry != NULL);
   SparkAction *action = [[sp_library actionSet] objectForUID:anEntry->action];
@@ -356,6 +362,7 @@ BOOL SparkEntryIsCustomTrigger(const SparkLibraryEntry *entry) {
   return (SparkLibraryEntry *)CFSetGetValue(sp_set, &search);
 }
 
+#pragma mark Conversion
 - (SparkLibraryEntry *)libraryEntryForEntry:(SparkEntry *)anEntry {
   return [self libraryEntryForTrigger:[[anEntry trigger] uid] application:[[anEntry application] uid]];
 }
@@ -367,7 +374,7 @@ BOOL SparkEntryIsCustomTrigger(const SparkLibraryEntry *entry) {
   if (entry && XOR(flag, SparkLibraryEntryIsEnabled(entry))) {
     /* update entry */
     [anEntry setEnabled:flag];
-    /* Update library entry */
+    /* Update library entry => Undo */
     SparkLibraryEntrySetEnabled(entry, flag);
     SparkEntryManagerPostNotification(SparkEntryManagerDidChangeEntryEnabledNotification, self, anEntry);
   }
@@ -384,8 +391,10 @@ BOOL SparkEntryIsCustomTrigger(const SparkLibraryEntry *entry) {
   NSParameterAssert(anEntry != NULL);
   /* Make sure we are using internal storage pointer */
   anEntry = (SparkLibraryEntry *)CFSetGetValue(sp_set, anEntry);
-  if (anEntry)
+  if (anEntry) {
+    /* => Undo */
     SparkLibraryEntrySetEnabled(anEntry, flag);
+  }
 }
 
 - (void)enableLibraryEntry:(SparkLibraryEntry *)anEntry {

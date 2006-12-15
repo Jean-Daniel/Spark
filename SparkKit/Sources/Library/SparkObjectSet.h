@@ -29,6 +29,8 @@
 - (SparkLibrary *)library;
 - (void)setLibrary:(SparkLibrary *)aLibrary;
 
+- (NSUndoManager *)undoManager;
+
 #pragma mark Content Manipulation
 - (UInt32)count;
 - (NSArray *)objects;

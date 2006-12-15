@@ -35,6 +35,8 @@ enum {
 
 - (id)initWithLibrary:(SparkLibrary *)aLibrary;
 
+- (NSUndoManager *)undoManager;
+
 - (void)addEntry:(SparkEntry *)anEntry;
 - (void)removeEntry:(SparkEntry *)anEntry;
 - (void)removeEntries:(NSArray *)theEntries;

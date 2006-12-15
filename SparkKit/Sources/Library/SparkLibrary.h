@@ -64,6 +64,8 @@ SparkObjectSet *SparkSharedApplicationSet(void);
 - (NSString *)path;
 - (void)setPath:(NSString *)file;
 
+- (NSUndoManager *)undoManager;
+
 - (BOOL)readLibrary:(NSError **)error;
 
 - (SparkObjectSet *)actionSet;
@@ -71,7 +73,7 @@ SparkObjectSet *SparkSharedApplicationSet(void);
 - (SparkObjectSet *)applicationSet;
 
 - (SparkEntryManager *)entryManager;
-
+   
 - (BOOL)synchronize;
 - (BOOL)writeToFile:(NSString *)file atomically:(BOOL)flag;
 
