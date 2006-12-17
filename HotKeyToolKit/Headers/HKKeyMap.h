@@ -40,7 +40,7 @@ const UniChar kHKNilUnichar;
     @constant	kVirtualF13Key			F13 keycode.
     @constant	kVirtualF14Key			F14 keycode.
     @constant	kVirtualF15Key			F15 keycode.
- 	@constant	kVirtualF16Key			F16 keycode.
+    @constant	kVirtualF16Key			F16 keycode.
     @constant	kVirtualHelpKey			Help keycode.
     @constant	kVirtualDeleteKey		Delete keycode.
     @constant	kVirtualTabKey			Tabulation keycode.
@@ -61,51 +61,51 @@ const UniChar kHKNilUnichar;
 */
 enum {
   /* modifier keys */
-  kVirtualCommandKey = 0x037,
-  kVirtualShiftKey = 0x038,
-  kVirtualCapsLockKey = 0x039,
-  kVirtualOptionKey = 0x03A,
-  kVirtualControlKey = 0x03B,
+  kVirtualCommandKey       = 0x037,
+  kVirtualShiftKey         = 0x038,
+  kVirtualCapsLockKey      = 0x039,
+  kVirtualOptionKey        = 0x03A,
+  kVirtualControlKey       = 0x03B,
   /* functions keys */
-  kVirtualF1Key = 0x07A,
-  kVirtualF2Key = 0x078,
-  kVirtualF3Key = 0x063,
-  kVirtualF4Key = 0x076,
+  kVirtualF1Key            = 0x07A,
+  kVirtualF2Key            = 0x078,
+  kVirtualF3Key            = 0x063,
+  kVirtualF4Key            = 0x076,
   /* functions keys */
-  kVirtualF5Key = 0x060,
-  kVirtualF6Key = 0x061,
-  kVirtualF7Key = 0x062,
-  kVirtualF8Key = 0x064,
+  kVirtualF5Key            = 0x060,
+  kVirtualF6Key            = 0x061,
+  kVirtualF7Key            = 0x062,
+  kVirtualF8Key            = 0x064,
   /* functions keys */
-  kVirtualF9Key = 0x065,
-  kVirtualF10Key = 0x06D,
-  kVirtualF11Key = 0x067,
-  kVirtualF12Key = 0x06F,
+  kVirtualF9Key            = 0x065,
+  kVirtualF10Key           = 0x06D,
+  kVirtualF11Key           = 0x067,
+  kVirtualF12Key           = 0x06F,
   /* functions keys */
-  kVirtualF13Key = 0x069,
-  kVirtualF14Key = 0x06b,
-  kVirtualF15Key = 0x071,
-  kVirtualF16Key = 0x06a,
+  kVirtualF13Key           = 0x069,
+  kVirtualF14Key           = 0x06b,
+  kVirtualF15Key           = 0x071,
+  kVirtualF16Key           = 0x06a,
   /* editing utility keys */
-  kVirtualHelpKey = 0x072,
-  kVirtualDeleteKey = 0x033,
-  kVirtualTabKey = 0x030,
-  kVirtualEnterKey = 0x04C,
-  kVirtualReturnKey = 0x024,
-  kVirtualEscapeKey = 0x035,
+  kVirtualHelpKey          = 0x072,
+  kVirtualDeleteKey        = 0x033,
+  kVirtualTabKey           = 0x030,
+  kVirtualEnterKey         = 0x04C,
+  kVirtualReturnKey        = 0x024,
+  kVirtualEscapeKey        = 0x035,
   kVirtualForwardDeleteKey = 0x075,
   /* navigation keys */
-  kVirtualHomeKey = 0x073,
-  kVirtualEndKey = 0x077,
-  kVirtualPageUpKey = 0x074,
-  kVirtualPageDownKey = 0x079,
-  kVirtualLeftArrowKey = 0x07B,
-  kVirtualRightArrowKey = 0x07C,
-  kVirtualUpArrowKey = 0x07E,
-  kVirtualDownArrowKey = 0x07D,
+  kVirtualHomeKey          = 0x073,
+  kVirtualEndKey           = 0x077,
+  kVirtualPageUpKey        = 0x074,
+  kVirtualPageDownKey      = 0x079,
+  kVirtualLeftArrowKey     = 0x07B,
+  kVirtualRightArrowKey    = 0x07C,
+  kVirtualUpArrowKey       = 0x07E,
+  kVirtualDownArrowKey     = 0x07D,
   /* others keys */
-  kVirtualClearLineKey = 0x047,
-  kVirtualSpaceKey = 0x031,
+  kVirtualClearLineKey     = 0x047,
+  kVirtualSpaceKey         = 0x031,
   
   /* Invalid */
   kHKInvalidVirtualKeyCode = 0xffff,
@@ -150,45 +150,45 @@ enum {
 */
 enum {
   /* functions keys */
-  kF1Unicode 			= NSF1FunctionKey,
-  kF2Unicode 			= NSF2FunctionKey,
-  kF3Unicode 			= NSF3FunctionKey,
-  kF4Unicode 			= NSF4FunctionKey,
+  kF1Unicode            = NSF1FunctionKey,
+  kF2Unicode            = NSF2FunctionKey,
+  kF3Unicode            = NSF3FunctionKey,
+  kF4Unicode            = NSF4FunctionKey,
   /* functions Unicodes */
-  kF5Unicode 			= NSF5FunctionKey,
-  kF6Unicode 			= NSF6FunctionKey,
-  kF7Unicode 			= NSF7FunctionKey,
-  kF8Unicode 			= NSF8FunctionKey,
+  kF5Unicode            = NSF5FunctionKey,
+  kF6Unicode            = NSF6FunctionKey,
+  kF7Unicode            = NSF7FunctionKey,
+  kF8Unicode            = NSF8FunctionKey,
   /* functions Unicodes */
-  kF9Unicode 			= NSF9FunctionKey,
-  kF10Unicode 			= NSF10FunctionKey,
-  kF11Unicode			= NSF11FunctionKey,
-  kF12Unicode 			= NSF12FunctionKey,
+  kF9Unicode            = NSF9FunctionKey,
+  kF10Unicode           = NSF10FunctionKey,
+  kF11Unicode           = NSF11FunctionKey,
+  kF12Unicode           = NSF12FunctionKey,
   /* functions Unicodes */
-  kF13Unicode 			= NSF13FunctionKey,
-  kF14Unicode 			= NSF14FunctionKey,
-  kF15Unicode 			= NSF15FunctionKey,
-  kF16Unicode 			= NSF16FunctionKey,
+  kF13Unicode           = NSF13FunctionKey,
+  kF14Unicode           = NSF14FunctionKey,
+  kF15Unicode           = NSF15FunctionKey,
+  kF16Unicode           = NSF16FunctionKey,
   /* editing utility keys */
-  kHelpUnicode 			= NSHelpFunctionKey,
-  kClearLineUnicode 	= NSClearLineFunctionKey,
+  kHelpUnicode          = NSHelpFunctionKey,
+  kClearLineUnicode     = NSClearLineFunctionKey,
   kForwardDeleteUnicode = NSDeleteFunctionKey,
   /* navigation keys */
-  kHomeUnicode 			= NSHomeFunctionKey,
-  kEndUnicode 			= NSEndFunctionKey,
-  kPageUpUnicode 		= NSPageUpFunctionKey,
-  kPageDownUnicode 		= NSPageDownFunctionKey,
-  kUpArrowUnicode 		= NSUpArrowFunctionKey,
-  kDownArrowUnicode		= NSDownArrowFunctionKey,
-  kLeftArrowUnicode 	= NSLeftArrowFunctionKey,
-  kRightArrowUnicode 	= NSRightArrowFunctionKey,
+  kHomeUnicode          = NSHomeFunctionKey,
+  kEndUnicode           = NSEndFunctionKey,
+  kPageUpUnicode        = NSPageUpFunctionKey,
+  kPageDownUnicode      = NSPageDownFunctionKey,
+  kUpArrowUnicode       = NSUpArrowFunctionKey,
+  kDownArrowUnicode     = NSDownArrowFunctionKey,
+  kLeftArrowUnicode     = NSLeftArrowFunctionKey,
+  kRightArrowUnicode    = NSRightArrowFunctionKey,
   /* others Unicodes */
-  kEnterUnicode 		= 0x0003, /* 3 */
-  kTabUnicode 			= 0x0009, /* 9 */
-  kReturnUnicode 		= 0x000d, /* 13 */
-  kEscapeUnicode 		= 0x001b, /* 27 */
-  kDeleteUnicode 		= 0x007f, /* 127 */
-  kSpaceUnicode 		= 0x00a0  /* 160 */
+  kEnterUnicode         = 0x0003, /* 3 */
+  kTabUnicode           = 0x0009, /* 9 */
+  kReturnUnicode        = 0x000d, /* 13 */
+  kEscapeUnicode        = 0x001b, /* 27 */
+  kDeleteUnicode        = 0x007f, /* 127 */
+  kSpaceUnicode         = 0x00a0  /* 160 */
 };
 
 #pragma mark -

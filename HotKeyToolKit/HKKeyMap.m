@@ -1,12 +1,10 @@
 /*
- *  KeyCodeFunctions.m
+ *  HKKeyMap.m
  *  HotKeyToolKit
  *
  *  Created by Grayfox.
  *  Copyright 2004-2006 Shadow Lab. All rights reserved.
  */
-
-#include <Carbon/Carbon.h>
 
 #import "HKKeyMap.h"
 #import "KeyMap.h"
@@ -23,13 +21,9 @@ const UniChar kHKNilUnichar = 0xffff;
 
 static HKKeyMapRef SharedKeyMap() {
   static HKKeyMapRef sharedKeyMap = nil;
-  if (nil == sharedKeyMap) {
-    KeyboardLayoutRef ref;
-//  if (noErr == KLGetKeyboardLayoutWithName(CFSTR("US Extended"), &ref)) {
-    if (noErr == KLGetCurrentKeyboardLayout(&ref)) {
-      sharedKeyMap = HKKeyMapCreate(ref, HKUseReverseKeyMap);
-    }
-    if (nil == sharedKeyMap) {
+  if (!sharedKeyMap) {
+    sharedKeyMap = HKKeyMapCreateWithCurrentLayout(HKUseReverseKeyMap);
+    if (!sharedKeyMap) {
       DLog(@"Error while initializing Keyboard Map");
     } else {
       DLog(@"Keyboard Map initialized");
@@ -349,16 +343,16 @@ NSString* HKMapGetModifierString(UInt32 mask) {
     *(symbol++) = 0x21ea; // Caps lock
   }
   if (kCGEventFlagMaskControl & mask) {
-    *(symbol++) = kControlUnicode; // Ctrl
+    *(symbol++) = 0x2303; // kControlUnicode;
   }
   if (kCGEventFlagMaskAlternate & mask) {
-    *(symbol++) = kOptionUnicode; // Opt
+    *(symbol++) = 0x2325; // kOptionUnicode
   }
   if (kCGEventFlagMaskShift & mask) {
-    *(symbol++) = kShiftUnicode; // Shift
+    *(symbol++) = 0x21E7; // kShiftUnicode
   }
   if (kCGEventFlagMaskCommand & mask) {
-    *(symbol++) = kCommandUnicode; //Cmd
+    *(symbol++) = 0x2318; // kCommandUnicode
   }
   NSString *result = symbol - modifier > 0 ? [NSString stringWithCharacters:modifier length:symbol - modifier] : nil;
   return result;

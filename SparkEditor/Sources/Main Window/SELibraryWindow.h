@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class SparkList;
+@class SparkList, SparkLibrary;
 @class SETableView, SKTableView, SKTableDataSource;
 @class SEApplicationView, SESparkEntrySet, SEEntryEditor;
 @class SELibrarySource, SEApplicationSource, SETriggersController;

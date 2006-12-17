@@ -34,7 +34,17 @@ static const float kAVImageRightMargin = 6.f;
 - (BOOL)acceptsFirstResponder {
   return se_action != nil;
 }
+/*
+- (BOOL)becomeFirstResponder {
+  [self setNeedsDisplay:YES];
+  return [super becomeFirstResponder];
+}
 
+- (BOOL)resignFirstResponder {
+  [self setNeedsDisplay:YES];
+  return [super resignFirstResponder];
+}
+*/
 - (BOOL)isOpaque {
   return NO;
 }
@@ -180,12 +190,13 @@ static const float kAVImageRightMargin = 6.f;
 
     /* Draw before image if not highlight */
     if (!se_saFlags.highlight) {
-//      if (se_action) {
+//      BOOL isFirst = se_action && [[self window] firstResponder] == self;
+//      if (isFirst) {
 //        CGContextSaveGState(ctxt);
 //        NSSetFocusRingStyle(NSFocusRingBelow);
 //      }
       CGContextDrawPath(ctxt, kCGPathFillStroke);
-//      if (se_action) {
+//      if (isFirst) {
 //        CGContextRestoreGState(ctxt);
 //      }
     }

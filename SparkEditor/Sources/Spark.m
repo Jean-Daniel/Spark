@@ -29,7 +29,7 @@
 #import "SEServerConnection.h"
 
 
-const UInt32 kSparkVersion = 0x020500; /* 3.0.0 */
+const UInt32 kSparkVersion = 0x020600; /* 3.0.0 */
 
 int main(int argc, const char *argv[]) {
 #if defined(DEBUG)
@@ -152,9 +152,6 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
       //@"1", @"NSScriptingDebugLogLevel",
       nil]];
 #endif
-    /* Register Built-in plugin */
-
-    
     /* First load Library */
     SparkLibrary *library = SparkSharedLibrary();
     /* Get default library path */
@@ -291,6 +288,31 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
 
 #pragma mark -
 #pragma mark Import/Export Support
+- (IBAction)saveLibrary:(id)sender {
+  NSSavePanel *panel = [NSSavePanel savePanel];
+  [panel setTitle:@"Save Library"];
+  [panel setCanCreateDirectories:YES];
+  [panel setRequiredFileType:kSparkLibraryFileExtension];
+  [panel beginSheetForDirectory:nil
+                           file:@"SparkLibrary"
+                 modalForWindow:[self mainWindow]
+                  modalDelegate:self
+                 didEndSelector:@selector(saveLibraryDidEnd:returnCode:contextInfo:)
+                    contextInfo:nil];
+}
+
+- (void)saveLibraryDidEnd:(NSSavePanel *)sheet returnCode:(int)returnCode  contextInfo:(void  *)contextInfo {
+  if (NSOKButton == returnCode) {
+    SparkLibrary *library = SparkSharedLibrary();
+    NSString *file = [sheet filename];
+    [library writeToFile:file atomically:NO];
+  }
+}
+
+- (BOOL)restoreLibrary:(NSString *)path {
+  ShadowTrace();
+  return NO;
+}
 
 //- (IBAction)importLibrary:(id)sender {
 //  NSOpenPanel *panel = [NSOpenPanel openPanel];
@@ -535,11 +557,10 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
     if ([[filename pathExtension] isEqualToString:[SparkActionLoader extension]]) {
       [self openPluginBundle:filename];
       return YES;
+    } else if ([[filename pathExtension] isEqualToString:kSparkLibraryFileExtension]) {
+      if ([self restoreLibrary:filename])
+        return YES;
     }
-    //    else if ([[filename pathExtension] isEqualToString:kSparkLibraryFileExtension]) {
-    //      if ([self openLibraryFile:filename])
-    //        return YES;
-    //    }
   } else {
 //    OSType type = [[[NSFileManager defaultManager] fileAttributesAtPath:filename traverseLink:NO] fileHFSTypeCode];
 //    if ([[filename pathExtension] isEqualToString:kSparkListFileExtension] || type == kSparkListFileType) { // Il faudrait aussi verifier le type.

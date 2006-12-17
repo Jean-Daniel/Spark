@@ -27,7 +27,13 @@ typedef struct __HKKeyMap* HKKeyMapRef;
 	@result Returns the keymap corresponding to the current keyboard.
  */
 HK_PRIVATE
-HKKeyMapRef HKKeyMapCreate(void *layout, Boolean reverse);
+HKKeyMapRef HKKeyMapCreateWithName(CFStringRef name, Boolean reverse);
+
+HK_PRIVATE
+HKKeyMapRef HKKeyMapCreateWithIdentifier(SInt32 identifier, Boolean reverse);
+
+HK_PRIVATE
+HKKeyMapRef HKKeyMapCreateWithCurrentLayout(Boolean reverse);
 
 /*!	
 @function

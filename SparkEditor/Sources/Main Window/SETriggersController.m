@@ -126,6 +126,10 @@ SETriggerStyle styles[6];
   [table setContinueEditing:NO];
 }
 
+- (NSView *)tableView {
+  return table;
+}
+
 - (void)setListEnabled:(BOOL)flag {
   UInt32 app = [[[SEEntriesManager sharedManager] application] uid];
   int idx = [se_entries count];

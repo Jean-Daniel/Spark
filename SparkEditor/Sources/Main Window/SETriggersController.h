@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 @class SKTableView, SEEntryEditor;
-@class SparkList, SparkApplication, SESparkEntrySet;
+@class SparkList, SparkLibrary, SparkApplication, SESparkEntrySet;
 @interface SETriggersController : NSObject {
   IBOutlet SKTableView *table;
   IBOutlet NSSearchField *ibSearch;
@@ -24,6 +24,8 @@
 }
 
 - (void)loadTriggers; /* Reload data */
+
+- (NSView *)tableView;
 
 - (void)setList:(SparkList *)aList;
 

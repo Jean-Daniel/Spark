@@ -83,9 +83,10 @@ void _HKKeyMapDispose(HKKeyMapRef keyMap) {
 
 #pragma mark -
 #pragma mark Creation/Destruction functions.
-HKKeyMapRef HKKeyMapCreate(void *layout, Boolean reverse) {
+static
+HKKeyMapRef HKKeyMapCreateWithKeyboardLayout(KeyboardLayoutRef layout, Boolean reverse) {
   HKKeyMapRef keymap = NSZoneCalloc(nil, 1, sizeof(struct __HKKeyMap));
-  if (nil != keymap) {
+  if (keymap) {
     keymap->reverse = reverse;
     keymap->keyboard = layout;
     if (noErr != _HKKeyMapInit(keymap)) {
@@ -94,6 +95,30 @@ HKKeyMapRef HKKeyMapCreate(void *layout, Boolean reverse) {
     }
   }
   return keymap;
+}
+
+HKKeyMapRef HKKeyMapCreateWithName(CFStringRef name, Boolean reverse) {
+  KeyboardLayoutRef ref;
+  if (noErr == KLGetKeyboardLayoutWithName(name, &ref)) {
+    return HKKeyMapCreateWithKeyboardLayout(ref, reverse);
+  }
+  return NULL;
+}
+
+HKKeyMapRef HKKeyMapCreateWithIdentifier(SInt32 identifier, Boolean reverse) {
+  KeyboardLayoutRef ref;
+  if (noErr == KLGetKeyboardLayoutWithIdentifier(identifier, &ref)) {
+    return HKKeyMapCreateWithKeyboardLayout(ref, reverse);
+  }
+  return NULL;  
+}
+
+HKKeyMapRef HKKeyMapCreateWithCurrentLayout(Boolean reverse) {
+  KeyboardLayoutRef ref;
+  if (noErr == KLGetCurrentKeyboardLayout(&ref)) {
+    return HKKeyMapCreateWithKeyboardLayout(ref, reverse);
+  }
+  return NULL;
 }
 
 void HKKeyMapRelease(HKKeyMapRef keymap) {

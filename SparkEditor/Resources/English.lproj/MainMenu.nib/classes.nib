@@ -2,12 +2,12 @@
     IBClasses = (
         {
             ACTIONS = {
-                exportLibrary = id; 
                 exportList = id; 
                 importLibrary = id; 
                 newKey = id; 
                 newList = id; 
                 openInspector = id; 
+                saveLibrary = id; 
                 toggleServer = id; 
             }; 
             CLASS = FirstResponder; 

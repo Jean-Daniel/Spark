@@ -9,6 +9,7 @@
 #import "SELibraryWindow.h"
 
 #import "Spark.h"
+#import "SETableView.h"
 #import "SEHeaderCell.h"
 #import "SEEntryEditor.h"
 #import "SEScriptHandler.h"
@@ -91,6 +92,22 @@
   /* Configure New Plugin Menu */
   [ibMenu setMenu:[NSApp pluginsMenu] forSegment:0];
   [[ibMenu cell] setToolTip:NSLocalizedString(@"CREATE_TRIGGER_TOOLTIP", @"Segment Menu ToolTips") forSegment:0];
+}
+
+- (BOOL)validateMenuItem:(id <NSMenuItem>)menuItem {
+  if ([menuItem action] == @selector(copy:) || [menuItem action] == @selector(paste:)) {
+    NSResponder *first = [[self window] firstResponder];
+    return libraryTable == first || [triggers tableView] == first;
+  }
+  return YES;
+}
+
+- (IBAction)copy:(id)sender {
+  ShadowTrace();
+}
+
+- (IBAction)paste:(id)sender {
+  ShadowTrace();
 }
 
 - (IBAction)libraryDoubleAction:(id)sender {

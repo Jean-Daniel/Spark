@@ -111,6 +111,8 @@
 		98CF6FB106B3DB2B0017D206 /* ForwardPressedBlue.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98CF6FAD06B3DB2B0017D206 /* ForwardPressedBlue.tif */; };
 		98CF6FB206B3DB2B0017D206 /* BackPressedBlue.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98CF6FAE06B3DB2B0017D206 /* BackPressedBlue.tif */; };
 		98CF6FB306B3DB2B0017D206 /* Back.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98CF6FAF06B3DB2B0017D206 /* Back.tif */; };
+		98D6304C0B35BACD00E0CE91 /* SKUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D6304B0B35BACD00E0CE91 /* SKUpdater.m */; };
+		98D6304E0B35BAD900E0CE91 /* SKUpdater.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D6304D0B35BAD900E0CE91 /* SKUpdater.h */; };
 		98D886AF0B29642200E661EF /* hotkey.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98D886AE0B29642100E661EF /* hotkey.tiff */; };
 		98D886B10B29644800E661EF /* plugin.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98D886B00B29644800E661EF /* plugin.tiff */; };
 		98D886B60B29648100E661EF /* Warning.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98F867260A600D24009C68F9 /* Warning.tiff */; };
@@ -143,8 +145,6 @@
 		98E19C530B160ED0007E4D31 /* SKDSFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 98E19C520B160ED0007E4D31 /* SKDSFunctions.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		98E19C710B160EF1007E4D31 /* DirectoryService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98E19C670B160EF1007E4D31 /* DirectoryService.framework */; };
 		98E3B39C0A5BE11800FFF5E8 /* SKForwarding.h in Headers */ = {isa = PBXBuildFile; fileRef = 98E3B39B0A5BE11800FFF5E8 /* SKForwarding.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		98EA2CAE0B29D1F400E39193 /* SparkScriptApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 98EA2CAD0B29D1F400E39193 /* SparkScriptApplication.m */; };
-		98EA2CC00B29D28200E39193 /* SparkLibraryScripting.m in Sources */ = {isa = PBXBuildFile; fileRef = 98EA2CBF0B29D28200E39193 /* SparkLibraryScripting.m */; };
 		98EDA3C20A9FA1A100519E9B /* SparkEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 98EDA3C10A9FA1A100519E9B /* SparkEntry.m */; };
 		98EDA3C40A9FA1B000519E9B /* SparkEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = 98EDA3C30A9FA1B000519E9B /* SparkEntry.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		98EDA3E40A9FA2FB00519E9B /* SparkEntryManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 98EDA3E30A9FA2FB00519E9B /* SparkEntryManager.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -317,6 +317,8 @@
 		98CF6FAD06B3DB2B0017D206 /* ForwardPressedBlue.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = ForwardPressedBlue.tif; sourceTree = "<group>"; };
 		98CF6FAE06B3DB2B0017D206 /* BackPressedBlue.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = BackPressedBlue.tif; sourceTree = "<group>"; };
 		98CF6FAF06B3DB2B0017D206 /* Back.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Back.tif; sourceTree = "<group>"; };
+		98D6304B0B35BACD00E0CE91 /* SKUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKUpdater.m; sourceTree = "<group>"; };
+		98D6304D0B35BAD900E0CE91 /* SKUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKUpdater.h; sourceTree = "<group>"; };
 		98D886AE0B29642100E661EF /* hotkey.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = hotkey.tiff; sourceTree = "<group>"; };
 		98D886B00B29644800E661EF /* plugin.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = plugin.tiff; sourceTree = "<group>"; };
 		98D886E00B29678D00E661EF /* SparkEntry.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SparkEntry.tiff; sourceTree = "<group>"; };
@@ -583,6 +585,7 @@
 				98D3ACDA079D6F7C00DDB6CE /* Base */,
 				98D3ACDB079D6F8500DDB6CE /* Icons */,
 				98725D2606CB9F860072B8E4 /* AppKit */,
+				98D630440B35B65600E0CE91 /* Update */,
 				98D3ACDC079D6F8B00DDB6CE /* Images */,
 				98DA2C5E0AFE126700E394CD /* Interface */,
 				98789B580AB48C1900C35052 /* BezelItem */,
@@ -801,6 +804,23 @@
 			name = Headers;
 			sourceTree = "<group>";
 		};
+		98D630440B35B65600E0CE91 /* Update */ = {
+			isa = PBXGroup;
+			children = (
+				98D630480B35B66900E0CE91 /* Headers */,
+				98D6304B0B35BACD00E0CE91 /* SKUpdater.m */,
+			);
+			path = Update;
+			sourceTree = "<group>";
+		};
+		98D630480B35B66900E0CE91 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				98D6304D0B35BAD900E0CE91 /* SKUpdater.h */,
+			);
+			path = Headers;
+			sourceTree = "<group>";
+		};
 		98DA2C5E0AFE126700E394CD /* Interface */ = {
 			isa = PBXGroup;
 			children = (
@@ -920,6 +940,7 @@
 				98DA2C7E0AFE143800E394CD /* SKShadowLabel.h in Headers */,
 				98DA2F280AFE193300E394CD /* SKColor.h in Headers */,
 				98E19C530B160ED0007E4D31 /* SKDSFunctions.h in Headers */,
+				98D6304E0B35BAD900E0CE91 /* SKUpdater.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1094,8 +1115,6 @@
 				98EDA3C20A9FA1A100519E9B /* SparkEntry.m in Sources */,
 				98EDA3F30A9FA34100519E9B /* SparkEntryManager.m in Sources */,
 				98A854E50AFF9BFE00088961 /* SparkBuiltInAction.m in Sources */,
-				98EA2CAE0B29D1F400E39193 /* SparkScriptApplication.m in Sources */,
-				98EA2CC00B29D28200E39193 /* SparkLibraryScripting.m in Sources */,
 				98627FFC0B2AD24100866A34 /* SparkFunctions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1139,6 +1158,7 @@
 				98DA2C780AFE142700E394CD /* SKCustomViewCell.m in Sources */,
 				98DA2F260AFE192200E394CD /* SKColor.m in Sources */,
 				98E19C510B160EC5007E4D31 /* SKDSFunctions.c in Sources */,
+				98D6304C0B35BACD00E0CE91 /* SKUpdater.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
