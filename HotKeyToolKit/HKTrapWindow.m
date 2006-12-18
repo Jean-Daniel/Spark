@@ -25,14 +25,14 @@ NSString * const kHKTrapWindowKeyCatchedNotification = @"kHKTrapWindowKeyCatched
 }
 
 - (void)setDelegate:(id)delegate {
-  if ([self delegate]) {
-    [[NSNotificationCenter defaultCenter] removeObserver:[self delegate]
-                                                    name:kHKTrapWindowKeyCatchedNotification
-                                                  object:self];
+  id previous = [self delegate];
+  if (previous) {
+    SKDelegateUnregisterNotification(previous, @selector(trapWindowCatchHotKey:), kHKTrapWindowKeyCatchedNotification);
   }
   [super setDelegate:delegate];
-  if (delegate)
-    SKRegisterDelegateForNotification(delegate, @selector(trapWindowCatchHotKey:), kHKTrapWindowKeyCatchedNotification);
+  if (delegate) {
+    SKDelegateRegisterNotification(delegate, @selector(trapWindowCatchHotKey:), kHKTrapWindowKeyCatchedNotification);
+  }
 }
 #pragma mark -
 #pragma mark Trap accessor
