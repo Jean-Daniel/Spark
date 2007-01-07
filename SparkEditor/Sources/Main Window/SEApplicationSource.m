@@ -10,6 +10,7 @@
 #import "SEEntriesManager.h"
 
 #import <ShadowKit/SKFSFunctions.h>
+#import <ShadowKit/SKLSFunctions.h>
 #import <ShadowKit/SKAppKitExtensions.h>
 
 #import <SparkKit/SparkLibrary.h>

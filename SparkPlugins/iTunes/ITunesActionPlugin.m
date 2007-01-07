@@ -20,7 +20,7 @@
 static 
 NSImage *ITunesGetApplicationIcon() {
   NSImage *icon = nil;
-  NSString *itunes = SKFindApplicationForSignature(kiTunesSignature);
+  NSString *itunes = SKLSFindApplicationForSignature(kiTunesSignature);
   if (itunes) {
     icon = [[NSWorkspace sharedWorkspace] iconForFile:itunes];
   }

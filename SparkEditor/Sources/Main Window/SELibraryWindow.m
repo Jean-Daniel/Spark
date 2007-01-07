@@ -57,7 +57,7 @@
   NSArray *objects = [appSource arrangedObjects];
   if (anIndex >= 0 && (unsigned)anIndex < [objects count]) {
     application = [objects objectAtIndex:anIndex];
-    [appField setApplication:application];
+    [appField setSparkApplication:application];
     
     // Shared Manager set application
     [[SEEntriesManager sharedManager] setApplication:application];

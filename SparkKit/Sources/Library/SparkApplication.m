@@ -138,6 +138,10 @@ static NSString * const kSparkApplicationKey = @"SparkApplication";
   return [sp_application bundleIdentifier];
 }
 
+- (SKApplication *)application {
+  return sp_application;
+}
+
 @end
 
 #pragma mark -

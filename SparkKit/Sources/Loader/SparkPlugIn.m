@@ -199,11 +199,13 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
       NSURL *url = [NSURL fileURLWithPath:path];
       sp_nib = [[NSNib alloc] initWithContentsOfURL:url];
     } else {
-      DLog(@"Invalid plugin nib path");
+      sp_nib = [NSNull null];
+      DLog(@"Plugin does not have nib path");
     }
   }
   SparkActionPlugIn *plugin = [[sp_class alloc] init];
-  [sp_nib instantiateNibWithOwner:plugin topLevelObjects:nil];
+  if (sp_nib != [NSNull null]) 
+    [sp_nib instantiateNibWithOwner:plugin topLevelObjects:nil];
   return [plugin autorelease];
 }
 

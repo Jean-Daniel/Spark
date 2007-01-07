@@ -11,12 +11,12 @@
 #import "SELibraryWindow.h"
 #import "SESparkEntrySet.h"
 #import "SEPreferences.h"
-#import "SETriggerCell.h"
 #import "SEEntryEditor.h"
 #import "Spark.h"
 
 #import <ShadowKit/SKTableView.h>
 #import <ShadowKit/SKExtensions.h>
+#import <ShadowKit/SKImageAndTextCell.h>
 
 #import <SparkKit/SparkLibrary.h>
 
@@ -330,8 +330,8 @@ SETriggerStyle styles[6];
         [aCell setTextColor:selected ? [NSColor selectedControlTextColor] : [NSColor disabledControlTextColor]];
       }
       /* Set Line status */
-      if ([aCell respondsToSelector:@selector(setDrawLineOver:)])
-        [aCell setDrawLineOver:styles[idx].strike && ![entry isEnabled]];
+      if ([aCell respondsToSelector:@selector(setDrawsLineOver:)])
+        [aCell setDrawsLineOver:styles[idx].strike && ![entry isEnabled]];
       
       float size = [NSFont smallSystemFontSize];
       [aCell setFont:styles[idx].bold ? [NSFont boldSystemFontOfSize:size] : [NSFont systemFontOfSize:size]];

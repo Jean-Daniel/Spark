@@ -26,7 +26,8 @@
   
   NSMutableArray *se_plugins; /* plugins list */
   SparkActionPlugIn *se_plugin; /* current action plugin __weak */
-    
+  SparkApplication *se_application; /* current application */
+
   NSMutableArray *se_views; /* binding cycle hack */
   NSMapTable *se_instances; /* plugin instances */
   NSMapTable *se_sizes; /* plugin min sizes */

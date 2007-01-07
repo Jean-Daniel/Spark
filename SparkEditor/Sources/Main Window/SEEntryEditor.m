@@ -46,6 +46,7 @@
   [se_entry release];
   [se_views release];
   [se_plugins release];
+  [se_application release];
   if (se_sizes) NSFreeMapTable(se_sizes);
   if (se_instances) NSFreeMapTable(se_instances);
   [super dealloc];
@@ -303,13 +304,14 @@
 }
 
 - (SparkApplication *)application {
-  return [appField application];
+  return se_application;
 }
 - (void)setApplication:(SparkApplication *)anApplication {
-  SparkApplication *previous = [appField application];
-  if (previous != anApplication) {
+  if (se_application != anApplication) {
+    [se_application release];
+    se_application = [anApplication retain];
     /* Set Application */
-    [appField setApplication:anApplication];
+    [appField setSparkApplication:anApplication];
     [appField setTitle:[NSString stringWithFormat:@"%@ HotKey", [anApplication name]]];
     [self updatePlugins];
   }

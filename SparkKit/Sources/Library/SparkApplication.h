@@ -22,4 +22,6 @@
 - (OSType)signature;
 - (NSString *)bundleIdentifier;
 
+- (SKApplication *)application;
+
 @end

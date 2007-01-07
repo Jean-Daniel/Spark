@@ -19,7 +19,7 @@ NSString * const SparkPlugInDidChangeStatusNotification;
 @interface SparkPlugIn : NSObject {
   @private
   Class sp_class;
-  NSNib *sp_nib;
+  id sp_nib;
   NSString *sp_name;
   NSString *sp_path;
   NSImage  *sp_icon;

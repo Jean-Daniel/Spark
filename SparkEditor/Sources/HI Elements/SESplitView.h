@@ -6,9 +6,9 @@
  *  Copyright (c) 2004 - 2006, Shadow Lab. All rights reserved.
  */
 
-#import <Cocoa/Cocoa.h>
+#import <ShadowKit/SKSplitView.h>
 
-@interface SESplitView : NSSplitView {
+@interface SESplitView : SKSplitView {
   
 }
 
