@@ -139,6 +139,8 @@ NSString * const kSystemUserNameKey = @"SystemUserName";
       /* System Event */
     case kSystemEmptyTrash:
     case kSystemKeyboardViewer:
+      /* Sound */
+    case kSystemVolumeMute:
       return nil;
     default:
       return [SparkAlert alertWithMessageText:NSLocalizedStringFromTableInBundle(@"INVALID_ACTION_ALERT",
@@ -185,6 +187,10 @@ NSString * const kSystemUserNameKey = @"SystemUserName";
       break;
     case kSystemKeyboardViewer:
       SKLSLaunchApplicationWithBundleIdentifier(CFSTR("com.apple.KeyboardViewerServer"), kLSLaunchDefaults);
+      break;
+      /* Sound */
+    case kSystemVolumeMute:
+      [self toggleMute];
       break;
     default:
       NSBeep();
@@ -292,8 +298,61 @@ kAEShowShutdownDialog         = 'rsdn'
   }
 }
 
+#pragma mark -
+#pragma mark Sound Management
+- (BOOL)isMute {
+  Boolean mute = FALSE;
+  AEDesc result = SKAEEmptyDesc();
+  AppleEvent aevt = SKAEEmptyDesc();
+  
+  OSStatus err = SKAECreateEventWithTargetSignature('MACS', 'syso', 'gtvl', &aevt);
+  require_noerr(err, bail);
+  
+  err = SKAEAddSubject(&aevt);
+  require_noerr(err, bail);
+  
+  /* Return record */
+  err = SKAESendEventReturnAEDesc(&aevt, 'vlst', &result);
+  require_noerr(err, bail);
+  
+  SKAEPrintDesc(&result);
+  
+  err = SKAEGetBooleanFromAppleEvent(&result, 'mute', &mute);
+  require_noerr(err, bail);
+  
+bail:
+    SKAEDisposeDesc(&aevt);
+  SKAEDisposeDesc(&result);
+  
+  return mute;
+}
+
+- (void)setMute:(BOOL)mute {
+  AppleEvent aevt = SKAEEmptyDesc();
+  
+  OSStatus err = SKAECreateEventWithTargetSignature('MACS', 'aevt', 'stvl', &aevt);
+  require_noerr(err, bail);
+  
+  err = SKAEAddBoolean(&aevt, 'mute', mute);
+  require_noerr(err, bail);
+  
+  err = SKAEAddSubject(&aevt);
+  require_noerr(err, bail);
+  
+  err = SKAESendEventNoReply(&aevt);
+  require_noerr(err, bail);
+  
+bail:
+  SKAEDisposeDesc(&aevt);
+}
+
+- (void)toggleMute {
+  [self setMute:![self isMute]];
+}
+
 @end
 
+#pragma mark -
 static 
 void SystemFastLogOut() {
   NSTask *task = [[NSTask alloc] init];
@@ -387,6 +446,10 @@ NSImage *SystemActionIcon(SystemAction *anAction) {
     case kSystemKeyboardViewer:
       icon = @"Keyboard";
       break;
+      /* Sound */
+    case kSystemVolumeMute:
+      // TODO
+      break;
   }
   return icon ? [NSImage imageNamed:icon inBundle:kSystemActionBundle] : nil;
 }
@@ -448,6 +511,11 @@ NSString *SystemActionDescription(SystemAction *anAction) {
       break;
     case kSystemKeyboardViewer:
       desc = @"Keyboard Viewer";
+      break;
+      /* Sound */
+    case kSystemVolumeMute:
+      desc = NSLocalizedStringFromTableInBundle(@"DESC_VOLUME_MUTE", nil, kSystemActionBundle,
+                                                @"Volume Mute * Action Description *");
       break;
     default:
       desc = NSLocalizedStringFromTableInBundle(@"DESC_INVALID", nil, kSystemActionBundle,

@@ -25,6 +25,7 @@ typedef enum {
 //  kSystemEject,
 //  kSystemVolumeUp,
 //  kSystemVolumeDown,
+  kSystemVolumeMute      = 'Mute', /* 1299543141 */
 } SystemActionType;
 
 SK_PRIVATE
@@ -63,6 +64,9 @@ NSString * const kSystemActionBundleIdentifier;
 - (void)togglePolarity;
 
 - (void)emptyTrash;
+
+/* Sound */
+- (void)toggleMute;
 
 - (BOOL)shouldConfirm;
 - (void)setShouldConfirm:(BOOL)flag;
