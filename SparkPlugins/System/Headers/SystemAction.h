@@ -23,8 +23,8 @@ typedef enum {
   kSystemKeyboardViewer  = 'KbVi', /* 1264735849 */
 //  kSystemMute,
 //  kSystemEject,
-//  kSystemVolumeUp,
-//  kSystemVolumeDown,
+  kSystemVolumeUp        = 'VoUp', /* 1450136944 */
+  kSystemVolumeDown      = 'VoDo', /* 1450132591 */
   kSystemVolumeMute      = 'Mute', /* 1299543141 */
 } SystemActionType;
 
@@ -36,8 +36,9 @@ NSString * const kSystemActionBundleIdentifier;
 @interface SystemAction : SparkAction <NSCoding, NSCopying> {
   SystemActionType sa_action;
   struct _sa_saFlags {
+    unsigned int notify:1;
     unsigned int confirm:1;
-    unsigned int reserved:31;
+    unsigned int reserved:30;
   } sa_saFlags;
   /* Switch data */
   uid_t sa_uid;
@@ -64,9 +65,15 @@ NSString * const kSystemActionBundleIdentifier;
 - (void)togglePolarity;
 
 - (void)emptyTrash;
+- (void)launchKeyboardViewer;
 
 /* Sound */
+- (void)volumeUp;
+- (void)volumeDown;
 - (void)toggleMute;
+
+- (BOOL)shouldNotify;
+- (void)setShouldNotify:(BOOL)flag;
 
 - (BOOL)shouldConfirm;
 - (void)setShouldConfirm:(BOOL)flag;

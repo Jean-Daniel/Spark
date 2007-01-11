@@ -9,6 +9,7 @@
 #import <SparkKit/SparkFunctions.h>
 
 #import <SparkKit/SparkAlert.h>
+#import <SparkKit/SparkPrivate.h>
 #import <SparkKit/SparkMultipleAlerts.h>
 
 #import <ShadowKit/SKIconView.h>
@@ -84,14 +85,6 @@ SKBezelItem *_SparkNotifiationSharedItem() {
   return _shared;
 }
 
-static
-void _SparkNotificationDisplay(NSView *view, float delay) {
-  SKBezelItem *item = _SparkNotifiationSharedItem();
-  [item setContent:view];
-  [item setDelay:delay];
-  [item display:nil];
-}
-
 static 
 SKIconView *_SparkNotificationSharedIconView() {
   static SKIconView *_shared = nil;
@@ -115,20 +108,27 @@ NSImageView *_SparkNotificationSharedImageView() {
   return _shared;
 }
 
+void SparkNotificationDisplay(NSView *view, float delay) {
+  SKBezelItem *item = _SparkNotifiationSharedItem();
+  [item setContent:view];
+  [item setDelay:delay];
+  [item display:nil];
+}
+
 void SparkNotificationDisplayIcon(IconRef icon, float delay) {
   SKIconView *view = _SparkNotificationSharedIconView();
   [view setIconRef:icon];
-  _SparkNotificationDisplay(view, delay);
+  SparkNotificationDisplay(view, delay);
 }
 
 void SparkNotificationDisplayImage(NSImage *anImage, float delay) {
   NSImageView *view = _SparkNotificationSharedImageView();
   [view setImage:anImage];
-  _SparkNotificationDisplay(view, delay);
+  SparkNotificationDisplay(view, delay);
 }
 
 void SparkNotificationDisplaySystemIcon(OSType icon, float delay) {
   SKIconView *view = _SparkNotificationSharedIconView();
   [view setSystemIcon:icon];
-  _SparkNotificationDisplay(view, delay);
+  SparkNotificationDisplay(view, delay);
 }

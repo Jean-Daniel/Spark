@@ -8,6 +8,9 @@
 
 #import "SystemAction.h"
 
+#import "SoundView.h"
+#import "AudioOutput.h"
+
 /* getuid() */
 #include <unistd.h>
 
@@ -30,10 +33,10 @@ void SystemFastLogOut(void);
 static 
 void SystemSwitchToUser(uid_t uid);
 
+static
+NSString * const kSystemFlagsKey = @"SystemFlags";
 static 
 NSString * const kSystemActionKey = @"SystemAction";
-static
-NSString * const kSystemConfirmKey = @"SystemConfirm";
 
 static
 NSString * const kSystemUserUIDKey = @"SystemUserUID";
@@ -50,17 +53,29 @@ NSString * const kSystemUserNameKey = @"SystemUserName";
   return copy;
 }
 
+- (UInt32)encodeFlags {
+  UInt32 flags = 0;
+  if (sa_saFlags.notify) flags |= 1 << 0;
+  if (sa_saFlags.confirm) flags |= 1 << 1;
+  return flags;
+}
+
+- (void)decodeFlags:(UInt32)flags {
+  if (flags & 1 << 0) sa_saFlags.notify = 1; /* bit 0 */
+  if (flags & 1 << 1) sa_saFlags.confirm = 1; /* bit 1 */
+}
+
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
   [coder encodeInt:[self action] forKey:kSystemActionKey];
-  [coder encodeBool:sa_saFlags.confirm forKey:kSystemConfirmKey];
+  [coder encodeInt:[self encodeFlags] forKey:kSystemFlagsKey];
   return;
 }
 
 - (id)initWithCoder:(NSCoder *)coder {
   if (self = [super initWithCoder:coder]) {
     [self setAction:[coder decodeIntForKey:kSystemActionKey]];
-    [self setShouldConfirm:[coder decodeBoolForKey:kSystemConfirmKey]];
+    [self decodeFlags:[coder decodeIntForKey:kSystemFlagsKey]];
   }
   return self;
 }
@@ -77,7 +92,7 @@ NSString * const kSystemUserNameKey = @"SystemUserName";
 - (id)initWithSerializedValues:(NSDictionary *)plist {
   if (self = [super initWithSerializedValues:plist]) {
     [self setAction:[[plist objectForKey:kSystemActionKey] intValue]];
-    [self setShouldConfirm:[[plist objectForKey:kSystemConfirmKey] boolValue]];
+    [self decodeFlags:[[plist objectForKey:kSystemFlagsKey] unsignedIntValue]];
     
     if (kSystemSwitch == [self action]) {
       [self setUserName:[plist objectForKey:kSystemUserNameKey]];
@@ -94,7 +109,8 @@ NSString * const kSystemUserNameKey = @"SystemUserName";
 - (BOOL)serialize:(NSMutableDictionary *)plist {
   if ([super serialize:plist]) {
     [plist setObject:SKInt([self action]) forKey:kSystemActionKey];
-    [plist setObject:SKBool([self shouldConfirm]) forKey:kSystemConfirmKey];
+    [plist setObject:SKUInt([self encodeFlags]) forKey:kSystemFlagsKey];
+    
     if (kSystemSwitch == [self action] && [self userID] && [self userName]) {
       [plist setObject:SKUInt([self userID]) forKey:kSystemUserUIDKey];
       [plist setObject:[self userName] forKey:kSystemUserNameKey];
@@ -140,6 +156,8 @@ NSString * const kSystemUserNameKey = @"SystemUserName";
     case kSystemEmptyTrash:
     case kSystemKeyboardViewer:
       /* Sound */
+    case kSystemVolumeUp:
+    case kSystemVolumeDown:
     case kSystemVolumeMute:
       return nil;
     default:
@@ -186,9 +204,16 @@ NSString * const kSystemUserNameKey = @"SystemUserName";
       [self emptyTrash];
       break;
     case kSystemKeyboardViewer:
-      SKLSLaunchApplicationWithBundleIdentifier(CFSTR("com.apple.KeyboardViewerServer"), kLSLaunchDefaults);
+      [self launchKeyboardViewer];
+      
       break;
       /* Sound */
+    case kSystemVolumeUp:
+      [self volumeUp];
+      break;
+    case kSystemVolumeDown:
+      [self volumeDown];
+      break;
     case kSystemVolumeMute:
       [self toggleMute];
       break;
@@ -232,6 +257,16 @@ bail:
     SKAEDisposeDesc(&aevt);
 }
 
+- (void)launchKeyboardViewer {
+  NSString *path = SKLSFindApplicationForBundleIdentifier(@"com.apple.KeyboardViewerServer");
+  if (!path)
+    path = @"/System/Library/Components/KeyboardViewer.component/Contents/SharedSupport/KeyboardViewerServer.app";
+  if (path)
+    SKLSLaunchApplicationAtPath((CFStringRef)path, kCFURLPOSIXPathStyle, kLSLaunchDefaults); 
+  else
+    NSBeep();
+}
+
 - (uid_t)userID {
   return sa_uid;
 }
@@ -267,6 +302,13 @@ kAEShowShutdownDialog         = 'rsdn'
   SKAESendSimpleEventToProcess(&psn, kCoreEventClass, [self shouldConfirm] ? kAEShowShutdownDialog : 'shut');
 }
 
+- (BOOL)shouldNotify {
+  return sa_saFlags.notify;
+}
+- (void)setShouldNotify:(BOOL)flag {
+  SKSetFlag(sa_saFlags.notify, flag);
+}
+
 - (BOOL)shouldConfirm {
   return sa_saFlags.confirm;
 }
@@ -300,54 +342,86 @@ kAEShowShutdownDialog         = 'rsdn'
 
 #pragma mark -
 #pragma mark Sound Management
-- (BOOL)isMute {
-  Boolean mute = FALSE;
-  AEDesc result = SKAEEmptyDesc();
-  AppleEvent aevt = SKAEEmptyDesc();
-  
-  OSStatus err = SKAECreateEventWithTargetSignature('MACS', 'syso', 'gtvl', &aevt);
-  require_noerr(err, bail);
-  
-  err = SKAEAddSubject(&aevt);
-  require_noerr(err, bail);
-  
-  /* Return record */
-  err = SKAESendEventReturnAEDesc(&aevt, 'vlst', &result);
-  require_noerr(err, bail);
-  
-  SKAEPrintDesc(&result);
-  
-  err = SKAEGetBooleanFromAppleEvent(&result, 'mute', &mute);
-  require_noerr(err, bail);
-  
-bail:
-    SKAEDisposeDesc(&aevt);
-  SKAEDisposeDesc(&result);
-  
-  return mute;
+static
+SoundView *_SASharedSoundView() {
+  static SoundView *shared = nil;
+  if (!shared) {
+    shared = [[SoundView alloc] initWithFrame:NSMakeRect(0, 0, 161, 156)];
+  }
+  return shared;
 }
 
-- (void)setMute:(BOOL)mute {
-  AppleEvent aevt = SKAEEmptyDesc();
-  
-  OSStatus err = SKAECreateEventWithTargetSignature('MACS', 'aevt', 'stvl', &aevt);
-  require_noerr(err, bail);
-  
-  err = SKAEAddBoolean(&aevt, 'mute', mute);
-  require_noerr(err, bail);
-  
-  err = SKAEAddSubject(&aevt);
-  require_noerr(err, bail);
-  
-  err = SKAESendEventNoReply(&aevt);
-  require_noerr(err, bail);
-  
-bail:
-  SKAEDisposeDesc(&aevt);
+static NSSound *_SASharedSound() {
+  static NSSound *beep = nil;
+  if (!beep) {
+    NSString *path = [[NSBundle bundleForClass:[SystemAction class]] pathForSoundResource:@"volume"];
+    if (path)
+      beep = [[NSSound alloc] initWithContentsOfFile:path byReference:YES];
+  }
+  return beep;
+}
+
+- (void)notifySoundChangeForDevice:(AudioDeviceID)device {
+  if ([self shouldNotify]) {
+    Boolean mute;
+    UInt32 level = 0;
+    SoundView *view = _SASharedSoundView();
+    OSStatus err = AudioOutputIsMuted(device, &mute);
+    if (noErr == err) {
+      [view setMuted:mute];
+      err = AudioOutputVolumeGetLevel(device, &level);
+    }
+    if (noErr == err) {
+      [view setLevel:level];
+      if (!mute && level > 0) {
+        NSSound *sound = _SASharedSound();
+        if (![sound isPlaying])
+          [sound play];
+      }
+      SparkNotificationDisplay(view, -1);
+    }
+  }
+}
+
+- (void)volumeUp {
+  AudioDeviceID device;
+  OSStatus err = AudioOutputGetSystemDevice(&device);
+  if (noErr == err) {
+    err = AudioOutputVolumeUp(device, NULL);
+  }
+  if (noErr == err)
+    [self notifySoundChangeForDevice:device];
+}
+
+- (void)volumeDown {
+  AudioDeviceID device;
+  OSStatus err = AudioOutputGetSystemDevice(&device);
+  if (noErr == err) {
+    err = AudioOutputVolumeDown(device, NULL);
+  }
+  if (noErr == err)
+    [self notifySoundChangeForDevice:device];
 }
 
 - (void)toggleMute {
-  [self setMute:![self isMute]];
+  Boolean mute;
+  AudioDeviceID device;
+  OSStatus err = AudioOutputGetSystemDevice(&device);
+  if (noErr == err) 
+    err = AudioOutputIsMuted(device, &mute);
+  if (noErr == err)
+    err = AudioOutputSetMuted(device, !mute);
+  [self notifySoundChangeForDevice:device];
+}
+
+- (NSTimeInterval)repeatInterval {
+  switch (sa_action) {
+    case kSystemVolumeUp:
+    case kSystemVolumeDown:
+      return SparkGetDefaultKeyRepeatInterval();
+    default:
+      return 0;
+  }
 }
 
 @end
@@ -447,8 +521,14 @@ NSImage *SystemActionIcon(SystemAction *anAction) {
       icon = @"Keyboard";
       break;
       /* Sound */
+    case kSystemVolumeUp:
+      icon = @"VolumeUp";
+      break;
+    case kSystemVolumeDown:
+      icon = @"VolumeDown";
+      break;
     case kSystemVolumeMute:
-      // TODO
+      icon = @"Mute";
       break;
   }
   return icon ? [NSImage imageNamed:icon inBundle:kSystemActionBundle] : nil;
@@ -513,6 +593,14 @@ NSString *SystemActionDescription(SystemAction *anAction) {
       desc = @"Keyboard Viewer";
       break;
       /* Sound */
+    case kSystemVolumeUp:
+      desc = NSLocalizedStringFromTableInBundle(@"DESC_VOLUME_UP", nil, kSystemActionBundle,
+                                                @"Volume Up * Action Description *");
+      break;
+    case kSystemVolumeDown:
+      desc = NSLocalizedStringFromTableInBundle(@"DESC_VOLUME_DOWN", nil, kSystemActionBundle,
+                                                @"Volume Down * Action Description *");
+      break;
     case kSystemVolumeMute:
       desc = NSLocalizedStringFromTableInBundle(@"DESC_VOLUME_MUTE", nil, kSystemActionBundle,
                                                 @"Volume Mute * Action Description *");

@@ -73,18 +73,15 @@
 - (void)loadSparkAction:(SystemAction *)sparkAction toEdit:(BOOL)flag {
   [ibName setStringValue:[sparkAction name] ? : @""];
   if (flag) {
-    [self willChangeValueForKey:@"shouldConfirm"];
-    
     /* Force update menu + placeholder */
     [self setAction:[sparkAction action]];
     
     if (kSystemSwitch == [self action]) {
       [ibUsers selectItemWithTag:[sparkAction userID]];
     }
-    [self didChangeValueForKey:@"shouldConfirm"];
   } else {
     [self setAction:kSystemLogOut];
-    [self setShouldConfirm:YES];
+    [[self sparkAction] setShouldConfirm:YES];
   }
 }
 
@@ -131,24 +128,23 @@
     case kSystemLogOut:
     case kSystemRestart:
     case kSystemShutDown:
-      [ibUsers setHidden:YES];
-      [displayBox setHidden:NO];
+      /* Confirm */
+      [uiOptions selectTabViewItemAtIndex:0];
       break;
     case kSystemSwitch:
-      [ibUsers setHidden:NO];
-      [displayBox setHidden:YES];
+      /* Users */
+      [uiOptions selectTabViewItemAtIndex:1];
+      break;
+    case kSystemVolumeUp:
+    case kSystemVolumeDown:
+    case kSystemVolumeMute:
+      /* Display visual */
+      [uiOptions selectTabViewItemAtIndex:2];
       break;
     default:
-      [ibUsers setHidden:YES];
-      [displayBox setHidden:YES];
+      /* Empty */
+      [uiOptions selectTabViewItemAtIndex:3];
   }
-}
-
-- (BOOL)shouldConfirm {
-  return [[self sparkAction] shouldConfirm];
-}
-- (void)setShouldConfirm:(BOOL)flag {
-  [[self sparkAction] setShouldConfirm:flag];
 }
 
 @end

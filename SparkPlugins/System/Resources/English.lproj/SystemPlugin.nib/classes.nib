@@ -11,10 +11,10 @@
             CLASS = SystemActionPlugin; 
             LANGUAGE = ObjC; 
             OUTLETS = {
-                displayBox = NSButton; 
                 ibActions = NSPopUpButton; 
                 ibName = NSTextField; 
                 ibUsers = NSPopUpButton; 
+                uiOptions = NSTabView; 
             }; 
             SUPERCLASS = SparkActionPlugIn; 
         }

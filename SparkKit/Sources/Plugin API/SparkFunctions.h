@@ -47,6 +47,7 @@ void SparkDisplayAlert(SparkAlert *alert) {
 }
 
 #pragma mark Notification
+/* delay: -1 for default value */
 SPARK_EXPORT
 void SparkNotificationDisplayIcon(IconRef icon, float delay);
 
@@ -56,6 +57,10 @@ void SparkNotificationDisplayImage(NSImage *anImage, float delay);
 /* See <HIServices/Icons.h> for possible values */
 SPARK_EXPORT
 void SparkNotificationDisplaySystemIcon(OSType icon, float delay);
+
+/* Private notifications */
+SPARK_EXPORT
+void SparkNotificationDisplay(NSView *view, float delay);
 
 #endif
 

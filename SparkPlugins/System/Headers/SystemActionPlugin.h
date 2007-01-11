@@ -10,7 +10,7 @@
 #import "SystemAction.h"
 
 @interface SystemActionPlugin : SparkActionPlugIn {
-  IBOutlet NSButton *displayBox;
+  IBOutlet NSTabView *uiOptions;
   IBOutlet NSTextField *ibName;
   
   IBOutlet NSPopUpButton *ibUsers;
@@ -19,8 +19,5 @@
 
 - (SystemActionType)action;
 - (void)setAction:(SystemActionType)anAction;
-
-- (BOOL)shouldConfirm;
-- (void)setShouldConfirm:(BOOL)flag;
 
 @end
