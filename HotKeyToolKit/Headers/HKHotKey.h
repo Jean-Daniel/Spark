@@ -41,10 +41,11 @@ NSTimeInterval HKGetSystemKeyRepeatThreshold(void);
   
   struct _hk_hkFlags {
     unsigned int lock:1;
+    unsigned int repeat:1;
     unsigned int invoked:1;
     unsigned int onrelease:1;
     unsigned int registred:1;
-    unsigned int reserved:12;
+    unsigned int reserved:11;
   } hk_hkFlags;
   
   UInt32 hk_mask;
@@ -242,6 +243,7 @@ NSTimeInterval HKGetSystemKeyRepeatThreshold(void);
 - (void)keyPressed;
 - (void)keyReleased;
 
+- (BOOL)isARepeat;
 - (void)willInvoke:(BOOL)repeat;
 - (void)didInvoke:(BOOL)repeat;
 

@@ -10,8 +10,9 @@
 #import "SparkPrivate.h"
 #import <SparkKit/SparkKit.h>
 #import <SparkKit/SparkAction.h>
-#import <SparkKit/SparkActionLoader.h>
+#import <SparkKit/SparkTrigger.h>
 #import <SparkKit/SparkObjectSet.h>
+#import <SparkKit/SparkActionLoader.h>
 
 #import <ShadowKit/SKImageUtils.h>
 #import <ShadowKit/SKSerialization.h>
@@ -25,6 +26,16 @@ static NSString * const kSparkActionDescriptionKey = @"SADescription";
 
 #pragma mark -
 @implementation SparkAction
+
+#pragma mark Current Event
+static SparkTrigger *sTrigger;
+
++ (BOOL)currentEventIsARepeat {
+  return [sTrigger isARepeat];
+}
++ (NSTimeInterval)currentEventTime {
+  return sTrigger ? [sTrigger eventTime] : 0;
+}
 
 #pragma mark -
 #pragma mark NSCoding
@@ -64,7 +75,7 @@ static NSString * const kSparkActionDescriptionKey = @"SADescription";
   return copy;
 }
 
-#pragma mark SparkSerialization
+#pragma mark Spark Serialization
 - (BOOL)serialize:(NSMutableDictionary *)plist {
   [super serialize:plist];
   if ([self version])
@@ -115,8 +126,8 @@ static NSString * const kSparkActionDescriptionKey = @"SADescription";
 }
 
 - (void)dealloc {
-  [sp_description release];
   [sp_categorie release];
+  [sp_description release];
   [super dealloc];
 }
 
@@ -180,6 +191,10 @@ static NSString * const kSparkActionDescriptionKey = @"SADescription";
 
 #pragma mark -
 @implementation SparkAction (Private)
+
++ (void)setCurrentTrigger:(SparkTrigger *)aTrigger {
+  SKSetterRetain(sTrigger, aTrigger);
+}
 
 - (id)duplicate {
   /* Copying fallback when instance does not implements copyWithZone: */

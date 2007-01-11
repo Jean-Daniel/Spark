@@ -46,6 +46,9 @@ NSTimeInterval SparkGetDefaultKeyRepeatInterval(void);
   NSString *sp_categorie, *sp_description;
 }
 
++ (BOOL)currentEventIsARepeat;
++ (NSTimeInterval)currentEventTime;
+
 /* Designated initializer */
 - (id)init;
 

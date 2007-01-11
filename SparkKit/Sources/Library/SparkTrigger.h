@@ -16,8 +16,9 @@
   SEL sp_action;
   
   struct _sp_stFlags {
+    unsigned int repeat:1;
     unsigned int overwrite:1;
-    unsigned int reserved:31;
+    unsigned int reserved:30;
   } sp_stFlags;
 }
 
@@ -40,6 +41,10 @@
 - (BOOL)setRegistred:(BOOL)flag;
 - (NSString *)triggerDescription;
 
+/* Current event support */
+- (BOOL)isARepeat;
+- (NSTimeInterval)eventTime;
+
 /* Optional */
 - (void)willTriggerAction:(SparkAction *)anAction;
 - (void)didTriggerAction:(SparkAction *)anAction;
@@ -47,4 +52,6 @@
 /* Return YES only if the two trigger are equivalents */
 - (BOOL)isEqualToTrigger:(SparkTrigger *)aTrigger;
 
+/* Convenient setters */
+- (void)setIsARepeat:(BOOL)flag;
 @end

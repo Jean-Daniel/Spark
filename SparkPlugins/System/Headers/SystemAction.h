@@ -43,6 +43,7 @@ NSString * const kSystemActionBundleIdentifier;
   /* Switch data */
   uid_t sa_uid;
   NSString *sa_uname;
+  NSTimeInterval sa_start;
 }
 
 - (SystemActionType)action;

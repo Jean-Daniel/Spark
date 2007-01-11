@@ -7,6 +7,7 @@
  *
  */
 
+#import "SparkPrivate.h"
 #import <SparkKit/SparkTrigger.h>
 
 @implementation SparkTrigger
@@ -96,11 +97,24 @@ static SparkAction *sp_spAction = nil;
   return NO;
 }
 
+- (BOOL)isARepeat {
+  return sp_stFlags.repeat;
+}
+- (NSTimeInterval)eventTime {
+  return [[NSApp currentEvent] timestamp];
+}
+
+- (void)setIsARepeat:(BOOL)flag {
+  SKSetFlag(sp_stFlags.repeat, flag);
+}
+
 - (void)willTriggerAction:(SparkAction *)anAction {
+  [SparkAction setCurrentTrigger:self];
   SKSetterRetain(sp_spAction, anAction);
 }
 
 - (void)didTriggerAction:(SparkAction *)anAction {
+  [SparkAction setCurrentTrigger:nil];
 }
 
 @end

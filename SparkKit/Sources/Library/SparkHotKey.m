@@ -7,15 +7,16 @@
  *
  */
 
+#include <Carbon/Carbon.h>
+
+#import <SparkKit/SparkHotKey.h>
+#import <SparkKit/SparkAction.h>
+
 #import <ShadowKit/SKImageUtils.h>
 #import <ShadowKit/SKForwarding.h>
 #import <ShadowKit/SKAppKitExtensions.h>
 
 #import <HotKeyToolKit/HotKeyToolKit.h>
-
-#import <SparkKit/SparkHotKey.h>
-
-#import <SparkKit/SparkAction.h>
 
 #define ICON_SIZE		16
 
@@ -81,11 +82,6 @@ BOOL KeyStrokeFilter(UInt32 code, UInt32 modifier) {
   }
   return NO;
 }
-
-#pragma mark -
-@interface NSMutableDictionary (SetMultiplesValues)
-- (void)setObject:(id)anObject forKeys:(NSArray *)keys;
-@end
 
 #pragma mark -
 @implementation SparkHotKey
@@ -180,6 +176,15 @@ BOOL KeyStrokeFilter(UInt32 code, UInt32 modifier) {
   return [aTrigger isKindOfClass:[SparkHotKey class]] && [self rawkey] == [(id)aTrigger rawkey];
 }
 
+#pragma mark Current Event
+- (NSTimeInterval)eventTime {
+  return GetCurrentEventTime();
+}
+- (void)trigger:(id)sender {
+  [self setIsARepeat:[sender isARepeat]];
+  [super trigger:sender];
+}
+
 #pragma mark -
 #pragma mark Accessors
 - (NSImage *)icon {
@@ -201,7 +206,7 @@ BOOL KeyStrokeFilter(UInt32 code, UInt32 modifier) {
 SKForwarding(SparkHotKey, HKHotKey, sp_hotkey);
 
 #pragma mark -
-#pragma mark Key Repeat Support Implementation
+#pragma mark Key Repeat Support
 NSTimeInterval SparkGetDefaultKeyRepeatInterval() {
   return HKGetSystemKeyRepeatInterval();
 }

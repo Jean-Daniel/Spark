@@ -299,6 +299,7 @@
 
 - (void)invoke:(BOOL)repeat {
   if (!hk_hkFlags.lock) {
+    SKSetFlag(hk_hkFlags.repeat, repeat);
     [self willInvoke:repeat];
     hk_hkFlags.lock = 1;
     @try {
@@ -311,10 +312,15 @@
     }
     hk_hkFlags.lock = 0;
     [self didInvoke:repeat];
+    SKSetFlag(hk_hkFlags.repeat, NO);
   } else {
     DLog(@"WARNING: Recursive call in %@", self);
     // Maybe resend event ?
   }
+}
+
+- (BOOL)isARepeat {
+  return hk_hkFlags.repeat;
 }
 
 - (void)willInvoke:(BOOL)repeat {}

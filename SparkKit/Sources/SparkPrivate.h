@@ -31,8 +31,10 @@
 
 @end
 
-@class SparkHotKey;
+@class SparkHotKey, SparkTrigger;
 @interface SparkAction (Private)
+
++ (void)setCurrentTrigger:(SparkTrigger *)aTrigger;
 
 - (id)duplicate;
 

@@ -106,6 +106,7 @@
 		98789B640AB48C1900C35052 /* SKBezelItemContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 98789B5E0AB48C1900C35052 /* SKBezelItemContent.m */; };
 		98789B650AB48C1900C35052 /* SKNotificationWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 98789B5F0AB48C1900C35052 /* SKNotificationWindow.m */; };
 		9887389A0ABC1B4300DD19BB /* SparkShadowKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 988738990ABC1B4300DD19BB /* SparkShadowKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		988C9B460B56F2EF000A0DDC /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 988C9AAE0B56F29A000A0DDC /* Carbon.framework */; };
 		989EF9EA0A7CC4BB00721386 /* SparkList.m in Sources */ = {isa = PBXBuildFile; fileRef = 989EF9E90A7CC4BB00721386 /* SparkList.m */; };
 		989EF9EE0A7CC4C900721386 /* SparkList.h in Headers */ = {isa = PBXBuildFile; fileRef = 989EF9ED0A7CC4C900721386 /* SparkList.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		98A417EE0B37454500411C20 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98A417DC0B37454500411C20 /* SystemConfiguration.framework */; };
@@ -310,6 +311,7 @@
 		98789B5E0AB48C1900C35052 /* SKBezelItemContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKBezelItemContent.m; sourceTree = "<group>"; };
 		98789B5F0AB48C1900C35052 /* SKNotificationWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKNotificationWindow.m; sourceTree = "<group>"; };
 		988738990ABC1B4300DD19BB /* SparkShadowKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkShadowKit.h; sourceTree = "<group>"; };
+		988C9AAE0B56F29A000A0DDC /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		989EF9E90A7CC4BB00721386 /* SparkList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkList.m; sourceTree = "<group>"; };
 		989EF9ED0A7CC4C900721386 /* SparkList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkList.h; sourceTree = "<group>"; };
 		98A417DC0B37454500411C20 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = /System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<absolute>"; };
@@ -395,6 +397,7 @@
 				8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */,
 				98675568096B367800BB8A25 /* ShadowKit.framework in Frameworks */,
 				984A388A0A6003B800DA6455 /* HotKeyToolKit.framework in Frameworks */,
+				988C9B460B56F2EF000A0DDC /* Carbon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -480,6 +483,7 @@
 			children = (
 				983975950A5866BF00F79B40 /* IOKit.framework */,
 				1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */,
+				988C9AAE0B56F29A000A0DDC /* Carbon.framework */,
 				98E19C670B160EF1007E4D31 /* DirectoryService.framework */,
 				98A417DC0B37454500411C20 /* SystemConfiguration.framework */,
 			);

@@ -374,9 +374,14 @@ static NSSound *_SASharedSound() {
     if (noErr == err) {
       [view setLevel:level];
       if (!mute && level > 0) {
-        NSSound *sound = _SASharedSound();
-        if (![sound isPlaying])
-          [sound play];
+        if (![SparkAction currentEventIsARepeat] ||
+            ([SparkAction currentEventTime] - sa_start > 1)) {
+          /* When repeat, play one beep per second */
+          sa_start = [SparkAction currentEventTime];
+          NSSound *sound = _SASharedSound();
+          if (![sound isPlaying])
+            [sound play];
+        }
       }
       SparkNotificationDisplay(view, -1);
     }
