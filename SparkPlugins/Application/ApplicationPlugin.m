@@ -21,9 +21,6 @@ NSString * const kApplicationActionBundleIdentifier = @"org.shadowlab.spark.appl
   [aa_path release];
   [super dealloc];
 }
-- (void)awakeFromNib {
-  [ibIcon setImageInterpolation:NSImageInterpolationHigh];
-}
 
 #pragma mark -
 - (void)loadSparkAction:(ApplicationAction *)sparkAction toEdit:(BOOL)edit {

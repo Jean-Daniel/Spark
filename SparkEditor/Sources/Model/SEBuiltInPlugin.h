@@ -8,9 +8,7 @@
 
 #import <SparkKit/SparkActionPlugIn.h>
 
-@class SKImageView;
 @interface SEInheritsPlugin : SparkActionPlugIn {
-  IBOutlet SKImageView *ibIcon;
 }
 
 @end

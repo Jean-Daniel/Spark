@@ -19,6 +19,7 @@
 #import <SparkKit/SparkActionLoader.h>
 
 #import <ShadowKit/SKLoginItems.h>
+#import <ShadowKit/SKFSFunctions.h>
 
 /* If daemon should delay library loading at startup */
 CFStringRef kSparkGlobalPrefDelayStartup = CFSTR("SDDelayStartup");
@@ -109,18 +110,30 @@ void __SetSparkKitSingleKeyMode(int mode) {
   NSMutableArray *lplugs = [NSMutableArray array];
   NSMutableArray *bplugs = [NSMutableArray array];
   
-  NSString *user = [SparkActionLoader pluginPathForDomain:kSKUserDomain];
-  NSString *local = [SparkActionLoader pluginPathForDomain:kSKLocalDomain];
-
+  FSRef uref, lref;
+  BOOL user = NO, local = NO;
+  if ([[SparkActionLoader pluginPathForDomain:kSKUserDomain] getFSRef:&uref]) {
+    user = YES;
+  }
+  if ([[SparkActionLoader pluginPathForDomain:kSKLocalDomain] getFSRef:&lref]) {
+    local = YES;
+  }
+  
   SparkPlugIn *plugin;
   NSEnumerator *plugins = [[[[SparkActionLoader sharedLoader] plugins] sortedArrayUsingDescriptors:gSortByNameDescriptors] objectEnumerator];
   while (plugin = [plugins nextObject]) {
-    NSString *path = [plugin path];
-    if ([path hasPrefix:user]) {
-      [uplugs addObject:plugin];
-    } else if ([path hasPrefix:local]) {
-      [lplugs addObject:plugin];
-    } else {
+    FSRef path;
+    BOOL done = NO;
+    if ([[[plugin path] stringByDeletingLastPathComponent] getFSRef:&path]) {
+      if (user && noErr == FSCompareFSRefs(&path, &uref)) {
+        done = YES;
+        [uplugs addObject:plugin];
+      } else if (local  && noErr == FSCompareFSRefs(&path, &lref)) {
+        done = YES;
+        [lplugs addObject:plugin];
+      }
+    } 
+    if (!done) {
       [bplugs addObject:plugin];
     }
     /* Save status */
