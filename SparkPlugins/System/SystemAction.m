@@ -392,7 +392,12 @@ static NSSound *_SASharedSound() {
   AudioDeviceID device;
   OSStatus err = AudioOutputGetSystemDevice(&device);
   if (noErr == err) {
-    err = AudioOutputVolumeUp(device, NULL);
+    Boolean mute;
+    err = AudioOutputIsMuted(device, &mute);
+    if (noErr == err && mute)
+      err = AudioOutputSetMuted(device, FALSE);
+    if (noErr == err)
+      err = AudioOutputVolumeUp(device, NULL);
   }
   if (noErr == err)
     [self notifySoundChangeForDevice:device];
@@ -402,7 +407,12 @@ static NSSound *_SASharedSound() {
   AudioDeviceID device;
   OSStatus err = AudioOutputGetSystemDevice(&device);
   if (noErr == err) {
-    err = AudioOutputVolumeDown(device, NULL);
+    Boolean mute;
+    err = AudioOutputIsMuted(device, &mute);
+    if (noErr == err && mute)
+      err = AudioOutputSetMuted(device, FALSE);
+    if (noErr == err)
+      err = AudioOutputVolumeDown(device, NULL);
   }
   if (noErr == err)
     [self notifySoundChangeForDevice:device];

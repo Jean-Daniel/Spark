@@ -8,13 +8,15 @@
                 ibAlbum = NSTextField; 
                 ibArtist = NSTextField; 
                 ibName = NSTextField; 
-                ibRate = NSTextField; 
+                ibRate = ITunesStarView; 
                 ibTime = NSTextField; 
                 ibView = NSView; 
             }; 
             SUPERCLASS = NSWindowController; 
         }, 
-        {CLASS = ITunesInfoView; LANGUAGE = ObjC; SUPERCLASS = NSView; }
+        {CLASS = ITunesInfoView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
+        {CLASS = ITunesStarView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
+        {CLASS = NSLevelIndicator; LANGUAGE = ObjC; SUPERCLASS = NSControl; }
     ); 
     IBVersion = 1; 
 }

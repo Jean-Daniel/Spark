@@ -253,13 +253,16 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
   [plist setObject:SKUInt(kSparkObjectSetCurrentVersion) forKey:kSparkLibraryVersionKey];
   
   SparkObject *object;
+  OSStatus err = noErr;
   NSEnumerator *enumerator = [self objectEnumerator];
   while (object = [enumerator nextObject]) {
-    NSDictionary *serialize = [self serialize:object error:NULL];
+    NSDictionary *serialize = [self serialize:object error:&err];
     if (serialize && [NSPropertyListSerialization propertyList:serialize isValidForFormat:SparkLibraryFileFormat]) {
       [objects addObject:serialize];
     } else {
       DLog(@"Error while serializing object: %@", object);
+      if (noErr != err && outError)
+        *outError = [NSError errorWithDomain:NSOSStatusErrorDomain code:err userInfo:nil];
     }
   }
   

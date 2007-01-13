@@ -8,6 +8,7 @@
 
 #import "ITunesInfo.h"
 #import "ITunesAction.h"
+#import "ITunesStarView.h"
 
 #import <ShadowKit/SKCGFunctions.h>
 #import <ShadowKit/SKNotificationWindow.h>
@@ -244,41 +245,7 @@ BOOL ITunesVisualIsEqualTo(const ITunesVisual *v1, const ITunesVisual *v2) {
   origin.x = NSMaxX([ibTime frame]);
   [ibRate setFrameOrigin:origin];
   
-  if (rate > 95) {
-    // 5 stars
-    str = NSLocalizedStringFromTableInBundle(@"*****", nil, kiTunesActionBundle, @"5 stars rate");
-  } else if (rate > 85) {
-    // 1 star
-    str = NSLocalizedStringFromTableInBundle(@"**** 1/2", nil, kiTunesActionBundle, @"4,5 star rate");
-  }  else if (rate > 75) {
-    // 4 stars
-    str = NSLocalizedStringFromTableInBundle(@"****", nil, kiTunesActionBundle, @"4 stars rate");
-  } else if (rate > 65) {
-    // 1 star
-    str = NSLocalizedStringFromTableInBundle(@"*** 1/2", nil, kiTunesActionBundle, @"3,5 star rate");
-  }  else if (rate > 55) {
-    // 3 stars
-    str = NSLocalizedStringFromTableInBundle(@"***", nil, kiTunesActionBundle, @"3 stars rate");
-  } else if (rate > 45) {
-    // 1 star
-    str = NSLocalizedStringFromTableInBundle(@"** 1/2", nil, kiTunesActionBundle, @"2,5 star rate");
-  }  else if (rate > 35) {
-    // 2 stars
-    str = NSLocalizedStringFromTableInBundle(@"**", nil, kiTunesActionBundle, @"2 stars rate");
-  } else if (rate > 25) {
-    // 1 star
-    str = NSLocalizedStringFromTableInBundle(@"* 1/2", nil, kiTunesActionBundle, @"1,5 star rate");
-  }  else if (rate > 15) {
-    // 1 star
-    str = NSLocalizedStringFromTableInBundle(@"*", nil, kiTunesActionBundle, @"1 star rate");
-  } else if (rate > 5) {
-    // 1 star
-    str = NSLocalizedStringFromTableInBundle(@"1/2", nil, kiTunesActionBundle, @"0,5 star rate");
-  } else {
-    // 0 star
-    str = NSLocalizedStringFromTableInBundle(@"ooooo", nil, kiTunesActionBundle, @"0 star rate");
-  }
-  [ibRate setStringValue:str ? : @""];
+  [ibRate setRate:lround(rate / 10.)];
 }
 
 - (void)setTrack:(iTunesTrack *)track {
@@ -339,7 +306,7 @@ BOOL ITunesVisualIsEqualTo(const ITunesVisual *v1, const ITunesVisual *v2) {
   [ibArtist setTextColor:aColor];
   
   [ibTime setTextColor:aColor];
-  [ibRate setTextColor:aColor];
+  [ibRate setStarsColor:aColor];
 }
 
 - (NSColor *)borderColor {

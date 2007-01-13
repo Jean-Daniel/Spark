@@ -27,6 +27,8 @@
 
 #import <ShadowKit/SKFunctions.h>
 #import <ShadowKit/SKExtensions.h>
+#import <ShadowKit/SKAppKitExtensions.h>
+
 #import <HotKeyToolKit/HotKeyToolKit.h>
 
 #pragma mark -
@@ -79,7 +81,8 @@
   [super windowDidLoad];
   /* Compute minimum plugin view size */
   NSSize smin = [[self window] contentMinSize];
-  NSSize scur = [[self window] frame].size;
+  /* Want window content size in point => window frame is in pixels */
+  NSSize scur = [[self window] contentRectForFrameRect:[[self window] frame]].size;
   NSSize delta = { scur.width - smin.width, scur.height - smin.height };
   
   se_min = [ibPlugin frame].size;
@@ -456,17 +459,23 @@
     /* compute delta between current size and destination size */
     NSSize delta = {NSWidth(drect) - csize.width, NSHeight(drect) - csize.height};
     
+    NSWindow *window = [self window];
     /* Resize window frame */
-    NSRect wframe = [[self window] frame];
+    NSRect wframe = [window frame];
+    /* convert frame in point units (delta is expressed in point) */
+    wframe = [window contentRectForFrameRect:wframe];
     wframe.size.width += delta.width;
     wframe.size.height += delta.height;
-    wframe.origin.x -= delta.width / 2;
-    wframe.origin.y -= delta.height;
-    [[self window] setFrame:wframe display:YES animate:YES];
+    /* set frame (in pixel units) */
+    NSRect pframe = [window frameRectForContentRect:wframe];
+    /* Adjust window position using screen factor */
+    float sscale = SKScreenScaleFactor([window screen]);
+    pframe.origin.x -= sscale * delta.width / 2;
+    pframe.origin.y -= sscale * delta.height;
+    [window setFrame:pframe display:YES animate:YES];
     
     /* Adjust window attributes */
-    NSSize smax = [[self window] frame].size;
-    smax.height += 22; // bug ??
+    NSSize smax = wframe.size;
     unsigned int mask = [se_view autoresizingMask];
     if (mask & NSViewWidthSizable) {
       smax.width = MAXFLOAT;
@@ -479,19 +488,19 @@
       NSSize min;
       NSValue *vmin = NSMapGet(se_sizes, se_plugin);
       if (!vmin) {
-        min = [[self window] frame].size;
+        min = wframe.size;
         vmin = [NSValue valueWithSize:min];
         NSMapInsert(se_sizes, se_plugin, vmin);
       } else {
         min = [vmin sizeValue];
       }
       
-      [[self window] setContentMinSize:min];
+      [window setContentMinSize:min];
     } else {
-      [[self window] setShowsResizeIndicator:NO];
-      [[self window] setContentMinSize:smax];
+      [window setShowsResizeIndicator:NO];
+      [window setContentMinSize:smax];
     }
-    [[self window] setContentMaxSize:smax];
+    [window setContentMaxSize:smax];
     
     [se_plugin pluginViewWillBecomeVisible];
     [ibPlugin addSubview:se_view];
@@ -548,11 +557,13 @@
 
 - (NSTimeInterval)animationResizeTime:(NSRect)newFrame {
   NSEvent *event = [NSApp currentEvent];
+  float factor = SKWindowScaleFactor(self);
+  /* Want 150 points per time unit => 150*scale pixels */
   float delta = ABS(NSHeight([self frame]) - NSHeight(newFrame));
   if (([event modifierFlags] & NSDeviceIndependentModifierFlagsMask) == NSShiftKeyMask) {
-    return (1.f * delta / 150.); //(1.25f * delta / 150.);
+    return (1.f * delta / (150. * factor)); //(1.25f * delta / 150.);
   } else {
-    return (0.13 * delta / 150.);
+    return (0.13 * delta / (150. * factor));
   }
 }
 

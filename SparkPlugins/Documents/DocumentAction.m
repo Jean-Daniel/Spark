@@ -31,12 +31,15 @@ NSString * const kDocumentActionBundleIdentifier = @"org.shadowlab.spark.documen
   copy->da_action = da_action;
   copy->da_doc = [da_doc copy];
   copy->da_app = [da_app copy];
+  copy->da_url = [da_url retain];
   return copy;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
   [coder encodeInt:da_action forKey:kDocumentActionKey];
+  if (da_url)
+    [coder encodeObject:da_doc forKey:kDocumentActionURLKey];
   if (da_doc)
     [coder encodeObject:da_doc forKey:kDocumentActionAliasKey];
   if (da_app)
@@ -47,6 +50,7 @@ NSString * const kDocumentActionBundleIdentifier = @"org.shadowlab.spark.documen
 - (id)initWithCoder:(NSCoder *)coder {
   if (self = [super initWithCoder:coder]) {
     da_action = [coder decodeIntForKey:kDocumentActionKey];
+    da_url = [[coder decodeObjectForKey:kDocumentActionURLKey] retain];
     da_doc = [[coder decodeObjectForKey:kDocumentActionAliasKey] retain];
     da_app = [[coder decodeObjectForKey:kDocumentActionApplicationKey] retain];
   }

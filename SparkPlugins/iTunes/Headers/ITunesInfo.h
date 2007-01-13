@@ -40,13 +40,14 @@ const NSPoint kiTunesBottomRight;
 SK_PRIVATE
 const ITunesVisual kiTunesDefaultSettings;
 
+@class ITunesStarView;
 @interface ITunesInfo : NSWindowController {
   IBOutlet NSTextField *ibName;
   IBOutlet NSTextField *ibAlbum;
   IBOutlet NSTextField *ibArtist;
   
   IBOutlet NSTextField *ibTime;
-  IBOutlet NSTextField *ibRate;
+  IBOutlet ITunesStarView *ibRate;
   @private
     int ia_loc;
 }

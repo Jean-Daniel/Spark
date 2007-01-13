@@ -477,6 +477,7 @@
 		98E66CC30759FA7C0048A37D /* ActionSparkList.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = ActionSparkList.icns; sourceTree = "<group>"; };
 		98EF8306086462FF007BC81A /* HotKeyToolKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = HotKeyToolKit.xcodeproj; path = ../HotKeyToolKit/HotKeyToolKit.xcodeproj; sourceTree = SOURCE_ROOT; };
 		98EF830F0864630B007BC81A /* SparkKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SparkKit.xcodeproj; path = ../SparkKit/SparkKit.xcodeproj; sourceTree = SOURCE_ROOT; };
+		98EFD00E0B5843C600AD4492 /* ShadowProfile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowProfile.xcconfig; sourceTree = "<group>"; };
 		98F3635806FF72D900FD6673 /* Library.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Library.tiff; sourceTree = "<group>"; };
 		98F746010A5C560A003D4BE1 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SELibraryWindow.nib; sourceTree = "<group>"; };
 		98FF14DB05EACAE90005F402 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = /System/Library/Frameworks/WebKit.framework; sourceTree = "<absolute>"; };
@@ -581,6 +582,7 @@
 			isa = PBXGroup;
 			children = (
 				981B64FD09386F350024C0D9 /* ShadowCommon.xcconfig */,
+				98EFD00E0B5843C600AD4492 /* ShadowProfile.xcconfig */,
 				981B64FE09386F350024C0D9 /* ShadowDebug.xcconfig */,
 				981B64FF09386F350024C0D9 /* ShadowRelease.xcconfig */,
 				981B650109386F350024C0D9 /* ShadowUniversal.xcconfig */,
@@ -1476,7 +1478,7 @@
 			};
 			name = Development;
 		};
-		98BC60530857BB9400A2041F /* Deployment */ = {
+		98BC60530857BB9400A2041F /* Profiling */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 351;
@@ -1485,7 +1487,7 @@
 				PRODUCT_NAME = Spark;
 				WRAPPER_EXTENSION = app;
 			};
-			name = Deployment;
+			name = Profiling;
 		};
 		98BC60570857BB9400A2041F /* Development */ = {
 			isa = XCBuildConfiguration;
@@ -1495,13 +1497,13 @@
 			};
 			name = Development;
 		};
-		98BC60580857BB9400A2041F /* Deployment */ = {
+		98BC60580857BB9400A2041F /* Profiling */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 981B64FF09386F350024C0D9 /* ShadowRelease.xcconfig */;
+			baseConfigurationReference = 98EFD00E0B5843C600AD4492 /* ShadowProfile.xcconfig */;
 			buildSettings = {
 				SYMROOT = ../build;
 			};
-			name = Deployment;
+			name = Profiling;
 		};
 		98C12BD508CE11B30015CB91 /* Universal Binary */ = {
 			isa = XCBuildConfiguration;
@@ -1533,7 +1535,36 @@
 			};
 			name = Development;
 		};
-		98DBB883099F4B8600927F3B /* Deployment */ = {
+		98DBB883099F4B8600927F3B /* Profiling */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				PRODUCT_NAME = All;
+				ZERO_LINK = NO;
+			};
+			name = Profiling;
+		};
+		98DBB884099F4B8600927F3B /* Universal Binary */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = All;
+			};
+			name = "Universal Binary";
+		};
+		98EFD02F0B58443900AD4492 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 351;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				PRODUCT_NAME = Spark;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Deployment;
+		};
+		98EFD0300B58443900AD4492 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
@@ -1544,12 +1575,13 @@
 			};
 			name = Deployment;
 		};
-		98DBB884099F4B8600927F3B /* Universal Binary */ = {
+		98EFD0310B58443900AD4492 /* Deployment */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 981B64FF09386F350024C0D9 /* ShadowRelease.xcconfig */;
 			buildSettings = {
-				PRODUCT_NAME = All;
+				SYMROOT = ../build;
 			};
-			name = "Universal Binary";
+			name = Deployment;
 		};
 /* End XCBuildConfiguration section */
 
@@ -1558,7 +1590,8 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				98BC60520857BB9400A2041F /* Development */,
-				98BC60530857BB9400A2041F /* Deployment */,
+				98BC60530857BB9400A2041F /* Profiling */,
+				98EFD02F0B58443900AD4492 /* Deployment */,
 				98C12BD508CE11B30015CB91 /* Universal Binary */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1568,7 +1601,8 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				98BC60570857BB9400A2041F /* Development */,
-				98BC60580857BB9400A2041F /* Deployment */,
+				98BC60580857BB9400A2041F /* Profiling */,
+				98EFD0310B58443900AD4492 /* Deployment */,
 				98C12BD608CE11B30015CB91 /* Universal Binary */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1578,7 +1612,8 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				98DBB881099F4B8600927F3B /* Development */,
-				98DBB883099F4B8600927F3B /* Deployment */,
+				98DBB883099F4B8600927F3B /* Profiling */,
+				98EFD0300B58443900AD4492 /* Deployment */,
 				98DBB884099F4B8600927F3B /* Universal Binary */,
 			);
 			defaultConfigurationIsVisible = 0;

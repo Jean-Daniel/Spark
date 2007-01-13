@@ -92,6 +92,7 @@
 		98D75E3C0B28BAA1001393F7 /* SparkDaemon.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.sdef; path = SparkDaemon.sdef; sourceTree = "<group>"; };
 		98EF7E4108645876007BC81A /* HotKeyToolKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = HotKeyToolKit.xcodeproj; path = ../HotKeyToolKit/HotKeyToolKit.xcodeproj; sourceTree = SOURCE_ROOT; };
 		98EF7E4B08645883007BC81A /* SparkKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SparkKit.xcodeproj; path = ../SparkKit/SparkKit.xcodeproj; sourceTree = SOURCE_ROOT; };
+		98EFD2D10B58455B00AD4492 /* ShadowProfile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowProfile.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,6 +162,7 @@
 			isa = PBXGroup;
 			children = (
 				981B5FD409386B470024C0D9 /* ShadowCommon.xcconfig */,
+				98EFD2D10B58455B00AD4492 /* ShadowProfile.xcconfig */,
 				981B5FD509386B470024C0D9 /* ShadowDebug.xcconfig */,
 				981B5FD609386B470024C0D9 /* ShadowRelease.xcconfig */,
 				981B5FD809386B470024C0D9 /* ShadowUniversal.xcconfig */,
@@ -338,7 +340,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/tcsh;
-			shellScript = "if (\"${CONFIGURATION}\" == \"Development\") then\nset BASE=../../Spark.app/Contents\nelse\nset BASE=../../..\nendif\n\ncd \"${BUILT_PRODUCTS_DIR}\"\n\nif (! -l \"${FRAMEWORKS_FOLDER_PATH}\") then \nrm -rf \"${FRAMEWORKS_FOLDER_PATH}\"\nln -s ${BASE}/Frameworks \"${FRAMEWORKS_FOLDER_PATH}\"\nendif\n\nif (! -l \"${PLUGINS_FOLDER_PATH}\") then \nrm -rf \"${PLUGINS_FOLDER_PATH}\"\nln -s ${BASE}/PlugIns \"${PLUGINS_FOLDER_PATH}\"\nendif\n\n\n";
+			shellScript = "if (\"${CONFIGURATION}\" == \"Development\" || \"${CONFIGURATION}\" == \"Profiling\") then\nset BASE=../../Spark.app/Contents\nelse\nset BASE=../../..\nendif\n\ncd \"${BUILT_PRODUCTS_DIR}\"\n\nif (! -l \"${FRAMEWORKS_FOLDER_PATH}\") then \nrm -rf \"${FRAMEWORKS_FOLDER_PATH}\"\nln -s ${BASE}/Frameworks \"${FRAMEWORKS_FOLDER_PATH}\"\nendif\n\nif (! -l \"${PLUGINS_FOLDER_PATH}\") then \nrm -rf \"${PLUGINS_FOLDER_PATH}\"\nln -s ${BASE}/PlugIns \"${PLUGINS_FOLDER_PATH}\"\nendif\n\n\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -403,7 +405,7 @@
 			};
 			name = Development;
 		};
-		98EF7DEC08645714007BC81A /* Deployment */ = {
+		98EF7DEC08645714007BC81A /* Profiling */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 301;
@@ -411,7 +413,7 @@
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				PRODUCT_NAME = "Spark Daemon";
 			};
-			name = Deployment;
+			name = Profiling;
 		};
 		98EF7DF008645714007BC81A /* Development */ = {
 			isa = XCBuildConfiguration;
@@ -421,7 +423,25 @@
 			};
 			name = Development;
 		};
-		98EF7DF108645714007BC81A /* Deployment */ = {
+		98EF7DF108645714007BC81A /* Profiling */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 98EFD2D10B58455B00AD4492 /* ShadowProfile.xcconfig */;
+			buildSettings = {
+				SYMROOT = ../build;
+			};
+			name = Profiling;
+		};
+		98EFD2D80B58457D00AD4492 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 301;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(USER_APPS_DIR)";
+				PRODUCT_NAME = "Spark Daemon";
+			};
+			name = Deployment;
+		};
+		98EFD2D90B58457D00AD4492 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 981B5FD609386B470024C0D9 /* ShadowRelease.xcconfig */;
 			buildSettings = {
@@ -436,7 +456,8 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				98EF7DEB08645714007BC81A /* Development */,
-				98EF7DEC08645714007BC81A /* Deployment */,
+				98EF7DEC08645714007BC81A /* Profiling */,
+				98EFD2D80B58457D00AD4492 /* Deployment */,
 				98C128D108CE0E9E0015CB91 /* Universal Binary */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -446,7 +467,8 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				98EF7DF008645714007BC81A /* Development */,
-				98EF7DF108645714007BC81A /* Deployment */,
+				98EF7DF108645714007BC81A /* Profiling */,
+				98EFD2D90B58457D00AD4492 /* Deployment */,
 				98C128D208CE0E9E0015CB91 /* Universal Binary */,
 			);
 			defaultConfigurationIsVisible = 0;
