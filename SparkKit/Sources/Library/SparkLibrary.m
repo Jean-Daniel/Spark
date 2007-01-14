@@ -90,6 +90,8 @@ const UInt32 kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_0;
 - (id)initWithPath:(NSString *)path {
   if (self = [super init]) {
     [self setPath:path];
+    /* Init Library uuid */
+    sp_uuid = CFUUIDCreate(kCFAllocatorDefault);
     /* Create defaults libraries */
     for (int idx = 0; idx < kSparkListSet; idx++) {
       sp_objects[idx] = [[SparkObjectSet alloc] initWithLibrary:self];
@@ -105,10 +107,13 @@ const UInt32 kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_0;
 
 - (void)dealloc {
   [sp_file release];
+  [sp_center release];
   for (int idx = 0; idx < 4; idx++) {
     [sp_objects[idx] release];
   }
   [sp_relations release];
+  if (sp_uuid)
+    CFRelease(sp_uuid);
   [super dealloc];
 }
 
@@ -139,6 +144,21 @@ const UInt32 kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_0;
 }
 
 #pragma mark -
+- (CFUUIDRef)uuid {
+  return sp_uuid;
+}
+
+- (NSUndoManager *)undoManager {
+  return nil;
+}
+
+- (NSNotificationCenter *)notificationCenter {
+  if (!sp_center) {
+    sp_center = [[NSNotificationCenter alloc] init];
+  }
+  return sp_center;
+}
+
 #pragma mark FileSystem Methods
 - (NSString *)path {
   return sp_file;
@@ -146,10 +166,6 @@ const UInt32 kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_0;
 
 - (void)setPath:(NSString *)file {
   SKSetterCopy(sp_file, file);
-}
-
-- (NSUndoManager *)undoManager {
-  return nil;
 }
 
 - (BOOL)synchronize {
@@ -222,9 +238,12 @@ const UInt32 kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_0;
   [file setPreferredFilename:kSparkEntriesFile];
   [library addFileWrapper:file];
   
+  NSString *uuid = sp_uuid ? (id)CFUUIDCreateString(kCFAllocatorDefault, sp_uuid) : nil;
   NSDictionary *info = [NSDictionary dictionaryWithObjectsAndKeys:
     SKUInt(kSparkLibraryCurrentVersion), @"Version",
+    uuid, @"UUID",
     nil];
+  [uuid release];
   NSData *data = [NSPropertyListSerialization dataFromPropertyList:info
                                                             format:NSPropertyListXMLFormat_v1_0
                                                   errorDescription:nil];
@@ -261,6 +280,16 @@ bail:
       result = [self readLibraryFromFileWrapper:fileWrapper error:outError];
       break;
   }
+  NSString *uuid = [info objectForKey:@"UUID"];
+  if (uuid) {
+    CFUUIDRef uuidref = CFUUIDCreateFromString(kCFAllocatorDefault, (CFStringRef)uuid);
+    if (uuidref) {
+      if (sp_uuid) CFRelease(sp_uuid);
+      sp_uuid = uuidref;
+    }
+  }
+  DLog(@"Library %@ loaded", uuid);
+  
   SparkApplication *finder = [[self applicationSet] objectForUID:1];
   if (!finder || [finder signature] != kSparkFinderCreatorType) {
     NSString *path = SKLSFindApplicationForSignature(kSparkFinderCreatorType);
@@ -286,7 +315,6 @@ bail:
 @implementation SparkLibrary (SparkLibraryLoader)
 
 - (BOOL)readLibraryFromFileWrapper:(NSFileWrapper *)wrapper error:(NSError **)error {
-  DLog(@"Loading Library !");
   BOOL ok = NO;
   NSDictionary *files = [wrapper fileWrappers];
   
@@ -367,30 +395,31 @@ bail:
       NSDictionary *map = [[plist objectForKey:@"ApplicationMap"] objectForKey:@"ApplicationMap"];
       NSEnumerator *entries = [map keyEnumerator];
       while (key = [entries nextObject]) {
-        SparkLibraryEntry entry;
-        entry.flags = status ? kSparkEntryEnabled : 0;
-        entry.action = [[map objectForKey:key] unsignedIntValue];
+        Boolean enabled;
+        UInt32 act, trg, app;
+        enabled = status ? TRUE : FALSE;
+        act = [[map objectForKey:key] unsignedIntValue];
         /* If action is not 'Ignore Spark', adjust uid. */
-        if (entry.action) {
-          entry.action += kSparkLibraryReserved;
+        if (act) {
+          act += kSparkLibraryReserved;
         } else {
           /* Should set status = 0 and action = action for trigger/application */
-          entry.flags = 0;
-          entry.action = 0; /* Will be adjust later */
+          enabled = FALSE;
+          act = 0; /* Will be adjust later */
         }
-        entry.trigger = [trigger uid];
-        entry.application = [key intValue];
-        if (entry.application) {
-          if (finder == entry.application)
-            entry.application = 1;
+        trg = [trigger uid];
+        app = [key intValue];
+        if (app) {
+          if (finder == app)
+            app = 1;
           else
-            entry.application += kSparkLibraryReserved;
+            app += kSparkLibraryReserved;
         }
         /* Should avoid action double usage, except for ignore action. */
-        if (entry.action || entry.application && (entry.action == 0 || !CFSetContainsValue(actions, (void *)entry.action))) {
-          [sp_relations addLibraryEntry:&entry];
-          CFSetAddValue(actions, (void *)entry.action);
-          CFSetAddValue(triggers, (void *)entry.trigger);
+        if (act || app && (act == 0 || !CFSetContainsValue(actions, (void *)act))) {
+          [sp_relations addEntryWithAction:act trigger:trg application:app enabled:enabled];
+          CFSetAddValue(actions, (void *)act);
+          CFSetAddValue(triggers, (void *)trg);
         }
       }
     } else {

@@ -34,6 +34,7 @@
 #import <SparkKit/SparkAction.h>
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkApplication.h>
+#import <SparkKit/SparkEntryManager.h>
 
 @implementation SELibraryWindow
 

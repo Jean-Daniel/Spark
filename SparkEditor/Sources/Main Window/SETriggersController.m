@@ -87,10 +87,10 @@ SETriggerStyle styles[6];
   if (self = [super init]) {
     se_entries = [[NSMutableArray alloc] init];
     se_snapshot = [[NSMutableArray alloc] init];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(listDidChange:) 
-                                                 name:SparkListDidChangeNotification
-                                               object:nil];
+    [[SparkSharedLibrary() notificationCenter] addObserver:self
+                                                  selector:@selector(listDidChange:) 
+                                                      name:SparkListDidChangeNotification
+                                                    object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didUpdateEntry:) 
                                                  name:SEEntriesManagerDidUpdateEntryNotification
@@ -110,6 +110,7 @@ SETriggerStyle styles[6];
   [se_entries release];
   [se_snapshot release];
   [[NSNotificationCenter defaultCenter] removeObserver:self];
+  [[SparkSharedLibrary() notificationCenter] removeObserver:self];
   [super dealloc];
 }
 

@@ -10,15 +10,7 @@
 #if !defined(__SPARK_SERVER_PROTOCOL_H)
 #define __SPARK_SERVER_PROTOCOL_H 1
 
-enum {
-  kSparkActionType = 'acti',
-  kSparkTriggerType = 'trig',
-  kSparkApplicationType = 'appl'
-};
-
 #if defined(__OBJC__)
-
-#import <Sparkkit/SparkEntryManager.h>
 
 #if defined(DEBUG)
 #define kSparkConnectionName		@"SparkServer_Debug"
@@ -26,29 +18,20 @@ enum {
 #define kSparkConnectionName		@"SparkServer"
 #endif
 
+@protocol SparkLibrary;
 @protocol SparkServer
 
 - (int)version;
 
 - (oneway void)shutdown;
 
-- (oneway void)addObject:(bycopy id)plist type:(in OSType)type;
-- (oneway void)updateObject:(bycopy id)plist type:(in OSType)type;
-- (oneway void)removeObject:(in UInt32)uid type:(in OSType)type;
+- (id<SparkLibrary>)library;
 
-#pragma mark Entries Management
-- (oneway void)addLibraryEntry:(in SparkLibraryEntry *)anEntry;
-- (oneway void)removeLibraryEntry:(in SparkLibraryEntry *)anEntry;
-- (oneway void)replaceLibraryEntry:(in SparkLibraryEntry *)anEntry withLibraryEntry:(in SparkLibraryEntry *)newEntry;
+@end
 
-- (oneway void)enableLibraryEntry:(in SparkLibraryEntry *)anEntry;
-- (oneway void)disableLibraryEntry:(in SparkLibraryEntry *)anEntry;
+@interface SparkLibrary (SparkServerProtocol)
 
-#pragma mark Plugins Management
-- (oneway void)enablePlugIn:(bycopy NSString *)plugin;
-- (oneway void)disablePlugIn:(bycopy NSString *)plugin;
-
-- (oneway void)registerPlugIn:(bycopy NSString *)bundlePath;
+- (id<SparkLibrary>)distantLibrary;
 
 @end
 

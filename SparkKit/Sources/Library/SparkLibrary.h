@@ -52,19 +52,26 @@ SparkObjectSet *SparkSharedApplicationSet(void);
 @interface SparkLibrary : NSObject {
   @private
   NSString *sp_file;
+  CFUUIDRef sp_uuid;
   
   SparkObjectSet *sp_objects[4];
   SparkEntryManager *sp_relations;
+  
+  /* Model synchronization */
+  NSNotificationCenter *sp_center;
 }
 
 + (SparkLibrary *)sharedLibrary;
 
 - (id)initWithPath:(NSString *)path;
 
+- (CFUUIDRef)uuid;
+
 - (NSString *)path;
 - (void)setPath:(NSString *)file;
 
 - (NSUndoManager *)undoManager;
+- (NSNotificationCenter *)notificationCenter;
 
 - (BOOL)readLibrary:(NSError **)error;
 

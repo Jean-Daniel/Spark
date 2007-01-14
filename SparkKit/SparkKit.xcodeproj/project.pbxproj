@@ -122,6 +122,10 @@
 		98CF6FB306B3DB2B0017D206 /* Back.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98CF6FAF06B3DB2B0017D206 /* Back.tif */; };
 		98D6304C0B35BACD00E0CE91 /* SKUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D6304B0B35BACD00E0CE91 /* SKUpdater.m */; };
 		98D6304E0B35BAD900E0CE91 /* SKUpdater.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D6304D0B35BAD900E0CE91 /* SKUpdater.h */; };
+		98D7643E0B5A6003000A09A5 /* SparkEntryManagerPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D7643D0B5A6003000A09A5 /* SparkEntryManagerPrivate.h */; };
+		98D764530B5A610B000A09A5 /* SparkEntryManagerPrivate.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D764520B5A610B000A09A5 /* SparkEntryManagerPrivate.m */; };
+		98D7680E0B5A821C000A09A5 /* SparkLibrarySynchronizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D767980B5A754E000A09A5 /* SparkLibrarySynchronizer.m */; };
+		98D7680F0B5A8222000A09A5 /* SparkLibrarySynchronizer.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D767970B5A754E000A09A5 /* SparkLibrarySynchronizer.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		98D886AF0B29642200E661EF /* hotkey.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98D886AE0B29642100E661EF /* hotkey.tiff */; };
 		98D886B10B29644800E661EF /* plugin.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98D886B00B29644800E661EF /* plugin.tiff */; };
 		98D886B60B29648100E661EF /* Warning.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98F867260A600D24009C68F9 /* Warning.tiff */; };
@@ -339,6 +343,10 @@
 		98CF6FAF06B3DB2B0017D206 /* Back.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Back.tif; sourceTree = "<group>"; };
 		98D6304B0B35BACD00E0CE91 /* SKUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKUpdater.m; sourceTree = "<group>"; };
 		98D6304D0B35BAD900E0CE91 /* SKUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKUpdater.h; sourceTree = "<group>"; };
+		98D7643D0B5A6003000A09A5 /* SparkEntryManagerPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkEntryManagerPrivate.h; sourceTree = "<group>"; };
+		98D764520B5A610B000A09A5 /* SparkEntryManagerPrivate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkEntryManagerPrivate.m; sourceTree = "<group>"; };
+		98D767970B5A754E000A09A5 /* SparkLibrarySynchronizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkLibrarySynchronizer.h; sourceTree = "<group>"; };
+		98D767980B5A754E000A09A5 /* SparkLibrarySynchronizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkLibrarySynchronizer.m; sourceTree = "<group>"; };
 		98D886AE0B29642100E661EF /* hotkey.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = hotkey.tiff; sourceTree = "<group>"; };
 		98D886B00B29644800E661EF /* plugin.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = plugin.tiff; sourceTree = "<group>"; };
 		98D886E00B29678D00E661EF /* SparkEntry.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SparkEntry.tiff; sourceTree = "<group>"; };
@@ -557,6 +565,8 @@
 				984A38AA0A60060200DA6455 /* SparkObjectSet.m */,
 				984A38A40A60060200DA6455 /* SparkApplication.m */,
 				98EDA3F20A9FA34100519E9B /* SparkEntryManager.m */,
+				98D767980B5A754E000A09A5 /* SparkLibrarySynchronizer.m */,
+				98D764520B5A610B000A09A5 /* SparkEntryManagerPrivate.m */,
 			);
 			name = Library;
 			path = Sources/Library;
@@ -588,6 +598,8 @@
 				984A38A90A60060200DA6455 /* SparkObjectSet.h */,
 				984A38A30A60060200DA6455 /* SparkApplication.h */,
 				98EDA3E30A9FA2FB00519E9B /* SparkEntryManager.h */,
+				98D767970B5A754E000A09A5 /* SparkLibrarySynchronizer.h */,
+				98D7643D0B5A6003000A09A5 /* SparkEntryManagerPrivate.h */,
 			);
 			name = Headers;
 			sourceTree = "<group>";
@@ -948,6 +960,8 @@
 				9887389A0ABC1B4300DD19BB /* SparkShadowKit.h in Headers */,
 				98A854E40AFF9BFE00088961 /* SparkBuiltInAction.h in Headers */,
 				98627FE80B2AD13700866A34 /* SparkFunctions.h in Headers */,
+				98D7643E0B5A6003000A09A5 /* SparkEntryManagerPrivate.h in Headers */,
+				98D7680F0B5A8222000A09A5 /* SparkLibrarySynchronizer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1175,6 +1189,8 @@
 				98EDA3F30A9FA34100519E9B /* SparkEntryManager.m in Sources */,
 				98A854E50AFF9BFE00088961 /* SparkBuiltInAction.m in Sources */,
 				98627FFC0B2AD24100866A34 /* SparkFunctions.m in Sources */,
+				98D764530B5A610B000A09A5 /* SparkEntryManagerPrivate.m in Sources */,
+				98D7680E0B5A821C000A09A5 /* SparkLibrarySynchronizer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

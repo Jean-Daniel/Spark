@@ -11,8 +11,8 @@
 #import "SystemActionPlugin.h"
 #import <ShadowKit/SKFunctions.h>
 #import <ShadowKit/SKExtensions.h>
-#import <ShadowKit/SKDSFunctions.h>
 #import <ShadowKit/SKFSFunctions.h>
+#import <ShadowKit/SKDSFunctions.h>
 
 @implementation SystemActionPlugin
 

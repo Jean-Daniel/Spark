@@ -67,8 +67,8 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
         }
       }
     }
-    [[NSNotificationCenter defaultCenter] postNotificationName:SparkListDidChangeNotification
-                                                        object:self];
+    [[[sp_set library] notificationCenter] postNotificationName:SparkListDidChangeNotification
+                                                         object:self];
   }
 }
 
@@ -80,28 +80,28 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
   if (sp_set != library) {
     /* unregister notifications */
     if (sp_set) {
-      [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                      name:nil
-                                                    object:sp_set];
+      [[[sp_set library] notificationCenter] removeObserver:self
+                                                       name:nil
+                                                     object:sp_set];
     }
     sp_set = library;
     /* register notifications */
     if (sp_set) {
       /* Add */
-      [[NSNotificationCenter defaultCenter] addObserver:self
-                                               selector:@selector(didAddObject:)
-                                                  name:kSparkLibraryDidAddObjectNotification
-                                                 object:sp_set];
+      [[[sp_set library] notificationCenter] addObserver:self
+                                                selector:@selector(didAddObject:)
+                                                    name:kSparkLibraryDidAddObjectNotification
+                                                  object:sp_set];
       /* Remove */
-      [[NSNotificationCenter defaultCenter] addObserver:self
-                                               selector:@selector(didRemoveObject:)
-                                                   name:kSparkLibraryDidRemoveObjectNotification
-                                                 object:sp_set];
+      [[[sp_set library] notificationCenter] addObserver:self
+                                                selector:@selector(didRemoveObject:)
+                                                    name:kSparkLibraryDidRemoveObjectNotification
+                                                  object:sp_set];
       /* Update */
-      [[NSNotificationCenter defaultCenter] addObserver:self
-                                               selector:@selector(didUpdateObject:)
-                                                   name:kSparkLibraryDidUpdateObjectNotification
-                                                 object:sp_set];
+      [[[sp_set library] notificationCenter] addObserver:self
+                                                selector:@selector(didUpdateObject:)
+                                                    name:kSparkLibraryDidUpdateObjectNotification
+                                                  object:sp_set];
     }
     /* Refresh contents if smart list */
     if (sp_filter)
@@ -166,13 +166,13 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
 }
 - (void)addObject:(SparkObject *)anObject {
   [sp_entries addObject:anObject];
-  [[NSNotificationCenter defaultCenter] postNotificationName:SparkListDidChangeNotification
-                                                      object:self];
+  [[[sp_set library] notificationCenter] postNotificationName:SparkListDidChangeNotification
+                                                       object:self];
 }
 - (void)addObjectsFromArray:(NSArray *)anArray {
   [sp_entries addObjectsFromArray:anArray];
-  [[NSNotificationCenter defaultCenter] postNotificationName:SparkListDidChangeNotification
-                                                      object:self];  
+  [[[sp_set library] notificationCenter] postNotificationName:SparkListDidChangeNotification
+                                                       object:self];  
 }
 
 - (BOOL)containsObject:(SparkObject *)anObject {
@@ -183,16 +183,16 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
   unsigned idx = [sp_entries indexOfObject:anObject];
   if (idx != NSNotFound) {
     [sp_entries removeObjectAtIndex:idx];
-    [[NSNotificationCenter defaultCenter] postNotificationName:SparkListDidChangeNotification
-                                                        object:self];
+    [[[sp_set library] notificationCenter] postNotificationName:SparkListDidChangeNotification
+                                                         object:self];
   }
 }
 - (void)removeObjectsInArray:(NSArray *)anArray {
   unsigned cnt = [sp_entries count];
   [sp_entries removeObjectsInArray:anArray];
   if (cnt != [sp_entries count])
-    [[NSNotificationCenter defaultCenter] postNotificationName:SparkListDidChangeNotification
-                                                        object:self];
+    [[[sp_set library] notificationCenter] postNotificationName:SparkListDidChangeNotification
+                                                         object:self];
 }
 
 #pragma mark -

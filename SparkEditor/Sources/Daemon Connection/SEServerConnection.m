@@ -13,20 +13,12 @@
 #import "SEScriptHandler.h"
 
 #import <SparkKit/SparkKit.h>
-#import <SparkKit/SparkEntry.h>
-#import <SparkKit/SparkPlugIn.h>
-#import <SparkKit/SparkAction.h>
 #import <SparkKit/SparkLibrary.h>
-#import <SparkKit/SparkTrigger.h>
-#import <SparkKit/SparkObjectSet.h>
-#import <SparkKit/SparkApplication.h>
-#import <SparkKit/SparkActionLoader.h>
+#import <SparkKit/SparkLibrarySynchronizer.h>
 
 #import <ShadowKit/SKFSFunctions.h>
 #import <ShadowKit/SKLSFunctions.h>
 #import <ShadowKit/SKProcessFunctions.h>
-
-#define SparkRemoteMessage(msg)		({ @try { [[self server] msg]; } @catch (id exception) { SKLogException(exception); } })
 
 @implementation SEServerConnection
 
@@ -53,47 +45,7 @@
                selector:@selector(serverStatusDidChange:)
                    name:SEServerStatusDidChangeNotification
                  object:nil];
-    
-    [center addObserver:self
-               selector:@selector(didAddObject:)
-                   name:kSparkLibraryDidAddObjectNotification 
-                 object:nil];
-    [center addObserver:self
-               selector:@selector(didUpdateObject:)
-                   name:kSparkLibraryDidUpdateObjectNotification 
-                 object:nil];
-    [center addObserver:self
-               selector:@selector(willRemoveObject:)
-                   name:kSparkLibraryWillRemoveObjectNotification 
-                 object:nil];
-    
-    /* Entry Manager */
-    [center addObserver:self
-               selector:@selector(didAddEntry:)
-                   name:SparkEntryManagerDidAddEntryNotification 
-                 object:nil];
-    [center addObserver:self
-               selector:@selector(didUpdateEntry:)
-                   name:SparkEntryManagerDidUpdateEntryNotification 
-                 object:nil];
-    [center addObserver:self
-               selector:@selector(willRemoveEntry:)
-                   name:SparkEntryManagerWillRemoveEntryNotification 
-                 object:nil];
-    [center addObserver:self
-               selector:@selector(didChangeEntryStatus:)
-                   name:SparkEntryManagerDidChangeEntryEnabledNotification 
-                 object:nil];
-    
-    /* Plugins */
-    [center addObserver:self
-               selector:@selector(didChangePluginStatus:)
-                   name:SparkPlugInDidChangeStatusNotification
-                 object:nil];
-    [center addObserver:self
-               selector:@selector(didRegisterPlugIn:)
-                   name:SparkActionLoaderDidRegisterPlugInNotification
-                 object:nil];
+    se_sync = [[SparkLibrarySynchronizer alloc] initWithLibrary:SparkSharedLibrary()];
   }
   return self;
 }
@@ -101,7 +53,16 @@
 - (void)dealloc {
   [[NSNotificationCenter defaultCenter] removeObserver:self];
   [se_server release];
+  [se_sync release];
   [super dealloc];
+}
+
+- (void)serverDidClose {
+  if (se_server) {
+    [se_sync setDistantLibrary:nil];
+    [se_server release];
+    se_server = nil;
+  }
 }
 #pragma mark -
 - (int)version {
@@ -148,8 +109,7 @@
   /* Not connected but server alive */
   if (se_server) {
     DLog(@"Undetected invalid connection");
-    [se_server release];
-    se_server = nil;
+    [self serverDidClose];
   }
   
   @try {
@@ -167,6 +127,11 @@
   return se_server != nil;
 }
 
+/* MUST be called after connection */
+- (void)configure {
+  [se_sync setDistantLibrary:(NSDistantObject *)[se_server library]];
+}
+
 - (BOOL)isConnected {
   return se_server && [[se_server connectionForProxy] isValid];
 }
@@ -178,8 +143,7 @@
 - (void)connectionDidDie:(NSNotification *)aNotification {
   if (se_server && [aNotification object] == [se_server connectionForProxy]) {
     DLog(@"Connection did close");
-    [se_server release];
-    se_server = nil;
+    [self serverDidClose];
     if (se_scFlags.restart) {
       se_scFlags.restart = 0;
       SELaunchSparkDaemon();
@@ -193,142 +157,18 @@
   SparkDaemonStatus status = [[aNotification object] serverStatus];
   switch (status) {
     case kSparkDaemonStarted:
-      [self connect];
+      if ([self connect])
+        [self configure];
       break;
     case kSparkDaemonStopped:
       if (se_server) {
         DLog(@"Server shutdown");
         [[se_server connectionForProxy] invalidate];
-        [se_server release];
-        se_server = nil;
+        [self serverDidClose];
         break;
       }
     default:
       break;
-  }
-}
-
-#pragma mark -
-#pragma mark Spark Library Synchronization
-SK_INLINE
-OSType SEServerObjectType(SparkObject *anObject) {
-  if ([anObject isKindOfClass:[SparkAction class]])
-    return kSparkActionType;
-  if ([anObject isKindOfClass:[SparkTrigger class]])
-    return kSparkTriggerType;
-  if ([anObject isKindOfClass:[SparkApplication class]])
-    return kSparkApplicationType;
-  return 0;
-}
-
-- (void)didAddObject:(NSNotification *)aNotification {
-  if ([self isConnected]) {
-    OSType type;
-    SparkObject *object = SparkNotificationObject(aNotification);
-    if (object && (type = SEServerObjectType(object))) {
-      NSDictionary *plist = [[aNotification object] serialize:object error:NULL];
-      if (plist) {
-        SparkRemoteMessage(addObject:plist type:type);
-      }
-    }
-  }
-}
-
-- (void)didUpdateObject:(NSNotification *)aNotification {
-  if ([self isConnected]) {
-    OSType type;
-    SparkObject *object = SparkNotificationObject(aNotification);
-    if (object && (type = SEServerObjectType(object))) {
-      NSDictionary *plist = [[aNotification object] serialize:object error:NULL];
-      if (plist) {
-        SparkRemoteMessage(updateObject:plist type:type);
-      }
-    }
-  }
-}
-
-- (void)willRemoveObject:(NSNotification *)aNotification {
-  if ([self isConnected]) {
-    OSType type;
-    SparkObject *object = SparkNotificationObject(aNotification);
-    if (object && (type = SEServerObjectType(object))) {
-      SparkRemoteMessage(removeObject:[object uid] type:type);
-    }
-  }
-}
-
-/* Entries */
-- (void)didAddEntry:(NSNotification *)aNotification {
-  if ([self isConnected]) {
-    SparkEntry *entry = [[aNotification userInfo] objectForKey:SparkEntryNotificationKey];
-    if (entry) {
-      SparkLibraryEntry *lentry = [[aNotification object] libraryEntryForEntry:entry];
-      if (lentry) {
-        SparkRemoteMessage(addLibraryEntry:lentry);
-      }
-    }
-  }
-}
-- (void)didUpdateEntry:(NSNotification *)aNotification {
-  if ([self isConnected]) {
-    SparkEntry *entry = [[aNotification userInfo] objectForKey:SparkEntryNotificationKey];
-    SparkEntry *previous = [[aNotification userInfo] objectForKey:SparkEntryReplacedNotificationKey];
-    
-    if (entry && previous) {
-      SparkLibraryEntry *lentry = [[aNotification object] libraryEntryForEntry:entry];
-      if (lentry) {
-        SparkLibraryEntry lprevious;
-        lprevious.flags = [previous isEnabled] ? kSparkEntryEnabled : 0;
-        lprevious.action = [[previous action] uid];
-        lprevious.trigger = [[previous trigger] uid];
-        lprevious.application = [[previous application] uid];
-        SparkRemoteMessage(replaceLibraryEntry:&lprevious withLibraryEntry:lentry);
-      }
-    }
-  }
-}
-- (void)willRemoveEntry:(NSNotification *)aNotification {
-  if ([self isConnected]) {
-    SparkEntry *entry = [[aNotification userInfo] objectForKey:SparkEntryNotificationKey];
-    if (entry) {
-      SparkLibraryEntry *lentry = [[aNotification object] libraryEntryForEntry:entry];
-      if (lentry) {
-        SparkRemoteMessage(removeLibraryEntry:lentry);
-      }
-    }
-  }
-}
-
-- (void)didChangeEntryStatus:(NSNotification *)aNotification {
-  if ([self isConnected]) {
-    SparkEntry *entry = [[aNotification userInfo] objectForKey:SparkEntryNotificationKey];
-    if (entry) {
-      SparkLibraryEntry *lentry = [[aNotification object] libraryEntryForEntry:entry];
-      if (lentry) {
-        if ([entry isEnabled])
-          SparkRemoteMessage(enableLibraryEntry:lentry);
-        else
-          SparkRemoteMessage(disableLibraryEntry:lentry);
-      }
-    }
-  }
-}
-
-#pragma mark Plugins
-- (void)didRegisterPlugIn:(NSNotification *)aNotification {
-  if ([self isConnected]) {
-    SparkPlugIn *plugin = [aNotification object];
-    SparkRemoteMessage(registerPlugIn:[plugin path]);
-  }
-}
-
-- (void)didChangePluginStatus:(NSNotification *)aNotification {
-  if ([self isConnected]) {
-    SparkPlugIn *plugin = [aNotification object];
-    if ([plugin isEnabled])
-      SparkRemoteMessage(enablePlugIn:[plugin identifier]);
-    else
-      SparkRemoteMessage(disablePlugIn:[plugin identifier]);
   }
 }
 
@@ -376,13 +216,20 @@ void SEServerStartConnection() {
     }
   }
   
-  if ([[SEServerConnection defaultConnection] connect]) {
-    int sversion = [[SEServerConnection defaultConnection] version];
+  SEServerConnection *connection = [SEServerConnection defaultConnection];
+  if ([connection connect]) {
+    int sversion = [connection version];
     if (sversion >= 0 && sversion < kSparkServerVersion) {
       DLog(@"Daemon older than expected. Restart it");
-      [[SEServerConnection defaultConnection] restart];
+      [connection restart];
     } else {
-      [NSApp setServerStatus:kSparkDaemonStarted];
+      @try {
+        [connection configure];
+        [NSApp setServerStatus:kSparkDaemonStarted];
+      } @catch (id exception) {
+        DLog(@"Error while getting remote library. Try to restart daemon to resync");
+        [connection restart];
+      }
     }
   } else {
     [NSApp setServerStatus:kSparkDaemonStopped];

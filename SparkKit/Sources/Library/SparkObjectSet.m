@@ -130,10 +130,10 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
 
 #pragma mark -
 - (void)postNotification:(NSString *)name object:(SparkObject *)object {
-  [[NSNotificationCenter defaultCenter] postNotificationName:name
-                                                      object:self
-                                                    userInfo:object ? [NSDictionary dictionaryWithObject:object
-                                                                                                  forKey:kSparkNotificationObject] : nil];
+  [[[self library] notificationCenter] postNotificationName:name
+                                                     object:self
+                                                   userInfo:object ? [NSDictionary dictionaryWithObject:object
+                                                                                                 forKey:kSparkNotificationObject] : nil];
 }
 
 - (void)sp_checkUID:(SparkObject *)anObject {
@@ -202,11 +202,11 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
     NSMapInsert(sp_objects, (void *)[object uid], object);
     [object setLibrary:[self library]];
     // Did update
-    [[NSNotificationCenter defaultCenter] postNotificationName:kSparkLibraryDidUpdateObjectNotification
-                                                        object:self
-                                                      userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                        object, kSparkNotificationObject,
-                                                        old, kSparkNotificationUpdatedObject, nil]];
+    [[[self library] notificationCenter] postNotificationName:kSparkLibraryDidUpdateObjectNotification
+                                                       object:self
+                                                     userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                       object, kSparkNotificationObject,
+                                                       old, kSparkNotificationUpdatedObject, nil]];
     return YES;
   }
   return NO;

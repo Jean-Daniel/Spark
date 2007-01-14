@@ -9,6 +9,7 @@
 #import "SEScriptHandler.h"
 #import <SparkKit/SparkServerProtocol.h>
 
+@class SparkLibrarySynchronizer;
 @interface SEServerConnection : NSObject {
   @private
   struct _se_scFlags {
@@ -17,6 +18,7 @@
     unsigned int reserved:30;
   } se_scFlags;
   NSDistantObject<SparkServer> *se_server;
+  SparkLibrarySynchronizer *se_sync;
 }
 
 + (SEServerConnection *)defaultConnection;

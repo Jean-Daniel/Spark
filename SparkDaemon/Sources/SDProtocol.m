@@ -9,27 +9,11 @@
 #import "SparkDaemon.h"
 #import "SDVersion.h"
 
+#import <SparkKit/SparkEntry.h>
 #import <SparkKit/SparkTrigger.h>
-#import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkObjectSet.h>
-#import <SparkKit/SparkActionLoader.h>
-
-SK_INLINE
-SparkObjectSet *SDObjectSetForType(OSType type) {
-  SparkObjectSet *set = nil;
-  switch (type) {
-    case kSparkActionType:
-      set = SparkSharedActionSet();
-      break;
-    case kSparkTriggerType:
-      set = SparkSharedTriggerSet();
-      break;
-    case kSparkApplicationType:
-      set = SparkSharedApplicationSet();
-      break;
-  }
-  return set;
-}
+#import <SparkKit/SparkEntryManager.h>
+#import <SparkKit/SparkLibrarySynchronizer.h>
 
 static
 void SparkDaemonCheckTrigger(SparkTrigger *trigger) {
@@ -48,12 +32,8 @@ void SparkDaemonCheckTrigger(SparkTrigger *trigger) {
 
 @implementation SparkDaemon (SparkServerProtocol)
 
-- (void)configureTrigger:(SparkTrigger *)aTrigger {
-  [aTrigger setTarget:self];
-  [aTrigger setAction:@selector(executeTrigger:)]; 
-}
-
 - (int)version {
+  ShadowTrace();
   return kSparkServerVersion;
 }
 
@@ -63,125 +43,60 @@ void SparkDaemonCheckTrigger(SparkTrigger *trigger) {
   [NSApp terminate:nil];
 }
 
-#pragma mark Objects Management
-- (void)addObject:(id)plist type:(OSType)type {
+- (id<SparkLibrary>)library {
   ShadowTrace();
-  SparkObjectSet *set = SDObjectSetForType(type);
-  if (set) {
-    SparkObject *object = [set deserialize:plist error:nil];
-    if (object) {
-      [set addObject:object];
-      if (kSparkTriggerType == type) {
-        [self configureTrigger:(SparkTrigger *)object];
-      }
-    }
+  if (!sd_library) {
+    sd_library = [[SparkSharedLibrary() distantLibrary] retain];
+    [sd_library setDelegate:self];
   }
-}
-- (void)updateObject:(id)plist type:(OSType)type {
-  ShadowTrace();
-  SparkObjectSet *set = SDObjectSetForType(type);
-  if (set) {
-    SparkObject *object = [set deserialize:plist error:nil];
-    if (object) {
-      /* Trigger state is handled in notification */
-      [set updateObject:object];
-      if (kSparkTriggerType == type) {
-        [self configureTrigger:(SparkTrigger *)object];
-      }
-    }
-  }
-}
-- (void)removeObject:(UInt32)uid type:(OSType)type {
-  ShadowTrace();
-  SparkObjectSet *set = SDObjectSetForType(type);
-  if (set) {
-    /* Trigger desactivation is handled in notification */
-    [set removeObjectWithUID:uid];
-  }
+  return [sd_library distantLibrary];
 }
 
 #pragma mark Entries Management
-- (void)addLibraryEntry:(SparkLibraryEntry *)anEntry {
+- (void)distantLibrary:(SparkDistantLibrary *)library didAddEntry:(SparkEntry *)anEntry {
   ShadowTrace();
-  SparkEntryManager *manager = SparkSharedManager();
-  [manager addLibraryEntry:anEntry];
   if ([self isEnabled]) {
     /* Trigger can have a new active action */
-    SparkDaemonCheckTrigger([SparkSharedTriggerSet() objectForUID:anEntry->trigger]);
+    SparkDaemonCheckTrigger([anEntry trigger]);
   }
 }
-- (void)removeLibraryEntry:(SparkLibraryEntry *)anEntry {
+- (void)distantLibrary:(SparkDistantLibrary *)library didRemoveEntry:(SparkEntry *)anEntry {
   ShadowTrace();
-  SparkEntryManager *manager = SparkSharedManager();
-  [manager removeLibraryEntry:anEntry];
   if ([self isEnabled]) {
     /* If trigger was not removed, it can be invalid */
-    SparkDaemonCheckTrigger([SparkSharedTriggerSet() objectForUID:anEntry->trigger]);
+    SparkDaemonCheckTrigger([anEntry trigger]);
   }
 }
-- (void)replaceLibraryEntry:(SparkLibraryEntry *)anEntry withLibraryEntry:(SparkLibraryEntry *)newEntry {
+- (void)distantLibrary:(SparkDistantLibrary *)library didChangeEntryStatus:(SparkEntry *)anEntry {
   ShadowTrace();
-  SparkEntryManager *manager = SparkSharedManager();
-  [manager replaceLibraryEntry:anEntry withLibraryEntry:newEntry];
   if ([self isEnabled]) {
-    /* Should check trigger */
-    SparkDaemonCheckTrigger([SparkSharedTriggerSet() objectForUID:newEntry->trigger]);
-  }
+    /* Should check triggers */
+    SparkDaemonCheckTrigger([anEntry trigger]);
+  }  
 }
-
-- (void)enableLibraryEntry:(SparkLibraryEntry *)anEntry {
+- (void)distantLibrary:(SparkDistantLibrary *)library didReplaceEntry:(SparkEntry *)anEntry withEntry:(SparkEntry *)otherEntry {
   ShadowTrace();
-  SparkEntryManager *manager = SparkSharedManager();
-  [manager enableLibraryEntry:anEntry];
-  /* Should check trigger */
   if ([self isEnabled]) {
-    SparkDaemonCheckTrigger([SparkSharedTriggerSet() objectForUID:anEntry->trigger]);
+    /* Should check triggers */
+    SparkDaemonCheckTrigger([anEntry trigger]);
+    if (![[anEntry trigger] isEqualToLibraryObject:[otherEntry trigger]])
+      SparkDaemonCheckTrigger([otherEntry trigger]);
   }
 }
 
-- (void)disableLibraryEntry:(SparkLibraryEntry *)anEntry {
-  ShadowTrace();
-  SparkEntryManager *manager = SparkSharedManager();
-  [manager disableLibraryEntry:anEntry];
-  /* Should check trigger */
-  if ([self isEnabled]) {
-    SparkDaemonCheckTrigger([SparkSharedTriggerSet() objectForUID:anEntry->trigger]);
-  }
-}
-
-#pragma mark Plugins Management
-- (void)enablePlugIn:(NSString *)identifier {
-  SparkPlugIn *plugin = [[SparkActionLoader sharedLoader] pluginForIdentifier:identifier];
-  if (plugin) {
-    [plugin setEnabled:YES];
-    if ([self isEnabled]) {
-      [self registerTriggers];
-    }
-  } else {
-    DLog(@"Cannot find plugin: %@", identifier);
-  }
-}
-- (void)disablePlugIn:(NSString *)identifier {
-  SparkPlugIn *plugin = [[SparkActionLoader sharedLoader] pluginForIdentifier:identifier];
-  if (plugin) {
-    [plugin setEnabled:NO];
-    if ([self isEnabled]) {
-      [self registerTriggers];
-    }
-  } else {
-    DLog(@"Cannot find plugin: %@", identifier);
-  }
-}
-
-- (void)registerPlugIn:(NSString *)path {
-  SparkPlugIn *plugin = [[SparkActionLoader sharedLoader] loadPlugin:path];
-  if (!plugin) {
-    DLog(@"Error while loading plugin: %@", path);
-  }
+- (void)configureTrigger:(SparkTrigger *)aTrigger {
+  [aTrigger setTarget:self];
+  [aTrigger setAction:@selector(executeTrigger:)]; 
 }
 
 #pragma mark -
 #pragma mark Notifications
+- (void)willAddTrigger:(NSNotification *)aNotification {
+  ShadowTrace();
+  SparkTrigger *trigger = SparkNotificationObject(aNotification);
+  [self configureTrigger:trigger];
+}
+
 - (void)willRemoveTrigger:(NSNotification *)aNotification {
   ShadowTrace();
   if ([self isEnabled]) {
@@ -191,17 +106,27 @@ void SparkDaemonCheckTrigger(SparkTrigger *trigger) {
   }
 }
 
-/* Should never append */
+/* Should never append since a trigger is not editable */
 - (void)willUpdateTrigger:(NSNotification *)aNotification {
   ShadowTrace();
+  /* Configure new trigger */
+  SparkTrigger *new = [[aNotification userInfo] objectForKey:kSparkNotificationUpdatedObject];
+  NSAssert(new != nil, @"Invalid notification");
+  [self configureTrigger:new];
   if ([self isEnabled]) {
-    SparkTrigger *trigger = SparkNotificationObject(aNotification);
-    if ([trigger isRegistred]) {
-      [trigger setRegistred:NO];
+    SparkTrigger *previous = SparkNotificationObject(aNotification);
+    if ([previous isRegistred]) {
+      [previous setRegistred:NO];
       /* Active new trigger */
-      trigger = [[aNotification userInfo] objectForKey:kSparkNotificationUpdatedObject];
-      [trigger setRegistred:YES];
+      [new setRegistred:YES];
     }
+  }
+}
+
+#pragma mark Plugins Management
+- (void)didChangePluginStatus:(NSNotification *)aNotification {
+  if ([self isEnabled]) {
+    [self registerTriggers];
   }
 }
 

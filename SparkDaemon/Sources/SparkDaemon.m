@@ -13,10 +13,10 @@
 #import <SparkKit/SparkPrivate.h>
 #import <SparkKit/SparkFunctions.h>
 
+#import <SparkKit/SparkPlugIn.h>
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkObjectSet.h>
-/* Display alert */
-#import <SparkKit/SparkActionPlugIn.h>
+#import <SparkKit/SparkEntryManager.h>
 
 #import <SparkKit/SparkAlert.h>
 #import <SparkKit/SparkAction.h>
@@ -122,14 +122,24 @@ int main(int argc, const char *argv[]) {
       } else {
         [self checkAndLoad:nil];
       }
+      NSNotificationCenter *center = [SparkSharedLibrary() notificationCenter];
+      [center addObserver:self
+                 selector:@selector(willAddTrigger:)
+                     name:kSparkLibraryWillAddObjectNotification
+                   object:SparkSharedTriggerSet()];
+      [center addObserver:self
+                 selector:@selector(willUpdateTrigger:)
+                     name:kSparkLibraryWillUpdateObjectNotification
+                   object:SparkSharedTriggerSet()];
+      [center addObserver:self
+                 selector:@selector(willRemoveTrigger:)
+                     name:kSparkLibraryWillRemoveObjectNotification
+                   object:SparkSharedTriggerSet()];
+      
       [[NSNotificationCenter defaultCenter] addObserver:self
-                                               selector:@selector(willUpdateTrigger:)
-                                                   name:kSparkLibraryWillUpdateObjectNotification
-                                                 object:SparkSharedTriggerSet()];
-      [[NSNotificationCenter defaultCenter] addObserver:self
-                                               selector:@selector(willRemoveTrigger:)
-                                                   name:kSparkLibraryWillRemoveObjectNotification
-                                                 object:SparkSharedTriggerSet()];
+                                               selector:@selector(didChangePluginStatus:)
+                                                   name:SparkPlugInDidChangeStatusNotification
+                                                 object:nil];
     }
   }
   return self;
@@ -137,6 +147,7 @@ int main(int argc, const char *argv[]) {
 
 - (void)dealloc {
   [[NSConnection defaultConnection] invalidate];
+  [[SparkSharedLibrary() notificationCenter] removeObserver:self];
   [[NSNotificationCenter defaultCenter] removeObserver:self];
   [super dealloc];
 }

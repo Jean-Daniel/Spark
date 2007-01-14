@@ -12,6 +12,8 @@
 #import "SEPreferences.h"
 #import "SEServerConnection.h"
 
+#import <SparkKit/SparkKit.h>
+
 #import <ShadowKit/SKFunctions.h>
 
 @implementation Spark (SEFirstRun)

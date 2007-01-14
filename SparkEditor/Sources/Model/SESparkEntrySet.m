@@ -10,12 +10,6 @@
 
 #import <SparkKit/SparkPrivate.h>
 
-/*
- - Globals.			# a t a s => Global
- - Inherits Full	# a t @ @ => Inherits
- - Inherits Action.	# a t @ s => Weak Overwrite
- - Overwrite.		# a t a s => Overwrite
- */
 @implementation SparkEntry (SEExtensions)
 
 - (BOOL)overwrite {
