@@ -8,10 +8,11 @@
 
 #import <SparkKit/SparkServerProtocol.h>
 
-@class SparkDistantLibrary;
+@class SparkLibrary, SparkDistantLibrary;
 @interface SparkDaemon : NSObject {
   BOOL sd_disabled;
-  SparkDistantLibrary *sd_library;
+  SparkLibrary *sd_library;
+  SparkDistantLibrary *sd_rlibrary;
 }
 
 - (BOOL)openConnection;

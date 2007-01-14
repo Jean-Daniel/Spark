@@ -9,6 +9,30 @@
 		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
+				<string>splib</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>Splib</string>
+			<key>CFBundleTypeName</key>
+			<string>SparkLibraryFile</string>
+			<key>CFBundleTypeOSTypes</key>
+			<array>
+				<string>SLib</string>
+			</array>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>org.shadowlab.spark.library</string>
+			</array>
+			<key>LSTypeIsPackage</key>
+			<true/>
+			<key>NSDocumentClass</key>
+			<string>SELibraryDocument</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
 				<string>splist</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
@@ -27,28 +51,6 @@
 			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
-		</dict>
-		<dict>
-			<key>CFBundleTypeExtensions</key>
-			<array>
-				<string>splib</string>
-			</array>
-			<key>CFBundleTypeIconFile</key>
-			<string>Splib</string>
-			<key>CFBundleTypeName</key>
-			<string>SparkLibraryFile</string>
-			<key>CFBundleTypeOSTypes</key>
-			<array>
-				<string>SLib</string>
-			</array>
-			<key>CFBundleTypeRole</key>
-			<string>Viewer</string>
-			<key>LSItemContentTypes</key>
-			<array>
-				<string>org.shadowlab.spark.library</string>
-			</array>
-			<key>LSTypeIsPackage</key>
-			<true/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>

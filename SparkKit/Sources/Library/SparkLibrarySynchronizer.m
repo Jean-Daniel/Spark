@@ -311,6 +311,9 @@ OSType SparkServerObjectType(SparkObject *anObject) {
   [super dealloc];
 }
 
+- (SparkLibrary *)library {
+  return sp_library;
+}
 - (id<SparkLibrary>)distantLibrary {
   NSProtocolChecker *checker = [[NSProtocolChecker alloc] initWithTarget:self
                                                                 protocol:@protocol(SparkLibrary)];

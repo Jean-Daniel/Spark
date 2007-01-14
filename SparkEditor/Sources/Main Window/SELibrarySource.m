@@ -65,15 +65,32 @@ BOOL SELibraryFilter(SparkObject *object, id ctxt) {
 
 static 
 BOOL SEOverwriteListFilter(SparkObject *object, id ctxt) {
-  SESparkEntrySet *triggers = [[SEEntriesManager sharedManager] overwrites];
+  SESparkEntrySet *triggers = [ctxt overwrites];
   return [triggers containsTrigger:(id)object];
 }
 
+@interface _SEPluginListContext : NSObject {
+  @public
+  Class kind;
+  SEEntriesManager *manager;
+}
++ (id)listContextWithClass:(Class)cls manager:(SEEntriesManager *)mngr;
+@end
+
+@implementation _SEPluginListContext
++ (id)listContextWithClass:(Class)cls manager:(SEEntriesManager *)mngr {
+  _SEPluginListContext *ctxt = [[self alloc] init];
+  ctxt->kind = cls;
+  ctxt->manager = mngr;
+  return [ctxt autorelease];
+}
+@end
+
 static 
-BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
-  Class kind = (Class)ctxt;
+BOOL SEPluginListFilter(SparkObject *object, _SEPluginListContext *ctxt) {
+  Class kind = ctxt ? ctxt->kind : Nil;
   if (kind) {
-    SESparkEntrySet *triggers = [[SEEntriesManager sharedManager] snapshot];
+    SESparkEntrySet *triggers = [ctxt->manager snapshot];
     SparkAction *action = [triggers actionForTrigger:(id)object];
     if (action)
       return [action isKindOfClass:kind];
@@ -98,10 +115,11 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
     SparkPlugIn *plugin = [plugins objectAtIndex:idx];
     if ([plugin isEnabled]) {
       SparkList *list = [[SparkList alloc] initWithName:[plugin name] icon:[plugin icon]];
-      [list setObjectSet:SparkSharedTriggerSet()];
+      [list setObjectSet:[[ibWindow library] triggerSet]];
       [list setUID:uid++]; // UID MUST BE set before insertion, since -hash use it.
       NSMapInsert(se_plugins, list, plugin);
-      [list setListFilter:SEPluginListFilter context:[plugin actionClass]];
+      [list setListFilter:SEPluginListFilter context:[_SEPluginListContext listContextWithClass:[plugin actionClass]
+                                                                                        manager:[ibWindow manager]]];
       [se_content addObject:list];
       [list release];
     }
@@ -109,12 +127,12 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
 }
 
 - (void)didChangePluginList:(NSNotification *)aNotification {
-  int idx = [table selectedRow];
+  int idx = [uiTable selectedRow];
   [self buildPluginLists];
   [self rearrangeObjects];
-  [table reloadData];
+  [uiTable reloadData];
   /* Adjust selection */
-  int row = [table selectedRow];
+  int row = [uiTable selectedRow];
   while (row > 0) {
     if ([[[se_content objectAtIndex:row] name] isEqualToString:SETableSeparator]) {
       row--;
@@ -122,48 +140,18 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
       break;
     }
   }
-  if (row != [table selectedRow]) {
-    [table selectRow:row byExtendingSelection:NO];
+  if (row != [uiTable selectedRow]) {
+    [uiTable selectRow:row byExtendingSelection:NO];
   } else if (idx == row)  {
     [[NSNotificationCenter defaultCenter] postNotificationName:NSTableViewSelectionDidChangeNotification
-                                                        object:table];
+                                                        object:uiTable];
   }
 }
 
 - (id)init {
   if (self = [super init]) {
     se_content = [[NSMutableArray alloc] init];
-    
-    /* Add library… */
-    SparkList *library = [SparkList objectWithName:@"Library" icon:[NSImage imageNamed:@"Library"]];
-    [library setObjectSet:SparkSharedTriggerSet()];
-    [library setListFilter:SELibraryFilter context:nil];
-    [se_content addObject:library];
-    
-    /* …, plugins list… */
-    [self buildPluginLists];
-    
-    /* …and User defined lists */
-    [se_content addObjectsFromArray:[SparkSharedListSet() objects]];
-    
-    /* Overwrite list */
-    se_overwrite = [[SparkList alloc] initWithName:@"Overwrite" icon:[NSImage imageNamed:@"application"]];
-    [se_overwrite setListFilter:SEOverwriteListFilter context:nil];
-    [se_overwrite setObjectSet:SparkSharedTriggerSet()];
-    [se_overwrite setUID:9];
-    
-    /* First Separators */
-    SparkObject *separator = [SparkList objectWithName:SETableSeparator icon:nil];
-    [separator setUID:10];
-    [se_content addObject:separator];
-    
-    /* Second Separators */
-    separator = [SparkList objectWithName:SETableSeparator icon:nil];
-    [separator setUID:200];
-    [se_content addObject:separator];
-    
-    [self rearrangeObjects];
-    
+     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didReloadEntries:)
                                                  name:SEEntriesManagerDidReloadNotification
@@ -208,30 +196,62 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
   SEHeaderCell *header = [[SEHeaderCell alloc] initTextCell:@"HotKey Groups"];
   [header setAlignment:NSCenterTextAlignment];
   [header setFont:[NSFont systemFontOfSize:11]];
-  [[[table tableColumns] objectAtIndex:0] setHeaderCell:header];
+  [[[uiTable tableColumns] objectAtIndex:0] setHeaderCell:header];
   [header release];
-  [table setCornerView:[[[SEHeaderCellCorner alloc] init] autorelease]];
-//  NSRect rect = [[table headerView] frame];
-//  rect.size.height += 1;
-//  [[table headerView] setFrame:rect];
-  [table registerForDraggedTypes:[NSArray arrayWithObject:SparkTriggerListPboardType]];
+  [uiTable setCornerView:[[[SEHeaderCellCorner alloc] init] autorelease]];
+  //  NSRect rect = [[uiTable headerView] frame];
+  //  rect.size.height += 1;
+  //  [[uiTable headerView] setFrame:rect];
+  [uiTable registerForDraggedTypes:[NSArray arrayWithObject:SparkTriggerListPboardType]];
   
-  [table setHighlightShading:[NSColor colorWithCalibratedRed:.340f
-                                                       green:.606f
-                                                        blue:.890f
-                                                       alpha:1]
-                      bottom:[NSColor colorWithCalibratedRed:0
-                                                       green:.312f
-                                                        blue:.790f
-                                                       alpha:1]
-                      border:[NSColor colorWithCalibratedRed:.239f
-                                                       green:.482f
-                                                        blue:.855f
-                                                       alpha:1]];
+  [uiTable setHighlightShading:[NSColor colorWithCalibratedRed:.340f
+                                                         green:.606f
+                                                          blue:.890f
+                                                         alpha:1]
+                        bottom:[NSColor colorWithCalibratedRed:0
+                                                         green:.312f
+                                                          blue:.790f
+                                                         alpha:1]
+                        border:[NSColor colorWithCalibratedRed:.239f
+                                                         green:.482f
+                                                          blue:.855f
+                                                         alpha:1]];
+  
+  SparkObjectSet *triggers = [[ibWindow library] triggerSet];
+  
+  /* Add library… */
+  SparkList *library = [SparkList objectWithName:@"Library" icon:[NSImage imageNamed:@"Library"]];
+  [library setObjectSet:triggers];
+  [library setListFilter:SELibraryFilter context:nil];
+  [se_content addObject:library];
+  
+  /* …, plugins list… */
+  [self buildPluginLists];
+  
+  /* …and User defined lists */
+  [se_content addObjectsFromArray:[[[ibWindow library] listSet] objects]];
+  
+  /* Overwrite list */
+  se_overwrite = [[SparkList alloc] initWithName:@"Overwrite" icon:[NSImage imageNamed:@"application"]];
+  [se_overwrite setListFilter:SEOverwriteListFilter context:[ibWindow manager]];
+  [se_overwrite setObjectSet:triggers];
+  [se_overwrite setUID:9];
+  
+  /* First Separators */
+  SparkObject *separator = [SparkList objectWithName:SETableSeparator icon:nil];
+  [separator setUID:10];
+  [se_content addObject:separator];
+  
+  /* Second Separators */
+  separator = [SparkList objectWithName:SETableSeparator icon:nil];
+  [separator setUID:200];
+  [se_content addObject:separator];
+  
+  [self rearrangeObjects];
   
   if (se_delegate)
     [[NSNotificationCenter defaultCenter] postNotificationName:NSTableViewSelectionDidChangeNotification
-                                                        object:table];
+                                                        object:uiTable];
 }
 
 - (id)delegate {
@@ -310,7 +330,7 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
 - (BOOL)tableView:(NSTableView *)aTableView acceptDrop:(id <NSDraggingInfo>)info row:(int)row dropOperation:(NSTableViewDropOperation)operation {
   if (NSTableViewDropOn == operation) {
     SparkList *list = [se_content objectAtIndex:row];
-    SparkObjectSet *triggers = SparkSharedTriggerSet();
+    SparkObjectSet *triggers = [[ibWindow library] triggerSet];
     NSArray *uids = [[info draggingPasteboard] propertyListForType:SparkTriggerListPboardType];
     for (unsigned idx = 0; idx < [uids count]; idx++) {
       NSNumber *uid = [uids objectAtIndex:idx];
@@ -326,15 +346,15 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
 
 - (IBAction)newList:(id)sender {
   SparkList *list = [[SparkList alloc] initWithName:@"New List"];
-  [SparkSharedListSet() addObject:list];
+  [[[ibWindow library] listSet] addObject:list];
   [list release];
   [se_content addObject:list];
   [self rearrangeObjects];
-  [table reloadData];
+  [uiTable reloadData];
   /* Edit new list name */
   unsigned idx = [se_content indexOfObjectIdenticalTo:list];
-  [table selectRow:idx byExtendingSelection:NO];
-  [table editColumn:0 row:idx withEvent:nil select:YES];
+  [uiTable selectRow:idx byExtendingSelection:NO];
+  [uiTable editColumn:0 row:idx withEvent:nil select:YES];
 }
 
 - (void)deleteSelectionInTableView:(NSTableView *)aTableView {
@@ -342,7 +362,7 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
   if (idx >= 0) {
     SparkObject *object = [se_content objectAtIndex:idx];
     if ([object uid] > kSparkLibraryReserved) {
-      [SparkSharedListSet() removeObject:object];
+      [[[ibWindow library] listSet] removeObject:object];
       [se_content removeObjectAtIndex:idx];
       [aTableView reloadData];
       /* last item */
@@ -366,7 +386,7 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
 }
 
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification {
-  int idx = [table selectedRow];
+  int idx = [[aNotification object] selectedRow];
   if (idx >= 0) {
     if (SKDelegateHandle(se_delegate, source:didChangeSelection:)) {
       [se_delegate source:self didChangeSelection:[se_content objectAtIndex:idx]];
@@ -388,26 +408,26 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
     [se_overwrite setName:[[manager application] name]];
     [se_overwrite setIcon:[[manager application] icon]];
     if (![se_content containsObjectIdenticalTo:se_overwrite]) {
-      int row = [table selectedRow];
+      int row = [uiTable selectedRow];
       [se_content insertObject:se_overwrite atIndex:1];
-      [table reloadData];
+      [uiTable reloadData];
       /* Preserve selection */
       if (row >= 1 && (row + 1)< (int)[se_content count]) {
-        [table selectRow:row + 1 byExtendingSelection:NO];
+        [uiTable selectRow:row + 1 byExtendingSelection:NO];
       }
     } else {
       int idx = [se_content indexOfObjectIdenticalTo:se_overwrite];
-      [table setNeedsDisplayInRect:[table frameOfCellAtColumn:0 row:idx]];
+      [uiTable setNeedsDisplayInRect:[uiTable frameOfCellAtColumn:0 row:idx]];
     }
   } else {
     int idx = [se_content indexOfObjectIdenticalTo:se_overwrite];
     if (NSNotFound != idx) {
-      int row = [table selectedRow];
+      int row = [uiTable selectedRow];
       [se_content removeObjectAtIndex:idx];
       if (row >= idx && row != 0) {
-        [table selectRow:row - 1 byExtendingSelection:NO];
+        [uiTable selectRow:row - 1 byExtendingSelection:NO];
       }
-      [table reloadData];
+      [uiTable reloadData];
     }
   }
 }
@@ -415,9 +435,12 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
 - (void)didReloadEntries:(NSNotification *)aNotification {
   /* Reload dynamic lists (plugins + overwrite) */
   [se_overwrite reload];
-  /* Reload library to notify list change */
-  [[se_content objectAtIndex:0] reload];
-  [NSAllMapTableKeys(se_plugins) makeObjectsPerformSelector:@selector(reload)];
+  if ([se_content count]) {
+    /* Reload library to notify list change */
+    [[se_content objectAtIndex:0] reload];
+  }
+  if (se_plugins)
+    [NSAllMapTableKeys(se_plugins) makeObjectsPerformSelector:@selector(reload)];
 }
 
 - (void)didCreateWeakEntry:(NSNotification *)aNotification {
@@ -427,7 +450,7 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
 
 /* Adjust list selection */
 - (void)didCreateEntry:(NSNotification *)aNotification {
-  unsigned idx = [table selectedRow];
+  unsigned idx = [uiTable selectedRow];
   if (idx >= 0) {
     SparkList *list = [se_content objectAtIndex:idx];
     SparkEntry *entry = [aNotification object];
@@ -440,7 +463,7 @@ BOOL SEPluginListFilter(SparkObject *object, id ctxt) {
         SparkList *plist = [self listForPlugin:plugin];
         if (plist) {
           idx = [se_content indexOfObject:plist];
-          [table selectRow:idx byExtendingSelection:NO];
+          [uiTable selectRow:idx byExtendingSelection:NO];
         }
       }
     }

@@ -53,6 +53,13 @@
   [super dealloc];
 }
 
+- (SparkLibrary *)library {
+  return [[self document] library];
+}
+- (SEEntriesManager *)manager {
+  return [[self document] manager];
+}
+
 - (void)didSelectApplication:(int)anIndex {
   SparkApplication *application = nil;
   NSArray *objects = [appSource arrangedObjects];
@@ -61,8 +68,15 @@
     [appField setSparkApplication:application];
     
     // Shared Manager set application
-    [[SEEntriesManager sharedManager] setApplication:application];
+    [[self manager] setApplication:application];
   }
+}
+
+- (void)windowDidLoad {
+  [[self window] center];
+  [[self window] setFrameAutosaveName:@"SparkMainWindow"];
+  [[self window] setBackgroundColor:[NSColor colorWithCalibratedWhite:.773 alpha:1]];
+  [[self window] display];
 }
 
 - (void)awakeFromNib {
@@ -121,7 +135,7 @@
       SparkPlugIn *plugin = [listSource pluginForList:object];
       if (plugin) {
         // Shared manager -> create entry:type
-        [[SEEntriesManager sharedManager] createEntry:plugin modalForWindow:[self window]];
+        [[self manager] createEntry:plugin modalForWindow:[self window]];
       }
     }
   }
@@ -131,15 +145,8 @@
   if ([sender respondsToSelector:@selector(representedObject)]) {
     id object = [sender representedObject];
     if ([object isKindOfClass:[SparkPlugIn class]])
-      [[SEEntriesManager sharedManager] createEntry:[sender representedObject] modalForWindow:[self window]];
+      [[self manager] createEntry:[sender representedObject] modalForWindow:[self window]];
   }
-}
-
-- (void)windowDidLoad {
-  [[self window] center];
-  [[self window] setFrameAutosaveName:@"SparkMainWindow"];
-  [[self window] setBackgroundColor:[NSColor colorWithCalibratedWhite:.773 alpha:1]];
-  [[self window] display];
 }
 
 /* Selected list did change */
@@ -154,7 +161,7 @@
 
 - (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
   SparkApplication *item = [appSource objectAtIndex:rowIndex];
-  if ([item uid] && [SparkSharedManager() containsEntryForApplication:[item uid]]) {
+  if ([item uid] && [[[self library] entryManager] containsEntryForApplication:[item uid]]) {
     [aCell setFont:[NSFont boldSystemFontOfSize:[NSFont smallSystemFontSize]]];
   } else {
     [aCell setFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]];

@@ -28,8 +28,9 @@
 #import "SEEntriesManager.h"
 #import "SEServerConnection.h"
 
+#import "SELibraryDocument.h"
 
-const UInt32 kSparkVersion = 0x020600; /* 3.0.0 */
+const UInt32 kSparkVersion = 0x020700; /* 3.0.0 */
 
 int main(int argc, const char *argv[]) {
 #if defined(DEBUG)
@@ -152,25 +153,14 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
       //@"1", @"NSScriptingDebugLogLevel",
       nil]];
 #endif
-    /* First load Library */
-    SparkLibrary *library = SparkSharedLibrary();
-    /* Get default library path */
-    NSString *path = [library path];
-    /* If library does not exist, check for previous version library */
-    if (![[NSFileManager defaultManager] fileExistsAtPath:path]) {
-      NSString *old = [SparkLibraryFolder() stringByAppendingPathComponent:@"SparkLibrary.splib"];
-      /* If old library exists, load it, and resave it into new format */
-      if ([[NSFileManager defaultManager] fileExistsAtPath:old]) {
-        [library setPath:old];
-        [library readLibrary:nil];
-        [library setPath:path];
-        [library synchronize];
-      }
-    } else if (![library readLibrary:nil]) {
-      // Run alert panel
-      DLog(@"Cannot read library");
+    
+    /* Check active library sanity */
+    @try {
+      SparkActiveLibrary();
+    } @catch (NSException *exception) {
+      SKLogException(exception);
     }
-  
+    
     /* Register defaults */
     [SEPreferences setup];
   }
@@ -209,9 +199,25 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
   /* Check daemon path and connect */
   SEServerStartConnection();
   
-  [self showMainWindow:nil];
-  [self displayFirstRunIfNeeded];
+//  [self showMainWindow:nil];
+//  [self displayFirstRunIfNeeded];
 }
+
+//- (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename {
+//  return NO;
+//}
+- (BOOL)applicationOpenUntitledFile:(NSApplication *)theApplication {
+  ShadowTrace();
+  SELibraryDocument *doc = [[NSDocumentController sharedDocumentController] makeUntitledDocumentOfType:@"SparkLibraryFile"];
+  if (doc) {
+    [[NSDocumentController sharedDocumentController] addDocument:doc];
+    [doc setLibrary:SparkActiveLibrary()];
+    [doc makeWindowControllers];
+    [doc showWindows];
+  }
+  return doc != nil;
+}
+
 
 - (void)serverStatusDidChange:(NSNotification *)aNotification {
   SparkDaemonStatus status = [[aNotification object] serverStatus];
@@ -227,33 +233,33 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
 
 #pragma mark -
 #pragma mark Menu IBActions
-- (IBAction)revert:(id)sender {
-  [[NSAlert alertWithMessageText:@"You are about to revert all changed perform since Spark Launch."
-                   defaultButton:@"Revert"
-                 alternateButton:@"Cancel"
-                     otherButton:nil
-       informativeTextWithFormat:@"Revert will restore your database."] beginSheetModalForWindow:[self mainWindow]
-                                                 modalDelegate:self
-                                                didEndSelector:@selector(revertPanelDidEnd:returnCode:contextInfo:)
-                                                   contextInfo:nil];
-}
-
-- (void)revertPanelDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void  *)contextInfo {
-  if (NSOKButton == returnCode) {
-    NSError *error = nil;
-    [SparkSharedLibrary() readLibrary:&error];
-    if (error) {
-      [[NSAlert alertWithError:error] runModal];
-    } else {
-      [[SEEntriesManager sharedManager] reload];
-      [[NSNotificationCenter defaultCenter] postNotificationName:@"SEDidReloadLibrary"
-                                                          object:nil];
-    }
-    if ([NSApp serverStatus] == kSparkDaemonStarted) {
-      [[SEServerConnection defaultConnection] restart];
-    }
-  }
-}
+//- (IBAction)revert:(id)sender {
+//  [[NSAlert alertWithMessageText:@"You are about to revert all changed perform since Spark Launch."
+//                   defaultButton:@"Revert"
+//                 alternateButton:@"Cancel"
+//                     otherButton:nil
+//       informativeTextWithFormat:@"Revert will restore your database."] beginSheetModalForWindow:[self mainWindow]
+//                                                 modalDelegate:self
+//                                                didEndSelector:@selector(revertPanelDidEnd:returnCode:contextInfo:)
+//                                                   contextInfo:nil];
+//}
+//
+//- (void)revertPanelDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void  *)contextInfo {
+//  if (NSOKButton == returnCode) {
+//    NSError *error = nil;
+//    [SparkSharedLibrary() readLibrary:&error];
+//    if (error) {
+//      [[NSAlert alertWithError:error] runModal];
+//    } else {
+//      [[SEEntriesManager sharedManager] reload];
+//      [[NSNotificationCenter defaultCenter] postNotificationName:@"SEDidReloadLibrary"
+//                                                          object:nil];
+//    }
+//    if ([NSApp serverStatus] == kSparkDaemonStarted) {
+//      [[SEServerConnection defaultConnection] restart];
+//    }
+//  }
+//}
 
 
 - (IBAction)toggleServer:(id)sender {
@@ -288,26 +294,26 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
 
 #pragma mark -
 #pragma mark Import/Export Support
-- (IBAction)saveLibrary:(id)sender {
-  NSSavePanel *panel = [NSSavePanel savePanel];
-  [panel setTitle:@"Save Library"];
-  [panel setCanCreateDirectories:YES];
-  [panel setRequiredFileType:kSparkLibraryFileExtension];
-  [panel beginSheetForDirectory:nil
-                           file:@"SparkLibrary"
-                 modalForWindow:[self mainWindow]
-                  modalDelegate:self
-                 didEndSelector:@selector(saveLibraryDidEnd:returnCode:contextInfo:)
-                    contextInfo:nil];
-}
-
-- (void)saveLibraryDidEnd:(NSSavePanel *)sheet returnCode:(int)returnCode  contextInfo:(void  *)contextInfo {
-  if (NSOKButton == returnCode) {
-    SparkLibrary *library = SparkSharedLibrary();
-    NSString *file = [sheet filename];
-    [library writeToFile:file atomically:NO];
-  }
-}
+//- (IBAction)saveLibrary:(id)sender {
+//  NSSavePanel *panel = [NSSavePanel savePanel];
+//  [panel setTitle:@"Save Library"];
+//  [panel setCanCreateDirectories:YES];
+//  [panel setRequiredFileType:kSparkLibraryFileExtension];
+//  [panel beginSheetForDirectory:nil
+//                           file:@"SparkLibrary"
+//                 modalForWindow:[self mainWindow]
+//                  modalDelegate:self
+//                 didEndSelector:@selector(saveLibraryDidEnd:returnCode:contextInfo:)
+//                    contextInfo:nil];
+//}
+//
+//- (void)saveLibraryDidEnd:(NSSavePanel *)sheet returnCode:(int)returnCode  contextInfo:(void  *)contextInfo {
+//  if (NSOKButton == returnCode) {
+//    SparkLibrary *library = SparkSharedLibrary();
+//    NSString *file = [sheet filename];
+//    [library writeToFile:file atomically:NO];
+//  }
+//}
 
 - (BOOL)restoreLibrary:(NSString *)path {
   ShadowTrace();
@@ -585,7 +591,8 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
   [SEPreferences synchronize];
-  [SparkSharedLibrary() synchronize];
+#warning should be moved into close document
+  [SparkActiveLibrary() synchronize];
 }
 
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication {

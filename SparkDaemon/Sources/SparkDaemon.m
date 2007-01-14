@@ -59,13 +59,48 @@ int main(int argc, const char *argv[]) {
   return [key isEqualToString:@"enabled"];
 }
 
+- (void)setActiveLibrary:(SparkLibrary *)aLibrary {
+  if (sd_library != aLibrary) {
+    /* Release remote library */
+    if (sd_rlibrary) {
+      [sd_rlibrary setDelegate:nil];
+      [sd_rlibrary release];
+      sd_rlibrary = nil;
+    }
+    if (sd_library) {
+      /* Unregister triggers */
+      [[sd_library notificationCenter] removeObserver:self];
+      [self unregisterTriggers];
+      [sd_library release];
+    }
+    sd_library = [aLibrary retain];
+    if (sd_library) {
+      NSNotificationCenter *center = [sd_library notificationCenter];
+      [center addObserver:self
+                 selector:@selector(willAddTrigger:)
+                     name:kSparkLibraryWillAddObjectNotification
+                   object:[sd_library triggerSet]];
+      [center addObserver:self
+                 selector:@selector(willUpdateTrigger:)
+                     name:kSparkLibraryWillUpdateObjectNotification
+                   object:[sd_library triggerSet]];
+      [center addObserver:self
+                 selector:@selector(willRemoveTrigger:)
+                     name:kSparkLibraryWillRemoveObjectNotification
+                   object:[sd_library triggerSet]];
+      /* If library not loaded, load library */
+      if (![sd_library isLoaded])
+        [sd_library readLibrary:nil];
+      /* register triggers */
+      [self checkActions];
+      [self loadTriggers];
+    }
+  }
+}
+
 /* Timer callback */
 - (void)checkAndLoad:(id)sender {
-  [SparkSharedLibrary() readLibrary:nil];
-  DLog(@"Library loaded");
-  [self checkActions];
-  [self loadTriggers];
-  DLog(@"Trigger registred");
+  [self setActiveLibrary:SparkActiveLibrary()];
 }
 
 - (id)init {
@@ -122,19 +157,6 @@ int main(int argc, const char *argv[]) {
       } else {
         [self checkAndLoad:nil];
       }
-      NSNotificationCenter *center = [SparkSharedLibrary() notificationCenter];
-      [center addObserver:self
-                 selector:@selector(willAddTrigger:)
-                     name:kSparkLibraryWillAddObjectNotification
-                   object:SparkSharedTriggerSet()];
-      [center addObserver:self
-                 selector:@selector(willUpdateTrigger:)
-                     name:kSparkLibraryWillUpdateObjectNotification
-                   object:SparkSharedTriggerSet()];
-      [center addObserver:self
-                 selector:@selector(willRemoveTrigger:)
-                     name:kSparkLibraryWillRemoveObjectNotification
-                   object:SparkSharedTriggerSet()];
       
       [[NSNotificationCenter defaultCenter] addObserver:self
                                                selector:@selector(didChangePluginStatus:)
@@ -146,8 +168,8 @@ int main(int argc, const char *argv[]) {
 }
 
 - (void)dealloc {
+  [self setActiveLibrary:nil];
   [[NSConnection defaultConnection] invalidate];
-  [[SparkSharedLibrary() notificationCenter] removeObserver:self];
   [[NSNotificationCenter defaultCenter] removeObserver:self];
   [super dealloc];
 }
@@ -191,7 +213,7 @@ int main(int argc, const char *argv[]) {
   }
   /* Send actionDidLoad message to all actions */
   SparkAction *action;
-  NSEnumerator *actions = [SparkSharedActionSet() objectEnumerator];
+  NSEnumerator *actions = [[sd_library actionSet] objectEnumerator];
   NSMutableArray *errors = display ? [[NSMutableArray alloc] init] : nil;
   while (action = [actions nextObject]) {
     SparkAlert *alert = [action actionDidLoad];
@@ -209,7 +231,7 @@ int main(int argc, const char *argv[]) {
 
 - (void)loadTriggers {
   SparkTrigger *trigger;
-  NSEnumerator *triggers = [SparkSharedTriggerSet() objectEnumerator];
+  NSEnumerator *triggers = [[sd_library triggerSet] objectEnumerator];
   while (trigger = [triggers nextObject]) {
     @try {
       [trigger setTarget:self];
@@ -223,8 +245,8 @@ int main(int argc, const char *argv[]) {
 
 - (void)registerTriggers {
   SparkTrigger *trigger;
-  SparkEntryManager *manager = SparkSharedManager();
-  NSEnumerator *triggers = [SparkSharedTriggerSet() objectEnumerator];
+  SparkEntryManager *manager = [sd_library entryManager];
+  NSEnumerator *triggers = [[sd_library triggerSet] objectEnumerator];
   while (trigger = [triggers nextObject]) {
     @try {
       if (![trigger isRegistred]) {
@@ -244,7 +266,7 @@ int main(int argc, const char *argv[]) {
 
 - (void)unregisterTriggers {
   SparkTrigger *trigger;
-  NSEnumerator *triggers = [SparkSharedTriggerSet() objectEnumerator];
+  NSEnumerator *triggers = [[sd_library triggerSet] objectEnumerator];
   while (trigger = [triggers nextObject]) {
     @try {
       if ([trigger isRegistred]) {
@@ -257,8 +279,8 @@ int main(int argc, const char *argv[]) {
 }
 - (void)unregisterVolatileTriggers {
   SparkTrigger *trigger;
-  SparkEntryManager *manager = SparkSharedManager();
-  NSEnumerator *triggers = [SparkSharedTriggerSet() objectEnumerator];
+  SparkEntryManager *manager = [sd_library entryManager];
+  NSEnumerator *triggers = [[sd_library triggerSet] objectEnumerator];
   while (trigger = [triggers nextObject]) {
     @try {
       if ([trigger isRegistred] && ![manager containsPermanentEntryForTrigger:[trigger uid]]) {
@@ -276,7 +298,7 @@ int main(int argc, const char *argv[]) {
   OSType sign = SKProcessGetFrontProcessSignature();
   if (sign && kUnknownType != sign) {
     SparkApplication *app;
-    NSEnumerator *apps = [SparkSharedApplicationSet() objectEnumerator];
+    NSEnumerator *apps = [[sd_library applicationSet] objectEnumerator];
     while (app = [apps nextObject]) {
       if ([app signature] == sign) {
         front = app;
@@ -289,7 +311,7 @@ int main(int argc, const char *argv[]) {
     NSString *bundle = SKProcessGetFrontProcessBundleIdentifier();
     if (bundle) {
       SparkApplication *app;
-      NSEnumerator *apps = [SparkSharedApplicationSet() objectEnumerator];
+      NSEnumerator *apps = [[sd_library applicationSet] objectEnumerator];
       while (app = [apps nextObject]) {
         if ([[app bundleIdentifier] isEqualToString:bundle]) {
           front = app;
@@ -320,12 +342,12 @@ int main(int argc, const char *argv[]) {
       SparkApplication *front = [self frontApplication];
       if (front) {
         /* Get action for front application */
-        action = [SparkSharedManager() actionForTrigger:[trigger uid] application:[front uid] isActive:&status];
+        action = [[sd_library entryManager] actionForTrigger:[trigger uid] application:[front uid] isActive:&status];
       }
     }
     /* No specific action found, use default */
     if (!action) {
-      action = [SparkSharedManager() actionForTrigger:[trigger uid] application:0 isActive:&status];
+      action = [[sd_library entryManager] actionForTrigger:[trigger uid] application:0 isActive:&status];
     }
     /* If daemon is disabled, only permanent action are performed */
     if (action) {

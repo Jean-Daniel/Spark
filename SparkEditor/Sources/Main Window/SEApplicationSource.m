@@ -7,7 +7,8 @@
  */
 
 #import "SEApplicationSource.h"
-#import "SEEntriesManager.h"
+
+#import "SELibraryWindow.h"
 
 #import <ShadowKit/SKFSFunctions.h>
 #import <ShadowKit/SKLSFunctions.h>
@@ -16,27 +17,24 @@
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkObjectSet.h>
 #import <SparkKit/SparkApplication.h>
+#import <SparkKit/SparkEntryManager.h>
 
 @implementation SEApplicationSource
+
+- (SparkObjectSet *)applicationSet {
+  return [se_library applicationSet];
+}
 
 - (void)reload {
   [self removeAllObjects];
   
   [self addObject:[SparkApplication objectWithName:@"Globals" icon:[NSImage imageNamed:@"System"]]];
-  [self addObjects:[SparkSharedApplicationSet() objects]];
+  [self addObjects:[[self applicationSet] objects]];
   [self rearrangeObjects];
-  
-  [se_cache removeAllObjects];
-  [se_cache addObjectsFromArray:[SparkSharedApplicationSet() objects]];
 }
 
 - (void)se_init {
   [self setCompareFunction:SparkObjectCompare];
-  se_cache = [[NSMutableSet alloc] init];
-  
-  /* Load applications */
-  [self reload];
-  [self setSelectionIndex:0];
   [[NSNotificationCenter defaultCenter] addObserver:self
                                            selector:@selector(didReloadLibrary:)
                                                name:@"SEDidReloadLibrary"
@@ -59,9 +57,25 @@
 
 - (void)dealloc {
   [se_path release];
-  [se_cache release];
+  [[se_library notificationCenter] removeObserver:self];
+  [se_library release];
   [[NSNotificationCenter defaultCenter] removeObserver:self];
   [super dealloc];
+}
+
+- (void)awakeFromNib {
+  se_library = [[ibWindow library] retain];
+  /* Load applications */
+  [self reload];
+  [self setSelectionIndex:0];
+  [[se_library notificationCenter] addObserver:self
+                                      selector:@selector(didAddApplication:)
+                                          name:kSparkLibraryDidAddObjectNotification
+                                        object:[se_library applicationSet]];
+  [[se_library notificationCenter] addObserver:self
+                                      selector:@selector(didRemoveApplication:)
+                                          name:kSparkLibraryDidRemoveObjectNotification
+                                        object:[se_library applicationSet]];  
 }
 
 #pragma mark -
@@ -76,7 +90,7 @@
 - (unsigned)addApplications:(NSArray *)files {
   unsigned count = 0;
   unsigned idx = [files count];
-  SparkObjectSet *library = SparkSharedApplicationSet();
+  SparkObjectSet *library = [self applicationSet];
   
   /* search if contains at least one application */
   while (idx-- > 0) {
@@ -87,18 +101,17 @@
     }
     if (file && [[NSWorkspace sharedWorkspace] isApplicationAtPath:file]) {
       SparkApplication *app = [[SparkApplication alloc] initWithPath:file];
-      if (![se_cache containsObject:app]) {
+      if (![[[self applicationSet] objects] containsObject:app]) {
         // Add application
-        [se_cache addObject:app];
         [library addObject:app];
-        [self addObject:app];
+//        [self addObject:app];
         count++;
       }
       [app release];
     }
   }
-  if (count > 0)
-    [self rearrangeObjects];
+//  if (count > 0)
+//    [self rearrangeObjects];
   return count;
 }
 
@@ -112,7 +125,7 @@
   /* Init path cache */
   se_path = [[NSMutableSet alloc] init];
   SparkApplication *app;
-  NSEnumerator *apps = [SparkSharedApplicationSet() objectEnumerator];
+  NSEnumerator *apps = [[self applicationSet] objectEnumerator];
   while (app = [apps nextObject]) {
     NSString *path = [app path];
     if (path)
@@ -121,7 +134,7 @@
   [openPanel beginSheetForDirectory:nil
                                file:nil
                               types:[NSArray arrayWithObjects:@"app", nil, NSFileTypeForHFSTypeCode('APPL'), nil]
-                     modalForWindow:libraryWindow
+                     modalForWindow:[ibWindow window]
                       modalDelegate:self
                      didEndSelector:@selector(newApplicationDidEnd:returnCode:object:)
                         contextInfo:nil];
@@ -136,15 +149,15 @@
 }
 
 - (IBAction)deleteSelection:(id)sender {
-  if ([libraryWindow attachedSheet] == nil) { /* Ignore if modal sheet open on main window */
+  if ([[ibWindow window] attachedSheet] == nil) { /* Ignore if modal sheet open on main window */
     unsigned idx = [self selectionIndex];
     if (idx > 0) { /* If valid selection (should always append) */
       int result = NSOKButton;
       SparkObject *object = [self objectAtIndex:idx];
       if ([object uid] > kSparkLibraryReserved) { /* If not a reserved object */
-        unsigned count = [[[SEEntriesManager sharedManager] overwrites] count];
+        Boolean hasActions = [[se_library entryManager] containsEntryForApplication:[object uid]];
         /* If no custom key or if user want to ignore warning, do not display sheet */
-        if (count > 0 && ![[NSUserDefaults standardUserDefaults] boolForKey:@"SparkConfirmDeleteApplication"]) {
+        if (hasActions && ![[NSUserDefaults standardUserDefaults] boolForKey:@"SparkConfirmDeleteApplication"]) {
           NSAlert *alert = [NSAlert alertWithMessageText:@"Deleting app will delete all custom hotkeys"
                                            defaultButton:@"Delete"
                                          alternateButton:@"Cancel"
@@ -155,13 +168,12 @@
           result = [alert runModal];
         } 
         if (NSOKButton == result) {
-          if (count > 0) {
-            NSArray *entries = [[[SEEntriesManager sharedManager] overwrites] allObjects];
-            [SparkSharedManager() removeEntries:entries];
+          if (hasActions) {
+            SparkEntryManager *manager = [se_library entryManager];
+            [manager removeEntries:[manager entriesForApplication:[object uid]]];
           }
-          [SparkSharedApplicationSet() removeObject:object];
-          [se_cache removeObject:object];
-          [self removeObject:object];
+          [[self applicationSet] removeObject:object];
+          //[self removeObject:object];
           return;
         }
       }
@@ -205,5 +217,16 @@
   }
   return ![se_path containsObject:filename];
 }
+
+
+- (void)didAddApplication:(NSNotification *)aNotification {
+  [self addObject:SparkNotificationObject(aNotification)];
+  [self rearrangeObjects];
+}
+
+- (void)didRemoveApplication:(NSNotification *)aNotification {
+  [self removeObject:SparkNotificationObject(aNotification)];
+}
+
 
 @end

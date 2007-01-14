@@ -86,21 +86,7 @@ SETriggerStyle styles[6];
 - (id)init {
   if (self = [super init]) {
     se_entries = [[NSMutableArray alloc] init];
-    se_snapshot = [[NSMutableArray alloc] init];
-    [[SparkSharedLibrary() notificationCenter] addObserver:self
-                                                  selector:@selector(listDidChange:) 
-                                                      name:SparkListDidChangeNotification
-                                                    object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didUpdateEntry:) 
-                                                 name:SEEntriesManagerDidUpdateEntryNotification
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(managerDidReload:) 
-                                                 name:SEEntriesManagerDidReloadNotification
-                                               object:nil];
-    
+    se_snapshot = [[NSMutableArray alloc] init];    
   }
   return self;
 }
@@ -110,31 +96,53 @@ SETriggerStyle styles[6];
   [se_entries release];
   [se_snapshot release];
   [[NSNotificationCenter defaultCenter] removeObserver:self];
-  [[SparkSharedLibrary() notificationCenter] removeObserver:self];
+  [[se_library notificationCenter] removeObserver:self];
+  [se_library release];
   [super dealloc];
 }
 
 #pragma mark -
+- (SparkLibrary *)library {
+  return se_library;
+}
+- (SEEntriesManager *)manager {
+  return [ibWindow manager];
+}
+
 - (void)awakeFromNib {
-  [table setTarget:self];
-  [table setDoubleAction:@selector(doubleAction:)];
+  [uiTable setTarget:self];
+  [uiTable setDoubleAction:@selector(doubleAction:)];
   
-  [table setAutosaveName:@"SparkMainEntryTable"];
-  [table setAutosaveTableColumns:YES];
+  [uiTable setAutosaveName:@"SparkMainEntryTable"];
+  [uiTable setAutosaveTableColumns:YES];
   
-  [table setVerticalMotionCanBeginDrag:YES];
+  [uiTable setVerticalMotionCanBeginDrag:YES];
+  [uiTable setContinueEditing:NO];
   
-  [table setContinueEditing:NO];
+  se_library = [[ibWindow library] retain];
+  [[se_library notificationCenter] addObserver:self
+                                      selector:@selector(listDidChange:) 
+                                          name:SparkListDidChangeNotification
+                                        object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(didUpdateEntry:) 
+                                               name:SEEntriesManagerDidUpdateEntryNotification
+                                             object:nil];
+  
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(managerDidReload:) 
+                                               name:SEEntriesManagerDidReloadNotification
+                                             object:nil];
 }
 
 - (NSView *)tableView {
-  return table;
+  return uiTable;
 }
 
 - (void)setListEnabled:(BOOL)flag {
-  UInt32 app = [[[SEEntriesManager sharedManager] application] uid];
+  UInt32 app = [[[self manager] application] uid];
   int idx = [se_entries count];
-  SparkEntryManager *manager = SparkSharedManager();
+  SparkEntryManager *manager = [[self library] entryManager];
   SEL method = flag ? @selector(enableEntry:) : @selector(disableEntry:);
   while (idx-- > 0) {
     SparkEntry *entry = [se_entries objectAtIndex:idx];
@@ -144,7 +152,7 @@ SETriggerStyle styles[6];
       }
     }
   }
-  [table reloadData];
+  [uiTable reloadData];
 }
 
 - (void)sortTriggers:(NSArray *)descriptors {
@@ -163,17 +171,17 @@ SETriggerStyle styles[6];
         [se_entries addObject:entry];
     }
   }
-  [self sortTriggers:[table sortDescriptors]];
+  [self sortTriggers:[uiTable sortDescriptors]];
 }
 
 - (IBAction)search:(id)sender {
   [self filterEntries:[sender stringValue]];
-  [table reloadData];
+  [uiTable reloadData];
 }
 
 - (IBAction)doubleAction:(id)sender {
   /* Does not support multi-edition */
-  if ([table numberOfSelectedRows] != 1) {
+  if ([uiTable numberOfSelectedRows] != 1) {
     NSBeep();
     return;
   }
@@ -181,14 +189,14 @@ SETriggerStyle styles[6];
   int idx = -1;
   NSEvent *event = [NSApp currentEvent];
   if ([event type] == NSKeyDown) {
-    idx = [table selectedRow];
+    idx = [uiTable selectedRow];
   } else {
-    idx = [table clickedRow];
+    idx = [uiTable clickedRow];
   }
   if (idx >= 0) {
     SparkEntry *entry = [se_entries objectAtIndex:idx];
     if ([entry isPlugged])
-      [[SEEntriesManager sharedManager] editEntry:entry modalForWindow:[sender window]];
+      [[self manager] editEntry:entry modalForWindow:[sender window]];
     else
       NSBeep();
   }
@@ -198,7 +206,7 @@ SETriggerStyle styles[6];
   SparkEntry *entry = [aNotification object];
   if (entry && [se_entries containsObject:entry]) {
     int idx = [se_entries indexOfObject:entry];
-    [table selectRow:idx byExtendingSelection:NO];
+    [uiTable selectRow:idx byExtendingSelection:NO];
   }
 }
 
@@ -208,7 +216,7 @@ SETriggerStyle styles[6];
     SparkTrigger *trigger;
     NSEnumerator *triggers = [se_list objectEnumerator];
     /*  Get current snapshot */
-    SESparkEntrySet *snapshot = [[SEEntriesManager sharedManager] snapshot];
+    SESparkEntrySet *snapshot = [[self manager] snapshot];
     BOOL hide = [[NSUserDefaults standardUserDefaults] boolForKey:kSparkPrefHideDisabled];
     while (trigger = [triggers nextObject]) {
       SparkEntry *entry = [snapshot entryForTrigger:trigger];
@@ -217,9 +225,9 @@ SETriggerStyle styles[6];
       }
     }
     /* Filter entries */
-    [self filterEntries:[ibSearch stringValue]];
+    [self filterEntries:[uiSearch stringValue]];
   }
-  [table reloadData];
+  [uiTable reloadData];
 }
 
 - (void)managerDidReload:(NSNotification *)notification {
@@ -249,19 +257,19 @@ SETriggerStyle styles[6];
   if (items && [items count]) {
     if ([se_list isDynamic]) {
       BOOL hasCustom = NO;
-      SparkApplication *application = [[SEEntriesManager sharedManager] application];
+      SparkApplication *application = [[self manager] application];
       if ([application uid] == 0) {
         int count = [items count];
         while (count-- > 0 && !hasCustom) {
           SparkEntry *entry = [items objectAtIndex:count];
-          hasCustom |= [SparkSharedManager() containsOverwriteEntryForTrigger:[[entry trigger] uid]];
+          hasCustom |= [[[self library] entryManager] containsOverwriteEntryForTrigger:[[entry trigger] uid]];
         }
         if (hasCustom) {
           DLog(@"WARNING: Has Custom");
         }
       }
       // TODO: Check item consequences.
-      [[SEEntriesManager sharedManager] removeEntries:items];
+      [[self manager] removeEntries:items];
     } else {
       // User list
       int count = [items count];
@@ -293,12 +301,12 @@ SETriggerStyle styles[6];
   
   /* Text field cell */
   if ([aCell respondsToSelector:@selector(setTextColor:)]) {  
-    SparkApplication *application = [[SEEntriesManager sharedManager] application];
+    SparkApplication *application = [[self manager] application];
     
     SInt32 idx = -1;
     if (0 == [application uid]) {
       /* Global key */
-      if ([SparkSharedManager() containsOverwriteEntryForTrigger:[[entry trigger] uid]]) {
+      if ([[[self library] entryManager] containsOverwriteEntryForTrigger:[[entry trigger] uid]]) {
         idx = 1;
       } else {
         idx = 0;
@@ -351,16 +359,16 @@ SETriggerStyle styles[6];
     if (evnt && [evnt type] == NSLeftMouseUp && ([evnt modifierFlags] & NSAlternateKeyMask)) {
       [self setListEnabled:[anObject boolValue]];
     } else {
-      SparkApplication *application = [[SEEntriesManager sharedManager] application];
+      SparkApplication *application = [[self manager] application];
       if ([application uid] != 0 && kSparkEntryTypeDefault == [entry type]) {
         /* Inherits: should create an new entry */
-        entry = [[SEEntriesManager sharedManager] createWeakEntryForEntry:entry];
+        entry = [[self manager] createWeakEntryForEntry:entry];
         [se_entries replaceObjectAtIndex:rowIndex withObject:entry];
       }
       if ([anObject boolValue])
-        [SparkSharedManager() enableEntry:entry];
+        [[[self library] entryManager] enableEntry:entry];
       else
-        [SparkSharedManager() disableEntry:entry];
+        [[[self library] entryManager] disableEntry:entry];
       
       [aTableView setNeedsDisplayInRect:[aTableView rectOfRow:rowIndex]];
     }

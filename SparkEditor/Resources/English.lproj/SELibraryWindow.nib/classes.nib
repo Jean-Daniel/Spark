@@ -7,7 +7,7 @@
             ACTIONS = {deleteSelection = id; newApplication = id; }; 
             CLASS = SEApplicationSource; 
             LANGUAGE = ObjC; 
-            OUTLETS = {libraryWindow = NSWindow; }; 
+            OUTLETS = {ibWindow = SELibraryWindow; }; 
             SUPERCLASS = SKTableDataSource; 
         }, 
         {CLASS = SEApplicationView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
@@ -16,7 +16,7 @@
             ACTIONS = {newList = id; }; 
             CLASS = SELibrarySource; 
             LANGUAGE = ObjC; 
-            OUTLETS = {delegate = id; table = SETableView; }; 
+            OUTLETS = {delegate = id; ibWindow = SELibraryWindow; uiTable = SETableView; }; 
             SUPERCLASS = NSObject; 
         }, 
         {
@@ -45,7 +45,7 @@
             ACTIONS = {search = id; }; 
             CLASS = SETriggersController; 
             LANGUAGE = ObjC; 
-            OUTLETS = {ibSearch = NSSearchField; table = SKTableView; }; 
+            OUTLETS = {ibWindow = SELibraryWindow; uiSearch = NSSearchField; uiTable = SKTableView; }; 
             SUPERCLASS = NSObject; 
         }, 
         {CLASS = SKImageAndTextCell; LANGUAGE = ObjC; SUPERCLASS = NSTextFieldCell; }, 

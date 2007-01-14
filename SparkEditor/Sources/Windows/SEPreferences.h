@@ -24,7 +24,6 @@ NSString * const kSparkPrefSingleKeyMode;
   IBOutlet NSObjectController *ibController;
   
   BOOL se_login;
-  NSMapTable *se_counts;
   NSMapTable *se_status;
   NSMutableArray *se_plugins;
 }

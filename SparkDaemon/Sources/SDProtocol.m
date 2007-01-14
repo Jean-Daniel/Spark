@@ -16,14 +16,14 @@
 #import <SparkKit/SparkLibrarySynchronizer.h>
 
 static
-void SparkDaemonCheckTrigger(SparkTrigger *trigger) {
+void SparkDaemonCheckTrigger(SparkLibrary *library, SparkTrigger *trigger) {
   if (trigger) {
     if ([trigger isRegistred]) {
-      if (![SparkSharedManager() containsActiveEntryForTrigger:[trigger uid]]) {
+      if (![[library entryManager] containsActiveEntryForTrigger:[trigger uid]]) {
         [trigger setRegistred:NO];
       }
     } else {
-      if ([SparkSharedManager() containsActiveEntryForTrigger:[trigger uid]]) {
+      if ([[library entryManager] containsActiveEntryForTrigger:[trigger uid]]) {
         [trigger setRegistred:YES];
       }
     }
@@ -45,11 +45,11 @@ void SparkDaemonCheckTrigger(SparkTrigger *trigger) {
 
 - (id<SparkLibrary>)library {
   ShadowTrace();
-  if (!sd_library) {
-    sd_library = [[SparkSharedLibrary() distantLibrary] retain];
-    [sd_library setDelegate:self];
+  if (!sd_rlibrary) {
+    sd_rlibrary = [[sd_library distantLibrary] retain];
+    [sd_rlibrary setDelegate:self];
   }
-  return [sd_library distantLibrary];
+  return [sd_rlibrary distantLibrary];
 }
 
 #pragma mark Entries Management
@@ -57,30 +57,30 @@ void SparkDaemonCheckTrigger(SparkTrigger *trigger) {
   ShadowTrace();
   if ([self isEnabled]) {
     /* Trigger can have a new active action */
-    SparkDaemonCheckTrigger([anEntry trigger]);
+    SparkDaemonCheckTrigger([library library], [anEntry trigger]);
   }
 }
 - (void)distantLibrary:(SparkDistantLibrary *)library didRemoveEntry:(SparkEntry *)anEntry {
   ShadowTrace();
   if ([self isEnabled]) {
     /* If trigger was not removed, it can be invalid */
-    SparkDaemonCheckTrigger([anEntry trigger]);
+    SparkDaemonCheckTrigger([library library], [anEntry trigger]);
   }
 }
 - (void)distantLibrary:(SparkDistantLibrary *)library didChangeEntryStatus:(SparkEntry *)anEntry {
   ShadowTrace();
   if ([self isEnabled]) {
     /* Should check triggers */
-    SparkDaemonCheckTrigger([anEntry trigger]);
+    SparkDaemonCheckTrigger([library library], [anEntry trigger]);
   }  
 }
 - (void)distantLibrary:(SparkDistantLibrary *)library didReplaceEntry:(SparkEntry *)anEntry withEntry:(SparkEntry *)otherEntry {
   ShadowTrace();
   if ([self isEnabled]) {
     /* Should check triggers */
-    SparkDaemonCheckTrigger([anEntry trigger]);
+    SparkDaemonCheckTrigger([library library], [anEntry trigger]);
     if (![[anEntry trigger] isEqualToLibraryObject:[otherEntry trigger]])
-      SparkDaemonCheckTrigger([otherEntry trigger]);
+      SparkDaemonCheckTrigger([library library], [otherEntry trigger]);
   }
 }
 

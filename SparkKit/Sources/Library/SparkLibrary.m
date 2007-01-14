@@ -74,14 +74,6 @@ const UInt32 kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_0;
   }
 }
 
-+ (SparkLibrary *)sharedLibrary {
-  static SparkLibrary *shared = nil;
-  if (!shared) {
-    shared = [[self alloc] initWithPath:SparkSharedLibraryPath()];
-  }
-  return shared;
-}
-
 #pragma mark -
 - (id)init {
   return [self initWithPath:nil];
@@ -165,16 +157,25 @@ const UInt32 kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_0;
 }
 
 - (void)setPath:(NSString *)file {
+  if (![sp_file isEqualToString:file])
+    sp_slFlags.loaded = 0;
   SKSetterCopy(sp_file, file);
 }
 
 - (BOOL)synchronize {
   if ([self path]) {
-    return [self writeToFile:[self path] atomically:YES];
+    if ([self writeToFile:[self path] atomically:YES]) {
+      sp_slFlags.loaded = 1;
+      return YES;
+    } 
   } else {
     [NSException raise:@"InvalidFileException" format:@"You Must set a file before synchronizing"];
-    return NO;
   }
+  return NO;
+}
+
+- (BOOL)isLoaded {
+  return sp_slFlags.loaded;
 }
 
 - (BOOL)readLibrary:(NSError **)error {
@@ -185,6 +186,7 @@ const UInt32 kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_0;
   } else if (error) {
     *error = [NSError errorWithDomain:NSOSStatusErrorDomain code:fnfErr userInfo:nil];
   }
+  SKSetFlag(sp_slFlags.loaded, result);
   return result;
 }
 
@@ -504,7 +506,7 @@ bail:
 
 #pragma mark -
 #pragma mark Utilities Functions
-NSString *SparkLibraryFolder() {
+NSString *SparkLibraryDefaultFolder() {
   NSString *folder = [SKFSFindFolder(kPreferencesFolderType, kUserDomain) stringByAppendingPathComponent:kSparkFolderName];
   if (folder && ![[NSFileManager defaultManager] fileExistsAtPath:folder]) {
     [[NSFileManager defaultManager] createDirectoryAtPath:folder attributes:nil];
@@ -512,28 +514,33 @@ NSString *SparkLibraryFolder() {
   return folder;
 }
 
-SparkLibrary *SparkSharedLibrary() {
-  return [SparkLibrary sharedLibrary];
+SK_INLINE 
+NSString *SparkDefaultLibraryPath(void) {
+  return [SparkLibraryDefaultFolder() stringByAppendingPathComponent:kSparkLibraryDefaultFileName];
 }
 
-SparkEntryManager *SparkSharedManager() {
-  return [[SparkLibrary sharedLibrary] entryManager];
-}
-
-SparkObjectSet *SparkSharedListSet() {
-  return [[SparkLibrary sharedLibrary] listSet];
-}
-
-SparkObjectSet *SparkSharedActionSet() {
-  return [[SparkLibrary sharedLibrary] actionSet];
-}
-
-SparkObjectSet *SparkSharedTriggerSet() {
-  return [[SparkLibrary sharedLibrary] triggerSet];
-}
-
-SparkObjectSet *SparkSharedApplicationSet() {
-  return [[SparkLibrary sharedLibrary] applicationSet];
+SparkLibrary *SparkActiveLibrary() {
+  static SparkLibrary *active = nil;
+  if (!active) {
+    /* Get default library path */
+    NSString *path = SparkDefaultLibraryPath();
+    /* Create library */
+    active = [[SparkLibrary alloc] initWithPath:path];
+    /* If library does not exist, check for previous version library */
+    if (![[NSFileManager defaultManager] fileExistsAtPath:path]) {
+      NSString *old = [SparkLibraryDefaultFolder() stringByAppendingPathComponent:@"SparkLibrary.splib"];
+      /* If old library exists, load it, and resave it into new format */
+      if ([[NSFileManager defaultManager] fileExistsAtPath:old]) {
+        [active setPath:old];
+        [active readLibrary:nil];
+        [active setPath:path];
+      }
+      [active synchronize];
+    } else if (![active readLibrary:nil]) {
+      [NSException raise:NSInternalInconsistencyException format:@"An error prevent default library loading"];
+    }
+  }
+  return active;
 }
 
 #pragma mark -

@@ -13,17 +13,24 @@
 @class SparkEntry;
 @interface SEEntriesManager : NSObject {
   @private
+  SparkLibrary *se_library;
+  
   SEEntryEditor *se_editor;
   SparkApplication *se_app;
   SESparkEntrySet *se_globals;
   SESparkEntrySet *se_snapshot;
   SESparkEntrySet *se_overwrites;
 }
+
+- (id)initWithLibrary:(SparkLibrary *)aLibrary;
+
 /* Flush cache and reload */
 - (void)reload;
 
 /* reload without flushing cache */
 - (void)refresh;
+
+- (SparkLibrary *)library;
 
 /* All globals entries */
 - (SESparkEntrySet *)globals;
@@ -55,9 +62,3 @@ SK_PRIVATE
 NSString * const SEEntriesManagerDidUpdateEntryNotification;
 SK_PRIVATE
 NSString * const SEEntriesManagerDidCreateWeakEntryNotification;
-
-@interface SEEntriesManager (ShadowSingleton)
-
-+ (SEEntriesManager *)sharedManager;
-
-@end

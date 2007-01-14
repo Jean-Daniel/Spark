@@ -75,7 +75,6 @@ void __SetSparkKitSingleKeyMode(int mode) {
 - (id)init {
   if (self = [super init]) {
     se_login = __SEPreferencesLoginItemStatus();
-    se_counts = NSCreateMapTable(NSObjectMapKeyCallBacks, NSObjectMapValueCallBacks, 0);
     se_status = NSCreateMapTable(NSObjectMapKeyCallBacks, NSIntMapValueCallBacks, 0);
     se_plugins = [[NSMutableArray alloc] init];
   }
@@ -84,21 +83,8 @@ void __SetSparkKitSingleKeyMode(int mode) {
 
 - (void)dealloc {
   [se_plugins release];
-  if (se_counts) NSFreeMapTable(se_counts);
   if (se_status) NSFreeMapTable(se_status);
   [super dealloc];
-}
-
-- (NSString *)actionCountForPlugin:(SparkPlugIn *)plugin {
-  unsigned long count = 0;
-  SparkAction *action;
-  Class cls = [plugin actionClass];
-  NSEnumerator *actions = [SparkSharedActionSet() objectEnumerator];
-  while (action = [actions nextObject]) {
-    if ([action isKindOfClass:cls])
-      count++;
-  }
-  return [NSString stringWithFormat:count > 1 ? @"%lu actions" : @"%lu action", count];
 }
 
 - (void)awakeFromNib {
@@ -139,8 +125,6 @@ void __SetSparkKitSingleKeyMode(int mode) {
     /* Save status */
     long status = [plugin isEnabled];
     NSMapInsert(se_status, plugin, (void *)status);
-    /* Cache action count */
-    NSMapInsert(se_counts, plugin, [self actionCountForPlugin:plugin]);
   }
   NSDictionary *item = [NSDictionary dictionaryWithObjectsAndKeys:
     @"Built-in", @"name",
@@ -242,8 +226,6 @@ void __SetSparkKitSingleKeyMode(int mode) {
   if ([item isKindOfClass:[SparkPlugIn class]]) {
     if ([[tableColumn identifier] isEqualToString:@"__item__"])
       return item;
-    else if ([[tableColumn identifier] isEqualToString:@"count"])
-      return NSMapGet(se_counts, item);
     else if ([[tableColumn identifier] isEqualToString:@"enabled"])
       return SKBool(NSMapGet(se_status, item) != 0); 
     else

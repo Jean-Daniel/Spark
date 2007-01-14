@@ -31,6 +31,7 @@
 - (id)delegate;
 - (void)setDelegate:(id)delegate;
 
+- (SparkLibrary *)library;
 - (id<SparkLibrary>)distantLibrary;
 
 @end

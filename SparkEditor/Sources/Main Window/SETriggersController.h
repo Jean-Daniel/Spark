@@ -8,16 +8,18 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class SKTableView, SEEntryEditor;
-@class SparkList, SparkLibrary, SparkApplication, SESparkEntrySet;
+@class SKTableView;
+@class SparkList, SparkLibrary, SELibraryWindow;
 @interface SETriggersController : NSObject {
-  IBOutlet SKTableView *table;
-  IBOutlet NSSearchField *ibSearch;
+  IBOutlet SKTableView *uiTable;
+  IBOutlet NSSearchField *uiSearch;
+  IBOutlet SELibraryWindow *ibWindow;
   @private
     UInt32 se_filter;
   
   /* Selected list */
   SparkList *se_list; 
+  SparkLibrary *se_library;
   /* Internal storage */
   NSMutableArray *se_entries;
   NSMutableArray *se_snapshot;

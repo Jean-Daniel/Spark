@@ -22,11 +22,6 @@ NSString * const SparkListDidChangeNotification;
   
   id sp_ctxt;
   SparkListFilter sp_filter;
-  
-  struct _sp_slFlags {
-    unsigned int builtin:1;
-    unsigned int reserved:31;
-  } sp_slFlags;
 }
 
 - (id)initWithObjectSet:(SparkObjectSet *)library;

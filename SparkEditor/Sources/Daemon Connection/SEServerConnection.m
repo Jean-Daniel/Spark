@@ -45,7 +45,7 @@
                selector:@selector(serverStatusDidChange:)
                    name:SEServerStatusDidChangeNotification
                  object:nil];
-    se_sync = [[SparkLibrarySynchronizer alloc] initWithLibrary:SparkSharedLibrary()];
+    se_sync = [[SparkLibrarySynchronizer alloc] initWithLibrary:SparkActiveLibrary()];
   }
   return self;
 }
@@ -186,7 +186,7 @@ NSString *SESparkDaemonPath() {
 
 BOOL SELaunchSparkDaemon() {
   [SEPreferences synchronize];
-  [SparkSharedLibrary() synchronize];
+  [SparkActiveLibrary() synchronize];
   NSString *path = SESparkDaemonPath();
   if (path) {
     if (noErr != SKLSLaunchApplicationAtPath((CFStringRef)path, kCFURLPOSIXPathStyle, kLSLaunchDefaults | kLSLaunchDontSwitch)) {

@@ -19,12 +19,7 @@ SPARK_EXPORT
 NSString * const kSparkLibraryDefaultFileName;
 
 SPARK_EXPORT
-NSString *SparkLibraryFolder(void);
-
-SK_INLINE 
-NSString *SparkSharedLibraryPath(void) {
-  return [SparkLibraryFolder() stringByAppendingPathComponent:kSparkLibraryDefaultFileName];
-}
+NSString *SparkLibraryDefaultFolder(void);
 
 enum {
   kSparkLibraryReserved = 0xff
@@ -34,18 +29,9 @@ enum {
 @class SparkLibrary, SparkObjectSet, SparkEntryManager;
 
 SPARK_EXPORT
-SparkLibrary *SparkSharedLibrary(void);
+SparkLibrary *SparkActiveLibrary(void);
 SPARK_EXPORT
-SparkEntryManager *SparkSharedManager(void);
-
-SPARK_EXPORT
-SparkObjectSet *SparkSharedListSet(void);
-SPARK_EXPORT
-SparkObjectSet *SparkSharedActionSet(void);
-SPARK_EXPORT
-SparkObjectSet *SparkSharedTriggerSet(void);
-SPARK_EXPORT
-SparkObjectSet *SparkSharedApplicationSet(void);
+BOOL SparkSetActiveLibrary(SparkLibrary *library);
 
 #pragma mark -
 @class SparkApplication, SparkEntryManager;
@@ -57,11 +43,14 @@ SparkObjectSet *SparkSharedApplicationSet(void);
   SparkObjectSet *sp_objects[4];
   SparkEntryManager *sp_relations;
   
+  struct _sp_slFlags {
+    unsigned int loaded:1;
+    unsigned int reserved:31;
+  } sp_slFlags;
+  
   /* Model synchronization */
   NSNotificationCenter *sp_center;
 }
-
-+ (SparkLibrary *)sharedLibrary;
 
 - (id)initWithPath:(NSString *)path;
 
@@ -73,8 +62,10 @@ SparkObjectSet *SparkSharedApplicationSet(void);
 - (NSUndoManager *)undoManager;
 - (NSNotificationCenter *)notificationCenter;
 
+- (BOOL)isLoaded;
 - (BOOL)readLibrary:(NSError **)error;
 
+- (SparkObjectSet *)listSet;
 - (SparkObjectSet *)actionSet;
 - (SparkObjectSet *)triggerSet;
 - (SparkObjectSet *)applicationSet;

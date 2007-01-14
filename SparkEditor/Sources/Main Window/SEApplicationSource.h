@@ -8,11 +8,12 @@
 
 #import <ShadowKit/SKTableDataSource.h>
 
+@class SELibraryWindow, SparkLibrary;
 @interface SEApplicationSource : SKTableDataSource {
-  IBOutlet NSWindow *libraryWindow;
+  IBOutlet SELibraryWindow *ibWindow;
   @private
   NSMutableSet *se_path;
-  NSMutableSet *se_cache;
+  SparkLibrary *se_library;
 }
 
 - (IBAction)deleteSelection:(id)sender;

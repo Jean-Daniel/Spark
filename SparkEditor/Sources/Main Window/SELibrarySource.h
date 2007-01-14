@@ -8,10 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
-@class SETableView, SESparkEntrySet;
-@class SparkList, SparkApplication, SparkPlugIn;
+@class SparkList, SparkPlugIn;
+@class SETableView, SELibraryWindow;
 @interface SELibrarySource : NSObject {
-  IBOutlet SETableView *table;
+  IBOutlet SETableView *uiTable;
+  IBOutlet SELibraryWindow *ibWindow;
   @private
   id se_delegate;
   NSMapTable *se_plugins;
