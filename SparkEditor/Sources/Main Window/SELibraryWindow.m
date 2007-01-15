@@ -10,31 +10,17 @@
 
 #import "Spark.h"
 #import "SETableView.h"
-#import "SEHeaderCell.h"
-#import "SEEntryEditor.h"
-#import "SEScriptHandler.h"
-#import "SESparkEntrySet.h"
 #import "SELibrarySource.h"
-#import "SEEntriesManager.h"
+#import "SELibraryDocument.h"
+
 #import "SEApplicationView.h"
-#import "SEApplicationSource.h"
 #import "SETriggersController.h"
 
 #import "SEServerConnection.h"
 
-#import <ShadowKit/SKTableView.h>
-#import <ShadowKit/SKFunctions.h>
-#import <ShadowKit/SKTableDataSource.h>
-#import <ShadowKit/SKImageAndTextCell.h>
-#import <ShadowKit/SKAppKitExtensions.h>
-
 #import <SparkKit/SparkList.h>
 #import <SparkKit/SparkPlugIn.h>
-
-#import <SparkKit/SparkAction.h>
 #import <SparkKit/SparkLibrary.h>
-#import <SparkKit/SparkApplication.h>
-#import <SparkKit/SparkEntryManager.h>
 
 @implementation SELibraryWindow
 
@@ -56,21 +42,6 @@
 - (SparkLibrary *)library {
   return [[self document] library];
 }
-- (SEEntriesManager *)manager {
-  return [[self document] manager];
-}
-
-- (void)didSelectApplication:(int)anIndex {
-  SparkApplication *application = nil;
-  NSArray *objects = [appSource arrangedObjects];
-  if (anIndex >= 0 && (unsigned)anIndex < [objects count]) {
-    application = [objects objectAtIndex:anIndex];
-    [appField setSparkApplication:application];
-    
-    // Shared Manager set application
-    [[self manager] setApplication:application];
-  }
-}
 
 - (void)windowDidLoad {
   [[self window] center];
@@ -79,29 +50,31 @@
   [[self window] display];
 }
 
-- (void)awakeFromNib {
-  [appTable registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, nil]];
- 
-  /* Configure Application Header Cell */
-  SEHeaderCell *header = [[SEHeaderCell alloc] initTextCell:@"Front Application"];
-  [header setAlignment:NSCenterTextAlignment];
-  [header setFont:[NSFont systemFontOfSize:11]];
-  [[[appTable tableColumns] objectAtIndex:0] setHeaderCell:header];
-  [header release];
-  [appTable setCornerView:[[[SEHeaderCellCorner alloc] init] autorelease]];
+- (void)setDocument:(NSDocument *)aDocument {
+  if ([super document]) {
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:SEApplicationDidChangeNotification
+                                                  object:[self document]];
+  }
+  [super setDocument:aDocument];
+  if (aDocument) {
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(applicationDidChange:)
+                                                 name:SEApplicationDidChangeNotification
+                                               object:[self document]];
+  }
+}
 
-  /* Configure list double action */
-  [libraryTable setTarget:self];
-  [libraryTable setDoubleAction:@selector(libraryDoubleAction:)];
-  
+- (void)awakeFromNib {
   /* Configure application field */
   [appField setTarget:appDrawer];
   [appField setAction:@selector(toggle:)];
   
-  /* Refresh Tables */
-  [self didSelectApplication:0];
-  [triggers loadTriggers];
+  /* Configure list double action */
+  [libraryTable setTarget:self];
+  [libraryTable setDoubleAction:@selector(libraryDoubleAction:)];
   
+  /* Update status */
   [self performSelector:@selector(didChangeStatus:) withObject:nil];
   
   /* Configure New Plugin Menu */
@@ -135,7 +108,8 @@
       SparkPlugIn *plugin = [listSource pluginForList:object];
       if (plugin) {
         // Shared manager -> create entry:type
-        [[self manager] createEntry:plugin modalForWindow:[self window]];
+        DLog(@"Create entry: %@", plugin);
+        //[[self manager] createEntry:plugin modalForWindow:[self window]];
       }
     }
   }
@@ -145,41 +119,18 @@
   if ([sender respondsToSelector:@selector(representedObject)]) {
     id object = [sender representedObject];
     if ([object isKindOfClass:[SparkPlugIn class]])
-      [[self manager] createEntry:[sender representedObject] modalForWindow:[self window]];
+      DLog(@"Create entry: %@", [sender representedObject]);
+      //[[self manager] createEntry:[sender representedObject] modalForWindow:[self window]];
   }
+}
+/* Notification handler */
+- (void)applicationDidChange:(NSNotification *)aNotification {
+  [appField setSparkApplication:[[aNotification object] application]];
 }
 
 /* Selected list did change */
 - (void)source:(SELibrarySource *)aSource didChangeSelection:(SparkList *)aList {
   [triggers setList:aList];
-}
-
-/* Selected application change */
-- (void)tableViewSelectionDidChange:(NSNotification *)aNotification {
-  [self didSelectApplication:[[aNotification object] selectedRow]];
-}
-
-- (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
-  SparkApplication *item = [appSource objectAtIndex:rowIndex];
-  if ([item uid] && [[[self library] entryManager] containsEntryForApplication:[item uid]]) {
-    [aCell setFont:[NSFont boldSystemFontOfSize:[NSFont smallSystemFontSize]]];
-  } else {
-    [aCell setFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]];
-  }
-}
-
-- (void)deleteSelectionInTableView:(NSTableView *)aTableView {
-  SparkApplication *application = nil;
-  int idx = [aTableView selectedRow];
-  NSArray *objects = [appSource arrangedObjects];
-  if (idx >= 0 && (unsigned)idx < [objects count]) {
-    application = [objects objectAtIndex:idx];
-  }
-  [appSource deleteSelection:nil];
-  
-  if (application && idx == [aTableView selectedRow] && [objects objectAtIndex:idx] != application) {
-    [self didSelectApplication:idx];
-  }
 }
 
 /* Enable menu item */

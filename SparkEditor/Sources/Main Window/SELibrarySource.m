@@ -12,12 +12,14 @@
 #import "SEHeaderCell.h"
 #import "SESparkEntrySet.h"
 #import "SELibraryWindow.h"
-#import "SEEntriesManager.h"
+#import "SELibraryDocument.h"
 
 #import <SparkKit/SparkList.h>
-#import <SparkKit/SparkPlugIn.h>
 #import <SparkKit/SparkTrigger.h>
 #import <SparkKit/SparkLibrary.h>
+#import <SparkKit/SparkEntryManager.h>
+
+#import <SparkKit/SparkPlugIn.h>
 #import <SparkKit/SparkActionLoader.h>
 
 #import <ShadowKit/SKExtensions.h>
@@ -64,24 +66,25 @@ BOOL SELibraryFilter(SparkObject *object, id ctxt) {
 }
 
 static 
-BOOL SEOverwriteListFilter(SparkObject *object, id ctxt) {
-  SESparkEntrySet *triggers = [ctxt overwrites];
-  return [triggers containsTrigger:(id)object];
+BOOL SEOverwriteListFilter(SparkObject *object, SELibraryDocument *ctxt) {
+  SparkApplication *app = [ctxt application];
+  SparkEntryManager *manager = [[ctxt library] entryManager];
+  return [manager containsEntryForTrigger:[object uid] application:[app uid]];
 }
 
 @interface _SEPluginListContext : NSObject {
   @public
   Class kind;
-  SEEntriesManager *manager;
+  SELibraryDocument *document;
 }
-+ (id)listContextWithClass:(Class)cls manager:(SEEntriesManager *)mngr;
++ (id)listContextWithClass:(Class)cls document:(SELibraryDocument *)doc;
 @end
 
 @implementation _SEPluginListContext
-+ (id)listContextWithClass:(Class)cls manager:(SEEntriesManager *)mngr {
++ (id)listContextWithClass:(Class)cls document:(SELibraryDocument *)doc {
   _SEPluginListContext *ctxt = [[self alloc] init];
   ctxt->kind = cls;
-  ctxt->manager = mngr;
+  ctxt->document = doc;
   return [ctxt autorelease];
 }
 @end
@@ -90,16 +93,24 @@ static
 BOOL SEPluginListFilter(SparkObject *object, _SEPluginListContext *ctxt) {
   Class kind = ctxt ? ctxt->kind : Nil;
   if (kind) {
-    SESparkEntrySet *triggers = [ctxt->manager snapshot];
-    SparkAction *action = [triggers actionForTrigger:(id)object];
+    SparkApplication *app = [ctxt->document application];
+    SparkEntryManager *manager = [[ctxt->document library] entryManager];
+    /* Get action for selected application */
+    SparkAction *action = [manager actionForTrigger:[object uid] application:[app uid] isActive:NULL];
+    /* If action not found, search default action */
+    if (!action && [app uid] != 0)
+      action = [manager actionForTrigger:[object uid] application:0 isActive:NULL];
     if (action)
       return [action isKindOfClass:kind];
   }
   return NO;
 }
 
+#pragma mark -
+#pragma mark Implementation
 @implementation SELibrarySource
 
+/* Create and update plugins list */
 - (void)buildPluginLists {
   NSArray *plugins = [[SparkActionLoader sharedLoader] plugins];
   if (se_plugins) {
@@ -119,7 +130,7 @@ BOOL SEPluginListFilter(SparkObject *object, _SEPluginListContext *ctxt) {
       [list setUID:uid++]; // UID MUST BE set before insertion, since -hash use it.
       NSMapInsert(se_plugins, list, plugin);
       [list setListFilter:SEPluginListFilter context:[_SEPluginListContext listContextWithClass:[plugin actionClass]
-                                                                                        manager:[ibWindow manager]]];
+                                                                                       document:[ibWindow document]]];
       [se_content addObject:list];
       [list release];
     }
@@ -148,27 +159,11 @@ BOOL SEPluginListFilter(SparkObject *object, _SEPluginListContext *ctxt) {
   }
 }
 
+#pragma mark -
 - (id)init {
   if (self = [super init]) {
     se_content = [[NSMutableArray alloc] init];
      
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didReloadEntries:)
-                                                 name:SEEntriesManagerDidReloadNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(applicationDidChange:)
-                                                 name:SEApplicationDidChangeNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didCreateEntry:)
-                                                 name:SEEntriesManagerDidCreateEntryNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didCreateWeakEntry:)
-                                                 name:SEEntriesManagerDidCreateWeakEntryNotification
-                                               object:nil];
-    
     /* Dynamic plugin */
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didChangePluginList:)
@@ -233,7 +228,7 @@ BOOL SEPluginListFilter(SparkObject *object, _SEPluginListContext *ctxt) {
   
   /* Overwrite list */
   se_overwrite = [[SparkList alloc] initWithName:@"Overwrite" icon:[NSImage imageNamed:@"application"]];
-  [se_overwrite setListFilter:SEOverwriteListFilter context:[ibWindow manager]];
+  [se_overwrite setListFilter:SEOverwriteListFilter context:[ibWindow document]];
   [se_overwrite setObjectSet:triggers];
   [se_overwrite setUID:9];
   
@@ -249,11 +244,31 @@ BOOL SEPluginListFilter(SparkObject *object, _SEPluginListContext *ctxt) {
   
   [self rearrangeObjects];
   
+  /* Register for notifications */
+  //    [[NSNotificationCenter defaultCenter] addObserver:self
+  //                                             selector:@selector(didReloadEntries:)
+  //                                                 name:SEEntriesManagerDidReloadNotification
+  //                                               object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(applicationDidChange:)
+                                               name:SEApplicationDidChangeNotification
+                                             object:[ibWindow document]];
+  //    [[NSNotificationCenter defaultCenter] addObserver:self
+  //                                             selector:@selector(didCreateEntry:)
+  //                                                 name:SEEntriesManagerDidCreateEntryNotification
+  //                                               object:nil];
+  //    [[NSNotificationCenter defaultCenter] addObserver:self
+  //                                             selector:@selector(didCreateWeakEntry:)
+  //                                                 name:SEEntriesManagerDidCreateWeakEntryNotification
+  //                                               object:nil];
+  
+  /* Tell delegate to reload data */
   if (se_delegate)
     [[NSNotificationCenter defaultCenter] postNotificationName:NSTableViewSelectionDidChangeNotification
                                                         object:uiTable];
 }
 
+#pragma mark -
 - (id)delegate {
   return se_delegate;
 }
@@ -270,6 +285,14 @@ BOOL SEPluginListFilter(SparkObject *object, _SEPluginListContext *ctxt) {
   return [se_content objectAtIndex:idx];
 }
 
+- (void)addObject:(SparkObject *)object {
+  [se_content addObject:object];
+}
+
+- (void)addObjects:(NSArray *)objects {
+  [se_content addObjectsFromArray:objects];
+}
+
 - (SparkPlugIn *)pluginForList:(SparkList *)aList {
   return NSMapGet(se_plugins, aList);
 }
@@ -282,14 +305,7 @@ BOOL SEPluginListFilter(SparkObject *object, _SEPluginListContext *ctxt) {
   return nil;
 }
 
-- (void)addObject:(SparkObject *)object {
-  [se_content addObject:object];
-}
-
-- (void)addObjects:(NSArray *)objects {
-  [se_content addObjectsFromArray:objects];
-}
-
+#pragma mark Data Source
 - (int)numberOfRowsInTableView:(NSTableView *)tableView {
   return [se_content count];
 }
@@ -310,6 +326,7 @@ BOOL SEPluginListFilter(SparkObject *object, _SEPluginListContext *ctxt) {
   }
 }
 
+/* Allow editing if not a system list (uid > kSparkLibraryReserved) */
 - (BOOL)tableView:(NSTableView *)aTableView shouldEditTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
   if (rowIndex >= 0) {
     SparkObject *item = [se_content objectAtIndex:rowIndex];
@@ -318,6 +335,7 @@ BOOL SEPluginListFilter(SparkObject *object, _SEPluginListContext *ctxt) {
   return NO;
 }
 
+/* Allow drop only in editable list (uid > kSparkLibraryReserved && not dynamic) */
 - (NSDragOperation)tableView:(NSTableView *)aTableView validateDrop:(id <NSDraggingInfo>)info proposedRow:(int)row proposedDropOperation:(NSTableViewDropOperation)operation {
   if (NSTableViewDropOn == operation) {
     SparkList *list = [se_content objectAtIndex:row];
@@ -327,6 +345,7 @@ BOOL SEPluginListFilter(SparkObject *object, _SEPluginListContext *ctxt) {
   return NSDragOperationNone;
 }
 
+/* Add entries trigger into the target list */
 - (BOOL)tableView:(NSTableView *)aTableView acceptDrop:(id <NSDraggingInfo>)info row:(int)row dropOperation:(NSTableViewDropOperation)operation {
   if (NSTableViewDropOn == operation) {
     SparkList *list = [se_content objectAtIndex:row];
@@ -344,6 +363,7 @@ BOOL SEPluginListFilter(SparkObject *object, _SEPluginListContext *ctxt) {
   return NO;
 }
 
+#pragma mark Actions
 - (IBAction)newList:(id)sender {
   SparkList *list = [[SparkList alloc] initWithName:@"New List"];
   [[[ibWindow library] listSet] addObject:list];
@@ -357,6 +377,7 @@ BOOL SEPluginListFilter(SparkObject *object, _SEPluginListContext *ctxt) {
   [uiTable editColumn:0 row:idx withEvent:nil select:YES];
 }
 
+#pragma mark Delegate
 - (void)deleteSelectionInTableView:(NSTableView *)aTableView {
   int idx = [aTableView selectedRow];
   if (idx >= 0) {
@@ -402,11 +423,15 @@ BOOL SEPluginListFilter(SparkObject *object, _SEPluginListContext *ctxt) {
   return rowIndex >= 0 && (unsigned)rowIndex < [se_content count] ? ![[[se_content objectAtIndex:rowIndex] name] isEqualToString:SETableSeparator] : YES;
 }
 
+#pragma mark Notifications
+/* This method insert, update and remove the 'current application' list */
 - (void)applicationDidChange:(NSNotification *)aNotification {
-  SEEntriesManager *manager = [aNotification object];
-  if ([[manager application] uid]) {
-    [se_overwrite setName:[[manager application] name]];
-    [se_overwrite setIcon:[[manager application] icon]];
+  SELibraryDocument *document = [aNotification object];
+  /* If should add list */
+  if ([[document application] uid]) {
+    [se_overwrite setName:[[document application] name]];
+    [se_overwrite setIcon:[[document application] icon]];
+    /* If list is not in data source, add it and adjust selection */
     if (![se_content containsObjectIdenticalTo:se_overwrite]) {
       int row = [uiTable selectedRow];
       [se_content insertObject:se_overwrite atIndex:1];
@@ -416,14 +441,17 @@ BOOL SEPluginListFilter(SparkObject *object, _SEPluginListContext *ctxt) {
         [uiTable selectRow:row + 1 byExtendingSelection:NO];
       }
     } else {
+      /* List already in data source, refresh the list row */
       int idx = [se_content indexOfObjectIdenticalTo:se_overwrite];
       [uiTable setNeedsDisplayInRect:[uiTable frameOfCellAtColumn:0 row:idx]];
     }
   } else {
     int idx = [se_content indexOfObjectIdenticalTo:se_overwrite];
+    /* List should be removed */
     if (NSNotFound != idx) {
       int row = [uiTable selectedRow];
       [se_content removeObjectAtIndex:idx];
+      /* Adjust selection */
       if (row >= idx && row != 0) {
         [uiTable selectRow:row - 1 byExtendingSelection:NO];
       }

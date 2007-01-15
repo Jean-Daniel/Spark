@@ -17,7 +17,6 @@
 #import <SparkKit/SparkApplication.h>
 #import <SparkKit/SparkEntryManager.h>
 
-NSString * const SEApplicationDidChangeNotification = @"SEApplicationDidChange";
 NSString * const SEEntriesManagerDidReloadNotification = @"SEEntriesManagerDidReload";
 NSString * const SEEntriesManagerDidCreateEntryNotification = @"SEEntriesManagerDidCreateEntry";
 NSString * const SEEntriesManagerDidUpdateEntryNotification = @"SEEntriesManagerDidUpdateEntry";
@@ -111,8 +110,6 @@ NSString * const SEEntriesManagerDidCreateWeakEntryNotification = @"SEEntriesMan
     
     [se_app release];
     se_app = [anApplication retain];
-    [[NSNotificationCenter defaultCenter] postNotificationName:SEApplicationDidChangeNotification
-                                                        object:self];
     /* Avoid useless reload */
     if (reload)
       [self refresh];

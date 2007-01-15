@@ -90,17 +90,17 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
       /* Add */
       [[[sp_set library] notificationCenter] addObserver:self
                                                 selector:@selector(didAddObject:)
-                                                    name:kSparkLibraryDidAddObjectNotification
+                                                    name:SparkObjectSetDidAddObjectNotification
                                                   object:sp_set];
       /* Remove */
       [[[sp_set library] notificationCenter] addObserver:self
                                                 selector:@selector(didRemoveObject:)
-                                                    name:kSparkLibraryDidRemoveObjectNotification
+                                                    name:SparkObjectSetDidRemoveObjectNotification
                                                   object:sp_set];
       /* Update */
       [[[sp_set library] notificationCenter] addObserver:self
                                                 selector:@selector(didUpdateObject:)
-                                                    name:kSparkLibraryDidUpdateObjectNotification
+                                                    name:SparkObjectSetDidUpdateObjectNotification
                                                   object:sp_set];
     }
     /* Refresh contents if smart list */

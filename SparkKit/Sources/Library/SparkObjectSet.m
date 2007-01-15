@@ -21,14 +21,14 @@
 NSString * const kSparkNotificationObject = @"SparkNotificationObject";
 NSString * const kSparkNotificationUpdatedObject = @"SparkUpdatedObject";
 
-NSString* const kSparkLibraryWillAddObjectNotification = @"SparkLibraryWillAddObject";
-NSString* const kSparkLibraryDidAddObjectNotification = @"SparkLibraryDidAddObject";
+NSString* const SparkObjectSetWillAddObjectNotification = @"SparkObjectSetWillAddObject";
+NSString* const SparkObjectSetDidAddObjectNotification = @"SparkObjectSetDidAddObject";
 
-NSString* const kSparkLibraryWillUpdateObjectNotification = @"kSparkLibraryWillUpdateObject";
-NSString* const kSparkLibraryDidUpdateObjectNotification = @"SparkLibraryDidUpdateObject";
+NSString* const SparkObjectSetWillUpdateObjectNotification = @"SparkObjectSetWillUpdateObject";
+NSString* const SparkObjectSetDidUpdateObjectNotification = @"SparkObjectSetDidUpdateObject";
 
-NSString* const kSparkLibraryWillRemoveObjectNotification = @"kSparkLibraryWillRemoveObject";
-NSString* const kSparkLibraryDidRemoveObjectNotification = @"SparkLibraryDidRemoveObject";
+NSString* const SparkObjectSetWillRemoveObjectNotification = @"SparkObjectSetWillRemoveObject";
+NSString* const SparkObjectSetDidRemoveObjectNotification = @"SparkObjectSetDidRemoveObject";
 
 #define kSparkLibraryVersion2_0		(UInt32)0x200
 static
@@ -166,10 +166,10 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
       [[self undoManager] registerUndoWithTarget:self selector:@selector(removeObject:) object:object];
     } 
       // Will add object
-      [self postNotification:kSparkLibraryWillAddObjectNotification object:object];
+      [self postNotification:SparkObjectSetWillAddObjectNotification object:object];
       [self sp_addObject:object];
       // Did add object
-      [self postNotification:kSparkLibraryDidAddObjectNotification object:object];
+      [self postNotification:SparkObjectSetDidAddObjectNotification object:object];
       return YES;
     }
   } @catch (id exception) {
@@ -196,13 +196,13 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
     [[self undoManager] registerUndoWithTarget:self selector:@selector(updateObject:) object:old];
     
     // Will update
-    [self postNotification:kSparkLibraryWillUpdateObjectNotification object:old];
+    [self postNotification:SparkObjectSetWillUpdateObjectNotification object:old];
     // Update
     [old setLibrary:nil];
     NSMapInsert(sp_objects, (void *)[object uid], object);
     [object setLibrary:[self library]];
     // Did update
-    [[[self library] notificationCenter] postNotificationName:kSparkLibraryDidUpdateObjectNotification
+    [[[self library] notificationCenter] postNotificationName:SparkObjectSetDidUpdateObjectNotification
                                                        object:self
                                                      userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
                                                        object, kSparkNotificationObject,
@@ -220,12 +220,12 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
     
     [object retain];
     // Will remove
-    [self postNotification:kSparkLibraryWillRemoveObjectNotification object:object];
+    [self postNotification:SparkObjectSetWillRemoveObjectNotification object:object];
     // Remove
     [object setLibrary:nil];
     NSMapRemove(sp_objects, (void *)[object uid]);
     // Did remove
-    [self postNotification:kSparkLibraryDidRemoveObjectNotification object:object];
+    [self postNotification:SparkObjectSetDidRemoveObjectNotification object:object];
     [object release];
   }
 }

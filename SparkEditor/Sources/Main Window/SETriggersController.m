@@ -7,7 +7,6 @@
  */
 
 #import "SETriggersController.h"
-#import "SEEntriesManager.h"
 #import "SELibraryWindow.h"
 #import "SESparkEntrySet.h"
 #import "SEPreferences.h"
@@ -105,9 +104,6 @@ SETriggerStyle styles[6];
 - (SparkLibrary *)library {
   return se_library;
 }
-- (SEEntriesManager *)manager {
-  return [ibWindow manager];
-}
 
 - (void)awakeFromNib {
   [uiTable setTarget:self];
@@ -124,15 +120,15 @@ SETriggerStyle styles[6];
                                       selector:@selector(listDidChange:) 
                                           name:SparkListDidChangeNotification
                                         object:nil];
-  [[NSNotificationCenter defaultCenter] addObserver:self
-                                           selector:@selector(didUpdateEntry:) 
-                                               name:SEEntriesManagerDidUpdateEntryNotification
-                                             object:nil];
-  
-  [[NSNotificationCenter defaultCenter] addObserver:self
-                                           selector:@selector(managerDidReload:) 
-                                               name:SEEntriesManagerDidReloadNotification
-                                             object:nil];
+//  [[NSNotificationCenter defaultCenter] addObserver:self
+//                                           selector:@selector(didUpdateEntry:) 
+//                                               name:SEEntriesManagerDidUpdateEntryNotification
+//                                             object:nil];
+//  
+//  [[NSNotificationCenter defaultCenter] addObserver:self
+//                                           selector:@selector(managerDidReload:) 
+//                                               name:SEEntriesManagerDidReloadNotification
+//                                             object:nil];
 }
 
 - (NSView *)tableView {

@@ -8,9 +8,9 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class SparkLibrary, SEEntriesManager;
-@class SEApplicationView, SETableView, SKTableView;
-@class SELibrarySource, SEApplicationSource, SETriggersController;
+@class SparkLibrary;
+@class SEApplicationView, SETableView;
+@class SELibrarySource, SETriggersController;
 @interface SELibraryWindow : NSWindowController {
   IBOutlet NSButton *ibDaemon;
   IBOutlet NSTextField *ibStatus;
@@ -19,8 +19,6 @@
   
   /* Application */
   IBOutlet NSDrawer *appDrawer;
-  IBOutlet SKTableView *appTable;
-  IBOutlet SEApplicationSource *appSource;
   
   /* Library */
   IBOutlet SETableView *libraryTable;
@@ -31,7 +29,6 @@
 }
 
 - (SparkLibrary *)library;
-- (SEEntriesManager *)manager;
 
 @end
 

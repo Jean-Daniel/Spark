@@ -8,16 +8,23 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class SparkLibrary, SEEntriesManager;
+@class SparkLibrary, SparkApplication;
 @interface SELibraryDocument : NSDocument {
   @private
+  id se_manager; /* deprecated */
   SparkLibrary *se_library;
-  SEEntriesManager *se_manager;
+  SparkApplication *se_application;
 }
 
 - (SparkLibrary *)library;
 - (void)setLibrary:(SparkLibrary *)aLibrary;
 
-- (SEEntriesManager *)manager;
+- (id)manager;
+
+- (SparkApplication *)application;
+- (void)setApplication:(SparkApplication *)anApplication;
 
 @end
+
+SK_PRIVATE
+NSString * const SEApplicationDidChangeNotification;

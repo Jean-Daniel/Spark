@@ -8,7 +8,9 @@
 
 #import "SEApplicationSource.h"
 
+#import "SEHeaderCell.h"
 #import "SELibraryWindow.h"
+#import "SELibraryDocument.h"
 
 #import <ShadowKit/SKFSFunctions.h>
 #import <ShadowKit/SKLSFunctions.h>
@@ -65,16 +67,29 @@
 
 - (void)awakeFromNib {
   se_library = [[ibWindow library] retain];
+  
+  [uiTable registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, nil]];
+  
+  /* Configure Application Header Cell */
+  SEHeaderCell *header = [[SEHeaderCell alloc] initTextCell:@"Front Application"];
+  [header setAlignment:NSCenterTextAlignment];
+  [header setFont:[NSFont systemFontOfSize:11]];
+  [[[uiTable tableColumns] objectAtIndex:0] setHeaderCell:header];
+  [header release];
+  [uiTable setCornerView:[[[SEHeaderCellCorner alloc] init] autorelease]];
+  
   /* Load applications */
   [self reload];
   [self setSelectionIndex:0];
+  //[[ibWindow manager] setApplication:[self objectAtIndex:0]];
+  
   [[se_library notificationCenter] addObserver:self
                                       selector:@selector(didAddApplication:)
-                                          name:kSparkLibraryDidAddObjectNotification
+                                          name:SparkObjectSetDidAddObjectNotification
                                         object:[se_library applicationSet]];
   [[se_library notificationCenter] addObserver:self
                                       selector:@selector(didRemoveApplication:)
-                                          name:kSparkLibraryDidRemoveObjectNotification
+                                          name:SparkObjectSetDidRemoveObjectNotification
                                         object:[se_library applicationSet]];  
 }
 
@@ -148,6 +163,14 @@
   se_path = nil;
 }
 
+- (BOOL)panel:(id)sender shouldShowFilename:(NSString *)filename {
+  if ([[NSFileManager defaultManager] isAliasFileAtPath:filename]) {
+    filename = [[NSFileManager defaultManager] resolveAliasFileAtPath:filename isFolder:NULL];
+  }
+  return ![se_path containsObject:filename];
+}
+
+#pragma mark Misc
 - (IBAction)deleteSelection:(id)sender {
   if ([[ibWindow window] attachedSheet] == nil) { /* Ignore if modal sheet open on main window */
     unsigned idx = [self selectionIndex];
@@ -211,14 +234,47 @@
   return count > 0;
 }
 
-- (BOOL)panel:(id)sender shouldShowFilename:(NSString *)filename {
-  if ([[NSFileManager defaultManager] isAliasFileAtPath:filename]) {
-    filename = [[NSFileManager defaultManager] resolveAliasFileAtPath:filename isFolder:NULL];
+#pragma mark Delegate
+- (void)didSelectApplication:(int)anIndex {
+  SparkApplication *application = nil;
+  NSArray *objects = [self arrangedObjects];
+  if (anIndex >= 0 && (unsigned)anIndex < [objects count]) {
+    application = [objects objectAtIndex:anIndex];
+    // Set current application
+    [[ibWindow document] setApplication:application];
   }
-  return ![se_path containsObject:filename];
 }
 
+/* Selected application change */
+- (void)tableViewSelectionDidChange:(NSNotification *)aNotification {
+  [self didSelectApplication:[[aNotification object] selectedRow]];
+}
 
+- (void)deleteSelectionInTableView:(NSTableView *)aTableView {
+  SparkApplication *application = nil;
+  int idx = [aTableView selectedRow];
+  NSArray *objects = [self arrangedObjects];
+  if (idx >= 0 && (unsigned)idx < [objects count]) {
+    application = [objects objectAtIndex:idx];
+  }
+  [self deleteSelection:nil];
+  
+  if (application && idx == [aTableView selectedRow] && [objects objectAtIndex:idx] != application) {
+    [self didSelectApplication:idx];
+  }
+}
+
+/* Display bold if has some custom actions */
+- (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
+  SparkApplication *item = [self objectAtIndex:rowIndex];
+  if ([item uid] && [[[ibWindow library] entryManager] containsEntryForApplication:[item uid]]) {
+    [aCell setFont:[NSFont boldSystemFontOfSize:[NSFont smallSystemFontSize]]];
+  } else {
+    [aCell setFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]];
+  }
+}
+
+#pragma mark Notifications
 - (void)didAddApplication:(NSNotification *)aNotification {
   [self addObject:SparkNotificationObject(aNotification)];
   [self rearrangeObjects];

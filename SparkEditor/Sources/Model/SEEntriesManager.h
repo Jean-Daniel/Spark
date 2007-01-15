@@ -52,8 +52,6 @@
 @end
 
 SK_PRIVATE
-NSString * const SEApplicationDidChangeNotification;
-SK_PRIVATE
 NSString * const SEEntriesManagerDidReloadNotification;
 SK_PRIVATE
 NSString * const SEEntriesManagerDidCreateEntryNotification;

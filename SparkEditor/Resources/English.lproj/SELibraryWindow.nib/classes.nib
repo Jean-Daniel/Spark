@@ -7,7 +7,7 @@
             ACTIONS = {deleteSelection = id; newApplication = id; }; 
             CLASS = SEApplicationSource; 
             LANGUAGE = ObjC; 
-            OUTLETS = {ibWindow = SELibraryWindow; }; 
+            OUTLETS = {ibWindow = SELibraryWindow; uiTable = SKTableView; }; 
             SUPERCLASS = SKTableDataSource; 
         }, 
         {CLASS = SEApplicationView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
@@ -26,8 +26,6 @@
             OUTLETS = {
                 appDrawer = NSDrawer; 
                 appField = SEApplicationView; 
-                appSource = SKTableDataSource; 
-                appTable = SKTableView; 
                 ibDaemon = NSButton; 
                 ibMenu = NSSegmentedControl; 
                 ibStatus = NSTextField; 

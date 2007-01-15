@@ -8,8 +8,10 @@
 
 #import <ShadowKit/SKTableDataSource.h>
 
+@class SKTableView;
 @class SELibraryWindow, SparkLibrary;
 @interface SEApplicationSource : SKTableDataSource {
+  IBOutlet SKTableView *uiTable;
   IBOutlet SELibraryWindow *ibWindow;
   @private
   NSMutableSet *se_path;

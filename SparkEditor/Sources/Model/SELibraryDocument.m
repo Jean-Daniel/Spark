@@ -10,6 +10,8 @@
 #import "SELibraryWindow.h"
 #import "SEEntriesManager.h"
 
+NSString * const SEApplicationDidChangeNotification = @"SEApplicationDidChange";
+
 @implementation SELibraryDocument
 
 - (id)init {
@@ -21,6 +23,7 @@
 - (void)dealloc {
   [se_library release];
   [se_manager release];
+  [se_application release];
   [super dealloc];
 }
 
@@ -44,8 +47,21 @@
     [self setFileName:@"Spark"];
 }
 
-- (SEEntriesManager *)manager {
+- (id)manager {
   return se_manager;
+}
+
+- (SparkApplication *)application {
+  return se_application;
+}
+- (void)setApplication:(SparkApplication *)anApplication {
+  if (se_application != anApplication) {
+    [se_application release];
+    se_application = [anApplication retain];
+    /* Notify change */
+    [[NSNotificationCenter defaultCenter] postNotificationName:SEApplicationDidChangeNotification
+                                                        object:self];
+  }
 }
 
 @end

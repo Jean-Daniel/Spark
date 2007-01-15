@@ -74,15 +74,15 @@ enum {
   
   [center addObserver:self
              selector:@selector(didAddObject:)
-                 name:kSparkLibraryDidAddObjectNotification 
+                 name:SparkObjectSetDidAddObjectNotification 
                object:nil];
   [center addObserver:self
              selector:@selector(didUpdateObject:)
-                 name:kSparkLibraryDidUpdateObjectNotification 
+                 name:SparkObjectSetDidUpdateObjectNotification 
                object:nil];
   [center addObserver:self
              selector:@selector(willRemoveObject:)
-                 name:kSparkLibraryWillRemoveObjectNotification 
+                 name:SparkObjectSetWillRemoveObjectNotification 
                object:nil];
   
   /* Entry Manager */

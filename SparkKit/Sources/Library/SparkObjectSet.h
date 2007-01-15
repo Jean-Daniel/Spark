@@ -73,19 +73,19 @@
 #pragma mark -
 #pragma mark Notifications
 SPARK_EXPORT
-NSString * const kSparkLibraryWillAddObjectNotification;
+NSString * const SparkObjectSetWillAddObjectNotification;
 SPARK_EXPORT
-NSString * const kSparkLibraryDidAddObjectNotification;
+NSString * const SparkObjectSetDidAddObjectNotification;
 
 SPARK_EXPORT
-NSString * const kSparkLibraryWillUpdateObjectNotification;
+NSString * const SparkObjectSetWillUpdateObjectNotification;
 SPARK_EXPORT
-NSString * const kSparkLibraryDidUpdateObjectNotification;
+NSString * const SparkObjectSetDidUpdateObjectNotification;
 
 SPARK_EXPORT
-NSString * const kSparkLibraryWillRemoveObjectNotification;
+NSString * const SparkObjectSetWillRemoveObjectNotification;
 SPARK_EXPORT
-NSString * const kSparkLibraryDidRemoveObjectNotification;
+NSString * const SparkObjectSetDidRemoveObjectNotification;
 
 SPARK_EXPORT
 NSString * const kSparkNotificationObject;
