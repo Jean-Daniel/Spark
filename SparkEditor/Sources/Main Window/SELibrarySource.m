@@ -327,15 +327,22 @@ BOOL SEPluginListFilter(SparkObject *object, _SEPluginListContext *ctxt) {
   return [se_content objectAtIndex:row];
 }
 
+- (void)setName:(NSString *)name object:(SparkList *)list reload:(BOOL)reload {
+  [[[ibWindow undoManager] prepareWithInvocationTarget:self] setName:[list name] object:list reload:YES];
+  [list setName:name];
+  [self rearrangeObjects];
+  if (reload) {
+    [uiTable reloadData];
+  }
+  [uiTable selectRowIndexes:[NSIndexSet indexSetWithIndex:[se_content indexOfObjectIdenticalTo:list]] byExtendingSelection:NO];
+}
+
 - (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(int)row {
-  SparkObject *item = [se_content objectAtIndex:row];
+  SparkList *item = [se_content objectAtIndex:row];
   NSString *name = [item name];
   if (![name isEqualToString:object]) {
-    [item setName:object];
-    [self rearrangeObjects];
-    
-    //  [tableView reloadData]; => End editing already call reload data.
-    [tableView selectRowIndexes:[NSIndexSet indexSetWithIndex:[se_content indexOfObjectIdenticalTo:item]] byExtendingSelection:NO];
+    //  [tableView reloadData]; => End editing will call reload data.
+    [self setName:object object:item reload:NO];
   }
 }
 
@@ -384,8 +391,13 @@ BOOL SEPluginListFilter(SparkObject *object, _SEPluginListContext *ctxt) {
   
   /* Edit new list name */
   unsigned idx = [se_content indexOfObjectIdenticalTo:list];
-  [uiTable selectRow:idx byExtendingSelection:NO];
-  [uiTable editColumn:0 row:idx withEvent:nil select:YES];
+  if (idx != NSNotFound) {
+    @try {
+      [uiTable editColumn:0 row:idx withEvent:nil select:YES];
+    } @catch (id exception) {
+      SKLogException(exception);
+    }
+  }
 }
 
 #pragma mark Delegate
@@ -395,20 +407,6 @@ BOOL SEPluginListFilter(SparkObject *object, _SEPluginListContext *ctxt) {
     SparkObject *object = [se_content objectAtIndex:idx];
     if ([object uid] > kSparkLibraryReserved) {
       [[se_library listSet] removeObject:object];
-      /* last item */
-      if ((unsigned)idx == [se_content count]) {
-        while (idx-- > 0) {
-          if ([self tableView:aTableView shouldSelectRow:idx]) {
-            [aTableView selectRow:idx byExtendingSelection:NO];
-            break;
-          }
-        }
-        //[aTableView selectRow:[se_content count] - 1 byExtendingSelection:NO];
-      }
-      if (idx == [aTableView selectedRow]) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:NSTableViewSelectionDidChangeNotification
-                                                            object:aTableView];
-      }
     } else {
       NSBeep();
     }
@@ -454,6 +452,7 @@ BOOL SEPluginListFilter(SparkObject *object, _SEPluginListContext *ctxt) {
       int idx = [se_content indexOfObjectIdenticalTo:se_overwrite];
       [uiTable setNeedsDisplayInRect:[uiTable frameOfCellAtColumn:0 row:idx]];
     }
+    [se_overwrite reload];
   } else {
     int idx = [se_content indexOfObjectIdenticalTo:se_overwrite];
     /* List should be removed */
@@ -470,51 +469,78 @@ BOOL SEPluginListFilter(SparkObject *object, _SEPluginListContext *ctxt) {
 }
 
 - (void)didAddList:(NSNotification *)aNotification {
-  [se_content addObject:SparkNotificationObject(aNotification)];
+  unsigned selection = [uiTable selectedRow];
+  SparkList *list = SparkNotificationObject(aNotification);
+  [se_content addObject:list];
   [self rearrangeObjects];
   [uiTable reloadData];
+  /* Select inserted list */
+  unsigned idx = [se_content indexOfObjectIdenticalTo:list];
+  if (idx == selection) {
+    [[NSNotificationCenter defaultCenter] postNotificationName:NSTableViewSelectionDidChangeNotification
+                                                        object:uiTable];
+  } else {
+    [uiTable selectRow:idx byExtendingSelection:NO];
+  }
 }
 - (void)didRemoveList:(NSNotification *)aNotification {
+  int idx = [uiTable selectedRow];
   [se_content removeObject:SparkNotificationObject(aNotification)];
   [uiTable reloadData];
-}
-
-- (void)didReloadEntries:(NSNotification *)aNotification {
-  /* Reload dynamic lists (plugins + overwrite) */
-  [se_overwrite reload];
-  if ([se_content count]) {
-    /* Reload library to notify list change */
-    [[se_content objectAtIndex:0] reload];
-  }
-  if (se_plugins)
-    [NSAllMapTableKeys(se_plugins) makeObjectsPerformSelector:@selector(reload)];
-}
-
-- (void)didCreateWeakEntry:(NSNotification *)aNotification {
-  /* Reload dynamic lists (plugins + overwrite) */
-  [se_overwrite reload];
-}
-
-/* Adjust list selection */
-- (void)didCreateEntry:(NSNotification *)aNotification {
-  unsigned idx = [uiTable selectedRow];
   if (idx >= 0) {
-    SparkList *list = [se_content objectAtIndex:idx];
-    SparkEntry *entry = [aNotification object];
-    if (![list isDynamic]) {
-      [list addObject:[entry trigger]];
-    } else if (NSMapMember(se_plugins, list, NULL, NULL)) {
-      SparkPlugIn *plugin = [[SparkActionLoader sharedLoader] plugInForAction:[entry action]];
-      if (![plugin isEqual:[self pluginForList:list]]) {
-        // select plugin list
-        SparkList *plist = [self listForPlugin:plugin];
-        if (plist) {
-          idx = [se_content indexOfObject:plist];
+    /* last item */
+    if ((unsigned)idx == [se_content count]) {
+      while (idx-- > 0) {
+        if ([self tableView:uiTable shouldSelectRow:idx]) {
           [uiTable selectRow:idx byExtendingSelection:NO];
+          break;
         }
       }
+      //[uiTable selectRow:[se_content count] - 1 byExtendingSelection:NO];
+    }
+    if (idx == [uiTable selectedRow]) {
+      [[NSNotificationCenter defaultCenter] postNotificationName:NSTableViewSelectionDidChangeNotification
+                                                          object:uiTable];
     }
   }
 }
+
+//- (void)didReloadEntries:(NSNotification *)aNotification {
+//  /* Reload dynamic lists (plugins + overwrite) */
+//  [se_overwrite reload];
+//  if ([se_content count]) {
+//    /* Reload library to notify list change */
+//    [[se_content objectAtIndex:0] reload];
+//  }
+//  if (se_plugins)
+//    [NSAllMapTableKeys(se_plugins) makeObjectsPerformSelector:@selector(reload)];
+//}
+//
+//- (void)didCreateWeakEntry:(NSNotification *)aNotification {
+//  /* Reload dynamic lists (plugins + overwrite) */
+//  [se_overwrite reload];
+//}
+
+/* Adjust list selection */
+//- (void)didCreateEntry:(NSNotification *)aNotification {
+//  unsigned idx = [uiTable selectedRow];
+//  if (idx >= 0) {
+//    SparkList *list = [se_content objectAtIndex:idx];
+//    SparkEntry *entry = [aNotification object];
+//    if (![list isDynamic]) {
+//      [list addObject:[entry trigger]];
+//    } else if (NSMapMember(se_plugins, list, NULL, NULL)) {
+//      SparkPlugIn *plugin = [[SparkActionLoader sharedLoader] plugInForAction:[entry action]];
+//      if (![plugin isEqual:[self pluginForList:list]]) {
+//        // select plugin list
+//        SparkList *plist = [self listForPlugin:plugin];
+//        if (plist) {
+//          idx = [se_content indexOfObject:plist];
+//          [uiTable selectRow:idx byExtendingSelection:NO];
+//        }
+//      }
+//    }
+//  }
+//}
 
 @end

@@ -99,6 +99,7 @@ const UInt32 kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_0;
 
 - (void)dealloc {
   [sp_file release];
+  [sp_undo release];
   [sp_center release];
   for (int idx = 0; idx < 4; idx++) {
     [sp_objects[idx] release];
@@ -141,7 +142,10 @@ const UInt32 kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_0;
 }
 
 - (NSUndoManager *)undoManager {
-  return nil;
+  return sp_undo;
+}
+- (void)setUndoManager:(NSUndoManager *)aManager {
+  SKSetterRetain(sp_undo, aManager);
 }
 
 - (NSNotificationCenter *)notificationCenter {

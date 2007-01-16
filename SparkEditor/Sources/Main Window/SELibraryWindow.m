@@ -42,6 +42,12 @@
 - (SparkLibrary *)library {
   return [[self document] library];
 }
+- (NSUndoManager *)undoManager {
+  return [[self document] undoManager];
+}
+- (SparkApplication *)application {
+  return [[self document] application];
+}
 
 - (void)windowDidLoad {
   [[self window] center];

@@ -8,8 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class SparkLibrary;
 @class SEApplicationView, SETableView;
+@class SparkLibrary, SparkApplication;
 @class SELibrarySource, SETriggersController;
 @interface SELibraryWindow : NSWindowController {
   IBOutlet NSButton *ibDaemon;
@@ -29,6 +29,8 @@
 }
 
 - (SparkLibrary *)library;
+- (NSUndoManager *)undoManager;
+- (SparkApplication *)application;
 
 @end
 

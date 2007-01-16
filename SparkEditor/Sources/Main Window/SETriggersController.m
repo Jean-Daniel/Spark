@@ -94,8 +94,8 @@ SETriggerStyle styles[6];
   [se_list release];
   [se_entries release];
   [se_snapshot release];
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
   [[se_library notificationCenter] removeObserver:self];
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
   [se_library release];
   [super dealloc];
 }
@@ -104,8 +104,13 @@ SETriggerStyle styles[6];
 - (SparkLibrary *)library {
   return se_library;
 }
+- (SparkApplication *)application {
+  return [ibWindow application];
+}
 
 - (void)awakeFromNib {
+  se_library = [[ibWindow library] retain];
+  
   [uiTable setTarget:self];
   [uiTable setDoubleAction:@selector(doubleAction:)];
   
@@ -115,20 +120,19 @@ SETriggerStyle styles[6];
   [uiTable setVerticalMotionCanBeginDrag:YES];
   [uiTable setContinueEditing:NO];
   
-  se_library = [[ibWindow library] retain];
   [[se_library notificationCenter] addObserver:self
                                       selector:@selector(listDidChange:) 
                                           name:SparkListDidChangeNotification
                                         object:nil];
-//  [[NSNotificationCenter defaultCenter] addObserver:self
-//                                           selector:@selector(didUpdateEntry:) 
-//                                               name:SEEntriesManagerDidUpdateEntryNotification
-//                                             object:nil];
-//  
-//  [[NSNotificationCenter defaultCenter] addObserver:self
-//                                           selector:@selector(managerDidReload:) 
-//                                               name:SEEntriesManagerDidReloadNotification
-//                                             object:nil];
+  /*  Listen entries change, did add and did remove trigger list change notification if needed */
+  //  [[se_library notificationCenter] addObserver:self
+  //                                      selector:@selector(managerDidUpdateEntry:) 
+  //                                          name:SparkEntryManagerDidUpdateEntryNotification
+  //                                        object:nil];
+  //  [[se_library notificationCenter] addObserver:self
+  //                                      selector:@selector(managerDidUpdateEntry:) 
+  //                                          name:SparkEntryManagerDidChangeEntryEnabledNotification
+  //                                        object:nil];
 }
 
 - (NSView *)tableView {
@@ -136,7 +140,7 @@ SETriggerStyle styles[6];
 }
 
 - (void)setListEnabled:(BOOL)flag {
-  UInt32 app = [[[self manager] application] uid];
+  UInt32 app = [[self application] uid];
   int idx = [se_entries count];
   SparkEntryManager *manager = [[self library] entryManager];
   SEL method = flag ? @selector(enableEntry:) : @selector(disableEntry:);
@@ -191,10 +195,12 @@ SETriggerStyle styles[6];
   }
   if (idx >= 0) {
     SparkEntry *entry = [se_entries objectAtIndex:idx];
-    if ([entry isPlugged])
-      [[self manager] editEntry:entry modalForWindow:[sender window]];
-    else
+    if ([entry isPlugged]) {
+      DLog(@"Edit entry: %@", entry);
+      //[[self manager] editEntry:entry modalForWindow:[sender window]];
+    } else {
       NSBeep();
+    }
   }
 }
 /* Select updated entry */
@@ -207,6 +213,7 @@ SETriggerStyle styles[6];
 }
 
 - (void)loadTriggers {
+  [se_entries removeAllObjects];
   [se_snapshot removeAllObjects];
   if (se_list) {
     SparkTrigger *trigger;
@@ -226,24 +233,20 @@ SETriggerStyle styles[6];
   [uiTable reloadData];
 }
 
-- (void)managerDidReload:(NSNotification *)notification {
-  /* Static list will not notify change, so we have to force reload */
-  if (se_list && ![se_list isDynamic])
-    [self loadTriggers];
-}
-
+/* A list content has changed */
 - (void)listDidChange:(NSNotification *)notification {
+  /* If updated list is the current list */
   if ([notification object] == se_list)
     [self loadTriggers];
 }
-
+/* Selected list has changed */
 - (void)setList:(SparkList *)aList {
-//  if (se_list != aList) {
-//    [se_list release];
-//    se_list = [aList retain];
-//    // Reload data
-//    [self loadTriggers];
-//  }
+  if (se_list != aList) {
+    [se_list release];
+    se_list = [aList retain];
+    // Reload data
+    [self loadTriggers];
+  }
 }
 
 #pragma mark -
@@ -253,7 +256,7 @@ SETriggerStyle styles[6];
   if (items && [items count]) {
     if ([se_list isDynamic]) {
       BOOL hasCustom = NO;
-      SparkApplication *application = [[self manager] application];
+      SparkApplication *application = [self application];
       if ([application uid] == 0) {
         int count = [items count];
         while (count-- > 0 && !hasCustom) {
@@ -265,7 +268,8 @@ SETriggerStyle styles[6];
         }
       }
       // TODO: Check item consequences.
-      [[self manager] removeEntries:items];
+      // TODO: remove item from library
+      //[self removeEntries:items];
     } else {
       // User list
       int count = [items count];
@@ -297,7 +301,7 @@ SETriggerStyle styles[6];
   
   /* Text field cell */
   if ([aCell respondsToSelector:@selector(setTextColor:)]) {  
-    SparkApplication *application = [[self manager] application];
+    SparkApplication *application = [self application];
     
     SInt32 idx = -1;
     if (0 == [application uid]) {
@@ -355,17 +359,18 @@ SETriggerStyle styles[6];
     if (evnt && [evnt type] == NSLeftMouseUp && ([evnt modifierFlags] & NSAlternateKeyMask)) {
       [self setListEnabled:[anObject boolValue]];
     } else {
-      SparkApplication *application = [[self manager] application];
+      SparkApplication *application = [self application];
       if ([application uid] != 0 && kSparkEntryTypeDefault == [entry type]) {
         /* Inherits: should create an new entry */
-        entry = [[self manager] createWeakEntryForEntry:entry];
-        [se_entries replaceObjectAtIndex:rowIndex withObject:entry];
+        DLog(@"Create weak entry for entry");
+//        entry = [self createWeakEntryForEntry:entry];
+//        [se_entries replaceObjectAtIndex:rowIndex withObject:entry];
       }
-      if ([anObject boolValue])
+      if ([anObject boolValue]) {
         [[[self library] entryManager] enableEntry:entry];
-      else
+      } else {
         [[[self library] entryManager] disableEntry:entry];
-      
+      }
       [aTableView setNeedsDisplayInRect:[aTableView rectOfRow:rowIndex]];
     }
   } else if ([[aTableColumn identifier] isEqualToString:@"__item__"]) {

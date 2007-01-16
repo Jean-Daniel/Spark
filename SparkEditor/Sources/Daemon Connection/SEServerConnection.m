@@ -227,7 +227,7 @@ void SEServerStartConnection() {
         [connection configure];
         [NSApp setServerStatus:kSparkDaemonStarted];
       } @catch (id exception) {
-        DLog(@"Error while getting remote library. Try to restart daemon to resync");
+        DLog(@"Error while getting remote library. Try to sync and restart daemon.");
         [connection restart];
       }
     }

@@ -17,8 +17,8 @@
     unsigned int restart:1;
     unsigned int reserved:30;
   } se_scFlags;
-  NSDistantObject<SparkServer> *se_server;
   SparkLibrarySynchronizer *se_sync;
+  NSDistantObject<SparkServer> *se_server;
 }
 
 + (SEServerConnection *)defaultConnection;

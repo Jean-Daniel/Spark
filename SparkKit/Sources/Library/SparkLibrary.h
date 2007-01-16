@@ -49,6 +49,7 @@ BOOL SparkSetActiveLibrary(SparkLibrary *library);
   } sp_slFlags;
   
   /* Model synchronization */
+  NSUndoManager *sp_undo;
   NSNotificationCenter *sp_center;
 }
 
@@ -60,6 +61,8 @@ BOOL SparkSetActiveLibrary(SparkLibrary *library);
 - (void)setPath:(NSString *)file;
 
 - (NSUndoManager *)undoManager;
+- (void)setUndoManager:(NSUndoManager *)aManager;
+
 - (NSNotificationCenter *)notificationCenter;
 
 - (BOOL)isLoaded;

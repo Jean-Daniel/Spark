@@ -146,11 +146,11 @@ static NSImage *_HKCreateShading(NSControlTint tint);
 #pragma mark -
 #pragma mark View Drawing
 
-#define kHKTrapHeight	22
-#define kHKTrapMinimumWidth		48
-#define CAPS_WIDTH 19
-#define LEFT_MARGIN 1.5f
-#define RIGHT_MARGIN 1.5f
+#define kHKTrapHeight        22
+#define kHKTrapMinimumWidth  48
+#define CAPS_WIDTH           19
+#define LEFT_MARGIN          1.5f
+#define RIGHT_MARGIN         1.5f
 
 // Prevent from being too small
 - (void)setFrameSize:(NSSize)newSize {

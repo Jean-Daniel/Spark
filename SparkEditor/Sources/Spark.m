@@ -591,8 +591,6 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
   [SEPreferences synchronize];
-#warning should be moved into close document
-  [SparkActiveLibrary() synchronize];
 }
 
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication {

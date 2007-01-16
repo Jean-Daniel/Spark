@@ -135,6 +135,8 @@ void SparkEntryManagerPostUpdateNotification(NSString *name, SparkEntryManager *
 - (void)setEnabled:(BOOL)flag forEntry:(SparkEntry *)anEntry {
   SparkLibraryEntry *entry = [self libraryEntryForEntry:anEntry];
   if (entry && XOR(flag, SparkLibraryEntryIsEnabled(entry))) {
+    /* Undo management */
+    [[[self undoManager] prepareWithInvocationTarget:self] setEnabled:!flag forEntry:anEntry];
     /* update entry */
     [anEntry setEnabled:flag];
     /* Update library entry => Undo */
@@ -154,6 +156,8 @@ void SparkEntryManagerPostUpdateNotification(NSString *name, SparkEntryManager *
 #pragma mark High-Level Methods
 - (void)addEntry:(SparkEntry *)anEntry {
   NSParameterAssert(![self containsEntry:anEntry]);
+  /* Undo management */
+  [[self undoManager] registerUndoWithTarget:self selector:@selector(removeEntry:) object:anEntry];
   
   // Will add
   SparkEntryManagerPostNotification(SparkEntryManagerWillAddEntryNotification, self, anEntry);
@@ -180,6 +184,9 @@ void SparkEntryManagerPostUpdateNotification(NSString *name, SparkEntryManager *
   NSParameterAssert([self containsEntry:anEntry]);
   SparkLibraryEntry *entry = [self libraryEntryForEntry:anEntry];
   if (entry) {
+    /* Undo management */
+    [[[self undoManager] prepareWithInvocationTarget:self] replaceEntry:newEntry withEntry:anEntry];
+    
     // Will update
     SparkEntryManagerPostUpdateNotification(SparkEntryManagerWillUpdateEntryNotification, self, anEntry, newEntry);
     SparkLibraryEntry update = { 0, 0, 0, 0 };
@@ -201,6 +208,12 @@ void SparkEntryManagerPostUpdateNotification(NSString *name, SparkEntryManager *
 
 - (void)removeEntry:(SparkEntry *)anEntry {
   NSParameterAssert([self containsEntry:anEntry]);
+  /* Undo management */
+  if ([anEntry isEnabled]) {
+    [[[self undoManager] prepareWithInvocationTarget:self] setEnabled:YES forEntry:anEntry];
+  }
+  [[self undoManager] registerUndoWithTarget:self selector:@selector(addEntry:) object:anEntry];
+  
   // Will remove
   SparkEntryManagerPostNotification(SparkEntryManagerWillRemoveEntryNotification, self, anEntry);
   SparkLibraryEntry entry;

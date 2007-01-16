@@ -9,6 +9,8 @@
 #import "SELibraryDocument.h"
 #import "SELibraryWindow.h"
 
+#import <SparkKit/SparkLibrary.h>
+
 NSString * const SEApplicationDidChangeNotification = @"SEApplicationDidChange";
 
 @implementation SELibraryDocument
@@ -39,7 +41,7 @@ NSString * const SEApplicationDidChangeNotification = @"SEApplicationDidChange";
     [NSException raise:NSInternalInconsistencyException format:@"Library cannot be changed"];
   
   se_library = [aLibrary retain];
-  
+  [se_library setUndoManager:[self undoManager]];
   if ([se_library path])
     [self setFileName:@"Spark"];
 }
@@ -55,6 +57,14 @@ NSString * const SEApplicationDidChangeNotification = @"SEApplicationDidChange";
     [[NSNotificationCenter defaultCenter] postNotificationName:SEApplicationDidChangeNotification
                                                         object:self];
   }
+}
+
+- (void)canCloseDocumentWithDelegate:(id)delegate shouldCloseSelector:(SEL)shouldCloseSelector contextInfo:(void *)contextInfo {
+  if (se_library == SparkActiveLibrary()) {
+    [se_library synchronize];
+    [self updateChangeCount:NSChangeCleared];
+  } 
+  [super canCloseDocumentWithDelegate:delegate shouldCloseSelector:shouldCloseSelector contextInfo:contextInfo];
 }
 
 @end

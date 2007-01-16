@@ -56,7 +56,8 @@
 
 - (void)awakeFromNib {
   /* Configure Library Header Cell */
-  SEHeaderCell *header = [[SEHeaderCell alloc] initTextCell:@"HotKey Type"];
+  SEHeaderCell *header = [[SEHeaderCell alloc] initTextCell:NSLocalizedStringFromTable(@"HOTKEY_TYPE_HEADER",
+                                                                                       @"SEEditor", @"Hotkey Type column header")];
   [header setAlignment:NSCenterTextAlignment];
   [header setFont:[NSFont systemFontOfSize:11]];
   [[[typeTable tableColumns] objectAtIndex:0] setHeaderCell:header];
@@ -129,14 +130,14 @@
   [trap validate:sender];
   SEHotKey key = [trap hotkey];
   if (kHKInvalidVirtualKeyCode == key.keycode || kHKNilUnichar == key.character) {
-    alert = [NSAlert alertWithMessageText:NSLocalizedStringFromTable(@"INVALID_TRIGGER_ALERT",
-                                                                     @"SEEditor", @"Invalid HotKey - Title")
+    alert = [NSAlert alertWithMessageText:NSLocalizedStringFromTable(@"EMPTY_TRIGGER_ALERT",
+                                                                     @"SEEditor", @"Invalid Shortcut - Title")
                             defaultButton:NSLocalizedStringFromTable(@"OK",
                                                                      @"SEEditor", @"Alert default button")
                           alternateButton:nil
                               otherButton:nil
-                informativeTextWithFormat:NSLocalizedStringFromTable(@"INVALID_TRIGGER_ALERT_MSG",
-                                                                     @"SEEditor", @"Invalid HotKey - Message")];
+                informativeTextWithFormat:NSLocalizedStringFromTable(@"EMPTY_TRIGGER_ALERT_MSG",
+                                                                     @"SEEditor", @"Invalid Shortcut - Message")];
   }
   /* Then check action */
   if (!alert)
@@ -146,8 +147,10 @@
       SKLogException(exception);
       NSString *name = [exception respondsToSelector:@selector(name)] ? [exception name] : @"<undefined>";
       NSString *message = [exception respondsToSelector:@selector(reason)] ? [exception reason] : [exception description];
-      alert = [NSAlert alertWithMessageText:@"UNEXPECTED_PLUGIN_ERROR"
-                              defaultButton:@"OK"
+      alert = [NSAlert alertWithMessageText:NSLocalizedStringFromTable(@"UNEXPECTED_PLUGIN_EXCEPTION",
+                                                                       @"SEEditor", @"Plugin raise exception - Title")
+                              defaultButton:NSLocalizedStringFromTable(@"OK",
+                                                                       @"SEEditor", @"Alert default button")
                             alternateButton:nil
                                 otherButton:nil
                   informativeTextWithFormat:@"%@: %@", name, message];
@@ -173,8 +176,10 @@
       SKLogException(exception);
       NSString *name = [exception respondsToSelector:@selector(name)] ? [exception name] : @"<undefined>";
       NSString *message = [exception respondsToSelector:@selector(reason)] ? [exception reason] : [exception description];
-      alert = [NSAlert alertWithMessageText:@"UNEXPECTED_PLUGIN_ERROR"
-                              defaultButton:@"OK"
+      alert = [NSAlert alertWithMessageText:NSLocalizedStringFromTable(@"UNEXPECTED_PLUGIN_EXCEPTION",
+                                                                       @"SEEditor", @"Plugin raise exception - Title")
+                              defaultButton:NSLocalizedStringFromTable(@"OK",
+                                                                       @"SEEditor", @"Alert default button")
                             alternateButton:nil
                                 otherButton:nil
                   informativeTextWithFormat:@"%@: %@", name, message];
@@ -315,7 +320,9 @@
     se_application = [anApplication retain];
     /* Set Application */
     [appField setSparkApplication:anApplication];
-    [appField setTitle:[NSString stringWithFormat:@"%@ HotKey", [anApplication name]]];
+    [appField setTitle:[NSString stringWithFormat:
+      NSLocalizedStringFromTable(@"APPLICATION_FIELD",
+                                 @"SEEditor", @"%@ => Application name"), [anApplication name]]];
     [self updatePlugins];
   }
 }
