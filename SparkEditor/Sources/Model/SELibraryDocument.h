@@ -11,15 +11,12 @@
 @class SparkLibrary, SparkApplication;
 @interface SELibraryDocument : NSDocument {
   @private
-  id se_manager; /* deprecated */
   SparkLibrary *se_library;
   SparkApplication *se_application;
 }
 
 - (SparkLibrary *)library;
 - (void)setLibrary:(SparkLibrary *)aLibrary;
-
-- (id)manager;
 
 - (SparkApplication *)application;
 - (void)setApplication:(SparkApplication *)anApplication;

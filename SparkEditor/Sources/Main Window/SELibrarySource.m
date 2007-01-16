@@ -126,7 +126,7 @@ BOOL SEPluginListFilter(SparkObject *object, _SEPluginListContext *ctxt) {
     SparkPlugIn *plugin = [plugins objectAtIndex:idx];
     if ([plugin isEnabled]) {
       SparkList *list = [[SparkList alloc] initWithName:[plugin name] icon:[plugin icon]];
-      [list setObjectSet:[[ibWindow library] triggerSet]];
+      [list setObjectSet:[se_library triggerSet]];
       [list setUID:uid++]; // UID MUST BE set before insertion, since -hash use it.
       NSMapInsert(se_plugins, list, plugin);
       [list setListFilter:SEPluginListFilter context:[_SEPluginListContext listContextWithClass:[plugin actionClass]
@@ -182,11 +182,15 @@ BOOL SEPluginListFilter(SparkObject *object, _SEPluginListContext *ctxt) {
   [se_overwrite release];
   if (se_plugins)
     NSFreeMapTable(se_plugins);
+  [[se_library notificationCenter] removeObserver:self];
+  [se_library release];
   [[NSNotificationCenter defaultCenter] removeObserver:self];
   [super dealloc];
 }
 
 - (void)awakeFromNib {
+  se_library = [[ibWindow library] retain];
+  
   /* Configure Library Header Cell */
   SEHeaderCell *header = [[SEHeaderCell alloc] initTextCell:@"HotKey Groups"];
   [header setAlignment:NSCenterTextAlignment];
@@ -212,7 +216,7 @@ BOOL SEPluginListFilter(SparkObject *object, _SEPluginListContext *ctxt) {
                                                           blue:.855f
                                                          alpha:1]];
   
-  SparkObjectSet *triggers = [[ibWindow library] triggerSet];
+  SparkObjectSet *triggers = [se_library triggerSet];
   
   /* Add library… */
   SparkList *library = [SparkList objectWithName:@"Library" icon:[NSImage imageNamed:@"Library"]];
@@ -224,7 +228,7 @@ BOOL SEPluginListFilter(SparkObject *object, _SEPluginListContext *ctxt) {
   [self buildPluginLists];
   
   /* …and User defined lists */
-  [se_content addObjectsFromArray:[[[ibWindow library] listSet] objects]];
+  [se_content addObjectsFromArray:[[se_library listSet] objects]];
   
   /* Overwrite list */
   se_overwrite = [[SparkList alloc] initWithName:@"Overwrite" icon:[NSImage imageNamed:@"application"]];
@@ -253,6 +257,15 @@ BOOL SEPluginListFilter(SparkObject *object, _SEPluginListContext *ctxt) {
                                            selector:@selector(applicationDidChange:)
                                                name:SEApplicationDidChangeNotification
                                              object:[ibWindow document]];
+  
+  [[se_library notificationCenter] addObserver:self
+                                      selector:@selector(didAddList:)
+                                          name:SparkObjectSetDidAddObjectNotification
+                                        object:[se_library listSet]];
+  [[se_library notificationCenter] addObserver:self
+                                      selector:@selector(didRemoveList:)
+                                          name:SparkObjectSetDidRemoveObjectNotification
+                                        object:[se_library listSet]];
   //    [[NSNotificationCenter defaultCenter] addObserver:self
   //                                             selector:@selector(didCreateEntry:)
   //                                                 name:SEEntriesManagerDidCreateEntryNotification
@@ -349,7 +362,7 @@ BOOL SEPluginListFilter(SparkObject *object, _SEPluginListContext *ctxt) {
 - (BOOL)tableView:(NSTableView *)aTableView acceptDrop:(id <NSDraggingInfo>)info row:(int)row dropOperation:(NSTableViewDropOperation)operation {
   if (NSTableViewDropOn == operation) {
     SparkList *list = [se_content objectAtIndex:row];
-    SparkObjectSet *triggers = [[ibWindow library] triggerSet];
+    SparkObjectSet *triggers = [se_library triggerSet];
     NSArray *uids = [[info draggingPasteboard] propertyListForType:SparkTriggerListPboardType];
     for (unsigned idx = 0; idx < [uids count]; idx++) {
       NSNumber *uid = [uids objectAtIndex:idx];
@@ -366,11 +379,9 @@ BOOL SEPluginListFilter(SparkObject *object, _SEPluginListContext *ctxt) {
 #pragma mark Actions
 - (IBAction)newList:(id)sender {
   SparkList *list = [[SparkList alloc] initWithName:@"New List"];
-  [[[ibWindow library] listSet] addObject:list];
+  [[se_library listSet] addObject:list];
   [list release];
-  [se_content addObject:list];
-  [self rearrangeObjects];
-  [uiTable reloadData];
+  
   /* Edit new list name */
   unsigned idx = [se_content indexOfObjectIdenticalTo:list];
   [uiTable selectRow:idx byExtendingSelection:NO];
@@ -383,9 +394,7 @@ BOOL SEPluginListFilter(SparkObject *object, _SEPluginListContext *ctxt) {
   if (idx >= 0) {
     SparkObject *object = [se_content objectAtIndex:idx];
     if ([object uid] > kSparkLibraryReserved) {
-      [[[ibWindow library] listSet] removeObject:object];
-      [se_content removeObjectAtIndex:idx];
-      [aTableView reloadData];
+      [[se_library listSet] removeObject:object];
       /* last item */
       if ((unsigned)idx == [se_content count]) {
         while (idx-- > 0) {
@@ -460,6 +469,16 @@ BOOL SEPluginListFilter(SparkObject *object, _SEPluginListContext *ctxt) {
   }
 }
 
+- (void)didAddList:(NSNotification *)aNotification {
+  [se_content addObject:SparkNotificationObject(aNotification)];
+  [self rearrangeObjects];
+  [uiTable reloadData];
+}
+- (void)didRemoveList:(NSNotification *)aNotification {
+  [se_content removeObject:SparkNotificationObject(aNotification)];
+  [uiTable reloadData];
+}
+
 - (void)didReloadEntries:(NSNotification *)aNotification {
   /* Reload dynamic lists (plugins + overwrite) */
   [se_overwrite reload];
@@ -496,7 +515,6 @@ BOOL SEPluginListFilter(SparkObject *object, _SEPluginListContext *ctxt) {
       }
     }
   }
-  
 }
 
 @end

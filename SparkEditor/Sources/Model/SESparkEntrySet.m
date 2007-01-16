@@ -8,7 +8,7 @@
 
 #import "SESparkEntrySet.h"
 
-#import <SparkKit/SparkPrivate.h>
+#import <SparkKit/SparkApplication.h>
 
 @implementation SparkEntry (SEExtensions)
 

@@ -78,15 +78,15 @@ int main(int argc, const char *argv[]) {
       NSNotificationCenter *center = [sd_library notificationCenter];
       [center addObserver:self
                  selector:@selector(willAddTrigger:)
-                     name:kSparkLibraryWillAddObjectNotification
+                     name:SparkObjectSetWillAddObjectNotification
                    object:[sd_library triggerSet]];
       [center addObserver:self
                  selector:@selector(willUpdateTrigger:)
-                     name:kSparkLibraryWillUpdateObjectNotification
+                     name:SparkObjectSetWillUpdateObjectNotification
                    object:[sd_library triggerSet]];
       [center addObserver:self
                  selector:@selector(willRemoveTrigger:)
-                     name:kSparkLibraryWillRemoveObjectNotification
+                     name:SparkObjectSetWillRemoveObjectNotification
                    object:[sd_library triggerSet]];
       /* If library not loaded, load library */
       if (![sd_library isLoaded])

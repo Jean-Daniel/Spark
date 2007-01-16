@@ -29,12 +29,6 @@
 
 @end
 
-@interface SparkLibrary (SparkServerProtocol)
-
-- (id<SparkLibrary>)distantLibrary;
-
-@end
-
 #endif /* __OBJC__ */
 
 #endif /* __SPARK_SERVER_PROTOCOL_H */

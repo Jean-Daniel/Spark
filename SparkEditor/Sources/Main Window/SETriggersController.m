@@ -238,12 +238,12 @@ SETriggerStyle styles[6];
 }
 
 - (void)setList:(SparkList *)aList {
-  if (se_list != aList) {
-    [se_list release];
-    se_list = [aList retain];
-    // Reload data
-    [self loadTriggers];
-  }
+//  if (se_list != aList) {
+//    [se_list release];
+//    se_list = [aList retain];
+//    // Reload data
+//    [self loadTriggers];
+//  }
 }
 
 #pragma mark -

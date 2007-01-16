@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+@class SparkLibrary;
 @class SparkList, SparkPlugIn;
 @class SETableView, SELibraryWindow;
 @interface SELibrarySource : NSObject {
@@ -17,6 +18,7 @@
   id se_delegate;
   NSMapTable *se_plugins;
   SparkList *se_overwrite;
+  SparkLibrary *se_library;
   NSMutableArray *se_content;
 }
 

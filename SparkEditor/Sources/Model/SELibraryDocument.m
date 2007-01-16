@@ -8,7 +8,6 @@
 
 #import "SELibraryDocument.h"
 #import "SELibraryWindow.h"
-#import "SEEntriesManager.h"
 
 NSString * const SEApplicationDidChangeNotification = @"SEApplicationDidChange";
 
@@ -22,7 +21,6 @@ NSString * const SEApplicationDidChangeNotification = @"SEApplicationDidChange";
 
 - (void)dealloc {
   [se_library release];
-  [se_manager release];
   [se_application release];
   [super dealloc];
 }
@@ -41,14 +39,9 @@ NSString * const SEApplicationDidChangeNotification = @"SEApplicationDidChange";
     [NSException raise:NSInternalInconsistencyException format:@"Library cannot be changed"];
   
   se_library = [aLibrary retain];
-  se_manager = [[SEEntriesManager alloc] initWithLibrary:se_library];
   
   if ([se_library path])
     [self setFileName:@"Spark"];
-}
-
-- (id)manager {
-  return se_manager;
 }
 
 - (SparkApplication *)application {

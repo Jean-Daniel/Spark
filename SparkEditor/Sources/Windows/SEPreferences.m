@@ -9,7 +9,6 @@
 #import "SEPreferences.h"
 
 #import "Spark.h"
-#import "SEEntriesManager.h"
 #import "SEServerConnection.h"
 
 #import <SparkKit/SparkKit.h>
@@ -166,11 +165,12 @@ void __SetSparkKitSingleKeyMode(int mode) {
   if (change) {
     [[NSNotificationCenter defaultCenter] postNotificationName:SESparkEditorDidChangePluginStatusNotification
                                                         object:nil];
-    /* Invalidate entries cache */
-    [[SEEntriesManager sharedManager] reload];
-  } else {
-    [[SEEntriesManager sharedManager] refresh];
   }
+//    /* Invalidate entries cache */
+//    [[SEEntriesManager sharedManager] reload];
+//  } else {
+//    [[SEEntriesManager sharedManager] refresh];
+//  }
   /* Check login items */
   if (se_login != __SEPreferencesLoginItemStatus())
     _SEPreferencesUpdateLoginItem();

@@ -82,6 +82,25 @@
   [[ibMenu cell] setToolTip:NSLocalizedString(@"CREATE_TRIGGER_TOOLTIP", @"Segment Menu ToolTips") forSegment:0];
 }
 
+- (IBAction)libraryDoubleAction:(id)sender {
+  int idx = [libraryTable selectedRow];
+  if (idx > 0) {
+    SparkList *object = [listSource objectAtIndex:idx];
+    if ([object uid] > kSparkLibraryReserved) {
+      [libraryTable editColumn:0 row:idx withEvent:nil select:YES];
+    } else {
+      SparkPlugIn *plugin = [listSource pluginForList:object];
+      if (plugin) {
+        // Shared manager -> create entry:type
+        DLog(@"Create entry: %@", plugin);
+        //[[self document] createEntry:plugin modalForWindow:[self window]];
+      }
+    }
+  }
+}
+
+#pragma mark Menu
+/* Enable menu item */
 - (BOOL)validateMenuItem:(id <NSMenuItem>)menuItem {
   if ([menuItem action] == @selector(copy:) || [menuItem action] == @selector(paste:)) {
     NSResponder *first = [[self window] firstResponder];
@@ -98,31 +117,15 @@
   ShadowTrace();
 }
 
-- (IBAction)libraryDoubleAction:(id)sender {
-  int idx = [libraryTable selectedRow];
-  if (idx > 0) {
-    SparkList *object = [listSource objectAtIndex:idx];
-    if ([object uid] > kSparkLibraryReserved) {
-      [libraryTable editColumn:0 row:idx withEvent:nil select:YES];
-    } else {
-      SparkPlugIn *plugin = [listSource pluginForList:object];
-      if (plugin) {
-        // Shared manager -> create entry:type
-        DLog(@"Create entry: %@", plugin);
-        //[[self manager] createEntry:plugin modalForWindow:[self window]];
-      }
-    }
-  }
-}
-
 - (IBAction)newTriggerFromMenu:(id)sender {
   if ([sender respondsToSelector:@selector(representedObject)]) {
     id object = [sender representedObject];
     if ([object isKindOfClass:[SparkPlugIn class]])
       DLog(@"Create entry: %@", [sender representedObject]);
-      //[[self manager] createEntry:[sender representedObject] modalForWindow:[self window]];
+      //[[self document] createEntry:[sender representedObject] modalForWindow:[self window]];
   }
 }
+
 /* Notification handler */
 - (void)applicationDidChange:(NSNotification *)aNotification {
   [appField setSparkApplication:[[aNotification object] application]];
@@ -133,7 +136,6 @@
   [triggers setList:aList];
 }
 
-/* Enable menu item */
 - (IBAction)newList:(id)sender {
   [listSource newList:sender];
 }
