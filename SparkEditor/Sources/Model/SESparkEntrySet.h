@@ -3,7 +3,7 @@
  *  Spark Editor
  *
  *  Created by Black Moon Team.
- *  Copyright (c) 2004 - 2006, Shadow Lab. All rights reserved.
+ *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
  */
 
 #import <SparkKit/SparkEntry.h>
@@ -22,9 +22,13 @@
 
 - (unsigned)count;
 
+/* Get member */
+- (SparkEntry *)entry:(SparkEntry *)anEntry;
+
 - (void)removeAllEntries;
 
 - (void)addEntry:(SparkEntry *)anEntry;
+- (void)removeEntry:(SparkEntry *)anEntry;
 - (void)replaceEntry:(SparkEntry *)anEntry withEntry:(SparkEntry *)newEntry;
 
 - (void)addEntriesFromEntrySet:(SESparkEntrySet *)set;

@@ -2,8 +2,8 @@
  *  SparkList.m
  *  SparkKit
  *
- *  Created by Grayfox on 30/07/06.
- *  Copyright 2006 Shadow Lab. All rights reserved.
+ *  Created by Black Moon Team.
+ *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
  */
 
 #import <SparkKit/SparkList.h>
@@ -205,7 +205,7 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
 - (void)didUpdateObject:(NSNotification *)aNotification {
   unsigned idx = 0;
   SparkObject *object = SparkNotificationObject(aNotification);
-  SparkObject *previous = [[aNotification userInfo] objectForKey:kSparkNotificationUpdatedObject];
+  SparkObject *previous = SparkNotificationUpdatedObject(aNotification);
   /* If contains old value */
   if (previous && (idx = [sp_entries indexOfObject:previous]) != NSNotFound) {
     /* If is not smart, or updated object is always valid, replace old value */

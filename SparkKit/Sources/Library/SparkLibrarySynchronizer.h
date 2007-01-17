@@ -2,8 +2,8 @@
  *  SparkLibrarySynchronizer.h
  *  SparkKit
  *
- *  Created by Grayfox on 14/01/07.
- *  Copyright 2007 Shadow Lab. All rights reserved.
+ *  Created by Black Moon Team.
+ *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
  */
 
 #import <SparkKit/SparkLibrary.h>

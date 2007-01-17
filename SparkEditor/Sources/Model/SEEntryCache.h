@@ -2,15 +2,25 @@
  *  SEEntryCache.h
  *  Spark Editor
  *
- *  Created by Grayfox on 16/01/07.
- *  Copyright 2007 Shadow Lab. All rights reserved.
+ *  Created by Black Moon Team.
+ *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
  */
 
 #import <Cocoa/Cocoa.h>
 
+@class SELibraryDocument, SESparkEntrySet;
 @interface SEEntryCache : NSObject {
   @private
-  CFMutableSetRef se_entries;
+  SESparkEntrySet *se_base;
+  SESparkEntrySet *se_merge;
+  SELibraryDocument *se_document;
 }
+
+- (id)initWithDocument:(SELibraryDocument *)aDocument;
+
+- (void)reload;
+- (void)refresh;
+
+- (SESparkEntrySet *)entries;
 
 @end

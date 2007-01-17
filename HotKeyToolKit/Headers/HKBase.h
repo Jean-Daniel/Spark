@@ -2,8 +2,8 @@
  *  HKBase.h
  *  HotKeyToolKit
  *
- *  Created by Grayfox on 06/08/06.
- *  Copyright 2006 Shadow Lab. All rights reserved.
+ *  Created by Shadow Team.
+ *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
  */
 
 #pragma mark Base Macros

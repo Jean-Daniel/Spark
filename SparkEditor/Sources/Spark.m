@@ -3,7 +3,7 @@
  *  Spark Editor
  *
  *  Created by Black Moon Team.
- *  Copyright (c) Shadow Lab. 2004 - 2006. All rights reserved.
+ *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
  */
 
 #import "Spark.h"
@@ -169,7 +169,6 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
 
 - (void)dealloc {
   [[NSNotificationCenter defaultCenter] removeObserver:self];
-  [se_mainWindow release];
   [super dealloc];
 }
 
@@ -270,26 +269,10 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
   }
 }
 
-- (NSWindow *)mainWindow {
-  return [se_mainWindow window];
-}
-
 - (IBAction)showPreferences:(id)sender {
   SEPreferences *preferences = [[SEPreferences alloc] init];
   [preferences setReleasedWhenClosed:YES];
-  [NSApp beginSheet:[preferences window]
-     modalForWindow:[self mainWindow]
-      modalDelegate: nil
-     didEndSelector: nil
-        contextInfo: nil];
-}
-
-- (IBAction)showMainWindow:(id)sender {
-  if (!se_mainWindow) {
-    se_mainWindow = [[SELibraryWindow alloc] init];
-    [[se_mainWindow window] setDelegate:self];
-  }
-  [se_mainWindow showWindow:nil];
+  [NSApp runModalForWindow:[preferences window]];
 }
 
 #pragma mark -
@@ -551,11 +534,7 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
   SEPluginInstaller *panel = [[SEPluginInstaller alloc] init];
   [panel setReleasedWhenClosed:YES];
   [panel setPlugin:path];
-  [NSApp beginSheet:[panel window]
-     modalForWindow:[self mainWindow]
-      modalDelegate:self
-     didEndSelector:NULL
-        contextInfo:nil];
+  [NSApp runModalForWindow:[panel window]];
 }
 
 - (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename {

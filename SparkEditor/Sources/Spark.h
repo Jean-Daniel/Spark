@@ -3,7 +3,7 @@
  *  Spark Editor
  *
  *  Created by Black Moon Team.
- *  Copyright (c) 2004 - 2006, Shadow Lab. All rights reserved.
+ *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
  */
 
 #import <SparkKit/SparkAppleScriptSuite.h>
@@ -35,17 +35,11 @@ const UInt32 kSparkVersion;
 @interface Spark : NSObject {
   IBOutlet NSMenu *aboutMenu;
   IBOutlet NSMenuItem *statusMenuItem;
-  @private
-    /* Global windows */
-    SELibraryWindow *se_mainWindow;
 }
 
 #pragma mark Menu IBActions
 - (IBAction)toggleServer:(id)sender;
 - (IBAction)showPreferences:(id)sender;
-
-- (NSWindow *)mainWindow;
-- (IBAction)showMainWindow:(id)sender;
 
 #pragma mark Import/Export Support
 //- (IBAction)importLibrary:(id)sender;
@@ -63,8 +57,3 @@ const UInt32 kSparkVersion;
 #endif
 
 @end
-
-@interface Spark (SEFirstRun)
-- (void)displayFirstRunIfNeeded;
-@end
-

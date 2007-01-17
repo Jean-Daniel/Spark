@@ -2,8 +2,8 @@
  *  HKEvent.m
  *  HotKeyToolKit
  *
- *  Created by Grayfox.
- *  Copyright 2004-2006 Shadow Lab. All rights reserved.
+ *  Created by Shadow Team.
+ *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
  */
 
 #import "HKEvent.h"
@@ -26,12 +26,16 @@ static Boolean HKEventCompat = NO;
 
 static void __HKEventInitialize(void) __attribute__((constructor));
 static void __HKEventInitialize() {
+#if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_4
   if (CGEventCreateKeyboardEvent != NULL) {
+#endif
     _HKEventPostKeyStroke = _HKEventPostKeystroke;
+#if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_4
   } else {
     HKEventCompat = YES;
     _HKEventPostKeyStroke = _HKEventCompatPostKeystroke;
   }
+#endif
 }
 
 #pragma mark -

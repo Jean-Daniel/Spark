@@ -3,20 +3,20 @@
  *  Spark Editor
  *
  *  Created by Black Moon Team.
- *  Copyright (c) 2004 - 2006, Shadow Lab. All rights reserved.
+ *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
  */
 
 #import "SEFirstRun.h"
 
-#import "Spark.h"
 #import "SEPreferences.h"
+#import "SELibraryDocument.h"
 #import "SEServerConnection.h"
 
 #import <SparkKit/SparkKit.h>
 
 #import <ShadowKit/SKFunctions.h>
 
-@implementation Spark (SEFirstRun)
+@implementation SELibraryDocument (SEFirstRun)
 
 - (void)displayFirstRunIfNeeded {
   UInt32 version = [[NSUserDefaults standardUserDefaults] integerForKey:kSparkPrefVersion];
@@ -31,10 +31,13 @@
     }
   }
   if (version < kSparkVersion) {
+    /* First, set preferences to avoid second call */
+    [[NSUserDefaults standardUserDefaults] setInteger:kSparkVersion forKey:kSparkPrefVersion];
+    
     SEFirstRun *first = [[SEFirstRun alloc] init];
     [first setReleasedWhenClosed:YES];
     [NSApp beginSheet:[first window]
-       modalForWindow:[self mainWindow]
+       modalForWindow:[self windowForSheet]
         modalDelegate:nil
        didEndSelector:NULL
           contextInfo:nil];
@@ -61,7 +64,6 @@
     SELaunchSparkDaemon();
   }
   SEPreferencesSetLoginItemStatus(NSOnState == [ibAutoStart state]);
-  [[NSUserDefaults standardUserDefaults] setInteger:kSparkVersion forKey:kSparkPrefVersion];
   [super close:sender];  
 }
 

@@ -3,8 +3,7 @@
  *  SparkKit
  *
  *  Created by Black Moon Team.
- *  Copyright (c) 2004 - 2006 Shadow Lab. All rights reserved.
- *
+ *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
  */
 
 #import <SparkKit/SparkKit.h>
@@ -32,6 +31,23 @@ SPARK_EXPORT
 SparkLibrary *SparkActiveLibrary(void);
 SPARK_EXPORT
 BOOL SparkSetActiveLibrary(SparkLibrary *library);
+
+/* Notifications support */
+SPARK_EXPORT
+NSString * const kSparkNotificationObject;
+SPARK_EXPORT
+NSString * const kSparkNotificationUpdatedObject;
+
+SPARK_INLINE
+id SparkNotificationObject(NSNotification *aNotification) {
+  return [[aNotification userInfo] objectForKey:kSparkNotificationObject];
+}
+
+SPARK_INLINE
+id SparkNotificationUpdatedObject(NSNotification *aNotification) {
+  return [[aNotification userInfo] objectForKey:kSparkNotificationUpdatedObject];
+}
+
 
 #pragma mark -
 @class SparkApplication, SparkEntryManager;

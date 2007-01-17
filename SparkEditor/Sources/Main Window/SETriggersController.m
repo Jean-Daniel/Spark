@@ -3,7 +3,7 @@
  *  Spark Editor
  *
  *  Created by Black Moon Team.
- *  Copyright (c) 2004 - 2006, Shadow Lab. All rights reserved.
+ *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
  */
 
 #import "SETriggersController.h"
@@ -216,19 +216,19 @@ SETriggerStyle styles[6];
   [se_entries removeAllObjects];
   [se_snapshot removeAllObjects];
   if (se_list) {
-    SparkTrigger *trigger;
-    NSEnumerator *triggers = [se_list objectEnumerator];
-    /*  Get current snapshot */
-    SESparkEntrySet *snapshot = [[self manager] snapshot];
-    BOOL hide = [[NSUserDefaults standardUserDefaults] boolForKey:kSparkPrefHideDisabled];
-    while (trigger = [triggers nextObject]) {
-      SparkEntry *entry = [snapshot entryForTrigger:trigger];
-      if (entry && (!hide || [entry isPlugged])) {
-        [se_snapshot addObject:entry];
-      }
-    }
-    /* Filter entries */
-    [self filterEntries:[uiSearch stringValue]];
+//    SparkTrigger *trigger;
+//    NSEnumerator *triggers = [se_list objectEnumerator];
+//    /*  Get current snapshot */
+//    SESparkEntrySet *snapshot = [[self manager] snapshot];
+//    BOOL hide = [[NSUserDefaults standardUserDefaults] boolForKey:kSparkPrefHideDisabled];
+//    while (trigger = [triggers nextObject]) {
+//      SparkEntry *entry = [snapshot entryForTrigger:trigger];
+//      if (entry && (!hide || [entry isPlugged])) {
+//        [se_snapshot addObject:entry];
+//      }
+//    }
+//    /* Filter entries */
+//    [self filterEntries:[uiSearch stringValue]];
   }
   [uiTable reloadData];
 }

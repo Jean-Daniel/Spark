@@ -3,8 +3,7 @@
  *  SparkKit
  *
  *  Created by Black Moon Team.
- *  Copyright (c) 2004 - 2006 Shadow Lab. All rights reserved.
- *
+ *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
  */
 
 #import <SparkKit/SparkKit.h>
@@ -87,15 +86,6 @@ NSString * const SparkObjectSetWillRemoveObjectNotification;
 SPARK_EXPORT
 NSString * const SparkObjectSetDidRemoveObjectNotification;
 
-SPARK_EXPORT
-NSString * const kSparkNotificationObject;
-SPARK_EXPORT
-NSString * const kSparkNotificationUpdatedObject;
-
-SPARK_INLINE
-id SparkNotificationObject(NSNotification *aNotification) {
-  return [[aNotification userInfo] objectForKey:kSparkNotificationObject];
-}
 
 SPARK_EXPORT
 NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void *source);

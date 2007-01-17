@@ -3,8 +3,7 @@
  *  SparkKit
  *
  *  Created by Black Moon Team.
- *  Copyright (c) 2004 - 2006 Shadow Lab. All rights reserved.
- *
+ *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
  */
 
 #if !defined(__SPARK_SERVER_PROTOCOL_H)

@@ -3,7 +3,7 @@
  *  Spark Editor
  *
  *  Created by Black Moon Team.
- *  Copyright (c) 2004 - 2006, Shadow Lab. All rights reserved.
+ *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
  */
 
 #import "SESparkEntrySet.h"
@@ -52,6 +52,22 @@
   [se_entries addObject:entry];
   NSMapInsert(se_set, [entry trigger], entry);
 }
+
+- (void)removeEntry:(SparkEntry *)anEntry {
+  SparkEntry *entry = NSMapGet(se_set, [anEntry trigger]);
+  if (entry) {
+    NSMapRemove(se_set, [entry trigger]);
+    [se_entries removeObjectIdenticalTo:entry];
+  }
+}
+
+- (SparkEntry *)entry:(SparkEntry *)anEntry {
+  unsigned idx = [se_entries indexOfObject:anEntry];
+  if (idx != NSNotFound)
+    return [se_entries objectAtIndex:idx];
+  return nil;
+}
+
 - (void)replaceEntry:(SparkEntry *)anEntry withEntry:(SparkEntry *)newEntry {
   unsigned idx = [se_entries indexOfObjectIdenticalTo:anEntry];
   NSAssert(idx != NSNotFound, @"Invalid entry parameter.");
