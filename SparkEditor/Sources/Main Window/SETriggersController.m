@@ -7,10 +7,12 @@
  */
 
 #import "SETriggersController.h"
+#import "SELibraryDocument.h"
 #import "SELibraryWindow.h"
 #import "SESparkEntrySet.h"
 #import "SEPreferences.h"
 #import "SEEntryEditor.h"
+#import "SEEntryCache.h"
 #import "Spark.h"
 
 #import <ShadowKit/SKTableView.h>
@@ -94,6 +96,7 @@ SETriggerStyle styles[6];
   [se_list release];
   [se_entries release];
   [se_snapshot release];
+  [se_application release];
   [[se_library notificationCenter] removeObserver:self];
   [[NSNotificationCenter defaultCenter] removeObserver:self];
   [se_library release];
@@ -105,7 +108,24 @@ SETriggerStyle styles[6];
   return se_library;
 }
 - (SparkApplication *)application {
-  return [ibWindow application];
+  return se_application;
+}
+- (void)setApplication:(SparkApplication *)anApplication {
+  if (se_application != anApplication) {
+    /* Optimization: should reload if switch from/to global */
+    BOOL reload = [anApplication uid] == 0 || [se_application uid] == 0;
+    /* Sould not reload if overwrite change, ie it is not empty or it will not be. */
+    if (!reload)
+      reload = [[se_library entryManager] containsEntryForApplication:[se_application uid]] || 
+        [[se_library entryManager] containsEntryForApplication:[anApplication uid]];
+    
+    [se_application release];
+    se_application = [anApplication retain];
+    
+    /* Avoid useless reload */
+    if (reload)
+      [self loadTriggers];
+  }
 }
 
 - (void)awakeFromNib {
@@ -120,6 +140,8 @@ SETriggerStyle styles[6];
   [uiTable setVerticalMotionCanBeginDrag:YES];
   [uiTable setContinueEditing:NO];
   
+  [self setApplication:[ibWindow application]];
+  
   [[se_library notificationCenter] addObserver:self
                                       selector:@selector(listDidChange:) 
                                           name:SparkListDidChangeNotification
@@ -133,6 +155,14 @@ SETriggerStyle styles[6];
   //                                      selector:@selector(managerDidUpdateEntry:) 
   //                                          name:SparkEntryManagerDidChangeEntryEnabledNotification
   //                                        object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(cacheDidReload:)
+                                               name:SEEntryCacheDidReloadNotification
+                                             object:[[ibWindow document] cache]];
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(applicationDidChange:)
+                                               name:SEApplicationDidChangeNotification
+                                             object:[ibWindow document]];
 }
 
 - (NSView *)tableView {
@@ -204,31 +234,31 @@ SETriggerStyle styles[6];
   }
 }
 /* Select updated entry */
-- (void)didUpdateEntry:(NSNotification *)aNotification {
-  SparkEntry *entry = [aNotification object];
-  if (entry && [se_entries containsObject:entry]) {
-    int idx = [se_entries indexOfObject:entry];
-    [uiTable selectRow:idx byExtendingSelection:NO];
-  }
-}
+//- (void)didUpdateEntry:(NSNotification *)aNotification {
+//  SparkEntry *entry = [aNotification object];
+//  if (entry && [se_entries containsObject:entry]) {
+//    int idx = [se_entries indexOfObject:entry];
+//    [uiTable selectRow:idx byExtendingSelection:NO];
+//  }
+//}
 
 - (void)loadTriggers {
   [se_entries removeAllObjects];
   [se_snapshot removeAllObjects];
   if (se_list) {
-//    SparkTrigger *trigger;
-//    NSEnumerator *triggers = [se_list objectEnumerator];
-//    /*  Get current snapshot */
-//    SESparkEntrySet *snapshot = [[self manager] snapshot];
-//    BOOL hide = [[NSUserDefaults standardUserDefaults] boolForKey:kSparkPrefHideDisabled];
-//    while (trigger = [triggers nextObject]) {
-//      SparkEntry *entry = [snapshot entryForTrigger:trigger];
-//      if (entry && (!hide || [entry isPlugged])) {
-//        [se_snapshot addObject:entry];
-//      }
-//    }
-//    /* Filter entries */
-//    [self filterEntries:[uiSearch stringValue]];
+    SparkTrigger *trigger;
+    NSEnumerator *triggers = [se_list objectEnumerator];
+    /* Get current snapshot */
+    SESparkEntrySet *snapshot = [[[ibWindow document] cache] entries];
+    BOOL hide = [[NSUserDefaults standardUserDefaults] boolForKey:kSparkPrefHideDisabled];
+    while (trigger = [triggers nextObject]) {
+      SparkEntry *entry = [snapshot entryForTrigger:trigger];
+      if (entry && (!hide || [entry isPlugged])) {
+        [se_snapshot addObject:entry];
+      }
+    }
+    /* Filter entries */
+    [self filterEntries:[uiSearch stringValue]];
   }
   [uiTable reloadData];
 }
@@ -247,6 +277,15 @@ SETriggerStyle styles[6];
     // Reload data
     [self loadTriggers];
   }
+}
+
+/* Plugins status change, etc... */
+- (void)cacheDidReload:(NSNotification *)aNotification {
+  [self loadTriggers];
+}
+
+- (void)applicationDidChange:(NSNotification *)aNotification {
+  [self setApplication:[ibWindow application]];
 }
 
 #pragma mark -
@@ -269,6 +308,7 @@ SETriggerStyle styles[6];
       }
       // TODO: Check item consequences.
       // TODO: remove item from library
+      DLog(@"Remove items");
       //[self removeEntries:items];
     } else {
       // User list
@@ -362,7 +402,7 @@ SETriggerStyle styles[6];
       SparkApplication *application = [self application];
       if ([application uid] != 0 && kSparkEntryTypeDefault == [entry type]) {
         /* Inherits: should create an new entry */
-        DLog(@"Create weak entry for entry");
+        DLog(@"Create weak entry for entry: %@", entry);
 //        entry = [self createWeakEntryForEntry:entry];
 //        [se_entries replaceObjectAtIndex:rowIndex withObject:entry];
       }

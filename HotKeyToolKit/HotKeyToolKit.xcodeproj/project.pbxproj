@@ -114,7 +114,7 @@
 		98DD42490A57C9C800F059E5 /* HKEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKEvent.h; sourceTree = "<group>"; };
 		98DD467E0A57ED3E00F059E5 /* HKEventCompat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKEventCompat.m; sourceTree = "<group>"; };
 		98E204820A56FDFC00EB74E1 /* Runner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Runner.m; sourceTree = "<group>"; };
-		98E204A00A56FE6500EB74E1 /* Runner */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "compiled.mach-o.executable"; path = Runner; sourceTree = BUILT_PRODUCTS_DIR; };
+		98E204A00A56FE6500EB74E1 /* Runner */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Runner; sourceTree = BUILT_PRODUCTS_DIR; };
 		98EF7D6F0864538C007BC81A /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = /System/Library/Frameworks/SenTestingKit.framework; sourceTree = "<absolute>"; };
 		98EFD0340B58444200AD4492 /* ShadowProfile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowProfile.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */

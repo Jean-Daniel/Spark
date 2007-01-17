@@ -8,6 +8,9 @@
 
 #import <Cocoa/Cocoa.h>
 
+SK_EXPORT
+NSString * const SEEntryCacheDidReloadNotification;
+
 @class SELibraryDocument, SESparkEntrySet;
 @interface SEEntryCache : NSObject {
   @private

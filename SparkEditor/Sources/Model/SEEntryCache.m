@@ -15,6 +15,8 @@
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkEntryManager.h>
 
+NSString * const SEEntryCacheDidReloadNotification = @"SEEntryCacheDidReload";
+
 @implementation SEEntryCache
 
 - (id)init {
@@ -54,6 +56,7 @@
                                        selector:@selector(didChangeEntryStatus:) 
                                            name:SparkEntryManagerDidChangeEntryEnabledNotification
                                          object:manager];
+      [self reload];
     }
   }
   return self;
@@ -72,6 +75,10 @@
   
   /* Populate merge */
   [self refresh];
+  
+  /* Notify reload */
+  [[NSNotificationCenter defaultCenter] postNotificationName:SEEntryCacheDidReloadNotification
+                                                      object:self];
 }
 
 - (void)refresh {

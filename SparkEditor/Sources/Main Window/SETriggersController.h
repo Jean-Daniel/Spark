@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class SKTableView;
+@class SKTableView, SparkApplication;
 @class SparkList, SparkLibrary, SELibraryWindow;
 @interface SETriggersController : NSObject {
   IBOutlet SKTableView *uiTable;
@@ -20,6 +20,7 @@
   /* Selected list */
   SparkList *se_list; 
   SparkLibrary *se_library;
+  SparkApplication *se_application;
   /* Internal storage */
   NSMutableArray *se_entries;
   NSMutableArray *se_snapshot;
