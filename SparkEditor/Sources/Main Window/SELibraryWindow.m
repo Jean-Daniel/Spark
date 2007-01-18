@@ -97,9 +97,7 @@
     } else {
       SparkPlugIn *plugin = [listSource pluginForList:object];
       if (plugin) {
-        // Shared manager -> create entry:type
-        DLog(@"Create entry: %@", plugin);
-        //[[self document] createEntry:plugin modalForWindow:[self window]];
+        [[self document] makeEntryOfType:plugin];
       }
     }
   }
@@ -127,8 +125,9 @@
   if ([sender respondsToSelector:@selector(representedObject)]) {
     id object = [sender representedObject];
     if ([object isKindOfClass:[SparkPlugIn class]])
-      DLog(@"Create entry: %@", [sender representedObject]);
-      //[[self document] createEntry:[sender representedObject] modalForWindow:[self window]];
+      [[self document] makeEntryOfType:object];
+    else
+      NSBeep();
   }
 }
 

@@ -143,8 +143,8 @@ SETriggerStyle styles[6];
   [self setApplication:[ibWindow application]];
   
   [[se_library notificationCenter] addObserver:self
-                                      selector:@selector(listDidChange:) 
-                                          name:SparkListDidChangeNotification
+                                      selector:@selector(listDidReload:) 
+                                          name:SparkListDidReloadNotification
                                         object:nil];
   /*  Listen entries change, did add and did remove trigger list change notification if needed */
   //  [[se_library notificationCenter] addObserver:self
@@ -264,7 +264,7 @@ SETriggerStyle styles[6];
 }
 
 /* A list content has changed */
-- (void)listDidChange:(NSNotification *)notification {
+- (void)listDidReload:(NSNotification *)notification {
   /* If updated list is the current list */
   if ([notification object] == se_list)
     [self loadTriggers];

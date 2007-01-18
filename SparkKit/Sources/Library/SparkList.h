@@ -12,7 +12,20 @@
 typedef BOOL(*SparkListFilter)(SparkObject *, id ctxt);
 
 SPARK_EXPORT
-NSString * const SparkListDidChangeNotification;
+NSString * const SparkListDidReloadNotification;
+
+SPARK_EXPORT
+NSString * const SparkListDidAddObjectNotification;
+SPARK_EXPORT
+NSString * const SparkListDidAddObjectsNotification;
+
+SPARK_EXPORT
+NSString * const SparkListDidUpdateObjectNotification;
+
+SPARK_EXPORT
+NSString * const SparkListDidRemoveObjectNotification;
+SPARK_EXPORT
+NSString * const SparkListDidRemoveObjectsNotification;
 
 @interface SparkList : SparkObject {
   @private

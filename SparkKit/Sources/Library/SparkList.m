@@ -13,7 +13,16 @@
 #import <ShadowKit/SKSerialization.h>
 #import <ShadowKit/SKAppKitExtensions.h>
 
-NSString * const SparkListDidChangeNotification = @"SparkListDidReload";
+/* Reload when filter change */
+NSString * const SparkListDidReloadNotification = @"SparkListDidReload";
+
+NSString * const SparkListDidAddObjectNotification = @"SparkListDidAddObject";
+NSString * const SparkListDidAddObjectsNotification = @"SparkListDidAddObjects";
+
+NSString * const SparkListDidUpdateObjectNotification = @"SparkListDidUpdateObject";
+
+NSString * const SparkListDidRemoveObjectNotification = @"SparkListDidRemoveObject";
+NSString * const SparkListDidRemoveObjectsNotification = @"SparkListDidRemoveObjects";
 
 static 
 NSString * const kSparkObjectsKey = @"SparkObjects";
@@ -67,8 +76,7 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
         }
       }
     }
-    [[[sp_set library] notificationCenter] postNotificationName:SparkListDidChangeNotification
-                                                         object:self];
+    SparkLibraryPostNotification([sp_set library], SparkListDidReloadNotification, self, nil);
   }
 }
 
@@ -161,38 +169,37 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
 - (unsigned)count {
   return [sp_entries count];
 }
+- (BOOL)containsObject:(SparkObject *)anObject {
+  return [sp_entries containsObject:anObject];
+}
 - (NSEnumerator *)objectEnumerator {
   return [sp_entries objectEnumerator];
 }
+
+#pragma mark Modification
 - (void)addObject:(SparkObject *)anObject {
   [sp_entries addObject:anObject];
-  [[[sp_set library] notificationCenter] postNotificationName:SparkListDidChangeNotification
-                                                       object:self];
+  SparkLibraryPostNotification([sp_set library], SparkListDidAddObjectNotification, self, anObject);
 }
 - (void)addObjectsFromArray:(NSArray *)anArray {
   [sp_entries addObjectsFromArray:anArray];
-  [[[sp_set library] notificationCenter] postNotificationName:SparkListDidChangeNotification
-                                                       object:self];  
-}
-
-- (BOOL)containsObject:(SparkObject *)anObject {
-  return [sp_entries containsObject:anObject];
+  SparkLibraryPostNotification([sp_set library], SparkListDidAddObjectsNotification, self, anArray);
 }
 
 - (void)removeObject:(SparkObject *)anObject {
   unsigned idx = [sp_entries indexOfObject:anObject];
   if (idx != NSNotFound) {
+    [anObject retain];
     [sp_entries removeObjectAtIndex:idx];
-    [[[sp_set library] notificationCenter] postNotificationName:SparkListDidChangeNotification
-                                                         object:self];
+    SparkLibraryPostNotification([sp_set library], SparkListDidRemoveObjectNotification, self, anObject);
+    [anObject release];
   }
 }
 - (void)removeObjectsInArray:(NSArray *)anArray {
   unsigned cnt = [sp_entries count];
   [sp_entries removeObjectsInArray:anArray];
   if (cnt != [sp_entries count])
-    [[[sp_set library] notificationCenter] postNotificationName:SparkListDidChangeNotification
-                                                         object:self];
+    SparkLibraryPostNotification([sp_set library], SparkListDidRemoveObjectsNotification, self, anArray);
 }
 
 #pragma mark -
@@ -211,9 +218,10 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
     /* If is not smart, or updated object is always valid, replace old value */
     if (!sp_filter || sp_filter(object, sp_ctxt)) {
       [sp_entries replaceObjectAtIndex:idx withObject:object];
+      SparkLibraryPostUpdateNotification([sp_set library], SparkListDidUpdateObjectNotification, self, previous, object);
     } else {
       /* remove old value */
-      [sp_entries removeObjectAtIndex:idx];
+      [self removeObject:object];
     }
   } else {
     /* Do not contains previous value but updated object is valid */
@@ -226,7 +234,7 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
 - (void)didRemoveObject:(NSNotification *)aNotification {
   SparkObject *object = SparkNotificationObject(aNotification);
   if (object)
-    [sp_entries removeObject:object];
+    [self removeObject:object];
 }
 
 @end

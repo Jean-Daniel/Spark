@@ -338,10 +338,10 @@ NSString *iTunesFindLibraryFile(int folder) {
 #pragma mark Dynamic Plugin
 + (NSImage *)plugInIcon {
   NSImage *icon = ITunesGetApplicationIcon();
-  if (icon)
-    [icon setSize:NSMakeSize(16, 16)];
-  else
+  if (!icon)
     icon = [super plugInIcon];
+  //  else
+  //    [icon setSize:NSMakeSize(16, 16)];    
   return icon;
 }
 

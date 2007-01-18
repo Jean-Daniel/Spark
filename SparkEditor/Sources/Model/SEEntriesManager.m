@@ -116,18 +116,6 @@ NSString * const SEEntriesManagerDidCreateWeakEntryNotification = @"SEEntriesMan
   }
 }
 
-- (SEEntryEditor *)editor {
-  if (!se_editor) {
-    se_editor = [[SEEntryEditor alloc] init];
-    /* Load */
-    [se_editor window];
-    [se_editor setDelegate:self];
-  }
-  /* Update application */
-  [se_editor setApplication:[self application]];
-  return se_editor;
-}
-
 - (unsigned)removeEntries:(NSArray *)entries {
   BOOL refresh = NO;
   unsigned removed = 0;
@@ -161,18 +149,6 @@ NSString * const SEEntriesManagerDidCreateWeakEntryNotification = @"SEEntriesMan
 }
 
 /* Create Entry with type */
-- (void)createEntry:(SparkPlugIn *)aPlugin modalForWindow:(NSWindow *)aWindow {
-  SEEntryEditor *editor = [self editor];
-  [editor setEntry:nil];
-  [editor setActionType:aPlugin];
-  
-  [NSApp beginSheet:[editor window]
-     modalForWindow:aWindow
-      modalDelegate:nil
-     didEndSelector:NULL
-        contextInfo:nil];
-}
-
 - (void)editEntry:(SparkEntry *)anEntry modalForWindow:(NSWindow *)aWindow {
   SEEntryEditor *editor = [self editor];
   [editor setEntry:anEntry];

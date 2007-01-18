@@ -8,7 +8,9 @@
 
 #import "SELibraryDocument.h"
 #import "SELibraryWindow.h"
+#import "SEEntryEditor.h"
 #import "SEEntryCache.h"
+
 
 #import <SparkKit/SparkLibrary.h>
 
@@ -24,6 +26,7 @@ NSString * const SEApplicationDidChangeNotification = @"SEApplicationDidChange";
 
 - (void)dealloc {
   [se_cache release];
+  [se_editor release];
   [se_library release];
   [se_application release];
   [super dealloc];
@@ -79,6 +82,31 @@ NSString * const SEApplicationDidChangeNotification = @"SEApplicationDidChange";
     [self updateChangeCount:NSChangeCleared];
   } 
   [super canCloseDocumentWithDelegate:delegate shouldCloseSelector:shouldCloseSelector contextInfo:contextInfo];
+}
+
+#pragma mark Editor
+- (SEEntryEditor *)editor {
+  if (!se_editor) {
+    se_editor = [[SEEntryEditor alloc] init];
+    /* Load */
+    [se_editor window];
+    [se_editor setDelegate:self];
+  }
+  /* Update application */
+  [se_editor setApplication:[self application]];
+  return se_editor;
+}
+
+- (void)makeEntryOfType:(SparkPlugIn *)type {
+  SEEntryEditor *editor = [self editor];
+  [editor setEntry:nil];
+  [editor setActionType:type];
+  
+  [NSApp beginSheet:[editor window]
+     modalForWindow:[self windowForSheet]
+      modalDelegate:nil
+     didEndSelector:NULL
+        contextInfo:nil];
 }
 
 @end

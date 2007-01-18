@@ -44,4 +44,9 @@
   }
 }
 
+- (NSImage *)defaultIcon {
+  if ([se_app icon]) return [se_app icon];
+  else return [super defaultIcon];
+}
+
 @end

@@ -14,6 +14,18 @@ NSString * const SETableSeparator = @"-\e";
 
 @implementation SETableViewCell
 
+static 
+NSShadow *sHighlightShadow = nil;
+
++ (void)initialize {
+  if ([SETableViewCell class] == self) {
+    sHighlightShadow = [[NSShadow alloc] init];
+    [sHighlightShadow setShadowColor:[NSColor colorWithCalibratedWhite:0.35 alpha:.5]];
+    [sHighlightShadow setShadowOffset:NSMakeSize(0, -1)];
+    [sHighlightShadow setShadowBlurRadius:0];
+  }
+}
+
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {
   if ([[self title] isEqualToString:SETableSeparator]) {
     [[NSColor lightGrayColor] setStroke];
@@ -21,15 +33,13 @@ NSString * const SETableSeparator = @"-\e";
                               toPoint:NSMakePoint(NSMaxX(cellFrame), NSMidY(cellFrame))];
   } else {
     if ([self isHighlighted]) {
-      cellFrame.origin.y++;
-      [self setTextColor:[NSColor colorWithCalibratedWhite:0.35 alpha:.5]];
+      [[NSGraphicsContext currentContext] saveGraphicsState];
+      [sHighlightShadow set];
+      [self setTextColor:[NSColor whiteColor]];
       [super drawWithFrame:cellFrame inView:controlView];
-      
-      cellFrame.origin.y--;
-      [self setTextColor:[NSColor whiteColor]]; 
-      [super drawWithFrame:cellFrame inView:controlView];
+      [self setTextColor:[NSColor controlTextColor]];
+      [[NSGraphicsContext currentContext] restoreGraphicsState];
     } else {
-      [self setTextColor:[NSColor blackColor]];
       [super drawWithFrame:cellFrame inView:controlView];
     }
   }

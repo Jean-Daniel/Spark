@@ -110,7 +110,7 @@ void SparkDaemonCheckTrigger(SparkLibrary *library, SparkTrigger *trigger) {
 - (void)willUpdateTrigger:(NSNotification *)aNotification {
   ShadowTrace();
   /* Configure new trigger */
-  SparkTrigger *new = [[aNotification userInfo] objectForKey:kSparkNotificationUpdatedObject];
+  SparkTrigger *new = SparkNotificationUpdatedObject(aNotification);
   NSAssert(new != nil, @"Invalid notification");
   [self configureTrigger:new];
   if ([self isEnabled]) {

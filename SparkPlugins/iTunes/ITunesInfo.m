@@ -10,6 +10,7 @@
 #import "ITunesAction.h"
 #import "ITunesStarView.h"
 
+#import <ShadowKit/SKFunctions.h>
 #import <ShadowKit/SKCGFunctions.h>
 #import <ShadowKit/SKNotificationWindow.h>
 
@@ -195,20 +196,20 @@ BOOL ITunesVisualIsEqualTo(const ITunesVisual *v1, const ITunesVisual *v2) {
   ia_loc = __iTunesGetTypeForLocation(aPoint);
   switch (ia_loc) {
     case kiTunesVisualUL:
-      origin.x = SCREEN_MARGIN;
-      origin.y = NSHeight(screen) - NSHeight(bounds) - SCREEN_MARGIN - 22; // menu bar
+      origin.x = SCREEN_MARGIN * SKScreenScaleFactor([NSScreen mainScreen]);
+      origin.y = NSHeight(screen) - NSHeight(bounds) - (SCREEN_MARGIN - 22) * SKScreenScaleFactor([NSScreen mainScreen]); // menu bar
       break;
     case kiTunesVisualUR:
-      origin.x = NSWidth(screen) - NSWidth(bounds) - SCREEN_MARGIN;
-      origin.y = NSHeight(screen) - NSHeight(bounds) - SCREEN_MARGIN - 22;
+      origin.x = NSWidth(screen) - NSWidth(bounds) - SCREEN_MARGIN * SKScreenScaleFactor([NSScreen mainScreen]);
+      origin.y = NSHeight(screen) - NSHeight(bounds) - (SCREEN_MARGIN - 22) * SKScreenScaleFactor([NSScreen mainScreen]);
       break;
     case kiTunesVisualBL:
-      origin.x = SCREEN_MARGIN;
-      origin.y = SCREEN_MARGIN + 22;
+      origin.x = SCREEN_MARGIN * SKScreenScaleFactor([NSScreen mainScreen]);
+      origin.y = (SCREEN_MARGIN + 22) * SKScreenScaleFactor([NSScreen mainScreen]);
       break;
     case kiTunesVisualBR:
-      origin.x = NSWidth(screen) - NSWidth(bounds) - SCREEN_MARGIN;
-      origin.y = SCREEN_MARGIN + 22; // like that
+      origin.x = NSWidth(screen) - NSWidth(bounds) - SCREEN_MARGIN * SKScreenScaleFactor([NSScreen mainScreen]);
+      origin.y = (SCREEN_MARGIN + 22) * SKScreenScaleFactor([NSScreen mainScreen]);
       break;
   }
   [[self window] setFrameOrigin:origin];

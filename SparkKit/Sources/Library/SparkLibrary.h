@@ -34,20 +34,35 @@ BOOL SparkSetActiveLibrary(SparkLibrary *library);
 
 /* Notifications support */
 SPARK_EXPORT
-NSString * const kSparkNotificationObject;
+NSString * const SparkNotificationObjectKey;
 SPARK_EXPORT
-NSString * const kSparkNotificationUpdatedObject;
+NSString * const SparkNotificationUpdatedObjectKey;
 
 SPARK_INLINE
 id SparkNotificationObject(NSNotification *aNotification) {
-  return [[aNotification userInfo] objectForKey:kSparkNotificationObject];
+  return [[aNotification userInfo] objectForKey:SparkNotificationObjectKey];
 }
 
 SPARK_INLINE
 id SparkNotificationUpdatedObject(NSNotification *aNotification) {
-  return [[aNotification userInfo] objectForKey:kSparkNotificationUpdatedObject];
+  return [[aNotification userInfo] objectForKey:SparkNotificationUpdatedObjectKey];
 }
 
+SK_INLINE
+void SparkLibraryPostNotification(SparkLibrary *library, NSString *name, id sender, id object) {
+  [[library notificationCenter] postNotificationName:name
+                                              object:sender
+                                            userInfo:object ? [NSDictionary dictionaryWithObject:object
+                                                                                          forKey:SparkNotificationObjectKey] : nil];
+}
+SK_INLINE
+void SparkLibraryPostUpdateNotification(SparkLibrary *library, NSString *name, id sender, id replaced, id object) {
+  [[library notificationCenter] postNotificationName:name
+                                              object:sender
+                                            userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
+                                              object, SparkNotificationObjectKey,
+                                              replaced, SparkNotificationUpdatedObjectKey, nil]];
+}
 
 #pragma mark -
 @class SparkApplication, SparkEntryManager;

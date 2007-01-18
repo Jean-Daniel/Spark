@@ -34,22 +34,6 @@ NSString * const SparkEntryManagerDidRemoveEntryNotification = @"SparkEntryManag
 
 NSString * const SparkEntryManagerDidChangeEntryEnabledNotification = @"SparkEntryManagerDidChangeEntryEnabled";
 
-SK_INLINE
-void SparkEntryManagerPostNotification(NSString *name, SparkEntryManager *self, SparkEntry *object) {
-  [[[self library] notificationCenter] postNotificationName:name
-                                                     object:self
-                                                   userInfo:[NSDictionary dictionaryWithObject:object
-                                                                                        forKey:SparkEntryNotificationKey]];
-}
-SK_INLINE
-void SparkEntryManagerPostUpdateNotification(NSString *name, SparkEntryManager *self, SparkEntry *replaced, SparkEntry *object) {
-  [[[self library] notificationCenter] postNotificationName:name
-                                                     object:self
-                                                   userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                     object, SparkEntryNotificationKey,
-                                                     replaced, SparkEntryReplacedNotificationKey, nil]];
-}
-
 @implementation SparkEntryManager
 
 - (id)init {
@@ -141,7 +125,7 @@ void SparkEntryManagerPostUpdateNotification(NSString *name, SparkEntryManager *
     [anEntry setEnabled:flag];
     /* Update library entry => Undo */
     [self setEnabled:flag forLibraryEntry:entry];
-    SparkEntryManagerPostNotification(SparkEntryManagerDidChangeEntryEnabledNotification, self, anEntry);
+    SparkLibraryPostNotification([self library], SparkEntryManagerDidChangeEntryEnabledNotification, self, anEntry);
   }
 }
 
@@ -155,12 +139,15 @@ void SparkEntryManagerPostUpdateNotification(NSString *name, SparkEntryManager *
 #pragma mark -
 #pragma mark High-Level Methods
 - (void)addEntry:(SparkEntry *)anEntry {
+  NSParameterAssert([[anEntry action] uid] != 0);
+  NSParameterAssert([[anEntry trigger] uid] != 0);
   NSParameterAssert(![self containsEntry:anEntry]);
+    
   /* Undo management */
   [[self undoManager] registerUndoWithTarget:self selector:@selector(removeEntry:) object:anEntry];
   
   // Will add
-  SparkEntryManagerPostNotification(SparkEntryManagerWillAddEntryNotification, self, anEntry);
+  SparkLibraryPostNotification([self library], SparkEntryManagerWillAddEntryNotification, self, anEntry);
   SparkLibraryEntry entry = { 0, 0, 0, 0 };
   entry.action = [[anEntry action] uid];
   entry.trigger = [[anEntry trigger] uid];
@@ -177,7 +164,7 @@ void SparkEntryManagerPostUpdateNotification(NSString *name, SparkEntryManager *
   [anEntry setPlugged:SparkLibraryEntryIsPlugged(&entry)]; 
 
   // Did add
-  SparkEntryManagerPostNotification(SparkEntryManagerDidAddEntryNotification, self, anEntry);
+  SparkLibraryPostNotification([self library], SparkEntryManagerDidAddEntryNotification, self, anEntry);
 }
 
 - (void)replaceEntry:(SparkEntry *)anEntry withEntry:(SparkEntry *)newEntry {
@@ -188,7 +175,7 @@ void SparkEntryManagerPostUpdateNotification(NSString *name, SparkEntryManager *
     [[[self undoManager] prepareWithInvocationTarget:self] replaceEntry:newEntry withEntry:anEntry];
     
     // Will update
-    SparkEntryManagerPostUpdateNotification(SparkEntryManagerWillUpdateEntryNotification, self, anEntry, newEntry);
+    SparkLibraryPostUpdateNotification([self library], SparkEntryManagerWillUpdateEntryNotification, self, anEntry, newEntry);
     SparkLibraryEntry update = { 0, 0, 0, 0 };
 
     /* Set entry uids */
@@ -202,7 +189,7 @@ void SparkEntryManagerPostUpdateNotification(NSString *name, SparkEntryManager *
     /* Update type */
     [newEntry setType:[self typeForLibraryEntry:entry]];
     // Did update
-    SparkEntryManagerPostUpdateNotification(SparkEntryManagerDidUpdateEntryNotification, self, anEntry, newEntry);
+    SparkLibraryPostUpdateNotification([self library], SparkEntryManagerDidUpdateEntryNotification, self, anEntry, newEntry);
   }
 }
 
@@ -215,14 +202,14 @@ void SparkEntryManagerPostUpdateNotification(NSString *name, SparkEntryManager *
   [[self undoManager] registerUndoWithTarget:self selector:@selector(addEntry:) object:anEntry];
   
   // Will remove
-  SparkEntryManagerPostNotification(SparkEntryManagerWillRemoveEntryNotification, self, anEntry);
+  SparkLibraryPostNotification([self library], SparkEntryManagerWillRemoveEntryNotification, self, anEntry);
   SparkLibraryEntry entry;
   entry.action = [[anEntry action] uid];
   entry.trigger = [[anEntry trigger] uid];
   entry.application = [[anEntry application] uid];
   [self removeLibraryEntry:&entry];
   // Did remove
-  SparkEntryManagerPostNotification(SparkEntryManagerDidRemoveEntryNotification, self, anEntry);
+  SparkLibraryPostNotification([self library], SparkEntryManagerDidRemoveEntryNotification, self, anEntry);
 }
 
 - (void)removeEntries:(NSArray *)theEntries {

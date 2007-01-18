@@ -18,7 +18,7 @@
 
 static
 void _SparkEntryRelease(CFAllocatorRef allocator, const void *value) {
-  free((void *)value);
+  CFAllocatorDeallocate(kCFAllocatorDefault, (void *)value);
 }
 
 /* Two entries are equals if application and trigger are equals. */
@@ -103,7 +103,7 @@ void SparkLibraryEntryInitFlags(SparkLibraryEntry *lentry, SparkEntry *entry) {
 #pragma mark Entry Manipulation
 - (void)addLibraryEntry:(SparkLibraryEntry *)anEntry {
   if (!CFSetContainsValue(sp_set, anEntry)) {
-    SparkLibraryEntry *entry = malloc(sizeof(*entry));
+    SparkLibraryEntry *entry = CFAllocatorAllocate(kCFAllocatorDefault, sizeof(*entry), 0);
     *entry = *anEntry;
     CFSetAddValue(sp_set, entry);
     CFArrayAppendValue(sp_entries, entry);

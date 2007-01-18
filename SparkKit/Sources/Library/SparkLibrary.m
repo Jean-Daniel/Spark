@@ -49,6 +49,10 @@ NSString * const kSparkLibraryDefaultFileName = @"Spark3 Library_Debug.splib";
 NSString * const kSparkLibraryDefaultFileName = @"Spark3 Library.splib";
 #endif
 
+/* Notifications */
+NSString * const SparkNotificationObjectKey = @"SparkNotificationObject";
+NSString * const SparkNotificationUpdatedObjectKey = @"SparkNotificationUpdatedObject";
+
 #define kSparkLibraryVersion_1_0		0x100
 #define kSparkLibraryVersion_2_0		0x200
 
