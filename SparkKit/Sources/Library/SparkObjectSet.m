@@ -151,7 +151,7 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
       if (uid != [object uid])
         [[[self undoManager] prepareWithInvocationTarget:object] setUID:uid];
       if (luid != [self currentUID])
-        [[[self undoManager] prepareWithInvocationTarget:self] setCurrentUID:uid];
+        [[[self undoManager] prepareWithInvocationTarget:self] setCurrentUID:luid];
       [[self undoManager] registerUndoWithTarget:self selector:@selector(removeObject:) object:object];
     } 
       // Will add object

@@ -103,6 +103,7 @@
 }
 
 - (unsigned)addApplications:(NSArray *)files {
+  se_locked = YES;
   unsigned count = 0;
   unsigned idx = [files count];
   SparkObjectSet *library = [self applicationSet];
@@ -119,14 +120,15 @@
       if (![[[self applicationSet] objects] containsObject:app]) {
         // Add application
         [library addObject:app];
-//        [self addObject:app];
         count++;
       }
       [app release];
     }
   }
-//  if (count > 0)
-//    [self rearrangeObjects];
+  se_locked = NO;
+  if (count > 0) {
+    [self rearrangeObjects];
+  }
   return count;
 }
 
@@ -196,7 +198,6 @@
             [manager removeEntries:[manager entriesForApplication:[object uid]]];
           }
           [[self applicationSet] removeObject:object];
-          //[self removeObject:object];
           return;
         }
       }
@@ -277,7 +278,9 @@
 #pragma mark Notifications
 - (void)didAddApplication:(NSNotification *)aNotification {
   [self addObject:SparkNotificationObject(aNotification)];
-  [self rearrangeObjects];
+  if (!se_locked) {
+    [self rearrangeObjects];
+  }
 }
 
 - (void)didRemoveApplication:(NSNotification *)aNotification {

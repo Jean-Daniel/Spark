@@ -97,25 +97,6 @@ NSString * const SEEntriesManagerDidCreateWeakEntryNotification = @"SEEntriesMan
   [self reload];
 }
 
-- (SparkApplication *)application {
-  return se_app;
-}
-- (void)setApplication:(SparkApplication *)anApplication {
-  if (se_app != anApplication) {
-    /* Optimization: should reload if switch from/to global */
-    BOOL reload = [anApplication uid] == 0 || [se_app uid] == 0;
-    /* Sould not reload if overwrite change, ie it is not empty or it will not be. */
-    if (!reload)
-      reload = [se_overwrites count] != 0 || [[se_library entryManager] containsEntryForApplication:[anApplication uid]];
-    
-    [se_app release];
-    se_app = [anApplication retain];
-    /* Avoid useless reload */
-    if (reload)
-      [self refresh];
-  }
-}
-
 - (unsigned)removeEntries:(NSArray *)entries {
   BOOL refresh = NO;
   unsigned removed = 0;
@@ -193,7 +174,7 @@ NSString * const SEEntriesManagerDidCreateWeakEntryNotification = @"SEEntriesMan
       } else {
         /* Already used by a real entry */
         int result = NSRunAlertPanel([NSString stringWithFormat:@"The '%@' action already use the same shortcut.", [previous name]],
-                                     @"Do you want to replace the action '%@' by you new action?",
+                                     @"Do you want to replace the action '%@' by your new action?",
                                      @"Replace", @"Cancel", nil, [previous name]);
         if (NSOKButton == result) {
           [[se_library entryManager] removeEntry:previous];

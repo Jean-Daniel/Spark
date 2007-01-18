@@ -197,11 +197,11 @@ BOOL ITunesVisualIsEqualTo(const ITunesVisual *v1, const ITunesVisual *v2) {
   switch (ia_loc) {
     case kiTunesVisualUL:
       origin.x = SCREEN_MARGIN * SKScreenScaleFactor([NSScreen mainScreen]);
-      origin.y = NSHeight(screen) - NSHeight(bounds) - (SCREEN_MARGIN - 22) * SKScreenScaleFactor([NSScreen mainScreen]); // menu bar
+      origin.y = NSHeight(screen) - NSHeight(bounds) - (SCREEN_MARGIN + 22) * SKScreenScaleFactor([NSScreen mainScreen]); // menu bar
       break;
     case kiTunesVisualUR:
       origin.x = NSWidth(screen) - NSWidth(bounds) - SCREEN_MARGIN * SKScreenScaleFactor([NSScreen mainScreen]);
-      origin.y = NSHeight(screen) - NSHeight(bounds) - (SCREEN_MARGIN - 22) * SKScreenScaleFactor([NSScreen mainScreen]);
+      origin.y = NSHeight(screen) - NSHeight(bounds) - (SCREEN_MARGIN + 22) * SKScreenScaleFactor([NSScreen mainScreen]);
       break;
     case kiTunesVisualBL:
       origin.x = SCREEN_MARGIN * SKScreenScaleFactor([NSScreen mainScreen]);

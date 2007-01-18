@@ -340,8 +340,6 @@ NSString *iTunesFindLibraryFile(int folder) {
   NSImage *icon = ITunesGetApplicationIcon();
   if (!icon)
     icon = [super plugInIcon];
-  //  else
-  //    [icon setSize:NSMakeSize(16, 16)];    
   return icon;
 }
 

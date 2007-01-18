@@ -14,6 +14,7 @@
   IBOutlet SKTableView *uiTable;
   IBOutlet SELibraryWindow *ibWindow;
   @private
+    BOOL se_locked;
   NSMutableSet *se_path;
   SparkLibrary *se_library;
 }

@@ -20,7 +20,7 @@ NSShadow *sHighlightShadow = nil;
 + (void)initialize {
   if ([SETableViewCell class] == self) {
     sHighlightShadow = [[NSShadow alloc] init];
-    [sHighlightShadow setShadowColor:[NSColor colorWithCalibratedWhite:0.35 alpha:.5]];
+    [sHighlightShadow setShadowColor:[NSColor colorWithCalibratedWhite:.35 alpha:.5]];
     [sHighlightShadow setShadowOffset:NSMakeSize(0, -1)];
     [sHighlightShadow setShadowBlurRadius:0];
   }

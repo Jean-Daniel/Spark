@@ -249,10 +249,6 @@ BOOL SEPluginListFilter(SparkObject *object, _SEPluginListContext *ctxt) {
   [self rearrangeObjects];
   
   /* Register for notifications */
-  //    [[NSNotificationCenter defaultCenter] addObserver:self
-  //                                             selector:@selector(didReloadEntries:)
-  //                                                 name:SEEntriesManagerDidReloadNotification
-  //                                               object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self
                                            selector:@selector(applicationDidChange:)
                                                name:SEApplicationDidChangeNotification
@@ -266,11 +262,12 @@ BOOL SEPluginListFilter(SparkObject *object, _SEPluginListContext *ctxt) {
                                       selector:@selector(didRemoveList:)
                                           name:SparkObjectSetDidRemoveObjectNotification
                                         object:[se_library listSet]];
-  //    [[NSNotificationCenter defaultCenter] addObserver:self
+  
+  // [[se_library notificationCenter] addObserver:self
   //                                             selector:@selector(didCreateEntry:)
   //                                                 name:SEEntriesManagerDidCreateEntryNotification
   //                                               object:nil];
-  //    [[NSNotificationCenter defaultCenter] addObserver:self
+  // [[se_library notificationCenter] addObserver:self
   //                                             selector:@selector(didCreateWeakEntry:)
   //                                                 name:SEEntriesManagerDidCreateWeakEntryNotification
   //                                               object:nil];
@@ -371,13 +368,18 @@ BOOL SEPluginListFilter(SparkObject *object, _SEPluginListContext *ctxt) {
     SparkList *list = [se_content objectAtIndex:row];
     SparkObjectSet *triggers = [se_library triggerSet];
     NSArray *uids = [[info draggingPasteboard] propertyListForType:SparkTriggerListPboardType];
+    NSMutableArray *items = [[NSMutableArray alloc] init];
     for (unsigned idx = 0; idx < [uids count]; idx++) {
       NSNumber *uid = [uids objectAtIndex:idx];
       SparkTrigger *trigger = [triggers objectForUID:[uid unsignedIntValue]];
       if (trigger && ![list containsObject:trigger]) {
-        [list addObject:trigger];
+        [items addObject:trigger];
       }
     }
+    if ([items count]) {
+      [list addObjectsFromArray:items];
+    }
+    [items release];
     return YES;
   }
   return NO;
