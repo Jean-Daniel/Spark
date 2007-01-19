@@ -82,6 +82,8 @@ const ITunesVisual kiTunesDefaultSettings;
 - (NSColor *)backgroundBottomColor;
 - (void)setBackgroundBottomColor:(NSColor *)aColor;
 
+/* Internal */
+- (void)setDuration:(SInt32)aTime rate:(SInt32)rate;
 @end
 
 SK_INLINE

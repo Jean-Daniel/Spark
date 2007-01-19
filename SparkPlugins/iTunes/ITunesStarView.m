@@ -13,6 +13,19 @@
 
 @implementation ITunesStarView
 
+static
+void _ITunesDrawHalfString(NSPoint point, NSColor *color) {
+  static NSMutableAttributedString *sHalf = nil;
+  if (!sHalf) {
+    unichar half = 0x00bd;
+    sHalf = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithCharacters:&half length:1]
+                                                   attributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                     [NSFont systemFontOfSize:[NSFont smallSystemFontSize]], NSFontAttributeName, nil]];
+  }
+  [sHalf addAttribute:NSForegroundColorAttributeName value:color ? : [NSColor blackColor] range:NSMakeRange(0, 1)];
+  [sHalf drawAtPoint:point];
+}
+
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
@@ -58,18 +71,34 @@
     double center = 6;
     unsigned rate = ia_rate / 2;
     while (rate-- > 0) {
-      SKCGContextAddStar(ctxt, CGPointMake(center + shift, 8), 5, 6, 0);
+      SKCGContextAddStar(ctxt, CGPointMake(center + shift, 9), 5, 6, 0);
       center += 13;
     }
     CGContextFillPath(ctxt);
+    
     /* if 1/2 */
     if (ia_rate % 2) {
-      CGContextClipToRect(ctxt, CGRectMake(center - 6, 0, 6 + 2 * shift, 17));
-      SKCGContextAddStar(ctxt, CGPointMake(center + shift, 8), 5, 6, 0);
+      _ITunesDrawHalfString(NSMakePoint(center - 4, 2), ia_color);
+      center += 12;
     }
-    CGContextFillPath(ctxt);
+    
+    rate = (10 - ia_rate) / 2;
+    if (rate > 0) {
+      /* Adjust color */
+      if (ia_color)
+        [[ia_color colorWithAlphaComponent:0.25] setFill];
+      else
+        CGContextSetGrayFillColor(ctxt, 0, .25);
+      
+      CGRect point = CGRectMake(center - 2 + shift, 7, 3, 3);
+      while (rate-- > 0) {
+        CGContextAddEllipseInRect(ctxt, point);
+        point.origin.x += 12;
+      }
+      CGContextFillPath(ctxt);
+    }
   } else {
-    CGRect point = CGRectMake(4 + shift, 6, 3, 3);
+    CGRect point = CGRectMake(4 + shift, 7, 3, 3);
     for (unsigned idx = 0; idx < 5; idx++) {
       CGContextAddEllipseInRect(ctxt, point);
       point.origin.x += 12;

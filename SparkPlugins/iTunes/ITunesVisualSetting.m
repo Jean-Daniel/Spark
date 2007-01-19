@@ -23,6 +23,7 @@
 - (id)init {
   if (self = [super init]) {
     ia_info = [[ITunesInfo alloc] init];
+    [ia_info setDuration:163 rate:60];
     ia_config = kiTunesSettingDefault;
     [self updateLocation:1];
     [self setColorComponent:0];
