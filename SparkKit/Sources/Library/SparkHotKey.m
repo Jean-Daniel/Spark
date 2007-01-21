@@ -11,13 +11,10 @@
 #import <SparkKit/SparkHotKey.h>
 #import <SparkKit/SparkAction.h>
 
-#import <ShadowKit/SKImageUtils.h>
 #import <ShadowKit/SKForwarding.h>
 #import <ShadowKit/SKAppKitExtensions.h>
 
 #import <HotKeyToolKit/HotKeyToolKit.h>
-
-#define ICON_SIZE		16
 
 static
 NSString * const kHotKeyRawCodeKey = @"STRawKey";
@@ -193,10 +190,6 @@ BOOL KeyStrokeFilter(UInt32 code, UInt32 modifier) {
     icon = [super icon];
   }
   return icon;
-}
-
-- (void)setIcon:(NSImage *)icon {
-  [super setIcon:SKResizedIcon(icon, NSMakeSize(ICON_SIZE, ICON_SIZE))];
 }
 
 @end

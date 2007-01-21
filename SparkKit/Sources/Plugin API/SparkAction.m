@@ -13,10 +13,7 @@
 #import <SparkKit/SparkObjectSet.h>
 #import <SparkKit/SparkActionLoader.h>
 
-#import <ShadowKit/SKImageUtils.h>
 #import <ShadowKit/SKSerialization.h>
-
-#define ICON_SIZE		16
 
 static NSString * const kSparkActionFlagsKey = @"SAFlags";
 static NSString * const kSparkActionVersionKey = @"SAVersion";
@@ -154,10 +151,6 @@ static SparkTrigger *sTrigger;
 
 #pragma mark -
 #pragma mark Accessors
-- (void)setIcon:(NSImage *)icon {
-  [super setIcon:SKResizedIcon(icon, NSMakeSize(ICON_SIZE, ICON_SIZE))];
-}
-
 - (UInt32)version {
   return sp_version;
 }

@@ -9,11 +9,11 @@
 #import <SparkKit/SparkApplication.h>
 #import <SparkKit/SparkShadowKit.h>
 
-#import <ShadowKit/SKImageUtils.h>
 #import <ShadowKit/SKApplication.h>
 #import <ShadowKit/SKAppKitExtensions.h>
 
-static NSString * const kSparkApplicationKey = @"SparkApplication";
+static
+NSString * const kSparkApplicationKey = @"SparkApplication";
 
 @implementation SparkApplication
 
@@ -118,16 +118,23 @@ static NSString * const kSparkApplicationKey = @"SparkApplication";
 
 /* Loading workspace icon is slow, so use lazy loading */
 - (NSImage *)icon {
-  if (![super icon]) {
-    //NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:[sp_application path]];
+  if (![self hasIcon]) {
+    NSImage *icon = nil;
     NSString *path = [sp_application path];
-    NSImage *icon = path ? SKResizedIcon([[NSWorkspace sharedWorkspace] iconForFile:[sp_application path]], NSMakeSize(32, 32)) : nil;
-    if (!icon) {
-      icon = [NSImage imageNamed:@"Application" inBundle:SKCurrentBundle()];
-    }
-    [self setIcon:icon];
+    if (path)
+      icon = [[NSWorkspace sharedWorkspace] iconForFile:path];
+    /* Try to set workspace icon */
+    if (icon)
+      [self setIcon:icon];
+    /* If failed and cached icon invalid, set default icon */
+    if (![self hasIcon])
+      [self setIcon:[NSImage imageNamed:@"Application" inBundle:SKCurrentBundle()]];    
   }
   return [super icon];
+}
+
+- (BOOL)shouldSaveIcon {
+  return NO;
 }
 
 - (OSType)signature {

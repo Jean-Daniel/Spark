@@ -25,10 +25,8 @@
 #import "SEPluginHelp.h"
 #import "SEPreferences.h"
 #import "SELibraryWindow.h"
-#import "SEEntriesManager.h"
-#import "SEServerConnection.h"
-
 #import "SELibraryDocument.h"
+#import "SEServerConnection.h"
 
 const UInt32 kSparkVersion = 0x020700; /* 3.0.0 */
 

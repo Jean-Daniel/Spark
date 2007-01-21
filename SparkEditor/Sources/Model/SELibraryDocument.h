@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class SparkPlugIn;
+@class SparkPlugIn, SparkEntry;
 @class SEEntryCache, SEEntryEditor;
 @class SparkLibrary, SparkApplication;
 @interface SELibraryDocument : NSDocument {
@@ -29,6 +29,7 @@
 
 /* Entry editor */
 - (void)makeEntryOfType:(SparkPlugIn *)type;
+- (void)editEntry:(SparkEntry *)anEntry;
 
 @end
 

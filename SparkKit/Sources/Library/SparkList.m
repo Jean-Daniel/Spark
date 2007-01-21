@@ -54,6 +54,43 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
   [super dealloc];
 }
 
+#pragma mark -
+- (BOOL)serialize:(NSMutableDictionary *)plist {
+  if ([super serialize:plist]) {
+    NSMutableArray *objects = [[NSMutableArray alloc] init];
+    
+    SparkObject *entry;
+    NSEnumerator *entries = [sp_entries objectEnumerator];
+    while (entry = [entries nextObject]) {
+      [objects addObject:SKUInt([entry uid])];
+    }
+    [plist setObject:objects forKey:kSparkObjectsKey];
+    
+    [objects release];
+    return YES;
+  }
+  return NO;
+}
+
+- (id)initWithSerializedValues:(NSDictionary *)plist objectSet:(SparkObjectSet *)library  {
+  if (self = [super initWithSerializedValues:plist]) {
+    [self setObjectSet:library];
+    // Load plist
+    NSNumber *entry;
+    sp_entries = [[NSMutableArray alloc] init];
+    NSEnumerator *entries = [[plist objectForKey:kSparkObjectsKey] objectEnumerator];
+    while (entry = [entries nextObject]) {
+      SparkObject *object = [library objectForUID:[entry unsignedIntValue]];
+      if (object)
+        [sp_entries addObject:object];
+      else
+        DLog(@"Cannot resolve reference %@", entry);
+    }
+  }
+  return self;
+}
+
+#pragma mark -
 - (NSImage *)icon {
   NSImage *icon = [super icon];
   if (!icon) {
@@ -61,6 +98,10 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
     [self setIcon:icon];
   }
   return icon;
+}
+
+- (BOOL)shouldSaveIcon {
+  return NO;
 }
 
 - (void)reload {
@@ -127,45 +168,8 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
   [self reload];
 }
 
-- (BOOL)serialize:(NSMutableDictionary *)plist {
-  /* Do not save list icon */
-  NSImage *icon = [[super icon] retain];
-  [super setIcon:nil];
-  [super serialize:plist];
-  [super setIcon:icon];
-  [icon release];
-  
-  NSMutableArray *objects = [[NSMutableArray alloc] init];
-  
-  SparkObject *entry;
-  NSEnumerator *entries = [sp_entries objectEnumerator];
-  while (entry = [entries nextObject]) {
-    [objects addObject:SKUInt([entry uid])];
-  }
-  [plist setObject:objects forKey:kSparkObjectsKey];
-  
-  [objects release];
-  return YES;
-}
-
-- (id)initWithSerializedValues:(NSDictionary *)plist objectSet:(SparkObjectSet *)library  {
-  if (self = [super initWithSerializedValues:plist]) {
-    [self setObjectSet:library];
-    // Load plist
-    NSNumber *entry;
-    sp_entries = [[NSMutableArray alloc] init];
-    NSEnumerator *entries = [[plist objectForKey:kSparkObjectsKey] objectEnumerator];
-    while (entry = [entries nextObject]) {
-      SparkObject *object = [library objectForUID:[entry unsignedIntValue]];
-      if (object)
-        [sp_entries addObject:object];
-      else
-        DLog(@"Cannot resolve reference %@", entry);
-    }
-  }
-  return self;
-}
-
+#pragma mark -
+#pragma mark Array
 - (unsigned)count {
   return [sp_entries count];
 }
@@ -177,11 +181,19 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
 }
 
 #pragma mark Modification
+- (NSUndoManager *)undoManager {
+  return [[sp_set library] undoManager];
+}
+
 - (void)addObject:(SparkObject *)anObject {
+  /* Undo Manager */
+  [[self undoManager] registerUndoWithTarget:self selector:@selector(removeObject:) object:anObject];
   [sp_entries addObject:anObject];
   SparkLibraryPostNotification([sp_set library], SparkListDidAddObjectNotification, self, anObject);
 }
 - (void)addObjectsFromArray:(NSArray *)anArray {
+  /* Undo Manager */
+  [[self undoManager] registerUndoWithTarget:self selector:@selector(removeObjectsInArray:) object:anArray];
   [sp_entries addObjectsFromArray:anArray];
   SparkLibraryPostNotification([sp_set library], SparkListDidAddObjectsNotification, self, anArray);
 }
@@ -190,19 +202,33 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
   unsigned idx = [sp_entries indexOfObject:anObject];
   if (idx != NSNotFound) {
     [anObject retain];
+    /* Undo Manager */
+    [[self undoManager] registerUndoWithTarget:self selector:@selector(addObject:) object:[sp_entries objectAtIndex:idx]];
     [sp_entries removeObjectAtIndex:idx];
     SparkLibraryPostNotification([sp_set library], SparkListDidRemoveObjectNotification, self, anObject);
     [anObject release];
   }
 }
 - (void)removeObjectsInArray:(NSArray *)anArray {
-  unsigned cnt = [sp_entries count];
-  [sp_entries removeObjectsInArray:anArray];
-  if (cnt != [sp_entries count])
-    SparkLibraryPostNotification([sp_set library], SparkListDidRemoveObjectsNotification, self, anArray);
+  unsigned count = [anArray count];
+  NSMutableArray *removed = [[NSMutableArray alloc] init];
+  while (count-- > 0) {
+    unsigned idx = [sp_entries indexOfObject:[anArray objectAtIndex:count]];
+    if (NSNotFound != idx) {
+      [removed addObject:[sp_entries objectAtIndex:idx]];
+      [sp_entries removeObjectAtIndex:idx];
+    }
+  }
+  if ([removed count]) {
+    /* Undo Manager */
+    [[self undoManager] registerUndoWithTarget:self selector:@selector(addObjectsFromArray:) object:removed];    
+    SparkLibraryPostNotification([sp_set library], SparkListDidRemoveObjectsNotification, self, removed);
+  }
+  [removed release];    
 }
 
 #pragma mark -
+#pragma mark Notifications
 - (void)didAddObject:(NSNotification *)aNotification {
   SparkObject *object = SparkNotificationObject(aNotification);
   if (object && sp_filter && sp_filter(object, sp_ctxt)) {

@@ -10,7 +10,7 @@
 
 @class SKApplication;
 @interface SparkApplication : SparkObject {
-  @private
+  @private  
   SKApplication *sp_application;
 }
 

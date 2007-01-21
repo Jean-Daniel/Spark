@@ -119,7 +119,7 @@
     [self close:nil];
 }
 - (void)update:(SparkEntry *)entry {
-  if (!SKDelegateHandle(se_delegate, editor:shouldUpdateEntry:) || [se_delegate editor:self shouldUpdateEntry:entry])
+  if (!SKDelegateHandle(se_delegate, editor:shouldReplaceEntry:withEntry:) || [se_delegate editor:self shouldReplaceEntry:se_entry withEntry:entry])
     [self close:nil];
 }
 

@@ -26,7 +26,7 @@
   NSMutableArray *se_snapshot;
 }
 
-- (void)loadTriggers; /* Reload data */
+- (void)refresh; /* Reload data */
 
 - (NSView *)tableView;
 

@@ -18,7 +18,7 @@ SPARK_EXPORT
 NSString * const kSparkLibraryDefaultFileName;
 
 SPARK_EXPORT
-NSString *SparkLibraryDefaultFolder(void);
+NSString *SparkLibraryFolder(void);
 
 enum {
   kSparkLibraryReserved = 0xff
@@ -65,13 +65,14 @@ void SparkLibraryPostUpdateNotification(SparkLibrary *library, NSString *name, i
 }
 
 #pragma mark -
-@class SparkApplication, SparkEntryManager;
+@class SparkIconManager, SparkEntryManager;
 @interface SparkLibrary : NSObject {
   @private
   NSString *sp_file;
   CFUUIDRef sp_uuid;
   
   SparkObjectSet *sp_objects[4];
+  SparkIconManager *sp_icons;
   SparkEntryManager *sp_relations;
   
   struct _sp_slFlags {
@@ -108,6 +109,8 @@ void SparkLibraryPostUpdateNotification(SparkLibrary *library, NSString *name, i
    
 - (BOOL)synchronize;
 - (BOOL)writeToFile:(NSString *)file atomically:(BOOL)flag;
+
+- (SparkIconManager *)iconManager;
 
 - (NSFileWrapper *)fileWrapper:(NSError **)outError;
 - (BOOL)readFromFileWrapper:(NSFileWrapper *)fileWrapper error:(NSError **)outError;

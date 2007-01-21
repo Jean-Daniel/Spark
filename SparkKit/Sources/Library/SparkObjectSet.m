@@ -7,14 +7,15 @@
  */
 
 #import <SparkKit/SparkObjectSet.h>
+#import <SparkKit/SparkLibrary.h>
+#import <SparkKit/SparkFunctions.h>
+#import <SparkKit/SparkIconManager.h>
 
 #import <libkern/OSAtomic.h>
 #import <ShadowKit/SKCFContext.h>
 #import <ShadowKit/SKEnumerator.h>
 #import <ShadowKit/SKSerialization.h>
 #import <ShadowKit/SKAppKitExtensions.h>
-
-#import <SparkKit/SparkLibrary.h>
 
 /* Notifications */
 NSString* const SparkObjectSetWillAddObjectNotification = @"SparkObjectSetWillAddObject";
@@ -26,15 +27,17 @@ NSString* const SparkObjectSetDidUpdateObjectNotification = @"SparkObjectSetDidU
 NSString* const SparkObjectSetWillRemoveObjectNotification = @"SparkObjectSetWillRemoveObject";
 NSString* const SparkObjectSetDidRemoveObjectNotification = @"SparkObjectSetDidRemoveObject";
 
-#define kSparkLibraryVersion2_0		(UInt32)0x200
+#define kSparkObjectSetVersion_2_0		0x200UL
+#define kSparkObjectSetVersion_2_1		0x201UL
+
 static
-const unsigned int kSparkObjectSetCurrentVersion = kSparkLibraryVersion2_0;
+const unsigned int kSparkObjectSetCurrentVersion = kSparkObjectSetVersion_2_1;
 
 /* Library Keys */
 static
-NSString * const kSparkLibraryVersionKey = @"SparkVersion";
+NSString * const kSparkObjectSetVersionKey = @"SparkVersion";
 static
-NSString * const kSparkObjectsKey = @"SparkObjects";
+NSString * const kSparkObjectSetObjectsKey = @"SparkObjects";
 
 NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void *source) {
   if ([obj1 uid] < kSparkLibraryReserved) {
@@ -211,6 +214,7 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
     NSMapRemove(sp_objects, (void *)[object uid]);
     // Did remove
     SparkLibraryPostNotification([self library], SparkObjectSetDidRemoveObjectNotification, self, object);
+    
     [object release];
   }
 }
@@ -235,7 +239,7 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
 - (NSFileWrapper *)fileWrapper:(NSError **)outError {
   NSMutableArray *objects = [[NSMutableArray alloc] init];
   NSMutableDictionary *plist = [[NSMutableDictionary alloc] init];
-  [plist setObject:SKUInt(kSparkObjectSetCurrentVersion) forKey:kSparkLibraryVersionKey];
+  [plist setObject:SKUInt(kSparkObjectSetCurrentVersion) forKey:kSparkObjectSetVersionKey];
   
   SparkObject *object;
   OSStatus err = noErr;
@@ -251,7 +255,7 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
     }
   }
   
-  [plist setObject:objects forKey:kSparkObjectsKey];
+  [plist setObject:objects forKey:kSparkObjectSetObjectsKey];
   [objects release];
   
   NSData *data = [NSPropertyListSerialization dataFromPropertyList:plist format:SparkLibraryFileFormat errorDescription:nil];
@@ -285,7 +289,13 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
                                                                    format:nil errorDescription:nil];
   require(plist, bail);
   
-  NSArray *objects = [plist objectForKey:kSparkObjectsKey];
+  UInt32 version = [[plist objectForKey:kSparkObjectSetVersionKey] unsignedIntValue];
+  /* Update object set */
+  SparkIconManager *icons = nil;
+  if (version < kSparkObjectSetVersion_2_1 && SparkGetCurrentContext() == kSparkEditorContext)
+      icons = [[self library] iconManager];
+  
+  NSArray *objects = [plist objectForKey:kSparkObjectSetObjectsKey];
   require(objects, bail);
   
   /* Disable undo */
@@ -300,15 +310,21 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
     if (!object && kSKClassNotFoundError == err) {
       object = [[SparkPlaceHolder alloc] initWithSerializedValues:serialize];
       [object autorelease];
-    }
+    } 
     if (object && ![self containsObject:object]) {
       /* Avoid notifications */
       [self sp_checkUID:object];
       [self sp_addObject:object];
+      
+      /* Update old set */
+      if (icons && [object hasIcon] && [object shouldSaveIcon]) {
+        [icons setIcon:[object icon] forObject:object];
+      }
     } else {
       DLog(@"Invalid object: %@", serialize);
     }
   }
+  
   /* enable undo */
   [[self undoManager] enableUndoRegistration];
   
@@ -375,6 +391,10 @@ static NSImage *__SparkWarningImage = nil;
   return NO;
 }
 
+- (BOOL)shouldSaveIcon {
+  return NO;
+}
+
 - (void)forwardInvocation:(NSInvocation *)invocation {
   DLog(@"-[%@ %@]", [self class], NSStringFromSelector([invocation selector]));
   if ([[invocation methodSignature] methodReturnLength] > 0) {
@@ -385,7 +405,7 @@ static NSImage *__SparkWarningImage = nil;
   }
 }
 
-@class SparkAction, SparkTrigger, SparkList;
+@class SparkApplication, SparkAction, SparkTrigger, SparkList;
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)sel {
   if ([self respondsToSelector:sel])
     return [super methodSignatureForSelector:sel];

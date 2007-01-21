@@ -111,6 +111,11 @@
    */
 - (void)setIcon:(NSImage *)icon;
 
+/*!
+  @method
+ @result Returns YES if the receiver has an icon. 
+*/
+- (BOOL)hasIcon;
   /*!
   @method
    @abstract   Allows to not save the icon in SparkLibrary.

@@ -10,13 +10,6 @@
 
 #import <SparkKit/SparkApplication.h>
 
-@implementation SparkEntry (SEExtensions)
-
-- (BOOL)overwrite {
-  return [[self application] uid] != 0; 
-}
-
-@end
 @implementation SESparkEntrySet
 
 - (id)init {

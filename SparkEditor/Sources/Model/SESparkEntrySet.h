@@ -8,11 +8,6 @@
 
 #import <SparkKit/SparkEntry.h>
 
-@interface SparkEntry (SEExtensions)
-- (BOOL)overwrite;
-@end
-
-#pragma mark -
 @class SparkAction, SparkTrigger;
 @interface SESparkEntrySet : NSObject {
   @private

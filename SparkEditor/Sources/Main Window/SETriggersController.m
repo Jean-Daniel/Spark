@@ -124,7 +124,7 @@ SETriggerStyle styles[6];
     
     /* Avoid useless reload */
     if (reload)
-      [self loadTriggers];
+      [self refresh];
   }
 }
 
@@ -226,8 +226,7 @@ SETriggerStyle styles[6];
   if (idx >= 0) {
     SparkEntry *entry = [se_entries objectAtIndex:idx];
     if ([entry isPlugged]) {
-      DLog(@"Edit entry: %@", entry);
-      //[[self manager] editEntry:entry modalForWindow:[sender window]];
+      [[ibWindow document] editEntry:entry];
     } else {
       NSBeep();
     }
@@ -242,7 +241,7 @@ SETriggerStyle styles[6];
 //  }
 //}
 
-- (void)loadTriggers {
+- (void)refresh {
   [se_entries removeAllObjects];
   [se_snapshot removeAllObjects];
   if (se_list) {
@@ -267,7 +266,7 @@ SETriggerStyle styles[6];
 - (void)listDidReload:(NSNotification *)notification {
   /* If updated list is the current list */
   if ([notification object] == se_list)
-    [self loadTriggers];
+    [self refresh];
 }
 /* Selected list has changed */
 - (void)setList:(SparkList *)aList {
@@ -275,20 +274,66 @@ SETriggerStyle styles[6];
     [se_list release];
     se_list = [aList retain];
     // Reload data
-    [self loadTriggers];
+    [self refresh];
   }
 }
 
-/* Plugins status change, etc... */
-- (void)cacheDidReload:(NSNotification *)aNotification {
-  [self loadTriggers];
-}
-
-- (void)applicationDidChange:(NSNotification *)aNotification {
-  [self setApplication:[ibWindow application]];
-}
-
 #pragma mark -
+#pragma mark Data Source
+- (int)numberOfRowsInTableView:(NSTableView *)aTableView {
+  return [se_entries count];
+}
+
+- (void)tableView:(NSTableView *)aTableView sortDescriptorsDidChange:(NSArray *)oldDescriptors {
+  [self sortTriggers:[aTableView sortDescriptors]];
+  [aTableView reloadData];
+}
+
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
+  SparkEntry *entry = [se_entries objectAtIndex:rowIndex];
+  if ([[aTableColumn identifier] isEqualToString:@"__item__"]) {
+    return entry;
+  } else if ([[aTableColumn identifier] isEqualToString:@"trigger"]) {
+    return [entry triggerDescription];
+  } else {
+    return [entry valueForKey:[aTableColumn identifier]];
+  }
+}
+
+- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
+  SparkEntry *entry = [se_entries objectAtIndex:rowIndex];
+  if ([[aTableColumn identifier] isEqualToString:@"active"]) {
+    NSEvent *evnt = [NSApp currentEvent];
+    if (evnt && [evnt type] == NSLeftMouseUp && ([evnt modifierFlags] & NSAlternateKeyMask)) {
+      [self setListEnabled:[anObject boolValue]];
+    } else {
+      SparkApplication *application = [self application];
+      if ([application uid] != 0 && kSparkEntryTypeDefault == [entry type]) {
+        /* Inherits: should create an new entry */
+        entry = [[entry copy] autorelease];
+        [entry setApplication:application];
+        [[[self library] entryManager] addEntry:entry];
+        // TOMOVE:
+        // [se_entries replaceObjectAtIndex:rowIndex withObject:entry];
+      }
+      if ([anObject boolValue]) {
+        [[[self library] entryManager] enableEntry:entry];
+      } else {
+        [[[self library] entryManager] disableEntry:entry];
+      }
+      [aTableView setNeedsDisplayInRect:[aTableView rectOfRow:rowIndex]];
+    }
+  } else if ([[aTableColumn identifier] isEqualToString:@"__item__"]) {
+    if ([anObject length] > 0) {
+      [entry setName:anObject];
+    } else {
+      NSBeep();
+      // Be more verbose maybe?
+    }
+  }
+}
+
+#pragma mark Delegate
 - (void)deleteSelectionInTableView:(NSTableView *)aTableView {
   NSIndexSet *indexes = [aTableView selectedRowIndexes];
   NSArray *items = indexes ? [se_entries objectsAtIndexes:indexes] : nil;
@@ -309,31 +354,24 @@ SETriggerStyle styles[6];
       // TODO: Check item consequences.
       // TODO: remove item from library
       DLog(@"Remove items");
-      //[self removeEntries:items];
+      //[[self library] removeEntries:items];
     } else {
       // User list
       int count = [items count];
+      NSMutableArray *triggers = [[NSMutableArray alloc] init];
       while (count-- > 0) {
         SparkEntry *entry = [items objectAtIndex:count];
-        [se_list removeObject:[entry trigger]];
+        [triggers addObject:[entry trigger]];
       }
+      [se_list removeObjectsInArray:triggers];
+      [triggers release];
     }
   }
 }
 
-- (int)numberOfRowsInTableView:(NSTableView *)aTableView {
-  return [se_entries count];
-}
-
-- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
-  SparkEntry *entry = [se_entries objectAtIndex:rowIndex];
-  if ([[aTableColumn identifier] isEqualToString:@"__item__"]) {
-    return entry;
-  } else if ([[aTableColumn identifier] isEqualToString:@"trigger"]) {
-    return [entry triggerDescription];
-  } else {
-    return [entry valueForKey:[aTableColumn identifier]];
-  }
+- (BOOL)tableView:(NSTableView *)aTableView shouldEditTableColumn:(NSTableColumn *)tableColumn row:(int)rowIndex {
+  /* Should not allow all columns */
+  return [[tableColumn identifier] isEqualToString:@"__item__"] || [[tableColumn identifier] isEqualToString:@"enabled"];
 }
 
 - (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
@@ -392,47 +430,6 @@ SETriggerStyle styles[6];
   }
 }
 
-- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
-  SparkEntry *entry = [se_entries objectAtIndex:rowIndex];
-  if ([[aTableColumn identifier] isEqualToString:@"active"]) {
-    NSEvent *evnt = [NSApp currentEvent];
-    if (evnt && [evnt type] == NSLeftMouseUp && ([evnt modifierFlags] & NSAlternateKeyMask)) {
-      [self setListEnabled:[anObject boolValue]];
-    } else {
-      SparkApplication *application = [self application];
-      if ([application uid] != 0 && kSparkEntryTypeDefault == [entry type]) {
-        /* Inherits: should create an new entry */
-        DLog(@"Create weak entry for entry: %@", entry);
-//        entry = [self createWeakEntryForEntry:entry];
-//        [se_entries replaceObjectAtIndex:rowIndex withObject:entry];
-      }
-      if ([anObject boolValue]) {
-        [[[self library] entryManager] enableEntry:entry];
-      } else {
-        [[[self library] entryManager] disableEntry:entry];
-      }
-      [aTableView setNeedsDisplayInRect:[aTableView rectOfRow:rowIndex]];
-    }
-  } else if ([[aTableColumn identifier] isEqualToString:@"__item__"]) {
-    if ([anObject length] > 0) {
-      [entry setName:anObject];
-    } else {
-      NSBeep();
-      // Be more verbose maybe?
-    }
-  }
-}
-
-- (void)tableView:(NSTableView *)aTableView sortDescriptorsDidChange:(NSArray *)oldDescriptors {
-  [self sortTriggers:[aTableView sortDescriptors]];
-  [aTableView reloadData];
-}
-
-- (BOOL)tableView:(NSTableView *)aTableView shouldEditTableColumn:(NSTableColumn *)tableColumn row:(int)rowIndex {
-  /* Should not allow all columns */
-  return [[tableColumn identifier] isEqualToString:@"__item__"] || [[tableColumn identifier] isEqualToString:@"enabled"];
-}
-
 #pragma mark Drag & Drop
 - (BOOL)tableView:(NSTableView *)aTableView writeRows:(NSArray *)rows toPasteboard:(NSPasteboard *)pboard {
   NSMutableIndexSet *idxes = [NSMutableIndexSet indexSet];
@@ -460,8 +457,20 @@ SETriggerStyle styles[6];
   return YES;
 }
 
+#pragma mark -
+#pragma mark Notifications
+/* Plugins status change, etc... */
+- (void)cacheDidReload:(NSNotification *)aNotification {
+  [self refresh];
+}
+
+- (void)applicationDidChange:(NSNotification *)aNotification {
+  [self setApplication:[ibWindow application]];
+}
+
 @end
 
+#pragma mark -
 @implementation SparkEntry (SETriggerSort)
 
 - (UInt32)triggerValue {

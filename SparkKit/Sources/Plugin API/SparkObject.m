@@ -7,7 +7,9 @@
  */
 
 #import <SparkKit/SparkObject.h>
+#import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkFunctions.h>
+#import <SparkKit/SparkIconManager.h>
 
 #import <ShadowKit/SKFunctions.h>
 
@@ -20,14 +22,6 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
 
 @implementation SparkObject
 
-+ (void)initialize {
-  if ([SparkObject class] == self) {
-    [self exposeBinding:@"name"];
-    [self exposeBinding:@"icon"];
-  }
-}
-
-#pragma mark -
 #pragma mark NSCoding
 - (void)encodeWithCoder:(NSCoder *)coder {
   [coder encodeInt32:sp_uid forKey:kSparkObjectUIDKey];
@@ -80,9 +74,9 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
   [plist setObject:SKUInt(sp_uid) forKey:kSparkObjectUIDKey];
   if (sp_name)
     [plist setObject:sp_name forKey:kSparkObjectNameKey];
-  if (sp_icon && [self shouldSaveIcon]) {
-    [plist setObject:[sp_icon TIFFRepresentationUsingCompression:NSTIFFCompressionLZW factor:1] forKey:kSparkObjectIconKey];
-  }
+//  if (sp_icon && [self shouldSaveIcon]) {
+//    [plist setObject:[sp_icon TIFFRepresentationUsingCompression:NSTIFFCompressionLZW factor:1] forKey:kSparkObjectIconKey];
+//  }
   /* Compatibility */
   if (SKInstanceImplementsSelector([self class], @selector(propertyList))) {
     id dico = [self propertyList];
@@ -95,17 +89,21 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
 
 - (id)initWithSerializedValues:(NSDictionary *)plist {
   /* Compatibility */
+  BOOL compat = NO;
   if (SKInstanceImplementsSelector([self class], @selector(initFromPropertyList:))) {
     self = [self initFromPropertyList:plist];
   } else {
     NSString *name = [plist objectForKey:kSparkObjectNameKey];
-    if (!name)
+    if (!name) {
+      compat = YES;
       name = [plist objectForKey:@"Name"];
+    }
     
     NSImage *icon = nil;
-    if (kSparkEditorContext == SparkGetCurrentContext()) {
+    /* If editor, load icon */
+    if (kSparkEditorContext == SparkGetCurrentContext() && [self shouldSaveIcon]) {
       NSData *bitmap = [plist objectForKey:kSparkObjectIconKey];
-      if (!bitmap)
+      if (!bitmap && compat)
         bitmap = [plist objectForKey:@"Icon"];
       if (bitmap)
         icon = [[NSImage alloc] initWithData:bitmap];
@@ -115,7 +113,7 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
   }
   if (self) {
     NSNumber *value = [plist objectForKey:kSparkObjectUIDKey];
-    if (!value)
+    if (!value && compat)
       value = [plist objectForKey:@"UID"];
     [self setUID:value ? [value unsignedIntValue] : 0];
   }
@@ -197,10 +195,20 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
 #pragma mark -
 #pragma mark Accessors
 - (NSImage *)icon {
+  if (!sp_icon && [self shouldSaveIcon]) {
+    sp_icon = [[[self library] iconManager] iconForObject:self];
+    [sp_icon retain];
+  }
   return sp_icon;
 }
 - (void)setIcon:(NSImage *)icon {
+  if (sp_icon != icon && [self shouldSaveIcon]) {
+    [[[self library] iconManager] setIcon:icon forObject:self];
+  }
   SKSetterRetain(sp_icon, icon);
+}
+- (BOOL)hasIcon {
+  return sp_icon != nil;
 }
 - (BOOL)shouldSaveIcon {
   return YES;
