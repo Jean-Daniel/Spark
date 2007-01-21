@@ -550,16 +550,16 @@ NSImage *ITunesActionIcon(ITunesAction *action) {
   NSString *icon = nil;
   switch ([action iTunesAction]) {
     case kiTunesLaunch:
-      icon = @"Launch";
+      icon = @"iTunes";
       break;
     case kiTunesQuit:
-      icon = @"Launch";
+      icon = @"iTunes";
       break;   
     case kiTunesPlayPause:
       icon = @"Play";
       break;
     case kiTunesPlayPlaylist:
-      icon = @"playlist";
+      icon = @"Playlist";
       break;
     case kiTunesBackTrack:
       icon = @"Back";
@@ -571,10 +571,10 @@ NSImage *ITunesActionIcon(ITunesAction *action) {
       icon = @"Stop";
       break;
     case kiTunesShowTrackInfo:
-      icon = @"info";
+      icon = @"Info";
       break;
     case kiTunesRateTrack:
-      icon = @"rating";
+      icon = @"Star";
       break;
     case kiTunesVisual:
       icon = @"Visual";

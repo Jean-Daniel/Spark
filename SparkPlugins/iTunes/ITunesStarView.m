@@ -79,7 +79,7 @@ void _ITunesDrawHalfString(NSPoint point, NSColor *color) {
     /* if 1/2 */
     if (ia_rate % 2) {
       _ITunesDrawHalfString(NSMakePoint(center - 4, 2), ia_color);
-      center += 12;
+      center += 11;
     }
     
     rate = (10 - ia_rate) / 2;
