@@ -11,8 +11,6 @@
 #import "DocumentAction.h"
 #import "DAApplicationMenu.h"
 
-#import <ShadowKit/SKAppKitExtensions.h>
-
 @implementation DocumentActionPlugin
 
 + (void)initialize {
@@ -105,12 +103,10 @@
   if (DocumentActionNeedDocument([action action])) {
     [action setIcon:da_icon];
     [action setDocumentPath:[self document]];
-  } else if ([action action] == kDocumentActionOpenSelection) {
-    [action setIcon:[NSImage imageNamed:@"Selection" inBundle:kDocumentActionBundle]];
-  } else if ([action action] == kDocumentActionOpenSelectionWith) {
+  } else if([action action] == kDocumentActionOpenSelectionWith) {
     [action setIcon:[[ibMenu selectedItem] image]];
-  } else if ([action action] == kDocumentActionOpenURL) {
-    [action setIcon:[NSImage imageNamed:@"URLIcon" inBundle:kDocumentActionBundle]];
+  } else {
+    [action setIcon:DocumentActionIcon(action)];
   }
   
   /* Set App Path */

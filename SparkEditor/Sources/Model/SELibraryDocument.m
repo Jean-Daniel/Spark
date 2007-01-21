@@ -11,7 +11,6 @@
 #import "SEEntryEditor.h"
 #import "SEEntryCache.h"
 
-
 #import <SparkKit/SparkEntry.h>
 #import <SparkKit/SparkAction.h>
 #import <SparkKit/SparkLibrary.h>
@@ -19,6 +18,8 @@
 #import <SparkKit/SparkObjectSet.h>
 #import <SparkKit/SparkEntryManager.h>
 
+
+NSString * const SEPreviousApplicationKey = @"SEPreviousApplicationKey";
 NSString * const SEApplicationDidChangeNotification = @"SEApplicationDidChange";
 
 @implementation SELibraryDocument
@@ -71,13 +72,16 @@ NSString * const SEApplicationDidChangeNotification = @"SEApplicationDidChange";
 }
 - (void)setApplication:(SparkApplication *)anApplication {
   if (se_application != anApplication) {
+    NSNotification *notify = [NSNotification notificationWithName:SEApplicationDidChangeNotification
+                                                           object:self 
+                                                         userInfo:se_application ? [NSDictionary dictionaryWithObject:se_application 
+                                                                                                               forKey:SEPreviousApplicationKey] : nil];
     [se_application release];
     se_application = [anApplication retain];
     /* Refresh cache */
     [se_cache refresh];
     /* Notify change */
-    [[NSNotificationCenter defaultCenter] postNotificationName:SEApplicationDidChangeNotification
-                                                        object:self];
+    [[NSNotificationCenter defaultCenter] postNotification:notify];
   }
 }
 
@@ -157,11 +161,13 @@ NSString * const SEApplicationDidChangeNotification = @"SEApplicationDidChange";
     }
     /* Update new entry trigger */
     [anEntry setTrigger:trigger];
-  } else { /* Trigger does not already exists */
+  } else { 
+    /* Trigger does not already exists */
     [[library triggerSet] addObject:[anEntry trigger]];
   }
   /* Now add action */
   [[library actionSet] addObject:[anEntry action]];
+
   /* and entry */
   if (previous) {
     [manager replaceEntry:previous withEntry:anEntry];
@@ -287,21 +293,30 @@ NSString * const SEApplicationDidChangeNotification = @"SEApplicationDidChange";
 
 #pragma mark Remove
 - (unsigned)removeEntries:(NSArray *)entries {
-//  BOOL refresh = NO;
-//  unsigned removed = 0;
-//  int count = [entries count];
-//  while (count-- > 0) {
-//    SparkEntry *entry = [entries objectAtIndex:count];
-//    if ([entry type] != kSparkEntryTypeDefault || [[self application] uid] == 0) {
-//      removed++;
-//      refresh = YES;
-//      [[se_library entryManager] removeEntry:entry];
-//    }
-//  }
-//  if (refresh)
-//    [self reload]; // full reload
-//  return removed;
-  return 0;
+  BOOL hasCustom = NO;
+  SparkApplication *application = [self application];
+  if ([application uid] == 0) {
+    int count = [entries count];
+    while (count-- > 0 && !hasCustom) {
+      SparkEntry *entry = [entries objectAtIndex:count];
+      hasCustom |= [[[self library] entryManager] containsOverwriteEntryForTrigger:[[entry trigger] uid]];
+    }
+    if (hasCustom) {
+      DLog(@"WARNING: Has Custom");
+    }
+  }
+  
+  unsigned removed = 0;
+  int count = [entries count];
+  while (count-- > 0) {
+    SparkEntry *entry = [entries objectAtIndex:count];
+    /* Remove only custom entry */
+    if ([[self application] uid] == 0 || [entry type] != kSparkEntryTypeDefault) {
+      removed++;
+      [[se_library entryManager] removeEntry:entry];
+    }
+  }
+  return removed;
 }
 
 @end

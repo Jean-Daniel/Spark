@@ -51,6 +51,9 @@ NSString * const kSparkLibraryDefaultFileName = @"Spark3 Library_Debug.splib";
 NSString * const kSparkLibraryDefaultFileName = @"Spark3 Library.splib";
 #endif
 
+static
+NSString *SparkLibraryIconFolder(SparkLibrary *library);
+
 /* Notifications */
 NSString * const SparkNotificationObjectKey = @"SparkNotificationObject";
 NSString * const SparkNotificationUpdatedObjectKey = @"SparkNotificationUpdatedObject";
@@ -63,11 +66,10 @@ const UInt32 kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_0;
 
 @interface SparkLibrary (SparkLibraryLoader)
 - (BOOL)readLibraryFromFileWrapper:(NSFileWrapper *)wrapper error:(NSError **)error;
-- (BOOL)readVersion1LibraryFromFileWrapper:(NSFileWrapper *)wrapper error:(NSError **)error;
+- (BOOL)importOldLibraryFromFileWrapper:(NSFileWrapper *)wrapper error:(NSError **)error;
 @end
 
 @interface SparkEntryManager (SparkVersion1Library)
-- (BOOL)isOrphanTrigger:(UInt32)aTrigger;
 - (void)removeEntriesForAction:(UInt32)action;
 @end
 
@@ -306,15 +308,14 @@ bail:
   /* Create icon manager only for editor */
   if (SparkGetCurrentContext() == kSparkEditorContext) {
     [sp_icons release];
-    /* TODO: Get icon path for uuid */
-    sp_icons = [[SparkIconManager alloc] initWithLibrary:self path:[SparkLibraryFolder() stringByAppendingPathComponent:@"Icons/0"]];
+    sp_icons = [[SparkIconManager alloc] initWithLibrary:self path:SparkLibraryIconFolder(self)];
   }
   
   BOOL result = NO;
   UInt32 version = [[info objectForKey:@"Version"] unsignedIntValue];
   switch (version) {
     case kSparkLibraryVersion_1_0:
-      result = [self readVersion1LibraryFromFileWrapper:fileWrapper error:outError];
+      result = [self importOldLibraryFromFileWrapper:fileWrapper error:outError];
       break;
     case kSparkLibraryVersion_2_0:
       result = [self readLibraryFromFileWrapper:fileWrapper error:outError];
@@ -377,7 +378,7 @@ bail:
   return NO;
 }
 
-- (BOOL)readVersion1LibraryFromFileWrapper:(NSFileWrapper *)wrapper error:(NSError **)error {
+- (BOOL)importOldLibraryFromFileWrapper:(NSFileWrapper *)wrapper error:(NSError **)error {
   DLog(@"Loading Version 1.0 Library");
   /* Load HotKey items. Create trigger with internal values, and create entries with Application to Action Map */
   CFMutableSetRef actions = CFSetCreateMutable( kCFAllocatorDefault, 0, &kSKIntSetCallBacks);
@@ -543,6 +544,19 @@ NSString *SparkLibraryFolder() {
     SKFSCreateFolder((CFStringRef)folder);
   }
   return folder;
+}
+
+NSString *SparkLibraryIconFolder(SparkLibrary *library) {
+  NSCParameterAssert([library uuid]);
+  NSString *icons = [SparkLibraryFolder() stringByAppendingPathComponent:@"Icons"];
+  CFStringRef uuidstr = CFUUIDCreateString(kCFAllocatorDefault, [library uuid]);
+  if (uuidstr) {
+    icons = [icons stringByAppendingPathComponent:(id)uuidstr];
+    CFRelease(uuidstr);
+  } else {
+    [NSException raise:NSInternalInconsistencyException format:@"Error while creating string from uuid"];
+  }
+  return icons;
 }
 
 static

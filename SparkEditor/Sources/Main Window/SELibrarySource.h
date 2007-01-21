@@ -25,6 +25,7 @@
 - (IBAction)newList:(id)sender;
 
 - (void)rearrangeObjects;
+- (void)reloadPluginLists;
 
 - (id)delegate;
 - (void)setDelegate:(id)aDelegate;

@@ -10,6 +10,7 @@
 #import "Spark.h"
 #import "SETableView.h"
 #import "SEHeaderCell.h"
+#import "SEEntryCache.h"
 #import "SESparkEntrySet.h"
 #import "SELibraryWindow.h"
 #import "SELibraryDocument.h"
@@ -60,50 +61,22 @@ NSComparisonResult SECompareList(SparkList *l1, SparkList *l2, void *ctxt) {
   return [[l1 name] caseInsensitiveCompare:[l2 name]];
 }
 
-static 
-BOOL SELibraryFilter(SparkObject *object, id ctxt) {
+static
+BOOL SELibraryFilter(SparkList *list, SparkObject *object, id ctxt) {
   return YES;
 }
 
-static 
-BOOL SEOverwriteListFilter(SparkObject *object, SELibraryDocument *ctxt) {
-  SparkApplication *app = [ctxt application];
-  SparkEntryManager *manager = [[ctxt library] entryManager];
+static
+BOOL SEOverwriteFilter(SparkList *list, SparkObject *object, SparkApplication *app) {
+  SparkEntryManager *manager = [[list library] entryManager];
   return [manager containsEntryForTrigger:[object uid] application:[app uid]];
 }
 
-@interface _SEPluginListContext : NSObject {
-  @public
-  Class kind;
-  SELibraryDocument *document;
-}
-+ (id)listContextWithClass:(Class)cls document:(SELibraryDocument *)doc;
-@end
-
-@implementation _SEPluginListContext
-+ (id)listContextWithClass:(Class)cls document:(SELibraryDocument *)doc {
-  _SEPluginListContext *ctxt = [[self alloc] init];
-  ctxt->kind = cls;
-  ctxt->document = doc;
-  return [ctxt autorelease];
-}
-@end
-
 static 
-BOOL SEPluginListFilter(SparkObject *object, _SEPluginListContext *ctxt) {
-  Class kind = ctxt ? ctxt->kind : Nil;
-  if (kind) {
-    SparkApplication *app = [ctxt->document application];
-    SparkEntryManager *manager = [[ctxt->document library] entryManager];
-    /* Get action for selected application */
-    SparkAction *action = [manager actionForTrigger:[object uid] application:[app uid] isActive:NULL];
-    /* If action not found, search default action */
-    if (!action && [app uid] != 0)
-      action = [manager actionForTrigger:[object uid] application:0 isActive:NULL];
-    if (action)
-      return [action isKindOfClass:kind];
-  }
-  return NO;
+BOOL SEPluginListFilter(SparkList *list, SparkObject *object, NSDictionary *ctxt) {
+  SEEntryCache *cache = [[ctxt objectForKey:@"document"] cache];
+  SparkEntry *entry = [[cache entries] entryForTrigger:(SparkTrigger *)object];
+  return entry && [[entry action] isKindOfClass:[ctxt objectForKey:@"kind"]];
 }
 
 #pragma mark -
@@ -129,8 +102,7 @@ BOOL SEPluginListFilter(SparkObject *object, _SEPluginListContext *ctxt) {
       [list setObjectSet:[se_library triggerSet]];
       [list setUID:uid++]; // UID MUST BE set before insertion, since -hash use it.
       NSMapInsert(se_plugins, list, plugin);
-      [list setListFilter:SEPluginListFilter context:[_SEPluginListContext listContextWithClass:[plugin actionClass]
-                                                                                       document:[ibWindow document]]];
+ 
       [se_content addObject:list];
       [list release];
     }
@@ -232,7 +204,6 @@ BOOL SEPluginListFilter(SparkObject *object, _SEPluginListContext *ctxt) {
   
   /* Overwrite list */
   se_overwrite = [[SparkList alloc] initWithName:@"Overwrite" icon:[NSImage imageNamed:@"application"]];
-  [se_overwrite setListFilter:SEOverwriteListFilter context:[ibWindow document]];
   [se_overwrite setObjectSet:triggers];
   [se_overwrite setUID:9];
   
@@ -247,6 +218,7 @@ BOOL SEPluginListFilter(SparkObject *object, _SEPluginListContext *ctxt) {
   [se_content addObject:separator];
   
   [self rearrangeObjects];
+  [self reloadPluginLists];
   
   /* Register for notifications */
   [[NSNotificationCenter defaultCenter] addObserver:self
@@ -263,14 +235,18 @@ BOOL SEPluginListFilter(SparkObject *object, _SEPluginListContext *ctxt) {
                                           name:SparkObjectSetDidRemoveObjectNotification
                                         object:[se_library listSet]];
   
-  // [[se_library notificationCenter] addObserver:self
-  //                                             selector:@selector(didCreateEntry:)
-  //                                                 name:SEEntriesManagerDidCreateEntryNotification
-  //                                               object:nil];
-  // [[se_library notificationCenter] addObserver:self
-  //                                             selector:@selector(didCreateWeakEntry:)
-  //                                                 name:SEEntriesManagerDidCreateWeakEntryNotification
-  //                                               object:nil];
+  [[se_library notificationCenter] addObserver:self
+                                      selector:@selector(didAddEntry:)
+                                          name:SparkEntryManagerDidAddEntryNotification
+                                        object:nil];
+  [[se_library notificationCenter] addObserver:self
+                                      selector:@selector(didUpdateEntry:)
+                                          name:SparkEntryManagerDidUpdateEntryNotification
+                                        object:nil];
+  [[se_library notificationCenter] addObserver:self
+                                      selector:@selector(didRemoveEntry:)
+                                          name:SparkEntryManagerDidRemoveEntryNotification
+                                        object:nil];
   
   /* Tell delegate to reload data */
   if (se_delegate)
@@ -291,6 +267,25 @@ BOOL SEPluginListFilter(SparkObject *object, _SEPluginListContext *ctxt) {
   [se_content sortUsingFunction:SECompareList context:NULL];
 }
 
+- (void)reloadPluginList:(SparkList *)list type:(SparkPlugIn *)type {
+  NSDictionary *ctxt = [[NSDictionary alloc] initWithObjectsAndKeys:
+    [type actionClass], @"kind",
+    [ibWindow document], @"document", nil];
+  [list reloadWithFilter:SEPluginListFilter context:ctxt];
+  [ctxt release];
+}
+
+- (void)reloadPluginLists {
+  /* Reload plugins lists */
+  SparkList *list = nil;
+  SparkPlugIn *plugin = nil;
+  NSMapEnumerator iter = NSEnumerateMapTable(se_plugins);
+  while (NSNextMapEnumeratorPair(&iter, (void **)&list, (void **)&plugin)) {
+    [self reloadPluginList:list type:plugin];
+  }
+  NSEndMapTableEnumeration(&iter);
+}
+
 - (id)objectAtIndex:(unsigned)idx {
   return [se_content objectAtIndex:idx];
 }
@@ -307,12 +302,16 @@ BOOL SEPluginListFilter(SparkObject *object, _SEPluginListContext *ctxt) {
   return NSMapGet(se_plugins, aList);
 }
 - (SparkList *)listForPlugin:(SparkPlugIn *)aPlugin {
-  for (unsigned idx = 0; idx < [se_content count]; idx++) {
-    SparkList *list = [se_content objectAtIndex:idx];
-    if ([list filterContext] == [aPlugin actionClass])
-      return list;
+  SparkList *list = nil;
+  SparkPlugIn *plugin = nil;
+  NSMapEnumerator iter = NSEnumerateMapTable(se_plugins);
+  while (NSNextMapEnumeratorPair(&iter, (void **)&list, (void **)&plugin)) {
+    if ([plugin isEqual:aPlugin])
+      break;
+    list = nil;
   }
-  return nil;
+  NSEndMapTableEnumeration(&iter);
+  return list;
 }
 
 #pragma mark Data Source
@@ -454,7 +453,11 @@ BOOL SEPluginListFilter(SparkObject *object, _SEPluginListContext *ctxt) {
       int idx = [se_content indexOfObjectIdenticalTo:se_overwrite];
       [uiTable setNeedsDisplayInRect:[uiTable frameOfCellAtColumn:0 row:idx]];
     }
-    [se_overwrite reload];
+    
+    if ([se_overwrite count] > 0 || [[[document library] entryManager] containsEntryForApplication:[[document application] uid]]) {
+      /* Update se_overwrite content */
+      [se_overwrite reloadWithFilter:SEOverwriteFilter context:[document application]];
+    }
   } else {
     int idx = [se_content indexOfObjectIdenticalTo:se_overwrite];
     /* List should be removed */
@@ -467,6 +470,16 @@ BOOL SEPluginListFilter(SparkObject *object, _SEPluginListContext *ctxt) {
       }
       [uiTable reloadData];
     }
+  }
+  /* Check if need reload plugin lists */
+  SparkApplication *app = [document application];
+  SparkEntryManager *manager = [[document library] entryManager];
+  SparkApplication *previous = [[aNotification userInfo] objectForKey:SEPreviousApplicationKey];
+  if (!previous || 
+      ([previous uid] != 0 && [manager containsEntryForApplication:[previous uid]]) ||
+      ([app uid] != 0 && [manager containsEntryForApplication:[app uid]])) {
+    /* Reload plugins lists */
+    [self reloadPluginLists];
   }
 }
 
@@ -507,6 +520,66 @@ BOOL SEPluginListFilter(SparkObject *object, _SEPluginListContext *ctxt) {
   }
 }
 
+- (void)didAddEntry:(NSNotification *)aNotification {
+  SparkEntry *entry = SparkNotificationObject(aNotification);
+  /* Update plugin list */
+  SparkPlugIn *type = [[SparkActionLoader sharedLoader] plugInForAction:[entry action]];
+  if (type) {
+    SparkList *list = [self listForPlugin:type];
+    if (list) {
+      [self reloadPluginList:list type:type];
+    }
+  }
+  /* If custom application, update overwrite list */ 
+  UInt32 app = [[ibWindow application] uid];
+  if (app != 0 && [[entry application] uid] == app) {
+    NSAssert(![se_overwrite containsObject:[entry trigger]], @"Internal Inconsistency");
+    [se_overwrite addObject:[entry trigger]];
+  }
+}
+
+- (void)didUpdateEntry:(NSNotification *)aNotification {
+  SparkList *old = nil, *new = nil;
+  SparkEntry *entry = SparkNotificationObject(aNotification);
+  SparkEntry *updated = SparkNotificationUpdatedObject(aNotification);
+  SparkPlugIn *type = [[SparkActionLoader sharedLoader] plugInForAction:[updated action]];
+  if (type) old = [self listForPlugin:type];
+  [self reloadPluginList:old type:type];
+  
+  type = [[SparkActionLoader sharedLoader] plugInForAction:[entry action]];
+  if (type) new = [self listForPlugin:type];
+  if (new != old)
+    [self reloadPluginList:new type:type];
+  
+  /* Update overwrite */
+  UInt32 app = [[ibWindow application] uid];
+  if (app != 0) {
+    if ([[updated application] uid] != app && [[entry application] uid] == app) {
+      /* The new entry is in overwrite */
+      NSAssert(![se_overwrite containsObject:[entry trigger]], @"Internal Inconsistency");
+      [se_overwrite addObject:[entry trigger]];
+    } else if ([[updated application] uid] == app && [[entry application] uid] != app) {
+      [se_overwrite removeObject:[updated trigger]];
+    }
+  }
+}
+
+- (void)didRemoveEntry:(NSNotification *)aNotification {
+  SparkEntry *entry = SparkNotificationObject(aNotification);
+  SparkPlugIn *type = [[SparkActionLoader sharedLoader] plugInForAction:[entry action]];
+  if (type) {
+    SparkList *list = [self listForPlugin:type];
+    if (list) {
+      [self reloadPluginList:list type:type];
+    }
+  }
+  /* If custom application, update overwrite list */ 
+  UInt32 app = [[ibWindow application] uid];
+  if (app != 0 && [[entry application] uid] == app) {
+    [se_overwrite removeObject:[entry trigger]];
+  }
+}
+
 //- (void)didReloadEntries:(NSNotification *)aNotification {
 //  /* Reload dynamic lists (plugins + overwrite) */
 //  [se_overwrite reload];
@@ -516,11 +589,6 @@ BOOL SEPluginListFilter(SparkObject *object, _SEPluginListContext *ctxt) {
 //  }
 //  if (se_plugins)
 //    [NSAllMapTableKeys(se_plugins) makeObjectsPerformSelector:@selector(reload)];
-//}
-//
-//- (void)didCreateWeakEntry:(NSNotification *)aNotification {
-//  /* Reload dynamic lists (plugins + overwrite) */
-//  [se_overwrite reload];
 //}
 
 /* Adjust list selection */

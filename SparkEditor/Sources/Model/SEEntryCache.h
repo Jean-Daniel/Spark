@@ -24,6 +24,7 @@ NSString * const SEEntryCacheDidReloadNotification;
 - (void)reload;
 - (void)refresh;
 
+- (SESparkEntrySet *)base;
 - (SESparkEntrySet *)entries;
 
 @end

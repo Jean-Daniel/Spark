@@ -48,6 +48,8 @@ NSString * const kDocumentActionBundleIdentifier;
 
 @end
 
+SPARK_PRIVATE
+NSImage *DocumentActionIcon(DocumentAction *anAction);
 SK_PRIVATE
 NSString *DocumentActionDescription(DocumentAction *anAction);
 

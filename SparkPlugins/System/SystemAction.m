@@ -532,6 +532,7 @@ NSImage *SystemActionIcon(SystemAction *anAction) {
       break;
     case kSystemEmptyTrash:
       icon = @"SystemTrash";
+      break;
     case kSystemKeyboardViewer:
       icon = @"Keyboard";
       break;

@@ -14,6 +14,7 @@
 #import <ShadowKit/SKFunctions.h>
 #import <ShadowKit/SKAEFunctions.h>
 #import <ShadowKit/SKProcessFunctions.h>
+#import <ShadowKit/SKAppKitExtensions.h>
 
 static NSString * const kDocumentActionURLKey = @"DocumentURL";
 static NSString * const kDocumentActionKey = @"DocumentAction";
@@ -144,6 +145,7 @@ OSType _DocumentActionFromFlag(int flag) {
   [super dealloc];
 }
 
+#pragma mark -
 - (BOOL)serialize:(NSMutableDictionary *)plist {
   if ([super serialize:plist]) {
     [plist setObject:SKStringForOSType(da_action) forKey:kDocumentActionKey];
@@ -252,6 +254,26 @@ OSType _DocumentActionFromFlag(int flag) {
   return alert;
 }
 
+- (BOOL)shouldSaveIcon {
+  switch ([self action]) {
+    case kDocumentActionOpenSelection:
+    case kDocumentActionOpenURL:
+      return NO;
+    default:
+      return YES;
+  }
+}
+/* Icon lazy loading */
+- (NSImage *)icon {
+  NSImage *icon = [super icon];
+  if (!icon) {
+    icon = DocumentActionIcon(self);
+    [super setIcon:icon];
+  }
+  return icon;
+}
+
+#pragma mark -
 - (void)openSelection {
   AEDescList selection = {typeNull, nil};
   long count = 0;
@@ -333,6 +355,23 @@ OSType _DocumentActionFromFlag(int flag) {
 }
 
 @end
+
+NSImage *DocumentActionIcon(DocumentAction *anAction) {
+  NSString *name = nil;
+  switch ([anAction action]) {
+    case kDocumentActionOpenSelection:
+      name = @"Selection";
+      break;
+    case kDocumentActionOpenURL:
+      name = @"OpenURL";
+      break;
+    default:
+      break;
+  }
+  if (name)
+    return [NSImage imageNamed:name inBundle:kDocumentActionBundle];
+  return nil;
+}
 
 NSString *DocumentActionDescription(DocumentAction *anAction) {
   NSString *desc = nil;

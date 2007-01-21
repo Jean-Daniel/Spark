@@ -146,15 +146,44 @@ SETriggerStyle styles[6];
                                       selector:@selector(listDidReload:) 
                                           name:SparkListDidReloadNotification
                                         object:nil];
-  /*  Listen entries change, did add and did remove trigger list change notification if needed */
-  //  [[se_library notificationCenter] addObserver:self
-  //                                      selector:@selector(managerDidUpdateEntry:) 
-  //                                          name:SparkEntryManagerDidUpdateEntryNotification
-  //                                        object:nil];
-  //  [[se_library notificationCenter] addObserver:self
-  //                                      selector:@selector(managerDidUpdateEntry:) 
-  //                                          name:SparkEntryManagerDidChangeEntryEnabledNotification
-  //                                        object:nil];
+  
+  [[se_library notificationCenter] addObserver:self
+                                      selector:@selector(listDidAddTriggers:) 
+                                          name:SparkListDidAddObjectNotification
+                                        object:nil];
+  [[se_library notificationCenter] addObserver:self
+                                      selector:@selector(listDidAddTriggers:) 
+                                          name:SparkListDidAddObjectsNotification
+                                        object:nil];
+  
+  [[se_library notificationCenter] addObserver:self
+                                      selector:@selector(listDidUpdateTrigger:) 
+                                          name:SparkListDidUpdateObjectNotification
+                                        object:nil];
+  
+  [[se_library notificationCenter] addObserver:self
+                                      selector:@selector(listDidRemoveTriggers:) 
+                                          name:SparkListDidRemoveObjectNotification
+                                        object:nil];
+  [[se_library notificationCenter] addObserver:self
+                                      selector:@selector(listDidRemoveTriggers:) 
+                                          name:SparkListDidRemoveObjectsNotification
+                                        object:nil];
+  
+  /*  Listen entries change, "did add" and "did remove" already trigger "list change" notifications */
+  [[se_library notificationCenter] addObserver:self
+                                      selector:@selector(didAddEntry:)
+                                          name:SparkEntryManagerDidAddEntryNotification
+                                        object:nil];
+  [[se_library notificationCenter] addObserver:self
+                                      selector:@selector(didUpdateEntry:)
+                                          name:SparkEntryManagerDidUpdateEntryNotification
+                                        object:nil];
+  [[se_library notificationCenter] addObserver:self
+                                      selector:@selector(didRemoveEntry:)
+                                          name:SparkEntryManagerDidRemoveEntryNotification
+                                        object:nil];
+
   [[NSNotificationCenter defaultCenter] addObserver:self
                                            selector:@selector(cacheDidReload:)
                                                name:SEEntryCacheDidReloadNotification
@@ -262,12 +291,6 @@ SETriggerStyle styles[6];
   [uiTable reloadData];
 }
 
-/* A list content has changed */
-- (void)listDidReload:(NSNotification *)notification {
-  /* If updated list is the current list */
-  if ([notification object] == se_list)
-    [self refresh];
-}
 /* Selected list has changed */
 - (void)setList:(SparkList *)aList {
   if (se_list != aList) {
@@ -276,6 +299,16 @@ SETriggerStyle styles[6];
     // Reload data
     [self refresh];
   }
+}
+
+- (unsigned)indexOfTrigger:(SparkTrigger *)aTrigger {
+  unsigned count = [se_entries count];
+  while (count-- > 0) {
+    SparkEntry *entry = [se_entries objectAtIndex:count];
+    if ([[entry trigger] isEqualToTrigger:aTrigger])
+      return count;
+  }
+  return NSNotFound;
 }
 
 #pragma mark -
@@ -313,8 +346,6 @@ SETriggerStyle styles[6];
         entry = [[entry copy] autorelease];
         [entry setApplication:application];
         [[[self library] entryManager] addEntry:entry];
-        // TOMOVE:
-        // [se_entries replaceObjectAtIndex:rowIndex withObject:entry];
       }
       if ([anObject boolValue]) {
         [[[self library] entryManager] enableEntry:entry];
@@ -338,23 +369,8 @@ SETriggerStyle styles[6];
   NSIndexSet *indexes = [aTableView selectedRowIndexes];
   NSArray *items = indexes ? [se_entries objectsAtIndexes:indexes] : nil;
   if (items && [items count]) {
-    if ([se_list isDynamic]) {
-      BOOL hasCustom = NO;
-      SparkApplication *application = [self application];
-      if ([application uid] == 0) {
-        int count = [items count];
-        while (count-- > 0 && !hasCustom) {
-          SparkEntry *entry = [items objectAtIndex:count];
-          hasCustom |= [[[self library] entryManager] containsOverwriteEntryForTrigger:[[entry trigger] uid]];
-        }
-        if (hasCustom) {
-          DLog(@"WARNING: Has Custom");
-        }
-      }
-      // TODO: Check item consequences.
-      // TODO: remove item from library
-      DLog(@"Remove items");
-      //[[self library] removeEntries:items];
+    if ([se_list uid] < kSparkLibraryReserved) {
+      [[ibWindow document] removeEntries:items];
     } else {
       // User list
       int count = [items count];
@@ -466,6 +482,76 @@ SETriggerStyle styles[6];
 
 - (void)applicationDidChange:(NSNotification *)aNotification {
   [self setApplication:[ibWindow application]];
+}
+
+/* A list content has changed */
+- (void)listDidReload:(NSNotification *)aNotification {
+  /* If updated list is the current list */
+  if ([aNotification object] == se_list)
+    [self refresh];
+}
+- (void)listDidAddTriggers:(NSNotification *)aNotification {
+  if ([aNotification object] == se_list)
+    [self refresh];  
+}
+- (void)listDidUpdateTriggers:(NSNotification *)aNotification {
+  if ([aNotification object] == se_list) {
+    [self refresh];
+  }
+}
+- (void)listDidRemoveTriggers:(NSNotification *)aNotification {
+  if ([aNotification object] == se_list)
+    [self refresh];  
+}
+
+- (void)didAddEntry:(NSNotification *)aNotification {
+  SparkEntry *entry = SparkNotificationObject(aNotification);
+  if ([entry type] == kSparkEntryTypeWeakOverWrite && [[entry application] isEqual:[self application]]) {
+    unsigned idx = [self indexOfTrigger:[entry trigger]];
+    if (idx != NSNotFound) {
+      SparkEntry *previous = [se_entries objectAtIndex:idx];
+      [se_entries replaceObjectAtIndex:idx withObject:entry];
+      [uiTable setNeedsDisplayInRect:[uiTable rectOfRow:idx]];
+      /* update snapshot */
+      idx = [se_snapshot indexOfObject:previous];
+      if (NSNotFound != idx) {
+        [se_snapshot replaceObjectAtIndex:idx withObject:entry];
+      }
+    }
+    return;
+  }
+}
+- (void)didUpdateEntry:(NSNotification *)aNotification {
+}
+- (void)didRemoveEntry:(NSNotification *)aNotification {
+  SparkEntry *entry = SparkNotificationObject(aNotification);
+  unsigned idx = [se_snapshot indexOfObject:entry];
+  if (idx != NSNotFound) {
+    switch ([entry type]) {
+      case kSparkEntryTypeDefault:
+      case kSparkEntryTypeSpecific: {
+        [se_snapshot removeObjectAtIndex:idx];
+        idx = [se_entries indexOfObject:entry];
+        if (NSNotFound != idx) {
+          [se_entries removeObjectAtIndex:idx];
+          [uiTable reloadData];
+        }
+      }
+        break;
+      default: {
+        SESparkEntrySet *base = [[[ibWindow document] cache] base];
+        SparkEntry *bentry = [base entryForTrigger:[entry trigger]];
+        if (bentry) {
+          [se_snapshot replaceObjectAtIndex:idx withObject:bentry];
+        }
+        idx = [se_entries indexOfObject:entry];
+        if (NSNotFound != idx) {
+          [se_entries replaceObjectAtIndex:idx withObject:bentry];
+          [uiTable setNeedsDisplayInRect:[uiTable rectOfRow:idx]];
+        }
+      }
+    }
+  }
 }
 
 @end

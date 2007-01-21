@@ -92,6 +92,10 @@ NSString * const SEEntryCacheDidReloadNotification = @"SEEntryCacheDidReload";
   }
 }
 
+- (SESparkEntrySet *)base {
+  return se_base;
+}
+
 - (SESparkEntrySet *)entries {
   return se_merge;
 }

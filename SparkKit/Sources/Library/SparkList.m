@@ -112,12 +112,12 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
       SparkObject *object;
       NSEnumerator *objects = [sp_set objectEnumerator];
       while (object = [objects nextObject]) {
-        if (sp_filter(object, sp_ctxt)) {
+        if (sp_filter(self, object, sp_ctxt)) {
           [sp_entries addObject:object];
         }
       }
     }
-    SparkLibraryPostNotification([sp_set library], SparkListDidReloadNotification, self, nil);
+    SparkLibraryPostNotification([self library], SparkListDidReloadNotification, self, nil);
   }
 }
 
@@ -125,32 +125,34 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
   return sp_filter != NULL;
 }
 
-- (void)setObjectSet:(SparkObjectSet *)library {
-  if (sp_set != library) {
+- (void)setObjectSet:(SparkObjectSet *)objectSet {
+  if (sp_set != objectSet) {
     /* unregister notifications */
     if (sp_set) {
-      [[[sp_set library] notificationCenter] removeObserver:self
-                                                       name:nil
-                                                     object:sp_set];
+      [[[self library] notificationCenter] removeObserver:self
+                                                     name:nil
+                                                   object:sp_set];
     }
-    sp_set = library;
+    sp_set = objectSet;
+    if ([self library] != [sp_set library])
+      [self setLibrary:[sp_set library]];
     /* register notifications */
     if (sp_set) {
       /* Add */
-      [[[sp_set library] notificationCenter] addObserver:self
-                                                selector:@selector(didAddObject:)
-                                                    name:SparkObjectSetDidAddObjectNotification
-                                                  object:sp_set];
+      [[[self library] notificationCenter] addObserver:self
+                                              selector:@selector(didAddObject:)
+                                                  name:SparkObjectSetDidAddObjectNotification
+                                                object:sp_set];
       /* Remove */
-      [[[sp_set library] notificationCenter] addObserver:self
-                                                selector:@selector(didRemoveObject:)
-                                                    name:SparkObjectSetDidRemoveObjectNotification
-                                                  object:sp_set];
+      [[[self library] notificationCenter] addObserver:self
+                                              selector:@selector(didRemoveObject:)
+                                                  name:SparkObjectSetDidRemoveObjectNotification
+                                                object:sp_set];
       /* Update */
-      [[[sp_set library] notificationCenter] addObserver:self
-                                                selector:@selector(didUpdateObject:)
-                                                    name:SparkObjectSetDidUpdateObjectNotification
-                                                  object:sp_set];
+      [[[self library] notificationCenter] addObserver:self
+                                              selector:@selector(didUpdateObject:)
+                                                  name:SparkObjectSetDidUpdateObjectNotification
+                                                object:sp_set];
     }
     /* Refresh contents if smart list */
     if (sp_filter)
@@ -167,6 +169,15 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
   /* Refresh contents */
   [self reload];
 }
+- (void)reloadWithFilter:(SparkListFilter)aFilter context:(id)aCtxt {
+  sp_filter = aFilter;
+  SKSetterRetain(sp_ctxt, aCtxt);
+  /* Refresh contents */
+  [self reload];
+  /* Remove dynamic */
+  sp_filter = NULL;
+  SKSetterRetain(sp_ctxt, nil);
+}
 
 #pragma mark -
 #pragma mark Array
@@ -182,20 +193,22 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
 
 #pragma mark Modification
 - (NSUndoManager *)undoManager {
-  return [[sp_set library] undoManager];
+  return [[self library] undoManager];
 }
 
 - (void)addObject:(SparkObject *)anObject {
   /* Undo Manager */
-  [[self undoManager] registerUndoWithTarget:self selector:@selector(removeObject:) object:anObject];
+  if (![self isDynamic])
+    [[self undoManager] registerUndoWithTarget:self selector:@selector(removeObject:) object:anObject];
   [sp_entries addObject:anObject];
-  SparkLibraryPostNotification([sp_set library], SparkListDidAddObjectNotification, self, anObject);
+  SparkLibraryPostNotification([self library], SparkListDidAddObjectNotification, self, anObject);
 }
 - (void)addObjectsFromArray:(NSArray *)anArray {
   /* Undo Manager */
-  [[self undoManager] registerUndoWithTarget:self selector:@selector(removeObjectsInArray:) object:anArray];
+  if (![self isDynamic])
+    [[self undoManager] registerUndoWithTarget:self selector:@selector(removeObjectsInArray:) object:anArray];
   [sp_entries addObjectsFromArray:anArray];
-  SparkLibraryPostNotification([sp_set library], SparkListDidAddObjectsNotification, self, anArray);
+  SparkLibraryPostNotification([self library], SparkListDidAddObjectsNotification, self, anArray);
 }
 
 - (void)removeObject:(SparkObject *)anObject {
@@ -203,9 +216,10 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
   if (idx != NSNotFound) {
     [anObject retain];
     /* Undo Manager */
-    [[self undoManager] registerUndoWithTarget:self selector:@selector(addObject:) object:[sp_entries objectAtIndex:idx]];
+    if (![self isDynamic])
+      [[self undoManager] registerUndoWithTarget:self selector:@selector(addObject:) object:[sp_entries objectAtIndex:idx]];
     [sp_entries removeObjectAtIndex:idx];
-    SparkLibraryPostNotification([sp_set library], SparkListDidRemoveObjectNotification, self, anObject);
+    SparkLibraryPostNotification([self library], SparkListDidRemoveObjectNotification, self, anObject);
     [anObject release];
   }
 }
@@ -221,8 +235,9 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
   }
   if ([removed count]) {
     /* Undo Manager */
-    [[self undoManager] registerUndoWithTarget:self selector:@selector(addObjectsFromArray:) object:removed];    
-    SparkLibraryPostNotification([sp_set library], SparkListDidRemoveObjectsNotification, self, removed);
+    if (![self isDynamic])
+      [[self undoManager] registerUndoWithTarget:self selector:@selector(addObjectsFromArray:) object:removed];    
+    SparkLibraryPostNotification([self library], SparkListDidRemoveObjectsNotification, self, removed);
   }
   [removed release];    
 }
@@ -231,7 +246,7 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
 #pragma mark Notifications
 - (void)didAddObject:(NSNotification *)aNotification {
   SparkObject *object = SparkNotificationObject(aNotification);
-  if (object && sp_filter && sp_filter(object, sp_ctxt)) {
+  if (object && sp_filter && ![self containsObject:object] && sp_filter(self, object, sp_ctxt)) {
     [self addObject:object];
   }
 }
@@ -242,16 +257,16 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
   /* If contains old value */
   if (previous && (idx = [sp_entries indexOfObject:previous]) != NSNotFound) {
     /* If is not smart, or updated object is always valid, replace old value */
-    if (!sp_filter || sp_filter(object, sp_ctxt)) {
+    if (!sp_filter || sp_filter(self, object, sp_ctxt)) {
       [sp_entries replaceObjectAtIndex:idx withObject:object];
-      SparkLibraryPostUpdateNotification([sp_set library], SparkListDidUpdateObjectNotification, self, previous, object);
+      SparkLibraryPostUpdateNotification([self library], SparkListDidUpdateObjectNotification, self, previous, object);
     } else {
       /* remove old value */
       [self removeObject:object];
     }
   } else {
     /* Do not contains previous value but updated object is valid */
-    if (sp_filter && sp_filter(object, sp_ctxt)) {
+    if (sp_filter && sp_filter(self, object, sp_ctxt)) {
       [self addObject:object];
     }
   }

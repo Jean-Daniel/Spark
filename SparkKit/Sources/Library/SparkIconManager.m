@@ -41,6 +41,7 @@ UInt8 __SparkIconTypeForObject(SparkObject *object) {
   NSImage *sp_ondisk;
 }
 
+- (BOOL)loaded;
 - (BOOL)hasChanged;
 - (void)applyChange;
 
@@ -111,7 +112,7 @@ UInt8 __SparkIconTypeForObject(SparkObject *object) {
       NSMapInsert(sp_cache[type], (void *)[anObject uid], entry);
       [entry release];
     }
-    if (![entry icon]) {
+    if (![entry loaded]) {
       NSString *path = [sp_path stringByAppendingPathComponent:[entry path]];
       if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
         NSImage *icon = [[NSImage alloc] initByReferencingFile:path];
@@ -139,6 +140,18 @@ UInt8 __SparkIconTypeForObject(SparkObject *object) {
       [entry release];
     }
     
+    /* Adjust resolution */
+    if (icon) {
+      NSArray *reps = [icon representations];
+      if ([reps count] > 1) {
+        for (unsigned idx = 0; idx < [reps count]; idx++) {
+          NSImageRep *rep = [reps objectAtIndex:idx];
+          if ([rep isKindOfClass:[NSBitmapImageRep class]])
+            if ([rep size].height > 16 || [rep size].width > 16)
+              [rep setSize:NSMakeSize(16, 16)];
+        }
+      }
+    }
     [entry setIcon:icon];
   }
 }
@@ -241,6 +254,9 @@ UInt8 __SparkIconTypeForObject(SparkObject *object) {
       sp_clean = NO;
       sp_icon = [anImage retain];
     }
+  } else if (sp_icon != sp_ondisk) {
+    /* if delete */
+    sp_clean = NO;
   }
 }
 
@@ -254,6 +270,10 @@ UInt8 __SparkIconTypeForObject(SparkObject *object) {
     [sp_icon release];
     sp_icon = nil;
   }
+}
+
+- (BOOL)loaded {
+  return sp_loaded;
 }
 
 - (BOOL)hasChanged {

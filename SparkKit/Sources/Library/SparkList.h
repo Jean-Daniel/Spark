@@ -9,7 +9,8 @@
 #import <SparkKit/SparkObject.h>
 #import <SparkKit/SparkObjectSet.h>
 
-typedef BOOL(*SparkListFilter)(SparkObject *, id ctxt);
+@class SparkList;
+typedef BOOL(*SparkListFilter)(SparkList *, SparkObject *, id ctxt);
 
 SPARK_EXPORT
 NSString * const SparkListDidReloadNotification;
@@ -45,6 +46,9 @@ NSString * const SparkListDidRemoveObjectsNotification;
 - (BOOL)isDynamic;
 - (id)filterContext;
 - (void)setListFilter:(SparkListFilter)aFilter context:(id)aCtxt;
+
+/* Reload the list, but does not track library change */
+- (void)reloadWithFilter:(SparkListFilter)aFilter context:(id)aCtxt;
 
 /* Special initializer */
 - (id)initWithSerializedValues:(NSDictionary *)plist

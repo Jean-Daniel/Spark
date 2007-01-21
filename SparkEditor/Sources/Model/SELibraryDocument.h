@@ -34,6 +34,8 @@
 @end
 
 SK_PRIVATE
+NSString * const SEPreviousApplicationKey;
+SK_PRIVATE
 NSString * const SEApplicationDidChangeNotification;
 
 
