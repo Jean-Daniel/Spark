@@ -63,7 +63,12 @@
       NSURL *help = [plugin helpURL];
       if (help) {
         NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:[plugin name] action:nil keyEquivalent:@""];
-        [item setImage:[plugin icon]];
+        /* Set icon */
+        NSImage *icon = [[plugin icon] copy];
+        [icon setSize:NSMakeSize(16, 16)];
+        [item setImage:icon];
+        [icon release];
+        
         [item setRepresentedObject:[help absoluteString]];
         [aMenu addItem:item];
         [item release];

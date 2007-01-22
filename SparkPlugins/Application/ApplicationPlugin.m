@@ -10,6 +10,7 @@
 
 #import <ShadowKit/SKImageView.h>
 #import <ShadowKit/SKExtensions.h>
+#import <ShadowKit/SKImageUtils.h>
 #import <ShadowKit/SKAppKitExtensions.h>
 
 NSString * const kApplicationActionBundleIdentifier = @"org.shadowlab.spark.application";
@@ -83,9 +84,15 @@ NSString * const kApplicationActionBundleIdentifier = @"org.shadowlab.spark.appl
     case kApplicationForceQuitDialog:
       [action setPath:nil];
       break;
-    default:
+    default: {
       [action setPath:aa_path];
-      [action setIcon:[ibIcon image]];
+      NSImage *icon = [[ibIcon image] copy];
+      if (icon) {
+        SKImageSetRepresentationsSize(icon, NSMakeSize(16, 16));
+        [action setIcon:icon];
+        [icon release];
+      }
+    }
   }
   if ([ibName stringValue] && [[ibName stringValue] length])
     [action setName:[ibName stringValue]];
@@ -137,7 +144,17 @@ NSString * const kApplicationActionBundleIdentifier = @"org.shadowlab.spark.appl
   NSString *name = [[[NSFileManager defaultManager] displayNameAtPath:aPath] stringByDeletingPathExtension];
   [ibApplication setStringValue:name ? : @""];
   [[ibName cell] setPlaceholderString:name ? : @"Action Name"];
-  [ibIcon setImage:aPath ? [[NSWorkspace sharedWorkspace] iconForFile:aPath] : [NSImage imageNamed:@"undefined" inBundle:kApplicationActionBundle]];
+  NSImage *icon;
+  if (aPath) {
+    icon = [[NSWorkspace sharedWorkspace] iconForFile:aPath];
+    //if (icon) {
+//      SKImageSetRepresentationsSize(icon, [ibIcon bounds].size);
+//      [icon setSize:[ibIcon bounds].size];
+//    }
+  } else {
+    icon = [NSImage imageNamed:@"undefined" inBundle:kApplicationActionBundle];
+  }
+  [ibIcon setImage:icon];
 }
 
 - (ApplicationActionType)action {

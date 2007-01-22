@@ -11,6 +11,7 @@
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkObjectSet.h>
 
+#import <ShadowKit/SKImageUtils.h>
 #import <ShadowKit/SKFSFunctions.h>
 
 enum {
@@ -117,6 +118,7 @@ UInt8 __SparkIconTypeForObject(SparkObject *object) {
       if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
         NSImage *icon = [[NSImage alloc] initByReferencingFile:path];
         /* Set icon from disk */
+        //DLog(@"Load icon (%@): %@", [anObject name], icon);
         [entry setCachedIcon:icon];
         [icon release];
       } else {
@@ -142,15 +144,7 @@ UInt8 __SparkIconTypeForObject(SparkObject *object) {
     
     /* Adjust resolution */
     if (icon) {
-      NSArray *reps = [icon representations];
-      if ([reps count] > 1) {
-        for (unsigned idx = 0; idx < [reps count]; idx++) {
-          NSImageRep *rep = [reps objectAtIndex:idx];
-          if ([rep isKindOfClass:[NSBitmapImageRep class]])
-            if ([rep size].height > 16 || [rep size].width > 16)
-              [rep setSize:NSMakeSize(16, 16)];
-        }
-      }
+      SKImageSetRepresentationsSize(icon, NSMakeSize(16, 16));
     }
     [entry setIcon:icon];
   }

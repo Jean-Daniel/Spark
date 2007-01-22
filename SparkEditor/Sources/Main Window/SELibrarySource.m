@@ -107,6 +107,7 @@ BOOL SEPluginListFilter(SparkList *list, SparkObject *object, NSDictionary *ctxt
       [list release];
     }
   }
+  [self reloadPluginLists];
 }
 
 - (void)didChangePluginList:(NSNotification *)aNotification {
@@ -218,7 +219,6 @@ BOOL SEPluginListFilter(SparkList *list, SparkObject *object, NSDictionary *ctxt
   [se_content addObject:separator];
   
   [self rearrangeObjects];
-  [self reloadPluginLists];
   
   /* Register for notifications */
   [[NSNotificationCenter defaultCenter] addObserver:self
@@ -505,13 +505,13 @@ BOOL SEPluginListFilter(SparkList *list, SparkObject *object, NSDictionary *ctxt
   if (idx >= 0) {
     /* last item */
     if ((unsigned)idx == [se_content count]) {
+      /* Find the first selectable row */
       while (idx-- > 0) {
         if ([self tableView:uiTable shouldSelectRow:idx]) {
           [uiTable selectRow:idx byExtendingSelection:NO];
           break;
         }
       }
-      //[uiTable selectRow:[se_content count] - 1 byExtendingSelection:NO];
     }
     if (idx == [uiTable selectedRow]) {
       [[NSNotificationCenter defaultCenter] postNotificationName:NSTableViewSelectionDidChangeNotification

@@ -229,7 +229,6 @@ NSString * const SEApplicationDidChangeNotification = @"SEApplicationDidChange";
         /* Update new entry trigger */
         [newEntry setTrigger:trigger];
       } else { /* Trigger does not already exists */
-        DLog(@"Add new trigger");
         [[library triggerSet] addObject:[newEntry trigger]];
       }
       
@@ -272,16 +271,13 @@ NSString * const SEApplicationDidChangeNotification = @"SEApplicationDidChange";
     
     /* If overwrite a global entry, create a new entry */
     if ([entry type] == kSparkEntryTypeDefault && [[newEntry application] uid] != 0) {
-      DLog(@"Add Entry");
       [manager addEntry:newEntry];
     } else if (previous) {
       /* Note: removing 'previous' can also remove 'previous->trigger', 
       so we remove 'entry' instead */
-      DLog(@"Update previous");
       [manager removeEntry:entry];
       [manager replaceEntry:previous withEntry:newEntry];
     } else {
-      DLog(@"Update Entry");
       [manager replaceEntry:entry withEntry:newEntry];
     }
     /* Preserve status */

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1BAA6F8A0B64CF2500F9AC0E /* SKImageUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BAA6F840B64CF2500F9AC0E /* SKImageUtils.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1BAA6F8D0B64CF2500F9AC0E /* SKImageUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BAA6F870B64CF2500F9AC0E /* SKImageUtils.m */; };
 		65245F3A0A2AFE4200ACB971 /* SKPluginLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 65245F390A2AFE4200ACB971 /* SKPluginLoader.m */; };
 		65245F3C0A2AFE4D00ACB971 /* SKPluginLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 65245F3B0A2AFE4D00ACB971 /* SKPluginLoader.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
@@ -222,6 +224,8 @@
 		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		1BAA6F840B64CF2500F9AC0E /* SKImageUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKImageUtils.h; sourceTree = "<group>"; };
+		1BAA6F870B64CF2500F9AC0E /* SKImageUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKImageUtils.m; sourceTree = "<group>"; };
 		65245F390A2AFE4200ACB971 /* SKPluginLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SKPluginLoader.m; sourceTree = "<group>"; };
 		65245F3B0A2AFE4D00ACB971 /* SKPluginLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SKPluginLoader.h; sourceTree = "<group>"; };
 		8DC2EF5B0486A6940098B216 /* SparkKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SparkKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -506,6 +510,23 @@
 			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
+		1BAA6F800B64CF2500F9AC0E /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				1BAA6F810B64CF2500F9AC0E /* Headers */,
+				1BAA6F870B64CF2500F9AC0E /* SKImageUtils.m */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
+		1BAA6F810B64CF2500F9AC0E /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				1BAA6F840B64CF2500F9AC0E /* SKImageUtils.h */,
+			);
+			path = Headers;
+			sourceTree = "<group>";
+		};
 		981B5F7F09386A590024C0D9 /* Configurations */ = {
 			isa = PBXGroup;
 			children = (
@@ -643,6 +664,7 @@
 				98D3ACDA079D6F7C00DDB6CE /* Base */,
 				98D3ACDB079D6F8500DDB6CE /* Icons */,
 				98725D2606CB9F860072B8E4 /* AppKit */,
+				1BAA6F800B64CF2500F9AC0E /* Images */,
 				98D630440B35B65600E0CE91 /* Update */,
 				98674E910B37212A000C73DC /* Network */,
 				98DA2C5E0AFE126700E394CD /* Interface */,
@@ -991,6 +1013,7 @@
 				98DCE5BA0B50F8F5006FA468 /* SKApplicationView.h in Headers */,
 				98DCED040B51087E006FA468 /* SKCGFunctions.h in Headers */,
 				98D4B8770B617437005A4CDB /* ShadowMacros.pch in Headers */,
+				1BAA6F8A0B64CF2500F9AC0E /* SKImageUtils.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1217,6 +1240,7 @@
 				98417FE60B4FDF2400073F1D /* SKSplitview.m in Sources */,
 				98DCE5B60B50F8E0006FA468 /* SKApplicationView.m in Sources */,
 				98DCED020B510875006FA468 /* SKCGFunctions.m in Sources */,
+				1BAA6F8D0B64CF2500F9AC0E /* SKImageUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

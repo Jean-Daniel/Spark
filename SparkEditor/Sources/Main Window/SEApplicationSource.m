@@ -277,6 +277,7 @@
 
 #pragma mark Notifications
 - (void)didAddApplication:(NSNotification *)aNotification {
+  /* Add and select application */
   [self addObject:SparkNotificationObject(aNotification)];
   if (!se_locked) {
     [self rearrangeObjects];

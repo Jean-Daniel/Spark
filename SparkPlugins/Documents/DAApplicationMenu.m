@@ -10,6 +10,8 @@
 
 #import "DocumentAction.h"
 
+#import <ShadowKit/SKImageUtils.h>
+
 @implementation DAApplicationMenu
 
 - (id)initWithCoder:(NSCoder *)coder {
@@ -106,7 +108,10 @@
   NSString *name = [[[NSFileManager defaultManager] displayNameAtPath:path] stringByDeletingPathExtension];
   
   NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:path];
-  [icon setSize:NSMakeSize(16,16)];
+  if (icon) {
+    SKImageSetRepresentationsSize(icon, NSMakeSize(16, 16));
+  }
+  [icon setSize:NSMakeSize(16, 16)];
   
   NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:name action:nil keyEquivalent:@""];
   [item setRepresentedObject:[NSDictionary dictionaryWithObjectsAndKeys:path, @"path", name, @"name", icon, @"icon", nil]];
