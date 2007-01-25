@@ -36,4 +36,6 @@
 - (SparkEntry *)entryForTrigger:(SparkTrigger *)aTrigger;
 - (SparkAction *)actionForTrigger:(SparkTrigger *)trigger;
 
+- (SparkEntry *)entryForAction:(SparkAction *)anAction;
+
 @end

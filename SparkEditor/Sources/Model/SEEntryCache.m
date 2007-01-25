@@ -13,9 +13,15 @@
 #import <SparkKit/SparkEntry.h>
 #import <SparkKit/SparkObject.h>
 #import <SparkKit/SparkLibrary.h>
+#import <SparkKit/SparkObjectSet.h>
 #import <SparkKit/SparkEntryManager.h>
 
 NSString * const SEEntryCacheDidReloadNotification = @"SEEntryCacheDidReload";
+
+NSString * const SEEntryCacheDidAddEntryNotification = @"SEEntryCacheDidAddEntry";
+NSString * const SEEntryCacheDidUpdateEntryNotification = @"SEEntryCacheDidUpdateEntry";
+NSString * const SEEntryCacheDidRemoveEntryNotification = @"SEEntryCacheDidRemoveEntry";
+NSString * const SEEntryCacheDidChangeEntryEnabledNotification = @"SEEntryCacheDidChangeEntryStatus";
 
 @implementation SEEntryCache
 
@@ -39,6 +45,7 @@ NSString * const SEEntryCacheDidReloadNotification = @"SEEntryCacheDidReload";
       /* Register for notifications */
       SparkLibrary *library = [se_document library];
       SparkEntryManager *manager = [library entryManager];
+      
       [[library notificationCenter] addObserver:self
                                        selector:@selector(didAddEntry:) 
                                            name:SparkEntryManagerDidAddEntryNotification
@@ -130,6 +137,10 @@ NSString * const SEEntryCacheDidReloadNotification = @"SEEntryCacheDidReload";
 
 - (void)didAddEntry:(NSNotification *)aNotification {
   [self addEntry:SparkNotificationObject(aNotification)];
+  /* Notify High-level entry change */
+  [[[se_document library] notificationCenter] postNotificationName:SEEntryCacheDidAddEntryNotification
+                                                            object:self 
+                                                          userInfo:[aNotification userInfo]];
 }
 
 - (void)didUpdateEntry:(NSNotification *)aNotification {
@@ -137,10 +148,18 @@ NSString * const SEEntryCacheDidReloadNotification = @"SEEntryCacheDidReload";
   [self removeEntry:SparkNotificationUpdatedObject(aNotification)];
   /* Add new object */
   [self addEntry:SparkNotificationObject(aNotification)];
+  /* Notify High-level entry change */
+  [[[se_document library] notificationCenter] postNotificationName:SEEntryCacheDidUpdateEntryNotification
+                                                            object:self 
+                                                          userInfo:[aNotification userInfo]];
 }
 
 - (void)didRemoveEntry:(NSNotification *)aNotification {
   [self removeEntry:SparkNotificationObject(aNotification)];
+  /* Notify High-level entry change */
+  [[[se_document library] notificationCenter] postNotificationName:SEEntryCacheDidRemoveEntryNotification
+                                                            object:self 
+                                                          userInfo:[aNotification userInfo]];
 }
 
 - (void)didChangeEntryStatus:(NSNotification *)aNotification {
@@ -153,6 +172,10 @@ NSString * const SEEntryCacheDidReloadNotification = @"SEEntryCacheDidReload";
   current = [se_merge entry:entry];
   if (current)
     [se_merge replaceEntry:current withEntry:entry];
+  
+  [[[se_document library] notificationCenter] postNotificationName:SEEntryCacheDidChangeEntryEnabledNotification
+                                                            object:self
+                                                          userInfo:[aNotification userInfo]];
 }
 
 @end

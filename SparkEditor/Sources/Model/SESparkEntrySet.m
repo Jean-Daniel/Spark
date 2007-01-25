@@ -63,11 +63,13 @@
 
 - (void)replaceEntry:(SparkEntry *)anEntry withEntry:(SparkEntry *)newEntry {
   unsigned idx = [se_entries indexOfObjectIdenticalTo:anEntry];
-  NSAssert(idx != NSNotFound, @"Invalid entry parameter.");
-  
-  [se_entries replaceObjectAtIndex:idx withObject:newEntry];
-  NSMapRemove(se_set, [anEntry trigger]);
-  NSMapInsert(se_set, [newEntry trigger], newEntry);
+  if (idx != NSNotFound) {
+    [se_entries replaceObjectAtIndex:idx withObject:newEntry];
+    NSMapRemove(se_set, [anEntry trigger]);
+    NSMapInsert(se_set, [newEntry trigger], newEntry);
+  } else {
+    DLog(@"Warning: replace non existing entry: %@", anEntry);
+  }
 }
 
 - (void)addEntriesFromEntrySet:(SESparkEntrySet *)set {
@@ -96,14 +98,18 @@
   return NSMapGet(se_set, trigger) != nil;
 }
 
-- (SparkEntry *)entryForTrigger:(SparkTrigger *)aTrigger {
+- (SparkEntry *)entryForAction:(SparkAction *)anAction {
   unsigned idx = [se_entries count];
   while (idx-- > 0) {
     SparkEntry *entry = [se_entries objectAtIndex:idx];
-    if ([entry trigger] == aTrigger)
+    if ([[entry action] isEqual:anAction])
       return entry;
   }
   return nil;
+}
+
+- (SparkEntry *)entryForTrigger:(SparkTrigger *)aTrigger {
+  return (SparkEntry *)NSMapGet(se_set, aTrigger);
 }
 
 - (SparkAction *)actionForTrigger:(SparkTrigger *)trigger {

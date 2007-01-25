@@ -237,15 +237,15 @@ BOOL SEPluginListFilter(SparkList *list, SparkObject *object, NSDictionary *ctxt
   
   [[se_library notificationCenter] addObserver:self
                                       selector:@selector(didAddEntry:)
-                                          name:SparkEntryManagerDidAddEntryNotification
+                                          name:SEEntryCacheDidAddEntryNotification
                                         object:nil];
   [[se_library notificationCenter] addObserver:self
                                       selector:@selector(didUpdateEntry:)
-                                          name:SparkEntryManagerDidUpdateEntryNotification
+                                          name:SEEntryCacheDidUpdateEntryNotification
                                         object:nil];
   [[se_library notificationCenter] addObserver:self
                                       selector:@selector(didRemoveEntry:)
-                                          name:SparkEntryManagerDidRemoveEntryNotification
+                                          name:SEEntryCacheDidRemoveEntryNotification
                                         object:nil];
   
   /* Tell delegate to reload data */

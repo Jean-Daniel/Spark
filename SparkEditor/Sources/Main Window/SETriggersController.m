@@ -173,15 +173,20 @@ SETriggerStyle styles[6];
   /*  Listen entries change, "did add" and "did remove" already trigger "list change" notifications */
   [[se_library notificationCenter] addObserver:self
                                       selector:@selector(didAddEntry:)
-                                          name:SparkEntryManagerDidAddEntryNotification
+                                          name:SEEntryCacheDidAddEntryNotification
                                         object:nil];
   [[se_library notificationCenter] addObserver:self
                                       selector:@selector(didUpdateEntry:)
-                                          name:SparkEntryManagerDidUpdateEntryNotification
+                                          name:SEEntryCacheDidUpdateEntryNotification
                                         object:nil];
   [[se_library notificationCenter] addObserver:self
                                       selector:@selector(didRemoveEntry:)
-                                          name:SparkEntryManagerDidRemoveEntryNotification
+                                          name:SEEntryCacheDidRemoveEntryNotification
+                                        object:nil];
+  
+  [[se_library notificationCenter] addObserver:self
+                                      selector:@selector(didUpdateEntryStatus:)
+                                          name:SEEntryCacheDidChangeEntryEnabledNotification
                                         object:nil];
 
   [[NSNotificationCenter defaultCenter] addObserver:self
@@ -288,7 +293,6 @@ SETriggerStyle styles[6];
     /* Filter entries */
     [self filterEntries:[uiSearch stringValue]];
   }
-  [uiTable reloadData];
 }
 
 /* Selected list has changed */
@@ -298,6 +302,7 @@ SETriggerStyle styles[6];
     se_list = [aList retain];
     // Reload data
     [self refresh];
+    [uiTable reloadData];
   }
 }
 
@@ -478,6 +483,7 @@ SETriggerStyle styles[6];
 /* Plugins status change, etc... */
 - (void)cacheDidReload:(NSNotification *)aNotification {
   [self refresh];
+  [uiTable reloadData];
 }
 
 - (void)applicationDidChange:(NSNotification *)aNotification {
@@ -487,69 +493,76 @@ SETriggerStyle styles[6];
 /* A list content has changed */
 - (void)listDidReload:(NSNotification *)aNotification {
   /* If updated list is the current list */
-  if ([aNotification object] == se_list)
+  if ([aNotification object] == se_list) {
     [self refresh];
+    [uiTable reloadData];
+  }
 }
 - (void)listDidAddTriggers:(NSNotification *)aNotification {
-  if ([aNotification object] == se_list)
+  if ([aNotification object] == se_list) {
     [self refresh];  
+    [uiTable reloadData];
+  }
 }
 - (void)listDidUpdateTriggers:(NSNotification *)aNotification {
   if ([aNotification object] == se_list) {
     [self refresh];
+    [uiTable reloadData];
   }
 }
 - (void)listDidRemoveTriggers:(NSNotification *)aNotification {
-  if ([aNotification object] == se_list)
-    [self refresh];  
+  if ([aNotification object] == se_list) {
+    [self refresh];
+    [uiTable reloadData];
+  }
 }
 
 - (void)didAddEntry:(NSNotification *)aNotification {
   SparkEntry *entry = SparkNotificationObject(aNotification);
-  if ([entry type] == kSparkEntryTypeWeakOverWrite && [[entry application] isEqual:[self application]]) {
-    unsigned idx = [self indexOfTrigger:[entry trigger]];
-    if (idx != NSNotFound) {
-      SparkEntry *previous = [se_entries objectAtIndex:idx];
-      [se_entries replaceObjectAtIndex:idx withObject:entry];
-      [uiTable setNeedsDisplayInRect:[uiTable rectOfRow:idx]];
-      /* update snapshot */
-      idx = [se_snapshot indexOfObject:previous];
-      if (NSNotFound != idx) {
-        [se_snapshot replaceObjectAtIndex:idx withObject:entry];
-      }
-    }
-    return;
+  /* If did not already contains the new entry and selected list contains entry trigger, refresh */
+  if (![se_snapshot containsObjectIdenticalTo:entry] && 
+      [se_list containsObject:[entry trigger]]) {
+    [self refresh];
+    /* Redraw only if displayed entries contains the new entry */
+    if ([se_entries containsObject:entry])
+      [uiTable reloadData];
   }
 }
 - (void)didUpdateEntry:(NSNotification *)aNotification {
+  SparkEntry *entry = SparkNotificationObject(aNotification);
+  SparkEntry *updated = SparkNotificationUpdatedObject(aNotification);
+  /* If did not already contains the new entry and selected list contains entry trigger, or contains the old entry, refresh */
+  if ((![se_snapshot containsObjectIdenticalTo:entry] && [se_list containsObject:[entry trigger]]) ||
+      [se_snapshot containsObject:updated]) {
+    BOOL reload = [se_entries containsObject:entry];
+    [self refresh];
+    /* Redraw only if displayed entries contains the new/old entry  */
+    if (reload || [se_entries containsObject:entry])
+      [uiTable reloadData];
+  }
 }
 - (void)didRemoveEntry:(NSNotification *)aNotification {
+  /* If contains object */
+  SparkEntry *entry = SparkNotificationObject(aNotification);
+  if ([se_snapshot containsObject:entry]) {
+    BOOL reload = [se_entries containsObject:entry];
+    [self refresh];
+    /* Redraw only if displayed entries change */
+    if (reload)
+      [uiTable reloadData];
+  }
+}
+
+- (void)didUpdateEntryStatus:(NSNotification *)aNotification {
   SparkEntry *entry = SparkNotificationObject(aNotification);
   unsigned idx = [se_snapshot indexOfObject:entry];
   if (idx != NSNotFound) {
-    switch ([entry type]) {
-      case kSparkEntryTypeDefault:
-      case kSparkEntryTypeSpecific: {
-        [se_snapshot removeObjectAtIndex:idx];
-        idx = [se_entries indexOfObject:entry];
-        if (NSNotFound != idx) {
-          [se_entries removeObjectAtIndex:idx];
-          [uiTable reloadData];
-        }
-      }
-        break;
-      default: {
-        SESparkEntrySet *base = [[[ibWindow document] cache] base];
-        SparkEntry *bentry = [base entryForTrigger:[entry trigger]];
-        if (bentry) {
-          [se_snapshot replaceObjectAtIndex:idx withObject:bentry];
-        }
-        idx = [se_entries indexOfObject:entry];
-        if (NSNotFound != idx) {
-          [se_entries replaceObjectAtIndex:idx withObject:bentry];
-          [uiTable setNeedsDisplayInRect:[uiTable rectOfRow:idx]];
-        }
-      }
+    [se_snapshot replaceObjectAtIndex:idx withObject:entry];
+    /* Update entries */
+    idx = [se_entries indexOfObject:entry];
+    if (idx != NSNotFound) {
+      [se_entries replaceObjectAtIndex:idx withObject:entry];
+      [uiTable setNeedsDisplayInRect:[uiTable rectOfRow:idx]];
     }
   }
 }
