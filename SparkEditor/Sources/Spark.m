@@ -14,6 +14,7 @@
 #import "SEEntryEditor.h"
 #import "SETriggerBrowser.h"
 #import <Foundation/NSDebug.h>
+#import <SparkKit/SparkLibrarySynchronizer.h>
 #endif
 
 #import <SparkKit/SparkKit.h>
@@ -33,6 +34,7 @@ const UInt32 kSparkVersion = 0x020700; /* 3.0.0 */
 int main(int argc, const char *argv[]) {
 #if defined(DEBUG)
   NSDebugEnabled = YES;
+  SparkLogSynchronization = YES;
   NSHangOnUncaughtException = YES;
 //  SparkLibraryFileFormat = NSPropertyListXMLFormat_v1_0;
 #endif

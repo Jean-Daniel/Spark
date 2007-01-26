@@ -58,11 +58,13 @@ SparkContext SparkGetCurrentContext() {
 void SparkDisplayAlerts(NSArray *items) {
   if ([items count] == 1) {
     SparkAlert *alert = [items objectAtIndex:0];
-    id other = [alert hideSparkButton] ? nil : NSLocalizedStringFromTableInBundle(@"LAUNCH_SPARK_BUTTON", nil,
+    NSString *ok = NSLocalizedStringFromTableInBundle(@"OK", nil, [NSBundle bundleWithIdentifier:kSparkKitBundleIdentifier] , @"OK");
+    
+    NSString *other = [alert hideSparkButton] ? nil : NSLocalizedStringFromTableInBundle(@"LAUNCH_SPARK_BUTTON", nil,
                                                                                   [NSBundle bundleWithIdentifier:kSparkKitBundleIdentifier],
                                                                                   @"Open Spark Alert Button");
     [NSApp activateIgnoringOtherApps:YES];
-    if (NSRunAlertPanel([alert messageText],[alert informativeText], @"OK", nil, other) == NSAlertOtherReturn) {
+    if (NSRunAlertPanel([alert messageText],[alert informativeText], ok, nil, other) == NSAlertOtherReturn) {
       SparkLaunchEditor();
     }
   }

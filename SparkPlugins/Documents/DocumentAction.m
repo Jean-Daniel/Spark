@@ -234,11 +234,9 @@ OSType _DocumentActionFromFlag(int flag) {
         AEDesc desc = SKAEEmptyDesc();
         OSStatus err = AECreateDesc(typeAlias, *alias, SKGetAliasSize(alias), &desc);
         if (noErr == err) {
-          err = SKAEFinderRevealItem(&desc);
+          err = SKAEFinderRevealItem(&desc, TRUE);
           SKAEDisposeDesc(&desc);
         }
-        if (noErr == err)
-          err = SKAESendSimpleEvent(kSparkFinderCreatorType, kAEMiscStandards, kAEActivate);
         
         if (noErr != err)
           NSBeep();

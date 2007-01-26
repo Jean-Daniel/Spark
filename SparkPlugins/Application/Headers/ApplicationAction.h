@@ -88,5 +88,8 @@ typedef struct _ApplicationVisualSetting {
 @end
 
 SK_PRIVATE
+NSImage *ApplicationActionIcon(ApplicationAction *action);
+
+SK_PRIVATE
 NSString *ApplicationActionDescription(ApplicationAction *anAction, NSString *name);
 

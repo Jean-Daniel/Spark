@@ -157,7 +157,7 @@
   SparkDaemonStatus status = [[aNotification object] serverStatus];
   switch (status) {
     case kSparkDaemonStarted:
-      if ([self connect])
+      if (![self isConnected] && [self connect])
         [self configure];
       break;
     case kSparkDaemonStopped:

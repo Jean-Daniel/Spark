@@ -14,6 +14,7 @@
 #import <ShadowKit/SKAEFunctions.h>
 #import <ShadowKit/SKFSFunctions.h>
 #import <ShadowKit/SKProcessFunctions.h>
+#import <ShadowKit/SKAppKitExtensions.h>
 
 static NSString * const kApplicationNameKey = @"ApplicationName";
 static NSString * const kApplicationFlagsKey = @"ApplicationFlags";
@@ -367,6 +368,27 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
   return alert;
 }
 
+- (BOOL)shouldSaveIcon {
+  switch ([self action]) {
+    case kApplicationQuit:
+    case kApplicationLaunch:
+    case kApplicationToggle:
+      return YES;
+    default:
+      return NO;
+  }
+}
+/* Icon lazy loading */
+- (NSImage *)icon {
+  NSImage *icon = [super icon];
+  if (!icon) {
+    icon = ApplicationActionIcon(self);
+    [super setIcon:icon];
+  }
+  return icon;
+}
+
+#pragma mark -
 - (NSString *)path {
   return [aa_application path];
 }
@@ -554,6 +576,27 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
 }
 
 @end
+
+NSImage *ApplicationActionIcon(ApplicationAction *action) {
+  NSString *name = nil;
+  switch ([action action]) {
+    case kApplicationHideFront:
+      name = @"AAHide";
+      break;
+    case kApplicationHideOther:
+      name = @"AAHide";
+      break;      
+    case kApplicationForceQuitFront:
+      name = @"AAStop";
+      break;
+    case kApplicationForceQuitDialog:
+      name = @"AAStop";
+      break;
+    default:
+      break;
+  }
+  return name ? [NSImage imageNamed:name inBundle:kApplicationActionBundle] : nil;
+}
 
 NSString *ApplicationActionDescription(ApplicationAction *anAction, NSString *name) {
   NSString *desc = nil;

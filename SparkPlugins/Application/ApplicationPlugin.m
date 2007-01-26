@@ -83,6 +83,7 @@ NSString * const kApplicationActionBundleIdentifier = @"org.shadowlab.spark.appl
     case kApplicationForceQuitFront:
     case kApplicationForceQuitDialog:
       [action setPath:nil];
+      [action setIcon:ApplicationActionIcon(action)];
       break;
     default: {
       [action setPath:aa_path];

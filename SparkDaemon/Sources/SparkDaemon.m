@@ -28,12 +28,14 @@
 #if defined (DEBUG)
 #import <ShadowKit/SKAEFunctions.h>
 #import <HotKeyToolKit/HotKeyToolKit.h>
+#import <SparkKit/SparkLibrarySynchronizer.h>
 #endif
 
 int main(int argc, const char *argv[]) {
 #if defined (DEBUG)
   SKAEDebug = YES;
   HKTraceHotKeyEvents = YES;
+  SparkLogSynchronization = YES;
 #endif
   NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
   NSApplicationLoad();

@@ -20,6 +20,8 @@ enum {
   kSparkApplicationType = 'appl'
 };
 
+BOOL SparkLogSynchronization = NO;
+
 @protocol SparkLibrary
 
 - (bycopy NSString *)uuid;
@@ -130,13 +132,14 @@ enum {
     [NSException raise:NSInvalidArgumentException format:@"Remote Library %@ MUST conform to <SparkLibrary>", remoteLibrary];
   }
   
+  NSString *uuidstr = nil;
   if (remoteLibrary != sp_remote) {
     /* If set null => unregister */
     if (!remoteLibrary) {
       [self removeObserver];
     } else {
       /* Check library UUID */
-      NSString *uuidstr = [remoteLibrary uuid];
+      uuidstr = [remoteLibrary uuid];
       if (!uuidstr) {
         [NSException raise:NSInvalidArgumentException format:@"Invalid Remote Library UUID (null)"];
       }
@@ -159,6 +162,9 @@ enum {
     [sp_remote release];
     sp_remote = [remoteLibrary retain];
     [sp_remote setProtocolForProxy:@protocol(SparkLibrary)];
+    if (SparkLogSynchronization) {
+      NSLog(@"Set Remote library: %@", uuidstr);
+    }
   }
     
 }
@@ -166,7 +172,17 @@ enum {
 #pragma mark -
 #pragma mark Spark Library Synchronization
 
-#define SparkRemoteMessage(msg)		({ @try { [[self distantLibrary] msg]; } @catch (id exception) { SKLogException(exception); } })
+#define SparkRemoteMessage(msg)		({ @try { \
+  [[self distantLibrary] msg]; \
+  if (SparkLogSynchronization) { \
+    NSLog(@"Send remote message: -[SparkLibrary %s]", #msg); \
+  } \
+} @catch (id exception) { \
+  SKLogException(exception); \
+  if (SparkLogSynchronization) { \
+    NSLog(@"Remote message exception: %@", exception); \
+  } \
+} })
 
 SK_INLINE
 OSType SparkServerObjectType(SparkObject *anObject) {
@@ -187,6 +203,10 @@ OSType SparkServerObjectType(SparkObject *anObject) {
       NSDictionary *plist = [[aNotification object] serialize:object error:NULL];
       if (plist) {
         SparkRemoteMessage(addObject:plist type:type);
+      } else {
+        if (SparkLogSynchronization) {
+          NSLog(@"Failed to serialized object: %@", object);
+        }
       }
     }
   }
@@ -218,7 +238,7 @@ OSType SparkServerObjectType(SparkObject *anObject) {
 #pragma mark Entries
 - (void)didAddEntry:(NSNotification *)aNotification {
   if ([self isConnected]) {
-    SparkEntry *entry = [[aNotification userInfo] objectForKey:SparkEntryNotificationKey];
+    SparkEntry *entry = SparkNotificationObject(aNotification);
     if (entry) {
       SparkLibraryEntry *lentry = [[aNotification object] libraryEntryForEntry:entry];
       if (lentry) {
@@ -229,8 +249,8 @@ OSType SparkServerObjectType(SparkObject *anObject) {
 }
 - (void)didUpdateEntry:(NSNotification *)aNotification {
   if ([self isConnected]) {
-    SparkEntry *entry = [[aNotification userInfo] objectForKey:SparkEntryNotificationKey];
-    SparkEntry *previous = [[aNotification userInfo] objectForKey:SparkEntryReplacedNotificationKey];
+    SparkEntry *entry = SparkNotificationObject(aNotification);
+    SparkEntry *previous = SparkNotificationUpdatedObject(aNotification);
     
     if (entry && previous) {
       SparkLibraryEntry *lentry = [[aNotification object] libraryEntryForEntry:entry];
@@ -247,7 +267,7 @@ OSType SparkServerObjectType(SparkObject *anObject) {
 }
 - (void)willRemoveEntry:(NSNotification *)aNotification {
   if ([self isConnected]) {
-    SparkEntry *entry = [[aNotification userInfo] objectForKey:SparkEntryNotificationKey];
+    SparkEntry *entry = SparkNotificationObject(aNotification);
     if (entry) {
       SparkLibraryEntry *lentry = [[aNotification object] libraryEntryForEntry:entry];
       if (lentry) {
@@ -259,7 +279,7 @@ OSType SparkServerObjectType(SparkObject *anObject) {
 
 - (void)didChangeEntryStatus:(NSNotification *)aNotification {
   if ([self isConnected]) {
-    SparkEntry *entry = [[aNotification userInfo] objectForKey:SparkEntryNotificationKey];
+    SparkEntry *entry = SparkNotificationObject(aNotification);
     if (entry) {
       SparkLibraryEntry *lentry = [[aNotification object] libraryEntryForEntry:entry];
       if (lentry) {
@@ -354,9 +374,12 @@ SparkObjectSet *SparkObjectSetForType(SparkLibrary *library, OSType type) {
   return nil;
 }
 
+#define SparkSyncTrace() ({if (SparkLogSynchronization) { NSLog(@"-[SparkDistantLibrary %@]", NSStringFromSelector(_cmd)); }})
+
 @implementation SparkDistantLibrary (SparkLibraryProtocol)
 
 - (NSString *)uuid {
+  SparkSyncTrace();
   NSString *uuidstr = nil;
   CFUUIDRef uuid = [sp_library uuid];
   if (uuid) {
@@ -367,7 +390,7 @@ SparkObjectSet *SparkObjectSetForType(SparkLibrary *library, OSType type) {
 
 #pragma mark Objects Management
 - (void)addObject:(id)plist type:(OSType)type {
-  ShadowTrace();
+  SparkSyncTrace();
   SparkObjectSet *set = SparkObjectSetForType(sp_library, type);
   if (set) {
     SparkObject *object = [set deserialize:plist error:nil];
@@ -378,7 +401,7 @@ SparkObjectSet *SparkObjectSetForType(SparkLibrary *library, OSType type) {
   }
 }
 - (void)updateObject:(id)plist type:(OSType)type {
-  ShadowTrace();
+  SparkSyncTrace();
   SparkObjectSet *set = SparkObjectSetForType(sp_library, type);
   if (set) {
     SparkObject *object = [set deserialize:plist error:nil];
@@ -389,7 +412,7 @@ SparkObjectSet *SparkObjectSetForType(SparkLibrary *library, OSType type) {
   }
 }
 - (void)removeObject:(UInt32)uid type:(OSType)type {
-  ShadowTrace();
+  SparkSyncTrace();
   SparkObjectSet *set = SparkObjectSetForType(sp_library, type);
   if (set) {
     /* Trigger desactivation is handled in notification */
@@ -399,7 +422,7 @@ SparkObjectSet *SparkObjectSetForType(SparkLibrary *library, OSType type) {
 
 #pragma mark Entries Management
 - (void)addLibraryEntry:(SparkLibraryEntry *)anEntry {
-  ShadowTrace();
+  SparkSyncTrace();
   [[sp_library entryManager] addLibraryEntry:anEntry];
   if (SKDelegateHandle(sp_delegate, distantLibrary:didAddEntry:)) {
     SparkEntry *entry = [[sp_library entryManager] entryForLibraryEntry:anEntry];
@@ -409,7 +432,7 @@ SparkObjectSet *SparkObjectSetForType(SparkLibrary *library, OSType type) {
 }
 
 - (void)removeLibraryEntry:(SparkLibraryEntry *)anEntry {
-  ShadowTrace();
+  SparkSyncTrace();
   SparkEntry *entry = nil;
   if (SKDelegateHandle(sp_delegate, distantLibrary:didRemoveEntry:)) {
     entry = [[sp_library entryManager] entryForLibraryEntry:anEntry];
@@ -421,7 +444,7 @@ SparkObjectSet *SparkObjectSetForType(SparkLibrary *library, OSType type) {
 }
 
 - (void)replaceLibraryEntry:(SparkLibraryEntry *)anEntry withLibraryEntry:(SparkLibraryEntry *)newEntry {
-  ShadowTrace();
+  SparkSyncTrace();
   SparkEntry *old = nil, *new = nil;
   if (SKDelegateHandle(sp_delegate, distantLibrary:didReplaceEntry:withEntry:)) {
     old = [[sp_library entryManager] entryForLibraryEntry:anEntry];
@@ -435,7 +458,7 @@ SparkObjectSet *SparkObjectSetForType(SparkLibrary *library, OSType type) {
 }
 
 - (void)enableLibraryEntry:(SparkLibraryEntry *)anEntry {
-  ShadowTrace();
+  SparkSyncTrace();
   [[sp_library entryManager] setEnabled:YES forLibraryEntry:anEntry];
   if (SKDelegateHandle(sp_delegate, distantLibrary:didChangeEntryStatus:)) {
     SparkEntry *entry = [[sp_library entryManager] entryForLibraryEntry:anEntry];
@@ -445,7 +468,7 @@ SparkObjectSet *SparkObjectSetForType(SparkLibrary *library, OSType type) {
 }
 
 - (void)disableLibraryEntry:(SparkLibraryEntry *)anEntry {
-  ShadowTrace();
+  SparkSyncTrace();
   [[sp_library entryManager] setEnabled:NO forLibraryEntry:anEntry];
   if (SKDelegateHandle(sp_delegate, distantLibrary:didChangeEntryStatus:)) {
     SparkEntry *entry = [[sp_library entryManager] entryForLibraryEntry:anEntry];
@@ -456,6 +479,7 @@ SparkObjectSet *SparkObjectSetForType(SparkLibrary *library, OSType type) {
 
 #pragma mark Plugins Management
 - (void)enablePlugIn:(NSString *)identifier {
+  SparkSyncTrace();
   SparkPlugIn *plugin = [[SparkActionLoader sharedLoader] pluginForIdentifier:identifier];
   if (plugin) {
     [plugin setEnabled:YES];
@@ -464,6 +488,7 @@ SparkObjectSet *SparkObjectSetForType(SparkLibrary *library, OSType type) {
   }
 }
 - (void)disablePlugIn:(NSString *)identifier {
+  SparkSyncTrace();
   SparkPlugIn *plugin = [[SparkActionLoader sharedLoader] pluginForIdentifier:identifier];
   if (plugin) {
     [plugin setEnabled:NO];
@@ -473,6 +498,7 @@ SparkObjectSet *SparkObjectSetForType(SparkLibrary *library, OSType type) {
 }
 
 - (void)registerPlugIn:(NSString *)path {
+  SparkSyncTrace();
   SparkPlugIn *plugin = [[SparkActionLoader sharedLoader] loadPlugin:path];
   if (!plugin) {
     DLog(@"Error while loading plugin: %@", path);

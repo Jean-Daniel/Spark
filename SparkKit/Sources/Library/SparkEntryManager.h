@@ -9,10 +9,6 @@
 #import <SparkKit/SparkKit.h>
 
 #pragma mark Notifications
-SPARK_EXPORT
-NSString * const SparkEntryNotificationKey;
-SPARK_EXPORT
-NSString * const SparkEntryReplacedNotificationKey;
 
 SPARK_EXPORT
 NSString * const SparkEntryManagerWillAddEntryNotification;

@@ -21,9 +21,6 @@
 #import <SparkKit/SparkPlugIn.h>
 #import <SparkKit/SparkActionLoader.h>
 
-NSString * const SparkEntryNotificationKey = @"SparkEntryNotificationKey";
-NSString * const SparkEntryReplacedNotificationKey = @"SparkEntryReplacedNotificationKey";
-
 NSString * const SparkEntryManagerWillAddEntryNotification = @"SparkEntryManagerWillAddEntry";
 NSString * const SparkEntryManagerDidAddEntryNotification = @"SparkEntryManagerDidAddEntry";
 

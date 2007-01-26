@@ -22,7 +22,7 @@
 }
 
 + (NSString *)plugInName {
-  return @"Spark";
+  return NSLocalizedStringFromTableInBundle(@"Spark", nil, SKCurrentBundle(), @"Spark Built-in Plugin name");
 }
 
 + (NSImage *)plugInIcon {

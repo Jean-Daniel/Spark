@@ -8,6 +8,9 @@
 
 #import <SparkKit/SparkLibrary.h>
 
+SK_EXPORT
+BOOL SparkLogSynchronization;
+
 @protocol SparkLibrary;
 @interface SparkLibrarySynchronizer : NSObject {
   @private

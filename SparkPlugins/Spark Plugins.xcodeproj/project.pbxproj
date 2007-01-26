@@ -31,6 +31,8 @@
 		1B0E222A0B5649D900DC846B /* AudioOutput.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B0E22290B5649D900DC846B /* AudioOutput.h */; };
 		1B0E222C0B5649DF00DC846B /* AudioOutput.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B0E222B0B5649DF00DC846B /* AudioOutput.c */; };
 		1B0E22940B564BA100DC846B /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B0E22930B564BA100DC846B /* CoreAudio.framework */; };
+		1B75502D0B6A8153004C9F44 /* AAStop.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B75502B0B6A8153004C9F44 /* AAStop.tiff */; };
+		1B75502E0B6A8153004C9F44 /* AAHide.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B75502C0B6A8153004C9F44 /* AAHide.tiff */; };
 		1B8F4B150B56823700E8A4C0 /* volume.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B8F4B140B56823700E8A4C0 /* volume.aiff */; };
 		1BDDBB6E0B56B69F00A66792 /* Mute.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BDDBB6B0B56B69F00A66792 /* Mute.png */; };
 		1BDDBB6F0B56B69F00A66792 /* VolumeDown.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BDDBB6C0B56B69F00A66792 /* VolumeDown.png */; };
@@ -279,6 +281,8 @@
 		1B0E22290B5649D900DC846B /* AudioOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioOutput.h; sourceTree = "<group>"; };
 		1B0E222B0B5649DF00DC846B /* AudioOutput.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = AudioOutput.c; sourceTree = "<group>"; };
 		1B0E22930B564BA100DC846B /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = /System/Library/Frameworks/CoreAudio.framework; sourceTree = "<absolute>"; };
+		1B75502B0B6A8153004C9F44 /* AAStop.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = AAStop.tiff; sourceTree = "<group>"; };
+		1B75502C0B6A8153004C9F44 /* AAHide.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = AAHide.tiff; sourceTree = "<group>"; };
 		1B8F4B140B56823700E8A4C0 /* volume.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = volume.aiff; sourceTree = "<group>"; };
 		1BDDBB6B0B56B69F00A66792 /* Mute.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Mute.png; sourceTree = "<group>"; };
 		1BDDBB6C0B56B69F00A66792 /* VolumeDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = VolumeDown.png; sourceTree = "<group>"; };
@@ -865,12 +869,14 @@
 		98FC45F506063DD1003617CA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				1B75502C0B6A8153004C9F44 /* AAHide.tiff */,
+				1B75502B0B6A8153004C9F44 /* AAStop.tiff */,
 				9876F9800A93808E0063300C /* undefined.png */,
 				98B38E2E0B63AD2C00C619FD /* ApplicationIcon.tiff */,
 				98DD5E340A91CE5C00FB5814 /* ApplicationPlugin.png */,
-				98FC461606063DF8003617CA /* ApplicationHelp.html */,
 				98FC462506063E19003617CA /* Localizable.strings */,
 				98FC461C06063E06003617CA /* Help */,
+				98FC461606063DF8003617CA /* ApplicationHelp.html */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -1315,6 +1321,8 @@
 				9876F9810A93808F0063300C /* undefined.png in Resources */,
 				9885E08B0AB2CC04006FE0CA /* ApplicationPlugin.nib in Resources */,
 				98B38E2F0B63AD2C00C619FD /* ApplicationIcon.tiff in Resources */,
+				1B75502D0B6A8153004C9F44 /* AAStop.tiff in Resources */,
+				1B75502E0B6A8153004C9F44 /* AAHide.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

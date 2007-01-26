@@ -12,6 +12,7 @@
 #import "SELibraryWindow.h"
 #import "SELibraryDocument.h"
 
+#import <ShadowKit/SKAEFunctions.h>
 #import <ShadowKit/SKFSFunctions.h>
 #import <ShadowKit/SKLSFunctions.h>
 #import <ShadowKit/SKAppKitExtensions.h>
@@ -78,6 +79,9 @@
   [header release];
   [uiTable setCornerView:[[[SEHeaderCellCorner alloc] init] autorelease]];
   
+  [uiTable setTarget:self];
+  [uiTable setDoubleAction:@selector(revealApplication:)];
+  
   /* Load applications */
   [self reload];
   [self setSelectionIndex:0];
@@ -130,6 +134,20 @@
     [self rearrangeObjects];
   }
   return count;
+}
+
+- (IBAction)revealApplication:(id)sender {
+  NSArray *array = [self selectedObjects];
+  if ([array count] > 0) {
+    SparkApplication *application = [array objectAtIndex:0];
+    NSString *path = [application path];
+    FSRef ref;
+    if (path && [path getFSRef:&ref]) {
+      SKAEFinderRevealFSRef(&ref, TRUE);
+    } else {
+      NSBeep();
+    }
+  }
 }
 
 - (IBAction)newApplication:(id)sender {
