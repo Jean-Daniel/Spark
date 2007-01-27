@@ -123,8 +123,10 @@ SETriggerStyle styles[6];
     se_application = [anApplication retain];
     
     /* Avoid useless reload */
-    if (reload)
+    if (reload) {
       [self refresh];
+      [uiTable reloadData];
+    }
   }
 }
 

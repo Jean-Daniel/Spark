@@ -37,6 +37,8 @@ typedef enum {
 @interface ITunesAction : SparkAction <NSCoding, NSCopying> {
   @private
     iTunesAction ia_action;
+  
+  UInt64 ia_plid;
   NSString *ia_playlist;
   
   struct _ia_iaFlags {
@@ -62,7 +64,7 @@ typedef enum {
 - (void)setRating:(SInt32)aRate;
 
 - (NSString *)playlist;
-- (void)setPlaylist:(NSString *)newPlaylist;
+- (void)setPlaylist:(NSString *)newPlaylist uid:(UInt64)uid;
 
 - (iTunesAction)iTunesAction;
 - (void)setITunesAction:(iTunesAction)newAction;
@@ -89,7 +91,7 @@ typedef enum {
 - (void)volumeUp;
 - (void)volumeDown;
 - (void)ejectCD;
-- (SparkAlert *)playPlaylist:(NSString *)name;
+- (SparkAlert *)playPlaylist;
 
 @end
 

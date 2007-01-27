@@ -31,6 +31,12 @@
 
 #import <HotKeyToolKit/HotKeyToolKit.h>
 
+/* Custom resize animation time */
+@interface SETrapWindow : HKTrapWindow {
+}
+- (NSTimeInterval)animationResizeTime:(NSRect)newFrame;
+@end
+
 #pragma mark -
 @implementation SEEntryEditor
 
@@ -60,22 +66,22 @@
                                                                                        @"SEEditor", @"Hotkey Type column header")];
   [header setAlignment:NSCenterTextAlignment];
   [header setFont:[NSFont systemFontOfSize:11]];
-  [[[typeTable tableColumns] objectAtIndex:0] setHeaderCell:header];
+  [[[uiTypeTable tableColumns] objectAtIndex:0] setHeaderCell:header];
   [header release];
-  [typeTable setCornerView:[[[SEHeaderCellCorner alloc] initWithFrame:NSMakeRect(0, 0, 22, 22)] autorelease]];
+  [uiTypeTable setCornerView:[[[SEHeaderCellCorner alloc] initWithFrame:NSMakeRect(0, 0, 22, 22)] autorelease]];
   
-  [typeTable setHighlightShading:[NSColor colorWithCalibratedRed:.340f
-                                                       green:.606f
-                                                        blue:.890f
-                                                       alpha:1]
-                          bottom:[NSColor colorWithCalibratedRed:0
-                                                       green:.312f
-                                                        blue:.790f
-                                                       alpha:1]
-                          border:[NSColor colorWithCalibratedRed:.239f
-                                                       green:.482f
-                                                        blue:.855f
-                                                       alpha:1]];
+  [uiTypeTable setHighlightShading:[NSColor colorWithCalibratedRed:.340f
+                                                             green:.606f
+                                                              blue:.890f
+                                                             alpha:1]
+                            bottom:[NSColor colorWithCalibratedRed:0
+                                                             green:.312f
+                                                              blue:.790f
+                                                             alpha:1]
+                            border:[NSColor colorWithCalibratedRed:.239f
+                                                             green:.482f
+                                                              blue:.855f
+                                                             alpha:1]];
 }
 
 - (void)windowDidLoad {
@@ -86,7 +92,7 @@
   NSSize scur = [[self window] contentRectForFrameRect:[[self window] frame]].size;
   NSSize delta = { scur.width - smin.width, scur.height - smin.height };
   
-  se_min = [ibPlugin frame].size;
+  se_min = [uiPlugin frame].size;
   se_min.width -= delta.width;
   se_min.height -= delta.height;
 }
@@ -127,8 +133,8 @@
   /* Check trigger */
   NSAlert *alert = nil;
   /* End editing if needed */
-  [trap validate:sender];
-  SEHotKey key = [trap hotkey];
+  [uiTrap validate:sender];
+  SEHotKey key = [uiTrap hotkey];
   if (kHKInvalidVirtualKeyCode == key.keycode || kHKNilUnichar == key.character) {
     alert = [NSAlert alertWithMessageText:NSLocalizedStringFromTable(@"EMPTY_TRIGGER_ALERT",
                                                                      @"SEEditor", @"Invalid Shortcut - Title")
@@ -234,10 +240,10 @@
   [se_plugins sortUsingDescriptors:gSortByNameDescriptors];
   
   /* plugins list should contains "Inherit" if:
-   - Application uid != 0.
-   - Edit an existing entry (is updating).
-   - Not a specific action (else global action is nil).
-  */
+    - Application uid != 0.
+    - Edit an existing entry (is updating).
+    - Not a specific action (else global action is nil).
+    */
   BOOL advanced = [[self application] uid] != 0;
   advanced = advanced && (se_entry != nil);
   advanced = advanced && ([se_entry type] != kSparkEntryTypeSpecific);
@@ -247,17 +253,17 @@
     plugin = [[SparkPlugIn alloc] initWithClass:[SEInheritsPlugin class] identifier:@"org.shadowlab.spark.plugin.inherits"];
     [se_plugins insertObject:plugin atIndex:0];
     [plugin release];
-      
+    
     plugin = [[SparkPlugIn alloc] init];
     [plugin setName:SETableSeparator];
     [se_plugins insertObject:plugin atIndex:1];
     [plugin release];
   }
-  [typeTable reloadData];
+  [uiTypeTable reloadData];
 }
 
 - (SparkPlugIn *)actionType {
-  int row = [typeTable selectedRow];
+  int row = [uiTypeTable selectedRow];
   return row >= 0 ? [se_plugins objectAtIndex:row] : nil;
 }
 
@@ -278,22 +284,22 @@
       case kSparkEntryTypeWeakOverWrite:
         if ([[self application] uid] != 0) {
           type = [se_plugins objectAtIndex:0];
-          [trap setEnabled:NO];
+          [uiTrap setEnabled:NO];
           break;
         }
         // else fall through
       default:
         // TODO. trap should not be enabled ?
         type = [[SparkActionLoader sharedLoader] plugInForAction:[se_entry action]];
-        [trap setEnabled:YES];
+        [uiTrap setEnabled:YES];
         break;
     }
-    [ibConfirm setTitle:NSLocalizedStringFromTable(@"ENTRY_EDITOR_UPDATE",
+    [uiConfirm setTitle:NSLocalizedStringFromTable(@"ENTRY_EDITOR_UPDATE",
                                                    @"SEEditor", @"Entry Editor Update Button")];
   } else {
     // set create
-    [trap setEnabled:YES];
-    [ibConfirm setTitle:NSLocalizedStringFromTable(@"ENTRY_EDITOR_CREATE",
+    [uiTrap setEnabled:YES];
+    [uiConfirm setTitle:NSLocalizedStringFromTable(@"ENTRY_EDITOR_CREATE",
                                                    @"SEEditor", @"Entry Editor Update Button")];
   }
   if (type) {
@@ -308,7 +314,7 @@
     key.modifiers = [hotkey modifier];
     key.character = [hotkey character];
   }
-  [trap setHotKey:key];
+  [uiTrap setHotKey:key];
 }
 
 - (SparkApplication *)application {
@@ -319,8 +325,8 @@
     [se_application release];
     se_application = [anApplication retain];
     /* Set Application */
-    [appField setSparkApplication:anApplication];
-    [appField setTitle:[NSString stringWithFormat:
+    [uiApplication setSparkApplication:anApplication];
+    [uiApplication setTitle:[NSString stringWithFormat:
       NSLocalizedStringFromTable(@"APPLICATION_FIELD",
                                  @"SEEditor", @"%@ => Application name"), [anApplication name]]];
     [self updatePlugins];
@@ -360,14 +366,14 @@
   [views release];
   
   if (first && first != se_view) {
-    [trap setNextKeyView:first];
+    [uiTrap setNextKeyView:first];
     if (last) {
-      [last setNextKeyView:[ibPlugin nextValidKeyView]];
+      [last setNextKeyView:[uiPlugin nextValidKeyView]];
     } else {
-      [first setNextKeyView:[ibPlugin nextValidKeyView]];
+      [first setNextKeyView:[uiPlugin nextValidKeyView]];
     }
   } else {
-    [trap setNextKeyView:[ibPlugin nextValidKeyView]];
+    [uiTrap setNextKeyView:[uiPlugin nextValidKeyView]];
   }
 }
 
@@ -396,9 +402,9 @@
     action = [[[cls alloc] init] autorelease];
     if ([se_entry action])
       [action setPropertiesFromAction:[se_entry action]];
-  }
-  /* Set plugin's spark action */
-  [se_plugin setSparkAction:action edit:edit];
+}
+/* Set plugin's spark action */
+[se_plugin setSparkAction:action edit:edit];
 }
 
 - (void)setActionType:(SparkPlugIn *)aPlugin force:(BOOL)force {
@@ -413,7 +419,7 @@
       [se_views addObject:[se_plugin actionView]];
       /* Say se_plugin to no longer retain the view, so we no longer get a retain cycle. */
       [se_plugin releaseViewOwnership];
-            
+      
       [self loadEntry:[aPlugin actionClass]];
     }
   } else if (force) {
@@ -422,8 +428,8 @@
   
   /* Configure Help Button */
   BOOL hasHelp = nil != [[se_plugin class] helpFile];
-  [ibHelp setHidden:!hasHelp];
-  [ibHelp setEnabled:hasHelp];
+  [uiHelp setHidden:!hasHelp];
+  [uiHelp setEnabled:hasHelp];
   
   /* Remove previous view */
   if (se_view != [se_plugin actionView]) {
@@ -458,7 +464,7 @@
     [se_view setFrame:vrect];
     
     /* current size */
-    NSSize csize = [ibPlugin frame].size;
+    NSSize csize = [uiPlugin frame].size;
     /* destination rect */
     NSRect drect = vrect;
     drect.size.width = MAX(NSWidth(vrect), se_min.width);
@@ -481,6 +487,9 @@
     pframe.origin.y -= sscale * delta.height;
     [window setFrame:pframe display:YES animate:YES];
     
+    
+    /* bug in NSWindow */
+    wframe.size.height += 22;
     /* Adjust window attributes */
     NSSize smax = wframe.size;
     unsigned int mask = [se_view autoresizingMask];
@@ -491,7 +500,7 @@
       smax.height = MAXFLOAT;
     }
     if (MAXFLOAT <= smax.width || MAXFLOAT <= smax.height) {
-      [[self window] setShowsResizeIndicator:YES];
+      [window setShowsResizeIndicator:YES];
       NSSize min;
       NSValue *vmin = NSMapGet(se_sizes, se_plugin);
       if (!vmin) {
@@ -510,13 +519,13 @@
     [window setContentMaxSize:smax];
     
     [se_plugin pluginViewWillBecomeVisible];
-    [ibPlugin addSubview:se_view];
+    [uiPlugin addSubview:se_view];
     [self recalculateKeyViewLoop];
     [se_plugin pluginViewDidBecomeVisible];
     
     unsigned row = [se_plugins indexOfObject:aPlugin];
-    if (row != NSNotFound && (int)row != [typeTable selectedRow])
-      [typeTable selectRow:row byExtendingSelection:NO];
+    if (row != NSNotFound && (int)row != [uiTypeTable selectedRow])
+      [uiTypeTable selectRow:row byExtendingSelection:NO];
   }
 }
 
@@ -554,11 +563,6 @@
 @end
 
 #pragma mark -
-/* Custom resize animation time */
-@interface SETrapWindow : HKTrapWindow {
-}
-- (NSTimeInterval)animationResizeTime:(NSRect)newFrame;
-@end
 
 @implementation SETrapWindow
 

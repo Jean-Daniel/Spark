@@ -22,6 +22,7 @@ static NSString* const kITunesFlagsKey = @"iTunesFlags";
 static NSString* const kITunesActionKey = @"iTunesAction";
 static NSString* const kITunesVisualKey = @"iTunesVisual";
 static NSString* const kITunesPlaylistKey = @"iTunesPlaylist";
+static NSString* const kITunesPlaylistIDKey = @"iTunesPlaylistID";
 
 NSString * const kiTunesActionBundleIdentifier = @"org.shadowlab.spark.iTunes";
 
@@ -152,7 +153,10 @@ bail:
   ITunesAction* copy = [super copyWithZone:zone];
   copy->ia_action = ia_action;
   copy->ia_iaFlags = ia_iaFlags;
+  /* Playlist */
+  copy->ia_plid = ia_plid;
   copy->ia_playlist = [ia_playlist retain];
+  /* Visual */
   if (ia_visual) {
     copy->ia_visual = NSZoneMalloc(nil, sizeof(*ia_visual));
     memcpy(copy->ia_visual, ia_visual, sizeof(*ia_visual));
@@ -177,7 +181,10 @@ bail:
   [super encodeWithCoder:coder];
   [coder encodeInt:ia_action forKey:kITunesActionKey];
   [coder encodeInt:[self encodeFlags] forKey:kITunesFlagsKey];
+  /* Playlist */
+  [coder encodeInt64:ia_plid forKey:kITunesPlaylistIDKey];
   [coder encodeObject:[self playlist] forKey:kITunesPlaylistKey];
+  /* Visual */
   if (ia_visual) {
     [coder encodeBytes:(void *)ia_visual length:sizeof(*ia_visual) forKey:kITunesVisualKey];
   }
@@ -199,7 +206,9 @@ bail:
   if (self = [super initWithCoder:coder]) {
     [self decodeFlags:[coder decodeIntForKey:kITunesFlagsKey]];
     [self setITunesAction:[coder decodeIntForKey:kITunesActionKey]];
-    [self setPlaylist:[coder decodeObjectForKey:kITunesPlaylistKey]];
+    /* Playlist */
+    UInt64 plid = [coder decodeInt64ForKey:kITunesPlaylistIDKey];
+    [self setPlaylist:[coder decodeObjectForKey:kITunesPlaylistKey] uid:plid];
     
     unsigned length = 0;
     const void *visual = [coder decodeBytesForKey:kITunesVisualKey returnedLength:&length];
@@ -230,7 +239,10 @@ bail:
 #pragma mark Required Methods.
 - (id)initWithSerializedValues:(id)plist {
   if (self = [super initWithSerializedValues:plist]) {
-    [self setPlaylist:[plist objectForKey:kITunesPlaylistKey]];
+    /* Playlist */
+    UInt64 plid = [[plist objectForKey:kITunesPlaylistIDKey] unsignedLongLongValue];
+    [self setPlaylist:[plist objectForKey:kITunesPlaylistKey] uid:plid];
+    
     switch ([self version]) {
       case 0x200:
         [self decodeFlags:[[plist objectForKey:kITunesFlagsKey] unsignedIntValue]];
@@ -250,6 +262,26 @@ bail:
         [self setITunesAction:_iTunesConvertAction([[plist objectForKey:kITunesActionKey] intValue])];
         break;
     }
+    
+    /* if spark editor, check playlist name */
+    if (kSparkEditorContext == SparkGetCurrentContext()) {
+      if ([self iTunesAction] == kiTunesPlayPlaylist && ia_plid) {
+        iTunesPlaylist playlist = SKAEEmptyDesc();
+        OSStatus err = [self playlist] ? iTunesGetPlaylistWithName((CFStringRef)[self playlist], &playlist) : errAENoSuchObject;
+        if (err == errAENoSuchObject) {
+          err = iTunesGetPlaylistWithID(ia_plid, &playlist);
+          if (noErr == err) {
+            CFStringRef name = nil;
+            if (noErr == iTunesCopyPlaylistStringProperty(&playlist, kiTunesNameKey, &name) && name) {
+              [self setPlaylist:(id)name uid:ia_plid];
+              CFRelease(name);
+            }
+          }
+        }
+        SKAEDisposeDesc(&playlist);
+      }
+    }
+    
     /* Update description */
     NSString *description = ITunesActionDescription(self);
     if (description)
@@ -262,8 +294,12 @@ bail:
   [super serialize:plist];
   [plist setObject:SKUInt([self encodeFlags]) forKey:kITunesFlagsKey];
   [plist setObject:SKStringForOSType([self iTunesAction]) forKey:kITunesActionKey];
-  if ([self playlist])
+  /* Playlist */
+  if ([self playlist]) {
     [plist setObject:[self playlist] forKey:kITunesPlaylistKey];
+    [plist setObject:SKULongLong(ia_plid) forKey:kITunesPlaylistIDKey];
+  }
+  /* Visual */
   if (ia_visual) {
     NSData *data = ITunesVisualPack(ia_visual);
     if (data)
@@ -379,7 +415,7 @@ bail:
       [self displayInfoIfNeeded];
       break;
     case kiTunesPlayPlaylist:
-      alert = [self playPlaylist:[self playlist]];
+      alert = [self playPlaylist];
       break;
     case kiTunesNextTrack:
       iTunesSendCommand(kiTunesCommandNextTrack);
@@ -445,7 +481,8 @@ bail:
   return ia_playlist;
 }
 
-- (void)setPlaylist:(NSString *)aPlaylist {
+- (void)setPlaylist:(NSString *)aPlaylist uid:(UInt64)uid {
+  ia_plid = uid;
   SKSetterCopy(ia_playlist, aPlaylist);
 }
 
@@ -528,8 +565,12 @@ bail:
   }
 }
 
-- (SparkAlert *)playPlaylist:(NSString *)name {
+- (SparkAlert *)playPlaylist {
+  NSString *name = [self playlist];
   OSStatus err = iTunesPlayPlaylistWithName((CFStringRef)name);
+  if (err == errAENoSuchObject && ia_plid != 0) {
+    err = iTunesPlayPlaylistWithID(ia_plid);
+  }
   if (err == errAENoSuchObject) {
     return [SparkAlert alertWithMessageText:
       [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"PLAYLIST_NOT_FOUND",

@@ -13,6 +13,17 @@
 static 
 NSString * const kMyActionMessageKey = @"MyActionMessage";
 
+- (id)copyWithZone:(NSZone *)aZone {
+  MyAction *copy = [super copyWithZone:aZone];
+  copy->my_message = [my_message copy];
+  return copy;
+}
+
+- (void)dealloc {
+  [my_message release];
+  [super dealloc];
+}
+
 /* initWithSerializedValues: is called when a Action is loaded. You must call [super initWithSerializedValues:plist].
 Get all values you set in the -serialize: method and configure your Action */
 - (id)initWithSerializedValues:(NSDictionary *)plist {
@@ -33,9 +44,9 @@ See the PropertyList documentation to know more about it */
   return NO;
 }
 
-/* This function is call on loading. It permit to signal if the action is valid or not.
+/* This function is call after loading. It permit to signal if the action is valid or not.
 In our case, beepCount is always right exept if an user edit the library file manually */
-- (SparkAlert *)shouldPerformAction {
+- (SparkAlert *)actionDidLoad {
   if ([[self message] length] < 5 || [[self message] length] > 128) {
     return [SparkAlert alertWithMessageText:[NSString stringWithFormat:@"The MyAction \"%@\" isn't valid.", [self name]]
                   informativeTextWithFormat:@"Your message MUST be at least 5 characters and contains less than 128 characters. Use Spark to correct this Problem."];

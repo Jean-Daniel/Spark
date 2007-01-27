@@ -14,10 +14,12 @@
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>3.0</string>
 	<key>CFBundleSignature</key>
 	<string>Sprk</string>
 	<key>CFBundleVersion</key>
-	<string>3.0</string>
+	<string>${CURRENT_PROJECT_VERSION}</string>
 	<key>NSMainNibFile</key>
 	<string>MyActionPlugin</string>
 	<key>NSPrincipalClass</key>

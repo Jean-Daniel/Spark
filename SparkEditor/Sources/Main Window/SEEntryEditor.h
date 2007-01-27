@@ -8,17 +8,17 @@
 
 #import <ShadowKit/SKWindowController.h>
 
-@class SparkActionPlugIn, SparkApplication, SparkPlugIn;
-@class SETableView, SEApplicationView, SEHotKeyTrap;
 @class SparkEntry;
+@class SETableView, SEApplicationView, SEHotKeyTrap;
+@class SparkActionPlugIn, SparkApplication, SparkPlugIn;
 @interface SEEntryEditor : SKWindowController {
-  IBOutlet NSView *ibPlugin;
-  IBOutlet SEHotKeyTrap *trap;
-  IBOutlet SETableView *typeTable;
-  IBOutlet SEApplicationView *appField;
+  IBOutlet NSView *uiPlugin;
+  IBOutlet SEHotKeyTrap *uiTrap;
+  IBOutlet SETableView *uiTypeTable;
+  IBOutlet SEApplicationView *uiApplication;
   
-  IBOutlet NSButton *ibHelp;
-  IBOutlet NSButton *ibConfirm;
+  IBOutlet NSButton *uiHelp;
+  IBOutlet NSButton *uiConfirm;
   @private
     NSSize se_min;
   NSView *se_view; /* current view __weak */

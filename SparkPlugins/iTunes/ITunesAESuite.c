@@ -35,6 +35,44 @@ bail:
   return err;
 }
 
+static
+OSStatus _iTunesCopyObjectStringProperty(AEDesc *object, AEKeyword property, CFStringRef *value) {
+  AppleEvent theEvent;
+  /* tell application "iTunes" to get ... */
+  OSStatus err = _iTunesCreateEvent(kAECoreSuite, kAEGetData, &theEvent);
+  require_noerr(err, bail);
+  
+  /* ... 'property' of object 'object' */
+  err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeUnicodeText, property, object);
+  require_noerr(err, bail);
+  
+  err = SKAESendEventReturnCFString(&theEvent, value);
+  require_noerr(err, bail);
+  
+bail:
+    SKAEDisposeDesc(&theEvent);
+  return err;
+}
+
+static
+OSStatus _iTunesGetObjectIntegerProperty(AEDesc *object, AEKeyword property, SInt32 *value) {
+  AppleEvent theEvent;
+  /* tell application "iTunes" to get ... */
+  OSStatus err = _iTunesCreateEvent(kAECoreSuite, kAEGetData, &theEvent);
+  require_noerr(err, bail);
+  
+  /* ... 'property' of track 'track' */
+  err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeSInt32, property, object);
+  require_noerr(err, bail);
+  
+  err = SKAESendEventReturnSInt32(&theEvent, value);
+  require_noerr(err, bail);
+  
+bail:
+    SKAEDisposeDesc(&theEvent);
+  return err;
+}
+
 #pragma mark -
 #pragma mark Commands
 OSStatus iTunesLaunch(LSLaunchFlags flags) {
@@ -213,40 +251,12 @@ bail:
   return err;
 }
 
-OSStatus iTunesGetTrackStringProperty(iTunesTrack *track, ITunesTrackProperty property, CFStringRef *value) {
-  AppleEvent theEvent;
-  /* tell application "iTunes" to get ... */
-  OSStatus err = _iTunesCreateEvent(kAECoreSuite, kAEGetData, &theEvent);
-  require_noerr(err, bail);
-  
-  /* ... 'property' of track 'track' */
-  err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeUnicodeText, property, track);
-  require_noerr(err, bail);
-  
-  err = SKAESendEventReturnCFString(&theEvent, value);
-  require_noerr(err, bail);
-  
-bail:
-    SKAEDisposeDesc(&theEvent);
-  return err;
+OSStatus iTunesCopyTrackStringProperty(iTunesTrack *track, ITunesTrackProperty property, CFStringRef *value) {
+  return _iTunesCopyObjectStringProperty(track, property, value);
 }
 
 OSStatus iTunesGetTrackIntegerProperty(iTunesTrack *track, ITunesTrackProperty property, SInt32 *value) {
-  AppleEvent theEvent;
-  /* tell application "iTunes" to get ... */
-  OSStatus err = _iTunesCreateEvent(kAECoreSuite, kAEGetData, &theEvent);
-  require_noerr(err, bail);
-  
-  /* ... 'property' of track 'track' */
-  err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeSInt32, property, track);
-  require_noerr(err, bail);
-  
-  err = SKAESendEventReturnSInt32(&theEvent, value);
-  require_noerr(err, bail);
-  
-bail:
-    SKAEDisposeDesc(&theEvent);
-  return err;
+  return _iTunesGetObjectIntegerProperty(track, property, value);
 }
 
 #pragma mark -
@@ -268,6 +278,20 @@ OSStatus iTunesPlayPlaylist(iTunesPlaylist *playlist) {
   
 bail:
     SKAEDisposeDesc(&theEvent);
+  return err; 
+}
+
+OSStatus iTunesPlayPlaylistWithID(SInt64 uid) {
+  iTunesPlaylist playlist = SKAEEmptyDesc();
+  
+  OSStatus err = iTunesGetPlaylistWithID(uid, &playlist);
+  require_noerr(err, bail);
+  
+  err = iTunesPlayPlaylist(&playlist);
+  require_noerr(err, bail);
+  
+bail:
+    SKAEDisposeDesc(&playlist);
   return err; 
 }
 
@@ -303,6 +327,89 @@ bail:
   return err;
 }
 
+
+SK_INLINE
+OSStatus __iTunesGetPlaylistUIDOperand(AEDesc *operand) {
+  AEDesc obj = SKAEEmptyDesc();
+  
+  OSStatus err = AECreateDesc(typeObjectBeingExamined, NULL, 0, &obj);
+  require_noerr(err, bail);
+  
+  err = SKAECreatePropertyObjectSpecifier(typeProperty, kiTunesPersistentID, &obj, operand);
+  require_noerr(err, bail);
+  
+bail:
+    SKAEDisposeDesc(&obj);
+  return err;
+}
+
+SK_INLINE
+OSStatus __iTunesAddPlaylistSpecifier(AppleEvent *event, SInt64 uid) {
+  AEDesc data = SKAEEmptyDesc();
+  AEDesc object = SKAEEmptyDesc();
+  AEDesc specifier = SKAEEmptyDesc();
+  AEDesc comparaison = SKAEEmptyDesc();
+  
+  OSStatus err = __iTunesGetPlaylistUIDOperand(&object);
+  require_noerr(err, bail);
+  
+  err = AECreateDesc(typeSInt64, &uid, sizeof(uid), &data);
+  require_noerr(err, bail);
+  
+  err = CreateCompDescriptor(kAEEquals,
+                             &object,
+                             &data,
+                             FALSE,
+                             &comparaison);
+  require_noerr(err, bail);
+  
+  err = SKAECreateObjectSpecifier('cPly', formTest, &comparaison, NULL, &specifier);
+  require_noerr(err, bail);
+  
+  err = SKAEAddAEDesc(event, keyDirectObject, &specifier);
+  require_noerr(err, bail);
+  
+bail:
+    SKAEDisposeDesc(&comparaison);
+  SKAEDisposeDesc(&specifier);
+  SKAEDisposeDesc(&object);
+  SKAEDisposeDesc(&data);
+  return err;
+}
+
+
+OSStatus iTunesGetPlaylistWithID(SInt64 uid, iTunesPlaylist *playlist) {
+  AppleEvent theEvent;
+  AEDescList list = SKAEEmptyDesc();
+  
+  /* tell application "iTunes" to get ... */
+  OSStatus err = _iTunesCreateEvent(kAECoreSuite, kAEGetData, &theEvent);
+  require_noerr(err, bail);
+  
+  /* ... playlists whose 'pPID' */
+  err = __iTunesAddPlaylistSpecifier(&theEvent, uid);
+  require_noerr(err, bail);
+  
+  err = SKAESendEventReturnAEDescList(&theEvent, &list);
+  require_noerr(err, bail);
+  
+  long count = 0;
+  err = AECountItems(&list, &count);
+  require_noerr(err, bail);
+  
+  if (0 == count) {
+    err = errAENoSuchObject;
+  } else {
+    err = AEGetNthDesc(&list, 1, typeWildCard, NULL, playlist);
+    require_noerr(err, bail);
+  }
+  
+bail:
+    SKAEDisposeDesc(&list);
+  SKAEDisposeDesc(&theEvent);
+  return err;
+}
+
 OSStatus iTunesGetPlaylistWithName(CFStringRef name, iTunesPlaylist *playlist) {
   AppleEvent theEvent;
   /* tell application "iTunes" to get ... */
@@ -319,6 +426,14 @@ OSStatus iTunesGetPlaylistWithName(CFStringRef name, iTunesPlaylist *playlist) {
 bail:
     SKAEDisposeDesc(&theEvent);
   return err;
+}
+
+OSStatus iTunesCopyPlaylistStringProperty(iTunesPlaylist *playlist, AEKeyword property, CFStringRef *value) {
+  return _iTunesCopyObjectStringProperty(playlist, property, value);
+}
+
+OSStatus iTunesGetPlaylistIntegerProperty(iTunesPlaylist *playlist, AEKeyword property, SInt32 *value) {
+  return _iTunesGetObjectIntegerProperty(playlist, property, value);
 }
 
 #pragma mark -
@@ -443,41 +558,59 @@ bail:
   return err;
 }
 
-CFArrayRef iTunesCopyPlaylistNames(void) {
-  CFArrayRef result = NULL;
-  AEDesc theEvent = SKAEEmptyDesc();
-  AEDescList names = SKAEEmptyDesc();
-  
+SK_INLINE
+OSStatus __iTunesGetEveryPlaylistObject(AEDesc *object) {
   AEDesc source = SKAEEmptyDesc();
-  AEDesc playlists = SKAEEmptyDesc();
   
+  OSStatus err = iTunesGetLibrarySource(&source);
+  require_noerr(err, bail);
+  
+  /* every playlists of (first source whose kind is library) */
+  err = SKAECreateIndexObjectSpecifier('cPly', kAEAll, &source, object);
+  require_noerr(err, bail);
+  
+bail:
+    SKAEDisposeDesc(&source);
+  return err;
+}
+
+SK_INLINE
+OSStatus __iTunesGetPlaylistsProperty(AEDesc *playlists, DescType type, AEKeyword property, AEDescList *properties) {
+  AppleEvent theEvent = SKAEEmptyDesc();
   /* tell application "iTunes" to get ... */
   OSStatus err = _iTunesCreateEvent(kAECoreSuite, kAEGetData, &theEvent);
   require_noerr(err, bail);
-  
-  err = iTunesGetLibrarySource(&source);
-  require_noerr(err, bail);
-  
-  /* playlists of (first source whose kind is library) */
-  err = SKAECreateIndexObjectSpecifier('cPly', kAEAll, &source, &playlists);
-  require_noerr(err, bail);
-  
+
   /* name of playlists */
-  err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeUnicodeText, kiTunesNameKey, &playlists);
+  err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, type, property, playlists);
+  require_noerr(err, bail);
+
+  err = SKAESendEventReturnAEDescList(&theEvent, properties);
   require_noerr(err, bail);
   
-  err = SKAESendEventReturnAEDescList(&theEvent, &names);
+bail:
+    SKAEDisposeDesc(&theEvent);
+  return err;
+}
+
+CFArrayRef iTunesCopyPlaylistNames(void) {
+  CFArrayRef result = NULL;
+  AEDescList names = SKAEEmptyDesc();
+  AEDesc playlists = SKAEEmptyDesc();
+  
+  OSStatus err = __iTunesGetEveryPlaylistObject(&playlists);
+  require_noerr(err, bail);
+  
+  err = __iTunesGetPlaylistsProperty(&playlists, typeUnicodeText, kiTunesNameKey, &names);
   require_noerr(err, bail);
   
   result = iTunesCopyPlaylistNamesFromList(&names);
   
 bail:
     SKAEDisposeDesc(&names);
-  SKAEDisposeDesc(&theEvent);
   SKAEDisposeDesc(&playlists);
   return result;
 }
-
 
 CFArrayRef iTunesCopyPlaylistNamesFromList(AEDescList *items) {
   int idx;
@@ -503,4 +636,64 @@ CFArrayRef iTunesCopyPlaylistNamesFromList(AEDescList *items) {
     } // End for
   }
   return names;
+}
+
+CFDictionaryRef iTunesCopyPlaylists(void) {
+  CFMutableDictionaryRef result = NULL;
+  
+  AEDescList uids = SKAEEmptyDesc();
+  AEDescList kinds = SKAEEmptyDesc();
+  AEDescList names = SKAEEmptyDesc();
+  
+  AEDesc playlists = SKAEEmptyDesc();
+  
+  OSStatus err = __iTunesGetEveryPlaylistObject(&playlists);
+  require_noerr(err, bail);
+  
+  err = __iTunesGetPlaylistsProperty(&playlists, typeSInt64, kiTunesPersistentID, &uids);
+  require_noerr(err, bail);
+  
+  err = __iTunesGetPlaylistsProperty(&playlists, 'eSpK', 'pSpK', &kinds);
+  require_noerr(err, bail);
+  
+  err = __iTunesGetPlaylistsProperty(&playlists, typeUnicodeText, kiTunesNameKey, &names);
+  require_noerr(err, bail);
+  
+  long count = 0;
+  err = AECountItems(&names, &count);
+  if (noErr == err) {
+    result = CFDictionaryCreateMutable(kCFAllocatorDefault, count, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+    for (long idx = 1; (idx <= count); idx++) {
+      SInt64 uid = 0;
+      err = SKAEGetNthSInt64FromDescList(&uids, idx, &uid);
+      if (noErr == err) {
+        OSType type;
+        err = AEGetNthPtr(&kinds, idx, typeWildCard, NULL, NULL, &type, sizeof(type), NULL);
+        if (noErr == err) {
+          CFStringRef name = NULL;
+          err = SKAEGetNthCFStringFromDescList(&names, idx, &name);
+          if (name) {
+            CFStringRef keys[] = { CFSTR("uid"), CFSTR("kind") };
+            CFNumberRef puid = CFNumberCreate(kCFAllocatorDefault, kCFNumberSInt64Type, &uid);
+            if (puid) {
+              CFDictionaryRef entry = CFDictionaryCreate(kCFAllocatorDefault, (const void **)keys, (const void **)&puid, 1, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+              if (entry) {
+                CFDictionarySetValue(result, name, entry);
+                CFRelease(entry);
+              }
+              CFRelease(puid);
+            }
+            CFRelease(name);
+          }
+        }
+      }
+    } // End for
+  }
+  
+bail:
+    SKAEDisposeDesc(&names);
+  SKAEDisposeDesc(&kinds);
+  SKAEDisposeDesc(&uids);
+  SKAEDisposeDesc(&playlists);
+  return result;
 }

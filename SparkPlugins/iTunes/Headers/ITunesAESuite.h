@@ -58,6 +58,7 @@ typedef enum {
   kiTunesAlbumKey = 'pAlb',
   kiTunesArtistKey = 'pArt',
   kiTunesDurationKey = 'pDur',
+  kiTunesPersistentID = 'pPID',
 } ITunesTrackProperty;
 
 SK_INLINE
@@ -86,7 +87,7 @@ SK_PRIVATE
 OSStatus iTunesSetCurrentTrackRate(UInt32 rate);
 
 SK_PRIVATE
-OSStatus iTunesGetTrackStringProperty(iTunesTrack *track, ITunesTrackProperty property, CFStringRef *value);
+OSStatus iTunesCopyTrackStringProperty(iTunesTrack *track, ITunesTrackProperty property, CFStringRef *value);
 SK_PRIVATE
 OSStatus iTunesGetTrackIntegerProperty(iTunesTrack *track, ITunesTrackProperty property, SInt32 *value);
 
@@ -96,15 +97,25 @@ SK_PRIVATE
 CFArrayRef iTunesCopyPlaylistNames(void);
 
 SK_PRIVATE
-OSStatus iTunesPlayPlaylist(iTunesPlaylist *playlist);
+CFDictionaryRef iTunesCopyPlaylists(void);
 
+SK_PRIVATE
+OSStatus iTunesPlayPlaylist(iTunesPlaylist *playlist);
+SK_PRIVATE
+OSStatus iTunesPlayPlaylistWithID(SInt64 uid);
 SK_PRIVATE
 OSStatus iTunesPlayPlaylistWithName(CFStringRef name);
 
 SK_PRIVATE
 OSStatus iTunesGetCurrentPlaylist(iTunesPlaylist *playlist);
-
+SK_PRIVATE
+OSStatus iTunesGetPlaylistWithID(SInt64 uid, iTunesPlaylist *playlist);
 SK_PRIVATE
 OSStatus iTunesGetPlaylistWithName(CFStringRef name, iTunesPlaylist *playlist);
+
+SK_PRIVATE
+OSStatus iTunesGetPlaylistIntegerProperty(iTunesPlaylist *playlist, AEKeyword property, SInt32 *value);
+SK_PRIVATE
+OSStatus iTunesCopyPlaylistStringProperty(iTunesPlaylist *playlist, AEKeyword property, CFStringRef *value);
 
 #endif /* __ITUNES_SUITE_H_ */

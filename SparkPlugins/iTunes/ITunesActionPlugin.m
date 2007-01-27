@@ -65,9 +65,10 @@ NSImage *ITunesGetApplicationIcon() {
     [self setLsHide:[sparkAction launchHide]];
     /* Set Action menu on the Action action */
     [self setITunesAction:[sparkAction iTunesAction]];
-    if ([sparkAction playlist]) {
+    if ([sparkAction iTunesAction] == kiTunesPlayPlaylist) {
       [self loadPlaylists];
-      [self setPlaylist:[sparkAction playlist]];
+      if ([sparkAction playlist])
+        [self setPlaylist:[sparkAction playlist]];
     }
     switch ([sparkAction visualMode]) {
       case kiTunesSettingCustom: {
@@ -104,7 +105,14 @@ NSImage *ITunesGetApplicationIcon() {
   if ([[[iAction name] stringByTrimmingWhitespaceAndNewline] length] == 0)
     [iAction setName:[self defaultName]];
   
-  [iAction setPlaylist:([self iTunesAction] == kiTunesPlayPlaylist) ? [self playlist] : nil];
+  if ([self iTunesAction] == kiTunesPlayPlaylist) {
+    NSString *list = [self playlist];
+    NSNumber *number = list ? [[it_playlists objectForKey:list] objectForKey:@"uid"] : nil;
+    UInt64 uid = number ? [number unsignedLongLongValue] : 0;
+    [iAction setPlaylist:list uid:uid];
+  } else {
+    [iAction setPlaylist:nil uid:0];
+  }
   
   /* Set Icon */
   [iAction setIcon:ITunesActionIcon(iAction)];
@@ -167,8 +175,14 @@ NSImage *ITunesGetApplicationIcon() {
 }
 
 - (void)loadPlaylists {
-  NSArray *lists = [[self class] iTunesPlaylists];
-  [self setPlaylists:lists];
+  NSDictionary *lists = [[self class] iTunesPlaylists];
+  [self willChangeValueForKey:@"playlists"];
+  if (it_lists) {
+    [it_lists release];
+    it_lists = nil;
+  }
+  SKSetterRetain(it_playlists, lists);
+  [self didChangeValueForKey:@"playlists"];
 }
 
 - (iTunesAction)iTunesAction {
@@ -264,10 +278,10 @@ NSImage *ITunesGetApplicationIcon() {
 #pragma mark -
 #pragma mark iTunes Playlists
 - (NSArray *)playlists {
-  return it_playlists;
-}
-- (void)setPlaylists:(NSArray *)thePlaylists {
-  SKSetterRetain(it_playlists, thePlaylists);
+  if (!it_lists && it_playlists) {
+    it_lists = [[[it_playlists allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] retain];
+  }
+  return it_lists;
 }
 
 static
@@ -303,8 +317,8 @@ NSString *iTunesFindLibraryFile(int folder) {
   return file;
 }
 
-+ (NSArray *)iTunesPlaylists {
-  NSMutableArray *playlists = (id)iTunesCopyPlaylistNames();
++ (NSDictionary *)iTunesPlaylists {
+  NSMutableDictionary *playlists = (id)iTunesCopyPlaylists();
   if (nil == playlists) {
     /* First check user preferences */
     NSString *file = iTunesGetLibraryPath();
@@ -322,11 +336,27 @@ NSString *iTunesFindLibraryFile(int folder) {
     
     NSDictionary *library = [[NSDictionary alloc] initWithContentsOfFile:file];
     if (library) {
-      playlists = [[NSMutableArray alloc] init];
+      playlists = [[NSMutableDictionary alloc] init];
       NSDictionary *list;
       NSEnumerator *lists = [[library objectForKey:@"Playlists"] objectEnumerator];
       while (list = [lists nextObject]) {
-        [playlists addObject:[list objectForKey:@"Name"]];
+        int type = 0;
+        if ([list objectForKey:@"Smart Info"] != nil)
+          type = 1;
+        else if ([[list objectForKey:@"Folder"] booleanValue])
+          type = 2;
+        
+        NSNumber *ppid = nil;
+        NSString *uid = [list objectForKey:@"Playlist Persistent ID"];
+        if (uid) {
+          ppid = SKULongLong(strtoll([uid UTF8String], NULL, 16));
+        }
+        
+        NSDictionary *plist = [[NSDictionary alloc] initWithObjectsAndKeys:
+          SKUInt(type), @"kind",
+          ppid, @"uid", nil];
+        [playlists setObject:plist forKey:[list objectForKey:@"Name"]];
+        [plist release];
       }
     }
     [library release];

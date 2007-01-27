@@ -24,7 +24,9 @@
       unsigned int reserved:30;
     } ia_apFlags;
   NSString *it_playlist;
-  NSArray *it_playlists;
+  
+  NSArray *it_lists;
+  NSDictionary *it_playlists;
 }
 
 - (iTunesAction)iTunesAction;
@@ -37,12 +39,11 @@
 - (void)setPlaylist:(NSString *)aPlaylist;
 
 - (NSArray *)playlists;
-- (void)setPlaylists:(NSArray *)playlists;
 
 - (NSString *)defaultName;
 
 - (void)loadPlaylists;
-+ (NSArray *)iTunesPlaylists;
++ (NSDictionary *)iTunesPlaylists;
 
 /* Launch flags */
 - (BOOL)lsPlay;

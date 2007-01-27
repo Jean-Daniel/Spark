@@ -31,7 +31,7 @@ NSTimeInterval SparkGetDefaultKeyRepeatInterval(void);
 <ul style="list-style:none">
 <li>-initWithSerializedValues:</li>
 <li>-serialize:</li>
-<li>-shouldPerformAction (optional)</li>
+<li>-actionDidLoad (optional)</li>
 <li>-performAction</li>
 <ul>
 */

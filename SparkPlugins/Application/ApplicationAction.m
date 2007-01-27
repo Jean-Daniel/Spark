@@ -304,6 +304,8 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
     case kApplicationLaunch:
     case kApplicationQuit:
     case kApplicationToggle:
+      // TODO check application path if editor.
+      break;
       /* Hide */
     case kApplicationHideOther:
     case kApplicationHideFront:
@@ -590,7 +592,7 @@ NSImage *ApplicationActionIcon(ApplicationAction *action) {
       name = @"AAStop";
       break;
     case kApplicationForceQuitDialog:
-      name = @"AAStop";
+      name = @"AAWStop";
       break;
     default:
       break;

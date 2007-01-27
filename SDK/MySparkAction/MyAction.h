@@ -8,7 +8,7 @@
 
 #import <SparkKit/SparkPluginAPI.h>
 
-@interface MyAction : SparkAction {
+@interface MyAction : SparkAction <NSCopying> {
   @private
   NSString *my_message;
 }

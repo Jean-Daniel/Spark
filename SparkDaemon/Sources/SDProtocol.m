@@ -84,13 +84,13 @@ void SparkDaemonCheckTrigger(SparkLibrary *library, SparkTrigger *trigger) {
   }
 }
 
+#pragma mark -
+#pragma mark Notifications
 - (void)configureTrigger:(SparkTrigger *)aTrigger {
   [aTrigger setTarget:self];
   [aTrigger setAction:@selector(executeTrigger:)]; 
 }
 
-#pragma mark -
-#pragma mark Notifications
 - (void)willAddTrigger:(NSNotification *)aNotification {
   ShadowTrace();
   SparkTrigger *trigger = SparkNotificationObject(aNotification);

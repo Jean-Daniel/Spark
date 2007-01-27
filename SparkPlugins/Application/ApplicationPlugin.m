@@ -153,7 +153,7 @@ NSString * const kApplicationActionBundleIdentifier = @"org.shadowlab.spark.appl
 //      [icon setSize:[ibIcon bounds].size];
 //    }
   } else {
-    icon = [NSImage imageNamed:@"undefined" inBundle:kApplicationActionBundle];
+    icon = [NSImage imageNamed:@"AAUndefined" inBundle:SKCurrentBundle()];
   }
   [ibIcon setImage:icon];
 }

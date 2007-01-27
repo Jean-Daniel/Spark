@@ -253,7 +253,7 @@ BOOL ITunesVisualIsEqualTo(const ITunesVisual *v1, const ITunesVisual *v2) {
   CFStringRef value = NULL;
   /* Track Name */
   if (track)
-    iTunesGetTrackStringProperty(track, kiTunesNameKey, &value);
+    iTunesCopyTrackStringProperty(track, kiTunesNameKey, &value);
   if (value) {
     [ibName setStringValue:(id)value];
     CFRelease(value);
@@ -264,7 +264,7 @@ BOOL ITunesVisualIsEqualTo(const ITunesVisual *v1, const ITunesVisual *v2) {
   
   /* Album */
   if (track)
-    iTunesGetTrackStringProperty(track, kiTunesAlbumKey, &value);
+    iTunesCopyTrackStringProperty(track, kiTunesAlbumKey, &value);
   if (value) {
     [ibAlbum setStringValue:(id)value];
     CFRelease(value);
@@ -275,7 +275,7 @@ BOOL ITunesVisualIsEqualTo(const ITunesVisual *v1, const ITunesVisual *v2) {
   
   /* Artist */
   if (track)
-    iTunesGetTrackStringProperty(track, kiTunesArtistKey, &value);
+    iTunesCopyTrackStringProperty(track, kiTunesArtistKey, &value);
   if (value) {
     [ibArtist setStringValue:(id)value];
     CFRelease(value);
