@@ -9,8 +9,8 @@
 #import <Cocoa/Cocoa.h>
 
 @class SEApplicationView, SETableView;
-@class SparkLibrary, SparkApplication;
 @class SELibrarySource, SETriggersController;
+@class SparkEntry, SparkLibrary, SparkApplication;
 @interface SELibraryWindow : NSWindowController {
   IBOutlet NSButton *ibDaemon;
   IBOutlet NSTextField *ibStatus;
@@ -31,6 +31,9 @@
 - (SparkLibrary *)library;
 - (NSUndoManager *)undoManager;
 - (SparkApplication *)application;
+
+- (void)revealEntry:(SparkEntry *)entry;
+- (void)revealEntries:(NSArray *)entries;
 
 @end
 

@@ -106,14 +106,14 @@ NSString * const kHKTrapWindowKeyCatchedNotification = @"kHKTrapWindowKeyCatched
       UInt32 code = [theEvent keyCode];
       UInt32 mask = [theEvent modifierFlags] & NSDeviceIndependentModifierFlagsMask; //0x00ff0000;
       unichar character = 0;
-#if defined(DEBUG)
-      NSLog(@"Code: %u, modifier: %x", code, mask);
-      if (mask & NSNumericPadKeyMask)
-        NSLog(@"NumericPad");
-#endif
+//#if defined(DEBUG)
+//      NSLog(@"Code: %u, modifier: %x", code, mask);
+//      if (mask & NSNumericPadKeyMask)
+//        NSLog(@"NumericPad");
+//#endif
       if (mask & NSAlphaShiftKeyMask) {
         mask &= ~NSAlphaShiftKeyMask;
-        DLog(@"Remove caps lock modifier");
+        // DLog(@"Remove caps lock modifier");
       }
       /* If verify and verification return NO */
       if ([self verifyHotKey] && ![HKHotKeyManager isValidHotKeyCode:code withModifier:mask]) {

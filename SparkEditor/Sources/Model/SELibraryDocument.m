@@ -38,6 +38,17 @@ NSString * const SEApplicationDidChangeNotification = @"SEApplicationDidChange";
   [super dealloc];
 }
 
+- (SELibraryWindow *)mainWindowController {
+  NSArray *ctrls = [self windowControllers];
+  unsigned count = [ctrls count];
+  while (count-- > 0) {
+    id ctrl = [ctrls objectAtIndex:count];
+    if ([ctrl isKindOfClass:[SELibraryWindow class]])
+      return ctrl;
+  }
+  return nil;
+}
+
 - (void)makeWindowControllers {
   NSWindowController *ctrl = [[SELibraryWindow alloc] init];
   [self addWindowController:ctrl];
@@ -175,7 +186,8 @@ NSString * const SEApplicationDidChangeNotification = @"SEApplicationDidChange";
     [manager addEntry:anEntry];
   }
   [manager enableEntry:anEntry];
-
+  [[self mainWindowController] revealEntry:anEntry];
+  
   return YES;
 }
 
@@ -198,8 +210,9 @@ NSString * const SEApplicationDidChangeNotification = @"SEApplicationDidChange";
   /* newEntry is null when "Use global entry" is selected */
   if (!newEntry) {
     /* If the edited entry was a custom entry, remove it */
-    if (kSparkEntryTypeOverWrite == [entry type])
+    if (kSparkEntryTypeOverWrite == [entry type]) {
       [manager removeEntry:entry];
+    }
     return YES;
   } else {
     NSParameterAssert([[newEntry trigger] isValid]);
@@ -283,6 +296,8 @@ NSString * const SEApplicationDidChangeNotification = @"SEApplicationDidChange";
     /* Preserve status */
     if ([entry isEnabled])
       [manager enableEntry:newEntry];
+    
+    [[self mainWindowController] revealEntry:newEntry];
   }
   return YES;
 }

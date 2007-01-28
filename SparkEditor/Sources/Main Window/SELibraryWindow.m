@@ -103,6 +103,19 @@
   }
 }
 
+- (void)revealEntry:(SparkEntry *)entry {
+  DLog(@"Reveal %@", entry);
+}
+
+- (void)revealEntries:(NSArray *)entries {
+  if ([entries count] == 0) return;
+  if ([entries count] == 1) {
+    [self revealEntry:[entries objectAtIndex:0]];
+  } else {
+    DLog(@"Reveal %@", entries);
+  }
+}
+
 #pragma mark Menu
 /* Enable menu item */
 - (BOOL)validateMenuItem:(id <NSMenuItem>)menuItem {

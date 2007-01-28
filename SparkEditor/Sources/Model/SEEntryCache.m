@@ -47,15 +47,6 @@ NSString * const SEEntryCacheDidChangeEntryEnabledNotification = @"SEEntryCacheD
       SparkEntryManager *manager = [library entryManager];
       
       [[library notificationCenter] addObserver:self
-                                       selector:@selector(didUpdateAction:) 
-                                           name:SparkObjectSetDidUpdateObjectNotification
-                                         object:[library actionSet]];
-      [[library notificationCenter] addObserver:self
-                                       selector:@selector(didUpdateTrigger:) 
-                                           name:SparkObjectSetDidUpdateObjectNotification
-                                         object:[library triggerSet]];
-      
-      [[library notificationCenter] addObserver:self
                                        selector:@selector(didAddEntry:) 
                                            name:SparkEntryManagerDidAddEntryNotification
                                          object:manager];
@@ -143,15 +134,6 @@ NSString * const SEEntryCacheDidChangeEntryEnabledNotification = @"SEEntryCacheD
       [se_merge addEntry:base];
   }
 }
-
-- (void)didUpdateAction:(NSNotification *)aNotification {
-  
-}
-
-- (void)didUpdateTrigger:(NSNotification *)aNotification {
-  
-}
-
 
 - (void)didAddEntry:(NSNotification *)aNotification {
   [self addEntry:SparkNotificationObject(aNotification)];

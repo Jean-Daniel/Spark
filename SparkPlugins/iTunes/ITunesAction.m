@@ -597,37 +597,37 @@ NSImage *ITunesActionIcon(ITunesAction *action) {
       icon = @"iTunes";
       break;   
     case kiTunesPlayPause:
-      icon = @"Play";
+      icon = @"iTPlay";
       break;
     case kiTunesPlayPlaylist:
-      icon = @"Playlist";
+      icon = @"iTPlaylist";
       break;
     case kiTunesBackTrack:
-      icon = @"Back";
+      icon = @"iTBack";
       break;
     case kiTunesNextTrack:
-      icon = @"Next";
+      icon = @"iTNext";
       break;
     case kiTunesStop:
-      icon = @"Stop";
+      icon = @"iTStop";
       break;
     case kiTunesShowTrackInfo:
-      icon = @"Info";
+      icon = @"iTInfo";
       break;
     case kiTunesRateTrack:
-      icon = @"Star";
+      icon = @"iTStar";
       break;
     case kiTunesVisual:
-      icon = @"Visual";
+      icon = @"iTVisual";
       break;
     case kiTunesVolumeDown:
-      icon = @"VolumeDown";
+      icon = @"iTVolumeDown";
       break;
     case kiTunesVolumeUp:
-      icon = @"VolumeUp";
+      icon = @"iTVolumeUp";
       break;
     case kiTunesEjectCD:
-      icon = @"Eject";
+      icon = @"iTEject";
       break;
   }
   return icon ? [NSImage imageNamed:icon inBundle:kiTunesActionBundle] : nil;

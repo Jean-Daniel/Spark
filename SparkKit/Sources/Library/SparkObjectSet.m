@@ -319,6 +319,9 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
       /* Update old set */
       if (icons && [object hasIcon] && [object shouldSaveIcon]) {
         [icons setIcon:[object icon] forObject:object];
+      } else if ([object hasIcon] && ![object shouldSaveIcon]) {
+        /* Updated version of plugin no longer save icon. */
+        [[[self library] iconManager] setIcon:nil forObject:object];
       }
     } else {
       DLog(@"Invalid object: %@", serialize);

@@ -23,7 +23,7 @@ EventHotKeyRef HKRegisterHotKey(UInt16 keycode, UInt32 modifier, EventHotKeyID h
 #if defined(DEBUG)
   switch (err) {
     case noErr:
-      NSLog(@"HotKey Registred");
+      //NSLog(@"HotKey Registred");
       break;
     case eventHotKeyExistsErr:
       NSLog(@"HotKey Exists");
@@ -46,7 +46,7 @@ BOOL HKUnregisterHotKey(EventHotKeyRef ref) {
 #if defined(DEBUG)
   switch (err) {
     case noErr:
-      NSLog(@"HotKey Unregistred");
+      //NSLog(@"HotKey Unregistred");
       break;
     case eventHotKeyInvalidErr:
       NSLog(@"Invalid Hot Key");

@@ -98,7 +98,7 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
     
     NSImage *icon = nil;
     /* If editor, load icon */
-    if (kSparkEditorContext == SparkGetCurrentContext() && [self shouldSaveIcon]) {
+    if (kSparkEditorContext == SparkGetCurrentContext()) {
       NSData *bitmap = [plist objectForKey:kSparkObjectIconKey];
       if (!bitmap && compat)
         bitmap = [plist objectForKey:@"Icon"];

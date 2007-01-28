@@ -50,7 +50,8 @@ NSImage *SparkEntryDefaultIcon() {
 }
 
 - (NSString *)description {
-  return [NSString stringWithFormat:@"{ Trigger: %@, Action: %@ }", sp_trigger, sp_action];
+  return [NSString stringWithFormat:@"{ Trigger: %@, Action: %@, Application: %@}", 
+    sp_trigger, sp_action, [sp_application name]];
 }
 
 - (BOOL)isEqualToEntry:(SparkEntry *)anEntry {

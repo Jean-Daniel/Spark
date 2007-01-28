@@ -20,6 +20,8 @@
   SparkList *se_overwrite;
   SparkLibrary *se_library;
   NSMutableArray *se_content;
+  
+  NSMutableArray *se_pendings;
 }
 
 - (IBAction)newList:(id)sender;

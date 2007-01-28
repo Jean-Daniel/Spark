@@ -507,44 +507,44 @@ NSImage *SystemActionIcon(SystemAction *anAction) {
   NSString *icon = nil;
   switch ([anAction action]) {
     case kSystemLogOut:
-      icon = @"Logout";
+      icon = @"SysLogout";
       break;
     case kSystemSwitch:
-      icon = [anAction userID] ? @"Switch" : @"Logout";
+      icon = [anAction userID] ? @"SysSwitch" : @"SysLogout";
       break;
     case kSystemSleep:
-      icon = @"Sleep";
+      icon = @"SysSleep";
       break;
     case kSystemRestart:
-      icon = @"Restart";
+      icon = @"SysRestart";
       break;
     case kSystemShutDown:
-      icon = @"Shutdown";
+      icon = @"SysShutdown";
       break;
     case kSystemScreenSaver:
-      icon = @"ScreenSaver";
+      icon = @"SysScreenSaver";
       break;
     case kSystemSwitchGrayscale:
-      icon = @"SwitchGrayscale";
+      icon = @"SysSwitchGrayscale";
       break;
     case kSystemSwitchPolarity:
-      icon = @"SwitchPolarity";
+      icon = @"SysSwitchPolarity";
       break;
     case kSystemEmptyTrash:
-      icon = @"SystemTrash";
+      icon = @"SysTrash";
       break;
     case kSystemKeyboardViewer:
-      icon = @"Keyboard";
+      icon = @"SysKeyboard";
       break;
       /* Sound */
     case kSystemVolumeUp:
-      icon = @"VolumeUp";
+      icon = @"SysVolumeUp";
       break;
     case kSystemVolumeDown:
-      icon = @"VolumeDown";
+      icon = @"SysVolumeDown";
       break;
     case kSystemVolumeMute:
-      icon = @"Mute";
+      icon = @"SysMute";
       break;
   }
   return icon ? [NSImage imageNamed:icon inBundle:kSystemActionBundle] : nil;

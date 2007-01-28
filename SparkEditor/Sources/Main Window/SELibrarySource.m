@@ -152,6 +152,7 @@ BOOL SEPluginListFilter(SparkList *list, SparkObject *object, NSDictionary *ctxt
 
 - (void)dealloc {
   [se_content release];
+  [se_pendings release];
   [se_overwrite release];
   if (se_plugins)
     NSFreeMapTable(se_plugins);
@@ -247,6 +248,24 @@ BOOL SEPluginListFilter(SparkList *list, SparkObject *object, NSDictionary *ctxt
                                       selector:@selector(didRemoveEntry:)
                                           name:SEEntryCacheDidRemoveEntryNotification
                                         object:nil];
+  
+  /* Undo manager listener */
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(willUndo:)
+                                               name:NSUndoManagerWillUndoChangeNotification
+                                             object:[se_library undoManager]];
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(willUndo:)
+                                               name:NSUndoManagerWillRedoChangeNotification
+                                             object:[se_library undoManager]];
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(didUndo:)
+                                               name:NSUndoManagerDidUndoChangeNotification
+                                             object:[se_library undoManager]];
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(didUndo:)
+                                               name:NSUndoManagerDidRedoChangeNotification
+                                             object:[se_library undoManager]];
   
   /* Tell delegate to reload data */
   if (se_delegate)
@@ -520,8 +539,11 @@ BOOL SEPluginListFilter(SparkList *list, SparkObject *object, NSDictionary *ctxt
   }
 }
 
-- (void)didAddEntry:(NSNotification *)aNotification {
-  SparkEntry *entry = SparkNotificationObject(aNotification);
+#pragma mark Entries
+- (void)se_addEntry:(SparkEntry *)entry {
+  if (se_pendings) /* Schedule update */
+    [se_pendings addObject:entry];
+  
   /* Update plugin list */
   SparkPlugIn *type = [[SparkActionLoader sharedLoader] plugInForAction:[entry action]];
   if (type) {
@@ -530,42 +552,32 @@ BOOL SEPluginListFilter(SparkList *list, SparkObject *object, NSDictionary *ctxt
       [self reloadPluginList:list type:type];
     }
   }
+  if ([entry type] == kSparkEntryTypeOverWrite) {
+    // Find previous entry type and reload list
+    SparkEntry *base = [[[[ibWindow document] cache] base] entryForTrigger:[entry trigger]];
+    if (base) {
+      SparkPlugIn *plugin = [[SparkActionLoader sharedLoader] plugInForAction:[base action]];
+      if (plugin && plugin != type) {
+        SparkList *list = [self listForPlugin:plugin];
+        if (list) {
+          [self reloadPluginList:list type:plugin];
+        }
+      }
+    }
+  }
+  
   /* If custom application, update overwrite list */ 
   UInt32 app = [[ibWindow application] uid];
   if (app != 0 && [[entry application] uid] == app) {
-    NSAssert(![se_overwrite containsObject:[entry trigger]], @"Internal Inconsistency");
-    [se_overwrite addObject:[entry trigger]];
-  }
-}
-
-- (void)didUpdateEntry:(NSNotification *)aNotification {
-  SparkList *old = nil, *new = nil;
-  SparkEntry *entry = SparkNotificationObject(aNotification);
-  SparkEntry *updated = SparkNotificationUpdatedObject(aNotification);
-  SparkPlugIn *type = [[SparkActionLoader sharedLoader] plugInForAction:[updated action]];
-  if (type) old = [self listForPlugin:type];
-  [self reloadPluginList:old type:type];
-  
-  type = [[SparkActionLoader sharedLoader] plugInForAction:[entry action]];
-  if (type) new = [self listForPlugin:type];
-  if (new != old)
-    [self reloadPluginList:new type:type];
-  
-  /* Update overwrite */
-  UInt32 app = [[ibWindow application] uid];
-  if (app != 0) {
-    if ([[updated application] uid] != app && [[entry application] uid] == app) {
-      /* The new entry is in overwrite */
-      NSAssert(![se_overwrite containsObject:[entry trigger]], @"Internal Inconsistency");
+    if (![se_overwrite containsObject:[entry trigger]])
       [se_overwrite addObject:[entry trigger]];
-    } else if ([[updated application] uid] == app && [[entry application] uid] != app) {
-      [se_overwrite removeObject:[updated trigger]];
-    }
   }
 }
 
-- (void)didRemoveEntry:(NSNotification *)aNotification {
-  SparkEntry *entry = SparkNotificationObject(aNotification);
+- (void)se_removeEntry:(SparkEntry *)entry {
+  if (se_pendings) /* Schedule update */
+    [se_pendings removeObject:entry];
+  
   SparkPlugIn *type = [[SparkActionLoader sharedLoader] plugInForAction:[entry action]];
   if (type) {
     SparkList *list = [self listForPlugin:type];
@@ -573,11 +585,64 @@ BOOL SEPluginListFilter(SparkList *list, SparkObject *object, NSDictionary *ctxt
       [self reloadPluginList:list type:type];
     }
   }
+  if ([entry type] == kSparkEntryTypeOverWrite) {
+    // Find global entry, and reload list if needed
+    SparkEntry *base = [[[[ibWindow document] cache] base] entryForTrigger:[entry trigger]];
+    if (base) {
+      SparkPlugIn *plugin = [[SparkActionLoader sharedLoader] plugInForAction:[base action]];
+      if (plugin && plugin != type) {
+        SparkList *list = [self listForPlugin:plugin];
+        if (list) {
+          [self reloadPluginList:list type:plugin];
+        }
+      }
+    }
+  }
+  
   /* If custom application, update overwrite list */ 
   UInt32 app = [[ibWindow application] uid];
   if (app != 0 && [[entry application] uid] == app) {
     [se_overwrite removeObject:[entry trigger]];
   }
+}
+
+- (void)didAddEntry:(NSNotification *)aNotification {
+  SparkEntry *entry = SparkNotificationObject(aNotification);
+  
+  [[se_library undoManager] disableUndoRegistration];
+  [self se_addEntry:entry];
+  [[se_library undoManager] enableUndoRegistration];
+}
+
+- (void)didUpdateEntry:(NSNotification *)aNotification {
+  SparkEntry *entry = SparkNotificationObject(aNotification);
+  SparkEntry *updated = SparkNotificationUpdatedObject(aNotification);
+
+  [[se_library undoManager] disableUndoRegistration];
+  [self se_removeEntry:updated];
+  [self se_addEntry:entry];
+  [[se_library undoManager] enableUndoRegistration];
+}
+
+- (void)didRemoveEntry:(NSNotification *)aNotification {
+  SparkEntry *entry = SparkNotificationObject(aNotification);
+  
+  [[se_library undoManager] disableUndoRegistration];
+  [self se_removeEntry:entry];
+  [[se_library undoManager] enableUndoRegistration];
+}
+
+- (void)willUndo:(NSNotification *)aNotification {
+  NSAssert(!se_pendings, @"Internal Inconsistency");
+  se_pendings = [[NSMutableArray alloc] init];
+}
+
+- (void)didUndo:(NSNotification *)aNotification {
+  if ([se_pendings count] > 0) {
+    [ibWindow revealEntries:se_pendings];
+  }
+  [se_pendings release];
+  se_pendings = nil;
 }
 
 //- (void)didReloadEntries:(NSNotification *)aNotification {

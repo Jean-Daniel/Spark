@@ -148,9 +148,9 @@ BOOL KeyStrokeFilter(UInt32 code, UInt32 modifier) {
 }
 
 - (NSString *)description {
-  return [NSString stringWithFormat:@"<%@ %p> {uid:%u name:%@ hotkey:%@}",
+  return [NSString stringWithFormat:@"<%@ %p> {uid:%u hotkey:'%@'}",
     [self class], self,
-    [self uid], [self name], sp_hotkey];
+    [self uid], [sp_hotkey shortcut]];
 }
 
 #pragma mark -
