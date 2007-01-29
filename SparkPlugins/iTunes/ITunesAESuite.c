@@ -698,40 +698,66 @@ CFDictionaryRef iTunesCopyPlaylists(void) {
         OSType type;
         err = AEGetNthPtr(&kinds, idx, typeWildCard, NULL, NULL, &type, sizeof(type), NULL);
         if (noErr == err) {
-          UInt32 kind = 0;
-          if (type == 'kSpF') {
-            kind = 2;
-          } else if (type == 'kSpN') {
-            // check if smart.
-            UInt32 id = 0;
-            if (noErr == SKAEGetNthUInt32FromDescList(&ids, idx, &id)) {
-              Boolean smart = false;
-              err = _iTunesPlaylistIsSmart(id, &smart);
-              if (noErr == err) {
-                kind = smart ? 1 : 0;
-              } else {
-                err = noErr;
+          SInt32 kind = kPlaylistUndefined;
+          switch (type) {
+            case 'kSpF':
+              kind = kPlaylistFolder;
+              break;
+            case 'kSpZ':
+              kind = kPlaylistMusic;
+              break;
+            case 'kSpI':
+              kind = kPlaylistMovie;
+              break;
+//            case 'kSpI':
+//              kind = kPlaylistTVShow:
+              break;
+            case 'kSpP':
+              kind = kPlaylistPodcast;
+              break;
+            case 'kSpA':
+              kind = kPlaylistBooks;
+              break;
+            case 'kSpM':
+              kind = kPlaylistPurchased;
+              break;
+            case 'kSpS':
+              kind = kPlaylistPartyShuffle;
+              break;
+            case 'kSpN': {
+              // check if smart. 
+              UInt32 id = 0;
+              if (noErr == SKAEGetNthUInt32FromDescList(&ids, idx, &id)) {
+                Boolean smart = false;
+                err = _iTunesPlaylistIsSmart(id, &smart);
+                if (noErr == err) {
+                  kind = smart ? kPlaylistSmart : kPlaylistUser;
+                } else {
+                  err = noErr;
+                }
               }
             }
+              break;
           }
-
-          CFStringRef name = NULL;
-          err = SKAEGetNthCFStringFromDescList(&names, idx, &name);
-          if (name) {
-            CFStringRef keys[] = { CFSTR("uid"), CFSTR("kind") };
-            CFNumberRef numbers[2];
-            numbers[0] = CFNumberCreate(kCFAllocatorDefault, kCFNumberSInt64Type, &uid);
-            numbers[1] = CFNumberCreate(kCFAllocatorDefault, kCFNumberSInt32Type, &kind);
-            if (numbers[0] && numbers[1]) {
-              CFDictionaryRef entry = CFDictionaryCreate(kCFAllocatorDefault, (const void **)keys, (const void **)numbers, 2, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
-              if (entry) {
-                CFDictionarySetValue(result, name, entry);
-                CFRelease(entry);
+          if (kind != kPlaylistUndefined) {
+            CFStringRef name = NULL;
+            err = SKAEGetNthCFStringFromDescList(&names, idx, &name);
+            if (name) {
+              CFStringRef keys[] = { CFSTR("uid"), CFSTR("kind") };
+              CFNumberRef numbers[2];
+              numbers[0] = CFNumberCreate(kCFAllocatorDefault, kCFNumberSInt64Type, &uid);
+              numbers[1] = CFNumberCreate(kCFAllocatorDefault, kCFNumberSInt32Type, &kind);
+              if (numbers[0] && numbers[1]) {
+                CFDictionaryRef entry = CFDictionaryCreate(kCFAllocatorDefault, (const void **)keys, (const void **)numbers, 2, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+                if (entry) {
+                  CFDictionarySetValue(result, name, entry);
+                  CFRelease(entry);
+                }
               }
+              if (numbers[0]) CFRelease(numbers[0]);
+              if (numbers[1]) CFRelease(numbers[1]);
+              CFRelease(name);
             }
-            if (numbers[0]) CFRelease(numbers[0]);
-            if (numbers[1]) CFRelease(numbers[1]);
-            CFRelease(name);
           }
         }
       }
@@ -739,7 +765,7 @@ CFDictionaryRef iTunesCopyPlaylists(void) {
   }
   
 bail:
-    SKAEDisposeDesc(&names);
+  SKAEDisposeDesc(&names);
   SKAEDisposeDesc(&kinds);
   SKAEDisposeDesc(&uids);
   SKAEDisposeDesc(&ids);

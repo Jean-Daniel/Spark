@@ -17,6 +17,20 @@ enum {
   kiTunesSuite = 'hook',
 };
 
+enum {
+  kPlaylistUndefined = -1,
+  kPlaylistMusic = 0,
+  kPlaylistMovie,
+  kPlaylistTVShow,
+  kPlaylistPodcast,
+  kPlaylistBooks,
+  kPlaylistPurchased,
+  kPlaylistPartyShuffle,
+  kPlaylistFolder,
+  kPlaylistSmart,
+  kPlaylistUser,
+};
+
 typedef AEDesc iTunesTrack;
 typedef AEDesc iTunesPlaylist;
 

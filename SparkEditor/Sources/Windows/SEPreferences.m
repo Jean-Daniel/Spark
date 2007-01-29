@@ -52,6 +52,12 @@ void __SetSparkKitSingleKeyMode(int mode) {
 
 @implementation SEPreferences
 
++ (void)initialize {
+  if ([SEPreferences class] == self) {
+    SKLoginItemTimeout = 1200;
+  }
+}
+
 + (void)setup {
   NSDictionary *values = [NSDictionary dictionaryWithObjectsAndKeys:
     SKBool(NO), kSparkPrefHideDisabled,

@@ -282,15 +282,27 @@ NSImage *ITunesGetApplicationIcon() {
 
 #pragma mark -
 #pragma mark iTunes Playlists
+static
+int _iTunesSortPlaylists(id num1, id num2, void *context) {
+  NSDictionary *info = (NSDictionary *)context;
+  NSNumber *v1 = [[info objectForKey:num1] objectForKey:@"kind"];
+  NSNumber *v2 = [[info objectForKey:num2] objectForKey:@"kind"];
+  NSComparisonResult result = [v1 compare:v2];
+  if (result == NSOrderedSame) {
+    result = [num1 caseInsensitiveCompare:num2];
+  }
+  return result;
+}
+
 - (NSArray *)playlists {
   if (!it_lists && it_playlists) {
-    it_lists = [[[it_playlists allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] retain];
+    it_lists = [[[it_playlists allKeys] sortedArrayUsingFunction:_iTunesSortPlaylists context:it_playlists] retain];
   }
   return it_lists;
 }
 
 static
-NSString *iTunesGetLibraryPath() {
+NSString *iTunesGetLibraryPath(Boolean compat) {
   NSString *path = nil;
   CFDataRef data = CFPreferencesCopyValue(CFSTR("alis:1:iTunes Library Location"),
                                           CFSTR("com.apple.iTunes"),
@@ -299,7 +311,7 @@ NSString *iTunesGetLibraryPath() {
   if (data) {
     SKAlias *alias = [[SKAlias alloc] initWithData:(id)data];
     if (alias) {
-      path = [[alias path] stringByAppendingPathComponent:@"iTunes Music Library.xml"];
+      path = [[alias path] stringByAppendingPathComponent:compat ? @"iTunes Music Library.xml" : @"iTunes Library.xml"];
       [alias release];
     }
     CFRelease(data);
@@ -308,7 +320,7 @@ NSString *iTunesGetLibraryPath() {
 }
 
 static 
-NSString *iTunesFindLibraryFile(int folder) {
+NSString *iTunesFindLibraryFile(int folder, Boolean compat) {
   FSRef ref;
   NSString *file = nil;
   /* Get User Special Folder */
@@ -316,7 +328,25 @@ NSString *iTunesFindLibraryFile(int folder) {
     file = [NSString stringFromFSRef:&ref];
     if (file) {
       /* Get User Music Library */
-      file = [file stringByAppendingPathComponent:@"/iTunes/iTunes Music Library.xml"];
+      file = [file stringByAppendingPathComponent:compat ? @"/iTunes/iTunes Music Library.xml" : @"/iTunes/iTunes Library.xml"];
+    }
+  }
+  return file;
+}
+
+SK_INLINE
+NSString *__iTunesFindLibrary(Boolean compat) {
+  /* First check user preferences */
+  NSString *file = iTunesGetLibraryPath(compat);
+  
+  if (!file || ![[NSFileManager defaultManager] fileExistsAtPath:file]) {
+    /* Search in User Music Folder */
+    file = iTunesFindLibraryFile(kMusicDocumentsFolderType, compat);
+    /* If doesn't exists Search in Document folder */
+    if (!file || ![[NSFileManager defaultManager] fileExistsAtPath:file]) {
+      file = iTunesFindLibraryFile(kDocumentsFolderType, compat);
+      if (!file || ![[NSFileManager defaultManager] fileExistsAtPath:file])
+        file = nil;
     }
   }
   return file;
@@ -325,19 +355,13 @@ NSString *iTunesFindLibraryFile(int folder) {
 + (NSDictionary *)iTunesPlaylists {
   NSMutableDictionary *playlists = (id)iTunesCopyPlaylists();
   if (nil == playlists) {
-    /* First check user preferences */
-    NSString *file = iTunesGetLibraryPath();
     
-    if (!file || ![[NSFileManager defaultManager] fileExistsAtPath:file]) {
-      /* Search in User Music Folder */
-      file = iTunesFindLibraryFile(kMusicDocumentsFolderType);
-      /* If doesn't exists Search in Document folder */
-      if (!file || ![[NSFileManager defaultManager] fileExistsAtPath:file]) {
-        file = iTunesFindLibraryFile(kDocumentsFolderType);
-        if (!file || ![[NSFileManager defaultManager] fileExistsAtPath:file])
-          return nil;
-      }
-    }
+    NSString *file = __iTunesFindLibrary(false);
+    if (!file)
+      file = __iTunesFindLibrary(true);
+    
+    if (!file)
+      return nil;
     
     NSDictionary *library = [[NSDictionary alloc] initWithContentsOfFile:file];
     if (library) {
@@ -345,11 +369,13 @@ NSString *iTunesFindLibraryFile(int folder) {
       NSDictionary *list;
       NSEnumerator *lists = [[library objectForKey:@"Playlists"] objectEnumerator];
       while (list = [lists nextObject]) {
-        int type = 0;
+        int type = kPlaylistUser;
         if ([list objectForKey:@"Smart Info"] != nil)
-          type = 1;
+          type = kPlaylistSmart;
         else if ([[list objectForKey:@"Folder"] boolValue])
-          type = 2;
+          type = kPlaylistFolder;
+        else if ([[list objectForKey:@"Master"] boolValue])
+          type = kPlaylistMusic;
         
         NSNumber *ppid = nil;
         NSString *uid = [list objectForKey:@"Playlist Persistent ID"];
@@ -382,14 +408,17 @@ NSString *iTunesFindLibraryFile(int folder) {
         NSDictionary *playlist = [it_playlists objectForKey:title];
         if (playlist) {
           switch ([[playlist objectForKey:@"kind"] intValue]) {
-            case 0:
+            case kPlaylistUser:
               [[menu itemAtIndex:count] setImage:user];
               break;
-            case 1:
+            case kPlaylistSmart:
               [[menu itemAtIndex:count] setImage:smart];
               break;
-            case 2:
+            case kPlaylistFolder:
               [[menu itemAtIndex:count] setImage:folder];
+              break;
+            case kPlaylistMusic:
+              [[menu itemAtIndex:count] setImage:[NSImage imageNamed:@"iTMusic" inBundle:kiTunesActionBundle]];
               break;
           }
         }
