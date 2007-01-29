@@ -125,34 +125,42 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
   return sp_filter != NULL;
 }
 
+- (void)registerNotifications {
+  /* Add */
+  [[[self library] notificationCenter] addObserver:self
+                                          selector:@selector(didAddObject:)
+                                              name:SparkObjectSetDidAddObjectNotification
+                                            object:sp_set];
+  /* Remove */
+  [[[self library] notificationCenter] addObserver:self
+                                          selector:@selector(didRemoveObject:)
+                                              name:SparkObjectSetDidRemoveObjectNotification
+                                            object:sp_set];
+  /* Update */
+  [[[self library] notificationCenter] addObserver:self
+                                          selector:@selector(didUpdateObject:)
+                                              name:SparkObjectSetDidUpdateObjectNotification
+                                            object:sp_set];
+}
+
+- (void)unregisterNotifications {
+  [[[self library] notificationCenter] removeObserver:self
+                                                 name:nil
+                                               object:sp_set];
+}
+
 - (void)setObjectSet:(SparkObjectSet *)objectSet {
   if (sp_set != objectSet) {
     /* unregister notifications */
     if (sp_set) {
-      [[[self library] notificationCenter] removeObserver:self
-                                                     name:nil
-                                                   object:sp_set];
+      [self unregisterNotifications];
     }
     sp_set = objectSet;
     if ([self library] != [sp_set library])
       [self setLibrary:[sp_set library]];
     /* register notifications */
     if (sp_set) {
-      /* Add */
-      [[[self library] notificationCenter] addObserver:self
-                                              selector:@selector(didAddObject:)
-                                                  name:SparkObjectSetDidAddObjectNotification
-                                                object:sp_set];
-      /* Remove */
-      [[[self library] notificationCenter] addObserver:self
-                                              selector:@selector(didRemoveObject:)
-                                                  name:SparkObjectSetDidRemoveObjectNotification
-                                                object:sp_set];
-      /* Update */
-      [[[self library] notificationCenter] addObserver:self
-                                              selector:@selector(didUpdateObject:)
-                                                  name:SparkObjectSetDidUpdateObjectNotification
-                                                object:sp_set];
+      [self registerNotifications];
     }
     /* Refresh contents if smart list */
     if (sp_filter)

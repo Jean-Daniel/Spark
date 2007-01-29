@@ -24,6 +24,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		1B37438F0B6E2B94002F18C8 /* SEEntryList.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B3743880B6E2B79002F18C8 /* SEEntryList.m */; };
+		1B3743900B6E2B96002F18C8 /* SEEntryList.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B37438B0B6E2B84002F18C8 /* SEEntryList.h */; };
 		1B5F396E0B5D451700879DF5 /* SETriggersController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B580B19A59700C8425C /* SETriggersController.m */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		9803A1420A9D01CB00B7DBBA /* SEFirstRun.nib in Resources */ = {isa = PBXBuildFile; fileRef = 9803A13C0A9D01CA00B7DBBA /* SEFirstRun.nib */; };
@@ -348,6 +350,8 @@
 
 /* Begin PBXFileReference section */
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		1B3743880B6E2B79002F18C8 /* SEEntryList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEntryList.m; sourceTree = "<group>"; };
+		1B37438B0B6E2B84002F18C8 /* SEEntryList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEntryList.h; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		9803A13D0A9D01CB00B7DBBA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SEFirstRun.nib; sourceTree = "<group>"; };
@@ -825,6 +829,7 @@
 			isa = PBXGroup;
 			children = (
 				98D52B4B0B19A4C700C8425C /* Headers */,
+				1B3743880B6E2B79002F18C8 /* SEEntryList.m */,
 				98ED2EED0B5D87EF002EAF85 /* SEEntryCache.m */,
 				98D52B3C0B19A4C000C8425C /* SEBuiltInPlugin.m */,
 				98D52B400B19A4C000C8425C /* SESparkEntrySet.m */,
@@ -836,6 +841,7 @@
 		98D52B4B0B19A4C700C8425C /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				1B37438B0B6E2B84002F18C8 /* SEEntryList.h */,
 				98ED2EF10B5D87FD002EAF85 /* SEEntryCache.h */,
 				98D52B3B0B19A4C000C8425C /* SEBuiltInPlugin.h */,
 				98D52B3F0B19A4C000C8425C /* SESparkEntrySet.h */,
@@ -959,6 +965,7 @@
 				98D52B7A0B19A63700C8425C /* SETriggerBrowser.h in Headers */,
 				98CC49680B5AAF3F00C60244 /* SELibraryDocument.h in Headers */,
 				98ED2EF20B5D87FD002EAF85 /* SEEntryCache.h in Headers */,
+				1B3743900B6E2B96002F18C8 /* SEEntryList.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1254,6 +1261,7 @@
 				98CC4F0F0B5ACC7000C60244 /* SEEntryEditor.m in Sources */,
 				1B5F396E0B5D451700879DF5 /* SETriggersController.m in Sources */,
 				98ED2EEE0B5D87EF002EAF85 /* SEEntryCache.m in Sources */,
+				1B37438F0B6E2B94002F18C8 /* SEEntryList.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

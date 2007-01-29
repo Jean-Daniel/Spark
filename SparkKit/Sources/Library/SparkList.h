@@ -64,6 +64,10 @@ NSString * const SparkListDidRemoveObjectsNotification;
 - (void)removeObject:(SparkObject *)anObject;
 - (void)removeObjectsInArray:(NSArray *)anArray;
 
+/* protected */
+- (void)registerNotifications;
+- (void)unregisterNotifications;
+
 @end
 
 #pragma mark -

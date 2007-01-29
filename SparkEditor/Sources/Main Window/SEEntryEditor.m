@@ -489,7 +489,7 @@
     
     
     /* bug in NSWindow */
-    wframe.size.height += 22;
+    wframe.size.height += 22 / SKWindowScaleFactor(window);
     /* Adjust window attributes */
     NSSize smax = wframe.size;
     unsigned int mask = [se_view autoresizingMask];

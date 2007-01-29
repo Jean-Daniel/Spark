@@ -149,28 +149,28 @@ SETriggerStyle styles[6];
                                           name:SparkListDidReloadNotification
                                         object:nil];
   
-  [[se_library notificationCenter] addObserver:self
-                                      selector:@selector(listDidAddTriggers:) 
-                                          name:SparkListDidAddObjectNotification
-                                        object:nil];
-  [[se_library notificationCenter] addObserver:self
-                                      selector:@selector(listDidAddTriggers:) 
-                                          name:SparkListDidAddObjectsNotification
-                                        object:nil];
-  
-  [[se_library notificationCenter] addObserver:self
-                                      selector:@selector(listDidUpdateTrigger:) 
-                                          name:SparkListDidUpdateObjectNotification
-                                        object:nil];
-  
-  [[se_library notificationCenter] addObserver:self
-                                      selector:@selector(listDidRemoveTriggers:) 
-                                          name:SparkListDidRemoveObjectNotification
-                                        object:nil];
-  [[se_library notificationCenter] addObserver:self
-                                      selector:@selector(listDidRemoveTriggers:) 
-                                          name:SparkListDidRemoveObjectsNotification
-                                        object:nil];
+//  [[se_library notificationCenter] addObserver:self
+//                                      selector:@selector(listDidAddTriggers:) 
+//                                          name:SparkListDidAddObjectNotification
+//                                        object:nil];
+//  [[se_library notificationCenter] addObserver:self
+//                                      selector:@selector(listDidAddTriggers:) 
+//                                          name:SparkListDidAddObjectsNotification
+//                                        object:nil];
+//  
+//  [[se_library notificationCenter] addObserver:self
+//                                      selector:@selector(listDidUpdateTrigger:) 
+//                                          name:SparkListDidUpdateObjectNotification
+//                                        object:nil];
+//  
+//  [[se_library notificationCenter] addObserver:self
+//                                      selector:@selector(listDidRemoveTriggers:) 
+//                                          name:SparkListDidRemoveObjectNotification
+//                                        object:nil];
+//  [[se_library notificationCenter] addObserver:self
+//                                      selector:@selector(listDidRemoveTriggers:) 
+//                                          name:SparkListDidRemoveObjectsNotification
+//                                        object:nil];
   
   /*  Listen entries change, "did add" and "did remove" already trigger "list change" notifications */
   [[se_library notificationCenter] addObserver:self

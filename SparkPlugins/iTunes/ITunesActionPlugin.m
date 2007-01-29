@@ -13,9 +13,12 @@
 #import "ITunesVisualSetting.h"
 
 #import <ShadowKit/SKAlias.h>
+#import <ShadowKit/SKFunctions.h>
 #import <ShadowKit/SKExtensions.h>
+#import <ShadowKit/SKImageUtils.h>
 #import <ShadowKit/SKFSFunctions.h>
 #import <ShadowKit/SKLSFunctions.h>
+#import <ShadowKit/SKAppKitExtensions.h>
 
 static 
 NSImage *ITunesGetApplicationIcon() {
@@ -53,8 +56,10 @@ NSImage *ITunesGetApplicationIcon() {
 #pragma mark -
 - (void)awakeFromNib {
   NSImage *icon = ITunesGetApplicationIcon();
-  if (icon)
+  if (icon) {
     [ibIcon setImage:icon];
+  }
+  [[uiPlaylists menu] setDelegate:self];
 }
 
 /* This function is called when the user open the iTunes Action Editor Panel */
@@ -343,7 +348,7 @@ NSString *iTunesFindLibraryFile(int folder) {
         int type = 0;
         if ([list objectForKey:@"Smart Info"] != nil)
           type = 1;
-        else if ([[list objectForKey:@"Folder"] booleanValue])
+        else if ([[list objectForKey:@"Folder"] boolValue])
           type = 2;
         
         NSNumber *ppid = nil;
@@ -362,6 +367,36 @@ NSString *iTunesFindLibraryFile(int folder) {
     [library release];
   }
   return [playlists autorelease];
+}
+
+#pragma mark Playlist menu
+- (void)menuNeedsUpdate:(NSMenu *)menu {
+  if (!ia_apFlags.loaded) {
+    NSImage *user = [NSImage imageNamed:@"iTPlaylist" inBundle:kiTunesActionBundle];
+    NSImage *smart = [NSImage imageNamed:@"iTSmart" inBundle:kiTunesActionBundle];
+    NSImage *folder = [NSImage imageNamed:@"iTFolder" inBundle:kiTunesActionBundle];
+    unsigned count = [menu numberOfItems];
+    while (count-- > 0) {
+      NSString *title = [[menu itemAtIndex:count] title];
+      if (title) {
+        NSDictionary *playlist = [it_playlists objectForKey:title];
+        if (playlist) {
+          switch ([[playlist objectForKey:@"kind"] intValue]) {
+            case 0:
+              [[menu itemAtIndex:count] setImage:user];
+              break;
+            case 1:
+              [[menu itemAtIndex:count] setImage:smart];
+              break;
+            case 2:
+              [[menu itemAtIndex:count] setImage:folder];
+              break;
+          }
+        }
+      }
+    }
+    ia_apFlags.loaded = YES;
+  }
 }
 
 #pragma mark -

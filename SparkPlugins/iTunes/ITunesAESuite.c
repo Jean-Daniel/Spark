@@ -593,6 +593,30 @@ bail:
   return err;
 }
 
+static
+OSStatus _iTunesPlaylistIsSmart(UInt32 id, Boolean *smart) {
+  AEDesc playlist = SKAEEmptyDesc();
+  AppleEvent theEvent = SKAEEmptyDesc();
+  /* tell application "iTunes" to get ... */
+  OSStatus err = _iTunesCreateEvent(kAECoreSuite, kAEGetData, &theEvent);
+  require_noerr(err, bail);
+  
+  err = SKAECreateUniqueIDObjectSpecifier('cPly', id, NULL, &playlist);
+  require_noerr(err, bail);
+  
+  /* name of playlists */
+  err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeBoolean, 'pSmt', &playlist);
+  require_noerr(err, bail);
+  
+  err = SKAESendEventReturnBoolean(&theEvent, smart);
+  require_noerr(err, bail);
+  
+bail:
+    SKAEDisposeDesc(&playlist);
+  SKAEDisposeDesc(&theEvent);
+  return err;
+}
+
 CFArrayRef iTunesCopyPlaylistNames(void) {
   CFArrayRef result = NULL;
   AEDescList names = SKAEEmptyDesc();
@@ -641,6 +665,7 @@ CFArrayRef iTunesCopyPlaylistNamesFromList(AEDescList *items) {
 CFDictionaryRef iTunesCopyPlaylists(void) {
   CFMutableDictionaryRef result = NULL;
   
+  AEDescList ids = SKAEEmptyDesc();
   AEDescList uids = SKAEEmptyDesc();
   AEDescList kinds = SKAEEmptyDesc();
   AEDescList names = SKAEEmptyDesc();
@@ -648,6 +673,9 @@ CFDictionaryRef iTunesCopyPlaylists(void) {
   AEDesc playlists = SKAEEmptyDesc();
   
   OSStatus err = __iTunesGetEveryPlaylistObject(&playlists);
+  require_noerr(err, bail);
+
+  err = __iTunesGetPlaylistsProperty(&playlists, typeInteger, 'ID  ', &ids);
   require_noerr(err, bail);
   
   err = __iTunesGetPlaylistsProperty(&playlists, typeSInt64, kiTunesPersistentID, &uids);
@@ -670,19 +698,39 @@ CFDictionaryRef iTunesCopyPlaylists(void) {
         OSType type;
         err = AEGetNthPtr(&kinds, idx, typeWildCard, NULL, NULL, &type, sizeof(type), NULL);
         if (noErr == err) {
+          UInt32 kind = 0;
+          if (type == 'kSpF') {
+            kind = 2;
+          } else if (type == 'kSpN') {
+            // check if smart.
+            UInt32 id = 0;
+            if (noErr == SKAEGetNthUInt32FromDescList(&ids, idx, &id)) {
+              Boolean smart = false;
+              err = _iTunesPlaylistIsSmart(id, &smart);
+              if (noErr == err) {
+                kind = smart ? 1 : 0;
+              } else {
+                err = noErr;
+              }
+            }
+          }
+
           CFStringRef name = NULL;
           err = SKAEGetNthCFStringFromDescList(&names, idx, &name);
           if (name) {
             CFStringRef keys[] = { CFSTR("uid"), CFSTR("kind") };
-            CFNumberRef puid = CFNumberCreate(kCFAllocatorDefault, kCFNumberSInt64Type, &uid);
-            if (puid) {
-              CFDictionaryRef entry = CFDictionaryCreate(kCFAllocatorDefault, (const void **)keys, (const void **)&puid, 1, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+            CFNumberRef numbers[2];
+            numbers[0] = CFNumberCreate(kCFAllocatorDefault, kCFNumberSInt64Type, &uid);
+            numbers[1] = CFNumberCreate(kCFAllocatorDefault, kCFNumberSInt32Type, &kind);
+            if (numbers[0] && numbers[1]) {
+              CFDictionaryRef entry = CFDictionaryCreate(kCFAllocatorDefault, (const void **)keys, (const void **)numbers, 2, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
               if (entry) {
                 CFDictionarySetValue(result, name, entry);
                 CFRelease(entry);
               }
-              CFRelease(puid);
             }
+            if (numbers[0]) CFRelease(numbers[0]);
+            if (numbers[1]) CFRelease(numbers[1]);
             CFRelease(name);
           }
         }
@@ -694,6 +742,7 @@ bail:
     SKAEDisposeDesc(&names);
   SKAEDisposeDesc(&kinds);
   SKAEDisposeDesc(&uids);
+  SKAEDisposeDesc(&ids);
   SKAEDisposeDesc(&playlists);
   return result;
 }

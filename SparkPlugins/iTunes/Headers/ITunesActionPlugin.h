@@ -16,12 +16,15 @@
   IBOutlet NSImageView *ibIcon;
   IBOutlet NSTabView *ibTabView;
   IBOutlet NSButton *ibBackground;
+  IBOutlet NSPopUpButton *uiPlaylists;
+  
   IBOutlet ITunesVisualSetting *ibVisual;
   @private
     struct _ia_apFlags {
       unsigned int play:1;
+      unsigned int loaded:1;
       unsigned int background:1;
-      unsigned int reserved:30;
+      unsigned int reserved:29;
     } ia_apFlags;
   NSString *it_playlist;
   
