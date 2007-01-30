@@ -353,7 +353,7 @@ NSString *__iTunesFindLibrary(Boolean compat) {
 }
 
 + (NSDictionary *)iTunesPlaylists {
-  NSMutableDictionary *playlists = (id)iTunesCopyPlaylists();
+  NSMutableDictionary *playlists = iTunesIsRunning(NULL) ? (id)iTunesCopyPlaylists() : nil;
   if (nil == playlists) {
     
     NSString *file = __iTunesFindLibrary(false);
@@ -370,12 +370,16 @@ NSString *__iTunesFindLibrary(Boolean compat) {
       NSEnumerator *lists = [[library objectForKey:@"Playlists"] objectEnumerator];
       while (list = [lists nextObject]) {
         int type = kPlaylistUser;
-        if ([list objectForKey:@"Smart Info"] != nil)
-          type = kPlaylistSmart;
-        else if ([[list objectForKey:@"Folder"] boolValue])
-          type = kPlaylistFolder;
-        else if ([[list objectForKey:@"Master"] boolValue])
-          type = kPlaylistMusic;
+        if ([list objectForKey:@"Smart Info"] != nil) type = kPlaylistSmart;
+        else if ([[list objectForKey:@"Folder"] boolValue]) type = kPlaylistFolder;
+        else if ([[list objectForKey:@"Music"] boolValue]) type = kPlaylistMusic;
+        else if ([[list objectForKey:@"Movies"] boolValue]) type = kPlaylistMovie;
+        else if ([[list objectForKey:@"TV Shows"] boolValue]) type = kPlaylistTVShow;
+        
+        else if ([[list objectForKey:@"Podcasts"] boolValue]) type = kPlaylistPodcast;
+        else if ([[list objectForKey:@"Audiobooks"] boolValue]) type = kPlaylistBooks;
+        else if ([[list objectForKey:@"Purchased Music"] boolValue]) type = kPlaylistPurchased;
+        else if ([[list objectForKey:@"Party Shuffle"] boolValue]) type = kPlaylistPartyShuffle;
         
         NSNumber *ppid = nil;
         NSString *uid = [list objectForKey:@"Playlist Persistent ID"];

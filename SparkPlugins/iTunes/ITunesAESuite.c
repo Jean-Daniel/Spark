@@ -9,6 +9,7 @@
 #include "ITunesAESuite.h"
 #include <ShadowKit/SKLSFunctions.h>
 #include <ShadowKit/SKAEFunctions.h>
+#include <ShadowKit/SKProcessFunctions.h>
 
 static 
 CFArrayRef iTunesCopyPlaylistNamesFromList(AEDescList *items);
@@ -71,6 +72,12 @@ OSStatus _iTunesGetObjectIntegerProperty(AEDesc *object, AEKeyword property, SIn
 bail:
     SKAEDisposeDesc(&theEvent);
   return err;
+}
+
+Boolean iTunesIsRunning(ProcessSerialNumber *proc) {
+  ProcessSerialNumber psn = SKProcessGetProcessWithSignature(kiTunesSignature);
+  if (proc) *proc = psn;
+  return psn.lowLongOfPSN != kNoProcess;
 }
 
 #pragma mark -

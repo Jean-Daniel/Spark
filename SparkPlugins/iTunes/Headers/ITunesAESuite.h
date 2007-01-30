@@ -44,6 +44,10 @@ typedef enum {
   kiTunesStateRewinding		= 'kPSR'
 } ITunesState;
 
+
+SK_PRIVATE
+Boolean iTunesIsRunning(ProcessSerialNumber *proc);
+
 SK_PRIVATE
 OSStatus iTunesGetPlayerState(ITunesState *state);
 

@@ -264,7 +264,7 @@ bail:
     }
     
     /* if spark editor, check playlist name */
-    if (kSparkEditorContext == SparkGetCurrentContext()) {
+    if (kSparkEditorContext == SparkGetCurrentContext() && iTunesIsRunning(NULL)) {
       if ([self iTunesAction] == kiTunesPlayPlaylist && ia_plid) {
         iTunesPlaylist playlist = SKAEEmptyDesc();
         OSStatus err = [self playlist] ? iTunesGetPlaylistWithName((CFStringRef)[self playlist], &playlist) : errAENoSuchObject;
