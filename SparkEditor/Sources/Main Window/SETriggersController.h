@@ -20,7 +20,6 @@
   /* Selected list */
   SparkList *se_list; 
   SparkLibrary *se_library;
-  SparkApplication *se_application;
   /* Internal storage */
   NSMutableArray *se_entries;
   NSMutableArray *se_snapshot;

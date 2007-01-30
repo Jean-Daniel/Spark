@@ -6,20 +6,37 @@
  *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
  */
 
-#import <SparkKit/SparkList.h>
+#import <Cocoa/Cocoa.h>
 
-@class SparkPlugIn;
+@class SparkEntry;
 @class SELibraryDocument;
-@interface SEEntryList : SparkList {
+@interface SEEntryList : NSObject {
   @private
-  SparkPlugIn *se_kind;
+  NSImage *se_icon;
+  NSString *se_name;
+  NSMutableArray *se_entries;
   SELibraryDocument *se_document;
+  
+  struct _se_elFlags {
+    unsigned int group:8;
+    unsigned int reserved:24;
+  } se_elFlags;
 }
 
-- (id)initWithDocument:(SELibraryDocument *)aDocument kind:(SparkPlugIn *)kind;
+- (id)initWithName:(NSString *)name icon:(NSImage *)icon;
 
+- (NSString *)name;
+- (void)setName:(NSString *)name;
 
-- (SparkPlugIn *)kind;
+- (NSImage *)icon;
+- (void)setIcon:(NSImage *)icon;
+
+- (UInt8)group;
+- (void)setGroup:(UInt8)group;
+
 - (SELibraryDocument *)document;
+- (void)setDocument:(SELibraryDocument *)aDocument;
+
+- (BOOL)isEditable;
 
 @end

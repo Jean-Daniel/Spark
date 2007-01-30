@@ -96,7 +96,6 @@ SETriggerStyle styles[6];
   [se_list release];
   [se_entries release];
   [se_snapshot release];
-  [se_application release];
   [[se_library notificationCenter] removeObserver:self];
   [[NSNotificationCenter defaultCenter] removeObserver:self];
   [se_library release];
@@ -108,27 +107,27 @@ SETriggerStyle styles[6];
   return se_library;
 }
 - (SparkApplication *)application {
-  return se_application;
+  return [ibWindow application];
 }
-- (void)setApplication:(SparkApplication *)anApplication {
-  if (se_application != anApplication) {
-    /* Optimization: should reload if switch from/to global */
-    BOOL reload = [anApplication uid] == 0 || [se_application uid] == 0;
-    /* Sould not reload if overwrite change, ie it is not empty or it will not be. */
-    if (!reload)
-      reload = [[se_library entryManager] containsEntryForApplication:[se_application uid]] || 
-        [[se_library entryManager] containsEntryForApplication:[anApplication uid]];
-    
-    [se_application release];
-    se_application = [anApplication retain];
-    
-    /* Avoid useless reload */
-    if (reload) {
-      [self refresh];
-      [uiTable reloadData];
-    }
-  }
-}
+//- (void)setApplication:(SparkApplication *)anApplication {
+//  if (se_application != anApplication) {
+//    /* Optimization: should reload if switch from/to global */
+//    BOOL reload = [anApplication uid] == 0 || [se_application uid] == 0;
+//    /* Sould not reload if overwrite change, ie it is not empty or it will not be. */
+//    if (!reload)
+//      reload = [[se_library entryManager] containsEntryForApplication:[se_application uid]] || 
+//        [[se_library entryManager] containsEntryForApplication:[anApplication uid]];
+//    
+//    [se_application release];
+//    se_application = [anApplication retain];
+//    
+//    /* Avoid useless reload */
+//    if (reload) {
+//      [self refresh];
+//      [uiTable reloadData];
+//    }
+//  }
+//}
 
 - (void)awakeFromNib {
   se_library = [[ibWindow library] retain];
@@ -141,8 +140,6 @@ SETriggerStyle styles[6];
   
   [uiTable setVerticalMotionCanBeginDrag:YES];
   [uiTable setContinueEditing:NO];
-  
-  [self setApplication:[ibWindow application]];
   
   [[se_library notificationCenter] addObserver:self
                                       selector:@selector(listDidReload:) 
@@ -173,32 +170,35 @@ SETriggerStyle styles[6];
 //                                        object:nil];
   
   /*  Listen entries change, "did add" and "did remove" already trigger "list change" notifications */
-  [[se_library notificationCenter] addObserver:self
-                                      selector:@selector(didAddEntry:)
-                                          name:SEEntryCacheDidAddEntryNotification
-                                        object:nil];
-  [[se_library notificationCenter] addObserver:self
-                                      selector:@selector(didUpdateEntry:)
-                                          name:SEEntryCacheDidUpdateEntryNotification
-                                        object:nil];
-  [[se_library notificationCenter] addObserver:self
-                                      selector:@selector(didRemoveEntry:)
-                                          name:SEEntryCacheDidRemoveEntryNotification
-                                        object:nil];
+//  [[se_library notificationCenter] addObserver:self
+//                                      selector:@selector(didAddEntry:)
+//                                          name:SEEntryCacheDidAddEntryNotification
+//                                        object:nil];
+//  [[se_library notificationCenter] addObserver:self
+//                                      selector:@selector(didUpdateEntry:)
+//                                          name:SEEntryCacheDidUpdateEntryNotification
+//                                        object:nil];
+//  [[se_library notificationCenter] addObserver:self
+//                                      selector:@selector(didRemoveEntry:)
+//                                          name:SEEntryCacheDidRemoveEntryNotification
+//                                        object:nil];
   
   [[se_library notificationCenter] addObserver:self
                                       selector:@selector(didUpdateEntryStatus:)
                                           name:SEEntryCacheDidChangeEntryEnabledNotification
                                         object:nil];
 
-  [[NSNotificationCenter defaultCenter] addObserver:self
-                                           selector:@selector(cacheDidReload:)
-                                               name:SEEntryCacheDidReloadNotification
-                                             object:[[ibWindow document] cache]];
-  [[NSNotificationCenter defaultCenter] addObserver:self
-                                           selector:@selector(applicationDidChange:)
-                                               name:SEApplicationDidChangeNotification
-                                             object:[ibWindow document]];
+//  [[NSNotificationCenter defaultCenter] addObserver:self
+//                                           selector:@selector(cacheDidReload:)
+//                                               name:SEEntryCacheDidReloadNotification
+//                                             object:[[ibWindow document] cache]];
+//  [[NSNotificationCenter defaultCenter] addObserver:self
+//                                           selector:@selector(applicationDidChange:)
+//                                               name:SEApplicationDidChangeNotification
+//                                             object:[ibWindow document]];
+  
+  [self refresh];
+  [uiTable reloadData];
 }
 
 - (NSView *)tableView {
@@ -340,6 +340,10 @@ SETriggerStyle styles[6];
   }
 }
 
+- (BOOL)tableView:(NSTableView *)aTableView shouldEditTableColumn:(NSTableColumn *)tableColumn row:(int)rowIndex {
+  /* Should not allow all columns */
+  return [[tableColumn identifier] isEqualToString:@"__item__"] || [[tableColumn identifier] isEqualToString:@"enabled"];
+}
 - (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
   SparkEntry *entry = [se_entries objectAtIndex:rowIndex];
   if ([[aTableColumn identifier] isEqualToString:@"active"]) {
@@ -390,11 +394,6 @@ SETriggerStyle styles[6];
       [triggers release];
     }
   }
-}
-
-- (BOOL)tableView:(NSTableView *)aTableView shouldEditTableColumn:(NSTableColumn *)tableColumn row:(int)rowIndex {
-  /* Should not allow all columns */
-  return [[tableColumn identifier] isEqualToString:@"__item__"] || [[tableColumn identifier] isEqualToString:@"enabled"];
 }
 
 - (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
@@ -486,10 +485,6 @@ SETriggerStyle styles[6];
 - (void)cacheDidReload:(NSNotification *)aNotification {
   [self refresh];
   [uiTable reloadData];
-}
-
-- (void)applicationDidChange:(NSNotification *)aNotification {
-  [self setApplication:[ibWindow application]];
 }
 
 /* A list content has changed */

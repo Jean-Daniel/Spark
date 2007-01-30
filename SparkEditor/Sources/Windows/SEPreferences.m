@@ -20,6 +20,8 @@
 #import <ShadowKit/SKLoginItems.h>
 #import <ShadowKit/SKFSFunctions.h>
 
+#include <pthread.h>
+
 /* If daemon should delay library loading at startup */
 CFStringRef kSparkGlobalPrefDelayStartup = CFSTR("SDDelayStartup");
 
@@ -54,8 +56,19 @@ void __SetSparkKitSingleKeyMode(int mode) {
 
 + (void)initialize {
   if ([SEPreferences class] == self) {
-    SKLoginItemTimeout = 1200;
+    SKLoginItemSetTimeout(1200);
   }
+}
+
+static
+void *_SEPreferencesThread(void *arg) {
+  long timeout = SKLoginItemTimeout();
+  SKLoginItemSetTimeout(5000);
+  NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+  _SEPreferencesUpdateLoginItem();
+  [pool release];
+  SKLoginItemSetTimeout(timeout);
+  return NULL;
 }
 
 + (void)setup {
@@ -67,7 +80,9 @@ void __SetSparkKitSingleKeyMode(int mode) {
   [[NSUserDefaults standardUserDefaults] registerDefaults:values];
   
   /* Verify login items */
-  _SEPreferencesUpdateLoginItem();
+  pthread_t thread;
+  pthread_create(&thread, NULL, _SEPreferencesThread, NULL);
+  //_SEPreferencesUpdateLoginItem();
   
   /* Configure Single key mode */
   __SetSparkKitSingleKeyMode([[NSUserDefaults standardUserDefaults] integerForKey:kSparkPrefSingleKeyMode]);

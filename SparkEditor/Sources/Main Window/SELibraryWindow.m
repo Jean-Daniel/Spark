@@ -22,6 +22,8 @@
 #import <SparkKit/SparkPlugIn.h>
 #import <SparkKit/SparkLibrary.h>
 
+#import <ShadowKit/SKAppKitExtensions.h>
+
 @implementation SELibraryWindow
 
 - (id)init {
@@ -91,8 +93,8 @@
 - (IBAction)libraryDoubleAction:(id)sender {
   int idx = [libraryTable selectedRow];
   if (idx > 0) {
-    SparkList *object = [listSource objectAtIndex:idx];
-    if ([object uid] > kSparkLibraryReserved) {
+    SEEntryList *object = [listSource objectAtIndex:idx];
+    if ([object isEditable]) {
       [libraryTable editColumn:0 row:idx withEvent:nil select:YES];
     } else {
       SparkPlugIn *plugin = [listSource pluginForList:object];

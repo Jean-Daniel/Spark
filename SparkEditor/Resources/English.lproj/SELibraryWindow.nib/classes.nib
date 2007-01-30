@@ -16,8 +16,8 @@
             ACTIONS = {newList = id; }; 
             CLASS = SELibrarySource; 
             LANGUAGE = ObjC; 
-            OUTLETS = {delegate = id; ibWindow = SELibraryWindow; uiTable = SETableView; }; 
-            SUPERCLASS = NSObject; 
+            OUTLETS = {ibWindow = SELibraryWindow; uiTable = SETableView; }; 
+            SUPERCLASS = SKTableDataSource; 
         }, 
         {
             ACTIONS = {toggleDaemon = id; }; 

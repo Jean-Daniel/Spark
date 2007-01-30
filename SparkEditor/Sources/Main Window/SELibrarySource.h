@@ -6,39 +6,37 @@
  *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
  */
 
-#import <Foundation/Foundation.h>
+#import <ShadowKit/SKTableDataSource.h>
 
 @class SparkLibrary;
-@class SparkList, SparkPlugIn;
+@class SEEntryList, SparkPlugIn;
 @class SETableView, SELibraryWindow;
-@interface SELibrarySource : NSObject {
+@interface SELibrarySource : SKTableDataSource {
   IBOutlet SETableView *uiTable;
   IBOutlet SELibraryWindow *ibWindow;
   @private
   id se_delegate;
   NSMapTable *se_plugins;
-  SparkList *se_overwrite;
+  SEEntryList *se_overwrite;
+  
   SparkLibrary *se_library;
-  NSMutableArray *se_content;
   
   NSMutableArray *se_pendings;
 }
 
 - (IBAction)newList:(id)sender;
 
-- (void)rearrangeObjects;
 - (void)reloadPluginLists;
 
 - (id)delegate;
 - (void)setDelegate:(id)aDelegate;
 
-- (id)objectAtIndex:(unsigned)idx;
-- (SparkPlugIn *)pluginForList:(SparkList *)aList;
+- (SparkPlugIn *)pluginForList:(SEEntryList *)aList;
 
 @end
 
 @interface NSObject (SELibrarySourceDelegate)
 
-- (void)source:(SELibrarySource *)aSource didChangeSelection:(SparkList *)list;
+- (void)source:(SELibrarySource *)aSource didChangeSelection:(SEEntryList *)list;
 
 @end
