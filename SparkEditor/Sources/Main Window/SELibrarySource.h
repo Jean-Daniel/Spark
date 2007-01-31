@@ -8,16 +8,16 @@
 
 #import <ShadowKit/SKTableDataSource.h>
 
-@class SparkLibrary;
-@class SEEntryList, SparkPlugIn;
+@class SparkLibrary, SparkPlugIn;
 @class SETableView, SELibraryWindow;
+@class SEEntryList, SESmartEntryList;
 @interface SELibrarySource : SKTableDataSource {
   IBOutlet SETableView *uiTable;
   IBOutlet SELibraryWindow *ibWindow;
   @private
   id se_delegate;
   NSMapTable *se_plugins;
-  SEEntryList *se_overwrite;
+  SESmartEntryList *se_overwrite;
   
   SparkLibrary *se_library;
   
@@ -25,8 +25,6 @@
 }
 
 - (IBAction)newList:(id)sender;
-
-- (void)reloadPluginLists;
 
 - (id)delegate;
 - (void)setDelegate:(id)aDelegate;

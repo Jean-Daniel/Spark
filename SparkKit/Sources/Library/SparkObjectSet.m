@@ -146,6 +146,9 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
   NSParameterAssert(![self containsObject:object]);
   @try {
     if (![self containsObject:object]) {
+      // Will add object
+      SparkLibraryPostNotification([self library], SparkObjectSetWillAddObjectNotification, self, object);
+      
     {
       UInt32 uid = [object uid], luid = [self currentUID];
       /* Update Object UID */
@@ -157,9 +160,9 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
         [[[self undoManager] prepareWithInvocationTarget:self] setCurrentUID:luid];
       [[self undoManager] registerUndoWithTarget:self selector:@selector(removeObject:) object:object];
     } 
-      // Will add object
-      SparkLibraryPostNotification([self library], SparkObjectSetWillAddObjectNotification, self, object);
+    
       [self sp_addObject:object];
+    
       // Did add object
       SparkLibraryPostNotification([self library], SparkObjectSetDidAddObjectNotification, self, object);
       return YES;
@@ -184,11 +187,12 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
   NSParameterAssert([self containsObject:object]);
   SparkObject *old = [self objectForUID:[object uid]];
   if (old && (old != object)) {
+    // Will update
+    SparkLibraryPostUpdateNotification([self library], SparkObjectSetWillUpdateObjectNotification, self, old, object);
+    
     /* Register undo => [self updateObject:old]; */
     [[self undoManager] registerUndoWithTarget:self selector:@selector(updateObject:) object:old];
     
-    // Will update
-    SparkLibraryPostUpdateNotification([self library], SparkObjectSetWillUpdateObjectNotification, self, old, object);
     // Update
     [old setLibrary:nil];
     NSMapInsert(sp_objects, (void *)[object uid], object);
@@ -203,12 +207,13 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
 #pragma mark -
 - (void)removeObject:(SparkObject *)object {
   if (object && [self containsObject:object]) {
+    // Will remove
+    SparkLibraryPostNotification([self library], SparkObjectSetWillRemoveObjectNotification, self, object);
+    
     /* Register undo => [self addObject:object]; */
     [[self undoManager] registerUndoWithTarget:self selector:@selector(addObject:) object:object];
     
     [object retain];
-    // Will remove
-    SparkLibraryPostNotification([self library], SparkObjectSetWillRemoveObjectNotification, self, object);
     // Remove
     [object setLibrary:nil];
     NSMapRemove(sp_objects, (void *)[object uid]);

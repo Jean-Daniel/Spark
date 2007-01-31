@@ -39,4 +39,47 @@
 
 - (BOOL)isEditable;
 
+- (void)applicationDidChange:(NSNotification *)aNotification;
+
+- (void)reload;
+- (void)removeAllObjects;
+
+#pragma mark KVC
+- (NSArray *)entries;
+- (unsigned)countOfEntries;
+- (void)setEntries:(NSArray *)entries;
+- (SparkEntry *)objectInEntriesAtIndex:(unsigned)idx;
+- (void)getEntries:(id *)aBuffer range:(NSRange)range;
+- (void)insertObject:(SparkEntry *)anEntry inEntriesAtIndex:(unsigned)idx;
+- (void)removeObjectFromEntriesAtIndex:(unsigned)idx;
+- (void)replaceObjectInEntriesAtIndex:(unsigned)idx withObject:(SparkEntry *)object;
+
+@end
+
+SK_PRIVATE
+NSString * const SEEntryListDidChangeNameNotification;
+
+@class SparkList;
+@interface SEUserEntryList : SEEntryList {
+  @private
+  SparkList *se_list;
+}
+
+- (id)initWithList:(SparkList *)aList;
+
+- (SparkList *)list;
+
+@end
+
+@class SparkEntry;
+typedef BOOL(*SEEntryListFilter)(SEEntryList *, SparkEntry *, id ctxt);
+
+@interface SESmartEntryList : SEEntryList {
+  @private
+  id se_ctxt;
+  SEEntryListFilter se_filter;
+}
+
+- (void)setListFilter:(SEEntryListFilter)aFilter context:(id)aCtxt;
+
 @end
