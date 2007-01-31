@@ -40,11 +40,10 @@
         {CLASS = SETableViewCell; LANGUAGE = ObjC; SUPERCLASS = SKImageAndTextCell; }, 
         {CLASS = SETriggerTable; LANGUAGE = ObjC; SUPERCLASS = SKTableView; }, 
         {
-            ACTIONS = {search = id; }; 
             CLASS = SETriggersController; 
             LANGUAGE = ObjC; 
             OUTLETS = {ibWindow = SELibraryWindow; uiSearch = NSSearchField; uiTable = SKTableView; }; 
-            SUPERCLASS = NSObject; 
+            SUPERCLASS = SKTableDataSource; 
         }, 
         {CLASS = SKImageAndTextCell; LANGUAGE = ObjC; SUPERCLASS = NSTextFieldCell; }, 
         {CLASS = SKOutlineView; LANGUAGE = ObjC; SUPERCLASS = NSOutlineView; }, 

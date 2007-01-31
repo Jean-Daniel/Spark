@@ -19,6 +19,18 @@
   return NSDragOperationNone;
 }
 
+- (void)mouseDown:(NSEvent *)anEvent {
+  if ([anEvent clickCount] == 2) {
+    id target = [self target];
+    SEL doubleAction = [self doubleAction];
+    if (target && doubleAction) {
+      [target performSelector:doubleAction withObject:self];
+    }
+  } else {
+    [super mouseDown:anEvent];
+  }
+}
+
 //- (void)dragImage:(NSImage *)anImage at:(NSPoint)imageLoc offset:(NSSize)mouseOffset event:(NSEvent *)theEvent pasteboard:(NSPasteboard *)pboard source:(id)sourceObject slideBack:(BOOL)slideBack {
 //  ShadowTrace();
 //  if (!_isDragging) { /* First Enter */

@@ -220,8 +220,8 @@ NSString * const SEEntryListDidChangeNameNotification = @"SEEntryListDidChangeNa
   NSMutableArray *entries = [[NSMutableArray alloc] init];
   if ([self document]) {
     SparkTrigger *trigger = nil;
+    NSEnumerator *triggers = [se_list objectEnumerator];
     SESparkEntrySet *cache = [[[self document] cache] entries];
-    NSEnumerator *triggers = [[[[self document] library] triggerSet] objectEnumerator];
     while (trigger = [triggers nextObject]) {
       SparkEntry *entry = [cache entryForTrigger:trigger];
       if (entry)

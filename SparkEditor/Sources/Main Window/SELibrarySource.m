@@ -253,14 +253,6 @@ BOOL SEOverwriteFilter(SEEntryList *list, SparkEntry *object, SparkApplication *
 }
 
 #pragma mark -
-- (id)delegate {
-  return se_delegate;
-}
-
-- (void)setDelegate:(id)aDelegate {
-  se_delegate = aDelegate;
-}
-
 - (SparkLibrary *)library {
   return se_library;
 }

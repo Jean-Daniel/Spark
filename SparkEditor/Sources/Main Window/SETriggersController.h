@@ -6,11 +6,11 @@
  *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
  */
 
-#import <Cocoa/Cocoa.h>
+#import <ShadowKit/SKTableDataSource.h>
 
 @class SKTableView, SparkApplication;
-@class SparkList, SparkLibrary, SELibraryWindow;
-@interface SETriggersController : NSObject {
+@class SEEntryList, SparkLibrary, SELibraryWindow;
+@interface SETriggersController : SKTableDataSource {
   IBOutlet SKTableView *uiTable;
   IBOutlet NSSearchField *uiSearch;
   IBOutlet SELibraryWindow *ibWindow;
@@ -18,18 +18,11 @@
     UInt32 se_filter;
   
   /* Selected list */
-  SparkList *se_list; 
+  SEEntryList *se_list; 
   SparkLibrary *se_library;
-  /* Internal storage */
-  NSMutableArray *se_entries;
-  NSMutableArray *se_snapshot;
 }
 
-- (void)refresh; /* Reload data */
-
 - (NSView *)tableView;
-
-- (void)setList:(SparkList *)aList;
 
 @end
 

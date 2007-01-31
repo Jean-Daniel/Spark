@@ -152,10 +152,6 @@
 }
 
 /* Selected list did change */
-- (void)source:(SELibrarySource *)aSource didChangeSelection:(SparkList *)aList {
-  [triggers setList:aList];
-}
-
 - (IBAction)newList:(id)sender {
   [listSource newList:sender];
 }
