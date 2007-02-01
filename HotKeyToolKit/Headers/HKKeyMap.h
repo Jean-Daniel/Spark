@@ -200,10 +200,10 @@ enum {
  @param      character
  @param      modifier On return, first keystroke modifier. Pass <code>NULL</code> if you do not want it.
  @param      count On return, count of keystokes needed to generate this character. Pass <code>NULL</code> if you do not want it.
- @result     Returns virtual keycode of the first keystroke needed ot generate <code>character</code>.
+ @result     Returns virtual keycode of the first keystroke needed to generate <code>character</code>.
  */
 HK_EXPORT
-UInt32 HKMapGetKeycodeAndModifierForUnichar(UniChar character, UInt32 *modifier, UInt32 *count);
+HKKeycode HKMapGetKeycodeAndModifierForUnichar(UniChar character, HKModifier *modifier, NSUInteger *count);
 
 /*!
 @function 
@@ -215,7 +215,7 @@ UInt32 HKMapGetKeycodeAndModifierForUnichar(UniChar character, UInt32 *modifier,
  @result     Returns Count of keystroke needed to generate character. Can be more than maxcount.
  */
 HK_EXPORT 
-UInt32 HKMapGetKeycodesAndModifiersForUnichar(UniChar character, UInt32 *keys, UInt32 *modifiers, UInt32 maxcount);
+NSUInteger HKMapGetKeycodesAndModifiersForUnichar(UniChar character, HKKeycode *keys, HKModifier *modifiers, NSUInteger maxcount);
 
 /*!
 	@function
@@ -225,7 +225,7 @@ UInt32 HKMapGetKeycodesAndModifiersForUnichar(UniChar character, UInt32 *keys, U
 	@result     an Unichar corresponding to keycode passed.
  */
 HK_EXPORT
-UniChar HKMapGetUnicharForKeycode(UInt32 keycode);
+UniChar HKMapGetUnicharForKeycode(HKKeycode keycode);
 
 /*!
     @function
@@ -241,10 +241,10 @@ NSString* HKMapGetCurrentMapName(void);
     @param      modifier If <i>modifier</i> is nil, return a representation of the key Unichar.
 */
 HK_EXPORT 
-NSString* HKMapGetStringRepresentationForCharacterAndModifier(UniChar character, UInt32 modifier);
+NSString* HKMapGetStringRepresentationForCharacterAndModifier(UniChar character, HKModifier modifier);
 
 HK_EXPORT 
-NSString* HKMapGetSpeakableStringRepresentationForCharacterAndModifier(UniChar character, UInt32 modifier);
+NSString* HKMapGetSpeakableStringRepresentationForCharacterAndModifier(UniChar character, HKModifier modifier);
 
 typedef enum {
   kHKModifierFormatNative, /* kCGEventFlagsMask */
@@ -259,4 +259,4 @@ typedef enum {
 	@result     Return a carbon modifier.
  */
 HK_EXPORT
-UInt32 HKUtilsConvertModifier(UInt32 modifier, HKModifierFormat input, HKModifierFormat output);
+UInt32 HKUtilsConvertModifier(HKModifier modifier, HKModifierFormat input, HKModifierFormat output);

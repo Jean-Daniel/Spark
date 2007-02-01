@@ -15,7 +15,7 @@ HK_EXPORT
 UInt32 HKEventSleepInterval;
 
 HK_EXPORT
-void HKEventPostKeystroke(CGKeyCode keycode, CGEventFlags modifier, CGEventSourceRef source);
+void HKEventPostKeystroke(HKKeycode keycode, HKModifier modifier, CGEventSourceRef source);
 
 HK_EXPORT
 Boolean HKEventPostCharacterKeystrokes(UniChar character, CGEventSourceRef source);
@@ -43,7 +43,7 @@ typedef enum {
  @result     Returns true of successfully sent.
  */
 HK_EXPORT
-Boolean HKEventPostKeystrokeToTarget(CGKeyCode keycode, CGEventFlags modifier, HKEventTarget target, HKEventTargetType type, CGEventSourceRef source);
+Boolean HKEventPostKeystrokeToTarget(HKKeycode keycode, HKModifier modifier, HKEventTarget target, HKEventTargetType type, CGEventSourceRef source);
 
 HK_EXPORT
 Boolean HKEventPostCharacterKeystrokesToTarget(UniChar character, HKEventTarget target, HKEventTargetType type, CGEventSourceRef source);

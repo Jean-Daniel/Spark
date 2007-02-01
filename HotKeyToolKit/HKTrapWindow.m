@@ -103,8 +103,8 @@ NSString * const kHKTrapWindowKeyCatchedNotification = @"kHKTrapWindowKeyCatched
     if (needProcess) {
       [super sendEvent:theEvent];
     } else {
-      UInt32 code = [theEvent keyCode];
-      UInt32 mask = [theEvent modifierFlags] & NSDeviceIndependentModifierFlagsMask; //0x00ff0000;
+      HKKeycode code = [theEvent keyCode];
+      HKModifier mask = [theEvent modifierFlags] & NSDeviceIndependentModifierFlagsMask; //0x00ff0000;
       unichar character = 0;
 //#if defined(DEBUG)
 //      NSLog(@"Code: %u, modifier: %x", code, mask);

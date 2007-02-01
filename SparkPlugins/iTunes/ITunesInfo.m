@@ -22,7 +22,7 @@ const NSPoint kiTunesBottomLeft = { -3e8, 0 };
 const NSPoint kiTunesBottomRight = { -4e8, 0 };
 
 const ITunesVisual kiTunesDefaultSettings = {
-  YES, 1.5f, kiTunesVisualDefaultPosition,
+  YES, kiTunesVisualDefaultPosition, 1.5,
   { 0, 0, 0, 1 },
   /* Gray */
 //  {.188, .192f, .200f, 1 },
@@ -181,10 +181,10 @@ BOOL ITunesVisualIsEqualTo(const ITunesVisual *v1, const ITunesVisual *v2) {
   [[[self window] contentView] setVisual:visual];
 }
 
-- (float)delay {
+- (NSTimeInterval)delay {
   return [(id)[self window] delay];
 }
-- (void)setDelay:(float)aDelay {
+- (void)setDelay:(NSTimeInterval)aDelay {
   [(id)[self window] setDelay:aDelay];
 }
 

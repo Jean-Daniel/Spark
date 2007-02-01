@@ -19,7 +19,7 @@
     @result     Returns a EventHotKeyRef that you must keep to unregister the HotKey.
 */
 HK_PRIVATE
-EventHotKeyRef HKRegisterHotKey(UInt16 keycode, UInt32 modifier, EventHotKeyID hotKeyId);
+EventHotKeyRef HKRegisterHotKey(HKKeycode keycode, HKModifier modifier, EventHotKeyID hotKeyId);
 /*!
     @function   UnregisterHotKey
     @abstract   Unregister an Global EventHotKey.

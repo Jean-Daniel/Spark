@@ -13,12 +13,12 @@
 
 /*!
     @typedef 	HKHotKeyFilter CallBack.
-    @abstract   A function of the form BOOL isAValidKeyStrock(UInt16 keycode, UInt32 modifier);<br />
+    @abstract   A function of the form BOOL isAValidKeyStrock(UInt16 keycode, HKModifier modifier);<br />
  				<i>keycode</i> is a Virtual Keycode.
  				<i>modifier</i> is a Cocoa Modifier constant combination.
 */
 
-typedef BOOL (*HKHotKeyFilter)(UInt32 keycode, UInt32 modifier);
+typedef BOOL (*HKHotKeyFilter)(HKKeycode keycode, HKModifier modifier);
 
 @class HKHotKey;
 
@@ -41,14 +41,14 @@ typedef BOOL (*HKHotKeyFilter)(UInt32 keycode, UInt32 modifier);
  	@param		modifier the modifier keys.
  	@result		Returns YES if the keystrock is valid.
 */
-+ (BOOL)isValidHotKeyCode:(UInt32)code withModifier:(UInt32)modifier;
++ (BOOL)isValidHotKeyCode:(HKKeycode)code withModifier:(HKModifier)modifier;
 
 
 /*!
     @method     setShortcutFilter:
     @abstract   Add a filter function. This Function is used to define if a HotKey is valid or not.
  				Allow framework user to defined some shortcut as invalid.
-    @param      filter A function like: BOOL isAValidShortCut(UInt16 keycode, UInt32 modifierMask);
+    @param      filter A function like: BOOL isAValidShortCut(UInt16 keycode, HKModifier modifierMask);
 */
 + (void)setShortcutFilter:(HKHotKeyFilter)filter;
 

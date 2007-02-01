@@ -86,8 +86,8 @@ static EventHandlerUPP kHKHandlerUPP = NULL;
 - (BOOL)registerHotKey:(HKHotKey *)key {
   // Si la cle est valide est non enregistré
   if ([key isValid] && !NSMapGet(hk_refs, key)) {
-    UInt32 mask = [key modifier];
-    UInt32 keycode = [key keycode];
+    HKModifier mask = [key modifier];
+    HKKeycode keycode = [key keycode];
     UInt32 uid = OSAtomicIncrement32(&gHotKeyUID);
     if (HKTraceHotKeyEvents) {
       NSLog(@"Register HotKey %@", key);
@@ -207,7 +207,7 @@ static HKHotKeyFilter _filter;
 }
 
 #pragma mark -
-+ (BOOL)isValidHotKeyCode:(UInt32)code withModifier:(UInt32)modifier {
++ (BOOL)isValidHotKeyCode:(HKKeycode)code withModifier:(HKModifier)modifier {
   BOOL isValid = YES;
   // Si un filtre est utilisé, on l'utilise.
   if (_filter != nil) {

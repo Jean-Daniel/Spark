@@ -83,7 +83,7 @@ CFStringRef HKKeyMapGetLocalizedName(HKKeyMapRef keymap);
  @result Return the virtual keycode associated with this unichar character or kHKInvalidVirtualKeyCode.
  */
 HK_PRIVATE
-UInt32 HKKeyMapGetKeycodesForUnichar(HKKeyMapRef keyMap, UniChar character, UInt32 *keys, UInt32 *modifiers, UInt32 maxsize);
+NSUInteger HKKeyMapGetKeycodesForUnichar(HKKeyMapRef keyMap, UniChar character, HKKeycode *keys, HKModifier *modifiers, NSUInteger maxsize);
 
 /*!
 @function
@@ -93,7 +93,7 @@ UInt32 HKKeyMapGetKeycodesForUnichar(HKKeyMapRef keyMap, UniChar character, UInt
  @result Returns kHKNilUnichar if no character was found.
  */
 HK_PRIVATE
-UniChar HKKeyMapGetUnicharForKeycode(HKKeyMapRef currentKeyMap, UInt32 virtualKeyCode);
+UniChar HKKeyMapGetUnicharForKeycode(HKKeyMapRef currentKeyMap, HKKeycode virtualKeyCode);
 
 /*!
 @function
@@ -102,5 +102,5 @@ UniChar HKKeyMapGetUnicharForKeycode(HKKeyMapRef currentKeyMap, UInt32 virtualKe
  @result Returns kHKNilUnichar if no character was found.
  */
 HK_PRIVATE
-UniChar HKKeyMapGetUnicharForKeycodeAndModifier(HKKeyMapRef currentKeyMap, UInt32 virtualKeyCode, UInt32 modifiers);
+UniChar HKKeyMapGetUnicharForKeycodeAndModifier(HKKeyMapRef currentKeyMap, HKKeycode virtualKeyCode, HKModifier modifiers);
 

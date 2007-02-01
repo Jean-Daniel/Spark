@@ -108,7 +108,7 @@ UInt32 _HKUtilsConvertModifier(UInt32 modifier, const ModifierMap *map) {
   return result;
 }
 
-UInt32 HKUtilsConvertModifier(UInt32 modifier, HKModifierFormat input, HKModifierFormat output) {
+UInt32 HKUtilsConvertModifier(HKModifier modifier, HKModifierFormat input, HKModifierFormat output) {
   const ModifierMap *map = NULL;
   switch (input) {
     case kHKModifierFormatNative:

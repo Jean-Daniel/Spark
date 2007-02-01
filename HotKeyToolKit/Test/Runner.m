@@ -33,11 +33,18 @@
 @end
 
 int main(int argc, const char **argv) {
-  //  HKEventTarget target = {signature:'hook'};
-//  CGEventSourceRef source = CGEventSourceCreate(kCGEventSourceStatePrivate);
-//  HKEventPostKeystrokeToTarget(kVirtualRightArrowKey, 0, target, kHKEventTargetSignature, source);
-//  CFRelease(source);
-//  HKEventPostKeystroke(23, kCGEventFlagMaskCommand, NULL);
+  HKKeycode keycode = HKMapGetKeycodeAndModifierForUnichar('n', NULL, NULL);
+  UniChar character = 0x00D1; /* 'Ñ' */
+  HKKeycode keycodes[8];
+  HKModifier modifiers[8];
+  NSUInteger count = HKMapGetKeycodesAndModifiersForUnichar(character, keycodes, modifiers, 8);
+//  STAssertTrue(count == 2, @"Invalid keys count (%d) for reverse mapping", count);
+//  
+//  STAssertTrue(keycodes[0] == keycode, @"Invalid modifier for tilde");
+//  STAssertTrue(modifiers[0] == kCGEventFlagMaskAlternate, @"Invalid modifier for tilde");
+//  
+//  STAssertTrue(keycodes[1] == keycode, @"Invalid modifier for tilde");
+//  STAssertTrue(modifiers[1] == kCGEventFlagMaskShift, @"Invalid modifier for tilde");
   NSApplicationMain(argc, argv);
   return 0;
 }

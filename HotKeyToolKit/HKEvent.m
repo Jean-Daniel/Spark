@@ -15,12 +15,12 @@ static ProcessSerialNumber _HKGetProcessWithSignature(OSType type);
 static ProcessSerialNumber _HKGetProcessWithBundleIdentifier(CFStringRef bundleId);
 
 static 
-void (*_HKEventPostKeyStroke)(CGKeyCode keycode, CGEventFlags modifier, CGEventSourceRef source, void *psn) = nil;
+void (*_HKEventPostKeyStroke)(HKKeycode keycode, HKModifier modifier, CGEventSourceRef source, void *psn) = nil;
 
 static
-void _HKEventPostKeystroke(CGKeyCode keycode, CGEventFlags modifier, CGEventSourceRef source, void *psn);
+void _HKEventPostKeystroke(HKKeycode keycode, HKModifier modifier, CGEventSourceRef source, void *psn);
 HK_PRIVATE
-void _HKEventCompatPostKeystroke(CGKeyCode keycode, CGEventFlags modifier, CGEventSourceRef source, void *psn);
+void _HKEventCompatPostKeystroke(HKKeycode keycode, HKModifier modifier, CGEventSourceRef source, void *psn);
 
 static Boolean HKEventCompat = NO;
 
@@ -42,7 +42,7 @@ static void __HKEventInitialize() {
 UInt32 HKEventSleepInterval = 5000;
 
 HK_INLINE
-void __HKEventPostKeyboardEvent(CGEventSourceRef source, CGKeyCode keycode, void *psn, Boolean down) {
+void __HKEventPostKeyboardEvent(CGEventSourceRef source, HKKeycode keycode, void *psn, Boolean down) {
   CGEventRef event = CGEventCreateKeyboardEvent(source, keycode, down);
   if (psn)
     CGEventPostToPSN(psn, event);
@@ -54,7 +54,7 @@ void __HKEventPostKeyboardEvent(CGEventSourceRef source, CGKeyCode keycode, void
 }
 
 static
-void _HKEventPostKeystroke(CGKeyCode keycode, CGEventFlags modifier, CGEventSourceRef source, void *psn) {
+void _HKEventPostKeystroke(HKKeycode keycode, HKModifier modifier, CGEventSourceRef source, void *psn) {
   /* WARNING: look like CGEvent does not support null source */
   BOOL isource = NO;
   if (!source) {
@@ -116,10 +116,10 @@ Boolean _HKEventPostCharacterKeystrokes(UniChar character, CGEventSourceRef sour
     source = CGEventSourceCreate(kCGEventSourceStatePrivate);
   }
   
-  UInt32 keys[8];
-  UInt32 mods[8];
+  HKKeycode keys[8];
+  HKModifier mods[8];
   unsigned i = 0;
-  UInt32 count = HKMapGetKeycodesAndModifiersForUnichar(character, keys, mods, 8);
+  NSUInteger count = HKMapGetKeycodesAndModifiersForUnichar(character, keys, mods, 8);
   for (i=0; i < count; i++) {
     _HKEventPostKeyStroke(keys[i], mods[i], source, psn);
   }
@@ -132,7 +132,7 @@ Boolean _HKEventPostCharacterKeystrokes(UniChar character, CGEventSourceRef sour
 }
 
 #pragma mark API
-void HKEventPostKeystroke(CGKeyCode keycode, CGEventFlags modifier, CGEventSourceRef source) {
+void HKEventPostKeystroke(HKKeycode keycode, HKModifier modifier, CGEventSourceRef source) {
   _HKEventPostKeyStroke(keycode, modifier, source, NULL);
 }
 
@@ -140,7 +140,7 @@ Boolean HKEventPostCharacterKeystrokes(UniChar character, CGEventSourceRef sourc
   return _HKEventPostCharacterKeystrokes(character, source, NULL);
 }
 
-Boolean HKEventPostKeystrokeToTarget(CGKeyCode keycode, CGEventFlags modifier, HKEventTarget target, HKEventTargetType type, CGEventSourceRef source) {
+Boolean HKEventPostKeystrokeToTarget(HKKeycode keycode, HKModifier modifier, HKEventTarget target, HKEventTargetType type, CGEventSourceRef source) {
   ProcessSerialNumber psn = {kNoProcess, kNoProcess};
   switch (type) {
     case kHKEventTargetSystem:

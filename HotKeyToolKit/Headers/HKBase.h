@@ -11,6 +11,8 @@
 #if !defined(__HKBASE_H)
 #define __HKBASE_H 1
 
+#include <CoreServices/CoreServices.h>
+
 #if defined(__cplusplus)
 #if defined (__GNUC__) && (__GNUC__ >= 4)
 #define HK_EXPORT extern "C" __attribute__((visibility("default")))
@@ -45,5 +47,8 @@
 #define HK_PRIVATE __private_extern__
 #endif /* DEBUG */
 #endif
+
+typedef UInt32 HKModifier;
+typedef CGKeyCode HKKeycode;
 
 #endif /* __HKBASE_H */

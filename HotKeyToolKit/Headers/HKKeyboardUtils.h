@@ -13,9 +13,9 @@
 #import <HotKeyToolKit/HKBase.h>
 
 typedef struct HKKeyMapContext HKKeyMapContext;
-typedef UniChar (*HKBaseCharacterForKeyCodeFunction)(void *ctxt, UInt32 keycode);
-typedef UniChar (*HKCharacterForKeyCodeFunction)(void *ctxt, UInt32 keycode, UInt32 modifier);
-typedef UInt32 (*HKKeycodesForCharacterFunction)(void *ctxt, UniChar character, UInt32 *keys, UInt32 *modifiers, UInt32 maxsize);
+typedef UniChar (*HKBaseCharacterForKeyCodeFunction)(void *ctxt, HKKeycode keycode);
+typedef UniChar (*HKCharacterForKeyCodeFunction)(void *ctxt, HKKeycode keycode, HKModifier modifier);
+typedef NSUInteger (*HKKeycodesForCharacterFunction)(void *ctxt, UniChar character, HKKeycode *keys, HKModifier *modifiers, NSUInteger maxsize);
 typedef void (*HKContextDealloc)(HKKeyMapContext *ctxt);
 
 struct HKKeyMapContext {

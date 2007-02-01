@@ -48,8 +48,8 @@ NSTimeInterval HKGetSystemKeyRepeatThreshold(void);
     unsigned int reserved:11;
   } hk_hkFlags;
   
-  UInt32 hk_mask;
-  UInt16 hk_keycode;
+  HKModifier hk_mask;
+  HKKeycode hk_keycode;
   UniChar hk_character;
 }
 
@@ -68,7 +68,7 @@ NSTimeInterval HKGetSystemKeyRepeatThreshold(void);
  @param modifier
  @result Returns a new HotKey with keystrock set to <i>keycode</i> and <i>modifier</i>.
  */
-+ (id)hotkeyWithKeycode:(UInt32)code modifier:(UInt32)modifier;
++ (id)hotkeyWithKeycode:(HKKeycode)code modifier:(HKModifier)modifier;
 /*!
   @method
  @abstract Creates and returns an new Hot Key with character set to <i>character</i> and modifier set to <i>modifier</i>.
@@ -76,7 +76,7 @@ NSTimeInterval HKGetSystemKeyRepeatThreshold(void);
  @param modifier 
  @result Returns a new HotKey with keystrock set to <i>character</i> and <i>modifier</i>.
  */
-+ (id)hotkeyWithUnichar:(UniChar)character modifier:(UInt32)modifier;
++ (id)hotkeyWithUnichar:(UniChar)character modifier:(HKModifier)modifier;
 
 #pragma mark -
 #pragma mark Initializers
@@ -94,7 +94,7 @@ NSTimeInterval HKGetSystemKeyRepeatThreshold(void);
  @param      modifier The modifier mask for the receiver.
  @result     Returns a HotKey with keystrock set to <i>keycode</i> and <i>modifier</i>.
  */
-- (id)initWithKeycode:(UInt32)code modifier:(UInt32)modifier;
+- (id)initWithKeycode:(HKKeycode)code modifier:(HKModifier)modifier;
 /*!
   @method
  @abstract   Initializes a newly allocated hotkey.
@@ -102,7 +102,7 @@ NSTimeInterval HKGetSystemKeyRepeatThreshold(void);
  @param      modifier (description)
  @result     Returns a HotKey with keystrock set to <i>character</i> and <i>modifier</i>.
  */
-- (id)initWithUnichar:(UniChar)character modifier:(UInt32)modifier;
+- (id)initWithUnichar:(UniChar)character modifier:(HKModifier)modifier;
 
 #pragma mark -
 #pragma mark Misc Properties
@@ -128,25 +128,25 @@ NSTimeInterval HKGetSystemKeyRepeatThreshold(void);
  @discussion This modifier is equivalent to KeyMask defined in NSEvent.h
  @result		Returns the modifier associated whit this Hot Key.
  */
-- (UInt32)modifier;
+- (HKModifier)modifier;
 /*!
   @method
  @abstract   Sets the HotKey modifier to <i>modifier</i>
  @param		modifier
  */
-- (void)setModifier:(UInt32)modifier;
+- (void)setModifier:(HKModifier)modifier;
 
 /*!
   @method
  @abstract   Returns the Virtual keycode assigned to this Hot Key for the current keyboard layout.
  */
-- (UInt32)keycode;
+- (HKKeycode)keycode;
 /*!
   @method
  @abstract   Sets the HotKey keycode to the virtual key <i>keycode</i> and update character.
  @param		keycode A Virtual Keycode.
  */
-- (void)setKeycode:(UInt32)keycode;
+- (void)setKeycode:(HKKeycode)keycode;
 
 /*!
   @method

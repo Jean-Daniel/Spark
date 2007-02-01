@@ -14,18 +14,15 @@
 #import "SEEntryEditor.h"
 #import "Spark.h"
 
-#import <ShadowKit/SKTableView.h>
-#import <ShadowKit/SKExtensions.h>
-#import <ShadowKit/SKImageAndTextCell.h>
-
 #import <SparkKit/SparkLibrary.h>
 
 #import <SparkKit/SparkAction.h>
 #import <SparkKit/SparkHotKey.h>
-#import <SparkKit/SparkTrigger.h>
-#import <SparkKit/SparkApplication.h>
 #import <SparkKit/SparkEntryManager.h>
 
+#import <ShadowKit/SKFunctions.h>
+#import <ShadowKit/SKTableView.h>
+#import <ShadowKit/SKImageAndTextCell.h>
 #import <ShadowKit/SKAppKitExtensions.h>
 
 static
@@ -405,6 +402,13 @@ SETriggerStyle styles[6];
 #pragma mark -
 @implementation SparkEntry (SETriggerSort)
 
++ (void)load {
+  if ([SparkEntry class] == self) {
+    SKExchangeInstanceMethods(self, @selector(dealloc), @selector(se_dealloc));
+    SKExchangeInstanceMethods(self, @selector(setAction:), @selector(se_setAction:));
+  }
+}
+
 - (UInt32)triggerValue {
   return [[self trigger] character] << 16 | [[self trigger] modifier] & 0xff;
 }
@@ -415,6 +419,16 @@ SETriggerStyle styles[6];
 
 - (void)setRepresentation:(NSString *)name {
   [[self action] setName:name];
+}
+
+- (void)se_dealloc {
+  ShadowTrace();
+  [self se_dealloc];
+}
+
+- (void)se_setAction:(SparkAction *)anAction {
+  ShadowTrace();
+  [self se_setAction:anAction];
 }
 
 @end

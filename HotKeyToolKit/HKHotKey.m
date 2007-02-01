@@ -69,10 +69,10 @@
 + (id)hotkey {
   return [[[self alloc] init] autorelease];
 }
-+ (id)hotkeyWithKeycode:(UInt32)code modifier:(UInt32)modifier {
++ (id)hotkeyWithKeycode:(HKKeycode)code modifier:(HKModifier)modifier {
   return [[[self alloc] initWithKeycode:code modifier:modifier] autorelease];
 }
-+ (id)hotkeyWithUnichar:(UniChar)character modifier:(UInt32)modifier {
++ (id)hotkeyWithUnichar:(UniChar)character modifier:(HKModifier)modifier {
   return [[[self alloc] initWithUnichar:character modifier:modifier] autorelease];
 }
 
@@ -87,7 +87,7 @@
   return self;
 }
 
-- (id)initWithKeycode:(UInt32)code modifier:(UInt32)modifier {
+- (id)initWithKeycode:(HKKeycode)code modifier:(HKModifier)modifier {
   if (self = [self init]) {
     [self setModifier:modifier];
     [self setKeycode:code];
@@ -95,7 +95,7 @@
   return self;
 }
 
-- (id)initWithUnichar:(UniChar)character modifier:(UInt32)modifier {
+- (id)initWithUnichar:(UniChar)character modifier:(HKModifier)modifier {
   if (self = [self init]) {
     [self setModifier:modifier];
     [self setCharacter:character];
@@ -142,18 +142,18 @@
   return YES;
 }
 
-- (UInt32)modifier {
+- (HKModifier)modifier {
   return hk_mask;
 }
-- (void)setModifier:(UInt32)modifier {
+- (void)setModifier:(HKModifier)modifier {
   if ([self shouldChangeKeystroke])
     hk_mask = modifier;
 }
 
-- (UInt32)keycode {
+- (HKKeycode)keycode {
   return hk_keycode;
 }
-- (void)setKeycode:(UInt32)keycode {
+- (void)setKeycode:(HKKeycode)keycode {
   if ([self shouldChangeKeystroke]) {
     hk_keycode = keycode;
     if (hk_keycode != kHKInvalidVirtualKeyCode) {
@@ -244,8 +244,8 @@
 
 - (void)setRawkey:(UInt64)rawkey {
   UniChar character = rawkey & 0x0000ffff;
-  UInt32 modifier = rawkey & 0x00ff0000;
-  UInt32 keycode = (rawkey & 0xff000000) >> 24;
+  HKModifier modifier = rawkey & 0x00ff0000;
+  HKKeycode keycode = (rawkey & 0xff000000) >> 24;
   if (keycode == 0xff) keycode = kHKInvalidVirtualKeyCode;
   BOOL isSpecialKey = (modifier & (NSNumericPadKeyMask | NSFunctionKeyMask)) != 0;
   if (!isSpecialKey) {
@@ -258,7 +258,7 @@
     [self setKeycode:keycode];
   } else { /* Else try to resolve character */
     [self setCharacter:character];
-    UInt32 newCode = [self keycode];
+    HKKeycode newCode = [self keycode];
     if (kHKInvalidVirtualKeyCode == newCode) {
       [self setKeycode:keycode];
     }

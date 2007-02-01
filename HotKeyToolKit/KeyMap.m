@@ -115,7 +115,8 @@ HKKeyMapRef HKKeyMapCreateWithIdentifier(SInt32 identifier, Boolean reverse) {
 
 HKKeyMapRef HKKeyMapCreateWithCurrentLayout(Boolean reverse) {
   KeyboardLayoutRef ref;
-  if (noErr == KLGetCurrentKeyboardLayout(&ref)) {
+  // if (noErr == KLGetKeyboardLayoutWithName(CFSTR("US Extended"), &ref)) { 
+  if (noErr == KLGetCurrentKeyboardLayout(&ref)) { 
     return HKKeyMapCreateWithKeyboardLayout(ref, reverse);
   }
   return NULL;
@@ -143,15 +144,15 @@ OSStatus HKKeyMapCheckCurrentMap(HKKeyMapRef keyMap, Boolean *wasChanged) {
   }
 }
 
-UInt32 HKKeyMapGetKeycodesForUnichar(HKKeyMapRef keyMap, UniChar character, UInt32 *keys, UInt32 *modifiers, UInt32 maxsize) {
-  UInt32 count = 0;
+NSUInteger HKKeyMapGetKeycodesForUnichar(HKKeyMapRef keyMap, UniChar character, HKKeycode *keys, HKModifier *modifiers, NSUInteger maxsize) {
+  NSUInteger count = 0;
   if (keyMap->reverse && keyMap->ctxt.reverseMap) {
     count = keyMap->ctxt.reverseMap(keyMap->ctxt.data, character, keys, modifiers, maxsize);
   }
   return count;
 }
 
-UniChar HKKeyMapGetUnicharForKeycode(HKKeyMapRef keyMap, UInt32 virtualKeyCode) {
+UniChar HKKeyMapGetUnicharForKeycode(HKKeyMapRef keyMap, HKKeycode virtualKeyCode) {
   UniChar result = kHKNilUnichar;
   if (keyMap->ctxt.baseMap) {
     result = keyMap->ctxt.baseMap(keyMap->ctxt.data, virtualKeyCode);
@@ -159,7 +160,7 @@ UniChar HKKeyMapGetUnicharForKeycode(HKKeyMapRef keyMap, UInt32 virtualKeyCode) 
   return result;
 }
 
-UniChar HKKeyMapGetUnicharForKeycodeAndModifier(HKKeyMapRef keyMap, UInt32 virtualKeyCode, UInt32 modifiers) {
+UniChar HKKeyMapGetUnicharForKeycodeAndModifier(HKKeyMapRef keyMap, HKKeycode virtualKeyCode, HKModifier modifiers) {
   UniChar result = kHKNilUnichar;
   if (keyMap->ctxt.fullMap) {
     result = keyMap->ctxt.fullMap(keyMap->ctxt.data, virtualKeyCode, modifiers);

@@ -28,29 +28,31 @@
 
 - (void)testReverseMapping {
   UniChar character = 's';
-  UInt32 keycode = HKMapGetKeycodeAndModifierForUnichar(character, NULL, NULL);
+  HKKeycode keycode = HKMapGetKeycodeAndModifierForUnichar(character, NULL, NULL);
   STAssertTrue(keycode != kHKInvalidVirtualKeyCode, @"Reverse mapping does not work");
   
   UniChar reverseChar = HKMapGetUnicharForKeycode(keycode);
   STAssertTrue(reverseChar != kHKNilUnichar, @"Reverse mapping does not work");
-  STAssertEquals(reverseChar, character, @"Reverse mapping does not work");
+  STAssertTrue(reverseChar == character, @"Reverse mapping does not work");
   
-  UInt32 keycode2 = HKMapGetKeycodeAndModifierForUnichar('S', NULL, NULL);
-  STAssertEquals(keycode, keycode2, @"'s' and 'S' should have same keycode");
+  HKKeycode keycode2 = HKMapGetKeycodeAndModifierForUnichar('S', NULL, NULL);
+  STAssertTrue(keycode == keycode2, @"'s'(%d) and 'S'(%d) should have same keycode", keycode, keycode2);
   
-  UInt32 modifier, count;
-  UInt32 scode = HKMapGetKeycodeAndModifierForUnichar('S', &modifier, &count);
+  NSUInteger count;
+  HKModifier modifier;
+  HKKeycode scode = HKMapGetKeycodeAndModifierForUnichar('S', &modifier, &count);
   STAssertTrue(count == 1, @"Invalid keys count for reverse mapping");
   STAssertTrue(scode == keycode, @"Invalid keycode for reverse mapping");
   STAssertTrue(modifier == NSShiftKeyMask, @"Invalid modifier for reverse mapping");
 }
 
 - (void)testAdvancedReverseMapping {
-  UInt32 keycode = HKMapGetKeycodeAndModifierForUnichar('n', NULL, NULL);
+  HKKeycode keycode = HKMapGetKeycodeAndModifierForUnichar('n', NULL, NULL);
   UniChar character = 0x00D1; /* 'Ñ' */
-  UInt32 keycodes[8], modifiers[8];
-  UInt32 count = HKMapGetKeycodesAndModifiersForUnichar(character, keycodes, modifiers, 8);
-  STAssertTrue(count == 2, @"Invalid keys count for reverse mapping");
+  HKKeycode keycodes[8];
+  HKModifier modifiers[8];
+  NSUInteger count = HKMapGetKeycodesAndModifiersForUnichar(character, keycodes, modifiers, 8);
+  STAssertTrue(count == 2, @"Invalid keys count (%d) for reverse mapping", count);
   
   STAssertTrue(keycodes[0] == keycode, @"Invalid modifier for tilde");
   STAssertTrue(modifiers[0] == kCGEventFlagMaskAlternate, @"Invalid modifier for tilde");

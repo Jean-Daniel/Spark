@@ -35,17 +35,17 @@ static HKKeyMapRef SharedKeyMap() {
 #pragma mark -
 #pragma mark Statics Functions Declaration
 static 
-UInt32 HKMapGetSpecialKeyCodeForUnichar(UniChar charCode);
+HKKeycode HKMapGetSpecialKeyCodeForUnichar(UniChar charCode);
 static
-NSString *HKMapGetModifierString(UInt32 mask);
+NSString *HKMapGetModifierString(HKModifier mask);
 static
-NSString *HKMapGetSpeakableModifierString(UInt32 mask);
+NSString *HKMapGetSpeakableModifierString(HKModifier mask);
 static
 NSString *HKMapGetStringForUnichar(UniChar unicode);
 
 #pragma mark -
 #pragma mark Publics Functions Definition
-UniChar HKMapGetUnicharForKeycode(UInt32 keycode) {
+UniChar HKMapGetUnicharForKeycode(HKKeycode keycode) {
   UniChar unicode = kHKNilUnichar;
   if (keycode == kHKInvalidVirtualKeyCode) {
     return unicode;
@@ -167,7 +167,7 @@ NSString* HKMapGetCurrentMapName() {
   return (NSString *)HKKeyMapGetName(SharedKeyMap());
 }
 
-NSString* HKMapGetStringRepresentationForCharacterAndModifier(UniChar character, UInt32 modifier) {
+NSString* HKMapGetStringRepresentationForCharacterAndModifier(UniChar character, HKModifier modifier) {
   if (character && character != kHKNilUnichar) {
     NSString *mod = HKMapGetModifierString(modifier);
     if ([mod length] > 0) {
@@ -179,7 +179,7 @@ NSString* HKMapGetStringRepresentationForCharacterAndModifier(UniChar character,
   return nil;
 }
 
-NSString* HKMapGetSpeakableStringRepresentationForCharacterAndModifier(UniChar character, UInt32 modifier) {
+NSString* HKMapGetSpeakableStringRepresentationForCharacterAndModifier(UniChar character, HKModifier modifier) {
   if (character && character != kHKNilUnichar) {
     NSString *mod = HKMapGetSpeakableModifierString(modifier);
     if ([mod length] > 0) {
@@ -192,11 +192,12 @@ NSString* HKMapGetSpeakableStringRepresentationForCharacterAndModifier(UniChar c
 }
 
 #pragma mark Reverse Mapping
-UInt32 HKMapGetKeycodeAndModifierForUnichar(UniChar character, UInt32 *modifier, UInt32 *count) {
+HKKeycode HKMapGetKeycodeAndModifierForUnichar(UniChar character, HKModifier *modifier, NSUInteger *count) {
   if (kHKNilUnichar == character)
     return kHKInvalidVirtualKeyCode;
-  UInt32 key[1], mod[1];
-  UInt32 cnt = HKMapGetKeycodesAndModifiersForUnichar(character, key, mod, 1);
+  HKKeycode key[1];
+  HKModifier mod[1];
+  NSUInteger cnt = HKMapGetKeycodesAndModifiersForUnichar(character, key, mod, 1);
   if (!cnt || kHKInvalidVirtualKeyCode == key[0])
     return kHKInvalidVirtualKeyCode;
   if (count) *count = cnt;
@@ -205,10 +206,10 @@ UInt32 HKMapGetKeycodeAndModifierForUnichar(UniChar character, UInt32 *modifier,
   return key[0];
 }
 
-UInt32 HKMapGetKeycodesAndModifiersForUnichar(UniChar character, UInt32 *keys, UInt32 *modifiers, UInt32 maxcount) {
-  UInt32 count = 0;
+NSUInteger HKMapGetKeycodesAndModifiersForUnichar(UniChar character, HKKeycode *keys, HKModifier *modifiers, NSUInteger maxcount) {
+  NSUInteger count = 0;
   if (character != kHKNilUnichar) {
-    UInt32 keycode = HKMapGetSpecialKeyCodeForUnichar(character);
+    HKKeycode keycode = HKMapGetSpecialKeyCodeForUnichar(character);
     if (keycode == kHKInvalidVirtualKeyCode) {
       count = HKKeyMapGetKeycodesForUnichar(SharedKeyMap(), character, keys, modifiers, maxcount);
     } else {
@@ -224,8 +225,8 @@ UInt32 HKMapGetKeycodesAndModifiersForUnichar(UniChar character, UInt32 *keys, U
 
 #pragma mark -
 #pragma mark Statics Functions Definition
-UInt32 HKMapGetSpecialKeyCodeForUnichar(UniChar character) {
-  UInt32 keyCode = kHKInvalidVirtualKeyCode;
+HKKeycode HKMapGetSpecialKeyCodeForUnichar(UniChar character) {
+  HKKeycode keyCode = kHKInvalidVirtualKeyCode;
   switch (character) {
     /* functions keys */
     case kF1Unicode:
@@ -336,7 +337,7 @@ UInt32 HKMapGetSpecialKeyCodeForUnichar(UniChar character) {
   return keyCode;
 }
 
-NSString* HKMapGetModifierString(UInt32 mask) {
+NSString* HKMapGetModifierString(HKModifier mask) {
   UniChar modifier[5];
   UniChar *symbol = modifier;
   if (kCGEventFlagMaskAlphaShift & mask) {
@@ -358,7 +359,7 @@ NSString* HKMapGetModifierString(UInt32 mask) {
   return result;
 }
 
-NSString* HKMapGetSpeakableModifierString(UInt32 mask) {
+NSString* HKMapGetSpeakableModifierString(HKModifier mask) {
   NSMutableString *str = mask ? [[NSMutableString alloc] init] : nil;
   if (kCGEventFlagMaskAlphaShift & mask) {
     [str appendString:NSLocalizedStringFromTableInBundle(@"Caps Lock", @"Keyboard", kHotKeyToolKitBundle, @"Caps Lock Modifier")];

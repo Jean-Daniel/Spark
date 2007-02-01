@@ -10,7 +10,7 @@
 #import "HKHotKeyRegister.h"
 #import "HKKeyMap.h"
 
-EventHotKeyRef HKRegisterHotKey(UInt16 keycode, UInt32 modifier, EventHotKeyID hotKeyId) {
+EventHotKeyRef HKRegisterHotKey(HKKeycode keycode, HKModifier modifier, EventHotKeyID hotKeyId) {
   EventHotKeyRef outRef;
   /* Convert from cocoa to carbon */
   UInt32 mask = HKUtilsConvertModifier(modifier, kHKModifierFormatCocoa, kHKModifierFormatCarbon);

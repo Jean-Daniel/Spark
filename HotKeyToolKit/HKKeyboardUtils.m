@@ -19,7 +19,7 @@ Note: keycode = 0xff => keycode is 0.
 */
 
 HK_INLINE
-UInt32 __HKUtilsFlatKey(UInt32 code, UInt32 modifier, UInt32 dead) {
+UInt32 __HKUtilsFlatKey(HKKeycode code, HKModifier modifier, UInt32 dead) {
   check(code < 128);
   /* Avoid null code */
   /* modifier: modifier use only 16 high bits and 0x3ff00 is 0x3ff << 8 */
@@ -31,7 +31,7 @@ UInt32 __HKUtilsFlatDead(UInt32 flat, UInt32 dead) {
   return (flat & 0x3ffff) | ((dead & 0x3fff) << 18);
 }
 HK_INLINE
-void __HKUtilsDeflatKey(UInt32 key, UInt32 *code, UInt32 *modifier, UInt32 *dead) {
+void __HKUtilsDeflatKey(UInt32 key, HKKeycode *code, HKModifier *modifier, UInt32 *dead) {
   *code = key & 0xff;
   if (*code == 0xff) *code = 0;
   *modifier = (key & 0x3ff00) << 8;
@@ -65,9 +65,9 @@ UInt32 __GetModifierCount(UInt8 idx) {
 }
 
 static 
-void __HKUtilsConvertModifiers(UInt32 *mods, UInt32 count) {
+void __HKUtilsConvertModifiers(HKModifier *mods, UInt32 count) {
   while (count-- > 0) {
-    UInt32 modifier = 0;
+    HKModifier modifier = 0;
     if (mods[count] & kCommandKey) modifier |= kCGEventFlagMaskCommand;
     if (mods[count] & kShiftKey) modifier |= kCGEventFlagMaskShift;
     if (mods[count] & kCapsKey) modifier |= kCGEventFlagMaskAlphaShift;
@@ -92,14 +92,14 @@ typedef struct _UchrContext {
 } UchrContext;
 
 static
-UniChar UchrBaseCharacterForKeyCode(UchrContext *ctxt, UInt32 keycode) {
+UniChar UchrBaseCharacterForKeyCode(UchrContext *ctxt, HKKeycode keycode) {
   if (keycode < 128)
     return ctxt->map[keycode];
   return kHKNilUnichar;
 }
 
 static
-UniChar UchrCharacterForKeyCode(UchrContext *ctxt, UInt32 keycode, UInt32 modifiers) {
+UniChar UchrCharacterForKeyCode(UchrContext *ctxt, HKKeycode keycode, HKModifier modifiers) {
   UniChar string[3];
   SInt32 type = LMGetKbdType();
   UInt32 deadKeyState = 0, stringLength = 0;
@@ -122,14 +122,16 @@ UniChar UchrCharacterForKeyCode(UchrContext *ctxt, UInt32 keycode, UInt32 modifi
 }
 
 static
-UInt32 UchrKeycodesForCharacter(UchrContext *ctxt, UniChar character, UInt32 *keys, UInt32 *modifiers, UInt32 maxsize) {
-  UInt32 count = 0;
-  UInt32 limit = 10;
-  UInt32 ikeys[10];
-  UInt32 imodifiers[10];
+NSUInteger UchrKeycodesForCharacter(UchrContext *ctxt, UniChar character, HKKeycode *keys, HKModifier *modifiers, NSUInteger maxsize) {
+  NSUInteger count = 0;
+  NSUInteger limit = 10;
+  HKKeycode ikeys[10];
+  HKModifier imodifiers[10];
   
   long chara = character;
-  UInt32 k = 0, m = 0, d = 0;
+  UInt32 d = 0;
+  HKKeycode k = 0;
+  HKModifier m = 0;
   UInt32 flat = (UInt32)NSMapGet(ctxt->chars, (void *)chara);
   while (flat && count < limit) {
     __HKUtilsDeflatKey(flat, &k, &m, &d);
@@ -200,8 +202,8 @@ OSStatus HKKeyMapContextWithUchrData(const UCKeyboardLayout *layout, Boolean rev
   const UCKeyStateTerminators * terminators = header->keyStateTerminatorsOffset ? data + header->keyStateTerminatorsOffset : NULL;
   
   /* Computer Table to modifiers map */
-  UInt32 tmod[tables->keyToCharTableCount];
-  memset(tmod, 0xff, tables->keyToCharTableCount * sizeof(UInt32));
+  HKModifier tmod[tables->keyToCharTableCount];
+  memset(tmod, 0xff, tables->keyToCharTableCount * sizeof(*tmod));
   
   unsigned idx = 0;
   /* idx is a modifier combination */
@@ -283,16 +285,18 @@ OSStatus HKKeyMapContextWithUchrData(const UCKeyboardLayout *layout, Boolean rev
       } else {
         const UCKeyStateRecord *record = data + records->keyStateRecordOffsets[idx];
         if (record->stateZeroCharData != 0 && record->stateZeroNextState == 0) {
-          long unicode = record->stateZeroCharData;
+          intptr_t unicode = record->stateZeroCharData;
           if (unicode & (1 << 15)) {
             // Warning: sequence
           } else {
             if (map) {
               /* Get keycode to access record idx */
-              NSMapInsertIfAbsent(map, (void *)unicode, (void *)code);
+              NSMapInsertIfAbsent(map, (void *)unicode, (void *)(intptr_t)code);
             } 
             /* Update fast table map */
-            UInt32 k = 0, m = 0, d = 0;
+            UInt32 d;
+            HKKeycode k = 0;
+            HKModifier m = 0;
             __HKUtilsDeflatKey(code, &k, &m, &d);
             if (0 == m && kHKNilUnichar == uchr->map[k]) {
               uchr->map[k] = unicode;
@@ -303,7 +307,7 @@ OSStatus HKKeyMapContextWithUchrData(const UCKeyboardLayout *layout, Boolean rev
           if (dead) {
             long next = record->stateZeroNextState;
             // Map dead state to keycode
-            NSMapInsertIfAbsent(dead, (void *)next, (void *)code);
+            NSMapInsertIfAbsent(dead, (void *)next, (void *)(intptr_t)code);
           }
         } 
         // Browse all record output
@@ -319,7 +323,7 @@ OSStatus HKKeyMapContextWithUchrData(const UCKeyboardLayout *layout, Boolean rev
               } else {
                 // Get previous keycode and append dead key state
                 code = __HKUtilsFlatDead(code, term->curState);
-                NSMapInsertIfAbsent(map, (void *)unicode, (void *)code);
+                NSMapInsertIfAbsent(map, (void *)unicode, (void *)(intptr_t)code);
               }
               term++;
               entry++;
@@ -359,14 +363,14 @@ void KCHRContextDealloc(HKKeyMapContext *ctxt) {
 }
 
 static
-UniChar KCHRBaseCharacterForKeyCode(KCHRContext *ctxt, UInt32 keycode) {
+UniChar KCHRBaseCharacterForKeyCode(KCHRContext *ctxt, HKKeycode keycode) {
   if (keycode < 128)
     return ctxt->map[keycode];
   return kHKNilUnichar;
 }
 
 static
-UniChar KCHRCharacterForKeyCode(KCHRContext *ctxt, UInt32 keycode, UInt32 modifiers) {
+UniChar KCHRCharacterForKeyCode(KCHRContext *ctxt, HKKeycode keycode, HKModifier modifiers) {
   UInt32 state = 0;
   UInt32 keyTrans = 0;
   unsigned char result;
@@ -384,13 +388,15 @@ UniChar KCHRCharacterForKeyCode(KCHRContext *ctxt, UInt32 keycode, UInt32 modifi
 }
 
 static
-UInt32 KCHRKeycodesForCharacter(KCHRContext *ctxt, UniChar character, UInt32 *keys, UInt32 *modifiers, UInt32 maxsize) {
-  UInt32 count = 0;
-  UInt32 ikeys[2];
-  UInt32 imodifiers[2];
+NSUInteger KCHRKeycodesForCharacter(KCHRContext *ctxt, UniChar character, HKKeycode *keys, HKModifier *modifiers, NSUInteger maxsize) {
+  NSUInteger count = 0;
+  HKKeycode ikeys[2];
+  HKModifier imodifiers[2];
   
-  long chara = character;
-  UInt32 k = 0, m = 0, d = 0;
+  intptr_t chara = character;
+  UInt32 d;
+  HKKeycode k = 0;
+  HKModifier m = 0;
   UInt32 flat = (UInt32)NSMapGet(ctxt->chars, (void *)chara);
   while (flat && count < 2) {
     __HKUtilsDeflatKey(flat, &k, &m, &d);
@@ -436,8 +442,8 @@ OSStatus HKKeyMapContextWithKCHRData(const void *layout, Boolean reverse, HKKeyM
   UInt16 count = *((UInt16 *)(data + 258)); // version (2) + map table (256)
   
   /* Computer Table to modifiers map */
-  UInt32 tmod[count];
-  memset(tmod, 0xff, count * sizeof(UInt32));
+  HKModifier tmod[count];
+  memset(tmod, 0xff, count * sizeof(*tmod));
   
   unsigned idx = 0;
   UInt8 *tableNum = (UInt8 *)(data + 2); // version (2)
@@ -459,7 +465,7 @@ OSStatus HKKeyMapContextWithKCHRData(const void *layout, Boolean reverse, HKKeyM
   __HKUtilsConvertModifiers(tmod, count);
   
   UInt32 charToKey[256];
-  bzero(charToKey, 256 * sizeof(UInt32));
+  bzero(charToKey, 256 * sizeof(*charToKey));
   
   /* Foreach key in each table */
   for (idx=0; idx < count; idx++) { 
@@ -483,7 +489,7 @@ OSStatus HKKeyMapContextWithKCHRData(const void *layout, Boolean reverse, HKKeyM
   const UInt8 *record = data + 260 + (128 * count) + 2;
   UInt16 records =  *((UInt16 *)(data + 260 + (128 * count)));
   
-  kchr->stats = records ? malloc(sizeof(UInt32) * records) : NULL;
+  kchr->stats = records ? malloc(sizeof(*kchr->stats) * records) : NULL;
   
   for (idx=0; idx < records; idx++) {
     UInt16 size = *((UInt16 *)(record + 2));
