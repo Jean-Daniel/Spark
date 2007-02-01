@@ -38,6 +38,8 @@ NSString * const SEPreviousApplicationKey;
 SK_PRIVATE
 NSString * const SEApplicationDidChangeNotification;
 
+SK_PRIVATE
+SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library);
 
 @interface SELibraryDocument (SEFirstRun)
 - (void)displayFirstRunIfNeeded;

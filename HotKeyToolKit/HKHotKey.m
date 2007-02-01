@@ -69,10 +69,10 @@
 + (id)hotkey {
   return [[[self alloc] init] autorelease];
 }
-+ (id)hotkeyWithKeycode:(HKKeycode)code modifier:(HKModifier)modifier {
++ (id)hotkeyWithKeycode:(HKKeycode)code modifier:(NSUInteger)modifier {
   return [[[self alloc] initWithKeycode:code modifier:modifier] autorelease];
 }
-+ (id)hotkeyWithUnichar:(UniChar)character modifier:(HKModifier)modifier {
++ (id)hotkeyWithUnichar:(UniChar)character modifier:(NSUInteger)modifier {
   return [[[self alloc] initWithUnichar:character modifier:modifier] autorelease];
 }
 
@@ -87,15 +87,15 @@
   return self;
 }
 
-- (id)initWithKeycode:(HKKeycode)code modifier:(HKModifier)modifier {
+- (id)initWithKeycode:(HKKeycode)code modifier:(NSUInteger)modifier {
   if (self = [self init]) {
-    [self setModifier:modifier];
     [self setKeycode:code];
+    [self setModifier:modifier];
   }
   return self;
 }
 
-- (id)initWithUnichar:(UniChar)character modifier:(HKModifier)modifier {
+- (id)initWithUnichar:(UniChar)character modifier:(NSUInteger)modifier {
   if (self = [self init]) {
     [self setModifier:modifier];
     [self setCharacter:character];
@@ -124,8 +124,7 @@
 }
 
 - (NSString*)shortcut {
-  return HKMapGetStringRepresentationForCharacterAndModifier([self character], 
-                                                             HKUtilsConvertModifier(hk_mask, kHKModifierFormatCocoa, kHKModifierFormatNative));
+  return HKMapGetStringRepresentationForCharacterAndModifier([self character], hk_mask);
 }
 /* KVC compliance */
 - (void)setShortcut:(NSString *)sc {
@@ -142,12 +141,16 @@
   return YES;
 }
 
-- (HKModifier)modifier {
-  return hk_mask;
+- (NSUInteger)modifier {
+  return HKUtilsConvertModifier(hk_mask, kHKModifierFormatNative, kHKModifierFormatCocoa);
 }
-- (void)setModifier:(HKModifier)modifier {
-  if ([self shouldChangeKeystroke])
-    hk_mask = modifier;
+- (void)setModifier:(NSUInteger)modifier {
+  if ([self shouldChangeKeystroke]) {
+    hk_mask = HKUtilsConvertModifier(modifier, kHKModifierFormatCocoa, kHKModifierFormatNative);
+  }
+}
+- (HKModifier)nativeModifier {
+  return hk_mask;
 }
 
 - (HKKeycode)keycode {
@@ -244,7 +247,7 @@
 
 - (void)setRawkey:(UInt64)rawkey {
   UniChar character = rawkey & 0x0000ffff;
-  HKModifier modifier = rawkey & 0x00ff0000;
+  NSUInteger modifier = rawkey & 0x00ff0000;
   HKKeycode keycode = (rawkey & 0xff000000) >> 24;
   if (keycode == 0xff) keycode = kHKInvalidVirtualKeyCode;
   BOOL isSpecialKey = (modifier & (NSNumericPadKeyMask | NSFunctionKeyMask)) != 0;

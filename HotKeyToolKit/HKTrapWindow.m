@@ -116,7 +116,7 @@ NSString * const kHKTrapWindowKeyCatchedNotification = @"kHKTrapWindowKeyCatched
         // DLog(@"Remove caps lock modifier");
       }
       /* If verify and verification return NO */
-      if ([self verifyHotKey] && ![HKHotKeyManager isValidHotKeyCode:code withModifier:mask]) {
+      if ([self verifyHotKey] && ![HKHotKeyManager isValidHotKeyCode:code withModifier:HKUtilsConvertModifier(mask, kHKModifierFormatCocoa, kHKModifierFormatNative)]) {
         mask = 0;
         character = kHKNilUnichar;
         code = kHKInvalidVirtualKeyCode;

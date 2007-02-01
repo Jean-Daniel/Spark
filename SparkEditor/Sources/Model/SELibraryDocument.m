@@ -22,6 +22,17 @@
 NSString * const SEPreviousApplicationKey = @"SEPreviousApplicationKey";
 NSString * const SEApplicationDidChangeNotification = @"SEApplicationDidChange";
 
+SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
+  id document;
+  NSEnumerator *documents = [[[NSDocumentController sharedDocumentController] documents] objectEnumerator];
+  while (document = [documents nextObject]) {
+    if ([document respondsToSelector:@selector(library)] && [[document library] isEqual:library]) {
+      return document;
+    }
+  }
+  return nil;
+}
+
 @implementation SELibraryDocument
 
 - (id)init {

@@ -259,4 +259,4 @@ typedef enum {
 	@result     Return a carbon modifier.
  */
 HK_EXPORT
-UInt32 HKUtilsConvertModifier(HKModifier modifier, HKModifierFormat input, HKModifierFormat output);
+UInt32 HKUtilsConvertModifier(UInt32 modifier, HKModifierFormat input, HKModifierFormat output);

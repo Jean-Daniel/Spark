@@ -89,27 +89,24 @@ SETriggerStyle styles[6];
 }
 
 - (void)dealloc {
-  [se_list release];
-  [[se_library notificationCenter] removeObserver:self];
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
-  [se_library release];
   [super dealloc];
 }
 
 #pragma mark -
 - (SparkLibrary *)library {
-  return se_library;
+  return [ibWindow library];
 }
 - (SparkApplication *)application {
   return [ibWindow application];
 }
 
 - (void)awakeFromNib {
-  se_library = [[ibWindow library] retain];
   [self setFilterFunction:_SEFilterEntry context:nil];
   
   [uiTable setTarget:self];
   [uiTable setDoubleAction:@selector(doubleAction:)];
+  
+  [uiTable setSortDescriptors:gSortByNameDescriptors];
   
 //  [uiTable setAutosaveName:@"SparkMainEntryTable"];
 //  [uiTable setAutosaveTableColumns:YES];
@@ -137,21 +134,6 @@ SETriggerStyle styles[6];
   }
   [uiTable reloadData];
 }
-
-//- (void)filterEntries:(NSString *)search {
-//  [se_entries removeAllObjects];
-//  if (!search || ![search length]) {
-//    [se_entries addObjectsFromArray:se_snapshot];
-//  } else {
-//    unsigned count = [se_snapshot count];
-//    while (count-- > 0) {
-//      SparkEntry *entry = [se_snapshot objectAtIndex:count];
-//      if (SEFilterEntry(search, entry))
-//        [se_entries addObject:entry];
-//    }
-//  }
-//  [self sortTriggers:[uiTable sortDescriptors]];
-//}
 
 - (IBAction)search:(id)sender {
   [self setSearchString:[sender stringValue]];
@@ -182,34 +164,7 @@ SETriggerStyle styles[6];
   return [[tableColumn identifier] isEqualToString:@"__item__"] || [[tableColumn identifier] isEqualToString:@"active"];
 }
 - (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
-//  SparkEntry *entry = [se_entries objectAtIndex:rowIndex];
-//  if ([[aTableColumn identifier] isEqualToString:@"active"]) {
-//    NSEvent *evnt = [NSApp currentEvent];
-//    if (evnt && [evnt type] == NSLeftMouseUp && ([evnt modifierFlags] & NSAlternateKeyMask)) {
-//      [self setListEnabled:[anObject boolValue]];
-//    } else {
-//      SparkApplication *application = [self application];
-//      if ([application uid] != 0 && kSparkEntryTypeDefault == [entry type]) {
-//        /* Inherits: should create an new entry */
-//        entry = [[entry copy] autorelease];
-//        [entry setApplication:application];
-//        [[[self library] entryManager] addEntry:entry];
-//      }
-//      if ([anObject boolValue]) {
-//        [[[self library] entryManager] enableEntry:entry];
-//      } else {
-//        [[[self library] entryManager] disableEntry:entry];
-//      }
-//      [aTableView setNeedsDisplayInRect:[aTableView rectOfRow:rowIndex]];
-//    }
-//  } else if ([[aTableColumn identifier] isEqualToString:@"__item__"]) {
-//    if ([anObject length] > 0) {
-//      [entry setName:anObject];
-//    } else {
-//      NSBeep();
-//      // Be more verbose maybe?
-//    }
-//  }
+
 }
 
 #pragma mark Delegate
@@ -312,91 +267,6 @@ SETriggerStyle styles[6];
   return YES;
 }
 
-#pragma mark -
-#pragma mark Notifications
-/* Plugins status change, etc... */
-//- (void)cacheDidReload:(NSNotification *)aNotification {
-//  [self refresh];
-//  [uiTable reloadData];
-//}
-//
-///* A list content has changed */
-//- (void)listDidReload:(NSNotification *)aNotification {
-//  /* If updated list is the current list */
-//  if ([aNotification object] == se_list) {
-//    [self refresh];
-//    [uiTable reloadData];
-//  }
-//}
-//- (void)listDidAddTriggers:(NSNotification *)aNotification {
-//  if ([aNotification object] == se_list) {
-//    [self refresh];  
-//    [uiTable reloadData];
-//  }
-//}
-//- (void)listDidUpdateTriggers:(NSNotification *)aNotification {
-//  if ([aNotification object] == se_list) {
-//    [self refresh];
-//    [uiTable reloadData];
-//  }
-//}
-//- (void)listDidRemoveTriggers:(NSNotification *)aNotification {
-//  if ([aNotification object] == se_list) {
-//    [self refresh];
-//    [uiTable reloadData];
-//  }
-//}
-//
-//- (void)didAddEntry:(NSNotification *)aNotification {
-//  SparkEntry *entry = SparkNotificationObject(aNotification);
-//  /* If did not already contains the new entry and selected list contains entry trigger, refresh */
-//  if (![se_snapshot containsObjectIdenticalTo:entry] && 
-//      [se_list containsObject:[entry trigger]]) {
-//    [self refresh];
-//    /* Redraw only if displayed entries contains the new entry */
-//    if ([se_entries containsObject:entry])
-//      [uiTable reloadData];
-//  }
-//}
-//- (void)didUpdateEntry:(NSNotification *)aNotification {
-//  SparkEntry *entry = SparkNotificationObject(aNotification);
-//  SparkEntry *updated = SparkNotificationUpdatedObject(aNotification);
-//  /* If did not already contains the new entry and selected list contains entry trigger, or contains the old entry, refresh */
-//  if ((![se_snapshot containsObjectIdenticalTo:entry] && [se_list containsObject:[entry trigger]]) ||
-//      [se_snapshot containsObject:updated]) {
-//    BOOL reload = [se_entries containsObject:entry];
-//    [self refresh];
-//    /* Redraw only if displayed entries contains the new/old entry  */
-//    if (reload || [se_entries containsObject:entry])
-//      [uiTable reloadData];
-//  }
-//}
-//- (void)didRemoveEntry:(NSNotification *)aNotification {
-//  /* If contains object */
-//  SparkEntry *entry = SparkNotificationObject(aNotification);
-//  if ([se_snapshot containsObject:entry]) {
-//    BOOL reload = [se_entries containsObject:entry];
-//    [self refresh];
-//    /* Redraw only if displayed entries change */
-//    if (reload)
-//      [uiTable reloadData];
-//  }
-//}
-//
-//- (void)didUpdateEntryStatus:(NSNotification *)aNotification {
-//  SparkEntry *entry = SparkNotificationObject(aNotification);
-//  unsigned idx = [se_snapshot indexOfObject:entry];
-//  if (idx != NSNotFound) {
-//    [se_snapshot replaceObjectAtIndex:idx withObject:entry];
-//    /* Update entries */
-//    idx = [se_entries indexOfObject:entry];
-//    if (idx != NSNotFound) {
-//      [se_entries replaceObjectAtIndex:idx withObject:entry];
-//      [uiTable setNeedsDisplayInRect:[uiTable rectOfRow:idx]];
-//    }
-//  }
-//}
-
 @end
 
 #pragma mark -
@@ -404,8 +274,7 @@ SETriggerStyle styles[6];
 
 + (void)load {
   if ([SparkEntry class] == self) {
-    SKExchangeInstanceMethods(self, @selector(dealloc), @selector(se_dealloc));
-    SKExchangeInstanceMethods(self, @selector(setAction:), @selector(se_setAction:));
+    SKExchangeInstanceMethods(self, @selector(setEnabled:), @selector(se_setEnabled:));
   }
 }
 
@@ -413,22 +282,46 @@ SETriggerStyle styles[6];
   return [[self trigger] character] << 16 | [[self trigger] modifier] & 0xff;
 }
 
+- (void)setActive:(BOOL)active {
+  SELibraryDocument *document = SEGetDocumentForLibrary([[self action] library]);
+  if (document) {
+    SparkEntry *entry = self;
+    SparkApplication *application = [document application];
+    if ([application uid] != 0 && kSparkEntryTypeDefault == [self type]) {
+      /* Inherits: should create an new entry */
+      entry = [[self copy] autorelease];
+      [entry setApplication:application];
+      [[[document library] entryManager] addEntry:entry];
+    }
+    if (active) {
+      [[[document library] entryManager] enableEntry:entry];
+    } else {
+      [[[document library] entryManager] disableEntry:entry];
+    }
+  }
+}
+
+- (void)se_setEnabled:(BOOL)enabled {
+  [self willChangeValueForKey:@"active"];
+  [self se_setEnabled:enabled];
+  [self didChangeValueForKey:@"active"];
+}
+
 - (id)representation {
   return self;
 }
-
 - (void)setRepresentation:(NSString *)name {
-  [[self action] setName:name];
-}
-
-- (void)se_dealloc {
-  ShadowTrace();
-  [self se_dealloc];
-}
-
-- (void)se_setAction:(SparkAction *)anAction {
-  ShadowTrace();
-  [self se_setAction:anAction];
+  if (name && [name length]) {
+    SparkAction *act = [self action];
+    if (act) {
+      [[[act library] undoManager] registerUndoWithTarget:self
+                                                 selector:@selector(setRepresentation:)
+                                                   object:[act name]];
+      [act setName:name];
+    }
+  } else {
+    NSBeep();
+  }
 }
 
 @end

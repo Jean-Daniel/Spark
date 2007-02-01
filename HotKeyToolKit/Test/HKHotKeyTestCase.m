@@ -38,13 +38,13 @@
   STAssertTrue([_hotkey keycode] == kHKInvalidVirtualKeyCode, @"%@ keycode should be kHKInvalidVirtualKeyCode", _hotkey);
   
   [_hotkey setKeycode:kHKInvalidVirtualKeyCode];
-  STAssertEquals([_hotkey character], kHKNilUnichar, @"%@ character should be kHKNilUnichar", _hotkey);
+  STAssertTrue([_hotkey character] == kHKNilUnichar, @"%@ character should be kHKNilUnichar", _hotkey);
 }
 
 - (void)testHotKeyRetainCount {
   id key = [[HKHotKey alloc] initWithUnichar:'a' modifier:NSAlternateKeyMask];
   STAssertTrue([key setRegistred:YES], @"%a should be registred", key);
-  STAssertEquals([key retainCount], (unsigned)1, @"Registring key shouldn't retain it");
+  STAssertTrue([key retainCount] == (unsigned)1, @"Registring key shouldn't retain it");
   
   id key2 = [[HKHotKey alloc] initWithUnichar:'a' modifier:NSAlternateKeyMask];
   STAssertFalse([key2 setRegistred:YES], @"%a shouldn't be registred", key2);

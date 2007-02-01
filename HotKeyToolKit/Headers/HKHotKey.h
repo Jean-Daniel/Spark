@@ -68,7 +68,7 @@ NSTimeInterval HKGetSystemKeyRepeatThreshold(void);
  @param modifier
  @result Returns a new HotKey with keystrock set to <i>keycode</i> and <i>modifier</i>.
  */
-+ (id)hotkeyWithKeycode:(HKKeycode)code modifier:(HKModifier)modifier;
++ (id)hotkeyWithKeycode:(HKKeycode)code modifier:(NSUInteger)modifier;
 /*!
   @method
  @abstract Creates and returns an new Hot Key with character set to <i>character</i> and modifier set to <i>modifier</i>.
@@ -76,7 +76,7 @@ NSTimeInterval HKGetSystemKeyRepeatThreshold(void);
  @param modifier 
  @result Returns a new HotKey with keystrock set to <i>character</i> and <i>modifier</i>.
  */
-+ (id)hotkeyWithUnichar:(UniChar)character modifier:(HKModifier)modifier;
++ (id)hotkeyWithUnichar:(UniChar)character modifier:(NSUInteger)modifier;
 
 #pragma mark -
 #pragma mark Initializers
@@ -94,7 +94,7 @@ NSTimeInterval HKGetSystemKeyRepeatThreshold(void);
  @param      modifier The modifier mask for the receiver.
  @result     Returns a HotKey with keystrock set to <i>keycode</i> and <i>modifier</i>.
  */
-- (id)initWithKeycode:(HKKeycode)code modifier:(HKModifier)modifier;
+- (id)initWithKeycode:(HKKeycode)code modifier:(NSUInteger)modifier;
 /*!
   @method
  @abstract   Initializes a newly allocated hotkey.
@@ -102,7 +102,7 @@ NSTimeInterval HKGetSystemKeyRepeatThreshold(void);
  @param      modifier (description)
  @result     Returns a HotKey with keystrock set to <i>character</i> and <i>modifier</i>.
  */
-- (id)initWithUnichar:(UniChar)character modifier:(HKModifier)modifier;
+- (id)initWithUnichar:(UniChar)character modifier:(NSUInteger)modifier;
 
 #pragma mark -
 #pragma mark Misc Properties
@@ -128,13 +128,15 @@ NSTimeInterval HKGetSystemKeyRepeatThreshold(void);
  @discussion This modifier is equivalent to KeyMask defined in NSEvent.h
  @result		Returns the modifier associated whit this Hot Key.
  */
-- (HKModifier)modifier;
+- (NSUInteger)modifier;
 /*!
   @method
  @abstract   Sets the HotKey modifier to <i>modifier</i>
  @param		modifier
  */
-- (void)setModifier:(HKModifier)modifier;
+- (void)setModifier:(NSUInteger)modifier;
+
+- (HKModifier)nativeModifier;
 
 /*!
   @method

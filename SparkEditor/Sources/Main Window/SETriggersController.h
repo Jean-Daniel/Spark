@@ -16,10 +16,6 @@
   IBOutlet SELibraryWindow *ibWindow;
   @private
     UInt32 se_filter;
-  
-  /* Selected list */
-  SEEntryList *se_list; 
-  SparkLibrary *se_library;
 }
 
 - (NSView *)tableView;

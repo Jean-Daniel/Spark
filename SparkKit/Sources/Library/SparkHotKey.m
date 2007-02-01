@@ -26,10 +26,10 @@ SparkFilterMode SparkKeyStrokeFilterMode = kSparkEnableSingleFunctionKey;
  Jugés trop génant, seul les touches Fx peuvent être utilisées sans "modifier"
 */
 static
-const int kCommonModifierMask = NSShiftKeyMask | NSControlKeyMask | NSAlternateKeyMask | NSCommandKeyMask;
+const int kCommonModifierMask = kCGEventFlagMaskCommand | kCGEventFlagMaskControl | kCGEventFlagMaskShift | kCGEventFlagMaskAlternate;
 
 static 
-BOOL KeyStrokeFilter(UInt32 code, UInt32 modifier) {
+BOOL _SparkKeyStrokeFilter(HKKeycode code, HKModifier modifier) {
   if ((modifier & kCommonModifierMask) != 0) {
     return YES;
   }
@@ -84,7 +84,7 @@ BOOL KeyStrokeFilter(UInt32 code, UInt32 modifier) {
 
 + (void)initialize {
   if ([SparkHotKey class] == self) {
-    [HKHotKeyManager setShortcutFilter:KeyStrokeFilter];
+    [HKHotKeyManager setShortcutFilter:_SparkKeyStrokeFilter];
     /* Load current map */
     HKMapGetCurrentMapName();
   }

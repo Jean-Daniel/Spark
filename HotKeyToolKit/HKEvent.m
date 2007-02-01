@@ -248,8 +248,7 @@ ProcessSerialNumber _HKGetProcessWithBundleIdentifier(CFStringRef bundleId) {
         type = kHKEventTargetProcess;
       }
     }
-    HKEventPostKeystrokeToTarget([self keycode], 
-                                 HKUtilsConvertModifier([self modifier], kHKModifierFormatCocoa, kHKModifierFormatNative),
+    HKEventPostKeystrokeToTarget([self keycode], [self nativeModifier],
                                  target, type, NULL);
     if (HKEventCompat) {
       if (ok) [self setRegistred:YES];
@@ -280,7 +279,7 @@ ProcessSerialNumber _HKGetProcessWithBundleIdentifier(CFStringRef bundleId) {
       type = kHKEventTargetBundle;
     }
     
-    result = HKEventPostKeystrokeToTarget([self keycode], HKUtilsConvertModifier([self modifier], kHKModifierFormatCocoa, kHKModifierFormatNative), target, type, NULL);
+    result = HKEventPostKeystrokeToTarget([self keycode], [self nativeModifier], target, type, NULL);
     if (HKEventCompat) {
       if (ok) [self setRegistred:YES];
     }

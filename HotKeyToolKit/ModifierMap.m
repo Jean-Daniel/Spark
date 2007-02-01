@@ -19,31 +19,30 @@ typedef struct __ModifierMap {
 
 static const
 ModifierMap _kHKUtilsNativeToCococaMap = {
-size:5,
+size:8,
 entries:{
 {kCGEventFlagMaskCommand, NSCommandKeyMask},
 {kCGEventFlagMaskShift, NSShiftKeyMask},
 {kCGEventFlagMaskAlphaShift, NSAlphaShiftKeyMask},
 {kCGEventFlagMaskAlternate, NSAlternateKeyMask},
 {kCGEventFlagMaskControl, NSControlKeyMask},
-  /* Currently unused */
+  /* specials */
 {kCGEventFlagMaskHelp, NSHelpKeyMask},
 {kCGEventFlagMaskSecondaryFn, NSFunctionKeyMask},
 {kCGEventFlagMaskNumericPad, NSNumericPadKeyMask},
 }};
 static const ModifierMap _kHKUtilsCocoaToNative = {
-size:5,
+size:8,
 entries:{
 {NSAlphaShiftKeyMask, kCGEventFlagMaskAlphaShift},
 {NSShiftKeyMask, kCGEventFlagMaskShift},
 {NSControlKeyMask, kCGEventFlagMaskControl},
 {NSAlternateKeyMask, kCGEventFlagMaskAlternate},
 {NSCommandKeyMask, kCGEventFlagMaskCommand},
-  
-  /* Currently unused */
-{NSNumericPadKeyMask, kCGEventFlagMaskNumericPad},
+  /* specials */
 {NSHelpKeyMask, kCGEventFlagMaskHelp},
 {NSFunctionKeyMask, kCGEventFlagMaskSecondaryFn},
+{NSNumericPadKeyMask, kCGEventFlagMaskNumericPad},
 }};
 
 static const
@@ -108,7 +107,7 @@ UInt32 _HKUtilsConvertModifier(UInt32 modifier, const ModifierMap *map) {
   return result;
 }
 
-UInt32 HKUtilsConvertModifier(HKModifier modifier, HKModifierFormat input, HKModifierFormat output) {
+UInt32 HKUtilsConvertModifier(UInt32 modifier, HKModifierFormat input, HKModifierFormat output) {
   const ModifierMap *map = NULL;
   switch (input) {
     case kHKModifierFormatNative:

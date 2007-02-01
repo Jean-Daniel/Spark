@@ -123,6 +123,18 @@ const UInt32 kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_0;
   return [NSString stringWithFormat:@"<%@ %p>", [self class], self];
 }
 
+- (NSUInteger)hash {
+  return sp_uuid ? CFHash(sp_uuid) : 0;
+}
+
+- (BOOL)isEqual:(id)object {
+  if ([object class] != [self class])
+    return NO;
+  if (!sp_uuid) return ![object uuid];
+  if (![object uuid]) return !sp_uuid;
+  return CFEqual(sp_uuid, [object uuid]);
+}
+
 #pragma mark -
 #pragma mark Objects Libraries Accessors
 - (SparkObjectSet *)listSet {
