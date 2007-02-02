@@ -20,7 +20,7 @@ NSString * const SEEntryCacheDidReloadNotification = @"SEEntryCacheDidReload";
 
 NSString * const SEEntryCacheDidAddEntryNotification = @"SEEntryCacheDidAddEntry";
 NSString * const SEEntryCacheDidUpdateEntryNotification = @"SEEntryCacheDidUpdateEntry";
-NSString * const SEEntryCacheDidRemoveEntryNotification = @"SEEntryCacheDidRemoveEntry";
+NSString * const SEEntryCacheWillRemoveEntryNotification = @"SEEntryCacheWillRemoveEntry";
 NSString * const SEEntryCacheDidChangeEntryEnabledNotification = @"SEEntryCacheDidChangeEntryStatus";
 
 @implementation SEEntryCache
@@ -55,8 +55,8 @@ NSString * const SEEntryCacheDidChangeEntryEnabledNotification = @"SEEntryCacheD
                                            name:SparkEntryManagerDidUpdateEntryNotification
                                          object:manager];
       [[library notificationCenter] addObserver:self
-                                       selector:@selector(didRemoveEntry:) 
-                                           name:SparkEntryManagerDidRemoveEntryNotification
+                                       selector:@selector(willRemoveEntry:) 
+                                           name:SparkEntryManagerWillRemoveEntryNotification
                                          object:manager];
       /* Be sure the status is sync */
       [[library notificationCenter] addObserver:self
@@ -99,10 +99,6 @@ NSString * const SEEntryCacheDidChangeEntryEnabledNotification = @"SEEntryCacheD
   }
 }
 
-- (SESparkEntrySet *)base {
-  return se_base;
-}
-
 - (SESparkEntrySet *)entries {
   return se_merge;
 }
@@ -136,6 +132,27 @@ NSString * const SEEntryCacheDidChangeEntryEnabledNotification = @"SEEntryCacheD
 }
 
 - (void)didAddEntry:(NSNotification *)aNotification {
+  SparkEntry *entry = SparkNotificationObject(aNotification);
+  /* If entry is global */
+  if ([[entry application] uid] == 0) {
+    [se_base addEntry:entry];
+  }
+  
+  
+
+    /* If current application is global */
+    if ([[se_document application] uid] == 0) {
+      
+      if (![se_merge containsTrigger:[entry trigger]]) {
+        [se_merge addEntry:entry];
+      }
+    }
+  }
+  /* If entry match current application */
+  if ([[entry application] isEqual:[se_document application]]) {
+    
+  }
+  /* This new entry override an old entry => update */
   [self addEntry:SparkNotificationObject(aNotification)];
   /* Notify High-level entry change */
   [[[se_document library] notificationCenter] postNotificationName:SEEntryCacheDidAddEntryNotification
@@ -154,10 +171,10 @@ NSString * const SEEntryCacheDidChangeEntryEnabledNotification = @"SEEntryCacheD
                                                           userInfo:[aNotification userInfo]];
 }
 
-- (void)didRemoveEntry:(NSNotification *)aNotification {
+- (void)willRemoveEntry:(NSNotification *)aNotification {
   [self removeEntry:SparkNotificationObject(aNotification)];
   /* Notify High-level entry change */
-  [[[se_document library] notificationCenter] postNotificationName:SEEntryCacheDidRemoveEntryNotification
+  [[[se_document library] notificationCenter] postNotificationName:SEEntryCacheWillRemoveEntryNotification
                                                             object:self 
                                                           userInfo:[aNotification userInfo]];
 }

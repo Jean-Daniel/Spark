@@ -12,7 +12,7 @@ SK_PRIVATE NSString * const SEEntryCacheDidReloadNotification;
 
 SK_PRIVATE NSString * const SEEntryCacheDidAddEntryNotification;
 SK_PRIVATE NSString * const SEEntryCacheDidUpdateEntryNotification;
-SK_PRIVATE NSString * const SEEntryCacheDidRemoveEntryNotification;
+SK_PRIVATE NSString * const SEEntryCacheWillRemoveEntryNotification;
 SK_PRIVATE NSString * const SEEntryCacheDidChangeEntryEnabledNotification;
 
 @class SELibraryDocument, SESparkEntrySet;
@@ -28,7 +28,6 @@ SK_PRIVATE NSString * const SEEntryCacheDidChangeEntryEnabledNotification;
 - (void)reload;
 - (void)refresh;
 
-- (SESparkEntrySet *)base;
 - (SESparkEntrySet *)entries;
 
 @end

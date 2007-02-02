@@ -214,42 +214,6 @@ BOOL SEOverwriteFilter(SEEntryList *list, SparkEntry *object, SparkApplication *
                                       selector:@selector(didRenameList:)
                                           name:SEEntryListDidChangeNameNotification
                                         object:se_library];
-  
-//  [[se_library notificationCenter] addObserver:self
-//                                      selector:@selector(didAddEntry:)
-//                                          name:SEEntryCacheDidAddEntryNotification
-//                                        object:nil];
-//  [[se_library notificationCenter] addObserver:self
-//                                      selector:@selector(didUpdateEntry:)
-//                                          name:SEEntryCacheDidUpdateEntryNotification
-//                                        object:nil];
-//  [[se_library notificationCenter] addObserver:self
-//                                      selector:@selector(didRemoveEntry:)
-//                                          name:SEEntryCacheDidRemoveEntryNotification
-//                                        object:nil];
-  
-  /* Undo manager listener */
-//  [[NSNotificationCenter defaultCenter] addObserver:self
-//                                           selector:@selector(willUndo:)
-//                                               name:NSUndoManagerWillUndoChangeNotification
-//                                             object:[se_library undoManager]];
-//  [[NSNotificationCenter defaultCenter] addObserver:self
-//                                           selector:@selector(willUndo:)
-//                                               name:NSUndoManagerWillRedoChangeNotification
-//                                             object:[se_library undoManager]];
-//  [[NSNotificationCenter defaultCenter] addObserver:self
-//                                           selector:@selector(didUndo:)
-//                                               name:NSUndoManagerDidUndoChangeNotification
-//                                             object:[se_library undoManager]];
-//  [[NSNotificationCenter defaultCenter] addObserver:self
-//                                           selector:@selector(didUndo:)
-//                                               name:NSUndoManagerDidRedoChangeNotification
-//                                             object:[se_library undoManager]];
-  
-  /* Tell delegate to reload data */
-//  if (se_delegate)
-//    [[NSNotificationCenter defaultCenter] postNotificationName:NSTableViewSelectionDidChangeNotification
-//                                                        object:uiTable];
 }
 
 #pragma mark -
