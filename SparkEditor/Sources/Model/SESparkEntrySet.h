@@ -26,12 +26,13 @@
 - (void)removeEntry:(SparkEntry *)anEntry;
 - (void)replaceEntry:(SparkEntry *)anEntry withEntry:(SparkEntry *)newEntry;
 
-- (void)addEntriesFromEntrySet:(SESparkEntrySet *)set;
 - (void)addEntriesFromArray:(NSArray *)entries;
+- (void)addEntriesFromEntrySet:(SESparkEntrySet *)set;
 
 - (NSArray *)allObjects;
 - (NSEnumerator *)entryEnumerator;
 
+- (BOOL)containsEntry:(SparkEntry *)anEntry;
 - (BOOL)containsTrigger:(SparkTrigger *)trigger;
 - (SparkEntry *)entryForTrigger:(SparkTrigger *)aTrigger;
 - (SparkAction *)actionForTrigger:(SparkTrigger *)trigger;

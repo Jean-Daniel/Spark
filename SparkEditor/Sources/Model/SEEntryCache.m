@@ -104,79 +104,135 @@ NSString * const SEEntryCacheDidChangeEntryEnabledNotification = @"SEEntryCacheD
 }
 
 #pragma mark -
-- (void)addEntry:(SparkEntry *)entry {
+- (BOOL)addEntry:(SparkEntry *)entry previous:(SparkEntry **)updated {
+  NSParameterAssert(entry);
+  
+  SparkEntry *old = nil;
+  /* If entry is global */
   if ([[entry application] uid] == 0) {
+    /* first, update base */
+    NSAssert(![se_base containsTrigger:[entry trigger]], @"Internal Inconsistency");
     [se_base addEntry:entry];
-    /* If current application is global or merge does not override the new entry */
+    /* If current application is global or merge does not override the new entry (=> inherits) */
     if ([[se_document application] uid] == 0 || ![se_merge containsTrigger:[entry trigger]]) {
       [se_merge addEntry:entry];
+    } else {
+      /* do not send notification */
+      return NO;
     }
-  } else if ([[entry application] uid] == [[se_document application] uid]) {
+  } else if ([[se_document application] isEqual:[entry application]]) {
+    /* entry is specific and match current context */
+    old = [se_merge entryForTrigger:[entry trigger]];
+    /* 'old' can only be an inherited entry, else update should be called instead of add */
+    NSAssert(!old || [[old application] uid] == 0, @"Internal Inconsistency");
     [se_merge addEntry:entry];
+  } else {
+    /* entry->application != document->application, do nothing */
+    return NO;
   }
+  if (updated) *updated = old;
+  return YES;
 }
 
-- (void)removeEntry:(SparkEntry *)entry {
+- (BOOL)removeEntry:(SparkEntry *)entry replacedBy:(SparkEntry **)newEntry {
+  NSParameterAssert(entry);
+  
+  SparkEntry *new = nil;
+  /* If entry is global */
   if ([[entry application] uid] == 0) {
+    /* first, update base */
+    NSAssert([se_base containsTrigger:[entry trigger]], @"Internal Inconsistency");
     [se_base removeEntry:entry];
-    /* if se_merge equals se_base */
-    if ([[se_document application] uid] == 0)
+    /* If current application is global or merge contains the removed entry (=> inherits) */
+    if ([[se_document application] uid] == 0 || [se_merge containsEntry:entry]) {
       [se_merge removeEntry:entry];
-  } else if ([[entry application] uid] == [[se_document application] uid]) {
+    } else {
+      /* do not send notification */
+      return NO;
+    }
+  } else if ([[se_document application] isEqual:[entry application]]) {
+    /* 'merge' MUST contains the removed entry */
+    NSAssert([se_merge containsEntry:entry], @"Internal Inconsistency");
     [se_merge removeEntry:entry];
-    /* If global contains a trigger for the removed entry, add it to merge */
-    SparkEntry *base = [se_base entryForTrigger:[entry trigger]];
-    if (base)
-      [se_merge addEntry:base];
+    /* If base contains a remplacement entry (=> inherits) */
+    new = [se_base entryForTrigger:[entry trigger]];
+    if (new)
+      [se_merge addEntry:new];
+  } else {
+    /* entry->application != document->application, do nothing */
+    return NO;
   }
+  if (newEntry) *newEntry = new;
+  return YES;
 }
 
 - (void)didAddEntry:(NSNotification *)aNotification {
+  SparkEntry *updated = nil;
   SparkEntry *entry = SparkNotificationObject(aNotification);
-  /* If entry is global */
-  if ([[entry application] uid] == 0) {
-    [se_base addEntry:entry];
-  }
-  
-  
-
-    /* If current application is global */
-    if ([[se_document application] uid] == 0) {
-      
-      if (![se_merge containsTrigger:[entry trigger]]) {
-        [se_merge addEntry:entry];
-      }
+  if ([self addEntry:entry previous:&updated]) {
+    if (updated) {
+      SparkLibraryPostUpdateNotification([se_document library], 
+                                         SEEntryCacheDidUpdateEntryNotification, self, updated, entry);
+    } else {
+      /* Notify High-level entry change */
+      SparkLibraryPostNotification([se_document library],
+                                   SEEntryCacheDidAddEntryNotification, self, entry);
     }
   }
-  /* If entry match current application */
-  if ([[entry application] isEqual:[se_document application]]) {
-    
-  }
-  /* This new entry override an old entry => update */
-  [self addEntry:SparkNotificationObject(aNotification)];
-  /* Notify High-level entry change */
-  [[[se_document library] notificationCenter] postNotificationName:SEEntryCacheDidAddEntryNotification
-                                                            object:self 
-                                                          userInfo:[aNotification userInfo]];
 }
 
 - (void)didUpdateEntry:(NSNotification *)aNotification {
-  /* Remove old object */
-  [self removeEntry:SparkNotificationUpdatedObject(aNotification)];
-  /* Add new object */
-  [self addEntry:SparkNotificationObject(aNotification)];
-  /* Notify High-level entry change */
-  [[[se_document library] notificationCenter] postNotificationName:SEEntryCacheDidUpdateEntryNotification
-                                                            object:self 
-                                                          userInfo:[aNotification userInfo]];
+  BOOL add = NO, delete = NO;
+  SparkEntry *new = nil, *updated = nil;
+  SparkEntry *added = SparkNotificationObject(aNotification);
+  SparkEntry *removed = SparkNotificationUpdatedObject(aNotification);
+  
+  delete = [self removeEntry:removed replacedBy:&new];
+  add = [self addEntry:added previous:&updated];
+  
+  if (delete && add && new != nil && new == updated) {
+    /* Special case where new == updated */
+    SparkLibraryPostUpdateNotification([se_document library], 
+                                       SEEntryCacheDidUpdateEntryNotification, self, removed, added);
+  } else {
+    if (delete) {
+      /* Notify removed */
+      if (new) {
+        SparkLibraryPostUpdateNotification([se_document library], 
+                                           SEEntryCacheDidUpdateEntryNotification, self, removed, new);
+      } else {
+        /* Notify High-level entry change */
+        SparkLibraryPostNotification([se_document library],
+                                     SEEntryCacheWillRemoveEntryNotification, self, removed);
+      }
+    } 
+    if (add) {
+      /* Notify add */
+      if (updated) {
+        SparkLibraryPostUpdateNotification([se_document library], 
+                                           SEEntryCacheDidUpdateEntryNotification, self, updated, added);
+      } else {
+        /* Notify High-level entry change */
+        SparkLibraryPostNotification([se_document library],
+                                     SEEntryCacheDidAddEntryNotification, self, added);
+      }
+    }
+  }
 }
 
 - (void)willRemoveEntry:(NSNotification *)aNotification {
-  [self removeEntry:SparkNotificationObject(aNotification)];
-  /* Notify High-level entry change */
-  [[[se_document library] notificationCenter] postNotificationName:SEEntryCacheWillRemoveEntryNotification
-                                                            object:self 
-                                                          userInfo:[aNotification userInfo]];
+  SparkEntry *new = nil;
+  SparkEntry *entry = SparkNotificationObject(aNotification);
+  if ([self removeEntry:entry replacedBy:&new]) {
+    if (new) {
+      SparkLibraryPostUpdateNotification([se_document library], 
+                                         SEEntryCacheDidUpdateEntryNotification, self, entry, new);
+    } else {
+      /* Notify High-level entry change */
+      SparkLibraryPostNotification([se_document library],
+                                   SEEntryCacheWillRemoveEntryNotification, self, entry);
+    }
+  }  
 }
 
 - (void)didChangeEntryStatus:(NSNotification *)aNotification {

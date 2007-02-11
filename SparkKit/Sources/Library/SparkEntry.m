@@ -54,11 +54,16 @@ NSImage *SparkEntryDefaultIcon() {
     sp_trigger, sp_action, [sp_application name]];
 }
 
-- (BOOL)isEqualToEntry:(SparkEntry *)anEntry {
-  return
-  [sp_action uid] == [[anEntry action] uid] &&
-  [sp_trigger uid] == [[anEntry trigger] uid] &&
-  [sp_application uid] == [[anEntry application] uid];
+- (NSUInteger)hash {
+  return [sp_application uid] << 16 & [sp_trigger uid];
+}
+
+- (BOOL)isEqual:(id)object {
+  if ([object class] != [self class]) return NO;
+  SparkEntry *entry = (SparkEntry *)object;
+  return [sp_action uid] == [[entry action] uid] &&
+    [sp_trigger uid] == [[entry trigger] uid] &&
+    [sp_application uid] == [[entry application] uid];
 }
 
 #pragma mark -

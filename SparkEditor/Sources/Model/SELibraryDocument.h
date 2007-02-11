@@ -9,8 +9,8 @@
 #import <Cocoa/Cocoa.h>
 
 @class SparkPlugIn, SparkEntry;
-@class SEEntryCache, SEEntryEditor;
 @class SparkLibrary, SparkApplication;
+@class SEEntryCache, SEEntryEditor, SELibraryWindow;
 @interface SELibraryDocument : NSDocument {
   @private
   SEEntryCache *se_cache;
@@ -26,6 +26,8 @@
 - (SEEntryCache *)cache;
 - (SparkApplication *)application;
 - (void)setApplication:(SparkApplication *)anApplication;
+
+- (SELibraryWindow *)mainWindowController;
 
 /* Entry editor */
 - (void)makeEntryOfType:(SparkPlugIn *)type;

@@ -484,19 +484,21 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
   GetFrontProcess(&front);
 
   /* ShowHideProcess can change process order, and potentialy affect enumeration */
+  unsigned idx = 0;
+  unsigned max = 128;
+  ProcessSerialNumber psn;
   ProcessSerialNumber processes[128];
-  ProcessSerialNumber *psn = processes;
-  psn->lowLongOfPSN = kNoProcess;
-  psn->highLongOfPSN = 0;
-  while (noErr == GetNextProcess(psn)) {
+  psn.lowLongOfPSN = kNoProcess;
+  psn.highLongOfPSN = 0;
+  while (noErr == GetNextProcess(&psn) && idx < max) {
     Boolean same;
-    if (noErr == SameProcess(&front, psn, &same) && !same) {
-      psn++;
+    if (noErr == SameProcess(&front, &psn, &same) && !same) {
+      processes[idx] = psn;
+      idx++;
     }
   }
-  psn = processes;
-  while (psn->lowLongOfPSN != kNoProcess) {
-    ShowHideProcess(psn++, false);
+  while (idx-- > 0) {
+    ShowHideProcess(&processes[idx], false);
   }
 }
 

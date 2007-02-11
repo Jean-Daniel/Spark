@@ -35,8 +35,6 @@ typedef enum {
 
 - (id)initWithAction:(SparkAction *)anAction trigger:(SparkTrigger *)aTrigger application:(SparkApplication *)anApplication;
 
-- (BOOL)isEqualToEntry:(SparkEntry *)anEntry;
-
 - (SparkAction *)action;
 - (void)setAction:(SparkAction *)action;
 

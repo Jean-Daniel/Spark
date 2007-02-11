@@ -92,7 +92,7 @@ NSString * const SEEntryListDidChangeNameNotification = @"SEEntryListDidChangeNa
                                          name:SEEntryCacheDidUpdateEntryNotification
                                        object:[se_document cache]];
     [[library notificationCenter] addObserver:self
-                                     selector:@selector(didRemoveEntry:)
+                                     selector:@selector(willRemoveEntry:)
                                          name:SEEntryCacheWillRemoveEntryNotification
                                        object:[se_document cache]];
   }
@@ -139,7 +139,7 @@ NSString * const SEEntryListDidChangeNameNotification = @"SEEntryListDidChangeNa
 }
 
 - (void)setEntries:(NSArray *)entries {
-  SKSetterCopy(se_entries, entries);
+  SKSetterMutableCopy(se_entries, entries);
 }
 
 - (SparkEntry *)objectInEntriesAtIndex:(unsigned)idx {
@@ -181,21 +181,46 @@ NSString * const SEEntryListDidChangeNameNotification = @"SEEntryListDidChangeNa
   }
 }
 
+- (BOOL)acceptsEntry:(SparkEntry *)anEntry {
+  SKClusterException();
+  return NO;
+}
+
 - (void)didAddEntry:(NSNotification *)aNotification {
-  // Too subclass
+  SparkEntry *entry = SparkNotificationObject(aNotification);
+  // If se_list contains trigger for entry, add entry.
+  if ([self acceptsEntry:entry]) {
+    [self insertObject:entry inEntriesAtIndex:[[self entries] count]];
+  }
 }
 
 - (void)didUpdateEntry:(NSNotification *)aNotification {
-  unsigned idx = [se_entries indexOfObject:SparkNotificationUpdatedObject(aNotification)];
-  if (idx != NSNotFound) {
-    [self replaceObjectInEntriesAtIndex:idx withObject:SparkNotificationObject(aNotification)];
+  SparkEntry *entry = SparkNotificationObject(aNotification);
+  SparkEntry *updated = SparkNotificationUpdatedObject(aNotification);
+  if ([self acceptsEntry:entry]) {
+    /* First, get index of the previous entry */
+    unsigned idx = [[self entries] indexOfObject:updated];
+    if (idx != NSNotFound) {
+      // if contains updated->trigger, replace updated.
+      [self replaceObjectInEntriesAtIndex:idx withObject:entry];
+    } else {
+      // if does not contains updated->trigger, add entry
+      [self insertObject:entry inEntriesAtIndex:[[self entries] count]];
+    }
+  } else {
+    // se_list does not contain the new entry->trigger, so if se_entries contains updated, remove updated
+    unsigned idx = [[self entries] indexOfObject:updated];
+    if (idx != NSNotFound) {
+      [self removeObjectFromEntriesAtIndex:idx];
+    }
   }
 }
 
 - (void)willRemoveEntry:(NSNotification *)aNotification {
   unsigned idx = [se_entries indexOfObject:SparkNotificationObject(aNotification)];
-  if (idx != NSNotFound)
+  if (idx != NSNotFound) {
     [self removeObjectFromEntriesAtIndex:idx];
+  }
 }
 
 @end
@@ -259,49 +284,8 @@ NSString * const SEEntryListDidChangeNameNotification = @"SEEntryListDidChangeNa
   return se_list;
 }
 
-- (SparkEntry *)entryForTrigger:(SparkTrigger *)aTrigger {
-  NSArray *entries = [self entries];
-  unsigned count = [entries count];
-  while (count-- > 0) {
-    SparkEntry *entry = [entries objectAtIndex:count];
-    if ([[entry trigger] isEqual:aTrigger])
-      return entry;
-  }
-  return nil;
-}
-
-- (void)didAddEntry:(NSNotification *)aNotification {
-  SparkEntry *entry = SparkNotificationObject(aNotification);
-  // If se_list contains trigger for entry, remove previous entry (if has one) and add entry.
-  if ([se_list containsObject:[entry trigger]]) {
-    SparkEntry *previous = [self entryForTrigger:[entry trigger]];
-    if (previous) {
-      [self replaceObjectInEntriesAtIndex:[[self entries] indexOfObjectIdenticalTo:previous] withObject:entry];
-    } else {
-      [self insertObject:entry inEntriesAtIndex:[[self entries] count]];
-    }
-  }
-}
-
-- (void)didUpdateEntry:(NSNotification *)aNotification {
-  SparkEntry *entry = SparkNotificationObject(aNotification);
-  SparkEntry *updated = SparkNotificationUpdatedObject(aNotification);
-  if ([se_list containsObject:[entry trigger]]) {
-    unsigned idx = [[self entries] indexOfObject:updated];
-    if (idx != NSNotFound) {
-      // if contains updated->trigger, replace updated.
-      [self replaceObjectInEntriesAtIndex:idx withObject:entry];
-    } else {
-      // if does not contains updated->trigger, add entry
-      [self insertObject:entry inEntriesAtIndex:[[self entries] count]];
-    }
-  } else {
-    // if se_entries contains updated and se_list does not contain entry->trigger, remove updated
-    unsigned idx = [[self entries] indexOfObject:updated];
-    if (idx != NSNotFound) {
-      [self removeObjectFromEntriesAtIndex:idx];
-    }
-  }
+- (BOOL)acceptsEntry:(SparkEntry *)anEntry {
+  return [se_list containsObject:[anEntry trigger]];
 }
 
 @end
@@ -336,6 +320,10 @@ NSString * const SEEntryListDidChangeNameNotification = @"SEEntryListDidChangeNa
   se_filter = aFilter;
   SKSetterRetain(se_ctxt, aCtxt);
   [self reload];
+}
+
+- (BOOL)acceptsEntry:(SparkEntry *)anEntry {
+  return se_filter && se_filter(self, anEntry, se_ctxt);
 }
 
 @end

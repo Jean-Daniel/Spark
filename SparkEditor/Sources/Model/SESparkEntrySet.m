@@ -94,6 +94,10 @@
   return [se_entries objectEnumerator];
 }
 
+- (BOOL)containsEntry:(SparkEntry *)anEntry {
+  return [se_entries containsObject:anEntry];
+}
+
 - (BOOL)containsTrigger:(SparkTrigger *)trigger {
   return NSMapGet(se_set, trigger) != nil;
 }

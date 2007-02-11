@@ -107,6 +107,8 @@
 
 - (void)revealEntry:(SparkEntry *)entry {
   DLog(@"Reveal %@", entry);
+  if ([[triggers arrangedObjects] containsObject:entry])
+      [triggers setSelectedObject:entry];
 }
 
 - (void)revealEntries:(NSArray *)entries {

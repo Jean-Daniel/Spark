@@ -292,6 +292,7 @@ SETriggerStyle styles[6];
       entry = [[self copy] autorelease];
       [entry setApplication:application];
       [[[document library] entryManager] addEntry:entry];
+      [[document mainWindowController] revealEntry:entry];
     }
     if (active) {
       [[[document library] entryManager] enableEntry:entry];
@@ -302,8 +303,10 @@ SETriggerStyle styles[6];
 }
 
 - (void)se_setEnabled:(BOOL)enabled {
+  if ([self type] == kSparkEntryTypeWeakOverWrite) [self willChangeValueForKey:@"representation"];
   [self willChangeValueForKey:@"active"];
   [self se_setEnabled:enabled];
+  if ([self type] == kSparkEntryTypeWeakOverWrite) [self didChangeValueForKey:@"representation"];
   [self didChangeValueForKey:@"active"];
 }
 
