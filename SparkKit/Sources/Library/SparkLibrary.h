@@ -32,6 +32,9 @@ SparkLibrary *SparkActiveLibrary(void);
 SPARK_EXPORT
 BOOL SparkSetActiveLibrary(SparkLibrary *library);
 
+SPARK_EXPORT
+SparkLibrary *SparkLibraryForUUID(CFUUIDRef uuid);
+
 /* Notifications support */
 SPARK_EXPORT
 NSString * const SparkNotificationObjectKey;

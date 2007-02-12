@@ -13,3 +13,10 @@
 }
 
 @end
+
+@interface NSObject (SETriggerTableDelegate)
+
+- (void)spaceDownInTableView:(SETriggerTable *)aTable;
+- (BOOL)tableView:(SETriggerTable *)aTable shouldHandleOptionClick:(NSEvent *)anEvent;
+
+@end

@@ -27,7 +27,11 @@
       [target performSelector:doubleAction withObject:self];
     }
   } else if ([anEvent clickCount] == 1 && ([anEvent modifierFlags] & NSDeviceIndependentModifierFlagsMask) == NSAlternateKeyMask) {
-    ShadowTrace();
+    if (SKDelegateHandle([self delegate], tableView:shouldHandleOptionClick:) && ![[self delegate] tableView:self shouldHandleOptionClick:anEvent]) {
+      // do nothing
+    } else {
+      [super mouseDown:anEvent];
+    }
   } else {
     [super mouseDown:anEvent];
   }
@@ -36,12 +40,16 @@
 - (void)keyDown:(NSEvent *)anEvent {
   if (([anEvent modifierFlags] & NSDeviceIndependentModifierFlagsMask) == 0) {
     NSString *chr = [anEvent characters];
-    if ([chr isEqualToString:@" "]) {
-      ShadowTrace();
+    if ([chr isEqualToString:@" "] && SKDelegateHandle([self delegate], spaceDownInTableView:)) {
+      [[self delegate] spaceDownInTableView:self];
       return;
     }
   }
   [super keyDown:anEvent];
+}
+
+- (BOOL)validateMenuItem:(id <NSMenuItem>)menuItem {
+  return [menuItem action] == @selector(selectAll:);
 }
 
 //- (void)dragImage:(NSImage *)anImage at:(NSPoint)imageLoc offset:(NSSize)mouseOffset event:(NSEvent *)theEvent pasteboard:(NSPasteboard *)pboard source:(id)sourceObject slideBack:(BOOL)slideBack {

@@ -171,7 +171,7 @@ bail:
 #pragma mark -
 - (void)initFlags {
   [self setReopen:YES];
-  [self setActivation:1]; /* All windows */
+  [self setActivation:kFlagsBringAllFront];
   
   [self setUsesSharedVisual:YES];
   aa_aaFlags.atLaunch = 1;
@@ -511,12 +511,15 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
     [self getVisualSettings:&settings];
   
   if (!(aa_lsFlags & kLSLaunchNewInstance) && [self getApplicationProcess:&psn]) {
-    if ([self activation] == 1) {
-      SetFrontProcessWithOptions(&psn, kSetFrontProcessFrontWindowOnly);
-    } else if ([self activation] == 2) {
-      SetFrontProcess(&psn);
+    switch ([self activation]) {
+      case kFlagsBringAllFront:
+        SetFrontProcess(&psn);
+        break;
+      case kFlagsBringMainFront:
+        SetFrontProcessWithOptions(&psn, kSetFrontProcessFrontWindowOnly);
+        break;
     }
-    if ([self activation]) {
+    if ([self activation] != kFlagsDoNothing) {
       if ([self reopen])
         SKAESendSimpleEventToProcess(&psn, kCoreEventClass, kAEReopenApplication);
       if (aa_lsFlags & kLSLaunchAndHideOthers)
@@ -565,7 +568,7 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
   SKAESendSimpleEventToProcess(&psn, kCoreEventClass, 'apwn');
 }
 
-- (BOOL)launchAppWithFlag:(int)flag {
+- (BOOL)launchAppWithFlag:(LSLaunchFlags)flag {
   BOOL result = NO;
   FSRef ref;
   LSLaunchFSRefSpec spec;

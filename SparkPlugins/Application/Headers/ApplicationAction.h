@@ -13,16 +13,23 @@ NSString * const kApplicationActionBundleIdentifier;
 
 #define kApplicationActionBundle			[NSBundle bundleWithIdentifier:kApplicationActionBundleIdentifier]
 
-typedef enum {
-  kApplicationLaunch	= 'Open', /* 1332766062 */
-  kApplicationQuit		= 'Quit', /* 1366649204 */
-  kApplicationToggle	= 'Togl', /* 1416587116 */
-  kApplicationHideOther	= 'HidO', /* 1214866511 */
-  kApplicationHideFront	= 'HidF', /* 1214866502 */
+enum {
+  kApplicationLaunch          = 'Open', /* 1332766062 */
+  kApplicationQuit            = 'Quit', /* 1366649204 */
+  kApplicationToggle          = 'Togl', /* 1416587116 */
+  kApplicationHideOther       = 'HidO', /* 1214866511 */
+  kApplicationHideFront       = 'HidF', /* 1214866502 */
   
   kApplicationForceQuitFront	= 'FQiF', /* 1179740486 */
   kApplicationForceQuitDialog	= 'FQit', /* 1179740532 */
-} ApplicationActionType;
+};
+typedef OSType ApplicationActionType;
+
+enum {
+  kFlagsDoNothing      = 0,
+  kFlagsBringAllFront  = 1,
+  kFlagsBringMainFront = 2,
+};
 
 typedef struct _ApplicationVisualSetting {
   BOOL launch;
@@ -32,8 +39,8 @@ typedef struct _ApplicationVisualSetting {
 @class SKAliasedApplication;
 @interface ApplicationAction : SparkAction <NSCoding, NSCopying> {
   @private
-  int aa_action;
   LSLaunchFlags aa_lsFlags;
+  ApplicationActionType aa_action;
   SKAliasedApplication *aa_application;
   struct _aa_aaFlags {
     unsigned int active:2;
@@ -83,7 +90,7 @@ typedef struct _ApplicationVisualSetting {
 - (void)hideFront;
 - (void)hideOthers;
 
-- (BOOL)launchAppWithFlag:(int)flag;
+- (BOOL)launchAppWithFlag:(LSLaunchFlags)flag;
 
 @end
 

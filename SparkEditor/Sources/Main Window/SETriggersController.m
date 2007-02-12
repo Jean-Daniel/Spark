@@ -10,6 +10,7 @@
 #import "SELibraryDocument.h"
 #import "SELibraryWindow.h"
 #import "SESparkEntrySet.h"
+#import "SETriggerTable.h"
 #import "SEPreferences.h"
 #import "SEEntryEditor.h"
 #import "Spark.h"
@@ -21,14 +22,17 @@
 #import <SparkKit/SparkEntryManager.h>
 
 #import <ShadowKit/SKFunctions.h>
-#import <ShadowKit/SKTableView.h>
+#import <ShadowKit/SKExtensions.h>
 #import <ShadowKit/SKImageAndTextCell.h>
 #import <ShadowKit/SKAppKitExtensions.h>
 
 static
 BOOL _SEFilterEntry(NSString *search, SparkEntry *entry, void *ctxt) {
+  /* Hide unplugged if needed */
+  if ([[NSUserDefaults standardUserDefaults] boolForKey:kSEPreferencesHideDisabled] && ![entry isPlugged]) return NO;
+  
   if (!search) return YES;
-
+  
   if ([[entry name] rangeOfString:search options:NSCaseInsensitiveSearch].location != NSNotFound)
     return YES;
   
@@ -81,14 +85,18 @@ SETriggerStyle styles[6];
   }
 }
 
-- (id)init {
-  if (self = [super init]) {
-
+- (id)initWithCoder:(NSCoder *)aCoder {
+  if (self = [super initWithCoder:aCoder]) {
+    [[NSUserDefaultsController sharedUserDefaultsController] addObserver:self
+                                                              forKeyPath:[@"values." stringByAppendingString:kSEPreferencesHideDisabled]
+                                                                 options:NSKeyValueObservingOptionNew
+                                                                 context:nil];
   }
   return self;
 }
 
 - (void)dealloc {
+  [[NSUserDefaultsController sharedUserDefaultsController] removeObserver:self];
   [super dealloc];
 }
 
@@ -167,7 +175,40 @@ SETriggerStyle styles[6];
 
 }
 
+- (IBAction)selectAll:(id)sender {
+  ShadowTrace();
+}
+
 #pragma mark Delegate
+- (void)spaceDownInTableView:(SETriggerTable *)aTable {
+  NSUInteger idx = 0;
+  SparkEntryManager *manager = [[self library] entryManager];
+  SKIndexEnumerator *idexes = [[self selectionIndexes] indexEnumerator];
+  while ((idx = [idexes nextIndex]) != NSNotFound) {
+    SparkEntry *entry = [self objectAtIndex:idx];
+    if ([entry isPlugged]) {
+      if ([entry isEnabled])
+        [manager disableEntry:entry];
+      else
+        [manager enableEntry:entry];
+    }
+  }
+}
+
+- (BOOL)tableView:(SETriggerTable *)aTable shouldHandleOptionClick:(NSEvent *)anEvent {
+  NSPoint point = [aTable convertPoint:[anEvent locationInWindow] fromView:nil];
+  int row = [aTable rowAtPoint:point];
+  int column = [aTable columnAtPoint:point];
+  if (row != -1 && column != -1) {
+    if ([[[[aTable tableColumns] objectAtIndex:column] identifier] isEqualToString:@"active"]) {
+      SparkEntry *entry = [self objectAtIndex:row];
+      [self setListEnabled:![entry isEnabled]];
+      return NO;
+    }
+  }
+  return YES;
+}
+
 - (void)deleteSelectionInTableView:(NSTableView *)aTableView {
 //  NSIndexSet *indexes = [aTableView selectedRowIndexes];
 //  NSArray *items = indexes ? [se_entries objectsAtIndexes:indexes] : nil;
@@ -265,6 +306,11 @@ SETriggerStyle styles[6];
 //  [triggers release];
   
   return YES;
+}
+
+#pragma mark Notifications
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+  [self rearrangeObjects];
 }
 
 @end

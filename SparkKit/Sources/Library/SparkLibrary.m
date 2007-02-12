@@ -587,6 +587,7 @@ NSString *SparkDefaultLibraryPath(void) {
   return [SparkLibraryFolder() stringByAppendingPathComponent:kSparkLibraryDefaultFileName];
 }
 
+#pragma mark Multi Library Support
 SparkLibrary *SparkActiveLibrary() {
   static SparkLibrary *active = nil;
   if (!active) {
@@ -628,6 +629,14 @@ SparkLibrary *SparkActiveLibrary() {
     }
   }
   return active;
+}
+
+BOOL SparkSetActiveLibrary(SparkLibrary *library) {
+  return NO;
+}
+
+SparkLibrary *SparkLibraryForUUID(CFUUIDRef uuid) {
+  return SparkActiveLibrary();
 }
 
 #pragma mark -

@@ -28,9 +28,9 @@ CFStringRef kSparkGlobalPrefDelayStartup = CFSTR("SDDelayStartup");
 NSString * const kSparkPrefVersion = @"SparkVersion";
 
 /* Hide entry is plugin is disabled */
-NSString * const kSparkPrefHideDisabled = @"SparkHideDisabled";
+NSString * const kSEPreferencesHideDisabled = @"SparkHideDisabled";
 /* If daemon should automatically start at login */
-NSString * const kSparkPrefStartAtLogin = @"SparkStartAtLogin";
+NSString * const kSEPreferencesStartAtLogin = @"SparkStartAtLogin";
 /* Define which single key shortcut is allow */
 NSString * const kSparkPrefSingleKeyMode = @"SparkSingleKeyMode";
 
@@ -39,11 +39,11 @@ void _SEPreferencesUpdateLoginItem(void);
 
 SK_INLINE
 BOOL __SEPreferencesLoginItemStatus() {
-  return [[NSUserDefaults standardUserDefaults] boolForKey:kSparkPrefStartAtLogin];
+  return [[NSUserDefaults standardUserDefaults] boolForKey:kSEPreferencesStartAtLogin];
 }
 
 void SEPreferencesSetLoginItemStatus(BOOL status) {
-  [[NSUserDefaults standardUserDefaults] setBool:status forKey:kSparkPrefStartAtLogin];
+  [[NSUserDefaults standardUserDefaults] setBool:status forKey:kSEPreferencesStartAtLogin];
   _SEPreferencesUpdateLoginItem();
 }
 
@@ -61,7 +61,7 @@ void __SetSparkKitSingleKeyMode(int mode) {
 }
 
 static
-void *_SEPreferencesThread(void *arg) {
+void *_SEPreferencesLoginItemThread(void *arg) {
   long timeout = SKLoginItemTimeout();
   SKLoginItemSetTimeout(5000);
   NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
@@ -73,15 +73,15 @@ void *_SEPreferencesThread(void *arg) {
 
 + (void)setup {
   NSDictionary *values = [NSDictionary dictionaryWithObjectsAndKeys:
-    SKBool(NO), kSparkPrefHideDisabled,
-    SKBool(YES), kSparkPrefStartAtLogin,
+    SKBool(NO), kSEPreferencesHideDisabled,
+    SKBool(YES), kSEPreferencesStartAtLogin,
     SKInt(kSparkEnableSingleFunctionKey), kSparkPrefSingleKeyMode,
     nil];
   [[NSUserDefaults standardUserDefaults] registerDefaults:values];
   
   /* Verify login items */
   pthread_t thread;
-  pthread_create(&thread, NULL, _SEPreferencesThread, NULL);
+  pthread_create(&thread, NULL, _SEPreferencesLoginItemThread, NULL);
   //_SEPreferencesUpdateLoginItem();
   
   /* Configure Single key mode */
