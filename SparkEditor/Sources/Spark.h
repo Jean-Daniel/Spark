@@ -11,7 +11,7 @@
 SK_PRIVATE
 NSArray *gSortByNameDescriptors;
 SK_PRIVATE
-NSString * const SparkTriggerListPboardType;
+NSString * const SparkEntriesPboardType;
 SK_PRIVATE
 NSString * const SESparkEditorDidChangePluginStatusNotification;
 

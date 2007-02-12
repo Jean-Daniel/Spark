@@ -13,6 +13,7 @@
 
 #import <SparkKit/SparkList.h>
 #import <SparkKit/SparkEntry.h>
+#import <SparkKit/SparkTrigger.h>
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkApplication.h>
 #import <SparkKit/SparkEntryManager.h>
@@ -103,6 +104,13 @@ NSString * const SEEntryListDidChangeNameNotification = @"SEEntryListDidChangeNa
   return NO;
 }
 
+- (void)addEntries:(NSArray *)entries {
+  SKClusterException();
+}
+- (void)removeEntries:(NSArray *)entries {
+  SKClusterException();
+}
+
 - (id)representation {
   return self;
 }
@@ -134,7 +142,7 @@ NSString * const SEEntryListDidChangeNameNotification = @"SEEntryListDidChangeNa
   return se_entries;
 }
 
-- (unsigned)countOfEntries {
+- (NSUInteger)countOfEntries {
   return [se_entries count];
 }
 
@@ -142,7 +150,7 @@ NSString * const SEEntryListDidChangeNameNotification = @"SEEntryListDidChangeNa
   SKSetterMutableCopy(se_entries, entries);
 }
 
-- (SparkEntry *)objectInEntriesAtIndex:(unsigned)idx {
+- (SparkEntry *)objectInEntriesAtIndex:(NSUInteger)idx {
   return [se_entries objectAtIndex:idx];
 }
 
@@ -150,13 +158,13 @@ NSString * const SEEntryListDidChangeNameNotification = @"SEEntryListDidChangeNa
   [se_entries getObjects:aBuffer range:range];
 }
 
-- (void)insertObject:(SparkEntry *)anEntry inEntriesAtIndex:(unsigned)idx {
+- (void)insertObject:(SparkEntry *)anEntry inEntriesAtIndex:(NSUInteger)idx {
   [se_entries insertObject:anEntry atIndex:idx];
 }
-- (void)removeObjectFromEntriesAtIndex:(unsigned)idx {
+- (void)removeObjectFromEntriesAtIndex:(NSUInteger)idx {
   [se_entries removeObjectAtIndex:idx];
 }
-- (void)replaceObjectInEntriesAtIndex:(unsigned)idx withObject:(SparkEntry *)object {
+- (void)replaceObjectInEntriesAtIndex:(NSUInteger)idx withObject:(SparkEntry *)object {
   [se_entries replaceObjectAtIndex:idx withObject:object];
 }
 
@@ -199,7 +207,7 @@ NSString * const SEEntryListDidChangeNameNotification = @"SEEntryListDidChangeNa
   SparkEntry *updated = SparkNotificationUpdatedObject(aNotification);
   if ([self acceptsEntry:entry]) {
     /* First, get index of the previous entry */
-    unsigned idx = [[self entries] indexOfObject:updated];
+    NSUInteger idx = [[self entries] indexOfObject:updated];
     if (idx != NSNotFound) {
       // if contains updated->trigger, replace updated.
       [self replaceObjectInEntriesAtIndex:idx withObject:entry];
@@ -209,7 +217,7 @@ NSString * const SEEntryListDidChangeNameNotification = @"SEEntryListDidChangeNa
     }
   } else {
     // se_list does not contain the new entry->trigger, so if se_entries contains updated, remove updated
-    unsigned idx = [[self entries] indexOfObject:updated];
+    NSUInteger idx = [[self entries] indexOfObject:updated];
     if (idx != NSNotFound) {
       [self removeObjectFromEntriesAtIndex:idx];
     }
@@ -217,7 +225,7 @@ NSString * const SEEntryListDidChangeNameNotification = @"SEEntryListDidChangeNa
 }
 
 - (void)willRemoveEntry:(NSNotification *)aNotification {
-  unsigned idx = [se_entries indexOfObject:SparkNotificationObject(aNotification)];
+  NSUInteger idx = [se_entries indexOfObject:SparkNotificationObject(aNotification)];
   if (idx != NSNotFound) {
     [self removeObjectFromEntriesAtIndex:idx];
   }
@@ -265,6 +273,47 @@ NSString * const SEEntryListDidChangeNameNotification = @"SEEntryListDidChangeNa
 
 - (BOOL)isEditable {
   return YES;
+}
+
+- (void)addEntries:(NSArray *)entries {
+  NSUInteger count = [entries count];
+  if (count > 0) {
+    NSMutableArray *array = [[NSMutableArray alloc] initWithCapacity:count];
+    NSUndoManager *manager = [[se_list library] undoManager];
+    [manager disableUndoRegistration];
+    while (count-- > 0) {
+      SparkEntry *entry = [entries objectAtIndex:count];
+      SparkTrigger *trigger = [entry trigger];
+      if (![se_list containsObject:trigger]) {
+        [array addObject:entry];
+        [se_list addObject:trigger];
+        [self insertObject:entry inEntriesAtIndex:[[self entries] count]];
+      }
+    }
+    [manager enableUndoRegistration];
+    [manager registerUndoWithTarget:self selector:@selector(removeEntries:) object:array];
+    [array release];
+  }
+}
+- (void)removeEntries:(NSArray *)entries {
+  NSUInteger count = [entries count];
+  if (count > 0) {
+    NSUndoManager *manager = [[se_list library] undoManager];
+    [manager disableUndoRegistration];
+    while (count-- > 0) {
+      SparkEntry *entry = [entries objectAtIndex:count];
+      NSUInteger idx = [[self entries] indexOfObjectIdenticalTo:entry];
+      NSAssert1(idx != NSNotFound, @"Must contains entry %@", entry);
+      
+      SparkTrigger *trigger = [entry trigger];
+      NSAssert2([se_list containsObject:trigger], @"%@ Must contains %@", se_list, trigger);
+      
+      [se_list removeObject:trigger];
+      [self removeObjectFromEntriesAtIndex:idx];
+    }
+    [manager enableUndoRegistration];
+    [manager registerUndoWithTarget:self selector:@selector(addEntries:) object:entries];
+  }
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {

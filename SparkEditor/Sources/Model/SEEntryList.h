@@ -39,6 +39,9 @@
 
 - (BOOL)isEditable;
 
+- (void)addEntries:(NSArray *)entries;
+- (void)removeEntries:(NSArray *)entries;
+
 - (void)applicationDidChange:(NSNotification *)aNotification;
 
 - (void)reload;
@@ -46,13 +49,13 @@
 
 #pragma mark KVC
 - (NSArray *)entries;
-- (unsigned)countOfEntries;
+- (NSUInteger)countOfEntries;
 - (void)setEntries:(NSArray *)entries;
-- (SparkEntry *)objectInEntriesAtIndex:(unsigned)idx;
+- (SparkEntry *)objectInEntriesAtIndex:(NSUInteger)idx;
 - (void)getEntries:(id *)aBuffer range:(NSRange)range;
-- (void)insertObject:(SparkEntry *)anEntry inEntriesAtIndex:(unsigned)idx;
-- (void)removeObjectFromEntriesAtIndex:(unsigned)idx;
-- (void)replaceObjectInEntriesAtIndex:(unsigned)idx withObject:(SparkEntry *)object;
+- (void)insertObject:(SparkEntry *)anEntry inEntriesAtIndex:(NSUInteger)idx;
+- (void)removeObjectFromEntriesAtIndex:(NSUInteger)idx;
+- (void)replaceObjectInEntriesAtIndex:(NSUInteger)idx withObject:(SparkEntry *)object;
 
 @end
 

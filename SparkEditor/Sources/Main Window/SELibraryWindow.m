@@ -105,6 +105,10 @@
   }
 }
 
+- (SEEntryList *)selectedList {
+  return [listSource selectedObject];
+}
+
 - (void)revealEntry:(SparkEntry *)entry {
   DLog(@"Reveal %@", entry);
   if ([[triggers arrangedObjects] containsObject:entry])

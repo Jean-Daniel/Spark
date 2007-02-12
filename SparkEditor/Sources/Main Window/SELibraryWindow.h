@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class SEEntryList;
 @class SEApplicationView, SETableView;
 @class SELibrarySource, SETriggersController;
 @class SparkEntry, SparkLibrary, SparkApplication;
@@ -32,6 +33,7 @@
 - (NSUndoManager *)undoManager;
 - (SparkApplication *)application;
 
+- (SEEntryList *)selectedList;
 - (void)revealEntry:(SparkEntry *)entry;
 - (void)revealEntries:(NSArray *)entries;
 

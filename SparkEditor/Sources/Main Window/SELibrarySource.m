@@ -139,7 +139,7 @@ BOOL SEOverwriteFilter(SEEntryList *list, SparkEntry *object, SparkApplication *
   //  NSRect rect = [[uiTable headerView] frame];
   //  rect.size.height += 1;
   //  [[uiTable headerView] setFrame:rect];
-  [uiTable registerForDraggedTypes:[NSArray arrayWithObject:SparkTriggerListPboardType]];
+  [uiTable registerForDraggedTypes:[NSArray arrayWithObject:SparkEntriesPboardType]];
   
   [uiTable setHighlightShading:[NSColor colorWithCalibratedRed:.340f
                                                          green:.606f
@@ -243,7 +243,7 @@ BOOL SEOverwriteFilter(SEEntryList *list, SparkEntry *object, SparkApplication *
 - (NSDragOperation)tableView:(NSTableView *)aTableView validateDrop:(id <NSDraggingInfo>)info proposedRow:(int)row proposedDropOperation:(NSTableViewDropOperation)operation {
   if (NSTableViewDropOn == operation) {
     SEEntryList *list = [self objectAtIndex:row];
-    if ([list isEditable] && [[[info draggingPasteboard] types] containsObject:SparkTriggerListPboardType])
+    if ([list isEditable] && [[[info draggingPasteboard] types] containsObject:SparkEntriesPboardType])
       return NSDragOperationCopy;
   }
   return NSDragOperationNone;
@@ -252,9 +252,19 @@ BOOL SEOverwriteFilter(SEEntryList *list, SparkEntry *object, SparkApplication *
 /* Add entries trigger into the target list */
 - (BOOL)tableView:(NSTableView *)aTableView acceptDrop:(id <NSDraggingInfo>)info row:(int)row dropOperation:(NSTableViewDropOperation)operation {
   if (NSTableViewDropOn == operation) {
+    NSDictionary *pboard = [[info draggingPasteboard] propertyListForType:SparkEntriesPboardType];
+    CFUUIDBytes bytes;
+    [[pboard objectForKey:@"uuid"] getBytes:&bytes length:sizeof(bytes)];
+    CFUUIDRef uuid = CFUUIDCreateFromUUIDBytes(kCFAllocatorDefault, bytes);
+    if (uuid) {
+      SparkLibrary *library = SparkLibraryForUUID(uuid);
+      SELibraryDocument *doc = SEGetDocumentForLibrary(library);
+      DLog(@"Document: %@", doc);
+      CFRelease(uuid);
+    }
 //    SEEntryList *list = [self objectAtIndex:row];
 //    SparkObjectSet *triggers = [[self library] triggerSet];
-//    NSArray *uids = [[info draggingPasteboard] propertyListForType:SparkTriggerListPboardType];
+//    NSArray *uids = [[info draggingPasteboard] propertyListForType:SparkEntriesPboardType];
 //    NSMutableArray *items = [[NSMutableArray alloc] init];
 //    for (unsigned idx = 0; idx < [uids count]; idx++) {
 //      NSNumber *uid = [uids objectAtIndex:idx];

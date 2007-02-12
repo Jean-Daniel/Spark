@@ -27,7 +27,7 @@
 #import <ShadowKit/SKAppKitExtensions.h>
 
 static
-BOOL _SEFilterEntry(NSString *search, SparkEntry *entry, void *ctxt) {
+BOOL _SEEntryFilter(NSString *search, SparkEntry *entry, void *ctxt) {
   /* Hide unplugged if needed */
   if ([[NSUserDefaults standardUserDefaults] boolForKey:kSEPreferencesHideDisabled] && ![entry isPlugged]) return NO;
   
@@ -53,6 +53,9 @@ typedef struct _SETriggerStyle {
 
 static
 SETriggerStyle styles[6];
+
+static 
+NSString * sSEHidenPluggedObserverKey = nil;
 
 @implementation SETriggersController
 
@@ -82,13 +85,15 @@ SETriggerStyle styles[6];
     styles[5] = (SETriggerStyle){NO, YES,
       [[NSColor colorWithCalibratedRed:.463f green:.016f blue:.314f alpha:1] retain],
       [[NSColor colorWithCalibratedRed:.984f green:.890f blue:1.00f alpha:1] retain]};
+    
+    sSEHidenPluggedObserverKey = [[@"values." stringByAppendingString:kSEPreferencesHideDisabled] retain];
   }
 }
 
 - (id)initWithCoder:(NSCoder *)aCoder {
   if (self = [super initWithCoder:aCoder]) {
     [[NSUserDefaultsController sharedUserDefaultsController] addObserver:self
-                                                              forKeyPath:[@"values." stringByAppendingString:kSEPreferencesHideDisabled]
+                                                              forKeyPath:sSEHidenPluggedObserverKey
                                                                  options:NSKeyValueObservingOptionNew
                                                                  context:nil];
   }
@@ -96,7 +101,8 @@ SETriggerStyle styles[6];
 }
 
 - (void)dealloc {
-  [[NSUserDefaultsController sharedUserDefaultsController] removeObserver:self];
+  [[NSUserDefaultsController sharedUserDefaultsController] removeObserver:self
+                                                               forKeyPath:sSEHidenPluggedObserverKey];
   [super dealloc];
 }
 
@@ -109,7 +115,7 @@ SETriggerStyle styles[6];
 }
 
 - (void)awakeFromNib {
-  [self setFilterFunction:_SEFilterEntry context:nil];
+  [self setFilterFunction:_SEEntryFilter context:nil];
   
   [uiTable setTarget:self];
   [uiTable setDoubleAction:@selector(doubleAction:)];
@@ -210,23 +216,15 @@ SETriggerStyle styles[6];
 }
 
 - (void)deleteSelectionInTableView:(NSTableView *)aTableView {
-//  NSIndexSet *indexes = [aTableView selectedRowIndexes];
-//  NSArray *items = indexes ? [se_entries objectsAtIndexes:indexes] : nil;
-//  if (items && [items count]) {
-//    if ([se_list uid] < kSparkLibraryReserved) {
-//      [[ibWindow document] removeEntries:items];
-//    } else {
-//      // User list
-//      int count = [items count];
-//      NSMutableArray *triggers = [[NSMutableArray alloc] init];
-//      while (count-- > 0) {
-//        SparkEntry *entry = [items objectAtIndex:count];
-//        [triggers addObject:[entry trigger]];
-//      }
-//      [se_list removeObjectsInArray:triggers];
-//      [triggers release];
-//    }
-//  }
+  NSArray *items = [self selectedObjects];
+  if (items && [items count]) {
+    if ([[ibWindow selectedList] isEditable]) {
+      // User list
+      [[ibWindow selectedList] removeEntries:items];
+    } else {
+      [[ibWindow document] removeEntries:items];
+    }
+  }
 }
 
 - (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
@@ -293,6 +291,13 @@ SETriggerStyle styles[6];
 - (BOOL)tableView:(NSTableView *)aTableView writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard*)pboard {
   if (![rowIndexes count])
     return NO;
+  
+  NSMutableDictionary *plist = [[NSMutableDictionary alloc] init];
+  CFUUIDBytes bytes = CFUUIDGetUUIDBytes([[self library] uuid]);
+  [plist setObject:[NSData dataWithBytes:&bytes length:sizeof(bytes)] forKey:@"uuid"];
+  [pboard declareTypes:[NSArray arrayWithObject:SparkEntriesPboardType] owner:self];
+  [pboard setPropertyList:plist forType:SparkEntriesPboardType];
+  [plist release];
   
 //  int idx = 0;
 //  NSMutableArray *triggers = [[NSMutableArray alloc] init];
