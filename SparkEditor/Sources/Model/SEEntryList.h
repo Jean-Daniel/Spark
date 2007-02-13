@@ -8,18 +8,19 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class SparkEntry;
 @class SELibraryDocument;
+@class SparkEntry, SparkLibrary;
 @interface SEEntryList : NSObject {
   @private
   NSImage *se_icon;
   NSString *se_name;
+  SparkLibrary *se_library;
   NSMutableArray *se_entries;
   SELibraryDocument *se_document;
   
   struct _se_elFlags {
     unsigned int group:8;
-    unsigned int reserved:24;
+    unsigned int reserved:23;
   } se_elFlags;
 }
 

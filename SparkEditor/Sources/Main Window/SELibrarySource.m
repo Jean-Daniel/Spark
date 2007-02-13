@@ -254,29 +254,35 @@ BOOL SEOverwriteFilter(SEEntryList *list, SparkEntry *object, SparkApplication *
   if (NSTableViewDropOn == operation) {
     NSDictionary *pboard = [[info draggingPasteboard] propertyListForType:SparkEntriesPboardType];
     CFUUIDBytes bytes;
+    SparkLibrary *library = nil;
+    SELibraryDocument *doc = nil;
     [[pboard objectForKey:@"uuid"] getBytes:&bytes length:sizeof(bytes)];
     CFUUIDRef uuid = CFUUIDCreateFromUUIDBytes(kCFAllocatorDefault, bytes);
     if (uuid) {
-      SparkLibrary *library = SparkLibraryForUUID(uuid);
-      SELibraryDocument *doc = SEGetDocumentForLibrary(library);
-      DLog(@"Document: %@", doc);
+      library = SparkLibraryForUUID(uuid);
+      doc = library ? SEGetDocumentForLibrary(library) : nil;
       CFRelease(uuid);
     }
-//    SEEntryList *list = [self objectAtIndex:row];
-//    SparkObjectSet *triggers = [[self library] triggerSet];
-//    NSArray *uids = [[info draggingPasteboard] propertyListForType:SparkEntriesPboardType];
-//    NSMutableArray *items = [[NSMutableArray alloc] init];
-//    for (unsigned idx = 0; idx < [uids count]; idx++) {
-//      NSNumber *uid = [uids objectAtIndex:idx];
-//      SparkTrigger *trigger = [triggers objectForUID:[uid unsignedIntValue]];
-//      if (trigger && ![list containsObject:trigger]) {
-//        [items addObject:trigger];
-//      }
-//    }
-//    if ([items count]) {
-//      [list addObjectsFromArray:items];
-//    }
-//    [items release];
+    
+    if (doc) {
+      SEEntryCache *cache = [doc cache];
+      SESparkEntrySet *entries = [cache entries];
+      NSArray *uids = [pboard objectForKey:@"triggers"];
+      NSMutableArray *items = [[NSMutableArray alloc] init];
+      for (unsigned idx = 0; idx < [uids count]; idx++) {
+        NSNumber *uid = [uids objectAtIndex:idx];
+        SparkTrigger *trigger = [[library triggerSet] objectForUID:[uid unsignedIntValue]];
+        if (trigger) {
+          SparkEntry *entry = [entries entryForTrigger:trigger];
+          if (entry)
+            [items addObject:entry];
+        }
+      }
+      if ([items count]) {
+        [[self objectAtIndex:row] addEntries:items];
+      }
+      [items release];
+    }
     return YES;
   }
   return NO;
@@ -316,6 +322,7 @@ BOOL SEOverwriteFilter(SEEntryList *list, SparkEntry *object, SparkApplication *
   if (idx != NSNotFound) {
     SEUserEntryList *list = [self objectAtIndex:idx];
     if ([list isEditable]) {
+      /* Remove list from library */
       [[[self library] listSet] removeObject:[list list]];
     } else {
       NSBeep();

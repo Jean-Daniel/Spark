@@ -33,6 +33,10 @@
 		1B0E22940B564BA100DC846B /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B0E22930B564BA100DC846B /* CoreAudio.framework */; };
 		1B37437A0B6E2AFD002F18C8 /* iTFolder.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B3743780B6E2AFD002F18C8 /* iTFolder.tiff */; };
 		1B37437B0B6E2AFD002F18C8 /* iTSmart.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B3743790B6E2AFD002F18C8 /* iTSmart.tiff */; };
+		1B46DC970B81AB1100F4DA1E /* SAScriptEditor.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B46DC930B81AB1100F4DA1E /* SAScriptEditor.tiff */; };
+		1B46DC980B81AB1100F4DA1E /* SACheckSyntax.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B46DC940B81AB1100F4DA1E /* SACheckSyntax.tiff */; };
+		1B46DC990B81AB1100F4DA1E /* SAImport.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B46DC950B81AB1100F4DA1E /* SAImport.tiff */; };
+		1B46DC9A0B81AB1100F4DA1E /* SARun.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B46DC960B81AB1100F4DA1E /* SARun.tiff */; };
 		1B75502D0B6A8153004C9F44 /* AAStop.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B75502B0B6A8153004C9F44 /* AAStop.tiff */; };
 		1B75502E0B6A8153004C9F44 /* AAHide.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B75502C0B6A8153004C9F44 /* AAHide.tiff */; };
 		1B8F4B150B56823700E8A4C0 /* volume.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B8F4B140B56823700E8A4C0 /* volume.aiff */; };
@@ -159,10 +163,6 @@
 		98FC456206063C8F003617CA /* AppleScriptAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 98FC454806063C8E003617CA /* AppleScriptAction.h */; };
 		98FC456306063C8F003617CA /* AppleScriptActionPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 98FC454906063C8E003617CA /* AppleScriptActionPlugin.h */; };
 		98FC456506063C8F003617CA /* AppleScriptIcon.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98FC454C06063C8E003617CA /* AppleScriptIcon.tiff */; };
-		98FC456606063C8F003617CA /* CheckSyntax.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98FC454D06063C8E003617CA /* CheckSyntax.tif */; };
-		98FC457006063C8F003617CA /* ImportScript.png in Resources */ = {isa = PBXBuildFile; fileRef = 98FC455D06063C8F003617CA /* ImportScript.png */; };
-		98FC457106063C8F003617CA /* RunScript.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98FC455E06063C8F003617CA /* RunScript.tiff */; };
-		98FC457206063C8F003617CA /* ScriptEditor.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98FC455F06063C8F003617CA /* ScriptEditor.tiff */; };
 		98FC457E06063CC6003617CA /* AppleScriptHelp.html in Resources */ = {isa = PBXBuildFile; fileRef = 98FC457506063CC6003617CA /* AppleScriptHelp.html */; };
 		98FC457F06063CC6003617CA /* Help in Resources */ = {isa = PBXBuildFile; fileRef = 98FC457706063CC6003617CA /* Help */; };
 		98FC458406063CD0003617CA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 98FC458006063CD0003617CA /* Localizable.strings */; };
@@ -287,6 +287,10 @@
 		1B0E22930B564BA100DC846B /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = /System/Library/Frameworks/CoreAudio.framework; sourceTree = "<absolute>"; };
 		1B3743780B6E2AFD002F18C8 /* iTFolder.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = iTFolder.tiff; sourceTree = "<group>"; };
 		1B3743790B6E2AFD002F18C8 /* iTSmart.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = iTSmart.tiff; sourceTree = "<group>"; };
+		1B46DC930B81AB1100F4DA1E /* SAScriptEditor.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SAScriptEditor.tiff; sourceTree = "<group>"; };
+		1B46DC940B81AB1100F4DA1E /* SACheckSyntax.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SACheckSyntax.tiff; sourceTree = "<group>"; };
+		1B46DC950B81AB1100F4DA1E /* SAImport.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SAImport.tiff; sourceTree = "<group>"; };
+		1B46DC960B81AB1100F4DA1E /* SARun.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SARun.tiff; sourceTree = "<group>"; };
 		1B75502B0B6A8153004C9F44 /* AAStop.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = AAStop.tiff; sourceTree = "<group>"; };
 		1B75502C0B6A8153004C9F44 /* AAHide.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = AAHide.tiff; sourceTree = "<group>"; };
 		1B8F4B140B56823700E8A4C0 /* volume.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = volume.aiff; sourceTree = "<group>"; };
@@ -400,10 +404,6 @@
 		98FC454806063C8E003617CA /* AppleScriptAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AppleScriptAction.h; sourceTree = "<group>"; };
 		98FC454906063C8E003617CA /* AppleScriptActionPlugin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AppleScriptActionPlugin.h; sourceTree = "<group>"; };
 		98FC454C06063C8E003617CA /* AppleScriptIcon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = AppleScriptIcon.tiff; sourceTree = "<group>"; };
-		98FC454D06063C8E003617CA /* CheckSyntax.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = CheckSyntax.tif; sourceTree = "<group>"; };
-		98FC455D06063C8F003617CA /* ImportScript.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ImportScript.png; sourceTree = "<group>"; };
-		98FC455E06063C8F003617CA /* RunScript.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = RunScript.tiff; sourceTree = "<group>"; };
-		98FC455F06063C8F003617CA /* ScriptEditor.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = ScriptEditor.tiff; sourceTree = "<group>"; };
 		98FC457606063CC6003617CA /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = English; path = English.lproj/AppleScriptHelp.html; sourceTree = "<group>"; };
 		98FC457806063CC6003617CA /* English */ = {isa = PBXFileReference; lastKnownFileType = folder; name = English; path = English.lproj/Help; sourceTree = "<group>"; };
 		98FC458106063CD0003617CA /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -846,10 +846,10 @@
 		98FC457406063CA5003617CA /* images */ = {
 			isa = PBXGroup;
 			children = (
-				98FC454D06063C8E003617CA /* CheckSyntax.tif */,
-				98FC455D06063C8F003617CA /* ImportScript.png */,
-				98FC455E06063C8F003617CA /* RunScript.tiff */,
-				98FC455F06063C8F003617CA /* ScriptEditor.tiff */,
+				1B46DC960B81AB1100F4DA1E /* SARun.tiff */,
+				1B46DC950B81AB1100F4DA1E /* SAImport.tiff */,
+				1B46DC930B81AB1100F4DA1E /* SAScriptEditor.tiff */,
+				1B46DC940B81AB1100F4DA1E /* SACheckSyntax.tiff */,
 			);
 			name = images;
 			sourceTree = "<group>";
@@ -1312,15 +1312,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				98FC456506063C8F003617CA /* AppleScriptIcon.tiff in Resources */,
-				98FC456606063C8F003617CA /* CheckSyntax.tif in Resources */,
-				98FC457006063C8F003617CA /* ImportScript.png in Resources */,
-				98FC457106063C8F003617CA /* RunScript.tiff in Resources */,
-				98FC457206063C8F003617CA /* ScriptEditor.tiff in Resources */,
 				98FC457E06063CC6003617CA /* AppleScriptHelp.html in Resources */,
 				98FC457F06063CC6003617CA /* Help in Resources */,
 				98FC458406063CD0003617CA /* Localizable.strings in Resources */,
 				98FC458506063CD0003617CA /* InfoPlist.strings in Resources */,
 				9879207E0AFCC750004EA7B5 /* AppleScriptPlugin.nib in Resources */,
+				1B46DC970B81AB1100F4DA1E /* SAScriptEditor.tiff in Resources */,
+				1B46DC980B81AB1100F4DA1E /* SACheckSyntax.tiff in Resources */,
+				1B46DC990B81AB1100F4DA1E /* SAImport.tiff in Resources */,
+				1B46DC9A0B81AB1100F4DA1E /* SARun.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

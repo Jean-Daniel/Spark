@@ -160,8 +160,8 @@ NSString * sSEHidenPluggedObserverKey = nil;
     return;
   }
   
-  int idx = [self selectionIndex];
-  if (idx >= 0) {
+  NSUInteger idx = [self selectionIndex];
+  if (idx != NSNotFound) {
     SparkEntry *entry = [self objectAtIndex:idx];
     if ([entry isPlugged]) {
       [[ibWindow document] editEntry:entry];
@@ -296,20 +296,19 @@ NSString * sSEHidenPluggedObserverKey = nil;
   CFUUIDBytes bytes = CFUUIDGetUUIDBytes([[self library] uuid]);
   [plist setObject:[NSData dataWithBytes:&bytes length:sizeof(bytes)] forKey:@"uuid"];
   [pboard declareTypes:[NSArray arrayWithObject:SparkEntriesPboardType] owner:self];
+  
+  int idx = 0;
+  NSMutableArray *triggers = [[NSMutableArray alloc] init];
+  SKIndexEnumerator *indexes = [rowIndexes indexEnumerator];
+  while ((idx = [indexes nextIndex]) != NSNotFound) {
+    SparkTrigger *trigger = [[self objectAtIndex:idx] trigger];
+    [triggers addObject:SKUInt([trigger uid])];
+  }
+  [plist setObject:triggers forKey:@"triggers"];
+  [triggers release];
+  
   [pboard setPropertyList:plist forType:SparkEntriesPboardType];
   [plist release];
-  
-//  int idx = 0;
-//  NSMutableArray *triggers = [[NSMutableArray alloc] init];
-//  SKIndexEnumerator *indexes = [rowIndexes indexEnumerator];
-//  while ((idx = [indexes nextIndex]) != NSNotFound) {
-//    SparkTrigger *trigger = [[se_entries objectAtIndex:idx] trigger];
-//    [triggers addObject:[NSNumber numberWithUnsignedInt:[trigger uid]]];
-//  }
-//  [pboard declareTypes:[NSArray arrayWithObject:SparkTriggerListPboardType] owner:self];
-//  [pboard setPropertyList:triggers forType:SparkTriggerListPboardType];
-//  [triggers release];
-  
   return YES;
 }
 

@@ -330,12 +330,29 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
   
   unsigned removed = 0;
   int count = [entries count];
+  SparkEntryManager *manager = [se_library entryManager];
   while (count-- > 0) {
     SparkEntry *entry = [entries objectAtIndex:count];
     /* Remove only custom entry */
-    if ([[self application] uid] == 0 || [entry type] != kSparkEntryTypeDefault) {
+    if ([[self application] uid] == 0) {
+      /* First, check & remove weak */
+      NSArray *array = [manager entriesForAction:[[entry action] uid]];
+      if ([array count] > 1) {
+        for (NSUInteger idx = 0; idx < [array count]; idx++) {
+          SparkEntry *item = [array objectAtIndex:idx];
+          /* If not the original item */
+          if (![item isEqual:entry]) {
+            removed++;
+            [manager removeEntry:item];
+          }
+        }
+      }
+      /* Remove the selected entry */
       removed++;
-      [[se_library entryManager] removeEntry:entry];
+      [manager removeEntry:entry];
+    } else if ([entry type] != kSparkEntryTypeDefault) {
+      removed++;
+      [manager removeEntry:entry];
     }
   }
   return removed;

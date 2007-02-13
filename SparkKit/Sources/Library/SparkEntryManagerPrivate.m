@@ -148,19 +148,20 @@ void SparkLibraryEntryInitFlags(SparkLibraryEntry *lentry, SparkEntry *entry) {
 
 - (void)removeLibraryEntry:(const SparkLibraryEntry *)anEntry {  
   if (CFSetContainsValue(sp_set, anEntry)) {
-    BOOL global = anEntry->application == 0;
-    UInt32 action = anEntry->action;
+//    BOOL global = anEntry->application == 0;
+//    UInt32 action = anEntry->action;
     
     CFSetRemoveValue(sp_set, anEntry);
     CFIndex idx = CFArrayGetFirstIndexOfValue(sp_entries, CFRangeMake(0, CFArrayGetCount(sp_entries)), anEntry);
     NSAssert(idx != kCFNotFound, @"Cannot found object in manager array, but found in set");
     if (idx != kCFNotFound)
       CFArrayRemoveValueAtIndex(sp_entries, idx);
-    
-    if (global) {
-      /* Remove weak entries */
-      [self removeEntriesForAction:action];
-    }
+
+    /* Should not automagically remove weak entries */
+//    if (global) {
+//      /* Remove weak entries */
+//      [self removeEntriesForAction:action];
+//    }
     
     /* Remove orphan action */
     if (![self containsEntryForAction:anEntry->action]) {

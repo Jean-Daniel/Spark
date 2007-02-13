@@ -95,13 +95,6 @@
   [action setUserID:0];
   [action setUserName:nil];
   
-  /* Set Name */
-  NSString *name = [ibName stringValue];
-  if ([[name stringByTrimmingWhitespaceAndNewline] length] == 0)
-    [action setName:SystemActionDescription(action)];
-  else 
-    [action setName:name];
-  
   if (kSystemSwitch == [self action]) {
     NSMenuItem *item = [ibUsers selectedItem];
     if ([item tag]) {
@@ -109,6 +102,13 @@
       [action setUserName:[item title]];
     }
   }
+  
+  /* Set Name (should be after other configurations to be accurate) */
+  NSString *name = [ibName stringValue];
+  if ([[name stringByTrimmingWhitespaceAndNewline] length] == 0)
+    [action setName:SystemActionDescription(action)];
+  else 
+    [action setName:name];
   
   [action setIcon:SystemActionIcon(action)];
   [action setActionDescription:SystemActionDescription(action)];
