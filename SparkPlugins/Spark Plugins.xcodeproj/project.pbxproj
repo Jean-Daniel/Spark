@@ -301,7 +301,7 @@
 		981B624209386E340024C0D9 /* ShadowDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowDebug.xcconfig; sourceTree = "<group>"; };
 		981B624309386E340024C0D9 /* ShadowRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowRelease.xcconfig; sourceTree = "<group>"; };
 		981B624509386E340024C0D9 /* ShadowUniversal.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowUniversal.xcconfig; sourceTree = "<group>"; };
-		9832875F079602BE00DB780A /* Labo */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "compiled.mach-o.executable"; path = Labo; sourceTree = BUILT_PRODUCTS_DIR; };
+		9832875F079602BE00DB780A /* Labo */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Labo; sourceTree = BUILT_PRODUCTS_DIR; };
 		9832882D079602EC00DB780A /* Labo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Labo.m; sourceTree = "<group>"; };
 		983974FC0A58637400F79B40 /* SystemActionPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemActionPlugin.m; sourceTree = "<group>"; };
 		983974FD0A58637400F79B40 /* SystemAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemAction.m; sourceTree = "<group>"; };
@@ -395,6 +395,9 @@
 		98EFD69F0B584C1D00AD4492 /* ITunesStarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITunesStarView.h; sourceTree = "<group>"; };
 		98F7FE700607969F006FD336 /* Warning.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Warning.tiff; sourceTree = "<group>"; };
 		98F7FE7B06079E9C006FD336 /* Selection.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Selection.tiff; sourceTree = "<group>"; };
+		98F86F200B827046004A6C02 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		98F86F210B82704B004A6C02 /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = Resources/French.lproj/ApplicationPlugin.nib; sourceTree = "<group>"; };
+		98F86F220B827051004A6C02 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Localizable.strings; sourceTree = "<group>"; };
 		98FC44D406063A21003617CA /* SystemAction.spact */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SystemAction.spact; sourceTree = BUILT_PRODUCTS_DIR; };
 		98FC450906063AF8003617CA /* English */ = {isa = PBXFileReference; lastKnownFileType = folder; name = English; path = English.lproj/Help; sourceTree = "<group>"; };
 		98FC451906063B14003617CA /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = Resources/English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -1508,6 +1511,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				9885E0860AB2CC04006FE0CA /* English */,
+				98F86F210B82704B004A6C02 /* French */,
 			);
 			name = ApplicationPlugin.nib;
 			sourceTree = "<group>";
@@ -1655,6 +1659,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				98FC462406063E19003617CA /* English */,
+				98F86F200B827046004A6C02 /* French */,
 			);
 			name = InfoPlist.strings;
 			path = Resources;
@@ -1664,6 +1669,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				98FC462606063E19003617CA /* English */,
+				98F86F220B827051004A6C02 /* French */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

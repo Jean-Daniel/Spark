@@ -362,27 +362,27 @@ NSString* HKMapGetModifierString(HKModifier mask) {
 NSString* HKMapGetSpeakableModifierString(HKModifier mask) {
   NSMutableString *str = mask ? [[NSMutableString alloc] init] : nil;
   if (kCGEventFlagMaskAlphaShift & mask) {
-    [str appendString:NSLocalizedStringFromTableInBundle(@"Caps Lock", @"Keyboard", kHotKeyToolKitBundle, @"Caps Lock Modifier")];
+    [str appendString:NSLocalizedStringFromTableInBundle(@"Caps Lock", @"Keyboard", kHotKeyToolKitBundle, @"Speakable Caps Lock Modifier")];
   }
   if (kCGEventFlagMaskControl & mask) {
     if ([str length])
       [str appendString:@" + "];
-    [str appendString:NSLocalizedStringFromTableInBundle(@"Control", @"Keyboard", kHotKeyToolKitBundle, @"Control Modifier")];
+    [str appendString:NSLocalizedStringFromTableInBundle(@"Control", @"Keyboard", kHotKeyToolKitBundle, @"Speakable Control Modifier")];
   }
   if (kCGEventFlagMaskAlternate & mask) {
     if ([str length])
       [str appendString:@" + "];
-    [str appendString:NSLocalizedStringFromTableInBundle(@"Option", @"Keyboard", kHotKeyToolKitBundle, @"Option Modifier")];
+    [str appendString:NSLocalizedStringFromTableInBundle(@"Option", @"Keyboard", kHotKeyToolKitBundle, @"Speakable Option Modifier")];
   }
   if (kCGEventFlagMaskShift & mask) {
     if ([str length])
       [str appendString:@" + "];
-    [str appendString:NSLocalizedStringFromTableInBundle(@"Shift", @"Keyboard", kHotKeyToolKitBundle, @"Shift Modifier")];
+    [str appendString:NSLocalizedStringFromTableInBundle(@"Shift", @"Keyboard", kHotKeyToolKitBundle, @"Speakable Shift Modifier")];
   }
   if (kCGEventFlagMaskCommand & mask) {
     if ([str length])
       [str appendString:@" + "];
-    [str appendString:NSLocalizedStringFromTableInBundle(@"Command", @"Keyboard", kHotKeyToolKitBundle, @"Command Modifier")];
+    [str appendString:NSLocalizedStringFromTableInBundle(@"Command", @"Keyboard", kHotKeyToolKitBundle, @"Speakable Command Modifier")];
   }
   return [str autorelease];
 }

@@ -397,6 +397,11 @@
 		98F5C8130A59B574007BEB21 /* SKTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SKTableView.m; sourceTree = "<group>"; };
 		98F5C8150A59B585007BEB21 /* SKTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SKTableView.h; sourceTree = "<group>"; };
 		98F867260A600D24009C68F9 /* Warning.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Warning.tiff; sourceTree = "<group>"; };
+		98F86BA50B826AE6004A6C02 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		98F86BD40B826B06004A6C02 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		98F86BD70B826B0F004A6C02 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Localizable.strings; sourceTree = "<group>"; };
+		98F86BE70B826BD8004A6C02 /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = French.lproj/MultipleAlerts.nib; sourceTree = "<group>"; };
+		98F86BEA0B826BDF004A6C02 /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = French.lproj/SparkPlugin.nib; sourceTree = "<group>"; };
 		98FB5DDE060D0FFC0074131E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1264,6 +1269,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				089C1667FE841158C02AAC07 /* English */,
+				98F86BD40B826B06004A6C02 /* French */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -1272,6 +1278,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				9805FD380773B47700B1A341 /* English */,
+				98F86BD70B826B0F004A6C02 /* French */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -1280,6 +1287,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				98A856500AFFB1A200088961 /* English */,
+				98F86BEA0B826BDF004A6C02 /* French */,
 			);
 			name = SparkPlugin.nib;
 			sourceTree = "<group>";
@@ -1288,6 +1296,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				98C56D41096B353900ABE1EF /* English */,
+				98F86BA50B826AE6004A6C02 /* French */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -1296,6 +1305,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				98CF6FA606B3DAD50017D206 /* English */,
+				98F86BE70B826BD8004A6C02 /* French */,
 			);
 			name = MultipleAlerts.nib;
 			sourceTree = "<group>";

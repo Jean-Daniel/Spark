@@ -144,7 +144,9 @@ NSString * const kApplicationActionBundleIdentifier = @"org.shadowlab.spark.appl
   SKSetterRetain(aa_path, aPath);
   NSString *name = [[[NSFileManager defaultManager] displayNameAtPath:aPath] stringByDeletingPathExtension];
   [ibApplication setStringValue:name ? : @""];
-  [[ibName cell] setPlaceholderString:name ? : @"Action Name"];
+  [[ibName cell] setPlaceholderString:name ? : NSLocalizedStringFromTableInBundle(@"ACTION_NAME",
+                                                                                  NULL, kApplicationActionBundle, 
+                                                                                  @"Action Name Placeholder")];
   NSImage *icon;
   if (aPath) {
     icon = [[NSWorkspace sharedWorkspace] iconForFile:aPath];
@@ -193,7 +195,9 @@ NSString * const kApplicationActionBundleIdentifier = @"org.shadowlab.spark.appl
       break;
     default: {
       NSString *name = [ibApplication stringValue];
-      [[ibName cell] setPlaceholderString:[name length] > 0 ? name : @"Action Name"];
+      [[ibName cell] setPlaceholderString:[name length] > 0 ? name : NSLocalizedStringFromTableInBundle(@"ACTION_NAME",
+                                                                                                        NULL, kApplicationActionBundle, 
+                                                                                                        @"Action Name Placeholder")];
       break;
     }
   }

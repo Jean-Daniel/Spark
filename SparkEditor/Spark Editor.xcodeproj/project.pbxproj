@@ -484,6 +484,8 @@
 		98EFD00E0B5843C600AD4492 /* ShadowProfile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowProfile.xcconfig; sourceTree = "<group>"; };
 		98F3635806FF72D900FD6673 /* Library.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Library.tiff; sourceTree = "<group>"; };
 		98F746010A5C560A003D4BE1 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SELibraryWindow.nib; sourceTree = "<group>"; };
+		98F8711D0B8275A2004A6C02 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		98F871200B8275B4004A6C02 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = French; path = French.lproj/Credits.rtf; sourceTree = "<group>"; };
 		98FF14DB05EACAE90005F402 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = /System/Library/Frameworks/WebKit.framework; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
@@ -1316,6 +1318,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				982401E2060C7B3000A0DB07 /* English */,
+				98F871200B8275B4004A6C02 /* French */,
 			);
 			name = Credits.rtf;
 			sourceTree = "<group>";
@@ -1324,6 +1327,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				982401E6060C7B3000A0DB07 /* English */,
+				98F8711D0B8275A2004A6C02 /* French */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";

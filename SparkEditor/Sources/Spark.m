@@ -13,7 +13,6 @@
 #if defined (DEBUG)
 #import "SEEntryEditor.h"
 #import "SETriggerBrowser.h"
-#include <objc/objc-class.h>
 #import <Foundation/NSDebug.h>
 #import <ShadowKit/SKFunctions.h>
 #import <SparkKit/SparkLibrarySynchronizer.h>
@@ -33,20 +32,10 @@
 
 const UInt32 kSparkVersion = 0x020700; /* 3.0.0 */
 
-static id
-_SEZombieForward(id self, SEL _cmd, SEL sel, marg_list args) {
-  return nil;
-}
-
 int main(int argc, const char *argv[]) {
 #if defined(DEBUG)
   SparkLogSynchronization = YES;
 //  SparkLibraryFileFormat = NSPropertyListXMLFormat_v1_0;
-  
-  Class zombie = NSClassFromString(@"_NSZombie");
-  if (zombie) {
-    SKSwizzleInstanceMethod(zombie, @selector(forward::), _SEZombieForward);
-  }
 #endif
   return NSApplicationMain(argc, argv);
 }

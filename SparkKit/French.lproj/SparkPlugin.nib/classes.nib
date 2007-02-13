@@ -1,0 +1,17 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            CLASS = SparkActionPlugIn; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {actionView = NSView; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            CLASS = SparkBuiltInActionPlugin; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = SparkActionPlugIn; 
+        }
+    ); 
+    IBVersion = 1; 
+}
