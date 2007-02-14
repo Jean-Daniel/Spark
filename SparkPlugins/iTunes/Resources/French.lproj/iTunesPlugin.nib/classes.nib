@@ -1,0 +1,37 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {"" = id; }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            CLASS = ITunesActionPlugin; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                ibBackground = NSButton; 
+                ibIcon = NSImageView; 
+                ibName = NSTextField; 
+                ibTabView = NSTabView; 
+                ibVisual = ITunesVisualSetting; 
+                uiPlaylists = NSPopUpButton; 
+            }; 
+            SUPERCLASS = SparkActionPlugIn; 
+        }, 
+        {
+            ACTIONS = {defaultSettings = id; hide = id; preview = id; show = id; }; 
+            CLASS = ITunesVisualSetting; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {ibShow = NSButton; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            CLASS = SparkActionPlugIn; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {actionView = NSView; }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}

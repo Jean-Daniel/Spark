@@ -358,10 +358,10 @@ NSImage *DocumentActionIcon(DocumentAction *anAction) {
   NSString *name = nil;
   switch ([anAction action]) {
     case kDocumentActionOpenSelection:
-      name = @"Selection";
+      name = @"DocSelection";
       break;
     case kDocumentActionOpenURL:
-      name = @"OpenURL";
+      name = @"DocURL";
       break;
     default:
       break;

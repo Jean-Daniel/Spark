@@ -136,7 +136,7 @@
 		98E6A9540606385A000CCBE1 /* ITunesAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 98E6A9510606385A000CCBE1 /* ITunesAction.h */; };
 		98E6A9550606385A000CCBE1 /* ITunesActionPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 98E6A9520606385A000CCBE1 /* ITunesActionPlugin.h */; };
 		98EA90EB0A4DC6F50091B8FF /* ShadowKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 986756D4096B3C0500BB8A25 /* ShadowKit.framework */; };
-		98EDC35A0736E6C700EF9F2B /* OpenURL.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98EDC3590736E6C700EF9F2B /* OpenURL.tiff */; };
+		98EDC35A0736E6C700EF9F2B /* DocURL.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98EDC3590736E6C700EF9F2B /* DocURL.tiff */; };
 		98EE12AE0B6B6B9200AC7004 /* AAUndefined.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 98EE12AD0B6B6B9200AC7004 /* AAUndefined.pdf */; };
 		98EE13960B6B7C3800AC7004 /* AAApplication.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98EE13950B6B7C3800AC7004 /* AAApplication.tiff */; };
 		98EF7F5408645B8D007BC81A /* SparkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF7F5108645B7F007BC81A /* SparkKit.framework */; };
@@ -152,8 +152,8 @@
 		98EF7F5E08645BB3007BC81A /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF7F4A08645B72007BC81A /* HotKeyToolKit.framework */; };
 		98EFD69E0B584C0D00AD4492 /* ITunesStarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98EFD69D0B584C0D00AD4492 /* ITunesStarView.m */; };
 		98EFD6A00B584C1D00AD4492 /* ITunesStarView.h in Headers */ = {isa = PBXBuildFile; fileRef = 98EFD69F0B584C1D00AD4492 /* ITunesStarView.h */; };
-		98F7FE710607969F006FD336 /* Warning.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98F7FE700607969F006FD336 /* Warning.tiff */; };
-		98F7FE7C06079E9D006FD336 /* Selection.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98F7FE7B06079E9C006FD336 /* Selection.tiff */; };
+		98F7FE710607969F006FD336 /* DocWarning.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98F7FE700607969F006FD336 /* DocWarning.tiff */; };
+		98F7FE7C06079E9D006FD336 /* DocSelection.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98F7FE7B06079E9C006FD336 /* DocSelection.tiff */; };
 		98FC44D006063A21003617CA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 		98FC451106063AF8003617CA /* Help in Resources */ = {isa = PBXBuildFile; fileRef = 98FC450806063AF8003617CA /* Help */; };
 		98FC451B06063B14003617CA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 98FC451806063B14003617CA /* InfoPlist.strings */; };
@@ -285,6 +285,15 @@
 		1B0E22290B5649D900DC846B /* AudioOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioOutput.h; sourceTree = "<group>"; };
 		1B0E222B0B5649DF00DC846B /* AudioOutput.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = AudioOutput.c; sourceTree = "<group>"; };
 		1B0E22930B564BA100DC846B /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = /System/Library/Frameworks/CoreAudio.framework; sourceTree = "<absolute>"; };
+		1B0FB5BB0B832FB40098CF39 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1B0FB5C20B832FBD0098CF39 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1B0FB5C30B832FC10098CF39 /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = Resources/French.lproj/AppleScriptPlugin.nib; sourceTree = "<group>"; };
+		1B0FB5CF0B832FE80098CF39 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = Resources/French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1B0FB5D00B832FEC0098CF39 /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = Resources/French.lproj/DocumentPlugin.nib; sourceTree = "<group>"; };
+		1B0FB5D10B832FF30098CF39 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = Resources/French.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1B0FC6D40B83402C005684F5 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1B0FC6D50B834030005684F5 /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = Resources/French.lproj/iTunesPlugin.nib; sourceTree = "<group>"; };
+		1B0FC6D60B834035005684F5 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1B3743780B6E2AFD002F18C8 /* iTFolder.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = iTFolder.tiff; sourceTree = "<group>"; };
 		1B3743790B6E2AFD002F18C8 /* iTSmart.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = iTSmart.tiff; sourceTree = "<group>"; };
 		1B46DC930B81AB1100F4DA1E /* SAScriptEditor.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SAScriptEditor.tiff; sourceTree = "<group>"; };
@@ -294,6 +303,9 @@
 		1B75502B0B6A8153004C9F44 /* AAStop.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = AAStop.tiff; sourceTree = "<group>"; };
 		1B75502C0B6A8153004C9F44 /* AAHide.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = AAHide.tiff; sourceTree = "<group>"; };
 		1B8F4B140B56823700E8A4C0 /* volume.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = volume.aiff; sourceTree = "<group>"; };
+		1BC2D1B80B83565F00801FA6 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = Resources/French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1BC2D1BF0B83566300801FA6 /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = Resources/French.lproj/SystemPlugin.nib; sourceTree = "<group>"; };
+		1BC2D1C00B83566700801FA6 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8D5B49B6048680CD000E48DA /* iTunesAction.spact */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iTunesAction.spact; sourceTree = BUILT_PRODUCTS_DIR; };
 		980516690B6AA498006C5BB8 /* AAWStop.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = AAWStop.tiff; sourceTree = "<group>"; };
 		980D926106E61DB80038EE2A /* DocumentAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DocumentAction.h; sourceTree = "<group>"; };
@@ -385,7 +397,7 @@
 		98E6A9500606385A000CCBE1 /* ITunesAESuite.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ITunesAESuite.h; sourceTree = "<group>"; };
 		98E6A9510606385A000CCBE1 /* ITunesAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ITunesAction.h; sourceTree = "<group>"; };
 		98E6A9520606385A000CCBE1 /* ITunesActionPlugin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ITunesActionPlugin.h; sourceTree = "<group>"; };
-		98EDC3590736E6C700EF9F2B /* OpenURL.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = OpenURL.tiff; sourceTree = "<group>"; };
+		98EDC3590736E6C700EF9F2B /* DocURL.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = DocURL.tiff; sourceTree = "<group>"; };
 		98EE12AD0B6B6B9200AC7004 /* AAUndefined.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = AAUndefined.pdf; sourceTree = "<group>"; };
 		98EE13950B6B7C3800AC7004 /* AAApplication.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = AAApplication.tiff; sourceTree = "<group>"; };
 		98EF7F4108645B72007BC81A /* HotKeyToolKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = HotKeyToolKit.xcodeproj; path = ../HotKeyToolKit/HotKeyToolKit.xcodeproj; sourceTree = SOURCE_ROOT; };
@@ -393,8 +405,8 @@
 		98EFD1CE0B58451700AD4492 /* ShadowProfile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowProfile.xcconfig; sourceTree = "<group>"; };
 		98EFD69D0B584C0D00AD4492 /* ITunesStarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ITunesStarView.m; sourceTree = "<group>"; };
 		98EFD69F0B584C1D00AD4492 /* ITunesStarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITunesStarView.h; sourceTree = "<group>"; };
-		98F7FE700607969F006FD336 /* Warning.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Warning.tiff; sourceTree = "<group>"; };
-		98F7FE7B06079E9C006FD336 /* Selection.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Selection.tiff; sourceTree = "<group>"; };
+		98F7FE700607969F006FD336 /* DocWarning.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = DocWarning.tiff; sourceTree = "<group>"; };
+		98F7FE7B06079E9C006FD336 /* DocSelection.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = DocSelection.tiff; sourceTree = "<group>"; };
 		98F86F200B827046004A6C02 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		98F86F210B82704B004A6C02 /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = Resources/French.lproj/ApplicationPlugin.nib; sourceTree = "<group>"; };
 		98F86F220B827051004A6C02 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -594,6 +606,18 @@
 				9888CE220B02412200B81BDB /* TextAction.spact */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		1B0FB5D30B832FFE0098CF39 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				98EDC3590736E6C700EF9F2B /* DocURL.tiff */,
+				98F7FE700607969F006FD336 /* DocWarning.tiff */,
+				98F7FE7B06079E9C006FD336 /* DocSelection.tiff */,
+				98FC48F50606444A003617CA /* DocumentIcon.tiff */,
+				98DD5E370A91CFD600FB5814 /* DocumentPlugin.tiff */,
+			);
+			name = Images;
 			sourceTree = "<group>";
 		};
 		981B624009386E340024C0D9 /* Configurations */ = {
@@ -821,8 +845,7 @@
 				98FC454B06063C8E003617CA /* Resources */,
 				987920780AFCC74F004EA7B5 /* AppleScriptPlugin.nib */,
 			);
-			name = AppleScript;
-			path = "Apple Script";
+			path = AppleScript;
 			sourceTree = "<group>";
 		};
 		98FC454706063C8E003617CA /* Headers */ = {
@@ -924,14 +947,10 @@
 		98FC48F40606444A003617CA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				98F7FE700607969F006FD336 /* Warning.tiff */,
-				98F7FE7B06079E9C006FD336 /* Selection.tiff */,
-				98EDC3590736E6C700EF9F2B /* OpenURL.tiff */,
-				98FC48F50606444A003617CA /* DocumentIcon.tiff */,
-				98DD5E370A91CFD600FB5814 /* DocumentPlugin.tiff */,
-				98FC49110606446F003617CA /* DocumentHelp.html */,
-				98FC49130606446F003617CA /* Help */,
+				1B0FB5D30B832FFE0098CF39 /* Images */,
 				98FC491B0606447A003617CA /* Localizable.strings */,
+				98FC49130606446F003617CA /* Help */,
+				98FC49110606446F003617CA /* DocumentHelp.html */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -1354,9 +1373,9 @@
 				98FC491A0606446F003617CA /* Help in Resources */,
 				98FC491F0606447A003617CA /* Localizable.strings in Resources */,
 				98FC49200606447A003617CA /* InfoPlist.strings in Resources */,
-				98F7FE710607969F006FD336 /* Warning.tiff in Resources */,
-				98F7FE7C06079E9D006FD336 /* Selection.tiff in Resources */,
-				98EDC35A0736E6C700EF9F2B /* OpenURL.tiff in Resources */,
+				98F7FE710607969F006FD336 /* DocWarning.tiff in Resources */,
+				98F7FE7C06079E9D006FD336 /* DocSelection.tiff in Resources */,
+				98EDC35A0736E6C700EF9F2B /* DocURL.tiff in Resources */,
 				98DD5E380A91CFD600FB5814 /* DocumentPlugin.tiff in Resources */,
 				9856D9DF0AF922E400CF2FA6 /* DocumentPlugin.nib in Resources */,
 			);
@@ -1495,6 +1514,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				9856D9DA0AF922E400CF2FA6 /* English */,
+				1B0FB5D00B832FEC0098CF39 /* French */,
 			);
 			name = DocumentPlugin.nib;
 			sourceTree = "<group>";
@@ -1503,6 +1523,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				987920790AFCC74F004EA7B5 /* English */,
+				1B0FB5C30B832FC10098CF39 /* French */,
 			);
 			name = AppleScriptPlugin.nib;
 			sourceTree = "<group>";
@@ -1537,6 +1558,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				98BA1A0A0A583493004914E9 /* English */,
+				1BC2D1C00B83566700801FA6 /* French */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -1545,6 +1567,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				98DA320A0A8AF6F8009EC42C /* English */,
+				1B0FC6D50B834030005684F5 /* French */,
 			);
 			name = iTunesPlugin.nib;
 			sourceTree = "<group>";
@@ -1553,6 +1576,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				98DAB9800A90F4E9001F3125 /* English */,
+				1BC2D1BF0B83566300801FA6 /* French */,
 			);
 			name = SystemPlugin.nib;
 			sourceTree = "<group>";
@@ -1561,6 +1585,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				98E6A8DE060636AE000CCBE1 /* English */,
+				1B0FC6D40B83402C005684F5 /* French */,
 			);
 			name = InfoPlist.strings;
 			path = Resources;
@@ -1570,6 +1595,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				98E6A8E6060636AE000CCBE1 /* English */,
+				1B0FC6D60B834035005684F5 /* French */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -1602,6 +1628,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				98FC451906063B14003617CA /* English */,
+				1BC2D1B80B83565F00801FA6 /* French */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -1626,6 +1653,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				98FC458106063CD0003617CA /* English */,
+				1B0FB5C20B832FBD0098CF39 /* French */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -1634,6 +1662,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				98FC458306063CD0003617CA /* English */,
+				1B0FB5BB0B832FB40098CF39 /* French */,
 			);
 			name = InfoPlist.strings;
 			path = Resources;
@@ -1694,6 +1723,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				98FC491C0606447A003617CA /* English */,
+				1B0FB5D10B832FF30098CF39 /* French */,
 			);
 			name = Localizable.strings;
 			path = Documents;
@@ -1703,6 +1733,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				98FC491E0606447A003617CA /* English */,
+				1B0FB5CF0B832FE80098CF39 /* French */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -1937,7 +1968,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 301;
-				INFOPLIST_FILE = "Apple Script/Info.plist";
+				INFOPLIST_FILE = AppleScript/Info.plist;
 				OTHER_LDFLAGS = (
 					"$(OTHER_LDFLAGS)",
 					"$(OTHER_LDFLAGS_$(CURRENT_ARCH))",

@@ -1,0 +1,23 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            CLASS = SparkActionPlugIn; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {actionView = NSView; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            CLASS = SystemActionPlugin; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                ibActions = NSPopUpButton; 
+                ibName = NSTextField; 
+                ibUsers = NSPopUpButton; 
+                uiOptions = NSTabView; 
+            }; 
+            SUPERCLASS = SparkActionPlugIn; 
+        }
+    ); 
+    IBVersion = 1; 
+}

@@ -1,0 +1,20 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {compile = id; import = id; launchEditor = id; open = id; run = id; }; 
+            CLASS = AppleScriptActionPlugin; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {ibScript = NSTextView; }; 
+            SUPERCLASS = SparkActionPlugin; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = SourceView; LANGUAGE = ObjC; SUPERCLASS = NSTextView; }, 
+        {
+            CLASS = SparkActionPlugin; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {actionView = NSView; }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}
