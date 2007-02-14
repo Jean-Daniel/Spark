@@ -21,10 +21,11 @@
 
 - (void)mouseDown:(NSEvent *)anEvent {
   if ([anEvent clickCount] == 2) {
-    id target = [self target];
-    SEL doubleAction = [self doubleAction];
-    if (target && doubleAction) {
-      [target performSelector:doubleAction withObject:self];
+    int row = [self rowAtPoint:[self convertPoint:[anEvent locationInWindow] fromView:nil]];
+    if (row != -1) {
+      id target = [self target];
+      SEL doubleAction = [self doubleAction];
+      [self sendAction:doubleAction to:target];
     }
   } else if ([anEvent clickCount] == 1 && ([anEvent modifierFlags] & NSDeviceIndependentModifierFlagsMask) == NSAlternateKeyMask) {
     if (SKDelegateHandle([self delegate], tableView:shouldHandleOptionClick:) && ![[self delegate] tableView:self shouldHandleOptionClick:anEvent]) {

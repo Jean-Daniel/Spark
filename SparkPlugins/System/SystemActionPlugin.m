@@ -147,4 +147,19 @@
   }
 }
 
+- (IBAction)changeUser:(id)sender {
+  SystemAction *action = [self sparkAction];
+  if ([self action] == kSystemSwitch) {
+    NSMenuItem *item = [ibUsers selectedItem];
+    if ([item tag]) {
+      [action setUserID:[item tag]];
+      [action setUserName:[item title]];
+    } else {
+      [action setUserID:0];
+      [action setUserName:nil];
+    }
+    [[ibName cell] setPlaceholderString:SystemActionDescription([self sparkAction])];
+  }
+}
+
 @end

@@ -444,8 +444,7 @@ static NSImage *_HKCreateShading(NSControlTint tint);
 
 - (void)save {
   se_hotkey = se_bhotkey;
-  if ([self target] && [self action])
-    [[self target] performSelector:[self action] withObject:self];
+  [NSApp sendAction:[self action] to:[self target] from:self];
 }
 
 - (void)revert {

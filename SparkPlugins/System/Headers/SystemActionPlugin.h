@@ -20,4 +20,6 @@
 - (SystemActionType)action;
 - (void)setAction:(SystemActionType)anAction;
 
+- (IBAction)changeUser:(id)sender;
+
 @end
