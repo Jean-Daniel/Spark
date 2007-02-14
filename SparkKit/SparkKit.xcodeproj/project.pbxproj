@@ -222,14 +222,14 @@
 /* Begin PBXFileReference section */
 		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
-		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		1BAA6F840B64CF2500F9AC0E /* SKImageUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKImageUtils.h; sourceTree = "<group>"; };
 		1BAA6F870B64CF2500F9AC0E /* SKImageUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKImageUtils.m; sourceTree = "<group>"; };
 		65245F390A2AFE4200ACB971 /* SKPluginLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SKPluginLoader.m; sourceTree = "<group>"; };
 		65245F3B0A2AFE4D00ACB971 /* SKPluginLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SKPluginLoader.h; sourceTree = "<group>"; };
 		8DC2EF5B0486A6940098B216 /* SparkKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SparkKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		9805FD380773B47700B1A341 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
+		9805FD380773B47700B1A341 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		980B128A0A5BAB9C008F6DBC /* SKCFContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SKCFContext.m; sourceTree = "<group>"; };
 		980B12AC0A5BABAE008F6DBC /* SKCFContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = SKCFContext.h; path = Headers/SKCFContext.h; sourceTree = "<group>"; };
 		980EEB2D0A7E8A0B00013CF5 /* SimpleList.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SimpleList.tiff; sourceTree = "<group>"; };
@@ -327,7 +327,7 @@
 		98A923B80A7BC6E200DF1998 /* Application.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Application.tiff; sourceTree = "<group>"; };
 		98BCF0C30708BDA70039136F /* switch-status.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "switch-status.tiff"; sourceTree = "<group>"; };
 		98C56D34096B348400ABE1EF /* ShadowKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ShadowKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		98C56D41096B353900ABE1EF /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		98C56D41096B353900ABE1EF /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		98C56D42096B353900ABE1EF /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Info.plist; path = ShadowKit/Info.plist; sourceTree = SOURCE_ROOT; };
 		98C78D6507D9E716006D9CC1 /* SKFSFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SKFSFunctions.h; sourceTree = "<group>"; };
 		98C78D6607D9E716006D9CC1 /* SKLSFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SKLSFunctions.h; sourceTree = "<group>"; };
@@ -397,9 +397,9 @@
 		98F5C8130A59B574007BEB21 /* SKTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SKTableView.m; sourceTree = "<group>"; };
 		98F5C8150A59B585007BEB21 /* SKTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SKTableView.h; sourceTree = "<group>"; };
 		98F867260A600D24009C68F9 /* Warning.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Warning.tiff; sourceTree = "<group>"; };
-		98F86BA50B826AE6004A6C02 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		98F86BD40B826B06004A6C02 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		98F86BD70B826B0F004A6C02 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Localizable.strings; sourceTree = "<group>"; };
+		98F86BA50B826AE6004A6C02 /* French */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		98F86BD40B826B06004A6C02 /* French */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		98F86BD70B826B0F004A6C02 /* French */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Localizable.strings; sourceTree = "<group>"; };
 		98F86BE70B826BD8004A6C02 /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = French.lproj/MultipleAlerts.nib; sourceTree = "<group>"; };
 		98F86BEA0B826BDF004A6C02 /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = French.lproj/SparkPlugin.nib; sourceTree = "<group>"; };
 		98FB5DDE060D0FFC0074131E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -444,8 +444,8 @@
 			isa = PBXGroup;
 			children = (
 				08FB77AEFE84172EC02AAC07 /* Classes */,
-				98725D0406CB9E540072B8E4 /* ShadowKit */,
 				089C1665FE841158C02AAC07 /* Resources */,
+				98725D0406CB9E540072B8E4 /* ShadowKit */,
 				0867D69AFE84028FC02AAC07 /* Frameworks */,
 				034768DFFF38A50411DB9C8B /* Products */,
 				984A38790A6003A300DA6455 /* HotKeyToolKit.xcodeproj */,
@@ -471,8 +471,8 @@
 				983961E6060680AB00E0353D /* SparkKit.icns */,
 				089C1666FE841158C02AAC07 /* InfoPlist.strings */,
 				9805FD370773B47700B1A341 /* Localizable.strings */,
-				98CF6FA506B3DAD50017D206 /* MultipleAlerts.nib */,
 				98A8564F0AFFB1A200088961 /* SparkPlugin.nib */,
+				98CF6FA506B3DAD50017D206 /* MultipleAlerts.nib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";

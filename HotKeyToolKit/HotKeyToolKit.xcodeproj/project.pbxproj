@@ -71,7 +71,7 @@
 /* Begin PBXFileReference section */
 		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
-		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; lineEnding = 0; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		8DC2EF5B0486A6940098B216 /* HotKeyToolKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HotKeyToolKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		981B5F3E093868ED0024C0D9 /* ShadowCommon.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowCommon.xcconfig; sourceTree = "<group>"; };
@@ -104,10 +104,10 @@
 		98643F010A556F2200260086 /* Test-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Test-Info.plist"; sourceTree = "<group>"; };
 		9864CB72060D11DD00228F30 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
 		98B703D00A86146400DB692D /* HKBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKBase.h; sourceTree = "<group>"; };
-		98C61C1A0A5813EB0004E6EF /* UITester.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = UITester.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		98C61C1A0A5813EB0004E6EF /* UITester.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UITester.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		98C61C1C0A5813EB0004E6EF /* UITester-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "UITester-Info.plist"; sourceTree = "<group>"; };
 		98C61C650A5814C50004E6EF /* UITester.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = UITester.nib; sourceTree = "<group>"; };
-		98DD082E0A8A8F1D0082AF03 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Keyboard.strings; sourceTree = "<group>"; };
+		98DD082E0A8A8F1D0082AF03 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Keyboard.strings; sourceTree = "<group>"; };
 		98DD3DAC0A57B1B600F059E5 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
 		98DD3FE20A57C2A200F059E5 /* ModifierMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModifierMap.m; sourceTree = "<group>"; };
 		98DD42450A57C9BC00F059E5 /* HKEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKEvent.m; sourceTree = "<group>"; };
@@ -117,8 +117,8 @@
 		98E204A00A56FE6500EB74E1 /* Runner */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Runner; sourceTree = BUILT_PRODUCTS_DIR; };
 		98EF7D6F0864538C007BC81A /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = /System/Library/Frameworks/SenTestingKit.framework; sourceTree = "<absolute>"; };
 		98EFD0340B58444200AD4492 /* ShadowProfile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowProfile.xcconfig; sourceTree = "<group>"; };
-		98F86B720B826AB0004A6C02 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		98F86B760B826AC1004A6C02 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Keyboard.strings; sourceTree = "<group>"; };
+		98F86B720B826AB0004A6C02 /* French */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; lineEnding = 0; name = French; path = French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		98F86B760B826AC1004A6C02 /* French */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Keyboard.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -176,7 +176,6 @@
 			isa = PBXGroup;
 			children = (
 				08FB77AEFE84172EC02AAC07 /* Classes */,
-				32C88DFF0371C24200C91783 /* Other Sources */,
 				985B62AF0719E0570073D36F /* Testing */,
 				089C1665FE841158C02AAC07 /* Resources */,
 				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
@@ -242,13 +241,6 @@
 				0867D6A5FE840307C02AAC07 /* AppKit.framework */,
 			);
 			name = "Other Frameworks";
-			sourceTree = "<group>";
-		};
-		32C88DFF0371C24200C91783 /* Other Sources */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "Other Sources";
 			sourceTree = "<group>";
 		};
 		981B5F3C093868ED0024C0D9 /* Configurations */ = {
