@@ -60,7 +60,7 @@
 }
 
 - (IBAction)close:(id)sender {
-  if ([ibStartNow state] == NSOnState && kSparkDaemonStarted != [NSApp serverStatus]) {
+  if ([ibStartNow state] == NSOnState && ![[SEServerConnection defaultConnection] isRunning]) {
     SELaunchSparkDaemon();
   }
   SEPreferencesSetLoginItemStatus(NSOnState == [ibAutoStart state]);

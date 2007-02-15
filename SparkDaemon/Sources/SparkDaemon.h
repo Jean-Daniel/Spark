@@ -7,6 +7,7 @@
  */
 
 #import <SparkKit/SparkServerProtocol.h>
+#import <SparkKit/SparkAppleScriptSuite.h>
 
 @class SparkLibrary, SparkDistantLibrary;
 @interface SparkDaemon : NSObject {
@@ -39,3 +40,6 @@
 - (id<SparkLibrary>)library;
 
 @end
+
+SK_PRIVATE
+void SDSendStateToEditor(SparkDaemonStatus state);

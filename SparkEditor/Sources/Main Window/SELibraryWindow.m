@@ -21,6 +21,7 @@
 #import <SparkKit/SparkList.h>
 #import <SparkKit/SparkPlugIn.h>
 #import <SparkKit/SparkLibrary.h>
+#import <SparkKit/SparkFunctions.h>
 
 #import <ShadowKit/SKAppKitExtensions.h>
 
@@ -29,7 +30,7 @@
 - (id)init {
   if (self = [super initWithWindowNibName:@"SELibraryWindow"]) {
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didChangeStatus:)
+                                             selector:@selector(daemonStatusDidChange:)
                                                  name:SEServerStatusDidChangeNotification
                                                object:nil];
   }
@@ -38,6 +39,7 @@
 
 - (void)dealloc {
   [[NSNotificationCenter defaultCenter] removeObserver:self];
+  [[NSDistributedNotificationCenter defaultCenter] removeObserver:self];
   [super dealloc];
 }
 
@@ -83,7 +85,7 @@
   [libraryTable setDoubleAction:@selector(libraryDoubleAction:)];
   
   /* Update status */
-  [self performSelector:@selector(didChangeStatus:) withObject:nil];
+  [self setDaemonStatus:[[SEServerConnection defaultConnection] status]];
   
   /* Configure New Plugin Menu */
   [ibMenu setMenu:[NSApp pluginsMenu] forSegment:0];
@@ -166,23 +168,27 @@
   [[NSApp delegate] toggleServer:sender];
 }
 
-- (void)didChangeStatus:(NSNotification *)aNotification {
+- (void)setDaemonStatus:(SparkDaemonStatus)status {
   NSString *str = @"";
   NSImage *up = nil, *down = nil;
-  SparkDaemonStatus status = [NSApp serverStatus];
   switch (status) {
-    case kSparkDaemonStarted:
+    case kSparkDaemonStatusError:
+      str = NSLocalizedString(@"Unexpected error occured", @"Spark Daemon status string");
+      break;
+    case kSparkDaemonStatusEnabled:
       str = NSLocalizedString(@"Spark is active", @"Spark Daemon status string");
       up = [NSImage imageNamed:@"stop"];
       down = [NSColor currentControlTint] == NSBlueControlTint ? [NSImage imageNamed:@"stop_bdown"] : [NSImage imageNamed:@"stop_gdown"];
       break;
-    case kSparkDaemonStopped:
+    case kSparkDaemonStatusDisabled:
       str = NSLocalizedString(@"Spark is disabled", @"Spark Daemon status string");
+      up = [NSImage imageNamed:@"stop"];
+      down = [NSColor currentControlTint] == NSBlueControlTint ? [NSImage imageNamed:@"stop_bdown"] : [NSImage imageNamed:@"stop_gdown"];
+      break;
+    case kSparkDaemonStatusShutDown:
+      str = NSLocalizedString(@"Spark is stopped", @"Spark Daemon status string");
       up = [NSImage imageNamed:@"start"];
       down = [NSColor currentControlTint] == NSBlueControlTint ? [NSImage imageNamed:@"start_bdown"] : [NSImage imageNamed:@"start_gdown"];
-      break;
-    case kSparkDaemonError:
-      str = NSLocalizedString(@"Unexpected error occured", @"Spark Daemon status string");
       break;
   }
   [ibStatus setStringValue:str];
@@ -190,6 +196,10 @@
     [ibDaemon setImage:up];
     [ibDaemon setAlternateImage:down];
   }
+}
+
+- (void)daemonStatusDidChange:(NSNotification *)aNotification {
+  [self setDaemonStatus:[[aNotification object] status]];
 }
 
 @end

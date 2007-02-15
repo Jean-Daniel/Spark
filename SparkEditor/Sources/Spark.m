@@ -58,7 +58,6 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
 /* Initialize daemon status */
 - (id)init {
   if (self = [super init]) {
-    se_status = kSparkDaemonStopped;
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didChangePlugins:)
                                                  name:SESparkEditorDidChangePluginStatusNotification
@@ -218,14 +217,15 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
 
 
 - (void)serverStatusDidChange:(NSNotification *)aNotification {
-  SparkDaemonStatus status = [[aNotification object] serverStatus];
   NSString *title = nil;
-  if (kSparkDaemonStarted != status)
-    title = NSLocalizedString(@"ACTIVE_SPARK_MENU", 
-                              @"Spark Daemon Menu Title * Active *");
-  else
+  if ([[SEServerConnection defaultConnection] isRunning]) {
     title = NSLocalizedString(@"DEACTIVE_SPARK_MENU", 
                               @"Spark Daemon Menu Title * Desactive *");
+  } else {
+    title = NSLocalizedString(@"ACTIVE_SPARK_MENU", 
+                              @"Spark Daemon Menu Title * Active *");  
+  }
+  
   [statusMenuItem setTitle:title];
 }
 
@@ -261,7 +261,7 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
 
 
 - (IBAction)toggleServer:(id)sender {
-  if ([NSApp serverStatus] == kSparkDaemonStarted) {
+  if ([[SEServerConnection defaultConnection] isRunning]) {
     [[SEServerConnection defaultConnection] shutdown];
   } else {
     SELaunchSparkDaemon();

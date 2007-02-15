@@ -8,8 +8,6 @@
 
 #import "SEScriptHandler.h"
 
-NSString * const SEServerStatusDidChangeNotification = @"SEServerStatusDidChange";
-
 #pragma mark -
 @implementation SparkEditor (SEScriptHandler)
 
@@ -29,20 +27,6 @@ NSString * const SEServerStatusDidChangeNotification = @"SEServerStatusDidChange
     return [window isTrapping];
   }
   return NO;
-}
-
-#pragma mark -
-- (SparkDaemonStatus)serverStatus {
-  return se_status;
-}
-- (void)setServerStatus:(SparkDaemonStatus)theStatus {
-  if (kSparkDaemonError == theStatus) {
-    DLog(@"Error while starting daemon");
-    theStatus = kSparkDaemonStopped;
-  }
-  se_status = theStatus;
-  [[NSNotificationCenter defaultCenter] postNotificationName:SEServerStatusDidChangeNotification 
-                                                      object:self];
 }
 
 @end

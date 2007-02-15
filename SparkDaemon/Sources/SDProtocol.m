@@ -12,6 +12,7 @@
 #import <SparkKit/SparkEntry.h>
 #import <SparkKit/SparkTrigger.h>
 #import <SparkKit/SparkObjectSet.h>
+#import <SparkKit/SparkFunctions.h>
 #import <SparkKit/SparkEntryManager.h>
 #import <SparkKit/SparkLibrarySynchronizer.h>
 
@@ -131,3 +132,19 @@ void SparkDaemonCheckTrigger(SparkLibrary *library, SparkTrigger *trigger) {
 }
 
 @end
+
+void SDSendStateToEditor(SparkDaemonStatus state) {
+  NSNumber *value = SKInt(state);
+  CFDictionaryRef info = CFDictionaryCreate(kCFAllocatorDefault, 
+                                            (const void **)&SparkDaemonStatusKey,
+                                            (const void **)&value, 1, 
+                                            &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+  
+  if (info) {
+    CFNotificationCenterPostNotification(CFNotificationCenterGetDistributedCenter(),
+                                         SparkDaemonStatusDidChangeNotification,
+                                         nil, info, false);
+    CFRelease(info);
+  }
+}
+

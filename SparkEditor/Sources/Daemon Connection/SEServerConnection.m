@@ -10,15 +10,18 @@
 #import "SDVersion.h"
 
 #import "SEPreferences.h"
-#import "SEScriptHandler.h"
 
 #import <SparkKit/SparkKit.h>
 #import <SparkKit/SparkLibrary.h>
+#import <SparkKit/SparkAppleScriptSuite.h>
 #import <SparkKit/SparkLibrarySynchronizer.h>
 
+#import <ShadowKit/SKAEFunctions.h>
 #import <ShadowKit/SKFSFunctions.h>
 #import <ShadowKit/SKLSFunctions.h>
 #import <ShadowKit/SKProcessFunctions.h>
+
+NSString * const SEServerStatusDidChangeNotification = @"SEServerStatusDidChange";
 
 @implementation SEServerConnection
 
@@ -41,9 +44,11 @@
                selector:@selector(connectionDidDie:)
                    name:NSConnectionDidDieNotification
                  object:nil];
+    
+    center = [NSDistributedNotificationCenter defaultCenter];
     [center addObserver:self
                selector:@selector(serverStatusDidChange:)
-                   name:SEServerStatusDidChangeNotification
+                   name:(id)SparkDaemonStatusDidChangeNotification
                  object:nil];
     se_sync = [[SparkLibrarySynchronizer alloc] initWithLibrary:SparkActiveLibrary()];
   }
@@ -136,10 +141,24 @@
   return se_server && [[se_server connectionForProxy] isValid];
 }
 
+- (SparkDaemonStatus)status {
+  return se_status;
+}
+- (void)setStatus:(SparkDaemonStatus)status {
+  if (se_status != status) {
+    se_status = status;
+    [[NSNotificationCenter defaultCenter] postNotificationName:SEServerStatusDidChangeNotification
+                                                        object:self];
+  }
+}
+
+- (BOOL)isRunning {
+  return se_status == kSparkDaemonStatusEnabled || se_status == kSparkDaemonStatusDisabled;
+}
+
 - (NSDistantObject<SparkServer> *)server {
   return se_server;
 }
-
 - (void)connectionDidDie:(NSNotification *)aNotification {
   if (se_server && [aNotification object] == [se_server connectionForProxy]) {
     DLog(@"Connection did close");
@@ -148,19 +167,24 @@
       se_scFlags.restart = 0;
       SELaunchSparkDaemon();
     } else {
-      [NSApp setServerStatus:kSparkDaemonStopped];
+      [self setStatus:kSparkDaemonStatusShutDown];
     }
   }
 }
 
 - (void)serverStatusDidChange:(NSNotification *)aNotification {
-  SparkDaemonStatus status = [[aNotification object] serverStatus];
+  SparkDaemonStatus status = SparkDaemonGetStatus(aNotification);
   switch (status) {
-    case kSparkDaemonStarted:
+    case kSparkDaemonStatusEnabled:
+    case kSparkDaemonStatusDisabled:
       if (![self isConnected] && [self connect])
         [self configure];
       break;
-    case kSparkDaemonStopped:
+    case kSparkDaemonStatusError:
+      DLog(@"Daemon error");
+      status = kSparkDaemonStatusShutDown;
+      // Fall throught
+    case kSparkDaemonStatusShutDown:
       if (se_server) {
         DLog(@"Server shutdown");
         [[se_server connectionForProxy] invalidate];
@@ -170,6 +194,7 @@
     default:
       break;
   }
+  [self setStatus:status];
 }
 
 @end
@@ -191,7 +216,7 @@ BOOL SELaunchSparkDaemon() {
   if (path) {
     if (noErr != SKLSLaunchApplicationAtPath((CFStringRef)path, kCFURLPOSIXPathStyle, kLSLaunchDefaults | kLSLaunchDontSwitch)) {
       DLog(@"Error cannot launch daemon app");
-      [NSApp setServerStatus:kSparkDaemonError];
+      [[SEServerConnection defaultConnection] setStatus:kSparkDaemonStatusError];
       return NO;
     }
   }  
@@ -225,13 +250,45 @@ void SEServerStartConnection() {
     } else {
       @try {
         [connection configure];
-        [NSApp setServerStatus:kSparkDaemonStarted];
+        if (SEDaemonIsEnabled()) {
+          [connection setStatus:kSparkDaemonStatusEnabled];
+        } else {
+          [connection setStatus:kSparkDaemonStatusDisabled];
+        }
       } @catch (id exception) {
         DLog(@"Error while getting remote library. Try to sync and restart daemon.");
         [connection restart];
       }
     }
   } else {
-    [NSApp setServerStatus:kSparkDaemonStopped];
+    [connection setStatus:kSparkDaemonStatusShutDown];
   }
 }
+
+BOOL SEDaemonIsEnabled() {
+  ProcessSerialNumber psn = SKProcessGetProcessWithSignature(kSparkDaemonHFSCreatorType);
+  if (psn.lowLongOfPSN != kNoProcess) {
+    Boolean result = false;
+    AppleEvent aevt = SKAEEmptyDesc();
+    OSStatus err = SKAECreateEventWithTargetProcess(&psn, kAECoreSuite, kAEGetData, &aevt);
+    require_noerr(err, bail);
+    
+    err = SKAEAddSubject(&aevt);
+    require_noerr(err, bail);
+
+    err = SKAEAddMagnitude(&aevt);
+    require_noerr(err, bail);
+    
+    err = SKAEAddPropertyObjectSpecifier(&aevt, keyDirectObject, typeBoolean, 'pSta', NULL);
+    require_noerr(err, bail);
+    
+    err = SKAESendEventReturnBoolean(&aevt, &result);
+    require_noerr(err, bail);
+bail:
+      SKAEDisposeDesc(&aevt);
+    
+    return result;
+  }
+  return NO;
+}
+

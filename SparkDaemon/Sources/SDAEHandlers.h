@@ -11,5 +11,3 @@
 
 SK_PRIVATE
 OSStatus SDGetEditorIsTrapping(Boolean *trapping);
-SK_PRIVATE
-OSStatus SDSendStateToEditor(SparkDaemonStatus state);

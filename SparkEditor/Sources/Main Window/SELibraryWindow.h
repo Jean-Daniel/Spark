@@ -8,6 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+#import <SparkKit/SparkAppleScriptSuite.h>
+
 @class SEEntryList;
 @class SEApplicationView, SETableView;
 @class SELibrarySource, SETriggersController;
@@ -36,6 +38,8 @@
 - (SEEntryList *)selectedList;
 - (void)revealEntry:(SparkEntry *)entry;
 - (void)revealEntries:(NSArray *)entries;
+
+- (void)setDaemonStatus:(SparkDaemonStatus)status;
 
 @end
 

@@ -9,6 +9,9 @@
 #import "SEScriptHandler.h"
 #import <SparkKit/SparkServerProtocol.h>
 
+SK_PRIVATE
+NSString * const SEServerStatusDidChangeNotification;
+
 @class SparkLibrarySynchronizer;
 @interface SEServerConnection : NSObject {
   @private
@@ -17,6 +20,7 @@
     unsigned int restart:1;
     unsigned int reserved:30;
   } se_scFlags;
+  SparkDaemonStatus se_status;
   SparkLibrarySynchronizer *se_sync;
   NSDistantObject<SparkServer> *se_server;
 }
@@ -29,8 +33,12 @@
 - (BOOL)connect;
 - (BOOL)isConnected;
 
+- (BOOL)isRunning;
+- (SparkDaemonStatus)status;
+
 - (int)version;
 - (NSDistantObject<SparkServer> *)server;
+
 
 @end
 
@@ -43,3 +51,7 @@ SK_PRIVATE
 NSString *SESparkDaemonPath(void);
 SK_PRIVATE
 void SEServerStartConnection(void);
+
+SK_PRIVATE
+BOOL SEDaemonIsEnabled(void);
+

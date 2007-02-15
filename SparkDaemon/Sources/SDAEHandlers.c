@@ -56,27 +56,3 @@ fevent:
 bail:
   return err;
 }
-
-OSStatus SDSendStateToEditor(SparkDaemonStatus state) {
-  OSStatus err = noErr;
-  ProcessSerialNumber psn = SKProcessGetProcessWithSignature(kSparkEditorHFSCreatorType);
-  if (psn.lowLongOfPSN != kNoProcess) {
-    AEDesc theEvent = SKAEEmptyDesc();
-
-    err = SKAECreateEventWithTargetProcess(&psn, kAECoreSuite, kAESetData, &theEvent);
-    if (noErr == err) {
-      err = AEPutParamPtr(&theEvent, keyAEData, typeEnumeration, &state, sizeof(state));
-    }
-    if (noErr == err) {
-      err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty, kSparkEditorDaemonStatus, NULL);
-    }
-    if (noErr == err) {
-      err = SKAEAddMagnitude(&theEvent);
-    }
-    if (noErr == err) {
-      err = SKAESendEventNoReply(&theEvent);
-    }
-    SKAEDisposeDesc(&theEvent);
-  }
-  return err;
-}

@@ -8,6 +8,8 @@
 
 #import <SparkKit/SparkKit.h>
 
+#import <SparkKit/SparkAppleScriptSuite.h>
+
 #import <ShadowKit/SKFunctions.h>
 
 NSString * const kSparkFolderName = @"Spark";
@@ -17,6 +19,10 @@ NSString * const kSparkDaemonHFSCreator = @"SprS";
 
 NSString * const kSparkKitBundleIdentifier = @"org.shadowlab.SparkKit";
 NSString * const kSparkDaemonBundleIdentifier = @"org.shadowlab.SparkDaemon";
+
+#pragma mark Distributed Notifications
+CFStringRef const SparkDaemonStatusKey = CFSTR("SparkDaemonStatusKey");
+CFStringRef const SparkDaemonStatusDidChangeNotification = CFSTR("SparkDaemonStatusDidChange");
 
 /* Spark Core preferences */
 #if defined(DEBUG)

@@ -22,6 +22,8 @@ typedef enum {
  */
 SPARK_EXPORT
 SparkContext SparkGetCurrentContext(void);
+SPARK_EXPORT
+BOOL SparkEditorIsRunning(void);
 
 SPARK_EXPORT
 void SparkLaunchEditor(void);

@@ -19,6 +19,11 @@
 #import <ShadowKit/SKProcessFunctions.h>
 
 #pragma mark Utilities
+BOOL SparkEditorIsRunning(void) {
+  ProcessSerialNumber psn = SKProcessGetProcessWithSignature(kSparkEditorHFSCreatorType);
+  return psn.lowLongOfPSN != kNoProcess;
+}
+
 void SparkLaunchEditor() {
   switch (SparkGetCurrentContext()) {
     case kSparkEditorContext:

@@ -47,7 +47,7 @@ int main(int argc, const char *argv[]) {
     [server run];
   } else {
     // Run Alert panel ?
-    SDSendStateToEditor(kSparkDaemonError);
+    SDSendStateToEditor(kSparkDaemonStatusError);
   }
   [server release];
   
@@ -126,7 +126,7 @@ int main(int argc, const char *argv[]) {
       [NSScriptSuiteRegistry sharedScriptSuiteRegistry];
       
       /* Send signal to editor */
-      SDSendStateToEditor(kSparkDaemonStarted);
+      SDSendStateToEditor(kSparkDaemonStatusEnabled);
       
       int delay = 0;
       /* SparkDaemonDelay */
@@ -188,6 +188,8 @@ int main(int argc, const char *argv[]) {
       [self registerTriggers];
     else
       [self unregisterVolatileTriggers];
+    
+    SDSendStateToEditor(sd_disabled ? kSparkDaemonStatusDisabled : kSparkDaemonStatusEnabled);
   }
 }
 
@@ -387,7 +389,7 @@ int main(int argc, const char *argv[]) {
 }
 
 - (void)run {
-  DLog(@"Waiting events");
+  ShadowTrace();
   [NSApp run];
 }
 
@@ -397,6 +399,8 @@ int main(int argc, const char *argv[]) {
   /* Invalidate connection. dealloc would probably not be called, so it is not a good candidate for this purpose */
   [[NSConnection defaultConnection] invalidate];
   [self unregisterTriggers];
+  
+  SDSendStateToEditor(kSparkDaemonStatusShutDown);
 }
 
 @end
