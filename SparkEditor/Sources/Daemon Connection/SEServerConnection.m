@@ -177,8 +177,12 @@ NSString * const SEServerStatusDidChangeNotification = @"SEServerStatusDidChange
   switch (status) {
     case kSparkDaemonStatusEnabled:
     case kSparkDaemonStatusDisabled:
-      if (![self isConnected] && [self connect])
+      if (![self isConnected] && [self connect]) {
         [self configure];
+        [self setStatus:status];
+      } else if ([self isConnected]) {
+        [self setStatus:status];
+      }
       break;
     case kSparkDaemonStatusError:
       DLog(@"Daemon error");
@@ -189,12 +193,12 @@ NSString * const SEServerStatusDidChangeNotification = @"SEServerStatusDidChange
         DLog(@"Server shutdown");
         [[se_server connectionForProxy] invalidate];
         [self serverDidClose];
-        break;
       }
+      [self setStatus:status];
+      break;
     default:
       break;
   }
-  [self setStatus:status];
 }
 
 @end

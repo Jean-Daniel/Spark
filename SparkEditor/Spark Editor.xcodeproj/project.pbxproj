@@ -76,7 +76,7 @@
 		98CC4EFA0B5ACB4400C60244 /* SESparkEntrySet.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B400B19A4C000C8425C /* SESparkEntrySet.m */; };
 		98CC4F0F0B5ACC7000C60244 /* SEEntryEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B520B19A59700C8425C /* SEEntryEditor.m */; };
 		98CC57060B1E446200F95A31 /* computer.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98CC57050B1E446200F95A31 /* computer.tiff */; };
-		98CC57090B1E448F00F95A31 /* user.png in Resources */ = {isa = PBXBuildFile; fileRef = 98CC57080B1E448F00F95A31 /* user.png */; };
+		98CC57090B1E448F00F95A31 /* user.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98CC57080B1E448F00F95A31 /* user.tiff */; };
 		98D012680B29D7C1001F2489 /* SparkSuite.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 984BCE5F060C7EBD0043CDEA /* SparkSuite.sdef */; };
 		98D377CA0AA73DD300947217 /* stop_gdown.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98D377C60AA73DD300947217 /* stop_gdown.tiff */; };
 		98D377CB0AA73DD300947217 /* start_gdown.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98D377C70AA73DD300947217 /* start_gdown.tiff */; };
@@ -421,7 +421,7 @@
 		98CC49630B5AAF3100C60244 /* SELibraryDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SELibraryDocument.m; sourceTree = "<group>"; };
 		98CC49670B5AAF3F00C60244 /* SELibraryDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SELibraryDocument.h; sourceTree = "<group>"; };
 		98CC57050B1E446200F95A31 /* computer.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = computer.tiff; sourceTree = "<group>"; };
-		98CC57080B1E448F00F95A31 /* user.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = user.png; sourceTree = "<group>"; };
+		98CC57080B1E448F00F95A31 /* user.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = user.tiff; sourceTree = "<group>"; };
 		98D1E8B1078564B8002DDB31 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Update.strings; sourceTree = "<group>"; };
 		98D377C60AA73DD300947217 /* stop_gdown.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = stop_gdown.tiff; sourceTree = "<group>"; };
 		98D377C70AA73DD300947217 /* start_gdown.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = start_gdown.tiff; sourceTree = "<group>"; };
@@ -714,7 +714,7 @@
 		984BCE42060C7E990043CDEA /* Icons */ = {
 			isa = PBXGroup;
 			children = (
-				98CC57080B1E448F00F95A31 /* user.png */,
+				98CC57080B1E448F00F95A31 /* user.tiff */,
 				98287FEA0B204D6700D92285 /* plugin.tiff */,
 				98CC57050B1E446200F95A31 /* computer.tiff */,
 				98A662950A66FB7700A7B020 /* applelogo.tiff */,
@@ -1213,7 +1213,7 @@
 				988107F40AFFF9390010CDD5 /* badge-5.tiff in Resources */,
 				98DA08F30B0A5DC30016B465 /* SEPluginInstaller.nib in Resources */,
 				98CC57060B1E446200F95A31 /* computer.tiff in Resources */,
-				98CC57090B1E448F00F95A31 /* user.png in Resources */,
+				98CC57090B1E448F00F95A31 /* user.tiff in Resources */,
 				98287FEB0B204D6700D92285 /* plugin.tiff in Resources */,
 				982880080B204DCF00D92285 /* nohelp.html in Resources */,
 				98D012680B29D7C1001F2489 /* SparkSuite.sdef in Resources */,

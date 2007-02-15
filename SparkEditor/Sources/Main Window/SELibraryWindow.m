@@ -176,17 +176,17 @@
       str = NSLocalizedString(@"Unexpected error occured", @"Spark Daemon status string");
       break;
     case kSparkDaemonStatusEnabled:
-      str = NSLocalizedString(@"Spark is active", @"Spark Daemon status string");
+      str = NSLocalizedString(@"Spark is running", @"Spark Daemon status string");
       up = [NSImage imageNamed:@"stop"];
       down = [NSColor currentControlTint] == NSBlueControlTint ? [NSImage imageNamed:@"stop_bdown"] : [NSImage imageNamed:@"stop_gdown"];
       break;
     case kSparkDaemonStatusDisabled:
-      str = NSLocalizedString(@"Spark is disabled", @"Spark Daemon status string");
+      str = NSLocalizedString(@"Spark is running (disabled)", @"Spark Daemon status string");
       up = [NSImage imageNamed:@"stop"];
       down = [NSColor currentControlTint] == NSBlueControlTint ? [NSImage imageNamed:@"stop_bdown"] : [NSImage imageNamed:@"stop_gdown"];
       break;
     case kSparkDaemonStatusShutDown:
-      str = NSLocalizedString(@"Spark is stopped", @"Spark Daemon status string");
+      str = NSLocalizedString(@"Spark is not running", @"Spark Daemon status string");
       up = [NSImage imageNamed:@"start"];
       down = [NSColor currentControlTint] == NSBlueControlTint ? [NSImage imageNamed:@"start_bdown"] : [NSImage imageNamed:@"start_gdown"];
       break;
