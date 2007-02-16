@@ -15,10 +15,12 @@
 @class SELibrarySource, SETriggersController;
 @class SparkEntry, SparkLibrary, SparkApplication;
 @interface SELibraryWindow : NSWindowController {
-  IBOutlet NSButton *ibDaemon;
   IBOutlet NSTextField *ibStatus;
   IBOutlet NSSegmentedControl *ibMenu;
   IBOutlet SEApplicationView *appField;  
+  
+  /* Status image */
+  IBOutlet NSImageView *uiStatus;
   
   /* Application */
   IBOutlet NSDrawer *appDrawer;

@@ -20,18 +20,18 @@
             SUPERCLASS = SKTableDataSource; 
         }, 
         {
-            ACTIONS = {toggleDaemon = id; }; 
+            ACTIONS = {}; 
             CLASS = SELibraryWindow; 
             LANGUAGE = ObjC; 
             OUTLETS = {
                 appDrawer = NSDrawer; 
                 appField = SEApplicationView; 
-                ibDaemon = NSButton; 
                 ibMenu = NSSegmentedControl; 
                 ibStatus = NSTextField; 
                 libraryTable = SKTableView; 
                 listSource = SELibrarySource; 
                 triggers = SETriggersController; 
+                uiStatus = NSImageView; 
             }; 
             SUPERCLASS = NSWindowController; 
         }, 

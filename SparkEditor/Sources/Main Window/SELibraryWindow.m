@@ -164,38 +164,29 @@
   [listSource newList:sender];
 }
 
-- (IBAction)toggleDaemon:(id)sender {
-  [[NSApp delegate] toggleServer:sender];
-}
-
 - (void)setDaemonStatus:(SparkDaemonStatus)status {
   NSString *str = @"";
-  NSImage *up = nil, *down = nil;
+  //NSImage *up = nil, *down = nil;
+  NSImage *img = nil;
   switch (status) {
     case kSparkDaemonStatusError:
       str = NSLocalizedString(@"Unexpected error occured", @"Spark Daemon status string");
       break;
     case kSparkDaemonStatusEnabled:
       str = NSLocalizedString(@"Spark is running", @"Spark Daemon status string");
-      up = [NSImage imageNamed:@"stop"];
-      down = [NSColor currentControlTint] == NSBlueControlTint ? [NSImage imageNamed:@"stop_bdown"] : [NSImage imageNamed:@"stop_gdown"];
+      img = [NSImage imageNamed:@"SparkAware"];
       break;
     case kSparkDaemonStatusDisabled:
       str = NSLocalizedString(@"Spark is running (disabled)", @"Spark Daemon status string");
-      up = [NSImage imageNamed:@"stop"];
-      down = [NSColor currentControlTint] == NSBlueControlTint ? [NSImage imageNamed:@"stop_bdown"] : [NSImage imageNamed:@"stop_gdown"];
+      img = [NSImage imageNamed:@"SparkIgnore"];
       break;
     case kSparkDaemonStatusShutDown:
       str = NSLocalizedString(@"Spark is not running", @"Spark Daemon status string");
-      up = [NSImage imageNamed:@"start"];
-      down = [NSColor currentControlTint] == NSBlueControlTint ? [NSImage imageNamed:@"start_bdown"] : [NSImage imageNamed:@"start_gdown"];
+      img = [NSImage imageNamed:@"SparkAsleep"];
       break;
   }
   [ibStatus setStringValue:str];
-  if (up && down) {
-    [ibDaemon setImage:up];
-    [ibDaemon setAlternateImage:down];
-  }
+  [uiStatus setImage:img];
 }
 
 - (void)daemonStatusDidChange:(NSNotification *)aNotification {

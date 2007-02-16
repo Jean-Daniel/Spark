@@ -26,6 +26,7 @@
 /* Begin PBXBuildFile section */
 		1B37438F0B6E2B94002F18C8 /* SEEntryList.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B3743880B6E2B79002F18C8 /* SEEntryList.m */; };
 		1B3743900B6E2B96002F18C8 /* SEEntryList.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B37438B0B6E2B84002F18C8 /* SEEntryList.h */; };
+		1B55EAE40B8625ED000E1760 /* SparkAware.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B55EAE30B8625ED000E1760 /* SparkAware.tiff */; };
 		1B5F396E0B5D451700879DF5 /* SETriggersController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B580B19A59700C8425C /* SETriggersController.m */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		9803A1420A9D01CB00B7DBBA /* SEFirstRun.nib in Resources */ = {isa = PBXBuildFile; fileRef = 9803A13C0A9D01CA00B7DBBA /* SEFirstRun.nib */; };
@@ -352,6 +353,7 @@
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		1B3743880B6E2B79002F18C8 /* SEEntryList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEntryList.m; sourceTree = "<group>"; };
 		1B37438B0B6E2B84002F18C8 /* SEEntryList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEntryList.h; sourceTree = "<group>"; };
+		1B55EAE30B8625ED000E1760 /* SparkAware.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SparkAware.tiff; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		9803A13D0A9D01CB00B7DBBA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SEFirstRun.nib; sourceTree = "<group>"; };
@@ -718,6 +720,7 @@
 				98287FEA0B204D6700D92285 /* plugin.tiff */,
 				98CC57050B1E446200F95A31 /* computer.tiff */,
 				98A662950A66FB7700A7B020 /* applelogo.tiff */,
+				1B55EAE30B8625ED000E1760 /* SparkAware.tiff */,
 				98362B060A9763F500F97F50 /* SparkIgnore.png */,
 				986691FA06F7B590002C4E98 /* application.tiff */,
 				98F3635806FF72D900FD6673 /* Library.tiff */,
@@ -1217,6 +1220,7 @@
 				98287FEB0B204D6700D92285 /* plugin.tiff in Resources */,
 				982880080B204DCF00D92285 /* nohelp.html in Resources */,
 				98D012680B29D7C1001F2489 /* SparkSuite.sdef in Resources */,
+				1B55EAE40B8625ED000E1760 /* SparkAware.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
