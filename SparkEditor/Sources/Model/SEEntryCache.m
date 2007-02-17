@@ -63,6 +63,9 @@ NSString * const SEEntryCacheDidChangeEntryEnabledNotification = @"SEEntryCacheD
                                        selector:@selector(didChangeEntryStatus:) 
                                            name:SparkEntryManagerDidChangeEntryEnabledNotification
                                          object:manager];
+      
+      // TODO: Update cache when enable/disable plugins
+      
       [self reload];
     }
   }

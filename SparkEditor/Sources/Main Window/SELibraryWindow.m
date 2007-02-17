@@ -88,8 +88,10 @@
   [self setDaemonStatus:[[SEServerConnection defaultConnection] status]];
   
   /* Configure New Plugin Menu */
-  [ibMenu setMenu:[NSApp pluginsMenu] forSegment:0];
-  [[ibMenu cell] setToolTip:NSLocalizedString(@"CREATE_TRIGGER_TOOLTIP", @"Segment Menu ToolTips") forSegment:0];
+  //[[uiMenu itemAtIndex:0] setImage:[NSImage imageNamed:@"SEGear"]];
+  [uiMenu setMenu:[NSApp pluginsMenu] forSegment:0];
+  [[uiMenu cell] setToolTip:NSLocalizedString(@"CREATE_TRIGGER_TOOLTIP", @"Segment Menu ToolTips")
+                 forSegment:0];
 }
 
 - (IBAction)libraryDoubleAction:(id)sender {
@@ -166,27 +168,29 @@
 
 - (void)setDaemonStatus:(SparkDaemonStatus)status {
   NSString *str = @"";
-  //NSImage *up = nil, *down = nil;
   NSImage *img = nil;
+  BOOL disabled = NO;
   switch (status) {
     case kSparkDaemonStatusError:
       str = NSLocalizedString(@"Unexpected error occured", @"Spark Daemon status string");
       break;
     case kSparkDaemonStatusEnabled:
-      str = NSLocalizedString(@"Spark is running", @"Spark Daemon status string");
-      img = [NSImage imageNamed:@"SparkAware"];
+      str = NSLocalizedString(@"Stop Spark Daemon", @"Spark Daemon status string");
+      img = [NSImage imageNamed:@"SparkStop"];
       break;
     case kSparkDaemonStatusDisabled:
-      str = NSLocalizedString(@"Spark is running (disabled)", @"Spark Daemon status string");
-      img = [NSImage imageNamed:@"SparkIgnore"];
+      str = NSLocalizedString(@"Stop Spark Daemon", @"Spark Daemon status string");
+      img = [NSImage imageNamed:@"SparkStop"];
+      disabled = YES;
       break;
     case kSparkDaemonStatusShutDown:
-      str = NSLocalizedString(@"Spark is not running", @"Spark Daemon status string");
-      img = [NSImage imageNamed:@"SparkAsleep"];
+      str = NSLocalizedString(@"Start Spark Daemon", @"Spark Daemon status string");
+      img = [NSImage imageNamed:@"SparkRun"];
       break;
   }
-  [ibStatus setStringValue:str];
-  [uiStatus setImage:img];
+  [uiStartStop setTitle:str];
+  [uiStartStop setImage:img];
+  [uiDisabled setHidden:!disabled];
 }
 
 - (void)daemonStatusDidChange:(NSNotification *)aNotification {

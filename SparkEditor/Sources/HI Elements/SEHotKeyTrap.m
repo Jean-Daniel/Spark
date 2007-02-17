@@ -11,9 +11,11 @@
 #import <HotKeyToolKit/HotKeyToolKit.h>
 
 /* Trap shading */
-static NSImage *hk_shading = nil;
-static NSDictionary *hk_style = nil; /* String style */
-static NSDictionary *hk_pstyle = nil; /* Placeholder style */
+static NSImage *sBorderShading = nil;
+static NSDictionary *sTextStyle = nil; /* String style */
+static NSDictionary *sPlaceholderStyle = nil; /* Placeholder style */
+
+static CGColorRef sShadowColor = NULL;
 
 static NSImage *_HKCreateShading(NSControlTint tint);
 
@@ -32,27 +34,29 @@ static NSImage *_HKCreateShading(NSControlTint tint);
 + (void)initialize {
   // Do it once
   if (self == [SEHotKeyTrap class]) {
-    hk_shading = [_HKCreateShading([NSColor currentControlTint]) retain];
+    sBorderShading = [_HKCreateShading([NSColor currentControlTint]) retain];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didChangeControlTint:)
                                                  name:NSControlTintDidChangeNotification
                                                object:nil];
     
-    hk_style = [[NSDictionary alloc] initWithObjectsAndKeys:
+    sTextStyle = [[NSDictionary alloc] initWithObjectsAndKeys:
       [NSFont systemFontOfSize:[NSFont smallSystemFontSize]], NSFontAttributeName,
       [NSColor blackColor], NSForegroundColorAttributeName,
       nil];
     
-    hk_pstyle = [[NSDictionary alloc] initWithObjectsAndKeys:
+    sPlaceholderStyle = [[NSDictionary alloc] initWithObjectsAndKeys:
       [NSFont systemFontOfSize:[NSFont smallSystemFontSize]], NSFontAttributeName,
       [NSColor grayColor], NSForegroundColorAttributeName,
       nil];
+    
+    sShadowColor = SKCGColorCreateGray(0, .80);
   }
 }
 /* Change default shading */
 + (void)didChangeControlTint:(NSNotification *)notif {
-  [hk_shading release];
-  hk_shading = [_HKCreateShading([NSColor currentControlTint]) retain];
+  [sBorderShading release];
+  sBorderShading = [_HKCreateShading([NSColor currentControlTint]) retain];
 }
 
 - (void)dealloc {
@@ -171,6 +175,8 @@ static NSImage *_HKCreateShading(NSControlTint tint);
 
 - (void)drawRect:(NSRect)frame {
   CGContextRef ctxt = [[NSGraphicsContext currentContext] graphicsPort];
+  CGContextSaveGState(ctxt);
+  
   CGContextSetGrayFillColor(ctxt, 1.f, 1.f);
   
   NSRect bounds = [self bounds];
@@ -190,28 +196,28 @@ static NSImage *_HKCreateShading(NSControlTint tint);
     CGContextAddPath(ctxt, field);
     CGContextDrawPath(ctxt, kCGPathFill);
     
-    /* Save state */
-    CGContextSaveGState(ctxt);
-    /* Fill solid border one time with shadow */
+    /* we do not want to draw anything outside of the field, so clip */
     CGContextAddPath(ctxt, border);
     CGContextClip(ctxt);
     
+    /* we have to clip temporary, so save state */
+    CGContextSaveGState(ctxt);
+    /* Fill solid border one time with shadow */
+    CGContextSetShadowWithColor(ctxt, CGSizeMake(0, -1), 2, sShadowColor);
+    
+    /* Now we can begin the layer */
+    CGContextBeginTransparencyLayer(ctxt, NULL);
+    
     CGContextAddPath(ctxt, field);
     CGContextAddPath(ctxt, border);
-    CGContextSetShadow(ctxt, CGSizeMake(0, -1.5), 1);
-    CGContextDrawPath(ctxt, kCGPathEOFill);
-    /* Restore state */
+    CGContextEOClip(ctxt);
+    
+    [sBorderShading drawInRect:bounds fromRect:NSMakeRect(0, 0, 32, kHKTrapHeight) operation:NSCompositeSourceOver fraction:1];
+    
+    CGContextEndTransparencyLayer(ctxt);
+    /* Restore clipping path */
     CGContextRestoreGState(ctxt);
     
-    /* Fill border with shading */
-    CGContextSaveGState(ctxt);
-    
-    CGContextAddPath(ctxt, field);
-    CGContextAddPath(ctxt, border);
-    
-    CGContextEOClip(ctxt);
-    [hk_shading drawInRect:bounds fromRect:NSMakeRect(0, 0, 32, kHKTrapHeight) operation:NSCompositeSourceOver fraction:1];
-
     if (se_htFlags.highlight) {
       CGContextSetRGBFillColor(ctxt, 0.2, 0.2, 0.2, 0.35);
       CGContextFillRect(ctxt, CGRectFromNSRect(bounds));
@@ -224,7 +230,7 @@ static NSImage *_HKCreateShading(NSControlTint tint);
     CGContextClip(ctxt);
     
     NSString *text = nil;
-    NSDictionary *style = hk_pstyle;
+    NSDictionary *style = sPlaceholderStyle;
     /* Draw string content */
     if (se_htFlags.hint) {
       if (se_htFlags.cancel) {
@@ -240,7 +246,7 @@ static NSImage *_HKCreateShading(NSControlTint tint);
       }
     } else if (se_str) {
       text = se_str;
-      style = hk_style;
+      style = sTextStyle;
     } else {
       // draw placeholder
       text = @"Type hotkey";
@@ -249,12 +255,13 @@ static NSImage *_HKCreateShading(NSControlTint tint);
 
     [text drawAtPoint:NSMakePoint(NSMidX(bounds) - (CAPS_WIDTH + width) / 2.0, 4.5) withAttributes:style];
     
+    /* Restore clipping path */
     CGContextRestoreGState(ctxt);
+    
     CGPathRelease(border);
     CGPathRelease(field);
     
-    /* Draw snap back arrow */
-    CGContextSaveGState(ctxt);
+    /* Draw snap back arrow, this is the last step, so we do not have to save state */
     CGContextSetGrayFillColor(ctxt, 1.f, 1.f);
     
     if (se_htFlags.cancel) { /* Draw snap back arrow */
@@ -274,11 +281,8 @@ static NSImage *_HKCreateShading(NSControlTint tint);
     CGContextAddLineToPoint(ctxt, 4, 11.5);
     CGContextClosePath(ctxt);
     CGContextFillPath(ctxt);
-    
-    CGContextRestoreGState(ctxt);
   } else {
     /* Draw rounded field with 1px gray border and the delete button if needed. */
-    CGContextSaveGState(ctxt);
     
     /* Draw field with light gray border */
     CGContextSetGrayStrokeColor(ctxt, 0.667, 1);
@@ -289,13 +293,13 @@ static NSImage *_HKCreateShading(NSControlTint tint);
     
     if (![self isEmpty]) {
       // Draw shortcut string
-      float width = [se_str sizeWithAttributes:hk_style].width;
+      float width = [se_str sizeWithAttributes:sTextStyle].width;
       NSPoint point;
       if (se_htFlags.disabled)
         point = NSMakePoint(NSMidX(bounds) - width / 2.0, 4.5);
       else
         point = NSMakePoint(NSMidX(bounds) - (CAPS_WIDTH + width) / 2.0, 4.5);
-      [se_str drawAtPoint:point withAttributes:se_htFlags.disabled ? hk_pstyle : hk_style];
+      [se_str drawAtPoint:point withAttributes:se_htFlags.disabled ? sPlaceholderStyle : sTextStyle];
       
       if (!se_htFlags.disabled) {
         /* Draw round delete button */
@@ -322,11 +326,11 @@ static NSImage *_HKCreateShading(NSControlTint tint);
     } else {
       // draw placeholder
       NSString *placeholder = @"click to edit";
-      float width = [placeholder sizeWithAttributes:hk_pstyle].width;
-      [placeholder drawAtPoint:NSMakePoint(NSMidX(bounds) - width / 2.f, 4.5) withAttributes:hk_pstyle];
+      float width = [placeholder sizeWithAttributes:sPlaceholderStyle].width;
+      [placeholder drawAtPoint:NSMakePoint(NSMidX(bounds) - width / 2.f, 4.5) withAttributes:sPlaceholderStyle];
     }
-    CGContextRestoreGState(ctxt);
   }
+  CGContextRestoreGState(ctxt);
 }
 
 - (void)clear {

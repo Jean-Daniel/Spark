@@ -1,5 +1,6 @@
 a { color: #2562a2; }
-#hmenu { list-style: none; font-size: 10pt; text-align: center; background-color: #e0e0e0; padding: 4px;
+
+#hmenu { list-style: none; font-size: 10pt; text-align: center; background-color: #e0e0e0; padding: 4px;
 border-width: 1px 0 1px 0; border-style: solid; border-color: #666666;}
 
 #hmenu a { color: #333333; font-weight: bold; text-decoration: none}
@@ -9,6 +10,27 @@ border-width: 1px 0 1px 0; border-style: solid; border-color: #666666;}
 #hmenu li:hover { background-color: #bfbfbf; padding: 4px 5px 4px 5px; 
 border-width: 0px 1px 0px 1px; border-style: solid; border-color: #666666 }
 
-h1 { white-space: nowrap; }li { white-space: nowrap; }
 
-.chapter {	font-size: 18px;	font-weight: bold;	color: black;	text-decoration: underline;	white-space: nowrap;}.answer {	text-indent: 20px;	text-align: justify;	font-size: 13px;}.copyright {	font-family: "Apple Chancery", "Lucida Calligraphy", "lucida Grande", "serif";	font-size: 10px;	font-style: italic;	white-space: nowrap;}
+h1 { white-space: nowrap; }
+ul, li { white-space: nowrap; }
+
+.chapter {
+	font-size: 18px;
+	font-weight: bold;
+	color: black;
+	text-decoration: underline;
+	white-space: nowrap;
+}
+
+.answer {
+	text-indent: 20px;
+	text-align: justify;
+	font-size: 13px;
+}
+
+.copyright {
+	font-family: "Apple Chancery", "Lucida Calligraphy", "lucida Grande", "serif";
+	font-size: 10px;
+	font-style: italic;
+	white-space: nowrap;
+}

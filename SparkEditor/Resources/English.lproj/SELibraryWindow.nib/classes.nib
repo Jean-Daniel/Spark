@@ -1,6 +1,11 @@
 {
     IBClasses = (
-        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {toggleServer = id; }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
         {CLASS = NSObject; LANGUAGE = ObjC; }, 
         {CLASS = NSSegmentedControl; LANGUAGE = ObjC; SUPERCLASS = NSControl; }, 
         {
@@ -20,18 +25,17 @@
             SUPERCLASS = SKTableDataSource; 
         }, 
         {
-            ACTIONS = {}; 
             CLASS = SELibraryWindow; 
             LANGUAGE = ObjC; 
             OUTLETS = {
                 appDrawer = NSDrawer; 
                 appField = SEApplicationView; 
-                ibMenu = NSSegmentedControl; 
-                ibStatus = NSTextField; 
                 libraryTable = SKTableView; 
                 listSource = SELibrarySource; 
                 triggers = SETriggersController; 
-                uiStatus = NSImageView; 
+                uiDisabled = NSImageView; 
+                uiMenu = NSSegmentedControl; 
+                uiStartStop = NSButton; 
             }; 
             SUPERCLASS = NSWindowController; 
         }, 

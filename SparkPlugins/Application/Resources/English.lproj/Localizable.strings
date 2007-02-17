@@ -5,13 +5,13 @@
 "CREATE_ACTION_WITHOUT_APPLICATION_ALERT" = "You cannot create an “Application Action” without Application.";
 
 /* Create Action without Application Error * Msg * */
-"CREATE_ACTION_WITHOUT_APPLICATION_ALERT_MSG" = "Click on the \"Choose…\" button to select the application you want to open.";
+"CREATE_ACTION_WITHOUT_APPLICATION_ALERT_MSG" = "Click on the “Choose…” button to select the application you want to open.";
 
 /* Unknow Action * Action Description * */
 "DESC_ERROR" = "Error";
 
 /* Force Quit Dialog * Action Description * */
-"DESC_FORCE_QUIT_DIALOG" = "Open 'Force Quit…' dialog";
+"DESC_FORCE_QUIT_DIALOG" = "Open “Force Quit…” dialog";
 
 /* Force Quit Front * Action Description * */
 "DESC_FORCE_QUIT_FRONT" = "Force Quit Front Application";
@@ -32,7 +32,7 @@
 "DESC_SWITCH_OPEN_CLOSE" = "Toggle Stat";
 
 /* Description: %1$@ => Action, %2$@ => App Name */
-"DESCRIPTION" = "%1$@ %2$@";
+"DESCRIPTION" = "%1$@ “%2$@”";
 
 /* Check * App Not Found * */
 "INVALID_APPLICATION_ALERT" = "Application for Action “%@” cannot be found.";

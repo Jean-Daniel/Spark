@@ -22,9 +22,8 @@ OSStatus SDGetEditorIsTrapping(Boolean *trapping) {
   
   /* Check front process */
   ProcessInfoRec info;
+  bzero(&info, sizeof(info));
   info.processInfoLength = sizeof(info);
-  info.processName = NULL;
-  info.processAppSpec = NULL;
   err = GetProcessInformation(&psn, &info);
   require_noerr(err, bail);
   

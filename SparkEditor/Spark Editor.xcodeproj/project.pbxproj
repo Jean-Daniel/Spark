@@ -30,6 +30,10 @@
 		1B5F396E0B5D451700879DF5 /* SETriggersController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B580B19A59700C8425C /* SETriggersController.m */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		9803A1420A9D01CB00B7DBBA /* SEFirstRun.nib in Resources */ = {isa = PBXBuildFile; fileRef = 9803A13C0A9D01CA00B7DBBA /* SEFirstRun.nib */; };
+		981875520B872F870079C55F /* SparkAsleep.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 981875510B872F870079C55F /* SparkAsleep.tiff */; };
+		981875850B8738200079C55F /* SparkRun.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 981875840B8738200079C55F /* SparkRun.tiff */; };
+		981875A10B873B9E0079C55F /* SparkStop.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 981875A00B873B9E0079C55F /* SparkStop.tiff */; };
+		981875D30B873F250079C55F /* SEGear.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 981875D20B873F250079C55F /* SEGear.pdf */; };
 		981A8A950A61A49D00753369 /* SEEntryEditor.nib in Resources */ = {isa = PBXBuildFile; fileRef = 981A8A930A61A49D00753369 /* SEEntryEditor.nib */; };
 		982312880AFE3F2100675226 /* SEForward.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 982312830AFE3F2100675226 /* SEForward.tiff */; };
 		982312890AFE3F2100675226 /* SEBack.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 982312840AFE3F2100675226 /* SEBack.tiff */; };
@@ -42,7 +46,7 @@
 		982880080B204DCF00D92285 /* nohelp.html in Resources */ = {isa = PBXBuildFile; fileRef = 982880060B204DCF00D92285 /* nohelp.html */; };
 		982AF3E50A7A7C9100D17D65 /* Library.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98F3635806FF72D900FD6673 /* Library.tiff */; };
 		9830D9850AB46C5400C316FE /* SETriggerBrowser.nib in Resources */ = {isa = PBXBuildFile; fileRef = 9830D9830AB46C5400C316FE /* SETriggerBrowser.nib */; };
-		98362B070A9763F500F97F50 /* SparkIgnore.png in Resources */ = {isa = PBXBuildFile; fileRef = 98362B060A9763F500F97F50 /* SparkIgnore.png */; };
+		98362B070A9763F500F97F50 /* SparkDisabled.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98362B060A9763F500F97F50 /* SparkDisabled.tiff */; };
 		98362B480A97664100F97F50 /* SEInheritsPlugin.nib in Resources */ = {isa = PBXBuildFile; fileRef = 98362B420A97664100F97F50 /* SEInheritsPlugin.nib */; };
 		984199350A5E67BE0009A093 /* Add.png in Resources */ = {isa = PBXBuildFile; fileRef = 984199310A5E67BE0009A093 /* Add.png */; };
 		984199360A5E67BE0009A093 /* AddDown.png in Resources */ = {isa = PBXBuildFile; fileRef = 984199320A5E67BE0009A093 /* AddDown.png */; };
@@ -357,6 +361,10 @@
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		9803A13D0A9D01CB00B7DBBA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SEFirstRun.nib; sourceTree = "<group>"; };
+		981875510B872F870079C55F /* SparkAsleep.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SparkAsleep.tiff; sourceTree = "<group>"; };
+		981875840B8738200079C55F /* SparkRun.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SparkRun.tiff; sourceTree = "<group>"; };
+		981875A00B873B9E0079C55F /* SparkStop.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SparkStop.tiff; sourceTree = "<group>"; };
+		981875D20B873F250079C55F /* SEGear.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = SEGear.pdf; sourceTree = "<group>"; };
 		981A8A940A61A49D00753369 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SEEntryEditor.nib; sourceTree = "<group>"; };
 		981B64FD09386F350024C0D9 /* ShadowCommon.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowCommon.xcconfig; sourceTree = "<group>"; };
 		981B64FE09386F350024C0D9 /* ShadowDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowDebug.xcconfig; sourceTree = "<group>"; };
@@ -374,7 +382,7 @@
 		98287FEA0B204D6700D92285 /* plugin.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = plugin.tiff; sourceTree = "<group>"; };
 		982880070B204DCF00D92285 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = English; path = English.lproj/nohelp.html; sourceTree = "<group>"; };
 		9830D9840AB46C5400C316FE /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SETriggerBrowser.nib; sourceTree = "<group>"; };
-		98362B060A9763F500F97F50 /* SparkIgnore.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SparkIgnore.png; sourceTree = "<group>"; };
+		98362B060A9763F500F97F50 /* SparkDisabled.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SparkDisabled.tiff; sourceTree = "<group>"; };
 		98362B430A97664100F97F50 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SEInheritsPlugin.nib; sourceTree = "<group>"; };
 		9837AA72071B0E7F0057584D /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/TableAlert.nib; sourceTree = "<group>"; };
 		9837AA74071B11130057584D /* TableAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TableAlertController.m; path = "Classes/UI Controllers/TableAlertController.m"; sourceTree = "<group>"; };
@@ -410,7 +418,6 @@
 		9877192606D48E12008A7AE8 /* add_mini_down.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = add_mini_down.tiff; sourceTree = "<group>"; };
 		9877192706D48E12008A7AE8 /* add_mini.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = add_mini.tiff; sourceTree = "<group>"; };
 		9877192806D48E12008A7AE8 /* remove_mini.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = remove_mini.tiff; sourceTree = "<group>"; };
-		98771C4406D4AC1D008A7AE8 /* Small_Gear.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Small_Gear.tiff; sourceTree = "<group>"; };
 		987E6BB206D76DF300C7F41C /* Spark Plugins.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "Spark Plugins.xcodeproj"; path = "../SparkPlugins/Spark Plugins.xcodeproj"; sourceTree = SOURCE_ROOT; };
 		988107ED0AFFF9390010CDD5 /* badge-3.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "badge-3.tiff"; sourceTree = "<group>"; };
 		988107EE0AFFF9390010CDD5 /* badge-4.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "badge-4.tiff"; sourceTree = "<group>"; };
@@ -680,6 +687,9 @@
 		984BCE30060C7E990043CDEA /* Buttons */ = {
 			isa = PBXGroup;
 			children = (
+				981875840B8738200079C55F /* SparkRun.tiff */,
+				981875A00B873B9E0079C55F /* SparkStop.tiff */,
+				981875D20B873F250079C55F /* SEGear.pdf */,
 				984AFB530773813D00859149 /* Check.png */,
 				984AFB540773813D00859149 /* Uncheck.png */,
 				98660E8806E71A7A00049957 /* MiniPlus.tiff */,
@@ -687,7 +697,6 @@
 				9877192606D48E12008A7AE8 /* add_mini_down.tiff */,
 				9877192706D48E12008A7AE8 /* add_mini.tiff */,
 				9877192806D48E12008A7AE8 /* remove_mini.tiff */,
-				98771C4406D4AC1D008A7AE8 /* Small_Gear.tiff */,
 				984BCE38060C7E990043CDEA /* SEGearMenu.tiff */,
 				984BCE39060C7E990043CDEA /* start.tiff */,
 				98D377C80AA73DD300947217 /* start_bdown.tiff */,
@@ -721,7 +730,8 @@
 				98CC57050B1E446200F95A31 /* computer.tiff */,
 				98A662950A66FB7700A7B020 /* applelogo.tiff */,
 				1B55EAE30B8625ED000E1760 /* SparkAware.tiff */,
-				98362B060A9763F500F97F50 /* SparkIgnore.png */,
+				981875510B872F870079C55F /* SparkAsleep.tiff */,
+				98362B060A9763F500F97F50 /* SparkDisabled.tiff */,
 				986691FA06F7B590002C4E98 /* application.tiff */,
 				98F3635806FF72D900FD6673 /* Library.tiff */,
 				984196BB0A5E52670009A093 /* System.tiff */,
@@ -1193,7 +1203,7 @@
 				98A662960A66FB7700A7B020 /* applelogo.tiff in Resources */,
 				98A6629D0A66FC6F00A7B020 /* start.tiff in Resources */,
 				982AF3E50A7A7C9100D17D65 /* Library.tiff in Resources */,
-				98362B070A9763F500F97F50 /* SparkIgnore.png in Resources */,
+				98362B070A9763F500F97F50 /* SparkDisabled.tiff in Resources */,
 				98362B480A97664100F97F50 /* SEInheritsPlugin.nib in Resources */,
 				9803A1420A9D01CB00B7DBBA /* SEFirstRun.nib in Resources */,
 				98D590F30AA18A430081A713 /* SEEditor.strings in Resources */,
@@ -1221,6 +1231,10 @@
 				982880080B204DCF00D92285 /* nohelp.html in Resources */,
 				98D012680B29D7C1001F2489 /* SparkSuite.sdef in Resources */,
 				1B55EAE40B8625ED000E1760 /* SparkAware.tiff in Resources */,
+				981875520B872F870079C55F /* SparkAsleep.tiff in Resources */,
+				981875850B8738200079C55F /* SparkRun.tiff in Resources */,
+				981875A10B873B9E0079C55F /* SparkStop.tiff in Resources */,
+				981875D30B873F250079C55F /* SEGear.pdf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1482,7 +1496,7 @@
 		98BC60520857BB9400A2041F /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 351;
+				CURRENT_PROJECT_VERSION = 352;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = Spark;
@@ -1493,7 +1507,7 @@
 		98BC60530857BB9400A2041F /* Profiling */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 351;
+				CURRENT_PROJECT_VERSION = 352;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = Spark;
@@ -1520,7 +1534,7 @@
 		98C12BD508CE11B30015CB91 /* Universal Binary */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 351;
+				CURRENT_PROJECT_VERSION = 352;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = Spark;
@@ -1568,7 +1582,7 @@
 		98EFD02F0B58443900AD4492 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 351;
+				CURRENT_PROJECT_VERSION = 352;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = Spark;

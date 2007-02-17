@@ -30,7 +30,7 @@
 #import "SELibraryDocument.h"
 #import "SEServerConnection.h"
 
-const UInt32 kSparkVersion = 0x020700; /* 3.0.0 */
+const UInt32 kSparkVersion = 0x020701; /* 3.0.0 */
 
 int main(int argc, const char *argv[]) {
 #if defined(DEBUG)
@@ -90,35 +90,10 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
   [super sendEvent:event];
 }
 
-- (void)populateMenu:(NSMenu *)menu {
-  NSArray *plugins = [[[SparkActionLoader sharedLoader] plugins] sortedArrayUsingDescriptors:gSortByNameDescriptors];
-  
-  SparkPlugIn *plugin;
-  NSEnumerator *items = [plugins objectEnumerator];
-  int idx = 1;
-  while (plugin = [items nextObject]) {
-    if ([plugin isEnabled]) {
-      NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:[plugin name] action:@selector(newTriggerFromMenu:) keyEquivalent:@""];
-      NSImage *icon = [[plugin icon] copy];
-      if (icon) {
-        [icon setScalesWhenResized:YES];
-        [icon setSize:NSMakeSize(16, 16)];
-        [item setImage:icon];
-        [icon release];
-      }
-      [item setRepresentedObject:plugin];
-      if (idx < 10) 
-        [item setKeyEquivalent:[NSString stringWithFormat:@"%i", idx++]];
-      [menu addItem:item];
-      [item release];
-    }
-  }
-}
-
 - (NSMenu *)pluginsMenu {
   if (!se_plugins) {
     se_plugins = [[NSMenu alloc] initWithTitle:NSLocalizedString(@"NEW_TRIGGER_MENU", @"New Trigger Menu Title")];
-    [self populateMenu:se_plugins];
+    SEPopulatePluginMenu(se_plugins);
   }
   return se_plugins;
 }
@@ -129,7 +104,7 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
     while (count-- > 0) {
       [se_plugins removeItemAtIndex:count];
     }
-    [self populateMenu:se_plugins];
+    SEPopulatePluginMenu(se_plugins);
   }
 }
 
@@ -687,3 +662,30 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
 #endif
 
 @end
+
+#pragma mark -
+void SEPopulatePluginMenu(NSMenu *menu) {
+  NSCParameterAssert(menu);
+  NSArray *plugins = [[[SparkActionLoader sharedLoader] plugins] sortedArrayUsingDescriptors:gSortByNameDescriptors];
+  
+  SparkPlugIn *plugin;
+  NSEnumerator *items = [plugins objectEnumerator];
+  int idx = 1;
+  while (plugin = [items nextObject]) {
+    if ([plugin isEnabled]) {
+      NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:[plugin name] action:@selector(newTriggerFromMenu:) keyEquivalent:@""];
+      NSImage *icon = [[plugin icon] copy];
+      if (icon) {
+        [icon setScalesWhenResized:YES];
+        [icon setSize:NSMakeSize(16, 16)];
+        [item setImage:icon];
+        [icon release];
+      }
+      [item setRepresentedObject:plugin];
+      if (idx < 10) 
+        [item setKeyEquivalent:[NSString stringWithFormat:@"%i", idx++]];
+      [menu addItem:item];
+      [item release];
+    }
+  }  
+}
