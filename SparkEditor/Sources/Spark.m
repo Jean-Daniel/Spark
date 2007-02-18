@@ -175,29 +175,13 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
 //  [self displayFirstRunIfNeeded];
 }
 
-//- (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename {
-//  return NO;
-//}
-- (BOOL)applicationOpenUntitledFile:(NSApplication *)theApplication {
-  ShadowTrace();
-  SELibraryDocument *doc = [[NSDocumentController sharedDocumentController] makeUntitledDocumentOfType:@"SparkLibraryFile"];
-  if (doc) {
-    [[NSDocumentController sharedDocumentController] addDocument:doc];
-    [doc setLibrary:SparkActiveLibrary()];
-    [doc makeWindowControllers];
-    [doc showWindows];
-  }
-  return doc != nil;
-}
-
-
 - (void)serverStatusDidChange:(NSNotification *)aNotification {
   NSString *title = nil;
   if ([[SEServerConnection defaultConnection] isRunning]) {
-    title = NSLocalizedString(@"DEACTIVE_SPARK_MENU", 
+    title = NSLocalizedString(@"STOP_SPARK_DAEMON_MENU", 
                               @"Spark Daemon Menu Title * Desactive *");
   } else {
-    title = NSLocalizedString(@"ACTIVE_SPARK_MENU", 
+    title = NSLocalizedString(@"START_SPARK_DAEMON_MENU", 
                               @"Spark Daemon Menu Title * Active *");  
   }
   
@@ -206,35 +190,6 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
 
 #pragma mark -
 #pragma mark Menu IBActions
-//- (IBAction)revert:(id)sender {
-//  [[NSAlert alertWithMessageText:@"You are about to revert all changed perform since Spark Launch."
-//                   defaultButton:@"Revert"
-//                 alternateButton:@"Cancel"
-//                     otherButton:nil
-//       informativeTextWithFormat:@"Revert will restore your database."] beginSheetModalForWindow:[self mainWindow]
-//                                                 modalDelegate:self
-//                                                didEndSelector:@selector(revertPanelDidEnd:returnCode:contextInfo:)
-//                                                   contextInfo:nil];
-//}
-//
-//- (void)revertPanelDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void  *)contextInfo {
-//  if (NSOKButton == returnCode) {
-//    NSError *error = nil;
-//    [SparkSharedLibrary() readLibrary:&error];
-//    if (error) {
-//      [[NSAlert alertWithError:error] runModal];
-//    } else {
-//      [[SEEntriesManager sharedManager] reload];
-//      [[NSNotificationCenter defaultCenter] postNotificationName:@"SEDidReloadLibrary"
-//                                                          object:nil];
-//    }
-//    if ([NSApp serverStatus] == kSparkDaemonStarted) {
-//      [[SEServerConnection defaultConnection] restart];
-//    }
-//  }
-//}
-
-
 - (IBAction)toggleServer:(id)sender {
   if ([[SEServerConnection defaultConnection] isRunning]) {
     [[SEServerConnection defaultConnection] shutdown];
@@ -491,18 +446,6 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
 //}
 
 #pragma mark -
-#pragma mark Windows Delegate
-- (void)windowWillClose:(NSNotification *)aNotification {
-//  [se_mainWindow saveWorkspace];
-  [[NSUserDefaults standardUserDefaults] synchronize];
-  [NSApp terminate:nil];
-}
-
-- (BOOL)windowShouldClose:(id)sender {
-  return YES;
-}
-
-#pragma mark -
 #pragma mark Application Delegate
 - (void)openPluginBundle:(NSString *)path {
   SEPluginInstaller *panel = [[SEPluginInstaller alloc] init];
@@ -542,6 +485,18 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
   return NO;
 }
 
+- (BOOL)applicationOpenUntitledFile:(NSApplication *)theApplication {
+  SELibraryDocument *doc = [[NSDocumentController sharedDocumentController] makeUntitledDocumentOfType:@"SparkLibraryFile"];
+  if (doc) {
+    [[NSDocumentController sharedDocumentController] addDocument:doc];
+    [doc setLibrary:SparkActiveLibrary()];
+    //[doc setLibrary:[[[SparkLibrary alloc] init] autorelease]];
+    [doc makeWindowControllers];
+    [doc showWindows];
+  }
+  return doc != nil;
+}
+
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
   [SEPreferences synchronize];
 }
@@ -552,7 +507,6 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
 
 #pragma mark -
 #pragma mark About Plugins Menu
-
 - (void)createAboutMenu {
   unsigned count = [aboutMenu numberOfItems];
   while (count-- > 0) {

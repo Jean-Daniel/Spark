@@ -77,10 +77,15 @@
   }
 
   if (![aMenu numberOfItems]) {
-    NSURL *help = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"nohelp" ofType:@"html"]];
+    NSURL *help = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:
+      NSLocalizedStringFromTable(@"nohelp", 
+                                 @"Resources", 
+                                 @"No Help page available")
+                                                                         ofType:@"html"]];
     NSAssert(help, @"nohelp.html not found");
     if (help) {
-      NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:@"no help" action:nil keyEquivalent:@""];
+      NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"no help", @"No help menu item title")
+                                                    action:nil keyEquivalent:@""];
       [item setImage:[NSImage imageNamed:@"plugin"]];
       [item setRepresentedObject:[help absoluteString]];
       [aMenu addItem:item];

@@ -15,12 +15,7 @@
             SUPERCLASS = NSObject; 
         }, 
         {
-            ACTIONS = {
-                checkForNewVersion = id; 
-                revert = id; 
-                showPlugInHelp = id; 
-                showPreferences = id; 
-            }; 
+            ACTIONS = {checkForNewVersion = id; showPlugInHelp = id; showPreferences = id; }; 
             CLASS = Spark; 
             LANGUAGE = ObjC; 
             OUTLETS = {aboutMenu = NSMenu; statusMenuItem = NSMenuItem; }; 

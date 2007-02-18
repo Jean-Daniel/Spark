@@ -31,6 +31,9 @@
   
   /* Triggers */
   IBOutlet SETriggersController *triggers;  
+  
+  @private
+    SparkLibrary *se_library;
 }
 
 - (SparkLibrary *)library;

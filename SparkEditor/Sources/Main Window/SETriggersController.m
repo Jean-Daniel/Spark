@@ -55,7 +55,7 @@ static
 SETriggerStyle styles[6];
 
 static 
-NSString * sSEHidenPluggedObserverKey = nil;
+NSString * sSEHiddenPluggedObserverKey = nil;
 
 @implementation SETriggersController
 
@@ -86,14 +86,14 @@ NSString * sSEHidenPluggedObserverKey = nil;
       [[NSColor colorWithCalibratedRed:.463f green:.016f blue:.314f alpha:1] retain],
       [[NSColor colorWithCalibratedRed:.984f green:.890f blue:1.00f alpha:1] retain]};
     
-    sSEHidenPluggedObserverKey = [[@"values." stringByAppendingString:kSEPreferencesHideDisabled] retain];
+    sSEHiddenPluggedObserverKey = [[@"values." stringByAppendingString:kSEPreferencesHideDisabled] retain];
   }
 }
 
 - (id)initWithCoder:(NSCoder *)aCoder {
   if (self = [super initWithCoder:aCoder]) {
     [[NSUserDefaultsController sharedUserDefaultsController] addObserver:self
-                                                              forKeyPath:sSEHidenPluggedObserverKey
+                                                              forKeyPath:sSEHiddenPluggedObserverKey
                                                                  options:NSKeyValueObservingOptionNew
                                                                  context:nil];
   }
@@ -102,7 +102,7 @@ NSString * sSEHidenPluggedObserverKey = nil;
 
 - (void)dealloc {
   [[NSUserDefaultsController sharedUserDefaultsController] removeObserver:self
-                                                               forKeyPath:sSEHidenPluggedObserverKey];
+                                                               forKeyPath:sSEHiddenPluggedObserverKey];
   [super dealloc];
 }
 

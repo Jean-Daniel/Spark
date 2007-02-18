@@ -6,6 +6,7 @@
  *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
  */
 
+#import "Spark.h"
 #import "SEEntryCache.h"
 #import "SESparkEntrySet.h"
 #import "SELibraryDocument.h"
@@ -15,6 +16,8 @@
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkObjectSet.h>
 #import <SparkKit/SparkEntryManager.h>
+
+#import <SparkKit/SparkActionLoader.h>
 
 NSString * const SEEntryCacheDidReloadNotification = @"SEEntryCacheDidReload";
 
@@ -64,8 +67,15 @@ NSString * const SEEntryCacheDidChangeEntryEnabledNotification = @"SEEntryCacheD
                                            name:SparkEntryManagerDidChangeEntryEnabledNotification
                                          object:manager];
       
-      // TODO: Update cache when enable/disable plugins
-      
+      /* Update cache when enable/disable plugins */
+      [[NSNotificationCenter defaultCenter] addObserver:self
+                                               selector:@selector(didChangePlugin:)
+                                                   name:SESparkEditorDidChangePluginStatusNotification
+                                                 object:nil];
+      [[NSNotificationCenter defaultCenter] addObserver:self
+                                               selector:@selector(didChangePlugin:)
+                                                   name:SparkActionLoaderDidRegisterPlugInNotification
+                                                 object:nil];
       [self reload];
     }
   }
@@ -75,6 +85,8 @@ NSString * const SEEntryCacheDidChangeEntryEnabledNotification = @"SEEntryCacheD
 - (void)dealloc {
   [se_base release];
   [se_merge release];
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
+  [[[se_document library] notificationCenter] removeObserver:self];
   [super dealloc];
 }
 
@@ -87,8 +99,8 @@ NSString * const SEEntryCacheDidChangeEntryEnabledNotification = @"SEEntryCacheD
   [self refresh];
   
   /* Notify reload */
-  [[NSNotificationCenter defaultCenter] postNotificationName:SEEntryCacheDidReloadNotification
-                                                      object:self];
+  [[[se_document library] notificationCenter] postNotificationName:SEEntryCacheDidReloadNotification
+                                                            object:self];
 }
 
 - (void)refresh {
@@ -252,6 +264,10 @@ NSString * const SEEntryCacheDidChangeEntryEnabledNotification = @"SEEntryCacheD
   [[[se_document library] notificationCenter] postNotificationName:SEEntryCacheDidChangeEntryEnabledNotification
                                                             object:self
                                                           userInfo:[aNotification userInfo]];
+}
+
+- (void)didChangePlugin:(NSNotification *)aNotification {
+  [self reload];
 }
 
 @end

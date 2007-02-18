@@ -31,17 +31,14 @@
 - (void)reload {
   [self removeAllObjects];
   
-  [self addObject:[SparkApplication objectWithName:@"Globals" icon:[NSImage imageNamed:@"System"]]];
+  [self addObject:[SparkApplication objectWithName:NSLocalizedString(@"Globals", @"Globals Application name")
+                                              icon:[NSImage imageNamed:@"System"]]];
   [self addObjects:[[self applicationSet] objects]];
   [self rearrangeObjects];
 }
 
 - (void)se_init {
   [self setCompareFunction:SparkObjectCompare];
-  [[NSNotificationCenter defaultCenter] addObserver:self
-                                           selector:@selector(didReloadLibrary:)
-                                               name:@"SEDidReloadLibrary"
-                                             object:nil];
 }
 
 - (id)initWithCoder:(NSCoder *)aCoder {
@@ -62,7 +59,6 @@
   [se_path release];
   [[se_library notificationCenter] removeObserver:self];
   [se_library release];
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
   [super dealloc];
 }
 
@@ -72,7 +68,7 @@
   [uiTable registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, nil]];
   
   /* Configure Application Header Cell */
-  SEHeaderCell *header = [[SEHeaderCell alloc] initTextCell:@"Front Application"];
+  SEHeaderCell *header = [[SEHeaderCell alloc] initTextCell:NSLocalizedString(@"Front Application", @"Front Applications - header cell")];
   [header setAlignment:NSCenterTextAlignment];
   [header setFont:[NSFont systemFontOfSize:11]];
   [[[uiTable tableColumns] objectAtIndex:0] setHeaderCell:header];
@@ -95,6 +91,11 @@
                                       selector:@selector(didRemoveApplication:)
                                           name:SparkObjectSetDidRemoveObjectNotification
                                         object:[se_library applicationSet]];  
+  
+  [[se_library notificationCenter] addObserver:self
+                                      selector:@selector(didReloadLibrary:)
+                                          name:SELibraryDocumentDidReloadNotification
+                                        object:[ibWindow document]];
 }
 
 #pragma mark -

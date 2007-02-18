@@ -53,7 +53,8 @@
 }
 
 - (void)awakeFromNib {
-  NSString *path = [[NSBundle mainBundle] pathForResource:@"Read First" ofType:@"rtf"];
+  NSString *path = [[NSBundle mainBundle] pathForResource:NSLocalizedStringFromTable(@"Read First", @"Resources", @"Read First file name")
+                                                   ofType:@"rtf"];
   NSURL *url = [NSURL fileURLWithPath:path];
   NSTextStorage *storage = [[NSTextStorage alloc] initWithURL:url documentAttributes:nil];
   [[ibText layoutManager] replaceTextStorage:storage];

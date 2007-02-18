@@ -49,6 +49,8 @@ BOOL SEOverwriteFilter(SEEntryList *list, SparkEntry *object, SparkApplication *
 
 /* Create and update plugins list */
 - (void)buildPluginLists {
+  [self setSelectsInsertedObjects:NO];
+  
   NSArray *plugins = [[SparkActionLoader sharedLoader] plugins];
   if (se_plugins) {
     [self removeObjects:NSAllMapTableKeys(se_plugins)];
@@ -71,6 +73,7 @@ BOOL SEOverwriteFilter(SEEntryList *list, SparkEntry *object, SparkApplication *
       [list release];
     }
   }
+  [self setSelectsInsertedObjects:YES];
 }
 
 #pragma mark -
@@ -125,7 +128,7 @@ BOOL SEOverwriteFilter(SEEntryList *list, SparkEntry *object, SparkApplication *
   se_library = [[ibWindow library] retain];
   
   /* Configure Library Header Cell */
-  SEHeaderCell *header = [[SEHeaderCell alloc] initTextCell:@"HotKey Groups"];
+  SEHeaderCell *header = [[SEHeaderCell alloc] initTextCell:NSLocalizedString(@"HotKey Groups", @"Library Header Cell")];
   [header setAlignment:NSCenterTextAlignment];
   [header setFont:[NSFont systemFontOfSize:11]];
   [[[uiTable tableColumns] objectAtIndex:0] setHeaderCell:header];
@@ -155,7 +158,8 @@ BOOL SEOverwriteFilter(SEEntryList *list, SparkEntry *object, SparkApplication *
                                                          alpha:1]];
   
   /* Add library… */
-  SESmartEntryList *library = [[SESmartEntryList alloc] initWithName:@"Library" icon:[NSImage imageNamed:@"Library"]];
+  SESmartEntryList *library = [[SESmartEntryList alloc] initWithName:NSLocalizedString(@"Library", @"Library list name")
+                                                                icon:[NSImage imageNamed:@"Library"]];
   [library setListFilter:SELibraryFilter context:nil];
   [library setDocument:[ibWindow document]];
   [library setGroup:0];
@@ -196,10 +200,10 @@ BOOL SEOverwriteFilter(SEEntryList *list, SparkEntry *object, SparkApplication *
   [self setSelectionIndex:0];
   
   /* Register for notifications */
-  [[NSNotificationCenter defaultCenter] addObserver:self
-                                           selector:@selector(applicationDidChange:)
-                                               name:SEApplicationDidChangeNotification
-                                             object:[ibWindow document]];
+  [[se_library notificationCenter] addObserver:self
+                                      selector:@selector(applicationDidChange:)
+                                          name:SEApplicationDidChangeNotification
+                                        object:[ibWindow document]];
   
   [[se_library notificationCenter] addObserver:self
                                       selector:@selector(didAddList:)
@@ -301,7 +305,7 @@ BOOL SEOverwriteFilter(SEEntryList *list, SparkEntry *object, SparkApplication *
 }
 
 - (IBAction)newList:(id)sender {
-  SparkList *list = [[SparkList alloc] initWithName:@"New List"];
+  SparkList *list = [[SparkList alloc] initWithName:NSLocalizedString(@"New List", @"New List default name")];
   [[[self library] listSet] addObject:list];
   [list release];
   

@@ -65,6 +65,10 @@ static
 const UInt32 kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_0;
 
 @interface SparkLibrary (SparkLibraryLoader)
+/* Initializer */
+- (void)initFinder;
+- (void)initIconManager;
+
 - (BOOL)readLibraryFromFileWrapper:(NSFileWrapper *)wrapper error:(NSError **)error;
 - (BOOL)importOldLibraryFromFileWrapper:(NSFileWrapper *)wrapper error:(NSError **)error;
 @end
@@ -84,7 +88,12 @@ const UInt32 kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_0;
 
 #pragma mark -
 - (id)init {
-  return [self initWithPath:nil];
+  if (self = [self initWithPath:nil]) {
+    /* Init with empty path */
+    [self initIconManager];
+    [self initFinder];
+  }
+  return self;
 }
 
 - (id)initWithPath:(NSString *)path {
@@ -295,6 +304,9 @@ bail:
 }
 
 - (BOOL)readFromFileWrapper:(NSFileWrapper *)fileWrapper error:(NSError **)outError {
+  if ([self isLoaded])
+    [NSException raise:NSInternalInconsistencyException format:@"<%@ %p> is already loaded.", [self class], self];
+  
   NSDictionary *wrappers = [fileWrapper fileWrappers];
   NSData *data = [[wrappers objectForKey:@"Info.plist"] regularFileContents];
   require(data != nil, bail);
@@ -304,7 +316,6 @@ bail:
                                                                   format:NULL
                                                         errorDescription:NULL];
   require(info != nil, bail);
-  
   
   /* Load uuid */
   NSString *uuid = [info objectForKey:@"UUID"];
@@ -318,10 +329,7 @@ bail:
   }
   
   /* Create icon manager only for editor */
-  if (SparkGetCurrentContext() == kSparkEditorContext) {
-    [sp_icons release];
-    sp_icons = [[SparkIconManager alloc] initWithLibrary:self path:SparkLibraryIconFolder(self)];
-  }
+  [self initIconManager];
   
   BOOL result = NO;
   UInt32 version = [[info objectForKey:@"Version"] unsignedIntValue];
@@ -336,6 +344,20 @@ bail:
   
   DLog(@"Library %@ loaded", uuid);
   
+  /* Load Finder Application (if needed) */
+  [self initFinder];
+  
+  return result;
+bail:
+    return NO;
+}
+
+@end
+
+#pragma mark -
+@implementation SparkLibrary (SparkLibraryLoader)
+
+- (void)initFinder {
   SparkApplication *finder = [[self applicationSet] objectForUID:1];
   if (!finder || [finder signature] != kSparkFinderCreatorType) {
     NSString *path = SKLSFindApplicationForSignature(kSparkFinderCreatorType);
@@ -349,16 +371,15 @@ bail:
         [finder release];
       }
     }
-  }
-  return result;
-bail:
-    return NO;
+  }  
 }
 
-@end
-
-#pragma mark -
-@implementation SparkLibrary (SparkLibraryLoader)
+- (void)initIconManager {
+  if (SparkGetCurrentContext() == kSparkEditorContext) {
+    [sp_icons release];
+    sp_icons = [[SparkIconManager alloc] initWithLibrary:self path:SparkLibraryIconFolder(self)];
+  }
+}
 
 - (BOOL)readLibraryFromFileWrapper:(NSFileWrapper *)wrapper error:(NSError **)error {
   BOOL ok = NO;

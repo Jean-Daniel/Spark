@@ -89,7 +89,9 @@ void *_SEPreferencesLoginItemThread(void *arg) {
 }
 
 + (BOOL)synchronize {
-  return [[NSUserDefaults standardUserDefaults] synchronize] && CFPreferencesAppSynchronize((CFStringRef)kSparkPreferencesIdentifier);
+  BOOL user = [[NSUserDefaults standardUserDefaults] synchronize];
+  BOOL shared = CFPreferencesAppSynchronize((CFStringRef)kSparkPreferencesIdentifier);
+  return user && shared;
 }
 
 - (id)init {
@@ -147,19 +149,19 @@ void *_SEPreferencesLoginItemThread(void *arg) {
     NSMapInsert(se_status, plugin, (void *)status);
   }
   NSDictionary *item = [NSDictionary dictionaryWithObjectsAndKeys:
-    @"Built-in", @"name",
+    NSLocalizedString(@"Built-in", @"Plugin preferences domain - built-in"), @"name",
     bplugs, @"plugins",
     [NSImage imageNamed:@"application"], @"icon", nil];
   [se_plugins addObject:item];
   
   item = [NSDictionary dictionaryWithObjectsAndKeys:
-    @"Computer", @"name",
+    NSLocalizedString(@"Computer", @"Plugin preferences domain - computer"), @"name",
     lplugs, @"plugins",
     [NSImage imageNamed:@"computer"], @"icon", nil];
   [se_plugins addObject:item];
   
   item = [NSDictionary dictionaryWithObjectsAndKeys:
-    @"User", @"name",
+    NSLocalizedString(@"User", @"Plugin preferences domain - user"), @"name",
     uplugs, @"plugins",
     [NSImage imageNamed:@"user"], @"icon", nil];
   [se_plugins addObject:item];

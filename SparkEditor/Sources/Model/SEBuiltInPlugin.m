@@ -15,7 +15,7 @@
 }
 
 + (NSString *)plugInName {
-  return @"Globals Setting";
+  return NSLocalizedString(@"Globals Setting", @"Inherits 'Built-in Plugin' title");
 }
 
 + (NSImage *)plugInIcon {

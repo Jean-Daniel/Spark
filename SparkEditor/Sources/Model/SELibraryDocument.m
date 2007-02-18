@@ -18,9 +18,9 @@
 #import <SparkKit/SparkObjectSet.h>
 #import <SparkKit/SparkEntryManager.h>
 
-
 NSString * const SEPreviousApplicationKey = @"SEPreviousApplicationKey";
 NSString * const SEApplicationDidChangeNotification = @"SEApplicationDidChange";
+NSString * const SELibraryDocumentDidReloadNotification = @"SELibraryDocumentDidReloadNotification";
 
 SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
   id document;
@@ -103,7 +103,7 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
     /* Refresh cache */
     [se_cache refresh];
     /* Notify change */
-    [[NSNotificationCenter defaultCenter] postNotification:notify];
+    [[se_library notificationCenter] postNotification:notify];
   }
 }
 
@@ -113,6 +113,26 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
     [self updateChangeCount:NSChangeCleared];
   } 
   [super canCloseDocumentWithDelegate:delegate shouldCloseSelector:shouldCloseSelector contextInfo:contextInfo];
+}
+
+- (BOOL)revertToSavedFromFile:(NSString *)fileName ofType:(NSString *)type {
+  return [self revertToContentsOfURL:[NSURL fileURLWithPath:fileName] ofType:type error:NULL];
+}
+
+- (BOOL)revertToContentsOfURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError {
+  if (outError) *outError = nil;
+  if ([se_library readLibrary:outError]) {
+    /* Notify to reload applications lists */
+    [[se_library notificationCenter] postNotificationName:SELibraryDocumentDidReloadNotification
+                                                   object:self
+                                                 userInfo:nil];
+    /* Reload cache */
+    [se_cache reload];
+    [self updateChangeCount:NSChangeCleared];
+    return YES;
+  } else {
+    return NO;
+  }
 }
 
 #pragma mark -
@@ -154,6 +174,20 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
   return nil;
 }
 
+static 
+NSAlert *_SELibraryTriggerAlreadyUsedAlert(SparkEntry *entry) {
+  NSString *msg = NSLocalizedString(@"Do you want to replace the action '%@' by your new action?", 
+                                    @"Trigger already used (%@ => entry name) - Message");
+  NSString *title = [NSString stringWithFormat:NSLocalizedString(@"The '%@' action already use the same shortcut.",
+                                                                 @"Trigger already used (%@ => entry name) - Title"), [entry name]];
+  NSAlert *alert = [NSAlert alertWithMessageText:title
+                                   defaultButton:NSLocalizedString(@"Replace", @"Trigger already used - Replace")
+                                 alternateButton:NSLocalizedString(@"Cancel", @"Trigger already used - Cancel")
+                                     otherButton:nil
+                       informativeTextWithFormat:msg, [entry name]];
+  return alert;
+}
+
 - (BOOL)editor:(SEEntryEditor *)theEditor shouldCreateEntry:(SparkEntry *)anEntry {
   NSParameterAssert(anEntry != nil);
   
@@ -173,10 +207,9 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
       /* Is previous isn't a weak action */
       if (kSparkEntryTypeWeakOverWrite != [previous type]) {
         /* Already used by a real entry */
-        int result = NSRunAlertPanel([NSString stringWithFormat:@"The '%@' action already use the same shortcut.", [previous name]],
-                                     @"Do you want to replace the action '%@' by your new action?",
-                                     @"Replace", @"Cancel", nil, [previous name]);
-        if (NSOKButton != result) {
+        NSAlert *alert = _SELibraryTriggerAlreadyUsedAlert(previous);
+        NSInteger result = [alert runModal];
+        if (NSAlertDefaultReturn != result) {
           return NO;
         }
       }
@@ -242,10 +275,9 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
           /* Is previous isn't a weak action */
           if (kSparkEntryTypeWeakOverWrite != [previous type]) {
             /* Already used by a real entry */
-            int result = NSRunAlertPanel([NSString stringWithFormat:@"The '%@' action already use the same shortcut.", [previous name]],
-                                         @"Do you want to replace the action '%@' by your new action?",
-                                         @"Replace", @"Cancel", nil, [previous name]);
-            if (NSOKButton != result) {
+            NSAlert *alert = _SELibraryTriggerAlreadyUsedAlert(previous);
+            NSInteger result = [alert runModal];
+            if (NSAlertDefaultReturn != result) {
               return NO;
             }
           }

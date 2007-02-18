@@ -39,6 +39,8 @@ SK_PRIVATE
 NSString * const SEPreviousApplicationKey;
 SK_PRIVATE
 NSString * const SEApplicationDidChangeNotification;
+SK_PRIVATE
+NSString * const SELibraryDocumentDidReloadNotification;
 
 SK_PRIVATE
 SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library);

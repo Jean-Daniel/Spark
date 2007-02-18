@@ -36,7 +36,6 @@ NSString * const SEEntryListDidChangeNameNotification = @"SEEntryListDidChangeNa
   [se_entries release];
   /* unregister notifications */
   [[se_library notificationCenter] removeObserver:self];
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
   [se_library release];
   [super dealloc];
 }
@@ -72,10 +71,6 @@ NSString * const SEEntryListDidChangeNameNotification = @"SEEntryListDidChangeNa
 }
 - (void)setDocument:(SELibraryDocument *)aDocument {
   if (se_document) {
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:SEApplicationDidChangeNotification
-                                                  object:se_document];
-    
     [[[se_document library] notificationCenter] removeObserver:self];
     [se_library release];
     se_library = nil;
@@ -83,10 +78,12 @@ NSString * const SEEntryListDidChangeNameNotification = @"SEEntryListDidChangeNa
   se_document = aDocument;
   if (se_document) {
     se_library = [[aDocument library] retain];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(applicationDidChange:)
-                                                 name:SEApplicationDidChangeNotification
-                                               object:se_document];
+    /* Current application change */
+    [[se_library notificationCenter] addObserver:self
+                                        selector:@selector(applicationDidChange:)
+                                            name:SEApplicationDidChangeNotification
+                                          object:se_document];
+    /* Cache updates */
     [[se_library notificationCenter] addObserver:self
                                         selector:@selector(didAddEntry:)
                                             name:SEEntryCacheDidAddEntryNotification
@@ -98,6 +95,11 @@ NSString * const SEEntryListDidChangeNameNotification = @"SEEntryListDidChangeNa
     [[se_library notificationCenter] addObserver:self
                                         selector:@selector(willRemoveEntry:)
                                             name:SEEntryCacheWillRemoveEntryNotification
+                                          object:[se_document cache]];
+    
+    [[se_library notificationCenter] addObserver:self
+                                        selector:@selector(cacheDidReload:)
+                                            name:SEEntryCacheDidReloadNotification
                                           object:[se_document cache]];
   }
   [self reload];
@@ -195,6 +197,10 @@ NSString * const SEEntryListDidChangeNameNotification = @"SEEntryListDidChangeNa
 - (BOOL)acceptsEntry:(SparkEntry *)anEntry {
   SKClusterException();
   return NO;
+}
+
+- (void)cacheDidReload:(NSNotification *)aNotification {
+  [self reload];
 }
 
 - (void)didAddEntry:(NSNotification *)aNotification {
@@ -317,11 +323,13 @@ NSString * const SEEntryListDidChangeNameNotification = @"SEEntryListDidChangeNa
   NSUInteger count = [entries count];
   while (count-- > 0) {
     SparkEntry *entry = [entries objectAtIndex:count];
-    NSUInteger idx = [[self entries] indexOfObjectIdenticalTo:entry];
-    NSAssert1(idx != NSNotFound, @"Must contains entry %@", entry);
+    
+    NSAssert1([[self entries] indexOfObjectIdenticalTo:entry] != NSNotFound,
+              @"Must contains entry %@", entry);
     
     SparkTrigger *trigger = [entry trigger];
-    NSAssert2([se_list containsObject:trigger], @"%@ Must contains %@", se_list, trigger);
+    NSAssert2([se_list containsObject:trigger], 
+              @"%@ Must contains %@", se_list, trigger);
     
     [se_list removeObject:trigger];
   }

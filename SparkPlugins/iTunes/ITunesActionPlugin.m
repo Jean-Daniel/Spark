@@ -214,13 +214,15 @@ NSImage *ITunesGetApplicationIcon() {
     case kiTunesPlayPlaylist:
       idx = 2;
       break;
-    case kiTunesPlayPause:
     case kiTunesBackTrack:
     case kiTunesNextTrack:
       idx = 3;
       break;
-    default:
+    case kiTunesPlayPause:
       idx = 4;
+      break;
+    default:
+      idx = 5;
       break;
   }
   [ibTabView selectTabViewItemAtIndex:idx];

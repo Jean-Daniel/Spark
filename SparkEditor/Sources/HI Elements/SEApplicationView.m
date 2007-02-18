@@ -35,9 +35,10 @@
     /* Update title and refresh (in setTitle:) */
     NSString *title = nil;
     if (se_app && [se_app uid] == 0) {
-      title = @"Globals HotKeys";
+      title = [NSLocalizedString(@"Globals HotKeys", @"Globals HotKeys - Application View Title") retain];
     } else {
-      title = se_app ? [[NSString alloc] initWithFormat:@"%@ HotKeys", [se_app name]] : nil;
+      title = se_app ? [[NSString alloc] initWithFormat:
+        NSLocalizedString(@"%@ HotKeys", @"Application HotKeys - Application View Title (%@ => name)"), [se_app name]] : nil;
     }
     [self setTitle:title];
     [title release];

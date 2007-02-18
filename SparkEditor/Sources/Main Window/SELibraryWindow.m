@@ -38,13 +38,14 @@
 }
 
 - (void)dealloc {
+  [[se_library notificationCenter] removeObserver:self];
+  [se_library release];
   [[NSNotificationCenter defaultCenter] removeObserver:self];
-  [[NSDistributedNotificationCenter defaultCenter] removeObserver:self];
   [super dealloc];
 }
 
 - (SparkLibrary *)library {
-  return [[self document] library];
+  return se_library;
 }
 - (NSUndoManager *)undoManager {
   return [[self document] undoManager];
@@ -60,18 +61,22 @@
   [[self window] display];
 }
 
-- (void)setDocument:(NSDocument *)aDocument {
+- (void)setDocument:(SELibraryDocument *)aDocument {
+  NSParameterAssert(!aDocument || [aDocument isKindOfClass:[SELibraryDocument class]]);
   if ([super document]) {
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:SEApplicationDidChangeNotification
-                                                  object:[self document]];
+    [[se_library notificationCenter] removeObserver:self
+                                               name:SEApplicationDidChangeNotification
+                                             object:[self document]];
+    [se_library release];
+    se_library = nil;
   }
   [super setDocument:aDocument];
   if (aDocument) {
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(applicationDidChange:)
-                                                 name:SEApplicationDidChangeNotification
-                                               object:[self document]];
+    se_library = [[aDocument library] retain];
+    [[se_library notificationCenter] addObserver:self
+                                        selector:@selector(applicationDidChange:)
+                                            name:SEApplicationDidChangeNotification
+                                          object:[self document]];
   }
 }
 
@@ -171,22 +176,16 @@
   NSImage *img = nil;
   BOOL disabled = NO;
   switch (status) {
-    case kSparkDaemonStatusError:
-      str = NSLocalizedString(@"Unexpected error occured", @"Spark Daemon status string");
-      break;
-    case kSparkDaemonStatusEnabled:
-      str = NSLocalizedString(@"Stop Spark Daemon", @"Spark Daemon status string");
-      img = [NSImage imageNamed:@"SparkStop"];
+    case kSparkDaemonStatusShutDown:
+      img = [NSImage imageNamed:@"SparkRun"];
+      str = NSLocalizedString(@"Start Spark Daemon", @"Spark Daemon status string");
       break;
     case kSparkDaemonStatusDisabled:
-      str = NSLocalizedString(@"Stop Spark Daemon", @"Spark Daemon status string");
-      img = [NSImage imageNamed:@"SparkStop"];
       disabled = YES;
-      break;
-    case kSparkDaemonStatusShutDown:
-      str = NSLocalizedString(@"Start Spark Daemon", @"Spark Daemon status string");
-      img = [NSImage imageNamed:@"SparkRun"];
-      break;
+      // Fall through
+    default:
+      img = [NSImage imageNamed:@"SparkStop"];
+      str = NSLocalizedString(@"Stop Spark Daemon", @"Spark Daemon status string");
   }
   [uiStartStop setTitle:str];
   [uiStartStop setImage:img];

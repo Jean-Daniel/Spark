@@ -235,13 +235,15 @@ static NSImage *_HKCreateShading(NSControlTint tint);
     if (se_htFlags.hint) {
       if (se_htFlags.cancel) {
         NSString *key = HKMapGetStringRepresentationForCharacterAndModifier(se_hotkey.character, se_hotkey.modifiers);
-        text = key ? [NSString stringWithFormat:@"Revert to %@", key] : @"Cancel";
+        text = key ? [NSString stringWithFormat:NSLocalizedStringFromTable(@"Revert to %@", @"SEHotKeyTrap", @"Revert to - placeholder(%@ => shortcut)"), key] : 
+          NSLocalizedStringFromTable(@"Cancel", @"SEHotKeyTrap", @"Cancel - placeholder");
       } else {
 //        if (se_character == se_bhotkey.character && se_modifier == se_bhotkey.modifiers && se_keycode == se_bhotkey.keycode) {
-//          text = @"Cancel";
+//          text = NSLocalizedStringFromTable(@"Cancel", @"SEHotKeyTrap", @"Cancel - placeholder");
 //        } else {
         NSString *key = HKMapGetStringRepresentationForCharacterAndModifier(se_bhotkey.character, se_bhotkey.modifiers);
-        text = key ? [NSString stringWithFormat:@"Save %@", key] : @"Cancel";
+        text = key ? [NSString stringWithFormat:NSLocalizedStringFromTable(@"Save %@", @"SEHotKeyTrap", @"Save - placeholder (%@ => shortcut)"), key] : 
+          NSLocalizedStringFromTable(@"Cancel", @"SEHotKeyTrap", @"Cancel - placeholder");
 //        }
       }
     } else if (se_str) {
@@ -249,7 +251,7 @@ static NSImage *_HKCreateShading(NSControlTint tint);
       style = sTextStyle;
     } else {
       // draw placeholder
-      text = @"Type hotkey";
+      text = NSLocalizedStringFromTable(@"Type hotkey", @"SEHotKeyTrap", @"Type HotKey - placeholder");
     }
     float width = [text sizeWithAttributes:style].width;
 
@@ -325,7 +327,7 @@ static NSImage *_HKCreateShading(NSControlTint tint);
       }
     } else {
       // draw placeholder
-      NSString *placeholder = @"click to edit";
+      NSString *placeholder = NSLocalizedStringFromTable(@"click to edit", @"SEHotKeyTrap", @"click to edit - placeholder");
       float width = [placeholder sizeWithAttributes:sPlaceholderStyle].width;
       [placeholder drawAtPoint:NSMakePoint(NSMidX(bounds) - width / 2.f, 4.5) withAttributes:sPlaceholderStyle];
     }

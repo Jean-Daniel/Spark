@@ -55,6 +55,10 @@ int main(int argc, const char *argv[]) {
   return 0;
 }
 
+/* Main thread variable */
+static
+BOOL sIsProcessingEvent = NO;
+
 @implementation SparkDaemon
 
 - (BOOL)application:(NSApplication *)sender delegateHandlesKey:(NSString *)key {
@@ -336,6 +340,7 @@ int main(int argc, const char *argv[]) {
     [trigger bypass];
     return;
   }
+  sIsProcessingEvent = YES;
   /* Warning: trigger can be release during it's own invocation, so retain it */
   [trigger retain];
   @try {
@@ -385,6 +390,7 @@ int main(int argc, const char *argv[]) {
       CFRelease(displayAlertRef);
     }
   }
+  sIsProcessingEvent = NO;
   DLog(@"Finish handle event");
 }
 

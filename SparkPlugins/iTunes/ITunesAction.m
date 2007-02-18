@@ -171,6 +171,8 @@ bail:
   if (ia_iaFlags.notify) flags |= 1 << 8;
   if (ia_iaFlags.autoplay) flags |= 1 << 9;
   if (ia_iaFlags.background) flags |= 1 << 10;
+  /* Play/Pause flags */
+  if (ia_iaFlags.autorun) flags |= 1 << 11;
   /* Visual */
   if (ia_iaFlags.show) flags |= 1 << 16;
   flags |= ia_iaFlags.visual << 17;
@@ -197,6 +199,8 @@ bail:
   if (flags & 1 << 8) ia_iaFlags.notify = 1; /* bit 8 */
   if (flags & 1 << 9) ia_iaFlags.autoplay = 1; /* bit 9 */
   if (flags & 1 << 10) ia_iaFlags.background = 1; /* bit 10 */
+  /* Play/Pause flags */
+  if (flags & 1 << 11) ia_iaFlags.autorun = 1; /* bit 11 */
   /* Visual */
   if (flags & 1 << 16) ia_iaFlags.show = 1; /* bit 16 */
   ia_iaFlags.visual = (flags >> 17) & 0x3; /* bits 17 and 18 */
@@ -372,6 +376,12 @@ bail:
 }
 
 - (void)displayInfoIfNeeded {
+  if ([self showInfo]) {
+    [self displayTrackNotification];
+  }
+}
+
+- (void)displayInfoIfRunning {
   ITunesState state;
   if ([self showInfo] && noErr == iTunesGetPlayerState(&state) && kiTunesStatePlaying == state) {
     [self displayTrackNotification];
@@ -391,7 +401,7 @@ bail:
   switch ([self iTunesAction]) {
     case kiTunesLaunch: {
       ProcessSerialNumber psn = {0, kNoProcess};
-      SKProcessGetProcessWithSignature(kiTunesSignature);
+      psn = SKProcessGetProcessWithSignature(kiTunesSignature);
       if (psn.lowLongOfPSN == kNoProcess) {
         LSLaunchFlags flags = kLSLaunchDefaults;
         if (ia_iaFlags.hide)
@@ -410,9 +420,23 @@ bail:
     case kiTunesQuit:
       iTunesQuit();
       break;
-    case kiTunesPlayPause:
-      iTunesSendCommand(kiTunesCommandPlayPause);
-      [self displayInfoIfNeeded];
+    case kiTunesPlayPause: {
+      ProcessSerialNumber psn = {0, kNoProcess};
+      psn = SKProcessGetProcessWithSignature(kiTunesSignature);
+      if (psn.lowLongOfPSN == kNoProcess) {
+        if (ia_iaFlags.autorun) {
+          /* Launch iTunes */
+          iTunesLaunch(kLSLaunchDefaults | kLSLaunchDontSwitch);
+          /* Display iTunes Icon */
+          [self notifyLaunch];
+          /* Send Play event*/
+          iTunesSendCommand(kiTunesCommandPlay);
+        }
+      } else {
+        iTunesSendCommand(kiTunesCommandPlayPause);
+        [self displayInfoIfRunning];
+      }
+    }
       break;
     case kiTunesPlayPlaylist:
       alert = [self playPlaylist];
@@ -522,6 +546,10 @@ bail:
 - (void)setLaunchPlay:(BOOL)flag { SKSetFlag(ia_iaFlags.autoplay, flag); }
 - (void)setLaunchNotify:(BOOL)flag { SKSetFlag(ia_iaFlags.notify, flag); }
 - (void)setLaunchBackground:(BOOL)flag { SKSetFlag(ia_iaFlags.background, flag); }
+
+/* Play/Pause setting */
+- (BOOL)autorun { return ia_iaFlags.autorun; }
+- (void)setAutorun:(BOOL)flag { SKSetFlag(ia_iaFlags.autorun, flag); }
 
 - (int)visualMode {
   return ia_iaFlags.visual;
