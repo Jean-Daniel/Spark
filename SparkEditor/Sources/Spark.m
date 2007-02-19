@@ -35,7 +35,7 @@ const UInt32 kSparkVersion = 0x020701; /* 3.0.0 */
 int main(int argc, const char *argv[]) {
 #if defined(DEBUG)
   SparkLogSynchronization = YES;
-//  SparkLibraryFileFormat = NSPropertyListXMLFormat_v1_0;
+  // SparkLibraryFileFormat = NSPropertyListXMLFormat_v1_0;
 #endif
   return NSApplicationMain(argc, argv);
 }
