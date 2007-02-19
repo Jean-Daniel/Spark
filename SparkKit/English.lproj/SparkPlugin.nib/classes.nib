@@ -10,6 +10,7 @@
         {
             CLASS = SparkBuiltInActionPlugin; 
             LANGUAGE = ObjC; 
+            OUTLETS = {uiLabel = NSTextField; uiLists = NSPopUpButton; uiName = NSTextField; }; 
             SUPERCLASS = SparkActionPlugIn; 
         }
     ); 

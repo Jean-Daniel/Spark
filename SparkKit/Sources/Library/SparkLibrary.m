@@ -82,8 +82,8 @@ const UInt32 kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_0;
 + (void)initialize {
   if ([SparkLibrary class] == self) {
     /* Register Built-In Plugin (and make sure other plugins are loaded) */
-    [SparkActionLoader sharedLoader];
-    //[[SparkActionLoader sharedLoader] registerPlugInClass:[SparkBuiltInActionPlugin class]];
+    //[SparkActionLoader sharedLoader];
+    [[SparkActionLoader sharedLoader] registerPlugInClass:[SparkBuiltInActionPlugin class]];
   }
 }
 

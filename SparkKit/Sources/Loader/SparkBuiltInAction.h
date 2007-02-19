@@ -16,18 +16,27 @@ enum {
 };
 
 @interface SparkBuiltInActionPlugin : SparkActionPlugIn {
-
+  IBOutlet NSTextField *uiName;
+  IBOutlet NSTextField *uiLabel;
+  IBOutlet NSPopUpButton *uiLists;
+  
 }
+
+- (OSType)action;
+- (void)setAction:(OSType)action;
 
 @end
 
+@class SparkList;
 @interface SparkBuiltInAction : SparkAction {
   @private
+  UInt32 sp_list;
   OSType sp_action;
-  NSString *sp_list;
 }
 
 - (OSType)action;
 - (void)setAction:(OSType)anAction;
+
+- (SparkList *)list;
 
 @end

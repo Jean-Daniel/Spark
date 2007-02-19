@@ -8,6 +8,8 @@
 
 #import <SparkKit/SparkBuiltInAction.h>
 
+#import <SparkKit/SparkLibrary.h>
+#import <SparkKit/SparkObjectSet.h>
 #import <SparkKit/SparkFunctions.h>
 
 #import <ShadowKit/SKFunctions.h>
@@ -15,8 +17,41 @@
 #import <ShadowKit/SKAppKitExtensions.h>
 #import <ShadowKit/SKProcessFunctions.h>
 
+static 
+NSImage *_SparkSDActionIcon(SparkBuiltInAction *action);
+static
+NSString *_SparkActionDescription(SparkBuiltInAction *action);
+
 @implementation SparkBuiltInActionPlugin
 
+- (void)loadSparkAction:(SparkBuiltInAction *)action toEdit:(BOOL)flag {
+  [self setAction:[action action]];    
+}
+
+#pragma mark -
+- (OSType)action {
+  return [(SparkBuiltInAction *)[self sparkAction] action];
+}
+- (void)setAction:(OSType)action {
+  /* First update action */
+  [(SparkBuiltInAction *)[self sparkAction] setAction:action];
+  /* Then update placeholder */
+  [[uiName cell] setPlaceholderString:_SparkActionDescription([self sparkAction]) ? : @""];
+  switch (action) {
+    case kSparkSDActionSwitchListStatus:
+      [uiLists setHidden:NO];
+      [uiLabel setHidden:NO];
+      [uiLists setEnabled:YES];
+      break;
+    default:
+      [uiLists setHidden:YES];
+      [uiLabel setHidden:YES];
+      [uiLists setEnabled:NO];
+      break;
+  }
+}
+
+#pragma mark -
 + (Class)actionClass {
   return [SparkBuiltInAction class];
 }
@@ -54,22 +89,7 @@
 @end
 
 #pragma mark -
-static 
-NSImage *SparkSDActionIcon(SparkBuiltInAction *action) {
-  NSString *icon = nil;
-  switch ([action action]) {
-    case kSparkSDActionLaunchEditor:
-      icon = @"spark-editor";
-      break;
-    case kSparkSDActionSwitchStatus:
-      icon = @"switch-status";
-      break;
-    case kSparkSDActionSwitchListStatus:
-      icon = @"SimpleList";
-      break;
-  }
-  return icon ? [NSImage imageNamed:icon inBundle:[NSBundle bundleWithIdentifier:kSparkKitBundleIdentifier]] : nil;
-}
+
 
 @implementation SparkBuiltInAction
 
@@ -85,7 +105,7 @@ NSImage *SparkDaemonStatusIcon(BOOL status) {
 
 - (id)copyWithZone:(NSZone *)aZone {
   SparkBuiltInAction *copy = [super copyWithZone:aZone];
-  copy->sp_list = [sp_list retain];
+  copy->sp_list = sp_list;
   return copy;
 }
 
@@ -103,6 +123,8 @@ NSImage *SparkDaemonStatusIcon(BOOL status) {
 
 - (BOOL)serialize:(NSMutableDictionary *)plist {
   if ([super serialize:plist]) {
+    if (kSparkSDActionSwitchListStatus == sp_action)
+      [plist setObject:SKUInt(sp_list) forKey:@"SparkListUID"];
     [plist setObject:SKStringForOSType(sp_action) forKey:@"SparkDaemonAction"];
     return YES;
   }
@@ -112,6 +134,12 @@ NSImage *SparkDaemonStatusIcon(BOOL status) {
 - (id)initWithSerializedValues:(NSDictionary *)plist {
   if (self = [super initWithSerializedValues:plist]) {
     [self setAction:SKOSTypeFromString([plist objectForKey:@"SparkDaemonAction"])];
+    if (kSparkSDActionSwitchListStatus == sp_action)
+      sp_list = [[plist objectForKey:@"SparkListUID"] unsignedIntValue];
+    /* Update description */
+    NSString *desc = _SparkActionDescription(self);
+    if (desc)
+      [self setActionDescription:desc];
   }
   return self;
 }
@@ -183,7 +211,7 @@ bail:
 - (NSImage *)icon {
   NSImage *icon = [super icon];
   if (!icon) {
-    icon = SparkSDActionIcon(self);
+    icon = _SparkSDActionIcon(self);
     [super setIcon:icon];
   }
   return icon;
@@ -197,5 +225,47 @@ bail:
   sp_action = anAction;
 }
 
+- (SparkList *)list {
+  return [[[self library] listSet] objectForUID:sp_list];
+}
+
 @end
+
+#pragma mark -
+NSImage *_SparkSDActionIcon(SparkBuiltInAction *action) {
+  NSString *icon = nil;
+  switch ([action action]) {
+    case kSparkSDActionLaunchEditor:
+      icon = @"spark-editor";
+      break;
+    case kSparkSDActionSwitchStatus:
+      icon = @"switch-status";
+      break;
+    case kSparkSDActionSwitchListStatus:
+      icon = @"SimpleList";
+      break;
+  }
+  return icon ? [NSImage imageNamed:icon inBundle:[NSBundle bundleWithIdentifier:kSparkKitBundleIdentifier]] : nil;
+}
+
+NSString *_SparkActionDescription(SparkBuiltInAction *action) {
+  NSString *str = nil;
+  switch ([action action]) {
+    case kSparkSDActionLaunchEditor:
+      str = @"Open Spark Editor";
+      break;
+    case kSparkSDActionSwitchStatus:
+      str = @"Enable/Disable Spark";
+      break;
+    case kSparkSDActionSwitchListStatus: {
+      NSString *name = [[action list] name];
+      if (name)
+        str = [NSString stringWithFormat:@"Enable/Disable Spark List \"%@\"", [[action list] name]];
+      else
+        str = @"Enable/Disable Spark List ...";
+    }
+      break;
+  }
+  return str;
+}
 
