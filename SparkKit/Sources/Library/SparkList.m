@@ -80,7 +80,7 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
     sp_entries = [[NSMutableArray alloc] init];
     NSEnumerator *entries = [[plist objectForKey:kSparkObjectsKey] objectEnumerator];
     while (entry = [entries nextObject]) {
-      SparkObject *object = [library objectForUID:[entry unsignedIntValue]];
+      SparkObject *object = [library objectWithUID:[entry unsignedIntValue]];
       if (object)
         [sp_entries addObject:object];
       else

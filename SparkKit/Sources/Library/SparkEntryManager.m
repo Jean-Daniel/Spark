@@ -283,7 +283,7 @@ NSString * const SparkEntryManagerDidChangeEntryEnabledNotification = @"SparkEnt
   if (entry) {
     if (active)
       *active = SparkLibraryEntryIsActive(entry);
-    return [[sp_library actionSet] objectForUID:entry->action];
+    return [[sp_library actionSet] objectWithUID:entry->action];
   }
   return nil;
 }

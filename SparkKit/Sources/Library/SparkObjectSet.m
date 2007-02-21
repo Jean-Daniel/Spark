@@ -123,7 +123,7 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
   return NSMapMember(sp_objects, (void *)uid, NULL, NULL);
 }
 
-- (id)objectForUID:(UInt32)uid {
+- (id)objectWithUID:(UInt32)uid {
   return uid ? (id)NSMapGet(sp_objects, (void *)uid) : nil;
 }
 
@@ -185,7 +185,7 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
 #pragma mark -
 - (BOOL)updateObject:(SparkObject *)object {
   NSParameterAssert([self containsObject:object]);
-  SparkObject *old = [self objectForUID:[object uid]];
+  SparkObject *old = [self objectWithUID:[object uid]];
   if (old && (old != object)) {
     // Will update
     SparkLibraryPostUpdateNotification([self library], SparkObjectSetWillUpdateObjectNotification, self, old, object);
@@ -224,7 +224,7 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
   }
 }
 - (void)removeObjectWithUID:(UInt32)uid {
-  SparkObject *object = [self objectForUID:uid];
+  SparkObject *object = [self objectWithUID:uid];
   if (object)
     [self removeObject:object];
 }

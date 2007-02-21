@@ -57,6 +57,8 @@
 		984BCE59060C7E990043CDEA /* Spark.icns in Resources */ = {isa = PBXBuildFile; fileRef = 984BCE41060C7E990043CDEA /* Spark.icns */; };
 		985AF8E90A5C2D8300397FAA /* Spark.h in Headers */ = {isa = PBXBuildFile; fileRef = 984BCE6C060C7FEC0043CDEA /* Spark.h */; };
 		9867589E096B3F4200BB8A25 /* ShadowKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 986757DC096B3F2400BB8A25 /* ShadowKit.framework */; };
+		986B5B770B8CEE21000B74E7 /* libxar.dylib in Copy Framework */ = {isa = PBXBuildFile; fileRef = 986B5B740B8CEE16000B74E7 /* libxar.dylib */; };
+		986B5CDC0B8CEEB6000B74E7 /* libxar.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 986B5B740B8CEE16000B74E7 /* libxar.dylib */; };
 		9872353B0AA7552C0085C028 /* SEPreferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = 987235390AA7552C0085C028 /* SEPreferences.nib */; };
 		9875D9250AFF6FA3001511B5 /* application.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 986691FA06F7B590002C4E98 /* application.tiff */; };
 		988107F10AFFF9390010CDD5 /* badge-3.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 988107ED0AFFF9390010CDD5 /* badge-3.tiff */; };
@@ -317,6 +319,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				986B5B770B8CEE21000B74E7 /* libxar.dylib in Copy Framework */,
 				98EF83170864631B007BC81A /* SparkKit.framework in Copy Framework */,
 				98B45364097312D600BD0A82 /* ShadowKit.framework in Copy Framework */,
 				98EF831808646321007BC81A /* HotKeyToolKit.framework in Copy Framework */,
@@ -411,6 +414,7 @@
 		985F8DFD077253C70014830F /* SparkDaemon.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SparkDaemon.xcodeproj; path = ../SparkDaemon/SparkDaemon.xcodeproj; sourceTree = SOURCE_ROOT; };
 		98660E8806E71A7A00049957 /* MiniPlus.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = MiniPlus.tiff; sourceTree = "<group>"; };
 		986691FA06F7B590002C4E98 /* application.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = application.tiff; sourceTree = "<group>"; };
+		986B5B740B8CEE16000B74E7 /* libxar.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxar.dylib; path = ShadowKit/Archive/libxar.dylib; sourceTree = SHADOWKIT_ROOT; };
 		986F865307073F8200064694 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Libraries.strings; sourceTree = "<group>"; };
 		986F865E0707415800064694 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Editors.strings; sourceTree = "<group>"; };
 		9872353A0AA7552C0085C028 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SEPreferences.nib; sourceTree = "<group>"; };
@@ -501,6 +505,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				986B5CDC0B8CEEB6000B74E7 /* libxar.dylib in Frameworks */,
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				98FF14DC05EACAE90005F402 /* WebKit.framework in Frameworks */,
 				98EF831508646313007BC81A /* SparkKit.framework in Frameworks */,
@@ -515,6 +520,7 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				986B5B740B8CEE16000B74E7 /* libxar.dylib */,
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
 				98FF14DB05EACAE90005F402 /* WebKit.framework */,
 			);
@@ -1515,6 +1521,11 @@
 				CURRENT_PROJECT_VERSION = 353;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
+				);
+				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../ShadowKit/ShadowKit/Archive\"";
 				PRODUCT_NAME = Spark;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1526,6 +1537,11 @@
 				CURRENT_PROJECT_VERSION = 353;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
+				);
+				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../ShadowKit/ShadowKit/Archive\"";
 				PRODUCT_NAME = Spark;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1553,6 +1569,11 @@
 				CURRENT_PROJECT_VERSION = 353;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
+				);
+				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../ShadowKit/ShadowKit/Archive\"";
 				PRODUCT_NAME = Spark;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1601,6 +1622,11 @@
 				CURRENT_PROJECT_VERSION = 353;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
+				);
+				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../ShadowKit/ShadowKit/Archive\"";
 				PRODUCT_NAME = Spark;
 				WRAPPER_EXTENSION = app;
 			};

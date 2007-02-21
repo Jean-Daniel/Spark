@@ -107,6 +107,34 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
   }
 }
 
+- (IBAction)saveAsArchive:(id)sender {
+  NSSavePanel *panel = [NSSavePanel savePanel];
+  [panel setTitle:@"Archive Library"];
+  [panel setCanCreateDirectories:YES];
+  [panel setRequiredFileType:@"splx"];
+  [panel setAllowsOtherFileTypes:NO];
+  [panel beginSheetForDirectory:nil
+                           file:@"SparkLibrary"
+                 modalForWindow:[self windowForSheet]
+                  modalDelegate:self
+                 didEndSelector:@selector(archivePanelDidEnd:returnCode:contextInfo:)
+                    contextInfo:nil];
+}
+
+- (void)archivePanelDidEnd:(NSSavePanel *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
+  if (NSOKButton == returnCode) {
+    NSString *file = [sheet filename];
+    if (file) {
+      [[self library] archiveToFile:file];
+      NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
+        SKUInt('SLiX'), NSFileHFSTypeCode,
+        SKUInt(kSparkEditorHFSCreatorType), NSFileHFSCreatorCode, nil];
+      [[NSFileManager defaultManager] changeFileAttributes:dict atPath:file];
+    }
+  }
+}
+
+#pragma mark -
 - (void)canCloseDocumentWithDelegate:(id)delegate shouldCloseSelector:(SEL)shouldCloseSelector contextInfo:(void *)contextInfo {
   if (se_library == SparkActiveLibrary()) {
     [se_library synchronize];

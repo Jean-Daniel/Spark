@@ -118,6 +118,8 @@ void SparkLibraryPostUpdateNotification(SparkLibrary *library, NSString *name, i
 - (NSFileWrapper *)fileWrapper:(NSError **)outError;
 - (BOOL)readFromFileWrapper:(NSFileWrapper *)fileWrapper error:(NSError **)outError;
 
+- (BOOL)archiveToFile:(NSString *)file;
+
 @end
 
 #pragma mark Debugger

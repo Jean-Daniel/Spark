@@ -110,7 +110,7 @@ void SparkLibraryEntryInitFlags(SparkLibraryEntry *lentry, SparkEntry *entry) {
     
     /* Update trigger flag */
     if (SparkLibraryEntryIsOverwrite(entry)) {
-      [[[sp_library triggerSet] objectForUID:entry->trigger] setHasManyAction:YES];
+      [[[sp_library triggerSet] objectWithUID:entry->trigger] setHasManyAction:YES];
     }
   }
 }
@@ -191,9 +191,9 @@ void SparkLibraryEntryInitFlags(SparkLibraryEntry *lentry, SparkEntry *entry) {
   /* Make sure we are using internal storage pointer */
   anEntry = (SparkLibraryEntry *)CFSetGetValue(sp_set, anEntry);
   
-  SparkAction *action = [[sp_library actionSet] objectForUID:anEntry->action];
-  SparkTrigger *trigger = [[sp_library triggerSet] objectForUID:anEntry->trigger];
-  SparkApplication *application = [[sp_library applicationSet] objectForUID:anEntry->application];
+  SparkAction *action = [[sp_library actionSet] objectWithUID:anEntry->action];
+  SparkTrigger *trigger = [[sp_library triggerSet] objectWithUID:anEntry->trigger];
+  SparkApplication *application = [[sp_library applicationSet] objectWithUID:anEntry->application];
   SparkEntry *object = [[SparkEntry alloc] initWithAction:action
                                                   trigger:trigger
                                               application:application];
@@ -225,7 +225,7 @@ void SparkLibraryEntryInitFlags(SparkLibraryEntry *lentry, SparkEntry *entry) {
     SparkLibraryEntry *entry = (SparkLibraryEntry *)CFArrayGetValueAtIndex(sp_entries, count);
     NSAssert(entry, @"Invalid entry in entry manager");
     
-    SparkAction *act = [actions objectForUID:entry->action];
+    SparkAction *act = [actions objectWithUID:entry->action];
     if ([act isKindOfClass:cls]) {
       /* Update library entry */
       SparkLibraryEntrySetPlugged(entry, flag);
@@ -253,7 +253,7 @@ void SparkLibraryEntryInitFlags(SparkLibraryEntry *lentry, SparkEntry *entry) {
     if (entry->trigger == trigger) {
       contains = YES;
       if (SparkLibraryEntryIsOverwrite(entry)) {
-        [[[sp_library triggerSet] objectForUID:trigger] setHasManyAction:YES];
+        [[[sp_library triggerSet] objectWithUID:trigger] setHasManyAction:YES];
         return;
       }
     }
@@ -261,7 +261,7 @@ void SparkLibraryEntryInitFlags(SparkLibraryEntry *lentry, SparkEntry *entry) {
   if (!contains)
     [[sp_library triggerSet] removeObjectWithUID:trigger];
   else
-    [[[sp_library triggerSet] objectForUID:trigger] setHasManyAction:NO];
+    [[[sp_library triggerSet] objectWithUID:trigger] setHasManyAction:NO];
 }
 
 - (SparkEntryType)typeForLibraryEntry:(const SparkLibraryEntry *)anEntry {
@@ -414,7 +414,7 @@ typedef struct {
   while (idx >= 0) {
     SparkLibraryEntry *entry = (SparkLibraryEntry *)CFArrayGetValueAtIndex(sp_entries, idx);
     NSAssert(entry != NULL, @"Illegale null entry");
-    SparkAction *action = [actions objectForUID:entry->action];
+    SparkAction *action = [actions objectWithUID:entry->action];
     
     if (!action || ![triggers containsObjectWithUID:entry->trigger] || 
         (entry->application && ![applications containsObjectWithUID:entry->application])) {
@@ -422,7 +422,7 @@ typedef struct {
       [self removeLibraryEntry:entry];
     } else {
       if (SparkLibraryEntryIsOverwrite(entry))
-        [[triggers objectForUID:entry->trigger] setHasManyAction:YES];
+        [[triggers objectWithUID:entry->trigger] setHasManyAction:YES];
       
       /* Set permanent */
       if ([action isPermanent])

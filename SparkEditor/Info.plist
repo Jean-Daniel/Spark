@@ -33,6 +33,28 @@
 		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
+				<string>splx</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>SparkLibraryArchive</string>
+			<key>CFBundleTypeOSTypes</key>
+			<array>
+				<string>SLiX</string>
+			</array>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>org.shadowlab.spark.library.archive</string>
+			</array>
+			<key>LSTypeIsPackage</key>
+			<false/>
+			<key>NSPersistentStoreTypeKey</key>
+			<string>Binary</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
 				<string>splist</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
@@ -121,6 +143,26 @@
 			<dict>
 				<key>public.filename-extension</key>
 				<string>splib</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.data</string>
+				<string>public.archive</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>SparkLibraryArchive</string>
+			<key>UTTypeIconFile</key>
+			<string>Spax</string>
+			<key>UTTypeIdentifier</key>
+			<string>org.shadowlab.spark.library.archive</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>com.apple.ostype</key>
+				<string>SLiX</string>
+				<key>public.filename-extension</key>
+				<string>splx</string>
 			</dict>
 		</dict>
 		<dict>

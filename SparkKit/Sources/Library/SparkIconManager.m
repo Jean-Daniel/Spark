@@ -11,6 +11,7 @@
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkObjectSet.h>
 
+#import <ShadowKit/SKArchive.h>
 #import <ShadowKit/SKImageUtils.h>
 #import <ShadowKit/SKFSFunctions.h>
 
@@ -74,7 +75,7 @@ UInt8 __SparkIconTypeForObject(SparkObject *object) {
       sp_cache[idx] = NSCreateMapTable(NSIntMapKeyCallBacks, NSObjectMapValueCallBacks, 0);
       NSString *dir = [path stringByAppendingPathComponent:[NSString stringWithFormat:@"%u", idx]];
       if (![[NSFileManager defaultManager] fileExistsAtPath:dir])
-        SKFSCreateFolder((CFStringRef)dir);
+        [[NSFileManager defaultManager] createDirectoryAtPath:dir attributes:nil];
     }
     
     sp_library = aLibrary;
@@ -205,6 +206,47 @@ UInt8 __SparkIconTypeForObject(SparkObject *object) {
   SparkObject *object = SparkNotificationObject(aNotification);
   if ([object shouldSaveIcon])
     [self setIcon:nil forObject:object];
+}
+
+- (void)writeToArchive:(SKArchive *)archive atPath:(SKArchiveFile *)path {
+  NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+  for (unsigned idx = 0; idx < 4; idx++) {
+    /* Create Folder */
+    SKArchiveFile *folder = [archive addFolder:[NSString stringWithFormat:@"%u", idx] properties:nil parent:path];
+    
+    NSMutableSet *blacklist = [[NSMutableSet alloc] init];
+    [blacklist addObject:@".DS_Store"];
+    /* Then, write in memory entries */
+    UInt32 uid = 0;
+    _SparkIconEntry *entry = nil;
+    NSMapEnumerator items = NSEnumerateMapTable(sp_cache[idx]);
+    while (NSNextMapEnumeratorPair(&items, (void **)&uid, (void **)&entry)) {
+      if ([entry hasChanged]) {
+        NSString *strid = [NSString stringWithFormat:@"%u", uid];
+        [blacklist addObject:strid];
+        if ([entry icon]) {
+          NSData *data = [[entry icon] TIFFRepresentationUsingCompression:NSTIFFCompressionLZW factor:1];
+          if (data) {
+            [archive addFile:strid data:data parent:folder];
+          }
+        }
+      }
+    }
+    /* Finaly, archive on disk icons */
+    NSString *fspath = [sp_path stringByAppendingPathComponent:[folder name]];
+    NSArray *files = [[NSFileManager defaultManager] directoryContentsAtPath:fspath];
+    NSUInteger count = [files count];
+    while (count-- > 0) {
+      NSString *fsicon = [files objectAtIndex:count];
+      if (![blacklist containsObject:fsicon]) {
+        NSString *fullpath = [fspath stringByAppendingPathComponent:fsicon];
+        [archive addFile:fullpath name:fsicon parent:folder];
+      }
+    }
+      
+    [blacklist release];
+  }
+  [pool release];
 }
 
 @end

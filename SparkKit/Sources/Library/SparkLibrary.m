@@ -20,6 +20,7 @@
 #import <SparkKit/SparkIconManager.h>
 #import <SparkKit/SparkBuiltInAction.h>
 
+#import <ShadowKit/SKArchive.h>
 #import <ShadowKit/SKCFContext.h>
 #import <ShadowKit/SKExtensions.h>
 #import <ShadowKit/SKFSFunctions.h>
@@ -75,6 +76,10 @@ const UInt32 kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_0;
 
 @interface SparkEntryManager (SparkVersion1Library)
 - (void)removeEntriesForAction:(UInt32)action;
+@end
+
+@interface SparkIconManager (SparkArchiveExtension)
+- (void)writeToArchive:(SKArchive *)archive atPath:(SKArchiveFile *)path;
 @end
 
 @implementation SparkLibrary
@@ -240,10 +245,28 @@ const UInt32 kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_0;
   return NO;  
 }
 
+- (BOOL)archiveToFile:(NSString *)file {
+  NSFileWrapper *wrapper = [self fileWrapper:nil];
+  if (wrapper) {
+    SKArchive *archive = [[SKArchive alloc] initWithArchiveAtPath:file write:YES];
+    [archive addFileWrapper:wrapper parent:nil];
+    
+    if (sp_icons) {
+      SKArchiveFile *icons = [archive addFolder:@"Icons" properties:nil parent:nil];
+      [sp_icons writeToArchive:archive atPath:icons];
+    }
+    [archive close];
+    [archive release];
+    return YES;
+  }
+  return NO;
+}
+
 - (NSFileWrapper *)fileWrapper:(NSError **)outError {
   if (outError) *outError = nil;
   
   NSFileWrapper *library = [[NSFileWrapper alloc] initDirectoryWithFileWrappers:nil];
+  [library setFilename:kSparkLibraryDefaultFileName];
   
   NSFileWrapper *file;
   /* SparkActions */
@@ -359,7 +382,7 @@ bail:
 @implementation SparkLibrary (SparkLibraryLoader)
 
 - (void)initFinder {
-  SparkApplication *finder = [[self applicationSet] objectForUID:1];
+  SparkApplication *finder = [[self applicationSet] objectWithUID:1];
   if (!finder || [finder signature] != kSparkFinderCreatorType) {
     NSString *path = SKLSFindApplicationForSignature(kSparkFinderCreatorType);
     NSAssert(path, @"Could not locate Finder");
@@ -532,7 +555,7 @@ bail:
       NSNumber *uid;
       NSEnumerator *uids = [[plist objectForKey:@"ObjectList"] objectEnumerator];
       while (uid = [uids nextObject]) {
-        SparkObject *object = [[self triggerSet] objectForUID:[uid unsignedIntValue] + kSparkLibraryReserved];
+        SparkObject *object = [[self triggerSet] objectWithUID:[uid unsignedIntValue] + kSparkLibraryReserved];
         if (object) {
           [list addObject:object];
         } else {

@@ -38,7 +38,7 @@
 - (BOOL)containsObject:(SparkObject *)object;
 - (BOOL)containsObjectWithUID:(UInt32)uid;
 
-- (id)objectForUID:(UInt32)uid;
+- (id)objectWithUID:(UInt32)uid;
 
 - (BOOL)addObject:(SparkObject *)object;
 - (BOOL)updateObject:(SparkObject *)object;

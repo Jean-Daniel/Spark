@@ -226,7 +226,7 @@ bail:
 }
 
 - (SparkList *)list {
-  return [[[self library] listSet] objectForUID:sp_list];
+  return [[[self library] listSet] objectWithUID:sp_list];
 }
 
 @end
