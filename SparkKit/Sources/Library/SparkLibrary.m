@@ -20,13 +20,16 @@
 #import <SparkKit/SparkIconManager.h>
 #import <SparkKit/SparkBuiltInAction.h>
 
-#import <ShadowKit/SKArchive.h>
 #import <ShadowKit/SKCFContext.h>
 #import <ShadowKit/SKExtensions.h>
 #import <ShadowKit/SKFSFunctions.h>
 #import <ShadowKit/SKLSFunctions.h>
 #import <ShadowKit/SKSerialization.h>
 #import <ShadowKit/SKAppKitExtensions.h>
+
+#import <ShadowKit/SKArchive.h>
+#import <ShadowKit/SKArchiveFile.h>
+#import <ShadowKit/SKArchiveDocument.h>
 
 NSString * const kSparkLibraryFileExtension = @"splib";
 
@@ -245,23 +248,6 @@ const UInt32 kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_0;
   return NO;  
 }
 
-- (BOOL)archiveToFile:(NSString *)file {
-  NSFileWrapper *wrapper = [self fileWrapper:nil];
-  if (wrapper) {
-    SKArchive *archive = [[SKArchive alloc] initWithArchiveAtPath:file write:YES];
-    [archive addFileWrapper:wrapper parent:nil];
-    
-    if (sp_icons) {
-      SKArchiveFile *icons = [archive addFolder:@"Icons" properties:nil parent:nil];
-      [sp_icons writeToArchive:archive atPath:icons];
-    }
-    [archive close];
-    [archive release];
-    return YES;
-  }
-  return NO;
-}
-
 - (NSFileWrapper *)fileWrapper:(NSError **)outError {
   if (outError) *outError = nil;
   
@@ -374,6 +360,33 @@ bail:
   return result;
 bail:
     return NO;
+}
+
+#pragma mark Archive
+- (BOOL)archiveToFile:(NSString *)file {
+  NSFileWrapper *wrapper = [self fileWrapper:nil];
+  if (wrapper) {
+    SKArchive *archive = [[SKArchive alloc] initWithArchiveAtPath:file write:YES];
+    SKArchiveDocument *doc = [archive addDocumentWithName:@"Spark"];
+    CFStringRef str = CFUUIDCreateString(kCFAllocatorDefault, [self uuid]);
+    if (str) {
+      [doc setValue:(id)str forProperty:@"uuid"];
+      CFRelease(str);
+    }
+    [doc setValue:[NSString stringWithFormat:@"%u", 1] forProperty:@"format"];
+    [doc setValue:[NSString stringWithFormat:@"%u", kSparkLibraryCurrentVersion] forProperty:@"version"];
+
+    [archive addFileWrapper:wrapper parent:nil];
+    
+    if (sp_icons) {
+      SKArchiveFile *icons = [archive addFolder:@"Icons" properties:nil parent:nil];
+      [sp_icons writeToArchive:archive atPath:icons];
+    }
+    [archive close];
+    [archive release];
+    return YES;
+  }
+  return NO;
 }
 
 @end

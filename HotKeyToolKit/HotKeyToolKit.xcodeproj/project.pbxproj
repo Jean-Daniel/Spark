@@ -555,7 +555,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		981B5F510938699D0024C0D9 /* Profiling */ = {
+		981B5F510938699D0024C0D9 /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 302;
@@ -574,17 +574,17 @@
 				);
 				PRODUCT_NAME = HotKeyToolKit;
 			};
-			name = Profiling;
+			name = Profile;
 		};
-		981B5F530938699D0024C0D9 /* Profiling */ = {
+		981B5F530938699D0024C0D9 /* Profile */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 98EFD0340B58444200AD4492 /* ShadowProfile.xcconfig */;
 			buildSettings = {
 				SYMROOT = ../build;
 			};
-			name = Profiling;
+			name = Profile;
 		};
-		98643F090A556F2300260086 /* Development */ = {
+		98643F090A556F2300260086 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -600,9 +600,9 @@
 				PRODUCT_NAME = Test;
 				WRAPPER_EXTENSION = octest;
 			};
-			name = Development;
+			name = Debug;
 		};
-		98643F0A0A556F2300260086 /* Profiling */ = {
+		98643F0A0A556F2300260086 /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -618,7 +618,7 @@
 				PRODUCT_NAME = Test;
 				WRAPPER_EXTENSION = octest;
 			};
-			name = Profiling;
+			name = Profile;
 		};
 		98643F0B0A556F2300260086 /* Universal Binary */ = {
 			isa = XCBuildConfiguration;
@@ -667,23 +667,23 @@
 			};
 			name = "Universal Binary";
 		};
-		98C61C210A5813EF0004E6EF /* Development */ = {
+		98C61C210A5813EF0004E6EF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				INFOPLIST_FILE = "UITester-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = UITester;
 			};
-			name = Development;
+			name = Debug;
 		};
-		98C61C230A5813EF0004E6EF /* Profiling */ = {
+		98C61C230A5813EF0004E6EF /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				INFOPLIST_FILE = "UITester-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = UITester;
 			};
-			name = Profiling;
+			name = Profile;
 		};
 		98C61C240A5813EF0004E6EF /* Universal Binary */ = {
 			isa = XCBuildConfiguration;
@@ -694,15 +694,15 @@
 			};
 			name = "Universal Binary";
 		};
-		98E204C40A56FEDD00EB74E1 /* Development */ = {
+		98E204C40A56FEDD00EB74E1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				INSTALL_PATH = "$(HOME)/bin";
 				PRODUCT_NAME = Runner;
 			};
-			name = Development;
+			name = Debug;
 		};
-		98E204C50A56FEDD00EB74E1 /* Profiling */ = {
+		98E204C50A56FEDD00EB74E1 /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
@@ -722,7 +722,7 @@
 				PRODUCT_NAME = Runner;
 				ZERO_LINK = NO;
 			};
-			name = Profiling;
+			name = Profile;
 		};
 		98E204C60A56FEDD00EB74E1 /* Universal Binary */ = {
 			isa = XCBuildConfiguration;
@@ -744,7 +744,7 @@
 			};
 			name = "Universal Binary";
 		};
-		98EF7D5508645328007BC81A /* Development */ = {
+		98EF7D5508645328007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 302;
@@ -763,17 +763,17 @@
 				);
 				PRODUCT_NAME = HotKeyToolKit;
 			};
-			name = Development;
+			name = Debug;
 		};
-		98EF7D5D08645328007BC81A /* Development */ = {
+		98EF7D5D08645328007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 981B5F3F093868ED0024C0D9 /* ShadowDebug.xcconfig */;
 			buildSettings = {
 				SYMROOT = ../build;
 			};
-			name = Development;
+			name = Debug;
 		};
-		98EFD03D0B58448D00AD4492 /* Deployment */ = {
+		98EFD03D0B58448D00AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 302;
@@ -792,9 +792,9 @@
 				);
 				PRODUCT_NAME = HotKeyToolKit;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		98EFD03E0B58448D00AD4492 /* Deployment */ = {
+		98EFD03E0B58448D00AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -810,9 +810,9 @@
 				PRODUCT_NAME = Test;
 				WRAPPER_EXTENSION = octest;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		98EFD03F0B58448D00AD4492 /* Deployment */ = {
+		98EFD03F0B58448D00AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
@@ -832,24 +832,24 @@
 				PRODUCT_NAME = Runner;
 				ZERO_LINK = NO;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		98EFD0400B58448D00AD4492 /* Deployment */ = {
+		98EFD0400B58448D00AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				INFOPLIST_FILE = "UITester-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = UITester;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		98EFD0410B58448D00AD4492 /* Deployment */ = {
+		98EFD0410B58448D00AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 981B5F40093868ED0024C0D9 /* ShadowRelease.xcconfig */;
 			buildSettings = {
 				SYMROOT = ../build;
 			};
-			name = Deployment;
+			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
@@ -857,57 +857,57 @@
 		98643F080A556F2300260086 /* Build configuration list for PBXNativeTarget "Test" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				98643F090A556F2300260086 /* Development */,
-				98643F0A0A556F2300260086 /* Profiling */,
-				98EFD03E0B58448D00AD4492 /* Deployment */,
+				98643F090A556F2300260086 /* Debug */,
+				98643F0A0A556F2300260086 /* Profile */,
+				98EFD03E0B58448D00AD4492 /* Release */,
 				98643F0B0A556F2300260086 /* Universal Binary */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		98C61C200A5813EF0004E6EF /* Build configuration list for PBXNativeTarget "UITester" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				98C61C210A5813EF0004E6EF /* Development */,
-				98C61C230A5813EF0004E6EF /* Profiling */,
-				98EFD0400B58448D00AD4492 /* Deployment */,
+				98C61C210A5813EF0004E6EF /* Debug */,
+				98C61C230A5813EF0004E6EF /* Profile */,
+				98EFD0400B58448D00AD4492 /* Release */,
 				98C61C240A5813EF0004E6EF /* Universal Binary */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		98E204C30A56FEDD00EB74E1 /* Build configuration list for PBXNativeTarget "Runner" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				98E204C40A56FEDD00EB74E1 /* Development */,
-				98E204C50A56FEDD00EB74E1 /* Profiling */,
-				98EFD03F0B58448D00AD4492 /* Deployment */,
+				98E204C40A56FEDD00EB74E1 /* Debug */,
+				98E204C50A56FEDD00EB74E1 /* Profile */,
+				98EFD03F0B58448D00AD4492 /* Release */,
 				98E204C60A56FEDD00EB74E1 /* Universal Binary */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		98EF7D5408645328007BC81A /* Build configuration list for PBXNativeTarget "HotKeyToolKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				98EF7D5508645328007BC81A /* Development */,
-				981B5F510938699D0024C0D9 /* Profiling */,
-				98EFD03D0B58448D00AD4492 /* Deployment */,
+				98EF7D5508645328007BC81A /* Debug */,
+				981B5F510938699D0024C0D9 /* Profile */,
+				98EFD03D0B58448D00AD4492 /* Release */,
 				98C1287D08CE0D620015CB91 /* Universal Binary */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		98EF7D5C08645328007BC81A /* Build configuration list for PBXProject "HotKeyToolKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				98EF7D5D08645328007BC81A /* Development */,
-				981B5F530938699D0024C0D9 /* Profiling */,
-				98EFD0410B58448D00AD4492 /* Deployment */,
+				98EF7D5D08645328007BC81A /* Debug */,
+				981B5F530938699D0024C0D9 /* Profile */,
+				98EFD0410B58448D00AD4492 /* Release */,
 				98C1287F08CE0D620015CB91 /* Universal Binary */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};

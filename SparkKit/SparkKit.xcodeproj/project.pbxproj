@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1B0C2B430B8DC71B0062A711 /* SKXarArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C2B420B8DC71B0062A711 /* SKXarArchive.m */; };
+		1B0C2C0A0B8DD6300062A711 /* SKArchiveDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B0C2C080B8DD6300062A711 /* SKArchiveDocument.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1B0C2C0B0B8DD6300062A711 /* SKArchiveDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C2C090B8DD6300062A711 /* SKArchiveDocument.m */; };
+		1B9FE5B40B8D95370042B5F9 /* libbz2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B9FE5B00B8D95370042B5F9 /* libbz2.dylib */; };
+		1B9FE5B50B8D95370042B5F9 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B9FE5B10B8D95370042B5F9 /* libcrypto.dylib */; };
+		1B9FE5B60B8D95370042B5F9 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B9FE5B20B8D95370042B5F9 /* libxml2.dylib */; };
+		1B9FE5B70B8D95370042B5F9 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B9FE5B30B8D95370042B5F9 /* libz.dylib */; };
+		1B9FE5D10B8D95C10042B5F9 /* xar.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B9FE5D00B8D95C10042B5F9 /* xar.h */; };
+		1B9FE5D30B8D95C60042B5F9 /* libxar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B9FE5D20B8D95C60042B5F9 /* libxar.a */; };
 		1BAA6F8A0B64CF2500F9AC0E /* SKImageUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BAA6F840B64CF2500F9AC0E /* SKImageUtils.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		1BAA6F8D0B64CF2500F9AC0E /* SKImageUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BAA6F870B64CF2500F9AC0E /* SKImageUtils.m */; };
 		65245F3A0A2AFE4200ACB971 /* SKPluginLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 65245F390A2AFE4200ACB971 /* SKPluginLoader.m */; };
@@ -105,8 +114,6 @@
 		986B593D0B8CEB0F000B74E7 /* SKXarArchive.h in Headers */ = {isa = PBXBuildFile; fileRef = 986B59380B8CEB0F000B74E7 /* SKXarArchive.h */; };
 		986B59510B8CEBD0000B74E7 /* SKTreeNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 986B59500B8CEBD0000B74E7 /* SKTreeNode.m */; };
 		986B59530B8CEBD8000B74E7 /* SKTreeNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 986B59520B8CEBD8000B74E7 /* SKTreeNode.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		986B59710B8CED74000B74E7 /* libxar.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 986B59700B8CED74000B74E7 /* libxar.dylib */; };
-		986B59880B8CEDC5000B74E7 /* libxar.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 986B59700B8CED74000B74E7 /* libxar.dylib */; };
 		987283260A9B317D0098C22F /* SKSingleton.h in Headers */ = {isa = PBXBuildFile; fileRef = 987283250A9B317D0098C22F /* SKSingleton.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		98789B600AB48C1900C35052 /* SKBezelItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 98789B5A0AB48C1900C35052 /* SKBezelItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		98789B610AB48C1900C35052 /* SKBezelItemContent.h in Headers */ = {isa = PBXBuildFile; fileRef = 98789B5B0AB48C1900C35052 /* SKBezelItemContent.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -233,6 +240,15 @@
 		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		1B0C2B420B8DC71B0062A711 /* SKXarArchive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKXarArchive.m; sourceTree = "<group>"; };
+		1B0C2C080B8DD6300062A711 /* SKArchiveDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKArchiveDocument.h; sourceTree = "<group>"; };
+		1B0C2C090B8DD6300062A711 /* SKArchiveDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKArchiveDocument.m; sourceTree = "<group>"; };
+		1B9FE5B00B8D95370042B5F9 /* libbz2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libbz2.dylib; path = /usr/lib/libbz2.dylib; sourceTree = "<absolute>"; };
+		1B9FE5B10B8D95370042B5F9 /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = /usr/lib/libcrypto.dylib; sourceTree = "<absolute>"; };
+		1B9FE5B20B8D95370042B5F9 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = /usr/lib/libxml2.dylib; sourceTree = "<absolute>"; };
+		1B9FE5B30B8D95370042B5F9 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = /usr/lib/libz.dylib; sourceTree = "<absolute>"; };
+		1B9FE5D00B8D95C10042B5F9 /* xar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xar.h; sourceTree = "<group>"; };
+		1B9FE5D20B8D95C60042B5F9 /* libxar.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libxar.a; sourceTree = "<group>"; };
 		1BAA6F840B64CF2500F9AC0E /* SKImageUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKImageUtils.h; sourceTree = "<group>"; };
 		1BAA6F870B64CF2500F9AC0E /* SKImageUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKImageUtils.m; sourceTree = "<group>"; };
 		65245F390A2AFE4200ACB971 /* SKPluginLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SKPluginLoader.m; sourceTree = "<group>"; };
@@ -316,7 +332,6 @@
 		986B59380B8CEB0F000B74E7 /* SKXarArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKXarArchive.h; sourceTree = "<group>"; };
 		986B59500B8CEBD0000B74E7 /* SKTreeNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKTreeNode.m; sourceTree = "<group>"; };
 		986B59520B8CEBD8000B74E7 /* SKTreeNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKTreeNode.h; sourceTree = "<group>"; };
-		986B59700B8CED74000B74E7 /* libxar.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libxar.dylib; sourceTree = "<group>"; };
 		986DB09207135AC100C65FF2 /* CustomKeyIcon.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = CustomKeyIcon.tif; sourceTree = "<group>"; };
 		986F7A4007071B2F00064694 /* SystemApplication.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SystemApplication.tif; sourceTree = "<group>"; };
 		98725D1206CB9F1B0072B8E4 /* SKExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = SKExtensions.h; path = Headers/SKExtensions.h; sourceTree = "<group>"; };
@@ -422,7 +437,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				986B59880B8CEDC5000B74E7 /* libxar.dylib in Frameworks */,
 				8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */,
 				98675568096B367800BB8A25 /* ShadowKit.framework in Frameworks */,
 				984A388A0A6003B800DA6455 /* HotKeyToolKit.framework in Frameworks */,
@@ -434,11 +448,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B9FE5B70B8D95370042B5F9 /* libz.dylib in Frameworks */,
+				1B9FE5B40B8D95370042B5F9 /* libbz2.dylib in Frameworks */,
+				1B9FE5B60B8D95370042B5F9 /* libxml2.dylib in Frameworks */,
+				1B9FE5B50B8D95370042B5F9 /* libcrypto.dylib in Frameworks */,
 				98675577096B36BD00BB8A25 /* Cocoa.framework in Frameworks */,
 				983976350A5866BF00F79B40 /* IOKit.framework in Frameworks */,
 				98E19C710B160EF1007E4D31 /* DirectoryService.framework in Frameworks */,
 				98A417EE0B37454500411C20 /* SystemConfiguration.framework in Frameworks */,
-				986B59710B8CED74000B74E7 /* libxar.dylib in Frameworks */,
+				1B9FE5D30B8D95C60042B5F9 /* libxar.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -471,6 +489,7 @@
 		0867D69AFE84028FC02AAC07 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1B9FE5AF0B8D95110042B5F9 /* Libraries */,
 				1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */,
 				1058C7B2FEA5585E11CA2CBB /* Other Frameworks */,
 			);
@@ -527,6 +546,17 @@
 				0867D6A5FE840307C02AAC07 /* AppKit.framework */,
 			);
 			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		1B9FE5AF0B8D95110042B5F9 /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				1B9FE5B30B8D95370042B5F9 /* libz.dylib */,
+				1B9FE5B00B8D95370042B5F9 /* libbz2.dylib */,
+				1B9FE5B20B8D95370042B5F9 /* libxml2.dylib */,
+				1B9FE5B10B8D95370042B5F9 /* libcrypto.dylib */,
+			);
+			name = Libraries;
 			sourceTree = "<group>";
 		};
 		1BAA6F800B64CF2500F9AC0E /* Images */ = {
@@ -678,12 +708,16 @@
 		986B59330B8CEB0F000B74E7 /* Archive */ = {
 			isa = PBXGroup;
 			children = (
+				1B9FE5D00B8D95C10042B5F9 /* xar.h */,
+				1B9FE5D20B8D95C60042B5F9 /* libxar.a */,
 				986B59380B8CEB0F000B74E7 /* SKXarArchive.h */,
-				986B59700B8CED74000B74E7 /* libxar.dylib */,
+				1B0C2B420B8DC71B0062A711 /* SKXarArchive.m */,
 				986B59340B8CEB0F000B74E7 /* SKArchive.h */,
 				986B59350B8CEB0F000B74E7 /* SKArchive.m */,
 				986B59360B8CEB0F000B74E7 /* SKArchiveFile.h */,
 				986B59370B8CEB0F000B74E7 /* SKArchiveFile.m */,
+				1B0C2C080B8DD6300062A711 /* SKArchiveDocument.h */,
+				1B0C2C090B8DD6300062A711 /* SKArchiveDocument.m */,
 			);
 			path = Archive;
 			sourceTree = "<group>";
@@ -1053,6 +1087,8 @@
 				986B593B0B8CEB0F000B74E7 /* SKArchiveFile.h in Headers */,
 				986B593D0B8CEB0F000B74E7 /* SKXarArchive.h in Headers */,
 				986B59530B8CEBD8000B74E7 /* SKTreeNode.h in Headers */,
+				1B9FE5D10B8D95C10042B5F9 /* xar.h in Headers */,
+				1B0C2C0A0B8DD6300062A711 /* SKArchiveDocument.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1283,6 +1319,8 @@
 				986B593A0B8CEB0F000B74E7 /* SKArchive.m in Sources */,
 				986B593C0B8CEB0F000B74E7 /* SKArchiveFile.m in Sources */,
 				986B59510B8CEBD0000B74E7 /* SKTreeNode.m in Sources */,
+				1B0C2B430B8DC71B0062A711 /* SKXarArchive.m in Sources */,
+				1B0C2C0B0B8DD6300062A711 /* SKArchiveDocument.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1345,7 +1383,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		9848D887085638FD006B5130 /* Development */ = {
+		9848D887085638FD006B5130 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 302;
@@ -1366,9 +1404,9 @@
 				);
 				PRODUCT_NAME = SparkKit;
 			};
-			name = Development;
+			name = Debug;
 		};
-		9848D888085638FD006B5130 /* Profiling */ = {
+		9848D888085638FD006B5130 /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 302;
@@ -1389,23 +1427,23 @@
 				);
 				PRODUCT_NAME = SparkKit;
 			};
-			name = Profiling;
+			name = Profile;
 		};
-		9848D88B085638FD006B5130 /* Development */ = {
+		9848D88B085638FD006B5130 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 981B5F8109386A590024C0D9 /* ShadowDebug.xcconfig */;
 			buildSettings = {
 				SYMROOT = ../build;
 			};
-			name = Development;
+			name = Debug;
 		};
-		9848D88C085638FD006B5130 /* Profiling */ = {
+		9848D88C085638FD006B5130 /* Profile */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 98EFD0930B5844BA00AD4492 /* ShadowProfile.xcconfig */;
 			buildSettings = {
 				SYMROOT = ../build;
 			};
-			name = Profiling;
+			name = Profile;
 		};
 		98C128F208CE0EDE0015CB91 /* Universal Binary */ = {
 			isa = XCBuildConfiguration;
@@ -1438,7 +1476,7 @@
 			};
 			name = "Universal Binary";
 		};
-		98C56D37096B348600ABE1EF /* Development */ = {
+		98C56D37096B348600ABE1EF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 302;
@@ -1451,18 +1489,20 @@
 					"$(inherited)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_2)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_3)",
 				);
 				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../../Tools/libxar/build/Release\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/../../ShadowKit/ShadowKit/Archive\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_3 = "\"$(SRCROOT)/../../ShadowKit/ShadowKit/Archive\"";
 				OTHER_LDFLAGS = (
 					"-seg1addr",
 					0xD0300000,
 				);
 				PRODUCT_NAME = ShadowKit;
 			};
-			name = Development;
+			name = Debug;
 		};
-		98C56D39096B348600ABE1EF /* Profiling */ = {
+		98C56D39096B348600ABE1EF /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 302;
@@ -1475,16 +1515,18 @@
 					"$(inherited)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_2)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_3)",
 				);
 				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../../Tools/libxar/build/Release\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/../../ShadowKit/ShadowKit/Archive\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_3 = "\"$(SRCROOT)/../../ShadowKit/ShadowKit/Archive\"";
 				OTHER_LDFLAGS = (
 					"-seg1addr",
 					0xD0300000,
 				);
 				PRODUCT_NAME = ShadowKit;
 			};
-			name = Profiling;
+			name = Profile;
 		};
 		98C56D3A096B348600ABE1EF /* Universal Binary */ = {
 			isa = XCBuildConfiguration;
@@ -1499,9 +1541,11 @@
 					"$(inherited)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_2)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_3)",
 				);
 				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../../Tools/libxar/build/Release\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/../../ShadowKit/ShadowKit/Archive\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_3 = "\"$(SRCROOT)/../../ShadowKit/ShadowKit/Archive\"";
 				OTHER_LDFLAGS = (
 					"-seg1addr",
 					0xD0300000,
@@ -1510,7 +1554,7 @@
 			};
 			name = "Universal Binary";
 		};
-		98EFD0A30B5844F300AD4492 /* Deployment */ = {
+		98EFD0A30B5844F300AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 302;
@@ -1523,18 +1567,20 @@
 					"$(inherited)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_2)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_3)",
 				);
 				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../../Tools/libxar/build/Release\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/../../ShadowKit/ShadowKit/Archive\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_3 = "\"$(SRCROOT)/../../ShadowKit/ShadowKit/Archive\"";
 				OTHER_LDFLAGS = (
 					"-seg1addr",
 					0xD0300000,
 				);
 				PRODUCT_NAME = ShadowKit;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		98EFD0A40B5844F300AD4492 /* Deployment */ = {
+		98EFD0A40B5844F300AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 302;
@@ -1555,15 +1601,15 @@
 				);
 				PRODUCT_NAME = SparkKit;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		98EFD0A50B5844F300AD4492 /* Deployment */ = {
+		98EFD0A50B5844F300AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 981B5F8209386A590024C0D9 /* ShadowRelease.xcconfig */;
 			buildSettings = {
 				SYMROOT = ../build;
 			};
-			name = Deployment;
+			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
@@ -1571,35 +1617,35 @@
 		9848D886085638FD006B5130 /* Build configuration list for PBXNativeTarget "SparkKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				9848D887085638FD006B5130 /* Development */,
-				9848D888085638FD006B5130 /* Profiling */,
-				98EFD0A40B5844F300AD4492 /* Deployment */,
+				9848D887085638FD006B5130 /* Debug */,
+				9848D888085638FD006B5130 /* Profile */,
+				98EFD0A40B5844F300AD4492 /* Release */,
 				98C128F208CE0EDE0015CB91 /* Universal Binary */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		9848D88A085638FD006B5130 /* Build configuration list for PBXProject "SparkKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				9848D88B085638FD006B5130 /* Development */,
-				9848D88C085638FD006B5130 /* Profiling */,
-				98EFD0A50B5844F300AD4492 /* Deployment */,
+				9848D88B085638FD006B5130 /* Debug */,
+				9848D88C085638FD006B5130 /* Profile */,
+				98EFD0A50B5844F300AD4492 /* Release */,
 				98C128F308CE0EDE0015CB91 /* Universal Binary */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		98C56D36096B348600ABE1EF /* Build configuration list for PBXNativeTarget "ShadowKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				98C56D37096B348600ABE1EF /* Development */,
-				98C56D39096B348600ABE1EF /* Profiling */,
-				98EFD0A30B5844F300AD4492 /* Deployment */,
+				98C56D37096B348600ABE1EF /* Debug */,
+				98C56D39096B348600ABE1EF /* Profile */,
+				98EFD0A30B5844F300AD4492 /* Release */,
 				98C56D3A096B348600ABE1EF /* Universal Binary */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};

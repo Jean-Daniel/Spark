@@ -395,7 +395,7 @@
 			};
 			name = "Universal Binary";
 		};
-		98EF7DEB08645714007BC81A /* Development */ = {
+		98EF7DEB08645714007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 302;
@@ -403,9 +403,9 @@
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				PRODUCT_NAME = "Spark Daemon";
 			};
-			name = Development;
+			name = Debug;
 		};
-		98EF7DEC08645714007BC81A /* Profiling */ = {
+		98EF7DEC08645714007BC81A /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 302;
@@ -413,25 +413,25 @@
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				PRODUCT_NAME = "Spark Daemon";
 			};
-			name = Profiling;
+			name = Profile;
 		};
-		98EF7DF008645714007BC81A /* Development */ = {
+		98EF7DF008645714007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 981B5FD509386B470024C0D9 /* ShadowDebug.xcconfig */;
 			buildSettings = {
 				SYMROOT = ../build;
 			};
-			name = Development;
+			name = Debug;
 		};
-		98EF7DF108645714007BC81A /* Profiling */ = {
+		98EF7DF108645714007BC81A /* Profile */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 98EFD2D10B58455B00AD4492 /* ShadowProfile.xcconfig */;
 			buildSettings = {
 				SYMROOT = ../build;
 			};
-			name = Profiling;
+			name = Profile;
 		};
-		98EFD2D80B58457D00AD4492 /* Deployment */ = {
+		98EFD2D80B58457D00AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 302;
@@ -439,15 +439,15 @@
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				PRODUCT_NAME = "Spark Daemon";
 			};
-			name = Deployment;
+			name = Release;
 		};
-		98EFD2D90B58457D00AD4492 /* Deployment */ = {
+		98EFD2D90B58457D00AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 981B5FD609386B470024C0D9 /* ShadowRelease.xcconfig */;
 			buildSettings = {
 				SYMROOT = ../build;
 			};
-			name = Deployment;
+			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
@@ -455,24 +455,24 @@
 		98EF7DEA08645714007BC81A /* Build configuration list for PBXNativeTarget "Spark Daemon" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				98EF7DEB08645714007BC81A /* Development */,
-				98EF7DEC08645714007BC81A /* Profiling */,
-				98EFD2D80B58457D00AD4492 /* Deployment */,
+				98EF7DEB08645714007BC81A /* Debug */,
+				98EF7DEC08645714007BC81A /* Profile */,
+				98EFD2D80B58457D00AD4492 /* Release */,
 				98C128D108CE0E9E0015CB91 /* Universal Binary */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		98EF7DEF08645714007BC81A /* Build configuration list for PBXProject "SparkDaemon" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				98EF7DF008645714007BC81A /* Development */,
-				98EF7DF108645714007BC81A /* Profiling */,
-				98EFD2D90B58457D00AD4492 /* Deployment */,
+				98EF7DF008645714007BC81A /* Debug */,
+				98EF7DF108645714007BC81A /* Profile */,
+				98EFD2D90B58457D00AD4492 /* Release */,
 				98C128D208CE0E9E0015CB91 /* Universal Binary */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};

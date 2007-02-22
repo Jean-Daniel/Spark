@@ -1711,23 +1711,23 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		98789DD60AB4A11000C35052 /* Development */ = {
+		98789DD60AB4A11000C35052 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				INFOPLIST_FILE = Simulator/Info.plist;
 				PRODUCT_NAME = Simulator;
 				WRAPPER_EXTENSION = app;
 			};
-			name = Development;
+			name = Debug;
 		};
-		98789DD70AB4A11000C35052 /* Profiling */ = {
+		98789DD70AB4A11000C35052 /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				INFOPLIST_FILE = Simulator/Info.plist;
 				PRODUCT_NAME = Simulator;
 				WRAPPER_EXTENSION = app;
 			};
-			name = Profiling;
+			name = Profile;
 		};
 		98789DD80AB4A11000C35052 /* Universal Binary */ = {
 			isa = XCBuildConfiguration;
@@ -1738,23 +1738,23 @@
 			};
 			name = "Universal Binary";
 		};
-		9888CE1F0B02412200B81BDB /* Development */ = {
+		9888CE1F0B02412200B81BDB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 302;
 				INFOPLIST_FILE = Text/Info.plist;
 				PRODUCT_NAME = TextAction;
 			};
-			name = Development;
+			name = Debug;
 		};
-		9888CE200B02412200B81BDB /* Profiling */ = {
+		9888CE200B02412200B81BDB /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 302;
 				INFOPLIST_FILE = Text/Info.plist;
 				PRODUCT_NAME = TextAction;
 			};
-			name = Profiling;
+			name = Profile;
 		};
 		9888CE210B02412200B81BDB /* Universal Binary */ = {
 			isa = XCBuildConfiguration;
@@ -1807,7 +1807,7 @@
 				CURRENT_PROJECT_VERSION = 302;
 				INFOPLIST_FILE = AppleScript/Info.plist;
 				OTHER_LDFLAGS = (
-					"$(inherits)",
+					"$(inherited)",
 					"-weak_framework",
 					OSAKit,
 				);
@@ -1861,107 +1861,107 @@
 			};
 			name = "Universal Binary";
 		};
-		98EF7EC908645A0E007BC81A /* Development */ = {
+		98EF7EC908645A0E007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 302;
 				INFOPLIST_FILE = System/Info.plist;
 				PRODUCT_NAME = SystemAction;
 			};
-			name = Development;
+			name = Debug;
 		};
-		98EF7ECA08645A0E007BC81A /* Profiling */ = {
+		98EF7ECA08645A0E007BC81A /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 302;
 				INFOPLIST_FILE = System/Info.plist;
 				PRODUCT_NAME = SystemAction;
 			};
-			name = Profiling;
+			name = Profile;
 		};
-		98EF7ECD08645A0E007BC81A /* Development */ = {
+		98EF7ECD08645A0E007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 302;
 				INFOPLIST_FILE = iTunes/Info.plist;
 				PRODUCT_NAME = iTunesAction;
 			};
-			name = Development;
+			name = Debug;
 		};
-		98EF7ECE08645A0E007BC81A /* Profiling */ = {
+		98EF7ECE08645A0E007BC81A /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 302;
 				INFOPLIST_FILE = iTunes/Info.plist;
 				PRODUCT_NAME = iTunesAction;
 			};
-			name = Profiling;
+			name = Profile;
 		};
-		98EF7ED108645A0E007BC81A /* Development */ = {
+		98EF7ED108645A0E007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 302;
 				INFOPLIST_FILE = Documents/Info.plist;
 				PRODUCT_NAME = DocumentAction;
 			};
-			name = Development;
+			name = Debug;
 		};
-		98EF7ED208645A0E007BC81A /* Profiling */ = {
+		98EF7ED208645A0E007BC81A /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 302;
 				INFOPLIST_FILE = Documents/Info.plist;
 				PRODUCT_NAME = DocumentAction;
 			};
-			name = Profiling;
+			name = Profile;
 		};
-		98EF7ED508645A0E007BC81A /* Development */ = {
+		98EF7ED508645A0E007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 302;
 				INFOPLIST_FILE = Application/Info.plist;
 				PRODUCT_NAME = ApplicationAction;
 			};
-			name = Development;
+			name = Debug;
 		};
-		98EF7ED608645A0E007BC81A /* Profiling */ = {
+		98EF7ED608645A0E007BC81A /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 302;
 				INFOPLIST_FILE = Application/Info.plist;
 				PRODUCT_NAME = ApplicationAction;
 			};
-			name = Profiling;
+			name = Profile;
 		};
-		98EF7ED908645A0E007BC81A /* Development */ = {
+		98EF7ED908645A0E007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 302;
 				INFOPLIST_FILE = AppleScript/Info.plist;
 				OTHER_LDFLAGS = (
-					"$(inherits)",
+					"$(inherited)",
 					"-weak_framework",
 					OSAKit,
 				);
 				PRODUCT_NAME = AppleScriptAction;
 			};
-			name = Development;
+			name = Debug;
 		};
-		98EF7EDA08645A0E007BC81A /* Profiling */ = {
+		98EF7EDA08645A0E007BC81A /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 302;
 				INFOPLIST_FILE = AppleScript/Info.plist;
 				OTHER_LDFLAGS = (
-					"$(inherits)",
+					"$(inherited)",
 					"-weak_framework",
 					OSAKit,
 				);
 				PRODUCT_NAME = AppleScriptAction;
 			};
-			name = Profiling;
+			name = Profile;
 		};
-		98EF7EDD08645A0E007BC81A /* Development */ = {
+		98EF7EDD08645A0E007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
@@ -1985,9 +1985,9 @@
 				);
 				ZERO_LINK = YES;
 			};
-			name = Development;
+			name = Debug;
 		};
-		98EF7EDE08645A0E007BC81A /* Profiling */ = {
+		98EF7EDE08645A0E007BC81A /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
@@ -2012,25 +2012,25 @@
 				);
 				ZERO_LINK = NO;
 			};
-			name = Profiling;
+			name = Profile;
 		};
-		98EF7EE108645A0E007BC81A /* Development */ = {
+		98EF7EE108645A0E007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				INSTALL_PATH = /usr/local/bin;
 				PRODUCT_NAME = Labo;
 			};
-			name = Development;
+			name = Debug;
 		};
-		98EF7EE208645A0E007BC81A /* Profiling */ = {
+		98EF7EE208645A0E007BC81A /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				INSTALL_PATH = /usr/local/bin;
 				PRODUCT_NAME = Labo;
 			};
-			name = Profiling;
+			name = Profile;
 		};
-		98EF7EE508645A0E007BC81A /* Development */ = {
+		98EF7EE508645A0E007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 981B624209386E340024C0D9 /* ShadowDebug.xcconfig */;
 			buildSettings = {
@@ -2039,9 +2039,9 @@
 				SYMROOT = ../build;
 				WRAPPER_EXTENSION = spact;
 			};
-			name = Development;
+			name = Debug;
 		};
-		98EF7EE608645A0E007BC81A /* Profiling */ = {
+		98EF7EE608645A0E007BC81A /* Profile */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 98EFD1CE0B58451700AD4492 /* ShadowProfile.xcconfig */;
 			buildSettings = {
@@ -2050,68 +2050,68 @@
 				SYMROOT = ../build;
 				WRAPPER_EXTENSION = spact;
 			};
-			name = Profiling;
+			name = Profile;
 		};
-		98EFD1CF0B58454800AD4492 /* Deployment */ = {
+		98EFD1CF0B58454800AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 302;
 				INFOPLIST_FILE = Text/Info.plist;
 				PRODUCT_NAME = TextAction;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		98EFD1D00B58454800AD4492 /* Deployment */ = {
+		98EFD1D00B58454800AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 302;
 				INFOPLIST_FILE = iTunes/Info.plist;
 				PRODUCT_NAME = iTunesAction;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		98EFD1D10B58454800AD4492 /* Deployment */ = {
+		98EFD1D10B58454800AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 302;
 				INFOPLIST_FILE = System/Info.plist;
 				PRODUCT_NAME = SystemAction;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		98EFD1D20B58454800AD4492 /* Deployment */ = {
+		98EFD1D20B58454800AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 302;
 				INFOPLIST_FILE = Documents/Info.plist;
 				PRODUCT_NAME = DocumentAction;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		98EFD1D30B58454800AD4492 /* Deployment */ = {
+		98EFD1D30B58454800AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 302;
 				INFOPLIST_FILE = Application/Info.plist;
 				PRODUCT_NAME = ApplicationAction;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		98EFD1D40B58454800AD4492 /* Deployment */ = {
+		98EFD1D40B58454800AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 302;
 				INFOPLIST_FILE = AppleScript/Info.plist;
 				OTHER_LDFLAGS = (
-					"$(inherits)",
+					"$(inherited)",
 					"-weak_framework",
 					OSAKit,
 				);
 				PRODUCT_NAME = AppleScriptAction;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		98EFD1D50B58454800AD4492 /* Deployment */ = {
+		98EFD1D50B58454800AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
@@ -2136,26 +2136,26 @@
 				);
 				ZERO_LINK = NO;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		98EFD1D60B58454800AD4492 /* Deployment */ = {
+		98EFD1D60B58454800AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				INSTALL_PATH = /usr/local/bin;
 				PRODUCT_NAME = Labo;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		98EFD1D70B58454800AD4492 /* Deployment */ = {
+		98EFD1D70B58454800AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				INFOPLIST_FILE = Simulator/Info.plist;
 				PRODUCT_NAME = Simulator;
 				WRAPPER_EXTENSION = app;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		98EFD1D80B58454800AD4492 /* Deployment */ = {
+		98EFD1D80B58454800AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 981B624309386E340024C0D9 /* ShadowRelease.xcconfig */;
 			buildSettings = {
@@ -2164,7 +2164,7 @@
 				SYMROOT = ../build;
 				WRAPPER_EXTENSION = spact;
 			};
-			name = Deployment;
+			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
@@ -2172,112 +2172,112 @@
 		98789DD50AB4A11000C35052 /* Build configuration list for PBXNativeTarget "Simulator" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				98789DD60AB4A11000C35052 /* Development */,
-				98789DD70AB4A11000C35052 /* Profiling */,
-				98EFD1D70B58454800AD4492 /* Deployment */,
+				98789DD60AB4A11000C35052 /* Debug */,
+				98789DD70AB4A11000C35052 /* Profile */,
+				98EFD1D70B58454800AD4492 /* Release */,
 				98789DD80AB4A11000C35052 /* Universal Binary */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		9888CE1E0B02412200B81BDB /* Build configuration list for PBXNativeTarget "Text" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				9888CE1F0B02412200B81BDB /* Development */,
-				9888CE200B02412200B81BDB /* Profiling */,
-				98EFD1CF0B58454800AD4492 /* Deployment */,
+				9888CE1F0B02412200B81BDB /* Debug */,
+				9888CE200B02412200B81BDB /* Profile */,
+				98EFD1CF0B58454800AD4492 /* Release */,
 				9888CE210B02412200B81BDB /* Universal Binary */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		98EF7EC808645A0E007BC81A /* Build configuration list for PBXNativeTarget "System" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				98EF7EC908645A0E007BC81A /* Development */,
-				98EF7ECA08645A0E007BC81A /* Profiling */,
-				98EFD1D10B58454800AD4492 /* Deployment */,
+				98EF7EC908645A0E007BC81A /* Debug */,
+				98EF7ECA08645A0E007BC81A /* Profile */,
+				98EFD1D10B58454800AD4492 /* Release */,
 				98C12C7708CE11FC0015CB91 /* Universal Binary */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		98EF7ECC08645A0E007BC81A /* Build configuration list for PBXNativeTarget "iTunes" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				98EF7ECD08645A0E007BC81A /* Development */,
-				98EF7ECE08645A0E007BC81A /* Profiling */,
-				98EFD1D00B58454800AD4492 /* Deployment */,
+				98EF7ECD08645A0E007BC81A /* Debug */,
+				98EF7ECE08645A0E007BC81A /* Profile */,
+				98EFD1D00B58454800AD4492 /* Release */,
 				98C12C7808CE11FC0015CB91 /* Universal Binary */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		98EF7ED008645A0E007BC81A /* Build configuration list for PBXNativeTarget "Document" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				98EF7ED108645A0E007BC81A /* Development */,
-				98EF7ED208645A0E007BC81A /* Profiling */,
-				98EFD1D20B58454800AD4492 /* Deployment */,
+				98EF7ED108645A0E007BC81A /* Debug */,
+				98EF7ED208645A0E007BC81A /* Profile */,
+				98EFD1D20B58454800AD4492 /* Release */,
 				98C12C7908CE11FC0015CB91 /* Universal Binary */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		98EF7ED408645A0E007BC81A /* Build configuration list for PBXNativeTarget "Application" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				98EF7ED508645A0E007BC81A /* Development */,
-				98EF7ED608645A0E007BC81A /* Profiling */,
-				98EFD1D30B58454800AD4492 /* Deployment */,
+				98EF7ED508645A0E007BC81A /* Debug */,
+				98EF7ED608645A0E007BC81A /* Profile */,
+				98EFD1D30B58454800AD4492 /* Release */,
 				98C12C7A08CE11FC0015CB91 /* Universal Binary */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		98EF7ED808645A0E007BC81A /* Build configuration list for PBXNativeTarget "AppleScript" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				98EF7ED908645A0E007BC81A /* Development */,
-				98EF7EDA08645A0E007BC81A /* Profiling */,
-				98EFD1D40B58454800AD4492 /* Deployment */,
+				98EF7ED908645A0E007BC81A /* Debug */,
+				98EF7EDA08645A0E007BC81A /* Profile */,
+				98EFD1D40B58454800AD4492 /* Release */,
 				98C12C7B08CE11FC0015CB91 /* Universal Binary */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		98EF7EDC08645A0E007BC81A /* Build configuration list for PBXAggregateTarget "All" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				98EF7EDD08645A0E007BC81A /* Development */,
-				98EF7EDE08645A0E007BC81A /* Profiling */,
-				98EFD1D50B58454800AD4492 /* Deployment */,
+				98EF7EDD08645A0E007BC81A /* Debug */,
+				98EF7EDE08645A0E007BC81A /* Profile */,
+				98EFD1D50B58454800AD4492 /* Release */,
 				98C12C7C08CE11FC0015CB91 /* Universal Binary */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		98EF7EE008645A0E007BC81A /* Build configuration list for PBXNativeTarget "Labo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				98EF7EE108645A0E007BC81A /* Development */,
-				98EF7EE208645A0E007BC81A /* Profiling */,
-				98EFD1D60B58454800AD4492 /* Deployment */,
+				98EF7EE108645A0E007BC81A /* Debug */,
+				98EF7EE208645A0E007BC81A /* Profile */,
+				98EFD1D60B58454800AD4492 /* Release */,
 				98C12C7D08CE11FC0015CB91 /* Universal Binary */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		98EF7EE408645A0E007BC81A /* Build configuration list for PBXProject "Spark Plugins" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				98EF7EE508645A0E007BC81A /* Development */,
-				98EF7EE608645A0E007BC81A /* Profiling */,
-				98EFD1D80B58454800AD4492 /* Deployment */,
+				98EF7EE508645A0E007BC81A /* Debug */,
+				98EF7EE608645A0E007BC81A /* Profile */,
+				98EFD1D80B58454800AD4492 /* Release */,
 				98C12C7E08CE11FC0015CB91 /* Universal Binary */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};
