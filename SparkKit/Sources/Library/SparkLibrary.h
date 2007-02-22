@@ -73,6 +73,7 @@ void SparkLibraryPostUpdateNotification(SparkLibrary *library, NSString *name, i
   @private
   NSString *sp_file;
   CFUUIDRef sp_uuid;
+  UInt32 sp_version;
   
   SparkObjectSet *sp_objects[4];
   SparkIconManager *sp_icons;
@@ -101,7 +102,9 @@ void SparkLibraryPostUpdateNotification(SparkLibrary *library, NSString *name, i
 - (NSNotificationCenter *)notificationCenter;
 
 - (BOOL)isLoaded;
-- (BOOL)readLibrary:(NSError **)error;
+
+- (BOOL)load:(NSError **)error;
+- (void)unload;
 
 - (SparkObjectSet *)listSet;
 - (SparkObjectSet *)actionSet;
@@ -116,7 +119,7 @@ void SparkLibraryPostUpdateNotification(SparkLibrary *library, NSString *name, i
 - (SparkIconManager *)iconManager;
 
 - (NSFileWrapper *)fileWrapper:(NSError **)outError;
-- (BOOL)readFromFileWrapper:(NSFileWrapper *)fileWrapper error:(NSError **)outError;
+//- (BOOL)readFromFileWrapper:(NSFileWrapper *)fileWrapper error:(NSError **)outError;
 
 - (BOOL)archiveToFile:(NSString *)file;
 

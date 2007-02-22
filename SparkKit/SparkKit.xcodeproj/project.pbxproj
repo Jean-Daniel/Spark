@@ -1488,12 +1488,8 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
-					"$(LIBRARY_SEARCH_PATHS_QUOTED_2)",
-					"$(LIBRARY_SEARCH_PATHS_QUOTED_3)",
 				);
-				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../../Tools/libxar/build/Release\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/../../ShadowKit/ShadowKit/Archive\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_3 = "\"$(SRCROOT)/../../ShadowKit/ShadowKit/Archive\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SHADOWKIT_ROOT)/ShadowKit/Archive\"";
 				OTHER_LDFLAGS = (
 					"-seg1addr",
 					0xD0300000,
@@ -1514,12 +1510,8 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
-					"$(LIBRARY_SEARCH_PATHS_QUOTED_2)",
-					"$(LIBRARY_SEARCH_PATHS_QUOTED_3)",
 				);
-				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../../Tools/libxar/build/Release\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/../../ShadowKit/ShadowKit/Archive\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_3 = "\"$(SRCROOT)/../../ShadowKit/ShadowKit/Archive\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SHADOWKIT_ROOT)/ShadowKit/Archive\"";
 				OTHER_LDFLAGS = (
 					"-seg1addr",
 					0xD0300000,
@@ -1540,12 +1532,8 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
-					"$(LIBRARY_SEARCH_PATHS_QUOTED_2)",
-					"$(LIBRARY_SEARCH_PATHS_QUOTED_3)",
 				);
-				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../../Tools/libxar/build/Release\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/../../ShadowKit/ShadowKit/Archive\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_3 = "\"$(SRCROOT)/../../ShadowKit/ShadowKit/Archive\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SHADOWKIT_ROOT)/ShadowKit/Archive\"";
 				OTHER_LDFLAGS = (
 					"-seg1addr",
 					0xD0300000,
@@ -1566,12 +1554,8 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
-					"$(LIBRARY_SEARCH_PATHS_QUOTED_2)",
-					"$(LIBRARY_SEARCH_PATHS_QUOTED_3)",
 				);
-				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../../Tools/libxar/build/Release\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/../../ShadowKit/ShadowKit/Archive\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_3 = "\"$(SRCROOT)/../../ShadowKit/ShadowKit/Archive\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SHADOWKIT_ROOT)/ShadowKit/Archive\"";
 				OTHER_LDFLAGS = (
 					"-seg1addr",
 					0xD0300000,

@@ -109,12 +109,15 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
 
 - (IBAction)saveAsArchive:(id)sender {
   NSSavePanel *panel = [NSSavePanel savePanel];
+  NSCalendarDate *date = [NSCalendarDate date];
+  NSString *filename = [NSString stringWithFormat:@"SparkLibrary - %.2d/%.2d/%.2d", 
+    [date dayOfMonth], [date monthOfYear], [date yearOfCommonEra] % 100];
   [panel setTitle:@"Archive Library"];
   [panel setCanCreateDirectories:YES];
   [panel setRequiredFileType:@"splx"];
   [panel setAllowsOtherFileTypes:NO];
   [panel beginSheetForDirectory:nil
-                           file:@"SparkLibrary"
+                           file:filename
                  modalForWindow:[self windowForSheet]
                   modalDelegate:self
                  didEndSelector:@selector(archivePanelDidEnd:returnCode:contextInfo:)
@@ -149,18 +152,17 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
 
 - (BOOL)revertToContentsOfURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError {
   if (outError) *outError = nil;
-  if ([se_library readLibrary:outError]) {
-    /* Notify to reload applications lists */
-    [[se_library notificationCenter] postNotificationName:SELibraryDocumentDidReloadNotification
-                                                   object:self
-                                                 userInfo:nil];
-    /* Reload cache */
-    [se_cache reload];
+  [se_library unload];
+  BOOL result = [se_library load:outError];
+  /* Notify to reload applications lists */
+  [[se_library notificationCenter] postNotificationName:SELibraryDocumentDidReloadNotification
+                                                 object:self
+                                               userInfo:nil];
+  /* Reload cache */
+  [se_cache reload];
+  if (result)
     [self updateChangeCount:NSChangeCleared];
-    return YES;
-  } else {
-    return NO;
-  }
+  return result;
 }
 
 #pragma mark -

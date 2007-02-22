@@ -122,8 +122,8 @@ NSString * sSEHiddenPluggedObserverKey = nil;
   
   [uiTable setSortDescriptors:gSortByNameDescriptors];
   
-//  [uiTable setAutosaveName:@"SparkMainEntryTable"];
-//  [uiTable setAutosaveTableColumns:YES];
+  [uiTable setAutosaveName:@"SparkTriggerTable"];
+  [uiTable setAutosaveTableColumns:YES];
   
   [uiTable setVerticalMotionCanBeginDrag:YES];
   [uiTable setContinueEditing:NO];
