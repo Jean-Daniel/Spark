@@ -77,6 +77,7 @@ BOOL sIsProcessingEvent = NO;
       /* Unregister triggers */
       [[sd_library notificationCenter] removeObserver:self];
       [self unregisterTriggers];
+      [sd_library unload];
       [sd_library release];
     }
     sd_library = [aLibrary retain];
@@ -96,7 +97,7 @@ BOOL sIsProcessingEvent = NO;
                    object:[sd_library triggerSet]];
       /* If library not loaded, load library */
       if (![sd_library isLoaded])
-        [sd_library readLibrary:nil];
+        [sd_library load:nil];
       /* register triggers */
       [self checkActions];
       [self loadTriggers];

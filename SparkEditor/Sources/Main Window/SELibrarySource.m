@@ -263,7 +263,7 @@ BOOL SEOverwriteFilter(SEEntryList *list, SparkEntry *object, SparkApplication *
     [[pboard objectForKey:@"uuid"] getBytes:&bytes length:sizeof(bytes)];
     CFUUIDRef uuid = CFUUIDCreateFromUUIDBytes(kCFAllocatorDefault, bytes);
     if (uuid) {
-      library = SparkLibraryForUUID(uuid);
+      library = SparkLibraryGetLibraryWithUUID(uuid);
       doc = library ? SEGetDocumentForLibrary(library) : nil;
       CFRelease(uuid);
     }

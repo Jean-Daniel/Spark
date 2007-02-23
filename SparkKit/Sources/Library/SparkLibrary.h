@@ -29,11 +29,18 @@ enum {
 
 SPARK_EXPORT
 SparkLibrary *SparkActiveLibrary(void);
-SPARK_EXPORT
-BOOL SparkSetActiveLibrary(SparkLibrary *library);
+//SPARK_EXPORT
+//BOOL SparkSetActiveLibrary(SparkLibrary *library);
 
 SPARK_EXPORT
-SparkLibrary *SparkLibraryForUUID(CFUUIDRef uuid);
+void SparkLibraryRegisterLibrary(SparkLibrary *library);
+SPARK_EXPORT
+void SparkLibraryUnregisterLibrary(SparkLibrary *library);
+
+SPARK_EXPORT
+SparkLibrary *SparkLibraryGetLibraryWithUUID(CFUUIDRef uuid);
+SPARK_EXPORT
+SparkLibrary *SparkLibraryGetLibraryAtPath(NSString *path, BOOL create);
 
 /* Notifications support */
 SPARK_EXPORT

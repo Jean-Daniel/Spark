@@ -13,6 +13,7 @@
 #import <ShadowKit/SKAlias.h>
 #import <ShadowKit/SKFunctions.h>
 #import <ShadowKit/SKAEFunctions.h>
+#import <ShadowKit/SKLSFunctions.h>
 #import <ShadowKit/SKProcessFunctions.h>
 #import <ShadowKit/SKAppKitExtensions.h>
 
@@ -96,9 +97,18 @@ OSType _DocumentActionFromFlag(int flag) {
   if (DocumentActionNeedApplication(da_action)) {
     NSData *data = [plist objectForKey:@"AppAlias"];
     if (data) {
+      NSString *path = nil;
       SKAlias *app = [[SKAlias alloc] initWithData:data];
-      if ([app path]) {
-        da_app = [[SKAliasedApplication alloc] initWithPath:[app path]];
+      if (![app path]) {
+        /* Search with signature */
+        OSType sign = SKOSTypeFromString([plist objectForKey:@"AppSign"]);
+        if (sign)
+          path = SKLSFindApplicationForSignature(sign);
+      } else {
+        path = [app path];
+      }
+      if (path) {
+        da_app = [[SKAliasedApplication alloc] initWithPath:path];
       }
       [app release];
     }

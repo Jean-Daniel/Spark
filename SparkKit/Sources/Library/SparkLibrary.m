@@ -113,6 +113,7 @@ const UInt32 kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_0;
 - (id)initWithPath:(NSString *)path {
   if (self = [super init]) {
     [self setPath:path];
+    
   }
   return self;
 }
@@ -201,14 +202,17 @@ const UInt32 kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_0;
 }
 
 - (void)setPath:(NSString *)file {
-  SKSetterCopy(sp_file, file);
-  
-  if (![self isLoaded]) {
-    /* Init UUID & version */
-    NSString *path = file ? [file stringByAppendingPathComponent:@"Info.plist"] : nil;
-    NSDictionary *dict = path ? [[NSDictionary alloc] initWithContentsOfFile:path] : nil;
-    [self setInfo:dict];
-    [dict release];
+  if (file != sp_file) {
+    [sp_file release];
+    sp_file = [[file stringByStandardizingPath] retain];
+    
+    if (![self isLoaded]) {
+      /* Init UUID & version */
+      NSString *path = sp_file ? [sp_file stringByAppendingPathComponent:@"Info.plist"] : nil;
+      NSDictionary *dict = path ? [[NSDictionary alloc] initWithContentsOfFile:path] : nil;
+      [self setInfo:dict];
+      [dict release];
+    }
   }
 }
 
@@ -409,14 +413,16 @@ bail:
         sp_uuid = uuidref;
       }
       NSAssert(sp_uuid != NULL, @"Invalid null UUID");
+    } else {
+      if (sp_uuid) CFRelease(sp_uuid);
+      sp_uuid = CFUUIDCreate(kCFAllocatorDefault);
     }
     /* Library version */
     sp_version = [[plist objectForKey:@"Version"] unsignedIntValue];
   } else {
     sp_version = kSparkLibraryCurrentVersion;
     
-    if (sp_uuid)
-      CFRelease(sp_uuid);
+    if (sp_uuid) CFRelease(sp_uuid);
     sp_uuid = CFUUIDCreate(kCFAllocatorDefault);
   }
 }
@@ -710,28 +716,26 @@ NSString *SparkDefaultLibraryPath(void) {
 
 #pragma mark Multi Library Support
 static
+NSMutableArray *sLibraries = nil;
+
+static
 void SparkLibraryCleanup() {
   if (SparkGetCurrentContext() == kSparkEditorContext) {
-    NSString *file = nil;
-    NSString *folder = SparkLibraryFolder();
     NSMutableArray *uuids = [[NSMutableArray alloc] init];
-    NSEnumerator *files = [[[NSFileManager defaultManager] directoryContentsAtPath:folder] objectEnumerator];
-    while (file = [files nextObject]) {
-      if ([[file pathExtension] isEqualToString:kSparkLibraryFileExtension]) {
-        /* Find a Spark Library */
-        NSString *info = [file stringByAppendingPathComponent:@"Info.plist"];
-        NSString *fullpath = [folder stringByAppendingPathComponent:info];
-        NSDictionary *dict = [[NSDictionary alloc] initWithContentsOfFile:fullpath];
-        NSString *uuid = [dict objectForKey:@"UUID"];
-        if (uuid) {
-          [uuids addObject:uuid];
-        }
-        [dict release];
+    NSUInteger cnt = [sLibraries count];
+    while (cnt-- > 0) {
+      SparkLibrary *lib = [sLibraries objectAtIndex:cnt];
+      CFUUIDRef uuid = [lib uuid];
+      NSString *uuidstr = (id)CFUUIDCreateString(kCFAllocatorDefault, uuid);
+      if (uuidstr) {
+        [uuids addObject:uuidstr];
+        [uuidstr release];
       }
     }
     /* Browse icons folder and remove folder without libraries */
-    folder = [SparkLibraryFolder() stringByAppendingPathComponent:@"Icons"];
-    files = [[[NSFileManager defaultManager] directoryContentsAtPath:folder] objectEnumerator];
+    NSString *file;
+    NSString *folder = [SparkLibraryFolder() stringByAppendingPathComponent:@"Icons"];
+    NSEnumerator *files = [[[NSFileManager defaultManager] directoryContentsAtPath:folder] objectEnumerator];
     while (file = [files nextObject]) {
       if (![uuids containsObject:file]) {
         DLog(@"Remove icons: %@", file);
@@ -746,16 +750,79 @@ void SparkLibraryCleanup() {
   }
 }
 
+static 
+void SparkInitLibraries() {
+  if (sLibraries)
+    return;
+  
+  sLibraries = [[NSMutableArray alloc] init];
+  
+  NSString *file = nil;
+  NSString *folder = SparkLibraryFolder();
+  NSEnumerator *files = [[[NSFileManager defaultManager] directoryContentsAtPath:folder] objectEnumerator];
+  while (file = [files nextObject]) {
+    if ([[file pathExtension] isEqualToString:kSparkLibraryFileExtension]) {
+      /* Find a Spark Library */
+      SparkLibrary *library = [[SparkLibrary alloc] initWithPath:[folder stringByAppendingPathComponent:file]];
+      if (library) {
+        [sLibraries addObject:library];
+      }
+    }
+  }
+  
+  SparkLibraryCleanup();
+}
+
+SparkLibrary *SparkLibraryGetLibraryAtPath(NSString *path, BOOL create) {
+  if (!sLibraries) SparkInitLibraries();
+  
+  NSUInteger cnt = [sLibraries count];
+  path = [path stringByStandardizingPath];
+  while (cnt-- > 0) {
+    SparkLibrary *lib = [sLibraries objectAtIndex:cnt];
+    if ([lib path] && [[lib path] isEqualToString:path])
+      return lib;
+  }
+  SparkLibrary *library = nil;
+  if (create) {
+    library = [[SparkLibrary alloc] initWithPath:path];
+    [sLibraries addObject:library];
+    [library release];
+  }
+  return library;
+}
+
+SparkLibrary *SparkLibraryGetLibraryWithUUID(CFUUIDRef uuid) {
+  if (!sLibraries) SparkInitLibraries();
+  
+  NSUInteger cnt = [sLibraries count];
+  while (cnt-- > 0) {
+    SparkLibrary *lib = [sLibraries objectAtIndex:cnt];
+    NSCAssert([lib uuid] != NULL, @"Invalid Library (null uuid)");
+    if (CFEqual([lib uuid], uuid))
+      return lib;
+  }
+  return nil;
+}
+
+void SparkLibraryRegisterLibrary(SparkLibrary *library) {
+  if (sLibraries && ![sLibraries containsObject:library])
+    [sLibraries addObject:library];
+}
+
+void SparkLibraryUnregisterLibrary(SparkLibrary *library) {
+  if (sLibraries)
+    [sLibraries removeObject:library];
+}
+
 SparkLibrary *SparkActiveLibrary() {
   static SparkLibrary *active = nil;
   if (!active) {
-    /* cleanup */
-    SparkLibraryCleanup();
-    
     BOOL resync = NO;
     /* Get default library path */
     NSString *path = SparkDefaultLibraryPath();
-    if (![[NSFileManager defaultManager] fileExistsAtPath:path]) {
+    active = SparkLibraryGetLibraryAtPath(path, NO);
+    if (!active) {
       /* First, try to find library in old location */
       NSString *old = SparkLibraryPreviousLibraryPath();
       if (![[NSFileManager defaultManager] fileExistsAtPath:old]) {
@@ -774,9 +841,8 @@ SparkLibrary *SparkActiveLibrary() {
           active = [[SparkLibrary alloc] initWithPath:old];
         }
       }
-    } else {
-      /* Create library */
-      active = [[SparkLibrary alloc] initWithPath:path];
+      if (active)
+        SparkLibraryRegisterLibrary(active);
     }
     
     /* Read library */
@@ -792,13 +858,12 @@ SparkLibrary *SparkActiveLibrary() {
   return active;
 }
 
-BOOL SparkSetActiveLibrary(SparkLibrary *library) {
-  return NO;
-}
-
-SparkLibrary *SparkLibraryForUUID(CFUUIDRef uuid) {
-  return SparkActiveLibrary();
-}
+//BOOL SparkSetActiveLibrary(SparkLibrary *library) {
+//  //SparkLibraryRegisterLibrary(library);
+//  // sActiveLibrary = library;
+//  // Notify
+//  return NO;
+//}
 
 #pragma mark -
 void SparkDumpTriggers(SparkLibrary *aLibrary) {

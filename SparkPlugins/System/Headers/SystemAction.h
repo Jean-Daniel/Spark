@@ -13,7 +13,7 @@ typedef enum {
   kSystemSleep           = 'Slep', /* 1399612784 */
   kSystemRestart         = 'Rest', /* 1382380404 */
   kSystemShutDown        = 'Halt', /* 1214344308 */
-  kSystemSwitch          = 'Swit', /* 1179414375 */
+  kSystemSwitch          = 'Swit', /* 1400334708 */
   kSystemScreenSaver     = 'ScSa', /* 1399018337 */
   /* Accessibility */
   kSystemSwitchGrayscale = 'Gray', /* 1198678393 */

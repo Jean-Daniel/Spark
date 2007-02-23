@@ -35,13 +35,6 @@
     [menu addItem:item];
     [item release];
     
-    item = [[NSMenuItem alloc] initWithTitle:NSLocalizedStringFromTableInBundle(@"Switch to...", nil, kSystemActionBundle,
-                                                                                @"Switch to... Menu Item")
-                                      action:nil keyEquivalent:@""];
-    [item setTag:kSystemSwitch];
-    [menu insertItem:item atIndex:1];
-    [item release];
-    
     /* Build user switching menu */
     CFArrayRef users;
     BOOL separator = NO;
