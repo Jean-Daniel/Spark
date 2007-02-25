@@ -12,8 +12,8 @@
 
 @class SEEntryList;
 @class SEApplicationView, SETableView;
-@class SELibrarySource, SETriggersController;
 @class SparkEntry, SparkLibrary, SparkApplication;
+@class SEApplicationSource, SELibrarySource, SETriggersController;
 @interface SELibraryWindow : NSWindowController {
   IBOutlet NSSegmentedControl *uiMenu;
   IBOutlet SEApplicationView *appField;  
@@ -27,7 +27,8 @@
   
   /* Library */
   IBOutlet SETableView *libraryTable;
-  IBOutlet SELibrarySource *listSource;
+  IBOutlet SELibrarySource *ibGroups;
+  IBOutlet SEApplicationSource *ibApplications;
   
   /* Triggers */
   IBOutlet SETriggersController *triggers;  

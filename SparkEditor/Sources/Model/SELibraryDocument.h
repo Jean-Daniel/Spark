@@ -33,12 +33,16 @@
 - (void)makeEntryOfType:(SparkPlugIn *)type;
 - (void)editEntry:(SparkEntry *)anEntry;
 
+- (void)revertToBackup:(NSString *)file;
+
 @end
 
 SK_PRIVATE
 NSString * const SEPreviousApplicationKey;
 SK_PRIVATE
 NSString * const SEApplicationDidChangeNotification;
+SK_PRIVATE
+NSString * const SEDocumentDidSetLibraryNotification;
 SK_PRIVATE
 NSString * const SELibraryDocumentDidReloadNotification;
 

@@ -21,6 +21,9 @@
 #import <SparkKit/SparkKit.h>
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkActionLoader.h>
+#import <SparkKit/SparkLibraryArchive.h>
+
+#import <ShadowKit/SKFSFunctions.h>
 
 #import <HotKeyToolKit/HotKeyToolKit.h>
 
@@ -30,7 +33,7 @@
 #import "SELibraryDocument.h"
 #import "SEServerConnection.h"
 
-const UInt32 kSparkVersion = 0x020701; /* 3.0.0 */
+const UInt32 kSparkVersion = 0x020754; /* 3.0.0 */
 
 int main(int argc, const char *argv[]) {
 #if defined(DEBUG)
@@ -206,46 +209,10 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
 
 #pragma mark -
 #pragma mark Import/Export Support
-//- (IBAction)saveLibrary:(id)sender {
-//  NSSavePanel *panel = [NSSavePanel savePanel];
-//  [panel setTitle:@"Save Library"];
-//  [panel setCanCreateDirectories:YES];
-//  [panel setRequiredFileType:kSparkLibraryFileExtension];
-//  [panel beginSheetForDirectory:nil
-//                           file:@"SparkLibrary"
-//                 modalForWindow:[self mainWindow]
-//                  modalDelegate:self
-//                 didEndSelector:@selector(saveLibraryDidEnd:returnCode:contextInfo:)
-//                    contextInfo:nil];
-//}
-//
-//- (void)saveLibraryDidEnd:(NSSavePanel *)sheet returnCode:(int)returnCode  contextInfo:(void  *)contextInfo {
-//  if (NSOKButton == returnCode) {
-//    SparkLibrary *library = SparkSharedLibrary();
-//    NSString *file = [sheet filename];
-//    [library writeToFile:file atomically:NO];
-//  }
-//}
-
 - (BOOL)restoreLibrary:(NSString *)path {
   ShadowTrace();
   return NO;
 }
-
-//- (IBAction)importLibrary:(id)sender {
-//  NSOpenPanel *panel = [NSOpenPanel openPanel];
-//  [panel setCanChooseDirectories:NO];
-//  [panel setCanCreateDirectories:NO];
-//  [panel setAllowsMultipleSelection:NO];
-//  int result = [panel runModalForTypes:[NSArray arrayWithObjects:
-//    kSparkLibraryFileExtension,
-//    kSparkListFileExtension,
-//    NSFileTypeForHFSTypeCode(kSparkListFileType),
-//    nil]];
-//  if (result == NSOKButton) {
-//    [self application:NSApp openFile:[[panel filenames] objectAtIndex:0]];
-//  }
-//}
 
 #pragma mark -
 #pragma mark PlugIn Help Support
@@ -454,17 +421,33 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
   [NSApp runModalForWindow:[panel window]];
 }
 
+- (void)openLibraryBackup:(NSString *)file {
+  SELibraryDocument *doc = [[NSDocumentController sharedDocumentController] currentDocument];
+  if (!doc) {
+    NSBeep();
+  } else {
+    [doc revertToBackup:file];
+  }
+}
+
 - (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename {
   if ([[NSWorkspace sharedWorkspace] isFilePackageAtPath:filename]) {
     if ([[filename pathExtension] isEqualToString:[SparkActionLoader extension]]) {
       [self openPluginBundle:filename];
       return YES;
     } else if ([[filename pathExtension] isEqualToString:kSparkLibraryFileExtension]) {
-      if ([self restoreLibrary:filename])
-        return YES;
+      DLog(@"Try to open a Spark Library: ignore");
+      NSBeep();
+      return YES;
     }
   } else {
-//    OSType type = [[[NSFileManager defaultManager] fileAttributesAtPath:filename traverseLink:NO] fileHFSTypeCode];
+    NSString *ext = [filename pathExtension];
+    OSType type = kLSUnknownType;
+    SKFSGetTypeAndCreatorAtPath((CFStringRef)filename, &type, NULL);
+    if (type == kSparkLibraryArchiveHFSType || [ext isEqualToString:kSparkLibraryArchiveExtension]) {
+      [self openLibraryBackup:filename];
+      return YES;
+    }
 //    if ([[filename pathExtension] isEqualToString:kSparkListFileExtension] || type == kSparkListFileType) { // Il faudrait aussi verifier le type.
 //      if ([self openListFile:filename])
 //        return YES;

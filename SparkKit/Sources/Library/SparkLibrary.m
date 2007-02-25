@@ -27,10 +27,6 @@
 #import <ShadowKit/SKSerialization.h>
 #import <ShadowKit/SKAppKitExtensions.h>
 
-#import <ShadowKit/SKArchive.h>
-#import <ShadowKit/SKArchiveFile.h>
-#import <ShadowKit/SKArchiveDocument.h>
-
 NSString * const kSparkLibraryFileExtension = @"splib";
 
 NSPropertyListFormat SparkLibraryFileFormat = NSPropertyListBinaryFormat_v1_0;
@@ -68,7 +64,6 @@ NSString * const SparkNotificationUpdatedObjectKey = @"SparkNotificationUpdatedO
 #define kSparkLibraryVersion_1_0		0x100
 #define kSparkLibraryVersion_2_0		0x200
 
-static
 const UInt32 kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_0;
 
 @interface SparkLibrary (SparkLibraryLoader)
@@ -85,10 +80,6 @@ const UInt32 kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_0;
 
 @interface SparkEntryManager (SparkVersion1Library)
 - (void)removeEntriesForAction:(UInt32)action;
-@end
-
-@interface SparkIconManager (SparkArchiveExtension)
-- (void)writeToArchive:(SKArchive *)archive atPath:(SKArchiveFile *)path;
 @end
 
 @implementation SparkLibrary
@@ -119,15 +110,16 @@ const UInt32 kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_0;
 }
 
 - (void)dealloc {
-  /* Make sure undo and notify will not be called */
+  ShadowTrace();
+  /* Avoid useless undo */
   [sp_undo release];
-  [sp_center release];
   sp_undo = nil;
-  sp_center = nil;
   
   /* Unload library */
   if ([self isLoaded])
     [self unload];
+  
+  [sp_center release];
   
   /* Release others */
   [sp_file release];
@@ -213,6 +205,9 @@ const UInt32 kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_0;
       [self setInfo:dict];
       [dict release];
     }
+    /* Update icon path */
+    if (sp_icons && ![sp_icons path])
+      [sp_icons setPath:SparkLibraryIconFolder(self)];
   }
 }
 
@@ -257,18 +252,22 @@ const UInt32 kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_0;
   
   SKSetFlag(sp_slFlags.loaded, NO);
   
-  /* Create relation table */
+  /* Release relation table */
+  [sp_relations setLibrary:nil];
   [sp_relations release];
   sp_relations = nil;
   
-  /* Create defaults libraries */
-  for (int idx = 0; idx < kSparkSetCount; idx++) {
+  /* Release defaults libraries */
+  NSUInteger idx = kSparkSetCount;
+  /* WARNING: List Set keep weak ref on other sets,
+    so we have to release it first */
+  while (idx-- > 0) {
     [sp_objects[idx] setLibrary:nil];
     [sp_objects[idx] release];
     sp_objects[idx] = nil;
   }
   
-  /* Icon cache */
+  /* Release Icon cache */
   [sp_icons release];
   sp_icons = nil;
 }
@@ -370,33 +369,6 @@ bail:
     return NO;
 }
 
-#pragma mark Archive
-- (BOOL)archiveToFile:(NSString *)file {
-  NSFileWrapper *wrapper = [self fileWrapper:nil];
-  if (wrapper) {
-    SKArchive *archive = [[SKArchive alloc] initWithArchiveAtPath:file write:YES];
-    SKArchiveDocument *doc = [archive addDocumentWithName:@"Spark"];
-    CFStringRef str = CFUUIDCreateString(kCFAllocatorDefault, [self uuid]);
-    if (str) {
-      [doc setValue:(id)str forProperty:@"uuid"];
-      CFRelease(str);
-    }
-    [doc setValue:[NSString stringWithFormat:@"%u", 1] forProperty:@"format"];
-    [doc setValue:[NSString stringWithFormat:@"%u", kSparkLibraryCurrentVersion] forProperty:@"version"];
-
-    [archive addFileWrapper:wrapper parent:nil];
-    
-    if (sp_icons) {
-      SKArchiveFile *icons = [archive addFolder:@"Icons" properties:nil parent:nil];
-      [sp_icons writeToArchive:archive atPath:icons];
-    }
-    [archive close];
-    [archive release];
-    return YES;
-  }
-  return NO;
-}
-
 @end
 
 #pragma mark -
@@ -429,8 +401,8 @@ bail:
 
 - (void)initFinder {
   SparkApplication *finder = [[self applicationSet] objectWithUID:1];
-  if (!finder || [finder signature] != kSparkFinderCreatorType) {
-    NSString *path = SKLSFindApplicationForSignature(kSparkFinderCreatorType);
+  if (!finder || [finder signature] != kSparkFinderSignature) {
+    NSString *path = SKLSFindApplicationForSignature(kSparkFinderSignature);
     NSAssert(path, @"Could not locate Finder");
     if (path) {
       if (finder) {
@@ -449,7 +421,7 @@ bail:
   
   BOOL result = NO;
   /* Create icon manager only for editor */
-  if (SparkGetCurrentContext() == kSparkEditorContext) {
+  if (SparkGetCurrentContext() == kSparkEditorContext && !sp_icons) {
     sp_icons = [[SparkIconManager alloc] initWithLibrary:self path:SparkLibraryIconFolder(self)];
   }
   
@@ -539,7 +511,7 @@ bail:
     if (![class isEqualToString:@"_SparkSystemApplication"]) {
       SparkApplication *app = SKDeserializeObject(plist, nil);
       if (app && [app isKindOfClass:[SparkApplication class]]) {
-        if ([app signature] == kSparkFinderCreatorType) {
+        if ([app signature] == kSparkFinderSignature) {
           finder = [app uid];
           [app setUID:1];
         } else {
@@ -805,24 +777,40 @@ SparkLibrary *SparkLibraryGetLibraryWithUUID(CFUUIDRef uuid) {
   return nil;
 }
 
+void SparkLibraryDeleteIconCache(SparkLibrary *library) {
+  /* Remove icon cache */
+  NSString *icons = [[library iconManager] path];
+  if (icons) {
+    NSString *parent = [icons stringByDeletingLastPathComponent];
+    if (parent) {
+      [[NSWorkspace sharedWorkspace] performFileOperation:NSWorkspaceDestroyOperation
+                                                   source:parent
+                                              destination:nil
+                                                    files:[NSArray arrayWithObject:[icons lastPathComponent]]
+                                                      tag:NULL];
+    }
+  }
+}
+
 void SparkLibraryRegisterLibrary(SparkLibrary *library) {
   if (sLibraries && ![sLibraries containsObject:library])
     [sLibraries addObject:library];
 }
 
 void SparkLibraryUnregisterLibrary(SparkLibrary *library) {
-  if (sLibraries)
+  if (sLibraries) {
     [sLibraries removeObject:library];
+  }
 }
 
+static SparkLibrary *sActiveLibrary = nil;
 SparkLibrary *SparkActiveLibrary() {
-  static SparkLibrary *active = nil;
-  if (!active) {
+  if (!sActiveLibrary) {
     BOOL resync = NO;
     /* Get default library path */
     NSString *path = SparkDefaultLibraryPath();
-    active = SparkLibraryGetLibraryAtPath(path, NO);
-    if (!active) {
+    sActiveLibrary = SparkLibraryGetLibraryAtPath(path, NO);
+    if (!sActiveLibrary) {
       /* First, try to find library in old location */
       NSString *old = SparkLibraryPreviousLibraryPath();
       if (![[NSFileManager defaultManager] fileExistsAtPath:old]) {
@@ -830,40 +818,44 @@ SparkLibrary *SparkActiveLibrary() {
         old = SparkLibraryVersion1LibraryPath();
         if ([[NSFileManager defaultManager] fileExistsAtPath:old]) {
           resync = YES;
-          active = [[SparkLibrary alloc] initWithPath:old];
+          sActiveLibrary = [[SparkLibrary alloc] initWithPath:old];
         }
       } else {
         /* Version 3 library exists in old location */
         if ([[NSFileManager defaultManager] movePath:old toPath:path handler:nil]) {
-          active = [[SparkLibrary alloc] initWithPath:path];
+          sActiveLibrary = [[SparkLibrary alloc] initWithPath:path];
         } else {
           resync = YES;
-          active = [[SparkLibrary alloc] initWithPath:old];
+          sActiveLibrary = [[SparkLibrary alloc] initWithPath:old];
         }
       }
-      if (active)
-        SparkLibraryRegisterLibrary(active);
+      if (sActiveLibrary)
+        SparkLibraryRegisterLibrary(sActiveLibrary);
     }
     
     /* Read library */
-    if (![active load:nil]) {
-      [active release];
-      active = nil;
+    if (![sActiveLibrary load:nil]) {
+      [sActiveLibrary release];
+      sActiveLibrary = nil;
       [NSException raise:NSInternalInconsistencyException format:@"An error prevent default library loading"];
     } else if (resync) {
-      [active setPath:path];
-      [active synchronize];
+      [sActiveLibrary setPath:path];
+      [sActiveLibrary synchronize];
     }
   }
-  return active;
+  return sActiveLibrary;
 }
 
-//BOOL SparkSetActiveLibrary(SparkLibrary *library) {
-//  //SparkLibraryRegisterLibrary(library);
-//  // sActiveLibrary = library;
+BOOL SparkSetActiveLibrary(SparkLibrary *library) {
+  if (sActiveLibrary != library) {
+    SparkLibraryRegisterLibrary(library);
+    [sActiveLibrary release];
+    sActiveLibrary = [library retain];
+  }
+  return YES;
 //  // Notify
 //  return NO;
-//}
+}
 
 #pragma mark -
 void SparkDumpTriggers(SparkLibrary *aLibrary) {

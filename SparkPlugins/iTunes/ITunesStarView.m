@@ -86,7 +86,7 @@ void _ITunesDrawHalfString(NSPoint point, NSColor *color) {
     if (rate > 0) {
       /* Adjust color */
       if (ia_color)
-        [[ia_color colorWithAlphaComponent:0.25] setFill];
+        [[ia_color colorWithAlphaComponent:0.25 * [ia_color alphaComponent]] setFill];
       else
         CGContextSetGrayFillColor(ctxt, 0, .25);
       

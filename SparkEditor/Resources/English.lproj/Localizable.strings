@@ -88,6 +88,9 @@
 /* Trigger already used - Replace */
 "Replace" = "Replace";
 
+"REVERT_BACKUP" = "Reverting will cause your current database to be overwritten";
+"REVERT_MESSAGE" = "The backup database “%@” will be copied over your existing database. This operation can't be undone.";
+    
 /* Spark Daemon status string */
 "Start Spark Daemon" = "Start Spark Daemon";
 

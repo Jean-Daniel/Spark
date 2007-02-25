@@ -85,7 +85,7 @@ ApplicationVisualSetting AASharedSettings = {NO, NO};
     /* Reload configuration server side */
     AppleEvent aevt = SKAEEmptyDesc();
     
-    OSStatus err = SKAECreateEventWithTargetSignature(kSparkDaemonHFSCreatorType, 'SpAp', 'SetV', &aevt);
+    OSStatus err = SKAECreateEventWithTargetSignature(kSparkDaemonSignature, 'SpAp', 'SetV', &aevt);
     require_noerr(err, bail);
     
     err = SKAEAddSubject(&aevt);

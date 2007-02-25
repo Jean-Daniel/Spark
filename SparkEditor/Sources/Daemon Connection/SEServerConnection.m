@@ -50,7 +50,6 @@ NSString * const SEServerStatusDidChangeNotification = @"SEServerStatusDidChange
                selector:@selector(serverStatusDidChange:)
                    name:(id)SparkDaemonStatusDidChangeNotification
                  object:nil];
-    se_sync = [[SparkLibrarySynchronizer alloc] initWithLibrary:SparkActiveLibrary()];
   }
   return self;
 }
@@ -65,6 +64,9 @@ NSString * const SEServerStatusDidChangeNotification = @"SEServerStatusDidChange
 - (void)serverDidClose {
   if (se_server) {
     [se_sync setDistantLibrary:nil];
+    [se_sync release];
+    se_sync = nil;
+    
     [se_server release];
     se_server = nil;
   }
@@ -101,7 +103,7 @@ NSString * const SEServerStatusDidChangeNotification = @"SEServerStatusDidChange
         SKLogException(exception);
       }
     }
-    ProcessSerialNumber psn = SKProcessGetProcessWithSignature(kSparkDaemonHFSCreatorType);
+    ProcessSerialNumber psn = SKProcessGetProcessWithSignature(kSparkDaemonSignature);
     if (psn.lowLongOfPSN != kNoProcess)
       KillProcess(&psn);
   }
@@ -134,6 +136,9 @@ NSString * const SEServerStatusDidChangeNotification = @"SEServerStatusDidChange
 
 /* MUST be called after connection */
 - (void)configure {
+  if (!se_sync)
+    se_sync = [[SparkLibrarySynchronizer alloc] initWithLibrary:SparkActiveLibrary()];
+  
   [se_sync setDistantLibrary:(NSDistantObject *)[se_server library]];
 }
 
@@ -229,7 +234,7 @@ BOOL SELaunchSparkDaemon() {
 
 void SEServerStartConnection() {
   /* Verify daemon validity */
-  ProcessSerialNumber psn = SKProcessGetProcessWithSignature(kSparkDaemonHFSCreatorType);
+  ProcessSerialNumber psn = SKProcessGetProcessWithSignature(kSparkDaemonSignature);
   if (psn.lowLongOfPSN != kNoProcess) {
     FSRef dRef;
     NSString *path = SESparkDaemonPath();
@@ -270,7 +275,7 @@ void SEServerStartConnection() {
 }
 
 BOOL SEDaemonIsEnabled() {
-  ProcessSerialNumber psn = SKProcessGetProcessWithSignature(kSparkDaemonHFSCreatorType);
+  ProcessSerialNumber psn = SKProcessGetProcessWithSignature(kSparkDaemonSignature);
   if (psn.lowLongOfPSN != kNoProcess) {
     Boolean result = false;
     AppleEvent aevt = SKAEEmptyDesc();

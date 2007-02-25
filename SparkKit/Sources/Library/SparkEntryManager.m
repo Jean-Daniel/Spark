@@ -62,9 +62,12 @@ NSString * const SparkEntryManagerDidChangeEntryEnabledNotification = @"SparkEnt
 - (SparkLibrary *)library {
   return sp_library;
 }
+- (void)setLibrary:(SparkLibrary *)library {
+  sp_library = library;
+}
 
 - (NSUndoManager *)undoManager {
-  return [sp_library undoManager];
+  return [[self library] undoManager];
 }
 
 #pragma mark -
@@ -283,7 +286,7 @@ NSString * const SparkEntryManagerDidChangeEntryEnabledNotification = @"SparkEnt
   if (entry) {
     if (active)
       *active = SparkLibraryEntryIsActive(entry);
-    return [[sp_library actionSet] objectWithUID:entry->action];
+    return [[[self library] actionSet] objectWithUID:entry->action];
   }
   return nil;
 }

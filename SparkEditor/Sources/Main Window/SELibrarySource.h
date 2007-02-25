@@ -19,11 +19,11 @@
   SESmartEntryList *se_overwrite;
   
   SparkLibrary *se_library;
-  
-  NSMutableArray *se_pendings;
 }
 
 - (IBAction)newList:(id)sender;
+
+- (void)setLibrary:(SparkLibrary *)aLibrary;
 
 - (SparkPlugIn *)pluginForList:(SEEntryList *)aList;
 

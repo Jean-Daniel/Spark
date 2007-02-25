@@ -241,7 +241,7 @@ extern void CGDisplaySetInvertedPolarity(Boolean inverted);
 - (void)emptyTrash {
   AppleEvent aevt = SKAEEmptyDesc();
   
-  OSStatus err = SKAECreateEventWithTargetSignature(kSparkFinderCreatorType, 'fndr', 'empt', &aevt);
+  OSStatus err = SKAECreateEventWithTargetSignature(kSparkFinderSignature, 'fndr', 'empt', &aevt);
   require_noerr(err, bail);
   
   err = SKAEAddPropertyObjectSpecifier(&aevt, keyDirectObject, 'ctrs', 'trsh', NULL);

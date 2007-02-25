@@ -30,8 +30,9 @@
             OUTLETS = {
                 appDrawer = NSDrawer; 
                 appField = SEApplicationView; 
+                ibApplications = SEApplicationSource; 
+                ibGroups = SELibrarySource; 
                 libraryTable = SKTableView; 
-                listSource = SELibrarySource; 
                 triggers = SETriggersController; 
                 uiDisabled = NSImageView; 
                 uiMenu = NSSegmentedControl; 

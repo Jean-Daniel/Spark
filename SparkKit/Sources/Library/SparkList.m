@@ -149,6 +149,12 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
                                                object:sp_set];
 }
 
+- (void)setLibrary:(SparkLibrary *)aLibrary {
+  if (aLibrary != [sp_set library])
+    [self setObjectSet:nil];
+  [super setLibrary:aLibrary];
+}
+
 - (void)setObjectSet:(SparkObjectSet *)objectSet {
   if (sp_set != objectSet) {
     /* unregister notifications */

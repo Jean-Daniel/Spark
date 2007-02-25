@@ -72,7 +72,7 @@
   
   FSRef src, dest;
   if ([file getFSRef:&src] && [destination getFSRef:&dest]) {
-    OSType finder = kSparkFinderCreatorType;
+    OSType finder = kSparkFinderSignature;
     err = AEBuildAppleEvent(kAECoreSuite, flag ? kAECopy : kAEMove, 
                             typeApplSignature, &finder, sizeof(OSType),
                             kAutoGenerateReturnID, kAnyTransactionID,

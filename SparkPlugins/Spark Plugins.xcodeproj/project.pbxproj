@@ -301,7 +301,7 @@
 		981B624209386E340024C0D9 /* ShadowDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowDebug.xcconfig; sourceTree = "<group>"; };
 		981B624309386E340024C0D9 /* ShadowRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowRelease.xcconfig; sourceTree = "<group>"; };
 		981B624509386E340024C0D9 /* ShadowUniversal.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowUniversal.xcconfig; sourceTree = "<group>"; };
-		9832875F079602BE00DB780A /* Labo */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "compiled.mach-o.executable"; path = Labo; sourceTree = BUILT_PRODUCTS_DIR; };
+		9832875F079602BE00DB780A /* Labo */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Labo; sourceTree = BUILT_PRODUCTS_DIR; };
 		9832882D079602EC00DB780A /* Labo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Labo.m; sourceTree = "<group>"; };
 		983974FC0A58637400F79B40 /* SystemActionPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemActionPlugin.m; sourceTree = "<group>"; };
 		983974FD0A58637400F79B40 /* SystemAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemAction.m; sourceTree = "<group>"; };
@@ -341,7 +341,7 @@
 		98789CAE0AB48D5A00C35052 /* ITunesInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITunesInfo.h; sourceTree = "<group>"; };
 		98789CB20AB48D8200C35052 /* ITunesInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ITunesInfo.m; sourceTree = "<group>"; };
 		98789DC40AB4A0D900C35052 /* Simulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Simulator.m; sourceTree = "<group>"; };
-		98789DD20AB4A10D00C35052 /* Simulator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Simulator.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		98789DD20AB4A10D00C35052 /* Simulator.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Simulator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		98789DDF0AB4A1D300C35052 /* MainMenu.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = MainMenu.nib; sourceTree = "<group>"; };
 		98789DE80AB4A1EE00C35052 /* Simulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Simulator.h; sourceTree = "<group>"; };
 		9878A0B20AB4BFC100C35052 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; lineEnding = 0; path = Localizable.strings; sourceTree = "<group>"; };
@@ -1741,7 +1741,7 @@
 		9888CE1F0B02412200B81BDB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 302;
+				CURRENT_PROJECT_VERSION = 303;
 				INFOPLIST_FILE = Text/Info.plist;
 				PRODUCT_NAME = TextAction;
 			};
@@ -1750,7 +1750,7 @@
 		9888CE200B02412200B81BDB /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 302;
+				CURRENT_PROJECT_VERSION = 303;
 				INFOPLIST_FILE = Text/Info.plist;
 				PRODUCT_NAME = TextAction;
 			};
@@ -1759,7 +1759,7 @@
 		9888CE210B02412200B81BDB /* Universal Binary */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 302;
+				CURRENT_PROJECT_VERSION = 303;
 				INFOPLIST_FILE = Text/Info.plist;
 				PRODUCT_NAME = TextAction;
 			};
@@ -1768,7 +1768,7 @@
 		98C12C7708CE11FC0015CB91 /* Universal Binary */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 302;
+				CURRENT_PROJECT_VERSION = 303;
 				INFOPLIST_FILE = System/Info.plist;
 				PRODUCT_NAME = SystemAction;
 			};
@@ -1777,7 +1777,7 @@
 		98C12C7808CE11FC0015CB91 /* Universal Binary */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 302;
+				CURRENT_PROJECT_VERSION = 303;
 				INFOPLIST_FILE = iTunes/Info.plist;
 				PRODUCT_NAME = iTunesAction;
 			};
@@ -1786,7 +1786,7 @@
 		98C12C7908CE11FC0015CB91 /* Universal Binary */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 302;
+				CURRENT_PROJECT_VERSION = 303;
 				INFOPLIST_FILE = Documents/Info.plist;
 				PRODUCT_NAME = DocumentAction;
 			};
@@ -1795,7 +1795,7 @@
 		98C12C7A08CE11FC0015CB91 /* Universal Binary */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 302;
+				CURRENT_PROJECT_VERSION = 303;
 				INFOPLIST_FILE = Application/Info.plist;
 				PRODUCT_NAME = ApplicationAction;
 			};
@@ -1804,7 +1804,7 @@
 		98C12C7B08CE11FC0015CB91 /* Universal Binary */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 302;
+				CURRENT_PROJECT_VERSION = 303;
 				INFOPLIST_FILE = AppleScript/Info.plist;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1864,7 +1864,7 @@
 		98EF7EC908645A0E007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 302;
+				CURRENT_PROJECT_VERSION = 303;
 				INFOPLIST_FILE = System/Info.plist;
 				PRODUCT_NAME = SystemAction;
 			};
@@ -1873,7 +1873,7 @@
 		98EF7ECA08645A0E007BC81A /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 302;
+				CURRENT_PROJECT_VERSION = 303;
 				INFOPLIST_FILE = System/Info.plist;
 				PRODUCT_NAME = SystemAction;
 			};
@@ -1882,7 +1882,7 @@
 		98EF7ECD08645A0E007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 302;
+				CURRENT_PROJECT_VERSION = 303;
 				INFOPLIST_FILE = iTunes/Info.plist;
 				PRODUCT_NAME = iTunesAction;
 			};
@@ -1891,7 +1891,7 @@
 		98EF7ECE08645A0E007BC81A /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 302;
+				CURRENT_PROJECT_VERSION = 303;
 				INFOPLIST_FILE = iTunes/Info.plist;
 				PRODUCT_NAME = iTunesAction;
 			};
@@ -1900,7 +1900,7 @@
 		98EF7ED108645A0E007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 302;
+				CURRENT_PROJECT_VERSION = 303;
 				INFOPLIST_FILE = Documents/Info.plist;
 				PRODUCT_NAME = DocumentAction;
 			};
@@ -1909,7 +1909,7 @@
 		98EF7ED208645A0E007BC81A /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 302;
+				CURRENT_PROJECT_VERSION = 303;
 				INFOPLIST_FILE = Documents/Info.plist;
 				PRODUCT_NAME = DocumentAction;
 			};
@@ -1918,7 +1918,7 @@
 		98EF7ED508645A0E007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 302;
+				CURRENT_PROJECT_VERSION = 303;
 				INFOPLIST_FILE = Application/Info.plist;
 				PRODUCT_NAME = ApplicationAction;
 			};
@@ -1927,7 +1927,7 @@
 		98EF7ED608645A0E007BC81A /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 302;
+				CURRENT_PROJECT_VERSION = 303;
 				INFOPLIST_FILE = Application/Info.plist;
 				PRODUCT_NAME = ApplicationAction;
 			};
@@ -1936,7 +1936,7 @@
 		98EF7ED908645A0E007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 302;
+				CURRENT_PROJECT_VERSION = 303;
 				INFOPLIST_FILE = AppleScript/Info.plist;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1950,7 +1950,7 @@
 		98EF7EDA08645A0E007BC81A /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 302;
+				CURRENT_PROJECT_VERSION = 303;
 				INFOPLIST_FILE = AppleScript/Info.plist;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -2055,7 +2055,7 @@
 		98EFD1CF0B58454800AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 302;
+				CURRENT_PROJECT_VERSION = 303;
 				INFOPLIST_FILE = Text/Info.plist;
 				PRODUCT_NAME = TextAction;
 			};
@@ -2064,7 +2064,7 @@
 		98EFD1D00B58454800AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 302;
+				CURRENT_PROJECT_VERSION = 303;
 				INFOPLIST_FILE = iTunes/Info.plist;
 				PRODUCT_NAME = iTunesAction;
 			};
@@ -2073,7 +2073,7 @@
 		98EFD1D10B58454800AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 302;
+				CURRENT_PROJECT_VERSION = 303;
 				INFOPLIST_FILE = System/Info.plist;
 				PRODUCT_NAME = SystemAction;
 			};
@@ -2082,7 +2082,7 @@
 		98EFD1D20B58454800AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 302;
+				CURRENT_PROJECT_VERSION = 303;
 				INFOPLIST_FILE = Documents/Info.plist;
 				PRODUCT_NAME = DocumentAction;
 			};
@@ -2091,7 +2091,7 @@
 		98EFD1D30B58454800AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 302;
+				CURRENT_PROJECT_VERSION = 303;
 				INFOPLIST_FILE = Application/Info.plist;
 				PRODUCT_NAME = ApplicationAction;
 			};
@@ -2100,7 +2100,7 @@
 		98EFD1D40B58454800AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 302;
+				CURRENT_PROJECT_VERSION = 303;
 				INFOPLIST_FILE = AppleScript/Info.plist;
 				OTHER_LDFLAGS = (
 					"$(inherited)",

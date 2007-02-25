@@ -226,7 +226,7 @@ OSType _DocumentActionFromFlag(int flag) {
     case kDocumentActionOpenSelection:
     case kDocumentActionOpenSelectionWith: {
       // Check if Finder is foreground
-      if (SKProcessGetFrontProcessSignature() == kSparkFinderCreatorType) {
+      if (SKProcessGetFrontProcessSignature() == kSparkFinderSignature) {
         [self openSelection];
       }
     }

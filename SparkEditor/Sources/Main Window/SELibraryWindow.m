@@ -61,22 +61,38 @@
   [[self window] display];
 }
 
+- (void)setLibrary:(SparkLibrary *)aLibrary {
+  if (se_library != aLibrary) {
+    if (se_library) {
+      [[se_library notificationCenter] removeObserver:self
+                                                 name:SEApplicationDidChangeNotification
+                                               object:[self document]];
+      [se_library release];
+    }
+    se_library = [aLibrary retain];
+    if (se_library) {
+      [[se_library notificationCenter] addObserver:self
+                                          selector:@selector(applicationDidChange:)
+                                              name:SEApplicationDidChangeNotification
+                                            object:[self document]];
+    }
+  }
+}
+
 - (void)setDocument:(SELibraryDocument *)aDocument {
   NSParameterAssert(!aDocument || [aDocument isKindOfClass:[SELibraryDocument class]]);
-  if ([super document]) {
-    [[se_library notificationCenter] removeObserver:self
-                                               name:SEApplicationDidChangeNotification
-                                             object:[self document]];
-    [se_library release];
-    se_library = nil;
+  if ([self document]) {
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:SEDocumentDidSetLibraryNotification
+                                                  object:[self document]];
   }
   [super setDocument:aDocument];
-  if (aDocument) {
-    se_library = [[aDocument library] retain];
-    [[se_library notificationCenter] addObserver:self
-                                        selector:@selector(applicationDidChange:)
-                                            name:SEApplicationDidChangeNotification
-                                          object:[self document]];
+  [self setLibrary:[aDocument library]];
+  if ([self document]) {
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(libraryDidChange:)
+                                                 name:SEDocumentDidSetLibraryNotification
+                                               object:[self document]];
   }
 }
 
@@ -97,16 +113,24 @@
   [uiMenu setMenu:[NSApp pluginsMenu] forSegment:0];
   [[uiMenu cell] setToolTip:NSLocalizedString(@"CREATE_TRIGGER_TOOLTIP", @"Segment Menu ToolTips")
                  forSegment:0];
+  
+  /* Load applications */
+  [ibApplications setLibrary:[self library]];
+  [ibApplications setSelectionIndex:0];
+  
+  /* Load library groups */
+  [ibGroups setLibrary:[self library]];
+  [ibGroups setSelectionIndex:0];
 }
 
 - (IBAction)libraryDoubleAction:(id)sender {
   int idx = [libraryTable selectedRow];
   if (idx > 0) {
-    SEEntryList *object = [listSource objectAtIndex:idx];
+    SEEntryList *object = [ibGroups objectAtIndex:idx];
     if ([object isEditable]) {
       [libraryTable editColumn:0 row:idx withEvent:nil select:YES];
     } else {
-      SparkPlugIn *plugin = [listSource pluginForList:object];
+      SparkPlugIn *plugin = [ibGroups pluginForList:object];
       if (plugin) {
         [[self document] makeEntryOfType:plugin];
       }
@@ -115,7 +139,7 @@
 }
 
 - (SEEntryList *)selectedList {
-  return [listSource selectedObject];
+  return [ibGroups selectedObject];
 }
 
 - (void)revealEntry:(SparkEntry *)entry {
@@ -162,13 +186,25 @@
 }
 
 /* Notification handler */
+- (void)libraryDidChange:(NSNotification *)aNotification {
+  [self setLibrary:[[aNotification object] library]];
+  
+  /* Load applications */
+  [ibApplications setLibrary:[self library]];
+  [ibApplications setSelectionIndex:0];
+  
+  /* Load library groups */
+  [ibGroups setLibrary:[self library]];
+  [ibGroups setSelectionIndex:0];
+}
+
 - (void)applicationDidChange:(NSNotification *)aNotification {
   [appField setSparkApplication:[[aNotification object] application]];
 }
 
 /* Selected list did change */
 - (IBAction)newList:(id)sender {
-  [listSource newList:sender];
+  [ibGroups newList:sender];
 }
 
 - (void)setDaemonStatus:(SparkDaemonStatus)status {

@@ -144,7 +144,7 @@ BOOL sIsProcessingEvent = NO;
           
           /* If launch by something that is not Spark Editor */
           OSType sign = SKProcessGetSignature(&psn);
-          if (sign != kSparkEditorHFSCreatorType) {
+          if (sign != kSparkEditorSignature) {
             CFNumberRef value = CFPreferencesCopyAppValue(CFSTR("SDDelayStartup"), (CFStringRef)kSparkPreferencesIdentifier);
             if (value) {
               CFNumberGetValue(value, kCFNumberIntType, &delay);

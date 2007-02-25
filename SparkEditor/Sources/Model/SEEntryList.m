@@ -66,43 +66,51 @@ NSString * const SEEntryListDidChangeNameNotification = @"SEEntryListDidChangeNa
   se_elFlags.group = group;
 }
 
+- (void)setLibrary:(SparkLibrary *)aLibrary {
+  if (aLibrary != se_library) {
+    if (se_library) {
+      [[se_library notificationCenter] removeObserver:self];
+      [se_library release];
+      se_library = nil;
+    }
+    se_library = [aLibrary retain];
+    if (se_library) {
+      /* Current application change */
+      [[se_library notificationCenter] addObserver:self
+                                          selector:@selector(applicationDidChange:)
+                                              name:SEApplicationDidChangeNotification
+                                            object:se_document];
+      /* Cache updates */
+      [[se_library notificationCenter] addObserver:self
+                                          selector:@selector(didAddEntry:)
+                                              name:SEEntryCacheDidAddEntryNotification
+                                            object:[se_document cache]];
+      [[se_library notificationCenter] addObserver:self
+                                          selector:@selector(didUpdateEntry:)
+                                              name:SEEntryCacheDidUpdateEntryNotification
+                                            object:[se_document cache]];
+      [[se_library notificationCenter] addObserver:self
+                                          selector:@selector(willRemoveEntry:)
+                                              name:SEEntryCacheWillRemoveEntryNotification
+                                            object:[se_document cache]];
+      
+      [[se_library notificationCenter] addObserver:self
+                                          selector:@selector(cacheDidReload:)
+                                              name:SEEntryCacheDidReloadNotification
+                                            object:[se_document cache]];
+    }
+    [self reload];
+  }
+}
+
 - (SELibraryDocument *)document {
   return se_document;
 }
 - (void)setDocument:(SELibraryDocument *)aDocument {
-  if (se_document) {
-    [[[se_document library] notificationCenter] removeObserver:self];
-    [se_library release];
-    se_library = nil;
+  if (se_document != aDocument) {
+    se_document = aDocument;
+    [self setLibrary:[se_document library]];
   }
-  se_document = aDocument;
-  if (se_document) {
-    se_library = [[aDocument library] retain];
-    /* Current application change */
-    [[se_library notificationCenter] addObserver:self
-                                        selector:@selector(applicationDidChange:)
-                                            name:SEApplicationDidChangeNotification
-                                          object:se_document];
-    /* Cache updates */
-    [[se_library notificationCenter] addObserver:self
-                                        selector:@selector(didAddEntry:)
-                                            name:SEEntryCacheDidAddEntryNotification
-                                          object:[se_document cache]];
-    [[se_library notificationCenter] addObserver:self
-                                        selector:@selector(didUpdateEntry:)
-                                            name:SEEntryCacheDidUpdateEntryNotification
-                                          object:[se_document cache]];
-    [[se_library notificationCenter] addObserver:self
-                                        selector:@selector(willRemoveEntry:)
-                                            name:SEEntryCacheWillRemoveEntryNotification
-                                          object:[se_document cache]];
-    
-    [[se_library notificationCenter] addObserver:self
-                                        selector:@selector(cacheDidReload:)
-                                            name:SEEntryCacheDidReloadNotification
-                                          object:[se_document cache]];
-  }
-  [self reload];
 }
 
 - (BOOL)isEditable {

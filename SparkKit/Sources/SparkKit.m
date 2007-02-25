@@ -31,13 +31,13 @@ NSString * const kSparkPreferencesIdentifier = @"org.shadowlab.Spark-debug";
 NSString * const kSparkPreferencesIdentifier = @"org.shadowlab.Spark";
 #endif
 
-OSType kSparkFinderCreatorType;
-const OSType kSparkEditorHFSCreatorType = 'Sprk';
-const OSType kSparkDaemonHFSCreatorType = 'SprS';
+OSType kSparkFinderSignature;
+const OSType kSparkEditorSignature = 'Sprk';
+const OSType kSparkDaemonSignature = 'SprS';
 
 static __attribute__((constructor)) 
 void __SparkInitializeLibrary() {
-  kSparkFinderCreatorType = 'MACS';
+  kSparkFinderSignature = 'MACS';
   CFStringRef str = CFPreferencesCopyAppValue(CFSTR("SparkFinderSignature"), (CFStringRef)kSparkPreferencesIdentifier);
   if (str) {
     if (!CFStringGetTypeID() == CFGetTypeID(str)) {
@@ -45,7 +45,7 @@ void __SparkInitializeLibrary() {
     } else {
       OSType type = SKGetOSTypeFromString(str);
       if (type && type != kUnknownType)
-        kSparkFinderCreatorType = type;
+        kSparkFinderSignature = type;
     }
     CFRelease(str);
   }

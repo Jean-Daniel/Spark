@@ -28,7 +28,7 @@ OSStatus SDGetEditorIsTrapping(Boolean *trapping) {
   require_noerr(err, bail);
   
   /* If Spark Editor is the front process, send apple event */
-  if (kSparkEditorHFSCreatorType == info.processSignature) {
+  if (kSparkEditorSignature == info.processSignature) {
     AEDesc reply = SKAEEmptyDesc();
     AEDesc theEvent = SKAEEmptyDesc();
     

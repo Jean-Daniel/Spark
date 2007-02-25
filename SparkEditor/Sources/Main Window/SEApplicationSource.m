@@ -30,11 +30,12 @@
 
 - (void)reload {
   [self removeAllObjects];
-  
-  [self addObject:[SparkApplication objectWithName:NSLocalizedString(@"Globals", @"Globals Application name")
-                                              icon:[NSImage imageNamed:@"System"]]];
-  [self addObjects:[[self applicationSet] objects]];
-  [self rearrangeObjects];
+  if (se_library) {
+    [self addObject:[SparkApplication objectWithName:NSLocalizedString(@"Globals", @"Globals Application name")
+                                                icon:[NSImage imageNamed:@"System"]]];
+    [self addObjects:[[self applicationSet] objects]];
+    [self rearrangeObjects];
+  }
 }
 
 - (void)se_init {
@@ -56,15 +57,12 @@
 }
 
 - (void)dealloc {
+  [self setLibrary:nil];
   [se_path release];
-  [[se_library notificationCenter] removeObserver:self];
-  [se_library release];
   [super dealloc];
 }
 
 - (void)awakeFromNib {
-  se_library = [[ibWindow library] retain];
-  
   [uiTable registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, nil]];
   
   /* Configure Application Header Cell */
@@ -77,25 +75,32 @@
   
   [uiTable setTarget:self];
   [uiTable setDoubleAction:@selector(revealApplication:)];
-  
-  /* Load applications */
-  [self reload];
-  [self setSelectionIndex:0];
-  //[[ibWindow manager] setApplication:[self objectAtIndex:0]];
-  
-  [[se_library notificationCenter] addObserver:self
-                                      selector:@selector(didAddApplication:)
-                                          name:SparkObjectSetDidAddObjectNotification
-                                        object:[se_library applicationSet]];
-  [[se_library notificationCenter] addObserver:self
-                                      selector:@selector(didRemoveApplication:)
-                                          name:SparkObjectSetDidRemoveObjectNotification
-                                        object:[se_library applicationSet]];  
-  
-  [[se_library notificationCenter] addObserver:self
-                                      selector:@selector(didReloadLibrary:)
-                                          name:SELibraryDocumentDidReloadNotification
-                                        object:[ibWindow document]];
+}
+
+- (void)setLibrary:(SparkLibrary *)aLibrary {
+  if (se_library != aLibrary) {
+    if (se_library) {
+      [[se_library notificationCenter] removeObserver:self];
+      [se_library release];
+    }
+    se_library = [aLibrary retain];
+    [self reload];
+    if (se_library) {
+      [[se_library notificationCenter] addObserver:self
+                                          selector:@selector(didAddApplication:)
+                                              name:SparkObjectSetDidAddObjectNotification
+                                            object:[se_library applicationSet]];
+      [[se_library notificationCenter] addObserver:self
+                                          selector:@selector(didRemoveApplication:)
+                                              name:SparkObjectSetDidRemoveObjectNotification
+                                            object:[se_library applicationSet]];  
+      
+      [[se_library notificationCenter] addObserver:self
+                                          selector:@selector(didReloadLibrary:)
+                                              name:SELibraryDocumentDidReloadNotification
+                                            object:[ibWindow document]];
+    }
+  }
 }
 
 #pragma mark -
@@ -262,6 +267,8 @@
     application = [objects objectAtIndex:anIndex];
     // Set current application
     [[ibWindow document] setApplication:application];
+  } else {
+    [[ibWindow document] setApplication:nil];
   }
 }
 
@@ -287,7 +294,7 @@
 /* Display bold if has some custom actions */
 - (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
   SparkApplication *item = [self objectAtIndex:rowIndex];
-  if ([item uid] && [[[ibWindow library] entryManager] containsEntryForApplication:[item uid]]) {
+  if ([item uid] && [[se_library entryManager] containsEntryForApplication:[item uid]]) {
     [aCell setFont:[NSFont boldSystemFontOfSize:[NSFont smallSystemFontSize]]];
   } else {
     [aCell setFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]];

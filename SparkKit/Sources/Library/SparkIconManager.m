@@ -6,12 +6,12 @@
  *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
  */
 
-#import <SparkKit/SparkIconManager.h>
+#import "SparkIconManagerPrivate.h"
+
 #import <SparkKit/SparkObject.h>
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkObjectSet.h>
 
-#import <ShadowKit/SKArchive.h>
 #import <ShadowKit/SKImageUtils.h>
 #import <ShadowKit/SKFSFunctions.h>
 
@@ -33,49 +33,35 @@ UInt8 __SparkIconTypeForObject(SparkObject *object) {
   return kSparkInvalidType;
 }
 
-@interface _SparkIconEntry : NSObject {
-  BOOL sp_clean;
-  BOOL sp_loaded;
-
-  @private
-  NSImage *sp_icon;
-  NSString *sp_path;
-  NSImage *sp_ondisk;
+SparkObjectSet *_SparkObjectSetForType(SparkLibrary *library, UInt8 type) {
+  switch (type) {
+    case 0:
+      return [library listSet];
+    case 1:
+      return [library actionSet];
+    case 2:
+      return [library triggerSet];
+    case 3:
+      return [library applicationSet];
+  }
+  return nil;
 }
-
-- (BOOL)loaded;
-- (BOOL)hasChanged;
-- (void)applyChange;
-
-- (id)initWithObject:(SparkObject *)object;
-
-- (NSString *)path;
-
-- (NSImage *)icon;
-- (void)setIcon:(NSImage *)anImage;
-
-- (void)setCachedIcon:(NSImage *)anImage;
-
-@end
 
 #pragma mark -
 @implementation SparkIconManager
 
 - (id)initWithLibrary:(SparkLibrary *)aLibrary path:(NSString *)path {
+  NSParameterAssert(aLibrary != nil);
   if (self = [super init]) {
-    BOOL isDir = NO;
-    sp_path = [path copy];
-    if (![[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir]) {
-      SKFSCreateFolder((CFStringRef)path);
-    } else if (!isDir) {
+    @try {
+      [self setPath:path];
+    } @catch (id exception) {
       [self release];
-      [NSException raise:NSInvalidArgumentException format:@"%@ MUST be a directory", path];
+      @throw exception;
     }
+    
     for (unsigned idx = 0; idx < 4; idx++) {
       sp_cache[idx] = NSCreateMapTable(NSIntMapKeyCallBacks, NSObjectMapValueCallBacks, 0);
-      NSString *dir = [path stringByAppendingPathComponent:[NSString stringWithFormat:@"%u", idx]];
-      if (![[NSFileManager defaultManager] fileExistsAtPath:dir])
-        [[NSFileManager defaultManager] createDirectoryAtPath:dir attributes:nil];
     }
     
     sp_library = aLibrary;
@@ -105,44 +91,70 @@ UInt8 __SparkIconTypeForObject(SparkObject *object) {
   [super dealloc];
 }
 
-- (NSImage *)iconForObject:(SparkObject *)anObject {
+#pragma mark -
+- (NSString *)path {
+  return sp_path;
+}
+
+- (void)setPath:(NSString *)path {
+  if (sp_path)
+    [NSException raise:NSInvalidArgumentException format:@"%@ does not support rename", [self class]];
+  
+  if (path) {
+    BOOL isDir = NO;
+    if (![[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir]) {
+      if (noErr != SKFSCreateFolder((CFStringRef)path)) {
+        [NSException raise:NSInvalidArgumentException format:@"could not create directory at path %@", path];
+      }
+    } else if (!isDir) {
+      [NSException raise:NSInvalidArgumentException format:@"%@ is not a directory", path];
+    }
+    for (unsigned idx = 0; idx < 4; idx++) {
+      NSString *dir = [path stringByAppendingPathComponent:[NSString stringWithFormat:@"%u", idx]];
+      if (![[NSFileManager defaultManager] fileExistsAtPath:dir])
+        [[NSFileManager defaultManager] createDirectoryAtPath:dir attributes:nil];
+    }
+    
+    sp_path = [path copy];
+  }
+}
+
+- (_SparkIconEntry *)entryForObject:(SparkObject *)anObject {
+  _SparkIconEntry *entry = nil;
   UInt8 type = __SparkIconTypeForObject(anObject);
   if (type != kSparkInvalidType) {
-    _SparkIconEntry *entry = NSMapGet(sp_cache[type], (void *)[anObject uid]);
+    entry = NSMapGet(sp_cache[type], (void *)[anObject uid]);
     if (!entry) {
       entry = [[_SparkIconEntry alloc] initWithObject:anObject];
       NSMapInsert(sp_cache[type], (void *)[anObject uid], entry);
       [entry release];
     }
-    if (![entry loaded]) {
-      NSString *path = [sp_path stringByAppendingPathComponent:[entry path]];
-      if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
-        NSImage *icon = [[NSImage alloc] initByReferencingFile:path];
-        /* Set icon from disk */
-        //DLog(@"Load icon (%@): %@", [anObject name], icon);
-        [entry setCachedIcon:icon];
-        [icon release];
-      } else {
-        /* No icon on disk */
-        [entry setCachedIcon:nil];
-        DLog(@"Request invalid icon for object: %@", anObject);
-      }
-    }
-    return [entry icon];
   }
-  return nil;
+  return entry;
+}
+
+- (NSImage *)iconForObject:(SparkObject *)anObject {
+  _SparkIconEntry *entry = [self entryForObject:anObject];
+  if (entry && ![entry loaded] && sp_path) {
+    NSString *path = [sp_path stringByAppendingPathComponent:[entry path]];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
+      NSImage *icon = [[NSImage alloc] initByReferencingFile:path];
+      /* Set icon from disk */
+      //DLog(@"Load icon (%@): %@", [anObject name], icon);
+      [entry setCachedIcon:icon];
+      [icon release];
+    } else {
+      /* No icon on disk */
+      [entry setCachedIcon:nil];
+      DLog(@"Icon not found in cache for object: %@", anObject);
+    }
+  }
+  return [entry icon];
 }
 
 - (void)setIcon:(NSImage *)icon forObject:(SparkObject *)anObject {
-  UInt8 type = __SparkIconTypeForObject(anObject);
-  if (type != kSparkInvalidType) {
-    _SparkIconEntry *entry = NSMapGet(sp_cache[type], (void *)[anObject uid]);
-    if (!entry) {
-      entry = [[_SparkIconEntry alloc] initWithObject:anObject];
-      NSMapInsert(sp_cache[type], (void *)[anObject uid], entry);
-      [entry release];
-    }
-    
+  _SparkIconEntry *entry = [self entryForObject:anObject];
+  if (entry) {
     /* Adjust resolution */
     if (icon) {
       SKImageSetRepresentationsSize(icon, NSMakeSize(16, 16));
@@ -152,32 +164,38 @@ UInt8 __SparkIconTypeForObject(SparkObject *object) {
 }
 
 - (void)synchronize:(NSMapTable *)entries {
-  _SparkIconEntry *entry;
-  NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-  NSMapEnumerator items = NSEnumerateMapTable(entries);
-  while (NSNextMapEnumeratorPair(&items, NULL, (void **)&entry)) {
-    if ([entry hasChanged]) {
-      NSString *path = [sp_path stringByAppendingPathComponent:[entry path]];
-      if (![entry icon]) {
-        DLog(@"delete icon: %@", path);
-        [[NSFileManager defaultManager] removeFileAtPath:path handler:nil];
-      } else {
-        NSData *data = [[entry icon] TIFFRepresentationUsingCompression:NSTIFFCompressionLZW factor:1];
-        if (data) {
-          DLog(@"save icon: %@", path);
-          [data writeToFile:path atomically:NO];
+  if (sp_path) {
+    _SparkIconEntry *entry;
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSMapEnumerator items = NSEnumerateMapTable(entries);
+    while (NSNextMapEnumeratorPair(&items, NULL, (void **)&entry)) {
+      if ([entry hasChanged]) {
+        NSString *path = [sp_path stringByAppendingPathComponent:[entry path]];
+        if (![entry icon]) {
+          DLog(@"delete icon: %@", path);
+          [[NSFileManager defaultManager] removeFileAtPath:path handler:nil];
+        } else {
+          NSData *data = [[entry icon] TIFFRepresentationUsingCompression:NSTIFFCompressionLZW factor:1];
+          if (data) {
+            DLog(@"save icon: %@", path);
+            [data writeToFile:path atomically:NO];
+          }
         }
+        [entry applyChange];
       }
-      [entry applyChange];
     }
+    NSEndMapTableEnumeration(&items);
+    [pool release];
   }
-  NSEndMapTableEnumeration(&items);
-  [pool release];
 }
 
 - (BOOL)synchronize {
-  for (unsigned idx = 0; idx < 4; idx++) {
-    [self synchronize:sp_cache[idx]];
+  if (sp_path) {
+    for (unsigned idx = 0; idx < 4; idx++) {
+      [self synchronize:sp_cache[idx]];
+    }
+  } else {
+    DLog(@"WARNING: sync icon cache with undefined path");
   }
   return YES;
 }
@@ -206,47 +224,6 @@ UInt8 __SparkIconTypeForObject(SparkObject *object) {
   SparkObject *object = SparkNotificationObject(aNotification);
   if ([object shouldSaveIcon])
     [self setIcon:nil forObject:object];
-}
-
-- (void)writeToArchive:(SKArchive *)archive atPath:(SKArchiveFile *)path {
-  NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-  for (unsigned idx = 0; idx < 4; idx++) {
-    /* Create Folder */
-    SKArchiveFile *folder = [archive addFolder:[NSString stringWithFormat:@"%u", idx] properties:nil parent:path];
-    
-    NSMutableSet *blacklist = [[NSMutableSet alloc] init];
-    [blacklist addObject:@".DS_Store"];
-    /* Then, write in memory entries */
-    UInt32 uid = 0;
-    _SparkIconEntry *entry = nil;
-    NSMapEnumerator items = NSEnumerateMapTable(sp_cache[idx]);
-    while (NSNextMapEnumeratorPair(&items, (void **)&uid, (void **)&entry)) {
-      if ([entry hasChanged]) {
-        NSString *strid = [NSString stringWithFormat:@"%u", uid];
-        [blacklist addObject:strid];
-        if ([entry icon]) {
-          NSData *data = [[entry icon] TIFFRepresentationUsingCompression:NSTIFFCompressionLZW factor:1];
-          if (data) {
-            [archive addFile:strid data:data parent:folder];
-          }
-        }
-      }
-    }
-    /* Finaly, archive on disk icons */
-    NSString *fspath = [sp_path stringByAppendingPathComponent:[folder name]];
-    NSArray *files = [[NSFileManager defaultManager] directoryContentsAtPath:fspath];
-    NSUInteger count = [files count];
-    while (count-- > 0) {
-      NSString *fsicon = [files objectAtIndex:count];
-      if (![blacklist containsObject:fsicon]) {
-        NSString *fullpath = [fspath stringByAppendingPathComponent:fsicon];
-        [archive addFile:fullpath name:fsicon parent:folder];
-      }
-    }
-      
-    [blacklist release];
-  }
-  [pool release];
 }
 
 @end

@@ -47,6 +47,51 @@ BOOL SEOverwriteFilter(SEEntryList *list, SparkEntry *object, SparkApplication *
 #pragma mark Implementation
 @implementation SELibrarySource
 
+#pragma mark -
+- (void)se_init {
+  /* Dynamic plugin */
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(didChangePluginList:)
+                                               name:SESparkEditorDidChangePluginStatusNotification
+                                             object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(didChangePluginList:)
+                                               name:SparkActionLoaderDidRegisterPlugInNotification
+                                             object:nil];
+}
+
+- (id)init {
+  if (self = [super init]) {
+    [self se_init];
+  }
+  return self;
+}
+
+- (id)initWithCoder:(NSCoder *)aCoder {
+  if (self = [super initWithCoder:aCoder]) {
+    [self se_init];
+  }
+  return self;
+}
+
+- (void)dealloc {
+  [self setLibrary:nil];
+  
+  /* should be useless */
+  if (se_plugins)
+    NSFreeMapTable(se_plugins);
+  [se_overwrite release];
+  
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
+  [super dealloc];
+}
+
+- (void)addUserEntryList:(SEUserEntryList *)list {
+  [list setDocument:[ibWindow document]];
+  [list setGroup:5];
+  [self addObject:list];
+}
+
 /* Create and update plugins list */
 - (void)buildPluginLists {
   [self setSelectsInsertedObjects:NO];
@@ -76,87 +121,7 @@ BOOL SEOverwriteFilter(SEEntryList *list, SparkEntry *object, SparkApplication *
   [self setSelectsInsertedObjects:YES];
 }
 
-#pragma mark -
-- (void)se_init {
-  /* Dynamic plugin */
-  [[NSNotificationCenter defaultCenter] addObserver:self
-                                           selector:@selector(didChangePluginList:)
-                                               name:SESparkEditorDidChangePluginStatusNotification
-                                             object:nil];
-  [[NSNotificationCenter defaultCenter] addObserver:self
-                                           selector:@selector(didChangePluginList:)
-                                               name:SparkActionLoaderDidRegisterPlugInNotification
-                                             object:nil];
-}
-
-- (id)init {
-  if (self = [super init]) {
-    [self se_init];
-  }
-  return self;
-}
-
-- (id)initWithCoder:(NSCoder *)aCoder {
-  if (self = [super initWithCoder:aCoder]) {
-    [self se_init];
-  }
-  return self;
-}
-
-- (void)dealloc {
-  [se_pendings release];
-  [se_overwrite release];
-  if (se_plugins)
-    NSFreeMapTable(se_plugins);
-  [[se_library notificationCenter] removeObserver:self];
-  [se_library release];
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
-  [super dealloc];
-}
-
-- (void)addUserEntryList:(SEUserEntryList *)list {
-  [list setDocument:[ibWindow document]];
-  [list setGroup:5];
-  [self addObject:list];
-}
-
-- (void)removeUserEntryList:(SEUserEntryList *)list {
-  [self removeObject:list];
-}
-
-- (void)awakeFromNib {
-  se_library = [[ibWindow library] retain];
-  
-  /* Configure Library Header Cell */
-  SEHeaderCell *header = [[SEHeaderCell alloc] initTextCell:NSLocalizedString(@"HotKey Groups", @"Library Header Cell")];
-  [header setAlignment:NSCenterTextAlignment];
-  [header setFont:[NSFont systemFontOfSize:11]];
-  [[[uiTable tableColumns] objectAtIndex:0] setHeaderCell:header];
-  [header release];
-  [uiTable setCornerView:[[[SEHeaderCellCorner alloc] init] autorelease]];
-  
-  NSSortDescriptor *group = [[NSSortDescriptor alloc] initWithKey:@"representation" ascending:YES];
-  [uiTable setSortDescriptors:[NSArray arrayWithObject:group]];
-  [group release];
-  
-  //  NSRect rect = [[uiTable headerView] frame];
-  //  rect.size.height += 1;
-  //  [[uiTable headerView] setFrame:rect];
-  [uiTable registerForDraggedTypes:[NSArray arrayWithObject:SparkEntriesPboardType]];
-  
-  [uiTable setHighlightShading:[NSColor colorWithCalibratedRed:.340f
-                                                         green:.606f
-                                                          blue:.890f
-                                                         alpha:1]
-                        bottom:[NSColor colorWithCalibratedRed:0
-                                                         green:.312f
-                                                          blue:.790f
-                                                         alpha:1]
-                        border:[NSColor colorWithCalibratedRed:.239f
-                                                         green:.482f
-                                                          blue:.855f
-                                                         alpha:1]];
-  
+- (void)buildLists {
   /* Add library… */
   SESmartEntryList *library = [[SESmartEntryList alloc] initWithName:NSLocalizedString(@"Library", @"Library list name")
                                                                 icon:[NSImage imageNamed:@"Library"]];
@@ -197,27 +162,80 @@ BOOL SEOverwriteFilter(SEEntryList *list, SparkEntry *object, SparkApplication *
   [separator release];
   
   [self rearrangeObjects];
-  [self setSelectionIndex:0];
-  
-  /* Register for notifications */
-  [[se_library notificationCenter] addObserver:self
-                                      selector:@selector(applicationDidChange:)
-                                          name:SEApplicationDidChangeNotification
-                                        object:[ibWindow document]];
-  
-  [[se_library notificationCenter] addObserver:self
-                                      selector:@selector(didAddList:)
-                                          name:SparkObjectSetDidAddObjectNotification
-                                        object:[se_library listSet]];
-  [[se_library notificationCenter] addObserver:self
-                                      selector:@selector(willRemoveList:)
-                                          name:SparkObjectSetWillRemoveObjectNotification
-                                        object:[se_library listSet]];
+}
 
-  [[se_library notificationCenter] addObserver:self
-                                      selector:@selector(didRenameList:)
-                                          name:SEEntryListDidChangeNameNotification
-                                        object:se_library];
+- (void)setLibrary:(SparkLibrary *)aLibrary {
+  if (se_library) {
+    [[se_library notificationCenter] removeObserver:self];
+    
+    /* Cleanup */
+    [self removeAllObjects];
+    /* Free plugin <=> lists map */
+    if (se_plugins) {
+      NSFreeMapTable(se_plugins);
+      se_plugins = nil;
+    }
+    /* Free 'overwrite' special list */
+    [se_overwrite release];
+    se_overwrite = nil;
+    
+    [se_library release];
+  }
+  se_library = [aLibrary retain];
+  if (se_library) {
+    [self buildLists];
+    /* Register for notifications */
+    [[se_library notificationCenter] addObserver:self
+                                        selector:@selector(applicationDidChange:)
+                                            name:SEApplicationDidChangeNotification
+                                          object:[ibWindow document]];
+    
+    [[se_library notificationCenter] addObserver:self
+                                        selector:@selector(didAddList:)
+                                            name:SparkObjectSetDidAddObjectNotification
+                                          object:[se_library listSet]];
+    [[se_library notificationCenter] addObserver:self
+                                        selector:@selector(willRemoveList:)
+                                            name:SparkObjectSetWillRemoveObjectNotification
+                                          object:[se_library listSet]];
+    
+    [[se_library notificationCenter] addObserver:self
+                                        selector:@selector(didRenameList:)
+                                            name:SEEntryListDidChangeNameNotification
+                                          object:se_library];
+  }
+}
+
+- (void)awakeFromNib {
+  /* Configure Library Header Cell */
+  SEHeaderCell *header = [[SEHeaderCell alloc] initTextCell:NSLocalizedString(@"HotKey Groups", @"Library Header Cell")];
+  [header setAlignment:NSCenterTextAlignment];
+  [header setFont:[NSFont systemFontOfSize:11]];
+  [[[uiTable tableColumns] objectAtIndex:0] setHeaderCell:header];
+  [header release];
+  [uiTable setCornerView:[[[SEHeaderCellCorner alloc] init] autorelease]];
+  
+  NSSortDescriptor *group = [[NSSortDescriptor alloc] initWithKey:@"representation" ascending:YES];
+  [uiTable setSortDescriptors:[NSArray arrayWithObject:group]];
+  [group release];
+  
+  //  NSRect rect = [[uiTable headerView] frame];
+  //  rect.size.height += 1;
+  //  [[uiTable headerView] setFrame:rect];
+  [uiTable registerForDraggedTypes:[NSArray arrayWithObject:SparkEntriesPboardType]];
+  
+  [uiTable setHighlightShading:[NSColor colorWithCalibratedRed:.340f
+                                                         green:.606f
+                                                          blue:.890f
+                                                         alpha:1]
+                        bottom:[NSColor colorWithCalibratedRed:0
+                                                         green:.312f
+                                                          blue:.790f
+                                                         alpha:1]
+                        border:[NSColor colorWithCalibratedRed:.239f
+                                                         green:.482f
+                                                          blue:.855f
+                                                         alpha:1]];
 }
 
 #pragma mark -
@@ -226,7 +244,7 @@ BOOL SEOverwriteFilter(SEEntryList *list, SparkEntry *object, SparkApplication *
 }
 
 - (SparkPlugIn *)pluginForList:(SEEntryList *)aList {
-  return NSMapGet(se_plugins, aList);
+  return se_plugins ? NSMapGet(se_plugins, aList) : nil;
 }
 
 #pragma mark Data Source

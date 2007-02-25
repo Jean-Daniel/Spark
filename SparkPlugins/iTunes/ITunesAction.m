@@ -47,17 +47,17 @@ iTunesAction _iTunesConvertAction(int act) {
 
 @implementation ITunesAction
 
-static ITunesVisual defaultVisual = {delay: -1};
+static ITunesVisual sDefaultVisual = {delay: -1};
 + (ITunesVisual *)defaultVisual {
-  if (defaultVisual.delay >= 0) {
-    return &defaultVisual;
+  if (sDefaultVisual.delay >= 0) {
+    return &sDefaultVisual;
   } else {
     @synchronized(self) {
-      if (defaultVisual.delay < 0) {
+      if (sDefaultVisual.delay < 0) {
         CFPreferencesAppSynchronize((CFStringRef)kSparkPreferencesIdentifier);
         CFDataRef data = CFPreferencesCopyAppValue(CFSTR("iTunesSharedVisual"), (CFStringRef)kSparkPreferencesIdentifier);
         if (data) {
-          if (!ITunesVisualUnpack((id)data, &defaultVisual)) {
+          if (!ITunesVisualUnpack((id)data, &sDefaultVisual)) {
             DLog(@"Invalid shared visual: %@", data);
             CFPreferencesSetAppValue(CFSTR("iTunesSharedVisual"), NULL, (CFStringRef)kSparkPreferencesIdentifier);
           }
@@ -65,12 +65,12 @@ static ITunesVisual defaultVisual = {delay: -1};
         }
       }
       /* Check visual */
-      if (defaultVisual.delay < 0) {
-        memcpy(&defaultVisual, &kiTunesDefaultSettings, sizeof(defaultVisual));
+      if (sDefaultVisual.delay < 0) {
+        memcpy(&sDefaultVisual, &kiTunesDefaultSettings, sizeof(sDefaultVisual));
       }
     }
   }
-  return &defaultVisual;
+  return &sDefaultVisual;
 }
 
 + (void)setDefaultVisual:(const ITunesVisual *)visual {
@@ -78,13 +78,16 @@ static ITunesVisual defaultVisual = {delay: -1};
   NSData *data = nil;
   if (visual) {
     /* If visual as changed */
-    if (!ITunesVisualIsEqualTo(visual, &defaultVisual)) {
+    if (!ITunesVisualIsEqualTo(visual, &sDefaultVisual)) {
       /* If settings equals defaults settings */
       if (ITunesVisualIsEqualTo(visual, &kiTunesDefaultSettings)) {
-        CFPreferencesSetAppValue(CFSTR("iTunesSharedVisual"), NULL, (CFStringRef)kSparkPreferencesIdentifier);
+        memcpy(&sDefaultVisual, &kiTunesDefaultSettings, sizeof(sDefaultVisual));
+        if (kSparkEditorContext == SparkGetCurrentContext()) {
+          CFPreferencesSetAppValue(CFSTR("iTunesSharedVisual"), NULL, (CFStringRef)kSparkPreferencesIdentifier);
+        }
       } else {
-        memcpy(&defaultVisual, visual, sizeof(defaultVisual));
-        data = ITunesVisualPack(&defaultVisual);
+        memcpy(&sDefaultVisual, visual, sizeof(sDefaultVisual));
+        data = ITunesVisualPack(&sDefaultVisual);
         if (data && kSparkEditorContext == SparkGetCurrentContext()) {
           CFPreferencesSetAppValue(CFSTR("iTunesSharedVisual"), (CFDataRef)data, (CFStringRef)kSparkPreferencesIdentifier);
         }
@@ -97,8 +100,8 @@ static ITunesVisual defaultVisual = {delay: -1};
       CFPreferencesSetAppValue(CFSTR("iTunesSharedVisual"), NULL, (CFStringRef)kSparkPreferencesIdentifier);
     }
     /* Reset to default */
-    if (!ITunesVisualIsEqualTo(&kiTunesDefaultSettings, &defaultVisual)) {
-      memcpy(&defaultVisual, &kiTunesDefaultSettings, sizeof(defaultVisual));
+    if (!ITunesVisualIsEqualTo(&kiTunesDefaultSettings, &sDefaultVisual)) {
+      memcpy(&sDefaultVisual, &kiTunesDefaultSettings, sizeof(sDefaultVisual));
       change = YES;
     }
   }
@@ -106,7 +109,7 @@ static ITunesVisual defaultVisual = {delay: -1};
     /* Reload configuration server side */
     AppleEvent aevt = SKAEEmptyDesc();
 
-    OSStatus err = SKAECreateEventWithTargetSignature(kSparkDaemonHFSCreatorType, 'SpiT', 'SetV', &aevt);
+    OSStatus err = SKAECreateEventWithTargetSignature(kSparkDaemonSignature, 'SpiT', 'SetV', &aevt);
     require_noerr(err, bail);
     
     err = SKAEAddSubject(&aevt);
@@ -137,9 +140,9 @@ bail:
 + (void)handleAppleEvent:(NSAppleEventDescriptor *)event withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
   /* Invalidate visual cache */
   CFDataRef data = NULL;
-  if (noErr == SKAEGetCFDataFromAppleEvent([event aeDesc], keyDirectObject, typeData, &data)) {
+  if (noErr == SKAEGetCFDataFromAppleEvent([event aeDesc], keyDirectObject, typeWildCard, &data)) {
     if (data) {
-      if (!ITunesVisualUnpack((id)data, &defaultVisual))
+      if (!ITunesVisualUnpack((id)data, &sDefaultVisual))
         [self setDefaultVisual:&kiTunesDefaultSettings];
       CFRelease(data);
     } else {

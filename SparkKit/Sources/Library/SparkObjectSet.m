@@ -97,7 +97,15 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
 }
 
 - (void)setLibrary:(SparkLibrary *)aLibrary {
-  sp_library = aLibrary;
+  if (sp_library != aLibrary) {
+    if (sp_objects) {
+      /* Invalid all entries */
+      [[self objects] makeObjectsPerformSelector:@selector(setLibrary:)
+                                      withObject:nil];
+      NSResetMapTable(sp_objects);
+    }
+    sp_library = aLibrary;
+  }
 }
 
 - (NSUndoManager *)undoManager {

@@ -20,7 +20,7 @@
 
 #pragma mark Utilities
 BOOL SparkEditorIsRunning(void) {
-  ProcessSerialNumber psn = SKProcessGetProcessWithSignature(kSparkEditorHFSCreatorType);
+  ProcessSerialNumber psn = SKProcessGetProcessWithSignature(kSparkEditorSignature);
   return psn.lowLongOfPSN != kNoProcess;
 }
 
@@ -30,10 +30,10 @@ void SparkLaunchEditor() {
       [NSApp activateIgnoringOtherApps:NO];
       break;
     case kSparkDaemonContext: {
-      ProcessSerialNumber psn = SKProcessGetProcessWithSignature(kSparkEditorHFSCreatorType);
+      ProcessSerialNumber psn = SKProcessGetProcessWithSignature(kSparkEditorSignature);
       if (psn.lowLongOfPSN != kNoProcess) {
         SetFrontProcess(&psn);
-        SKAESendSimpleEvent(kSparkEditorHFSCreatorType, kCoreEventClass, kAEReopenApplication);
+        SKAESendSimpleEvent(kSparkEditorSignature, kCoreEventClass, kAEReopenApplication);
       } else {
 #if defined(DEBUG)
         NSString *sparkPath = @"./Spark.app";

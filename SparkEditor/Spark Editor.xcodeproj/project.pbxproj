@@ -74,6 +74,7 @@
 		98A6629D0A66FC6F00A7B020 /* start.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 984BCE39060C7E990043CDEA /* start.tiff */; };
 		98A852D60AFF930B00088961 /* SEGearMenu.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 984BCE38060C7E990043CDEA /* SEGearMenu.pdf */; };
 		98B45364097312D600BD0A82 /* ShadowKit.framework in Copy Framework */ = {isa = PBXBuildFile; fileRef = 986757DC096B3F2400BB8A25 /* ShadowKit.framework */; };
+		98B48F000B9211CC002D5AD8 /* Splx.icns in Resources */ = {isa = PBXBuildFile; fileRef = 98B48EFF0B9211CC002D5AD8 /* Splx.icns */; };
 		98CC49640B5AAF3100C60244 /* SELibraryDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 98CC49630B5AAF3100C60244 /* SELibraryDocument.m */; };
 		98CC49680B5AAF3F00C60244 /* SELibraryDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = 98CC49670B5AAF3F00C60244 /* SELibraryDocument.h */; };
 		98CC4E910B5AC5E900C60244 /* SEApplicationSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B500B19A59700C8425C /* SEApplicationSource.m */; };
@@ -405,6 +406,7 @@
 		98A662950A66FB7700A7B020 /* applelogo.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = applelogo.tiff; sourceTree = "<group>"; };
 		98A91DA8074F55460029D278 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/Importer.nib; sourceTree = "<group>"; };
 		98AC962D073F57FB0004BD09 /* SparkImporter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SparkImporter.m; sourceTree = "<group>"; };
+		98B48EFF0B9211CC002D5AD8 /* Splx.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Splx.icns; sourceTree = "<group>"; };
 		98CC49630B5AAF3100C60244 /* SELibraryDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SELibraryDocument.m; sourceTree = "<group>"; };
 		98CC49670B5AAF3F00C60244 /* SELibraryDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SELibraryDocument.h; sourceTree = "<group>"; };
 		98CC57050B1E446200F95A31 /* computer.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = computer.tiff; sourceTree = "<group>"; };
@@ -677,6 +679,7 @@
 		984BCE3D060C7E990043CDEA /* icns */ = {
 			isa = PBXGroup;
 			children = (
+				98B48EFF0B9211CC002D5AD8 /* Splx.icns */,
 				984BCE41060C7E990043CDEA /* Spark.icns */,
 				984BCE3E060C7E990043CDEA /* Splib.icns */,
 				98451105075A0304000D3F88 /* Splist.icns */,
@@ -1177,6 +1180,7 @@
 				981875A10B873B9E0079C55F /* SparkStop.tiff in Resources */,
 				984AB7030B88C5AA005E7F60 /* SEHotKeyTrap.strings in Resources */,
 				984AB7040B88C5AA005E7F60 /* Resources.strings in Resources */,
+				98B48F000B9211CC002D5AD8 /* Splx.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1454,7 +1458,7 @@
 		98BC60520857BB9400A2041F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 353;
+				CURRENT_PROJECT_VERSION = 354;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = Spark;
@@ -1465,7 +1469,7 @@
 		98BC60530857BB9400A2041F /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 353;
+				CURRENT_PROJECT_VERSION = 354;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = Spark;
@@ -1492,7 +1496,7 @@
 		98C12BD508CE11B30015CB91 /* Universal Binary */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 353;
+				CURRENT_PROJECT_VERSION = 354;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = Spark;
@@ -1540,7 +1544,7 @@
 		98EFD02F0B58443900AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 353;
+				CURRENT_PROJECT_VERSION = 354;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = Spark;

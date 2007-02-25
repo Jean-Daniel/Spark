@@ -42,6 +42,9 @@ NSString * const SparkEntryManagerDidChangeEntryEnabledNotification;
 - (SparkLibrary *)library;
 - (NSUndoManager *)undoManager;
 
+/* Private, use to dereference weak */
+- (void)setLibrary:(SparkLibrary *)library;
+
 #pragma mark Management
 - (void)addEntry:(SparkEntry *)anEntry;
 - (void)removeEntry:(SparkEntry *)anEntry;

@@ -21,4 +21,6 @@
 
 - (IBAction)deleteSelection:(id)sender;
 
+- (void)setLibrary:(SparkLibrary *)aLibrary;
+
 @end

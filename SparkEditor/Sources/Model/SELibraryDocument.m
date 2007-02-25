@@ -7,6 +7,8 @@
  */
 
 #import "SELibraryDocument.h"
+
+#import "SEServerConnection.h"
 #import "SELibraryWindow.h"
 #import "SEEntryEditor.h"
 #import "SEEntryCache.h"
@@ -17,10 +19,12 @@
 #import <SparkKit/SparkTrigger.h>
 #import <SparkKit/SparkObjectSet.h>
 #import <SparkKit/SparkEntryManager.h>
+#import <SparkKit/SparkLibraryArchive.h>
 
 NSString * const SEPreviousApplicationKey = @"SEPreviousApplicationKey";
 NSString * const SEApplicationDidChangeNotification = @"SEApplicationDidChange";
-NSString * const SELibraryDocumentDidReloadNotification = @"SELibraryDocumentDidReloadNotification";
+NSString * const SEDocumentDidSetLibraryNotification = @"SEDocumentDidSetLibrary";
+NSString * const SELibraryDocumentDidReloadNotification = @"SELibraryDocumentDidReload";
 
 SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
   id document;
@@ -71,17 +75,27 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
   return se_library;
 }
 - (void)setLibrary:(SparkLibrary *)aLibrary {
-  if (se_library)
-    [NSException raise:NSInternalInconsistencyException format:@"Library cannot be changed"];
+  if (se_library != aLibrary) {
+    if (se_library) {
+      [se_library setUndoManager:nil];
+    }
+    [se_library release];
+    se_library = [aLibrary retain];
+    /* Cleanup undo stack */
+    [self updateChangeCount:NSChangeCleared];
+    if (se_library) {
+      [se_library setUndoManager:[self undoManager]];
+      /* Just to hide title menu and proxy icon */
+      if ([se_library path])
+        [self setFileName:@"Spark"];
+      
+      /* Invalidate cache */
+      if (se_cache) [se_cache release];
+      se_cache = [[SEEntryCache alloc] initWithDocument:self];
   
-  se_library = [aLibrary retain];
-  if (se_library) {
-    [se_library setUndoManager:[self undoManager]];
-    if ([se_library path])
-      [self setFileName:@"Spark"];
-    
-    if (se_cache) [se_cache release];
-    se_cache = [[SEEntryCache alloc] initWithDocument:self];
+      [[NSNotificationCenter defaultCenter] postNotificationName:SEDocumentDidSetLibraryNotification
+                                                          object:self];
+    }
   }
 }
 
@@ -114,7 +128,7 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
     [date dayOfMonth], [date monthOfYear], [date yearOfCommonEra] % 100];
   [panel setTitle:@"Archive Library"];
   [panel setCanCreateDirectories:YES];
-  [panel setRequiredFileType:@"splx"];
+  [panel setRequiredFileType:kSparkLibraryArchiveExtension];
   [panel setAllowsOtherFileTypes:NO];
   [panel beginSheetForDirectory:nil
                            file:filename
@@ -130,10 +144,66 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
     if (file) {
       [[self library] archiveToFile:file];
       NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
-        SKUInt('SLiX'), NSFileHFSTypeCode,
-        SKUInt(kSparkEditorHFSCreatorType), NSFileHFSCreatorCode, nil];
+        SKUInt(kSparkLibraryArchiveHFSType), NSFileHFSTypeCode,
+        SKUInt(kSparkEditorSignature), NSFileHFSCreatorCode, nil];
       [[NSFileManager defaultManager] changeFileAttributes:dict atPath:file];
     }
+  }
+}
+
+- (IBAction)revertDocumentToBackup:(id)sender {
+  NSOpenPanel *panel = [NSOpenPanel openPanel];
+  [panel setCanChooseDirectories:NO];
+  [panel setCanCreateDirectories:NO];
+  [panel setAllowsMultipleSelection:NO];
+  [panel setTitle:@"Revert to backup..."];
+  [panel beginSheetForDirectory:nil
+                           file:nil
+                          types:[NSArray arrayWithObjects:kSparkLibraryArchiveExtension, 
+                            NSFileTypeForHFSTypeCode(kSparkLibraryArchiveHFSType), nil]
+                 modalForWindow:[self windowForSheet]
+                  modalDelegate:self
+                 didEndSelector:@selector(revertToBackupDidEnd:result:context:)
+                    contextInfo:nil];
+}
+- (void)revertToBackupDidEnd:(NSOpenPanel *)panel result:(int)code context:(void *)nothing {
+  if (NSOKButton == code && [[panel filenames] count] > 0) {
+    NSString *filename = [[panel filenames] objectAtIndex:0];
+    [self revertToBackup:filename];
+  }
+}
+
+- (void)revertToBackup:(NSString *)file {
+  SparkLibrary *library = [[SparkLibrary alloc] initFromArchiveAtPath:file];
+  if (library) {
+    NSInteger result = NSRunAlertPanel(NSLocalizedString(@"REVERT_BACKUP", @"Revert to Backup - Title"), 
+                                       NSLocalizedString(@"REVERT_MESSAGE", @"Revert to Backup - Message"),
+                                       NSLocalizedString(@"Replace", @"Replace - Button"),
+                                       NSLocalizedString(@"Cancel", @"Cancel - Button"),
+                                       nil, [file lastPathComponent]);
+    if (result == NSOKButton) {
+      SparkLibrary *previous = [se_library retain];
+      if (SparkActiveLibrary() == previous) {
+        SparkSetActiveLibrary(library);
+      }
+      SparkLibraryUnregisterLibrary(previous);
+      SparkLibraryDeleteIconCache(previous);
+      
+      [library setPath:[previous path]];
+      [self setLibrary:library];
+      [library synchronize];
+      
+      [previous unload];
+      [previous release];
+      
+      /* Restart daemon if needed */
+      if ([[SEServerConnection defaultConnection] isRunning] && se_library == SparkActiveLibrary()) {
+        [[SEServerConnection defaultConnection] restart];
+      }
+    }
+    [library release];
+  } else {
+    DLog(@"Invalid archive: %@", file);
   }
 }
 
@@ -152,17 +222,26 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
 
 - (BOOL)revertToContentsOfURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError {
   if (outError) *outError = nil;
-  [se_library unload];
-  BOOL result = [se_library load:outError];
-  /* Notify to reload applications lists */
-  [[se_library notificationCenter] postNotificationName:SELibraryDocumentDidReloadNotification
-                                                 object:self
-                                               userInfo:nil];
-  /* Reload cache */
-  [se_cache reload];
-  if (result)
-    [self updateChangeCount:NSChangeCleared];
-  return result;
+  
+  SparkLibrary *library = [[SparkLibrary alloc] initWithPath:[se_library path]];
+  if ([library load:outError]) {
+    SparkLibrary *previous = [se_library retain];
+    if (SparkActiveLibrary() == previous) {
+      SparkSetActiveLibrary(library);
+    }
+    SparkLibraryUnregisterLibrary(previous);
+    [self setLibrary:library];
+    [previous unload];
+    [previous release];
+    
+    /* Restart daemon if needed */
+    if ([[SEServerConnection defaultConnection] isRunning] && se_library == SparkActiveLibrary()) {
+      [[SEServerConnection defaultConnection] restart];
+    }
+    return YES;
+  }
+  [library release];
+  return NO;
 }
 
 #pragma mark -
@@ -211,8 +290,8 @@ NSAlert *_SELibraryTriggerAlreadyUsedAlert(SparkEntry *entry) {
   NSString *title = [NSString stringWithFormat:NSLocalizedString(@"The '%@' action already use the same shortcut.",
                                                                  @"Trigger already used (%@ => entry name) - Title"), [entry name]];
   NSAlert *alert = [NSAlert alertWithMessageText:title
-                                   defaultButton:NSLocalizedString(@"Replace", @"Trigger already used - Replace")
-                                 alternateButton:NSLocalizedString(@"Cancel", @"Trigger already used - Cancel")
+                                   defaultButton:NSLocalizedString(@"Replace", @"Replace - Button")
+                                 alternateButton:NSLocalizedString(@"Cancel", @"Cancel - Button")
                                      otherButton:nil
                        informativeTextWithFormat:msg, [entry name]];
   return alert;

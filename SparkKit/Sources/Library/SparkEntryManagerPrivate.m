@@ -110,7 +110,7 @@ void SparkLibraryEntryInitFlags(SparkLibraryEntry *lentry, SparkEntry *entry) {
     
     /* Update trigger flag */
     if (SparkLibraryEntryIsOverwrite(entry)) {
-      [[[sp_library triggerSet] objectWithUID:entry->trigger] setHasManyAction:YES];
+      [[[[self library] triggerSet] objectWithUID:entry->trigger] setHasManyAction:YES];
     }
   }
 }
@@ -139,7 +139,7 @@ void SparkLibraryEntryInitFlags(SparkLibraryEntry *lentry, SparkEntry *entry) {
     
     /* Remove orphan action */
     if (action != anEntry->action && ![self containsEntryForAction:action]) {
-      [[sp_library actionSet] removeObjectWithUID:action];
+      [[[self library] actionSet] removeObjectWithUID:action];
     }
     /* Update trigger */
     [self checkTriggerValidity:trigger];
@@ -165,7 +165,7 @@ void SparkLibraryEntryInitFlags(SparkLibraryEntry *lentry, SparkEntry *entry) {
     
     /* Remove orphan action */
     if (![self containsEntryForAction:anEntry->action]) {
-      [[sp_library actionSet] removeObjectWithUID:anEntry->action];
+      [[[self library] actionSet] removeObjectWithUID:anEntry->action];
     }
     /* Remove orphan trigger */
     [self checkTriggerValidity:anEntry->trigger];
@@ -191,9 +191,9 @@ void SparkLibraryEntryInitFlags(SparkLibraryEntry *lentry, SparkEntry *entry) {
   /* Make sure we are using internal storage pointer */
   anEntry = (SparkLibraryEntry *)CFSetGetValue(sp_set, anEntry);
   
-  SparkAction *action = [[sp_library actionSet] objectWithUID:anEntry->action];
-  SparkTrigger *trigger = [[sp_library triggerSet] objectWithUID:anEntry->trigger];
-  SparkApplication *application = [[sp_library applicationSet] objectWithUID:anEntry->application];
+  SparkAction *action = [[[self library] actionSet] objectWithUID:anEntry->action];
+  SparkTrigger *trigger = [[[self library] triggerSet] objectWithUID:anEntry->trigger];
+  SparkApplication *application = [[[self library] applicationSet] objectWithUID:anEntry->application];
   SparkEntry *object = [[SparkEntry alloc] initWithAction:action
                                                   trigger:trigger
                                               application:application];
@@ -220,7 +220,7 @@ void SparkLibraryEntryInitFlags(SparkLibraryEntry *lentry, SparkEntry *entry) {
   BOOL flag = [plugin isEnabled];
   Class cls = [plugin actionClass];
   UInt32 count = CFArrayGetCount(sp_entries);
-  SparkObjectSet *actions = [sp_library actionSet];
+  SparkObjectSet *actions = [[self library] actionSet];
   while (count-- > 0) {
     SparkLibraryEntry *entry = (SparkLibraryEntry *)CFArrayGetValueAtIndex(sp_entries, count);
     NSAssert(entry, @"Invalid entry in entry manager");
@@ -253,15 +253,15 @@ void SparkLibraryEntryInitFlags(SparkLibraryEntry *lentry, SparkEntry *entry) {
     if (entry->trigger == trigger) {
       contains = YES;
       if (SparkLibraryEntryIsOverwrite(entry)) {
-        [[[sp_library triggerSet] objectWithUID:trigger] setHasManyAction:YES];
+        [[[[self library] triggerSet] objectWithUID:trigger] setHasManyAction:YES];
         return;
       }
     }
   }
   if (!contains)
-    [[sp_library triggerSet] removeObjectWithUID:trigger];
+    [[[self library] triggerSet] removeObjectWithUID:trigger];
   else
-    [[[sp_library triggerSet] objectWithUID:trigger] setHasManyAction:NO];
+    [[[[self library] triggerSet] objectWithUID:trigger] setHasManyAction:NO];
 }
 
 - (SparkEntryType)typeForLibraryEntry:(const SparkLibraryEntry *)anEntry {
@@ -406,9 +406,9 @@ typedef struct {
   
   /* Check all triggers and actions */
   idx = CFArrayGetCount(sp_entries) -1;
-  SparkObjectSet *actions = [sp_library actionSet];
-  SparkObjectSet *triggers = [sp_library triggerSet];
-  SparkObjectSet *applications = [sp_library applicationSet];
+  SparkObjectSet *actions = [[self library] actionSet];
+  SparkObjectSet *triggers = [[self library] triggerSet];
+  SparkObjectSet *applications = [[self library] applicationSet];
   SparkActionLoader *loader = [SparkActionLoader sharedLoader];
   /* Resolve Ignore Actions */
   while (idx >= 0) {

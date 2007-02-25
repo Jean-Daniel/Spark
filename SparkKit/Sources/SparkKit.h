@@ -61,31 +61,27 @@
 #if defined(__OBJC__)
 SPARK_EXPORT NSString * const kSparkFolderName;
 
-SPARK_EXPORT NSString * const kSparkEditorHFSCreator;
-SPARK_EXPORT NSString * const kSparkDaemonHFSCreator;
 SPARK_EXPORT NSString * const kSparkKitBundleIdentifier;
 SPARK_EXPORT NSString * const kSparkPreferencesIdentifier;
 SPARK_EXPORT NSString * const kSparkDaemonBundleIdentifier;
 #else 
 SPARK_EXPORT CFStringRef const kSparkFolderName;
 
-SPARK_EXPORT CFStringRef const kSparkEditorHFSCreator;
-SPARK_EXPORT CFStringRef const kSparkDaemonHFSCreator;
 SPARK_EXPORT CFStringRef const kSparkKitBundleIdentifier;
 SPARK_EXPORT CFStringRef const kSparkPreferencesIdentifier;
 SPARK_EXPORT CFStringRef const kSparkDaemonBundleIdentifier;
 #endif /* __OBJC__ */
 
 SPARK_EXPORT
-const OSType kSparkEditorHFSCreatorType;
+const OSType kSparkEditorSignature;
 SPARK_EXPORT
-const OSType kSparkDaemonHFSCreatorType;
+const OSType kSparkDaemonSignature;
 
 /* Misc Apple event helpers */
 
 /* Use this constant to send events to the finder.
 It will allows to easily replace the Finder by another application */
 SPARK_EXPORT
-OSType kSparkFinderCreatorType;
+OSType kSparkFinderSignature;
 
 #endif /* __SPARKKIT_H */

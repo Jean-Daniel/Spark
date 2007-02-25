@@ -24,18 +24,24 @@ enum {
   kSparkLibraryReserved = 0xff
 };
 
+SPARK_PRIVATE
+const UInt32 kSparkLibraryCurrentVersion;
+
 #pragma mark -
 @class SparkLibrary, SparkObjectSet, SparkEntryManager;
 
 SPARK_EXPORT
 SparkLibrary *SparkActiveLibrary(void);
-//SPARK_EXPORT
-//BOOL SparkSetActiveLibrary(SparkLibrary *library);
+SPARK_EXPORT
+BOOL SparkSetActiveLibrary(SparkLibrary *library);
 
 SPARK_EXPORT
 void SparkLibraryRegisterLibrary(SparkLibrary *library);
 SPARK_EXPORT
 void SparkLibraryUnregisterLibrary(SparkLibrary *library);
+
+SPARK_EXPORT
+void SparkLibraryDeleteIconCache(SparkLibrary *library);
 
 SPARK_EXPORT
 SparkLibrary *SparkLibraryGetLibraryWithUUID(CFUUIDRef uuid);
@@ -126,9 +132,7 @@ void SparkLibraryPostUpdateNotification(SparkLibrary *library, NSString *name, i
 - (SparkIconManager *)iconManager;
 
 - (NSFileWrapper *)fileWrapper:(NSError **)outError;
-//- (BOOL)readFromFileWrapper:(NSFileWrapper *)fileWrapper error:(NSError **)outError;
-
-- (BOOL)archiveToFile:(NSString *)file;
+- (BOOL)readFromFileWrapper:(NSFileWrapper *)fileWrapper error:(NSError **)outError;
 
 @end
 

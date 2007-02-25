@@ -18,6 +18,9 @@
 
 - (id)initWithLibrary:(SparkLibrary *)aLibrary path:(NSString *)path;
 
+- (NSString *)path;
+- (void)setPath:(NSString *)path;
+
 - (NSImage *)iconForObject:(SparkObject *)anObject;
 
 - (void)setIcon:(NSImage *)icon forObject:(SparkObject *)anObject;
@@ -25,3 +28,4 @@
 - (BOOL)synchronize;
 
 @end
+
