@@ -205,14 +205,14 @@ NSString * const kSKApplicationIdentifier = @"SKApplicationIdentifier";
 }
 
 - (id)initWithSerializedValues:(NSDictionary *)plist {
-  sk_lock = YES;
   if (self = [super initWithSerializedValues:plist]) {
-    NSData *alias = [plist objectForKey:@"SKApplicationAlias"];
-    if (alias) {
-      sk_alias = [[SKAlias alloc] initWithData:alias];
+    NSData *data = [plist objectForKey:@"SKApplicationAlias"];
+    if (data) {
+      SKAlias *alias = [[SKAlias alloc] initWithData:data];
+      [self setAlias:alias];
+      [alias release];
     }
   }
-  sk_lock = NO;
   return self;
 }
 

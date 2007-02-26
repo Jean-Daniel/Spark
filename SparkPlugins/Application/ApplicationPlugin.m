@@ -124,8 +124,10 @@ NSString * const kApplicationActionBundleIdentifier = @"org.shadowlab.spark.appl
   [oPanel setCanChooseDirectories:NO];
   [oPanel setAllowsMultipleSelection:NO];
   
-  [oPanel beginSheetForDirectory:nil
-                            file:nil
+  NSString *directory = [aa_path stringByDeletingLastPathComponent];
+  NSString *file = [aa_path lastPathComponent];
+  [oPanel beginSheetForDirectory:directory
+                            file:file
                            types:[NSArray arrayWithObjects:@"app", @"APPL", nil]
                   modalForWindow:[sender window]
                    modalDelegate:self

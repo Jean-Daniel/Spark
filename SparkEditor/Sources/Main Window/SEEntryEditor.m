@@ -139,7 +139,7 @@
     alert = [NSAlert alertWithMessageText:NSLocalizedStringFromTable(@"EMPTY_TRIGGER_ALERT",
                                                                      @"SEEditor", @"Invalid Shortcut - Title")
                             defaultButton:NSLocalizedStringFromTable(@"OK",
-                                                                     @"SEEditor", @"Alert default button")
+                                                                     @"SEEditor", @"OK - Button")
                           alternateButton:nil
                               otherButton:nil
                 informativeTextWithFormat:NSLocalizedStringFromTable(@"EMPTY_TRIGGER_ALERT_MSG",
@@ -156,7 +156,7 @@
       alert = [NSAlert alertWithMessageText:NSLocalizedStringFromTable(@"UNEXPECTED_PLUGIN_EXCEPTION",
                                                                        @"SEEditor", @"Plugin raise exception - Title")
                               defaultButton:NSLocalizedStringFromTable(@"OK",
-                                                                       @"SEEditor", @"Alert default button")
+                                                                       @"SEEditor", @"OK - Button")
                             alternateButton:nil
                                 otherButton:nil
                   informativeTextWithFormat:@"%@: %@", name, message];
@@ -171,7 +171,7 @@
         alert = [NSAlert alertWithMessageText:NSLocalizedStringFromTable(@"EMPTY_NAME_ALERT",
                                                                          @"SEEditor", @"Empty Action Name - Title")
                                 defaultButton:NSLocalizedStringFromTable(@"OK",
-                                                                         @"SEEditor", @"Alert default button")
+                                                                         @"SEEditor", @"OK - Button")
                               alternateButton:nil
                                   otherButton:nil
                     informativeTextWithFormat:NSLocalizedStringFromTable(@"EMPTY_NAME_ALERT_MSG",
@@ -185,7 +185,7 @@
       alert = [NSAlert alertWithMessageText:NSLocalizedStringFromTable(@"UNEXPECTED_PLUGIN_EXCEPTION",
                                                                        @"SEEditor", @"Plugin raise exception - Title")
                               defaultButton:NSLocalizedStringFromTable(@"OK",
-                                                                       @"SEEditor", @"Alert default button")
+                                                                       @"SEEditor", @"OK - Button")
                             alternateButton:nil
                                 otherButton:nil
                   informativeTextWithFormat:@"%@: %@", name, message];

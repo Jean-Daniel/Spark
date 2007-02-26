@@ -364,54 +364,6 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
 //  return YES;
 //}
 
-//- (BOOL)openLibrary:(NSString *)filename {
-//  SparkLibrary *lib = [[SparkLibrary  alloc] initWithPath:filename];
-//  if (!lib) {
-//    return NO;
-//  }
-//  
-//  id alert = [NSAlert alertWithMessageText:NSLocalizedString(@"CHOOSE_IMPORT_LIBRARY_ACTION",
-//                                                             @"Open Spark Library * Title *")
-//                             defaultButton:NSLocalizedString(@"CHOOSE_IMPORT_LIBRARY_ACTION_MERGE",
-//                                                             @"Open Spark Library")
-//                           alternateButton:NSLocalizedString(@"CHOOSE_IMPORT_LIBRARY_ACTION_RESTORE",
-//                                                             @"Open Spark Library")
-//                               otherButton:NSLocalizedString(@"CHOOSE_IMPORT_LIBRARY_ACTION_CANCEL",
-//                                                             @"Open Spark Library")
-//                 informativeTextWithFormat:NSLocalizedString(@"CHOOSE_IMPORT_LIBRARY_ACTION_MSG",
-//                                                             @"Open Spark Library * Msg *"), [filename lastPathComponent]];
-//  int result = [alert runSheetModalForWindow:[libraryWindow window]];
-//  if (NSAlertOtherReturn == result) {
-//    return YES;
-//  } else if (NSAlertAlternateReturn == result) {
-//    BOOL running = ([self serverState] == kSparkDaemonStarted);
-//    if (running) [[ServerController sharedController] shutDownServer];
-//    [SparkLibrary setDefaultLibrary:lib];
-//    alert = [NSAlert alertWithMessageText:NSLocalizedString(@"LIBRARY_RESTORED_NOTIFICATION",
-//                                                            @"Open Spark Library * Title *")
-//                            defaultButton:NSLocalizedString(@"LIBRARY_RESTORED_NOTIFICATION_RESTART",
-//                                                            @"Open Spark Library")
-//                          alternateButton:nil
-//                              otherButton:nil
-//                informativeTextWithFormat:@""];
-//    [alert runSheetModalForWindow:[libraryWindow window]];
-//    
-//    if (running) [[ServerController sharedController] startServer];
-//    [Spark restartSpark];
-//    return YES;
-//  } else if (NSAlertDefaultReturn == result) {
-//    SparkImporter *import = [[SparkImporter alloc] init];
-//    [import setLibrary:lib];
-//    [NSApp beginSheet: [import window]
-//       modalForWindow: [libraryWindow window]
-//        modalDelegate: self
-//       didEndSelector: @selector(sheetDidEnd:returnCode:context:)
-//          contextInfo: nil];
-//  }
-//  [lib release];
-//  return YES;
-//}
-
 #pragma mark -
 #pragma mark Application Delegate
 - (void)openPluginBundle:(NSString *)path {

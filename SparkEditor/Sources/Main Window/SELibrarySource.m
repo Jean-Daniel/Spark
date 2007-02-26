@@ -124,7 +124,7 @@ BOOL SEOverwriteFilter(SEEntryList *list, SparkEntry *object, SparkApplication *
 - (void)buildLists {
   /* Add library… */
   SESmartEntryList *library = [[SESmartEntryList alloc] initWithName:NSLocalizedString(@"Library", @"Library list name")
-                                                                icon:[NSImage imageNamed:@"Library"]];
+                                                                icon:[NSImage imageNamed:@"SELibrary"]];
   [library setListFilter:SELibraryFilter context:nil];
   [library setDocument:[ibWindow document]];
   [library setGroup:0];
