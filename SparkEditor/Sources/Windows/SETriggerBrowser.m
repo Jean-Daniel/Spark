@@ -158,21 +158,37 @@
 
 @implementation SparkHotKey (SEModifierAccess)
 
+static NSString *sCommand = nil, *sOption = nil, *sControl = nil, *sShift = nil;
+  
++ (void)load {
+  UniChar ch;
+  if (!sCommand) {
+    ch = 0x21E7;
+    sShift = (id)CFStringCreateWithCharacters(kCFAllocatorDefault, &ch, 1);
+    ch = 0x2325;
+    sOption = (id)CFStringCreateWithCharacters(kCFAllocatorDefault, &ch, 1);
+    ch = 0x2303;
+    sControl = (id)CFStringCreateWithCharacters(kCFAllocatorDefault, &ch, 1);
+    ch = 0x2318;
+    sCommand = (id)CFStringCreateWithCharacters(kCFAllocatorDefault, &ch, 1);
+  }
+}
+
 - (NSString *)characters {
   return HKMapGetStringRepresentationForCharacterAndModifier([self character], 0);
 }
 
-- (BOOL)control {
-  return ([self nativeModifier] & kCGEventFlagMaskControl) != 0;
+- (NSString *)control {
+  return ([self nativeModifier] & kCGEventFlagMaskControl) != 0 ? sControl : nil;
 }
-- (BOOL)option {
-  return ([self nativeModifier] & kCGEventFlagMaskAlternate) != 0;
+- (NSString *)option {
+  return ([self nativeModifier] & kCGEventFlagMaskAlternate) != 0 ? sOption : nil;
 }
-- (BOOL)shift {
-  return ([self nativeModifier] & kCGEventFlagMaskShift) != 0;
+- (NSString *)shift {
+  return ([self nativeModifier] & kCGEventFlagMaskShift) != 0 ? sShift : nil;
 }
-- (BOOL)command {
-  return ([self nativeModifier] & kCGEventFlagMaskCommand) != 0;
+- (NSString *)command {
+  return ([self nativeModifier] & kCGEventFlagMaskCommand) != 0 ? sCommand : nil;
 }
 
 @end

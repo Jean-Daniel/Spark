@@ -7,7 +7,7 @@
         {
             CLASS = SETriggerBrowser; 
             LANGUAGE = ObjC; 
-            OUTLETS = {ibTriggers = SKTableDataSource; uiTriggers = SETableView; }; 
+            OUTLETS = {ibTriggers = SKTableDataSource; uiTriggers = SKTableView; }; 
             SUPERCLASS = SKWindowController; 
         }, 
         {CLASS = SKImageAndTextCell; LANGUAGE = ObjC; SUPERCLASS = NSTextFieldCell; }, 

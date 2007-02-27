@@ -363,9 +363,6 @@
 		9830D9840AB46C5400C316FE /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SETriggerBrowser.nib; sourceTree = "<group>"; };
 		98362B060A9763F500F97F50 /* SparkDisabled.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SparkDisabled.tiff; sourceTree = "<group>"; };
 		98362B430A97664100F97F50 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SEInheritsPlugin.nib; sourceTree = "<group>"; };
-		9837AA72071B0E7F0057584D /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/TableAlert.nib; sourceTree = "<group>"; };
-		9837AA74071B11130057584D /* TableAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TableAlertController.m; path = "Classes/UI Controllers/TableAlertController.m"; sourceTree = "<group>"; };
-		9837AA76071B11240057584D /* TableAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TableAlertController.h; path = "Headers/UI Controllers/TableAlertController.h"; sourceTree = "<group>"; };
 		984199310A5E67BE0009A093 /* Add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Add.png; sourceTree = "<group>"; };
 		984199320A5E67BE0009A093 /* AddDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AddDown.png; sourceTree = "<group>"; };
 		984199330A5E67BE0009A093 /* Highlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Highlight.png; sourceTree = "<group>"; };
@@ -732,7 +729,6 @@
 			isa = PBXGroup;
 			children = (
 				98A91DA7074F55460029D278 /* Importer.nib */,
-				9837AA71071B0E7F0057584D /* TableAlert.nib */,
 			);
 			name = Sheets;
 			path = Resources;
@@ -751,8 +747,6 @@
 			isa = PBXGroup;
 			children = (
 				98593CDA073EE6A8003BA845 /* Import/Export */,
-				9837AA76071B11240057584D /* TableAlertController.h */,
-				9837AA74071B11130057584D /* TableAlertController.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -1338,14 +1332,6 @@
 				98362B430A97664100F97F50 /* English */,
 			);
 			name = SEInheritsPlugin.nib;
-			sourceTree = "<group>";
-		};
-		9837AA71071B0E7F0057584D /* TableAlert.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				9837AA72071B0E7F0057584D /* English */,
-			);
-			name = TableAlert.nib;
 			sourceTree = "<group>";
 		};
 		984AB6FF0B88C5AA005E7F60 /* SEHotKeyTrap.strings */ = {

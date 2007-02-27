@@ -24,7 +24,6 @@ NSString * const SEEntryCacheDidReloadNotification = @"SEEntryCacheDidReload";
 NSString * const SEEntryCacheDidAddEntryNotification = @"SEEntryCacheDidAddEntry";
 NSString * const SEEntryCacheDidUpdateEntryNotification = @"SEEntryCacheDidUpdateEntry";
 NSString * const SEEntryCacheWillRemoveEntryNotification = @"SEEntryCacheWillRemoveEntry";
-NSString * const SEEntryCacheDidChangeEntryEnabledNotification = @"SEEntryCacheDidChangeEntryStatus";
 
 @implementation SEEntryCache
 
@@ -254,16 +253,16 @@ NSString * const SEEntryCacheDidChangeEntryEnabledNotification = @"SEEntryCacheD
   SparkEntry *entry = SparkNotificationObject(aNotification);
   
   SparkEntry *current = [se_base entry:entry];
-  if (current)
+  if (current && current != entry) 
     [se_base replaceEntry:current withEntry:entry];
   
   current = [se_merge entry:entry];
-  if (current)
+  if (current && current != entry) {
     [se_merge replaceEntry:current withEntry:entry];
-  
-  [[[se_document library] notificationCenter] postNotificationName:SEEntryCacheDidChangeEntryEnabledNotification
-                                                            object:self
-                                                          userInfo:[aNotification userInfo]];
+    /* Notify update */
+    SparkLibraryPostUpdateNotification([se_document library], 
+                                       SEEntryCacheDidUpdateEntryNotification, self, current, entry);
+  }
 }
 
 - (void)didChangePlugin:(NSNotification *)aNotification {
