@@ -203,8 +203,7 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
     
     // Update
     [old setLibrary:nil];
-    NSMapInsert(sp_objects, (void *)[object uid], object);
-    [object setLibrary:[self library]];
+    [self sp_addObject:object];
     // Did update
     SparkLibraryPostUpdateNotification([self library], SparkObjectSetDidUpdateObjectNotification, self, old, object);
     return YES;
@@ -258,13 +257,15 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
   OSStatus err = noErr;
   NSEnumerator *enumerator = [self objectEnumerator];
   while (object = [enumerator nextObject]) {
-    NSDictionary *serialize = [self serialize:object error:&err];
-    if (serialize && [NSPropertyListSerialization propertyList:serialize isValidForFormat:SparkLibraryFileFormat]) {
-      [objects addObject:serialize];
-    } else {
-      DLog(@"Error while serializing object: %@", object);
-      if (noErr != err && outError)
-        *outError = [NSError errorWithDomain:NSOSStatusErrorDomain code:err userInfo:nil];
+    if ([object uid] > kSparkLibraryReserved) {
+      NSDictionary *serialize = [self serialize:object error:&err];
+      if (serialize && [NSPropertyListSerialization propertyList:serialize isValidForFormat:SparkLibraryFileFormat]) {
+        [objects addObject:serialize];
+      } else {
+        DLog(@"Error while serializing object: %@", object);
+        if (noErr != err && outError)
+          *outError = [NSError errorWithDomain:NSOSStatusErrorDomain code:err userInfo:nil];
+      }
     }
   }
   
@@ -286,15 +287,19 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
   require(data, bail);
   
   /* Remove all */
-  SparkObject *sobject = nil;
-  NSMapEnumerator sobjects = NSEnumerateMapTable(sp_objects);
-  while (NSNextMapEnumeratorPair(&sobjects, NULL, (void **)&sobject)) {
-    [sobject setLibrary:nil];
-  }
-  NSEndMapTableEnumeration(&sobjects);
-  
+  NSArray *values = NSAllMapTableValues(sp_objects);
+  NSUInteger idx = [values count];
   /* Reset map and uid */
   NSResetMapTable(sp_objects);
+  
+  while (idx-- > 0) {
+    SparkObject *sobject = [values objectAtIndex:idx];
+    if ([sobject uid] > kSparkLibraryReserved)
+      [sobject setLibrary:nil];
+    else
+      [self sp_addObject:sobject];
+  }
+  
   sp_uid = kSparkLibraryReserved;
   
   NSDictionary *plist = [NSPropertyListSerialization propertyListFromData:data 

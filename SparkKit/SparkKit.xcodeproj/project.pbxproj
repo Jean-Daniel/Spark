@@ -18,6 +18,7 @@
 		1B9FE5D30B8D95C60042B5F9 /* libxar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B9FE5D20B8D95C60042B5F9 /* libxar.a */; };
 		1BAA6F8A0B64CF2500F9AC0E /* SKImageUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BAA6F840B64CF2500F9AC0E /* SKImageUtils.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		1BAA6F8D0B64CF2500F9AC0E /* SKImageUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BAA6F870B64CF2500F9AC0E /* SKImageUtils.m */; };
+		1BB8B1FF0B949EE900F91062 /* SparkSystem.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1BB8B1FE0B949EE900F91062 /* SparkSystem.tiff */; };
 		65245F3A0A2AFE4200ACB971 /* SKPluginLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 65245F390A2AFE4200ACB971 /* SKPluginLoader.m */; };
 		65245F3C0A2AFE4D00ACB971 /* SKPluginLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 65245F3B0A2AFE4D00ACB971 /* SKPluginLoader.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
@@ -254,6 +255,7 @@
 		1B9FE5D20B8D95C60042B5F9 /* libxar.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libxar.a; sourceTree = "<group>"; };
 		1BAA6F840B64CF2500F9AC0E /* SKImageUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKImageUtils.h; sourceTree = "<group>"; };
 		1BAA6F870B64CF2500F9AC0E /* SKImageUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKImageUtils.m; sourceTree = "<group>"; };
+		1BB8B1FE0B949EE900F91062 /* SparkSystem.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SparkSystem.tiff; sourceTree = "<group>"; };
 		65245F390A2AFE4200ACB971 /* SKPluginLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SKPluginLoader.m; sourceTree = "<group>"; };
 		65245F3B0A2AFE4D00ACB971 /* SKPluginLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SKPluginLoader.h; sourceTree = "<group>"; };
 		8DC2EF5B0486A6940098B216 /* SparkKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SparkKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -842,6 +844,7 @@
 				986286240B2AE8DE00866A34 /* enabled.png */,
 				9862860C0B2AE6BC00866A34 /* disabled.png */,
 				98D886E00B29678D00E661EF /* SparkEntry.tiff */,
+				1BB8B1FE0B949EE900F91062 /* SparkSystem.tiff */,
 				980EEB2D0A7E8A0B00013CF5 /* SimpleList.tiff */,
 				98A923B80A7BC6E200DF1998 /* Application.tiff */,
 				9816B0620B2F4677002EE526 /* spark-editor.tiff */,
@@ -1226,6 +1229,7 @@
 				98DC55490B2CAA7D0051E04B /* switch-status.tiff in Resources */,
 				9816B0630B2F4677002EE526 /* spark-editor.tiff in Resources */,
 				98FC31D50B32E585000D5F6B /* Application.tiff in Resources */,
+				1BB8B1FF0B949EE900F91062 /* SparkSystem.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

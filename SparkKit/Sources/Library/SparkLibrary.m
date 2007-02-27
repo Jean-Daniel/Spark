@@ -68,8 +68,6 @@ const UInt32 kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_0;
 
 @interface SparkLibrary (SparkLibraryLoader)
 /* Initializer */
-- (void)initFinder;
-
 - (void)setInfo:(NSDictionary *)plist;
 
 - (BOOL)loadFromWrapper:(NSFileWrapper *)wrapper error:(NSError **)error;
@@ -84,12 +82,22 @@ const UInt32 kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_0;
 
 @implementation SparkLibrary
 
+static SparkApplication *sSystem = nil;
 + (void)initialize {
   if ([SparkLibrary class] == self) {
+    /* Initialize System Application */
+    sSystem = [[SparkApplication alloc] initWithName:@"System" 
+                                                icon:[NSImage imageNamed:@"SparkSystem" inBundle:SKCurrentBundle()]];
+    [sSystem setUID:kSparkApplicationSystemUID];
+    
     /* Register Built-In Plugin (and make sure other plugins are loaded) */
     //[SparkActionLoader sharedLoader];
     [[SparkActionLoader sharedLoader] registerPlugInClass:[SparkBuiltInActionPlugin class]];
   }
+}
+
++ (SparkApplication *)systemApplication {
+  return sSystem;
 }
 
 #pragma mark -
@@ -399,21 +407,20 @@ bail:
   }
 }
 
-- (void)initFinder {
-  SparkApplication *finder = [[self applicationSet] objectWithUID:1];
-  if (!finder || [finder signature] != kSparkFinderSignature) {
-    NSString *path = SKLSFindApplicationForSignature(kSparkFinderSignature);
-    NSAssert(path, @"Could not locate Finder");
-    if (path) {
-      if (finder) {
-        [finder setPath:path];
-      } else if (finder = [[SparkApplication alloc] initWithPath:path]) {
-        [finder setUID:1];
-        [[self applicationSet] addObject:finder];
-        [finder release];
-      }
+- (void)initReservedObjects {
+  /* Init Finder Application */
+  NSString *path = SKLSFindApplicationForSignature(kSparkFinderSignature);
+  NSAssert(path, @"Could not locate Finder");
+  if (path) {
+    SparkApplication *finder = [[SparkApplication alloc] initWithPath:path];
+    if (finder) {
+      [finder setUID:kSparkApplicationFinderUID];
+      [[self applicationSet] addObject:finder];
+      [finder release];
+    } else {
+      ELog(@"Invalid Finder Application: %@", finder);
     }
-  }  
+  }
 }
 
 - (BOOL)loadFromWrapper:(NSFileWrapper *)wrapper error:(NSError **)error {
@@ -435,6 +442,8 @@ bail:
   /* Create relation table */
   sp_relations = [[SparkEntryManager alloc] initWithLibrary:self];
   
+  [self initReservedObjects];
+  
   if (wrapper) {
     switch (sp_version) {
       case kSparkLibraryVersion_1_0:
@@ -451,7 +460,6 @@ bail:
   
   /* Load Finder Application (if needed) */
   if (result) {
-    [self initFinder];
     SKSetFlag(sp_slFlags.loaded, YES);
   } else {
     [self unload];
@@ -513,7 +521,7 @@ bail:
       if (app && [app isKindOfClass:[SparkApplication class]]) {
         if ([app signature] == kSparkFinderSignature) {
           finder = [app uid];
-          [app setUID:1];
+          [app setUID:kSparkApplicationFinderUID];
         } else {
           [app setUID:[app uid] + kSparkLibraryReserved];
         }
@@ -556,7 +564,7 @@ bail:
         app = [key intValue];
         if (app) {
           if (finder == app)
-            app = 1;
+            app = kSparkApplicationFinderUID;
           else
             app += kSparkLibraryReserved;
         }

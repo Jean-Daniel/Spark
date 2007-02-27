@@ -21,7 +21,12 @@ SPARK_EXPORT
 NSString *SparkLibraryFolder(void);
 
 enum {
-  kSparkLibraryReserved = 0xff
+  kSparkLibraryReserved = 0xff,
+};
+
+enum {
+  kSparkApplicationSystemUID = 0,
+  kSparkApplicationFinderUID = 1,
 };
 
 SPARK_PRIVATE
@@ -81,6 +86,7 @@ void SparkLibraryPostUpdateNotification(SparkLibrary *library, NSString *name, i
 }
 
 #pragma mark -
+@class SparkApplication;
 @class SparkIconManager, SparkEntryManager;
 @interface SparkLibrary : NSObject {
   @private
@@ -101,6 +107,8 @@ void SparkLibraryPostUpdateNotification(SparkLibrary *library, NSString *name, i
   NSUndoManager *sp_undo;
   NSNotificationCenter *sp_center;
 }
+
++ (SparkApplication *)systemApplication;
 
 - (id)initWithPath:(NSString *)path;
 

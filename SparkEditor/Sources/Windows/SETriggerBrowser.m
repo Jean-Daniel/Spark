@@ -12,6 +12,7 @@
 #import <SparkKit/SparkHotKey.h>
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkObjectSet.h>
+#import <SparkKit/SparkEntryManager.h>
 
 #import <ShadowKit/SKTableView.h>
 #import <ShadowKit/SKTableDataSource.h>
@@ -88,10 +89,27 @@
   }
 }
 
+- (NSArray *)entries:(SparkTrigger *)trigger {
+  NSMutableArray *result = [NSMutableArray array];
+  NSArray *entries = [[se_library entryManager] entriesForTrigger:[trigger uid]];
+  NSUInteger idx = [entries count];
+  while (idx-- > 0) {
+    [result addObject:[entries objectAtIndex:idx]];
+  }
+  return result;
+}
+
 - (void)awakeFromNib {
   /* Load triggers */
   NSArray *triggers = [[se_library triggerSet] objects];
-  [ibTriggers addObjects:triggers];
+  NSUInteger idx = [triggers count];
+  while (idx-- > 0) {
+    SparkTrigger *trigger = [triggers objectAtIndex:idx];
+    NSDictionary *entry = [NSDictionary dictionaryWithObjectsAndKeys:
+      trigger, @"trigger",
+      [self entries:trigger], @"entries", nil];
+    [ibTriggers addObject:entry];
+  }
 }
 
 - (void)libraryDidChange:(NSNotification *)aNotification {

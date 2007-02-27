@@ -11,6 +11,7 @@
 #import <SparkKit/SparkAppleScriptSuite.h>
 
 #import <ShadowKit/SKFunctions.h>
+#import <ShadowKit/SKLSFunctions.h>
 
 NSString * const kSparkFolderName = @"Spark";
 
@@ -43,9 +44,9 @@ void __SparkInitializeLibrary() {
     if (!CFStringGetTypeID() == CFGetTypeID(str)) {
       CFPreferencesSetAppValue(CFSTR("SparkFinderSignature"), NULL, (CFStringRef)kSparkPreferencesIdentifier);
     } else {
-      OSType type = SKGetOSTypeFromString(str);
-      if (type && type != kUnknownType)
-        kSparkFinderSignature = type;
+      OSType sign = SKGetOSTypeFromString(str);
+      if (sign && sign != kUnknownType && SKLSFindApplicationForSignature(sign))
+        kSparkFinderSignature = sign;
     }
     CFRelease(str);
   }

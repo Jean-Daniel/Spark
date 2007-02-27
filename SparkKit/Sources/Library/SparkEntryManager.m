@@ -256,7 +256,7 @@ NSString * const SparkEntryManagerDidChangeEntryEnabledNotification = @"SparkEnt
   UInt32 count = CFArrayGetCount(sp_entries);
   while (count-- > 0) {
     const SparkLibraryEntry *entry = CFArrayGetValueAtIndex(sp_entries, count);
-    if (entry->application && (entry->trigger == aTrigger)) {
+    if (entry->application != kSparkApplicationSystemUID && (entry->trigger == aTrigger)) {
       return YES;
     }
   }

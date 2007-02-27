@@ -148,7 +148,7 @@ void SparkLibraryEntryInitFlags(SparkLibraryEntry *lentry, SparkEntry *entry) {
 
 - (void)removeLibraryEntry:(const SparkLibraryEntry *)anEntry {  
   if (CFSetContainsValue(sp_set, anEntry)) {
-//    BOOL global = anEntry->application == 0;
+//    BOOL global = anEntry->application == kSparkApplicationSystemUID;
 //    UInt32 action = anEntry->action;
     
     CFSetRemoveValue(sp_set, anEntry);
@@ -193,7 +193,14 @@ void SparkLibraryEntryInitFlags(SparkLibraryEntry *lentry, SparkEntry *entry) {
   
   SparkAction *action = [[[self library] actionSet] objectWithUID:anEntry->action];
   SparkTrigger *trigger = [[[self library] triggerSet] objectWithUID:anEntry->trigger];
-  SparkApplication *application = [[[self library] applicationSet] objectWithUID:anEntry->application];
+  SparkApplication *application = nil;
+  
+  if (anEntry->application == kSparkApplicationSystemUID) {
+    application = [SparkLibrary systemApplication];
+  } else {
+    application = [[[self library] applicationSet] objectWithUID:anEntry->application];
+  }
+  
   SparkEntry *object = [[SparkEntry alloc] initWithAction:action
                                                   trigger:trigger
                                               application:application];
@@ -268,9 +275,9 @@ void SparkLibraryEntryInitFlags(SparkLibraryEntry *lentry, SparkEntry *entry) {
   NSParameterAssert(anEntry != NULL);
   SparkEntryType type = kSparkEntryTypeDefault;
   /* If custom application */
-  if (anEntry->application) {
-    /* If default action (action for application 0) equals cutsom application => weak overwrite */
-    SparkLibraryEntry *defaults = [self libraryEntryForTrigger:anEntry->trigger application:0];
+  if (anEntry->application != kSparkApplicationSystemUID) {
+    /* If default action (action for application kSparkApplicationSystemUID) equals cutsom application => weak overwrite */
+    SparkLibraryEntry *defaults = [self libraryEntryForTrigger:anEntry->trigger application:kSparkApplicationSystemUID];
     if (!defaults) {
       /* No default entry => specific */
       type = kSparkEntryTypeSpecific;
@@ -394,7 +401,7 @@ typedef struct {
   while (idx >= 0) {
     SparkLibraryEntry *entry = (SparkLibraryEntry *)CFArrayGetValueAtIndex(sp_entries, idx);
     if (!entry->action) {
-      SparkLibraryEntry *global = [self libraryEntryForTrigger:entry->trigger application:0];
+      SparkLibraryEntry *global = [self libraryEntryForTrigger:entry->trigger application:kSparkApplicationSystemUID];
       entry->action = global ? global->action : 0;
     } 
     if (!entry->action) {
@@ -417,7 +424,7 @@ typedef struct {
     SparkAction *action = [actions objectWithUID:entry->action];
     
     if (!action || ![triggers containsObjectWithUID:entry->trigger] || 
-        (entry->application && ![applications containsObjectWithUID:entry->application])) {
+        (entry->application != kSparkApplicationSystemUID && ![applications containsObjectWithUID:entry->application])) {
       DLog(@"Remove Illegal entry { %u, %u, %u }", entry->action, entry->trigger, entry->application);
       [self removeLibraryEntry:entry];
     } else {
