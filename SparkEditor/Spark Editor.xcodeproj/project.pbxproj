@@ -136,13 +136,14 @@
 		98DD45610A57DE9A00F059E5 /* DocumentAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 6540B6EC09E6430800D0E8FB /* DocumentAction.spact */; };
 		98DD45620A57DE9A00F059E5 /* ApplicationAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 6540B6EE09E6430800D0E8FB /* ApplicationAction.spact */; };
 		98DD45630A57DE9A00F059E5 /* AppleScriptAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 6540B6F009E6430800D0E8FB /* AppleScriptAction.spact */; };
-		98EA6B550A5E83120019E26C /* System.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 984196BB0A5E52670009A093 /* System.tiff */; };
+		98EA6B550A5E83120019E26C /* SESystem.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 984196BB0A5E52670009A093 /* SESystem.tiff */; };
 		98ED2EEE0B5D87EF002EAF85 /* SEEntryCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 98ED2EED0B5D87EF002EAF85 /* SEEntryCache.m */; };
 		98ED2EF20B5D87FD002EAF85 /* SEEntryCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 98ED2EF10B5D87FD002EAF85 /* SEEntryCache.h */; };
 		98EF831508646313007BC81A /* SparkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF83140864630B007BC81A /* SparkKit.framework */; };
 		98EF831608646316007BC81A /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF830E086462FF007BC81A /* HotKeyToolKit.framework */; };
 		98EF83170864631B007BC81A /* SparkKit.framework in Copy Framework */ = {isa = PBXBuildFile; fileRef = 98EF83140864630B007BC81A /* SparkKit.framework */; };
 		98EF831808646321007BC81A /* HotKeyToolKit.framework in Copy Framework */ = {isa = PBXBuildFile; fileRef = 98EF830E086462FF007BC81A /* HotKeyToolKit.framework */; };
+		98F4FB170B93A70A002CE675 /* SECheck.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98F4FB160B93A709002CE675 /* SECheck.tiff */; };
 		98F746020A5C560A003D4BE1 /* SELibraryWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 98F746000A5C560A003D4BE1 /* SELibraryWindow.nib */; };
 		98FF14DC05EACAE90005F402 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98FF14DB05EACAE90005F402 /* WebKit.framework */; };
 /* End PBXBuildFile section */
@@ -366,7 +367,7 @@
 		9837AA72071B0E7F0057584D /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/TableAlert.nib; sourceTree = "<group>"; };
 		9837AA74071B11130057584D /* TableAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TableAlertController.m; path = "Classes/UI Controllers/TableAlertController.m"; sourceTree = "<group>"; };
 		9837AA76071B11240057584D /* TableAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TableAlertController.h; path = "Headers/UI Controllers/TableAlertController.h"; sourceTree = "<group>"; };
-		984196BB0A5E52670009A093 /* System.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = System.tiff; sourceTree = "<group>"; };
+		984196BB0A5E52670009A093 /* SESystem.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SESystem.tiff; sourceTree = "<group>"; };
 		984199310A5E67BE0009A093 /* Add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Add.png; sourceTree = "<group>"; };
 		984199320A5E67BE0009A093 /* AddDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AddDown.png; sourceTree = "<group>"; };
 		984199330A5E67BE0009A093 /* Highlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Highlight.png; sourceTree = "<group>"; };
@@ -472,6 +473,7 @@
 		98EF8306086462FF007BC81A /* HotKeyToolKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = HotKeyToolKit.xcodeproj; path = ../HotKeyToolKit/HotKeyToolKit.xcodeproj; sourceTree = SOURCE_ROOT; };
 		98EF830F0864630B007BC81A /* SparkKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SparkKit.xcodeproj; path = ../SparkKit/SparkKit.xcodeproj; sourceTree = SOURCE_ROOT; };
 		98EFD00E0B5843C600AD4492 /* ShadowProfile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowProfile.xcconfig; sourceTree = "<group>"; };
+		98F4FB160B93A709002CE675 /* SECheck.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SECheck.tiff; sourceTree = "<group>"; };
 		98F746010A5C560A003D4BE1 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SELibraryWindow.nib; sourceTree = "<group>"; };
 		98FF14DB05EACAE90005F402 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = /System/Library/Frameworks/WebKit.framework; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
@@ -694,7 +696,9 @@
 		984BCE42060C7E990043CDEA /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				98F4FB160B93A709002CE675 /* SECheck.tiff */,
 				1BB11ABB0B931FAE00908925 /* SELibrary.tiff */,
+				984196BB0A5E52670009A093 /* SESystem.tiff */,
 				98CC57080B1E448F00F95A31 /* user.tiff */,
 				98287FEA0B204D6700D92285 /* plugin.tiff */,
 				98CC57050B1E446200F95A31 /* computer.tiff */,
@@ -702,7 +706,6 @@
 				1B55EAE30B8625ED000E1760 /* SparkAware.tiff */,
 				98362B060A9763F500F97F50 /* SparkDisabled.tiff */,
 				986691FA06F7B590002C4E98 /* application.tiff */,
-				984196BB0A5E52670009A093 /* System.tiff */,
 			);
 			path = Icons;
 			sourceTree = "<group>";
@@ -1138,7 +1141,7 @@
 				984199350A5E67BE0009A093 /* Add.png in Resources */,
 				984199360A5E67BE0009A093 /* AddDown.png in Resources */,
 				984199370A5E67BE0009A093 /* Highlight.png in Resources */,
-				98EA6B550A5E83120019E26C /* System.tiff in Resources */,
+				98EA6B550A5E83120019E26C /* SESystem.tiff in Resources */,
 				98920FEA0A5F012200A50A78 /* MainMenu.nib in Resources */,
 				981A8A950A61A49D00753369 /* SEEntryEditor.nib in Resources */,
 				989045160A6689CC0024EC52 /* add_mini.tiff in Resources */,
@@ -1181,6 +1184,7 @@
 				984AB7040B88C5AA005E7F60 /* Resources.strings in Resources */,
 				98B48F000B9211CC002D5AD8 /* Splx.icns in Resources */,
 				1BB11ABC0B931FAE00908925 /* SELibrary.tiff in Resources */,
+				98F4FB170B93A70A002CE675 /* SECheck.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

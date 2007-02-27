@@ -32,7 +32,7 @@
   [self removeAllObjects];
   if (se_library) {
     [self addObject:[SparkApplication objectWithName:NSLocalizedString(@"Globals", @"Globals Application name")
-                                                icon:[NSImage imageNamed:@"System"]]];
+                                                icon:[NSImage imageNamed:@"SESystem"]]];
     [self addObjects:[[self applicationSet] objects]];
     [self rearrangeObjects];
   }

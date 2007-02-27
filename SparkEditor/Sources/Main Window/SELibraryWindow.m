@@ -38,9 +38,8 @@
 }
 
 - (void)dealloc {
-  [[se_library notificationCenter] removeObserver:self];
-  [se_library release];
   [[NSNotificationCenter defaultCenter] removeObserver:self];
+  [self setLibrary:nil];
   [super dealloc];
 }
 

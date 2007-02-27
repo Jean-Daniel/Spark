@@ -9,6 +9,7 @@
 #import "SELibraryDocument.h"
 
 #import "SEServerConnection.h"
+#import "SETriggerBrowser.h"
 #import "SELibraryWindow.h"
 #import "SEEntryEditor.h"
 #import "SEEntryCache.h"
@@ -53,19 +54,28 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
   [super dealloc];
 }
 
-- (SELibraryWindow *)mainWindowController {
+- (id)se_windowController:(Class)class {
   NSArray *ctrls = [self windowControllers];
   unsigned count = [ctrls count];
   while (count-- > 0) {
     id ctrl = [ctrls objectAtIndex:count];
-    if ([ctrl isKindOfClass:[SELibraryWindow class]])
+    if ([ctrl isKindOfClass:class])
       return ctrl;
   }
   return nil;
 }
 
+- (SELibraryWindow *)mainWindowController {
+  return [self se_windowController:[SELibraryWindow class]];
+}
+
+- (SETriggerBrowser *)browser {
+  return [self se_windowController:[SETriggerBrowser class]];
+}
+
 - (void)makeWindowControllers {
   NSWindowController *ctrl = [[SELibraryWindow alloc] init];
+  [ctrl setShouldCloseDocument:YES];
   [self addWindowController:ctrl];
   [ctrl release];
   [self displayFirstRunIfNeeded];
@@ -119,6 +129,16 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
     /* Notify change */
     [[se_library notificationCenter] postNotification:notify];
   }
+}
+
+- (IBAction)openTriggerBrowser:(id)sender {
+  SETriggerBrowser *browser = [self browser];
+  if (!browser) {
+    browser = [[SETriggerBrowser alloc] init];
+    [self addWindowController:browser];
+    [browser release];
+  }
+  [browser showWindow:sender];
 }
 
 - (IBAction)saveAsArchive:(id)sender {

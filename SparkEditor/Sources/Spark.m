@@ -12,7 +12,6 @@
 
 #if defined (DEBUG)
 #import "SEEntryEditor.h"
-#import "SETriggerBrowser.h"
 #import <Foundation/NSDebug.h>
 #import <ShadowKit/SKFunctions.h>
 #import <SparkKit/SparkLibrarySynchronizer.h>
@@ -525,12 +524,6 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
   [menu release];
   [[NSApp mainMenu] insertItem:debugMenu atIndex:[[NSApp mainMenu] numberOfItems] -1];
   [debugMenu release];
-}
-
-- (IBAction)openTriggerBrowser:(id)sender {
-  SETriggerBrowser *browser = [[SETriggerBrowser alloc] init];
-  [browser setReleasedWhenClosed:YES];
-  [browser showWindow:sender];
 }
 
 //- (IBAction)openImporter:(id)sender {

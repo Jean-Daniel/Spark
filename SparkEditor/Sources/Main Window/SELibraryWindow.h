@@ -41,6 +41,8 @@
 - (NSUndoManager *)undoManager;
 - (SparkApplication *)application;
 
+- (void)setLibrary:(SparkLibrary *)aLibrary;
+
 - (SEEntryList *)selectedList;
 - (void)revealEntry:(SparkEntry *)entry;
 - (void)revealEntries:(NSArray *)entries;

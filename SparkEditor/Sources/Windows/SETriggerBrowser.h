@@ -6,11 +6,17 @@
  *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
  */
 
-#import <ShadowKit/SKWindowController.h>
+#import <Cocoa/Cocoa.h>
 
-@class SETableView;
-@interface SETriggerBrowser : SKWindowController {
-  IBOutlet SETableView *ibTriggers;
+@class SKTableDataSource;
+@class SKTableView, SparkLibrary;
+@interface SETriggerBrowser : NSWindowController {
+  IBOutlet SKTableView *uiTriggers;
+  IBOutlet SKTableDataSource *ibTriggers;
+  @private
+    SparkLibrary *se_library;
 }
+
+- (void)setLibrary:(SparkLibrary *)aLibrary;
 
 @end

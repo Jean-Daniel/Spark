@@ -3,15 +3,15 @@
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {CLASS = NSObject; LANGUAGE = ObjC; }, 
         {CLASS = SESplitView; LANGUAGE = ObjC; SUPERCLASS = NSSplitView; }, 
-        {CLASS = SETableView; LANGUAGE = ObjC; SUPERCLASS = SKTableView; }, 
         {CLASS = SETableViewCell; LANGUAGE = ObjC; SUPERCLASS = SKImageAndTextCell; }, 
         {
             CLASS = SETriggerBrowser; 
             LANGUAGE = ObjC; 
-            OUTLETS = {ibTriggers = SETableView; }; 
+            OUTLETS = {ibTriggers = SKTableDataSource; uiTriggers = SETableView; }; 
             SUPERCLASS = SKWindowController; 
         }, 
         {CLASS = SKImageAndTextCell; LANGUAGE = ObjC; SUPERCLASS = NSTextFieldCell; }, 
+        {CLASS = SKTableDataSource; LANGUAGE = ObjC; SUPERCLASS = NSArrayController; }, 
         {
             ACTIONS = {delete = id; }; 
             CLASS = SKTableView; 

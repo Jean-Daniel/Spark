@@ -192,6 +192,7 @@ BOOL _SparkKeyStrokeFilter(HKKeycode code, HKModifier modifier) {
   return icon;
 }
 
+
 @end
 
 #pragma mark -

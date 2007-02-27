@@ -13,6 +13,8 @@
 #import <SparkKit/SparkKit.h>
 #import <SparkKit/SparkTrigger.h>
 
+#import <HotKeyToolKit/HotKeyToolKit.h>
+
 typedef enum {
   kSparkDisableAllSingleKey           = 0,
   kSparkEnableSingleFunctionKey       = 1, /* Default */
@@ -45,6 +47,7 @@ SparkFilterMode SparkKeyStrokeFilterMode;
 @interface SparkHotKey (HKHotKeyForwarding)
 
 - (BOOL)isValid;
+- (NSString *)shortcut;
 
 - (id)target;
 - (void)setTarget:(id)anObject;
@@ -52,11 +55,12 @@ SparkFilterMode SparkKeyStrokeFilterMode;
 - (SEL)action;
 - (void)setAction:(SEL)aSelector;
 
-- (UInt32)modifier;
-- (void)setModifier:(UInt32)modifier;
+- (NSUInteger)modifier;
+- (HKModifier)nativeModifier;
+- (void)setModifier:(NSUInteger)modifier;
 
-- (UInt32)keycode; 
-- (void)setKeycode:(UInt32)keycode;
+- (HKKeycode)keycode;
+- (void)setKeycode:(HKKeycode)keycode;
 
 - (UniChar)character;
 - (void)setCharacter:(UniChar)character;
@@ -66,8 +70,6 @@ SparkFilterMode SparkKeyStrokeFilterMode;
 
 - (NSTimeInterval)repeatInterval;
 - (void)setRepeatInterval:(NSTimeInterval)interval;
-
-- (NSString *)shortcut;
 
 - (UInt64)rawkey;
 - (void)setRawkey:(UInt64)rawkey;
