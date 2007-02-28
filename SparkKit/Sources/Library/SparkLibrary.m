@@ -49,9 +49,9 @@ enum {
 
 #ifdef DEBUG
 #warning Using Development Spark Library
-NSString * const kSparkLibraryDefaultFileName = @"Spark3 Library_Debug.splib";
+NSString * const kSparkLibraryDefaultFileName = @"Spark Library_Debug.splib";
 #else
-NSString * const kSparkLibraryDefaultFileName = @"Spark3 Library.splib";
+NSString * const kSparkLibraryDefaultFileName = @"Spark Library.splib";
 #endif
 
 static
@@ -104,6 +104,8 @@ static SparkApplication *sSystem = nil;
 #pragma mark -
 - (id)init {
   if (self = [self initWithPath:nil]) {
+    /* Init infos */
+    [self setInfo:nil];
     /* Load empty library */
     [self loadFromWrapper:nil error:nil];
   }
@@ -112,8 +114,7 @@ static SparkApplication *sSystem = nil;
 
 - (id)initWithPath:(NSString *)path {
   if (self = [super init]) {
-    [self setPath:path];
-    
+    [self setPath:path];    
   }
   return self;
 }
@@ -215,7 +216,7 @@ static SparkApplication *sSystem = nil;
       [dict release];
     }
     /* Update icon path */
-    if (sp_icons && ![sp_icons path])
+    if (sp_icons && ![sp_icons path] && sp_file)
       [sp_icons setPath:SparkLibraryIconFolder(self)];
   }
 }
@@ -525,8 +526,8 @@ bail:
           [app setUID:kSparkApplicationFinderUID];
         } else {
           [app setUID:[app uid] + kSparkLibraryReserved];
+          [objectSet addObject:app];
         }
-        [objectSet addObject:app];
       } else {
         DLog(@"Discard invalid application: %@", app);
       }
@@ -682,7 +683,7 @@ NSString *SparkLibraryIconFolder(SparkLibrary *library) {
 static
 NSString *SparkLibraryPreviousLibraryPath() {
   NSString *folder = [SKFSFindFolder(kPreferencesFolderType, kUserDomain) stringByAppendingPathComponent:kSparkFolderName];
-  return [folder stringByAppendingPathComponent:kSparkLibraryDefaultFileName];
+  return [folder stringByAppendingPathComponent:@"Spark3 Library.splib"];
 }
 static
 NSString *SparkLibraryVersion1LibraryPath() {
@@ -828,6 +829,9 @@ SparkLibrary *SparkActiveLibrary() {
         if ([[NSFileManager defaultManager] fileExistsAtPath:old]) {
           resync = YES;
           sActiveLibrary = [[SparkLibrary alloc] initWithPath:old];
+        } else {
+          resync = YES;
+          sActiveLibrary = [[SparkLibrary alloc] init];
         }
       } else {
         /* Version 3 library exists in old location */
@@ -843,7 +847,7 @@ SparkLibrary *SparkActiveLibrary() {
     }
     
     /* Read library */
-    if (![sActiveLibrary load:nil]) {
+    if (![sActiveLibrary isLoaded] && ![sActiveLibrary load:nil]) {
       [sActiveLibrary release];
       sActiveLibrary = nil;
       [NSException raise:NSInternalInconsistencyException format:@"An error prevent default library loading"];

@@ -322,7 +322,7 @@ BOOL SEOverwriteFilter(SEEntryList *list, SparkEntry *object, SparkApplication *
   return NSNotFound;
 }
 
-- (IBAction)newList:(id)sender {
+- (IBAction)newGroup:(id)sender {
   SparkList *list = [[SparkList alloc] initWithName:NSLocalizedString(@"New List", @"New List default name")];
   [[[self library] listSet] addObject:list];
   [list release];

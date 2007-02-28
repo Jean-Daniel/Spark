@@ -22,6 +22,7 @@
 #import <SparkKit/SparkPlugIn.h>
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkFunctions.h>
+#import <SparkKit/SparkActionLoader.h>
 
 #import <ShadowKit/SKAppKitExtensions.h>
 
@@ -32,6 +33,15 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(daemonStatusDidChange:)
                                                  name:SEServerStatusDidChangeNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didChangePlugins:)
+                                                 name:SESparkEditorDidChangePluginStatusNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didChangePlugins:)
+                                                 name:SparkActionLoaderDidRegisterPlugInNotification
                                                object:nil];
   }
   return self;
@@ -95,6 +105,23 @@
   }
 }
 
+- (void)didChangePlugins:(NSNotification *)aNotification {
+  /* Configure New Plugin Menu */
+  NSMenu *menu = [[NSMenu alloc] initWithTitle:@"plugins"];
+  SEPopulatePluginMenu(menu);
+  if ([menu numberOfItems] > 0)
+    [menu addItem:[NSMenuItem separatorItem]];
+  
+  NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:@"New Group" action:@selector(newGroup:) keyEquivalent:@"N"];
+  [item setImage:[NSImage imageNamed:@"SimpleList" inBundle:SKBundleForClass(SparkLibrary)]];
+  [item setKeyEquivalentModifierMask:NSShiftKeyMask | NSCommandKeyMask];
+  [menu addItem:item];
+  [item release];
+  
+  [uiMenu setMenu:menu forSegment:0];
+  [menu release];
+}
+
 - (void)awakeFromNib {
   /* Configure application field */
   [appField setTarget:appDrawer];
@@ -107,9 +134,8 @@
   /* Update status */
   [self setDaemonStatus:[[SEServerConnection defaultConnection] status]];
   
-  /* Configure New Plugin Menu */
-  //[[uiMenu itemAtIndex:0] setImage:[NSImage imageNamed:@"SEGear"]];
-  [uiMenu setMenu:[NSApp pluginsMenu] forSegment:0];
+  /* Populate plugin menu */
+  [self didChangePlugins:nil];
   [[uiMenu cell] setToolTip:NSLocalizedString(@"CREATE_TRIGGER_TOOLTIP", @"Segment Menu ToolTips")
                  forSegment:0];
   
@@ -202,8 +228,8 @@
 }
 
 /* Selected list did change */
-- (IBAction)newList:(id)sender {
-  [ibGroups newList:sender];
+- (IBAction)newGroup:(id)sender {
+  [ibGroups newGroup:sender];
 }
 
 - (void)setDaemonStatus:(SparkDaemonStatus)status {

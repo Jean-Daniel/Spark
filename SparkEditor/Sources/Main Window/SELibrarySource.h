@@ -21,7 +21,7 @@
   SparkLibrary *se_library;
 }
 
-- (IBAction)newList:(id)sender;
+- (IBAction)newGroup:(id)sender;
 
 - (void)setLibrary:(SparkLibrary *)aLibrary;
 

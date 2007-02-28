@@ -611,7 +611,7 @@ bail:
                   informativeTextWithFormat:NSLocalizedStringFromTableInBundle(@"PLAYLIST_NOT_FOUND_MSG",
                                                                                nil,
                                                                                kiTunesActionBundle,
-                                                                               @"Error: no such playlist * Msg * (%@ => name)"), name];
+                                                                               @"Error: no such playlist * Msg * (%@ => name)"), [self name]];
   }
   return nil;
 }
