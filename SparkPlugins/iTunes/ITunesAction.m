@@ -554,6 +554,9 @@ bail:
 - (BOOL)autorun { return ia_iaFlags.autorun; }
 - (void)setAutorun:(BOOL)flag { SKSetFlag(ia_iaFlags.autorun, flag); }
 
+- (BOOL)autoinfo { return ia_iaFlags.autoinfo; }
+- (void)setAutoinfo:(BOOL)flag { SKSetFlag(ia_iaFlags.autoinfo, flag); }
+
 - (int)visualMode {
   return ia_iaFlags.visual;
 }

@@ -6,12 +6,10 @@
 //  Copyright (c) 2004 Shadow Lab. All rights reserved.
 //
 
-#if defined (DEBUG)
-#warning Debug defined in KeyStrokeAction!
-#endif
-
 #import "KeyStrokeActionPlugin.h"
 #import "KeyStrokeAction.h"
+
+#import <ShadowKit/SKAppKitExtensions.h>
 
 NSString * const kKeyStrokeActionBundleIdentifier = @"org.shadowlab.spark.keystroke";
 
@@ -80,7 +78,7 @@ NSString * const kKeyStrokeActionBundleIdentifier = @"org.shadowlab.spark.keystr
   ks_key = [keys selectedObject];
   if (ks_key) {
     ks_rawkey = [ks_key rawkey];
-    NSString *shortcut = [ks_key shortCut];
+    NSString *shortcut = [ks_key shortcut];
     [shortcutField setStringValue:shortcut ? : @""];
     [choosePanel makeKeyAndOrderFront:sender];
     [NSApp runModalForWindow:choosePanel];
@@ -108,15 +106,13 @@ NSString * const kKeyStrokeActionBundleIdentifier = @"org.shadowlab.spark.keystr
 ********************************************************************************************************/
 
 - (void)windowWillClose:(NSNotification *)aNotification {
-  if (ks_key)
-    [[[self undoManager] prepareWithInvocationTarget:ks_key] setRawkey:ks_rawkey];
   ks_key = nil;
   ks_rawkey = 0;
   [NSApp stopModal];
 }
 
 - (BOOL)trapWindow:(HKTrapWindow *)window needPerformKeyEquivalent:(NSEvent *)theEvent {
-  return [theEvent timestamp] == 0;
+  return SKFloatEquals([theEvent timestamp], 0);
 }
 
 - (BOOL)trapWindow:(HKTrapWindow *)window needProceedKeyEvent:(NSEvent *)theEvent {
@@ -129,12 +125,12 @@ NSString * const kKeyStrokeActionBundleIdentifier = @"org.shadowlab.spark.keystr
 
 - (void)trapWindowCatchHotKey:(NSNotification *)aNotification {
   id info = [aNotification userInfo];
-  [ks_key willChangeValueForKey:@"shortCut"];
+  [ks_key willChangeValueForKey:@"shortcut"];
+  [ks_key setKeycode:[[info objectForKey:kHKEventKeyCodeKey] unsignedShortValue]];
   [ks_key setModifier:[[info objectForKey:kHKEventModifierKey] unsignedIntValue]];
-  [ks_key setKeycode:[[info objectForKey:kHKEventKeyCodeKey] unsignedShortValue]
-        andCharacter:[[info objectForKey:kHKEventCharacterKey] unsignedShortValue]];
-  [ks_key didChangeValueForKey:@"shortCut"];
-  NSString *shortcut = [ks_key shortCut];
+  [ks_key setCharacter:[[info objectForKey:kHKEventCharacterKey] unsignedShortValue]];
+  [ks_key didChangeValueForKey:@"shortcut"];
+  NSString *shortcut = [ks_key shortcut];
   [shortcutField setStringValue:shortcut ? : @""];
 }
 

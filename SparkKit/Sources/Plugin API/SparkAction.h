@@ -40,7 +40,8 @@ NSTimeInterval SparkGetDefaultKeyRepeatInterval(void);
   UInt32 sp_version;
   struct _sp_saFlags {
     unsigned int invalid:1;
-    unsigned int :15;
+    unsigned int registred:1;
+    unsigned int :14;
   } sp_saFlags;
   NSString *sp_categorie, *sp_description;
 }
@@ -125,5 +126,8 @@ NSTimeInterval SparkGetDefaultKeyRepeatInterval(void);
    @result     0 to disable auto repeate, <em>SparkGetDefaultKeyRepeatInterval()</em> to use system defined repeat interval.
    */
 - (NSTimeInterval)repeatInterval;
+
+- (BOOL)isRegistred;
+- (void)setRegistred:(BOOL)flag;
 
 @end

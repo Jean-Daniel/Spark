@@ -179,6 +179,14 @@ static SparkTrigger *sTrigger;
   return 0;
 }
 
+- (BOOL)isRegistred {
+  return sp_saFlags.registred;
+}
+- (void)setRegistred:(BOOL)flag {
+  //  DLog(@"%@ set registred: %@", self, flag ? @"YES" : @"NO");
+  SKSetFlag(sp_saFlags.registred, flag);
+}
+
 @end
 
 #pragma mark -

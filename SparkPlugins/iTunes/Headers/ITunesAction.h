@@ -50,10 +50,12 @@ typedef enum {
     unsigned int background:1;
     /* Play/Pause settings */
     unsigned int autorun:1;
+    /* Track Info */
+    unsigned int autoinfo:1;    
     /* visuals settings */
     unsigned int show:1; /* visual enabled */
     unsigned int visual:2; /* visual type: default, custom */
-    unsigned int reserved:17;
+    unsigned int reserved:16;
   } ia_iaFlags;
   
   ITunesVisual *ia_visual;
@@ -91,6 +93,9 @@ typedef enum {
 
 - (BOOL)autorun;
 - (void)setAutorun:(BOOL)value;
+
+- (BOOL)autoinfo;
+- (void)setAutoinfo:(BOOL)flag;
 
 - (void)switchVisualStat;
 - (void)volumeUp;

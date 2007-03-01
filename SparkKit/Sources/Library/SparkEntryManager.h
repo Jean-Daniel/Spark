@@ -76,11 +76,13 @@ NSString * const SparkEntryManagerDidChangeEntryEnabledNotification;
 
 #pragma mark Serialization
 @interface SparkEntryManager (SparkSerialization)
+
+- (void)postProcess;
+
 - (NSFileWrapper *)fileWrapper:(NSError **)outError;
 - (BOOL)readFromFileWrapper:(NSFileWrapper *)fileWrapper error:(NSError **)outError;
 
 /* private: v1 import */
-- (void)postProcess;
 - (void)addEntryWithAction:(UInt32)action trigger:(UInt32)trigger application:(UInt32)application enabled:(BOOL)enabled;
 
 @end

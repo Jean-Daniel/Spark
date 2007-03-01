@@ -9,6 +9,11 @@
 #import "SparkPrivate.h"
 #import <SparkKit/SparkTrigger.h>
 
+#import <SparkKit/SparkEntry.h>
+#import <SparkKit/SparkAction.h>
+#import <SparkKit/SparkLibrary.h>
+#import <SparkKit/SparkEntryManager.h>
+
 @implementation SparkTrigger
 
 static SparkAction *sp_spAction = nil;
@@ -93,6 +98,19 @@ static SparkAction *sp_spAction = nil;
   return NO;
 }
 - (BOOL)setRegistred:(BOOL)flag {
+  if (XOR(flag, [self isRegistred])) {
+    /* Update attached actions */
+    SparkEntryManager *manager = [[self library] entryManager];
+    NSArray *entries = [manager entriesForTrigger:[self uid]];
+    NSUInteger idx = [entries count];
+    while (idx-- > 0) {
+      SparkEntry *entry = [entries objectAtIndex:idx];
+      if ([entry isActive])
+        [[entry action] setRegistred:flag];
+      else if (!flag && [[entry action] isRegistred])
+        [[entry action] setRegistred:NO];
+    }
+  }
   return NO;
 }
 
