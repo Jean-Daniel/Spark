@@ -3,7 +3,7 @@
  *  Spark Plugins
  *
  *  Created by Black Moon Team.
- *  Copyright (c) 2004 - 2006, Shadow Lab. All rights reserved.
+ *  Copyright (c) 2004 - 2007, Shadow Lab. All rights reserved.
  */
 
 #import <SparkKit/SparkPluginAPI.h>
@@ -26,6 +26,9 @@ typedef enum {
   kSystemVolumeUp        = 'VoUp', /* 1450136944 */
   kSystemVolumeDown      = 'VoDo', /* 1450132591 */
   kSystemVolumeMute      = 'Mute', /* 1299543141 */
+  /* Brightness */
+  kSystemBrightnessUp    = 'BrUp', /* 1114789232 */
+  kSystemBrightnessDown  = 'BrDo', /* 1114784879 */  
 } SystemActionType;
 
 SK_PRIVATE
@@ -72,6 +75,10 @@ NSString * const kSystemActionBundleIdentifier;
 - (void)volumeUp;
 - (void)volumeDown;
 - (void)toggleMute;
+
+/* Brightness */
+- (void)brightnessUp;
+- (void)brightnessDown;
 
 - (BOOL)shouldNotify;
 - (void)setShouldNotify:(BOOL)flag;

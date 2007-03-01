@@ -1,10 +1,10 @@
-//
-//  AudioOutput.m
-//  Labo Test
-//
-//  Created by Jean-Daniel Dupas on 09/01/07.
-//  Copyright 2007 Adamentium. All rights reserved.
-//
+/*
+ *  AudioOutput.c
+ *  Spark Plugins
+ *
+ *  Created by Black Moon Team.
+ *  Copyright (c) 2004 - 2007, Shadow Lab. All rights reserved.
+ */
 
 #include "AudioOutput.h"
 

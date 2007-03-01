@@ -41,6 +41,10 @@
 		1B75502E0B6A8153004C9F44 /* AAHide.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B75502C0B6A8153004C9F44 /* AAHide.tiff */; };
 		1B8F4B150B56823700E8A4C0 /* volume.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B8F4B140B56823700E8A4C0 /* volume.aiff */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
+		98027E7C0B9780E200CB77F3 /* SKLevelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98027E7B0B9780E200CB77F3 /* SKLevelView.m */; };
+		98027E7E0B9780E900CB77F3 /* BrightnessView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98027E7D0B9780E900CB77F3 /* BrightnessView.m */; };
+		98027E810B9780F900CB77F3 /* BrightnessView.h in Headers */ = {isa = PBXBuildFile; fileRef = 98027E7F0B9780F900CB77F3 /* BrightnessView.h */; };
+		98027E820B9780F900CB77F3 /* SKLevelView.h in Headers */ = {isa = PBXBuildFile; fileRef = 98027E800B9780F900CB77F3 /* SKLevelView.h */; };
 		9805166A0B6AA498006C5BB8 /* AAWStop.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 980516690B6AA498006C5BB8 /* AAWStop.tiff */; };
 		980D926206E61DB80038EE2A /* DocumentAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 980D926106E61DB80038EE2A /* DocumentAction.h */; };
 		98328828079602CC00DB780A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
@@ -123,6 +127,7 @@
 		98DAB9850A90F4E9001F3125 /* SystemPlugin.nib in Resources */ = {isa = PBXBuildFile; fileRef = 98DAB97F0A90F4E9001F3125 /* SystemPlugin.nib */; };
 		98DBCFC20AB421DF00FF47C8 /* ITunesAESuite.c in Sources */ = {isa = PBXBuildFile; fileRef = 98E6A94C06063852000CCBE1 /* ITunesAESuite.c */; };
 		98DD5E380A91CFD600FB5814 /* DocumentPlugin.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98DD5E370A91CFD600FB5814 /* DocumentPlugin.tiff */; };
+		98DE6FE30B978FEC0090AD9A /* SysBrightness.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 98DE6FE20B978FEC0090AD9A /* SysBrightness.pdf */; };
 		98DEF22D0A4E786700E49F89 /* iTunesInfo.nib in Resources */ = {isa = PBXBuildFile; fileRef = 98DEF22C0A4E786700E49F89 /* iTunesInfo.nib */; };
 		98E649120B62627A008A8C9B /* iTunesIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 98E649110B626279008A8C9B /* iTunesIcon.png */; };
 		98E6A8F6060636AE000CCBE1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 98E6A8DD060636AE000CCBE1 /* InfoPlist.strings */; };
@@ -295,13 +300,17 @@
 		1B75502C0B6A8153004C9F44 /* AAHide.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = AAHide.tiff; sourceTree = "<group>"; };
 		1B8F4B140B56823700E8A4C0 /* volume.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = volume.aiff; sourceTree = "<group>"; };
 		8D5B49B6048680CD000E48DA /* iTunesAction.spact */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iTunesAction.spact; sourceTree = BUILT_PRODUCTS_DIR; };
+		98027E7B0B9780E200CB77F3 /* SKLevelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKLevelView.m; sourceTree = "<group>"; };
+		98027E7D0B9780E900CB77F3 /* BrightnessView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrightnessView.m; sourceTree = "<group>"; };
+		98027E7F0B9780F900CB77F3 /* BrightnessView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrightnessView.h; sourceTree = "<group>"; };
+		98027E800B9780F900CB77F3 /* SKLevelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKLevelView.h; sourceTree = "<group>"; };
 		980516690B6AA498006C5BB8 /* AAWStop.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = AAWStop.tiff; sourceTree = "<group>"; };
 		980D926106E61DB80038EE2A /* DocumentAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DocumentAction.h; sourceTree = "<group>"; };
 		981B624109386E340024C0D9 /* ShadowCommon.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowCommon.xcconfig; sourceTree = "<group>"; };
 		981B624209386E340024C0D9 /* ShadowDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowDebug.xcconfig; sourceTree = "<group>"; };
 		981B624309386E340024C0D9 /* ShadowRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowRelease.xcconfig; sourceTree = "<group>"; };
 		981B624509386E340024C0D9 /* ShadowUniversal.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowUniversal.xcconfig; sourceTree = "<group>"; };
-		9832875F079602BE00DB780A /* Labo */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "compiled.mach-o.executable"; path = Labo; sourceTree = BUILT_PRODUCTS_DIR; };
+		9832875F079602BE00DB780A /* Labo */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Labo; sourceTree = BUILT_PRODUCTS_DIR; };
 		9832882D079602EC00DB780A /* Labo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Labo.m; sourceTree = "<group>"; };
 		983974FC0A58637400F79B40 /* SystemActionPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemActionPlugin.m; sourceTree = "<group>"; };
 		983974FD0A58637400F79B40 /* SystemAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemAction.m; sourceTree = "<group>"; };
@@ -369,6 +378,7 @@
 		98DA320A0A8AF6F8009EC42C /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Resources/English.lproj/iTunesPlugin.nib; sourceTree = "<group>"; };
 		98DAB9800A90F4E9001F3125 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Resources/English.lproj/SystemPlugin.nib; sourceTree = "<group>"; };
 		98DD5E370A91CFD600FB5814 /* DocumentPlugin.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = DocumentPlugin.tiff; sourceTree = "<group>"; };
+		98DE6FE20B978FEC0090AD9A /* SysBrightness.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = SysBrightness.pdf; sourceTree = "<group>"; };
 		98DEF22C0A4E786700E49F89 /* iTunesInfo.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = iTunesInfo.nib; path = Resources/iTunesInfo.nib; sourceTree = "<group>"; };
 		98E1CC570607765F00FA3599 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
 		98E1CC590607767300FA3599 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -639,6 +649,7 @@
 				984704DA0B6D0F8F009419B5 /* SysKeyboard.tiff */,
 				984704CE0B6D0F8F009419B5 /* SysShutdown.tiff */,
 				984704D80B6D0F8F009419B5 /* SysVolumeUp.pdf */,
+				98DE6FE20B978FEC0090AD9A /* SysBrightness.pdf */,
 				984704CD0B6D0F8F009419B5 /* SysScreenSaver.tiff */,
 				984704D90B6D0F8F009419B5 /* SysVolumeDown.pdf */,
 				984704D40B6D0F8F009419B5 /* SysSwitchPolarity.tiff */,
@@ -784,8 +795,10 @@
 			children = (
 				98FC44D706063AA6003617CA /* Headers */,
 				1B0E22270B5649D200DC846B /* SoundView.m */,
+				98027E7B0B9780E200CB77F3 /* SKLevelView.m */,
 				1B0E222B0B5649DF00DC846B /* AudioOutput.c */,
 				983974FD0A58637400F79B40 /* SystemAction.m */,
+				98027E7D0B9780E900CB77F3 /* BrightnessView.m */,
 				983974FC0A58637400F79B40 /* SystemActionPlugin.m */,
 				98641DF8060A33750033892D /* Info.plist */,
 				98FC451806063B14003617CA /* InfoPlist.strings */,
@@ -799,8 +812,10 @@
 			isa = PBXGroup;
 			children = (
 				1B0E22250B5649CC00DC846B /* SoundView.h */,
+				98027E800B9780F900CB77F3 /* SKLevelView.h */,
 				1B0E22290B5649D900DC846B /* AudioOutput.h */,
 				983975010A58638500F79B40 /* SystemAction.h */,
+				98027E7F0B9780F900CB77F3 /* BrightnessView.h */,
 				983975000A58638500F79B40 /* SystemActionPlugin.h */,
 			);
 			path = Headers;
@@ -973,6 +988,8 @@
 				983975030A58638500F79B40 /* SystemAction.h in Headers */,
 				1B0E22260B5649CC00DC846B /* SoundView.h in Headers */,
 				1B0E222A0B5649D900DC846B /* AudioOutput.h in Headers */,
+				98027E810B9780F900CB77F3 /* BrightnessView.h in Headers */,
+				98027E820B9780F900CB77F3 /* SKLevelView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1311,6 +1328,7 @@
 				984704E80B6D0F90009419B5 /* SysVolumeDown.pdf in Resources */,
 				984704E90B6D0F90009419B5 /* SysKeyboard.tiff in Resources */,
 				984704EB0B6D0FB5009419B5 /* SysTrash.tiff in Resources */,
+				98DE6FE30B978FEC0090AD9A /* SysBrightness.pdf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1420,6 +1438,8 @@
 				983974FF0A58637400F79B40 /* SystemAction.m in Sources */,
 				1B0E22280B5649D200DC846B /* SoundView.m in Sources */,
 				1B0E222C0B5649DF00DC846B /* AudioOutput.c in Sources */,
+				98027E7C0B9780E200CB77F3 /* SKLevelView.m in Sources */,
+				98027E7E0B9780E900CB77F3 /* BrightnessView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

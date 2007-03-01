@@ -1,5 +1,5 @@
 /*
- *  SoundView.h
+ *  BrightnessView.h
  *  Spark Plugins
  *
  *  Created by Black Moon Team.
@@ -8,11 +8,8 @@
 
 #import "SKLevelView.h"
 
-@interface SoundView : SKLevelView {
+@interface BrightnessView : SKLevelView {
 
 }
-
-- (BOOL)isMuted;
-- (void)setMuted:(BOOL)flag;
 
 @end

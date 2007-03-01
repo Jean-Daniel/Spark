@@ -3,7 +3,7 @@
  *  Spark Plugins
  *
  *  Created by Black Moon Team.
- *  Copyright (c) 2004 - 2006, Shadow Lab. All rights reserved.
+ *  Copyright (c) 2004 - 2007, Shadow Lab. All rights reserved.
  */
 
 #include <unistd.h>
@@ -131,6 +131,8 @@
     case kSystemVolumeUp:
     case kSystemVolumeDown:
     case kSystemVolumeMute:
+    case kSystemBrightnessUp:
+    case kSystemBrightnessDown:
       /* Display visual */
       [uiOptions selectTabViewItemAtIndex:2];
       break;

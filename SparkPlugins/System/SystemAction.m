@@ -3,13 +3,14 @@
  *  Spark Plugins
  *
  *  Created by Black Moon Team.
- *  Copyright (c) 2004 - 2006, Shadow Lab. All rights reserved.
+ *  Copyright (c) 2004 - 2007, Shadow Lab. All rights reserved.
  */
 
 #import "SystemAction.h"
 
 #import "SoundView.h"
 #import "AudioOutput.h"
+#import "BrightnessView.h"
 
 /* getuid() */
 #include <unistd.h>
@@ -18,6 +19,7 @@
 #import <ShadowKit/SKFSFunctions.h>
 #import <ShadowKit/SKLSFunctions.h>
 #import <ShadowKit/SKAEFunctions.h>
+#import <ShadowKit/SKIOKitFunctions.h>
 #import <ShadowKit/SKAppKitExtensions.h>
 
 static NSString * const 
@@ -216,6 +218,13 @@ NSString * const kSystemUserNameKey = @"SystemUserName";
       break;
     case kSystemVolumeMute:
       [self toggleMute];
+      break;
+      /* Brightness */
+    case kSystemBrightnessUp:
+      [self brightnessUp];
+      break;
+    case kSystemBrightnessDown:
+      [self brightnessDown];
       break;
     default:
       NSBeep();
@@ -429,6 +438,82 @@ static NSSound *_SASharedSound() {
   [self notifySoundChangeForDevice:device];
 }
 
+#pragma mark Brightness
+
+static
+const float kBrightnessLevels[] = {
+  0.00,
+  0.06, 0.12, 0.19, 0.25,
+  0.31, 0.37, 0.44, 0.50,
+  0.56, 0.62, 0.69, 0.75,
+  0.81, 0.87, 0.93, 1.00,
+};
+
+static 
+CFStringRef kSystemBrightnessKey = CFSTR("brightness");
+
+static
+BrightnessView *_SASharedBrightnessView() {
+  static BrightnessView *shared = nil;
+  if (!shared) {
+    shared = [[BrightnessView alloc] initWithFrame:NSMakeRect(0, 0, 161, 156)];
+  }
+  return shared;
+}
+
+SK_INLINE
+NSUInteger __SystemBrightnessLevelForValue(float value) {
+  if (value <= 0.0)
+    return 0;
+  else if (value >= 1.0)
+    return 16;
+  for (NSUInteger level = 0; level < 16; level++) {
+    /* If bewteen current level and next level */
+    if (value < kBrightnessLevels[level + 1]) {
+      /* Round level */
+      Float32 avg = (kBrightnessLevels[level] + kBrightnessLevels[level + 1]) / 2.0;
+      return value < avg ? level : level + 1;
+    }
+  }
+  return 16;
+}
+
+- (void)notifyBrightnessLevel:(NSUInteger)level {
+  if ([self shouldNotify]) {
+    [_SASharedBrightnessView() setLevel:level];
+    SparkNotificationDisplay(_SASharedBrightnessView(), -1);
+  }
+}
+
+- (void)brightnessUp {
+  float value = 0;
+  OSStatus err = SKIODisplayGetFloatParameter(kSystemBrightnessKey, &value);
+  if (noErr == err) {
+    NSUInteger level = __SystemBrightnessLevelForValue(value);
+    if (level < 16)
+      level++;
+    err = SKIODisplaySetFloatParameter(kSystemBrightnessKey, kBrightnessLevels[level]);
+    
+    if (noErr == err)
+      [self notifyBrightnessLevel:level];
+  }
+}
+
+- (void)brightnessDown {
+  float value = 0;
+  OSStatus err = SKIODisplayGetFloatParameter(kSystemBrightnessKey, &value);
+  if (noErr == err) {
+    NSUInteger level = __SystemBrightnessLevelForValue(value);
+    if (level > 0)
+      level--;
+    err = SKIODisplaySetFloatParameter(kSystemBrightnessKey, kBrightnessLevels[level]);
+    
+    if (noErr == err)
+      [self notifyBrightnessLevel:level];
+  }
+}
+
+
 - (NSTimeInterval)repeatInterval {
   switch (sa_action) {
     case kSystemVolumeUp:
@@ -545,6 +630,10 @@ NSImage *SystemActionIcon(SystemAction *anAction) {
       break;
     case kSystemVolumeMute:
       icon = @"SysMute";
+      /* Brightness */
+    case kSystemBrightnessUp:
+    case kSystemBrightnessDown:
+      icon = @"SysBrightness";
       break;
   }
   return icon ? [NSImage imageNamed:icon inBundle:kSystemActionBundle] : nil;
@@ -620,6 +709,15 @@ NSString *SystemActionDescription(SystemAction *anAction) {
     case kSystemVolumeMute:
       desc = NSLocalizedStringFromTableInBundle(@"DESC_VOLUME_MUTE", nil, kSystemActionBundle,
                                                 @"Volume Mute * Action Description *");
+      break;
+      /* Brightness */
+    case kSystemBrightnessUp:
+      desc = NSLocalizedStringFromTableInBundle(@"DESC_BRIGHTNESS_UP", nil, kSystemActionBundle,
+                                                @"Brightness Up * Action Description *");      
+      break;
+    case kSystemBrightnessDown:
+      desc = NSLocalizedStringFromTableInBundle(@"DESC_BRIGHTNESS_DOWN", nil, kSystemActionBundle,
+                                                @"Brightness Down * Action Description *");
       break;
     default:
       desc = NSLocalizedStringFromTableInBundle(@"DESC_INVALID", nil, kSystemActionBundle,
