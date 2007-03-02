@@ -10,7 +10,6 @@
 
 @implementation TextActionPlugIn
 
-
 - (void)loadSparkAction:(SparkAction *)anAction toEdit:(BOOL)isEditing {
   
 }

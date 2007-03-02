@@ -267,6 +267,10 @@ bail:
         [self setVersion:0x200];
         [self setRating:[[plist objectForKey:@"iTunesTrackTrate"] intValue]];
         [self setITunesAction:_iTunesConvertAction([[plist objectForKey:kITunesActionKey] intValue])];
+        
+        if (![self shouldSaveIcon]) {
+          [self setIcon:nil];
+        }
         break;
     }
     

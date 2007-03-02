@@ -116,6 +116,9 @@ OSType _DocumentActionFromFlag(int flag) {
   if (da_action == kDocumentActionOpenURL) {
     [self setURL:[plist objectForKey:@"DocumentURL"]];
   }
+  if (![self shouldSaveIcon]) {
+    [self setIcon:nil];
+  }
 }
 
 - (id)initWithSerializedValues:(NSDictionary *)plist {

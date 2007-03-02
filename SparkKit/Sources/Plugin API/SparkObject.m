@@ -51,23 +51,41 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
 }
 
 #pragma mark -
+- (id)sk_initWithSerializedValues:(NSDictionary *)plist {
+  BOOL compat = NO;
+  NSString *name = [plist objectForKey:kSparkObjectNameKey];
+  if (!name) {
+    compat = YES;
+    name = [plist objectForKey:@"Name"];
+  }
+  
+  NSImage *icon = nil;
+  /* If editor, load icon */
+  if (kSparkEditorContext == SparkGetCurrentContext()) {
+    NSData *bitmap = [plist objectForKey:kSparkObjectIconKey];
+    if (!bitmap && compat)
+      bitmap = [plist objectForKey:@"Icon"];
+    if (bitmap)
+      icon = [[NSImage alloc] initWithData:bitmap];
+  }
+  self = [self initWithName:name icon:icon];
+  [icon release];
+  
+  if (self) {
+    NSNumber *value = [plist objectForKey:kSparkObjectUIDKey];
+    if (!value && compat)
+      value = [plist objectForKey:@"UID"];
+    [self setUID:value ? [value unsignedIntValue] : 0];
+  }
+  return self;
+}
+
 /* Compatibility */
 - (NSMutableDictionary *)propertyList {
   return [NSMutableDictionary dictionary];
 }
 - (id)initFromPropertyList:(NSDictionary *)plist {
-  NSString *name = [plist objectForKey:kSparkObjectNameKey];
-  if (!name)
-    name = [plist objectForKey:@"Name"];
-  
-  NSData *bitmap = [plist objectForKey:kSparkObjectIconKey];
-  if (!bitmap)
-    bitmap = [plist objectForKey:@"Icon"];
-  NSImage *icon = (bitmap) ? [[NSImage alloc] initWithData:bitmap] : nil;
-  
-  self = [self initWithName:name icon:icon];
-  [icon release];
-  return self;
+  return [self sk_initWithSerializedValues:plist];
 }
 
 - (BOOL)serialize:(NSMutableDictionary *)plist {
@@ -86,33 +104,10 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
 
 - (id)initWithSerializedValues:(NSDictionary *)plist {
   /* Compatibility */
-  BOOL compat = NO;
   if (SKInstanceImplementsSelector([self class], @selector(initFromPropertyList:))) {
     self = [self initFromPropertyList:plist];
   } else {
-    NSString *name = [plist objectForKey:kSparkObjectNameKey];
-    if (!name) {
-      compat = YES;
-      name = [plist objectForKey:@"Name"];
-    }
-    
-    NSImage *icon = nil;
-    /* If editor, load icon */
-    if (kSparkEditorContext == SparkGetCurrentContext()) {
-      NSData *bitmap = [plist objectForKey:kSparkObjectIconKey];
-      if (!bitmap && compat)
-        bitmap = [plist objectForKey:@"Icon"];
-      if (bitmap)
-        icon = [[NSImage alloc] initWithData:bitmap];
-    }
-    self = [self initWithName:name icon:icon];
-    [icon release];
-  }
-  if (self) {
-    NSNumber *value = [plist objectForKey:kSparkObjectUIDKey];
-    if (!value && compat)
-      value = [plist objectForKey:@"UID"];
-    [self setUID:value ? [value unsignedIntValue] : 0];
+    self = [self sk_initWithSerializedValues:plist];
   }
   return self;
 }
@@ -129,10 +124,6 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
 
 + (id)objectWithName:(NSString *)name icon:(NSImage *)icon {
   return [[[self alloc] initWithName:name icon:icon] autorelease];
-}
-
-+ (id)objectFromPropertyList:(NSDictionary *)plist {
-  return [[[self alloc] initFromPropertyList:plist] autorelease];
 }
 
 #pragma mark -

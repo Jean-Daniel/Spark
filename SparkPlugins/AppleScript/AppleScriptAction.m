@@ -92,12 +92,14 @@ SKClassCluster(AppleScriptAction);
     SKAlias *alias = [[SKAlias alloc] initWithData:[plist objectForKey:@"Script Data"]];
     [self setScriptAlias:alias];
     [alias release];
-  }
-  else {
+  } else {
     id source = [[NSString alloc] initWithData:[plist objectForKey:@"Script Data"]
                                       encoding:NSUTF8StringEncoding];
     [self setScriptSource:source];
     [source release];
+  }
+  if (![self shouldSaveIcon]) {
+    [self setIcon:nil];
   }
 }
 

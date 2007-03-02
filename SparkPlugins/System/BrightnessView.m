@@ -12,9 +12,6 @@
 @implementation BrightnessView
 
 - (void)drawImage:(CGContextRef)ctxt {
-  CGContextSetGrayFillColor(ctxt, 1, 0.1);
-  CGContextFillRect(ctxt, CGRectFromNSRect([self bounds]));
-  
   CGContextSetGrayFillColor(ctxt, 1, 1);
   CGContextSetGrayStrokeColor(ctxt, 0.5, 1);
   

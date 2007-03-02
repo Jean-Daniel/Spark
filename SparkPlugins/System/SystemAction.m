@@ -161,6 +161,8 @@ NSString * const kSystemUserNameKey = @"SystemUserName";
     case kSystemVolumeUp:
     case kSystemVolumeDown:
     case kSystemVolumeMute:
+    case kSystemBrightnessUp:
+    case kSystemBrightnessDown:
       return nil;
     default:
       return [SparkAlert alertWithMessageText:NSLocalizedStringFromTableInBundle(@"INVALID_ACTION_ALERT",
@@ -518,6 +520,8 @@ NSUInteger __SystemBrightnessLevelForValue(float value) {
   switch (sa_action) {
     case kSystemVolumeUp:
     case kSystemVolumeDown:
+    case kSystemBrightnessUp:
+    case kSystemBrightnessDown:
       return SparkGetDefaultKeyRepeatInterval();
     default:
       return 0;
@@ -581,6 +585,10 @@ OSType SystemActionFromFlag(int flag) {
     
     [action setVersion:0x100];
     [action setActionDescription:SystemActionDescription(action)];
+    
+    if (![self shouldSaveIcon]) {
+      [self setIcon:nil];
+    }
   }
   return action;
 }

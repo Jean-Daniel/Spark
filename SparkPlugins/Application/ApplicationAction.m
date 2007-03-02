@@ -11,6 +11,7 @@
 #import <SparkKit/SparkShadowKit.h>
 
 #import <ShadowKit/SKFunctions.h>
+#import <ShadowKit/SKImageUtils.h>
 #import <ShadowKit/SKAEFunctions.h>
 #import <ShadowKit/SKFSFunctions.h>
 #import <ShadowKit/SKProcessFunctions.h>
@@ -230,9 +231,19 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
       }
     }
   }
-
+  
   [self setFlags:[[plist objectForKey:@"LSFlags"] intValue]];
   [self setAction:_ApplicationTypeFromTag([[plist objectForKey:@"Action"] intValue])];
+  
+  if ([self shouldSaveIcon] && aa_application) {
+    NSImage *icon = [aa_application icon];
+    if (icon) {
+      SKImageSetRepresentationsSize(icon, NSMakeSize(16, 16));
+      [self setIcon:icon];
+    }
+  } else if (![self shouldSaveIcon]) {
+    [self setIcon:nil];
+  }
 }
 
 - (id)initWithSerializedValues:(NSDictionary *)plist {
