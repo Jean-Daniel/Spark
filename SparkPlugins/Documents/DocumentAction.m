@@ -12,6 +12,7 @@
 
 #import <ShadowKit/SKAlias.h>
 #import <ShadowKit/SKFunctions.h>
+#import <ShadowKit/SKImageUtils.h>
 #import <ShadowKit/SKAEFunctions.h>
 #import <ShadowKit/SKLSFunctions.h>
 #import <ShadowKit/SKProcessFunctions.h>
@@ -281,6 +282,19 @@ OSType _DocumentActionFromFlag(int flag) {
     icon = DocumentActionIcon(self);
     [super setIcon:icon];
   }
+  return icon;
+}
+
+- (NSImage *)iconCacheMiss {
+  NSImage *icon = nil;
+  if (DocumentActionNeedDocument([self action])) {
+    if ([[self document] path])
+      icon = [[NSWorkspace sharedWorkspace] iconForFile:[[self document] path]];
+  } else if([self action] == kDocumentActionOpenSelectionWith) {
+    icon = [[self application] icon];
+  }
+  if (icon)
+    SKImageSetRepresentationsSize(icon, NSMakeSize(16, 16));
   return icon;
 }
 

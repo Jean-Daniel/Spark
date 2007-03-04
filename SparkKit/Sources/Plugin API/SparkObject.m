@@ -185,6 +185,13 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
 - (NSImage *)icon {
   if (!sp_icon && [self shouldSaveIcon]) {
     sp_icon = [[[self library] iconManager] iconForObject:self];
+    if (!sp_icon) {
+      sp_icon = [self iconCacheMiss];
+      if (sp_icon) {
+        /* Icon cache miss recovery */
+        [[[self library] iconManager] setIcon:sp_icon forObject:self];
+      }
+    }
     [sp_icon retain];
   }
   return sp_icon;
@@ -202,6 +209,11 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
   return YES;
 }
 
+- (NSImage *)iconCacheMiss {
+  return nil;
+}
+
+#pragma mark -
 - (NSString *)name {
   return sp_name;
 }

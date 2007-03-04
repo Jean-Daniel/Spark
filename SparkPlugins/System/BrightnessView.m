@@ -19,8 +19,11 @@
   
   CGContextBeginTransparencyLayer(ctxt, NULL);
   
-  CGContextAddEllipseInRect(ctxt, CGRectMake(-16, -16, 32, 32));
-  CGContextAddEllipseInRect(ctxt, CGRectMake(-28, -28, 56, 56));
+  CGContextMoveToPoint(ctxt, 16, 0);
+  CGContextAddArc(ctxt, 0, 0, 16, 0, 2 * M_PI, true);
+  
+  CGContextMoveToPoint(ctxt, 28, 0);
+  CGContextAddArc(ctxt, 0, 0, 28, 0, 2 * M_PI, false);
 
   for (unsigned int idx = 0; idx < 8; idx++) {
     SKCGContextAddRoundRect(ctxt, CGRectMake(36, -5.5, 24, 11), 5.5);

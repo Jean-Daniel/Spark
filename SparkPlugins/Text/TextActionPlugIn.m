@@ -10,8 +10,8 @@
 
 @implementation TextActionPlugIn
 
-- (void)loadSparkAction:(SparkAction *)anAction toEdit:(BOOL)isEditing {
-  
+- (void)loadSparkAction:(TextAction *)anAction toEdit:(BOOL)isEditing {
+  [ibText setString:[anAction string] ? :  @""];
 }
 
 - (NSAlert *)sparkEditorShouldConfigureAction {

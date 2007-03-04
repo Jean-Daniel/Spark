@@ -59,6 +59,8 @@
 #pragma mark -
 #pragma mark Constants
 #if defined(__OBJC__)
+SK_EXPORT NSString * const kSparkErrorDomain;
+
 SPARK_EXPORT NSString * const kSparkFolderName;
 
 SPARK_EXPORT NSString * const kSparkKitBundleIdentifier;

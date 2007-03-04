@@ -15,6 +15,9 @@ HK_EXPORT
 UInt32 HKEventSleepInterval;
 
 HK_EXPORT
+CGEventSourceRef HKEventCreatePrivateSource(void);
+
+HK_EXPORT
 void HKEventPostKeystroke(HKKeycode keycode, HKModifier modifier, CGEventSourceRef source);
 
 HK_EXPORT

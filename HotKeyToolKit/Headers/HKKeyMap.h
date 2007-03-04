@@ -10,7 +10,6 @@
 	@abstract A set of converter to map between Keyboard Hardware keycode and represented character.
 */
 
-#import <Foundation/Foundation.h>
 #import <HotKeyToolKit/HKBase.h>
 
 #pragma mark Constants definition

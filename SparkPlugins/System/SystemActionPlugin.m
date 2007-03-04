@@ -21,45 +21,48 @@
 }
 
 - (void)awakeFromNib {
-  if (SKSystemMajorVersion() >= 10 && SKSystemMinorVersion() >= 4) {
-    NSMenu *menu = [ibActions menu];
-    /* Screen saver and switch work only with Mac OS X.4 and later */
-    NSMenuItem *item = [NSMenuItem separatorItem];
-    [item setTag:-1];
-    [menu addItem:item];
+  NSMenu *menu = [ibActions menu];
+  /* Check if handle brightness */
+  if (![SystemAction supportBrightness]) {
+    NSInteger idx = [menu indexOfItemWithTag:kSystemBrightnessUp];
+    NSAssert(idx >= 0, @"Invalid menu. Does not contains volume down action");
     
-    item = [[NSMenuItem alloc] initWithTitle:NSLocalizedStringFromTableInBundle(@"Screen Saver", nil, kSystemActionBundle,
-                                                                                @"Screen Saver Menu Item")
-                                      action:nil keyEquivalent:@""];
-    [item setTag:kSystemScreenSaver];
-    [menu addItem:item];
-    [item release];
-    
-    /* Build user switching menu */
-    CFArrayRef users;
-    BOOL separator = NO;
-    if (noErr == SKDSGetVisibleUsers(&users, kDS1AttrUniqueID, kDS1AttrDistinguishedName, NULL)) {
-      CFIndex cnt = CFArrayGetCount(users);
-      for (CFIndex idx = 0; idx < cnt; idx++) {
-        CFDictionaryRef user = CFArrayGetValueAtIndex(users, idx);
-        CFStringRef suid = CFDictionaryGetValue(user, CFSTR(kDS1AttrUniqueID));
-        if (suid && (unsigned)CFStringGetIntValue(suid) != getuid()) {
-          CFStringRef name = CFDictionaryGetValue(user, CFSTR(kDS1AttrDistinguishedName));
-          if (name) {
-            if (!separator) {
-              separator = YES;
-              [[ibUsers menu] insertItem:[NSMenuItem separatorItem] atIndex:0];
-              [[ibUsers itemAtIndex:0] setTag:-1];
-            }
-            item = [[NSMenuItem alloc] initWithTitle:(id)name action:NULL keyEquivalent:@""];
-            [item setTag:CFStringGetIntValue(suid)];
-            [[ibUsers menu] insertItem:item atIndex:0];
-            [item release];
+    [menu removeItemAtIndex:idx + 2];
+    [menu removeItemAtIndex:idx + 1];
+    [menu removeItemAtIndex:idx];
+  }
+  
+  if (SKSystemMajorVersion() < 10 || SKSystemMinorVersion() < 4) {
+    /* Screen saver works only with Mac OS X.4 and later */
+    NSInteger idx = [menu indexOfItemWithTag:kSystemScreenSaver];
+    NSAssert(idx >= 0, @"Invalid menu. Does not contains volume down action");
+    [menu removeItemAtIndex:idx];
+  }
+  
+  /* Build user switching menu */
+  CFArrayRef users;
+  BOOL separator = NO;
+  if (noErr == SKDSGetVisibleUsers(&users, kDS1AttrUniqueID, kDS1AttrDistinguishedName, NULL)) {
+    CFIndex cnt = CFArrayGetCount(users);
+    for (CFIndex idx = 0; idx < cnt; idx++) {
+      CFDictionaryRef user = CFArrayGetValueAtIndex(users, idx);
+      CFStringRef suid = CFDictionaryGetValue(user, CFSTR(kDS1AttrUniqueID));
+      if (suid && (unsigned)CFStringGetIntValue(suid) != getuid()) {
+        CFStringRef name = CFDictionaryGetValue(user, CFSTR(kDS1AttrDistinguishedName));
+        if (name) {
+          if (!separator) {
+            separator = YES;
+            [[ibUsers menu] insertItem:[NSMenuItem separatorItem] atIndex:0];
+            [[ibUsers itemAtIndex:0] setTag:-1];
           }
+          NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:(id)name action:NULL keyEquivalent:@""];
+          [item setTag:CFStringGetIntValue(suid)];
+          [[ibUsers menu] insertItem:item atIndex:0];
+          [item release];
         }
       }
-      CFRelease(users);
     }
+    CFRelease(users);
   }
 }
 
@@ -70,7 +73,9 @@
     [self setAction:[sparkAction action]];
     
     if (kSystemSwitch == [self action]) {
-      [ibUsers selectItemWithTag:[sparkAction userID]];
+      NSInteger idx = [ibUsers indexOfItemWithTag:[sparkAction userID]];
+      if (idx >= 0)
+        [ibUsers selectItemAtIndex:idx];
     }
   } else {
     [self setAction:kSystemLogOut];

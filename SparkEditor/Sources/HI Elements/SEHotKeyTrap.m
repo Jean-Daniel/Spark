@@ -222,8 +222,6 @@ static NSImage *_HKCreateShading(NSControlTint tint);
       CGContextSetRGBFillColor(ctxt, 0.2, 0.2, 0.2, 0.35);
       CGContextFillRect(ctxt, CGRectFromNSRect(bounds));
     }
-     
-    CGContextRestoreGState(ctxt);
 
     CGContextSaveGState(ctxt);
     CGContextAddPath(ctxt, field);
@@ -310,7 +308,10 @@ static NSImage *_HKCreateShading(NSControlTint tint);
         } else {
           CGContextSetGrayFillColor(ctxt, 0.789, 1);
         }
-        CGContextAddEllipseInRect(ctxt, CGRectMake(NSMaxX(bounds) - 18.5f, 4, 14, 14));
+        
+        CGContextMoveToPoint(ctxt, NSMaxX(bounds) - 18.5f + 14, 4 + 7);
+        CGContextAddArc(ctxt, NSMaxX(bounds) - 18.5f + 7, 4 + 7, 7, 0, 2 * M_PI, true);
+        //CGContextAddEllipseInRect(ctxt, CGRectMake(NSMaxX(bounds) - 18.5f, 4, 14, 14));
         CGContextFillPath(ctxt);
         
         float length = 3;

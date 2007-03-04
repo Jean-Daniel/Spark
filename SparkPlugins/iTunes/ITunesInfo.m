@@ -159,6 +159,12 @@ BOOL ITunesVisualIsEqualTo(const ITunesVisual *v1, const ITunesVisual *v2) {
 }
 
 #pragma mark -
+SK_INLINE
+void __iTunesGetColorComponents(NSColor *color, float values[]) {
+  color = [color colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
+  [color getRed:&values[0] green:&values[1] blue:&values[2] alpha:&values[3]];
+}
+
 - (void)getVisual:(ITunesVisual *)visual {
   bzero(visual, sizeof(*visual));
   /* Get delay */
@@ -169,7 +175,7 @@ BOOL ITunesVisualIsEqualTo(const ITunesVisual *v1, const ITunesVisual *v2) {
   /* Get shadow */
   visual->shadow = [[self window] hasShadow];
   /* Get text color */
-  [[[self textColor] colorUsingColorSpaceName:NSCalibratedRGBColorSpace] getComponents:visual->text];
+  __iTunesGetColorComponents([self textColor], visual->text);
   [(id)[[self window] contentView] getVisual:visual];
 }
 
@@ -422,14 +428,14 @@ void iTunesShadingFunction(void *pinfo, const float *in, float *out) {
 }
 
 - (void)setBorderColor:(NSColor *)aColor {
-  [[aColor colorUsingColorSpaceName:NSCalibratedRGBColorSpace] getComponents:border];
+  __iTunesGetColorComponents(aColor, border);
   [self setNeedsDisplay:YES];
 }
 - (NSColor *)backgroundColor {
   return [NSColor colorWithCalibratedRed:info.end[0] green:info.end[1] blue:info.end[2] alpha:info.end[3]];
 }
 - (void)setBackgroundColor:(NSColor *)aColor {
-  [[aColor colorUsingColorSpaceName:NSCalibratedRGBColorSpace] getComponents:info.end];
+  __iTunesGetColorComponents(aColor, info.end);
   info.start[0] = 0.75 + info.end[0] * 0.25;
   info.start[1] = 0.75 + info.end[1] * 0.25;
   info.start[2] = 0.75 + info.end[2] * 0.25;
@@ -441,7 +447,7 @@ void iTunesShadingFunction(void *pinfo, const float *in, float *out) {
   return [NSColor colorWithCalibratedRed:info.start[0] green:info.start[1] blue:info.start[2] alpha:info.start[3]];
 }
 - (void)setBackgroundTopColor:(NSColor *)aColor {
-  [[aColor colorUsingColorSpaceName:NSCalibratedRGBColorSpace] getComponents:info.start];
+  __iTunesGetColorComponents(aColor, info.start);
   [self clearShading];
 }
 
@@ -449,7 +455,7 @@ void iTunesShadingFunction(void *pinfo, const float *in, float *out) {
   return [NSColor colorWithCalibratedRed:info.end[0] green:info.end[1] blue:info.end[2] alpha:info.end[3]];
 }
 - (void)setBackgroundBottomColor:(NSColor *)aColor {
-  [[aColor colorUsingColorSpaceName:NSCalibratedRGBColorSpace] getComponents:info.end];
+  __iTunesGetColorComponents(aColor, info.end);
   [self clearShading];
 }
 

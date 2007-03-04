@@ -99,12 +99,8 @@
 - (NSImage *)dragImageForRowsWithIndexes:(NSIndexSet *)dragRows 
                             tableColumns:(NSArray *)tableColumns 
                                    event:(NSEvent*)dragEvent 
-                                  offset:(NSPointPointer)dragImageOffset {
-  NSImage *anImage = [super dragImageForRowsWithIndexes:dragRows
-                                           tableColumns:tableColumns
-                                                  event:dragEvent
-                                                 offset:dragImageOffset];
-  
+                                  offset:(NSPointPointer)dragImageOffset
+                                   image:(NSImage *)anImage {
   if ([tableColumns count] < 2 || ![dragRows count])
     return anImage;
   
@@ -114,7 +110,6 @@
   
   NSSize size = NSMakeSize(width + 1, [anImage size].height + 1);
   [anImage setSize:size];
-  
   
   int idx;
   float offset = MAXFLOAT;
@@ -145,7 +140,7 @@
     NSRectFillUsingOperation(rect, NSCompositeDestinationOver);
     [NSBezierPath strokeRect:rect];
   }
-
+  
   NSImage *badge = [self badgeWithCount:[dragRows count]];
   if ([anImage size].height < [badge size].height) {
     size = NSMakeSize([anImage size].width, [badge size].height);
@@ -155,8 +150,24 @@
   
   CGContextRestoreGState(ctxt);
   [anImage unlockFocus];
-
+  
   return anImage;
+}
+  
+- (NSImage *)dragImageForRowsWithIndexes:(NSIndexSet *)dragRows 
+                            tableColumns:(NSArray *)tableColumns 
+                                   event:(NSEvent*)dragEvent 
+                                  offset:(NSPointPointer)dragImageOffset {
+  NSImage *anImage = [super dragImageForRowsWithIndexes:dragRows
+                                           tableColumns:tableColumns
+                                                  event:dragEvent
+                                                 offset:dragImageOffset];
+  
+  return [self dragImageForRowsWithIndexes:dragRows
+                              tableColumns:tableColumns
+                                     event:dragEvent
+                                    offset:dragImageOffset
+                                     image:anImage];
 }
 
 - (NSImage *)dragImageForRows:(NSArray *)dragRows event:(NSEvent *)dragEvent dragImageOffset:(NSPointPointer)dragImageOffset {
@@ -165,7 +176,12 @@
   while (count-- > 0) {
     [idxes addIndex:[[dragRows objectAtIndex:count] unsignedIntValue]];
   }
-  return [self dragImageForRowsWithIndexes:idxes tableColumns:[self tableColumns] event:dragEvent offset:dragImageOffset];
+  
+  NSImage *anImage = [super dragImageForRows:dragRows
+                                       event:dragEvent
+                             dragImageOffset:dragImageOffset];
+  
+  return [self dragImageForRowsWithIndexes:idxes tableColumns:[self tableColumns] event:dragEvent offset:dragImageOffset image:anImage];
 }
 
 @end

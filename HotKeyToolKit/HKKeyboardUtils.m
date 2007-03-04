@@ -217,7 +217,7 @@ OSStatus HKKeyMapContextWithUchrData(const UCKeyboardLayout *layout, Boolean rev
           tmod[table] = idx;
     } else {
       /* Table overflow, should not append */
-      NSLog(@"WARNING: invalid table idx: %u", idx);
+      WCLog("Invalid Keyboard layout, table %u does not exists", idx);
     }
     idx++;
   }
@@ -281,7 +281,7 @@ OSStatus HKKeyMapContextWithUchrData(const UCKeyboardLayout *layout, Boolean rev
     for (idx=0; idx < records->keyStateRecordCount; idx++) {
       UInt32 code = (UInt32)NSMapGet(deadr, (void *)idx);
       if (0 == code) {
-        NSLog(@"Unreachable block: %u", idx);
+        WCLog("Unreachable block: %u", idx);
       } else {
         const UCKeyStateRecord *record = data + records->keyStateRecordOffsets[idx];
         if (record->stateZeroCharData != 0 && record->stateZeroNextState == 0) {
@@ -329,7 +329,7 @@ OSStatus HKKeyMapContextWithUchrData(const UCKeyboardLayout *layout, Boolean rev
               entry++;
             }
           } else if (kUCKeyStateEntryRangeFormat == record->stateEntryFormat) {
-            NSLog(@"WARNING: Range entry not implemented");
+            WCLog("Range entry not implemented");
           }
         } /* reverse */
       }
@@ -392,6 +392,10 @@ NSUInteger KCHRKeycodesForCharacter(KCHRContext *ctxt, UniChar character, HKKeyc
   NSUInteger count = 0;
   HKKeycode ikeys[2];
   HKModifier imodifiers[2];
+  
+  /* Patch to correctly handle new line */
+  if (character == '\n')
+    character = '\r';
   
   intptr_t chara = character;
   UInt32 d;
@@ -458,7 +462,7 @@ OSStatus HKKeyMapContextWithKCHRData(const void *layout, Boolean reverse, HKKeyM
         tmod[table] = idx;
     } else {
       /* Table overflow, should not append */
-      DLog(@"WARNING: invalid table idx: %u", table);
+      WCLog("Invalid Keyboard layout, table %u does not exists", table);
     }
     idx++;
   }
@@ -491,14 +495,14 @@ OSStatus HKKeyMapContextWithKCHRData(const void *layout, Boolean reverse, HKKeyM
   
   kchr->stats = records ? malloc(sizeof(*kchr->stats) * records) : NULL;
   
-  for (idx=0; idx < records; idx++) {
+  for (idx = 0; idx < records; idx++) {
     UInt16 size = *((UInt16 *)(record + 2));
     UInt8 table = *record;
     UInt8 key = *(record + 1);
     if (table < count) {
       kchr->stats[idx] = __HKUtilsFlatKey(key, tmod[table], 0);
     } else {
-      NSLog(@"Warning: table %i out of bound", table);
+      WCLog("Invalid Keyboard layout, table %u does not exists", table);
     }
     const struct {
       UInt8 previous;
@@ -574,7 +578,7 @@ NSMapTable *_UpgradeToUnicode(ScriptCode script, UInt32 *keys, UInt32 count, Uni
             NSMapInsertIfAbsent(map, (void *)k, (void *)v);
           }
         } else {
-          NSLog(@"Unable to convert char (%i): 0x%x, len: %u", err, idx, len);
+          WCLog("Unable to convert char (%i): 0x%x, len: %u", err, idx, len);
         }
       }
     }

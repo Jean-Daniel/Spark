@@ -344,7 +344,7 @@ static SparkApplication *sSystem = nil;
 bail:
   [library release];
   
-  if (outError && !*outError) *outError = [NSError errorWithDomain:NSCocoaErrorDomain code:-1 userInfo:nil];
+  if (outError && !*outError) *outError = [NSError errorWithDomain:kSparkErrorDomain code:-1 userInfo:nil];
   return nil;
 }
 
@@ -460,12 +460,45 @@ bail:
     result = YES;
   }
   
-  /* Load Finder Application (if needed) */
   if (result) {
     SKSetFlag(sp_slFlags.loaded, YES);
+    
+    SparkObject *object;
+    NSMutableArray *invalids = nil;
+    SparkEntryManager *manager = [self entryManager];
+    
+    /* Actions */
+    NSEnumerator *objects = [[self actionSet] objectEnumerator];
+    while (object = [objects nextObject]) {
+      if (![manager containsEntryForAction:[object uid]]) {
+        if (!invalids) invalids = [[NSMutableArray alloc] init];
+        [invalids addObject:object];
+      }
+    }
+    if (invalids) {
+      [[self actionSet] removeObjectsInArray:invalids];
+      DLog(@"Remove orphans actions: %@", invalids);
+      [invalids release];
+      invalids = nil;
+    }
+    
+    /* Triggers */
+    objects = [[self triggerSet] objectEnumerator];
+    while (object = [objects nextObject]) {
+      if (![manager containsEntryForTrigger:[object uid]]) {
+        if (!invalids) invalids = [[NSMutableArray alloc] init];
+        [invalids addObject:object];
+      }
+    }
+    if (invalids) {
+      [[self triggerSet] removeObjectsInArray:invalids];
+      DLog(@"Remove orphans triggers: %@", invalids);
+      [invalids release];
+    }
   } else {
     [self unload];
   }
+  
   return result;
 }
 
@@ -503,7 +536,6 @@ bail:
   DLog(@"Loading Version 1.0 Library");
   /* Load HotKey items. Create trigger with internal values, and create entries with Application to Action Map */
   CFMutableSetRef actions = CFSetCreateMutable( kCFAllocatorDefault, 0, &kSKIntSetCallBacks);
-  CFMutableSetRef triggers = CFSetCreateMutable( kCFAllocatorDefault, 0, &kSKIntSetCallBacks);
   
   UInt32 finder = 0;
   NSArray *objects = nil;
@@ -574,7 +606,6 @@ bail:
         if (act || app && (act == 0 || !CFSetContainsValue(actions, (void *)act))) {
           [sp_relations addEntryWithAction:act trigger:trg application:app enabled:enabled];
           CFSetAddValue(actions, (void *)act);
-          CFSetAddValue(triggers, (void *)trg);
         }
       }
     } else {
@@ -631,26 +662,8 @@ bail:
     }
   }
   
-  {
-    /* Cleanup */
-    SparkTrigger *trigger = nil;
-    NSMutableArray *tmp = [[NSMutableArray alloc] init];
-    enumerator = [[self triggerSet] objectEnumerator];
-    while (trigger = [enumerator nextObject]) {
-      if (!CFSetContainsValue(triggers, (void *)[trigger uid])) {
-        [tmp addObject:trigger];
-      }
-    }
-    if ([tmp count]) {
-      DLog(@"Remove invalid triggers: %@", tmp);
-      [[self triggerSet] removeObjectsInArray:tmp];
-    }
-    [tmp release];
-  }
-  
   [sp_relations postProcess];
   
-  CFRelease(triggers);
   CFRelease(actions);
   return YES;
 }

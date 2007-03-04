@@ -155,6 +155,7 @@ NSString * const kSystemUserNameKey = @"SystemUserName";
     case kSystemSwitchPolarity:
     case kSystemSwitchGrayscale:
       /* System Event */
+    case kSystemEject:
     case kSystemEmptyTrash:
     case kSystemKeyboardViewer:
       /* Sound */
@@ -204,6 +205,9 @@ NSString * const kSystemUserNameKey = @"SystemUserName";
       [self toggleGray];
       break;
       
+    case kSystemEject:
+      SKHIDPostSystemDefinedEvent(kSKHIDEjectKey);
+      break;
     case kSystemEmptyTrash:
       [self emptyTrash];
       break;
@@ -487,6 +491,11 @@ NSUInteger __SystemBrightnessLevelForValue(float value) {
   }
 }
 
++ (BOOL)supportBrightness {
+  float value = 0;
+  return kCGErrorSuccess == SKIODisplayGetFloatParameter(kSystemBrightnessKey, &value);
+}
+
 - (void)brightnessUp {
   float value = 0;
   OSStatus err = SKIODisplayGetFloatParameter(kSystemBrightnessKey, &value);
@@ -586,8 +595,8 @@ OSType SystemActionFromFlag(int flag) {
     [action setVersion:0x100];
     [action setActionDescription:SystemActionDescription(action)];
     
-    if (![self shouldSaveIcon]) {
-      [self setIcon:nil];
+    if (![action shouldSaveIcon]) {
+      [action setIcon:nil];
     }
   }
   return action;
@@ -622,6 +631,9 @@ NSImage *SystemActionIcon(SystemAction *anAction) {
       break;
     case kSystemSwitchPolarity:
       icon = @"SysSwitchPolarity";
+      break;
+    case kSystemEject:
+      icon = @"SysEject";
       break;
     case kSystemEmptyTrash:
       icon = @"SysTrash";
@@ -697,6 +709,10 @@ NSString *SystemActionDescription(SystemAction *anAction) {
     case kSystemSwitchPolarity:
       desc = NSLocalizedStringFromTableInBundle(@"DESC_SWITCH_POLARITY", nil, kSystemActionBundle,
                                                 @"Switch Polarity * Action Description *");
+      break;
+    case kSystemEject:
+      desc = NSLocalizedStringFromTableInBundle(@"DESC_EJECT", nil, kSystemActionBundle,
+                                                @"Eject - Action Description");
       break;
     case kSystemEmptyTrash:
       desc = NSLocalizedStringFromTableInBundle(@"DESC_EMPTY_TRASH", nil, kSystemActionBundle,

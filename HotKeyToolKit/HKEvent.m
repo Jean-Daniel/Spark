@@ -59,7 +59,7 @@ void _HKEventPostKeystroke(HKKeycode keycode, HKModifier modifier, CGEventSource
   BOOL isource = NO;
   if (!source) {
     isource = YES;
-    source = CGEventSourceCreate(kCGEventSourceStatePrivate);
+    source = HKEventCreatePrivateSource();
   }
   
   /* Sending Modifier Keydown events */
@@ -102,7 +102,7 @@ void _HKEventPostKeystroke(HKKeycode keycode, HKModifier modifier, CGEventSource
     __HKEventPostKeyboardEvent(source, kVirtualCapsLockKey, psn, NO);
   }
   
-  if (isource) {
+  if (isource && source) {
     CFRelease(source);
   }
 }
@@ -111,20 +111,19 @@ static
 Boolean _HKEventPostCharacterKeystrokes(UniChar character, CGEventSourceRef source, void *psn) {
   /* WARNING: look like CGEvent does not support null source */
   BOOL isource = NO; /* YES if internal source and should be released */ 
-  if (!source && CGEventSourceCreate != NULL) {
+  if (!source) {
     isource = YES;
-    source = CGEventSourceCreate(kCGEventSourceStatePrivate);
+    source = HKEventCreatePrivateSource();
   }
   
   HKKeycode keys[8];
   HKModifier mods[8];
-  unsigned i = 0;
   NSUInteger count = HKMapGetKeycodesAndModifiersForUnichar(character, keys, mods, 8);
-  for (i=0; i < count; i++) {
-    _HKEventPostKeyStroke(keys[i], mods[i], source, psn);
+  for (NSUInteger idx = 0; idx < count; idx++) {
+    _HKEventPostKeyStroke(keys[idx], mods[idx], source, psn);
   }
   
-  if (isource) {
+  if (isource && source) {
     CFRelease(source);
   }
   
@@ -132,6 +131,10 @@ Boolean _HKEventPostCharacterKeystrokes(UniChar character, CGEventSourceRef sour
 }
 
 #pragma mark API
+CGEventSourceRef HKEventCreatePrivateSource() {
+  return CGEventSourceCreate ? CGEventSourceCreate(kCGEventSourceStatePrivate) : NULL;
+}
+
 void HKEventPostKeystroke(HKKeycode keycode, HKModifier modifier, CGEventSourceRef source) {
   _HKEventPostKeyStroke(keycode, modifier, source, NULL);
 }

@@ -317,7 +317,7 @@
     [self didInvoke:repeat];
     SKSetFlag(hk_hkFlags.repeat, NO);
   } else {
-    DLog(@"WARNING: Recursive call in %@", self);
+    WLog(@"Recursive call in %@", self);
     // Maybe resend event ?
   }
 }

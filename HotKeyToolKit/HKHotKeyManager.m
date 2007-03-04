@@ -11,7 +11,12 @@
 #import "HKHotKey.h"
 
 #include <Carbon/Carbon.h>
+
+#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_4
 #include <libkern/OSAtomic.h>
+#else
+#define OSAtomicIncrement32(ptr)  *ptr = *ptr + 1
+#endif
 
 #import "HKHotKeyManager.h"
 #import "HKHotKeyRegister.h"

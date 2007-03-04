@@ -123,6 +123,11 @@
    */
 - (BOOL)shouldSaveIcon;
 
+/*!
+  @abstract Object Icon not found in icon cache.
+*/
+- (NSImage *)iconCacheMiss;
+
   /*!
     @method     isEqualToLibraryObject:
    @abstract   Return YES if <i>object</i> represents the same object than the receiver, wherever the values

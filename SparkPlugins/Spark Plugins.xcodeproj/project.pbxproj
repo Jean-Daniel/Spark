@@ -49,6 +49,7 @@
 		980D926206E61DB80038EE2A /* DocumentAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 980D926106E61DB80038EE2A /* DocumentAction.h */; };
 		98328828079602CC00DB780A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 		9832882E079602EC00DB780A /* Labo.m in Sources */ = {isa = PBXBuildFile; fileRef = 9832882D079602EC00DB780A /* Labo.m */; };
+		983332F60B999A3F00801842 /* SysEject.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 983332F50B999A3F00801842 /* SysEject.tiff */; };
 		983974FE0A58637400F79B40 /* SystemActionPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 983974FC0A58637400F79B40 /* SystemActionPlugin.m */; };
 		983974FF0A58637400F79B40 /* SystemAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 983974FD0A58637400F79B40 /* SystemAction.m */; };
 		983975020A58638500F79B40 /* SystemActionPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 983975000A58638500F79B40 /* SystemActionPlugin.h */; };
@@ -310,8 +311,9 @@
 		981B624209386E340024C0D9 /* ShadowDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowDebug.xcconfig; sourceTree = "<group>"; };
 		981B624309386E340024C0D9 /* ShadowRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowRelease.xcconfig; sourceTree = "<group>"; };
 		981B624509386E340024C0D9 /* ShadowUniversal.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowUniversal.xcconfig; sourceTree = "<group>"; };
-		9832875F079602BE00DB780A /* Labo */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "compiled.mach-o.executable"; path = Labo; sourceTree = BUILT_PRODUCTS_DIR; };
+		9832875F079602BE00DB780A /* Labo */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Labo; sourceTree = BUILT_PRODUCTS_DIR; };
 		9832882D079602EC00DB780A /* Labo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Labo.m; sourceTree = "<group>"; };
+		983332F50B999A3F00801842 /* SysEject.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SysEject.tiff; sourceTree = "<group>"; };
 		983974FC0A58637400F79B40 /* SystemActionPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemActionPlugin.m; sourceTree = "<group>"; };
 		983974FD0A58637400F79B40 /* SystemAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemAction.m; sourceTree = "<group>"; };
 		983975000A58638500F79B40 /* SystemActionPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemActionPlugin.h; sourceTree = "<group>"; };
@@ -639,6 +641,7 @@
 		984AB98F0B19FCDF00DA2DD0 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				983332F50B999A3F00801842 /* SysEject.tiff */,
 				984704CF0B6D0F8F009419B5 /* SysMute.pdf */,
 				984704D30B6D0F8F009419B5 /* SysSleep.tiff */,
 				984704EA0B6D0FB5009419B5 /* SysTrash.tiff */,
@@ -1329,6 +1332,7 @@
 				984704E90B6D0F90009419B5 /* SysKeyboard.tiff in Resources */,
 				984704EB0B6D0FB5009419B5 /* SysTrash.tiff in Resources */,
 				98DE6FE30B978FEC0090AD9A /* SysBrightness.pdf in Resources */,
+				983332F60B999A3F00801842 /* SysEject.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

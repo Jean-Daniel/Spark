@@ -19,10 +19,10 @@ typedef enum {
   kSystemSwitchGrayscale = 'Gray', /* 1198678393 */
   kSystemSwitchPolarity  = 'Pola', /* 1349479521 */
   /* System event */
+  kSystemEject           = 'Ejct', /* 1164600180 */
   kSystemEmptyTrash      = 'Epty', /* 1164997753 */
   kSystemKeyboardViewer  = 'KbVi', /* 1264735849 */
-//  kSystemMute,
-//  kSystemEject,
+  /* Sound Volume */
   kSystemVolumeUp        = 'VoUp', /* 1450136944 */
   kSystemVolumeDown      = 'VoDo', /* 1450132591 */
   kSystemVolumeMute      = 'Mute', /* 1299543141 */
@@ -77,6 +77,8 @@ NSString * const kSystemActionBundleIdentifier;
 - (void)toggleMute;
 
 /* Brightness */
++ (BOOL)supportBrightness;
+
 - (void)brightnessUp;
 - (void)brightnessDown;
 

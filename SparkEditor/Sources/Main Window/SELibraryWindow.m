@@ -163,6 +163,10 @@
   }
 }
 
+- (IBAction)toggleApplications:(id)sender {
+  [appDrawer toggle:sender];
+}
+
 - (SEEntryList *)selectedList {
   return [ibGroups selectedObject];
 }

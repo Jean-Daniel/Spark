@@ -69,19 +69,6 @@
   [[[uiTypeTable tableColumns] objectAtIndex:0] setHeaderCell:header];
   [header release];
   [uiTypeTable setCornerView:[[[SEHeaderCellCorner alloc] initWithFrame:NSMakeRect(0, 0, 22, 22)] autorelease]];
-  
-  [uiTypeTable setHighlightShading:[NSColor colorWithCalibratedRed:.340f
-                                                             green:.606f
-                                                              blue:.890f
-                                                             alpha:1]
-                            bottom:[NSColor colorWithCalibratedRed:0
-                                                             green:.312f
-                                                              blue:.790f
-                                                             alpha:1]
-                            border:[NSColor colorWithCalibratedRed:.239f
-                                                             green:.482f
-                                                              blue:.855f
-                                                             alpha:1]];
 }
 
 - (void)windowDidLoad {
@@ -395,7 +382,7 @@
     if (SKImplementsSelector(action, @selector(copyWithZone:))) {
       action = [[action copy] autorelease];
     } else {
-      DLog(@"WARNING: %@ does not implements NSCopying.", [action class]);
+      WLog(@"%@ does not implements NSCopying.", [action class]);
       action = [action duplicate];
     }
   } else { /* Other cases, create new action */

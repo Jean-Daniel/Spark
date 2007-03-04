@@ -57,6 +57,7 @@
 - (UInt32)nextUID;
 - (UInt32)currentUID;
 - (void)setCurrentUID:(UInt32)uid;
+
 @end
 
 #pragma mark -

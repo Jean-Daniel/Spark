@@ -13,6 +13,9 @@
 #import <ShadowKit/SKFunctions.h>
 #import <ShadowKit/SKLSFunctions.h>
 
+
+NSString * const kSparkErrorDomain = @"org.shadowlab.SparkErrorDomain";
+
 NSString * const kSparkFolderName = @"Spark";
 
 NSString * const kSparkEditorHFSCreator = @"Sprk";

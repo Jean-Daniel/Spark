@@ -401,6 +401,14 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
   return icon;
 }
 
+- (NSImage *)iconCacheMiss {
+  NSImage *icon = [aa_application icon];
+  if (icon) {
+    SKImageSetRepresentationsSize(icon, NSMakeSize(16, 16));
+  }
+  return icon;
+}
+
 #pragma mark -
 - (NSString *)path {
   return [aa_application path];

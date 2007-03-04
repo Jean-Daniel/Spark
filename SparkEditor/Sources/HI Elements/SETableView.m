@@ -60,11 +60,23 @@ NSShadow *sHighlightShadow = nil;
 
 - (NSImage *)highlightedCellColor {
   static NSImage *highlighted = nil;
-  @synchronized ([SETableView class]) {
-    if (nil == highlighted) {
-      highlighted = [[NSImage imageNamed:@"Highlight"] retain];
-      [highlighted setFlipped:YES];
-    }
+  if (!highlighted) {
+    highlighted = [[NSImage imageNamed:@"Highlight"] retain];
+    [highlighted setFlipped:YES];
+  }
+  if (!se_highlight) {
+    [self setHighlightShading:[NSColor colorWithCalibratedRed:.340f
+                                                        green:.606f
+                                                         blue:.890f
+                                                        alpha:1]
+                       bottom:[NSColor colorWithCalibratedRed:0
+                                                        green:.312f
+                                                         blue:.790f
+                                                        alpha:1]
+                       border:[NSColor colorWithCalibratedRed:.239f
+                                                        green:.482f
+                                                         blue:.855f
+                                                        alpha:1]];
   }
   return ([[self window] isKeyWindow] && [[self window] firstResponder] == self) ? se_highlight : highlighted;
 }

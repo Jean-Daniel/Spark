@@ -11,7 +11,6 @@
 #import <SparkKit/SparkFunctions.h>
 #import <SparkKit/SparkIconManager.h>
 
-#import <libkern/OSAtomic.h>
 #import <ShadowKit/SKCFContext.h>
 #import <ShadowKit/SKEnumerator.h>
 #import <ShadowKit/SKSerialization.h>
@@ -357,7 +356,8 @@ bail:
 #pragma mark -
 #pragma mark UID Management
 - (UInt32)nextUID {
-  return OSAtomicIncrement32((int32_t *)&sp_uid);
+  sp_uid++;
+  return sp_uid;
 }
 
 - (UInt32)currentUID {

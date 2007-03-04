@@ -386,7 +386,7 @@ typedef struct {
       break;
     default:
       DLog(@"Invalid header");
-      if (outError) *outError = [NSError errorWithDomain:NSCocoaErrorDomain
+      if (outError) *outError = [NSError errorWithDomain:kSparkErrorDomain
                                                     code:-1
                                                 userInfo:nil];
         return NO;
@@ -394,7 +394,7 @@ typedef struct {
   
   if (SparkReadField(header->version) != 0) {
     DLog(@"Unsupported version: %x", SparkReadField(header->version));
-    if (outError) *outError = [NSError errorWithDomain:NSCocoaErrorDomain
+    if (outError) *outError = [NSError errorWithDomain:kSparkErrorDomain
                                                   code:-2
                                               userInfo:nil];
     return NO;
@@ -403,7 +403,7 @@ typedef struct {
   UInt32 count = SparkReadField(header->count);
   if ([data length] < count * sizeof(SparkLibraryEntry) + sizeof(SparkEntryHeader)) {
     DLog(@"Unexpected end of file");
-    if (outError) *outError = [NSError errorWithDomain:NSCocoaErrorDomain
+    if (outError) *outError = [NSError errorWithDomain:kSparkErrorDomain
                                                   code:-3
                                               userInfo:nil];
     return NO;
@@ -427,9 +427,9 @@ typedef struct {
 }
 
 - (void)postProcess {
-  CFIndex idx = CFArrayGetCount(sp_entries) -1;
+  CFIndex idx = CFArrayGetCount(sp_entries);
   /* Resolve Ignore Actions */
-  while (idx >= 0) {
+  while (idx-- > 0) {
     SparkLibraryEntry *entry = (SparkLibraryEntry *)CFArrayGetValueAtIndex(sp_entries, idx);
     if (!entry->action) {
       SparkLibraryEntry *global = [self libraryEntryForTrigger:entry->trigger application:kSparkApplicationSystemUID];
@@ -439,21 +439,25 @@ typedef struct {
       DLog(@"Remove Invalid Ignore entry.");
       [self removeLibraryEntry:entry];
     }
-    idx--;
   }
   
   /* Check all triggers and actions */
-  idx = CFArrayGetCount(sp_entries) -1;
+  idx = CFArrayGetCount(sp_entries);
   SparkObjectSet *actions = [[self library] actionSet];
   SparkObjectSet *triggers = [[self library] triggerSet];
   SparkObjectSet *applications = [[self library] applicationSet];
   SparkActionLoader *loader = [SparkActionLoader sharedLoader];
   /* Resolve Ignore Actions */
-  while (idx >= 0) {
+  while (idx-- > 0) {
     SparkLibraryEntry *entry = (SparkLibraryEntry *)CFArrayGetValueAtIndex(sp_entries, idx);
     NSAssert(entry != NULL, @"Illegale null entry");
     SparkAction *action = [actions objectWithUID:entry->action];
     
+    /* Invalid entry if: 
+      - action does not exists.
+      - trigger does not exists.
+      - application does not exists.
+      */
     if (!action || ![triggers containsObjectWithUID:entry->trigger] || 
         (entry->application != kSparkApplicationSystemUID && ![applications containsObjectWithUID:entry->application])) {
       DLog(@"Remove Illegal entry { %u, %u, %u }", entry->action, entry->trigger, entry->application);
@@ -471,7 +475,6 @@ typedef struct {
       if (plugin)
         SparkLibraryEntrySetPlugged(entry, [plugin isEnabled]);
     }
-    idx--;
   }
 }
 
@@ -484,4 +487,32 @@ typedef struct {
   [self addLibraryEntry:&entry];
 }
 
+#pragma mark Debug
+- (void)dumpEntries {
+  SparkLibrary *library = [self library];
+  CFIndex idx = CFArrayGetCount(sp_entries);
+  fprintf(stderr, "Entries: %lu\n {", idx);
+  while (idx-- > 0) {
+    SparkLibraryEntry *entry = (SparkLibraryEntry *)CFArrayGetValueAtIndex(sp_entries, idx);
+
+    SparkAction *action = [[library actionSet] objectWithUID:entry->action];
+    fprintf(stderr, "\t- Action (%lu): %s\n", [action uid], [[action name] UTF8String]);
+    
+    SparkTrigger *trigger = [[library triggerSet] objectWithUID:entry->trigger];
+    fprintf(stderr, "\t- Trigger (%lu): %s\n", [trigger uid], [[trigger triggerDescription] UTF8String]);
+    
+    SparkApplication *application = entry->application == kSparkApplicationSystemUID ? 
+      [SparkLibrary systemApplication] : [[library applicationSet] objectWithUID:entry->application];
+    fprintf(stderr, "\t- Application (%lu): %s\n", [application uid], [[application name] UTF8String]);
+    
+    fprintf(stderr, "-----------------\n");
+  }
+  fprintf(stderr, "}\n");
+}
+
 @end
+
+#pragma mark -
+void SparkDumpEntries(SparkLibrary *aLibrary) {
+  [[aLibrary entryManager] dumpEntries];
+}

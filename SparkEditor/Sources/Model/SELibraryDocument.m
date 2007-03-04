@@ -236,10 +236,6 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
   [super canCloseDocumentWithDelegate:delegate shouldCloseSelector:shouldCloseSelector contextInfo:contextInfo];
 }
 
-- (BOOL)revertToSavedFromFile:(NSString *)fileName ofType:(NSString *)type {
-  return [self revertToContentsOfURL:[NSURL fileURLWithPath:fileName] ofType:type error:NULL];
-}
-
 - (BOOL)revertToContentsOfURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError {
   if (outError) *outError = nil;
   
@@ -262,6 +258,10 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
   }
   [library release];
   return NO;
+}
+
+- (BOOL)revertToSavedFromFile:(NSString *)fileName ofType:(NSString *)type {
+  return [self revertToContentsOfURL:[NSURL fileURLWithPath:fileName] ofType:type error:NULL];
 }
 
 #pragma mark -

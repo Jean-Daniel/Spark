@@ -223,19 +223,6 @@ BOOL SEOverwriteFilter(SEEntryList *list, SparkEntry *object, SparkApplication *
   //  rect.size.height += 1;
   //  [[uiTable headerView] setFrame:rect];
   [uiTable registerForDraggedTypes:[NSArray arrayWithObject:SparkEntriesPboardType]];
-  
-  [uiTable setHighlightShading:[NSColor colorWithCalibratedRed:.340f
-                                                         green:.606f
-                                                          blue:.890f
-                                                         alpha:1]
-                        bottom:[NSColor colorWithCalibratedRed:0
-                                                         green:.312f
-                                                          blue:.790f
-                                                         alpha:1]
-                        border:[NSColor colorWithCalibratedRed:.239f
-                                                         green:.482f
-                                                          blue:.855f
-                                                         alpha:1]];
 }
 
 #pragma mark -

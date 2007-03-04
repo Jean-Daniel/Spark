@@ -82,3 +82,7 @@ SK_INLINE
 BOOL SparkLibraryEntryIsOverwrite(const SparkLibraryEntry *entry) {
   return (entry->application);
 }
+
+SK_EXPORT
+void SparkDumpEntries(SparkLibrary *aLibrary);
+

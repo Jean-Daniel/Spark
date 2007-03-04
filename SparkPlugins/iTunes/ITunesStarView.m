@@ -92,7 +92,12 @@ void _ITunesDrawHalfString(NSPoint point, NSColor *color) {
       
       CGRect point = CGRectMake(center - 2 + shift, 7, 3, 3);
       while (rate-- > 0) {
-        CGContextAddEllipseInRect(ctxt, point);
+        CGPoint start = CGPointMake(point.origin.x + point.size.width, point.origin.y + point.size.height / 2);
+        /* move to start */
+        CGContextMoveToPoint(ctxt, start.x, start.y);
+        /* compute center */
+        start.x = point.origin.x + point.size.width / 2;
+        CGContextAddArc(ctxt, start.x, start.y, point.size.width / 2, 0, 2 * M_PI, true);
         point.origin.x += 12;
       }
       CGContextFillPath(ctxt);
@@ -100,7 +105,12 @@ void _ITunesDrawHalfString(NSPoint point, NSColor *color) {
   } else {
     CGRect point = CGRectMake(4 + shift, 7, 3, 3);
     for (unsigned idx = 0; idx < 5; idx++) {
-      CGContextAddEllipseInRect(ctxt, point);
+      CGPoint start = CGPointMake(point.origin.x + point.size.width, point.origin.y + point.size.height / 2);
+      /* move to start */
+      CGContextMoveToPoint(ctxt, start.x, start.y);
+      /* compute center */
+      start.x = point.origin.x + point.size.width / 2;
+      CGContextAddArc(ctxt, start.x, start.y, point.size.width / 2, 0, 2 * M_PI, true);
       point.origin.x += 12;
     }
     CGContextFillPath(ctxt);

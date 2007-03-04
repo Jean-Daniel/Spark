@@ -25,7 +25,7 @@
   ShadowTrace();
 //  [sender setRegistred:NO];
 //  usleep(75000);
-  [sender sendKeystroke];
+//  [sender sendKeystroke];
   
 //  [sender setRegistred:YES];
 }
@@ -33,8 +33,7 @@
 @end
 
 int main(int argc, const char **argv) {
-  HKKeycode keycode = HKMapGetKeycodeAndModifierForUnichar('n', NULL, NULL);
-  UniChar character = 0x00D1; /* 'Ñ' */
+  UniChar character = '\n'; 
   HKKeycode keycodes[8];
   HKModifier modifiers[8];
   NSUInteger count = HKMapGetKeycodesAndModifiersForUnichar(character, keycodes, modifiers, 8);
