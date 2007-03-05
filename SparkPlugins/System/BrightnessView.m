@@ -15,7 +15,7 @@
   CGContextSetGrayFillColor(ctxt, 1, 1);
   CGContextSetGrayStrokeColor(ctxt, 0.5, 1);
   
-  CGContextTranslateCTM(ctxt, 81, 93);
+  CGContextTranslateCTM(ctxt, 82, 93);
   
   CGContextBeginTransparencyLayer(ctxt, NULL);
   

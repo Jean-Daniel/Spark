@@ -49,7 +49,7 @@ enum {
 
 #ifdef DEBUG
 #warning Using Development Spark Library
-NSString * const kSparkLibraryDefaultFileName = @"Spark Library_Debug.splib";
+NSString * const kSparkLibraryDefaultFileName = @"Spark Library - Debug.splib";
 #else
 NSString * const kSparkLibraryDefaultFileName = @"Spark Library.splib";
 #endif

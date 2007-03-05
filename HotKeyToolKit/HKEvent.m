@@ -132,7 +132,11 @@ Boolean _HKEventPostCharacterKeystrokes(UniChar character, CGEventSourceRef sour
 
 #pragma mark API
 CGEventSourceRef HKEventCreatePrivateSource() {
+#if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_4
   return CGEventSourceCreate ? CGEventSourceCreate(kCGEventSourceStatePrivate) : NULL;
+#else
+  return CGEventSourceCreate(kCGEventSourceStatePrivate);
+#endif
 }
 
 void HKEventPostKeystroke(HKKeycode keycode, HKModifier modifier, CGEventSourceRef source) {
