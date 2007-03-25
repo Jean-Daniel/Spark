@@ -265,7 +265,8 @@ void SEServerStartConnection() {
           [connection setStatus:kSparkDaemonStatusDisabled];
         }
       } @catch (id exception) {
-        DLog(@"Error while getting remote library. Try to sync and restart daemon.");
+        SKCLogException(exception);
+        DLog(@"Out of sync remote library. Automatically resyncs library and restarts daemon.");
         [connection restart];
       }
     }

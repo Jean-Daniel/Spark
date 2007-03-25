@@ -223,6 +223,22 @@ void *_SEPreferencesLoginItemThread(void *arg) {
   }
 }
 
+- (BOOL)advanced {
+  BOOL advanced = NO;
+  CFBooleanRef value = CFPreferencesCopyValue(CFSTR("SparkAdvancedSettings"), (CFStringRef)kSparkPreferencesIdentifier, 
+                                              kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
+  if (value) {
+    advanced = CFBooleanGetValue(value);
+    CFRelease(value);
+  }
+  return advanced;
+}
+- (void)setAdvanced:(BOOL)advanced {
+  CFPreferencesSetValue(CFSTR("SparkAdvancedSettings"), advanced ? kCFBooleanTrue : kCFBooleanFalse,
+                        (CFStringRef)kSparkPreferencesIdentifier, 
+                        kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
+}
+
 #pragma mark Single Key Mode
 - (int)singleKeyMode {
   int mode = SparkKeyStrokeFilterMode;

@@ -8,8 +8,10 @@
 
 #import <SparkKit/SparkApplication.h>
 #import <SparkKit/SparkShadowKit.h>
+#import <SparkKit/SparkLibrary.h>
 
 #import <ShadowKit/SKApplication.h>
+#import <ShadowKit/SKProcessFunctions.h>
 #import <ShadowKit/SKAppKitExtensions.h>
 
 static
@@ -192,6 +194,43 @@ NSString * const kSKApplicationIdentifier = @"SKApplicationIdentifier";
 
 @end
 
+#pragma mark SparkLibrary Extension
+@implementation SparkLibrary (SparkLibraryPrivate)
+
+- (SparkApplication *)frontApplication {
+  SparkApplication *front = nil;
+  /* Try signature */
+  OSType sign = SKProcessGetFrontProcessSignature();
+  if (sign && kUnknownType != sign) {
+    SparkApplication *app;
+    NSEnumerator *apps = [[self applicationSet] objectEnumerator];
+    while (app = [apps nextObject]) {
+      if ([app signature] == sign) {
+        front = app;
+        break;
+      }
+    }
+  }
+  /* Try bundle identifier */
+  if (!front) {
+    NSString *bundle = SKProcessGetFrontProcessBundleIdentifier();
+    if (bundle) {
+      SparkApplication *app;
+      NSEnumerator *apps = [[self applicationSet] objectEnumerator];
+      while (app = [apps nextObject]) {
+        if ([[app bundleIdentifier] isEqualToString:bundle]) {
+          front = app;
+          break;
+        }
+      }
+    }
+  }
+  return front;
+}
+
+@end
+
+#pragma mark ShadowKit Extension
 @implementation SKAliasedApplication (SparkSerialization)
 
 - (BOOL)serialize:(NSMutableDictionary *)plist {

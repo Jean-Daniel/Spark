@@ -43,8 +43,18 @@
 - (SparkAlert *)performAction {
   if (ta_str) {
     CGEventSourceRef src = HKEventCreatePrivateSource();
-    for (NSUInteger idx = 0; idx < [ta_str length]; idx++) {
-      HKEventPostCharacterKeystrokes([ta_str characterAtIndex:idx], src);
+    if (src) {
+      /* Use new event API */
+      ProcessSerialNumber psn;
+      GetFrontProcess(&psn);
+      HKEventTarget target = { psn: &psn };
+      for (NSUInteger idx = 0; idx < [ta_str length]; idx++) {
+        HKEventPostCharacterKeystrokesToTarget([ta_str characterAtIndex:idx], target, kHKEventTargetProcess, src);
+      }
+    } else {
+      for (NSUInteger idx = 0; idx < [ta_str length]; idx++) {
+        HKEventPostCharacterKeystrokes([ta_str characterAtIndex:idx], src);
+      }
     }
     if (src)
       CFRelease(src);
@@ -63,6 +73,14 @@
 
 - (void)setString:(NSString *)aString {
   SKSetterRetain(ta_str, aString);
+}
+
+- (TextActionType)action {
+  return ta_type;
+}
+
+- (void)setAction:(TextActionType)action {
+  ta_type = action;
 }
 
 @end

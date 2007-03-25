@@ -72,6 +72,9 @@ NSString * const SparkEntryManagerDidChangeEntryEnabledNotification;
 - (SparkEntry *)entryForTrigger:(UInt32)aTrigger application:(UInt32)anApplication;
 - (SparkAction *)actionForTrigger:(UInt32)aTrigger application:(UInt32)anApplication isActive:(BOOL *)status;
 
+/* Advanced action support */ 
+- (BOOL)isActionActive:(UInt32)anAction forApplication:(UInt32)anApplication;
+
 @end
 
 #pragma mark Serialization

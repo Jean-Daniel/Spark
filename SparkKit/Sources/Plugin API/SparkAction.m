@@ -11,6 +11,7 @@
 #import <SparkKit/SparkAction.h>
 #import <SparkKit/SparkTrigger.h>
 #import <SparkKit/SparkObjectSet.h>
+#import <SparkKit/SparkEntryManager.h>
 #import <SparkKit/SparkActionLoader.h>
 
 #import <ShadowKit/SKSerialization.h>
@@ -177,6 +178,15 @@ static SparkTrigger *sTrigger;
 
 - (NSTimeInterval)repeatInterval {
   return 0;
+}
+
+/* Status */
+- (BOOL)isActive {
+  if (![self isRegistred])
+    return NO;
+  SparkApplication *application = [[self library] frontApplication];
+  return [[[self library] entryManager] isActionActive:[self uid]
+                                        forApplication:application ? [application uid] : kSparkApplicationSystemUID];
 }
 
 - (BOOL)isRegistred {

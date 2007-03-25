@@ -176,6 +176,7 @@ bail:
   if (ia_iaFlags.background) flags |= 1 << 10;
   /* Play/Pause flags */
   if (ia_iaFlags.autorun) flags |= 1 << 11;
+  if (ia_iaFlags.autoinfo) flags |= 1 << 12;
   /* Visual */
   if (ia_iaFlags.show) flags |= 1 << 16;
   flags |= ia_iaFlags.visual << 17;
@@ -204,6 +205,7 @@ bail:
   if (flags & 1 << 10) ia_iaFlags.background = 1; /* bit 10 */
   /* Play/Pause flags */
   if (flags & 1 << 11) ia_iaFlags.autorun = 1; /* bit 11 */
+  if (flags & 1 << 12) ia_iaFlags.autoinfo = 1; /* bit 12 */
   /* Visual */
   if (flags & 1 << 16) ia_iaFlags.show = 1; /* bit 16 */
   ia_iaFlags.visual = (flags >> 17) & 0x3; /* bits 17 and 18 */
@@ -362,24 +364,30 @@ bail:
 }
 
 - (void)displayTrackNotification {
-  iTunesTrack track = SKAEEmptyDesc();
-
-  ITunesInfo *info = [ITunesInfo sharedWindow];
-  if (noErr == iTunesGetCurrentTrack(&track)) {
-    [info setTrack:&track];
-    SKAEDisposeDesc(&track);
-    switch ([self visualMode]) {
-      case kiTunesSettingCustom:
-        if (ia_visual) {
-          [info setVisual:ia_visual];
-          break;
-        }
-        // fall
-      case kiTunesSettingDefault:
-        [info setVisual:[[self class] defaultVisual]];
+  /* Avoid double display. (autoinfo issue) */
+  static CFAbsoluteTime sLastDisplayTime = 0;
+  CFAbsoluteTime absTime = CFAbsoluteTimeGetCurrent();
+  if ((absTime - sLastDisplayTime) > 0.5) {
+    iTunesTrack track = SKAEEmptyDesc();
+    
+    ITunesInfo *info = [ITunesInfo sharedWindow];
+    if (noErr == iTunesGetCurrentTrack(&track)) {
+      [info setTrack:&track];
+      SKAEDisposeDesc(&track);
+      switch ([self visualMode]) {
+        case kiTunesSettingCustom:
+          if (ia_visual) {
+            [info setVisual:ia_visual];
+            break;
+          }
+          // fall
+        case kiTunesSettingDefault:
+          [info setVisual:[[self class] defaultVisual]];
+      }
+      [info display:nil];
     }
-    [info display:nil];
   }
+  sLastDisplayTime = absTime;
 }
 
 - (void)displayInfoIfNeeded {
@@ -496,6 +504,39 @@ bail:
 }
 
 #pragma mark -
+#pragma mark iTunes notification extension
+static
+void iTunesNotificationCallback(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
+  OSType sign = SKProcessGetFrontProcessSignature();
+  /* Doe nothing if iTunes is the front application */
+  if (sign != kiTunesSignature) {
+    if (userInfo) {
+      CFStringRef state = CFDictionaryGetValue(userInfo, CFSTR("Player State"));
+      /* Does nothing if iTunes not playing */
+      if (state && CFEqual(state, CFSTR("Playing"))) {
+        ITunesAction *action = (ITunesAction *)observer;
+        if ([action isActive]) {
+          [action displayTrackNotification];
+        }
+      }
+    }
+  }
+}
+
+- (void)setRegistred:(BOOL)flag {
+  if (ia_action == kiTunesShowTrackInfo && [self autoinfo]) {
+    if (flag) {
+      CFNotificationCenterAddObserver(CFNotificationCenterGetDistributedCenter(), self, iTunesNotificationCallback, 
+                                      CFSTR("com.apple.iTunes.playerInfo"), CFSTR("com.apple.iTunes.player"),
+                                      CFNotificationSuspensionBehaviorDeliverImmediately);
+    } else {
+      CFNotificationCenterRemoveObserver(CFNotificationCenterGetDistributedCenter(), self,
+                                         CFSTR("com.apple.iTunes.playerInfo"), CFSTR("com.apple.iTunes.player"));
+    }
+  }
+  [super setRegistred:flag];
+}
+
 #pragma mark iTunes Action specific Methods
 /****************************************************************************************
 *                             	iTunes Action specific Methods							*

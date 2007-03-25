@@ -68,7 +68,6 @@ SKClassCluster(AppleScriptActionPlugin);
 - (void)loadSparkAction:(id)sparkAction toEdit:(BOOL)edit {
   id value;
   [ibScript setSource:@""];
-  [self setName:[sparkAction name]];
   if (value = [sparkAction scriptAlias]) {
     [self setScriptFile:[value path]];
     [self setValue:SKInt(kAppleScriptFileTab) forKey:@"selectedTab"];

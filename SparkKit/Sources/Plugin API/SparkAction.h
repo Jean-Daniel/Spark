@@ -127,6 +127,8 @@ NSTimeInterval SparkGetDefaultKeyRepeatInterval(void);
    */
 - (NSTimeInterval)repeatInterval;
 
+- (BOOL)isActive;
+
 - (BOOL)isRegistred;
 - (void)setRegistred:(BOOL)flag;
 

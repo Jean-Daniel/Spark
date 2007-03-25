@@ -123,6 +123,8 @@
 		98BB26350A98F22B00124AB9 /* SparkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF7F5108645B7F007BC81A /* SparkKit.framework */; };
 		98BD2E4F0AB6DD2E0063CDEB /* ITunesVisualSetting.h in Headers */ = {isa = PBXBuildFile; fileRef = 98BD2E4E0AB6DD2E0063CDEB /* ITunesVisualSetting.h */; };
 		98BD2E5D0AB6DD480063CDEB /* ITunesVisualSetting.m in Sources */ = {isa = PBXBuildFile; fileRef = 98BD2E5C0AB6DD480063CDEB /* ITunesVisualSetting.m */; };
+		98D748480BB5349600D6AB54 /* TextActionHelp.html in Resources */ = {isa = PBXBuildFile; fileRef = 98D7483D0BB5349600D6AB54 /* TextActionHelp.html */; };
+		98D748490BB5349600D6AB54 /* Help in Resources */ = {isa = PBXBuildFile; fileRef = 98D7483F0BB5349600D6AB54 /* Help */; };
 		98D8E8300B6EB565004C2810 /* iTMusic.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98D8E82F0B6EB565004C2810 /* iTMusic.tiff */; };
 		98DA320F0A8AF6F8009EC42C /* iTunesPlugin.nib in Resources */ = {isa = PBXBuildFile; fileRef = 98DA32090A8AF6F8009EC42C /* iTunesPlugin.nib */; };
 		98DAB9850A90F4E9001F3125 /* SystemPlugin.nib in Resources */ = {isa = PBXBuildFile; fileRef = 98DAB97F0A90F4E9001F3125 /* SystemPlugin.nib */; };
@@ -352,7 +354,7 @@
 		98789CAE0AB48D5A00C35052 /* ITunesInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITunesInfo.h; sourceTree = "<group>"; };
 		98789CB20AB48D8200C35052 /* ITunesInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ITunesInfo.m; sourceTree = "<group>"; };
 		98789DC40AB4A0D900C35052 /* Simulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Simulator.m; sourceTree = "<group>"; };
-		98789DD20AB4A10D00C35052 /* Simulator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Simulator.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		98789DD20AB4A10D00C35052 /* Simulator.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Simulator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		98789DDF0AB4A1D300C35052 /* MainMenu.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = MainMenu.nib; sourceTree = "<group>"; };
 		98789DE80AB4A1EE00C35052 /* Simulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Simulator.h; sourceTree = "<group>"; };
 		9878A0B20AB4BFC100C35052 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; lineEnding = 0; path = Localizable.strings; sourceTree = "<group>"; };
@@ -376,6 +378,8 @@
 		98BA1A0A0A583493004914E9 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; lineEnding = 0; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		98BD2E4E0AB6DD2E0063CDEB /* ITunesVisualSetting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITunesVisualSetting.h; sourceTree = "<group>"; };
 		98BD2E5C0AB6DD480063CDEB /* ITunesVisualSetting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ITunesVisualSetting.m; sourceTree = "<group>"; };
+		98D7483E0BB5349600D6AB54 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = English; path = English.lproj/TextActionHelp.html; sourceTree = "<group>"; };
+		98D748400BB5349600D6AB54 /* English */ = {isa = PBXFileReference; lastKnownFileType = folder; name = English; path = English.lproj/Help; sourceTree = "<group>"; };
 		98D8E82F0B6EB565004C2810 /* iTMusic.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = iTMusic.tiff; sourceTree = "<group>"; };
 		98DA320A0A8AF6F8009EC42C /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Resources/English.lproj/iTunesPlugin.nib; sourceTree = "<group>"; };
 		98DAB9800A90F4E9001F3125 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Resources/English.lproj/SystemPlugin.nib; sourceTree = "<group>"; };
@@ -694,6 +698,8 @@
 				9897CEFC0B10F6AD00C0EF9E /* add_mini_down.tiff */,
 				9897CEFB0B10F6AD00C0EF9E /* remove_mini.tiff */,
 				9897CEFE0B10F6AD00C0EF9E /* remove_mini_down.tiff */,
+				98D7483F0BB5349600D6AB54 /* Help */,
+				98D7483D0BB5349600D6AB54 /* TextActionHelp.html */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -1303,6 +1309,8 @@
 				9897CF000B10F6AD00C0EF9E /* add_mini_down.tiff in Resources */,
 				9897CF010B10F6AD00C0EF9E /* add_mini.tiff in Resources */,
 				9897CF020B10F6AD00C0EF9E /* remove_mini_down.tiff in Resources */,
+				98D748480BB5349600D6AB54 /* TextActionHelp.html in Resources */,
+				98D748490BB5349600D6AB54 /* Help in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1566,6 +1574,22 @@
 				98BA1A0A0A583493004914E9 /* English */,
 			);
 			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		98D7483D0BB5349600D6AB54 /* TextActionHelp.html */ = {
+			isa = PBXVariantGroup;
+			children = (
+				98D7483E0BB5349600D6AB54 /* English */,
+			);
+			name = TextActionHelp.html;
+			sourceTree = "<group>";
+		};
+		98D7483F0BB5349600D6AB54 /* Help */ = {
+			isa = PBXVariantGroup;
+			children = (
+				98D748400BB5349600D6AB54 /* English */,
+			);
+			name = Help;
 			sourceTree = "<group>";
 		};
 		98DA32090A8AF6F8009EC42C /* iTunesPlugin.nib */ = {

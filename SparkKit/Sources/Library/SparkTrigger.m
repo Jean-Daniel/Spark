@@ -105,10 +105,11 @@ static SparkAction *sp_spAction = nil;
     NSUInteger idx = [entries count];
     while (idx-- > 0) {
       SparkEntry *entry = [entries objectAtIndex:idx];
-      if ([entry isActive])
+      if ([entry isActive] && XOR(flag, [[entry action] isRegistred])) {
         [[entry action] setRegistred:flag];
-      else if (!flag && [[entry action] isRegistred])
+      } else if (!flag && [[entry action] isRegistred]) {
         [[entry action] setRegistred:NO];
+      }
     }
   }
   return NO;

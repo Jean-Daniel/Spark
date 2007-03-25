@@ -7,6 +7,7 @@
  */
 
 #import <SparkKit/SparkAction.h>
+#import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkActionPlugIn.h>
 
 @interface SparkActionPlugIn (Private)
@@ -51,4 +52,8 @@
 
 - (SparkAlert *)hotKeyShouldExecuteAction:(SparkHotKey *)hotkey;
 
+@end
+
+@interface SparkLibrary (SparkLibraryPrivate)
+- (SparkApplication *)frontApplication;
 @end

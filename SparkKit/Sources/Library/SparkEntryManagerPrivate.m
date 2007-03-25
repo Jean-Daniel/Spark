@@ -124,36 +124,37 @@ void SparkLibraryEntryInitFlags(SparkLibraryEntry *lentry, SparkEntry *entry) {
   
   /* Make sure we are using internal storage pointer */
   anEntry = (SparkLibraryEntry *)CFSetGetValue(sp_set, anEntry);
-  if (anEntry) {
-    UInt32 action = anEntry->action;
-    UInt32 trigger = anEntry->trigger;
-    
-    /* Should update Set too */
-    BOOL update = NO;
-    if (_SparkEntryHash(anEntry) != _SparkEntryHash(newEntry)) {
-      update = YES;
-      CFSetRemoveValue(sp_set, anEntry);
-    }
-    
-    /* Copy all values */
-    *anEntry = *newEntry;
-    
-    if (update)
-      CFSetAddValue(sp_set, anEntry);
-    
-    /* Remove orphan action */
-    if (action != newEntry->action && ![self containsEntryForAction:action]) {
-      SparkAction *act = [[[self library] actionSet] objectWithUID:action];
-      if ([act isRegistred])
-        [act setRegistred:NO];
-      [[[self library] actionSet] removeObjectWithUID:action];
-    } else {
-      [self checkActionRegistration:anEntry];
-    }
-    /* Update trigger */
-    [self checkTriggerValidity:trigger];
-    [self checkActionRegistration:newEntry];
+  if (!anEntry)
+    [NSException raise:NSInternalInconsistencyException format:@"Requested entry does not exists"];
+  
+  UInt32 action = anEntry->action;
+  UInt32 trigger = anEntry->trigger;
+  
+  /* Should update Set too */
+  BOOL update = NO;
+  if (_SparkEntryHash(anEntry) != _SparkEntryHash(newEntry)) {
+    update = YES;
+    CFSetRemoveValue(sp_set, anEntry);
   }
+  
+  /* Copy all values */
+  *anEntry = *newEntry;
+  
+  if (update)
+    CFSetAddValue(sp_set, anEntry);
+  
+  /* Remove orphan action */
+  if (action != newEntry->action && ![self containsEntryForAction:action]) {
+    SparkAction *act = [[[self library] actionSet] objectWithUID:action];
+    if ([act isRegistred])
+      [act setRegistred:NO];
+    [[[self library] actionSet] removeObjectWithUID:action];
+  } else {
+    [self checkActionRegistration:anEntry];
+  }
+  /* Update trigger */
+  [self checkTriggerValidity:trigger];
+  [self checkActionRegistration:newEntry];
 }
 
 - (void)removeLibraryEntry:(const SparkLibraryEntry *)anEntry {  
@@ -192,9 +193,10 @@ void SparkLibraryEntryInitFlags(SparkLibraryEntry *lentry, SparkEntry *entry) {
   NSParameterAssert(anEntry != NULL);
   /* Make sure we are using internal storage pointer */
   anEntry = (SparkLibraryEntry *)CFSetGetValue(sp_set, anEntry);
-  if (anEntry) {
-    SparkLibraryEntrySetEnabled(anEntry, flag);
-  }
+  if (!anEntry)
+    [NSException raise:NSInternalInconsistencyException format:@"Requested entry does not exists"];
+  
+  SparkLibraryEntrySetEnabled(anEntry, flag);
   [self checkActionRegistration:anEntry];
 }
 
@@ -207,6 +209,8 @@ void SparkLibraryEntryInitFlags(SparkLibraryEntry *lentry, SparkEntry *entry) {
   NSParameterAssert(anEntry != NULL);
   /* Make sure we are using internal storage pointer */
   anEntry = (SparkLibraryEntry *)CFSetGetValue(sp_set, anEntry);
+  if (!anEntry)
+    [NSException raise:NSInternalInconsistencyException format:@"Requested entry does not exists"];
   
   SparkAction *action = [[[self library] actionSet] objectWithUID:anEntry->action];
   SparkTrigger *trigger = [[[self library] triggerSet] objectWithUID:anEntry->trigger];

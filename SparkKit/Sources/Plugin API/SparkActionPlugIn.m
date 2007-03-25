@@ -52,20 +52,37 @@
 - (void)pluginViewDidBecomeHidden {}
 
 #pragma mark Accessors
-- (NSString *)name {
-  return [sp_action name];
+- (id)valueForUndefinedKey:(NSString *)key {
+  if ([key isEqualToString:@"name"]) {
+    WLog(@"%@ use deprecated KVC getter: name", [self class]);
+    return [sp_action name];
+  } else if ([key isEqualToString:@"icon"]) {
+    WLog(@"%@ use deprecated KVC getter: icon", [self class]);
+    return [sp_action icon];
+  }
+  return [super valueForUndefinedKey:key];
 }
 
-- (void)setName:(NSString *)name {
-  [sp_action setName:name];
+- (void)setValue:(id)value forUndefinedKey:(NSString *)key {
+  if ([key isEqualToString:@"name"]) {
+    WLog(@"%@ use deprecated KVC setter: name", [self class]);
+    return [sp_action setName:value];
+  } else if ([key isEqualToString:@"icon"]) {
+    WLog(@"%@ use deprecated KVC setter: icon", [self class]);
+    return [sp_action setIcon:value];
+  }
+  return [super setValue:value forUndefinedKey:key];
 }
 
-- (NSImage *)icon {
-  return [sp_action icon];
-}
-
-- (void)setIcon:(NSImage *)icon {
-  [sp_action setIcon:icon];
+- (BOOL)displaysAdvancedSettings {
+  BOOL advanced = NO;
+  CFBooleanRef value = CFPreferencesCopyValue(CFSTR("SparkAdvancedSettings"), (CFStringRef)kSparkPreferencesIdentifier, 
+                                              kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
+  if (value) {
+    advanced = CFBooleanGetValue(value);
+    CFRelease(value);
+  }
+  return advanced;
 }
 
 #pragma mark -

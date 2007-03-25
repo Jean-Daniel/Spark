@@ -87,30 +87,8 @@ If you use this class in IB, you can define an Outlet with name actionView.
 - (void)pluginViewDidBecomeHidden;
 
 #pragma mark -
-#pragma mark Convenient Accessors
-  /*!
-  @method
-   @abstract Returns the receiver <i>sparkAction</i> name.
-   */
-- (NSString *)name;
-  /*!
-  @method
-   @abstract Set the receiver <i>sparkAction</i> name.
-   @param name The new name.
-   */
-- (void)setName:(NSString *)name;
-
-  /*!
-  @method
-   @abstract Returns the receiver <i>sparkAction</i> icon.
-   */
-- (NSImage *)icon;
-  /*!
-  @method
-   @abstract Sets the receiver <i>sparkAction</i> icon.
-   @param icon The new icon or nil if you want to use default action icon.
-   */
-- (void)setIcon:(NSImage *)icon;
+#pragma mark Advanced
+- (BOOL)displaysAdvancedSettings;
 
 @end
 

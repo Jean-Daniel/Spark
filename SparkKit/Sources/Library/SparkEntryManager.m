@@ -291,5 +291,24 @@ NSString * const SparkEntryManagerDidChangeEntryEnabledNotification = @"SparkEnt
   return nil;
 }
 
+- (BOOL)isActionActive:(UInt32)anAction forApplication:(UInt32)anApplication {
+  BOOL enabled = NO;
+  UInt32 count = CFArrayGetCount(sp_entries);
+  while (count-- > 0) {
+    const SparkLibraryEntry *entry = CFArrayGetValueAtIndex(sp_entries, count);
+    if (entry->action == anAction) {
+      if (entry->application == anApplication) {
+        /* Set specific */
+        enabled = SparkLibraryEntryIsActive(entry);
+        break;
+      } else if (entry->application == kSparkApplicationSystemUID) {
+        /* Set default */
+        enabled = SparkLibraryEntryIsActive(entry);
+      }
+    }
+  }
+  return enabled;
+}
+
 @end
 

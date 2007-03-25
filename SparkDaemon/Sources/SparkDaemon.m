@@ -33,7 +33,7 @@
 
 int main(int argc, const char *argv[]) {
 #if defined (DEBUG)
-  SKAEDebug = YES;
+  //SKAEDebug = YES;
   HKTraceHotKeyEvents = YES;
   SparkLogSynchronization = YES;
 #endif
@@ -301,37 +301,6 @@ BOOL sIsProcessingEvent = NO;
   }
 }
 
-- (SparkApplication *)frontApplication {
-  SparkApplication *front = nil;
-  /* Try signature */
-  OSType sign = SKProcessGetFrontProcessSignature();
-  if (sign && kUnknownType != sign) {
-    SparkApplication *app;
-    NSEnumerator *apps = [[sd_library applicationSet] objectEnumerator];
-    while (app = [apps nextObject]) {
-      if ([app signature] == sign) {
-        front = app;
-        break;
-      }
-    }
-  }
-  /* Try bundle identifier */
-  if (!front) {
-    NSString *bundle = SKProcessGetFrontProcessBundleIdentifier();
-    if (bundle) {
-      SparkApplication *app;
-      NSEnumerator *apps = [[sd_library applicationSet] objectEnumerator];
-      while (app = [apps nextObject]) {
-        if ([[app bundleIdentifier] isEqualToString:bundle]) {
-          front = app;
-          break;
-        }
-      }
-    }
-  }
-  return front;
-}
-
 - (IBAction)executeTrigger:(SparkTrigger *)trigger {
   Boolean trapping;
   SparkAlert *alert = nil;
@@ -349,7 +318,7 @@ BOOL sIsProcessingEvent = NO;
     SparkAction *action = nil;
     /* If action depends front application */
     if ([trigger hasManyAction]) {      
-      SparkApplication *front = [self frontApplication];
+      SparkApplication *front = [sd_library frontApplication];
       if (front) {
         /* Get action for front application */
         action = [[sd_library entryManager] actionForTrigger:[trigger uid] application:[front uid] isActive:&status];

@@ -154,7 +154,7 @@ static SparkApplication *sSystem = nil;
 }
 
 #pragma mark -
-#pragma mark Objects Libraries Accessors
+#pragma mark Library's Objects Accessors
 - (SparkObjectSet *)listSet {
   return sp_objects[kSparkListSet];
 }
@@ -249,10 +249,11 @@ static SparkApplication *sSystem = nil;
   NSFileWrapper *wrapper = [[NSFileWrapper alloc] initWithPath:[self path]];
   if (wrapper) {
     result = [self loadFromWrapper:wrapper error:error];
+    [wrapper release];
   } else if (error) {
     *error = [NSError errorWithDomain:NSOSStatusErrorDomain code:fnfErr userInfo:nil];
   }
-
+  
   return result;
 }
 
