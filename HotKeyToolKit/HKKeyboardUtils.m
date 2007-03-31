@@ -578,7 +578,7 @@ NSMapTable *_UpgradeToUnicode(ScriptCode script, UInt32 *keys, UInt32 count, Uni
             NSMapInsertIfAbsent(map, (void *)k, (void *)v);
           }
         } else {
-          WCLog("Unable to convert char (%d): 0x%x, len: %u", err, idx, len);
+          WCLog("Unable to convert char (%d): 0x%x, len: %lu", err, idx, len);
         }
       }
     }

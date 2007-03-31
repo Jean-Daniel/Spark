@@ -121,6 +121,10 @@ NSString * const SEServerStatusDidChangeNotification = @"SEServerStatusDidChange
   
   @try {
     se_server = [NSConnection rootProxyForConnectionWithRegisteredName:kSparkConnectionName host:nil];
+    /* Try old name */
+    if (!se_server)
+      se_server = [NSConnection rootProxyForConnectionWithRegisteredName:@"SparkServer" host:nil];
+    
     if (se_server) {
       [se_server retain];
       [se_server setProtocolForProxy:@protocol(SparkServer)];

@@ -12,9 +12,9 @@
 #if defined(__OBJC__)
 
 #if defined(DEBUG)
-#define kSparkConnectionName		@"SparkServer_Debug"
+#define kSparkConnectionName		@"org.shadowlab.spark.server-debug"
 #else
-#define kSparkConnectionName		@"SparkServer"
+#define kSparkConnectionName		@"org.shadowlab.spark.server"
 #endif
 
 @protocol SparkLibrary;
