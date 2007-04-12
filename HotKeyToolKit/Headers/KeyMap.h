@@ -30,9 +30,6 @@ HK_PRIVATE
 HKKeyMapRef HKKeyMapCreateWithName(CFStringRef name, Boolean reverse);
 
 HK_PRIVATE
-HKKeyMapRef HKKeyMapCreateWithIdentifier(SInt32 identifier, Boolean reverse);
-
-HK_PRIVATE
 HKKeyMapRef HKKeyMapCreateWithCurrentLayout(Boolean reverse);
 
 /*!	

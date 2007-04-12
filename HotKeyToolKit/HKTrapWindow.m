@@ -104,7 +104,7 @@ NSString * const kHKTrapWindowKeyCatchedNotification = @"kHKTrapWindowKeyCatched
       [super sendEvent:theEvent];
     } else {
       HKKeycode code = [theEvent keyCode];
-      HKModifier mask = [theEvent modifierFlags] & NSDeviceIndependentModifierFlagsMask; //0x00ff0000;
+      NSUInteger mask = [theEvent modifierFlags] & NSDeviceIndependentModifierFlagsMask; //0x00ff0000;
       unichar character = 0;
 //#if defined(DEBUG)
 //      NSLog(@"Code: %u, modifier: %x", code, mask);
@@ -116,7 +116,7 @@ NSString * const kHKTrapWindowKeyCatchedNotification = @"kHKTrapWindowKeyCatched
         // DLog(@"Remove caps lock modifier");
       }
       /* If verify and verification return NO */
-      if ([self verifyHotKey] && ![HKHotKeyManager isValidHotKeyCode:code withModifier:HKUtilsConvertModifier(mask, kHKModifierFormatCocoa, kHKModifierFormatNative)]) {
+      if ([self verifyHotKey] && ![HKHotKeyManager isValidHotKeyCode:code withModifier:(HKModifier)HKUtilsConvertModifier(mask, kHKModifierFormatCocoa, kHKModifierFormatNative)]) {
         mask = 0;
         character = kHKNilUnichar;
         code = kHKInvalidVirtualKeyCode;
@@ -132,7 +132,7 @@ NSString * const kHKTrapWindowKeyCatchedNotification = @"kHKTrapWindowKeyCatched
       }
       NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
         SKUInt(code), kHKEventKeyCodeKey,
-        SKUInt(mask), kHKEventModifierKey,
+        SKUInteger(mask), kHKEventModifierKey,
         SKUInt(character), kHKEventCharacterKey,
         nil];
       [[NSNotificationCenter defaultCenter] postNotificationName:kHKTrapWindowKeyCatchedNotification

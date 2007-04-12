@@ -74,7 +74,7 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
   if (self = [super init]) {
     [self setLibrary:aLibrary];
     sp_uid = kSparkLibraryReserved;
-    sp_objects = NSCreateMapTable(NSIntMapKeyCallBacks, NSObjectMapValueCallBacks, 0);
+    sp_objects = NSCreateMapTable(NSIntegerMapKeyCallBacks, NSObjectMapValueCallBacks, 0);
   }
   return self;
 }

@@ -48,7 +48,7 @@
 #endif /* DEBUG */
 #endif
 
-typedef UInt32 HKModifier;
+typedef uint32_t HKModifier;
 typedef CGKeyCode HKKeycode;
 
 #endif /* __HKBASE_H */

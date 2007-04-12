@@ -12,8 +12,8 @@
 typedef struct __ModifierMap {
   UInt32 size;
   struct __ModifierEntry {
-    UInt32 input;
-    UInt32 output;
+    NSUInteger input;
+    NSUInteger output;
   } entries[];
 } ModifierMap;
 
@@ -96,9 +96,9 @@ entries:{
 }};
 
 static
-UInt32 _HKUtilsConvertModifier(UInt32 modifier, const ModifierMap *map) {
+NSUInteger _HKUtilsConvertModifier(NSUInteger modifier, const ModifierMap *map) {
   unsigned idx = 0;
-  UInt32 result = 0;
+  NSUInteger result = 0;
   while (idx < map->size) {
     if (modifier & map->entries[idx].input)
       result |= map->entries[idx].output;
@@ -107,7 +107,7 @@ UInt32 _HKUtilsConvertModifier(UInt32 modifier, const ModifierMap *map) {
   return result;
 }
 
-UInt32 HKUtilsConvertModifier(UInt32 modifier, HKModifierFormat input, HKModifierFormat output) {
+NSUInteger HKUtilsConvertModifier(NSUInteger modifier, HKModifierFormat input, HKModifierFormat output) {
   const ModifierMap *map = NULL;
   switch (input) {
     case kHKModifierFormatNative:

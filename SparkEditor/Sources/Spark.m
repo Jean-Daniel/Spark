@@ -420,7 +420,9 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
 }
 
 - (BOOL)applicationOpenUntitledFile:(NSApplication *)theApplication {
-  SELibraryDocument *doc = [[NSDocumentController sharedDocumentController] makeUntitledDocumentOfType:@"SparkLibraryFile"];
+  SELibraryDocument *doc = [[NSDocumentController sharedDocumentController] makeUntitledDocumentOfType:@"org.shadowlab.spark.library"];
+  if (!doc)
+    doc = [[NSDocumentController sharedDocumentController] makeUntitledDocumentOfType:@"SparkLibraryFile"];
   if (doc) {
     [[NSDocumentController sharedDocumentController] addDocument:doc];
     [doc setLibrary:SparkActiveLibrary()];

@@ -24,6 +24,10 @@
   UInt32 keycode = 33; // ^ key on french keyboard
   UniChar chr = HKMapGetUnicharForKeycode(keycode);
   STAssertTrue('^' == chr, @"HKMapGetUnicharForKeycode return '%C' (0x%x) instead of '^'", chr, chr);
+  
+  keycode = 42; // ` key on french keyboard
+  chr = HKMapGetUnicharForKeycode(keycode);
+  STAssertTrue('`' == chr, @"HKMapGetUnicharForKeycode return '%C' (0x%x) instead of '`'", chr, chr);
 }
 
 - (void)testReverseMapping {

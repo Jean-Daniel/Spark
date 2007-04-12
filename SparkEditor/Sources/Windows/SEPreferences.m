@@ -65,11 +65,11 @@ static
 void *_SEPreferencesLoginItemThread(void *arg) {
   long timeout = SKLoginItemTimeout();
   SKLoginItemSetTimeout(5000);
-  SKAESetThreadSafe(TRUE);
+  //SKAESetThreadSafe(TRUE);
   NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
   _SEPreferencesUpdateLoginItem();
   [pool release];
-  SKAESetThreadSafe(FALSE);
+  //SKAESetThreadSafe(FALSE);
   SKLoginItemSetTimeout(timeout);
   return NULL;
 }
@@ -100,7 +100,7 @@ void *_SEPreferencesLoginItemThread(void *arg) {
 - (id)init {
   if (self = [super init]) {
     se_login = __SEPreferencesLoginItemStatus();
-    se_status = NSCreateMapTable(NSObjectMapKeyCallBacks, NSIntMapValueCallBacks, 0);
+    se_status = NSCreateMapTable(NSObjectMapKeyCallBacks, NSIntegerMapValueCallBacks, 0);
     se_plugins = [[NSMutableArray alloc] init];
   }
   return self;

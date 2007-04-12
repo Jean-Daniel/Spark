@@ -9,72 +9,28 @@
 #include <Carbon/Carbon.h>
 
 #import "KeyMap.h"
-#import "HKKeyMap.h"
-#import "HKKeyboardUtils.h"
-
-#pragma mark Structure Definition
-struct __HKKeyMap {
-  Boolean reverse;
-  KeyboardLayoutRef keyboard;
-  KeyboardLayoutIdentifier identifier;
-  HKKeyMapContext ctxt;
-};
+#import "KLKeyMap.h"
+#import "TISKeyMap.h"
+#import <HotKeyToolKit/HKKeyMap.h>
 
 #pragma mark -
-#pragma mark Statics Functions
-HK_INLINE
-UInt32 __CurrentKCHRId(void) {
-  UInt32 uid = 0;
-  KeyboardLayoutRef ref;
-  KLGetCurrentKeyboardLayout(&ref);
-  KLGetKeyboardLayoutProperty(ref, kKLIdentifier, (void *)&uid);
-  return uid;
-}
-
-static
 OSStatus _HKKeyMapInit(HKKeyMapRef keyMap) {
-  /* find the current layout resource ID */
-  KeyboardLayoutKind kind = 0;
-  KeyboardLayoutPropertyTag tag = 0;
-  KLGetKeyboardLayoutProperty(keyMap->keyboard, kKLIdentifier, (void *)&(keyMap->identifier));
-  
-  OSStatus err = KLGetKeyboardLayoutProperty(keyMap->keyboard, kKLKind, (void *)&kind);
-  if (noErr == err) {
-    switch (kind) {
-      case kKLuchrKind:
-      case kKLKCHRuchrKind:
-        // Load uchr data
-        tag = kKLuchrData;
-        break;
-      case kKLKCHRKind:
-        // load kchr data
-        tag = kKLKCHRData;
-        break;
-    }
-  }
-  const void *data = NULL;
-  if (noErr == err) {
-    err = KLGetKeyboardLayoutProperty(keyMap->keyboard, tag, (void *)&data);
-  }
-  if (noErr == err) {
-    switch (kind) {
-      case kKLuchrKind:
-      case kKLKCHRuchrKind:
-        // Load uchr data
-        err = HKKeyMapContextWithUchrData(data, keyMap->reverse, &keyMap->ctxt);
-        break;
-      case kKLKCHRKind:
-        // load kchr data
-        err = HKKeyMapContextWithKCHRData(data, keyMap->reverse, &keyMap->ctxt);
-        break;
-    }
+  OSStatus err;
+  if (HKTISAvailable()) {
+    err = HKTISKeyMapInit(keyMap);
+  } else {
+	  err = HKKLKeyMapInit(keyMap);   
   }
   return err;
 }
 
 static
 void _HKKeyMapDispose(HKKeyMapRef keyMap) {
-  keyMap->keyboard = NULL;
+  if (HKTISAvailable()) {
+    HKTISKeyMapDispose(keyMap);
+  } else {
+    HKKLKeyMapDispose(keyMap);
+  }
   if (keyMap->ctxt.dealloc) {
     keyMap->ctxt.dealloc(&keyMap->ctxt);
     bzero(&keyMap->ctxt, sizeof(keyMap->ctxt));
@@ -83,63 +39,44 @@ void _HKKeyMapDispose(HKKeyMapRef keyMap) {
 
 #pragma mark -
 #pragma mark Creation/Destruction functions.
-static
-HKKeyMapRef HKKeyMapCreateWithKeyboardLayout(KeyboardLayoutRef layout, Boolean reverse) {
-  HKKeyMapRef keymap = NSZoneCalloc(nil, 1, sizeof(struct __HKKeyMap));
-  if (keymap) {
-    keymap->reverse = reverse;
-    keymap->keyboard = layout;
-    if (noErr != _HKKeyMapInit(keymap)) {
-      HKKeyMapRelease(keymap);
-      keymap = nil;
-    }
-  }
-  return keymap;
-}
-
 HKKeyMapRef HKKeyMapCreateWithName(CFStringRef name, Boolean reverse) {
-  KeyboardLayoutRef ref;
-  if (noErr == KLGetKeyboardLayoutWithName(name, &ref)) {
-    return HKKeyMapCreateWithKeyboardLayout(ref, reverse);
+  if (HKTISAvailable()) {
+    return HKTISKeyMapCreateWithName(name, reverse);
+  } else {
+    return HKKLKeyMapCreateWithName(name, reverse);
   }
-  return NULL;
-}
-
-HKKeyMapRef HKKeyMapCreateWithIdentifier(SInt32 identifier, Boolean reverse) {
-  KeyboardLayoutRef ref;
-  if (noErr == KLGetKeyboardLayoutWithIdentifier(identifier, &ref)) {
-    return HKKeyMapCreateWithKeyboardLayout(ref, reverse);
-  }
-  return NULL;  
 }
 
 HKKeyMapRef HKKeyMapCreateWithCurrentLayout(Boolean reverse) {
-  KeyboardLayoutRef ref;
-  // if (noErr == KLGetKeyboardLayoutWithName(CFSTR("US Extended"), &ref)) { 
-  if (noErr == KLGetCurrentKeyboardLayout(&ref)) { 
-    return HKKeyMapCreateWithKeyboardLayout(ref, reverse);
+  if (HKTISAvailable()) {
+    return HKTISKeyMapCreateWithCurrentLayout(reverse);
+  } else {
+    return HKKLKeyMapCreateWithCurrentLayout(reverse);
   }
-  return NULL;
 }
 
 void HKKeyMapRelease(HKKeyMapRef keymap) {
   _HKKeyMapDispose(keymap);
-  NSZoneFree(nil, keymap);
+  free(keymap);
 }
 
 #pragma mark -
 #pragma mark Public Functions Definition.
 OSStatus HKKeyMapCheckCurrentMap(HKKeyMapRef keyMap, Boolean *wasChanged) {
-  SInt32 theID = __CurrentKCHRId();
-  if (theID != keyMap->identifier) {
+  Boolean changed = false;
+  if (HKTISAvailable()) {
+    changed = !HKTISKeyMapIsCurrent(keyMap);
+  } else {
+    changed = !HKKLKeyMapIsCurrent(keyMap);
+  }
+  if (changed) {
     if (wasChanged)
-      *wasChanged = YES;
+    *wasChanged = YES;
     _HKKeyMapDispose(keyMap);
     return _HKKeyMapInit(keyMap);
-  }
-  else {
+  } else {
     if (wasChanged)
-      *wasChanged = NO;
+    *wasChanged = NO;
     return noErr;
   }
 }
@@ -170,13 +107,21 @@ UniChar HKKeyMapGetUnicharForKeycodeAndModifier(HKKeyMapRef keyMap, HKKeycode vi
 
 CFStringRef HKKeyMapGetName(HKKeyMapRef keymap) {
   CFStringRef str = NULL;
-  KLGetKeyboardLayoutProperty(keymap->keyboard, kKLName, (void *)&str);
+  if (HKTISAvailable()) {
+    str = HKTISKeyMapGetName(keymap);
+  } else {
+    str = HKKLKeyMapGetName(keymap);
+  }
   return str;
 }
 
 CFStringRef HKKeyMapGetLocalizedName(HKKeyMapRef keymap) {
   CFStringRef str = NULL;
-  KLGetKeyboardLayoutProperty(keymap->keyboard, kKLLocalizedName, (void *)&str);
+  if (HKTISAvailable()) {
+    str = HKTISKeyMapGetLocalizedName(keymap);
+  } else {
+    str = HKKLKeyMapGetLocalizedName(keymap);
+  }
   return str;
 }
 

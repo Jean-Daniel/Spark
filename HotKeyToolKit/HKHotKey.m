@@ -41,9 +41,9 @@
   [aCoder encodeConditionalObject:hk_target forKey:@"HKTarget"];
   [aCoder encodeObject:NSStringFromSelector(hk_action) forKey:@"HKAction"];
   
-  [aCoder encodeInt:hk_mask forKey:@"HKMask"];
-  [aCoder encodeInt:hk_keycode forKey:@"HKKeycode"];
-  [aCoder encodeInt:hk_character forKey:@"HKCharacter"];
+  [aCoder encodeInt32:hk_mask forKey:@"HKMask"];
+  [aCoder encodeInt32:hk_keycode forKey:@"HKKeycode"];
+  [aCoder encodeInt32:hk_character forKey:@"HKCharacter"];
   
   [aCoder encodeDouble:hk_repeatInterval forKey:@"HKRepeatInterval"];
 }
@@ -55,9 +55,9 @@
     if (action)
       hk_action = NSSelectorFromString(action);
     
-    hk_mask = [aCoder decodeIntForKey:@"HKMask"];
-    hk_keycode = [aCoder decodeIntForKey:@"HKKeycode"];
-    hk_character = [aCoder decodeIntForKey:@"HKCharacter"];
+    hk_mask = [aCoder decodeInt32ForKey:@"HKMask"];
+    hk_keycode = [aCoder decodeInt32ForKey:@"HKKeycode"];
+    hk_character = [aCoder decodeInt32ForKey:@"HKCharacter"];
     
     hk_repeatInterval = [aCoder decodeDoubleForKey:@"HKRepeatInterval"];
   }
@@ -146,7 +146,7 @@
 }
 - (void)setModifier:(NSUInteger)modifier {
   if ([self shouldChangeKeystroke]) {
-    hk_mask = HKUtilsConvertModifier(modifier, kHKModifierFormatCocoa, kHKModifierFormatNative);
+    hk_mask = (HKModifier)HKUtilsConvertModifier(modifier, kHKModifierFormatCocoa, kHKModifierFormatNative);
   }
 }
 - (HKModifier)nativeModifier {
@@ -194,14 +194,14 @@
   return hk_hkFlags.registred;
 }
 - (BOOL)setRegistred:(BOOL)flag {
-  // Si la cl� n'est pas valide
+  // Si la cl√© n'est pas valide
   if (![self isValid]) {
     return NO;
   }
   BOOL result;
   @synchronized (self) {
     flag = flag ? 1 : 0;
-    // Si la cl� est d�ja dans l'�tat demand�
+    // Si la cl√© est d√©ja dans l'√©tat demand√©
     if (flag == hk_hkFlags.registred) {
       return YES;
     }
@@ -247,7 +247,7 @@
 
 - (void)setRawkey:(UInt64)rawkey {
   UniChar character = rawkey & 0x0000ffff;
-  NSUInteger modifier = rawkey & 0x00ff0000;
+  NSUInteger modifier = (NSUInteger)(rawkey & 0x00ff0000);
   HKKeycode keycode = (rawkey & 0xff000000) >> 24;
   if (keycode == 0xff) keycode = kHKInvalidVirtualKeyCode;
   BOOL isSpecialKey = (modifier & (NSNumericPadKeyMask | NSFunctionKeyMask)) != 0;

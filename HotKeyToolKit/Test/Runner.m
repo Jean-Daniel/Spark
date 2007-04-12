@@ -6,6 +6,7 @@
  *  Copyright 2006 Shadow Lab. All rights reserved.
  */
 
+#import "KeyMap.h"
 #import <HotKeyToolKit/HotKeyToolKit.h>
 #include <unistd.h>
 @interface KeyDelegate : NSObject {
@@ -33,7 +34,14 @@
 @end
 
 int main(int argc, const char **argv) {
-  UniChar character = '\n'; 
+  HKKeyMapRef map = HKKeyMapCreateWithCurrentLayout(true);
+  UniChar chr = HKKeyMapGetUnicharForKeycodeAndModifier(map, 42, 0);
+  
+  UInt32 keycode = 42; // ^ key on french keyboard
+  chr = HKMapGetUnicharForKeycode(keycode);
+  keycode = HKMapGetKeycodeAndModifierForUnichar('^', NULL, NULL);
+  
+  UniChar character = 0x0109; 
   HKKeycode keycodes[8];
   HKModifier modifiers[8];
   NSUInteger count = HKMapGetKeycodesAndModifiersForUnichar(character, keycodes, modifiers, 8);

@@ -74,7 +74,7 @@ static EventHandlerUPP kHKHandlerUPP = NULL;
       /* HKHotKey => EventHotKeyRef */
       hk_refs = NSCreateMapTable(NSNonRetainedObjectMapKeyCallBacks, NSNonOwnedPointerMapValueCallBacks, 0);
       /* UInt32 uid => HKHotKey */
-      hk_keys = NSCreateMapTable(NSIntMapKeyCallBacks, NSNonRetainedObjectMapValueCallBacks, 0);
+      hk_keys = NSCreateMapTable(NSIntegerMapKeyCallBacks, NSNonRetainedObjectMapValueCallBacks, 0);
     }
   }
   return self;
@@ -89,15 +89,15 @@ static EventHandlerUPP kHKHandlerUPP = NULL;
 }
 
 - (BOOL)registerHotKey:(HKHotKey *)key {
-  // Si la cle est valide est non enregistré
+  // Si la cle est valide est non enregistr√©
   if ([key isValid] && !NSMapGet(hk_refs, key)) {
     HKModifier mask = [key nativeModifier];
     HKKeycode keycode = [key keycode];
-    UInt32 uid = OSAtomicIncrement32(&gHotKeyUID);
+    intptr_t uid = OSAtomicIncrement32(&gHotKeyUID);
     if (HKTraceHotKeyEvents) {
       NSLog(@"Register HotKey %@", key);
     }
-    EventHotKeyID hotKeyId = {kHKHotKeyEventSignature, uid};
+    EventHotKeyID hotKeyId = {kHKHotKeyEventSignature, (UInt32)uid};
     EventHotKeyRef ref = HKRegisterHotKey(keycode, mask, hotKeyId);
     if (ref) {
       NSMapInsert(hk_refs, key, ref);
@@ -176,8 +176,8 @@ static EventHandlerUPP kHKHandlerUPP = NULL;
             NSFileTypeForHFSTypeCode(hotKeyID.signature),
             hotKeyID.id);
     }
-    
-    hotKey = NSMapGet(hk_keys, (void *)hotKeyID.id);
+    intptr_t key = hotKeyID.id;
+    hotKey = NSMapGet(hk_keys, (void *)key);
     if (hotKey) {
       switch(GetEventKind(theEvent)) {
         case kEventHotKeyPressed:
@@ -214,7 +214,7 @@ static HKHotKeyFilter _filter;
 #pragma mark -
 + (BOOL)isValidHotKeyCode:(HKKeycode)code withModifier:(HKModifier)modifier {
   BOOL isValid = YES;
-  // Si un filtre est utilisé, on l'utilise.
+  // Si un filtre est utilis√©, on l'utilise.
   if (_filter != nil) {
     isValid = (*_filter)(code, modifier);
   }
@@ -224,7 +224,7 @@ static HKHotKeyFilter _filter;
     @synchronized (self) {
       EventHotKeyRef key = HKRegisterHotKey(code, modifier, hotKeyId);
       if (key) {
-        // Si le système est OK, la clée est valide
+        // Si le syst√®me est OK, la cl√©e est valide
         HKUnregisterHotKey(key);
       }
       else {

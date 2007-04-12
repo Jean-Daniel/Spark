@@ -200,9 +200,13 @@ ProcessSerialNumber _HKGetProcessWithSignature(OSType type) {
   if (type) {
     ProcessInfoRec info;
     while (procNotFound != GetNextProcess(&serialNumber))  {
-      info.processInfoLength = sizeof(info);
+      info.processInfoLength = (UInt32)sizeof(info);
       info.processName = NULL;
+#if __LP64__
+      info.processAppRef = NULL;
+#else
       info.processAppSpec = NULL;
+#endif
       if (noErr == GetProcessInformation (&serialNumber, &info) && info.processSignature == type) {
         break;
       }
