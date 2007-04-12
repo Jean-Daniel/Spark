@@ -61,7 +61,7 @@ SparkObjectSet *_SparkObjectSetForType(SparkLibrary *library, UInt8 type) {
     }
     
     for (unsigned idx = 0; idx < 4; idx++) {
-      sp_cache[idx] = NSCreateMapTable(NSIntegerMapKeyCallBacks, NSObjectMapValueCallBacks, 0);
+      sp_cache[idx] = NSCreateMapTable(NSIntMapKeyCallBacks, NSObjectMapValueCallBacks, 0);
     }
     
     sp_library = aLibrary;

@@ -74,7 +74,7 @@ static EventHandlerUPP kHKHandlerUPP = NULL;
       /* HKHotKey => EventHotKeyRef */
       hk_refs = NSCreateMapTable(NSNonRetainedObjectMapKeyCallBacks, NSNonOwnedPointerMapValueCallBacks, 0);
       /* UInt32 uid => HKHotKey */
-      hk_keys = NSCreateMapTable(NSIntegerMapKeyCallBacks, NSNonRetainedObjectMapValueCallBacks, 0);
+      hk_keys = NSCreateMapTable(NSIntMapKeyCallBacks, NSNonRetainedObjectMapValueCallBacks, 0);
     }
   }
   return self;

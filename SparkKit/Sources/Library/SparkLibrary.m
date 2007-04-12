@@ -536,7 +536,7 @@ bail:
 - (BOOL)importOldLibraryFromFileWrapper:(NSFileWrapper *)wrapper error:(NSError **)error {
   DLog(@"Loading Version 1.0 Library");
   /* Load HotKey items. Create trigger with internal values, and create entries with Application to Action Map */
-  CFMutableSetRef actions = CFSetCreateMutable( kCFAllocatorDefault, 0, &kSKIntSetCallBacks);
+  CFMutableSetRef actions = CFSetCreateMutable( kCFAllocatorDefault, 0, &kSKIntegerSetCallBacks);
   
   UInt32 finder = 0;
   NSArray *objects = nil;

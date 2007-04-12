@@ -56,6 +56,7 @@ HKKeyMapRef HKKeyMapCreateWithCurrentLayout(Boolean reverse) {
 }
 
 void HKKeyMapRelease(HKKeyMapRef keymap) {
+  check(keymap);
   _HKKeyMapDispose(keymap);
   free(keymap);
 }
@@ -63,6 +64,7 @@ void HKKeyMapRelease(HKKeyMapRef keymap) {
 #pragma mark -
 #pragma mark Public Functions Definition.
 OSStatus HKKeyMapCheckCurrentMap(HKKeyMapRef keyMap, Boolean *wasChanged) {
+  check(keyMap);
   Boolean changed = false;
   if (HKTISAvailable()) {
     changed = !HKTISKeyMapIsCurrent(keyMap);
@@ -82,6 +84,7 @@ OSStatus HKKeyMapCheckCurrentMap(HKKeyMapRef keyMap, Boolean *wasChanged) {
 }
 
 NSUInteger HKKeyMapGetKeycodesForUnichar(HKKeyMapRef keyMap, UniChar character, HKKeycode *keys, HKModifier *modifiers, NSUInteger maxsize) {
+  check(keyMap);
   NSUInteger count = 0;
   if (keyMap->reverse && keyMap->ctxt.reverseMap) {
     count = keyMap->ctxt.reverseMap(keyMap->ctxt.data, character, keys, modifiers, maxsize);
@@ -90,6 +93,7 @@ NSUInteger HKKeyMapGetKeycodesForUnichar(HKKeyMapRef keyMap, UniChar character, 
 }
 
 UniChar HKKeyMapGetUnicharForKeycode(HKKeyMapRef keyMap, HKKeycode virtualKeyCode) {
+  check(keyMap);
   UniChar result = kHKNilUnichar;
   if (keyMap->ctxt.baseMap) {
     result = keyMap->ctxt.baseMap(keyMap->ctxt.data, virtualKeyCode);
@@ -98,6 +102,7 @@ UniChar HKKeyMapGetUnicharForKeycode(HKKeyMapRef keyMap, HKKeycode virtualKeyCod
 }
 
 UniChar HKKeyMapGetUnicharForKeycodeAndModifier(HKKeyMapRef keyMap, HKKeycode virtualKeyCode, HKModifier modifiers) {
+  check(keyMap);
   UniChar result = kHKNilUnichar;
   if (keyMap->ctxt.fullMap) {
     result = keyMap->ctxt.fullMap(keyMap->ctxt.data, virtualKeyCode, modifiers);
@@ -106,6 +111,7 @@ UniChar HKKeyMapGetUnicharForKeycodeAndModifier(HKKeyMapRef keyMap, HKKeycode vi
 }
 
 CFStringRef HKKeyMapGetName(HKKeyMapRef keymap) {
+  check(keymap);
   CFStringRef str = NULL;
   if (HKTISAvailable()) {
     str = HKTISKeyMapGetName(keymap);
@@ -116,6 +122,7 @@ CFStringRef HKKeyMapGetName(HKKeyMapRef keymap) {
 }
 
 CFStringRef HKKeyMapGetLocalizedName(HKKeyMapRef keymap) {
+  check(keymap);
   CFStringRef str = NULL;
   if (HKTISAvailable()) {
     str = HKTISKeyMapGetLocalizedName(keymap);

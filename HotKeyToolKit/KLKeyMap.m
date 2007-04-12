@@ -10,7 +10,7 @@
 #import "KLKeyMap.h"
 #import "TISKeyMap.h"
 
-#if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_5
+#if MAC_OS_X_VERSION_MIN_REQUIRED <= MAC_OS_X_VERSION_10_4
 
 HK_INLINE
 KeyboardLayoutIdentifier __CurrentKCHRId(void) {

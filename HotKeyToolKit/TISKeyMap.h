@@ -12,8 +12,6 @@
 #import "HKKeyboardUtils.h"
 #include <Carbon/Carbon.h>
 
-#if MAC_OS_X_VERSION_MAX_ALLOWED > MAC_OS_X_VERSION_10_4
-
 struct __HKKeyMap {
   Boolean reverse;
   union {
@@ -21,13 +19,17 @@ struct __HKKeyMap {
       KeyboardLayoutRef keyboard;
       KeyboardLayoutIdentifier identifier;
     } kl;
+#if MAC_OS_X_VERSION_MAX_ALLOWED > MAC_OS_X_VERSION_10_4
     struct {
       TISInputSourceRef keyboard;
       CFStringRef identifier;
     } tis;
+#endif
   };
   HKKeyMapContext ctxt;
 };
+
+#if MAC_OS_X_VERSION_MAX_ALLOWED > MAC_OS_X_VERSION_10_4
 
 SK_INLINE
 Boolean HKTISAvailable() {

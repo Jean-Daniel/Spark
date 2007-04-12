@@ -100,7 +100,7 @@ void *_SEPreferencesLoginItemThread(void *arg) {
 - (id)init {
   if (self = [super init]) {
     se_login = __SEPreferencesLoginItemStatus();
-    se_status = NSCreateMapTable(NSObjectMapKeyCallBacks, NSIntegerMapValueCallBacks, 0);
+    se_status = NSCreateMapTable(NSObjectMapKeyCallBacks, NSIntMapValueCallBacks, 0);
     se_plugins = [[NSMutableArray alloc] init];
   }
   return self;
@@ -238,6 +238,22 @@ void *_SEPreferencesLoginItemThread(void *arg) {
 }
 - (void)setAdvanced:(BOOL)advanced {
   CFPreferencesSetValue(CFSTR("SparkAdvancedSettings"), advanced ? kCFBooleanTrue : kCFBooleanFalse,
+                        (CFStringRef)kSparkPreferencesIdentifier, 
+                        kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
+}
+
+- (BOOL)displaysAlert {
+  BOOL display = NO;
+  CFBooleanRef value = CFPreferencesCopyValue(CFSTR("SDDisplayAlertOnExecute"), (CFStringRef)kSparkPreferencesIdentifier, 
+                                              kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
+  if (value) {
+    display = CFBooleanGetValue(value);
+    CFRelease(value);
+  }
+  return display;
+}
+- (void)setDisplaysAlert:(BOOL)flag {
+  CFPreferencesSetValue(CFSTR("SDDisplayAlertOnExecute"), flag ? kCFBooleanTrue : kCFBooleanFalse,
                         (CFStringRef)kSparkPreferencesIdentifier, 
                         kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
 }
