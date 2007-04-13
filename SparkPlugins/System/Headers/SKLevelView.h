@@ -24,8 +24,8 @@ enum {
 - (BOOL)zero;
 - (void)setZero:(BOOL)flag;
 
-- (UInt32)level;
-- (void)setLevel:(UInt32)level;
+- (NSUInteger)level;
+- (void)setLevel:(NSUInteger)level;
 
 - (BOOL)drawsLevelIndicator;
 - (void)setDrawsLevelIndicator:(BOOL)flag;

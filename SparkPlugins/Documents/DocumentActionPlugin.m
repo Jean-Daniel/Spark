@@ -166,7 +166,7 @@
   return nil;
 }
 - (void)setApplication:(NSString *)aPath {
-  unsigned idx = [ibMenu numberOfItems];
+  NSUInteger idx = [ibMenu numberOfItems];
   while (idx-- > 0) {
     id obj = [[ibMenu itemAtIndex:idx] representedObject];
     if (obj && [obj isKindOfClass:[NSDictionary class]]) {

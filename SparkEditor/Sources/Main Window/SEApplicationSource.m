@@ -111,10 +111,10 @@
   }
 }
 
-- (unsigned)addApplications:(NSArray *)files {
+- (NSUInteger)addApplications:(NSArray *)files {
   se_locked = YES;
-  unsigned count = 0;
-  unsigned idx = [files count];
+  NSUInteger count = 0;
+  NSUInteger idx = [files count];
   SparkObjectSet *library = [self applicationSet];
   
   /* search if contains at least one application */
@@ -180,7 +180,7 @@
                         contextInfo:nil];
 }
 
-- (void)newApplicationDidEnd:(NSOpenPanel *)panel returnCode:(int)result object:(id)object {
+- (void)newApplicationDidEnd:(NSOpenPanel *)panel returnCode:(NSInteger)result object:(id)object {
   if (NSOKButton == result) {
     [self addApplications:[panel filenames]];
   }
@@ -198,9 +198,9 @@
 #pragma mark Misc
 - (IBAction)deleteSelection:(id)sender {
   if ([[ibWindow window] attachedSheet] == nil) { /* Ignore if modal sheet open on main window */
-    unsigned idx = [self selectionIndex];
+    NSUInteger idx = [self selectionIndex];
     if (idx > 0) { /* If valid selection (should always append) */
-      int result = NSOKButton;
+      NSInteger result = NSOKButton;
       SparkObject *object = [self objectAtIndex:idx];
       if ([object uid] > kSparkLibraryReserved) { /* If not a reserved object */
         Boolean hasActions = [[se_library entryManager] containsEntryForApplication:[object uid]];
@@ -229,13 +229,13 @@
   NSBeep();
 }
 
-- (NSDragOperation)tableView:(NSTableView *)tableView validateDrop:(id <NSDraggingInfo>)info proposedRow:(int)row proposedDropOperation:(NSTableViewDropOperation)operation {
+- (NSDragOperation)tableView:(NSTableView *)tableView validateDrop:(id <NSDraggingInfo>)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)operation {
   NSPasteboard *pboard = [info draggingPasteboard];
   /* Drop above and contains files */
   if (NSTableViewDropAbove == operation && [[pboard types] containsObject:NSFilenamesPboardType]) {
     /* search if contains at least one application */
     NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
-    unsigned idx = [files count];
+    NSUInteger idx = [files count];
     while (idx-- > 0) {
       NSString *file = [files objectAtIndex:idx];
       if ([[NSWorkspace sharedWorkspace] isApplicationAtPath:file]) {
@@ -247,8 +247,8 @@
   return NSDragOperationNone;
 }
 
-- (BOOL)tableView:(NSTableView *)aTableView acceptDrop:(id <NSDraggingInfo>)info row:(int)row dropOperation:(NSTableViewDropOperation)operation {
-  unsigned count = 0;
+- (BOOL)tableView:(NSTableView *)aTableView acceptDrop:(id <NSDraggingInfo>)info row:(NSInteger)row dropOperation:(NSTableViewDropOperation)operation {
+  NSUInteger count = 0;
   NSPasteboard *pboard = [info draggingPasteboard];
   /* Drop above and contains files */
   if (NSTableViewDropAbove == operation && [[pboard types] containsObject:NSFilenamesPboardType]) {
@@ -259,10 +259,10 @@
 }
 
 #pragma mark Delegate
-- (void)didSelectApplication:(int)anIndex {
+- (void)didSelectApplication:(NSInteger)anIndex {
   SparkApplication *application = nil;
   NSArray *objects = [self arrangedObjects];
-  if (anIndex >= 0 && (unsigned)anIndex < [objects count]) {
+  if (anIndex >= 0 && (NSUInteger)anIndex < [objects count]) {
     application = [objects objectAtIndex:anIndex];
     // Set current application
     [[ibWindow document] setApplication:application];
@@ -278,9 +278,9 @@
 
 - (void)deleteSelectionInTableView:(NSTableView *)aTableView {
   SparkApplication *application = nil;
-  int idx = [aTableView selectedRow];
+  NSInteger idx = [aTableView selectedRow];
   NSArray *objects = [self arrangedObjects];
-  if (idx >= 0 && (unsigned)idx < [objects count]) {
+  if (idx >= 0 && (NSUInteger)idx < [objects count]) {
     application = [objects objectAtIndex:idx];
   }
   [self deleteSelection:nil];
@@ -291,7 +291,7 @@
 }
 
 /* Display bold if has some custom actions */
-- (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
+- (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
   SparkApplication *item = [self objectAtIndex:rowIndex];
   if ([item uid] && [[se_library entryManager] containsEntryForApplication:[item uid]]) {
     [aCell setFont:[NSFont boldSystemFontOfSize:[NSFont smallSystemFontSize]]];

@@ -682,7 +682,7 @@ CFDictionaryRef iTunesCopyPlaylists(void) {
   OSStatus err = __iTunesGetEveryPlaylistObject(&playlists);
   require_noerr(err, bail);
 
-  err = __iTunesGetPlaylistsProperty(&playlists, typeInteger, 'ID  ', &ids);
+  err = __iTunesGetPlaylistsProperty(&playlists, typeSInt32, 'ID  ', &ids);
   require_noerr(err, bail);
   
   err = __iTunesGetPlaylistsProperty(&playlists, typeSInt64, kiTunesPersistentID, &uids);
@@ -698,7 +698,7 @@ CFDictionaryRef iTunesCopyPlaylists(void) {
   err = AECountItems(&names, &count);
   if (noErr == err) {
     result = CFDictionaryCreateMutable(kCFAllocatorDefault, count, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
-    for (long idx = 1; (idx <= count); idx++) {
+    for (SInt32 idx = 1; (idx <= count); idx++) {
       SInt64 uid = 0;
       err = SKAEGetNthSInt64FromDescList(&uids, idx, &uid);
       if (noErr == err) {

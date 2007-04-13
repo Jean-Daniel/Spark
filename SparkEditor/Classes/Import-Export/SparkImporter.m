@@ -75,11 +75,11 @@ static BOOL CustomSearch(NSString *searchString, id object, void *ctxt);
   [[searchField cell] setSearchMenuTemplate:searchMenu];
 }
 
-- (int)searchCategorie {
+- (NSInteger)searchCategorie {
   return _categorie;
 }
 
-- (void)setSearchCategorie:(int)aCategorie {
+- (void)setSearchCategorie:(NSInteger)aCategorie {
   if (_categorie != aCategorie) {
     _categorie = aCategorie;
   }

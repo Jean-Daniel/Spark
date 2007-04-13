@@ -108,8 +108,8 @@ static NSImage *_HKCreateShading(NSControlTint tint);
 */
 - (void)didCatchHotKey:(NSNotification *)aNotification {
   NSDictionary *info = [aNotification userInfo];
-  unsigned int nkey = [[info objectForKey:kHKEventKeyCodeKey] intValue];
-  unsigned int nmodifier = [[info objectForKey:kHKEventModifierKey] intValue];
+  UInt16 nkey = [[info objectForKey:kHKEventKeyCodeKey] intValue];
+  UInt32 nmodifier = [[info objectForKey:kHKEventModifierKey] intValue];
   /* Anti trap hack. If pressed tab and tab is already saved, stop recording */
   if (se_bhotkey.keycode == kVirtualTabKey && (se_bhotkey.modifiers & NSDeviceIndependentModifierFlagsMask) == 0 &&
       nkey == se_bhotkey.keycode && nmodifier == se_bhotkey.modifiers) {
@@ -251,7 +251,7 @@ static NSImage *_HKCreateShading(NSControlTint tint);
       // draw placeholder
       text = NSLocalizedStringFromTable(@"Type hotkey", @"SEHotKeyTrap", @"Type HotKey - placeholder");
     }
-    float width = [text sizeWithAttributes:style].width;
+    CGFloat width = [text sizeWithAttributes:style].width;
 
     [text drawAtPoint:NSMakePoint(NSMidX(bounds) - (CAPS_WIDTH + width) / 2.0, 4.5) withAttributes:style];
     
@@ -293,7 +293,7 @@ static NSImage *_HKCreateShading(NSControlTint tint);
     
     if (![self isEmpty]) {
       // Draw shortcut string
-      float width = [se_str sizeWithAttributes:sTextStyle].width;
+      CGFloat width = [se_str sizeWithAttributes:sTextStyle].width;
       NSPoint point;
       if (se_htFlags.disabled)
         point = NSMakePoint(NSMidX(bounds) - width / 2.0, 4.5);
@@ -314,7 +314,7 @@ static NSImage *_HKCreateShading(NSControlTint tint);
         //CGContextAddEllipseInRect(ctxt, CGRectMake(NSMaxX(bounds) - 18.5f, 4, 14, 14));
         CGContextFillPath(ctxt);
         
-        float length = 3;
+        CGFloat length = 3;
         CGContextTranslateCTM(ctxt, NSMaxX(bounds) - 11.5f, 11);
         
         CGContextSetLineWidth(ctxt, 1.25);
@@ -329,7 +329,7 @@ static NSImage *_HKCreateShading(NSControlTint tint);
     } else {
       // draw placeholder
       NSString *placeholder = NSLocalizedStringFromTable(@"click to edit", @"SEHotKeyTrap", @"click to edit - placeholder");
-      float width = [placeholder sizeWithAttributes:sPlaceholderStyle].width;
+      CGFloat width = [placeholder sizeWithAttributes:sPlaceholderStyle].width;
       [placeholder drawAtPoint:NSMakePoint(NSMidX(bounds) - width / 2.f, 4.5) withAttributes:sPlaceholderStyle];
     }
   }
@@ -563,18 +563,18 @@ static NSImage *_HKCreateShading(NSControlTint tint);
 
 #pragma mark -
 #pragma mark Shading Support
-static const float const hk_aqua[] = {.300, .600, .945, 0 };
-static const float const hk_aqua2[] = {.0, .320, .810, 0 };
+static const CGFloat const hk_aqua[] = {.300, .600, .945, 0 };
+static const CGFloat const hk_aqua2[] = {.0, .320, .810, 0 };
 
-static const float const hk_graphite[] = {.550, .600, .700, 0 };
-static const float const hk_graphite2[] = {.310, .400, .510, 0 };
+static const CGFloat const hk_graphite[] = {.550, .600, .700, 0 };
+static const CGFloat const hk_graphite2[] = {.310, .400, .510, 0 };
 
-static const float *_shader = hk_aqua;
-static const float *_shader2 = hk_aqua2;
+static const CGFloat *_shader = hk_aqua;
+static const CGFloat *_shader2 = hk_aqua2;
 
 static 
-void __HKTrapShadingFunction (void *pinfo, const float *in, float *out) {
-  float v = *in;
+void __HKTrapShadingFunction (void *pinfo, const CGFloat *in, CGFloat *out) {
+  CGFloat v = *in;
   for (int k = 0; k < 4 -1; k++)
     *out++ = MIN(_shader[k], _shader2[k]) + ABS(_shader[k] - _shader2[k]) * v;
   *out++ = 1;

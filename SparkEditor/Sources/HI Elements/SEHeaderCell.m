@@ -9,7 +9,7 @@
 #import "SEHeaderCell.h"
 
 static
-NSImage *SEHeaderCellCreateShading(float height, Boolean flipped);
+NSImage *SEHeaderCellCreateShading(CGFloat height, Boolean flipped);
 
 #pragma mark -
 static NSColor *SEHeaderTextColor = nil;
@@ -37,7 +37,7 @@ static NSColor *SEHeaderShadowColor = nil;
 }
 
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {
-  float y = NSMaxY(cellFrame) - 0.5;
+  CGFloat y = NSMaxY(cellFrame) - 0.5;
   [NSBezierPath setDefaultLineWidth:1];
   CGContextSetGrayStrokeColor([[NSGraphicsContext currentContext] graphicsPort], .400, 1);
   [NSBezierPath strokeLineFromPoint:NSMakePoint(NSMinX(cellFrame), y) toPoint:NSMakePoint(NSMaxX(cellFrame), y)];  
@@ -83,8 +83,8 @@ static NSColor *SEHeaderShadowColor = nil;
 
 #pragma mark -
 static 
-void SEHeaderCellShadingValue (void *info, const float *in, float *out) {
-  float v;
+void SEHeaderCellShadingValue (void *info, const CGFloat *in, CGFloat *out) {
+  CGFloat v;
   size_t k, components;
   components = (size_t)info;
   
@@ -93,7 +93,7 @@ void SEHeaderCellShadingValue (void *info, const float *in, float *out) {
     //*out++ = .700 + (.860 - .700) * sqrt(v * (2 - v));
     *out++ = .730 + (.860 - .730) * pow(sin(M_PI_2 * v), 2);
   }
-//  float factor = pow(sin(M_PI_2 *v), 2);
+//  CGFloat factor = pow(sin(M_PI_2 *v), 2);
 //  *out++ = .490 + (.765 - .490) * factor;
 //  *out++ = .570 + (.815 - .570) * factor;
 //  *out++ = .695 + (.870 - .695) * factor;
@@ -103,15 +103,15 @@ void SEHeaderCellShadingValue (void *info, const float *in, float *out) {
 static 
 CGFunctionRef SEHeaderCellShadingFunction(CGColorSpaceRef colorspace) {
   size_t components;
-  static const float input_value_range [2] = { 0, 1 };
-  static const float output_value_ranges [8] = { 0, 1, 0, 1, 0, 1, 0, 1 };
+  static const CGFloat input_value_range [2] = { 0, 1 };
+  static const CGFloat output_value_ranges [8] = { 0, 1, 0, 1, 0, 1, 0, 1 };
   static const CGFunctionCallbacks callbacks = { 0, &SEHeaderCellShadingValue, NULL };
   
   components = 1 + CGColorSpaceGetNumberOfComponents(colorspace);
   return CGFunctionCreate((void *) components, 1, input_value_range, components, output_value_ranges, &callbacks);
 }
 
-static NSImage *SEHeaderCellCreateShading(float height, Boolean flipped) {
+static NSImage *SEHeaderCellCreateShading(CGFloat height, Boolean flipped) {
   CGPoint startPoint = CGPointMake(0, flipped ? height : 0), endPoint = CGPointMake(0, flipped ? 0 : height);
   CGColorSpaceRef colorspace = CGColorSpaceCreateDeviceRGB();
   CGFunctionRef function = SEHeaderCellShadingFunction(colorspace);

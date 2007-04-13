@@ -12,7 +12,7 @@
 
 @implementation SETriggerTable
 
-- (unsigned int)draggingSourceOperationMaskForLocal:(BOOL)isLocal {
+- (NSUInteger)draggingSourceOperationMaskForLocal:(BOOL)isLocal {
   if (isLocal) {
     return NSDragOperationCopy | NSDragOperationGeneric | NSDragOperationMove | NSDragOperationDelete;
   } 
@@ -21,7 +21,7 @@
 
 - (void)mouseDown:(NSEvent *)anEvent {
   if ([anEvent clickCount] == 2) {
-    int row = [self rowAtPoint:[self convertPoint:[anEvent locationInWindow] fromView:nil]];
+    NSInteger row = [self rowAtPoint:[self convertPoint:[anEvent locationInWindow] fromView:nil]];
     if (row != -1) {
       id target = [self target];
       SEL doubleAction = [self doubleAction];
@@ -68,7 +68,7 @@
 //  }
 //}
 
-- (NSImage *)badgeWithCount:(unsigned)count {
+- (NSImage *)badgeWithCount:(NSUInteger)count {
   NSImage *img = nil;
   if (count < 100) {
     img = [NSImage imageNamed:@"badge-1&2"];
@@ -88,8 +88,8 @@
   NSSize size = [str sizeWithAttributes:attr];
   /* backup image before edit */
   img = [[img copy] autorelease];
-  float x = ([img size].width - size.width) / 2;
-  float y =  ([img size].height - size.height) / 2;
+  CGFloat x = ([img size].width - size.width) / 2;
+  CGFloat y =  ([img size].height - size.height) / 2;
   [img lockFocus];
   [str drawAtPoint:NSMakePoint(x, y+1) withAttributes:attr];
   [img unlockFocus];
@@ -104,15 +104,15 @@
   if ([tableColumns count] < 2 || ![dragRows count])
     return anImage;
   
-  float width = [[tableColumns objectAtIndex:0] width];
+  CGFloat width = [[tableColumns objectAtIndex:0] width];
   width += [[tableColumns objectAtIndex:1] width];
   dragImageOffset->x = 0;
   
   NSSize size = NSMakeSize(width + 1, [anImage size].height + 1);
   [anImage setSize:size];
   
-  int idx;
-  float offset = MAXFLOAT;
+  NSUInteger idx;
+  CGFloat offset = CGFLOAT_MAX;
   SKIndexEnumerator *indexes = [dragRows indexEnumerator];
   while ((idx = [indexes nextIndex]) != NSNotFound) {
     offset = MIN(NSMinY([self rectOfRow:idx]), offset);
@@ -172,7 +172,7 @@
 
 - (NSImage *)dragImageForRows:(NSArray *)dragRows event:(NSEvent *)dragEvent dragImageOffset:(NSPointPointer)dragImageOffset {
   NSMutableIndexSet *idxes = [NSMutableIndexSet indexSet];
-  unsigned count = [dragRows count];
+  NSUInteger count = [dragRows count];
   while (count-- > 0) {
     [idxes addIndex:[[dragRows objectAtIndex:count] unsignedIntValue]];
   }

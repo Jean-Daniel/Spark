@@ -10,11 +10,11 @@
 
 static const
 Float32 kAudioOutputVolumeLevels[] = { 
-  0.00,
-  0.06, 0.12, 0.19, 0.25,
-  0.31, 0.37, 0.44, 0.50,
-  0.56, 0.62, 0.69, 0.75,
-  0.81, 0.87, 0.93, 1.00,
+  0.00f,
+  0.06f, 0.12f, 0.19f, 0.25f,
+  0.31f, 0.37f, 0.44f, 0.50f,
+  0.56f, 0.62f, 0.69f, 0.75f,
+  0.81f, 0.87f, 0.93f, 1.00f,
 };
 const
 UInt32 kAudioOutputVolumeMaxLevel = 16;
@@ -29,7 +29,7 @@ UInt32 __AudioOutputVolumeGetLevel(Float32 output) {
     /* If bewteen current level and next level */
     if (output < kAudioOutputVolumeLevels[level + 1]) {
       /* Round level */
-      Float32 avg = (kAudioOutputVolumeLevels[level] + kAudioOutputVolumeLevels[level + 1]) / 2.0;
+      Float32 avg = (kAudioOutputVolumeLevels[level] + kAudioOutputVolumeLevels[level + 1]) / 2.f;
       return output < avg ? level : level + 1;
     }
   }
@@ -37,13 +37,13 @@ UInt32 __AudioOutputVolumeGetLevel(Float32 output) {
 }
 
 OSStatus AudioOutputGetSystemDevice(AudioDeviceID *device) {
-  UInt32 size = sizeof(AudioDeviceID);
+  UInt32 size = (UInt32)sizeof(AudioDeviceID);
   return AudioHardwareGetProperty(kAudioHardwarePropertyDefaultOutputDevice, &size, device);
 }
 
 OSStatus AudioOutputGetStereoChannels(AudioDeviceID device, UInt32 *left, UInt32 *right) {
   UInt32 channels[2];
-  UInt32 size = sizeof(channels);
+  UInt32 size = (UInt32)sizeof(channels);
   OSStatus err = AudioDeviceGetProperty(device, 0, FALSE, kAudioDevicePropertyPreferredChannelsForStereo, &size, &channels);
   if (noErr == err) {
     if (left) *left = channels[0];
@@ -68,13 +68,13 @@ Boolean AudioOutputHasVolumeControl(AudioDeviceID device, Boolean *isWritable) {
 }
 
 OSStatus AudioOutputGetVolume(AudioDeviceID device, Float32 *left, Float32 *right) {
-  UInt32 size = sizeof(Float32);
+  UInt32 size = (UInt32)sizeof(Float32);
   OSStatus err = AudioDeviceGetProperty(device, 0, FALSE, kAudioDevicePropertyVolumeScalar, &size, left);
   if (noErr == err) {
     *right = *left;
   } else if (kAudioHardwareUnknownPropertyError == err) {
     UInt32 channels[2];
-    size = sizeof(Float32);
+    size = (UInt32)sizeof(Float32);
     err = AudioOutputGetStereoChannels(device, &channels[0], &channels[1]);
     if (noErr == err) err = AudioDeviceGetProperty(device, channels[0], FALSE, kAudioDevicePropertyVolumeScalar, &size, left);
     if (noErr == err) err = AudioDeviceGetProperty(device, channels[1], FALSE, kAudioDevicePropertyVolumeScalar, &size, right);
@@ -82,12 +82,12 @@ OSStatus AudioOutputGetVolume(AudioDeviceID device, Float32 *left, Float32 *righ
   return err;
 }
 OSStatus AudioOutputSetVolume(AudioDeviceID device, Float32 left, Float32 right) {
-  OSStatus err = AudioDeviceSetProperty(device, NULL, 0, FALSE, kAudioDevicePropertyVolumeScalar, sizeof(Float32), &left);
+  OSStatus err = AudioDeviceSetProperty(device, NULL, 0, FALSE, kAudioDevicePropertyVolumeScalar, (UInt32)sizeof(Float32), &left);
   if (kAudioHardwareUnknownPropertyError == err) {
     UInt32 channels[2];
     err = AudioOutputGetStereoChannels(device, &channels[0], &channels[1]);
-    if (noErr == err) err = AudioDeviceSetProperty(device, NULL, channels[0], FALSE, kAudioDevicePropertyVolumeScalar, sizeof(Float32), &left);
-    if (noErr == err) err = AudioDeviceSetProperty(device, NULL, channels[1], FALSE, kAudioDevicePropertyVolumeScalar, sizeof(Float32), &right);
+    if (noErr == err) err = AudioDeviceSetProperty(device, NULL, channels[0], FALSE, kAudioDevicePropertyVolumeScalar, (UInt32)sizeof(Float32), &left);
+    if (noErr == err) err = AudioDeviceSetProperty(device, NULL, channels[1], FALSE, kAudioDevicePropertyVolumeScalar, (UInt32)sizeof(Float32), &right);
   }
   return err;
 }
@@ -100,7 +100,7 @@ Boolean AudioOutputHasMuteControl(AudioDeviceID device, Boolean *isWritable) {
 
 OSStatus AudioOutputIsMuted(AudioDeviceID device, Boolean *mute) {
   UInt32 value = 0;
-  UInt32 size = sizeof(UInt32);
+  UInt32 size = (UInt32)sizeof(UInt32);
   OSStatus err = AudioDeviceGetProperty(device, 0, FALSE, kAudioDevicePropertyMute, &size, &value);
   if (noErr == err) {
     *mute = value ? TRUE : FALSE;
@@ -115,22 +115,22 @@ OSStatus AudioOutputSetMuted(AudioDeviceID device, Boolean mute) {
                                 0, //channel 0 is master channel
                                 FALSE,  //for an output device
                                 kAudioDevicePropertyMute,
-                                sizeof(UInt32), &value);
+                                (UInt32)sizeof(UInt32), &value);
 }
 
 #pragma mark High Level Functions
 static 
 OSStatus _AudioOutputSetVolume(AudioDeviceID device, Float32 left, Float32 right, Float32 volume) {
-  Float32 balance = SKFloatEquals(right, 0.0) ? 1.0 : left / right;
+  Float32 balance = SKFloatEquals(right, 0.f) ? 1 : left / right;
   if (left > right) {
     left = volume;
-    right = SKFloatEquals(right, 0.0) ? 0.0 : left / balance;
+    right = SKFloatEquals(right, 0.f) ? 0 : left / balance;
   } else {
     right = volume;
     left = right * balance;
   }
-  left = (left < 0.0) ? 0.0 : ((left > 1.0) ? 1.0 : left);
-  right = (right < 0.0) ? 0.0 : ((right > 1.0) ? 1.0 : right);
+  left = (left < 0) ? 0 : ((left > 1) ? 1 : left);
+  right = (right < 0) ? 0 : ((right > 1) ? 1 : right);
   return AudioOutputSetVolume(device, left, right);
 }
 
@@ -142,8 +142,8 @@ OSStatus AudioOutputVolumeUp(AudioDeviceID device, UInt32 *level) {
     UInt32 lvl = __AudioOutputVolumeGetLevel(max);
     if (kAudioOutputVolumeMaxLevel == lvl) {
       /* If not max level */
-      if (!SKFloatEquals(max, 1.0)) {
-        err = _AudioOutputSetVolume(device, left, right, 1.0);
+      if (!SKFloatEquals(max, 1)) {
+        err = _AudioOutputSetVolume(device, left, right, 1);
       }
     } else {
       lvl++;
@@ -162,8 +162,8 @@ OSStatus AudioOutputVolumeDown(AudioDeviceID device, UInt32 *level) {
     UInt32 lvl = __AudioOutputVolumeGetLevel(max);
     if (0 == lvl) {
       /* If not min level */
-      if (!SKFloatEquals(max, 0.0)) {
-        err = _AudioOutputSetVolume(device, left, right, 0.0);
+      if (!SKFloatEquals(max, 0)) {
+        err = _AudioOutputSetVolume(device, left, right, 0);
       }
     } else {
       lvl--;

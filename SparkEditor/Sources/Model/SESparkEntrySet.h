@@ -15,7 +15,7 @@
   NSMutableArray *se_entries;
 }
 
-- (unsigned)count;
+- (NSUInteger)count;
 
 /* Get member */
 - (SparkEntry *)entry:(SparkEntry *)anEntry;

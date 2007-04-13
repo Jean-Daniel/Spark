@@ -314,7 +314,7 @@ OSType _DocumentActionFromFlag(int flag) {
     int realCount;
     FSRef *refs = NSZoneCalloc(nil, count, sizeof(FSRef));
     // Get FSRef for these items.
-    err = SKAEFinderSelectionToFSRefs(&selection , refs, count, &realCount);
+    err = SKAEFinderSelectionToFSRefs(&selection , refs, (int)count, &realCount);
     if (noErr == err && realCount > 0) {
       FSRef app;
       LSLaunchFSRefSpec spec;

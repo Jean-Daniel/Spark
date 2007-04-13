@@ -39,7 +39,7 @@ static void __HKEventInitialize() {
 }
 
 #pragma mark -
-UInt32 HKEventSleepInterval = 5000;
+CFIndex HKEventSleepInterval = 5000;
 
 HK_INLINE
 void __HKEventPostKeyboardEvent(CGEventSourceRef source, HKKeycode keycode, void *psn, Boolean down) {
@@ -49,8 +49,10 @@ void __HKEventPostKeyboardEvent(CGEventSourceRef source, HKKeycode keycode, void
   else
     CGEventPost(kCGHIDEventTap, event);
   CFRelease(event);
-  /* Avoid to fast typing (5 ms by default) */
-  usleep(HKEventSleepInterval);
+  if (HKEventSleepInterval > 0) {
+    /* Avoid to fast typing (5 ms by default) */
+    usleep(HKEventSleepInterval);
+  }
 }
 
 static

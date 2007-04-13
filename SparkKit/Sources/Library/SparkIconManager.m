@@ -238,7 +238,7 @@ SparkObjectSet *_SparkObjectSetForType(SparkLibrary *library, UInt8 type) {
 - (id)initWithObject:(SparkObject *)object {
   if (self = [super init]) {
     sp_clean = YES;
-    UInt32 uid = [object uid];
+    SparkUID uid = [object uid];
     UInt32 type = __SparkIconTypeForObject(object);
     sp_path = [[NSString alloc] initWithFormat:@"%u/%u", type, uid];
   }

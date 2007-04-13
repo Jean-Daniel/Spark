@@ -89,7 +89,7 @@
             [[self menu] insertItem:[self itemForPath:[application path]] atIndex:0];
         }
         if (prefered) {
-          int idx = [sorted indexOfObject:(id)prefered];
+          NSUInteger idx = [sorted indexOfObject:(id)prefered];
           if (idx != NSNotFound) {
             idx++;
             [self selectItemAtIndex:[sorted count] - idx];

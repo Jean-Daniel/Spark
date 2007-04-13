@@ -128,7 +128,7 @@ NSString * const kSparkLibraryArchiveFileName = @"Spark Library";
     NSMutableSet *blacklist = [[NSMutableSet alloc] init];
     [blacklist addObject:@".DS_Store"];
     /* Then, write in memory entries */
-    UInt32 uid = 0;
+    SparkUID uid = 0;
     _SparkIconEntry *entry = nil;
     NSMapEnumerator items = NSEnumerateMapTable(sp_cache[idx]);
     while (NSNextMapEnumeratorPair(&items, (void **)&uid, (void **)&entry)) {

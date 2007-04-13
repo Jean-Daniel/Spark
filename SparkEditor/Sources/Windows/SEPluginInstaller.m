@@ -106,7 +106,7 @@ dispose:
   return [[NSWorkspace sharedWorkspace] performFileOperation:(flag ? NSWorkspaceCopyOperation : NSWorkspaceMoveOperation) source:src destination:dest files:files tag:NULL];
 }
 
-- (NSString *)installPlugin:(NSString *)plugin domain:(int)skdomain {
+- (NSString *)installPlugin:(NSString *)plugin domain:(NSInteger)skdomain {
   if (![[NSFileManager defaultManager] fileExistsAtPath:plugin]) {
     NSRunAlertPanel(@"The plugin was not installed", @"Cannot find plugin at path \"%@\"", @"OK", nil, nil, plugin);
     return NO;
@@ -143,7 +143,7 @@ dispose:
         NSRunAlertPanel(@"The plugin was not installed", @"Unknown error while looking for plugin path", @"OK", nil, nil);
       } else {
         NSString *root = nil;
-        unsigned count = [cmpt count];
+        NSUInteger count = [cmpt count];
         while (count-- > 0) {
           tmp = [tmp stringByAppendingPathComponent:[cmpt objectAtIndex:count]];
           if (!root)

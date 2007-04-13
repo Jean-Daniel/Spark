@@ -96,7 +96,7 @@
   if (kSystemSwitch == [self action]) {
     NSMenuItem *item = [ibUsers selectedItem];
     if ([item tag]) {
-      [action setUserID:[item tag]];
+      [action setUserID:(uid_t)[item tag]];
       [action setUserName:[item title]];
     }
   }
@@ -152,7 +152,7 @@
   if ([self action] == kSystemSwitch) {
     NSMenuItem *item = [ibUsers selectedItem];
     if ([item tag]) {
-      [action setUserID:[item tag]];
+      [action setUserID:(uid_t)[item tag]];
       [action setUserName:[item title]];
     } else {
       [action setUserID:0];

@@ -25,8 +25,8 @@
 
 - (IBAction)defaultSettings:(id)sender;
 
-- (float)delay;
-- (void)setDelay:(float)aDelay;
+- (CGFloat)delay;
+- (void)setDelay:(CGFloat)aDelay;
 
 - (int)location;
 - (void)setLocation:(int)idx;

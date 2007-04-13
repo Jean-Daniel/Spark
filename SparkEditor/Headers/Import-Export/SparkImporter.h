@@ -24,6 +24,6 @@
 - (void)setSerializedList:(id)plist;
 - (void)setLibrary:(SparkLibrary *)library;
 
-- (int)searchCategorie;
-- (void)setSearchCategorie:(int)aCategorie;
+- (NSInteger)searchCategorie;
+- (void)setSearchCategorie:(NSInteger)aCategorie;
 @end

@@ -12,7 +12,7 @@
 
 /* Sleeping interval between 2 key events (microseconds). Defaults: 5 ms */
 HK_EXPORT
-UInt32 HKEventSleepInterval;
+CFIndex HKEventSleepInterval;
 
 HK_EXPORT
 CGEventSourceRef HKEventCreatePrivateSource(void);

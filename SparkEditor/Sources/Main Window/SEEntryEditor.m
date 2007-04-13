@@ -250,7 +250,7 @@
 }
 
 - (SparkPlugIn *)actionType {
-  int row = [uiTypeTable selectedRow];
+  NSInteger row = [uiTypeTable selectedRow];
   return row >= 0 ? [se_plugins objectAtIndex:row] : nil;
 }
 
@@ -298,7 +298,7 @@
   if (se_entry) {
     SparkHotKey *hotkey = [se_entry trigger];
     key.keycode = [hotkey keycode];
-    key.modifiers = [hotkey modifier];
+    key.modifiers = [hotkey nativeModifier];
     key.character = [hotkey character];
   }
   [uiTrap setHotKey:key];
@@ -320,19 +320,19 @@
   }
 }
 
-- (int)numberOfRowsInTableView:(NSTableView *)aTableView {
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView {
   return [se_plugins count];
 }
 
-- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
   return [se_plugins objectAtIndex:rowIndex];
 }
 
 /* Separator Implementation */
-- (float)tableView:(NSTableView *)tableView heightOfRow:(int)row {
+- (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row {
   return row >= 0 && [[[se_plugins objectAtIndex:row] name] isEqualToString:SETableSeparator] ? 1 : [tableView rowHeight];
 }
-- (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(int)rowIndex {
+- (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(NSInteger)rowIndex {
   return rowIndex >= 0 ? ![[[se_plugins objectAtIndex:rowIndex] name] isEqualToString:SETableSeparator] : YES;
 }
 
@@ -437,7 +437,7 @@
       if ([se_view autoresizingMask] & NSViewWidthSizable) {
         vrect.size.width = se_min.width;
       } else {
-        vrect.origin.x = roundf(AVG(se_min.width, -NSWidth(vrect)));
+        vrect.origin.x = roundcg(AVG(se_min.width, -NSWidth(vrect)));
       }
     }
     if (NSHeight(vrect) < se_min.height) {
@@ -445,7 +445,7 @@
       if ([se_view autoresizingMask] & NSViewHeightSizable) {
         vrect.size.height = se_min.height;
       } else {
-        vrect.origin.y = roundf(AVG(se_min.height, -NSHeight(vrect)));
+        vrect.origin.y = roundcg(AVG(se_min.height, -NSHeight(vrect)));
       }
     }
     [se_view setFrame:vrect];
@@ -469,7 +469,7 @@
     /* set frame (in pixel units) */
     NSRect pframe = [window frameRectForContentRect:wframe];
     /* Adjust window position using screen factor */
-    float sscale = SKScreenScaleFactor([window screen]);
+    CGFloat sscale = SKScreenScaleFactor([window screen]);
     pframe.origin.x -= sscale * delta.width / 2;
     pframe.origin.y -= sscale * delta.height;
     [window setFrame:pframe display:YES animate:YES];
@@ -479,12 +479,12 @@
     wframe.size.height += 22 / SKWindowScaleFactor(window);
     /* Adjust window attributes */
     NSSize smax = wframe.size;
-    unsigned int mask = [se_view autoresizingMask];
+    NSUInteger mask = [se_view autoresizingMask];
     if (mask & NSViewWidthSizable) {
-      smax.width = MAXFLOAT;
+      smax.width = CGFLOAT_MAX;
     }
     if (mask & NSViewHeightSizable) {
-      smax.height = MAXFLOAT;
+      smax.height = CGFLOAT_MAX;
     }
     if (MAXFLOAT <= smax.width || MAXFLOAT <= smax.height) {
       [window setShowsResizeIndicator:YES];
@@ -510,14 +510,14 @@
     [self recalculateKeyViewLoop];
     [se_plugin pluginViewDidBecomeVisible];
     
-    unsigned row = [se_plugins indexOfObject:aPlugin];
-    if (row != NSNotFound && (int)row != [uiTypeTable selectedRow])
+    NSUInteger row = [se_plugins indexOfObject:aPlugin];
+    if (row != NSNotFound && (NSInteger)row != [uiTypeTable selectedRow])
       [uiTypeTable selectRow:row byExtendingSelection:NO];
   }
 }
 
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification {
-  int row = [[aNotification object] selectedRow];
+  NSInteger row = [[aNotification object] selectedRow];
   if (row >= 0) {
     [self setActionType:[se_plugins objectAtIndex:row]];
   }
@@ -535,7 +535,7 @@
     return NO;
   } else {
     UInt16 code = [theEvent keyCode];
-    UInt32 mask = [theEvent modifierFlags] & SEValidModifiersFlags;
+    NSUInteger mask = [theEvent modifierFlags] & SEValidModifiersFlags;
     /* Shift tab is a navigation shortcut */
     if (NSShiftKeyMask == mask && code == kVirtualTabKey)
       return YES;
@@ -555,9 +555,9 @@
 
 - (NSTimeInterval)animationResizeTime:(NSRect)newFrame {
   NSEvent *event = [NSApp currentEvent];
-  float factor = SKWindowScaleFactor(self);
+  CGFloat factor = SKWindowScaleFactor(self);
   /* Want 150 points per time unit => 150*scale pixels */
-  float delta = ABS(NSHeight([self frame]) - NSHeight(newFrame));
+  CGFloat delta = ABS(NSHeight([self frame]) - NSHeight(newFrame));
   if (([event modifierFlags] & NSDeviceIndependentModifierFlagsMask) == NSShiftKeyMask) {
     return (1.f * delta / (150. * factor)); //(1.25f * delta / 150.);
   } else {

@@ -78,13 +78,13 @@ NSPoint _iTunesGetPointForIndex(int idx) {
 }
 SK_INLINE
 int _iTunesGetIndexForPoint(NSPoint point) {
-  if (SKFloatEquals(point.x, kiTunesUpperLeft.x))
+  if (SKCGFloatEquals(point.x, kiTunesUpperLeft.x))
     return 0;
-  if (SKFloatEquals(point.x, kiTunesUpperRight.x))
+  if (SKCGFloatEquals(point.x, kiTunesUpperRight.x))
     return 1;
-  if (SKFloatEquals(point.x, kiTunesBottomLeft.x))
+  if (SKCGFloatEquals(point.x, kiTunesBottomLeft.x))
     return 2;
-  if (SKFloatEquals(point.x, kiTunesBottomRight.x))
+  if (SKCGFloatEquals(point.x, kiTunesBottomRight.x))
     return 3;
   
   return 5;
@@ -117,10 +117,10 @@ int _iTunesGetIndexForPoint(NSPoint point) {
   }
 }
 
-- (float)delay {
+- (CGFloat)delay {
   return [ia_info delay];
 }
-- (void)setDelay:(float)aDelay {
+- (void)setDelay:(CGFloat)aDelay {
   [ia_info setDelay:aDelay < 0.5 ? 1 : aDelay];
 }
 

@@ -42,10 +42,10 @@ NSShadow *sDropShadow = nil, *sLevelShadow = nil;
   SKSetFlag(sk_svFlags.zero, flag);
 }
 
-- (UInt32)level {
+- (NSUInteger)level {
   return sk_svFlags.level;
 }
-- (void)setLevel:(UInt32)level {
+- (void)setLevel:(NSUInteger)level {
   if (level > kSKLevelViewMaxLevel) level = kSKLevelViewMaxLevel;
   sk_svFlags.level = level;
   [self setNeedsDisplay:YES];
@@ -55,7 +55,7 @@ NSShadow *sDropShadow = nil, *sLevelShadow = nil;
 }
 
 - (void)drawLevelIndicator:(CGContextRef)ctxt {
-  UInt32 level = [self zero] ? 0 : [self level];
+  NSUInteger level = [self zero] ? 0 : [self level];
   
   unsigned idx = 0;
   CGContextSetGrayFillColor(ctxt, 0, .45);

@@ -49,7 +49,7 @@ NSShadow *sHighlightShadow = nil;
   return nil;
 }
 
-- (void)selectWithFrame:(NSRect)aRect inView:(NSView *)controlView editor:(NSText *)textObj delegate:(id)anObject start:(int)selStart length:(int)selLength {
+- (void)selectWithFrame:(NSRect)aRect inView:(NSView *)controlView editor:(NSText *)textObj delegate:(id)anObject start:(NSInteger)selStart length:(NSInteger)selLength {
   [self setTextColor:[NSColor blackColor]];
   [super selectWithFrame:aRect inView:controlView editor:textObj delegate:anObject start:selStart length:selLength];
 }
@@ -90,7 +90,7 @@ NSShadow *sHighlightShadow = nil;
   if (border) {
     [img lockFocus];
     [border setStroke];
-    float y = 0.5;
+    CGFloat y = 0.5;
     [NSBezierPath strokeLineFromPoint:NSMakePoint(0, y) toPoint:NSMakePoint(64, y)];
     [img unlockFocus];
   }
@@ -106,7 +106,7 @@ NSShadow *sHighlightShadow = nil;
 }
 
 /* Nasty private override */
-- (void)_drawDropHighlightOnRow:(int)row {
+- (void)_drawDropHighlightOnRow:(NSInteger)row {
   /* As it is a private method, we have to avoid recursive call,
   even if it does not occured actually */
   if (!se_lock) {

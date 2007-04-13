@@ -49,7 +49,7 @@ void SEPreferencesSetLoginItemStatus(BOOL status) {
 }
 
 SK_INLINE
-void __SetSparkKitSingleKeyMode(int mode) {
+void __SetSparkKitSingleKeyMode(NSInteger mode) {
   SparkKeyStrokeFilterMode = (mode >= 0 && mode <= 3) ? mode : kSparkEnableSingleFunctionKey;
 }
 
@@ -170,7 +170,7 @@ void *_SEPreferencesLoginItemThread(void *arg) {
   [se_plugins addObject:item];
   
   [ibPlugins reloadData];
-  for (unsigned idx = 0; idx < [se_plugins count]; idx++) {
+  for (NSUInteger idx = 0; idx < [se_plugins count]; idx++) {
     item = [se_plugins objectAtIndex:idx];
     if ([[item objectForKey:@"plugins"] count])
       [ibPlugins expandItem:item];
@@ -259,12 +259,12 @@ void *_SEPreferencesLoginItemThread(void *arg) {
 }
 
 #pragma mark Single Key Mode
-- (int)singleKeyMode {
-  int mode = SparkKeyStrokeFilterMode;
+- (NSInteger)singleKeyMode {
+  NSInteger mode = SparkKeyStrokeFilterMode;
   return (mode >= 0 && mode <= 3) ? mode : kSparkEnableSingleFunctionKey;
 }
 
-- (void)setSingleKeyMode:(int)mode {
+- (void)setSingleKeyMode:(NSInteger)mode {
   __SetSparkKitSingleKeyMode(mode);
   [[NSUserDefaults standardUserDefaults] setInteger:mode forKey:kSparkPrefSingleKeyMode];
 }
@@ -274,10 +274,10 @@ void *_SEPreferencesLoginItemThread(void *arg) {
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item {
   return !item || ![item isKindOfClass:[SparkPlugIn class]];
 }
-- (int)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item {
+- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item {
   return item ? [[item objectForKey:@"plugins"] count] : [se_plugins count];
 }
-- (id)outlineView:(NSOutlineView *)outlineView child:(int)anIndex ofItem:(id)item {
+- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)anIndex ofItem:(id)item {
   return item ? [[item objectForKey:@"plugins"] objectAtIndex:anIndex] : [se_plugins objectAtIndex:anIndex];
 }
 - (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item {
@@ -318,7 +318,7 @@ void *_SEPreferencesLoginItemThread(void *arg) {
 }
 
 - (void)deleteSelectionInOutlineView:(NSOutlineView *)aView {
-  int row = [aView selectedRow];
+  NSInteger row = [aView selectedRow];
   if (row > 0) {
     id item = [aView itemAtRow:row];
     if (item && [item isKindOfClass:[SparkPlugIn class]]) {

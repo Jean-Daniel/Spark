@@ -64,7 +64,7 @@ NSString * const SparkNotificationUpdatedObjectKey = @"SparkNotificationUpdatedO
 #define kSparkLibraryVersion_1_0		0x100
 #define kSparkLibraryVersion_2_0		0x200
 
-const UInt32 kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_0;
+const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_0;
 
 @interface SparkLibrary (SparkLibraryLoader)
 /* Initializer */

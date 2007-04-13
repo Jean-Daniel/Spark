@@ -27,7 +27,7 @@
 }
 
 #pragma mark -
-- (unsigned)count {
+- (NSUInteger)count {
   return [se_entries count];
 }
 - (void)removeAllEntries {
@@ -55,14 +55,14 @@
 }
 
 - (SparkEntry *)entry:(SparkEntry *)anEntry {
-  unsigned idx = [se_entries indexOfObject:anEntry];
+  NSUInteger idx = [se_entries indexOfObject:anEntry];
   if (idx != NSNotFound)
     return [se_entries objectAtIndex:idx];
   return nil;
 }
 
 - (void)replaceEntry:(SparkEntry *)anEntry withEntry:(SparkEntry *)newEntry {
-  unsigned idx = [se_entries indexOfObjectIdenticalTo:anEntry];
+  NSUInteger idx = [se_entries indexOfObjectIdenticalTo:anEntry];
   if (idx != NSNotFound) {
     [se_entries replaceObjectAtIndex:idx withObject:newEntry];
     NSMapRemove(se_set, [anEntry trigger]);
@@ -103,7 +103,7 @@
 }
 
 - (SparkEntry *)entryForAction:(SparkAction *)anAction {
-  unsigned idx = [se_entries count];
+  NSUInteger idx = [se_entries count];
   while (idx-- > 0) {
     SparkEntry *entry = [se_entries objectAtIndex:idx];
     if ([[entry action] isEqual:anAction])

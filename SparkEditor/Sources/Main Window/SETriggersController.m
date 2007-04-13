@@ -134,8 +134,8 @@ NSString * sSEHiddenPluggedObserverKey = nil;
 }
 
 - (void)setListEnabled:(BOOL)flag {
-  UInt32 app = [[self application] uid];
-  int idx = [self count];
+  SparkUID app = [[self application] uid];
+  NSUInteger idx = [self count];
   SparkEntryManager *manager = [[self library] entryManager];
   SEL method = flag ? @selector(enableEntry:) : @selector(disableEntry:);
   while (idx-- > 0) {
@@ -173,11 +173,11 @@ NSString * sSEHiddenPluggedObserverKey = nil;
 
 #pragma mark -
 #pragma mark Data Source
-- (BOOL)tableView:(NSTableView *)aTableView shouldEditTableColumn:(NSTableColumn *)tableColumn row:(int)rowIndex {
+- (BOOL)tableView:(NSTableView *)aTableView shouldEditTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)rowIndex {
   /* Should not allow all columns */
   return [[tableColumn identifier] isEqualToString:@"__item__"] || [[tableColumn identifier] isEqualToString:@"active"];
 }
-- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
+- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
 
 }
 
@@ -203,8 +203,8 @@ NSString * sSEHiddenPluggedObserverKey = nil;
 
 - (BOOL)tableView:(SETriggerTable *)aTable shouldHandleOptionClick:(NSEvent *)anEvent {
   NSPoint point = [aTable convertPoint:[anEvent locationInWindow] fromView:nil];
-  int row = [aTable rowAtPoint:point];
-  int column = [aTable columnAtPoint:point];
+  NSInteger row = [aTable rowAtPoint:point];
+  NSInteger column = [aTable columnAtPoint:point];
   if (row != -1 && column != -1) {
     if ([[[[aTable tableColumns] objectAtIndex:column] identifier] isEqualToString:@"active"]) {
       SparkEntry *entry = [self objectAtIndex:row];
@@ -227,7 +227,7 @@ NSString * sSEHiddenPluggedObserverKey = nil;
   }
 }
 
-- (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
+- (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
   SparkEntry *entry = [self objectAtIndex:rowIndex];
   
   /* Text field cell */
@@ -273,7 +273,7 @@ NSString * sSEHiddenPluggedObserverKey = nil;
       if ([aCell respondsToSelector:@selector(setDrawsLineOver:)])
         [aCell setDrawsLineOver:styles[idx].strike && ![entry isEnabled]];
       
-      float size = [NSFont smallSystemFontSize];
+      CGFloat size = [NSFont smallSystemFontSize];
       [aCell setFont:styles[idx].bold ? [NSFont boldSystemFontOfSize:size] : [NSFont systemFontOfSize:size]];
     }
   }
@@ -282,7 +282,7 @@ NSString * sSEHiddenPluggedObserverKey = nil;
 #pragma mark Drag & Drop
 - (BOOL)tableView:(NSTableView *)aTableView writeRows:(NSArray *)rows toPasteboard:(NSPasteboard *)pboard {
   NSMutableIndexSet *idxes = [NSMutableIndexSet indexSet];
-  unsigned count = [rows count];
+  NSUInteger count = [rows count];
   while (count-- > 0) {
     [idxes addIndex:[[rows objectAtIndex:count] unsignedIntValue]];
   }
@@ -297,7 +297,7 @@ NSString * sSEHiddenPluggedObserverKey = nil;
   [plist setObject:[NSData dataWithBytes:&bytes length:sizeof(bytes)] forKey:@"uuid"];
   [pboard declareTypes:[NSArray arrayWithObject:SparkEntriesPboardType] owner:self];
   
-  int idx = 0;
+  NSUInteger idx = 0;
   NSMutableArray *triggers = [[NSMutableArray alloc] init];
   SKIndexEnumerator *indexes = [rowIndexes indexEnumerator];
   while ((idx = [indexes nextIndex]) != NSNotFound) {
@@ -328,7 +328,7 @@ NSString * sSEHiddenPluggedObserverKey = nil;
   }
 }
 
-- (UInt32)triggerValue {
+- (NSUInteger)triggerValue {
   return [[self trigger] character] << 16 | [[self trigger] modifier] & 0xff;
 }
 

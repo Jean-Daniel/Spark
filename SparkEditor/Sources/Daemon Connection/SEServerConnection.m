@@ -72,7 +72,7 @@ NSString * const SEServerStatusDidChangeNotification = @"SEServerStatusDidChange
   }
 }
 #pragma mark -
-- (int)version {
+- (UInt32)version {
   if ([self isConnected]) {
     if ([[self server] respondsToSelector:@selector(version)]) {
       @try {

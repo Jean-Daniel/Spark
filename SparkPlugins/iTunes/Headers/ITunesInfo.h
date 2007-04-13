@@ -98,10 +98,10 @@ UInt64 ITunesVisualPackColor(float color[4]) {
 
 SK_INLINE
 void ITunesVisualUnpackColor(UInt64 pack, float color[4]) {
-  color[0] = (double)((pack >> 0) & 0xffff) / 0xffff;
-  color[1] = (double)((pack >> 16) & 0xffff) / 0xffff;
-  color[2] = (double)((pack >> 32) & 0xffff) / 0xffff;
-  color[3] = (double)((pack >> 48) & 0xffff) / 0xffff;
+  color[0] = (float)((pack >> 0) & 0xffff) / 0xffff;
+  color[1] = (float)((pack >> 16) & 0xffff) / 0xffff;
+  color[2] = (float)((pack >> 32) & 0xffff) / 0xffff;
+  color[3] = (float)((pack >> 48) & 0xffff) / 0xffff;
 }
 
 typedef struct _ITunesPackedVisual {
@@ -118,8 +118,8 @@ NSData *ITunesVisualPack(ITunesVisual *visual) {
   ITunesPackedVisual *pack = [data mutableBytes];
   pack->shadow = visual->shadow ? 1 : 0;
   pack->delay = CFConvertFloat64HostToSwapped(visual->delay);
-  pack->x = CFConvertFloat32HostToSwapped(visual->location.x);
-  pack->y = CFConvertFloat32HostToSwapped(visual->location.y);
+  pack->x = CFConvertFloat32HostToSwapped((float)visual->location.x);
+  pack->y = CFConvertFloat32HostToSwapped((float)visual->location.y);
   pack->colors[0] = OSSwapHostToBigInt64(ITunesVisualPackColor(visual->text));
   pack->colors[1] = OSSwapHostToBigInt64(ITunesVisualPackColor(visual->border));
   pack->colors[2] = OSSwapHostToBigInt64(ITunesVisualPackColor(visual->backtop));

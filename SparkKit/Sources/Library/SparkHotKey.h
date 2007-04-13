@@ -15,12 +15,13 @@
 
 #import <HotKeyToolKit/HotKeyToolKit.h>
 
-typedef enum {
+enum {
   kSparkDisableAllSingleKey           = 0,
   kSparkEnableSingleFunctionKey       = 1, /* Default */
   kSparkEnableAllSingleButNavigation  = 2,
   kSparkEnableAllSingleKey            = 3,
-} SparkFilterMode;
+};
+typedef NSInteger SparkFilterMode;
 
 SPARK_EXPORT
 SparkFilterMode SparkKeyStrokeFilterMode;

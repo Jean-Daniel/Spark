@@ -44,13 +44,13 @@ enum {
 
 SK_INLINE
 int __iTunesGetTypeForLocation(NSPoint point) {
-  if (SKFloatEquals(point.x, kiTunesUpperLeft.x))
+  if (SKCGFloatEquals(point.x, kiTunesUpperLeft.x))
     return kiTunesVisualUL;
-  if (SKFloatEquals(point.x, kiTunesUpperRight.x))
+  if (SKCGFloatEquals(point.x, kiTunesUpperRight.x))
     return kiTunesVisualUR;
-  if (SKFloatEquals(point.x, kiTunesBottomLeft.x))
+  if (SKCGFloatEquals(point.x, kiTunesBottomLeft.x))
     return kiTunesVisualBL;
-  if (SKFloatEquals(point.x, kiTunesBottomRight.x))
+  if (SKCGFloatEquals(point.x, kiTunesBottomRight.x))
     return kiTunesVisualBR;
   
   return kiTunesVisualOther;
@@ -72,6 +72,21 @@ NSPoint __iTunesGetLocationForType(int type) {
 
 SK_INLINE
 BOOL __FloatEquals(float a, float b) { double __delta = a - b; return (__delta < 1e-5 && __delta > -1e-5); }
+SK_INLINE
+BOOL __CGFloatEquals(CGFloat a, CGFloat b) { CGFloat __delta = a - b; return (__delta < 1e-5 && __delta > -1e-5); }
+
+SK_INLINE 
+void __CopyCGColor(const CGFloat cgcolor[], float color[]) {
+  for (NSUInteger idx = 0; idx < 4; idx++) {
+    color[idx] = (float)cgcolor[idx];
+  }
+}
+SK_INLINE 
+void __CopyColor(const float color[], CGFloat cgcolor[]) {
+  for (NSUInteger idx = 0; idx < 4; idx++) {
+    cgcolor[idx] = color[idx];
+  }
+}
 
 SK_INLINE
 BOOL __ITunesVisualCompareColors(const float c1[4], const float c2[4]) {
@@ -82,8 +97,8 @@ BOOL __ITunesVisualCompareColors(const float c1[4], const float c2[4]) {
 
 BOOL ITunesVisualIsEqualTo(const ITunesVisual *v1, const ITunesVisual *v2) {
   if (v1->shadow != v2->shadow) return NO;
-  if (!__FloatEquals(v1->delay, v2->delay)) return NO;
-  if (!__FloatEquals(v1->location.x, v2->location.x) || !__FloatEquals(v1->location.y, v2->location.y)) return NO;
+  if (!__CGFloatEquals(v1->delay, v2->delay)) return NO;
+  if (!__CGFloatEquals(v1->location.x, v2->location.x) || !__CGFloatEquals(v1->location.y, v2->location.y)) return NO;
   
   if (!__ITunesVisualCompareColors(v1->text, v2->text)) return NO;
   if (!__ITunesVisualCompareColors(v1->border, v2->border)) return NO;
@@ -95,7 +110,7 @@ BOOL ITunesVisualIsEqualTo(const ITunesVisual *v1, const ITunesVisual *v2) {
 
 @interface ITunesInfoView : NSView {
   @private
-  float border[4];
+  CGFloat border[4];
   CGShadingRef shading;
   SKSimpleShadingInfo info;
 }
@@ -160,9 +175,9 @@ BOOL ITunesVisualIsEqualTo(const ITunesVisual *v1, const ITunesVisual *v2) {
 
 #pragma mark -
 SK_INLINE
-void __iTunesGetColorComponents(NSColor *color, float values[]) {
+void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
   color = [color colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
-  [color getRed:&values[0] green:&values[1] blue:&values[2] alpha:&values[3]];
+  [color getRed:&rgba[0] green:&rgba[1] blue:&rgba[2] alpha:&rgba[3]];
 }
 
 - (void)getVisual:(ITunesVisual *)visual {
@@ -175,7 +190,9 @@ void __iTunesGetColorComponents(NSColor *color, float values[]) {
   /* Get shadow */
   visual->shadow = [[self window] hasShadow];
   /* Get text color */
-  __iTunesGetColorComponents([self textColor], visual->text);
+  CGFloat rgba[4];
+  __iTunesGetColorComponents([self textColor], rgba);
+  __CopyCGColor(rgba, visual->text);
   [(id)[[self window] contentView] getVisual:visual];
 }
 
@@ -369,8 +386,8 @@ void __iTunesGetColorComponents(NSColor *color, float values[]) {
 }
 
 static
-void iTunesShadingFunction(void *pinfo, const float *in, float *out) {
-  float v;
+void iTunesShadingFunction(void *pinfo, const CGFloat *in, CGFloat *out) {
+  CGFloat v;
   SKSimpleShadingInfo *ctxt = pinfo;
 
   v = *in;
@@ -411,13 +428,13 @@ void iTunesShadingFunction(void *pinfo, const float *in, float *out) {
 
 #pragma mark -
 - (void)getVisual:(ITunesVisual *)visual {
-  memcpy(visual->border, border, sizeof(visual->border));
+  __CopyCGColor(border, visual->border);
   memcpy(visual->backbot, info.end, sizeof(visual->backbot));
   memcpy(visual->backtop, info.start, sizeof(visual->backtop));
 }
 
 - (void)setVisual:(const ITunesVisual *)visual {
-  memcpy(border, visual->border, sizeof(visual->border));
+  __CopyColor(visual->border, border);  
   memcpy(info.end, visual->backbot, sizeof(visual->backbot));
   memcpy(info.start, visual->backtop, sizeof(visual->backtop));
   [self clearShading];

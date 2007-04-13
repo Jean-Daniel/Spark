@@ -219,7 +219,7 @@ bail:
     UInt64 plid = [coder decodeInt64ForKey:kITunesPlaylistIDKey];
     [self setPlaylist:[coder decodeObjectForKey:kITunesPlaylistKey] uid:plid];
     
-    unsigned length = 0;
+    NSUInteger length = 0;
     const void *visual = [coder decodeBytesForKey:kITunesVisualKey returnedLength:&length];
     if (visual != NULL && sizeof(*ia_visual) == length) {
       ia_visual = NSZoneMalloc(nil, sizeof(*ia_visual));
@@ -738,7 +738,7 @@ NSString *ITunesActionDescription(ITunesAction *action) {
       if ([action rating] % 20)
         snprintf(rate, 32, "%.1f", [action rating] / 20.0);
       else
-        snprintf(rate, 32, "%li", [action rating] / 20);
+        snprintf(rate, 32, "%i", (int)[action rating] / 20);
       desc = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"DESC_RATE_TRACK", nil, bundle,
                                                                            @"Rate Track * Action Description * (%s = rating)"),
         rate];

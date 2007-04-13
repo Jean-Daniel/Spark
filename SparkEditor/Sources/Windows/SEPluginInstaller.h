@@ -21,6 +21,6 @@
 
 - (void)setPlugin:(NSString *)path;
 
-- (NSString *)installPlugin:(NSString *)plugin domain:(int)skdomain;
+- (NSString *)installPlugin:(NSString *)plugin domain:(NSInteger)skdomain;
 
 @end

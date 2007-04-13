@@ -56,7 +56,7 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
 
 - (id)se_windowController:(Class)class {
   NSArray *ctrls = [self windowControllers];
-  unsigned count = [ctrls count];
+  NSUInteger count = [ctrls count];
   while (count-- > 0) {
     id ctrl = [ctrls objectAtIndex:count];
     if ([ctrl isKindOfClass:class])
@@ -158,7 +158,7 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
                     contextInfo:nil];
 }
 
-- (void)archivePanelDidEnd:(NSSavePanel *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
+- (void)archivePanelDidEnd:(NSSavePanel *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
   if (NSOKButton == returnCode) {
     NSString *file = [sheet filename];
     if (file) {
@@ -186,7 +186,7 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
                  didEndSelector:@selector(revertToBackupDidEnd:result:context:)
                     contextInfo:nil];
 }
-- (void)revertToBackupDidEnd:(NSOpenPanel *)panel result:(int)code context:(void *)nothing {
+- (void)revertToBackupDidEnd:(NSOpenPanel *)panel result:(NSInteger)code context:(void *)nothing {
   if (NSOKButton == code && [[panel filenames] count] > 0) {
     NSString *filename = [[panel filenames] objectAtIndex:0];
     [self revertToBackup:filename];
@@ -421,7 +421,7 @@ NSAlert *_SELibraryTriggerAlreadyUsedAlert(SparkEntry *entry) {
       if ([entry type] == kSparkEntryTypeDefault && [[newEntry application] uid] == 0) {
         /* Update weak entry */
         NSArray *entries = [manager entriesForAction:[[entry action] uid]];
-        unsigned count = [entries count];
+        NSUInteger count = [entries count];
         /* At least two */
         if (count > 1) {
           while (count-- > 0) {
@@ -475,11 +475,11 @@ NSAlert *_SELibraryTriggerAlreadyUsedAlert(SparkEntry *entry) {
 }
 
 #pragma mark Remove
-- (unsigned)removeEntries:(NSArray *)entries {
+- (NSUInteger)removeEntries:(NSArray *)entries {
   BOOL hasCustom = NO;
   SparkApplication *application = [self application];
   if ([application uid] == 0) {
-    int count = [entries count];
+    NSUInteger count = [entries count];
     while (count-- > 0 && !hasCustom) {
       SparkEntry *entry = [entries objectAtIndex:count];
       hasCustom |= [[[self library] entryManager] containsOverwriteEntryForTrigger:[[entry trigger] uid]];
@@ -489,8 +489,8 @@ NSAlert *_SELibraryTriggerAlreadyUsedAlert(SparkEntry *entry) {
     }
   }
   
-  unsigned removed = 0;
-  int count = [entries count];
+  NSUInteger removed = 0;
+  NSUInteger count = [entries count];
   SparkEntryManager *manager = [se_library entryManager];
   while (count-- > 0) {
     SparkEntry *entry = [entries objectAtIndex:count];

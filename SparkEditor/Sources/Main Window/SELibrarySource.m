@@ -104,7 +104,7 @@ BOOL SEOverwriteFilter(SEEntryList *list, SparkEntry *object, SparkApplication *
     se_plugins = NSCreateMapTable(NSObjectMapKeyCallBacks, NSObjectMapValueCallBacks, [plugins count]);
   }
   
-  unsigned idx = [plugins count];
+  NSUInteger idx = [plugins count];
   while (idx-- > 0) {
     SparkPlugIn *plugin = [plugins objectAtIndex:idx];
     if ([plugin isEnabled]) {
@@ -235,11 +235,11 @@ BOOL SEOverwriteFilter(SEEntryList *list, SparkEntry *object, SparkApplication *
 }
 
 #pragma mark Data Source
-- (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(int)row {
+- (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
   // useless with using bindings, but needed to activate "option + click" editing with SKTableView.
 }
 
-- (BOOL)tableView:(NSTableView *)aTableView shouldEditTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
+- (BOOL)tableView:(NSTableView *)aTableView shouldEditTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
   if (rowIndex >= 0) {
     SEEntryList *item = [self objectAtIndex:rowIndex];
     return [item isEditable];
@@ -249,7 +249,7 @@ BOOL SEOverwriteFilter(SEEntryList *list, SparkEntry *object, SparkApplication *
 
 #pragma mark Drag & Drop
 /* Allow drop only in editable list (uid > kSparkLibraryReserved && not dynamic) */
-- (NSDragOperation)tableView:(NSTableView *)aTableView validateDrop:(id <NSDraggingInfo>)info proposedRow:(int)row proposedDropOperation:(NSTableViewDropOperation)operation {
+- (NSDragOperation)tableView:(NSTableView *)aTableView validateDrop:(id <NSDraggingInfo>)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)operation {
   if (NSTableViewDropOn == operation) {
     SEEntryList *list = [self objectAtIndex:row];
     if ([list isEditable] && [[[info draggingPasteboard] types] containsObject:SparkEntriesPboardType])
@@ -259,7 +259,7 @@ BOOL SEOverwriteFilter(SEEntryList *list, SparkEntry *object, SparkApplication *
 }
 
 /* Add entries trigger into the target list */
-- (BOOL)tableView:(NSTableView *)aTableView acceptDrop:(id <NSDraggingInfo>)info row:(int)row dropOperation:(NSTableViewDropOperation)operation {
+- (BOOL)tableView:(NSTableView *)aTableView acceptDrop:(id <NSDraggingInfo>)info row:(NSInteger)row dropOperation:(NSTableViewDropOperation)operation {
   if (NSTableViewDropOn == operation) {
     NSDictionary *pboard = [[info draggingPasteboard] propertyListForType:SparkEntriesPboardType];
     CFUUIDBytes bytes;
@@ -278,7 +278,7 @@ BOOL SEOverwriteFilter(SEEntryList *list, SparkEntry *object, SparkApplication *
       SESparkEntrySet *entries = [cache entries];
       NSArray *uids = [pboard objectForKey:@"triggers"];
       NSMutableArray *items = [[NSMutableArray alloc] init];
-      for (unsigned idx = 0; idx < [uids count]; idx++) {
+      for (NSUInteger idx = 0; idx < [uids count]; idx++) {
         NSNumber *uid = [uids objectAtIndex:idx];
         SparkTrigger *trigger = [[library triggerSet] objectWithUID:[uid unsignedIntValue]];
         if (trigger) {
@@ -298,8 +298,8 @@ BOOL SEOverwriteFilter(SEEntryList *list, SparkEntry *object, SparkApplication *
 }
 
 #pragma mark Actions
-- (unsigned)indexOfUserList:(SparkList *)aList {
-  unsigned idx = [self count];
+- (NSUInteger)indexOfUserList:(SparkList *)aList {
+  NSUInteger idx = [self count];
   while (idx-- > 0) {
     SEEntryList *list = [self objectAtIndex:idx];
     if ([list isKindOfClass:[SEUserEntryList class]] && [[(id)list list] isEqual:aList]) {
@@ -315,7 +315,7 @@ BOOL SEOverwriteFilter(SEEntryList *list, SparkEntry *object, SparkApplication *
   [list release];
   
   /* Edit new list name */
-  unsigned idx = [self indexOfUserList:list];
+  NSUInteger idx = [self indexOfUserList:list];
   if (idx != NSNotFound) {
     @try {
       [uiTable editColumn:0 row:idx withEvent:nil select:YES];
@@ -327,7 +327,7 @@ BOOL SEOverwriteFilter(SEEntryList *list, SparkEntry *object, SparkApplication *
 
 #pragma mark Delegate
 - (void)deleteSelectionInTableView:(NSTableView *)aTableView {
-  unsigned idx = [self selectionIndex];
+  NSUInteger idx = [self selectionIndex];
   if (idx != NSNotFound) {
     SEUserEntryList *list = [self objectAtIndex:idx];
     if ([list isEditable]) {
@@ -340,18 +340,18 @@ BOOL SEOverwriteFilter(SEEntryList *list, SparkEntry *object, SparkApplication *
 }
 
 /* Separator Implementation */
-- (float)tableView:(NSTableView *)tableView heightOfRow:(int)row {
-  return row >= 0 && (unsigned)row < [self count] && [[[self objectAtIndex:row] name] isEqualToString:SETableSeparator] ? 1 : [tableView rowHeight];
+- (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row {
+  return row >= 0 && (NSUInteger)row < [self count] && [[[self objectAtIndex:row] name] isEqualToString:SETableSeparator] ? 1 : [tableView rowHeight];
 }
-- (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(int)rowIndex {
-  return rowIndex >= 0 && (unsigned)rowIndex < [self count] ? ![[[self objectAtIndex:rowIndex] name] isEqualToString:SETableSeparator] : YES;
+- (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(NSInteger)rowIndex {
+  return rowIndex >= 0 && (NSUInteger)rowIndex < [self count] ? ![[[self objectAtIndex:rowIndex] name] isEqualToString:SETableSeparator] : YES;
 }
 
 #pragma mark Notifications
 - (void)checkSelection {
-  unsigned idx = [self selectionIndex];
+  NSUInteger idx = [self selectionIndex];
   if (idx != NSNotFound) {
-    unsigned row = idx;
+    NSUInteger row = idx;
     while (idx > 0) {
       SEEntryList *list = [self objectAtIndex:idx];
       if ([[list name] isEqualToString:SETableSeparator]) {
@@ -389,7 +389,7 @@ BOOL SEOverwriteFilter(SEEntryList *list, SparkEntry *object, SparkApplication *
       [self setSelectsInsertedObjects:YES];
     }
   } else {
-    int idx = [[self arrangedObjects] indexOfObjectIdenticalTo:se_overwrite];
+    NSUInteger idx = [[self arrangedObjects] indexOfObjectIdenticalTo:se_overwrite];
     /* List should be removed */
     if (NSNotFound != idx) {
       [self removeObjectAtArrangedObjectIndex:idx];
@@ -410,14 +410,14 @@ BOOL SEOverwriteFilter(SEEntryList *list, SparkEntry *object, SparkApplication *
 }
 
 - (void)didRenameList:(NSNotification *)aNotification {
-  int idx = [self indexOfUserList:SparkNotificationObject(aNotification)];
+  NSUInteger idx = [self indexOfUserList:SparkNotificationObject(aNotification)];
   if (idx != NSNotFound) {
     [self rearrangeObjects];
   }
 }
 
 - (void)willRemoveList:(NSNotification *)aNotification {
-  int idx = [self indexOfUserList:SparkNotificationObject(aNotification)];
+  NSUInteger idx = [self indexOfUserList:SparkNotificationObject(aNotification)];
   if (idx != NSNotFound) {
     [self removeObjectAtArrangedObjectIndex:idx];
     [self checkSelection];

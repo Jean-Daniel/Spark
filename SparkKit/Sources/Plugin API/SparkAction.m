@@ -41,8 +41,8 @@ static SparkTrigger *sTrigger;
   
   UInt32 flags = 0;
   if (sp_saFlags.invalid) flags |= 1 << 0;
-  [coder encodeInt:flags forKey:kSparkActionFlagsKey];
-  [coder encodeInt:sp_version forKey:kSparkActionVersionKey];
+  [coder encodeInt32:flags forKey:kSparkActionFlagsKey];
+  [coder encodeInt32:sp_version forKey:kSparkActionVersionKey];
   if (nil != sp_categorie)
     [coder encodeObject:sp_categorie forKey:kSparkActionCategorieKey];
   if (nil != sp_description)
@@ -52,9 +52,9 @@ static SparkTrigger *sTrigger;
 
 - (id)initWithCoder:(NSCoder *)coder {
   if (self = [super initWithCoder:coder]) {
-    UInt32 flags = [coder decodeIntForKey:kSparkActionFlagsKey];
+    UInt32 flags = [coder decodeInt32ForKey:kSparkActionFlagsKey];
     if (flags & (1 << 0)) sp_saFlags.invalid = 1;
-    sp_version = [coder decodeIntForKey:kSparkActionVersionKey];
+    sp_version = [coder decodeInt32ForKey:kSparkActionVersionKey];
     [self setCategorie:[coder decodeObjectForKey:kSparkActionCategorieKey]];
     [self setActionDescription:[coder decodeObjectForKey:kSparkActionDescriptionKey]];
   }

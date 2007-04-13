@@ -32,7 +32,7 @@ BOOL SparkLogSynchronization = NO;
 
 - (oneway void)addObject:(bycopy id)plist type:(in OSType)type;
 - (oneway void)updateObject:(bycopy id)plist type:(in OSType)type;
-- (oneway void)removeObject:(in UInt32)uid type:(in OSType)type;
+- (oneway void)removeObject:(in SparkUID)uid type:(in OSType)type;
 
 #pragma mark Entries Management
 - (oneway void)addLibraryEntry:(in SparkLibraryEntry *)anEntry;
@@ -415,7 +415,7 @@ SparkObjectSet *SparkObjectSetForType(SparkLibrary *library, OSType type) {
     }
   }
 }
-- (void)removeObject:(UInt32)uid type:(OSType)type {
+- (void)removeObject:(SparkUID)uid type:(OSType)type {
   SparkSyncTrace();
   SparkObjectSet *set = SparkObjectSetForType(sp_library, type);
   if (set) {

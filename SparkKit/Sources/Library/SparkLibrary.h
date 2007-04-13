@@ -30,7 +30,7 @@ enum {
 };
 
 SPARK_PRIVATE
-const UInt32 kSparkLibraryCurrentVersion;
+const NSUInteger kSparkLibraryCurrentVersion;
 
 #pragma mark -
 @class SparkLibrary, SparkObjectSet, SparkEntryManager;
@@ -93,7 +93,7 @@ SK_CLASS_EXPORT
   @private
   NSString *sp_file;
   CFUUIDRef sp_uuid;
-  UInt32 sp_version;
+  NSUInteger sp_version;
   
   SparkObjectSet *sp_objects[4];
   SparkIconManager *sp_icons;

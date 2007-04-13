@@ -19,7 +19,7 @@
 @implementation SELibraryDocument (SEFirstRun)
 
 - (void)displayFirstRunIfNeeded {
-  UInt32 version = [[NSUserDefaults standardUserDefaults] integerForKey:kSparkPrefVersion];
+  NSUInteger version = [[NSUserDefaults standardUserDefaults] integerForKey:kSparkPrefVersion];
   if (0 == version) {
     /* SparkEditor preferences does not exists => Clear old .Spark Preferences if exists */
     CFArrayRef keys = CFPreferencesCopyKeyList((CFStringRef)kSparkPreferencesIdentifier, kCFPreferencesCurrentUser, kCFPreferencesAnyHost);

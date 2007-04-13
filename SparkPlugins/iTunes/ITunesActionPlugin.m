@@ -288,11 +288,11 @@ NSImage *ITunesGetApplicationIcon() {
 #pragma mark -
 #pragma mark iTunes Playlists
 static
-int _iTunesSortPlaylists(id num1, id num2, void *context) {
+NSInteger _iTunesSortPlaylists(id num1, id num2, void *context) {
   NSDictionary *info = (NSDictionary *)context;
   NSNumber *v1 = [[info objectForKey:num1] objectForKey:@"kind"];
   NSNumber *v2 = [[info objectForKey:num2] objectForKey:@"kind"];
-  NSComparisonResult result = [v1 compare:v2];
+  NSInteger result = [v1 compare:v2];
   if (result == NSOrderedSame) {
     result = [num1 caseInsensitiveCompare:num2];
   }
@@ -410,7 +410,7 @@ NSString *__iTunesFindLibrary(Boolean compat) {
     NSImage *user = [NSImage imageNamed:@"iTPlaylist" inBundle:kiTunesActionBundle];
     NSImage *smart = [NSImage imageNamed:@"iTSmart" inBundle:kiTunesActionBundle];
     NSImage *folder = [NSImage imageNamed:@"iTFolder" inBundle:kiTunesActionBundle];
-    unsigned count = [menu numberOfItems];
+    NSUInteger count = [menu numberOfItems];
     while (count-- > 0) {
       NSString *title = [[menu itemAtIndex:count] title];
       if (title) {

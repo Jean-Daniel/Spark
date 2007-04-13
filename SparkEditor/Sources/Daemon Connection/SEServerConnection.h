@@ -36,7 +36,7 @@ NSString * const SEServerStatusDidChangeNotification;
 - (BOOL)isRunning;
 - (SparkDaemonStatus)status;
 
-- (int)version;
+- (UInt32)version;
 - (NSDistantObject<SparkServer> *)server;
 
 

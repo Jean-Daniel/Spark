@@ -448,11 +448,11 @@ static NSSound *_SASharedSound() {
 
 static
 const float kBrightnessLevels[] = {
-  0.00,
-  0.06, 0.12, 0.19, 0.25,
-  0.31, 0.37, 0.44, 0.50,
-  0.56, 0.62, 0.69, 0.75,
-  0.81, 0.87, 0.93, 1.00,
+  0.00f,
+  0.06f, 0.12f, 0.19f, 0.25f,
+  0.31f, 0.37f, 0.44f, 0.50f,
+  0.56f, 0.62f, 0.69f, 0.75f,
+  0.81f, 0.87f, 0.93f, 1.00f,
 };
 
 static 
@@ -477,7 +477,7 @@ NSUInteger __SystemBrightnessLevelForValue(float value) {
     /* If bewteen current level and next level */
     if (value < kBrightnessLevels[level + 1]) {
       /* Round level */
-      Float32 avg = (kBrightnessLevels[level] + kBrightnessLevels[level + 1]) / 2.0;
+      Float32 avg = (kBrightnessLevels[level] + kBrightnessLevels[level + 1]) / 2.f;
       return value < avg ? level : level + 1;
     }
   }

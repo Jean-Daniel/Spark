@@ -13,7 +13,7 @@
 EventHotKeyRef HKRegisterHotKey(HKKeycode keycode, HKModifier modifier, EventHotKeyID hotKeyId) {
   EventHotKeyRef outRef;
   /* Convert from cocoa to carbon */
-  UInt32 mask = (UInt32)HKUtilsConvertModifier(modifier, kHKModifierFormatNative, kHKModifierFormatCarbon);
+  HKModifier mask = HKUtilsConvertModifier(modifier, kHKModifierFormatNative, kHKModifierFormatCarbon);
   OSStatus err = RegisterEventHotKey(keycode,
                                      mask,
                                      hotKeyId,

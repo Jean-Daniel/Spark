@@ -18,6 +18,7 @@
 #endif
 
 #import <SparkKit/SparkKit.h>
+#import <SparkKit/SparkPlugIn.h>
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkActionLoader.h>
 #import <SparkKit/SparkLibraryArchive.h>
@@ -102,7 +103,7 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
 
 - (void)didChangePlugins:(NSNotification *)aNotification {
   if (se_plugins) {
-    unsigned count = [se_plugins numberOfItems];
+    NSUInteger count = [se_plugins numberOfItems];
     while (count-- > 0) {
       [se_plugins removeItemAtIndex:count];
     }
@@ -270,7 +271,7 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
 //  }
 //}
 
-//- (void)checkUpdateAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(NSDictionary *)plist {
+//- (void)checkUpdateAlertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(NSDictionary *)plist {
 //  if(NSAlertDefaultReturn == returnCode) {
 //    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:NSLocalizedStringFromTable(@"UPDATE_PAGE_URL",
 //                                                                                           @"Update", @"The url of the update page. Do not localize.")]];
@@ -444,7 +445,7 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
 #pragma mark -
 #pragma mark About Plugins Menu
 - (void)createAboutMenu {
-  unsigned count = [aboutMenu numberOfItems];
+  NSUInteger count = [aboutMenu numberOfItems];
   while (count-- > 0) {
     [aboutMenu removeItemAtIndex:count];
   }

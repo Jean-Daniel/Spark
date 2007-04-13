@@ -150,7 +150,7 @@
 }
 
 - (IBAction)libraryDoubleAction:(id)sender {
-  int idx = [libraryTable selectedRow];
+  NSInteger idx = [libraryTable selectedRow];
   if (idx > 0) {
     SEEntryList *object = [ibGroups objectAtIndex:idx];
     if ([object isEditable]) {
@@ -259,7 +259,7 @@
 }
 
 - (void)daemonStatusDidChange:(NSNotification *)aNotification {
-  [self setDaemonStatus:[[aNotification object] status]];
+  [self setDaemonStatus:[(SEServerConnection *)[aNotification object] status]];
 }
 
 @end

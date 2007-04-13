@@ -10,8 +10,8 @@
 #import <ShadowKit/SKFunctions.h>
 
 static 
-void SEBackgroundShadingValue (void *info, const float *in, float *out) {
-  float v;
+void SEBackgroundShadingValue (void *info, const CGFloat *in, CGFloat *out) {
+  CGFloat v;
   size_t k, components;
   components = (size_t)info;
   
@@ -24,8 +24,8 @@ void SEBackgroundShadingValue (void *info, const float *in, float *out) {
 static 
 CGFunctionRef SEBackgroundShadingFunction(CGColorSpaceRef colorspace) {
   size_t components;
-  static const float input_value_range [2] = { 0, 1 };
-  static const float output_value_ranges [8] = { 0, 1, 0, 1, 0, 1, 0, 1 };
+  static const CGFloat input_value_range [2] = { 0, 1 };
+  static const CGFloat output_value_ranges [8] = { 0, 1, 0, 1, 0, 1, 0, 1 };
   static const CGFunctionCallbacks callbacks = { 0, &SEBackgroundShadingValue, NULL };
   
   components = 1 + CGColorSpaceGetNumberOfComponents(colorspace);
@@ -35,13 +35,13 @@ CGFunctionRef SEBackgroundShadingFunction(CGColorSpaceRef colorspace) {
 static NSImage *SETopShadingImage = nil;
 static NSImage *SEBottomShadingImage = nil;
 
-static const float se_top = 46;
-static const float se_bottom = 35;
+static const CGFloat se_top = 46;
+static const CGFloat se_bottom = 35;
 
 @implementation SEBackgroundView
 
 static
-NSImage *SECreateShadingImage(float height) {
+NSImage *SECreateShadingImage(CGFloat height) {
   NSImage *img = [[NSImage alloc] initWithSize:NSMakeSize(128, height)];
   CGPoint startPoint = CGPointMake(0, 0), endPoint = CGPointMake(0, height);
   
@@ -77,7 +77,7 @@ NSImage *SECreateShadingImage(float height) {
 
 - (void)drawRect:(NSRect)rect {
   if (SETopShadingImage) {
-    float radius = 10;
+    CGFloat radius = 10;
     
     NSRect bounds = [self bounds];
     CGContextRef ctxt = [[NSGraphicsContext currentContext] graphicsPort];

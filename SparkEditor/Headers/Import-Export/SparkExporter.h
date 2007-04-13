@@ -33,7 +33,7 @@ typedef enum {
 @interface SparkExporter : NSObject {
 }
 
-- (id)initWithFormat:(int)format;
+- (id)initWithFormat:(NSInteger)format;
 - (BOOL)exportList:(SparkObjectList *)list toFile:(NSString *)file;
 
 - (void)setIcon:(NSString *)iconName forFile:(id)file;

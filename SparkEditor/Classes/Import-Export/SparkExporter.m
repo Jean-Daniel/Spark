@@ -42,7 +42,7 @@ NSString * const kSparkListFileExtension = @"splist";
   return self;
 }
 
-- (id)initWithFormat:(int)format {
+- (id)initWithFormat:(NSInteger)format {
   [self release];
   self = nil;
   switch (format) {
@@ -269,7 +269,7 @@ CFXMLTreeRef TreeWithData(CFStringRef data) {
     id plugins = [[[[SparkActionLoader sharedLoader] plugins] sortedArrayUsingDescriptors:descs] objectEnumerator];
     while (plugin = [plugins nextObject]) {
       NSMutableArray *keys = [[NSMutableArray alloc] init];
-      unsigned idx;
+      NSUInteger idx;
       for (idx = 0; idx<[sortedKeys count]; idx++) {
         id key = [sortedKeys objectAtIndex:idx];
         if (![key hasManyActions] && [[key defaultAction] isKindOfClass:[plugin actionClass]]) {
