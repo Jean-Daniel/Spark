@@ -49,7 +49,7 @@
   [super keyDown:anEvent];
 }
 
-- (BOOL)validateMenuItem:(id <NSMenuItem>)menuItem {
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
   return [menuItem action] == @selector(selectAll:);
 }
 

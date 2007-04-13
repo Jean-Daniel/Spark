@@ -88,6 +88,7 @@ void SparkLibraryPostUpdateNotification(SparkLibrary *library, NSString *name, i
 #pragma mark -
 @class SparkApplication;
 @class SparkIconManager, SparkEntryManager;
+SK_CLASS_EXPORT
 @interface SparkLibrary : NSObject {
   @private
   NSString *sp_file;

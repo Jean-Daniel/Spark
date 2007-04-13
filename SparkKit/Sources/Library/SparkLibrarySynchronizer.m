@@ -10,6 +10,10 @@
 
 #import "SparkEntryManagerPrivate.h"
 
+#import <SparkKit/SparkAction.h>
+#import <SparkKit/SparkTrigger.h>
+#import <SparkKit/SparkApplication.h>
+
 #import <SparkKit/SparkPlugIn.h>
 #import <SparkKit/SparkObjectSet.h>
 #import <SparkKit/SparkActionLoader.h>

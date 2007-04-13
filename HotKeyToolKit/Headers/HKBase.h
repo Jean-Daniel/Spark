@@ -30,6 +30,14 @@
 #endif
 #endif
 
+#if !defined(HK_CLASS_EXPORT)
+#if __LP64__
+#define HK_CLASS_EXPORT __attribute__((visibility("default")))
+#else
+#define HK_CLASS_EXPORT 
+#endif
+#endif
+
 #if !defined(HK_INLINE)
 #if defined (__GNUC__) && (__GNUC__ >= 4) && !defined(DEBUG)
 #define HK_INLINE static __inline__ __attribute__((always_inline))

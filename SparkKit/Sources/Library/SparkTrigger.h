@@ -9,6 +9,7 @@
 #import <SparkKit/SparkObject.h>
 
 @class SparkAction;
+SK_CLASS_EXPORT
 @interface SparkTrigger : SparkObject <NSCoding, NSCopying> {
   @private
   id sp_target;

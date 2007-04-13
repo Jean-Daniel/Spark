@@ -15,7 +15,7 @@
 
 NSString * const kApplicationActionBundleIdentifier = @"org.shadowlab.spark.application";
 
-@implementation ApplicationActionPlugin
+@implementation ApplicationPlugin
 
 - (void)dealloc {
   [aa_name release];

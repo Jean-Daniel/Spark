@@ -115,26 +115,26 @@ NSImageView *_SparkNotificationSharedImageView() {
   return _shared;
 }
 
-void SparkNotificationDisplay(NSView *view, float delay) {
+void SparkNotificationDisplay(NSView *view, CGFloat delay) {
   SKBezelItem *item = _SparkNotifiationSharedItem();
   [item setContent:view];
   [item setDelay:delay];
   [item display:nil];
 }
 
-void SparkNotificationDisplayIcon(IconRef icon, float delay) {
+void SparkNotificationDisplayIcon(IconRef icon, CGFloat delay) {
   SKIconView *view = _SparkNotificationSharedIconView();
   [view setIconRef:icon];
   SparkNotificationDisplay(view, delay);
 }
 
-void SparkNotificationDisplayImage(NSImage *anImage, float delay) {
+void SparkNotificationDisplayImage(NSImage *anImage, CGFloat delay) {
   NSImageView *view = _SparkNotificationSharedImageView();
   [view setImage:anImage];
   SparkNotificationDisplay(view, delay);
 }
 
-void SparkNotificationDisplaySystemIcon(OSType icon, float delay) {
+void SparkNotificationDisplaySystemIcon(OSType icon, CGFloat delay) {
   SKIconView *view = _SparkNotificationSharedIconView();
   [view setSystemIcon:icon];
   SparkNotificationDisplay(view, delay);

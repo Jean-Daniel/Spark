@@ -17,6 +17,7 @@ typedef enum {
 
 @class SparkAction, SparkTrigger, SparkApplication;
 
+SK_CLASS_EXPORT
 @interface SparkEntry : NSObject <NSCopying> {
   @private
   SparkAction *sp_action;

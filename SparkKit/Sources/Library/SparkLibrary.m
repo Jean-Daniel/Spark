@@ -77,7 +77,7 @@ const UInt32 kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_0;
 @end
 
 @interface SparkEntryManager (SparkVersion1Library)
-- (void)removeEntriesForAction:(UInt32)action;
+- (void)removeEntriesForAction:(SparkUID)action;
 @end
 
 @implementation SparkLibrary
@@ -436,7 +436,7 @@ bail:
   }
   
   /* Create defaults libraries */
-  for (int idx = 0; idx < kSparkSetCount - 1; idx++) {
+  for (NSUInteger idx = 0; idx < kSparkSetCount - 1; idx++) {
     sp_objects[idx] = [[SparkObjectSet alloc] initWithLibrary:self];
   }
   /* List Set */
@@ -538,7 +538,7 @@ bail:
   /* Load HotKey items. Create trigger with internal values, and create entries with Application to Action Map */
   CFMutableSetRef actions = CFSetCreateMutable( kCFAllocatorDefault, 0, &kSKIntegerSetCallBacks);
   
-  UInt32 finder = 0;
+  SparkUID finder = 0;
   NSArray *objects = nil;
   NSDictionary *plist = nil;
   NSEnumerator *enumerator = nil;
@@ -584,7 +584,7 @@ bail:
       NSEnumerator *entries = [map keyEnumerator];
       while (key = [entries nextObject]) {
         Boolean enabled;
-        UInt32 act, trg, app;
+        SparkUID act, trg, app;
         enabled = status ? TRUE : FALSE;
         act = [[map objectForKey:key] unsignedIntValue];
         /* If action is not 'Ignore Spark', adjust uid. */
@@ -604,9 +604,9 @@ bail:
             app += kSparkLibraryReserved;
         }
         /* Should avoid action double usage, except for ignore action. */
-        if (act || app && (act == 0 || !CFSetContainsValue(actions, (void *)act))) {
+        if (act || app && (act == 0 || !CFSetContainsValue(actions, (void *)(long)act))) {
           [sp_relations addEntryWithAction:act trigger:trg application:app enabled:enabled];
-          CFSetAddValue(actions, (void *)act);
+          CFSetAddValue(actions, (void *)(long)act);
         }
       }
     } else {
@@ -625,14 +625,14 @@ bail:
       SparkAction *action = SKDeserializeObject(plist, nil);
       if (action && [action isKindOfClass:[SparkAction class]]) {
         [action setUID:[action uid] + kSparkLibraryReserved];
-        if (CFSetContainsValue(actions, (void *)[action uid])) {
+        if (CFSetContainsValue(actions, (void *)(long)[action uid])) {
           [objectSet addObject:action];
         } else {
           DLog(@"Ignore orphan action: %@", action);
         }
       } else {
         DLog(@"Discard invalid action: %@", plist);
-        UInt32 uid = [[plist objectForKey:@"UID"] unsignedIntValue];
+        SparkUID uid = [[plist objectForKey:@"UID"] unsignedIntValue];
         [sp_relations removeEntriesForAction:uid + kSparkLibraryReserved];
       }
     }
@@ -888,9 +888,9 @@ BOOL SparkSetActiveLibrary(SparkLibrary *library) {
 void SparkDumpTriggers(SparkLibrary *aLibrary) {
   SparkTrigger *trigger = nil;
   NSEnumerator *triggers = [[aLibrary triggerSet] objectEnumerator];
-  fprintf(stderr, "Triggers: %lu\n {", [[aLibrary triggerSet] count]);
+  fprintf(stderr, "Triggers: %lu\n {", (long)[[aLibrary triggerSet] count]);
   while (trigger = [triggers nextObject]) {
-    fprintf(stderr, "\t- %lu: %s\n", [trigger uid], [[trigger triggerDescription] UTF8String]);
+    fprintf(stderr, "\t- %u: %s\n", [trigger uid], [[trigger triggerDescription] UTF8String]);
   }
   fprintf(stderr, "}\n");
 }

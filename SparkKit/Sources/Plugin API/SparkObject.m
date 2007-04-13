@@ -162,14 +162,14 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
 
 #pragma mark -
 #pragma mark Public Methods
-- (UInt32)uid {
+- (SparkUID)uid {
   return sp_uid;
 }
-- (void)setUID:(UInt32)uid {
+- (void)setUID:(SparkUID)uid {
   sp_uid = uid;
 }
 
-- (unsigned)hash {
+- (NSUInteger)hash {
   return sp_uid;
 }
 - (BOOL)isEqual:(id)object {

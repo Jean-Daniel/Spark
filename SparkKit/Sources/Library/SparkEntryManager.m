@@ -72,13 +72,13 @@ NSString * const SparkEntryManagerDidChangeEntryEnabledNotification = @"SparkEnt
 
 #pragma mark -
 #pragma mark Query
-- (NSArray *)entriesForField:(unsigned)anIndex uid:(UInt32)uid {
+- (NSArray *)entriesForField:(NSUInteger)anIndex uid:(SparkUID)uid {
   NSMutableArray *result = [[NSMutableArray alloc] init];
   
-  UInt32 count = CFArrayGetCount(sp_entries);
+  CFIndex count = CFArrayGetCount(sp_entries);
   while (count-- > 0) {
     const union {
-      UInt32 key[4];
+      SparkUID key[4];
       SparkLibraryEntry entry;
     } *entry = CFArrayGetValueAtIndex(sp_entries, count);
     
@@ -91,11 +91,11 @@ NSString * const SparkEntryManagerDidChangeEntryEnabledNotification = @"SparkEnt
   return [result autorelease];
 }
 
-- (BOOL)containsEntryForField:(unsigned)anIndex uid:(UInt32)uid {
-  UInt32 count = CFArrayGetCount(sp_entries);
+- (BOOL)containsEntryForField:(NSUInteger)anIndex uid:(SparkUID)uid {
+  CFIndex count = CFArrayGetCount(sp_entries);
   while (count-- > 0) {
     const union {
-      UInt32 key[4];
+      SparkUID key[4];
       SparkLibraryEntry entry;
     } *entry = CFArrayGetValueAtIndex(sp_entries, count);
     
@@ -106,7 +106,7 @@ NSString * const SparkEntryManagerDidChangeEntryEnabledNotification = @"SparkEnt
   return NO;
 }
 
-- (BOOL)containsEntryForTrigger:(UInt32)aTrigger application:(UInt32)anApplication {
+- (BOOL)containsEntryForTrigger:(SparkUID)aTrigger application:(SparkUID)anApplication {
   SparkLibraryEntry search;
   search.action = 0;
   search.trigger = aTrigger;
@@ -213,19 +213,19 @@ NSString * const SparkEntryManagerDidChangeEntryEnabledNotification = @"SparkEnt
 }
 
 - (void)removeEntries:(NSArray *)theEntries {
-  unsigned count = [theEntries count];
+  NSUInteger count = [theEntries count];
   while (count-- > 0) {
     [self removeEntry:[theEntries objectAtIndex:count]];
   }
 }
 
-- (NSArray *)entriesForAction:(UInt32)anAction {
+- (NSArray *)entriesForAction:(SparkUID)anAction {
   return [self entriesForField:1 uid:anAction];
 }
-- (NSArray *)entriesForTrigger:(UInt32)aTrigger {
+- (NSArray *)entriesForTrigger:(SparkUID)aTrigger {
   return [self entriesForField:2 uid:aTrigger];
 }
-- (NSArray *)entriesForApplication:(UInt32)anApplication {
+- (NSArray *)entriesForApplication:(SparkUID)anApplication {
   return [self entriesForField:3 uid:anApplication];
 }
 
@@ -233,17 +233,17 @@ NSString * const SparkEntryManagerDidChangeEntryEnabledNotification = @"SparkEnt
   return [self containsEntryForTrigger:[[anEntry trigger] uid] application:[[anEntry application] uid]];
 }
 
-- (BOOL)containsEntryForAction:(UInt32)anAction {
+- (BOOL)containsEntryForAction:(SparkUID)anAction {
   return [self containsEntryForField:1 uid:anAction];
 }
-- (BOOL)containsEntryForTrigger:(UInt32)aTrigger {
+- (BOOL)containsEntryForTrigger:(SparkUID)aTrigger {
   return [self containsEntryForField:2 uid:aTrigger];
 }
-- (BOOL)containsEntryForApplication:(UInt32)anApplication {
+- (BOOL)containsEntryForApplication:(SparkUID)anApplication {
   return [self containsEntryForField:3 uid:anApplication];
 }
-- (BOOL)containsActiveEntryForTrigger:(UInt32)aTrigger {
-  UInt32 count = CFArrayGetCount(sp_entries);
+- (BOOL)containsActiveEntryForTrigger:(SparkUID)aTrigger {
+  CFIndex count = CFArrayGetCount(sp_entries);
   while (count-- > 0) {
     const SparkLibraryEntry *entry = CFArrayGetValueAtIndex(sp_entries, count);
     if ((entry->trigger == aTrigger) && SparkLibraryEntryIsActive(entry)) {
@@ -252,8 +252,8 @@ NSString * const SparkEntryManagerDidChangeEntryEnabledNotification = @"SparkEnt
   }
   return NO;
 }
-- (BOOL)containsOverwriteEntryForTrigger:(UInt32)aTrigger {
-  UInt32 count = CFArrayGetCount(sp_entries);
+- (BOOL)containsOverwriteEntryForTrigger:(SparkUID)aTrigger {
+  CFIndex count = CFArrayGetCount(sp_entries);
   while (count-- > 0) {
     const SparkLibraryEntry *entry = CFArrayGetValueAtIndex(sp_entries, count);
     if (entry->application != kSparkApplicationSystemUID && (entry->trigger == aTrigger)) {
@@ -262,8 +262,8 @@ NSString * const SparkEntryManagerDidChangeEntryEnabledNotification = @"SparkEnt
   }
   return NO;
 }
-- (BOOL)containsPermanentEntryForTrigger:(UInt32)aTrigger {
-  UInt32 count = CFArrayGetCount(sp_entries);
+- (BOOL)containsPermanentEntryForTrigger:(SparkUID)aTrigger {
+  CFIndex count = CFArrayGetCount(sp_entries);
   while (count-- > 0) {
     const SparkLibraryEntry *entry = CFArrayGetValueAtIndex(sp_entries, count);
     if ((entry->trigger == aTrigger) && SparkLibraryEntryIsPermanent(entry)) {
@@ -273,7 +273,7 @@ NSString * const SparkEntryManagerDidChangeEntryEnabledNotification = @"SparkEnt
   return NO;
 }
 
-- (SparkEntry *)entryForTrigger:(UInt32)aTrigger application:(UInt32)anApplication {
+- (SparkEntry *)entryForTrigger:(SparkUID)aTrigger application:(SparkUID)anApplication {
   const SparkLibraryEntry *entry = [self libraryEntryForTrigger:aTrigger application:anApplication];
   if (entry) {
     return [self entryForLibraryEntry:entry];
@@ -281,7 +281,7 @@ NSString * const SparkEntryManagerDidChangeEntryEnabledNotification = @"SparkEnt
   return nil;
 }
 
-- (SparkAction *)actionForTrigger:(UInt32)aTrigger application:(UInt32)anApplication isActive:(BOOL *)active {
+- (SparkAction *)actionForTrigger:(SparkUID)aTrigger application:(SparkUID)anApplication isActive:(BOOL *)active {
   const SparkLibraryEntry *entry = [self libraryEntryForTrigger:aTrigger application:anApplication];
   if (entry) {
     if (active)
@@ -291,9 +291,9 @@ NSString * const SparkEntryManagerDidChangeEntryEnabledNotification = @"SparkEnt
   return nil;
 }
 
-- (BOOL)isActionActive:(UInt32)anAction forApplication:(UInt32)anApplication {
+- (BOOL)isActionActive:(SparkUID)anAction forApplication:(SparkUID)anApplication {
   BOOL enabled = NO;
-  UInt32 count = CFArrayGetCount(sp_entries);
+  CFIndex count = CFArrayGetCount(sp_entries);
   while (count-- > 0) {
     const SparkLibraryEntry *entry = CFArrayGetValueAtIndex(sp_entries, count);
     if (entry->action == anAction) {

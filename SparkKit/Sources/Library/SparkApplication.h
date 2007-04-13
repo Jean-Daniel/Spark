@@ -9,6 +9,7 @@
 #import <SparkKit/SparkObject.h>
 
 @class SKApplication;
+SK_CLASS_EXPORT
 @interface SparkApplication : SparkObject {
   @private  
   SKApplication *sp_application;

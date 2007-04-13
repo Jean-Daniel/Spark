@@ -53,7 +53,7 @@ NSString * const SparkActionLoaderDidRegisterPlugInNotification = @"SparkActionL
 #pragma mark -
 - (SparkPlugIn *)plugInForActionClass:(Class)cls {
   NSArray *plugins = [self plugins];
-  SInt32 count = [plugins count];
+  NSUInteger count = [plugins count];
   while (count-- > 0) {
     SparkPlugIn *plugin = [plugins objectAtIndex:count];
     if ([cls isSubclassOfClass:[plugin actionClass]]) {

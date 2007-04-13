@@ -10,6 +10,7 @@
 
 #import <SparkKit/SparkShadowKit.h>
 
+#import <ShadowKit/SKAlias.h>
 #import <ShadowKit/SKFunctions.h>
 #import <ShadowKit/SKImageUtils.h>
 #import <ShadowKit/SKAEFunctions.h>

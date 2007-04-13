@@ -19,9 +19,10 @@
 @discussion You never need intanciate a SparkObject directly. This is an Abstract class.
 */
 @class SparkLibrary;
+SK_CLASS_EXPORT
 @interface SparkObject : NSObject <NSCoding, NSCopying> {
   @private
-  UInt32 sp_uid;
+  SparkUID sp_uid;
   NSImage *sp_icon;
   NSString *sp_name;
   SparkLibrary *sp_library;
@@ -85,7 +86,7 @@
   @method
    @abstract   Returns the UID of this object. Uid of an object is set at creation time and shouldn't be changed. 
    */
-- (UInt32)uid;
+- (SparkUID)uid;
 
   /*!
   @method
@@ -143,7 +144,7 @@
    @abstract Don't call this method directly. This method is called by Library.
    @param uid (description)
    */
-- (void)setUID:(UInt32)uid;
+- (void)setUID:(SparkUID)uid;
   /*!
   @method
    @abstract Returns the receiver Library.

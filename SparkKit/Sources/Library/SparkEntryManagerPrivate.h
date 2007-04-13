@@ -10,10 +10,10 @@
 #import <SparkKit/SparkEntry.h>
 
 typedef struct _SparkLibraryEntry {
-  UInt32 flags;
-  UInt32 action;
-  UInt32 trigger;
-  UInt32 application;
+  SparkUID flags;
+  SparkUID action;
+  SparkUID trigger;
+  SparkUID application;
 } SparkLibraryEntry;
 
 enum {
@@ -42,7 +42,7 @@ void SparkLibraryEntryInitFlags(SparkLibraryEntry *lentry, SparkEntry *entry);
 
 /* Convert Library entry */
 - (SparkLibraryEntry *)libraryEntryForEntry:(SparkEntry *)anEntry;
-- (SparkLibraryEntry *)libraryEntryForTrigger:(UInt32)aTrigger application:(UInt32)anApplication;
+- (SparkLibraryEntry *)libraryEntryForTrigger:(SparkUID)aTrigger application:(SparkUID)anApplication;
 
 - (SparkEntry *)entryForLibraryEntry:(const SparkLibraryEntry *)anEntry;
 

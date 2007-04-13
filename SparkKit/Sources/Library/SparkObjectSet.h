@@ -14,9 +14,10 @@
 @abstract Spark Objects Library.
 */
 @class SparkLibrary;
+SK_CLASS_EXPORT
 @interface SparkObjectSet : NSObject {
 @private
-  UInt32 sp_uid;
+  SparkUID sp_uid;
   NSMapTable *sp_objects;
 
   SparkLibrary *sp_library;
@@ -31,21 +32,21 @@
 - (NSUndoManager *)undoManager;
 
 #pragma mark Content Manipulation
-- (UInt32)count;
+- (NSUInteger)count;
 - (NSArray *)objects;
 - (NSEnumerator *)objectEnumerator;
 
 - (BOOL)containsObject:(SparkObject *)object;
-- (BOOL)containsObjectWithUID:(UInt32)uid;
+- (BOOL)containsObjectWithUID:(SparkUID)uid;
 
-- (id)objectWithUID:(UInt32)uid;
+- (id)objectWithUID:(SparkUID)uid;
 
 - (BOOL)addObject:(SparkObject *)object;
 - (BOOL)updateObject:(SparkObject *)object;
 - (void)removeObject:(SparkObject *)object;
-- (void)removeObjectWithUID:(UInt32)uid;
+- (void)removeObjectWithUID:(SparkUID)uid;
 
-- (int)addObjectsFromArray:(NSArray *)objects;
+- (NSUInteger)addObjectsFromArray:(NSArray *)objects;
 - (void)removeObjectsInArray:(NSArray *)newObjects;
 
 - (NSFileWrapper *)fileWrapper:(NSError **)outError;
@@ -54,9 +55,9 @@
 - (BOOL)readFromFileWrapper:(NSFileWrapper *)fileWrapper error:(NSError **)outError;
 
 #pragma mark UID Management
-- (UInt32)nextUID;
-- (UInt32)currentUID;
-- (void)setCurrentUID:(UInt32)uid;
+- (SparkUID)nextUID;
+- (SparkUID)currentUID;
+- (void)setCurrentUID:(SparkUID)uid;
 
 @end
 

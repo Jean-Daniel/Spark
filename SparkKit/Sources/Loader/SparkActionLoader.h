@@ -21,6 +21,7 @@ NSString * const SparkActionLoaderDidRegisterPlugInNotification;
 @class SparkActionLoader
 @abstract Action extension is "spact".
 */
+SK_CLASS_EXPORT
 @interface SparkActionLoader : SKPluginLoader {
 }
 

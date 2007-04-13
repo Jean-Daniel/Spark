@@ -11,6 +11,11 @@
 #import <SparkKit/SparkFunctions.h>
 #import <SparkKit/SparkIconManager.h>
 
+#import <SparkKit/SparkList.h>
+#import <SparkKit/SparkAction.h>
+#import <SparkKit/SparkTrigger.h>
+#import <SparkKit/SparkApplication.h>
+
 #import <ShadowKit/SKCFContext.h>
 #import <ShadowKit/SKEnumerator.h>
 #import <ShadowKit/SKSerialization.h>
@@ -30,7 +35,7 @@ NSString* const SparkObjectSetDidRemoveObjectNotification = @"SparkObjectSetDidR
 #define kSparkObjectSetVersion_2_1		0x201UL
 
 static
-const unsigned int kSparkObjectSetCurrentVersion = kSparkObjectSetVersion_2_1;
+const NSUInteger kSparkObjectSetCurrentVersion = kSparkObjectSetVersion_2_1;
 
 /* Library Keys */
 static
@@ -112,7 +117,7 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
 }
 
 #pragma mark -
-- (UInt32)count {
+- (NSUInteger)count {
   return sp_objects ? NSCountMapTable(sp_objects) : 0;
 }
 
@@ -126,12 +131,12 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
 - (BOOL)containsObject:(SparkObject *)object {
   return object ? [self containsObjectWithUID:[object uid]] : NO;
 }
-- (BOOL)containsObjectWithUID:(UInt32)uid {
-  return NSMapMember(sp_objects, (void *)uid, NULL, NULL);
+- (BOOL)containsObjectWithUID:(SparkUID)uid {
+  return NSMapMember(sp_objects, (void *)(long)uid, NULL, NULL);
 }
 
-- (id)objectWithUID:(UInt32)uid {
-  return uid ? (id)NSMapGet(sp_objects, (void *)uid) : nil;
+- (id)objectWithUID:(SparkUID)uid {
+  return uid ? (id)NSMapGet(sp_objects, (void *)(long)uid) : nil;
 }
 
 #pragma mark -
@@ -144,7 +149,7 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
 }
 
 - (void)sp_addObject:(SparkObject *)object {
-  NSMapInsert(sp_objects, (void *)[object uid], object);
+  NSMapInsert(sp_objects, (void *)(long)[object uid], object);
   [object setLibrary:[self library]];
 }
 
@@ -157,7 +162,7 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
       SparkLibraryPostNotification([self library], SparkObjectSetWillAddObjectNotification, self, object);
       
     {
-      UInt32 uid = [object uid], luid = [self currentUID];
+      SparkUID uid = [object uid], luid = [self currentUID];
       /* Update Object UID */
       [self sp_checkUID:object];
       /* Check change and prepare undo */
@@ -179,8 +184,8 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
   }
   return NO;
 }
-- (int)addObjectsFromArray:(NSArray *)objects {
-  int count = 0;
+- (NSUInteger)addObjectsFromArray:(NSArray *)objects {
+  NSUInteger count = 0;
   SparkObject *item = nil;
   NSEnumerator *items = [objects objectEnumerator];
   while (item = [items nextObject]) {
@@ -222,14 +227,14 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
     [object retain];
     // Remove
     [object setLibrary:nil];
-    NSMapRemove(sp_objects, (void *)[object uid]);
+    NSMapRemove(sp_objects, (void *)(long)[object uid]);
     // Did remove
     SparkLibraryPostNotification([self library], SparkObjectSetDidRemoveObjectNotification, self, object);
     
     [object release];
   }
 }
-- (void)removeObjectWithUID:(UInt32)uid {
+- (void)removeObjectWithUID:(SparkUID)uid {
   SparkObject *object = [self objectWithUID:uid];
   if (object)
     [self removeObject:object];
@@ -250,7 +255,7 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
 - (NSFileWrapper *)fileWrapper:(NSError **)outError {
   NSMutableArray *objects = [[NSMutableArray alloc] init];
   NSMutableDictionary *plist = [[NSMutableDictionary alloc] init];
-  [plist setObject:SKUInt(kSparkObjectSetCurrentVersion) forKey:kSparkObjectSetVersionKey];
+  [plist setObject:SKUInteger(kSparkObjectSetCurrentVersion) forKey:kSparkObjectSetVersionKey];
   
   SparkObject *object;
   OSStatus err = noErr;
@@ -306,7 +311,7 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
                                                                    format:nil errorDescription:nil];
   require(plist, bail);
   
-  UInt32 version = [[plist objectForKey:kSparkObjectSetVersionKey] unsignedIntValue];
+  NSUInteger version = [[plist objectForKey:kSparkObjectSetVersionKey] unsignedIntValue];
   /* Update object set */
   SparkIconManager *icons = nil;
   if (version < kSparkObjectSetVersion_2_1 && SparkGetCurrentContext() == kSparkEditorContext)
@@ -355,16 +360,16 @@ bail:
 
 #pragma mark -
 #pragma mark UID Management
-- (UInt32)nextUID {
+- (SparkUID)nextUID {
   sp_uid++;
   return sp_uid;
 }
 
-- (UInt32)currentUID {
+- (SparkUID)currentUID {
   return sp_uid;
 }
 
-- (void)setCurrentUID:(UInt32)uid {
+- (void)setCurrentUID:(SparkUID)uid {
   sp_uid = uid;
 }
 
@@ -426,7 +431,6 @@ static NSImage *__SparkWarningImage = nil;
   }
 }
 
-@class SparkApplication, SparkAction, SparkTrigger, SparkList;
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)sel {
   if ([self respondsToSelector:sel])
     return [super methodSignatureForSelector:sel];

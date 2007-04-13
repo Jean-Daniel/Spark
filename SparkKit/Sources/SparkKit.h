@@ -79,6 +79,8 @@ const OSType kSparkEditorSignature;
 SPARK_EXPORT
 const OSType kSparkDaemonSignature;
 
+typedef uint32_t SparkUID;
+
 /* Misc Apple event helpers */
 
 /* Use this constant to send events to the finder.

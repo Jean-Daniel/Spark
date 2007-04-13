@@ -72,8 +72,8 @@ void SparkLibraryEntryInitFlags(SparkLibraryEntry *lentry, SparkEntry *entry) {
 
 @interface SparkEntryManager (SparkPrivate)
 
-- (void)checkTriggerValidity:(UInt32)trigger;
-- (void)removeEntriesForAction:(UInt32)action;
+- (void)checkTriggerValidity:(SparkUID)trigger;
+- (void)removeEntriesForAction:(SparkUID)action;
 - (void)checkActionRegistration:(const SparkLibraryEntry *)entry;
 
 @end
@@ -127,8 +127,8 @@ void SparkLibraryEntryInitFlags(SparkLibraryEntry *lentry, SparkEntry *entry) {
   if (!anEntry)
     [NSException raise:NSInternalInconsistencyException format:@"Requested entry does not exists"];
   
-  UInt32 action = anEntry->action;
-  UInt32 trigger = anEntry->trigger;
+  SparkUID action = anEntry->action;
+  SparkUID trigger = anEntry->trigger;
   
   /* Should update Set too */
   BOOL update = NO;
@@ -160,7 +160,7 @@ void SparkLibraryEntryInitFlags(SparkLibraryEntry *lentry, SparkEntry *entry) {
 - (void)removeLibraryEntry:(const SparkLibraryEntry *)anEntry {  
   if (CFSetContainsValue(sp_set, anEntry)) {
 //    BOOL global = anEntry->application == kSparkApplicationSystemUID;
-//    UInt32 action = anEntry->action;
+//    SparkUID action = anEntry->action;
     
     CFSetRemoveValue(sp_set, anEntry);
     CFIndex idx = CFArrayGetFirstIndexOfValue(sp_entries, CFRangeMake(0, CFArrayGetCount(sp_entries)), anEntry);
@@ -233,7 +233,7 @@ void SparkLibraryEntryInitFlags(SparkLibraryEntry *lentry, SparkEntry *entry) {
   return [object autorelease];
 }
 
-- (SparkLibraryEntry *)libraryEntryForTrigger:(UInt32)aTrigger application:(UInt32)anApplication {
+- (SparkLibraryEntry *)libraryEntryForTrigger:(SparkUID)aTrigger application:(SparkUID)anApplication {
   SparkLibraryEntry search;
   search.action = 0;
   search.trigger = aTrigger;
@@ -247,7 +247,7 @@ void SparkLibraryEntryInitFlags(SparkLibraryEntry *lentry, SparkEntry *entry) {
   
   BOOL flag = [plugin isEnabled];
   Class cls = [plugin actionClass];
-  UInt32 count = CFArrayGetCount(sp_entries);
+  CFIndex count = CFArrayGetCount(sp_entries);
   SparkObjectSet *actions = [[self library] actionSet];
   while (count-- > 0) {
     SparkLibraryEntry *entry = (SparkLibraryEntry *)CFArrayGetValueAtIndex(sp_entries, count);
@@ -263,7 +263,7 @@ void SparkLibraryEntryInitFlags(SparkLibraryEntry *lentry, SparkEntry *entry) {
 }
 
 #pragma mark Internal
-- (void)removeEntriesForAction:(UInt32)action {
+- (void)removeEntriesForAction:(SparkUID)action {
   CFIndex count = CFArrayGetCount(sp_entries);
   while (count-- > 0) {
     const SparkLibraryEntry *entry = CFArrayGetValueAtIndex(sp_entries, count);
@@ -274,7 +274,7 @@ void SparkLibraryEntryInitFlags(SparkLibraryEntry *lentry, SparkEntry *entry) {
 }
 
 /* Check if contains, and update has many status */
-- (void)checkTriggerValidity:(UInt32)trigger {
+- (void)checkTriggerValidity:(SparkUID)trigger {
   BOOL contains = NO;
   CFIndex count = CFArrayGetCount(sp_entries);
   while (count-- > 0) {
@@ -343,8 +343,8 @@ typedef struct {
 @implementation SparkEntryManager (SparkSerialization)
 
 - (NSFileWrapper *)fileWrapper:(NSError **)outError {
-  UInt32 count = CFArrayGetCount(sp_entries);
-  UInt32 size = count * sizeof(SparkLibraryEntry) + sizeof(SparkEntryHeader);
+  CFIndex count = CFArrayGetCount(sp_entries);
+  NSUInteger size = count * sizeof(SparkLibraryEntry) + sizeof(SparkEntryHeader);
   NSMutableData *data = [[NSMutableData alloc] initWithCapacity:size];
   
   /* Write header */
@@ -352,7 +352,7 @@ typedef struct {
   SparkEntryHeader *header = [data mutableBytes];
   header->magic = SPARK_MAGIC;
   header->version = 0;
-  header->count = count;
+  header->count = (UInt32)count;
   
   /* Write contents */
   while (count-- > 0) {
@@ -404,7 +404,7 @@ typedef struct {
     return NO;
   }
   
-  UInt32 count = SparkReadField(header->count);
+  NSUInteger count = SparkReadField(header->count);
   if ([data length] < count * sizeof(SparkLibraryEntry) + sizeof(SparkEntryHeader)) {
     DLog(@"Unexpected end of file");
     if (outError) *outError = [NSError errorWithDomain:kSparkErrorDomain
@@ -482,7 +482,7 @@ typedef struct {
   }
 }
 
-- (void)addEntryWithAction:(UInt32)action trigger:(UInt32)trigger application:(UInt32)application enabled:(BOOL)enabled {
+- (void)addEntryWithAction:(SparkUID)action trigger:(SparkUID)trigger application:(SparkUID)application enabled:(BOOL)enabled {
   SparkLibraryEntry entry;
   SparkLibraryEntrySetEnabled(&entry, enabled);
   entry.action = action;
@@ -500,14 +500,14 @@ typedef struct {
     SparkLibraryEntry *entry = (SparkLibraryEntry *)CFArrayGetValueAtIndex(sp_entries, idx);
 
     SparkAction *action = [[library actionSet] objectWithUID:entry->action];
-    fprintf(stderr, "\t- Action (%lu): %s\n", [action uid], [[action name] UTF8String]);
+    fprintf(stderr, "\t- Action (%u): %s\n", [action uid], [[action name] UTF8String]);
     
     SparkTrigger *trigger = [[library triggerSet] objectWithUID:entry->trigger];
-    fprintf(stderr, "\t- Trigger (%lu): %s\n", [trigger uid], [[trigger triggerDescription] UTF8String]);
+    fprintf(stderr, "\t- Trigger (%u): %s\n", [trigger uid], [[trigger triggerDescription] UTF8String]);
     
     SparkApplication *application = entry->application == kSparkApplicationSystemUID ? 
       [SparkLibrary systemApplication] : [[library applicationSet] objectWithUID:entry->application];
-    fprintf(stderr, "\t- Application (%lu): %s\n", [application uid], [[application name] UTF8String]);
+    fprintf(stderr, "\t- Application (%u): %s\n", [application uid], [[application name] UTF8String]);
     
     fprintf(stderr, "-----------------\n");
   }

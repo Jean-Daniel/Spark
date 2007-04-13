@@ -30,7 +30,7 @@ enum {
 @class SparkList;
 @interface SparkBuiltInAction : SparkAction {
   @private
-  UInt32 sp_list;
+  SparkUID sp_list;
   OSType sp_action;
 }
 

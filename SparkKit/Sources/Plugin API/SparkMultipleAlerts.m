@@ -14,7 +14,7 @@
 
 @interface SparkMultipleAlerts (Private)
 - (void)refreshUI;
-- (float)setText:(NSString *)msg inField:(id)textField;
+- (CGFloat)setText:(NSString *)msg inField:(id)textField;
 @end;
 
 @implementation SparkMultipleAlerts
@@ -50,7 +50,7 @@
 - (NSString *)errorString {
   return [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"ERROR_COUNTER", 
                                                                        nil, SKCurrentBundle(), @"Mutiple Alerts Counter"),
-    sp_index + 1, [self alertCount]];
+          sp_index + 1, [self alertCount]];
 }
 
 - (void)awakeFromNib {
@@ -66,7 +66,7 @@
 }
 
 - (void)refreshUI {
-  id alert = [sp_alerts objectAtIndex:sp_index];
+  SparkAlert *alert = [sp_alerts objectAtIndex:sp_index];
   if ([sp_alerts count] < 2) {
     [previousButton setHidden:YES];
     [nextButton setHidden:YES];
@@ -78,9 +78,9 @@
   }
   [counter setStringValue:[self errorString]];
   
-  float deltaWin = 0;
-  float deltaH = [self setText:[alert messageText] inField:messageText];
-  if (SKFloatEquals(0, deltaH)) {
+  CGFloat deltaWin = 0;
+  CGFloat deltaH = [self setText:[alert messageText] inField:messageText];
+  if (SKCGFloatEquals(0, deltaH)) {
     NSRect frame = [[messageText enclosingScrollView] frame];
     frame.origin.y -= deltaH;
     frame.size.height += deltaH;
@@ -91,7 +91,7 @@
     deltaWin += deltaH;
   }
   deltaH = [self setText:[alert informativeText] inField:informativeText];
-  if (SKFloatEquals(0, deltaH)) {
+  if (SKCGFloatEquals(0, deltaH)) {
     NSRect frame = [[informativeText enclosingScrollView] frame];
     frame.origin.y -= deltaH;
     frame.size.height += deltaH;
@@ -104,7 +104,7 @@
   /* Resize Window */
   NSRect win = [alertWindow frame];
   win.size.height += deltaH;
-  float minHeight = [alertWindow minSize].height - 22;
+  CGFloat minHeight = [alertWindow minSize].height - 22;
   if (NSHeight(win) < minHeight) {
     deltaH += minHeight - NSHeight(win);
     win.size.height = minHeight;
@@ -113,16 +113,16 @@
   [alertWindow setFrame:win display:YES animate:YES];
 }
 
-- (float)setText:(NSString *)msg inField:(id)textField {
+- (CGFloat)setText:(NSString *)msg inField:(id)textField {
   id layout = [textField layoutManager];
   id container = [textField textContainer];
   id storage = [textField textStorage];
   
-  float oldHeight = NSHeight([layout boundingRectForGlyphRange:NSMakeRange(0, [[storage string] length])
-                                               inTextContainer:container]);
+  CGFloat oldHeight = NSHeight([layout boundingRectForGlyphRange:NSMakeRange(0, [[storage string] length])
+                                                 inTextContainer:container]);
   [textField setString:msg];
-  float newHeight = NSHeight([layout boundingRectForGlyphRange:NSMakeRange(0, [[storage string] length])
-                                               inTextContainer:container]);
+  CGFloat newHeight = NSHeight([layout boundingRectForGlyphRange:NSMakeRange(0, [[storage string] length])
+                                                 inTextContainer:container]);
   return newHeight - oldHeight;
 }
 
@@ -155,7 +155,7 @@
   return sp_alerts;
 }
 
-- (int)alertCount {
+- (NSUInteger)alertCount {
   return [sp_alerts count];
 }
 
@@ -178,7 +178,7 @@
   [self addAlert:alert];
 }
 
-- (void)insertAlert:(SparkAlert *)alert atIndex:(int)anIndex {
+- (void)insertAlert:(SparkAlert *)alert atIndex:(NSUInteger)anIndex {
   [sp_alerts insertObject:alert atIndex:anIndex];
 }
 
@@ -186,7 +186,7 @@
   [sp_alerts removeObject:alert];
 }
 
-- (void)removeAlertAtIndex:(int)anIndex {
+- (void)removeAlertAtIndex:(NSUInteger)anIndex {
   [sp_alerts removeObjectAtIndex:anIndex];
 }
 

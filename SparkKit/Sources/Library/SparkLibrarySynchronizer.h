@@ -12,6 +12,7 @@ SK_EXPORT
 BOOL SparkLogSynchronization;
 
 @protocol SparkLibrary;
+SK_CLASS_EXPORT
 @interface SparkLibrarySynchronizer : NSObject {
   @private
   SparkLibrary *sp_library;

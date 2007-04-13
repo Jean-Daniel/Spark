@@ -20,7 +20,7 @@
 @protocol SparkLibrary;
 @protocol SparkServer
 
-- (int)version;
+- (UInt32)version;
 
 - (oneway void)shutdown;
 

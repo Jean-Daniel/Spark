@@ -30,6 +30,7 @@ NSString * const SparkEntryManagerDidChangeEntryEnabledNotification;
 
 @class SparkAction;
 @class SparkLibrary, SparkEntry;
+SK_CLASS_EXPORT
 @interface SparkEntryManager : NSObject {
   @private
   SparkLibrary *sp_library; /* __weak */
@@ -55,25 +56,25 @@ NSString * const SparkEntryManagerDidChangeEntryEnabledNotification;
 - (void)disableEntry:(SparkEntry *)anEntry;
 
 #pragma mark Queries
-- (NSArray *)entriesForAction:(UInt32)anAction;
-- (NSArray *)entriesForTrigger:(UInt32)aTrigger;
-- (NSArray *)entriesForApplication:(UInt32)anApplication;
+- (NSArray *)entriesForAction:(SparkUID)anAction;
+- (NSArray *)entriesForTrigger:(SparkUID)aTrigger;
+- (NSArray *)entriesForApplication:(SparkUID)anApplication;
 
 - (BOOL)containsEntry:(SparkEntry *)anEntry;
-- (BOOL)containsEntryForAction:(UInt32)anAction;
-- (BOOL)containsEntryForTrigger:(UInt32)aTrigger;
-- (BOOL)containsEntryForApplication:(UInt32)anApplication;
+- (BOOL)containsEntryForAction:(SparkUID)anAction;
+- (BOOL)containsEntryForTrigger:(SparkUID)aTrigger;
+- (BOOL)containsEntryForApplication:(SparkUID)anApplication;
 
-- (BOOL)containsActiveEntryForTrigger:(UInt32)aTrigger;
-- (BOOL)containsOverwriteEntryForTrigger:(UInt32)aTrigger;
-- (BOOL)containsPermanentEntryForTrigger:(UInt32)aTrigger;
+- (BOOL)containsActiveEntryForTrigger:(SparkUID)aTrigger;
+- (BOOL)containsOverwriteEntryForTrigger:(SparkUID)aTrigger;
+- (BOOL)containsPermanentEntryForTrigger:(SparkUID)aTrigger;
 
-- (BOOL)containsEntryForTrigger:(UInt32)aTrigger application:(UInt32)anApplication;
-- (SparkEntry *)entryForTrigger:(UInt32)aTrigger application:(UInt32)anApplication;
-- (SparkAction *)actionForTrigger:(UInt32)aTrigger application:(UInt32)anApplication isActive:(BOOL *)status;
+- (BOOL)containsEntryForTrigger:(SparkUID)aTrigger application:(SparkUID)anApplication;
+- (SparkEntry *)entryForTrigger:(SparkUID)aTrigger application:(SparkUID)anApplication;
+- (SparkAction *)actionForTrigger:(SparkUID)aTrigger application:(SparkUID)anApplication isActive:(BOOL *)status;
 
 /* Advanced action support */ 
-- (BOOL)isActionActive:(UInt32)anAction forApplication:(UInt32)anApplication;
+- (BOOL)isActionActive:(SparkUID)anAction forApplication:(SparkUID)anApplication;
 
 @end
 
@@ -86,6 +87,6 @@ NSString * const SparkEntryManagerDidChangeEntryEnabledNotification;
 - (BOOL)readFromFileWrapper:(NSFileWrapper *)fileWrapper error:(NSError **)outError;
 
 /* private: v1 import */
-- (void)addEntryWithAction:(UInt32)action trigger:(UInt32)trigger application:(UInt32)application enabled:(BOOL)enabled;
+- (void)addEntryWithAction:(SparkUID)action trigger:(SparkUID)trigger application:(SparkUID)application enabled:(BOOL)enabled;
 
 @end

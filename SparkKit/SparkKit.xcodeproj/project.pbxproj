@@ -15,7 +15,7 @@
 		1B9FE5B60B8D95370042B5F9 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B9FE5B20B8D95370042B5F9 /* libxml2.dylib */; };
 		1B9FE5B70B8D95370042B5F9 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B9FE5B30B8D95370042B5F9 /* libz.dylib */; };
 		1B9FE5D10B8D95C10042B5F9 /* xar.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B9FE5D00B8D95C10042B5F9 /* xar.h */; };
-		1B9FE5D30B8D95C60042B5F9 /* libxar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B9FE5D20B8D95C60042B5F9 /* libxar.a */; };
+		1B9FE5D30B8D95C60042B5F9 /* libsxar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B9FE5D20B8D95C60042B5F9 /* libsxar.a */; };
 		1BAA6F8A0B64CF2500F9AC0E /* SKImageUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BAA6F840B64CF2500F9AC0E /* SKImageUtils.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		1BAA6F8D0B64CF2500F9AC0E /* SKImageUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BAA6F870B64CF2500F9AC0E /* SKImageUtils.m */; };
 		1BB8B1FF0B949EE900F91062 /* SparkSystem.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1BB8B1FE0B949EE900F91062 /* SparkSystem.tiff */; };
@@ -252,7 +252,7 @@
 		1B9FE5B20B8D95370042B5F9 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = /usr/lib/libxml2.dylib; sourceTree = "<absolute>"; };
 		1B9FE5B30B8D95370042B5F9 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = /usr/lib/libz.dylib; sourceTree = "<absolute>"; };
 		1B9FE5D00B8D95C10042B5F9 /* xar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xar.h; sourceTree = "<group>"; };
-		1B9FE5D20B8D95C60042B5F9 /* libxar.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libxar.a; sourceTree = "<group>"; };
+		1B9FE5D20B8D95C60042B5F9 /* libsxar.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libsxar.a; sourceTree = "<group>"; };
 		1BAA6F840B64CF2500F9AC0E /* SKImageUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKImageUtils.h; sourceTree = "<group>"; };
 		1BAA6F870B64CF2500F9AC0E /* SKImageUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKImageUtils.m; sourceTree = "<group>"; };
 		1BB8B1FE0B949EE900F91062 /* SparkSystem.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SparkSystem.tiff; sourceTree = "<group>"; };
@@ -464,7 +464,7 @@
 				983976350A5866BF00F79B40 /* IOKit.framework in Frameworks */,
 				98E19C710B160EF1007E4D31 /* DirectoryService.framework in Frameworks */,
 				98A417EE0B37454500411C20 /* SystemConfiguration.framework in Frameworks */,
-				1B9FE5D30B8D95C60042B5F9 /* libxar.a in Frameworks */,
+				1B9FE5D30B8D95C60042B5F9 /* libsxar.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -720,7 +720,7 @@
 			isa = PBXGroup;
 			children = (
 				1B9FE5D00B8D95C10042B5F9 /* xar.h */,
-				1B9FE5D20B8D95C60042B5F9 /* libxar.a */,
+				1B9FE5D20B8D95C60042B5F9 /* libsxar.a */,
 				986B59380B8CEB0F000B74E7 /* SKXarArchive.h */,
 				1B0C2B420B8DC71B0062A711 /* SKXarArchive.m */,
 				986B59340B8CEB0F000B74E7 /* SKArchive.h */,

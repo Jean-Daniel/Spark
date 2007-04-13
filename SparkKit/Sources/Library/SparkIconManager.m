@@ -8,6 +8,11 @@
 
 #import "SparkIconManagerPrivate.h"
 
+#import <SparkKit/SparkList.h>
+#import <SparkKit/SparkAction.h>
+#import <SparkKit/SparkTrigger.h>
+#import <SparkKit/SparkApplication.h>
+
 #import <SparkKit/SparkObject.h>
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkObjectSet.h>
@@ -18,7 +23,6 @@
 enum {
   kSparkInvalidType = 0xff
 };
-@class SparkList, SparkAction, SparkTrigger, SparkApplication;
 SK_INLINE
 UInt8 __SparkIconTypeForObject(SparkObject *object) {
   Class cls = [object class];
@@ -60,7 +64,7 @@ SparkObjectSet *_SparkObjectSetForType(SparkLibrary *library, UInt8 type) {
       @throw exception;
     }
     
-    for (unsigned idx = 0; idx < 4; idx++) {
+    for (NSUInteger idx = 0; idx < 4; idx++) {
       sp_cache[idx] = NSCreateMapTable(NSIntMapKeyCallBacks, NSObjectMapValueCallBacks, 0);
     }
     
@@ -84,7 +88,7 @@ SparkObjectSet *_SparkObjectSetForType(SparkLibrary *library, UInt8 type) {
 
 - (void)dealloc {
   [[sp_library notificationCenter] removeObserver:self];
-  for (unsigned idx = 0; idx < 4; idx++) {
+  for (NSUInteger idx = 0; idx < 4; idx++) {
     if (sp_cache[idx]) NSFreeMapTable(sp_cache[idx]);
   }
   [sp_path release];
@@ -109,7 +113,7 @@ SparkObjectSet *_SparkObjectSetForType(SparkLibrary *library, UInt8 type) {
     } else if (!isDir) {
       [NSException raise:NSInvalidArgumentException format:@"%@ is not a directory", path];
     }
-    for (unsigned idx = 0; idx < 4; idx++) {
+    for (NSUInteger idx = 0; idx < 4; idx++) {
       NSString *dir = [path stringByAppendingPathComponent:[NSString stringWithFormat:@"%u", idx]];
       if (![[NSFileManager defaultManager] fileExistsAtPath:dir])
         [[NSFileManager defaultManager] createDirectoryAtPath:dir attributes:nil];
@@ -123,10 +127,10 @@ SparkObjectSet *_SparkObjectSetForType(SparkLibrary *library, UInt8 type) {
   _SparkIconEntry *entry = nil;
   UInt8 type = __SparkIconTypeForObject(anObject);
   if (type != kSparkInvalidType) {
-    entry = NSMapGet(sp_cache[type], (void *)[anObject uid]);
+    entry = NSMapGet(sp_cache[type], (void *)(long)[anObject uid]);
     if (!entry) {
       entry = [[_SparkIconEntry alloc] initWithObject:anObject];
-      NSMapInsert(sp_cache[type], (void *)[anObject uid], entry);
+      NSMapInsert(sp_cache[type], (void *)(long)[anObject uid], entry);
       [entry release];
     }
   }
@@ -191,7 +195,7 @@ SparkObjectSet *_SparkObjectSetForType(SparkLibrary *library, UInt8 type) {
 
 - (BOOL)synchronize {
   if (sp_path) {
-    for (unsigned idx = 0; idx < 4; idx++) {
+    for (NSUInteger idx = 0; idx < 4; idx++) {
       [self synchronize:sp_cache[idx]];
     }
   } else {

@@ -10,6 +10,7 @@
 #import <SparkKit/SparkShadowKit.h>
 #import <SparkKit/SparkLibrary.h>
 
+#import <ShadowKit/SKAlias.h>
 #import <ShadowKit/SKApplication.h>
 #import <ShadowKit/SKProcessFunctions.h>
 #import <ShadowKit/SKAppKitExtensions.h>
@@ -96,7 +97,7 @@ NSString * const kSparkApplicationKey = @"SparkApplication";
     return [sp_application isEqual:((SparkApplication *)object)->sp_application];
   else return NO;
 }
-- (unsigned)hash {
+- (NSUInteger)hash {
   return [sp_application hash];
 }
 

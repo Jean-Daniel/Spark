@@ -26,6 +26,7 @@ typedef BOOL (*HKHotKeyFilter)(HKKeycode keycode, HKModifier modifier);
     @class 		HKHotKeyManager
     @abstract   HotKeyManager is used to register and unregister HKHotKey. It dispatch Global HotKey event.
 */
+HK_CLASS_EXPORT
 @interface HKHotKeyManager : NSObject {
   @private
   void *hk_handler; /* EventHandlerRef */

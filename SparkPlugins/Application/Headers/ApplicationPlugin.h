@@ -11,7 +11,7 @@
 #import "ApplicationAction.h"
 
 @class SKImageView;
-@interface ApplicationActionPlugin : SparkActionPlugIn {
+@interface ApplicationPlugin : SparkActionPlugIn {
   IBOutlet NSView *ibAppView;
   IBOutlet NSButton *ibOptions;
   IBOutlet NSTextField *ibApplication;

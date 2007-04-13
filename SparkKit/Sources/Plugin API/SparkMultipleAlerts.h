@@ -8,6 +8,7 @@
 
 #import <SparkKit/SparkKit.h>
 
+SK_CLASS_EXPORT
 @interface SparkMultipleAlerts : NSObject {
   IBOutlet NSButton *nextButton;
   IBOutlet NSButton *previousButton;
@@ -21,7 +22,7 @@
   id sp_alerts;
   NSNib *sp_nib;
   BOOL sp_retain;
-  unsigned sp_index;
+  NSUInteger sp_index;
 }
 
 - (id)initWithAlert:(SparkAlert *)alert;
@@ -31,16 +32,16 @@
 
 - (NSArray *)alerts;
 
-- (int)alertCount;
+- (NSUInteger)alertCount;
 
 - (void)addAlert:(SparkAlert *)alert;
 - (void)addAlerts:(NSArray *)alerts;
 - (void)addAlertWithMessageText:(NSString *)message informativeTextWithFormat:(NSString *)format,...;
 
-- (void)insertAlert:(SparkAlert *)alert atIndex:(int)index;
+- (void)insertAlert:(SparkAlert *)alert atIndex:(NSUInteger)index;
 
 - (void)removeAlert:(SparkAlert *)alert;
-- (void)removeAlertAtIndex:(int)index;
+- (void)removeAlertAtIndex:(NSUInteger)index;
 - (void)removeAlerts:(NSArray *)alerts;
 - (void)removeAllAlerts;
 

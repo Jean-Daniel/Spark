@@ -26,7 +26,7 @@ SparkFilterMode SparkKeyStrokeFilterMode = kSparkEnableSingleFunctionKey;
  Jugés trop génant, seul les touches Fx peuvent être utilisées sans "modifier"
 */
 static
-const int kCommonModifierMask = kCGEventFlagMaskCommand | kCGEventFlagMaskControl | kCGEventFlagMaskShift | kCGEventFlagMaskAlternate;
+const NSInteger kCommonModifierMask = kCGEventFlagMaskCommand | kCGEventFlagMaskControl | kCGEventFlagMaskShift | kCGEventFlagMaskAlternate;
 
 static 
 BOOL _SparkKeyStrokeFilter(HKKeycode code, HKModifier modifier) {

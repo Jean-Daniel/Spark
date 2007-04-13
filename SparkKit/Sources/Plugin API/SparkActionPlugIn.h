@@ -16,6 +16,7 @@ you will use a subclass of SparkActionPlugIn.
 If you use this class in IB, you can define an Outlet with name actionView.
 */
 @class SparkAction;
+SK_CLASS_EXPORT
 @interface SparkActionPlugIn : NSObject {  
   @private
   NSView *sp_view;

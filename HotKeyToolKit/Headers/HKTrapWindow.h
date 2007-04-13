@@ -42,6 +42,7 @@ NSString * const kHKEventCharacterKey;
 			and link trapField to a NSTextField owned by this window. Each time the Window receive an event, 
 			it set the value of this textField to the shortCut String Description.
 */
+HK_CLASS_EXPORT
 @interface HKTrapWindow : NSWindow {
 @private
   struct _hk_twFlags {

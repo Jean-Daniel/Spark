@@ -31,6 +31,7 @@ SparkFilterMode SparkKeyStrokeFilterMode;
 @abstract   SparkHotKey is the class that represent hotKeys used in Spark.
 */
 @class HKHotKey;
+SK_CLASS_EXPORT
 @interface SparkHotKey : SparkTrigger <NSCoding, NSCopying> {
   @private
   HKHotKey *sp_hotkey;

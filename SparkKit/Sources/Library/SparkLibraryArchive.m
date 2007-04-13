@@ -93,7 +93,7 @@ NSString * const kSparkLibraryArchiveFileName = @"Spark Library";
 
 - (void)readFromArchive:(SKArchive *)archive path:(SKArchiveFile *)path {
   NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-  for (unsigned idx = 0; idx < 4; idx++) {
+  for (NSUInteger idx = 0; idx < 4; idx++) {
     /* Get Folder */
     SKArchiveFile *folder = [path fileWithName:[NSString stringWithFormat:@"%u", idx]];
     
@@ -104,7 +104,7 @@ NSString * const kSparkLibraryArchiveFileName = @"Spark Library";
       NSImage *icon = data ? [[NSImage alloc] initWithData:data] : nil;
       if (icon) {
         SparkObjectSet *set = _SparkObjectSetForType(sp_library, idx);
-        UInt32 uid = [[file name] intValue];
+        SparkUID uid = [[file name] intValue];
         SparkObject *object = [set objectWithUID:uid];
         if (object) {
           _SparkIconEntry *entry = [self entryForObject:object];
@@ -121,7 +121,7 @@ NSString * const kSparkLibraryArchiveFileName = @"Spark Library";
 
 - (void)writeToArchive:(SKArchive *)archive atPath:(SKArchiveFile *)path {
   NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-  for (unsigned idx = 0; idx < 4; idx++) {
+  for (NSUInteger idx = 0; idx < 4; idx++) {
     /* Create Folder */
     SKArchiveFile *folder = [archive addFolder:[NSString stringWithFormat:@"%u", idx] properties:nil parent:path];
     

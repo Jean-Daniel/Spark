@@ -101,7 +101,7 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
   [super dealloc];
 }
 
-- (unsigned)hash {
+- (NSUInteger)hash {
   return [sp_identifier hash];
 }
 

@@ -28,6 +28,7 @@ NSString * const SparkListDidRemoveObjectNotification;
 SPARK_EXPORT
 NSString * const SparkListDidRemoveObjectsNotification;
 
+SK_CLASS_EXPORT
 @interface SparkList : SparkObject {
   @private
   NSMutableArray *sp_entries;
@@ -54,7 +55,7 @@ NSString * const SparkListDidRemoveObjectsNotification;
 - (id)initWithSerializedValues:(NSDictionary *)plist
                      objectSet:(SparkObjectSet *)library;
 
-- (unsigned)count;
+- (NSUInteger)count;
 - (NSEnumerator *)objectEnumerator;
 - (void)addObject:(SparkObject *)anObject;
 - (void)addObjectsFromArray:(NSArray *)anArray;

@@ -11,6 +11,7 @@
 #import "Spark.h"
 #import "SETableView.h"
 #import "SELibrarySource.h"
+#import "SEBackgroundView.h"
 #import "SELibraryDocument.h"
 
 #import "SEApplicationView.h"
@@ -66,7 +67,7 @@
 - (void)windowDidLoad {
   [[self window] center];
   [[self window] setFrameAutosaveName:@"SparkMainWindow"];
-  [[self window] setBackgroundColor:[NSColor colorWithCalibratedWhite:.773 alpha:1]];
+  [SEBackgroundView configureWindow:[self window]];
   [[self window] display];
 }
 
@@ -188,7 +189,7 @@
 
 #pragma mark Menu
 /* Enable menu item */
-- (BOOL)validateMenuItem:(id <NSMenuItem>)menuItem {
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
   if ([menuItem action] == @selector(copy:) || [menuItem action] == @selector(paste:)) {
     NSResponder *first = [[self window] firstResponder];
     return libraryTable == first || [triggers tableView] == first;

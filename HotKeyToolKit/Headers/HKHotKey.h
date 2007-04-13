@@ -32,6 +32,7 @@ NSTimeInterval HKGetSystemKeyRepeatThreshold(void);
 @abstract	This class represent a Global Hot Key (Shortcut) that can be registred to execute an action when called.
 @discussion	It uses an UniChar and a virtual keycode to store the shortcut so if the keyboard layout change, the shortcut change too.
 */
+HK_CLASS_EXPORT
 @interface HKHotKey : NSObject <NSCopying, NSCoding> { 
   @private
   id hk_target;

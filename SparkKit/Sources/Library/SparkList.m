@@ -195,7 +195,7 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
 
 #pragma mark -
 #pragma mark Array
-- (unsigned)count {
+- (NSUInteger)count {
   return [sp_entries count];
 }
 - (BOOL)containsObject:(SparkObject *)anObject {
@@ -226,7 +226,7 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
 }
 
 - (void)removeObject:(SparkObject *)anObject {
-  unsigned idx = [sp_entries indexOfObject:anObject];
+  NSUInteger idx = [sp_entries indexOfObject:anObject];
   if (idx != NSNotFound) {
     [anObject retain];
     /* Undo Manager */
@@ -238,10 +238,10 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
   }
 }
 - (void)removeObjectsInArray:(NSArray *)anArray {
-  unsigned count = [anArray count];
+  NSUInteger count = [anArray count];
   NSMutableArray *removed = [[NSMutableArray alloc] init];
   while (count-- > 0) {
-    unsigned idx = [sp_entries indexOfObject:[anArray objectAtIndex:count]];
+    NSUInteger idx = [sp_entries indexOfObject:[anArray objectAtIndex:count]];
     if (NSNotFound != idx) {
       [removed addObject:[sp_entries objectAtIndex:idx]];
       [sp_entries removeObjectAtIndex:idx];
@@ -265,7 +265,7 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
   }
 }
 - (void)didUpdateObject:(NSNotification *)aNotification {
-  unsigned idx = 0;
+  NSUInteger idx = 0;
   SparkObject *object = SparkNotificationObject(aNotification);
   SparkObject *previous = SparkNotificationUpdatedObject(aNotification);
   /* If contains old value */

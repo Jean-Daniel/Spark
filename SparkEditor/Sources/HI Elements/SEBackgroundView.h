@@ -12,5 +12,7 @@
   @private
 }
 
++ (void)configureWindow:(NSWindow *)aWindow;
+
 @end
 
