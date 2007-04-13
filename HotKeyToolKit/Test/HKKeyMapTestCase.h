@@ -8,9 +8,8 @@
 
 #import <SenTestingKit/SenTestingKit.h>
 
-
 @interface HKKeyMapTestCase : SenTestCase {
-
+  
 }
 
 @end
