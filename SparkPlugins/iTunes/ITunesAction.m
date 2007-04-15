@@ -342,7 +342,7 @@ static ITunesVisual sDefaultVisual = {delay: -1};
   /* Avoid double display. (autoinfo issue) */
   static CFAbsoluteTime sLastDisplayTime = 0;
   CFAbsoluteTime absTime = CFAbsoluteTimeGetCurrent();
-  if ((absTime - sLastDisplayTime) > 0.5) {
+  if ([SparkAction currentEventTime] > 0 || (absTime - sLastDisplayTime) > 0.5) {
     iTunesTrack track = SKAEEmptyDesc();
     
     ITunesInfo *info = [ITunesInfo sharedWindow];

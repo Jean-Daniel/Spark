@@ -102,6 +102,10 @@ SPARK_EXPORT NSString * const kSparkFolderName;
 
 SPARK_EXPORT NSString * const kSparkKitBundleIdentifier;
 SPARK_EXPORT NSString * const kSparkDaemonBundleIdentifier;
+
+/* Globals Notifications */
+SPARK_EXPORT NSString * const SparkWillSetActiveLibraryNotification;
+SPARK_EXPORT NSString * const SparkDidSetActiveLibraryNotification;
 #else 
 SPARK_EXPORT CFStringRef const kSparkFolderName;
 
@@ -115,12 +119,6 @@ SPARK_EXPORT
 const OSType kSparkDaemonSignature;
 
 typedef uint32_t SparkUID;
-
-/* Globals Notifications */
-SPARK_EXPORT
-NSString * const SparkWillSetActiveLibraryNotification;
-SPARK_EXPORT
-NSString * const SparkDidSetActiveLibraryNotification;
 
 /* Misc Apple event helpers */
 
