@@ -22,6 +22,7 @@ typedef enum {
  */
 SPARK_EXPORT
 SparkContext SparkGetCurrentContext(void);
+
 SPARK_EXPORT
 BOOL SparkEditorIsRunning(void);
 
@@ -29,7 +30,7 @@ SPARK_EXPORT
 void SparkLaunchEditor(void);
 
 #if defined(__OBJC__)
-
+#pragma mark Alerts
 @class SparkAlert;
 
 /*!
@@ -63,7 +64,6 @@ void SparkNotificationDisplaySystemIcon(OSType icon, CGFloat delay);
 SPARK_EXPORT
 void SparkNotificationDisplay(NSView *view, CGFloat delay);
 
-#endif
-
+#endif /* Obj-C */
 
 #endif /* __SPARKFUNCTIONS_H */

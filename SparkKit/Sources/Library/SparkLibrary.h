@@ -18,6 +18,9 @@ SPARK_EXPORT
 NSString * const kSparkLibraryDefaultFileName;
 
 SPARK_EXPORT
+NSString * const kSparkLibraryPreferencesFile;
+
+SPARK_EXPORT
 NSString *SparkLibraryFolder(void);
 
 enum {
@@ -53,11 +56,27 @@ SparkLibrary *SparkLibraryGetLibraryWithUUID(CFUUIDRef uuid);
 SPARK_EXPORT
 SparkLibrary *SparkLibraryGetLibraryAtPath(NSString *path, BOOL create);
 
+/* Preferences */
+SPARK_EXPORT
+BOOL SparkLibraryPreferencesSynchronize(void);
+
+SPARK_PRIVATE
+NSMutableDictionary *SparkLibraryGetPreferences(SparkLibrary *aLibrary);
+SPARK_PRIVATE
+void SparkLibrarySetPreferences(SparkLibrary *aLibrary, NSDictionary *preferences);
+
 /* Notifications support */
 SPARK_EXPORT
 NSString * const SparkNotificationObjectKey;
 SPARK_EXPORT
 NSString * const SparkNotificationUpdatedObjectKey;
+
+SPARK_EXPORT
+NSString * const SparkLibraryDidSetPreferenceNotification;
+SPARK_EXPORT
+NSString * const SparkNotificationPreferenceNameKey;
+SPARK_EXPORT
+NSString * const SparkNotificationPreferenceValueKey;
 
 SPARK_INLINE
 id SparkNotificationObject(NSNotification *aNotification) {
@@ -69,14 +88,14 @@ id SparkNotificationUpdatedObject(NSNotification *aNotification) {
   return [[aNotification userInfo] objectForKey:SparkNotificationUpdatedObjectKey];
 }
 
-SK_INLINE
+SPARK_INLINE
 void SparkLibraryPostNotification(SparkLibrary *library, NSString *name, id sender, id object) {
   [[library notificationCenter] postNotificationName:name
                                               object:sender
                                             userInfo:object ? [NSDictionary dictionaryWithObject:object
                                                                                           forKey:SparkNotificationObjectKey] : nil];
 }
-SK_INLINE
+SPARK_INLINE
 void SparkLibraryPostUpdateNotification(SparkLibrary *library, NSString *name, id sender, id replaced, id object) {
   [[library notificationCenter] postNotificationName:name
                                               object:sender
@@ -88,7 +107,7 @@ void SparkLibraryPostUpdateNotification(SparkLibrary *library, NSString *name, i
 #pragma mark -
 @class SparkApplication;
 @class SparkIconManager, SparkEntryManager;
-SK_CLASS_EXPORT
+SPARK_CLASS_EXPORT
 @interface SparkLibrary : NSObject {
   @private
   NSString *sp_file;
@@ -107,6 +126,9 @@ SK_CLASS_EXPORT
   /* Model synchronization */
   NSUndoManager *sp_undo;
   NSNotificationCenter *sp_center;
+  
+  /* Preferences */
+  NSMutableDictionary *sp_prefs;
 }
 
 + (SparkApplication *)systemApplication;

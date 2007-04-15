@@ -15,6 +15,7 @@
 #import <SparkKit/SparkPlugIn.h>
 #import <SparkKit/SparkHotKey.h>
 #import <SparkKit/SparkLibrary.h>
+#import <SparkKit/SparkPreferences.h>
 #import <SparkKit/SparkActionLoader.h>
 
 #import <ShadowKit/SKLoginItems.h>
@@ -24,7 +25,7 @@
 #include <pthread.h>
 
 /* If daemon should delay library loading at startup */
-CFStringRef kSparkGlobalPrefDelayStartup = CFSTR("SDDelayStartup");
+NSString * const kSparkGlobalPrefDelayStartup = @"SDDelayStartup";
 
 NSString * const kSparkPrefVersion = @"SparkVersion";
 
@@ -93,7 +94,9 @@ void *_SEPreferencesLoginItemThread(void *arg) {
 
 + (BOOL)synchronize {
   BOOL user = [[NSUserDefaults standardUserDefaults] synchronize];
-  BOOL shared = CFPreferencesAppSynchronize((CFStringRef)kSparkPreferencesIdentifier);
+  BOOL shared = SparkPreferencesSynchronize(SparkPreferencesDaemon);
+  shared = shared && SparkPreferencesSynchronize(SparkPreferencesLibrary);
+  shared = shared && SparkPreferencesSynchronize(SparkPreferencesFramework);
   return user && shared;
 }
 
@@ -210,52 +213,25 @@ void *_SEPreferencesLoginItemThread(void *arg) {
 #pragma mark -
 #pragma mark Preferences
 - (float)delay {
-  float value = 0;
-  CFNumberRef ref = CFPreferencesCopyAppValue(kSparkGlobalPrefDelayStartup, (CFStringRef)kSparkPreferencesIdentifier);
-  if (ref) {
-    CFNumberGetValue(ref, kCFNumberFloatType, &value);
-    CFRelease(ref);
-  }
-  return value;
+  NSNumber *value = SparkPreferencesGetValue(kSparkGlobalPrefDelayStartup, SparkPreferencesDaemon);
+  return value ? [value floatValue] : 0;
 }
 - (void)setDelay:(float)delay {
-  CFNumberRef ref = CFNumberCreate(kCFAllocatorDefault, kCFNumberFloatType, &delay);
-  if (ref) {
-    CFPreferencesSetAppValue(kSparkGlobalPrefDelayStartup, ref, (CFStringRef)kSparkPreferencesIdentifier);
-    CFRelease(ref);
-  }
+  SparkPreferencesSetValue(kSparkGlobalPrefDelayStartup, SKFloat(delay), SparkPreferencesDaemon);
 }
 
 - (BOOL)advanced {
-  BOOL advanced = NO;
-  CFBooleanRef value = CFPreferencesCopyValue(CFSTR("SparkAdvancedSettings"), (CFStringRef)kSparkPreferencesIdentifier, 
-                                              kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
-  if (value) {
-    advanced = CFBooleanGetValue(value);
-    CFRelease(value);
-  }
-  return advanced;
+  return SparkPreferencesGetBooleanValue(@"SparkAdvancedSettings", SparkPreferencesFramework);
 }
 - (void)setAdvanced:(BOOL)advanced {
-  CFPreferencesSetValue(CFSTR("SparkAdvancedSettings"), advanced ? kCFBooleanTrue : kCFBooleanFalse,
-                        (CFStringRef)kSparkPreferencesIdentifier, 
-                        kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
+  SparkPreferencesSetBooleanValue(@"SparkAdvancedSettings", advanced, SparkPreferencesFramework);
 }
 
 - (BOOL)displaysAlert {
-  BOOL display = NO;
-  CFBooleanRef value = CFPreferencesCopyValue(CFSTR("SDDisplayAlertOnExecute"), (CFStringRef)kSparkPreferencesIdentifier, 
-                                              kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
-  if (value) {
-    display = CFBooleanGetValue(value);
-    CFRelease(value);
-  }
-  return display;
+  return SparkPreferencesGetBooleanValue(@"SDDisplayAlertOnExecute", SparkPreferencesDaemon);
 }
 - (void)setDisplaysAlert:(BOOL)flag {
-  CFPreferencesSetValue(CFSTR("SDDisplayAlertOnExecute"), flag ? kCFBooleanTrue : kCFBooleanFalse,
-                        (CFStringRef)kSparkPreferencesIdentifier, 
-                        kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
+  SparkPreferencesSetBooleanValue(@"SDDisplayAlertOnExecute", flag, SparkPreferencesDaemon);
 }
 
 #pragma mark Single Key Mode

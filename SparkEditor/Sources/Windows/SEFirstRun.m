@@ -21,14 +21,8 @@
 - (void)displayFirstRunIfNeeded {
   NSUInteger version = [[NSUserDefaults standardUserDefaults] integerForKey:kSparkPrefVersion];
   if (0 == version) {
-    /* SparkEditor preferences does not exists => Clear old .Spark Preferences if exists */
-    CFArrayRef keys = CFPreferencesCopyKeyList((CFStringRef)kSparkPreferencesIdentifier, kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
-    if (keys) {
-      CFPreferencesSetMultiple(nil, keys,
-                               (CFStringRef)kSparkPreferencesIdentifier, kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
-      CFPreferencesSynchronize((CFStringRef)kSparkPreferencesIdentifier, kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
-      CFRelease(keys);
-    }
+    /* SparkEditor preferences does not exists */
+    
   }
   if (version < kSparkVersion) {
     /* First, set preferences to avoid second call */

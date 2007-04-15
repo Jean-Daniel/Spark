@@ -436,6 +436,7 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
   [SEPreferences synchronize];
+  SEServerStopConnection();
 }
 
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication {

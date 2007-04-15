@@ -8,6 +8,7 @@
 
 #import <SparkKit/SparkLibraryArchive.h>
 #import <SparkKit/SparkObjectSet.h>
+#import <SparkKit/SparkPrivate.h>
 
 #import "SparkIconManagerPrivate.h"
 
@@ -46,6 +47,19 @@ NSString * const kSparkLibraryArchiveFileName = @"Spark Library";
         SKArchiveFile *icons = [archive fileWithName:@"Icons"];
         NSAssert(icons != nil, @"Invalid archive");
         [sp_icons readFromArchive:archive path:icons];
+        
+        /* Load Preferences */
+        NSData *data = [[archive fileWithName:kSparkLibraryPreferencesFile] extractContents];
+        if (data) {
+          NSDictionary *prefs = [NSPropertyListSerialization propertyListFromData:data
+                                                                 mutabilityOption:NSPropertyListImmutable
+                                                                           format:NULL
+                                                                 errorDescription:NULL];
+          if (prefs)
+            [self setPreferences:prefs];
+          else
+            WLog(@"Error while unserializing preferences");
+        }
       }
     }
     [archive close];
@@ -75,10 +89,25 @@ NSString * const kSparkLibraryArchiveFileName = @"Spark Library";
     [wrapper setFilename:kSparkLibraryArchiveFileName];
     [archive addFileWrapper:wrapper parent:nil];
     
+    /* Save icons */
     if (sp_icons) {
       SKArchiveFile *icons = [archive addFolder:@"Icons" properties:nil parent:nil];
       [sp_icons writeToArchive:archive atPath:icons];
     }
+    
+    /* Save Preferences */
+    NSDictionary *preferences = [self preferences];
+    if ([preferences count] > 0) {
+      NSData *data = [NSPropertyListSerialization dataFromPropertyList:preferences
+                                                                format:NSPropertyListBinaryFormat_v1_0
+                                                      errorDescription:NULL];
+      if (data) {
+        [archive addFile:kSparkLibraryPreferencesFile data:data parent:NULL];
+      } else {
+        WLog(@"Error while serializing preferences");
+      }
+    }
+    
     [archive close];
     [archive release];
     return YES;

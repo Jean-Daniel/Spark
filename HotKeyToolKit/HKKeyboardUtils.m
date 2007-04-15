@@ -51,7 +51,7 @@ enum {
 };
 
 HK_INLINE
-UInt32 __GetModifierCount(UInt8 idx) {
+UInt32 __GetModifierCount(NSUInteger idx) {
   UInt32 count = 0;
   if (idx & kCommandKey) count++;
   if (idx & kShiftKey) count++;
@@ -65,7 +65,7 @@ UInt32 __GetModifierCount(UInt8 idx) {
 }
 
 static 
-void __HKUtilsConvertModifiers(HKModifier *mods, UInt32 count) {
+void __HKUtilsConvertModifiers(NSUInteger *mods, UInt32 count) {
   while (count-- > 0) {
     HKModifier modifier = 0;
     if (mods[count] & kCommandKey) modifier |= kCGEventFlagMaskCommand;
@@ -135,24 +135,22 @@ NSUInteger UchrKeycodesForCharacter(UchrContext *ctxt, UniChar character, HKKeyc
   HKKeycode ikeys[10];
   HKModifier imodifiers[10];
   
-  long chara = character;
   UInt32 d = 0;
   HKKeycode k = 0;
   HKModifier m = 0;
-  NSInteger flat = (NSInteger)NSMapGet(ctxt->chars, (void *)chara);
+  NSInteger flat = (NSInteger)NSMapGet(ctxt->chars, (void *)(intptr_t)character);
   while (flat && count < limit) {
     __HKUtilsDeflatKey(flat, &k, &m, &d);
     ikeys[count] = k;
     imodifiers[count] = m;
     count++;
     if (d) {
-      intptr_t longd = d;
-      flat = (NSInteger)NSMapGet(ctxt->stats, (void *)longd);
+      flat = (NSInteger)NSMapGet(ctxt->stats, (void *)(intptr_t)d);
     } else {
       flat = 0;
     }
   }
-  UInt32 idx = 0;
+  NSUInteger idx = 0;
   while (idx < count && idx < maxsize) {
     keys[idx] = ikeys[count - idx - 1];
     modifiers[idx] = imodifiers[count - idx - 1];
@@ -173,7 +171,7 @@ void UchrContextDealloc(HKKeyMapContext *ctxt) {
 
 HK_INLINE 
 const UCKeyboardTypeHeader *__UCKeyboardHeaderForCurrentKeyboard(const UCKeyboardLayout* layout) {
-  unsigned idx = 0;
+  NSUInteger idx = 0;
   UInt8 kbType = LMGetKbdType();
   const UCKeyboardTypeHeader *head = layout->keyboardTypeList;
   while (idx < layout->keyboardTypeCount) {
@@ -210,22 +208,22 @@ OSStatus HKKeyMapContextWithUchrData(const UCKeyboardLayout *layout, Boolean rev
   const UCKeyStateTerminators * terminators = header->keyStateTerminatorsOffset ? data + header->keyStateTerminatorsOffset : NULL;
   
   /* Computer Table to modifiers map */
-  HKModifier tmod[tables->keyToCharTableCount];
+  NSUInteger tmod[tables->keyToCharTableCount];
   memset(tmod, 0xff, tables->keyToCharTableCount * sizeof(*tmod));
   
   NSUInteger idx = 0;
   /* idx is a modifier combination */
   while (idx < modifiers->modifiersCount) {
     /* get table index */
-    unsigned int table = modifiers->tableNum[idx];
+    NSUInteger table = modifiers->tableNum[idx];
     /* check table overflow */
     if (table < tables->keyToCharTableCount) {
       /* try to find combination with minimum keys */
       if (__GetModifierCount(tmod[table]) > __GetModifierCount(idx))
-          tmod[table] = (UInt32)idx;
+          tmod[table] = idx;
     } else {
       /* Table overflow, should not append */
-      WCLog("Invalid Keyboard layout, table %lu does not exists", (long)idx);
+      WCLog("Invalid Keyboard layout, table %tu does not exists", idx);
     }
     idx++;
   }
@@ -240,17 +238,17 @@ OSStatus HKKeyMapContextWithUchrData(const UCKeyboardLayout *layout, Boolean rev
   NSMapTable *deadr = NSCreateMapTable(NSIntMapKeyCallBacks, NSIntMapValueCallBacks, 0);
   
   /* Foreach key in each table */
-  for (idx=0; idx < tables->keyToCharTableCount; idx++) { 
-    unsigned key = 0;
+  for (idx = 0; idx < tables->keyToCharTableCount; idx++) { 
+    NSUInteger key = 0;
     const UCKeyOutput *output = data + tables->keyToCharTableOffsets[idx];
     while (key < tables->keyToCharTableSize) {
       if (output[key] >= 0xFFFE) {
         // Illegal character => no output, skip it
       } else {
         if (output[key] & (1 << 14)) {
-          long state = output[key] & 0x3fff;
+          NSUInteger state = output[key] & 0x3fff;
           // State record. save it into deadr table
-          NSMapInsertIfAbsent(deadr, (void *)state, (void *)__HKUtilsFlatKey(key, tmod[idx], 0));
+          NSMapInsertIfAbsent(deadr, (void *)state, (void *)__HKUtilsFlatKey(key, (HKModifier)tmod[idx], 0));
           
           /* for table without modifiers only */
           if (tmod[idx] == 0 && key < 128) {
@@ -271,8 +269,8 @@ OSStatus HKKeyMapContextWithUchrData(const UCKeyboardLayout *layout, Boolean rev
         } else {
           if (map) {
             // Simple unichar output. Save it into map table.
-            long unicode = output[key];
-            NSMapInsertIfAbsent(map, (void *)unicode, (void *)__HKUtilsFlatKey(key, tmod[idx], 0));
+            UniChar unicode = output[key];
+            NSMapInsertIfAbsent(map, (void *)(intptr_t)unicode, (void *)__HKUtilsFlatKey(key, (HKModifier)tmod[idx], 0));
           }
           // Save it into simple mapping table
           if (tmod[idx] == 0 && key < 128)
@@ -286,20 +284,20 @@ OSStatus HKKeyMapContextWithUchrData(const UCKeyboardLayout *layout, Boolean rev
   /* handle deadstate record */
   if (header->keyStateRecordsIndexOffset) {
     const UCKeyStateRecordsIndex *records = data + header->keyStateRecordsIndexOffset;
-    for (idx=0; idx < records->keyStateRecordCount; idx++) {
+    for (idx = 0; idx < records->keyStateRecordCount; idx++) {
       NSUInteger code = (NSUInteger)NSMapGet(deadr, (void *)idx);
       if (0 == code) {
-        WCLog("Unreachable block: %lu", (long)idx);
+        WCLog("Unreachable block: %tu", idx);
       } else {
         const UCKeyStateRecord *record = data + records->keyStateRecordOffsets[idx];
         if (record->stateZeroCharData != 0 && record->stateZeroNextState == 0) {
-          intptr_t unicode = record->stateZeroCharData;
+          UniChar unicode = record->stateZeroCharData;
           if (unicode & (1 << 15)) {
             // Warning: sequence
           } else {
             if (map) {
               /* Get keycode to access record idx */
-              NSMapInsertIfAbsent(map, (void *)unicode, (void *)(intptr_t)code);
+              NSMapInsertIfAbsent(map, (void *)(intptr_t)unicode, (void *)(intptr_t)code);
             } 
             /* Update fast table map */
             UInt32 d;
@@ -313,25 +311,25 @@ OSStatus HKKeyMapContextWithUchrData(const UCKeyboardLayout *layout, Boolean rev
         } else if ((record->stateZeroCharData == 0 || record->stateZeroCharData >= 0xFFFE) && record->stateZeroNextState != 0) {
           // No output and next state not null
           if (dead) {
-            long next = record->stateZeroNextState;
+            NSUInteger next = record->stateZeroNextState;
             // Map dead state to keycode
             NSMapInsertIfAbsent(dead, (void *)next, (void *)(intptr_t)code);
           }
         } 
         // Browse all record output
         if (reverse && record->stateEntryCount) {
-          unsigned entry = 0;
+          NSUInteger entry = 0;
           if (kUCKeyStateEntryTerminalFormat == record->stateEntryFormat) {
             const UCKeyStateEntryTerminal *term = (const void *)record->stateEntryData;
             while (entry < record->stateEntryCount) {
-              long unicode = term->charData;
+              UniChar unicode = term->charData;
               // Should resolve sequence
               if (unicode & (1 << 15)) {
                 //DLog(@"WARNING: Sequence: %u", unicode & 0x3fff);
               } else {
                 // Get previous keycode and append dead key state
                 code = __HKUtilsFlatDead(code, term->curState);
-                NSMapInsertIfAbsent(map, (void *)unicode, (void *)(intptr_t)code);
+                NSMapInsertIfAbsent(map, (void *)(intptr_t)unicode, (void *)(intptr_t)code);
               }
               term++;
               entry++;
@@ -409,11 +407,10 @@ NSUInteger KCHRKeycodesForCharacter(KCHRContext *ctxt, UniChar character, HKKeyc
   if (character == '\n')
     character = '\r';
   
-  intptr_t chara = character;
   UInt32 d;
   HKKeycode k = 0;
   HKModifier m = 0;
-  NSUInteger flat = (NSUInteger)NSMapGet(ctxt->chars, (void *)chara);
+  NSUInteger flat = (NSUInteger)NSMapGet(ctxt->chars, (void *)(intptr_t)character);
   while (flat && count < 2) {
     __HKUtilsDeflatKey(flat, &k, &m, &d);
     ikeys[count] = k;
@@ -458,15 +455,15 @@ OSStatus HKKeyMapContextWithKCHRData(const void *layout, Boolean reverse, HKKeyM
   UInt16 count = *((UInt16 *)(data + 258)); // version (2) + map table (256)
   
   /* Computer Table to modifiers map */
-  HKModifier tmod[count];
+  NSUInteger tmod[count];
   memset(tmod, 0xff, count * sizeof(*tmod));
   
-  unsigned idx = 0;
+  NSUInteger idx = 0;
   UInt8 *tableNum = (UInt8 *)(data + 2); // version (2)
   /* idx is a modifier combination */
   while (idx < 256) {
     /* get table index */
-    unsigned char table = tableNum[idx];
+    NSUInteger table = tableNum[idx];
     /* check table overflow */
     if (table < count) {
       /* try to find combination with minimum keys */
@@ -474,7 +471,7 @@ OSStatus HKKeyMapContextWithKCHRData(const void *layout, Boolean reverse, HKKeyM
         tmod[table] = idx;
     } else {
       /* Table overflow, should not append */
-      WCLog("Invalid Keyboard layout, table %u does not exists", table);
+      WCLog("Invalid Keyboard layout, table %tu does not exists", table);
     }
     idx++;
   }
@@ -484,18 +481,18 @@ OSStatus HKKeyMapContextWithKCHRData(const void *layout, Boolean reverse, HKKeyM
   bzero(charToKey, 256 * sizeof(*charToKey));
   
   /* Foreach key in each table */
-  for (idx=0; idx < count; idx++) { 
-    unsigned key = 0;
+  for (idx = 0; idx < count; idx++) { 
+    NSUInteger key = 0;
     const unsigned char *output = data + 260 + (128 * idx); // version (2) + map table (256) + map count (2)
     while (key < 128) {
       if (output[key] != 0) {
         //not a dead key state
         if (0 == charToKey[output[key]]) {
           /* Insert if absent */
-          charToKey[output[key]] = __HKUtilsFlatKey(key, tmod[idx], 0);
+          charToKey[output[key]] = __HKUtilsFlatKey(key, (HKModifier)tmod[idx], 0);
         }
         // Save it into simple mapping table
-        if (tmod[idx] == 0)
+        if (0 == tmod[idx])
           kchr->map[key] = output[key];
       }
       key++;
@@ -512,17 +509,16 @@ OSStatus HKKeyMapContextWithKCHRData(const void *layout, Boolean reverse, HKKeyM
     UInt8 table = *record;
     UInt8 key = *(record + 1);
     if (table < count) {
-      kchr->stats[idx] = __HKUtilsFlatKey(key, tmod[table], 0);
+      kchr->stats[idx] = __HKUtilsFlatKey(key, (HKModifier)tmod[table], 0);
     } else {
-      WCLog("Invalid Keyboard layout, table %u does not exists", table);
+      WCLog("Invalid Keyboard layout, table %hhu does not exists", table);
     }
     const struct {
       UInt8 previous;
       UInt8 output;
     } *entry = (void *)(record + 4);
     if (reverse) {
-      int i;
-      for (i=0; i < size; i++) {
+      for (NSInteger i = 0; i < size; i++) {
         /* If previous has an entry in table and output has currently no entry */
         if (charToKey[entry->previous] != 0 && charToKey[entry->output] == 0) {
           /* add a new entry: output = previous + dead state index */
@@ -533,8 +529,8 @@ OSStatus HKKeyMapContextWithKCHRData(const void *layout, Boolean reverse, HKKeyM
     } else {
       entry += size;
     }
-    /* Save terminator into fast map. Terminator is registred in first entry byte (entry->previous, not entry->output) */
-    if (tmod[table] == 0 && kchr->map[key] == kHKNilUnichar && (entry->output != 0 || entry->previous != 0)) {
+    /* Save terminator into fast map. Terminator is registred in one of the two field (ppc/x86 not the same) */
+    if (0 == tmod[table] && kchr->map[key] == kHKNilUnichar && (entry->output != 0 || entry->previous != 0)) {
       kchr->map[key] = entry->output ? : entry->previous;
     }
     /* advance to next record */
@@ -544,7 +540,7 @@ OSStatus HKKeyMapContextWithKCHRData(const void *layout, Boolean reverse, HKKeyM
   /* Now we have to convert char table into unicode */
   kchr->chars = _UpgradeToUnicode(smCurrentScript, charToKey, 256, kchr->unicode, reverse);
   /* Upgrade fast map to unicode */
-  for (idx=0; idx < 128; idx++) {
+  for (idx = 0; idx < 128; idx++) {
     if (kchr->map[idx] != kHKNilUnichar && kchr->map[idx] < 256)
       kchr->map[idx] = kchr->unicode[kchr->map[idx]];
   }
@@ -570,8 +566,7 @@ NSMapTable *_UpgradeToUnicode(ScriptCode script, UInt32 *keys, UInt32 count, Uni
     err = CreateTextToUnicodeInfoByEncoding (encoding, &info);
   }
   if (noErr == err) {
-    unsigned idx = 0;
-    for (idx = 0; idx < count; idx++) {
+    for (NSUInteger idx = 0; idx < count; idx++) {
       /* If has a valid mapping entry */
       if (keys[idx] != 0) {
         ByteCount readed;

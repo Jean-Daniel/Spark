@@ -24,11 +24,11 @@
   HKHotKey *copy = [[[self class] allocWithZone:zone] init];
   copy->hk_target = hk_target;
   copy->hk_action = hk_action;
-
+  
   copy->hk_mask = hk_mask;
   copy->hk_keycode = hk_keycode;
   copy->hk_character = hk_character;
-    
+  
   copy->hk_repeatTimer = nil;
   copy->hk_repeatInterval = hk_repeatInterval;
   
@@ -110,7 +110,7 @@
 }
 
 - (NSString *)description {
-  return [NSString stringWithFormat:@"<%@ %p> {keycode:0x%x character:0x%x modifier:0x%x repeat:%f isRegistred:%@ }",
+  return [NSString stringWithFormat:@"<%@ %p> {keycode:%#x character:%#x modifier:%#x repeat:%f isRegistred:%@ }",
     [self class], self,
     [self keycode], [self character], [self modifier], [self repeatInterval],
     ([self isRegistred] ? @"YES" : @"NO")];
@@ -151,6 +151,11 @@
 }
 - (HKModifier)nativeModifier {
   return hk_mask;
+}
+- (void)setNativeModifier:(HKModifier)modifier {
+  if ([self shouldChangeKeystroke]) {
+    hk_mask = modifier;
+  }
 }
 
 - (HKKeycode)keycode {
@@ -194,14 +199,14 @@
   return hk_hkFlags.registred;
 }
 - (BOOL)setRegistred:(BOOL)flag {
-  // Si la cl√© n'est pas valide
+  // Si la clé n'est pas valide
   if (![self isValid]) {
     return NO;
   }
   BOOL result;
   @synchronized (self) {
     flag = flag ? 1 : 0;
-    // Si la cl√© est d√©ja dans l'√©tat demand√©
+    // Si la clé est déja dans l'état demandé
     if (flag == hk_hkFlags.registred) {
       return YES;
     }
@@ -240,17 +245,17 @@
 - (UInt64)rawkey {
   UInt64 hotkey = [self character];
   hotkey &= 0xffff;
-  hotkey |= [self modifier] & 0x00ff0000;
+  hotkey |= [self nativeModifier] & 0x00ff0000;
   hotkey |= ([self keycode] << 24) & 0xff000000;
   return hotkey;
 }
 
 - (void)setRawkey:(UInt64)rawkey {
   UniChar character = rawkey & 0x0000ffff;
-  NSUInteger modifier = (NSUInteger)(rawkey & 0x00ff0000);
+  HKModifier modifier = (HKModifier)(rawkey & 0x00ff0000);
   HKKeycode keycode = (rawkey & 0xff000000) >> 24;
   if (keycode == 0xff) keycode = kHKInvalidVirtualKeyCode;
-  BOOL isSpecialKey = (modifier & (NSNumericPadKeyMask | NSFunctionKeyMask)) != 0;
+  BOOL isSpecialKey = (modifier & (kCGEventFlagMaskNumericPad | kCGEventFlagMaskSecondaryFn)) != 0;
   if (!isSpecialKey) {
     /* If key is a number (not in numpad) we use keycode, because american keyboard use number */
     if (character >= '0' && character <= '9')
@@ -266,7 +271,7 @@
       [self setKeycode:keycode];
     }
   }
-  [self setModifier:modifier];
+  [self setNativeModifier:modifier];
 }
 
 #pragma mark -

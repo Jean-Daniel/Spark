@@ -57,7 +57,7 @@ void __HKEventPostKeyboardEvent(CGEventSourceRef source, HKKeycode keycode, void
 
 static
 void _HKEventPostKeystroke(HKKeycode keycode, HKModifier modifier, CGEventSourceRef source, void *psn) {
-  /* WARNING: look like CGEvent does not support null source */
+  /* WARNING: look like CGEvent does not support null source (bug) */
   BOOL isource = NO;
   if (!source) {
     isource = YES;
@@ -111,7 +111,7 @@ void _HKEventPostKeystroke(HKKeycode keycode, HKModifier modifier, CGEventSource
 
 static
 Boolean _HKEventPostCharacterKeystrokes(UniChar character, CGEventSourceRef source, void *psn) {
-  /* WARNING: look like CGEvent does not support null source */
+  /* WARNING: look like CGEvent does not support null source (bug) */
   BOOL isource = NO; /* YES if internal source and should be released */ 
   if (!source) {
     isource = YES;
@@ -209,7 +209,7 @@ ProcessSerialNumber _HKGetProcessWithSignature(OSType type) {
 #else
       info.processAppSpec = NULL;
 #endif
-      if (noErr == GetProcessInformation (&serialNumber, &info) && info.processSignature == type) {
+      if (noErr == GetProcessInformation(&serialNumber, &info) && info.processSignature == type) {
         break;
       }
     }
@@ -218,7 +218,7 @@ ProcessSerialNumber _HKGetProcessWithSignature(OSType type) {
 }
 
 ProcessSerialNumber _HKGetProcessWithBundleIdentifier(CFStringRef bundleId) {
-  ProcessSerialNumber serialNumber = {kNoProcess, kNoProcess};
+  ProcessSerialNumber serialNumber = { kNoProcess, kNoProcess };
   CFPropertyListRef procValue;
   CFDictionaryRef info;
   
@@ -301,4 +301,3 @@ ProcessSerialNumber _HKGetProcessWithBundleIdentifier(CFStringRef bundleId) {
 }
 
 @end
-

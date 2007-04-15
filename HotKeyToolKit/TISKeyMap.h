@@ -19,7 +19,7 @@ struct __HKKeyMap {
       KeyboardLayoutRef keyboard;
       KeyboardLayoutIdentifier identifier;
     } kl;
-#if MAC_OS_X_VERSION_MAX_ALLOWED > MAC_OS_X_VERSION_10_4
+#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5
     struct {
       TISInputSourceRef keyboard;
       CFStringRef identifier;
@@ -29,11 +29,15 @@ struct __HKKeyMap {
   HKKeyMapContext ctxt;
 };
 
-#if MAC_OS_X_VERSION_MAX_ALLOWED > MAC_OS_X_VERSION_10_4
+#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5
 
 SK_INLINE
 Boolean HKTISAvailable() {
+#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_5
+  return true;
+#else
   return TISInputSourceGetTypeID != NULL;
+#endif
 }
 
 SK_PRIVATE
@@ -83,7 +87,3 @@ CFStringRef HKTISKeyMapGetName(HKKeyMapRef keymap) { return NULL; }
 SK_INLINE
 CFStringRef HKTISKeyMapGetLocalizedName(HKKeyMapRef keymap) { return NULL; }
 #endif
-
-/* Internal */
-SK_PRIVATE
-OSStatus _HKKeyMapInit(HKKeyMapRef keyMap);

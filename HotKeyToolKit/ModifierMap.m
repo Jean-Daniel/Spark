@@ -9,16 +9,16 @@
 #import "HKKeyMap.h"
 #include <Carbon/Carbon.h>
 
-typedef struct __ModifierMap {
+typedef struct __HKModifierMap {
   UInt32 size;
   struct __ModifierEntry {
     NSUInteger input;
     NSUInteger output;
   } entries[];
-} ModifierMap;
+} HKModifierMap;
 
 static const
-ModifierMap _kHKUtilsNativeToCococaMap = {
+HKModifierMap _kHKUtilsNativeToCococaMap = {
 size:8,
 entries:{
 {kCGEventFlagMaskCommand, NSCommandKeyMask},
@@ -31,7 +31,8 @@ entries:{
 {kCGEventFlagMaskSecondaryFn, NSFunctionKeyMask},
 {kCGEventFlagMaskNumericPad, NSNumericPadKeyMask},
 }};
-static const ModifierMap _kHKUtilsCocoaToNative = {
+static const
+HKModifierMap _kHKUtilsCocoaToNative = {
 size:8,
 entries:{
 {NSAlphaShiftKeyMask, kCGEventFlagMaskAlphaShift},
@@ -46,7 +47,7 @@ entries:{
 }};
 
 static const
-ModifierMap _kHKUtilsNativeToCarbonMap = {
+HKModifierMap _kHKUtilsNativeToCarbonMap = {
 size:5,
 entries:{
 {kCGEventFlagMaskCommand, cmdKey},
@@ -56,7 +57,8 @@ entries:{
 {kCGEventFlagMaskControl, controlKey},
 }
 };
-static const ModifierMap _kHKUtilsCarbonToNative = {
+static const
+HKModifierMap _kHKUtilsCarbonToNative = {
 size:8,
 entries:{
 {cmdKey, kCGEventFlagMaskCommand},
@@ -71,7 +73,7 @@ entries:{
 }};
 
 static const
-ModifierMap _kHKUtilsCocoaToCarbon = {
+HKModifierMap _kHKUtilsCocoaToCarbon = {
 size:5,
 entries:{
 {NSAlphaShiftKeyMask, alphaLock},
@@ -81,7 +83,7 @@ entries:{
 {NSCommandKeyMask, cmdKey},
 }};
 static const
-ModifierMap _kHKUtilsCarbonToCocoa = {
+HKModifierMap _kHKUtilsCarbonToCocoa = {
 size:8,
 entries:{
 {cmdKey, NSCommandKeyMask},
@@ -96,7 +98,7 @@ entries:{
 }};
 
 static
-NSUInteger _HKUtilsConvertModifier(NSUInteger modifier, const ModifierMap *map) {
+NSUInteger _HKUtilsConvertModifier(NSUInteger modifier, const HKModifierMap *map) {
   unsigned idx = 0;
   NSUInteger result = 0;
   while (idx < map->size) {
@@ -108,7 +110,7 @@ NSUInteger _HKUtilsConvertModifier(NSUInteger modifier, const ModifierMap *map) 
 }
 
 NSUInteger HKUtilsConvertModifier(NSUInteger modifier, HKModifierFormat input, HKModifierFormat output) {
-  const ModifierMap *map = NULL;
+  const HKModifierMap *map = NULL;
   switch (input) {
     case kHKModifierFormatNative:
       switch (output) {
@@ -152,4 +154,3 @@ NSUInteger HKUtilsConvertModifier(NSUInteger modifier, HKModifierFormat input, H
   
   return 0;
 }
-

@@ -246,7 +246,9 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
       SparkSetActiveLibrary(library);
     }
     SparkLibraryUnregisterLibrary(previous);
+    
     [self setLibrary:library];
+    
     [previous unload];
     [previous release];
     

@@ -7,8 +7,10 @@
  */
 
 #import <SparkKit/SparkKit.h>
-
+/* MUST be include for SparkDaemonStatusKey */
 #import <SparkKit/SparkAppleScriptSuite.h>
+
+#import <SparkKit/SparkPreferences.h>
 
 #import <ShadowKit/SKFunctions.h>
 #import <ShadowKit/SKLSFunctions.h>
@@ -27,13 +29,6 @@ NSString * const kSparkDaemonBundleIdentifier = @"org.shadowlab.SparkDaemon";
 CFStringRef const SparkDaemonStatusKey = CFSTR("SparkDaemonStatusKey");
 CFStringRef const SparkDaemonStatusDidChangeNotification = CFSTR("SparkDaemonStatusDidChange");
 
-/* Spark Core preferences */
-#if defined(DEBUG)
-NSString * const kSparkPreferencesIdentifier = @"org.shadowlab.Spark-debug";
-#else
-NSString * const kSparkPreferencesIdentifier = @"org.shadowlab.Spark";
-#endif
-
 OSType kSparkFinderSignature;
 const OSType kSparkEditorSignature = 'Sprk';
 const OSType kSparkDaemonSignature = 'SprS';
@@ -41,15 +36,14 @@ const OSType kSparkDaemonSignature = 'SprS';
 static __attribute__((constructor)) 
 void __SparkInitializeLibrary() {
   kSparkFinderSignature = 'MACS';
-  CFStringRef str = CFPreferencesCopyAppValue(CFSTR("SparkFinderSignature"), (CFStringRef)kSparkPreferencesIdentifier);
+  NSString *str = SparkPreferencesGetValue(@"SparkFinderSignature", SparkPreferencesFramework);
   if (str) {
-    if (!CFStringGetTypeID() == CFGetTypeID(str)) {
-      CFPreferencesSetAppValue(CFSTR("SparkFinderSignature"), NULL, (CFStringRef)kSparkPreferencesIdentifier);
+    if (![str isKindOfClass:[NSString class]]) {
+      SparkPreferencesSetValue(@"SparkFinderSignature", NULL, SparkPreferencesFramework);
     } else {
-      OSType sign = SKGetOSTypeFromString(str);
+      OSType sign = SKOSTypeFromString(str);
       if (sign && sign != kUnknownType && SKLSFindApplicationForSignature(sign))
         kSparkFinderSignature = sign;
     }
-    CFRelease(str);
   }
 }

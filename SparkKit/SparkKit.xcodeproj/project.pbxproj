@@ -83,6 +83,8 @@
 		98627FFC0B2AD24100866A34 /* SparkFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 98627FFB0B2AD24100866A34 /* SparkFunctions.m */; };
 		9862860D0B2AE6BC00866A34 /* disabled.png in Resources */ = {isa = PBXBuildFile; fileRef = 9862860C0B2AE6BC00866A34 /* disabled.png */; };
 		986286250B2AE8DF00866A34 /* enabled.png in Resources */ = {isa = PBXBuildFile; fileRef = 986286240B2AE8DE00866A34 /* enabled.png */; };
+		9864A33F0BD117F20089447D /* SparkPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 9864A33E0BD117F20089447D /* SparkPreferences.m */; };
+		9864A3AD0BD11EB40089447D /* SparkPreferences.h in Headers */ = {isa = PBXBuildFile; fileRef = 9864A3AC0BD11EB40089447D /* SparkPreferences.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		98665E620A86A6F900CF8291 /* SKAEFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = 98665E610A86A6F900CF8291 /* SKAEFunctions.c */; };
 		98665E640A86A70300CF8291 /* SKAEFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 98665E630A86A70300CF8291 /* SKAEFunctions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		98674EA50B37214C000C73DC /* SKReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 98674EA40B37214C000C73DC /* SKReachability.m */; };
@@ -323,6 +325,8 @@
 		98627FFB0B2AD24100866A34 /* SparkFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkFunctions.m; sourceTree = "<group>"; };
 		9862860C0B2AE6BC00866A34 /* disabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = disabled.png; sourceTree = "<group>"; };
 		986286240B2AE8DE00866A34 /* enabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = enabled.png; sourceTree = "<group>"; };
+		9864A33E0BD117F20089447D /* SparkPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkPreferences.m; sourceTree = "<group>"; };
+		9864A3AC0BD11EB40089447D /* SparkPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkPreferences.h; sourceTree = "<group>"; };
 		98665E610A86A6F900CF8291 /* SKAEFunctions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = SKAEFunctions.c; sourceTree = "<group>"; };
 		98665E630A86A70300CF8291 /* SKAEFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKAEFunctions.h; sourceTree = "<group>"; };
 		98674EA40B37214C000C73DC /* SKReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKReachability.m; sourceTree = "<group>"; };
@@ -658,6 +662,7 @@
 				984A38B90A60060A00DA6455 /* SparkAction.m */,
 				984A38BF0A60060A00DA6455 /* SparkObject.m */,
 				98627FFB0B2AD24100866A34 /* SparkFunctions.m */,
+				9864A33E0BD117F20089447D /* SparkPreferences.m */,
 				984A38BB0A60060A00DA6455 /* SparkActionPlugIn.m */,
 				984A38C10A60060A00DA6455 /* SparkMultipleAlerts.m */,
 			);
@@ -693,6 +698,7 @@
 				984A38B80A60060A00DA6455 /* SparkAction.h */,
 				984A38BE0A60060A00DA6455 /* SparkObject.h */,
 				98627FE70B2AD13700866A34 /* SparkFunctions.h */,
+				9864A3AC0BD11EB40089447D /* SparkPreferences.h */,
 				984A38BA0A60060A00DA6455 /* SparkActionPlugIn.h */,
 				984A38C00A60060A00DA6455 /* SparkMultipleAlerts.h */,
 			);
@@ -1047,6 +1053,7 @@
 				98E651520B62933B008A8C9B /* SparkIconManager.h in Headers */,
 				9858F41A0B90835900CC682C /* SparkLibraryArchive.h in Headers */,
 				9858F43A0B9084B500CC682C /* SparkIconManagerPrivate.h in Headers */,
+				9864A3AD0BD11EB40089447D /* SparkPreferences.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1287,6 +1294,7 @@
 				98D7680E0B5A821C000A09A5 /* SparkLibrarySynchronizer.m in Sources */,
 				98E651500B62932B008A8C9B /* SparkIconManager.m in Sources */,
 				9858F41B0B90835A00CC682C /* SparkLibraryArchive.m in Sources */,
+				9864A33F0BD117F20089447D /* SparkPreferences.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

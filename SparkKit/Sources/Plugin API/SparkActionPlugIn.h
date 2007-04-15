@@ -16,7 +16,7 @@ you will use a subclass of SparkActionPlugIn.
 If you use this class in IB, you can define an Outlet with name actionView.
 */
 @class SparkAction;
-SK_CLASS_EXPORT
+SPARK_CLASS_EXPORT
 @interface SparkActionPlugIn : NSObject {  
   @private
   NSView *sp_view;
@@ -89,6 +89,12 @@ SK_CLASS_EXPORT
 
 #pragma mark -
 #pragma mark Advanced
+  /*!
+  @method
+   @discussion This function can be used to choose to display or hide some settings
+   in action configuration panels.
+   @result Returns YES if user has enabled advanced settings.
+   */
 - (BOOL)displaysAdvancedSettings;
 
 @end

@@ -80,10 +80,7 @@
                             "'----':fsrf(@), 'insh':fsrf(@)", sizeof(src), &src, sizeof(dest), &dest);
     require_noerr(err, dispose);
     
-    err = SKAEAddSubject(&aevt);
-    require_noerr(err, dispose);
-    
-    err = SKAEAddMagnitude(&aevt);
+    err = SKAESetStandardAttributes(&aevt);
     require_noerr(err, dispose);
   
     err = SKAESendEventReturnAEDesc(&aevt, typeWildCard, &desc);

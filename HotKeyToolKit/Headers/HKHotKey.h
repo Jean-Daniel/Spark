@@ -138,6 +138,7 @@ HK_CLASS_EXPORT
 - (void)setModifier:(NSUInteger)modifier;
 
 - (HKModifier)nativeModifier;
+- (void)setNativeModifier:(HKModifier)modifier;
 
 /*!
   @method

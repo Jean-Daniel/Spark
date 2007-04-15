@@ -9,6 +9,7 @@
 #import "SparkPrivate.h"
 
 #import <SparkKit/SparkAction.h>
+#import <SparkKit/SparkPreferences.h>
 #import <SparkKit/SparkActionPlugIn.h>
 
 #import <ShadowKit/SKExtensions.h>
@@ -75,14 +76,7 @@
 }
 
 - (BOOL)displaysAdvancedSettings {
-  BOOL advanced = NO;
-  CFBooleanRef value = CFPreferencesCopyValue(CFSTR("SparkAdvancedSettings"), (CFStringRef)kSparkPreferencesIdentifier, 
-                                              kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
-  if (value) {
-    advanced = CFBooleanGetValue(value);
-    CFRelease(value);
-  }
-  return advanced;
+  return SparkPreferencesGetBooleanValue(@"SparkAdvancedSettings", SparkPreferencesFramework);
 }
 
 #pragma mark -

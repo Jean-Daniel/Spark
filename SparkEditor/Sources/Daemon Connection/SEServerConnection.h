@@ -27,18 +27,20 @@ NSString * const SEServerStatusDidChangeNotification;
 
 + (SEServerConnection *)defaultConnection;
 
+- (BOOL)connect;
+- (void)disconnect;
+- (BOOL)isConnected;
+
+- (NSDistantObject<SparkServer> *)server;
+
+/* Daemon control */
 - (void)restart;
 - (void)shutdown;
-
-- (BOOL)connect;
-- (BOOL)isConnected;
 
 - (BOOL)isRunning;
 - (SparkDaemonStatus)status;
 
 - (UInt32)version;
-- (NSDistantObject<SparkServer> *)server;
-
 
 @end
 
@@ -51,6 +53,8 @@ SK_PRIVATE
 NSString *SESparkDaemonPath(void);
 SK_PRIVATE
 void SEServerStartConnection(void);
+SK_PRIVATE
+void SEServerStopConnection(void);
 
 SK_PRIVATE
 BOOL SEDaemonIsEnabled(void);

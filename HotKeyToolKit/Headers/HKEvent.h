@@ -29,12 +29,13 @@ typedef union {
   ProcessSerialNumber *psn;
 } HKEventTarget;
 
-typedef enum {
+enum {
   kHKEventTargetSystem = 0,
   kHKEventTargetBundle,
   kHKEventTargetProcess,
   kHKEventTargetSignature,
-} HKEventTargetType;
+};
+typedef NSInteger HKEventTargetType;
 
 /*!
 @function

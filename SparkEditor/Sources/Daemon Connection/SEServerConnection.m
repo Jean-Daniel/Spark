@@ -138,6 +138,12 @@ NSString * const SEServerStatusDidChangeNotification = @"SEServerStatusDidChange
   return se_server != nil;
 }
 
+- (void)disconnect {
+  if ([self isConnected]) {
+    [[se_server connectionForProxy] invalidate];
+  }
+}
+
 /* MUST be called after connection */
 - (void)configure {
   if (!se_sync)
@@ -279,6 +285,13 @@ void SEServerStartConnection() {
   }
 }
 
+void SEServerStopConnection(void) {
+  SEServerConnection *connection = [SEServerConnection defaultConnection];
+  if ([connection isConnected]) {
+    [connection disconnect];
+  }
+}
+
 BOOL SEDaemonIsEnabled() {
   ProcessSerialNumber psn = SKProcessGetProcessWithSignature(kSparkDaemonSignature);
   if (psn.lowLongOfPSN != kNoProcess) {
@@ -287,10 +300,7 @@ BOOL SEDaemonIsEnabled() {
     OSStatus err = SKAECreateEventWithTargetProcess(&psn, kAECoreSuite, kAEGetData, &aevt);
     require_noerr(err, bail);
     
-    err = SKAEAddSubject(&aevt);
-    require_noerr(err, bail);
-
-    err = SKAEAddMagnitude(&aevt);
+    err = SKAESetStandardAttributes(&aevt);
     require_noerr(err, bail);
     
     err = SKAEAddPropertyObjectSpecifier(&aevt, keyDirectObject, typeBoolean, 'pSta', NULL);

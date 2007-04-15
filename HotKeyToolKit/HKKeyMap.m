@@ -9,7 +9,10 @@
 #import "HKKeyMap.h"
 #import "KeyMap.h"
 
-#define SpecialChar(n)        				[NSString stringWithFormat:@"%C", n]
+HK_INLINE
+NSString *SpecialChar(UniChar ch) {
+  return [NSString stringWithCharacters:&ch length:1]; 
+}
 
 #define kHotKeyToolKitBundleIdentifier		@"org.shadowlab.HotKeyToolKit"
 #define kHotKeyToolKitBundle				[NSBundle bundleWithIdentifier:kHotKeyToolKitBundleIdentifier]
@@ -19,7 +22,8 @@ BOOL HKUseReverseKeyMap = YES;
 
 const UniChar kHKNilUnichar = 0xffff;
 
-static HKKeyMapRef SharedKeyMap() {
+static
+HKKeyMapRef SharedKeyMap() {
   static HKKeyMapRef sharedKeyMap = nil;
   if (!sharedKeyMap) {
     sharedKeyMap = HKKeyMapCreateWithCurrentLayout(HKUseReverseKeyMap);
@@ -163,11 +167,11 @@ UniChar HKMapGetUnicharForKeycode(HKKeycode keycode) {
   return unicode;
 }
 
-NSString* HKMapGetCurrentMapName() {
+NSString *HKMapGetCurrentMapName() {
   return (NSString *)HKKeyMapGetName(SharedKeyMap());
 }
 
-NSString* HKMapGetStringRepresentationForCharacterAndModifier(UniChar character, HKModifier modifier) {
+NSString *HKMapGetStringRepresentationForCharacterAndModifier(UniChar character, HKModifier modifier) {
   if (character && character != kHKNilUnichar) {
     NSString *mod = HKMapGetModifierString(modifier);
     if ([mod length] > 0) {
@@ -179,7 +183,7 @@ NSString* HKMapGetStringRepresentationForCharacterAndModifier(UniChar character,
   return nil;
 }
 
-NSString* HKMapGetSpeakableStringRepresentationForCharacterAndModifier(UniChar character, HKModifier modifier) {
+NSString *HKMapGetSpeakableStringRepresentationForCharacterAndModifier(UniChar character, HKModifier modifier) {
   if (character && character != kHKNilUnichar) {
     NSString *mod = HKMapGetSpeakableModifierString(modifier);
     if ([mod length] > 0) {
@@ -215,8 +219,8 @@ NSUInteger HKMapGetKeycodesAndModifiersForUnichar(UniChar character, HKKeycode *
     } else {
       count = 1;
       if (maxcount > 0) {
-        keys[0] = keycode & 0xffff;
-        modifiers[0] = 0;
+        if (keys) keys[0] = keycode & 0xffff;
+        if (modifiers) modifiers[0] = 0;
       }
     }
   }
@@ -387,8 +391,8 @@ NSString* HKMapGetSpeakableModifierString(HKModifier mask) {
   return [str autorelease];
 }
 
-NSString* HKMapGetStringForUnichar(UniChar character) {
-  id str = nil;
+NSString *HKMapGetStringForUnichar(UniChar character) {
+  NSString *str = nil;
   if (kHKNilUnichar == character)
     return str;
   switch (character) {
@@ -500,7 +504,7 @@ NSString* HKMapGetStringForUnichar(UniChar character) {
       break;
   }
   if (!str)
-    // Si caractère Ascii, on met en majuscule (comme sur les touches du clavier en fait).
+    // Si caract√®re Ascii, on met en majuscule (comme sur les touches du clavier en fait).
     str = (character <= 127) ? [SpecialChar(character) uppercaseString] : SpecialChar(character);
   return str;
 }

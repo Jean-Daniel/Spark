@@ -8,7 +8,7 @@
 
 #import <SparkKit/SparkKit.h>
 
-SK_CLASS_EXPORT
+SPARK_CLASS_EXPORT
 @interface SparkMultipleAlerts : NSObject {
   IBOutlet NSButton *nextButton;
   IBOutlet NSButton *previousButton;

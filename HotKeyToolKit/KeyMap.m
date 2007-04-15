@@ -19,7 +19,7 @@ OSStatus _HKKeyMapInit(HKKeyMapRef keyMap) {
   if (HKTISAvailable()) {
     err = HKTISKeyMapInit(keyMap);
   } else {
-	  err = HKKLKeyMapInit(keyMap);   
+    err = HKKLKeyMapInit(keyMap);   
   }
   return err;
 }
@@ -73,12 +73,12 @@ OSStatus HKKeyMapCheckCurrentMap(HKKeyMapRef keyMap, Boolean *wasChanged) {
   }
   if (changed) {
     if (wasChanged)
-    *wasChanged = YES;
+      *wasChanged = YES;
     _HKKeyMapDispose(keyMap);
     return _HKKeyMapInit(keyMap);
   } else {
     if (wasChanged)
-    *wasChanged = NO;
+      *wasChanged = NO;
     return noErr;
   }
 }

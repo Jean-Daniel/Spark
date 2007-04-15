@@ -33,7 +33,7 @@ void SparkDaemonCheckTrigger(SparkLibrary *library, SparkTrigger *trigger) {
 
 @implementation SparkDaemon (SparkServerProtocol)
 
-- (int)version {
+- (UInt32)version {
   ShadowTrace();
   return kSparkServerVersion;
 }

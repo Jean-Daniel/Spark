@@ -18,7 +18,9 @@ void __HKEventPostKeyboardEvent(CGEventSourceRef source, HKKeycode keycode, AXUI
   else
     CGPostKeyboardEvent(0, keycode, down);
   /* Avoid to fast typing */
-  usleep(HKEventSleepInterval);
+  if (HKEventSleepInterval > 0) {
+    usleep(HKEventSleepInterval);
+  }
 }
 
 HK_PRIVATE

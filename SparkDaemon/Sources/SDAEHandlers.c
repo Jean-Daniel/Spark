@@ -38,7 +38,7 @@ OSStatus SDGetEditorIsTrapping(Boolean *trapping) {
     err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty, kSparkEditorIsTrapping, NULL);
     require_noerr(err, fevent);
     
-    err = SKAEAddMagnitude(&theEvent);
+    err = SKAESetStandardAttributes(&theEvent);
     require_noerr(err, fevent);
 
     /* Timeout: 500 ms ?? */

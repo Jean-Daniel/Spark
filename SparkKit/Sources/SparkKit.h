@@ -9,10 +9,39 @@
 #if !defined(__SPARKKIT_H)
 #define __SPARKKIT_H 1
 
+#if !defined(__SHADOW_MACROS__)
+
 #if defined(__OBJC__)
 #import <Cocoa/Cocoa.h>
 #else
 #include <ApplicationServices/ApplicationServices.h>
+#endif
+
+#if !defined(MAC_OS_X_VERSION_10_4)
+#define MAC_OS_X_VERSION_10_4 1040
+#endif
+
+#if !defined(MAC_OS_X_VERSION_10_5)
+#define MAC_OS_X_VERSION_10_5 1050
+#endif
+
+#if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_5
+  #if !__LP64__
+    typedef int NSInteger;
+    typedef unsigned int NSUInteger;
+
+    typedef float CGFloat;
+    #define CGFLOAT_MIN FLT_MIN
+    #define CGFLOAT_MAX FLT_MAX
+  #else
+    #error 64 bits no supported for deployement version < MAC_OS_X_VERSION_10_5.
+  #endif
+
+  #define NSIntegerMax    LONG_MAX
+  #define NSIntegerMin    LONG_MIN
+  #define NSUIntegerMax   ULONG_MAX
+#endif
+
 #endif
 
 #pragma mark Base Macros
@@ -31,6 +60,14 @@
 #define SPARK_EXPORT extern __attribute__((visibility("default")))
 #else
 #define SPARK_EXPORT extern
+#endif
+#endif
+
+#if !defined(SPARK_CLASS_EXPORT)
+#if __LP64__
+#define SPARK_CLASS_EXPORT __attribute__((visibility("default")))
+#else
+#define SPARK_CLASS_EXPORT
 #endif
 #endif
 
@@ -64,13 +101,11 @@ SK_EXPORT NSString * const kSparkErrorDomain;
 SPARK_EXPORT NSString * const kSparkFolderName;
 
 SPARK_EXPORT NSString * const kSparkKitBundleIdentifier;
-SPARK_EXPORT NSString * const kSparkPreferencesIdentifier;
 SPARK_EXPORT NSString * const kSparkDaemonBundleIdentifier;
 #else 
 SPARK_EXPORT CFStringRef const kSparkFolderName;
 
 SPARK_EXPORT CFStringRef const kSparkKitBundleIdentifier;
-SPARK_EXPORT CFStringRef const kSparkPreferencesIdentifier;
 SPARK_EXPORT CFStringRef const kSparkDaemonBundleIdentifier;
 #endif /* __OBJC__ */
 
@@ -80,6 +115,12 @@ SPARK_EXPORT
 const OSType kSparkDaemonSignature;
 
 typedef uint32_t SparkUID;
+
+/* Globals Notifications */
+SPARK_EXPORT
+NSString * const SparkWillSetActiveLibraryNotification;
+SPARK_EXPORT
+NSString * const SparkDidSetActiveLibraryNotification;
 
 /* Misc Apple event helpers */
 

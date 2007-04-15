@@ -216,10 +216,10 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		98DD5F500A91DF9700FB5814 /* Development */ = {
+		98DD5F500A91DF9700FB5814 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 152.4;
+				CURRENT_PROJECT_VERSION = 154.6;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)";
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -238,16 +238,16 @@
 				);
 				WRAPPER_EXTENSION = spact;
 			};
-			name = Development;
+			name = Debug;
 		};
-		98DD5F510A91DF9700FB5814 /* Deployment */ = {
+		98DD5F510A91DF9700FB5814 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = (
 					ppc,
 					i386,
 				);
-				CURRENT_PROJECT_VERSION = 152.4;
+				CURRENT_PROJECT_VERSION = 154.6;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEPLOYMENT_POSTPROCESSING = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)";
@@ -255,6 +255,7 @@
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Spark/PlugIns/";
 				PRODUCT_NAME = MyAction;
@@ -264,21 +265,22 @@
 					"-Wno-unknown-pragmas",
 				);
 				WRAPPER_EXTENSION = spact;
-				ZERO_LINK = NO;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		98DD5F540A91DF9700FB5814 /* Development */ = {
+		98DD5F540A91DF9700FB5814 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
-			name = Development;
+			name = Debug;
 		};
-		98DD5F550A91DF9700FB5814 /* Deployment */ = {
+		98DD5F550A91DF9700FB5814 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
-			name = Deployment;
+			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
@@ -286,20 +288,20 @@
 		98DD5F4F0A91DF9700FB5814 /* Build configuration list for PBXNativeTarget "MyAction" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				98DD5F500A91DF9700FB5814 /* Development */,
-				98DD5F510A91DF9700FB5814 /* Deployment */,
+				98DD5F500A91DF9700FB5814 /* Debug */,
+				98DD5F510A91DF9700FB5814 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		98DD5F530A91DF9700FB5814 /* Build configuration list for PBXProject "MySparkAction" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				98DD5F540A91DF9700FB5814 /* Development */,
-				98DD5F550A91DF9700FB5814 /* Deployment */,
+				98DD5F540A91DF9700FB5814 /* Debug */,
+				98DD5F550A91DF9700FB5814 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};

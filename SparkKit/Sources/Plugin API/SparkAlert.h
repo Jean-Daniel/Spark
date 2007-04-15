@@ -9,14 +9,14 @@
     @header SparkAlert
     @abstract SparkAlert Declaration
 */
-#import <Foundation/Foundation.h>
+#import <SparkKit/SparkKit.h>
 
 /*!
     @class SparkAlert
     @abstract A simple Alert class use to wrap alerts dialog. 
  	Usefull to display many errors in one windows (SparkMultipleAlerts) or to defere alert window creation.
 */
-SK_CLASS_EXPORT
+SPARK_CLASS_EXPORT
 @interface SparkAlert : NSObject {
 @private
   BOOL sp_hide;

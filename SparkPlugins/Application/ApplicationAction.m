@@ -28,93 +28,69 @@ static NSString * const kApplicationIdentifierKey = @"kApplicationIdentifierKey"
 
 @implementation ApplicationAction
 
+static bool sInit = false;
+
 static 
-ApplicationVisualSetting AASharedSettings = {NO, NO};
-
-+ (void)initialize {
-  if ([ApplicationAction class] == self) {
-    CFBooleanRef value = CFPreferencesCopyAppValue(CFSTR("AAVisualLaunch"), (CFStringRef)kSparkPreferencesIdentifier);
-    if (!value || CFBooleanGetValue(value))
-      AASharedSettings.launch = YES;
-    if (value)
-      CFRelease(value);
-
-    value = CFPreferencesCopyAppValue(CFSTR("AAVisualActivate"), (CFStringRef)kSparkPreferencesIdentifier);
-    if (value && CFBooleanGetValue(value))
-      AASharedSettings.activation = YES;
-    if (value)
-      CFRelease(value);
+ApplicationVisualSetting *AAGetSharedSettings() {
+  static ApplicationVisualSetting sShared = {NO, NO};
+  if (!sInit) {
+    sInit = true;
     
-    /* If daemon, listen updates */
-    if (kSparkDaemonContext == SparkGetCurrentContext()) {
-      [[NSAppleEventManager sharedAppleEventManager] setEventHandler:self
-                                                         andSelector:@selector(handleAppleEvent:withReplyEvent:)
-                                                       forEventClass:'SpAp'
-                                                          andEventID:'SetV'];
-    }
+    NSNumber *value = SparkPreferencesGetValue(@"AAVisualLaunch", SparkPreferencesLibrary);
+    if (!value || [value boolValue])
+      sShared.launch = YES;
+    
+    sShared.activation = SparkPreferencesGetBooleanValue(@"AAVisualActivate", SparkPreferencesLibrary);
   }
+  return &sShared;
 }
 
 + (void)getSharedSettings:(ApplicationVisualSetting *)settings {
-  *settings = AASharedSettings;
+  *settings = *AAGetSharedSettings();
 }
 + (void)setSharedSettings:(ApplicationVisualSetting *)settings {
-  BOOL change = NO;
+  ApplicationVisualSetting *shared = AAGetSharedSettings();
   if (settings) {
-    if (settings->launch != AASharedSettings.launch || settings->activation != AASharedSettings.activation) {
-      change = YES;
-      CFPreferencesSetAppValue(CFSTR("AAVisualLaunch"), 
-                               settings->launch ? kCFBooleanTrue : kCFBooleanFalse,
-                               (CFStringRef)kSparkPreferencesIdentifier);
-      CFPreferencesSetAppValue(CFSTR("AAVisualActivate"), 
-                               settings->activation ? kCFBooleanTrue : kCFBooleanFalse,
-                               (CFStringRef)kSparkPreferencesIdentifier);
-    }
+    if (settings->launch != shared->launch)
+      SparkPreferencesSetBooleanValue(@"AAVisualLaunch", settings->launch, SparkPreferencesLibrary);
+    if (settings->activation != shared->activation)
+      SparkPreferencesSetBooleanValue(@"AAVisualActivate", settings->activation, SparkPreferencesLibrary);
   } else {
     // Remove key
-    CFPreferencesSetAppValue(CFSTR("AAVisualLaunch"), NULL, (CFStringRef)kSparkPreferencesIdentifier);
-    CFPreferencesSetAppValue(CFSTR("AAVisualActivate"), NULL, (CFStringRef)kSparkPreferencesIdentifier);
+    SparkPreferencesSetValue(@"AAVisualLaunch", NULL, SparkPreferencesLibrary);
+    SparkPreferencesSetValue(@"AAVisualActivate", NULL, SparkPreferencesLibrary);
     
-    change = (!AASharedSettings.launch || !AASharedSettings.activation);
-    if (change) {
-      AASharedSettings.launch = YES;
-      AASharedSettings.activation = YES; 
-    }
+    /* Reset to default */
+    shared->launch = YES;
+    shared->activation = NO;
   }
-  AASharedSettings = *settings;
-  
-  if (change && kSparkEditorContext == SparkGetCurrentContext()) {
-    /* Reload configuration server side */
-    AppleEvent aevt = SKAEEmptyDesc();
-    
-    OSStatus err = SKAECreateEventWithTargetSignature(kSparkDaemonSignature, 'SpAp', 'SetV', &aevt);
-    require_noerr(err, bail);
-    
-    err = SKAEAddSubject(&aevt);
-    require_noerr(err, bail);
-    
-    UInt32 flags = 0;
-    if (AASharedSettings.launch)
-      flags |= 1 << 0;
-    if (AASharedSettings.activation)
-      flags |= 1 << 1;
-    
-    err = SKAEAddUInt32(&aevt, keyDirectObject, flags);
-    require_noerr(err, bail);
-    
-    err = SKAESendEventNoReply(&aevt);
-    check_noerr(err);
-    
-bail:
-      SKAEDisposeDesc(&aevt);
+  *shared = *settings;
+}
+
++ (void)didLoadLibrary:(NSNotification *)aNotification {
+  /* Reset settings */
+  sInit = false;
+}
+
++ (void)didSetPreferenceValue:(id)value forKey:(NSString *)key {
+  ApplicationVisualSetting *shared = AAGetSharedSettings();
+  if ([@"AAVisualLaunch" isEqualToString:key]) {
+    shared->launch = [value boolValue];
+  } else if ([@"AAVisualActivate" isEqualToString:key]) {
+    shared->activation = [value boolValue];
   }
 }
 
-+ (void)handleAppleEvent:(NSAppleEventDescriptor *)event withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
-  UInt32 flags = 0;
-  if (noErr == SKAEGetUInt32FromAppleEvent([event aeDesc], keyDirectObject, &flags)) {
-    AASharedSettings.launch = flags & (1 << 0);
-    AASharedSettings.activation = flags & (1 << 1);
++ (void)initialize {
+  if ([ApplicationAction class] == self) {
+    /* If daemon, listen updates */
+    if (kSparkDaemonContext == SparkGetCurrentContext()) {
+      SparkPreferencesRegisterObserver(self, @"AAVisualLaunch");
+      SparkPreferencesRegisterObserver(self, @"AAVisualActivate");
+    }
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didLoadLibrary:)
+                                                 name:SparkDidSetActiveLibraryNotification object:nil];
   }
 }
 

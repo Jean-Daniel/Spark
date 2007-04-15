@@ -12,6 +12,7 @@
 #import <SparkKit/SparkKit.h>
 #import <SparkKit/SparkPrivate.h>
 #import <SparkKit/SparkFunctions.h>
+#import <SparkKit/SparkPreferences.h>
 
 #import <SparkKit/SparkPlugIn.h>
 #import <SparkKit/SparkLibrary.h>
@@ -133,7 +134,7 @@ BOOL sIsProcessingEvent = NO;
       /* Send signal to editor */
       SDSendStateToEditor(kSparkDaemonStatusEnabled);
       
-      int delay = 0;
+      NSInteger delay = 0;
       /* SparkDaemonDelay */
       ProcessSerialNumber psn = {kNoProcess, kCurrentProcess};
       CFDictionaryRef infos = ProcessInformationCopyDictionary(&psn, kProcessDictionaryIncludeAllInformationMask);
@@ -145,11 +146,7 @@ BOOL sIsProcessingEvent = NO;
           /* If launch by something that is not Spark Editor */
           OSType sign = SKProcessGetSignature(&psn);
           if (sign != kSparkEditorSignature) {
-            CFNumberRef value = CFPreferencesCopyAppValue(CFSTR("SDDelayStartup"), (CFStringRef)kSparkPreferencesIdentifier);
-            if (value) {
-              CFNumberGetValue(value, kCFNumberIntType, &delay);
-              CFRelease(value);
-            }
+            delay = SparkPreferencesGetIntegerValue(@"SDDelayStartup", SparkPreferencesDaemon);
           }
         }
         CFRelease(infos);
@@ -169,14 +166,18 @@ BOOL sIsProcessingEvent = NO;
                                                selector:@selector(didChangePluginStatus:)
                                                    name:SparkPlugInDidChangeStatusNotification
                                                  object:nil];
+      [[NSNotificationCenter defaultCenter] addObserver:self
+                                               selector:@selector(connectionDidDie:)
+                                                   name:NSConnectionDidDieNotification 
+                                                 object:nil];
     }
   }
   return self;
 }
 
 - (void)dealloc {
+  [self closeConnection];
   [self setActiveLibrary:nil];
-  [[NSConnection defaultConnection] invalidate];
   [[NSNotificationCenter defaultCenter] removeObserver:self];
   [super dealloc];
 }
@@ -214,12 +215,7 @@ BOOL sIsProcessingEvent = NO;
 }
 
 - (void)checkActions {
-  Boolean display = true;
-  CFBooleanRef ref = CFPreferencesCopyAppValue(CFSTR("SDBlockAlertOnLoad"), (CFStringRef)kSparkPreferencesIdentifier);
-  if (ref) {
-    display = !CFBooleanGetValue(ref);
-    CFRelease(ref);
-  }
+  Boolean display = !SparkPreferencesGetBooleanValue(@"SDBlockAlertOnLoad", SparkPreferencesDaemon);
   /* Send actionDidLoad message to all actions */
   SparkAction *action;
   NSEnumerator *actions = [[sd_library actionSet] objectEnumerator];
@@ -353,11 +349,9 @@ BOOL sIsProcessingEvent = NO;
   /* If alert not null */
   if (alert) {
     /* Check if need display alert */
-    CFBooleanRef displayAlertRef = CFPreferencesCopyAppValue(CFSTR("SDDisplayAlertOnExecute"), (CFStringRef)kSparkPreferencesIdentifier);
-    if (displayAlertRef) {
-      if (CFBooleanGetValue(displayAlertRef))
-        SparkDisplayAlert(alert);
-      CFRelease(displayAlertRef);
+    Boolean displays = SparkPreferencesGetBooleanValue(@"SDDisplayAlertOnExecute", SparkPreferencesDaemon);
+    if (displays) {
+      SparkDisplayAlert(alert);
     }
   }
   sIsProcessingEvent = NO;
@@ -369,11 +363,23 @@ BOOL sIsProcessingEvent = NO;
   [NSApp run];
 }
 
+- (void)closeConnection {
+  [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                  name:NSConnectionDidDieNotification
+                                                object:nil];
+  [[NSConnection defaultConnection] invalidate];
+}
+
 #pragma mark -
 #pragma mark Application Delegate
+- (void)connectionDidDie:(NSNotification *)aNotification {
+  /* Synchronize preferences when editor close */
+  SparkPreferencesSynchronize(SparkPreferencesDaemon);
+}
+
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
   /* Invalidate connection. dealloc would probably not be called, so it is not a good candidate for this purpose */
-  [[NSConnection defaultConnection] invalidate];
+  [self closeConnection];
   [self unregisterTriggers];
   
   SDSendStateToEditor(kSparkDaemonStatusShutDown);

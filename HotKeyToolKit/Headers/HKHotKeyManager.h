@@ -49,7 +49,7 @@ HK_CLASS_EXPORT
     @method     setShortcutFilter:
     @abstract   Add a filter function. This Function is used to define if a HotKey is valid or not.
  				Allow framework user to defined some shortcut as invalid.
-    @param      filter A function like: BOOL isAValidShortCut(UInt16 keycode, HKModifier modifierMask);
+    @param      filter A function like: BOOL isAValidShortCut(HKKeycode keycode, HKModifier modifierMask);
 */
 + (void)setShortcutFilter:(HKHotKeyFilter)filter;
 

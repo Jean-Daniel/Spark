@@ -24,10 +24,7 @@ OSStatus _iTunesCreateEvent(AEEventClass class, AEEventID method, AppleEvent *ev
   OSStatus err = SKAECreateEventWithTargetSignature(kiTunesSignature, class, method, event);
   require_noerr(err, bail);
   
-  err = SKAEAddMagnitude(event);
-  require_noerr(err, bail);
-  
-  err = SKAEAddSubject(event);
+  err = SKAESetStandardAttributes(event);
   require_noerr(err, bail);
   
   return noErr;

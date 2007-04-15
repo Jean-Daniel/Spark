@@ -76,7 +76,7 @@ NSString * const kHKTrapWindowKeyCatchedNotification = @"kHKTrapWindowKeyCatched
 #pragma mark -
 #pragma mark Event Trap.
 - (BOOL)performKeyEquivalent:(NSEvent *)theEvent {
-  if (hk_twFlags.trap &&  !hk_twFlags.block) {
+  if (hk_twFlags.trap && !hk_twFlags.block) {
     BOOL perform = NO;
     if (SKDelegateHandle([self delegate], trapWindow:needPerformKeyEquivalent:))  {
       perform = [[self delegate] trapWindow:self needPerformKeyEquivalent:theEvent];
@@ -94,11 +94,9 @@ NSString * const kHKTrapWindowKeyCatchedNotification = @"kHKTrapWindowKeyCatched
 
 - (void)sendEvent:(NSEvent *)theEvent {
   if ([theEvent type] == NSKeyDown && hk_twFlags.trap) {
-    BOOL needProcess;
+    BOOL needProcess = NO;
     if (SKDelegateHandle([self delegate], trapWindow:needProceedKeyEvent:))  {
       needProcess = [[self delegate] trapWindow:self needProceedKeyEvent:theEvent];
-    } else {
-      needProcess = NO;
     }
     if (needProcess) {
       [super sendEvent:theEvent];
@@ -113,11 +111,12 @@ NSString * const kHKTrapWindowKeyCatchedNotification = @"kHKTrapWindowKeyCatched
 //#endif
       if (mask & NSAlphaShiftKeyMask) {
         mask &= ~NSAlphaShiftKeyMask;
-        // DLog(@"Remove caps lock modifier");
+        // DLog(@"Ignore caps lock modifier");
       }
       /* If verify and verification return NO */
-      if ([self verifyHotKey] && ![HKHotKeyManager isValidHotKeyCode:code withModifier:(HKModifier)HKUtilsConvertModifier(mask, kHKModifierFormatCocoa, kHKModifierFormatNative)]) {
-        mask = 0;
+      HKModifier modifier = (HKModifier)HKUtilsConvertModifier(mask, kHKModifierFormatCocoa, kHKModifierFormatNative);
+      if ([self verifyHotKey] && ![HKHotKeyManager isValidHotKeyCode:code withModifier:modifier]) {
+        modifier = 0;
         character = kHKNilUnichar;
         code = kHKInvalidVirtualKeyCode;
         NSBeep();
@@ -126,13 +125,13 @@ NSString * const kHKTrapWindowKeyCatchedNotification = @"kHKTrapWindowKeyCatched
         character = HKMapGetUnicharForKeycode(code);
         if (kHKNilUnichar == character) {
           code = kHKInvalidVirtualKeyCode;
-          mask = 0;
+          modifier = 0;
           NSBeep();
         }
       }
       NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
         SKUInt(code), kHKEventKeyCodeKey,
-        SKUInteger(mask), kHKEventModifierKey,
+        SKUInt(modifier), kHKEventModifierKey,
         SKUInt(character), kHKEventCharacterKey,
         nil];
       [[NSNotificationCenter defaultCenter] postNotificationName:kHKTrapWindowKeyCatchedNotification

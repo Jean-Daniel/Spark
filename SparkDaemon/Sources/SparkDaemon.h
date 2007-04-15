@@ -17,6 +17,7 @@
 }
 
 - (BOOL)openConnection;
+- (void)closeConnection;
 
 - (void)loadTriggers;
 - (void)registerTriggers;
@@ -34,7 +35,7 @@
 
 @interface SparkDaemon (SparkServerProtocol) <SparkServer>
 
-- (int)version;
+- (UInt32)version;
 - (void)shutdown;
 
 - (id<SparkLibrary>)library;

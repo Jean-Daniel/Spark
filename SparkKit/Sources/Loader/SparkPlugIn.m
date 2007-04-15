@@ -9,6 +9,7 @@
 #import "SparkPrivate.h"
 
 #import <SparkKit/SparkPlugIn.h>
+#import <SparkKit/SparkPreferences.h>
 
 #import <ShadowKit/SKImageUtils.h>
 #import <ShadowKit/SKCGFunctions.h>
@@ -22,31 +23,29 @@ static
 BOOL SparkPlugInIsEnabled(NSString *identifier, BOOL *exists) {
   BOOL enabled = YES;
   if (exists) *exists = NO;
-  CFDictionaryRef plugins = CFPreferencesCopyAppValue(CFSTR("SparkPlugins"), (CFStringRef)kSparkPreferencesIdentifier);
+  NSDictionary *plugins = SparkPreferencesGetValue(@"SparkPlugins", SparkPreferencesFramework);
   if (plugins) {
-    CFBooleanRef status = CFDictionaryGetValue(plugins, identifier);
+    NSNumber *status = [plugins objectForKey:identifier];
     if (status) {
       if (exists) *exists = YES;
-      enabled = CFBooleanGetValue(status);
+      enabled = [status boolValue];
     }
-    CFRelease(plugins);
   }
   return enabled;
 }
 
 static 
 void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
-  CFMutableDictionaryRef plugins = NULL;
-  CFDictionaryRef prefs = CFPreferencesCopyAppValue(CFSTR("SparkPlugins"), (CFStringRef)kSparkPreferencesIdentifier);
+  NSMutableDictionary *plugins = NULL;
+  NSDictionary *prefs = SparkPreferencesGetValue(@"SparkPlugins", SparkPreferencesFramework);
   if (!prefs) {
-    plugins = CFDictionaryCreateMutable(kCFAllocatorDefault, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+    plugins = [[NSMutableDictionary alloc] init];
   } else {
-    plugins = CFDictionaryCreateMutableCopy(kCFAllocatorDefault, 0, prefs);
-    CFRelease(prefs);
+    plugins = [prefs mutableCopy];
   }
-  CFDictionarySetValue(plugins, identifier, enabled ? kCFBooleanTrue : kCFBooleanFalse);
-  CFPreferencesSetAppValue(CFSTR("SparkPlugins"), plugins, (CFStringRef)kSparkPreferencesIdentifier);
-  CFRelease(plugins);
+  [plugins setObject:SKBool(enabled) forKey:identifier];
+  SparkPreferencesSetValue(@"SparkPlugins", plugins, SparkPreferencesFramework);
+  [plugins release];
 }
 
 - (id)init {

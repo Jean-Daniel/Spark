@@ -11,6 +11,7 @@
 
 #import <SparkKit/SparkKit.h>
 #import <SparkKit/SparkFunctions.h>
+#import <SparkKit/SparkPreferences.h>
 
 #import <SparkKit/SparkAction.h>
 #import <SparkKit/SparkActionPlugIn.h>

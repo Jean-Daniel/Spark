@@ -159,7 +159,7 @@ void SparkSDActionToggleDaemonStatus() {
     OSStatus err = SKAECreateEventWithTargetProcess(&psn, kAECoreSuite, kAEGetData, &aevt);
     require_noerr(err, bail);
     
-    err = SKAEAddMagnitude(&aevt);
+    err = SKAESetStandardAttributes(&aevt);
     require_noerr(err, bail);
     
     err = SKAEAddPropertyObjectSpecifier(&aevt, keyDirectObject, typeBoolean, 'pSta', NULL);
@@ -172,7 +172,7 @@ void SparkSDActionToggleDaemonStatus() {
     err = SKAECreateEventWithTargetProcess(&psn, kAECoreSuite, kAESetData, &aevt);
     require_noerr(err, bail);
     
-    err = SKAEAddMagnitude(&aevt);
+    err = SKAESetStandardAttributes(&aevt);
     require_noerr(err, bail);
     
     err = SKAEAddPropertyObjectSpecifier(&aevt, keyDirectObject, typeBoolean, 'pSta', NULL);

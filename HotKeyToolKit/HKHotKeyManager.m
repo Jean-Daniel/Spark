@@ -12,10 +12,10 @@
 
 #include <Carbon/Carbon.h>
 
-#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_4
-#include <libkern/OSAtomic.h>
-#else
+#if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_4
 #define OSAtomicIncrement32(ptr)  *ptr = *ptr + 1
+#else
+#include <libkern/OSAtomic.h>
 #endif
 
 #import "HKHotKeyManager.h"
@@ -25,9 +25,10 @@ static
 const OSType kHKHotKeyEventSignature = 'HkTk';
 
 static 
-OSStatus _HandleHotKeyEvent(EventHandlerCallRef nextHandler,EventRef theEvent,void *userData);
+OSStatus _HandleHotKeyEvent(EventHandlerCallRef nextHandler, EventRef theEvent, void *userData);
 
-static int32_t gHotKeyUID = 0;
+static 
+int32_t gHotKeyUID = 0;
 
 /* Debugging purpose */
 BOOL HKTraceHotKeyEvents = NO;
@@ -46,13 +47,15 @@ static EventHandlerUPP kHKHandlerUPP = NULL;
 }
 
 + (HKHotKeyManager *)sharedManager {
-  static id sharedManager = nil;
-  @synchronized (self) {
-    if (!sharedManager) {
-      sharedManager = [[self alloc] init];
+  static HKHotKeyManager *shared = nil;
+  if (!shared) {
+    @synchronized (self) {
+      if (!shared) {
+        shared = [[self alloc] init];
+      }
     }
   }
-  return sharedManager;
+  return shared;
 }
 
 - (id)init {
@@ -93,15 +96,15 @@ static EventHandlerUPP kHKHandlerUPP = NULL;
   if ([key isValid] && !NSMapGet(hk_refs, key)) {
     HKModifier mask = [key nativeModifier];
     HKKeycode keycode = [key keycode];
-    intptr_t uid = OSAtomicIncrement32(&gHotKeyUID);
+    UInt32 uid = OSAtomicIncrement32(&gHotKeyUID);
     if (HKTraceHotKeyEvents) {
       NSLog(@"Register HotKey %@", key);
     }
-    EventHotKeyID hotKeyId = {kHKHotKeyEventSignature, (UInt32)uid};
+    EventHotKeyID hotKeyId = { kHKHotKeyEventSignature, uid };
     EventHotKeyRef ref = HKRegisterHotKey(keycode, mask, hotKeyId);
     if (ref) {
       NSMapInsert(hk_refs, key, ref);
-      NSMapInsert(hk_keys, (void *)uid, key);
+      NSMapInsert(hk_keys, (void *)(intptr_t)uid, key);
       return YES;
     }
   }
@@ -122,8 +125,8 @@ static EventHandlerUPP kHKHandlerUPP = NULL;
     NSMapRemove(hk_refs, key);
 
     /* Remove from keys record */
+    intptr_t uid = 0;
     HKHotKey *hkey = nil;
-    unsigned long uid = 0;
     NSMapEnumerator refs = NSEnumerateMapTable(hk_keys);
     while (NSNextMapEnumeratorPair(&refs, (void **)&uid, (void **)&hkey)) {
       if (hkey == key) {
@@ -161,23 +164,22 @@ static EventHandlerUPP kHKHandlerUPP = NULL;
   err = GetEventParameter(theEvent,
                           kEventParamDirectObject, 
                           typeEventHotKeyID,
-                          nil,
+                          NULL,
                           sizeof(EventHotKeyID),
-                          nil,
-                          &hotKeyID );
+                          NULL,
+                          &hotKeyID);
   if(noErr == err) {
     NSAssert(hotKeyID.id != 0, @"Invalid hot key id");
     NSAssert(hotKeyID.signature == kHKHotKeyEventSignature, @"Invalid hot key signature");
     
     if (HKTraceHotKeyEvents) {
-      NSLog(@"HKManagerEvent {class:%@ kind:%i signature:%@ id:%p }",
+      NSLog(@"HKManagerEvent {class:%@ kind:%u signature:%@ id:%p }",
             NSFileTypeForHFSTypeCode(GetEventClass(theEvent)),
             GetEventKind(theEvent),
             NSFileTypeForHFSTypeCode(hotKeyID.signature),
             hotKeyID.id);
     }
-    intptr_t key = hotKeyID.id;
-    hotKey = NSMapGet(hk_keys, (void *)key);
+    hotKey = NSMapGet(hk_keys, (void *)(intptr_t)hotKeyID.id);
     if (hotKey) {
       switch(GetEventKind(theEvent)) {
         case kEventHotKeyPressed:
@@ -205,29 +207,29 @@ static EventHandlerUPP kHKHandlerUPP = NULL;
 }
 
 #pragma mark Filter Support
-static HKHotKeyFilter _filter;
+static 
+HKHotKeyFilter sHKFilter;
 
 + (void)setShortcutFilter:(HKHotKeyFilter)filter {
-  _filter = filter;
+  sHKFilter = filter;
 }
 
 #pragma mark -
 + (BOOL)isValidHotKeyCode:(HKKeycode)code withModifier:(HKModifier)modifier {
   BOOL isValid = YES;
   // Si un filtre est utilisé, on l'utilise.
-  if (_filter != nil) {
-    isValid = (*_filter)(code, modifier);
+  if (sHKFilter) {
+    isValid = sHKFilter(code, modifier);
   }
   if (isValid) {
     // Si le filtre est OK, on demande au system ce qu'il en pense.
-    EventHotKeyID hotKeyId = {'Test', 0};
+    EventHotKeyID hotKeyId = { 'Test', 0 };
     @synchronized (self) {
       EventHotKeyRef key = HKRegisterHotKey(code, modifier, hotKeyId);
       if (key) {
         // Si le système est OK, la clée est valide
         HKUnregisterHotKey(key);
-      }
-      else {
+      } else {
         // Sinon elle est invalide.
         isValid = NO;
       }
@@ -240,6 +242,6 @@ static HKHotKeyFilter _filter;
 
 #pragma mark -
 #pragma mark Carbon Event Handler
-OSStatus _HandleHotKeyEvent(EventHandlerCallRef nextHandler,EventRef theEvent,void *userData) {
-  return [(id)userData handleCarbonEvent:theEvent];
+OSStatus _HandleHotKeyEvent(EventHandlerCallRef nextHandler, EventRef theEvent, void *userData) {
+  return [(HKHotKeyManager *)userData handleCarbonEvent:theEvent];
 }

@@ -245,11 +245,12 @@ NSString* HKMapGetStringRepresentationForCharacterAndModifier(UniChar character,
 HK_EXPORT 
 NSString* HKMapGetSpeakableStringRepresentationForCharacterAndModifier(UniChar character, HKModifier modifier);
 
-typedef enum {
+enum {
   kHKModifierFormatNative, /* kCGEventFlagsMask */
   kHKModifierFormatCarbon, /* Carbon Event modifiers */
   kHKModifierFormatCocoa, /* NSEvent modifiers */
-} HKModifierFormat;
+};
+typedef NSInteger HKModifierFormat;
 
 /*!
 	@function

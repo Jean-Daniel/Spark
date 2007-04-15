@@ -10,6 +10,8 @@
 
 #import "SparkEntryManagerPrivate.h"
 
+#import <SparkKit/SparkPrivate.h>
+
 #import <SparkKit/SparkAction.h>
 #import <SparkKit/SparkTrigger.h>
 #import <SparkKit/SparkApplication.h>
@@ -47,6 +49,9 @@ BOOL SparkLogSynchronization = NO;
 - (oneway void)disablePlugIn:(bycopy NSString *)plugin;
 
 - (oneway void)registerPlugIn:(bycopy NSString *)bundlePath;
+
+#pragma mark Preferences
+- (oneway void)setPreferenceValue:(bycopy id)value forKey:(bycopy NSString *)key;
 
 @end
 
@@ -107,6 +112,12 @@ BOOL SparkLogSynchronization = NO;
   [center addObserver:self
              selector:@selector(didChangeEntryStatus:)
                  name:SparkEntryManagerDidChangeEntryEnabledNotification 
+               object:nil];
+
+  /* Preferences */
+  [center addObserver:self
+             selector:@selector(didSetPreference:)
+                 name:SparkLibraryDidSetPreferenceNotification
                object:nil];
   
   /* Plugins */
@@ -296,6 +307,14 @@ OSType SparkServerObjectType(SparkObject *anObject) {
   }
 }
 
+- (void)didSetPreference:(NSNotification *)aNotification {
+  if ([self isConnected]) {
+    NSString *key = [[aNotification userInfo] objectForKey:SparkNotificationPreferenceNameKey];
+    id value = [[aNotification userInfo] objectForKey:SparkNotificationPreferenceValueKey];
+    SparkRemoteMessage(setPreferenceValue:value forKey:key);
+  }
+}
+
 #pragma mark Plugins Synchronization
 - (void)didRegisterPlugIn:(NSNotification *)aNotification {
   if ([self isConnected]) {
@@ -479,6 +498,11 @@ SparkObjectSet *SparkObjectSetForType(SparkLibrary *library, OSType type) {
     if (entry)
       [sp_delegate distantLibrary:self didChangeEntryStatus:entry];
   }
+}
+
+- (void)setPreferenceValue:(id)value forKey:(NSString *)key {
+  SparkSyncTrace();
+  [sp_library setPreferenceValue:value forKey:key];
 }
 
 #pragma mark Plugins Management

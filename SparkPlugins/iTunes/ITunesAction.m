@@ -54,14 +54,12 @@ static ITunesVisual sDefaultVisual = {delay: -1};
   } else {
     @synchronized(self) {
       if (sDefaultVisual.delay < 0) {
-        CFPreferencesAppSynchronize((CFStringRef)kSparkPreferencesIdentifier);
-        CFDataRef data = CFPreferencesCopyAppValue(CFSTR("iTunesSharedVisual"), (CFStringRef)kSparkPreferencesIdentifier);
+        NSData *data = SparkPreferencesGetValue(@"iTunesSharedVisual", SparkPreferencesLibrary);
         if (data) {
-          if (!ITunesVisualUnpack((id)data, &sDefaultVisual)) {
+          if (!ITunesVisualUnpack(data, &sDefaultVisual)) {
             DLog(@"Invalid shared visual: %@", data);
-            CFPreferencesSetAppValue(CFSTR("iTunesSharedVisual"), NULL, (CFStringRef)kSparkPreferencesIdentifier);
+            SparkPreferencesSetValue(@"iTunesSharedVisual", nil, SparkPreferencesLibrary);
           }
-          CFRelease(data);
         }
       }
       /* Check visual */
@@ -74,8 +72,6 @@ static ITunesVisual sDefaultVisual = {delay: -1};
 }
 
 + (void)setDefaultVisual:(const ITunesVisual *)visual {
-  BOOL change = NO;
-  NSData *data = nil;
   if (visual) {
     /* If visual as changed */
     if (!ITunesVisualIsEqualTo(visual, &sDefaultVisual)) {
@@ -83,71 +79,50 @@ static ITunesVisual sDefaultVisual = {delay: -1};
       if (ITunesVisualIsEqualTo(visual, &kiTunesDefaultSettings)) {
         memcpy(&sDefaultVisual, &kiTunesDefaultSettings, sizeof(sDefaultVisual));
         if (kSparkEditorContext == SparkGetCurrentContext()) {
-          CFPreferencesSetAppValue(CFSTR("iTunesSharedVisual"), NULL, (CFStringRef)kSparkPreferencesIdentifier);
+          SparkPreferencesSetValue(@"iTunesSharedVisual", nil, SparkPreferencesLibrary);
         }
       } else {
         memcpy(&sDefaultVisual, visual, sizeof(sDefaultVisual));
-        data = ITunesVisualPack(&sDefaultVisual);
+        NSData *data = ITunesVisualPack(&sDefaultVisual);
         if (data && kSparkEditorContext == SparkGetCurrentContext()) {
-          CFPreferencesSetAppValue(CFSTR("iTunesSharedVisual"), (CFDataRef)data, (CFStringRef)kSparkPreferencesIdentifier);
+          SparkPreferencesSetValue(@"iTunesSharedVisual", data, SparkPreferencesLibrary);
         }
       }
-      change = YES;
     }
   } else {
-    if (kSparkEditorContext == SparkGetCurrentContext()) {
-      /* Remove key */
-      CFPreferencesSetAppValue(CFSTR("iTunesSharedVisual"), NULL, (CFStringRef)kSparkPreferencesIdentifier);
-    }
     /* Reset to default */
     if (!ITunesVisualIsEqualTo(&kiTunesDefaultSettings, &sDefaultVisual)) {
       memcpy(&sDefaultVisual, &kiTunesDefaultSettings, sizeof(sDefaultVisual));
-      change = YES;
+    }
+    if (kSparkEditorContext == SparkGetCurrentContext()) {
+      /* Remove key */
+      SparkPreferencesSetValue(@"iTunesSharedVisual", nil, SparkPreferencesLibrary);
     }
   }
-  if (change && kSparkEditorContext == SparkGetCurrentContext()) {
-    /* Reload configuration server side */
-    AppleEvent aevt = SKAEEmptyDesc();
+}
 
-    OSStatus err = SKAECreateEventWithTargetSignature(kSparkDaemonSignature, 'SpiT', 'SetV', &aevt);
-    require_noerr(err, bail);
-    
-    err = SKAEAddSubject(&aevt);
-    require_noerr(err, bail);
-    
-    err = SKAEAddCFData(&aevt, keyDirectObject, (CFDataRef)data);
-    require_noerr(err, bail);
-    
-    err = SKAESendEventNoReply(&aevt);
-    check_noerr(err);
-    
-bail:
-      SKAEDisposeDesc(&aevt);
++ (void)didLoadLibrary:(NSNotification *)aNotification {
+  /* Reset settings */
+  sDefaultVisual.delay = -1;
+}
+
++ (void)didSetPreferenceValue:(id)value forKey:(NSString *)key {
+  if (value) {
+    if (!ITunesVisualUnpack(value, &sDefaultVisual))
+      [self setDefaultVisual:&kiTunesDefaultSettings];
+  } else {
+    [self setDefaultVisual:&kiTunesDefaultSettings];
   }
 }
 
 + (void)initialize {
   if ([ITunesAction class] == self) {
     if (kSparkDaemonContext == SparkGetCurrentContext()) {
-      [[NSAppleEventManager sharedAppleEventManager] setEventHandler:self
-                                                         andSelector:@selector(handleAppleEvent:withReplyEvent:)
-                                                       forEventClass:'SpiT'
-                                                          andEventID:'SetV'];
+      SparkPreferencesRegisterObserver(self, @"iTunesSharedVisual");
     }
-  }
-}
-
-+ (void)handleAppleEvent:(NSAppleEventDescriptor *)event withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
-  /* Invalidate visual cache */
-  CFDataRef data = NULL;
-  if (noErr == SKAEGetCFDataFromAppleEvent([event aeDesc], keyDirectObject, typeWildCard, &data)) {
-    if (data) {
-      if (!ITunesVisualUnpack((id)data, &sDefaultVisual))
-        [self setDefaultVisual:&kiTunesDefaultSettings];
-      CFRelease(data);
-    } else {
-      [self setDefaultVisual:&kiTunesDefaultSettings];
-    }
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didLoadLibrary:)
+                                                 name:SparkDidSetActiveLibraryNotification object:nil];
   }
 }
 

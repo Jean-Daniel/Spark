@@ -261,9 +261,7 @@ SKClassCluster(AppleScriptActionPlugin);
   err = SKAEAddAEDescWithData(&aevt, keyAEObjectClass, typeType, &type, sizeof(OSType));
   require_noerr(err, dispose);
   
-  err = SKAEAddSubject(&aevt);
-  require_noerr(err, dispose);
-  err = SKAEAddMagnitude(&aevt);
+  err = SKAESetStandardAttributes(&aevt);
   require_noerr(err, dispose);
   
   err = SKAESendEventReturnAEDesc(&aevt, typeObjectSpecifier, &document);

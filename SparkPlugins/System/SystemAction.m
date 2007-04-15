@@ -262,8 +262,8 @@ extern void CGDisplaySetInvertedPolarity(Boolean inverted);
   err = SKAEAddPropertyObjectSpecifier(&aevt, keyDirectObject, 'ctrs', 'trsh', NULL);
   require_noerr(err, bail);
   
-  SKAEAddSubject(&aevt);
-  SKAEAddMagnitude(&aevt);
+  err = SKAESetStandardAttributes(&aevt);
+  require_noerr(err, bail);
   
   err = SKAESendEventNoReply(&aevt);
   check_noerr(err);
