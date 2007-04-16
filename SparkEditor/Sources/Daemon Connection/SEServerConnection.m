@@ -233,7 +233,7 @@ BOOL SELaunchSparkDaemon() {
   [SparkActiveLibrary() synchronize];
   NSString *path = SESparkDaemonPath();
   if (path) {
-    if (noErr != SKLSLaunchApplicationAtPath((CFStringRef)path, kCFURLPOSIXPathStyle, kLSLaunchDefaults | kLSLaunchDontSwitch)) {
+    if (noErr != SKLSLaunchApplicationAtPath((CFStringRef)path, kCFURLPOSIXPathStyle, kLSLaunchDefaults | kLSLaunchDontSwitch | kLSLaunchDontAddToRecents)) {
       DLog(@"Error cannot launch daemon app");
       [[SEServerConnection defaultConnection] setStatus:kSparkDaemonStatusError];
       return NO;
