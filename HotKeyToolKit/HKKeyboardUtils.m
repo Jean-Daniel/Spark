@@ -38,6 +38,26 @@ void __HKUtilsDeflatKey(NSInteger flat, HKKeycode *code, HKModifier *modifier, U
   *dead = (UInt32)(flat >> 18) & 0x3fff;
 }
 
+
+HK_INLINE
+void __HKUtilsNormalizeEndOfLine(NSMapTable *map) {
+  /* Patch to correctly handle new line */
+  HKKeycode mack; HKModifier macm; UInt32 macd;
+  NSInteger mac = (NSInteger)NSMapGet(map, (void *)'\r');
+  __HKUtilsDeflatKey(mac, &mack, &macm, &macd);
+  
+  HKKeycode unixk; HKModifier unixm; UInt32 unixd;
+  NSInteger unix = (NSInteger)NSMapGet(map, (void *)'\n');
+  __HKUtilsDeflatKey(unix, &unixk, &unixm, &unixd);
+  
+  /* If 'mac return' use modifier or dead key and unix not */
+  if ((!mac || macm || macd) && (unix && !unixm && !unixd)) {
+    NSMapInsert(map, (void *)'\r', (void *)unix);
+  } else if ((!unix || unixm || unixd) && (mac && !macm && !macd)) {
+    NSMapInsert(map, (void *)'\n', (void *)mac);
+  }
+}
+
 #pragma mark Modifiers
 enum {
   kCommandKey = 1 << 0,
@@ -342,6 +362,10 @@ OSStatus HKKeyMapContextWithUchrData(const UCKeyboardLayout *layout, Boolean rev
     }
   }
   
+  if (map) {
+    __HKUtilsNormalizeEndOfLine(map);
+  }
+  
   uchr->chars = map;
   uchr->stats = dead;
   NSFreeMapTable(deadr);
@@ -402,10 +426,6 @@ NSUInteger KCHRKeycodesForCharacter(KCHRContext *ctxt, UniChar character, HKKeyc
   NSUInteger count = 0;
   HKKeycode ikeys[2];
   HKModifier imodifiers[2];
-  
-  /* Patch to correctly handle new line */
-  if (character == '\n')
-    character = '\r';
   
   UInt32 d;
   HKKeycode k = 0;
@@ -544,6 +564,11 @@ OSStatus HKKeyMapContextWithKCHRData(const void *layout, Boolean reverse, HKKeyM
     if (kchr->map[idx] != kHKNilUnichar && kchr->map[idx] < 256)
       kchr->map[idx] = kchr->unicode[kchr->map[idx]];
   }
+  
+  /* Check end of lines */
+  if (kchr->chars)
+    __HKUtilsNormalizeEndOfLine(kchr->chars);
+  
   return noErr;
 }
 
