@@ -32,6 +32,10 @@ NSString * const kSparkLibraryArchiveFileName = @"Spark Library";
 @implementation SparkLibrary (SparkArchiveExtension)
 
 - (id)initFromArchiveAtPath:(NSString *)file {
+  return [self initFromArchiveAtPath:file loadPreferences:YES];
+}
+
+- (id)initFromArchiveAtPath:(NSString *)file loadPreferences:(BOOL)flag {
   if (self = [self initWithPath:nil]) {
     SKArchive *archive = [[SKArchive alloc] initWithArchiveAtPath:file];
     

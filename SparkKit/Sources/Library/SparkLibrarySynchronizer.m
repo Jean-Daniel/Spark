@@ -11,6 +11,7 @@
 #import "SparkEntryManagerPrivate.h"
 
 #import <SparkKit/SparkPrivate.h>
+#import <SparkKit/SparkPreferences.h>
 
 #import <SparkKit/SparkAction.h>
 #import <SparkKit/SparkTrigger.h>
@@ -115,10 +116,7 @@ BOOL SparkLogSynchronization = NO;
                object:nil];
 
   /* Preferences */
-  [center addObserver:self
-             selector:@selector(didSetPreference:)
-                 name:SparkLibraryDidSetPreferenceNotification
-               object:nil];
+  SparkPreferencesRegisterObserver(self, @selector(setLibraryPreferenceValue:forKey:), nil, SparkPreferencesLibrary);
   
   /* Plugins */
   [[NSNotificationCenter defaultCenter] addObserver:self
@@ -133,6 +131,7 @@ BOOL SparkLogSynchronization = NO;
 - (void)removeObserver {
   [[sp_library notificationCenter] removeObserver:self];
   [[NSNotificationCenter defaultCenter] removeObserver:self];
+  SparkPreferencesUnregisterObserver(self, NULL, SparkPreferencesLibrary);
 }
 
 - (NSDistantObject<SparkLibrary> *)distantLibrary {
@@ -307,10 +306,8 @@ OSType SparkServerObjectType(SparkObject *anObject) {
   }
 }
 
-- (void)didSetPreference:(NSNotification *)aNotification {
+- (void)setLibraryPreferenceValue:(id)value forKey:(NSString *)key {
   if ([self isConnected]) {
-    NSString *key = [[aNotification userInfo] objectForKey:SparkNotificationPreferenceNameKey];
-    id value = [[aNotification userInfo] objectForKey:SparkNotificationPreferenceValueKey];
     SparkRemoteMessage(setPreferenceValue:value forKey:key);
   }
 }

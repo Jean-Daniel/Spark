@@ -106,7 +106,7 @@ static ITunesVisual sDefaultVisual = {delay: -1};
   sDefaultVisual.delay = -1;
 }
 
-+ (void)didSetPreferenceValue:(id)value forKey:(NSString *)key {
++ (void)setLibraryPreferenceValue:(id)value forKey:(NSString *)key {
   if (value) {
     if (!ITunesVisualUnpack(value, &sDefaultVisual))
       [self setDefaultVisual:&kiTunesDefaultSettings];
@@ -118,7 +118,8 @@ static ITunesVisual sDefaultVisual = {delay: -1};
 + (void)initialize {
   if ([ITunesAction class] == self) {
     if (kSparkDaemonContext == SparkGetCurrentContext()) {
-      SparkPreferencesRegisterObserver(self, @"iTunesSharedVisual");
+      SparkPreferencesRegisterObserver(self, @selector(setLibraryPreferenceValue:forKey:), 
+                                       @"iTunesSharedVisual", SparkPreferencesLibrary);
     }
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didLoadLibrary:)

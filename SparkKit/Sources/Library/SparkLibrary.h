@@ -71,13 +71,6 @@ NSString * const SparkNotificationObjectKey;
 SPARK_EXPORT
 NSString * const SparkNotificationUpdatedObjectKey;
 
-SPARK_EXPORT
-NSString * const SparkLibraryDidSetPreferenceNotification;
-SPARK_EXPORT
-NSString * const SparkNotificationPreferenceNameKey;
-SPARK_EXPORT
-NSString * const SparkNotificationPreferenceValueKey;
-
 SPARK_INLINE
 id SparkNotificationObject(NSNotification *aNotification) {
   return [[aNotification userInfo] objectForKey:SparkNotificationObjectKey];

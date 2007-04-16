@@ -66,11 +66,6 @@ NSString * const SparkDidSetActiveLibraryNotification = @"SparkDidSetActiveLibra
 NSString * const SparkNotificationObjectKey = @"SparkNotificationObject";
 NSString * const SparkNotificationUpdatedObjectKey = @"SparkNotificationUpdatedObject";
 
-/* Preferences notification */
-NSString * const SparkLibraryDidSetPreferenceNotification = @"SparkLibraryDidSetPreference";
-NSString * const SparkNotificationPreferenceNameKey = @"SparkNotificationPreferenceName";
-NSString * const SparkNotificationPreferenceValueKey = @"SparkNotificationPreferenceValue";
-
 #define kSparkLibraryVersion_1_0		0x100
 #define kSparkLibraryVersion_2_0		0x200
 

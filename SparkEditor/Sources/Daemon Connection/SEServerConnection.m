@@ -49,7 +49,7 @@ NSString * const SEServerStatusDidChangeNotification = @"SEServerStatusDidChange
     [center addObserver:self
                selector:@selector(serverStatusDidChange:)
                    name:(id)SparkDaemonStatusDidChangeNotification
-                 object:nil];
+                 object:kSparkConnectionName];
   }
   return self;
 }

@@ -16,6 +16,7 @@ NSString * const kSparkLibraryArchiveExtension;
 @interface SparkLibrary (SparkArchiveExtension)
 
 - (id)initFromArchiveAtPath:(NSString *)file;
+- (id)initFromArchiveAtPath:(NSString *)file loadPreferences:(BOOL)flag;
 
 - (BOOL)archiveToFile:(NSString *)file;
 

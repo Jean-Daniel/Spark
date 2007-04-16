@@ -72,7 +72,7 @@ ApplicationVisualSetting *AAGetSharedSettings() {
   sInit = false;
 }
 
-+ (void)didSetPreferenceValue:(id)value forKey:(NSString *)key {
++ (void)setLibraryPreferenceValue:(id)value forKey:(NSString *)key {
   ApplicationVisualSetting *shared = AAGetSharedSettings();
   if ([@"AAVisualLaunch" isEqualToString:key]) {
     shared->launch = [value boolValue];
@@ -85,8 +85,10 @@ ApplicationVisualSetting *AAGetSharedSettings() {
   if ([ApplicationAction class] == self) {
     /* If daemon, listen updates */
     if (kSparkDaemonContext == SparkGetCurrentContext()) {
-      SparkPreferencesRegisterObserver(self, @"AAVisualLaunch");
-      SparkPreferencesRegisterObserver(self, @"AAVisualActivate");
+      SparkPreferencesRegisterObserver(self, @selector(setLibraryPreferenceValue:forKey:), 
+                                       @"AAVisualLaunch", SparkPreferencesLibrary);
+      SparkPreferencesRegisterObserver(self, @selector(setLibraryPreferenceValue:forKey:), 
+                                       @"AAVisualActivate", SparkPreferencesLibrary);
     }
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didLoadLibrary:)
