@@ -66,11 +66,9 @@ static
 void *_SEPreferencesLoginItemThread(void *arg) {
   long timeout = SKLoginItemTimeout();
   SKLoginItemSetTimeout(5000);
-  //SKAESetThreadSafe(TRUE);
   NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
   _SEPreferencesUpdateLoginItem();
   [pool release];
-  //SKAESetThreadSafe(FALSE);
   SKLoginItemSetTimeout(timeout);
   return NULL;
 }

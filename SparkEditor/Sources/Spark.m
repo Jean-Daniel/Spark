@@ -33,7 +33,7 @@
 #import "SELibraryDocument.h"
 #import "SEServerConnection.h"
 
-const UInt32 kSparkVersion = 0x020755; /* 3.0.0 */
+const UInt32 kSparkVersion = 0x020800; /* 3.0.0 */
 
 int main(int argc, const char *argv[]) {
 #if defined(DEBUG)
