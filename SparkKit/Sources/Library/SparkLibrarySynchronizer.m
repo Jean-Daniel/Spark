@@ -10,7 +10,6 @@
 
 #import "SparkEntryManagerPrivate.h"
 
-#import <SparkKit/SparkPrivate.h>
 #import <SparkKit/SparkPreferences.h>
 
 #import <SparkKit/SparkAction.h>
@@ -46,13 +45,7 @@ BOOL SparkLogSynchronization = NO;
 - (oneway void)disableLibraryEntry:(in SparkLibraryEntry *)anEntry;
 
 #pragma mark Plugins Management
-- (oneway void)enablePlugIn:(bycopy NSString *)plugin;
-- (oneway void)disablePlugIn:(bycopy NSString *)plugin;
-
 - (oneway void)registerPlugIn:(bycopy NSString *)bundlePath;
-
-#pragma mark Preferences
-- (oneway void)setPreferenceValue:(bycopy id)value forKey:(bycopy NSString *)key;
 
 @end
 
@@ -115,14 +108,7 @@ BOOL SparkLogSynchronization = NO;
                  name:SparkEntryManagerDidChangeEntryEnabledNotification 
                object:nil];
 
-  /* Preferences */
-  SparkPreferencesRegisterObserver(self, @selector(setLibraryPreferenceValue:forKey:), nil, SparkPreferencesLibrary);
-  
   /* Plugins */
-  [[NSNotificationCenter defaultCenter] addObserver:self
-                                           selector:@selector(didChangePluginStatus:)
-                                               name:SparkPlugInDidChangeStatusNotification
-                                             object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self
                                            selector:@selector(didRegisterPlugIn:)
                                                name:SparkActionLoaderDidRegisterPlugInNotification
@@ -131,7 +117,6 @@ BOOL SparkLogSynchronization = NO;
 - (void)removeObserver {
   [[sp_library notificationCenter] removeObserver:self];
   [[NSNotificationCenter defaultCenter] removeObserver:self];
-  SparkPreferencesUnregisterObserver(self, NULL, SparkPreferencesLibrary);
 }
 
 - (NSDistantObject<SparkLibrary> *)distantLibrary {
@@ -306,27 +291,11 @@ OSType SparkServerObjectType(SparkObject *anObject) {
   }
 }
 
-- (void)setLibraryPreferenceValue:(id)value forKey:(NSString *)key {
-  if ([self isConnected]) {
-    SparkRemoteMessage(setPreferenceValue:value forKey:key);
-  }
-}
-
 #pragma mark Plugins Synchronization
 - (void)didRegisterPlugIn:(NSNotification *)aNotification {
   if ([self isConnected]) {
     SparkPlugIn *plugin = [aNotification object];
     SparkRemoteMessage(registerPlugIn:[plugin path]);
-  }
-}
-
-- (void)didChangePluginStatus:(NSNotification *)aNotification {
-  if ([self isConnected]) {
-    SparkPlugIn *plugin = [aNotification object];
-    if ([plugin isEnabled])
-      SparkRemoteMessage(enablePlugIn:[plugin identifier]);
-    else
-      SparkRemoteMessage(disablePlugIn:[plugin identifier]);
   }
 }
 
@@ -497,31 +466,7 @@ SparkObjectSet *SparkObjectSetForType(SparkLibrary *library, OSType type) {
   }
 }
 
-- (void)setPreferenceValue:(id)value forKey:(NSString *)key {
-  SparkSyncTrace();
-  [sp_library setPreferenceValue:value forKey:key];
-}
-
 #pragma mark Plugins Management
-- (void)enablePlugIn:(NSString *)identifier {
-  SparkSyncTrace();
-  SparkPlugIn *plugin = [[SparkActionLoader sharedLoader] pluginForIdentifier:identifier];
-  if (plugin) {
-    [plugin setEnabled:YES];
-  } else {
-    DLog(@"Cannot find plugin: %@", identifier);
-  }
-}
-- (void)disablePlugIn:(NSString *)identifier {
-  SparkSyncTrace();
-  SparkPlugIn *plugin = [[SparkActionLoader sharedLoader] pluginForIdentifier:identifier];
-  if (plugin) {
-    [plugin setEnabled:NO];
-  } else {
-    DLog(@"Cannot find plugin: %@", identifier);
-  }
-}
-
 - (void)registerPlugIn:(NSString *)path {
   SparkSyncTrace();
   SparkPlugIn *plugin = [[SparkActionLoader sharedLoader] loadPlugin:path];

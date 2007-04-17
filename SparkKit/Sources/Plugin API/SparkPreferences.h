@@ -15,9 +15,9 @@
 #import <SparkKit/SparkKit.h>
 
 enum {
-  SparkPreferencesDaemon,
-  SparkPreferencesLibrary,
-  SparkPreferencesFramework,
+  SparkPreferencesDaemon = 1,
+  SparkPreferencesLibrary = 2,
+  SparkPreferencesFramework = 3,
 };
 typedef NSInteger SparkPreferencesDomain;
 

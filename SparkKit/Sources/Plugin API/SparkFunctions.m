@@ -24,6 +24,11 @@ BOOL SparkEditorIsRunning(void) {
   return psn.lowLongOfPSN != kNoProcess;
 }
 
+BOOL SparkDaemonIsRunning(void) {
+  ProcessSerialNumber psn = SKProcessGetProcessWithSignature(kSparkDaemonSignature);
+  return psn.lowLongOfPSN != kNoProcess;
+}
+
 void SparkLaunchEditor() {
   switch (SparkGetCurrentContext()) {
     case kSparkEditorContext:
@@ -51,10 +56,17 @@ void SparkLaunchEditor() {
 SparkContext SparkGetCurrentContext() {
   static SparkContext ctxt = 0xffffffff;
   if (0xffffffff == ctxt) {
-    if ([[[NSBundle mainBundle] bundleIdentifier] isEqualToString:kSparkDaemonBundleIdentifier])
-      ctxt = kSparkDaemonContext;
-    else
-      ctxt = kSparkEditorContext;
+    CFBundleRef bundle = CFBundleGetMainBundle();
+    if (bundle) {
+      CFStringRef ident = CFBundleGetIdentifier(bundle);
+      if (ident) {
+        if (CFEqual((CFTypeRef)kSparkDaemonBundleIdentifier, ident)) {
+          ctxt = kSparkDaemonContext;
+        } else {
+          ctxt = kSparkEditorContext;
+        }
+      }
+    }
   }
   return ctxt;
 }

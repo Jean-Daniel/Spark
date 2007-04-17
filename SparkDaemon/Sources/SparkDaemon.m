@@ -160,15 +160,10 @@ BOOL sIsProcessingEvent = NO;
                                         repeats:NO];
       } else {
         [self checkAndLoad:nil];
-      }
-      
+      }      
       [[NSNotificationCenter defaultCenter] addObserver:self
                                                selector:@selector(didChangePluginStatus:)
                                                    name:SparkPlugInDidChangeStatusNotification
-                                                 object:nil];
-      [[NSNotificationCenter defaultCenter] addObserver:self
-                                               selector:@selector(connectionDidDie:)
-                                                   name:NSConnectionDidDieNotification 
                                                  object:nil];
     }
   }
@@ -372,11 +367,6 @@ BOOL sIsProcessingEvent = NO;
 
 #pragma mark -
 #pragma mark Application Delegate
-- (void)connectionDidDie:(NSNotification *)aNotification {
-  /* Synchronize preferences when editor close */
-  SparkPreferencesSynchronize(SparkPreferencesDaemon);
-}
-
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
   /* Invalidate connection. dealloc would probably not be called, so it is not a good candidate for this purpose */
   [self closeConnection];

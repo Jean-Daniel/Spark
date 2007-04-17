@@ -27,6 +27,9 @@ SPARK_EXPORT
 BOOL SparkEditorIsRunning(void);
 
 SPARK_EXPORT
+BOOL SparkDaemonIsRunning(void);
+
+SPARK_EXPORT
 void SparkLaunchEditor(void);
 
 #if defined(__OBJC__)

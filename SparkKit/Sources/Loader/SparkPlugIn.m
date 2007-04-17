@@ -9,7 +9,9 @@
 #import "SparkPrivate.h"
 
 #import <SparkKit/SparkPlugIn.h>
+#import <SparkKit/SparkFunctions.h>
 #import <SparkKit/SparkPreferences.h>
+#import <SparkKit/SparkActionLoader.h>
 
 #import <ShadowKit/SKImageUtils.h>
 #import <ShadowKit/SKCGFunctions.h>
@@ -36,16 +38,41 @@ BOOL SparkPlugInIsEnabled(NSString *identifier, BOOL *exists) {
 
 static 
 void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
-  NSMutableDictionary *plugins = NULL;
-  NSDictionary *prefs = SparkPreferencesGetValue(@"SparkPlugins", SparkPreferencesFramework);
-  if (!prefs) {
-    plugins = [[NSMutableDictionary alloc] init];
-  } else {
-    plugins = [prefs mutableCopy];
+  if (SparkGetCurrentContext() == kSparkEditorContext) {
+    NSMutableDictionary *plugins = NULL;
+    NSDictionary *prefs = SparkPreferencesGetValue(@"SparkPlugins", SparkPreferencesFramework);
+    if (!prefs) {
+      plugins = [[NSMutableDictionary alloc] init];
+    } else {
+      plugins = [prefs mutableCopy];
+    }
+    [plugins setObject:SKBool(enabled) forKey:identifier];
+    SparkPreferencesSetValue(@"SparkPlugins", plugins, SparkPreferencesFramework);
+    [plugins release];
   }
-  [plugins setObject:SKBool(enabled) forKey:identifier];
-  SparkPreferencesSetValue(@"SparkPlugins", plugins, SparkPreferencesFramework);
-  [plugins release];
+}
+
+/* Synchronize daemon */
++ (void)setFrameworkValue:(NSDictionary *)plugins forKey:(NSString *)key {
+  NSString *identifier;
+  NSEnumerator *keys = [plugins keyEnumerator];
+  SparkActionLoader *loader = [SparkActionLoader sharedLoader];
+  while (identifier = [keys nextObject]) {
+    SparkPlugIn *plugin = [loader pluginForIdentifier:identifier];
+    if (plugin) {
+      NSNumber *value = [plugins objectForKey:identifier];
+      if (value && [value respondsToSelector:@selector(boolValue)])
+        [plugin setEnabled:[value boolValue]];
+    }
+  }
+}
+
++ (void)initialize {
+  if ([SparkPlugIn class] == self) {
+    if (SparkGetCurrentContext() == kSparkDaemonContext) {
+      SparkPreferencesRegisterObserver(self, @selector(setFrameworkValue:forKey:), @"SparkPlugins", SparkPreferencesFramework);
+    }
+  }
 }
 
 - (id)init {

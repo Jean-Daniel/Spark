@@ -59,9 +59,8 @@
 @end
 
 @interface SparkLibrary (SparkPreferences)
+
 - (NSMutableDictionary *)preferences;
 - (void)setPreferences:(NSDictionary *)preferences;
 
-- (id)preferenceValueForKey:(NSString *)key;
-- (void)setPreferenceValue:(id)value forKey:(NSString *)key;
 @end
