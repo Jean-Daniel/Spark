@@ -329,7 +329,7 @@ static SparkApplication *sSystem = nil;
   /* Library infos */
   NSString *uuid = sp_uuid ? (id)CFUUIDCreateString(kCFAllocatorDefault, sp_uuid) : nil;
   NSDictionary *info = [NSDictionary dictionaryWithObjectsAndKeys:
-    SKUInt(kSparkLibraryCurrentVersion), @"Version",
+    SKUInteger(kSparkLibraryCurrentVersion), @"Version",
     uuid, @"UUID",
     nil];
   [uuid release];
@@ -406,7 +406,7 @@ bail:
       sp_uuid = CFUUIDCreate(kCFAllocatorDefault);
     }
     /* Library version */
-    sp_version = [[plist objectForKey:@"Version"] unsignedIntValue];
+    sp_version = SKIntegerValue([plist objectForKey:@"Version"]);
   } else {
     sp_version = kSparkLibraryCurrentVersion;
     
