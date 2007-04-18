@@ -311,10 +311,10 @@ OSType _DocumentActionFromFlag(int flag) {
   }
   if (noErr == err && count > 0) {
     // if selected items
-    int realCount;
+    CFIndex realCount;
     FSRef *refs = NSZoneCalloc(nil, count, sizeof(FSRef));
     // Get FSRef for these items.
-    err = SKAEFinderSelectionToFSRefs(&selection , refs, (int)count, &realCount);
+    err = SKAEFinderSelectionToFSRefs(&selection , refs, count, &realCount);
     if (noErr == err && realCount > 0) {
       FSRef app;
       LSLaunchFSRefSpec spec;
