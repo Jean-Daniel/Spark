@@ -35,7 +35,10 @@
 
 int main(int argc, const char **argv) {
   HKKeyMapRef map = HKKeyMapCreateWithCurrentLayout(true);
+  DLog(@"%@", HKKeyMapGetLocalizedName(map));
+  
   UniChar chr = HKKeyMapGetUnicharForKeycodeAndModifier(map, 42, 0);
+  chr = HKKeyMapGetUnicharForKeycodeAndModifier(map, kVirtualReturnKey, 0);
   
   UInt32 keycode = 42; // ^ key on french keyboard
   chr = HKMapGetUnicharForKeycode(keycode);
@@ -45,7 +48,10 @@ int main(int argc, const char **argv) {
   HKKeycode keycodes[8];
   HKModifier modifiers[8];
   NSUInteger count = HKMapGetKeycodesAndModifiersForUnichar(character, keycodes, modifiers, 8);
-//  STAssertTrue(count == 2, @"Invalid keys count (%d) for reverse mapping", count);
+  
+  count = HKMapGetKeycodesAndModifiersForUnichar('\n', keycodes, modifiers, 8);
+  count = HKMapGetKeycodesAndModifiersForUnichar('\r', keycodes, modifiers, 8);
+// STAssertTrue(count == 2, @"Invalid keys count (%d) for reverse mapping", count);
 //  
 //  STAssertTrue(keycodes[0] == keycode, @"Invalid modifier for tilde");
 //  STAssertTrue(modifiers[0] == kCGEventFlagMaskAlternate, @"Invalid modifier for tilde");

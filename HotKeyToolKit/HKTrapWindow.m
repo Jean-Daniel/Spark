@@ -7,6 +7,7 @@
  */
 
 #import "HKKeyMap.h"
+#import "HKHotKey.h"
 #import "HKTrapWindow.h"
 #import "HKHotKeyManager.h"
 
@@ -90,6 +91,22 @@ NSString * const kHKTrapWindowKeyCatchedNotification = @"kHKTrapWindowKeyCatched
     }
   }
   return [super performKeyEquivalent:theEvent];
+}
+
+- (void)handleHotKey:(HKHotKey *)aKey {
+  if (hk_twFlags.trap) {
+    HKHotKeyFilter filter = [HKHotKeyManager shortcutFilter];
+    if (!filter || filter([aKey keycode], [aKey modifier])) {
+      NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+                                SKUInt([aKey keycode]), kHKEventKeyCodeKey,
+                                SKUInt([aKey modifier]), kHKEventModifierKey,
+                                SKUInt([aKey character]), kHKEventCharacterKey,
+                                nil];
+      [[NSNotificationCenter defaultCenter] postNotificationName:kHKTrapWindowKeyCatchedNotification
+                                                          object:self
+                                                        userInfo:userInfo];
+    }
+  }
 }
 
 - (void)sendEvent:(NSEvent *)theEvent {

@@ -45,6 +45,7 @@ HK_CLASS_EXPORT
 + (BOOL)isValidHotKeyCode:(HKKeycode)code withModifier:(HKModifier)modifier;
 
 
++ (HKHotKeyFilter)shortcutFilter;
 /*!
     @method     setShortcutFilter:
     @abstract   Add a filter function. This Function is used to define if a HotKey is valid or not.

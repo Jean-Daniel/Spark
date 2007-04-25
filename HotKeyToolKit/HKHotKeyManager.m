@@ -75,7 +75,7 @@ static EventHandlerUPP kHKHandlerUPP = NULL;
     } else {
       hk_handler = ref;
       /* HKHotKey => EventHotKeyRef */
-      hk_refs = NSCreateMapTable(NSNonRetainedObjectMapKeyCallBacks, NSNonOwnedPointerMapValueCallBacks, 0);
+      hk_refs = NSCreateMapTable(NSObjectMapKeyCallBacks, NSNonOwnedPointerMapValueCallBacks, 0);
       /* UInt32 uid => HKHotKey */
       hk_keys = NSCreateMapTable(NSIntMapKeyCallBacks, NSNonRetainedObjectMapValueCallBacks, 0);
     }
@@ -209,6 +209,10 @@ static EventHandlerUPP kHKHandlerUPP = NULL;
 #pragma mark Filter Support
 static 
 HKHotKeyFilter sHKFilter;
+
++ (HKHotKeyFilter)shortcutFilter {
+  return sHKFilter;
+}
 
 + (void)setShortcutFilter:(HKHotKeyFilter)filter {
   sHKFilter = filter;

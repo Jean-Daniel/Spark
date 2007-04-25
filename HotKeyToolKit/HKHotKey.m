@@ -219,8 +219,9 @@
       }
     } else { // If unregister
       [self hk_invalidateTimer];
-      result = [[HKHotKeyManager sharedManager] unregisterHotKey:self];
       hk_hkFlags.registred = 0;
+      /* Can dealloc self, so do not access field after this call */
+      result = [[HKHotKeyManager sharedManager] unregisterHotKey:self];
     }
   }
   return result;
@@ -345,6 +346,9 @@
 }
 
 - (void)hk_invoke:(NSTimer *)timer {
+  if (HKTraceHotKeyEvents) {
+    NSLog(@"Repeat event: %@", self);
+  }
   [self invoke:YES];
 }
 

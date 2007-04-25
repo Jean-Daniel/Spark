@@ -37,6 +37,7 @@ const UInt32 kSparkVersion = 0x020801; /* 3.0.0 */
 
 int main(int argc, const char *argv[]) {
 #if defined(DEBUG)
+  HKTraceHotKeyEvents = YES;
   SparkLogSynchronization = YES;
   // SparkLibraryFileFormat = NSPropertyListXMLFormat_v1_0;
 #endif
@@ -71,8 +72,29 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
                                                object:nil];
     /* Force script system initialization */
     [NSScriptSuiteRegistry sharedScriptSuiteRegistry];
+    /* Leopard Help hack */
+    if (SKSystemMajorVersion() <= 10 && SKSystemMajorVersion() >= 5) {
+      HKHotKey *help = [HKHotKey hotkeyWithKeycode:kVirtualHelpKey modifier:0];
+      [help setTarget:self];
+      [help setAction:@selector(handleHelpEvent:)];
+      [help setRegistred:YES];
+    }
   }
   return self;
+}
+
+- (void)handleHelpEvent:(id)sender {
+  ShadowTrace();
+  DLog(@"sender: %@", sender);
+  id window = [self keyWindow];
+  if ([window respondsToSelector:@selector(isTrapping)] && [window isTrapping]) {
+    [window handleHotKey:sender];
+  } else {
+    ProcessSerialNumber psn = {0, kCurrentProcess};
+    GetCurrentProcess(&psn);
+    HKEventTarget target = { psn: &psn };
+    HKEventPostKeystrokeToTarget([sender keycode], [sender modifier], target, kHKEventTargetProcess, NULL);
+  }
 }
 
 - (void)dealloc {
@@ -83,13 +105,15 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
 
 /* Intercepts help keydown events */
 - (void)sendEvent:(NSEvent *)event {
-  if (([event type] == NSKeyDown || [event type] == NSKeyUp) && [event keyCode] == kVirtualHelpKey) {
-    id window = [self keyWindow];
-    if ([window respondsToSelector:@selector(isTrapping)] && [window isTrapping]) {
-      [window sendEvent:event];
-      return;
+  if ([event type] == NSKeyDown || [event type] == NSKeyUp) {
+    if ([event keyCode] == kVirtualHelpKey) {
+      id window = [self keyWindow];
+      if ([window respondsToSelector:@selector(isTrapping)] && [window isTrapping]) {
+        [window sendEvent:event];
+        return;
+      }
     }
-  } 
+  }
   [super sendEvent:event];
 }
 

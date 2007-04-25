@@ -211,7 +211,7 @@ NSTimeInterval SparkGetDefaultKeyRepeatInterval() {
   if (!repeat && ![self invokeOnKeyUp]) {
     // Adjust repeat delay.
     SparkAction *action = [SparkTrigger currentAction];
-    [self setRepeatInterval:(action) ? [action repeatInterval] : HKGetSystemKeyRepeatInterval()];    
+    [self setRepeatInterval:(action) ? [action repeatInterval] : 0];    
   }
 }
 
