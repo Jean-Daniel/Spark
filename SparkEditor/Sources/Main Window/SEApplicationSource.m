@@ -126,7 +126,7 @@
     }
     if (file && [[NSWorkspace sharedWorkspace] isApplicationAtPath:file]) {
       SparkApplication *app = [[SparkApplication alloc] initWithPath:file];
-      if (![[[self applicationSet] objects] containsObject:app]) {
+      if (app && ![[[self applicationSet] objects] containsObject:app]) {
         // Add application
         [library addObject:app];
         count++;

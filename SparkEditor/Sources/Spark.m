@@ -13,7 +13,6 @@
 #if defined (DEBUG)
 #import "SEEntryEditor.h"
 #import <Foundation/NSDebug.h>
-#import <ShadowKit/SKFunctions.h>
 #import <SparkKit/SparkLibrarySynchronizer.h>
 #endif
 
@@ -23,6 +22,7 @@
 #import <SparkKit/SparkActionLoader.h>
 #import <SparkKit/SparkLibraryArchive.h>
 
+#import <ShadowKit/SKFunctions.h>
 #import <ShadowKit/SKFSFunctions.h>
 
 #import <HotKeyToolKit/HotKeyToolKit.h>

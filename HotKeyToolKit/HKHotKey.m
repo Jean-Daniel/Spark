@@ -286,15 +286,18 @@
     hk_hkFlags.invoked = 1;
     [self invoke:NO];
     if ([self repeatInterval] > 0) {
-      NSDate *fire = [[NSDate alloc] initWithTimeIntervalSinceNow:HKGetSystemKeyRepeatThreshold()];
-      hk_repeatTimer = [[NSTimer alloc] initWithFireDate:fire 
-                                                interval:[self repeatInterval]
-                                                  target:self
-                                                selector:@selector(hk_invoke:)
-                                                userInfo:nil
-                                                 repeats:YES];
-      [fire release];
-      [[NSRunLoop currentRunLoop] addTimer:hk_repeatTimer forMode:NSDefaultRunLoopMode];
+      NSTimeInterval value = HKGetSystemKeyRepeatThreshold();
+      if (value > 0) {
+        NSDate *fire = [[NSDate alloc] initWithTimeIntervalSinceNow:value];
+        hk_repeatTimer = [[NSTimer alloc] initWithFireDate:fire 
+                                                  interval:[self repeatInterval]
+                                                    target:self
+                                                  selector:@selector(hk_invoke:)
+                                                  userInfo:nil
+                                                   repeats:YES];
+        [fire release];
+        [[NSRunLoop currentRunLoop] addTimer:hk_repeatTimer forMode:NSDefaultRunLoopMode];
+      }
     }
   }
 }
@@ -356,15 +359,21 @@
 
 #pragma mark -
 NSTimeInterval HKGetSystemKeyRepeatInterval() {
+  double value = 0;
   NXEventHandle handle = NXOpenEventStatus();
-  double value = NXKeyRepeatInterval(handle);
-  NXCloseEventStatus(handle);
+  if (handle) {
+    value = NXKeyRepeatInterval(handle);
+    NXCloseEventStatus(handle);
+  }
   return value;
 }
 
 NSTimeInterval HKGetSystemKeyRepeatThreshold() {
+  double value = 0;
   NXEventHandle handle = NXOpenEventStatus();
-  double value = NXKeyRepeatThreshold(handle);
-  NXCloseEventStatus(handle);
+  if (handle) {
+    value = NXKeyRepeatThreshold(handle);
+    NXCloseEventStatus(handle);
+  }
   return value;
 }
