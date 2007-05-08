@@ -73,7 +73,7 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
     /* Force script system initialization */
     [NSScriptSuiteRegistry sharedScriptSuiteRegistry];
     /* Leopard Help hack */
-    if (SKSystemMajorVersion() <= 10 && SKSystemMajorVersion() >= 5) {
+    if (SKSystemMajorVersion() <= 10 && SKSystemMinorVersion() >= 5) {
       HKHotKey *help = [HKHotKey hotkeyWithKeycode:kVirtualHelpKey modifier:0];
       [help setTarget:self];
       [help setAction:@selector(handleHelpEvent:)];
@@ -84,14 +84,11 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
 }
 
 - (void)handleHelpEvent:(id)sender {
-  ShadowTrace();
-  DLog(@"sender: %@", sender);
   id window = [self keyWindow];
   if ([window respondsToSelector:@selector(isTrapping)] && [window isTrapping]) {
     [window handleHotKey:sender];
   } else {
     ProcessSerialNumber psn = {0, kCurrentProcess};
-    GetCurrentProcess(&psn);
     HKEventTarget target = { psn: &psn };
     HKEventPostKeystrokeToTarget([sender keycode], [sender modifier], target, kHKEventTargetProcess, NULL);
   }

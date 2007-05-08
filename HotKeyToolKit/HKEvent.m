@@ -149,15 +149,17 @@ Boolean HKEventPostCharacterKeystrokes(UniChar character, CGEventSourceRef sourc
   return _HKEventPostCharacterKeystrokes(character, source, NULL);
 }
 
-Boolean HKEventPostKeystrokeToTarget(HKKeycode keycode, HKModifier modifier, HKEventTarget target, HKEventTargetType type, CGEventSourceRef source) {
-  ProcessSerialNumber psn = {kNoProcess, kNoProcess};
+HK_INLINE
+ProcessSerialNumber __HKEventGetPSNForTarget(HKEventTarget target, HKEventTargetType type) {
+  ProcessSerialNumber psn = { kNoProcess, kNoProcess };
   switch (type) {
     case kHKEventTargetSystem:
-      _HKEventPostKeyStroke(keycode, modifier, source, NULL);
-      return YES;
+      psn.lowLongOfPSN = kSystemProcess;
+      break;
     case kHKEventTargetProcess:
-      _HKEventPostKeyStroke(keycode, modifier, source, target.psn);
-      return YES;
+      psn = *target.psn;
+      if (kCurrentProcess == psn.lowLongOfPSN) GetCurrentProcess(&psn);
+      break;
     case kHKEventTargetBundle:
       psn = _HKGetProcessWithBundleIdentifier(target.bundle);
       break;
@@ -165,31 +167,22 @@ Boolean HKEventPostKeystrokeToTarget(HKKeycode keycode, HKModifier modifier, HKE
       psn = _HKGetProcessWithSignature(target.signature);
       break;
   }
+  return psn;
+}
+
+Boolean HKEventPostKeystrokeToTarget(HKKeycode keycode, HKModifier modifier, HKEventTarget target, HKEventTargetType type, CGEventSourceRef source) {
+  ProcessSerialNumber psn = __HKEventGetPSNForTarget(target, type);
   if (psn.lowLongOfPSN != kNoProcess) {
-    _HKEventPostKeyStroke(keycode, modifier, source, &psn);
+    _HKEventPostKeyStroke(keycode, modifier, source, kSystemProcess == psn.lowLongOfPSN ? NULL : &psn);
     return YES;
   }
   return NO;
 }
 
 Boolean HKEventPostCharacterKeystrokesToTarget(UniChar character, HKEventTarget target, HKEventTargetType type, CGEventSourceRef source) {
-  ProcessSerialNumber psn = {kNoProcess, kNoProcess};
-  switch (type) {
-    case kHKEventTargetSystem:
-      _HKEventPostCharacterKeystrokes(character, source, NULL);
-      return YES;
-    case kHKEventTargetProcess:
-      _HKEventPostCharacterKeystrokes(character, source, target.psn);
-      return YES;
-    case kHKEventTargetBundle:
-      psn = _HKGetProcessWithBundleIdentifier(target.bundle);
-      break;
-    case kHKEventTargetSignature:
-      psn = _HKGetProcessWithSignature(target.signature);
-      break;
-  }
+  ProcessSerialNumber psn = __HKEventGetPSNForTarget(target, type);
   if (psn.lowLongOfPSN != kNoProcess) {
-    _HKEventPostCharacterKeystrokes(character, source, &psn);
+    _HKEventPostCharacterKeystrokes(character, source, kSystemProcess == psn.lowLongOfPSN ? NULL : &psn);
     return YES;
   }
   return NO;

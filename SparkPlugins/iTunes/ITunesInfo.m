@@ -23,15 +23,10 @@ const NSPoint kiTunesBottomRight = { -4e8, 0 };
 
 const ITunesVisual kiTunesDefaultSettings = {
   YES, kiTunesVisualDefaultPosition, 1.5,
-  { 0, 0, 0, 1 },
-  /* Gray */
-//  {.188, .192f, .200f, 1 },
-//  {.957f, .961f, .973f, 1 },
-//  {.682f, .703f, .733f, 1 },
-  /* Blue */
-  {.149f, .271f, .478f, 1 },
-  {.961f, .969f, .988f, 1 },
-  {.620f, .710f, .886f, 1 },
+  { 1, 1, 1, 1 },
+  { 0, 0, 0, 0 },
+  { 6/255., 12/255., 18/255., .60 },
+  { 9/255., 18/255., 27/255., .85 },
 };
 
 enum {
