@@ -1,83 +1,37 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-	<key>IBClasses</key>
-	<array>
-		<dict>
-			<key>CLASS</key>
-			<string>SKImageView</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSImageView</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>SparkActionPlugin</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>actionView</key>
-				<string>NSView</string>
-			</dict>
-			<key>SUPERCLASS</key>
-			<string>NSObject</string>
-		</dict>
-		<dict>
-			<key>ACTIONS</key>
-			<dict>
-				<key>back</key>
-				<string>id</string>
-				<key>chooseApplication</key>
-				<string>id</string>
-				<key>options</key>
-				<string>id</string>
-			</dict>
-			<key>CLASS</key>
-			<string>ApplicationPlugin</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>ibAppView</key>
-				<string>NSView</string>
-				<key>ibApplication</key>
-				<string>NSTextField</string>
-				<key>ibIcon</key>
-				<string>SKImageView</string>
-				<key>ibName</key>
-				<string>NSTextField</string>
-				<key>ibOptions</key>
-				<string>NSButton</string>
-				<key>ibTab</key>
-				<string>NSTabView</string>
-			</dict>
-			<key>SUPERCLASS</key>
-			<string>SparkActionPlugIn</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>SparkActionPlugIn</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-		</dict>
-		<dict>
-			<key>ACTIONS</key>
-			<dict>
-				<key></key>
-				<string>id</string>
-			</dict>
-			<key>CLASS</key>
-			<string>FirstResponder</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSObject</string>
-		</dict>
-	</array>
-	<key>IBVersion</key>
-	<string>1</string>
-</dict>
-</plist>
+{
+    IBClasses = (
+        {
+            ACTIONS = {back = id; chooseApplication = id; options = id; }; 
+            CLASS = ApplicationPlugin; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                ibAppView = NSView; 
+                ibApplication = NSTextField; 
+                ibIcon = SKImageView; 
+                ibName = NSTextField; 
+                ibOptions = NSButton; 
+                ibTab = NSTabView; 
+            }; 
+            SUPERCLASS = SparkActionPlugIn; 
+        }, 
+        {
+            ACTIONS = {"" = id; }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = SKImageView; LANGUAGE = ObjC; SUPERCLASS = NSImageView; }, 
+        {
+            CLASS = SparkActionPlugIn; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {actionView = NSView; hotKeyTrapPlaceholder = NSView; }; 
+        }, 
+        {
+            CLASS = SparkActionPlugin; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {actionView = NSView; }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}

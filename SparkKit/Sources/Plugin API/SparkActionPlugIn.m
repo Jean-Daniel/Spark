@@ -9,23 +9,65 @@
 #import "SparkPrivate.h"
 
 #import <SparkKit/SparkAction.h>
+#import <SparkKit/SparkPluginView.h>
 #import <SparkKit/SparkPreferences.h>
 #import <SparkKit/SparkActionPlugIn.h>
 
 #import <ShadowKit/SKExtensions.h>
 #import <ShadowKit/SKAppKitExtensions.h>
 
+@interface SparkViewPlaceholder : NSObject {
+  @private
+  NSView *sp_view;
+  NSView *sp_placeholder;
+}
+
+- (void)setView:(NSView *)aView;
+- (void)setPlaceholderView:(NSView *)aView;
+
+@end
+
 @implementation SparkActionPlugIn
 
+- (id)init {
+  if (self = [super init]) {
+    sp_trap = [[SparkViewPlaceholder alloc] init];
+  }
+  return self;
+}
+
 - (void)dealloc {
+  [sp_ctrl release];
+  [sp_trap release];
   if (sp_sapFlags.ownership)
     [sp_view release];
   [sp_action release];
   [super dealloc];
 }
 
+- (SparkPluginView *)sp_controller {
+  if (!sp_ctrl) {
+    sp_ctrl = [[SparkPluginView alloc] init];
+    [sp_ctrl setPlugin:self];
+    [sp_ctrl setPluginView:sp_view];
+    [self setHotKeyTrapPlaceholder:[sp_ctrl trapPlaceholder]];
+  }
+  return sp_ctrl;
+}
+
+- (BOOL)hasCustomView {
+  return NO;
+}
+
 - (NSView *)actionView {
-  return sp_view;
+  return [self hasCustomView] ? sp_view : [[self sp_controller] view];
+}
+
+- (void)setHotKeyTrap:(NSView *)trap {
+  [sp_trap setView:trap];
+}
+- (void)setHotKeyTrapPlaceholder:(NSView *)placeholder {
+  [sp_trap setPlaceholderView:placeholder];
 }
 
 - (id)sparkAction {
@@ -54,11 +96,18 @@
 
 #pragma mark Accessors
 - (id)valueForUndefinedKey:(NSString *)key {
+  static BOOL warn = YES;
   if ([key isEqualToString:@"name"]) {
-    WLog(@"%@ use deprecated KVC getter: name", [self class]);
+    if (warn) {
+      warn = NO;
+      WLog(@"%@ use deprecated KVC getter: name", [self class]);
+    }
     return [sp_action name];
   } else if ([key isEqualToString:@"icon"]) {
-    WLog(@"%@ use deprecated KVC getter: icon", [self class]);
+    if (warn) {
+      warn = NO;
+      WLog(@"%@ use deprecated KVC getter: icon", [self class]);
+    }
     return [sp_action icon];
   }
   return [super valueForUndefinedKey:key];
@@ -175,6 +224,14 @@
   return name ? [bundle pathForResource:name ofType:@"nib"] : nil;
 }
 
++ (NSString *)pluginFullName {
+  return [NSString stringWithFormat:@"%@ Action", [self plugInName]];
+}
+
++ (NSImage *)pluginViewIcon {
+  return [self plugInIcon];
+}
+
 #pragma mark Built-in plugin support
 
 /* Returns default value */
@@ -189,6 +246,58 @@
 /* Returns the version string */
 + (NSString *)versionString {
   return nil;
+}
+
+@end
+
+#pragma mark -
+@implementation SparkViewPlaceholder
+
+- (void)dealloc {
+  [sp_view release];
+  [sp_placeholder release];
+  [super dealloc];
+}
+
+SPARK_INLINE
+void __SparkViewPlaceholderCopyProperties(NSView *src, NSView *dest) {
+  if (src && dest) {
+    [dest setFrameOrigin:[src frame].origin];
+    [dest setAutoresizingMask:[src autoresizingMask]];
+  }
+}
+
+SPARK_INLINE
+void __SparkViewPlaceholderSwapView(NSView *old, NSView *new) {
+  if (!new || [new superview])
+    [NSException raise:NSInvalidArgumentException format:@"Target view must bew a valid orphan view."];
+  if (!old || ![old superview])
+    [NSException raise:NSInvalidArgumentException format:@"Source view must have a valid superview."];
+  
+  NSView *parent = [old superview];
+  if (parent && new) {
+    __SparkViewPlaceholderCopyProperties(old, new);
+    [old removeFromSuperview];
+    [parent addSubview:new];
+  }
+}
+
+- (void)setView:(NSView *)aView {
+  if (sp_view != aView) {
+    if (!aView) {
+      __SparkViewPlaceholderSwapView(sp_view, sp_placeholder);
+    } else if (sp_view) {
+      __SparkViewPlaceholderSwapView(sp_view, aView);
+    } else {
+      __SparkViewPlaceholderSwapView(sp_placeholder, aView);
+    }
+    [sp_view release];
+    sp_view = [aView retain];
+  }
+}
+
+- (void)setPlaceholderView:(NSView *)aView {
+  SKSetterRetain(sp_placeholder, aView);
 }
 
 @end

@@ -46,11 +46,14 @@
     se_plugins = [[NSMutableArray alloc] init];
     se_sizes = NSCreateMapTable(NSObjectMapKeyCallBacks, NSObjectMapValueCallBacks, 0);
     se_instances = NSCreateMapTable(NSObjectMapKeyCallBacks, NSObjectMapValueCallBacks, 0);
+    
+    uiTrap = [[SEHotKeyTrap alloc] initWithFrame:NSMakeRect(0, 0, 114, 22)];
   }
   return self;
 }
 
 - (void)dealloc {
+  [uiTrap release];
   [se_entry release];
   [se_views release];
   [se_plugins release];
@@ -423,6 +426,11 @@
     [previousPlugin pluginViewWillBecomeHidden];
     [se_view removeFromSuperview];
     [previousPlugin pluginViewDidBecomeHidden];
+    
+    [previousPlugin setHotKeyTrap:nil];
+    if ([uiTrap superview])
+      [uiTrap removeFromSuperview];
+    [se_plugin setHotKeyTrap:uiTrap];
     
     se_view = [se_plugin actionView];
     NSAssert1([se_view isKindOfClass:[NSView class]], @"Invalid view for plugin: %@", se_plugin);

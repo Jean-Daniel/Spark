@@ -19,6 +19,7 @@
   IBOutlet NSTabView *ibTab;
   IBOutlet NSTextField *ibName;
   IBOutlet SKImageView *ibIcon;
+  
   @private
   NSString *aa_name;
   NSString *aa_path;

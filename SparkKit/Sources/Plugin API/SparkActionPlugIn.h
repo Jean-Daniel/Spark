@@ -8,6 +8,8 @@
 
 #import <SparkKit/SparkKit.h>
 
+@class SparkAction, SparkPluginView;
+
 /*!
 @class SparkActionPlugIn
 @abstract This class is the base class to do a Spark PlugIn. If you want to add some kind of Action to Spark, 
@@ -15,7 +17,6 @@ you will use a subclass of SparkActionPlugIn.
 @discussion This is an Abstract class, so it can't be instanciated. Some methode must be implemented by subclass.
 If you use this class in IB, you can define an Outlet with name actionView.
 */
-@class SparkAction;
 SPARK_CLASS_EXPORT
 @interface SparkActionPlugIn : NSObject {  
   @private
@@ -27,9 +28,8 @@ SPARK_CLASS_EXPORT
     unsigned int reserved:31;
   } sp_sapFlags;
   
-  /*Keep binary compatibility */
-  void *sp_reserved;
-  void *sp_reserved2;
+  id sp_trap;
+  SparkPluginView *sp_ctrl;  
 }
 
 /*!
@@ -97,6 +97,22 @@ SPARK_CLASS_EXPORT
    */
 - (BOOL)displaysAdvancedSettings;
 
+/*!
+@method
+ @discussion The default -actionView is composed using 'plugin full name', 'plugin view icon', the hotkey field
+ and the plugin nib view. If your plugin use a custom layout, you have to:
+ - Override -hasCustomView to return YES, so the -actionView will return your nib view instead of 
+ the default view.
+ - Override -awakeFromNib to call -setHotKeyTrapPlaceholder: with your trap placeholder view.
+ @result Return YES if this plugin use a custom view and do not want to use the default view layout.
+ */
+- (BOOL)hasCustomView;
+/*!
+@method
+ @param placeholder A simple NSView that will be replaced by the Shortcut editor field.
+ */
+- (void)setHotKeyTrapPlaceholder:(NSView *)placeholder;
+
 @end
 
 @interface SparkActionPlugIn (SparkDynamicPlugIn)
@@ -114,5 +130,9 @@ SPARK_CLASS_EXPORT
 
   /* SparkHelpFile */
 + (NSString *)helpFile;
+
+/* Plugin View support */
++ (NSString *)pluginFullName;
++ (NSImage *)pluginViewIcon;
 
 @end

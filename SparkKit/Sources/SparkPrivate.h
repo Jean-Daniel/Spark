@@ -17,6 +17,7 @@
   the view because something else retained it. So SparkActionPlugin instance release
   the view and breaks the retain cycle. */
 - (void)releaseViewOwnership;
+- (void)setHotKeyTrap:(NSView *)trap;
 - (void)setSparkAction:(SparkAction *)anAction edit:(BOOL)flag;
 
 /* Built-in plugin support */

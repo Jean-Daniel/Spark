@@ -29,7 +29,7 @@
         {
             CLASS = SparkActionPlugIn; 
             LANGUAGE = ObjC; 
-            OUTLETS = {actionView = NSView; }; 
+            OUTLETS = {actionView = NSView; hotKeyTrapPlaceholder = NSView; }; 
             SUPERCLASS = NSObject; 
         }
     ); 

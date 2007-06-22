@@ -11,6 +11,8 @@
 #import "DocumentAction.h"
 #import "DAApplicationMenu.h"
 
+#import <ShadowKit/SKAppKitExtensions.h>
+
 @implementation DocumentActionPlugin
 
 + (void)initialize {
@@ -255,6 +257,11 @@
 }
 - (void)setDocumentIcon:(NSImage *)anIcon {
   SKSetterRetain(da_icon, anIcon);
+}
+
+#pragma mark -
++ (NSImage *)pluginViewIcon {
+  return [NSImage imageNamed:@"DocumentPlugin" inBundle:kDocumentActionBundle];
 }
 
 @end

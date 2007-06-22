@@ -281,4 +281,13 @@ NSString * const kApplicationActionBundleIdentifier = @"org.shadowlab.spark.appl
   aa_flags = hideOthers ? aa_flags | kLSLaunchAndHideOthers : aa_flags & ~kLSLaunchAndHideOthers;
 }
 
+#pragma mark -
+- (BOOL)hasCustomView {
+  return YES;
+}
+
++ (NSImage *)pluginViewIcon {
+  return [NSImage imageNamed:@"AAApplication" inBundle:kApplicationActionBundle];
+}
+
 @end

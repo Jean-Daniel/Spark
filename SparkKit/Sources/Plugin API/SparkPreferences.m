@@ -45,7 +45,6 @@ void SparkPreferencesNotifyObservers(NSString *key, id value, SparkPreferencesDo
 static
 CFDataRef _SparkPreferencesHandleMessage(CFMessagePortRef local, SInt32 msgid, CFDataRef data, void *info) {
   if (kSparkPreferencesMessageID == msgid) {
-    ShadowCTrace();
     NSDictionary *request = [NSPropertyListSerialization propertyListFromData:(id)data
                                                              mutabilityOption:NSPropertyListImmutable
                                                                        format:NULL errorDescription:NULL];
@@ -79,6 +78,7 @@ void _SparkPreferencesStartServer(void) {
       }
     } else {
       ECLog("Undefined error while creating preference port");
+      /* we do not want to retry on next call */
       sMachPort = (CFMessagePortRef)kCFNull;
     }
   }
@@ -170,7 +170,8 @@ NSInteger SparkPreferencesGetIntegerValue(NSString *key, SparkPreferencesDomain 
 }
 
 #pragma mark Setter
-void SparkPreferencesSetValue(NSString *key, id value, SparkPreferencesDomain domain) {
+static
+void _SparkPreferencesSetValue(NSString *key, id value, SparkPreferencesDomain domain, BOOL sync) {
   DLog(@"SparkPreferencesSetValue(%@, %@, %i)", key, value, domain);
   /* If daemon context, register preferences port */
   if (SparkGetCurrentContext() != kSparkEditorContext) {
@@ -203,11 +204,16 @@ void SparkPreferencesSetValue(NSString *key, id value, SparkPreferencesDomain do
       break;
   }
   SparkPreferencesNotifyObservers(key, value, domain);
-  if (SparkGetCurrentContext() == kSparkEditorContext) {
+  if (sync && SparkGetCurrentContext() == kSparkEditorContext) {
     /* Sync daemon */
     _SparkPreferencesSetDaemonValue(key, value, domain);
   }
 }
+
+void SparkPreferencesSetValue(NSString *key, id value, SparkPreferencesDomain domain) {
+  _SparkPreferencesSetValue(key, value, domain, YES);
+}
+
 void SparkPreferencesSetBooleanValue(NSString *key, BOOL value, SparkPreferencesDomain domain) {
   SparkPreferencesSetValue(key, SKBool(value), domain);
 }
