@@ -16,6 +16,7 @@
   IBOutlet NSImageView *ibIcon;
   IBOutlet NSTabView *ibTabView;
   IBOutlet NSButton *ibBackground;
+  IBOutlet NSTabView *ibOptionsTab;
   IBOutlet NSPopUpButton *uiPlaylists;
   
   IBOutlet ITunesVisualSetting *ibVisual;
@@ -55,5 +56,7 @@
 - (void)setLsHide:(BOOL)flag;
 - (BOOL)lsBackground;
 - (void)setLsBackground:(BOOL)flag;
+
+- (IBAction)toggleSettings:(id)sender;
 
 @end

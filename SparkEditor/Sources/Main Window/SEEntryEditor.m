@@ -187,9 +187,8 @@
     SparkEntry *entry = nil;
     if (![se_plugin isKindOfClass:[SEInheritsPlugin class]]) {
       SparkHotKey *hkey = [[SparkHotKey alloc] init];
-      [hkey setKeycode:key.keycode];
+      [hkey setKeycode:key.keycode character:key.character];
       [hkey setModifier:key.modifiers];
-      [hkey setCharacter:key.character];
       entry = [[SparkEntry alloc] initWithAction:[se_plugin sparkAction]
                                          trigger:hkey
                                      application:[self application]];

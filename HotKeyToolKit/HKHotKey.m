@@ -181,6 +181,13 @@
   }
 }
 
+- (void)setKeycode:(HKKeycode)keycode character:(UniChar)character {
+  if ([self shouldChangeKeystroke]) {
+    hk_keycode = keycode;
+    hk_character = character;
+  }
+}
+
 - (id)target {
   return hk_target;
 }

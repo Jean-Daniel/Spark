@@ -123,8 +123,8 @@ NSString * const kHKTrapWindowKeyCatchedNotification = @"kHKTrapWindowKeyCatched
       unichar character = 0;
 //#if defined(DEBUG)
 //      NSLog(@"Code: %u, modifier: %x", code, mask);
-//      if (mask & NSNumericPadKeyMask)
-//        NSLog(@"NumericPad");
+      if (mask & NSNumericPadKeyMask)
+        DLog(@"NumericPad");
 //#endif
       if (mask & NSAlphaShiftKeyMask) {
         mask &= ~NSAlphaShiftKeyMask;

@@ -271,6 +271,14 @@ NSImage *ITunesGetApplicationIcon() {
   [[self sparkAction] setLaunchBackground:flag];
 }
 
+- (IBAction)toggleSettings:(id)sender {
+  if ([ibOptionsTab indexOfSelectedTabViewItem]) {
+    [ibOptionsTab selectTabViewItemAtIndex:0];
+  } else {
+    [ibOptionsTab selectTabViewItemAtIndex:1];
+  }
+}
+
 #pragma mark -
 - (NSString *)defaultName {
   switch ([self iTunesAction]) {
@@ -444,6 +452,10 @@ NSString *__iTunesFindLibrary(Boolean compat) {
   if (!icon)
     icon = [super plugInIcon];
   return icon;
+}
+
+- (BOOL)hasCustomView {
+  return YES;
 }
 
 @end

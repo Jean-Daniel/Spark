@@ -67,6 +67,8 @@ SK_CLASS_EXPORT
 - (UniChar)character;
 - (void)setCharacter:(UniChar)character;
 
+- (void)setKeycode:(HKKeycode)keycode character:(UniChar)character;
+
 - (BOOL)isRegistred;
 - (BOOL)setRegistred:(BOOL)flag;
 

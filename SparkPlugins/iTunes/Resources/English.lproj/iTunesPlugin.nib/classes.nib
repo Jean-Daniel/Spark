@@ -7,12 +7,14 @@
             SUPERCLASS = NSObject; 
         }, 
         {
+            ACTIONS = {toggleSettings = id; }; 
             CLASS = ITunesActionPlugin; 
             LANGUAGE = ObjC; 
             OUTLETS = {
                 ibBackground = NSButton; 
                 ibIcon = NSImageView; 
                 ibName = NSTextField; 
+                ibOptionsTab = NSTabView; 
                 ibTabView = NSTabView; 
                 ibVisual = ITunesVisualSetting; 
                 uiPlaylists = NSPopUpButton; 

@@ -168,6 +168,9 @@ HK_CLASS_EXPORT
  */
 - (void)setCharacter:(UniChar)aCharacter;
 
+
+- (void)setKeycode:(HKKeycode)keycode character:(UniChar)character;
+
 /*!
   @method
  @abstract   Returns the target object of the receiver.

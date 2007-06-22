@@ -173,11 +173,18 @@ NSString *HKMapGetCurrentMapName() {
 
 NSString *HKMapGetStringRepresentationForCharacterAndModifier(UniChar character, HKModifier modifier) {
   if (character && character != kHKNilUnichar) {
+    NSString *str = nil;
     NSString *mod = HKMapGetModifierString(modifier);
+    if (modifier & kCGEventFlagMaskNumericPad) {
+      if (character >= '0' && character <= '9') {
+        UniChar chrs[2] = { character, '*' };
+        str = [NSString stringWithCharacters:chrs length:2];
+      }
+    }
     if ([mod length] > 0) {
-      return [mod stringByAppendingString:HKMapGetStringForUnichar(character)];
+      return [mod stringByAppendingString:str ? : HKMapGetStringForUnichar(character)];
     } else {
-      return HKMapGetStringForUnichar(character);
+      return str ? : HKMapGetStringForUnichar(character);
     }
   }
   return nil;
