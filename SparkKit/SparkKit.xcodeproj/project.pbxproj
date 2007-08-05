@@ -11,7 +11,6 @@
 		1B0C2C0A0B8DD6300062A711 /* SKArchiveDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B0C2C080B8DD6300062A711 /* SKArchiveDocument.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		1B0C2C0B0B8DD6300062A711 /* SKArchiveDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C2C090B8DD6300062A711 /* SKArchiveDocument.m */; };
 		1B9FE5B40B8D95370042B5F9 /* libbz2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B9FE5B00B8D95370042B5F9 /* libbz2.dylib */; };
-		1B9FE5B50B8D95370042B5F9 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B9FE5B10B8D95370042B5F9 /* libcrypto.dylib */; };
 		1B9FE5B60B8D95370042B5F9 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B9FE5B20B8D95370042B5F9 /* libxml2.dylib */; };
 		1B9FE5B70B8D95370042B5F9 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B9FE5B30B8D95370042B5F9 /* libz.dylib */; };
 		1B9FE5D10B8D95C10042B5F9 /* xar.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B9FE5D00B8D95C10042B5F9 /* xar.h */; };
@@ -76,6 +75,7 @@
 		984A38CB0A60060A00DA6455 /* SparkMultipleAlerts.h in Headers */ = {isa = PBXBuildFile; fileRef = 984A38C00A60060A00DA6455 /* SparkMultipleAlerts.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		984A38CC0A60060A00DA6455 /* SparkMultipleAlerts.m in Sources */ = {isa = PBXBuildFile; fileRef = 984A38C10A60060A00DA6455 /* SparkMultipleAlerts.m */; };
 		984A38CD0A60060A00DA6455 /* SparkPluginAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 984A38C20A60060A00DA6455 /* SparkPluginAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		98537C210C2C64C300ABDCFA /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B9FE5B10B8D95370042B5F9 /* libcrypto.dylib */; };
 		9858F41A0B90835900CC682C /* SparkLibraryArchive.h in Headers */ = {isa = PBXBuildFile; fileRef = 9858F4180B90835900CC682C /* SparkLibraryArchive.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		9858F41B0B90835A00CC682C /* SparkLibraryArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = 9858F4190B90835900CC682C /* SparkLibraryArchive.m */; };
 		9858F43A0B9084B500CC682C /* SparkIconManagerPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 9858F4390B9084B500CC682C /* SparkIconManagerPrivate.h */; };
@@ -475,12 +475,12 @@
 				1B9FE5B70B8D95370042B5F9 /* libz.dylib in Frameworks */,
 				1B9FE5B40B8D95370042B5F9 /* libbz2.dylib in Frameworks */,
 				1B9FE5B60B8D95370042B5F9 /* libxml2.dylib in Frameworks */,
-				1B9FE5B50B8D95370042B5F9 /* libcrypto.dylib in Frameworks */,
 				98675577096B36BD00BB8A25 /* Cocoa.framework in Frameworks */,
 				983976350A5866BF00F79B40 /* IOKit.framework in Frameworks */,
 				98E19C710B160EF1007E4D31 /* DirectoryService.framework in Frameworks */,
 				98A417EE0B37454500411C20 /* SystemConfiguration.framework in Frameworks */,
 				1B9FE5D30B8D95C60042B5F9 /* libsxar.a in Frameworks */,
+				98537C210C2C64C300ABDCFA /* libcrypto.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -11,6 +11,7 @@
 #import "SEPluginInstaller.h"
 
 #if defined (DEBUG)
+#import "SEEntryCache.h"
 #import "SEEntryEditor.h"
 #import <Foundation/NSDebug.h>
 #import <SparkKit/SparkLibrarySynchronizer.h>
@@ -544,6 +545,7 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
   [menu addItemWithTitle:@"Importer" action:@selector(openImporter:) keyEquivalent:@""];
   [menu addItemWithTitle:@"Trigger Browser" action:@selector(openTriggerBrowser:) keyEquivalent:@""];
   [menu addItem:[NSMenuItem separatorItem]];
+  [menu addItemWithTitle:@"Dump Library" action:@selector(dumpLibrary:) keyEquivalent:@""];
   [menu addItemWithTitle:@"Clean Library" action:@selector(cleanLibrary:) keyEquivalent:@""];
   [debugMenu setSubmenu:menu];
   [menu release];
@@ -551,6 +553,24 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
   [debugMenu release];
 }
 
+- (IBAction)dumpLibrary:(id)sender {
+  NSMutableArray *library = [[NSMutableArray alloc] init];
+  SELibraryDocument *doc = SEGetDocumentForLibrary(SparkActiveLibrary());
+  SEEntryCache *cache = [doc cache];
+  SESparkEntrySet *entries = [cache entries];
+
+  SparkEntry *entry;
+  NSEnumerator *iter = [entries entryEnumerator];
+  while (entry = [iter nextObject]) {
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    [entry serialize:dict];
+    [library addObject:dict];
+    [dict release];
+  }
+  
+  [library writeToFile:[@"~/Desktop/SparkLibrary.plist" stringByStandardizingPath] atomically:NO];
+  [library release];
+}
 //- (IBAction)openImporter:(id)sender {
 //  if (libraryWindow) {
 //    SparkImporter *panel = [[SparkImporter alloc] init];

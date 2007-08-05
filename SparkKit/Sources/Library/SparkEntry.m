@@ -8,7 +8,10 @@
 
 #import <SparkKit/SparkEntry.h>
 #import <SparkKit/SparkAction.h>
+#import <SparkKit/SparkHotKey.h>
+#import <SparkKit/SparkLibrary.h>
 
+#import <ShadowKit/SKSerialization.h>
 #import <ShadowKit/SKAppKitExtensions.h>
 
 static
@@ -135,6 +138,65 @@ NSImage *SparkEntryDefaultIcon() {
 }
 - (NSString *)triggerDescription {
   return [sp_trigger triggerDescription];
+}
+
+- (BOOL)serialize:(NSMutableDictionary *)plist {
+  BOOL ok = NO;
+  [plist setObject:SKUInt(0) forKey:@"version"];
+  NSDictionary *dict = SKSerializeObject(sp_action, NULL);
+  if (dict) {
+    ok = YES;
+    [plist setObject:dict forKey:@"action"];
+    
+    if (sp_application && [sp_application uid] != kSparkApplicationSystemUID) {
+      NSMutableDictionary *app = [[NSMutableDictionary alloc] init];
+      ok = [[sp_application application] serialize:app];
+      if (ok) {
+        [plist setObject:app forKey:@"application"];
+      }
+      [app release];
+    } 
+      
+    /* Serialize Trigger */
+    if (ok) {
+      NSMutableDictionary *key = [[NSMutableDictionary alloc] init];
+      
+      NSMutableArray *modifiers = [[NSMutableArray alloc] init];
+      HKModifier modifier = [(SparkHotKey *)sp_trigger modifier];
+      if (modifier & NSShiftKeyMask) [modifiers addObject:@"shift"];
+      if (modifier & NSCommandKeyMask) [modifiers addObject:@"cmd"];
+      if (modifier & NSControlKeyMask) [modifiers addObject:@"ctrl"];
+      if (modifier & NSAlternateKeyMask) [modifiers addObject:@"option"];
+
+      //      if (modifier & NSHelpKeyMask) [modifiers addObject:@"help"];
+      //      if (modifier & NSFunctionKeyMask) [modifiers addObject:@"function"];
+      if (modifier & NSNumericPadKeyMask) [modifiers addObject:@"num-pad"];
+      //      if (modifier & NSAlphaShiftKeyMask) [modifiers addObject:@"alpha-shift"];
+      if ([modifiers count] > 0)
+        [key setObject:modifiers forKey:@"modifiers"];
+      [modifiers release];
+      
+      HKKeycode code = [(SparkHotKey *)sp_trigger keycode];
+      [key setObject:SKUInteger(code) forKey:@"keycode"];
+      
+      UniChar ch = [(SparkHotKey *)sp_trigger character];
+      if (CFCharacterSetIsCharacterMember(CFCharacterSetGetPredefined(kCFCharacterSetAlphaNumeric), ch) ||
+          CFCharacterSetIsCharacterMember(CFCharacterSetGetPredefined(kCFCharacterSetPunctuation), ch) ||
+          CFCharacterSetIsCharacterMember(CFCharacterSetGetPredefined(kCFCharacterSetSymbol), ch)) {
+        NSString *str = [NSString stringWithCharacters:&ch length:1];
+        if (str)
+          [key setObject:str forKey:@"character"];
+      } else {
+        NSString *str = HKMapGetStringRepresentationForCharacterAndModifier(ch, 0);
+        if (str)
+          [key setObject:str forKey:@"character"];
+      }
+      [key setObject:SKUInteger(ch) forKey:@"unichar"];
+      [plist setObject:key forKey:@"trigger"];
+      [key release];
+    }
+  }
+  return ok;
 }
 
 @end

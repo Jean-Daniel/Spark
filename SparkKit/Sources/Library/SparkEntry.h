@@ -62,4 +62,6 @@ SK_CLASS_EXPORT
 - (NSString *)actionDescription;
 - (NSString *)triggerDescription;
 
+- (BOOL)serialize:(NSMutableDictionary *)plist;
+
 @end
