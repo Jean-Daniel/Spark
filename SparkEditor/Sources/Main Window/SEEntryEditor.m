@@ -444,7 +444,7 @@
       if ([se_view autoresizingMask] & NSViewWidthSizable) {
         vrect.size.width = se_min.width;
       } else {
-        vrect.origin.x = roundcg(AVG(se_min.width, -NSWidth(vrect)));
+        vrect.origin.x = round(AVG(se_min.width, -NSWidth(vrect)));
       }
     }
     if (NSHeight(vrect) < se_min.height) {
@@ -452,7 +452,7 @@
       if ([se_view autoresizingMask] & NSViewHeightSizable) {
         vrect.size.height = se_min.height;
       } else {
-        vrect.origin.y = roundcg(AVG(se_min.height, -NSHeight(vrect)));
+        vrect.origin.y = round(AVG(se_min.height, -NSHeight(vrect)));
       }
     }
     [se_view setFrame:vrect];

@@ -80,7 +80,7 @@
   
   CGFloat deltaWin = 0;
   CGFloat deltaH = [self setText:[alert messageText] inField:messageText];
-  if (SKCGFloatEquals(0, deltaH)) {
+  if (SKRealEquals(0, deltaH)) {
     NSRect frame = [[messageText enclosingScrollView] frame];
     frame.origin.y -= deltaH;
     frame.size.height += deltaH;
@@ -91,7 +91,7 @@
     deltaWin += deltaH;
   }
   deltaH = [self setText:[alert informativeText] inField:informativeText];
-  if (SKCGFloatEquals(0, deltaH)) {
+  if (SKRealEquals(0, deltaH)) {
     NSRect frame = [[informativeText enclosingScrollView] frame];
     frame.origin.y -= deltaH;
     frame.size.height += deltaH;

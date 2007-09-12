@@ -15,7 +15,7 @@ NSString * const SETableSeparator;
 @interface SETableView : SKTableView {
   @private
   BOOL se_lock;
-  NSImage *se_highlight;
+  CGLayerRef se_highlight;
 }
 
 - (void)setHighlightShading:(NSColor *)aColor bottom:(NSColor *)end border:(NSColor *)border;

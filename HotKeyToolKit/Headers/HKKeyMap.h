@@ -85,6 +85,10 @@ enum {
   kVirtualF14Key           = 0x06b,
   kVirtualF15Key           = 0x071,
   kVirtualF16Key           = 0x06a,
+  /* aluminium keyboards */
+  kVirtualF17Key           = 0x040,
+  kVirtualF18Key           = 0x04f,
+  kVirtualF19Key           = 0x050,
   /* editing utility keys */
   kVirtualHelpKey          = 0x072,
   kVirtualDeleteKey        = 0x033,
@@ -168,6 +172,10 @@ enum {
   kF14Unicode           = NSF14FunctionKey,
   kF15Unicode           = NSF15FunctionKey,
   kF16Unicode           = NSF16FunctionKey,
+  /* aluminium keyboard */
+  kF17Unicode           = NSF17FunctionKey,
+  kF18Unicode           = NSF18FunctionKey,
+  kF19Unicode           = NSF19FunctionKey,
   /* editing utility keys */
   kHelpUnicode          = NSHelpFunctionKey,
   kClearLineUnicode     = NSClearLineFunctionKey,

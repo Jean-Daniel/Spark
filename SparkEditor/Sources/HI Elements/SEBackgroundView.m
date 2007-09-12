@@ -8,63 +8,28 @@
 
 #import "SEBackgroundView.h"
 #import <ShadowKit/SKFunctions.h>
+#import <ShadowKit/SKCGFunctions.h>
 
-static 
-void SEBackgroundShadingValue (void *info, const CGFloat *in, CGFloat *out) {
-  CGFloat v;
-  size_t k, components;
-  components = (size_t)info;
-  
-  v = *in;
-  for (k = 0; k < components -1; k++)
-    *out++ = ((.771 - .580) * v) + .580;   
-  *out++ = 1;
-}
+static const 
+SKSimpleShadingInfo kSETopShadingInfo = {
+{.508, .508, .508, 1},
+{.771, .771, .771, 1},
+  NULL,
+};
 
-static 
-CGFunctionRef SEBackgroundShadingFunction(CGColorSpaceRef colorspace) {
-  size_t components;
-  static const CGFloat input_value_range [2] = { 0, 1 };
-  static const CGFloat output_value_ranges [8] = { 0, 1, 0, 1, 0, 1, 0, 1 };
-  static const CGFunctionCallbacks callbacks = { 0, &SEBackgroundShadingValue, NULL };
-  
-  components = 1 + CGColorSpaceGetNumberOfComponents(colorspace);
-  return CGFunctionCreate((void *) components, 1, input_value_range, components, output_value_ranges, &callbacks);
-}
-
-static NSImage *SETopShadingImage = nil;
-static NSImage *SEBottomShadingImage = nil;
-
+static bool sShading = false;
 static const CGFloat se_top = 46;
 static const CGFloat se_bottom = 35;
 
-@implementation SEBackgroundView
+static CGLayerRef sSETopShadingImage = nil;
+static CGLayerRef sSEBottomShadingImage = nil;
 
-static
-NSImage *SECreateShadingImage(CGFloat height) {
-  NSImage *img = [[NSImage alloc] initWithSize:NSMakeSize(128, height)];
-  CGPoint startPoint = CGPointMake(0, 0), endPoint = CGPointMake(0, height);
-  
-  CGColorSpaceRef colorspace = CGColorSpaceCreateDeviceRGB();
-  CGFunctionRef function = SEBackgroundShadingFunction(colorspace);
-  CGShadingRef shading = CGShadingCreateAxial(colorspace, startPoint, endPoint, function, false, false);
-  
-  [img lockFocus];
-  CGContextDrawShading([[NSGraphicsContext currentContext] graphicsPort], shading);
-  [img unlockFocus];
-  
-  CGShadingRelease(shading);
-  CGFunctionRelease(function);
-  CGColorSpaceRelease(colorspace);
-  
-  return img;
-}
+@implementation SEBackgroundView
 
 + (void)initialize {
   if ([SEBackgroundView class] == self) {
     if (SKSystemMajorVersion() >= 10 && SKSystemMinorVersion() < 5) {
-      SETopShadingImage = SECreateShadingImage(se_top);
-      SEBottomShadingImage = SECreateShadingImage(se_bottom);
+      sShading = true;
     }
   }
 }
@@ -76,7 +41,7 @@ NSImage *SECreateShadingImage(CGFloat height) {
 }
 
 - (void)drawRect:(NSRect)rect {
-  if (SETopShadingImage) {
+  if (sShading) {
     CGFloat radius = 10;
     
     NSRect bounds = [self bounds];
@@ -102,15 +67,31 @@ NSImage *SECreateShadingImage(CGFloat height) {
     if (NSIntersectsRect(gradient, rect)) {
       gradient.origin.x += 1;
       gradient.size.width -= 2;
-      [SETopShadingImage drawInRect:gradient fromRect:NSMakeRect(0, 0, 128, se_top) operation:NSCompositeSourceOver fraction:1];
+      if (!sSETopShadingImage)
+        sSETopShadingImage = SKCGCreateVerticalShadingLayer(ctxt, CGSizeMake(128, se_top), SKCGSimpleShadingFunction, (void *)&kSETopShadingInfo);
+      CGContextDrawLayerInRect(ctxt, CGRectFromNSRect(gradient), sSETopShadingImage);
       
-      [SETopShadingImage drawInRect:NSMakeRect(0, NSMaxY(bounds) - se_top, 1, se_top - 18) fromRect:NSMakeRect(0, 0, 1, se_top -18) operation:NSCompositeSourceOver fraction:1];
-      [SETopShadingImage drawInRect:NSMakeRect(NSMaxX(bounds) - 1, NSMaxY(bounds) - se_top, NSMaxX(bounds), se_top - 18) fromRect:NSMakeRect(0, 0, 1, se_top -18) operation:NSCompositeSourceOver fraction:1];
+      CGContextSaveGState(ctxt);
+      CGRect rects[] = { 
+        CGRectMake(0, NSMaxY(bounds) - se_top, 1, se_top - 18), 
+        CGRectMake(NSMaxX(bounds) - 1, NSMaxY(bounds) - se_top, NSMaxX(bounds), se_top - 18)};
+      CGContextClipToRects(ctxt, rects, 2);
+      
+      CGContextDrawLayerInRect(ctxt, CGRectMake(0, NSMaxY(bounds) - se_top, 1, se_top), sSETopShadingImage);
+      CGContextDrawLayerInRect(ctxt, CGRectMake(NSMaxX(bounds) - 1, NSMaxY(bounds) - se_top, NSMaxX(bounds), se_top), sSETopShadingImage);
+      CGContextRestoreGState(ctxt);
+      
+      //      [SETopShadingImage drawInRect:gradient fromRect:NSMakeRect(0, 0, 128, se_top) operation:NSCompositeSourceOver fraction:1];
+      //      [SETopShadingImage drawInRect:NSMakeRect(0, NSMaxY(bounds) - se_top, 1, se_top - 18) fromRect:NSMakeRect(0, 0, 1, se_top -18) operation:NSCompositeSourceOver fraction:1];
+      //      [SETopShadingImage drawInRect:NSMakeRect(NSMaxX(bounds) - 1, NSMaxY(bounds) - se_top, NSMaxX(bounds), se_top - 18) fromRect:NSMakeRect(0, 0, 1, se_top -18) operation:NSCompositeSourceOver fraction:1];
     }
     
     gradient = NSMakeRect(0, 0, NSMaxX(bounds), se_bottom);
     if (NSIntersectsRect(gradient, rect)) {
-      [SEBottomShadingImage drawInRect:gradient fromRect:NSMakeRect(0, 0, 128, se_bottom) operation:NSCompositeSourceOver fraction:1];
+      if (!sSEBottomShadingImage)
+        sSEBottomShadingImage = SKCGCreateVerticalShadingLayer(ctxt, CGSizeMake(128, se_top), SKCGSimpleShadingFunction, (void *)&kSETopShadingInfo);
+      
+      CGContextDrawLayerInRect(ctxt, CGRectFromNSRect(gradient), sSETopShadingImage);
       
       CGContextSetGrayStrokeColor([[NSGraphicsContext currentContext] graphicsPort], .978, 1);
       [NSBezierPath strokeLineFromPoint:NSMakePoint(0, se_bottom - .5) toPoint:NSMakePoint(NSMaxX(bounds), se_bottom - .5)];

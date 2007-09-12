@@ -13,6 +13,7 @@
 #if defined (DEBUG)
 #import "SEEntryCache.h"
 #import "SEEntryEditor.h"
+#import "SESparkEntrySet.h"
 #import <Foundation/NSDebug.h>
 #import <SparkKit/SparkLibrarySynchronizer.h>
 #endif
@@ -195,9 +196,8 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
                                              object:nil];
   /* Check daemon path and connect */
   SEServerStartConnection();
-  
-//  [self showMainWindow:nil];
-//  [self displayFirstRunIfNeeded];
+  //  [self showMainWindow:nil];
+  //  [self displayFirstRunIfNeeded];
 }
 
 - (void)serverStatusDidChange:(NSNotification *)aNotification {

@@ -121,10 +121,10 @@ OSStatus AudioOutputSetMuted(AudioDeviceID device, Boolean mute) {
 #pragma mark High Level Functions
 static 
 OSStatus _AudioOutputSetVolume(AudioDeviceID device, Float32 left, Float32 right, Float32 volume) {
-  Float32 balance = SKFloatEquals(right, 0.f) ? 1 : left / right;
+  Float32 balance = SKRealEquals(right, 0.f) ? 1 : left / right;
   if (left > right) {
     left = volume;
-    right = SKFloatEquals(right, 0.f) ? 0 : left / balance;
+    right = SKRealEquals(right, 0.f) ? 0 : left / balance;
   } else {
     right = volume;
     left = right * balance;
@@ -142,7 +142,7 @@ OSStatus AudioOutputVolumeUp(AudioDeviceID device, UInt32 *level) {
     UInt32 lvl = __AudioOutputVolumeGetLevel(max);
     if (kAudioOutputVolumeMaxLevel == lvl) {
       /* If not max level */
-      if (!SKFloatEquals(max, 1)) {
+      if (!SKRealEquals(max, 1)) {
         err = _AudioOutputSetVolume(device, left, right, 1);
       }
     } else {
@@ -162,7 +162,7 @@ OSStatus AudioOutputVolumeDown(AudioDeviceID device, UInt32 *level) {
     UInt32 lvl = __AudioOutputVolumeGetLevel(max);
     if (0 == lvl) {
       /* If not min level */
-      if (!SKFloatEquals(max, 0)) {
+      if (!SKRealEquals(max, 0)) {
         err = _AudioOutputSetVolume(device, left, right, 0);
       }
     } else {

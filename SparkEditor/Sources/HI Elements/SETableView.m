@@ -58,11 +58,32 @@ NSShadow *sHighlightShadow = nil;
 
 @implementation SETableView
 
-- (NSImage *)highlightedCellColor {
-  static NSImage *highlighted = nil;
-  if (!highlighted) {
-    highlighted = [[NSImage imageNamed:@"Highlight"] retain];
-    [highlighted setFlipped:YES];
+- (void)dealloc {
+  CGLayerRelease(se_highlight);
+  [super dealloc];
+}
+
+static const 
+SKSimpleShadingInfo sHighlightShadingInfo = {
+  {.659, .718, .804, 1},
+  {.610, .680, .770, 1},
+  NULL,
+};
+
+- (CGLayerRef)highlightedCellColor {
+  static CGLayerRef sHighlighted = nil;
+  if (!sHighlighted) {
+    CGContextRef ctxt = [[NSGraphicsContext currentContext] graphicsPort];
+    sHighlighted = SKCGCreateVerticalShadingLayer(ctxt, CGSizeMake(64, [self rowHeight] + 2), SKCGSimpleShadingFunction, (void *)&sHighlightShadingInfo);
+    CGContextRef gctxt = CGLayerGetContext(sHighlighted);
+    /* up line */
+    CGContextSetRGBStrokeColor(gctxt, .686, .741, .820, 1);
+    CGPoint line[2] = {{0, .5}, {64, .5}};
+    CGContextStrokeLineSegments(gctxt, line, 2);
+    /* bottom line */
+    CGContextSetRGBStrokeColor(gctxt, .588, .651, .745, 1);
+    CGPoint line2[] = {{0, [self rowHeight] + 1.5}, {64, [self rowHeight] + 1.5}};
+    CGContextStrokeLineSegments(gctxt, line2, 2);
   }
   if (!se_highlight) {
     [self setHighlightShading:[NSColor colorWithCalibratedRed:.340f
@@ -78,31 +99,28 @@ NSShadow *sHighlightShadow = nil;
                                                          blue:.855f
                                                         alpha:1]];
   }
-  return ([[self window] isKeyWindow] && [[self window] firstResponder] == self) ? se_highlight : highlighted;
+  return ([[self window] isKeyWindow] && [[self window] firstResponder] == self) ? se_highlight : sHighlighted;
 }
 
 - (void)setHighlightShading:(NSColor *)aColor bottom:(NSColor *)end border:(NSColor *)border {
   SKSimpleShadingInfo ctxt;
+  ctxt.fct = NULL;
   [[aColor colorUsingColorSpaceName:NSDeviceRGBColorSpace] getRed:&ctxt.start[0] green:&ctxt.start[1] blue:&ctxt.start[2] alpha:&ctxt.start[3]];
   [[end colorUsingColorSpaceName:NSDeviceRGBColorSpace] getRed:&ctxt.end[0] green:&ctxt.end[1] blue:&ctxt.end[2] alpha:&ctxt.end[3]];
-  NSImage *img = SKCGCreateVerticalShadingImage(64, [self rowHeight] + 2, SKCGSimpleShadingFunction, &ctxt);
+  se_highlight = SKCGCreateVerticalShadingLayer([[NSGraphicsContext currentContext] graphicsPort], 
+                                                CGSizeMake(64, [self rowHeight] + 2), SKCGSimpleShadingFunction, &ctxt);
   
-  if (border) {
-    [img lockFocus];
-    [border setStroke];
-    CGFloat y = 0.5;
-    [NSBezierPath strokeLineFromPoint:NSMakePoint(0, y) toPoint:NSMakePoint(64, y)];
-    [img unlockFocus];
-  }
-  
-  se_highlight = [img retain];
+  CGFloat r, g, b, a;
+  [[border colorUsingColorSpaceName:NSDeviceRGBColorSpace] getRed:&r green:&g blue:&b alpha:&a];
+  CGContextRef gctxt = CGLayerGetContext(se_highlight);
+  CGContextSetRGBStrokeColor(gctxt, r, g, b, a);
+  CGPoint line[2] = {{0, .5}, {64, .5}};
+  CGContextStrokeLineSegments(gctxt, line, 2);
 }
 
 - (void)highlightSelectionInClipRect:(NSRect)clipRect {
-  NSImage *img = [self highlightedCellColor];
-  NSRect imgRect = NSZeroRect;
-  imgRect.size = [img size];
-  [img drawInRect:[self rectOfRow:[self selectedRow]] fromRect:imgRect operation:NSCompositeSourceOver fraction:1];
+  CGContextRef ctxt = [[NSGraphicsContext currentContext] graphicsPort];
+  CGContextDrawLayerInRect(ctxt, CGRectFromNSRect([self rectOfRow:[self selectedRow]]), [self highlightedCellColor]);
 }
 
 /* Nasty private override */

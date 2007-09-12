@@ -107,6 +107,16 @@ UniChar HKMapGetUnicharForKeycode(HKKeycode keycode) {
       case kVirtualF16Key:
         unicode = kF16Unicode;
         break;
+        /* aluminium keyboard */
+      case kVirtualF17Key:
+        unicode = kF17Unicode;
+        break;
+      case kVirtualF18Key:
+        unicode = kF18Unicode;
+        break;
+      case kVirtualF19Key:
+        unicode = kF19Unicode;
+        break;
         /* editing utility keys */
       case kVirtualHelpKey:
         unicode = kHelpUnicode;
@@ -291,6 +301,16 @@ HKKeycode HKMapGetSpecialKeyCodeForUnichar(UniChar character) {
     case kF16Unicode:
       keyCode = kVirtualF16Key;
       break;
+      /* aluminium keyboard */
+    case kF17Unicode:
+      keyCode = kVirtualF17Key;
+      break;
+    case kF18Unicode:
+      keyCode = kVirtualF18Key;
+      break;
+    case kF19Unicode:
+      keyCode = kVirtualF19Key;
+      break;
       /* editing utility keys */
     case kHelpUnicode:
       keyCode = kVirtualHelpKey;
@@ -453,6 +473,16 @@ NSString *HKMapGetStringForUnichar(UniChar character) {
       break;
     case kF16Unicode:
       str = NSLocalizedStringFromTableInBundle(@"F16", @"Keyboard", kHotKeyToolKitBundle, @"F16 Key display String");
+      break;
+      /* aluminium keyboard */
+    case kF17Unicode:
+      str = NSLocalizedStringFromTableInBundle(@"F17", @"Keyboard", kHotKeyToolKitBundle, @"F17 Key display String");
+      break;
+    case kF18Unicode:
+      str = NSLocalizedStringFromTableInBundle(@"F18", @"Keyboard", kHotKeyToolKitBundle, @"F18 Key display String");
+      break;
+    case kF19Unicode:
+      str = NSLocalizedStringFromTableInBundle(@"F19", @"Keyboard", kHotKeyToolKitBundle, @"F19 Key display String");
       break;
       /* editing utility Unicodes */
     case kHelpUnicode:

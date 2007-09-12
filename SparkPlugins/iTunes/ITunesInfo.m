@@ -39,13 +39,13 @@ enum {
 
 SK_INLINE
 int __iTunesGetTypeForLocation(NSPoint point) {
-  if (SKCGFloatEquals(point.x, kiTunesUpperLeft.x))
+  if (SKRealEquals(point.x, kiTunesUpperLeft.x))
     return kiTunesVisualUL;
-  if (SKCGFloatEquals(point.x, kiTunesUpperRight.x))
+  if (SKRealEquals(point.x, kiTunesUpperRight.x))
     return kiTunesVisualUR;
-  if (SKCGFloatEquals(point.x, kiTunesBottomLeft.x))
+  if (SKRealEquals(point.x, kiTunesBottomLeft.x))
     return kiTunesVisualBL;
-  if (SKCGFloatEquals(point.x, kiTunesBottomRight.x))
+  if (SKRealEquals(point.x, kiTunesBottomRight.x))
     return kiTunesVisualBR;
   
   return kiTunesVisualOther;

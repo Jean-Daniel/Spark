@@ -315,7 +315,19 @@ NSInteger _iTunesSortPlaylists(id num1, id num2, void *context) {
 }
 
 static
-NSString *iTunesGetLibraryPath(Boolean compat) {
+NSString *_iTunesGetiAppsLibraryPath() {
+  CFStringRef path = NULL;
+  CFArrayRef paths = CFPreferencesCopyValue(CFSTR("iTunesRecentDatabases"), CFSTR("com.apple.iApps"), kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
+  if (paths) {
+    path = CFArrayGetCount(paths) > 0 ? CFArrayGetValueAtIndex(paths, 0) : NULL;
+    if (path) CFRetain(path);
+    CFRelease(paths);
+  }
+  return [(id)path autorelease];
+}
+
+static
+NSString *_iTunesGetLibraryPathFromPreferences(Boolean compat) {
   NSString *path = nil;
   CFDataRef data = CFPreferencesCopyValue(CFSTR("alis:1:iTunes Library Location"),
                                           CFSTR("com.apple.iTunes"),
@@ -333,7 +345,7 @@ NSString *iTunesGetLibraryPath(Boolean compat) {
 }
 
 static 
-NSString *iTunesFindLibraryFile(int folder, Boolean compat) {
+NSString *_iTunesGetLibraryFileInFolder(OSType folder, Boolean compat) {
   FSRef ref;
   NSString *file = nil;
   /* Get User Special Folder */
@@ -349,19 +361,29 @@ NSString *iTunesFindLibraryFile(int folder, Boolean compat) {
 
 SK_INLINE
 NSString *__iTunesFindLibrary(Boolean compat) {
-  /* First check user preferences */
-  NSString *file = iTunesGetLibraryPath(compat);
+  NSString *file;
   
+  /* Get from iApps preferences */
+  file = _iTunesGetiAppsLibraryPath();
+  
+  /* Get from iTunes preferences */
   if (!file || ![[NSFileManager defaultManager] fileExistsAtPath:file]) {
-    /* Search in User Music Folder */
-    file = iTunesFindLibraryFile(kMusicDocumentsFolderType, compat);
-    /* If doesn't exists Search in Document folder */
-    if (!file || ![[NSFileManager defaultManager] fileExistsAtPath:file]) {
-      file = iTunesFindLibraryFile(kDocumentsFolderType, compat);
-      if (!file || ![[NSFileManager defaultManager] fileExistsAtPath:file])
-        file = nil;
-    }
+    file = _iTunesGetLibraryPathFromPreferences(compat);
   }
+  
+  /* Search in User Music Folder */
+  if (!file || ![[NSFileManager defaultManager] fileExistsAtPath:file]) {
+    file = _iTunesGetLibraryFileInFolder(kMusicDocumentsFolderType, compat);
+  }
+  
+  /* Search in User Document folder */
+  if (!file || ![[NSFileManager defaultManager] fileExistsAtPath:file]) {
+    file = _iTunesGetLibraryFileInFolder(kDocumentsFolderType, compat);
+  }
+  
+  if (file && ![[NSFileManager defaultManager] fileExistsAtPath:file])
+    file = nil;
+  
   return file;
 }
 

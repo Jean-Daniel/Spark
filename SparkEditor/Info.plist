@@ -87,7 +87,7 @@
 			<string>SparkActionPlugin</string>
 			<key>CFBundleTypeOSTypes</key>
 			<array>
-				<string>BNDL</string>
+				<string>Spac</string>
 			</array>
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
@@ -181,6 +181,8 @@
 			<string>org.shadowlab.spark.action</string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
+        <key>com.apple.ostype</key>
+				<string>Spac</string>
 				<key>public.filename-extension</key>
 				<string>spact</string>
 			</dict>

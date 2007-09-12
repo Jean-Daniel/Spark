@@ -78,13 +78,13 @@ NSPoint _iTunesGetPointForIndex(int idx) {
 }
 SK_INLINE
 int _iTunesGetIndexForPoint(NSPoint point) {
-  if (SKCGFloatEquals(point.x, kiTunesUpperLeft.x))
+  if (SKRealEquals(point.x, kiTunesUpperLeft.x))
     return 0;
-  if (SKCGFloatEquals(point.x, kiTunesUpperRight.x))
+  if (SKRealEquals(point.x, kiTunesUpperRight.x))
     return 1;
-  if (SKCGFloatEquals(point.x, kiTunesBottomLeft.x))
+  if (SKRealEquals(point.x, kiTunesBottomLeft.x))
     return 2;
-  if (SKCGFloatEquals(point.x, kiTunesBottomRight.x))
+  if (SKRealEquals(point.x, kiTunesBottomRight.x))
     return 3;
   
   return 5;

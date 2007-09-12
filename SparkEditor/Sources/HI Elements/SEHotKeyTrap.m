@@ -11,13 +11,13 @@
 #import <HotKeyToolKit/HotKeyToolKit.h>
 
 /* Trap shading */
-static NSImage *sBorderShading = nil;
+static CGLayerRef sBorderShading = nil;
 static NSDictionary *sTextStyle = nil; /* String style */
 static NSDictionary *sPlaceholderStyle = nil; /* Placeholder style */
 
 static CGColorRef sShadowColor = NULL;
 
-static NSImage *_HKCreateShading(NSControlTint tint);
+static CGLayerRef _HKCreateShading(CGContextRef ctxt, NSControlTint tint);
 
 @interface SEHotKeyTrap (SEPrivate)
 - (void)save;
@@ -34,7 +34,6 @@ static NSImage *_HKCreateShading(NSControlTint tint);
 + (void)initialize {
   // Do it once
   if (self == [SEHotKeyTrap class]) {
-    sBorderShading = [_HKCreateShading([NSColor currentControlTint]) retain];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didChangeControlTint:)
                                                  name:NSControlTintDidChangeNotification
@@ -55,8 +54,8 @@ static NSImage *_HKCreateShading(NSControlTint tint);
 }
 /* Change default shading */
 + (void)didChangeControlTint:(NSNotification *)notif {
-  [sBorderShading release];
-  sBorderShading = [_HKCreateShading([NSColor currentControlTint]) retain];
+  CGLayerRelease(sBorderShading);
+  sBorderShading = nil;
 }
 
 - (void)dealloc {
@@ -212,7 +211,10 @@ static NSImage *_HKCreateShading(NSControlTint tint);
     CGContextAddPath(ctxt, border);
     CGContextEOClip(ctxt);
     
-    [sBorderShading drawInRect:bounds fromRect:NSMakeRect(0, 0, 32, kHKTrapHeight) operation:NSCompositeSourceOver fraction:1];
+    if (!sBorderShading)
+      sBorderShading = _HKCreateShading(ctxt, [NSColor currentControlTint]);
+    
+    CGContextDrawLayerInRect(ctxt, CGRectFromNSRect(bounds), sBorderShading);
     
     CGContextEndTransparencyLayer(ctxt);
     /* Restore clipping path */
@@ -580,7 +582,7 @@ void __HKTrapShadingFunction (void *pinfo, const CGFloat *in, CGFloat *out) {
   *out++ = 1;
 }
 
-static NSImage *_HKCreateShading(NSControlTint tint) {
+CGLayerRef _HKCreateShading(CGContextRef ctxt, NSControlTint tint) {
   switch (tint) {
     case NSGraphiteControlTint:
       _shader = hk_graphite;
@@ -593,7 +595,7 @@ static NSImage *_HKCreateShading(NSControlTint tint) {
       break;
   }
   
-  return SKCGCreateVerticalShadingImage(32, kHKTrapHeight, __HKTrapShadingFunction, NULL);
+  return SKCGCreateVerticalShadingLayer(ctxt, CGSizeMake(32, kHKTrapHeight), __HKTrapShadingFunction, NULL);
 }
 
 @implementation SEHotKeyTrap (NSAccessibility)
