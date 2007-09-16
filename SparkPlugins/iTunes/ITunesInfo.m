@@ -9,6 +9,7 @@
 #import "ITunesInfo.h"
 #import "ITunesAction.h"
 #import "ITunesStarView.h"
+#import "ITunesProgressView.h"
 
 #import <ShadowKit/SKFunctions.h>
 #import <ShadowKit/SKCGFunctions.h>
@@ -25,7 +26,7 @@ const ITunesVisual kiTunesDefaultSettings = {
   YES, kiTunesVisualDefaultPosition, 1.5,
   { 1, 1, 1, 1 },
   { 0, 0, 0, 0 },
-  { 6/255., 12/255., 18/255., .60 },
+  { 6/255., 12/255., 18/255., .65 },
   { 9/255., 18/255., 27/255., .85 },
 };
 
@@ -103,11 +104,18 @@ BOOL ITunesVisualIsEqualTo(const ITunesVisual *v1, const ITunesVisual *v2) {
   return YES;
 }
 
+/* disable multi shading */
+#define MULTI_SHADING 0
+
 @interface ITunesInfoView : NSView {
   @private
-  CGFloat border[4];
-  CGShadingRef shading;
-  SKSimpleShadingInfo info;
+  CGFloat _border[4];
+  CGLayerRef _shading;
+#if MULTI_SHADING
+  SKCGMultiShadingInfo *_info;
+#else
+  SKCGSimpleShadingInfo _info;
+#endif
 }
 
 - (void)setVisual:(const ITunesVisual *)visual;
@@ -309,6 +317,13 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
     iTunesGetTrackIntegerProperty(track, kiTunesRateKey, &rate);
   }
   [self setDuration:duration rate:rate];
+  
+  UInt32 progress = 0;
+  verify_noerr(iTunesGetPlayerPosition(&progress));
+  if (duration > 0)
+    [ibProgress setProgress:(CGFloat)progress / duration];
+  else
+    [ibProgress setProgress:0];
 }
 
 - (void)setOrigin:(NSPoint)origin {
@@ -326,6 +341,7 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
   
   [ibTime setTextColor:aColor];
   [ibRate setStarsColor:aColor];
+  [ibProgress setColor:aColor];
 }
 
 - (NSColor *)borderColor {
@@ -357,38 +373,86 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
 }
 @end
 
+#pragma mark -
+#pragma mark Color derivation
+#if MULTI_SHADING
+SK_INLINE
+CMColor __CMColorCreateRGB(CGFloat r, CGFloat g, CGFloat b) {
+  CMColor color = {
+rgb: {r * 65535, g * 65535, b * 65535} 
+  };
+  return color;
+}
+
+static
+void _iTunesDeriveColor(CGFloat *base, CGFloat *dest, CGFloat h, CGFloat s, CGFloat v) {
+  CMColor hsv;
+  CMColor rgb = __CMColorCreateRGB(base[0], base[1], base[2]);
+  
+  CMConvertRGBToHSV(&rgb, &hsv, 1);
+  hsv.hsv.hue = MIN(hsv.hsv.hue * h, 65535);
+  hsv.hsv.saturation = MIN(hsv.hsv.saturation * s, 65535);
+  hsv.hsv.value = MIN(hsv.hsv.value * v, 65535);
+  CMConvertHSVToRGB(&hsv, &rgb, 1);
+  
+  dest[0] = rgb.rgb.red / 65535.;
+  dest[1] = rgb.rgb.green / 65535.;
+  dest[2] = rgb.rgb.blue / 65535.;
+  dest[3] = base[3];
+}
+
+SK_INLINE
+void __iTunesDeriveTopColor(SKCGMultiShadingInfo *info) {
+  _iTunesDeriveColor(info->steps[0].rgba2, info->steps[0].rgba, 1.035, .502, 1.104);
+}
+SK_INLINE
+void __iTunesDeriveBottomColor(SKCGMultiShadingInfo *info) {
+  _iTunesDeriveColor(info->steps[1].rgba, info->steps[1].rgba2, .925, .827, 1.225);
+}
+SK_INLINE
+void __iTunesDeriveBothColors(SKCGMultiShadingInfo *info) {
+  __iTunesDeriveTopColor(info);
+  __iTunesDeriveBottomColor(info);
+}
+static
+void _iTunesDeriveAllColors(SKCGMultiShadingInfo *info) {
+  /* derive top from bottom */
+  _iTunesDeriveColor(info->steps[1].rgba, info->steps[0].rgba2, 1.004, .882, 1.030);
+  
+  /* derive shading */
+  __iTunesDeriveTopColor(info);
+  __iTunesDeriveBottomColor(info);
+}
+#endif
+
 @implementation ITunesInfoView
 
 - (id)initWithFrame:(NSRect)frame {
   if (self = [super initWithFrame:frame]) {
+#if MULTI_SHADING
+    _info = calloc(1, sizeof(*_info) + 2 * sizeof(*_info->steps));
+    _info->count = 2;
+    _info->steps[0].end = .40;
+    _info->steps[1].end = 1;
+#else
+    _info.fct = SKCGShadingSinFactorFunction;
+#endif
     [self setVisual:&kiTunesDefaultSettings];
   }
   return self;
 }
 
 - (void)dealloc {
-  if (shading)
-    CGShadingRelease(shading);
+  CGLayerRelease(_shading);
   [super dealloc];
 }
 
 - (void)clearShading {
-  if (shading) {
-    CGShadingRelease(shading);
-    shading = NULL;
+  if (_shading) {
+    CGLayerRelease(_shading);
+    _shading = NULL;
   }
   [self setNeedsDisplay:YES];
-}
-
-static
-void iTunesShadingFunction(void *pinfo, const CGFloat *in, CGFloat *out) {
-  CGFloat v;
-  SKSimpleShadingInfo *ctxt = pinfo;
-
-  v = *in;
-  for (int k = 0; k < 4; k++) {
-    *out++ = ctxt->start[k] - (ctxt->start[k] - ctxt->end[k]) * pow(sin(M_PI_2 * v), 2);
-  }
 }
 
 - (void)drawRect:(NSRect)aRect {
@@ -396,78 +460,123 @@ void iTunesShadingFunction(void *pinfo, const CGFloat *in, CGFloat *out) {
   
   CGRect rect = CGRectFromNSRect([self bounds]);
   
-  CGRect internal = rect;
-  internal.origin.x += 2;
-  internal.origin.y += 2;
-  internal.size.width -= 4;
-  internal.size.height -= 4;
+  CGRect internal = CGRectInset(rect, 2, 2);
   SKCGContextAddRoundRect(ctxt, internal, 6);
   
   CGContextSaveGState(ctxt);
   CGContextClip(ctxt);
-  if (!shading)
-    shading = SKCGCreateShading(CGPointMake(0, NSHeight([self bounds])), CGPointZero, iTunesShadingFunction, &info);
-  CGContextDrawShading(ctxt, shading);
+  if (!_shading) {
+#if MULTI_SHADING
+    _shading = SKCGLayerCreateWithVerticalShading(ctxt, CGSizeMake(64, NSHeight([self bounds])), true, SKCGShadingMultiShadingFunction, _info);
+#else
+    _shading = SKCGLayerCreateWithVerticalShading(ctxt, CGSizeMake(64, NSHeight([self bounds])), true, SKCGShadingSimpleShadingFunction, &_info);
+#endif
+  }
+  CGContextDrawLayerInRect(ctxt, CGRectFromNSRect([self bounds]), _shading);
   CGContextRestoreGState(ctxt);
   
   /* Border */
-  SKCGContextAddRoundRect(ctxt, rect, 8);
-  rect.origin.x += 3;
-  rect.origin.y += 3;
-  rect.size.width -= 6;
-  rect.size.height -= 6;
-  SKCGContextAddRoundRect(ctxt, rect, 5);
-  CGContextSetRGBFillColor(ctxt, border[0], border[1], border[2], border[3]);
-  CGContextDrawPath(ctxt, kCGPathEOFill);
+  if (_border[3] > 0) {
+    SKCGContextAddRoundRect(ctxt, rect, 8);
+    rect = CGRectInset(rect, 3, 3);
+    SKCGContextAddRoundRect(ctxt, rect, 5);
+    CGContextSetRGBFillColor(ctxt, _border[0], _border[1], _border[2], _border[3]);
+    CGContextDrawPath(ctxt, kCGPathEOFill);
+  }
 }
 
 #pragma mark -
 - (void)getVisual:(ITunesVisual *)visual {
-  __CopyCGColor(border, visual->border);
-  memcpy(visual->backbot, info.end, sizeof(visual->backbot));
-  memcpy(visual->backtop, info.start, sizeof(visual->backtop));
+  __CopyCGColor(_border, visual->border);
+#if MULTI_SHADING
+  memcpy(visual->backbot, _info->steps[1].rgba, sizeof(visual->backbot));
+  memcpy(visual->backtop, _info->steps[0].rgba2, sizeof(visual->backtop));
+#else
+  memcpy(visual->backbot, _info.end, sizeof(visual->backbot));
+  memcpy(visual->backtop, _info.start, sizeof(visual->backtop));
+#endif
 }
 
 - (void)setVisual:(const ITunesVisual *)visual {
-  __CopyColor(visual->border, border);  
-  memcpy(info.end, visual->backbot, sizeof(visual->backbot));
-  memcpy(info.start, visual->backtop, sizeof(visual->backtop));
+  __CopyColor(visual->border, _border);  
+#if MULTI_SHADING
+  memcpy(_info->steps[1].rgba, visual->backbot, sizeof(visual->backbot));
+  memcpy(_info->steps[0].rgba2, visual->backtop, sizeof(visual->backtop));
+  /* derive colors */
+  __iTunesDeriveBothColors(_info);
+#else
+  memcpy(_info.end, visual->backbot, sizeof(visual->backbot));
+    memcpy(_info.start, visual->backtop, sizeof(visual->backtop));
+#endif
   [self clearShading];
 }
 
 - (NSColor *)borderColor {
-  return [NSColor colorWithCalibratedRed:border[0] green:border[1] blue:border[2] alpha:border[3]];
+  return [NSColor colorWithCalibratedRed:_border[0] green:_border[1] blue:_border[2] alpha:_border[3]];
 }
 
 - (void)setBorderColor:(NSColor *)aColor {
-  __iTunesGetColorComponents(aColor, border);
+  __iTunesGetColorComponents(aColor, _border);
   [self setNeedsDisplay:YES];
 }
 - (NSColor *)backgroundColor {
-  return [NSColor colorWithCalibratedRed:info.end[0] green:info.end[1] blue:info.end[2] alpha:info.end[3]];
+#if MULTI_SHADING
+  return [NSColor colorWithCalibratedRed:_info->steps[1].rgba[0] green:_info->steps[1].rgba[1] 
+                                    blue:_info->steps[1].rgba[2] alpha:_info->steps[1].rgba[3]];
+#else
+  return [NSColor colorWithCalibratedRed:_info.end[0] green:_info.end[1] blue:_info.end[2] alpha:_info.end[3]];
+#endif
 }
 - (void)setBackgroundColor:(NSColor *)aColor {
-  __iTunesGetColorComponents(aColor, info.end);
-  info.start[0] = 0.75 + info.end[0] * 0.25;
-  info.start[1] = 0.75 + info.end[1] * 0.25;
-  info.start[2] = 0.75 + info.end[2] * 0.25;
-  info.start[3] = 0.75 + info.end[3] * 0.25;
+#if MULTI_SHADING
+  __iTunesGetColorComponents(aColor, _info->steps[1].rgba);
+  /* Derive all colors */
+  _iTunesDeriveAllColors(_info);
+#else
+  __iTunesGetColorComponents(aColor, _info.end);
+  _info.start[0] = 0.75 + _info.end[0] * 0.25;
+  _info.start[1] = 0.75 + _info.end[1] * 0.25;
+  _info.start[2] = 0.75 + _info.end[2] * 0.25;
+  _info.start[3] = 0.75 + _info.end[3] * 0.25;
+#endif
   [self clearShading];
 }
 
 - (NSColor *)backgroundTopColor {
-  return [NSColor colorWithCalibratedRed:info.start[0] green:info.start[1] blue:info.start[2] alpha:info.start[3]];
+#if MULTI_SHADING
+  return [NSColor colorWithCalibratedRed:_info->steps[0].rgba2[0] green:_info->steps[0].rgba2[1] 
+                                    blue:_info->steps[0].rgba2[2] alpha:_info->steps[0].rgba2[3]];
+#else
+  return [NSColor colorWithCalibratedRed:_info.start[0] green:_info.start[1] blue:_info.start[2] alpha:_info.start[3]];
+#endif
 }
 - (void)setBackgroundTopColor:(NSColor *)aColor {
-  __iTunesGetColorComponents(aColor, info.start);
+#if MULTI_SHADING
+  __iTunesGetColorComponents(aColor, _info->steps[0].rgba2);
+  /* derive top color */
+  __iTunesDeriveTopColor(_info);
+#else
+  __iTunesGetColorComponents(aColor, _info.start);
+#endif
   [self clearShading];
 }
 
 - (NSColor *)backgroundBottomColor {
-  return [NSColor colorWithCalibratedRed:info.end[0] green:info.end[1] blue:info.end[2] alpha:info.end[3]];
+#if MULTI_SHADING
+  return [NSColor colorWithCalibratedRed:_info->steps[1].rgba[0] green:_info->steps[1].rgba[1] 
+                                    blue:_info->steps[1].rgba[2] alpha:_info->steps[1].rgba[3]];
+#else
+  return [NSColor colorWithCalibratedRed:_info.end[0] green:_info.end[1] blue:_info.end[2] alpha:_info.end[3]];
+#endif
 }
 - (void)setBackgroundBottomColor:(NSColor *)aColor {
-  __iTunesGetColorComponents(aColor, info.end);
+#if MULTI_SHADING
+  __iTunesGetColorComponents(aColor, _info->steps[1].rgba);
+  /* derive bottom color */
+  __iTunesDeriveBottomColor(_info);
+#else
+  __iTunesGetColorComponents(aColor, _info.end);
+#endif
   [self clearShading];
 }
 

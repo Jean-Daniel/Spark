@@ -343,15 +343,13 @@ kAEShowShutdownDialog         = 'rsdn'
 }
 
 - (void)screenSaver {
-  if (SKSystemMajorVersion() >= 10 && SKSystemMinorVersion() >= 4) {
-    FSRef engine;
-    if ([kScreenSaverEngine getFSRef:&engine]) {
-      LSLaunchFSRefSpec spec;
-      memset(&spec, 0, sizeof(spec));
-      spec.appRef = &engine;
-      spec.launchFlags = kLSLaunchDefaults;
-      LSOpenFromRefSpec(&spec, nil);
-    }
+  FSRef engine;
+  if ([kScreenSaverEngine getFSRef:&engine]) {
+    LSLaunchFSRefSpec spec;
+    memset(&spec, 0, sizeof(spec));
+    spec.appRef = &engine;
+    spec.launchFlags = kLSLaunchDefaults;
+    LSOpenFromRefSpec(&spec, nil);
   }
 }
 

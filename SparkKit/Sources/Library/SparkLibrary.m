@@ -263,6 +263,10 @@ static SparkApplication *sSystem = nil;
   
   SKSetFlag(sp_slFlags.loaded, NO);
   
+  /* Preferences */
+  [sp_prefs release];
+  sp_prefs = nil;
+  
   /* Release relation table */
   [sp_relations setLibrary:nil];
   [sp_relations release];
@@ -270,7 +274,7 @@ static SparkApplication *sSystem = nil;
   
   /* Release defaults libraries */
   NSUInteger idx = kSparkSetCount;
-  /* WARNING: List Set keep weak ref on other sets,
+  /* WARNING: The 'List Set' keep weak ref on other sets,
     so we have to release it first */
   while (idx-- > 0) {
     [sp_objects[idx] setLibrary:nil];
@@ -286,6 +290,10 @@ static SparkApplication *sSystem = nil;
 #pragma mark Read/Write
 - (NSFileWrapper *)fileWrapper:(NSError **)outError {
   if (outError) *outError = nil;
+  
+  /* if not loaded, return disk representation */
+  if (![self isLoaded])
+    return [self path] ? [[[NSFileWrapper alloc] initWithPath:[self path]] autorelease] : nil;
   
   NSFileWrapper *library = [[NSFileWrapper alloc] initDirectoryWithFileWrappers:nil];
   [library setFilename:kSparkLibraryDefaultFileName];
@@ -326,6 +334,14 @@ static SparkApplication *sSystem = nil;
   [file setPreferredFilename:kSparkEntriesFile];
   [library addFileWrapper:file];
   
+  /* Preferences */
+  NSData *data = [NSPropertyListSerialization dataFromPropertyList:sp_prefs
+                                                            format:NSPropertyListXMLFormat_v1_0
+                                                  errorDescription:nil];
+  if (data)
+    [library addRegularFileWithContents:data preferredFilename:kSparkLibraryPreferencesFile];
+  
+  
   /* Library infos */
   NSString *uuid = sp_uuid ? (id)CFUUIDCreateString(kCFAllocatorDefault, sp_uuid) : nil;
   NSDictionary *info = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -333,9 +349,9 @@ static SparkApplication *sSystem = nil;
     uuid, @"UUID",
     nil];
   [uuid release];
-  NSData *data = [NSPropertyListSerialization dataFromPropertyList:info
-                                                            format:NSPropertyListXMLFormat_v1_0
-                                                  errorDescription:nil];
+  data = [NSPropertyListSerialization dataFromPropertyList:info
+                                                    format:NSPropertyListXMLFormat_v1_0
+                                          errorDescription:nil];
   require(data != nil, bail);
   
   [library addRegularFileWithContents:data preferredFilename:@"Info.plist"];
@@ -355,11 +371,6 @@ bail:
   NSFileWrapper* wrapper = [self fileWrapper:nil];
   if (wrapper && [wrapper writeToFile:file atomically:flag updateFilenames:NO]) {
     [sp_icons synchronize];
-    /* if pending preferences, save them */
-    if (sp_prefs) {
-      SparkLibrarySetPreferences(self, sp_prefs);
-      [self setPreferences:nil];
-    }
     return YES;
   }
   return NO;  
@@ -435,6 +446,10 @@ bail:
   NSParameterAssert(![self isLoaded]);
   
   BOOL result = NO;
+  
+  /* Preferences */
+  sp_prefs = [[NSMutableDictionary alloc] init];
+  
   /* Create icon manager only for editor */
   if (SparkGetCurrentContext() == kSparkEditorContext && !sp_icons) {
     sp_icons = [[SparkIconManager alloc] initWithLibrary:self path:SparkLibraryIconFolder(self)];
@@ -511,6 +526,17 @@ bail:
 - (BOOL)readLibraryFromFileWrapper:(NSFileWrapper *)wrapper error:(NSError **)error {
   BOOL ok = NO;
   NSDictionary *files = [wrapper fileWrappers];
+  
+  /* load preferences */
+  NSData *data = [[files objectForKey:kSparkLibraryPreferencesFile] regularFileContents];
+  if (data) {
+    NSDictionary *prefs = [NSPropertyListSerialization propertyListFromData:data 
+                                                           mutabilityOption:NSPropertyListImmutable
+                                                                     format:NULL
+                                                           errorDescription:NULL];
+    if (prefs)
+      [sp_prefs setDictionary:prefs];
+  }
   
   SparkObjectSet *set = [self actionSet];
   ok = [set readFromFileWrapper:[files objectForKey:kSparkActionsFile] error:error];
@@ -721,75 +747,6 @@ NSString *SparkDefaultLibraryPath(void) {
   return [SparkLibraryFolder() stringByAppendingPathComponent:kSparkLibraryDefaultFileName];
 }
 
-#pragma mark Library Preferences
-static
-NSMutableDictionary *sLibraryPreferences = nil;
-
-static
-void SparkLibraryPreferencesInit() {
-  /* Load preferences file */
-  if (!sLibraryPreferences) {
-    NSString *path = [SparkLibraryFolder() stringByAppendingPathComponent:kSparkLibraryPreferencesFile];
-    if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
-      NSData *data = [[NSData alloc] initWithContentsOfFile:path];
-      if (data) {
-        sLibraryPreferences = [NSPropertyListSerialization propertyListFromData:data
-                                                               mutabilityOption:NSPropertyListMutableContainers
-                                                                         format:NULL errorDescription:NULL];
-        [sLibraryPreferences retain];
-        [data release];
-      }
-    } // file exists
-    if (!sLibraryPreferences) {
-      DLog(@"Create Library Preferences");
-      sLibraryPreferences = [[NSMutableDictionary alloc] init];
-    }
-  }
-}
-
-BOOL SparkLibraryPreferencesSynchronize() {
-  if (SparkGetCurrentContext() != kSparkEditorContext) {
-    WLog(@"Try to sync library preferences but invalid context");
-    return NO;
-  }
-  NSString *path = [SparkLibraryFolder() stringByAppendingPathComponent:kSparkLibraryPreferencesFile];
-  NSData *data = [NSPropertyListSerialization dataFromPropertyList:sLibraryPreferences 
-                                                            format:NSPropertyListBinaryFormat_v1_0
-                                                  errorDescription:NULL];
-  return [data writeToFile:path atomically:YES];
-}
-
-NSMutableDictionary *SparkLibraryGetPreferences(SparkLibrary *aLibrary) {
-  NSMutableDictionary *prefs = nil;
-  NSString *uuid = _SparkLibraryCopyUUIDString(aLibrary);
-  if (uuid) {
-    prefs = [sLibraryPreferences objectForKey:uuid];
-    if (!prefs) {
-      prefs = [[NSMutableDictionary alloc] init];
-      [sLibraryPreferences setObject:prefs forKey:uuid];
-      [prefs release];
-    }
-    [uuid release];
-  }
-  return prefs;
-}
-
-void SparkLibrarySetPreferences(SparkLibrary *aLibrary, NSDictionary *preferences) {
-  NSString *uuid = _SparkLibraryCopyUUIDString(aLibrary);
-  if (uuid) {
-    if (preferences) {
-      NSMutableDictionary *prefs = [preferences mutableCopy];
-      if (prefs) {
-        [sLibraryPreferences setObject:prefs forKey:uuid];
-        [prefs release];
-      }
-    } else {
-      [sLibraryPreferences removeObjectForKey:uuid];
-    }
-    [uuid release];
-  }
-}
-
 #pragma mark Multi Library Support
 static
 NSMutableArray *sLibraries = nil;
@@ -821,15 +778,6 @@ void SparkLibraryCleanup() {
                                                         tag:NULL];
       }
     }
-    /* Cleanup Libraries preferences */
-    NSString *key;
-    NSEnumerator *keys = [[sLibraryPreferences allKeys] objectEnumerator];
-    while (key = [keys nextObject]) {
-      if (![uuids containsObject:key]) {
-        DLog(@"Remove preferences: %@", key);
-        [sLibraryPreferences removeObjectForKey:key];
-      }
-    }
     [uuids release];
   }
 }
@@ -853,8 +801,6 @@ void SparkInitLibraries() {
       }
     }
   }
-  
-  SparkLibraryPreferencesInit();
   
   SparkLibraryCleanup();
 }

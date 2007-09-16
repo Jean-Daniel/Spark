@@ -59,68 +59,53 @@ NSShadow *sHighlightShadow = nil;
 @implementation SETableView
 
 - (void)dealloc {
-  CGLayerRelease(se_highlight);
   [super dealloc];
 }
 
 static const 
-SKSimpleShadingInfo sHighlightShadingInfo = {
-  {.659, .718, .804, 1},
-  {.610, .680, .770, 1},
+SKCGSimpleShadingInfo sHighlightShadingInfo = {
+  {.443, .522, .671, 1},
+  {.651, .690, .812, 1},
+  NULL,
+};
+
+static const
+SKCGSimpleShadingInfo sFocusShadingInfo = {
+  {.000, .312, .790, 1},
+  {.340, .606, .890, 1},
   NULL,
 };
 
 - (CGLayerRef)highlightedCellColor {
+  static CGLayerRef sHasFocus = nil;
   static CGLayerRef sHighlighted = nil;
   if (!sHighlighted) {
-    CGContextRef ctxt = [[NSGraphicsContext currentContext] graphicsPort];
-    sHighlighted = SKCGCreateVerticalShadingLayer(ctxt, CGSizeMake(64, [self rowHeight] + 2), SKCGSimpleShadingFunction, (void *)&sHighlightShadingInfo);
+    sHighlighted = SKCGLayerCreateWithVerticalShading([[NSGraphicsContext currentContext] graphicsPort],
+                                                      CGSizeMake(64, [self rowHeight] + 2), true, 
+                                                      SKCGShadingSimpleShadingFunction, &sHighlightShadingInfo);
+    /* border-top */
     CGContextRef gctxt = CGLayerGetContext(sHighlighted);
-    /* up line */
-    CGContextSetRGBStrokeColor(gctxt, .686, .741, .820, 1);
+    CGContextSetRGBStrokeColor(gctxt, .509, .627, .753, 1);
     CGPoint line[2] = {{0, .5}, {64, .5}};
     CGContextStrokeLineSegments(gctxt, line, 2);
-    /* bottom line */
-    CGContextSetRGBStrokeColor(gctxt, .588, .651, .745, 1);
-    CGPoint line2[] = {{0, [self rowHeight] + 1.5}, {64, [self rowHeight] + 1.5}};
-    CGContextStrokeLineSegments(gctxt, line2, 2);
   }
-  if (!se_highlight) {
-    [self setHighlightShading:[NSColor colorWithCalibratedRed:.340f
-                                                        green:.606f
-                                                         blue:.890f
-                                                        alpha:1]
-                       bottom:[NSColor colorWithCalibratedRed:0
-                                                        green:.312f
-                                                         blue:.790f
-                                                        alpha:1]
-                       border:[NSColor colorWithCalibratedRed:.239f
-                                                        green:.482f
-                                                         blue:.855f
-                                                        alpha:1]];
+  if (!sHasFocus) {
+    sHasFocus = SKCGLayerCreateWithVerticalShading([[NSGraphicsContext currentContext] graphicsPort], 
+                                                   CGSizeMake(64, [self rowHeight] + 2), true, 
+                                                   SKCGShadingSimpleShadingFunction, &sFocusShadingInfo);
+    /* border-top */
+    CGContextRef gctxt = CGLayerGetContext(sHasFocus);
+    CGContextSetRGBStrokeColor(gctxt, .271, .502, .784, 1);
+    CGPoint line[2] = {{0, .5}, {64, .5}};
+    CGContextStrokeLineSegments(gctxt, line, 2);
   }
-  return ([[self window] isKeyWindow] && [[self window] firstResponder] == self) ? se_highlight : sHighlighted;
-}
-
-- (void)setHighlightShading:(NSColor *)aColor bottom:(NSColor *)end border:(NSColor *)border {
-  SKSimpleShadingInfo ctxt;
-  ctxt.fct = NULL;
-  [[aColor colorUsingColorSpaceName:NSDeviceRGBColorSpace] getRed:&ctxt.start[0] green:&ctxt.start[1] blue:&ctxt.start[2] alpha:&ctxt.start[3]];
-  [[end colorUsingColorSpaceName:NSDeviceRGBColorSpace] getRed:&ctxt.end[0] green:&ctxt.end[1] blue:&ctxt.end[2] alpha:&ctxt.end[3]];
-  se_highlight = SKCGCreateVerticalShadingLayer([[NSGraphicsContext currentContext] graphicsPort], 
-                                                CGSizeMake(64, [self rowHeight] + 2), SKCGSimpleShadingFunction, &ctxt);
-  
-  CGFloat r, g, b, a;
-  [[border colorUsingColorSpaceName:NSDeviceRGBColorSpace] getRed:&r green:&g blue:&b alpha:&a];
-  CGContextRef gctxt = CGLayerGetContext(se_highlight);
-  CGContextSetRGBStrokeColor(gctxt, r, g, b, a);
-  CGPoint line[2] = {{0, .5}, {64, .5}};
-  CGContextStrokeLineSegments(gctxt, line, 2);
+  return ([[self window] isKeyWindow] && [[self window] firstResponder] == self) ? sHasFocus : sHighlighted;
 }
 
 - (void)highlightSelectionInClipRect:(NSRect)clipRect {
   CGContextRef ctxt = [[NSGraphicsContext currentContext] graphicsPort];
-  CGContextDrawLayerInRect(ctxt, CGRectFromNSRect([self rectOfRow:[self selectedRow]]), [self highlightedCellColor]);
+  CGRect rect = CGRectFromNSRect([self rectOfRow:[self selectedRow]]);
+  CGContextDrawLayerInRect(ctxt, rect, [self highlightedCellColor]);
 }
 
 /* Nasty private override */
@@ -134,10 +119,7 @@ SKSimpleShadingInfo sHighlightShadingInfo = {
     
     CGRect rect = CGRectFromNSRect([self rectOfRow:row]);
     CGContextClipToRect(ctxt, rect);
-    rect.origin.x += 1;
-    rect.origin.y += 1;
-    rect.size.width -= 2;
-    rect.size.height -= 2;
+    rect = CGRectInset(rect, 1, 1);
     
     /* draw background */
     SKCGContextAddRoundRect(ctxt, rect, 5);

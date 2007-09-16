@@ -8,16 +8,10 @@
 
 #import "HKKeyMap.h"
 
-#import "HKHotKey.h"
-
 #include <Carbon/Carbon.h>
-
-#if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_4
-#define OSAtomicIncrement32(ptr)  *ptr = *ptr + 1
-#else
 #include <libkern/OSAtomic.h>
-#endif
 
+#import "HKHotKey.h"
 #import "HKHotKeyManager.h"
 #import "HKHotKeyRegister.h"
 
@@ -75,7 +69,7 @@ static EventHandlerUPP kHKHandlerUPP = NULL;
     } else {
       hk_handler = ref;
       /* HKHotKey => EventHotKeyRef */
-      hk_refs = NSCreateMapTable(NSObjectMapKeyCallBacks, NSNonOwnedPointerMapValueCallBacks, 0);
+      hk_refs = NSCreateMapTable(NSNonRetainedObjectMapKeyCallBacks, NSNonOwnedPointerMapValueCallBacks, 0);
       /* UInt32 uid => HKHotKey */
       hk_keys = NSCreateMapTable(NSIntMapKeyCallBacks, NSNonRetainedObjectMapValueCallBacks, 0);
     }
@@ -96,15 +90,15 @@ static EventHandlerUPP kHKHandlerUPP = NULL;
   if ([key isValid] && !NSMapGet(hk_refs, key)) {
     HKModifier mask = [key nativeModifier];
     HKKeycode keycode = [key keycode];
-    UInt32 uid = OSAtomicIncrement32(&gHotKeyUID);
+    NSUInteger uid = OSAtomicIncrement32(&gHotKeyUID);
     if (HKTraceHotKeyEvents) {
       NSLog(@"Register HotKey %@", key);
     }
-    EventHotKeyID hotKeyId = { kHKHotKeyEventSignature, uid };
+    EventHotKeyID hotKeyId = { kHKHotKeyEventSignature, (UInt32)uid };
     EventHotKeyRef ref = HKRegisterHotKey(keycode, mask, hotKeyId);
     if (ref) {
       NSMapInsert(hk_refs, key, ref);
-      NSMapInsert(hk_keys, (void *)(intptr_t)uid, key);
+      NSMapInsert(hk_keys, (void *)uid, key);
       return YES;
     }
   }
@@ -112,7 +106,7 @@ static EventHandlerUPP kHKHandlerUPP = NULL;
 }
 
 - (BOOL)unregisterHotKey:(HKHotKey *)key {
-  if ([key isRegistred]) {
+  if (NSMapGet(hk_refs, key) /* [key isRegistred] */) {
     EventHotKeyRef ref = NSMapGet(hk_refs, key);
     NSAssert(ref != nil, @"Unable to find Carbon HotKey Handler");
     

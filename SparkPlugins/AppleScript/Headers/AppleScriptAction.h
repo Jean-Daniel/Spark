@@ -13,10 +13,11 @@ NSString * const kASActionBundleIdentifier;
 
 #define AppleScriptActionBundle		[NSBundle bundleWithIdentifier:kASActionBundleIdentifier]
 
-@class SKAlias;
+@class SKAlias, OSAScript;
 @interface AppleScriptAction : SparkAction <NSCoding, NSCopying> {
   @private
   SKAlias *as_alias;
+  OSAScript *as_script;
 }
 
 - (NSString *)file;

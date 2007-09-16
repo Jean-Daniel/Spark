@@ -31,23 +31,34 @@
 }
 
 - (void)configureAction {
+  /* if text */
   NSString *str = [ibText string];
   [[self sparkAction] setString:str];
 }
 
+#pragma mark -
+- (void)resetFormatter {
+  [self willChangeValueForKey:@"sampleDate"];
+  [self willChangeValueForKey:@"rawDateFormat"];
+  if (ta_formatter)
+    CFRelease(ta_formatter);
+  
+  /* Create date formatter */
+  CFLocaleRef locale = CFLocaleCopyCurrent();
+  ta_formatter = CFDateFormatterCreate(kCFAllocatorDefault, locale, 
+                                       TADateFormatterStyle(ta_styles), TATimeFormatterStyle(ta_styles));
+  if (locale) CFRelease(locale);
+  
+  [ta_format release];
+  ta_format = [(id)CFDateFormatterGetFormat(ta_formatter) retain];
+  [self didChangeValueForKey:@"rawDateFormat"];
+  [self didChangeValueForKey:@"sampleDate"];
+}
+
 /* date format */
 - (NSString *)sampleDate {
-  if (!ta_formatter) {
-    /* Create date formatter */
-    CFLocaleRef locale = CFLocaleCopyCurrent();
-    ta_formatter = CFDateFormatterCreate(kCFAllocatorDefault, locale, 
-                                         TADateFormatterStyle(ta_styles), TATimeFormatterStyle(ta_styles));
-    if (locale) CFRelease(locale);
-    
-    if (ta_format)
-      CFDateFormatterSetFormat(ta_formatter, (CFStringRef)ta_format);
-  }
-  
+  if (!ta_formatter)
+    [self resetFormatter];
   NSString *str = (id)CFDateFormatterCreateStringWithAbsoluteTime(kCFAllocatorDefault, ta_formatter, CFAbsoluteTimeGetCurrent());
   return [str autorelease];
 }
@@ -56,43 +67,33 @@
   return TADateFormatterStyle(ta_styles);
 }
 - (void)setDateFormat:(NSInteger)style {
-  [self willChangeValueForKey:@"sampleDate"];
   ta_styles = TASetDateFormatterStyle(ta_styles, style);
-  if (ta_formatter) {
-    CFRelease(ta_formatter);
-    ta_formatter = NULL;
-  }
-  [self didChangeValueForKey:@"sampleDate"];
+  [self resetFormatter];
 }
 
 - (NSInteger)timeFormat {
   return TATimeFormatterStyle(ta_styles);
 }
 - (void)setTimeFormat:(NSInteger)style {
-  [self willChangeValueForKey:@"sampleDate"];
   ta_styles = TASetTimeFormatterStyle(ta_styles, style);
-  if (ta_formatter) {
-    CFRelease(ta_formatter);
-    ta_formatter = NULL;
-  }
-  [self didChangeValueForKey:@"sampleDate"];
+  [self resetFormatter];
 }
 
 - (NSString *)rawDateFormat {
   return ta_format;
 }
 - (void)setRawDateFormat:(NSString *)format {
-  [self willChangeValueForKey:@"sampleDate"];
-  SKSetterCopy(ta_format, format);
-  if (ta_formatter) {
-    if (format && [format length]) {
-      CFDateFormatterSetFormat(ta_formatter,(CFStringRef)format);
-    } else {
-      CFRelease(ta_formatter);
-      ta_formatter = NULL;
-    }
+  if (format != ta_format && ![format isEqualToString:ta_format]) {
+    [self willChangeValueForKey:@"sampleDate"];
+    [self willChangeValueForKey:@"dateFormat"];
+    [self willChangeValueForKey:@"timeFormat"];
+    [ta_format release];
+    ta_format = [format copy];
+    CFDateFormatterSetFormat(ta_formatter, (CFStringRef)format ? : CFSTR(""));
+    [self didChangeValueForKey:@"timeFormat"];
+    [self didChangeValueForKey:@"dateFormat"];
+    [self didChangeValueForKey:@"sampleDate"];
   }
-  [self didChangeValueForKey:@"sampleDate"];
 }
 
 @end

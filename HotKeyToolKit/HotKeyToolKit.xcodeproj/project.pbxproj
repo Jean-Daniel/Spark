@@ -32,6 +32,9 @@
 		98643E630A556A1100260086 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
 		98643F0E0A556F4500260086 /* HKKeyMapTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 985B6D1A0719EDCC0073D36F /* HKKeyMapTestCase.m */; };
 		98643F130A556F4E00260086 /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* HotKeyToolKit.framework */; };
+		98902C750C9B243700FC0A4D /* HKHotKeyTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 985B62EC0719E1750073D36F /* HKHotKeyTestCase.m */; };
+		98902C7C0C9B244900FC0A4D /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF7D6F0864538C007BC81A /* SenTestingKit.framework */; };
+		98902D780C9B2D6B00FC0A4D /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98DD3DAC0A57B1B600F059E5 /* IOKit.framework */; };
 		98B703D10A86146400DB692D /* HKBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 98B703D00A86146400DB692D /* HKBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		98C61C2F0A5814130004E6EF /* Runner.m in Sources */ = {isa = PBXBuildFile; fileRef = 98E204820A56FDFC00EB74E1 /* Runner.m */; };
 		98C61C3C0A5814430004E6EF /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* HotKeyToolKit.framework */; };
@@ -42,7 +45,6 @@
 		98DD3FE30A57C2A200F059E5 /* ModifierMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 98DD3FE20A57C2A200F059E5 /* ModifierMap.m */; };
 		98DD42460A57C9BC00F059E5 /* HKEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 98DD42450A57C9BC00F059E5 /* HKEvent.m */; };
 		98DD424A0A57C9C800F059E5 /* HKEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 98DD42490A57C9C800F059E5 /* HKEvent.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		98DD467F0A57ED3E00F059E5 /* HKEventCompat.m in Sources */ = {isa = PBXBuildFile; fileRef = 98DD467E0A57ED3E00F059E5 /* HKEventCompat.m */; };
 		98E204AB0A56FE8700EB74E1 /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* HotKeyToolKit.framework */; };
 		98E204B40A56FE9300EB74E1 /* Runner.m in Sources */ = {isa = PBXBuildFile; fileRef = 98E204820A56FDFC00EB74E1 /* Runner.m */; };
 		98E204CB0A56FEF500EB74E1 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
@@ -112,7 +114,7 @@
 		98643F010A556F2200260086 /* Test-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Test-Info.plist"; sourceTree = "<group>"; };
 		9864CB72060D11DD00228F30 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
 		98B703D00A86146400DB692D /* HKBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = HKBase.h; sourceTree = "<group>"; };
-		98C61C1A0A5813EB0004E6EF /* UITester.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = UITester.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		98C61C1A0A5813EB0004E6EF /* UITester.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UITester.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		98C61C1C0A5813EB0004E6EF /* UITester-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "UITester-Info.plist"; sourceTree = "<group>"; };
 		98C61C650A5814C50004E6EF /* UITester.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = UITester.nib; sourceTree = "<group>"; };
 		98DD082E0A8A8F1D0082AF03 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Keyboard.strings; sourceTree = "<group>"; };
@@ -120,7 +122,6 @@
 		98DD3FE20A57C2A200F059E5 /* ModifierMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ModifierMap.m; sourceTree = "<group>"; };
 		98DD42450A57C9BC00F059E5 /* HKEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = HKEvent.m; sourceTree = "<group>"; };
 		98DD42490A57C9C800F059E5 /* HKEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = HKEvent.h; sourceTree = "<group>"; };
-		98DD467E0A57ED3E00F059E5 /* HKEventCompat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = HKEventCompat.m; sourceTree = "<group>"; };
 		98E204820A56FDFC00EB74E1 /* Runner.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = Runner.m; sourceTree = "<group>"; };
 		98E204A00A56FE6500EB74E1 /* Runner */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Runner; sourceTree = BUILT_PRODUCTS_DIR; };
 		98EF7D6F0864538C007BC81A /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = /System/Library/Frameworks/SenTestingKit.framework; sourceTree = "<absolute>"; };
@@ -161,6 +162,8 @@
 			files = (
 				98E204CB0A56FEF500EB74E1 /* Cocoa.framework in Frameworks */,
 				98E204AB0A56FE8700EB74E1 /* HotKeyToolKit.framework in Frameworks */,
+				98902C7C0C9B244900FC0A4D /* SenTestingKit.framework in Frameworks */,
+				98902D780C9B2D6B00FC0A4D /* IOKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -219,7 +222,6 @@
 				984426CD05F9430700551005 /* HotKeyToolKit.h */,
 				984426C605F9430700551005 /* Headers */,
 				98DD42450A57C9BC00F059E5 /* HKEvent.m */,
-				98DD467E0A57ED3E00F059E5 /* HKEventCompat.m */,
 				984426D905F943A100551005 /* HKHotKey.m */,
 				984426D805F943A100551005 /* HKKeyMap.m */,
 				984426DC05F943A100551005 /* HKTrapWindow.m */,
@@ -501,7 +503,6 @@
 				984426E005F943A100551005 /* KeyMap.m in Sources */,
 				98DD3FE30A57C2A200F059E5 /* ModifierMap.m in Sources */,
 				982B010D05FE954600E8776D /* HKKeyboardUtils.m in Sources */,
-				98DD467F0A57ED3E00F059E5 /* HKEventCompat.m in Sources */,
 				85FA5D570BCE526C0060584C /* TISKeyMap.m in Sources */,
 				85FA5D810BCE57690060584C /* KLKeyMap.m in Sources */,
 			);
@@ -529,6 +530,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				98E204B40A56FE9300EB74E1 /* Runner.m in Sources */,
+				98902C750C9B243700FC0A4D /* HKHotKeyTestCase.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -576,8 +578,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 305;
-				DYLIB_COMPATIBILITY_VERSION = 2;
-				DYLIB_CURRENT_VERSION = 305;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = "${CURRENT_PROJECT_VERSION}";
 				FRAMEWORK_VERSION = A;
 				GCC_DYNAMIC_NO_PIC = NO;
 				INFOPLIST_FILE = Info.plist;
@@ -587,7 +589,6 @@
 					"$(OTHER_LDFLAGS_$(CURRENT_ARCH))",
 					"-seg1addr",
 					0xD0000000,
-					"-header-pad_max_install_names",
 				);
 				PRODUCT_NAME = HotKeyToolKit;
 			};
@@ -604,6 +605,10 @@
 		98643F090A556F2300260086 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR_QUOTED)",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				INFOPLIST_FILE = "Test-Info.plist";
@@ -622,6 +627,10 @@
 		98643F0A0A556F2300260086 /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR_QUOTED)",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				INFOPLIST_FILE = "Test-Info.plist";
@@ -640,6 +649,10 @@
 		98643F0B0A556F2300260086 /* Universal Binary */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR_QUOTED)",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				INFOPLIST_FILE = "Test-Info.plist";
@@ -659,8 +672,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 305;
-				DYLIB_COMPATIBILITY_VERSION = 2;
-				DYLIB_CURRENT_VERSION = 305;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = "${CURRENT_PROJECT_VERSION}";
 				FRAMEWORK_VERSION = A;
 				GCC_DYNAMIC_NO_PIC = NO;
 				INFOPLIST_FILE = Info.plist;
@@ -670,7 +683,6 @@
 					"$(OTHER_LDFLAGS_$(CURRENT_ARCH))",
 					"-seg1addr",
 					0xD0000000,
-					"-header-pad_max_install_names",
 				);
 				PRODUCT_NAME = HotKeyToolKit;
 			};
@@ -714,28 +726,26 @@
 		98E204C40A56FEDD00EB74E1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(DEVELOPER_FRAMEWORKS_DIR)\"";
 				INSTALL_PATH = "$(HOME)/bin";
 				PRODUCT_NAME = Runner;
+				ZERO_LINK = NO;
 			};
 			name = Debug;
 		};
 		98E204C50A56FEDD00EB74E1 /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				INSTALL_PATH = "$(HOME)/bin";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 				);
-				PREBINDING = NO;
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(DEVELOPER_FRAMEWORKS_DIR)\"";
+				INSTALL_PATH = "$(HOME)/bin";
 				PRODUCT_NAME = Runner;
 				ZERO_LINK = NO;
 			};
@@ -744,20 +754,14 @@
 		98E204C60A56FEDD00EB74E1 /* Universal Binary */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				INSTALL_PATH = "$(HOME)/bin";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 				);
-				PREBINDING = NO;
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(DEVELOPER_FRAMEWORKS_DIR)\"";
+				INSTALL_PATH = "$(HOME)/bin";
 				PRODUCT_NAME = Runner;
-				ZERO_LINK = YES;
+				ZERO_LINK = NO;
 			};
 			name = "Universal Binary";
 		};
@@ -765,8 +769,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 305;
-				DYLIB_COMPATIBILITY_VERSION = 2;
-				DYLIB_CURRENT_VERSION = 305;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = "${CURRENT_PROJECT_VERSION}";
 				FRAMEWORK_VERSION = A;
 				GCC_DYNAMIC_NO_PIC = NO;
 				INFOPLIST_FILE = Info.plist;
@@ -793,8 +797,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 305;
-				DYLIB_COMPATIBILITY_VERSION = 2;
-				DYLIB_CURRENT_VERSION = 305;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = "${CURRENT_PROJECT_VERSION}";
 				FRAMEWORK_VERSION = A;
 				GCC_DYNAMIC_NO_PIC = NO;
 				INFOPLIST_FILE = Info.plist;
@@ -804,7 +808,6 @@
 					"$(OTHER_LDFLAGS_$(CURRENT_ARCH))",
 					"-seg1addr",
 					0xD0000000,
-					"-header-pad_max_install_names",
 				);
 				PRODUCT_NAME = HotKeyToolKit;
 			};
@@ -813,6 +816,10 @@
 		98EFD03E0B58448D00AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR_QUOTED)",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				INFOPLIST_FILE = "Test-Info.plist";
@@ -831,20 +838,12 @@
 		98EFD03F0B58448D00AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				INSTALL_PATH = "$(HOME)/bin";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 				);
-				PREBINDING = NO;
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(DEVELOPER_FRAMEWORKS_DIR)\"";
+				INSTALL_PATH = "$(HOME)/bin";
 				PRODUCT_NAME = Runner;
 				ZERO_LINK = NO;
 			};

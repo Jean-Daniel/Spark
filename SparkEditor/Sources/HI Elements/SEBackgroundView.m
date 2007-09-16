@@ -11,9 +11,9 @@
 #import <ShadowKit/SKCGFunctions.h>
 
 static const 
-SKSimpleShadingInfo kSETopShadingInfo = {
-{.508, .508, .508, 1},
+SKCGSimpleShadingInfo kSETopShadingInfo = {
 {.771, .771, .771, 1},
+{.508, .508, .508, 1},
   NULL,
 };
 
@@ -22,7 +22,6 @@ static const CGFloat se_top = 46;
 static const CGFloat se_bottom = 35;
 
 static CGLayerRef sSETopShadingImage = nil;
-static CGLayerRef sSEBottomShadingImage = nil;
 
 @implementation SEBackgroundView
 
@@ -68,7 +67,7 @@ static CGLayerRef sSEBottomShadingImage = nil;
       gradient.origin.x += 1;
       gradient.size.width -= 2;
       if (!sSETopShadingImage)
-        sSETopShadingImage = SKCGCreateVerticalShadingLayer(ctxt, CGSizeMake(128, se_top), SKCGSimpleShadingFunction, (void *)&kSETopShadingInfo);
+        sSETopShadingImage = SKCGLayerCreateWithVerticalShading(ctxt, CGSizeMake(128, se_top), true, SKCGShadingSimpleShadingFunction, (void *)&kSETopShadingInfo);
       CGContextDrawLayerInRect(ctxt, CGRectFromNSRect(gradient), sSETopShadingImage);
       
       CGContextSaveGState(ctxt);
@@ -80,17 +79,10 @@ static CGLayerRef sSEBottomShadingImage = nil;
       CGContextDrawLayerInRect(ctxt, CGRectMake(0, NSMaxY(bounds) - se_top, 1, se_top), sSETopShadingImage);
       CGContextDrawLayerInRect(ctxt, CGRectMake(NSMaxX(bounds) - 1, NSMaxY(bounds) - se_top, NSMaxX(bounds), se_top), sSETopShadingImage);
       CGContextRestoreGState(ctxt);
-      
-      //      [SETopShadingImage drawInRect:gradient fromRect:NSMakeRect(0, 0, 128, se_top) operation:NSCompositeSourceOver fraction:1];
-      //      [SETopShadingImage drawInRect:NSMakeRect(0, NSMaxY(bounds) - se_top, 1, se_top - 18) fromRect:NSMakeRect(0, 0, 1, se_top -18) operation:NSCompositeSourceOver fraction:1];
-      //      [SETopShadingImage drawInRect:NSMakeRect(NSMaxX(bounds) - 1, NSMaxY(bounds) - se_top, NSMaxX(bounds), se_top - 18) fromRect:NSMakeRect(0, 0, 1, se_top -18) operation:NSCompositeSourceOver fraction:1];
     }
     
     gradient = NSMakeRect(0, 0, NSMaxX(bounds), se_bottom);
     if (NSIntersectsRect(gradient, rect)) {
-      if (!sSEBottomShadingImage)
-        sSEBottomShadingImage = SKCGCreateVerticalShadingLayer(ctxt, CGSizeMake(128, se_top), SKCGSimpleShadingFunction, (void *)&kSETopShadingInfo);
-      
       CGContextDrawLayerInRect(ctxt, CGRectFromNSRect(gradient), sSETopShadingImage);
       
       CGContextSetGrayStrokeColor([[NSGraphicsContext currentContext] graphicsPort], .978, 1);

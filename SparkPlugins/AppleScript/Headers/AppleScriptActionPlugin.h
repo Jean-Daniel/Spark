@@ -8,22 +8,20 @@
 
 #import <SparkKit/SparkPluginAPI.h>
 
+@class OSAScript, OSAScriptController;
 @interface AppleScriptActionPlugin : SparkActionPlugIn {
-  IBOutlet id ibScript;
+  IBOutlet OSAScriptController *ibScriptController;
   @private
     NSString *as_file;
   int as_tidx;
 }
 
-- (IBAction)compile:(id)sender;
-
-- (IBAction)run:(id)sender;
 - (IBAction)open:(id)sender;
 - (IBAction)import:(id)sender;
 
 - (IBAction)launchEditor:(id)sender;
 
-- (NSAlert *)compileScript:(NSAppleScript *)script;
+- (NSAlert *)compileScript:(OSAScript *)script;
 
 - (NSString *)scriptFile;
 - (void)setScriptFile:(NSString *)aFile;
@@ -31,10 +29,4 @@
 - (int)selectedTab;
 - (void)setSelectedTab:(int)tab;
 
-@end
-
-@interface SourceView : NSTextView {
-}
-- (NSString *)source;
-- (void)setSource:(NSString *)src;
 @end

@@ -75,11 +75,12 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
     /* Force script system initialization */
     [NSScriptSuiteRegistry sharedScriptSuiteRegistry];
     /* Leopard Help hack */
-    if (SKSystemMajorVersion() <= 10 && SKSystemMinorVersion() >= 5) {
-      HKHotKey *help = [HKHotKey hotkeyWithKeycode:kVirtualHelpKey modifier:0];
+    if (SKSystemMajorVersion() == 10 && SKSystemMinorVersion() >= 5) {
+      HKHotKey *help = [[HKHotKey alloc] initWithKeycode:kVirtualHelpKey modifier:0];
       [help setTarget:self];
       [help setAction:@selector(handleHelpEvent:)];
       [help setRegistred:YES];
+      /* NOTE: do not release 'help': an hotkey is unregistred when deallocated */
     }
   }
   return self;
@@ -554,22 +555,23 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
 }
 
 - (IBAction)dumpLibrary:(id)sender {
-  NSMutableArray *library = [[NSMutableArray alloc] init];
-  SELibraryDocument *doc = SEGetDocumentForLibrary(SparkActiveLibrary());
-  SEEntryCache *cache = [doc cache];
-  SESparkEntrySet *entries = [cache entries];
-
-  SparkEntry *entry;
-  NSEnumerator *iter = [entries entryEnumerator];
-  while (entry = [iter nextObject]) {
-    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-    [entry serialize:dict];
-    [library addObject:dict];
-    [dict release];
-  }
-  
-  [library writeToFile:[@"~/Desktop/SparkLibrary.plist" stringByStandardizingPath] atomically:NO];
-  [library release];
+  SparkDumpEntries(SparkActiveLibrary());
+//  NSMutableArray *library = [[NSMutableArray alloc] init];
+//  SELibraryDocument *doc = SEGetDocumentForLibrary(SparkActiveLibrary());
+//  SEEntryCache *cache = [doc cache];
+//  SESparkEntrySet *entries = [cache entries];
+//
+//  SparkEntry *entry;
+//  NSEnumerator *iter = [entries entryEnumerator];
+//  while (entry = [iter nextObject]) {
+//    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+//    [entry serialize:dict];
+//    [library addObject:dict];
+//    [dict release];
+//  }
+//  
+//  [library writeToFile:[@"~/Desktop/SparkLibrary.plist" stringByStandardizingPath] atomically:NO];
+//  [library release];
 }
 //- (IBAction)openImporter:(id)sender {
 //  if (libraryWindow) {

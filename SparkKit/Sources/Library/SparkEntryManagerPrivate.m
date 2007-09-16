@@ -358,8 +358,8 @@ typedef struct {
   while (count-- > 0) {
     const SparkLibraryEntry *entry = CFArrayGetValueAtIndex(sp_entries, count);
     SparkLibraryEntry buffer = *entry;
-    buffer.flags &= kSparkPersistentFlags,
-      [data appendBytes:&buffer length:sizeof(buffer)];
+    buffer.flags &= kSparkPersistentFlagsMask;
+    [data appendBytes:&buffer length:sizeof(buffer)];
   } 
   
   NSFileWrapper *wrapper = [[NSFileWrapper alloc] initRegularFileWithContents:data];
@@ -499,6 +499,17 @@ typedef struct {
   while (idx-- > 0) {
     SparkLibraryEntry *entry = (SparkLibraryEntry *)CFArrayGetValueAtIndex(sp_entries, idx);
 
+    fprintf(stderr, "\t- Flags (%#x): ", entry->flags);
+    if (kSparkEntryEnabled & entry->flags)
+      fprintf(stderr, "enabled ");
+    else
+      fprintf(stderr, "disabled ");
+    if (kSparkEntryUnplugged & entry->flags)
+      fprintf(stderr, "unplugged ");
+    if (kSparkEntryPermanent & entry->flags)
+      fprintf(stderr, "permanent ");
+    fprintf(stderr, "\n");
+      
     SparkAction *action = [[library actionSet] objectWithUID:entry->action];
     fprintf(stderr, "\t- Action (%u): %s\n", [action uid], [[action name] UTF8String]);
     
@@ -509,7 +520,7 @@ typedef struct {
       [SparkLibrary systemApplication] : [[library applicationSet] objectWithUID:entry->application];
     fprintf(stderr, "\t- Application (%u): %s\n", [application uid], [[application name] UTF8String]);
     
-    fprintf(stderr, "-----------------\n");
+    fprintf(stderr, "----------------------------------\n");
   }
   fprintf(stderr, "}\n");
 }

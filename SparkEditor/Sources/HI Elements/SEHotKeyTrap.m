@@ -565,37 +565,33 @@ static CGLayerRef _HKCreateShading(CGContextRef ctxt, NSControlTint tint);
 
 #pragma mark -
 #pragma mark Shading Support
-static const CGFloat const hk_aqua[] = {.300, .600, .945, 0 };
-static const CGFloat const hk_aqua2[] = {.0, .320, .810, 0 };
+static const
+SKCGSimpleShadingInfo sAquaShadingInfo = {
+  {.300, .600, .945, 1 },
+  {.0, .320, .810, 1 },
+  NULL,
+};
 
-static const CGFloat const hk_graphite[] = {.550, .600, .700, 0 };
-static const CGFloat const hk_graphite2[] = {.310, .400, .510, 0 };
-
-static const CGFloat *_shader = hk_aqua;
-static const CGFloat *_shader2 = hk_aqua2;
-
-static 
-void __HKTrapShadingFunction (void *pinfo, const CGFloat *in, CGFloat *out) {
-  CGFloat v = *in;
-  for (int k = 0; k < 4 -1; k++)
-    *out++ = MIN(_shader[k], _shader2[k]) + ABS(_shader[k] - _shader2[k]) * v;
-  *out++ = 1;
-}
+static const
+SKCGSimpleShadingInfo sGraphiteShadingInfo = {
+  {.550, .600, .700, 1 },
+  {.310, .400, .510, 1 },
+  NULL,
+};
 
 CGLayerRef _HKCreateShading(CGContextRef ctxt, NSControlTint tint) {
+  const SKCGSimpleShadingInfo *info = NULL;
   switch (tint) {
     case NSGraphiteControlTint:
-      _shader = hk_graphite;
-      _shader2 = hk_graphite2;
+      info = &sGraphiteShadingInfo;
       break;
     case NSBlueControlTint:
     default:
-      _shader = hk_aqua;
-      _shader2 = hk_aqua2;
+      info = &sAquaShadingInfo;
       break;
   }
   
-  return SKCGCreateVerticalShadingLayer(ctxt, CGSizeMake(32, kHKTrapHeight), __HKTrapShadingFunction, NULL);
+  return SKCGLayerCreateWithVerticalShading(ctxt, CGSizeMake(32, kHKTrapHeight), true, SKCGShadingSimpleShadingFunction, info);
 }
 
 @implementation SEHotKeyTrap (NSAccessibility)

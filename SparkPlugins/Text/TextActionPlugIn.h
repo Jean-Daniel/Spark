@@ -8,7 +8,6 @@
 
 #import "TextAction.h"
 
-
 enum {
   /* Date Formats */
   kTAFormatTagNone       = kCFDateFormatterNoStyle, /* 0 */
@@ -17,7 +16,6 @@ enum {
   kTAFormatTagLong       = kCFDateFormatterLongStyle, /* 3 */
   kTAFormatTagFull       = kCFDateFormatterFullStyle, /* 4 */
 };
-
 
 SK_INLINE
 CFDateFormatterStyle TADateFormatterStyle(NSInteger format) {

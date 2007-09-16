@@ -333,10 +333,13 @@ static ITunesVisual sDefaultVisual = {delay: -1};
 }
 
 - (NSTimeInterval)repeatInterval {
-  if ([self iTunesAction] == kiTunesVolumeDown || [self iTunesAction] == kiTunesVolumeUp) {
-    return SparkGetDefaultKeyRepeatInterval();
+  switch ([self iTunesAction]) {
+    case kiTunesVolumeUp:
+    case kiTunesVolumeDown:
+      return SparkGetDefaultKeyRepeatInterval();
+    default:
+      return 0;
   }
-  return 0;
 }
 
 - (void)displayTrackNotification {

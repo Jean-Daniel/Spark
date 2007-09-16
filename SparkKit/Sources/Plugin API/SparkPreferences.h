@@ -40,9 +40,9 @@ void SparkPreferencesSetIntegerValue(NSString *key, NSInteger value, SparkPrefer
 
 /* Library domain only */
 SPARK_EXPORT
-void SparkPreferencesRegisterObserver(id object, SEL callback, NSString *key, SparkPreferencesDomain domain);
+void SparkPreferencesRegisterObserver(id target, SEL callback, NSString *key, SparkPreferencesDomain domain);
 SPARK_EXPORT
-void SparkPreferencesUnregisterObserver(id object, NSString *key, SparkPreferencesDomain domain);
+void SparkPreferencesUnregisterObserver(id target, NSString *key, SparkPreferencesDomain domain);
 
 #endif /* __OBJC__ */
 

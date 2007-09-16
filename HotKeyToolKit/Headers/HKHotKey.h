@@ -14,7 +14,7 @@
 /*!
 @function
  @abstract Returns the time interval between two repeat key down event.
- @result Returns the key repeat interval setted in "System Preferences".
+ @result Returns the key repeat interval setted in "System Preferences" or -1 on error.
  */
 HK_EXPORT
 NSTimeInterval HKGetSystemKeyRepeatInterval(void);
@@ -22,10 +22,10 @@ NSTimeInterval HKGetSystemKeyRepeatInterval(void);
 /*!
 @function
  @abstract Returns the time interval between a key is pressed and system start to repeat key down event.
- @result Returns the initial key repeat interval setted in "System Preferences".
+ @result Returns the initial key repeat interval setted in "System Preferences" or -1 on error.
  */
 HK_EXPORT 
-NSTimeInterval HKGetSystemKeyRepeatThreshold(void);
+NSTimeInterval HKGetSystemInitialKeyRepeatInterval(void);
 
 /*!
 @class HKHotKey
@@ -185,7 +185,7 @@ HK_CLASS_EXPORT
 
 /*!
   @method
- @abstract   Returns the receiverÕs action message selector.
+ @abstract   Returns the receiverâ€™s action message selector.
  */
 - (SEL)action;
 /*!

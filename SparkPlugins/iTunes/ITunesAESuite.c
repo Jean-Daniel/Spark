@@ -105,6 +105,22 @@ bail:
   return err;
 }
 
+OSStatus iTunesGetPlayerPosition(UInt32 *position) {
+  AppleEvent theEvent;
+  OSStatus err = _iTunesCreateEvent(kAECoreSuite, kAEGetData, &theEvent);
+  require_noerr(err, bail);
+  
+  err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty, 'pPos', NULL);
+  require_noerr(err, bail);
+  
+  err = SKAESendEventReturnUInt32(&theEvent, position);
+  require_noerr(err, bail);
+  
+bail:
+    SKAEDisposeDesc(&theEvent);
+  return err;
+}
+
 OSStatus iTunesGetVisualEnabled(Boolean *state) {
   AppleEvent theEvent;
   OSStatus err = _iTunesCreateEvent(kAECoreSuite, kAEGetData, &theEvent);

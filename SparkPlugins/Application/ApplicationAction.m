@@ -569,13 +569,13 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
 - (BOOL)launchAppWithFlag:(LSLaunchFlags)flag {
   BOOL result = NO;
   FSRef ref;
-  LSLaunchFSRefSpec spec;
-  bzero(&spec, sizeof(spec));
+  LSApplicationParameters params;
+  bzero(&params, sizeof(params));
   NSString *path = [self path];
   if (path != nil && [path getFSRef:&ref]) {
-    spec.appRef = &ref;
-    spec.launchFlags = flag | kLSLaunchDefaults;
-    result = (noErr == LSOpenFromRefSpec(&spec, nil));
+    params.application = &ref;
+    params.flags = flag | kLSLaunchDefaults;
+    result = (noErr == LSOpenApplication(&params, nil));
   }
   return result;
 }

@@ -1425,16 +1425,11 @@
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 305;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 305;
+				DYLIB_CURRENT_VERSION = "${CURRENT_PROJECT_VERSION}";
 				FRAMEWORK_VERSION = B;
 				GCC_DYNAMIC_NO_PIC = NO;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
-				);
-				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../ShadowKit/ShadowKit/Archive\"";
 				OTHER_LDFLAGS = (
 					"-seg1addr",
 					0xD0200000,
@@ -1448,16 +1443,11 @@
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 305;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 305;
+				DYLIB_CURRENT_VERSION = "${CURRENT_PROJECT_VERSION}";
 				FRAMEWORK_VERSION = B;
 				GCC_DYNAMIC_NO_PIC = NO;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
-				);
-				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../ShadowKit/ShadowKit/Archive\"";
 				OTHER_LDFLAGS = (
 					"-seg1addr",
 					0xD0200000,
@@ -1487,16 +1477,11 @@
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 305;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 305;
+				DYLIB_CURRENT_VERSION = "${CURRENT_PROJECT_VERSION}";
 				FRAMEWORK_VERSION = B;
 				GCC_DYNAMIC_NO_PIC = NO;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
-				);
-				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../ShadowKit/ShadowKit/Archive\"";
 				OTHER_LDFLAGS = (
 					"-seg1addr",
 					0xD0200000,
@@ -1518,7 +1503,7 @@
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 305;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 305;
+				DYLIB_CURRENT_VERSION = "${CURRENT_PROJECT_VERSION}";
 				GCC_DYNAMIC_NO_PIC = NO;
 				INFOPLIST_FILE = ShadowKit/Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -1540,7 +1525,7 @@
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 305;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 305;
+				DYLIB_CURRENT_VERSION = "${CURRENT_PROJECT_VERSION}";
 				GCC_DYNAMIC_NO_PIC = NO;
 				INFOPLIST_FILE = ShadowKit/Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -1562,7 +1547,7 @@
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 305;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 305;
+				DYLIB_CURRENT_VERSION = "${CURRENT_PROJECT_VERSION}";
 				GCC_DYNAMIC_NO_PIC = NO;
 				INFOPLIST_FILE = ShadowKit/Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -1584,7 +1569,7 @@
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 305;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 305;
+				DYLIB_CURRENT_VERSION = "${CURRENT_PROJECT_VERSION}";
 				GCC_DYNAMIC_NO_PIC = NO;
 				INFOPLIST_FILE = ShadowKit/Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -1606,16 +1591,11 @@
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 305;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 305;
+				DYLIB_CURRENT_VERSION = "${CURRENT_PROJECT_VERSION}";
 				FRAMEWORK_VERSION = B;
 				GCC_DYNAMIC_NO_PIC = NO;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
-				);
-				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../ShadowKit/ShadowKit/Archive\"";
 				OTHER_LDFLAGS = (
 					"-seg1addr",
 					0xD0200000,

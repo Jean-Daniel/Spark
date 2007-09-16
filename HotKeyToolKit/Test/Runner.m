@@ -8,7 +8,9 @@
 
 #import "KeyMap.h"
 #import <HotKeyToolKit/HotKeyToolKit.h>
-#include <unistd.h>
+#import <SenTestingKit/SenTestingKit.h>
+#include <IOKit/hidsystem/event_status_driver.h>
+
 @interface KeyDelegate : NSObject {
 }
 @end
@@ -33,31 +35,34 @@
 
 @end
 
+NSTimeInterval _HKGetSystemKeyRepeatInterval() {
+  double value = 0;
+  NXEventHandle handle = NXOpenEventStatus();
+  if (handle) {
+    value = NXKeyRepeatInterval(handle);
+    NXCloseEventStatus(handle);
+  }
+  return value;
+}
+
+NSTimeInterval _HKGetSystemKeyRepeatThreshold() {
+  double value = 0;
+  NXEventHandle handle = NXOpenEventStatus();
+  if (handle) {
+    value = NXKeyRepeatThreshold(handle);
+    NXCloseEventStatus(handle);
+  }
+  return value;
+}
+
 int main(int argc, const char **argv) {
-  HKKeyMapRef map = HKKeyMapCreateWithCurrentLayout(true);
-  DLog(@"%@", HKKeyMapGetLocalizedName(map));
+  _HKGetSystemKeyRepeatInterval();
+  HKGetSystemKeyRepeatInterval();
+  //SenSelfTestMain();
+//  id tests = [[NSClassFromString(@"HKHotKeyTests") alloc] init];
+//  [tests performSelector:@selector(testEqualsKeyRegistring)];
+//  [tests release];
   
-  UniChar chr = HKKeyMapGetUnicharForKeycodeAndModifier(map, 42, 0);
-  chr = HKKeyMapGetUnicharForKeycodeAndModifier(map, kVirtualReturnKey, 0);
-  
-  UInt32 keycode = 42; // ^ key on french keyboard
-  chr = HKMapGetUnicharForKeycode(keycode);
-  keycode = HKMapGetKeycodeAndModifierForUnichar('^', NULL, NULL);
-  
-  UniChar character = 0x0109; 
-  HKKeycode keycodes[8];
-  HKModifier modifiers[8];
-  NSUInteger count = HKMapGetKeycodesAndModifiersForUnichar(character, keycodes, modifiers, 8);
-  
-  count = HKMapGetKeycodesAndModifiersForUnichar('\n', keycodes, modifiers, 8);
-  count = HKMapGetKeycodesAndModifiersForUnichar('\r', keycodes, modifiers, 8);
-// STAssertTrue(count == 2, @"Invalid keys count (%d) for reverse mapping", count);
-//  
-//  STAssertTrue(keycodes[0] == keycode, @"Invalid modifier for tilde");
-//  STAssertTrue(modifiers[0] == kCGEventFlagMaskAlternate, @"Invalid modifier for tilde");
-//  
-//  STAssertTrue(keycodes[1] == keycode, @"Invalid modifier for tilde");
-//  STAssertTrue(modifiers[1] == kCGEventFlagMaskShift, @"Invalid modifier for tilde");
-  NSApplicationMain(argc, argv);
+//  NSApplicationMain(argc, argv);
   return 0;
 }

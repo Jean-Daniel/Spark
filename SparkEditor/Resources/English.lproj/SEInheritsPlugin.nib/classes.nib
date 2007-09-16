@@ -1,12 +1,7 @@
 {
     IBClasses = (
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
-        {
-            CLASS = SEInheritsPlugin; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {}; 
-            SUPERCLASS = SparkActionPlugIn; 
-        }, 
+        {CLASS = SEInheritsPlugin; LANGUAGE = ObjC; SUPERCLASS = SparkActionPlugIn; }, 
         {CLASS = SKImageView; LANGUAGE = ObjC; SUPERCLASS = NSImageView; }, 
         {
             CLASS = SparkActionPlugIn; 

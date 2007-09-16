@@ -16,7 +16,6 @@ static
 CFStringRef const kSparkPreferencesIdentifier = CFSTR("org.shadowlab.Spark-debug");
 static
 CFStringRef const kSparkPreferencesService = CFSTR("org.shadowlab.spark.preferences.debug");
-
 #else
 static
 CFStringRef const kSparkPreferencesIdentifier = CFSTR("org.shadowlab.Spark");
@@ -232,7 +231,7 @@ Boolean SparkPreferencesSynchronize(SparkPreferencesDomain domain) {
       return CFPreferencesSynchronize(kSparkPreferencesIdentifier,
                                       kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
     case SparkPreferencesLibrary:
-      return SparkLibraryPreferencesSynchronize();
+      return YES; /* synchronization is done when the library is saved */ // SparkLibraryPreferencesSynchronize();
     case SparkPreferencesFramework:
       return CFPreferencesSynchronize(kSparkPreferencesIdentifier,
                                       kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
@@ -409,9 +408,14 @@ void SparkPreferencesUnregisterObserver(id observer, NSString *key, SparkPrefere
 @implementation SparkLibrary (SparkPreferences)
 
 - (NSMutableDictionary *)preferences {
-  return sp_prefs ? : SparkLibraryGetPreferences(self);
+  if (![self isLoaded]) {
+    DLog(@"Warning, trying to access preferences but library no loaded");
+  }
+  return sp_prefs;
 }
 - (void)setPreferences:(NSDictionary *)preferences {
+  if (![self isLoaded])
+    [NSException raise:NSInternalInconsistencyException format:@"cannot set preferences for an unloaded library"];
   SKSetterMutableCopy(sp_prefs, preferences);
 }
 

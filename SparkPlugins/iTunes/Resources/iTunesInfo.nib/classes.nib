@@ -8,6 +8,7 @@
                 ibAlbum = NSTextField; 
                 ibArtist = NSTextField; 
                 ibName = NSTextField; 
+                ibProgress = ITunesProgressView; 
                 ibRate = ITunesStarView; 
                 ibTime = NSTextField; 
                 ibView = NSView; 
@@ -15,6 +16,7 @@
             SUPERCLASS = NSWindowController; 
         }, 
         {CLASS = ITunesInfoView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
+        {CLASS = ITunesProgressView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
         {CLASS = ITunesStarView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
         {CLASS = NSLevelIndicator; LANGUAGE = ObjC; SUPERCLASS = NSControl; }
     ); 

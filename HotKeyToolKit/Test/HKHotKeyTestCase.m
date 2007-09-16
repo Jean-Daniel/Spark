@@ -42,39 +42,48 @@
 }
 
 - (void)testHotKeyRetainCount {
-  id key = [[HKHotKey alloc] initWithUnichar:'a' modifier:NSAlternateKeyMask];
-  STAssertTrue([key setRegistred:YES], @"%a should be registred", key);
+  id key = [[HKHotKey alloc] initWithUnichar:'y' modifier:NSAlternateKeyMask];
+  STAssertTrue([key setRegistred:YES], @"%@ should be registred", key);
+  /* this test can be innacurate as autorelease will bump the retain count */ 
   STAssertTrue([key retainCount] == (unsigned)1, @"Registring key shouldn't retain it");
   
-  id key2 = [[HKHotKey alloc] initWithUnichar:'a' modifier:NSAlternateKeyMask];
-  STAssertFalse([key2 setRegistred:YES], @"%a shouldn't be registred", key2);
+  id key2 = [[HKHotKey alloc] initWithUnichar:'y' modifier:NSAlternateKeyMask];
+  STAssertFalse([key2 setRegistred:YES], @"%@ shouldn't be registred", key2);
   [key release];/* Testing if releasing a key unregister it */
-  STAssertTrue([key2 setRegistred:YES], @"%a should be registred", key2);
+  STAssertTrue([key2 setRegistred:YES], @"%@ should be registred", key2);
   [key2 release];
 }
 
 - (void)testInvalidAccessException {
   id key = [[HKHotKey alloc] initWithUnichar:'a' modifier:NSAlternateKeyMask];
-  STAssertTrue([key setRegistred:YES], @"%a should be registred", key);
+  STAssertTrue([key setRegistred:YES], @"%@ should be registred", key);
   STAssertThrows([key setCharacter:'b'], @"Should throws exception when trying change and registred");
   STAssertThrows([key setKeycode:0], @"Should throws exception when trying change and registred");
   STAssertThrows([key setModifier:NSAlternateKeyMask], @"Should throws exception when trying change and registred");
-  STAssertTrue([key setRegistred:NO], @"%a should be unregistred", key);
+  STAssertTrue([key setRegistred:NO], @"%@ should be unregistred", key);
   [key release];
 }
 
 - (void)testEqualsKeyRegistring {
   id key1 = [[HKHotKey alloc] initWithUnichar:'a' modifier:NSAlternateKeyMask];
   id key2 = [[HKHotKey alloc] initWithUnichar:'a' modifier:NSAlternateKeyMask];
-  STAssertTrue([key1 setRegistred:YES], @"%a should be registred", key1);
-  STAssertFalse([key2 setRegistred:YES], @"%a shouldn't be registred", key2);
+  STAssertTrue([key1 setRegistred:YES], @"%@ should be registred", key1);
+  STAssertFalse([key2 setRegistred:YES], @"%@ shouldn't be registred", key2);
   
   [key2 setModifier:NSShiftKeyMask];
-  STAssertTrue([key2 setRegistred:YES], @"%a should be registred", key2);
-  STAssertTrue([key2 setRegistred:NO], @"%a should be unregistred", key2);
+  STAssertTrue([key2 setRegistred:YES], @"%@ should be registred", key2);
+  STAssertTrue([key2 setRegistred:NO], @"%@ should be unregistred", key2);
+  STAssertTrue([key1 setRegistred:NO], @"%@ should be unregistred", key1);
   
   [key1 release];
   [key2 release];
+}
+
+- (void)testReapeatInterval {
+  NSTimeInterval inter = HKGetSystemKeyRepeatInterval();
+  STAssertTrue(inter > 0, @"Cannot retreive repeat interval");
+  inter = HKGetSystemInitialKeyRepeatInterval();
+  STAssertTrue(inter > 0, @"Cannot retreive initial repeat interval");
 }
 
 @end

@@ -14,30 +14,6 @@
 static ProcessSerialNumber _HKGetProcessWithSignature(OSType type);
 static ProcessSerialNumber _HKGetProcessWithBundleIdentifier(CFStringRef bundleId);
 
-static 
-void (*_HKEventPostKeyStroke)(HKKeycode keycode, HKModifier modifier, CGEventSourceRef source, void *psn) = nil;
-
-static
-void _HKEventPostKeystroke(HKKeycode keycode, HKModifier modifier, CGEventSourceRef source, void *psn);
-HK_PRIVATE
-void _HKEventCompatPostKeystroke(HKKeycode keycode, HKModifier modifier, CGEventSourceRef source, void *psn);
-
-static Boolean HKEventCompat = NO;
-
-static void __HKEventInitialize(void) __attribute__((constructor));
-static void __HKEventInitialize() {
-#if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_4
-  if (CGEventCreateKeyboardEvent != NULL) {
-#endif
-    _HKEventPostKeyStroke = _HKEventPostKeystroke;
-#if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_4
-  } else {
-    HKEventCompat = YES;
-    _HKEventPostKeyStroke = _HKEventCompatPostKeystroke;
-  }
-#endif
-}
-
 #pragma mark -
 useconds_t HKEventSleepInterval = 5000;
 
@@ -56,7 +32,7 @@ void __HKEventPostKeyboardEvent(CGEventSourceRef source, HKKeycode keycode, void
 }
 
 static
-void _HKEventPostKeystroke(HKKeycode keycode, HKModifier modifier, CGEventSourceRef source, void *psn) {
+void _HKEventPostKeyStroke(HKKeycode keycode, HKModifier modifier, CGEventSourceRef source, void *psn) {
   /* WARNING: look like CGEvent does not support null source (bug) */
   BOOL isource = NO;
   if (!source) {
@@ -134,11 +110,7 @@ Boolean _HKEventPostCharacterKeystrokes(UniChar character, CGEventSourceRef sour
 
 #pragma mark API
 CGEventSourceRef HKEventCreatePrivateSource() {
-#if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_4
-  return CGEventSourceCreate ? CGEventSourceCreate(kCGEventSourceStatePrivate) : NULL;
-#else
   return CGEventSourceCreate(kCGEventSourceStatePrivate);
-#endif
 }
 
 void HKEventPostKeystroke(HKKeycode keycode, HKModifier modifier, CGEventSourceRef source) {
@@ -240,25 +212,15 @@ ProcessSerialNumber _HKGetProcessWithBundleIdentifier(CFStringRef bundleId) {
 
 - (BOOL)sendKeystroke {
   if ([self isValid]) {
-    BOOL ok = NO;
     HKEventTarget target;
     ProcessSerialNumber psn;
     HKEventTargetType type = kHKEventTargetSystem;
-    if (HKEventCompat) {
-      ok = [self isRegistred];
-      if (ok) [self setRegistred:NO];
-    } else {
-      if ([self isRegistred]) {
-        GetFrontProcess(&psn);
-        target.psn = &psn;
-        type = kHKEventTargetProcess;
-      }
+    if ([self isRegistred]) {
+      GetFrontProcess(&psn);
+      target.psn = &psn;
+      type = kHKEventTargetProcess;
     }
-    HKEventPostKeystrokeToTarget([self keycode], [self nativeModifier],
-                                 target, type, NULL);
-    if (HKEventCompat) {
-      if (ok) [self setRegistred:YES];
-    }
+    HKEventPostKeystrokeToTarget([self keycode], [self nativeModifier], target, type, NULL);
   } else {
     return NO;
   }
@@ -268,11 +230,6 @@ ProcessSerialNumber _HKGetProcessWithBundleIdentifier(CFStringRef bundleId) {
 - (BOOL)sendKeystrokeToApplication:(OSType)signature bundle:(NSString *)bundleId {
   BOOL result = NO;
   if ([self isValid]) {
-    BOOL ok = NO;
-    if (HKEventCompat) {
-      ok = [self isRegistred];
-      if (ok) [self setRegistred:NO];
-    }
     /* Find target and target type */
     HKEventTarget target;
     HKEventTargetType type = kHKEventTargetSystem;
@@ -286,9 +243,6 @@ ProcessSerialNumber _HKGetProcessWithBundleIdentifier(CFStringRef bundleId) {
     }
     
     result = HKEventPostKeystrokeToTarget([self keycode], [self nativeModifier], target, type, NULL);
-    if (HKEventCompat) {
-      if (ok) [self setRegistred:YES];
-    }
   }
   return result;
 }

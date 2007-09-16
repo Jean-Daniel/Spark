@@ -9,56 +9,18 @@
 #import "AppleScriptActionPlugin.h"
 #import "AppleScriptAction.h"
 
+#import <OSAKit/OSAKit.h>
 #import <ShadowKit/SKFunctions.h>
 #import <ShadowKit/SKAEFunctions.h>
 #import <ShadowKit/SKLSFunctions.h>
 #import <ShadowKit/SKProcessFunctions.h>
-
-#import <ShadowKit/SKClassCluster.h>
-
-#import <OSAKit/OSAKit.h>
 
 enum {
   kAppleScriptFileTab   = 1,
   kAppleScriptSourceTab = 0,
 };
 
-@interface AppleScriptNSPlugin : AppleScriptActionPlugin {
-  
-}
-
-- (NSAlert *)alertForScriptError:(NSDictionary *)errors;
-
-@end
-
-@interface AppleScriptOSAPlugin : AppleScriptActionPlugin {
-  /* Contains script and script view */
-  OSAScriptController *as_ctrl;
-}
-
-- (NSAlert *)alertForScriptError:(NSDictionary *)errors;
-
-@end
-
-SKClassCluster(AppleScriptActionPlugin);
-
-@implementation SKClusterPlaceholder(AppleScriptActionPlugin) (ASClassCluster)
-
-- (id)init {
-  /* OSAKit require Mac OS 10.4 or later */
-  if (SKSystemMajorVersion() >= 10 && SKSystemMinorVersion() >= 4)
-    return [[AppleScriptOSAPlugin alloc] init];
-  else
-    return [[AppleScriptNSPlugin alloc] init];
-}
-
-@end
-
 @implementation AppleScriptActionPlugin
-
-- (Class)scriptClass {
-  return nil;
-}
 
 - (void)dealloc {
   [as_file release];
@@ -67,19 +29,19 @@ SKClassCluster(AppleScriptActionPlugin);
 
 - (void)loadSparkAction:(id)sparkAction toEdit:(BOOL)edit {
   id value;
-  [ibScript setSource:@""];
+  [[ibScriptController scriptView] setSource:@""];
   if (value = [sparkAction scriptAlias]) {
     [self setScriptFile:[value path]];
     [self setValue:SKInt(kAppleScriptFileTab) forKey:@"selectedTab"];
   } else if (value = [sparkAction scriptSource]) {
-    [ibScript setSource:value];
-    [self compile:nil];
+    [[ibScriptController scriptView] setSource:value];
+    [ibScriptController compileScript:nil];
   }
 }
 
 - (NSAlert *)checkSyntax {
   NSAlert *alert = nil;
-  if (![[ibScript source] length]) {
+  if (![[[ibScriptController scriptView] source] length]) {
     alert = [NSAlert alertWithMessageText:NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_SOURCE_ALERT", nil, AppleScriptActionBundle,
                                                                              @"Empty Source Error * Title *")
                             defaultButton:NSLocalizedStringWithDefaultValue(@"OK", nil, AppleScriptActionBundle, @"OK",
@@ -89,7 +51,7 @@ SKClassCluster(AppleScriptActionPlugin);
                 informativeTextWithFormat:NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_SOURCE_ALERT_MSG", nil, AppleScriptActionBundle,
                                                                              @"Empty Source Error * Msg *")];
   } else {
-    id script = [[[self scriptClass] alloc] initWithSource:[ibScript source]];
+    OSAScript *script = [ibScriptController script];//[[OSAScript alloc] initWithSource:[ibScript source]];
     if (!script) {
         alert = [NSAlert alertWithMessageText:NSLocalizedStringFromTableInBundle(@"SCRIPT_CREATION_ERROR_ALERT", nil, AppleScriptActionBundle,
                                                                                  @"Unknow Error in -initWithSource * Title *")
@@ -105,18 +67,6 @@ SKClassCluster(AppleScriptActionPlugin);
     }
   }
   return alert;
-}
-
-- (IBAction)compile:(id)sender {
-  SKClusterException();
-}
-
-- (IBAction)run:(id)sender {
-  SKClusterException();
-}
-- (NSAlert *)compileScript:(NSAppleScript *)script {
-  SKClusterException();
-  return nil;
 }
 
 - (NSAlert *)sparkEditorShouldConfigureAction {
@@ -149,7 +99,7 @@ SKClassCluster(AppleScriptActionPlugin);
   
   switch (as_tidx) {
     case kAppleScriptSourceTab:
-      [action setScriptSource:[ibScript source]];
+      [action setScriptSource:[[ibScriptController scriptView] source]];
       [action setFile:nil];
       break;
     case kAppleScriptFileTab:
@@ -160,6 +110,39 @@ SKClassCluster(AppleScriptActionPlugin);
   
   [action setIcon:nil];
   [action setActionDescription:AppleScriptActionDescription(action)];
+}
+
+#pragma mark Compile
+- (NSAlert *)alertForScriptError:(NSDictionary *)errors {
+  int error = [[errors objectForKey:OSAScriptErrorNumber] intValue];
+  if (-128 == error) {
+    //=> User Cancel
+    return nil;
+  }
+  NSString *title = [errors objectForKey:OSAScriptErrorBriefMessage];
+  NSString *message = [errors objectForKey:OSAScriptErrorMessage];
+  
+  NSRange range = [[errors objectForKey:OSAScriptErrorRange] rangeValue];
+  [[ibScriptController scriptView] setSelectedRange:range];
+  
+  return [NSAlert alertWithMessageText:title
+                         defaultButton:NSLocalizedStringWithDefaultValue(@"OK", nil, AppleScriptActionBundle, @"OK",
+                                                                         @"Alert default button")
+                       alternateButton:nil
+                           otherButton:nil
+             informativeTextWithFormat:message];
+}
+
+- (NSAlert *)compileScript:(OSAScript *)script {
+  NSAlert *alert = nil;
+  NSDictionary *error = nil;
+  if (![script compileAndReturnError:&error]) {
+    alert = [self alertForScriptError:error];
+    if (![alert messageText])
+      [alert setMessageText:NSLocalizedStringFromTableInBundle(@"SYNTAX_ERROR_ALERT", nil, AppleScriptActionBundle,
+                                                               @"Syntax Error * Title *")];
+  }
+  return alert;
 }
 
 #pragma mark Open
@@ -182,13 +165,13 @@ SKClassCluster(AppleScriptActionPlugin);
     NSString *file = [[sheet filenames] objectAtIndex:0];
     NSString *src = nil;
     if ([[[file pathExtension] lowercaseString] isEqualToString:@"scpt"]) {
-      id script = [[[self scriptClass] alloc] initWithContentsOfURL:[NSURL fileURLWithPath:file] error:nil];
+      OSAScript *script = [[OSAScript alloc] initWithContentsOfURL:[NSURL fileURLWithPath:file] error:nil];
       src = [[script source] retain];
       [script release];
     } else {
       src = [[NSString alloc] initWithContentsOfFile:file];
     }
-    [ibScript setSource:src];
+    [[ibScriptController scriptView] setSource:src];
     [src release];
   }
 }
@@ -248,7 +231,7 @@ SKClassCluster(AppleScriptActionPlugin);
   OSStatus err = SKAESendSimpleEventToProcess(&psn, kAEMiscStandards, kAEActivate);
   require_noerr(err, dispose);
   
-  NSString *src = [[ibScript textStorage] string];
+  NSString *src = [[ibScriptController scriptView] source];
   if (!src || ![src length]) {
     return;
   }
@@ -299,187 +282,6 @@ dispose:
 }
 - (void)setScriptFile:(NSString *)aFile {
   SKSetterCopy(as_file, aFile);
-}
-
-@end
-
-@implementation AppleScriptNSPlugin
-
-static NSDictionary *sAttributes = nil;
-
-+ (void)initialize {
-  if ([AppleScriptNSPlugin class] == self) {
-    sAttributes = [[NSDictionary alloc] initWithObjectsAndKeys:
-      SKInt(NSUnderlineStyleNone), NSUnderlineStyleAttributeName,
-      [NSFont userFixedPitchFontOfSize:10], NSFontAttributeName,
-      [NSColor purpleColor], NSForegroundColorAttributeName,
-      nil];
-  }
-}
-
-- (void)dealloc {
-  [super dealloc];
-}
-
-- (void)awakeFromNib {
-  [ibScript setFont:[sAttributes objectForKey:NSFontAttributeName]];
-  [ibScript setTextColor:[sAttributes objectForKey:NSForegroundColorAttributeName]];
-  [ibScript setTypingAttributes:sAttributes];
-}
-
-- (void)highlightSource:(NSAppleScript *)script {
-  if ([script isCompiled]) {
-    NSRange range = [ibScript selectedRange];
-    NSAttributedString *str = [script richTextSource];
-    [[ibScript textStorage] setAttributedString:str];
-    [ibScript setSelectedRange:range];
-  }
-}
-
-- (IBAction)compile:(id)sender {
-  NSString *source = [ibScript source];
-  if (source && [source length] > 0) {
-    NSAppleScript *script = [[NSAppleScript alloc] initWithSource:source];
-    NSDictionary *error = nil;
-    if (![script compileAndReturnError:&error]) {
-      [[self alertForScriptError:error] runModal];
-    } else {
-      [self highlightSource:script];
-    }
-  }
-}
-
-- (IBAction)run:(id)sender {
-  NSString *source = [ibScript source];
-  if (source && [source length] > 0) {
-    NSAppleScript *script = [[NSAppleScript alloc] initWithSource:source];
-    NSDictionary *error = nil;
-    if (![script executeAndReturnError:&error]) {
-      [[self alertForScriptError:error] runModal];
-    } else {
-      [self highlightSource:script];
-    }
-  }
-}
-
-- (NSAlert *)alertForScriptError:(NSDictionary *)errors {
-  int error = [[errors objectForKey:@"NSAppleScriptErrorNumber"] intValue];
-  switch (error) {
-    case -128: //=> User Cancel
-      return nil;
-  }
-  id title = [errors objectForKey:@"NSAppleScriptErrorBriefMessage"];
-  id message = [errors objectForKey:@"NSAppleScriptErrorMessage"];
-  NSRange range = [[errors objectForKey:@"NSAppleScriptErrorRange"] rangeValue];
-  [ibScript setSelectedRange:range];
-  return [NSAlert alertWithMessageText:title
-                         defaultButton:NSLocalizedStringWithDefaultValue(@"OK", nil, AppleScriptActionBundle, @"OK",
-                                                                         @"Alert default button")
-                       alternateButton:nil
-                           otherButton:nil
-             informativeTextWithFormat:message];
-}
-
-- (NSAlert *)compileScript:(NSAppleScript *)script {
-  NSAlert *alert = nil;
-  NSDictionary *error = nil;
-  if (![script compileAndReturnError:&error]) {
-    alert = [self alertForScriptError:error];
-    [alert setMessageText:NSLocalizedStringFromTableInBundle(@"SYNTAX_ERROR_ALERT", nil, AppleScriptActionBundle,
-                                                             @"Syntax Error * Title *")];
-  }
-  return alert;
-}
-
-- (void)textViewDidChangeSelection:(NSNotification *)aNotification {
-  [ibScript setTypingAttributes:sAttributes];
-}
-
-@end
-
-@implementation AppleScriptOSAPlugin 
-
-- (Class)scriptClass {
-  return [OSAScript class];
-}
-
-- (id)init {
-  if (self = [super init]) {
-    as_ctrl = [[OSAScriptController alloc] init];
-  }
-  return self;
-}
-
-- (void)dealloc {
-  [as_ctrl release];
-  [super dealloc];
-}
-
-- (void)awakeFromNib {
-  OSAScriptView *view = [[OSAScriptView alloc] initWithFrame:[ibScript frame]];
-  [view setHorizontallyResizable:YES];
-//  [[self enclosingScrollView] setHasHorizontalScroller:YES];
-  [[view textContainer] setContainerSize:NSMakeSize(MAXFLOAT, MAXFLOAT)];
-  NSScrollView *parent = [ibScript enclosingScrollView];
-  [parent setDocumentView:view];
-  [as_ctrl setScriptView:view];
-  ibScript = view;
-  [view release];
-}
-
-#pragma mark -
-- (IBAction)compile:(id)sender {
-  [as_ctrl compileScript:sender];
-}
-
-- (IBAction)run:(id)sender {
-  [as_ctrl runScript:sender];
-}
-
-- (NSAlert *)alertForScriptError:(NSDictionary *)errors {
-  int error = [[errors objectForKey:OSAScriptErrorNumber] intValue];
-  if (-128 == error) {
-    //=> User Cancel
-    return nil;
-  }
-  NSString *title = [errors objectForKey:OSAScriptErrorBriefMessage];
-  NSString *message = [errors objectForKey:OSAScriptErrorMessage];
-  
-  NSRange range = [[errors objectForKey:OSAScriptErrorRange] rangeValue];
-  [ibScript setSelectedRange:range];
-  
-  return [NSAlert alertWithMessageText:title
-                         defaultButton:NSLocalizedStringWithDefaultValue(@"OK", nil, AppleScriptActionBundle, @"OK",
-                                                                         @"Alert default button")
-                       alternateButton:nil
-                           otherButton:nil
-             informativeTextWithFormat:message];
-}
-
-- (NSAlert *)compileScript:(OSAScript *)script {
-  NSAlert *alert = nil;
-  NSDictionary *error = nil;
-  if (![script compileAndReturnError:&error]) {
-    alert = [self alertForScriptError:error];
-    if (![alert messageText])
-      [alert setMessageText:NSLocalizedStringFromTableInBundle(@"SYNTAX_ERROR_ALERT", nil, AppleScriptActionBundle,
-                                                               @"Syntax Error * Title *")];
-  }
-  return alert;
-}
-
-@end
-
-#pragma mark -
-@implementation SourceView
-- (void)paste:(id)sender {
-  [super pasteAsPlainText:sender];
-}
-- (NSString *)source {
-  return [[self textStorage] string];
-}
-- (void)setSource:(NSString *)src {
-  [super setString:src];
 }
 
 @end

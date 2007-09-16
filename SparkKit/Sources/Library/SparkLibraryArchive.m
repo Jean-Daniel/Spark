@@ -53,17 +53,17 @@ NSString * const kSparkLibraryArchiveFileName = @"Spark Library";
         [sp_icons readFromArchive:archive path:icons];
         
         /* Load Preferences */
-        NSData *data = [[archive fileWithName:kSparkLibraryPreferencesFile] extractContents];
-        if (data) {
-          NSDictionary *prefs = [NSPropertyListSerialization propertyListFromData:data
-                                                                 mutabilityOption:NSPropertyListImmutable
-                                                                           format:NULL
-                                                                 errorDescription:NULL];
-          if (prefs)
-            [self setPreferences:prefs];
-          else
-            WLog(@"Error while unserializing preferences");
-        }
+//        NSData *data = [[archive fileWithName:kSparkLibraryPreferencesFile] extractContents];
+//        if (data) {
+//          NSDictionary *prefs = [NSPropertyListSerialization propertyListFromData:data
+//                                                                 mutabilityOption:NSPropertyListImmutable
+//                                                                           format:NULL
+//                                                                 errorDescription:NULL];
+//          if (prefs)
+//            [self setPreferences:prefs];
+//          else
+//            WLog(@"Error while unserializing preferences");
+//        }
       }
     }
     [archive close];
@@ -100,17 +100,17 @@ NSString * const kSparkLibraryArchiveFileName = @"Spark Library";
     }
     
     /* Save Preferences */
-    NSDictionary *preferences = [self preferences];
-    if ([preferences count] > 0) {
-      NSData *data = [NSPropertyListSerialization dataFromPropertyList:preferences
-                                                                format:NSPropertyListBinaryFormat_v1_0
-                                                      errorDescription:NULL];
-      if (data) {
-        [archive addFile:kSparkLibraryPreferencesFile data:data parent:NULL];
-      } else {
-        WLog(@"Error while serializing preferences");
-      }
-    }
+//    NSDictionary *preferences = [self preferences];
+//    if ([preferences count] > 0) {
+//      NSData *data = [NSPropertyListSerialization dataFromPropertyList:preferences
+//                                                                format:NSPropertyListBinaryFormat_v1_0
+//                                                      errorDescription:NULL];
+//      if (data) {
+//        [archive addFile:kSparkLibraryPreferencesFile data:data parent:NULL];
+//      } else {
+//        WLog(@"Error while serializing preferences");
+//      }
+//    }
     
     [archive close];
     [archive release];

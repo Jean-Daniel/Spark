@@ -10,7 +10,8 @@
 
 #import "HKKeyMap.h"
 #import "HKHotKeyManager.h"
-#include <IOKit/hidsystem/event_status_driver.h>
+#include <IOKit/hidsystem/IOHIDLib.h>
+#include <IOKit/hidsystem/IOHIDParameter.h>
 
 @interface HKHotKey (Private) 
 - (void)hk_invalidateTimer;
@@ -227,7 +228,6 @@
     } else { // If unregister
       [self hk_invalidateTimer];
       hk_hkFlags.registred = 0;
-      /* Can dealloc self, so do not access field after this call */
       result = [[HKHotKeyManager sharedManager] unregisterHotKey:self];
     }
   }
@@ -293,7 +293,7 @@
     hk_hkFlags.invoked = 1;
     [self invoke:NO];
     if ([self repeatInterval] > 0) {
-      NSTimeInterval value = HKGetSystemKeyRepeatThreshold();
+      NSTimeInterval value = HKGetSystemInitialKeyRepeatInterval();
       if (value > 0) {
         NSDate *fire = [[NSDate alloc] initWithTimeIntervalSinceNow:value];
         hk_repeatTimer = [[NSTimer alloc] initWithFireDate:fire 
@@ -365,22 +365,61 @@
 @end
 
 #pragma mark -
-NSTimeInterval HKGetSystemKeyRepeatInterval() {
-  double value = 0;
-  NXEventHandle handle = NXOpenEventStatus();
-  if (handle) {
-    value = NXKeyRepeatInterval(handle);
-    NXCloseEventStatus(handle);
+static
+io_connect_t _HKHIDGetKeyboardService(void) {
+  static mach_port_t sKeyboard = 0;
+  if (sKeyboard)
+    return sKeyboard;
+  @synchronized([HKHotKey class]) {
+    if (!sKeyboard) {
+      kern_return_t kr;
+      mach_port_t service, iter;
+      
+      kr = IOServiceGetMatchingServices(kIOMasterPortDefault, 
+                                        IOServiceMatching(kIOHIDSystemClass/*kIOHIKeyboardClass*/), &iter);
+      check(KERN_SUCCESS == kr);
+      
+      service = IOIteratorNext(iter);
+      check(service);
+      
+      kr = IOServiceOpen(service, mach_task_self(),  
+                         kIOHIDParamConnectType, &sKeyboard);
+      check(KERN_SUCCESS == kr);
+      
+      IOObjectRelease(service);
+      IOObjectRelease(iter);
+    }
   }
-  return value;
+  
+  return sKeyboard;
 }
 
-NSTimeInterval HKGetSystemKeyRepeatThreshold() {
-  double value = 0;
-  NXEventHandle handle = NXOpenEventStatus();
-  if (handle) {
-    value = NXKeyRepeatThreshold(handle);
-    NXCloseEventStatus(handle);
+NSTimeInterval HKGetSystemKeyRepeatInterval() {
+  uint64_t value = 0;
+  NSTimeInterval interval = -1;
+  io_connect_t service = _HKHIDGetKeyboardService();
+  if (service) {
+    IOByteCount size = 0;
+    kern_return_t kr = IOHIDGetParameter(service, CFSTR(kIOHIDKeyRepeatKey), 
+                                         sizeof(value), &value, &size);
+    /* convert nano into seconds */
+    if (KERN_SUCCESS == kr && size == sizeof(value))
+      interval = value / 1e9;
   }
-  return value;
+  return interval;
+}
+
+NSTimeInterval HKGetSystemInitialKeyRepeatInterval() {
+  uint64_t value = 0;
+  NSTimeInterval interval = -1;
+  io_connect_t service = _HKHIDGetKeyboardService();
+  if (service) {
+    IOByteCount size = 0;
+    kern_return_t kr = IOHIDGetParameter(service, CFSTR(kIOHIDInitialKeyRepeatKey), 
+                                         sizeof(value), &value, &size);
+    /* convert nano into seconds */
+    if (KERN_SUCCESS == kr && size == sizeof(value))
+      interval = value / 1e9;
+  }
+  return interval;
 }

@@ -22,7 +22,7 @@ enum {
   /* Volatile flags */
   kSparkEntryUnplugged = 1 << 16,
   kSparkEntryPermanent = 1 << 17,
-  kSparkPersistentFlags = 0xffff,
+  kSparkPersistentFlagsMask = 0xffff,
 };
 
 SPARK_PRIVATE

@@ -40,7 +40,7 @@ const NSPoint kiTunesBottomRight;
 SK_PRIVATE
 const ITunesVisual kiTunesDefaultSettings;
 
-@class ITunesStarView;
+@class ITunesStarView, ITunesProgressView;
 @interface ITunesInfo : NSWindowController {
   IBOutlet NSTextField *ibName;
   IBOutlet NSTextField *ibAlbum;
@@ -48,6 +48,7 @@ const ITunesVisual kiTunesDefaultSettings;
   
   IBOutlet NSTextField *ibTime;
   IBOutlet ITunesStarView *ibRate;
+  IBOutlet ITunesProgressView *ibProgress;
   @private
     int ia_loc;
 }

@@ -40,6 +40,8 @@
 		1B75502D0B6A8153004C9F44 /* AAStop.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B75502B0B6A8153004C9F44 /* AAStop.tiff */; };
 		1B75502E0B6A8153004C9F44 /* AAHide.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B75502C0B6A8153004C9F44 /* AAHide.tiff */; };
 		1B8F4B150B56823700E8A4C0 /* volume.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B8F4B140B56823700E8A4C0 /* volume.aiff */; };
+		1BEF492F0C9AADAC00D7DA07 /* ITunesProgressView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEF492D0C9AADAC00D7DA07 /* ITunesProgressView.h */; };
+		1BEF49300C9AADAC00D7DA07 /* ITunesProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BEF492E0C9AADAC00D7DA07 /* ITunesProgressView.m */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 		98027E7C0B9780E200CB77F3 /* SKLevelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98027E7B0B9780E200CB77F3 /* SKLevelView.m */; };
 		98027E7E0B9780E900CB77F3 /* BrightnessView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98027E7D0B9780E900CB77F3 /* BrightnessView.m */; };
@@ -80,7 +82,7 @@
 		984704E80B6D0F90009419B5 /* SysVolumeDown.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 984704D90B6D0F8F009419B5 /* SysVolumeDown.pdf */; };
 		984704E90B6D0F90009419B5 /* SysKeyboard.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 984704DA0B6D0F8F009419B5 /* SysKeyboard.tiff */; };
 		984704EB0B6D0FB5009419B5 /* SysTrash.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 984704EA0B6D0FB5009419B5 /* SysTrash.tiff */; };
-		984AB99F0B19FD0E00DA2DD0 /* SystemPlugin.png in Resources */ = {isa = PBXBuildFile; fileRef = 984AB99E0B19FD0E00DA2DD0 /* SystemPlugin.png */; };
+		984AB99F0B19FD0E00DA2DD0 /* SystemPlugin.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 984AB99E0B19FD0E00DA2DD0 /* SystemPlugin.tiff */; };
 		985106B50A590AA200C98B1F /* SystemActionHelp.html in Resources */ = {isa = PBXBuildFile; fileRef = 985106B30A590AA200C98B1F /* SystemActionHelp.html */; };
 		9856D9DF0AF922E400CF2FA6 /* DocumentPlugin.nib in Resources */ = {isa = PBXBuildFile; fileRef = 9856D9D90AF922E400CF2FA6 /* DocumentPlugin.nib */; };
 		986756F1096B3C1E00BB8A25 /* ShadowKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 986756D4096B3C0500BB8A25 /* ShadowKit.framework */; };
@@ -124,6 +126,7 @@
 		98BB26350A98F22B00124AB9 /* SparkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF7F5108645B7F007BC81A /* SparkKit.framework */; };
 		98BD2E4F0AB6DD2E0063CDEB /* ITunesVisualSetting.h in Headers */ = {isa = PBXBuildFile; fileRef = 98BD2E4E0AB6DD2E0063CDEB /* ITunesVisualSetting.h */; };
 		98BD2E5D0AB6DD480063CDEB /* ITunesVisualSetting.m in Sources */ = {isa = PBXBuildFile; fileRef = 98BD2E5C0AB6DD480063CDEB /* ITunesVisualSetting.m */; };
+		98D0F7780C9D3570000BE6C9 /* OSAKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 987920920AFCCB61004EA7B5 /* OSAKit.framework */; };
 		98D748480BB5349600D6AB54 /* TextActionHelp.html in Resources */ = {isa = PBXBuildFile; fileRef = 98D7483D0BB5349600D6AB54 /* TextActionHelp.html */; };
 		98D748490BB5349600D6AB54 /* Help in Resources */ = {isa = PBXBuildFile; fileRef = 98D7483F0BB5349600D6AB54 /* Help */; };
 		98D8E8300B6EB565004C2810 /* iTMusic.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98D8E82F0B6EB565004C2810 /* iTMusic.tiff */; };
@@ -303,6 +306,8 @@
 		1B75502B0B6A8153004C9F44 /* AAStop.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = AAStop.tiff; sourceTree = "<group>"; };
 		1B75502C0B6A8153004C9F44 /* AAHide.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = AAHide.tiff; sourceTree = "<group>"; };
 		1B8F4B140B56823700E8A4C0 /* volume.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = volume.aiff; sourceTree = "<group>"; };
+		1BEF492D0C9AADAC00D7DA07 /* ITunesProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ITunesProgressView.h; path = ../ITunesProgressView.h; sourceTree = "<group>"; };
+		1BEF492E0C9AADAC00D7DA07 /* ITunesProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ITunesProgressView.m; sourceTree = "<group>"; };
 		8D5B49B6048680CD000E48DA /* iTunesAction.spact */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iTunesAction.spact; sourceTree = BUILT_PRODUCTS_DIR; };
 		98027E7B0B9780E200CB77F3 /* SKLevelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKLevelView.m; sourceTree = "<group>"; };
 		98027E7D0B9780E900CB77F3 /* BrightnessView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrightnessView.m; sourceTree = "<group>"; };
@@ -314,7 +319,7 @@
 		981B624209386E340024C0D9 /* ShadowDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowDebug.xcconfig; sourceTree = "<group>"; };
 		981B624309386E340024C0D9 /* ShadowRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowRelease.xcconfig; sourceTree = "<group>"; };
 		981B624509386E340024C0D9 /* ShadowUniversal.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowUniversal.xcconfig; sourceTree = "<group>"; };
-		9832875F079602BE00DB780A /* Labo */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "compiled.mach-o.executable"; path = Labo; sourceTree = BUILT_PRODUCTS_DIR; };
+		9832875F079602BE00DB780A /* Labo */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Labo; sourceTree = BUILT_PRODUCTS_DIR; };
 		9832882D079602EC00DB780A /* Labo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Labo.m; sourceTree = "<group>"; };
 		983332F50B999A3F00801842 /* SysEject.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SysEject.tiff; sourceTree = "<group>"; };
 		983974FC0A58637400F79B40 /* SystemActionPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemActionPlugin.m; sourceTree = "<group>"; };
@@ -347,7 +352,7 @@
 		984704D90B6D0F8F009419B5 /* SysVolumeDown.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = SysVolumeDown.pdf; sourceTree = "<group>"; };
 		984704DA0B6D0F8F009419B5 /* SysKeyboard.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SysKeyboard.tiff; sourceTree = "<group>"; };
 		984704EA0B6D0FB5009419B5 /* SysTrash.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SysTrash.tiff; sourceTree = "<group>"; };
-		984AB99E0B19FD0E00DA2DD0 /* SystemPlugin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SystemPlugin.png; sourceTree = "<group>"; };
+		984AB99E0B19FD0E00DA2DD0 /* SystemPlugin.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SystemPlugin.tiff; sourceTree = "<group>"; };
 		985106B40A590AA200C98B1F /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = English; path = English.lproj/SystemActionHelp.html; sourceTree = "<group>"; };
 		9856D9DA0AF922E400CF2FA6 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Resources/English.lproj/DocumentPlugin.nib; sourceTree = "<group>"; };
 		985B6F070719F8860073D36F /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
@@ -512,6 +517,7 @@
 				98EF7F5508645B90007BC81A /* SparkKit.framework in Frameworks */,
 				98EF7F5E08645BB3007BC81A /* HotKeyToolKit.framework in Frameworks */,
 				986756F5096B3C2800BB8A25 /* ShadowKit.framework in Frameworks */,
+				98D0F7780C9D3570000BE6C9 /* OSAKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -655,6 +661,7 @@
 				984704CC0B6D0F8F009419B5 /* SysLogout.tiff */,
 				984704D20B6D0F8F009419B5 /* SysRestart.tiff */,
 				984704D50B6D0F8F009419B5 /* SystemIcon.tiff */,
+				984AB99E0B19FD0E00DA2DD0 /* SystemPlugin.tiff */,
 				984704DA0B6D0F8F009419B5 /* SysKeyboard.tiff */,
 				984704CE0B6D0F8F009419B5 /* SysShutdown.tiff */,
 				984704D80B6D0F8F009419B5 /* SysVolumeUp.pdf */,
@@ -725,6 +732,7 @@
 				98EFD69D0B584C0D00AD4492 /* ITunesStarView.m */,
 				98E6A94A06063852000CCBE1 /* ITunesActionPlugin.m */,
 				98BD2E5C0AB6DD480063CDEB /* ITunesVisualSetting.m */,
+				1BEF492E0C9AADAC00D7DA07 /* ITunesProgressView.m */,
 				98E1CC5D0607769E00FA3599 /* Info.plist */,
 				98E6A8DD060636AE000CCBE1 /* InfoPlist.strings */,
 				98DEF22C0A4E786700E49F89 /* iTunesInfo.nib */,
@@ -743,6 +751,7 @@
 				98EFD69F0B584C1D00AD4492 /* ITunesStarView.h */,
 				98E6A9520606385A000CCBE1 /* ITunesActionPlugin.h */,
 				98BD2E4E0AB6DD2E0063CDEB /* ITunesVisualSetting.h */,
+				1BEF492D0C9AADAC00D7DA07 /* ITunesProgressView.h */,
 			);
 			path = Headers;
 			sourceTree = "<group>";
@@ -836,7 +845,6 @@
 		98FC44DD06063AA6003617CA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				984AB99E0B19FD0E00DA2DD0 /* SystemPlugin.png */,
 				98FC450806063AF8003617CA /* Help */,
 				984AB98F0B19FCDF00DA2DD0 /* images */,
 				1B8F4B140B56823700E8A4C0 /* volume.aiff */,
@@ -980,6 +988,7 @@
 				98789CAF0AB48D5A00C35052 /* ITunesInfo.h in Headers */,
 				98BD2E4F0AB6DD2E0063CDEB /* ITunesVisualSetting.h in Headers */,
 				98EFD6A00B584C1D00AD4492 /* ITunesStarView.h in Headers */,
+				1BEF492F0C9AADAC00D7DA07 /* ITunesProgressView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1328,7 +1337,7 @@
 				98BA1A0B0A583493004914E9 /* Localizable.strings in Resources */,
 				985106B50A590AA200C98B1F /* SystemActionHelp.html in Resources */,
 				98DAB9850A90F4E9001F3125 /* SystemPlugin.nib in Resources */,
-				984AB99F0B19FD0E00DA2DD0 /* SystemPlugin.png in Resources */,
+				984AB99F0B19FD0E00DA2DD0 /* SystemPlugin.tiff in Resources */,
 				1B8F4B150B56823700E8A4C0 /* volume.aiff in Resources */,
 				984704DB0B6D0F90009419B5 /* SysLogout.tiff in Resources */,
 				984704DC0B6D0F90009419B5 /* SysScreenSaver.tiff in Resources */,
@@ -1414,6 +1423,7 @@
 				98789CB30AB48D8200C35052 /* ITunesInfo.m in Sources */,
 				98BD2E5D0AB6DD480063CDEB /* ITunesVisualSetting.m in Sources */,
 				98EFD69E0B584C0D00AD4492 /* ITunesStarView.m in Sources */,
+				1BEF49300C9AADAC00D7DA07 /* ITunesProgressView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1859,11 +1869,6 @@
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 306;
 				INFOPLIST_FILE = AppleScript/Info.plist;
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-weak_framework",
-					OSAKit,
-				);
 				PRODUCT_NAME = AppleScriptAction;
 			};
 			name = "Universal Binary";
@@ -1908,7 +1913,6 @@
 			baseConfigurationReference = 981B624509386E340024C0D9 /* ShadowUniversal.xcconfig */;
 			buildSettings = {
 				GCC_DYNAMIC_NO_PIC = NO;
-				MACH_O_TYPE = mh_bundle;
 				SYMROOT = ../build;
 				WRAPPER_EXTENSION = spact;
 			};
@@ -1991,11 +1995,6 @@
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 306;
 				INFOPLIST_FILE = AppleScript/Info.plist;
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-weak_framework",
-					OSAKit,
-				);
 				PRODUCT_NAME = AppleScriptAction;
 			};
 			name = Debug;
@@ -2005,11 +2004,6 @@
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 306;
 				INFOPLIST_FILE = AppleScript/Info.plist;
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-weak_framework",
-					OSAKit,
-				);
 				PRODUCT_NAME = AppleScriptAction;
 			};
 			name = Profile;
@@ -2088,7 +2082,6 @@
 			baseConfigurationReference = 981B624209386E340024C0D9 /* ShadowDebug.xcconfig */;
 			buildSettings = {
 				GCC_DYNAMIC_NO_PIC = NO;
-				MACH_O_TYPE = mh_bundle;
 				SYMROOT = ../build;
 				WRAPPER_EXTENSION = spact;
 			};
@@ -2099,7 +2092,6 @@
 			baseConfigurationReference = 98EFD1CE0B58451700AD4492 /* ShadowProfile.xcconfig */;
 			buildSettings = {
 				GCC_DYNAMIC_NO_PIC = NO;
-				MACH_O_TYPE = mh_bundle;
 				SYMROOT = ../build;
 				WRAPPER_EXTENSION = spact;
 			};
@@ -2155,11 +2147,6 @@
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 306;
 				INFOPLIST_FILE = AppleScript/Info.plist;
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-weak_framework",
-					OSAKit,
-				);
 				PRODUCT_NAME = AppleScriptAction;
 			};
 			name = Release;
@@ -2213,7 +2200,6 @@
 			baseConfigurationReference = 981B624309386E340024C0D9 /* ShadowRelease.xcconfig */;
 			buildSettings = {
 				GCC_DYNAMIC_NO_PIC = NO;
-				MACH_O_TYPE = mh_bundle;
 				SYMROOT = ../build;
 				WRAPPER_EXTENSION = spact;
 			};

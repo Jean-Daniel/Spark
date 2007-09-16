@@ -155,7 +155,7 @@
 }
 
 - (void)releaseViewOwnership {
-  /* If was ownership, release the view */
+  /* If was owner, release the view */
   if (sp_sapFlags.ownership) {
     [sp_view release];
     sp_sapFlags.ownership = 0;

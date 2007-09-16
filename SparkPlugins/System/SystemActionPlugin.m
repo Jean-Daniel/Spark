@@ -25,17 +25,10 @@
   /* Check if handle brightness */
   if (![SystemAction supportBrightness]) {
     NSInteger idx = [menu indexOfItemWithTag:kSystemBrightnessUp];
-    NSAssert(idx >= 0, @"Invalid menu. Does not contains volume down action");
+    NSAssert(idx >= 0, @"Invalid menu. Does not contains brightness actions");
     
     [menu removeItemAtIndex:idx + 2];
     [menu removeItemAtIndex:idx + 1];
-    [menu removeItemAtIndex:idx];
-  }
-  
-  if (SKSystemMajorVersion() < 10 || SKSystemMinorVersion() < 4) {
-    /* Screen saver works only with Mac OS X.4 and later */
-    NSInteger idx = [menu indexOfItemWithTag:kSystemScreenSaver];
-    NSAssert(idx >= 0, @"Invalid menu. Does not contains volume down action");
     [menu removeItemAtIndex:idx];
   }
   

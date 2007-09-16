@@ -18,9 +18,6 @@ SPARK_EXPORT
 NSString * const kSparkLibraryDefaultFileName;
 
 SPARK_EXPORT
-NSString * const kSparkLibraryPreferencesFile;
-
-SPARK_EXPORT
 NSString *SparkLibraryFolder(void);
 
 enum {
@@ -55,15 +52,6 @@ SPARK_EXPORT
 SparkLibrary *SparkLibraryGetLibraryWithUUID(CFUUIDRef uuid);
 SPARK_EXPORT
 SparkLibrary *SparkLibraryGetLibraryAtPath(NSString *path, BOOL create);
-
-/* Preferences */
-SPARK_EXPORT
-BOOL SparkLibraryPreferencesSynchronize(void);
-
-SPARK_PRIVATE
-NSMutableDictionary *SparkLibraryGetPreferences(SparkLibrary *aLibrary);
-SPARK_PRIVATE
-void SparkLibrarySetPreferences(SparkLibrary *aLibrary, NSDictionary *preferences);
 
 /* Notifications support */
 SPARK_EXPORT

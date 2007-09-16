@@ -50,6 +50,8 @@ Boolean iTunesIsRunning(ProcessSerialNumber *proc);
 
 SK_PRIVATE
 OSStatus iTunesGetPlayerState(ITunesState *state);
+SK_PRIVATE
+OSStatus iTunesGetPlayerPosition(UInt32 *position);
 
 SK_PRIVATE
 OSStatus iTunesGetVisualEnabled(Boolean *state);
