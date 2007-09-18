@@ -16,6 +16,10 @@ NSString * const kSEPreferencesHideDisabled;
 
 SK_PRIVATE
 NSString * const kSEPreferencesStartAtLogin;
+
+SK_PRIVATE
+NSString * const kSEPreferencesAutoUpdate;
+
 SK_PRIVATE
 NSString * const kSparkPrefSingleKeyMode;
 

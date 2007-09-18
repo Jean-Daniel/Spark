@@ -8,46 +8,47 @@
 
 #import "TextAction.h"
 
-enum {
-  /* Date Formats */
-  kTAFormatTagNone       = kCFDateFormatterNoStyle, /* 0 */
-  kTAFormatTagShort      = kCFDateFormatterShortStyle, /* 1 */
-  kTAFormatTagMedium     = kCFDateFormatterMediumStyle, /* 2 */
-  kTAFormatTagLong       = kCFDateFormatterLongStyle, /* 3 */
-  kTAFormatTagFull       = kCFDateFormatterFullStyle, /* 4 */
-};
-
-SK_INLINE
-CFDateFormatterStyle TADateFormatterStyle(NSInteger format) {
-  return format & 0xff;
-}
-SK_INLINE 
-NSInteger TASetDateFormatterStyle(NSInteger format, CFDateFormatterStyle style) {
-  format &= ~0xff;
-  return format | style;
-}
-
-SK_INLINE
-CFDateFormatterStyle TATimeFormatterStyle(NSInteger format) {
-  return (format >> 8) & 0xff;
-}
-SK_INLINE 
-NSInteger TASetTimeFormatterStyle(NSInteger format, CFDateFormatterStyle style) {
-  format &= ~0xff00;
-  return format | (style << 8);
-}
+//enum {
+//  /* Date Formats */
+//  kTAFormatTagNone       = kCFDateFormatterNoStyle, /* 0 */
+//  kTAFormatTagShort      = kCFDateFormatterShortStyle, /* 1 */
+//  kTAFormatTagMedium     = kCFDateFormatterMediumStyle, /* 2 */
+//  kTAFormatTagLong       = kCFDateFormatterLongStyle, /* 3 */
+//  kTAFormatTagFull       = kCFDateFormatterFullStyle, /* 4 */
+//};
 
 @interface TextActionPlugIn : SparkActionPlugIn {
   IBOutlet NSTextView *ibText;
+  IBOutlet NSTabView *ibTypeView;
   @private
-    /* Date format */
-    CFDateFormatterRef ta_formatter;
+    NSInteger ta_idx;
+  /* Date format */
+  CFDateFormatterRef ta_formatter;
   NSString *ta_format;
   NSInteger ta_styles;
-  /* */
+  /* Text */
+  NSString *ta_text;
 }
 
+#pragma mark Type
+- (NSInteger)type;
+- (void)setType:(NSInteger)type;
+
+- (KeyboardActionType)action;
+- (void)setAction:(KeyboardActionType)action;
+
+#pragma mark Text
+- (NSString *)text;
+- (void)setText:(NSString *)text;
+
+#pragma mark Date
 - (NSString *)sampleDate;
+
+- (NSInteger)dateFormat;
+- (void)setDateFormat:(NSInteger)style;
+
+- (NSInteger)timeFormat;
+- (void)setTimeFormat:(NSInteger)style;
 
 - (NSString *)rawDateFormat;
 - (void)setRawDateFormat:(NSString *)format;

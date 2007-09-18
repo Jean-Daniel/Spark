@@ -31,6 +31,7 @@
 		1B0E222A0B5649D900DC846B /* AudioOutput.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B0E22290B5649D900DC846B /* AudioOutput.h */; };
 		1B0E222C0B5649DF00DC846B /* AudioOutput.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B0E222B0B5649DF00DC846B /* AudioOutput.c */; };
 		1B0E22940B564BA100DC846B /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B0E22930B564BA100DC846B /* CoreAudio.framework */; };
+		1B17C2230C9FC60B005BEA47 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1B17C2210C9FC60B005BEA47 /* Localizable.strings */; };
 		1B37437A0B6E2AFD002F18C8 /* iTFolder.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B3743780B6E2AFD002F18C8 /* iTFolder.tiff */; };
 		1B37437B0B6E2AFD002F18C8 /* iTSmart.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B3743790B6E2AFD002F18C8 /* iTSmart.tiff */; };
 		1B46DC970B81AB1100F4DA1E /* SAScriptEditor.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B46DC930B81AB1100F4DA1E /* SAScriptEditor.tiff */; };
@@ -297,6 +298,7 @@
 		1B0E22290B5649D900DC846B /* AudioOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioOutput.h; sourceTree = "<group>"; };
 		1B0E222B0B5649DF00DC846B /* AudioOutput.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = AudioOutput.c; sourceTree = "<group>"; };
 		1B0E22930B564BA100DC846B /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = /System/Library/Frameworks/CoreAudio.framework; sourceTree = "<absolute>"; };
+		1B17C2220C9FC60B005BEA47 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1B3743780B6E2AFD002F18C8 /* iTFolder.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = iTFolder.tiff; sourceTree = "<group>"; };
 		1B3743790B6E2AFD002F18C8 /* iTSmart.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = iTSmart.tiff; sourceTree = "<group>"; };
 		1B46DC930B81AB1100F4DA1E /* SAScriptEditor.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SAScriptEditor.tiff; sourceTree = "<group>"; };
@@ -709,6 +711,7 @@
 				9897CEFE0B10F6AD00C0EF9E /* remove_mini_down.tiff */,
 				98D7483F0BB5349600D6AB54 /* Help */,
 				98D7483D0BB5349600D6AB54 /* TextActionHelp.html */,
+				1B17C2210C9FC60B005BEA47 /* Localizable.strings */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -1325,6 +1328,7 @@
 				9897CF020B10F6AD00C0EF9E /* remove_mini_down.tiff in Resources */,
 				98D748480BB5349600D6AB54 /* TextActionHelp.html in Resources */,
 				98D748490BB5349600D6AB54 /* Help in Resources */,
+				1B17C2230C9FC60B005BEA47 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1534,6 +1538,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		1B17C2210C9FC60B005BEA47 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1B17C2220C9FC60B005BEA47 /* English */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		985106B30A590AA200C98B1F /* SystemActionHelp.html */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1804,7 +1816,7 @@
 		9888CE1F0B02412200B81BDB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 306;
+				CURRENT_PROJECT_VERSION = 360;
 				INFOPLIST_FILE = Text/Info.plist;
 				PRODUCT_NAME = TextAction;
 			};
@@ -1813,7 +1825,7 @@
 		9888CE200B02412200B81BDB /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 306;
+				CURRENT_PROJECT_VERSION = 360;
 				INFOPLIST_FILE = Text/Info.plist;
 				PRODUCT_NAME = TextAction;
 			};
@@ -1822,7 +1834,7 @@
 		9888CE210B02412200B81BDB /* Universal Binary */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 306;
+				CURRENT_PROJECT_VERSION = 360;
 				INFOPLIST_FILE = Text/Info.plist;
 				PRODUCT_NAME = TextAction;
 			};
@@ -1831,7 +1843,7 @@
 		98C12C7708CE11FC0015CB91 /* Universal Binary */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 306;
+				CURRENT_PROJECT_VERSION = 360;
 				INFOPLIST_FILE = System/Info.plist;
 				PRODUCT_NAME = SystemAction;
 			};
@@ -1840,7 +1852,7 @@
 		98C12C7808CE11FC0015CB91 /* Universal Binary */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 306;
+				CURRENT_PROJECT_VERSION = 360;
 				INFOPLIST_FILE = iTunes/Info.plist;
 				PRODUCT_NAME = iTunesAction;
 			};
@@ -1849,7 +1861,7 @@
 		98C12C7908CE11FC0015CB91 /* Universal Binary */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 306;
+				CURRENT_PROJECT_VERSION = 360;
 				INFOPLIST_FILE = Documents/Info.plist;
 				PRODUCT_NAME = DocumentAction;
 			};
@@ -1858,7 +1870,7 @@
 		98C12C7A08CE11FC0015CB91 /* Universal Binary */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 306;
+				CURRENT_PROJECT_VERSION = 360;
 				INFOPLIST_FILE = Application/Info.plist;
 				PRODUCT_NAME = ApplicationAction;
 			};
@@ -1867,7 +1879,7 @@
 		98C12C7B08CE11FC0015CB91 /* Universal Binary */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 306;
+				CURRENT_PROJECT_VERSION = 360;
 				INFOPLIST_FILE = AppleScript/Info.plist;
 				PRODUCT_NAME = AppleScriptAction;
 			};
@@ -1921,7 +1933,7 @@
 		98EF7EC908645A0E007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 306;
+				CURRENT_PROJECT_VERSION = 360;
 				INFOPLIST_FILE = System/Info.plist;
 				PRODUCT_NAME = SystemAction;
 			};
@@ -1930,7 +1942,7 @@
 		98EF7ECA08645A0E007BC81A /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 306;
+				CURRENT_PROJECT_VERSION = 360;
 				INFOPLIST_FILE = System/Info.plist;
 				PRODUCT_NAME = SystemAction;
 			};
@@ -1939,7 +1951,7 @@
 		98EF7ECD08645A0E007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 306;
+				CURRENT_PROJECT_VERSION = 360;
 				INFOPLIST_FILE = iTunes/Info.plist;
 				PRODUCT_NAME = iTunesAction;
 			};
@@ -1948,7 +1960,7 @@
 		98EF7ECE08645A0E007BC81A /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 306;
+				CURRENT_PROJECT_VERSION = 360;
 				INFOPLIST_FILE = iTunes/Info.plist;
 				PRODUCT_NAME = iTunesAction;
 			};
@@ -1957,7 +1969,7 @@
 		98EF7ED108645A0E007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 306;
+				CURRENT_PROJECT_VERSION = 360;
 				INFOPLIST_FILE = Documents/Info.plist;
 				PRODUCT_NAME = DocumentAction;
 			};
@@ -1966,7 +1978,7 @@
 		98EF7ED208645A0E007BC81A /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 306;
+				CURRENT_PROJECT_VERSION = 360;
 				INFOPLIST_FILE = Documents/Info.plist;
 				PRODUCT_NAME = DocumentAction;
 			};
@@ -1975,7 +1987,7 @@
 		98EF7ED508645A0E007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 306;
+				CURRENT_PROJECT_VERSION = 360;
 				INFOPLIST_FILE = Application/Info.plist;
 				PRODUCT_NAME = ApplicationAction;
 			};
@@ -1984,7 +1996,7 @@
 		98EF7ED608645A0E007BC81A /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 306;
+				CURRENT_PROJECT_VERSION = 360;
 				INFOPLIST_FILE = Application/Info.plist;
 				PRODUCT_NAME = ApplicationAction;
 			};
@@ -1993,7 +2005,7 @@
 		98EF7ED908645A0E007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 306;
+				CURRENT_PROJECT_VERSION = 360;
 				INFOPLIST_FILE = AppleScript/Info.plist;
 				PRODUCT_NAME = AppleScriptAction;
 			};
@@ -2002,7 +2014,7 @@
 		98EF7EDA08645A0E007BC81A /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 306;
+				CURRENT_PROJECT_VERSION = 360;
 				INFOPLIST_FILE = AppleScript/Info.plist;
 				PRODUCT_NAME = AppleScriptAction;
 			};
@@ -2100,7 +2112,7 @@
 		98EFD1CF0B58454800AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 306;
+				CURRENT_PROJECT_VERSION = 360;
 				INFOPLIST_FILE = Text/Info.plist;
 				PRODUCT_NAME = TextAction;
 			};
@@ -2109,7 +2121,7 @@
 		98EFD1D00B58454800AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 306;
+				CURRENT_PROJECT_VERSION = 360;
 				INFOPLIST_FILE = iTunes/Info.plist;
 				PRODUCT_NAME = iTunesAction;
 			};
@@ -2118,7 +2130,7 @@
 		98EFD1D10B58454800AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 306;
+				CURRENT_PROJECT_VERSION = 360;
 				INFOPLIST_FILE = System/Info.plist;
 				PRODUCT_NAME = SystemAction;
 			};
@@ -2127,7 +2139,7 @@
 		98EFD1D20B58454800AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 306;
+				CURRENT_PROJECT_VERSION = 360;
 				INFOPLIST_FILE = Documents/Info.plist;
 				PRODUCT_NAME = DocumentAction;
 			};
@@ -2136,7 +2148,7 @@
 		98EFD1D30B58454800AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 306;
+				CURRENT_PROJECT_VERSION = 360;
 				INFOPLIST_FILE = Application/Info.plist;
 				PRODUCT_NAME = ApplicationAction;
 			};
@@ -2145,7 +2157,7 @@
 		98EFD1D40B58454800AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 306;
+				CURRENT_PROJECT_VERSION = 360;
 				INFOPLIST_FILE = AppleScript/Info.plist;
 				PRODUCT_NAME = AppleScriptAction;
 			};

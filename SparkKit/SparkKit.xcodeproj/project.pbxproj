@@ -160,7 +160,7 @@
 		98CF6FB306B3DB2B0017D206 /* Back.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98CF6FAF06B3DB2B0017D206 /* Back.tif */; };
 		98D4B8770B617437005A4CDB /* ShadowMacros.pch in Headers */ = {isa = PBXBuildFile; fileRef = 98D4B8760B617437005A4CDB /* ShadowMacros.pch */; settings = {ATTRIBUTES = (Public, ); }; };
 		98D6304C0B35BACD00E0CE91 /* SKUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D6304B0B35BACD00E0CE91 /* SKUpdater.m */; };
-		98D6304E0B35BAD900E0CE91 /* SKUpdater.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D6304D0B35BAD900E0CE91 /* SKUpdater.h */; };
+		98D6304E0B35BAD900E0CE91 /* SKUpdater.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D6304D0B35BAD900E0CE91 /* SKUpdater.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		98D7643E0B5A6003000A09A5 /* SparkEntryManagerPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D7643D0B5A6003000A09A5 /* SparkEntryManagerPrivate.h */; };
 		98D764530B5A610B000A09A5 /* SparkEntryManagerPrivate.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D764520B5A610B000A09A5 /* SparkEntryManagerPrivate.m */; };
 		98D7680E0B5A821C000A09A5 /* SparkLibrarySynchronizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D767980B5A754E000A09A5 /* SparkLibrarySynchronizer.m */; };
@@ -1423,9 +1423,9 @@
 		9848D887085638FD006B5130 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 305;
+				CURRENT_PROJECT_VERSION = 360;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = "${CURRENT_PROJECT_VERSION}";
+				DYLIB_CURRENT_VERSION = 360;
 				FRAMEWORK_VERSION = B;
 				GCC_DYNAMIC_NO_PIC = NO;
 				INFOPLIST_FILE = Info.plist;
@@ -1441,9 +1441,9 @@
 		9848D888085638FD006B5130 /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 305;
+				CURRENT_PROJECT_VERSION = 360;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = "${CURRENT_PROJECT_VERSION}";
+				DYLIB_CURRENT_VERSION = 360;
 				FRAMEWORK_VERSION = B;
 				GCC_DYNAMIC_NO_PIC = NO;
 				INFOPLIST_FILE = Info.plist;
@@ -1475,9 +1475,9 @@
 		98C128F208CE0EDE0015CB91 /* Universal Binary */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 305;
+				CURRENT_PROJECT_VERSION = 360;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = "${CURRENT_PROJECT_VERSION}";
+				DYLIB_CURRENT_VERSION = 360;
 				FRAMEWORK_VERSION = B;
 				GCC_DYNAMIC_NO_PIC = NO;
 				INFOPLIST_FILE = Info.plist;
@@ -1501,9 +1501,9 @@
 		98C56D37096B348600ABE1EF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 305;
+				CURRENT_PROJECT_VERSION = 360;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = "${CURRENT_PROJECT_VERSION}";
+				DYLIB_CURRENT_VERSION = 360;
 				GCC_DYNAMIC_NO_PIC = NO;
 				INFOPLIST_FILE = ShadowKit/Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -1523,9 +1523,9 @@
 		98C56D39096B348600ABE1EF /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 305;
+				CURRENT_PROJECT_VERSION = 360;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = "${CURRENT_PROJECT_VERSION}";
+				DYLIB_CURRENT_VERSION = 360;
 				GCC_DYNAMIC_NO_PIC = NO;
 				INFOPLIST_FILE = ShadowKit/Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -1545,9 +1545,9 @@
 		98C56D3A096B348600ABE1EF /* Universal Binary */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 305;
+				CURRENT_PROJECT_VERSION = 360;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = "${CURRENT_PROJECT_VERSION}";
+				DYLIB_CURRENT_VERSION = 360;
 				GCC_DYNAMIC_NO_PIC = NO;
 				INFOPLIST_FILE = ShadowKit/Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -1567,9 +1567,9 @@
 		98EFD0A30B5844F300AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 305;
+				CURRENT_PROJECT_VERSION = 360;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = "${CURRENT_PROJECT_VERSION}";
+				DYLIB_CURRENT_VERSION = 360;
 				GCC_DYNAMIC_NO_PIC = NO;
 				INFOPLIST_FILE = ShadowKit/Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -1589,9 +1589,9 @@
 		98EFD0A40B5844F300AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 305;
+				CURRENT_PROJECT_VERSION = 360;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = "${CURRENT_PROJECT_VERSION}";
+				DYLIB_CURRENT_VERSION = 360;
 				FRAMEWORK_VERSION = B;
 				GCC_DYNAMIC_NO_PIC = NO;
 				INFOPLIST_FILE = Info.plist;

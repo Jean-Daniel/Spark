@@ -18,25 +18,98 @@
 }
 
 - (void)dealloc {
+  [ta_text release];
+  [ta_format release];
   if (ta_formatter) CFRelease(ta_formatter);
   [super dealloc];
 }
 
 - (void)loadSparkAction:(TextAction *)anAction toEdit:(BOOL)isEditing {
-  [ibText setString:[anAction string] ? :  @""];
+  [self setAction:[anAction action]];
+  switch ([anAction action]) {
+    case kTATextAction:
+      [self setText:[anAction data]];
+      break;
+    case kTADateStyleAction: {
+      NSInteger styles = SKIntegerValue([anAction data]);
+      [self setDateFormat:TADateFormatterStyle(styles)];
+      [self setTimeFormat:TATimeFormatterStyle(styles)];
+    }
+      break;
+    case kTADateFormatAction:
+      [self setRawDateFormat:[anAction data]];
+      break;
+  }
 }
 
 - (NSAlert *)sparkEditorShouldConfigureAction {
+  //TextAction *action = [self sparkAction];
+  switch ([self action]) {
+    
+  }
   return nil;
 }
 
 - (void)configureAction {
-  /* if text */
-  NSString *str = [ibText string];
-  [[self sparkAction] setString:str];
+  TextAction *action = [self sparkAction];
+  [action setAction:[self action]];
+  switch ([action action]) {
+    case kTATextAction:
+      [action setData:ta_text];
+      break;
+    case kTADateFormatAction:
+      [action setData:ta_format];
+      break;
+    case kTADateStyleAction:
+      [action setData:SKInteger(ta_styles)];
+      break;
+  }
 }
 
 #pragma mark -
+- (NSInteger)type {
+  return ta_idx;
+}
+- (void)setType:(NSInteger)type {
+  ta_idx = type;
+}
+
+- (KeyboardActionType)action {
+  switch (ta_idx) {
+    case 0:
+      return kTATextAction;
+    case 1:
+      return TADateFormatterCustomFormat(ta_styles) ? kTADateFormatAction : kTADateStyleAction;
+    case 2:
+      return kTAKeystrokeAction;
+  }
+  return 0;
+}
+
+- (void)setAction:(KeyboardActionType)action {
+  switch (action) {
+    case kTATextAction:
+      [self setType:0];
+      break;
+    case kTADateStyleAction:
+    case kTADateFormatAction:
+      [self setType:1];
+      break;
+    case kTAKeystrokeAction:
+      [self setType:2];
+      break;      
+  }
+}
+
+#pragma mark Text
+- (NSString *)text {
+  return ta_text;
+}
+- (void)setText:(NSString *)text {
+  SKSetterCopy(ta_text, text);
+}
+
+#pragma mark Date
 - (void)resetFormatter {
   [self willChangeValueForKey:@"sampleDate"];
   [self willChangeValueForKey:@"rawDateFormat"];
@@ -89,6 +162,8 @@
     [self willChangeValueForKey:@"timeFormat"];
     [ta_format release];
     ta_format = [format copy];
+    ta_styles = TASetDateFormatterStyle(ta_styles, kCFDateFormatterNoStyle);
+    ta_styles = TASetTimeFormatterStyle(ta_styles, kCFDateFormatterNoStyle);
     CFDateFormatterSetFormat(ta_formatter, (CFStringRef)format ? : CFSTR(""));
     [self didChangeValueForKey:@"timeFormat"];
     [self didChangeValueForKey:@"dateFormat"];

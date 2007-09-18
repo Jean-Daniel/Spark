@@ -123,7 +123,7 @@
 		98DD42450A57C9BC00F059E5 /* HKEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = HKEvent.m; sourceTree = "<group>"; };
 		98DD42490A57C9C800F059E5 /* HKEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = HKEvent.h; sourceTree = "<group>"; };
 		98E204820A56FDFC00EB74E1 /* Runner.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = Runner.m; sourceTree = "<group>"; };
-		98E204A00A56FE6500EB74E1 /* Runner */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Runner; sourceTree = BUILT_PRODUCTS_DIR; };
+		98E204A00A56FE6500EB74E1 /* Runner */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "compiled.mach-o.executable"; path = Runner; sourceTree = BUILT_PRODUCTS_DIR; };
 		98EF7D6F0864538C007BC81A /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = /System/Library/Frameworks/SenTestingKit.framework; sourceTree = "<absolute>"; };
 		98EFD0340B58444200AD4492 /* ShadowProfile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowProfile.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -577,9 +577,9 @@
 		981B5F510938699D0024C0D9 /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 305;
+				CURRENT_PROJECT_VERSION = 360;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = "${CURRENT_PROJECT_VERSION}";
+				DYLIB_CURRENT_VERSION = 360;
 				FRAMEWORK_VERSION = A;
 				GCC_DYNAMIC_NO_PIC = NO;
 				INFOPLIST_FILE = Info.plist;
@@ -671,9 +671,9 @@
 		98C1287D08CE0D620015CB91 /* Universal Binary */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 305;
+				CURRENT_PROJECT_VERSION = 360;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = "${CURRENT_PROJECT_VERSION}";
+				DYLIB_CURRENT_VERSION = 360;
 				FRAMEWORK_VERSION = A;
 				GCC_DYNAMIC_NO_PIC = NO;
 				INFOPLIST_FILE = Info.plist;
@@ -768,9 +768,9 @@
 		98EF7D5508645328007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 305;
+				CURRENT_PROJECT_VERSION = 360;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = "${CURRENT_PROJECT_VERSION}";
+				DYLIB_CURRENT_VERSION = 360;
 				FRAMEWORK_VERSION = A;
 				GCC_DYNAMIC_NO_PIC = NO;
 				INFOPLIST_FILE = Info.plist;
@@ -796,9 +796,9 @@
 		98EFD03D0B58448D00AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 305;
+				CURRENT_PROJECT_VERSION = 360;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = "${CURRENT_PROJECT_VERSION}";
+				DYLIB_CURRENT_VERSION = 360;
 				FRAMEWORK_VERSION = A;
 				GCC_DYNAMIC_NO_PIC = NO;
 				INFOPLIST_FILE = Info.plist;

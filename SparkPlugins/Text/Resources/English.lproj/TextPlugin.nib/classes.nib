@@ -11,7 +11,7 @@
         {
             CLASS = TextActionPlugin; 
             LANGUAGE = ObjC; 
-            OUTLETS = {ibTabView = NSTabView; ibText = NSTextView; }; 
+            OUTLETS = {ibText = NSTextView; ibTypeView = NSTabView; }; 
             SUPERCLASS = SparkActionPlugIn; 
         }
     ); 

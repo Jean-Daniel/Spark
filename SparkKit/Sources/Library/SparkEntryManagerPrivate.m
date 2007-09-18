@@ -464,7 +464,7 @@ typedef struct {
       */
     if (!action || ![triggers containsObjectWithUID:entry->trigger] || 
         (entry->application != kSparkApplicationSystemUID && ![applications containsObjectWithUID:entry->application])) {
-      DLog(@"Remove Illegal entry { %u, %u, %u }", entry->action, entry->trigger, entry->application);
+      DLog(@"Remove Invalid entry { %u, %u, %u }", entry->action, entry->trigger, entry->application);
       [self removeLibraryEntry:entry];
     } else {
       if (SparkLibraryEntryIsOverwrite(entry))

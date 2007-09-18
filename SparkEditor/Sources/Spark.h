@@ -33,8 +33,9 @@ const UInt32 kSparkVersion;
 
 @end
 
-
+@class SKUpdater;
 @interface Spark : NSObject {
+  @private
   IBOutlet NSMenu *aboutMenu;
   IBOutlet NSMenuItem *statusMenuItem;
 }

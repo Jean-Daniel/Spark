@@ -15,7 +15,7 @@ static ProcessSerialNumber _HKGetProcessWithSignature(OSType type);
 static ProcessSerialNumber _HKGetProcessWithBundleIdentifier(CFStringRef bundleId);
 
 #pragma mark -
-useconds_t HKEventSleepInterval = 5000;
+useconds_t HKEventSleepInterval = 2500;
 
 HK_INLINE
 void __HKEventPostKeyboardEvent(CGEventSourceRef source, HKKeycode keycode, void *psn, Boolean down) {

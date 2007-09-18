@@ -33,6 +33,10 @@ NSString * const kSparkPrefVersion = @"SparkVersion";
 NSString * const kSEPreferencesHideDisabled = @"SparkHideDisabled";
 /* If daemon should automatically start at login */
 NSString * const kSEPreferencesStartAtLogin = @"SparkStartAtLogin";
+
+/* If should check update automatically */
+NSString * const kSEPreferencesAutoUpdate = @"SparkAutoUpdate";
+
 /* Define which single key shortcut is allow */
 NSString * const kSparkPrefSingleKeyMode = @"SparkSingleKeyMode";
 
@@ -73,8 +77,10 @@ void *_SEPreferencesLoginItemThread(void *arg) {
   return NULL;
 }
 
+/* Default values initialization */
 + (void)setup {
   NSDictionary *values = [NSDictionary dictionaryWithObjectsAndKeys:
+    SKBool(YES), kSEPreferencesAutoUpdate,
     SKBool(NO), kSEPreferencesHideDisabled,
     SKBool(YES), kSEPreferencesStartAtLogin,
     SKInt(kSparkEnableSingleFunctionKey), kSparkPrefSingleKeyMode,

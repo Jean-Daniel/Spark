@@ -277,6 +277,7 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
 
 - (void)setTrack:(iTunesTrack *)track {
   CFStringRef value = NULL;
+  
   /* Track Name */
   if (track)
     iTunesCopyTrackStringProperty(track, kiTunesNameKey, &value);

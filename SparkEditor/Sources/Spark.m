@@ -29,13 +29,14 @@
 
 #import <HotKeyToolKit/HotKeyToolKit.h>
 
+#import "SEUpdater.h"
 #import "SEPluginHelp.h"
 #import "SEPreferences.h"
 #import "SELibraryWindow.h"
 #import "SELibraryDocument.h"
 #import "SEServerConnection.h"
 
-const UInt32 kSparkVersion = 0x020801; /* 3.0.0 */
+const UInt32 kSparkVersion = 0x020900; /* 3.0.0 */
 
 int main(int argc, const char *argv[]) {
 #if defined(DEBUG)
@@ -74,6 +75,9 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
                                                object:nil];
     /* Force script system initialization */
     [NSScriptSuiteRegistry sharedScriptSuiteRegistry];
+    
+    /* Check update */
+    
     /* Leopard Help hack */
     if (SKSystemMajorVersion() == 10 && SKSystemMinorVersion() >= 5) {
       HKHotKey *help = [[HKHotKey alloc] initWithKeycode:kVirtualHelpKey modifier:0];
@@ -163,6 +167,10 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
     
     /* Register defaults */
     [SEPreferences setup];
+    
+    /* Check update */
+//    if ([[NSUserDefaults standardUserDefaults] boolForKey:kSEPreferencesAutoUpdate])
+      
   }
   return self;
 }
