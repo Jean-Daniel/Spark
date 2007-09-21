@@ -33,11 +33,12 @@ const UInt32 kSparkVersion;
 
 @end
 
-@class SKUpdater;
+@class SEPreferences;
 @interface Spark : NSObject {
   @private
   IBOutlet NSMenu *aboutMenu;
   IBOutlet NSMenuItem *statusMenuItem;
+  SEPreferences *se_preferences;
 }
 
 #pragma mark Menu IBActions

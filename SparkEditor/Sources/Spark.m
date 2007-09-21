@@ -233,9 +233,12 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
 }
 
 - (IBAction)showPreferences:(id)sender {
-  SEPreferences *preferences = [[SEPreferences alloc] init];
-  [preferences setReleasedWhenClosed:YES];
-  [NSApp runModalForWindow:[preferences window]];
+  if (!se_preferences) {
+    se_preferences = [[SEPreferences alloc] init];
+    [se_preferences setReleasedWhenClosed:NO];
+  }
+  [se_preferences showWindow:nil];
+  //[NSApp runModalForWindow:[preferences window]];
 }
 
 #pragma mark -

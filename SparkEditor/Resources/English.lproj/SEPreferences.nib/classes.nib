@@ -2,10 +2,14 @@
     IBClasses = (
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
-            ACTIONS = {close = id; }; 
+            ACTIONS = {apply = id; close = id; update = id; }; 
             CLASS = SEPreferences; 
             LANGUAGE = ObjC; 
-            OUTLETS = {ibController = NSObjectController; ibPlugins = NSOutlineView; }; 
+            OUTLETS = {
+                ibController = NSObjectController; 
+                ibPanels = NSTabView; 
+                ibPlugins = NSOutlineView; 
+            }; 
             SUPERCLASS = SKWindowController; 
         }, 
         {CLASS = SKImageAndTextCell; LANGUAGE = ObjC; SUPERCLASS = NSTextFieldCell; }, 

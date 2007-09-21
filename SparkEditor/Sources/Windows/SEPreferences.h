@@ -25,6 +25,7 @@ NSString * const kSparkPrefSingleKeyMode;
 
 @interface SEPreferences : SKWindowController {
   @private
+  IBOutlet NSTabView *ibPanels;
   IBOutlet NSOutlineView *ibPlugins;
   IBOutlet NSObjectController *ibController;
   

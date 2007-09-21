@@ -9,6 +9,7 @@
 #import "SEPreferences.h"
 
 #import "Spark.h"
+#import "SEUpdater.h"
 #import "SEServerConnection.h"
 
 #import <SparkKit/SparkKit.h>
@@ -39,6 +40,12 @@ NSString * const kSEPreferencesAutoUpdate = @"SparkAutoUpdate";
 
 /* Define which single key shortcut is allow */
 NSString * const kSparkPrefSingleKeyMode = @"SparkSingleKeyMode";
+
+/* Toolbar items */
+static NSString * const kSparkPreferencesToolbarGeneralItem = @"SparkPreferencesToolbarGeneralItem";
+static NSString * const kSparkPreferencesToolbarPluginsItem = @"SparkPreferencesToolbarPluginsItem";
+static NSString * const kSparkPreferencesToolbarUpdateItem = @"SparkPreferencesToolbarUpdateItem";
+static NSString * const kSparkPreferencesToolbarAdvancedItem = @"SparkPreferencesToolbarAdvancedItem";
 
 static
 void _SEPreferencesUpdateLoginItem(void);
@@ -80,7 +87,7 @@ void *_SEPreferencesLoginItemThread(void *arg) {
 /* Default values initialization */
 + (void)setup {
   NSDictionary *values = [NSDictionary dictionaryWithObjectsAndKeys:
-    SKBool(YES), kSEPreferencesAutoUpdate,
+    SKBool(NO), kSEPreferencesAutoUpdate,
     SKBool(NO), kSEPreferencesHideDisabled,
     SKBool(YES), kSEPreferencesStartAtLogin,
     SKInt(kSparkEnableSingleFunctionKey), kSparkPrefSingleKeyMode,
@@ -119,7 +126,17 @@ void *_SEPreferencesLoginItemThread(void *arg) {
   [super dealloc];
 }
 
+#pragma mark -
 - (void)awakeFromNib {
+  /* set toolbar */
+  NSToolbar *toolbar = [[NSToolbar alloc] initWithIdentifier:@"SparkPreferencesToolbar"];
+  [toolbar setDelegate:self];
+  [toolbar setAllowsUserCustomization:NO];
+  [toolbar setDisplayMode:NSToolbarDisplayModeIconAndLabel];
+  [toolbar setSelectedItemIdentifier:kSparkPreferencesToolbarGeneralItem];
+  [[self window] setToolbar:[toolbar autorelease]];
+  [[self window] setShowsToolbarButton:NO];
+  
   /* Set outline column */
   [ibPlugins setOutlineTableColumn:[ibPlugins tableColumnWithIdentifier:@"__item__"]];
   
@@ -184,7 +201,7 @@ void *_SEPreferencesLoginItemThread(void *arg) {
   }
 }
 
-- (IBAction)close:(id)sender {
+- (IBAction)apply:(id)sender {
   BOOL change = NO;
   long status = status;
   SparkPlugIn *plugin = nil;
@@ -199,18 +216,18 @@ void *_SEPreferencesLoginItemThread(void *arg) {
     [[NSNotificationCenter defaultCenter] postNotificationName:SESparkEditorDidChangePluginStatusNotification
                                                         object:nil];
   }
-//    /* Invalidate entries cache */
-//    [[SEEntriesManager sharedManager] reload];
-//  } else {
-//    [[SEEntriesManager sharedManager] refresh];
-//  }
   /* Check login items */
-  if (se_login != __SEPreferencesLoginItemStatus())
+  if (se_login != __SEPreferencesLoginItemStatus()) {
+    se_login = __SEPreferencesLoginItemStatus();
     _SEPreferencesUpdateLoginItem();
+  }
   
   /* Unbind to release */
-  [ibController setContent:nil];
-  
+//  [ibController setContent:nil];
+}
+
+- (IBAction)close:(id)sender {
+  [self apply:sender];
   [super close:sender];
 }
 
@@ -247,6 +264,11 @@ void *_SEPreferencesLoginItemThread(void *arg) {
 - (void)setSingleKeyMode:(NSInteger)mode {
   __SetSparkKitSingleKeyMode(mode);
   [[NSUserDefaults standardUserDefaults] setInteger:mode forKey:kSparkPrefSingleKeyMode];
+}
+
+#pragma mark Update
+- (IBAction)update:(id)sender {
+  [[SEUpdater sharedUpdater] search];
 }
 
 #pragma mark -
@@ -305,6 +327,58 @@ void *_SEPreferencesLoginItemThread(void *arg) {
       DLog(@"Delete plugin: %@", item);
     }
   }
+}
+
+#pragma mark Toolbar
+- (IBAction)changePanel:(id)sender {
+  [ibPanels selectTabViewItemAtIndex:[sender tag]];
+}
+
+- (NSToolbarItem *)toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSString *)itemIdentifier willBeInsertedIntoToolbar:(BOOL)flag {
+  NSToolbarItem *toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier: itemIdentifier] autorelease];
+  if ([kSparkPreferencesToolbarGeneralItem isEqualToString:itemIdentifier]) {
+    [toolbarItem setTag:0];
+    [toolbarItem setLabel:@"General"];
+    [toolbarItem setImage:[NSImage imageNamed:@"generalpref"]];
+  } else if ([kSparkPreferencesToolbarPluginsItem isEqualToString:itemIdentifier]) {
+    [toolbarItem setTag:1];
+    [toolbarItem setLabel:@"Plugins"];
+    [toolbarItem setImage:[NSImage imageNamed:@"pluginpref"]];
+  } else if ([kSparkPreferencesToolbarUpdateItem isEqualToString:itemIdentifier]) {
+    [toolbarItem setTag:2];
+    [toolbarItem setLabel:@"Update"];
+    [toolbarItem setImage:[NSImage imageNamed:@"updatepref"]];
+  } else if ([kSparkPreferencesToolbarAdvancedItem isEqualToString:itemIdentifier]) {
+    [toolbarItem setTag:3];
+    [toolbarItem setLabel:@"Advanced"];
+    [toolbarItem setImage:[NSImage imageNamed:@"advancedpref"]];
+  }
+  
+  // Tell the item what message to send when it is clicked
+  [toolbarItem setTarget:self];
+  [toolbarItem setAction:@selector(changePanel:)];
+  return toolbarItem;
+}
+
+- (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar*)toolbar {
+  return [NSArray arrayWithObjects:kSparkPreferencesToolbarGeneralItem, 
+    kSparkPreferencesToolbarPluginsItem,
+    kSparkPreferencesToolbarUpdateItem,
+    kSparkPreferencesToolbarAdvancedItem, nil];
+}
+
+- (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar*)toolbar {
+  return [NSArray arrayWithObjects:kSparkPreferencesToolbarGeneralItem, 
+    kSparkPreferencesToolbarPluginsItem,
+    kSparkPreferencesToolbarUpdateItem,
+    kSparkPreferencesToolbarAdvancedItem, nil];
+}
+
+- (NSArray *)toolbarSelectableItemIdentifiers:(NSToolbar *)toolbar {
+  return [NSArray arrayWithObjects:kSparkPreferencesToolbarGeneralItem, 
+    kSparkPreferencesToolbarPluginsItem,
+    kSparkPreferencesToolbarUpdateItem,
+    kSparkPreferencesToolbarAdvancedItem, nil];
 }
 
 @end

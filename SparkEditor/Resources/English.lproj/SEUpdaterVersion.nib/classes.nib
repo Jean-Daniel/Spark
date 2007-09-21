@@ -1,0 +1,25 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {install = id; }; 
+            CLASS = SEUpdaterVersion; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                ibHeader = SKHeaderView; 
+                ibHistory = WebView; 
+                ibMessage = NSTextField; 
+                ibTitle = NSTextField; 
+            }; 
+            SUPERCLASS = SKWindowController; 
+        }, 
+        {CLASS = SKHeaderView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
+        {
+            ACTIONS = {close = id; }; 
+            CLASS = SKWindowController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSWindowController; 
+        }
+    ); 
+    IBVersion = 1; 
+}
