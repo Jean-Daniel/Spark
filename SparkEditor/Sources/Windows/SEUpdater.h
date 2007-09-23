@@ -9,19 +9,14 @@
 #import <Cocoa/Cocoa.h>
 #import <ShadowKit/SKSingleton.h>
 
-@class SKUpdater;
+@class SKUpdater, SKProgressPanel;
 @interface SEUpdater : NSObject {
-  IBOutlet NSWindow *ibProgressWindow;
-  IBOutlet NSTextField *ibName;
-  IBOutlet NSTextField *ibProgressText;
-  IBOutlet NSProgressIndicator *ibProgress;
-
   @private
   bool se_search;
   UInt64 se_version;
   NSString *se_size;
   SKUpdater *se_updater;
-  CFAbsoluteTime se_refresh;
+  SKProgressPanel *se_progress;
 }
 
 - (void)search;

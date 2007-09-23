@@ -205,8 +205,6 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
                                              object:nil];
   /* Check daemon path and connect */
   SEServerStartConnection();
-  //  [self showMainWindow:nil];
-  //  [self displayFirstRunIfNeeded];
 }
 
 - (void)serverStatusDidChange:(NSNotification *)aNotification {
@@ -243,10 +241,7 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
 
 #pragma mark -
 #pragma mark Import/Export Support
-- (BOOL)restoreLibrary:(NSString *)path {
-  ShadowTrace();
-  return NO;
-}
+
 
 #pragma mark -
 #pragma mark PlugIn Help Support
@@ -258,59 +253,6 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
   [[SEPluginHelp sharedPluginHelp] setPage:page];
   [[SEPluginHelp sharedPluginHelp] showWindow:self];
 }
-
-#pragma mark -
-#pragma mark Live Update Support
-//- (IBAction)checkForNewVersion:(id)sender {
-//  NSString *currVersionNumber = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
-//  NSDictionary *productVersionDict = [NSDictionary dictionaryWithContentsOfURL:[NSURL URLWithString:NSLocalizedStringFromTable(@"UPDATE_FILE_URL",
-//                                                                                                                               @"Update", @"Url of the update file (.xml or .plist). Do not localize.")]];
-//  NSString *latestVersionNumber = [productVersionDict valueForKey:@"Spark"];
-//  if (latestVersionNumber == nil) {
-//    NSBeginAlertSheet(NSLocalizedStringFromTable(@"UPDATE_CHECKING_ERROR",
-//                                                 @"Update", @"Check Update Error * Title *"),
-//                      NSLocalizedStringFromTable(@"OK",
-//                                                 @"Update", @"Alert default button"),
-//                      nil, nil, [libraryWindow window],
-//                      nil, nil, nil, nil,
-//                      NSLocalizedStringFromTable(@"UPDATE_CHECKING_ERROR_MSG",
-//                                                 @"Update", @"Check Update Error * Msg * (Replace ChezJD by the web Site URL)"));
-//    return;
-//  }
-//  if([latestVersionNumber isEqualTo:currVersionNumber])
-//  {
-//    NSBeginAlertSheet(NSLocalizedStringFromTable(@"SOFTWARE_UP_TO_DATE_NOTIFICATION",
-//                                                 @"Update", @"When a the user's software is up to date. * Title *"),
-//                      NSLocalizedStringFromTable(@"OK",
-//                                                 @"Update", @"Alert default button"),
-//                      nil, nil, [libraryWindow window],
-//                      nil, nil, nil, nil,
-//                      NSLocalizedStringFromTable(@"SOFTWARE_UP_TO_DATE_NOTIFICATION_MSG",
-//                                                 @"Update", @"When a the user's software is up to date. * Msg *"));
-//  }
-//  else {
-//    id alert = [NSAlert alertWithMessageText:NSLocalizedStringFromTable(@"CONFIRM_GO_TO_UPDATE_PAGE",
-//                                                                        @"Update", @"New version available")
-//                               defaultButton:NSLocalizedStringFromTable(@"CONFIRM_GO_TO_UPDATE_PAGE_YES",
-//                                                                        @"Update", @"New version available * default button *")
-//                             alternateButton:NSLocalizedStringFromTable(@"CONFIRM_GO_TO_UPDATE_PAGE_CANCEL",
-//                                                                        @"Update", @"New version available * cancel button *")
-//                                 otherButton:nil
-//                   informativeTextWithFormat:NSLocalizedStringFromTable(@"CONFIRM_GO_TO_UPDATE_PAGE_MSG",
-//                                                                        @"Update", @"New version available * msg *"), latestVersionNumber];
-//    [alert beginSheetModalForWindow:[libraryWindow window]
-//                      modalDelegate:self
-//                     didEndSelector:@selector(checkUpdateAlertDidEnd:returnCode:contextInfo:)
-//                        contextInfo:nil];
-//  }
-//}
-
-//- (void)checkUpdateAlertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(NSDictionary *)plist {
-//  if(NSAlertDefaultReturn == returnCode) {
-//    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:NSLocalizedStringFromTable(@"UPDATE_PAGE_URL",
-//                                                                                           @"Update", @"The url of the update page. Do not localize.")]];
-//  }
-//}
 
 #pragma mark -
 #pragma mark Open File & Sheet Did End

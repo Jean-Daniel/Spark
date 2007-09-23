@@ -118,7 +118,9 @@ dispose:
     NSString *path = [paths objectAtIndex:0];
     location = path;
     if (noErr == SKFSCreateFolder((CFStringRef)path)) {
+      /* First try to copy the file using workspace operation */
       if (![self installPlugin:plugin into:path copy:YES]) {
+        /* If failed, ask the finder to move the file (it will take care of the authentification for us) */
         OSStatus err = [self moveFile:plugin to:path copy:YES];
         if (noErr != err && userCanceledErr != err) {
           NSRunAlertPanel(@"The plugin was not installed", @"An error prevent plugin installation.", @"OK", nil, nil);
@@ -129,7 +131,7 @@ dispose:
         installed = YES;
       }
     } else {
-      NSString *tmp = SKFSFindFolder(kTemporaryFolderType, kLocalDomain);
+      NSString *tmp = SKFSFindFolder(kTemporaryFolderType, kLocalDomain, true);
       NSMutableArray *cmpt = [[NSMutableArray alloc] init];
       NSFileManager *manager = [NSFileManager defaultManager];
       while ([path length] && ![manager fileExistsAtPath:path isDirectory:NULL]) {

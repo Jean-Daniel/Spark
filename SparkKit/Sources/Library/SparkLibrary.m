@@ -711,7 +711,7 @@ NSString *_SparkLibraryCopyUUIDString(SparkLibrary *aLibrary) {
 }
 
 NSString *SparkLibraryFolder() {
-  NSString *folder = [SKFSFindFolder(kApplicationSupportFolderType, kUserDomain) stringByAppendingPathComponent:kSparkFolderName];
+  NSString *folder = [SKFSFindFolder(kApplicationSupportFolderType, kUserDomain, true) stringByAppendingPathComponent:kSparkFolderName];
   if (folder && ![[NSFileManager defaultManager] fileExistsAtPath:folder]) {
     SKFSCreateFolder((CFStringRef)folder);
   }
@@ -733,12 +733,12 @@ NSString *SparkLibraryIconFolder(SparkLibrary *library) {
 
 static
 NSString *SparkLibraryPreviousLibraryPath() {
-  NSString *folder = [SKFSFindFolder(kPreferencesFolderType, kUserDomain) stringByAppendingPathComponent:kSparkFolderName];
+  NSString *folder = [SKFSFindFolder(kPreferencesFolderType, kUserDomain, false) stringByAppendingPathComponent:kSparkFolderName];
   return [folder stringByAppendingPathComponent:@"Spark3 Library.splib"];
 }
 static
 NSString *SparkLibraryVersion1LibraryPath() {
-  NSString *folder = [SKFSFindFolder(kPreferencesFolderType, kUserDomain) stringByAppendingPathComponent:kSparkFolderName];
+  NSString *folder = [SKFSFindFolder(kPreferencesFolderType, kUserDomain, false) stringByAppendingPathComponent:kSparkFolderName];
   return [folder stringByAppendingPathComponent:@"SparkLibrary.splib"];
 }
 

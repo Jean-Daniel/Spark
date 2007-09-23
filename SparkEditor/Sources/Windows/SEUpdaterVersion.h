@@ -24,8 +24,6 @@
 - (IBAction)install:(id)sender;
 - (IBAction)selectVersion:(id)sender;
 
-- (int)runModal;
-
 - (void)setVersions:(NSArray *)versions;
 - (void)setSelectedVersion:(SKUpdaterVersion *)aVersion;
 

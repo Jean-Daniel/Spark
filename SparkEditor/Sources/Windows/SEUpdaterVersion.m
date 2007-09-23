@@ -36,19 +36,6 @@
   [super close:sender];
 }
 
-- (int)runModal {
-  int result = 0;
-  NSModalSession session = [NSApp beginModalSessionForWindow:[self window]];
-  for (;;) {
-    if ((result = [NSApp runModalSession:session]) != NSRunContinuesResponse)
-      break;
-    /* process pending networks events */
-    CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0, true);
-  }
-  [NSApp endModalSession:session];
-  return result;
-}
-
 - (void)setVersions:(NSArray *)versions {
   /* make sure nib is loaded */
   [self window];
