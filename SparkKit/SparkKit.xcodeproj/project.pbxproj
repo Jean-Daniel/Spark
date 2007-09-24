@@ -10,6 +10,10 @@
 		1B0C2B430B8DC71B0062A711 /* SKXarArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C2B420B8DC71B0062A711 /* SKXarArchive.m */; };
 		1B0C2C0A0B8DD6300062A711 /* SKArchiveDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B0C2C080B8DD6300062A711 /* SKArchiveDocument.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		1B0C2C0B0B8DD6300062A711 /* SKArchiveDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0C2C090B8DD6300062A711 /* SKArchiveDocument.m */; };
+		1B1286840CA8283B00B6F5F6 /* SKUpdaterVersionWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1B1286810CA8283B00B6F5F6 /* SKUpdaterVersionWindow.nib */; };
+		1B1286850CA8283B00B6F5F6 /* SKUpdaterVersionWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B1286820CA8283B00B6F5F6 /* SKUpdaterVersionWindow.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1B1286860CA8283B00B6F5F6 /* SKUpdaterVersionWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1286830CA8283B00B6F5F6 /* SKUpdaterVersionWindow.m */; };
+		1B1286A10CA8285F00B6F5F6 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B1286A00CA8285F00B6F5F6 /* WebKit.framework */; };
 		1B4936250CA2E4FA00F53EEE /* SKCDSAUtils.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B4936190CA2E4FA00F53EEE /* SKCDSAUtils.c */; };
 		1B4936260CA2E4FA00F53EEE /* SKCDSAUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B49361A0CA2E4FA00F53EEE /* SKCDSAUtils.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		1B49362F0CA2E53500F53EEE /* SKCryptoFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B49362D0CA2E53500F53EEE /* SKCryptoFunctions.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -266,6 +270,10 @@
 		1B0C2B420B8DC71B0062A711 /* SKXarArchive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKXarArchive.m; sourceTree = "<group>"; };
 		1B0C2C080B8DD6300062A711 /* SKArchiveDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKArchiveDocument.h; sourceTree = "<group>"; };
 		1B0C2C090B8DD6300062A711 /* SKArchiveDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKArchiveDocument.m; sourceTree = "<group>"; };
+		1B1286810CA8283B00B6F5F6 /* SKUpdaterVersionWindow.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = SKUpdaterVersionWindow.nib; sourceTree = "<group>"; };
+		1B1286820CA8283B00B6F5F6 /* SKUpdaterVersionWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKUpdaterVersionWindow.h; sourceTree = "<group>"; };
+		1B1286830CA8283B00B6F5F6 /* SKUpdaterVersionWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKUpdaterVersionWindow.m; sourceTree = "<group>"; };
+		1B1286A00CA8285F00B6F5F6 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = /System/Library/Frameworks/WebKit.framework; sourceTree = "<absolute>"; };
 		1B4936190CA2E4FA00F53EEE /* SKCDSAUtils.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = SKCDSAUtils.c; sourceTree = "<group>"; };
 		1B49361A0CA2E4FA00F53EEE /* SKCDSAUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKCDSAUtils.h; sourceTree = "<group>"; };
 		1B49362D0CA2E53500F53EEE /* SKCryptoFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKCryptoFunctions.h; sourceTree = "<group>"; };
@@ -499,8 +507,9 @@
 				1B9FE5B40B8D95370042B5F9 /* libbz2.dylib in Frameworks */,
 				1B9FE5B60B8D95370042B5F9 /* libxml2.dylib in Frameworks */,
 				98537C210C2C64C300ABDCFA /* libcrypto.dylib in Frameworks */,
-				98675577096B36BD00BB8A25 /* Cocoa.framework in Frameworks */,
 				983976350A5866BF00F79B40 /* IOKit.framework in Frameworks */,
+				98675577096B36BD00BB8A25 /* Cocoa.framework in Frameworks */,
+				1B1286A10CA8285F00B6F5F6 /* WebKit.framework in Frameworks */,
 				1B49363E0CA2E57C00F53EEE /* Security.framework in Frameworks */,
 				98E19C710B160EF1007E4D31 /* DirectoryService.framework in Frameworks */,
 				98A417EE0B37454500411C20 /* SystemConfiguration.framework in Frameworks */,
@@ -580,6 +589,7 @@
 			children = (
 				983975950A5866BF00F79B40 /* IOKit.framework */,
 				1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */,
+				1B1286A00CA8285F00B6F5F6 /* WebKit.framework */,
 				988C9AAE0B56F29A000A0DDC /* Carbon.framework */,
 				1B49363D0CA2E57C00F53EEE /* Security.framework */,
 				98E19C670B160EF1007E4D31 /* DirectoryService.framework */,
@@ -595,6 +605,14 @@
 				0867D6A5FE840307C02AAC07 /* AppKit.framework */,
 			);
 			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		1B1286800CA8283B00B6F5F6 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				1B1286810CA8283B00B6F5F6 /* SKUpdaterVersionWindow.nib */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		1B4936140CA2E4FA00F53EEE /* Security */ = {
@@ -990,10 +1008,13 @@
 		98D630440B35B65600E0CE91 /* Update */ = {
 			isa = PBXGroup;
 			children = (
+				1B1286800CA8283B00B6F5F6 /* Resources */,
 				98D6304D0B35BAD900E0CE91 /* SKUpdater.h */,
 				98D6304B0B35BACD00E0CE91 /* SKUpdater.m */,
 				1BDDC7010CA2A4F600A926AD /* SKUpdaterVersion.h */,
 				1BDDC7020CA2A4F600A926AD /* SKUpdaterVersion.m */,
+				1B1286820CA8283B00B6F5F6 /* SKUpdaterVersionWindow.h */,
+				1B1286830CA8283B00B6F5F6 /* SKUpdaterVersionWindow.m */,
 			);
 			path = Update;
 			sourceTree = "<group>";
@@ -1137,6 +1158,7 @@
 				1B49362F0CA2E53500F53EEE /* SKCryptoFunctions.h in Headers */,
 				981E12140CA5D36F009E8FD8 /* SKProgressPanel.h in Headers */,
 				98D2AAF80CA6EE0100DC973B /* SKThreadPort.h in Headers */,
+				1B1286850CA8283B00B6F5F6 /* SKUpdaterVersionWindow.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1281,6 +1303,7 @@
 				98417FED0B4FDF5C00073F1D /* SKSplitDot.tiff in Resources */,
 				98417FEE0B4FDF5C00073F1D /* SKVSplitBar.tiff in Resources */,
 				981E12020CA5D35B009E8FD8 /* SKProgressPanel.nib in Resources */,
+				1B1286840CA8283B00B6F5F6 /* SKUpdaterVersionWindow.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1382,6 +1405,7 @@
 				1B4936300CA2E53500F53EEE /* SKCryptoFunctions.c in Sources */,
 				981E12150CA5D36F009E8FD8 /* SKProgressPanel.m in Sources */,
 				98D2AAF70CA6EE0100DC973B /* SKThreadPort.m in Sources */,
+				1B1286860CA8283B00B6F5F6 /* SKUpdaterVersionWindow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

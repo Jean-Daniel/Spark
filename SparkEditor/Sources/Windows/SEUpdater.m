@@ -7,7 +7,8 @@
 //
 
 #import "SEUpdater.h"
-#import "SEUpdaterVersion.h"
+
+#include <unistd.h>
 
 #import <ShadowKit/SKArchive.h>
 #import <ShadowKit/SKArchiveFile.h>
@@ -21,31 +22,9 @@
 #import <ShadowKit/SKProgressPanel.h>
 #import <ShadowKit/SKUpdaterVersion.h>
 #import <ShadowKit/SKCryptoFunctions.h>
+#import <ShadowKit/SKUpdaterVersionWindow.h>
 
 SKSingleton(SEUpdater, sharedUpdater);
-
-@interface SEArchiveExtractor : NSObject {
-  @private
-  id se_delegate;
-  SEL se_selector;
-  void *se_context;
-    
-  NSString *se_path;
-  SKThreadPort *se_port;
-  SKUpdaterArchive *se_archive;
-  SKProgressPanel *se_progress;
-}
-
-- (id)initWithArchive:(SKUpdaterArchive *)archive path:(NSString *)path;
-
-- (BOOL)verify;
-
-- (NSString *)path;
-
-- (void)extractToPath:(NSString *)destination modalDelegate:(id)delegate
-       didEndSelector:(SEL)callback contextInfo:(void *)ctxt;
-
-@end
 
 @implementation SEUpdater
 
@@ -58,6 +37,8 @@ SKSingleton(SEUpdater, sharedUpdater);
 
 - (void)dealloc {
   [se_size release];
+  [se_archive release];
+  /* cancel will call delegate */
   [se_updater cancel:nil];
   [super dealloc];
 }
@@ -91,7 +72,7 @@ SKSingleton(SEUpdater, sharedUpdater);
   if (last) {
     if ([last version] > SKVersionGetCurrentNumber()) {
       se_version = [last version];
-      SEUpdaterVersion *dialog = [[SEUpdaterVersion alloc] init];
+      SKUpdaterVersionWindow *dialog = [[SKUpdaterVersionWindow alloc] init];
       [dialog setVersions:versions];
       if (NSOKButton == [dialog runModal:YES]) {
         [updater downloadArchive:[last archiveForVersion:SKVersionGetCurrentNumber()]];
@@ -112,24 +93,52 @@ SKSingleton(SEUpdater, sharedUpdater);
 /* Update downloaded */
 - (void)updater:(SKUpdater *)updater didDownloadArchive:(SKUpdaterArchive *)archive atPath:(NSString *)path {
   [se_progress stop];
-  [se_progress close:nil];
-  [se_progress release];
-  se_progress = nil;
   
-  SEArchiveExtractor *extractor = [[SEArchiveExtractor alloc] initWithArchive:archive path:path];
-  if ([extractor verify]) {
-    FSRef bref;
-    NSString *bpath = [[NSBundle mainBundle] bundlePath];
-    NSString *base = [@"~/Desktop/" stringByStandardizingPath];
-    if ([bpath getFSRef:&bref]) {
-      FSVolumeRefNum volume;
-      OSStatus err = SKFSGetVolumeInfo(&bref, &volume, kFSVolInfoNone, NULL, NULL, NULL);
-      if (noErr == err)
-        base = SKFSFindFolder(kTemporaryFolderType, volume, true);
+  /* Check archive checksum */
+  bool valid = true;
+  if ([archive digest] && [archive digestAlgorithm]) {
+    SKCryptoProvider csp;
+    SKCryptoData digest = {0, NULL};
+    SKCryptoResult res = SKCryptoCspAttach(&csp);
+    if (CSSM_OK == res) {
+      res = SKCryptoDigestFile(csp, [archive digestAlgorithm], [path fileSystemRepresentation], &digest);
+      if (CSSM_OK == res && digest.Length == [[archive digest] length])
+        valid = (0 == memcmp(digest.Data, [[archive digest] bytes], digest.Length));
+      if (digest.Data)
+        SKCDSAFree(csp, digest.Data);
+      SKCryptoCspDetach(csp);
     }
-    
-    [extractor extractToPath:base modalDelegate:self didEndSelector:@selector(didEndExtracting:result:context:) contextInfo:nil];
   }
+  if (!valid) 
+    DLog(@"Invalid checksum");
+
+  /* create xar archive */
+  se_archive = [[SKArchive alloc] initWithArchiveAtPath:path];
+  
+  [se_size release];
+  se_size = [[NSString localizedStringWithSize:[se_archive size] unit:@"B" precision:2] retain];
+  
+  FSRef bref;
+  NSString *bpath = [[NSBundle mainBundle] bundlePath];
+  NSString *base = [@"~/Desktop/" stringByStandardizingPath];
+  char tmp[255];
+  snprintf(tmp, 255, "%s-XXXXXXXX", getprogname());
+  NSString *str = [NSString stringWithFormat:@"%s", mkdtemp(tmp)];
+  
+  if ([bpath getFSRef:&bref]) {
+    FSVolumeRefNum volume;
+    OSStatus err = SKFSGetVolumeInfo(&bref, &volume, kFSVolInfoNone, NULL, NULL, NULL);
+    if (noErr == err)
+      base = [SKFSFindFolder(kTemporaryFolderType, volume, true) stringByAppendingPathComponent:str];
+  }
+  if (![[NSFileManager defaultManager] fileExistsAtPath:base])
+    SKFSCreateFolder((CFStringRef)base);
+  
+  [se_progress setTitle:@"Extracting archive"];
+  [se_progress setMaxValue:[se_archive size]];
+  [se_progress setValue:0];
+  [se_progress start];
+  [se_archive extractInBackgroundToPath:base handler:self];
   
   /* no longer need updater */
   [se_updater release];
@@ -186,7 +195,10 @@ SKSingleton(SEUpdater, sharedUpdater);
 
 #pragma mark Human Interface
 - (IBAction)cancel:(id)sender {
-  [se_updater cancel:nil];
+  if (se_updater)
+    [se_updater cancel:nil];
+  if (se_archive)
+    [se_archive cancel];
 }
 
 - (void)showProgressPanel {
@@ -194,9 +206,13 @@ SKSingleton(SEUpdater, sharedUpdater);
     se_progress = [[SKProgressPanel alloc] init];
     [se_progress setDelegate:self];
     [se_progress setRefreshInterval:0.1];
-    [se_progress setEvaluatesRemainingTime:YES];
+    [se_progress setEvaluatesRemainingTime:NO];
   }
   [se_progress showWindow:nil];
+}
+
+- (void)progressPanelDidCancel:(SKProgressPanel *)aPanel {
+  [self cancel:nil];
 }
 
 - (NSString *)progressPanel:(SKProgressPanel *)aPanel messageForValue:(double)value {
@@ -204,130 +220,31 @@ SKSingleton(SEUpdater, sharedUpdater);
   return [NSString stringWithFormat:@"%@ / %@", size, se_size];
 }
 
-- (void)didEndExtracting:(SEArchiveExtractor *)extractor result:(NSInteger)result context:(void *)ctxt {
-  FSRef fref;
-  if (noErr == FSPathMakeRef((const UInt8 *)[[extractor path] UTF8String], &fref, NULL))
-    FSDeleteObject(&fref);
-  
-  [extractor autorelease];
-}
-
-@end
-
-#pragma mark -
-@implementation SEArchiveExtractor
-
-- (id)initWithArchive:(SKUpdaterArchive *)archive path:(NSString *)path {
-  if (self = [super init]) {
-    se_path = [path copy];
-    se_archive = [archive retain];
-    se_port = [[SKThreadPort alloc] init];
-  }
-  return self;
-}
-
-- (void)dealloc {
-  [se_port release];
-  [se_path release];
-  [se_archive release];
-  [se_progress release];
-  [super dealloc];
-}
-
-#pragma mark -
-- (BOOL)verify {
-  /* Check digest */
-  if ([se_archive digest] && [se_archive digestAlgorithm]) {
-    bool valid = false;
-    SKCryptoProvider csp;
-    SKCryptoData digest = {0, NULL};
-    SKCryptoResult res = SKCryptoCspAttach(&csp);
-    if (CSSM_OK == res) {
-      res = SKCryptoDigestFile(csp, [se_archive digestAlgorithm], [se_path fileSystemRepresentation], &digest);
-      if (CSSM_OK == res && digest.Length == [[se_archive digest] length])
-        valid = (0 == memcmp(digest.Data, [[se_archive digest] bytes], digest.Length));
-      if (digest.Data)
-        SKCDSAFree(csp, digest.Data);
-      SKCryptoCspDetach(csp);
-    }
-    return valid;
-  }
-  return YES;
-}
-
-- (NSString *)path {
-  return se_path;
-}
-
-- (void)extract:(NSString *)destination {
-  NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-  SKArchive *arch = [[SKArchive alloc] initWithArchiveAtPath:se_path];
-  
-  [[se_port prepareWithInvocationTarget:se_progress] setMaxValue:[arch size]];
-  
-  //DLog(@"Extracting %@", [NSString localizedStringWithSize:[arch size] unit:@"B" precision:2]);
-  
-  [[se_port prepareWithInvocationTarget:se_progress] start];
-  NSInteger result = [arch extractToPath:destination handler:self] ? 1 : 0;
-  [(SKProgressPanel *)[se_port prepareWithInvocationTarget:se_progress] stop];
-  
-  /* Force Finder to refesh items */
-  NSArray *roots = [arch files];
-  for (NSUInteger idx = 0; idx < [roots count]; idx++) {
-    FSRef ref;
-    NSString *fpath = [destination stringByAppendingPathComponent:[[roots objectAtIndex:idx] name]];
-    if ([fpath getFSRef:&ref]) {
-      SKAEFinderSyncFSRef(&ref);
-      SKAEFinderRevealFSRef(&ref, false);
-    }
-  }
-  [arch release];
-  
-  NSInvocation *invoc = [NSInvocation invocationWithTarget:se_delegate selector:se_selector];
-  [invoc setArgument:&self atIndex:2];
-  [invoc setArgument:&result atIndex:3];
-  [invoc setArgument:&se_context atIndex:4];
-  [se_port performInvocation:invoc waitUntilDone:NO timeout:MACH_MSG_TIMEOUT_NONE];
-  
-  /* cleanup */
-  se_selector = NULL;
-  se_delegate = nil;
-  se_context = NULL;
-  [pool release];
-}
-
-- (void)showProgressPanel {
-  if (!se_progress) {
-    se_progress = [[SKProgressPanel alloc] init];
-    [se_progress setDelegate:self];
-    [se_progress setRefreshInterval:0.1];
-    [se_progress setEvaluatesRemainingTime:YES];
-  }
-  [se_progress showWindow:nil];
-}
-
-- (void)extractToPath:(NSString *)destination modalDelegate:(id)delegate didEndSelector:(SEL)callback contextInfo:(void *)ctxt {
-  se_context = ctxt;
-  se_delegate = delegate;
-  se_selector = callback;
-  [self showProgressPanel];
-  [NSThread detachNewThreadSelector:@selector(extract:) toTarget:self withObject:destination];
-}
-
-- (NSString *)progressPanel:(SKProgressPanel *)aPanel messageForValue:(double)value {
-  NSString *size = [NSString localizedStringWithSize:value unit:@"B" precision:2];
-  return [NSString stringWithFormat:@"%@", size];
-}
-
 #pragma mark Archive
-//- (void)archive:(SKArchive *)manager willProcessFile:(SKArchiveFile *)file {
-//  DLog(@"extract %@", [file name]);
-//}
-
-- (void)archive:(SKArchive *)manager didProcessFile:(SKArchiveFile *)file path:(NSString *)fsPath {
+- (void)archive:(SKArchive *)archive didProcessFile:(SKArchiveFile *)file path:(NSString *)fsPath {
   UInt64 size = [file size];
   if (size > 0)
-    [[se_port prepareWithInvocationTarget:se_progress] incrementBy:size];
+    [se_progress incrementBy:size];
+}
+
+- (void)archive:(SKArchive *)archive didExtract:(BOOL)result path:(NSString *)aPath {
+  [se_progress stop];
+  [se_progress close:nil];
+  [se_progress release];
+  se_progress = nil;
+  
+  DLog(@"End of extraction: %@", result ? @"YES" : @"NO");
+  
+  NSString *path = [archive path];
+  [archive autorelease];
+  [archive close];
+  se_archive = nil;
+  
+  FSRef fref;
+  if (noErr == FSPathMakeRef((const UInt8 *)[path UTF8String], &fref, NULL))
+    FSDeleteObject(&fref);
+  
+  [[NSWorkspace sharedWorkspace] openFile:aPath];
 }
 
 - (BOOL)archive:(SKArchive *)manager shouldProceedAfterError:(NSError *)anError {
@@ -336,5 +253,4 @@ SKSingleton(SEUpdater, sharedUpdater);
 }
 
 @end
-
 

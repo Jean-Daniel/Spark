@@ -37,9 +37,6 @@
 		1BBED2350C9FFCAD0050A7F8 /* SEUpdater.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BBED2330C9FFCAD0050A7F8 /* SEUpdater.h */; };
 		1BBED2360C9FFCAD0050A7F8 /* SEUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BBED2340C9FFCAD0050A7F8 /* SEUpdater.m */; };
 		1BE8319F0CA3AD16003DE174 /* SEUpdater.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1BE8319D0CA3AD16003DE174 /* SEUpdater.nib */; };
-		1BE835990CA3FB3B003DE174 /* SEUpdaterVersion.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1BE835970CA3FB3B003DE174 /* SEUpdaterVersion.nib */; };
-		1BE835A30CA3FD3C003DE174 /* SEUpdaterVersion.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE835A10CA3FD3C003DE174 /* SEUpdaterVersion.h */; };
-		1BE835A40CA3FD3C003DE174 /* SEUpdaterVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE835A20CA3FD3C003DE174 /* SEUpdaterVersion.m */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		9803A1420A9D01CB00B7DBBA /* SEFirstRun.nib in Resources */ = {isa = PBXBuildFile; fileRef = 9803A13C0A9D01CA00B7DBBA /* SEFirstRun.nib */; };
 		981875850B8738200079C55F /* SparkRun.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 981875840B8738200079C55F /* SparkRun.tiff */; };
@@ -358,9 +355,6 @@
 		1BBED2330C9FFCAD0050A7F8 /* SEUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEUpdater.h; sourceTree = "<group>"; };
 		1BBED2340C9FFCAD0050A7F8 /* SEUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEUpdater.m; sourceTree = "<group>"; };
 		1BE8319E0CA3AD16003DE174 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SEUpdater.nib; sourceTree = "<group>"; };
-		1BE835980CA3FB3B003DE174 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SEUpdaterVersion.nib; sourceTree = "<group>"; };
-		1BE835A10CA3FD3C003DE174 /* SEUpdaterVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEUpdaterVersion.h; sourceTree = "<group>"; };
-		1BE835A20CA3FD3C003DE174 /* SEUpdaterVersion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEUpdaterVersion.m; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		9803A13D0A9D01CB00B7DBBA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SEFirstRun.nib; sourceTree = "<group>"; };
@@ -646,7 +640,6 @@
 				98DA08ED0B0A5DC30016B465 /* SEPluginInstaller.nib */,
 				98F746000A5C560A003D4BE1 /* SELibraryWindow.nib */,
 				9830D9830AB46C5400C316FE /* SETriggerBrowser.nib */,
-				1BE835970CA3FB3B003DE174 /* SEUpdaterVersion.nib */,
 			);
 			name = Interface;
 			sourceTree = "<group>";
@@ -888,7 +881,6 @@
 				98D52B6F0B19A63700C8425C /* SEPreferences.m */,
 				98D52B6D0B19A63700C8425C /* SEPluginInstaller.m */,
 				98D52B710B19A63700C8425C /* SETriggerBrowser.m */,
-				1BE835A20CA3FD3C003DE174 /* SEUpdaterVersion.m */,
 			);
 			path = Windows;
 			sourceTree = "<group>";
@@ -902,7 +894,6 @@
 				98D52B6E0B19A63700C8425C /* SEPreferences.h */,
 				98D52B6C0B19A63700C8425C /* SEPluginInstaller.h */,
 				98D52B700B19A63700C8425C /* SETriggerBrowser.h */,
-				1BE835A10CA3FD3C003DE174 /* SEUpdaterVersion.h */,
 			);
 			name = Headers;
 			sourceTree = "<group>";
@@ -977,7 +968,6 @@
 				98ED2EF20B5D87FD002EAF85 /* SEEntryCache.h in Headers */,
 				1B3743900B6E2B96002F18C8 /* SEEntryList.h in Headers */,
 				1BBED2350C9FFCAD0050A7F8 /* SEUpdater.h in Headers */,
-				1BE835A30CA3FD3C003DE174 /* SEUpdaterVersion.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1217,7 +1207,6 @@
 				1B1358FC0CA11C2000766572 /* pluginpref.tiff in Resources */,
 				1B1359A20CA11FB400766572 /* SEUpdater.strings in Resources */,
 				1BE8319F0CA3AD16003DE174 /* SEUpdater.nib in Resources */,
-				1BE835990CA3FB3B003DE174 /* SEUpdaterVersion.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1264,7 +1253,6 @@
 				98ED2EEE0B5D87EF002EAF85 /* SEEntryCache.m in Sources */,
 				1B37438F0B6E2B94002F18C8 /* SEEntryList.m in Sources */,
 				1BBED2360C9FFCAD0050A7F8 /* SEUpdater.m in Sources */,
-				1BE835A40CA3FD3C003DE174 /* SEUpdaterVersion.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1313,14 +1301,6 @@
 				1BE8319E0CA3AD16003DE174 /* English */,
 			);
 			name = SEUpdater.nib;
-			sourceTree = "<group>";
-		};
-		1BE835970CA3FB3B003DE174 /* SEUpdaterVersion.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1BE835980CA3FB3B003DE174 /* English */,
-			);
-			name = SEUpdaterVersion.nib;
 			sourceTree = "<group>";
 		};
 		9803A13C0A9D01CA00B7DBBA /* SEFirstRun.nib */ = {
