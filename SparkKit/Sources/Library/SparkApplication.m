@@ -17,19 +17,35 @@
 
 static
 NSString * const kSparkApplicationKey = @"SparkApplication";
+static
+NSString * const kSparkApplicationFlagsKey = @"SparkApplicationFlags";
+
+NSString * const SparkApplicationDidChangeEnabledNotification = @"SparkApplicationDidChangeEnabled";
 
 @implementation SparkApplication
 
 #pragma mark -
 #pragma mark NSCoding
+- (UInt32)encodeFlags {
+  UInt32 flags = 0;
+  if (sp_appFlags.disabled) flags |= 1 << 0;
+  return flags;
+}
+- (void)decodeFlags:(UInt32)flags {
+  if (flags & (1 << 0)) sp_appFlags.disabled = 1;
+}
+
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
   [coder encodeObject:sp_application forKey:kSparkApplicationKey];
+  [coder encodeInt32:[self encodeFlags] forKey:kSparkApplicationFlagsKey];
   return;
 }
+
 - (id)initWithCoder:(NSCoder *)coder {
   if (self = [super initWithCoder:coder]) {
-    sp_application = [[coder decodeObjectForKey:kSparkApplicationKey] retain];
+    [self decodeFlags:[coder decodeInt32ForKey:kSparkApplicationFlagsKey]];
+    sp_application = [[coder decodeObjectForKey:kSparkApplicationKey] retain];    
   }
   return self;
 }
@@ -43,14 +59,18 @@ NSString * const kSparkApplicationKey = @"SparkApplication";
 
 #pragma mark SparkSerialization
 - (BOOL)serialize:(NSMutableDictionary *)plist {
-  [super serialize:plist];
-  if ([sp_application identifier])
-    return [sp_application serialize:plist];
-  return YES;
+  if ([super serialize:plist]) {
+    [plist setObject:SKUInteger([self encodeFlags]) forKey:kSparkApplicationFlagsKey];
+    if ([sp_application identifier])
+      return [sp_application serialize:plist];
+    return YES;
+  }
+  return NO;
 }
 - (id)initWithSerializedValues:(NSDictionary *)plist {
   if (self = [super initWithSerializedValues:plist]) {
     sp_application = [[SKApplication alloc] initWithSerializedValues:plist];
+    [self decodeFlags:SKIntegerValue([plist objectForKey:kSparkApplicationFlagsKey])];
     /* Update name and icon */
     NSString *path = [sp_application path];
     if (path) {
@@ -152,6 +172,25 @@ NSString * const kSparkApplicationKey = @"SparkApplication";
   return sp_application;
 }
 
+- (BOOL)isEditable {
+  return [self uid] != kSparkApplicationSystemUID;
+}
+
+- (BOOL)isEnabled {
+  /* System application cannot be disabled */
+  if ([self uid] == kSparkApplicationSystemUID)
+    return YES;
+  return !sp_appFlags.disabled;
+}
+- (void)setEnabled:(BOOL)flag {
+  if (XOR((BOOL)sp_appFlags.disabled, !flag)) {
+    [[[[self library] undoManager] prepareWithInvocationTarget:self] setEnabled:!sp_appFlags.disabled];
+    SKSetFlag(sp_appFlags.disabled, !flag);
+    /* post notification */
+    SparkLibraryPostNotification([self library], SparkApplicationDidChangeEnabledNotification, self, nil);
+  }
+}
+
 @end
 
 #pragma mark -
@@ -198,35 +237,47 @@ NSString * const kSKApplicationIdentifier = @"SKApplicationIdentifier";
 #pragma mark SparkLibrary Extension
 @implementation SparkLibrary (SparkLibraryPrivate)
 
-- (SparkApplication *)frontApplication {
-  SparkApplication *front = nil;
+- (SparkApplication *)applicationForProcess:(ProcessSerialNumber *)psn {
+  NSParameterAssert(psn);
+  if (kNoProcess == psn->lowLongOfPSN && kNoProcess == psn->highLongOfPSN)
+    return nil;
+  
+  SparkApplication *result = nil;
   /* Try signature */
-  OSType sign = SKProcessGetFrontProcessSignature();
+  OSType sign = SKProcessGetSignature(psn);
   if (sign && kUnknownType != sign) {
     SparkApplication *app;
     NSEnumerator *apps = [[self applicationSet] objectEnumerator];
     while (app = [apps nextObject]) {
       if ([app signature] == sign) {
-        front = app;
+        result = app;
         break;
       }
     }
   }
   /* Try bundle identifier */
-  if (!front) {
-    NSString *bundle = SKProcessGetFrontProcessBundleIdentifier();
+  if (!result) {
+    NSString *bundle = (id)SKProcessCopyBundleIdentifier(psn);
     if (bundle) {
       SparkApplication *app;
       NSEnumerator *apps = [[self applicationSet] objectEnumerator];
       while (app = [apps nextObject]) {
         if ([[app bundleIdentifier] isEqualToString:bundle]) {
-          front = app;
+          result = app;
           break;
         }
       }
+      [bundle release];
     }
   }
-  return front;
+  return result;
+}
+
+- (SparkApplication *)frontApplication {
+  ProcessSerialNumber front;
+  if (noErr == GetFrontProcess(&front))
+    return [self applicationForProcess:&front];
+  return nil;
 }
 
 @end

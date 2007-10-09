@@ -296,6 +296,7 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
   /* Reset map and uid */
   NSResetMapTable(sp_objects);
   
+  /* reinsert reserved objects */
   while (idx-- > 0) {
     SparkObject *sobject = [values objectAtIndex:idx];
     if ([sobject uid] > kSparkLibraryReserved)

@@ -23,10 +23,10 @@ SPARK_CLASS_EXPORT
   NSView *sp_view;
   SparkAction *sp_action;
   
-  struct _sp_sapFlags {
+  struct _sp_apFlags {
     unsigned int ownership:1;
     unsigned int reserved:31;
-  } sp_sapFlags;
+  } sp_apFlags;
   
   id sp_trap;
   SparkPluginView *sp_ctrl;  

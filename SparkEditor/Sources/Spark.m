@@ -169,8 +169,8 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
     [SEPreferences setup];
     
     /* Check update */
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:kSEPreferencesAutoUpdate])
-      [[SEUpdater sharedUpdater] runInBackground];
+//    if ([[NSUserDefaults standardUserDefaults] boolForKey:kSEPreferencesAutoUpdate])
+//      [[SEUpdater sharedUpdater] runInBackground];
   }
   return self;
 }

@@ -12,9 +12,11 @@
 #import "SELibraryWindow.h"
 #import "SELibraryDocument.h"
 
+#import <ShadowKit/SKFunctions.h>
 #import <ShadowKit/SKAEFunctions.h>
 #import <ShadowKit/SKFSFunctions.h>
 #import <ShadowKit/SKLSFunctions.h>
+#import <ShadowKit/SKImageAndTextCell.h>
 #import <ShadowKit/SKAppKitExtensions.h>
 
 #import <SparkKit/SparkLibrary.h>
@@ -65,11 +67,16 @@
   [uiTable registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, nil]];
   
   /* Configure Application Header Cell */
-  SEHeaderCell *header = [[SEHeaderCell alloc] initTextCell:NSLocalizedString(@"Front Application", @"Front Applications - header cell")];
-  [header setAlignment:NSCenterTextAlignment];
-  [header setFont:[NSFont systemFontOfSize:11]];
+  SEHeaderCell *header = [[SEHeaderCell alloc] initTextCell:@""];
   [[[uiTable tableColumns] objectAtIndex:0] setHeaderCell:header];
   [header release];
+  
+  header = [[SEHeaderCell alloc] initTextCell:NSLocalizedString(@"Front Application", @"Front Applications - header cell")];
+  [header setAlignment:NSCenterTextAlignment];
+  [header setFont:[NSFont systemFontOfSize:11]];
+  [[[uiTable tableColumns] objectAtIndex:1] setHeaderCell:header];
+  [header release];
+  
   [uiTable setCornerView:[[[SEHeaderCellCorner alloc] init] autorelease]];
   
   [uiTable setTarget:self];
@@ -298,6 +305,9 @@
   } else {
     [aCell setFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]];
   }
+  /* Set Line status */
+  if ([aCell respondsToSelector:@selector(setDrawsLineOver:)])
+    [aCell setDrawsLineOver:![item isEnabled]];
 }
 
 #pragma mark Notifications
@@ -313,5 +323,24 @@
   [self removeObject:SparkNotificationObject(aNotification)];
 }
 
+@end
+
+@implementation SparkApplication (SparkEditorExtension)
+
++ (void)load {
+  if ([SparkApplication class] == self) {
+    SKExchangeInstanceMethods(self, @selector(setEnabled:), @selector(se_setEnabled:));
+  }
+}
+
+- (void)se_setEnabled:(BOOL)enabled {
+  [self willChangeValueForKey:@"representation"];
+  [self se_setEnabled:enabled];
+  [self didChangeValueForKey:@"representation"];
+}
+
+- (id)representation {
+  return self;
+}
 
 @end

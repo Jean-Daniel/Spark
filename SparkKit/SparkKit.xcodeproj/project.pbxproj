@@ -32,7 +32,7 @@
 		1BEDD4810C848BCC00ADAF1D /* SKSingleton.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEDD47B0C848BCC00ADAF1D /* SKSingleton.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		1BEDD4820C848BCC00ADAF1D /* SKFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEDD47C0C848BCC00ADAF1D /* SKFunctions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1BEDD4830C848BCC00ADAF1D /* SKCFContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEDD47D0C848BCC00ADAF1D /* SKCFContext.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BEDD4840C848BCC00ADAF1D /* SKExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEDD47E0C848BCC00ADAF1D /* SKExtensions.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1BEDD4840C848BCC00ADAF1D /* SKExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEDD47E0C848BCC00ADAF1D /* SKExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1BEDD4850C848BCC00ADAF1D /* SKForwarding.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEDD47F0C848BCC00ADAF1D /* SKForwarding.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		1BEDD4860C848BCC00ADAF1D /* SKClassCluster.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEDD4800C848BCC00ADAF1D /* SKClassCluster.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		1BEDD4930C848C5800ADAF1D /* SKLoginItems.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEDD48A0C848C5800ADAF1D /* SKLoginItems.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -140,7 +140,7 @@
 		98675548096B35E900BB8A25 /* SKApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 986AFA2F06D65E0800B84D2D /* SKApplication.m */; };
 		98675549096B35E900BB8A25 /* SKAlias.m in Sources */ = {isa = PBXBuildFile; fileRef = 98725D3706CB9FC60072B8E4 /* SKAlias.m */; };
 		9867554B096B35E900BB8A25 /* SKLSFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 98C78D6A07D9E716006D9CC1 /* SKLSFunctions.m */; };
-		9867554E096B35E900BB8A25 /* SKProcessFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 98C78D6B07D9E716006D9CC1 /* SKProcessFunctions.m */; };
+		9867554E096B35E900BB8A25 /* SKProcessFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = 98C78D6B07D9E716006D9CC1 /* SKProcessFunctions.c */; };
 		9867554F096B35E900BB8A25 /* SKAppKitExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 98E455C508104B3300B7899F /* SKAppKitExtensions.m */; };
 		98675551096B35E900BB8A25 /* SKFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 98725D2B06CB9FB30072B8E4 /* SKFunctions.m */; };
 		98675552096B35E900BB8A25 /* SKFSFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 98C78D6907D9E716006D9CC1 /* SKFSFunctions.m */; };
@@ -430,7 +430,7 @@
 		98C56D42096B353900ABE1EF /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Info.plist; path = ShadowKit/Info.plist; sourceTree = SOURCE_ROOT; };
 		98C78D6907D9E716006D9CC1 /* SKFSFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SKFSFunctions.m; sourceTree = "<group>"; };
 		98C78D6A07D9E716006D9CC1 /* SKLSFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SKLSFunctions.m; sourceTree = "<group>"; };
-		98C78D6B07D9E716006D9CC1 /* SKProcessFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SKProcessFunctions.m; sourceTree = "<group>"; };
+		98C78D6B07D9E716006D9CC1 /* SKProcessFunctions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; lineEnding = 0; path = SKProcessFunctions.c; sourceTree = "<group>"; };
 		98CF6FA606B3DAD50017D206 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MultipleAlerts.nib; sourceTree = "<group>"; };
 		98CF6FAC06B3DB2B0017D206 /* Forward.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Forward.tif; sourceTree = "<group>"; };
 		98CF6FAD06B3DB2B0017D206 /* ForwardPressedBlue.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = ForwardPressedBlue.tif; sourceTree = "<group>"; };
@@ -978,7 +978,7 @@
 				98DCED010B510875006FA468 /* SKCGFunctions.m */,
 				9839758E0A58669C00F79B40 /* SKIOKitFunctions.c */,
 				1BE44FE30BD4B3DC00034060 /* AESendThreadSafe.c */,
-				98C78D6B07D9E716006D9CC1 /* SKProcessFunctions.m */,
+				98C78D6B07D9E716006D9CC1 /* SKProcessFunctions.c */,
 			);
 			path = Functions;
 			sourceTree = "<group>";
@@ -1360,7 +1360,7 @@
 				98675548096B35E900BB8A25 /* SKApplication.m in Sources */,
 				98675549096B35E900BB8A25 /* SKAlias.m in Sources */,
 				9867554B096B35E900BB8A25 /* SKLSFunctions.m in Sources */,
-				9867554E096B35E900BB8A25 /* SKProcessFunctions.m in Sources */,
+				9867554E096B35E900BB8A25 /* SKProcessFunctions.c in Sources */,
 				9867554F096B35E900BB8A25 /* SKAppKitExtensions.m in Sources */,
 				98675551096B35E900BB8A25 /* SKFunctions.m in Sources */,
 				98675552096B35E900BB8A25 /* SKFSFunctions.m in Sources */,

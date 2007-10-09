@@ -11,7 +11,11 @@
 @class SKApplication;
 SK_CLASS_EXPORT
 @interface SparkApplication : SparkObject {
-  @private  
+  @private
+  struct _sp_appFlags {
+    unsigned int disabled:1;
+    unsigned int reserved:31;
+  } sp_appFlags;
   SKApplication *sp_application;
 }
 
@@ -25,4 +29,12 @@ SK_CLASS_EXPORT
 
 - (SKApplication *)application;
 
+- (BOOL)isEnabled;
+- (void)setEnabled:(BOOL)flag;
+
+- (BOOL)isEditable;
+
 @end
+
+SPARK_EXPORT
+NSString * const SparkApplicationDidChangeEnabledNotification;

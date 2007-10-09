@@ -16,6 +16,8 @@
 #import <SparkKit/SparkEntryManager.h>
 #import <SparkKit/SparkLibrarySynchronizer.h>
 
+#import <ShadowKit/SKApplication.h>
+
 static
 void SparkDaemonCheckTrigger(SparkLibrary *library, SparkTrigger *trigger) {
   if (trigger) {
@@ -121,6 +123,27 @@ void SparkDaemonCheckTrigger(SparkLibrary *library, SparkTrigger *trigger) {
       /* Active new trigger */
       [new setRegistred:YES];
     }
+  }
+}
+
+#pragma mark Application
+- (void)willRemoveApplication:(NSNotification *)aNotification {
+  ShadowTrace();
+  /* handle special case: remove the front application and application is disabled */
+  SparkApplication *app = SparkNotificationObject(aNotification);
+  if ([[app application] isFront] && ![app isEnabled]) {
+    /* restore triggers status */
+    [self registerTriggers];
+  }
+}
+- (void)didChangeApplicationStatus:(NSNotification *)aNotification {
+  ShadowTrace();
+  SparkApplication *app = [aNotification object];
+  if ([[app application] isFront]) {
+    if ([app isEnabled])
+      [self registerTriggers];
+    else 
+      [self unregisterTriggers];
   }
 }
 

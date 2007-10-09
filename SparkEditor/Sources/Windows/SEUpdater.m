@@ -123,7 +123,7 @@ SKSingleton(SEUpdater, sharedUpdater);
   NSString *base = [@"~/Desktop/" stringByStandardizingPath];
   char tmp[255];
   snprintf(tmp, 255, "%s-XXXXXXXX", getprogname());
-  NSString *str = [NSString stringWithFormat:@"%s", mkdtemp(tmp)];
+  NSString *str = [NSString stringWithFormat:@"%s", mktemp(tmp)];
   
   if ([bpath getFSRef:&bref]) {
     FSVolumeRefNum volume;

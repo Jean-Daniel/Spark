@@ -356,8 +356,8 @@ NSString * sSEHiddenPluggedObserverKey = nil;
   if ([self type] == kSparkEntryTypeWeakOverWrite) [self willChangeValueForKey:@"representation"];
   [self willChangeValueForKey:@"active"];
   [self se_setEnabled:enabled];
-  if ([self type] == kSparkEntryTypeWeakOverWrite) [self didChangeValueForKey:@"representation"];
   [self didChangeValueForKey:@"active"];
+  if ([self type] == kSparkEntryTypeWeakOverWrite) [self didChangeValueForKey:@"representation"];
 }
 
 - (id)representation {

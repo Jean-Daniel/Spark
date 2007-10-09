@@ -9,6 +9,8 @@
 #import "SparkDaemon.h"
 #import "SDAEHandlers.h"
 
+#include <Carbon/Carbon.h>
+
 #import <SparkKit/SparkKit.h>
 #import <SparkKit/SparkPrivate.h>
 #import <SparkKit/SparkFunctions.h>
@@ -60,6 +62,27 @@ int main(int argc, const char *argv[]) {
 static
 BOOL sIsProcessingEvent = NO;
 
+static
+OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef inEvent, void *inUserData) {
+  if (GetEventClass(inEvent) == kEventClassApplication) {
+    UInt32 size;
+    EventParamType type;
+    ProcessSerialNumber psn;
+    SparkDaemon *handler = (SparkDaemon *)inUserData;
+    verify_noerr(GetEventParameter(inEvent, kEventParamProcessID, typeProcessSerialNumber, &type, sizeof(psn), &size, &psn));
+    switch (GetEventKind(inEvent)) {
+      case kEventAppLaunched:
+        break;
+      case kEventAppTerminated:
+        break;
+      case kEventAppFrontSwitched:
+        [handler frontApplicationDidChange:&psn];
+        return noErr;
+    }
+  }
+  return eventNotHandledErr;
+}
+
 @implementation SparkDaemon
 
 - (BOOL)application:(NSApplication *)sender delegateHandlesKey:(NSString *)key {
@@ -96,6 +119,17 @@ BOOL sIsProcessingEvent = NO;
                  selector:@selector(willRemoveTrigger:)
                      name:SparkObjectSetWillRemoveObjectNotification
                    object:[sd_library triggerSet]];
+      
+      /* Application observer */
+      [center addObserver:self
+                 selector:@selector(didChangeApplicationStatus:)
+                     name:SparkApplicationDidChangeEnabledNotification
+                   object:nil];
+      [center addObserver:self
+                 selector:@selector(willRemoveApplication:)
+                     name:SparkObjectSetWillRemoveObjectNotification
+                   object:[sd_library applicationSet]];
+      
       /* If library not loaded, load library */
       if (![sd_library isLoaded])
         [sd_library load:nil];
@@ -165,6 +199,15 @@ BOOL sIsProcessingEvent = NO;
                                                selector:@selector(didChangePluginStatus:)
                                                    name:SparkPlugInDidChangeStatusNotification
                                                  object:nil];
+      
+      /* init front process using a valid process */
+      GetCurrentProcess(&sd_front);
+      EventTypeSpec eventTypes[] = {
+//      { kEventClassApplication, kEventAppLaunched },
+//      { kEventClassApplication, kEventAppTerminated },
+      { kEventClassApplication, kEventAppFrontSwitched },
+      };
+      InstallApplicationEventHandler(_SDProcessManagerEvent, GetEventTypeCount(eventTypes), eventTypes, self, NULL);
     }
   }
   return self;
@@ -191,6 +234,20 @@ BOOL sIsProcessingEvent = NO;
       [self unregisterVolatileTriggers];
     
     SDSendStateToEditor(sd_disabled ? kSparkDaemonStatusDisabled : kSparkDaemonStatusEnabled);
+  }
+}
+
+- (void)frontApplicationDidChange:(ProcessSerialNumber *)psn {
+  Boolean same = false;
+  if (noErr == SameProcess(&sd_front, psn, &same) && !same) {
+    SparkApplication *previous = [sd_library applicationForProcess:&sd_front];
+    SparkApplication *front = [sd_library applicationForProcess:psn];
+    sd_front = *psn;
+    /* If status change */
+    if ((!previous || [previous isEnabled]) && (front && ![front isEnabled]))
+      [self unregisterTriggers];
+    else if ((previous && ![previous isEnabled]) && (!front || [front isEnabled]))
+      [self registerTriggers];
   }
 }
 
@@ -317,7 +374,7 @@ BOOL sIsProcessingEvent = NO;
     }
     /* No specific action found, use default */
     if (!action) {
-      action = [[sd_library entryManager] actionForTrigger:[trigger uid] application:0 isActive:&status];
+      action = [[sd_library entryManager] actionForTrigger:[trigger uid] application:kSparkApplicationSystemUID isActive:&status];
     }
     /* If daemon is disabled, only permanent action are performed */
     if (action) {
@@ -354,7 +411,10 @@ BOOL sIsProcessingEvent = NO;
 }
 
 - (void)run {
-  ShadowTrace();
+  /* set front process */
+  ProcessSerialNumber psn;
+  if (noErr == GetFrontProcess(&psn))
+    [self frontApplicationDidChange:&psn];
   [NSApp run];
 }
 

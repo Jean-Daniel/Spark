@@ -137,9 +137,6 @@ void *_SEPreferencesLoginItemThread(void *arg) {
   [[self window] setToolbar:[toolbar autorelease]];
   [[self window] setShowsToolbarButton:NO];
   
-  /* Set outline column */
-  [ibPlugins setOutlineTableColumn:[ibPlugins tableColumnWithIdentifier:@"__item__"]];
-  
   /* Load plugins */
   NSMutableArray *uplugs = [NSMutableArray array];
   NSMutableArray *lplugs = [NSMutableArray array];

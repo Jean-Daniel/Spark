@@ -44,6 +44,10 @@ BOOL SparkLogSynchronization = NO;
 - (oneway void)enableLibraryEntry:(in SparkLibraryEntry *)anEntry;
 - (oneway void)disableLibraryEntry:(in SparkLibraryEntry *)anEntry;
 
+#pragma mark Application Specific
+- (oneway void)enableApplication:(in SparkUID)uid;
+- (oneway void)disableApplication:(in SparkUID)uid;
+
 #pragma mark Plugins Management
 - (oneway void)registerPlugIn:(bycopy NSString *)bundlePath;
 
@@ -108,6 +112,12 @@ BOOL SparkLogSynchronization = NO;
                  name:SparkEntryManagerDidChangeEntryEnabledNotification 
                object:nil];
 
+  /* Applications */
+  [center addObserver:self
+             selector:@selector(didChangeApplicationStatus:)
+                 name:SparkApplicationDidChangeEnabledNotification 
+               object:nil];
+  
   /* Plugins */
   [[NSNotificationCenter defaultCenter] addObserver:self
                                            selector:@selector(didRegisterPlugIn:)
@@ -291,6 +301,19 @@ OSType SparkServerObjectType(SparkObject *anObject) {
   }
 }
 
+#pragma mark Applications
+- (void)didChangeApplicationStatus:(NSNotification *)aNotification {
+  if ([self isConnected]) {
+    SparkApplication *app = [aNotification object];
+    if (app) {
+      if ([app isEnabled])
+        SparkRemoteMessage(enableApplication:[app uid]);
+      else
+        SparkRemoteMessage(disableApplication:[app uid]);
+    }
+  }
+}
+
 #pragma mark Plugins Synchronization
 - (void)didRegisterPlugIn:(NSNotification *)aNotification {
   if ([self isConnected]) {
@@ -464,6 +487,18 @@ SparkObjectSet *SparkObjectSetForType(SparkLibrary *library, OSType type) {
     if (entry)
       [sp_delegate distantLibrary:self didChangeEntryStatus:entry];
   }
+}
+
+#pragma mark Applications Specific
+- (void)enableApplication:(SparkUID)uid {
+  SparkSyncTrace();
+  SparkApplication *app = [[sp_library applicationSet] objectWithUID:uid];
+  [app setEnabled:YES];
+}
+- (void)disableApplication:(SparkUID)uid {
+  SparkSyncTrace();
+  SparkApplication *app = [[sp_library applicationSet] objectWithUID:uid];
+  [app setEnabled:NO];
 }
 
 #pragma mark Plugins Management

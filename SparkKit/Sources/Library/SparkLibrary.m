@@ -288,6 +288,36 @@ static SparkApplication *sSystem = nil;
 }
 
 #pragma mark Read/Write
+- (void)initReservedObjects {
+  /* Init Finder Application */
+  NSString *path = SKLSFindApplicationForSignature(kSparkFinderSignature);
+  NSAssert(path, @"Could not locate Finder");
+  if (path) {
+    SparkApplication *finder = [[SparkApplication alloc] initWithPath:path];
+    if (finder) {
+      [finder setUID:kSparkApplicationFinderUID];
+      [[self applicationSet] addObject:finder];
+      [finder release];
+    } else {
+      ELog(@"Invalid Finder Application: %@", finder);
+    }
+  }
+}
+- (void)saveReservedObjects {
+  /* write reserved objects status into preferences */
+  SparkApplication *finder = [[self applicationSet] objectWithUID:kSparkApplicationFinderUID];
+  if (finder)
+    [[self preferences] setObject:SKBool(![finder isEnabled]) forKey:@"SparkFinderDisabled"];
+}
+- (void)restoreReservedObjects {
+  /* called after library loading, restore reserved objects status from preferences */
+  SparkApplication *finder = [[self applicationSet] objectWithUID:kSparkApplicationFinderUID];
+  if (finder) {
+    BOOL disabled = [[[self preferences] objectForKey:@"SparkFinderDisabled"] boolValue];
+    [finder setEnabled:!disabled];
+  }
+}
+
 - (NSFileWrapper *)fileWrapper:(NSError **)outError {
   if (outError) *outError = nil;
   
@@ -333,6 +363,8 @@ static SparkApplication *sSystem = nil;
   
   [file setPreferredFilename:kSparkEntriesFile];
   [library addFileWrapper:file];
+  
+  [self saveReservedObjects];
   
   /* Preferences */
   NSData *data = [NSPropertyListSerialization dataFromPropertyList:sp_prefs
@@ -426,22 +458,6 @@ bail:
   }
 }
 
-- (void)initReservedObjects {
-  /* Init Finder Application */
-  NSString *path = SKLSFindApplicationForSignature(kSparkFinderSignature);
-  NSAssert(path, @"Could not locate Finder");
-  if (path) {
-    SparkApplication *finder = [[SparkApplication alloc] initWithPath:path];
-    if (finder) {
-      [finder setUID:kSparkApplicationFinderUID];
-      [[self applicationSet] addObject:finder];
-      [finder release];
-    } else {
-      ELog(@"Invalid Finder Application: %@", finder);
-    }
-  }
-}
-
 - (BOOL)loadFromWrapper:(NSFileWrapper *)wrapper error:(NSError **)error {
   NSParameterAssert(![self isLoaded]);
   
@@ -516,6 +532,8 @@ bail:
       DLog(@"Remove orphans triggers: %@", invalids);
       [invalids release];
     }
+    
+    [self restoreReservedObjects];
   } else {
     [self unload];
   }

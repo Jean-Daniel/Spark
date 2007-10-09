@@ -39,7 +39,7 @@
 - (void)dealloc {
   [sp_ctrl release];
   [sp_trap release];
-  if (sp_sapFlags.ownership)
+  if (sp_apFlags.ownership)
     [sp_view release];
   [sp_action release];
   [super dealloc];
@@ -151,14 +151,14 @@
 /* Called by Nib Loader only. Action view is a nib root object, so we should not retain it */
 - (void)setActionView:(NSView *)actionView {
   sp_view = actionView;
-  sp_sapFlags.ownership = 1;
+  sp_apFlags.ownership = 1;
 }
 
 - (void)releaseViewOwnership {
   /* If was owner, release the view */
-  if (sp_sapFlags.ownership) {
+  if (sp_apFlags.ownership) {
     [sp_view release];
-    sp_sapFlags.ownership = 0;
+    sp_apFlags.ownership = 0;
   }
 }
 

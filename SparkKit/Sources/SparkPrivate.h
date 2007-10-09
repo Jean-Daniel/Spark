@@ -57,6 +57,7 @@
 
 @interface SparkLibrary (SparkLibraryPrivate)
 - (SparkApplication *)frontApplication;
+- (SparkApplication *)applicationForProcess:(ProcessSerialNumber *)psn;
 @end
 
 @interface SparkLibrary (SparkPreferences)

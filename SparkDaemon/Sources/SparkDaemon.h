@@ -13,6 +13,7 @@
 @interface SparkDaemon : NSObject {
   BOOL sd_disabled;
   SparkLibrary *sd_library;
+  ProcessSerialNumber sd_front;
   SparkDistantLibrary *sd_rlibrary;
 }
 
@@ -30,6 +31,8 @@
 
 - (BOOL)isEnabled;
 - (void)setEnabled:(BOOL)flag;
+
+- (void)frontApplicationDidChange:(ProcessSerialNumber *)psn;
 
 @end
 
