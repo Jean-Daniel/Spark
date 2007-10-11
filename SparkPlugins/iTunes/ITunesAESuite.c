@@ -669,11 +669,9 @@ CFArrayRef iTunesCopyPlaylistNamesFromList(AEDescList *items) {
       err = AEGetNthDesc(items, idx, typeWildCard, NULL, &listDesc);
       if (noErr == err) {
         CFStringRef name = NULL;
-        if (noErr == SKAEGetCFStringFromDescriptor(&listDesc, &name) && name) {
-          if (name) {
-            CFArrayAppendValue(names, name);
-            CFRelease(name);
-          }
+        if (noErr == SKAECopyCFStringFromDescriptor(&listDesc, &name) && name) {
+          CFArrayAppendValue(names, name);
+          CFRelease(name);
         }
         SKAEDisposeDesc(&listDesc);
       }
@@ -761,8 +759,8 @@ CFDictionaryRef iTunesCopyPlaylists(void) {
           }
           if (kind != kPlaylistUndefined) {
             CFStringRef name = NULL;
-            err = SKAEGetNthCFStringFromDescList(&names, idx, &name);
-            if (name) {
+            err = SKAECopyNthCFStringFromDescList(&names, idx, &name);
+            if (noErr == err && name != NULL) {
               CFStringRef keys[] = { CFSTR("uid"), CFSTR("kind") };
               CFNumberRef numbers[2];
               numbers[0] = CFNumberCreate(kCFAllocatorDefault, kCFNumberSInt64Type, &uid);

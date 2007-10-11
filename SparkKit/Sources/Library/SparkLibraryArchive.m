@@ -12,9 +12,9 @@
 
 #import "SparkIconManagerPrivate.h"
 
-#import <ShadowKit/SKArchive.h>
-#import <ShadowKit/SKArchiveFile.h>
-#import <ShadowKit/SKArchiveDocument.h>
+#import <SArchive/SKArchive.h>
+#import <SArchive/SKArchiveFile.h>
+#import <SArchive/SKArchiveDocument.h>
 
 @interface SparkIconManager (SparkArchiveExtension)
 
@@ -99,19 +99,6 @@ NSString * const kSparkLibraryArchiveFileName = @"Spark Library";
       [sp_icons writeToArchive:archive atPath:icons];
     }
     
-    /* Save Preferences */
-//    NSDictionary *preferences = [self preferences];
-//    if ([preferences count] > 0) {
-//      NSData *data = [NSPropertyListSerialization dataFromPropertyList:preferences
-//                                                                format:NSPropertyListBinaryFormat_v1_0
-//                                                      errorDescription:NULL];
-//      if (data) {
-//        [archive addFile:kSparkLibraryPreferencesFile data:data parent:NULL];
-//      } else {
-//        WLog(@"Error while serializing preferences");
-//      }
-//    }
-    
     [archive close];
     [archive release];
     return YES;
@@ -131,7 +118,7 @@ NSString * const kSparkLibraryArchiveFileName = @"Spark Library";
     SKArchiveFile *folder = [path fileWithName:[NSString stringWithFormat:@"%u", idx]];
     
     SKArchiveFile *file = nil;
-    NSEnumerator *files = [folder childEnumerator];
+    NSEnumerator *files = [[folder files] objectEnumerator];
     while (file = [files nextObject]) {
       NSData *data = [file extractContents];
       NSImage *icon = data ? [[NSImage alloc] initWithData:data] : nil;

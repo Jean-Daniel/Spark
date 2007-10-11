@@ -351,6 +351,11 @@
 		1B3743880B6E2B79002F18C8 /* SEEntryList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEntryList.m; sourceTree = "<group>"; };
 		1B37438B0B6E2B84002F18C8 /* SEEntryList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEntryList.h; sourceTree = "<group>"; };
 		1B55EAE30B8625ED000E1760 /* SparkAware.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SparkAware.tiff; sourceTree = "<group>"; };
+		1B7BBB400CBE236700484A9E /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
+		1B7BBB410CBE236700484A9E /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
+		1B7BBB420CBE236700484A9E /* Profile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Profile.xcconfig; sourceTree = "<group>"; };
+		1B7BBB430CBE236700484A9E /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
+		1B7BBB440CBE236700484A9E /* Universal.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Universal.xcconfig; sourceTree = "<group>"; };
 		1BB11ABB0B931FAE00908925 /* SELibrary.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SELibrary.tiff; sourceTree = "<group>"; };
 		1BBED2330C9FFCAD0050A7F8 /* SEUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEUpdater.h; sourceTree = "<group>"; };
 		1BBED2340C9FFCAD0050A7F8 /* SEUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEUpdater.m; sourceTree = "<group>"; };
@@ -361,10 +366,6 @@
 		981875840B8738200079C55F /* SparkRun.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SparkRun.tiff; sourceTree = "<group>"; };
 		981875A00B873B9E0079C55F /* SparkStop.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SparkStop.tiff; sourceTree = "<group>"; };
 		981A8A940A61A49D00753369 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SEEntryEditor.nib; sourceTree = "<group>"; };
-		981B64FD09386F350024C0D9 /* ShadowCommon.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowCommon.xcconfig; sourceTree = "<group>"; };
-		981B64FE09386F350024C0D9 /* ShadowDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowDebug.xcconfig; sourceTree = "<group>"; };
-		981B64FF09386F350024C0D9 /* ShadowRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowRelease.xcconfig; sourceTree = "<group>"; };
-		981B650109386F350024C0D9 /* ShadowUniversal.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowUniversal.xcconfig; sourceTree = "<group>"; };
 		982312830AFE3F2100675226 /* SEForward.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SEForward.tiff; sourceTree = "<group>"; };
 		982312840AFE3F2100675226 /* SEBack.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SEBack.tiff; sourceTree = "<group>"; };
 		98240159060C7ABE00A0DB07 /* Spark.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spark.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -483,7 +484,6 @@
 		98ED2EF10B5D87FD002EAF85 /* SEEntryCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEntryCache.h; sourceTree = "<group>"; };
 		98EF8306086462FF007BC81A /* HotKeyToolKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = HotKeyToolKit.xcodeproj; path = ../HotKeyToolKit/HotKeyToolKit.xcodeproj; sourceTree = SOURCE_ROOT; };
 		98EF830F0864630B007BC81A /* SparkKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SparkKit.xcodeproj; path = ../SparkKit/SparkKit.xcodeproj; sourceTree = SOURCE_ROOT; };
-		98EFD00E0B5843C600AD4492 /* ShadowProfile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowProfile.xcconfig; sourceTree = "<group>"; };
 		98F4FB160B93A709002CE675 /* SECheck.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SECheck.tiff; sourceTree = "<group>"; };
 		98F746010A5C560A003D4BE1 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SELibraryWindow.nib; sourceTree = "<group>"; };
 		98FF14DB05EACAE90005F402 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = /System/Library/Frameworks/WebKit.framework; sourceTree = "<absolute>"; };
@@ -531,6 +531,18 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		1B7BBB3F0CBE236700484A9E /* Configurations */ = {
+			isa = PBXGroup;
+			children = (
+				1B7BBB400CBE236700484A9E /* Common.xcconfig */,
+				1B7BBB410CBE236700484A9E /* Debug.xcconfig */,
+				1B7BBB420CBE236700484A9E /* Profile.xcconfig */,
+				1B7BBB430CBE236700484A9E /* Release.xcconfig */,
+				1B7BBB440CBE236700484A9E /* Universal.xcconfig */,
+			);
+			path = Configurations;
+			sourceTree = SHARED_CODE_DIR;
+		};
 		29B97314FDCFA39411CA2CEA /* Spark */ = {
 			isa = PBXGroup;
 			children = (
@@ -540,11 +552,11 @@
 				984BCE5D060C7EBD0043CDEA /* AppleScript Suite */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				1B7BBB3F0CBE236700484A9E /* Configurations */,
 				98EF830F0864630B007BC81A /* SparkKit.xcodeproj */,
 				985F8DFD077253C70014830F /* SparkDaemon.xcodeproj */,
 				987E6BB206D76DF300C7F41C /* Spark Plugins.xcodeproj */,
 				98EF8306086462FF007BC81A /* HotKeyToolKit.xcodeproj */,
-				981B64FC09386F350024C0D9 /* Configurations */,
 			);
 			name = Spark;
 			sourceTree = "<group>";
@@ -572,18 +584,6 @@
 			);
 			name = Products;
 			sourceTree = "<group>";
-		};
-		981B64FC09386F350024C0D9 /* Configurations */ = {
-			isa = PBXGroup;
-			children = (
-				981B64FD09386F350024C0D9 /* ShadowCommon.xcconfig */,
-				98EFD00E0B5843C600AD4492 /* ShadowProfile.xcconfig */,
-				981B64FE09386F350024C0D9 /* ShadowDebug.xcconfig */,
-				981B64FF09386F350024C0D9 /* ShadowRelease.xcconfig */,
-				981B650109386F350024C0D9 /* ShadowUniversal.xcconfig */,
-			);
-			path = Configurations;
-			sourceTree = SHADOWKIT_ROOT;
 		};
 		98240180060C7B0700A0DB07 /* Sources */ = {
 			isa = PBXGroup;
@@ -1514,7 +1514,7 @@
 		};
 		98BC60570857BB9400A2041F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 981B64FE09386F350024C0D9 /* ShadowDebug.xcconfig */;
+			baseConfigurationReference = 1B7BBB410CBE236700484A9E /* Debug.xcconfig */;
 			buildSettings = {
 				SYMROOT = ../build;
 			};
@@ -1522,7 +1522,7 @@
 		};
 		98BC60580857BB9400A2041F /* Profile */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 98EFD00E0B5843C600AD4492 /* ShadowProfile.xcconfig */;
+			baseConfigurationReference = 1B7BBB420CBE236700484A9E /* Profile.xcconfig */;
 			buildSettings = {
 				SYMROOT = ../build;
 			};
@@ -1541,7 +1541,7 @@
 		};
 		98C12BD608CE11B30015CB91 /* Universal Binary */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 981B650109386F350024C0D9 /* ShadowUniversal.xcconfig */;
+			baseConfigurationReference = 1B7BBB440CBE236700484A9E /* Universal.xcconfig */;
 			buildSettings = {
 				SYMROOT = ../build;
 			};
@@ -1600,7 +1600,7 @@
 		};
 		98EFD0310B58443900AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 981B64FF09386F350024C0D9 /* ShadowRelease.xcconfig */;
+			baseConfigurationReference = 1B7BBB430CBE236700484A9E /* Release.xcconfig */;
 			buildSettings = {
 				SYMROOT = ../build;
 			};

@@ -10,9 +10,6 @@
 
 #include <unistd.h>
 
-#import <ShadowKit/SKArchive.h>
-#import <ShadowKit/SKArchiveFile.h>
-
 #import <ShadowKit/SKUpdater.h>
 #import <ShadowKit/SKFunctions.h>
 #import <ShadowKit/SKThreadPort.h>
@@ -37,7 +34,6 @@ SKSingleton(SEUpdater, sharedUpdater);
 
 - (void)dealloc {
   [se_size release];
-  [se_archive release];
   /* cancel will call delegate */
   [se_updater cancel:nil];
   [super dealloc];
@@ -112,33 +108,34 @@ SKSingleton(SEUpdater, sharedUpdater);
   if (!valid) 
     DLog(@"Invalid checksum");
 
-  /* create xar archive */
-  se_archive = [[SKArchive alloc] initWithArchiveAtPath:path];
-  
-  [se_size release];
-  se_size = [[NSString localizedStringWithSize:[se_archive size] unit:@"B" precision:2] retain];
-  
-  FSRef bref;
-  NSString *bpath = [[NSBundle mainBundle] bundlePath];
-  NSString *base = [@"~/Desktop/" stringByStandardizingPath];
-  char tmp[255];
-  snprintf(tmp, 255, "%s-XXXXXXXX", getprogname());
-  NSString *str = [NSString stringWithFormat:@"%s", mktemp(tmp)];
-  
-  if ([bpath getFSRef:&bref]) {
-    FSVolumeRefNum volume;
-    OSStatus err = SKFSGetVolumeInfo(&bref, &volume, kFSVolInfoNone, NULL, NULL, NULL);
-    if (noErr == err)
-      base = [SKFSFindFolder(kTemporaryFolderType, volume, true) stringByAppendingPathComponent:str];
-  }
-  if (![[NSFileManager defaultManager] fileExistsAtPath:base])
-    SKFSCreateFolder((CFStringRef)base);
-  
-  [se_progress setTitle:@"Extracting archive"];
-  [se_progress setMaxValue:[se_archive size]];
-  [se_progress setValue:0];
-  [se_progress start];
-  [se_archive extractInBackgroundToPath:base handler:self];
+  /* create SKPatch and apply */
+//  /* create xar archive */  
+//  se_archive = [[SKArchive alloc] initWithArchiveAtPath:path];
+//  
+//  [se_size release];
+//  se_size = [[NSString localizedStringWithSize:[se_archive size] unit:@"B" precision:2] retain];
+//  
+//  FSRef bref;
+//  NSString *bpath = [[NSBundle mainBundle] bundlePath];
+//  NSString *base = [@"~/Desktop/" stringByStandardizingPath];
+//  char tmp[255];
+//  snprintf(tmp, 255, "%s-XXXXXXXX", getprogname());
+//  NSString *str = [NSString stringWithFormat:@"%s", mktemp(tmp)];
+//  
+//  if ([bpath getFSRef:&bref]) {
+//    FSVolumeRefNum volume;
+//    OSStatus err = SKFSGetVolumeInfo(&bref, &volume, kFSVolInfoNone, NULL, NULL, NULL);
+//    if (noErr == err)
+//      base = [SKFSFindFolder(kTemporaryFolderType, volume, true) stringByAppendingPathComponent:str];
+//  }
+//  if (![[NSFileManager defaultManager] fileExistsAtPath:base])
+//    SKFSCreateFolder((CFStringRef)base);
+//  
+//  [se_progress setTitle:@"Extracting archive"];
+//  [se_progress setMaxValue:[se_archive size]];
+//  [se_progress setValue:0];
+//  [se_progress start];
+//  [se_archive extractInBackgroundToPath:base handler:self];
   
   /* no longer need updater */
   [se_updater release];
@@ -197,8 +194,6 @@ SKSingleton(SEUpdater, sharedUpdater);
 - (IBAction)cancel:(id)sender {
   if (se_updater)
     [se_updater cancel:nil];
-  if (se_archive)
-    [se_archive cancel];
 }
 
 - (void)showProgressPanel {
@@ -220,37 +215,37 @@ SKSingleton(SEUpdater, sharedUpdater);
   return [NSString stringWithFormat:@"%@ / %@", size, se_size];
 }
 
-#pragma mark Archive
-- (void)archive:(SKArchive *)archive didProcessFile:(SKArchiveFile *)file path:(NSString *)fsPath {
-  UInt64 size = [file size];
-  if (size > 0)
-    [se_progress incrementBy:size];
-}
-
-- (void)archive:(SKArchive *)archive didExtract:(BOOL)result path:(NSString *)aPath {
-  [se_progress stop];
-  [se_progress close:nil];
-  [se_progress release];
-  se_progress = nil;
-  
-  DLog(@"End of extraction: %@", result ? @"YES" : @"NO");
-  
-  NSString *path = [archive path];
-  [archive autorelease];
-  [archive close];
-  se_archive = nil;
-  
-  FSRef fref;
-  if (noErr == FSPathMakeRef((const UInt8 *)[path UTF8String], &fref, NULL))
-    FSDeleteObject(&fref);
-  
-  [[NSWorkspace sharedWorkspace] openFile:aPath];
-}
-
-- (BOOL)archive:(SKArchive *)manager shouldProceedAfterError:(NSError *)anError {
-  DLog(@"%@", anError);
-  return YES;
-}
+//#pragma mark Archive
+//- (void)archive:(SKArchive *)archive didProcessFile:(SKArchiveFile *)file path:(NSString *)fsPath {
+//  UInt64 size = [file size];
+//  if (size > 0)
+//    [se_progress incrementBy:size];
+//}
+//
+//- (void)archive:(SKArchive *)archive didExtract:(BOOL)result path:(NSString *)aPath {
+//  [se_progress stop];
+//  [se_progress close:nil];
+//  [se_progress release];
+//  se_progress = nil;
+//  
+//  DLog(@"End of extraction: %@", result ? @"YES" : @"NO");
+//  
+//  NSString *path = [archive path];
+//  [archive autorelease];
+//  [archive close];
+//  se_archive = nil;
+//  
+//  FSRef fref;
+//  if (noErr == FSPathMakeRef((const UInt8 *)[path UTF8String], &fref, NULL))
+//    FSDeleteObject(&fref);
+//  
+//  [[NSWorkspace sharedWorkspace] openFile:aPath];
+//}
+//
+//- (BOOL)archive:(SKArchive *)manager shouldProceedAfterError:(NSError *)anError {
+//  DLog(@"%@", anError);
+//  return YES;
+//}
 
 @end
 

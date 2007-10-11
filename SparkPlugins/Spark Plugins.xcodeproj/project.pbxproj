@@ -307,6 +307,11 @@
 		1B46DC960B81AB1100F4DA1E /* SARun.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SARun.tiff; sourceTree = "<group>"; };
 		1B75502B0B6A8153004C9F44 /* AAStop.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = AAStop.tiff; sourceTree = "<group>"; };
 		1B75502C0B6A8153004C9F44 /* AAHide.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = AAHide.tiff; sourceTree = "<group>"; };
+		1B7BBACD0CBE233300484A9E /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
+		1B7BBACE0CBE233300484A9E /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
+		1B7BBACF0CBE233300484A9E /* Profile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Profile.xcconfig; sourceTree = "<group>"; };
+		1B7BBAD00CBE233300484A9E /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
+		1B7BBAD10CBE233300484A9E /* Universal.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Universal.xcconfig; sourceTree = "<group>"; };
 		1B8F4B140B56823700E8A4C0 /* volume.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = volume.aiff; sourceTree = "<group>"; };
 		1BEF492D0C9AADAC00D7DA07 /* ITunesProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ITunesProgressView.h; path = ../ITunesProgressView.h; sourceTree = "<group>"; };
 		1BEF492E0C9AADAC00D7DA07 /* ITunesProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ITunesProgressView.m; sourceTree = "<group>"; };
@@ -317,10 +322,6 @@
 		98027E800B9780F900CB77F3 /* SKLevelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKLevelView.h; sourceTree = "<group>"; };
 		980516690B6AA498006C5BB8 /* AAWStop.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = AAWStop.tiff; sourceTree = "<group>"; };
 		980D926106E61DB80038EE2A /* DocumentAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DocumentAction.h; sourceTree = "<group>"; };
-		981B624109386E340024C0D9 /* ShadowCommon.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowCommon.xcconfig; sourceTree = "<group>"; };
-		981B624209386E340024C0D9 /* ShadowDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowDebug.xcconfig; sourceTree = "<group>"; };
-		981B624309386E340024C0D9 /* ShadowRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowRelease.xcconfig; sourceTree = "<group>"; };
-		981B624509386E340024C0D9 /* ShadowUniversal.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowUniversal.xcconfig; sourceTree = "<group>"; };
 		9832875F079602BE00DB780A /* Labo */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Labo; sourceTree = BUILT_PRODUCTS_DIR; };
 		9832882D079602EC00DB780A /* Labo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Labo.m; sourceTree = "<group>"; };
 		983332F50B999A3F00801842 /* SysEject.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SysEject.tiff; sourceTree = "<group>"; };
@@ -415,7 +416,6 @@
 		98EE13950B6B7C3800AC7004 /* AAApplication.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = AAApplication.tiff; sourceTree = "<group>"; };
 		98EF7F4108645B72007BC81A /* HotKeyToolKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = HotKeyToolKit.xcodeproj; path = ../HotKeyToolKit/HotKeyToolKit.xcodeproj; sourceTree = SOURCE_ROOT; };
 		98EF7F4B08645B7F007BC81A /* SparkKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SparkKit.xcodeproj; path = ../SparkKit/SparkKit.xcodeproj; sourceTree = SOURCE_ROOT; };
-		98EFD1CE0B58451700AD4492 /* ShadowProfile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowProfile.xcconfig; sourceTree = "<group>"; };
 		98EFD69D0B584C0D00AD4492 /* ITunesStarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ITunesStarView.m; sourceTree = "<group>"; };
 		98EFD69F0B584C1D00AD4492 /* ITunesStarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITunesStarView.h; sourceTree = "<group>"; };
 		98F7FE700607969F006FD336 /* DocWarning.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = DocWarning.tiff; sourceTree = "<group>"; };
@@ -554,9 +554,9 @@
 				08FB77AFFE84173DC02AAC07 /* Classes */,
 				089C1671FE841209C02AAC07 /* Frameworks and Libraries */,
 				19C28FB8FE9D52D311CA2CBB /* Products */,
+				1B7BBACC0CBE233300484A9E /* Configurations */,
 				98EF7F4B08645B7F007BC81A /* SparkKit.xcodeproj */,
 				98EF7F4108645B72007BC81A /* HotKeyToolKit.xcodeproj */,
-				981B624009386E340024C0D9 /* Configurations */,
 			);
 			name = "Spark Plugins";
 			sourceTree = "<group>";
@@ -631,17 +631,17 @@
 			name = Images;
 			sourceTree = "<group>";
 		};
-		981B624009386E340024C0D9 /* Configurations */ = {
+		1B7BBACC0CBE233300484A9E /* Configurations */ = {
 			isa = PBXGroup;
 			children = (
-				981B624109386E340024C0D9 /* ShadowCommon.xcconfig */,
-				98EFD1CE0B58451700AD4492 /* ShadowProfile.xcconfig */,
-				981B624209386E340024C0D9 /* ShadowDebug.xcconfig */,
-				981B624309386E340024C0D9 /* ShadowRelease.xcconfig */,
-				981B624509386E340024C0D9 /* ShadowUniversal.xcconfig */,
+				1B7BBACD0CBE233300484A9E /* Common.xcconfig */,
+				1B7BBACE0CBE233300484A9E /* Debug.xcconfig */,
+				1B7BBACF0CBE233300484A9E /* Profile.xcconfig */,
+				1B7BBAD00CBE233300484A9E /* Release.xcconfig */,
+				1B7BBAD10CBE233300484A9E /* Universal.xcconfig */,
 			);
 			path = Configurations;
-			sourceTree = SHADOWKIT_ROOT;
+			sourceTree = SHARED_CODE_DIR;
 		};
 		9832882B079602D500DB780A /* Labo */ = {
 			isa = PBXGroup;
@@ -1922,9 +1922,8 @@
 		};
 		98C12C7E08CE11FC0015CB91 /* Universal Binary */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 981B624509386E340024C0D9 /* ShadowUniversal.xcconfig */;
+			baseConfigurationReference = 1B7BBAD10CBE233300484A9E /* Universal.xcconfig */;
 			buildSettings = {
-				GCC_DYNAMIC_NO_PIC = NO;
 				SYMROOT = ../build;
 				WRAPPER_EXTENSION = spact;
 			};
@@ -2091,9 +2090,8 @@
 		};
 		98EF7EE508645A0E007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 981B624209386E340024C0D9 /* ShadowDebug.xcconfig */;
+			baseConfigurationReference = 1B7BBACE0CBE233300484A9E /* Debug.xcconfig */;
 			buildSettings = {
-				GCC_DYNAMIC_NO_PIC = NO;
 				SYMROOT = ../build;
 				WRAPPER_EXTENSION = spact;
 			};
@@ -2101,9 +2099,8 @@
 		};
 		98EF7EE608645A0E007BC81A /* Profile */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 98EFD1CE0B58451700AD4492 /* ShadowProfile.xcconfig */;
+			baseConfigurationReference = 1B7BBACF0CBE233300484A9E /* Profile.xcconfig */;
 			buildSettings = {
-				GCC_DYNAMIC_NO_PIC = NO;
 				SYMROOT = ../build;
 				WRAPPER_EXTENSION = spact;
 			};
@@ -2209,9 +2206,8 @@
 		};
 		98EFD1D80B58454800AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 981B624309386E340024C0D9 /* ShadowRelease.xcconfig */;
+			baseConfigurationReference = 1B7BBAD00CBE233300484A9E /* Release.xcconfig */;
 			buildSettings = {
-				GCC_DYNAMIC_NO_PIC = NO;
 				SYMROOT = ../build;
 				WRAPPER_EXTENSION = spact;
 			};

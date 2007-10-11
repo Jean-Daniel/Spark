@@ -79,15 +79,16 @@
 		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; lineEnding = 0; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		1B7BB7450CBE1F2800484A9E /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
+		1B7BB7460CBE1F2800484A9E /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
+		1B7BB7470CBE1F2800484A9E /* Profile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Profile.xcconfig; sourceTree = "<group>"; };
+		1B7BB7480CBE1F2800484A9E /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
+		1B7BB7490CBE1F2800484A9E /* Universal.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Universal.xcconfig; sourceTree = "<group>"; };
 		85FA5D540BCE526C0060584C /* TISKeyMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = TISKeyMap.h; path = ../TISKeyMap.h; sourceTree = "<group>"; };
 		85FA5D550BCE526C0060584C /* TISKeyMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = TISKeyMap.m; sourceTree = "<group>"; };
 		85FA5D7E0BCE57690060584C /* KLKeyMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = KLKeyMap.h; path = ../KLKeyMap.h; sourceTree = "<group>"; };
 		85FA5D7F0BCE57690060584C /* KLKeyMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = KLKeyMap.m; sourceTree = "<group>"; };
 		8DC2EF5B0486A6940098B216 /* HotKeyToolKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HotKeyToolKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		981B5F3E093868ED0024C0D9 /* ShadowCommon.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowCommon.xcconfig; sourceTree = "<group>"; };
-		981B5F3F093868ED0024C0D9 /* ShadowDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowDebug.xcconfig; sourceTree = "<group>"; };
-		981B5F40093868ED0024C0D9 /* ShadowRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowRelease.xcconfig; sourceTree = "<group>"; };
-		981B5F42093868ED0024C0D9 /* ShadowUniversal.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowUniversal.xcconfig; sourceTree = "<group>"; };
 		982B010A05FE954600E8776D /* HKKeyboardUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = HKKeyboardUtils.h; path = Headers/HKKeyboardUtils.h; sourceTree = SOURCE_ROOT; };
 		982B010B05FE954600E8776D /* HKKeyboardUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = HKKeyboardUtils.m; sourceTree = "<group>"; };
 		984426C705F9430700551005 /* HKHotKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = HKHotKey.h; sourceTree = "<group>"; };
@@ -125,7 +126,6 @@
 		98E204820A56FDFC00EB74E1 /* Runner.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = Runner.m; sourceTree = "<group>"; };
 		98E204A00A56FE6500EB74E1 /* Runner */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "compiled.mach-o.executable"; path = Runner; sourceTree = BUILT_PRODUCTS_DIR; };
 		98EF7D6F0864538C007BC81A /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = /System/Library/Frameworks/SenTestingKit.framework; sourceTree = "<absolute>"; };
-		98EFD0340B58444200AD4492 /* ShadowProfile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowProfile.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,7 +189,7 @@
 				089C1665FE841158C02AAC07 /* Resources */,
 				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
 				034768DFFF38A50411DB9C8B /* Products */,
-				981B5F3C093868ED0024C0D9 /* Configurations */,
+				1B7BB7440CBE1F2800484A9E /* Configurations */,
 				98643F010A556F2200260086 /* Test-Info.plist */,
 				98C61C1C0A5813EB0004E6EF /* UITester-Info.plist */,
 			);
@@ -251,17 +251,17 @@
 			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
-		981B5F3C093868ED0024C0D9 /* Configurations */ = {
+		1B7BB7440CBE1F2800484A9E /* Configurations */ = {
 			isa = PBXGroup;
 			children = (
-				981B5F3E093868ED0024C0D9 /* ShadowCommon.xcconfig */,
-				98EFD0340B58444200AD4492 /* ShadowProfile.xcconfig */,
-				981B5F3F093868ED0024C0D9 /* ShadowDebug.xcconfig */,
-				981B5F40093868ED0024C0D9 /* ShadowRelease.xcconfig */,
-				981B5F42093868ED0024C0D9 /* ShadowUniversal.xcconfig */,
+				1B7BB7450CBE1F2800484A9E /* Common.xcconfig */,
+				1B7BB7460CBE1F2800484A9E /* Debug.xcconfig */,
+				1B7BB7470CBE1F2800484A9E /* Profile.xcconfig */,
+				1B7BB7480CBE1F2800484A9E /* Release.xcconfig */,
+				1B7BB7490CBE1F2800484A9E /* Universal.xcconfig */,
 			);
 			path = Configurations;
-			sourceTree = SHADOWKIT_ROOT;
+			sourceTree = SHARED_CODE_DIR;
 		};
 		984426C605F9430700551005 /* Headers */ = {
 			isa = PBXGroup;
@@ -581,7 +581,6 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 360;
 				FRAMEWORK_VERSION = A;
-				GCC_DYNAMIC_NO_PIC = NO;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				OTHER_LDFLAGS = (
@@ -596,7 +595,7 @@
 		};
 		981B5F530938699D0024C0D9 /* Profile */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 98EFD0340B58444200AD4492 /* ShadowProfile.xcconfig */;
+			baseConfigurationReference = 1B7BB7470CBE1F2800484A9E /* Profile.xcconfig */;
 			buildSettings = {
 				SYMROOT = ../build;
 			};
@@ -609,7 +608,6 @@
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR_QUOTED)",
 				);
-				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				INFOPLIST_FILE = "Test-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
@@ -631,7 +629,6 @@
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR_QUOTED)",
 				);
-				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				INFOPLIST_FILE = "Test-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
@@ -653,7 +650,6 @@
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR_QUOTED)",
 				);
-				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				INFOPLIST_FILE = "Test-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
@@ -675,7 +671,6 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 360;
 				FRAMEWORK_VERSION = A;
-				GCC_DYNAMIC_NO_PIC = NO;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				OTHER_LDFLAGS = (
@@ -690,7 +685,7 @@
 		};
 		98C1287F08CE0D620015CB91 /* Universal Binary */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 981B5F42093868ED0024C0D9 /* ShadowUniversal.xcconfig */;
+			baseConfigurationReference = 1B7BB7490CBE1F2800484A9E /* Universal.xcconfig */;
 			buildSettings = {
 				SYMROOT = ../build;
 			};
@@ -772,7 +767,6 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 360;
 				FRAMEWORK_VERSION = A;
-				GCC_DYNAMIC_NO_PIC = NO;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				OTHER_LDFLAGS = (
@@ -787,7 +781,7 @@
 		};
 		98EF7D5D08645328007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 981B5F3F093868ED0024C0D9 /* ShadowDebug.xcconfig */;
+			baseConfigurationReference = 1B7BB7460CBE1F2800484A9E /* Debug.xcconfig */;
 			buildSettings = {
 				SYMROOT = ../build;
 			};
@@ -800,7 +794,6 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 360;
 				FRAMEWORK_VERSION = A;
-				GCC_DYNAMIC_NO_PIC = NO;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				OTHER_LDFLAGS = (
@@ -820,7 +813,6 @@
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR_QUOTED)",
 				);
-				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				INFOPLIST_FILE = "Test-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
@@ -860,7 +852,7 @@
 		};
 		98EFD0410B58448D00AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 981B5F40093868ED0024C0D9 /* ShadowRelease.xcconfig */;
+			baseConfigurationReference = 1B7BB7480CBE1F2800484A9E /* Release.xcconfig */;
 			buildSettings = {
 				SYMROOT = ../build;
 			};

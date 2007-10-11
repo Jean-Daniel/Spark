@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1B7BBBF90CBE25D000484A9E /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B7BBBF80CBE25D000484A9E /* Carbon.framework */; };
 		983AFC260B19A74300173464 /* Spark.icns in Resources */ = {isa = PBXBuildFile; fileRef = 983AFC250B19A74300173464 /* Spark.icns */; };
 		9867565A096B3B9000BB8A25 /* ShadowKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98675654096B3B6F00BB8A25 /* ShadowKit.framework */; };
 		98B20D9A06A5492E008BA3F6 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -73,12 +74,14 @@
 
 /* Begin PBXFileReference section */
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		1B7BB7E70CBE20D500484A9E /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
+		1B7BB7E80CBE20D500484A9E /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
+		1B7BB7E90CBE20D500484A9E /* Profile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Profile.xcconfig; sourceTree = "<group>"; };
+		1B7BB7EA0CBE20D500484A9E /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
+		1B7BB7EB0CBE20D500484A9E /* Universal.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Universal.xcconfig; sourceTree = "<group>"; };
+		1B7BBBF80CBE25D000484A9E /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
-		981B5FD409386B470024C0D9 /* ShadowCommon.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowCommon.xcconfig; sourceTree = "<group>"; };
-		981B5FD509386B470024C0D9 /* ShadowDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowDebug.xcconfig; sourceTree = "<group>"; };
-		981B5FD609386B470024C0D9 /* ShadowRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowRelease.xcconfig; sourceTree = "<group>"; };
-		981B5FD809386B470024C0D9 /* ShadowUniversal.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowUniversal.xcconfig; sourceTree = "<group>"; };
 		983AFC250B19A74300173464 /* Spark.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Spark.icns; path = ../SparkEditor/Resources/Images/icns/Spark.icns; sourceTree = SOURCE_ROOT; };
 		98B20D6A06A54814008BA3F6 /* Spark Daemon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Spark Daemon.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		98D528D90B19A14800C8425C /* SDAEHandlers.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = SDAEHandlers.c; sourceTree = "<group>"; };
@@ -92,7 +95,6 @@
 		98D75E3C0B28BAA1001393F7 /* SparkDaemon.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.sdef; path = SparkDaemon.sdef; sourceTree = "<group>"; };
 		98EF7E4108645876007BC81A /* HotKeyToolKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = HotKeyToolKit.xcodeproj; path = ../HotKeyToolKit/HotKeyToolKit.xcodeproj; sourceTree = SOURCE_ROOT; };
 		98EF7E4B08645883007BC81A /* SparkKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SparkKit.xcodeproj; path = ../SparkKit/SparkKit.xcodeproj; sourceTree = SOURCE_ROOT; };
-		98EFD2D10B58455B00AD4492 /* ShadowProfile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ShadowProfile.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +106,7 @@
 				98EF7E530864588F007BC81A /* SparkKit.framework in Frameworks */,
 				9867565A096B3B9000BB8A25 /* ShadowKit.framework in Frameworks */,
 				98EF7E520864588C007BC81A /* HotKeyToolKit.framework in Frameworks */,
+				1B7BBBF90CBE25D000484A9E /* Carbon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -114,6 +117,7 @@
 			isa = PBXGroup;
 			children = (
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
+				1B7BBBF80CBE25D000484A9E /* Carbon.framework */,
 			);
 			name = "Linked Frameworks";
 			sourceTree = "<group>";
@@ -135,6 +139,19 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		1B7BB7E60CBE20D500484A9E /* Configurations */ = {
+			isa = PBXGroup;
+			children = (
+				1B7BB7E70CBE20D500484A9E /* Common.xcconfig */,
+				1B7BB7E80CBE20D500484A9E /* Debug.xcconfig */,
+				1B7BB7E90CBE20D500484A9E /* Profile.xcconfig */,
+				1B7BB7EA0CBE20D500484A9E /* Release.xcconfig */,
+				1B7BB7EB0CBE20D500484A9E /* Universal.xcconfig */,
+			);
+			name = Configurations;
+			path = ../../../Shared/Configurations;
+			sourceTree = SOURCE_ROOT;
+		};
 		29B97314FDCFA39411CA2CEA /* Spark */ = {
 			isa = PBXGroup;
 			children = (
@@ -142,9 +159,9 @@
 				98CE5BFB0774EF34006EB5A5 /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				1B7BB7E60CBE20D500484A9E /* Configurations */,
 				98EF7E4B08645883007BC81A /* SparkKit.xcodeproj */,
 				98EF7E4108645876007BC81A /* HotKeyToolKit.xcodeproj */,
-				981B5FD309386B470024C0D9 /* Configurations */,
 			);
 			name = Spark;
 			sourceTree = "<group>";
@@ -157,18 +174,6 @@
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
-		};
-		981B5FD309386B470024C0D9 /* Configurations */ = {
-			isa = PBXGroup;
-			children = (
-				981B5FD409386B470024C0D9 /* ShadowCommon.xcconfig */,
-				98EFD2D10B58455B00AD4492 /* ShadowProfile.xcconfig */,
-				981B5FD509386B470024C0D9 /* ShadowDebug.xcconfig */,
-				981B5FD609386B470024C0D9 /* ShadowRelease.xcconfig */,
-				981B5FD809386B470024C0D9 /* ShadowUniversal.xcconfig */,
-			);
-			path = Configurations;
-			sourceTree = SHADOWKIT_ROOT;
 		};
 		98CE5BFB0774EF34006EB5A5 /* Resources */ = {
 			isa = PBXGroup;
@@ -390,7 +395,7 @@
 		};
 		98C128D208CE0E9E0015CB91 /* Universal Binary */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 981B5FD809386B470024C0D9 /* ShadowUniversal.xcconfig */;
+			baseConfigurationReference = 1B7BB7EB0CBE20D500484A9E /* Universal.xcconfig */;
 			buildSettings = {
 				SYMROOT = ../build;
 			};
@@ -418,7 +423,7 @@
 		};
 		98EF7DF008645714007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 981B5FD509386B470024C0D9 /* ShadowDebug.xcconfig */;
+			baseConfigurationReference = 1B7BB7E80CBE20D500484A9E /* Debug.xcconfig */;
 			buildSettings = {
 				SYMROOT = ../build;
 			};
@@ -426,7 +431,7 @@
 		};
 		98EF7DF108645714007BC81A /* Profile */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 98EFD2D10B58455B00AD4492 /* ShadowProfile.xcconfig */;
+			baseConfigurationReference = 1B7BB7E90CBE20D500484A9E /* Profile.xcconfig */;
 			buildSettings = {
 				SYMROOT = ../build;
 			};
@@ -444,7 +449,7 @@
 		};
 		98EFD2D90B58457D00AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 981B5FD609386B470024C0D9 /* ShadowRelease.xcconfig */;
+			baseConfigurationReference = 1B7BB7EA0CBE20D500484A9E /* Release.xcconfig */;
 			buildSettings = {
 				SYMROOT = ../build;
 			};
