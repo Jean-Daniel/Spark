@@ -9,7 +9,7 @@
 #import "SEPreferences.h"
 
 #import "Spark.h"
-#import "SEUpdater.h"
+//#import "SEUpdater.h"
 #import "SEServerConnection.h"
 
 #import <SparkKit/SparkKit.h>
@@ -265,7 +265,7 @@ void *_SEPreferencesLoginItemThread(void *arg) {
 
 #pragma mark Update
 - (IBAction)update:(id)sender {
-  [[SEUpdater sharedUpdater] search];
+  // [[SEUpdater sharedUpdater] search];
 }
 
 #pragma mark -

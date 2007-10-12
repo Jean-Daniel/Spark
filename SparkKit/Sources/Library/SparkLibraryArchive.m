@@ -12,14 +12,14 @@
 
 #import "SparkIconManagerPrivate.h"
 
-#import <SArchive/SKArchive.h>
-#import <SArchive/SKArchiveFile.h>
-#import <SArchive/SKArchiveDocument.h>
+#import <SArchiveKit/SArchive.h>
+#import <SArchiveKit/SArchiveFile.h>
+#import <SArchiveKit/SArchiveDocument.h>
 
 @interface SparkIconManager (SparkArchiveExtension)
 
-- (void)readFromArchive:(SKArchive *)archive path:(SKArchiveFile *)path;
-- (void)writeToArchive:(SKArchive *)archive atPath:(SKArchiveFile *)path;
+- (void)readFromArchive:(SArchive *)archive path:(SArchiveFile *)path;
+- (void)writeToArchive:(SArchive *)archive atPath:(SArchiveFile *)path;
 
 @end
 
@@ -37,9 +37,9 @@ NSString * const kSparkLibraryArchiveFileName = @"Spark Library";
 
 - (id)initFromArchiveAtPath:(NSString *)file loadPreferences:(BOOL)flag {
   if (self = [self initWithPath:nil]) {
-    SKArchive *archive = [[SKArchive alloc] initWithArchiveAtPath:file];
+    SArchive *archive = [[SArchive alloc] initWithArchiveAtPath:file];
     
-    SKArchiveFile *library = [archive fileWithName:kSparkLibraryArchiveFileName];
+    SArchiveFile *library = [archive fileWithName:kSparkLibraryArchiveFileName];
     if (library) {
       NSFileWrapper *wrapper = [library fileWrapper];
       if (wrapper) {
@@ -48,22 +48,9 @@ NSString * const kSparkLibraryArchiveFileName = @"Spark Library";
         /* Load library */
         [self readFromFileWrapper:wrapper error:nil];
         /* Load icons */
-        SKArchiveFile *icons = [archive fileWithName:@"Icons"];
+        SArchiveFile *icons = [archive fileWithName:@"Icons"];
         NSAssert(icons != nil, @"Invalid archive");
         [sp_icons readFromArchive:archive path:icons];
-        
-        /* Load Preferences */
-//        NSData *data = [[archive fileWithName:kSparkLibraryPreferencesFile] extractContents];
-//        if (data) {
-//          NSDictionary *prefs = [NSPropertyListSerialization propertyListFromData:data
-//                                                                 mutabilityOption:NSPropertyListImmutable
-//                                                                           format:NULL
-//                                                                 errorDescription:NULL];
-//          if (prefs)
-//            [self setPreferences:prefs];
-//          else
-//            WLog(@"Error while unserializing preferences");
-//        }
       }
     }
     [archive close];
@@ -80,8 +67,8 @@ NSString * const kSparkLibraryArchiveFileName = @"Spark Library";
 - (BOOL)archiveToFile:(NSString *)file {
   NSFileWrapper *wrapper = [self fileWrapper:nil];
   if (wrapper) {
-    SKArchive *archive = [[SKArchive alloc] initWithArchiveAtPath:file write:YES];
-    SKArchiveDocument *doc = [archive addDocumentWithName:@"Spark"];
+    SArchive *archive = [[SArchive alloc] initWithArchiveAtPath:file write:YES];
+    SArchiveDocument *doc = [archive addDocumentWithName:@"Spark"];
     CFStringRef str = CFUUIDCreateString(kCFAllocatorDefault, [self uuid]);
     if (str) {
       [doc setValue:(id)str forProperty:@"uuid"];
@@ -95,7 +82,7 @@ NSString * const kSparkLibraryArchiveFileName = @"Spark Library";
     
     /* Save icons */
     if (sp_icons) {
-      SKArchiveFile *icons = [archive addFolder:@"Icons" properties:nil parent:nil];
+      SArchiveFile *icons = [archive addFolder:@"Icons" properties:nil parent:nil];
       [sp_icons writeToArchive:archive atPath:icons];
     }
     
@@ -111,13 +98,13 @@ NSString * const kSparkLibraryArchiveFileName = @"Spark Library";
 #pragma mark -
 @implementation SparkIconManager (SparkArchiveExtension)
 
-- (void)readFromArchive:(SKArchive *)archive path:(SKArchiveFile *)path {
+- (void)readFromArchive:(SArchive *)archive path:(SArchiveFile *)path {
   NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
   for (NSUInteger idx = 0; idx < 4; idx++) {
     /* Get Folder */
-    SKArchiveFile *folder = [path fileWithName:[NSString stringWithFormat:@"%u", idx]];
+    SArchiveFile *folder = [path fileWithName:[NSString stringWithFormat:@"%u", idx]];
     
-    SKArchiveFile *file = nil;
+    SArchiveFile *file = nil;
     NSEnumerator *files = [[folder files] objectEnumerator];
     while (file = [files nextObject]) {
       NSData *data = [file extractContents];
@@ -139,11 +126,11 @@ NSString * const kSparkLibraryArchiveFileName = @"Spark Library";
   [pool release];
 }
 
-- (void)writeToArchive:(SKArchive *)archive atPath:(SKArchiveFile *)path {
+- (void)writeToArchive:(SArchive *)archive atPath:(SArchiveFile *)path {
   NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
   for (NSUInteger idx = 0; idx < 4; idx++) {
     /* Create Folder */
-    SKArchiveFile *folder = [archive addFolder:[NSString stringWithFormat:@"%u", idx] properties:nil parent:path];
+    SArchiveFile *folder = [archive addFolder:[NSString stringWithFormat:@"%u", idx] properties:nil parent:path];
     
     NSMutableSet *blacklist = [[NSMutableSet alloc] init];
     [blacklist addObject:@".DS_Store"];

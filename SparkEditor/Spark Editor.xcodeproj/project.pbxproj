@@ -34,8 +34,6 @@
 		1B55EAE40B8625ED000E1760 /* SparkAware.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B55EAE30B8625ED000E1760 /* SparkAware.tiff */; };
 		1B5F396E0B5D451700879DF5 /* SETriggersController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B580B19A59700C8425C /* SETriggersController.m */; };
 		1BB11ABC0B931FAE00908925 /* SELibrary.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1BB11ABB0B931FAE00908925 /* SELibrary.tiff */; };
-		1BBED2350C9FFCAD0050A7F8 /* SEUpdater.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BBED2330C9FFCAD0050A7F8 /* SEUpdater.h */; };
-		1BBED2360C9FFCAD0050A7F8 /* SEUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BBED2340C9FFCAD0050A7F8 /* SEUpdater.m */; };
 		1BE8319F0CA3AD16003DE174 /* SEUpdater.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1BE8319D0CA3AD16003DE174 /* SEUpdater.nib */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		9803A1420A9D01CB00B7DBBA /* SEFirstRun.nib in Resources */ = {isa = PBXBuildFile; fileRef = 9803A13C0A9D01CA00B7DBBA /* SEFirstRun.nib */; };
@@ -967,7 +965,6 @@
 				98CC49680B5AAF3F00C60244 /* SELibraryDocument.h in Headers */,
 				98ED2EF20B5D87FD002EAF85 /* SEEntryCache.h in Headers */,
 				1B3743900B6E2B96002F18C8 /* SEEntryList.h in Headers */,
-				1BBED2350C9FFCAD0050A7F8 /* SEUpdater.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1252,7 +1249,6 @@
 				1B5F396E0B5D451700879DF5 /* SETriggersController.m in Sources */,
 				98ED2EEE0B5D87EF002EAF85 /* SEEntryCache.m in Sources */,
 				1B37438F0B6E2B94002F18C8 /* SEEntryList.m in Sources */,
-				1BBED2360C9FFCAD0050A7F8 /* SEUpdater.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
