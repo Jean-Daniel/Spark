@@ -6,11 +6,12 @@
  *  Copyright 2007 Shadow Lab. All rights reserved.
  */
 
-#import <SparkKit/SparkLibraryArchive.h>
+#import "SparkLibraryArchive.h"
+
 #import <SparkKit/SparkObjectSet.h>
 #import <SparkKit/SparkPrivate.h>
 
-#import "SparkIconManagerPrivate.h"
+#import <SparkKit/SparkIconManagerPrivate.h>
 
 #import <SArchiveKit/SArchive.h>
 #import <SArchiveKit/SArchiveFile.h>

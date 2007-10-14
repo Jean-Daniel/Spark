@@ -22,7 +22,6 @@
 #import <SparkKit/SparkPlugIn.h>
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkActionLoader.h>
-#import <SparkKit/SparkLibraryArchive.h>
 
 #import <ShadowKit/SKFunctions.h>
 #import <ShadowKit/SKFSFunctions.h>
@@ -35,6 +34,7 @@
 #import "SELibraryWindow.h"
 #import "SELibraryDocument.h"
 #import "SEServerConnection.h"
+#import "SparkLibraryArchive.h"
 
 const UInt32 kSparkVersion = 0x020900; /* 3.0.0 */
 

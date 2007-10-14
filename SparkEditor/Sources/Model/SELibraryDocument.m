@@ -8,6 +8,7 @@
 
 #import "SELibraryDocument.h"
 
+#import "SparkLibraryArchive.h"
 #import "SEServerConnection.h"
 #import "SETriggerBrowser.h"
 #import "SELibraryWindow.h"
@@ -20,7 +21,6 @@
 #import <SparkKit/SparkTrigger.h>
 #import <SparkKit/SparkObjectSet.h>
 #import <SparkKit/SparkEntryManager.h>
-#import <SparkKit/SparkLibraryArchive.h>
 
 NSString * const SEPreviousApplicationKey = @"SEPreviousApplicationKey";
 NSString * const SEApplicationDidChangeNotification = @"SEApplicationDidChange";

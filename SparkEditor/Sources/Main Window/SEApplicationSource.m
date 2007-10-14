@@ -118,6 +118,12 @@
   }
 }
 
+SK_INLINE
+bool __IsApplicationAtPath(NSString *path) {
+  Boolean app = false;
+  return path && (noErr == SKLSIsApplicationAtPath((CFStringRef)path, &app)) && app;
+}
+
 - (NSUInteger)addApplications:(NSArray *)files {
   se_locked = YES;
   NSUInteger count = 0;
@@ -131,7 +137,7 @@
     if ([[NSFileManager defaultManager] isAliasFileAtPath:file]) {
       file = [[NSFileManager defaultManager] resolveAliasFileAtPath:file isFolder:NULL];
     }
-    if (file && [[NSWorkspace sharedWorkspace] isApplicationAtPath:file]) {
+    if (file && __IsApplicationAtPath(file)) {
       SparkApplication *app = [[SparkApplication alloc] initWithPath:file];
       if (app && ![[[self applicationSet] objects] containsObject:app]) {
         // Add application
@@ -245,8 +251,7 @@
     NSUInteger idx = [files count];
     while (idx-- > 0) {
       NSString *file = [files objectAtIndex:idx];
-      if ([[NSWorkspace sharedWorkspace] isApplicationAtPath:file]) {
-        
+      if (__IsApplicationAtPath(file)) {
         return NSDragOperationCopy;
       }
     }

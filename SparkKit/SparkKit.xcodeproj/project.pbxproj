@@ -7,27 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1B1286A10CA8285F00B6F5F6 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B1286A00CA8285F00B6F5F6 /* WebKit.framework */; };
-		1B4936250CA2E4FA00F53EEE /* SKCDSAUtils.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B4936190CA2E4FA00F53EEE /* SKCDSAUtils.c */; };
-		1B4936260CA2E4FA00F53EEE /* SKCDSAUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B49361A0CA2E4FA00F53EEE /* SKCDSAUtils.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1B49362F0CA2E53500F53EEE /* SKCryptoFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B49362D0CA2E53500F53EEE /* SKCryptoFunctions.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1B4936300CA2E53500F53EEE /* SKCryptoFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B49362E0CA2E53500F53EEE /* SKCryptoFunctions.c */; };
-		1B49363E0CA2E57C00F53EEE /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B49363D0CA2E57C00F53EEE /* Security.framework */; };
-		1B69ECD90CBF6F0100DF1211 /* SArchive.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B69ECCF0CBF6F0100DF1211 /* SArchive.h */; };
-		1B69ECDA0CBF6F0100DF1211 /* SArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B69ECD00CBF6F0100DF1211 /* SArchive.m */; };
-		1B69ECDB0CBF6F0100DF1211 /* SArchiveFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B69ECD10CBF6F0100DF1211 /* SArchiveFile.h */; };
-		1B69ECDC0CBF6F0100DF1211 /* SArchiveFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B69ECD20CBF6F0100DF1211 /* SArchiveFile.m */; };
-		1B69ECDD0CBF6F0100DF1211 /* SArchiveXar.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B69ECD30CBF6F0100DF1211 /* SArchiveXar.m */; };
-		1B69ECDE0CBF6F0100DF1211 /* SArchiveSignature.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B69ECD40CBF6F0100DF1211 /* SArchiveSignature.h */; };
-		1B69ECDF0CBF6F0100DF1211 /* SArchiveSignature.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B69ECD50CBF6F0100DF1211 /* SArchiveSignature.m */; };
-		1B69ECE00CBF6F0100DF1211 /* SArchiveXar.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B69ECD60CBF6F0100DF1211 /* SArchiveXar.h */; };
-		1B69ECE10CBF6F0100DF1211 /* SArchiveDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B69ECD70CBF6F0100DF1211 /* SArchiveDocument.m */; };
-		1B69ECE20CBF6F0100DF1211 /* SArchiveDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B69ECD80CBF6F0100DF1211 /* SArchiveDocument.h */; };
-		1B7BB8590CBE219D00484A9E /* xar.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B7BB8500CBE219D00484A9E /* xar.h */; };
-		1B7BB8960CBE228700484A9E /* libsxar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B7BB84F0CBE219200484A9E /* libsxar.a */; };
-		1B9FE5B40B8D95370042B5F9 /* libbz2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B9FE5B00B8D95370042B5F9 /* libbz2.dylib */; };
-		1B9FE5B60B8D95370042B5F9 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B9FE5B20B8D95370042B5F9 /* libxml2.dylib */; };
-		1B9FE5B70B8D95370042B5F9 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B9FE5B30B8D95370042B5F9 /* libz.dylib */; };
 		1BAA6F8D0B64CF2500F9AC0E /* SKImageUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BAA6F870B64CF2500F9AC0E /* SKImageUtils.m */; };
 		1BB8B1FF0B949EE900F91062 /* SparkSystem.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1BB8B1FE0B949EE900F91062 /* SparkSystem.tiff */; };
 		1BE44FE40BD4B3DC00034060 /* AESendThreadSafe.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BE44FE30BD4B3DC00034060 /* AESendThreadSafe.c */; };
@@ -121,10 +100,7 @@
 		984A38CB0A60060A00DA6455 /* SparkMultipleAlerts.h in Headers */ = {isa = PBXBuildFile; fileRef = 984A38C00A60060A00DA6455 /* SparkMultipleAlerts.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		984A38CC0A60060A00DA6455 /* SparkMultipleAlerts.m in Sources */ = {isa = PBXBuildFile; fileRef = 984A38C10A60060A00DA6455 /* SparkMultipleAlerts.m */; };
 		984A38CD0A60060A00DA6455 /* SparkPluginAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 984A38C20A60060A00DA6455 /* SparkPluginAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		98537C210C2C64C300ABDCFA /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B9FE5B10B8D95370042B5F9 /* libcrypto.dylib */; };
-		9858F41A0B90835900CC682C /* SparkLibraryArchive.h in Headers */ = {isa = PBXBuildFile; fileRef = 9858F4180B90835900CC682C /* SparkLibraryArchive.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		9858F41B0B90835A00CC682C /* SparkLibraryArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = 9858F4190B90835900CC682C /* SparkLibraryArchive.m */; };
-		9858F43A0B9084B500CC682C /* SparkIconManagerPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 9858F4390B9084B500CC682C /* SparkIconManagerPrivate.h */; };
+		9858F43A0B9084B500CC682C /* SparkIconManagerPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 9858F4390B9084B500CC682C /* SparkIconManagerPrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		985B76520A813F490003A59C /* SparkServerProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 985B76510A813F490003A59C /* SparkServerProtocol.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		985B765A0A813F960003A59C /* SparkAppleScriptSuite.h in Headers */ = {isa = PBXBuildFile; fileRef = 985B76590A813F960003A59C /* SparkAppleScriptSuite.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		98627FE80B2AD13700866A34 /* SparkFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 98627FE70B2AD13700866A34 /* SparkFunctions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -134,10 +110,8 @@
 		9864A33F0BD117F20089447D /* SparkPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 9864A33E0BD117F20089447D /* SparkPreferences.m */; };
 		9864A3AD0BD11EB40089447D /* SparkPreferences.h in Headers */ = {isa = PBXBuildFile; fileRef = 9864A3AC0BD11EB40089447D /* SparkPreferences.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		98665E620A86A6F900CF8291 /* SKAEFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = 98665E610A86A6F900CF8291 /* SKAEFunctions.c */; };
-		98674EA50B37214C000C73DC /* SKReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 98674EA40B37214C000C73DC /* SKReachability.m */; };
-		98674EA70B372158000C73DC /* SKReachability.h in Headers */ = {isa = PBXBuildFile; fileRef = 98674EA60B372158000C73DC /* SKReachability.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		98675537096B35E900BB8A25 /* SKIconUtils.c in Sources */ = {isa = PBXBuildFile; fileRef = 98E66C7F0759F7E90048A37D /* SKIconUtils.c */; };
-		9867553B096B35E900BB8A25 /* SKIconUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 98E66C820759F7F60048A37D /* SKIconUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		98675537096B35E900BB8A25 /* SKIconFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = 98E66C7F0759F7E90048A37D /* SKIconFunctions.c */; };
+		9867553B096B35E900BB8A25 /* SKIconFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 98E66C820759F7F60048A37D /* SKIconFunctions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		98675547096B35E900BB8A25 /* SKExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 98725D2C06CB9FB30072B8E4 /* SKExtensions.m */; };
 		98675548096B35E900BB8A25 /* SKApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 986AFA2F06D65E0800B84D2D /* SKApplication.m */; };
 		98675549096B35E900BB8A25 /* SKAlias.m in Sources */ = {isa = PBXBuildFile; fileRef = 98725D3706CB9FC60072B8E4 /* SKAlias.m */; };
@@ -158,7 +132,6 @@
 		988C9B460B56F2EF000A0DDC /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 988C9AAE0B56F29A000A0DDC /* Carbon.framework */; };
 		989EF9EA0A7CC4BB00721386 /* SparkList.m in Sources */ = {isa = PBXBuildFile; fileRef = 989EF9E90A7CC4BB00721386 /* SparkList.m */; };
 		989EF9EE0A7CC4C900721386 /* SparkList.h in Headers */ = {isa = PBXBuildFile; fileRef = 989EF9ED0A7CC4C900721386 /* SparkList.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		98A417EE0B37454500411C20 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98A417DC0B37454500411C20 /* SystemConfiguration.framework */; };
 		98A854E40AFF9BFE00088961 /* SparkBuiltInAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 98A854E20AFF9BFE00088961 /* SparkBuiltInAction.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		98A854E50AFF9BFE00088961 /* SparkBuiltInAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 98A854E30AFF9BFE00088961 /* SparkBuiltInAction.m */; };
 		98A8554C0AFF9D8C00088961 /* spark.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98A8554B0AFF9D8C00088961 /* spark.tiff */; };
@@ -207,25 +180,16 @@
 		98EDA3F30A9FA34100519E9B /* SparkEntryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 98EDA3F20A9FA34100519E9B /* SparkEntryManager.m */; };
 		98EE9F5B0ABC0D6800296C08 /* SKIconView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98EE9F5A0ABC0D6800296C08 /* SKIconView.m */; };
 		98EE9F5D0ABC0D7100296C08 /* SKIconView.h in Headers */ = {isa = PBXBuildFile; fileRef = 98EE9F5C0ABC0D7100296C08 /* SKIconView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		98F073000CC26A84008CF066 /* SKCDSAFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = 98F072F40CC26A83008CF066 /* SKCDSAFunctions.c */; };
+		98F073010CC26A84008CF066 /* SKCDSAFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 98F072F50CC26A83008CF066 /* SKCDSAFunctions.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		98F073020CC26A84008CF066 /* SKCryptoFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = 98F072F60CC26A83008CF066 /* SKCryptoFunctions.c */; };
+		98F073030CC26A84008CF066 /* SKCryptoFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 98F072F70CC26A83008CF066 /* SKCryptoFunctions.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		98F073100CC26AD7008CF066 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B49363D0CA2E57C00F53EEE /* Security.framework */; };
 		98F5C8140A59B574007BEB21 /* SKTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98F5C8130A59B574007BEB21 /* SKTableView.m */; };
 		98FC31D50B32E585000D5F6B /* Application.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98A923B80A7BC6E200DF1998 /* Application.tiff */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		1B69ECCD0CBF6EE000DF1211 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1B7BB8620CBE21C100484A9E /* SArchiveKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8DC2EF5B0486A6940098B216 /* SArchiveKit.framework */;
-			remoteInfo = SArchiveKit;
-		};
-		1B69ECF00CBF6F1A00DF1211 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1B7BB8620CBE21C100484A9E /* SArchiveKit.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 1B7BB8040CBE210900484A9E /* Headers */;
-			remoteInfo = Headers;
-		};
 		984A38800A6003A300DA6455 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 984A38790A6003A300DA6455 /* HotKeyToolKit.xcodeproj */;
@@ -275,34 +239,12 @@
 		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		1B1286A00CA8285F00B6F5F6 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = /System/Library/Frameworks/WebKit.framework; sourceTree = "<absolute>"; };
-		1B4936190CA2E4FA00F53EEE /* SKCDSAUtils.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = SKCDSAUtils.c; sourceTree = "<group>"; };
-		1B49361A0CA2E4FA00F53EEE /* SKCDSAUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKCDSAUtils.h; sourceTree = "<group>"; };
-		1B49362D0CA2E53500F53EEE /* SKCryptoFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKCryptoFunctions.h; sourceTree = "<group>"; };
-		1B49362E0CA2E53500F53EEE /* SKCryptoFunctions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = SKCryptoFunctions.c; sourceTree = "<group>"; };
 		1B49363D0CA2E57C00F53EEE /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
-		1B69ECCF0CBF6F0100DF1211 /* SArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SArchive.h; path = Sources/SArchive.h; sourceTree = "<group>"; };
-		1B69ECD00CBF6F0100DF1211 /* SArchive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SArchive.m; path = Sources/SArchive.m; sourceTree = "<group>"; };
-		1B69ECD10CBF6F0100DF1211 /* SArchiveFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SArchiveFile.h; path = Sources/SArchiveFile.h; sourceTree = "<group>"; };
-		1B69ECD20CBF6F0100DF1211 /* SArchiveFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SArchiveFile.m; path = Sources/SArchiveFile.m; sourceTree = "<group>"; };
-		1B69ECD30CBF6F0100DF1211 /* SArchiveXar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SArchiveXar.m; path = Sources/SArchiveXar.m; sourceTree = "<group>"; };
-		1B69ECD40CBF6F0100DF1211 /* SArchiveSignature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SArchiveSignature.h; path = Sources/SArchiveSignature.h; sourceTree = "<group>"; };
-		1B69ECD50CBF6F0100DF1211 /* SArchiveSignature.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SArchiveSignature.m; path = Sources/SArchiveSignature.m; sourceTree = "<group>"; };
-		1B69ECD60CBF6F0100DF1211 /* SArchiveXar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SArchiveXar.h; path = Sources/SArchiveXar.h; sourceTree = "<group>"; };
-		1B69ECD70CBF6F0100DF1211 /* SArchiveDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SArchiveDocument.m; path = Sources/SArchiveDocument.m; sourceTree = "<group>"; };
-		1B69ECD80CBF6F0100DF1211 /* SArchiveDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SArchiveDocument.h; path = Sources/SArchiveDocument.h; sourceTree = "<group>"; };
 		1B7BB7890CBE1FD700484A9E /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
 		1B7BB78A0CBE1FD700484A9E /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		1B7BB78B0CBE1FD700484A9E /* Profile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Profile.xcconfig; sourceTree = "<group>"; };
 		1B7BB78C0CBE1FD700484A9E /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		1B7BB78D0CBE1FD700484A9E /* Universal.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Universal.xcconfig; sourceTree = "<group>"; };
-		1B7BB84F0CBE219200484A9E /* libsxar.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libsxar.a; sourceTree = "<group>"; };
-		1B7BB8500CBE219D00484A9E /* xar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = xar.h; path = Sources/xar.h; sourceTree = "<group>"; };
-		1B7BB8620CBE21C100484A9E /* SArchiveKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = SArchiveKit.xcodeproj; sourceTree = "<group>"; };
-		1B9FE5B00B8D95370042B5F9 /* libbz2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libbz2.dylib; path = /usr/lib/libbz2.dylib; sourceTree = "<absolute>"; };
-		1B9FE5B10B8D95370042B5F9 /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = /usr/lib/libcrypto.dylib; sourceTree = "<absolute>"; };
-		1B9FE5B20B8D95370042B5F9 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = /usr/lib/libxml2.dylib; sourceTree = "<absolute>"; };
-		1B9FE5B30B8D95370042B5F9 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = /usr/lib/libz.dylib; sourceTree = "<absolute>"; };
 		1BAA6F870B64CF2500F9AC0E /* SKImageUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKImageUtils.m; sourceTree = "<group>"; };
 		1BB8B1FE0B949EE900F91062 /* SparkSystem.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SparkSystem.tiff; sourceTree = "<group>"; };
 		1BE44FE30BD4B3DC00034060 /* AESendThreadSafe.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = AESendThreadSafe.c; sourceTree = "<group>"; };
@@ -395,8 +337,6 @@
 		984A38C00A60060A00DA6455 /* SparkMultipleAlerts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkMultipleAlerts.h; sourceTree = "<group>"; };
 		984A38C10A60060A00DA6455 /* SparkMultipleAlerts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkMultipleAlerts.m; sourceTree = "<group>"; };
 		984A38C20A60060A00DA6455 /* SparkPluginAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkPluginAPI.h; sourceTree = "<group>"; };
-		9858F4180B90835900CC682C /* SparkLibraryArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkLibraryArchive.h; sourceTree = "<group>"; };
-		9858F4190B90835900CC682C /* SparkLibraryArchive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkLibraryArchive.m; sourceTree = "<group>"; };
 		9858F4390B9084B500CC682C /* SparkIconManagerPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkIconManagerPrivate.h; sourceTree = "<group>"; };
 		985B76510A813F490003A59C /* SparkServerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SparkServerProtocol.h; path = Sources/SparkServerProtocol.h; sourceTree = "<group>"; };
 		985B76590A813F960003A59C /* SparkAppleScriptSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SparkAppleScriptSuite.h; path = Sources/SparkAppleScriptSuite.h; sourceTree = "<group>"; };
@@ -407,8 +347,6 @@
 		9864A33E0BD117F20089447D /* SparkPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkPreferences.m; sourceTree = "<group>"; };
 		9864A3AC0BD11EB40089447D /* SparkPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkPreferences.h; sourceTree = "<group>"; };
 		98665E610A86A6F900CF8291 /* SKAEFunctions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = SKAEFunctions.c; sourceTree = "<group>"; };
-		98674EA40B37214C000C73DC /* SKReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKReachability.m; sourceTree = "<group>"; };
-		98674EA60B372158000C73DC /* SKReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKReachability.h; sourceTree = "<group>"; };
 		986758CE096B403300BB8A25 /* SKWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SKWindowController.m; sourceTree = "<group>"; };
 		986758CF096B403300BB8A25 /* SKTableDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SKTableDataSource.m; sourceTree = "<group>"; };
 		986AFA2F06D65E0800B84D2D /* SKApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SKApplication.m; sourceTree = "<group>"; };
@@ -425,7 +363,6 @@
 		988C9AAE0B56F29A000A0DDC /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		989EF9E90A7CC4BB00721386 /* SparkList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkList.m; sourceTree = "<group>"; };
 		989EF9ED0A7CC4C900721386 /* SparkList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkList.h; sourceTree = "<group>"; };
-		98A417DC0B37454500411C20 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = /System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<absolute>"; };
 		98A854E20AFF9BFE00088961 /* SparkBuiltInAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkBuiltInAction.h; sourceTree = "<group>"; };
 		98A854E30AFF9BFE00088961 /* SparkBuiltInAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkBuiltInAction.m; sourceTree = "<group>"; };
 		98A8554B0AFF9D8C00088961 /* spark.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = spark.tiff; sourceTree = "<group>"; };
@@ -471,8 +408,8 @@
 		98E455C508104B3300B7899F /* SKAppKitExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SKAppKitExtensions.m; sourceTree = "<group>"; };
 		98E6514F0B62932B008A8C9B /* SparkIconManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkIconManager.m; sourceTree = "<group>"; };
 		98E651510B62933B008A8C9B /* SparkIconManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkIconManager.h; sourceTree = "<group>"; };
-		98E66C7F0759F7E90048A37D /* SKIconUtils.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; lineEnding = 0; path = SKIconUtils.c; sourceTree = "<group>"; };
-		98E66C820759F7F60048A37D /* SKIconUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SKIconUtils.h; sourceTree = "<group>"; };
+		98E66C7F0759F7E90048A37D /* SKIconFunctions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; lineEnding = 0; path = SKIconFunctions.c; sourceTree = "<group>"; };
+		98E66C820759F7F60048A37D /* SKIconFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SKIconFunctions.h; sourceTree = "<group>"; };
 		98EA2CAD0B29D1F400E39193 /* SparkScriptApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkScriptApplication.m; sourceTree = "<group>"; };
 		98EA2CBF0B29D28200E39193 /* SparkLibraryScripting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkLibraryScripting.m; sourceTree = "<group>"; };
 		98EB96D30C174B4700C7B72D /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SparkPluginView.nib; sourceTree = "<group>"; };
@@ -484,6 +421,10 @@
 		98EDA3F20A9FA34100519E9B /* SparkEntryManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkEntryManager.m; sourceTree = "<group>"; };
 		98EE9F5A0ABC0D6800296C08 /* SKIconView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKIconView.m; sourceTree = "<group>"; };
 		98EE9F5C0ABC0D7100296C08 /* SKIconView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKIconView.h; sourceTree = "<group>"; };
+		98F072F40CC26A83008CF066 /* SKCDSAFunctions.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = SKCDSAFunctions.c; sourceTree = "<group>"; };
+		98F072F50CC26A83008CF066 /* SKCDSAFunctions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SKCDSAFunctions.h; sourceTree = "<group>"; };
+		98F072F60CC26A83008CF066 /* SKCryptoFunctions.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = SKCryptoFunctions.c; sourceTree = "<group>"; };
+		98F072F70CC26A83008CF066 /* SKCryptoFunctions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SKCryptoFunctions.h; sourceTree = "<group>"; };
 		98F5C8130A59B574007BEB21 /* SKTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SKTableView.m; sourceTree = "<group>"; };
 		98F867260A600D24009C68F9 /* Warning.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Warning.tiff; sourceTree = "<group>"; };
 		98FB5DDE060D0FFC0074131E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -505,17 +446,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1B7BB8960CBE228700484A9E /* libsxar.a in Frameworks */,
-				1B9FE5B70B8D95370042B5F9 /* libz.dylib in Frameworks */,
-				1B9FE5B40B8D95370042B5F9 /* libbz2.dylib in Frameworks */,
-				1B9FE5B60B8D95370042B5F9 /* libxml2.dylib in Frameworks */,
-				98537C210C2C64C300ABDCFA /* libcrypto.dylib in Frameworks */,
 				983976350A5866BF00F79B40 /* IOKit.framework in Frameworks */,
 				98675577096B36BD00BB8A25 /* Cocoa.framework in Frameworks */,
-				1B1286A10CA8285F00B6F5F6 /* WebKit.framework in Frameworks */,
-				1B49363E0CA2E57C00F53EEE /* Security.framework in Frameworks */,
 				98E19C710B160EF1007E4D31 /* DirectoryService.framework in Frameworks */,
-				98A417EE0B37454500411C20 /* SystemConfiguration.framework in Frameworks */,
+				98F073100CC26AD7008CF066 /* Security.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -537,7 +471,6 @@
 				08FB77AEFE84172EC02AAC07 /* Classes */,
 				089C1665FE841158C02AAC07 /* Resources */,
 				98725D0406CB9E540072B8E4 /* ShadowKit */,
-				1B7BB8480CBE216300484A9E /* SArchiveKit */,
 				0867D69AFE84028FC02AAC07 /* Frameworks */,
 				034768DFFF38A50411DB9C8B /* Products */,
 				1B7BB7880CBE1FD700484A9E /* Configurations */,
@@ -549,7 +482,6 @@
 		0867D69AFE84028FC02AAC07 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				1B9FE5AF0B8D95110042B5F9 /* Libraries */,
 				1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */,
 				1058C7B2FEA5585E11CA2CBB /* Other Frameworks */,
 			);
@@ -593,11 +525,9 @@
 			children = (
 				983975950A5866BF00F79B40 /* IOKit.framework */,
 				1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */,
-				1B1286A00CA8285F00B6F5F6 /* WebKit.framework */,
 				988C9AAE0B56F29A000A0DDC /* Carbon.framework */,
 				1B49363D0CA2E57C00F53EEE /* Security.framework */,
 				98E19C670B160EF1007E4D31 /* DirectoryService.framework */,
-				98A417DC0B37454500411C20 /* SystemConfiguration.framework */,
 			);
 			name = "Linked Frameworks";
 			sourceTree = "<group>";
@@ -611,25 +541,6 @@
 			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
-		1B4936140CA2E4FA00F53EEE /* Security */ = {
-			isa = PBXGroup;
-			children = (
-				1B49361A0CA2E4FA00F53EEE /* SKCDSAUtils.h */,
-				1B4936190CA2E4FA00F53EEE /* SKCDSAUtils.c */,
-				1B49362D0CA2E53500F53EEE /* SKCryptoFunctions.h */,
-				1B49362E0CA2E53500F53EEE /* SKCryptoFunctions.c */,
-			);
-			path = Security;
-			sourceTree = "<group>";
-		};
-		1B69ECC90CBF6EE000DF1211 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				1B69ECCE0CBF6EE000DF1211 /* SArchiveKit.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		1B7BB7880CBE1FD700484A9E /* Configurations */ = {
 			isa = PBXGroup;
 			children = (
@@ -641,37 +552,6 @@
 			);
 			path = Configurations;
 			sourceTree = SHARED_CODE_DIR;
-		};
-		1B7BB8480CBE216300484A9E /* SArchiveKit */ = {
-			isa = PBXGroup;
-			children = (
-				1B7BB8620CBE21C100484A9E /* SArchiveKit.xcodeproj */,
-				1B7BB84F0CBE219200484A9E /* libsxar.a */,
-				1B7BB8500CBE219D00484A9E /* xar.h */,
-				1B69ECCF0CBF6F0100DF1211 /* SArchive.h */,
-				1B69ECD00CBF6F0100DF1211 /* SArchive.m */,
-				1B69ECD10CBF6F0100DF1211 /* SArchiveFile.h */,
-				1B69ECD20CBF6F0100DF1211 /* SArchiveFile.m */,
-				1B69ECD60CBF6F0100DF1211 /* SArchiveXar.h */,
-				1B69ECD30CBF6F0100DF1211 /* SArchiveXar.m */,
-				1B69ECD40CBF6F0100DF1211 /* SArchiveSignature.h */,
-				1B69ECD50CBF6F0100DF1211 /* SArchiveSignature.m */,
-				1B69ECD80CBF6F0100DF1211 /* SArchiveDocument.h */,
-				1B69ECD70CBF6F0100DF1211 /* SArchiveDocument.m */,
-			);
-			path = SArchiveKit;
-			sourceTree = SHARED_CODE_DIR;
-		};
-		1B9FE5AF0B8D95110042B5F9 /* Libraries */ = {
-			isa = PBXGroup;
-			children = (
-				1B9FE5B30B8D95370042B5F9 /* libz.dylib */,
-				1B9FE5B00B8D95370042B5F9 /* libbz2.dylib */,
-				1B9FE5B20B8D95370042B5F9 /* libxml2.dylib */,
-				1B9FE5B10B8D95370042B5F9 /* libcrypto.dylib */,
-			);
-			name = Libraries;
-			sourceTree = "<group>";
 		};
 		1BAA6F800B64CF2500F9AC0E /* Images */ = {
 			isa = PBXGroup;
@@ -801,7 +681,6 @@
 				984A38A40A60060200DA6455 /* SparkApplication.m */,
 				98E6514F0B62932B008A8C9B /* SparkIconManager.m */,
 				98EDA3F20A9FA34100519E9B /* SparkEntryManager.m */,
-				9858F4190B90835900CC682C /* SparkLibraryArchive.m */,
 				98D767980B5A754E000A09A5 /* SparkLibrarySynchronizer.m */,
 				98D764520B5A610B000A09A5 /* SparkEntryManagerPrivate.m */,
 			);
@@ -838,7 +717,6 @@
 				984A38A30A60060200DA6455 /* SparkApplication.h */,
 				98E651510B62933B008A8C9B /* SparkIconManager.h */,
 				98EDA3E30A9FA2FB00519E9B /* SparkEntryManager.h */,
-				9858F4180B90835900CC682C /* SparkLibraryArchive.h */,
 				9858F4390B9084B500CC682C /* SparkIconManagerPrivate.h */,
 				98D767970B5A754E000A09A5 /* SparkLibrarySynchronizer.h */,
 				98D7643D0B5A6003000A09A5 /* SparkEntryManagerPrivate.h */,
@@ -862,15 +740,6 @@
 			name = Headers;
 			sourceTree = "<group>";
 		};
-		98674E910B37212A000C73DC /* Network */ = {
-			isa = PBXGroup;
-			children = (
-				98674EA60B372158000C73DC /* SKReachability.h */,
-				98674EA40B37214C000C73DC /* SKReachability.m */,
-			);
-			path = Network;
-			sourceTree = "<group>";
-		};
 		98725D0406CB9E540072B8E4 /* ShadowKit */ = {
 			isa = PBXGroup;
 			children = (
@@ -879,8 +748,7 @@
 				98D3ACDB079D6F8500DDB6CE /* Icons */,
 				98725D2606CB9F860072B8E4 /* AppKit */,
 				1BAA6F800B64CF2500F9AC0E /* Images */,
-				98674E910B37212A000C73DC /* Network */,
-				1B4936140CA2E4FA00F53EEE /* Security */,
+				98F072EF0CC26A83008CF066 /* Security */,
 				98DA2C5E0AFE126700E394CD /* Interface */,
 				98789B580AB48C1900C35052 /* BezelItem */,
 				98C78D6307D9E716006D9CC1 /* Functions */,
@@ -1001,10 +869,10 @@
 		98D3ACDB079D6F8500DDB6CE /* Icons */ = {
 			isa = PBXGroup;
 			children = (
-				98E66C820759F7F60048A37D /* SKIconUtils.h */,
 				98EE9F5C0ABC0D7100296C08 /* SKIconView.h */,
-				98E66C7F0759F7E90048A37D /* SKIconUtils.c */,
 				98EE9F5A0ABC0D6800296C08 /* SKIconView.m */,
+				98E66C820759F7F60048A37D /* SKIconFunctions.h */,
+				98E66C7F0759F7E90048A37D /* SKIconFunctions.c */,
 			);
 			path = Icons;
 			sourceTree = "<group>";
@@ -1049,6 +917,17 @@
 			path = Sources/Scripting;
 			sourceTree = "<group>";
 		};
+		98F072EF0CC26A83008CF066 /* Security */ = {
+			isa = PBXGroup;
+			children = (
+				98F072F50CC26A83008CF066 /* SKCDSAFunctions.h */,
+				98F072F40CC26A83008CF066 /* SKCDSAFunctions.c */,
+				98F072F70CC26A83008CF066 /* SKCryptoFunctions.h */,
+				98F072F60CC26A83008CF066 /* SKCryptoFunctions.c */,
+			);
+			path = Security;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -1082,7 +961,6 @@
 				98D7643E0B5A6003000A09A5 /* SparkEntryManagerPrivate.h in Headers */,
 				98D7680F0B5A8222000A09A5 /* SparkLibrarySynchronizer.h in Headers */,
 				98E651520B62933B008A8C9B /* SparkIconManager.h in Headers */,
-				9858F41A0B90835900CC682C /* SparkLibraryArchive.h in Headers */,
 				9858F43A0B9084B500CC682C /* SparkIconManagerPrivate.h in Headers */,
 				9864A3AD0BD11EB40089447D /* SparkPreferences.h in Headers */,
 				98EB96DE0C174D9D00C7B72D /* SparkPluginView.h in Headers */,
@@ -1093,9 +971,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9867553B096B35E900BB8A25 /* SKIconUtils.h in Headers */,
+				9867553B096B35E900BB8A25 /* SKIconFunctions.h in Headers */,
 				98EE9F5D0ABC0D7100296C08 /* SKIconView.h in Headers */,
-				98674EA70B372158000C73DC /* SKReachability.h in Headers */,
 				1BEDD4810C848BCC00ADAF1D /* SKSingleton.h in Headers */,
 				1BEDD4820C848BCC00ADAF1D /* SKFunctions.h in Headers */,
 				1BEDD4830C848BCC00ADAF1D /* SKCFContext.h in Headers */,
@@ -1136,16 +1013,10 @@
 				1BEEA0D60C8BE9B700705B22 /* SKApplicationView.h in Headers */,
 				1BEEA0D70C8BE9B700705B22 /* SKCustomViewCell.h in Headers */,
 				1BEEA0D80C8BE9B700705B22 /* SKImageAndTextCell.h in Headers */,
-				1B4936260CA2E4FA00F53EEE /* SKCDSAUtils.h in Headers */,
-				1B49362F0CA2E53500F53EEE /* SKCryptoFunctions.h in Headers */,
 				981E12140CA5D36F009E8FD8 /* SKProgressPanel.h in Headers */,
 				98D2AAF80CA6EE0100DC973B /* SKThreadPort.h in Headers */,
-				1B7BB8590CBE219D00484A9E /* xar.h in Headers */,
-				1B69ECD90CBF6F0100DF1211 /* SArchive.h in Headers */,
-				1B69ECDB0CBF6F0100DF1211 /* SArchiveFile.h in Headers */,
-				1B69ECDE0CBF6F0100DF1211 /* SArchiveSignature.h in Headers */,
-				1B69ECE00CBF6F0100DF1211 /* SArchiveXar.h in Headers */,
-				1B69ECE20CBF6F0100DF1211 /* SArchiveDocument.h in Headers */,
+				98F073010CC26A84008CF066 /* SKCDSAFunctions.h in Headers */,
+				98F073030CC26A84008CF066 /* SKCryptoFunctions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1186,7 +1057,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				1B69ECF10CBF6F1A00DF1211 /* PBXTargetDependency */,
 			);
 			name = ShadowKit;
 			productName = ShadowKit;
@@ -1208,10 +1078,6 @@
 					ProductGroup = 984A387A0A6003A300DA6455 /* Products */;
 					ProjectRef = 984A38790A6003A300DA6455 /* HotKeyToolKit.xcodeproj */;
 				},
-				{
-					ProductGroup = 1B69ECC90CBF6EE000DF1211 /* Products */;
-					ProjectRef = 1B7BB8620CBE21C100484A9E /* SArchiveKit.xcodeproj */;
-				},
 			);
 			projectRoot = "";
 			targets = (
@@ -1222,13 +1088,6 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		1B69ECCE0CBF6EE000DF1211 /* SArchiveKit.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = SArchiveKit.framework;
-			remoteRef = 1B69ECCD0CBF6EE000DF1211 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		984A38810A6003A300DA6455 /* Test.octest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
@@ -1343,7 +1202,6 @@
 				98D764530B5A610B000A09A5 /* SparkEntryManagerPrivate.m in Sources */,
 				98D7680E0B5A821C000A09A5 /* SparkLibrarySynchronizer.m in Sources */,
 				98E651500B62932B008A8C9B /* SparkIconManager.m in Sources */,
-				9858F41B0B90835A00CC682C /* SparkLibraryArchive.m in Sources */,
 				9864A33F0BD117F20089447D /* SparkPreferences.m in Sources */,
 				98EB96DF0C174D9D00C7B72D /* SparkPluginView.m in Sources */,
 			);
@@ -1353,7 +1211,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				98675537096B35E900BB8A25 /* SKIconUtils.c in Sources */,
+				98675537096B35E900BB8A25 /* SKIconFunctions.c in Sources */,
 				98675547096B35E900BB8A25 /* SKExtensions.m in Sources */,
 				98675548096B35E900BB8A25 /* SKApplication.m in Sources */,
 				98675549096B35E900BB8A25 /* SKAlias.m in Sources */,
@@ -1386,33 +1244,22 @@
 				98DA2C780AFE142700E394CD /* SKCustomViewCell.m in Sources */,
 				98DA2F260AFE192200E394CD /* SKColor.m in Sources */,
 				98E19C510B160EC5007E4D31 /* SKDSFunctions.c in Sources */,
-				98674EA50B37214C000C73DC /* SKReachability.m in Sources */,
 				98417FE60B4FDF2400073F1D /* SKSplitview.m in Sources */,
 				98DCE5B60B50F8E0006FA468 /* SKApplicationView.m in Sources */,
 				98DCED020B510875006FA468 /* SKCGFunctions.m in Sources */,
 				1BAA6F8D0B64CF2500F9AC0E /* SKImageUtils.m in Sources */,
 				986B59510B8CEBD0000B74E7 /* SKTreeNode.m in Sources */,
 				1BE44FE40BD4B3DC00034060 /* AESendThreadSafe.c in Sources */,
-				1B4936250CA2E4FA00F53EEE /* SKCDSAUtils.c in Sources */,
-				1B4936300CA2E53500F53EEE /* SKCryptoFunctions.c in Sources */,
 				981E12150CA5D36F009E8FD8 /* SKProgressPanel.m in Sources */,
 				98D2AAF70CA6EE0100DC973B /* SKThreadPort.m in Sources */,
-				1B69ECDA0CBF6F0100DF1211 /* SArchive.m in Sources */,
-				1B69ECDC0CBF6F0100DF1211 /* SArchiveFile.m in Sources */,
-				1B69ECDD0CBF6F0100DF1211 /* SArchiveXar.m in Sources */,
-				1B69ECDF0CBF6F0100DF1211 /* SArchiveSignature.m in Sources */,
-				1B69ECE10CBF6F0100DF1211 /* SArchiveDocument.m in Sources */,
+				98F073000CC26A84008CF066 /* SKCDSAFunctions.c in Sources */,
+				98F073020CC26A84008CF066 /* SKCryptoFunctions.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		1B69ECF10CBF6F1A00DF1211 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Headers;
-			targetProxy = 1B69ECF00CBF6F1A00DF1211 /* PBXContainerItemProxy */;
-		};
 		984A38890A6003AD00DA6455 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = HotKeyToolKit;
@@ -1484,7 +1331,6 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 360;
 				FRAMEWORK_VERSION = B;
-				HEADER_SEARCH_PATHS = "\"$(SHARED_CODE_DIR)/SArchiveKit/include\"";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				OTHER_LDFLAGS = (
@@ -1502,7 +1348,6 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 360;
 				FRAMEWORK_VERSION = B;
-				HEADER_SEARCH_PATHS = "\"$(SHARED_CODE_DIR)/SArchiveKit/include\"";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				OTHER_LDFLAGS = (
@@ -1536,7 +1381,6 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 360;
 				FRAMEWORK_VERSION = B;
-				HEADER_SEARCH_PATHS = "\"$(SHARED_CODE_DIR)/SArchiveKit/include\"";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				OTHER_LDFLAGS = (
@@ -1561,14 +1405,8 @@
 				CURRENT_PROJECT_VERSION = 360;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 360;
-				HEADER_SEARCH_PATHS = "\"$(SHARED_CODE_DIR)/SArchiveKit/include\"";
 				INFOPLIST_FILE = ShadowKit/Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
-				);
-				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SHARED_CODE_DIR)/SArchiveKit\"";
 				OTHER_LDFLAGS = (
 					"-seg1addr",
 					0xD0300000,
@@ -1583,14 +1421,8 @@
 				CURRENT_PROJECT_VERSION = 360;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 360;
-				HEADER_SEARCH_PATHS = "\"$(SHARED_CODE_DIR)/SArchiveKit/include\"";
 				INFOPLIST_FILE = ShadowKit/Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
-				);
-				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SHARED_CODE_DIR)/SArchiveKit\"";
 				OTHER_LDFLAGS = (
 					"-seg1addr",
 					0xD0300000,
@@ -1605,14 +1437,8 @@
 				CURRENT_PROJECT_VERSION = 360;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 360;
-				HEADER_SEARCH_PATHS = "\"$(SHARED_CODE_DIR)/SArchiveKit/include\"";
 				INFOPLIST_FILE = ShadowKit/Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
-				);
-				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SHARED_CODE_DIR)/SArchiveKit\"";
 				OTHER_LDFLAGS = (
 					"-seg1addr",
 					0xD0300000,
@@ -1627,14 +1453,8 @@
 				CURRENT_PROJECT_VERSION = 360;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 360;
-				HEADER_SEARCH_PATHS = "\"$(SHARED_CODE_DIR)/SArchiveKit/include\"";
 				INFOPLIST_FILE = ShadowKit/Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
-				);
-				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SHARED_CODE_DIR)/SArchiveKit\"";
 				OTHER_LDFLAGS = (
 					"-seg1addr",
 					0xD0300000,
@@ -1650,7 +1470,6 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 360;
 				FRAMEWORK_VERSION = B;
-				HEADER_SEARCH_PATHS = "\"$(SHARED_CODE_DIR)/SArchiveKit/include\"";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				OTHER_LDFLAGS = (
