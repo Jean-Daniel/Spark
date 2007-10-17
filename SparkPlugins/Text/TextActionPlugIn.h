@@ -17,9 +17,11 @@
 //  kTAFormatTagFull       = kCFDateFormatterFullStyle, /* 4 */
 //};
 
+@class HKTrapWindow;
 @interface TextActionPlugIn : SparkActionPlugIn {
-  IBOutlet NSTextView *ibText;
-  IBOutlet NSTabView *ibTypeView;
+  IBOutlet NSTokenField *uiTokens;
+  IBOutlet NSTokenField *uiRecTokens;
+  IBOutlet HKTrapWindow *uiRecordWindow;
   @private
     NSInteger ta_idx;
   /* Date format */
@@ -28,6 +30,8 @@
   NSInteger ta_styles;
   /* Text */
   NSString *ta_text;
+  /* keystroke */
+  CFAbsoluteTime ta_escape;
 }
 
 #pragma mark Type
@@ -52,5 +56,9 @@
 
 - (NSString *)rawDateFormat;
 - (void)setRawDateFormat:(NSString *)format;
+
+#pragma mark Keystrokes
+- (IBAction)record:(id)sender;
+- (IBAction)stop:(id)sender;
 
 @end

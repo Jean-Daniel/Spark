@@ -10,7 +10,7 @@
 #import <SparkKit/SparkIconManager.h>
 
 @class SparkObjectSet;
-SK_PRIVATE
+SK_EXPORT
 SparkObjectSet *_SparkObjectSetForType(SparkLibrary *library, UInt8 type);
 
 @interface _SparkIconEntry : NSObject {

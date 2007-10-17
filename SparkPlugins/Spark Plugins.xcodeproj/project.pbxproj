@@ -40,6 +40,8 @@
 		1B46DC9A0B81AB1100F4DA1E /* SARun.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B46DC960B81AB1100F4DA1E /* SARun.tiff */; };
 		1B75502D0B6A8153004C9F44 /* AAStop.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B75502B0B6A8153004C9F44 /* AAStop.tiff */; };
 		1B75502E0B6A8153004C9F44 /* AAHide.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B75502C0B6A8153004C9F44 /* AAHide.tiff */; };
+		1B7B26430CC638F200F55F7D /* TAKeystroke.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B7B26410CC638F200F55F7D /* TAKeystroke.h */; };
+		1B7B26440CC638F200F55F7D /* TAKeystroke.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B7B26420CC638F200F55F7D /* TAKeystroke.m */; };
 		1B8F4B150B56823700E8A4C0 /* volume.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B8F4B140B56823700E8A4C0 /* volume.aiff */; };
 		1BEF492F0C9AADAC00D7DA07 /* ITunesProgressView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEF492D0C9AADAC00D7DA07 /* ITunesProgressView.h */; };
 		1BEF49300C9AADAC00D7DA07 /* ITunesProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BEF492E0C9AADAC00D7DA07 /* ITunesProgressView.m */; };
@@ -307,6 +309,8 @@
 		1B46DC960B81AB1100F4DA1E /* SARun.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SARun.tiff; sourceTree = "<group>"; };
 		1B75502B0B6A8153004C9F44 /* AAStop.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = AAStop.tiff; sourceTree = "<group>"; };
 		1B75502C0B6A8153004C9F44 /* AAHide.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = AAHide.tiff; sourceTree = "<group>"; };
+		1B7B26410CC638F200F55F7D /* TAKeystroke.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAKeystroke.h; sourceTree = "<group>"; };
+		1B7B26420CC638F200F55F7D /* TAKeystroke.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TAKeystroke.m; sourceTree = "<group>"; };
 		1B7BBACD0CBE233300484A9E /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
 		1B7BBACE0CBE233300484A9E /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		1B7BBACF0CBE233300484A9E /* Profile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Profile.xcconfig; sourceTree = "<group>"; };
@@ -692,6 +696,7 @@
 			children = (
 				9888CE8A0B02435D00B81BDB /* Headers */,
 				9888CEAB0B0243CB00B81BDB /* TextAction.m */,
+				1B7B26420CC638F200F55F7D /* TAKeystroke.m */,
 				9888CE9A0B0243AA00B81BDB /* TextActionPlugIn.m */,
 				9888CE2D0B02418500B81BDB /* Info.plist */,
 				9888CE400B02425700B81BDB /* InfoPlist.strings */,
@@ -720,6 +725,7 @@
 			isa = PBXGroup;
 			children = (
 				9888CEAA0B0243CB00B81BDB /* TextAction.h */,
+				1B7B26410CC638F200F55F7D /* TAKeystroke.h */,
 				9888CE9C0B0243AF00B81BDB /* TextActionPlugIn.h */,
 			);
 			name = Headers;
@@ -1001,6 +1007,7 @@
 			files = (
 				9888CE9D0B0243AF00B81BDB /* TextActionPlugIn.h in Headers */,
 				9888CEAC0B0243CB00B81BDB /* TextAction.h in Headers */,
+				1B7B26430CC638F200F55F7D /* TAKeystroke.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1458,6 +1465,7 @@
 			files = (
 				9888CE9B0B0243AA00B81BDB /* TextActionPlugIn.m in Sources */,
 				9888CEAD0B0243CB00B81BDB /* TextAction.m in Sources */,
+				1B7B26440CC638F200F55F7D /* TAKeystroke.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

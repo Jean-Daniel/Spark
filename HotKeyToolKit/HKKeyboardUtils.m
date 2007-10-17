@@ -132,7 +132,7 @@ UniChar UchrCharacterForKeyCodeAndKeyboard(const UCKeyboardLayout *layout, HKKey
   if (noErr == err) {
     if (stringLength == 0 && deadKeyState != 0) {
       UCKeyTranslate (layout,
-                      kVirtualSpaceKey , kUCKeyActionDown, 0, // => No Modifier 
+                      kHKVirtualSpaceKey , kUCKeyActionDown, 0, // => No Modifier 
                       type, kUCKeyTranslateNoDeadKeysMask, &deadKeyState,
                       3, &stringLength, string);
     }
@@ -250,12 +250,12 @@ OSStatus HKKeyMapContextWithUchrData(const UCKeyboardLayout *layout, Boolean rev
   __HKUtilsConvertModifiers(tmod, tables->keyToCharTableCount);
   
   /* Map contains a character to keycode +  dead state mapping */
-  NSMapTable *map = reverse ? NSCreateMapTable(NSIntMapKeyCallBacks, NSIntMapValueCallBacks, 0) : NULL;
+  NSMapTable *map = reverse ? NSCreateMapTable(NSIntegerMapKeyCallBacks, NSIntegerMapValueCallBacks, 0) : NULL;
   /* Dead contains a dead state to keycode + dead state mapping */
-  NSMapTable *dead = reverse ? NSCreateMapTable(NSIntMapKeyCallBacks, NSIntMapValueCallBacks, 0) : NULL;
+  NSMapTable *dead = reverse ? NSCreateMapTable(NSIntegerMapKeyCallBacks, NSIntegerMapValueCallBacks, 0) : NULL;
   
   /* Deadr is a temporary map that map deadkey record index to keycode */
-  NSMapTable *deadr = NSCreateMapTable(NSIntMapKeyCallBacks, NSIntMapValueCallBacks, 0);
+  NSMapTable *deadr = NSCreateMapTable(NSIntegerMapKeyCallBacks, NSIntegerMapValueCallBacks, 0);
   
   /* Foreach key in each table */
   for (idx = 0; idx < tables->keyToCharTableCount; idx++) { 
@@ -412,7 +412,7 @@ UniChar KCHRCharacterForKeyCode(KCHRContext *ctxt, HKKeycode keycode, HKModifier
   /* si result == 0 and deadkey state isn't 0... */
   if (keyTrans == 0 && state != 0) { 
     /* ...try to resolve deadkey */
-    keyTrans = KeyTranslate(ctxt->layout, kVirtualSpaceKey, &state);
+    keyTrans = KeyTranslate(ctxt->layout, kHKVirtualSpaceKey, &state);
   }
   result = keyTrans;
   if (!result) 
@@ -580,7 +580,7 @@ NSMapTable *_UpgradeToUnicode(ScriptCode script, UInt32 *keys, UInt32 count, Uni
   TextEncoding encoding;
   TextToUnicodeInfo info;
 
-  NSMapTable *map = reverse ? NSCreateMapTable(NSIntMapKeyCallBacks, NSIntMapValueCallBacks, 0) : NULL;
+  NSMapTable *map = reverse ? NSCreateMapTable(NSIntegerMapKeyCallBacks, NSIntegerMapValueCallBacks, 0) : NULL;
       
   err = UpgradeScriptInfoToTextEncoding(script,
                                         kTextLanguageDontCare,

@@ -7,7 +7,9 @@
  */
 
 #import "TextAction.h"
+#import "TAKeystroke.h"
 
+#include <unistd.h>
 #import <ShadowKit/SKFunctions.h>
 #import <HotKeyToolKit/HotKeyToolKit.h>
 
@@ -24,8 +26,9 @@ NSString * const kKeyboardActionBundleIdentifier = @"org.shadowlab.spark.action.
 
 - (BOOL)serialize:(NSMutableDictionary *)plist {
   if ([super serialize:plist]) {
-    if (ta_data)
-      [plist setObject:ta_data forKey:@"TAData"];
+    id data = [self serializedData];
+    if (data)
+      [plist setObject:data forKey:@"TAData"];
     [plist setObject:SKStringForOSType(ta_type) forKey:@"TAAction"];
     return YES;
   }
@@ -34,8 +37,8 @@ NSString * const kKeyboardActionBundleIdentifier = @"org.shadowlab.spark.action.
 
 - (id)initWithSerializedValues:(NSDictionary *)plist {
   if (self = [super initWithSerializedValues:plist]) {
-    [self setData:[plist objectForKey:@"TAData"]];
     [self setAction:SKOSTypeFromString([plist objectForKey:@"TAAction"])];
+    [self setSerializedData:[plist objectForKey:@"TAData"]];
   }
   return self;
 }
@@ -122,6 +125,17 @@ NSString * const kKeyboardActionBundleIdentifier = @"org.shadowlab.spark.action.
   return nil;
 }
 
+- (SparkAlert *)simulateKeystroke {
+  CGEventSourceRef src = HKEventCreatePrivateSource();
+  for (NSUInteger idx = 0; idx < [ta_data count]; idx++) {
+    if (idx > 0)
+      usleep(HKEventSleepInterval);
+    [[ta_data objectAtIndex:idx] sendKeystroke:src];
+  }
+  if (src) CFRelease(src);
+  return nil;
+}
+
 - (SparkAlert *)performAction {
   SparkAlert *error = nil;
   switch (ta_type) {
@@ -132,9 +146,10 @@ NSString * const kKeyboardActionBundleIdentifier = @"org.shadowlab.spark.action.
       error = [self simulateDateStyle];
       break;
     case kTADateFormatAction:
-      [self simulateDateFormat];
+      error = [self simulateDateFormat];
       break;
     case kTAKeystrokeAction:
+      error = [self simulateKeystroke];
       break;
     default:
       /* invalid type */
@@ -157,11 +172,47 @@ NSString * const kKeyboardActionBundleIdentifier = @"org.shadowlab.spark.action.
   SKSetterCopy(ta_data, anObject);
 }
 
+- (id)serializedData {
+  switch ([self action]) {
+    case kTAKeystrokeAction: {
+      NSArray *keys = [self data];
+      NSMutableArray *strokes = [NSMutableArray array];
+      for (NSUInteger idx = 0; idx < [keys count]; idx++) {
+        UInt64 raw = [[keys objectAtIndex:idx] rawKey];
+        [strokes addObject:SKULongLong(raw)];
+      }
+      return strokes;
+    }
+    default:
+      return [self data];
+  }
+}
+- (void)setSerializedData:(id)data {
+  switch ([self action]) {
+    case kTAKeystrokeAction: {
+      NSMutableArray *keys = [NSMutableArray array];
+      for (NSUInteger idx = 0; idx < [data count]; idx++) {
+        UInt64 raw = [[data objectAtIndex:idx] unsignedLongLongValue];
+        TAKeystroke *stroke = [[TAKeystroke alloc] initFromRawKey:raw];
+        [keys addObject:stroke];
+        [stroke release];
+      }
+      [self setData:keys];
+    }
+      break;
+    default:
+      return [self setData:data];
+  }
+}
+
 - (KeyboardActionType)action {
   return ta_type;
 }
 - (void)setAction:(KeyboardActionType)action {
-  ta_type = action;
+  if (action != ta_type) {
+    [self setData:nil];
+    ta_type = action;
+  }
 }
 
 @end

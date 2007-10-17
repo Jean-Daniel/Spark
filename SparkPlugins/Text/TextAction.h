@@ -57,5 +57,8 @@ typedef OSType KeyboardActionType;
 - (KeyboardActionType)action;
 - (void)setAction:(KeyboardActionType)action;
 
+- (id)serializedData;
+- (void)setSerializedData:(id)data;
+
 @end
 

@@ -256,3 +256,9 @@ HK_CLASS_EXPORT
 
 @end
 
+HK_EXPORT
+UInt64 HKHotKeyPackKeystoke(HKKeycode keycode, HKModifier modifier, UniChar chr);
+
+HK_EXPORT
+void HKHotKeyUnpackKeystoke(UInt64 raw, HKKeycode *keycode, HKModifier *modifier, UniChar *chr);
+

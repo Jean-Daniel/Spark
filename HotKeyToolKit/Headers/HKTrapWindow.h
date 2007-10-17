@@ -48,7 +48,7 @@ HK_CLASS_EXPORT
 @private
   struct _hk_twFlags {
     unsigned int trap:1;
-    unsigned int block:1;
+    unsigned int resend:1;
     unsigned int skipverify:1;
     unsigned int :5;
   } hk_twFlags;
@@ -94,6 +94,9 @@ HK_CLASS_EXPORT
     @result     if returns YES, the event is proceed and not catch.
 */
 - (BOOL)trapWindow:(HKTrapWindow *)window needProceedKeyEvent:(NSEvent *)theEvent;
+
+/* hotkey filter */
+- (BOOL)trapWindow:(HKTrapWindow *)window isValidHotKey:(HKKeycode)keycode modifier:(HKModifier)modifier;
 
 /*!
     @method     trapWindowCatchHotKey:

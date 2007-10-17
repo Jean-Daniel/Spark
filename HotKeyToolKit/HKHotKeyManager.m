@@ -71,7 +71,7 @@ static EventHandlerUPP kHKHandlerUPP = NULL;
       /* HKHotKey => EventHotKeyRef */
       hk_refs = NSCreateMapTable(NSNonRetainedObjectMapKeyCallBacks, NSNonOwnedPointerMapValueCallBacks, 0);
       /* UInt32 uid => HKHotKey */
-      hk_keys = NSCreateMapTable(NSIntMapKeyCallBacks, NSNonRetainedObjectMapValueCallBacks, 0);
+      hk_keys = NSCreateMapTable(NSIntegerMapKeyCallBacks, NSNonRetainedObjectMapValueCallBacks, 0);
     }
   }
   return self;
@@ -85,6 +85,7 @@ static EventHandlerUPP kHKHandlerUPP = NULL;
   [super dealloc];
 }
 
+#pragma mark -
 - (BOOL)registerHotKey:(HKHotKey *)key {
   // Si la cle est valide est non enregistré
   if ([key isValid] && !NSMapGet(hk_refs, key)) {
@@ -200,38 +201,14 @@ static EventHandlerUPP kHKHandlerUPP = NULL;
   [key keyReleased];
 }
 
-#pragma mark Filter Support
-static 
-HKHotKeyFilter sHKFilter;
-
-+ (HKHotKeyFilter)shortcutFilter {
-  return sHKFilter;
-}
-
-+ (void)setShortcutFilter:(HKHotKeyFilter)filter {
-  sHKFilter = filter;
-}
-
 #pragma mark -
 + (BOOL)isValidHotKeyCode:(HKKeycode)code withModifier:(HKModifier)modifier {
-  BOOL isValid = YES;
-  // Si un filtre est utilisé, on l'utilise.
-  if (sHKFilter) {
-    isValid = sHKFilter(code, modifier);
-  }
-  if (isValid) {
-    // Si le filtre est OK, on demande au system ce qu'il en pense.
-    EventHotKeyID hotKeyId = { 'Test', 0 };
-    @synchronized (self) {
-      EventHotKeyRef key = HKRegisterHotKey(code, modifier, hotKeyId);
-      if (key) {
-        // Si le système est OK, la clée est valide
-        HKUnregisterHotKey(key);
-      } else {
-        // Sinon elle est invalide.
-        isValid = NO;
-      }
-    }
+  BOOL isValid = NO;
+  EventHotKeyID hotKeyId = { 'Test', 0 };
+  EventHotKeyRef key = HKRegisterHotKey(code, modifier, hotKeyId);
+  if (key) {
+    isValid = YES;
+    HKUnregisterHotKey(key);
   }
   return isValid;
 }

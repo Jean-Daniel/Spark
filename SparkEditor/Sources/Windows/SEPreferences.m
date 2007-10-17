@@ -62,7 +62,7 @@ void SEPreferencesSetLoginItemStatus(BOOL status) {
 
 SK_INLINE
 void __SetSparkKitSingleKeyMode(NSInteger mode) {
-  SparkKeyStrokeFilterMode = (mode >= 0 && mode <= 3) ? mode : kSparkEnableSingleFunctionKey;
+  SparkSetFilterMode((mode >= 0 && mode <= 3) ? mode : kSparkEnableSingleFunctionKey);
 }
 
 @implementation SEPreferences
@@ -254,7 +254,7 @@ void *_SEPreferencesLoginItemThread(void *arg) {
 
 #pragma mark Single Key Mode
 - (NSInteger)singleKeyMode {
-  NSInteger mode = SparkKeyStrokeFilterMode;
+  NSInteger mode = SparkGetFilterMode();
   return (mode >= 0 && mode <= 3) ? mode : kSparkEnableSingleFunctionKey;
 }
 

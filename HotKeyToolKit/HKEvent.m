@@ -43,19 +43,19 @@ void _HKEventPostKeyStroke(HKKeycode keycode, HKModifier modifier, CGEventSource
   /* Sending Modifier Keydown events */
   if (kCGEventFlagMaskAlphaShift & modifier) {
     /* Lock Caps Lock */
-    __HKEventPostKeyboardEvent(source, kVirtualCapsLockKey, psn, YES);
+    __HKEventPostKeyboardEvent(source, kHKVirtualCapsLockKey, psn, YES);
   }
   if (kCGEventFlagMaskShift & modifier) {
-    __HKEventPostKeyboardEvent(source, kVirtualShiftKey, psn, YES);
+    __HKEventPostKeyboardEvent(source, kHKVirtualShiftKey, psn, YES);
   }
   if (kCGEventFlagMaskControl & modifier) {
-    __HKEventPostKeyboardEvent(source, kVirtualControlKey, psn, YES);
+    __HKEventPostKeyboardEvent(source, kHKVirtualControlKey, psn, YES);
   }
   if (kCGEventFlagMaskAlternate & modifier) {
-    __HKEventPostKeyboardEvent(source, kVirtualOptionKey, psn, YES);
+    __HKEventPostKeyboardEvent(source, kHKVirtualOptionKey, psn, YES);
   }
   if (kCGEventFlagMaskCommand & modifier) {
-    __HKEventPostKeyboardEvent(source, kVirtualCommandKey, psn, YES);
+    __HKEventPostKeyboardEvent(source, kHKVirtualCommandKey, psn, YES);
   }
   
   /* Sending Character Key events */
@@ -64,20 +64,20 @@ void _HKEventPostKeyStroke(HKKeycode keycode, HKModifier modifier, CGEventSource
   
   /* Sending Modifiers Key Up events */
   if (kCGEventFlagMaskCommand & modifier) {
-    __HKEventPostKeyboardEvent(source, kVirtualCommandKey, psn, NO);
+    __HKEventPostKeyboardEvent(source, kHKVirtualCommandKey, psn, NO);
   }
   if (kCGEventFlagMaskAlternate & modifier) {
-    __HKEventPostKeyboardEvent(source, kVirtualOptionKey, psn, NO);
+    __HKEventPostKeyboardEvent(source, kHKVirtualOptionKey, psn, NO);
   }
   if (kCGEventFlagMaskControl & modifier) {
-    __HKEventPostKeyboardEvent(source, kVirtualControlKey, psn, NO);
+    __HKEventPostKeyboardEvent(source, kHKVirtualControlKey, psn, NO);
   }
   if (kCGEventFlagMaskShift & modifier) {
-    __HKEventPostKeyboardEvent(source, kVirtualShiftKey, psn, NO);
+    __HKEventPostKeyboardEvent(source, kHKVirtualShiftKey, psn, NO);
   }
   if (kCGEventFlagMaskAlphaShift & modifier) {
     /* Unlock Caps Lock */
-    __HKEventPostKeyboardEvent(source, kVirtualCapsLockKey, psn, NO);
+    __HKEventPostKeyboardEvent(source, kHKVirtualCapsLockKey, psn, NO);
   }
   
   if (isource && source) {

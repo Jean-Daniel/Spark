@@ -29,7 +29,7 @@ enum {
   kSparkApplicationFinderUID = 1,
 };
 
-SPARK_PRIVATE
+SPARK_EXPORT
 const NSUInteger kSparkLibraryCurrentVersion;
 
 #pragma mark -

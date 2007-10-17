@@ -11,15 +11,6 @@
 #import <Foundation/Foundation.h>
 #import <HotKeyToolKit/HKBase.h>
 
-/*!
-    @typedef 	HKHotKeyFilter CallBack.
-    @abstract   A function of the form BOOL isAValidKeyStrock(UInt16 keycode, HKModifier modifier);<br />
- 				<i>keycode</i> is a Virtual Keycode.
- 				<i>modifier</i> is a Cocoa Modifier constant combination.
-*/
-
-typedef BOOL (*HKHotKeyFilter)(HKKeycode keycode, HKModifier modifier);
-
 @class HKHotKey;
 
 /*!
@@ -36,23 +27,13 @@ HK_CLASS_EXPORT
 
 /*!
     @method     isValidHotKeyCode:withModifier:
-    @abstract   Use to define if a Shortcut is valid (not already used,É)
+    @abstract   Use to define if a Shortcut is valid (not already used,â€¦)
     @discussion You can customize this function result by providing a HKHotKeyFilter to the Manager (see setShortcutFilter).
  	@param		code a Virtual Keycode.
  	@param		modifier the modifier keys.
  	@result		Returns YES if the keystrock is valid.
 */
 + (BOOL)isValidHotKeyCode:(HKKeycode)code withModifier:(HKModifier)modifier;
-
-
-+ (HKHotKeyFilter)shortcutFilter;
-/*!
-    @method     setShortcutFilter:
-    @abstract   Add a filter function. This Function is used to define if a HotKey is valid or not.
- 				Allow framework user to defined some shortcut as invalid.
-    @param      filter A function like: BOOL isAValidShortCut(HKKeycode keycode, HKModifier modifierMask);
-*/
-+ (void)setShortcutFilter:(HKHotKeyFilter)filter;
 
 /*!
     @method     sharedManager

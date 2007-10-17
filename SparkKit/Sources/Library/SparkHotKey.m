@@ -19,7 +19,11 @@
 static
 NSString * const kHotKeyRawCodeKey = @"STRawKey";
 
-SparkFilterMode SparkKeyStrokeFilterMode = kSparkEnableSingleFunctionKey;
+static
+SparkFilterMode sSparkKeyStrokeFilterMode = kSparkEnableSingleFunctionKey;
+
+SparkFilterMode SparkGetFilterMode() { return sSparkKeyStrokeFilterMode; }
+void SparkSetFilterMode(SparkFilterMode mode) { sSparkKeyStrokeFilterMode = mode; }
 
 /*
  Fonction qui permet de définir la validité d'un raccouci. Depuis 10.3, les raccourcis sans "modifier" sont acceptés.
@@ -28,50 +32,49 @@ SparkFilterMode SparkKeyStrokeFilterMode = kSparkEnableSingleFunctionKey;
 static
 const NSInteger kCommonModifierMask = kCGEventFlagMaskCommand | kCGEventFlagMaskControl | kCGEventFlagMaskShift | kCGEventFlagMaskAlternate;
 
-static 
-BOOL _SparkKeyStrokeFilter(HKKeycode code, HKModifier modifier) {
+BOOL SparkHotKeyFilter(HKKeycode code, HKModifier modifier) {
   if ((modifier & kCommonModifierMask) != 0) {
     return YES;
   }
   
-  switch (SparkKeyStrokeFilterMode) {
+  switch (sSparkKeyStrokeFilterMode) {
     case kSparkDisableAllSingleKey:
       return NO;
     case kSparkEnableAllSingleKey:
       return YES;
     case kSparkEnableAllSingleButNavigation:
       switch (code) {
-        case kVirtualTabKey:
-        case kVirtualEnterKey:
-        case kVirtualReturnKey:
-        case kVirtualEscapeKey:
-        case kVirtualLeftArrowKey:
-        case kVirtualRightArrowKey:
-        case kVirtualUpArrowKey:
-        case kVirtualDownArrowKey:
+        case kHKVirtualTabKey:
+        case kHKVirtualEnterKey:
+        case kHKVirtualReturnKey:
+        case kHKVirtualEscapeKey:
+        case kHKVirtualLeftArrowKey:
+        case kHKVirtualRightArrowKey:
+        case kHKVirtualUpArrowKey:
+        case kHKVirtualDownArrowKey:
           return NO;
       }
       return YES;
     case kSparkEnableSingleFunctionKey:
       switch (code) {
-        case kVirtualF1Key:
-        case kVirtualF2Key:
-        case kVirtualF3Key:
-        case kVirtualF4Key:
-        case kVirtualF5Key:
-        case kVirtualF6Key:
-        case kVirtualF7Key:
-        case kVirtualF8Key:
-        case kVirtualF9Key:
-        case kVirtualF10Key:
-        case kVirtualF11Key:
-        case kVirtualF12Key:
-        case kVirtualF13Key:
-        case kVirtualF14Key:
-        case kVirtualF15Key:
-        case kVirtualF16Key:
-        case kVirtualHelpKey:
-        case kVirtualClearLineKey:
+        case kHKVirtualF1Key:
+        case kHKVirtualF2Key:
+        case kHKVirtualF3Key:
+        case kHKVirtualF4Key:
+        case kHKVirtualF5Key:
+        case kHKVirtualF6Key:
+        case kHKVirtualF7Key:
+        case kHKVirtualF8Key:
+        case kHKVirtualF9Key:
+        case kHKVirtualF10Key:
+        case kHKVirtualF11Key:
+        case kHKVirtualF12Key:
+        case kHKVirtualF13Key:
+        case kHKVirtualF14Key:
+        case kHKVirtualF15Key:
+        case kHKVirtualF16Key:
+        case kHKVirtualHelpKey:
+        case kHKVirtualClearLineKey:
           return YES;
       }
       break;
@@ -82,13 +85,13 @@ BOOL _SparkKeyStrokeFilter(HKKeycode code, HKModifier modifier) {
 #pragma mark -
 @implementation SparkHotKey
 
-+ (void)initialize {
-  if ([SparkHotKey class] == self) {
-    [HKHotKeyManager setShortcutFilter:_SparkKeyStrokeFilter];
-    /* Load current map */
-    HKMapGetCurrentMapName();
-  }
-}
+//+ (void)initialize {
+//  if ([SparkHotKey class] == self) {
+//    [HKHotKeyManager setShortcutFilter:_SparkKeyStrokeFilter];
+//    /* Load current map */
+//    HKMapGetCurrentMapName();
+//  }
+//}
 
 #pragma mark -
 #pragma mark NSCoding

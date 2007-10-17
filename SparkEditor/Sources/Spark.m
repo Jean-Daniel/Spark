@@ -36,7 +36,7 @@
 #import "SEServerConnection.h"
 #import "SparkLibraryArchive.h"
 
-const UInt32 kSparkVersion = 0x020900; /* 3.0.0 */
+const UInt32 kSparkVersion = 0x020901; /* 3.0.0 */
 
 int main(int argc, const char *argv[]) {
 #if defined(DEBUG)
@@ -80,7 +80,7 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
     
     /* Leopard Help hack */
     if (SKSystemMajorVersion() == 10 && SKSystemMinorVersion() >= 5) {
-      HKHotKey *help = [[HKHotKey alloc] initWithKeycode:kVirtualHelpKey modifier:0];
+      HKHotKey *help = [[HKHotKey alloc] initWithKeycode:kHKVirtualHelpKey modifier:0];
       [help setTarget:self];
       [help setAction:@selector(handleHelpEvent:)];
       [help setRegistred:YES];
@@ -110,7 +110,7 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
 /* Intercepts help keydown events */
 - (void)sendEvent:(NSEvent *)event {
   if ([event type] == NSKeyDown || [event type] == NSKeyUp) {
-    if ([event keyCode] == kVirtualHelpKey) {
+    if ([event keyCode] == kHKVirtualHelpKey) {
       id window = [self keyWindow];
       if ([window respondsToSelector:@selector(isTrapping)] && [window isTrapping]) {
         [window sendEvent:event];

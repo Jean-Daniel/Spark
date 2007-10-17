@@ -178,7 +178,7 @@
 }
 - (void)setCharacter:(UniChar)character {
   if ([self shouldChangeKeystroke]) {
-    [self setKeycode:HKMapGetKeycodeAndModifierForUnichar(character, NULL, NULL)];
+    [self setKeycode:HKMapGetKeycodeAndModifierForUnichar(character, NULL)];
   }
 }
 
@@ -251,34 +251,15 @@
 
 #pragma mark Key Serialization
 - (UInt64)rawkey {
-  UInt64 hotkey = [self character];
-  hotkey &= 0xffff;
-  hotkey |= [self nativeModifier] & 0x00ff0000;
-  hotkey |= ([self keycode] << 24) & 0xff000000;
-  return hotkey;
+  return HKHotKeyPackKeystoke([self keycode], [self nativeModifier], [self character]);
 }
 
 - (void)setRawkey:(UInt64)rawkey {
-  UniChar character = rawkey & 0x0000ffff;
-  HKModifier modifier = (HKModifier)(rawkey & 0x00ff0000);
-  HKKeycode keycode = (rawkey & 0xff000000) >> 24;
-  if (keycode == 0xff) keycode = kHKInvalidVirtualKeyCode;
-  BOOL isSpecialKey = (modifier & (kCGEventFlagMaskNumericPad | kCGEventFlagMaskSecondaryFn)) != 0;
-  if (!isSpecialKey) {
-    /* If key is a number (not in numpad) we use keycode, because american keyboard use number */
-    if (character >= '0' && character <= '9')
-      isSpecialKey = YES;
-  }
-  /* If keycode defined and isSpecialKey (fonction or numpad) */
-  if (isSpecialKey && (kHKInvalidVirtualKeyCode != keycode)) {
-    [self setKeycode:keycode];
-  } else { /* Else try to resolve character */
-    [self setCharacter:character];
-    HKKeycode newCode = [self keycode];
-    if (kHKInvalidVirtualKeyCode == newCode) {
-      [self setKeycode:keycode];
-    }
-  }
+  HKKeycode keycode;
+  UniChar character;
+  HKModifier modifier;
+  HKHotKeyUnpackKeystoke(rawkey, &keycode, &modifier, &character);
+  [self setKeycode:keycode character:character];
   [self setNativeModifier:modifier];
 }
 
@@ -364,26 +345,62 @@
 
 @end
 
+UInt64 HKHotKeyPackKeystoke(HKKeycode keycode, HKModifier modifier, UniChar chr) {
+  UInt64 packed = chr;
+  packed |= modifier & 0x00ff0000;
+  packed |= (keycode << 24) & 0xff000000;
+  return packed;
+}
+
+void HKHotKeyUnpackKeystoke(UInt64 rawkey, HKKeycode *outKeycode, HKModifier *outModifier, UniChar *outChr) {
+  UniChar character = rawkey & 0x0000ffff;
+  HKModifier modifier = (HKModifier)(rawkey & 0x00ff0000);
+  HKKeycode keycode = (rawkey & 0xff000000) >> 24;
+  if (keycode == 0xff) keycode = kHKInvalidVirtualKeyCode;
+  BOOL isSpecialKey = (modifier & (kCGEventFlagMaskNumericPad | kCGEventFlagMaskSecondaryFn)) != 0;
+  if (!isSpecialKey) {
+    /* If key is a number (not in numpad) we use keycode, because american keyboard use number */
+    if (character >= '0' && character <= '9')
+      isSpecialKey = YES;
+  }
+  /* we should use keycode if this is a special keycode (fonction, numpad, ...). */
+  /* else we try to resolve keycode using modifier */
+  /* if conversion fail, we use keycode, and we update character */
+  if (!isSpecialKey || (kHKInvalidVirtualKeyCode == keycode)) {
+    /* update keycode to reflect character */
+    HKKeycode newCode = HKMapGetKeycodeAndModifierForUnichar(character, NULL);
+    if (kHKInvalidVirtualKeyCode != newCode)
+      keycode = newCode;
+    else
+      character = HKMapGetUnicharForKeycode(keycode);
+  } else {
+    character = HKMapGetUnicharForKeycode(keycode);
+  }
+  if (outChr) *outChr = character;
+  if (outKeycode) *outKeycode = keycode;
+  if (outModifier) *outModifier = modifier;
+}
+
 #pragma mark -
 static
-io_connect_t _HKHIDGetKeyboardService(void) {
-  static mach_port_t sKeyboard = 0;
-  if (sKeyboard)
-    return sKeyboard;
+io_connect_t _HKHIDGetSystemService(void) {
+  static mach_port_t sSystemService = 0;
+  if (sSystemService)
+    return sSystemService;
   @synchronized([HKHotKey class]) {
-    if (!sKeyboard) {
+    if (!sSystemService) {
       kern_return_t kr;
       mach_port_t service, iter;
       
       kr = IOServiceGetMatchingServices(kIOMasterPortDefault, 
-                                        IOServiceMatching(kIOHIDSystemClass/*kIOHIKeyboardClass*/), &iter);
+                                        IOServiceMatching(kIOHIDSystemClass), &iter);
       check(KERN_SUCCESS == kr);
       
       service = IOIteratorNext(iter);
       check(service);
       
       kr = IOServiceOpen(service, mach_task_self(),  
-                         kIOHIDParamConnectType, &sKeyboard);
+                         kIOHIDParamConnectType, &sSystemService);
       check(KERN_SUCCESS == kr);
       
       IOObjectRelease(service);
@@ -391,13 +408,13 @@ io_connect_t _HKHIDGetKeyboardService(void) {
     }
   }
   
-  return sKeyboard;
+  return sSystemService;
 }
 
 NSTimeInterval HKGetSystemKeyRepeatInterval() {
   uint64_t value = 0;
   NSTimeInterval interval = -1;
-  io_connect_t service = _HKHIDGetKeyboardService();
+  io_connect_t service = _HKHIDGetSystemService();
   if (service) {
     IOByteCount size = 0;
     kern_return_t kr = IOHIDGetParameter(service, CFSTR(kIOHIDKeyRepeatKey), 
@@ -412,7 +429,7 @@ NSTimeInterval HKGetSystemKeyRepeatInterval() {
 NSTimeInterval HKGetSystemInitialKeyRepeatInterval() {
   uint64_t value = 0;
   NSTimeInterval interval = -1;
-  io_connect_t service = _HKHIDGetKeyboardService();
+  io_connect_t service = _HKHIDGetSystemService();
   if (service) {
     IOByteCount size = 0;
     kern_return_t kr = IOHIDGetParameter(service, CFSTR(kIOHIDInitialKeyRepeatKey), 

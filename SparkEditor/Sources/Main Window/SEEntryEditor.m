@@ -338,34 +338,6 @@
   return rowIndex >= 0 ? ![[[se_plugins objectAtIndex:rowIndex] name] isEqualToString:SETableSeparator] : YES;
 }
 
-- (void)recalculateKeyViewLoop {
-  if ([[self window] respondsToSelector:@selector(recalculateKeyViewLoop)]) {
-    [[self window] recalculateKeyViewLoop];
-    return;
-  }
-  NSView *first = [se_view nextValidKeyView];
-  NSView *last = nil;
-  NSView *view = first;
-  NSMutableSet *views = [[NSMutableSet alloc] initWithObjects:first, nil];
-  
-  while ((view = [view nextKeyView]) && ![views containsObject:view] && [view isDescendantOf:se_view]) {
-    last = view;
-    [views addObject:view];
-  }
-  [views release];
-  
-  if (first && first != se_view) {
-    [uiTrap setNextKeyView:first];
-    if (last) {
-      [last setNextKeyView:[uiPlugin nextValidKeyView]];
-    } else {
-      [first setNextKeyView:[uiPlugin nextValidKeyView]];
-    }
-  } else {
-    [uiTrap setNextKeyView:[uiPlugin nextValidKeyView]];
-  }
-}
-
 - (void)setActionType:(SparkPlugIn *)aPlugin {
   [self setActionType:aPlugin force:NO];
 }
@@ -514,7 +486,7 @@
     
     [se_plugin pluginViewWillBecomeVisible];
     [uiPlugin addSubview:se_view];
-    [self recalculateKeyViewLoop];
+    [[self window] recalculateKeyViewLoop];
     [se_plugin pluginViewDidBecomeVisible];
     
     NSUInteger row = [se_plugins indexOfObject:aPlugin];
@@ -538,20 +510,24 @@
 }
 
 - (BOOL)trapWindow:(HKTrapWindow *)window needProceedKeyEvent:(NSEvent *)theEvent {
-  if (kSparkEnableAllSingleKey == SparkKeyStrokeFilterMode) {
+  if (kSparkEnableAllSingleKey == SparkGetFilterMode()) {
     return NO;
   } else {
     UInt16 code = [theEvent keyCode];
     NSUInteger mask = [theEvent modifierFlags] & SEValidModifiersFlags;
     /* Shift tab is a navigation shortcut */
-    if (NSShiftKeyMask == mask && code == kVirtualTabKey)
+    if (NSShiftKeyMask == mask && code == kHKVirtualTabKey)
       return YES;
     
-    return mask ? NO : (code == kVirtualEnterKey)
-      || (code == kVirtualReturnKey)
-      || (code == kVirtualEscapeKey)
-      || (code == kVirtualTabKey);
+    return mask ? NO : (code == kHKVirtualEnterKey)
+      || (code == kHKVirtualReturnKey)
+      || (code == kHKVirtualEscapeKey)
+      || (code == kHKVirtualTabKey);
   }
+}
+
+- (BOOL)trapWindow:(HKTrapWindow *)window isValidHotKey:(HKKeycode)keycode modifier:(HKModifier)modifier {
+  return SparkHotKeyFilter(keycode, modifier);
 }
 
 @end

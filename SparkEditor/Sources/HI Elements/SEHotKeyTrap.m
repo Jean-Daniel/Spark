@@ -101,30 +101,32 @@ static CGLayerRef _HKCreateShading(CGContextRef ctxt, NSControlTint tint);
 
 /* HotKey call back:
 - First get notification info.
-- Then use double tab hack to avoid dead end trap (blind could not like it).
+- Then use double tab hack to avoid dead end trap (people that does not use mouse could not like it).
 - Save new hotKey and compute display string.
 - If trap once, set trapping to false.
 */
 - (void)didCatchHotKey:(NSNotification *)aNotification {
-  NSDictionary *info = [aNotification userInfo];
-  UInt16 nkey = [[info objectForKey:kHKEventKeyCodeKey] intValue];
-  UInt32 nmodifier = [[info objectForKey:kHKEventModifierKey] intValue];
-  /* Anti trap hack. If pressed tab and tab is already saved, stop recording */
-  if (se_bhotkey.keycode == kVirtualTabKey && (se_bhotkey.modifiers & NSDeviceIndependentModifierFlagsMask) == 0 &&
-      nkey == se_bhotkey.keycode && nmodifier == se_bhotkey.modifiers) {
-    /* Will call -resignFirstResponder */
-    [[self window] makeFirstResponder:[self nextValidKeyView]];
-  } else {
-    se_bhotkey.keycode = nkey;
-    se_bhotkey.modifiers = nmodifier;
-    se_bhotkey.character = [[info objectForKey:kHKEventCharacterKey] intValue];
-    
-    [se_str release];
-    se_str = [HKMapGetStringRepresentationForCharacterAndModifier(se_bhotkey.character, se_bhotkey.modifiers) retain];
-    if (se_htFlags.traponce)
-      [self setTrapping:NO];
-    else
-      [self setNeedsDisplay:YES];
+  if ([self isTrapping]) {
+    NSDictionary *info = [aNotification userInfo];
+    UInt16 nkey = SKIntegerValue([info objectForKey:kHKEventKeyCodeKey]);
+    UInt32 nmodifier = SKIntegerValue([info objectForKey:kHKEventModifierKey]);
+    /* Anti trap hack. If pressed tab and tab is already saved, stop recording */
+    if (se_bhotkey.keycode == kHKVirtualTabKey && (se_bhotkey.modifiers & NSDeviceIndependentModifierFlagsMask) == 0 &&
+        nkey == se_bhotkey.keycode && nmodifier == se_bhotkey.modifiers) {
+      /* Will call -resignFirstResponder */
+      [[self window] makeFirstResponder:[self nextValidKeyView]];
+    } else {
+      se_bhotkey.keycode = nkey;
+      se_bhotkey.modifiers = nmodifier;
+      se_bhotkey.character = SKIntegerValue([info objectForKey:kHKEventCharacterKey]);
+      
+      [se_str release];
+      se_str = [HKMapGetStringRepresentationForCharacterAndModifier(se_bhotkey.character, se_bhotkey.modifiers) retain];
+      if (se_htFlags.traponce)
+        [self setTrapping:NO];
+      else
+        [self setNeedsDisplay:YES];
+    }
   }
 }
 

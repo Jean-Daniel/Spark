@@ -1,6 +1,8 @@
 {
     IBClasses = (
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = HKTrapWindow; LANGUAGE = ObjC; SUPERCLASS = NSWindow; }, 
+        {CLASS = NSObject; LANGUAGE = ObjC; }, 
         {CLASS = NSSegmentedControl; LANGUAGE = ObjC; SUPERCLASS = NSControl; }, 
         {
             CLASS = SparkActionPlugIn; 
@@ -9,9 +11,14 @@
             SUPERCLASS = NSObject; 
         }, 
         {
+            ACTIONS = {record = id; stop = id; }; 
             CLASS = TextActionPlugin; 
             LANGUAGE = ObjC; 
-            OUTLETS = {ibText = NSTextView; ibTypeView = NSTabView; }; 
+            OUTLETS = {
+                uiRecTokens = NSTokenField; 
+                uiRecordWindow = HKTrapWindow; 
+                uiTokens = NSTokenField; 
+            }; 
             SUPERCLASS = SparkActionPlugIn; 
         }
     ); 

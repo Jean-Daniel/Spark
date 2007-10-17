@@ -56,119 +56,119 @@ UniChar HKMapGetUnicharForKeycode(HKKeycode keycode) {
   } else {
     switch (keycode) {
       /* functions keys */
-      case kVirtualF1Key:
-        unicode = kF1Unicode;
+      case kHKVirtualF1Key:
+        unicode = kHKF1Unicode;
         break;
-      case kVirtualF2Key:
-        unicode = kF2Unicode;
+      case kHKVirtualF2Key:
+        unicode = kHKF2Unicode;
         break;
-      case kVirtualF3Key:
-        unicode = kF3Unicode;
+      case kHKVirtualF3Key:
+        unicode = kHKF3Unicode;
         break;
-      case kVirtualF4Key:
-        unicode = kF4Unicode;
-        break;
-        /* functions keys */
-      case kVirtualF5Key:
-        unicode = kF5Unicode;
-        break;
-      case kVirtualF6Key:
-        unicode = kF6Unicode;
-        break;
-      case kVirtualF7Key:
-        unicode = kF7Unicode;
-        break;
-      case kVirtualF8Key:
-        unicode = kF8Unicode;
+      case kHKVirtualF4Key:
+        unicode = kHKF4Unicode;
         break;
         /* functions keys */
-      case kVirtualF9Key:
-        unicode = kF9Unicode;
+      case kHKVirtualF5Key:
+        unicode = kHKF5Unicode;
         break;
-      case kVirtualF10Key:
-        unicode = kF10Unicode;
+      case kHKVirtualF6Key:
+        unicode = kHKF6Unicode;
         break;
-      case kVirtualF11Key:
-        unicode = kF11Unicode;
+      case kHKVirtualF7Key:
+        unicode = kHKF7Unicode;
         break;
-      case kVirtualF12Key:
-        unicode = kF12Unicode;
+      case kHKVirtualF8Key:
+        unicode = kHKF8Unicode;
         break;
         /* functions keys */
-      case kVirtualF13Key:
-        unicode = kF13Unicode;
+      case kHKVirtualF9Key:
+        unicode = kHKF9Unicode;
         break;
-      case kVirtualF14Key:
-        unicode = kF14Unicode;
+      case kHKVirtualF10Key:
+        unicode = kHKF10Unicode;
         break;
-      case kVirtualF15Key:
-        unicode = kF15Unicode;
+      case kHKVirtualF11Key:
+        unicode = kHKF11Unicode;
         break;
-      case kVirtualF16Key:
-        unicode = kF16Unicode;
+      case kHKVirtualF12Key:
+        unicode = kHKF12Unicode;
+        break;
+        /* functions keys */
+      case kHKVirtualF13Key:
+        unicode = kHKF13Unicode;
+        break;
+      case kHKVirtualF14Key:
+        unicode = kHKF14Unicode;
+        break;
+      case kHKVirtualF15Key:
+        unicode = kHKF15Unicode;
+        break;
+      case kHKVirtualF16Key:
+        unicode = kHKF16Unicode;
         break;
         /* aluminium keyboard */
-      case kVirtualF17Key:
-        unicode = kF17Unicode;
+      case kHKVirtualF17Key:
+        unicode = kHKF17Unicode;
         break;
-      case kVirtualF18Key:
-        unicode = kF18Unicode;
+      case kHKVirtualF18Key:
+        unicode = kHKF18Unicode;
         break;
-      case kVirtualF19Key:
-        unicode = kF19Unicode;
+      case kHKVirtualF19Key:
+        unicode = kHKF19Unicode;
         break;
         /* editing utility keys */
-      case kVirtualHelpKey:
-        unicode = kHelpUnicode;
+      case kHKVirtualHelpKey:
+        unicode = kHKHelpUnicode;
         break;
-      case kVirtualDeleteKey:
-        unicode = kDeleteUnicode;
+      case kHKVirtualDeleteKey:
+        unicode = kHKDeleteUnicode;
         break;
-      case kVirtualTabKey:
-        unicode = kTabUnicode;
+      case kHKVirtualTabKey:
+        unicode = kHKTabUnicode;
         break;
-      case kVirtualEnterKey:
-        unicode = kEnterUnicode;
+      case kHKVirtualEnterKey:
+        unicode = kHKEnterUnicode;
         break;
-      case kVirtualReturnKey:
-        unicode = kReturnUnicode;
+      case kHKVirtualReturnKey:
+        unicode = kHKReturnUnicode;
         break;
-      case kVirtualEscapeKey:
-        unicode = kEscapeUnicode;
+      case kHKVirtualEscapeKey:
+        unicode = kHKEscapeUnicode;
         break;
-      case kVirtualForwardDeleteKey:
-        unicode = kForwardDeleteUnicode;
+      case kHKVirtualForwardDeleteKey:
+        unicode = kHKForwardDeleteUnicode;
         break;
         /* navigation keys */
-      case kVirtualHomeKey: 
-        unicode = kHomeUnicode;
+      case kHKVirtualHomeKey: 
+        unicode = kHKHomeUnicode;
         break;
-      case kVirtualEndKey:
-        unicode = kEndUnicode;
+      case kHKVirtualEndKey:
+        unicode = kHKEndUnicode;
         break;
-      case kVirtualPageUpKey:
-        unicode = kPageUpUnicode;
+      case kHKVirtualPageUpKey:
+        unicode = kHKPageUpUnicode;
         break;
-      case kVirtualPageDownKey:
-        unicode = kPageDownUnicode;
+      case kHKVirtualPageDownKey:
+        unicode = kHKPageDownUnicode;
         break;
-      case kVirtualLeftArrowKey:
-        unicode = kLeftArrowUnicode;
+      case kHKVirtualLeftArrowKey:
+        unicode = kHKLeftArrowUnicode;
         break;
-      case kVirtualRightArrowKey:
-        unicode = kRightArrowUnicode;
+      case kHKVirtualRightArrowKey:
+        unicode = kHKRightArrowUnicode;
         break;
-      case kVirtualUpArrowKey:
-        unicode = kUpArrowUnicode;
+      case kHKVirtualUpArrowKey:
+        unicode = kHKUpArrowUnicode;
         break;
-      case kVirtualDownArrowKey:
-        unicode = kDownArrowUnicode;
+      case kHKVirtualDownArrowKey:
+        unicode = kHKDownArrowUnicode;
         break;
-      case kVirtualClearLineKey:
-        unicode = kClearLineUnicode;
+      case kHKVirtualClearLineKey:
+        unicode = kHKClearLineUnicode;
         break;
-      case kVirtualSpaceKey:
-        unicode = kSpaceUnicode;
+      case kHKVirtualSpaceKey:
+        unicode = kHKSpaceUnicode;
         break;
       default:
         unicode = HKKeyMapGetUnicharForKeycode(SharedKeyMap(), keycode);
@@ -213,15 +213,20 @@ NSString *HKMapGetSpeakableStringRepresentationForCharacterAndModifier(UniChar c
 }
 
 #pragma mark Reverse Mapping
-HKKeycode HKMapGetKeycodeAndModifierForUnichar(UniChar character, HKModifier *modifier, NSUInteger *count) {
+HKKeycode HKMapGetKeycodeAndModifierForUnichar(UniChar character, HKModifier *modifier) {
   if (kHKNilUnichar == character)
     return kHKInvalidVirtualKeyCode;
-  HKKeycode key[1];
-  HKModifier mod[1];
-  NSUInteger cnt = HKMapGetKeycodesAndModifiersForUnichar(character, key, mod, 1);
-  if (!cnt || kHKInvalidVirtualKeyCode == key[0])
+  HKKeycode key[4];
+  HKModifier mod[4];
+  NSUInteger cnt = HKMapGetKeycodesAndModifiersForUnichar(character, key, mod, 4);
+  /* if not found, or need more than 2 keystroke */
+  if (!cnt || cnt > 2 || kHKInvalidVirtualKeyCode == key[0])
     return kHKInvalidVirtualKeyCode;
-  if (count) *count = cnt;
+  
+  /* dead key: the second keycode is space key */
+  if (cnt == 2 && key[1] != kHKVirtualSpaceKey)
+    return kHKInvalidVirtualKeyCode;
+  
   if (modifier) *modifier = mod[0];
   
   return key[0];
@@ -250,119 +255,119 @@ HKKeycode HKMapGetSpecialKeyCodeForUnichar(UniChar character) {
   HKKeycode keyCode = kHKInvalidVirtualKeyCode;
   switch (character) {
     /* functions keys */
-    case kF1Unicode:
-      keyCode = kVirtualF1Key;
+    case kHKF1Unicode:
+      keyCode = kHKVirtualF1Key;
       break;
-    case kF2Unicode:
-      keyCode = kVirtualF2Key;
+    case kHKF2Unicode:
+      keyCode = kHKVirtualF2Key;
       break;
-    case kF3Unicode:
-      keyCode = kVirtualF3Key;
+    case kHKF3Unicode:
+      keyCode = kHKVirtualF3Key;
       break;
-    case kF4Unicode:
-      keyCode = kVirtualF4Key;
-      break;
-      /* functions keys */
-    case kF5Unicode:
-      keyCode = kVirtualF5Key;
-      break;
-    case kF6Unicode:
-      keyCode = kVirtualF6Key;
-      break;
-    case kF7Unicode:
-      keyCode = kVirtualF7Key;
-      break;
-    case kF8Unicode:
-      keyCode = kVirtualF8Key;
+    case kHKF4Unicode:
+      keyCode = kHKVirtualF4Key;
       break;
       /* functions keys */
-    case kF9Unicode:
-      keyCode = kVirtualF9Key;
+    case kHKF5Unicode:
+      keyCode = kHKVirtualF5Key;
       break;
-    case kF10Unicode:
-      keyCode = kVirtualF10Key;
+    case kHKF6Unicode:
+      keyCode = kHKVirtualF6Key;
       break;
-    case kF11Unicode:
-      keyCode = kVirtualF11Key;
+    case kHKF7Unicode:
+      keyCode = kHKVirtualF7Key;
       break;
-    case kF12Unicode:
-      keyCode = kVirtualF12Key;
+    case kHKF8Unicode:
+      keyCode = kHKVirtualF8Key;
       break;
       /* functions keys */
-    case kF13Unicode:
-      keyCode = kVirtualF13Key;
+    case kHKF9Unicode:
+      keyCode = kHKVirtualF9Key;
       break;
-    case kF14Unicode:
-      keyCode = kVirtualF14Key;
+    case kHKF10Unicode:
+      keyCode = kHKVirtualF10Key;
       break;
-    case kF15Unicode:
-      keyCode = kVirtualF15Key;
+    case kHKF11Unicode:
+      keyCode = kHKVirtualF11Key;
       break;
-    case kF16Unicode:
-      keyCode = kVirtualF16Key;
+    case kHKF12Unicode:
+      keyCode = kHKVirtualF12Key;
+      break;
+      /* functions keys */
+    case kHKF13Unicode:
+      keyCode = kHKVirtualF13Key;
+      break;
+    case kHKF14Unicode:
+      keyCode = kHKVirtualF14Key;
+      break;
+    case kHKF15Unicode:
+      keyCode = kHKVirtualF15Key;
+      break;
+    case kHKF16Unicode:
+      keyCode = kHKVirtualF16Key;
       break;
       /* aluminium keyboard */
-    case kF17Unicode:
-      keyCode = kVirtualF17Key;
+    case kHKF17Unicode:
+      keyCode = kHKVirtualF17Key;
       break;
-    case kF18Unicode:
-      keyCode = kVirtualF18Key;
+    case kHKF18Unicode:
+      keyCode = kHKVirtualF18Key;
       break;
-    case kF19Unicode:
-      keyCode = kVirtualF19Key;
+    case kHKF19Unicode:
+      keyCode = kHKVirtualF19Key;
       break;
       /* editing utility keys */
-    case kHelpUnicode:
-      keyCode = kVirtualHelpKey;
+    case kHKHelpUnicode:
+      keyCode = kHKVirtualHelpKey;
       break;
-    case kDeleteUnicode: 
-      keyCode = kVirtualDeleteKey;
+    case kHKDeleteUnicode: 
+      keyCode = kHKVirtualDeleteKey;
       break;
-    case kTabUnicode:
-      keyCode = kVirtualTabKey;
+    case kHKTabUnicode:
+      keyCode = kHKVirtualTabKey;
       break;
-    case kEnterUnicode:
-      keyCode = kVirtualEnterKey;
+    case kHKEnterUnicode:
+      keyCode = kHKVirtualEnterKey;
       break;
-    case kReturnUnicode:
-      keyCode = kVirtualReturnKey;
+    case kHKReturnUnicode:
+      keyCode = kHKVirtualReturnKey;
       break;
-    case kEscapeUnicode:
-      keyCode = kVirtualEscapeKey;
+    case kHKEscapeUnicode:
+      keyCode = kHKVirtualEscapeKey;
       break;
-    case kForwardDeleteUnicode:
-      keyCode = kVirtualForwardDeleteKey;
+    case kHKForwardDeleteUnicode:
+      keyCode = kHKVirtualForwardDeleteKey;
       break;
       /* navigation keys */
-    case kHomeUnicode: 
-      keyCode = kVirtualHomeKey;
+    case kHKHomeUnicode: 
+      keyCode = kHKVirtualHomeKey;
       break;
-    case kEndUnicode:
-      keyCode = kVirtualEndKey;
+    case kHKEndUnicode:
+      keyCode = kHKVirtualEndKey;
       break;
-    case kPageUpUnicode:
-      keyCode = kVirtualPageUpKey;
+    case kHKPageUpUnicode:
+      keyCode = kHKVirtualPageUpKey;
       break;
-    case kPageDownUnicode:
-      keyCode = kVirtualPageDownKey;
+    case kHKPageDownUnicode:
+      keyCode = kHKVirtualPageDownKey;
       break;
-    case kLeftArrowUnicode:
-      keyCode = kVirtualLeftArrowKey;
+    case kHKLeftArrowUnicode:
+      keyCode = kHKVirtualLeftArrowKey;
       break;
-    case kRightArrowUnicode:
-      keyCode = kVirtualRightArrowKey;
+    case kHKRightArrowUnicode:
+      keyCode = kHKVirtualRightArrowKey;
       break;
-    case kUpArrowUnicode:
-      keyCode = kVirtualUpArrowKey;
+    case kHKUpArrowUnicode:
+      keyCode = kHKVirtualUpArrowKey;
       break;
-    case kDownArrowUnicode:
-      keyCode = kVirtualDownArrowKey;
+    case kHKDownArrowUnicode:
+      keyCode = kHKVirtualDownArrowKey;
       break;
-    case kClearLineUnicode:
-      keyCode = kVirtualClearLineKey;
+    case kHKClearLineUnicode:
+      keyCode = kHKVirtualClearLineKey;
       break;
-    case kSpaceUnicode:
-      keyCode = kVirtualSpaceKey;
+    case kHKSpaceUnicode:
+      keyCode = kHKVirtualSpaceKey;
       break;
   }
   return keyCode;
@@ -423,120 +428,120 @@ NSString *HKMapGetStringForUnichar(UniChar character) {
   if (kHKNilUnichar == character)
     return str;
   switch (character) {
-    case kF1Unicode:
+    case kHKF1Unicode:
       str = NSLocalizedStringFromTableInBundle(@"F1", @"Keyboard", kHotKeyToolKitBundle, @"F1 Key display String");
       break;
-    case kF2Unicode:
+    case kHKF2Unicode:
       str = NSLocalizedStringFromTableInBundle(@"F2", @"Keyboard", kHotKeyToolKitBundle, @"F2 Key display String");
       break;
-    case kF3Unicode:
+    case kHKF3Unicode:
       str = NSLocalizedStringFromTableInBundle(@"F3", @"Keyboard", kHotKeyToolKitBundle, @"F3 Key display String");
       break;
-    case kF4Unicode:
+    case kHKF4Unicode:
       str = NSLocalizedStringFromTableInBundle(@"F4", @"Keyboard", kHotKeyToolKitBundle, @"F4 Key display String");
       break;
       /* functions Unicodes */
-    case kF5Unicode:
+    case kHKF5Unicode:
       str = NSLocalizedStringFromTableInBundle(@"F5", @"Keyboard", kHotKeyToolKitBundle, @"F5 Key display String");
       break;
-    case kF6Unicode:
+    case kHKF6Unicode:
       str = NSLocalizedStringFromTableInBundle(@"F6", @"Keyboard", kHotKeyToolKitBundle, @"F6 Key display String");
       break;
-    case kF7Unicode:
+    case kHKF7Unicode:
       str = NSLocalizedStringFromTableInBundle(@"F7", @"Keyboard", kHotKeyToolKitBundle, @"F7 Key display String");
       break;
-    case kF8Unicode:
+    case kHKF8Unicode:
       str = NSLocalizedStringFromTableInBundle(@"F8", @"Keyboard", kHotKeyToolKitBundle, @"F8 Key display String");
       break;
       /* functions Unicodes */
-    case kF9Unicode:
+    case kHKF9Unicode:
       str = NSLocalizedStringFromTableInBundle(@"F9", @"Keyboard", kHotKeyToolKitBundle, @"F9 Key display String");
       break;
-    case kF10Unicode:
+    case kHKF10Unicode:
       str = NSLocalizedStringFromTableInBundle(@"F10", @"Keyboard", kHotKeyToolKitBundle, @"F10 Key display String");
       break;
-    case kF11Unicode:
+    case kHKF11Unicode:
       str = NSLocalizedStringFromTableInBundle(@"F11", @"Keyboard", kHotKeyToolKitBundle, @"F11 Key display String");
       break;
-    case kF12Unicode:
+    case kHKF12Unicode:
       str = NSLocalizedStringFromTableInBundle(@"F12", @"Keyboard", kHotKeyToolKitBundle, @"F12 Key display String");
       break;
       /* functions Unicodes */
-    case kF13Unicode:
+    case kHKF13Unicode:
       str = NSLocalizedStringFromTableInBundle(@"F13", @"Keyboard", kHotKeyToolKitBundle, @"F13 Key display String");
       break;
-    case kF14Unicode:
+    case kHKF14Unicode:
       str = NSLocalizedStringFromTableInBundle(@"F14", @"Keyboard", kHotKeyToolKitBundle, @"F14 Key display String");
       break;
-    case kF15Unicode:
+    case kHKF15Unicode:
       str = NSLocalizedStringFromTableInBundle(@"F15", @"Keyboard", kHotKeyToolKitBundle, @"F15 Key display String");
       break;
-    case kF16Unicode:
+    case kHKF16Unicode:
       str = NSLocalizedStringFromTableInBundle(@"F16", @"Keyboard", kHotKeyToolKitBundle, @"F16 Key display String");
       break;
       /* aluminium keyboard */
-    case kF17Unicode:
+    case kHKF17Unicode:
       str = NSLocalizedStringFromTableInBundle(@"F17", @"Keyboard", kHotKeyToolKitBundle, @"F17 Key display String");
       break;
-    case kF18Unicode:
+    case kHKF18Unicode:
       str = NSLocalizedStringFromTableInBundle(@"F18", @"Keyboard", kHotKeyToolKitBundle, @"F18 Key display String");
       break;
-    case kF19Unicode:
+    case kHKF19Unicode:
       str = NSLocalizedStringFromTableInBundle(@"F19", @"Keyboard", kHotKeyToolKitBundle, @"F19 Key display String");
       break;
       /* editing utility Unicodes */
-    case kHelpUnicode:
+    case kHKHelpUnicode:
       str = NSLocalizedStringFromTableInBundle(@"help", @"Keyboard", kHotKeyToolKitBundle, @"Help Key display String");
       break;
-    case kSpaceUnicode:
+    case kHKSpaceUnicode:
       str = NSLocalizedStringFromTableInBundle(@"spc", @"Keyboard", kHotKeyToolKitBundle, @"Space Key display String");
       break;
       /* Special Chars */
-    case kDeleteUnicode:
+    case kHKDeleteUnicode:
       character = 0x232b;
       break;
-    case kTabUnicode:
+    case kHKTabUnicode:
       character = 0x21e5;
       break;
-    case kEnterUnicode:
+    case kHKEnterUnicode:
       character = 0x2305;
       break;
-    case kReturnUnicode:
+    case kHKReturnUnicode:
       character = 0x21a9;
       break;  
-    case kEscapeUnicode:
+    case kHKEscapeUnicode:
       character = 0x238b;
       break;  
-    case kForwardDeleteUnicode:
+    case kHKForwardDeleteUnicode:
       character = 0x2326;
       break;
       /* navigation keys */
-    case kHomeUnicode:
+    case kHKHomeUnicode:
       character = 0x2196;
       break;
-    case kEndUnicode:
+    case kHKEndUnicode:
       character = 0x2198;
       break;  
-    case kPageUpUnicode:
+    case kHKPageUpUnicode:
       character = 0x21de;
       break;  
-    case kPageDownUnicode:
+    case kHKPageDownUnicode:
       character = 0x21df;
       break;
-    case kLeftArrowUnicode:
+    case kHKLeftArrowUnicode:
       character = 0x21e0;
       break;
-    case kUpArrowUnicode:
+    case kHKUpArrowUnicode:
       character = 0x21e1;
       break;
-    case kRightArrowUnicode:
+    case kHKRightArrowUnicode:
       character = 0x21e2;
       break;
-    case kDownArrowUnicode:
+    case kHKDownArrowUnicode:
       character = 0x21e3;
       break;
       /* others Unicodes */
-    case kClearLineUnicode:
+    case kHKClearLineUnicode:
       character = 0x2327;
       break;
   }

@@ -7,6 +7,7 @@
  */
 
 #import "TextActionPlugIn.h"
+#import "TAKeystroke.h"
 
 @implementation TextActionPlugIn
 
@@ -24,6 +25,11 @@
   [super dealloc];
 }
 
+#pragma mark -
+- (void)awakeFromNib {
+  [uiTokens setTokenizingCharacterSet:[NSCharacterSet whitespaceCharacterSet]];
+}
+
 - (void)loadSparkAction:(TextAction *)anAction toEdit:(BOOL)isEditing {
   [self setAction:[anAction action]];
   switch ([anAction action]) {
@@ -39,13 +45,24 @@
     case kTADateFormatAction:
       [self setRawDateFormat:[anAction data]];
       break;
+    case kTAKeystrokeAction:
+      [uiTokens setObjectValue:[anAction data]];
+      break;
   }
 }
 
 - (NSAlert *)sparkEditorShouldConfigureAction {
   //TextAction *action = [self sparkAction];
   switch ([self action]) {
-    
+    case kTATextAction:
+      if (![[self text] length])
+        return [NSAlert alertWithMessageText:@"Empty text" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"You must enter some text"];
+    case kTADateFormatAction:
+      if (![[self rawDateFormat] length]) 
+        return [NSAlert alertWithMessageText:@"Empty date" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"Select a date/time style or type a format string"];
+    case kTAKeystrokeAction:
+      if (![[uiTokens objectValue] count])
+        return [NSAlert alertWithMessageText:@"No key" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"You should type at least on key"];
   }
   return nil;
 }
@@ -63,6 +80,9 @@
     case kTADateStyleAction:
       [action setData:SKInteger(ta_styles)];
       break;
+    case kTAKeystrokeAction:
+      [action setData:[uiTokens objectValue]];
+      break;
   }
 }
 
@@ -72,6 +92,7 @@
 }
 - (void)setType:(NSInteger)type {
   ta_idx = type;
+  [self stop:nil];
 }
 
 - (KeyboardActionType)action {
@@ -169,6 +190,93 @@
     [self didChangeValueForKey:@"dateFormat"];
     [self didChangeValueForKey:@"sampleDate"];
   }
+}
+
+#pragma mark Keystroke
+- (IBAction)record:(id)sender {
+  /* copy current tokens */
+  [uiRecTokens setObjectValue:[uiTokens objectValue]];
+  
+  [uiRecordWindow setTrapping:YES];
+  [NSApp runModalForWindow:uiRecordWindow];
+}
+- (IBAction)stop:(id)sender {
+  [NSApp stopModal];
+  [uiRecordWindow setTrapping:NO];
+  [uiTokens setObjectValue:[uiRecTokens objectValue]];
+//  NSArray *tokens = [uiRecTokens objectValue];
+//  if ([tokens count] > 0) {
+//    NSMutableArray *mtoks = [[uiTokens objectValue] mutableCopy];
+//    [mtoks addObjectsFromArray:tokens];
+//    [uiTokens setObjectValue:mtoks];
+//    [mtoks release];
+//  }
+  [uiRecordWindow performClose:nil];
+}
+
+- (NSString *)tokenField:(NSTokenField *)tokenField displayStringForRepresentedObject:(id)representedObject {
+  return [representedObject shortcut];
+}
+
+- (NSString *)tokenField:(NSTokenField *)tokenField editingStringForRepresentedObject:(id)representedObject {
+  return [representedObject shortcut];
+}
+
+- (id)tokenField:(NSTokenField *)tokenField representedObjectForEditingString:(NSString *)editingString {
+  return [NSNull null];
+}
+
+- (NSArray *)tokenField:(NSTokenField *)tokenField shouldAddObjects:(NSArray *)tokens atIndex:(NSUInteger)anIndex {
+  if ([tokens containsObject:[NSNull null]]) {
+    NSMutableArray *tks = [NSMutableArray array];
+    for (NSUInteger idx = 0; idx < [tokens count]; idx++) {
+      id obj = [tokens objectAtIndex:idx];
+      if (obj != [NSNull null])
+        [tks addObject:obj];
+    }
+    return tks;
+  }
+  return tokens;
+}
+
+- (BOOL)trapWindow:(HKTrapWindow *)window needPerformKeyEquivalent:(NSEvent *)theEvent {
+  /* No modifier and cancel pressed */
+  NSUInteger flags = NSShiftKeyMask | NSControlKeyMask | NSAlternateKeyMask | NSCommandKeyMask;
+  if (!([theEvent modifierFlags] & flags) && [[theEvent characters] isEqualToString:@"\e"]) {
+    CFAbsoluteTime now = CFAbsoluteTimeGetCurrent();
+    /* check double escape */
+    if (now < ta_escape + 0.5) {
+      return YES;
+    } else {
+      ta_escape = now;
+    }
+  }
+  return NO;
+}
+
+- (BOOL)trapWindow:(HKTrapWindow *)window needProceedKeyEvent:(NSEvent *)theEvent {
+  UInt16 code = [theEvent keyCode];
+  NSUInteger mask = [theEvent modifierFlags] & (NSShiftKeyMask | NSControlKeyMask | NSAlternateKeyMask | NSCommandKeyMask);
+  
+  return mask ? NO : code == kHKVirtualEscapeKey;
+}
+
+- (BOOL)trapWindow:(HKTrapWindow *)window isValidHotKey:(HKKeycode)keycode modifier:(HKModifier)modifier {
+  return YES;
+}
+
+- (void)trapWindowCatchHotKey:(NSNotification *)aNotification {
+  NSDictionary *info = [aNotification userInfo];
+  UInt16 nkey = SKIntegerValue([info objectForKey:kHKEventKeyCodeKey]);
+  UniChar chr = SKIntegerValue([info objectForKey:kHKEventCharacterKey]);
+  UInt32 nmodifier = SKIntegerValue([info objectForKey:kHKEventModifierKey]);
+
+  TAKeystroke *hkey = [[TAKeystroke alloc] initWithKeycode:nkey character:chr modifier:nmodifier];
+  NSMutableArray *objs = [[uiRecTokens objectValue] mutableCopy];
+  [objs addObject:hkey];
+  [uiRecTokens setObjectValue:objs];
+  [objs release];
+  [hkey release];
 }
 
 @end

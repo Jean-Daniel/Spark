@@ -23,8 +23,12 @@ enum {
 };
 typedef NSInteger SparkFilterMode;
 
+SPARK_EXPORT 
+SparkFilterMode SparkGetFilterMode(void);
 SPARK_EXPORT
-SparkFilterMode SparkKeyStrokeFilterMode;
+void SparkSetFilterMode(SparkFilterMode mode);
+SPARK_EXPORT
+BOOL SparkHotKeyFilter(HKKeycode code, HKModifier modifier);
 
 #pragma mark -
 /*!
