@@ -9,7 +9,6 @@
 #include <Carbon/Carbon.h>
 
 #if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_5
-
 SK_PRIVATE
 OSStatus HKKLKeyMapInit(HKKeyMapRef keyMap);
 SK_PRIVATE
@@ -17,17 +16,13 @@ void HKKLKeyMapDispose(HKKeyMapRef keyMap);
 
 SK_PRIVATE
 HKKeyMapRef HKKLKeyMapCreateWithName(CFStringRef name, Boolean reverse);
-
 SK_PRIVATE
 HKKeyMapRef HKKLKeyMapCreateWithCurrentLayout(Boolean reverse);
 
-
 SK_PRIVATE
 Boolean HKKLKeyMapIsCurrent(HKKeyMapRef keyMap);
-
 SK_PRIVATE
 CFStringRef HKKLKeyMapGetName(HKKeyMapRef keymap);
-
 SK_PRIVATE
 CFStringRef HKKLKeyMapGetLocalizedName(HKKeyMapRef keymap);
 

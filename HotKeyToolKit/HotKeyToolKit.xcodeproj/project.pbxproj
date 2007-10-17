@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1BD5FB4D0CC6116700A670B7 /* TextInputSources.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BD5FB4C0CC6116700A670B7 /* TextInputSources.h */; };
 		85FA5D560BCE526C0060584C /* TISKeyMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 85FA5D540BCE526C0060584C /* TISKeyMap.h */; };
 		85FA5D570BCE526C0060584C /* TISKeyMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 85FA5D550BCE526C0060584C /* TISKeyMap.m */; };
 		85FA5D800BCE57690060584C /* KLKeyMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 85FA5D7E0BCE57690060584C /* KLKeyMap.h */; };
@@ -78,17 +77,16 @@
 /* Begin PBXFileReference section */
 		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
-		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; lineEnding = 0; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; lineEnding = 0; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		1B7BB7450CBE1F2800484A9E /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
 		1B7BB7460CBE1F2800484A9E /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		1B7BB7470CBE1F2800484A9E /* Profile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Profile.xcconfig; sourceTree = "<group>"; };
 		1B7BB7480CBE1F2800484A9E /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		1B7BB7490CBE1F2800484A9E /* Universal.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Universal.xcconfig; sourceTree = "<group>"; };
-		1BD5FB4C0CC6116700A670B7 /* TextInputSources.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextInputSources.h; sourceTree = "<group>"; };
 		85FA5D540BCE526C0060584C /* TISKeyMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = TISKeyMap.h; path = ../TISKeyMap.h; sourceTree = "<group>"; };
 		85FA5D550BCE526C0060584C /* TISKeyMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = TISKeyMap.m; sourceTree = "<group>"; };
-		85FA5D7E0BCE57690060584C /* KLKeyMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = KLKeyMap.h; path = ../KLKeyMap.h; sourceTree = "<group>"; };
+		85FA5D7E0BCE57690060584C /* KLKeyMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = KLKeyMap.h; sourceTree = "<group>"; };
 		85FA5D7F0BCE57690060584C /* KLKeyMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = KLKeyMap.m; sourceTree = "<group>"; };
 		8DC2EF5B0486A6940098B216 /* HotKeyToolKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HotKeyToolKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		982B010A05FE954600E8776D /* HKKeyboardUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = HKKeyboardUtils.h; path = Headers/HKKeyboardUtils.h; sourceTree = SOURCE_ROOT; };
@@ -120,7 +118,7 @@
 		98C61C1A0A5813EB0004E6EF /* UITester.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UITester.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		98C61C1C0A5813EB0004E6EF /* UITester-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "UITester-Info.plist"; sourceTree = "<group>"; };
 		98C61C650A5814C50004E6EF /* UITester.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = UITester.nib; sourceTree = "<group>"; };
-		98DD082E0A8A8F1D0082AF03 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Keyboard.strings; sourceTree = "<group>"; };
+		98DD082E0A8A8F1D0082AF03 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Keyboard.strings; sourceTree = "<group>"; };
 		98DD3DAC0A57B1B600F059E5 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
 		98DD3FE20A57C2A200F059E5 /* ModifierMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ModifierMap.m; sourceTree = "<group>"; };
 		98DD42450A57C9BC00F059E5 /* HKEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = HKEvent.m; sourceTree = "<group>"; };
@@ -293,7 +291,6 @@
 		984426E305F943A800551005 /* Private */ = {
 			isa = PBXGroup;
 			children = (
-				1BD5FB4C0CC6116700A670B7 /* TextInputSources.h */,
 				984426D705F9431D00551005 /* Headers */,
 				984426DB05F943A100551005 /* KeyMap.m */,
 				85FA5D7F0BCE57690060584C /* KLKeyMap.m */,
@@ -339,7 +336,6 @@
 				98B703D10A86146400DB692D /* HKBase.h in Headers */,
 				85FA5D560BCE526C0060584C /* TISKeyMap.h in Headers */,
 				85FA5D800BCE57690060584C /* KLKeyMap.h in Headers */,
-				1BD5FB4D0CC6116700A670B7 /* TextInputSources.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
