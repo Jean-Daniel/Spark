@@ -34,11 +34,22 @@ NSString * const SparkActionLoaderDidRegisterPlugInNotification = @"SparkActionL
 
 #pragma mark Instance Methods Override
 - (BOOL)isValidPlugIn:(Class)principalClass {
-  if (![principalClass isSubclassOfClass:[SparkActionPlugIn class]]) {
-    return NO;
+  @try {
+    if (![principalClass isSubclassOfClass:[SparkActionPlugIn class]])
+      return NO;
+    /* check required values */
+    if (![principalClass plugInName])
+      return NO;
+    
+    Class action = [principalClass actionClass];
+    if (![action isSubclassOfClass:[SparkAction class]])
+      return NO;
+    
+    return YES;
+  } @catch (id exception) {
+    SKLogException(exception);
   }
-  Class action = [principalClass actionClass];
-  return [action isSubclassOfClass:[SparkAction class]];
+  return NO;
 }
 
 - (id)createPluginForBundle:(NSBundle *)bundle {

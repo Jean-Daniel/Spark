@@ -136,3 +136,17 @@ static SparkAction *sp_spAction = nil;
 }
 
 @end
+
+@implementation SparkTrigger (SparkExport)
+
+- (id)initFromExternalRepresentation:(id)rep {
+  return nil;
+}
+
+- (id)externalRepresentation {
+  return nil;
+}
+
+@end
+
+

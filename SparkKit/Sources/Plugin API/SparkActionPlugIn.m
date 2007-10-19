@@ -114,11 +114,18 @@
 }
 
 - (void)setValue:(id)value forUndefinedKey:(NSString *)key {
+  static BOOL warn = YES;
   if ([key isEqualToString:@"name"]) {
-    WLog(@"%@ use deprecated KVC setter: name", [self class]);
+    if (warn) {
+      warn = NO;
+      WLog(@"%@ use deprecated KVC setter: name", [self class]);
+    }
     return [sp_action setName:value];
   } else if ([key isEqualToString:@"icon"]) {
-    WLog(@"%@ use deprecated KVC setter: icon", [self class]);
+    if (warn) {
+      warn = NO;
+      WLog(@"%@ use deprecated KVC setter: icon", [self class]);
+    }
     return [sp_action setIcon:value];
   }
   return [super setValue:value forUndefinedKey:key];
@@ -176,18 +183,18 @@
   if (class && (actionClass = NSClassFromString(class)) ) {
     return actionClass;
   }
-  [NSException raise:@"InvalidClassKeyException" format:@"Unable to find a valid class for key \"SparkActionClass\" in bundle \"%@\" propertylist", [bundle bundlePath]];
+  WLog(@"%@: invalid plugin property list: key \"SparkActionClass\" not found or invalid", [bundle bundlePath]);
   return nil;
 }
 
 + (NSString *)plugInName {
   NSBundle *bundle = SKCurrentBundle();
   NSString *name = [bundle objectForInfoDictionaryKey:@"SparkPluginName"];
-  if (name) {
-    return name;
+  if (!name) {
+    name = NSStringFromClass(self);
+    WLog(@"%@: invalid plugin property list: key \"SparkPlugInName\" not found", [bundle bundlePath]);
   }
-  [NSException raise:@"InvalidPlugInNameException" format:@"Unable to find a valid name for key \"SparkPlugInName\" in bundle \"%@\" propertylist", [bundle bundlePath]];
-  return nil;
+  return name;
 }
 
 + (NSImage *)plugInIcon {
@@ -195,6 +202,7 @@
   NSString *name = [bundle objectForInfoDictionaryKey:@"SparkPluginIcon"];
   NSImage *image = [NSImage imageNamed:name inBundle:bundle];
   if (!image) {
+    WLog(@"%@: invalid plugin property list: key \"SparkPluginIcon\" not found", [bundle bundlePath]);
     image = [NSImage imageNamed:@"PluginIcon" inBundle:[NSBundle bundleWithIdentifier:kSparkKitBundleIdentifier]];
   }
   return image;

@@ -200,7 +200,7 @@
 
 - (void)loadInterface {
   if (sp_nib == nil) {
-    sp_nib = [[NSNib alloc] initWithNibNamed:@"MultipleAlerts" bundle:SKCurrentBundle()];
+    sp_nib = [[NSNib alloc] initWithNibNamed:@"SparkMultiAlert" bundle:SKCurrentBundle()];
   }
   if (alertWindow == nil) {
     [sp_nib instantiateNibWithOwner:self topLevelObjects:nil];

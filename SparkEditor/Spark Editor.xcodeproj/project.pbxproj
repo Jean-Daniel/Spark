@@ -28,7 +28,6 @@
 		1B1358710CA110DB00766572 /* advancedpref.icns in Resources */ = {isa = PBXBuildFile; fileRef = 1B13586F0CA110DB00766572 /* advancedpref.icns */; };
 		1B1358E90CA11B8800766572 /* updatepref.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B1358E80CA11B8800766572 /* updatepref.tiff */; };
 		1B1358FC0CA11C2000766572 /* pluginpref.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B1358FB0CA11C2000766572 /* pluginpref.tiff */; };
-		1B1359A20CA11FB400766572 /* SEUpdater.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1B1359A00CA11FB400766572 /* SEUpdater.strings */; };
 		1B1775510CC4BC43009D351A /* SUpdaterInstall.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B17754F0CC4BC43009D351A /* SUpdaterInstall.m */; };
 		1B1775520CC4BC43009D351A /* SUpdaterInstall.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B1775500CC4BC43009D351A /* SUpdaterInstall.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		1B17758E0CC4BC75009D351A /* SecurityFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B17758D0CC4BC75009D351A /* SecurityFoundation.framework */; };
@@ -732,6 +731,7 @@
 				98D1E8B0078564B8002DDB31 /* Update.strings */,
 				986F865D0707415800064694 /* Editors.strings */,
 				986F865207073F8200064694 /* Libraries.strings */,
+				1B1359A00CA11FB400766572 /* SEUpdater.strings */,
 				98240203060C7B3000A0DB07 /* shcts.html */,
 				984BCB9C060C7C7B0043CDEA /* Spark Help */,
 			);
@@ -1079,7 +1079,6 @@
 				982401E5060C7B3000A0DB07 /* InfoPlist.strings */,
 				984AB7010B88C5AA005E7F60 /* Resources.strings */,
 				98D590F10AA18A430081A713 /* SEEditor.strings */,
-				1B1359A00CA11FB400766572 /* SEUpdater.strings */,
 				985A43AD0A8626F3005CC63B /* Localizable.strings */,
 				984AB6FF0B88C5AA005E7F60 /* SEHotKeyTrap.strings */,
 			);
@@ -1442,7 +1441,6 @@
 				1B1358710CA110DB00766572 /* advancedpref.icns in Resources */,
 				1B1358E90CA11B8800766572 /* updatepref.tiff in Resources */,
 				1B1358FC0CA11C2000766572 /* pluginpref.tiff in Resources */,
-				1B1359A20CA11FB400766572 /* SEUpdater.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1781,7 +1779,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 401;
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = SUpdaterKit.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -1793,7 +1791,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 401;
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = SUpdaterKit.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -1805,7 +1803,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 401;
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = SUpdaterKit.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -1817,7 +1815,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 401;
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = SUpdaterKit.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -1828,7 +1826,7 @@
 		98BC60520857BB9400A2041F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 360;
+				CURRENT_PROJECT_VERSION = 401;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = Spark;
@@ -1839,7 +1837,7 @@
 		98BC60530857BB9400A2041F /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 360;
+				CURRENT_PROJECT_VERSION = 401;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = Spark;
@@ -1866,7 +1864,7 @@
 		98C12BD508CE11B30015CB91 /* Universal Binary */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 360;
+				CURRENT_PROJECT_VERSION = 401;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = Spark;
@@ -1914,7 +1912,7 @@
 		98EFD02F0B58443900AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 360;
+				CURRENT_PROJECT_VERSION = 401;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = Spark;

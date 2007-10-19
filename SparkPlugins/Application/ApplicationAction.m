@@ -518,8 +518,21 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
         break;
     }
     if ([self activation] != kFlagsDoNothing) {
-      if ([self reopen])
-        SKAESendSimpleEventToProcess(&psn, kCoreEventClass, kAEReopenApplication);
+      if ([self reopen]) {
+        /* TODO: improve reopen event */
+        AppleEvent reopen = SKAEEmptyDesc();
+        OSStatus err = SKAECreateEventWithTargetProcess(&psn, kCoreEventClass, kAEReopenApplication, &reopen);
+        require_noerr(err, bail);
+        
+        err = SKAEAddBoolean(&reopen, 'frnt', false);
+        require_noerr(err, bail);
+        
+        err = SKAESendEventNoReply(&reopen);
+        require_noerr(err, bail);
+        
+bail:
+          SKAEDisposeDesc(&reopen);
+      }
       if (aa_lsFlags & kLSLaunchAndHideOthers)
         [self hideOthers];
       if (settings.activation)

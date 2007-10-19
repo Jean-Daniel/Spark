@@ -252,17 +252,23 @@ NSString *_SparkActionDescription(SparkBuiltInAction *action) {
   NSString *str = nil;
   switch ([action action]) {
     case kSparkSDActionLaunchEditor:
-      str = @"Open Spark Editor";
+      str = NSLocalizedStringFromTableInBundle(@"Open Spark Editor", nil,
+                                               [NSBundle bundleWithIdentifier:kSparkKitBundleIdentifier], @"Spark Built-in Plugin description");
       break;
     case kSparkSDActionSwitchStatus:
-      str = @"Enable/Disable Spark";
+      str = NSLocalizedStringFromTableInBundle(@"Enable/Disable Spark", nil, 
+                                               [NSBundle bundleWithIdentifier:kSparkKitBundleIdentifier], @"Spark Built-in Plugin description");
       break;
     case kSparkSDActionSwitchListStatus: {
       NSString *name = [[action list] name];
-      if (name)
-        str = [NSString stringWithFormat:@"Enable/Disable Spark List \"%@\"", [[action list] name]];
-      else
-        str = @"Enable/Disable Spark List ...";
+      if (name) {
+        NSString *fmt = NSLocalizedStringFromTableInBundle(@"Enable/Disable Spark List \"%@\"", nil, 
+                                                           [NSBundle bundleWithIdentifier:kSparkKitBundleIdentifier], @"Spark Built-in Plugin description (%@ => list name)");
+        str = [NSString stringWithFormat:fmt, name];
+      } else {
+        str = NSLocalizedStringFromTableInBundle(@"Enable/Disable Spark List ...", nil, 
+                                                 [NSBundle bundleWithIdentifier:kSparkKitBundleIdentifier], @"Spark Built-in Plugin description");
+      }
     }
       break;
   }

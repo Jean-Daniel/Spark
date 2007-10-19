@@ -28,30 +28,42 @@
   keycode = 42; // ` key on french keyboard
   chr = HKMapGetUnicharForKeycode(keycode);
   STAssertTrue('`' == chr, @"HKMapGetUnicharForKeycode return '%C' (0x%x) instead of '`'", chr, chr);
+  
+  keycode = kHKVirtualSpaceKey; 
+  chr = HKMapGetUnicharForKeycode(keycode);
+  STAssertTrue(' ' == chr, @"HKMapGetUnicharForKeycode return '%C' (0x%x) instead of ' '", chr, chr);
 }
 
 - (void)testReverseMapping {
   UniChar character = 's';
-  HKKeycode keycode = HKMapGetKeycodeAndModifierForUnichar(character, NULL, NULL);
+  HKKeycode keycode = HKMapGetKeycodeAndModifierForUnichar(character, NULL);
   STAssertTrue(keycode != kHKInvalidVirtualKeyCode, @"Reverse mapping does not work");
   
   UniChar reverseChar = HKMapGetUnicharForKeycode(keycode);
   STAssertTrue(reverseChar != kHKNilUnichar, @"Reverse mapping does not work");
   STAssertTrue(reverseChar == character, @"Reverse mapping does not work");
   
-  HKKeycode keycode2 = HKMapGetKeycodeAndModifierForUnichar('S', NULL, NULL);
+  HKKeycode keycode2 = HKMapGetKeycodeAndModifierForUnichar('S', NULL);
   STAssertTrue(keycode == keycode2, @"'s'(%d) and 'S'(%d) should have same keycode", keycode, keycode2);
   
-  NSUInteger count;
   HKModifier modifier;
-  HKKeycode scode = HKMapGetKeycodeAndModifierForUnichar('S', &modifier, &count);
-  STAssertTrue(count == 1, @"Invalid keys count for reverse mapping");
+  HKKeycode scode = HKMapGetKeycodeAndModifierForUnichar('S', &modifier);
   STAssertTrue(scode == keycode, @"Invalid keycode for reverse mapping");
   STAssertTrue(modifier == NSShiftKeyMask, @"Invalid modifier for reverse mapping");
+
+  keycode = HKMapGetKeycodeAndModifierForUnichar('^', NULL);
+  STAssertTrue(keycode != kHKInvalidVirtualKeyCode, @"'^'unichar to deadkey does not return a valid keycode");
+  
+  keycode = HKMapGetKeycodeAndModifierForUnichar(' ', NULL);
+  STAssertTrue(kHKVirtualSpaceKey == keycode, @"'space' mapping does not works");
+
+  /* no break space */
+  keycode = HKMapGetKeycodeAndModifierForUnichar(0xa0, NULL);
+  STAssertTrue(kHKVirtualSpaceKey == keycode, @"'no break space' mapping does not works");
 }
 
 - (void)testAdvancedReverseMapping {
-  HKKeycode keycode = HKMapGetKeycodeAndModifierForUnichar('n', NULL, NULL);
+  HKKeycode keycode = HKMapGetKeycodeAndModifierForUnichar('n', NULL);
   UniChar character = 0x00D1; /* 'Ñ' */
   HKKeycode keycodes[8];
   HKModifier modifiers[8];

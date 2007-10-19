@@ -133,6 +133,9 @@ enum {
     @constant		kHKF14Unicode 		Arbitrary Private Unicode character.
     @constant		kHKF15Unicode 		Arbitrary Private Unicode character.
     @constant		kHKF16Unicode 		Arbitrary Private Unicode character.
+    @constant		kHKF17Unicode 		Arbitrary Private Unicode character.
+    @constant		kHKF18Unicode 		Arbitrary Private Unicode character.
+    @constant		kHKF19Unicode 		Arbitrary Private Unicode character.
     @constant		kHKHelpUnicode 		Arbitrary Private Unicode character.
     @constant		kHKDeleteUnicode 		Delete Unicode character.
     @constant		kHKTabUnicode 		Tabulation Unicode character.
@@ -195,7 +198,7 @@ enum {
   kHKReturnUnicode        = 0x000d, /* 13 */
   kHKEscapeUnicode        = 0x001b, /* 27 */
   kHKDeleteUnicode        = 0x007f, /* 127 */
-  kHKSpaceUnicode         = 0x00a0  /* 160 */
+  kHKNoBreakSpaceUnicode  = 0x00a0  /* 160 */
 };
 
 #pragma mark -
@@ -259,6 +262,11 @@ enum {
   kHKModifierFormatCocoa, /* NSEvent modifiers */
 };
 typedef NSInteger HKModifierFormat;
+
+HK_EXPORT
+bool HKMapIsFunctionKey(HKKeycode code);
+HK_EXPORT
+bool HKMapIsFunctionKeyForCharacter(UniChar chr);
 
 /*!
 	@function

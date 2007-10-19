@@ -124,7 +124,7 @@
 		98DD42450A57C9BC00F059E5 /* HKEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = HKEvent.m; sourceTree = "<group>"; };
 		98DD42490A57C9C800F059E5 /* HKEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = HKEvent.h; sourceTree = "<group>"; };
 		98E204820A56FDFC00EB74E1 /* Runner.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = Runner.m; sourceTree = "<group>"; };
-		98E204A00A56FE6500EB74E1 /* Runner */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Runner; sourceTree = BUILT_PRODUCTS_DIR; };
+		98E204A00A56FE6500EB74E1 /* Runner */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "compiled.mach-o.executable"; path = Runner; sourceTree = BUILT_PRODUCTS_DIR; };
 		98EF7D6F0864538C007BC81A /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = /System/Library/Frameworks/SenTestingKit.framework; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
@@ -173,10 +173,10 @@
 		034768DFFF38A50411DB9C8B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8DC2EF5B0486A6940098B216 /* HotKeyToolKit.framework */,
-				98643F000A556F2200260086 /* Test.octest */,
 				98E204A00A56FE6500EB74E1 /* Runner */,
+				98643F000A556F2200260086 /* Test.octest */,
 				98C61C1A0A5813EB0004E6EF /* UITester.app */,
+				8DC2EF5B0486A6940098B216 /* HotKeyToolKit.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -245,8 +245,8 @@
 		1058C7B2FEA5585E11CA2CBB /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				0867D69BFE84028FC02AAC07 /* Foundation.framework */,
 				0867D6A5FE840307C02AAC07 /* AppKit.framework */,
+				0867D69BFE84028FC02AAC07 /* Foundation.framework */,
 			);
 			name = "Other Frameworks";
 			sourceTree = "<group>";
@@ -577,9 +577,9 @@
 		981B5F510938699D0024C0D9 /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 360;
+				CURRENT_PROJECT_VERSION = 401;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 360;
+				DYLIB_CURRENT_VERSION = 401;
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -667,9 +667,9 @@
 		98C1287D08CE0D620015CB91 /* Universal Binary */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 360;
+				CURRENT_PROJECT_VERSION = 401;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 360;
+				DYLIB_CURRENT_VERSION = 401;
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -763,9 +763,9 @@
 		98EF7D5508645328007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 360;
+				CURRENT_PROJECT_VERSION = 401;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 360;
+				DYLIB_CURRENT_VERSION = 401;
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -790,9 +790,9 @@
 		98EFD03D0B58448D00AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 360;
+				CURRENT_PROJECT_VERSION = 401;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 360;
+				DYLIB_CURRENT_VERSION = 401;
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";

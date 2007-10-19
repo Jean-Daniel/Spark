@@ -9,7 +9,6 @@
 #import "HKKeyMap.h"
 
 #include <Carbon/Carbon.h>
-#include <libkern/OSAtomic.h>
 
 #import "HKHotKey.h"
 #import "HKHotKeyManager.h"
@@ -22,7 +21,7 @@ static
 OSStatus _HandleHotKeyEvent(EventHandlerCallRef nextHandler, EventRef theEvent, void *userData);
 
 static 
-int32_t gHotKeyUID = 0;
+NSUInteger gHotKeyUID = 0;
 
 /* Debugging purpose */
 BOOL HKTraceHotKeyEvents = NO;
@@ -91,7 +90,7 @@ static EventHandlerUPP kHKHandlerUPP = NULL;
   if ([key isValid] && !NSMapGet(hk_refs, key)) {
     HKModifier mask = [key nativeModifier];
     HKKeycode keycode = [key keycode];
-    NSUInteger uid = OSAtomicIncrement32(&gHotKeyUID);
+    NSUInteger uid = ++gHotKeyUID;
     if (HKTraceHotKeyEvents) {
       NSLog(@"Register HotKey %@", key);
     }

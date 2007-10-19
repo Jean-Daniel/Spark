@@ -239,7 +239,7 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
 
 - (void)frontApplicationDidChange:(ProcessSerialNumber *)psn {
   Boolean same = false;
-  if (noErr == SameProcess(&sd_front, psn, &same) && !same) {
+  if ((noErr != SameProcess(&sd_front, psn, &same)) || !same) {
     SparkApplication *previous = [sd_library applicationForProcess:&sd_front];
     SparkApplication *front = [sd_library applicationForProcess:psn];
     sd_front = *psn;

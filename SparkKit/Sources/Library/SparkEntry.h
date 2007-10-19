@@ -62,6 +62,13 @@ SK_CLASS_EXPORT
 - (NSString *)actionDescription;
 - (NSString *)triggerDescription;
 
-- (BOOL)serialize:(NSMutableDictionary *)plist;
+@end
+
+@interface SparkEntry (SparkExport)
+
+- (id)initFromExternalRepresentation:(id)rep;
+- (id)externalRepresentation;
 
 @end
+
+

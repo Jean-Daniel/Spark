@@ -500,11 +500,27 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
   [menu addItemWithTitle:@"Trigger Browser" action:@selector(openTriggerBrowser:) keyEquivalent:@""];
   [menu addItem:[NSMenuItem separatorItem]];
   [menu addItemWithTitle:@"Dump Library" action:@selector(dumpLibrary:) keyEquivalent:@""];
-  [menu addItemWithTitle:@"Clean Library" action:@selector(cleanLibrary:) keyEquivalent:@""];
+  [menu addItemWithTitle:@"External Representation" action:@selector(dumpExternal:) keyEquivalent:@""];
   [debugMenu setSubmenu:menu];
   [menu release];
   [[NSApp mainMenu] insertItem:debugMenu atIndex:[[NSApp mainMenu] numberOfItems] -1];
   [debugMenu release];
+}
+
+- (IBAction)dumpExternal:(id)sender {
+  NSMutableArray *library = [[NSMutableArray alloc] init];
+  SELibraryDocument *doc = SEGetDocumentForLibrary(SparkActiveLibrary());
+  SEEntryCache *cache = [doc cache];
+  SESparkEntrySet *entries = [cache entries];
+  
+  SparkEntry *entry;
+  NSEnumerator *iter = [entries entryEnumerator];
+  while (entry = [iter nextObject]) {
+    [library addObject:[entry externalRepresentation]];
+  }
+  
+  DLog(@"%@", library);
+  [library release];
 }
 
 - (IBAction)dumpLibrary:(id)sender {

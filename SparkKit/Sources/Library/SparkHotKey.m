@@ -85,14 +85,6 @@ BOOL SparkHotKeyFilter(HKKeycode code, HKModifier modifier) {
 #pragma mark -
 @implementation SparkHotKey
 
-//+ (void)initialize {
-//  if ([SparkHotKey class] == self) {
-//    [HKHotKeyManager setShortcutFilter:_SparkKeyStrokeFilter];
-//    /* Load current map */
-//    HKMapGetCurrentMapName();
-//  }
-//}
-
 #pragma mark -
 #pragma mark NSCoding
 - (void)encodeWithCoder:(NSCoder *)aCoder {
@@ -196,6 +188,45 @@ BOOL SparkHotKeyFilter(HKKeycode code, HKModifier modifier) {
   return icon;
 }
 
+- (id)initFromExternalRepresentation:(id)rep {
+  return nil;
+}
+
+- (id)externalRepresentation {
+  NSMutableDictionary *plist = [NSMutableDictionary dictionary];
+  
+  NSMutableArray *modifiers = [NSMutableArray array];
+  HKModifier modifier = [self modifier];
+  if (modifier & NSShiftKeyMask) [modifiers addObject:@"shift"];
+  if (modifier & NSCommandKeyMask) [modifiers addObject:@"cmd"];
+  if (modifier & NSControlKeyMask) [modifiers addObject:@"ctrl"];
+  if (modifier & NSAlternateKeyMask) [modifiers addObject:@"option"];
+  
+  // if (modifier & NSHelpKeyMask) [modifiers addObject:@"help"];
+  // if (modifier & NSFunctionKeyMask) [modifiers addObject:@"function"];
+  if (modifier & NSNumericPadKeyMask) [modifiers addObject:@"num-pad"];
+  // if (modifier & NSAlphaShiftKeyMask) [modifiers addObject:@"alpha-shift"];
+  if ([modifiers count] > 0)
+    [plist setObject:modifiers forKey:@"modifiers"];
+  
+  HKKeycode code = [self keycode];
+  [plist setObject:SKUInteger(code) forKey:@"keycode"];
+  
+  UniChar ch = [self character];
+  if (CFCharacterSetIsCharacterMember(CFCharacterSetGetPredefined(kCFCharacterSetAlphaNumeric), ch) ||
+      CFCharacterSetIsCharacterMember(CFCharacterSetGetPredefined(kCFCharacterSetPunctuation), ch) ||
+      CFCharacterSetIsCharacterMember(CFCharacterSetGetPredefined(kCFCharacterSetSymbol), ch)) {
+    NSString *str = [NSString stringWithCharacters:&ch length:1];
+    if (str)
+      [plist setObject:str forKey:@"character"];
+  } else {
+    NSString *str = HKMapGetStringRepresentationForCharacterAndModifier(ch, 0);
+    if (str)
+      [plist setObject:str forKey:@"character"];
+  }
+  [plist setObject:SKUInteger(ch) forKey:@"unichar"];
+  return plist;
+}
 
 @end
 

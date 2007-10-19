@@ -38,7 +38,7 @@ SPARK_EXPORT
 CFStringRef const SparkDaemonStatusDidChangeNotification;
 
 #if defined(__OBJC__)
-SK_INLINE
+SPARK_INLINE
 SparkDaemonStatus SparkDaemonGetStatus(NSNotification *notification) {
   return [[[notification userInfo] objectForKey:(id)SparkDaemonStatusKey] unsignedIntValue];
 }

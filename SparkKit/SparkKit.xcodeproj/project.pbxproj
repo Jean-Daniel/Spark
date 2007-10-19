@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1B83DC5C0CC7833300050596 /* SparkMultiAlert.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1B83DC5A0CC7833300050596 /* SparkMultiAlert.nib */; };
+		1B83DCAE0CC7857C00050596 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1B83DCAC0CC7857C00050596 /* Localizable.strings */; };
 		1BAA6F8D0B64CF2500F9AC0E /* SKImageUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BAA6F870B64CF2500F9AC0E /* SKImageUtils.m */; };
 		1BB8B1FF0B949EE900F91062 /* SparkSystem.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1BB8B1FE0B949EE900F91062 /* SparkSystem.tiff */; };
 		1BE44FE40BD4B3DC00034060 /* AESendThreadSafe.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BE44FE30BD4B3DC00034060 /* AESendThreadSafe.c */; };
@@ -137,7 +139,6 @@
 		98A8554C0AFF9D8C00088961 /* spark.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98A8554B0AFF9D8C00088961 /* spark.tiff */; };
 		98A856510AFFB1A200088961 /* SparkPlugin.nib in Resources */ = {isa = PBXBuildFile; fileRef = 98A8564F0AFFB1A200088961 /* SparkPlugin.nib */; };
 		98C56D45096B353F00ABE1EF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 98C56D40096B353900ABE1EF /* InfoPlist.strings */; };
-		98CF6FA706B3DAD50017D206 /* MultipleAlerts.nib in Resources */ = {isa = PBXBuildFile; fileRef = 98CF6FA506B3DAD50017D206 /* MultipleAlerts.nib */; };
 		98CF6FB006B3DB2B0017D206 /* Forward.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98CF6FAC06B3DB2B0017D206 /* Forward.tif */; };
 		98CF6FB106B3DB2B0017D206 /* ForwardPressedBlue.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98CF6FAD06B3DB2B0017D206 /* ForwardPressedBlue.tif */; };
 		98CF6FB206B3DB2B0017D206 /* BackPressedBlue.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98CF6FAE06B3DB2B0017D206 /* BackPressedBlue.tif */; };
@@ -245,6 +246,8 @@
 		1B7BB78B0CBE1FD700484A9E /* Profile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Profile.xcconfig; sourceTree = "<group>"; };
 		1B7BB78C0CBE1FD700484A9E /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		1B7BB78D0CBE1FD700484A9E /* Universal.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Universal.xcconfig; sourceTree = "<group>"; };
+		1B83DC5B0CC7833300050596 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SparkMultiAlert.nib; sourceTree = "<group>"; };
+		1B83DCAD0CC7857C00050596 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1BAA6F870B64CF2500F9AC0E /* SKImageUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKImageUtils.m; sourceTree = "<group>"; };
 		1BB8B1FE0B949EE900F91062 /* SparkSystem.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SparkSystem.tiff; sourceTree = "<group>"; };
 		1BE44FE30BD4B3DC00034060 /* AESendThreadSafe.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = AESendThreadSafe.c; sourceTree = "<group>"; };
@@ -375,7 +378,6 @@
 		98C78D6907D9E716006D9CC1 /* SKFSFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SKFSFunctions.m; sourceTree = "<group>"; };
 		98C78D6A07D9E716006D9CC1 /* SKLSFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SKLSFunctions.m; sourceTree = "<group>"; };
 		98C78D6B07D9E716006D9CC1 /* SKProcessFunctions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; lineEnding = 0; path = SKProcessFunctions.c; sourceTree = "<group>"; };
-		98CF6FA606B3DAD50017D206 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MultipleAlerts.nib; sourceTree = "<group>"; };
 		98CF6FAC06B3DB2B0017D206 /* Forward.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Forward.tif; sourceTree = "<group>"; };
 		98CF6FAD06B3DB2B0017D206 /* ForwardPressedBlue.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = ForwardPressedBlue.tif; sourceTree = "<group>"; };
 		98CF6FAE06B3DB2B0017D206 /* BackPressedBlue.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = BackPressedBlue.tif; sourceTree = "<group>"; };
@@ -497,7 +499,7 @@
 				089C1666FE841158C02AAC07 /* InfoPlist.strings */,
 				9805FD370773B47700B1A341 /* Localizable.strings */,
 				98A8564F0AFFB1A200088961 /* SparkPlugin.nib */,
-				98CF6FA506B3DAD50017D206 /* MultipleAlerts.nib */,
+				1B83DC5A0CC7833300050596 /* SparkMultiAlert.nib */,
 				98EB96D20C174B4700C7B72D /* SparkPluginView.nib */,
 			);
 			name = Resources;
@@ -900,6 +902,7 @@
 				98417FEA0B4FDF5C00073F1D /* SKSplitDot.tiff */,
 				98417FEB0B4FDF5C00073F1D /* SKVSplitBar.tiff */,
 				98417FE90B4FDF5C00073F1D /* SKHSplitBar.tiff */,
+				1B83DCAC0CC7857C00050596 /* Localizable.strings */,
 				98DA2ED40AFE174400E394CD /* SKHeaderMenu.tiff */,
 				98DA2ED20AFE174400E394CD /* SKHeader-down.tiff */,
 				981E11FD0CA5D35B009E8FD8 /* SKProgressPanel.nib */,
@@ -1125,7 +1128,6 @@
 			files = (
 				8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */,
 				983961E7060680AB00E0353D /* SparkKit.icns in Resources */,
-				98CF6FA706B3DAD50017D206 /* MultipleAlerts.nib in Resources */,
 				98CF6FB006B3DB2B0017D206 /* Forward.tif in Resources */,
 				98CF6FB106B3DB2B0017D206 /* ForwardPressedBlue.tif in Resources */,
 				98CF6FB206B3DB2B0017D206 /* BackPressedBlue.tif in Resources */,
@@ -1146,6 +1148,7 @@
 				98FC31D50B32E585000D5F6B /* Application.tiff in Resources */,
 				1BB8B1FF0B949EE900F91062 /* SparkSystem.tiff in Resources */,
 				98EB96D80C174B4700C7B72D /* SparkPluginView.nib in Resources */,
+				1B83DC5C0CC7833300050596 /* SparkMultiAlert.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1161,6 +1164,7 @@
 				98417FED0B4FDF5C00073F1D /* SKSplitDot.tiff in Resources */,
 				98417FEE0B4FDF5C00073F1D /* SKVSplitBar.tiff in Resources */,
 				981E12020CA5D35B009E8FD8 /* SKProgressPanel.nib in Resources */,
+				1B83DCAE0CC7857C00050596 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1281,6 +1285,22 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
+		1B83DC5A0CC7833300050596 /* SparkMultiAlert.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1B83DC5B0CC7833300050596 /* English */,
+			);
+			name = SparkMultiAlert.nib;
+			sourceTree = "<group>";
+		};
+		1B83DCAC0CC7857C00050596 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1B83DCAD0CC7857C00050596 /* English */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		9805FD370773B47700B1A341 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1305,14 +1325,6 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		98CF6FA506B3DAD50017D206 /* MultipleAlerts.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				98CF6FA606B3DAD50017D206 /* English */,
-			);
-			name = MultipleAlerts.nib;
-			sourceTree = "<group>";
-		};
 		98EB96D20C174B4700C7B72D /* SparkPluginView.nib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1327,9 +1339,9 @@
 		9848D887085638FD006B5130 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 360;
+				CURRENT_PROJECT_VERSION = 401;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 360;
+				DYLIB_CURRENT_VERSION = 401;
 				FRAMEWORK_VERSION = B;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -1344,9 +1356,9 @@
 		9848D888085638FD006B5130 /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 360;
+				CURRENT_PROJECT_VERSION = 401;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 360;
+				DYLIB_CURRENT_VERSION = 401;
 				FRAMEWORK_VERSION = B;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -1377,9 +1389,9 @@
 		98C128F208CE0EDE0015CB91 /* Universal Binary */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 360;
+				CURRENT_PROJECT_VERSION = 401;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 360;
+				DYLIB_CURRENT_VERSION = 401;
 				FRAMEWORK_VERSION = B;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -1402,9 +1414,9 @@
 		98C56D37096B348600ABE1EF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 360;
+				CURRENT_PROJECT_VERSION = 401;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 360;
+				DYLIB_CURRENT_VERSION = 401;
 				INFOPLIST_FILE = ShadowKit/Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				OTHER_LDFLAGS = (
@@ -1418,9 +1430,9 @@
 		98C56D39096B348600ABE1EF /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 360;
+				CURRENT_PROJECT_VERSION = 401;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 360;
+				DYLIB_CURRENT_VERSION = 401;
 				INFOPLIST_FILE = ShadowKit/Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				OTHER_LDFLAGS = (
@@ -1434,9 +1446,9 @@
 		98C56D3A096B348600ABE1EF /* Universal Binary */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 360;
+				CURRENT_PROJECT_VERSION = 401;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 360;
+				DYLIB_CURRENT_VERSION = 401;
 				INFOPLIST_FILE = ShadowKit/Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				OTHER_LDFLAGS = (
@@ -1450,9 +1462,9 @@
 		98EFD0A30B5844F300AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 360;
+				CURRENT_PROJECT_VERSION = 401;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 360;
+				DYLIB_CURRENT_VERSION = 401;
 				INFOPLIST_FILE = ShadowKit/Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				OTHER_LDFLAGS = (
@@ -1466,9 +1478,9 @@
 		98EFD0A40B5844F300AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 360;
+				CURRENT_PROJECT_VERSION = 401;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 360;
+				DYLIB_CURRENT_VERSION = 401;
 				FRAMEWORK_VERSION = B;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";

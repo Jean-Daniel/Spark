@@ -3,9 +3,8 @@ a { color: #2562a2; }
 #hmenu { list-style: none; font-size: 10pt; text-align: center; background-color: #e0e0e0; padding: 4px;
 border-width: 1px 0 1px 0; border-style: solid; border-color: #666666;}
 
-#hmenu a { color: #333333; font-weight: bold; text-decoration: none}
-#hmenu li { display: inline; padding: 
-4px 6px 4px 6px; margin-left: 8px; margin-right: 8px; }
+#hmenu a { color: #333333; font-weight: normal; text-decoration: none}
+#hmenu li { display: inline; padding: 4px 6px 4px 6px; margin-left: 8px; margin-right: 8px; font-weight: bold; }
 
 #hmenu li:hover { background-color: #bfbfbf; padding: 4px 5px 4px 5px; 
 border-width: 0px 1px 0px 1px; border-style: solid; border-color: #666666 }
