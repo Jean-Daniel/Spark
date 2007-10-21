@@ -17,8 +17,6 @@
 static NSString * const kOSAScriptActionDataKey = @"OSAScriptData";
 static NSString * const kOSAScriptActionTypeKey = @"OSAScriptType";
 
-NSString * const kASActionBundleIdentifier = @"org.shadowlab.spark.applescript";
-
 @implementation AppleScriptAction
 
 #pragma mark Protocols Implementation
@@ -201,6 +199,45 @@ NSString * const kASActionBundleIdentifier = @"org.shadowlab.spark.applescript";
   if (source)
     as_script = [[OSAScript alloc] initWithSource:source];
 }
+@end
+
+@implementation AppleScriptAction (SparkExport)
+
+- (id)initFromExternalRepresentation:(NSDictionary *)rep {
+  if (self = [super initFromExternalRepresentation:rep]) {
+    NSString *value = [rep objectForKey:@"script-path"];
+    if (value) {
+      SKAlias *alias = [SKAlias aliasWithPath:value];
+      if (alias) {
+        [self setScriptAlias:alias];
+      } else {
+        [self release];
+        self = nil;
+      }
+    } else if (value = [rep objectForKey:@"script-source"]) {
+      [self setScriptSource:value];
+    } else {
+      [self release];
+      self = nil;
+    }
+  }
+  return self;
+}
+
+- (NSMutableDictionary *)externalRepresentation {
+  NSMutableDictionary *plist = [super externalRepresentation];
+  if (plist) {
+    if ([self scriptAlias]) {
+      NSString *path = [[self scriptAlias] path];
+      if (path)
+        [plist setObject:path forKey:@"script-path"];
+    } else if ([self scriptSource]) {
+      [plist setObject:[self scriptSource] forKey:@"script-source"];
+    } 
+  }
+  return plist;
+}
+
 @end
 
 #pragma mark Compatibility

@@ -175,6 +175,7 @@
 		98D590F30AA18A430081A713 /* SEEditor.strings in Resources */ = {isa = PBXBuildFile; fileRef = 98D590F10AA18A430081A713 /* SEEditor.strings */; };
 		98DA08F30B0A5DC30016B465 /* SEPluginInstaller.nib in Resources */ = {isa = PBXBuildFile; fileRef = 98DA08ED0B0A5DC30016B465 /* SEPluginInstaller.nib */; };
 		98DA2BCA0AFE011400E394CD /* SEPluginHelp.nib in Resources */ = {isa = PBXBuildFile; fileRef = 98DA2BC80AFE011400E394CD /* SEPluginHelp.nib */; };
+		98DCBF820CCA6C8F0045707B /* Shadow Lab.cer in Resources */ = {isa = PBXBuildFile; fileRef = 98DCBF810CCA6C8F0045707B /* Shadow Lab.cer */; };
 		98DD455F0A57DE9A00F059E5 /* SystemAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 6540B6E809E6430800D0E8FB /* SystemAction.spact */; };
 		98DD45600A57DE9A00F059E5 /* iTunesAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 6540B6EA09E6430800D0E8FB /* iTunesAction.spact */; };
 		98DD45610A57DE9A00F059E5 /* DocumentAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 6540B6EC09E6430800D0E8FB /* DocumentAction.spact */; };
@@ -315,6 +316,13 @@
 			remoteGlobalIDString = 8D1107260486CEB800E47090;
 			remoteInfo = Spark;
 		};
+		98DBE05E0CCA329D00BD3B7F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 988B8E7E0CC26726006EA06D /* SArchiveKit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
+			remoteInfo = SArchiveKit;
+		};
 		98E204A90A56FE8600EB74E1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 98EF8306086462FF007BC81A /* HotKeyToolKit.xcodeproj */;
@@ -341,13 +349,6 @@
 			containerPortal = 988B8E7E0CC26726006EA06D /* SArchiveKit.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
-			remoteInfo = SArchiveKit;
-		};
-		98F074660CC26E2F008CF066 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 988B8E7E0CC26726006EA06D /* SArchiveKit.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = SArchiveKit;
 		};
 		98F746320A5C5808003D4BE1 /* PBXContainerItemProxy */ = {
@@ -577,6 +578,7 @@
 		98DA08EE0B0A5DC30016B465 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SEPluginInstaller.nib; sourceTree = "<group>"; };
 		98DA2BC90AFE011400E394CD /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SEPluginHelp.nib; sourceTree = "<group>"; };
 		98DCBDEC060C80DD00B3E0AE /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = SOURCE_ROOT; };
+		98DCBF810CCA6C8F0045707B /* Shadow Lab.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Shadow Lab.cer"; sourceTree = "<group>"; };
 		98E66CC10759FA7C0048A37D /* HotKeySparkList.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = HotKeySparkList.icns; sourceTree = "<group>"; };
 		98E66CC20759FA7C0048A37D /* ApplicationSparkList.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = ApplicationSparkList.icns; sourceTree = "<group>"; };
 		98E66CC30759FA7C0048A37D /* ActionSparkList.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = ActionSparkList.icns; sourceTree = "<group>"; };
@@ -734,6 +736,7 @@
 				1B1359A00CA11FB400766572 /* SEUpdater.strings */,
 				98240203060C7B3000A0DB07 /* shcts.html */,
 				984BCB9C060C7C7B0043CDEA /* Spark Help */,
+				98DCBF810CCA6C8F0045707B /* Shadow Lab.cer */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -1206,7 +1209,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 988B8DA60CC2633B006EA06D /* Build configuration list for PBXNativeTarget "SUpdaterKit" */;
 			buildPhases = (
-				98F073430CC26C63008CF066 /* Symlink SAchiveKit */,
+				98DBE0640CCA336600BD3B7F /* Symlink SAchiveKit */,
 				988B8D9F0CC26337006EA06D /* Headers */,
 				988B8DA00CC26337006EA06D /* Resources */,
 				988B8DA10CC26337006EA06D /* Sources */,
@@ -1215,7 +1218,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				98F074670CC26E2F008CF066 /* PBXTargetDependency */,
+				98DBE05F0CCA329D00BD3B7F /* PBXTargetDependency */,
 			);
 			name = SUpdaterKit;
 			productName = SUpdaterKit;
@@ -1441,6 +1444,7 @@
 				1B1358710CA110DB00766572 /* advancedpref.icns in Resources */,
 				1B1358E90CA11B8800766572 /* updatepref.tiff in Resources */,
 				1B1358FC0CA11C2000766572 /* pluginpref.tiff in Resources */,
+				98DCBF820CCA6C8F0045707B /* Shadow Lab.cer in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1464,7 +1468,7 @@
 /* End PBXRezBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		98F073430CC26C63008CF066 /* Symlink SAchiveKit */ = {
+		98DBE0640CCA336600BD3B7F /* Symlink SAchiveKit */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1567,10 +1571,10 @@
 			target = 8D1107260486CEB800E47090 /* Spark */;
 			targetProxy = 98DBB874099F4B5B00927F3B /* PBXContainerItemProxy */;
 		};
-		98F074670CC26E2F008CF066 /* PBXTargetDependency */ = {
+		98DBE05F0CCA329D00BD3B7F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = SArchiveKit;
-			targetProxy = 98F074660CC26E2F008CF066 /* PBXContainerItemProxy */;
+			targetProxy = 98DBE05E0CCA329D00BD3B7F /* PBXContainerItemProxy */;
 		};
 		98F746330A5C5808003D4BE1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

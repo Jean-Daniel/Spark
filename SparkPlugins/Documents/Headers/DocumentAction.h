@@ -17,10 +17,8 @@ enum {
   kDocumentActionOpenURL           = 'OURL', /* 1330991692 */
 };
 
-SPARK_PRIVATE
-NSString * const kDocumentActionBundleIdentifier;
-
-#define kDocumentActionBundle		[NSBundle bundleWithIdentifier:kDocumentActionBundleIdentifier]
+#define kDocumentActionBundleIdentifier @"org.shadowlab.spark.action.document"
+#define kDocumentActionBundle		    [NSBundle bundleWithIdentifier:kDocumentActionBundleIdentifier]
 
 @class SKAlias, SKAliasedApplication;
 @interface DocumentAction : SparkAction <NSCoding, NSCopying> {

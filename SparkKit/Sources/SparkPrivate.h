@@ -42,7 +42,7 @@
 - (BOOL)isInvalid;
 - (void)setInvalid:(BOOL)flag;
 
-- (BOOL)isPermanent;
+- (BOOL)isPersistent;
 
   /*!
   @method     setCategorie:

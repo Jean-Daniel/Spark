@@ -51,11 +51,11 @@ void SparkLibraryEntrySetPlugged(SparkLibraryEntry *entry, BOOL flag) {
 }
 
 SK_INLINE
-void SparkLibraryEntrySetPermanent(SparkLibraryEntry *entry, BOOL flag) {
+void SparkLibraryEntrySetPersistent(SparkLibraryEntry *entry, BOOL flag) {
   if (flag)
-    entry->flags |= kSparkEntryPermanent;
+    entry->flags |= kSparkEntryPersistent;
   else
-    entry->flags &= ~kSparkEntryPermanent;
+    entry->flags &= ~kSparkEntryPersistent;
 }
 
 void SparkLibraryEntryInitFlags(SparkLibraryEntry *lentry, SparkEntry *entry) {
@@ -63,8 +63,8 @@ void SparkLibraryEntryInitFlags(SparkLibraryEntry *lentry, SparkEntry *entry) {
   SparkAction *action = [entry action];
   NSCAssert1(action, @"Invalid entry: %@", entry);
   SparkLibraryEntrySetEnabled(lentry, [entry isEnabled]);
-  /* Set permanent status */
-  SparkLibraryEntrySetPermanent(lentry, [action isPermanent]);
+  /* Set persistent status */
+  SparkLibraryEntrySetPersistent(lentry, [action isPersistent]);
   /* Check plugin status */
   SparkPlugIn *plugin = [[SparkActionLoader sharedLoader] plugInForAction:action];
   SparkLibraryEntrySetPlugged(lentry, plugin ? [plugin isEnabled] : YES);
@@ -470,9 +470,9 @@ typedef struct {
       if (SparkLibraryEntryIsOverwrite(entry))
         [[triggers objectWithUID:entry->trigger] setHasManyAction:YES];
       
-      /* Set permanent */
-      if ([action isPermanent])
-        SparkLibraryEntrySetPermanent(entry, YES);
+      /* Set persistent */
+      if ([action isPersistent])
+        SparkLibraryEntrySetPersistent(entry, YES);
       
       /* Check if plugin is enabled */
       SparkPlugIn *plugin = [loader plugInForAction:action];
@@ -506,8 +506,8 @@ typedef struct {
       fprintf(stderr, "disabled ");
     if (kSparkEntryUnplugged & entry->flags)
       fprintf(stderr, "unplugged ");
-    if (kSparkEntryPermanent & entry->flags)
-      fprintf(stderr, "permanent ");
+    if (kSparkEntryPersistent & entry->flags)
+      fprintf(stderr, "persistent ");
     fprintf(stderr, "\n");
       
     SparkAction *action = [[library actionSet] objectWithUID:entry->action];

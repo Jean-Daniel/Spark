@@ -10,9 +10,8 @@
 
 #import "ITunesInfo.h"
 
-SPARK_PRIVATE
-NSString * const kiTunesActionBundleIdentifier;
-#define kiTunesActionBundle		[NSBundle bundleWithIdentifier:kiTunesActionBundleIdentifier]
+#define kiTunesActionBundleIdentifier @"org.shadowlab.spark.action.itunes"
+#define kiTunesActionBundle		      [NSBundle bundleWithIdentifier:kiTunesActionBundleIdentifier]
 
 typedef enum {
   kiTunesLaunch        = 'Laun', /* 1281455470 */

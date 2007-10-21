@@ -128,9 +128,17 @@ SPARK_CLASS_EXPORT
    */
 - (NSTimeInterval)repeatInterval;
 
+/* return YES if this action is enabled for the current front application */
 - (BOOL)isActive;
 
 - (BOOL)isRegistred;
+
+/*!
+  @method
+ @abstract You should not call this method directly.
+ @discussion Subclasses can override this method to be notified about registration status change.
+ Subclasses should call super in their implementation
+*/
 - (void)setRegistred:(BOOL)flag;
 
 @end

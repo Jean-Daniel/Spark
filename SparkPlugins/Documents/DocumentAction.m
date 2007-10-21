@@ -24,8 +24,6 @@ static NSString * const kDocumentActionAliasKey = @"DocumentAlias";
 /* NSCoding only */
 static NSString * const kDocumentActionApplicationKey = @"DocumentApplication";
 
-NSString * const kDocumentActionBundleIdentifier = @"org.shadowlab.spark.document";
-
 @implementation DocumentAction
 
 #pragma mark Protocols Implementation

@@ -31,10 +31,8 @@ typedef enum {
   kSystemBrightnessDown  = 'BrDo', /* 1114784879 */  
 } SystemActionType;
 
-SK_PRIVATE
-NSString * const kSystemActionBundleIdentifier;
-
-#define kSystemActionBundle		[NSBundle bundleWithIdentifier:kSystemActionBundleIdentifier]
+#define kSystemActionBundleIdentifier @"org.shadowlab.spark.action.system"
+#define kSystemActionBundle		      [NSBundle bundleWithIdentifier:kSystemActionBundleIdentifier]
 
 @interface SystemAction : SparkAction <NSCoding, NSCopying> {
   SystemActionType sa_action;

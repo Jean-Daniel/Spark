@@ -24,8 +24,6 @@ static NSString* const kITunesVisualKey = @"iTunesVisual";
 static NSString* const kITunesPlaylistKey = @"iTunesPlaylist";
 static NSString* const kITunesPlaylistIDKey = @"iTunesPlaylistID";
 
-NSString * const kiTunesActionBundleIdentifier = @"org.shadowlab.spark.iTunes";
-
 static const iTunesAction _kActionsMap[] = {
   kiTunesLaunch,
   kiTunesQuit,

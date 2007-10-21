@@ -27,9 +27,6 @@ kFastUserSwitcherPath = @"/System/Library/CoreServices/Menu Extras/User.menu/Con
 static NSString * const 
 kScreenSaverEngine = @"/System/Library/Frameworks/ScreenSaver.framework/Resources/ScreenSaverEngine.app/Contents/MacOS/ScreenSaverEngine";
 
-NSString * const
-kSystemActionBundleIdentifier = @"org.shadowlab.spark.system";
-
 static 
 void SystemFastLogOut(void);
 static 

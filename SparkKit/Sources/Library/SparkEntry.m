@@ -10,6 +10,7 @@
 #import <SparkKit/SparkAction.h>
 #import <SparkKit/SparkHotKey.h>
 #import <SparkKit/SparkLibrary.h>
+#import <SparkKit/SparkActionLoader.h>
 
 #import <ShadowKit/SKSerialization.h>
 #import <ShadowKit/SKAppKitExtensions.h>
@@ -143,14 +144,19 @@ NSImage *SparkEntryDefaultIcon() {
 - (id)externalRepresentation {
   NSMutableDictionary *plist = [NSMutableDictionary dictionary];
   [plist setObject:SKUInt(0) forKey:@"version"];
-  NSDictionary *dict = SKSerializeObject(sp_action, NULL);
+  NSDictionary *dict = [sp_action externalRepresentation];
   if (dict) {
     [plist setObject:dict forKey:@"action"];
+    NSString *type = [[[SparkActionLoader sharedLoader] plugInForAction:sp_action] identifier];
+    if (type)
+      [plist setObject:type forKey:@"action-type"];
     
     /* Serialize Trigger */
     id trigger = [sp_trigger externalRepresentation];
-    if (trigger)
+    if (trigger) {
       [plist setObject:trigger forKey:@"trigger"];
+      [plist setObject:@"org.shadowlab.spark.trigger.hotkey" forKey:@"trigger-type"];
+    }
   }
   return plist;
 }

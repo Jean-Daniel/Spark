@@ -11,6 +11,8 @@
 #import <SparkKit/SparkLibrary.h>
 
 #import <ShadowKit/SKAlias.h>
+#import <ShadowKit/SKFunctions.h>
+#import <ShadowKit/SKLSFunctions.h>
 #import <ShadowKit/SKApplication.h>
 #import <ShadowKit/SKProcessFunctions.h>
 #import <ShadowKit/SKAppKitExtensions.h>
@@ -212,7 +214,7 @@ NSString * const kSKApplicationIdentifier = @"SKApplicationIdentifier";
       type = [[plist objectForKey:@"IDType"] intValue];
     } else {
       identifier = [plist objectForKey:kSKApplicationIdentifier];
-      type = [[plist objectForKey:kSKApplicationIdType] intValue];
+      type = SKIntegerValue([plist objectForKey:kSKApplicationIdType]);
     }
     
     [self setIdentifier:identifier type:type];
@@ -226,7 +228,7 @@ NSString * const kSKApplicationIdentifier = @"SKApplicationIdentifier";
   if ([self identifier]) {
     if ([self name])
       [plist setObject:[self name] forKey:@"SKApplicationName"];
-    [plist setObject:SKInt([self idType]) forKey:kSKApplicationIdType];
+    [plist setObject:SKInteger([self idType]) forKey:kSKApplicationIdType];
     [plist setObject:[self identifier] forKey:kSKApplicationIdentifier];
   }
   return YES;
@@ -308,3 +310,65 @@ NSString * const kSKApplicationIdentifier = @"SKApplicationIdentifier";
 }
 
 @end
+
+@implementation SparkApplication (SparkExport)
+
+- (id)initFromExternalRepresentation:(id)rep {
+  SKApplicationIdentifier aid = kSKApplicationBundleIdentifier;
+  NSString *value = [rep objectForKey:@"identifier"];
+  if (!value) {
+    value = [rep objectForKey:@"signature"];
+    aid = kSKApplicationOSType;
+  }
+  if (!value) {
+    [self release];
+    return nil;
+  } 
+  SKApplication *app = [SKApplication applicationWithName:nil identifier:value idType:aid];
+  if (app) {
+    NSString *name = [app name];
+    if (!name) name = [rep objectForKey:@"name"];
+    
+    if (self = [super initWithName:name icon:nil]) {
+      sp_application = [app retain];
+    }
+  }
+  return self;
+}
+
+- (id)externalRepresentation {
+  NSMutableDictionary *plist = [NSMutableDictionary dictionary];
+  
+  SKApplication *app = [self application];
+  NSString *path = [app path];
+  switch ([app idType]) {
+    case kSKApplicationOSType:
+      [plist setObject:[app identifier] forKey:@"signature"];
+      if (path) {
+        NSString *bundle = (id)SKLSCopyBundleIdentifierForPath((CFStringRef)path);
+        if (bundle) {
+          [plist setObject:bundle forKey:@"identifier"];
+          [bundle release];
+        }
+      }
+      break;
+    case kSKApplicationBundleIdentifier:
+      [plist setObject:[app identifier] forKey:@"identifier"];
+      if (path) {
+        OSType creator = SKLSGetSignatureForPath((CFStringRef)path);
+        if (creator && creator != kUnknownType)
+          [plist setObject:SKStringForOSType(creator) forKey:@"signature"];
+      }
+      break;
+    case kSKApplicationUndefinedType:
+      plist = nil;
+      break;
+  }  
+  if (plist && [self name]) {
+    [plist setObject:[self name] forKey:@"name"];
+  }
+  return plist;
+}
+
+@end
+

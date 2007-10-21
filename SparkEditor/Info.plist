@@ -127,6 +127,8 @@
 	<string>SparkEditor</string>
 	<key>OSAScriptingDefinition</key>
 	<string>SparkSuite.sdef</string>
+	<key>SUpdaterAnchorCertificate</key>
+	<string>Shadow Lab</string>
 	<key>UTExportedTypeDeclarations</key>
 	<array>
 		<dict>
@@ -181,7 +183,7 @@
 			<string>org.shadowlab.spark.action</string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
-        <key>com.apple.ostype</key>
+				<key>com.apple.ostype</key>
 				<string>Spac</string>
 				<key>public.filename-extension</key>
 				<string>spact</string>

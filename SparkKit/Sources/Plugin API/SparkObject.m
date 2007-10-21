@@ -75,7 +75,7 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
     NSNumber *value = [plist objectForKey:kSparkObjectUIDKey];
     if (!value && compat)
       value = [plist objectForKey:@"UID"];
-    [self setUID:value ? [value unsignedIntValue] : 0];
+    [self setUID:value ? SKUIntegerValue(value) : 0];
   }
   return self;
 }
@@ -89,7 +89,7 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
 }
 
 - (BOOL)serialize:(NSMutableDictionary *)plist {
-  [plist setObject:SKUInt(sp_uid) forKey:kSparkObjectUIDKey];
+  [plist setObject:SKUInteger(sp_uid) forKey:kSparkObjectUIDKey];
   if (sp_name)
     [plist setObject:sp_name forKey:kSparkObjectNameKey];
   /* Compatibility */
@@ -156,17 +156,7 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
 
 - (NSString *)description {
   return [NSString stringWithFormat:@"<%@ %p> {uid:%u name:%@}",
-    [self class], self,
-    sp_uid, sp_name];
-}
-
-#pragma mark -
-#pragma mark Public Methods
-- (SparkUID)uid {
-  return sp_uid;
-}
-- (void)setUID:(SparkUID)uid {
-  sp_uid = uid;
+    [self class], self, sp_uid, sp_name];
 }
 
 - (NSUInteger)hash {
@@ -181,7 +171,7 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
 }
 
 #pragma mark -
-#pragma mark Accessors
+#pragma mark Icon
 - (NSImage *)icon {
   if (!sp_icon && [self shouldSaveIcon]) {
     sp_icon = [[[self library] iconManager] iconForObject:self];
@@ -214,6 +204,13 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
 }
 
 #pragma mark -
+- (SparkUID)uid {
+  return sp_uid;
+}
+- (void)setUID:(SparkUID)uid {
+  sp_uid = uid;
+}
+
 - (NSString *)name {
   return sp_name;
 }
@@ -227,6 +224,21 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
 
 - (void)setLibrary:(SparkLibrary *)aLibrary {
   sp_library = aLibrary;
+}
+
+@end
+
+@implementation SparkObject (SparkExport)
+
+- (id)initFromExternalRepresentation:(NSDictionary *)rep {
+  if (self = [super init]) {
+    [self setName:[rep objectForKey:@"name"]];
+  }
+  return self;
+}
+
+- (NSMutableDictionary *)externalRepresentation {
+  return [NSMutableDictionary dictionaryWithObjectsAndKeys:[self name], @"name", nil];
 }
 
 @end

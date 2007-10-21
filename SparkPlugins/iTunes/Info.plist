@@ -6,31 +6,31 @@
 	<string>English</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
-    <key>CFBundleName</key>
-	<string>${PRODUCT_NAME}</string>
 	<key>CFBundleIconFile</key>
 	<string>iTunesAction</string>
 	<key>CFBundleIdentifier</key>
-	<string>org.shadowlab.spark.iTunes</string>
+	<string>org.shadowlab.spark.action.itunes</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>${PRODUCT_NAME}</string>
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>3.0b4</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>${CURRENT_PROJECT_VERSION}</string>
-    <key>CFBundleShortVersionString</key>
-    <string>3.0b4</string>
 	<key>NSMainNibFile</key>
 	<string>iTunesPlugin</string>
 	<key>NSPrincipalClass</key>
 	<string>ITunesActionPlugin</string>
 	<key>SparkActionClass</key>
 	<string>ITunesAction</string>
+	<key>SparkHelpFile</key>
+	<string>iTunesHelp</string>
 	<key>SparkPluginIcon</key>
 	<string>iTunesIcon</string>
-    <key>SparkHelpFile</key>
-    <string>iTunesHelp</string>
 </dict>
 </plist>

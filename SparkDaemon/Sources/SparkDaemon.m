@@ -340,7 +340,7 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
   NSEnumerator *triggers = [[sd_library triggerSet] objectEnumerator];
   while (trigger = [triggers nextObject]) {
     @try {
-      if ([trigger isRegistred] && ![manager containsPermanentEntryForTrigger:[trigger uid]]) {
+      if ([trigger isRegistred] && ![manager containsPersistentEntryForTrigger:[trigger uid]]) {
         [trigger setRegistred:NO];
       }
     } @catch (id exception) {
@@ -376,9 +376,9 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
     if (!action) {
       action = [[sd_library entryManager] actionForTrigger:[trigger uid] application:kSparkApplicationSystemUID isActive:&status];
     }
-    /* If daemon is disabled, only permanent action are performed */
+    /* If daemon is disabled, only persistent action are performed */
     if (action) {
-      if ([self isEnabled] || [action isPermanent]) {
+      if ([self isEnabled] || [action isPersistent]) {
         [trigger willTriggerAction:status ? action : nil];
         /* Action exists and is enabled */
         if (status) {

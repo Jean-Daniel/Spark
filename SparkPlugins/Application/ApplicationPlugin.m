@@ -13,8 +13,6 @@
 #import <ShadowKit/SKImageUtils.h>
 #import <ShadowKit/SKAppKitExtensions.h>
 
-NSString * const kApplicationActionBundleIdentifier = @"org.shadowlab.spark.application";
-
 @implementation ApplicationPlugin
 
 - (void)dealloc {

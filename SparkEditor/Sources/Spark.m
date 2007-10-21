@@ -513,6 +513,8 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
   SEEntryCache *cache = [doc cache];
   SESparkEntrySet *entries = [cache entries];
   
+  DLog(@"%@", [[doc application] externalRepresentation]);
+  
   SparkEntry *entry;
   NSEnumerator *iter = [entries entryEnumerator];
   while (entry = [iter nextObject]) {

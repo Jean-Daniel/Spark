@@ -21,7 +21,7 @@ enum {
   kSparkEntryEnabled = 1 << 0,
   /* Volatile flags */
   kSparkEntryUnplugged = 1 << 16,
-  kSparkEntryPermanent = 1 << 17,
+  kSparkEntryPersistent = 1 << 17,
   kSparkPersistentFlagsMask = 0xffff,
 };
 
@@ -69,8 +69,8 @@ BOOL SparkLibraryEntryIsPlugged(const SparkLibraryEntry *entry) {
 }
 
 SK_INLINE
-BOOL SparkLibraryEntryIsPermanent(const SparkLibraryEntry *entry) {
-  return (entry->flags & kSparkEntryPermanent) != 0;
+BOOL SparkLibraryEntryIsPersistent(const SparkLibraryEntry *entry) {
+  return (entry->flags & kSparkEntryPersistent) != 0;
 }
 
 SK_INLINE

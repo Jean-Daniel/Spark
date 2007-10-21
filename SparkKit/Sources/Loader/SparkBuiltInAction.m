@@ -117,7 +117,7 @@ NSImage *SparkDaemonStatusIcon(BOOL status) {
 }
 
 #pragma mark -
-- (BOOL)isPermanent {
+- (BOOL)isPersistent {
   return kSparkSDActionSwitchStatus == sp_action;
 }
 

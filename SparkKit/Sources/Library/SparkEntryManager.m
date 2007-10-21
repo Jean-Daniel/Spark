@@ -262,11 +262,11 @@ NSString * const SparkEntryManagerDidChangeEntryEnabledNotification = @"SparkEnt
   }
   return NO;
 }
-- (BOOL)containsPermanentEntryForTrigger:(SparkUID)aTrigger {
+- (BOOL)containsPersistentEntryForTrigger:(SparkUID)aTrigger {
   CFIndex count = CFArrayGetCount(sp_entries);
   while (count-- > 0) {
     const SparkLibraryEntry *entry = CFArrayGetValueAtIndex(sp_entries, count);
-    if ((entry->trigger == aTrigger) && SparkLibraryEntryIsPermanent(entry)) {
+    if ((entry->trigger == aTrigger) && SparkLibraryEntryIsPersistent(entry)) {
       return YES;
     }
   }

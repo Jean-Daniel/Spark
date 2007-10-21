@@ -131,6 +131,7 @@
 		98DA320F0A8AF6F8009EC42C /* iTunesPlugin.nib in Resources */ = {isa = PBXBuildFile; fileRef = 98DA32090A8AF6F8009EC42C /* iTunesPlugin.nib */; };
 		98DAB9850A90F4E9001F3125 /* SystemPlugin.nib in Resources */ = {isa = PBXBuildFile; fileRef = 98DAB97F0A90F4E9001F3125 /* SystemPlugin.nib */; };
 		98DBCFC20AB421DF00FF47C8 /* ITunesAESuite.c in Sources */ = {isa = PBXBuildFile; fileRef = 98E6A94C06063852000CCBE1 /* ITunesAESuite.c */; };
+		98DBE0150CCA2AC500BD3B7F /* TARecordImage.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98DBE0140CCA2AC400BD3B7F /* TARecordImage.tiff */; };
 		98DD5E380A91CFD600FB5814 /* DocumentPlugin.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98DD5E370A91CFD600FB5814 /* DocumentPlugin.tiff */; };
 		98DE6FE30B978FEC0090AD9A /* SysBrightness.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 98DE6FE20B978FEC0090AD9A /* SysBrightness.pdf */; };
 		98DEF22D0A4E786700E49F89 /* iTunesInfo.nib in Resources */ = {isa = PBXBuildFile; fileRef = 98DEF22C0A4E786700E49F89 /* iTunesInfo.nib */; };
@@ -362,7 +363,7 @@
 		98789CAE0AB48D5A00C35052 /* ITunesInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITunesInfo.h; sourceTree = "<group>"; };
 		98789CB20AB48D8200C35052 /* ITunesInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ITunesInfo.m; sourceTree = "<group>"; };
 		98789DC40AB4A0D900C35052 /* Simulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Simulator.m; sourceTree = "<group>"; };
-		98789DD20AB4A10D00C35052 /* Simulator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Simulator.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		98789DD20AB4A10D00C35052 /* Simulator.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Simulator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		98789DDF0AB4A1D300C35052 /* MainMenu.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = MainMenu.nib; sourceTree = "<group>"; };
 		98789DE80AB4A1EE00C35052 /* Simulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Simulator.h; sourceTree = "<group>"; };
 		987920790AFCC74F004EA7B5 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Resources/English.lproj/AppleScriptPlugin.nib; sourceTree = "<group>"; };
@@ -387,6 +388,7 @@
 		98D8E82F0B6EB565004C2810 /* iTMusic.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = iTMusic.tiff; sourceTree = "<group>"; };
 		98DA320A0A8AF6F8009EC42C /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Resources/English.lproj/iTunesPlugin.nib; sourceTree = "<group>"; };
 		98DAB9800A90F4E9001F3125 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Resources/English.lproj/SystemPlugin.nib; sourceTree = "<group>"; };
+		98DBE0140CCA2AC400BD3B7F /* TARecordImage.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = TARecordImage.tiff; sourceTree = "<group>"; };
 		98DD5E370A91CFD600FB5814 /* DocumentPlugin.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = DocumentPlugin.tiff; sourceTree = "<group>"; };
 		98DE6FE20B978FEC0090AD9A /* SysBrightness.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = SysBrightness.pdf; sourceTree = "<group>"; };
 		98DEF22C0A4E786700E49F89 /* iTunesInfo.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = iTunesInfo.nib; path = Resources/iTunesInfo.nib; sourceTree = "<group>"; };
@@ -689,7 +691,6 @@
 				9888CE9A0B0243AA00B81BDB /* TextActionPlugIn.m */,
 				9888CE2D0B02418500B81BDB /* Info.plist */,
 				9888CE400B02425700B81BDB /* InfoPlist.strings */,
-				9888CE570B0242C700B81BDB /* TextPlugin.nib */,
 				9888CE3D0B02420B00B81BDB /* Resources */,
 			);
 			path = Text;
@@ -699,9 +700,11 @@
 			isa = PBXGroup;
 			children = (
 				98D7483F0BB5349600D6AB54 /* Help */,
+				9888CE570B0242C700B81BDB /* TextPlugin.nib */,
 				9888CE3E0B02423600B81BDB /* TextIcon.tiff */,
-				98D7483D0BB5349600D6AB54 /* TextActionHelp.html */,
+				98DBE0140CCA2AC400BD3B7F /* TARecordImage.tiff */,
 				1B17C2210C9FC60B005BEA47 /* Localizable.strings */,
+				98D7483D0BB5349600D6AB54 /* TextActionHelp.html */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -1316,6 +1319,7 @@
 				98D748480BB5349600D6AB54 /* TextActionHelp.html in Resources */,
 				98D748490BB5349600D6AB54 /* Help in Resources */,
 				1B17C2230C9FC60B005BEA47 /* Localizable.strings in Resources */,
+				98DBE0150CCA2AC500BD3B7F /* TARecordImage.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1580,7 +1584,7 @@
 				9888CE580B0242C700B81BDB /* English */,
 			);
 			name = TextPlugin.nib;
-			path = ..;
+			path = ../..;
 			sourceTree = "<group>";
 		};
 		98BA1A090A583493004914E9 /* Localizable.strings */ = {

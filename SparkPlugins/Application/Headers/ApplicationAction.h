@@ -8,9 +8,7 @@
 
 #import <SparkKit/SparkPluginAPI.h>
 
-SPARK_PRIVATE
-NSString * const kApplicationActionBundleIdentifier;
-
+#define kApplicationActionBundleIdentifier  @"org.shadowlab.spark.action.application"
 #define kApplicationActionBundle			[NSBundle bundleWithIdentifier:kApplicationActionBundleIdentifier]
 
 enum {

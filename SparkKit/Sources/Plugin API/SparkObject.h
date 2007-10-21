@@ -119,7 +119,7 @@ SPARK_CLASS_EXPORT
 - (BOOL)hasIcon;
   /*!
   @method
-   @abstract   Allows to not save the icon in SparkLibrary.
+   @abstract  Returns NO to prevent Spark to save this object icon.
    @result    Returns YES by default.
    */
 - (BOOL)shouldSaveIcon;
@@ -157,4 +157,10 @@ SPARK_CLASS_EXPORT
    */
 - (void)setLibrary:(SparkLibrary *)aLibrary;
 
+@end
+
+/* Human comprehensible representation */
+@interface SparkObject (SparkExport)
+- (id)initFromExternalRepresentation:(NSDictionary *)rep;
+- (NSMutableDictionary *)externalRepresentation;
 @end

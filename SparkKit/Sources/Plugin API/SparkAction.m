@@ -14,6 +14,7 @@
 #import <SparkKit/SparkEntryManager.h>
 #import <SparkKit/SparkActionLoader.h>
 
+#import <ShadowKit/SKFunctions.h>
 #import <ShadowKit/SKSerialization.h>
 
 static NSString * const kSparkActionFlagsKey = @"SAFlags";
@@ -76,7 +77,7 @@ static SparkTrigger *sTrigger;
 - (BOOL)serialize:(NSMutableDictionary *)plist {
   [super serialize:plist];
   if ([self version])
-    [plist setObject:SKInt([self version]) forKey:kSparkActionVersionKey];
+    [plist setObject:SKInteger([self version]) forKey:kSparkActionVersionKey];
   
   if (nil != sp_description)
     [plist setObject:sp_description forKey:kSparkActionDescriptionKey];
@@ -91,7 +92,7 @@ static SparkTrigger *sTrigger;
     NSNumber *version = [plist objectForKey:kSparkActionVersionKey];
     if (!version)
       version = [plist objectForKey:@"Version"];
-    [self setVersion:(version) ? [version intValue] : 0];
+    [self setVersion:(version) ? SKIntegerValue(version) : 0];
     
     NSString *description = [plist objectForKey:kSparkActionDescriptionKey];
     if (!description)
@@ -99,10 +100,7 @@ static SparkTrigger *sTrigger;
     [self setActionDescription:description];
     
     /* Update categorie */
-    SparkPlugIn *plugin = [[SparkActionLoader sharedLoader] pluginForClass:[self class]];
-    if (plugin && [plugin name]) {
-      [self setCategorie:[plugin name]];
-    } else {
+    if (![self categorie]) {
       [self setCategorie:[plist objectForKey:kSparkActionCategorieKey]];
     }
   }
@@ -114,7 +112,7 @@ static SparkTrigger *sTrigger;
 #pragma mark Init & Dealloc Methods
 - (id)init {
   if (self= [super init]) {
-    id plugin = [[SparkActionLoader sharedLoader] plugInForAction:self];
+    SparkPlugIn *plugin = [[SparkActionLoader sharedLoader] plugInForAction:self];
     if (plugin) {
       [self setCategorie:[plugin name]];
     }
@@ -200,6 +198,40 @@ static SparkTrigger *sTrigger;
 @end
 
 #pragma mark -
+@implementation SparkAction (SparkExport)
+
+- (id)initFromExternalRepresentation:(NSDictionary *)rep {
+  if (SKImplementsSelector(self, _cmd)) {
+    if (self = [super initFromExternalRepresentation:rep]) {
+      
+    }
+    return self;
+  } else {
+    return [self initWithSerializedValues:rep];
+  }
+}
+
+- (NSMutableDictionary *)externalRepresentation {
+  if (SKImplementsSelector(self, _cmd)) {
+    NSMutableDictionary *plist = [super externalRepresentation];
+    if (plist) {
+      NSString *value = [self categorie];
+      if (value)
+        [plist setObject:value forKey:@"categorie"];
+    
+      value = [self actionDescription];
+      if (value)
+        [plist setObject:value forKey:@"description"];
+    }
+    return plist;
+  } else {
+    return [[SKSerializeObject(self, NULL) mutableCopy] autorelease];
+  }
+}
+
+@end
+
+#pragma mark -
 @implementation SparkAction (Private)
 
 + (void)setCurrentTrigger:(SparkTrigger *)aTrigger {
@@ -226,7 +258,7 @@ static SparkTrigger *sTrigger;
   SKSetFlag(sp_saFlags.invalid, flag);
 }
 
-- (BOOL)isPermanent {
+- (BOOL)isPersistent {
   return NO;
 }
 

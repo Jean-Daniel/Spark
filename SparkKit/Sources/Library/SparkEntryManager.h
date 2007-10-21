@@ -67,7 +67,7 @@ SK_CLASS_EXPORT
 
 - (BOOL)containsActiveEntryForTrigger:(SparkUID)aTrigger;
 - (BOOL)containsOverwriteEntryForTrigger:(SparkUID)aTrigger;
-- (BOOL)containsPermanentEntryForTrigger:(SparkUID)aTrigger;
+- (BOOL)containsPersistentEntryForTrigger:(SparkUID)aTrigger;
 
 - (BOOL)containsEntryForTrigger:(SparkUID)aTrigger application:(SparkUID)anApplication;
 - (SparkEntry *)entryForTrigger:(SparkUID)aTrigger application:(SparkUID)anApplication;

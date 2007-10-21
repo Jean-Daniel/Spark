@@ -55,8 +55,3 @@ SK_CLASS_EXPORT
 /* Convenient setters */
 - (void)setIsARepeat:(BOOL)flag;
 @end
-
-@interface SparkTrigger (SparkExport)
-- (id)initFromExternalRepresentation:(id)rep;
-- (id)externalRepresentation;
-@end

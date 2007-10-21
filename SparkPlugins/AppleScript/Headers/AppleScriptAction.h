@@ -8,9 +8,7 @@
 
 #import <SparkKit/SparkPluginAPI.h>
 
-SPARK_PRIVATE
-NSString * const kASActionBundleIdentifier;
-
+#define kASActionBundleIdentifier   @"org.shadowlab.spark.action.applescript"
 #define AppleScriptActionBundle		[NSBundle bundleWithIdentifier:kASActionBundleIdentifier]
 
 @class SKAlias, OSAScript;
