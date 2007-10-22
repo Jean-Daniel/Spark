@@ -6,23 +6,14 @@
 //  Copyright 2007 __MyCompanyName__. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+#import <SUpdaterKit/SUpdater.h>
 #import <ShadowKit/SKSingleton.h>
 
-@class SKUpdater, SKProgressPanel;
-@interface SEUpdater : NSObject {
+@interface SEUpdater : SUpdater {
   @private
-  bool se_search;
-  UInt64 se_version;
-  NSString *se_size;
-  SKUpdater *se_updater;
-  SKProgressPanel *se_progress;
+  IBOutlet NSProgressIndicator *uiProgress;
 }
 
-- (void)search;
-- (void)runInBackground;
-
-- (void)showProgressPanel;
 
 @end
 

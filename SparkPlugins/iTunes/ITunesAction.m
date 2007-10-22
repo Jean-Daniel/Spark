@@ -406,6 +406,9 @@ static ITunesVisual sDefaultVisual = {delay: -1};
         }
         if (ia_iaFlags.autoplay)
           iTunesSendCommand(kiTunesCommandPlay);
+      } else if (!ia_iaFlags.background) {
+        /* if not launch in background, bring to front */
+        SetFrontProcess(&psn);
       }
     }
       break;

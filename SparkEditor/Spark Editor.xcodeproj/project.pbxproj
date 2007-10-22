@@ -30,12 +30,23 @@
 		1B1358FC0CA11C2000766572 /* pluginpref.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B1358FB0CA11C2000766572 /* pluginpref.tiff */; };
 		1B1775510CC4BC43009D351A /* SUpdaterInstall.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B17754F0CC4BC43009D351A /* SUpdaterInstall.m */; };
 		1B1775520CC4BC43009D351A /* SUpdaterInstall.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B1775500CC4BC43009D351A /* SUpdaterInstall.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1B17758E0CC4BC75009D351A /* SecurityFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B17758D0CC4BC75009D351A /* SecurityFoundation.framework */; };
 		1B1775970CC4BC83009D351A /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B1775960CC4BC83009D351A /* Security.framework */; };
 		1B37438F0B6E2B94002F18C8 /* SEEntryList.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B3743880B6E2B79002F18C8 /* SEEntryList.m */; };
 		1B3743900B6E2B96002F18C8 /* SEEntryList.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B37438B0B6E2B84002F18C8 /* SEEntryList.h */; };
 		1B55EAE40B8625ED000E1760 /* SparkAware.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B55EAE30B8625ED000E1760 /* SparkAware.tiff */; };
 		1B5F396E0B5D451700879DF5 /* SETriggersController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B580B19A59700C8425C /* SETriggersController.m */; };
+		1B7641CE0CCC83A70035244A /* SUpdaterAuthorization.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B7641CC0CCC83A70035244A /* SUpdaterAuthorization.m */; };
+		1B7641CF0CCC83A70035244A /* SUpdaterAuthorization.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B7641CD0CCC83A70035244A /* SUpdaterAuthorization.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1B8077170CCD1B2500DC56CE /* SUpdaterRestart.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B8077150CCD1B2500DC56CE /* SUpdaterRestart.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1B8077180CCD1B2500DC56CE /* SUpdaterRestart.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B8077160CCD1B2500DC56CE /* SUpdaterRestart.m */; };
+		1B80772C0CCD1B9200DC56CE /* SEUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BBED2340C9FFCAD0050A7F8 /* SEUpdater.m */; };
+		1B80772D0CCD1B9500DC56CE /* SEUpdater.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BBED2330C9FFCAD0050A7F8 /* SEUpdater.h */; };
+		1B8077BE0CCD1E4000DC56CE /* SUpdaterKit.framework in Copy Framework */ = {isa = PBXBuildFile; fileRef = 988B8DA40CC26337006EA06D /* SUpdaterKit.framework */; };
+		1B8077D20CCD1E4600DC56CE /* SUpdaterKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 988B8DA40CC26337006EA06D /* SUpdaterKit.framework */; };
+		1B8077EA0CCD1EA000DC56CE /* SUpdaterVersionWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1B8077E60CCD1EA000DC56CE /* SUpdaterVersionWindow.nib */; };
+		1B8077EB0CCD1EA000DC56CE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1B8077E80CCD1EA000DC56CE /* InfoPlist.strings */; };
+		1B8078430CCD20FC00DC56CE /* srestart in Resources */ = {isa = PBXBuildFile; fileRef = 1B8078410CCD20FC00DC56CE /* srestart */; };
+		1B8078440CCD20FC00DC56CE /* suinstaller in Resources */ = {isa = PBXBuildFile; fileRef = 1B8078420CCD20FC00DC56CE /* suinstaller */; };
 		1BB11ABC0B931FAE00908925 /* SELibrary.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1BB11ABB0B931FAE00908925 /* SELibrary.tiff */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		9803A1420A9D01CB00B7DBBA /* SEFirstRun.nib in Resources */ = {isa = PBXBuildFile; fileRef = 9803A13C0A9D01CA00B7DBBA /* SEFirstRun.nib */; };
@@ -370,6 +381,7 @@
 				98EF83170864631B007BC81A /* SparkKit.framework in Copy Framework */,
 				98B45364097312D600BD0A82 /* ShadowKit.framework in Copy Framework */,
 				98F074730CC26EB4008CF066 /* SArchiveKit.framework in Copy Framework */,
+				1B8077BE0CCD1E4000DC56CE /* SUpdaterKit.framework in Copy Framework */,
 				98EF831808646321007BC81A /* HotKeyToolKit.framework in Copy Framework */,
 			);
 			name = "Copy Framework";
@@ -413,16 +425,23 @@
 		1B1359A10CA11FB400766572 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/SEUpdater.strings; sourceTree = "<group>"; };
 		1B17754F0CC4BC43009D351A /* SUpdaterInstall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SUpdaterInstall.m; sourceTree = "<group>"; };
 		1B1775500CC4BC43009D351A /* SUpdaterInstall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUpdaterInstall.h; sourceTree = "<group>"; };
-		1B17758D0CC4BC75009D351A /* SecurityFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SecurityFoundation.framework; path = /System/Library/Frameworks/SecurityFoundation.framework; sourceTree = "<absolute>"; };
 		1B1775960CC4BC83009D351A /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
 		1B3743880B6E2B79002F18C8 /* SEEntryList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEntryList.m; sourceTree = "<group>"; };
 		1B37438B0B6E2B84002F18C8 /* SEEntryList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEntryList.h; sourceTree = "<group>"; };
 		1B55EAE30B8625ED000E1760 /* SparkAware.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SparkAware.tiff; sourceTree = "<group>"; };
+		1B7641CC0CCC83A70035244A /* SUpdaterAuthorization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SUpdaterAuthorization.m; sourceTree = "<group>"; };
+		1B7641CD0CCC83A70035244A /* SUpdaterAuthorization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUpdaterAuthorization.h; sourceTree = "<group>"; };
 		1B7BBB400CBE236700484A9E /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
 		1B7BBB410CBE236700484A9E /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		1B7BBB420CBE236700484A9E /* Profile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Profile.xcconfig; sourceTree = "<group>"; };
 		1B7BBB430CBE236700484A9E /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		1B7BBB440CBE236700484A9E /* Universal.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Universal.xcconfig; sourceTree = "<group>"; };
+		1B8077150CCD1B2500DC56CE /* SUpdaterRestart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUpdaterRestart.h; sourceTree = "<group>"; };
+		1B8077160CCD1B2500DC56CE /* SUpdaterRestart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SUpdaterRestart.m; sourceTree = "<group>"; };
+		1B8077E70CCD1EA000DC56CE /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SUpdaterVersionWindow.nib; sourceTree = "<group>"; };
+		1B8077E90CCD1EA000DC56CE /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1B8078410CCD20FC00DC56CE /* srestart */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = srestart; path = "build/Universal Binary/srestart"; sourceTree = "<group>"; };
+		1B8078420CCD20FC00DC56CE /* suinstaller */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = suinstaller; path = "build/Universal Binary/suinstaller"; sourceTree = "<group>"; };
 		1BB11ABB0B931FAE00908925 /* SELibrary.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SELibrary.tiff; sourceTree = "<group>"; };
 		1BBED2330C9FFCAD0050A7F8 /* SEUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEUpdater.h; sourceTree = "<group>"; };
 		1BBED2340C9FFCAD0050A7F8 /* SEUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEUpdater.m; sourceTree = "<group>"; };
@@ -602,6 +621,7 @@
 				98EF831508646313007BC81A /* SparkKit.framework in Frameworks */,
 				9867589E096B3F4200BB8A25 /* ShadowKit.framework in Frameworks */,
 				98F074940CC26FA6008CF066 /* SArchiveKit.framework in Frameworks */,
+				1B8077D20CCD1E4600DC56CE /* SUpdaterKit.framework in Frameworks */,
 				98EF831608646316007BC81A /* HotKeyToolKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -615,7 +635,6 @@
 				988B8E060CC264CC006EA06D /* ShadowKit.framework in Frameworks */,
 				98F074530CC26D6A008CF066 /* SArchiveKit.framework in Frameworks */,
 				98F0746D0CC26E56008CF066 /* SecurityInterface.framework in Frameworks */,
-				1B17758E0CC4BC75009D351A /* SecurityFoundation.framework in Frameworks */,
 				1B1775970CC4BC83009D351A /* Security.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -629,7 +648,6 @@
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
 				98FF14DB05EACAE90005F402 /* WebKit.framework */,
 				1B1775960CC4BC83009D351A /* Security.framework */,
-				1B17758D0CC4BC75009D351A /* SecurityFoundation.framework */,
 				98F0746B0CC26E55008CF066 /* SecurityInterface.framework */,
 			);
 			name = "Linked Frameworks";
@@ -664,6 +682,17 @@
 			);
 			path = Configurations;
 			sourceTree = SHARED_CODE_DIR;
+		};
+		1B8077DF0CCD1E7700DC56CE /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				1B8078410CCD20FC00DC56CE /* srestart */,
+				1B8078420CCD20FC00DC56CE /* suinstaller */,
+				1B8077E80CCD1EA000DC56CE /* InfoPlist.strings */,
+				1B8077E60CCD1EA000DC56CE /* SUpdaterVersionWindow.nib */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
 		};
 		29B97314FDCFA39411CA2CEA /* Spark */ = {
 			isa = PBXGroup;
@@ -884,6 +913,7 @@
 			isa = PBXGroup;
 			children = (
 				988B8DB60CC263F4006EA06D /* Sources */,
+				1B8077DF0CCD1E7700DC56CE /* Resources */,
 			);
 			path = SUpdaterKit;
 			sourceTree = SHARED_CODE_DIR;
@@ -903,6 +933,8 @@
 				988B8DC00CC263F4006EA06D /* SPatchTypes.m */,
 				988B8DC10CC263F4006EA06D /* SUpdater.h */,
 				988B8DC20CC263F4006EA06D /* SUpdater.m */,
+				1B8077150CCD1B2500DC56CE /* SUpdaterRestart.h */,
+				1B8077160CCD1B2500DC56CE /* SUpdaterRestart.m */,
 				988B8DC30CC263F4006EA06D /* SUpdaterController.h */,
 				988B8DC40CC263F4006EA06D /* SUpdaterController.m */,
 				1B1775500CC4BC43009D351A /* SUpdaterInstall.h */,
@@ -924,6 +956,8 @@
 				988B8DD50CC263F5006EA06D /* SUpdaterVersionWindow.m */,
 				988B8DD60CC263F5006EA06D /* SURestarter.h */,
 				988B8DD70CC263F5006EA06D /* SURestarter.m */,
+				1B7641CD0CCC83A70035244A /* SUpdaterAuthorization.h */,
+				1B7641CC0CCC83A70035244A /* SUpdaterAuthorization.m */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -1150,6 +1184,7 @@
 				98ED2EF20B5D87FD002EAF85 /* SEEntryCache.h in Headers */,
 				1B3743900B6E2B96002F18C8 /* SEEntryList.h in Headers */,
 				988B8E970CC26784006EA06D /* SparkLibraryArchive.h in Headers */,
+				1B80772D0CCD1B9500DC56CE /* SEUpdater.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1174,6 +1209,8 @@
 				988B8DF50CC263F5006EA06D /* SUpdaterVersionWindow.h in Headers */,
 				988B8DF70CC263F5006EA06D /* SURestarter.h in Headers */,
 				1B1775520CC4BC43009D351A /* SUpdaterInstall.h in Headers */,
+				1B7641CF0CCC83A70035244A /* SUpdaterAuthorization.h in Headers */,
+				1B8077170CCD1B2500DC56CE /* SUpdaterRestart.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1452,6 +1489,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B8077EA0CCD1EA000DC56CE /* SUpdaterVersionWindow.nib in Resources */,
+				1B8077EB0CCD1EA000DC56CE /* InfoPlist.strings in Resources */,
+				1B8078430CCD20FC00DC56CE /* srestart in Resources */,
+				1B8078440CCD20FC00DC56CE /* suinstaller in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1517,6 +1558,7 @@
 				98ED2EEE0B5D87EF002EAF85 /* SEEntryCache.m in Sources */,
 				1B37438F0B6E2B94002F18C8 /* SEEntryList.m in Sources */,
 				988B8E960CC26784006EA06D /* SparkLibraryArchive.m in Sources */,
+				1B80772C0CCD1B9200DC56CE /* SEUpdater.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1540,6 +1582,8 @@
 				988B8DF60CC263F5006EA06D /* SUpdaterVersionWindow.m in Sources */,
 				988B8DF80CC263F5006EA06D /* SURestarter.m in Sources */,
 				1B1775510CC4BC43009D351A /* SUpdaterInstall.m in Sources */,
+				1B7641CE0CCC83A70035244A /* SUpdaterAuthorization.m in Sources */,
+				1B8077180CCD1B2500DC56CE /* SUpdaterRestart.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1590,6 +1634,22 @@
 				1B1359A10CA11FB400766572 /* English */,
 			);
 			name = SEUpdater.strings;
+			sourceTree = "<group>";
+		};
+		1B8077E60CCD1EA000DC56CE /* SUpdaterVersionWindow.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1B8077E70CCD1EA000DC56CE /* English */,
+			);
+			name = SUpdaterVersionWindow.nib;
+			sourceTree = "<group>";
+		};
+		1B8077E80CCD1EA000DC56CE /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1B8077E90CCD1EA000DC56CE /* English */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 		9803A13C0A9D01CA00B7DBBA /* SEFirstRun.nib */ = {

@@ -26,6 +26,8 @@
 #import <ShadowKit/SKFunctions.h>
 #import <ShadowKit/SKFSFunctions.h>
 
+#import <SUpdaterKit/SURestarter.h>
+
 #import <HotKeyToolKit/HotKeyToolKit.h>
 
 #import "SEUpdater.h"
@@ -86,8 +88,14 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
       [help setRegistred:YES];
       /* NOTE: do not release 'help': an hotkey is unregistred when deallocated */
     }
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didRestart:) name:SURestarterApplicationDidRestartNotification object:nil];
   }
   return self;
+}
+
+- (void)didRestart:(NSNotification *)aNotification {
+  NSRunAlertPanel([[NSString alloc] initWithData:[aNotification object] encoding:NSUTF8StringEncoding], @"", @"OK", nil, nil);
 }
 
 - (void)handleHelpEvent:(id)sender {
@@ -526,7 +534,10 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
 }
 
 - (IBAction)dumpLibrary:(id)sender {
-  SparkDumpEntries(SparkActiveLibrary());
+  SURestarter *restart = [[SURestarter alloc] initWithTargetPath:[[NSBundle mainBundle] bundlePath] error:nil]; 
+  [restart setData:[@"Je suis une merde!" dataUsingEncoding:NSUTF8StringEncoding]];
+  [NSApp terminate:nil];
+  //SparkDumpEntries(SparkActiveLibrary());
 //  NSMutableArray *library = [[NSMutableArray alloc] init];
 //  SELibraryDocument *doc = SEGetDocumentForLibrary(SparkActiveLibrary());
 //  SEEntryCache *cache = [doc cache];
