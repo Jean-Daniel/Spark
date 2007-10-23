@@ -535,7 +535,7 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
 
 - (IBAction)dumpLibrary:(id)sender {
   SURestarter *restart = [[SURestarter alloc] initWithTargetPath:[[NSBundle mainBundle] bundlePath] error:nil]; 
-  [restart setData:[@"Je suis une merde!" dataUsingEncoding:NSUTF8StringEncoding]];
+  [restart setData:[@"Super j'ai redemarre!" dataUsingEncoding:NSUTF8StringEncoding]];
   [NSApp terminate:nil];
   //SparkDumpEntries(SparkActiveLibrary());
 //  NSMutableArray *library = [[NSMutableArray alloc] init];

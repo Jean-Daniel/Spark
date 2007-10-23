@@ -25,11 +25,16 @@ NSString * const kSparkPrefSingleKeyMode;
 
 @interface SEPreferences : SKWindowController {
   @private
-  IBOutlet NSTabView *ibPanels;
-  IBOutlet NSOutlineView *ibPlugins;
+  IBOutlet NSTabView *uiPanels;
+  IBOutlet NSOutlineView *uiPlugins;
   IBOutlet NSObjectController *ibController;
+  /* update */
+  IBOutlet NSTextField *uiUpdateMsg;
+  IBOutlet NSTextField *uiUpdateStatus;
+  IBOutlet NSProgressIndicator *uiProgress;
   
   BOOL se_login;
+  BOOL se_update;
   NSMapTable *se_status;
   NSMutableArray *se_plugins;
 }

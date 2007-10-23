@@ -283,6 +283,8 @@ static SparkTrigger *sTrigger;
   return [[self values] objectForKey:kSparkActionCategorieKey];
 }
 //- (void)setCategorie:(NSString *)categorie {}
+- (BOOL)isRegistred { return NO; }
+- (BOOL)isPersistent { return NO; }
 
 - (NSString *)actionDescription {
   return NSLocalizedStringFromTableInBundle(@"Missing Plugin",

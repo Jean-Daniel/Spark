@@ -190,11 +190,11 @@ void *_SEPreferencesLoginItemThread(void *arg) {
     [NSImage imageNamed:@"user"], @"icon", nil];
   [se_plugins addObject:item];
   
-  [ibPlugins reloadData];
+  [uiPlugins reloadData];
   for (NSUInteger idx = 0; idx < [se_plugins count]; idx++) {
     item = [se_plugins objectAtIndex:idx];
     if ([[item objectForKey:@"plugins"] count])
-      [ibPlugins expandItem:item];
+      [uiPlugins expandItem:item];
   }
 }
 
@@ -226,6 +226,8 @@ void *_SEPreferencesLoginItemThread(void *arg) {
 - (IBAction)close:(id)sender {
   [self apply:sender];
   [super close:sender];
+  if (se_update)
+    [[SEUpdater sharedUpdater] cancel:nil];
 }
 
 #pragma mark -
@@ -265,7 +267,25 @@ void *_SEPreferencesLoginItemThread(void *arg) {
 
 #pragma mark Update
 - (IBAction)update:(id)sender {
-  [[SEUpdater sharedUpdater] start];
+  if (!se_update) {
+    se_update = YES;
+    [uiUpdateStatus setHidden:NO];
+    [uiProgress setIndeterminate:YES];
+    [uiProgress startAnimation:sender];
+    [[SEUpdater sharedUpdater] searchWithDelegate:self];
+  }
+}
+
+- (void)updater:(SEUpdater *)updater didSearchVersion:(BOOL)version error:(NSError *)anError {
+  [uiProgress stopAnimation:nil];
+  if (!version && !anError) {
+    [uiUpdateMsg setStringValue:@"Spark is Up-to-date."];
+  } else if (anError) {
+    DLog(@"Error: %@", anError);
+    [uiUpdateMsg setStringValue:@"Error occured while searching version."];
+  }
+  [uiUpdateStatus setHidden:YES];
+  se_update = NO;
 }
 
 #pragma mark -
@@ -328,7 +348,7 @@ void *_SEPreferencesLoginItemThread(void *arg) {
 
 #pragma mark Toolbar
 - (IBAction)changePanel:(id)sender {
-  [ibPanels selectTabViewItemAtIndex:[sender tag]];
+  [uiPanels selectTabViewItemAtIndex:[sender tag]];
 }
 
 - (NSToolbarItem *)toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSString *)itemIdentifier willBeInsertedIntoToolbar:(BOOL)flag {

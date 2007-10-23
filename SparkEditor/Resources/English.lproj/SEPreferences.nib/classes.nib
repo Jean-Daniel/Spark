@@ -7,8 +7,11 @@
             LANGUAGE = ObjC; 
             OUTLETS = {
                 ibController = NSObjectController; 
-                ibPanels = NSTabView; 
-                ibPlugins = NSOutlineView; 
+                uiPanels = NSTabView; 
+                uiPlugins = NSOutlineView; 
+                uiProgress = NSProgressIndicator; 
+                uiUpdateMsg = NSTextField; 
+                uiUpdateStatus = NSTextField; 
             }; 
             SUPERCLASS = SKWindowController; 
         }, 

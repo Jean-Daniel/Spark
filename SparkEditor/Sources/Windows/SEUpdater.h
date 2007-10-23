@@ -11,10 +11,18 @@
 
 @interface SEUpdater : SUpdater {
   @private
-  IBOutlet NSProgressIndicator *uiProgress;
+  id se_delegate;
+  bool se_pending;
 }
 
+- (void)searchWithDelegate:(id)delegate;
 
 @end
 
 SKSingletonInterface(SEUpdater, sharedUpdater);
+
+@interface NSObject (SEUpdaterDelegate)
+
+- (void)updater:(SEUpdater *)updater didSearchVersion:(BOOL)newVersion error:(NSError *)anError;
+
+@end
