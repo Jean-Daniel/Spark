@@ -28,25 +28,12 @@
 		1B1358710CA110DB00766572 /* advancedpref.icns in Resources */ = {isa = PBXBuildFile; fileRef = 1B13586F0CA110DB00766572 /* advancedpref.icns */; };
 		1B1358E90CA11B8800766572 /* updatepref.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B1358E80CA11B8800766572 /* updatepref.tiff */; };
 		1B1358FC0CA11C2000766572 /* pluginpref.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B1358FB0CA11C2000766572 /* pluginpref.tiff */; };
-		1B1775510CC4BC43009D351A /* SUpdaterInstall.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B17754F0CC4BC43009D351A /* SUpdaterInstall.m */; };
-		1B1775520CC4BC43009D351A /* SUpdaterInstall.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B1775500CC4BC43009D351A /* SUpdaterInstall.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1B1775970CC4BC83009D351A /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B1775960CC4BC83009D351A /* Security.framework */; };
-		1B29ADE40CCF76C900A1B045 /* surestarter in Resources */ = {isa = PBXBuildFile; fileRef = 1B29ADE30CCF76C900A1B045 /* surestarter */; };
 		1B37438F0B6E2B94002F18C8 /* SEEntryList.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B3743880B6E2B79002F18C8 /* SEEntryList.m */; };
 		1B3743900B6E2B96002F18C8 /* SEEntryList.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B37438B0B6E2B84002F18C8 /* SEEntryList.h */; };
 		1B55EAE40B8625ED000E1760 /* SparkAware.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B55EAE30B8625ED000E1760 /* SparkAware.tiff */; };
 		1B5F396E0B5D451700879DF5 /* SETriggersController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B580B19A59700C8425C /* SETriggersController.m */; };
-		1B7641CE0CCC83A70035244A /* SUpdaterAuthorization.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B7641CC0CCC83A70035244A /* SUpdaterAuthorization.m */; };
-		1B7641CF0CCC83A70035244A /* SUpdaterAuthorization.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B7641CD0CCC83A70035244A /* SUpdaterAuthorization.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1B8077170CCD1B2500DC56CE /* SUpdaterRestart.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B8077150CCD1B2500DC56CE /* SUpdaterRestart.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1B8077180CCD1B2500DC56CE /* SUpdaterRestart.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B8077160CCD1B2500DC56CE /* SUpdaterRestart.m */; };
 		1B80772C0CCD1B9200DC56CE /* SEUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BBED2340C9FFCAD0050A7F8 /* SEUpdater.m */; };
 		1B80772D0CCD1B9500DC56CE /* SEUpdater.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BBED2330C9FFCAD0050A7F8 /* SEUpdater.h */; };
-		1B8077BE0CCD1E4000DC56CE /* SUpdaterKit.framework in Copy Framework */ = {isa = PBXBuildFile; fileRef = 988B8DA40CC26337006EA06D /* SUpdaterKit.framework */; };
-		1B8077D20CCD1E4600DC56CE /* SUpdaterKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 988B8DA40CC26337006EA06D /* SUpdaterKit.framework */; };
-		1B8077EA0CCD1EA000DC56CE /* SUpdaterVersionWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1B8077E60CCD1EA000DC56CE /* SUpdaterVersionWindow.nib */; };
-		1B8077EB0CCD1EA000DC56CE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1B8077E80CCD1EA000DC56CE /* InfoPlist.strings */; };
-		1B8078440CCD20FC00DC56CE /* suinstaller in Resources */ = {isa = PBXBuildFile; fileRef = 1B8078420CCD20FC00DC56CE /* suinstaller */; };
 		1BB11ABC0B931FAE00908925 /* SELibrary.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1BB11ABB0B931FAE00908925 /* SELibrary.tiff */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		9803A1420A9D01CB00B7DBBA /* SEFirstRun.nib in Resources */ = {isa = PBXBuildFile; fileRef = 9803A13C0A9D01CA00B7DBBA /* SEFirstRun.nib */; };
@@ -83,40 +70,6 @@
 		988107F30AFFF9390010CDD5 /* badge-1&2.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 988107EF0AFFF9390010CDD5 /* badge-1&2.tiff */; };
 		988107F40AFFF9390010CDD5 /* badge-5.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 988107F00AFFF9390010CDD5 /* badge-5.tiff */; };
 		9888D06F0B02441100B81BDB /* TextAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 9888CEDD0B02440700B81BDB /* TextAction.spact */; };
-		988B8DD80CC263F5006EA06D /* surestart.h in Headers */ = {isa = PBXBuildFile; fileRef = 988B8DB70CC263F4006EA06D /* surestart.h */; };
-		988B8DD90CC263F5006EA06D /* surestartUser.c in Sources */ = {isa = PBXBuildFile; fileRef = 988B8DB80CC263F4006EA06D /* surestartUser.c */; };
-		988B8DDA0CC263F5006EA06D /* SPatch.h in Headers */ = {isa = PBXBuildFile; fileRef = 988B8DB90CC263F4006EA06D /* SPatch.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		988B8DDB0CC263F5006EA06D /* SPatch.m in Sources */ = {isa = PBXBuildFile; fileRef = 988B8DBA0CC263F4006EA06D /* SPatch.m */; };
-		988B8DDC0CC263F5006EA06D /* SPatchEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = 988B8DBB0CC263F4006EA06D /* SPatchEntry.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		988B8DDD0CC263F5006EA06D /* SPatchEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 988B8DBC0CC263F4006EA06D /* SPatchEntry.m */; };
-		988B8DDE0CC263F5006EA06D /* SPatchFolder.h in Headers */ = {isa = PBXBuildFile; fileRef = 988B8DBD0CC263F4006EA06D /* SPatchFolder.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		988B8DDF0CC263F5006EA06D /* SPatchFolder.m in Sources */ = {isa = PBXBuildFile; fileRef = 988B8DBE0CC263F4006EA06D /* SPatchFolder.m */; };
-		988B8DE00CC263F5006EA06D /* SPatchTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 988B8DBF0CC263F4006EA06D /* SPatchTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		988B8DE10CC263F5006EA06D /* SPatchTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 988B8DC00CC263F4006EA06D /* SPatchTypes.m */; };
-		988B8DE20CC263F5006EA06D /* SUpdater.h in Headers */ = {isa = PBXBuildFile; fileRef = 988B8DC10CC263F4006EA06D /* SUpdater.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		988B8DE30CC263F5006EA06D /* SUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = 988B8DC20CC263F4006EA06D /* SUpdater.m */; };
-		988B8DE40CC263F5006EA06D /* SUpdaterController.h in Headers */ = {isa = PBXBuildFile; fileRef = 988B8DC30CC263F4006EA06D /* SUpdaterController.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		988B8DE50CC263F5006EA06D /* SUpdaterController.m in Sources */ = {isa = PBXBuildFile; fileRef = 988B8DC40CC263F4006EA06D /* SUpdaterController.m */; };
-		988B8DE80CC263F5006EA06D /* SUpdaterDownload.h in Headers */ = {isa = PBXBuildFile; fileRef = 988B8DC70CC263F5006EA06D /* SUpdaterDownload.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		988B8DE90CC263F5006EA06D /* SUpdaterDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 988B8DC80CC263F5006EA06D /* SUpdaterDownload.m */; };
-		988B8DEA0CC263F5006EA06D /* SUpdaterFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 988B8DC90CC263F5006EA06D /* SUpdaterFunctions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		988B8DEB0CC263F5006EA06D /* SUpdaterFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 988B8DCA0CC263F5006EA06D /* SUpdaterFunctions.m */; };
-		988B8DEC0CC263F5006EA06D /* SUpdaterPatch.h in Headers */ = {isa = PBXBuildFile; fileRef = 988B8DCB0CC263F5006EA06D /* SUpdaterPatch.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		988B8DED0CC263F5006EA06D /* SUpdaterPatch.m in Sources */ = {isa = PBXBuildFile; fileRef = 988B8DCC0CC263F5006EA06D /* SUpdaterPatch.m */; };
-		988B8DEE0CC263F5006EA06D /* SUpdaterProduct.h in Headers */ = {isa = PBXBuildFile; fileRef = 988B8DCD0CC263F5006EA06D /* SUpdaterProduct.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		988B8DEF0CC263F5006EA06D /* SUpdaterProduct.m in Sources */ = {isa = PBXBuildFile; fileRef = 988B8DCE0CC263F5006EA06D /* SUpdaterProduct.m */; };
-		988B8DF00CC263F5006EA06D /* SUpdaterProductVersion.h in Headers */ = {isa = PBXBuildFile; fileRef = 988B8DCF0CC263F5006EA06D /* SUpdaterProductVersion.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		988B8DF10CC263F5006EA06D /* SUpdaterProductVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = 988B8DD00CC263F5006EA06D /* SUpdaterProductVersion.m */; };
-		988B8DF20CC263F5006EA06D /* SUpdaterStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 988B8DD10CC263F5006EA06D /* SUpdaterStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		988B8DF30CC263F5006EA06D /* SUpdaterStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 988B8DD20CC263F5006EA06D /* SUpdaterStep.m */; };
-		988B8DF40CC263F5006EA06D /* SUpdaterStepInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 988B8DD30CC263F5006EA06D /* SUpdaterStepInternal.h */; };
-		988B8DF50CC263F5006EA06D /* SUpdaterVersionWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 988B8DD40CC263F5006EA06D /* SUpdaterVersionWindow.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		988B8DF60CC263F5006EA06D /* SUpdaterVersionWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 988B8DD50CC263F5006EA06D /* SUpdaterVersionWindow.m */; };
-		988B8DF70CC263F5006EA06D /* SURestarter.h in Headers */ = {isa = PBXBuildFile; fileRef = 988B8DD60CC263F5006EA06D /* SURestarter.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		988B8DF80CC263F5006EA06D /* SURestarter.m in Sources */ = {isa = PBXBuildFile; fileRef = 988B8DD70CC263F5006EA06D /* SURestarter.m */; };
-		988B8DFF0CC264BE006EA06D /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
-		988B8E000CC264C0006EA06D /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98FF14DB05EACAE90005F402 /* WebKit.framework */; };
-		988B8E060CC264CC006EA06D /* ShadowKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 986757DC096B3F2400BB8A25 /* ShadowKit.framework */; };
 		988B8E960CC26784006EA06D /* SparkLibraryArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = 988B8E940CC26783006EA06D /* SparkLibraryArchive.m */; };
 		988B8E970CC26784006EA06D /* SparkLibraryArchive.h in Headers */ = {isa = PBXBuildFile; fileRef = 988B8E950CC26783006EA06D /* SparkLibraryArchive.h */; };
 		988D85680AA242500027C21D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 985A43AD0A8626F3005CC63B /* Localizable.strings */; };
@@ -125,6 +78,10 @@
 		989045180A6689D10024EC52 /* remove_mini_down.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 9877192506D48E12008A7AE8 /* remove_mini_down.tiff */; };
 		989045190A6689D10024EC52 /* remove_mini.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 9877192806D48E12008A7AE8 /* remove_mini.tiff */; };
 		98920FEA0A5F012200A50A78 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 982401ED060C7B3000A0DB07 /* MainMenu.nib */; };
+		98A0A5700CCFE27D00AC06B6 /* SUpdaterKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98A0A55F0CCFE1E400AC06B6 /* SUpdaterKit.framework */; };
+		98A0A5790CCFE29D00AC06B6 /* SArchiveKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98A0A5780CCFE29800AC06B6 /* SArchiveKit.framework */; };
+		98A0A57A0CCFE2B000AC06B6 /* SUpdaterKit.framework in Copy Framework */ = {isa = PBXBuildFile; fileRef = 98A0A55F0CCFE1E400AC06B6 /* SUpdaterKit.framework */; };
+		98A0A57B0CCFE2B800AC06B6 /* SArchiveKit.framework in Copy Framework */ = {isa = PBXBuildFile; fileRef = 98A0A5780CCFE29800AC06B6 /* SArchiveKit.framework */; };
 		98A662960A66FB7700A7B020 /* applelogo.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98A662950A66FB7700A7B020 /* applelogo.tiff */; };
 		98A6629D0A66FC6F00A7B020 /* start.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 984BCE39060C7E990043CDEA /* start.tiff */; };
 		98A852D60AFF930B00088961 /* SEGearMenu.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 984BCE38060C7E990043CDEA /* SEGearMenu.pdf */; };
@@ -198,23 +155,12 @@
 		98EF831608646316007BC81A /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF830E086462FF007BC81A /* HotKeyToolKit.framework */; };
 		98EF83170864631B007BC81A /* SparkKit.framework in Copy Framework */ = {isa = PBXBuildFile; fileRef = 98EF83140864630B007BC81A /* SparkKit.framework */; };
 		98EF831808646321007BC81A /* HotKeyToolKit.framework in Copy Framework */ = {isa = PBXBuildFile; fileRef = 98EF830E086462FF007BC81A /* HotKeyToolKit.framework */; };
-		98F074530CC26D6A008CF066 /* SArchiveKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98F0733A0CC26C04008CF066 /* SArchiveKit.framework */; };
-		98F0746D0CC26E56008CF066 /* SecurityInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98F0746B0CC26E55008CF066 /* SecurityInterface.framework */; };
-		98F074730CC26EB4008CF066 /* SArchiveKit.framework in Copy Framework */ = {isa = PBXBuildFile; fileRef = 98F0733A0CC26C04008CF066 /* SArchiveKit.framework */; };
-		98F074940CC26FA6008CF066 /* SArchiveKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98F0733A0CC26C04008CF066 /* SArchiveKit.framework */; };
 		98F4FB170B93A70A002CE675 /* SECheck.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98F4FB160B93A709002CE675 /* SECheck.tiff */; };
 		98F746020A5C560A003D4BE1 /* SELibraryWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 98F746000A5C560A003D4BE1 /* SELibraryWindow.nib */; };
 		98FF14DC05EACAE90005F402 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98FF14DB05EACAE90005F402 /* WebKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		1B17754A0CC4BC14009D351A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 988B8DA30CC26337006EA06D;
-			remoteInfo = SUpdaterKit;
-		};
 		6540B6E509E6430800D0E8FB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 987E6BB206D76DF300C7F41C /* Spark Plugins.xcodeproj */;
@@ -299,6 +245,48 @@
 			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = SparkKit;
 		};
+		98A0A5580CCFE1E400AC06B6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 98A0A54F0CCFE1E400AC06B6 /* SUpdaterKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1B2468C00CC38B210078596D /* suinstaller */;
+			remoteInfo = suinstaller;
+		};
+		98A0A55A0CCFE1E400AC06B6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 98A0A54F0CCFE1E400AC06B6 /* SUpdaterKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 984B4D230CBD80F3001EDC02 /* surestarter */;
+			remoteInfo = surestarter;
+		};
+		98A0A55C0CCFE1E400AC06B6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 98A0A54F0CCFE1E400AC06B6 /* SUpdaterKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 98A09ED70CCFDCB300AC06B6 /* ShadowKit.framework */;
+			remoteInfo = ShadowKit;
+		};
+		98A0A55E0CCFE1E400AC06B6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 98A0A54F0CCFE1E400AC06B6 /* SUpdaterKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216 /* SUpdaterKit.framework */;
+			remoteInfo = SUpdaterKit;
+		};
+		98A0A5620CCFE1F100AC06B6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 98A0A54F0CCFE1E400AC06B6 /* SUpdaterKit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216 /* SUpdaterKit */;
+			remoteInfo = SUpdaterKit;
+		};
+		98A0A5770CCFE29800AC06B6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 98A0A5720CCFE29800AC06B6 /* SArchiveKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216 /* SArchiveKit.framework */;
+			remoteInfo = SArchiveKit;
+		};
 		98C61C1E0A5813ED0004E6EF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 98EF8306086462FF007BC81A /* HotKeyToolKit.xcodeproj */;
@@ -327,13 +315,6 @@
 			remoteGlobalIDString = 8D1107260486CEB800E47090;
 			remoteInfo = Spark;
 		};
-		98DBE05E0CCA329D00BD3B7F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 988B8E7E0CC26726006EA06D /* SArchiveKit.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
-			remoteInfo = SArchiveKit;
-		};
 		98E204A90A56FE8600EB74E1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 98EF8306086462FF007BC81A /* HotKeyToolKit.xcodeproj */;
@@ -355,13 +336,6 @@
 			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
 			remoteInfo = SparkKit;
 		};
-		98F073390CC26C04008CF066 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 988B8E7E0CC26726006EA06D /* SArchiveKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
-			remoteInfo = SArchiveKit;
-		};
 		98F746320A5C5808003D4BE1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 98EF830F0864630B007BC81A /* SparkKit.xcodeproj */;
@@ -380,8 +354,8 @@
 			files = (
 				98EF83170864631B007BC81A /* SparkKit.framework in Copy Framework */,
 				98B45364097312D600BD0A82 /* ShadowKit.framework in Copy Framework */,
-				98F074730CC26EB4008CF066 /* SArchiveKit.framework in Copy Framework */,
-				1B8077BE0CCD1E4000DC56CE /* SUpdaterKit.framework in Copy Framework */,
+				98A0A57B0CCFE2B800AC06B6 /* SArchiveKit.framework in Copy Framework */,
+				98A0A57A0CCFE2B000AC06B6 /* SUpdaterKit.framework in Copy Framework */,
 				98EF831808646321007BC81A /* HotKeyToolKit.framework in Copy Framework */,
 			);
 			name = "Copy Framework";
@@ -426,7 +400,6 @@
 		1B17754F0CC4BC43009D351A /* SUpdaterInstall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SUpdaterInstall.m; sourceTree = "<group>"; };
 		1B1775500CC4BC43009D351A /* SUpdaterInstall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUpdaterInstall.h; sourceTree = "<group>"; };
 		1B1775960CC4BC83009D351A /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
-		1B29ADE30CCF76C900A1B045 /* surestarter */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = surestarter; path = "build/Universal Binary/surestarter"; sourceTree = "<group>"; };
 		1B3743880B6E2B79002F18C8 /* SEEntryList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEntryList.m; sourceTree = "<group>"; };
 		1B37438B0B6E2B84002F18C8 /* SEEntryList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEntryList.h; sourceTree = "<group>"; };
 		1B55EAE30B8625ED000E1760 /* SparkAware.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SparkAware.tiff; sourceTree = "<group>"; };
@@ -441,7 +414,6 @@
 		1B8077160CCD1B2500DC56CE /* SUpdaterRestart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SUpdaterRestart.m; sourceTree = "<group>"; };
 		1B8077E70CCD1EA000DC56CE /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SUpdaterVersionWindow.nib; sourceTree = "<group>"; };
 		1B8077E90CCD1EA000DC56CE /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		1B8078420CCD20FC00DC56CE /* suinstaller */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = suinstaller; path = "build/Universal Binary/suinstaller"; sourceTree = "<group>"; };
 		1BB11ABB0B931FAE00908925 /* SELibrary.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SELibrary.tiff; sourceTree = "<group>"; };
 		1BBED2330C9FFCAD0050A7F8 /* SEUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEUpdater.h; sourceTree = "<group>"; };
 		1BBED2340C9FFCAD0050A7F8 /* SEUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEUpdater.m; sourceTree = "<group>"; };
@@ -502,7 +474,6 @@
 		988107EE0AFFF9390010CDD5 /* badge-4.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "badge-4.tiff"; sourceTree = "<group>"; };
 		988107EF0AFFF9390010CDD5 /* badge-1&2.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "badge-1&2.tiff"; sourceTree = "<group>"; };
 		988107F00AFFF9390010CDD5 /* badge-5.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "badge-5.tiff"; sourceTree = "<group>"; };
-		988B8DA40CC26337006EA06D /* SUpdaterKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SUpdaterKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		988B8DB70CC263F4006EA06D /* surestart.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = surestart.h; path = ../Helpers/surestart.h; sourceTree = "<group>"; };
 		988B8DB80CC263F4006EA06D /* surestartUser.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = surestartUser.c; path = ../Helpers/surestartUser.c; sourceTree = "<group>"; };
 		988B8DB90CC263F4006EA06D /* SPatch.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SPatch.h; sourceTree = "<group>"; };
@@ -534,9 +505,10 @@
 		988B8DD50CC263F5006EA06D /* SUpdaterVersionWindow.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SUpdaterVersionWindow.m; sourceTree = "<group>"; };
 		988B8DD60CC263F5006EA06D /* SURestarter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SURestarter.h; sourceTree = "<group>"; };
 		988B8DD70CC263F5006EA06D /* SURestarter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SURestarter.m; sourceTree = "<group>"; };
-		988B8E7E0CC26726006EA06D /* SArchiveKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SArchiveKit.xcodeproj; path = SArchiveKit/SArchiveKit.xcodeproj; sourceTree = SHARED_CODE_DIR; };
 		988B8E940CC26783006EA06D /* SparkLibraryArchive.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = SparkLibraryArchive.m; path = ../SparkLibraryArchive.m; sourceTree = "<group>"; };
 		988B8E950CC26783006EA06D /* SparkLibraryArchive.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = SparkLibraryArchive.h; path = ../SparkLibraryArchive.h; sourceTree = "<group>"; };
+		98A0A54F0CCFE1E400AC06B6 /* SUpdaterKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SUpdaterKit.xcodeproj; path = ../../../Shared/SUpdaterKit/SUpdaterKit.xcodeproj; sourceTree = SOURCE_ROOT; };
+		98A0A5720CCFE29800AC06B6 /* SArchiveKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SArchiveKit.xcodeproj; path = ../../../Shared/SArchiveKit/SArchiveKit.xcodeproj; sourceTree = SOURCE_ROOT; };
 		98A662950A66FB7700A7B020 /* applelogo.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = applelogo.tiff; sourceTree = "<group>"; };
 		98A91DA8074F55460029D278 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/Importer.nib; sourceTree = "<group>"; };
 		98AC962D073F57FB0004BD09 /* SparkImporter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SparkImporter.m; sourceTree = "<group>"; };
@@ -620,22 +592,9 @@
 				98FF14DC05EACAE90005F402 /* WebKit.framework in Frameworks */,
 				98EF831508646313007BC81A /* SparkKit.framework in Frameworks */,
 				9867589E096B3F4200BB8A25 /* ShadowKit.framework in Frameworks */,
-				98F074940CC26FA6008CF066 /* SArchiveKit.framework in Frameworks */,
-				1B8077D20CCD1E4600DC56CE /* SUpdaterKit.framework in Frameworks */,
 				98EF831608646316007BC81A /* HotKeyToolKit.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		988B8DA20CC26337006EA06D /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				988B8DFF0CC264BE006EA06D /* Cocoa.framework in Frameworks */,
-				988B8E000CC264C0006EA06D /* WebKit.framework in Frameworks */,
-				988B8E060CC264CC006EA06D /* ShadowKit.framework in Frameworks */,
-				98F074530CC26D6A008CF066 /* SArchiveKit.framework in Frameworks */,
-				98F0746D0CC26E56008CF066 /* SecurityInterface.framework in Frameworks */,
-				1B1775970CC4BC83009D351A /* Security.framework in Frameworks */,
+				98A0A5700CCFE27D00AC06B6 /* SUpdaterKit.framework in Frameworks */,
+				98A0A5790CCFE29D00AC06B6 /* SArchiveKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -666,7 +625,6 @@
 			isa = PBXGroup;
 			children = (
 				98240159060C7ABE00A0DB07 /* Spark.app */,
-				988B8DA40CC26337006EA06D /* SUpdaterKit.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -686,8 +644,6 @@
 		1B8077DF0CCD1E7700DC56CE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				1B8078420CCD20FC00DC56CE /* suinstaller */,
-				1B29ADE30CCF76C900A1B045 /* surestarter */,
 				1B8077E80CCD1EA000DC56CE /* InfoPlist.strings */,
 				1B8077E60CCD1EA000DC56CE /* SUpdaterVersionWindow.nib */,
 			);
@@ -706,9 +662,10 @@
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				1B7BBB3F0CBE236700484A9E /* Configurations */,
 				98EF830F0864630B007BC81A /* SparkKit.xcodeproj */,
-				988B8E7E0CC26726006EA06D /* SArchiveKit.xcodeproj */,
-				985F8DFD077253C70014830F /* SparkDaemon.xcodeproj */,
+				98A0A5720CCFE29800AC06B6 /* SArchiveKit.xcodeproj */,
+				98A0A54F0CCFE1E400AC06B6 /* SUpdaterKit.xcodeproj */,
 				987E6BB206D76DF300C7F41C /* Spark Plugins.xcodeproj */,
+				985F8DFD077253C70014830F /* SparkDaemon.xcodeproj */,
 				98EF8306086462FF007BC81A /* HotKeyToolKit.xcodeproj */,
 			);
 			name = Spark;
@@ -962,6 +919,25 @@
 			path = Sources;
 			sourceTree = "<group>";
 		};
+		98A0A5500CCFE1E400AC06B6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				98A0A5590CCFE1E400AC06B6 /* suinstaller */,
+				98A0A55B0CCFE1E400AC06B6 /* surestarter */,
+				98A0A55D0CCFE1E400AC06B6 /* ShadowKit.framework */,
+				98A0A55F0CCFE1E400AC06B6 /* SUpdaterKit.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		98A0A5730CCFE29800AC06B6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				98A0A5780CCFE29800AC06B6 /* SArchiveKit.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		98B704BB0A86208E00DB692D /* Deprecated */ = {
 			isa = PBXGroup;
 			children = (
@@ -1142,14 +1118,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		98F073350CC26C04008CF066 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				98F0733A0CC26C04008CF066 /* SArchiveKit.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -1188,32 +1156,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		988B8D9F0CC26337006EA06D /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				988B8DD80CC263F5006EA06D /* surestart.h in Headers */,
-				988B8DDA0CC263F5006EA06D /* SPatch.h in Headers */,
-				988B8DDC0CC263F5006EA06D /* SPatchEntry.h in Headers */,
-				988B8DDE0CC263F5006EA06D /* SPatchFolder.h in Headers */,
-				988B8DE00CC263F5006EA06D /* SPatchTypes.h in Headers */,
-				988B8DE20CC263F5006EA06D /* SUpdater.h in Headers */,
-				988B8DE40CC263F5006EA06D /* SUpdaterController.h in Headers */,
-				988B8DE80CC263F5006EA06D /* SUpdaterDownload.h in Headers */,
-				988B8DEA0CC263F5006EA06D /* SUpdaterFunctions.h in Headers */,
-				988B8DEC0CC263F5006EA06D /* SUpdaterPatch.h in Headers */,
-				988B8DEE0CC263F5006EA06D /* SUpdaterProduct.h in Headers */,
-				988B8DF00CC263F5006EA06D /* SUpdaterProductVersion.h in Headers */,
-				988B8DF20CC263F5006EA06D /* SUpdaterStep.h in Headers */,
-				988B8DF40CC263F5006EA06D /* SUpdaterStepInternal.h in Headers */,
-				988B8DF50CC263F5006EA06D /* SUpdaterVersionWindow.h in Headers */,
-				988B8DF70CC263F5006EA06D /* SURestarter.h in Headers */,
-				1B1775520CC4BC43009D351A /* SUpdaterInstall.h in Headers */,
-				1B7641CF0CCC83A70035244A /* SUpdaterAuthorization.h in Headers */,
-				1B8077170CCD1B2500DC56CE /* SUpdaterRestart.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -1224,43 +1166,23 @@
 				8D1107270486CEB800E47090 /* Headers */,
 				98E659ED06B40F4500F73A19 /* Copy Plugins */,
 				98E6582906B40E7C00F73A19 /* Copy Daemon */,
+				98A0A5320CCFE12100AC06B6 /* Symlink Frameworks */,
 				98E6582506B40E4200F73A19 /* Copy Framework */,
 				8D1107290486CEB800E47090 /* Resources */,
 				8D11072C0486CEB800E47090 /* Sources */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
-				98D3882405F6950D00E967EF /* Rez */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				98F746330A5C5808003D4BE1 /* PBXTargetDependency */,
-				1B17754B0CC4BC14009D351A /* PBXTargetDependency */,
+				98A0A5630CCFE1F100AC06B6 /* PBXTargetDependency */,
 			);
 			name = Spark;
 			productInstallPath = "$(HOME)/Applications";
 			productName = Spark;
 			productReference = 98240159060C7ABE00A0DB07 /* Spark.app */;
 			productType = "com.apple.product-type.application";
-		};
-		988B8DA30CC26337006EA06D /* SUpdaterKit */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 988B8DA60CC2633B006EA06D /* Build configuration list for PBXNativeTarget "SUpdaterKit" */;
-			buildPhases = (
-				98DBE0640CCA336600BD3B7F /* Symlink SAchiveKit */,
-				988B8D9F0CC26337006EA06D /* Headers */,
-				988B8DA00CC26337006EA06D /* Resources */,
-				988B8DA10CC26337006EA06D /* Sources */,
-				988B8DA20CC26337006EA06D /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				98DBE05F0CCA329D00BD3B7F /* PBXTargetDependency */,
-			);
-			name = SUpdaterKit;
-			productName = SUpdaterKit;
-			productReference = 988B8DA40CC26337006EA06D /* SUpdaterKit.framework */;
-			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
@@ -1277,8 +1199,8 @@
 					ProjectRef = 98EF8306086462FF007BC81A /* HotKeyToolKit.xcodeproj */;
 				},
 				{
-					ProductGroup = 98F073350CC26C04008CF066 /* Products */;
-					ProjectRef = 988B8E7E0CC26726006EA06D /* SArchiveKit.xcodeproj */;
+					ProductGroup = 98A0A5730CCFE29800AC06B6 /* Products */;
+					ProjectRef = 98A0A5720CCFE29800AC06B6 /* SArchiveKit.xcodeproj */;
 				},
 				{
 					ProductGroup = 6540B6DC09E6430800D0E8FB /* Products */;
@@ -1292,12 +1214,15 @@
 					ProductGroup = 98EF83100864630B007BC81A /* Products */;
 					ProjectRef = 98EF830F0864630B007BC81A /* SparkKit.xcodeproj */;
 				},
+				{
+					ProductGroup = 98A0A5500CCFE1E400AC06B6 /* Products */;
+					ProjectRef = 98A0A54F0CCFE1E400AC06B6 /* SUpdaterKit.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
 				98DBB865099F4B0500927F3B /* All */,
 				8D1107260486CEB800E47090 /* Spark */,
-				988B8DA30CC26337006EA06D /* SUpdaterKit */,
 			);
 		};
 /* End PBXProject section */
@@ -1373,6 +1298,41 @@
 			remoteRef = 9888CEDC0B02440700B81BDB /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		98A0A5590CCFE1E400AC06B6 /* suinstaller */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = suinstaller;
+			remoteRef = 98A0A5580CCFE1E400AC06B6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		98A0A55B0CCFE1E400AC06B6 /* surestarter */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = surestarter;
+			remoteRef = 98A0A55A0CCFE1E400AC06B6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		98A0A55D0CCFE1E400AC06B6 /* ShadowKit.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = ShadowKit.framework;
+			remoteRef = 98A0A55C0CCFE1E400AC06B6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		98A0A55F0CCFE1E400AC06B6 /* SUpdaterKit.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = SUpdaterKit.framework;
+			remoteRef = 98A0A55E0CCFE1E400AC06B6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		98A0A5780CCFE29800AC06B6 /* SArchiveKit.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = SArchiveKit.framework;
+			remoteRef = 98A0A5770CCFE29800AC06B6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		98C61C1F0A5813ED0004E6EF /* UITester.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
@@ -1406,13 +1366,6 @@
 			fileType = wrapper.framework;
 			path = SparkKit.framework;
 			remoteRef = 98EF83130864630B007BC81A /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		98F0733A0CC26C04008CF066 /* SArchiveKit.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = SArchiveKit.framework;
-			remoteRef = 98F073390CC26C04008CF066 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -1485,45 +1438,26 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		988B8DA00CC26337006EA06D /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				1B8077EA0CCD1EA000DC56CE /* SUpdaterVersionWindow.nib in Resources */,
-				1B8077EB0CCD1EA000DC56CE /* InfoPlist.strings in Resources */,
-				1B8078440CCD20FC00DC56CE /* suinstaller in Resources */,
-				1B29ADE40CCF76C900A1B045 /* surestarter in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXRezBuildPhase section */
-		98D3882405F6950D00E967EF /* Rez */ = {
-			isa = PBXRezBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXRezBuildPhase section */
-
 /* Begin PBXShellScriptBuildPhase section */
-		98DBE0640CCA336600BD3B7F /* Symlink SAchiveKit */ = {
+		98A0A5320CCFE12100AC06B6 /* Symlink Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"$(SHARED_CODE_DIR)/SArchiveKit/build/$(CONFIGURATION)/SArchiveKit",
+				"$(SHARED_CODE_DIR)/SArchiveKit/build/$(CONFIGURATION)/SArchiveKit.framework",
+				"$(SHARED_CODE_DIR)/SUpdaterKit/build/$(CONFIGURATION)/SUpdaterKit.framework",
 			);
-			name = "Symlink SAchiveKit";
+			name = "Symlink Frameworks";
 			outputPaths = (
 				"$(CONFIGURATION_BUILD_DIR)/SArchiveKit.framework",
+				"$(CONFIGURATION_BUILD_DIR)/SUpdaterKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/tcsh;
-			shellScript = "if (! -e \"${CONFIGURATION_BUILD_DIR}/SArchiveKit.framework\") then\nln -s \"${SHARED_CODE_DIR}/SArchiveKit/build/${CONFIGURATION}/SArchiveKit.framework\" \"${CONFIGURATION_BUILD_DIR}\"\nendif\n";
+			shellScript = "if (! -e \"${CONFIGURATION_BUILD_DIR}/SArchiveKit.framework\") then\nln -s \"${SHARED_CODE_DIR}/SArchiveKit/build/${CONFIGURATION}/SArchiveKit.framework\" \"${CONFIGURATION_BUILD_DIR}\"\nendif\n\nif (! -e \"${CONFIGURATION_BUILD_DIR}/SUpdaterKit.framework\") then\nln -s \"${SHARED_CODE_DIR}/SUpdaterKit/build/${CONFIGURATION}/SUpdaterKit.framework\" \"${CONFIGURATION_BUILD_DIR}\"\nendif\n\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1562,39 +1496,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		988B8DA10CC26337006EA06D /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				988B8DD90CC263F5006EA06D /* surestartUser.c in Sources */,
-				988B8DDB0CC263F5006EA06D /* SPatch.m in Sources */,
-				988B8DDD0CC263F5006EA06D /* SPatchEntry.m in Sources */,
-				988B8DDF0CC263F5006EA06D /* SPatchFolder.m in Sources */,
-				988B8DE10CC263F5006EA06D /* SPatchTypes.m in Sources */,
-				988B8DE30CC263F5006EA06D /* SUpdater.m in Sources */,
-				988B8DE50CC263F5006EA06D /* SUpdaterController.m in Sources */,
-				988B8DE90CC263F5006EA06D /* SUpdaterDownload.m in Sources */,
-				988B8DEB0CC263F5006EA06D /* SUpdaterFunctions.m in Sources */,
-				988B8DED0CC263F5006EA06D /* SUpdaterPatch.m in Sources */,
-				988B8DEF0CC263F5006EA06D /* SUpdaterProduct.m in Sources */,
-				988B8DF10CC263F5006EA06D /* SUpdaterProductVersion.m in Sources */,
-				988B8DF30CC263F5006EA06D /* SUpdaterStep.m in Sources */,
-				988B8DF60CC263F5006EA06D /* SUpdaterVersionWindow.m in Sources */,
-				988B8DF80CC263F5006EA06D /* SURestarter.m in Sources */,
-				1B1775510CC4BC43009D351A /* SUpdaterInstall.m in Sources */,
-				1B7641CE0CCC83A70035244A /* SUpdaterAuthorization.m in Sources */,
-				1B8077180CCD1B2500DC56CE /* SUpdaterRestart.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		1B17754B0CC4BC14009D351A /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 988B8DA30CC26337006EA06D /* SUpdaterKit */;
-			targetProxy = 1B17754A0CC4BC14009D351A /* PBXContainerItemProxy */;
-		};
 		9848ACDA0A5D4FDD00344521 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = All;
@@ -1605,6 +1509,11 @@
 			name = SparkKit;
 			targetProxy = 98920FA30A5EFF9800A50A78 /* PBXContainerItemProxy */;
 		};
+		98A0A5630CCFE1F100AC06B6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SUpdaterKit;
+			targetProxy = 98A0A5620CCFE1F100AC06B6 /* PBXContainerItemProxy */;
+		};
 		98D52B0D0B19A3AB00C8425C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "Spark Daemon";
@@ -1614,11 +1523,6 @@
 			isa = PBXTargetDependency;
 			target = 8D1107260486CEB800E47090 /* Spark */;
 			targetProxy = 98DBB874099F4B5B00927F3B /* PBXContainerItemProxy */;
-		};
-		98DBE05F0CCA329D00BD3B7F /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = SArchiveKit;
-			targetProxy = 98DBE05E0CCA329D00BD3B7F /* PBXContainerItemProxy */;
 		};
 		98F746330A5C5808003D4BE1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1839,54 +1743,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		988B8DA70CC2633B006EA06D /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 402;
-				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = SUpdaterKit.plist;
-				INSTALL_PATH = "@executable_path/../Frameworks";
-				PRODUCT_NAME = SUpdaterKit;
-			};
-			name = Debug;
-		};
-		988B8DA80CC2633B006EA06D /* Profile */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 402;
-				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = SUpdaterKit.plist;
-				INSTALL_PATH = "@executable_path/../Frameworks";
-				PRODUCT_NAME = SUpdaterKit;
-			};
-			name = Profile;
-		};
-		988B8DA90CC2633B006EA06D /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 402;
-				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = SUpdaterKit.plist;
-				INSTALL_PATH = "@executable_path/../Frameworks";
-				PRODUCT_NAME = SUpdaterKit;
-			};
-			name = Release;
-		};
-		988B8DAA0CC2633B006EA06D /* Universal Binary */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 402;
-				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = SUpdaterKit.plist;
-				INSTALL_PATH = "@executable_path/../Frameworks";
-				PRODUCT_NAME = SUpdaterKit;
-			};
-			name = "Universal Binary";
-		};
 		98BC60520857BB9400A2041F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2006,17 +1862,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		988B8DA60CC2633B006EA06D /* Build configuration list for PBXNativeTarget "SUpdaterKit" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				988B8DA70CC2633B006EA06D /* Debug */,
-				988B8DA80CC2633B006EA06D /* Profile */,
-				988B8DA90CC2633B006EA06D /* Release */,
-				988B8DAA0CC2633B006EA06D /* Universal Binary */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
-		};
 		98BC60510857BB9400A2041F /* Build configuration list for PBXNativeTarget "Spark" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

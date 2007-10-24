@@ -270,6 +270,7 @@ void *_SEPreferencesLoginItemThread(void *arg) {
   if (!se_update) {
     se_update = YES;
     [uiUpdateStatus setHidden:NO];
+    [uiUpdateMsg setStringValue:@""];
     [uiProgress setIndeterminate:YES];
     [uiProgress startAnimation:sender];
     [[SEUpdater sharedUpdater] searchWithDelegate:self];
@@ -281,8 +282,11 @@ void *_SEPreferencesLoginItemThread(void *arg) {
   if (!version && !anError) {
     [uiUpdateMsg setStringValue:@"Spark is Up-to-date."];
   } else if (anError) {
-    DLog(@"Error: %@", anError);
-    [uiUpdateMsg setStringValue:@"Error occured while searching version."];
+    NSString *str = [anError localizedDescription];
+    if (str)
+      [uiUpdateMsg setStringValue:[NSString stringWithFormat:@"Error: %@.", str]];
+    else
+      [uiUpdateMsg setStringValue:@"Undefined error occured"];
   }
   [uiUpdateStatus setHidden:YES];
   se_update = NO;

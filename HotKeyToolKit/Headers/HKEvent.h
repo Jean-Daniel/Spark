@@ -33,8 +33,9 @@ enum {
 };
 typedef NSInteger HKEventTargetType;
 
+/* 3 ms should be a good default */
 enum {
-  kHKEventDefaultLatency = 5000,
+  kHKEventDefaultLatency = 3000,
 };
 
 /*!
