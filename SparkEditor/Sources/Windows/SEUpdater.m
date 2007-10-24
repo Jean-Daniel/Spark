@@ -96,5 +96,9 @@ SKSingleton(SEUpdater, sharedUpdater);
   }
 }
 
+- (NSData *)updaterRestartNotificationData:(SUpdaterController *)ctrl {
+  return [@"Super je suis a jour!" dataUsingEncoding:NSUTF8StringEncoding];
+}
+
 @end
 

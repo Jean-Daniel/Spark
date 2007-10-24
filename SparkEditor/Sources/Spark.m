@@ -38,8 +38,6 @@
 #import "SEServerConnection.h"
 #import "SparkLibraryArchive.h"
 
-const UInt32 kSparkVersion = 0x020901; /* 3.0.0 */
-
 int main(int argc, const char *argv[]) {
 #if defined(DEBUG)
   HKTraceHotKeyEvents = YES;
@@ -89,14 +87,14 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
       /* NOTE: do not release 'help': an hotkey is unregistred when deallocated */
     }
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didRestart:) name:SURestarterApplicationDidRestartNotification object:nil];
+    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didRestart:) name:SURestarterApplicationDidRestartNotification object:nil];
   }
   return self;
 }
 
-- (void)didRestart:(NSNotification *)aNotification {
-  NSRunAlertPanel([[NSString alloc] initWithData:[aNotification object] encoding:NSUTF8StringEncoding], @"", @"OK", nil, nil);
-}
+//- (void)didRestart:(NSNotification *)aNotification {
+//  NSRunAlertPanel([[NSString alloc] initWithData:[aNotification object] encoding:NSUTF8StringEncoding], @"", @"OK", nil, nil);
+//}
 
 - (void)handleHelpEvent:(id)sender {
   id window = [self keyWindow];
@@ -105,7 +103,7 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
   } else {
     ProcessSerialNumber psn = {0, kCurrentProcess};
     HKEventTarget target = { psn: &psn };
-    HKEventPostKeystrokeToTarget([sender keycode], [sender modifier], target, kHKEventTargetProcess, NULL);
+    HKEventPostKeystrokeToTarget([sender keycode], [sender modifier], target, kHKEventTargetProcess, NULL, kHKEventDefaultLatency);
   }
 }
 
@@ -534,10 +532,7 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
 }
 
 - (IBAction)dumpLibrary:(id)sender {
-  SURestarter *restart = [[SURestarter alloc] initWithTargetPath:[[NSBundle mainBundle] bundlePath] error:nil]; 
-  [restart setData:[@"Super j'ai redemarre!" dataUsingEncoding:NSUTF8StringEncoding]];
-  [NSApp terminate:nil];
-  //SparkDumpEntries(SparkActiveLibrary());
+  SparkDumpEntries(SparkActiveLibrary());
 //  NSMutableArray *library = [[NSMutableArray alloc] init];
 //  SELibraryDocument *doc = SEGetDocumentForLibrary(SparkActiveLibrary());
 //  SEEntryCache *cache = [doc cache];

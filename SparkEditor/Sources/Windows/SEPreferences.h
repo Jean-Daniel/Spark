@@ -9,7 +9,7 @@
 #import <ShadowKit/SKWindowController.h>
 
 SK_PRIVATE
-NSString * const kSparkPrefVersion;
+NSString * const kSparkVersionKey;
 
 SK_PRIVATE
 NSString * const kSEPreferencesHideDisabled;

@@ -231,9 +231,9 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
       [self initFromOldPropertyList:plist];
       [self setVersion:0x200];
     } else {
-      [self setFlags:[[plist objectForKey:kApplicationLSFlagsKey] unsignedIntValue]];
+      [self setFlags:SKUIntegerValue([plist objectForKey:kApplicationLSFlagsKey])];
       [self setAction:SKOSTypeFromString([plist objectForKey:kApplicationActionKey])];
-      [self decodeFlags:[[plist objectForKey:kApplicationFlagsKey] unsignedIntValue]];
+      [self decodeFlags:SKUIntegerValue([plist objectForKey:kApplicationFlagsKey])];
       
       switch ([self action]) {
         case kApplicationHideFront:
@@ -280,8 +280,8 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
       }
     }
     
-    [plist setObject:SKUInt(aa_lsFlags) forKey:kApplicationLSFlagsKey];
-    [plist setObject:SKUInt([self encodeFlags]) forKey:kApplicationFlagsKey];
+    [plist setObject:SKUInteger(aa_lsFlags) forKey:kApplicationLSFlagsKey];
+    [plist setObject:SKUInteger([self encodeFlags]) forKey:kApplicationFlagsKey];
     [plist setObject:SKStringForOSType(aa_action) forKey:kApplicationActionKey];
     return YES;
   }

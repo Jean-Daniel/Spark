@@ -16,21 +16,21 @@
 	<string>${PRODUCT_NAME}</string>
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0b5</string>
 	<key>CFBundleSignature</key>
 	<string>Sprk</string>
 	<key>CFBundleVersion</key>
 	<string>${CURRENT_PROJECT_VERSION}</string>
-    <key>CFBundleShortVersionString</key>
-    <string>3.0b4</string>
 	<key>NSMainNibFile</key>
 	<string>TextPlugin</string>
 	<key>NSPrincipalClass</key>
 	<string>TextActionPlugIn</string>
 	<key>SparkActionClass</key>
 	<string>TextAction</string>
+	<key>SparkHelpFile</key>
+	<string>TextActionHelp</string>
 	<key>SparkPluginIcon</key>
 	<string>TextIcon</string>
-    <key>SparkHelpFile</key>
-    <string>TextActionHelp</string>
 </dict>
 </plist>

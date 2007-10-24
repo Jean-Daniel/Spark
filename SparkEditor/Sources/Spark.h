@@ -18,10 +18,6 @@ NSString * const SESparkEditorDidChangePluginStatusNotification;
 SK_PRIVATE
 void SEPopulatePluginMenu(NSMenu *menu);
 
-/* Spark current version */
-SK_PRIVATE
-const UInt32 kSparkVersion;
-
 @class SparkLibrary;
 @class SELibraryWindow;
 @interface SparkEditor : NSApplication {

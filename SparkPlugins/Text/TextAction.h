@@ -48,6 +48,7 @@ typedef OSType KeyboardActionType;
 
 @interface TextAction : SparkAction {
   id ta_data;
+  useconds_t ta_latency;
   KeyboardActionType ta_type;
 }
 

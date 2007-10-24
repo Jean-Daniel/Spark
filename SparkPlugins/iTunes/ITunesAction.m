@@ -620,7 +620,7 @@ void iTunesNotificationCallback(CFNotificationCenterRef center, void *observer, 
   CGKeyCode code = HKMapGetKeycodeAndModifierForUnichar('e', NULL);
   if (code != kHKInvalidVirtualKeyCode) {
     HKEventTarget target = { signature:kiTunesSignature };
-    HKEventPostKeystrokeToTarget(code, kCGEventFlagMaskCommand, target, kHKEventTargetSignature, NULL);
+    HKEventPostKeystrokeToTarget(code, kCGEventFlagMaskCommand, target, kHKEventTargetSignature, NULL, kHKEventDefaultLatency);
   }
 }
 

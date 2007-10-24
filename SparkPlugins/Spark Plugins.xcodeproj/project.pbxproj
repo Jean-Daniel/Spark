@@ -688,6 +688,7 @@
 				1B7B26420CC638F200F55F7D /* TAKeystroke.m */,
 				9888CE9A0B0243AA00B81BDB /* TextActionPlugIn.m */,
 				9888CE2D0B02418500B81BDB /* Info.plist */,
+				9888CE570B0242C700B81BDB /* TextPlugin.nib */,
 				9888CE400B02425700B81BDB /* InfoPlist.strings */,
 				9888CE3D0B02420B00B81BDB /* Resources */,
 			);
@@ -698,7 +699,6 @@
 			isa = PBXGroup;
 			children = (
 				98D7483F0BB5349600D6AB54 /* Help */,
-				9888CE570B0242C700B81BDB /* TextPlugin.nib */,
 				9888CE3E0B02423600B81BDB /* TextIcon.tiff */,
 				1B17C2210C9FC60B005BEA47 /* Localizable.strings */,
 				98D7483D0BB5349600D6AB54 /* TextActionHelp.html */,
@@ -1580,7 +1580,7 @@
 				9888CE580B0242C700B81BDB /* English */,
 			);
 			name = TextPlugin.nib;
-			path = ../..;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		98BA1A090A583493004914E9 /* Localizable.strings */ = {

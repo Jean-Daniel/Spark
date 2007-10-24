@@ -43,8 +43,8 @@
   return ta_desc;
 }
 
-- (void)sendKeystroke:(CGEventSourceRef)src {
-  HKEventPostKeystroke(ta_code, ta_modifier, src);
+- (void)sendKeystroke:(CGEventSourceRef)src latency:(useconds_t)latency {
+  HKEventPostKeystroke(ta_code, ta_modifier, src, latency);
 }
 
 @end

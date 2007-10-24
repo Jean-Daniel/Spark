@@ -31,6 +31,7 @@
 		1B1775510CC4BC43009D351A /* SUpdaterInstall.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B17754F0CC4BC43009D351A /* SUpdaterInstall.m */; };
 		1B1775520CC4BC43009D351A /* SUpdaterInstall.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B1775500CC4BC43009D351A /* SUpdaterInstall.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		1B1775970CC4BC83009D351A /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B1775960CC4BC83009D351A /* Security.framework */; };
+		1B29ADE40CCF76C900A1B045 /* surestarter in Resources */ = {isa = PBXBuildFile; fileRef = 1B29ADE30CCF76C900A1B045 /* surestarter */; };
 		1B37438F0B6E2B94002F18C8 /* SEEntryList.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B3743880B6E2B79002F18C8 /* SEEntryList.m */; };
 		1B3743900B6E2B96002F18C8 /* SEEntryList.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B37438B0B6E2B84002F18C8 /* SEEntryList.h */; };
 		1B55EAE40B8625ED000E1760 /* SparkAware.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B55EAE30B8625ED000E1760 /* SparkAware.tiff */; };
@@ -45,7 +46,6 @@
 		1B8077D20CCD1E4600DC56CE /* SUpdaterKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 988B8DA40CC26337006EA06D /* SUpdaterKit.framework */; };
 		1B8077EA0CCD1EA000DC56CE /* SUpdaterVersionWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1B8077E60CCD1EA000DC56CE /* SUpdaterVersionWindow.nib */; };
 		1B8077EB0CCD1EA000DC56CE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1B8077E80CCD1EA000DC56CE /* InfoPlist.strings */; };
-		1B8078430CCD20FC00DC56CE /* srestart in Resources */ = {isa = PBXBuildFile; fileRef = 1B8078410CCD20FC00DC56CE /* srestart */; };
 		1B8078440CCD20FC00DC56CE /* suinstaller in Resources */ = {isa = PBXBuildFile; fileRef = 1B8078420CCD20FC00DC56CE /* suinstaller */; };
 		1BB11ABC0B931FAE00908925 /* SELibrary.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1BB11ABB0B931FAE00908925 /* SELibrary.tiff */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -83,8 +83,8 @@
 		988107F30AFFF9390010CDD5 /* badge-1&2.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 988107EF0AFFF9390010CDD5 /* badge-1&2.tiff */; };
 		988107F40AFFF9390010CDD5 /* badge-5.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 988107F00AFFF9390010CDD5 /* badge-5.tiff */; };
 		9888D06F0B02441100B81BDB /* TextAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 9888CEDD0B02440700B81BDB /* TextAction.spact */; };
-		988B8DD80CC263F5006EA06D /* skrestart.h in Headers */ = {isa = PBXBuildFile; fileRef = 988B8DB70CC263F4006EA06D /* skrestart.h */; };
-		988B8DD90CC263F5006EA06D /* skrestartUser.c in Sources */ = {isa = PBXBuildFile; fileRef = 988B8DB80CC263F4006EA06D /* skrestartUser.c */; };
+		988B8DD80CC263F5006EA06D /* surestart.h in Headers */ = {isa = PBXBuildFile; fileRef = 988B8DB70CC263F4006EA06D /* surestart.h */; };
+		988B8DD90CC263F5006EA06D /* surestartUser.c in Sources */ = {isa = PBXBuildFile; fileRef = 988B8DB80CC263F4006EA06D /* surestartUser.c */; };
 		988B8DDA0CC263F5006EA06D /* SPatch.h in Headers */ = {isa = PBXBuildFile; fileRef = 988B8DB90CC263F4006EA06D /* SPatch.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		988B8DDB0CC263F5006EA06D /* SPatch.m in Sources */ = {isa = PBXBuildFile; fileRef = 988B8DBA0CC263F4006EA06D /* SPatch.m */; };
 		988B8DDC0CC263F5006EA06D /* SPatchEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = 988B8DBB0CC263F4006EA06D /* SPatchEntry.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -426,6 +426,7 @@
 		1B17754F0CC4BC43009D351A /* SUpdaterInstall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SUpdaterInstall.m; sourceTree = "<group>"; };
 		1B1775500CC4BC43009D351A /* SUpdaterInstall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUpdaterInstall.h; sourceTree = "<group>"; };
 		1B1775960CC4BC83009D351A /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
+		1B29ADE30CCF76C900A1B045 /* surestarter */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = surestarter; path = "build/Universal Binary/surestarter"; sourceTree = "<group>"; };
 		1B3743880B6E2B79002F18C8 /* SEEntryList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEntryList.m; sourceTree = "<group>"; };
 		1B37438B0B6E2B84002F18C8 /* SEEntryList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEntryList.h; sourceTree = "<group>"; };
 		1B55EAE30B8625ED000E1760 /* SparkAware.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SparkAware.tiff; sourceTree = "<group>"; };
@@ -440,7 +441,6 @@
 		1B8077160CCD1B2500DC56CE /* SUpdaterRestart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SUpdaterRestart.m; sourceTree = "<group>"; };
 		1B8077E70CCD1EA000DC56CE /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SUpdaterVersionWindow.nib; sourceTree = "<group>"; };
 		1B8077E90CCD1EA000DC56CE /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		1B8078410CCD20FC00DC56CE /* srestart */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = srestart; path = "build/Universal Binary/srestart"; sourceTree = "<group>"; };
 		1B8078420CCD20FC00DC56CE /* suinstaller */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = suinstaller; path = "build/Universal Binary/suinstaller"; sourceTree = "<group>"; };
 		1BB11ABB0B931FAE00908925 /* SELibrary.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SELibrary.tiff; sourceTree = "<group>"; };
 		1BBED2330C9FFCAD0050A7F8 /* SEUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEUpdater.h; sourceTree = "<group>"; };
@@ -503,8 +503,8 @@
 		988107EF0AFFF9390010CDD5 /* badge-1&2.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "badge-1&2.tiff"; sourceTree = "<group>"; };
 		988107F00AFFF9390010CDD5 /* badge-5.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "badge-5.tiff"; sourceTree = "<group>"; };
 		988B8DA40CC26337006EA06D /* SUpdaterKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SUpdaterKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		988B8DB70CC263F4006EA06D /* skrestart.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = skrestart.h; sourceTree = "<group>"; };
-		988B8DB80CC263F4006EA06D /* skrestartUser.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = skrestartUser.c; sourceTree = "<group>"; };
+		988B8DB70CC263F4006EA06D /* surestart.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = surestart.h; path = ../Helpers/surestart.h; sourceTree = "<group>"; };
+		988B8DB80CC263F4006EA06D /* surestartUser.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = surestartUser.c; path = ../Helpers/surestartUser.c; sourceTree = "<group>"; };
 		988B8DB90CC263F4006EA06D /* SPatch.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SPatch.h; sourceTree = "<group>"; };
 		988B8DBA0CC263F4006EA06D /* SPatch.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SPatch.m; sourceTree = "<group>"; };
 		988B8DBB0CC263F4006EA06D /* SPatchEntry.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SPatchEntry.h; sourceTree = "<group>"; };
@@ -686,8 +686,8 @@
 		1B8077DF0CCD1E7700DC56CE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				1B8078410CCD20FC00DC56CE /* srestart */,
 				1B8078420CCD20FC00DC56CE /* suinstaller */,
+				1B29ADE30CCF76C900A1B045 /* surestarter */,
 				1B8077E80CCD1EA000DC56CE /* InfoPlist.strings */,
 				1B8077E60CCD1EA000DC56CE /* SUpdaterVersionWindow.nib */,
 			);
@@ -921,8 +921,8 @@
 		988B8DB60CC263F4006EA06D /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				988B8DB70CC263F4006EA06D /* skrestart.h */,
-				988B8DB80CC263F4006EA06D /* skrestartUser.c */,
+				988B8DB70CC263F4006EA06D /* surestart.h */,
+				988B8DB80CC263F4006EA06D /* surestartUser.c */,
 				988B8DB90CC263F4006EA06D /* SPatch.h */,
 				988B8DBA0CC263F4006EA06D /* SPatch.m */,
 				988B8DBB0CC263F4006EA06D /* SPatchEntry.h */,
@@ -1192,7 +1192,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				988B8DD80CC263F5006EA06D /* skrestart.h in Headers */,
+				988B8DD80CC263F5006EA06D /* surestart.h in Headers */,
 				988B8DDA0CC263F5006EA06D /* SPatch.h in Headers */,
 				988B8DDC0CC263F5006EA06D /* SPatchEntry.h in Headers */,
 				988B8DDE0CC263F5006EA06D /* SPatchFolder.h in Headers */,
@@ -1491,8 +1491,8 @@
 			files = (
 				1B8077EA0CCD1EA000DC56CE /* SUpdaterVersionWindow.nib in Resources */,
 				1B8077EB0CCD1EA000DC56CE /* InfoPlist.strings in Resources */,
-				1B8078430CCD20FC00DC56CE /* srestart in Resources */,
 				1B8078440CCD20FC00DC56CE /* suinstaller in Resources */,
+				1B29ADE40CCF76C900A1B045 /* surestarter in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1566,7 +1566,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				988B8DD90CC263F5006EA06D /* skrestartUser.c in Sources */,
+				988B8DD90CC263F5006EA06D /* surestartUser.c in Sources */,
 				988B8DDB0CC263F5006EA06D /* SPatch.m in Sources */,
 				988B8DDD0CC263F5006EA06D /* SPatchEntry.m in Sources */,
 				988B8DDF0CC263F5006EA06D /* SPatchFolder.m in Sources */,
@@ -1843,7 +1843,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 401;
+				DYLIB_CURRENT_VERSION = 402;
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = SUpdaterKit.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -1855,7 +1855,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 401;
+				DYLIB_CURRENT_VERSION = 402;
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = SUpdaterKit.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -1867,7 +1867,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 401;
+				DYLIB_CURRENT_VERSION = 402;
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = SUpdaterKit.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -1879,7 +1879,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 401;
+				DYLIB_CURRENT_VERSION = 402;
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = SUpdaterKit.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -1890,7 +1890,7 @@
 		98BC60520857BB9400A2041F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 401;
+				CURRENT_PROJECT_VERSION = 402;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = Spark;
@@ -1901,7 +1901,7 @@
 		98BC60530857BB9400A2041F /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 401;
+				CURRENT_PROJECT_VERSION = 402;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = Spark;
@@ -1928,7 +1928,7 @@
 		98C12BD508CE11B30015CB91 /* Universal Binary */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 401;
+				CURRENT_PROJECT_VERSION = 402;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = Spark;
@@ -1976,7 +1976,7 @@
 		98EFD02F0B58443900AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 401;
+				CURRENT_PROJECT_VERSION = 402;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = Spark;

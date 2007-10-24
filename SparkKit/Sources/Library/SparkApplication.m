@@ -196,46 +196,6 @@ NSString * const SparkApplicationDidChangeEnabledNotification = @"SparkApplicati
 @end
 
 #pragma mark -
-static
-NSString * const kSKApplicationIdType = @"SKApplicationType";
-static
-NSString * const kSKApplicationIdentifier = @"SKApplicationIdentifier";
-
-@implementation SKApplication (SparkSerialization)
-
-- (id)initWithSerializedValues:(NSDictionary *)plist {
-  if (self = [super init]) {
-    /* Compatibility with Library version 1.0 */
-    NSString *identifier;
-    SKApplicationIdentifier type;
-    if ([plist objectForKey:@"SparkApplication"]) {
-      plist = [plist objectForKey:@"SparkApplication"];
-      identifier = [plist objectForKey:@"Identifier"];
-      type = [[plist objectForKey:@"IDType"] intValue];
-    } else {
-      identifier = [plist objectForKey:kSKApplicationIdentifier];
-      type = SKIntegerValue([plist objectForKey:kSKApplicationIdType]);
-    }
-    
-    [self setIdentifier:identifier type:type];
-    
-    [self setName:[plist objectForKey:@"SKApplicationName"]];
-  }
-  return self;
-}
-
-- (BOOL)serialize:(NSMutableDictionary *)plist {
-  if ([self identifier]) {
-    if ([self name])
-      [plist setObject:[self name] forKey:@"SKApplicationName"];
-    [plist setObject:SKInteger([self idType]) forKey:kSKApplicationIdType];
-    [plist setObject:[self identifier] forKey:kSKApplicationIdentifier];
-  }
-  return YES;
-}
-
-@end
-
 #pragma mark SparkLibrary Extension
 @implementation SparkLibrary (SparkLibraryPrivate)
 
@@ -284,33 +244,6 @@ NSString * const kSKApplicationIdentifier = @"SKApplicationIdentifier";
 
 @end
 
-#pragma mark ShadowKit Extension
-@implementation SKAliasedApplication (SparkSerialization)
-
-- (BOOL)serialize:(NSMutableDictionary *)plist {
-  if ([super serialize:plist]) {
-    NSData *alias = [[self alias] data];
-    if (alias)
-      [plist setObject:alias forKey:@"SKApplicationAlias"];
-    return YES;
-  }
-  return NO;
-}
-
-- (id)initWithSerializedValues:(NSDictionary *)plist {
-  if (self = [super initWithSerializedValues:plist]) {
-    NSData *data = [plist objectForKey:@"SKApplicationAlias"];
-    if (data) {
-      SKAlias *alias = [[SKAlias alloc] initWithData:data];
-      [self setAlias:alias];
-      [alias release];
-    }
-  }
-  return self;
-}
-
-@end
-
 @implementation SparkApplication (SparkExport)
 
 - (id)initFromExternalRepresentation:(id)rep {
@@ -351,7 +284,7 @@ NSString * const kSKApplicationIdentifier = @"SKApplicationIdentifier";
           [bundle release];
         }
       }
-      break;
+        break;
     case kSKApplicationBundleIdentifier:
       [plist setObject:[app identifier] forKey:@"identifier"];
       if (path) {
@@ -359,7 +292,7 @@ NSString * const kSKApplicationIdentifier = @"SKApplicationIdentifier";
         if (creator && creator != kUnknownType)
           [plist setObject:SKStringForOSType(creator) forKey:@"signature"];
       }
-      break;
+        break;
     case kSKApplicationUndefinedType:
       plist = nil;
       break;
@@ -368,6 +301,77 @@ NSString * const kSKApplicationIdentifier = @"SKApplicationIdentifier";
     [plist setObject:[self name] forKey:@"name"];
   }
   return plist;
+}
+
+@end
+
+#pragma mark -
+#pragma mark ShadowKit Extension
+static
+NSString * const kSKApplicationIdType = @"SKApplicationType";
+static
+NSString * const kSKApplicationIdentifier = @"SKApplicationIdentifier";
+
+@implementation SKApplication (SparkSerialization)
+
+- (id)initWithSerializedValues:(NSDictionary *)plist {
+  if (self = [super init]) {
+    /* Compatibility with Library version 1.0 */
+    NSString *identifier;
+    SKApplicationIdentifier type;
+    if ([plist objectForKey:@"SparkApplication"]) {
+      plist = [plist objectForKey:@"SparkApplication"];
+      identifier = [plist objectForKey:@"Identifier"];
+      type = [[plist objectForKey:@"IDType"] intValue];
+    } else {
+      identifier = [plist objectForKey:kSKApplicationIdentifier];
+      type = SKIntegerValue([plist objectForKey:kSKApplicationIdType]);
+    }
+    
+    if (kSKApplicationUndefinedType != type)
+      [self setIdentifier:identifier type:type];
+    
+    [self setName:[plist objectForKey:@"SKApplicationName"]];
+  }
+  return self;
+}
+
+- (BOOL)serialize:(NSMutableDictionary *)plist {
+  if ([self identifier]) {
+    if ([self name])
+      [plist setObject:[self name] forKey:@"SKApplicationName"];
+    if (kSKApplicationUndefinedType != [self idType]) {
+      [plist setObject:SKInteger([self idType]) forKey:kSKApplicationIdType];
+      [plist setObject:[self identifier] forKey:kSKApplicationIdentifier];
+    }
+  }
+  return YES;
+}
+
+@end
+
+@implementation SKAliasedApplication (SparkSerialization)
+
+- (BOOL)serialize:(NSMutableDictionary *)plist {
+  if ([super serialize:plist]) {
+    NSData *alias = [[self alias] data];
+    if (alias)
+      [plist setObject:alias forKey:@"SKApplicationAlias"];
+    return YES;
+  }
+  return NO;
+}
+
+- (id)initWithSerializedValues:(NSDictionary *)plist {
+  if (self = [super initWithSerializedValues:plist]) {
+    NSData *data = [plist objectForKey:@"SKApplicationAlias"];
+    if (data) {
+      SKAlias *alias = [[SKAlias alloc] initWithData:data];
+      [self setAlias:alias];
+      [alias release];
+    }
+  }
+  return self;
 }
 
 @end

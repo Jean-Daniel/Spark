@@ -82,7 +82,7 @@ SK_CLASS_EXPORT
 - (UInt64)rawkey;
 - (void)setRawkey:(UInt64)rawkey;
 
-- (BOOL)sendKeystroke;
-- (BOOL)sendKeystrokeToApplication:(OSType)signature bundle:(NSString *)bundleId;
+- (BOOL)sendKeystroke:(useconds_t)latency;
+- (BOOL)sendKeystrokeToApplication:(OSType)signature bundle:(NSString *)bundleId latency:(useconds_t)latency;
 
 @end

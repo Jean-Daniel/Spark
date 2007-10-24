@@ -15,24 +15,22 @@ static ProcessSerialNumber _HKGetProcessWithSignature(OSType type);
 static ProcessSerialNumber _HKGetProcessWithBundleIdentifier(CFStringRef bundleId);
 
 #pragma mark -
-useconds_t HKEventSleepInterval = 2500;
-
 HK_INLINE
-void __HKEventPostKeyboardEvent(CGEventSourceRef source, HKKeycode keycode, void *psn, Boolean down) {
+void __HKEventPostKeyboardEvent(CGEventSourceRef source, HKKeycode keycode, void *psn, Boolean down, useconds_t latency) {
   CGEventRef event = CGEventCreateKeyboardEvent(source, keycode, down);
   if (psn)
     CGEventPostToPSN(psn, event);
   else
     CGEventPost(kCGHIDEventTap, event);
   CFRelease(event);
-  if (HKEventSleepInterval > 0) {
+  if (latency > 0) {
     /* Avoid to fast typing (5 ms by default) */
-    usleep(HKEventSleepInterval);
+    usleep(latency);
   }
 }
 
 static
-void _HKEventPostKeyStroke(HKKeycode keycode, HKModifier modifier, CGEventSourceRef source, void *psn) {
+void _HKEventPostKeyStroke(HKKeycode keycode, HKModifier modifier, CGEventSourceRef source, void *psn, useconds_t latency) {
   /* WARNING: look like CGEvent does not support null source (bug) */
   BOOL isource = NO;
   if (!source) {
@@ -43,41 +41,41 @@ void _HKEventPostKeyStroke(HKKeycode keycode, HKModifier modifier, CGEventSource
   /* Sending Modifier Keydown events */
   if (kCGEventFlagMaskAlphaShift & modifier) {
     /* Lock Caps Lock */
-    __HKEventPostKeyboardEvent(source, kHKVirtualCapsLockKey, psn, YES);
+    __HKEventPostKeyboardEvent(source, kHKVirtualCapsLockKey, psn, YES, latency);
   }
   if (kCGEventFlagMaskShift & modifier) {
-    __HKEventPostKeyboardEvent(source, kHKVirtualShiftKey, psn, YES);
+    __HKEventPostKeyboardEvent(source, kHKVirtualShiftKey, psn, YES, latency);
   }
   if (kCGEventFlagMaskControl & modifier) {
-    __HKEventPostKeyboardEvent(source, kHKVirtualControlKey, psn, YES);
+    __HKEventPostKeyboardEvent(source, kHKVirtualControlKey, psn, YES, latency);
   }
   if (kCGEventFlagMaskAlternate & modifier) {
-    __HKEventPostKeyboardEvent(source, kHKVirtualOptionKey, psn, YES);
+    __HKEventPostKeyboardEvent(source, kHKVirtualOptionKey, psn, YES, latency);
   }
   if (kCGEventFlagMaskCommand & modifier) {
-    __HKEventPostKeyboardEvent(source, kHKVirtualCommandKey, psn, YES);
+    __HKEventPostKeyboardEvent(source, kHKVirtualCommandKey, psn, YES, latency);
   }
   
   /* Sending Character Key events */
-  __HKEventPostKeyboardEvent(source, keycode , psn, YES);
-  __HKEventPostKeyboardEvent(source, keycode, psn, NO);
+  __HKEventPostKeyboardEvent(source, keycode , psn, YES, latency);
+  __HKEventPostKeyboardEvent(source, keycode, psn, NO, latency);
   
   /* Sending Modifiers Key Up events */
   if (kCGEventFlagMaskCommand & modifier) {
-    __HKEventPostKeyboardEvent(source, kHKVirtualCommandKey, psn, NO);
+    __HKEventPostKeyboardEvent(source, kHKVirtualCommandKey, psn, NO, latency);
   }
   if (kCGEventFlagMaskAlternate & modifier) {
-    __HKEventPostKeyboardEvent(source, kHKVirtualOptionKey, psn, NO);
+    __HKEventPostKeyboardEvent(source, kHKVirtualOptionKey, psn, NO, latency);
   }
   if (kCGEventFlagMaskControl & modifier) {
-    __HKEventPostKeyboardEvent(source, kHKVirtualControlKey, psn, NO);
+    __HKEventPostKeyboardEvent(source, kHKVirtualControlKey, psn, NO, latency);
   }
   if (kCGEventFlagMaskShift & modifier) {
-    __HKEventPostKeyboardEvent(source, kHKVirtualShiftKey, psn, NO);
+    __HKEventPostKeyboardEvent(source, kHKVirtualShiftKey, psn, NO, latency);
   }
   if (kCGEventFlagMaskAlphaShift & modifier) {
     /* Unlock Caps Lock */
-    __HKEventPostKeyboardEvent(source, kHKVirtualCapsLockKey, psn, NO);
+    __HKEventPostKeyboardEvent(source, kHKVirtualCapsLockKey, psn, NO, latency);
   }
   
   if (isource && source) {
@@ -86,7 +84,7 @@ void _HKEventPostKeyStroke(HKKeycode keycode, HKModifier modifier, CGEventSource
 }
 
 static
-Boolean _HKEventPostCharacterKeystrokes(UniChar character, CGEventSourceRef source, void *psn) {
+Boolean _HKEventPostCharacterKeystrokes(UniChar character, CGEventSourceRef source, void *psn, useconds_t latency) {
   /* WARNING: look like CGEvent does not support null source (bug) */
   BOOL isource = NO; /* YES if internal source and should be released */ 
   if (!source) {
@@ -98,7 +96,7 @@ Boolean _HKEventPostCharacterKeystrokes(UniChar character, CGEventSourceRef sour
   HKModifier mods[8];
   NSUInteger count = HKMapGetKeycodesAndModifiersForUnichar(character, keys, mods, 8);
   for (NSUInteger idx = 0; idx < count; idx++) {
-    _HKEventPostKeyStroke(keys[idx], mods[idx], source, psn);
+    _HKEventPostKeyStroke(keys[idx], mods[idx], source, psn, latency);
   }
   
   if (isource && source) {
@@ -113,12 +111,12 @@ CGEventSourceRef HKEventCreatePrivateSource() {
   return CGEventSourceCreate(kCGEventSourceStatePrivate);
 }
 
-void HKEventPostKeystroke(HKKeycode keycode, HKModifier modifier, CGEventSourceRef source) {
-  _HKEventPostKeyStroke(keycode, modifier, source, NULL);
+void HKEventPostKeystroke(HKKeycode keycode, HKModifier modifier, CGEventSourceRef source, useconds_t latency) {
+  _HKEventPostKeyStroke(keycode, modifier, source, NULL, latency);
 }
 
-Boolean HKEventPostCharacterKeystrokes(UniChar character, CGEventSourceRef source) {
-  return _HKEventPostCharacterKeystrokes(character, source, NULL);
+Boolean HKEventPostCharacterKeystrokes(UniChar character, CGEventSourceRef source, useconds_t latency) {
+  return _HKEventPostCharacterKeystrokes(character, source, NULL, latency);
 }
 
 HK_INLINE
@@ -142,19 +140,19 @@ ProcessSerialNumber __HKEventGetPSNForTarget(HKEventTarget target, HKEventTarget
   return psn;
 }
 
-Boolean HKEventPostKeystrokeToTarget(HKKeycode keycode, HKModifier modifier, HKEventTarget target, HKEventTargetType type, CGEventSourceRef source) {
+Boolean HKEventPostKeystrokeToTarget(HKKeycode keycode, HKModifier modifier, HKEventTarget target, HKEventTargetType type, CGEventSourceRef source, useconds_t latency) {
   ProcessSerialNumber psn = __HKEventGetPSNForTarget(target, type);
   if (psn.lowLongOfPSN != kNoProcess) {
-    _HKEventPostKeyStroke(keycode, modifier, source, kSystemProcess == psn.lowLongOfPSN ? NULL : &psn);
+    _HKEventPostKeyStroke(keycode, modifier, source, kSystemProcess == psn.lowLongOfPSN ? NULL : &psn, latency);
     return YES;
   }
   return NO;
 }
 
-Boolean HKEventPostCharacterKeystrokesToTarget(UniChar character, HKEventTarget target, HKEventTargetType type, CGEventSourceRef source) {
+Boolean HKEventPostCharacterKeystrokesToTarget(UniChar character, HKEventTarget target, HKEventTargetType type, CGEventSourceRef source, useconds_t latency) {
   ProcessSerialNumber psn = __HKEventGetPSNForTarget(target, type);
   if (psn.lowLongOfPSN != kNoProcess) {
-    _HKEventPostCharacterKeystrokes(character, source, kSystemProcess == psn.lowLongOfPSN ? NULL : &psn);
+    _HKEventPostCharacterKeystrokes(character, source, kSystemProcess == psn.lowLongOfPSN ? NULL : &psn, latency);
     return YES;
   }
   return NO;
@@ -210,7 +208,7 @@ ProcessSerialNumber _HKGetProcessWithBundleIdentifier(CFStringRef bundleId) {
 #pragma mark -
 @implementation HKHotKey (HKEventExtension)
 
-- (BOOL)sendKeystroke {
+- (BOOL)sendKeystroke:(useconds_t)latency {
   if ([self isValid]) {
     HKEventTarget target;
     ProcessSerialNumber psn;
@@ -220,14 +218,14 @@ ProcessSerialNumber _HKGetProcessWithBundleIdentifier(CFStringRef bundleId) {
       target.psn = &psn;
       type = kHKEventTargetProcess;
     }
-    HKEventPostKeystrokeToTarget([self keycode], [self nativeModifier], target, type, NULL);
+    HKEventPostKeystrokeToTarget([self keycode], [self nativeModifier], target, type, NULL, latency);
   } else {
     return NO;
   }
   return YES;
 }
 
-- (BOOL)sendKeystrokeToApplication:(OSType)signature bundle:(NSString *)bundleId {
+- (BOOL)sendKeystrokeToApplication:(OSType)signature bundle:(NSString *)bundleId latency:(useconds_t)latency {
   BOOL result = NO;
   if ([self isValid]) {
     /* Find target and target type */
@@ -242,7 +240,7 @@ ProcessSerialNumber _HKGetProcessWithBundleIdentifier(CFStringRef bundleId) {
       type = kHKEventTargetBundle;
     }
     
-    result = HKEventPostKeystrokeToTarget([self keycode], [self nativeModifier], target, type, NULL);
+    result = HKEventPostKeystrokeToTarget([self keycode], [self nativeModifier], target, type, NULL, latency);
   }
   return result;
 }

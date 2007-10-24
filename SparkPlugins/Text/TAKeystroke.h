@@ -20,7 +20,7 @@
 - (id)initWithKeycode:(HKKeycode)keycode character:(UniChar)character modifier:(HKModifier)modifier;
 - (id)initFromRawKey:(UInt64)rawKey;
 
-- (void)sendKeystroke:(CGEventSourceRef)src;
+- (void)sendKeystroke:(CGEventSourceRef)src latency:(useconds_t)latency;
 
 - (NSString *)shortcut;
 

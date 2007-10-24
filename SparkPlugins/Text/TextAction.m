@@ -77,7 +77,8 @@ NSString * const kKeyboardActionBundleIdentifier = @"org.shadowlab.spark.action.
     GetFrontProcess(&psn);
     HKEventTarget target = { psn: &psn };
     for (NSUInteger idx = 0; idx < [text length]; idx++) {
-      HKEventPostCharacterKeystrokesToTarget([text characterAtIndex:idx], target, kHKEventTargetProcess, src);
+      HKEventPostCharacterKeystrokesToTarget([text characterAtIndex:idx], target, kHKEventTargetProcess, src, 
+                                             ta_latency > 0 ? ta_latency : kHKEventDefaultLatency);
     }
     CFRelease(src);
   }
@@ -126,11 +127,11 @@ NSString * const kKeyboardActionBundleIdentifier = @"org.shadowlab.spark.action.
 }
 
 - (SparkAlert *)simulateKeystroke {
+  useconds_t latency = ta_latency > 0 ? ta_latency : kHKEventDefaultLatency;
   CGEventSourceRef src = HKEventCreatePrivateSource();
   for (NSUInteger idx = 0; idx < [ta_data count]; idx++) {
     if (idx > 0)
-      usleep(HKEventSleepInterval);
-    [[ta_data objectAtIndex:idx] sendKeystroke:src];
+      [[ta_data objectAtIndex:idx] sendKeystroke:src latency:latency];
   }
   if (src) CFRelease(src);
   return nil;

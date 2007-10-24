@@ -151,7 +151,8 @@ BOOL SparkHotKeyFilter(HKKeycode code, HKModifier modifier) {
 #pragma mark -
 #pragma mark Public Methods
 - (void)bypass {
-  [sp_hotkey sendKeystroke];
+  /* 5 ms latency */
+  [sp_hotkey sendKeystroke:kHKEventDefaultLatency];
 }
 - (BOOL)isRegistred {
   return [sp_hotkey isRegistred];
@@ -162,6 +163,13 @@ BOOL SparkHotKeyFilter(HKKeycode code, HKModifier modifier) {
 }
 - (NSString *)triggerDescription {
   return [sp_hotkey shortcut];
+}
+
+- (BOOL)sendKeystroke:(useconds_t)latency {
+  return [sp_hotkey sendKeystroke:latency];
+}
+- (BOOL)sendKeystrokeToApplication:(OSType)signature bundle:(NSString *)bundleId latency:(useconds_t)latency {
+  return [sp_hotkey sendKeystrokeToApplication:signature bundle:bundleId latency:latency];
 }
 
 - (BOOL)isEqualToTrigger:(SparkTrigger *)aTrigger {

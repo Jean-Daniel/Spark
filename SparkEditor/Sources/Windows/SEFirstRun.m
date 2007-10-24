@@ -8,6 +8,7 @@
 
 #import "SEFirstRun.h"
 
+#import "SDVersion.h"
 #import "SEPreferences.h"
 #import "SELibraryDocument.h"
 #import "SEServerConnection.h"
@@ -19,14 +20,14 @@
 @implementation SELibraryDocument (SEFirstRun)
 
 - (void)displayFirstRunIfNeeded {
-  NSUInteger version = [[NSUserDefaults standardUserDefaults] integerForKey:kSparkPrefVersion];
+  NSUInteger version = [[NSUserDefaults standardUserDefaults] integerForKey:kSparkVersionKey];
   if (0 == version) {
     /* SparkEditor preferences does not exists */
     
   }
-  if (version < kSparkVersion) {
+  if (version < kSparkEditorVersion) {
     /* First, set preferences to avoid second call */
-    [[NSUserDefaults standardUserDefaults] setInteger:kSparkVersion forKey:kSparkPrefVersion];
+    [[NSUserDefaults standardUserDefaults] setInteger:kSparkEditorVersion forKey:kSparkVersionKey];
     
     SEFirstRun *first = [[SEFirstRun alloc] init];
     [first setReleasedWhenClosed:YES];

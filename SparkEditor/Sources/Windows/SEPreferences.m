@@ -28,7 +28,7 @@
 /* If daemon should delay library loading at startup */
 NSString * const kSparkGlobalPrefDelayStartup = @"SDDelayStartup";
 
-NSString * const kSparkPrefVersion = @"SparkVersion";
+NSString * const kSparkVersionKey = @"SparkVersion";
 
 /* Hide entry is plugin is disabled */
 NSString * const kSEPreferencesHideDisabled = @"SparkHideDisabled";
