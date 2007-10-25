@@ -280,7 +280,7 @@ void *_SEPreferencesLoginItemThread(void *arg) {
 - (void)updater:(SEUpdater *)updater didSearchVersion:(BOOL)version error:(NSError *)anError {
   [uiProgress stopAnimation:nil];
   if (!version && !anError) {
-    [uiUpdateMsg setStringValue:@"Spark is Up-to-date."];
+    [uiUpdateMsg setStringValue:@"No new version available."];
   } else if (anError) {
     NSString *str = [anError localizedDescription];
     if (str)

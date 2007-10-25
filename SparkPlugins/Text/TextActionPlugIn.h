@@ -24,6 +24,7 @@
   IBOutlet HKTrapWindow *uiRecordWindow;
   @private
     NSInteger ta_idx;
+  CGFloat ta_latency;
   /* Date format */
   CFDateFormatterRef ta_formatter;
   NSString *ta_format;
@@ -40,6 +41,9 @@
 
 - (KeyboardActionType)action;
 - (void)setAction:(KeyboardActionType)action;
+
+- (CGFloat)latency;
+- (void)setLatency:(CGFloat)latency;
 
 #pragma mark Text
 - (NSString *)text;

@@ -190,7 +190,46 @@ bail:
   return err;
 }
 
+OSStatus iTunesCopyCurrentStreamTitle(CFStringRef *title) {
+  AppleEvent theEvent;
+  OSStatus err = _iTunesCreateEvent(kAECoreSuite, kAEGetData, &theEvent);
+  require_noerr(err, bail);
+  
+  err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty, 'pStT', NULL);
+  require_noerr(err, bail);
+  
+  err = SKAESendEventReturnCFString(&theEvent, title);
+  require_noerr(err, bail);
+  
+bail:
+    SKAEDisposeDesc(&theEvent);
+  return err;
+}
+
 #pragma mark -
+OSStatus iTunesGetObjectType(AEDesc *obj, OSType *cls) {
+  AEDesc reply = SKAEEmptyDesc();
+  AppleEvent theEvent = SKAEEmptyDesc();
+  /* tell application "iTunes" to get ... */
+  OSStatus err = _iTunesCreateEvent(kAECoreSuite, kAEGetData, &theEvent);
+  require_noerr(err, bail);
+  
+  /* ... class of obj 'obj' */
+  err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeType, pClass, obj);
+  require_noerr(err, bail);
+  
+  err = SKAESendEventReturnAEDesc(&theEvent, typeType, &reply);
+  require_noerr(err, bail);
+  
+  err = AEGetDescData(&reply, cls, sizeof(*cls));
+  require_noerr(err, bail);
+  
+bail:
+    SKAEDisposeDesc(&theEvent);
+  SKAEDisposeDesc(&reply);
+  return err;
+}
+
 #pragma mark Tracks
 OSStatus iTunesSetTrackRate(iTunesTrack *track, UInt32 rate) {
   AppleEvent theEvent;

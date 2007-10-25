@@ -95,7 +95,6 @@
 		986756F5096B3C2800BB8A25 /* ShadowKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 986756D4096B3C0500BB8A25 /* ShadowKit.framework */; };
 		98789CAF0AB48D5A00C35052 /* ITunesInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 98789CAE0AB48D5A00C35052 /* ITunesInfo.h */; };
 		98789CB30AB48D8200C35052 /* ITunesInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 98789CB20AB48D8200C35052 /* ITunesInfo.m */; };
-		98789DB70AB4A03C00C35052 /* ITunesInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 98789CB20AB48D8200C35052 /* ITunesInfo.m */; };
 		98789DDC0AB4A17C00C35052 /* Simulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 98789DC40AB4A0D900C35052 /* Simulator.m */; };
 		98789DE00AB4A1D300C35052 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 98789DDF0AB4A1D300C35052 /* MainMenu.nib */; };
 		98789E030AB4A25900C35052 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
@@ -321,7 +320,7 @@
 		98027E800B9780F900CB77F3 /* SKLevelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKLevelView.h; sourceTree = "<group>"; };
 		980516690B6AA498006C5BB8 /* AAWStop.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = AAWStop.tiff; sourceTree = "<group>"; };
 		980D926106E61DB80038EE2A /* DocumentAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DocumentAction.h; sourceTree = "<group>"; };
-		9832875F079602BE00DB780A /* Labo */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "compiled.mach-o.executable"; path = Labo; sourceTree = BUILT_PRODUCTS_DIR; };
+		9832875F079602BE00DB780A /* Labo */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Labo; sourceTree = BUILT_PRODUCTS_DIR; };
 		9832882D079602EC00DB780A /* Labo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Labo.m; sourceTree = "<group>"; };
 		983332F50B999A3F00801842 /* SysEject.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SysEject.tiff; sourceTree = "<group>"; };
 		983974FC0A58637400F79B40 /* SystemActionPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemActionPlugin.m; sourceTree = "<group>"; };
@@ -1424,7 +1423,6 @@
 			files = (
 				9832882E079602EC00DB780A /* Labo.m in Sources */,
 				98DBCFC20AB421DF00FF47C8 /* ITunesAESuite.c in Sources */,
-				98789DB70AB4A03C00C35052 /* ITunesInfo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

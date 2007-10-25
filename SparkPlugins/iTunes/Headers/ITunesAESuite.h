@@ -63,6 +63,9 @@ OSStatus iTunesGetSoundVolume(SInt16 *volume);
 SK_PRIVATE
 OSStatus iTunesSetSoundVolume(SInt16 volume);
 
+SK_PRIVATE
+OSStatus iTunesCopyCurrentStreamTitle(CFStringRef *title);
+
 #pragma mark Commands
 typedef enum {
   kiTunesCommandPlay			= 'Play',
@@ -94,6 +97,9 @@ SK_PRIVATE
 OSStatus iTunesLaunch(LSLaunchFlags flags);
 
 #pragma mark -
+SK_PRIVATE
+OSStatus iTunesGetObjectType(AEDesc *obj, OSType *cls);
+
 #pragma mark Tracks
 SK_PRIVATE
 OSStatus iTunesGetCurrentTrack(iTunesTrack *track);

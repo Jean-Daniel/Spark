@@ -49,10 +49,10 @@
       [uiTokens setObjectValue:[anAction data]];
       break;
   }
+  [self setLatency:[anAction latency] / 1e3];
 }
 
 - (NSAlert *)sparkEditorShouldConfigureAction {
-  //TextAction *action = [self sparkAction];
   switch ([self action]) {
     case kTATextAction:
       if (![[self text] length])
@@ -87,6 +87,8 @@
       [action setData:[uiTokens objectValue]];
       break;
   }
+  if (ta_latency >= 0)
+    [action setLatency:ta_latency * 1e3];
 }
 
 #pragma mark -
@@ -96,6 +98,13 @@
 - (void)setType:(NSInteger)type {
   ta_idx = type;
   [self stop:nil];
+}
+
+- (CGFloat)latency {
+  return ta_latency;
+}
+- (void)setLatency:(CGFloat)latency {
+  ta_latency = ABS(latency);
 }
 
 - (KeyboardActionType)action {

@@ -378,15 +378,15 @@ NSAlert *_SELibraryTriggerAlreadyUsedAlert(SparkEntry *entry) {
         contextInfo:nil];
 }
 
-- (BOOL)editor:(SEEntryEditor *)theEditor shouldReplaceEntry:(SparkEntry *)entry withEntry:(SparkEntry *)newEntry {
+- (BOOL)editor:(SEEntryEditor *)theEditor shouldReplaceEntry:(SparkEntry *)oldEntry withEntry:(SparkEntry *)newEntry {
   SparkLibrary *library = [self library];
   SparkEntryManager *manager = [library entryManager];
   
   /* newEntry is null when "Use global entry" is selected */
   if (!newEntry) {
     /* If the edited entry was a custom entry, remove it */
-    if (kSparkEntryTypeOverWrite == [entry type]) {
-      [manager removeEntry:entry];
+    if (kSparkEntryTypeOverWrite == [oldEntry type]) {
+      [manager removeEntry:oldEntry];
     }
     return YES;
   } else {
@@ -394,7 +394,7 @@ NSAlert *_SELibraryTriggerAlreadyUsedAlert(SparkEntry *entry) {
     
     SparkEntry *previous = nil;
     /* If trigger has changed */
-    if (![[entry trigger] isEqualToTrigger:[newEntry trigger]]) {
+    if (![[oldEntry trigger] isEqualToTrigger:[newEntry trigger]]) {
       SparkTrigger *trigger = [self memberTrigger:[newEntry trigger]];
       /* If trigger already exists */
       if (trigger) {
@@ -419,10 +419,10 @@ NSAlert *_SELibraryTriggerAlreadyUsedAlert(SparkEntry *entry) {
         [[library triggerSet] addObject:[newEntry trigger]];
       }
       
-      /* Trigger has changed and edited entry is a default entry */
-      if ([entry type] == kSparkEntryTypeDefault && [[newEntry application] uid] == 0) {
+      /* Trigger has changed and edited entry is a default entry => update weak entries */
+      if ([oldEntry type] == kSparkEntryTypeDefault && [[newEntry application] uid] == 0) {
         /* Update weak entry */
-        NSArray *entries = [manager entriesForAction:[[entry action] uid]];
+        NSArray *entries = [manager entriesForAction:[[oldEntry action] uid]];
         NSUInteger count = [entries count];
         /* At least two */
         if (count > 1) {
@@ -439,36 +439,37 @@ NSAlert *_SELibraryTriggerAlreadyUsedAlert(SparkEntry *entry) {
         }
       }
     } else { /* Trigger does not change */
-      [newEntry setTrigger:[entry trigger]];
+      [newEntry setTrigger:[oldEntry trigger]];
     }
     
     /* Now update action. 
       We have to create a new one if the old one is used by an other entry: weak and inherit */
-    BOOL newAction = ([entry type] == kSparkEntryTypeWeakOverWrite) ||
-      ([entry type] == kSparkEntryTypeDefault && [[newEntry application] uid] != 0);
+    BOOL newAction = ([oldEntry type] == kSparkEntryTypeWeakOverWrite) ||
+      ([oldEntry type] == kSparkEntryTypeDefault && [[newEntry application] uid] != 0);
     if (newAction) {
       /* Add new action */
       [[newEntry action] setUID:0];
       [[library actionSet] addObject:[newEntry action]];
     } else {
       /* Update existing action */
-      [[newEntry action] setUID:[[entry action] uid]];
+      [[newEntry action] setUID:[[oldEntry action] uid]];
       [[library actionSet] updateObject:[newEntry action]];
     }
     
     /* If overwrite a global entry, create a new entry */
-    if ([entry type] == kSparkEntryTypeDefault && [[newEntry application] uid] != 0) {
+    if ([oldEntry type] == kSparkEntryTypeDefault && [[newEntry application] uid] != 0) {
       [manager addEntry:newEntry];
     } else if (previous) {
-      /* Note: removing 'previous' can also remove 'previous->trigger', 
-      so we remove 'entry' instead */
-      [manager removeEntry:entry];
-      [manager replaceEntry:previous withEntry:newEntry];
+      /* Note: removing 'previous' can also remove 'previous->trigger' */
+      [manager removeEntry:previous];
+      if (![self memberTrigger:[newEntry trigger]])
+        [[library triggerSet] addObject:[newEntry trigger]];
+      [manager replaceEntry:oldEntry withEntry:newEntry];
     } else {
-      [manager replaceEntry:entry withEntry:newEntry];
+      [manager replaceEntry:oldEntry withEntry:newEntry];
     }
     /* Preserve status */
-    if ([entry isEnabled])
+    if ([oldEntry isEnabled])
       [manager enableEntry:newEntry];
     
     [[self mainWindowController] revealEntry:newEntry];

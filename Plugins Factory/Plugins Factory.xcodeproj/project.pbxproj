@@ -20,21 +20,10 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		1B31A36D0B96D448003A56F8 /* Up.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98D812AF08E580B5007E6C14 /* Up.tif */; };
-		1B31A36E0B96D449003A56F8 /* RemoveMini_Pressed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98EE18D107BABCFE008AE24D /* RemoveMini_Pressed.tiff */; };
-		1B31A36F0B96D449003A56F8 /* RemoveMini.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98EE18D007BABCFE008AE24D /* RemoveMini.tiff */; };
-		1B31A3700B96D44E003A56F8 /* KeyStrokeIcon.tif in Resources */ = {isa = PBXBuildFile; fileRef = 9840AC8708D3410900C33314 /* KeyStrokeIcon.tif */; };
-		1B31A3710B96D44E003A56F8 /* KeyStrokeActionPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 988BC50306411BB00096DD7D /* KeyStrokeActionPlugin.m */; };
-		1B31A3720B96D44F003A56F8 /* KeyStrokeAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 988BC50906411BB00096DD7D /* KeyStrokeAction.m */; };
-		1B31A3730B96D451003A56F8 /* Down.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98D812B008E580B5007E6C14 /* Down.tif */; };
-		1B31A3740B96D452003A56F8 /* AddMini_Pressed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98EE18D207BABCFE008AE24D /* AddMini_Pressed.tiff */; };
-		1B31A3750B96D453003A56F8 /* AddMini.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98EE18CF07BABCFE008AE24D /* AddMini.tiff */; };
-		1B31A37B0B96D461003A56F8 /* KeyStrokeView.nib in Resources */ = {isa = PBXBuildFile; fileRef = 988BC51506411BEA0096DD7D /* KeyStrokeView.nib */; };
 		1B31A3820B96D478003A56F8 /* SparkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF814208645F2D007BC81A /* SparkKit.framework */; };
 		1B31A3830B96D478003A56F8 /* ShadowKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9867577E096B3E7C00BB8A25 /* ShadowKit.framework */; };
 		1B31A3890B96D47C003A56F8 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 		1B31A58E0B96D500003A56F8 /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF813B08645F24007BC81A /* HotKeyToolKit.framework */; };
-		1B31A63A0B96D814003A56F8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 988BC51306411BEA0096DD7D /* InfoPlist.strings */; };
 		9833252A078F437B0047E227 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 		98332532078F43CC0047E227 /* DockActionPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 98332530078F43CC0047E227 /* DockActionPlugin.h */; };
 		98332533078F43CC0047E227 /* DockActionPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 98332531078F43CC0047E227 /* DockActionPlugin.m */; };
@@ -136,20 +125,12 @@
 		9833253B078F44700047E227 /* DockAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DockAction.h; sourceTree = "<group>"; };
 		983EFC8B07905AA2002171F5 /* Dock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Dock.m; sourceTree = "<group>"; };
 		983EFC8E07905AB7002171F5 /* Dock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dock.h; sourceTree = "<group>"; };
-		9840AC8708D3410900C33314 /* KeyStrokeIcon.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = KeyStrokeIcon.tif; sourceTree = "<group>"; };
 		985B6F070719F8860073D36F /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		9884615B0623682C00E3DE04 /* Remove_shell.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Remove_shell.tif; sourceTree = "<group>"; };
 		9884615C0623682C00E3DE04 /* Remove_shell_Pressed.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Remove_shell_Pressed.tif; sourceTree = "<group>"; };
 		9884615D0623682C00E3DE04 /* Add_shell.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Add_shell.tif; sourceTree = "<group>"; };
 		9884615E0623682C00E3DE04 /* Add_shell_Pressed.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Add_shell_Pressed.tif; sourceTree = "<group>"; };
 		988B9DC806293A0800FADDCF /* Finder_s.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Finder_s.tiff; sourceTree = "<group>"; };
-		988BC50306411BB00096DD7D /* KeyStrokeActionPlugin.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = KeyStrokeActionPlugin.m; sourceTree = "<group>"; };
-		988BC50606411BB00096DD7D /* KeyStrokeAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = KeyStrokeAction.h; sourceTree = "<group>"; };
-		988BC50706411BB00096DD7D /* KeyStrokeActionPlugin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = KeyStrokeActionPlugin.h; sourceTree = "<group>"; };
-		988BC50906411BB00096DD7D /* KeyStrokeAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = KeyStrokeAction.m; sourceTree = "<group>"; };
-		988BC51006411BC00096DD7D /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
-		988BC51406411BEA0096DD7D /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		988BC51606411BEA0096DD7D /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/KeyStrokeView.nib; sourceTree = "<group>"; };
 		98975AAD061E223800BC40ED /* ShellKeySet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShellKeySet.m; sourceTree = "<group>"; };
 		98975AAF061E226B00BC40ED /* ShellKeySet.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ShellKeySet.h; sourceTree = "<group>"; };
 		98975AB1061E228500BC40ED /* ShellHotKey.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ShellHotKey.m; sourceTree = "<group>"; };
@@ -160,8 +141,6 @@
 		98975B77061E278500BC40ED /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = ShellScript/Resources/English.lproj/ShellScriptView.nib; sourceTree = "<group>"; };
 		98975B83061E27C800BC40ED /* ShellPluginIcon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = ShellPluginIcon.tiff; sourceTree = "<group>"; };
 		98BD1201078F46BA00A77736 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/DockConfigView.nib; sourceTree = "<group>"; };
-		98D812AF08E580B5007E6C14 /* Up.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Up.tif; sourceTree = "<group>"; };
-		98D812B008E580B5007E6C14 /* Down.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Down.tif; sourceTree = "<group>"; };
 		98E1CB4B0607743500FA3599 /* ArchivesHotKey.spact */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ArchivesHotKey.spact; sourceTree = BUILT_PRODUCTS_DIR; };
 		98E1CC48060774DA00FA3599 /* ArchivesKeySet.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ArchivesKeySet.m; sourceTree = "<group>"; };
 		98E1CC4B060774DA00FA3599 /* ArchivesHotKey.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ArchivesHotKey.m; sourceTree = "<group>"; };
@@ -172,10 +151,6 @@
 		98E1CF74060778F800FA3599 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = Resources/English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		98E1CF76060778F800FA3599 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Resources/English.lproj/ArchivesConfigView.nib; sourceTree = "<group>"; };
 		98E42D1A0628206500EB150F /* ShellKeyIcon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = ShellKeyIcon.tiff; sourceTree = "<group>"; };
-		98EE18CF07BABCFE008AE24D /* AddMini.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = AddMini.tiff; sourceTree = "<group>"; };
-		98EE18D007BABCFE008AE24D /* RemoveMini.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = RemoveMini.tiff; sourceTree = "<group>"; };
-		98EE18D107BABCFE008AE24D /* RemoveMini_Pressed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = RemoveMini_Pressed.tiff; sourceTree = "<group>"; };
-		98EE18D207BABCFE008AE24D /* AddMini_Pressed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = AddMini_Pressed.tiff; sourceTree = "<group>"; };
 		98EF813208645F24007BC81A /* HotKeyToolKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = HotKeyToolKit.xcodeproj; path = ../HotKeyToolKit/HotKeyToolKit.xcodeproj; sourceTree = SOURCE_ROOT; };
 		98EF813C08645F2C007BC81A /* SparkKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SparkKit.xcodeproj; path = ../SparkKit/SparkKit.xcodeproj; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -260,7 +235,6 @@
 			children = (
 				98332516078F43700047E227 /* Dock */,
 				98E1CC2D060774BD00FA3599 /* Archives */,
-				988BC50206411B330096DD7D /* KeyStroke */,
 				98975AAB061E222300BC40ED /* ShellScript */,
 			);
 			name = Classes;
@@ -335,43 +309,6 @@
 				98332530078F43CC0047E227 /* DockActionPlugin.h */,
 			);
 			path = Headers;
-			sourceTree = "<group>";
-		};
-		988BC50206411B330096DD7D /* KeyStroke */ = {
-			isa = PBXGroup;
-			children = (
-				988BC50406411BB00096DD7D /* Headers */,
-				988BC50906411BB00096DD7D /* KeyStrokeAction.m */,
-				988BC50306411BB00096DD7D /* KeyStrokeActionPlugin.m */,
-				988BC51006411BC00096DD7D /* Info.plist */,
-				988BC51206411BEA0096DD7D /* Resources */,
-			);
-			path = KeyStroke;
-			sourceTree = SOURCE_ROOT;
-		};
-		988BC50406411BB00096DD7D /* Headers */ = {
-			isa = PBXGroup;
-			children = (
-				988BC50706411BB00096DD7D /* KeyStrokeActionPlugin.h */,
-				988BC50606411BB00096DD7D /* KeyStrokeAction.h */,
-			);
-			path = Headers;
-			sourceTree = "<group>";
-		};
-		988BC51206411BEA0096DD7D /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				98D812AF08E580B5007E6C14 /* Up.tif */,
-				98D812B008E580B5007E6C14 /* Down.tif */,
-				98EE18CF07BABCFE008AE24D /* AddMini.tiff */,
-				98EE18D007BABCFE008AE24D /* RemoveMini.tiff */,
-				98EE18D207BABCFE008AE24D /* AddMini_Pressed.tiff */,
-				98EE18D107BABCFE008AE24D /* RemoveMini_Pressed.tiff */,
-				9840AC8708D3410900C33314 /* KeyStrokeIcon.tif */,
-				988BC51306411BEA0096DD7D /* InfoPlist.strings */,
-				988BC51506411BEA0096DD7D /* KeyStrokeView.nib */,
-			);
-			path = Resources;
 			sourceTree = "<group>";
 		};
 		98975AAB061E222300BC40ED /* ShellScript */ = {
@@ -649,15 +586,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1B31A63A0B96D814003A56F8 /* InfoPlist.strings in Resources */,
-				1B31A37B0B96D461003A56F8 /* KeyStrokeView.nib in Resources */,
-				1B31A36D0B96D448003A56F8 /* Up.tif in Resources */,
-				1B31A36E0B96D449003A56F8 /* RemoveMini_Pressed.tiff in Resources */,
-				1B31A36F0B96D449003A56F8 /* RemoveMini.tiff in Resources */,
-				1B31A3700B96D44E003A56F8 /* KeyStrokeIcon.tif in Resources */,
-				1B31A3730B96D451003A56F8 /* Down.tif in Resources */,
-				1B31A3740B96D452003A56F8 /* AddMini_Pressed.tiff in Resources */,
-				1B31A3750B96D453003A56F8 /* AddMini.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -703,8 +631,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1B31A3710B96D44E003A56F8 /* KeyStrokeActionPlugin.m in Sources */,
-				1B31A3720B96D44F003A56F8 /* KeyStrokeAction.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -745,22 +671,6 @@
 				98332536078F443A0047E227 /* English */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		988BC51306411BEA0096DD7D /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				988BC51406411BEA0096DD7D /* English */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		988BC51506411BEA0096DD7D /* KeyStrokeView.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				988BC51606411BEA0096DD7D /* English */,
-			);
-			name = KeyStrokeView.nib;
 			sourceTree = "<group>";
 		};
 		98975AF7061E24BF00BC40ED /* InfoPlist.strings */ = {

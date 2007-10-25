@@ -55,6 +55,9 @@ typedef OSType KeyboardActionType;
 - (id)data;
 - (void)setData:(id)anObject;
 
+- (useconds_t)latency;
+- (void)setLatency:(useconds_t)latency;
+
 - (KeyboardActionType)action;
 - (void)setAction:(KeyboardActionType)action;
 

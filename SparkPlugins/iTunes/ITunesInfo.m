@@ -276,11 +276,19 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
 }
 
 - (void)setTrack:(iTunesTrack *)track {
+  OSType cls = 0;
   CFStringRef value = NULL;
   
-  /* Track Name */
   if (track)
-    iTunesCopyTrackStringProperty(track, kiTunesNameKey, &value);
+    iTunesGetObjectType(track, &cls);
+  
+  /* Track Name */
+  if (track) {
+    if ('cURT' == cls)
+      iTunesCopyCurrentStreamTitle(&value); /* current stream title */
+    else
+      iTunesCopyTrackStringProperty(track, kiTunesNameKey, &value);
+  }
   if (value) {
     [ibName setStringValue:(id)value];
     CFRelease(value);
@@ -290,8 +298,12 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
   }
   
   /* Album */
-  if (track)
-    iTunesCopyTrackStringProperty(track, kiTunesAlbumKey, &value);
+  if (track) {
+    if ('cURT' == cls)
+      iTunesCopyTrackStringProperty(track, kiTunesNameKey, &value); /* radio name */
+    else
+      iTunesCopyTrackStringProperty(track, kiTunesAlbumKey, &value);
+  }
   if (value) {
     [ibAlbum setStringValue:(id)value];
     CFRelease(value);
@@ -301,8 +313,13 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
   }
   
   /* Artist */
-  if (track)
-    iTunesCopyTrackStringProperty(track, kiTunesArtistKey, &value);
+  if (track) {
+    if ('cURT' == cls)
+      iTunesCopyTrackStringProperty(track, 'pCat', &value); /* category not available for radio */
+    else
+      iTunesCopyTrackStringProperty(track, kiTunesArtistKey, &value);
+  }
+  
   if (value) {
     [ibArtist setStringValue:(id)value];
     CFRelease(value);
@@ -314,17 +331,26 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
   /* Time and rate */
   SInt32 duration = 0, rate = 0;
   if (track) {
-    iTunesGetTrackIntegerProperty(track, kiTunesDurationKey, &duration);
-    iTunesGetTrackIntegerProperty(track, kiTunesRateKey, &rate);
+    if ('cURT' == cls) {
+      iTunesGetPlayerPosition((UInt32 *)&duration); /* duration not available for radio */
+    } else {
+      iTunesGetTrackIntegerProperty(track, kiTunesDurationKey, &duration);
+      iTunesGetTrackIntegerProperty(track, kiTunesRateKey, &rate);
+    }
   }
   [self setDuration:duration rate:rate];
   
-  UInt32 progress = 0;
-  verify_noerr(iTunesGetPlayerPosition(&progress));
-  if (duration > 0)
-    [ibProgress setProgress:(CGFloat)progress / duration];
-  else
+  
+  if ('cURT' == cls) {
     [ibProgress setProgress:0];
+  } else {
+    UInt32 progress = 0;
+    verify_noerr(iTunesGetPlayerPosition(&progress));
+    if (duration > 0)
+      [ibProgress setProgress:(CGFloat)progress / duration];
+    else
+      [ibProgress setProgress:0];
+  }
 }
 
 - (void)setOrigin:(NSPoint)origin {

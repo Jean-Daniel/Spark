@@ -95,13 +95,13 @@ NSString * const SEServerStatusDidChangeNotification = @"SEServerStatusDidChange
 
 - (void)shutdown {
   if ([self isConnected]) {
-    if ([[self server] respondsToSelector:@selector(shutdown)]) {
-      @try {
+    @try {
+      if ([[self server] respondsToSelector:@selector(shutdown)]) {
         [[self server] shutdown];
         return;
-      } @catch (id exception) {
-        SKLogException(exception);
       }
+    } @catch (id exception) {
+      SKLogException(exception);
     }
     ProcessSerialNumber psn = SKProcessGetProcessWithSignature(kSparkDaemonSignature);
     if (psn.lowLongOfPSN != kNoProcess)
@@ -120,10 +120,14 @@ NSString * const SEServerStatusDidChangeNotification = @"SEServerStatusDidChange
   }
   
   @try {
-    se_server = [NSConnection rootProxyForConnectionWithRegisteredName:kSparkConnectionName host:nil];
-    /* Try old name */
-    if (!se_server)
-      se_server = [NSConnection rootProxyForConnectionWithRegisteredName:@"SparkServer" host:nil];
+    NSConnection *cnt = [NSConnection connectionWithRegisteredName:kSparkConnectionName host:nil];
+    if (!cnt)
+      cnt = [NSConnection connectionWithRegisteredName:@"SparkServer" host:nil];
+    
+    if (cnt) {
+      [cnt setReplyTimeout:5];
+      se_server = [cnt rootProxy];
+    }
     
     if (se_server) {
       [se_server retain];
@@ -134,6 +138,14 @@ NSString * const SEServerStatusDidChangeNotification = @"SEServerStatusDidChange
     }
   } @catch (id exception) {
     SKLogException(exception);
+    if ([NSPortTimeoutException isEqualToString:[exception name]]) {
+      /* timeout, the daemon is probably in a dead state => restart it */
+      ProcessSerialNumber psn = SKProcessGetProcessWithSignature(kSparkDaemonSignature);
+      if (psn.lowLongOfPSN != kNoProcess) {
+        KillProcess(&psn);
+        SELaunchSparkDaemon();
+      }
+    }
   }
   return se_server != nil;
 }

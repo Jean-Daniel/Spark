@@ -15,6 +15,9 @@
 
 NSString * const kKeyboardActionBundleIdentifier = @"org.shadowlab.spark.action.keyboard";
 
+/* 500 ms */
+#define kTextActionMaxLatency 500000U
+
 @implementation TextAction
 
 - (id)copyWithZone:(NSZone *)aZone {
@@ -29,6 +32,8 @@ NSString * const kKeyboardActionBundleIdentifier = @"org.shadowlab.spark.action.
     id data = [self serializedData];
     if (data)
       [plist setObject:data forKey:@"TAData"];
+    if (ta_latency > 0)
+      [plist setObject:SKUInteger(ta_latency) forKey:@"TALatency"];  
     [plist setObject:SKStringForOSType(ta_type) forKey:@"TAAction"];
     return YES;
   }
@@ -38,6 +43,7 @@ NSString * const kKeyboardActionBundleIdentifier = @"org.shadowlab.spark.action.
 - (id)initWithSerializedValues:(NSDictionary *)plist {
   if (self = [super initWithSerializedValues:plist]) {
     [self setAction:SKOSTypeFromString([plist objectForKey:@"TAAction"])];
+    [self setLatency:SKUIntegerValue([plist objectForKey:@"TALatency"])];
     [self setSerializedData:[plist objectForKey:@"TAData"]];
   }
   return self;
@@ -77,8 +83,7 @@ NSString * const kKeyboardActionBundleIdentifier = @"org.shadowlab.spark.action.
     GetFrontProcess(&psn);
     HKEventTarget target = { psn: &psn };
     for (NSUInteger idx = 0; idx < [text length]; idx++) {
-      HKEventPostCharacterKeystrokesToTarget([text characterAtIndex:idx], target, kHKEventTargetProcess, src, 
-                                             ta_latency > 0 ? ta_latency : kHKEventDefaultLatency);
+      HKEventPostCharacterKeystrokesToTarget([text characterAtIndex:idx], target, kHKEventTargetProcess, src, [self latency]);
     }
     CFRelease(src);
   }
@@ -127,7 +132,7 @@ NSString * const kKeyboardActionBundleIdentifier = @"org.shadowlab.spark.action.
 }
 
 - (SparkAlert *)simulateKeystroke {
-  useconds_t latency = ta_latency > 0 ? ta_latency : kHKEventDefaultLatency;
+  useconds_t latency = [self latency];
   CGEventSourceRef src = HKEventCreatePrivateSource();
   for (NSUInteger idx = 0; idx < [ta_data count]; idx++) {
     if (idx > 0)
@@ -214,6 +219,13 @@ NSString * const kKeyboardActionBundleIdentifier = @"org.shadowlab.spark.action.
     [self setData:nil];
     ta_type = action;
   }
+}
+
+- (useconds_t)latency {
+  return ta_latency > 0 ? ta_latency : kHKEventDefaultLatency;
+}
+- (void)setLatency:(useconds_t)latency {
+  ta_latency = MIN(latency, kTextActionMaxLatency);
 }
 
 @end

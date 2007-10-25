@@ -121,7 +121,7 @@ int _iTunesGetIndexForPoint(NSPoint point) {
   return [ia_info delay];
 }
 - (void)setDelay:(CGFloat)aDelay {
-  [ia_info setDelay:aDelay < 0.5 ? 1 : aDelay];
+  [ia_info setDelay:aDelay < 0.5 ? 1.5 : aDelay];
 }
 
 - (BOOL)shadow {
