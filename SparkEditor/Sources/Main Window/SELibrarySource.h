@@ -27,4 +27,7 @@
 
 - (SparkPlugIn *)pluginForList:(SEEntryList *)aList;
 
+- (IBAction)selectLibrary:(id)sender;
+- (IBAction)selectApplicationList:(id)sender;
+
 @end

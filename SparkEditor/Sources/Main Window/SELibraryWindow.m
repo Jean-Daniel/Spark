@@ -174,6 +174,20 @@
 
 - (void)revealEntry:(SparkEntry *)entry {
   DLog(@"Reveal %@", entry);
+  if (![[entry application] isEqual:[[self document] application]]) {
+    /* Select application */
+    [ibApplications setSelectedObject:[entry application]];
+    if ([[entry application] uid] != kSparkApplicationSystemUID) {
+      /* Show drawer */
+      [appDrawer open:nil];
+      /* Select application list */
+      [ibGroups selectApplicationList:nil];
+    }
+  }
+  
+  if (![[triggers arrangedObjects] containsObject:entry])
+    [ibGroups selectLibrary:nil];
+  
   if ([[triggers arrangedObjects] containsObject:entry])
       [triggers setSelectedObject:entry];
 }
@@ -185,6 +199,12 @@
   } else {
     DLog(@"Reveal %@", entries);
   }
+}
+
+- (IBAction)revealInApplication:(id)sender {
+  SparkEntry *entry = [sender representedObject];
+  if (entry)
+    [self revealEntry:entry];
 }
 
 #pragma mark Menu

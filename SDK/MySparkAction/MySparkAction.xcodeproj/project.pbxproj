@@ -7,15 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9867A8940A98F65F004C755D /* ShadowKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9867A8930A98F65F004C755D /* ShadowKit.framework */; };
+		1B2325AF0CD202D4007A4C72 /* ShadowKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B2325AC0CD202D4007A4C72 /* ShadowKit.framework */; };
+		1B2325B00CD202D4007A4C72 /* SparkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B2325AD0CD202D4007A4C72 /* SparkKit.framework */; };
+		1B2325B10CD202D4007A4C72 /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B2325AE0CD202D4007A4C72 /* HotKeyToolKit.framework */; };
 		98C69C5A060CB81500582B89 /* MyActionPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 98AE3C06060CAAF3007B23D7 /* MyActionPlugin.h */; };
 		98C69C5E060CB82000582B89 /* MyAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 98AE3C0A060CAB37007B23D7 /* MyAction.h */; };
 		98C69C60060CB82B00582B89 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		98C69C62060CB82F00582B89 /* MyActionPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 98AE3C07060CAAF3007B23D7 /* MyActionPlugin.m */; };
 		98C69C63060CB82F00582B89 /* MyAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 98AE3C0B060CAB37007B23D7 /* MyAction.m */; };
 		98C69C64060CB83300582B89 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
-		98C69C65060CB83300582B89 /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98AE3BAA060CAA44007B23D7 /* HotKeyToolKit.framework */; };
-		98C69C66060CB83300582B89 /* SparkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98AE3BAB060CAA44007B23D7 /* SparkKit.framework */; };
 		98D4E16C076E5943002CA4BE /* MyActionIcon.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98D4E16B076E5942002CA4BE /* MyActionIcon.tiff */; };
 		98DD60030A91EE3800FB5814 /* MyActionPlugin.nib in Resources */ = {isa = PBXBuildFile; fileRef = 98DD60010A91EE3800FB5814 /* MyActionPlugin.nib */; };
 /* End PBXBuildFile section */
@@ -23,6 +23,9 @@
 /* Begin PBXFileReference section */
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		1B2325AC0CD202D4007A4C72 /* ShadowKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ShadowKit.framework; sourceTree = "<group>"; };
+		1B2325AD0CD202D4007A4C72 /* SparkKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SparkKit.framework; sourceTree = "<group>"; };
+		1B2325AE0CD202D4007A4C72 /* HotKeyToolKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HotKeyToolKit.framework; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -44,9 +47,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				98C69C64060CB83300582B89 /* Cocoa.framework in Frameworks */,
-				98C69C66060CB83300582B89 /* SparkKit.framework in Frameworks */,
-				98C69C65060CB83300582B89 /* HotKeyToolKit.framework in Frameworks */,
-				9867A8940A98F65F004C755D /* ShadowKit.framework in Frameworks */,
+				1B2325B00CD202D4007A4C72 /* SparkKit.framework in Frameworks */,
+				1B2325AF0CD202D4007A4C72 /* ShadowKit.framework in Frameworks */,
+				1B2325B10CD202D4007A4C72 /* HotKeyToolKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,9 +95,36 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		1B2325AB0CD202C2007A4C72 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1B2325AD0CD202D4007A4C72 /* SparkKit.framework */,
+				1B2325AC0CD202D4007A4C72 /* ShadowKit.framework */,
+				1B2325AE0CD202D4007A4C72 /* HotKeyToolKit.framework */,
+			);
+			path = Frameworks;
+			sourceTree = "<group>";
+		};
+		1BD9A9960CD201FA00A76EB9 /* Contents */ = {
+			isa = PBXGroup;
+			children = (
+				1B2325AB0CD202C2007A4C72 /* Frameworks */,
+			);
+			path = Contents;
+			sourceTree = "<group>";
+		};
+		1BE8581E0CD20179001684B4 /* Spark.app */ = {
+			isa = PBXGroup;
+			children = (
+				1BD9A9960CD201FA00A76EB9 /* Contents */,
+			);
+			path = Spark.app;
+			sourceTree = "<group>";
+		};
 		29B97314FDCFA39411CA2CEA /* MySparkHotKey */ = {
 			isa = PBXGroup;
 			children = (
+				1BE8581E0CD20179001684B4 /* Spark.app */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
@@ -221,7 +251,13 @@
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 154.6;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_2)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/Spark.app/Contents/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/Spark.app/Contents/Frameworks\"";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
@@ -250,7 +286,13 @@
 				CURRENT_PROJECT_VERSION = 154.6;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEPLOYMENT_POSTPROCESSING = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_2)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/Spark.app/Contents/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/Spark.app/Contents/Frameworks\"";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;

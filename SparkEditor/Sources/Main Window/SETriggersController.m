@@ -312,6 +312,38 @@ NSString * sSEHiddenPluggedObserverKey = nil;
   return YES;
 }
 
+#pragma mark Context Menu
+- (NSMenu *)tableView:(NSTableView *)aTableView menuForRow:(NSInteger)row {
+  if (row >= 0) {
+    SparkEntry *entry = [self objectAtIndex:row];
+    SparkEntryManager *manager = [[self library] entryManager];
+    if ([manager containsOverwriteEntryForTrigger:[[entry trigger] uid]]) {
+      NSMenu *ctxt = [[NSMenu alloc] initWithTitle:@"Action Menu"];
+      NSMenuItem *item = [ctxt addItemWithTitle:@"Show in Application..." action:nil keyEquivalent:@""];
+      NSArray *entries = [manager entriesForTrigger:[[entry trigger] uid]];
+      NSMenu *submenu = [[NSMenu alloc] initWithTitle:@"Submenu"];
+      for (NSUInteger idx = 0; idx < [entries count]; idx++) {
+        SparkApplication *app = [[entries objectAtIndex:idx] application];
+        NSMenuItem *appItem = [[NSMenuItem alloc] initWithTitle:[app name] 
+                                                         action:@selector(revealInApplication:) keyEquivalent:@""];
+        [appItem setRepresentedObject:[entries objectAtIndex:idx]];
+        NSImage *icon = [[app icon] copy];
+        [icon setSize:NSMakeSize(16, 16)];
+        [appItem setImage:icon];
+        [icon release];
+        
+        [submenu addItem:appItem];
+        [appItem release];
+      }
+      [item setSubmenu:submenu];
+      [submenu release];
+      
+      return [ctxt autorelease];
+    }
+  }
+  return nil;
+}
+
 #pragma mark Notifications
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
   [self rearrangeObjects];

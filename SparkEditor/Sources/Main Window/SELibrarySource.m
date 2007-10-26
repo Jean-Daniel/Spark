@@ -325,6 +325,16 @@ BOOL SEOverwriteFilter(SEEntryList *list, SparkEntry *object, SparkApplication *
   }
 }
 
+- (IBAction)selectLibrary:(id)sender {
+  [self setSelectionIndex:0];
+}
+
+- (IBAction)selectApplicationList:(id)sender {
+  NSUInteger idx = [[self arrangedObjects] indexOfObject:se_overwrite];
+  if (idx != NSNotFound)
+    [self setSelectionIndex:idx];
+}
+
 #pragma mark Delegate
 - (void)deleteSelectionInTableView:(NSTableView *)aTableView {
   NSUInteger idx = [self selectionIndex];
