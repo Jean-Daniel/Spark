@@ -7,6 +7,7 @@
  */
 
 #import <SparkKit/SparkList.h>
+#import <SparkKit/SparkPrivate.h>
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkObjectSet.h>
 
@@ -94,7 +95,7 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
 - (NSImage *)icon {
   NSImage *icon = [super icon];
   if (!icon) {
-    icon = [NSImage imageNamed:@"SimpleList" inBundle:SKCurrentBundle()];
+    icon = [NSImage imageNamed:@"SimpleList" inBundle:kSparkKitBundle];
     [self setIcon:icon];
   }
   return icon;

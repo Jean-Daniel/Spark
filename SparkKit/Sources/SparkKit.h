@@ -102,6 +102,9 @@ SPARK_EXPORT NSString * const kSparkDaemonBundleIdentifier;
 /* Globals Notifications */
 SPARK_EXPORT NSString * const SparkWillSetActiveLibraryNotification;
 SPARK_EXPORT NSString * const SparkDidSetActiveLibraryNotification;
+
+#define kSparkKitBundle [NSBundle bundleWithIdentifier:kSparkKitBundleIdentifier]
+
 #else 
 SPARK_EXPORT CFStringRef const kSparkFolderName;
 

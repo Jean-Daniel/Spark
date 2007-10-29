@@ -64,11 +64,9 @@ SK_CLASS_EXPORT
 
 @end
 
-@interface SparkEntry (SparkExport)
-
-- (id)initFromExternalRepresentation:(id)rep;
-- (id)externalRepresentation;
-
-@end
-
-
+//@interface SparkEntry (SparkExport)
+//
+//- (id)initFromExternalRepresentation:(id)rep;
+//- (id)externalRepresentation;
+//
+//@end

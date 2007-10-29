@@ -9,6 +9,7 @@
 #import <SparkKit/SparkApplication.h>
 #import <SparkKit/SparkShadowKit.h>
 #import <SparkKit/SparkLibrary.h>
+#import <SparkKit/SparkPrivate.h>
 
 #import <ShadowKit/SKAlias.h>
 #import <ShadowKit/SKFunctions.h>
@@ -153,7 +154,7 @@ NSString * const SparkApplicationDidChangeEnabledNotification = @"SparkApplicati
       [self setIcon:icon];
     /* If failed and cached icon invalid, set default icon */
     if (![self hasIcon])
-      [self setIcon:[NSImage imageNamed:@"Application" inBundle:SKCurrentBundle()]];    
+      [self setIcon:[NSImage imageNamed:@"Application" inBundle:kSparkKitBundle]];    
   }
   return [super icon];
 }

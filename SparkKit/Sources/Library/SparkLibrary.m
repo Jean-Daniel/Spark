@@ -92,8 +92,9 @@ static SparkApplication *sSystem = nil;
   if ([SparkLibrary class] == self) {
     /* Initialize System Application */
     sSystem = [[SparkApplication alloc] initWithName:NSLocalizedStringFromTableInBundle(@"System", nil,
-                                                                                        SKCurrentBundle(), @"System Application Name")
-                                                icon:[NSImage imageNamed:@"SparkSystem" inBundle:SKCurrentBundle()]];
+                                                                                        kSparkKitBundle,
+                                                                                        @"System Application Name")
+                                                icon:[NSImage imageNamed:@"SparkSystem" inBundle:kSparkKitBundle]];
     [sSystem setUID:kSparkApplicationSystemUID];
     
     /* Register Built-In Plugin (and make sure other plugins are loaded) */

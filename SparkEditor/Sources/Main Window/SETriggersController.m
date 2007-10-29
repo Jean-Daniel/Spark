@@ -280,14 +280,6 @@ NSString * sSEHiddenPluggedObserverKey = nil;
 }
 
 #pragma mark Drag & Drop
-- (BOOL)tableView:(NSTableView *)aTableView writeRows:(NSArray *)rows toPasteboard:(NSPasteboard *)pboard {
-  NSMutableIndexSet *idxes = [NSMutableIndexSet indexSet];
-  NSUInteger count = [rows count];
-  while (count-- > 0) {
-    [idxes addIndex:[[rows objectAtIndex:count] unsignedIntValue]];
-  }
-  return [self tableView:aTableView writeRowsWithIndexes:idxes toPasteboard:pboard];
-}
 - (BOOL)tableView:(NSTableView *)aTableView writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard*)pboard {
   if (![rowIndexes count])
     return NO;

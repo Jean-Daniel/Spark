@@ -197,39 +197,39 @@ static SparkTrigger *sTrigger;
 
 @end
 
-#pragma mark -
-@implementation SparkAction (SparkExport)
-
-- (id)initFromExternalRepresentation:(NSDictionary *)rep {
-  if (SKImplementsSelector(self, _cmd)) {
-    if (self = [super initFromExternalRepresentation:rep]) {
-      
-    }
-    return self;
-  } else {
-    return [self initWithSerializedValues:rep];
-  }
-}
-
-- (NSMutableDictionary *)externalRepresentation {
-  if (SKImplementsSelector(self, _cmd)) {
-    NSMutableDictionary *plist = [super externalRepresentation];
-    if (plist) {
-      NSString *value = [self categorie];
-      if (value)
-        [plist setObject:value forKey:@"categorie"];
-    
-      value = [self actionDescription];
-      if (value)
-        [plist setObject:value forKey:@"description"];
-    }
-    return plist;
-  } else {
-    return [[SKSerializeObject(self, NULL) mutableCopy] autorelease];
-  }
-}
-
-@end
+//#pragma mark -
+//@implementation SparkAction (SparkExport)
+//
+//- (id)initFromExternalRepresentation:(NSDictionary *)rep {
+//  if (SKImplementsSelector(self, _cmd)) {
+//    if (self = [super initFromExternalRepresentation:rep]) {
+//      
+//    }
+//    return self;
+//  } else {
+//    return [self initWithSerializedValues:rep];
+//  }
+//}
+//
+//- (NSMutableDictionary *)externalRepresentation {
+//  if (SKImplementsSelector(self, _cmd)) {
+//    NSMutableDictionary *plist = [super externalRepresentation];
+//    if (plist) {
+//      NSString *value = [self categorie];
+//      if (value)
+//        [plist setObject:value forKey:@"categorie"];
+//    
+//      value = [self actionDescription];
+//      if (value)
+//        [plist setObject:value forKey:@"description"];
+//    }
+//    return plist;
+//  } else {
+//    return [[SKSerializeObject(self, NULL) mutableCopy] autorelease];
+//  }
+//}
+//
+//@end
 
 #pragma mark -
 @implementation SparkAction (Private)
@@ -287,9 +287,8 @@ static SparkTrigger *sTrigger;
 - (BOOL)isPersistent { return NO; }
 
 - (NSString *)actionDescription {
-  return NSLocalizedStringFromTableInBundle(@"Missing Plugin",
-                                            nil, SKCurrentBundle(),
-                                            @"Placeholder description");
+  return NSLocalizedStringFromTableInBundle(@"Missing Plugin", nil,
+                                            kSparkKitBundle, @"Placeholder description");
 }
 - (void)setActionDescription:(NSString *)description {}
 

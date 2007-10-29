@@ -102,65 +102,38 @@ SPARK_CLASS_EXPORT
 
   /*!
   @method
-   @abstract   Returns the icon for this object.
+   @abstract Gets the name of a Spark Object.
+   @result Returns the icon for this object.
    */
 - (NSImage *)icon;
   /*!
   @method
-   @abstract   Sets the icon for this object.
+   @abstract   Sets the icon of a Spark Object.
    @param      icon The icon to set.
    */
 - (void)setIcon:(NSImage *)icon;
 
 /*!
   @method
- @result Returns YES if the receiver has an icon. 
+ @result Returns YES if the receiver has an icon, returns NO if the icon is not loaded.
+ @discussion This method allows to determine if an object has already loaded an icon.
 */
 - (BOOL)hasIcon;
   /*!
   @method
-   @abstract  Returns NO to prevent Spark to save this object icon.
+   @abstract  Returns NO to prevent Spark to save this object icon in the Library file.
    @result    Returns YES by default.
+   @discussion If the receiver uses a static icon (for example an icon build from the action resources), 
+   you should not save it and you should load it lazily (in the -icon call).
    */
 - (BOOL)shouldSaveIcon;
 
 /*!
   @abstract Object Icon not found in icon cache.
+ @result Returns the receiver icon.
+ @discussion This method is called when the object icon cannot be found in the icon cache.
+ It lets a chance to the object to regenerate it.
 */
 - (NSImage *)iconCacheMiss;
 
-  /*!
-    @method     isEqualToLibraryObject:
-   @abstract   Return YES if <i>object</i> represents the same object than the receiver, wherever the values
-   in the two objects are equal or not.
-   @param      object The object to compare.
-   @result     Return YES if the receiver respresents the same object than <i>object</i>.
-   */
-- (BOOL)isEqualToLibraryObject:(SparkObject *)object;
-
-#pragma mark Internal Methods
-  /*!
-  @method
-   @abstract Don't call this method directly. This method is called by Library.
-   @param uid (description)
-   */
-- (void)setUID:(SparkUID)uid;
-  /*!
-  @method
-   @abstract Returns the receiver Library.
-   */
-- (SparkLibrary *)library;
-  /*!
-  @method
-   @abstract Sets the receiver Library. Don't call this method. It's called when receiver is added in a Library.
-   @param aLibrary The Library that contains the receiver.
-   */
-- (void)setLibrary:(SparkLibrary *)aLibrary;
-
-@end
-
-/* Human comprehensible representation */
-@interface SparkObject (SparkExport)
-- (id)initFromExternalRepresentation:(NSDictionary *)rep;
-- (NSMutableDictionary *)externalRepresentation;
 @end

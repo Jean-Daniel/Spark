@@ -38,24 +38,23 @@ SPARK_CLASS_EXPORT
  open the Main Nib File of the bundle and return the view attache to the <i>actionView</i> IBOutlet.
  @discussion You normally don't override this method. Just set the main nib File in the plist Bundle.
  Set the owner of this nib file on this class, and set <code>actionView</code> IBOutlet on the customView you want to use.
- @result The <code>NSView</code> that will be diplay in the Spark Action Editor.
+ @result The <code>NSView</code> that will be displayed in Spark.
  */
 - (NSView *)actionView;
 
   /*!
 	@method
    @param anAction
-   @param isEditing YES if editing <code>anAction</code>, NO if <code>anAction</code> is a new instance.
+   @param isEditing YES if editing an existing action, NO if <code>anAction</code> is a new instance.
    @abstract The default implementation do nothing.
-   @discussion Methode called when an plugin action editor is loaded.<br />
-   You can use this method to bind <i>action</i> value into your configuration view.
+   @discussion Methode called when an plugin action editor is loaded.
    */
 - (void)loadSparkAction:(SparkAction *)anAction toEdit:(BOOL)isEditing;
 
 
   /*!
 	@method
-   @abstract Default implementation just returns nil.
+   @abstract Default implementation does nothing and returns nil.
    @discussion Methode call just before the editor will close and create or update an Action.
    You should verify infos needed to create action and if infos are missing or
    are not valid, you can return an NSAlert that will be displayed.
@@ -65,7 +64,7 @@ SPARK_CLASS_EXPORT
 
   /*!
 	@method
-   @abstract Default implementation just returns nil.
+   @abstract Default implementation does nothing.
    @discussion <strong>Required!</strong> This methode must configure the Action.
    <code>configureAction</code> is called when user want to create an Action. In this methode you must 
    set all require parameters of your Action (including name, icon, and description).
@@ -117,6 +116,7 @@ SPARK_CLASS_EXPORT
 
 @interface SparkActionPlugIn (SparkDynamicPlugIn)
 
+/* NSMainNibFile */
 + (NSString *)nibPath;
 
   /* SparkActionClass */
@@ -132,7 +132,15 @@ SPARK_CLASS_EXPORT
 + (NSString *)helpFile;
 
 /* Plugin View support */
+/*!
+  @method
+ @result Returns "'plugInName' Action" by default.
+ */
 + (NSString *)pluginFullName;
+/*!
+@method
+ @result Returns the plugin icon. You can use a multi size icon file.
+ */
 + (NSImage *)pluginViewIcon;
 
 @end

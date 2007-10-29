@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		1B83DC5C0CC7833300050596 /* SparkMultiAlert.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1B83DC5A0CC7833300050596 /* SparkMultiAlert.nib */; };
-		1B83DCAE0CC7857C00050596 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1B83DCAC0CC7857C00050596 /* Localizable.strings */; };
 		1BAA6F8D0B64CF2500F9AC0E /* SKImageUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BAA6F870B64CF2500F9AC0E /* SKImageUtils.m */; };
 		1BB8B1FF0B949EE900F91062 /* SparkSystem.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1BB8B1FE0B949EE900F91062 /* SparkSystem.tiff */; };
 		1BE44FE40BD4B3DC00034060 /* AESendThreadSafe.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BE44FE30BD4B3DC00034060 /* AESendThreadSafe.c */; };
@@ -126,6 +125,12 @@
 		986758D0096B403300BB8A25 /* SKWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 986758CE096B403300BB8A25 /* SKWindowController.m */; };
 		986758D1096B403300BB8A25 /* SKTableDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 986758CF096B403300BB8A25 /* SKTableDataSource.m */; };
 		986B59510B8CEBD0000B74E7 /* SKTreeNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 986B59500B8CEBD0000B74E7 /* SKTreeNode.m */; };
+		987669EB0CD4CAF400593B74 /* SKTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = 987669E50CD4CAF400593B74 /* SKTemplate.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		987669EC0CD4CAF400593B74 /* SKTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = 987669E60CD4CAF400593B74 /* SKTemplate.m */; };
+		987669ED0CD4CAF400593B74 /* SKTemplateParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 987669E70CD4CAF400593B74 /* SKTemplateParser.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		987669EE0CD4CAF400593B74 /* SKTemplateParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 987669E80CD4CAF400593B74 /* SKTemplateParser.m */; };
+		987669EF0CD4CAF400593B74 /* SKXMLTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = 987669E90CD4CAF400593B74 /* SKXMLTemplate.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		987669F00CD4CAF400593B74 /* SKXMLTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = 987669EA0CD4CAF400593B74 /* SKXMLTemplate.m */; };
 		98789B630AB48C1900C35052 /* SKBezelItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 98789B5D0AB48C1900C35052 /* SKBezelItem.m */; };
 		98789B640AB48C1900C35052 /* SKBezelItemContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 98789B5E0AB48C1900C35052 /* SKBezelItemContent.m */; };
 		98789B650AB48C1900C35052 /* SKNotificationWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 98789B5F0AB48C1900C35052 /* SKNotificationWindow.m */; };
@@ -189,6 +194,9 @@
 		98F073100CC26AD7008CF066 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B49363D0CA2E57C00F53EEE /* Security.framework */; };
 		98F5C8140A59B574007BEB21 /* SKTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98F5C8130A59B574007BEB21 /* SKTableView.m */; };
 		98FC31D50B32E585000D5F6B /* Application.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98A923B80A7BC6E200DF1998 /* Application.tiff */; };
+		98FD6E050CD48FAF0029007D /* SKProgress.strings in Resources */ = {isa = PBXBuildFile; fileRef = 98FD6E030CD48FAF0029007D /* SKProgress.strings */; };
+		98FD6E130CD48FE10029007D /* SKImageAndTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 98FD6E110CD48FE10029007D /* SKImageAndTextView.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		98FD6E140CD48FE10029007D /* SKImageAndTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98FD6E120CD48FE10029007D /* SKImageAndTextView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -248,7 +256,6 @@
 		1B7BB78C0CBE1FD700484A9E /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		1B7BB78D0CBE1FD700484A9E /* Universal.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Universal.xcconfig; sourceTree = "<group>"; };
 		1B83DC5B0CC7833300050596 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SparkMultiAlert.nib; sourceTree = "<group>"; };
-		1B83DCAD0CC7857C00050596 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1BAA6F870B64CF2500F9AC0E /* SKImageUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKImageUtils.m; sourceTree = "<group>"; };
 		1BB8B1FE0B949EE900F91062 /* SparkSystem.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SparkSystem.tiff; sourceTree = "<group>"; };
 		1BE44FE30BD4B3DC00034060 /* AESendThreadSafe.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = AESendThreadSafe.c; sourceTree = "<group>"; };
@@ -359,6 +366,12 @@
 		98725D2B06CB9FB30072B8E4 /* SKFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SKFunctions.m; sourceTree = "<group>"; };
 		98725D2C06CB9FB30072B8E4 /* SKExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SKExtensions.m; sourceTree = "<group>"; };
 		98725D3706CB9FC60072B8E4 /* SKAlias.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SKAlias.m; sourceTree = "<group>"; };
+		987669E50CD4CAF400593B74 /* SKTemplate.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SKTemplate.h; sourceTree = "<group>"; };
+		987669E60CD4CAF400593B74 /* SKTemplate.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SKTemplate.m; sourceTree = "<group>"; };
+		987669E70CD4CAF400593B74 /* SKTemplateParser.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SKTemplateParser.h; sourceTree = "<group>"; };
+		987669E80CD4CAF400593B74 /* SKTemplateParser.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SKTemplateParser.m; sourceTree = "<group>"; };
+		987669E90CD4CAF400593B74 /* SKXMLTemplate.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SKXMLTemplate.h; sourceTree = "<group>"; };
+		987669EA0CD4CAF400593B74 /* SKXMLTemplate.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SKXMLTemplate.m; sourceTree = "<group>"; };
 		98789B5D0AB48C1900C35052 /* SKBezelItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKBezelItem.m; sourceTree = "<group>"; };
 		98789B5E0AB48C1900C35052 /* SKBezelItemContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKBezelItemContent.m; sourceTree = "<group>"; };
 		98789B5F0AB48C1900C35052 /* SKNotificationWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKNotificationWindow.m; sourceTree = "<group>"; };
@@ -432,6 +445,9 @@
 		98F5C8130A59B574007BEB21 /* SKTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SKTableView.m; sourceTree = "<group>"; };
 		98F867260A600D24009C68F9 /* Warning.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Warning.tiff; sourceTree = "<group>"; };
 		98FB5DDE060D0FFC0074131E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
+		98FD6E040CD48FAF0029007D /* English */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/SKProgress.strings; sourceTree = "<group>"; };
+		98FD6E110CD48FE10029007D /* SKImageAndTextView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SKImageAndTextView.h; sourceTree = "<group>"; };
+		98FD6E120CD48FE10029007D /* SKImageAndTextView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SKImageAndTextView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -634,6 +650,7 @@
 				1BEEA0D00C8BE9B700705B22 /* SKApplicationView.h */,
 				1BEEA0D10C8BE9B700705B22 /* SKCustomViewCell.h */,
 				1BEEA0D20C8BE9B700705B22 /* SKImageAndTextCell.h */,
+				98FD6E110CD48FE10029007D /* SKImageAndTextView.h */,
 			);
 			name = Headers;
 			sourceTree = "<group>";
@@ -755,6 +772,7 @@
 				98DA2C5E0AFE126700E394CD /* Interface */,
 				98789B580AB48C1900C35052 /* BezelItem */,
 				98C78D6307D9E716006D9CC1 /* Functions */,
+				987669E40CD4CAF400593B74 /* Templates */,
 				98725D2506CB9F7C0072B8E4 /* Foundation */,
 			);
 			path = ShadowKit;
@@ -790,6 +808,19 @@
 				986758CE096B403300BB8A25 /* SKWindowController.m */,
 			);
 			path = AppKit;
+			sourceTree = "<group>";
+		};
+		987669E40CD4CAF400593B74 /* Templates */ = {
+			isa = PBXGroup;
+			children = (
+				987669E50CD4CAF400593B74 /* SKTemplate.h */,
+				987669E60CD4CAF400593B74 /* SKTemplate.m */,
+				987669E90CD4CAF400593B74 /* SKXMLTemplate.h */,
+				987669EA0CD4CAF400593B74 /* SKXMLTemplate.m */,
+				987669E70CD4CAF400593B74 /* SKTemplateParser.h */,
+				987669E80CD4CAF400593B74 /* SKTemplateParser.m */,
+			);
+			path = Templates;
 			sourceTree = "<group>";
 		};
 		98789B580AB48C1900C35052 /* BezelItem */ = {
@@ -892,6 +923,7 @@
 				98DCE5B50B50F8E0006FA468 /* SKApplicationView.m */,
 				98DA2C750AFE142700E394CD /* SKCustomViewCell.m */,
 				98DA2C740AFE142700E394CD /* SKImageAndTextCell.m */,
+				98FD6E120CD48FE10029007D /* SKImageAndTextView.m */,
 			);
 			path = Interface;
 			sourceTree = "<group>";
@@ -903,7 +935,7 @@
 				98417FEA0B4FDF5C00073F1D /* SKSplitDot.tiff */,
 				98417FEB0B4FDF5C00073F1D /* SKVSplitBar.tiff */,
 				98417FE90B4FDF5C00073F1D /* SKHSplitBar.tiff */,
-				1B83DCAC0CC7857C00050596 /* Localizable.strings */,
+				98FD6E030CD48FAF0029007D /* SKProgress.strings */,
 				98DA2ED40AFE174400E394CD /* SKHeaderMenu.tiff */,
 				98DA2ED20AFE174400E394CD /* SKHeader-down.tiff */,
 				981E11FD0CA5D35B009E8FD8 /* SKProgressPanel.nib */,
@@ -1024,6 +1056,10 @@
 				98F073010CC26A84008CF066 /* SKCDSAFunctions.h in Headers */,
 				98F073030CC26A84008CF066 /* SKCryptoFunctions.h in Headers */,
 				98DCBD820CCA6BCF0045707B /* SKSecurityFunctions.h in Headers */,
+				98FD6E130CD48FE10029007D /* SKImageAndTextView.h in Headers */,
+				987669EB0CD4CAF400593B74 /* SKTemplate.h in Headers */,
+				987669ED0CD4CAF400593B74 /* SKTemplateParser.h in Headers */,
+				987669EF0CD4CAF400593B74 /* SKXMLTemplate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1167,7 +1203,7 @@
 				98417FED0B4FDF5C00073F1D /* SKSplitDot.tiff in Resources */,
 				98417FEE0B4FDF5C00073F1D /* SKVSplitBar.tiff in Resources */,
 				981E12020CA5D35B009E8FD8 /* SKProgressPanel.nib in Resources */,
-				1B83DCAE0CC7857C00050596 /* Localizable.strings in Resources */,
+				98FD6E050CD48FAF0029007D /* SKProgress.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1262,6 +1298,10 @@
 				98F073000CC26A84008CF066 /* SKCDSAFunctions.c in Sources */,
 				98F073020CC26A84008CF066 /* SKCryptoFunctions.c in Sources */,
 				98DCBD810CCA6BCF0045707B /* SKSecurityFunctions.c in Sources */,
+				98FD6E140CD48FE10029007D /* SKImageAndTextView.m in Sources */,
+				987669EC0CD4CAF400593B74 /* SKTemplate.m in Sources */,
+				987669EE0CD4CAF400593B74 /* SKTemplateParser.m in Sources */,
+				987669F00CD4CAF400593B74 /* SKXMLTemplate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1297,14 +1337,6 @@
 			name = SparkMultiAlert.nib;
 			sourceTree = "<group>";
 		};
-		1B83DCAC0CC7857C00050596 /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1B83DCAD0CC7857C00050596 /* English */,
-			);
-			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
 		9805FD370773B47700B1A341 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1335,6 +1367,14 @@
 				98EB96D30C174B4700C7B72D /* English */,
 			);
 			name = SparkPluginView.nib;
+			sourceTree = "<group>";
+		};
+		98FD6E030CD48FAF0029007D /* SKProgress.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				98FD6E040CD48FAF0029007D /* English */,
+			);
+			name = SKProgress.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

@@ -65,6 +65,12 @@
 		9867589E096B3F4200BB8A25 /* ShadowKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 986757DC096B3F2400BB8A25 /* ShadowKit.framework */; };
 		9872353B0AA7552C0085C028 /* SEPreferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = 987235390AA7552C0085C028 /* SEPreferences.nib */; };
 		9875D9250AFF6FA3001511B5 /* application.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 986691FA06F7B590002C4E98 /* application.tiff */; };
+		9876697B0CD4C3F000593B74 /* SEExport.nib in Resources */ = {isa = PBXBuildFile; fileRef = 987669790CD4C3F000593B74 /* SEExport.nib */; };
+		9876699B0CD4C5D500593B74 /* SEExportOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 987669990CD4C5D500593B74 /* SEExportOptions.h */; };
+		9876699C0CD4C5D500593B74 /* SEExportOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9876699A0CD4C5D500593B74 /* SEExportOptions.m */; };
+		98766A030CD4EF4F00593B74 /* SEExportApp.xml in Resources */ = {isa = PBXBuildFile; fileRef = 98766A020CD4EF4F00593B74 /* SEExportApp.xml */; };
+		98766A280CD4F15400593B74 /* SEHTMLGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 98766A260CD4F15400593B74 /* SEHTMLGenerator.h */; };
+		98766A290CD4F15400593B74 /* SEHTMLGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 98766A270CD4F15400593B74 /* SEHTMLGenerator.m */; };
 		988107F10AFFF9390010CDD5 /* badge-3.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 988107ED0AFFF9390010CDD5 /* badge-3.tiff */; };
 		988107F20AFFF9390010CDD5 /* badge-4.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 988107EE0AFFF9390010CDD5 /* badge-4.tiff */; };
 		988107F30AFFF9390010CDD5 /* badge-1&2.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 988107EF0AFFF9390010CDD5 /* badge-1&2.tiff */; };
@@ -457,6 +463,12 @@
 		986F865307073F8200064694 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Libraries.strings; sourceTree = "<group>"; };
 		986F865E0707415800064694 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Editors.strings; sourceTree = "<group>"; };
 		9872353A0AA7552C0085C028 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SEPreferences.nib; sourceTree = "<group>"; };
+		9876697A0CD4C3F000593B74 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SEExport.nib; sourceTree = "<group>"; };
+		987669990CD4C5D500593B74 /* SEExportOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEExportOptions.h; sourceTree = "<group>"; };
+		9876699A0CD4C5D500593B74 /* SEExportOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEExportOptions.m; sourceTree = "<group>"; };
+		98766A020CD4EF4F00593B74 /* SEExportApp.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SEExportApp.xml; sourceTree = "<group>"; };
+		98766A260CD4F15400593B74 /* SEHTMLGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEHTMLGenerator.h; sourceTree = "<group>"; };
+		98766A270CD4F15400593B74 /* SEHTMLGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEHTMLGenerator.m; sourceTree = "<group>"; };
 		9877192506D48E12008A7AE8 /* remove_mini_down.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = remove_mini_down.tiff; sourceTree = "<group>"; };
 		9877192606D48E12008A7AE8 /* add_mini_down.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = add_mini_down.tiff; sourceTree = "<group>"; };
 		9877192706D48E12008A7AE8 /* add_mini.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = add_mini.tiff; sourceTree = "<group>"; };
@@ -671,6 +683,7 @@
 				986F865D0707415800064694 /* Editors.strings */,
 				986F865207073F8200064694 /* Libraries.strings */,
 				1B1359A00CA11FB400766572 /* SEUpdater.strings */,
+				98766A020CD4EF4F00593B74 /* SEExportApp.xml */,
 				98240203060C7B3000A0DB07 /* shcts.html */,
 				984BCB9C060C7C7B0043CDEA /* Spark Help */,
 				98DCBF810CCA6C8F0045707B /* Shadow Lab.cer */,
@@ -694,6 +707,7 @@
 			isa = PBXGroup;
 			children = (
 				982401ED060C7B3000A0DB07 /* MainMenu.nib */,
+				987669790CD4C3F000593B74 /* SEExport.nib */,
 				9803A13C0A9D01CA00B7DBBA /* SEFirstRun.nib */,
 				98DA2BC80AFE011400E394CD /* SEPluginHelp.nib */,
 				981A8A930A61A49D00753369 /* SEEntryEditor.nib */,
@@ -910,6 +924,7 @@
 				98ED2EED0B5D87EF002EAF85 /* SEEntryCache.m */,
 				98D52B3C0B19A4C000C8425C /* SEBuiltInPlugin.m */,
 				98D52B400B19A4C000C8425C /* SESparkEntrySet.m */,
+				98766A270CD4F15400593B74 /* SEHTMLGenerator.m */,
 				98CC49630B5AAF3100C60244 /* SELibraryDocument.m */,
 				988B8E940CC26783006EA06D /* SparkLibraryArchive.m */,
 			);
@@ -923,6 +938,7 @@
 				98ED2EF10B5D87FD002EAF85 /* SEEntryCache.h */,
 				98D52B3B0B19A4C000C8425C /* SEBuiltInPlugin.h */,
 				98D52B3F0B19A4C000C8425C /* SESparkEntrySet.h */,
+				98766A260CD4F15400593B74 /* SEHTMLGenerator.h */,
 				98CC49670B5AAF3F00C60244 /* SELibraryDocument.h */,
 				988B8E950CC26783006EA06D /* SparkLibraryArchive.h */,
 			);
@@ -963,6 +979,7 @@
 				98D52B6B0B19A63700C8425C /* SEPluginHelp.m */,
 				98D52B6F0B19A63700C8425C /* SEPreferences.m */,
 				98D52B6D0B19A63700C8425C /* SEPluginInstaller.m */,
+				9876699A0CD4C5D500593B74 /* SEExportOptions.m */,
 				98D52B710B19A63700C8425C /* SETriggerBrowser.m */,
 			);
 			path = Windows;
@@ -976,6 +993,7 @@
 				98D52B6A0B19A63700C8425C /* SEPluginHelp.h */,
 				98D52B6E0B19A63700C8425C /* SEPreferences.h */,
 				98D52B6C0B19A63700C8425C /* SEPluginInstaller.h */,
+				987669990CD4C5D500593B74 /* SEExportOptions.h */,
 				98D52B700B19A63700C8425C /* SETriggerBrowser.h */,
 			);
 			name = Headers;
@@ -1051,6 +1069,8 @@
 				1B3743900B6E2B96002F18C8 /* SEEntryList.h in Headers */,
 				988B8E970CC26784006EA06D /* SparkLibraryArchive.h in Headers */,
 				1B80772D0CCD1B9500DC56CE /* SEUpdater.h in Headers */,
+				9876699B0CD4C5D500593B74 /* SEExportOptions.h in Headers */,
+				98766A280CD4F15400593B74 /* SEHTMLGenerator.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1333,6 +1353,8 @@
 				1B1358E90CA11B8800766572 /* updatepref.tiff in Resources */,
 				1B1358FC0CA11C2000766572 /* pluginpref.tiff in Resources */,
 				98DCBF820CCA6C8F0045707B /* Shadow Lab.cer in Resources */,
+				9876697B0CD4C3F000593B74 /* SEExport.nib in Resources */,
+				98766A030CD4EF4F00593B74 /* SEExportApp.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1391,6 +1413,8 @@
 				1B37438F0B6E2B94002F18C8 /* SEEntryList.m in Sources */,
 				988B8E960CC26784006EA06D /* SparkLibraryArchive.m in Sources */,
 				1B80772C0CCD1B9200DC56CE /* SEUpdater.m in Sources */,
+				9876699C0CD4C5D500593B74 /* SEExportOptions.m in Sources */,
+				98766A290CD4F15400593B74 /* SEHTMLGenerator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1572,6 +1596,14 @@
 				9872353A0AA7552C0085C028 /* English */,
 			);
 			name = SEPreferences.nib;
+			sourceTree = "<group>";
+		};
+		987669790CD4C3F000593B74 /* SEExport.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9876697A0CD4C3F000593B74 /* English */,
+			);
+			name = SEExport.nib;
 			sourceTree = "<group>";
 		};
 		98A91DA7074F55460029D278 /* Importer.nib */ = {

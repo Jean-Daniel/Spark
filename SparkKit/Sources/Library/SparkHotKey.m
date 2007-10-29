@@ -190,52 +190,52 @@ BOOL SparkHotKeyFilter(HKKeycode code, HKModifier modifier) {
 - (NSImage *)icon {
   NSImage *icon = [super icon];
   if (!icon) {
-    [self setIcon:[NSImage imageNamed:@"hotkey" inBundle:SKCurrentBundle()]];
+    [self setIcon:[NSImage imageNamed:@"hotkey" inBundle:kSparkKitBundle]];
     icon = [super icon];
   }
   return icon;
 }
 
-- (id)initFromExternalRepresentation:(id)rep {
-  return nil;
-}
+//- (id)initFromExternalRepresentation:(id)rep {
+//  return nil;
+//}
 
-- (id)externalRepresentation {
-  NSMutableDictionary *plist = [super externalRepresentation];
-  if (plist) {
-    NSMutableArray *modifiers = [NSMutableArray array];
-    HKModifier modifier = [self modifier];
-    if (modifier & NSShiftKeyMask) [modifiers addObject:@"shift"];
-    if (modifier & NSCommandKeyMask) [modifiers addObject:@"cmd"];
-    if (modifier & NSControlKeyMask) [modifiers addObject:@"ctrl"];
-    if (modifier & NSAlternateKeyMask) [modifiers addObject:@"option"];
-    
-    // if (modifier & NSHelpKeyMask) [modifiers addObject:@"help"];
-    // if (modifier & NSFunctionKeyMask) [modifiers addObject:@"function"];
-    if (modifier & NSNumericPadKeyMask) [modifiers addObject:@"num-pad"];
-    // if (modifier & NSAlphaShiftKeyMask) [modifiers addObject:@"alpha-shift"];
-    if ([modifiers count] > 0)
-      [plist setObject:modifiers forKey:@"modifiers"];
-    
-    HKKeycode code = [self keycode];
-    [plist setObject:SKUInteger(code) forKey:@"keycode"];
-    
-    UniChar ch = [self character];
-    if (CFCharacterSetIsCharacterMember(CFCharacterSetGetPredefined(kCFCharacterSetAlphaNumeric), ch) ||
-        CFCharacterSetIsCharacterMember(CFCharacterSetGetPredefined(kCFCharacterSetPunctuation), ch) ||
-        CFCharacterSetIsCharacterMember(CFCharacterSetGetPredefined(kCFCharacterSetSymbol), ch)) {
-      NSString *str = [NSString stringWithCharacters:&ch length:1];
-      if (str)
-        [plist setObject:str forKey:@"character"];
-    } else {
-      NSString *str = HKMapGetStringRepresentationForCharacterAndModifier(ch, 0);
-      if (str)
-        [plist setObject:str forKey:@"character"];
-    }
-    [plist setObject:SKUInteger(ch) forKey:@"unichar"];
-  }
-  return plist;
-}
+//- (id)externalRepresentation {
+//  NSMutableDictionary *plist = [super externalRepresentation];
+//  if (plist) {
+//    NSMutableArray *modifiers = [NSMutableArray array];
+//    HKModifier modifier = [self modifier];
+//    if (modifier & NSShiftKeyMask) [modifiers addObject:@"shift"];
+//    if (modifier & NSCommandKeyMask) [modifiers addObject:@"cmd"];
+//    if (modifier & NSControlKeyMask) [modifiers addObject:@"ctrl"];
+//    if (modifier & NSAlternateKeyMask) [modifiers addObject:@"option"];
+//    
+//    // if (modifier & NSHelpKeyMask) [modifiers addObject:@"help"];
+//    // if (modifier & NSFunctionKeyMask) [modifiers addObject:@"function"];
+//    if (modifier & NSNumericPadKeyMask) [modifiers addObject:@"num-pad"];
+//    // if (modifier & NSAlphaShiftKeyMask) [modifiers addObject:@"alpha-shift"];
+//    if ([modifiers count] > 0)
+//      [plist setObject:modifiers forKey:@"modifiers"];
+//    
+//    HKKeycode code = [self keycode];
+//    [plist setObject:SKUInteger(code) forKey:@"keycode"];
+//    
+//    UniChar ch = [self character];
+//    if (CFCharacterSetIsCharacterMember(CFCharacterSetGetPredefined(kCFCharacterSetAlphaNumeric), ch) ||
+//        CFCharacterSetIsCharacterMember(CFCharacterSetGetPredefined(kCFCharacterSetPunctuation), ch) ||
+//        CFCharacterSetIsCharacterMember(CFCharacterSetGetPredefined(kCFCharacterSetSymbol), ch)) {
+//      NSString *str = [NSString stringWithCharacters:&ch length:1];
+//      if (str)
+//        [plist setObject:str forKey:@"character"];
+//    } else {
+//      NSString *str = HKMapGetStringRepresentationForCharacterAndModifier(ch, 0);
+//      if (str)
+//        [plist setObject:str forKey:@"character"];
+//    }
+//    [plist setObject:SKUInteger(ch) forKey:@"unichar"];
+//  }
+//  return plist;
+//}
 
 @end
 

@@ -230,13 +230,30 @@ BOOL SEOverwriteFilter(SEEntryList *list, SparkEntry *object, SparkApplication *
   return se_library;
 }
 
+- (SEEntryList *)listForPlugin:(SparkPlugIn *)aPlugin {
+  if (!se_plugins) return nil;
+  
+  SEEntryList *list = nil;
+  SparkPlugIn *plugin = nil;
+  NSMapEnumerator iter = NSEnumerateMapTable(se_plugins);
+  while (NSNextMapEnumeratorPair(&iter, (void **)&list, (void **)&plugin)) {
+    if ([aPlugin isEqual:plugin])
+      break;
+    else
+      list = nil;
+  }
+  NSEndMapTableEnumeration(&iter);
+  
+  return list;
+}
+
 - (SparkPlugIn *)pluginForList:(SEEntryList *)aList {
   return se_plugins ? NSMapGet(se_plugins, aList) : nil;
 }
 
 #pragma mark Data Source
 - (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
-  // useless with using bindings, but needed to activate "option + click" editing with SKTableView.
+  // useless with bindings, but needed to activate "option + click" editing with SKTableView.
 }
 
 - (BOOL)tableView:(NSTableView *)aTableView shouldEditTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
@@ -310,7 +327,7 @@ BOOL SEOverwriteFilter(SEEntryList *list, SparkEntry *object, SparkApplication *
 }
 
 - (IBAction)newGroup:(id)sender {
-  SparkList *list = [[SparkList alloc] initWithName:NSLocalizedString(@"New List", @"New List default name")];
+  SparkList *list = [[SparkList alloc] initWithName:NSLocalizedString(@"<New Group>", @"New List default name")];
   [[[self library] listSet] addObject:list];
   [list release];
   
@@ -333,6 +350,16 @@ BOOL SEOverwriteFilter(SEEntryList *list, SparkEntry *object, SparkApplication *
   NSUInteger idx = [[self arrangedObjects] indexOfObject:se_overwrite];
   if (idx != NSNotFound)
     [self setSelectionIndex:idx];
+}
+
+- (void)selectListForAction:(SparkAction *)anAction {
+  SparkPlugIn *plugin = [[SparkActionLoader sharedLoader] plugInForAction:anAction];
+  if (plugin) {
+    SEEntryList *list = [self listForPlugin:plugin];
+    if (list) {
+      [self setSelectedObject:list];
+    }
+  }
 }
 
 #pragma mark Delegate

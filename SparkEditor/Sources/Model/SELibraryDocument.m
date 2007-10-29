@@ -11,12 +11,15 @@
 #import "SparkLibraryArchive.h"
 #import "SEServerConnection.h"
 #import "SETriggerBrowser.h"
+#import "SEHTMLGenerator.h"
+#import "SEExportOptions.h"
 #import "SELibraryWindow.h"
 #import "SEEntryEditor.h"
 #import "SEEntryCache.h"
 
 #import <SparkKit/SparkEntry.h>
 #import <SparkKit/SparkAction.h>
+#import <SparkKit/SparkPrivate.h>
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkTrigger.h>
 #import <SparkKit/SparkObjectSet.h>
@@ -262,8 +265,29 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
   return NO;
 }
 
-- (BOOL)revertToSavedFromFile:(NSString *)fileName ofType:(NSString *)type {
-  return [self revertToContentsOfURL:[NSURL fileURLWithPath:fileName] ofType:type error:NULL];
+#pragma mark Export
+- (IBAction)exportPrintable:(id)sender {
+  SEExportOptions *ctrl = [[SEExportOptions alloc] init];
+  NSSavePanel *panel = [NSSavePanel savePanel];
+  [panel setAccessoryView:[ctrl view]];
+  [panel setRequiredFileType:@"html"];
+  [panel beginSheetForDirectory:nil file:@"SparkLibrary" modalForWindow:[self windowForSheet]
+                  modalDelegate:self didEndSelector:@selector(exportPanel:didEnd:context:) contextInfo:ctrl];
+}
+
+- (void)exportPanel:(NSSavePanel *)panel didEnd:(NSInteger)code context:(id)ctxt {
+  if (NSOKButton == code) {
+    NSError *error = nil;
+    SEHTMLGenerator *generator = [[SEHTMLGenerator alloc] initWithDocument:self];
+    /* generator setOptions */
+    if (![generator writeToFile:[panel filename] atomically:YES error:&error]) {
+      if (error) [self presentError:error];
+    }
+    
+    [generator release];
+  }
+  /* cleanup */
+  [ctxt release];
 }
 
 #pragma mark -

@@ -8,6 +8,7 @@
 
 #import <SparkKit/SparkBuiltInAction.h>
 
+#import <SparkKit/SparkPrivate.h>
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkObjectSet.h>
 #import <SparkKit/SparkFunctions.h>
@@ -57,11 +58,11 @@ NSString *_SparkActionDescription(SparkBuiltInAction *action);
 }
 
 + (NSString *)plugInName {
-  return NSLocalizedStringFromTableInBundle(@"Spark", nil, SKCurrentBundle(), @"Spark Built-in Plugin name");
+  return NSLocalizedStringFromTableInBundle(@"Spark", nil, kSparkKitBundle, @"Spark Built-in Plugin name");
 }
 
 + (NSImage *)plugInIcon {
-  return [NSImage imageNamed:@"spark" inBundle:SKCurrentBundle()];
+  return [NSImage imageNamed:@"spark" inBundle:kSparkKitBundle];
 }
 
 + (NSString *)helpFile {
@@ -69,7 +70,7 @@ NSString *_SparkActionDescription(SparkBuiltInAction *action);
 }
 
 + (NSString *)nibPath {
-  return [SKCurrentBundle() pathForResource:@"SparkPlugin" ofType:@"nib"];
+  return [kSparkKitBundle pathForResource:@"SparkPlugin" ofType:@"nib"];
 }
 
 /* default status */
@@ -97,8 +98,8 @@ static
 NSImage *SparkDaemonStatusIcon(BOOL status) {
   static NSImage *__enabled = nil, *__disabled = nil;
   if (!__enabled) {
-    __enabled = [[NSImage imageNamed:@"enabled" inBundle:[NSBundle bundleWithIdentifier:kSparkKitBundleIdentifier]] retain];
-    __disabled = [[NSImage imageNamed:@"disabled" inBundle:[NSBundle bundleWithIdentifier:kSparkKitBundleIdentifier]] retain];
+    __enabled = [[NSImage imageNamed:@"enabled" inBundle:kSparkKitBundle] retain];
+    __disabled = [[NSImage imageNamed:@"disabled" inBundle:kSparkKitBundle] retain];
   }
   return status ? __enabled : __disabled;
 }
@@ -245,7 +246,7 @@ NSImage *_SparkSDActionIcon(SparkBuiltInAction *action) {
       icon = @"SimpleList";
       break;
   }
-  return icon ? [NSImage imageNamed:icon inBundle:[NSBundle bundleWithIdentifier:kSparkKitBundleIdentifier]] : nil;
+  return icon ? [NSImage imageNamed:icon inBundle:kSparkKitBundle] : nil;
 }
 
 NSString *_SparkActionDescription(SparkBuiltInAction *action) {
@@ -253,21 +254,21 @@ NSString *_SparkActionDescription(SparkBuiltInAction *action) {
   switch ([action action]) {
     case kSparkSDActionLaunchEditor:
       str = NSLocalizedStringFromTableInBundle(@"Open Spark Editor", nil,
-                                               [NSBundle bundleWithIdentifier:kSparkKitBundleIdentifier], @"Spark Built-in Plugin description");
+                                               kSparkKitBundle, @"Spark Built-in Plugin description");
       break;
     case kSparkSDActionSwitchStatus:
       str = NSLocalizedStringFromTableInBundle(@"Enable/Disable Spark", nil, 
-                                               [NSBundle bundleWithIdentifier:kSparkKitBundleIdentifier], @"Spark Built-in Plugin description");
+                                               kSparkKitBundle, @"Spark Built-in Plugin description");
       break;
     case kSparkSDActionSwitchListStatus: {
       NSString *name = [[action list] name];
       if (name) {
         NSString *fmt = NSLocalizedStringFromTableInBundle(@"Enable/Disable Spark List \"%@\"", nil, 
-                                                           [NSBundle bundleWithIdentifier:kSparkKitBundleIdentifier], @"Spark Built-in Plugin description (%@ => list name)");
+                                                           kSparkKitBundle, @"Spark Built-in Plugin description (%@ => list name)");
         str = [NSString stringWithFormat:fmt, name];
       } else {
         str = NSLocalizedStringFromTableInBundle(@"Enable/Disable Spark List ...", nil, 
-                                                 [NSBundle bundleWithIdentifier:kSparkKitBundleIdentifier], @"Spark Built-in Plugin description");
+                                                 kSparkKitBundle, @"Spark Built-in Plugin description");
       }
     }
       break;

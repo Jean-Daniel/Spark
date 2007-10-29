@@ -18,6 +18,8 @@ enum {
   SparkPreferencesDaemon = 1,
   SparkPreferencesLibrary = 2,
   SparkPreferencesFramework = 3,
+  /* plugins should only use this domain */
+  SparkPreferencesPlugin = SparkPreferencesLibrary,
 };
 typedef NSInteger SparkPreferencesDomain;
 
@@ -30,13 +32,14 @@ SPARK_EXPORT
 NSInteger SparkPreferencesGetIntegerValue(NSString *key, SparkPreferencesDomain domain);
 
 SPARK_EXPORT
-Boolean SparkPreferencesSynchronize(SparkPreferencesDomain domain);
-SPARK_EXPORT
 void SparkPreferencesSetValue(NSString *key, id value, SparkPreferencesDomain domain);
 SPARK_EXPORT
 void SparkPreferencesSetBooleanValue(NSString *key, BOOL value, SparkPreferencesDomain domain);
 SPARK_EXPORT
 void SparkPreferencesSetIntegerValue(NSString *key, NSInteger value, SparkPreferencesDomain domain);
+
+SPARK_EXPORT
+Boolean SparkPreferencesSynchronize(SparkPreferencesDomain domain);
 
 /* Library domain only */
 SPARK_EXPORT

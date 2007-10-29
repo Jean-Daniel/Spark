@@ -7,6 +7,7 @@
  */
 
 #import <SparkKit/SparkObject.h>
+#import <SparkKit/SparkPrivate.h>
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkFunctions.h>
 #import <SparkKit/SparkIconManager.h>
@@ -166,10 +167,6 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
   return ([object class] == [self class]) && ([object uid] == [self uid]);
 }
 
-- (BOOL)isEqualToLibraryObject:(SparkObject *)object {
-  return ([object uid] == [self uid]);
-}
-
 #pragma mark -
 #pragma mark Icon
 - (NSImage *)icon {
@@ -207,15 +204,20 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
 - (SparkUID)uid {
   return sp_uid;
 }
-- (void)setUID:(SparkUID)uid {
-  sp_uid = uid;
-}
 
 - (NSString *)name {
   return sp_name;
 }
 - (void)setName:(NSString *)name {
   SKSetterCopy(sp_name, name);
+}
+
+@end
+
+@implementation SparkObject (Private)
+
+- (void)setUID:(SparkUID)uid {
+  sp_uid = uid;
 }
 
 - (SparkLibrary *)library {

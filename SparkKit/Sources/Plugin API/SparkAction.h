@@ -77,7 +77,7 @@ SPARK_CLASS_EXPORT
   @method
    @abstract   Optional! Called when action are loaded.
    @discussion Subclasses should override this method to check if the action is valid.
-   @result     Return nil if the action is valid and ready to be executed.
+   @result     Return <i>nil</i> if the action is valid.
    */
 - (SparkAlert *)actionDidLoad;
 
@@ -91,31 +91,33 @@ SPARK_CLASS_EXPORT
 
   /*!
   @method
-   @abstract   Returns the Action version. If nothing specified, use the class version.
+   @abstract   Returns the receiver version. If nothing specified, use the class version.
    */
 - (UInt32)version;
   /*!
   @method
-   @abstract   Sets the version for this Action.
-   @param      newVersion Action version
+   @abstract   Sets the receiver version.
+   @param      version Action version
+   @discussion The version is automatically saved and restored.
    */
 - (void)setVersion:(UInt32)version;
 
   /*!
   @method
-   @abstract   Returns the Action categorie.
+   @abstract   Returns the receiver categorie.
    */
 - (NSString *)categorie;
 
   /*!
   @method
-   @abstract   Returns the short Description for this Action.
+   @abstract   Returns the receiver description.
+   @discussion This description can be generated at load time.
    */
 - (NSString *)actionDescription;
   /*!
   @method
-   @abstract   Sets the short description for this Action.
-   @param      desc The short description.
+   @abstract   Sets the receivers description.
+   @param      desc A short description that explains what this action will do.
    */
 - (void)setActionDescription:(NSString *)desc;
 
@@ -125,12 +127,13 @@ SPARK_CLASS_EXPORT
   @method
    @abstract   Returns the time interval between two events repetition.
    @result     value <= 0 to disable auto repeate, <em>SparkGetDefaultKeyRepeatInterval()</em> to use system defined repeat interval.
+   @discussion The default implementation returns -1. An action can override this method to enable auto-repeat.
    */
 - (NSTimeInterval)repeatInterval;
 
+#pragma mark Unstable
 /* return YES if this action is enabled for the current front application */
 - (BOOL)isActive;
-
 - (BOOL)isRegistred;
 
 /*!

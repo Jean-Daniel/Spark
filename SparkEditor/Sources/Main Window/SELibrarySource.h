@@ -8,6 +8,7 @@
 
 #import <ShadowKit/SKTableDataSource.h>
 
+@class SparkAction;
 @class SparkLibrary, SparkPlugIn;
 @class SETableView, SELibraryWindow;
 @class SEEntryList, SESmartEntryList;
@@ -29,5 +30,7 @@
 
 - (IBAction)selectLibrary:(id)sender;
 - (IBAction)selectApplicationList:(id)sender;
+
+- (void)selectListForAction:(SparkAction *)anAction;
 
 @end

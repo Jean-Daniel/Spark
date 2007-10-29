@@ -79,7 +79,7 @@
 }
 
 - (NSAlert *)sparkEditorShouldConfigureAction {
-  // Name should be check after 'configure action' to allow user to set it later.
+  // Name should be check after 'configure action' to allow plugin to set it later.
   return nil;
 }
 
@@ -203,7 +203,7 @@
   NSImage *image = [NSImage imageNamed:name inBundle:bundle];
   if (!image) {
     WLog(@"%@: invalid plugin property list: key \"SparkPluginIcon\" not found", [bundle bundlePath]);
-    image = [NSImage imageNamed:@"PluginIcon" inBundle:[NSBundle bundleWithIdentifier:kSparkKitBundleIdentifier]];
+    image = [NSImage imageNamed:@"PluginIcon" inBundle:kSparkKitBundle];
   }
   return image;
 }
@@ -233,7 +233,9 @@
 }
 
 + (NSString *)pluginFullName {
-  return [NSString stringWithFormat:@"%@ Action", [self plugInName]];
+  return [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"%@ Action", nil, 
+                                                                       kSparkKitBundle, @"Plugin fullname (%@ => name)"),
+    [self plugInName]];
 }
 
 + (NSImage *)pluginViewIcon {

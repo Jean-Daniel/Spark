@@ -20,6 +20,7 @@
 #import "SEServerConnection.h"
 
 #import <SparkKit/SparkList.h>
+#import <SparkKit/SparkEntry.h>
 #import <SparkKit/SparkPlugIn.h>
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkFunctions.h>
@@ -113,7 +114,8 @@
   if ([menu numberOfItems] > 0)
     [menu addItem:[NSMenuItem separatorItem]];
   
-  NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:@"New Group" action:@selector(newGroup:) keyEquivalent:@"N"];
+  NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"New Group", @"'New Group' menu item")
+                                                action:@selector(newGroup:) keyEquivalent:@"N"];
   [item setImage:[NSImage imageNamed:@"SimpleList" inBundle:SKBundleForClass(SparkLibrary)]];
   [item setKeyEquivalentModifierMask:NSShiftKeyMask | NSCommandKeyMask];
   [menu addItem:item];
@@ -183,8 +185,12 @@
       /* Select application list */
       [ibGroups selectApplicationList:nil];
     }
+  } 
+  if ([[entry application] uid] == kSparkApplicationSystemUID) {
+    /* Select application list */
+    [ibGroups selectListForAction:[entry action]];
   }
-  
+  /* should not append */
   if (![[triggers arrangedObjects] containsObject:entry])
     [ibGroups selectLibrary:nil];
   

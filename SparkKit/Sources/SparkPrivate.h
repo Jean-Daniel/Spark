@@ -55,6 +55,26 @@
 
 @end
 
+@interface SparkObject (Private)
+/*!
+@method
+ @abstract Don't call this method directly. This method is called by Library.
+ @param uid (description)
+ */
+- (void)setUID:(SparkUID)uid;
+  /*!
+  @method
+   @abstract Returns the receiver Library.
+   */
+- (SparkLibrary *)library;
+  /*!
+  @method
+   @abstract Sets the receiver Library. Don't call this method. It's called when receiver is added in a Library.
+   @param aLibrary The Library that contains the receiver.
+   */
+- (void)setLibrary:(SparkLibrary *)aLibrary;
+@end
+
 @interface SparkLibrary (SparkLibraryPrivate)
 - (SparkApplication *)frontApplication;
 - (SparkApplication *)applicationForProcess:(ProcessSerialNumber *)psn;

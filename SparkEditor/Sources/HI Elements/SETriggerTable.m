@@ -170,18 +170,4 @@
                                      image:anImage];
 }
 
-- (NSImage *)dragImageForRows:(NSArray *)dragRows event:(NSEvent *)dragEvent dragImageOffset:(NSPointPointer)dragImageOffset {
-  NSMutableIndexSet *idxes = [NSMutableIndexSet indexSet];
-  NSUInteger count = [dragRows count];
-  while (count-- > 0) {
-    [idxes addIndex:[[dragRows objectAtIndex:count] unsignedIntValue]];
-  }
-  
-  NSImage *anImage = [super dragImageForRows:dragRows
-                                       event:dragEvent
-                             dragImageOffset:dragImageOffset];
-  
-  return [self dragImageForRowsWithIndexes:idxes tableColumns:[self tableColumns] event:dragEvent offset:dragImageOffset image:anImage];
-}
-
 @end

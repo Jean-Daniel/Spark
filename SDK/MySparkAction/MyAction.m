@@ -7,6 +7,7 @@
  */
 
 #import "MyAction.h"
+#import <SparkKit/SparkFunctions.h>
 
 @implementation MyAction
 
@@ -55,12 +56,7 @@ In our case, beepCount is always right exept if an user edit the library file ma
 }
 
 - (SparkAlert *)performAction {
-  NSAlert *dialog = [NSAlert alertWithMessageText:@"Hello, you call me?"
-                                    defaultButton:@"OK"
-                                  alternateButton:nil
-                                      otherButton:nil
-                        informativeTextWithFormat:@"You message is : %@", my_message];
-  [dialog runModal];
+  SparkNotificationDisplaySystemIcon(kQuestionMarkIcon, -1);
   return nil;
 }
 

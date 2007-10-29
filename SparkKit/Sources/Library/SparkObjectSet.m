@@ -7,6 +7,7 @@
  */
 
 #import <SparkKit/SparkObjectSet.h>
+#import <SparkKit/SparkPrivate.h>
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkFunctions.h>
 #import <SparkKit/SparkIconManager.h>
@@ -382,7 +383,7 @@ bail:
 static NSImage *__SparkWarningImage = nil;
 + (void)initialize {
   if ([SparkPlaceHolder class] == self) {
-    __SparkWarningImage = [[NSImage imageNamed:@"Warning" inBundle:SKCurrentBundle()] retain];
+    __SparkWarningImage = [[NSImage imageNamed:@"Warning" inBundle:kSparkKitBundle] retain];
   }
 }
 
