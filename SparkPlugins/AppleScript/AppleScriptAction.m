@@ -201,44 +201,44 @@ static NSString * const kOSAScriptActionTypeKey = @"OSAScriptType";
 }
 @end
 
-@implementation AppleScriptAction (SparkExport)
-
-- (id)initFromExternalRepresentation:(NSDictionary *)rep {
-  if (self = [super initFromExternalRepresentation:rep]) {
-    NSString *value = [rep objectForKey:@"script-path"];
-    if (value) {
-      SKAlias *alias = [SKAlias aliasWithPath:value];
-      if (alias) {
-        [self setScriptAlias:alias];
-      } else {
-        [self release];
-        self = nil;
-      }
-    } else if (value = [rep objectForKey:@"script-source"]) {
-      [self setScriptSource:value];
-    } else {
-      [self release];
-      self = nil;
-    }
-  }
-  return self;
-}
-
-- (NSMutableDictionary *)externalRepresentation {
-  NSMutableDictionary *plist = [super externalRepresentation];
-  if (plist) {
-    if ([self scriptAlias]) {
-      NSString *path = [[self scriptAlias] path];
-      if (path)
-        [plist setObject:path forKey:@"script-path"];
-    } else if ([self scriptSource]) {
-      [plist setObject:[self scriptSource] forKey:@"script-source"];
-    } 
-  }
-  return plist;
-}
-
-@end
+//@implementation AppleScriptAction (SparkExport)
+//
+//- (id)initFromExternalRepresentation:(NSDictionary *)rep {
+//  if (self = [super initFromExternalRepresentation:rep]) {
+//    NSString *value = [rep objectForKey:@"script-path"];
+//    if (value) {
+//      SKAlias *alias = [SKAlias aliasWithPath:value];
+//      if (alias) {
+//        [self setScriptAlias:alias];
+//      } else {
+//        [self release];
+//        self = nil;
+//      }
+//    } else if (value = [rep objectForKey:@"script-source"]) {
+//      [self setScriptSource:value];
+//    } else {
+//      [self release];
+//      self = nil;
+//    }
+//  }
+//  return self;
+//}
+//
+//- (NSMutableDictionary *)externalRepresentation {
+//  NSMutableDictionary *plist = [super externalRepresentation];
+//  if (plist) {
+//    if ([self scriptAlias]) {
+//      NSString *path = [[self scriptAlias] path];
+//      if (path)
+//        [plist setObject:path forKey:@"script-path"];
+//    } else if ([self scriptSource]) {
+//      [plist setObject:[self scriptSource] forKey:@"script-source"];
+//    } 
+//  }
+//  return plist;
+//}
+//
+//@end
 
 #pragma mark Compatibility
 @interface AppleScriptOSAAction : NSObject {

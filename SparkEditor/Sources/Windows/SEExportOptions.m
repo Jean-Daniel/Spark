@@ -17,4 +17,8 @@
   return self;
 }
 
+- (BOOL)includeIcons {
+  return YES;
+}
+
 @end

@@ -514,21 +514,21 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
 }
 
 - (IBAction)dumpExternal:(id)sender {
-  NSMutableArray *library = [[NSMutableArray alloc] init];
-  SELibraryDocument *doc = SEGetDocumentForLibrary(SparkActiveLibrary());
-  SEEntryCache *cache = [doc cache];
-  SESparkEntrySet *entries = [cache entries];
-  
-  DLog(@"%@", [[doc application] externalRepresentation]);
-  
-  SparkEntry *entry;
-  NSEnumerator *iter = [entries entryEnumerator];
-  while (entry = [iter nextObject]) {
-    [library addObject:[entry externalRepresentation]];
-  }
-  
-  DLog(@"%@", library);
-  [library release];
+//  NSMutableArray *library = [[NSMutableArray alloc] init];
+//  SELibraryDocument *doc = SEGetDocumentForLibrary(SparkActiveLibrary());
+//  SEEntryCache *cache = [doc cache];
+//  SESparkEntrySet *entries = [cache entries];
+//  
+//  DLog(@"%@", [[doc application] externalRepresentation]);
+//  
+//  SparkEntry *entry;
+//  NSEnumerator *iter = [entries entryEnumerator];
+//  while (entry = [iter nextObject]) {
+//    [library addObject:[entry externalRepresentation]];
+//  }
+//  
+//  DLog(@"%@", library);
+//  [library release];
 }
 
 - (IBAction)dumpLibrary:(id)sender {

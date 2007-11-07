@@ -236,7 +236,7 @@ NSString *SESparkDaemonPath() {
 #if defined(DEBUG)
   return kSparkDaemonExecutableName;
 #else
-  return [[NSBundle mainBundle] pathForAuxiliaryExecutable:kSparkDaemonExecutableName];
+  return [[[NSBundle mainBundle] sharedSupportPath] stringByAppendingPathComponent:kSparkDaemonExecutableName];
 #endif
 }
 

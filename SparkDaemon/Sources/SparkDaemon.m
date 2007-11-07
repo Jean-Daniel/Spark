@@ -391,6 +391,9 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
         // Daemon disabled => bypass
         [trigger bypass];
       }
+    } else {
+      /* no action found */
+      [trigger bypass];
     }
   } @catch (id exception) {
     SKLogException(exception);

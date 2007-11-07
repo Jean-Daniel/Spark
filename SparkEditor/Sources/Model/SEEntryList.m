@@ -15,6 +15,7 @@
 #import <SparkKit/SparkEntry.h>
 #import <SparkKit/SparkTrigger.h>
 #import <SparkKit/SparkLibrary.h>
+#import <SparkKit/SparkPrivate.h>
 #import <SparkKit/SparkApplication.h>
 #import <SparkKit/SparkEntryManager.h>
 

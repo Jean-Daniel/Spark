@@ -19,6 +19,7 @@
 
 #import <SparkKit/SparkAction.h>
 #import <SparkKit/SparkHotKey.h>
+#import <SparkKit/SparkPrivate.h>
 #import <SparkKit/SparkEntryManager.h>
 
 #import <ShadowKit/SKFunctions.h>

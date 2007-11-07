@@ -82,7 +82,7 @@ void SparkDaemonCheckTrigger(SparkLibrary *library, SparkTrigger *trigger) {
   if ([self isEnabled]) {
     /* Should check triggers */
     SparkDaemonCheckTrigger([library library], [anEntry trigger]);
-    if (![[anEntry trigger] isEqualToLibraryObject:[otherEntry trigger]])
+    if (![[anEntry trigger] isEqual:[otherEntry trigger]])
       SparkDaemonCheckTrigger([library library], [otherEntry trigger]);
   }
 }
