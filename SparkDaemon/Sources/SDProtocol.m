@@ -131,15 +131,16 @@ void SparkDaemonCheckTrigger(SparkLibrary *library, SparkTrigger *trigger) {
   ShadowTrace();
   /* handle special case: remove the front application and application is disabled */
   SparkApplication *app = SparkNotificationObject(aNotification);
-  if ([[app application] isFront] && ![app isEnabled]) {
+  if ([app isEqual:sd_front] && ![app isEnabled]) {
     /* restore triggers status */
     [self registerTriggers];
+    sd_front = nil;
   }
 }
 - (void)didChangeApplicationStatus:(NSNotification *)aNotification {
   ShadowTrace();
   SparkApplication *app = [aNotification object];
-  if ([[app application] isFront]) {
+  if ([app isEqual:sd_front]) {
     if ([app isEnabled])
       [self registerTriggers];
     else 

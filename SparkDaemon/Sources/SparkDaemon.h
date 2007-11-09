@@ -9,11 +9,12 @@
 #import <SparkKit/SparkServerProtocol.h>
 #import <SparkKit/SparkAppleScriptSuite.h>
 
+@class SparkApplication;
 @class SparkLibrary, SparkDistantLibrary;
 @interface SparkDaemon : NSObject {
   BOOL sd_disabled;
   SparkLibrary *sd_library;
-  ProcessSerialNumber sd_front;
+  SparkApplication *sd_front;
   SparkDistantLibrary *sd_rlibrary;
 }
 

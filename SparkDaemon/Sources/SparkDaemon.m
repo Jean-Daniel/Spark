@@ -103,6 +103,7 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
       [self unregisterTriggers];
       [sd_library unload];
       [sd_library release];
+      sd_front = nil;
     }
     sd_library = [aLibrary retain];
     if (sd_library) {
@@ -136,13 +137,29 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
       /* register triggers */
       [self checkActions];
       [self loadTriggers];
+      
+      /* init front process using a valid process */
+      ProcessSerialNumber psn;
+      if (noErr == GetCurrentProcess(&psn))
+        sd_front = [sd_library applicationForProcess:&psn];
     }
   }
 }
 
 /* Timer callback */
-- (void)checkAndLoad:(id)sender {
+- (void)finishStartup:(id)sender {
   [self setActiveLibrary:SparkActiveLibrary()];
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(didChangePluginStatus:)
+                                               name:SparkPlugInDidChangeStatusNotification
+                                             object:nil];
+  
+  EventTypeSpec eventTypes[] = {
+    //      { kEventClassApplication, kEventAppLaunched },
+    //      { kEventClassApplication, kEventAppTerminated },
+  { kEventClassApplication, kEventAppFrontSwitched },
+  };
+  InstallApplicationEventHandler(_SDProcessManagerEvent, GetEventTypeCount(eventTypes), eventTypes, self, NULL);
 }
 
 - (id)init {
@@ -189,25 +206,12 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
         DLog(@"Delay load: %i", delay);
         [NSTimer scheduledTimerWithTimeInterval:delay
                                          target:self
-                                       selector:@selector(checkAndLoad:)
+                                       selector:@selector(finishStartup:)
                                        userInfo:nil
                                         repeats:NO];
       } else {
-        [self checkAndLoad:nil];
+        [self finishStartup:nil];
       }      
-      [[NSNotificationCenter defaultCenter] addObserver:self
-                                               selector:@selector(didChangePluginStatus:)
-                                                   name:SparkPlugInDidChangeStatusNotification
-                                                 object:nil];
-      
-      /* init front process using a valid process */
-      GetCurrentProcess(&sd_front);
-      EventTypeSpec eventTypes[] = {
-//      { kEventClassApplication, kEventAppLaunched },
-//      { kEventClassApplication, kEventAppTerminated },
-      { kEventClassApplication, kEventAppFrontSwitched },
-      };
-      InstallApplicationEventHandler(_SDProcessManagerEvent, GetEventTypeCount(eventTypes), eventTypes, self, NULL);
     }
   }
   return self;
@@ -239,15 +243,21 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
 
 - (void)frontApplicationDidChange:(ProcessSerialNumber *)psn {
   Boolean same = false;
-  if ((noErr != SameProcess(&sd_front, psn, &same)) || !same) {
-    SparkApplication *previous = [sd_library applicationForProcess:&sd_front];
-    SparkApplication *front = [sd_library applicationForProcess:psn];
-    sd_front = *psn;
+  SparkApplication *front = psn ? [sd_library applicationForProcess:psn] : nil;
+  if (!sd_front) {
+    same = !front;
+  } else {
+    same = front && [sd_front isEqual:front];
+  }
+  if (!same) {
+    DLog(@"switch: %@ => %@", sd_front, front);
     /* If status change */
-    if ((!previous || [previous isEnabled]) && (front && ![front isEnabled]))
+    if ((!sd_front || [sd_front isEnabled]) && (front && ![front isEnabled])) {
       [self unregisterTriggers];
-    else if ((previous && ![previous isEnabled]) && (!front || [front isEnabled]))
+    } else if ((sd_front && ![sd_front isEnabled]) && (!front || [front isEnabled])) {
       [self registerTriggers];
+    }
+    sd_front = front;
   }
 }
 
