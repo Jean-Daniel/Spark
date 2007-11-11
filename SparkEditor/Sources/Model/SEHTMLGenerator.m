@@ -30,7 +30,27 @@
   return self;
 }
 
+- (BOOL)includesIcon {
+  return se_icons;
+}
+- (void)setIncludesIcons:(BOOL)flag {
+  se_icons = flag;
+}
+
+- (NSInteger)groupBy {
+  return se_group;
+}
+- (void)setGroupBy:(NSInteger)group {
+  se_group = group;
+}
+
+static
+int _SESortEntries(id e1, id e2, void *ctxt) {
+  return [[e1 trigger] compare:[e2 trigger]];
+}
+
 - (void)dumpCategories:(NSArray *)categories entries:(NSArray *)entries template:(SKTemplate *)tpl {
+  entries = [entries sortedArrayUsingFunction:_SESortEntries context:nil];
   for (NSUInteger idx = 0; idx < [categories count]; idx++) {
     bool dump = false;
     SKTemplate *block = [tpl blockWithName:@"category"];
@@ -42,7 +62,7 @@
         dump = true;
         SKTemplate *ablock = [block blockWithName:@"entry"];
         [ablock setVariable:[entry name] forKey:@"name"];
-        if ([ablock containsKey:@"icon"]) 
+        if (se_icons && [ablock containsKey:@"icon"])
           [ablock setVariable:[self imageTagForImage:[entry icon] size:NSMakeSize(16, 16)] forKey:@"icon"];
         [ablock setVariable:[entry triggerDescription] forKey:@"keystroke"];
         [ablock setVariable:[entry actionDescription] forKey:@"description"];
@@ -52,8 +72,8 @@
     }
     if (dump) {
       [block setVariable:[plugin name] forKey:@"name"];
-      if ([block containsKey:@"icon"]) 
-        [block setVariable:[self imageTagForImage:[plugin icon] size:NSMakeSize(20, 20)] forKey:@"icon"];
+      if (se_icons && [block containsKey:@"icon"]) 
+        [block setVariable:[self imageTagForImage:[plugin icon] size:NSMakeSize(18, 18)] forKey:@"icon"];
       [block dumpBlock];
     }
   }
@@ -84,7 +104,7 @@
     app = [customs objectAtIndex:idx];
     SKTemplate *block = [tpl blockWithName:@"application"];
     [block setVariable:[app name] forKey:@"name"];
-    if ([block containsKey:@"icon"]) 
+    if (se_icons && [block containsKey:@"icon"]) 
       [block setVariable:[self imageTagForImage:[app icon] size:NSMakeSize(20, 20)] forKey:@"icon"];
     
     /* process entries */

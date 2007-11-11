@@ -54,6 +54,10 @@ static SparkAction *sp_spAction = nil;
   [super dealloc];
 }
 
+- (NSComparisonResult)compare:(SparkTrigger *)aTrigger {
+  return [[self triggerDescription] caseInsensitiveCompare:[aTrigger triggerDescription]];
+}
+
 #pragma mark Implementation
 - (id)target {
   return sp_target;

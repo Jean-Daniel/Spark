@@ -1,7 +1,12 @@
 {
     IBClasses = (
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
-        {CLASS = SEExportOptions; LANGUAGE = ObjC; SUPERCLASS = SKViewController; }, 
+        {
+            CLASS = SEExportOptions; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {uiGroup = NSPopUpButton; uiIcons = NSButton; }; 
+            SUPERCLASS = SKViewController; 
+        }, 
         {
             CLASS = SKViewController; 
             LANGUAGE = ObjC; 

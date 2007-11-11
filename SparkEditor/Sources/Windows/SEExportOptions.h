@@ -8,10 +8,13 @@
 
 #import <ShadowKit/SKViewController.h>
 
+/* this class breaks the MVC patter to avoid binding circular reference */
 @interface SEExportOptions : SKViewController {
-
+  @private
+  IBOutlet NSButton *uiIcons;
+  IBOutlet NSPopUpButton *uiGroup;
 }
 
 - (BOOL)includeIcons;
-
+- (NSInteger)groupBy;
 @end

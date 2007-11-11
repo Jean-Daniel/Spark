@@ -5,8 +5,12 @@
   <title>@title!</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <style type="text/css">
+   ul { margin-top: 0px; }
    h1 { text-align: center; }
+   h2 { margin-bottom: 0.25em; }
+   body { padding-left: 12px; padding-right: 12px; }
    .name { vertical-align: top; } 
+   .entry { list-style: none; }
    .entry * { font-size: 95%; }
    li { white-space: nowrap; }
    .entry .name { padding: 0px; width: 25%; min-width: 150px; display: inline-block; white-space: nowrap; }
@@ -37,6 +41,7 @@
    </ul>
   <!-- @End! category -->
   </dd>
+  <hr />
  <!-- @End! application -->
  </body>
 </html>

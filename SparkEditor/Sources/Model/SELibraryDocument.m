@@ -275,10 +275,12 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
                   modalDelegate:self didEndSelector:@selector(exportPanel:didEnd:context:) contextInfo:ctrl];
 }
 
-- (void)exportPanel:(NSSavePanel *)panel didEnd:(NSInteger)code context:(id)ctxt {
+- (void)exportPanel:(NSSavePanel *)panel didEnd:(NSInteger)code context:(id)ctrl {
   if (NSOKButton == code) {
     NSError *error = nil;
     SEHTMLGenerator *generator = [[SEHTMLGenerator alloc] initWithDocument:self];
+    [generator setGroupBy:[ctrl groupBy]];
+    [generator setIncludesIcons:[ctrl includeIcons]];
     /* generator setOptions */
     if (![generator writeToFile:[panel filename] atomically:YES error:&error]) {
       if (error) [self presentError:error];
@@ -287,7 +289,7 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
     [generator release];
   }
   /* cleanup */
-  [ctxt release];
+  [ctrl release];
 }
 
 #pragma mark -

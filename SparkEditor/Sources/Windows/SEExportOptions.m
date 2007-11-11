@@ -18,7 +18,11 @@
 }
 
 - (BOOL)includeIcons {
-  return YES;
+  return [uiIcons state] == NSOnState;
 }
+- (NSInteger)groupBy {
+  return [[uiGroup selectedItem] tag];
+}
+
 
 @end
