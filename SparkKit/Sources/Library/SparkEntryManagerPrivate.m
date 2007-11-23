@@ -114,7 +114,7 @@ void SparkLibraryEntryInitFlags(SparkLibraryEntry *lentry, SparkEntry *entry) {
     if (SparkLibraryEntryIsOverwrite(entry)) {
       [trigger setHasManyAction:YES];
     }
-    
+    /* update [action isRegistred] status */
     [self checkActionRegistration:entry];
   }
 }

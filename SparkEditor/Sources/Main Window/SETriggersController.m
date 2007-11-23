@@ -295,7 +295,7 @@ NSString * sSEHiddenPluggedObserverKey = nil;
   SKIndexEnumerator *indexes = [rowIndexes indexEnumerator];
   while ((idx = [indexes nextIndex]) != NSNotFound) {
     SparkTrigger *trigger = [[self objectAtIndex:idx] trigger];
-    [triggers addObject:SKUInt([trigger uid])];
+    [triggers addObject:SKUInteger([trigger uid])];
   }
   [plist setObject:triggers forKey:@"triggers"];
   [triggers release];

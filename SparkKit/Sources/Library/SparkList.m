@@ -63,7 +63,7 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
     SparkObject *entry;
     NSEnumerator *entries = [sp_entries objectEnumerator];
     while (entry = [entries nextObject]) {
-      [objects addObject:SKUInt([entry uid])];
+      [objects addObject:SKUInteger([entry uid])];
     }
     [plist setObject:objects forKey:kSparkObjectsKey];
     

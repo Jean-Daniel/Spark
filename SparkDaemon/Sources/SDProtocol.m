@@ -158,7 +158,7 @@ void SparkDaemonCheckTrigger(SparkLibrary *library, SparkTrigger *trigger) {
 @end
 
 void SDSendStateToEditor(SparkDaemonStatus state) {
-  NSNumber *value = SKUInt(state);
+  NSNumber *value = SKUInteger(state);
   CFDictionaryRef info = CFDictionaryCreate(kCFAllocatorDefault, 
                                             (const void **)&SparkDaemonStatusKey,
                                             (const void **)&value, 1, 

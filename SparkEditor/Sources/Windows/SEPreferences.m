@@ -90,7 +90,7 @@ void *_SEPreferencesLoginItemThread(void *arg) {
     SKBool(NO), kSEPreferencesAutoUpdate,
     SKBool(NO), kSEPreferencesHideDisabled,
     SKBool(YES), kSEPreferencesStartAtLogin,
-    SKInt(kSparkEnableSingleFunctionKey), kSparkPrefSingleKeyMode,
+    SKInteger(kSparkEnableSingleFunctionKey), kSparkPrefSingleKeyMode,
     nil];
   [[NSUserDefaults standardUserDefaults] registerDefaults:values];
   

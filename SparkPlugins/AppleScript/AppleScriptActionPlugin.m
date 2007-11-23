@@ -32,7 +32,7 @@ enum {
   [[ibScriptController scriptView] setSource:@""];
   if (value = [sparkAction scriptAlias]) {
     [self setScriptFile:[value path]];
-    [self setValue:SKInt(kAppleScriptFileTab) forKey:@"selectedTab"];
+    [self setValue:SKInteger(kAppleScriptFileTab) forKey:@"selectedTab"];
   } else if (value = [sparkAction scriptSource]) {
     [[ibScriptController scriptView] setSource:value];
     [ibScriptController compileScript:nil];

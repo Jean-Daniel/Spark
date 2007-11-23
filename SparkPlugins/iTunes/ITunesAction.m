@@ -279,12 +279,12 @@ static ITunesVisual sDefaultVisual = {delay: -1};
 
 - (BOOL)serialize:(NSMutableDictionary *)plist {
   [super serialize:plist];
-  [plist setObject:SKUInt([self encodeFlags]) forKey:kITunesFlagsKey];
+  [plist setObject:SKUInteger([self encodeFlags]) forKey:kITunesFlagsKey];
   [plist setObject:SKStringForOSType([self iTunesAction]) forKey:kITunesActionKey];
   /* Playlist */
   if ([self playlist]) {
     [plist setObject:[self playlist] forKey:kITunesPlaylistKey];
-    [plist setObject:SKULongLong(ia_plid) forKey:kITunesPlaylistIDKey];
+    [plist setObject:SKUInt64(ia_plid) forKey:kITunesPlaylistIDKey];
   }
   /* Visual */
   if (ia_visual) {

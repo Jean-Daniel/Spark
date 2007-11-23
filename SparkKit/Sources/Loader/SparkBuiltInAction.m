@@ -125,7 +125,7 @@ NSImage *SparkDaemonStatusIcon(BOOL status) {
 - (BOOL)serialize:(NSMutableDictionary *)plist {
   if ([super serialize:plist]) {
     if (kSparkSDActionSwitchListStatus == sp_action)
-      [plist setObject:SKUInt(sp_list) forKey:@"SparkListUID"];
+      [plist setObject:SKUInteger(sp_list) forKey:@"SparkListUID"];
     [plist setObject:SKStringForOSType(sp_action) forKey:@"SparkDaemonAction"];
     return YES;
   }

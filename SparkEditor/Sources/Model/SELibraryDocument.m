@@ -167,8 +167,8 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
     if (file) {
       [[self library] archiveToFile:file];
       NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
-        SKUInt(kSparkLibraryArchiveHFSType), NSFileHFSTypeCode,
-        SKUInt(kSparkEditorSignature), NSFileHFSCreatorCode, nil];
+        SKUInt32(kSparkLibraryArchiveHFSType), NSFileHFSTypeCode,
+        SKUInt32(kSparkEditorSignature), NSFileHFSCreatorCode, nil];
       [[NSFileManager defaultManager] changeFileAttributes:dict atPath:file];
     }
   }

@@ -111,7 +111,7 @@ BOOL SparkHotKeyFilter(HKKeycode code, HKModifier modifier) {
 - (BOOL)serialize:(NSMutableDictionary *)plist {
   [super serialize:plist];
   UInt64 hotkey = [sp_hotkey rawkey];
-  [plist setObject:SKULongLong(hotkey) forKey:kHotKeyRawCodeKey];
+  [plist setObject:SKUInt64(hotkey) forKey:kHotKeyRawCodeKey];
   return YES;
 }
 

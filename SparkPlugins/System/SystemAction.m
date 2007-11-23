@@ -107,11 +107,11 @@ NSString * const kSystemUserNameKey = @"SystemUserName";
 
 - (BOOL)serialize:(NSMutableDictionary *)plist {
   if ([super serialize:plist]) {
-    [plist setObject:SKInt([self action]) forKey:kSystemActionKey];
-    [plist setObject:SKUInt([self encodeFlags]) forKey:kSystemFlagsKey];
+    [plist setObject:SKInteger([self action]) forKey:kSystemActionKey];
+    [plist setObject:SKUInteger([self encodeFlags]) forKey:kSystemFlagsKey];
     
     if (kSystemSwitch == [self action] && [self userID] && [self userName]) {
-      [plist setObject:SKUInt([self userID]) forKey:kSystemUserUIDKey];
+      [plist setObject:SKUInteger([self userID]) forKey:kSystemUserUIDKey];
       [plist setObject:[self userName] forKey:kSystemUserNameKey];
     }
     return YES;

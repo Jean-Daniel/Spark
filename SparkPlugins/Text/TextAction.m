@@ -185,7 +185,7 @@ NSString * const kKeyboardActionBundleIdentifier = @"org.shadowlab.spark.action.
       NSMutableArray *strokes = [NSMutableArray array];
       for (NSUInteger idx = 0; idx < [keys count]; idx++) {
         UInt64 raw = [[keys objectAtIndex:idx] rawKey];
-        [strokes addObject:SKULongLong(raw)];
+        [strokes addObject:SKUInt64(raw)];
       }
       return strokes;
     }

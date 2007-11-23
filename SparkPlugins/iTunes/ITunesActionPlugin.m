@@ -404,7 +404,7 @@ NSString *__iTunesFindLibrary(Boolean compat) {
       NSDictionary *list;
       NSEnumerator *lists = [[library objectForKey:@"Playlists"] objectEnumerator];
       while (list = [lists nextObject]) {
-        int type = kPlaylistUser;
+        UInt32 type = kPlaylistUser;
         if ([list objectForKey:@"Smart Info"] != nil) type = kPlaylistSmart;
         else if ([[list objectForKey:@"Folder"] boolValue]) type = kPlaylistFolder;
         else if ([[list objectForKey:@"Music"] boolValue]) type = kPlaylistMusic;
@@ -419,11 +419,11 @@ NSString *__iTunesFindLibrary(Boolean compat) {
         NSNumber *ppid = nil;
         NSString *uid = [list objectForKey:@"Playlist Persistent ID"];
         if (uid) {
-          ppid = SKULongLong(strtoll([uid UTF8String], NULL, 16));
+          ppid = SKUInt64(strtoll([uid UTF8String], NULL, 16));
         }
         
         NSDictionary *plist = [[NSDictionary alloc] initWithObjectsAndKeys:
-          SKUInt(type), @"kind",
+          SKUInt32(type), @"kind",
           ppid, @"uid", nil];
         [playlists setObject:plist forKey:[list objectForKey:@"Name"]];
         [plist release];

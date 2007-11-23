@@ -9,7 +9,7 @@
 #if !defined(__SPARKKIT_H)
 #define __SPARKKIT_H 1
 
-#if !defined(__SHADOW_MACROS__)
+#if !defined(__SHARED_PREFIX_H)
 
 #if defined(__OBJC__)
 #import <Cocoa/Cocoa.h>
