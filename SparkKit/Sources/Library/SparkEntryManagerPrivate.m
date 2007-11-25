@@ -74,7 +74,7 @@ void SparkLibraryEntryInitFlags(SparkLibraryEntry *lentry, SparkEntry *entry) {
 
 - (void)checkTriggerValidity:(SparkUID)trigger;
 - (void)removeEntriesForAction:(SparkUID)action;
-- (void)checkActionRegistration:(const SparkLibraryEntry *)entry;
+//- (void)checkActionRegistration:(const SparkLibraryEntry *)entry;
 
 @end
 
@@ -111,11 +111,11 @@ void SparkLibraryEntryInitFlags(SparkLibraryEntry *lentry, SparkEntry *entry) {
     
     SparkTrigger *trigger = [[[self library] triggerSet] objectWithUID:entry->trigger];
     /* Update trigger flag */
-    if (SparkLibraryEntryIsOverwrite(entry)) {
+    if (SparkLibraryEntryIsOverwrite(entry))
       [trigger setHasManyAction:YES];
-    }
+    
     /* update [action isRegistred] status */
-    [self checkActionRegistration:entry];
+//    [self checkActionRegistration:entry];
   }
 }
 - (void)replaceLibraryEntry:(SparkLibraryEntry *)anEntry withLibraryEntry:(SparkLibraryEntry *)newEntry {
@@ -130,7 +130,7 @@ void SparkLibraryEntryInitFlags(SparkLibraryEntry *lentry, SparkEntry *entry) {
   SparkUID action = anEntry->action;
   SparkUID trigger = anEntry->trigger;
   
-  /* Should update Set too */
+  /* Should update CFSet if the hash change */
   BOOL update = NO;
   if (_SparkEntryHash(anEntry) != _SparkEntryHash(newEntry)) {
     update = YES;
@@ -143,49 +143,53 @@ void SparkLibraryEntryInitFlags(SparkLibraryEntry *lentry, SparkEntry *entry) {
   if (update)
     CFSetAddValue(sp_set, anEntry);
   
-  /* Remove orphan action */
+  /* Remove orphan action or update action flag */
   if (action != newEntry->action && ![self containsEntryForAction:action]) {
-    SparkAction *act = [[[self library] actionSet] objectWithUID:action];
-    if ([act isRegistred])
-      [act setRegistred:NO];
+//    SparkAction *act = [[[self library] actionSet] objectWithUID:action];
+//    if ([act isRegistred])
+//      [act setRegistred:NO];
     [[[self library] actionSet] removeObjectWithUID:action];
-  } else {
-    [self checkActionRegistration:anEntry];
   }
+//  else {
+//    [self checkActionRegistration:anEntry];
+//  }
   /* Update trigger */
   [self checkTriggerValidity:trigger];
-  [self checkActionRegistration:newEntry];
+  /* update newEntry flag */
+//  [self checkActionRegistration:newEntry];
 }
 
 - (void)removeLibraryEntry:(const SparkLibraryEntry *)anEntry {  
   if (CFSetContainsValue(sp_set, anEntry)) {
 //    BOOL global = anEntry->application == kSparkApplicationSystemUID;
-//    SparkUID action = anEntry->action;
+    /* copy anEntry on stack */
+    const SparkLibraryEntry lEntry = *anEntry;
     
     CFSetRemoveValue(sp_set, anEntry);
     CFIndex idx = CFArrayGetFirstIndexOfValue(sp_entries, CFRangeMake(0, CFArrayGetCount(sp_entries)), anEntry);
     NSAssert(idx != kCFNotFound, @"Cannot found object in manager array, but found in set");
     if (idx != kCFNotFound)
       CFArrayRemoveValueAtIndex(sp_entries, idx);
-
+    /* Note: anEntry could be freed an should no longer be used, lEntry MUST be used instead. */
+    
     /* Should not automagically remove weak entries */
 //    if (global) {
 //      /* Remove weak entries */
-//      [self removeEntriesForAction:action];
+//      [self removeEntriesForAction:lEntry.action];
 //    }
     
-    /* Remove orphan action */
-    if (![self containsEntryForAction:anEntry->action]) {
-      SparkAction *action = [[[self library] actionSet] objectWithUID:anEntry->action];
-      if ([action isRegistred])
-        [action setRegistred:NO];
-      
-      [[[self library] actionSet] removeObjectWithUID:anEntry->action];
-    } else {
-      [self checkActionRegistration:anEntry];
+    /* Remove orphan action or update action status */
+    if (![self containsEntryForAction:lEntry.action]) {
+//      SparkAction *action = [[[self library] actionSet] objectWithUID:lEntry.action];
+//      if ([action isRegistred])
+//        [action setRegistred:NO];
+      [[[self library] actionSet] removeObjectWithUID:lEntry.action];
     }
+//    else {
+//      [self checkActionRegistration:&lEntry];
+//    }
     /* Remove orphan trigger */
-    [self checkTriggerValidity:anEntry->trigger];
+    [self checkTriggerValidity:lEntry.trigger];
   }
 }
 
@@ -194,10 +198,10 @@ void SparkLibraryEntryInitFlags(SparkLibraryEntry *lentry, SparkEntry *entry) {
   /* Make sure we are using internal storage pointer */
   anEntry = (SparkLibraryEntry *)CFSetGetValue(sp_set, anEntry);
   if (!anEntry)
-    [NSException raise:NSInternalInconsistencyException format:@"Requested entry does not exists"];
+    [NSException raise:NSInvalidArgumentException format:@"Requested entry does not exists"];
   
   SparkLibraryEntrySetEnabled(anEntry, flag);
-  [self checkActionRegistration:anEntry];
+//  [self checkActionRegistration:anEntry];
 }
 
 #pragma mark Conversion
@@ -257,7 +261,7 @@ void SparkLibraryEntryInitFlags(SparkLibraryEntry *lentry, SparkEntry *entry) {
     if ([act isKindOfClass:cls]) {
       /* Update library entry */
       SparkLibraryEntrySetPlugged(entry, flag);
-      [self checkActionRegistration:entry];
+//      [self checkActionRegistration:entry];
     }
   }
 }
@@ -293,18 +297,18 @@ void SparkLibraryEntryInitFlags(SparkLibraryEntry *lentry, SparkEntry *entry) {
     [[[[self library] triggerSet] objectWithUID:trigger] setHasManyAction:NO];
 }
 
-- (void)checkActionRegistration:(const SparkLibraryEntry *)entry {
-  SparkAction *action = [[[self library] actionSet] objectWithUID:entry->action];
-  /* If active, sync with trigger */
-  if (SparkLibraryEntryIsActive(entry)) {
-    SparkTrigger *trigger = [[[self library] triggerSet] objectWithUID:entry->trigger];
-    if (XOR([trigger isRegistred], [action isRegistred]))
-      [action setRegistred:[trigger isRegistred]];
-  } else if ([action isRegistred]) {
-    /* else, set unregistred */
-    [action setRegistred:NO];
-  }
-}
+//- (void)checkActionRegistration:(const SparkLibraryEntry *)entry {
+//  SparkAction *action = [[[self library] actionSet] objectWithUID:entry->action];
+//  /* If active, sync with trigger (if needed) */
+//  if (SparkLibraryEntryIsActive(entry)) {
+//    SparkTrigger *trigger = [[[self library] triggerSet] objectWithUID:entry->trigger];
+//    if (XOR([trigger isRegistred], [action isRegistred]))
+//      [action setRegistred:[trigger isRegistred]];
+//  } else if ([action isRegistred]) {
+//    /* else, set unregistred */
+//    [action setRegistred:NO];
+//  }
+//}
 
 - (SparkEntryType)typeForLibraryEntry:(const SparkLibraryEntry *)anEntry {
   NSParameterAssert(anEntry != NULL);

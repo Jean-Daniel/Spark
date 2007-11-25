@@ -161,7 +161,7 @@ NSString * const SparkEntryManagerDidChangeEntryEnabledNotification = @"SparkEnt
   
   /* Update entry */
   [anEntry setType:[self typeForLibraryEntry:&entry]];
-  [anEntry setPlugged:SparkLibraryEntryIsPlugged(&entry)]; 
+  [anEntry setPlugged:SparkLibraryEntryIsPlugged(&entry)];
 
   // Did add
   SparkLibraryPostNotification([self library], SparkEntryManagerDidAddEntryNotification, self, anEntry);
@@ -186,8 +186,11 @@ NSString * const SparkEntryManagerDidChangeEntryEnabledNotification = @"SparkEnt
     SparkLibraryEntryInitFlags(&update, newEntry);
     
     [self replaceLibraryEntry:entry withLibraryEntry:&update];
+    
     /* Update type */
     [newEntry setType:[self typeForLibraryEntry:entry]];
+    [newEntry setPlugged:SparkLibraryEntryIsPlugged(entry)];
+    
     // Did update
     SparkLibraryPostUpdateNotification([self library], SparkEntryManagerDidUpdateEntryNotification, self, anEntry, newEntry);
   }
@@ -219,6 +222,7 @@ NSString * const SparkEntryManagerDidChangeEntryEnabledNotification = @"SparkEnt
   }
 }
 
+#pragma mark Getters
 - (NSArray *)entriesForAction:(SparkUID)anAction {
   return [self entriesForField:1 uid:anAction];
 }

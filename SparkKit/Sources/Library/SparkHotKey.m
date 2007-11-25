@@ -158,7 +158,6 @@ BOOL SparkHotKeyFilter(HKKeycode code, HKModifier modifier) {
   return [sp_hotkey isRegistred];
 }
 - (BOOL)setRegistred:(BOOL)flag {
-  [super setRegistred:flag];
   return [sp_hotkey setRegistred:flag];
 }
 - (NSString *)triggerDescription {

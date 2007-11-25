@@ -342,9 +342,9 @@ static ITunesVisual sDefaultVisual = {delay: -1};
 
 - (void)displayTrackNotification {
   /* Avoid double display. (autoinfo issue) */
-  static CFAbsoluteTime sLastDisplayTime = 0;
-  CFAbsoluteTime absTime = CFAbsoluteTimeGetCurrent();
-  if ([SparkAction currentEventTime] > 0 || (absTime - sLastDisplayTime) > 0.25) {
+  //static CFAbsoluteTime sLastDisplayTime = 0;
+  //CFAbsoluteTime absTime = CFAbsoluteTimeGetCurrent();
+  //if ([SparkAction currentEventTime] > 0 || (absTime - sLastDisplayTime) > 0.25) {
     iTunesTrack track = SKAEEmptyDesc();
     
     ITunesInfo *info = [ITunesInfo sharedWindow];
@@ -363,8 +363,8 @@ static ITunesVisual sDefaultVisual = {delay: -1};
       }
       [info display:nil];
     }
-  }
-  sLastDisplayTime = absTime;
+  //}
+  //sLastDisplayTime = absTime;
 }
 
 - (void)displayInfoIfNeeded {
@@ -485,37 +485,37 @@ static ITunesVisual sDefaultVisual = {delay: -1};
 
 #pragma mark -
 #pragma mark iTunes notification extension
-static
-void iTunesNotificationCallback(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
-  OSType sign = SKProcessGetFrontProcessSignature();
-  /* Doe nothing if iTunes is the front application */
-  if (sign != kiTunesSignature) {
-    if (userInfo) {
-      CFStringRef state = CFDictionaryGetValue(userInfo, CFSTR("Player State"));
-      /* Does nothing if iTunes not playing */
-      if (state && CFEqual(state, CFSTR("Playing"))) {
-        ITunesAction *action = (ITunesAction *)observer;
-        if ([action isActive]) {
-          [action displayTrackNotification];
-        }
-      }
-    }
-  }
-}
+//static
+//void iTunesNotificationCallback(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
+//  OSType sign = SKProcessGetFrontProcessSignature();
+//  /* Doe nothing if iTunes is the front application */
+//  if (sign != kiTunesSignature) {
+//    if (userInfo) {
+//      CFStringRef state = CFDictionaryGetValue(userInfo, CFSTR("Player State"));
+//      /* Does nothing if iTunes not playing */
+//      if (state && CFEqual(state, CFSTR("Playing"))) {
+//        ITunesAction *action = (ITunesAction *)observer;
+//        if ([action isActive]) {
+//          [action displayTrackNotification];
+//        }
+//      }
+//    }
+//  }
+//}
 
-- (void)setRegistred:(BOOL)flag {
-  if (ia_action == kiTunesShowTrackInfo && [self autoinfo]) {
-    if (flag) {
-      CFNotificationCenterAddObserver(CFNotificationCenterGetDistributedCenter(), self, iTunesNotificationCallback, 
-                                      CFSTR("com.apple.iTunes.playerInfo"), CFSTR("com.apple.iTunes.player"),
-                                      CFNotificationSuspensionBehaviorDeliverImmediately);
-    } else {
-      CFNotificationCenterRemoveObserver(CFNotificationCenterGetDistributedCenter(), self,
-                                         CFSTR("com.apple.iTunes.playerInfo"), CFSTR("com.apple.iTunes.player"));
-    }
-  }
-  [super setRegistred:flag];
-}
+//- (void)setRegistred:(BOOL)flag {
+//  if (ia_action == kiTunesShowTrackInfo && [self autoinfo]) {
+//    if (flag) {
+//      CFNotificationCenterAddObserver(CFNotificationCenterGetDistributedCenter(), self, iTunesNotificationCallback, 
+//                                      CFSTR("com.apple.iTunes.playerInfo"), CFSTR("com.apple.iTunes.player"),
+//                                      CFNotificationSuspensionBehaviorDeliverImmediately);
+//    } else {
+//      CFNotificationCenterRemoveObserver(CFNotificationCenterGetDistributedCenter(), self,
+//                                         CFSTR("com.apple.iTunes.playerInfo"), CFSTR("com.apple.iTunes.player"));
+//    }
+//  }
+//  [super setRegistred:flag];
+//}
 
 #pragma mark iTunes Action specific Methods
 /****************************************************************************************

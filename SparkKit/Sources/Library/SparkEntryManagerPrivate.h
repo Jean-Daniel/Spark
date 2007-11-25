@@ -8,6 +8,8 @@
 
 #import <SparkKit/SparkEntryManager.h>
 #import <SparkKit/SparkEntry.h>
+/* for kSparkApplicationSystemUID */
+#import <SparkKit/SparkLibrary.h>
 
 typedef struct _SparkLibraryEntry {
   SparkUID flags;
@@ -80,7 +82,7 @@ BOOL SparkLibraryEntryIsActive(const SparkLibraryEntry *entry) {
 
 SK_INLINE
 BOOL SparkLibraryEntryIsOverwrite(const SparkLibraryEntry *entry) {
-  return (entry->application);
+  return entry->application != kSparkApplicationSystemUID;
 }
 
 SK_EXPORT

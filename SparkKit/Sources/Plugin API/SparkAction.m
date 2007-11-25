@@ -179,21 +179,21 @@ static SparkTrigger *sTrigger;
 }
 
 /* Status */
-- (BOOL)isActive {
-  if (![self isRegistred])
-    return NO;
-  SparkApplication *application = [[self library] frontApplication];
-  return [[[self library] entryManager] isActionActive:[self uid]
-                                        forApplication:application ? [application uid] : kSparkApplicationSystemUID];
-}
-
-- (BOOL)isRegistred {
-  return sp_saFlags.registred;
-}
-- (void)setRegistred:(BOOL)flag {
-  //  DLog(@"%@ set registred: %@", self, flag ? @"YES" : @"NO");
-  SKSetFlag(sp_saFlags.registred, flag);
-}
+//- (BOOL)isActive {
+//  if (![self isRegistred])
+//    return NO;
+//  SparkApplication *application = [[self library] frontApplication];
+//  return [[[self library] entryManager] isActionActive:[self uid]
+//                                        forApplication:application ? [application uid] : kSparkApplicationSystemUID];
+//}
+//
+//- (BOOL)isRegistred {
+//  return sp_saFlags.registred;
+//}
+//- (void)setRegistred:(BOOL)flag {
+//  //  DLog(@"%@ set registred: %@", self, flag ? @"YES" : @"NO");
+//  SKSetFlag(sp_saFlags.registred, flag);
+//}
 
 @end
 
@@ -283,7 +283,7 @@ static SparkTrigger *sTrigger;
   return [[self values] objectForKey:kSparkActionCategorieKey];
 }
 //- (void)setCategorie:(NSString *)categorie {}
-- (BOOL)isRegistred { return NO; }
+//- (BOOL)isRegistred { return NO; }
 - (BOOL)isPersistent { return NO; }
 
 - (NSString *)actionDescription {
