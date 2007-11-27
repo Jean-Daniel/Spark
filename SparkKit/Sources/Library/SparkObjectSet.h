@@ -73,8 +73,8 @@ SK_CLASS_EXPORT
 
 #pragma mark -
 #pragma mark Notifications
-SPARK_EXPORT
-NSString * const SparkObjectSetWillAddObjectNotification;
+//SPARK_EXPORT
+//NSString * const SparkObjectSetWillAddObjectNotification;
 SPARK_EXPORT
 NSString * const SparkObjectSetDidAddObjectNotification;
 
@@ -85,8 +85,8 @@ NSString * const SparkObjectSetDidUpdateObjectNotification;
 
 SPARK_EXPORT
 NSString * const SparkObjectSetWillRemoveObjectNotification;
-SPARK_EXPORT
-NSString * const SparkObjectSetDidRemoveObjectNotification;
+//SPARK_EXPORT
+//NSString * const SparkObjectSetDidRemoveObjectNotification;
 
 
 SPARK_EXPORT

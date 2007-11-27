@@ -134,8 +134,8 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
                                             object:sp_set];
   /* Remove */
   [[[self library] notificationCenter] addObserver:self
-                                          selector:@selector(didRemoveObject:)
-                                              name:SparkObjectSetDidRemoveObjectNotification
+                                          selector:@selector(willRemoveObject:)
+                                              name:SparkObjectSetWillRemoveObjectNotification
                                             object:sp_set];
   /* Update */
   [[[self library] notificationCenter] addObserver:self
@@ -287,7 +287,7 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
   }
 }
 
-- (void)didRemoveObject:(NSNotification *)aNotification {
+- (void)willRemoveObject:(NSNotification *)aNotification {
   SparkObject *object = SparkNotificationObject(aNotification);
   if (object)
     [self removeObject:object];

@@ -11,8 +11,8 @@
 #import <SparkKit/SparkHotKey.h>
 #import <SparkKit/SparkLibrary.h>
 
-//#import <SparkKit/SparkActionLoader.h>
-//#import <ShadowKit/SKSerialization.h>
+#import <SparkKit/SparkPrivate.h>
+
 #import <ShadowKit/SKAppKitExtensions.h>
 
 enum {
@@ -20,7 +20,6 @@ enum {
   kSparkEntryEnabled = 1 << 0,
   /* Volatile flags */
   kSparkEntryUnplugged = 1 << 16,
-  kSparkEntryPersistent = 1 << 17,
   kSparkPersistentFlagsMask = 0xffff,
 };
 
@@ -85,13 +84,6 @@ NSImage *SparkEntryDefaultIcon() {
   sp_uid = anUID;
 }
 
-- (SparkEntry *)parent {
-  return sp_parent;
-}
-- (void)setParent:(SparkEntry *)aParent {
-  /* TODO */
-}
-
 #pragma mark Spark Objects
 - (SparkAction *)action {
   return sp_action;
@@ -144,11 +136,7 @@ NSImage *SparkEntryDefaultIcon() {
 }
 
 - (BOOL)isPersistent {
-  return (sp_flags & kSparkEntryPersistent) != 0;
-}
-- (void)setPersistent:(BOOL)flag {
-  if (flag) sp_flags |= kSparkEntryPersistent;
-  else sp_flags &= ~kSparkEntryPersistent;
+  return [sp_action isPersistent];
 }
 
 #pragma mark Properties

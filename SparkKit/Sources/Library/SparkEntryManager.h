@@ -26,7 +26,7 @@ SPARK_EXPORT
 NSString * const SparkEntryManagerDidRemoveEntryNotification;
 
 SPARK_EXPORT
-NSString * const SparkEntryManagerDidChangeEntryEnabledNotification;
+NSString * const SparkEntryManagerDidChangeEntryStatusNotification;
 
 @class SparkAction;
 @class SparkLibrary, SparkEntry;
@@ -34,7 +34,7 @@ SK_CLASS_EXPORT
 @interface SparkEntryManager : NSObject {
   @private
   SparkLibrary *sp_library; /* __weak */
-  CFMutableSetRef sp_set;
+  //  CFMutableSetRef sp_set;
   CFMutableArrayRef sp_entries;
 }
 

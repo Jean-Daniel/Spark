@@ -29,7 +29,7 @@ NSString * const SparkEntryManagerDidUpdateEntryNotification = @"SparkEntryManag
 NSString * const SparkEntryManagerWillRemoveEntryNotification = @"SparkEntryManagerWillRemoveEntry";
 NSString * const SparkEntryManagerDidRemoveEntryNotification = @"SparkEntryManagerDidRemoveEntry";
 
-NSString * const SparkEntryManagerDidChangeEntryEnabledNotification = @"SparkEntryManagerDidChangeEntryEnabled";
+NSString * const SparkEntryManagerDidChangeEntryStatusNotification = @"SparkEntryManagerDidChangeEntryStatus";
 
 @implementation SparkEntryManager
 

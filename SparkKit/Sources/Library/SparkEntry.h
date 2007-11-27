@@ -6,8 +6,6 @@
  *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
  */
 
-#import <Cocoa/Cocoa.h>
-
 typedef enum {
   kSparkEntryTypeDefault = 0, /* Inherits or global */
   kSparkEntryTypeSpecific = 1, /* Defined in custom application only */
@@ -28,7 +26,6 @@ SK_CLASS_EXPORT
   /* status */
   UInt8 sp_type;
   UInt32 sp_flags;
-  /* parent entry, NULL for root entries */
   SparkEntry *sp_parent;
 }
 
@@ -37,16 +34,12 @@ SK_CLASS_EXPORT
 - (id)initWithAction:(SparkAction *)anAction trigger:(SparkTrigger *)aTrigger application:(SparkApplication *)anApplication;
 
 - (UInt32)uid;
-- (void)setUID:(UInt32)anUID;
+
+- (SparkEntryType)type;
 
 - (SparkAction *)action;
-- (void)setAction:(SparkAction *)action;
-
 - (SparkTrigger *)trigger;
-- (void)setTrigger:(SparkTrigger *)trigger;
-
 - (SparkApplication *)application;
-- (void)setApplication:(SparkApplication *)anApplication;
 
 /* convenient accessors */
 - (NSImage *)icon;
@@ -61,19 +54,33 @@ SK_CLASS_EXPORT
 
 /* status */
 - (BOOL)isActive;
+- (BOOL)isPlugged;
+- (BOOL)isPersistent;
 
 - (BOOL)isEnabled;
 - (void)setEnabled:(BOOL)flag;
 
-- (BOOL)isPlugged;
-- (void)setPlugged:(BOOL)flag; /* internal use only */
+@end
 
-- (BOOL)isPersistent;
-- (void)setPersistent:(BOOL)flag;
+@interface SparkEntry (SparkMutableEntry)
 
-/* type */
-- (SparkEntryType)type;
-- (void)setType:(SparkEntryType)type;
+/* start to record change for the entry manager */
+- (void)beginEditing;
+/* commit change to the entry manager */
+- (void)endEditing;
+
+- (void)setAction:(SparkAction *)action;
+- (void)setTrigger:(SparkTrigger *)trigger;
+- (void)setApplication:(SparkApplication *)anApplication;
 
 @end
 
+@interface SparkEntry (SparkEntryManager)
+
+- (void)setUID:(UInt32)anUID;
+
+/* cached status */
+- (void)setPlugged:(BOOL)flag;
+- (void)setType:(SparkEntryType)type;
+
+@end

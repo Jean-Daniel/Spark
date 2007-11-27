@@ -28,24 +28,12 @@ SK_CLASS_EXPORT
 #pragma mark -
 @interface SparkDistantLibrary : NSObject {
   @private
-  id sp_delegate;
   SparkLibrary *sp_library;
 }
-
-- (id)delegate;
-- (void)setDelegate:(id)delegate;
 
 - (SparkLibrary *)library;
 - (id<SparkLibrary>)distantLibrary;
 
-@end
-
-@class SparkEntry;
-@interface NSObject (SparkDistantLibraryDelegate)
-- (void)distantLibrary:(SparkDistantLibrary *)library didAddEntry:(SparkEntry *)anEntry;
-- (void)distantLibrary:(SparkDistantLibrary *)library didUpdateEntry:(SparkEntry *)anEntry;
-- (void)distantLibrary:(SparkDistantLibrary *)library willRemoveEntry:(SparkEntry *)anEntry;
-- (void)distantLibrary:(SparkDistantLibrary *)library didChangeEntryStatus:(SparkEntry *)anEntry;
 @end
 
 @interface SparkLibrary (SparkDistantLibrary)

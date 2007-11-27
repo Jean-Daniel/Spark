@@ -93,7 +93,6 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
   if (sd_library != aLibrary) {
     /* Release remote library */
     if (sd_rlibrary) {
-      [sd_rlibrary setDelegate:nil];
       [sd_rlibrary release];
       sd_rlibrary = nil;
     }
@@ -109,8 +108,8 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
     if (sd_library) {
       NSNotificationCenter *center = [sd_library notificationCenter];
       [center addObserver:self
-                 selector:@selector(willAddTrigger:)
-                     name:SparkObjectSetWillAddObjectNotification
+                 selector:@selector(didAddTrigger:)
+                     name:SparkObjectSetDidAddObjectNotification
                    object:[sd_library triggerSet]];
       [center addObserver:self
                  selector:@selector(willUpdateTrigger:)
@@ -130,6 +129,24 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
                  selector:@selector(willRemoveApplication:)
                      name:SparkObjectSetWillRemoveObjectNotification
                    object:[sd_library applicationSet]];
+      
+      /* Entries observer */
+      [center addObserver:self
+                 selector:@selector(didAddEntry:)
+                     name:SparkEntryManagerDidAddEntryNotification 
+                   object:[sd_library entryManager]];
+      [center addObserver:self
+                 selector:@selector(didUpdateEntry:)
+                     name:SparkEntryManagerDidUpdateEntryNotification 
+                   object:[sd_library entryManager]];
+      [center addObserver:self
+                 selector:@selector(didRemoveEntry:)
+                     name:SparkEntryManagerDidRemoveEntryNotification 
+                   object:[sd_library entryManager]];
+      [center addObserver:self
+                 selector:@selector(didChangeEntryStatus:)
+                     name:SparkEntryManagerDidChangeEntryEnabledNotification 
+                   object:[sd_library entryManager]];
       
       /* If library not loaded, load library */
       if (![sd_library isLoaded])

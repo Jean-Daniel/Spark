@@ -50,41 +50,48 @@ void SparkDaemonCheckTrigger(SparkLibrary *library, SparkTrigger *trigger) {
   ShadowTrace();
   if (!sd_rlibrary) {
     sd_rlibrary = [[sd_library distantLibrary] retain];
-    [sd_rlibrary setDelegate:self];
   }
   return [sd_rlibrary distantLibrary];
 }
 
 #pragma mark Entries Management
-- (void)distantLibrary:(SparkDistantLibrary *)library didAddEntry:(SparkEntry *)anEntry {
+- (void)didAddEntry:(NSNotification *)aNotification {
   ShadowTrace();
-  if ([self isEnabled]) {
+  SparkEntry *entry = SparkNotificationObject(aNotification);
+  if ([self isEnabled] || [entry isPersistent]) {
     /* Trigger can have a new active action */
-    SparkDaemonCheckTrigger([library library], [anEntry trigger]);
+    SparkDaemonCheckTrigger(sd_library, [entry trigger]);
   }
 }
-- (void)distantLibrary:(SparkDistantLibrary *)library didRemoveEntry:(SparkEntry *)anEntry {
+
+- (void)didUpdateEntry:(NSNotification *)aNotification {
   ShadowTrace();
-  if ([self isEnabled]) {
-    /* If trigger was not removed, it can be invalid */
-    SparkDaemonCheckTrigger([library library], [anEntry trigger]);
+  SparkEntry *new = SparkNotificationObject(aNotification);
+  SparkEntry *previous = SparkNotificationUpdatedObject(aNotification);
+  if ([self isEnabled] || [new isPersistent] || [previous isPersistent]) {
+    SparkDaemonCheckTrigger(sd_library, [previous trigger]);
+    
+    if (![[new trigger] isEqual:[previous trigger]])
+      SparkDaemonCheckTrigger(sd_library, [new trigger]);
   }
 }
-- (void)distantLibrary:(SparkDistantLibrary *)library didChangeEntryStatus:(SparkEntry *)anEntry {
+
+- (void)didRemoveEntry:(NSNotification *)aNotification {
   ShadowTrace();
-  if ([self isEnabled]) {
+  SparkEntry *entry = SparkNotificationObject(aNotification);
+  if ([self isEnabled] || [entry isPersistent]) {
+    /* If trigger was not removed, we should check it */
+    SparkDaemonCheckTrigger(sd_library, [entry trigger]);
+  }
+}
+
+- (void)didChangeEntryStatus:(NSNotification *)aNotification {
+  ShadowTrace();
+  SparkEntry *entry = SparkNotificationObject(aNotification);
+  if ([self isEnabled] || [entry isPersistent]) {
     /* Should check triggers */
-    SparkDaemonCheckTrigger([library library], [anEntry trigger]);
+    SparkDaemonCheckTrigger(sd_library, [entry trigger]);
   }  
-}
-- (void)distantLibrary:(SparkDistantLibrary *)library didReplaceEntry:(SparkEntry *)anEntry withEntry:(SparkEntry *)otherEntry {
-  ShadowTrace();
-  if ([self isEnabled]) {
-    /* Should check triggers */
-    SparkDaemonCheckTrigger([library library], [anEntry trigger]);
-    if (![[anEntry trigger] isEqual:[otherEntry trigger]])
-      SparkDaemonCheckTrigger([library library], [otherEntry trigger]);
-  }
 }
 
 #pragma mark -
@@ -94,7 +101,7 @@ void SparkDaemonCheckTrigger(SparkLibrary *library, SparkTrigger *trigger) {
   [aTrigger setAction:@selector(executeTrigger:)]; 
 }
 
-- (void)willAddTrigger:(NSNotification *)aNotification {
+- (void)didAddTrigger:(NSNotification *)aNotification {
   ShadowTrace();
   SparkTrigger *trigger = SparkNotificationObject(aNotification);
   [self configureTrigger:trigger];
@@ -113,11 +120,10 @@ void SparkDaemonCheckTrigger(SparkLibrary *library, SparkTrigger *trigger) {
 - (void)willUpdateTrigger:(NSNotification *)aNotification {
   ShadowTrace();
   /* Configure new trigger */
-  SparkTrigger *new = SparkNotificationUpdatedObject(aNotification);
-  NSAssert(new != nil, @"Invalid notification");
+  SparkTrigger *new = SparkNotificationObject(aNotification);
   [self configureTrigger:new];
   if ([self isEnabled]) {
-    SparkTrigger *previous = SparkNotificationObject(aNotification);
+    SparkTrigger *previous = SparkNotificationUpdatedObject(aNotification);
     if ([previous isRegistred]) {
       [previous setRegistred:NO];
       /* Active new trigger */
