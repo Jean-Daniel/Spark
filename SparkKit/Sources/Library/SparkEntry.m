@@ -10,10 +10,19 @@
 #import <SparkKit/SparkAction.h>
 #import <SparkKit/SparkHotKey.h>
 #import <SparkKit/SparkLibrary.h>
-#import <SparkKit/SparkActionLoader.h>
 
-#import <ShadowKit/SKSerialization.h>
+//#import <SparkKit/SparkActionLoader.h>
+//#import <ShadowKit/SKSerialization.h>
 #import <ShadowKit/SKAppKitExtensions.h>
+
+enum {
+  /* Persistents flags */
+  kSparkEntryEnabled = 1 << 0,
+  /* Volatile flags */
+  kSparkEntryUnplugged = 1 << 16,
+  kSparkEntryPersistent = 1 << 17,
+  kSparkPersistentFlagsMask = 0xffff,
+};
 
 static
 NSImage *SparkEntryDefaultIcon() {
@@ -59,18 +68,31 @@ NSImage *SparkEntryDefaultIcon() {
 }
 
 - (NSUInteger)hash {
-  return [sp_application uid] << 16 & [sp_trigger uid];
+  return sp_uid;
 }
 
 - (BOOL)isEqual:(id)object {
   if ([object class] != [self class]) return NO;
   SparkEntry *entry = (SparkEntry *)object;
-  return [sp_action uid] == [[entry action] uid] &&
-    [sp_trigger uid] == [[entry trigger] uid] &&
-    [sp_application uid] == [[entry application] uid];
+  return sp_uid == entry->sp_uid;
 }
 
 #pragma mark -
+- (UInt32)uid {
+  return sp_uid;
+}
+- (void)setUID:(UInt32)anUID {
+  sp_uid = anUID;
+}
+
+- (SparkEntry *)parent {
+  return sp_parent;
+}
+- (void)setParent:(SparkEntry *)aParent {
+  /* TODO */
+}
+
+#pragma mark Spark Objects
 - (SparkAction *)action {
   return sp_action;
 }
@@ -78,7 +100,7 @@ NSImage *SparkEntryDefaultIcon() {
   SKSetterRetain(sp_action, action);
 }
 
-- (id)trigger {
+- (SparkTrigger *)trigger {
   return sp_trigger;
 }
 - (void)setTrigger:(SparkTrigger *)trigger {
@@ -92,31 +114,44 @@ NSImage *SparkEntryDefaultIcon() {
   SKSetterRetain(sp_application, anApplication);
 }
 
+#pragma mark Type
 - (SparkEntryType)type {
-  return sp_seFlags.type;
+  return sp_type;
 }
 - (void)setType:(SparkEntryType)type {
-  sp_seFlags.type = type;
+  sp_type = type;
 }
 
+#pragma mark Status
 - (BOOL)isActive {
   return [self isEnabled] && [self isPlugged];
 }
 
 - (BOOL)isEnabled {
-  return sp_seFlags.enabled;
+  return (sp_flags & kSparkEntryEnabled) != 0;
 }
 - (void)setEnabled:(BOOL)enabled {
-  SKSetFlag(sp_seFlags.enabled, enabled);
+  if (enabled) sp_flags |= kSparkEntryEnabled;
+  else sp_flags &= ~kSparkEntryEnabled;
 }
 
 - (BOOL)isPlugged {
-  return !sp_seFlags.unplugged;
+  return (sp_flags & kSparkEntryUnplugged) == 0;
 }
 - (void)setPlugged:(BOOL)flag {
-  SKSetFlag(sp_seFlags.unplugged, !flag);
+  if (flag) sp_flags &= ~kSparkEntryUnplugged;
+  else sp_flags |= kSparkEntryUnplugged;
 }
 
+- (BOOL)isPersistent {
+  return (sp_flags & kSparkEntryPersistent) != 0;
+}
+- (void)setPersistent:(BOOL)flag {
+  if (flag) sp_flags |= kSparkEntryPersistent;
+  else sp_flags &= ~kSparkEntryPersistent;
+}
+
+#pragma mark Properties
 - (NSImage *)icon {
   return [sp_action icon] ? : SparkEntryDefaultIcon();
 }
@@ -141,24 +176,37 @@ NSImage *SparkEntryDefaultIcon() {
   return [sp_trigger triggerDescription];
 }
 
-//- (id)externalRepresentation {
-//  NSMutableDictionary *plist = [NSMutableDictionary dictionary];
-//  [plist setObject:SKUInt(0) forKey:@"version"];
-//  NSDictionary *dict = [sp_action externalRepresentation];
-//  if (dict) {
-//    [plist setObject:dict forKey:@"action"];
-//    NSString *type = [[[SparkActionLoader sharedLoader] plugInForAction:sp_action] identifier];
-//    if (type)
-//      [plist setObject:type forKey:@"action-type"];
-//    
-//    /* Serialize Trigger */
-//    id trigger = [sp_trigger externalRepresentation];
-//    if (trigger) {
-//      [plist setObject:trigger forKey:@"trigger"];
-//      [plist setObject:@"org.shadowlab.spark.trigger.hotkey" forKey:@"trigger-type"];
-//    }
-//  }
-//  return plist;
-//}
+@end
+
+@implementation SparkEntry (SparkNetworkMessage)
+
+/* TODO */
+- (id)replacementObjectForPortCoder:(NSPortCoder *)encoder {
+  if ([encoder isByref]) {
+    WLog(@"SparkEntry does not support by ref messaging");
+    return nil;
+  }
+  return self;
+}
+
+- (id)initWithCoder:(NSCoder *)coder {
+  if (self = [super init]) {
+    if ([coder isKindOfClass:[NSPortCoder class]] ) {
+      // encode object
+    } else {
+      [self release];
+      [NSException raise:NSInvalidArchiveOperationException format:@"Only supports NSPortCoder coders"];
+    }
+  }
+  return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+  if ([coder isKindOfClass:[NSPortCoder class]] ) {
+    // encode object
+  } else {
+    [NSException raise:NSInvalidArchiveOperationException format:@"Only supports NSPortCoder coders"];
+  }
+}
 
 @end

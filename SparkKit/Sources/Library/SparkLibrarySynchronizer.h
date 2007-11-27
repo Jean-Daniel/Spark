@@ -43,9 +43,9 @@ SK_CLASS_EXPORT
 @class SparkEntry;
 @interface NSObject (SparkDistantLibraryDelegate)
 - (void)distantLibrary:(SparkDistantLibrary *)library didAddEntry:(SparkEntry *)anEntry;
-- (void)distantLibrary:(SparkDistantLibrary *)library didRemoveEntry:(SparkEntry *)anEntry;
+- (void)distantLibrary:(SparkDistantLibrary *)library didUpdateEntry:(SparkEntry *)anEntry;
+- (void)distantLibrary:(SparkDistantLibrary *)library willRemoveEntry:(SparkEntry *)anEntry;
 - (void)distantLibrary:(SparkDistantLibrary *)library didChangeEntryStatus:(SparkEntry *)anEntry;
-- (void)distantLibrary:(SparkDistantLibrary *)library didReplaceEntry:(SparkEntry *)anEntry withEntry:(SparkEntry *)otherEntry;
 @end
 
 @interface SparkLibrary (SparkDistantLibrary)

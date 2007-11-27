@@ -20,53 +20,60 @@ typedef enum {
 SK_CLASS_EXPORT
 @interface SparkEntry : NSObject <NSCopying> {
   @private
+  UInt32 sp_uid;
   SparkAction *sp_action;
   SparkTrigger *sp_trigger;
   SparkApplication *sp_application;
-  
-  struct _sp_seFlags {
-    unsigned int type:8;
-    unsigned int enabled:1;
-    unsigned int unplugged:1;
-    unsigned int reserved:22;
-  } sp_seFlags;
+
+  /* status */
+  UInt8 sp_type;
+  UInt32 sp_flags;
+  /* parent entry, NULL for root entries */
+  SparkEntry *sp_parent;
 }
 
 + (id)entryWithAction:(SparkAction *)anAction trigger:(SparkTrigger *)aTrigger application:(SparkApplication *)anApplication;
 
 - (id)initWithAction:(SparkAction *)anAction trigger:(SparkTrigger *)aTrigger application:(SparkApplication *)anApplication;
 
+- (UInt32)uid;
+- (void)setUID:(UInt32)anUID;
+
 - (SparkAction *)action;
 - (void)setAction:(SparkAction *)action;
 
-- (id)trigger;
+- (SparkTrigger *)trigger;
 - (void)setTrigger:(SparkTrigger *)trigger;
 
 - (SparkApplication *)application;
 - (void)setApplication:(SparkApplication *)anApplication;
 
-- (SparkEntryType)type;
-- (void)setType:(SparkEntryType)type;
-
+/* convenient accessors */
 - (NSImage *)icon;
 - (void)setIcon:(NSImage *)anIcon;
 
 - (NSString *)name;
 - (void)setName:(NSString *)aName;
 
-- (BOOL)isActive;
-- (BOOL)isEnabled;
-- (BOOL)isPlugged;
-
 - (NSString *)categorie;
 - (NSString *)actionDescription;
 - (NSString *)triggerDescription;
 
+/* status */
+- (BOOL)isActive;
+
+- (BOOL)isEnabled;
+- (void)setEnabled:(BOOL)flag;
+
+- (BOOL)isPlugged;
+- (void)setPlugged:(BOOL)flag; /* internal use only */
+
+- (BOOL)isPersistent;
+- (void)setPersistent:(BOOL)flag;
+
+/* type */
+- (SparkEntryType)type;
+- (void)setType:(SparkEntryType)type;
+
 @end
 
-//@interface SparkEntry (SparkExport)
-//
-//- (id)initFromExternalRepresentation:(id)rep;
-//- (id)externalRepresentation;
-//
-//@end

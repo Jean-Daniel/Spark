@@ -47,13 +47,15 @@ SK_CLASS_EXPORT
 - (void)setLibrary:(SparkLibrary *)library;
 
 #pragma mark Management
+- (SparkEntry *)entryForUID:(UInt32)uid;
+
 - (void)addEntry:(SparkEntry *)anEntry;
+- (void)updateEntry:(SparkEntry *)anEntry;
 - (void)removeEntry:(SparkEntry *)anEntry;
 - (void)removeEntries:(NSArray *)theEntries;
-- (void)replaceEntry:(SparkEntry *)anEntry withEntry:(SparkEntry *)newEntry;
 
-- (void)enableEntry:(SparkEntry *)anEntry;
-- (void)disableEntry:(SparkEntry *)anEntry;
+//- (void)enableEntry:(SparkEntry *)anEntry;
+//- (void)disableEntry:(SparkEntry *)anEntry;
 
 #pragma mark Queries
 - (NSArray *)entriesForAction:(SparkUID)anAction;
@@ -69,12 +71,12 @@ SK_CLASS_EXPORT
 - (BOOL)containsOverwriteEntryForTrigger:(SparkUID)aTrigger;
 - (BOOL)containsPersistentEntryForTrigger:(SparkUID)aTrigger;
 
-- (BOOL)containsEntryForTrigger:(SparkUID)aTrigger application:(SparkUID)anApplication;
-- (SparkEntry *)entryForTrigger:(SparkUID)aTrigger application:(SparkUID)anApplication;
-- (SparkAction *)actionForTrigger:(SparkUID)aTrigger application:(SparkUID)anApplication isActive:(BOOL *)status;
+//- (BOOL)containsEntryForTrigger:(SparkUID)aTrigger application:(SparkUID)anApplication;
+//- (SparkEntry *)entryForTrigger:(SparkUID)aTrigger application:(SparkUID)anApplication;
+//- (SparkAction *)actionForTrigger:(SparkUID)aTrigger application:(SparkUID)anApplication isActive:(BOOL *)status;
 
 /* Advanced action support */ 
-- (BOOL)isActionActive:(SparkUID)anAction forApplication:(SparkUID)anApplication;
+//- (BOOL)isActionActive:(SparkUID)anAction forApplication:(SparkUID)anApplication;
 
 @end
 

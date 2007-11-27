@@ -37,12 +37,12 @@ BOOL SparkLogSynchronization = NO;
 - (oneway void)removeObject:(in SparkUID)uid type:(in OSType)type;
 
 #pragma mark Entries Management
-- (oneway void)addLibraryEntry:(in SparkLibraryEntry *)anEntry;
-- (oneway void)removeLibraryEntry:(in SparkLibraryEntry *)anEntry;
-- (oneway void)replaceLibraryEntry:(in SparkLibraryEntry *)anEntry withLibraryEntry:(in SparkLibraryEntry *)newEntry;
+- (oneway void)addEntry:(bycopy SparkEntry *)anEntry;
+- (oneway void)updateEntry:(bycopy SparkEntry *)newEntry;
+- (oneway void)removeEntry:(in SparkUID)anEntry;
 
-- (oneway void)enableLibraryEntry:(in SparkLibraryEntry *)anEntry;
-- (oneway void)disableLibraryEntry:(in SparkLibraryEntry *)anEntry;
+- (oneway void)enableEntry:(in SparkUID)anEntry;
+- (oneway void)disableEntry:(in SparkUID)anEntry;
 
 #pragma mark Application Specific
 - (oneway void)enableApplication:(in SparkUID)uid;
@@ -249,28 +249,15 @@ OSType SparkServerObjectType(SparkObject *anObject) {
   if ([self isConnected]) {
     SparkEntry *entry = SparkNotificationObject(aNotification);
     if (entry) {
-      SparkLibraryEntry *lentry = [[aNotification object] libraryEntryForEntry:entry];
-      if (lentry) {
-        SparkRemoteMessage(addLibraryEntry:lentry);
-      }
+      SparkRemoteMessage(addEntry:entry);
     }
   }
 }
 - (void)didUpdateEntry:(NSNotification *)aNotification {
   if ([self isConnected]) {
     SparkEntry *entry = SparkNotificationObject(aNotification);
-    SparkEntry *previous = SparkNotificationUpdatedObject(aNotification);
-    
-    if (entry && previous) {
-      SparkLibraryEntry *lentry = [[aNotification object] libraryEntryForEntry:entry];
-      if (lentry) {
-        SparkLibraryEntry lprevious;
-        lprevious.flags = [previous isEnabled] ? kSparkEntryEnabled : 0;
-        lprevious.action = [[previous action] uid];
-        lprevious.trigger = [[previous trigger] uid];
-        lprevious.application = [[previous application] uid];
-        SparkRemoteMessage(replaceLibraryEntry:&lprevious withLibraryEntry:lentry);
-      }
+    if (entry) {
+      SparkRemoteMessage(updateEntry:entry);
     }
   }
 }
@@ -278,10 +265,7 @@ OSType SparkServerObjectType(SparkObject *anObject) {
   if ([self isConnected]) {
     SparkEntry *entry = SparkNotificationObject(aNotification);
     if (entry) {
-      SparkLibraryEntry *lentry = [[aNotification object] libraryEntryForEntry:entry];
-      if (lentry) {
-        SparkRemoteMessage(removeLibraryEntry:lentry);
-      }
+      SparkRemoteMessage(removeEntry:[entry uid]);
     }
   }
 }
@@ -290,12 +274,10 @@ OSType SparkServerObjectType(SparkObject *anObject) {
   if ([self isConnected]) {
     SparkEntry *entry = SparkNotificationObject(aNotification);
     if (entry) {
-      SparkLibraryEntry *lentry = [[aNotification object] libraryEntryForEntry:entry];
-      if (lentry) {
-        if ([entry isEnabled])
-          SparkRemoteMessage(enableLibraryEntry:lentry);
-        else
-          SparkRemoteMessage(disableLibraryEntry:lentry);
+      if ([entry isEnabled]) {
+        SparkRemoteMessage(enableEntry:[entry uid]);
+      } else {
+        SparkRemoteMessage(disableEntry:[entry uid]);
       }
     }
   }
@@ -433,59 +415,52 @@ SparkObjectSet *SparkObjectSetForType(SparkLibrary *library, OSType type) {
 }
 
 #pragma mark Entries Management
-- (void)addLibraryEntry:(SparkLibraryEntry *)anEntry {
+- (void)addEntry:(SparkEntry *)anEntry {
   SparkSyncTrace();
-  [[sp_library entryManager] addLibraryEntry:anEntry];
+  [[sp_library entryManager] addEntry:anEntry];
   if (SKDelegateHandle(sp_delegate, distantLibrary:didAddEntry:)) {
-    SparkEntry *entry = [[sp_library entryManager] entryForLibraryEntry:anEntry];
-    if (entry)
-      [sp_delegate distantLibrary:self didAddEntry:entry];
+    [sp_delegate distantLibrary:self didAddEntry:anEntry];
   }
 }
 
-- (void)removeLibraryEntry:(SparkLibraryEntry *)anEntry {
+- (void)updateEntry:(SparkEntry *)newEntry {
   SparkSyncTrace();
-  SparkEntry *entry = nil;
-  if (SKDelegateHandle(sp_delegate, distantLibrary:didRemoveEntry:)) {
-    entry = [[sp_library entryManager] entryForLibraryEntry:anEntry];
+  [[sp_library entryManager] updateEntry:newEntry];
+  if (SKDelegateHandle(sp_delegate, distantLibrary:didUpdateEntry:)) {
+    [sp_delegate distantLibrary:self didUpdateEntry:newEntry];
   }
-  [[sp_library entryManager] removeLibraryEntry:anEntry];
+}
+
+- (void)removeEntry:(SparkUID)anEntry {
+  SparkSyncTrace();
+  SparkEntry *entry = [[sp_library entryManager] entryForUID:anEntry];
   if (entry) {
-    [sp_delegate distantLibrary:self didRemoveEntry:entry];
+    if (SKDelegateHandle(sp_delegate, distantLibrary:didRemoveEntry:)) {
+      [sp_delegate distantLibrary:self willRemoveEntry:entry];
+    }
+    [[sp_library entryManager] removeEntry:entry];
   }
 }
 
-- (void)replaceLibraryEntry:(SparkLibraryEntry *)anEntry withLibraryEntry:(SparkLibraryEntry *)newEntry {
+- (void)enableEntry:(SparkUID)anEntry {
   SparkSyncTrace();
-  SparkEntry *old = nil, *new = nil;
-  if (SKDelegateHandle(sp_delegate, distantLibrary:didReplaceEntry:withEntry:)) {
-    old = [[sp_library entryManager] entryForLibraryEntry:anEntry];
-  }
-  [[sp_library entryManager] replaceLibraryEntry:anEntry withLibraryEntry:newEntry];
-  if (old) {
-    new = [[sp_library entryManager] entryForLibraryEntry:newEntry];
-    if (new)
-      [sp_delegate distantLibrary:self didReplaceEntry:old withEntry:new];
-  }
-}
-
-- (void)enableLibraryEntry:(SparkLibraryEntry *)anEntry {
-  SparkSyncTrace();
-  [[sp_library entryManager] setEnabled:YES forLibraryEntry:anEntry];
-  if (SKDelegateHandle(sp_delegate, distantLibrary:didChangeEntryStatus:)) {
-    SparkEntry *entry = [[sp_library entryManager] entryForLibraryEntry:anEntry];
-    if (entry)
+  SparkEntry *entry = [[sp_library entryManager] entryForUID:anEntry];
+  if (entry) {
+    [entry setEnabled:YES];
+    if (SKDelegateHandle(sp_delegate, distantLibrary:didChangeEntryStatus:)) {
       [sp_delegate distantLibrary:self didChangeEntryStatus:entry];
+    }
   }
 }
 
-- (void)disableLibraryEntry:(SparkLibraryEntry *)anEntry {
+- (void)disableEntry:(SparkUID)anEntry {
   SparkSyncTrace();
-  [[sp_library entryManager] setEnabled:NO forLibraryEntry:anEntry];
-  if (SKDelegateHandle(sp_delegate, distantLibrary:didChangeEntryStatus:)) {
-    SparkEntry *entry = [[sp_library entryManager] entryForLibraryEntry:anEntry];
-    if (entry)
+  SparkEntry *entry = [[sp_library entryManager] entryForUID:anEntry];
+  if (entry) {
+    [entry setEnabled:NO];
+    if (SKDelegateHandle(sp_delegate, distantLibrary:didChangeEntryStatus:)) {
       [sp_delegate distantLibrary:self didChangeEntryStatus:entry];
+    }
   }
 }
 
