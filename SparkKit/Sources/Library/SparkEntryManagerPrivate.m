@@ -8,14 +8,85 @@
 
 #import "SparkEntryManagerPrivate.h"
 
-#import <SparkKit/SparkPrivate.h>
+#import <SparkKit/SparkEntry.h>
+
+//#import <SparkKit/SparkPrivate.h>
 #import <SparkKit/SparkTrigger.h>
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkObjectSet.h>
+//
+//#import <SparkKit/SparkPlugIn.h>
+//#import <SparkKit/SparkActionLoader.h>
 
-#import <SparkKit/SparkPlugIn.h>
-#import <SparkKit/SparkActionLoader.h>
+@implementation SparkEntryManager (SparkEntryEditor)
 
+- (void)beginEditing:(SparkEntry *)anEntry {
+}
+- (void)endEditing:(SparkEntry *)anEntry {
+}
+
+- (void)enableEntry:(SparkEntry *)anEntry {
+}
+- (void)disableEntry:(SparkEntry *)anEntry {
+}
+
+//- (void)setEnabled:(BOOL)flag forEntry:(SparkEntry *)anEntry {
+//  SparkLibraryEntry *entry = [self libraryEntryForEntry:anEntry];
+//  if (entry && XOR(flag, SparkLibraryEntryIsEnabled(entry))) {
+//    /* Undo management */
+//    [[[self undoManager] prepareWithInvocationTarget:self] setEnabled:!flag forEntry:anEntry];
+//    /* update entry */
+//    [anEntry setEnabled:flag];
+//    /* Update library entry => Undo */
+//    [self setEnabled:flag forLibraryEntry:entry];
+//    SparkLibraryPostNotification([self library], SparkEntryManagerDidChangeEntryEnabledNotification, self, anEntry);
+//  }
+//}
+//
+//- (void)enableEntry:(SparkEntry *)anEntry {
+//  [self setEnabled:YES forEntry:anEntry];
+//}
+//- (void)disableEntry:(SparkEntry *)anEntry {
+//  [self setEnabled:NO forEntry:anEntry];
+//}
+
+@end
+
+@implementation SparkEntryManager (SparkEntryManagerInternal)
+
+/* Check if contains, and update has many status */
+- (void)checkTriggerValidity:(SparkUID)trigger {
+  BOOL contains = NO;
+  CFIndex count = CFArrayGetCount(sp_entries);
+  while (count-- > 0) {
+    SparkEntry *entry = (SparkEntry *)CFArrayGetValueAtIndex(sp_entries, count);
+    if ([entry triggerUID] == trigger) {
+      contains = YES;
+      if ([entry applicationUID] != kSparkApplicationSystemUID) {
+        [[entry trigger] setHasManyAction:YES];
+        return;
+      }
+    }
+  }
+  if (!contains)
+    [[[self library] triggerSet] removeObjectWithUID:trigger];
+  else
+    [[[[self library] triggerSet] objectWithUID:trigger] setHasManyAction:NO];
+}
+
+- (void)removeEntriesForAction:(SparkUID)action {
+  CFIndex count = CFArrayGetCount(sp_entries);
+  while (count-- > 0) {
+    SparkEntry *entry = (SparkEntry *)CFArrayGetValueAtIndex(sp_entries, count);
+    if ([entry actionUID] == action) {
+      [self removeEntry:entry];
+    }
+  }
+}
+
+@end
+
+#if 0
 static
 void _SparkEntryRelease(CFAllocatorRef allocator, const void *value) {
   CFAllocatorDeallocate(kCFAllocatorDefault, (void *)value);
@@ -31,43 +102,6 @@ static
 Boolean _SparkEntryIsEqual(const void *obj1, const void *obj2) {
   const SparkLibraryEntry *e1 = obj1, *e2 = obj2;
   return e1->trigger == e2->trigger && e1->application == e2->application;
-}
-
-#pragma mark -
-SK_INLINE
-void SparkLibraryEntrySetEnabled(SparkLibraryEntry *entry, BOOL enabled) {
-  if (enabled)
-    entry->flags |= kSparkEntryEnabled;
-  else
-    entry->flags &= ~kSparkEntryEnabled;
-}
-
-SK_INLINE
-void SparkLibraryEntrySetPlugged(SparkLibraryEntry *entry, BOOL flag) {
-  if (flag)
-    entry->flags &= ~kSparkEntryUnplugged;
-  else
-    entry->flags |= kSparkEntryUnplugged;
-}
-
-SK_INLINE
-void SparkLibraryEntrySetPersistent(SparkLibraryEntry *entry, BOOL flag) {
-  if (flag)
-    entry->flags |= kSparkEntryPersistent;
-  else
-    entry->flags &= ~kSparkEntryPersistent;
-}
-
-void SparkLibraryEntryInitFlags(SparkLibraryEntry *lentry, SparkEntry *entry) {
-  /* Set flags */    
-  SparkAction *action = [entry action];
-  NSCAssert1(action, @"Invalid entry: %@", entry);
-  SparkLibraryEntrySetEnabled(lentry, [entry isEnabled]);
-  /* Set persistent status */
-  SparkLibraryEntrySetPersistent(lentry, [action isPersistent]);
-  /* Check plugin status */
-  SparkPlugIn *plugin = [[SparkActionLoader sharedLoader] plugInForAction:action];
-  SparkLibraryEntrySetPlugged(lentry, plugin ? [plugin isEnabled] : YES);
 }
 
 @interface SparkEntryManager (SparkPrivate)
@@ -113,9 +147,6 @@ void SparkLibraryEntryInitFlags(SparkLibraryEntry *lentry, SparkEntry *entry) {
     /* Update trigger flag */
     if (SparkLibraryEntryIsOverwrite(entry))
       [trigger setHasManyAction:YES];
-    
-    /* update [action isRegistred] status */
-//    [self checkActionRegistration:entry];
   }
 }
 - (void)replaceLibraryEntry:(SparkLibraryEntry *)anEntry withLibraryEntry:(SparkLibraryEntry *)newEntry {
@@ -267,36 +298,6 @@ void SparkLibraryEntryInitFlags(SparkLibraryEntry *lentry, SparkEntry *entry) {
 }
 
 #pragma mark Internal
-- (void)removeEntriesForAction:(SparkUID)action {
-  CFIndex count = CFArrayGetCount(sp_entries);
-  while (count-- > 0) {
-    const SparkLibraryEntry *entry = CFArrayGetValueAtIndex(sp_entries, count);
-    if (entry->action == action) {
-      [self removeLibraryEntry:entry];
-    }
-  }
-}
-
-/* Check if contains, and update has many status */
-- (void)checkTriggerValidity:(SparkUID)trigger {
-  BOOL contains = NO;
-  CFIndex count = CFArrayGetCount(sp_entries);
-  while (count-- > 0) {
-    const SparkLibraryEntry *entry = CFArrayGetValueAtIndex(sp_entries, count);
-    if (entry->trigger == trigger) {
-      contains = YES;
-      if (SparkLibraryEntryIsOverwrite(entry)) {
-        [[[[self library] triggerSet] objectWithUID:trigger] setHasManyAction:YES];
-        return;
-      }
-    }
-  }
-  if (!contains)
-    [[[self library] triggerSet] removeObjectWithUID:trigger];
-  else
-    [[[[self library] triggerSet] objectWithUID:trigger] setHasManyAction:NO];
-}
-
 //- (void)checkActionRegistration:(const SparkLibraryEntry *)entry {
 //  SparkAction *action = [[[self library] actionSet] objectWithUID:entry->action];
 //  /* If active, sync with trigger (if needed) */
@@ -535,3 +536,5 @@ typedef struct {
 void SparkDumpEntries(SparkLibrary *aLibrary) {
   [[aLibrary entryManager] dumpEntries];
 }
+
+#endif

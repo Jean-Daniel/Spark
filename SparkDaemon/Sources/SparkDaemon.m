@@ -145,7 +145,7 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
                    object:[sd_library entryManager]];
       [center addObserver:self
                  selector:@selector(didChangeEntryStatus:)
-                     name:SparkEntryManagerDidChangeEntryEnabledNotification 
+                     name:SparkEntryManagerDidChangeEntryStatusNotification 
                    object:[sd_library entryManager]];
       
       /* If library not loaded, load library */

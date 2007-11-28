@@ -34,7 +34,7 @@ SK_CLASS_EXPORT
 @interface SparkEntryManager : NSObject {
   @private
   SparkLibrary *sp_library; /* __weak */
-  //  CFMutableSetRef sp_set;
+  //CFMutableSetRef sp_set;
   CFMutableArrayRef sp_entries;
 }
 
@@ -53,9 +53,6 @@ SK_CLASS_EXPORT
 - (void)updateEntry:(SparkEntry *)anEntry;
 - (void)removeEntry:(SparkEntry *)anEntry;
 - (void)removeEntries:(NSArray *)theEntries;
-
-//- (void)enableEntry:(SparkEntry *)anEntry;
-//- (void)disableEntry:(SparkEntry *)anEntry;
 
 #pragma mark Queries
 - (NSArray *)entriesForAction:(SparkUID)anAction;

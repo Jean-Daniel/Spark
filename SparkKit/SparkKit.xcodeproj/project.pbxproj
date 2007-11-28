@@ -10,6 +10,8 @@
 		1B83DC5C0CC7833300050596 /* SparkMultiAlert.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1B83DC5A0CC7833300050596 /* SparkMultiAlert.nib */; };
 		1BAA6F8D0B64CF2500F9AC0E /* SKImageUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BAA6F870B64CF2500F9AC0E /* SKImageUtils.m */; };
 		1BB8B1FF0B949EE900F91062 /* SparkSystem.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1BB8B1FE0B949EE900F91062 /* SparkSystem.tiff */; };
+		1BC53ACA0CFDF1A200AF1C25 /* SparkEntryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 98EDA3F20A9FA34100519E9B /* SparkEntryManager.m */; };
+		1BC53B3F0CFDF4FD00AF1C25 /* SparkEntryManagerPrivate.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D764520B5A610B000A09A5 /* SparkEntryManagerPrivate.m */; };
 		1BE44FE40BD4B3DC00034060 /* AESendThreadSafe.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BE44FE30BD4B3DC00034060 /* AESendThreadSafe.c */; };
 		1BEDD4810C848BCC00ADAF1D /* SKSingleton.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEDD47B0C848BCC00ADAF1D /* SKSingleton.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		1BEDD4820C848BCC00ADAF1D /* SKFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEDD47C0C848BCC00ADAF1D /* SKFunctions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1243,6 +1245,8 @@
 				98E651500B62932B008A8C9B /* SparkIconManager.m in Sources */,
 				9864A33F0BD117F20089447D /* SparkPreferences.m in Sources */,
 				98EB96DF0C174D9D00C7B72D /* SparkPluginView.m in Sources */,
+				1BC53ACA0CFDF1A200AF1C25 /* SparkEntryManager.m in Sources */,
+				1BC53B3F0CFDF4FD00AF1C25 /* SparkEntryManagerPrivate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

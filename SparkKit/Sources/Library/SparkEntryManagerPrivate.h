@@ -7,9 +7,16 @@
  */
 
 #import <SparkKit/SparkEntryManager.h>
-#import <SparkKit/SparkEntry.h>
-/* for kSparkApplicationSystemUID */
-#import <SparkKit/SparkLibrary.h>
+
+@interface SparkEntryManager (SparkEntryEditor)
+
+- (void)beginEditing:(SparkEntry *)anEntry;
+- (void)endEditing:(SparkEntry *)anEntry;
+
+- (void)enableEntry:(SparkEntry *)anEntry;
+- (void)disableEntry:(SparkEntry *)anEntry;
+
+@end
 
 //typedef struct _SparkLibraryEntry {
 //  SparkUID flags;
@@ -30,8 +37,11 @@
 //SPARK_PRIVATE
 //void SparkLibraryEntryInitFlags(SparkLibraryEntry *lentry, SparkEntry *entry);
 
-//@interface SparkEntryManager (SparkEntryManagerInternal)
-//
+@interface SparkEntryManager (SparkEntryManagerInternal)
+
+- (void)checkTriggerValidity:(SparkUID)trigger;
+- (void)removeEntriesForAction:(SparkUID)action;
+
 //- (void)initInternal;
 //- (void)deallocInternal;
 //
@@ -51,39 +61,7 @@
 ///* Library Entry info */
 //- (SparkEntryType)typeForLibraryEntry:(const SparkLibraryEntry *)anEntry;
 //
-//@end
-
-//@interface SparkEntry (SparkEntryManager)
-//
-//- (void)setEnabled:(BOOL)flag;
-//- (void)setPlugged:(BOOL)flag;
-//
-//@end
-
-//SK_INLINE
-//BOOL SparkLibraryEntryIsEnabled(const SparkLibraryEntry *entry) {
-//  return (entry->flags & kSparkEntryEnabled) != 0;
-//}
-//
-//SK_INLINE
-//BOOL SparkLibraryEntryIsPlugged(const SparkLibraryEntry *entry) {
-//  return (entry->flags & kSparkEntryUnplugged) == 0;
-//}
-//
-//SK_INLINE
-//BOOL SparkLibraryEntryIsPersistent(const SparkLibraryEntry *entry) {
-//  return (entry->flags & kSparkEntryPersistent) != 0;
-//}
-//
-//SK_INLINE
-//BOOL SparkLibraryEntryIsActive(const SparkLibraryEntry *entry) {
-//  return SparkLibraryEntryIsEnabled(entry) && SparkLibraryEntryIsPlugged(entry);
-//}
-//
-//SK_INLINE
-//BOOL SparkLibraryEntryIsOverwrite(const SparkLibraryEntry *entry) {
-//  return entry->application != kSparkApplicationSystemUID;
-//}
+@end
 
 SK_EXPORT
 void SparkDumpEntries(SparkLibrary *aLibrary);

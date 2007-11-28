@@ -63,7 +63,7 @@ NSString * const SEEntryCacheWillRemoveEntryNotification = @"SEEntryCacheWillRem
       /* Be sure the status is sync */
       [[library notificationCenter] addObserver:self
                                        selector:@selector(didChangeEntryStatus:) 
-                                           name:SparkEntryManagerDidChangeEntryEnabledNotification
+                                           name:SparkEntryManagerDidChangeEntryStatusNotification
                                          object:manager];
       
       /* Update cache when enable/disable plugins */

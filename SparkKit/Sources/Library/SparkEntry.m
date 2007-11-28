@@ -11,7 +11,9 @@
 #import <SparkKit/SparkHotKey.h>
 #import <SparkKit/SparkLibrary.h>
 
+#import <SparkKit/SparkPlugIn.h>
 #import <SparkKit/SparkPrivate.h>
+#import <SparkKit/SparkActionLoader.h>
 
 #import <ShadowKit/SKAppKitExtensions.h>
 
@@ -80,38 +82,33 @@ NSImage *SparkEntryDefaultIcon() {
 - (UInt32)uid {
   return sp_uid;
 }
-- (void)setUID:(UInt32)anUID {
-  sp_uid = anUID;
-}
 
 #pragma mark Spark Objects
 - (SparkAction *)action {
   return sp_action;
 }
-- (void)setAction:(SparkAction *)action {
-  SKSetterRetain(sp_action, action);
-}
 
 - (SparkTrigger *)trigger {
   return sp_trigger;
-}
-- (void)setTrigger:(SparkTrigger *)trigger {
-  SKSetterRetain(sp_trigger, trigger);
 }
 
 - (SparkApplication *)application {
   return sp_application;
 }
-- (void)setApplication:(SparkApplication *)anApplication {
-  SKSetterRetain(sp_application, anApplication);
-}
 
 #pragma mark Type
 - (SparkEntryType)type {
-  return sp_type;
-}
-- (void)setType:(SparkEntryType)type {
-  sp_type = type;
+  if ([self applicationUID] == kSparkApplicationSystemUID) {
+    return kSparkEntryTypeDefault;
+  } else if (sp_parent) {
+    if ([sp_action isEqual:[sp_parent action]])
+      return kSparkEntryTypeWeakOverWrite;
+    else
+      return kSparkEntryTypeOverWrite;
+  } else {
+    /* no parent and not system application */
+    return kSparkEntryTypeSpecific;
+  }
 }
 
 #pragma mark Status
@@ -129,10 +126,6 @@ NSImage *SparkEntryDefaultIcon() {
 
 - (BOOL)isPlugged {
   return (sp_flags & kSparkEntryUnplugged) == 0;
-}
-- (void)setPlugged:(BOOL)flag {
-  if (flag) sp_flags &= ~kSparkEntryUnplugged;
-  else sp_flags |= kSparkEntryUnplugged;
 }
 
 - (BOOL)isPersistent {
@@ -162,6 +155,43 @@ NSImage *SparkEntryDefaultIcon() {
 }
 - (NSString *)triggerDescription {
   return [sp_trigger triggerDescription];
+}
+
+@end
+
+@implementation SparkEntry (SparkEntryManager)
+
+- (void)setUID:(UInt32)anUID {
+  sp_uid = anUID;
+}
+
+/* cached status */
+- (void)setPlugged:(BOOL)flag {
+  if (flag) sp_flags &= ~kSparkEntryUnplugged;
+  else sp_flags |= kSparkEntryUnplugged;
+}
+
+/* fast access */
+- (SparkUID)actionUID {
+  return [sp_action uid];
+}
+- (SparkUID)triggerUID {
+  return [sp_trigger uid];
+}
+- (SparkUID)applicationUID {
+  return [sp_application uid];
+}
+
+- (void)setAction:(SparkAction *)action {
+  SKSetterRetain(sp_action, action);
+  SparkPlugIn *plugin = action ? [[SparkActionLoader sharedLoader] plugInForAction:action] : nil;
+  if (plugin) [self setPlugged:[plugin isEnabled]];
+}
+- (void)setTrigger:(SparkTrigger *)trigger {
+  SKSetterRetain(sp_trigger, trigger);
+}
+- (void)setApplication:(SparkApplication *)anApplication {
+  SKSetterRetain(sp_application, anApplication);
 }
 
 @end

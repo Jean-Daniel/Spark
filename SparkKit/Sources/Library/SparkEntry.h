@@ -6,6 +6,8 @@
  *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
  */
 
+#import <SparkKit/SparkKit.h>
+
 typedef enum {
   kSparkEntryTypeDefault = 0, /* Inherits or global */
   kSparkEntryTypeSpecific = 1, /* Defined in custom application only */
@@ -15,7 +17,7 @@ typedef enum {
 
 @class SparkAction, SparkTrigger, SparkApplication;
 
-SK_CLASS_EXPORT
+SPARK_CLASS_EXPORT
 @interface SparkEntry : NSObject <NSCopying> {
   @private
   UInt32 sp_uid;
@@ -24,7 +26,6 @@ SK_CLASS_EXPORT
   SparkApplication *sp_application;
 
   /* status */
-  UInt8 sp_type;
   UInt32 sp_flags;
   SparkEntry *sp_parent;
 }
@@ -69,9 +70,10 @@ SK_CLASS_EXPORT
 /* commit change to the entry manager */
 - (void)endEditing;
 
-- (void)setAction:(SparkAction *)action;
-- (void)setTrigger:(SparkTrigger *)trigger;
-- (void)setApplication:(SparkApplication *)anApplication;
+/* entry edition */
+- (void)replaceAction:(SparkAction *)action;
+- (void)replaceTrigger:(SparkTrigger *)trigger;
+- (void)replaceApplication:(SparkApplication *)anApplication;
 
 @end
 
@@ -81,6 +83,15 @@ SK_CLASS_EXPORT
 
 /* cached status */
 - (void)setPlugged:(BOOL)flag;
-- (void)setType:(SparkEntryType)type;
+
+/* direct object access */
+- (void)setAction:(SparkAction *)action;
+- (void)setTrigger:(SparkTrigger *)trigger;
+- (void)setApplication:(SparkApplication *)anApplication;
+
+/* fast access */
+- (SparkUID)actionUID;
+- (SparkUID)triggerUID;
+- (SparkUID)applicationUID;
 
 @end

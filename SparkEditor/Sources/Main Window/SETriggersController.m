@@ -189,15 +189,16 @@ NSString * sSEHiddenPluggedObserverKey = nil;
 #pragma mark Delegate
 - (void)spaceDownInTableView:(SETriggerTable *)aTable {
   NSUInteger idx = 0;
-  SparkEntryManager *manager = [[self library] entryManager];
+//  SparkEntryManager *manager = [[self library] entryManager];
   SKIndexEnumerator *idexes = [[self selectionIndexes] indexEnumerator];
   while ((idx = [idexes nextIndex]) != NSNotFound) {
     SparkEntry *entry = [self objectAtIndex:idx];
     if ([entry isPlugged]) {
-      if ([entry isEnabled])
-        [manager disableEntry:entry];
-      else
-        [manager enableEntry:entry];
+      [entry setEnabled:![entry isEnabled]];
+//      if ([entry isEnabled])
+//        [manager disableEntry:entry];
+//      else
+//        [manager enableEntry:entry];
     }
   }
 }
@@ -354,7 +355,10 @@ NSString * sSEHiddenPluggedObserverKey = nil;
 }
 
 - (NSUInteger)triggerValue {
-  return [[self trigger] character] << 16 | [[self trigger] modifier] & 0xff;
+  SparkTrigger *trigger = [self trigger];
+  if ([trigger isKindOfClass:[SparkHotKey class]])
+    return [(SparkHotKey *)trigger character] << 16 | [(SparkHotKey *)trigger modifier] & 0xff;
+  else return 0;
 }
 
 - (void)setActive:(BOOL)active {
@@ -369,11 +373,12 @@ NSString * sSEHiddenPluggedObserverKey = nil;
       [[[document library] entryManager] addEntry:entry];
       [[document mainWindowController] revealEntry:entry];
     }
-    if (active) {
-      [[[document library] entryManager] enableEntry:entry];
-    } else {
-      [[[document library] entryManager] disableEntry:entry];
-    }
+    [entry setEnabled:active];
+//    if (active) {
+//      [[[document library] entryManager] enableEntry:entry];
+//    } else {
+//      [[[document library] entryManager] disableEntry:entry];
+//    }
   }
 }
 

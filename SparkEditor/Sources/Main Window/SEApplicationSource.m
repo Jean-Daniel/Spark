@@ -97,8 +97,8 @@
                                               name:SparkObjectSetDidAddObjectNotification
                                             object:[se_library applicationSet]];
       [[se_library notificationCenter] addObserver:self
-                                          selector:@selector(didRemoveApplication:)
-                                              name:SparkObjectSetDidRemoveObjectNotification
+                                          selector:@selector(willRemoveApplication:)
+                                              name:SparkObjectSetWillRemoveObjectNotification
                                             object:[se_library applicationSet]];  
       
       [[se_library notificationCenter] addObserver:self
@@ -324,7 +324,7 @@ bool __IsApplicationAtPath(NSString *path) {
   }
 }
 
-- (void)didRemoveApplication:(NSNotification *)aNotification {
+- (void)willRemoveApplication:(NSNotification *)aNotification {
   [self removeObject:SparkNotificationObject(aNotification)];
 }
 
