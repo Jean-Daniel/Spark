@@ -46,7 +46,7 @@
 
 static
 int _SESortEntries(id e1, id e2, void *ctxt) {
-  return [[e1 trigger] compare:[e2 trigger]];
+  return [[e1 trigger] compare:(id)[e2 trigger]];
 }
 
 - (void)dumpCategories:(NSArray *)categories entries:(NSArray *)entries template:(SKTemplate *)tpl {

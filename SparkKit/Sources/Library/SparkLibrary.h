@@ -110,9 +110,12 @@ SPARK_CLASS_EXPORT
   
   /* Preferences */
   NSMutableDictionary *sp_prefs;
+  
+  /* reserved objects */
+  SparkApplication *sp_system;
 }
 
-+ (SparkApplication *)systemApplication;
+- (SparkApplication *)systemApplication;
 
 - (id)initWithPath:(NSString *)path;
 

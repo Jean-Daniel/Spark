@@ -28,7 +28,7 @@ NSString * const SparkEntryManagerDidRemoveEntryNotification;
 SPARK_EXPORT
 NSString * const SparkEntryManagerDidChangeEntryStatusNotification;
 
-@class SparkAction;
+@class SparkObject;
 @class SparkLibrary, SparkEntry;
 SK_CLASS_EXPORT
 @interface SparkEntryManager : NSObject {
@@ -36,6 +36,8 @@ SK_CLASS_EXPORT
   SparkLibrary *sp_library; /* __weak */
   //CFMutableSetRef sp_set;
   CFMutableArrayRef sp_entries;
+  /* editing support */
+  SparkObject *sp_edit[3];
 }
 
 - (id)initWithLibrary:(SparkLibrary *)aLibrary;
@@ -50,9 +52,11 @@ SK_CLASS_EXPORT
 - (SparkEntry *)entryForUID:(UInt32)uid;
 
 - (void)addEntry:(SparkEntry *)anEntry;
-- (void)updateEntry:(SparkEntry *)anEntry;
 - (void)removeEntry:(SparkEntry *)anEntry;
 - (void)removeEntries:(NSArray *)theEntries;
+
+/* Internal use only */
+- (void)updateEntry:(SparkEntry *)anEntry;
 
 #pragma mark Queries
 - (NSArray *)entriesForAction:(SparkUID)anAction;
@@ -66,26 +70,31 @@ SK_CLASS_EXPORT
 
 - (BOOL)containsActiveEntryForTrigger:(SparkUID)aTrigger;
 - (BOOL)containsOverwriteEntryForTrigger:(SparkUID)aTrigger;
-- (BOOL)containsPersistentEntryForTrigger:(SparkUID)aTrigger;
+//- (BOOL)containsPersistentEntryForTrigger:(SparkUID)aTrigger;
+
+- (BOOL)containsPersistentActiveEntryForTrigger:(SparkUID)aTrigger;
 
 //- (BOOL)containsEntryForTrigger:(SparkUID)aTrigger application:(SparkUID)anApplication;
 //- (SparkEntry *)entryForTrigger:(SparkUID)aTrigger application:(SparkUID)anApplication;
-//- (SparkAction *)actionForTrigger:(SparkUID)aTrigger application:(SparkUID)anApplication isActive:(BOOL *)status;
 
-/* Advanced action support */ 
-//- (BOOL)isActionActive:(SparkUID)anAction forApplication:(SparkUID)anApplication;
+/* return NULL if no active action found */
+- (SparkEntry *)activeEntryForTrigger:(SparkUID)aTrigger application:(SparkUID)anApplication;
+- (SparkEntry *)child:(SparkEntry *)parent forTrigger:(SparkUID)aTrigger application:(SparkUID)anApplication;
 
 @end
 
 #pragma mark Serialization
 @interface SparkEntryManager (SparkSerialization)
 
-- (void)postProcess;
+//- (void)postProcess;
 
 - (NSFileWrapper *)fileWrapper:(NSError **)outError;
 - (BOOL)readFromFileWrapper:(NSFileWrapper *)fileWrapper error:(NSError **)outError;
 
-/* private: v1 import */
-- (void)addEntryWithAction:(SparkUID)action trigger:(SparkUID)trigger application:(SparkUID)application enabled:(BOOL)enabled;
+@end
+
+@interface SparkEntryManager (SparkLegacyLibraryImporter)
+
+- (void)postProcessLegacy;
 
 @end

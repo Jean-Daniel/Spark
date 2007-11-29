@@ -19,15 +19,29 @@
 #import <ShadowKit/SKApplication.h>
 
 static
-void SparkDaemonCheckTrigger(SparkLibrary *library, SparkTrigger *trigger) {
+void SparkDaemonCheckTrigger(SparkLibrary *library, SparkTrigger *trigger, BOOL isEnabled) {
   if (trigger) {
-    if ([trigger isRegistred]) {
-      if (![[library entryManager] containsActiveEntryForTrigger:[trigger uid]]) {
-        [trigger setRegistred:NO];
+    if (isEnabled) {
+      /* Spark daemon is enabled, si check on all actions */
+      if ([trigger isRegistred]) {
+        if (![[library entryManager] containsActiveEntryForTrigger:[trigger uid]]) {
+          [trigger setRegistred:NO];
+        }
+      } else {
+        if ([[library entryManager] containsActiveEntryForTrigger:[trigger uid]]) {
+          [trigger setRegistred:YES];
+        }
       }
     } else {
-      if ([[library entryManager] containsActiveEntryForTrigger:[trigger uid]]) {
-        [trigger setRegistred:YES];
+      /* Spark Daemon is disabled, so check only persistents actions */
+      if ([trigger isRegistred]) {
+        if (![[library entryManager] containsPersistentActiveEntryForTrigger:[trigger uid]]) {
+          [trigger setRegistred:NO];
+        }
+      } else {
+        if ([[library entryManager] containsPersistentActiveEntryForTrigger:[trigger uid]]) {
+          [trigger setRegistred:YES];
+        }
       }
     }
   }
@@ -60,7 +74,7 @@ void SparkDaemonCheckTrigger(SparkLibrary *library, SparkTrigger *trigger) {
   SparkEntry *entry = SparkNotificationObject(aNotification);
   if ([self isEnabled] || [entry isPersistent]) {
     /* Trigger can have a new active action */
-    SparkDaemonCheckTrigger(sd_library, [entry trigger]);
+    SparkDaemonCheckTrigger(sd_library, [entry trigger], [self isEnabled]);
   }
 }
 
@@ -69,10 +83,10 @@ void SparkDaemonCheckTrigger(SparkLibrary *library, SparkTrigger *trigger) {
   SparkEntry *new = SparkNotificationObject(aNotification);
   SparkEntry *previous = SparkNotificationUpdatedObject(aNotification);
   if ([self isEnabled] || [new isPersistent] || [previous isPersistent]) {
-    SparkDaemonCheckTrigger(sd_library, [previous trigger]);
+    SparkDaemonCheckTrigger(sd_library, [previous trigger], [self isEnabled]);
     
     if (![[new trigger] isEqual:[previous trigger]])
-      SparkDaemonCheckTrigger(sd_library, [new trigger]);
+      SparkDaemonCheckTrigger(sd_library, [new trigger], [self isEnabled]);
   }
 }
 
@@ -81,7 +95,7 @@ void SparkDaemonCheckTrigger(SparkLibrary *library, SparkTrigger *trigger) {
   SparkEntry *entry = SparkNotificationObject(aNotification);
   if ([self isEnabled] || [entry isPersistent]) {
     /* If trigger was not removed, we should check it */
-    SparkDaemonCheckTrigger(sd_library, [entry trigger]);
+    SparkDaemonCheckTrigger(sd_library, [entry trigger], [self isEnabled]);
   }
 }
 
@@ -90,7 +104,7 @@ void SparkDaemonCheckTrigger(SparkLibrary *library, SparkTrigger *trigger) {
   SparkEntry *entry = SparkNotificationObject(aNotification);
   if ([self isEnabled] || [entry isPersistent]) {
     /* Should check triggers */
-    SparkDaemonCheckTrigger(sd_library, [entry trigger]);
+    SparkDaemonCheckTrigger(sd_library, [entry trigger], [self isEnabled]);
   }  
 }
 

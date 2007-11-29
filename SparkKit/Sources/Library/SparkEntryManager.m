@@ -7,6 +7,7 @@
  */
 
 #import <Sparkkit/SparkEntryManager.h>
+#import "SparkEntryManagerPrivate.h"
 
 #import <ShadowKit/SKCFContext.h>
 
@@ -280,15 +281,47 @@ typedef SparkUID (*SparkEntryAccessor)(SparkEntry *, SEL);
   }
   return NO;
 }
-- (BOOL)containsPersistentEntryForTrigger:(SparkUID)aTrigger {
+//- (BOOL)containsPersistentEntryForTrigger:(SparkUID)aTrigger {
+//  CFIndex count = CFArrayGetCount(sp_entries);
+//  while (count-- > 0) {
+//    SparkEntry *entry = (SparkEntry *)CFArrayGetValueAtIndex(sp_entries, count);
+//    if (([entry triggerUID] == aTrigger) && [entry isPersistent]) {
+//      return YES;
+//    }
+//  }
+//  return NO;
+//}
+- (BOOL)containsPersistentActiveEntryForTrigger:(SparkUID)aTrigger {
   CFIndex count = CFArrayGetCount(sp_entries);
   while (count-- > 0) {
     SparkEntry *entry = (SparkEntry *)CFArrayGetValueAtIndex(sp_entries, count);
-    if (([entry triggerUID] == aTrigger) && [entry isPersistent]) {
+    if (([entry triggerUID] == aTrigger) && [entry isActive] && [entry isPersistent]) {
       return YES;
     }
   }
   return NO;
+}
+
+#pragma mark -
+- (SparkEntry *)activeEntryForTrigger:(SparkUID)aTrigger application:(SparkUID)anApplication {
+  CFIndex count = CFArrayGetCount(sp_entries);
+  while (count-- > 0) {
+    SparkEntry *entry = (SparkEntry *)CFArrayGetValueAtIndex(sp_entries, count);
+    if ([entry triggerUID] == aTrigger && [entry applicationUID] == anApplication && [entry isActive]) {
+      return entry;
+    }
+  }
+  return NULL;
+}
+- (SparkEntry *)child:(SparkEntry *)parent forTrigger:(SparkUID)aTrigger application:(SparkUID)anApplication {
+  CFIndex count = CFArrayGetCount(sp_entries);
+  while (count-- > 0) {
+    SparkEntry *entry = (SparkEntry *)CFArrayGetValueAtIndex(sp_entries, count);
+    if ([entry triggerUID] == aTrigger && [entry applicationUID] == anApplication && [[entry parent] isEqual:parent]) {
+      return entry;
+    }
+  }
+  return NULL;  
 }
 
 //- (SparkEntry *)entryForTrigger:(SparkUID)aTrigger application:(SparkUID)anApplication {

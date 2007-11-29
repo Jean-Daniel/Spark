@@ -35,6 +35,8 @@ SPARK_CLASS_EXPORT
 - (id)initWithAction:(SparkAction *)anAction trigger:(SparkTrigger *)aTrigger application:(SparkApplication *)anApplication;
 
 - (UInt32)uid;
+- (SparkEntry *)parent;
+- (void)setParent:(SparkEntry *)aParent;
 
 - (SparkEntryType)type;
 

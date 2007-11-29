@@ -37,10 +37,11 @@
 //SPARK_PRIVATE
 //void SparkLibraryEntryInitFlags(SparkLibraryEntry *lentry, SparkEntry *entry);
 
+@class SparkTrigger;
 @interface SparkEntryManager (SparkEntryManagerInternal)
 
-- (void)checkTriggerValidity:(SparkUID)trigger;
-- (void)removeEntriesForAction:(SparkUID)action;
+- (void)checkTriggerValidity:(SparkTrigger *)trigger;
+//- (void)removeEntriesForAction:(SparkUID)action;
 
 //- (void)initInternal;
 //- (void)deallocInternal;

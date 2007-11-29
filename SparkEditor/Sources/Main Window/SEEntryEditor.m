@@ -298,7 +298,8 @@
   /* Load trigger value */
   SEHotKey key = {kHKInvalidVirtualKeyCode, 0, kHKNilUnichar};
   if (se_entry) {
-    SparkHotKey *hotkey = [se_entry trigger];
+    SparkHotKey *hotkey = (SparkHotKey *)[se_entry trigger];
+    NSAssert1([hotkey isKindOfClass:[SparkHotKey class]], @"Does not this kind of trigger: %@", [hotkey class]);
     key.keycode = [hotkey keycode];
     key.modifiers = [hotkey nativeModifier];
     key.character = [hotkey character];

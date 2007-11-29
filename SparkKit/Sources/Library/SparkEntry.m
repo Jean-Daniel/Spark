@@ -82,6 +82,11 @@ NSImage *SparkEntryDefaultIcon() {
 - (UInt32)uid {
   return sp_uid;
 }
+- (SparkEntry *)parent {
+  return sp_parent;
+}
+- (void)setParent:(SparkEntry *)aParent {
+}
 
 #pragma mark Spark Objects
 - (SparkAction *)action {

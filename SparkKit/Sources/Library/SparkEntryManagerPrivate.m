@@ -14,7 +14,7 @@
 #import <SparkKit/SparkTrigger.h>
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkObjectSet.h>
-//
+
 //#import <SparkKit/SparkPlugIn.h>
 //#import <SparkKit/SparkActionLoader.h>
 
@@ -55,12 +55,13 @@
 @implementation SparkEntryManager (SparkEntryManagerInternal)
 
 /* Check if contains, and update has many status */
-- (void)checkTriggerValidity:(SparkUID)trigger {
+- (void)checkTriggerValidity:(SparkTrigger *)trigger {
   BOOL contains = NO;
+  SparkUID tuid = [trigger uid];
   CFIndex count = CFArrayGetCount(sp_entries);
   while (count-- > 0) {
     SparkEntry *entry = (SparkEntry *)CFArrayGetValueAtIndex(sp_entries, count);
-    if ([entry triggerUID] == trigger) {
+    if ([entry triggerUID] == tuid) {
       contains = YES;
       if ([entry applicationUID] != kSparkApplicationSystemUID) {
         [[entry trigger] setHasManyAction:YES];
@@ -69,9 +70,9 @@
     }
   }
   if (!contains)
-    [[[self library] triggerSet] removeObjectWithUID:trigger];
+    [[[self library] triggerSet] removeObject:trigger];
   else
-    [[[[self library] triggerSet] objectWithUID:trigger] setHasManyAction:NO];
+    [trigger setHasManyAction:NO];
 }
 
 - (void)removeEntriesForAction:(SparkUID)action {
@@ -103,14 +104,6 @@ Boolean _SparkEntryIsEqual(const void *obj1, const void *obj2) {
   const SparkLibraryEntry *e1 = obj1, *e2 = obj2;
   return e1->trigger == e2->trigger && e1->application == e2->application;
 }
-
-@interface SparkEntryManager (SparkPrivate)
-
-- (void)checkTriggerValidity:(SparkUID)trigger;
-- (void)removeEntriesForAction:(SparkUID)action;
-//- (void)checkActionRegistration:(const SparkLibraryEntry *)entry;
-
-@end
 
 @implementation SparkEntryManager (SparkEntryManagerInternal)
 
@@ -334,13 +327,23 @@ Boolean _SparkEntryIsEqual(const void *obj1, const void *obj2) {
 
 @end
 
+#endif /* 0 */
+
 #pragma mark -
+typedef struct _SparkLibraryEntry {
+  SparkUID flags;
+  SparkUID action;
+  SparkUID trigger;
+  SparkUID application;
+} SparkLibraryEntry_v0;
+
 typedef struct {
   OSType magic;
   UInt32 version; /* Version 0 header */
   UInt32 count;
-  SparkLibraryEntry entries[0];
+  SparkLibraryEntry_v0 entries[0];
 } SparkEntryHeader;
+
 
 #define SPARK_MAGIC		'SpEn'
 #define SPARK_CIGAM		'nEpS'
@@ -348,45 +351,37 @@ typedef struct {
 @implementation SparkEntryManager (SparkSerialization)
 
 - (NSFileWrapper *)fileWrapper:(NSError **)outError {
-  CFIndex count = CFArrayGetCount(sp_entries);
-  NSUInteger size = count * sizeof(SparkLibraryEntry) + sizeof(SparkEntryHeader);
-  NSMutableData *data = [[NSMutableData alloc] initWithCapacity:size];
-  
-  /* Write header */
-  [data setLength:sizeof(SparkEntryHeader)];
-  SparkEntryHeader *header = [data mutableBytes];
-  header->magic = SPARK_MAGIC;
-  header->version = 0;
-  header->count = (UInt32)count;
-  
-  /* Write contents */
-  while (count-- > 0) {
-    const SparkLibraryEntry *entry = CFArrayGetValueAtIndex(sp_entries, count);
-    SparkLibraryEntry buffer = *entry;
-    buffer.flags &= kSparkPersistentFlagsMask;
-    [data appendBytes:&buffer length:sizeof(buffer)];
-  } 
-  
+//  CFIndex count = CFArrayGetCount(sp_entries);
+//  NSUInteger size = count * sizeof(SparkLibraryEntry) + sizeof(SparkEntryHeader);
+  NSData *data = [NSKeyedArchiver archivedDataWithRootObject:(NSArray *)sp_entries];
+
+//  /* Write header */
+//  [data setLength:sizeof(SparkEntryHeader)];
+//  SparkEntryHeader *header = [data mutableBytes];
+//  header->magic = SPARK_MAGIC;
+//  header->version = 0;
+//  header->count = (UInt32)count;
+//  
+//  /* Write contents */
+//  while (count-- > 0) {
+//    const SparkLibraryEntry *entry = CFArrayGetValueAtIndex(sp_entries, count);
+//    SparkLibraryEntry buffer = *entry;
+//    buffer.flags &= kSparkPersistentFlagsMask;
+//    [data appendBytes:&buffer length:sizeof(buffer)];
+//  } 
+//  
   NSFileWrapper *wrapper = [[NSFileWrapper alloc] initRegularFileWithContents:data];
-  [data release];
+//  [data release];
   
   return [wrapper autorelease];
 }
 
 #define SparkReadField(field)	({swap ? OSSwapInt32(field) : field; })
 
-- (BOOL)readFromFileWrapper:(NSFileWrapper *)fileWrapper error:(NSError **)outError {
-  /* Cleanup */
-  CFSetRemoveAllValues(sp_set);
-  CFArrayRemoveAllValues(sp_entries);
-  
-  NSData *data = [fileWrapper regularFileContents];
-  
+- (BOOL)readVersion0FromData:(NSData *)data error:(NSError **)outError {
   BOOL swap = NO;
-  const SparkEntryHeader *header = NULL;
-  
   const void *bytes = [data bytes];
-  header = bytes;
+  const SparkEntryHeader *header = bytes;
   switch (header->magic) {
     case SPARK_CIGAM:
       swap = YES;
@@ -410,7 +405,7 @@ typedef struct {
   }
   
   NSUInteger count = SparkReadField(header->count);
-  if ([data length] < count * sizeof(SparkLibraryEntry) + sizeof(SparkEntryHeader)) {
+  if ([data length] < count * sizeof(SparkLibraryEntry_v0) + sizeof(SparkEntryHeader)) {
     DLog(@"Unexpected end of file");
     if (outError) *outError = [NSError errorWithDomain:kSparkErrorDomain
                                                   code:-3
@@ -418,15 +413,56 @@ typedef struct {
     return NO;
   }
   
-  const SparkLibraryEntry *entries = header->entries;
+  const SparkLibraryEntry_v0 *entries = header->entries;
   while (count-- > 0) {
-    SparkLibraryEntry entry;
+    SparkLibraryEntry_v0 entry;
     entry.flags = SparkReadField(entries->flags);
     entry.action = SparkReadField(entries->action);
     entry.trigger = SparkReadField(entries->trigger);
     entry.application = SparkReadField(entries->application);
     [self addLibraryEntry:&entry];
     entries++;
+  }
+  return YES;
+}
+
+- (void)postProcess {
+  /* Check all triggers and actions */
+  CFIndex idx = CFArrayGetCount(sp_entries);
+  /* Resolve Ignore Actions */
+  while (idx-- > 0) {
+    SparkEntry *entry = (SparkEntry *)CFArrayGetValueAtIndex(sp_entries, idx);
+    
+    /* Invalid entry if: 
+    - action does not exists.
+    - trigger does not exists.
+    - application does not exists.
+    */
+    if (![entry action] || ![entry trigger] || ![entry application]) {
+      DLog(@"Remove Invalid entry %@", entry);
+      [self removeEntry:entry];
+    } else {
+      if ([entry applicationUID] != kSparkApplicationSystemUID)
+        [[entry trigger] setHasManyAction:YES];
+    }
+  }
+}
+
+- (BOOL)readFromFileWrapper:(NSFileWrapper *)fileWrapper error:(NSError **)outError {
+  /* Cleanup */
+  CFArrayRemoveAllValues(sp_entries);
+  
+  NSData *data = [fileWrapper regularFileContents];
+  
+  const void *bytes = [data bytes];
+  const SparkEntryHeader *header = bytes;
+  switch (header->magic) {
+    case SPARK_CIGAM:
+    case SPARK_MAGIC:
+      return [self readVersion0FromData:data error:outError];
+    default:
+      /* read version 1 */
+      break;
   }
   
   /* cleanup */
@@ -435,95 +471,32 @@ typedef struct {
   return YES;
 }
 
-- (void)postProcess {
-  CFIndex idx = CFArrayGetCount(sp_entries);
-  /* Resolve Ignore Actions */
-  while (idx-- > 0) {
-    SparkLibraryEntry *entry = (SparkLibraryEntry *)CFArrayGetValueAtIndex(sp_entries, idx);
-    if (!entry->action) {
-      SparkLibraryEntry *global = [self libraryEntryForTrigger:entry->trigger application:kSparkApplicationSystemUID];
-      entry->action = global ? global->action : 0;
-    } 
-    if (!entry->action) {
-      DLog(@"Remove Invalid Ignore entry.");
-      [self removeLibraryEntry:entry];
-    }
-  }
-  
-  /* Check all triggers and actions */
-  idx = CFArrayGetCount(sp_entries);
-  SparkObjectSet *actions = [[self library] actionSet];
-  SparkObjectSet *triggers = [[self library] triggerSet];
-  SparkObjectSet *applications = [[self library] applicationSet];
-  SparkActionLoader *loader = [SparkActionLoader sharedLoader];
-  /* Resolve Ignore Actions */
-  while (idx-- > 0) {
-    SparkLibraryEntry *entry = (SparkLibraryEntry *)CFArrayGetValueAtIndex(sp_entries, idx);
-    NSAssert(entry != NULL, @"Illegale null entry");
-    SparkAction *action = [actions objectWithUID:entry->action];
-    
-    /* Invalid entry if: 
-      - action does not exists.
-      - trigger does not exists.
-      - application does not exists.
-      */
-    if (!action || ![triggers containsObjectWithUID:entry->trigger] || 
-        (entry->application != kSparkApplicationSystemUID && ![applications containsObjectWithUID:entry->application])) {
-      DLog(@"Remove Invalid entry { %u, %u, %u }", entry->action, entry->trigger, entry->application);
-      [self removeLibraryEntry:entry];
-    } else {
-      if (SparkLibraryEntryIsOverwrite(entry))
-        [[triggers objectWithUID:entry->trigger] setHasManyAction:YES];
-      
-      /* Set persistent */
-      if ([action isPersistent])
-        SparkLibraryEntrySetPersistent(entry, YES);
-      
-      /* Check if plugin is enabled */
-      SparkPlugIn *plugin = [loader plugInForAction:action];
-      if (plugin)
-        SparkLibraryEntrySetPlugged(entry, [plugin isEnabled]);
-    }
-  }
-}
-
-- (void)addEntryWithAction:(SparkUID)action trigger:(SparkUID)trigger application:(SparkUID)application enabled:(BOOL)enabled {
-  SparkLibraryEntry entry;
-  SparkLibraryEntrySetEnabled(&entry, enabled);
-  entry.action = action;
-  entry.trigger = trigger;
-  entry.application = application;
-  [self addLibraryEntry:&entry];
-}
-
 #pragma mark Debug
 - (void)dumpEntries {
-  SparkLibrary *library = [self library];
   CFIndex idx = CFArrayGetCount(sp_entries);
   fprintf(stderr, "Entries: %lu\n {", idx);
   while (idx-- > 0) {
-    SparkLibraryEntry *entry = (SparkLibraryEntry *)CFArrayGetValueAtIndex(sp_entries, idx);
+    SparkEntry *entry = (SparkEntry *)CFArrayGetValueAtIndex(sp_entries, idx);
 
-    fprintf(stderr, "\t- Flags (%#x): ", entry->flags);
-    if (kSparkEntryEnabled & entry->flags)
+    fprintf(stderr, "\t- Flags: ");
+    if ([entry isEnabled])
       fprintf(stderr, "enabled ");
     else
       fprintf(stderr, "disabled ");
-    if (kSparkEntryUnplugged & entry->flags)
+    if ([entry isPlugged])
       fprintf(stderr, "unplugged ");
-    if (kSparkEntryPersistent & entry->flags)
+    if ([entry isPersistent])
       fprintf(stderr, "persistent ");
     fprintf(stderr, "\n");
       
-    SparkAction *action = [[library actionSet] objectWithUID:entry->action];
-    fprintf(stderr, "\t- Action (%u): %s\n", [action uid], [[action name] UTF8String]);
+    SparkAction *action = [entry action];
+    fprintf(stderr, "\t- Action (%lu): %s\n", (long)[action uid], [[action name] UTF8String]);
     
-    SparkTrigger *trigger = [[library triggerSet] objectWithUID:entry->trigger];
-    fprintf(stderr, "\t- Trigger (%u): %s\n", [trigger uid], [[trigger triggerDescription] UTF8String]);
+    SparkTrigger *trigger = [entry trigger];
+    fprintf(stderr, "\t- Trigger (%lu): %s\n", (long)[trigger uid], [[trigger triggerDescription] UTF8String]);
     
-    SparkApplication *application = entry->application == kSparkApplicationSystemUID ? 
-      [SparkLibrary systemApplication] : [[library applicationSet] objectWithUID:entry->application];
-    fprintf(stderr, "\t- Application (%u): %s\n", [application uid], [[application name] UTF8String]);
+    SparkApplication *application = [entry application];
+    fprintf(stderr, "\t- Application (%lu): %s\n", (long)[application uid], [[application name] UTF8String]);
     
     fprintf(stderr, "----------------------------------\n");
   }
@@ -532,9 +505,39 @@ typedef struct {
 
 @end
 
+@implementation SparkEntryManager (SparkLegacyLibraryImporter)
+
+- (SparkEntry *)entryForTrigger:(SparkUID)aTrigger application:(SparkUID)anApplication {
+  CFIndex count = CFArrayGetCount(sp_entries);
+  while (count-- > 0) {
+    SparkEntry *entry = (SparkEntry *)CFArrayGetValueAtIndex(sp_entries, count);
+    if ([entry triggerUID] == aTrigger && [entry applicationUID] == anApplication) {
+      return entry;
+    }
+  }
+  return NULL;
+}
+
+- (void)postProcessLegacy {
+  CFIndex idx = CFArrayGetCount(sp_entries);
+  /* Resolve Ignore Actions */
+  while (idx-- > 0) {
+    SparkEntry *entry = (SparkEntry *)CFArrayGetValueAtIndex(sp_entries, idx);
+    if (![entry action]) {
+      SparkEntry *global = [self entryForTrigger:[entry triggerUID] application:kSparkApplicationSystemUID];
+      if ([global action]) {
+        [entry setParent:global];
+        [entry setAction:[global action]];
+      }
+    } 
+  }
+  [self postProcess];
+}
+
+
+@end
+
 #pragma mark -
 void SparkDumpEntries(SparkLibrary *aLibrary) {
   [[aLibrary entryManager] dumpEntries];
 }
-
-#endif

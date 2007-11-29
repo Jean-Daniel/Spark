@@ -87,23 +87,23 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_0;
 
 @implementation SparkLibrary
 
-static SparkApplication *sSystem = nil;
 + (void)initialize {
   if ([SparkLibrary class] == self) {
-    /* Initialize System Application */
-    sSystem = [[SparkApplication alloc] initWithName:NSLocalizedStringFromTableInBundle(@"System", nil,
-                                                                                        kSparkKitBundle,
-                                                                                        @"System Application Name")
-                                                icon:[NSImage imageNamed:@"SparkSystem" inBundle:kSparkKitBundle]];
-    [sSystem setUID:kSparkApplicationSystemUID];
-    
     /* Register Built-In Plugin (and make sure other plugins are loaded) */
     [[SparkActionLoader sharedLoader] registerPlugInClass:[SparkBuiltInActionPlugin class]];
   }
 }
 
-+ (SparkApplication *)systemApplication {
-  return sSystem;
+- (SparkApplication *)systemApplication {
+  if (!sp_system) {
+    sp_system = [[SparkApplication alloc] initWithName:NSLocalizedStringFromTableInBundle(@"System", nil,
+                                                                                          kSparkKitBundle,
+                                                                                          @"System Application Name")
+                                                  icon:[NSImage imageNamed:@"SparkSystem" inBundle:kSparkKitBundle]];
+    [sp_system setUID:kSparkApplicationSystemUID];
+    [sp_system setLibrary:self];
+  }
+  return sp_system;
 }
 
 #pragma mark -
@@ -247,6 +247,8 @@ static SparkApplication *sSystem = nil;
     [NSException raise:NSInternalInconsistencyException format:@"<%@ %p> is already loaded.", [self class], self];
   
   BOOL result = NO;
+  /* disable undo while loading */
+  [sp_undo disableUndoRegistration];
   NSFileWrapper *wrapper = [[NSFileWrapper alloc] initWithPath:[self path]];
   if (wrapper) {
     result = [self loadFromWrapper:wrapper error:error];
@@ -254,6 +256,8 @@ static SparkApplication *sSystem = nil;
   } else if (error) {
     *error = [NSError errorWithDomain:NSOSStatusErrorDomain code:fnfErr userInfo:nil];
   }
+  /* restaure undo manager */
+  [sp_undo enableUndoRegistration];
   
   return result;
 }
@@ -573,7 +577,7 @@ bail:
   ok = [set readFromFileWrapper:[files objectForKey:kSparkListsFile] error:error];
   require(ok, bail);
   
-  /* Load entries */
+  /* Load entries (must be last) */
   SparkEntryManager *manager = [self entryManager];
   ok = [manager readFromFileWrapper:[files objectForKey:kSparkEntriesFile] error:error];
   require(ok, bail);
@@ -713,7 +717,7 @@ bail:
     }
   }
   
-  [sp_relations postProcess];
+  [sp_relations postProcessLegacy];
   
   CFRelease(actions);
   return YES;

@@ -22,6 +22,7 @@
 #import <SparkKit/SparkEntryManager.h>
 
 #import <SparkKit/SparkAlert.h>
+#import <SparkKit/SparkEntry.h>
 #import <SparkKit/SparkAction.h>
 #import <SparkKit/SparkTrigger.h>
 #import <SparkKit/SparkApplication.h>
@@ -59,8 +60,7 @@ int main(int argc, const char *argv[]) {
 }
 
 /* Main thread variable */
-static
-BOOL sIsProcessingEvent = NO;
+//static BOOL sIsProcessingEvent = NO;
 
 static
 OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef inEvent, void *inUserData) {
@@ -367,7 +367,7 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
   NSEnumerator *triggers = [[sd_library triggerSet] objectEnumerator];
   while (trigger = [triggers nextObject]) {
     @try {
-      if ([trigger isRegistred] && ![manager containsPersistentEntryForTrigger:[trigger uid]]) {
+      if ([trigger isRegistred] && ![manager containsPersistentActiveEntryForTrigger:[trigger uid]]) {
         [trigger setRegistred:NO];
       }
     } @catch (id exception) {
@@ -379,64 +379,72 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
 - (IBAction)executeTrigger:(SparkTrigger *)trigger {
   Boolean trapping;
   SparkAlert *alert = nil;
-  DLog(@"Start handle event");
   /* If Spark Editor is trapping, forward keystroke */
   if ((noErr == SDGetEditorIsTrapping(&trapping)) && trapping) {
+    DLog(@"Spark Editor is trapping => bypass");
     [trigger bypass];
     return;
   }
-  sIsProcessingEvent = YES;
-  /* Warning: trigger can be release during it's own invocation, so retain it */
+  
+  SparkEntry *entry = nil;
+  SparkApplication *front = nil;
+  SparkEntryManager *manager = [sd_library entryManager];
+  /* If action depends front application */
+  if ([trigger hasManyAction]) {      
+    front = [sd_library frontApplication];
+    if (front) {
+      /* Get action for front application */
+      entry = [manager activeEntryForTrigger:[trigger uid] application:[front uid]];
+    }
+  }
+  /* No specific action found, use default */
+  if (!entry) {
+    /* search default */
+    entry = [manager activeEntryForTrigger:[trigger uid] application:kSparkApplicationSystemUID];
+    if (entry && front) {
+      /* if the default has a disabled child, we should not perform the action */
+      SparkEntry *child = [manager child:entry forTrigger:[trigger uid] application:[front uid]];
+      /* 
+      We don't have to check if the child is disabled. 
+       If it was enabled, it would have been returned by the "specific" search.
+       */
+      if (child) /* child is disabled */
+        entry = NULL;
+    } 
+  }
+
+  /* Warning: trigger can be release during [action performAction] */
   [trigger retain];
+//  sIsProcessingEvent = YES;
+  DLog(@"Start handle event");
+  
   @try {
-    BOOL status = YES;
-    SparkAction *action = nil;
-    /* If action depends front application */
-    if ([trigger hasManyAction]) {      
-      SparkApplication *front = [sd_library frontApplication];
-      if (front) {
-        /* Get action for front application */
-        action = [[sd_library entryManager] actionForTrigger:[trigger uid] application:[front uid] isActive:&status];
-      }
-    }
-    /* No specific action found, use default */
-    if (!action) {
-      action = [[sd_library entryManager] actionForTrigger:[trigger uid] application:kSparkApplicationSystemUID isActive:&status];
-    }
+    SparkAction *action = [entry action];
     /* If daemon is disabled, only persistent action are performed */
-    if (action) {
-      if ([self isEnabled] || [action isPersistent]) {
-        [trigger willTriggerAction:status ? action : nil];
-        /* Action exists and is enabled */
-        if (status) {
-          alert = [action performAction];
-        } else {
-          [trigger bypass];
-        }
-        [trigger didTriggerAction:status ? action : nil];
-      } else {
-        // Daemon disabled => bypass
-        [trigger bypass];
-      }
+    if (action && ([self isEnabled] || [entry isPersistent])) {
+      [trigger willTriggerAction:action];
+      /* Action exists and is enabled */
+      alert = [action performAction];
+      [trigger didTriggerAction:action];
     } else {
-      /* no action found */
+      // => bypass
       [trigger bypass];
     }
   } @catch (id exception) {
-    SKLogException(exception);
     NSBeep();
+    SKLogException(exception);
   }
   [trigger release];
+//  sIsProcessingEvent = NO;
   
   /* If alert not null */
   if (alert) {
     /* Check if need display alert */
     Boolean displays = SparkPreferencesGetBooleanValue(@"SDDisplayAlertOnExecute", SparkPreferencesDaemon);
-    if (displays) {
+    if (displays)
       SparkDisplayAlert(alert);
-    }
   }
-  sIsProcessingEvent = NO;
+  
   DLog(@"Finish handle event");
 }
 
