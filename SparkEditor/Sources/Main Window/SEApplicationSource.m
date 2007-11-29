@@ -33,7 +33,7 @@
 - (void)reload {
   [self removeAllObjects];
   if (se_library) {
-    [self addObject:[SparkLibrary systemApplication]];
+    [self addObject:[se_library systemApplication]];
     [self addObjects:[[self applicationSet] objects]];
     [self rearrangeObjects];
   }

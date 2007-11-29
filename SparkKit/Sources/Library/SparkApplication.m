@@ -25,7 +25,17 @@ NSString * const kSparkApplicationFlagsKey = @"SparkApplicationFlags";
 
 NSString * const SparkApplicationDidChangeEnabledNotification = @"SparkApplicationDidChangeEnabled";
 
+@interface SparkSystemApplication : SparkApplication
+
++ (id)systemApplication;
+
+@end
+
 @implementation SparkApplication
+
++ (id)systemApplication {
+  return [SparkSystemApplication systemApplication];
+}
 
 #pragma mark -
 #pragma mark NSCoding
@@ -197,6 +207,89 @@ NSString * const SparkApplicationDidChangeEnabledNotification = @"SparkApplicati
 @end
 
 #pragma mark -
+@implementation SparkSystemApplication
+
+#pragma mark SparkSerialization
+- (BOOL)serialize:(NSMutableDictionary *)plist {
+  return NO;
+}
+- (id)initWithSerializedValues:(NSDictionary *)plist {
+  return nil;
+}
+
+#pragma mark -
+#pragma mark Init & Dealloc Methods
++ (id)systemApplication {
+  if (self = [SparkSystemApplication objectWithName:NSLocalizedStringFromTableInBundle(@"System", nil,
+                                                                                       kSparkKitBundle,
+                                                                                       @"System Application Name")]) {
+    
+  }
+  return self;
+}
+
+- (id)initWithPath:(NSString *)path {
+  return nil;
+}
+
+- (BOOL)isEqual:(id)object {
+  if (self == object)
+    return YES;
+  else if ([object isKindOfClass:[SparkApplication class]])
+    return [self uid] == [object uid];
+  else return NO;
+}
+- (NSUInteger)hash {
+  return 0;
+}
+
+#pragma mark -
+#pragma mark Accessors
+- (SparkUID)uid {
+  return kSparkApplicationSystemUID;
+}
+
+- (NSString *)path {
+  return nil;
+}
+- (void)setPath:(NSString *)path {
+}
+
+- (NSImage *)icon {
+  if (![self hasIcon]) {
+    [self setIcon:[NSImage imageNamed:@"SparkSystem" inBundle:kSparkKitBundle]];
+  }
+  return [super icon];
+}
+
+- (BOOL)shouldSaveIcon {
+  return NO;
+}
+
+- (OSType)signature {
+  return 0;
+}
+
+- (NSString *)bundleIdentifier {
+  return nil;
+}
+
+- (SKApplication *)application {
+  return nil;
+}
+
+- (BOOL)isEditable {
+  return NO;
+}
+- (BOOL)isEnabled {
+  return YES;
+}
+- (void)setEnabled:(BOOL)flag {
+  /* does nothing */
+}
+
+@end
+
 #pragma mark SparkLibrary Extension
 @implementation SparkLibrary (SparkLibraryPrivate)
 

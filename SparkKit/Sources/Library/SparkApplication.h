@@ -19,6 +19,8 @@ SK_CLASS_EXPORT
   SKApplication *sp_application;
 }
 
++ (id)systemApplication;
+
 - (id)initWithPath:(NSString *)path;
 
 - (NSString *)path;

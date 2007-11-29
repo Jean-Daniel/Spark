@@ -420,7 +420,7 @@ SparkObjectSet *SparkObjectSetForType(SparkLibrary *library, OSType type) {
 
 - (void)removeEntry:(SparkUID)anEntry {
   SparkSyncTrace();
-  SparkEntry *entry = [[sp_library entryManager] entryForUID:anEntry];
+  SparkEntry *entry = [[sp_library entryManager] entryWithUID:anEntry];
   if (entry) {
     [[sp_library entryManager] removeEntry:entry];
   }
@@ -428,7 +428,7 @@ SparkObjectSet *SparkObjectSetForType(SparkLibrary *library, OSType type) {
 
 - (void)enableEntry:(SparkUID)anEntry {
   SparkSyncTrace();
-  SparkEntry *entry = [[sp_library entryManager] entryForUID:anEntry];
+  SparkEntry *entry = [[sp_library entryManager] entryWithUID:anEntry];
   if (entry) {
     [entry setEnabled:YES];
   }
@@ -436,7 +436,7 @@ SparkObjectSet *SparkObjectSetForType(SparkLibrary *library, OSType type) {
 
 - (void)disableEntry:(SparkUID)anEntry {
   SparkSyncTrace();
-  SparkEntry *entry = [[sp_library entryManager] entryForUID:anEntry];
+  SparkEntry *entry = [[sp_library entryManager] entryWithUID:anEntry];
   if (entry) {
     [entry setEnabled:NO];
   }
@@ -445,12 +445,12 @@ SparkObjectSet *SparkObjectSetForType(SparkLibrary *library, OSType type) {
 #pragma mark Applications Specific
 - (void)enableApplication:(SparkUID)uid {
   SparkSyncTrace();
-  SparkApplication *app = [[sp_library applicationSet] objectWithUID:uid];
+  SparkApplication *app = [sp_library applicationWithUID:uid];
   [app setEnabled:YES];
 }
 - (void)disableApplication:(SparkUID)uid {
   SparkSyncTrace();
-  SparkApplication *app = [[sp_library applicationSet] objectWithUID:uid];
+  SparkApplication *app = [sp_library applicationWithUID:uid];
   [app setEnabled:NO];
 }
 

@@ -77,7 +77,7 @@ NSString * const SparkEntryManagerDidChangeEntryStatusNotification = @"SparkEntr
 #pragma mark Query
 typedef SparkUID (*SparkEntryAccessor)(SparkEntry *, SEL);
 
-- (SparkEntry *)entryForUID:(UInt32)uid {
+- (SparkEntry *)entryWithUID:(UInt32)uid {
   /* inefficient array search */
   CFIndex count = CFArrayGetCount(sp_entries);
   while (count-- > 0) {
@@ -136,8 +136,8 @@ typedef SparkUID (*SparkEntryAccessor)(SparkEntry *, SEL);
 #pragma mark High-Level Methods
 - (void)addEntry:(SparkEntry *)anEntry {
   static NSUInteger sUID = 0;
-  NSParameterAssert([[anEntry action] uid] != 0);
-  NSParameterAssert([[anEntry trigger] uid] != 0);
+  //NSParameterAssert([[anEntry action] uid] != 0);
+  //NSParameterAssert([[anEntry trigger] uid] != 0);
   NSParameterAssert(![self containsEntry:anEntry]);
     
   /* Undo management */

@@ -12,6 +12,7 @@
 #import <SparkKit/SparkEntryManager.h>
 
 #import <SparkKit/SparkList.h>
+#import <SparkKit/SparkEntry.h>
 #import <SparkKit/SparkAction.h>
 #import <SparkKit/SparkTrigger.h>
 #import <SparkKit/SparkPrivate.h>
@@ -26,6 +27,9 @@
 #import <ShadowKit/SKLSFunctions.h>
 #import <ShadowKit/SKSerialization.h>
 #import <ShadowKit/SKAppKitExtensions.h>
+
+/* project header */
+#import "SparkEntryPlaceholder.h"
 
 NSString * const kSparkLibraryFileExtension = @"splib";
 
@@ -96,11 +100,7 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_0;
 
 - (SparkApplication *)systemApplication {
   if (!sp_system) {
-    sp_system = [[SparkApplication alloc] initWithName:NSLocalizedStringFromTableInBundle(@"System", nil,
-                                                                                          kSparkKitBundle,
-                                                                                          @"System Application Name")
-                                                  icon:[NSImage imageNamed:@"SparkSystem" inBundle:kSparkKitBundle]];
-    [sp_system setUID:kSparkApplicationSystemUID];
+    sp_system = [[SparkApplication systemApplication] retain];
     [sp_system setLibrary:self];
   }
   return sp_system;
@@ -310,13 +310,13 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_0;
 }
 - (void)saveReservedObjects {
   /* write reserved objects status into preferences */
-  SparkApplication *finder = [[self applicationSet] objectWithUID:kSparkApplicationFinderUID];
+  SparkApplication *finder = [self applicationWithUID:kSparkApplicationFinderUID];
   if (finder)
     [[self preferences] setObject:SKBool(![finder isEnabled]) forKey:@"SparkFinderDisabled"];
 }
 - (void)restoreReservedObjects {
   /* called after library loading, restore reserved objects status from preferences */
-  SparkApplication *finder = [[self applicationSet] objectWithUID:kSparkApplicationFinderUID];
+  SparkApplication *finder = [self applicationWithUID:kSparkApplicationFinderUID];
   if (finder) {
     BOOL disabled = [[[self preferences] objectForKey:@"SparkFinderDisabled"] boolValue];
     [finder setEnabled:!disabled];
@@ -597,6 +597,7 @@ bail:
   NSDictionary *plist = nil;
   NSEnumerator *enumerator = nil;
   SparkObjectSet *objectSet = nil;
+  NSMutableArray *placeholders = [[NSMutableArray alloc] init];
   
   /* Load Applications. Ignore old '_SparkSystemApplication' items */
   objectSet = [self applicationSet];
@@ -659,8 +660,11 @@ bail:
         }
         /* Should avoid action double usage, except for ignore action. */
         if (act || app && (act == 0 || !CFSetContainsValue(actions, (void *)(long)act))) {
-          [sp_relations addEntryWithAction:act trigger:trg application:app enabled:enabled];
           CFSetAddValue(actions, (void *)(long)act);
+          SparkEntryPlaceholder *entry = [[SparkEntryPlaceholder alloc] initWithActionUID:act triggerUID:trg applicationUID:app];
+          [entry setEnabled:enabled];
+          [placeholders addObject:entry];
+          [entry release];
         }
       }
     } else {
@@ -686,8 +690,8 @@ bail:
         }
       } else {
         DLog(@"Discard invalid action: %@", plist);
-        SparkUID uid = [[plist objectForKey:@"UID"] unsignedIntValue];
-        [sp_relations removeEntriesForAction:uid + kSparkLibraryReserved];
+//        SparkUID uid = [[plist objectForKey:@"UID"] unsignedIntValue];
+//        [sp_relations removeEntriesForAction:uid + kSparkLibraryReserved];
       }
     }
   }
@@ -705,7 +709,7 @@ bail:
       NSNumber *uid;
       NSEnumerator *uids = [[plist objectForKey:@"ObjectList"] objectEnumerator];
       while (uid = [uids nextObject]) {
-        SparkObject *object = [[self triggerSet] objectWithUID:[uid unsignedIntValue] + kSparkLibraryReserved];
+        SparkObject *object = [self triggerWithUID:[uid unsignedIntValue] + kSparkLibraryReserved];
         if (object) {
           [list addObject:object];
         } else {
@@ -717,6 +721,17 @@ bail:
     }
   }
   
+  /* create entries */ 
+  NSUInteger count = [placeholders count];
+  for (NSUInteger idx = 0; idx < count; idx++) {
+    SparkEntryPlaceholder *placeholder = [placeholders objectAtIndex:idx];
+    SparkEntry *entry = [SparkEntry entryWithPlaceholder:placeholder library:self];
+    if (entry)
+      [sp_relations addEntry:entry];
+  }
+  [placeholders release];
+  
+  /* cleanup */
   [sp_relations postProcessLegacy];
   
   CFRelease(actions);

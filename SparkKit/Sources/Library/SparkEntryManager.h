@@ -49,7 +49,7 @@ SK_CLASS_EXPORT
 - (void)setLibrary:(SparkLibrary *)library;
 
 #pragma mark Management
-- (SparkEntry *)entryForUID:(UInt32)uid;
+- (SparkEntry *)entryWithUID:(UInt32)uid;
 
 - (void)addEntry:(SparkEntry *)anEntry;
 - (void)removeEntry:(SparkEntry *)anEntry;

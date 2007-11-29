@@ -88,7 +88,7 @@ int _SESortEntries(id e1, id e2, void *ctxt) {
   SparkEntryManager *manager = [library entryManager];
   
   NSMutableArray *customs = [NSMutableArray array];
-  SparkApplication *app = [SparkLibrary systemApplication];
+  SparkApplication *app = [library systemApplication];
   NSEnumerator *apps = [[library applicationSet] objectEnumerator];
   do {
     if ([manager containsEntryForApplication:[app uid]])

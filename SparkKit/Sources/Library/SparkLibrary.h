@@ -86,8 +86,8 @@ void SparkLibraryPostUpdateNotification(SparkLibrary *library, NSString *name, i
 }
 
 #pragma mark -
-@class SparkApplication;
 @class SparkIconManager, SparkEntryManager;
+@class SparkList, SparkAction, SparkTrigger, SparkApplication;
 SPARK_CLASS_EXPORT
 @interface SparkLibrary : NSObject {
   @private
@@ -138,6 +138,11 @@ SPARK_CLASS_EXPORT
 - (SparkObjectSet *)actionSet;
 - (SparkObjectSet *)triggerSet;
 - (SparkObjectSet *)applicationSet;
+
+- (SparkList *)listWithUID:(SparkUID)uid;
+- (SparkAction *)actionWithUID:(SparkUID)uid;
+- (SparkTrigger *)triggerWithUID:(SparkUID)uid;
+- (SparkApplication *)applicationWithUID:(SparkUID)uid;
 
 - (SparkEntryManager *)entryManager;
    

@@ -136,7 +136,7 @@ Boolean _SparkEntryIsEqual(const void *obj1, const void *obj2) {
     CFSetAddValue(sp_set, entry);
     CFArrayAppendValue(sp_entries, entry);
     
-    SparkTrigger *trigger = [[[self library] triggerSet] objectWithUID:entry->trigger];
+    SparkTrigger *trigger = [[self library] triggerWithUID:entry->trigger];
     /* Update trigger flag */
     if (SparkLibraryEntryIsOverwrite(entry))
       [trigger setHasManyAction:YES];
@@ -169,7 +169,7 @@ Boolean _SparkEntryIsEqual(const void *obj1, const void *obj2) {
   
   /* Remove orphan action or update action flag */
   if (action != newEntry->action && ![self containsEntryForAction:action]) {
-//    SparkAction *act = [[[self library] actionSet] objectWithUID:action];
+//    SparkAction *act = [[self library] actionWithUID:action];
 //    if ([act isRegistred])
 //      [act setRegistred:NO];
     [[[self library] actionSet] removeObjectWithUID:action];
@@ -204,7 +204,7 @@ Boolean _SparkEntryIsEqual(const void *obj1, const void *obj2) {
     
     /* Remove orphan action or update action status */
     if (![self containsEntryForAction:lEntry.action]) {
-//      SparkAction *action = [[[self library] actionSet] objectWithUID:lEntry.action];
+//      SparkAction *action = [[self library] actionWithUID:lEntry.action];
 //      if ([action isRegistred])
 //        [action setRegistred:NO];
       [[[self library] actionSet] removeObjectWithUID:lEntry.action];
@@ -240,15 +240,9 @@ Boolean _SparkEntryIsEqual(const void *obj1, const void *obj2) {
   if (!anEntry)
     [NSException raise:NSInternalInconsistencyException format:@"Requested entry does not exists"];
   
-  SparkAction *action = [[[self library] actionSet] objectWithUID:anEntry->action];
-  SparkTrigger *trigger = [[[self library] triggerSet] objectWithUID:anEntry->trigger];
-  SparkApplication *application = nil;
-  
-  if (anEntry->application == kSparkApplicationSystemUID) {
-    application = [SparkLibrary systemApplication];
-  } else {
-    application = [[[self library] applicationSet] objectWithUID:anEntry->application];
-  }
+  SparkAction *action = [[self library] actionWithUID:anEntry->action];
+  SparkTrigger *trigger = [[self library] triggerWithUID:anEntry->trigger];
+  SparkApplication *application = [[self library] applicationWithUID:anEntry->application];
   
   SparkEntry *object = [[SparkEntry alloc] initWithAction:action
                                                   trigger:trigger
@@ -292,10 +286,10 @@ Boolean _SparkEntryIsEqual(const void *obj1, const void *obj2) {
 
 #pragma mark Internal
 //- (void)checkActionRegistration:(const SparkLibraryEntry *)entry {
-//  SparkAction *action = [[[self library] actionSet] objectWithUID:entry->action];
+//  SparkAction *action = [[self library] actionWithUID:entry->action];
 //  /* If active, sync with trigger (if needed) */
 //  if (SparkLibraryEntryIsActive(entry)) {
-//    SparkTrigger *trigger = [[[self library] triggerSet] objectWithUID:entry->trigger];
+//    SparkTrigger *trigger = [[self library] triggerWithUID:entry->trigger];
 //    if (XOR([trigger isRegistred], [action isRegistred]))
 //      [action setRegistred:[trigger isRegistred]];
 //  } else if ([action isRegistred]) {
