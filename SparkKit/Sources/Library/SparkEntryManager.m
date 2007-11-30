@@ -136,8 +136,10 @@ typedef SparkUID (*SparkEntryAccessor)(SparkEntry *, SEL);
 #pragma mark High-Level Methods
 - (void)addEntry:(SparkEntry *)anEntry {
   static NSUInteger sUID = 0;
+  
   //NSParameterAssert([[anEntry action] uid] != 0);
   //NSParameterAssert([[anEntry trigger] uid] != 0);
+  NSParameterAssert(![anEntry isManaged]);
   NSParameterAssert(![self containsEntry:anEntry]);
     
   /* Undo management */
@@ -157,6 +159,8 @@ typedef SparkUID (*SparkEntryAccessor)(SparkEntry *, SEL);
   /* Update trigger flag */
   if ([anEntry applicationUID] != kSparkApplicationSystemUID)
     [[anEntry trigger] setHasManyAction:YES];
+  
+  [anEntry setManaged:YES];
   
   // Did add
   SparkLibraryPostNotification([self library], SparkEntryManagerDidAddEntryNotification, self, anEntry);
@@ -189,16 +193,18 @@ typedef SparkUID (*SparkEntryAccessor)(SparkEntry *, SEL);
 //}
 
 - (void)removeEntry:(SparkEntry *)anEntry {
+  NSParameterAssert([anEntry isManaged]);
   NSParameterAssert([self containsEntry:anEntry]);
+  
   /* Undo management */
-  if ([anEntry isEnabled]) {
-    [[self undoManager] registerUndoWithTarget:self selector:@selector(disableEntry:) object:anEntry];
-  }
+  /* TODO */
+  //if ([anEntry isEnabled]) {
+//    [[self undoManager] registerUndoWithTarget:self selector:@selector(disableEntry:) object:anEntry];
+//  }
   [[self undoManager] registerUndoWithTarget:self selector:@selector(addEntry:) object:anEntry];
   
   // Will remove
   SparkLibraryPostNotification([self library], SparkEntryManagerWillRemoveEntryNotification, self, anEntry);
-  
   
   [anEntry retain];
   //    BOOL global = anEntry->application == kSparkApplicationSystemUID;
@@ -210,9 +216,8 @@ typedef SparkUID (*SparkEntryAccessor)(SparkEntry *, SEL);
   NSAssert(idx != kCFNotFound, @"Cannot found object in manager array, but found in set");
   if (idx != kCFNotFound)
     CFArrayRemoveValueAtIndex(sp_entries, idx);
-  /* Note: anEntry could be freed an should no longer be used. */
   
-  /* Should not automagically remove weak entries */
+  /* Should automagically remove weak entries ? */
   //    if (global) {
   //      /* Remove weak entries */
   //      [self removeEntriesForAction:action];
@@ -224,6 +229,7 @@ typedef SparkUID (*SparkEntryAccessor)(SparkEntry *, SEL);
   }
   /* Remove orphan trigger */
   [self checkTriggerValidity:trigger];
+  [anEntry setManaged:NO];
   
   // Did remove
   SparkLibraryPostNotification([self library], SparkEntryManagerDidRemoveEntryNotification, self, anEntry);

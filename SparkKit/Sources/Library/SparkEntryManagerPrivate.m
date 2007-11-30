@@ -408,15 +408,19 @@ typedef struct {
   }
   
   const SparkLibraryEntry_v0 *entries = header->entries;
+  SparkEntryPlaceholder *placeholder = [[SparkEntryPlaceholder alloc] init];
   while (count-- > 0) {
-    SparkLibraryEntry_v0 entry;
-    entry.flags = SparkReadField(entries->flags);
-    entry.action = SparkReadField(entries->action);
-    entry.trigger = SparkReadField(entries->trigger);
-    entry.application = SparkReadField(entries->application);
-    [self addLibraryEntry:&entry];
+    [placeholder setEnabled:(SparkReadField(entries->flags) & 1) != 0];
+    [placeholder setActionUID:SparkReadField(entries->action)];
+    [placeholder setTriggerUID:SparkReadField(entries->trigger)];
+    [placeholder setApplicationUID:SparkReadField(entries->application)];
+    
+    SparkEntry *entry = [SparkEntry entryWithPlaceholder:placeholder library:sp_library];
+    if (entry)
+      CFArrayAppendValue(sp_entries, entry);
     entries++;
   }
+  [placeholder release];
   return YES;
 }
 
@@ -528,6 +532,22 @@ typedef struct {
   [self postProcess];
 }
 
+- (void)loadPlaceholders:(NSArray *)placeholders {
+  NSUInteger count = [placeholders count];
+  for (NSUInteger idx = 0; idx < count; idx++) {
+    SparkEntryPlaceholder *placeholder = [placeholders objectAtIndex:idx];
+    SparkEntry *entry = [SparkEntry entryWithPlaceholder:placeholder library:sp_library];
+    if (entry)
+      CFArrayAppendValue(sp_entries, entry);
+  }
+  [placeholders release];
+  
+  /* resolve parents */
+  [self resolveParents];
+  
+  /* cleanup */
+  [self postProcessLegacy];
+}
 
 @end
 

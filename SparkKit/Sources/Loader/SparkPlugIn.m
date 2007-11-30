@@ -99,9 +99,9 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
     BOOL exists;
     BOOL status = SparkPlugInIsEnabled(identifier, &exists);
     if (exists)
-      SKSetFlag(sp_spFlags.disabled, !status);
+      SKFlagSet(sp_spFlags.disabled, !status);
     else
-      SKSetFlag(sp_spFlags.disabled, ![sp_class isEnabled]);
+      SKFlagSet(sp_spFlags.disabled, ![sp_class isEnabled]);
   }
   return self;
 }
@@ -178,10 +178,9 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
   return !sp_spFlags.disabled;
 }
 - (void)setEnabled:(BOOL)flag {
-  BOOL enabled = [self isEnabled];
+  bool disabled = SKFlagTestAndSet(sp_spFlags.disabled, !flag);
   /* If status change */
-  if (XOR(enabled, flag)) {
-    SKSetFlag(sp_spFlags.disabled, !flag);
+  if (disabled != sp_spFlags.disabled) {
     /* Update preferences */
     SparkPlugInSetEnabled([self identifier], flag);
     [[NSNotificationCenter defaultCenter] postNotificationName:SparkPlugInDidChangeStatusNotification

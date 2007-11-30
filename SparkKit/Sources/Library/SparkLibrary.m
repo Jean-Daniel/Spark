@@ -28,9 +28,6 @@
 #import <ShadowKit/SKSerialization.h>
 #import <ShadowKit/SKAppKitExtensions.h>
 
-/* project header */
-#import "SparkEntryPlaceholder.h"
-
 NSString * const kSparkLibraryFileExtension = @"splib";
 
 NSPropertyListFormat SparkLibraryFileFormat = NSPropertyListBinaryFormat_v1_0;
@@ -159,17 +156,30 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_0;
 - (SparkObjectSet *)listSet {
   return sp_objects[kSparkListSet];
 }
-
 - (SparkObjectSet *)actionSet {
   return sp_objects[kSparkActionSet];
 }
-
 - (SparkObjectSet *)triggerSet {
   return sp_objects[kSparkTriggerSet];
 }
-
 - (SparkObjectSet *)applicationSet {
   return sp_objects[kSparkApplicationSet];
+}
+
+/* convenient accessors */
+- (SparkList *)listWithUID:(SparkUID)uid {
+  return [sp_objects[kSparkListSet] objectWithUID:uid];
+}
+- (SparkAction *)actionWithUID:(SparkUID)uid {
+  return [sp_objects[kSparkActionSet] objectWithUID:uid];
+}
+- (SparkTrigger *)triggerWithUID:(SparkUID)uid {
+  return [sp_objects[kSparkTriggerSet] objectWithUID:uid];
+}
+- (SparkApplication *)applicationWithUID:(SparkUID)uid {
+  if (kSparkApplicationSystemUID == uid)
+    return [self systemApplication];
+  return [sp_objects[kSparkApplicationSet] objectWithUID:uid];
 }
 
 - (SparkEntryManager *)entryManager {
@@ -251,10 +261,17 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_0;
   [sp_undo disableUndoRegistration];
   NSFileWrapper *wrapper = [[NSFileWrapper alloc] initWithPath:[self path]];
   if (wrapper) {
-    result = [self loadFromWrapper:wrapper error:error];
+    @try {
+      result = [self loadFromWrapper:wrapper error:error];
+    } @catch (id exception) {
+      result = NO;
+      SKLogException(exception);
+      if (error)
+        *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileReadCorruptFileError userInfo:nil];
+    }
     [wrapper release];
   } else if (error) {
-    *error = [NSError errorWithDomain:NSOSStatusErrorDomain code:fnfErr userInfo:nil];
+    *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileNoSuchFileError userInfo:nil];
   }
   /* restaure undo manager */
   [sp_undo enableUndoRegistration];
@@ -266,7 +283,7 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_0;
   if (![self isLoaded])
     [NSException raise:NSInternalInconsistencyException format:@"<%@ %p> is not loaded.", [self class], self];
   
-  SKSetFlag(sp_slFlags.loaded, NO);
+  SKFlagSet(sp_slFlags.loaded, NO);
   
   /* Preferences */
   [sp_prefs release];
@@ -503,7 +520,7 @@ bail:
   }
   
   if (result) {
-    SKSetFlag(sp_slFlags.loaded, YES);
+    SKFlagSet(sp_slFlags.loaded, YES);
     
     SparkObject *object;
     NSMutableArray *invalids = nil;
@@ -659,11 +676,11 @@ bail:
             app += kSparkLibraryReserved;
         }
         /* Should avoid action double usage, except for ignore action. */
-        if (act || app && (act == 0 || !CFSetContainsValue(actions, (void *)(long)act))) {
-          CFSetAddValue(actions, (void *)(long)act);
+        if (act || (app && (!act || !CFSetContainsValue(actions, (void *)(long)act)))) {
+          CFSetAddValue(actions, (void *)(intptr_t)act);
           SparkEntryPlaceholder *entry = [[SparkEntryPlaceholder alloc] initWithActionUID:act triggerUID:trg applicationUID:app];
-          [entry setEnabled:enabled];
           [placeholders addObject:entry];
+          [entry setEnabled:enabled];
           [entry release];
         }
       }
@@ -671,7 +688,6 @@ bail:
       DLog(@"Discard invalid trigger: %@", trigger);
     }
   }
-  
   
   objects = [[wrapper propertyListForFilename:kSparkActionsFile] objectForKey:@"SparkObjects"];
   /* Load Actions. Ignore old '_SparkIgnoreAction' items */
@@ -690,8 +706,6 @@ bail:
         }
       } else {
         DLog(@"Discard invalid action: %@", plist);
-//        SparkUID uid = [[plist objectForKey:@"UID"] unsignedIntValue];
-//        [sp_relations removeEntriesForAction:uid + kSparkLibraryReserved];
       }
     }
   }
@@ -721,18 +735,8 @@ bail:
     }
   }
   
-  /* create entries */ 
-  NSUInteger count = [placeholders count];
-  for (NSUInteger idx = 0; idx < count; idx++) {
-    SparkEntryPlaceholder *placeholder = [placeholders objectAtIndex:idx];
-    SparkEntry *entry = [SparkEntry entryWithPlaceholder:placeholder library:self];
-    if (entry)
-      [sp_relations addEntry:entry];
-  }
-  [placeholders release];
-  
-  /* cleanup */
-  [sp_relations postProcessLegacy];
+  /* create entries */
+  [sp_relations loadPlaceholders:placeholders];
   
   CFRelease(actions);
   return YES;
@@ -940,6 +944,7 @@ SparkLibrary *SparkActiveLibrary() {
     
     /* Read library */
     if (![active isLoaded] && ![active load:nil]) {
+      loading = false;
       [active release];
       active = nil;
       [NSException raise:NSInternalInconsistencyException format:@"An error prevent default library loading"];

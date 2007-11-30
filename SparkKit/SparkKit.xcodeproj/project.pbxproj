@@ -53,8 +53,6 @@
 		1BEEA0D60C8BE9B700705B22 /* SKApplicationView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEEA0D00C8BE9B700705B22 /* SKApplicationView.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		1BEEA0D70C8BE9B700705B22 /* SKCustomViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEEA0D10C8BE9B700705B22 /* SKCustomViewCell.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		1BEEA0D80C8BE9B700705B22 /* SKImageAndTextCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEEA0D20C8BE9B700705B22 /* SKImageAndTextCell.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BFAA6160CFEA8AF00288CDB /* SparkEntryPlaceholder.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BFAA6140CFEA8AF00288CDB /* SparkEntryPlaceholder.h */; };
-		1BFAA6170CFEA8AF00288CDB /* SparkEntryPlaceholder.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BFAA6150CFEA8AF00288CDB /* SparkEntryPlaceholder.m */; };
 		65245F3A0A2AFE4200ACB971 /* SKPluginLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 65245F390A2AFE4200ACB971 /* SKPluginLoader.m */; };
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
@@ -301,8 +299,6 @@
 		1BEEA0D00C8BE9B700705B22 /* SKApplicationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKApplicationView.h; sourceTree = "<group>"; };
 		1BEEA0D10C8BE9B700705B22 /* SKCustomViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKCustomViewCell.h; sourceTree = "<group>"; };
 		1BEEA0D20C8BE9B700705B22 /* SKImageAndTextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKImageAndTextCell.h; sourceTree = "<group>"; };
-		1BFAA6140CFEA8AF00288CDB /* SparkEntryPlaceholder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkEntryPlaceholder.h; sourceTree = "<group>"; };
-		1BFAA6150CFEA8AF00288CDB /* SparkEntryPlaceholder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SparkEntryPlaceholder.m; path = /Volumes/Data/Developer/Projects/Softwares/Spark/SparkKit/Sources/Library/SparkEntryPlaceholder.m; sourceTree = "<absolute>"; };
 		65245F390A2AFE4200ACB971 /* SKPluginLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SKPluginLoader.m; sourceTree = "<group>"; };
 		8DC2EF5B0486A6940098B216 /* SparkKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SparkKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9805FD380773B47700B1A341 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -705,7 +701,6 @@
 				984A38A40A60060200DA6455 /* SparkApplication.m */,
 				98E6514F0B62932B008A8C9B /* SparkIconManager.m */,
 				98EDA3F20A9FA34100519E9B /* SparkEntryManager.m */,
-				1BFAA6150CFEA8AF00288CDB /* SparkEntryPlaceholder.m */,
 				98D767980B5A754E000A09A5 /* SparkLibrarySynchronizer.m */,
 				98D764520B5A610B000A09A5 /* SparkEntryManagerPrivate.m */,
 			);
@@ -742,7 +737,6 @@
 				984A38A30A60060200DA6455 /* SparkApplication.h */,
 				98E651510B62933B008A8C9B /* SparkIconManager.h */,
 				98EDA3E30A9FA2FB00519E9B /* SparkEntryManager.h */,
-				1BFAA6140CFEA8AF00288CDB /* SparkEntryPlaceholder.h */,
 				9858F4390B9084B500CC682C /* SparkIconManagerPrivate.h */,
 				98D767970B5A754E000A09A5 /* SparkLibrarySynchronizer.h */,
 				98D7643D0B5A6003000A09A5 /* SparkEntryManagerPrivate.h */,
@@ -1008,7 +1002,6 @@
 				9858F43A0B9084B500CC682C /* SparkIconManagerPrivate.h in Headers */,
 				9864A3AD0BD11EB40089447D /* SparkPreferences.h in Headers */,
 				98EB96DE0C174D9D00C7B72D /* SparkPluginView.h in Headers */,
-				1BFAA6160CFEA8AF00288CDB /* SparkEntryPlaceholder.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1254,7 +1247,6 @@
 				98EB96DF0C174D9D00C7B72D /* SparkPluginView.m in Sources */,
 				1BC53ACA0CFDF1A200AF1C25 /* SparkEntryManager.m in Sources */,
 				1BC53B3F0CFDF4FD00AF1C25 /* SparkEntryManagerPrivate.m in Sources */,
-				1BFAA6170CFEA8AF00288CDB /* SparkEntryPlaceholder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

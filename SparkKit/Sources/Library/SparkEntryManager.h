@@ -95,6 +95,6 @@ SK_CLASS_EXPORT
 
 @interface SparkEntryManager (SparkLegacyLibraryImporter)
 
-- (void)postProcessLegacy;
+- (void)loadPlaceholders:(NSArray *)placeholders;
 
 @end

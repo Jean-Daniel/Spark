@@ -192,7 +192,7 @@ static SparkTrigger *sTrigger;
 //}
 //- (void)setRegistred:(BOOL)flag {
 //  //  DLog(@"%@ set registred: %@", self, flag ? @"YES" : @"NO");
-//  SKSetFlag(sp_saFlags.registred, flag);
+//  SKFlagSet(sp_saFlags.registred, flag);
 //}
 
 @end
@@ -255,7 +255,7 @@ static SparkTrigger *sTrigger;
   return sp_saFlags.invalid;
 }
 - (void)setInvalid:(BOOL)flag {
-  SKSetFlag(sp_saFlags.invalid, flag);
+  SKFlagSet(sp_saFlags.invalid, flag);
 }
 
 - (BOOL)isPersistent {

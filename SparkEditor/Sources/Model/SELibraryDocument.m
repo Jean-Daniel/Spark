@@ -43,8 +43,16 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
 
 @implementation SELibraryDocument
 
-- (id)init {
-  if (self = [super init]) {
+- (id)initWithType:(NSString *)typeName error:(NSError **)outError {
+  if (self = [super initWithType:typeName error:outError]) {
+    //se_library = [[SparkLibrary alloc] init];
+  }
+  return self;
+}
+
+- (id)initWithContentsOfURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError {
+  if (self = [super initWithContentsOfURL:absoluteURL ofType:typeName error:outError]) {
+    
   }
   return self;
 }

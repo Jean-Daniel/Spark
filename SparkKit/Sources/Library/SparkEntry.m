@@ -17,14 +17,6 @@
 
 #import <ShadowKit/SKAppKitExtensions.h>
 
-enum {
-  /* Persistents flags */
-  kSparkEntryEnabled = 1 << 0,
-  /* Volatile flags */
-  kSparkEntryUnplugged = 1 << 16,
-  kSparkPersistentFlagsMask = 0xffff,
-};
-
 static
 NSImage *SparkEntryDefaultIcon() {
   static NSImage *__simage = nil;
@@ -122,15 +114,17 @@ NSImage *SparkEntryDefaultIcon() {
 }
 
 - (BOOL)isEnabled {
-  return (sp_flags & kSparkEntryEnabled) != 0;
+  return sp_seFlags.enabled;
 }
-- (void)setEnabled:(BOOL)enabled {
-  if (enabled) sp_flags |= kSparkEntryEnabled;
-  else sp_flags &= ~kSparkEntryEnabled;
+- (void)setEnabled:(BOOL)flag {
+  bool enabled = SKFlagTestAndSet(sp_seFlags.enabled, flag);
+  if (enabled != sp_seFlags.enabled && [self isManaged]) {
+    // notify manager
+  }
 }
 
 - (BOOL)isPlugged {
-  return (sp_flags & kSparkEntryUnplugged) == 0;
+  return !sp_seFlags.unplugged;
 }
 
 - (BOOL)isPersistent {
@@ -166,17 +160,33 @@ NSImage *SparkEntryDefaultIcon() {
 
 @implementation SparkEntry (SparkEntryManager)
 
++ (SparkEntry *)entryWithPlaceholder:(SparkEntryPlaceholder *)placeholder library:(SparkLibrary *)aLibrary {
+  SparkAction *act = [aLibrary actionWithUID:[placeholder actionUID]];
+  SparkTrigger *trg = [aLibrary triggerWithUID:[placeholder triggerUID]];
+  SparkApplication *app = [aLibrary applicationWithUID:[placeholder applicationUID]];
+  
+  SparkEntry *entry = [SparkEntry entryWithAction:act trigger:trg application:app];
+  [entry setEnabled:[placeholder isEnabled]];
+  return entry;
+}
+
 - (void)setUID:(UInt32)anUID {
   sp_uid = anUID;
 }
 
-/* cached status */
-- (void)setPlugged:(BOOL)flag {
-  if (flag) sp_flags &= ~kSparkEntryUnplugged;
-  else sp_flags |= kSparkEntryUnplugged;
+- (BOOL)isManaged {
+  return sp_seFlags.managed;
+}
+- (void)setManaged:(BOOL)managed {
+  SKFlagSet(sp_seFlags.managed, managed);
 }
 
-/* fast access */
+/* cached status */
+- (void)setPlugged:(BOOL)flag {
+  SKFlagSet(sp_seFlags.unplugged, !flag);
+}
+
+/* convenient access */
 - (SparkUID)actionUID {
   return [sp_action uid];
 }
@@ -230,6 +240,48 @@ NSImage *SparkEntryDefaultIcon() {
   } else {
     [NSException raise:NSInvalidArchiveOperationException format:@"Only supports NSPortCoder coders"];
   }
+}
+
+@end
+
+#pragma mark -
+#pragma mark Placeholder
+@implementation SparkEntryPlaceholder
+
+- (id)initWithActionUID:(SparkUID)act triggerUID:(SparkUID)trg applicationUID:(SparkUID)app {
+  if (self = [super init]) {
+    [self setActionUID:act];
+    [self setTriggerUID:trg];
+    [self setApplicationUID:app];
+  }
+  return self;
+}
+
+- (BOOL)isEnabled {
+  return sp_enabled;
+}
+- (void)setEnabled:(BOOL)flag {
+  sp_enabled = flag;
+}
+
+- (SparkUID)actionUID {
+  return sp_action;
+}
+- (SparkUID)triggerUID {
+  return sp_trigger;
+}
+- (SparkUID)applicationUID {
+  return sp_application;
+}
+
+- (void)setActionUID:(SparkUID)action {
+  sp_action = action;
+}
+- (void)setTriggerUID:(SparkUID)trigger {
+  sp_trigger = trigger;
+}
+- (void)setApplicationUID:(SparkUID)application {
+  sp_application = application;
 }
 
 @end

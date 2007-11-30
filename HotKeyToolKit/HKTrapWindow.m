@@ -43,7 +43,7 @@ NSString * const kHKTrapWindowKeyCatchedNotification = @"kHKTrapWindowKeyCatched
 
 - (void)setTrapping:(BOOL)flag {
   if (!hk_trapField) {
-    SKSetFlag(hk_twFlags.trap, flag);
+    SKFlagSet(hk_twFlags.trap, flag);
   } else {
     if (flag)
       [self makeFirstResponder:hk_trapField];
@@ -56,7 +56,7 @@ NSString * const kHKTrapWindowKeyCatchedNotification = @"kHKTrapWindowKeyCatched
   return !hk_twFlags.skipverify;
 }
 - (void)setVerifyHotKey:(BOOL)flag {
-  SKSetFlag(hk_twFlags.skipverify, !flag);
+  SKFlagSet(hk_twFlags.skipverify, !flag);
 }
 
 #pragma mark -

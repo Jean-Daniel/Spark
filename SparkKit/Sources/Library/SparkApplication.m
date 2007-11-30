@@ -196,9 +196,9 @@ NSString * const SparkApplicationDidChangeEnabledNotification = @"SparkApplicati
   return !sp_appFlags.disabled;
 }
 - (void)setEnabled:(BOOL)flag {
-  if (XOR((BOOL)sp_appFlags.disabled, !flag)) {
-    [[[[self library] undoManager] prepareWithInvocationTarget:self] setEnabled:!sp_appFlags.disabled];
-    SKSetFlag(sp_appFlags.disabled, !flag);
+  bool disabled = SKFlagTestAndSet(sp_appFlags.disabled, !flag);
+  if (disabled != sp_appFlags.disabled) {
+    [[[[self library] undoManager] prepareWithInvocationTarget:self] setEnabled:sp_appFlags.disabled];
     /* post notification */
     SparkLibraryPostNotification([self library], SparkApplicationDidChangeEnabledNotification, self, nil);
   }

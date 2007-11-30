@@ -77,7 +77,7 @@ static SparkAction *sp_spAction = nil;
   return sp_stFlags.overwrite;
 }
 - (void)setHasManyAction:(BOOL)flag {
-  SKSetFlag(sp_stFlags.overwrite, flag);
+  SKFlagSet(sp_stFlags.overwrite, flag);
 }
 
 - (NSString *)triggerDescription {
@@ -127,7 +127,7 @@ static SparkAction *sp_spAction = nil;
 }
 
 - (void)setIsARepeat:(BOOL)flag {
-  SKSetFlag(sp_stFlags.repeat, flag);
+  SKFlagSet(sp_stFlags.repeat, flag);
 }
 
 - (void)willTriggerAction:(SparkAction *)anAction {
