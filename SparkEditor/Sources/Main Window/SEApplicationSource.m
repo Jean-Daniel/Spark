@@ -95,11 +95,11 @@
       [[se_library notificationCenter] addObserver:self
                                           selector:@selector(didAddApplication:)
                                               name:SparkObjectSetDidAddObjectNotification
-                                            object:[se_library applicationSet]];
+                                            object:[self applicationSet]];
       [[se_library notificationCenter] addObserver:self
                                           selector:@selector(willRemoveApplication:)
                                               name:SparkObjectSetWillRemoveObjectNotification
-                                            object:[se_library applicationSet]];  
+                                            object:[self applicationSet]];  
       
       [[se_library notificationCenter] addObserver:self
                                           selector:@selector(didReloadLibrary:)
@@ -139,7 +139,7 @@ bool __IsApplicationAtPath(NSString *path) {
     }
     if (file && __IsApplicationAtPath(file)) {
       SparkApplication *app = [[SparkApplication alloc] initWithPath:file];
-      if (app && ![[[self applicationSet] objects] containsObject:app]) {
+      if (app && ![[self applicationSet] containsObject:app]) {
         // Add application
         [library addObject:app];
         count++;
@@ -178,7 +178,7 @@ bool __IsApplicationAtPath(NSString *path) {
   /* Init path cache */
   se_path = [[NSMutableSet alloc] init];
   SparkApplication *app;
-  NSEnumerator *apps = [[self applicationSet] objectEnumerator];
+  NSEnumerator *apps = [se_library applicationEnumerator];
   while (app = [apps nextObject]) {
     NSString *path = [app path];
     if (path)
@@ -214,9 +214,9 @@ bool __IsApplicationAtPath(NSString *path) {
     NSUInteger idx = [self selectionIndex];
     if (idx > 0) { /* If valid selection (should always append) */
       NSInteger result = NSOKButton;
-      SparkObject *object = [self objectAtIndex:idx];
+      SparkApplication *object = [self objectAtIndex:idx];
       if ([object uid] > kSparkLibraryReserved) { /* If not a reserved object */
-        Boolean hasActions = [[se_library entryManager] containsEntryForApplication:[object uid]];
+        Boolean hasActions = [[se_library entryManager] containsEntryForApplication:object];
         /* If no custom key or if user want to ignore warning, do not display sheet */
         if (hasActions && ![[NSUserDefaults standardUserDefaults] boolForKey:@"SparkConfirmDeleteApplication"]) {
           NSAlert *alert = [NSAlert alertWithMessageText:@"Deleting app will delete all custom hotkeys"
@@ -229,10 +229,10 @@ bool __IsApplicationAtPath(NSString *path) {
           result = [alert runModal];
         } 
         if (NSOKButton == result) {
-          if (hasActions) {
-            SparkEntryManager *manager = [se_library entryManager];
-            [manager removeEntries:[manager entriesForApplication:[object uid]]];
-          }
+//          if (hasActions) {
+//            SparkEntryManager *manager = [se_library entryManager];
+//            [manager removeEntriesForApplication:object];
+//          }
           [[self applicationSet] removeObject:object];
           return;
         }
@@ -305,7 +305,7 @@ bool __IsApplicationAtPath(NSString *path) {
 /* Display bold if has some custom actions */
 - (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
   SparkApplication *item = [self objectAtIndex:rowIndex];
-  if ([item uid] && [[se_library entryManager] containsEntryForApplication:[item uid]]) {
+  if ([item uid] && [[se_library entryManager] containsEntryForApplication:item]) {
     [aCell setFont:[NSFont boldSystemFontOfSize:[NSFont smallSystemFontSize]]];
   } else {
     [aCell setFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]];

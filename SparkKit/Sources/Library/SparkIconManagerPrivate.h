@@ -7,11 +7,8 @@
  *
  */
 
+#import <SparkKit/SparkKit.h>
 #import <SparkKit/SparkIconManager.h>
-
-@class SparkObjectSet;
-SK_EXPORT
-SparkObjectSet *_SparkObjectSetForType(SparkLibrary *library, UInt8 type);
 
 @interface _SparkIconEntry : NSObject {
   BOOL sp_clean;
@@ -28,6 +25,7 @@ SparkObjectSet *_SparkObjectSetForType(SparkLibrary *library, UInt8 type);
 - (void)applyChange;
 
 - (id)initWithObject:(SparkObject *)object;
+- (id)initWithObjectType:(NSUInteger)type uid:(SparkUID)anUID;
 
 - (NSString *)path;
 
@@ -41,5 +39,6 @@ SparkObjectSet *_SparkObjectSetForType(SparkLibrary *library, UInt8 type);
 @interface SparkIconManager (SparkPrivate)
 
 - (_SparkIconEntry *)entryForObject:(SparkObject *)anObject;
+- (_SparkIconEntry *)entryForObjectType:(UInt8)type uid:(SparkUID)anUID;
 
 @end

@@ -9,7 +9,7 @@
 #import <ShadowKit/SKTableDataSource.h>
 
 @class SKTableView, SparkApplication;
-@class SEEntryList, SparkLibrary, SELibraryWindow;
+@class SparkLibrary, SELibraryWindow;
 @interface SETriggersController : SKTableDataSource {
   IBOutlet SKTableView *uiTable;
   IBOutlet NSSearchField *uiSearch;

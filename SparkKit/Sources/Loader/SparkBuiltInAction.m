@@ -18,6 +18,8 @@
 #import <ShadowKit/SKAppKitExtensions.h>
 #import <ShadowKit/SKProcessFunctions.h>
 
+#import "SparkLibraryPrivate.h"
+
 static 
 NSImage *_SparkSDActionIcon(SparkBuiltInAction *action);
 static

@@ -12,6 +12,8 @@
 #import <SparkKit/SparkFunctions.h>
 #import <SparkKit/SparkIconManager.h>
 
+#import "SparkLibraryPrivate.h"
+
 #import <ShadowKit/SKFunctions.h>
 
 static
@@ -23,21 +25,26 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
 
 @implementation SparkObject
 
++ (BOOL)automaticallyNotifiesObserversForKey:(NSString *)key {
+	return ![key isEqualToString:@"representation"];
+}
+
 #pragma mark NSCoding
 - (void)encodeWithCoder:(NSCoder *)coder {
-  [coder encodeInt32:sp_uid forKey:kSparkObjectUIDKey];
-  if (sp_name)
-    [coder encodeObject:sp_name forKey:kSparkObjectNameKey];
-  if (sp_icon)
-    [coder encodeObject:[sp_icon TIFFRepresentationUsingCompression:NSTIFFCompressionLZW factor:1] forKey:kSparkObjectIconKey];
+  NSParameterAssert([coder isKindOfClass:[SparkLibraryArchiver class]]);
+  SKEncodeInteger(coder, sp_uid, kSparkObjectUIDKey);
+  [coder encodeObject:sp_name forKey:kSparkObjectNameKey];
   return;
 }
 
 - (id)initWithCoder:(NSCoder *)coder {
-  NSImage *icon = [coder decodeObjectForKey:kSparkObjectIconKey];
+  NSParameterAssert([coder isKindOfClass:[SparkLibraryUnarchiver class]]);
+  NSParameterAssert([(SparkLibraryUnarchiver *)coder library]);
+  
   NSString *name = [coder decodeObjectForKey:kSparkObjectNameKey];
-  if (self = [self initWithName:name icon:icon]) {
-    [self setUID:[coder decodeInt32ForKey:kSparkObjectUIDKey]];
+  if (self = [self initWithName:name icon:nil]) {
+    [self setUID:SKDecodeInteger(coder, kSparkObjectUIDKey)];
+    [self setLibrary:[(SparkLibraryUnarchiver *)coder library]];
   }
   return self;
 }
@@ -187,7 +194,9 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
   if (sp_icon != icon && [self shouldSaveIcon]) {
     [[[self library] iconManager] setIcon:icon forObject:self];
   }
+  [self willChangeValueForKey:@"representation"];
   SKSetterRetain(sp_icon, icon);
+  [self didChangeValueForKey:@"representation"];
 }
 - (BOOL)hasIcon {
   return sp_icon != nil;
@@ -209,7 +218,16 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
   return sp_name;
 }
 - (void)setName:(NSString *)name {
+  [self willChangeValueForKey:@"representation"];
   SKSetterCopy(sp_name, name);
+  [self didChangeValueForKey:@"representation"];
+}
+
+- (id)representation {
+  return self;
+}
+- (void)setRepresentation:(NSString *)rep {
+  [self setName:rep];
 }
 
 @end
@@ -230,17 +248,17 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
 
 @end
 
-@implementation SparkObject (SparkExport)
-
-- (id)initFromExternalRepresentation:(NSDictionary *)rep {
-  if (self = [super init]) {
-    [self setName:[rep objectForKey:@"name"]];
-  }
-  return self;
-}
-
-- (NSMutableDictionary *)externalRepresentation {
-  return [NSMutableDictionary dictionaryWithObjectsAndKeys:[self name], @"name", nil];
-}
-
-@end
+//@implementation SparkObject (SparkExport)
+//
+//- (id)initFromExternalRepresentation:(NSDictionary *)rep {
+//  if (self = [super init]) {
+//    [self setName:[rep objectForKey:@"name"]];
+//  }
+//  return self;
+//}
+//
+//- (NSMutableDictionary *)externalRepresentation {
+//  return [NSMutableDictionary dictionaryWithObjectsAndKeys:[self name], @"name", nil];
+//}
+//
+//@end

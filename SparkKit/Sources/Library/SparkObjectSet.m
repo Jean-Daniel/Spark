@@ -80,7 +80,7 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
   if (self = [super init]) {
     [self setLibrary:aLibrary];
     sp_uid = kSparkLibraryReserved;
-    sp_objects = NSCreateMapTable(NSIntMapKeyCallBacks, NSObjectMapValueCallBacks, 0);
+    sp_objects = NSCreateMapTable(NSIntegerMapKeyCallBacks, NSObjectMapValueCallBacks, 0);
   }
   return self;
 }
@@ -313,7 +313,7 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
                                                                    format:nil errorDescription:nil];
   require(plist, bail);
   
-  NSUInteger version = [[plist objectForKey:kSparkObjectSetVersionKey] unsignedIntValue];
+  NSUInteger version = SKUIntegerValue([plist objectForKey:kSparkObjectSetVersionKey]);
   /* Update object set */
   SparkIconManager *icons = nil;
   if (version < kSparkObjectSetVersion_2_1 && SparkGetCurrentContext() == kSparkEditorContext)
@@ -325,14 +325,14 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
   /* Disable undo */
   [[self undoManager] disableUndoRegistration];
   
-  NSDictionary *serialize;
+  NSDictionary *serialized;
   NSEnumerator *enumerator = [objects objectEnumerator];
-  while (serialize = [enumerator nextObject]) {
+  while (serialized = [enumerator nextObject]) {
     OSStatus err;
-    SparkObject *object = [self deserialize:serialize error:&err];
+    SparkObject *object = [self deserialize:serialized error:&err];
     /* If class not found */
     if (!object && kSKClassNotFoundError == err) {
-      object = [[SparkPlaceHolder alloc] initWithSerializedValues:serialize];
+      object = [[SparkPlaceHolder alloc] initWithSerializedValues:serialized];
       [object autorelease];
     } 
     if (object && ![self containsObject:object]) {
@@ -348,7 +348,7 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
         [[[self library] iconManager] setIcon:nil forObject:object];
       }
     } else {
-      DLog(@"Invalid object: %@", serialize);
+      DLog(@"Invalid object: %@", serialized);
     }
   }
   
@@ -357,6 +357,7 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
   
   return YES;
 bail:
+    if (outError) *outError = nil;
   return NO;
 }
 

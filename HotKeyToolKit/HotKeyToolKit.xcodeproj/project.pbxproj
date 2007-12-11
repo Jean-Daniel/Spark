@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 42;
+	objectVersion = 44;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -83,7 +83,6 @@
 		1B7BB7460CBE1F2800484A9E /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		1B7BB7470CBE1F2800484A9E /* Profile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Profile.xcconfig; sourceTree = "<group>"; };
 		1B7BB7480CBE1F2800484A9E /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
-		1B7BB7490CBE1F2800484A9E /* Universal.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Universal.xcconfig; sourceTree = "<group>"; };
 		85FA5D540BCE526C0060584C /* TISKeyMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = TISKeyMap.h; path = ../TISKeyMap.h; sourceTree = "<group>"; };
 		85FA5D550BCE526C0060584C /* TISKeyMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = TISKeyMap.m; sourceTree = "<group>"; };
 		85FA5D7E0BCE57690060584C /* KLKeyMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = KLKeyMap.h; sourceTree = "<group>"; };
@@ -125,7 +124,7 @@
 		98DD42490A57C9C800F059E5 /* HKEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = HKEvent.h; sourceTree = "<group>"; };
 		98E204820A56FDFC00EB74E1 /* Runner.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = Runner.m; sourceTree = "<group>"; };
 		98E204A00A56FE6500EB74E1 /* Runner */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Runner; sourceTree = BUILT_PRODUCTS_DIR; };
-		98EF7D6F0864538C007BC81A /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = /System/Library/Frameworks/SenTestingKit.framework; sourceTree = "<absolute>"; };
+		98EF7D6F0864538C007BC81A /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -258,10 +257,9 @@
 				1B7BB7460CBE1F2800484A9E /* Debug.xcconfig */,
 				1B7BB7470CBE1F2800484A9E /* Profile.xcconfig */,
 				1B7BB7480CBE1F2800484A9E /* Release.xcconfig */,
-				1B7BB7490CBE1F2800484A9E /* Universal.xcconfig */,
 			);
 			path = Configurations;
-			sourceTree = SHARED_CODE_DIR;
+			sourceTree = SHARED_SOURCES_DIR;
 		};
 		984426C605F9430700551005 /* Headers */ = {
 			isa = PBXGroup;
@@ -422,6 +420,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 98EF7D5C08645328007BC81A /* Build configuration list for PBXProject "HotKeyToolKit" */;
+			compatibilityVersion = "Xcode 3.0";
 			hasScannedForEncodings = 1;
 			mainGroup = 0867D691FE84028FC02AAC07 /* HotKeyToolKit */;
 			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
@@ -642,53 +641,6 @@
 			};
 			name = Profile;
 		};
-		98643F0B0A556F2300260086 /* Universal Binary */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR_QUOTED)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = NO;
-				INFOPLIST_FILE = "Test-Info.plist";
-				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Cocoa,
-					"-framework",
-					SenTestingKit,
-				);
-				PRODUCT_NAME = Test;
-				WRAPPER_EXTENSION = octest;
-			};
-			name = "Universal Binary";
-		};
-		98C1287D08CE0D620015CB91 /* Universal Binary */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CURRENT_PROJECT_VERSION = 401;
-				DYLIB_COMPATIBILITY_VERSION = 2;
-				DYLIB_CURRENT_VERSION = 401;
-				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "@executable_path/../Frameworks";
-				OTHER_LDFLAGS = (
-					"$(inherits)",
-					"-seg1addr",
-					0xD0000000,
-				);
-				PRODUCT_NAME = HotKeyToolKit;
-			};
-			name = "Universal Binary";
-		};
-		98C1287F08CE0D620015CB91 /* Universal Binary */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1B7BB7490CBE1F2800484A9E /* Universal.xcconfig */;
-			buildSettings = {
-				SYMROOT = ../build;
-			};
-			name = "Universal Binary";
-		};
 		98C61C210A5813EF0004E6EF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -706,15 +658,6 @@
 				PRODUCT_NAME = UITester;
 			};
 			name = Profile;
-		};
-		98C61C240A5813EF0004E6EF /* Universal Binary */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = "UITester-Info.plist";
-				INSTALL_PATH = "$(HOME)/Applications";
-				PRODUCT_NAME = UITester;
-			};
-			name = "Universal Binary";
 		};
 		98E204C40A56FEDD00EB74E1 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -743,20 +686,6 @@
 				ZERO_LINK = NO;
 			};
 			name = Profile;
-		};
-		98E204C60A56FEDD00EB74E1 /* Universal Binary */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(DEVELOPER_FRAMEWORKS_DIR)\"";
-				INSTALL_PATH = "$(HOME)/bin";
-				PRODUCT_NAME = Runner;
-				ZERO_LINK = NO;
-			};
-			name = "Universal Binary";
 		};
 		98EF7D5508645328007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -863,7 +792,6 @@
 				98643F090A556F2300260086 /* Debug */,
 				98643F0A0A556F2300260086 /* Profile */,
 				98EFD03E0B58448D00AD4492 /* Release */,
-				98643F0B0A556F2300260086 /* Universal Binary */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
@@ -874,7 +802,6 @@
 				98C61C210A5813EF0004E6EF /* Debug */,
 				98C61C230A5813EF0004E6EF /* Profile */,
 				98EFD0400B58448D00AD4492 /* Release */,
-				98C61C240A5813EF0004E6EF /* Universal Binary */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
@@ -885,7 +812,6 @@
 				98E204C40A56FEDD00EB74E1 /* Debug */,
 				98E204C50A56FEDD00EB74E1 /* Profile */,
 				98EFD03F0B58448D00AD4492 /* Release */,
-				98E204C60A56FEDD00EB74E1 /* Universal Binary */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
@@ -896,7 +822,6 @@
 				98EF7D5508645328007BC81A /* Debug */,
 				981B5F510938699D0024C0D9 /* Profile */,
 				98EFD03D0B58448D00AD4492 /* Release */,
-				98C1287D08CE0D620015CB91 /* Universal Binary */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
@@ -907,7 +832,6 @@
 				98EF7D5D08645328007BC81A /* Debug */,
 				981B5F530938699D0024C0D9 /* Profile */,
 				98EFD0410B58448D00AD4492 /* Release */,
-				98C1287F08CE0D620015CB91 /* Universal Binary */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

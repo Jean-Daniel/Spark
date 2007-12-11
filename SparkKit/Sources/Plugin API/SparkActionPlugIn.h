@@ -20,7 +20,7 @@ If you use this class in IB, you can define an Outlet with name actionView.
 SPARK_CLASS_EXPORT
 @interface SparkActionPlugIn : NSObject {  
   @private
-  NSView *sp_view;
+  IBOutlet NSView *actionView;
   SparkAction *sp_action;
   
   struct _sp_apFlags {

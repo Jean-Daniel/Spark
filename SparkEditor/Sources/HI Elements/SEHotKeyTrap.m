@@ -436,7 +436,7 @@ static CGLayerRef _HKCreateShading(CGContextRef ctxt, NSControlTint tint);
   return se_htFlags.disabled == 0;
 }
 - (void)setEnabled:(BOOL)flag {
-  SKSetFlag(se_htFlags.disabled, !flag);
+  SKFlagSet(se_htFlags.disabled, !flag);
 }
 
 - (BOOL)isEmpty {
@@ -470,7 +470,7 @@ static CGLayerRef _HKCreateShading(CGContextRef ctxt, NSControlTint tint);
 - (void)setTrapping:(BOOL)flag {
   BOOL trap = se_htFlags.trap;
   if (!se_htFlags.disabled && XOR(flag, trap)) {
-    SKSetFlag(se_htFlags.trap, flag);
+    SKFlagSet(se_htFlags.trap, flag);
     if (se_htFlags.trap) {
       NSAssert([[self window] firstResponder] == self, @"Must be first responder");
       se_bhotkey = se_hotkey; /* init edited value */
@@ -499,7 +499,7 @@ static CGLayerRef _HKCreateShading(CGContextRef ctxt, NSControlTint tint);
 - (void)highlight:(BOOL)flag {
   BOOL highlight = se_htFlags.highlight;
   if (XOR(flag, highlight)) {
-    SKSetFlag(se_htFlags.highlight, flag);
+    SKFlagSet(se_htFlags.highlight, flag);
     [self setNeedsDisplay:YES];
   }
 }

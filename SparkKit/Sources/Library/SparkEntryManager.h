@@ -30,14 +30,12 @@ NSString * const SparkEntryManagerDidChangeEntryStatusNotification;
 
 @class SparkObject;
 @class SparkLibrary, SparkEntry;
-SK_CLASS_EXPORT
+@class SparkAction, SparkTrigger, SparkApplication;
+SPARK_CLASS_EXPORT
 @interface SparkEntryManager : NSObject {
   @private
   SparkLibrary *sp_library; /* __weak */
-  //CFMutableSetRef sp_set;
-  CFMutableArrayRef sp_entries;
-  /* editing support */
-  SparkObject *sp_edit[3];
+  NSMapTable *sp_objects;
 }
 
 - (id)initWithLibrary:(SparkLibrary *)aLibrary;
@@ -49,52 +47,51 @@ SK_CLASS_EXPORT
 - (void)setLibrary:(SparkLibrary *)library;
 
 #pragma mark Management
-- (SparkEntry *)entryWithUID:(UInt32)uid;
+- (NSEnumerator *)entryEnumerator;
+- (SparkEntry *)entryWithUID:(SparkUID)uid;
 
-- (void)addEntry:(SparkEntry *)anEntry;
-- (void)removeEntry:(SparkEntry *)anEntry;
-- (void)removeEntries:(NSArray *)theEntries;
+//- (void)addEntry:(SparkEntry *)anEntry;
+//- (void)removeEntry:(SparkEntry *)anEntry;
+//- (void)removeEntries:(NSArray *)theEntries;
 
 /* Internal use only */
-- (void)updateEntry:(SparkEntry *)anEntry;
+//- (void)updateEntry:(SparkEntry *)anEntry;
 
 #pragma mark Queries
-- (NSArray *)entriesForAction:(SparkUID)anAction;
-- (NSArray *)entriesForTrigger:(SparkUID)aTrigger;
-- (NSArray *)entriesForApplication:(SparkUID)anApplication;
+//- (NSArray *)entriesForAction:(SparkUID)anAction;
+//- (NSArray *)entriesForTrigger:(SparkUID)aTrigger;
+//- (NSArray *)entriesForApplication:(SparkUID)anApplication;
 
-- (BOOL)containsEntry:(SparkEntry *)anEntry;
-- (BOOL)containsEntryForAction:(SparkUID)anAction;
-- (BOOL)containsEntryForTrigger:(SparkUID)aTrigger;
-- (BOOL)containsEntryForApplication:(SparkUID)anApplication;
+/* Orphan check */
+- (BOOL)containsEntryForAction:(SparkAction *)anAction;
+- (BOOL)containsEntryForTrigger:(SparkTrigger *)aTrigger;
 
-- (BOOL)containsActiveEntryForTrigger:(SparkUID)aTrigger;
-- (BOOL)containsOverwriteEntryForTrigger:(SparkUID)aTrigger;
+//- (BOOL)containsEntry:(SparkEntry *)anEntry;
+
+//- (BOOL)containsOverwriteEntryForTrigger:(SparkUID)aTrigger;
 //- (BOOL)containsPersistentEntryForTrigger:(SparkUID)aTrigger;
 
-- (BOOL)containsPersistentActiveEntryForTrigger:(SparkUID)aTrigger;
+/* Daemon queries */
+- (BOOL)containsActiveEntryForTrigger:(SparkTrigger *)aTrigger;
+- (BOOL)containsPersistentActiveEntryForTrigger:(SparkTrigger *)aTrigger;
 
-//- (BOOL)containsEntryForTrigger:(SparkUID)aTrigger application:(SparkUID)anApplication;
-//- (SparkEntry *)entryForTrigger:(SparkUID)aTrigger application:(SparkUID)anApplication;
+/* Editor Queries */
+- (BOOL)containsEntryForApplication:(SparkApplication *)anApplication;
 
-/* return NULL if no active action found */
-- (SparkEntry *)activeEntryForTrigger:(SparkUID)aTrigger application:(SparkUID)anApplication;
-- (SparkEntry *)child:(SparkEntry *)parent forTrigger:(SparkUID)aTrigger application:(SparkUID)anApplication;
+/* First, search for specifics actions */
+/* If not found, search for a default action */
+/* If default action found, search default action child for anApplication, and if exist returns child, else returns default */
+/* Else return NULL */
+- (SparkEntry *)activeEntryForTrigger:(SparkTrigger *)aTrigger application:(SparkApplication *)anApplication;
 
 @end
 
 #pragma mark Serialization
-@interface SparkEntryManager (SparkSerialization)
+@interface SparkEntryManager (SparkSerialization) <NSCoding>
 
 //- (void)postProcess;
 
-- (NSFileWrapper *)fileWrapper:(NSError **)outError;
-- (BOOL)readFromFileWrapper:(NSFileWrapper *)fileWrapper error:(NSError **)outError;
-
-@end
-
-@interface SparkEntryManager (SparkLegacyLibraryImporter)
-
-- (void)loadPlaceholders:(NSArray *)placeholders;
+//- (NSFileWrapper *)fileWrapper:(NSError **)outError;
+//- (BOOL)readFromFileWrapper:(NSFileWrapper *)fileWrapper error:(NSError **)outError;
 
 @end

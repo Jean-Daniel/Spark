@@ -10,6 +10,7 @@
 #import "SparkEntryManagerPrivate.h"
 
 #import <ShadowKit/SKCFContext.h>
+#import <ShadowKit/SKEnumerator.h>
 
 #import <SparkKit/SparkPrivate.h>
 
@@ -47,7 +48,7 @@ NSString * const SparkEntryManagerDidChangeEntryStatusNotification = @"SparkEntr
   NSParameterAssert(aLibrary);
   if (self = [super init]) {
     sp_library = aLibrary;
-    sp_entries = CFArrayCreateMutable(kCFAllocatorDefault, 0, &kSKNSObjectArrayCallBacks);
+    sp_objects = NSCreateMapTable(NSIntegerMapKeyCallBacks, NSObjectMapValueCallBacks, 0);
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didChangePluginStatus:) 
                                                  name:SparkPlugInDidChangeStatusNotification
@@ -57,8 +58,8 @@ NSString * const SparkEntryManagerDidChangeEntryStatusNotification = @"SparkEntr
 }
 
 - (void)dealloc {
-  CFRelease(sp_entries);
   [[NSNotificationCenter defaultCenter] removeObserver:self];
+  NSFreeMapTable(sp_objects);
   [super dealloc];
 }
 
@@ -75,27 +76,22 @@ NSString * const SparkEntryManagerDidChangeEntryStatusNotification = @"SparkEntr
 
 #pragma mark -
 #pragma mark Query
-typedef SparkUID (*SparkEntryAccessor)(SparkEntry *, SEL);
-
-- (SparkEntry *)entryWithUID:(UInt32)uid {
-  /* inefficient array search */
-  CFIndex count = CFArrayGetCount(sp_entries);
-  while (count-- > 0) {
-    SparkEntry *entry = (SparkEntry *)CFArrayGetValueAtIndex(sp_entries, count);
-    if ([entry uid] == uid) {
-      return entry;
-    }
-  }
-  return NO;
+- (NSEnumerator *)entryEnumerator {
+  return SKMapTableEnumerator(sp_objects, NO);
 }
 
+- (SparkEntry *)entryWithUID:(SparkUID)uid {
+  return NSMapGet(sp_objects, (const void *)(intptr_t)uid);
+}
+
+typedef SparkUID (*SparkEntryAccessor)(SparkEntry *, SEL);
 - (NSArray *)entriesForField:(SEL)field uid:(SparkUID)uid {
   NSMutableArray *result = [[NSMutableArray alloc] init];
   
+  SparkEntry *entry;
   SparkEntryAccessor accessor = NULL;
-  CFIndex count = CFArrayGetCount(sp_entries);
-  while (count-- > 0) {
-    SparkEntry *entry = (SparkEntry *)CFArrayGetValueAtIndex(sp_entries, count);
+  NSMapEnumerator iter = NSEnumerateMapTable(sp_objects);
+  while (NSNextMapEnumeratorPair(&iter, NULL, (void * *)&entry)) {
     if (!accessor) accessor = (SparkEntryAccessor)[entry methodForSelector:field];
     NSAssert1(accessor, @"invalid selector: %@", NSStringFromSelector(field));
     
@@ -103,64 +99,57 @@ typedef SparkUID (*SparkEntryAccessor)(SparkEntry *, SEL);
       [result addObject:entry];
     }
   }
+  NSEndMapTableEnumeration(&iter);
   return [result autorelease];
 }
 
 - (BOOL)containsEntryForField:(SEL)field uid:(SparkUID)uid {
+  SparkEntry *entry;
   SparkEntryAccessor accessor = NULL;
-  CFIndex count = CFArrayGetCount(sp_entries);
-  while (count-- > 0) {
-    SparkEntry *entry = (SparkEntry *)CFArrayGetValueAtIndex(sp_entries, count);
+  NSMapEnumerator iter = NSEnumerateMapTable(sp_objects);
+  while (NSNextMapEnumeratorPair(&iter, NULL, (void * *)&entry)) {
     if (!accessor) accessor = (SparkEntryAccessor)[entry methodForSelector:field];
     NSAssert1(accessor, @"invalid selector: %@", NSStringFromSelector(field));
     
     if (accessor(entry, field) == uid) {
+      NSEndMapTableEnumeration(&iter);
       return YES;
     }
   }
+  NSEndMapTableEnumeration(&iter);
   return NO;
 }
 
 - (BOOL)containsEntryForTrigger:(SparkUID)aTrigger application:(SparkUID)anApplication {
-  CFIndex count = CFArrayGetCount(sp_entries);
-  while (count-- > 0) {
-    SparkEntry *entry = (SparkEntry *)CFArrayGetValueAtIndex(sp_entries, count);
+  SparkEntry *entry;
+  NSMapEnumerator iter = NSEnumerateMapTable(sp_objects);
+  while (NSNextMapEnumeratorPair(&iter, NULL, (void * *)&entry)) {
     if ([entry triggerUID] == aTrigger && [entry applicationUID] == anApplication) {
+      NSEndMapTableEnumeration(&iter);
       return YES;
     }
   }
+  NSEndMapTableEnumeration(&iter);
   return NO;
 }
 
 #pragma mark -
 #pragma mark High-Level Methods
 - (void)addEntry:(SparkEntry *)anEntry {
-  static NSUInteger sUID = 0;
+  NSParameterAssert(![anEntry manager]);
+  NSParameterAssert([[anEntry action] uid] != 0);
+  NSParameterAssert([[anEntry trigger] uid] != 0);
   
-  //NSParameterAssert([[anEntry action] uid] != 0);
-  //NSParameterAssert([[anEntry trigger] uid] != 0);
-  NSParameterAssert(![anEntry isManaged]);
-  NSParameterAssert(![self containsEntry:anEntry]);
-    
+  /* sanity check, avoid entry conflict */
+  NSParameterAssert(![anEntry isEnabled] || ![self activeEntryForTrigger:[anEntry trigger] application:[anEntry application]]);
+  
   /* Undo management */
   [[self undoManager] registerUndoWithTarget:self selector:@selector(removeEntry:) object:anEntry];
-  /* should also undo sUID++ */
-  
-  /* New entry is disabled */
-  [anEntry setEnabled:NO];
   
   // Will add
   SparkLibraryPostNotification([self library], SparkEntryManagerWillAddEntryNotification, self, anEntry);
   
-  /* add entry */
-  [anEntry setUID:++sUID];
-  CFArrayAppendValue(sp_entries, anEntry);
-  
-  /* Update trigger flag */
-  if ([anEntry applicationUID] != kSparkApplicationSystemUID)
-    [[anEntry trigger] setHasManyAction:YES];
-  
-  [anEntry setManaged:YES];
+  [self sp_addEntry:anEntry];
   
   // Did add
   SparkLibraryPostNotification([self library], SparkEntryManagerDidAddEntryNotification, self, anEntry);
@@ -193,47 +182,20 @@ typedef SparkUID (*SparkEntryAccessor)(SparkEntry *, SEL);
 //}
 
 - (void)removeEntry:(SparkEntry *)anEntry {
-  NSParameterAssert([anEntry isManaged]);
-  NSParameterAssert([self containsEntry:anEntry]);
+  NSParameterAssert([anEntry manager] == self);
   
   /* Undo management */
-  /* TODO */
-  //if ([anEntry isEnabled]) {
-//    [[self undoManager] registerUndoWithTarget:self selector:@selector(disableEntry:) object:anEntry];
-//  }
   [[self undoManager] registerUndoWithTarget:self selector:@selector(addEntry:) object:anEntry];
   
   // Will remove
   SparkLibraryPostNotification([self library], SparkEntryManagerWillRemoveEntryNotification, self, anEntry);
   
-  [anEntry retain];
-  //    BOOL global = anEntry->application == kSparkApplicationSystemUID;
-  SparkAction *action = [anEntry action];
-  SparkTrigger *trigger = [anEntry trigger];
+  [[anEntry retain] autorelease];
   
-  /* copy anEntry on stack */
-  CFIndex idx = CFArrayGetFirstIndexOfValue(sp_entries, CFRangeMake(0, CFArrayGetCount(sp_entries)), anEntry);
-  NSAssert(idx != kCFNotFound, @"Cannot found object in manager array, but found in set");
-  if (idx != kCFNotFound)
-    CFArrayRemoveValueAtIndex(sp_entries, idx);
-  
-  /* Should automagically remove weak entries ? */
-  //    if (global) {
-  //      /* Remove weak entries */
-  //      [self removeEntriesForAction:action];
-  //    }
-  
-  /* Remove orphan action or update action status */
-  if (![self containsEntryForAction:[action uid]]) {
-    [[[self library] actionSet] removeObject:action];
-  }
-  /* Remove orphan trigger */
-  [self checkTriggerValidity:trigger];
-  [anEntry setManaged:NO];
+  [self sp_removeEntry:anEntry];
   
   // Did remove
   SparkLibraryPostNotification([self library], SparkEntryManagerDidRemoveEntryNotification, self, anEntry);
-  [anEntry release];
 }
 
 - (void)removeEntries:(NSArray *)theEntries {
@@ -258,35 +220,52 @@ typedef SparkUID (*SparkEntryAccessor)(SparkEntry *, SEL);
   return [self containsEntryForTrigger:[[anEntry trigger] uid] application:[[anEntry application] uid]];
 }
 
-- (BOOL)containsEntryForAction:(SparkUID)anAction {
-  return [self containsEntryForField:@selector(actionUID) uid:anAction];
+- (BOOL)containsEntryForAction:(SparkAction *)anAction{
+  return [self containsEntryForField:@selector(actionUID) uid:[anAction uid]];
 }
-- (BOOL)containsEntryForTrigger:(SparkUID)aTrigger {
-  return [self containsEntryForField:@selector(triggerUID) uid:aTrigger];
+- (BOOL)containsEntryForTrigger:(SparkTrigger *)aTrigger {
+  return [self containsEntryForField:@selector(triggerUID) uid:[aTrigger uid]];
 }
-- (BOOL)containsEntryForApplication:(SparkUID)anApplication {
-  return [self containsEntryForField:@selector(applicationUID) uid:anApplication];
+- (BOOL)containsEntryForApplication:(SparkApplication *)anApplication {
+  return [self containsEntryForField:@selector(applicationUID) uid:[anApplication uid]];
 }
-- (BOOL)containsActiveEntryForTrigger:(SparkUID)aTrigger {
-  CFIndex count = CFArrayGetCount(sp_entries);
-  while (count-- > 0) {
-    SparkEntry *entry = (SparkEntry *)CFArrayGetValueAtIndex(sp_entries, count);
-    if (([entry triggerUID] == aTrigger) && [entry isActive]) {
+- (BOOL)containsActiveEntryForTrigger:(SparkTrigger *)aTrigger {
+  SparkEntry *entry;
+  SparkUID uid = [aTrigger uid];
+  NSMapEnumerator iter = NSEnumerateMapTable(sp_objects);
+  while (NSNextMapEnumeratorPair(&iter, NULL, (void * *)&entry)) {
+    if (([entry triggerUID] == uid) && [entry isActive]) {
+      NSEndMapTableEnumeration(&iter);
       return YES;
     }
   }
+  NSEndMapTableEnumeration(&iter);
   return NO;
 }
-- (BOOL)containsOverwriteEntryForTrigger:(SparkUID)aTrigger {
-  CFIndex count = CFArrayGetCount(sp_entries);
-  while (count-- > 0) {
-    SparkEntry *entry = (SparkEntry *)CFArrayGetValueAtIndex(sp_entries, count);
-    if (([entry applicationUID] != kSparkApplicationSystemUID) && ([entry triggerUID] == aTrigger)) {
+- (BOOL)containsPersistentActiveEntryForTrigger:(SparkTrigger *)aTrigger {
+  SparkEntry *entry;
+  SparkUID uid = [aTrigger uid];
+  NSMapEnumerator iter = NSEnumerateMapTable(sp_objects);
+  while (NSNextMapEnumeratorPair(&iter, NULL, (void * *)&entry)) {
+    if (([entry triggerUID] == uid) && [entry isActive] && [entry isPersistent]) {
+      NSEndMapTableEnumeration(&iter);
       return YES;
     }
   }
+  NSEndMapTableEnumeration(&iter);
   return NO;
 }
+
+//- (BOOL)containsOverwriteEntryForTrigger:(SparkUID)aTrigger {
+//  CFIndex count = CFArrayGetCount(sp_entries);
+//  while (count-- > 0) {
+//    SparkEntry *entry = (SparkEntry *)CFArrayGetValueAtIndex(sp_entries, count);
+//    if (![entry isSystem] && ([entry triggerUID] == aTrigger)) {
+//      return YES;
+//    }
+//  }
+//  return NO;
+//}
 //- (BOOL)containsPersistentEntryForTrigger:(SparkUID)aTrigger {
 //  CFIndex count = CFArrayGetCount(sp_entries);
 //  while (count-- > 0) {
@@ -297,38 +276,48 @@ typedef SparkUID (*SparkEntryAccessor)(SparkEntry *, SEL);
 //  }
 //  return NO;
 //}
-- (BOOL)containsPersistentActiveEntryForTrigger:(SparkUID)aTrigger {
-  CFIndex count = CFArrayGetCount(sp_entries);
-  while (count-- > 0) {
-    SparkEntry *entry = (SparkEntry *)CFArrayGetValueAtIndex(sp_entries, count);
-    if (([entry triggerUID] == aTrigger) && [entry isActive] && [entry isPersistent]) {
-      return YES;
-    }
-  }
-  return NO;
-}
 
 #pragma mark -
-- (SparkEntry *)activeEntryForTrigger:(SparkUID)aTrigger application:(SparkUID)anApplication {
-  CFIndex count = CFArrayGetCount(sp_entries);
-  while (count-- > 0) {
-    SparkEntry *entry = (SparkEntry *)CFArrayGetValueAtIndex(sp_entries, count);
-    if ([entry triggerUID] == aTrigger && [entry applicationUID] == anApplication && [entry isActive]) {
-      return entry;
+- (SparkEntry *)activeEntryForTrigger:(SparkTrigger *)aTrigger application:(SparkApplication *)anApplication {
+  SparkEntry *def = NULL;
+  SparkEntry *entry = NULL;
+  /* special case: anApplication is "All Application" (0) => def will always be null after the loop, so we don't have to do something special */
+  SparkUID trigger = [aTrigger uid];
+  SparkUID application = [anApplication uid];
+  
+  NSMapEnumerator iter = NSEnumerateMapTable(sp_objects);
+  while (NSNextMapEnumeratorPair(&iter, NULL, (void * *)&entry)) {
+    if ([entry triggerUID] == trigger && [entry isActive]) {
+      if ([entry applicationUID] == application) {
+        /* an active entry match */
+        NSEndMapTableEnumeration(&iter);
+        return entry;
+      } else if ([entry isSystem]) {
+        def = entry;
+      }
     }
+  }
+  NSEndMapTableEnumeration(&iter);
+  /* we didn't find a matching entry  */
+  if (def) {
+    SparkEntry *child = [def childWithApplication:anApplication];
+    /* If the default is overwritten, we ignore it (whatever the child is) */
+    if (!child)
+      return def;
   }
   return NULL;
 }
-- (SparkEntry *)child:(SparkEntry *)parent forTrigger:(SparkUID)aTrigger application:(SparkUID)anApplication {
-  CFIndex count = CFArrayGetCount(sp_entries);
-  while (count-- > 0) {
-    SparkEntry *entry = (SparkEntry *)CFArrayGetValueAtIndex(sp_entries, count);
-    if ([entry triggerUID] == aTrigger && [entry applicationUID] == anApplication && [[entry parent] isEqual:parent]) {
-      return entry;
-    }
-  }
-  return NULL;  
-}
+
+//- (SparkEntry *)child:(SparkEntry *)parent forTrigger:(SparkUID)aTrigger application:(SparkUID)anApplication {
+//  CFIndex count = CFArrayGetCount(sp_entries);
+//  while (count-- > 0) {
+//    SparkEntry *entry = (SparkEntry *)CFArrayGetValueAtIndex(sp_entries, count);
+//    if ([entry triggerUID] == aTrigger && [entry applicationUID] == anApplication && [[entry parent] isEqual:parent]) {
+//      return entry;
+//    }
+//  }
+//  return NULL;  
+//}
 
 //- (SparkEntry *)entryForTrigger:(SparkUID)aTrigger application:(SparkUID)anApplication {
 //  const SparkLibraryEntry *entry = [self libraryEntryForTrigger:aTrigger application:anApplication];

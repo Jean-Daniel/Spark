@@ -35,7 +35,7 @@ SK_CLASS_EXPORT
 
 - (IBAction)trigger:(id)sender;
 
-  /* To override */
+  /* To overwrite */
 - (void)bypass;
 - (BOOL)isRegistred;
 - (BOOL)setRegistred:(BOOL)flag;

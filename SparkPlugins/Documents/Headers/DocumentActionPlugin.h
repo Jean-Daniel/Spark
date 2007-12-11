@@ -11,8 +11,8 @@
 @class DAApplicationMenu;
 @interface DocumentActionPlugin : SparkActionPlugIn {
   @private
+	IBOutlet NSTextField *ibName;
   IBOutlet DAApplicationMenu *ibMenu;
-  IBOutlet NSTextField *ibName;
   
   int da_flags;
   NSImage *da_icon;

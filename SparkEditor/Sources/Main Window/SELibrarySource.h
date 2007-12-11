@@ -9,15 +9,14 @@
 #import <ShadowKit/SKTableDataSource.h>
 
 @class SparkAction;
-@class SparkLibrary, SparkPlugIn;
-@class SETableView, SELibraryWindow;
-@class SEEntryList, SESmartEntryList;
+@class SparkList, SparkLibrary, SparkPlugIn;
+@class SEEntryList, SETableView, SELibraryWindow;
 @interface SELibrarySource : SKTableDataSource {
   IBOutlet SETableView *uiTable;
   IBOutlet SELibraryWindow *ibWindow;
   @private
   NSMapTable *se_plugins;
-  SESmartEntryList *se_overwrite;
+  SEEntryList *se_overwrite;
   
   SparkLibrary *se_library;
 }
@@ -26,7 +25,7 @@
 
 - (void)setLibrary:(SparkLibrary *)aLibrary;
 
-- (SparkPlugIn *)pluginForList:(SEEntryList *)aList;
+- (SparkPlugIn *)pluginForList:(SparkList *)aList;
 
 - (IBAction)selectLibrary:(id)sender;
 - (IBAction)selectApplicationList:(id)sender;

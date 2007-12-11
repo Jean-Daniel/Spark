@@ -75,7 +75,7 @@
 - (void)setLibrary:(SparkLibrary *)aLibrary;
 @end
 
-@interface SparkLibrary (SparkLibraryPrivate)
+@interface SparkLibrary (SparkLibraryApplication)
 - (SparkApplication *)frontApplication;
 - (SparkApplication *)applicationForProcess:(ProcessSerialNumber *)psn;
 @end

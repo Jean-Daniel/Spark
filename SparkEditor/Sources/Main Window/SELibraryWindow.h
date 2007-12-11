@@ -6,13 +6,10 @@
  *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
  */
 
-#import <Cocoa/Cocoa.h>
-
 #import <SparkKit/SparkAppleScriptSuite.h>
 
-@class SEEntryList;
 @class SEApplicationView, SETableView;
-@class SparkEntry, SparkLibrary, SparkApplication;
+@class SparkList, SparkEntry, SparkLibrary, SparkApplication;
 @class SEApplicationSource, SELibrarySource, SETriggersController;
 @interface SELibraryWindow : NSWindowController {
   IBOutlet NSSegmentedControl *uiMenu;
@@ -43,7 +40,7 @@
 
 - (void)setLibrary:(SparkLibrary *)aLibrary;
 
-- (SEEntryList *)selectedList;
+- (SparkList *)selectedList;
 - (void)revealEntry:(SparkEntry *)entry;
 - (void)revealEntries:(NSArray *)entries;
 

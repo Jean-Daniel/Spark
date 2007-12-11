@@ -40,7 +40,7 @@
   [sp_ctrl release];
   [sp_trap release];
   if (sp_apFlags.ownership)
-    [sp_view release];
+    [actionView release];
   [sp_action release];
   [super dealloc];
 }
@@ -49,7 +49,7 @@
   if (!sp_ctrl) {
     sp_ctrl = [[SparkPluginView alloc] init];
     [sp_ctrl setPlugin:self];
-    [sp_ctrl setPluginView:sp_view];
+    [sp_ctrl setPluginView:actionView];
     [self setHotKeyTrapPlaceholder:[sp_ctrl trapPlaceholder]];
   }
   return sp_ctrl;
@@ -60,7 +60,7 @@
 }
 
 - (NSView *)actionView {
-  return [self hasCustomView] ? sp_view : [[self sp_controller] view];
+  return [self hasCustomView] ? actionView : [[self sp_controller] view];
 }
 
 - (void)setHotKeyTrap:(NSView *)trap {
@@ -156,15 +156,15 @@
 }
 
 /* Called by Nib Loader only. Action view is a nib root object, so we should not retain it */
-- (void)setActionView:(NSView *)actionView {
-  sp_view = actionView;
+- (void)setActionView:(NSView *)anActionView {
+  actionView = anActionView;
   sp_apFlags.ownership = 1;
 }
 
 - (void)releaseViewOwnership {
   /* If was owner, release the view */
   if (sp_apFlags.ownership) {
-    [sp_view release];
+    [actionView release];
     sp_apFlags.ownership = 0;
   }
 }

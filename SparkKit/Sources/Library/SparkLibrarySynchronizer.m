@@ -8,17 +8,19 @@
 
 #import <SparkKit/SparkLibrarySynchronizer.h>
 
-#import "SparkEntryManagerPrivate.h"
-
 #import <SparkKit/SparkPreferences.h>
 
 #import <SparkKit/SparkAction.h>
 #import <SparkKit/SparkTrigger.h>
 #import <SparkKit/SparkApplication.h>
+#import <SparkKit/SparkEntryManager.h>
 
 #import <SparkKit/SparkPlugIn.h>
 #import <SparkKit/SparkObjectSet.h>
 #import <SparkKit/SparkActionLoader.h>
+
+#import "SparkLibraryPrivate.h"
+#import "SparkEntryManagerPrivate.h"
 
 enum {
   kSparkActionType      = 'acti',

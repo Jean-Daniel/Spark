@@ -37,19 +37,19 @@ UInt8 __SparkIconTypeForObject(SparkObject *object) {
   return kSparkInvalidType;
 }
 
-SparkObjectSet *_SparkObjectSetForType(SparkLibrary *library, UInt8 type) {
-  switch (type) {
-    case 0:
-      return [library listSet];
-    case 1:
-      return [library actionSet];
-    case 2:
-      return [library triggerSet];
-    case 3:
-      return [library applicationSet];
-  }
-  return nil;
-}
+//SparkObjectSet *_SparkObjectSetForType(SparkLibrary *library, UInt8 type) {
+//  switch (type) {
+//    case 0:
+//      return [library listSet];
+//    case 1:
+//      return [library actionSet];
+//    case 2:
+//      return [library triggerSet];
+//    case 3:
+//      return [library applicationSet];
+//  }
+//  return nil;
+//}
 
 #pragma mark -
 @implementation SparkIconManager
@@ -123,18 +123,21 @@ SparkObjectSet *_SparkObjectSetForType(SparkLibrary *library, UInt8 type) {
   }
 }
 
-- (_SparkIconEntry *)entryForObject:(SparkObject *)anObject {
+- (_SparkIconEntry *)entryForObjectType:(UInt8)type uid:(SparkUID)anUID {
   _SparkIconEntry *entry = nil;
-  UInt8 type = __SparkIconTypeForObject(anObject);
   if (type != kSparkInvalidType) {
-    entry = NSMapGet(sp_cache[type], (void *)(long)[anObject uid]);
+    entry = NSMapGet(sp_cache[type], (void *)(intptr_t)anUID);
     if (!entry) {
-      entry = [[_SparkIconEntry alloc] initWithObject:anObject];
-      NSMapInsert(sp_cache[type], (void *)(long)[anObject uid], entry);
+      entry = [[_SparkIconEntry alloc] initWithObjectType:type uid:anUID];
+      NSMapInsert(sp_cache[type], (void *)(intptr_t)anUID, entry);
       [entry release];
     }
   }
   return entry;
+}
+
+- (_SparkIconEntry *)entryForObject:(SparkObject *)anObject {
+	return [self entryForObjectType:__SparkIconTypeForObject(anObject) uid:[anObject uid]];
 }
 
 - (NSImage *)iconForObject:(SparkObject *)anObject {
@@ -236,11 +239,13 @@ SparkObjectSet *_SparkObjectSetForType(SparkLibrary *library, UInt8 type) {
 @implementation _SparkIconEntry
 
 - (id)initWithObject:(SparkObject *)object {
+	return [self initWithObjectType:__SparkIconTypeForObject(object) uid:[object uid]];
+}
+
+- (id)initWithObjectType:(NSUInteger)type uid:(SparkUID)anUID {
   if (self = [super init]) {
     sp_clean = YES;
-    SparkUID uid = [object uid];
-    UInt32 type = __SparkIconTypeForObject(object);
-    sp_path = [[NSString alloc] initWithFormat:@"%u/%u", type, uid];
+    sp_path = [[NSString alloc] initWithFormat:@"%lu/%lu", (long)type, (long)anUID];
   }
   return self;
 }

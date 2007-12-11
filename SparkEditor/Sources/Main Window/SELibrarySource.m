@@ -8,15 +8,14 @@
 
 #import "SELibrarySource.h"
 #import "Spark.h"
-#import "SEEntryList.h"
 #import "SETableView.h"
+#import "SEEntryList.h"
 #import "SEHeaderCell.h"
-#import "SEEntryCache.h"
-#import "SESparkEntrySet.h"
 #import "SELibraryWindow.h"
 #import "SELibraryDocument.h"
 
 #import <SparkKit/SparkList.h>
+#import <SparkKit/SparkEntry.h>
 #import <SparkKit/SparkTrigger.h>
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkObjectSet.h>
@@ -29,18 +28,18 @@
 #import <ShadowKit/SKAppKitExtensions.h>
 
 static
-BOOL SELibraryFilter(SEEntryList *list, SparkEntry *object, id ctxt) {
+BOOL SELibraryFilter(SparkList *list, SparkEntry *entry, id ctxt) {
   return YES;
 }
 
 static
-BOOL SEPluginFilter(SEEntryList *list, SparkEntry *object, Class cls) {
+BOOL SEPluginFilter(SparkList *list, SparkEntry *object, Class cls) {
   return [[object action] isKindOfClass:cls];
 }
 
 static
-BOOL SEOverwriteFilter(SEEntryList *list, SparkEntry *object, SparkApplication *app) {
-  return [[object application] uid] != 0;
+BOOL SEOverwriteFilter(SparkList *list, SparkEntry *entry, id ctxt) {
+  return [entry type] != kSparkEntryTypeDefault;
 }
 
 #pragma mark -
@@ -75,20 +74,21 @@ BOOL SEOverwriteFilter(SEEntryList *list, SparkEntry *object, SparkApplication *
 }
 
 - (void)dealloc {
-  [self setLibrary:nil];
-  
-  /* should be useless */
-  if (se_plugins)
-    NSFreeMapTable(se_plugins);
-  [se_overwrite release];
-  
   [[NSNotificationCenter defaultCenter] removeObserver:self];
+//  if (se_plugins) NSFreeMapTable(se_plugins);
+//  [se_overwrite release];
+  /* setLibrary cleanup internal storage */
+  [self setLibrary:nil];
   [super dealloc];
 }
 
-- (void)addUserEntryList:(SEUserEntryList *)list {
-  [list setDocument:[ibWindow document]];
-  [list setGroup:5];
+#pragma mark -
+- (SELibraryDocument *)document {
+  return [ibWindow document];
+}
+
+- (void)addUserEntryList:(SparkList *)list {
+  [list setGroup:[list isDynamic] ? 5 : 6];
   [self addObject:list];
 }
 
@@ -101,18 +101,22 @@ BOOL SEOverwriteFilter(SEEntryList *list, SparkEntry *object, SparkApplication *
     [self removeObjects:NSAllMapTableKeys(se_plugins)];
     NSResetMapTable(se_plugins);
   } else {
-    se_plugins = NSCreateMapTable(NSObjectMapKeyCallBacks, NSObjectMapValueCallBacks, [plugins count]);
+		/* library objects used UID for hash. SEEntryLists do not have uid, we have to use a custom hash function */
+		NSMapTableKeyCallBacks cb = NSObjectMapKeyCallBacks;
+		cb.hash = NSOwnedPointerMapKeyCallBacks.hash;
+		cb.isEqual = NSOwnedPointerMapKeyCallBacks.isEqual;
+		se_plugins = NSCreateMapTable(cb, NSObjectMapValueCallBacks, [plugins count]);
   }
   
   NSUInteger idx = [plugins count];
   while (idx-- > 0) {
     SparkPlugIn *plugin = [plugins objectAtIndex:idx];
     if ([plugin isEnabled]) {
-      SESmartEntryList *list = [[SESmartEntryList alloc] initWithName:[plugin name] icon:[plugin icon]];
+      SEEntryList *list = [[SEEntryList alloc] initWithName:[plugin name] icon:[plugin icon]];
+      [list setDocument:[self document]];
       [list setListFilter:SEPluginFilter context:[plugin actionClass]];
-      [list setDocument:[ibWindow document]];
       [list setGroup:3];
-      NSMapInsert(se_plugins, list, plugin);
+      NSMapInsertKnownAbsent(se_plugins, list, plugin);
       
       [self addObject:list];
       [list release];
@@ -123,10 +127,10 @@ BOOL SEOverwriteFilter(SEEntryList *list, SparkEntry *object, SparkApplication *
 
 - (void)buildLists {
   /* Add library… */
-  SESmartEntryList *library = [[SESmartEntryList alloc] initWithName:NSLocalizedString(@"Library", @"Library list name")
-                                                                icon:[NSImage imageNamed:@"SELibrary"]];
+  SEEntryList *library = [[SEEntryList alloc] initWithName:NSLocalizedString(@"Library", @"Library list name")
+                                                      icon:[NSImage imageNamed:@"SELibrary"]];
+  [library setDocument:[self document]];
   [library setListFilter:SELibraryFilter context:nil];
-  [library setDocument:[ibWindow document]];
   [library setGroup:0];
   [self addObject:library];
   [library release];
@@ -136,17 +140,15 @@ BOOL SEOverwriteFilter(SEEntryList *list, SparkEntry *object, SparkApplication *
   
   /* …and User defined lists */
   SparkList *user = nil;
-  NSEnumerator *users = [[se_library listSet] objectEnumerator];
+  NSEnumerator *users = [se_library listEnumerator];
   while (user = [users nextObject]) {
-    SEUserEntryList *list = [[SEUserEntryList alloc] initWithList:user];
-    [self addUserEntryList:list];
-    [list release];
+    [self addUserEntryList:user];
   }
   
   /* Overwrite list */
-  se_overwrite = [[SESmartEntryList alloc] initWithName:@"Overwrite" icon:[NSImage imageNamed:@"application"]];
+  se_overwrite = [[SEEntryList alloc] initWithName:@"Overwrite" icon:[NSImage imageNamed:@"application"]];
+  [se_overwrite setDocument:[self document]];
   [se_overwrite setListFilter:SEOverwriteFilter context:nil];
-  [se_overwrite setDocument:[ibWindow document]];
   [se_overwrite setGroup:1];
   
   /* First Separators */
@@ -190,19 +192,19 @@ BOOL SEOverwriteFilter(SEEntryList *list, SparkEntry *object, SparkApplication *
                                             name:SEApplicationDidChangeNotification
                                           object:[ibWindow document]];
     
-    [[se_library notificationCenter] addObserver:self
-                                        selector:@selector(didAddList:)
-                                            name:SparkObjectSetDidAddObjectNotification
-                                          object:[se_library listSet]];
-    [[se_library notificationCenter] addObserver:self
-                                        selector:@selector(willRemoveList:)
-                                            name:SparkObjectSetWillRemoveObjectNotification
-                                          object:[se_library listSet]];
-    
-    [[se_library notificationCenter] addObserver:self
-                                        selector:@selector(didRenameList:)
-                                            name:SEEntryListDidChangeNameNotification
-                                          object:se_library];
+//    [[se_library notificationCenter] addObserver:self
+//                                        selector:@selector(didAddList:)
+//                                            name:SparkObjectSetDidAddObjectNotification
+//                                          object:[se_library listSet]];
+//    [[se_library notificationCenter] addObserver:self
+//                                        selector:@selector(willRemoveList:)
+//                                            name:SparkObjectSetWillRemoveObjectNotification
+//                                          object:[se_library listSet]];
+//    
+//    [[se_library notificationCenter] addObserver:self
+//                                        selector:@selector(didRenameList:)
+//                                            name:SEEntryListDidChangeNameNotification
+//                                          object:se_library];
   }
 }
 
@@ -230,10 +232,10 @@ BOOL SEOverwriteFilter(SEEntryList *list, SparkEntry *object, SparkApplication *
   return se_library;
 }
 
-- (SEEntryList *)listForPlugin:(SparkPlugIn *)aPlugin {
+- (SparkList *)listForPlugin:(SparkPlugIn *)aPlugin {
   if (!se_plugins) return nil;
   
-  SEEntryList *list = nil;
+  SparkList *list = nil;
   SparkPlugIn *plugin = nil;
   NSMapEnumerator iter = NSEnumerateMapTable(se_plugins);
   while (NSNextMapEnumeratorPair(&iter, (void **)&list, (void **)&plugin)) {
@@ -247,7 +249,7 @@ BOOL SEOverwriteFilter(SEEntryList *list, SparkEntry *object, SparkApplication *
   return list;
 }
 
-- (SparkPlugIn *)pluginForList:(SEEntryList *)aList {
+- (SparkPlugIn *)pluginForList:(SparkList *)aList {
   return se_plugins ? NSMapGet(se_plugins, aList) : nil;
 }
 
@@ -258,7 +260,7 @@ BOOL SEOverwriteFilter(SEEntryList *list, SparkEntry *object, SparkApplication *
 
 - (BOOL)tableView:(NSTableView *)aTableView shouldEditTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
   if (rowIndex >= 0) {
-    SEEntryList *item = [self objectAtIndex:rowIndex];
+    SparkList *item = [self objectAtIndex:rowIndex];
     return [item isEditable];
   }
   return NO;
@@ -268,7 +270,7 @@ BOOL SEOverwriteFilter(SEEntryList *list, SparkEntry *object, SparkApplication *
 /* Allow drop only in editable list (uid > kSparkLibraryReserved && not dynamic) */
 - (NSDragOperation)tableView:(NSTableView *)aTableView validateDrop:(id <NSDraggingInfo>)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)operation {
   if (NSTableViewDropOn == operation) {
-    SEEntryList *list = [self objectAtIndex:row];
+    SparkList *list = [self objectAtIndex:row];
     if ([list isEditable] && [[[info draggingPasteboard] types] containsObject:SparkEntriesPboardType])
       return NSDragOperationCopy;
   }
@@ -277,69 +279,62 @@ BOOL SEOverwriteFilter(SEEntryList *list, SparkEntry *object, SparkApplication *
 
 /* Add entries trigger into the target list */
 - (BOOL)tableView:(NSTableView *)aTableView acceptDrop:(id <NSDraggingInfo>)info row:(NSInteger)row dropOperation:(NSTableViewDropOperation)operation {
-  if (NSTableViewDropOn == operation) {
-    NSDictionary *pboard = [[info draggingPasteboard] propertyListForType:SparkEntriesPboardType];
-    CFUUIDBytes bytes;
-    SparkLibrary *library = nil;
-    SELibraryDocument *doc = nil;
-    [[pboard objectForKey:@"uuid"] getBytes:&bytes length:sizeof(bytes)];
-    CFUUIDRef uuid = CFUUIDCreateFromUUIDBytes(kCFAllocatorDefault, bytes);
-    if (uuid) {
-      library = SparkLibraryGetLibraryWithUUID(uuid);
-      doc = library ? SEGetDocumentForLibrary(library) : nil;
-      CFRelease(uuid);
-    }
-    
-    if (doc) {
-      SEEntryCache *cache = [doc cache];
-      SESparkEntrySet *entries = [cache entries];
-      NSArray *uids = [pboard objectForKey:@"triggers"];
-      NSMutableArray *items = [[NSMutableArray alloc] init];
-      for (NSUInteger idx = 0; idx < [uids count]; idx++) {
-        NSNumber *uid = [uids objectAtIndex:idx];
-        SparkTrigger *trigger = [library triggerWithUID:[uid unsignedIntValue]];
-        if (trigger) {
-          SparkEntry *entry = [entries entryForTrigger:trigger];
-          if (entry)
-            [items addObject:entry];
-        }
-      }
-      if ([items count]) {
-        [[self objectAtIndex:row] addEntries:items];
-      }
-      [items release];
-    }
-    return YES;
-  }
+//  if (NSTableViewDropOn == operation) {
+//    NSDictionary *pboard = [[info draggingPasteboard] propertyListForType:SparkEntriesPboardType];
+//    CFUUIDBytes bytes;
+//    SparkLibrary *library = nil;
+//    SELibraryDocument *doc = nil;
+//    [[pboard objectForKey:@"uuid"] getBytes:&bytes length:sizeof(bytes)];
+//    CFUUIDRef uuid = CFUUIDCreateFromUUIDBytes(kCFAllocatorDefault, bytes);
+//    if (uuid) {
+//      library = SparkLibraryGetLibraryWithUUID(uuid);
+//      doc = library ? SEGetDocumentForLibrary(library) : nil;
+//      CFRelease(uuid);
+//    }
+//    
+//    if (doc) {
+//      SEEntryCache *cache = [doc cache];
+//      SESparkEntrySet *entries = [cache entries];
+//      NSArray *uids = [pboard objectForKey:@"triggers"];
+//      NSMutableArray *items = [[NSMutableArray alloc] init];
+//      for (NSUInteger idx = 0; idx < [uids count]; idx++) {
+//        NSNumber *uid = [uids objectAtIndex:idx];
+//        SparkTrigger *trigger = [library triggerWithUID:[uid unsignedIntValue]];
+//        if (trigger) {
+//          SparkEntry *entry = [entries entryForTrigger:trigger];
+//          if (entry)
+//            [items addObject:entry];
+//        }
+//      }
+//      if ([items count]) {
+//        [[self objectAtIndex:row] addEntries:items];
+//      }
+//      [items release];
+//    }
+//    return YES;
+//  }
   return NO;
 }
 
 #pragma mark Actions
 - (NSUInteger)indexOfUserList:(SparkList *)aList {
-  NSUInteger idx = [self count];
-  while (idx-- > 0) {
-    SEEntryList *list = [self objectAtIndex:idx];
-    if ([list isKindOfClass:[SEUserEntryList class]] && [[(id)list list] isEqual:aList]) {
-      return idx;
-    }
-  }
-  return NSNotFound;
+	return [[self arrangedObjects] indexOfObject:aList];
 }
 
 - (IBAction)newGroup:(id)sender {
-  SparkList *list = [[SparkList alloc] initWithName:NSLocalizedString(@"<New Group>", @"New List default name")];
-  [[[self library] listSet] addObject:list];
-  [list release];
-  
-  /* Edit new list name */
-  NSUInteger idx = [self indexOfUserList:list];
-  if (idx != NSNotFound) {
-    @try {
-      [uiTable editColumn:0 row:idx withEvent:nil select:YES];
-    } @catch (id exception) {
-      SKLogException(exception);
-    }
-  }
+//  SparkList *list = [[SparkList alloc] initWithName:NSLocalizedString(@"<New Group>", @"New List default name")];
+//  [[[self library] listSet] addObject:list];
+//  [list release];
+//  
+//  /* Edit new list name */
+//  NSUInteger idx = [self indexOfUserList:list];
+//  if (idx != NSNotFound) {
+//    @try {
+//      [uiTable editColumn:0 row:idx withEvent:nil select:YES];
+//    } @catch (id exception) {
+//      SKLogException(exception);
+//    }
+//  }
 }
 
 - (IBAction)selectLibrary:(id)sender {
@@ -355,7 +350,7 @@ BOOL SEOverwriteFilter(SEEntryList *list, SparkEntry *object, SparkApplication *
 - (void)selectListForAction:(SparkAction *)anAction {
   SparkPlugIn *plugin = [[SparkActionLoader sharedLoader] plugInForAction:anAction];
   if (plugin) {
-    SEEntryList *list = [self listForPlugin:plugin];
+    SparkList *list = [self listForPlugin:plugin];
     if (list) {
       [self setSelectedObject:list];
     }
@@ -366,10 +361,10 @@ BOOL SEOverwriteFilter(SEEntryList *list, SparkEntry *object, SparkApplication *
 - (void)deleteSelectionInTableView:(NSTableView *)aTableView {
   NSUInteger idx = [self selectionIndex];
   if (idx != NSNotFound) {
-    SEUserEntryList *list = [self objectAtIndex:idx];
+    SparkList *list = [self objectAtIndex:idx];
     if ([list isEditable]) {
       /* Remove list from library */
-      [[[self library] listSet] removeObject:[list list]];
+      [[[self library] listSet] removeObject:list];
     } else {
       NSBeep();
     }
@@ -390,7 +385,7 @@ BOOL SEOverwriteFilter(SEEntryList *list, SparkEntry *object, SparkApplication *
   if (idx != NSNotFound) {
     NSUInteger row = idx;
     while (idx > 0) {
-      SEEntryList *list = [self objectAtIndex:idx];
+      SparkList *list = [self objectAtIndex:idx];
       if ([[list name] isEqualToString:SETableSeparator]) {
         idx--;
       } else {
@@ -437,13 +432,33 @@ BOOL SEOverwriteFilter(SEEntryList *list, SparkEntry *object, SparkApplication *
   }
 }
 
+//- (void)applicationDidChange:(NSNotification *)aNotification {
+//  SparkApplication *previous = [[aNotification userInfo] objectForKey:SEPreviousApplicationKey];
+//  
+//  if (!previous) {
+//    [self reload];
+//  } else {
+//    SparkApplication *application = [[aNotification object] application];
+//    /* Reload when switching to/from global */
+//    if ([application uid] == 0 || [previous uid] == 0) {
+//      [self reload];
+//    } else {
+//      /* Reload if previous or current contains custom entries */
+//      SparkEntryManager *manager = [[[aNotification object] library] entryManager];
+//      if ([manager containsEntryForApplication:[previous uid]] || 
+//          [manager containsEntryForApplication:[application uid]])
+//        [self reload];
+//    }
+//  }
+//}
+
 - (void)didAddList:(NSNotification *)aNotification {
-  SparkList *list = SparkNotificationObject(aNotification);
-  SEUserEntryList *user = [[SEUserEntryList alloc] initWithList:list];
-  [self addUserEntryList:user];
-  [user release];
-  
-  [self rearrangeObjects];
+//  SparkList *list = SparkNotificationObject(aNotification);
+//  SEUserEntryList *user = [[SEUserEntryList alloc] initWithList:list];
+//  [self addUserEntryList:user];
+//  [user release];
+//  
+//  [self rearrangeObjects];
 }
 
 - (void)didRenameList:(NSNotification *)aNotification {

@@ -9,8 +9,6 @@
 #import "KeyMap.h"
 #import "TISKeyMap.h"
 
-#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5
-
 HK_INLINE
 CFStringRef __CopyCurrentKeyboardIdentifier(void) {
   CFStringRef uid = NULL;
@@ -99,4 +97,3 @@ CFStringRef HKTISKeyMapGetLocalizedName(HKKeyMapRef keymap) {
   return TISGetInputSourceProperty(keymap->tis.keyboard, kTISPropertyLocalizedName);
 }
 
-#endif /* Leopard */

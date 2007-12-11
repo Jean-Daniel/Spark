@@ -154,7 +154,7 @@
 - (IBAction)libraryDoubleAction:(id)sender {
   NSInteger idx = [libraryTable selectedRow];
   if (idx > 0) {
-    SEEntryList *object = [ibGroups objectAtIndex:idx];
+    SparkList *object = [ibGroups objectAtIndex:idx];
     if ([object isEditable]) {
       [libraryTable editColumn:0 row:idx withEvent:nil select:YES];
     } else {
@@ -170,7 +170,7 @@
   [appDrawer toggle:sender];
 }
 
-- (SEEntryList *)selectedList {
+- (SparkList *)selectedList {
   return [ibGroups selectedObject];
 }
 

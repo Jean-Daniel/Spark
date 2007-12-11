@@ -6,7 +6,7 @@
  *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
  */
 
-#import <Cocoa/Cocoa.h>
+#if 0
 
 SK_PRIVATE NSString * const SEEntryCacheDidReloadNotification;
 
@@ -30,3 +30,5 @@ SK_PRIVATE NSString * const SEEntryCacheWillRemoveEntryNotification;
 - (SESparkEntrySet *)entries;
 
 @end
+
+#endif

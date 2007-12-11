@@ -24,22 +24,22 @@ void SparkDaemonCheckTrigger(SparkLibrary *library, SparkTrigger *trigger, BOOL 
     if (isEnabled) {
       /* Spark daemon is enabled, si check on all actions */
       if ([trigger isRegistred]) {
-        if (![[library entryManager] containsActiveEntryForTrigger:[trigger uid]]) {
+        if (![[library entryManager] containsActiveEntryForTrigger:trigger]) {
           [trigger setRegistred:NO];
         }
       } else {
-        if ([[library entryManager] containsActiveEntryForTrigger:[trigger uid]]) {
+        if ([[library entryManager] containsActiveEntryForTrigger:trigger]) {
           [trigger setRegistred:YES];
         }
       }
     } else {
       /* Spark Daemon is disabled, so check only persistents actions */
       if ([trigger isRegistred]) {
-        if (![[library entryManager] containsPersistentActiveEntryForTrigger:[trigger uid]]) {
+        if (![[library entryManager] containsPersistentActiveEntryForTrigger:trigger]) {
           [trigger setRegistred:NO];
         }
       } else {
-        if ([[library entryManager] containsPersistentActiveEntryForTrigger:[trigger uid]]) {
+        if ([[library entryManager] containsPersistentActiveEntryForTrigger:trigger]) {
           [trigger setRegistred:YES];
         }
       }

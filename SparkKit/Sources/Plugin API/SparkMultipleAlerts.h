@@ -19,10 +19,10 @@ SPARK_CLASS_EXPORT
   IBOutlet NSTextView *messageText;
   IBOutlet NSTextView *informativeText;
 @private
-  id sp_alerts;
   NSNib *sp_nib;
   BOOL sp_retain;
   NSUInteger sp_index;
+	NSMutableArray *sp_alerts;
 }
 
 - (id)initWithAlert:(SparkAlert *)alert;

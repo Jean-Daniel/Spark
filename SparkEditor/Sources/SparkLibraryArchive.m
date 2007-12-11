@@ -111,15 +111,10 @@ NSString * const kSparkLibraryArchiveFileName = @"Spark Library";
       NSData *data = [file extractContents];
       NSImage *icon = data ? [[NSImage alloc] initWithData:data] : nil;
       if (icon) {
-        SparkObjectSet *set = _SparkObjectSetForType(sp_library, idx);
-        SparkUID uid = [[file name] intValue];
-        SparkObject *object = [set objectWithUID:uid];
-        if (object) {
-          _SparkIconEntry *entry = [self entryForObject:object];
-          if (entry) {
-            [entry setIcon:icon];
-          }
-        }
+				_SparkIconEntry *entry = [self entryForObjectType:idx uid:[[file name] intValue]];
+				if (entry) {
+					[entry setIcon:icon];
+				}
         [icon release];
       }
     }

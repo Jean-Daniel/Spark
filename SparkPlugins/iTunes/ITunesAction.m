@@ -564,23 +564,23 @@ static ITunesVisual sDefaultVisual = {delay: -1};
   return ia_iaFlags.show;
 }
 - (void)setShowInfo:(BOOL)flag {
-  SKSetFlag(ia_iaFlags.show, flag);
+  SKFlagSet(ia_iaFlags.show, flag);
 }
 - (BOOL)launchHide { return ia_iaFlags.hide; }
 - (BOOL)launchPlay { return ia_iaFlags.autoplay; }
 - (BOOL)launchNotify { return ia_iaFlags.notify; }
 - (BOOL)launchBackground { return ia_iaFlags.background; }
-- (void)setLaunchHide:(BOOL)flag { SKSetFlag(ia_iaFlags.hide, flag); }
-- (void)setLaunchPlay:(BOOL)flag { SKSetFlag(ia_iaFlags.autoplay, flag); }
-- (void)setLaunchNotify:(BOOL)flag { SKSetFlag(ia_iaFlags.notify, flag); }
-- (void)setLaunchBackground:(BOOL)flag { SKSetFlag(ia_iaFlags.background, flag); }
+- (void)setLaunchHide:(BOOL)flag { SKFlagSet(ia_iaFlags.hide, flag); }
+- (void)setLaunchPlay:(BOOL)flag { SKFlagSet(ia_iaFlags.autoplay, flag); }
+- (void)setLaunchNotify:(BOOL)flag { SKFlagSet(ia_iaFlags.notify, flag); }
+- (void)setLaunchBackground:(BOOL)flag { SKFlagSet(ia_iaFlags.background, flag); }
 
 /* Play/Pause setting */
 - (BOOL)autorun { return ia_iaFlags.autorun; }
-- (void)setAutorun:(BOOL)flag { SKSetFlag(ia_iaFlags.autorun, flag); }
+- (void)setAutorun:(BOOL)flag { SKFlagSet(ia_iaFlags.autorun, flag); }
 
 - (BOOL)autoinfo { return ia_iaFlags.autoinfo; }
-- (void)setAutoinfo:(BOOL)flag { SKSetFlag(ia_iaFlags.autoinfo, flag); }
+- (void)setAutoinfo:(BOOL)flag { SKFlagSet(ia_iaFlags.autoinfo, flag); }
 
 - (int)visualMode {
   return ia_iaFlags.visual;

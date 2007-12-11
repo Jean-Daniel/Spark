@@ -15,9 +15,8 @@ typedef enum {
   kSparkEntryTypeWeakOverWrite = 3, /* Overwrite default status but same action */
 } SparkEntryType;
 
-@class SparkLibrary, SparkEntryPlaceholder;
+@class SparkEntryManager;
 @class SparkAction, SparkTrigger, SparkApplication;
-
 SPARK_CLASS_EXPORT
 @interface SparkEntry : NSObject <NSCopying> {
   @private
@@ -29,11 +28,16 @@ SPARK_CLASS_EXPORT
   /* status */
   struct _sp_seFlags {
     unsigned int enabled:1;
-    unsigned int managed:1;
     unsigned int unplugged:1;
-    unsigned int reserved:29;
+    unsigned int reserved:30;
   } sp_seFlags;
-  SparkEntry *sp_parent;
+  /* chained list of children */
+  SparkEntry *sp_child;
+  /* list head (or nil) */
+  SparkEntry *sp_parent; /* weak */
+  
+  /* Manager */
+  SparkEntryManager *sp_manager; /* weak */
 }
 
 + (id)entryWithAction:(SparkAction *)anAction trigger:(SparkTrigger *)aTrigger application:(SparkApplication *)anApplication;
@@ -42,7 +46,6 @@ SPARK_CLASS_EXPORT
 
 - (UInt32)uid;
 - (SparkEntry *)parent;
-- (void)setParent:(SparkEntry *)aParent;
 
 - (SparkEntryType)type;
 
@@ -66,6 +69,11 @@ SPARK_CLASS_EXPORT
 - (BOOL)isPlugged;
 - (BOOL)isPersistent;
 
+/* return YES if this is a system entry */
+- (BOOL)isSystem;
+/* valid only for system entries. Returns YES if contains at least one child */
+- (BOOL)isOverridden;
+
 - (BOOL)isEnabled;
 - (void)setEnabled:(BOOL)flag;
 
@@ -79,6 +87,8 @@ SPARK_CLASS_EXPORT
 - (void)endEditing;
 
 /* entry edition */
+- (void)replaceParent:(SparkEntry *)entry;
+
 - (void)replaceAction:(SparkAction *)action;
 - (void)replaceTrigger:(SparkTrigger *)trigger;
 - (void)replaceApplication:(SparkApplication *)anApplication;
@@ -87,18 +97,18 @@ SPARK_CLASS_EXPORT
 
 @interface SparkEntry (SparkEntryManager)
 
-+ (SparkEntry *)entryWithPlaceholder:(SparkEntryPlaceholder *)placeholder library:(SparkLibrary *)aLibrary;
-
 - (void)setUID:(UInt32)anUID;
 
 /* cached status */
 - (void)setPlugged:(BOOL)flag;
 
 /* is the entry in a manager */
-- (BOOL)isManaged;
-- (void)setManaged:(BOOL)managed;
+- (SparkEntryManager *)manager;
+- (void)setManager:(SparkEntryManager *)aManager;
 
 /* direct object access */
+- (void)setParent:(SparkEntry *)aParent;
+
 - (void)setAction:(SparkAction *)action;
 - (void)setTrigger:(SparkTrigger *)trigger;
 - (void)setApplication:(SparkApplication *)anApplication;
@@ -108,30 +118,10 @@ SPARK_CLASS_EXPORT
 - (SparkUID)triggerUID;
 - (SparkUID)applicationUID;
 
-@end
+- (SparkEntry *)childWithApplication:(SparkApplication *)anApplication;
 
-#pragma mark Placeholder
-@interface SparkEntryPlaceholder : NSObject {
-  @private
-  BOOL sp_enabled;
-  
-  SparkUID sp_action;
-  SparkUID sp_trigger;
-  SparkUID sp_application;
-}
-
-- (id)initWithActionUID:(SparkUID)act triggerUID:(SparkUID)trg applicationUID:(SparkUID)app;
-
-- (BOOL)isEnabled;
-- (void)setEnabled:(BOOL)flag;
-
-- (SparkUID)actionUID;
-- (SparkUID)triggerUID;
-- (SparkUID)applicationUID;
-
-- (void)setActionUID:(SparkUID)action;
-- (void)setTriggerUID:(SparkUID)trigger;
-- (void)setApplicationUID:(SparkUID)application;
+/* tree */
+- (SparkEntry *)firstChild;
+- (SparkEntry *)sibling;
 
 @end
-

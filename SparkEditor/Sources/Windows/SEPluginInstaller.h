@@ -11,7 +11,6 @@
 @interface SEPluginInstaller : SKWindowController {
   @private
   IBOutlet NSMatrix *ibMatrix;
-  IBOutlet NSButton *ibIntall;
   IBOutlet NSTextField *ibInfo;
   IBOutlet NSTextField *ibExplain;
   
@@ -22,5 +21,8 @@
 - (void)setPlugin:(NSString *)path;
 
 - (NSString *)installPlugin:(NSString *)plugin domain:(NSInteger)skdomain;
+
+- (IBAction)update:(id)sender;
+- (IBAction)install:(id)sender;
 
 @end

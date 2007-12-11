@@ -13,21 +13,21 @@
 @class SparkActionPlugIn, SparkApplication, SparkPlugIn;
 @interface SEEntryEditor : SKWindowController {
   IBOutlet NSView *uiPlugin;
-  IBOutlet SEHotKeyTrap *uiTrap;
-  IBOutlet SETableView *uiTypeTable;
+	IBOutlet SETableView *uiTypeTable;
   IBOutlet SEApplicationView *uiApplication;
   
   IBOutlet NSButton *uiHelp;
   IBOutlet NSButton *uiConfirm;
-  @private
-    NSSize se_min;
+@private
+	NSSize se_min;
   NSView *se_view; /* current view __weak */
   SparkEntry *se_entry; /* Edited entry */
-  
+	SEHotKeyTrap *se_trap; /* trap field */
+	
   NSMutableArray *se_plugins; /* plugins list */
   SparkActionPlugIn *se_plugin; /* current action plugin __weak */
   SparkApplication *se_application; /* current application */
-
+	
   NSMutableArray *se_views; /* binding cycle hack */
   NSMapTable *se_instances; /* plugin instances */
   NSMapTable *se_sizes; /* plugin min sizes */
@@ -47,6 +47,10 @@
 
 - (SparkApplication *)application;
 - (void)setApplication:(SparkApplication *)anApplication;
+
+- (IBAction)ok:(id)sender;
+- (IBAction)cancel:(id)sender;
+- (IBAction)openHelp:(id)sender;
 
 @end
 

@@ -170,7 +170,7 @@ NSInteger SparkPreferencesGetIntegerValue(NSString *key, SparkPreferencesDomain 
 
 #pragma mark Setter
 static
-void _SparkPreferencesSetValue(NSString *key, id value, SparkPreferencesDomain domain, BOOL sync) {
+void _SparkPreferencesSetValue(NSString *key, id value, SparkPreferencesDomain domain, BOOL synchronize) {
   DLog(@"SparkPreferencesSetValue(%@, %@, %i)", key, value, domain);
   /* If daemon context, register preferences port */
   if (SparkGetCurrentContext() != kSparkEditorContext) {
@@ -203,7 +203,7 @@ void _SparkPreferencesSetValue(NSString *key, id value, SparkPreferencesDomain d
       break;
   }
   SparkPreferencesNotifyObservers(key, value, domain);
-  if (sync && SparkGetCurrentContext() == kSparkEditorContext) {
+  if (synchronize && SparkGetCurrentContext() == kSparkEditorContext) {
     /* Sync daemon */
     _SparkPreferencesSetDaemonValue(key, value, domain);
   }

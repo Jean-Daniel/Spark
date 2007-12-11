@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 42;
+	objectVersion = 44;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -78,7 +78,6 @@
 		1B7BB7E80CBE20D500484A9E /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		1B7BB7E90CBE20D500484A9E /* Profile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Profile.xcconfig; sourceTree = "<group>"; };
 		1B7BB7EA0CBE20D500484A9E /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
-		1B7BB7EB0CBE20D500484A9E /* Universal.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Universal.xcconfig; sourceTree = "<group>"; };
 		1B7BBBF80CBE25D000484A9E /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
@@ -146,11 +145,9 @@
 				1B7BB7E80CBE20D500484A9E /* Debug.xcconfig */,
 				1B7BB7E90CBE20D500484A9E /* Profile.xcconfig */,
 				1B7BB7EA0CBE20D500484A9E /* Release.xcconfig */,
-				1B7BB7EB0CBE20D500484A9E /* Universal.xcconfig */,
 			);
-			name = Configurations;
-			path = ../../../Shared/Configurations;
-			sourceTree = SOURCE_ROOT;
+			path = Configurations;
+			sourceTree = SHARED_SOURCES_DIR;
 		};
 		29B97314FDCFA39411CA2CEA /* Spark */ = {
 			isa = PBXGroup;
@@ -255,6 +252,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 98EF7DEF08645714007BC81A /* Build configuration list for PBXProject "SparkDaemon" */;
+			compatibilityVersion = "Xcode 3.0";
 			hasScannedForEncodings = 1;
 			mainGroup = 29B97314FDCFA39411CA2CEA /* Spark */;
 			projectDirPath = "";
@@ -383,24 +381,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		98C128D108CE0E9E0015CB91 /* Universal Binary */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CURRENT_PROJECT_VERSION = 401;
-				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(USER_APPS_DIR)";
-				PRODUCT_NAME = "Spark Daemon";
-			};
-			name = "Universal Binary";
-		};
-		98C128D208CE0E9E0015CB91 /* Universal Binary */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1B7BB7EB0CBE20D500484A9E /* Universal.xcconfig */;
-			buildSettings = {
-				SYMROOT = ../build;
-			};
-			name = "Universal Binary";
-		};
 		98EF7DEB08645714007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -464,7 +444,6 @@
 				98EF7DEB08645714007BC81A /* Debug */,
 				98EF7DEC08645714007BC81A /* Profile */,
 				98EFD2D80B58457D00AD4492 /* Release */,
-				98C128D108CE0E9E0015CB91 /* Universal Binary */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
@@ -475,7 +454,6 @@
 				98EF7DF008645714007BC81A /* Debug */,
 				98EF7DF108645714007BC81A /* Profile */,
 				98EFD2D90B58457D00AD4492 /* Release */,
-				98C128D208CE0E9E0015CB91 /* Universal Binary */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

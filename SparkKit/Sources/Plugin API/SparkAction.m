@@ -42,7 +42,7 @@ static SparkTrigger *sTrigger;
   
   UInt32 flags = 0;
   if (sp_saFlags.invalid) flags |= 1 << 0;
-  [coder encodeInt32:flags forKey:kSparkActionFlagsKey];
+  [coder encodeBool:flags forKey:kSparkActionFlagsKey];
   [coder encodeInt32:sp_version forKey:kSparkActionVersionKey];
   if (nil != sp_categorie)
     [coder encodeObject:sp_categorie forKey:kSparkActionCategorieKey];
@@ -177,23 +177,6 @@ static SparkTrigger *sTrigger;
 - (NSTimeInterval)repeatInterval {
   return 0;
 }
-
-/* Status */
-//- (BOOL)isActive {
-//  if (![self isRegistred])
-//    return NO;
-//  SparkApplication *application = [[self library] frontApplication];
-//  return [[[self library] entryManager] isActionActive:[self uid]
-//                                        forApplication:application ? [application uid] : kSparkApplicationSystemUID];
-//}
-//
-//- (BOOL)isRegistred {
-//  return sp_saFlags.registred;
-//}
-//- (void)setRegistred:(BOOL)flag {
-//  //  DLog(@"%@ set registred: %@", self, flag ? @"YES" : @"NO");
-//  SKFlagSet(sp_saFlags.registred, flag);
-//}
 
 @end
 

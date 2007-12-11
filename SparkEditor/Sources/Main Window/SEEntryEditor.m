@@ -7,7 +7,6 @@
  */
 
 #import "SEEntryEditor.h"
-#import "SESparkEntrySet.h"
 
 #import "Spark.h"
 #import "SETableView.h"
@@ -47,13 +46,13 @@
     se_sizes = NSCreateMapTable(NSObjectMapKeyCallBacks, NSObjectMapValueCallBacks, 0);
     se_instances = NSCreateMapTable(NSObjectMapKeyCallBacks, NSObjectMapValueCallBacks, 0);
     
-    uiTrap = [[SEHotKeyTrap alloc] initWithFrame:NSMakeRect(0, 0, 114, 22)];
+    se_trap = [[SEHotKeyTrap alloc] initWithFrame:NSMakeRect(0, 0, 114, 22)];
   }
   return self;
 }
 
 - (void)dealloc {
-  [uiTrap release];
+  [se_trap release];
   [se_entry release];
   [se_views release];
   [se_plugins release];
@@ -123,8 +122,8 @@
   /* Check trigger */
   NSAlert *alert = nil;
   /* End editing if needed */
-  [uiTrap validate:sender];
-  SEHotKey key = [uiTrap hotkey];
+  [se_trap validate:sender];
+  SEHotKey key = [se_trap hotkey];
   if (kHKInvalidVirtualKeyCode == key.keycode || kHKNilUnichar == key.character) {
     alert = [NSAlert alertWithMessageText:NSLocalizedStringFromTable(@"EMPTY_TRIGGER_ALERT",
                                                                      @"SEEditor", @"Invalid Shortcut - Title")
@@ -229,10 +228,10 @@
   [se_plugins sortUsingDescriptors:gSortByNameDescriptors];
   
   /* plugins list should contains "Inherit" if:
-    - Application uid != 0.
-    - Edit an existing entry (is updating).
-    - Not a specific action (else global action is nil).
-    */
+	 - Application uid != 0.
+	 - Edit an existing entry (is updating).
+	 - Not a specific action (else global action is nil).
+	 */
   BOOL advanced = [[self application] uid] != 0;
   advanced = advanced && (se_entry != nil);
   advanced = advanced && ([se_entry type] != kSparkEntryTypeSpecific);
@@ -273,21 +272,21 @@
       case kSparkEntryTypeWeakOverWrite:
         if ([[self application] uid] != 0) {
           type = [se_plugins objectAtIndex:0];
-          [uiTrap setEnabled:NO];
+          [se_trap setEnabled:NO];
           break;
         }
         // else fall through
-      default:
+				default:
         // TODO. trap should not be enabled ?
         type = [[SparkActionLoader sharedLoader] plugInForAction:[se_entry action]];
-        [uiTrap setEnabled:YES];
+        [se_trap setEnabled:YES];
         break;
     }
     [uiConfirm setTitle:NSLocalizedStringFromTable(@"ENTRY_EDITOR_UPDATE",
                                                    @"SEEditor", @"Entry Editor Update Button")];
   } else {
     // set create
-    [uiTrap setEnabled:YES];
+    [se_trap setEnabled:YES];
     [uiConfirm setTitle:NSLocalizedStringFromTable(@"ENTRY_EDITOR_CREATE",
                                                    @"SEEditor", @"Entry Editor Update Button")];
   }
@@ -304,7 +303,7 @@
     key.modifiers = [hotkey nativeModifier];
     key.character = [hotkey character];
   }
-  [uiTrap setHotKey:key];
+  [se_trap setHotKey:key];
 }
 
 - (SparkApplication *)application {
@@ -317,8 +316,8 @@
     /* Set Application */
     [uiApplication setSparkApplication:anApplication];
     [uiApplication setTitle:[NSString stringWithFormat:
-      NSLocalizedStringFromTable(@"APPLICATION_FIELD",
-                                 @"SEEditor", @"%@ => Application name"), [anApplication name]]];
+														 NSLocalizedStringFromTable(@"APPLICATION_FIELD",
+																												@"SEEditor", @"%@ => Application name"), [anApplication name]]];
     [self updatePlugins];
   }
 }
@@ -364,9 +363,9 @@
     action = [[[cls alloc] init] autorelease];
     if ([se_entry action])
       [action setPropertiesFromAction:[se_entry action]];
-}
-/* Set plugin's spark action */
-[se_plugin setSparkAction:action edit:edit];
+	}
+	/* Set plugin's spark action */
+	[se_plugin setSparkAction:action edit:edit];
 }
 
 - (void)setActionType:(SparkPlugIn *)aPlugin force:(BOOL)force {
@@ -400,9 +399,9 @@
     [previousPlugin pluginViewDidBecomeHidden];
     
     [previousPlugin setHotKeyTrap:nil];
-    if ([uiTrap superview])
-      [uiTrap removeFromSuperview];
-    [se_plugin setHotKeyTrap:uiTrap];
+    if ([se_trap superview])
+      [se_trap removeFromSuperview];
+    [se_plugin setHotKeyTrap:se_trap];
     
     se_view = [se_plugin actionView];
     NSAssert1([se_view isKindOfClass:[NSView class]], @"Invalid view for plugin: %@", se_plugin);
@@ -521,9 +520,9 @@
       return YES;
     
     return mask ? NO : (code == kHKVirtualEnterKey)
-      || (code == kHKVirtualReturnKey)
-      || (code == kHKVirtualEscapeKey)
-      || (code == kHKVirtualTabKey);
+		|| (code == kHKVirtualReturnKey)
+		|| (code == kHKVirtualEscapeKey)
+		|| (code == kHKVirtualTabKey);
   }
 }
 

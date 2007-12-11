@@ -59,9 +59,6 @@ int main(int argc, const char *argv[]) {
   return 0;
 }
 
-/* Main thread variable */
-//static BOOL sIsProcessingEvent = NO;
-
 static
 OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef inEvent, void *inUserData) {
   if (GetEventClass(inEvent) == kEventClassApplication) {
@@ -297,7 +294,7 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
   Boolean display = !SparkPreferencesGetBooleanValue(@"SDBlockAlertOnLoad", SparkPreferencesDaemon);
   /* Send actionDidLoad message to all actions */
   SparkAction *action;
-  NSEnumerator *actions = [[sd_library actionSet] objectEnumerator];
+  NSEnumerator *actions = [sd_library actionEnumerator];
   NSMutableArray *errors = display ? [[NSMutableArray alloc] init] : nil;
   while (action = [actions nextObject]) {
     SparkAlert *alert = [action actionDidLoad];
@@ -315,7 +312,7 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
 
 - (void)loadTriggers {
   SparkTrigger *trigger;
-  NSEnumerator *triggers = [[sd_library triggerSet] objectEnumerator];
+  NSEnumerator *triggers = [sd_library triggerEnumerator];
   while (trigger = [triggers nextObject]) {
     @try {
       [trigger setTarget:self];
@@ -330,15 +327,15 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
 - (void)registerTriggers {
   SparkTrigger *trigger;
   SparkEntryManager *manager = [sd_library entryManager];
-  NSEnumerator *triggers = [[sd_library triggerSet] objectEnumerator];
+  NSEnumerator *triggers = [sd_library triggerEnumerator];
   while (trigger = [triggers nextObject]) {
     @try {
       if (![trigger isRegistred]) {
-        if ([manager containsActiveEntryForTrigger:[trigger uid]]) {
+        if ([manager containsActiveEntryForTrigger:trigger]) {
           [trigger setRegistred:YES];
         }
       } else {
-        if (![manager containsActiveEntryForTrigger:[trigger uid]]) {
+        if (![manager containsActiveEntryForTrigger:trigger]) {
           [trigger setRegistred:NO];
         }
       }
@@ -350,7 +347,7 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
 
 - (void)unregisterTriggers {
   SparkTrigger *trigger;
-  NSEnumerator *triggers = [[sd_library triggerSet] objectEnumerator];
+  NSEnumerator *triggers = [sd_library triggerEnumerator];
   while (trigger = [triggers nextObject]) {
     @try {
       if ([trigger isRegistred]) {
@@ -364,10 +361,10 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
 - (void)unregisterVolatileTriggers {
   SparkTrigger *trigger;
   SparkEntryManager *manager = [sd_library entryManager];
-  NSEnumerator *triggers = [[sd_library triggerSet] objectEnumerator];
+  NSEnumerator *triggers = [sd_library triggerEnumerator];
   while (trigger = [triggers nextObject]) {
     @try {
-      if ([trigger isRegistred] && ![manager containsPersistentActiveEntryForTrigger:[trigger uid]]) {
+      if ([trigger isRegistred] && ![manager containsPersistentActiveEntryForTrigger:trigger]) {
         [trigger setRegistred:NO];
       }
     } @catch (id exception) {
@@ -390,32 +387,14 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
   SparkApplication *front = nil;
   SparkEntryManager *manager = [sd_library entryManager];
   /* If action depends front application */
-  if ([trigger hasManyAction]) {      
+  if ([trigger hasManyAction])
     front = [sd_library frontApplication];
-    if (front) {
-      /* Get action for front application */
-      entry = [manager activeEntryForTrigger:[trigger uid] application:[front uid]];
-    }
-  }
-  /* No specific action found, use default */
-  if (!entry) {
-    /* search default */
-    entry = [manager activeEntryForTrigger:[trigger uid] application:kSparkApplicationSystemUID];
-    if (entry && front) {
-      /* if the default has a disabled child, we should not perform the action */
-      SparkEntry *child = [manager child:entry forTrigger:[trigger uid] application:[front uid]];
-      /* 
-      We don't have to check if the child is disabled. 
-       If it was enabled, it would have been returned by the "specific" search.
-       */
-      if (child) /* child is disabled */
-        entry = NULL;
-    } 
-  }
-
+  
+  if (!front) front = [sd_library systemApplication];
+  entry = [manager activeEntryForTrigger:trigger application:front];
+  
   /* Warning: trigger can be release during [action performAction] */
   [trigger retain];
-//  sIsProcessingEvent = YES;
   DLog(@"Start handle event");
   
   @try {
@@ -435,7 +414,6 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
     SKLogException(exception);
   }
   [trigger release];
-//  sIsProcessingEvent = NO;
   
   /* If alert not null */
   if (alert) {
@@ -445,7 +423,7 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
       SparkDisplayAlert(alert);
   }
   
-  DLog(@"Finish handle event");
+  DLog(@"End handle event");
 }
 
 - (void)run {

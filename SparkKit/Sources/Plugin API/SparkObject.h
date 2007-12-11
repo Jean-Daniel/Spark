@@ -136,4 +136,7 @@ SPARK_CLASS_EXPORT
 */
 - (NSImage *)iconCacheMiss;
 
+- (id)representation;
+- (void)setRepresentation:(NSString *)rep;
+
 @end

@@ -11,9 +11,7 @@
 #import "SEPluginInstaller.h"
 
 #if defined (DEBUG)
-#import "SEEntryCache.h"
 #import "SEEntryEditor.h"
-#import "SESparkEntrySet.h"
 #import <Foundation/NSDebug.h>
 #import <SparkKit/SparkLibrarySynchronizer.h>
 #endif
@@ -79,13 +77,13 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
     /* Check update */
     
     /* Leopard Help hack */
-    if (SKSystemMajorVersion() == 10 && SKSystemMinorVersion() >= 5) {
-      HKHotKey *help = [[HKHotKey alloc] initWithKeycode:kHKVirtualHelpKey modifier:0];
-      [help setTarget:self];
-      [help setAction:@selector(handleHelpEvent:)];
-      [help setRegistred:YES];
-      /* NOTE: do not release 'help': an hotkey is unregistred when deallocated */
-    }
+//    if (SKSystemMajorVersion() == 10 && SKSystemMinorVersion() >= 5) {
+//      HKHotKey *help = [[HKHotKey alloc] initWithKeycode:kHKVirtualHelpKey modifier:0];
+//      [help setTarget:self];
+//      [help setAction:@selector(handleHelpEvent:)];
+//      [help setRegistred:YES];
+//      /* NOTE: do not release 'help': an hotkey is unregistred when deallocated */
+//    }
     
     //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didRestart:) name:SURestarterApplicationDidRestartNotification object:nil];
   }

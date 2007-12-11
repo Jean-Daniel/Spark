@@ -18,50 +18,36 @@
 
 @end
 
-//typedef struct _SparkLibraryEntry {
-//  SparkUID flags;
-//  SparkUID action;
-//  SparkUID trigger;
-//  SparkUID application;
-//} SparkLibraryEntry;
-//
-//enum {
-//  /* Persistents flags */
-//  kSparkEntryEnabled = 1 << 0,
-//  /* Volatile flags */
-//  kSparkEntryUnplugged = 1 << 16,
-//  kSparkEntryPersistent = 1 << 17,
-//  kSparkPersistentFlagsMask = 0xffff,
-//};
-//
-//SPARK_PRIVATE
-//void SparkLibraryEntryInitFlags(SparkLibraryEntry *lentry, SparkEntry *entry);
-
 @class SparkTrigger;
 @interface SparkEntryManager (SparkEntryManagerInternal)
 
 - (void)checkTriggerValidity:(SparkTrigger *)trigger;
-//- (void)removeEntriesForAction:(SparkUID)action;
 
-//- (void)initInternal;
-//- (void)deallocInternal;
-//
-//#pragma mark Low-Level Methods
+#pragma mark Low-Level Methods
+- (void)sp_addEntry:(SparkEntry *)anEntry;
+- (void)sp_removeEntry:(SparkEntry *)anEntry;
+
 //- (void)addLibraryEntry:(SparkLibraryEntry *)anEntry;
 //- (void)removeLibraryEntry:(const SparkLibraryEntry *)anEntry;
 //- (void)replaceLibraryEntry:(SparkLibraryEntry *)anEntry withLibraryEntry:(SparkLibraryEntry *)newEntry;
-//
-//- (void)setEnabled:(BOOL)flag forLibraryEntry:(SparkLibraryEntry *)anEntry;
-//
-///* Convert Library entry */
+
+/* Convert Library entry */
 //- (SparkLibraryEntry *)libraryEntryForEntry:(SparkEntry *)anEntry;
 //- (SparkLibraryEntry *)libraryEntryForTrigger:(SparkUID)aTrigger application:(SparkUID)anApplication;
 //
 //- (SparkEntry *)entryForLibraryEntry:(const SparkLibraryEntry *)anEntry;
-//
-///* Library Entry info */
-//- (SparkEntryType)typeForLibraryEntry:(const SparkLibraryEntry *)anEntry;
-//
+
+@end
+
+@interface SparkEntryManager (SparkLegacyLibraryImporter)
+- (void)resolveParents;
+  /* simple array of entries builded from an Spark 2 library. */
+- (void)loadLegacyEntries:(NSArray *)entries;
+  /* library version 2.0 */
+- (BOOL)readFromFileWrapper:(NSFileWrapper *)fileWrapper error:(NSError **)outError;
+  /* parent resolution helper */
+- (SparkEntry *)entryForTrigger:(SparkTrigger *)aTrigger application:(SparkApplication *)anApplication;
+
 @end
 
 SK_EXPORT

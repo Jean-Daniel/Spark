@@ -31,7 +31,7 @@ NSShadow *sDropShadow = nil, *sLevelShadow = nil;
   return !sk_svFlags.hide;
 }
 - (void)setDrawsLevelIndicator:(BOOL)flag {
-  SKSetFlag(sk_svFlags.hide, !flag);
+  SKFlagSet(sk_svFlags.hide, !flag);
   [self setNeedsDisplay:YES];
 }
 
@@ -39,7 +39,7 @@ NSShadow *sDropShadow = nil, *sLevelShadow = nil;
   return sk_svFlags.zero;
 }
 - (void)setZero:(BOOL)flag {
-  SKSetFlag(sk_svFlags.zero, flag);
+  SKFlagSet(sk_svFlags.zero, flag);
 }
 
 - (NSUInteger)level {

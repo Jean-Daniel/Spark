@@ -114,9 +114,9 @@
 }
 
 - (CGFloat)setText:(NSString *)msg inField:(id)textField {
-  id layout = [textField layoutManager];
-  id container = [textField textContainer];
-  id storage = [textField textStorage];
+  NSLayoutManager *layout = [textField layoutManager];
+  NSTextContainer *container = [textField textContainer];
+  NSTextStorage *storage = [textField textStorage];
   
   CGFloat oldHeight = NSHeight([layout boundingRectForGlyphRange:NSMakeRange(0, [[storage string] length])
                                                  inTextContainer:container]);

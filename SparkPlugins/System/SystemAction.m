@@ -318,14 +318,14 @@ kAEShowShutdownDialog         = 'rsdn'
   return sa_saFlags.notify;
 }
 - (void)setShouldNotify:(BOOL)flag {
-  SKSetFlag(sa_saFlags.notify, flag);
+  SKFlagSet(sa_saFlags.notify, flag);
 }
 
 - (BOOL)shouldConfirm {
   return sa_saFlags.confirm;
 }
 - (void)setShouldConfirm:(BOOL)flag {
-  SKSetFlag(sa_saFlags.confirm, flag);
+  SKFlagSet(sa_saFlags.confirm, flag);
 }
 
 - (void)sleep {

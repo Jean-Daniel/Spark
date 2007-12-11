@@ -6,14 +6,11 @@
  *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
  */
 
-#import <Cocoa/Cocoa.h>
-
 @class SparkPlugIn, SparkEntry;
 @class SparkLibrary, SparkApplication;
-@class SEEntryCache, SEEntryEditor, SELibraryWindow;
+@class SEEntryEditor, SELibraryWindow;
 @interface SELibraryDocument : NSDocument {
   @private
-  SEEntryCache *se_cache;
   SEEntryEditor *se_editor;
   
   SparkLibrary *se_library;
@@ -23,7 +20,6 @@
 - (SparkLibrary *)library;
 - (void)setLibrary:(SparkLibrary *)aLibrary;
 
-- (SEEntryCache *)cache;
 - (SparkApplication *)application;
 - (void)setApplication:(SparkApplication *)anApplication;
 

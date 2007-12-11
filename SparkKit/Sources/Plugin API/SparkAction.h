@@ -41,8 +41,7 @@ SPARK_CLASS_EXPORT
   UInt32 sp_version;
   struct _sp_saFlags {
     unsigned int invalid:1;
-    unsigned int registred:1;
-    unsigned int :14;
+    unsigned int :15;
   } sp_saFlags;
   NSString *sp_categorie, *sp_description;
 }
@@ -84,7 +83,7 @@ SPARK_CLASS_EXPORT
   /*!
   @method
    @abstract   Required!
-   @discussion Subclasses must overwrite this method.
+   @discussion Subclasses must override this method.
    @result     Returns <i>nil</i> if this SparkAction is successfully executed.
    */
 - (SparkAlert *)performAction;
@@ -130,18 +129,5 @@ SPARK_CLASS_EXPORT
    @discussion The default implementation returns -1. An action can override this method to enable auto-repeat.
    */
 - (NSTimeInterval)repeatInterval;
-
-#pragma mark Unstable
-/* return YES if this action is enabled for the current front application */
-//- (BOOL)isActive;
-//- (BOOL)isRegistred;
-
-///*!
-//  @method
-// @abstract You should not call this method directly.
-// @discussion Subclasses can override this method to be notified about registration status change.
-// Subclasses should call super in their implementation
-//*/
-//- (void)setRegistred:(BOOL)flag;
 
 @end

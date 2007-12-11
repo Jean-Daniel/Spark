@@ -425,7 +425,7 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
   return aa_aaFlags.reopen;
 }
 - (void)setReopen:(BOOL)flag {
-  SKSetFlag(aa_aaFlags.reopen, flag);
+  SKFlagSet(aa_aaFlags.reopen, flag);
 }
 
 - (int)activation {
@@ -439,7 +439,7 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
   return aa_aaFlags.visual;
 }
 - (void)setUsesSharedVisual:(BOOL)flag {
-  SKSetFlag(aa_aaFlags.visual, flag);
+  SKFlagSet(aa_aaFlags.visual, flag);
 }
 
 - (void)getVisualSettings:(ApplicationVisualSetting *)settings {

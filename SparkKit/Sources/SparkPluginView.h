@@ -11,10 +11,10 @@
 @class SparkActionPlugIn;
 @interface SparkPluginView : SKViewController {
   @private
+	IBOutlet NSView *uiTrap;
+  IBOutlet NSView *uiView;
   IBOutlet NSImageView *uiIcon;
   IBOutlet NSTextField *uiName;
-  IBOutlet NSView *uiTrap;
-  IBOutlet NSView *uiView;
 }
 
 - (void)setPlugin:(SparkActionPlugIn *)aPlugin;

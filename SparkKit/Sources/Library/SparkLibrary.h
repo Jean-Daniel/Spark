@@ -101,7 +101,8 @@ SPARK_CLASS_EXPORT
   
   struct _sp_slFlags {
     unsigned int loaded:1;
-    unsigned int reserved:31;
+    unsigned int unnotify:1;
+    unsigned int reserved:30;
   } sp_slFlags;
   
   /* Model synchronization */
@@ -127,6 +128,8 @@ SPARK_CLASS_EXPORT
 - (NSUndoManager *)undoManager;
 - (void)setUndoManager:(NSUndoManager *)aManager;
 
+- (void)enableNotifications;
+- (void)disableNotifications;
 - (NSNotificationCenter *)notificationCenter;
 
 - (BOOL)isLoaded;
@@ -134,15 +137,11 @@ SPARK_CLASS_EXPORT
 - (BOOL)load:(NSError **)error;
 - (void)unload;
 
-- (SparkObjectSet *)listSet;
-- (SparkObjectSet *)actionSet;
-- (SparkObjectSet *)triggerSet;
-- (SparkObjectSet *)applicationSet;
-
-- (SparkList *)listWithUID:(SparkUID)uid;
-- (SparkAction *)actionWithUID:(SparkUID)uid;
-- (SparkTrigger *)triggerWithUID:(SparkUID)uid;
-- (SparkApplication *)applicationWithUID:(SparkUID)uid;
+- (NSEnumerator *)listEnumerator;
+- (NSEnumerator *)entryEnumerator;
+- (NSEnumerator *)actionEnumerator;
+- (NSEnumerator *)triggerEnumerator;
+- (NSEnumerator *)applicationEnumerator;
 
 - (SparkEntryManager *)entryManager;
    

@@ -45,6 +45,10 @@ NSString * const kSparkPrefSingleKeyMode;
 - (float)delay;
 - (void)setDelay:(float)delay;
 
+- (IBAction)close:(id)sender;
+- (IBAction)apply:(id)sender;
+- (IBAction)update:(id)sender;
+
 @end
 
 SK_PRIVATE

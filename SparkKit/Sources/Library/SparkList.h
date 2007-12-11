@@ -9,39 +9,37 @@
 #import <SparkKit/SparkObject.h>
 #import <SparkKit/SparkObjectSet.h>
 
-@class SparkList;
-typedef BOOL(*SparkListFilter)(SparkList *, SparkObject *, id ctxt);
+@class SparkList, SparkEntry;
+typedef BOOL(*SparkListFilter)(SparkList *, SparkEntry *, id ctxt);
 
 SPARK_EXPORT
 NSString * const SparkListDidReloadNotification;
 
 SPARK_EXPORT
-NSString * const SparkListDidAddObjectNotification;
+NSString * const SparkListDidAddEntryNotification;
 SPARK_EXPORT
-NSString * const SparkListDidAddObjectsNotification;
+NSString * const SparkListDidAddEntriesNotification;
 
 SPARK_EXPORT
-NSString * const SparkListDidUpdateObjectNotification;
-
+NSString * const SparkListDidRemoveEntryNotification;
 SPARK_EXPORT
-NSString * const SparkListDidRemoveObjectNotification;
-SPARK_EXPORT
-NSString * const SparkListDidRemoveObjectsNotification;
+NSString * const SparkListDidRemoveEntriesNotification;
 
+@class SparkEntry, SparkApplication;
 SK_CLASS_EXPORT
 @interface SparkList : SparkObject {
   @private
-  NSMutableArray *sp_entries;
   
-  SparkObjectSet *sp_set; /* weak reference */
+  NSMutableArray *sp_entries;
   
   id sp_ctxt;
   SparkListFilter sp_filter;
+  struct _sp_selFlags {
+    unsigned int group:8;
+    unsigned int editable:1;
+    unsigned int reserved:23;
+  } sp_selFlags;
 }
-
-- (id)initWithObjectSet:(SparkObjectSet *)library;
-
-- (void)setObjectSet:(SparkObjectSet *)library;
 
 - (void)reload;
 - (BOOL)isDynamic;
@@ -51,29 +49,34 @@ SK_CLASS_EXPORT
 /* Reload the list, but does not track library change */
 - (void)reloadWithFilter:(SparkListFilter)aFilter context:(id)aCtxt;
 
-/* Special initializer */
-- (id)initWithSerializedValues:(NSDictionary *)plist
-                     objectSet:(SparkObjectSet *)library;
-
 - (NSUInteger)count;
 - (NSEnumerator *)objectEnumerator;
-- (void)addObject:(SparkObject *)anObject;
-- (void)addObjectsFromArray:(NSArray *)anArray;
+//- (BOOL)containsEntry:(SparkEntry *)anObject;
+- (NSArray *)entriesForApplication:(SparkApplication *)anApplication;
 
-- (BOOL)containsObject:(SparkObject *)anObject;
+- (void)addEntry:(SparkEntry *)anEntry;
+- (void)addEntriesFromArray:(NSArray *)anArray;
 
-- (void)removeObject:(SparkObject *)anObject;
-- (void)removeObjectsInArray:(NSArray *)anArray;
+- (void)removeEntry:(SparkEntry *)anObject;
+- (void)removeEntriesInArray:(NSArray *)anArray;
 
-/* protected */
-- (void)registerNotifications;
-- (void)unregisterNotifications;
+/* Editor facilities */
+- (UInt8)group;
+- (void)setGroup:(UInt8)group;
 
-@end
+- (BOOL)isEditable;
+- (void)setEditable:(BOOL)flag;
 
-#pragma mark -
-/* Same as Object Set but override deserialization */
-@interface SparkListSet : SparkObjectSet {
-}
-- (SparkObject *)deserialize:(NSDictionary *)plist error:(OSStatus *)error;
+- (BOOL)acceptsEntry:(SparkEntry *)anEntry;
+
+#pragma mark KVC
+- (NSArray *)entries;
+- (NSUInteger)countOfEntries;
+- (void)setEntries:(NSArray *)entries;
+- (SparkEntry *)objectInEntriesAtIndex:(NSUInteger)idx;
+- (void)getEntries:(id *)aBuffer range:(NSRange)range;
+- (void)insertObject:(SparkEntry *)anEntry inEntriesAtIndex:(NSUInteger)idx;
+- (void)removeObjectFromEntriesAtIndex:(NSUInteger)idx;
+- (void)replaceObjectInEntriesAtIndex:(NSUInteger)idx withObject:(SparkEntry *)object;
+
 @end
