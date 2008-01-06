@@ -9,7 +9,7 @@
 #import <ShadowKit/SKTableDataSource.h>
 
 @class SparkAction;
-@class SparkList, SparkLibrary, SparkPlugIn;
+@class SparkLibrary, SparkPlugIn;
 @class SEEntryList, SETableView, SELibraryWindow;
 @interface SELibrarySource : SKTableDataSource {
   IBOutlet SETableView *uiTable;
@@ -25,7 +25,7 @@
 
 - (void)setLibrary:(SparkLibrary *)aLibrary;
 
-- (SparkPlugIn *)pluginForList:(SparkList *)aList;
+- (SparkPlugIn *)pluginForList:(SEEntryList *)aList;
 
 - (IBAction)selectLibrary:(id)sender;
 - (IBAction)selectApplicationList:(id)sender;

@@ -7,97 +7,125 @@
  */
 
 #import "SEEntryList.h"
+#import "SETableView.h"
 #import "SELibraryDocument.h"
 
 #import <SparkKit/SparkEntry.h>
-//#import <SparkKit/SparkTrigger.h>
-#import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkPrivate.h>
-//#import <SparkKit/SparkApplication.h>
-#import <SparkKit/SparkEntryManager.h>
+
+SK_INLINE
+SparkEntry *__SEEntryForApplication(SparkEntry *entry, SparkApplication *app, bool specific) {
+  if ([[entry application] isEqual:app])
+    return entry;
+  
+  /* entry application match */
+	if ([entry isSystem]) {
+		SparkEntry *child = [entry variantWithApplication:app];
+		/* return child if one exists, else returns entry (if not specific) */
+		return child ? : (specific ? nil : entry);
+	}
+	/* specific entry for another application */
+  return nil;
+}
 
 @implementation SEEntryList
 
++ (SEEntryList *)separatorList {
+	SEEntryList *separator = [[SEEntryList alloc] initWithName:SETableSeparator icon:nil];
+	separator->se_selFlags.separator = 1;
+	return [separator autorelease];
+}
+
+- (id)init {
+	return [self initWithName:nil icon:nil];
+}
+
+- (id)initWithName:(NSString *)name icon:(NSImage *)icon {
+	if (self = [super init]) {
+		se_selFlags.isVirtual = 1;
+		se_list = [[SparkList alloc] initWithName:name icon:icon];
+		[se_list addObserver:self forKeyPath:@"entries" 
+								 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
+		[self setNeedsReload:YES];
+	}
+	return self;	
+}
+
+- (id)initWithList:(SparkList *)aList {
+	NSParameterAssert(aList);
+	if (self = [super init]) {
+		se_list = [aList retain];
+		[se_list addObserver:self forKeyPath:@"entries" 
+								 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
+		[self setNeedsReload:YES];
+	}
+	return self;
+}
+
 - (void)dealloc {
-	[self setDocument:nil];
+	[se_list removeObserver:self forKeyPath:@"entries"];
+	[se_application release];
+	[se_snapshot release];
+	[se_list release];
   [super dealloc];
 }
 
 #pragma mark -
-- (void)setDocument:(SELibraryDocument *)aDocument {
-	if (se_document)
-		[[NSNotificationCenter defaultCenter] removeObserver:self
-																										name:SEApplicationDidChangeNotification
-																									object:se_document];
-  [self setLibrary:[aDocument library]];
-	se_document = aDocument;
-	if (se_document)
-		[[NSNotificationCenter defaultCenter] addObserver:self
-																						 selector:@selector(applicationDidChange:)
-																								 name:SEApplicationDidChangeNotification
-																							 object:se_document];
-	[self reload];
+- (void)snapshot {
+	if (se_selFlags.separator) return;
+	[self willChangeValueForKey:@"entries"];
+	if (se_snapshot)
+		[se_snapshot removeAllObjects];
+	else
+		se_snapshot = [[NSMutableArray alloc] init];
+	
+	NSArray *entries = [se_list entries];
+	NSUInteger count = [entries count];
+	for (NSUInteger idx = 0; idx < count; idx++) {
+		SparkEntry *entry = __SEEntryForApplication([entries objectAtIndex:idx], se_application, se_selFlags.specific);
+		if (entry) {
+			/* if dynamic list, we have to revalidate the entry */
+			if (![se_list isDynamic] || [se_list acceptsEntry:entry])
+				[se_snapshot addObject:entry];
+		}
+	}
+	se_selFlags.dirty = 0;
+	//DLog(@"snapshot: %@", [self name]);
+	[self didChangeValueForKey:@"entries"];
 }
 
-SK_INLINE
-BOOL __SEEntryIsValidForApplication(SparkEntry *entry, SparkApplication *app) {
-  SparkUID uid = [app uid];
-  if (kSparkApplicationSystemUID == uid)
-    return [entry isSystem];
-  
-  /* entry application match */
-  if ([entry applicationUID] == uid)
-    return YES;
-  
-  /* we should display all default actions that are not overridden */
-  return [entry isSystem] && ![entry childWithApplication:app];
+- (SparkList *)sparkList {
+	return se_list;
 }
 
-- (BOOL)acceptsEntry:(SparkEntry *)anEntry {
-  if (__SEEntryIsValidForApplication(anEntry, se_application))
-    return [super acceptsEntry:anEntry];
-  return NO;
+- (NSImage *)icon {
+	return [se_list icon];
+}
+- (void)setIcon:(NSImage *)icon {
+	[self willChangeValueForKey:@"representation"];
+	[se_list setIcon:icon];
+	[self didChangeValueForKey:@"representation"];
 }
 
-//- (void)setLibrary:(SparkLibrary *)aLibrary {
-//  if (aLibrary != se_library) {
-//    if (se_library) {
-//      [[se_library notificationCenter] removeObserver:self];
-//      [se_library release];
-//      se_library = nil;
-//    }
-//    se_library = [aLibrary retain];
-//    if (se_library) {
-//      /* Current application change */
-//      [[se_library notificationCenter] addObserver:self
-//                                          selector:@selector(applicationDidChange:)
-//                                              name:SEApplicationDidChangeNotification
-//                                            object:se_document];
-//      /* Cache updates */
-//      [[se_library notificationCenter] addObserver:self
-//                                          selector:@selector(didAddEntry:)
-//                                              name:SEEntryCacheDidAddEntryNotification
-//                                            object:[se_document cache]];
-//      [[se_library notificationCenter] addObserver:self
-//                                          selector:@selector(didUpdateEntry:)
-//                                              name:SEEntryCacheDidUpdateEntryNotification
-//                                            object:[se_document cache]];
-//      [[se_library notificationCenter] addObserver:self
-//                                          selector:@selector(willRemoveEntry:)
-//                                              name:SEEntryCacheWillRemoveEntryNotification
-//                                            object:[se_document cache]];
-//      
-//      [[se_library notificationCenter] addObserver:self
-//                                          selector:@selector(cacheDidReload:)
-//                                              name:SEEntryCacheDidReloadNotification
-//                                            object:[se_document cache]];
-//    }
-//    [self reload];
-//  }
-//}
+- (NSString *)name {
+	return [se_list name];
+}
+- (void)setName:(NSString *)aName {
+	[self willChangeValueForKey:@"representation"];
+	[se_list setName:aName];
+	[self didChangeValueForKey:@"representation"];
+}
+
+#pragma mark Spark Editor
+- (UInt8)group {
+  return se_selFlags.group;
+}
+- (void)setGroup:(UInt8)group {
+  se_selFlags.group = group;
+}
 
 - (BOOL)isEditable {
-  return NO;
+  return !se_selFlags.isVirtual && !se_selFlags.separator;
 }
 
 - (NSComparisonResult)compare:(id)object {
@@ -107,231 +135,78 @@ BOOL __SEEntryIsValidForApplication(SparkEntry *entry, SparkApplication *app) {
   else return [[self name] caseInsensitiveCompare:[object name]];
 }
 
-#pragma mark Notifications
-- (void)applicationDidChange:(NSNotification *)aNotification {
-  SparkApplication *previous = [[aNotification userInfo] objectForKey:SEPreviousApplicationKey];
-  
-  if (!previous) {
-    [self reload];
+- (void)setDocument:(SELibraryDocument *)aDocument {
+	if (se_selFlags.isVirtual) {
+		[se_list setLibrary:[aDocument library]];
+	}
+}
+
+- (void)setApplication:(SparkApplication *)anApplication {
+	SKSetterRetain(se_application, anApplication);
+	[self setNeedsReload:YES];
+}
+
+- (void)setSpecificFilter:(BOOL)flag {
+	SKFlagSet(se_selFlags.specific, flag);
+}
+- (void)setListFilter:(SparkListFilter)aFilter context:(id)aCtxt {
+	[se_list setListFilter:aFilter context:aCtxt];
+}
+
+- (id)representation {
+	return self;
+}
+- (void)setRepresentation:(id)rep {
+	return [se_list setRepresentation:rep];
+}
+
+#pragma mark KVC
+- (void)setNeedsReload:(BOOL)flag {
+	SKFlagSet(se_selFlags.dirty, flag);
+}
+
+- (NSArray *)entries {
+	if (se_selFlags.dirty) [self snapshot];
+	return se_snapshot;
+}
+//- (void)setEntries:(NSArray *)entries {
+//	
+//}
+
+- (NSUInteger)countOfEntries {
+	if (se_selFlags.dirty) [self snapshot];
+  return [se_snapshot count];
+}
+
+- (SparkEntry *)objectInEntriesAtIndex:(NSUInteger)idx {
+	if (se_selFlags.dirty) [self snapshot];
+  return [se_snapshot objectAtIndex:idx];
+}
+
+- (void)getEntries:(id *)aBuffer range:(NSRange)range {
+	if (se_selFlags.dirty) [self snapshot];
+  [se_snapshot getObjects:aBuffer range:range];
+}
+
+//- (void)insertObject:(SparkEntry *)anEntry inEntriesAtIndex:(NSUInteger)idx {
+//	ShadowDTrace();
+//}
+//- (void)removeObjectFromEntriesAtIndex:(NSUInteger)idx {
+//	ShadowDTrace();
+//}
+//- (void)replaceObjectInEntriesAtIndex:(NSUInteger)idx withObject:(SparkEntry *)object {
+//	ShadowDTrace();
+//}
+
+#pragma mark Sync with SparkList
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+  if ([@"entries" isEqualToString:keyPath]) {
+		[self snapshot];
+		//DLog(@"%@", change);
   } else {
-    SparkApplication *application = [[aNotification object] application];
-    /* Reload when switching to/from global */
-    if ([application uid] == 0 || [previous uid] == 0) {
-      [self reload];
-    } else {
-      /* Reload if previous or current contains custom entries */
-      SparkEntryManager *manager = [[[aNotification object] library] entryManager];
-      if ([manager containsEntryForApplication:previous] || 
-          [manager containsEntryForApplication:application])
-        [self reload];
-    }
-  }
+		[super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+	}
 }
 
 @end
-
-//#pragma mark -
-//#pragma mark User Lists
-//@implementation SEUserEntryList
-//
-//- (id)initWithList:(SparkList *)aList {
-//  NSParameterAssert(aList);
-//  if (self = [super init]) {
-//    se_list = [aList retain];
-//    [super setIcon:[aList icon]];
-//    [super setName:[aList name]];
-//    [se_list addObserver:self forKeyPath:@"name" options:NSKeyValueObservingOptionOld context:nil];
-//    
-//    NSNotificationCenter *center = [[se_list library] notificationCenter];
-//    [center addObserver:self
-//               selector:@selector(didAddTrigger:)
-//                   name:SparkListDidAddObjectNotification
-//                 object:se_list];
-//    [center addObserver:self
-//               selector:@selector(didAddTriggers:)
-//                   name:SparkListDidAddObjectsNotification
-//                 object:se_list];
-//    
-//    [center addObserver:self
-//               selector:@selector(didUpdateTrigger:)
-//                   name:SparkListDidUpdateObjectNotification
-//                 object:se_list];
-//    
-//    [center addObserver:self
-//               selector:@selector(didRemoveTrigger:)
-//                   name:SparkListDidRemoveObjectNotification
-//                 object:se_list];
-//    [center addObserver:self
-//               selector:@selector(didRemoveTriggers:)
-//                   name:SparkListDidRemoveObjectsNotification
-//                 object:se_list];
-//  }
-//  return self;
-//}
-//
-//- (void)dealloc {
-//  [se_list removeObserver:self forKeyPath:@"name"];
-//  [[[se_list library] notificationCenter] removeObserver:self];
-//  [se_list release];
-//  [super dealloc];
-//}
-//
-//#pragma mark -
-//- (void)reload {
-//  NSMutableArray *entries = [[NSMutableArray alloc] init];
-//  if ([self document]) {
-//    SparkTrigger *trigger = nil;
-//    NSEnumerator *triggers = [se_list objectEnumerator];
-//    SESparkEntrySet *cache = [[[self document] cache] entries];
-//    while (trigger = [triggers nextObject]) {
-//      SparkEntry *entry = [cache entryForTrigger:trigger];
-//      if (entry)
-//        [entries addObject:entry];
-//    }
-//  }
-//  [self setEntries:entries];
-//  [entries release];
-//}
-//
-//- (BOOL)isEditable {
-//  return YES;
-//}
-//
-//- (void)addEntries:(NSArray *)entries {
-//  NSUInteger count = [entries count];
-//  while (count-- > 0) {
-//    SparkEntry *entry = [entries objectAtIndex:count];
-//    SparkTrigger *trigger = [entry trigger];
-//    if (![se_list containsObject:trigger]) {
-//      [se_list addObject:trigger];
-//    }
-//  }
-//}
-//- (void)removeEntries:(NSArray *)entries {
-//  NSUInteger count = [entries count];
-//  while (count-- > 0) {
-//    SparkEntry *entry = [entries objectAtIndex:count];
-//    
-//    NSAssert1([[self entries] indexOfObjectIdenticalTo:entry] != NSNotFound,
-//              @"Must contains entry %@", entry);
-//    
-//    SparkTrigger *trigger = [entry trigger];
-//    NSAssert2([se_list containsObject:trigger], 
-//              @"%@ Must contains %@", se_list, trigger);
-//    
-//    [se_list removeObject:trigger];
-//  }
-//}
-//
-//- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-//  if ([@"name" isEqualToString:keyPath] && object == se_list) {
-//    [[[self document] undoManager] registerUndoWithTarget:se_list
-//                                                 selector:@selector(setName:)
-//                                                   object:[change objectForKey:NSKeyValueChangeOldKey]];
-//    [super setName:[object name]];
-//  }
-//}
-//
-//- (void)setName:(NSString *)aName {
-//  [se_list setName:aName];
-//}
-//
-//- (SparkList *)list {
-//  return se_list;
-//}
-//
-//- (BOOL)acceptsEntry:(SparkEntry *)anEntry {
-//  return [se_list containsObject:[anEntry trigger]];
-//}
-//
-//#pragma mark Notifications
-//- (NSUInteger)indexOfEntryForTrigger:(SparkTrigger *)trigger {
-//  NSUInteger count = [[self entries] count];
-//  while (count-- > 0) {
-//    SparkEntry *entry = [[self entries] objectAtIndex:count];
-//    if ([[entry trigger] isEqual:trigger])
-//      return count;
-//  }
-//  return NSNotFound;
-//}
-//
-//- (void)didAddTrigger:(NSNotification *)aNotification {
-//  SparkEntry *entry = [[[[self document] cache] entries] entryForTrigger:SparkNotificationObject(aNotification)];
-//  if (entry) {
-//    [self insertObject:entry inEntriesAtIndex:[[self entries] count]];
-//  }
-//}
-//- (void)didAddTriggers:(NSNotification *)aNotification {
-//  SESparkEntrySet *cache = [[[self document] cache] entries];
-//  NSArray *entries = SparkNotificationObject(aNotification);
-//  NSUInteger count = [entries count];
-//  while (count-- > 0) {
-//    SparkEntry *entry = [cache entryForTrigger:[entries objectAtIndex:count]];
-//    if (entry) {
-//      [self insertObject:entry inEntriesAtIndex:[[self entries] count]];
-//    }
-//  }
-//}
-//
-//- (void)didUpdateTrigger:(NSNotification *)aNotification {
-//  ShadowTrace();
-//  // Should never append.
-//}
-//
-//- (void)didRemoveTrigger:(NSNotification *)aNotification {
-//  NSUInteger idx = [self indexOfEntryForTrigger:SparkNotificationObject(aNotification)];
-//  if (idx != NSNotFound) {
-//    [self removeObjectFromEntriesAtIndex:idx];
-//  }
-//}
-//- (void)didRemoveTriggers:(NSNotification *)aNotification {
-//  NSArray *entries = SparkNotificationObject(aNotification);
-//  NSUInteger count = [entries count];
-//  while (count-- > 0) {
-//    NSUInteger idx = [self indexOfEntryForTrigger:[entries objectAtIndex:count]];
-//    if (idx != NSNotFound) {
-//      [self removeObjectFromEntriesAtIndex:idx];
-//    }
-//  }
-//}
-//
-//@end
-//
-//#pragma mark -
-//#pragma mark Smart Lists
-//@implementation SESmartEntryList
-//  
-//- (void)dealloc {
-//  [se_ctxt release];
-//  [super dealloc];
-//}
-//
-//#pragma mark -
-//- (void)reload {
-//  NSMutableArray *entries = [[NSMutableArray alloc] init];
-//  if (se_filter && [self document]) {
-//    SparkTrigger *trigger = nil;
-//    SESparkEntrySet *cache = [[[self document] cache] entries];
-//    NSEnumerator *triggers = [[[[self document] library] triggerSet] objectEnumerator];
-//    while (trigger = [triggers nextObject]) {
-//      SparkEntry *entry = [cache entryForTrigger:trigger];
-//      if (entry && se_filter(self, entry, se_ctxt))
-//        [entries addObject:entry];
-//    }
-//  }
-//  [self setEntries:entries];
-//  [entries release];
-//}
-//
-//- (void)setListFilter:(SEEntryListFilter)aFilter context:(id)aCtxt {
-//  se_filter = aFilter;
-//  SKSetterRetain(se_ctxt, aCtxt);
-//  [self reload];
-//}
-//
-//- (BOOL)acceptsEntry:(SparkEntry *)anEntry {
-//  return se_filter && se_filter(self, anEntry, se_ctxt);
-//}
-//
-//@end
 

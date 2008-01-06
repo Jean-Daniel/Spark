@@ -8,7 +8,7 @@
 
 #import <ShadowKit/SKWindowController.h>
 
-@class SparkEntry;
+@class SparkEntry, SparkAction, SparkTrigger;
 @class SETableView, SEApplicationView, SEHotKeyTrap;
 @class SparkActionPlugIn, SparkApplication, SparkPlugIn;
 @interface SEEntryEditor : SKWindowController {
@@ -28,11 +28,11 @@
   SparkActionPlugIn *se_plugin; /* current action plugin __weak */
   SparkApplication *se_application; /* current application */
 	
+	id se_delegate;
+	
+	NSMapTable *se_sizes; /* plugin min sizes */
+	NSMapTable *se_instances; /* plugin instances */
   NSMutableArray *se_views; /* binding cycle hack */
-  NSMapTable *se_instances; /* plugin instances */
-  NSMapTable *se_sizes; /* plugin min sizes */
-  
-  id se_delegate;
 }
 
 - (id)delegate;
@@ -56,7 +56,13 @@
 
 @interface NSObject (SEEntryEditorDelegate)
 
-- (BOOL)editor:(SEEntryEditor *)theEditor shouldCreateEntry:(SparkEntry *)entry;
-- (BOOL)editor:(SEEntryEditor *)theEditor shouldReplaceEntry:(SparkEntry *)entry withEntry:(SparkEntry *)newEntry;
+- (BOOL)editor:(SEEntryEditor *)theEditor shouldCreateEntryWithAction:(SparkAction *)anAction
+			 trigger:(SparkTrigger *)aTrigger
+	 application:(SparkApplication *)anApplication;
+
+- (BOOL)editor:(SEEntryEditor *)theEditor shouldUpdateEntry:(SparkEntry *)entry 
+		setAction:(SparkAction *)anAction
+			 trigger:(SparkTrigger *)aTrigger
+	 application:(SparkApplication *)anApplication;
 
 @end

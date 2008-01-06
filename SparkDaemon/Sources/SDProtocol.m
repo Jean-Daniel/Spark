@@ -131,20 +131,20 @@ void SparkDaemonCheckTrigger(SparkLibrary *library, SparkTrigger *trigger, BOOL 
 }
 
 /* Should never append since a trigger is not editable */
-- (void)willUpdateTrigger:(NSNotification *)aNotification {
-  ShadowTrace();
-  /* Configure new trigger */
-  SparkTrigger *new = SparkNotificationObject(aNotification);
-  [self configureTrigger:new];
-  if ([self isEnabled]) {
-    SparkTrigger *previous = SparkNotificationUpdatedObject(aNotification);
-    if ([previous isRegistred]) {
-      [previous setRegistred:NO];
-      /* Active new trigger */
-      [new setRegistred:YES];
-    }
-  }
-}
+//- (void)willUpdateTrigger:(NSNotification *)aNotification {
+//  ShadowTrace();
+//  /* Configure new trigger */
+//  SparkTrigger *new = SparkNotificationObject(aNotification);
+//  [self configureTrigger:new];
+//  if ([self isEnabled]) {
+//    SparkTrigger *previous = SparkNotificationUpdatedObject(aNotification);
+//    if ([previous isRegistred]) {
+//      [previous setRegistred:NO];
+//      /* Active new trigger */
+//      [new setRegistred:YES];
+//    }
+//  }
+//}
 
 #pragma mark Application
 - (void)willRemoveApplication:(NSNotification *)aNotification {

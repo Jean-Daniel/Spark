@@ -240,7 +240,6 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
     [se_preferences setReleasedWhenClosed:NO];
   }
   [se_preferences showWindow:nil];
-  //[NSApp runModalForWindow:[preferences window]];
 }
 
 #pragma mark -
@@ -407,7 +406,6 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
   if (doc) {
     [[NSDocumentController sharedDocumentController] addDocument:doc];
     [doc setLibrary:SparkActiveLibrary()];
-    //[doc setLibrary:[[[SparkLibrary alloc] init] autorelease]];
     [doc makeWindowControllers];
     [doc showWindows];
   }

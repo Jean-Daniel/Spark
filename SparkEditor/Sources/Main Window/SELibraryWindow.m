@@ -19,7 +19,6 @@
 
 #import "SEServerConnection.h"
 
-#import <SparkKit/SparkList.h>
 #import <SparkKit/SparkEntry.h>
 #import <SparkKit/SparkPlugIn.h>
 #import <SparkKit/SparkLibrary.h>
@@ -139,8 +138,6 @@
   
   /* Populate plugin menu */
   [self didChangePlugins:nil];
-  [[uiMenu cell] setToolTip:NSLocalizedString(@"CREATE_TRIGGER_TOOLTIP", @"Segment Menu ToolTips")
-                 forSegment:0];
   
   /* Load applications */
   [ibApplications setLibrary:[self library]];
@@ -151,10 +148,14 @@
   [ibGroups setSelectionIndex:0];
 }
 
+- (SETriggersController *)triggers {
+	return ibTriggers;
+}
+
 - (IBAction)libraryDoubleAction:(id)sender {
   NSInteger idx = [libraryTable selectedRow];
   if (idx > 0) {
-    SparkList *object = [ibGroups objectAtIndex:idx];
+    SEEntryList *object = [ibGroups objectAtIndex:idx];
     if ([object isEditable]) {
       [libraryTable editColumn:0 row:idx withEvent:nil select:YES];
     } else {
@@ -170,7 +171,7 @@
   [appDrawer toggle:sender];
 }
 
-- (SparkList *)selectedList {
+- (SEEntryList *)selectedList {
   return [ibGroups selectedObject];
 }
 
@@ -186,16 +187,17 @@
       [ibGroups selectApplicationList:nil];
     }
   } 
-  if ([[entry application] uid] == kSparkApplicationSystemUID) {
-    /* Select application list */
-    [ibGroups selectListForAction:[entry action]];
-  }
+  //if ([[entry application] uid] == kSparkApplicationSystemUID) {
+	/* Select plugin list */
+	if (![[ibTriggers arrangedObjects] containsObject:entry])
+			[ibGroups selectListForAction:[entry action]];
+  //}
   /* should not append */
-  if (![[triggers arrangedObjects] containsObject:entry])
+  if (![[ibTriggers arrangedObjects] containsObject:entry])
     [ibGroups selectLibrary:nil];
   
-  if ([[triggers arrangedObjects] containsObject:entry])
-      [triggers setSelectedObject:entry];
+  if ([[ibTriggers arrangedObjects] containsObject:entry])
+		[ibTriggers setSelectedObject:entry];
 }
 
 - (void)revealEntries:(NSArray *)entries {
@@ -218,7 +220,7 @@
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
   if ([menuItem action] == @selector(copy:) || [menuItem action] == @selector(paste:)) {
     NSResponder *first = [[self window] firstResponder];
-    return libraryTable == first || [triggers tableView] == first;
+    return libraryTable == first || [ibTriggers tableView] == first;
   }
   return YES;
 }

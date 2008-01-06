@@ -320,17 +320,17 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
 }
 
 /* Find equivalent trigger in library */
-//- (SparkTrigger *)memberTrigger:(SparkTrigger *)aTrigger {
-//  SparkTrigger *trigger;
-//  NSEnumerator *triggers = [[[self library] triggerSet] objectEnumerator];
-//  while (trigger = [triggers nextObject]) {
-//    if ([trigger isEqualToTrigger:aTrigger]) {
-//      return trigger;
-//    }
-//  }
-//  return nil;
-//}
-//
+- (SparkTrigger *)memberTrigger:(SparkTrigger *)aTrigger {
+  SparkTrigger *trigger;
+  NSEnumerator *triggers = [[[self library] triggerSet] objectEnumerator];
+  while (trigger = [triggers nextObject]) {
+    if ([trigger isEqualToTrigger:aTrigger]) {
+      return trigger;
+    }
+  }
+  return nil;
+}
+
 //static 
 //NSAlert *_SELibraryTriggerAlreadyUsedAlert(SparkEntry *entry) {
 //  NSString *msg = NSLocalizedString(@"Do you want to replace the action '%@' by your new action?", 
@@ -345,50 +345,40 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
 //  return alert;
 //}
 
-- (BOOL)editor:(SEEntryEditor *)theEditor shouldCreateEntry:(SparkEntry *)anEntry {
-  NSParameterAssert(anEntry != nil);
+- (BOOL)editor:(SEEntryEditor *)theEditor shouldCreateEntryWithAction:(SparkAction *)anAction
+			 trigger:(SparkTrigger *)aTrigger application:(SparkApplication *)anApplication {
+  NSParameterAssert(anAction && aTrigger && anApplication);
   
-//  SparkEntry *previous = nil;
-//  SparkLibrary *library = [self library];
-//  SparkEntryManager *manager = [library entryManager];
-//  
-//  /* First validate entry type: check if trigger do not already exist for globals */
-//  SparkTrigger *trigger = [self memberTrigger:[anEntry trigger]];
-//  /* If trigger already exists */
-//  if (trigger) {
-//    /* Get previous entry that use this trigger */
-//    previous = [manager entryForTrigger:[trigger uid]
-//                            application:[[anEntry application] uid]];
-//    /* Already used by previous */
-//    if (previous) {
-//      /* Is previous isn't a weak action */
-//      if (kSparkEntryTypeWeakOverWrite != [previous type]) {
-//        /* Already used by a real entry */
-//        NSAlert *alert = _SELibraryTriggerAlreadyUsedAlert(previous);
-//        NSInteger result = [alert runModal];
-//        if (NSAlertDefaultReturn != result) {
-//          return NO;
-//        }
-//      }
-//    }
-//    /* Update new entry trigger */
-//    [anEntry setTrigger:trigger];
-//  } else { 
-//    /* Trigger does not already exists */
-//    [[library triggerSet] addObject:[anEntry trigger]];
-//  }
-//  /* Now add action */
-//  [[library actionSet] addObject:[anEntry action]];
-//
-//  /* and entry */
-//  if (previous) {
-//    [manager replaceEntry:previous withEntry:anEntry];
-//  } else {
-//    [manager addEntry:anEntry];
-//  }
-//  [manager enableEntry:anEntry];
-//  [[self mainWindowController] revealEntry:anEntry];
+  SparkLibrary *library = [self library];
+  SparkEntryManager *manager = [library entryManager];
   
+  /* First validate entry type: check if trigger do not already exist for globals */
+	SparkTrigger *trigger = [self memberTrigger:aTrigger];
+  /* If trigger already exists use it in the new entry */
+  if (trigger) {
+    aTrigger = trigger;
+	} else {
+    /* else add it in the library */
+    [[library triggerSet] addObject:aTrigger];
+	}
+	
+	/* Now add action in the library */
+	NSAssert([anAction uid] == 0, @"Invalid uid for new action. should be 0.");
+  [[library actionSet] addObject:anAction];
+
+  /* and finaly, add the entry */
+	SparkEntry *entry = [manager addEntryWithAction:anAction trigger:aTrigger application:anApplication];
+
+	/* now check if we can enable this new action */
+	SparkEntry *active = [manager activeEntryForTrigger:trigger application:anApplication];
+	if (active) {
+		NSString *title = [NSString stringWithFormat:@"The new HotKey will be disabled because '%@' used the same shortcut.", [active name]];
+		NSRunAlertPanel(title, @"You will have to solve this conflict to use your new HotKey.", @"OK", nil, nil);
+	} else {
+		[entry setEnabled:YES];
+	}
+	
+  [[self mainWindowController] revealEntry:entry];
   return YES;
 }
 
@@ -404,149 +394,124 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
         contextInfo:nil];
 }
 
-- (BOOL)editor:(SEEntryEditor *)theEditor shouldReplaceEntry:(SparkEntry *)oldEntry withEntry:(SparkEntry *)newEntry {
-//  SparkLibrary *library = [self library];
-//  SparkEntryManager *manager = [library entryManager];
+- (BOOL)editor:(SEEntryEditor *)theEditor shouldUpdateEntry:(SparkEntry *)entry 
+		 setAction:(SparkAction *)anAction
+			 trigger:(SparkTrigger *)aTrigger
+	 application:(SparkApplication *)anApplication {
+  SparkLibrary *library = [self library];
+  SparkEntryManager *manager = [library entryManager];
   
-//  /* newEntry is null when "Use global entry" is selected */
-//  if (!newEntry) {
-//    /* If the edited entry was a custom entry, remove it */
-//    if (kSparkEntryTypeOverWrite == [oldEntry type]) {
-//      [manager removeEntry:oldEntry];
-//    }
-//    return YES;
-//  } else {
-//    NSParameterAssert([[newEntry trigger] isValid]);
-//    
-//    SparkEntry *previous = nil;
-//    /* If trigger has changed */
-//    if (![[oldEntry trigger] isEqualToTrigger:[newEntry trigger]]) {
-//      SparkTrigger *trigger = [self memberTrigger:[newEntry trigger]];
-//      /* If trigger already exists */
-//      if (trigger) {
-//        /* Get previous entry that use this trigger */
-//        previous = [manager entryForTrigger:[trigger uid]
-//                                application:[[newEntry application] uid]];
-//        /* Already used by previous */
-//        if (previous) {
-//          /* Is previous isn't a weak action */
-//          if (kSparkEntryTypeWeakOverWrite != [previous type]) {
-//            /* Already used by a real entry */
-//            NSAlert *alert = _SELibraryTriggerAlreadyUsedAlert(previous);
-//            NSInteger result = [alert runModal];
-//            if (NSAlertDefaultReturn != result) {
-//              return NO;
-//            }
-//          }
-//        }
-//        /* Update new entry trigger */
-//        [newEntry setTrigger:trigger];
-//      } else { /* Trigger does not already exists */
-//        [[library triggerSet] addObject:[newEntry trigger]];
-//      }
-//      
-//      /* Trigger has changed and edited entry is a default entry => update weak entries */
-//      if ([oldEntry type] == kSparkEntryTypeDefault && [[newEntry application] uid] == 0) {
-//        /* Update weak entry */
-//        NSArray *entries = [manager entriesForAction:[[oldEntry action] uid]];
-//        NSUInteger count = [entries count];
-//        /* At least two */
-//        if (count > 1) {
-//          while (count-- > 0) {
-//            SparkEntry *weak = [entries objectAtIndex:count];
-//            /* Do not update edited entry */
-//            if ([[weak application] uid] != 0) {
-//              SparkEntry *update = [weak copy];
-//              [update setTrigger:[newEntry trigger]];
-//              [manager replaceEntry:weak withEntry:update];
-//              [update release];
-//            }
-//          }
-//        }
-//      }
-//    } else { /* Trigger does not change */
-//      [newEntry setTrigger:[oldEntry trigger]];
-//    }
-//    
-//    /* Now update action. 
-//      We have to create a new one if the old one is used by an other entry: weak and inherit */
-//    BOOL newAction = ([oldEntry type] == kSparkEntryTypeWeakOverWrite) ||
-//      ([oldEntry type] == kSparkEntryTypeDefault && [[newEntry application] uid] != 0);
-//    if (newAction) {
-//      /* Add new action */
-//      [[newEntry action] setUID:0];
-//      [[library actionSet] addObject:[newEntry action]];
-//    } else {
-//      /* Update existing action */
-//      [[newEntry action] setUID:[[oldEntry action] uid]];
-//      [[library actionSet] updateObject:[newEntry action]];
-//    }
-//    
-//    /* If overwrite a global entry, create a new entry */
-//    if ([oldEntry type] == kSparkEntryTypeDefault && [[newEntry application] uid] != 0) {
-//      [manager addEntry:newEntry];
-//    } else if (previous) {
-//      /* Note: removing 'previous' can also remove 'previous->trigger' */
-//      [manager removeEntry:previous];
-//      if (![self memberTrigger:[newEntry trigger]])
-//        [[library triggerSet] addObject:[newEntry trigger]];
-//      [manager replaceEntry:oldEntry withEntry:newEntry];
-//    } else {
-//      [manager replaceEntry:oldEntry withEntry:newEntry];
-//    }
-//    /* Preserve status */
-//    if ([oldEntry isEnabled])
-//      [manager enableEntry:newEntry];
-//    
-//    [[self mainWindowController] revealEntry:newEntry];
-//  }
+  /* action is null when "Use global entry" is selected */
+  if (!anAction) {
+    /* If the edited entry was a custom entry, remove it */
+    if (kSparkEntryTypeOverWrite == [entry type]) {
+			[manager removeEntry:entry];
+    }
+		return YES;
+  } else {
+		SparkEntry *updated = nil;
+		BOOL enabled = [entry isEnabled];
+		
+		/* If trigger has changed */
+		//    if (![[oldEntry trigger] isEqualToTrigger:[newEntry trigger]]) {
+		SparkTrigger *trigger = [self memberTrigger:aTrigger];
+		/* If trigger already exists use it in the new entry */
+		if (trigger) {
+			aTrigger = trigger;
+		} else {
+			/* else add it in the library */
+			[[library triggerSet] addObject:aTrigger];
+		}
+		//		} else { /* Trigger does not change */
+		//			[newEntry replaceTrigger:[oldEntry trigger]];
+		//		}
+		
+		NSAssert([anAction uid] == 0, @"Invalid uid for new action. should be 0.");
+		[[library actionSet] addObject:anAction];
+		
+		/* Now take care of the action. 
+		 We have to create a new one if the old one is used by an other entry: weak and inherit */
+//		BOOL newAction = ([oldEntry type] == kSparkEntryTypeWeakOverWrite) || ([oldEntry isSystem] && ![newEntry isSystem]);
+//		if (newAction) {
+			/* Add new action */
+//			[[newEntry action] setUID:0]; // make sure the UID is 0.
+//			[[library actionSet] addObject:[newEntry action]];
+//		} else {
+//			/* Update existing action (remove the old and add the new) */
+//			[[newEntry action] setUID:[[oldEntry action] uid]];
+//			[[library actionSet] updateObject:[newEntry action]];
+//		}
+		
+		/* Now update the old Entry */
+		if ([[entry application] isEqual:anApplication]) {
+			[entry beginEditing];
+			[entry replaceAction:anAction];
+			[entry replaceTrigger:aTrigger];
+			/* application are equals, so no need to replace it */
+			[entry endEditing];
+			updated = entry;
+		} else {
+			/* create a new entry */
+			updated = [entry createVariantWithAction:anAction trigger:aTrigger application:anApplication];
+		}
+		
+		/* and was enabled and is no longer enabled */
+		if (enabled && ![updated isEnabled]) {
+			/* now check if we can enable this new action */
+			SparkEntry *active = [manager activeEntryForTrigger:[updated trigger] application:[updated application]];
+			if (active) {
+				NSString *title = [NSString stringWithFormat:@"The new HotKey will be disabled because '%@' used the same shortcut.", [active name]];
+				NSRunAlertPanel(title, @"You will have to solve this conflict to use your new HotKey.", @"OK", nil, nil);
+			} else {
+				[updated setEnabled:YES];
+			}
+		}
+		
+		[[self mainWindowController] revealEntry:updated];
+	}
   return YES;
 }
 
 #pragma mark Remove
-- (NSUInteger)removeEntries:(NSArray *)entries {
-//  BOOL hasCustom = NO;
-//  SparkApplication *application = [self application];
-//  if ([application uid] == 0) {
-//    NSUInteger count = [entries count];
-//    while (count-- > 0 && !hasCustom) {
-//      SparkEntry *entry = [entries objectAtIndex:count];
-//      hasCustom |= [[[self library] entryManager] containsOverwriteEntryForTrigger:[[entry trigger] uid]];
-//    }
-//    if (hasCustom) {
-//      DLog(@"WARNING: Has Custom");
-//    }
-//  }
-//  
-//  NSUInteger removed = 0;
-//  NSUInteger count = [entries count];
-//  SparkEntryManager *manager = [se_library entryManager];
-//  while (count-- > 0) {
-//    SparkEntry *entry = [entries objectAtIndex:count];
-//    /* Remove only custom entry */
-//    if ([[self application] uid] == 0) {
-//      /* First, check & remove weak */
-//      NSArray *array = [manager entriesForAction:[[entry action] uid]];
-//      if ([array count] > 1) {
-//        for (NSUInteger idx = 0; idx < [array count]; idx++) {
-//          SparkEntry *item = [array objectAtIndex:idx];
-//          /* If not the original item */
-//          if (![item isEqual:entry]) {
-//            removed++;
-//            [manager removeEntry:item];
-//          }
-//        }
-//      }
-//      /* Remove the selected entry */
-//      removed++;
-//      [manager removeEntry:entry];
-//    } else if ([entry type] != kSparkEntryTypeDefault) {
-//      removed++;
-//      [manager removeEntry:entry];
-//    }
-//  }
-//  return removed;
-  return 0;
+- (NSUInteger)removeEntriesInArray:(NSArray *)entries {
+	BOOL hasCustom = NO;
+  SparkApplication *application = [self application];
+	if (kSparkApplicationSystemUID == [application uid]) {
+		NSUInteger count = [entries count];
+		while (count-- > 0 && !hasCustom) {
+			SparkEntry *entry = [entries objectAtIndex:count];
+			hasCustom |= [entry hasVariant];
+		}
+		if (hasCustom) {
+			DLog(@"WARNING: Has Custom");
+		}
+	}
+
+	NSUInteger removed = 0;
+	NSUInteger count = [entries count];
+	SparkEntryManager *manager = [se_library entryManager];
+	while (count-- > 0) {
+		SparkEntry *entry = [entries objectAtIndex:count];
+		/* Remove only custom entry */
+		if (kSparkApplicationSystemUID == [[self application] uid]) {
+			/* First, check & remove weak */
+			if ([entry isSystem] && [entry hasVariant]) {
+				/* Remove weak entries */
+				SparkEntry *child = [entry firstChild];
+				do {
+					if ([child type] == kSparkEntryTypeWeakOverWrite)
+						[manager removeEntry:child];
+				} while (child = [child sibling]);
+			}
+      /* Remove the selected entry */
+			removed++;
+			[manager removeEntry:entry];
+		} else if ([entry type] != kSparkEntryTypeDefault) {
+			removed++;
+			[manager removeEntry:entry];
+		}
+  }
+	return removed;
 }
 
 @end

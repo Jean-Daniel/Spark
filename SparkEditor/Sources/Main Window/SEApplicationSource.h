@@ -19,6 +19,7 @@
   SparkLibrary *se_library;
 }
 
+- (IBAction)newApplication:(id)sender;
 - (IBAction)deleteSelection:(id)sender;
 
 - (void)setLibrary:(SparkLibrary *)aLibrary;

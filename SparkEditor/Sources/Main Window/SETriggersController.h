@@ -9,13 +9,11 @@
 #import <ShadowKit/SKTableDataSource.h>
 
 @class SKTableView, SparkApplication;
-@class SparkLibrary, SELibraryWindow;
+@class SparkLibrary, SELibraryWindow, SEEntryList;
 @interface SETriggersController : SKTableDataSource {
   IBOutlet SKTableView *uiTable;
   IBOutlet NSSearchField *uiSearch;
   IBOutlet SELibraryWindow *ibWindow;
-  @private
-    UInt32 se_filter;
 }
 
 - (NSView *)tableView;

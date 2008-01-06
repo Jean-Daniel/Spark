@@ -91,7 +91,7 @@ int _SESortEntries(id e1, id e2, void *ctxt) {
   SparkApplication *app = [library systemApplication];
   NSEnumerator *apps = [[library applicationSet] objectEnumerator];
   do {
-    if ([manager containsEntryForApplication:[app uid]])
+    if ([manager containsEntryForApplication:app])
       [customs addObject:app];
   } while (app = [apps nextObject]);
   
@@ -108,7 +108,7 @@ int _SESortEntries(id e1, id e2, void *ctxt) {
       [block setVariable:[self imageTagForImage:[app icon] size:NSMakeSize(20, 20)] forKey:@"icon"];
     
     /* process entries */
-    [self dumpCategories:plugins entries:[manager entriesForApplication:[app uid]] template:block];
+    [self dumpCategories:plugins entries:[manager entriesForApplication:app] template:block];
     
     [block dumpBlock];
   }

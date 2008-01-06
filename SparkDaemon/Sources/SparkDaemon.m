@@ -108,10 +108,10 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
                  selector:@selector(didAddTrigger:)
                      name:SparkObjectSetDidAddObjectNotification
                    object:[sd_library triggerSet]];
-      [center addObserver:self
-                 selector:@selector(willUpdateTrigger:)
-                     name:SparkObjectSetWillUpdateObjectNotification
-                   object:[sd_library triggerSet]];
+//      [center addObserver:self
+//                 selector:@selector(willUpdateTrigger:)
+//                     name:SparkObjectSetWillUpdateObjectNotification
+//                   object:[sd_library triggerSet]];
       [center addObserver:self
                  selector:@selector(willRemoveTrigger:)
                      name:SparkObjectSetWillRemoveObjectNotification
@@ -391,14 +391,14 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
     front = [sd_library frontApplication];
   
   if (!front) front = [sd_library systemApplication];
-  entry = [manager activeEntryForTrigger:trigger application:front];
+  entry = [manager resolveEntryForTrigger:trigger application:front];
   
   /* Warning: trigger can be release during [action performAction] */
   [trigger retain];
   DLog(@"Start handle event");
   
   @try {
-    SparkAction *action = [entry action];
+    SparkAction *action = entry ? [entry action] : nil;
     /* If daemon is disabled, only persistent action are performed */
     if (action && ([self isEnabled] || [entry isPersistent])) {
       [trigger willTriggerAction:action];

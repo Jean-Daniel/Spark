@@ -344,7 +344,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/tcsh;
-			shellScript = "if (\"${CONFIGURATION}\" == \"Debug\" || \"${CONFIGURATION}\" == \"Profile\") then\nset BASE=../../Spark.app/Contents\nelse\nset BASE=../../..\nendif\n\ncd \"${BUILT_PRODUCTS_DIR}\"\n\nif (! -l \"${FRAMEWORKS_FOLDER_PATH}\") then \nrm -rf \"${FRAMEWORKS_FOLDER_PATH}\"\nln -s ${BASE}/Frameworks \"${FRAMEWORKS_FOLDER_PATH}\"\nendif\n\nif (! -l \"${PLUGINS_FOLDER_PATH}\") then \nrm -rf \"${PLUGINS_FOLDER_PATH}\"\nln -s ${BASE}/PlugIns \"${PLUGINS_FOLDER_PATH}\"\nendif\n\n\n";
+			shellScript = "#if (\"${CONFIGURATION}\" == \"Debug\" || \"${CONFIGURATION}\" == \"Profile\") then\nif (\"${CONFIGURATION}\" == \"Debug\") then\nset BASE=../../Spark.app/Contents\nelse\nset BASE=../../..\nendif\n\ncd \"${BUILT_PRODUCTS_DIR}\"\n\nif (! -l \"${FRAMEWORKS_FOLDER_PATH}\") then \nrm -rf \"${FRAMEWORKS_FOLDER_PATH}\"\nln -s ${BASE}/Frameworks \"${FRAMEWORKS_FOLDER_PATH}\"\nendif\n\nif (! -l \"${PLUGINS_FOLDER_PATH}\") then \nrm -rf \"${PLUGINS_FOLDER_PATH}\"\nln -s ${BASE}/PlugIns \"${PLUGINS_FOLDER_PATH}\"\nendif\n\n\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

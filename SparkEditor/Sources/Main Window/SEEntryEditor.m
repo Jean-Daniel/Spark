@@ -109,12 +109,14 @@
   se_entry = nil;
 }
 
-- (void)create:(SparkEntry *)entry {
-  if (!SKDelegateHandle(se_delegate, editor:shouldCreateEntry:) || [se_delegate editor:self shouldCreateEntry:entry])
+- (void)createEntryWithAction:(SparkAction *)action trigger:(SparkTrigger *)trigger application:(SparkApplication *)application {
+  if (!SKDelegateHandle(se_delegate, editor:shouldCreateEntryWithAction:trigger:application:) || 
+			[se_delegate editor:self shouldCreateEntryWithAction:action trigger:trigger application:application])
     [self close:nil];
 }
-- (void)update:(SparkEntry *)entry {
-  if (!SKDelegateHandle(se_delegate, editor:shouldReplaceEntry:withEntry:) || [se_delegate editor:self shouldReplaceEntry:se_entry withEntry:entry])
+- (void)updateEntryWithAction:(SparkAction *)action trigger:(SparkTrigger *)trigger application:(SparkApplication *)application {
+  if (!SKDelegateHandle(se_delegate, editor:shouldUpdateEntry:setAction:trigger:application:) ||
+			[se_delegate editor:self shouldUpdateEntry:se_entry setAction:action trigger:trigger application:application])
     [self close:nil];
 }
 
@@ -183,22 +185,19 @@
   if (alert) { 
     [alert runModal];
   } else {
-    SparkEntry *entry = nil;
+    SparkHotKey *hkey = nil;
+		SparkAction *action = nil;
     if (![se_plugin isKindOfClass:[SEInheritsPlugin class]]) {
-      SparkHotKey *hkey = [[SparkHotKey alloc] init];
+			action = [se_plugin sparkAction];
+      hkey = [[[SparkHotKey alloc] init] autorelease];
       [hkey setKeycode:key.keycode character:key.character];
       [hkey setModifier:key.modifiers];
-      entry = [[SparkEntry alloc] initWithAction:[se_plugin sparkAction]
-                                         trigger:hkey
-                                     application:[self application]];
-      [hkey release];
     }
     if (se_entry) {
-      [self update:entry];
+      [self updateEntryWithAction:action trigger:hkey application:[self application]];
     } else {
-      [self create:entry];
+      [self createEntryWithAction:action trigger:hkey application:[self application]];
     }
-    [entry release];
   }
 }
 
@@ -276,7 +275,7 @@
           break;
         }
         // else fall through
-				default:
+			default:
         // TODO. trap should not be enabled ?
         type = [[SparkActionLoader sharedLoader] plugInForAction:[se_entry action]];
         [se_trap setEnabled:YES];
@@ -359,6 +358,7 @@
       WLog(@"%@ does not implements NSCopying.", [action class]);
       action = [action duplicate];
     }
+		[action setUID:0]; // this copy should be considere as a new action.
   } else { /* Other cases, create new action */
     action = [[[cls alloc] init] autorelease];
     if ([se_entry action])
@@ -455,7 +455,8 @@
     
     
     /* bug in NSWindow */
-    wframe.size.height += 22 / SKWindowScaleFactor(window);
+		if (SKSystemMinorVersion() == 10 && SKSystemMinorVersion() <= 4)
+			wframe.size.height += 22 / SKWindowScaleFactor(window);
     /* Adjust window attributes */
     NSSize smax = wframe.size;
     NSUInteger mask = [se_view autoresizingMask];
@@ -486,7 +487,7 @@
     
     [se_plugin pluginViewWillBecomeVisible];
     [uiPlugin addSubview:se_view];
-    [[self window] recalculateKeyViewLoop];
+    //[[self window] recalculateKeyViewLoop];
     [se_plugin pluginViewDidBecomeVisible];
     
     NSUInteger row = [se_plugins indexOfObject:aPlugin];

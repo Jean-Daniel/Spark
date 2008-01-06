@@ -8,6 +8,7 @@
 
 #import "SEApplicationView.h"
 
+#import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkApplication.h>
 
 @implementation SEApplicationView
@@ -25,22 +26,14 @@
     [se_app release];
     se_app = [anApp retain];
     
-    /* Cache icon */
-    if (se_app && 0 == [se_app uid]) {
-      [super setApplication:[anApp application] title:nil icon:[NSImage imageNamed:@"applelogo"]];
+		NSString *title = se_app ? [[NSString alloc] initWithFormat:
+																NSLocalizedString(@"%@ HotKeys", @"Application HotKeys - Application View Title (%@ => name)"), [se_app name]] : nil;
+		
+    if (kSparkApplicationSystemUID == [se_app uid]) {
+      [super setApplication:nil title:title icon:[NSImage imageNamed:@"applelogo"]];
     } else {
-      [super setApplication:[anApp application]];
+			[super setApplication:[se_app application] title:title icon:[se_app icon]];
     }
-    
-    /* Update title and refresh (in setTitle:) */
-    NSString *title = nil;
-    if (se_app && [se_app uid] == 0) {
-      title = [NSLocalizedString(@"Globals HotKeys", @"Globals HotKeys - Application View Title") retain];
-    } else {
-      title = se_app ? [[NSString alloc] initWithFormat:
-        NSLocalizedString(@"%@ HotKeys", @"Application HotKeys - Application View Title (%@ => name)"), [se_app name]] : nil;
-    }
-    [self setTitle:title];
     [title release];
   }
 }

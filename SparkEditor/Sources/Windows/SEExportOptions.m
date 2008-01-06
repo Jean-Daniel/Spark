@@ -11,7 +11,7 @@
 @implementation SEExportOptions
 
 - (id)init {
-  if (self = [super initWithViewNibName:@"SEExport"]) {
+  if (self = [super initWithNibName:@"SEExport" bundle:nil]) {
     
   }
   return self;

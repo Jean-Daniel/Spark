@@ -9,7 +9,7 @@
 #import <SparkKit/SparkAppleScriptSuite.h>
 
 @class SEApplicationView, SETableView;
-@class SparkList, SparkEntry, SparkLibrary, SparkApplication;
+@class SEEntryList, SparkEntry, SparkLibrary, SparkApplication;
 @class SEApplicationSource, SELibrarySource, SETriggersController;
 @interface SELibraryWindow : NSWindowController {
   IBOutlet NSSegmentedControl *uiMenu;
@@ -28,7 +28,7 @@
   IBOutlet SEApplicationSource *ibApplications;
   
   /* Triggers */
-  IBOutlet SETriggersController *triggers;  
+  IBOutlet SETriggersController *ibTriggers;  
   
   @private
     SparkLibrary *se_library;
@@ -40,11 +40,13 @@
 
 - (void)setLibrary:(SparkLibrary *)aLibrary;
 
-- (SparkList *)selectedList;
+- (SEEntryList *)selectedList;
 - (void)revealEntry:(SparkEntry *)entry;
 - (void)revealEntries:(NSArray *)entries;
 
 - (void)setDaemonStatus:(SparkDaemonStatus)status;
+
+- (SETriggersController *)triggers;
 
 @end
 

@@ -99,7 +99,7 @@
       [[se_library notificationCenter] addObserver:self
                                           selector:@selector(willRemoveApplication:)
                                               name:SparkObjectSetWillRemoveObjectNotification
-                                            object:[self applicationSet]];  
+                                            object:[self applicationSet]];
       
       [[se_library notificationCenter] addObserver:self
                                           selector:@selector(didReloadLibrary:)
@@ -229,10 +229,6 @@ bool __IsApplicationAtPath(NSString *path) {
           result = [alert runModal];
         } 
         if (NSOKButton == result) {
-//          if (hasActions) {
-//            SparkEntryManager *manager = [se_library entryManager];
-//            [manager removeEntriesForApplication:object];
-//          }
           [[self applicationSet] removeObject:object];
           return;
         }

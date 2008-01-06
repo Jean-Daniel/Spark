@@ -244,7 +244,7 @@ OSType _DocumentActionFromFlag(int flag) {
       AliasHandle alias = [[self document] aliasHandle];
       if (alias) {
         AEDesc desc = SKAEEmptyDesc();
-        OSStatus err = AECreateDesc(typeAlias, *alias, SKGetAliasSize(alias), &desc);
+        OSStatus err = SKAECreateDescWithAlias(alias, &desc);
         if (noErr == err) {
           err = SKAEFinderRevealItem(&desc, TRUE);
           SKAEDisposeDesc(&desc);

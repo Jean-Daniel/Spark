@@ -31,6 +31,8 @@
 
 - (void)revertToBackup:(NSString *)file;
 
+- (NSUInteger)removeEntriesInArray:(NSArray *)entries;
+
 @end
 
 SK_PRIVATE

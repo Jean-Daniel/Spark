@@ -12,6 +12,7 @@
 #import "SETriggerTable.h"
 #import "SEPreferences.h"
 #import "SEEntryEditor.h"
+#import "SEEntryList.h"
 #import "Spark.h"
 
 #import <SparkKit/SparkLibrary.h>
@@ -58,34 +59,38 @@ SETriggerStyle styles[6];
 static 
 NSString * sSEHiddenPluggedObserverKey = nil;
 
+@interface SparkEntry (SETriggerSort)
+- (void)setActive:(BOOL)active;
+@end
+
 @implementation SETriggersController
 
 + (void)initialize {
   if ([SETriggersController class] == self) {
     /* Standard (global) */
-    styles[0] = (SETriggerStyle){NO, NO,
+    styles[0] = (SETriggerStyle){NO, YES,
       [[NSColor controlTextColor] retain],
       [[NSColor selectedTextColor] retain]};
     /* Global overrided */
-    styles[1] = (SETriggerStyle){YES, NO,
+    styles[1] = (SETriggerStyle){YES, YES,
       [[NSColor controlTextColor] retain],
       [[NSColor selectedTextColor] retain]};
     /* Inherits */
-    styles[2] = (SETriggerStyle){NO, NO,
+    styles[2] = (SETriggerStyle){NO, YES,
       [[NSColor darkGrayColor] retain],
       [[NSColor selectedTextColor] retain]};
     /* Override */
-    styles[3] = (SETriggerStyle){YES, NO,
-      [[NSColor colorWithCalibratedRed:.067f green:.357f blue:.420f alpha:1] retain],
-      [[NSColor colorWithCalibratedRed:.886f green:.914f blue:.996f alpha:1] retain]};
+    styles[3] = (SETriggerStyle){YES, YES,
+      [[NSColor colorWithCalibratedRed:.067 green:.357 blue:.420 alpha:1] retain],
+      [[NSColor colorWithCalibratedRed:.886 green:.914 blue:.996 alpha:1] retain]};
     /* Specifics */
-    styles[4] = (SETriggerStyle){NO, NO,
+    styles[4] = (SETriggerStyle){YES, YES,
       [[NSColor orangeColor] retain],
-      [[NSColor colorWithCalibratedRed:.992f green:.875f blue:.749f alpha:1] retain]};
+      [[NSColor colorWithCalibratedRed:.992 green:.875 blue:.749 alpha:1] retain]};
     /* Weak Override */
     styles[5] = (SETriggerStyle){NO, YES,
-      [[NSColor colorWithCalibratedRed:.463f green:.016f blue:.314f alpha:1] retain],
-      [[NSColor colorWithCalibratedRed:.984f green:.890f blue:1.00f alpha:1] retain]};
+      [[NSColor colorWithCalibratedRed:.463 green:.016 blue:.314 alpha:1] retain],
+      [[NSColor colorWithCalibratedRed:.984 green:.890 blue:1.00 alpha:1] retain]};
     
     sSEHiddenPluggedObserverKey = [[@"values." stringByAppendingString:kSEPreferencesHideDisabled] retain];
   }
@@ -102,6 +107,7 @@ NSString * sSEHiddenPluggedObserverKey = nil;
 }
 
 - (void)dealloc {
+	//[self setSelectedList:nil];
   [[NSUserDefaultsController sharedUserDefaultsController] removeObserver:self
                                                                forKeyPath:sSEHiddenPluggedObserverKey];
   [super dealloc];
@@ -135,19 +141,21 @@ NSString * sSEHiddenPluggedObserverKey = nil;
 }
 
 - (void)setListEnabled:(BOOL)flag {
+	NSUInteger count = [self count];
   SparkUID app = [[self application] uid];
-  NSUInteger idx = [self count];
-  SparkEntryManager *manager = [[self library] entryManager];
-  SEL method = flag ? @selector(enableEntry:) : @selector(disableEntry:);
-  while (idx-- > 0) {
+	SparkEntryManager *manager = [[self library] entryManager];
+	for (NSUInteger idx = 0; idx < count; idx++) {
     SparkEntry *entry = [self objectAtIndex:idx];
     if ([[entry application] uid] == app) {
-      if (XOR([entry isEnabled], flag)) {
-        [manager performSelector:method withObject:entry];
-      }
+			if (flag) {
+				/* avoid conflict */
+				if (![manager activeEntryForTrigger:[entry trigger] application:[entry application]])
+					[entry setEnabled:flag];
+			} else {
+				[entry setEnabled:flag];
+			}
     }
   }
-  [uiTable reloadData];
 }
 
 - (IBAction)search:(id)sender {
@@ -182,23 +190,18 @@ NSString * sSEHiddenPluggedObserverKey = nil;
 
 }
 
-- (IBAction)selectAll:(id)sender {
-  ShadowTrace();
-}
+//- (IBAction)selectAll:(id)sender {
+//  ShadowTrace();
+//}
 
 #pragma mark Delegate
 - (void)spaceDownInTableView:(SETriggerTable *)aTable {
   NSUInteger idx = 0;
-//  SparkEntryManager *manager = [[self library] entryManager];
   SKIndexEnumerator *idexes = [[self selectionIndexes] indexEnumerator];
   while ((idx = [idexes nextIndex]) != NSNotFound) {
     SparkEntry *entry = [self objectAtIndex:idx];
     if ([entry isPlugged]) {
-      [entry setEnabled:![entry isEnabled]];
-//      if ([entry isEnabled])
-//        [manager disableEntry:entry];
-//      else
-//        [manager enableEntry:entry];
+      [entry setActive:![entry isEnabled]];
     }
   }
 }
@@ -220,11 +223,12 @@ NSString * sSEHiddenPluggedObserverKey = nil;
 - (void)deleteSelectionInTableView:(NSTableView *)aTableView {
   NSArray *items = [self selectedObjects];
   if (items && [items count]) {
-    if ([[ibWindow selectedList] isEditable]) {
+		SEEntryList *list = [ibWindow selectedList];
+    if ([list isEditable]) {
       // User list
-      [[ibWindow selectedList] removeEntries:items];
+      [[list sparkList] removeEntriesInArray:items];
     } else {
-      [[ibWindow document] removeEntries:items];
+      [(SELibraryDocument *)[ibWindow document] removeEntriesInArray:items];
     }
   }
 }
@@ -240,7 +244,7 @@ NSString * sSEHiddenPluggedObserverKey = nil;
     /* if we are displaying the defaults entries */
     if (kSparkApplicationSystemUID == [application uid]) {
       /* Global key */
-      if ([entry isOverridden]) {
+      if ([entry hasVariant]) {
         idx = 1; /* bold */
       } else {
         idx = 0;
@@ -293,14 +297,14 @@ NSString * sSEHiddenPluggedObserverKey = nil;
   [pboard declareTypes:[NSArray arrayWithObject:SparkEntriesPboardType] owner:self];
   
   NSUInteger idx = 0;
-  NSMutableArray *triggers = [[NSMutableArray alloc] init];
+  NSMutableArray *entries = [[NSMutableArray alloc] init];
   SKIndexEnumerator *indexes = [rowIndexes indexEnumerator];
   while ((idx = [indexes nextIndex]) != NSNotFound) {
-    SparkTrigger *trigger = [[self objectAtIndex:idx] trigger];
-    [triggers addObject:SKUInteger([trigger uid])];
+    SparkEntry *entry = [self objectAtIndex:idx];
+    [entries addObject:SKUInteger([entry uid])];
   }
-  [plist setObject:triggers forKey:@"triggers"];
-  [triggers release];
+  [plist setObject:entries forKey:@"entries"];
+  [entries release];
   
   [pboard setPropertyList:plist forType:SparkEntriesPboardType];
   [plist release];
@@ -311,23 +315,27 @@ NSString * sSEHiddenPluggedObserverKey = nil;
 - (NSMenu *)tableView:(NSTableView *)aTableView menuForRow:(NSInteger)row {
   if (row >= 0) {
     SparkEntry *entry = [self objectAtIndex:row];
-    if ([entry isOverridden]) {
+		NSArray *variants = [entry variants];
+    if ([variants count] > 1) {
       NSMenu *ctxt = [[NSMenu alloc] initWithTitle:@"Action Menu"];
       NSMenuItem *item = [ctxt addItemWithTitle:@"Show in Application..." action:nil keyEquivalent:@""];
-      NSArray *entries = [entry applications];
       NSMenu *submenu = [[NSMenu alloc] initWithTitle:@"Submenu"];
-      for (NSUInteger idx = 0; idx < [entries count]; idx++) {
-        SparkApplication *app = [[entries objectAtIndex:idx] application];
-        NSMenuItem *appItem = [[NSMenuItem alloc] initWithTitle:[app name] 
-                                                         action:@selector(revealInApplication:) keyEquivalent:@""];
-        [appItem setRepresentedObject:[entries objectAtIndex:idx]];
-        NSImage *icon = [[app icon] copy];
-        [icon setSize:NSMakeSize(16, 16)];
-        [appItem setImage:icon];
-        [icon release];
-        
-        [submenu addItem:appItem];
-        [appItem release];
+      for (NSUInteger idx = 0; idx < [variants count]; idx++) {
+        SparkEntry *variant = [variants objectAtIndex:idx];
+				if (variant != entry) {
+					SparkApplication *application = [variant application];
+					NSMenuItem *appItem = [[NSMenuItem alloc] initWithTitle:[application name] 
+																													 action:@selector(revealInApplication:) keyEquivalent:@""];
+					[appItem setRepresentedObject:variant];
+					/* set icon */
+					NSImage *icon = [[application icon] copy];
+					[icon setSize:NSMakeSize(16, 16)];
+					[appItem setImage:icon];
+					[icon release];
+					
+					[submenu addItem:appItem];
+					[appItem release];					
+				}
       }
       [item setSubmenu:submenu];
       [submenu release];
@@ -340,7 +348,11 @@ NSString * sSEHiddenPluggedObserverKey = nil;
 
 #pragma mark Notifications
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-  [self rearrangeObjects];
+	if ([keyPath isEqualToString:sSEHiddenPluggedObserverKey]) {
+		[self rearrangeObjects];
+	} else {
+		[super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+	}
 }
 
 @end
@@ -361,50 +373,48 @@ NSString * sSEHiddenPluggedObserverKey = nil;
   else return 0;
 }
 
+- (void)performSetActive:(BOOL)value document:(SELibraryDocument *)document {
+	SparkEntry *entry = self;
+	SparkApplication *application = [document application];
+	if ([application uid] != kSparkApplicationSystemUID && kSparkEntryTypeDefault == [self type]) {
+		/* Inherits: should create an new entry */
+		entry = [entry createWeakVariantWithApplication:application];
+		[[document mainWindowController] revealEntry:entry];
+	}
+	[entry setEnabled:value];
+}
+
+- (void)setActiveConflictDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(SparkEntry *)previous {
+	if (NSAlertDefaultReturn == returnCode) {
+		[previous setEnabled:NO];
+		[self performSetActive:YES document:SEGetDocumentForLibrary([[self action] library])];
+	}
+}
+
 - (void)setActive:(BOOL)active {
   SELibraryDocument *document = SEGetDocumentForLibrary([[self action] library]);
   if (document) {
-    SparkEntry *entry = self;
-    SparkApplication *application = [document application];
-    if ([application uid] != 0 && kSparkEntryTypeDefault == [self type]) {
-      /* Inherits: should create an new entry */
-      entry = [[self copy] autorelease];
-      [entry setApplication:application];
-      [[[document library] entryManager] addEntry:entry];
-      [[document mainWindowController] revealEntry:entry];
-    }
-    [entry setEnabled:active];
-//    if (active) {
-//      [[[document library] entryManager] enableEntry:entry];
-//    } else {
-//      [[[document library] entryManager] disableEntry:entry];
-//    }
+		/* check conflict */
+		if (active) {
+			SparkEntry *previous = [[[document library] entryManager] activeEntryForTrigger:[self trigger]
+																																					application:[self application]];
+			if (previous) {
+				NSBeginAlertSheet(@"Entry conflict", @"Disable previous", @"Cancel", nil, [document windowForSheet], 
+													self, @selector(setActiveConflictDidEnd:returnCode:contextInfo:), NULL, previous, @"'%@' already use the same shortcut.", [previous name]);
+				return;
+			}
+		}
+		[self performSetActive:active document:document];
   }
 }
 
 - (void)se_setEnabled:(BOOL)enabled {
-  if ([self type] == kSparkEntryTypeWeakOverWrite) [self willChangeValueForKey:@"representation"];
+	[self willChangeValueForKey:@"representation"];
   [self willChangeValueForKey:@"active"];
   [self se_setEnabled:enabled];
   [self didChangeValueForKey:@"active"];
-  if ([self type] == kSparkEntryTypeWeakOverWrite) [self didChangeValueForKey:@"representation"];
+  [self didChangeValueForKey:@"representation"];
 }
 
-- (id)representation {
-  return self;
-}
-- (void)setRepresentation:(NSString *)name {
-  if (name && [name length]) {
-    SparkAction *act = [self action];
-    if (act) {
-      [[[act library] undoManager] registerUndoWithTarget:self
-                                                 selector:@selector(setRepresentation:)
-                                                   object:[act name]];
-      [act setName:name];
-    }
-  } else {
-    NSBeep();
-  }
-}
 
 @end
