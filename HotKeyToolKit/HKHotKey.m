@@ -136,8 +136,7 @@
 #pragma mark iVar Accessors.
 - (BOOL)shouldChangeKeystroke {
   if ([self isRegistred]) {
-    [NSException raise:@"HKInvalidHotKeyChangeException" format:@"Cannot change keystroke when Hotkey is registred"];
-    return NO;
+		SKThrowException(NSInvalidArgumentException, @"Cannot change keystroke when the receiver is registred");
   }
   return YES;
 }

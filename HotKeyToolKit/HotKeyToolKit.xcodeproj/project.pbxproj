@@ -349,6 +349,7 @@
 				8DC2EF540486A6940098B216 /* Sources */,
 				8DC2EF560486A6940098B216 /* Frameworks */,
 				8DC2EF580486A6940098B216 /* Rez */,
+				1BEABF6E0D2114CF005D5945 /* Sign */,
 			);
 			buildRules = (
 			);
@@ -473,6 +474,20 @@
 /* End PBXRezBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		1BEABF6E0D2114CF005D5945 /* Sign */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 8;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = Sign;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+			shellPath = /bin/sh;
+			shellScript = "${HOME}/bin/shadowsign ${TARGET_BUILD_DIR}/${FULL_PRODUCT_NAME}";
+		};
 		98643EFE0A556F2200260086 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;

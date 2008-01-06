@@ -243,7 +243,7 @@ OSStatus HKKeyMapContextWithUchrData(const UCKeyboardLayout *layout, Boolean rev
           tmod[table] = idx;
     } else {
       /* Table overflow, should not append */
-      WCLog("Invalid Keyboard layout, table %tu does not exists", idx);
+      // WCLog("Invalid Keyboard layout, table %tu does not exists", idx);
     }
     idx++;
   }
@@ -491,7 +491,7 @@ OSStatus HKKeyMapContextWithKCHRData(const void *layout, Boolean reverse, HKKeyM
         tmod[table] = idx;
     } else {
       /* Table overflow, should not append */
-      WCLog("Invalid Keyboard layout, table %tu does not exists", table);
+      // WCLog("Invalid Keyboard layout, table %tu does not exists", table);
     }
     idx++;
   }
@@ -531,7 +531,8 @@ OSStatus HKKeyMapContextWithKCHRData(const void *layout, Boolean reverse, HKKeyM
     if (table < count) {
       kchr->stats[idx] = __HKUtilsFlatKey(key, (HKModifier)tmod[table], 0);
     } else {
-      WCLog("Invalid Keyboard layout, table %hhu does not exists", table);
+			/* Table overflow, should not append */
+      // WCLog("Invalid Keyboard layout, table %hhu does not exists", table);
     }
     const struct {
       UInt8 previous;
