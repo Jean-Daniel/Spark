@@ -42,7 +42,7 @@ SK_CLASS_EXPORT
 - (id)objectWithUID:(SparkUID)uid;
 
 - (BOOL)addObject:(SparkObject *)object;
-- (BOOL)updateObject:(SparkObject *)object;
+//- (BOOL)updateObject:(SparkObject *)object;
 - (void)removeObject:(SparkObject *)object;
 - (void)removeObjectWithUID:(SparkUID)uid;
 
@@ -73,20 +73,20 @@ SK_CLASS_EXPORT
 
 #pragma mark -
 #pragma mark Notifications
-//SPARK_EXPORT
-//NSString * const SparkObjectSetWillAddObjectNotification;
+SPARK_EXPORT
+NSString * const SparkObjectSetWillAddObjectNotification;
 SPARK_EXPORT
 NSString * const SparkObjectSetDidAddObjectNotification;
 
-SPARK_EXPORT
-NSString * const SparkObjectSetWillUpdateObjectNotification;
-SPARK_EXPORT
-NSString * const SparkObjectSetDidUpdateObjectNotification;
+//SPARK_EXPORT
+//NSString * const SparkObjectSetWillUpdateObjectNotification;
+//SPARK_EXPORT
+//NSString * const SparkObjectSetDidUpdateObjectNotification;
 
 SPARK_EXPORT
 NSString * const SparkObjectSetWillRemoveObjectNotification;
-//SPARK_EXPORT
-//NSString * const SparkObjectSetDidRemoveObjectNotification;
+SPARK_EXPORT
+NSString * const SparkObjectSetDidRemoveObjectNotification;
 
 
 SPARK_EXPORT

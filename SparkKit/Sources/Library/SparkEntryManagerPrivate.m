@@ -8,96 +8,223 @@
 
 #import "SparkEntryManagerPrivate.h"
 #import "SparkLibraryPrivate.h"
+#import "SparkEntryPrivate.h"
 
 #import <SparkKit/SparkEntry.h>
 
+#import <SparkKit/SparkPlugIn.h>
 #import <SparkKit/SparkAction.h>
 #import <SparkKit/SparkTrigger.h>
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkObjectSet.h>
+#import <SparkKit/SparkApplication.h>
+
+@interface SparkEntry (SparkEntryInternal)
+/* direct object access */
+- (NSArray *)children;
+/* children */
+- (void)addChild:(SparkEntry *)aChild;
+- (void)addChildrenFromArray:(NSArray *)children;
+
+- (void)removeChild:(SparkEntry *)aChild;
+- (void)removeAllChildren;
+@end
 
 @implementation SparkEntryManager (SparkEntryEditor)
 
 - (void)beginEditing:(SparkEntry *)anEntry {
+	NSParameterAssert(anEntry);
+	NSParameterAssert(nil == sp_edit.entry);
+	NSParameterAssert([anEntry manager] == self);
+	/* copy informations */
+	sp_edit.entry = anEntry;
 }
 - (void)endEditing:(SparkEntry *)anEntry {
+	NSParameterAssert(anEntry);
+	NSParameterAssert(sp_edit.entry == anEntry);
+	NSParameterAssert([anEntry manager] == self);	
+	
+	if (sp_edit.action || sp_edit.trigger || sp_edit.application) {
+		/* entry has change, proceed */
+		[self updateEntry:anEntry
+						setAction:sp_edit.action
+							trigger:sp_edit.trigger
+					application:sp_edit.application];
+		
+		/* cleanup */
+		[sp_edit.application release]; sp_edit.application = nil;
+		[sp_edit.trigger release]; sp_edit.trigger = nil;
+		[sp_edit.action release]; sp_edit.action = nil;
+	}
+	sp_edit.entry = nil;
 }
 
-- (void)enableEntry:(SparkEntry *)anEntry {
-}
-- (void)disableEntry:(SparkEntry *)anEntry {
+- (void)replaceAction:(SparkAction *)anAction inEntry:(SparkEntry *)anEntry {
+	NSParameterAssert(anEntry);
+	NSParameterAssert(sp_edit.entry == anEntry);
+	NSParameterAssert([anEntry manager] == self);
+	if (anAction != sp_edit.action) {
+		[sp_edit.action release];
+		sp_edit.action = [[anEntry action] isEqual:anAction] ? nil : [anAction retain];
+	}
 }
 
-//- (void)setEnabled:(BOOL)flag forEntry:(SparkEntry *)anEntry {
-//  SparkLibraryEntry *entry = [self libraryEntryForEntry:anEntry];
-//  if (entry && XOR(flag, SparkLibraryEntryIsEnabled(entry))) {
-//    /* Undo management */
-//    [[[self undoManager] prepareWithInvocationTarget:self] setEnabled:!flag forEntry:anEntry];
-//    /* update entry */
-//    [anEntry setEnabled:flag];
-//    /* Update library entry => Undo */
-//    [self setEnabled:flag forLibraryEntry:entry];
-//    SparkLibraryPostNotification([self library], SparkEntryManagerDidChangeEntryEnabledNotification, self, anEntry);
-//  }
-//}
-//
-//- (void)enableEntry:(SparkEntry *)anEntry {
-//  [self setEnabled:YES forEntry:anEntry];
-//}
-//- (void)disableEntry:(SparkEntry *)anEntry {
-//  [self setEnabled:NO forEntry:anEntry];
-//}
+- (void)replaceTrigger:(SparkTrigger *)aTrigger inEntry:(SparkEntry *)anEntry {
+	NSParameterAssert(anEntry);
+	NSParameterAssert(sp_edit.entry == anEntry);
+	NSParameterAssert([anEntry manager] == self);
+	if (aTrigger != sp_edit.trigger) {
+		[sp_edit.trigger release];
+		sp_edit.trigger = [[anEntry trigger] isEqual:aTrigger] ? nil : [aTrigger retain];
+	}
+}
+
+- (void)replaceApplication:(SparkApplication *)anApplication inEntry:(SparkEntry *)anEntry {
+	NSParameterAssert(anEntry);
+	NSParameterAssert(sp_edit.entry == anEntry);
+	NSParameterAssert([anEntry manager] == self);	
+	if (anApplication != sp_edit.application) {
+		[sp_edit.application release];
+		sp_edit.application = [[anEntry application] isEqual:anApplication] ? nil : [anApplication retain];
+	}
+}
 
 @end
 
 @implementation SparkEntryManager (SparkEntryManagerInternal)
 
+- (void)addEntry:(SparkEntry *)anEntry parent:(SparkEntry *)parent {
+  NSParameterAssert(![anEntry manager]); // anEntry is not managed
+  NSParameterAssert([[anEntry action] uid] != 0); // has valid action
+  NSParameterAssert([[anEntry trigger] uid] != 0); // has valid trigger
+	NSParameterAssert(!parent || [parent manager] == self); // parent is managed
+	
+  /* sanity check, avoid entry conflict */
+  NSParameterAssert(![anEntry isEnabled] || ![self activeEntryForTrigger:[anEntry trigger] application:[anEntry application]]);
+  
+  /* Undo management */
+  [[self undoManager] registerUndoWithTarget:self selector:@selector(removeEntry:) object:anEntry];
+  
+  // Will add
+  SparkLibraryPostNotification([self library], SparkEntryManagerWillAddEntryNotification, self, anEntry);
+  
+  [self sp_addEntry:anEntry parent:parent];
+  
+  // Did add
+  SparkLibraryPostNotification([self library], SparkEntryManagerDidAddEntryNotification, self, anEntry);
+}
+
+- (void)updateEntry:(SparkEntry *)anEntry setAction:(SparkAction *)newAction
+						trigger:(SparkTrigger *)newTrigger application:(SparkApplication *)newApplication {
+	NSParameterAssert([anEntry manager] == self);
+	NSParameterAssert(NSMapGet(sp_objects, (const void *)[anEntry uid]));
+	
+	/* check conflict before undo and notify to avoid inconsistency */
+	if ([anEntry isEnabled] && (newTrigger || newApplication)) {
+		/* check conflict */
+		if ([self activeEntryForTrigger:newTrigger ? : [anEntry trigger]
+												application:newApplication ? : [anEntry application]])
+			[anEntry setEnabled:NO];
+	}
+	
+	/* create a copy that will reflect the old entry */
+	SparkEntry *ghost = [anEntry copy];
+	
+	/* undo manager */
+	[[[self undoManager] prepareWithInvocationTarget:self] updateEntry:anEntry 
+																													 setAction:newAction ? [anEntry action] : nil
+																														 trigger:newTrigger ? [anEntry trigger] : nil
+																												 application:newApplication ? [anEntry application] : nil];
+	// will update
+	SparkLibraryPostNotification([self library], SparkEntryManagerWillUpdateEntryNotification, self, anEntry);
+
+	if (newAction) {
+		[anEntry setAction:newAction];
+		
+		/* update weak entries */
+		if ([anEntry isSystem] && [anEntry hasVariant]) {
+			SparkEntry *child = [anEntry firstChild];
+			do {
+				if ([[child action] isEqual:[ghost action]])
+					[child setAction:newAction];
+			} while (child = [child sibling]);
+		}
+	}
+	
+	if (newTrigger) [anEntry setTrigger:newTrigger];
+	if (newApplication) [anEntry setApplication:newApplication];
+	
+	// did update
+	SparkLibraryPostUpdateNotification([self library], SparkEntryManagerDidUpdateEntryNotification, self, ghost, anEntry);
+	
+	/* Remove orphan action */
+	if (newAction && ![self containsEntryForAction:[ghost action]]) {
+		[[[self library] actionSet] removeObject:[ghost action]];
+	}
+	
+	/* If trigger has changed */
+	if (newTrigger)
+		[self updateTriggerStatus:[ghost trigger]];
+	
+	[ghost release];
+}
+
 static NSUInteger sUID = 0;
 
-- (void)sp_addEntry:(SparkEntry *)anEntry {
+- (void)sp_addEntry:(SparkEntry *)anEntry parent:(SparkEntry *)aParent {
   /* add entry */
   [anEntry setUID:++sUID];
   NSMapInsertKnownAbsent(sp_objects, (const void *)[anEntry uid], anEntry);
   
   /* Update trigger flag */
   if (![anEntry isSystem])
-    [[anEntry trigger] setHasManyAction:YES];
+    [[anEntry trigger] setHasSpecificAction:YES];
   
   [anEntry setManager:self];
+	if (aParent) {
+		/* update relations */
+		[aParent addChild:anEntry];
+		/* do not register undo since, undoing addEntry will call removeEntry which call removeChild */
+		//[[sp_manager undoManager] registerUndoWithTarget:self selector:@selector(removeChild:) object:anEntry];
+	}
 }
 
 - (void)sp_removeEntry:(SparkEntry *)anEntry {
+	NSParameterAssert([anEntry manager] == self);
   NSParameterAssert(NSMapGet(sp_objects, (const void *)[anEntry uid]));
-  //    BOOL global = [anEntry isSystem];
+	
   SparkAction *action = [anEntry action];
   SparkTrigger *trigger = [anEntry trigger];
-  
-  [anEntry setManager:nil];
-  
+	
+	/* update entries relations */
+	if (![anEntry isRoot]) {
+		/* undo will call addEntry:parent: and will restore the parent */
+		[[anEntry parent] removeChild:anEntry];
+	} else if ([anEntry isSystem] && [anEntry hasVariant]) {
+		/* here undo will call addEntry:anEntry parent:nil and we have to restore the relationship */
+		[[self undoManager] registerUndoWithTarget:anEntry selector:@selector(addChildrenFromArray:) object:[anEntry children]];
+		[anEntry removeAllChildren];
+	}
+	[anEntry setManager:nil];
+	
   NSMapRemove(sp_objects, (const void *)[anEntry uid]);
   
   /* when undoing, we decrement sUID */
   if ([[self undoManager] isUndoing]) {
-    NSAssert([anEntry uid] == (sUID - 1), @"'next UID' does not match [entry uid]");
+    NSAssert([anEntry uid] == sUID, @"'next UID' does not match [entry uid]");
     sUID--;
   }
-  
-  /* Should automagically remove weak entries ? */
-  //    if (global) {
-  //      /* Remove weak entries */
-  //      [self removeEntriesForAction:action];
-  //    }
   
   /* Remove orphan action */
   if (![self containsEntryForAction:action]) {
     [[[self library] actionSet] removeObject:action];
   }
   /* Remove orphan trigger */
-  [self checkTriggerValidity:trigger];
+  [self updateTriggerStatus:trigger];
 }
 
 /* Check if contains, and update 'has many' status */
-- (void)checkTriggerValidity:(SparkTrigger *)trigger {
+- (void)updateTriggerStatus:(SparkTrigger *)trigger {
   SparkEntry *entry;
   BOOL contains = NO;
   SparkUID tuid = [trigger uid];
@@ -106,12 +233,12 @@ static NSUInteger sUID = 0;
   while (NSNextMapEnumeratorPair(&iter, NULL, (void * *)&entry)) {
     if ([entry triggerUID] == tuid) {
       if (![entry isSystem]) {
-        [[entry trigger] setHasManyAction:YES];
+        [[entry trigger] setHasSpecificAction:YES];
         NSEndMapTableEnumeration(&iter);
         return;
       } else {
         /* it contains at least one entry, but we have to continue the loop
-        to check if it contains a system entry */
+				 to check if it contains a system entry */
         contains = YES;
       }
     }
@@ -121,259 +248,39 @@ static NSUInteger sUID = 0;
   if (!contains)
     [[[self library] triggerSet] removeObject:trigger];
   else
-    [trigger setHasManyAction:NO];
+    [trigger setHasSpecificAction:NO];
 }
 
-//- (void)removeEntriesForAction:(SparkUID)action {
-//  CFIndex count = CFArrayGetCount(sp_entries);
-//  while (count-- > 0) {
-//    SparkEntry *entry = (SparkEntry *)CFArrayGetValueAtIndex(sp_entries, count);
-//    if ([entry actionUID] == action) {
-//      [self removeEntry:entry];
-//    }
-//  }
-//}
-
-@end
-
-#if 0
-static
-void _SparkEntryRelease(CFAllocatorRef allocator, const void *value) {
-  CFAllocatorDeallocate(kCFAllocatorDefault, (void *)value);
-}
-
-/* Two entries are equals if application and trigger are equals. */
-static
-CFHashCode _SparkEntryHash(const void *obj) {
-  const SparkLibraryEntry *entry = obj;
-  return entry->application ^ entry->trigger << 16;
-}
-static 
-Boolean _SparkEntryIsEqual(const void *obj1, const void *obj2) {
-  const SparkLibraryEntry *e1 = obj1, *e2 = obj2;
-  return e1->trigger == e2->trigger && e1->application == e2->application;
-}
-
-@implementation SparkEntryManager (SparkEntryManagerInternal)
-
-- (void)initInternal {
-  CFArrayCallBacks callbacks;
-  bzero(&callbacks, sizeof(callbacks));
-  callbacks.equal = _SparkEntryIsEqual;
-  callbacks.release = _SparkEntryRelease;
-  sp_entries = CFArrayCreateMutable(kCFAllocatorDefault, 0, &callbacks);
-  
-  CFSetCallBacks setcb;
-  bzero(&setcb, sizeof(setcb));
-  setcb.hash = _SparkEntryHash;
-  setcb.equal = _SparkEntryIsEqual;
-  sp_set = CFSetCreateMutable(kCFAllocatorDefault, 0, &setcb);
-}
-
-- (void)deallocInternal {
-  if (sp_set)
-    CFRelease(sp_set);
-  if (sp_entries)
-    CFRelease(sp_entries);
-}
-
-#pragma mark Entry Manipulation
-- (void)addLibraryEntry:(SparkLibraryEntry *)anEntry {
-  if (!CFSetContainsValue(sp_set, anEntry)) {
-    SparkLibraryEntry *entry = CFAllocatorAllocate(kCFAllocatorDefault, sizeof(*entry), 0);
-    *entry = *anEntry;
-    CFSetAddValue(sp_set, entry);
-    CFArrayAppendValue(sp_entries, entry);
-    
-    SparkTrigger *trigger = [[self library] triggerWithUID:entry->trigger];
-    /* Update trigger flag */
-    if (SparkLibraryEntryIsOverwrite(entry))
-      [trigger setHasManyAction:YES];
-  }
-}
-- (void)replaceLibraryEntry:(SparkLibraryEntry *)anEntry withLibraryEntry:(SparkLibraryEntry *)newEntry {
-  NSParameterAssert(anEntry != NULL);
-  NSParameterAssert(newEntry != NULL);
-  
-  /* Make sure we are using internal storage pointer */
-  anEntry = (SparkLibraryEntry *)CFSetGetValue(sp_set, anEntry);
-  if (!anEntry)
-    [NSException raise:NSInternalInconsistencyException format:@"Requested entry does not exists"];
-  
-  SparkUID action = anEntry->action;
-  SparkUID trigger = anEntry->trigger;
-  
-  /* Should update CFSet if the hash change */
-  BOOL update = NO;
-  if (_SparkEntryHash(anEntry) != _SparkEntryHash(newEntry)) {
-    update = YES;
-    CFSetRemoveValue(sp_set, anEntry);
-  }
-  
-  /* Copy all values */
-  *anEntry = *newEntry;
-  
-  if (update)
-    CFSetAddValue(sp_set, anEntry);
-  
-  /* Remove orphan action or update action flag */
-  if (action != newEntry->action && ![self containsEntryForAction:action]) {
-//    SparkAction *act = [[self library] actionWithUID:action];
-//    if ([act isRegistred])
-//      [act setRegistred:NO];
-    [[[self library] actionSet] removeObjectWithUID:action];
-  }
-//  else {
-//    [self checkActionRegistration:anEntry];
-//  }
-  /* Update trigger */
-  [self checkTriggerValidity:trigger];
-  /* update newEntry flag */
-//  [self checkActionRegistration:newEntry];
-}
-
-- (void)removeLibraryEntry:(const SparkLibraryEntry *)anEntry {  
-  if (CFSetContainsValue(sp_set, anEntry)) {
-//    BOOL global = anEntry->application == kSparkApplicationSystemUID;
-    /* copy anEntry on stack */
-    const SparkLibraryEntry lEntry = *anEntry;
-    
-    CFSetRemoveValue(sp_set, anEntry);
-    CFIndex idx = CFArrayGetFirstIndexOfValue(sp_entries, CFRangeMake(0, CFArrayGetCount(sp_entries)), anEntry);
-    NSAssert(idx != kCFNotFound, @"Cannot found object in manager array, but found in set");
-    if (idx != kCFNotFound)
-      CFArrayRemoveValueAtIndex(sp_entries, idx);
-    /* Note: anEntry could be freed an should no longer be used, lEntry MUST be used instead. */
-    
-    /* Should not automagically remove weak entries */
-//    if (global) {
-//      /* Remove weak entries */
-//      [self removeEntriesForAction:lEntry.action];
-//    }
-    
-    /* Remove orphan action or update action status */
-    if (![self containsEntryForAction:lEntry.action]) {
-//      SparkAction *action = [[self library] actionWithUID:lEntry.action];
-//      if ([action isRegistred])
-//        [action setRegistred:NO];
-      [[[self library] actionSet] removeObjectWithUID:lEntry.action];
-    }
-//    else {
-//      [self checkActionRegistration:&lEntry];
-//    }
-    /* Remove orphan trigger */
-    [self checkTriggerValidity:lEntry.trigger];
-  }
-}
-
-- (void)setEnabled:(BOOL)flag forLibraryEntry:(SparkLibraryEntry *)anEntry {
-  NSParameterAssert(anEntry != NULL);
-  /* Make sure we are using internal storage pointer */
-  anEntry = (SparkLibraryEntry *)CFSetGetValue(sp_set, anEntry);
-  if (!anEntry)
-    [NSException raise:NSInvalidArgumentException format:@"Requested entry does not exists"];
-  
-  SparkLibraryEntrySetEnabled(anEntry, flag);
-//  [self checkActionRegistration:anEntry];
-}
-
-#pragma mark Conversion
-- (SparkLibraryEntry *)libraryEntryForEntry:(SparkEntry *)anEntry {
-  return [self libraryEntryForTrigger:[[anEntry trigger] uid] application:[[anEntry application] uid]];
-}
-
-- (SparkEntry *)entryForLibraryEntry:(const SparkLibraryEntry *)anEntry {
-  NSParameterAssert(anEntry != NULL);
-  /* Make sure we are using internal storage pointer */
-  anEntry = (SparkLibraryEntry *)CFSetGetValue(sp_set, anEntry);
-  if (!anEntry)
-    [NSException raise:NSInternalInconsistencyException format:@"Requested entry does not exists"];
-  
-  SparkAction *action = [[self library] actionWithUID:anEntry->action];
-  SparkTrigger *trigger = [[self library] triggerWithUID:anEntry->trigger];
-  SparkApplication *application = [[self library] applicationWithUID:anEntry->application];
-  
-  SparkEntry *object = [[SparkEntry alloc] initWithAction:action
-                                                  trigger:trigger
-                                              application:application];
-  [object setType:[self typeForLibraryEntry:anEntry]];
-  /* Set flags */
-  [object setEnabled:SparkLibraryEntryIsEnabled(anEntry)];
-  [object setPlugged:SparkLibraryEntryIsPlugged(anEntry)];
-  
-  return [object autorelease];
-}
-
-- (SparkLibraryEntry *)libraryEntryForTrigger:(SparkUID)aTrigger application:(SparkUID)anApplication {
-  SparkLibraryEntry search;
-  search.action = 0;
-  search.trigger = aTrigger;
-  search.application = anApplication;
-  return (SparkLibraryEntry *)CFSetGetValue(sp_set, &search);
+#pragma mark Notification
+- (void)didRemoveApplication:(NSNotification *)aNotification {
+	[self removeEntriesInArray:[self entriesForApplication:SparkNotificationObject(aNotification)]];
 }
 
 #pragma mark Entry Management - Plugged
 - (void)didChangePluginStatus:(NSNotification *)aNotification {
   SparkPlugIn *plugin = [aNotification object];
   
+	SparkEntry *entry;
   BOOL flag = [plugin isEnabled];
   Class cls = [plugin actionClass];
-  CFIndex count = CFArrayGetCount(sp_entries);
-  SparkObjectSet *actions = [[self library] actionSet];
-  while (count-- > 0) {
-    SparkLibraryEntry *entry = (SparkLibraryEntry *)CFArrayGetValueAtIndex(sp_entries, count);
-    NSAssert(entry, @"Invalid entry in entry manager");
-    
-    SparkAction *act = [actions objectWithUID:entry->action];
-    if ([act isKindOfClass:cls]) {
+  NSMapEnumerator iter = NSEnumerateMapTable(sp_objects);
+  while (NSNextMapEnumeratorPair(&iter, NULL, (void * *)&entry)) {
+		SparkAction *act = [entry action];
+		if ([act isKindOfClass:cls]) {
+			/* auto disabled entry that will conflict if replug */
+			if (flag && [entry isEnabled] && [self activeEntryForTrigger:[entry trigger] application:[entry application]])
+				[entry setEnabled:NO];
       /* Update library entry */
-      SparkLibraryEntrySetPlugged(entry, flag);
-//      [self checkActionRegistration:entry];
+      [entry setPlugged:flag];
     }
   }
-}
-
-#pragma mark Internal
-//- (void)checkActionRegistration:(const SparkLibraryEntry *)entry {
-//  SparkAction *action = [[self library] actionWithUID:entry->action];
-//  /* If active, sync with trigger (if needed) */
-//  if (SparkLibraryEntryIsActive(entry)) {
-//    SparkTrigger *trigger = [[self library] triggerWithUID:entry->trigger];
-//    if (XOR([trigger isRegistred], [action isRegistred]))
-//      [action setRegistred:[trigger isRegistred]];
-//  } else if ([action isRegistred]) {
-//    /* else, set unregistred */
-//    [action setRegistred:NO];
-//  }
-//}
-
-- (SparkEntryType)typeForLibraryEntry:(const SparkLibraryEntry *)anEntry {
-  NSParameterAssert(anEntry != NULL);
-  SparkEntryType type = kSparkEntryTypeDefault;
-  /* If custom application */
-  if (anEntry->application != kSparkApplicationSystemUID) {
-    /* If default action (action for application kSparkApplicationSystemUID) equals cutsom application => weak overwrite */
-    SparkLibraryEntry *defaults = [self libraryEntryForTrigger:anEntry->trigger application:kSparkApplicationSystemUID];
-    if (!defaults) {
-      /* No default entry => specific */
-      type = kSparkEntryTypeSpecific;
-    } else if (defaults->action == anEntry->action) {
-      /* Default entry has the same action */
-      type = kSparkEntryTypeWeakOverWrite;
-    } else {
-      /* else full overwrite */
-      type = kSparkEntryTypeOverWrite;
-    }
-  }
-  return type;
+  NSEndMapTableEnumeration(&iter);
 }
 
 @end
 
-#endif /* 0 */
-
 #pragma mark -
-@implementation SparkEntryManager (SparkSerialization)
+@implementation SparkEntryManager (SparkArchiving)
 
 - (void)cleanup {
   SparkEntry *entry;
@@ -381,16 +288,18 @@ Boolean _SparkEntryIsEqual(const void *obj1, const void *obj2) {
   NSMapEnumerator iter = NSEnumerateMapTable(sp_objects);
   while (NSNextMapEnumeratorPair(&iter, NULL, (void * *)&entry)) {
     /* Invalid entry if: 
-    - action does not exists.
-    - trigger does not exists.
-    - application does not exists.
-    */
+		 - action does not exists.
+		 - trigger does not exists.
+		 - application does not exists.
+		 */
     if (![entry action] || ![entry trigger] || ![entry application]) {
       DLog(@"Remove Invalid entry %@", entry);
       [self sp_removeEntry:entry];
     } else {
       if (![entry isSystem])
-        [[entry trigger] setHasManyAction:YES];
+        [[entry trigger] setHasSpecificAction:YES];
+			/* restore UID counter */
+			sUID = MAX(sUID, [entry uid]);
     }
   }
   NSEndMapTableEnumeration(&iter);
@@ -406,7 +315,9 @@ Boolean _SparkEntryIsEqual(const void *obj1, const void *obj2) {
     while (idx-- > 0) {
       SparkEntry *entry = [entries objectAtIndex:idx];
       NSMapInsert(sp_objects, (const void *)[entry uid], entry);
+			[entry setManager:self];
     }
+		[self cleanup];
   }
   return self;
 }
@@ -415,6 +326,140 @@ Boolean _SparkEntryIsEqual(const void *obj1, const void *obj2) {
   NSParameterAssert([coder isKindOfClass:[SparkLibraryArchiver class]]);
   [coder encodeObject:NSAllMapTableValues(sp_objects) forKey:@"entries"];
 }
+
+@end
+
+#pragma mark -
+@implementation SparkEntryManager (SparkLegacyLibraryImporter)
+
+/* returns the firt entry that match the criterias */
+- (SparkEntry *)entryForTrigger:(SparkTrigger *)aTrigger application:(SparkApplication *)anApplication {
+  SparkEntry *entry;
+  SparkUID trigger = [aTrigger uid], application = [anApplication uid];
+  NSMapEnumerator iter = NSEnumerateMapTable(sp_objects);
+  while (NSNextMapEnumeratorPair(&iter, NULL, (void * *)&entry)) {
+    if ([entry triggerUID] == trigger && [entry applicationUID] == application) {
+      NSEndMapTableEnumeration(&iter);
+      return entry;
+    }
+  }
+  NSEndMapTableEnumeration(&iter);
+  return NULL;
+}
+
+- (void)resolveParents {
+  SparkEntry *entry;
+  NSMapEnumerator iter = NSEnumerateMapTable(sp_objects);
+  while (NSNextMapEnumeratorPair(&iter, NULL, (void * *)&entry)) {
+    if (![entry isSystem]) {
+      SparkEntry *parent = [self entryForTrigger:[entry trigger] application:[sp_library systemApplication]];
+      if (parent)
+        [parent addChild:entry];
+    }
+  }
+  NSEndMapTableEnumeration(&iter);
+}
+
+- (void)postProcessLegacy {
+  /* Resolve Ignore Actions */
+  SparkEntry *entry;
+  NSMapEnumerator iter = NSEnumerateMapTable(sp_objects);
+  while (NSNextMapEnumeratorPair(&iter, NULL, (void * *)&entry)) {
+    if (![entry action] && [[entry parent] action]) {
+      [entry setAction:[[entry parent] action]];
+    }
+  }
+  NSEndMapTableEnumeration(&iter);
+  [self cleanup];
+}
+
+- (void)loadLegacyEntries:(NSArray *)entries {
+  NSUInteger idx = [entries count];
+  while (idx-- > 0) {
+    [self sp_addEntry:[entries objectAtIndex:idx] parent:nil];
+  }
+  
+  /* resolve parents */
+  [self resolveParents];
+  
+  /* cleanup */
+  [self postProcessLegacy];
+}
+
+typedef struct _SparkLibraryEntry {
+  SparkUID flags;
+  SparkUID action;
+  SparkUID trigger;
+  SparkUID application;
+} SparkLibraryEntry_v0;
+
+typedef struct {
+  OSType magic;
+  UInt32 version; /* Version 0 header */
+  UInt32 count;
+  SparkLibraryEntry_v0 entries[0];
+} SparkEntryHeader;
+
+#define SPARK_MAGIC		'SpEn'
+#define SPARK_CIGAM		'nEpS'
+
+#define SparkReadField(field)	({swap ? OSSwapInt32(field) : field; })
+
+- (BOOL)readFromFileWrapper:(NSFileWrapper *)fileWrapper error:(NSError **)outError {
+  /* Cleanup */
+  NSResetMapTable(sp_objects);
+  
+  NSData *data = [fileWrapper regularFileContents];
+  
+  BOOL swap = NO;
+  const void *bytes = [data bytes];
+  const SparkEntryHeader *header = bytes;
+  switch (header->magic) {
+    case SPARK_CIGAM:
+      swap = YES;
+      // fall 
+    case SPARK_MAGIC:
+      break;
+    default:
+      DLog(@"Invalid header");
+      if (outError) *outError = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileReadCorruptFileError userInfo:nil];
+      return NO;
+  }
+  
+  if (SparkReadField(header->version) != 0) {
+    DLog(@"Unsupported version: %x", SparkReadField(header->version));
+    if (outError) *outError = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileReadCorruptFileError userInfo:nil];
+    return NO;
+  }
+  
+  NSUInteger count = SparkReadField(header->count);
+  if ([data length] < count * sizeof(SparkLibraryEntry_v0) + sizeof(SparkEntryHeader)) {
+    DLog(@"Unexpected end of file");
+    if (outError) *outError = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileReadCorruptFileError userInfo:nil];
+    return NO;
+  }
+  
+  const SparkLibraryEntry_v0 *entries = header->entries;
+  while (count-- > 0) {
+    SparkEntry *entry = [[SparkEntry alloc] init];
+    [entry setEnabled:(SparkReadField(entries->flags) & 1) != 0];
+    
+    [entry setAction:[sp_library actionWithUID:SparkReadField(entries->action)]];
+    [entry setTrigger:[sp_library triggerWithUID:SparkReadField(entries->trigger)]];
+    [entry setApplication:[sp_library applicationWithUID:SparkReadField(entries->application)]];
+    
+    [self sp_addEntry:entry parent:nil];
+    entries++;
+  }
+  /* build parent/child relations */
+  [self resolveParents];
+  
+  /* cleanup */
+  [self cleanup];
+  
+  return YES;
+}
+@end
 
 #pragma mark Debug
 static 
@@ -462,6 +507,12 @@ void _SparkDumpEntry(SparkEntry *entry, bool child) {
   fprintf(stderr, "%s- Application (%lu): %s\n", indent, (long)[application uid], [[application name] UTF8String]);
 }
 
+@interface SparkEntryManager (SparkDebug)
+- (void)dumpEntries;
+@end
+
+@implementation SparkEntryManager (SparkDebug)
+
 - (void)dumpEntries {
   SparkEntry *entry;
   fprintf(stderr, "Entries: %lu\n {\n", (long)NSCountMapTable(sp_objects));
@@ -471,13 +522,12 @@ void _SparkDumpEntry(SparkEntry *entry, bool child) {
       if ([entry isSystem]) {
         _SparkDumpEntry(entry, false);
         fprintf(stderr, "----------------------------------\n");
-        if ([entry isOverridden]) {
-          SparkEntry *child = [entry firstChild];
-          do {
-            _SparkDumpEntry(child, true);
-            fprintf(stderr, "----------------------------------\n");
-          } while (child = [child sibling]);
-        }
+				SparkEntry *child = [entry firstChild];
+				while (child) {
+					_SparkDumpEntry(child, true);
+					child = [child sibling];
+					fprintf(stderr, "----------------------------------\n");
+				}
       } else {
         /* specific entry */
         fprintf(stderr, "----------------------------------\n");
@@ -489,139 +539,6 @@ void _SparkDumpEntry(SparkEntry *entry, bool child) {
   fprintf(stderr, "}\n");
 }
 
-@end
-
-#pragma mark -
-@implementation SparkEntryManager (SparkLegacyLibraryImporter)
-
-/* returns the firt entry that match the criterias */
-- (SparkEntry *)entryForTrigger:(SparkTrigger *)aTrigger application:(SparkApplication *)anApplication {
-  SparkEntry *entry;
-  SparkUID trigger = [aTrigger uid], application = [anApplication uid];
-  NSMapEnumerator iter = NSEnumerateMapTable(sp_objects);
-  while (NSNextMapEnumeratorPair(&iter, NULL, (void * *)&entry)) {
-    if ([entry triggerUID] == trigger && [entry applicationUID] == application) {
-      NSEndMapTableEnumeration(&iter);
-      return entry;
-    }
-  }
-  NSEndMapTableEnumeration(&iter);
-  return NULL;
-}
-
-- (void)resolveParents {
-  SparkEntry *entry;
-  NSMapEnumerator iter = NSEnumerateMapTable(sp_objects);
-  while (NSNextMapEnumeratorPair(&iter, NULL, (void * *)&entry)) {
-    if (![entry isSystem]) {
-      SparkEntry *parent = [self entryForTrigger:[entry trigger] application:[sp_library systemApplication]];
-      if (parent)
-        [entry setParent:parent];
-    }
-  }
-  NSEndMapTableEnumeration(&iter);
-}
-
-- (void)postProcessLegacy {
-  /* Resolve Ignore Actions */
-  SparkEntry *entry;
-  NSMapEnumerator iter = NSEnumerateMapTable(sp_objects);
-  while (NSNextMapEnumeratorPair(&iter, NULL, (void * *)&entry)) {
-    if (![entry action] && [[entry parent] action]) {
-      [entry setAction:[[entry parent] action]];
-    }
-  }
-  NSEndMapTableEnumeration(&iter);
-  [self cleanup];
-}
-
-- (void)loadLegacyEntries:(NSArray *)entries {
-  NSUInteger idx = [entries count];
-  while (idx-- > 0) {
-    [self sp_addEntry:[entries objectAtIndex:idx]];
-  }
-  
-  /* resolve parents */
-  [self resolveParents];
-  
-  /* cleanup */
-  [self postProcessLegacy];
-}
-
-typedef struct _SparkLibraryEntry {
-  SparkUID flags;
-  SparkUID action;
-  SparkUID trigger;
-  SparkUID application;
-} SparkLibraryEntry_v0;
-
-typedef struct {
-  OSType magic;
-  UInt32 version; /* Version 0 header */
-  UInt32 count;
-  SparkLibraryEntry_v0 entries[0];
-} SparkEntryHeader;
-
-#define SPARK_MAGIC		'SpEn'
-#define SPARK_CIGAM		'nEpS'
-
-#define SparkReadField(field)	({swap ? OSSwapInt32(field) : field; })
-
-- (BOOL)readFromFileWrapper:(NSFileWrapper *)fileWrapper error:(NSError **)outError {
-  /* Cleanup */
-  NSResetMapTable(sp_objects);
-  
-  NSData *data = [fileWrapper regularFileContents];
-  
-  
-  BOOL swap = NO;
-  const void *bytes = [data bytes];
-  const SparkEntryHeader *header = bytes;
-  switch (header->magic) {
-    case SPARK_CIGAM:
-      swap = YES;
-      // fall 
-    case SPARK_MAGIC:
-      break;
-    default:
-      DLog(@"Invalid header");
-      if (outError) *outError = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileReadCorruptFileError userInfo:nil];
-      return NO;
-  }
-  
-  if (SparkReadField(header->version) != 0) {
-    DLog(@"Unsupported version: %x", SparkReadField(header->version));
-    if (outError) *outError = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileReadCorruptFileError userInfo:nil];
-    return NO;
-  }
-  
-  NSUInteger count = SparkReadField(header->count);
-  if ([data length] < count * sizeof(SparkLibraryEntry_v0) + sizeof(SparkEntryHeader)) {
-    DLog(@"Unexpected end of file");
-    if (outError) *outError = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileReadCorruptFileError userInfo:nil];
-    return NO;
-  }
-  
-  const SparkLibraryEntry_v0 *entries = header->entries;
-  while (count-- > 0) {
-    SparkEntry *entry = [[SparkEntry alloc] init];
-    [entry setEnabled:(SparkReadField(entries->flags) & 1) != 0];
-    
-    [entry setAction:[sp_library actionWithUID:SparkReadField(entries->action)]];
-    [entry setTrigger:[sp_library triggerWithUID:SparkReadField(entries->trigger)]];
-    [entry setApplication:[sp_library applicationWithUID:SparkReadField(entries->application)]];
-    
-    [self sp_addEntry:entry];
-    entries++;
-  }
-  /* build parent/child relations */
-  [self resolveParents];
-  
-  /* cleanup */
-  [self cleanup];
-  
-  return YES;
-}
 @end
 
 #pragma mark -

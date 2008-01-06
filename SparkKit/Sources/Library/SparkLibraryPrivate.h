@@ -20,12 +20,6 @@ enum {
 @class SparkEntry;
 @interface SparkLibrary (SparkLibraryInternal)
 
-- (SparkObjectSet *)listSet;
-
-- (SparkObjectSet *)actionSet;
-- (SparkObjectSet *)triggerSet;
-- (SparkObjectSet *)applicationSet;
-
 - (SparkList *)listWithUID:(SparkUID)uid;
 - (SparkEntry *)entryWithUID:(SparkUID)uid;
 

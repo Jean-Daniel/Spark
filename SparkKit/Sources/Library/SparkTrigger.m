@@ -76,7 +76,7 @@ static SparkAction *sp_spAction = nil;
 - (BOOL)hasManyAction {
   return sp_stFlags.overwrite;
 }
-- (void)setHasManyAction:(BOOL)flag {
+- (void)setHasSpecificAction:(BOOL)flag {
   SKFlagSet(sp_stFlags.overwrite, flag);
 }
 

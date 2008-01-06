@@ -73,6 +73,9 @@ BOOL SparkHotKeyFilter(HKKeycode code, HKModifier modifier) {
         case kHKVirtualF14Key:
         case kHKVirtualF15Key:
         case kHKVirtualF16Key:
+				case kHKVirtualF17Key:
+				case kHKVirtualF18Key:
+				case kHKVirtualF19Key:
         case kHKVirtualHelpKey:
         case kHKVirtualClearLineKey:
           return YES;

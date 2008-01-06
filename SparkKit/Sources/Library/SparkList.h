@@ -28,17 +28,11 @@ NSString * const SparkListDidRemoveEntriesNotification;
 @class SparkEntry, SparkApplication;
 SK_CLASS_EXPORT
 @interface SparkList : SparkObject {
-  @private
-  
+  @private  
   NSMutableArray *sp_entries;
   
   id sp_ctxt;
   SparkListFilter sp_filter;
-  struct _sp_selFlags {
-    unsigned int group:8;
-    unsigned int editable:1;
-    unsigned int reserved:23;
-  } sp_selFlags;
 }
 
 - (void)reload;
@@ -46,12 +40,10 @@ SK_CLASS_EXPORT
 - (id)filterContext;
 - (void)setListFilter:(SparkListFilter)aFilter context:(id)aCtxt;
 
-/* Reload the list, but does not track library change */
-- (void)reloadWithFilter:(SparkListFilter)aFilter context:(id)aCtxt;
-
 - (NSUInteger)count;
-- (NSEnumerator *)objectEnumerator;
-//- (BOOL)containsEntry:(SparkEntry *)anObject;
+//- (NSEnumerator *)objectEnumerator;
+- (BOOL)containsEntry:(SparkEntry *)anEntry;
+- (NSUInteger)indexOfEntry:(SparkEntry *)anEntry;
 - (NSArray *)entriesForApplication:(SparkApplication *)anApplication;
 
 - (void)addEntry:(SparkEntry *)anEntry;
@@ -60,14 +52,8 @@ SK_CLASS_EXPORT
 - (void)removeEntry:(SparkEntry *)anObject;
 - (void)removeEntriesInArray:(NSArray *)anArray;
 
-/* Editor facilities */
-- (UInt8)group;
-- (void)setGroup:(UInt8)group;
-
-- (BOOL)isEditable;
-- (void)setEditable:(BOOL)flag;
-
 - (BOOL)acceptsEntry:(SparkEntry *)anEntry;
+- (BOOL)acceptsEntryOrChild:(SparkEntry *)anEntry;
 
 #pragma mark KVC
 - (NSArray *)entries;

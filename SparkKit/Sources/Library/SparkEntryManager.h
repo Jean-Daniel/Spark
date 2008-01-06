@@ -36,6 +36,14 @@ SPARK_CLASS_EXPORT
   @private
   SparkLibrary *sp_library; /* __weak */
   NSMapTable *sp_objects;
+	
+	/* editing context */
+	struct {
+		SparkEntry *entry;
+		SparkAction *action;
+		SparkTrigger *trigger;
+		SparkApplication *application;
+	} sp_edit;
 }
 
 - (id)initWithLibrary:(SparkLibrary *)aLibrary;
@@ -50,24 +58,22 @@ SPARK_CLASS_EXPORT
 - (NSEnumerator *)entryEnumerator;
 - (SparkEntry *)entryWithUID:(SparkUID)uid;
 
-//- (void)addEntry:(SparkEntry *)anEntry;
-//- (void)removeEntry:(SparkEntry *)anEntry;
-//- (void)removeEntries:(NSArray *)theEntries;
+/* add a new root entry */
+- (SparkEntry *)addEntryWithAction:(SparkAction *)anAction trigger:(SparkTrigger *)aTrigger application:(SparkApplication *)aApplication;
 
-/* Internal use only */
-//- (void)updateEntry:(SparkEntry *)anEntry;
+- (void)removeEntry:(SparkEntry *)anEntry;
+- (void)removeEntriesInArray:(NSArray *)theEntries;
 
 #pragma mark Queries
 //- (NSArray *)entriesForAction:(SparkUID)anAction;
 //- (NSArray *)entriesForTrigger:(SparkUID)aTrigger;
-//- (NSArray *)entriesForApplication:(SparkUID)anApplication;
+- (NSArray *)entriesForApplication:(SparkApplication *)anApplication;
 
 /* Orphan check */
 - (BOOL)containsEntryForAction:(SparkAction *)anAction;
 - (BOOL)containsEntryForTrigger:(SparkTrigger *)aTrigger;
 
 //- (BOOL)containsEntry:(SparkEntry *)anEntry;
-
 //- (BOOL)containsOverwriteEntryForTrigger:(SparkUID)aTrigger;
 //- (BOOL)containsPersistentEntryForTrigger:(SparkUID)aTrigger;
 
@@ -78,20 +84,12 @@ SPARK_CLASS_EXPORT
 /* Editor Queries */
 - (BOOL)containsEntryForApplication:(SparkApplication *)anApplication;
 
+- (SparkEntry *)activeEntryForTrigger:(SparkTrigger *)aTrigger application:(SparkApplication *)anApplication;
+
 /* First, search for specifics actions */
 /* If not found, search for a default action */
 /* If default action found, search default action child for anApplication, and if exist returns child, else returns default */
 /* Else return NULL */
-- (SparkEntry *)activeEntryForTrigger:(SparkTrigger *)aTrigger application:(SparkApplication *)anApplication;
-
-@end
-
-#pragma mark Serialization
-@interface SparkEntryManager (SparkSerialization) <NSCoding>
-
-//- (void)postProcess;
-
-//- (NSFileWrapper *)fileWrapper:(NSError **)outError;
-//- (BOOL)readFromFileWrapper:(NSFileWrapper *)fileWrapper error:(NSError **)outError;
+- (SparkEntry *)resolveEntryForTrigger:(SparkTrigger *)aTrigger application:(SparkApplication *)anApplication;
 
 @end

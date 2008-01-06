@@ -74,10 +74,10 @@ UInt8 __SparkIconTypeForObject(SparkObject *object) {
                                         selector:@selector(didAddObject:)
                                             name:SparkObjectSetDidAddObjectNotification 
                                           object:nil];
-    [[sp_library notificationCenter] addObserver:self
-                                        selector:@selector(didUpdateObject:)
-                                            name:SparkObjectSetDidUpdateObjectNotification 
-                                          object:nil];
+//    [[sp_library notificationCenter] addObserver:self
+//                                        selector:@selector(didUpdateObject:)
+//                                            name:SparkObjectSetDidUpdateObjectNotification 
+//                                          object:nil];
     [[sp_library notificationCenter] addObserver:self
                                         selector:@selector(willRemoveObject:)
                                             name:SparkObjectSetWillRemoveObjectNotification 
@@ -214,18 +214,18 @@ UInt8 __SparkIconTypeForObject(SparkObject *object) {
     [self setIcon:[object icon] forObject:object];
 }
 
-- (void)didUpdateObject:(NSNotification *)aNotification {
-  SparkObject *object = SparkNotificationObject(aNotification);
-  SparkObject *updated = SparkNotificationUpdatedObject(aNotification);
-  /* should no longer save icon or has no icon */
-  if (![object shouldSaveIcon] || ![object hasIcon]) {
-    /* Remove previous */
-    if ([updated shouldSaveIcon])
-      [self setIcon:nil forObject:object];
-  } else {
-    [self setIcon:[object icon] forObject:object];
-  }
-}
+//- (void)didUpdateObject:(NSNotification *)aNotification {
+//  SparkObject *object = SparkNotificationObject(aNotification);
+//  SparkObject *updated = SparkNotificationUpdatedObject(aNotification);
+//  /* should no longer save icon or has no icon */
+//  if (![object shouldSaveIcon] || ![object hasIcon]) {
+//    /* Remove previous */
+//    if ([updated shouldSaveIcon])
+//      [self setIcon:nil forObject:object];
+//  } else {
+//    [self setIcon:[object icon] forObject:object];
+//  }
+//}
 
 - (void)willRemoveObject:(NSNotification *)aNotification {
   SparkObject *object = SparkNotificationObject(aNotification);

@@ -17,19 +17,6 @@
 #pragma mark Internal
 @implementation SparkLibrary (SparkLibraryInternal)
 
-- (SparkObjectSet *)listSet {
-  return sp_objects[kSparkListSet];
-}
-- (SparkObjectSet *)actionSet {
-  return sp_objects[kSparkActionSet];
-}
-- (SparkObjectSet *)triggerSet {
-  return sp_objects[kSparkTriggerSet];
-}
-- (SparkObjectSet *)applicationSet {
-  return sp_objects[kSparkApplicationSet];
-}
-
 /* convenient accessors */
 - (SparkList *)listWithUID:(SparkUID)uid {
   return [sp_objects[kSparkListSet] objectWithUID:uid];

@@ -15,6 +15,11 @@ typedef enum {
   kSparkEntryTypeWeakOverWrite = 3, /* Overwrite default status but same action */
 } SparkEntryType;
 
+SPARK_EXPORT
+NSString * const SparkEntryDidAppendChildNotification;
+SPARK_EXPORT
+NSString * const SparkEntryWillRemoveChildNotification;
+
 @class SparkEntryManager;
 @class SparkAction, SparkTrigger, SparkApplication;
 SPARK_CLASS_EXPORT
@@ -27,9 +32,10 @@ SPARK_CLASS_EXPORT
 
   /* status */
   struct _sp_seFlags {
+		unsigned int editing:1;
     unsigned int enabled:1;
     unsigned int unplugged:1;
-    unsigned int reserved:30;
+    unsigned int reserved:29;
   } sp_seFlags;
   /* chained list of children */
   SparkEntry *sp_child;
@@ -37,15 +43,10 @@ SPARK_CLASS_EXPORT
   SparkEntry *sp_parent; /* weak */
   
   /* Manager */
-  SparkEntryManager *sp_manager; /* weak */
+  __weak SparkEntryManager *sp_manager;
 }
 
-+ (id)entryWithAction:(SparkAction *)anAction trigger:(SparkTrigger *)aTrigger application:(SparkApplication *)anApplication;
-
-- (id)initWithAction:(SparkAction *)anAction trigger:(SparkTrigger *)aTrigger application:(SparkApplication *)anApplication;
-
 - (UInt32)uid;
-- (SparkEntry *)parent;
 
 - (SparkEntryType)type;
 
@@ -69,13 +70,25 @@ SPARK_CLASS_EXPORT
 - (BOOL)isPlugged;
 - (BOOL)isPersistent;
 
-/* return YES if this is a system entry */
-- (BOOL)isSystem;
-/* valid only for system entries. Returns YES if contains at least one child */
-- (BOOL)isOverridden;
-
 - (BOOL)isEnabled;
 - (void)setEnabled:(BOOL)flag;
+
+/* usefull for SparkList (root is 'self' on orphan and system actions, else it is 'parent') */
+- (BOOL)isRoot;
+- (SparkEntry *)root;
+
+/* return YES if this is a system entry */
+- (BOOL)isSystem;
+
+/* System entry only */
+
+/* Returns YES if contains at least one variant (valid only on system entry) */
+- (BOOL)hasVariant;
+
+/* returns the root entry and all children */
+- (NSArray *)variants;
+/* returns the specific entry for anApplication, or nil if not found */
+- (SparkEntry *)variantWithApplication:(SparkApplication *)anApplication;
 
 @end
 
@@ -87,41 +100,13 @@ SPARK_CLASS_EXPORT
 - (void)endEditing;
 
 /* entry edition */
-- (void)replaceParent:(SparkEntry *)entry;
-
 - (void)replaceAction:(SparkAction *)action;
 - (void)replaceTrigger:(SparkTrigger *)trigger;
 - (void)replaceApplication:(SparkApplication *)anApplication;
 
-@end
-
-@interface SparkEntry (SparkEntryManager)
-
-- (void)setUID:(UInt32)anUID;
-
-/* cached status */
-- (void)setPlugged:(BOOL)flag;
-
-/* is the entry in a manager */
-- (SparkEntryManager *)manager;
-- (void)setManager:(SparkEntryManager *)aManager;
-
-/* direct object access */
-- (void)setParent:(SparkEntry *)aParent;
-
-- (void)setAction:(SparkAction *)action;
-- (void)setTrigger:(SparkTrigger *)trigger;
-- (void)setApplication:(SparkApplication *)anApplication;
-
-/* fast access */
-- (SparkUID)actionUID;
-- (SparkUID)triggerUID;
-- (SparkUID)applicationUID;
-
-- (SparkEntry *)childWithApplication:(SparkApplication *)anApplication;
-
-/* tree */
-- (SparkEntry *)firstChild;
-- (SparkEntry *)sibling;
+/* derive entries */
+- (SparkEntry *)createWeakVariantWithApplication:(SparkApplication *)anApplication;
+- (SparkEntry *)createVariantWithAction:(SparkAction *)anAction trigger:(SparkTrigger *)aTrigger application:(SparkApplication *)anApplication;
 
 @end
+

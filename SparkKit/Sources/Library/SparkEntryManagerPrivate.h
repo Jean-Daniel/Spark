@@ -13,33 +13,39 @@
 - (void)beginEditing:(SparkEntry *)anEntry;
 - (void)endEditing:(SparkEntry *)anEntry;
 
-- (void)enableEntry:(SparkEntry *)anEntry;
-- (void)disableEntry:(SparkEntry *)anEntry;
+- (void)replaceAction:(SparkAction *)anAction inEntry:(SparkEntry *)anEntry;
+- (void)replaceTrigger:(SparkTrigger *)aTrigger inEntry:(SparkEntry *)anEntry;
+- (void)replaceApplication:(SparkApplication *)anApplication inEntry:(SparkEntry *)anEntry;
 
 @end
 
 @class SparkTrigger;
 @interface SparkEntryManager (SparkEntryManagerInternal)
 
-- (void)checkTriggerValidity:(SparkTrigger *)trigger;
+/* remove orphan trigger, and update trigger flags */
+- (void)updateTriggerStatus:(SparkTrigger *)trigger;
+
+/* called by SparkEntry */
+- (void)addEntry:(SparkEntry *)anEntry parent:(SparkEntry *)parent;
+
+- (void)updateEntry:(SparkEntry *)anEntry
+					setAction:(SparkAction *)anAction
+						trigger:(SparkTrigger *)aTrigger
+				application:(SparkApplication *)anApplication;
 
 #pragma mark Low-Level Methods
-- (void)sp_addEntry:(SparkEntry *)anEntry;
+- (void)sp_addEntry:(SparkEntry *)anEntry parent:(SparkEntry *)aParent;
 - (void)sp_removeEntry:(SparkEntry *)anEntry;
-
-//- (void)addLibraryEntry:(SparkLibraryEntry *)anEntry;
-//- (void)removeLibraryEntry:(const SparkLibraryEntry *)anEntry;
-//- (void)replaceLibraryEntry:(SparkLibraryEntry *)anEntry withLibraryEntry:(SparkLibraryEntry *)newEntry;
-
-/* Convert Library entry */
-//- (SparkLibraryEntry *)libraryEntryForEntry:(SparkEntry *)anEntry;
-//- (SparkLibraryEntry *)libraryEntryForTrigger:(SparkUID)aTrigger application:(SparkUID)anApplication;
-//
-//- (SparkEntry *)entryForLibraryEntry:(const SparkLibraryEntry *)anEntry;
 
 @end
 
+@interface SparkEntryManager (SparkArchiving) <NSCoding>
+/* Library version 2.1 */
+- (void)cleanup;
+@end
+
 @interface SparkEntryManager (SparkLegacyLibraryImporter)
+
 - (void)resolveParents;
   /* simple array of entries builded from an Spark 2 library. */
 - (void)loadLegacyEntries:(NSArray *)entries;

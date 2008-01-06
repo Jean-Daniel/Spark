@@ -227,7 +227,11 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
   return self;
 }
 - (void)setRepresentation:(NSString *)rep {
-  [self setName:rep];
+	/* set representation is supposed to be used only by the editor */
+	[[[self library] undoManager] registerUndoWithTarget:self
+																							selector:@selector(setRepresentation:)
+																								object:[self name]];
+	[self setName:rep];  
 }
 
 @end

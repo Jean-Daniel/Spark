@@ -11,6 +11,7 @@
 		1B6DACF40D0CA0F800F352CC /* SparkPluginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B6DACF20D0CA0F800F352CC /* SparkPluginView.xib */; };
 		1B6DACF80D0CA1BF00F352CC /* SparkPlugin.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B6DACF60D0CA1BF00F352CC /* SparkPlugin.xib */; };
 		1B6DAD010D0CA23200F352CC /* SKProgressPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B6DAD000D0CA23200F352CC /* SKProgressPanel.xib */; };
+		1B78811F0D172D2900EE2B66 /* SparkEntryPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B78811E0D172D2900EE2B66 /* SparkEntryPrivate.h */; };
 		1BAA6F8D0B64CF2500F9AC0E /* SKImageUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BAA6F870B64CF2500F9AC0E /* SKImageUtils.m */; };
 		1BB8B1FF0B949EE900F91062 /* SparkSystem.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1BB8B1FE0B949EE900F91062 /* SparkSystem.tiff */; };
 		1BE44FE40BD4B3DC00034060 /* AESendThreadSafe.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BE44FE30BD4B3DC00034060 /* AESendThreadSafe.c */; };
@@ -257,6 +258,7 @@
 		1B6DACF30D0CA0F800F352CC /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SparkPluginView.xib; sourceTree = "<group>"; };
 		1B6DACF70D0CA1BF00F352CC /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SparkPlugin.xib; sourceTree = "<group>"; };
 		1B6DAD000D0CA23200F352CC /* SKProgressPanel.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SKProgressPanel.xib; sourceTree = "<group>"; };
+		1B78811E0D172D2900EE2B66 /* SparkEntryPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkEntryPrivate.h; sourceTree = "<group>"; };
 		1B7BB7890CBE1FD700484A9E /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
 		1B7BB78A0CBE1FD700484A9E /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		1B7BB78B0CBE1FD700484A9E /* Profile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Profile.xcconfig; sourceTree = "<group>"; };
@@ -446,7 +448,7 @@
 		98F072F40CC26A83008CF066 /* SKCDSAFunctions.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = SKCDSAFunctions.c; sourceTree = "<group>"; };
 		98F072F50CC26A83008CF066 /* SKCDSAFunctions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SKCDSAFunctions.h; sourceTree = "<group>"; };
 		98F072F60CC26A83008CF066 /* SKCryptoFunctions.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = SKCryptoFunctions.c; sourceTree = "<group>"; };
-		98F072F70CC26A83008CF066 /* SKCryptoFunctions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SKCryptoFunctions.h; sourceTree = "<group>"; };
+		98F072F70CC26A83008CF066 /* SKCryptoFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKCryptoFunctions.h; sourceTree = "<group>"; };
 		98F5C8130A59B574007BEB21 /* SKTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SKTableView.m; sourceTree = "<group>"; };
 		98F867260A600D24009C68F9 /* Warning.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Warning.tiff; sourceTree = "<group>"; };
 		98FB5DDE060D0FFC0074131E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -741,6 +743,7 @@
 				984A38AB0A60060200DA6455 /* SparkTrigger.h */,
 				984A38A90A60060200DA6455 /* SparkObjectSet.h */,
 				984A38A30A60060200DA6455 /* SparkApplication.h */,
+				1B78811E0D172D2900EE2B66 /* SparkEntryPrivate.h */,
 				98E651510B62933B008A8C9B /* SparkIconManager.h */,
 				98A8AB9D0D01B21800CE8C12 /* SparkLibraryPrivate.h */,
 				98EDA3E30A9FA2FB00519E9B /* SparkEntryManager.h */,
@@ -1010,6 +1013,7 @@
 				9864A3AD0BD11EB40089447D /* SparkPreferences.h in Headers */,
 				98EB96DE0C174D9D00C7B72D /* SparkPluginView.h in Headers */,
 				98A8AB9F0D01B21800CE8C12 /* SparkLibraryPrivate.h in Headers */,
+				1B78811F0D172D2900EE2B66 /* SparkEntryPrivate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

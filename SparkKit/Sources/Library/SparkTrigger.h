@@ -31,7 +31,7 @@ SK_CLASS_EXPORT
 - (void)setAction:(SEL)action;
 
 - (BOOL)hasManyAction;
-- (void)setHasManyAction:(BOOL)flag;
+- (void)setHasSpecificAction:(BOOL)flag;
 
 - (IBAction)trigger:(id)sender;
 

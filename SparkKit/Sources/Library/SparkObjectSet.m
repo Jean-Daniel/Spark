@@ -195,26 +195,26 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
   return count;
 }
 
-#pragma mark -
-- (BOOL)updateObject:(SparkObject *)object {
-  NSParameterAssert([self containsObject:object]);
-  SparkObject *old = [self objectWithUID:[object uid]];
-  if (old && (old != object)) {
-    // Will update
-    SparkLibraryPostUpdateNotification([self library], SparkObjectSetWillUpdateObjectNotification, self, old, object);
-    
-    /* Register undo => [self updateObject:old]; */
-    [[self undoManager] registerUndoWithTarget:self selector:@selector(updateObject:) object:old];
-    
-    // Update
-    [old setLibrary:nil];
-    [self sp_addObject:object];
-    // Did update
-    SparkLibraryPostUpdateNotification([self library], SparkObjectSetDidUpdateObjectNotification, self, old, object);
-    return YES;
-  }
-  return NO;
-}
+//#pragma mark -
+//- (BOOL)updateObject:(SparkObject *)object {
+//  NSParameterAssert([self containsObject:object]);
+//  SparkObject *old = [self objectWithUID:[object uid]];
+//  if (old && (old != object)) {
+//    // Will update
+//    SparkLibraryPostUpdateNotification([self library], SparkObjectSetWillUpdateObjectNotification, self, old, object);
+//    
+//    /* Register undo => [self updateObject:old]; */
+//    [[self undoManager] registerUndoWithTarget:self selector:@selector(updateObject:) object:old];
+//    
+//    // Update
+//    [old setLibrary:nil];
+//    [self sp_addObject:object];
+//    // Did update
+//    SparkLibraryPostUpdateNotification([self library], SparkObjectSetDidUpdateObjectNotification, self, old, object);
+//    return YES;
+//  }
+//  return NO;
+//}
 
 #pragma mark -
 - (void)removeObject:(SparkObject *)object {
@@ -323,6 +323,7 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
   require(objects, bail);
   
   /* Disable undo */
+	[[self library] disableNotifications];
   [[self undoManager] disableUndoRegistration];
   
   NSDictionary *serialized;
@@ -354,7 +355,7 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
   
   /* enable undo */
   [[self undoManager] enableUndoRegistration];
-  
+  [[self library] enableNotifications];
   return YES;
 bail:
     if (outError) *outError = nil;

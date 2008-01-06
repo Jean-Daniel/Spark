@@ -10,6 +10,7 @@
 
 #import <SparkKit/SparkPrivate.h>
 
+#import "SparkEntryPrivate.h"
 #import "SparkLibraryPrivate.h"
 #import "SparkEntryManagerPrivate.h"
 

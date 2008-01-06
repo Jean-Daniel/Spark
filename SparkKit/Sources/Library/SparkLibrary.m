@@ -35,9 +35,7 @@ NSString * const kSparkLibraryFileExtension = @"splib";
 
 NSPropertyListFormat SparkLibraryFileFormat = NSPropertyListBinaryFormat_v1_0;
 
-//static NSString * const kSparkListsFile = @"SparkLists";
 static NSString * const kSparkActionsFile = @"SparkActions";
-//static NSString * const kSparkEntriesFile = @"SparkEntries";
 static NSString * const kSparkTriggersFile = @"SparkTriggers";
 static NSString * const kSparkApplicationsFile = @"SparkApplications";
 
@@ -62,9 +60,9 @@ NSString * const SparkDidSetActiveLibraryNotification = @"SparkDidSetActiveLibra
 NSString * const SparkNotificationObjectKey = @"SparkNotificationObject";
 NSString * const SparkNotificationUpdatedObjectKey = @"SparkNotificationUpdatedObject";
 
-#define kSparkLibraryVersion_1_0		0x100
-#define kSparkLibraryVersion_2_0		0x200
-#define kSparkLibraryVersion_2_1		0x201
+#define kSparkLibraryVersion_1_0		0x0100
+#define kSparkLibraryVersion_2_0		0x0200
+#define kSparkLibraryVersion_2_1		0x0201
 
 const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
 
@@ -161,6 +159,19 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
   return sp_icons;
 }
 
+- (SparkObjectSet *)listSet {
+  return sp_objects[kSparkListSet];
+}
+- (SparkObjectSet *)actionSet {
+  return sp_objects[kSparkActionSet];
+}
+- (SparkObjectSet *)triggerSet {
+  return sp_objects[kSparkTriggerSet];
+}
+- (SparkObjectSet *)applicationSet {
+  return sp_objects[kSparkApplicationSet];
+}
+
 - (NSEnumerator *)listEnumerator {
   return [sp_objects[kSparkListSet] objectEnumerator];
 }
@@ -191,13 +202,17 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
 }
 
 - (void)enableNotifications {
-  SKFlagSet(sp_slFlags.unnotify, NO);
+	NSParameterAssert(sp_slFlags.unnotify > 0);
+  sp_slFlags.unnotify--;
 }
 - (void)disableNotifications {
-  SKFlagSet(sp_slFlags.unnotify, YES);
+	NSParameterAssert(sp_slFlags.unnotify < 255);
+  sp_slFlags.unnotify++;
 }
 - (NSNotificationCenter *)notificationCenter {
-  if (sp_slFlags.unnotify) return nil;
+  if (sp_slFlags.unnotify > 0) {
+		return nil;
+	}
   
   if (!sp_center) {
     sp_center = [[NSNotificationCenter alloc] init];
@@ -239,7 +254,7 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
       DLog(@"WARNING: sync unloaded library");
     }
   } else {
-    [NSException raise:@"InvalidFileException" format:@"You Must set a file before synchronizing"];
+    [NSException raise:NSInvalidArgumentException format:@"You Must set a file before synchronizing"];
   }
   return NO;
 }
@@ -254,7 +269,6 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
   
   BOOL result = NO;
   /* disable undo while loading */
-  [self disableNotifications];
   [sp_undo disableUndoRegistration];
   
   NSFileWrapper *wrapper = [[NSFileWrapper alloc] initWithPath:[self path]];
@@ -273,7 +287,6 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
   }
   /* restaure undo manager */
   [sp_undo enableUndoRegistration];
-  [self enableNotifications];
   
   return result;
 }

@@ -17,6 +17,7 @@
 
 #import <ShadowKit/SKAppKitExtensions.h>
 
+#import "SparkEntryPrivate.h"
 #import "SparkLibraryPrivate.h"
 #import "SparkEntryManagerPrivate.h"
 
@@ -28,6 +29,9 @@ NSImage *SparkEntryDefaultIcon() {
   return __simage;
 }
 
+NSString * const SparkEntryDidAppendChildNotification = @"SparkEntryDidAppendChild";
+NSString * const SparkEntryWillRemoveChildNotification = @"SparkEntryWillRemoveChild";
+
 @implementation SparkEntry
 
 - (id)copyWithZone:(NSZone *)aZone {
@@ -35,6 +39,12 @@ NSImage *SparkEntryDefaultIcon() {
   [copy->sp_action retain];
   [copy->sp_trigger retain];
   [copy->sp_application retain];
+	/* a copy should not remain in the tree */
+	copy->sp_child = nil;
+	copy->sp_parent = nil;
+	/* and is not managed */
+	copy->sp_manager = nil;
+	copy->sp_seFlags.editing = 0;
   return copy;
 }
 
@@ -60,8 +70,9 @@ NSImage *SparkEntryDefaultIcon() {
 }
 
 - (NSString *)description {
-  return [NSString stringWithFormat:@"{ Trigger: %@, Action: %@, Application: %@}", 
-    sp_trigger, sp_action, [sp_application name]];
+  return [NSString stringWithFormat:@"<%@ %p> { Trigger: %@, Action: %@, Application: %@}", 
+					[self class], self,
+					sp_trigger, sp_action, [sp_application name]];
 }
 
 - (NSUInteger)hash {
@@ -77,9 +88,6 @@ NSImage *SparkEntryDefaultIcon() {
 #pragma mark -
 - (UInt32)uid {
   return sp_uid;
-}
-- (SparkEntry *)parent {
-  return sp_parent;
 }
 
 #pragma mark Spark Objects
@@ -111,12 +119,15 @@ NSImage *SparkEntryDefaultIcon() {
 }
 
 #pragma mark Status
+- (BOOL)isRoot {
+	return [self isSystem] || ![self parent];
+}
+- (SparkEntry *)root {
+	return sp_parent ? : self;
+}
+
 - (BOOL)isSystem {
   return [sp_application uid] == kSparkApplicationSystemUID;
-}
-- (BOOL)isOverridden {
-  NSParameterAssert([self isSystem]);
-  return sp_child != nil;
 }
 
 - (BOOL)isActive {
@@ -127,12 +138,16 @@ NSImage *SparkEntryDefaultIcon() {
   return sp_seFlags.enabled;
 }
 - (void)setEnabled:(BOOL)flag {
+	if (flag && sp_manager) {
+		NSAssert([sp_manager activeEntryForTrigger:[self trigger] application:[self application]] == nil, @"entry conflict");
+	}
   bool enabled = SKFlagTestAndSet(sp_seFlags.enabled, flag);
   if (enabled != sp_seFlags.enabled && sp_manager) {
-    if (flag)
-      [sp_manager enableEntry:self];
-    else
-      [sp_manager disableEntry:self];
+		SparkLibrary *library = [sp_manager library];
+		/* Undo management */
+		[[[library undoManager] prepareWithInvocationTarget:self] setEnabled:!flag];
+		/* notification */
+		SparkLibraryPostNotification(library, SparkEntryManagerDidChangeEntryStatusNotification, sp_manager, self);
   }
 }
 
@@ -169,10 +184,61 @@ NSImage *SparkEntryDefaultIcon() {
   return [sp_trigger triggerDescription];
 }
 
-@end
+- (id)representation {
+  return self;
+}
+- (void)setRepresentation:(NSString *)name {
+  if (name && [name length]) {
+		/* register the undo here (instead of into action) to trigger observer notification when undoing */
+		[[[sp_action library] undoManager] registerUndoWithTarget:self
+																										 selector:@selector(setRepresentation:)
+																											 object:[sp_action name]];
+		[sp_action setName:name];
+  } else {
+    NSBeep();
+  }
+}
 
-@implementation SparkEntry (SparkEntryManager)
+- (BOOL)hasVariant {
+	NSParameterAssert([self isSystem]);
+	return sp_child != nil;
+}
+- (NSArray *)variants {
+	if (sp_parent) 
+		return [sp_parent variants];
+	
+	/* root entry without child => return one item array */
+	if (!sp_child)
+		return [NSArray arrayWithObject:self];
+	
+	SparkEntry *item = self;
+	NSMutableArray *variants = [NSMutableArray array];
+	do {
+		[variants addObject:item];
+	} while (item = item->sp_child);
+	
+	return variants;
+}
 
+- (SparkEntry *)variantWithApplication:(SparkApplication *)anApplication {
+	SparkUID uid = [anApplication uid];
+	if ([self isSystem]) {
+		SparkEntry *variant = self;
+		do {
+			if ([variant applicationUID] == uid)
+				return variant;			
+		} while (variant = variant->sp_child);
+	} else if ([self isRoot]) {
+		/* orphan specific entry */
+		if ([self applicationUID] == uid)
+			return self;
+	} else {
+		return [sp_parent variantWithApplication:anApplication];
+	}
+	return NULL;
+}
+
+#pragma mark Private
 - (void)setUID:(UInt32)anUID {
   sp_uid = anUID;
 }
@@ -201,39 +267,16 @@ NSImage *SparkEntryDefaultIcon() {
 }
 
 /* update object */
-- (void)appendChild:(SparkEntry *)anEntry {
-  NSParameterAssert([self isSystem]);
-  anEntry->sp_child = sp_child;
-  sp_child = [anEntry retain];
+- (SparkEntry *)parent {
+	return sp_parent;
 }
-- (void)removeChild:(SparkEntry *)aChild {
-  NSParameterAssert([self isSystem]);
-  NSParameterAssert([aChild parent] == self);
-  
-  SparkEntry *item = self;
-  while (item = item->sp_child) {
-    if (item == aChild) {
-      item->sp_child = aChild->sp_child;
-      [aChild setParent:nil];
-      [aChild release];
-      break;
-    }
-  }
+- (void)setParent:(SparkEntry *)aParent {
+	NSParameterAssert(aParent != self);
+	NSParameterAssert(![self isSystem]);
+	NSParameterAssert(!aParent || [aParent isSystem]);
+	sp_parent = aParent;
 }
 
-- (void)setParent:(SparkEntry *)aParent {
-  NSParameterAssert(![self isSystem]);
-  if (aParent != sp_parent) {
-    if (sp_parent) {
-      /* remove from previous */
-      [sp_parent removeChild:self];
-    }
-    sp_parent = aParent;
-    if (sp_parent) {
-      [sp_parent appendChild:self];
-    }
-  }
-}
 - (void)setAction:(SparkAction *)action {
   SKSetterRetain(sp_action, action);
   SparkPlugIn *plugin = action ? [[SparkActionLoader sharedLoader] plugInForAction:action] : nil;
@@ -246,17 +289,6 @@ NSImage *SparkEntryDefaultIcon() {
   SKSetterRetain(sp_application, anApplication);
 }
 
-- (SparkEntry *)childWithApplication:(SparkApplication *)anApplication {
-  NSParameterAssert([anApplication isSystem]);
-  SparkEntry *child = self;
-  SparkUID uid = [anApplication uid];
-  while (child = self->sp_child) {
-    if ([child applicationUID] == uid)
-      return child;
-  }
-  return NULL;
-}
-
 - (SparkEntry *)firstChild {
   NSParameterAssert([self isSystem]);
   return sp_child;
@@ -264,6 +296,119 @@ NSImage *SparkEntryDefaultIcon() {
 - (SparkEntry *)sibling {
   NSParameterAssert(![self isSystem]);
   return sp_child;
+}
+
+
+#pragma mark Internals
+- (NSArray *)children {
+	NSParameterAssert([self isSystem]);
+	
+	if (!sp_child) return nil;
+	NSMutableArray *children = [NSMutableArray array];
+	SparkEntry *child = sp_child;
+	do {
+		[children addObject:child];
+	} while (child = [child sibling]);
+	
+	return children;
+}
+
+- (void)addChild:(SparkEntry *)anEntry {
+  NSParameterAssert([self isSystem]);
+	NSParameterAssert(![anEntry isSystem]);
+	
+  anEntry->sp_child = sp_child;
+  sp_child = [anEntry retain];
+	[anEntry setParent:self];
+	/* notification */
+	SparkLibraryPostNotification([sp_manager library], SparkEntryDidAppendChildNotification, self, anEntry);
+}
+- (void)addChildrenFromArray:(NSArray *)children {
+	NSUInteger count = [children count];
+	for (NSUInteger idx = 0; idx < count; idx++) {
+		[self addChild:[children objectAtIndex:idx]];
+	}
+}
+
+- (void)removeChild:(SparkEntry *)aChild {
+  NSParameterAssert([self isSystem]);
+  NSParameterAssert([aChild parent] == self);
+	
+	/* undo + notification */
+	//[[sp_manager undoManager] registerUndoWithTarget:self selector:@selector(addChild:) object:aChild];
+  SparkLibraryPostNotification([sp_manager library], SparkEntryWillRemoveChildNotification, self, aChild);
+	
+  SparkEntry *item = self;
+	do {
+		if (item->sp_child == aChild) {
+			item->sp_child = aChild->sp_child;
+			[aChild setParent:nil];
+			[aChild release];
+			break;
+		}
+	} while (item = item->sp_child);
+}
+- (void)removeAllChildren {
+	NSParameterAssert([self isSystem]);
+	while (sp_child)
+		[self removeChild:sp_child];
+}
+
+@end
+#pragma mark -
+@implementation SparkEntry (SparkMutableEntry)
+
+/* start to record change for the entry manager */
+- (void)beginEditing {
+	NSParameterAssert(!sp_seFlags.editing);
+	sp_seFlags.editing = 1;
+	[sp_manager beginEditing:self];
+}
+/* commit change to the entry manager */
+- (void)endEditing {
+	NSParameterAssert(sp_seFlags.editing);
+	[sp_manager endEditing:self];
+	sp_seFlags.editing = 0;
+}
+
+- (void)replaceAction:(SparkAction *)action {
+	if (!sp_manager) {
+		[self setAction:action];
+	} else {
+		NSParameterAssert(sp_seFlags.editing);
+		[sp_manager replaceAction:action inEntry:self];
+	}
+}
+
+- (void)replaceTrigger:(SparkTrigger *)trigger {
+	if (!sp_manager) {
+		[self setTrigger:trigger];
+	} else {
+		NSParameterAssert(sp_seFlags.editing);
+		[sp_manager replaceTrigger:trigger inEntry:self];		
+	}
+}
+
+- (void)replaceApplication:(SparkApplication *)anApplication {
+	if (!sp_manager) {
+		[self setApplication:anApplication];
+	} else {
+		NSParameterAssert(sp_seFlags.editing);
+		[sp_manager replaceApplication:anApplication inEntry:self];
+	}
+}
+
+- (SparkEntry *)createWeakVariantWithApplication:(SparkApplication *)anApplication {
+	return [self createVariantWithAction:[self action] trigger:[self trigger] application:anApplication];
+}
+
+- (SparkEntry *)createVariantWithAction:(SparkAction *)anAction trigger:(SparkTrigger *)aTrigger application:(SparkApplication *)anApplication {
+	NSParameterAssert(sp_manager);
+	NSParameterAssert([self isSystem]);
+	NSParameterAssert(![self variantWithApplication:anApplication]);
+	SparkEntry *entry = [[SparkEntry alloc] initWithAction:anAction trigger:aTrigger application:anApplication];
+	[[self manager] addEntry:entry parent:self];
+	return [entry autorelease];
 }
 
 @end
@@ -282,57 +427,93 @@ NSImage *SparkEntryDefaultIcon() {
   if (self = [super init]) {
     SparkLibrary *library = nil;
     if ([coder isKindOfClass:[NSPortCoder class]] ) {
-      library = SparkActiveLibrary();
-      SparkUID uid = SKDecodeInteger(coder, @"parent");
-      if (uid) {
-        /* TODO: restore parent */
-      }
+			/* Network entry has to usage */
+			/* 
+			 1. adding a new entry. in this case child, parent and manager are nil.
+			 2. updating an entry. In this case, we ignore child, parent and manager
+			 and we use only action, trigger and application.
+			 */
+			library = SparkActiveLibrary();
+			unsigned int value;
+			[coder decodeValueOfObjCType:@encode(unsigned int) at:&value];
+			sp_uid = value;
+			/* content */
+			[coder decodeValueOfObjCType:@encode(unsigned int) at:&value];
+			[self setAction:[library actionWithUID:value]];
+			
+			[coder decodeValueOfObjCType:@encode(unsigned int) at:&value];
+			[self setTrigger:[library triggerWithUID:value]];
+			
+			[coder decodeValueOfObjCType:@encode(unsigned int) at:&value];
+			[self setApplication:[library applicationWithUID:value]];
+			
+			/* flags */
+			[coder decodeValueOfObjCType:@encode(unsigned int) at:&value];
+			[self setEnabled:value];
     } else if ([coder isKindOfClass:[SparkLibraryUnarchiver class]]) {
       library = [(SparkLibraryUnarchiver *)coder library];
+			
+			/* decode entry */
+			sp_uid = SKDecodeInteger(coder, @"uid");
+			
       sp_parent = [coder decodeObjectForKey:@"parent"];
       sp_child = [[coder decodeObjectForKey:@"child"] retain];
+			
+			SparkUID uid;
+			uid = SKDecodeInteger(coder, @"action");
+			[self setAction:[library actionWithUID:uid]];
+			
+			uid = SKDecodeInteger(coder, @"trigger");
+			[self setTrigger:[library triggerWithUID:uid]];
+			
+			uid = SKDecodeInteger(coder, @"application");
+			[self setApplication:[library applicationWithUID:uid]];
+			
+			[self setEnabled:[coder decodeBoolForKey:@"enabled"]];
     } 
     if (!library) {
       [self release];
       [NSException raise:NSInvalidArchiveOperationException format:@"Unsupported coder: %@", coder];
     }
-    /* decode entry */
-    sp_uid = SKDecodeInteger(coder, @"uid");
-    
-    SparkUID uid;
-    uid = SKDecodeInteger(coder, @"action");
-    [self setAction:[library actionWithUID:uid]];
-    
-    uid = SKDecodeInteger(coder, @"trigger");
-    [self setTrigger:[library triggerWithUID:uid]];
-    
-    uid = SKDecodeInteger(coder, @"application");
-    [self setApplication:[library applicationWithUID:uid]];
-    
-    [self setEnabled:[coder decodeBoolForKey:@"enabled"]];
+
   }
   return self;
 }
 
 - (void)sp_encodeWithCoder:(NSCoder *)coder {
-  SKEncodeInteger(coder, sp_uid, @"uid");
-  SKEncodeInteger(coder, [sp_action uid], @"action");
-  SKEncodeInteger(coder, [sp_trigger uid], @"trigger");
-  SKEncodeInteger(coder, [sp_application uid], @"application");
-  /* flags */
-  [coder encodeBool:[self isEnabled] forKey:@"enabled"];
+
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
   if ([coder isKindOfClass:[NSPortCoder class]]) {
-    SKEncodeInteger(coder, [sp_parent uid], @"parent");
+		/* see initWithCoder comments */
+		unsigned int value = sp_uid;
+		[coder encodeValueOfObjCType:@encode(unsigned int) at:&value];
+		
+		/* content */
+		value = [sp_action uid];
+		[coder encodeValueOfObjCType:@encode(unsigned int) at:&value];
+		value = [sp_trigger uid];
+		[coder encodeValueOfObjCType:@encode(unsigned int) at:&value];
+		value = [sp_application uid];
+		[coder encodeValueOfObjCType:@encode(unsigned int) at:&value];
+		
+		/* flags */
+		value = [self isEnabled];
+		[coder encodeValueOfObjCType:@encode(unsigned int) at:&value];
   } else if ([coder isKindOfClass:[SparkLibraryArchiver class]]) {
     [coder encodeObject:sp_child forKey:@"child"];
     [coder encodeConditionalObject:sp_parent forKey:@"parent"];
+		
+		SKEncodeInteger(coder, sp_uid, @"uid");
+		SKEncodeInteger(coder, [sp_action uid], @"action");
+		SKEncodeInteger(coder, [sp_trigger uid], @"trigger");
+		SKEncodeInteger(coder, [sp_application uid], @"application");
+		/* flags */
+		[coder encodeBool:[self isEnabled] forKey:@"enabled"];
   } else {
     [NSException raise:NSInvalidArchiveOperationException format:@"Unsupported coder: %@", coder];
   }
-  [self sp_encodeWithCoder:coder];
 }
 
 @end

@@ -101,8 +101,8 @@ SPARK_CLASS_EXPORT
   
   struct _sp_slFlags {
     unsigned int loaded:1;
-    unsigned int unnotify:1;
-    unsigned int reserved:30;
+    unsigned int unnotify:8;
+    unsigned int reserved:23;
   } sp_slFlags;
   
   /* Model synchronization */
@@ -136,6 +136,11 @@ SPARK_CLASS_EXPORT
 
 - (BOOL)load:(NSError **)error;
 - (void)unload;
+
+- (SparkObjectSet *)listSet;
+- (SparkObjectSet *)actionSet;
+- (SparkObjectSet *)triggerSet;
+- (SparkObjectSet *)applicationSet;
 
 - (NSEnumerator *)listEnumerator;
 - (NSEnumerator *)entryEnumerator;

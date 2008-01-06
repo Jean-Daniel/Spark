@@ -10,6 +10,7 @@
 
 #import <SparkKit/SparkPreferences.h>
 
+#import <SparkKit/SparkEntry.h>
 #import <SparkKit/SparkAction.h>
 #import <SparkKit/SparkTrigger.h>
 #import <SparkKit/SparkApplication.h>
@@ -19,6 +20,7 @@
 #import <SparkKit/SparkObjectSet.h>
 #import <SparkKit/SparkActionLoader.h>
 
+#import "SparkEntryPrivate.h"
 #import "SparkLibraryPrivate.h"
 #import "SparkEntryManagerPrivate.h"
 
@@ -35,11 +37,10 @@ BOOL SparkLogSynchronization = NO;
 - (bycopy NSString *)uuid;
 
 - (oneway void)addObject:(bycopy id)plist type:(in OSType)type;
-- (oneway void)updateObject:(bycopy id)plist type:(in OSType)type;
 - (oneway void)removeObject:(in SparkUID)uid type:(in OSType)type;
 
 #pragma mark Entries Management
-- (oneway void)addEntry:(bycopy SparkEntry *)anEntry;
+- (oneway void)addEntry:(bycopy SparkEntry *)anEntry parent:(SparkUID)parent;
 - (oneway void)updateEntry:(bycopy SparkEntry *)newEntry;
 - (oneway void)removeEntry:(in SparkUID)anEntry;
 
@@ -61,8 +62,7 @@ BOOL SparkLogSynchronization = NO;
 - (id)init {
   Class cls = [self class];
   [self release];
-  [NSException raise:NSInvalidArgumentException format:@"%@ does not recognized selector %@", NSStringFromClass(cls), NSStringFromSelector(_cmd)];
-  return nil;
+	SKThrowException(NSInvalidArgumentException, @"%@ does not recognized selector %@", NSStringFromClass(cls), NSStringFromSelector(_cmd));
 }
 
 - (id)initWithLibrary:(SparkLibrary *)aLibrary {
@@ -86,10 +86,6 @@ BOOL SparkLogSynchronization = NO;
   [center addObserver:self
              selector:@selector(didAddObject:)
                  name:SparkObjectSetDidAddObjectNotification 
-               object:nil];
-  [center addObserver:self
-             selector:@selector(didUpdateObject:)
-                 name:SparkObjectSetDidUpdateObjectNotification 
                object:nil];
   [center addObserver:self
              selector:@selector(willRemoveObject:)
@@ -140,7 +136,7 @@ BOOL SparkLogSynchronization = NO;
 
 - (void)setDistantLibrary:(NSDistantObject<SparkLibrary> *)remoteLibrary {
   if (remoteLibrary && ![remoteLibrary conformsToProtocol:@protocol(SparkLibrary)]) {
-    [NSException raise:NSInvalidArgumentException format:@"Remote Library %@ MUST conform to <SparkLibrary>", remoteLibrary];
+    SKThrowException(NSInvalidArgumentException, @"Remote Library %@ MUST conform to <SparkLibrary>", remoteLibrary);
   }
   
   NSString *uuidstr = nil;
@@ -152,15 +148,15 @@ BOOL SparkLogSynchronization = NO;
       /* Check library UUID */
       uuidstr = [remoteLibrary uuid];
       if (!uuidstr) {
-        [NSException raise:NSInvalidArgumentException format:@"Invalid Remote Library UUID (null)"];
+        SKThrowException(NSInvalidArgumentException, @"Invalid Remote Library UUID (null)");
       }
       NSAssert([sp_library uuid], @"Invalid Library UUID (null)");
       CFUUIDRef uuid = CFUUIDCreateFromString(kCFAllocatorDefault, (CFStringRef)uuidstr);
       if (!uuid) {
-        [NSException raise:NSInvalidArgumentException format:@"Invalid Remote Library UUID %@", uuidstr];
+        SKThrowException(NSInvalidArgumentException, @"Invalid Remote Library UUID %@", uuidstr);
       } else if (!CFEqual(uuid, [sp_library uuid])) {
         CFRelease(uuid);
-        [NSException raise:NSInvalidArgumentException format:@"Remote Library UUID does not match: %@", uuidstr];
+        SKThrowException(NSInvalidArgumentException, @"Remote Library UUID does not match: %@", uuidstr);
       }
       CFRelease(uuid);
       
@@ -223,19 +219,6 @@ OSType SparkServerObjectType(SparkObject *anObject) {
   }
 }
 
-- (void)didUpdateObject:(NSNotification *)aNotification {
-  if ([self isConnected]) {
-    OSType type;
-    SparkObject *object = SparkNotificationObject(aNotification);
-    if (object && (type = SparkServerObjectType(object))) {
-      NSDictionary *plist = [[aNotification object] serialize:object error:NULL];
-      if (plist) {
-        SparkRemoteMessage(updateObject:plist type:type);
-      }
-    }
-  }
-}
-
 - (void)willRemoveObject:(NSNotification *)aNotification {
   if ([self isConnected]) {
     OSType type;
@@ -251,7 +234,7 @@ OSType SparkServerObjectType(SparkObject *anObject) {
   if ([self isConnected]) {
     SparkEntry *entry = SparkNotificationObject(aNotification);
     if (entry) {
-      SparkRemoteMessage(addEntry:entry);
+      SparkRemoteMessage(addEntry:entry parent:[[entry parent] uid]);
     }
   }
 }
@@ -389,17 +372,6 @@ SparkObjectSet *SparkObjectSetForType(SparkLibrary *library, OSType type) {
     }
   }
 }
-- (void)updateObject:(id)plist type:(OSType)type {
-  SparkSyncTrace();
-  SparkObjectSet *set = SparkObjectSetForType(sp_library, type);
-  if (set) {
-    SparkObject *object = [set deserialize:plist error:nil];
-    if (object) {
-      /* Trigger state and configuration is handled in notification */
-      [set updateObject:object];
-    }
-  }
-}
 - (void)removeObject:(SparkUID)uid type:(OSType)type {
   SparkSyncTrace();
   SparkObjectSet *set = SparkObjectSetForType(sp_library, type);
@@ -410,14 +382,21 @@ SparkObjectSet *SparkObjectSetForType(SparkLibrary *library, OSType type) {
 }
 
 #pragma mark Entries Management
-- (void)addEntry:(SparkEntry *)anEntry {
+- (void)addEntry:(SparkEntry *)anEntry parent:(SparkUID)aParent {
   SparkSyncTrace();
-  [[sp_library entryManager] addEntry:anEntry];
+	SparkEntry *parent = aParent ? [[sp_library entryManager] entryWithUID:aParent] : nil;
+  [[sp_library entryManager] addEntry:anEntry parent:parent];
 }
 
 - (void)updateEntry:(SparkEntry *)newEntry {
   SparkSyncTrace();
-  [[sp_library entryManager] updateEntry:newEntry];
+	SparkEntry *original = [[sp_library entryManager] entryWithUID:[newEntry uid]];
+	NSAssert(original, @"invalid request. enrty with UID not found.");
+	[original beginEditing];
+	[original replaceAction:[newEntry action]];
+	[original replaceTrigger:[newEntry trigger]];
+	[original replaceApplication:[newEntry application]];
+	[original endEditing];
 }
 
 - (void)removeEntry:(SparkUID)anEntry {
