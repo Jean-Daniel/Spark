@@ -6,7 +6,6 @@
  *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
  */
 
-#include <Carbon/Carbon.h>
 #import "HKHotKeyRegister.h"
 #import "HKKeyMap.h"
 

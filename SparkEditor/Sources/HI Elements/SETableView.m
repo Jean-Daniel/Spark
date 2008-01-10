@@ -104,7 +104,7 @@ SKCGSimpleShadingInfo sFocusShadingInfo = {
 
 - (void)highlightSelectionInClipRect:(NSRect)clipRect {
   CGContextRef ctxt = [[NSGraphicsContext currentContext] graphicsPort];
-  CGRect rect = CGRectFromNSRect([self rectOfRow:[self selectedRow]]);
+  CGRect rect = NSRectToCGRect([self rectOfRow:[self selectedRow]]);
   CGContextDrawLayerInRect(ctxt, rect, [self highlightedCellColor]);
 }
 
@@ -117,7 +117,7 @@ SKCGSimpleShadingInfo sFocusShadingInfo = {
     CGContextRef ctxt = [[NSGraphicsContext currentContext] graphicsPort];
     CGContextSaveGState(ctxt);
     
-    CGRect rect = CGRectFromNSRect([self rectOfRow:row]);
+    CGRect rect = NSRectToCGRect([self rectOfRow:row]);
     CGContextClipToRect(ctxt, rect);
     rect = CGRectInset(rect, 1, 1);
     

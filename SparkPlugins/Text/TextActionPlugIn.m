@@ -281,7 +281,7 @@
   NSDictionary *info = [aNotification userInfo];
   UInt16 nkey = SKIntegerValue([info objectForKey:kHKEventKeyCodeKey]);
   UniChar chr = SKIntegerValue([info objectForKey:kHKEventCharacterKey]);
-  UInt32 nmodifier = SKIntegerValue([info objectForKey:kHKEventModifierKey]);
+  HKModifier nmodifier = (HKModifier)SKIntegerValue([info objectForKey:kHKEventModifierKey]);
 
   TAKeystroke *hkey = [[TAKeystroke alloc] initWithKeycode:nkey character:chr modifier:nmodifier];
   NSMutableArray *objs = [[uiRecTokens objectValue] mutableCopy];

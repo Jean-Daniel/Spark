@@ -101,7 +101,7 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
   } else {
     ProcessSerialNumber psn = {0, kCurrentProcess};
     HKEventTarget target = { psn: &psn };
-    HKEventPostKeystrokeToTarget([sender keycode], [sender modifier], target, kHKEventTargetProcess, NULL, kHKEventDefaultLatency);
+    HKEventPostKeystrokeToTarget([sender keycode], [sender nativeModifier], target, kHKEventTargetProcess, NULL, kHKEventDefaultLatency);
   }
 }
 

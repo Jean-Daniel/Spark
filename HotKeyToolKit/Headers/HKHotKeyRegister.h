@@ -10,6 +10,11 @@
 */
 #import <HotKeyToolKit/HKBase.h>
 
+#include <Carbon/Carbon.h>
+#if __LP64__
+extern EventTargetRef GetApplicationEventTarget(void);
+#endif
+
 /*!
     @function   HKRegisterHotKey
     @abstract   Register a Global EventHotKey.

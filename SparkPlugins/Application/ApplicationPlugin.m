@@ -165,26 +165,12 @@
 }
 
 - (void)setAction:(ApplicationActionType)newAction {
+	[self willChangeValueForKey:@"showOptions"];
+	[self willChangeValueForKey:@"showChooser"];
   [(ApplicationAction *)[self sparkAction] setAction:newAction];
-  // Adjust interface.
-  [ibAppView setHidden:NO];
-  switch (newAction) {
-    case kApplicationLaunch:
-    case kApplicationToggle:
-      [ibOptions setHidden:NO];
-      [ibOptions setEnabled:YES];
-      break;
-    case kApplicationHideFront:
-    case kApplicationHideOther:
-    case kApplicationForceQuitFront:
-    case kApplicationForceQuitDialog:
-      [ibAppView setHidden:YES];
-      // Fall thought
-    default:
-      [ibOptions setHidden:YES];
-      [ibOptions setEnabled:NO];
-      break;
-  }
+	[self didChangeValueForKey:@"showChooser"];
+	[self didChangeValueForKey:@"showOptions"];
+
   /* Update placeholder */
   switch (newAction) {
     case kApplicationHideFront:
@@ -201,6 +187,38 @@
       break;
     }
   }
+}
+
+- (BOOL)showChooser {
+	switch ([self action]) {
+		case kApplicationQuit:
+		case kApplicationLaunch:
+    case kApplicationToggle:
+		case kApplicationActivateQuit:
+			return YES;
+		case kApplicationHideFront:
+    case kApplicationHideOther:
+    case kApplicationForceQuitFront:
+    case kApplicationForceQuitDialog:
+			return NO;
+	}
+	return NO;
+}
+
+- (BOOL)showOptions {
+	switch ([self action]) {
+		case kApplicationLaunch:
+    case kApplicationToggle:
+		case kApplicationActivateQuit:
+			return YES;
+		case kApplicationQuit:
+		case kApplicationHideFront:
+    case kApplicationHideOther:
+    case kApplicationForceQuitFront:
+    case kApplicationForceQuitDialog:
+			return NO;
+	}
+	return NO;
 }
 
 - (int)visual {

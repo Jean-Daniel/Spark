@@ -8,8 +8,6 @@
 
 #import "HKKeyMap.h"
 
-#include <Carbon/Carbon.h>
-
 #import "HKHotKey.h"
 #import "HKHotKeyManager.h"
 #import "HKHotKeyRegister.h"

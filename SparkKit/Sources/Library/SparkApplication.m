@@ -39,25 +39,25 @@ NSString * const SparkApplicationDidChangeEnabledNotification = @"SparkApplicati
 
 #pragma mark -
 #pragma mark NSCoding
-- (UInt32)encodeFlags {
-  UInt32 flags = 0;
+- (NSUInteger)encodeFlags {
+  NSUInteger flags = 0;
   if (sp_appFlags.disabled) flags |= 1 << 0;
   return flags;
 }
-- (void)decodeFlags:(UInt32)flags {
+- (void)decodeFlags:(NSUInteger)flags {
   if (flags & (1 << 0)) sp_appFlags.disabled = 1;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
   [coder encodeObject:sp_application forKey:kSparkApplicationKey];
-  [coder encodeInt32:[self encodeFlags] forKey:kSparkApplicationFlagsKey];
+	SKEncodeInteger(coder, [self encodeFlags], kSparkApplicationFlagsKey);
   return;
 }
 
 - (id)initWithCoder:(NSCoder *)coder {
   if (self = [super initWithCoder:coder]) {
-    [self decodeFlags:[coder decodeInt32ForKey:kSparkApplicationFlagsKey]];
+    [self decodeFlags:SKDecodeInteger(coder, kSparkApplicationFlagsKey)];
     sp_application = [[coder decodeObjectForKey:kSparkApplicationKey] retain];    
   }
   return self;

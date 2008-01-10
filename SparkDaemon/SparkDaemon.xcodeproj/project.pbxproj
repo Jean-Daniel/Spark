@@ -79,6 +79,7 @@
 		1B7BB7E90CBE20D500484A9E /* Profile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Profile.xcconfig; sourceTree = "<group>"; };
 		1B7BB7EA0CBE20D500484A9E /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		1B7BBBF80CBE25D000484A9E /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
+		1B7CF66A0D35740F0068DAD1 /* 64Bits.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = 64Bits.xcconfig; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		983AFC250B19A74300173464 /* Spark.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Spark.icns; path = ../SparkEditor/Resources/Images/icns/Spark.icns; sourceTree = SOURCE_ROOT; };
@@ -145,6 +146,7 @@
 				1B7BB7E80CBE20D500484A9E /* Debug.xcconfig */,
 				1B7BB7E90CBE20D500484A9E /* Profile.xcconfig */,
 				1B7BB7EA0CBE20D500484A9E /* Release.xcconfig */,
+				1B7CF66A0D35740F0068DAD1 /* 64Bits.xcconfig */,
 			);
 			path = Configurations;
 			sourceTree = SHARED_SOURCES_DIR;
@@ -344,7 +346,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/tcsh;
-			shellScript = "#if (\"${CONFIGURATION}\" == \"Debug\" || \"${CONFIGURATION}\" == \"Profile\") then\nif (\"${CONFIGURATION}\" == \"Debug\") then\nset BASE=../../Spark.app/Contents\nelse\nset BASE=../../..\nendif\n\ncd \"${BUILT_PRODUCTS_DIR}\"\n\nif (! -l \"${FRAMEWORKS_FOLDER_PATH}\") then \nrm -rf \"${FRAMEWORKS_FOLDER_PATH}\"\nln -s ${BASE}/Frameworks \"${FRAMEWORKS_FOLDER_PATH}\"\nendif\n\nif (! -l \"${PLUGINS_FOLDER_PATH}\") then \nrm -rf \"${PLUGINS_FOLDER_PATH}\"\nln -s ${BASE}/PlugIns \"${PLUGINS_FOLDER_PATH}\"\nendif\n\n\n";
+			shellScript = "#if (\"${CONFIGURATION}\" == \"Debug\" || \"${CONFIGURATION}\" == \"Profile\") then\nif (\"${CONFIGURATION}\" == \"Debug\" || \"${CONFIGURATION}\" == \"64bits\") then\nset BASE=../../Spark.app/Contents\nelse\nset BASE=../../..\nendif\n\ncd \"${BUILT_PRODUCTS_DIR}\"\n\nif (! -l \"${FRAMEWORKS_FOLDER_PATH}\") then \nrm -rf \"${FRAMEWORKS_FOLDER_PATH}\"\nln -s ${BASE}/Frameworks \"${FRAMEWORKS_FOLDER_PATH}\"\nendif\n\nif (! -l \"${PLUGINS_FOLDER_PATH}\") then \nrm -rf \"${PLUGINS_FOLDER_PATH}\"\nln -s ${BASE}/PlugIns \"${PLUGINS_FOLDER_PATH}\"\nendif\n\n\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -381,6 +383,24 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		1B7CF6650D3573F70068DAD1 /* 64bits */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1B7CF66A0D35740F0068DAD1 /* 64Bits.xcconfig */;
+			buildSettings = {
+				SYMROOT = ../build;
+			};
+			name = 64bits;
+		};
+		1B7CF6660D3573F70068DAD1 /* 64bits */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 401;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(USER_APPS_DIR)";
+				PRODUCT_NAME = "Spark Daemon";
+			};
+			name = 64bits;
+		};
 		98EF7DEB08645714007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -444,6 +464,7 @@
 				98EF7DEB08645714007BC81A /* Debug */,
 				98EF7DEC08645714007BC81A /* Profile */,
 				98EFD2D80B58457D00AD4492 /* Release */,
+				1B7CF6660D3573F70068DAD1 /* 64bits */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
@@ -454,6 +475,7 @@
 				98EF7DF008645714007BC81A /* Debug */,
 				98EF7DF108645714007BC81A /* Profile */,
 				98EFD2D90B58457D00AD4492 /* Release */,
+				1B7CF6650D3573F70068DAD1 /* 64bits */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

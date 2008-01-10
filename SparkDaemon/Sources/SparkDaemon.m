@@ -10,6 +10,9 @@
 #import "SDAEHandlers.h"
 
 #include <Carbon/Carbon.h>
+#if __LP64__
+extern EventTargetRef GetApplicationEventTarget(void);
+#endif
 
 #import <SparkKit/SparkKit.h>
 #import <SparkKit/SparkPrivate.h>
@@ -62,7 +65,7 @@ int main(int argc, const char *argv[]) {
 static
 OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef inEvent, void *inUserData) {
   if (GetEventClass(inEvent) == kEventClassApplication) {
-    UInt32 size;
+    ByteCount size;
     EventParamType type;
     ProcessSerialNumber psn;
     SparkDaemon *handler = (SparkDaemon *)inUserData;

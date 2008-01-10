@@ -48,7 +48,7 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
   if ([obj1 uid] < kSparkLibraryReserved) {
     if ([obj2 uid] < kSparkLibraryReserved) {
       /* obj1 and obj2 are reserved objects */
-      return [obj1 uid] - [obj2 uid];
+      return (NSComparisonResult)[obj1 uid] - [obj2 uid];
     } else {
       /* obj1 reserved and obj2 standard */
       return NSOrderedAscending;

@@ -28,7 +28,7 @@
 
 - (void)drawRect:(NSRect)r {
   CGContextRef ctxt = [[NSGraphicsContext currentContext] graphicsPort];
-  CGRect rect = CGRectFromNSRect([self bounds]);
+  CGRect rect = NSRectToCGRect([self bounds]);
   rect = CGRectInset(rect, .5, .5);
   //rect = CGRectIntegral(rect);
   

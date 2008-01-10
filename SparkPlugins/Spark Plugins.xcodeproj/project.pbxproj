@@ -315,6 +315,7 @@
 		1B7BBACE0CBE233300484A9E /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		1B7BBACF0CBE233300484A9E /* Profile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Profile.xcconfig; sourceTree = "<group>"; };
 		1B7BBAD00CBE233300484A9E /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
+		1B7CF6B30D3574700068DAD1 /* 64Bits.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = 64Bits.xcconfig; sourceTree = "<group>"; };
 		1B8F4B140B56823700E8A4C0 /* volume.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = volume.aiff; sourceTree = "<group>"; };
 		1BEF492D0C9AADAC00D7DA07 /* ITunesProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ITunesProgressView.h; path = ../ITunesProgressView.h; sourceTree = "<group>"; };
 		1BEF492E0C9AADAC00D7DA07 /* ITunesProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ITunesProgressView.m; sourceTree = "<group>"; };
@@ -629,6 +630,7 @@
 				1B7BBACE0CBE233300484A9E /* Debug.xcconfig */,
 				1B7BBACF0CBE233300484A9E /* Profile.xcconfig */,
 				1B7BBAD00CBE233300484A9E /* Release.xcconfig */,
+				1B7CF6B30D3574700068DAD1 /* 64Bits.xcconfig */,
 			);
 			path = Configurations;
 			sourceTree = SHARED_SOURCES_DIR;
@@ -1768,6 +1770,113 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		1B7CF6C20D3574780068DAD1 /* 64bits */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1B7CF6B30D3574700068DAD1 /* 64Bits.xcconfig */;
+			buildSettings = {
+				SYMROOT = ../build;
+				WRAPPER_EXTENSION = spact;
+			};
+			name = 64bits;
+		};
+		1B7CF6C30D3574780068DAD1 /* 64bits */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEAD_CODE_STRIPPING = NO;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = NS_BLOCK_ASSERTIONS;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VALUE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				PRESERVE_DEAD_CODE_INITS_AND_TERMS = NO;
+				PRODUCT_NAME = All;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				ZERO_LINK = NO;
+			};
+			name = 64bits;
+		};
+		1B7CF6C40D3574780068DAD1 /* 64bits */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INSTALL_PATH = /usr/local/bin;
+				PRODUCT_NAME = Labo;
+			};
+			name = 64bits;
+		};
+		1B7CF6C50D3574780068DAD1 /* 64bits */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = Simulator/Info.plist;
+				PRODUCT_NAME = Simulator;
+				WRAPPER_EXTENSION = app;
+			};
+			name = 64bits;
+		};
+		1B7CF6C60D3574780068DAD1 /* 64bits */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 401;
+				INFOPLIST_FILE = Text/Info.plist;
+				PRODUCT_NAME = TextAction;
+			};
+			name = 64bits;
+		};
+		1B7CF6C70D3574780068DAD1 /* 64bits */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 401;
+				INFOPLIST_FILE = iTunes/Info.plist;
+				PRODUCT_NAME = iTunesAction;
+			};
+			name = 64bits;
+		};
+		1B7CF6C80D3574780068DAD1 /* 64bits */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 401;
+				INFOPLIST_FILE = System/Info.plist;
+				PRODUCT_NAME = SystemAction;
+			};
+			name = 64bits;
+		};
+		1B7CF6C90D3574780068DAD1 /* 64bits */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 401;
+				INFOPLIST_FILE = Documents/Info.plist;
+				PRODUCT_NAME = DocumentAction;
+			};
+			name = 64bits;
+		};
+		1B7CF6CA0D3574780068DAD1 /* 64bits */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 401;
+				INFOPLIST_FILE = Application/Info.plist;
+				PRODUCT_NAME = ApplicationAction;
+			};
+			name = 64bits;
+		};
+		1B7CF6CB0D3574780068DAD1 /* 64bits */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 401;
+				INFOPLIST_FILE = AppleScript/Info.plist;
+				PRODUCT_NAME = AppleScriptAction;
+			};
+			name = 64bits;
+		};
 		98789DD60AB4A11000C35052 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2097,6 +2206,7 @@
 				98789DD60AB4A11000C35052 /* Debug */,
 				98789DD70AB4A11000C35052 /* Profile */,
 				98EFD1D70B58454800AD4492 /* Release */,
+				1B7CF6C50D3574780068DAD1 /* 64bits */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
@@ -2107,6 +2217,7 @@
 				9888CE1F0B02412200B81BDB /* Debug */,
 				9888CE200B02412200B81BDB /* Profile */,
 				98EFD1CF0B58454800AD4492 /* Release */,
+				1B7CF6C60D3574780068DAD1 /* 64bits */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
@@ -2117,6 +2228,7 @@
 				98EF7EC908645A0E007BC81A /* Debug */,
 				98EF7ECA08645A0E007BC81A /* Profile */,
 				98EFD1D10B58454800AD4492 /* Release */,
+				1B7CF6C80D3574780068DAD1 /* 64bits */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
@@ -2127,6 +2239,7 @@
 				98EF7ECD08645A0E007BC81A /* Debug */,
 				98EF7ECE08645A0E007BC81A /* Profile */,
 				98EFD1D00B58454800AD4492 /* Release */,
+				1B7CF6C70D3574780068DAD1 /* 64bits */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
@@ -2137,6 +2250,7 @@
 				98EF7ED108645A0E007BC81A /* Debug */,
 				98EF7ED208645A0E007BC81A /* Profile */,
 				98EFD1D20B58454800AD4492 /* Release */,
+				1B7CF6C90D3574780068DAD1 /* 64bits */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
@@ -2147,6 +2261,7 @@
 				98EF7ED508645A0E007BC81A /* Debug */,
 				98EF7ED608645A0E007BC81A /* Profile */,
 				98EFD1D30B58454800AD4492 /* Release */,
+				1B7CF6CA0D3574780068DAD1 /* 64bits */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
@@ -2157,6 +2272,7 @@
 				98EF7ED908645A0E007BC81A /* Debug */,
 				98EF7EDA08645A0E007BC81A /* Profile */,
 				98EFD1D40B58454800AD4492 /* Release */,
+				1B7CF6CB0D3574780068DAD1 /* 64bits */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
@@ -2167,6 +2283,7 @@
 				98EF7EDD08645A0E007BC81A /* Debug */,
 				98EF7EDE08645A0E007BC81A /* Profile */,
 				98EFD1D50B58454800AD4492 /* Release */,
+				1B7CF6C30D3574780068DAD1 /* 64bits */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
@@ -2177,6 +2294,7 @@
 				98EF7EE108645A0E007BC81A /* Debug */,
 				98EF7EE208645A0E007BC81A /* Profile */,
 				98EFD1D60B58454800AD4492 /* Release */,
+				1B7CF6C40D3574780068DAD1 /* 64bits */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
@@ -2187,6 +2305,7 @@
 				98EF7EE508645A0E007BC81A /* Debug */,
 				98EF7EE608645A0E007BC81A /* Profile */,
 				98EFD1D80B58454800AD4492 /* Release */,
+				1B7CF6C20D3574780068DAD1 /* 64bits */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

@@ -97,7 +97,7 @@ NSString * const kHKTrapWindowKeyCatchedNotification = @"kHKTrapWindowKeyCatched
   if (hk_twFlags.trap) {
     bool valid = true;
     if ([[self delegate] respondsToSelector:@selector(trapWindow:isValidHotKey:modifier:)])
-      valid = [[self delegate] trapWindow:self isValidHotKey:[aKey keycode] modifier:[aKey modifier]];
+      valid = [[self delegate] trapWindow:self isValidHotKey:[aKey keycode] modifier:[aKey nativeModifier]];
     
     if (valid) {
       NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:

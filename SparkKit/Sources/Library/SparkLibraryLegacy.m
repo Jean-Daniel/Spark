@@ -270,7 +270,7 @@
     NSArray *uids = [object objectForKey:@"SparkObjects"];
     NSUInteger tcount = [uids count];
     while (tcount-- > 0) {
-      SparkUID uid = SKIntegerValue([uids objectAtIndex:tcount]);
+      SparkUID uid = (SparkUID)SKUIntegerValue([uids objectAtIndex:tcount]);
       SparkTrigger *trigger = [self triggerWithUID:uid];
       if (trigger) {
         SparkEntry *entry = [sp_relations entryForTrigger:trigger application:[self systemApplication]];

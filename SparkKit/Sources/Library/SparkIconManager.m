@@ -65,7 +65,7 @@ UInt8 __SparkIconTypeForObject(SparkObject *object) {
     }
     
     for (NSUInteger idx = 0; idx < 4; idx++) {
-      sp_cache[idx] = NSCreateMapTable(NSIntMapKeyCallBacks, NSObjectMapValueCallBacks, 0);
+      sp_cache[idx] = NSCreateMapTable(NSIntegerMapKeyCallBacks, NSObjectMapValueCallBacks, 0);
     }
     
     sp_library = aLibrary;

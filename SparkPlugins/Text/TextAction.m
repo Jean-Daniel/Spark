@@ -43,7 +43,7 @@ NSString * const kKeyboardActionBundleIdentifier = @"org.shadowlab.spark.action.
 - (id)initWithSerializedValues:(NSDictionary *)plist {
   if (self = [super initWithSerializedValues:plist]) {
     [self setAction:SKOSTypeFromString([plist objectForKey:@"TAAction"])];
-    [self setLatency:SKUIntegerValue([plist objectForKey:@"TALatency"])];
+    [self setLatency:(useconds_t)SKUIntegerValue([plist objectForKey:@"TALatency"])];
     [self setSerializedData:[plist objectForKey:@"TAData"]];
   }
   return self;

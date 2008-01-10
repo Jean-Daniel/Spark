@@ -129,7 +129,7 @@ SparkEntry *__SEEntryForApplication(SparkEntry *entry, SparkApplication *app, bo
 }
 
 - (NSComparisonResult)compare:(id)object {
-  UInt8 g1 = [self group], g2 = [object group];
+  NSInteger g1 = [self group], g2 = [object group];
   if (g1 != g2)
     return g1 - g2;
   else return [[self name] caseInsensitiveCompare:[object name]];

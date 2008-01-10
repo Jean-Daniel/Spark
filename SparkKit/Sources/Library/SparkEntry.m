@@ -454,19 +454,19 @@ NSString * const SparkEntryWillRemoveChildNotification = @"SparkEntryWillRemoveC
       library = [(SparkLibraryUnarchiver *)coder library];
 			
 			/* decode entry */
-			sp_uid = SKDecodeInteger(coder, @"uid");
+			sp_uid = [coder decodeInt32ForKey:@"uid"];
 			
       sp_parent = [coder decodeObjectForKey:@"parent"];
       sp_child = [[coder decodeObjectForKey:@"child"] retain];
 			
 			SparkUID uid;
-			uid = SKDecodeInteger(coder, @"action");
+			uid = [coder decodeInt32ForKey:@"action"];
 			[self setAction:[library actionWithUID:uid]];
 			
-			uid = SKDecodeInteger(coder, @"trigger");
+			uid = [coder decodeInt32ForKey:@"trigger"];
 			[self setTrigger:[library triggerWithUID:uid]];
 			
-			uid = SKDecodeInteger(coder, @"application");
+			uid = [coder decodeInt32ForKey:@"application"];
 			[self setApplication:[library applicationWithUID:uid]];
 			
 			[self setEnabled:[coder decodeBoolForKey:@"enabled"]];
@@ -505,10 +505,10 @@ NSString * const SparkEntryWillRemoveChildNotification = @"SparkEntryWillRemoveC
     [coder encodeObject:sp_child forKey:@"child"];
     [coder encodeConditionalObject:sp_parent forKey:@"parent"];
 		
-		SKEncodeInteger(coder, sp_uid, @"uid");
-		SKEncodeInteger(coder, [sp_action uid], @"action");
-		SKEncodeInteger(coder, [sp_trigger uid], @"trigger");
-		SKEncodeInteger(coder, [sp_application uid], @"application");
+		[coder encodeInt32:sp_uid forKey:@"uid"];
+		[coder encodeInt32:[sp_action uid] forKey:@"action"];
+		[coder encodeInt32:[sp_trigger uid] forKey:@"trigger"];
+		[coder encodeInt32:[sp_application uid] forKey:@"application"];
 		/* flags */
 		[coder encodeBool:[self isEnabled] forKey:@"enabled"];
   } else {

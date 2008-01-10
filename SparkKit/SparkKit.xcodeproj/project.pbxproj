@@ -263,6 +263,7 @@
 		1B7BB78A0CBE1FD700484A9E /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		1B7BB78B0CBE1FD700484A9E /* Profile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Profile.xcconfig; sourceTree = "<group>"; };
 		1B7BB78C0CBE1FD700484A9E /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
+		1B7CF6150D356F690068DAD1 /* 64Bits.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = 64Bits.xcconfig; sourceTree = "<group>"; };
 		1BAA6F870B64CF2500F9AC0E /* SKImageUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKImageUtils.m; sourceTree = "<group>"; };
 		1BB8B1FE0B949EE900F91062 /* SparkSystem.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SparkSystem.tiff; sourceTree = "<group>"; };
 		1BE44FE30BD4B3DC00034060 /* AESendThreadSafe.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = AESendThreadSafe.c; sourceTree = "<group>"; };
@@ -574,6 +575,7 @@
 				1B7BB78A0CBE1FD700484A9E /* Debug.xcconfig */,
 				1B7BB78B0CBE1FD700484A9E /* Profile.xcconfig */,
 				1B7BB78C0CBE1FD700484A9E /* Release.xcconfig */,
+				1B7CF6150D356F690068DAD1 /* 64Bits.xcconfig */,
 			);
 			path = Configurations;
 			sourceTree = SHARED_SOURCES_DIR;
@@ -1395,6 +1397,47 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		1B7CF6180D3571340068DAD1 /* 64bits */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1B7CF6150D356F690068DAD1 /* 64Bits.xcconfig */;
+			buildSettings = {
+				SYMROOT = ../build;
+			};
+			name = 64bits;
+		};
+		1B7CF6190D3571340068DAD1 /* 64bits */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 401;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 401;
+				FRAMEWORK_VERSION = B;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				OTHER_LDFLAGS = (
+					"-seg1addr",
+					0xD0200000,
+				);
+				PRODUCT_NAME = SparkKit;
+			};
+			name = 64bits;
+		};
+		1B7CF61A0D3571340068DAD1 /* 64bits */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 401;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 401;
+				INFOPLIST_FILE = ShadowKit/Info.plist;
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				OTHER_LDFLAGS = (
+					"-seg1addr",
+					0xD0300000,
+				);
+				PRODUCT_NAME = ShadowKit;
+			};
+			name = 64bits;
+		};
 		9848D887085638FD006B5130 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1527,6 +1570,7 @@
 				9848D887085638FD006B5130 /* Debug */,
 				9848D888085638FD006B5130 /* Profile */,
 				98EFD0A40B5844F300AD4492 /* Release */,
+				1B7CF6190D3571340068DAD1 /* 64bits */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
@@ -1537,6 +1581,7 @@
 				9848D88B085638FD006B5130 /* Debug */,
 				9848D88C085638FD006B5130 /* Profile */,
 				98EFD0A50B5844F300AD4492 /* Release */,
+				1B7CF6180D3571340068DAD1 /* 64bits */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
@@ -1547,6 +1592,7 @@
 				98C56D37096B348600ABE1EF /* Debug */,
 				98C56D39096B348600ABE1EF /* Profile */,
 				98EFD0A30B5844F300AD4492 /* Release */,
+				1B7CF61A0D3571340068DAD1 /* 64bits */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

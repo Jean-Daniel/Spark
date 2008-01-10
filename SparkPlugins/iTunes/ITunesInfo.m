@@ -67,25 +67,25 @@ NSPoint __iTunesGetLocationForType(int type) {
 }
 
 SK_INLINE
-BOOL __FloatEquals(float a, float b) { double __delta = a - b; return (__delta < 1e-5 && __delta > -1e-5); }
+BOOL __FloatEquals(CGFloat a, CGFloat b) { double __delta = a - b; return (__delta < 1e-5 && __delta > -1e-5); }
 SK_INLINE
 BOOL __CGFloatEquals(CGFloat a, CGFloat b) { CGFloat __delta = a - b; return (__delta < 1e-5 && __delta > -1e-5); }
 
 SK_INLINE 
-void __CopyCGColor(const CGFloat cgcolor[], float color[]) {
+void __CopyCGColor(const CGFloat cgcolor[], CGFloat color[]) {
   for (NSUInteger idx = 0; idx < 4; idx++) {
-    color[idx] = (float)cgcolor[idx];
+    color[idx] = (CGFloat)cgcolor[idx];
   }
 }
 SK_INLINE 
-void __CopyColor(const float color[], CGFloat cgcolor[]) {
+void __CopyColor(const CGFloat color[], CGFloat cgcolor[]) {
   for (NSUInteger idx = 0; idx < 4; idx++) {
     cgcolor[idx] = color[idx];
   }
 }
 
 SK_INLINE
-BOOL __ITunesVisualCompareColors(const float c1[4], const float c2[4]) {
+BOOL __ITunesVisualCompareColors(const CGFloat c1[4], const CGFloat c2[4]) {
   for (int idx = 0; idx < 4; idx++)
     if (!__FloatEquals(c1[idx], c2[idx])) return NO;
   return YES;
@@ -272,7 +272,7 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
   origin.x = NSMaxX([ibTime frame]);
   [ibRate setFrameOrigin:origin];
   
-  [ibRate setRate:lround(rate / 10.)];
+  [ibRate setRate:lround(rate / 10)];
 }
 
 - (void)setTrack:(iTunesTrack *)track {
@@ -485,7 +485,7 @@ void _iTunesDeriveAllColors(SKCGMultiShadingInfo *info) {
 - (void)drawRect:(NSRect)aRect {
   CGContextRef ctxt = [[NSGraphicsContext currentContext] graphicsPort];
   
-  CGRect rect = CGRectFromNSRect([self bounds]);
+  CGRect rect = NSRectToCGRect([self bounds]);
   
   CGRect internal = CGRectInset(rect, 2, 2);
   SKCGContextAddRoundRect(ctxt, internal, 6);
@@ -499,7 +499,7 @@ void _iTunesDeriveAllColors(SKCGMultiShadingInfo *info) {
     _shading = SKCGLayerCreateWithVerticalShading(ctxt, CGSizeMake(64, NSHeight([self bounds])), true, SKCGShadingSimpleShadingFunction, &_info);
 #endif
   }
-  CGContextDrawLayerInRect(ctxt, CGRectFromNSRect([self bounds]), _shading);
+  CGContextDrawLayerInRect(ctxt, NSRectToCGRect([self bounds]), _shading);
   CGContextRestoreGState(ctxt);
   
   /* Border */

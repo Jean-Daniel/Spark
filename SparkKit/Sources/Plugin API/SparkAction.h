@@ -38,7 +38,7 @@ NSTimeInterval SparkGetDefaultKeyRepeatInterval(void);
 SPARK_CLASS_EXPORT
 @interface SparkAction : SparkObject <NSCopying, NSCoding> {
   @private
-  UInt32 sp_version;
+  NSUInteger sp_version;
   struct _sp_saFlags {
     unsigned int invalid:1;
     unsigned int :15;
@@ -92,14 +92,14 @@ SPARK_CLASS_EXPORT
   @method
    @abstract   Returns the receiver version. If nothing specified, use the class version.
    */
-- (UInt32)version;
+- (NSUInteger)version;
   /*!
   @method
    @abstract   Sets the receiver version.
    @param      version Action version
    @discussion The version is automatically saved and restored.
    */
-- (void)setVersion:(UInt32)version;
+- (void)setVersion:(NSUInteger)version;
 
   /*!
   @method

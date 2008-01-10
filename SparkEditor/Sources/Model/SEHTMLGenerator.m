@@ -45,7 +45,7 @@
 }
 
 static
-int _SESortEntries(id e1, id e2, void *ctxt) {
+NSInteger _SESortEntries(id e1, id e2, void *ctxt) {
   return [[e1 trigger] compare:(id)[e2 trigger]];
 }
 

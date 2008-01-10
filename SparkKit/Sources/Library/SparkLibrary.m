@@ -45,7 +45,14 @@ NSString * const kSparkLibraryPreferencesFile = @"SparkPreferences.plist";
 
 #if defined(DEBUG)
 #warning Using Development Spark Library
+#if __LP64__
+NSString * const kSparkLibraryDefaultFileName = @"Spark Library - Debug - 64.splib";
+#else
 NSString * const kSparkLibraryDefaultFileName = @"Spark Library - Debug.splib";
+#endif
+
+#elif __LP64__
+NSString * const kSparkLibraryDefaultFileName = @"Spark Library - 64.splib";
 #else
 NSString * const kSparkLibraryDefaultFileName = @"Spark Library.splib";
 #endif
@@ -525,6 +532,7 @@ bail:
   } else {
     /* Load an empty/new library */
     result = YES;
+		sp_relations = [[SparkEntryManager alloc] initWithLibrary:self];
   }
   
   if (result) {

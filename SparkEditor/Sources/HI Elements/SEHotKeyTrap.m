@@ -216,7 +216,7 @@ static CGLayerRef _HKCreateShading(CGContextRef ctxt, NSControlTint tint);
     if (!sBorderShading)
       sBorderShading = _HKCreateShading(ctxt, [NSColor currentControlTint]);
     
-    CGContextDrawLayerInRect(ctxt, CGRectFromNSRect(bounds), sBorderShading);
+    CGContextDrawLayerInRect(ctxt, NSRectToCGRect(bounds), sBorderShading);
     
     CGContextEndTransparencyLayer(ctxt);
     /* Restore clipping path */
@@ -224,7 +224,7 @@ static CGLayerRef _HKCreateShading(CGContextRef ctxt, NSControlTint tint);
     
     if (se_htFlags.highlight) {
       CGContextSetRGBFillColor(ctxt, 0.2, 0.2, 0.2, 0.35);
-      CGContextFillRect(ctxt, CGRectFromNSRect(bounds));
+      CGContextFillRect(ctxt, NSRectToCGRect(bounds));
     }
 
     CGContextSaveGState(ctxt);

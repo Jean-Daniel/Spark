@@ -12,15 +12,25 @@
 
 /* Spark Core preferences */
 #if defined(DEBUG)
-static
-CFStringRef const kSparkPreferencesIdentifier = CFSTR("org.shadowlab.Spark-debug");
-static
-CFStringRef const kSparkPreferencesService = CFSTR("org.shadowlab.spark.preferences.debug");
+	static
+	CFStringRef const kSparkPreferencesIdentifier = CFSTR("org.shadowlab.Spark-debug");
+	#if __LP64__
+		static
+		CFStringRef const kSparkPreferencesService = CFSTR("org.shadowlab.spark.preferences.debug.64");
+	#else
+		static
+		CFStringRef const kSparkPreferencesService = CFSTR("org.shadowlab.spark.preferences.debug");
+	#endif
 #else
-static
-CFStringRef const kSparkPreferencesIdentifier = CFSTR("org.shadowlab.Spark");
-static
-CFStringRef const kSparkPreferencesService = CFSTR("org.shadowlab.spark.preferences");
+	static
+	CFStringRef const kSparkPreferencesIdentifier = CFSTR("org.shadowlab.Spark");
+	#if __LP64__
+		static
+		CFStringRef const kSparkPreferencesService = CFSTR("org.shadowlab.spark.preferences.64");
+	#else
+		static
+		CFStringRef const kSparkPreferencesService = CFSTR("org.shadowlab.spark.preferences");
+	#endif
 #endif
 
 enum {

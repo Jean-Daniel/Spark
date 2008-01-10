@@ -7,7 +7,6 @@
 //
 
 #import <SUpdaterKit/SUpdater.h>
-#import <ShadowKit/SKSingleton.h>
 
 @interface SEUpdater : SUpdater {
   @private
@@ -15,11 +14,11 @@
   bool se_pending;
 }
 
++ (SEUpdater *)sharedUpdater;
+
 - (void)searchWithDelegate:(id)delegate;
 
 @end
-
-SKSingletonInterface(SEUpdater, sharedUpdater);
 
 @interface NSObject (SEUpdaterDelegate)
 

@@ -68,7 +68,7 @@ static CGLayerRef sSETopShadingImage = nil;
       gradient.size.width -= 2;
       if (!sSETopShadingImage)
         sSETopShadingImage = SKCGLayerCreateWithVerticalShading(ctxt, CGSizeMake(128, se_top), true, SKCGShadingSimpleShadingFunction, (void *)&kSETopShadingInfo);
-      CGContextDrawLayerInRect(ctxt, CGRectFromNSRect(gradient), sSETopShadingImage);
+      CGContextDrawLayerInRect(ctxt, NSRectToCGRect(gradient), sSETopShadingImage);
       
       CGContextSaveGState(ctxt);
       CGRect rects[] = { 
@@ -83,7 +83,7 @@ static CGLayerRef sSETopShadingImage = nil;
     
     gradient = NSMakeRect(0, 0, NSMaxX(bounds), se_bottom);
     if (NSIntersectsRect(gradient, rect)) {
-      CGContextDrawLayerInRect(ctxt, CGRectFromNSRect(gradient), sSETopShadingImage);
+      CGContextDrawLayerInRect(ctxt, NSRectToCGRect(gradient), sSETopShadingImage);
       
       CGContextSetGrayStrokeColor([[NSGraphicsContext currentContext] graphicsPort], .978, 1);
       [NSBezierPath strokeLineFromPoint:NSMakePoint(0, se_bottom - .5) toPoint:NSMakePoint(NSMaxX(bounds), se_bottom - .5)];

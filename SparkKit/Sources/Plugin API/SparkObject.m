@@ -32,7 +32,7 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
 #pragma mark NSCoding
 - (void)encodeWithCoder:(NSCoder *)coder {
   NSParameterAssert([coder isKindOfClass:[SparkLibraryArchiver class]]);
-  SKEncodeInteger(coder, sp_uid, kSparkObjectUIDKey);
+	[coder encodeInt32:sp_uid forKey:kSparkObjectUIDKey];
   [coder encodeObject:sp_name forKey:kSparkObjectNameKey];
   return;
 }
@@ -43,7 +43,7 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
   
   NSString *name = [coder decodeObjectForKey:kSparkObjectNameKey];
   if (self = [self initWithName:name icon:nil]) {
-    [self setUID:SKDecodeInteger(coder, kSparkObjectUIDKey)];
+    [self setUID:[coder decodeInt32ForKey:kSparkObjectUIDKey]];
     [self setLibrary:[(SparkLibraryUnarchiver *)coder library]];
   }
   return self;
@@ -55,6 +55,7 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
   copy->sp_uid = sp_uid;
   copy->sp_name = [sp_name retain];
   copy->sp_icon = [sp_icon retain];
+	copy->sp_library = nil; // the copy is not attached to a library
   return copy;
 }
 
@@ -83,7 +84,7 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
     NSNumber *value = [plist objectForKey:kSparkObjectUIDKey];
     if (!value && compat)
       value = [plist objectForKey:@"UID"];
-    [self setUID:value ? SKUIntegerValue(value) : 0];
+    [self setUID:value ? (SparkUID)SKUIntegerValue(value) : 0];
   }
   return self;
 }
@@ -159,7 +160,7 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
 }
 
 - (NSComparisonResult)compare:(SparkObject *)anObject {
-  return [self uid] - [anObject uid];
+  return (NSComparisonResult)[self uid] - [anObject uid];
 }
 
 - (NSString *)description {

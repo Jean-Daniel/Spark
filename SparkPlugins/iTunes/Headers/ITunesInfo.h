@@ -14,10 +14,10 @@ typedef struct _ITunesVisual {
   NSPoint location;
   NSTimeInterval delay;
   /* Colors */ 
-  float text[4];
-  float border[4];
-  float backtop[4];
-  float backbot[4];
+  CGFloat text[4];
+  CGFloat border[4];
+  CGFloat backtop[4];
+  CGFloat backbot[4];
 } ITunesVisual;
 
 SK_PRIVATE
@@ -88,7 +88,7 @@ const ITunesVisual kiTunesDefaultSettings;
 @end
 
 SK_INLINE
-UInt64 ITunesVisualPackColor(float color[4]) {
+UInt64 ITunesVisualPackColor(CGFloat color[4]) {
   UInt64 pack = 0;
   pack |= (llround(color[0] * 0xffff) & 0xffff) << 0;
   pack |= (llround(color[1] * 0xffff) & 0xffff) << 16;
@@ -98,14 +98,14 @@ UInt64 ITunesVisualPackColor(float color[4]) {
 }
 
 SK_INLINE
-void ITunesVisualUnpackColor(UInt64 pack, float color[4]) {
-  color[0] = (float)((pack >> 0) & 0xffff) / 0xffff;
-  color[1] = (float)((pack >> 16) & 0xffff) / 0xffff;
-  color[2] = (float)((pack >> 32) & 0xffff) / 0xffff;
-  color[3] = (float)((pack >> 48) & 0xffff) / 0xffff;
+void ITunesVisualUnpackColor(UInt64 pack, CGFloat color[4]) {
+  color[0] = (CGFloat)((pack >> 0) & 0xffff) / 0xffff;
+  color[1] = (CGFloat)((pack >> 16) & 0xffff) / 0xffff;
+  color[2] = (CGFloat)((pack >> 32) & 0xffff) / 0xffff;
+  color[3] = (CGFloat)((pack >> 48) & 0xffff) / 0xffff;
 }
 
-typedef struct _ITunesPackedVisual {
+typedef struct __attribute__ ((packed)) _ITunesPackedVisual {
   UInt8 shadow;
   UInt64 colors[4];
   CFSwappedFloat32 x, y;

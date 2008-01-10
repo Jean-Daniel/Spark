@@ -43,7 +43,7 @@ static SparkTrigger *sTrigger;
   UInt32 flags = 0;
   if (sp_saFlags.invalid) flags |= 1 << 0;
   [coder encodeBool:flags forKey:kSparkActionFlagsKey];
-  [coder encodeInt32:sp_version forKey:kSparkActionVersionKey];
+	SKEncodeInteger(coder, sp_version, kSparkActionVersionKey);
   if (nil != sp_categorie)
     [coder encodeObject:sp_categorie forKey:kSparkActionCategorieKey];
   if (nil != sp_description)
@@ -55,7 +55,7 @@ static SparkTrigger *sTrigger;
   if (self = [super initWithCoder:coder]) {
     UInt32 flags = [coder decodeInt32ForKey:kSparkActionFlagsKey];
     if (flags & (1 << 0)) sp_saFlags.invalid = 1;
-    sp_version = [coder decodeInt32ForKey:kSparkActionVersionKey];
+    sp_version = SKDecodeInteger(coder, kSparkActionVersionKey);
     [self setCategorie:[coder decodeObjectForKey:kSparkActionCategorieKey]];
     [self setActionDescription:[coder decodeObjectForKey:kSparkActionDescriptionKey]];
   }
@@ -150,10 +150,10 @@ static SparkTrigger *sTrigger;
 
 #pragma mark -
 #pragma mark Accessors
-- (UInt32)version {
+- (NSUInteger)version {
   return sp_version;
 }
-- (void)setVersion:(UInt32)newVersion {
+- (void)setVersion:(NSUInteger)newVersion {
   sp_version = newVersion;
 }
 

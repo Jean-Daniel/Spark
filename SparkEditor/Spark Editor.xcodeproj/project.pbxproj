@@ -406,6 +406,7 @@
 		1B7BBB410CBE236700484A9E /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		1B7BBB420CBE236700484A9E /* Profile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Profile.xcconfig; sourceTree = "<group>"; };
 		1B7BBB430CBE236700484A9E /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
+		1B7CF7870D3577460068DAD1 /* 64Bits.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = 64Bits.xcconfig; sourceTree = "<group>"; };
 		1B98A1A90D312F5800EC7D09 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SETriggerBrowser.xib; sourceTree = "<group>"; };
 		1B9A7A660D0D96DD00770054 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SEPluginHelp.xib; sourceTree = "<group>"; };
 		1B9A7A6C0D0D978800770054 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SEEntryEditor.xib; sourceTree = "<group>"; };
@@ -601,6 +602,7 @@
 				1B7BBB410CBE236700484A9E /* Debug.xcconfig */,
 				1B7BBB420CBE236700484A9E /* Profile.xcconfig */,
 				1B7BBB430CBE236700484A9E /* Release.xcconfig */,
+				1B7CF7870D3577460068DAD1 /* 64Bits.xcconfig */,
 			);
 			path = Configurations;
 			sourceTree = SHARED_SOURCES_DIR;
@@ -1640,6 +1642,36 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		1B7CF7810D3577340068DAD1 /* 64bits */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1B7CF7870D3577460068DAD1 /* 64Bits.xcconfig */;
+			buildSettings = {
+				SYMROOT = ../build;
+			};
+			name = 64bits;
+		};
+		1B7CF7820D3577340068DAD1 /* 64bits */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				PRODUCT_NAME = All;
+				ZERO_LINK = NO;
+			};
+			name = 64bits;
+		};
+		1B7CF7830D3577340068DAD1 /* 64bits */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 402;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				PRODUCT_NAME = Spark;
+				WRAPPER_EXTENSION = app;
+			};
+			name = 64bits;
+		};
 		98BC60520857BB9400A2041F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1739,6 +1771,7 @@
 				98BC60520857BB9400A2041F /* Debug */,
 				98BC60530857BB9400A2041F /* Profile */,
 				98EFD02F0B58443900AD4492 /* Release */,
+				1B7CF7830D3577340068DAD1 /* 64bits */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
@@ -1749,6 +1782,7 @@
 				98BC60570857BB9400A2041F /* Debug */,
 				98BC60580857BB9400A2041F /* Profile */,
 				98EFD0310B58443900AD4492 /* Release */,
+				1B7CF7810D3577340068DAD1 /* 64bits */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
@@ -1759,6 +1793,7 @@
 				98DBB881099F4B8600927F3B /* Debug */,
 				98DBB883099F4B8600927F3B /* Profile */,
 				98EFD0300B58443900AD4492 /* Release */,
+				1B7CF7820D3577340068DAD1 /* 64bits */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

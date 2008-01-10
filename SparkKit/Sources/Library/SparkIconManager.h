@@ -9,11 +9,14 @@
 #import <Cocoa/Cocoa.h>
 
 @class SparkLibrary, SparkObject;
+SPARK_CLASS_EXPORT
 @interface SparkIconManager : NSObject {
   @private
-  NSString *sp_path;
-  NSMapTable *sp_cache[4];
   SparkLibrary *sp_library;
+	/* archive support */
+	@protected
+	NSString *sp_path;
+	NSMapTable *sp_cache[4];
 }
 
 - (id)initWithLibrary:(SparkLibrary *)aLibrary path:(NSString *)path;

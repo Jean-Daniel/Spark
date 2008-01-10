@@ -325,7 +325,7 @@ BOOL SEOverwriteFilter(SparkList *list, SparkEntry *entry, id ctxt) {
       NSMutableArray *items = [[NSMutableArray alloc] init];
       for (NSUInteger idx = 0; idx < [uids count]; idx++) {
 				NSNumber *uid = [uids objectAtIndex:idx];
-        SparkEntry *entry = [manager entryWithUID:SKIntegerValue(uid)];
+        SparkEntry *entry = [manager entryWithUID:(SparkUID)SKIntegerValue(uid)];
 				if (entry) {
 					[items addObject:entry];
 				}

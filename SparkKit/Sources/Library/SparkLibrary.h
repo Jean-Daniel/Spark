@@ -96,7 +96,6 @@ SPARK_CLASS_EXPORT
   NSUInteger sp_version;
   
   SparkObjectSet *sp_objects[4];
-  SparkIconManager *sp_icons;
   SparkEntryManager *sp_relations;
   
   struct _sp_slFlags {
@@ -114,6 +113,9 @@ SPARK_CLASS_EXPORT
   
   /* reserved objects */
   SparkApplication *sp_system;
+	
+	@protected
+	SparkIconManager *sp_icons;
 }
 
 - (SparkApplication *)systemApplication;

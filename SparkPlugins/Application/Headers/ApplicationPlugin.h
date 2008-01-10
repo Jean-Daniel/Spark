@@ -12,8 +12,6 @@
 
 @class SKImageView;
 @interface ApplicationPlugin : SparkActionPlugIn {
-  IBOutlet NSView *ibAppView;
-  IBOutlet NSButton *ibOptions;
   IBOutlet NSTextField *ibApplication;
   
   IBOutlet NSTabView *ibTab;
@@ -33,6 +31,9 @@
 
 - (ApplicationActionType)action;
 - (void)setAction:(ApplicationActionType)anAction;
+
+- (BOOL)showOptions;
+- (BOOL)showChooser;
 
 - (int)visual;
 - (void)setVisual:(int)visual;

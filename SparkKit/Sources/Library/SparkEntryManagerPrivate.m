@@ -117,7 +117,7 @@
 - (void)updateEntry:(SparkEntry *)anEntry setAction:(SparkAction *)newAction
 						trigger:(SparkTrigger *)newTrigger application:(SparkApplication *)newApplication {
 	NSParameterAssert([anEntry manager] == self);
-	NSParameterAssert(NSMapGet(sp_objects, (const void *)[anEntry uid]));
+	NSParameterAssert(NSMapGet(sp_objects, (const void *)(intptr_t)[anEntry uid]));
 	
 	/* check conflict before undo and notify to avoid inconsistency */
 	if ([anEntry isEnabled] && (newTrigger || newApplication)) {
@@ -169,12 +169,12 @@
 	[ghost release];
 }
 
-static NSUInteger sUID = 0;
+static SparkUID sUID = 0;
 
 - (void)sp_addEntry:(SparkEntry *)anEntry parent:(SparkEntry *)aParent {
   /* add entry */
   [anEntry setUID:++sUID];
-  NSMapInsertKnownAbsent(sp_objects, (const void *)[anEntry uid], anEntry);
+  NSMapInsertKnownAbsent(sp_objects, (const void *)(intptr_t)[anEntry uid], anEntry);
   
   /* Update trigger flag */
   if (![anEntry isSystem])
@@ -191,7 +191,7 @@ static NSUInteger sUID = 0;
 
 - (void)sp_removeEntry:(SparkEntry *)anEntry {
 	NSParameterAssert([anEntry manager] == self);
-  NSParameterAssert(NSMapGet(sp_objects, (const void *)[anEntry uid]));
+  NSParameterAssert(NSMapGet(sp_objects, (const void *)(intptr_t)[anEntry uid]));
 	
   SparkAction *action = [anEntry action];
   SparkTrigger *trigger = [anEntry trigger];
@@ -207,7 +207,7 @@ static NSUInteger sUID = 0;
 	}
 	[anEntry setManager:nil];
 	
-  NSMapRemove(sp_objects, (const void *)[anEntry uid]);
+  NSMapRemove(sp_objects, (const void *)(intptr_t)[anEntry uid]);
   
   /* when undoing, we decrement sUID */
   if ([[self undoManager] isUndoing]) {
@@ -314,7 +314,7 @@ static NSUInteger sUID = 0;
     NSUInteger idx = [entries count];
     while (idx-- > 0) {
       SparkEntry *entry = [entries objectAtIndex:idx];
-      NSMapInsert(sp_objects, (const void *)[entry uid], entry);
+      NSMapInsert(sp_objects, (const void *)(intptr_t)[entry uid], entry);
 			[entry setManager:self];
     }
 		[self cleanup];

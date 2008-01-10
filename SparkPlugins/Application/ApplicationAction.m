@@ -108,8 +108,8 @@ ApplicationVisualSetting *AAGetSharedSettings() {
   return copy;
 }
 
-- (UInt32)encodeFlags {
-  UInt32 flags = 0;
+- (NSUInteger)encodeFlags {
+  NSUInteger flags = 0;
   flags |= aa_aaFlags.active & 0x3; /* bits 0 & 1 */
   if (aa_aaFlags.reopen) flags |= 1 << 2; /* bits 2 */
   
@@ -122,14 +122,14 @@ ApplicationVisualSetting *AAGetSharedSettings() {
   [super encodeWithCoder:coder];
   [coder encodeInt:aa_action forKey:kApplicationActionKey];
   [coder encodeInt:aa_lsFlags forKey:kApplicationLSFlagsKey];
-  [coder encodeInt:[self encodeFlags] forKey:kApplicationFlagsKey];
+	SKEncodeInteger(coder, [self encodeFlags], kApplicationFlagsKey);
   
   if (aa_application)
     [coder encodeObject:aa_application forKey:kApplicationIdentifierKey];
   return;
 }
 
-- (void)decodeFlags:(UInt32)flags {
+- (void)decodeFlags:(NSUInteger)flags {
   aa_aaFlags.active = flags & 0x3; /* bits 0 & 1 */
   if (flags & 1 << 2) aa_aaFlags.reopen = 1;
   
@@ -231,7 +231,7 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
       [self initFromOldPropertyList:plist];
       [self setVersion:0x200];
     } else {
-      [self setFlags:SKUIntegerValue([plist objectForKey:kApplicationLSFlagsKey])];
+      [self setFlags:(LSLaunchFlags)SKUIntegerValue([plist objectForKey:kApplicationLSFlagsKey])];
       [self setAction:SKOSTypeFromString([plist objectForKey:kApplicationActionKey])];
       [self decodeFlags:SKUIntegerValue([plist objectForKey:kApplicationFlagsKey])];
       
@@ -294,6 +294,7 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
     case kApplicationLaunch:
     case kApplicationQuit:
     case kApplicationToggle:
+		case kApplicationActivateQuit:
       // TODO check application path if editor.
       break;
       /* Hide */
@@ -316,6 +317,7 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
     case kApplicationLaunch:
     case kApplicationQuit:
     case kApplicationToggle:
+		case kApplicationActivateQuit:
       if (![self path]) {
         NSString *title = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"INVALID_APPLICATION_ALERT", nil, kApplicationActionBundle,
                                                                                         @"Check * App Not Found *") , [self name]];
@@ -341,7 +343,10 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
       case kApplicationToggle:
         [self toggleApplicationState];
         break;
-        
+			case kApplicationActivateQuit:
+				[self activateQuitApplication];
+				break;
+				
       case kApplicationHideFront:
         [self hideFront];
         break;
@@ -365,6 +370,7 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
     case kApplicationQuit:
     case kApplicationLaunch:
     case kApplicationToggle:
+		case kApplicationActivateQuit:
       return YES;
     default:
       return NO;
@@ -500,46 +506,60 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
   }
 }
 
+- (void)activate:(ProcessSerialNumber *)psn {
+	switch ([self activation]) {
+		case kFlagsBringAllFront:
+			SetFrontProcess(psn);
+			break;
+		case kFlagsBringMainFront:
+			SetFrontProcessWithOptions(psn, kSetFrontProcessFrontWindowOnly);
+			break;
+	}
+	if ([self activation] != kFlagsDoNothing) {
+		if ([self reopen]) {
+			/* TODO: improve reopen event */
+			AppleEvent reopen = SKAEEmptyDesc();
+			OSStatus err = SKAECreateEventWithTargetProcess(psn, kCoreEventClass, kAEReopenApplication, &reopen);
+			require_noerr(err, bail);
+			
+			err = SKAEAddBoolean(&reopen, 'frnt', false);
+			require_noerr(err, bail);
+			
+			err = SKAESendEventNoReply(&reopen);
+			require_noerr(err, bail);
+			
+		bail:
+			SKAEDisposeDesc(&reopen);
+		}
+		
+		/* Handle visual settings */
+		ApplicationVisualSetting settings;
+		if ([self usesSharedVisual])
+			[ApplicationAction getSharedSettings:&settings];
+		else
+			[self getVisualSettings:&settings];
+		
+		if (aa_lsFlags & kLSLaunchAndHideOthers)
+			[self hideOthers];
+		if (settings.activation)
+			[self displayNotification];
+	}
+}
+
 - (void)launchApplication {
   ProcessSerialNumber psn;
-  ApplicationVisualSetting settings;
-  if ([self usesSharedVisual])
-    [ApplicationAction getSharedSettings:&settings];
-  else
-    [self getVisualSettings:&settings];
-  
   if (!(aa_lsFlags & kLSLaunchNewInstance) && [self getApplicationProcess:&psn]) {
-    switch ([self activation]) {
-      case kFlagsBringAllFront:
-        SetFrontProcess(&psn);
-        break;
-      case kFlagsBringMainFront:
-        SetFrontProcessWithOptions(&psn, kSetFrontProcessFrontWindowOnly);
-        break;
-    }
-    if ([self activation] != kFlagsDoNothing) {
-      if ([self reopen]) {
-        /* TODO: improve reopen event */
-        AppleEvent reopen = SKAEEmptyDesc();
-        OSStatus err = SKAECreateEventWithTargetProcess(&psn, kCoreEventClass, kAEReopenApplication, &reopen);
-        require_noerr(err, bail);
-        
-        err = SKAEAddBoolean(&reopen, 'frnt', false);
-        require_noerr(err, bail);
-        
-        err = SKAESendEventNoReply(&reopen);
-        require_noerr(err, bail);
-        
-bail:
-          SKAEDisposeDesc(&reopen);
-      }
-      if (aa_lsFlags & kLSLaunchAndHideOthers)
-        [self hideOthers];
-      if (settings.activation)
-        [self displayNotification];
-    }
+    [self activate:&psn];
   } else {
     [self launchAppWithFlag:kLSLaunchDefaults | aa_lsFlags];
+		
+		/* Handle visual feedback */
+		ApplicationVisualSetting settings;
+		if ([self usesSharedVisual])
+			[ApplicationAction getSharedSettings:&settings];
+		else
+			[self getVisualSettings:&settings];
+		
     if (settings.launch)
       [self displayNotification];
   }
@@ -560,6 +580,22 @@ bail:
   ProcessSerialNumber psn;
   if ([self getApplicationProcess:&psn]) {
     [self quitProcess:&psn];
+  } else {
+    /* toogle incompatible with new instance */
+    if (aa_lsFlags & kLSLaunchNewInstance)
+      aa_lsFlags &= ~kLSLaunchNewInstance;
+    [self launchApplication];
+  }	
+}
+
+- (void)activateQuitApplication {
+	ProcessSerialNumber psn;
+  if ([self getApplicationProcess:&psn]) {
+		if ([aa_application isFront]) {
+			[self quitProcess:&psn];
+		} else {
+			[self activate:&psn];
+		}
   } else {
     /* toogle incompatible with new instance */
     if (aa_lsFlags & kLSLaunchNewInstance)
@@ -626,6 +662,10 @@ NSString *ApplicationActionDescription(ApplicationAction *anAction, NSString *na
     case kApplicationToggle:
       desc = NSLocalizedStringFromTableInBundle(@"DESC_SWITCH_OPEN_CLOSE", nil, kApplicationActionBundle,
                                                @"Open/Close Application * Action Description *");
+      break;
+		case kApplicationActivateQuit:
+      desc = NSLocalizedStringFromTableInBundle(@"DESC_SWITCH_ACTIVE_CLOSE", nil, kApplicationActionBundle,
+																								@"Open - Activate/Close Application * Action Description *");
       break;
     case kApplicationQuit:
       desc = NSLocalizedStringFromTableInBundle(@"DESC_QUIT", nil, kApplicationActionBundle,

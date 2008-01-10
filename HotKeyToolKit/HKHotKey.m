@@ -417,7 +417,7 @@ NSTimeInterval HKGetSystemKeyRepeatInterval() {
   if (service) {
     IOByteCount size = 0;
     kern_return_t kr = IOHIDGetParameter(service, CFSTR(kIOHIDKeyRepeatKey), 
-                                         sizeof(value), &value, &size);
+                                         (IOByteCount)sizeof(value), &value, &size);
     /* convert nano into seconds */
     if (KERN_SUCCESS == kr && size == sizeof(value))
       interval = value / 1e9;
@@ -432,7 +432,7 @@ NSTimeInterval HKGetSystemInitialKeyRepeatInterval() {
   if (service) {
     IOByteCount size = 0;
     kern_return_t kr = IOHIDGetParameter(service, CFSTR(kIOHIDInitialKeyRepeatKey), 
-                                         sizeof(value), &value, &size);
+                                         (IOByteCount)sizeof(value), &value, &size);
     /* convert nano into seconds */
     if (KERN_SUCCESS == kr && size == sizeof(value))
       interval = value / 1e9;

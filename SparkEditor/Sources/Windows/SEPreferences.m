@@ -114,7 +114,7 @@ void *_SEPreferencesLoginItemThread(void *arg) {
 - (id)init {
   if (self = [super init]) {
     se_login = __SEPreferencesLoginItemStatus();
-    se_status = NSCreateMapTable(NSObjectMapKeyCallBacks, NSIntMapValueCallBacks, 0);
+    se_status = NSCreateMapTable(NSObjectMapKeyCallBacks, NSIntegerMapValueCallBacks, 0);
     se_plugins = [[NSMutableArray alloc] init];
   }
   return self;
