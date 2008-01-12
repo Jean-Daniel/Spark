@@ -24,9 +24,9 @@
 #import <SparkKit/SparkActionLoader.h>
 #import <SparkKit/SparkActionPlugIn.h>
 
-#import <ShadowKit/SKFunctions.h>
-#import <ShadowKit/SKExtensions.h>
-#import <ShadowKit/SKAppKitExtensions.h>
+#import WBHEADER(WBFunctions.h)
+#import WBHEADER(WBExtensions.h)
+#import WBHEADER(WBAppKitExtensions.h)
 
 #import <HotKeyToolKit/HotKeyToolKit.h>
 
@@ -110,12 +110,12 @@
 }
 
 - (void)createEntryWithAction:(SparkAction *)action trigger:(SparkTrigger *)trigger application:(SparkApplication *)application {
-  if (!SKDelegateHandle(se_delegate, editor:shouldCreateEntryWithAction:trigger:application:) || 
+  if (!WBDelegateHandle(se_delegate, editor:shouldCreateEntryWithAction:trigger:application:) || 
 			[se_delegate editor:self shouldCreateEntryWithAction:action trigger:trigger application:application])
     [self close:nil];
 }
 - (void)updateEntryWithAction:(SparkAction *)action trigger:(SparkTrigger *)trigger application:(SparkApplication *)application {
-  if (!SKDelegateHandle(se_delegate, editor:shouldUpdateEntry:setAction:trigger:application:) ||
+  if (!WBDelegateHandle(se_delegate, editor:shouldUpdateEntry:setAction:trigger:application:) ||
 			[se_delegate editor:self shouldUpdateEntry:se_entry setAction:action trigger:trigger application:application])
     [self close:nil];
 }
@@ -141,7 +141,7 @@
     @try {
       alert = [se_plugin sparkEditorShouldConfigureAction];
     } @catch (id exception) {
-      SKLogException(exception);
+      WBLogException(exception);
       NSString *name = [exception respondsToSelector:@selector(name)] ? [exception name] : @"<undefined>";
       NSString *message = [exception respondsToSelector:@selector(reason)] ? [exception reason] : [exception description];
       alert = [NSAlert alertWithMessageText:NSLocalizedStringFromTable(@"UNEXPECTED_PLUGIN_EXCEPTION",
@@ -170,7 +170,7 @@
       }
       
     } @catch (id exception) {
-      SKLogException(exception);
+      WBLogException(exception);
       NSString *name = [exception respondsToSelector:@selector(name)] ? [exception name] : @"<undefined>";
       NSString *message = [exception respondsToSelector:@selector(reason)] ? [exception reason] : [exception description];
       alert = [NSAlert alertWithMessageText:NSLocalizedStringFromTable(@"UNEXPECTED_PLUGIN_EXCEPTION",
@@ -258,7 +258,7 @@
   return se_entry;
 }
 - (void)setEntry:(SparkEntry *)anEntry {
-  SKSetterRetain(se_entry, anEntry);
+  WBSetterRetain(se_entry, anEntry);
   
   /* Update plugins list if needed */
   [self updatePlugins];
@@ -352,7 +352,7 @@
   } else if (se_entry && [[se_entry action] isKindOfClass:cls]) { /* If is action editor, set a copy */ 
     edit = YES;
     action = [se_entry action];
-    if (SKImplementsSelector(action, @selector(copyWithZone:))) {
+		if (WBRuntimeObjectImplementsSelector(action, @selector(copyWithZone:))) {
       action = [[action copy] autorelease];
     } else {
       WLog(@"%@ does not implements NSCopying.", [action class]);
@@ -448,15 +448,15 @@
     /* set frame (in pixel units) */
     NSRect pframe = [window frameRectForContentRect:wframe];
     /* Adjust window position using screen factor */
-    CGFloat sscale = SKScreenScaleFactor([window screen]);
+    CGFloat sscale = WBScreenScaleFactor([window screen]);
     pframe.origin.x -= sscale * delta.width / 2;
     pframe.origin.y -= sscale * delta.height;
     [window setFrame:pframe display:YES animate:YES];
     
     
     /* bug in NSWindow */
-		if (SKSystemMinorVersion() == 10 && SKSystemMinorVersion() <= 4)
-			wframe.size.height += 22 / SKWindowScaleFactor(window);
+		if (WBSystemMinorVersion() == 10 && WBSystemMinorVersion() <= 4)
+			wframe.size.height += 22 / WBWindowScaleFactor(window);
     /* Adjust window attributes */
     NSSize smax = wframe.size;
     NSUInteger mask = [se_view autoresizingMask];
@@ -539,7 +539,7 @@
 
 - (NSTimeInterval)animationResizeTime:(NSRect)newFrame {
   NSEvent *event = [NSApp currentEvent];
-  CGFloat factor = SKWindowScaleFactor(self);
+  CGFloat factor = WBWindowScaleFactor(self);
   /* Want 150 points per time unit => 150*scale pixels */
   CGFloat delta = ABS(NSHeight([self frame]) - NSHeight(newFrame));
   if (([event modifierFlags] & NSDeviceIndependentModifierFlagsMask) == NSShiftKeyMask) {

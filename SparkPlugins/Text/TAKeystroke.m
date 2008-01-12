@@ -10,6 +10,21 @@
 
 @implementation TAKeystroke
 
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+	WBEncodeInteger(aCoder, ta_code, @"keycode");
+	WBEncodeInteger(aCoder, ta_code, @"character");
+	WBEncodeInteger(aCoder, ta_code, @"modifier");
+}
+
+- (id)initWithCoder:(NSCoder *)aCoder {
+	if (self = [super init]) {
+    ta_code = WBDecodeInteger(aCoder, @"keycode");
+    ta_char = WBDecodeInteger(aCoder, @"character");
+    ta_modifier = WBDecodeInteger(aCoder, @"modifier");
+  }
+  return self;
+}
+
 - (id)initWithKeycode:(HKKeycode)keycode character:(UniChar)character modifier:(HKModifier)modifier {
   if (self = [super init]) {
     ta_code = keycode;

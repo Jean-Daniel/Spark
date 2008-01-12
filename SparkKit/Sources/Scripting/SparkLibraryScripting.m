@@ -11,7 +11,7 @@
 #import <SparkKit/SparkTrigger.h>
 #import <SparkKit/SparkLibrary.h>
 
-#import <ShadowKit/SKFSFunctions.h>
+#import WBHEADER(WBFSFunctions.h)
 
 /*
 @implementation NSString (SparkScripting)
@@ -61,7 +61,7 @@
             initWithContainerClassDescription:[containerRef keyClassDescription] 
                            containerSpecifier:containerRef
                                           key:[self scriptingKey]
-                                     uniqueID:SKUInt([self uid])] autorelease];
+                                     uniqueID:WBUInteger([self uid])] autorelease];
 }
 
 @end

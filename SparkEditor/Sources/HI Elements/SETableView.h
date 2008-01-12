@@ -6,20 +6,20 @@
  *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
  */
 
-#import <ShadowKit/SKTableView.h>
-#import <ShadowKit/SKImageAndTextCell.h>
+#import WBHEADER(WBTableView.h)
+#import WBHEADER(WBImageAndTextCell.h)
 
-SK_PRIVATE
+WB_PRIVATE
 NSString * const SETableSeparator;
 
-@interface SETableView : SKTableView {
+@interface SETableView : WBTableView {
   @private
   BOOL se_lock;
 }
 
 @end
 
-@interface SETableViewCell : SKImageAndTextCell {
+@interface SETableViewCell : WBImageAndTextCell {
   
 }
 

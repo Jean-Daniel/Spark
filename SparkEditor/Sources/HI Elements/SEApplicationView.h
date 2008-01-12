@@ -6,10 +6,10 @@
  *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
  */
 
-#import <ShadowKit/SKApplicationView.h>
+#import WBHEADER(WBApplicationView.h)
 
 @class SparkApplication;
-@interface SEApplicationView : SKApplicationView {
+@interface SEApplicationView : WBApplicationView {
   @private
   SparkApplication *se_app;
 }

@@ -12,20 +12,20 @@
 #import <SparkKit/SparkPrivate.h>
 #import <SparkKit/SparkMultipleAlerts.h>
 
-#import <ShadowKit/SKIconView.h>
-#import <ShadowKit/SKImageView.h>
-#import <ShadowKit/SKBezelItem.h>
-#import <ShadowKit/SKAEFunctions.h>
-#import <ShadowKit/SKProcessFunctions.h>
+#import WBHEADER(WBIconView.h)
+#import WBHEADER(WBImageView.h)
+#import WBHEADER(WBBezelItem.h)
+#import WBHEADER(WBAEFunctions.h)
+#import WBHEADER(WBProcessFunctions.h)
 
 #pragma mark Utilities
 BOOL SparkEditorIsRunning(void) {
-  ProcessSerialNumber psn = SKProcessGetProcessWithSignature(kSparkEditorSignature);
+  ProcessSerialNumber psn = WBProcessGetProcessWithSignature(kSparkEditorSignature);
   return psn.lowLongOfPSN != kNoProcess;
 }
 
 BOOL SparkDaemonIsRunning(void) {
-  ProcessSerialNumber psn = SKProcessGetProcessWithSignature(kSparkDaemonSignature);
+  ProcessSerialNumber psn = WBProcessGetProcessWithSignature(kSparkDaemonSignature);
   return psn.lowLongOfPSN != kNoProcess;
 }
 
@@ -35,10 +35,10 @@ void SparkLaunchEditor() {
       [NSApp activateIgnoringOtherApps:NO];
       break;
     case kSparkDaemonContext: {
-      ProcessSerialNumber psn = SKProcessGetProcessWithSignature(kSparkEditorSignature);
+      ProcessSerialNumber psn = WBProcessGetProcessWithSignature(kSparkEditorSignature);
       if (psn.lowLongOfPSN != kNoProcess) {
         SetFrontProcess(&psn);
-        SKAESendSimpleEvent(kSparkEditorSignature, kCoreEventClass, kAEReopenApplication);
+        WBAESendSimpleEvent(kSparkEditorSignature, kCoreEventClass, kAEReopenApplication);
       } else {
 #if defined(DEBUG)
         NSString *sparkPath = @"./Spark.app";
@@ -94,29 +94,29 @@ void SparkDisplayAlerts(NSArray *items) {
 #pragma mark Notifications
 
 static 
-SKBezelItem *_SparkNotifiationSharedItem() {
-  static SKBezelItem *_shared = nil;
+WBBezelItem *_SparkNotifiationSharedItem() {
+  static WBBezelItem *_shared = nil;
   if (!_shared) {
-    _shared = [[SKBezelItem alloc] initWithContent:nil];
+    _shared = [[WBBezelItem alloc] initWithContent:nil];
     [_shared setAdjustSize:NO];
   }
   return _shared;
 }
 
 static 
-SKIconView *_SparkNotificationSharedIconView() {
-  static SKIconView *_shared = nil;
+WBIconView *_SparkNotificationSharedIconView() {
+  static WBIconView *_shared = nil;
   if (!_shared) {
-    _shared = [[SKIconView alloc] initWithFrame:NSMakeRect(0, 0, 128, 128)];
+    _shared = [[WBIconView alloc] initWithFrame:NSMakeRect(0, 0, 128, 128)];
   }
   return _shared;
 }
 
 static 
 NSImageView *_SparkNotificationSharedImageView() {
-  static SKImageView *_shared = nil;
+  static WBImageView *_shared = nil;
   if (!_shared) {
-    _shared = [[SKImageView alloc] initWithFrame:NSMakeRect(0, 0, 128, 128)];
+    _shared = [[WBImageView alloc] initWithFrame:NSMakeRect(0, 0, 128, 128)];
     [_shared setEditable:NO];
     [_shared setImageFrameStyle:NSImageFrameNone];
     [_shared setImageAlignment:NSImageAlignCenter];
@@ -127,14 +127,14 @@ NSImageView *_SparkNotificationSharedImageView() {
 }
 
 void SparkNotificationDisplay(NSView *view, CGFloat delay) {
-  SKBezelItem *item = _SparkNotifiationSharedItem();
+  WBBezelItem *item = _SparkNotifiationSharedItem();
   [item setContent:view];
   [item setDelay:delay];
   [item display:nil];
 }
 
 void SparkNotificationDisplayIcon(IconRef icon, CGFloat delay) {
-  SKIconView *view = _SparkNotificationSharedIconView();
+  WBIconView *view = _SparkNotificationSharedIconView();
   [view setIconRef:icon];
   SparkNotificationDisplay(view, delay);
 }
@@ -146,7 +146,7 @@ void SparkNotificationDisplayImage(NSImage *anImage, CGFloat delay) {
 }
 
 void SparkNotificationDisplaySystemIcon(OSType icon, CGFloat delay) {
-  SKIconView *view = _SparkNotificationSharedIconView();
+  WBIconView *view = _SparkNotificationSharedIconView();
   [view setSystemIcon:icon];
   SparkNotificationDisplay(view, delay);
 }

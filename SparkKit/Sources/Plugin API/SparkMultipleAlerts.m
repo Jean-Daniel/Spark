@@ -6,7 +6,7 @@
  *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
  */
 
-#import <ShadowKit/SKAppKitExtensions.h>
+#import WBHEADER(WBAppKitExtensions.h)
 
 #import <SparkKit/SparkAlert.h>
 #import <SparkKit/SparkActionPlugIn.h>
@@ -80,7 +80,7 @@
   
   CGFloat deltaWin = 0;
   CGFloat deltaH = [self setText:[alert messageText] inField:messageText];
-  if (!SKRealEquals(0, deltaH)) {
+  if (!WBRealEquals(0, deltaH)) {
     NSRect frame = [[messageText enclosingScrollView] frame];
     frame.origin.y -= deltaH;
     frame.size.height += deltaH;
@@ -91,7 +91,7 @@
     deltaWin += deltaH;
   }
   deltaH = [self setText:[alert informativeText] inField:informativeText];
-  if (!SKRealEquals(0, deltaH)) {
+  if (!WBRealEquals(0, deltaH)) {
     NSRect frame = [[informativeText enclosingScrollView] frame];
     frame.origin.y -= deltaH;
     frame.size.height += deltaH;

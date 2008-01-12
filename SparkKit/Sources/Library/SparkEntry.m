@@ -15,7 +15,7 @@
 #import <SparkKit/SparkPrivate.h>
 #import <SparkKit/SparkActionLoader.h>
 
-#import <ShadowKit/SKAppKitExtensions.h>
+#import WBHEADER(WBAppKitExtensions.h)
 
 #import "SparkEntryPrivate.h"
 #import "SparkLibraryPrivate.h"
@@ -141,7 +141,7 @@ NSString * const SparkEntryWillRemoveChildNotification = @"SparkEntryWillRemoveC
 	if (flag && sp_manager) {
 		NSAssert([sp_manager activeEntryForTrigger:[self trigger] application:[self application]] == nil, @"entry conflict");
 	}
-  bool enabled = SKFlagTestAndSet(sp_seFlags.enabled, flag);
+  bool enabled = WBFlagTestAndSet(sp_seFlags.enabled, flag);
   if (enabled != sp_seFlags.enabled && sp_manager) {
 		SparkLibrary *library = [sp_manager library];
 		/* Undo management */
@@ -252,7 +252,7 @@ NSString * const SparkEntryWillRemoveChildNotification = @"SparkEntryWillRemoveC
 
 /* cached status */
 - (void)setPlugged:(BOOL)flag {
-  SKFlagSet(sp_seFlags.unplugged, !flag);
+  WBFlagSet(sp_seFlags.unplugged, !flag);
 }
 
 /* convenient access */
@@ -278,15 +278,15 @@ NSString * const SparkEntryWillRemoveChildNotification = @"SparkEntryWillRemoveC
 }
 
 - (void)setAction:(SparkAction *)action {
-  SKSetterRetain(sp_action, action);
+  WBSetterRetain(sp_action, action);
   SparkPlugIn *plugin = action ? [[SparkActionLoader sharedLoader] plugInForAction:action] : nil;
   if (plugin) [self setPlugged:[plugin isEnabled]];
 }
 - (void)setTrigger:(SparkTrigger *)trigger {
-  SKSetterRetain(sp_trigger, trigger);
+  WBSetterRetain(sp_trigger, trigger);
 }
 - (void)setApplication:(SparkApplication *)anApplication {
-  SKSetterRetain(sp_application, anApplication);
+  WBSetterRetain(sp_application, anApplication);
 }
 
 - (SparkEntry *)firstChild {

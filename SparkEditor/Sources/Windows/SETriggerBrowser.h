@@ -8,11 +8,11 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class SKTableDataSource;
-@class SKTableView, SparkLibrary;
+@class WBTableDataSource;
+@class WBTableView, SparkLibrary;
 @interface SETriggerBrowser : NSWindowController {
-  IBOutlet SKTableView *uiTriggers;
-  IBOutlet SKTableDataSource *ibTriggers;
+  IBOutlet WBTableView *uiTriggers;
+  IBOutlet WBTableDataSource *ibTriggers;
   @private
     SparkLibrary *se_library;
 }

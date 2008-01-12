@@ -50,14 +50,14 @@
   return sp_message;
 }
 - (void)setMessageText:(NSString *)message {
-  SKSetterCopy(sp_message, message);
+  WBSetterCopy(sp_message, message);
 }
 
 - (NSString *)informativeText {
   return sp_informative;
 }
 - (void)setInformativeText:(NSString *)string {
-  SKSetterCopy(sp_informative, string);
+  WBSetterCopy(sp_informative, string);
 }
 
 - (BOOL)hideSparkButton {

@@ -13,7 +13,7 @@
 #import <SparkKit/SparkEntry.h>
 #import <SparkKit/SparkPrivate.h>
 
-SK_INLINE
+WB_INLINE
 SparkEntry *__SEEntryForApplication(SparkEntry *entry, SparkApplication *app, bool specific) {
   if ([[entry application] isEqual:app])
     return entry;
@@ -142,12 +142,12 @@ SparkEntry *__SEEntryForApplication(SparkEntry *entry, SparkApplication *app, bo
 }
 
 - (void)setApplication:(SparkApplication *)anApplication {
-	SKSetterRetain(se_application, anApplication);
+	WBSetterRetain(se_application, anApplication);
 	[self setNeedsReload:YES];
 }
 
 - (void)setSpecificFilter:(BOOL)flag {
-	SKFlagSet(se_selFlags.specific, flag);
+	WBFlagSet(se_selFlags.specific, flag);
 }
 - (void)setListFilter:(SparkListFilter)aFilter context:(id)aCtxt {
 	[se_list setListFilter:aFilter context:aCtxt];
@@ -162,7 +162,7 @@ SparkEntry *__SEEntryForApplication(SparkEntry *entry, SparkApplication *app, bo
 
 #pragma mark KVC
 - (void)setNeedsReload:(BOOL)flag {
-	SKFlagSet(se_selFlags.dirty, flag);
+	WBFlagSet(se_selFlags.dirty, flag);
 }
 
 - (NSArray *)entries {

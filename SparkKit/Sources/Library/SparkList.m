@@ -11,8 +11,8 @@
 #import <SparkKit/SparkPrivate.h>
 #import <SparkKit/SparkEntryManager.h>
 
-#import <ShadowKit/SKExtensions.h>
-#import <ShadowKit/SKAppKitExtensions.h>
+#import WBHEADER(WBExtensions.h)
+#import WBHEADER(WBAppKitExtensions.h)
 
 #import "SparkEntryPrivate.h"
 
@@ -160,18 +160,18 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
 }
 - (void)setListFilter:(SparkListFilter)aFilter context:(id)aCtxt {
   sp_filter = aFilter;
-  SKSetterRetain(sp_ctxt, aCtxt);
+  WBSetterRetain(sp_ctxt, aCtxt);
   /* Refresh contents */
   [self reload];
 }
 - (void)reloadWithFilter:(SparkListFilter)aFilter context:(id)aCtxt {
   sp_filter = aFilter;
-  SKSetterRetain(sp_ctxt, aCtxt);
+  WBSetterRetain(sp_ctxt, aCtxt);
   /* Refresh contents */
   [self reload];
   /* Remove dynamic */
   sp_filter = NULL;
-  SKSetterRetain(sp_ctxt, nil);
+  WBSetterRetain(sp_ctxt, nil);
 }
 
 #pragma mark -
@@ -392,7 +392,7 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
 }
 
 - (void)setEntries:(NSArray *)entries {
-  SKSetterMutableCopy(sp_entries, entries);
+  WBSetterMutableCopy(sp_entries, entries);
 }
 
 - (SparkEntry *)objectInEntriesAtIndex:(NSUInteger)idx {

@@ -30,17 +30,17 @@ extern EventTargetRef GetApplicationEventTarget(void);
 #import <SparkKit/SparkTrigger.h>
 #import <SparkKit/SparkApplication.h>
 
-#import <ShadowKit/SKProcessFunctions.h>
+#import WBHEADER(WBProcessFunctions.h)
 
 #if defined (DEBUG)
-#import <ShadowKit/SKAEFunctions.h>
+#import WBHEADER(WBAEFunctions.h)
 #import <HotKeyToolKit/HotKeyToolKit.h>
 #import <SparkKit/SparkLibrarySynchronizer.h>
 #endif
 
 int main(int argc, const char *argv[]) {
 #if defined (DEBUG)
-  //SKAEDebug = YES;
+  //WBAEDebug = YES;
   HKTraceHotKeyEvents = YES;
   SparkLogSynchronization = YES;
 #endif
@@ -189,7 +189,7 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
       [[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
         @"YES", @"NSShowNonLocalizedStrings",
         //@"YES", @"NSShowAllViews",
-        //SKFloat(0.15f), @"NSWindowResizeTime",
+        //WBFloat(0.15f), @"NSWindowResizeTime",
         //@"6", @"NSDragManagerLogLevel",
         //@"YES", @"NSShowNonLocalizableStrings",
         //@"1", @"NSScriptingDebugLogLevel",
@@ -212,7 +212,7 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
           CFNumberGetValue(parent, kCFNumberLongLongType, &psn);
           
           /* If launch by something that is not Spark Editor */
-          OSType sign = SKProcessGetSignature(&psn);
+          OSType sign = WBProcessGetSignature(&psn);
           if (sign != kSparkEditorSignature) {
             delay = SparkPreferencesGetIntegerValue(@"SDDelayStartup", SparkPreferencesDaemon);
           }
@@ -321,7 +321,7 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
       [trigger setTarget:self];
       [trigger setAction:@selector(executeTrigger:)];
     } @catch (id exception) {
-      SKLogException(exception);
+      WBLogException(exception);
     }
   }
   [self registerTriggers];
@@ -343,7 +343,7 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
         }
       }
     } @catch (id exception) {
-      SKLogException(exception);
+      WBLogException(exception);
     }
   }
 }
@@ -357,7 +357,7 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
         [trigger setRegistred:NO];
       }
     } @catch (id exception) {
-      SKLogException(exception);
+      WBLogException(exception);
     }
   }
 }
@@ -371,7 +371,7 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
         [trigger setRegistred:NO];
       }
     } @catch (id exception) {
-      SKLogException(exception);
+      WBLogException(exception);
     }
   }
 }
@@ -414,7 +414,7 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
     }
   } @catch (id exception) {
     NSBeep();
-    SKLogException(exception);
+    WBLogException(exception);
   }
   [trigger release];
   

@@ -13,8 +13,8 @@
 #import <SparkKit/SparkPreferences.h>
 #import <SparkKit/SparkActionPlugIn.h>
 
-#import <ShadowKit/SKExtensions.h>
-#import <ShadowKit/SKAppKitExtensions.h>
+#import WBHEADER(WBExtensions.h)
+#import WBHEADER(WBAppKitExtensions.h)
 
 @interface SparkViewPlaceholder : NSObject {
   @private
@@ -142,7 +142,7 @@
   
   [self willChangeValueForKey:@"name"];
   [self willChangeValueForKey:@"icon"];
-  SKSetterRetain(sp_action, action);
+  WBSetterRetain(sp_action, action);
   [self didChangeValueForKey:@"icon"];
   [self didChangeValueForKey:@"name"];
   
@@ -150,7 +150,7 @@
   @try {
     [self loadSparkAction:action toEdit:flag];
   } @catch (id exception) {
-    SKLogException(exception);
+    WBLogException(exception);
   }
   [self didChangeValueForKey:@"sparkAction"];
 }
@@ -178,7 +178,7 @@
 #pragma mark Plugin Informations
 + (Class)actionClass {
   Class actionClass = nil;
-  NSBundle *bundle = SKCurrentBundle();
+  NSBundle *bundle = WBCurrentBundle();
   NSString *class = [bundle objectForInfoDictionaryKey:@"SparkActionClass"];
   if (class && (actionClass = NSClassFromString(class)) ) {
     return actionClass;
@@ -188,7 +188,7 @@
 }
 
 + (NSString *)plugInName {
-  NSBundle *bundle = SKCurrentBundle();
+  NSBundle *bundle = WBCurrentBundle();
   NSString *name = [bundle objectForInfoDictionaryKey:@"SparkPluginName"];
   if (!name) {
     name = NSStringFromClass(self);
@@ -198,7 +198,7 @@
 }
 
 + (NSImage *)plugInIcon {
-  NSBundle *bundle = SKCurrentBundle();
+  NSBundle *bundle = WBCurrentBundle();
   NSString *name = [bundle objectForInfoDictionaryKey:@"SparkPluginIcon"];
   NSImage *image = [NSImage imageNamed:name inBundle:bundle];
   if (!image) {
@@ -210,7 +210,7 @@
 
 + (NSString *)helpFile {
   NSString *path = nil;
-  NSBundle *bundle = SKCurrentBundle();
+  NSBundle *bundle = WBCurrentBundle();
   NSString *help = [bundle objectForInfoDictionaryKey:@"SparkHelpFile"];
   if (help) {
     path = [bundle pathForResource:help ofType:nil];
@@ -227,7 +227,7 @@
 }
 
 + (NSString *)nibPath {
-  NSBundle *bundle = SKCurrentBundle();
+  NSBundle *bundle = WBCurrentBundle();
   NSString *name = [bundle objectForInfoDictionaryKey:@"NSMainNibFile"];
   return name ? [bundle pathForResource:name ofType:@"nib"] : nil;
 }
@@ -307,7 +307,7 @@ void __SparkViewPlaceholderSwapView(NSView *old, NSView *new) {
 }
 
 - (void)setPlaceholderView:(NSView *)aView {
-  SKSetterRetain(sp_placeholder, aView);
+  WBSetterRetain(sp_placeholder, aView);
 }
 
 @end

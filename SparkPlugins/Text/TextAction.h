@@ -8,31 +8,31 @@
 
 #import <SparkKit/SparkPluginAPI.h>
 
-SK_PRIVATE
+WB_PRIVATE
 NSString * const kKeyboardActionBundleIdentifier;
 
 #define kKeyboardActionBundle		[NSBundle bundleWithIdentifier:kKeyboardActionBundleIdentifier]
 
-SK_INLINE
+WB_INLINE
 bool TADateFormatterCustomFormat(NSInteger format) {
   return (format & 0xffff) == 0;
 }
 
-SK_INLINE
+WB_INLINE
 CFDateFormatterStyle TADateFormatterStyle(NSInteger format) {
   return format & 0xff;
 }
-SK_INLINE 
+WB_INLINE 
 NSInteger TASetDateFormatterStyle(NSInteger format, CFDateFormatterStyle style) {
   format &= ~0xff;
   return format | style;
 }
 
-SK_INLINE
+WB_INLINE
 CFDateFormatterStyle TATimeFormatterStyle(NSInteger format) {
   return (format >> 8) & 0xff;
 }
-SK_INLINE 
+WB_INLINE 
 NSInteger TASetTimeFormatterStyle(NSInteger format, CFDateFormatterStyle style) {
   format &= ~0xff00;
   return format | (style << 8);
@@ -48,6 +48,7 @@ typedef OSType KeyboardActionType;
 
 @interface TextAction : SparkAction {
   id ta_data;
+	BOOL ta_repeat;
   useconds_t ta_latency;
   KeyboardActionType ta_type;
 }
@@ -57,6 +58,9 @@ typedef OSType KeyboardActionType;
 
 - (useconds_t)latency;
 - (void)setLatency:(useconds_t)latency;
+
+- (BOOL)autorepeat;
+- (void)setAutorepeat:(BOOL)flag;
 
 - (KeyboardActionType)action;
 - (void)setAction:(KeyboardActionType)action;

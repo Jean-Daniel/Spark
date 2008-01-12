@@ -12,18 +12,16 @@
 #import "ITunesAESuite.h"
 #import "ITunesVisualSetting.h"
 
-#import <ShadowKit/SKAlias.h>
-#import <ShadowKit/SKFunctions.h>
-#import <ShadowKit/SKExtensions.h>
-#import <ShadowKit/SKImageUtils.h>
-#import <ShadowKit/SKFSFunctions.h>
-#import <ShadowKit/SKLSFunctions.h>
-#import <ShadowKit/SKAppKitExtensions.h>
+#import WBHEADER(WBAlias.h)
+#import WBHEADER(WBExtensions.h)
+#import WBHEADER(WBFSFunctions.h)
+#import WBHEADER(WBLSFunctions.h)
+#import WBHEADER(WBAppKitExtensions.h)
 
 static 
 NSImage *ITunesGetApplicationIcon() {
   NSImage *icon = nil;
-  NSString *itunes = SKLSFindApplicationForSignature(kiTunesSignature);
+  NSString *itunes = WBLSFindApplicationForSignature(kiTunesSignature);
   if (itunes) {
     icon = [[NSWorkspace sharedWorkspace] iconForFile:itunes];
   }
@@ -186,7 +184,7 @@ NSImage *ITunesGetApplicationIcon() {
     [it_lists release];
     it_lists = nil;
   }
-  SKSetterRetain(it_playlists, lists);
+  WBSetterRetain(it_playlists, lists);
   [self didChangeValueForKey:@"playlists"];
 }
 
@@ -244,7 +242,7 @@ NSImage *ITunesGetApplicationIcon() {
 }
 
 - (void)setPlaylist:(NSString *)aPlaylist {
-  SKSetterCopy(it_playlist, aPlaylist);
+  WBSetterCopy(it_playlist, aPlaylist);
 }
 
 - (BOOL)lsPlay {
@@ -334,7 +332,7 @@ NSString *_iTunesGetLibraryPathFromPreferences(Boolean compat) {
                                           kCFPreferencesCurrentUser,
                                           kCFPreferencesAnyHost);
   if (data) {
-    SKAlias *alias = [[SKAlias alloc] initWithData:(id)data];
+    WBAlias *alias = [[WBAlias alloc] initWithData:(id)data];
     if (alias) {
       path = [[alias path] stringByAppendingPathComponent:compat ? @"iTunes Music Library.xml" : @"iTunes Library.xml"];
       [alias release];
@@ -359,7 +357,7 @@ NSString *_iTunesGetLibraryFileInFolder(OSType folder, Boolean compat) {
   return file;
 }
 
-SK_INLINE
+WB_INLINE
 NSString *__iTunesFindLibrary(Boolean compat) {
   NSString *file;
   
@@ -419,11 +417,11 @@ NSString *__iTunesFindLibrary(Boolean compat) {
         NSNumber *ppid = nil;
         NSString *uid = [list objectForKey:@"Playlist Persistent ID"];
         if (uid) {
-          ppid = SKUInt64(strtoll([uid UTF8String], NULL, 16));
+          ppid = WBUInt64(strtoll([uid UTF8String], NULL, 16));
         }
         
         NSDictionary *plist = [[NSDictionary alloc] initWithObjectsAndKeys:
-          SKUInt32(type), @"kind",
+          WBUInt32(type), @"kind",
           ppid, @"uid", nil];
         [playlists setObject:plist forKey:[list objectForKey:@"Name"]];
         [plist release];

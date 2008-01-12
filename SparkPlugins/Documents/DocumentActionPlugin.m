@@ -11,7 +11,7 @@
 #import "DocumentAction.h"
 #import "DAApplicationMenu.h"
 
-#import <ShadowKit/SKAppKitExtensions.h>
+#import WBHEADER(WBAppKitExtensions.h)
 
 @implementation DocumentActionPlugin
 
@@ -248,7 +248,7 @@
 }
 
 - (void)setDocumentName:(NSString *)aName {
-  SKSetterCopy(da_name, aName);
+  WBSetterCopy(da_name, aName);
   [[ibName cell] setPlaceholderString:[aName stringByDeletingPathExtension] ? : @""];
 }
 
@@ -256,7 +256,7 @@
   return da_icon;
 }
 - (void)setDocumentIcon:(NSImage *)anIcon {
-  SKSetterRetain(da_icon, anIcon);
+  WBSetterRetain(da_icon, anIcon);
 }
 
 #pragma mark -

@@ -37,7 +37,7 @@
       [self setText:[anAction data]];
       break;
     case kTADateStyleAction: {
-      NSInteger styles = SKIntegerValue([anAction data]);
+      NSInteger styles = WBIntegerValue([anAction data]);
       [self setDateFormat:TADateFormatterStyle(styles)];
       [self setTimeFormat:TATimeFormatterStyle(styles)];
     }
@@ -47,6 +47,7 @@
       break;
     case kTAKeystrokeAction:
       [uiTokens setObjectValue:[anAction data]];
+			[self setAutorepeat:[anAction autorepeat]];
       break;
   }
   [self setLatency:[anAction latency] / 1e3];
@@ -81,10 +82,11 @@
       [action setData:ta_format];
       break;
     case kTADateStyleAction:
-      [action setData:SKInteger(ta_styles)];
+      [action setData:WBInteger(ta_styles)];
       break;
     case kTAKeystrokeAction:
       [action setData:[uiTokens objectValue]];
+			[action setAutorepeat:[self canAutorepeat] && [self autorepeat]];
       break;
   }
   if (ta_latency >= 0)
@@ -139,7 +141,7 @@
   return ta_text;
 }
 - (void)setText:(NSString *)text {
-  SKSetterCopy(ta_text, text);
+  WBSetterCopy(ta_text, text);
 }
 
 #pragma mark Date
@@ -215,7 +217,9 @@
 - (IBAction)stop:(id)sender {
   [NSApp stopModal];
   [uiRecordWindow setTrapping:NO];
+	[self willChangeValueForKey:@"canAutorepeat"];
   [uiTokens setObjectValue:[uiRecTokens objectValue]];
+	[self didChangeValueForKey:@"canAutorepeat"];
 //  NSArray *tokens = [uiRecTokens objectValue];
 //  if ([tokens count] > 0) {
 //    NSMutableArray *mtoks = [[uiTokens objectValue] mutableCopy];
@@ -224,6 +228,22 @@
 //    [mtoks release];
 //  }
   [uiRecordWindow performClose:nil];
+}
+- (BOOL)autorepeat {
+	return ta_repeat;
+}
+- (void)setAutorepeat:(BOOL)flag {
+	ta_repeat = flag;
+}
+
+- (BOOL)canAutorepeat {
+	return [[uiTokens objectValue] count] <= 1;
+}
+
+- (void)controlTextDidChange:(NSNotification *)aNotification {
+	[self willChangeValueForKey:@"canAutorepeat"];
+	
+	[self didChangeValueForKey:@"canAutorepeat"];	
 }
 
 - (NSString *)tokenField:(NSTokenField *)tokenField displayStringForRepresentedObject:(id)representedObject {
@@ -243,7 +263,7 @@
     NSMutableArray *tks = [NSMutableArray array];
     for (NSUInteger idx = 0; idx < [tokens count]; idx++) {
       id obj = [tokens objectAtIndex:idx];
-      if (obj != [NSNull null])
+      if (![obj isEqual:[NSNull null]])
         [tks addObject:obj];
     }
     return tks;
@@ -279,9 +299,9 @@
 
 - (void)trapWindowCatchHotKey:(NSNotification *)aNotification {
   NSDictionary *info = [aNotification userInfo];
-  UInt16 nkey = SKIntegerValue([info objectForKey:kHKEventKeyCodeKey]);
-  UniChar chr = SKIntegerValue([info objectForKey:kHKEventCharacterKey]);
-  HKModifier nmodifier = (HKModifier)SKIntegerValue([info objectForKey:kHKEventModifierKey]);
+  UInt16 nkey = WBIntegerValue([info objectForKey:kHKEventKeyCodeKey]);
+  UniChar chr = WBIntegerValue([info objectForKey:kHKEventCharacterKey]);
+  HKModifier nmodifier = (HKModifier)WBIntegerValue([info objectForKey:kHKEventModifierKey]);
 
   TAKeystroke *hkey = [[TAKeystroke alloc] initWithKeycode:nkey character:chr modifier:nmodifier];
   NSMutableArray *objs = [[uiRecTokens objectValue] mutableCopy];

@@ -23,10 +23,10 @@
 #import <SparkKit/SparkPrivate.h>
 #import <SparkKit/SparkEntryManager.h>
 
-#import <ShadowKit/SKFunctions.h>
-#import <ShadowKit/SKExtensions.h>
-#import <ShadowKit/SKImageAndTextCell.h>
-#import <ShadowKit/SKAppKitExtensions.h>
+#import WBHEADER(WBFunctions.h)
+#import WBHEADER(WBExtensions.h)
+#import WBHEADER(WBImageAndTextCell.h)
+#import WBHEADER(WBAppKitExtensions.h)
 
 static
 BOOL _SEEntryFilter(NSString *search, SparkEntry *entry, void *ctxt) {
@@ -197,7 +197,7 @@ NSString * sSEHiddenPluggedObserverKey = nil;
 #pragma mark Delegate
 - (void)spaceDownInTableView:(SETriggerTable *)aTable {
   NSUInteger idx = 0;
-  SKIndexEnumerator *idexes = [[self selectionIndexes] indexEnumerator];
+  WBIndexEnumerator *idexes = [[self selectionIndexes] indexEnumerator];
   while ((idx = [idexes nextIndex]) != NSNotFound) {
     SparkEntry *entry = [self objectAtIndex:idx];
     if ([entry isPlugged]) {
@@ -298,10 +298,10 @@ NSString * sSEHiddenPluggedObserverKey = nil;
   
   NSUInteger idx = 0;
   NSMutableArray *entries = [[NSMutableArray alloc] init];
-  SKIndexEnumerator *indexes = [rowIndexes indexEnumerator];
+  WBIndexEnumerator *indexes = [rowIndexes indexEnumerator];
   while ((idx = [indexes nextIndex]) != NSNotFound) {
     SparkEntry *entry = [self objectAtIndex:idx];
-    [entries addObject:SKUInteger([entry uid])];
+    [entries addObject:WBUInteger([entry uid])];
   }
   [plist setObject:entries forKey:@"entries"];
   [entries release];
@@ -362,7 +362,7 @@ NSString * sSEHiddenPluggedObserverKey = nil;
 
 + (void)load {
   if ([SparkEntry class] == self) {
-    SKExchangeInstanceMethods(self, @selector(setEnabled:), @selector(se_setEnabled:));
+		WBRuntimeExchangeInstanceMethods(self, @selector(setEnabled:), @selector(se_setEnabled:));
   }
 }
 

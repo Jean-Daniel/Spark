@@ -6,9 +6,9 @@
  *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
  */
 
-#import <ShadowKit/SKWindowController.h>
+#import WBHEADER(WBWindowController.h)
 
-@interface SEPluginInstaller : SKWindowController {
+@interface SEPluginInstaller : WBWindowController {
   @private
   IBOutlet NSMatrix *ibMatrix;
   IBOutlet NSTextField *ibInfo;

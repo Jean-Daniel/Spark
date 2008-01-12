@@ -136,7 +136,7 @@
 #pragma mark iVar Accessors.
 - (BOOL)shouldChangeKeystroke {
   if ([self isRegistred]) {
-		SKThrowException(NSInvalidArgumentException, @"Cannot change keystroke when the receiver is registred");
+		WBThrowException(NSInvalidArgumentException, @"Cannot change keystroke when the receiver is registred");
   }
   return YES;
 }
@@ -237,7 +237,7 @@
   return hk_hkFlags.onrelease;
 }
 - (void)setInvokeOnKeyUp:(BOOL)flag {
-  SKFlagSet(hk_hkFlags.onrelease, flag);
+  WBFlagSet(hk_hkFlags.onrelease, flag);
 }
 
 - (NSTimeInterval)repeatInterval {
@@ -298,7 +298,7 @@
 
 - (void)invoke:(BOOL)repeat {
   if (!hk_hkFlags.lock) {
-    SKFlagSet(hk_hkFlags.repeat, repeat);
+    WBFlagSet(hk_hkFlags.repeat, repeat);
     [self willInvoke:repeat];
     hk_hkFlags.lock = 1;
     @try {
@@ -307,11 +307,11 @@
       }
     } 
     @catch (id exception) {
-      SKLogException(exception);
+      WBLogException(exception);
     }
     hk_hkFlags.lock = 0;
     [self didInvoke:repeat];
-    SKFlagSet(hk_hkFlags.repeat, NO);
+    WBFlagSet(hk_hkFlags.repeat, NO);
   } else {
     WLog(@"Recursive call in %@", self);
     // Maybe resend event ?

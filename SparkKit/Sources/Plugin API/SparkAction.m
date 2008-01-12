@@ -14,8 +14,8 @@
 #import <SparkKit/SparkEntryManager.h>
 #import <SparkKit/SparkActionLoader.h>
 
-#import <ShadowKit/SKFunctions.h>
-#import <ShadowKit/SKSerialization.h>
+#import WBHEADER(WBFunctions.h)
+#import WBHEADER(WBSerialization.h)
 
 static NSString * const kSparkActionFlagsKey = @"SAFlags";
 static NSString * const kSparkActionVersionKey = @"SAVersion";
@@ -43,7 +43,7 @@ static SparkTrigger *sTrigger;
   UInt32 flags = 0;
   if (sp_saFlags.invalid) flags |= 1 << 0;
   [coder encodeBool:flags forKey:kSparkActionFlagsKey];
-	SKEncodeInteger(coder, sp_version, kSparkActionVersionKey);
+	WBEncodeInteger(coder, sp_version, kSparkActionVersionKey);
   if (nil != sp_categorie)
     [coder encodeObject:sp_categorie forKey:kSparkActionCategorieKey];
   if (nil != sp_description)
@@ -55,7 +55,7 @@ static SparkTrigger *sTrigger;
   if (self = [super initWithCoder:coder]) {
     UInt32 flags = [coder decodeInt32ForKey:kSparkActionFlagsKey];
     if (flags & (1 << 0)) sp_saFlags.invalid = 1;
-    sp_version = SKDecodeInteger(coder, kSparkActionVersionKey);
+    sp_version = WBDecodeInteger(coder, kSparkActionVersionKey);
     [self setCategorie:[coder decodeObjectForKey:kSparkActionCategorieKey]];
     [self setActionDescription:[coder decodeObjectForKey:kSparkActionDescriptionKey]];
   }
@@ -77,7 +77,7 @@ static SparkTrigger *sTrigger;
 - (BOOL)serialize:(NSMutableDictionary *)plist {
   [super serialize:plist];
   if ([self version])
-    [plist setObject:SKInteger([self version]) forKey:kSparkActionVersionKey];
+    [plist setObject:WBInteger([self version]) forKey:kSparkActionVersionKey];
   
   if (nil != sp_description)
     [plist setObject:sp_description forKey:kSparkActionDescriptionKey];
@@ -92,7 +92,7 @@ static SparkTrigger *sTrigger;
     NSNumber *version = [plist objectForKey:kSparkActionVersionKey];
     if (!version)
       version = [plist objectForKey:@"Version"];
-    [self setVersion:(version) ? SKIntegerValue(version) : 0];
+    [self setVersion:(version) ? WBIntegerValue(version) : 0];
     
     NSString *description = [plist objectForKey:kSparkActionDescriptionKey];
     if (!description)
@@ -171,7 +171,7 @@ static SparkTrigger *sTrigger;
   return sp_description;
 }
 - (void)setActionDescription:(NSString *)desc {
-  SKSetterCopy(sp_description, desc);
+  WBSetterCopy(sp_description, desc);
 }
 
 - (NSTimeInterval)repeatInterval {
@@ -184,7 +184,7 @@ static SparkTrigger *sTrigger;
 //@implementation SparkAction (SparkExport)
 //
 //- (id)initFromExternalRepresentation:(NSDictionary *)rep {
-//  if (SKImplementsSelector(self, _cmd)) {
+//  if (WBImplementsSelector(self, _cmd)) {
 //    if (self = [super initFromExternalRepresentation:rep]) {
 //      
 //    }
@@ -195,7 +195,7 @@ static SparkTrigger *sTrigger;
 //}
 //
 //- (NSMutableDictionary *)externalRepresentation {
-//  if (SKImplementsSelector(self, _cmd)) {
+//  if (WBImplementsSelector(self, _cmd)) {
 //    NSMutableDictionary *plist = [super externalRepresentation];
 //    if (plist) {
 //      NSString *value = [self categorie];
@@ -208,7 +208,7 @@ static SparkTrigger *sTrigger;
 //    }
 //    return plist;
 //  } else {
-//    return [[SKSerializeObject(self, NULL) mutableCopy] autorelease];
+//    return [[WBSerializeObject(self, NULL) mutableCopy] autorelease];
 //  }
 //}
 //
@@ -218,15 +218,15 @@ static SparkTrigger *sTrigger;
 @implementation SparkAction (Private)
 
 + (void)setCurrentTrigger:(SparkTrigger *)aTrigger {
-  SKSetterRetain(sTrigger, aTrigger);
+  WBSetterRetain(sTrigger, aTrigger);
 }
 
 - (id)duplicate {
   /* Copying fallback when instance does not implements copyWithZone: */
   id copy = nil;
-  NSDictionary *plist = SKSerializeObject(self, NULL);
+  NSDictionary *plist = WBSerializeObject(self, NULL);
   if (plist)
-    copy = SKDeserializeObject(plist, NULL);
+    copy = WBDeserializeObject(plist, NULL);
   return copy;
 }
 
@@ -238,7 +238,7 @@ static SparkTrigger *sTrigger;
   return sp_saFlags.invalid;
 }
 - (void)setInvalid:(BOOL)flag {
-  SKFlagSet(sp_saFlags.invalid, flag);
+  WBFlagSet(sp_saFlags.invalid, flag);
 }
 
 - (BOOL)isPersistent {
@@ -246,7 +246,7 @@ static SparkTrigger *sTrigger;
 }
 
 - (void)setCategorie:(NSString *)categorie {
-  SKSetterCopy(sp_categorie, categorie);
+  WBSetterCopy(sp_categorie, categorie);
 }
 
 /* Compatibility */

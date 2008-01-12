@@ -10,13 +10,13 @@
 
 #import "ApplicationAction.h"
 
-@class SKImageView;
+@class WBImageView;
 @interface ApplicationPlugin : SparkActionPlugIn {
   IBOutlet NSTextField *ibApplication;
   
   IBOutlet NSTabView *ibTab;
   IBOutlet NSTextField *ibName;
-  IBOutlet SKImageView *ibIcon;
+  IBOutlet WBImageView *ibIcon;
   
   @private
   NSString *aa_name;

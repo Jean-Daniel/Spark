@@ -10,9 +10,9 @@
 
 #import <OSAKit/OSAKit.h>
 
-#import <ShadowKit/SKAlias.h>
-#import <ShadowKit/SKFunctions.h>
-#import <ShadowKit/SKAppKitExtensions.h>
+#import WBHEADER(WBAlias.h)
+#import WBHEADER(WBFunctions.h)
+#import WBHEADER(WBAppKitExtensions.h)
 
 static NSString * const kOSAScriptActionDataKey = @"OSAScriptData";
 static NSString * const kOSAScriptActionTypeKey = @"OSAScriptType";
@@ -56,7 +56,7 @@ static NSString * const kOSAScriptActionTypeKey = @"OSAScriptType";
 - (void)initFromOldPropertyList:(NSDictionary *)plist {
   BOOL file = [[plist objectForKey:@"Script File"] boolValue];
   if (file) {
-    SKAlias *alias = [[SKAlias alloc] initWithData:[plist objectForKey:@"Script Data"]];
+    WBAlias *alias = [[WBAlias alloc] initWithData:[plist objectForKey:@"Script Data"]];
     [self setScriptAlias:alias];
     [alias release];
   } else {
@@ -77,7 +77,7 @@ static NSString * const kOSAScriptActionTypeKey = @"OSAScriptType";
       [self setVersion:0x200];
     } else {
       NSData *data = [plist objectForKey:kOSAScriptActionDataKey];
-      OSType type = SKOSTypeFromString([plist objectForKey:kOSAScriptActionTypeKey]);
+      OSType type = WBOSTypeFromString([plist objectForKey:kOSAScriptActionTypeKey]);
       switch (type) {
         case 'src ': {
           NSString *src = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
@@ -86,7 +86,7 @@ static NSString * const kOSAScriptActionTypeKey = @"OSAScriptType";
         }
           break;
         case 'file': {
-          [self setScriptAlias:[SKAlias aliasWithData:data]];
+          [self setScriptAlias:[WBAlias aliasWithData:data]];
         }
           break;
       }
@@ -110,14 +110,14 @@ static NSString * const kOSAScriptActionTypeKey = @"OSAScriptType";
     if ([self scriptAlias]) {
       NSData *data = [[self scriptAlias] data];
       if (data) {
-        [plist setObject:SKStringForOSType('file') forKey:kOSAScriptActionTypeKey];
+        [plist setObject:WBStringForOSType('file') forKey:kOSAScriptActionTypeKey];
         [plist setObject:data forKey:kOSAScriptActionDataKey];
         return YES;
       }
     } else if ([self scriptSource]) {
       NSData *data = [[self scriptSource] dataUsingEncoding:NSUTF8StringEncoding];
       if (data) {
-        [plist setObject:SKStringForOSType('src ') forKey:kOSAScriptActionTypeKey];
+        [plist setObject:WBStringForOSType('src ') forKey:kOSAScriptActionTypeKey];
         [plist setObject:data forKey:kOSAScriptActionDataKey];
         return YES;
       }
@@ -167,11 +167,11 @@ static NSString * const kOSAScriptActionTypeKey = @"OSAScriptType";
   return alert;
 }
 #pragma mark Ivars
-- (SKAlias *)scriptAlias {
+- (WBAlias *)scriptAlias {
   return as_alias;
 }
-- (void)setScriptAlias:(SKAlias *)anAlias {
-  SKSetterRetain(as_alias, anAlias);
+- (void)setScriptAlias:(WBAlias *)anAlias {
+  WBSetterRetain(as_alias, anAlias);
 }
 
 - (NSString *)file {
@@ -179,7 +179,7 @@ static NSString * const kOSAScriptActionTypeKey = @"OSAScriptType";
 }
 - (void)setFile:(NSString *)aFile {
   if (aFile != nil) {
-    SKAlias *alias = [[SKAlias alloc] initWithPath:aFile];
+    WBAlias *alias = [[WBAlias alloc] initWithPath:aFile];
     [self setScriptAlias:alias];
     [alias release];
   } else {
@@ -207,7 +207,7 @@ static NSString * const kOSAScriptActionTypeKey = @"OSAScriptType";
 //  if (self = [super initFromExternalRepresentation:rep]) {
 //    NSString *value = [rep objectForKey:@"script-path"];
 //    if (value) {
-//      SKAlias *alias = [SKAlias aliasWithPath:value];
+//      WBAlias *alias = [WBAlias aliasWithPath:value];
 //      if (alias) {
 //        [self setScriptAlias:alias];
 //      } else {

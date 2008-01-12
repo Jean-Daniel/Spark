@@ -46,5 +46,5 @@
 
 @end
 
-SK_PRIVATE
+WB_PRIVATE
 void SDSendStateToEditor(SparkDaemonStatus state);

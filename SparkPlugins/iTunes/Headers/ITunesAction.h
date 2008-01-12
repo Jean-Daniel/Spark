@@ -104,8 +104,8 @@ typedef enum {
 
 @end
 
-SK_PRIVATE
+WB_PRIVATE
 NSImage *ITunesActionIcon(ITunesAction *action);
 
-SK_PRIVATE
+WB_PRIVATE
 NSString *ITunesActionDescription(ITunesAction *action);

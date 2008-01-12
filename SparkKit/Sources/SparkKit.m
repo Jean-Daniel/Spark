@@ -12,8 +12,8 @@
 
 #import <SparkKit/SparkPreferences.h>
 
-#import <ShadowKit/SKFunctions.h>
-#import <ShadowKit/SKLSFunctions.h>
+#import WBHEADER(WBFunctions.h)
+#import WBHEADER(WBLSFunctions.h)
 
 NSString * const kSparkErrorDomain = @"org.shadowlab.SparkErrorDomain";
 
@@ -41,8 +41,8 @@ void __SparkInitializeLibrary() {
     if (![str isKindOfClass:[NSString class]]) {
       SparkPreferencesSetValue(@"SparkFinderSignature", NULL, SparkPreferencesFramework);
     } else {
-      OSType sign = SKOSTypeFromString(str);
-      if (sign && sign != kUnknownType && SKLSFindApplicationForSignature(sign))
+      OSType sign = WBOSTypeFromString(str);
+      if (sign && sign != kUnknownType && WBLSFindApplicationForSignature(sign))
         kSparkFinderSignature = sign;
     }
   }

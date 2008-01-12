@@ -15,8 +15,6 @@
 
 #import <SparkKit/SparkKit.h>
 
-#import <ShadowKit/SKFunctions.h>
-
 @implementation SELibraryDocument (SEFirstRun)
 
 - (void)displayFirstRunIfNeeded {

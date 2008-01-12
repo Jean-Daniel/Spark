@@ -35,16 +35,16 @@
 
 @end
 
-SK_PRIVATE
+WB_PRIVATE
 NSString * const SEPreviousApplicationKey;
-SK_PRIVATE
+WB_PRIVATE
 NSString * const SEApplicationDidChangeNotification;
-SK_PRIVATE
+WB_PRIVATE
 NSString * const SEDocumentDidSetLibraryNotification;
-SK_PRIVATE
+WB_PRIVATE
 NSString * const SELibraryDocumentDidReloadNotification;
 
-SK_PRIVATE
+WB_PRIVATE
 SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library);
 
 @interface SELibraryDocument (SEFirstRun)

@@ -28,11 +28,11 @@ NSString * const kHKTrapWindowKeyCatchedNotification = @"kHKTrapWindowKeyCatched
 - (void)setDelegate:(id)delegate {
   id previous = [super delegate];
   if (previous) {
-    SKDelegateUnregisterNotification(previous, @selector(trapWindowCatchHotKey:), kHKTrapWindowKeyCatchedNotification);
+    WBDelegateUnregisterNotification(previous, @selector(trapWindowCatchHotKey:), kHKTrapWindowKeyCatchedNotification);
   }
   [super setDelegate:delegate];
   if (delegate) {
-    SKDelegateRegisterNotification(delegate, @selector(trapWindowCatchHotKey:), kHKTrapWindowKeyCatchedNotification);
+    WBDelegateRegisterNotification(delegate, @selector(trapWindowCatchHotKey:), kHKTrapWindowKeyCatchedNotification);
   }
 }
 #pragma mark -
@@ -43,7 +43,7 @@ NSString * const kHKTrapWindowKeyCatchedNotification = @"kHKTrapWindowKeyCatched
 
 - (void)setTrapping:(BOOL)flag {
   if (!hk_trapField) {
-    SKFlagSet(hk_twFlags.trap, flag);
+    WBFlagSet(hk_twFlags.trap, flag);
   } else {
     if (flag)
       [self makeFirstResponder:hk_trapField];
@@ -56,7 +56,7 @@ NSString * const kHKTrapWindowKeyCatchedNotification = @"kHKTrapWindowKeyCatched
   return !hk_twFlags.skipverify;
 }
 - (void)setVerifyHotKey:(BOOL)flag {
-  SKFlagSet(hk_twFlags.skipverify, !flag);
+  WBFlagSet(hk_twFlags.skipverify, !flag);
 }
 
 #pragma mark -
@@ -79,7 +79,7 @@ NSString * const kHKTrapWindowKeyCatchedNotification = @"kHKTrapWindowKeyCatched
 - (BOOL)performKeyEquivalent:(NSEvent *)theEvent {
   if (hk_twFlags.trap && !hk_twFlags.resend) {
     BOOL perform = NO;
-    if (SKDelegateHandle([self delegate], trapWindow:needPerformKeyEquivalent:))  {
+    if (WBDelegateHandle([self delegate], trapWindow:needPerformKeyEquivalent:))  {
       perform = [[self delegate] trapWindow:self needPerformKeyEquivalent:theEvent];
     }
     /* If should not perform */
@@ -101,9 +101,9 @@ NSString * const kHKTrapWindowKeyCatchedNotification = @"kHKTrapWindowKeyCatched
     
     if (valid) {
       NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-                                SKUInteger([aKey keycode]), kHKEventKeyCodeKey,
-                                SKUInteger([aKey modifier]), kHKEventModifierKey,
-                                SKUInteger([aKey character]), kHKEventCharacterKey,
+                                WBUInteger([aKey keycode]), kHKEventKeyCodeKey,
+                                WBUInteger([aKey modifier]), kHKEventModifierKey,
+                                WBUInteger([aKey character]), kHKEventCharacterKey,
                                 nil];
       [[NSNotificationCenter defaultCenter] postNotificationName:kHKTrapWindowKeyCatchedNotification
                                                           object:self
@@ -115,7 +115,7 @@ NSString * const kHKTrapWindowKeyCatchedNotification = @"kHKTrapWindowKeyCatched
 - (void)sendEvent:(NSEvent *)theEvent {
   if ([theEvent type] == NSKeyDown && hk_twFlags.trap) {
     BOOL needProcess = NO;
-    if (!hk_twFlags.resend && SKDelegateHandle([self delegate], trapWindow:needProceedKeyEvent:))  {
+    if (!hk_twFlags.resend && WBDelegateHandle([self delegate], trapWindow:needProceedKeyEvent:))  {
       needProcess = [[self delegate] trapWindow:self needProceedKeyEvent:theEvent];
     }
     if (needProcess) {
@@ -159,9 +159,9 @@ NSString * const kHKTrapWindowKeyCatchedNotification = @"kHKTrapWindowKeyCatched
         DLog(@"Invalid Key");
       }
       NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-        SKUInteger(code), kHKEventKeyCodeKey,
-        SKUInteger(modifier), kHKEventModifierKey,
-        SKUInteger(character), kHKEventCharacterKey,
+        WBUInteger(code), kHKEventKeyCodeKey,
+        WBUInteger(modifier), kHKEventModifierKey,
+        WBUInteger(character), kHKEventCharacterKey,
         nil];
       [[NSNotificationCenter defaultCenter] postNotificationName:kHKTrapWindowKeyCatchedNotification
                                                           object:self

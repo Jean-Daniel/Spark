@@ -7,41 +7,42 @@
  */
 
 #include <Carbon/Carbon.h>
+#import <HotKeyToolKit/HKBase.h>
 
 #if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_5
-SK_PRIVATE
+HK_PRIVATE
 OSStatus HKKLKeyMapInit(HKKeyMapRef keyMap);
-SK_PRIVATE
+HK_PRIVATE
 void HKKLKeyMapDispose(HKKeyMapRef keyMap);
 
-SK_PRIVATE
+HK_PRIVATE
 HKKeyMapRef HKKLKeyMapCreateWithName(CFStringRef name, Boolean reverse);
-SK_PRIVATE
+HK_PRIVATE
 HKKeyMapRef HKKLKeyMapCreateWithCurrentLayout(Boolean reverse);
 
-SK_PRIVATE
+HK_PRIVATE
 Boolean HKKLKeyMapIsCurrent(HKKeyMapRef keyMap);
-SK_PRIVATE
+HK_PRIVATE
 CFStringRef HKKLKeyMapGetName(HKKeyMapRef keymap);
-SK_PRIVATE
+HK_PRIVATE
 CFStringRef HKKLKeyMapGetLocalizedName(HKKeyMapRef keymap);
 
 #else
-SK_INLINE
+HK_INLINE
 OSStatus HKKLKeyMapInit(HKKeyMapRef keyMap) { return paramErr; }
-SK_INLINE
+HK_INLINE
 void HKKLKeyMapDispose(HKKeyMapRef keyMap) {}
 
-SK_INLINE
+HK_INLINE
 HKKeyMapRef HKKLKeyMapCreateWithName(CFStringRef name, Boolean reverse) { return NULL; }
-SK_INLINE
+HK_INLINE
 HKKeyMapRef HKKLKeyMapCreateWithCurrentLayout(Boolean reverse) { return NULL; }
 
-SK_INLINE
+HK_INLINE
 Boolean HKKLKeyMapIsCurrent(HKKeyMapRef keyMap) { return true; }
-SK_INLINE
+HK_INLINE
 CFStringRef HKKLKeyMapGetName(HKKeyMapRef keymap) { return NULL; }
-SK_INLINE
+HK_INLINE
 CFStringRef HKKLKeyMapGetLocalizedName(HKKeyMapRef keymap) { return NULL; }
 
 #endif

@@ -17,13 +17,13 @@
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkObjectSet.h>
 
-#import <ShadowKit/SKImageUtils.h>
-#import <ShadowKit/SKFSFunctions.h>
+#import WBHEADER(WBImageUtils.h)
+#import WBHEADER(WBFSFunctions.h)
 
 enum {
   kSparkInvalidType = 0xff
 };
-SK_INLINE
+WB_INLINE
 UInt8 __SparkIconTypeForObject(SparkObject *object) {
   Class cls = [object class];
   if ([cls isSubclassOfClass:[SparkList class]])
@@ -107,7 +107,7 @@ UInt8 __SparkIconTypeForObject(SparkObject *object) {
   if (path) {
     BOOL isDir = NO;
     if (![[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir]) {
-      if (noErr != SKFSCreateFolder((CFStringRef)path)) {
+      if (noErr != WBFSCreateFolder((CFStringRef)path)) {
         [NSException raise:NSInvalidArgumentException format:@"could not create directory at path %@", path];
       }
     } else if (!isDir) {
@@ -164,7 +164,7 @@ UInt8 __SparkIconTypeForObject(SparkObject *object) {
   if (entry) {
     /* Adjust resolution */
     if (icon) {
-      SKImageSetRepresentationsSize(icon, NSMakeSize(16, 16));
+      WBImageSetRepresentationsSize(icon, NSMakeSize(16, 16));
     }
     [entry setIcon:icon];
   }

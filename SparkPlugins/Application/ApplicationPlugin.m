@@ -8,10 +8,9 @@
 
 #import "ApplicationPlugin.h"
 
-#import <ShadowKit/SKImageView.h>
-#import <ShadowKit/SKExtensions.h>
-#import <ShadowKit/SKImageUtils.h>
-#import <ShadowKit/SKAppKitExtensions.h>
+#import WBHEADER(WBImageView.h)
+#import WBHEADER(WBImageUtils.h)
+#import WBHEADER(WBAppKitExtensions.h)
 
 @implementation ApplicationPlugin
 
@@ -87,7 +86,7 @@
       [action setPath:aa_path];
       NSImage *icon = [[ibIcon image] copy];
       if (icon) {
-        SKImageSetRepresentationsSize(icon, NSMakeSize(16, 16));
+        WBImageSetRepresentationsSize(icon, NSMakeSize(16, 16));
         [action setIcon:icon];
         [icon release];
       }
@@ -141,7 +140,7 @@
 
 #pragma mark -
 - (void)setPath:(NSString *)aPath {
-  SKSetterRetain(aa_path, aPath);
+  WBSetterRetain(aa_path, aPath);
   NSString *name = [[[NSFileManager defaultManager] displayNameAtPath:aPath] stringByDeletingPathExtension];
   [ibApplication setStringValue:name ? : @""];
   [[ibName cell] setPlaceholderString:name ? : NSLocalizedStringFromTableInBundle(@"ACTION_NAME",
@@ -151,11 +150,11 @@
   if (aPath) {
     icon = [[NSWorkspace sharedWorkspace] iconForFile:aPath];
     //if (icon) {
-//      SKImageSetRepresentationsSize(icon, [ibIcon bounds].size);
+//      WBImageSetRepresentationsSize(icon, [ibIcon bounds].size);
 //      [icon setSize:[ibIcon bounds].size];
 //    }
   } else {
-    icon = [NSImage imageNamed:@"AAUndefined" inBundle:SKCurrentBundle()];
+    icon = [NSImage imageNamed:@"AAUndefined" inBundle:WBCurrentBundle()];
   }
   [ibIcon setImage:icon];
 }

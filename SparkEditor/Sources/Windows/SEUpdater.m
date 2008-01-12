@@ -8,10 +8,10 @@
 
 #import "SEUpdater.h"
 
-#import <ShadowKit/SKSingleton.h>
+#import WBHEADER(WBSingleton.h)
 
 @implementation SEUpdater
-SKSingleton(SEUpdater, sharedUpdater);
+WBSingleton(SEUpdater, sharedUpdater);
 
 - (id)init {
   if (self = [super initWithBundle:[NSBundle mainBundle]]) {

@@ -13,9 +13,6 @@
 #import <SparkKit/SparkPreferences.h>
 #import <SparkKit/SparkActionLoader.h>
 
-#import <ShadowKit/SKImageUtils.h>
-#import <ShadowKit/SKCGFunctions.h>
-
 NSString * const SparkPlugInDidChangeStatusNotification = @"SparkPlugInDidChangeStatus";
 
 @implementation SparkPlugIn
@@ -46,7 +43,7 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
     } else {
       plugins = [prefs mutableCopy];
     }
-    [plugins setObject:SKBool(enabled) forKey:identifier];
+    [plugins setObject:WBBool(enabled) forKey:identifier];
     SparkPreferencesSetValue(@"SparkPlugins", plugins, SparkPreferencesFramework);
     [plugins release];
   }
@@ -99,9 +96,9 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
     BOOL exists;
     BOOL status = SparkPlugInIsEnabled(identifier, &exists);
     if (exists)
-      SKFlagSet(sp_spFlags.disabled, !status);
+      WBFlagSet(sp_spFlags.disabled, !status);
     else
-      SKFlagSet(sp_spFlags.disabled, ![sp_class isEnabled]);
+      WBFlagSet(sp_spFlags.disabled, ![sp_class isEnabled]);
   }
   return self;
 }
@@ -153,7 +150,7 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
   return sp_name;
 }
 - (void)setName:(NSString *)newName {
-  SKSetterRetain(sp_name, newName);
+  WBSetterRetain(sp_name, newName);
 }
 
 - (NSString *)path {
@@ -161,7 +158,7 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
 }
 
 - (void)setPath:(NSString *)newPath {
-  SKSetterRetain(sp_path, newPath);
+  WBSetterRetain(sp_path, newPath);
 }
 
 - (NSImage *)icon {
@@ -171,14 +168,14 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
   return sp_icon;
 }
 - (void)setIcon:(NSImage *)icon {
-  SKSetterRetain(sp_icon, icon);
+  WBSetterRetain(sp_icon, icon);
 }
 
 - (BOOL)isEnabled {
   return !sp_spFlags.disabled;
 }
 - (void)setEnabled:(BOOL)flag {
-  bool disabled = SKFlagTestAndSet(sp_spFlags.disabled, !flag);
+  bool disabled = WBFlagTestAndSet(sp_spFlags.disabled, !flag);
   /* If status change */
   if (disabled != sp_spFlags.disabled) {
     /* Update preferences */
@@ -199,14 +196,14 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
   return sp_version;
 }
 - (void)setVersion:(NSString *)version {
-  SKSetterCopy(sp_version, version);
+  WBSetterCopy(sp_version, version);
 }
 
 - (NSString *)identifier {
   return sp_identifier;
 }
 - (void)setIdentifier:(NSString *)identifier {
-  SKSetterRetain(sp_identifier, identifier);
+  WBSetterRetain(sp_identifier, identifier);
 }
 
 - (NSURL *)helpURL {

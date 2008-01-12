@@ -15,7 +15,7 @@
 #import <SparkKit/SparkPlugIn.h>
 #import <SparkKit/SparkActionLoader.h>
 
-#import <ShadowKit/SKHeaderView.h>
+#import WBHEADER(WBHeaderView.h)
 
 @implementation SEPluginHelp
 
@@ -96,7 +96,7 @@
   }
   
   if (!se_plugins) {
-    se_plugins = [ibHead addMenu:aMenu position:kSKHeaderLeft];
+    se_plugins = [ibHead addMenu:aMenu position:kWBHeaderLeft];
     [se_plugins setTarget:self];
     [se_plugins setAction:@selector(selectPlugin:)];
   } else {
@@ -116,12 +116,12 @@
 
 - (void)awakeFromNib {
   if (!se_previous) {
-    se_previous = [ibHead addButton:[NSImage imageNamed:@"SEBack"] position:kSKHeaderLeft];
+    se_previous = [ibHead addButton:[NSImage imageNamed:@"SEBack"] position:kWBHeaderLeft];
     [se_previous setTarget:ibWeb];
     [se_previous setAction:@selector(goBack:)];
     [se_previous bind:@"enabled" toObject:ibWeb withKeyPath:@"canGoBack" options:nil];
     
-    se_next = [ibHead addButton:[NSImage imageNamed:@"SEForward"] position:kSKHeaderLeft];
+    se_next = [ibHead addButton:[NSImage imageNamed:@"SEForward"] position:kWBHeaderLeft];
     [se_next setTarget:ibWeb];
     [se_next setAction:@selector(goForward:)];
     [se_next bind:@"enabled" toObject:ibWeb withKeyPath:@"canGoForward" options:nil];

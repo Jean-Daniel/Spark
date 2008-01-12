@@ -8,15 +8,14 @@
 
 #import "ApplicationAction.h"
 
-#import <SparkKit/SparkShadowKit.h>
+#import <Sparkkit/SparkPrivate.h>
 
-#import <ShadowKit/SKAlias.h>
-#import <ShadowKit/SKFunctions.h>
-#import <ShadowKit/SKImageUtils.h>
-#import <ShadowKit/SKAEFunctions.h>
-#import <ShadowKit/SKFSFunctions.h>
-#import <ShadowKit/SKProcessFunctions.h>
-#import <ShadowKit/SKAppKitExtensions.h>
+#import WBHEADER(WBAlias.h)
+#import WBHEADER(WBFunctions.h)
+#import WBHEADER(WBImageUtils.h)
+#import WBHEADER(WBAEFunctions.h)
+#import WBHEADER(WBFSFunctions.h)
+#import WBHEADER(WBAppKitExtensions.h)
 
 static NSString * const kApplicationNameKey = @"ApplicationName";
 static NSString * const kApplicationFlagsKey = @"ApplicationFlags";
@@ -122,7 +121,7 @@ ApplicationVisualSetting *AAGetSharedSettings() {
   [super encodeWithCoder:coder];
   [coder encodeInt:aa_action forKey:kApplicationActionKey];
   [coder encodeInt:aa_lsFlags forKey:kApplicationLSFlagsKey];
-	SKEncodeInteger(coder, [self encodeFlags], kApplicationFlagsKey);
+	WBEncodeInteger(coder, [self encodeFlags], kApplicationFlagsKey);
   
   if (aa_application)
     [coder encodeObject:aa_application forKey:kApplicationIdentifierKey];
@@ -168,7 +167,7 @@ ApplicationVisualSetting *AAGetSharedSettings() {
 
 #pragma mark -
 #pragma mark Required Methods.
-SK_INLINE
+WB_INLINE
 ApplicationActionType _ApplicationTypeFromTag(int tag) {
   switch (tag) {
     case 0:
@@ -191,15 +190,15 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
   /* Simply load alias and application without control (lazy resolution) */
   [self initFlags];
   
-  SKAlias *alias = nil;
+  WBAlias *alias = nil;
   NSData *data = [plist objectForKey:@"App Alias"];
   if (data) {
-    alias = [[SKAlias alloc] initWithData:data];
-    aa_application = [[SKAliasedApplication alloc] initWithAlias:alias];
+    alias = [[WBAlias alloc] initWithData:data];
+    aa_application = [[WBAliasedApplication alloc] initWithAlias:alias];
     [alias release];
   }
   if (!aa_application) {
-    aa_application = [[SKAliasedApplication alloc] init];
+    aa_application = [[WBAliasedApplication alloc] init];
     OSType sign = [[plist objectForKey:@"App Sign"] intValue];
     if (sign) {
       [aa_application setSignature:sign];
@@ -217,7 +216,7 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
   if ([self shouldSaveIcon] && aa_application) {
     NSImage *icon = [aa_application icon];
     if (icon) {
-      SKImageSetRepresentationsSize(icon, NSMakeSize(16, 16));
+      WBImageSetRepresentationsSize(icon, NSMakeSize(16, 16));
       [self setIcon:icon];
     }
   } else if (![self shouldSaveIcon]) {
@@ -231,16 +230,16 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
       [self initFromOldPropertyList:plist];
       [self setVersion:0x200];
     } else {
-      [self setFlags:(LSLaunchFlags)SKUIntegerValue([plist objectForKey:kApplicationLSFlagsKey])];
-      [self setAction:SKOSTypeFromString([plist objectForKey:kApplicationActionKey])];
-      [self decodeFlags:SKUIntegerValue([plist objectForKey:kApplicationFlagsKey])];
+      [self setFlags:(LSLaunchFlags)WBUIntegerValue([plist objectForKey:kApplicationLSFlagsKey])];
+      [self setAction:WBOSTypeFromString([plist objectForKey:kApplicationActionKey])];
+      [self decodeFlags:WBUIntegerValue([plist objectForKey:kApplicationFlagsKey])];
       
       switch ([self action]) {
         case kApplicationHideFront:
         case kApplicationHideOther:
           break;
         default: {
-          aa_application = [[SKAliasedApplication alloc] initWithSerializedValues:plist];
+          aa_application = [[WBAliasedApplication alloc] initWithSerializedValues:plist];
         }
       }
     }
@@ -280,9 +279,9 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
       }
     }
     
-    [plist setObject:SKUInteger(aa_lsFlags) forKey:kApplicationLSFlagsKey];
-    [plist setObject:SKUInteger([self encodeFlags]) forKey:kApplicationFlagsKey];
-    [plist setObject:SKStringForOSType(aa_action) forKey:kApplicationActionKey];
+    [plist setObject:WBUInteger(aa_lsFlags) forKey:kApplicationLSFlagsKey];
+    [plist setObject:WBUInteger([self encodeFlags]) forKey:kApplicationFlagsKey];
+    [plist setObject:WBStringForOSType(aa_action) forKey:kApplicationActionKey];
     return YES;
   }
   return NO;
@@ -389,7 +388,7 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
 - (NSImage *)iconCacheMiss {
   NSImage *icon = [aa_application icon];
   if (icon) {
-    SKImageSetRepresentationsSize(icon, NSMakeSize(16, 16));
+    WBImageSetRepresentationsSize(icon, NSMakeSize(16, 16));
   }
   return icon;
 }
@@ -400,7 +399,7 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
 }
 - (void)setPath:(NSString *)path {
   if (!aa_application && path)
-    aa_application = [[SKAliasedApplication alloc] initWithPath:path];
+    aa_application = [[WBAliasedApplication alloc] initWithPath:path];
   else if (path)
     [aa_application setPath:path];
   else if (aa_application) {
@@ -416,7 +415,7 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
   aa_action = action;
 }
 
-- (SKAliasedApplication *)application {
+- (WBAliasedApplication *)application {
   return aa_application;
 }
 
@@ -431,7 +430,7 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
   return aa_aaFlags.reopen;
 }
 - (void)setReopen:(BOOL)flag {
-  SKFlagSet(aa_aaFlags.reopen, flag);
+  WBFlagSet(aa_aaFlags.reopen, flag);
 }
 
 - (int)activation {
@@ -445,7 +444,7 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
   return aa_aaFlags.visual;
 }
 - (void)setUsesSharedVisual:(BOOL)flag {
-  SKFlagSet(aa_aaFlags.visual, flag);
+  WBFlagSet(aa_aaFlags.visual, flag);
 }
 
 - (void)getVisualSettings:(ApplicationVisualSetting *)settings {
@@ -518,18 +517,18 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
 	if ([self activation] != kFlagsDoNothing) {
 		if ([self reopen]) {
 			/* TODO: improve reopen event */
-			AppleEvent reopen = SKAEEmptyDesc();
-			OSStatus err = SKAECreateEventWithTargetProcess(psn, kCoreEventClass, kAEReopenApplication, &reopen);
+			AppleEvent reopen = WBAEEmptyDesc();
+			OSStatus err = WBAECreateEventWithTargetProcess(psn, kCoreEventClass, kAEReopenApplication, &reopen);
 			require_noerr(err, bail);
 			
-			err = SKAEAddBoolean(&reopen, 'frnt', false);
+			err = WBAEAddBoolean(&reopen, 'frnt', false);
 			require_noerr(err, bail);
 			
-			err = SKAESendEventNoReply(&reopen);
+			err = WBAESendEventNoReply(&reopen);
 			require_noerr(err, bail);
 			
 		bail:
-			SKAEDisposeDesc(&reopen);
+			WBAEDisposeDesc(&reopen);
 		}
 		
 		/* Handle visual settings */
@@ -566,7 +565,7 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
 }
 
 - (void)quitProcess:(ProcessSerialNumber *)psn {
-  SKAESendSimpleEventToProcess(psn, kCoreEventClass, kAEQuitApplication);
+  WBAESendSimpleEventToProcess(psn, kCoreEventClass, kAEQuitApplication);
 }
 
 - (void)quitApplication {
@@ -612,7 +611,7 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
 
 - (void)forceQuitDialog {
   ProcessSerialNumber psn = {0, kSystemProcess};
-  SKAESendSimpleEventToProcess(&psn, kCoreEventClass, 'apwn');
+  WBAESendSimpleEventToProcess(&psn, kCoreEventClass, 'apwn');
 }
 
 - (BOOL)launchAppWithFlag:(LSLaunchFlags)flag {

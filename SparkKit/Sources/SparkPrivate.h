@@ -86,3 +86,20 @@
 - (void)setPreferences:(NSDictionary *)preferences;
 
 @end
+
+#import WBHEADER(WBApplication.h)
+#import WBHEADER(WBAliasedApplication.h)
+
+@interface WBApplication (SparkSerialization)
+
+- (BOOL)serialize:(NSMutableDictionary *)plist;
+- (id)initWithSerializedValues:(NSDictionary *)plist;
+
+@end
+
+@interface WBAliasedApplication (SparkSerialization)
+
+- (BOOL)serialize:(NSMutableDictionary *)plist;
+- (id)initWithSerializedValues:(NSDictionary *)plist;
+
+@end

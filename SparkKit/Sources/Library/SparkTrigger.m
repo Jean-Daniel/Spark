@@ -77,7 +77,7 @@ static SparkAction *sp_spAction = nil;
   return sp_stFlags.overwrite;
 }
 - (void)setHasSpecificAction:(BOOL)flag {
-  SKFlagSet(sp_stFlags.overwrite, flag);
+  WBFlagSet(sp_stFlags.overwrite, flag);
 }
 
 - (NSString *)triggerDescription {
@@ -127,12 +127,12 @@ static SparkAction *sp_spAction = nil;
 }
 
 - (void)setIsARepeat:(BOOL)flag {
-  SKFlagSet(sp_stFlags.repeat, flag);
+  WBFlagSet(sp_stFlags.repeat, flag);
 }
 
 - (void)willTriggerAction:(SparkAction *)anAction {
   [SparkAction setCurrentTrigger:self];
-  SKSetterRetain(sp_spAction, anAction);
+  WBSetterRetain(sp_spAction, anAction);
 }
 
 - (void)didTriggerAction:(SparkAction *)anAction {

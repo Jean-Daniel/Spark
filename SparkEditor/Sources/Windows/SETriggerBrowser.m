@@ -14,8 +14,8 @@
 #import <SparkKit/SparkObjectSet.h>
 #import <SparkKit/SparkEntryManager.h>
 
-#import <ShadowKit/SKTableView.h>
-#import <ShadowKit/SKTableDataSource.h>
+#import WBHEADER(WBTableView.h)
+#import WBHEADER(WBTableDataSource.h)
 
 #import <HotKeyToolKit/HKKeyMap.h>
 
@@ -149,9 +149,9 @@
 
 - (id)reverseTransformedValue:(id)value {
   if (value)
-    return SKBool(YES);
+    return WBBool(YES);
   
-  return SKBool(NO);
+  return WBBool(NO);
 }
 
 @end

@@ -8,7 +8,7 @@
 
 #import "SETableView.h"
 
-#import <ShadowKit/SKCGFunctions.h>
+#import WBHEADER(WBCGFunctions.h)
 
 NSString * const SETableSeparator = @"-\e";
 
@@ -63,14 +63,14 @@ NSShadow *sHighlightShadow = nil;
 }
 
 static const 
-SKCGSimpleShadingInfo sHighlightShadingInfo = {
+WBCGSimpleShadingInfo sHighlightShadingInfo = {
   {.443, .522, .671, 1},
   {.651, .690, .812, 1},
   NULL,
 };
 
 static const
-SKCGSimpleShadingInfo sFocusShadingInfo = {
+WBCGSimpleShadingInfo sFocusShadingInfo = {
   {.000, .312, .790, 1},
   {.340, .606, .890, 1},
   NULL,
@@ -80,9 +80,9 @@ SKCGSimpleShadingInfo sFocusShadingInfo = {
   static CGLayerRef sHasFocus = nil;
   static CGLayerRef sHighlighted = nil;
   if (!sHighlighted) {
-    sHighlighted = SKCGLayerCreateWithVerticalShading([[NSGraphicsContext currentContext] graphicsPort],
+    sHighlighted = WBCGLayerCreateWithVerticalShading([[NSGraphicsContext currentContext] graphicsPort],
                                                       CGSizeMake(64, [self rowHeight] + 2), true, 
-                                                      SKCGShadingSimpleShadingFunction, &sHighlightShadingInfo);
+                                                      WBCGShadingSimpleShadingFunction, &sHighlightShadingInfo);
     /* border-top */
     CGContextRef gctxt = CGLayerGetContext(sHighlighted);
     CGContextSetRGBStrokeColor(gctxt, .509, .627, .753, 1);
@@ -90,9 +90,9 @@ SKCGSimpleShadingInfo sFocusShadingInfo = {
     CGContextStrokeLineSegments(gctxt, line, 2);
   }
   if (!sHasFocus) {
-    sHasFocus = SKCGLayerCreateWithVerticalShading([[NSGraphicsContext currentContext] graphicsPort], 
+    sHasFocus = WBCGLayerCreateWithVerticalShading([[NSGraphicsContext currentContext] graphicsPort], 
                                                    CGSizeMake(64, [self rowHeight] + 2), true, 
-                                                   SKCGShadingSimpleShadingFunction, &sFocusShadingInfo);
+                                                   WBCGShadingSimpleShadingFunction, &sFocusShadingInfo);
     /* border-top */
     CGContextRef gctxt = CGLayerGetContext(sHasFocus);
     CGContextSetRGBStrokeColor(gctxt, .271, .502, .784, 1);
@@ -122,11 +122,11 @@ SKCGSimpleShadingInfo sFocusShadingInfo = {
     rect = CGRectInset(rect, 1, 1);
     
     /* draw background */
-    SKCGContextAddRoundRect(ctxt, rect, 5);
+    WBCGContextAddRoundRect(ctxt, rect, 5);
     CGContextSetRGBFillColor(ctxt, 0.027f, 0.322f, 0.843f, .15f);
     CGContextFillPath(ctxt);
     
-    SKCGContextAddRoundRect(ctxt, rect, 5);
+    WBCGContextAddRoundRect(ctxt, rect, 5);
     CGContextSetRGBStrokeColor(ctxt, 0.027f, 0.322f, 0.843f, 1);
     CGContextSetLineWidth(ctxt, 2);
     CGContextStrokePath(ctxt);
@@ -139,7 +139,7 @@ SKCGSimpleShadingInfo sFocusShadingInfo = {
 - (void)textDidEndEditing:(NSNotification *)aNotification {
   NSString *text = [[aNotification object] string];
   /* Notify data source */
-  if (SKDelegateHandle([self dataSource], tableView:setObjectValue:forTableColumn:row:))
+  if (WBDelegateHandle([self dataSource], tableView:setObjectValue:forTableColumn:row:))
     [[self dataSource] tableView:self
                   setObjectValue:text
                   forTableColumn:[[self tableColumns] objectAtIndex:0]

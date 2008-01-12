@@ -11,18 +11,18 @@
 #define kASActionBundleIdentifier   @"org.shadowlab.spark.action.applescript"
 #define AppleScriptActionBundle		[NSBundle bundleWithIdentifier:kASActionBundleIdentifier]
 
-@class SKAlias, OSAScript;
+@class WBAlias, OSAScript;
 @interface AppleScriptAction : SparkAction <NSCoding, NSCopying> {
   @private
-  SKAlias *as_alias;
+  WBAlias *as_alias;
   OSAScript *as_script;
 }
 
 - (NSString *)file;
 - (void)setFile:(NSString *)aFile;
 
-- (SKAlias *)scriptAlias;
-- (void)setScriptAlias:(SKAlias *)anAlias;
+- (WBAlias *)scriptAlias;
+- (void)setScriptAlias:(WBAlias *)anAlias;
 
 - (NSString *)scriptSource;
 - (void)setScriptSource:(NSString *)source;

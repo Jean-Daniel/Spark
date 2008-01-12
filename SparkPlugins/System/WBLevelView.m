@@ -1,20 +1,20 @@
 /*
- *  SKLevelView.m
+ *  WBLevelView.m
  *  Spark Plugins
  *
  *  Created by Black Moon Team.
  *  Copyright (c) 2004 - 2007, Shadow Lab. All rights reserved.
  */
 
-#import "SKLevelView.h"
+#import "WBLevelView.h"
 
 static 
 NSShadow *sDropShadow = nil, *sLevelShadow = nil;
 
-@implementation SKLevelView
+@implementation WBLevelView
 
 + (void)initialize {
-  if ([SKLevelView class] == self) {
+  if ([WBLevelView class] == self) {
     sDropShadow = [[NSShadow alloc] init];
     [sDropShadow setShadowBlurRadius:4];
     [sDropShadow setShadowOffset:NSMakeSize(1, -2)];
@@ -31,7 +31,7 @@ NSShadow *sDropShadow = nil, *sLevelShadow = nil;
   return !sk_svFlags.hide;
 }
 - (void)setDrawsLevelIndicator:(BOOL)flag {
-  SKFlagSet(sk_svFlags.hide, !flag);
+  WBFlagSet(sk_svFlags.hide, !flag);
   [self setNeedsDisplay:YES];
 }
 
@@ -39,14 +39,14 @@ NSShadow *sDropShadow = nil, *sLevelShadow = nil;
   return sk_svFlags.zero;
 }
 - (void)setZero:(BOOL)flag {
-  SKFlagSet(sk_svFlags.zero, flag);
+  WBFlagSet(sk_svFlags.zero, flag);
 }
 
 - (NSUInteger)level {
   return sk_svFlags.level;
 }
 - (void)setLevel:(NSUInteger)level {
-  if (level > kSKLevelViewMaxLevel) level = kSKLevelViewMaxLevel;
+  if (level > kWBLevelViewMaxLevel) level = kWBLevelViewMaxLevel;
   sk_svFlags.level = level;
   [self setNeedsDisplay:YES];
 }
@@ -60,7 +60,7 @@ NSShadow *sDropShadow = nil, *sLevelShadow = nil;
   unsigned idx = 0;
   CGContextSetGrayFillColor(ctxt, 0, .45);
   CGRect plot = CGRectMake(143, 3, 7, 9);
-  for (idx = kSKLevelViewMaxLevel; idx > level; idx--) {
+  for (idx = kWBLevelViewMaxLevel; idx > level; idx--) {
     CGContextAddRect(ctxt, plot);
     plot.origin.x -= 9;
   }

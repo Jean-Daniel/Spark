@@ -10,7 +10,7 @@
 
 #import "DocumentAction.h"
 
-#import <ShadowKit/SKImageUtils.h>
+#import WBHEADER(WBImageUtils.h)
 
 @implementation DAApplicationMenu
 
@@ -109,7 +109,7 @@
   
   NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:path];
   if (icon) {
-    SKImageSetRepresentationsSize(icon, NSMakeSize(16, 16));
+    WBImageSetRepresentationsSize(icon, NSMakeSize(16, 16));
   }
   [icon setSize:NSMakeSize(16, 16)];
   

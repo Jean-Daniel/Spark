@@ -10,8 +10,8 @@
 
 #include <SparkKit/SparkKit.h>
 
-#include <ShadowKit/SKAEFunctions.h>
-#include <ShadowKit/SKProcessFunctions.h>
+#include WBHEADER(WBAEFunctions.h)
+#include WBHEADER(WBProcessFunctions.h)
 
 OSStatus SDGetEditorIsTrapping(Boolean *trapping) {
   check(trapping);
@@ -29,27 +29,27 @@ OSStatus SDGetEditorIsTrapping(Boolean *trapping) {
   
   /* If Spark Editor is the front process, send apple event */
   if (kSparkEditorSignature == info.processSignature) {
-    AEDesc reply = SKAEEmptyDesc();
-    AEDesc theEvent = SKAEEmptyDesc();
+    AEDesc reply = WBAEEmptyDesc();
+    AEDesc theEvent = WBAEEmptyDesc();
     
-    err = SKAECreateEventWithTargetProcess(&psn, kAECoreSuite, kAEGetData, &theEvent);
+    err = WBAECreateEventWithTargetProcess(&psn, kAECoreSuite, kAEGetData, &theEvent);
     require_noerr(err, bail);
     
-    err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty, kSparkEditorIsTrapping, NULL);
+    err = WBAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty, kSparkEditorIsTrapping, NULL);
     require_noerr(err, fevent);
     
-    err = SKAESetStandardAttributes(&theEvent);
+    err = WBAESetStandardAttributes(&theEvent);
     require_noerr(err, fevent);
 
     /* Timeout: 500 ms ?? */
-    err = SKAESendEvent(&theEvent, kAEWaitReply, 500, &reply);
+    err = WBAESendEvent(&theEvent, kAEWaitReply, 500, &reply);
     require_noerr(err, fevent);
     
-    err = SKAEGetBooleanFromAppleEvent(&reply, keyDirectObject, trapping);
+    err = WBAEGetBooleanFromAppleEvent(&reply, keyDirectObject, trapping);
     /* Release Apple event descriptor */
 fevent:
-      SKAEDisposeDesc(&theEvent);
-    SKAEDisposeDesc(&reply);
+      WBAEDisposeDesc(&theEvent);
+    WBAEDisposeDesc(&reply);
   }
   
 bail:

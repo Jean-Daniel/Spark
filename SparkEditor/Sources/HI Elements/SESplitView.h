@@ -6,9 +6,9 @@
  *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
  */
 
-#import <ShadowKit/SKSplitView.h>
+#import WBHEADER(WBSplitView.h)
 
-@interface SESplitView : SKSplitView {
+@interface SESplitView : WBSplitView {
   
 }
 

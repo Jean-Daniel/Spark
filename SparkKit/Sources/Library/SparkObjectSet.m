@@ -17,10 +17,10 @@
 #import <SparkKit/SparkTrigger.h>
 #import <SparkKit/SparkApplication.h>
 
-#import <ShadowKit/SKCFContext.h>
-#import <ShadowKit/SKEnumerator.h>
-#import <ShadowKit/SKSerialization.h>
-#import <ShadowKit/SKAppKitExtensions.h>
+#import WBHEADER(WBCFContext.h)
+#import WBHEADER(WBEnumerator.h)
+#import WBHEADER(WBSerialization.h)
+#import WBHEADER(WBAppKitExtensions.h)
 
 /* Notifications */
 NSString* const SparkObjectSetWillAddObjectNotification = @"SparkObjectSetWillAddObject";
@@ -126,7 +126,7 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
   return sp_objects ? NSAllMapTableValues(sp_objects) : [NSArray array];
 }
 - (NSEnumerator *)objectEnumerator {
-  return SKMapTableEnumerator(sp_objects, NO);
+  return WBMapTableEnumerator(sp_objects, NO);
 }
 
 - (BOOL)containsObject:(SparkObject *)object {
@@ -181,7 +181,7 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
       return YES;
     }
   } @catch (id exception) {
-    SKLogException(exception);
+    WBLogException(exception);
   }
   return NO;
 }
@@ -250,13 +250,13 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
 }
 
 - (NSDictionary *)serialize:(SparkObject *)anObject error:(OSStatus *)error {
-  return SKSerializeObject(anObject, error);
+  return WBSerializeObject(anObject, error);
 }
 
 - (NSFileWrapper *)fileWrapper:(NSError **)outError {
   NSMutableArray *objects = [[NSMutableArray alloc] init];
   NSMutableDictionary *plist = [[NSMutableDictionary alloc] init];
-  [plist setObject:SKUInteger(kSparkObjectSetCurrentVersion) forKey:kSparkObjectSetVersionKey];
+  [plist setObject:WBUInteger(kSparkObjectSetCurrentVersion) forKey:kSparkObjectSetVersionKey];
   
   SparkObject *object;
   OSStatus err = noErr;
@@ -284,7 +284,7 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
 }
 
 - (SparkObject *)deserialize:(NSDictionary *)plist error:(OSStatus *)error {
-  return SKDeserializeObject(plist, error);
+  return WBDeserializeObject(plist, error);
 }
 
 - (BOOL)readFromFileWrapper:(NSFileWrapper *)fileWrapper error:(NSError **)outError {
@@ -313,7 +313,7 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
                                                                    format:nil errorDescription:nil];
   require(plist, bail);
   
-  NSUInteger version = SKUIntegerValue([plist objectForKey:kSparkObjectSetVersionKey]);
+  NSUInteger version = WBUIntegerValue([plist objectForKey:kSparkObjectSetVersionKey]);
   /* Update object set */
   SparkIconManager *icons = nil;
   if (version < kSparkObjectSetVersion_2_1 && SparkGetCurrentContext() == kSparkEditorContext)
@@ -332,7 +332,7 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
     OSStatus err;
     SparkObject *object = [self deserialize:serialized error:&err];
     /* If class not found */
-    if (!object && kSKClassNotFoundError == err) {
+    if (!object && kWBClassNotFoundError == err) {
       object = [[SparkPlaceHolder alloc] initWithSerializedValues:serialized];
       [object autorelease];
     } 

@@ -6,13 +6,13 @@
  *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
  */
 
-#import <ShadowKit/SKWindowController.h>
+#import WBHEADER(WBWindowController.h)
 
 @class WebView;
-@class SparkPlugIn, SKHeaderView;
-@interface SEPluginHelp : SKWindowController {
+@class SparkPlugIn, WBHeaderView;
+@interface SEPluginHelp : WBWindowController {
   IBOutlet WebView *ibWeb;
-  IBOutlet SKHeaderView *ibHead;
+  IBOutlet WBHeaderView *ibHead;
   
   @private
     NSButton *se_previous, *se_next;

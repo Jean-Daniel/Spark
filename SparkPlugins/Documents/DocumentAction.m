@@ -8,15 +8,15 @@
 
 #import "DocumentAction.h"
 
-#import <SparkKit/SparkShadowKit.h>
+#import <Sparkkit/SparkPrivate.h>
 
-#import <ShadowKit/SKAlias.h>
-#import <ShadowKit/SKFunctions.h>
-#import <ShadowKit/SKImageUtils.h>
-#import <ShadowKit/SKAEFunctions.h>
-#import <ShadowKit/SKLSFunctions.h>
-#import <ShadowKit/SKProcessFunctions.h>
-#import <ShadowKit/SKAppKitExtensions.h>
+#import WBHEADER(WBAlias.h)
+#import WBHEADER(WBFunctions.h)
+#import WBHEADER(WBImageUtils.h)
+#import WBHEADER(WBAEFunctions.h)
+#import WBHEADER(WBLSFunctions.h)
+#import WBHEADER(WBProcessFunctions.h)
+#import WBHEADER(WBAppKitExtensions.h)
 
 static NSString * const kDocumentActionURLKey = @"DocumentURL";
 static NSString * const kDocumentActionKey = @"DocumentAction";
@@ -67,7 +67,7 @@ static NSString * const kDocumentActionApplicationKey = @"DocumentApplication";
   return self;
 }
 
-SK_INLINE
+WB_INLINE
 OSType _DocumentActionFromFlag(int flag) {
   switch (flag) {
     case 0:
@@ -91,23 +91,23 @@ OSType _DocumentActionFromFlag(int flag) {
   if (DocumentActionNeedDocument(da_action)) {
     NSData *data = [plist objectForKey:@"DocAlias"];
     if (data)
-      da_doc = [[SKAlias alloc] initWithData:data];
+      da_doc = [[WBAlias alloc] initWithData:data];
   }
   if (DocumentActionNeedApplication(da_action)) {
     NSData *data = [plist objectForKey:@"AppAlias"];
     if (data) {
       NSString *path = nil;
-      SKAlias *app = [[SKAlias alloc] initWithData:data];
+      WBAlias *app = [[WBAlias alloc] initWithData:data];
       if (![app path]) {
         /* Search with signature */
-        OSType sign = SKOSTypeFromString([plist objectForKey:@"AppSign"]);
+        OSType sign = WBOSTypeFromString([plist objectForKey:@"AppSign"]);
         if (sign)
-          path = SKLSFindApplicationForSignature(sign);
+          path = WBLSFindApplicationForSignature(sign);
       } else {
         path = [app path];
       }
       if (path) {
-        da_app = [[SKAliasedApplication alloc] initWithPath:path];
+        da_app = [[WBAliasedApplication alloc] initWithPath:path];
       }
       [app release];
     }
@@ -126,16 +126,16 @@ OSType _DocumentActionFromFlag(int flag) {
       [self initFromOldPropertyList:plist];
       [self setVersion:0x200];
     } else {
-      [self setAction:SKOSTypeFromString([plist objectForKey:kDocumentActionKey])];
+      [self setAction:WBOSTypeFromString([plist objectForKey:kDocumentActionKey])];
       
       if (DocumentActionNeedDocument(da_action)) {
         NSData *data = [plist objectForKey:kDocumentActionAliasKey];
         if (data)
-          da_doc = [[SKAlias alloc] initWithData:data];
+          da_doc = [[WBAlias alloc] initWithData:data];
       }
       
       if (DocumentActionNeedApplication(da_action)) {
-        da_app = [[SKAliasedApplication alloc] initWithSerializedValues:plist];
+        da_app = [[WBAliasedApplication alloc] initWithSerializedValues:plist];
       }
       
       if (da_action == kDocumentActionOpenURL) {
@@ -160,7 +160,7 @@ OSType _DocumentActionFromFlag(int flag) {
 #pragma mark -
 - (BOOL)serialize:(NSMutableDictionary *)plist {
   if ([super serialize:plist]) {
-    [plist setObject:SKStringForOSType(da_action) forKey:kDocumentActionKey];
+    [plist setObject:WBStringForOSType(da_action) forKey:kDocumentActionKey];
     if (DocumentActionNeedDocument(da_action)) {
       NSData *data = [da_doc data];
       if (data) {
@@ -228,7 +228,7 @@ OSType _DocumentActionFromFlag(int flag) {
     case kDocumentActionOpenSelection:
     case kDocumentActionOpenSelectionWith: {
       // Check if Finder is foreground
-      if (SKProcessGetFrontProcessSignature() == kSparkFinderSignature) {
+      if (WBProcessGetFrontProcessSignature() == kSparkFinderSignature) {
         [self openSelection];
       }
     }
@@ -243,11 +243,11 @@ OSType _DocumentActionFromFlag(int flag) {
     case kDocumentActionReveal: {
       AliasHandle alias = [[self document] aliasHandle];
       if (alias) {
-        AEDesc desc = SKAEEmptyDesc();
-        OSStatus err = SKAECreateDescWithAlias(alias, &desc);
+        AEDesc desc = WBAEEmptyDesc();
+        OSStatus err = WBAECreateDescWithAlias(alias, &desc);
         if (noErr == err) {
-          err = SKAEFinderRevealItem(&desc, TRUE);
-          SKAEDisposeDesc(&desc);
+          err = WBAEFinderRevealItem(&desc, TRUE);
+          WBAEDisposeDesc(&desc);
         }
         
         if (noErr != err)
@@ -292,7 +292,7 @@ OSType _DocumentActionFromFlag(int flag) {
     icon = [[self application] icon];
   }
   if (icon)
-    SKImageSetRepresentationsSize(icon, NSMakeSize(16, 16));
+    WBImageSetRepresentationsSize(icon, NSMakeSize(16, 16));
   return icon;
 }
 
@@ -302,7 +302,7 @@ OSType _DocumentActionFromFlag(int flag) {
   long count = 0;
   
   // Get Finder Selection.
-  OSStatus err = SKAEFinderGetSelection(&selection);
+  OSStatus err = WBAEFinderGetSelection(&selection);
   if (noErr == err) {
     // Get selection Count
     err = AECountItems(&selection, &count);
@@ -312,7 +312,7 @@ OSType _DocumentActionFromFlag(int flag) {
     CFIndex realCount;
     FSRef *refs = NSZoneCalloc(nil, count, sizeof(FSRef));
     // Get FSRef for these items.
-    err = SKAEFinderSelectionToFSRefs(&selection , refs, count, &realCount);
+    err = WBAEFinderSelectionToFSRefs(&selection , refs, count, &realCount);
     if (noErr == err && realCount > 0) {
       FSRef app;
       LSLaunchFSRefSpec spec;
@@ -332,7 +332,7 @@ OSType _DocumentActionFromFlag(int flag) {
     }
     NSZoneFree(nil, refs);
   }
-  SKAEDisposeDesc(&selection);
+  WBAEDisposeDesc(&selection);
 }
 
 - (int)action {
@@ -344,14 +344,14 @@ OSType _DocumentActionFromFlag(int flag) {
 
 - (void)setDocumentPath:(NSString *)path {
   if (path)
-    [self setDocument:[SKAlias aliasWithPath:path]];
+    [self setDocument:[WBAlias aliasWithPath:path]];
   else
     [self setDocument:nil];
 }
 
 - (void)setApplicationPath:(NSString *)path {
   if (path)
-    [self setApplication:[SKAliasedApplication applicationWithPath:path]];
+    [self setApplication:[WBAliasedApplication applicationWithPath:path]];
   else
     [self setApplication:nil];
 }
@@ -360,21 +360,21 @@ OSType _DocumentActionFromFlag(int flag) {
   return da_url;
 }
 - (void)setURL:(NSString *)url {
-  SKSetterRetain(da_url, url);
+  WBSetterRetain(da_url, url);
 }
 
-- (SKAlias *)document {
+- (WBAlias *)document {
   return da_doc;
 }
-- (void)setDocument:(SKAlias *)alias {
-  SKSetterRetain(da_doc, alias);
+- (void)setDocument:(WBAlias *)alias {
+  WBSetterRetain(da_doc, alias);
 }
 
-- (SKAliasedApplication *)application {
+- (WBAliasedApplication *)application {
   return da_app;
 }
-- (void)setApplication:(SKAliasedApplication *)anApplication {
-  SKSetterRetain(da_app, anApplication);
+- (void)setApplication:(WBAliasedApplication *)anApplication {
+  WBSetterRetain(da_app, anApplication);
 }
 
 @end

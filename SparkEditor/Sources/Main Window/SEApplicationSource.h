@@ -6,12 +6,12 @@
  *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
  */
 
-#import <ShadowKit/SKTableDataSource.h>
+#import WBHEADER(WBTableDataSource.h)
 
-@class SKTableView;
+@class WBTableView;
 @class SELibraryWindow, SparkLibrary;
-@interface SEApplicationSource : SKTableDataSource {
-  IBOutlet SKTableView *uiTable;
+@interface SEApplicationSource : WBTableDataSource {
+  IBOutlet WBTableView *uiTable;
   IBOutlet SELibraryWindow *ibWindow;
   @private
     BOOL se_locked;

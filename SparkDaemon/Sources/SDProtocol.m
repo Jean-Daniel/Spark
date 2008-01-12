@@ -16,8 +16,6 @@
 #import <SparkKit/SparkEntryManager.h>
 #import <SparkKit/SparkLibrarySynchronizer.h>
 
-#import <ShadowKit/SKApplication.h>
-
 static
 void SparkDaemonCheckTrigger(SparkLibrary *library, SparkTrigger *trigger, BOOL isEnabled) {
   if (trigger) {
@@ -50,18 +48,18 @@ void SparkDaemonCheckTrigger(SparkLibrary *library, SparkTrigger *trigger, BOOL 
 @implementation SparkDaemon (SparkServerProtocol)
 
 - (UInt32)version {
-  ShadowTrace();
+  WBTrace();
   return kSparkServerVersion;
 }
 
 #pragma mark Shutdown
 - (void)shutdown {
-  ShadowTrace();
+  WBTrace();
   [NSApp terminate:nil];
 }
 
 - (id<SparkLibrary>)library {
-  ShadowTrace();
+  WBTrace();
   if (!sd_rlibrary) {
     sd_rlibrary = [[sd_library distantLibrary] retain];
   }
@@ -70,7 +68,7 @@ void SparkDaemonCheckTrigger(SparkLibrary *library, SparkTrigger *trigger, BOOL 
 
 #pragma mark Entries Management
 - (void)didAddEntry:(NSNotification *)aNotification {
-  ShadowTrace();
+  WBTrace();
   SparkEntry *entry = SparkNotificationObject(aNotification);
   if ([self isEnabled] || [entry isPersistent]) {
     /* Trigger can have a new active action */
@@ -79,7 +77,7 @@ void SparkDaemonCheckTrigger(SparkLibrary *library, SparkTrigger *trigger, BOOL 
 }
 
 - (void)didUpdateEntry:(NSNotification *)aNotification {
-  ShadowTrace();
+  WBTrace();
   SparkEntry *new = SparkNotificationObject(aNotification);
   SparkEntry *previous = SparkNotificationUpdatedObject(aNotification);
   if ([self isEnabled] || [new isPersistent] || [previous isPersistent]) {
@@ -91,7 +89,7 @@ void SparkDaemonCheckTrigger(SparkLibrary *library, SparkTrigger *trigger, BOOL 
 }
 
 - (void)didRemoveEntry:(NSNotification *)aNotification {
-  ShadowTrace();
+  WBTrace();
   SparkEntry *entry = SparkNotificationObject(aNotification);
   if ([self isEnabled] || [entry isPersistent]) {
     /* If trigger was not removed, we should check it */
@@ -100,7 +98,7 @@ void SparkDaemonCheckTrigger(SparkLibrary *library, SparkTrigger *trigger, BOOL 
 }
 
 - (void)didChangeEntryStatus:(NSNotification *)aNotification {
-  ShadowTrace();
+  WBTrace();
   SparkEntry *entry = SparkNotificationObject(aNotification);
   if ([self isEnabled] || [entry isPersistent]) {
     /* Should check triggers */
@@ -116,13 +114,13 @@ void SparkDaemonCheckTrigger(SparkLibrary *library, SparkTrigger *trigger, BOOL 
 }
 
 - (void)didAddTrigger:(NSNotification *)aNotification {
-  ShadowTrace();
+  WBTrace();
   SparkTrigger *trigger = SparkNotificationObject(aNotification);
   [self configureTrigger:trigger];
 }
 
 - (void)willRemoveTrigger:(NSNotification *)aNotification {
-  ShadowTrace();
+  WBTrace();
   if ([self isEnabled]) {
     SparkTrigger *trigger = SparkNotificationObject(aNotification);
     if ([trigger isRegistred])
@@ -132,7 +130,7 @@ void SparkDaemonCheckTrigger(SparkLibrary *library, SparkTrigger *trigger, BOOL 
 
 /* Should never append since a trigger is not editable */
 //- (void)willUpdateTrigger:(NSNotification *)aNotification {
-//  ShadowTrace();
+//  WBTrace();
 //  /* Configure new trigger */
 //  SparkTrigger *new = SparkNotificationObject(aNotification);
 //  [self configureTrigger:new];
@@ -148,7 +146,7 @@ void SparkDaemonCheckTrigger(SparkLibrary *library, SparkTrigger *trigger, BOOL 
 
 #pragma mark Application
 - (void)willRemoveApplication:(NSNotification *)aNotification {
-  ShadowTrace();
+  WBTrace();
   /* handle special case: remove the front application and application is disabled */
   SparkApplication *app = SparkNotificationObject(aNotification);
   if ([app isEqual:sd_front] && ![app isEnabled]) {
@@ -158,7 +156,7 @@ void SparkDaemonCheckTrigger(SparkLibrary *library, SparkTrigger *trigger, BOOL 
   }
 }
 - (void)didChangeApplicationStatus:(NSNotification *)aNotification {
-  ShadowTrace();
+  WBTrace();
   SparkApplication *app = [aNotification object];
   if ([app isEqual:sd_front]) {
     if ([app isEnabled])
@@ -178,7 +176,7 @@ void SparkDaemonCheckTrigger(SparkLibrary *library, SparkTrigger *trigger, BOOL 
 @end
 
 void SDSendStateToEditor(SparkDaemonStatus state) {
-  NSNumber *value = SKUInteger(state);
+  NSNumber *value = WBUInteger(state);
   CFDictionaryRef info = CFDictionaryCreate(kCFAllocatorDefault, 
                                             (const void **)&SparkDaemonStatusKey,
                                             (const void **)&value, 1, 

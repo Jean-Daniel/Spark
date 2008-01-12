@@ -27,8 +27,8 @@
 #import <SparkKit/SparkPlugIn.h>
 #import <SparkKit/SparkActionLoader.h>
 
-#import <ShadowKit/SKExtensions.h>
-#import <ShadowKit/SKAppKitExtensions.h>
+#import WBHEADER(WBExtensions.h)
+#import WBHEADER(WBAppKitExtensions.h)
 
 static
 BOOL SELibraryFilter(SparkList *list, SparkEntry *entry, id ctxt) {
@@ -282,7 +282,7 @@ BOOL SEOverwriteFilter(SparkList *list, SparkEntry *entry, id ctxt) {
 
 #pragma mark Data Source
 - (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
-  // useless with bindings, but needed to activate "option + click" editing with SKTableView.
+  // useless with bindings, but needed to activate "option + click" editing with WBTableView.
 }
 
 - (BOOL)tableView:(NSTableView *)aTableView shouldEditTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
@@ -325,7 +325,7 @@ BOOL SEOverwriteFilter(SparkList *list, SparkEntry *entry, id ctxt) {
       NSMutableArray *items = [[NSMutableArray alloc] init];
       for (NSUInteger idx = 0; idx < [uids count]; idx++) {
 				NSNumber *uid = [uids objectAtIndex:idx];
-        SparkEntry *entry = [manager entryWithUID:(SparkUID)SKIntegerValue(uid)];
+        SparkEntry *entry = [manager entryWithUID:(SparkUID)WBIntegerValue(uid)];
 				if (entry) {
 					[items addObject:entry];
 				}
@@ -363,7 +363,7 @@ BOOL SEOverwriteFilter(SparkList *list, SparkEntry *entry, id ctxt) {
     @try {
       [uiTable editColumn:0 row:idx withEvent:nil select:YES];
     } @catch (id exception) {
-      SKLogException(exception);
+      WBLogException(exception);
     }
   }
 }

@@ -32,6 +32,7 @@
   /* Text */
   NSString *ta_text;
   /* keystroke */
+	BOOL ta_repeat;
   CFAbsoluteTime ta_escape;
 }
 
@@ -64,5 +65,10 @@
 #pragma mark Keystrokes
 - (IBAction)record:(id)sender;
 - (IBAction)stop:(id)sender;
+
+- (BOOL)autorepeat;
+- (void)setAutorepeat:(BOOL)flag;
+
+- (BOOL)canAutorepeat;
 
 @end

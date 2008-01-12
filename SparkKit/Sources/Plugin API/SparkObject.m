@@ -14,7 +14,7 @@
 
 #import "SparkLibraryPrivate.h"
 
-#import <ShadowKit/SKFunctions.h>
+#import WBHEADER(WBFunctions.h)
 
 static
 NSString* const kSparkObjectUIDKey = @"SparkObjectUID";
@@ -60,7 +60,7 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
 }
 
 #pragma mark -
-- (id)sk_initWithSerializedValues:(NSDictionary *)plist {
+- (id)sp_initWithSerializedValues:(NSDictionary *)plist {
   BOOL compat = NO;
   NSString *name = [plist objectForKey:kSparkObjectNameKey];
   if (!name) {
@@ -84,7 +84,7 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
     NSNumber *value = [plist objectForKey:kSparkObjectUIDKey];
     if (!value && compat)
       value = [plist objectForKey:@"UID"];
-    [self setUID:value ? (SparkUID)SKUIntegerValue(value) : 0];
+    [self setUID:value ? (SparkUID)WBUIntegerValue(value) : 0];
   }
   return self;
 }
@@ -94,15 +94,15 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
   return [NSMutableDictionary dictionary];
 }
 - (id)initFromPropertyList:(NSDictionary *)plist {
-  return [self sk_initWithSerializedValues:plist];
+  return [self sp_initWithSerializedValues:plist];
 }
 
 - (BOOL)serialize:(NSMutableDictionary *)plist {
-  [plist setObject:SKUInteger(sp_uid) forKey:kSparkObjectUIDKey];
+  [plist setObject:WBUInteger(sp_uid) forKey:kSparkObjectUIDKey];
   if (sp_name)
     [plist setObject:sp_name forKey:kSparkObjectNameKey];
   /* Compatibility */
-  if (SKInstanceImplementsSelector([self class], @selector(propertyList))) {
+  if (WBRuntimeInstanceImplementsSelector([self class], @selector(propertyList))) {
     id dico = [self propertyList];
     if (dico) {
       [plist addEntriesFromDictionary:dico];
@@ -113,10 +113,10 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
 
 - (id)initWithSerializedValues:(NSDictionary *)plist {
   /* Compatibility */
-  if (SKInstanceImplementsSelector([self class], @selector(initFromPropertyList:))) {
+  if (WBRuntimeInstanceImplementsSelector([self class], @selector(initFromPropertyList:))) {
     self = [self initFromPropertyList:plist];
   } else {
-    self = [self sk_initWithSerializedValues:plist];
+    self = [self sp_initWithSerializedValues:plist];
   }
   return self;
 }
@@ -196,7 +196,7 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
     [[[self library] iconManager] setIcon:icon forObject:self];
   }
   [self willChangeValueForKey:@"representation"];
-  SKSetterRetain(sp_icon, icon);
+  WBSetterRetain(sp_icon, icon);
   [self didChangeValueForKey:@"representation"];
 }
 - (BOOL)hasIcon {
@@ -220,7 +220,7 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
 }
 - (void)setName:(NSString *)name {
   [self willChangeValueForKey:@"representation"];
-  SKSetterCopy(sp_name, name);
+  WBSetterCopy(sp_name, name);
   [self didChangeValueForKey:@"representation"];
 }
 

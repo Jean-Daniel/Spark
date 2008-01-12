@@ -6,24 +6,24 @@
  *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
  */
 
-#import <ShadowKit/SKWindowController.h>
+#import WBHEADER(WBWindowController.h)
 
-SK_PRIVATE
+WB_PRIVATE
 NSString * const kSparkVersionKey;
 
-SK_PRIVATE
+WB_PRIVATE
 NSString * const kSEPreferencesHideDisabled;
 
-SK_PRIVATE
+WB_PRIVATE
 NSString * const kSEPreferencesStartAtLogin;
 
-SK_PRIVATE
+WB_PRIVATE
 NSString * const kSEPreferencesAutoUpdate;
 
-SK_PRIVATE
+WB_PRIVATE
 NSString * const kSparkPrefSingleKeyMode;
 
-@interface SEPreferences : SKWindowController {
+@interface SEPreferences : WBWindowController {
   @private
   IBOutlet NSTabView *uiPanels;
   IBOutlet NSOutlineView *uiPlugins;
@@ -51,6 +51,6 @@ NSString * const kSparkPrefSingleKeyMode;
 
 @end
 
-SK_PRIVATE
+WB_PRIVATE
 void SEPreferencesSetLoginItemStatus(BOOL status);
 

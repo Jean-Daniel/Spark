@@ -13,10 +13,10 @@
 #import <SparkKit/SparkObjectSet.h>
 #import <SparkKit/SparkFunctions.h>
 
-#import <ShadowKit/SKFunctions.h>
-#import <ShadowKit/SKAEFunctions.h>
-#import <ShadowKit/SKAppKitExtensions.h>
-#import <ShadowKit/SKProcessFunctions.h>
+#import WBHEADER(WBFunctions.h)
+#import WBHEADER(WBAEFunctions.h)
+#import WBHEADER(WBAppKitExtensions.h)
+#import WBHEADER(WBProcessFunctions.h)
 
 #import "SparkLibraryPrivate.h"
 
@@ -127,8 +127,8 @@ NSImage *SparkDaemonStatusIcon(BOOL status) {
 - (BOOL)serialize:(NSMutableDictionary *)plist {
   if ([super serialize:plist]) {
     if (kSparkSDActionSwitchListStatus == sp_action)
-      [plist setObject:SKUInteger(sp_list) forKey:@"SparkListUID"];
-    [plist setObject:SKStringForOSType(sp_action) forKey:@"SparkDaemonAction"];
+      [plist setObject:WBUInteger(sp_list) forKey:@"SparkListUID"];
+    [plist setObject:WBStringForOSType(sp_action) forKey:@"SparkDaemonAction"];
     return YES;
   }
   return NO;
@@ -136,7 +136,7 @@ NSImage *SparkDaemonStatusIcon(BOOL status) {
 
 - (id)initWithSerializedValues:(NSDictionary *)plist {
   if (self = [super initWithSerializedValues:plist]) {
-    [self setAction:SKOSTypeFromString([plist objectForKey:@"SparkDaemonAction"])];
+    [self setAction:WBOSTypeFromString([plist objectForKey:@"SparkDaemonAction"])];
     if (kSparkSDActionSwitchListStatus == sp_action)
       sp_list = [[plist objectForKey:@"SparkListUID"] unsignedIntValue];
     /* Update description */
@@ -157,39 +157,39 @@ void SparkSDActionToggleDaemonStatus() {
   ProcessSerialNumber psn = {0, kCurrentProcess};
   if (psn.lowLongOfPSN != kNoProcess) {
     Boolean status = FALSE;
-    AppleEvent aevt = SKAEEmptyDesc();
+    AppleEvent aevt = WBAEEmptyDesc();
     
-    OSStatus err = SKAECreateEventWithTargetProcess(&psn, kAECoreSuite, kAEGetData, &aevt);
+    OSStatus err = WBAECreateEventWithTargetProcess(&psn, kAECoreSuite, kAEGetData, &aevt);
     require_noerr(err, bail);
     
-    err = SKAESetStandardAttributes(&aevt);
+    err = WBAESetStandardAttributes(&aevt);
     require_noerr(err, bail);
     
-    err = SKAEAddPropertyObjectSpecifier(&aevt, keyDirectObject, typeBoolean, 'pSta', NULL);
+    err = WBAEAddPropertyObjectSpecifier(&aevt, keyDirectObject, typeBoolean, 'pSta', NULL);
     require_noerr(err, bail);
     
-    err = SKAESendEventReturnBoolean(&aevt, &status);
+    err = WBAESendEventReturnBoolean(&aevt, &status);
     require_noerr(err, bail);
-    SKAEDisposeDesc(&aevt);
+    WBAEDisposeDesc(&aevt);
     
-    err = SKAECreateEventWithTargetProcess(&psn, kAECoreSuite, kAESetData, &aevt);
-    require_noerr(err, bail);
-    
-    err = SKAESetStandardAttributes(&aevt);
+    err = WBAECreateEventWithTargetProcess(&psn, kAECoreSuite, kAESetData, &aevt);
     require_noerr(err, bail);
     
-    err = SKAEAddPropertyObjectSpecifier(&aevt, keyDirectObject, typeBoolean, 'pSta', NULL);
+    err = WBAESetStandardAttributes(&aevt);
     require_noerr(err, bail);
     
-    err = SKAEAddBoolean(&aevt, keyAEData, !status);
+    err = WBAEAddPropertyObjectSpecifier(&aevt, keyDirectObject, typeBoolean, 'pSta', NULL);
     require_noerr(err, bail);
     
-    err = SKAESendEventNoReply(&aevt);
+    err = WBAEAddBoolean(&aevt, keyAEData, !status);
+    require_noerr(err, bail);
+    
+    err = WBAESendEventNoReply(&aevt);
     require_noerr(err, bail);
     
     SparkNotificationDisplayImage(SparkDaemonStatusIcon(!status), -1);
 bail:
-    SKAEDisposeDesc(&aevt);
+    WBAEDisposeDesc(&aevt);
   }
 }
 

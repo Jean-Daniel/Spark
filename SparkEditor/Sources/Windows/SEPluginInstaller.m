@@ -10,8 +10,8 @@
 
 #import "Spark.h"
 
-#import <ShadowKit/SKFSFunctions.h>
-#import <ShadowKit/SKAEFunctions.h>
+#import WBHEADER(WBFSFunctions.h)
+#import WBHEADER(WBAEFunctions.h)
 
 #import <SparkKit/SparkActionLoader.h>
 
@@ -38,10 +38,10 @@
   int domain;
   if ([ibMatrix selectedRow] == 0) {
     // User
-    domain = kSKUserDomain;
+    domain = kWBUserDomain;
   } else {
     // Local
-    domain = kSKLocalDomain;
+    domain = kWBLocalDomain;
   }
   NSString *path = [self installPlugin:se_plugin domain:domain];
   if (path) {
@@ -57,7 +57,7 @@
   /* Load nib if needed */
   [self window];
   
-  SKSetterRetain(se_plugin, path);
+  WBSetterRetain(se_plugin, path);
   /* Get plugin bundle ID */
   /* If plugin already installed => ? */
   NSString *name = [[NSFileManager defaultManager] displayNameAtPath:path];
@@ -66,8 +66,8 @@
 }
 
 - (OSStatus)moveFile:(NSString *)file to:(NSString *)destination copy:(BOOL)flag {
-  AppleEvent aevt = SKAEEmptyDesc();
-  AEDesc desc = SKAEEmptyDesc();
+  AppleEvent aevt = WBAEEmptyDesc();
+  AEDesc desc = WBAEEmptyDesc();
   OSStatus err = fnfErr;
   
   FSRef src, dest;
@@ -80,10 +80,10 @@
                             "'----':fsrf(@), 'insh':fsrf(@)", sizeof(src), &src, sizeof(dest), &dest);
     require_noerr(err, dispose);
     
-    err = SKAESetStandardAttributes(&aevt);
+    err = WBAESetStandardAttributes(&aevt);
     require_noerr(err, dispose);
   
-    err = SKAESendEventReturnAEDesc(&aevt, typeWildCard, &desc);
+    err = WBAESendEventReturnAEDesc(&aevt, typeWildCard, &desc);
     require_noerr(err, dispose);
     
     if (typeNull == desc.descriptorType)
@@ -91,8 +91,8 @@
   }
   
 dispose:
-    SKAEDisposeDesc(&aevt);
-  SKAEDisposeDesc(&desc);
+    WBAEDisposeDesc(&aevt);
+  WBAEDisposeDesc(&desc);
   
   return err;
 }
@@ -117,7 +117,7 @@ dispose:
   } else {
     NSString *path = [paths objectAtIndex:0];
     location = path;
-    if (noErr == SKFSCreateFolder((CFStringRef)path)) {
+    if (noErr == WBFSCreateFolder((CFStringRef)path)) {
       /* First try to copy the file using workspace operation */
       if (![self installPlugin:plugin into:path copy:YES]) {
         /* If failed, ask the finder to move the file (it will take care of the authentification for us) */
@@ -131,7 +131,7 @@ dispose:
         installed = YES;
       }
     } else {
-      NSString *tmp = SKFSFindFolder(kTemporaryFolderType, kLocalDomain, true);
+      NSString *tmp = WBFSFindFolder(kTemporaryFolderType, kLocalDomain, true);
       NSMutableArray *cmpt = [[NSMutableArray alloc] init];
       NSFileManager *manager = [NSFileManager defaultManager];
       while ([path length] && ![manager fileExistsAtPath:path isDirectory:NULL]) {

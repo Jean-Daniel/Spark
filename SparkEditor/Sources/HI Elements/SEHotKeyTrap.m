@@ -7,7 +7,7 @@
  */
 
 #import "SEHotKeyTrap.h"
-#import <ShadowKit/SKCGFunctions.h>
+#import WBHEADER(WBCGFunctions.h)
 #import <HotKeyToolKit/HotKeyToolKit.h>
 
 /* Trap shading */
@@ -49,7 +49,7 @@ static CGLayerRef _HKCreateShading(CGContextRef ctxt, NSControlTint tint);
       [NSColor grayColor], NSForegroundColorAttributeName,
       nil];
     
-    sShadowColor = SKCGColorCreateGray(0, .80);
+    sShadowColor = WBCGColorCreateGray(0, .80);
   }
 }
 /* Change default shading */
@@ -108,8 +108,8 @@ static CGLayerRef _HKCreateShading(CGContextRef ctxt, NSControlTint tint);
 - (void)didCatchHotKey:(NSNotification *)aNotification {
   if ([self isTrapping]) {
     NSDictionary *info = [aNotification userInfo];
-    UInt16 nkey = SKIntegerValue([info objectForKey:kHKEventKeyCodeKey]);
-    UInt32 nmodifier = SKIntegerValue([info objectForKey:kHKEventModifierKey]);
+    UInt16 nkey = WBIntegerValue([info objectForKey:kHKEventKeyCodeKey]);
+    UInt32 nmodifier = WBIntegerValue([info objectForKey:kHKEventModifierKey]);
     /* Anti trap hack. If pressed tab and tab is already saved, stop recording */
     if (se_bhotkey.keycode == kHKVirtualTabKey && (se_bhotkey.modifiers & NSDeviceIndependentModifierFlagsMask) == 0 &&
         nkey == se_bhotkey.keycode && nmodifier == se_bhotkey.modifiers) {
@@ -118,7 +118,7 @@ static CGLayerRef _HKCreateShading(CGContextRef ctxt, NSControlTint tint);
     } else {
       se_bhotkey.keycode = nkey;
       se_bhotkey.modifiers = nmodifier;
-      se_bhotkey.character = SKIntegerValue([info objectForKey:kHKEventCharacterKey]);
+      se_bhotkey.character = WBIntegerValue([info objectForKey:kHKEventCharacterKey]);
       
       [se_str release];
       se_str = [HKMapGetStringRepresentationForCharacterAndModifier(se_bhotkey.character, se_bhotkey.modifiers) retain];
@@ -188,9 +188,9 @@ static CGLayerRef _HKCreateShading(CGContextRef ctxt, NSControlTint tint);
   if ([self isTrapping]) {
     /* If trapping, round cell with 2px border and right caps with snapback icon */
     CGMutablePathRef field = CGPathCreateMutable();
-    SKCGPathAddRoundRect(field, NULL, CGRectMake(NSMinX(bounds) + 2, 2, NSWidth(bounds) - CAPS_WIDTH, NSHeight(bounds) - 4), (NSHeight(bounds) - 4) / 2);
+    WBCGPathAddRoundRect(field, NULL, CGRectMake(NSMinX(bounds) + 2, 2, NSWidth(bounds) - CAPS_WIDTH, NSHeight(bounds) - 4), (NSHeight(bounds) - 4) / 2);
     CGMutablePathRef border = CGPathCreateMutable();
-    SKCGPathAddRoundRect(border, NULL, CGRectMake(NSMinX(bounds), 0, NSWidth(bounds), NSHeight(bounds)), NSHeight(bounds) / 2);
+    WBCGPathAddRoundRect(border, NULL, CGRectMake(NSMinX(bounds), 0, NSWidth(bounds), NSHeight(bounds)), NSHeight(bounds) / 2);
     
     /* Draw white field */
     CGContextBeginPath(ctxt);
@@ -291,7 +291,7 @@ static CGLayerRef _HKCreateShading(CGContextRef ctxt, NSControlTint tint);
     /* Draw field with light gray border */
     CGContextSetGrayStrokeColor(ctxt, 0.667, 1);
     CGContextBeginPath(ctxt);
-    SKCGContextAddRoundRect(ctxt, CGRectMake(NSMinX(bounds) + 1, 1.5, NSWidth(bounds) - 2, NSHeight(bounds) - 3), (NSHeight(bounds) - 3) / 2);
+    WBCGContextAddRoundRect(ctxt, CGRectMake(NSMinX(bounds) + 1, 1.5, NSWidth(bounds) - 2, NSHeight(bounds) - 3), (NSHeight(bounds) - 3) / 2);
     CGContextClosePath(ctxt);
     CGContextDrawPath(ctxt, kCGPathFillStroke);
     
@@ -436,7 +436,7 @@ static CGLayerRef _HKCreateShading(CGContextRef ctxt, NSControlTint tint);
   return se_htFlags.disabled == 0;
 }
 - (void)setEnabled:(BOOL)flag {
-  SKFlagSet(se_htFlags.disabled, !flag);
+  WBFlagSet(se_htFlags.disabled, !flag);
 }
 
 - (BOOL)isEmpty {
@@ -470,7 +470,7 @@ static CGLayerRef _HKCreateShading(CGContextRef ctxt, NSControlTint tint);
 - (void)setTrapping:(BOOL)flag {
   BOOL trap = se_htFlags.trap;
   if (!se_htFlags.disabled && XOR(flag, trap)) {
-    SKFlagSet(se_htFlags.trap, flag);
+    WBFlagSet(se_htFlags.trap, flag);
     if (se_htFlags.trap) {
       NSAssert([[self window] firstResponder] == self, @"Must be first responder");
       se_bhotkey = se_hotkey; /* init edited value */
@@ -499,7 +499,7 @@ static CGLayerRef _HKCreateShading(CGContextRef ctxt, NSControlTint tint);
 - (void)highlight:(BOOL)flag {
   BOOL highlight = se_htFlags.highlight;
   if (XOR(flag, highlight)) {
-    SKFlagSet(se_htFlags.highlight, flag);
+    WBFlagSet(se_htFlags.highlight, flag);
     [self setNeedsDisplay:YES];
   }
 }
@@ -568,21 +568,21 @@ static CGLayerRef _HKCreateShading(CGContextRef ctxt, NSControlTint tint);
 #pragma mark -
 #pragma mark Shading Support
 static const
-SKCGSimpleShadingInfo sAquaShadingInfo = {
+WBCGSimpleShadingInfo sAquaShadingInfo = {
   {.300, .600, .945, 1 },
   {.0, .320, .810, 1 },
   NULL,
 };
 
 static const
-SKCGSimpleShadingInfo sGraphiteShadingInfo = {
+WBCGSimpleShadingInfo sGraphiteShadingInfo = {
   {.550, .600, .700, 1 },
   {.310, .400, .510, 1 },
   NULL,
 };
 
 CGLayerRef _HKCreateShading(CGContextRef ctxt, NSControlTint tint) {
-  const SKCGSimpleShadingInfo *info = NULL;
+  const WBCGSimpleShadingInfo *info = NULL;
   switch (tint) {
     case NSGraphiteControlTint:
       info = &sGraphiteShadingInfo;
@@ -593,7 +593,7 @@ CGLayerRef _HKCreateShading(CGContextRef ctxt, NSControlTint tint) {
       break;
   }
   
-  return SKCGLayerCreateWithVerticalShading(ctxt, CGSizeMake(32, kHKTrapHeight), true, SKCGShadingSimpleShadingFunction, info);
+  return WBCGLayerCreateWithVerticalShading(ctxt, CGSizeMake(32, kHKTrapHeight), true, WBCGShadingSimpleShadingFunction, info);
 }
 
 @implementation SEHotKeyTrap (NSAccessibility)
@@ -662,7 +662,7 @@ CGLayerRef _HKCreateShading(CGContextRef ctxt, NSControlTint tint) {
     else
       return @"confirm to edit keystroke combination";
   } else if ([attribute isEqualToString:NSAccessibilitySelectedAttribute]) {
-    return SKBool(se_htFlags.trap);
+    return WBBool(se_htFlags.trap);
   }
   else return [super accessibilityAttributeValue:attribute];
 }

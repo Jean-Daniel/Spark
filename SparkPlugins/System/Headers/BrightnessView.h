@@ -6,9 +6,9 @@
  *  Copyright (c) 2004 - 2007, Shadow Lab. All rights reserved.
  */
 
-#import "SKLevelView.h"
+#import "WBLevelView.h"
 
-@interface BrightnessView : SKLevelView {
+@interface BrightnessView : WBLevelView {
 
 }
 

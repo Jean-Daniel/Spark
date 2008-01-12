@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		1B7BBBF90CBE25D000484A9E /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B7BBBF80CBE25D000484A9E /* Carbon.framework */; };
 		983AFC260B19A74300173464 /* Spark.icns in Resources */ = {isa = PBXBuildFile; fileRef = 983AFC250B19A74300173464 /* Spark.icns */; };
-		9867565A096B3B9000BB8A25 /* ShadowKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98675654096B3B6F00BB8A25 /* ShadowKit.framework */; };
 		98B20D9A06A5492E008BA3F6 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		98D528DF0B19A14800C8425C /* SDAEHandlers.c in Sources */ = {isa = PBXBuildFile; fileRef = 98D528D90B19A14800C8425C /* SDAEHandlers.c */; };
 		98D528E00B19A14800C8425C /* SDProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D528DB0B19A14800C8425C /* SDProtocol.m */; };
@@ -27,13 +26,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = SparkKit;
-		};
-		98675653096B3B6F00BB8A25 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 98EF7E4B08645883007BC81A /* SparkKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 98C56D34096B348400ABE1EF;
-			remoteInfo = ShadowKit;
 		};
 		98C61C280A58140B0004E6EF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -104,7 +96,6 @@
 			files = (
 				98B20D9A06A5492E008BA3F6 /* Cocoa.framework in Frameworks */,
 				98EF7E530864588F007BC81A /* SparkKit.framework in Frameworks */,
-				9867565A096B3B9000BB8A25 /* ShadowKit.framework in Frameworks */,
 				98EF7E520864588C007BC81A /* HotKeyToolKit.framework in Frameworks */,
 				1B7BBBF90CBE25D000484A9E /* Carbon.framework in Frameworks */,
 			);
@@ -221,7 +212,6 @@
 			isa = PBXGroup;
 			children = (
 				98EF7E5108645883007BC81A /* SparkKit.framework */,
-				98675654096B3B6F00BB8A25 /* ShadowKit.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -276,13 +266,6 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		98675654096B3B6F00BB8A25 /* ShadowKit.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = ShadowKit.framework;
-			remoteRef = 98675653096B3B6F00BB8A25 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		98C61C290A58140B0004E6EF /* UITester.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
@@ -388,6 +371,7 @@
 			baseConfigurationReference = 1B7CF66A0D35740F0068DAD1 /* 64Bits.xcconfig */;
 			buildSettings = {
 				SYMROOT = ../build;
+				WONDERBOX = "WONDERBOX_FRAMEWORK WONDERBOX_NAME=SparkKit";
 			};
 			name = 64bits;
 		};
@@ -426,6 +410,7 @@
 			baseConfigurationReference = 1B7BB7E80CBE20D500484A9E /* Debug.xcconfig */;
 			buildSettings = {
 				SYMROOT = ../build;
+				WONDERBOX = "WONDERBOX_FRAMEWORK WONDERBOX_NAME=SparkKit";
 			};
 			name = Debug;
 		};
@@ -434,6 +419,7 @@
 			baseConfigurationReference = 1B7BB7E90CBE20D500484A9E /* Profile.xcconfig */;
 			buildSettings = {
 				SYMROOT = ../build;
+				WONDERBOX = "WONDERBOX_FRAMEWORK WONDERBOX_NAME=SparkKit";
 			};
 			name = Profile;
 		};
@@ -452,6 +438,7 @@
 			baseConfigurationReference = 1B7BB7EA0CBE20D500484A9E /* Release.xcconfig */;
 			buildSettings = {
 				SYMROOT = ../build;
+				WONDERBOX = "WONDERBOX_FRAMEWORK WONDERBOX_NAME=SparkKit";
 			};
 			name = Release;
 		};

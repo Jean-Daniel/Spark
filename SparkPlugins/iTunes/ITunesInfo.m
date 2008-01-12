@@ -11,9 +11,9 @@
 #import "ITunesStarView.h"
 #import "ITunesProgressView.h"
 
-#import <ShadowKit/SKFunctions.h>
-#import <ShadowKit/SKCGFunctions.h>
-#import <ShadowKit/SKNotificationWindow.h>
+#include WBHEADER(WBFunctions.h)
+#include WBHEADER(WBCGFunctions.h)
+#include WBHEADER(WBNotificationWindow.h)
 
 #define kiTunesVisualDefaultPosition	{ -1e8, 0 }
 
@@ -38,20 +38,20 @@ enum {
   kiTunesVisualOther,
 };
 
-SK_INLINE
+WB_INLINE
 int __iTunesGetTypeForLocation(NSPoint point) {
-  if (SKRealEquals(point.x, kiTunesUpperLeft.x))
+  if (WBRealEquals(point.x, kiTunesUpperLeft.x))
     return kiTunesVisualUL;
-  if (SKRealEquals(point.x, kiTunesUpperRight.x))
+  if (WBRealEquals(point.x, kiTunesUpperRight.x))
     return kiTunesVisualUR;
-  if (SKRealEquals(point.x, kiTunesBottomLeft.x))
+  if (WBRealEquals(point.x, kiTunesBottomLeft.x))
     return kiTunesVisualBL;
-  if (SKRealEquals(point.x, kiTunesBottomRight.x))
+  if (WBRealEquals(point.x, kiTunesBottomRight.x))
     return kiTunesVisualBR;
   
   return kiTunesVisualOther;
 }
-SK_INLINE
+WB_INLINE
 NSPoint __iTunesGetLocationForType(int type) {
   switch (type) {
     case kiTunesVisualUL:
@@ -66,25 +66,25 @@ NSPoint __iTunesGetLocationForType(int type) {
   return NSZeroPoint;
 }
 
-SK_INLINE
+WB_INLINE
 BOOL __FloatEquals(CGFloat a, CGFloat b) { double __delta = a - b; return (__delta < 1e-5 && __delta > -1e-5); }
-SK_INLINE
+WB_INLINE
 BOOL __CGFloatEquals(CGFloat a, CGFloat b) { CGFloat __delta = a - b; return (__delta < 1e-5 && __delta > -1e-5); }
 
-SK_INLINE 
+WB_INLINE 
 void __CopyCGColor(const CGFloat cgcolor[], CGFloat color[]) {
   for (NSUInteger idx = 0; idx < 4; idx++) {
     color[idx] = (CGFloat)cgcolor[idx];
   }
 }
-SK_INLINE 
+WB_INLINE 
 void __CopyColor(const CGFloat color[], CGFloat cgcolor[]) {
   for (NSUInteger idx = 0; idx < 4; idx++) {
     cgcolor[idx] = color[idx];
   }
 }
 
-SK_INLINE
+WB_INLINE
 BOOL __ITunesVisualCompareColors(const CGFloat c1[4], const CGFloat c2[4]) {
   for (int idx = 0; idx < 4; idx++)
     if (!__FloatEquals(c1[idx], c2[idx])) return NO;
@@ -112,9 +112,9 @@ BOOL ITunesVisualIsEqualTo(const ITunesVisual *v1, const ITunesVisual *v2) {
   CGFloat _border[4];
   CGLayerRef _shading;
 #if MULTI_SHADING
-  SKCGMultiShadingInfo *_info;
+  WBCGMultiShadingInfo *_info;
 #else
-  SKCGSimpleShadingInfo _info;
+  WBCGSimpleShadingInfo _info;
 #endif
 }
 
@@ -155,7 +155,7 @@ BOOL ITunesVisualIsEqualTo(const ITunesVisual *v1, const ITunesVisual *v2) {
 }
 
 - (id)init {
-  NSWindow *info = [[SKNotificationWindow alloc] init];
+  NSWindow *info = [[WBNotificationWindow alloc] init];
   [info setHasShadow:YES];
   if (self = [super initWithWindow:info]) {
     [NSBundle loadNibNamed:@"iTunesInfo" owner:self];
@@ -177,7 +177,7 @@ BOOL ITunesVisualIsEqualTo(const ITunesVisual *v1, const ITunesVisual *v2) {
 }
 
 #pragma mark -
-SK_INLINE
+WB_INLINE
 void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
   color = [color colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
   [color getRed:&rgba[0] green:&rgba[1] blue:&rgba[2] alpha:&rgba[3]];
@@ -222,20 +222,20 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
   ia_loc = __iTunesGetTypeForLocation(aPoint);
   switch (ia_loc) {
     case kiTunesVisualUL:
-      origin.x = SCREEN_MARGIN * SKScreenScaleFactor([NSScreen mainScreen]);
-      origin.y = NSHeight(screen) - NSHeight(bounds) - (SCREEN_MARGIN + 22) * SKScreenScaleFactor([NSScreen mainScreen]); // menu bar
+      origin.x = SCREEN_MARGIN * WBScreenScaleFactor([NSScreen mainScreen]);
+      origin.y = NSHeight(screen) - NSHeight(bounds) - (SCREEN_MARGIN + 22) * WBScreenScaleFactor([NSScreen mainScreen]); // menu bar
       break;
     case kiTunesVisualUR:
-      origin.x = NSWidth(screen) - NSWidth(bounds) - SCREEN_MARGIN * SKScreenScaleFactor([NSScreen mainScreen]);
-      origin.y = NSHeight(screen) - NSHeight(bounds) - (SCREEN_MARGIN + 22) * SKScreenScaleFactor([NSScreen mainScreen]);
+      origin.x = NSWidth(screen) - NSWidth(bounds) - SCREEN_MARGIN * WBScreenScaleFactor([NSScreen mainScreen]);
+      origin.y = NSHeight(screen) - NSHeight(bounds) - (SCREEN_MARGIN + 22) * WBScreenScaleFactor([NSScreen mainScreen]);
       break;
     case kiTunesVisualBL:
-      origin.x = SCREEN_MARGIN * SKScreenScaleFactor([NSScreen mainScreen]);
-      origin.y = (SCREEN_MARGIN + 22) * SKScreenScaleFactor([NSScreen mainScreen]);
+      origin.x = SCREEN_MARGIN * WBScreenScaleFactor([NSScreen mainScreen]);
+      origin.y = (SCREEN_MARGIN + 22) * WBScreenScaleFactor([NSScreen mainScreen]);
       break;
     case kiTunesVisualBR:
-      origin.x = NSWidth(screen) - NSWidth(bounds) - SCREEN_MARGIN * SKScreenScaleFactor([NSScreen mainScreen]);
-      origin.y = (SCREEN_MARGIN + 22) * SKScreenScaleFactor([NSScreen mainScreen]);
+      origin.x = NSWidth(screen) - NSWidth(bounds) - SCREEN_MARGIN * WBScreenScaleFactor([NSScreen mainScreen]);
+      origin.y = (SCREEN_MARGIN + 22) * WBScreenScaleFactor([NSScreen mainScreen]);
       break;
   }
   [[self window] setFrameOrigin:origin];
@@ -403,7 +403,7 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
 #pragma mark -
 #pragma mark Color derivation
 #if MULTI_SHADING
-SK_INLINE
+WB_INLINE
 CMColor __CMColorCreateRGB(CGFloat r, CGFloat g, CGFloat b) {
   CMColor color = {
 rgb: {r * 65535, g * 65535, b * 65535} 
@@ -428,21 +428,21 @@ void _iTunesDeriveColor(CGFloat *base, CGFloat *dest, CGFloat h, CGFloat s, CGFl
   dest[3] = base[3];
 }
 
-SK_INLINE
-void __iTunesDeriveTopColor(SKCGMultiShadingInfo *info) {
+WB_INLINE
+void __iTunesDeriveTopColor(WBCGMultiShadingInfo *info) {
   _iTunesDeriveColor(info->steps[0].rgba2, info->steps[0].rgba, 1.035, .502, 1.104);
 }
-SK_INLINE
-void __iTunesDeriveBottomColor(SKCGMultiShadingInfo *info) {
+WB_INLINE
+void __iTunesDeriveBottomColor(WBCGMultiShadingInfo *info) {
   _iTunesDeriveColor(info->steps[1].rgba, info->steps[1].rgba2, .925, .827, 1.225);
 }
-SK_INLINE
-void __iTunesDeriveBothColors(SKCGMultiShadingInfo *info) {
+WB_INLINE
+void __iTunesDeriveBothColors(WBCGMultiShadingInfo *info) {
   __iTunesDeriveTopColor(info);
   __iTunesDeriveBottomColor(info);
 }
 static
-void _iTunesDeriveAllColors(SKCGMultiShadingInfo *info) {
+void _iTunesDeriveAllColors(WBCGMultiShadingInfo *info) {
   /* derive top from bottom */
   _iTunesDeriveColor(info->steps[1].rgba, info->steps[0].rgba2, 1.004, .882, 1.030);
   
@@ -462,7 +462,7 @@ void _iTunesDeriveAllColors(SKCGMultiShadingInfo *info) {
     _info->steps[0].end = .40;
     _info->steps[1].end = 1;
 #else
-    _info.fct = SKCGShadingSinFactorFunction;
+    _info.fct = WBCGShadingSinFactorFunction;
 #endif
     [self setVisual:&kiTunesDefaultSettings];
   }
@@ -488,15 +488,15 @@ void _iTunesDeriveAllColors(SKCGMultiShadingInfo *info) {
   CGRect rect = NSRectToCGRect([self bounds]);
   
   CGRect internal = CGRectInset(rect, 2, 2);
-  SKCGContextAddRoundRect(ctxt, internal, 6);
+  WBCGContextAddRoundRect(ctxt, internal, 6);
   
   CGContextSaveGState(ctxt);
   CGContextClip(ctxt);
   if (!_shading) {
 #if MULTI_SHADING
-    _shading = SKCGLayerCreateWithVerticalShading(ctxt, CGSizeMake(64, NSHeight([self bounds])), true, SKCGShadingMultiShadingFunction, _info);
+    _shading = WBCGLayerCreateWithVerticalShading(ctxt, CGSizeMake(64, NSHeight([self bounds])), true, WBCGShadingMultiShadingFunction, _info);
 #else
-    _shading = SKCGLayerCreateWithVerticalShading(ctxt, CGSizeMake(64, NSHeight([self bounds])), true, SKCGShadingSimpleShadingFunction, &_info);
+    _shading = WBCGLayerCreateWithVerticalShading(ctxt, CGSizeMake(64, NSHeight([self bounds])), true, WBCGShadingSimpleShadingFunction, &_info);
 #endif
   }
   CGContextDrawLayerInRect(ctxt, NSRectToCGRect([self bounds]), _shading);
@@ -504,9 +504,9 @@ void _iTunesDeriveAllColors(SKCGMultiShadingInfo *info) {
   
   /* Border */
   if (_border[3] > 0) {
-    SKCGContextAddRoundRect(ctxt, rect, 8);
+    WBCGContextAddRoundRect(ctxt, rect, 8);
     rect = CGRectInset(rect, 3, 3);
-    SKCGContextAddRoundRect(ctxt, rect, 5);
+    WBCGContextAddRoundRect(ctxt, rect, 5);
     CGContextSetRGBFillColor(ctxt, _border[0], _border[1], _border[2], _border[3]);
     CGContextDrawPath(ctxt, kCGPathEOFill);
   }

@@ -21,9 +21,9 @@
 #import <SparkKit/SparkApplication.h>
 #import <SparkKit/SparkEntryManager.h>
 
-#import <ShadowKit/SKCFContext.h>
-#import <ShadowKit/SKSerialization.h>
-#import <ShadowKit/SKAppKitExtensions.h>
+#import WBHEADER(WBCFContext.h)
+#import WBHEADER(WBSerialization.h)
+#import WBHEADER(WBAppKitExtensions.h)
 
 #pragma mark -
 #pragma mark Placeholder
@@ -109,7 +109,7 @@
 - (BOOL)importv1LibraryFromFileWrapper:(NSFileWrapper *)wrapper error:(NSError **)error {
   DLog(@"Loading Version 1.0 Library");
   /* Load HotKey items. Create trigger with internal values, and create entries with Application to Action Map */
-  CFMutableSetRef actions = CFSetCreateMutable( kCFAllocatorDefault, 0, &kSKIntegerSetCallBacks);
+  CFMutableSetRef actions = CFSetCreateMutable( kCFAllocatorDefault, 0, &kWBIntegerSetCallBacks);
   
   SparkUID finder = 0;
   NSArray *objects = nil;
@@ -126,7 +126,7 @@
   while (plist = [enumerator nextObject]) {
     NSString *class = [plist objectForKey:@"isa"];
     if (![class isEqualToString:@"_SparkSystemApplication"]) {
-      SparkApplication *app = SKDeserializeObject(plist, nil);
+      SparkApplication *app = WBDeserializeObject(plist, nil);
       if (app && [app isKindOfClass:[SparkApplication class]]) {
         if ([app signature] == kSparkFinderSignature) {
           finder = [app uid];
@@ -145,7 +145,7 @@
   enumerator = [objects objectEnumerator];
   objectSet = [self triggerSet];
   while (plist = [enumerator nextObject]) {
-    SparkTrigger *trigger = SKDeserializeObject(plist, nil);      
+    SparkTrigger *trigger = WBDeserializeObject(plist, nil);      
     if (trigger && [trigger isKindOfClass:[SparkTrigger class]]) {
       [trigger setName:nil];
       [trigger setIcon:nil];
@@ -198,7 +198,7 @@
   while (plist = [enumerator nextObject]) {
     NSString *class = [plist objectForKey:@"isa"];
     if (![class isEqualToString:@"_SparkIgnoreAction"]) {
-      SparkAction *action = SKDeserializeObject(plist, nil);
+      SparkAction *action = WBDeserializeObject(plist, nil);
       if (action && [action isKindOfClass:[SparkAction class]]) {
         [action setUID:[action uid] + kSparkLibraryReserved];
         if (CFSetContainsValue(actions, (void *)(long)[action uid])) {
@@ -270,7 +270,7 @@
     NSArray *uids = [object objectForKey:@"SparkObjects"];
     NSUInteger tcount = [uids count];
     while (tcount-- > 0) {
-      SparkUID uid = (SparkUID)SKUIntegerValue([uids objectAtIndex:tcount]);
+      SparkUID uid = (SparkUID)WBUIntegerValue([uids objectAtIndex:tcount]);
       SparkTrigger *trigger = [self triggerWithUID:uid];
       if (trigger) {
         SparkEntry *entry = [sp_relations entryForTrigger:trigger application:[self systemApplication]];

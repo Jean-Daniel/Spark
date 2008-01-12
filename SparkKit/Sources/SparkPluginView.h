@@ -6,10 +6,10 @@
  *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
  */
 
-#import <ShadowKit/SKViewController.h>
+#import WBHEADER(WBViewController.h)
 
 @class SparkActionPlugIn;
-@interface SparkPluginView : SKViewController {
+@interface SparkPluginView : WBViewController {
   @private
 	IBOutlet NSView *uiTrap;
   IBOutlet NSView *uiView;

@@ -10,11 +10,10 @@
 
 #import "ITunesAESuite.h"
 
-#import <ShadowKit/SKFunctions.h>
-#import <ShadowKit/SKLSFunctions.h>
-#import <ShadowKit/SKAEFunctions.h>
-#import <ShadowKit/SKProcessFunctions.h>
-#import <ShadowKit/SKAppKitExtensions.h>
+#import WBHEADER(WBFunctions.h)
+#import WBHEADER(WBAEFunctions.h)
+#import WBHEADER(WBProcessFunctions.h)
+#import WBHEADER(WBAppKitExtensions.h)
 
 #import <HotKeyToolKit/HotKeyToolKit.h>
 
@@ -38,7 +37,7 @@ static const iTunesAction _kActionsMap[] = {
   kiTunesPlayPlaylist,
   kiTunesRateTrack
 };
-SK_INLINE
+WB_INLINE
 iTunesAction _iTunesConvertAction(int act) {
   return act >= 0 && act < 11 ? _kActionsMap[act] : 0;
 }
@@ -229,7 +228,7 @@ static ITunesVisual sDefaultVisual = {delay: -1};
     switch ([self version]) {
       case 0x200:
         [self decodeFlags:[[plist objectForKey:kITunesFlagsKey] unsignedIntValue]];
-        [self setITunesAction:SKOSTypeFromString([plist objectForKey:kITunesActionKey])];
+        [self setITunesAction:WBOSTypeFromString([plist objectForKey:kITunesActionKey])];
         NSData *data = [plist objectForKey:kITunesVisualKey];
         if (data) {
           ia_visual = NSZoneMalloc(nil, sizeof(*ia_visual));
@@ -253,7 +252,7 @@ static ITunesVisual sDefaultVisual = {delay: -1};
     /* if spark editor, check playlist name */
     if (kSparkEditorContext == SparkGetCurrentContext() && iTunesIsRunning(NULL)) {
       if ([self iTunesAction] == kiTunesPlayPlaylist && ia_plid) {
-        iTunesPlaylist playlist = SKAEEmptyDesc();
+        iTunesPlaylist playlist = WBAEEmptyDesc();
         OSStatus err = [self playlist] ? iTunesGetPlaylistWithName((CFStringRef)[self playlist], &playlist) : errAENoSuchObject;
         if (err == errAENoSuchObject) {
           err = iTunesGetPlaylistWithID(ia_plid, &playlist);
@@ -265,7 +264,7 @@ static ITunesVisual sDefaultVisual = {delay: -1};
             }
           }
         }
-        SKAEDisposeDesc(&playlist);
+        WBAEDisposeDesc(&playlist);
       }
     }
     
@@ -279,12 +278,12 @@ static ITunesVisual sDefaultVisual = {delay: -1};
 
 - (BOOL)serialize:(NSMutableDictionary *)plist {
   [super serialize:plist];
-  [plist setObject:SKUInteger([self encodeFlags]) forKey:kITunesFlagsKey];
-  [plist setObject:SKStringForOSType([self iTunesAction]) forKey:kITunesActionKey];
+  [plist setObject:WBUInteger([self encodeFlags]) forKey:kITunesFlagsKey];
+  [plist setObject:WBStringForOSType([self iTunesAction]) forKey:kITunesActionKey];
   /* Playlist */
   if ([self playlist]) {
     [plist setObject:[self playlist] forKey:kITunesPlaylistKey];
-    [plist setObject:SKUInt64(ia_plid) forKey:kITunesPlaylistIDKey];
+    [plist setObject:WBUInt64(ia_plid) forKey:kITunesPlaylistIDKey];
   }
   /* Visual */
   if (ia_visual) {
@@ -345,12 +344,12 @@ static ITunesVisual sDefaultVisual = {delay: -1};
   //static CFAbsoluteTime sLastDisplayTime = 0;
   //CFAbsoluteTime absTime = CFAbsoluteTimeGetCurrent();
   //if ([SparkAction currentEventTime] > 0 || (absTime - sLastDisplayTime) > 0.25) {
-    iTunesTrack track = SKAEEmptyDesc();
+    iTunesTrack track = WBAEEmptyDesc();
     
     ITunesInfo *info = [ITunesInfo sharedWindow];
     if (noErr == iTunesGetCurrentTrack(&track)) {
       [info setTrack:&track];
-      SKAEDisposeDesc(&track);
+      WBAEDisposeDesc(&track);
       switch ([self visualMode]) {
         case kiTunesSettingCustom:
           if (ia_visual) {
@@ -393,7 +392,7 @@ static ITunesVisual sDefaultVisual = {delay: -1};
   switch ([self iTunesAction]) {
     case kiTunesLaunch: {
       ProcessSerialNumber psn = {0, kNoProcess};
-      psn = SKProcessGetProcessWithSignature(kiTunesSignature);
+      psn = WBProcessGetProcessWithSignature(kiTunesSignature);
       if (psn.lowLongOfPSN == kNoProcess) {
         LSLaunchFlags flags = kLSLaunchDefaults;
         if (ia_iaFlags.hide)
@@ -417,7 +416,7 @@ static ITunesVisual sDefaultVisual = {delay: -1};
       break;
     case kiTunesPlayPause: {
       ProcessSerialNumber psn = {0, kNoProcess};
-      psn = SKProcessGetProcessWithSignature(kiTunesSignature);
+      psn = WBProcessGetProcessWithSignature(kiTunesSignature);
       if (psn.lowLongOfPSN == kNoProcess) {
         if (ia_iaFlags.autorun) {
           /* Launch iTunes */
@@ -487,7 +486,7 @@ static ITunesVisual sDefaultVisual = {delay: -1};
 #pragma mark iTunes notification extension
 //static
 //void iTunesNotificationCallback(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
-//  OSType sign = SKProcessGetFrontProcessSignature();
+//  OSType sign = WBProcessGetFrontProcessSignature();
 //  /* Doe nothing if iTunes is the front application */
 //  if (sign != kiTunesSignature) {
 //    if (userInfo) {
@@ -535,7 +534,7 @@ static ITunesVisual sDefaultVisual = {delay: -1};
 
 - (void)setPlaylist:(NSString *)aPlaylist uid:(UInt64)uid {
   ia_plid = uid;
-  SKSetterCopy(ia_playlist, aPlaylist);
+  WBSetterCopy(ia_playlist, aPlaylist);
 }
 
 - (iTunesAction)iTunesAction {
@@ -564,23 +563,23 @@ static ITunesVisual sDefaultVisual = {delay: -1};
   return ia_iaFlags.show;
 }
 - (void)setShowInfo:(BOOL)flag {
-  SKFlagSet(ia_iaFlags.show, flag);
+  WBFlagSet(ia_iaFlags.show, flag);
 }
 - (BOOL)launchHide { return ia_iaFlags.hide; }
 - (BOOL)launchPlay { return ia_iaFlags.autoplay; }
 - (BOOL)launchNotify { return ia_iaFlags.notify; }
 - (BOOL)launchBackground { return ia_iaFlags.background; }
-- (void)setLaunchHide:(BOOL)flag { SKFlagSet(ia_iaFlags.hide, flag); }
-- (void)setLaunchPlay:(BOOL)flag { SKFlagSet(ia_iaFlags.autoplay, flag); }
-- (void)setLaunchNotify:(BOOL)flag { SKFlagSet(ia_iaFlags.notify, flag); }
-- (void)setLaunchBackground:(BOOL)flag { SKFlagSet(ia_iaFlags.background, flag); }
+- (void)setLaunchHide:(BOOL)flag { WBFlagSet(ia_iaFlags.hide, flag); }
+- (void)setLaunchPlay:(BOOL)flag { WBFlagSet(ia_iaFlags.autoplay, flag); }
+- (void)setLaunchNotify:(BOOL)flag { WBFlagSet(ia_iaFlags.notify, flag); }
+- (void)setLaunchBackground:(BOOL)flag { WBFlagSet(ia_iaFlags.background, flag); }
 
 /* Play/Pause setting */
 - (BOOL)autorun { return ia_iaFlags.autorun; }
-- (void)setAutorun:(BOOL)flag { SKFlagSet(ia_iaFlags.autorun, flag); }
+- (void)setAutorun:(BOOL)flag { WBFlagSet(ia_iaFlags.autorun, flag); }
 
 - (BOOL)autoinfo { return ia_iaFlags.autoinfo; }
-- (void)setAutoinfo:(BOOL)flag { SKFlagSet(ia_iaFlags.autoinfo, flag); }
+- (void)setAutoinfo:(BOOL)flag { WBFlagSet(ia_iaFlags.autoinfo, flag); }
 
 - (int)visualMode {
   return ia_iaFlags.visual;

@@ -9,7 +9,7 @@
 #if !defined(__ITUNES_SUITE_H_)
 #define __ITUNES_SUITE_H_ 1
 
-#include <ShadowKit/SKAEFunctions.h>
+#include WBHEADER(WBAEFunctions.h)
 
 #pragma mark -
 enum {
@@ -45,25 +45,25 @@ typedef enum {
 } ITunesState;
 
 
-SK_PRIVATE
+WB_PRIVATE
 Boolean iTunesIsRunning(ProcessSerialNumber *proc);
 
-SK_PRIVATE
+WB_PRIVATE
 OSStatus iTunesGetPlayerState(ITunesState *state);
-SK_PRIVATE
+WB_PRIVATE
 OSStatus iTunesGetPlayerPosition(UInt32 *position);
 
-SK_PRIVATE
+WB_PRIVATE
 OSStatus iTunesGetVisualEnabled(Boolean *state);
-SK_PRIVATE
+WB_PRIVATE
 OSStatus iTunesSetVisualEnabled(Boolean state);
 
-SK_PRIVATE
+WB_PRIVATE
 OSStatus iTunesGetSoundVolume(SInt16 *volume);
-SK_PRIVATE
+WB_PRIVATE
 OSStatus iTunesSetSoundVolume(SInt16 volume);
 
-SK_PRIVATE
+WB_PRIVATE
 OSStatus iTunesCopyCurrentStreamTitle(CFStringRef *title);
 
 #pragma mark Commands
@@ -84,64 +84,64 @@ typedef enum {
   kiTunesPersistentID = 'pPID',
 } ITunesTrackProperty;
 
-SK_INLINE
+WB_INLINE
 OSStatus iTunesSendCommand(ITunesCommand command) {
-  return SKAESendSimpleEvent(kiTunesSignature, kiTunesSuite, command);
+  return WBAESendSimpleEvent(kiTunesSignature, kiTunesSuite, command);
 }
 
-SK_INLINE
+WB_INLINE
 OSStatus iTunesQuit(void) {
-  return SKAESendSimpleEvent(kiTunesSignature, kCoreEventClass, kAEQuitApplication);
+  return WBAESendSimpleEvent(kiTunesSignature, kCoreEventClass, kAEQuitApplication);
 }
-SK_PRIVATE
+WB_PRIVATE
 OSStatus iTunesLaunch(LSLaunchFlags flags);
 
 #pragma mark -
-SK_PRIVATE
+WB_PRIVATE
 OSStatus iTunesGetObjectType(AEDesc *obj, OSType *cls);
 
 #pragma mark Tracks
-SK_PRIVATE
+WB_PRIVATE
 OSStatus iTunesGetCurrentTrack(iTunesTrack *track);
 
-SK_PRIVATE
+WB_PRIVATE
 OSStatus iTunesSetTrackRate(iTunesTrack *track, UInt32 rate);
-SK_PRIVATE
+WB_PRIVATE
 OSStatus iTunesGetTrackRate(iTunesTrack *track, UInt32 *rate);
 
-SK_PRIVATE
+WB_PRIVATE
 OSStatus iTunesSetCurrentTrackRate(UInt32 rate);
 
-SK_PRIVATE
+WB_PRIVATE
 OSStatus iTunesCopyTrackStringProperty(iTunesTrack *track, ITunesTrackProperty property, CFStringRef *value);
-SK_PRIVATE
+WB_PRIVATE
 OSStatus iTunesGetTrackIntegerProperty(iTunesTrack *track, ITunesTrackProperty property, SInt32 *value);
 
 #pragma mark -
 #pragma mark Playlists
-SK_PRIVATE
+WB_PRIVATE
 CFArrayRef iTunesCopyPlaylistNames(void);
 
-SK_PRIVATE
+WB_PRIVATE
 CFDictionaryRef iTunesCopyPlaylists(void);
 
-SK_PRIVATE
+WB_PRIVATE
 OSStatus iTunesPlayPlaylist(iTunesPlaylist *playlist);
-SK_PRIVATE
+WB_PRIVATE
 OSStatus iTunesPlayPlaylistWithID(SInt64 uid);
-SK_PRIVATE
+WB_PRIVATE
 OSStatus iTunesPlayPlaylistWithName(CFStringRef name);
 
-SK_PRIVATE
+WB_PRIVATE
 OSStatus iTunesGetCurrentPlaylist(iTunesPlaylist *playlist);
-SK_PRIVATE
+WB_PRIVATE
 OSStatus iTunesGetPlaylistWithID(SInt64 uid, iTunesPlaylist *playlist);
-SK_PRIVATE
+WB_PRIVATE
 OSStatus iTunesGetPlaylistWithName(CFStringRef name, iTunesPlaylist *playlist);
 
-SK_PRIVATE
+WB_PRIVATE
 OSStatus iTunesGetPlaylistIntegerProperty(iTunesPlaylist *playlist, AEKeyword property, SInt32 *value);
-SK_PRIVATE
+WB_PRIVATE
 OSStatus iTunesCopyPlaylistStringProperty(iTunesPlaylist *playlist, AEKeyword property, CFStringRef *value);
 
 #endif /* __ITUNES_SUITE_H_ */

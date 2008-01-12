@@ -102,5 +102,5 @@ HK_PRIVATE
 UniChar HKKeyMapGetUnicharForKeycodeAndModifier(HKKeyMapRef currentKeyMap, HKKeycode virtualKeyCode, HKModifier modifiers);
 
 /* Internal */
-SK_PRIVATE
+HK_PRIVATE
 OSStatus _HKKeyMapInit(HKKeyMapRef keyMap);

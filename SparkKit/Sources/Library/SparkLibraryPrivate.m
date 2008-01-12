@@ -11,7 +11,7 @@
 #import <SparkKit/SparkObjectSet.h>
 #import <SparkKit/SparkApplication.h>
 
-#import <ShadowKit/SKProcessFunctions.h>
+#import WBHEADER(WBProcessFunctions.h)
 
 #pragma mark -
 #pragma mark Internal
@@ -45,7 +45,7 @@
   
   SparkApplication *result = nil;
   /* Try signature */
-  OSType sign = SKProcessGetSignature(psn);
+  OSType sign = WBProcessGetSignature(psn);
   if (sign && kUnknownType != sign) {
     SparkApplication *app;
     NSEnumerator *apps = [self applicationEnumerator];
@@ -58,7 +58,7 @@
   }
   /* Try bundle identifier */
   if (!result) {
-    NSString *bundle = (id)SKProcessCopyBundleIdentifier(psn);
+    NSString *bundle = (id)WBProcessCopyBundleIdentifier(psn);
     if (bundle) {
       SparkApplication *app;
       NSEnumerator *apps = [self applicationEnumerator];

@@ -32,7 +32,7 @@ struct __HKKeyMap {
 
 #if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5
 
-SK_INLINE
+HK_INLINE
 Boolean HKTISAvailable() {
 #if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_5
   return true;
@@ -41,50 +41,50 @@ Boolean HKTISAvailable() {
 #endif
 }
 
-SK_PRIVATE
+HK_PRIVATE
 OSStatus HKTISKeyMapInit(HKKeyMapRef keyMap);
-SK_PRIVATE
+HK_PRIVATE
 void HKTISKeyMapDispose(HKKeyMapRef keyMap);
 
-SK_PRIVATE
+HK_PRIVATE
 HKKeyMapRef HKTISKeyMapCreateWithName(CFStringRef name, Boolean reverse);
 
-SK_PRIVATE
+HK_PRIVATE
 HKKeyMapRef HKTISKeyMapCreateWithCurrentLayout(Boolean reverse);
 
 
-SK_PRIVATE
+HK_PRIVATE
 Boolean HKTISKeyMapIsCurrent(HKKeyMapRef keyMap);
 
-SK_PRIVATE
+HK_PRIVATE
 CFStringRef HKTISKeyMapGetName(HKKeyMapRef keymap);
 
-SK_PRIVATE
+HK_PRIVATE
 CFStringRef HKTISKeyMapGetLocalizedName(HKKeyMapRef keymap);
 
 #else
 
-SK_INLINE
+HK_INLINE
 Boolean HKTISAvailable() { return false; }
 
-SK_INLINE
+HK_INLINE
 OSStatus HKTISKeyMapInit(HKKeyMapRef keyMap) { return paramErr; }
-SK_INLINE
+HK_INLINE
 void HKTISKeyMapDispose(HKKeyMapRef keyMap) {}
 
-SK_INLINE
+HK_INLINE
 HKKeyMapRef HKTISKeyMapCreateWithName(CFStringRef name, Boolean reverse) { return NULL; }
 
-SK_INLINE
+HK_INLINE
 HKKeyMapRef HKTISKeyMapCreateWithCurrentLayout(Boolean reverse) { return NULL; }
 
 
-SK_INLINE
+HK_INLINE
 Boolean HKTISKeyMapIsCurrent(HKKeyMapRef keyMap) { return true; }
 
-SK_INLINE
+HK_INLINE
 CFStringRef HKTISKeyMapGetName(HKKeyMapRef keymap) { return NULL; }
 
-SK_INLINE
+HK_INLINE
 CFStringRef HKTISKeyMapGetLocalizedName(HKKeyMapRef keymap) { return NULL; }
 #endif

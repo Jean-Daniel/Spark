@@ -62,7 +62,7 @@ BOOL SparkLogSynchronization = NO;
 - (id)init {
   Class cls = [self class];
   [self release];
-	SKThrowException(NSInvalidArgumentException, @"%@ does not recognized selector %@", NSStringFromClass(cls), NSStringFromSelector(_cmd));
+	WBThrowException(NSInvalidArgumentException, @"%@ does not recognized selector %@", NSStringFromClass(cls), NSStringFromSelector(_cmd));
 }
 
 - (id)initWithLibrary:(SparkLibrary *)aLibrary {
@@ -136,7 +136,7 @@ BOOL SparkLogSynchronization = NO;
 
 - (void)setDistantLibrary:(NSDistantObject<SparkLibrary> *)remoteLibrary {
   if (remoteLibrary && ![remoteLibrary conformsToProtocol:@protocol(SparkLibrary)]) {
-    SKThrowException(NSInvalidArgumentException, @"Remote Library %@ MUST conform to <SparkLibrary>", remoteLibrary);
+    WBThrowException(NSInvalidArgumentException, @"Remote Library %@ MUST conform to <SparkLibrary>", remoteLibrary);
   }
   
   NSString *uuidstr = nil;
@@ -148,15 +148,15 @@ BOOL SparkLogSynchronization = NO;
       /* Check library UUID */
       uuidstr = [remoteLibrary uuid];
       if (!uuidstr) {
-        SKThrowException(NSInvalidArgumentException, @"Invalid Remote Library UUID (null)");
+        WBThrowException(NSInvalidArgumentException, @"Invalid Remote Library UUID (null)");
       }
       NSAssert([sp_library uuid], @"Invalid Library UUID (null)");
       CFUUIDRef uuid = CFUUIDCreateFromString(kCFAllocatorDefault, (CFStringRef)uuidstr);
       if (!uuid) {
-        SKThrowException(NSInvalidArgumentException, @"Invalid Remote Library UUID %@", uuidstr);
+        WBThrowException(NSInvalidArgumentException, @"Invalid Remote Library UUID %@", uuidstr);
       } else if (!CFEqual(uuid, [sp_library uuid])) {
         CFRelease(uuid);
-        SKThrowException(NSInvalidArgumentException, @"Remote Library UUID does not match: %@", uuidstr);
+        WBThrowException(NSInvalidArgumentException, @"Remote Library UUID does not match: %@", uuidstr);
       }
       CFRelease(uuid);
       
@@ -185,13 +185,13 @@ BOOL SparkLogSynchronization = NO;
     NSLog(@"Send remote message: -[SparkLibrary %s]", #msg); \
   } \
 } @catch (id exception) { \
-  SKLogException(exception); \
+  WBLogException(exception); \
   if (SparkLogSynchronization) { \
     NSLog(@"Remote message exception: %@", exception); \
   } \
 } })
 
-SK_INLINE
+WB_INLINE
 OSType SparkServerObjectType(SparkObject *anObject) {
   if ([anObject isKindOfClass:[SparkAction class]])
     return kSparkActionType;
@@ -333,7 +333,7 @@ OSType SparkServerObjectType(SparkObject *anObject) {
 
 #pragma mark -
 #pragma mark Protocol
-SK_INLINE
+WB_INLINE
 SparkObjectSet *SparkObjectSetForType(SparkLibrary *library, OSType type) {
   switch (type) {
     case kSparkActionType:

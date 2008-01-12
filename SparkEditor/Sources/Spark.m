@@ -21,8 +21,8 @@
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkActionLoader.h>
 
-#import <ShadowKit/SKFunctions.h>
-#import <ShadowKit/SKFSFunctions.h>
+#import WBHEADER(WBFunctions.h)
+#import WBHEADER(WBFSFunctions.h)
 
 #import <SUpdaterKit/SURestarter.h>
 
@@ -77,7 +77,7 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
     /* Check update */
     
     /* Leopard Help hack */
-//    if (SKSystemMajorVersion() == 10 && SKSystemMinorVersion() >= 5) {
+//    if (WBSystemMajorVersion() == 10 && WBSystemMinorVersion() >= 5) {
 //      HKHotKey *help = [[HKHotKey alloc] initWithKeycode:kHKVirtualHelpKey modifier:0];
 //      [help setTarget:self];
 //      [help setAction:@selector(handleHelpEvent:)];
@@ -155,7 +155,7 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
     [[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
       //@"YES", @"NSShowNonLocalizedStrings",
       //@"YES", @"NSShowAllViews",
-      //SKFloat(0.15f), @"NSWindowResizeTime",
+      //WBFloat(0.15f), @"NSWindowResizeTime",
       //@"6", @"NSDragManagerLogLevel",
       //@"YES", @"NSShowNonLocalizableStrings",
       //@"1", @"NSScriptingDebugLogLevel",
@@ -166,7 +166,7 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
     @try {
       SparkActiveLibrary();
     } @catch (NSException *exception) {
-      SKLogException(exception);
+      WBLogException(exception);
     }
     
     /* Register defaults */
@@ -374,7 +374,7 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
   } else {
     NSString *ext = [filename pathExtension];
     OSType type = kLSUnknownType;
-    SKFSGetTypeAndCreatorAtPath((CFStringRef)filename, &type, NULL);
+    WBFSGetTypeAndCreatorAtPath((CFStringRef)filename, &type, NULL);
     if (type == kSparkLibraryArchiveHFSType || [ext isEqualToString:kSparkLibraryArchiveExtension]) {
       [self openLibraryBackup:filename];
       return YES;

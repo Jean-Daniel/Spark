@@ -11,8 +11,8 @@
 #import <SparkKit/SparkHotKey.h>
 #import <SparkKit/SparkAction.h>
 
-#import <ShadowKit/SKForwarding.h>
-#import <ShadowKit/SKAppKitExtensions.h>
+#import WBHEADER(WBForwarding.h)
+#import WBHEADER(WBAppKitExtensions.h)
 
 #import <HotKeyToolKit/HotKeyToolKit.h>
 
@@ -114,7 +114,7 @@ BOOL SparkHotKeyFilter(HKKeycode code, HKModifier modifier) {
 - (BOOL)serialize:(NSMutableDictionary *)plist {
   [super serialize:plist];
   UInt64 hotkey = [sp_hotkey rawkey];
-  [plist setObject:SKUInt64(hotkey) forKey:kHotKeyRawCodeKey];
+  [plist setObject:WBUInt64(hotkey) forKey:kHotKeyRawCodeKey];
   return YES;
 }
 
@@ -220,7 +220,7 @@ BOOL SparkHotKeyFilter(HKKeycode code, HKModifier modifier) {
 //      [plist setObject:modifiers forKey:@"modifiers"];
 //    
 //    HKKeycode code = [self keycode];
-//    [plist setObject:SKUInteger(code) forKey:@"keycode"];
+//    [plist setObject:WBUInteger(code) forKey:@"keycode"];
 //    
 //    UniChar ch = [self character];
 //    if (CFCharacterSetIsCharacterMember(CFCharacterSetGetPredefined(kCFCharacterSetAlphaNumeric), ch) ||
@@ -234,15 +234,14 @@ BOOL SparkHotKeyFilter(HKKeycode code, HKModifier modifier) {
 //      if (str)
 //        [plist setObject:str forKey:@"character"];
 //    }
-//    [plist setObject:SKUInteger(ch) forKey:@"unichar"];
+//    [plist setObject:WBUInteger(ch) forKey:@"unichar"];
 //  }
 //  return plist;
 //}
 
-@end
+WBForwarding(SparkHotKey, HKHotKey, sp_hotkey);
 
-#pragma mark -
-SKForwarding(SparkHotKey, HKHotKey, sp_hotkey);
+@end
 
 #pragma mark -
 #pragma mark Key Repeat Support

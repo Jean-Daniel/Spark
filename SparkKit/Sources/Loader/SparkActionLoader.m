@@ -19,7 +19,7 @@ NSString * const SparkActionLoaderDidRegisterPlugInNotification = @"SparkActionL
 + (id)sharedLoader {
   static SparkActionLoader *loader = nil;
   if (!loader) {
-    loader = [[self alloc] initWithDomains:kSKDefaultDomains subscribe:NO];
+    loader = [[self alloc] initWithDomains:kWBDefaultDomains subscribe:NO];
   }
   return loader;
 }
@@ -47,7 +47,7 @@ NSString * const SparkActionLoaderDidRegisterPlugInNotification = @"SparkActionL
     
     return YES;
   } @catch (id exception) {
-    SKLogException(exception);
+    WBLogException(exception);
   }
   return NO;
 }

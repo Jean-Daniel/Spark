@@ -6,7 +6,6 @@
  *  Copyright (c) 2004 - 2007, Shadow Lab. All rights reserved.
  */
 
-#import <Cocoa/Cocoa.h>
 #import "ITunesAESuite.h"
 
 typedef struct _ITunesVisual {
@@ -20,7 +19,7 @@ typedef struct _ITunesVisual {
   CGFloat backbot[4];
 } ITunesVisual;
 
-SK_PRIVATE
+WB_PRIVATE
 BOOL ITunesVisualIsEqualTo(const ITunesVisual *v1, const ITunesVisual *v2);
 
 enum {
@@ -28,16 +27,16 @@ enum {
   kiTunesSettingCustom = 1,
 };
 
-SK_PRIVATE
+WB_PRIVATE
 const NSPoint kiTunesUpperLeft;
-SK_PRIVATE
+WB_PRIVATE
 const NSPoint kiTunesUpperRight;
-SK_PRIVATE
+WB_PRIVATE
 const NSPoint kiTunesBottomLeft;
-SK_PRIVATE
+WB_PRIVATE
 const NSPoint kiTunesBottomRight;
 
-SK_PRIVATE
+WB_PRIVATE
 const ITunesVisual kiTunesDefaultSettings;
 
 @class ITunesStarView, ITunesProgressView;
@@ -87,7 +86,7 @@ const ITunesVisual kiTunesDefaultSettings;
 - (void)setDuration:(SInt32)aTime rate:(SInt32)rate;
 @end
 
-SK_INLINE
+WB_INLINE
 UInt64 ITunesVisualPackColor(CGFloat color[4]) {
   UInt64 pack = 0;
   pack |= (llround(color[0] * 0xffff) & 0xffff) << 0;
@@ -97,7 +96,7 @@ UInt64 ITunesVisualPackColor(CGFloat color[4]) {
   return pack;
 }
 
-SK_INLINE
+WB_INLINE
 void ITunesVisualUnpackColor(UInt64 pack, CGFloat color[4]) {
   color[0] = (CGFloat)((pack >> 0) & 0xffff) / 0xffff;
   color[1] = (CGFloat)((pack >> 16) & 0xffff) / 0xffff;
@@ -112,7 +111,7 @@ typedef struct __attribute__ ((packed)) _ITunesPackedVisual {
   CFSwappedFloat64 delay;
 } ITunesPackedVisual;
 
-SK_INLINE
+WB_INLINE
 NSData *ITunesVisualPack(ITunesVisual *visual) {
   NSMutableData *data = [[NSMutableData alloc] initWithCapacity:sizeof(ITunesPackedVisual)];
   [data setLength:sizeof(ITunesPackedVisual)];
@@ -128,7 +127,7 @@ NSData *ITunesVisualPack(ITunesVisual *visual) {
   return [data autorelease];
 }
 
-SK_INLINE
+WB_INLINE
 BOOL ITunesVisualUnpack(NSData *data, ITunesVisual *visual) {
   NSCParameterAssert(visual != NULL);
   if (!data || [data length] != sizeof(ITunesPackedVisual)) {

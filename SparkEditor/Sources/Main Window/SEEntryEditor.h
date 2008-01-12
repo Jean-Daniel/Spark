@@ -6,12 +6,12 @@
  *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
  */
 
-#import <ShadowKit/SKWindowController.h>
+#import WBHEADER(WBWindowController.h)
 
 @class SparkEntry, SparkAction, SparkTrigger;
 @class SETableView, SEApplicationView, SEHotKeyTrap;
 @class SparkActionPlugIn, SparkApplication, SparkPlugIn;
-@interface SEEntryEditor : SKWindowController {
+@interface SEEntryEditor : WBWindowController {
   IBOutlet NSView *uiPlugin;
 	IBOutlet SETableView *uiTypeTable;
   IBOutlet SEApplicationView *uiApplication;

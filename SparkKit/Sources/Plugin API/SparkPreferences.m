@@ -59,7 +59,7 @@ CFDataRef _SparkPreferencesHandleMessage(CFMessagePortRef local, SInt32 msgid, C
                                                                        format:NULL errorDescription:NULL];
     if (request) {
       NSString *key = [request objectForKey:@"key"];
-      SparkPreferencesDomain domain = SKIntegerValue([request objectForKey:@"domain"]);
+      SparkPreferencesDomain domain = WBIntegerValue([request objectForKey:@"domain"]);
       id value = [request objectForKey:@"value"];
       SparkPreferencesSetValue(key, value, domain);
     }
@@ -96,10 +96,10 @@ void _SparkPreferencesStartServer(void) {
 static
 void _SparkPreferencesSetDaemonValue(NSString *key, id value, SparkPreferencesDomain domain) {
   if (SparkDaemonIsRunning()) {
-    ShadowCTrace();
+    WBCTrace();
     NSDictionary *request = [NSDictionary dictionaryWithObjectsAndKeys:
       key, @"key",
-      SKInteger(domain), @"domain", 
+      WBInteger(domain), @"domain", 
       value, @"value", nil];
     NSData *data = [NSPropertyListSerialization dataFromPropertyList:request
                                                               format:NSPropertyListBinaryFormat_v1_0
@@ -175,7 +175,7 @@ BOOL SparkPreferencesGetBooleanValue(NSString *key, SparkPreferencesDomain domai
   return [SparkPreferencesGetValue(key, domain) boolValue];
 }
 NSInteger SparkPreferencesGetIntegerValue(NSString *key, SparkPreferencesDomain domain) {
-  return SKIntegerValue(SparkPreferencesGetValue(key, domain));
+  return WBIntegerValue(SparkPreferencesGetValue(key, domain));
 }
 
 #pragma mark Setter
@@ -224,10 +224,10 @@ void SparkPreferencesSetValue(NSString *key, id value, SparkPreferencesDomain do
 }
 
 void SparkPreferencesSetBooleanValue(NSString *key, BOOL value, SparkPreferencesDomain domain) {
-  SparkPreferencesSetValue(key, SKBool(value), domain);
+  SparkPreferencesSetValue(key, WBBool(value), domain);
 }
 void SparkPreferencesSetIntegerValue(NSString *key, NSInteger value, SparkPreferencesDomain domain) {
-  SparkPreferencesSetValue(key, SKInteger(value), domain);
+  SparkPreferencesSetValue(key, WBInteger(value), domain);
 }
 
 #pragma mark Synchronize
@@ -302,7 +302,7 @@ void _SparkPreferencesSetObservers(NSMapTable *observers, SparkPreferencesDomain
   }
 }
 
-SK_INLINE
+WB_INLINE
 void __SparkPreferencesNotifyObservers(NSHashTable *observers, NSString *key, id value) {
   if (observers) {
     _SparkPreferencesObserver *observer;
@@ -346,7 +346,7 @@ void SparkPreferencesRegisterObserver(id object, SEL callback, NSString *key, Sp
   [observer release];
 }
 
-SK_INLINE
+WB_INLINE
 void __SparkPreferencesRemoveObserver(NSMapTable *table, NSHashTable *observers, id observer, NSString *key) {
   if (observers) {
     NSHashRemove(observers, observer);
@@ -408,7 +408,7 @@ void SparkPreferencesUnregisterObserver(id observer, NSString *key, SparkPrefere
   @try {
     [sp_target performSelector:sp_action withObject:value withObject:key];
   } @catch (id exception) {
-    SKLogException(exception);
+    WBLogException(exception);
   }
 }
 
@@ -426,7 +426,7 @@ void SparkPreferencesUnregisterObserver(id observer, NSString *key, SparkPrefere
 - (void)setPreferences:(NSDictionary *)preferences {
   if (![self isLoaded])
     [NSException raise:NSInternalInconsistencyException format:@"cannot set preferences for an unloaded library"];
-  SKSetterMutableCopy(sp_prefs, preferences);
+  WBSetterMutableCopy(sp_prefs, preferences);
 }
 
 @end

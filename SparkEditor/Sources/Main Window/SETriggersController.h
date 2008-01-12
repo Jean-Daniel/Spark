@@ -6,12 +6,12 @@
  *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
  */
 
-#import <ShadowKit/SKTableDataSource.h>
+#import WBHEADER(WBTableDataSource.h)
 
-@class SKTableView, SparkApplication;
+@class WBTableView, SparkApplication;
 @class SparkLibrary, SELibraryWindow, SEEntryList;
-@interface SETriggersController : SKTableDataSource {
-  IBOutlet SKTableView *uiTable;
+@interface SETriggersController : WBTableDataSource {
+  IBOutlet WBTableView *uiTable;
   IBOutlet NSSearchField *uiSearch;
   IBOutlet SELibraryWindow *ibWindow;
 }

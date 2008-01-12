@@ -10,7 +10,7 @@
 #import "TAKeystroke.h"
 
 #include <unistd.h>
-#import <ShadowKit/SKFunctions.h>
+#import WBHEADER(WBFunctions.h)
 #import <HotKeyToolKit/HotKeyToolKit.h>
 
 NSString * const kKeyboardActionBundleIdentifier = @"org.shadowlab.spark.action.keyboard";
@@ -23,6 +23,8 @@ NSString * const kKeyboardActionBundleIdentifier = @"org.shadowlab.spark.action.
 - (id)copyWithZone:(NSZone *)aZone {
   TextAction *copy = [super copyWithZone:aZone];
   copy->ta_type = ta_type;
+	copy->ta_repeat = ta_repeat;
+	copy->ta_latency = ta_latency;
   copy->ta_data = [ta_data copy];
   return copy;
 }
@@ -32,9 +34,11 @@ NSString * const kKeyboardActionBundleIdentifier = @"org.shadowlab.spark.action.
     id data = [self serializedData];
     if (data)
       [plist setObject:data forKey:@"TAData"];
+		if (ta_repeat)
+			[plist setObject:WBBool(ta_repeat) forKey:@"TARepeat"];
     if (ta_latency > 0)
-      [plist setObject:SKUInteger(ta_latency) forKey:@"TALatency"];  
-    [plist setObject:SKStringForOSType(ta_type) forKey:@"TAAction"];
+      [plist setObject:WBUInteger(ta_latency) forKey:@"TALatency"];  
+    [plist setObject:WBStringForOSType(ta_type) forKey:@"TAAction"];
     return YES;
   }
   return NO;
@@ -42,8 +46,9 @@ NSString * const kKeyboardActionBundleIdentifier = @"org.shadowlab.spark.action.
 
 - (id)initWithSerializedValues:(NSDictionary *)plist {
   if (self = [super initWithSerializedValues:plist]) {
-    [self setAction:SKOSTypeFromString([plist objectForKey:@"TAAction"])];
-    [self setLatency:(useconds_t)SKUIntegerValue([plist objectForKey:@"TALatency"])];
+		[self setAutorepeat:[[plist objectForKey:@"TARepeat"] boolValue]];
+    [self setAction:WBOSTypeFromString([plist objectForKey:@"TAAction"])];
+    [self setLatency:(useconds_t)WBUIntegerValue([plist objectForKey:@"TALatency"])];
     [self setSerializedData:[plist objectForKey:@"TAData"]];
   }
   return self;
@@ -91,7 +96,7 @@ NSString * const kKeyboardActionBundleIdentifier = @"org.shadowlab.spark.action.
 }
 
 - (SparkAlert *)simulateDateStyle {
-  NSInteger style = SKIntegerValue([self data]);
+  NSInteger style = WBIntegerValue([self data]);
   CFLocaleRef locale = CFLocaleCopyCurrent();
   CFDateFormatterRef formatter = CFDateFormatterCreate(kCFAllocatorDefault, locale, 
                                                        TADateFormatterStyle(style), TATimeFormatterStyle(style));
@@ -135,8 +140,7 @@ NSString * const kKeyboardActionBundleIdentifier = @"org.shadowlab.spark.action.
   useconds_t latency = [self latency];
   CGEventSourceRef src = HKEventCreatePrivateSource();
   for (NSUInteger idx = 0; idx < [ta_data count]; idx++) {
-    if (idx > 0)
-      [[ta_data objectAtIndex:idx] sendKeystroke:src latency:latency];
+		[[ta_data objectAtIndex:idx] sendKeystroke:src latency:latency];
   }
   if (src) CFRelease(src);
   return nil;
@@ -170,12 +174,18 @@ NSString * const kKeyboardActionBundleIdentifier = @"org.shadowlab.spark.action.
   return NO;
 }
 
+- (NSTimeInterval)repeatInterval {
+	if (ta_repeat)
+		return SparkGetDefaultKeyRepeatInterval();
+	return 0;
+}
+
 #pragma mark -
 - (id)data {
   return ta_data;
 }
 - (void)setData:(id)anObject {
-  SKSetterCopy(ta_data, anObject);
+  WBSetterCopy(ta_data, anObject);
 }
 
 - (id)serializedData {
@@ -185,7 +195,7 @@ NSString * const kKeyboardActionBundleIdentifier = @"org.shadowlab.spark.action.
       NSMutableArray *strokes = [NSMutableArray array];
       for (NSUInteger idx = 0; idx < [keys count]; idx++) {
         UInt64 raw = [[keys objectAtIndex:idx] rawKey];
-        [strokes addObject:SKUInt64(raw)];
+        [strokes addObject:WBUInt64(raw)];
       }
       return strokes;
     }
@@ -219,6 +229,14 @@ NSString * const kKeyboardActionBundleIdentifier = @"org.shadowlab.spark.action.
     [self setData:nil];
     ta_type = action;
   }
+}
+
+- (BOOL)autorepeat {
+	return ta_repeat;
+}
+
+- (void)setAutorepeat:(BOOL)flag {
+	ta_repeat = flag;
 }
 
 - (useconds_t)latency {

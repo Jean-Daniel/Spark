@@ -19,9 +19,9 @@
 #import <SparkKit/SparkPreferences.h>
 #import <SparkKit/SparkActionLoader.h>
 
-#import <ShadowKit/SKLoginItems.h>
-#import <ShadowKit/SKFSFunctions.h>
-#import <ShadowKit/SKAEFunctions.h>
+#import WBHEADER(WBLoginItems.h)
+#import WBHEADER(WBFSFunctions.h)
+#import WBHEADER(WBAEFunctions.h)
 
 #include <pthread.h>
 
@@ -50,7 +50,7 @@ static NSString * const kSparkPreferencesToolbarAdvancedItem = @"SparkPreference
 static
 void _SEPreferencesUpdateLoginItem(void);
 
-SK_INLINE
+WB_INLINE
 BOOL __SEPreferencesLoginItemStatus() {
   return [[NSUserDefaults standardUserDefaults] boolForKey:kSEPreferencesStartAtLogin];
 }
@@ -60,7 +60,7 @@ void SEPreferencesSetLoginItemStatus(BOOL status) {
   _SEPreferencesUpdateLoginItem();
 }
 
-SK_INLINE
+WB_INLINE
 void __SetSparkKitSingleKeyMode(NSInteger mode) {
   SparkSetFilterMode((mode >= 0 && mode <= 3) ? mode : kSparkEnableSingleFunctionKey);
 }
@@ -69,28 +69,28 @@ void __SetSparkKitSingleKeyMode(NSInteger mode) {
 
 + (void)initialize {
   if ([SEPreferences class] == self) {
-    SKLoginItemSetTimeout(1200);
+    WBLoginItemSetTimeout(1200);
   }
 }
 
 static
 void *_SEPreferencesLoginItemThread(void *arg) {
-  long timeout = SKLoginItemTimeout();
-  SKLoginItemSetTimeout(5000);
+  long timeout = WBLoginItemTimeout();
+  WBLoginItemSetTimeout(5000);
   NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
   _SEPreferencesUpdateLoginItem();
   [pool release];
-  SKLoginItemSetTimeout(timeout);
+  WBLoginItemSetTimeout(timeout);
   return NULL;
 }
 
 /* Default values initialization */
 + (void)setup {
   NSDictionary *values = [NSDictionary dictionaryWithObjectsAndKeys:
-    SKBool(NO), kSEPreferencesAutoUpdate,
-    SKBool(NO), kSEPreferencesHideDisabled,
-    SKBool(YES), kSEPreferencesStartAtLogin,
-    SKInteger(kSparkEnableSingleFunctionKey), kSparkPrefSingleKeyMode,
+    WBBool(NO), kSEPreferencesAutoUpdate,
+    WBBool(NO), kSEPreferencesHideDisabled,
+    WBBool(YES), kSEPreferencesStartAtLogin,
+    WBInteger(kSparkEnableSingleFunctionKey), kSparkPrefSingleKeyMode,
     nil];
   [[NSUserDefaults standardUserDefaults] registerDefaults:values];
   
@@ -144,10 +144,10 @@ void *_SEPreferencesLoginItemThread(void *arg) {
   
   FSRef uref, lref;
   BOOL user = NO, local = NO;
-  if ([[SparkActionLoader pluginPathForDomain:kSKUserDomain] getFSRef:&uref]) {
+  if ([[SparkActionLoader pluginPathForDomain:kWBUserDomain] getFSRef:&uref]) {
     user = YES;
   }
-  if ([[SparkActionLoader pluginPathForDomain:kSKLocalDomain] getFSRef:&lref]) {
+  if ([[SparkActionLoader pluginPathForDomain:kWBLocalDomain] getFSRef:&lref]) {
     local = YES;
   }
   
@@ -237,7 +237,7 @@ void *_SEPreferencesLoginItemThread(void *arg) {
   return value ? [value floatValue] : 0;
 }
 - (void)setDelay:(float)delay {
-  SparkPreferencesSetValue(kSparkGlobalPrefDelayStartup, SKFloat(delay), SparkPreferencesDaemon);
+  SparkPreferencesSetValue(kSparkGlobalPrefDelayStartup, WBFloat(delay), SparkPreferencesDaemon);
 }
 
 - (BOOL)advanced {
@@ -308,7 +308,7 @@ void *_SEPreferencesLoginItemThread(void *arg) {
     if ([[tableColumn identifier] isEqualToString:@"__item__"])
       return item;
     else if ([[tableColumn identifier] isEqualToString:@"enabled"])
-      return SKBool(NSMapGet(se_status, item) != 0); 
+      return WBBool(NSMapGet(se_status, item) != 0); 
     else
       return [item valueForKey:[tableColumn identifier]];
   } else if ([item isKindOfClass:[NSDictionary class]]) {
@@ -405,7 +405,7 @@ void *_SEPreferencesLoginItemThread(void *arg) {
 @end
 
 #pragma mark -
-SK_INLINE
+WB_INLINE
 BOOL __CFFileURLCompare(CFURLRef url1, CFURLRef url2) {
   FSRef r1, r2;
   if (CFURLGetFSRef(url1, &r1) && CFURLGetFSRef(url2, &r2)) {
@@ -417,7 +417,7 @@ BOOL __CFFileURLCompare(CFURLRef url1, CFURLRef url2) {
 void _SEPreferencesUpdateLoginItem() {
   BOOL status = __SEPreferencesLoginItemStatus();
   
-  CFArrayRef items = SKLoginItemCopyItems();
+  CFArrayRef items = WBLoginItemCopyItems();
   if (items) {
     NSString *sparkd = SESparkDaemonPath();
     NSURL *durl = sparkd ? [NSURL fileURLWithPath:sparkd] : NULL;
@@ -427,7 +427,7 @@ void _SEPreferencesUpdateLoginItem() {
       CFIndex idx = CFArrayGetCount(items);
       while (idx-- > 0) {
         CFDictionaryRef item = CFArrayGetValueAtIndex(items, idx);
-        CFURLRef itemURL = CFDictionaryGetValue(item, kSKLoginItemURL);
+        CFURLRef itemURL = CFDictionaryGetValue(item, kWBLoginItemURL);
         if (itemURL) {
           CFStringRef name = CFURLCopyLastPathComponent(itemURL);
           if (name) {
@@ -435,7 +435,7 @@ void _SEPreferencesUpdateLoginItem() {
               if (!status || !__CFFileURLCompare(itemURL, (CFURLRef)durl)) {
                 DLog(@"Remove login item: %@", itemURL);
 #if !defined(DEBUG)
-                SKLoginItemRemoveItemAtIndex(idx);
+                WBLoginItemRemoveItemAtIndex(idx);
 #endif
               } else {
                 DLog(@"Valid login item found");
@@ -449,7 +449,7 @@ void _SEPreferencesUpdateLoginItem() {
       /* Append login item if needed */
       if (shouldAdd) {
 #if !defined(DEBUG)
-        SKLoginItemAppendItemURL((CFURLRef)durl, YES);
+        WBLoginItemAppendItemURL((CFURLRef)durl, YES);
 #else
         DLog(@"Add login item: %@", durl);
 #endif

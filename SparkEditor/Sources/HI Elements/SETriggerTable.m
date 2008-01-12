@@ -8,7 +8,7 @@
 
 #import "SETriggerTable.h"
 
-#import <ShadowKit/SKExtensions.h>
+#import WBHEADER(WBExtensions.h)
 
 @implementation SETriggerTable
 
@@ -28,7 +28,7 @@
       [self sendAction:doubleAction to:target];
     }
   } else if ([anEvent clickCount] == 1 && ([anEvent modifierFlags] & NSDeviceIndependentModifierFlagsMask) == NSAlternateKeyMask) {
-    if (SKDelegateHandle([self delegate], tableView:shouldHandleOptionClick:) && ![[self delegate] tableView:self shouldHandleOptionClick:anEvent]) {
+    if (WBDelegateHandle([self delegate], tableView:shouldHandleOptionClick:) && ![[self delegate] tableView:self shouldHandleOptionClick:anEvent]) {
       // do nothing
     } else {
       [super mouseDown:anEvent];
@@ -41,7 +41,7 @@
 - (void)keyDown:(NSEvent *)anEvent {
   if (([anEvent modifierFlags] & NSDeviceIndependentModifierFlagsMask) == 0) {
     NSString *chr = [anEvent characters];
-    if ([chr isEqualToString:@" "] && SKDelegateHandle([self delegate], spaceDownInTableView:)) {
+    if ([chr isEqualToString:@" "] && WBDelegateHandle([self delegate], spaceDownInTableView:)) {
       [[self delegate] spaceDownInTableView:self];
       return;
     }
@@ -113,7 +113,7 @@
   
   NSUInteger idx;
   CGFloat offset = CGFLOAT_MAX;
-  SKIndexEnumerator *indexes = [dragRows indexEnumerator];
+  WBIndexEnumerator *indexes = [dragRows indexEnumerator];
   while ((idx = [indexes nextIndex]) != NSNotFound) {
     offset = MIN(NSMinY([self rectOfRow:idx]), offset);
   }

@@ -10,10 +10,10 @@
 #import "AppleScriptAction.h"
 
 #import <OSAKit/OSAKit.h>
-#import <ShadowKit/SKFunctions.h>
-#import <ShadowKit/SKAEFunctions.h>
-#import <ShadowKit/SKLSFunctions.h>
-#import <ShadowKit/SKProcessFunctions.h>
+
+#import WBHEADER(WBAEFunctions.h)
+#import WBHEADER(WBLSFunctions.h)
+#import WBHEADER(WBProcessFunctions.h)
 
 enum {
   kAppleScriptFileTab   = 1,
@@ -32,7 +32,7 @@ enum {
   [[ibScriptController scriptView] setSource:@""];
   if (value = [sparkAction scriptAlias]) {
     [self setScriptFile:[value path]];
-    [self setValue:SKInteger(kAppleScriptFileTab) forKey:@"selectedTab"];
+    [self setValue:WBInteger(kAppleScriptFileTab) forKey:@"selectedTab"];
   } else if (value = [sparkAction scriptSource]) {
     [[ibScriptController scriptView] setSource:value];
     [ibScriptController compileScript:nil];
@@ -216,19 +216,19 @@ enum {
 
 #pragma mark Launch
 - (IBAction)launchEditor:(id)sender {
-  AppleEvent aevt = SKAEEmptyDesc();
-  AEDesc document = SKAEEmptyDesc();
+  AppleEvent aevt = WBAEEmptyDesc();
+  AEDesc document = WBAEEmptyDesc();
   
   /* Launch Script Editor */
-  ProcessSerialNumber psn = SKProcessGetProcessWithSignature('ToyS');
+  ProcessSerialNumber psn = WBProcessGetProcessWithSignature('ToyS');
   if (kNoProcess == psn.lowLongOfPSN) {
-    if (noErr == SKLSLaunchApplicationWithSignature('ToyS',kLSLaunchDefaults &~kLSLaunchAsync))
-      psn = SKProcessGetProcessWithSignature('ToyS');
+    if (noErr == WBLSLaunchApplicationWithSignature('ToyS',kLSLaunchDefaults &~kLSLaunchAsync))
+      psn = WBProcessGetProcessWithSignature('ToyS');
   }
   require(kNoProcess != psn.lowLongOfPSN, dispose);
   
   /* activate */
-  OSStatus err = SKAESendSimpleEventToProcess(&psn, kAEMiscStandards, kAEActivate);
+  OSStatus err = WBAESendSimpleEventToProcess(&psn, kAEMiscStandards, kAEActivate);
   require_noerr(err, dispose);
   
   NSString *src = [[ibScriptController scriptView] source];
@@ -237,36 +237,36 @@ enum {
   }
   
   /* set the_document to make document */
-  err = SKAECreateEventWithTargetProcess(&psn, kAECoreSuite, kAECreateElement, &aevt);
+  err = WBAECreateEventWithTargetProcess(&psn, kAECoreSuite, kAECreateElement, &aevt);
   require_noerr(err, dispose);
   
   OSType type = cDocument;
-  err = SKAEAddAEDescWithData(&aevt, keyAEObjectClass, typeType, &type, sizeof(OSType));
+  err = WBAEAddAEDescWithData(&aevt, keyAEObjectClass, typeType, &type, sizeof(OSType));
   require_noerr(err, dispose);
   
-  err = SKAESetStandardAttributes(&aevt);
+  err = WBAESetStandardAttributes(&aevt);
   require_noerr(err, dispose);
   
-  err = SKAESendEventReturnAEDesc(&aevt, typeObjectSpecifier, &document);
-  SKAEDisposeDesc(&aevt);
+  err = WBAESendEventReturnAEDesc(&aevt, typeObjectSpecifier, &document);
+  WBAEDisposeDesc(&aevt);
   require_noerr(err, dispose);
   
   /* set text of the_document to 'src' */
-  err = SKAECreateEventWithTargetProcess(&psn, kAECoreSuite, kAESetData, &aevt);
+  err = WBAECreateEventWithTargetProcess(&psn, kAECoreSuite, kAESetData, &aevt);
   require_noerr(err, dispose);
   
-  err = SKAEAddIndexObjectSpecifier(&aevt, keyDirectObject, 'ctxt', kAEAll, &document);
+  err = WBAEAddIndexObjectSpecifier(&aevt, keyDirectObject, 'ctxt', kAEAll, &document);
   require_noerr(err, dispose);
   
-  err = SKAEAddCFStringAsUnicodeText(&aevt, keyAEData, (CFStringRef)src);
+  err = WBAEAddCFStringAsUnicodeText(&aevt, keyAEData, (CFStringRef)src);
   require_noerr(err, dispose);
   
-  err = SKAESendEventNoReply(&aevt);
+  err = WBAESendEventNoReply(&aevt);
   require_noerr(err, dispose);
   
 dispose:
-    SKAEDisposeDesc(&aevt);
-  SKAEDisposeDesc(&document);
+    WBAEDisposeDesc(&aevt);
+  WBAEDisposeDesc(&document);
 }
 
 #pragma mark -
@@ -281,7 +281,7 @@ dispose:
   return as_file;
 }
 - (void)setScriptFile:(NSString *)aFile {
-  SKSetterCopy(as_file, aFile);
+  WBSetterCopy(as_file, aFile);
 }
 
 @end

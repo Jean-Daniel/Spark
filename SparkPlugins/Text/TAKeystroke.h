@@ -8,7 +8,7 @@
 
 #import <HotKeyToolKit/HotKeyToolKit.h>
 
-@interface TAKeystroke : NSObject {
+@interface TAKeystroke : NSObject <NSCoding> {
   @private
   UniChar ta_char;
   HKKeycode ta_code;

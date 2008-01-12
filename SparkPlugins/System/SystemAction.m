@@ -15,12 +15,11 @@
 /* getuid() */
 #include <unistd.h>
 
-#import <ShadowKit/SKFunctions.h>
-#import <ShadowKit/SKFSFunctions.h>
-#import <ShadowKit/SKLSFunctions.h>
-#import <ShadowKit/SKAEFunctions.h>
-#import <ShadowKit/SKIOKitFunctions.h>
-#import <ShadowKit/SKAppKitExtensions.h>
+#import WBHEADER(WBFSFunctions.h)
+#import WBHEADER(WBLSFunctions.h)
+#import WBHEADER(WBAEFunctions.h)
+#import WBHEADER(WBIOKitFunctions.h)
+#import WBHEADER(WBAppKitExtensions.h)
 
 static NSString * const 
 kFastUserSwitcherPath = @"/System/Library/CoreServices/Menu Extras/User.menu/Contents/Resources/CGSession";
@@ -107,11 +106,11 @@ NSString * const kSystemUserNameKey = @"SystemUserName";
 
 - (BOOL)serialize:(NSMutableDictionary *)plist {
   if ([super serialize:plist]) {
-    [plist setObject:SKInteger([self action]) forKey:kSystemActionKey];
-    [plist setObject:SKUInteger([self encodeFlags]) forKey:kSystemFlagsKey];
+    [plist setObject:WBInteger([self action]) forKey:kSystemActionKey];
+    [plist setObject:WBUInteger([self encodeFlags]) forKey:kSystemFlagsKey];
     
     if (kSystemSwitch == [self action] && [self userID] && [self userName]) {
-      [plist setObject:SKUInteger([self userID]) forKey:kSystemUserUIDKey];
+      [plist setObject:WBUInteger([self userID]) forKey:kSystemUserUIDKey];
       [plist setObject:[self userName] forKey:kSystemUserNameKey];
     }
     return YES;
@@ -203,7 +202,7 @@ NSString * const kSystemUserNameKey = @"SystemUserName";
       break;
       
     case kSystemEject:
-      SKHIDPostSystemDefinedEvent(kSKHIDEjectKey);
+      WBHIDPostSystemDefinedEvent(kWBHIDEjectKey);
       break;
     case kSystemEmptyTrash:
       [self emptyTrash];
@@ -251,30 +250,30 @@ extern void CGDisplaySetInvertedPolarity(Boolean inverted);
 }
 
 - (void)emptyTrash {
-  AppleEvent aevt = SKAEEmptyDesc();
+  AppleEvent aevt = WBAEEmptyDesc();
   
-  OSStatus err = SKAECreateEventWithTargetSignature(kSparkFinderSignature, 'fndr', 'empt', &aevt);
+  OSStatus err = WBAECreateEventWithTargetSignature(kSparkFinderSignature, 'fndr', 'empt', &aevt);
   require_noerr(err, bail);
   
-  err = SKAEAddPropertyObjectSpecifier(&aevt, keyDirectObject, 'ctrs', 'trsh', NULL);
+  err = WBAEAddPropertyObjectSpecifier(&aevt, keyDirectObject, 'ctrs', 'trsh', NULL);
   require_noerr(err, bail);
   
-  err = SKAESetStandardAttributes(&aevt);
+  err = WBAESetStandardAttributes(&aevt);
   require_noerr(err, bail);
   
-  err = SKAESendEventNoReply(&aevt);
+  err = WBAESendEventNoReply(&aevt);
   check_noerr(err);
   
 bail:
-    SKAEDisposeDesc(&aevt);
+    WBAEDisposeDesc(&aevt);
 }
 
 - (void)launchKeyboardViewer {
-  NSString *path = SKLSFindApplicationForBundleIdentifier(@"com.apple.KeyboardViewerServer");
+  NSString *path = WBLSFindApplicationForBundleIdentifier(@"com.apple.KeyboardViewerServer");
   if (!path)
     path = @"/System/Library/Components/KeyboardViewer.component/Contents/SharedSupport/KeyboardViewerServer.app";
   if (path)
-    SKLSLaunchApplicationAtPath((CFStringRef)path, kCFURLPOSIXPathStyle, kLSLaunchDefaults); 
+    WBLSLaunchApplicationAtPath((CFStringRef)path, kCFURLPOSIXPathStyle, kLSLaunchDefaults); 
   else
     NSBeep();
 }
@@ -290,7 +289,7 @@ bail:
   return sa_uname;
 }
 - (void)setUserName:(NSString *)aName {
-  SKSetterRetain(sa_uname, aName);
+  WBSetterRetain(sa_uname, aName);
 }
 
 /*
@@ -302,35 +301,35 @@ kAEShowShutdownDialog         = 'rsdn'
 
 - (void)logout {
   ProcessSerialNumber psn = {0, kSystemProcess};
-  SKAESendSimpleEventToProcess(&psn, kCoreEventClass, [self shouldConfirm] ? kAELogOut : kAEReallyLogOut);
+  WBAESendSimpleEventToProcess(&psn, kCoreEventClass, [self shouldConfirm] ? kAELogOut : kAEReallyLogOut);
 }
 - (void)restart {
   ProcessSerialNumber psn = {0, kSystemProcess};
-  SKAESendSimpleEventToProcess(&psn, kCoreEventClass, [self shouldConfirm] ? kAEShowRestartDialog : 'rest');
+  WBAESendSimpleEventToProcess(&psn, kCoreEventClass, [self shouldConfirm] ? kAEShowRestartDialog : 'rest');
 }
 
 - (void)shutDown {
   ProcessSerialNumber psn = {0, kSystemProcess};
-  SKAESendSimpleEventToProcess(&psn, kCoreEventClass, [self shouldConfirm] ? kAEShowShutdownDialog : 'shut');
+  WBAESendSimpleEventToProcess(&psn, kCoreEventClass, [self shouldConfirm] ? kAEShowShutdownDialog : 'shut');
 }
 
 - (BOOL)shouldNotify {
   return sa_saFlags.notify;
 }
 - (void)setShouldNotify:(BOOL)flag {
-  SKFlagSet(sa_saFlags.notify, flag);
+  WBFlagSet(sa_saFlags.notify, flag);
 }
 
 - (BOOL)shouldConfirm {
   return sa_saFlags.confirm;
 }
 - (void)setShouldConfirm:(BOOL)flag {
-  SKFlagSet(sa_saFlags.confirm, flag);
+  WBFlagSet(sa_saFlags.confirm, flag);
 }
 
 - (void)sleep {
   ProcessSerialNumber psn = {0, kSystemProcess};
-  SKAESendSimpleEventToProcess(&psn, kCoreEventClass, 'slep');
+  WBAESendSimpleEventToProcess(&psn, kCoreEventClass, 'slep');
 }
 - (void)switchSession {
   if (0 == sa_uid) 
@@ -462,7 +461,7 @@ BrightnessView *_SASharedBrightnessView() {
   return shared;
 }
 
-SK_INLINE
+WB_INLINE
 NSUInteger __SystemBrightnessLevelForValue(float value) {
   if (value <= 0.0)
     return 0;
@@ -488,17 +487,17 @@ NSUInteger __SystemBrightnessLevelForValue(float value) {
 
 + (BOOL)supportBrightness {
   float value = 0;
-  return kCGErrorSuccess == SKIODisplayGetFloatParameter(kSystemBrightnessKey, &value);
+  return kCGErrorSuccess == WBIODisplayGetFloatParameter(kSystemBrightnessKey, &value);
 }
 
 - (void)brightnessUp {
   float value = 0;
-  OSStatus err = SKIODisplayGetFloatParameter(kSystemBrightnessKey, &value);
+  OSStatus err = WBIODisplayGetFloatParameter(kSystemBrightnessKey, &value);
   if (noErr == err) {
     NSUInteger level = __SystemBrightnessLevelForValue(value);
     if (level < 16)
       level++;
-    err = SKIODisplaySetFloatParameter(kSystemBrightnessKey, kBrightnessLevels[level]);
+    err = WBIODisplaySetFloatParameter(kSystemBrightnessKey, kBrightnessLevels[level]);
     
     if (noErr == err)
       [self notifyBrightnessLevel:level];
@@ -507,12 +506,12 @@ NSUInteger __SystemBrightnessLevelForValue(float value) {
 
 - (void)brightnessDown {
   float value = 0;
-  OSStatus err = SKIODisplayGetFloatParameter(kSystemBrightnessKey, &value);
+  OSStatus err = WBIODisplayGetFloatParameter(kSystemBrightnessKey, &value);
   if (noErr == err) {
     NSUInteger level = __SystemBrightnessLevelForValue(value);
     if (level > 0)
       level--;
-    err = SKIODisplaySetFloatParameter(kSystemBrightnessKey, kBrightnessLevels[level]);
+    err = WBIODisplaySetFloatParameter(kSystemBrightnessKey, kBrightnessLevels[level]);
     
     if (noErr == err)
       [self notifyBrightnessLevel:level];
@@ -562,7 +561,7 @@ void SystemSwitchToUser(uid_t uid) {
 
 @implementation PowerAction
 
-SK_INLINE
+WB_INLINE
 OSType SystemActionFromFlag(int flag) {
   switch (flag) {
     case 0:

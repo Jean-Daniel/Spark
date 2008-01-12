@@ -62,7 +62,7 @@
   [ia_info display:sender];
 }
 
-SK_INLINE
+WB_INLINE
 NSPoint _iTunesGetPointForIndex(int idx) {
   switch (idx) {
     case 0:
@@ -76,15 +76,15 @@ NSPoint _iTunesGetPointForIndex(int idx) {
   }
   return NSZeroPoint;
 }
-SK_INLINE
+WB_INLINE
 int _iTunesGetIndexForPoint(NSPoint point) {
-  if (SKRealEquals(point.x, kiTunesUpperLeft.x))
+  if (WBRealEquals(point.x, kiTunesUpperLeft.x))
     return 0;
-  if (SKRealEquals(point.x, kiTunesUpperRight.x))
+  if (WBRealEquals(point.x, kiTunesUpperRight.x))
     return 1;
-  if (SKRealEquals(point.x, kiTunesBottomLeft.x))
+  if (WBRealEquals(point.x, kiTunesBottomLeft.x))
     return 2;
-  if (SKRealEquals(point.x, kiTunesBottomRight.x))
+  if (WBRealEquals(point.x, kiTunesBottomRight.x))
     return 3;
   
   return 5;
@@ -182,10 +182,10 @@ int _iTunesGetIndexForPoint(NSPoint point) {
 }
 - (void)setConfiguration:(int)aConfig {
   if (ia_config != aConfig) {
-    if (SKDelegateHandle(ia_delegate, settingWillChangeConfiguration:))
+    if (WBDelegateHandle(ia_delegate, settingWillChangeConfiguration:))
       [ia_delegate settingWillChangeConfiguration:self];
     ia_config = aConfig;
-    if (SKDelegateHandle(ia_delegate, settingDidChangeConfiguration:))
+    if (WBDelegateHandle(ia_delegate, settingDidChangeConfiguration:))
       [ia_delegate settingDidChangeConfiguration:self];
   }
 }

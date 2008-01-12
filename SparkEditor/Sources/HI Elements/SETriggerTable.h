@@ -6,9 +6,9 @@
  *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
  */
 
-#import <ShadowKit/SKTableView.h>
+#import WBHEADER(WBTableView.h)
 
-@interface SETriggerTable : SKTableView {
+@interface SETriggerTable : WBTableView {
 
 }
 

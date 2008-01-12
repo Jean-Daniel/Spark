@@ -10,72 +10,117 @@
 		1B6DACEF0D0C9D0400F352CC /* SparkMultiAlert.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B6DACED0D0C9D0400F352CC /* SparkMultiAlert.xib */; };
 		1B6DACF40D0CA0F800F352CC /* SparkPluginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B6DACF20D0CA0F800F352CC /* SparkPluginView.xib */; };
 		1B6DACF80D0CA1BF00F352CC /* SparkPlugin.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B6DACF60D0CA1BF00F352CC /* SparkPlugin.xib */; };
-		1B6DAD010D0CA23200F352CC /* SKProgressPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B6DAD000D0CA23200F352CC /* SKProgressPanel.xib */; };
 		1B78811F0D172D2900EE2B66 /* SparkEntryPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B78811E0D172D2900EE2B66 /* SparkEntryPrivate.h */; };
-		1BAA6F8D0B64CF2500F9AC0E /* SKImageUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BAA6F870B64CF2500F9AC0E /* SKImageUtils.m */; };
+		1B81EBA20D38326C004B82A2 /* WBOutlineView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B81EBA00D38326C004B82A2 /* WBOutlineView.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1B81EBA30D38326C004B82A2 /* WBOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B81EBA10D38326C004B82A2 /* WBOutlineView.m */; };
 		1BB8B1FF0B949EE900F91062 /* SparkSystem.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1BB8B1FE0B949EE900F91062 /* SparkSystem.tiff */; };
-		1BE44FE40BD4B3DC00034060 /* AESendThreadSafe.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BE44FE30BD4B3DC00034060 /* AESendThreadSafe.c */; };
-		1BEDD4810C848BCC00ADAF1D /* SKSingleton.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEDD47B0C848BCC00ADAF1D /* SKSingleton.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BEDD4820C848BCC00ADAF1D /* SKFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEDD47C0C848BCC00ADAF1D /* SKFunctions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1BEDD4830C848BCC00ADAF1D /* SKCFContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEDD47D0C848BCC00ADAF1D /* SKCFContext.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BEDD4840C848BCC00ADAF1D /* SKExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEDD47E0C848BCC00ADAF1D /* SKExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1BEDD4850C848BCC00ADAF1D /* SKForwarding.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEDD47F0C848BCC00ADAF1D /* SKForwarding.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BEDD4860C848BCC00ADAF1D /* SKClassCluster.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEDD4800C848BCC00ADAF1D /* SKClassCluster.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BEDD4930C848C5800ADAF1D /* SKLoginItems.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEDD48A0C848C5800ADAF1D /* SKLoginItems.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BEDD4940C848C5800ADAF1D /* SKFSFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEDD48B0C848C5800ADAF1D /* SKFSFunctions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1BEDD4950C848C5800ADAF1D /* SKDSFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEDD48C0C848C5800ADAF1D /* SKDSFunctions.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BEDD4960C848C5800ADAF1D /* SKLSFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEDD48D0C848C5800ADAF1D /* SKLSFunctions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1BEDD4970C848C5800ADAF1D /* SKAEFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEDD48E0C848C5800ADAF1D /* SKAEFunctions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1BEDD4980C848C5800ADAF1D /* SKCGFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEDD48F0C848C5800ADAF1D /* SKCGFunctions.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BEDD4990C848C5800ADAF1D /* SKIOKitFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEDD4900C848C5800ADAF1D /* SKIOKitFunctions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1BEDD49A0C848C5800ADAF1D /* AESendThreadSafe.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEDD4910C848C5800ADAF1D /* AESendThreadSafe.h */; };
-		1BEDD49B0C848C5800ADAF1D /* SKProcessFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEDD4920C848C5800ADAF1D /* SKProcessFunctions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1BEDD4A30C848CB200ADAF1D /* SKAlias.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEDD49C0C848CB200ADAF1D /* SKAlias.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1BEDD4A40C848CB200ADAF1D /* SKTreeNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEDD49D0C848CB200ADAF1D /* SKTreeNode.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BEDD4A50C848CB200ADAF1D /* SKApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEDD49E0C848CB200ADAF1D /* SKApplication.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1BEDD4A60C848CB200ADAF1D /* SKEnumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEDD49F0C848CB200ADAF1D /* SKEnumerator.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BEDD4A70C848CB200ADAF1D /* SKSerialization.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEDD4A00C848CB200ADAF1D /* SKSerialization.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BEDD4A80C848CB200ADAF1D /* SKPluginLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEDD4A10C848CB200ADAF1D /* SKPluginLoader.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BEDD4A90C848CB200ADAF1D /* SKAliasedApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEDD4A20C848CB200ADAF1D /* SKAliasedApplication.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1BEDD4AE0C848CE500ADAF1D /* SKBezelItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEDD4AB0C848CE500ADAF1D /* SKBezelItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1BEDD4AF0C848CE500ADAF1D /* SKBezelItemContent.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEDD4AC0C848CE500ADAF1D /* SKBezelItemContent.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1BEDD4B00C848CE500ADAF1D /* SKNotificationWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEDD4AD0C848CE500ADAF1D /* SKNotificationWindow.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1BEDD4B90C848D1400ADAF1D /* SKColor.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEDD4B10C848D1400ADAF1D /* SKColor.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BEDD4BA0C848D1400ADAF1D /* SKTableView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEDD4B20C848D1400ADAF1D /* SKTableView.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BEDD4BB0C848D1400ADAF1D /* SKImageView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEDD4B30C848D1400ADAF1D /* SKImageView.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BEDD4BC0C848D1400ADAF1D /* SKOutlineView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEDD4B40C848D1400ADAF1D /* SKOutlineView.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BEDD4BD0C848D1400ADAF1D /* SKViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEDD4B50C848D1400ADAF1D /* SKViewController.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BEDD4BE0C848D1400ADAF1D /* SKTableDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEDD4B60C848D1400ADAF1D /* SKTableDataSource.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BEDD4BF0C848D1400ADAF1D /* SKAppKitExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEDD4B70C848D1400ADAF1D /* SKAppKitExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1BEDD4C00C848D1400ADAF1D /* SKWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEDD4B80C848D1400ADAF1D /* SKWindowController.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BEDD4C60C848D3B00ADAF1D /* SKImageUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEDD4C50C848D3B00ADAF1D /* SKImageUtils.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BEEA0D30C8BE9B700705B22 /* SKSplitview.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEEA0CD0C8BE9B700705B22 /* SKSplitview.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BEEA0D40C8BE9B700705B22 /* SKHeaderView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEEA0CE0C8BE9B700705B22 /* SKHeaderView.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BEEA0D50C8BE9B700705B22 /* SKShadowLabel.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEEA0CF0C8BE9B700705B22 /* SKShadowLabel.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BEEA0D60C8BE9B700705B22 /* SKApplicationView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEEA0D00C8BE9B700705B22 /* SKApplicationView.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BEEA0D70C8BE9B700705B22 /* SKCustomViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEEA0D10C8BE9B700705B22 /* SKCustomViewCell.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BEEA0D80C8BE9B700705B22 /* SKImageAndTextCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEEA0D20C8BE9B700705B22 /* SKImageAndTextCell.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		65245F3A0A2AFE4200ACB971 /* SKPluginLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 65245F390A2AFE4200ACB971 /* SKPluginLoader.m */; };
+		1BB9831F0D381CDE0074D18E /* WBImageUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB983140D381CDE0074D18E /* WBImageUtils.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1BB983200D381CDE0074D18E /* WBImageUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB983150D381CDE0074D18E /* WBImageUtils.m */; };
+		1BB983250D381CDE0074D18E /* WBIconFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BB9831B0D381CDE0074D18E /* WBIconFunctions.c */; };
+		1BB983260D381CDE0074D18E /* WBIconFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB9831C0D381CDE0074D18E /* WBIconFunctions.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1BB983270D381CDE0074D18E /* WBIconView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB9831D0D381CDE0074D18E /* WBIconView.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1BB983280D381CDE0074D18E /* WBIconView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB9831E0D381CDE0074D18E /* WBIconView.m */; };
+		1BB9836F0D381ECC0074D18E /* WBBezelItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB983690D381ECC0074D18E /* WBBezelItem.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1BB983700D381ECC0074D18E /* WBBezelItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB9836A0D381ECC0074D18E /* WBBezelItem.m */; };
+		1BB983710D381ECC0074D18E /* WBBezelItemContent.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB9836B0D381ECC0074D18E /* WBBezelItemContent.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1BB983720D381ECC0074D18E /* WBBezelItemContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB9836C0D381ECC0074D18E /* WBBezelItemContent.m */; };
+		1BB983730D381ECC0074D18E /* WBNotificationWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB9836D0D381ECC0074D18E /* WBNotificationWindow.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1BB983740D381ECC0074D18E /* WBNotificationWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB9836E0D381ECC0074D18E /* WBNotificationWindow.m */; };
+		1BB983850D381EE70074D18E /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 983975950A5866BF00F79B40 /* IOKit.framework */; };
+		1BB983860D381EE80074D18E /* DirectoryService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98E19C670B160EF1007E4D31 /* DirectoryService.framework */; };
+		1BB986B10D382AD10074D18E /* WBProgress.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1BB9868E0D382AD00074D18E /* WBProgress.strings */; };
+		1BB986B30D382AD10074D18E /* WBHeader-down.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1BB986910D382AD00074D18E /* WBHeader-down.tiff */; };
+		1BB986B40D382AD10074D18E /* WBHeader.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1BB986920D382AD00074D18E /* WBHeader.tiff */; };
+		1BB986B50D382AD10074D18E /* WBHeaderMenu.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1BB986930D382AD00074D18E /* WBHeaderMenu.tiff */; };
+		1BB986B60D382AD10074D18E /* WBHSplitBar.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1BB986940D382AD00074D18E /* WBHSplitBar.tiff */; };
+		1BB986B70D382AD10074D18E /* WBProgressPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BB986950D382AD00074D18E /* WBProgressPanel.xib */; };
+		1BB986B80D382AD10074D18E /* WBSplitDot.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1BB986960D382AD00074D18E /* WBSplitDot.tiff */; };
+		1BB986B90D382AD10074D18E /* WBVSplitBar.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1BB986970D382AD00074D18E /* WBVSplitBar.tiff */; };
+		1BB986BC0D382AD10074D18E /* WBApplicationView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB9869A0D382AD00074D18E /* WBApplicationView.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1BB986BD0D382AD10074D18E /* WBApplicationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB9869B0D382AD10074D18E /* WBApplicationView.m */; };
+		1BB986BE0D382AD10074D18E /* WBBackgroundView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB9869C0D382AD10074D18E /* WBBackgroundView.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1BB986BF0D382AD10074D18E /* WBBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB9869D0D382AD10074D18E /* WBBackgroundView.m */; };
+		1BB986C70D382AD10074D18E /* WBHeaderView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB986A50D382AD10074D18E /* WBHeaderView.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1BB986C80D382AD10074D18E /* WBHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB986A60D382AD10074D18E /* WBHeaderView.m */; };
+		1BB986C90D382AD10074D18E /* WBImageAndTextCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB986A70D382AD10074D18E /* WBImageAndTextCell.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1BB986CA0D382AD10074D18E /* WBImageAndTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB986A80D382AD10074D18E /* WBImageAndTextCell.m */; };
+		1BB986CB0D382AD10074D18E /* WBImageAndTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB986A90D382AD10074D18E /* WBImageAndTextView.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1BB986CC0D382AD10074D18E /* WBImageAndTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB986AA0D382AD10074D18E /* WBImageAndTextView.m */; };
+		1BB986CD0D382AD10074D18E /* WBProgressPanel.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB986AB0D382AD10074D18E /* WBProgressPanel.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1BB986CE0D382AD10074D18E /* WBProgressPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB986AC0D382AD10074D18E /* WBProgressPanel.m */; };
+		1BB986CF0D382AD10074D18E /* WBShadowLabel.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB986AD0D382AD10074D18E /* WBShadowLabel.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1BB986D00D382AD10074D18E /* WBShadowLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB986AE0D382AD10074D18E /* WBShadowLabel.m */; };
+		1BB986D10D382AD10074D18E /* WBSplitview.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB986AF0D382AD10074D18E /* WBSplitview.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1BB986D20D382AD10074D18E /* WBSplitview.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB986B00D382AD10074D18E /* WBSplitview.m */; };
+		1BB986DF0D382B240074D18E /* WBColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB986DD0D382B240074D18E /* WBColor.m */; };
+		1BB986E00D382B240074D18E /* WBColor.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB986DE0D382B240074D18E /* WBColor.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1BB987180D382C5C0074D18E /* WBTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB987120D382C5C0074D18E /* WBTemplate.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1BB987190D382C5C0074D18E /* WBTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB987130D382C5C0074D18E /* WBTemplate.m */; };
+		1BB9871A0D382C5C0074D18E /* WBTemplateParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB987140D382C5C0074D18E /* WBTemplateParser.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1BB9871B0D382C5C0074D18E /* WBTemplateParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB987150D382C5C0074D18E /* WBTemplateParser.m */; };
+		1BB9871C0D382C5C0074D18E /* WBXMLTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB987160D382C5C0074D18E /* WBXMLTemplate.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1BB9871D0D382C5C0074D18E /* WBXMLTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB987170D382C5C0074D18E /* WBXMLTemplate.m */; };
+		1BB987270D382C8B0074D18E /* WBTreeNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB987250D382C8B0074D18E /* WBTreeNode.m */; };
+		1BB987280D382C8B0074D18E /* WBTreeNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB987260D382C8B0074D18E /* WBTreeNode.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1BE316680D38138B005C3FB2 /* WBCFContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316290D38138B005C3FB2 /* WBCFContext.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1BE316690D38138B005C3FB2 /* WBCFContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE3162A0D38138B005C3FB2 /* WBCFContext.m */; };
+		1BE3166A0D38138B005C3FB2 /* WBExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE3162B0D38138B005C3FB2 /* WBExtensions.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1BE3166B0D38138B005C3FB2 /* WBExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE3162C0D38138B005C3FB2 /* WBExtensions.m */; };
+		1BE3166C0D38138B005C3FB2 /* WBFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE3162D0D38138B005C3FB2 /* WBFunctions.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1BE3166D0D38138B005C3FB2 /* WBFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE3162E0D38138B005C3FB2 /* WBFunctions.m */; };
+		1BE3166E0D38138B005C3FB2 /* WBAlias.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316300D38138B005C3FB2 /* WBAlias.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1BE3166F0D38138B005C3FB2 /* WBAlias.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316310D38138B005C3FB2 /* WBAlias.m */; };
+		1BE316700D38138B005C3FB2 /* WBAliasedApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316320D38138B005C3FB2 /* WBAliasedApplication.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1BE316710D38138B005C3FB2 /* WBAliasedApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316330D38138B005C3FB2 /* WBAliasedApplication.m */; };
+		1BE316720D38138B005C3FB2 /* WBApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316340D38138B005C3FB2 /* WBApplication.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1BE316730D38138B005C3FB2 /* WBApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316350D38138B005C3FB2 /* WBApplication.m */; };
+		1BE316780D38138B005C3FB2 /* WBPluginLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE3163A0D38138B005C3FB2 /* WBPluginLoader.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1BE316790D38138B005C3FB2 /* WBPluginLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE3163B0D38138B005C3FB2 /* WBPluginLoader.m */; };
+		1BE3167A0D38138B005C3FB2 /* WBSerialization.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE3163C0D38138B005C3FB2 /* WBSerialization.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1BE3167B0D38138B005C3FB2 /* WBSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE3163D0D38138B005C3FB2 /* WBSerialization.m */; };
+		1BE316820D38138B005C3FB2 /* AESendThreadSafe.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316450D38138B005C3FB2 /* AESendThreadSafe.c */; };
+		1BE316830D38138B005C3FB2 /* AESendThreadSafe.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316460D38138B005C3FB2 /* AESendThreadSafe.h */; };
+		1BE316840D38138B005C3FB2 /* WBAEFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316470D38138B005C3FB2 /* WBAEFunctions.c */; };
+		1BE316850D38138B005C3FB2 /* WBAEFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316480D38138B005C3FB2 /* WBAEFunctions.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1BE316880D38138B005C3FB2 /* WBCGFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE3164B0D38138B005C3FB2 /* WBCGFunctions.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1BE316890D38138B005C3FB2 /* WBCGFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE3164C0D38138B005C3FB2 /* WBCGFunctions.m */; };
+		1BE3168A0D38138B005C3FB2 /* WBDSFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BE3164D0D38138B005C3FB2 /* WBDSFunctions.c */; };
+		1BE3168B0D38138B005C3FB2 /* WBDSFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE3164E0D38138B005C3FB2 /* WBDSFunctions.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1BE3168E0D38138B005C3FB2 /* WBFSFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316510D38138B005C3FB2 /* WBFSFunctions.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1BE3168F0D38138B005C3FB2 /* WBFSFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316520D38138B005C3FB2 /* WBFSFunctions.m */; };
+		1BE316920D38138B005C3FB2 /* WBIOKitFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316550D38138B005C3FB2 /* WBIOKitFunctions.c */; };
+		1BE316930D38138B005C3FB2 /* WBIOKitFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316560D38138B005C3FB2 /* WBIOKitFunctions.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1BE316940D38138B005C3FB2 /* WBLoginItems.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316570D38138B005C3FB2 /* WBLoginItems.c */; };
+		1BE316950D38138B005C3FB2 /* WBLoginItems.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316580D38138B005C3FB2 /* WBLoginItems.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1BE316960D38138B005C3FB2 /* WBLSFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316590D38138B005C3FB2 /* WBLSFunctions.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1BE316970D38138B005C3FB2 /* WBLSFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE3165A0D38138B005C3FB2 /* WBLSFunctions.m */; };
+		1BE3169C0D38138B005C3FB2 /* WBProcessFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BE3165F0D38138B005C3FB2 /* WBProcessFunctions.c */; };
+		1BE3169D0D38138B005C3FB2 /* WBProcessFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316600D38138B005C3FB2 /* WBProcessFunctions.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1BE316A00D38138B005C3FB2 /* WBClassCluster.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316640D38138B005C3FB2 /* WBClassCluster.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1BE316A10D38138B005C3FB2 /* WBForwarding.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316650D38138B005C3FB2 /* WBForwarding.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1BE316A20D38138B005C3FB2 /* WBKeyValueCoding.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316660D38138B005C3FB2 /* WBKeyValueCoding.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1BE316A30D38138B005C3FB2 /* WBSingleton.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316670D38138B005C3FB2 /* WBSingleton.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1BE316E70D3815C9005C3FB2 /* WBAppKitExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316D30D3815C9005C3FB2 /* WBAppKitExtensions.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1BE316E80D3815C9005C3FB2 /* WBAppKitExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316D40D3815C9005C3FB2 /* WBAppKitExtensions.m */; };
+		1BE316EB0D3815C9005C3FB2 /* WBImageView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316D70D3815C9005C3FB2 /* WBImageView.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1BE316EC0D3815C9005C3FB2 /* WBImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316D80D3815C9005C3FB2 /* WBImageView.m */; };
+		1BE316F10D3815C9005C3FB2 /* WBTableDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316DD0D3815C9005C3FB2 /* WBTableDataSource.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1BE316F20D3815C9005C3FB2 /* WBTableDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316DE0D3815C9005C3FB2 /* WBTableDataSource.m */; };
+		1BE316F30D3815C9005C3FB2 /* WBTableView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316DF0D3815C9005C3FB2 /* WBTableView.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1BE316F40D3815C9005C3FB2 /* WBTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316E00D3815C9005C3FB2 /* WBTableView.m */; };
+		1BE316F70D3815C9005C3FB2 /* WBViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316E30D3815C9005C3FB2 /* WBViewController.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1BE316F80D3815C9005C3FB2 /* WBViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316E40D3815C9005C3FB2 /* WBViewController.m */; };
+		1BE316F90D3815C9005C3FB2 /* WBWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316E50D3815C9005C3FB2 /* WBWindowController.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1BE316FA0D3815C9005C3FB2 /* WBWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316E60D3815C9005C3FB2 /* WBWindowController.m */; };
+		1BE3172D0D381835005C3FB2 /* WBEnumerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE3172B0D381835005C3FB2 /* WBEnumerator.m */; };
+		1BE3172E0D381835005C3FB2 /* WBEnumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE3172C0D381835005C3FB2 /* WBEnumerator.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
 		9805FD390773B47700B1A341 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9805FD370773B47700B1A341 /* Localizable.strings */; };
-		980B128B0A5BAB9C008F6DBC /* SKCFContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 980B128A0A5BAB9C008F6DBC /* SKCFContext.m */; };
 		980EEB2E0A7E8A0B00013CF5 /* SimpleList.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 980EEB2D0A7E8A0B00013CF5 /* SimpleList.tiff */; };
-		9814088A0AFA927C0014F92F /* SKAliasedApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 981408890AFA927C0014F92F /* SKAliasedApplication.m */; };
 		9816B0630B2F4677002EE526 /* spark-editor.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 9816B0620B2F4677002EE526 /* spark-editor.tiff */; };
-		981E12140CA5D36F009E8FD8 /* SKProgressPanel.h in Headers */ = {isa = PBXBuildFile; fileRef = 981E12120CA5D36F009E8FD8 /* SKProgressPanel.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		981E12150CA5D36F009E8FD8 /* SKProgressPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 981E12130CA5D36F009E8FD8 /* SKProgressPanel.m */; };
-		981EBC1B0A5AEFC5001C2FB3 /* SKSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 981EBC1A0A5AEFC5001C2FB3 /* SKSerialization.m */; };
-		982AF4210A7A80B700D17D65 /* SKEnumerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 982AF4200A7A80B700D17D65 /* SKEnumerator.m */; };
 		982C707C0D02EDBA0060304C /* SparkEntryManagerPrivate.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D764520B5A610B000A09A5 /* SparkEntryManagerPrivate.m */; };
 		982C70CD0D02F2400060304C /* SparkLibraryLegacy.m in Sources */ = {isa = PBXBuildFile; fileRef = 98CFC2650D016636004F10ED /* SparkLibraryLegacy.m */; };
-		9839758F0A58669C00F79B40 /* SKIOKitFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = 9839758E0A58669C00F79B40 /* SKIOKitFunctions.c */; };
-		983976350A5866BF00F79B40 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 983975950A5866BF00F79B40 /* IOKit.framework */; };
-		98417FE60B4FDF2400073F1D /* SKSplitview.m in Sources */ = {isa = PBXBuildFile; fileRef = 98417FE50B4FDF2400073F1D /* SKSplitview.m */; };
-		98417FEC0B4FDF5C00073F1D /* SKHSplitBar.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98417FE90B4FDF5C00073F1D /* SKHSplitBar.tiff */; };
-		98417FED0B4FDF5C00073F1D /* SKSplitDot.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98417FEA0B4FDF5C00073F1D /* SKSplitDot.tiff */; };
-		98417FEE0B4FDF5C00073F1D /* SKVSplitBar.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98417FEB0B4FDF5C00073F1D /* SKVSplitBar.tiff */; };
-		984256B00AC5DBEF00AB2AE0 /* SKImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 984256AF0AC5DBEF00AB2AE0 /* SKImageView.m */; };
 		984A38650A60036E00DA6455 /* SparkActionLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 984A38610A60036E00DA6455 /* SparkActionLoader.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		984A38660A60036E00DA6455 /* SparkActionLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 984A38620A60036E00DA6455 /* SparkActionLoader.m */; };
 		984A38670A60036E00DA6455 /* SparkPlugIn.h in Headers */ = {isa = PBXBuildFile; fileRef = 984A38630A60036E00DA6455 /* SparkPlugIn.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -109,32 +154,6 @@
 		986286250B2AE8DF00866A34 /* enabled.png in Resources */ = {isa = PBXBuildFile; fileRef = 986286240B2AE8DE00866A34 /* enabled.png */; };
 		9864A33F0BD117F20089447D /* SparkPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 9864A33E0BD117F20089447D /* SparkPreferences.m */; };
 		9864A3AD0BD11EB40089447D /* SparkPreferences.h in Headers */ = {isa = PBXBuildFile; fileRef = 9864A3AC0BD11EB40089447D /* SparkPreferences.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		98665E620A86A6F900CF8291 /* SKAEFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = 98665E610A86A6F900CF8291 /* SKAEFunctions.c */; };
-		98675537096B35E900BB8A25 /* SKIconFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = 98E66C7F0759F7E90048A37D /* SKIconFunctions.c */; };
-		9867553B096B35E900BB8A25 /* SKIconFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 98E66C820759F7F60048A37D /* SKIconFunctions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		98675547096B35E900BB8A25 /* SKExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 98725D2C06CB9FB30072B8E4 /* SKExtensions.m */; };
-		98675548096B35E900BB8A25 /* SKApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 986AFA2F06D65E0800B84D2D /* SKApplication.m */; };
-		98675549096B35E900BB8A25 /* SKAlias.m in Sources */ = {isa = PBXBuildFile; fileRef = 98725D3706CB9FC60072B8E4 /* SKAlias.m */; };
-		9867554B096B35E900BB8A25 /* SKLSFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 98C78D6A07D9E716006D9CC1 /* SKLSFunctions.m */; };
-		9867554E096B35E900BB8A25 /* SKProcessFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = 98C78D6B07D9E716006D9CC1 /* SKProcessFunctions.c */; };
-		9867554F096B35E900BB8A25 /* SKAppKitExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 98E455C508104B3300B7899F /* SKAppKitExtensions.m */; };
-		98675551096B35E900BB8A25 /* SKFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 98725D2B06CB9FB30072B8E4 /* SKFunctions.m */; };
-		98675552096B35E900BB8A25 /* SKFSFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 98C78D6907D9E716006D9CC1 /* SKFSFunctions.m */; };
-		98675568096B367800BB8A25 /* ShadowKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98C56D34096B348400ABE1EF /* ShadowKit.framework */; };
-		98675577096B36BD00BB8A25 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
-		986758D0096B403300BB8A25 /* SKWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 986758CE096B403300BB8A25 /* SKWindowController.m */; };
-		986758D1096B403300BB8A25 /* SKTableDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 986758CF096B403300BB8A25 /* SKTableDataSource.m */; };
-		986B59510B8CEBD0000B74E7 /* SKTreeNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 986B59500B8CEBD0000B74E7 /* SKTreeNode.m */; };
-		987669EB0CD4CAF400593B74 /* SKTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = 987669E50CD4CAF400593B74 /* SKTemplate.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		987669EC0CD4CAF400593B74 /* SKTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = 987669E60CD4CAF400593B74 /* SKTemplate.m */; };
-		987669ED0CD4CAF400593B74 /* SKTemplateParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 987669E70CD4CAF400593B74 /* SKTemplateParser.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		987669EE0CD4CAF400593B74 /* SKTemplateParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 987669E80CD4CAF400593B74 /* SKTemplateParser.m */; };
-		987669EF0CD4CAF400593B74 /* SKXMLTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = 987669E90CD4CAF400593B74 /* SKXMLTemplate.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		987669F00CD4CAF400593B74 /* SKXMLTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = 987669EA0CD4CAF400593B74 /* SKXMLTemplate.m */; };
-		98789B630AB48C1900C35052 /* SKBezelItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 98789B5D0AB48C1900C35052 /* SKBezelItem.m */; };
-		98789B640AB48C1900C35052 /* SKBezelItemContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 98789B5E0AB48C1900C35052 /* SKBezelItemContent.m */; };
-		98789B650AB48C1900C35052 /* SKNotificationWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 98789B5F0AB48C1900C35052 /* SKNotificationWindow.m */; };
-		9887389A0ABC1B4300DD19BB /* SparkShadowKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 988738990ABC1B4300DD19BB /* SparkShadowKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		988C9B460B56F2EF000A0DDC /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 988C9AAE0B56F29A000A0DDC /* Carbon.framework */; };
 		989EF9EE0A7CC4C900721386 /* SparkList.h in Headers */ = {isa = PBXBuildFile; fileRef = 989EF9ED0A7CC4C900721386 /* SparkList.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		98A854E40AFF9BFE00088961 /* SparkBuiltInAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 98A854E20AFF9BFE00088961 /* SparkBuiltInAction.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -150,57 +169,26 @@
 		98A8ABD70D01B3BC00CE8C12 /* SparkEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 98EDA3C10A9FA1A100519E9B /* SparkEntry.m */; };
 		98A8ABE60D01B40900CE8C12 /* SparkIconManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 98E6514F0B62932B008A8C9B /* SparkIconManager.m */; };
 		98A8ABF10D01B44000CE8C12 /* SparkList.m in Sources */ = {isa = PBXBuildFile; fileRef = 989EF9E90A7CC4BB00721386 /* SparkList.m */; };
-		98C56D45096B353F00ABE1EF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 98C56D40096B353900ABE1EF /* InfoPlist.strings */; };
 		98CEC6220D02C02700AFF39A /* SparkEntryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 98EDA3F20A9FA34100519E9B /* SparkEntryManager.m */; };
 		98CF6FB006B3DB2B0017D206 /* Forward.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98CF6FAC06B3DB2B0017D206 /* Forward.tif */; };
 		98CF6FB106B3DB2B0017D206 /* ForwardPressedBlue.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98CF6FAD06B3DB2B0017D206 /* ForwardPressedBlue.tif */; };
 		98CF6FB206B3DB2B0017D206 /* BackPressedBlue.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98CF6FAE06B3DB2B0017D206 /* BackPressedBlue.tif */; };
 		98CF6FB306B3DB2B0017D206 /* Back.tif in Resources */ = {isa = PBXBuildFile; fileRef = 98CF6FAF06B3DB2B0017D206 /* Back.tif */; };
-		98D2AAF70CA6EE0100DC973B /* SKThreadPort.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D2AAF50CA6EE0100DC973B /* SKThreadPort.m */; };
-		98D2AAF80CA6EE0100DC973B /* SKThreadPort.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D2AAF60CA6EE0100DC973B /* SKThreadPort.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		98D7643E0B5A6003000A09A5 /* SparkEntryManagerPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D7643D0B5A6003000A09A5 /* SparkEntryManagerPrivate.h */; };
 		98D7680F0B5A8222000A09A5 /* SparkLibrarySynchronizer.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D767970B5A754E000A09A5 /* SparkLibrarySynchronizer.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		98D886AF0B29642200E661EF /* hotkey.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98D886AE0B29642100E661EF /* hotkey.tiff */; };
 		98D886B10B29644800E661EF /* plugin.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98D886B00B29644800E661EF /* plugin.tiff */; };
 		98D886B60B29648100E661EF /* Warning.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98F867260A600D24009C68F9 /* Warning.tiff */; };
 		98D886E10B29678D00E661EF /* SparkEntry.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98D886E00B29678D00E661EF /* SparkEntry.tiff */; };
-		98DA2C630AFE126700E394CD /* SKHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98DA2C610AFE126700E394CD /* SKHeaderView.m */; };
-		98DA2C760AFE142700E394CD /* SKShadowLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 98DA2C730AFE142700E394CD /* SKShadowLabel.m */; };
-		98DA2C770AFE142700E394CD /* SKImageAndTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 98DA2C740AFE142700E394CD /* SKImageAndTextCell.m */; };
-		98DA2C780AFE142700E394CD /* SKCustomViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 98DA2C750AFE142700E394CD /* SKCustomViewCell.m */; };
-		98DA2ED50AFE174400E394CD /* SKHeader-down.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98DA2ED20AFE174400E394CD /* SKHeader-down.tiff */; };
-		98DA2ED60AFE174400E394CD /* SKHeader.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98DA2ED30AFE174400E394CD /* SKHeader.tiff */; };
-		98DA2ED70AFE174400E394CD /* SKHeaderMenu.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98DA2ED40AFE174400E394CD /* SKHeaderMenu.tiff */; };
-		98DA2F260AFE192200E394CD /* SKColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 98DA2F250AFE192200E394CD /* SKColor.m */; };
-		98DAB1CB0A5E8C1500EB6CB3 /* SKOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98DAB1CA0A5E8C1500EB6CB3 /* SKOutlineView.m */; };
 		98DC55290B2CA9340051E04B /* SparkDisabled.png in Resources */ = {isa = PBXBuildFile; fileRef = 98D886E20B2967A900E661EF /* SparkDisabled.png */; };
 		98DC55490B2CAA7D0051E04B /* switch-status.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98BCF0C30708BDA70039136F /* switch-status.tiff */; };
-		98DCBD810CCA6BCF0045707B /* SKSecurityFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = 98DCBD7F0CCA6BCF0045707B /* SKSecurityFunctions.c */; };
-		98DCBD820CCA6BCF0045707B /* SKSecurityFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 98DCBD800CCA6BCF0045707B /* SKSecurityFunctions.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		98DCC181096C67C4003106E2 /* SKLoginItems.c in Sources */ = {isa = PBXBuildFile; fileRef = 98DCC180096C67C4003106E2 /* SKLoginItems.c */; };
-		98DCE5B60B50F8E0006FA468 /* SKApplicationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98DCE5B50B50F8E0006FA468 /* SKApplicationView.m */; };
-		98DCED020B510875006FA468 /* SKCGFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 98DCED010B510875006FA468 /* SKCGFunctions.m */; };
-		98DDE9820A612E4000D76698 /* SKViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98DDE9810A612E4000D76698 /* SKViewController.m */; };
-		98E19C510B160EC5007E4D31 /* SKDSFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = 98E19C500B160EC5007E4D31 /* SKDSFunctions.c */; };
-		98E19C710B160EF1007E4D31 /* DirectoryService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98E19C670B160EF1007E4D31 /* DirectoryService.framework */; };
 		98E1D5EA0D031CA800219B11 /* SparkLibrarySynchronizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D767980B5A754E000A09A5 /* SparkLibrarySynchronizer.m */; };
 		98E651520B62933B008A8C9B /* SparkIconManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 98E651510B62933B008A8C9B /* SparkIconManager.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		98EB96DE0C174D9D00C7B72D /* SparkPluginView.h in Headers */ = {isa = PBXBuildFile; fileRef = 98EB96DC0C174D9D00C7B72D /* SparkPluginView.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		98EB96DF0C174D9D00C7B72D /* SparkPluginView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98EB96DD0C174D9D00C7B72D /* SparkPluginView.m */; };
 		98EDA3C40A9FA1B000519E9B /* SparkEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = 98EDA3C30A9FA1B000519E9B /* SparkEntry.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		98EDA3E40A9FA2FB00519E9B /* SparkEntryManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 98EDA3E30A9FA2FB00519E9B /* SparkEntryManager.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		98EE9F5B0ABC0D6800296C08 /* SKIconView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98EE9F5A0ABC0D6800296C08 /* SKIconView.m */; };
-		98EE9F5D0ABC0D7100296C08 /* SKIconView.h in Headers */ = {isa = PBXBuildFile; fileRef = 98EE9F5C0ABC0D7100296C08 /* SKIconView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		98F073000CC26A84008CF066 /* SKCDSAFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = 98F072F40CC26A83008CF066 /* SKCDSAFunctions.c */; };
-		98F073010CC26A84008CF066 /* SKCDSAFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 98F072F50CC26A83008CF066 /* SKCDSAFunctions.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		98F073020CC26A84008CF066 /* SKCryptoFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = 98F072F60CC26A83008CF066 /* SKCryptoFunctions.c */; };
-		98F073030CC26A84008CF066 /* SKCryptoFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 98F072F70CC26A83008CF066 /* SKCryptoFunctions.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		98F073100CC26AD7008CF066 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B49363D0CA2E57C00F53EEE /* Security.framework */; };
-		98F5C8140A59B574007BEB21 /* SKTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98F5C8130A59B574007BEB21 /* SKTableView.m */; };
 		98FC31D50B32E585000D5F6B /* Application.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98A923B80A7BC6E200DF1998 /* Application.tiff */; };
-		98FD6E050CD48FAF0029007D /* SKProgress.strings in Resources */ = {isa = PBXBuildFile; fileRef = 98FD6E030CD48FAF0029007D /* SKProgress.strings */; };
-		98FD6E130CD48FE10029007D /* SKImageAndTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 98FD6E110CD48FE10029007D /* SKImageAndTextView.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		98FD6E140CD48FE10029007D /* SKImageAndTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98FD6E120CD48FE10029007D /* SKImageAndTextView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -239,13 +227,6 @@
 			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = HotKeyToolKit;
 		};
-		9867556A096B367F00BB8A25 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 98C56D33096B348400ABE1EF;
-			remoteInfo = ShadowKit;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -257,74 +238,118 @@
 		1B6DACEE0D0C9D0400F352CC /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SparkMultiAlert.xib; sourceTree = "<group>"; };
 		1B6DACF30D0CA0F800F352CC /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SparkPluginView.xib; sourceTree = "<group>"; };
 		1B6DACF70D0CA1BF00F352CC /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SparkPlugin.xib; sourceTree = "<group>"; };
-		1B6DAD000D0CA23200F352CC /* SKProgressPanel.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SKProgressPanel.xib; sourceTree = "<group>"; };
 		1B78811E0D172D2900EE2B66 /* SparkEntryPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkEntryPrivate.h; sourceTree = "<group>"; };
 		1B7BB7890CBE1FD700484A9E /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
 		1B7BB78A0CBE1FD700484A9E /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		1B7BB78B0CBE1FD700484A9E /* Profile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Profile.xcconfig; sourceTree = "<group>"; };
 		1B7BB78C0CBE1FD700484A9E /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		1B7CF6150D356F690068DAD1 /* 64Bits.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = 64Bits.xcconfig; sourceTree = "<group>"; };
-		1BAA6F870B64CF2500F9AC0E /* SKImageUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKImageUtils.m; sourceTree = "<group>"; };
+		1B81EBA00D38326C004B82A2 /* WBOutlineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBOutlineView.h; sourceTree = "<group>"; };
+		1B81EBA10D38326C004B82A2 /* WBOutlineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBOutlineView.m; sourceTree = "<group>"; };
 		1BB8B1FE0B949EE900F91062 /* SparkSystem.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SparkSystem.tiff; sourceTree = "<group>"; };
-		1BE44FE30BD4B3DC00034060 /* AESendThreadSafe.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = AESendThreadSafe.c; sourceTree = "<group>"; };
-		1BEDD47B0C848BCC00ADAF1D /* SKSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKSingleton.h; sourceTree = "<group>"; };
-		1BEDD47C0C848BCC00ADAF1D /* SKFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKFunctions.h; sourceTree = "<group>"; };
-		1BEDD47D0C848BCC00ADAF1D /* SKCFContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKCFContext.h; sourceTree = "<group>"; };
-		1BEDD47E0C848BCC00ADAF1D /* SKExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKExtensions.h; sourceTree = "<group>"; };
-		1BEDD47F0C848BCC00ADAF1D /* SKForwarding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKForwarding.h; sourceTree = "<group>"; };
-		1BEDD4800C848BCC00ADAF1D /* SKClassCluster.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKClassCluster.h; sourceTree = "<group>"; };
-		1BEDD48A0C848C5800ADAF1D /* SKLoginItems.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKLoginItems.h; sourceTree = "<group>"; };
-		1BEDD48B0C848C5800ADAF1D /* SKFSFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKFSFunctions.h; sourceTree = "<group>"; };
-		1BEDD48C0C848C5800ADAF1D /* SKDSFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKDSFunctions.h; sourceTree = "<group>"; };
-		1BEDD48D0C848C5800ADAF1D /* SKLSFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKLSFunctions.h; sourceTree = "<group>"; };
-		1BEDD48E0C848C5800ADAF1D /* SKAEFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKAEFunctions.h; sourceTree = "<group>"; };
-		1BEDD48F0C848C5800ADAF1D /* SKCGFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKCGFunctions.h; sourceTree = "<group>"; };
-		1BEDD4900C848C5800ADAF1D /* SKIOKitFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKIOKitFunctions.h; sourceTree = "<group>"; };
-		1BEDD4910C848C5800ADAF1D /* AESendThreadSafe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AESendThreadSafe.h; sourceTree = "<group>"; };
-		1BEDD4920C848C5800ADAF1D /* SKProcessFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKProcessFunctions.h; sourceTree = "<group>"; };
-		1BEDD49C0C848CB200ADAF1D /* SKAlias.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKAlias.h; sourceTree = "<group>"; };
-		1BEDD49D0C848CB200ADAF1D /* SKTreeNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKTreeNode.h; sourceTree = "<group>"; };
-		1BEDD49E0C848CB200ADAF1D /* SKApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKApplication.h; sourceTree = "<group>"; };
-		1BEDD49F0C848CB200ADAF1D /* SKEnumerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKEnumerator.h; sourceTree = "<group>"; };
-		1BEDD4A00C848CB200ADAF1D /* SKSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKSerialization.h; sourceTree = "<group>"; };
-		1BEDD4A10C848CB200ADAF1D /* SKPluginLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKPluginLoader.h; sourceTree = "<group>"; };
-		1BEDD4A20C848CB200ADAF1D /* SKAliasedApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKAliasedApplication.h; sourceTree = "<group>"; };
-		1BEDD4AB0C848CE500ADAF1D /* SKBezelItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKBezelItem.h; sourceTree = "<group>"; };
-		1BEDD4AC0C848CE500ADAF1D /* SKBezelItemContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKBezelItemContent.h; sourceTree = "<group>"; };
-		1BEDD4AD0C848CE500ADAF1D /* SKNotificationWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKNotificationWindow.h; sourceTree = "<group>"; };
-		1BEDD4B10C848D1400ADAF1D /* SKColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKColor.h; sourceTree = "<group>"; };
-		1BEDD4B20C848D1400ADAF1D /* SKTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKTableView.h; sourceTree = "<group>"; };
-		1BEDD4B30C848D1400ADAF1D /* SKImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKImageView.h; sourceTree = "<group>"; };
-		1BEDD4B40C848D1400ADAF1D /* SKOutlineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKOutlineView.h; sourceTree = "<group>"; };
-		1BEDD4B50C848D1400ADAF1D /* SKViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKViewController.h; sourceTree = "<group>"; };
-		1BEDD4B60C848D1400ADAF1D /* SKTableDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKTableDataSource.h; sourceTree = "<group>"; };
-		1BEDD4B70C848D1400ADAF1D /* SKAppKitExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKAppKitExtensions.h; sourceTree = "<group>"; };
-		1BEDD4B80C848D1400ADAF1D /* SKWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKWindowController.h; sourceTree = "<group>"; };
-		1BEDD4C50C848D3B00ADAF1D /* SKImageUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKImageUtils.h; sourceTree = "<group>"; };
-		1BEEA0CD0C8BE9B700705B22 /* SKSplitview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKSplitview.h; sourceTree = "<group>"; };
-		1BEEA0CE0C8BE9B700705B22 /* SKHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKHeaderView.h; sourceTree = "<group>"; };
-		1BEEA0CF0C8BE9B700705B22 /* SKShadowLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKShadowLabel.h; sourceTree = "<group>"; };
-		1BEEA0D00C8BE9B700705B22 /* SKApplicationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKApplicationView.h; sourceTree = "<group>"; };
-		1BEEA0D10C8BE9B700705B22 /* SKCustomViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKCustomViewCell.h; sourceTree = "<group>"; };
-		1BEEA0D20C8BE9B700705B22 /* SKImageAndTextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKImageAndTextCell.h; sourceTree = "<group>"; };
-		65245F390A2AFE4200ACB971 /* SKPluginLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SKPluginLoader.m; sourceTree = "<group>"; };
+		1BB983140D381CDE0074D18E /* WBImageUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBImageUtils.h; sourceTree = "<group>"; };
+		1BB983150D381CDE0074D18E /* WBImageUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBImageUtils.m; sourceTree = "<group>"; };
+		1BB9831B0D381CDE0074D18E /* WBIconFunctions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WBIconFunctions.c; sourceTree = "<group>"; };
+		1BB9831C0D381CDE0074D18E /* WBIconFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBIconFunctions.h; sourceTree = "<group>"; };
+		1BB9831D0D381CDE0074D18E /* WBIconView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBIconView.h; sourceTree = "<group>"; };
+		1BB9831E0D381CDE0074D18E /* WBIconView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBIconView.m; sourceTree = "<group>"; };
+		1BB983690D381ECC0074D18E /* WBBezelItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBBezelItem.h; sourceTree = "<group>"; };
+		1BB9836A0D381ECC0074D18E /* WBBezelItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBBezelItem.m; sourceTree = "<group>"; };
+		1BB9836B0D381ECC0074D18E /* WBBezelItemContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBBezelItemContent.h; sourceTree = "<group>"; };
+		1BB9836C0D381ECC0074D18E /* WBBezelItemContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBBezelItemContent.m; sourceTree = "<group>"; };
+		1BB9836D0D381ECC0074D18E /* WBNotificationWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBNotificationWindow.h; sourceTree = "<group>"; };
+		1BB9836E0D381ECC0074D18E /* WBNotificationWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBNotificationWindow.m; sourceTree = "<group>"; };
+		1BB9868F0D382AD00074D18E /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/WBProgress.strings; sourceTree = "<group>"; };
+		1BB986910D382AD00074D18E /* WBHeader-down.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "WBHeader-down.tiff"; sourceTree = "<group>"; };
+		1BB986920D382AD00074D18E /* WBHeader.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = WBHeader.tiff; sourceTree = "<group>"; };
+		1BB986930D382AD00074D18E /* WBHeaderMenu.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = WBHeaderMenu.tiff; sourceTree = "<group>"; };
+		1BB986940D382AD00074D18E /* WBHSplitBar.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = WBHSplitBar.tiff; sourceTree = "<group>"; };
+		1BB986950D382AD00074D18E /* WBProgressPanel.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WBProgressPanel.xib; sourceTree = "<group>"; };
+		1BB986960D382AD00074D18E /* WBSplitDot.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = WBSplitDot.tiff; sourceTree = "<group>"; };
+		1BB986970D382AD00074D18E /* WBVSplitBar.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = WBVSplitBar.tiff; sourceTree = "<group>"; };
+		1BB9869A0D382AD00074D18E /* WBApplicationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBApplicationView.h; sourceTree = "<group>"; };
+		1BB9869B0D382AD10074D18E /* WBApplicationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBApplicationView.m; sourceTree = "<group>"; };
+		1BB9869C0D382AD10074D18E /* WBBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBBackgroundView.h; sourceTree = "<group>"; };
+		1BB9869D0D382AD10074D18E /* WBBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBBackgroundView.m; sourceTree = "<group>"; };
+		1BB986A50D382AD10074D18E /* WBHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBHeaderView.h; sourceTree = "<group>"; };
+		1BB986A60D382AD10074D18E /* WBHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBHeaderView.m; sourceTree = "<group>"; };
+		1BB986A70D382AD10074D18E /* WBImageAndTextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBImageAndTextCell.h; sourceTree = "<group>"; };
+		1BB986A80D382AD10074D18E /* WBImageAndTextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBImageAndTextCell.m; sourceTree = "<group>"; };
+		1BB986A90D382AD10074D18E /* WBImageAndTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBImageAndTextView.h; sourceTree = "<group>"; };
+		1BB986AA0D382AD10074D18E /* WBImageAndTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBImageAndTextView.m; sourceTree = "<group>"; };
+		1BB986AB0D382AD10074D18E /* WBProgressPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBProgressPanel.h; sourceTree = "<group>"; };
+		1BB986AC0D382AD10074D18E /* WBProgressPanel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBProgressPanel.m; sourceTree = "<group>"; };
+		1BB986AD0D382AD10074D18E /* WBShadowLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBShadowLabel.h; sourceTree = "<group>"; };
+		1BB986AE0D382AD10074D18E /* WBShadowLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBShadowLabel.m; sourceTree = "<group>"; };
+		1BB986AF0D382AD10074D18E /* WBSplitview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBSplitview.h; sourceTree = "<group>"; };
+		1BB986B00D382AD10074D18E /* WBSplitview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBSplitview.m; sourceTree = "<group>"; };
+		1BB986DD0D382B240074D18E /* WBColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBColor.m; sourceTree = "<group>"; };
+		1BB986DE0D382B240074D18E /* WBColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBColor.h; sourceTree = "<group>"; };
+		1BB987120D382C5C0074D18E /* WBTemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTemplate.h; sourceTree = "<group>"; };
+		1BB987130D382C5C0074D18E /* WBTemplate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTemplate.m; sourceTree = "<group>"; };
+		1BB987140D382C5C0074D18E /* WBTemplateParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTemplateParser.h; sourceTree = "<group>"; };
+		1BB987150D382C5C0074D18E /* WBTemplateParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTemplateParser.m; sourceTree = "<group>"; };
+		1BB987160D382C5C0074D18E /* WBXMLTemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBXMLTemplate.h; sourceTree = "<group>"; };
+		1BB987170D382C5C0074D18E /* WBXMLTemplate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBXMLTemplate.m; sourceTree = "<group>"; };
+		1BB987250D382C8B0074D18E /* WBTreeNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTreeNode.m; sourceTree = "<group>"; };
+		1BB987260D382C8B0074D18E /* WBTreeNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTreeNode.h; sourceTree = "<group>"; };
+		1BE316290D38138B005C3FB2 /* WBCFContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBCFContext.h; sourceTree = "<group>"; };
+		1BE3162A0D38138B005C3FB2 /* WBCFContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBCFContext.m; sourceTree = "<group>"; };
+		1BE3162B0D38138B005C3FB2 /* WBExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBExtensions.h; sourceTree = "<group>"; };
+		1BE3162C0D38138B005C3FB2 /* WBExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBExtensions.m; sourceTree = "<group>"; };
+		1BE3162D0D38138B005C3FB2 /* WBFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBFunctions.h; sourceTree = "<group>"; };
+		1BE3162E0D38138B005C3FB2 /* WBFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBFunctions.m; sourceTree = "<group>"; };
+		1BE316300D38138B005C3FB2 /* WBAlias.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBAlias.h; sourceTree = "<group>"; };
+		1BE316310D38138B005C3FB2 /* WBAlias.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBAlias.m; sourceTree = "<group>"; };
+		1BE316320D38138B005C3FB2 /* WBAliasedApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBAliasedApplication.h; sourceTree = "<group>"; };
+		1BE316330D38138B005C3FB2 /* WBAliasedApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBAliasedApplication.m; sourceTree = "<group>"; };
+		1BE316340D38138B005C3FB2 /* WBApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBApplication.h; sourceTree = "<group>"; };
+		1BE316350D38138B005C3FB2 /* WBApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBApplication.m; sourceTree = "<group>"; };
+		1BE3163A0D38138B005C3FB2 /* WBPluginLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBPluginLoader.h; sourceTree = "<group>"; };
+		1BE3163B0D38138B005C3FB2 /* WBPluginLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBPluginLoader.m; sourceTree = "<group>"; };
+		1BE3163C0D38138B005C3FB2 /* WBSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBSerialization.h; sourceTree = "<group>"; };
+		1BE3163D0D38138B005C3FB2 /* WBSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBSerialization.m; sourceTree = "<group>"; };
+		1BE316450D38138B005C3FB2 /* AESendThreadSafe.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = AESendThreadSafe.c; sourceTree = "<group>"; };
+		1BE316460D38138B005C3FB2 /* AESendThreadSafe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AESendThreadSafe.h; sourceTree = "<group>"; };
+		1BE316470D38138B005C3FB2 /* WBAEFunctions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WBAEFunctions.c; sourceTree = "<group>"; };
+		1BE316480D38138B005C3FB2 /* WBAEFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBAEFunctions.h; sourceTree = "<group>"; };
+		1BE3164B0D38138B005C3FB2 /* WBCGFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBCGFunctions.h; sourceTree = "<group>"; };
+		1BE3164C0D38138B005C3FB2 /* WBCGFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBCGFunctions.m; sourceTree = "<group>"; };
+		1BE3164D0D38138B005C3FB2 /* WBDSFunctions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WBDSFunctions.c; sourceTree = "<group>"; };
+		1BE3164E0D38138B005C3FB2 /* WBDSFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBDSFunctions.h; sourceTree = "<group>"; };
+		1BE316510D38138B005C3FB2 /* WBFSFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBFSFunctions.h; sourceTree = "<group>"; };
+		1BE316520D38138B005C3FB2 /* WBFSFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBFSFunctions.m; sourceTree = "<group>"; };
+		1BE316550D38138B005C3FB2 /* WBIOKitFunctions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WBIOKitFunctions.c; sourceTree = "<group>"; };
+		1BE316560D38138B005C3FB2 /* WBIOKitFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBIOKitFunctions.h; sourceTree = "<group>"; };
+		1BE316570D38138B005C3FB2 /* WBLoginItems.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WBLoginItems.c; sourceTree = "<group>"; };
+		1BE316580D38138B005C3FB2 /* WBLoginItems.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBLoginItems.h; sourceTree = "<group>"; };
+		1BE316590D38138B005C3FB2 /* WBLSFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBLSFunctions.h; sourceTree = "<group>"; };
+		1BE3165A0D38138B005C3FB2 /* WBLSFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBLSFunctions.m; sourceTree = "<group>"; };
+		1BE3165F0D38138B005C3FB2 /* WBProcessFunctions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WBProcessFunctions.c; sourceTree = "<group>"; };
+		1BE316600D38138B005C3FB2 /* WBProcessFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBProcessFunctions.h; sourceTree = "<group>"; };
+		1BE316640D38138B005C3FB2 /* WBClassCluster.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBClassCluster.h; sourceTree = "<group>"; };
+		1BE316650D38138B005C3FB2 /* WBForwarding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBForwarding.h; sourceTree = "<group>"; };
+		1BE316660D38138B005C3FB2 /* WBKeyValueCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBKeyValueCoding.h; sourceTree = "<group>"; };
+		1BE316670D38138B005C3FB2 /* WBSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBSingleton.h; sourceTree = "<group>"; };
+		1BE316D30D3815C9005C3FB2 /* WBAppKitExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBAppKitExtensions.h; sourceTree = "<group>"; };
+		1BE316D40D3815C9005C3FB2 /* WBAppKitExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBAppKitExtensions.m; sourceTree = "<group>"; };
+		1BE316D70D3815C9005C3FB2 /* WBImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBImageView.h; sourceTree = "<group>"; };
+		1BE316D80D3815C9005C3FB2 /* WBImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBImageView.m; sourceTree = "<group>"; };
+		1BE316DD0D3815C9005C3FB2 /* WBTableDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTableDataSource.h; sourceTree = "<group>"; };
+		1BE316DE0D3815C9005C3FB2 /* WBTableDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTableDataSource.m; sourceTree = "<group>"; };
+		1BE316DF0D3815C9005C3FB2 /* WBTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTableView.h; sourceTree = "<group>"; };
+		1BE316E00D3815C9005C3FB2 /* WBTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTableView.m; sourceTree = "<group>"; };
+		1BE316E30D3815C9005C3FB2 /* WBViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBViewController.h; sourceTree = "<group>"; };
+		1BE316E40D3815C9005C3FB2 /* WBViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBViewController.m; sourceTree = "<group>"; };
+		1BE316E50D3815C9005C3FB2 /* WBWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBWindowController.h; sourceTree = "<group>"; };
+		1BE316E60D3815C9005C3FB2 /* WBWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBWindowController.m; sourceTree = "<group>"; };
+		1BE3172B0D381835005C3FB2 /* WBEnumerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBEnumerator.m; sourceTree = "<group>"; };
+		1BE3172C0D381835005C3FB2 /* WBEnumerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBEnumerator.h; sourceTree = "<group>"; };
 		8DC2EF5B0486A6940098B216 /* SparkKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SparkKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9805FD380773B47700B1A341 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
-		980B128A0A5BAB9C008F6DBC /* SKCFContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SKCFContext.m; sourceTree = "<group>"; };
 		980EEB2D0A7E8A0B00013CF5 /* SimpleList.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SimpleList.tiff; sourceTree = "<group>"; };
-		981408890AFA927C0014F92F /* SKAliasedApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKAliasedApplication.m; sourceTree = "<group>"; };
 		9816B0620B2F4677002EE526 /* spark-editor.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "spark-editor.tiff"; sourceTree = "<group>"; };
-		981E12120CA5D36F009E8FD8 /* SKProgressPanel.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SKProgressPanel.h; sourceTree = "<group>"; };
-		981E12130CA5D36F009E8FD8 /* SKProgressPanel.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SKProgressPanel.m; sourceTree = "<group>"; };
-		981EBC1A0A5AEFC5001C2FB3 /* SKSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SKSerialization.m; sourceTree = "<group>"; };
-		982AF4200A7A80B700D17D65 /* SKEnumerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKEnumerator.m; sourceTree = "<group>"; };
-		9839758E0A58669C00F79B40 /* SKIOKitFunctions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; lineEnding = 0; path = SKIOKitFunctions.c; sourceTree = "<group>"; };
 		983975950A5866BF00F79B40 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
-		98417FE50B4FDF2400073F1D /* SKSplitview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKSplitview.m; sourceTree = "<group>"; };
-		98417FE90B4FDF5C00073F1D /* SKHSplitBar.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SKHSplitBar.tiff; sourceTree = "<group>"; };
-		98417FEA0B4FDF5C00073F1D /* SKSplitDot.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SKSplitDot.tiff; sourceTree = "<group>"; };
-		98417FEB0B4FDF5C00073F1D /* SKVSplitBar.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SKVSplitBar.tiff; sourceTree = "<group>"; };
-		984256AF0AC5DBEF00AB2AE0 /* SKImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKImageView.m; sourceTree = "<group>"; };
 		984A38610A60036E00DA6455 /* SparkActionLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkActionLoader.h; sourceTree = "<group>"; };
 		984A38620A60036E00DA6455 /* SparkActionLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkActionLoader.m; sourceTree = "<group>"; };
 		984A38630A60036E00DA6455 /* SparkPlugIn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkPlugIn.h; sourceTree = "<group>"; };
@@ -363,26 +388,8 @@
 		986286240B2AE8DE00866A34 /* enabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = enabled.png; sourceTree = "<group>"; };
 		9864A33E0BD117F20089447D /* SparkPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkPreferences.m; sourceTree = "<group>"; };
 		9864A3AC0BD11EB40089447D /* SparkPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkPreferences.h; sourceTree = "<group>"; };
-		98665E610A86A6F900CF8291 /* SKAEFunctions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = SKAEFunctions.c; sourceTree = "<group>"; };
-		986758CE096B403300BB8A25 /* SKWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SKWindowController.m; sourceTree = "<group>"; };
-		986758CF096B403300BB8A25 /* SKTableDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SKTableDataSource.m; sourceTree = "<group>"; };
-		986AFA2F06D65E0800B84D2D /* SKApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SKApplication.m; sourceTree = "<group>"; };
-		986B59500B8CEBD0000B74E7 /* SKTreeNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKTreeNode.m; sourceTree = "<group>"; };
 		986DB09207135AC100C65FF2 /* CustomKeyIcon.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = CustomKeyIcon.tif; sourceTree = "<group>"; };
 		986F7A4007071B2F00064694 /* SystemApplication.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SystemApplication.tif; sourceTree = "<group>"; };
-		98725D2B06CB9FB30072B8E4 /* SKFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SKFunctions.m; sourceTree = "<group>"; };
-		98725D2C06CB9FB30072B8E4 /* SKExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SKExtensions.m; sourceTree = "<group>"; };
-		98725D3706CB9FC60072B8E4 /* SKAlias.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SKAlias.m; sourceTree = "<group>"; };
-		987669E50CD4CAF400593B74 /* SKTemplate.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SKTemplate.h; sourceTree = "<group>"; };
-		987669E60CD4CAF400593B74 /* SKTemplate.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SKTemplate.m; sourceTree = "<group>"; };
-		987669E70CD4CAF400593B74 /* SKTemplateParser.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SKTemplateParser.h; sourceTree = "<group>"; };
-		987669E80CD4CAF400593B74 /* SKTemplateParser.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SKTemplateParser.m; sourceTree = "<group>"; };
-		987669E90CD4CAF400593B74 /* SKXMLTemplate.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SKXMLTemplate.h; sourceTree = "<group>"; };
-		987669EA0CD4CAF400593B74 /* SKXMLTemplate.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SKXMLTemplate.m; sourceTree = "<group>"; };
-		98789B5D0AB48C1900C35052 /* SKBezelItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKBezelItem.m; sourceTree = "<group>"; };
-		98789B5E0AB48C1900C35052 /* SKBezelItemContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKBezelItemContent.m; sourceTree = "<group>"; };
-		98789B5F0AB48C1900C35052 /* SKNotificationWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKNotificationWindow.m; sourceTree = "<group>"; };
-		988738990ABC1B4300DD19BB /* SparkShadowKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkShadowKit.h; sourceTree = "<group>"; };
 		988C9AAE0B56F29A000A0DDC /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		989EF9E90A7CC4BB00721386 /* SparkList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkList.m; sourceTree = "<group>"; };
 		989EF9ED0A7CC4C900721386 /* SparkList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkList.h; sourceTree = "<group>"; };
@@ -393,19 +400,11 @@
 		98A8AB9E0D01B21800CE8C12 /* SparkLibraryPrivate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkLibraryPrivate.m; sourceTree = "<group>"; };
 		98A923B80A7BC6E200DF1998 /* Application.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Application.tiff; sourceTree = "<group>"; };
 		98BCF0C30708BDA70039136F /* switch-status.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "switch-status.tiff"; sourceTree = "<group>"; };
-		98C56D34096B348400ABE1EF /* ShadowKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ShadowKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		98C56D41096B353900ABE1EF /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		98C56D42096B353900ABE1EF /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Info.plist; path = ShadowKit/Info.plist; sourceTree = SOURCE_ROOT; };
-		98C78D6907D9E716006D9CC1 /* SKFSFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SKFSFunctions.m; sourceTree = "<group>"; };
-		98C78D6A07D9E716006D9CC1 /* SKLSFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SKLSFunctions.m; sourceTree = "<group>"; };
-		98C78D6B07D9E716006D9CC1 /* SKProcessFunctions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; lineEnding = 0; path = SKProcessFunctions.c; sourceTree = "<group>"; };
 		98CF6FAC06B3DB2B0017D206 /* Forward.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Forward.tif; sourceTree = "<group>"; };
 		98CF6FAD06B3DB2B0017D206 /* ForwardPressedBlue.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = ForwardPressedBlue.tif; sourceTree = "<group>"; };
 		98CF6FAE06B3DB2B0017D206 /* BackPressedBlue.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = BackPressedBlue.tif; sourceTree = "<group>"; };
 		98CF6FAF06B3DB2B0017D206 /* Back.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Back.tif; sourceTree = "<group>"; };
 		98CFC2650D016636004F10ED /* SparkLibraryLegacy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkLibraryLegacy.m; sourceTree = "<group>"; };
-		98D2AAF50CA6EE0100DC973B /* SKThreadPort.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SKThreadPort.m; sourceTree = "<group>"; };
-		98D2AAF60CA6EE0100DC973B /* SKThreadPort.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SKThreadPort.h; sourceTree = "<group>"; };
 		98D7643D0B5A6003000A09A5 /* SparkEntryManagerPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkEntryManagerPrivate.h; sourceTree = "<group>"; };
 		98D764520B5A610B000A09A5 /* SparkEntryManagerPrivate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkEntryManagerPrivate.m; sourceTree = "<group>"; };
 		98D767970B5A754E000A09A5 /* SparkLibrarySynchronizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkLibrarySynchronizer.h; sourceTree = "<group>"; };
@@ -414,28 +413,9 @@
 		98D886B00B29644800E661EF /* plugin.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = plugin.tiff; sourceTree = "<group>"; };
 		98D886E00B29678D00E661EF /* SparkEntry.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SparkEntry.tiff; sourceTree = "<group>"; };
 		98D886E20B2967A900E661EF /* SparkDisabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SparkDisabled.png; sourceTree = "<group>"; };
-		98DA2C610AFE126700E394CD /* SKHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKHeaderView.m; sourceTree = "<group>"; };
-		98DA2C730AFE142700E394CD /* SKShadowLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKShadowLabel.m; sourceTree = "<group>"; };
-		98DA2C740AFE142700E394CD /* SKImageAndTextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKImageAndTextCell.m; sourceTree = "<group>"; };
-		98DA2C750AFE142700E394CD /* SKCustomViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKCustomViewCell.m; sourceTree = "<group>"; };
-		98DA2ED20AFE174400E394CD /* SKHeader-down.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "SKHeader-down.tiff"; sourceTree = "<group>"; };
-		98DA2ED30AFE174400E394CD /* SKHeader.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SKHeader.tiff; sourceTree = "<group>"; };
-		98DA2ED40AFE174400E394CD /* SKHeaderMenu.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SKHeaderMenu.tiff; sourceTree = "<group>"; };
-		98DA2F250AFE192200E394CD /* SKColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKColor.m; sourceTree = "<group>"; };
-		98DAB1CA0A5E8C1500EB6CB3 /* SKOutlineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SKOutlineView.m; sourceTree = "<group>"; };
-		98DCBD7F0CCA6BCF0045707B /* SKSecurityFunctions.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = SKSecurityFunctions.c; sourceTree = "<group>"; };
-		98DCBD800CCA6BCF0045707B /* SKSecurityFunctions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SKSecurityFunctions.h; sourceTree = "<group>"; };
-		98DCC180096C67C4003106E2 /* SKLoginItems.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; lineEnding = 0; path = SKLoginItems.c; sourceTree = "<group>"; };
-		98DCE5B50B50F8E0006FA468 /* SKApplicationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKApplicationView.m; sourceTree = "<group>"; };
-		98DCED010B510875006FA468 /* SKCGFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKCGFunctions.m; sourceTree = "<group>"; };
-		98DDE9810A612E4000D76698 /* SKViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKViewController.m; sourceTree = "<group>"; };
-		98E19C500B160EC5007E4D31 /* SKDSFunctions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = SKDSFunctions.c; sourceTree = "<group>"; };
 		98E19C670B160EF1007E4D31 /* DirectoryService.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DirectoryService.framework; path = /System/Library/Frameworks/DirectoryService.framework; sourceTree = "<absolute>"; };
-		98E455C508104B3300B7899F /* SKAppKitExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SKAppKitExtensions.m; sourceTree = "<group>"; };
 		98E6514F0B62932B008A8C9B /* SparkIconManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkIconManager.m; sourceTree = "<group>"; };
 		98E651510B62933B008A8C9B /* SparkIconManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkIconManager.h; sourceTree = "<group>"; };
-		98E66C7F0759F7E90048A37D /* SKIconFunctions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; lineEnding = 0; path = SKIconFunctions.c; sourceTree = "<group>"; };
-		98E66C820759F7F60048A37D /* SKIconFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SKIconFunctions.h; sourceTree = "<group>"; };
 		98EA2CAD0B29D1F400E39193 /* SparkScriptApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkScriptApplication.m; sourceTree = "<group>"; };
 		98EA2CBF0B29D28200E39193 /* SparkLibraryScripting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkLibraryScripting.m; sourceTree = "<group>"; };
 		98EB96DC0C174D9D00C7B72D /* SparkPluginView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = SparkPluginView.h; path = Sources/SparkPluginView.h; sourceTree = SOURCE_ROOT; };
@@ -444,18 +424,8 @@
 		98EDA3C30A9FA1B000519E9B /* SparkEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkEntry.h; sourceTree = "<group>"; };
 		98EDA3E30A9FA2FB00519E9B /* SparkEntryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkEntryManager.h; sourceTree = "<group>"; };
 		98EDA3F20A9FA34100519E9B /* SparkEntryManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkEntryManager.m; sourceTree = "<group>"; };
-		98EE9F5A0ABC0D6800296C08 /* SKIconView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKIconView.m; sourceTree = "<group>"; };
-		98EE9F5C0ABC0D7100296C08 /* SKIconView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKIconView.h; sourceTree = "<group>"; };
-		98F072F40CC26A83008CF066 /* SKCDSAFunctions.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = SKCDSAFunctions.c; sourceTree = "<group>"; };
-		98F072F50CC26A83008CF066 /* SKCDSAFunctions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SKCDSAFunctions.h; sourceTree = "<group>"; };
-		98F072F60CC26A83008CF066 /* SKCryptoFunctions.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = SKCryptoFunctions.c; sourceTree = "<group>"; };
-		98F072F70CC26A83008CF066 /* SKCryptoFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKCryptoFunctions.h; sourceTree = "<group>"; };
-		98F5C8130A59B574007BEB21 /* SKTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SKTableView.m; sourceTree = "<group>"; };
 		98F867260A600D24009C68F9 /* Warning.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Warning.tiff; sourceTree = "<group>"; };
 		98FB5DDE060D0FFC0074131E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
-		98FD6E040CD48FAF0029007D /* English */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/SKProgress.strings; sourceTree = "<group>"; };
-		98FD6E110CD48FE10029007D /* SKImageAndTextView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SKImageAndTextView.h; sourceTree = "<group>"; };
-		98FD6E120CD48FE10029007D /* SKImageAndTextView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SKImageAndTextView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -465,19 +435,9 @@
 			files = (
 				8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */,
 				988C9B460B56F2EF000A0DDC /* Carbon.framework in Frameworks */,
-				98675568096B367800BB8A25 /* ShadowKit.framework in Frameworks */,
 				984A388A0A6003B800DA6455 /* HotKeyToolKit.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		98C56D32096B348400ABE1EF /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				983976350A5866BF00F79B40 /* IOKit.framework in Frameworks */,
-				98675577096B36BD00BB8A25 /* Cocoa.framework in Frameworks */,
-				98E19C710B160EF1007E4D31 /* DirectoryService.framework in Frameworks */,
-				98F073100CC26AD7008CF066 /* Security.framework in Frameworks */,
+				1BB983850D381EE70074D18E /* IOKit.framework in Frameworks */,
+				1BB983860D381EE80074D18E /* DirectoryService.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -488,7 +448,6 @@
 			isa = PBXGroup;
 			children = (
 				8DC2EF5B0486A6940098B216 /* SparkKit.framework */,
-				98C56D34096B348400ABE1EF /* ShadowKit.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -498,7 +457,7 @@
 			children = (
 				08FB77AEFE84172EC02AAC07 /* Classes */,
 				089C1665FE841158C02AAC07 /* Resources */,
-				98725D0406CB9E540072B8E4 /* ShadowKit */,
+				98725D0406CB9E540072B8E4 /* WonderBox */,
 				0867D69AFE84028FC02AAC07 /* Frameworks */,
 				034768DFFF38A50411DB9C8B /* Products */,
 				1B7BB7880CBE1FD700484A9E /* Configurations */,
@@ -536,7 +495,6 @@
 				984A388F0A60040700DA6455 /* SparkKit.h */,
 				984A388E0A60040700DA6455 /* SparkKit.m */,
 				984A388D0A60040600DA6455 /* SparkPrivate.h */,
-				988738990ABC1B4300DD19BB /* SparkShadowKit.h */,
 				985B76510A813F490003A59C /* SparkServerProtocol.h */,
 				985B76590A813F960003A59C /* SparkAppleScriptSuite.h */,
 				984A38600A60036E00DA6455 /* Loader */,
@@ -580,87 +538,182 @@
 			path = Configurations;
 			sourceTree = SHARED_SOURCES_DIR;
 		};
-		1BAA6F800B64CF2500F9AC0E /* Images */ = {
+		1BB983130D381CDE0074D18E /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				1BEDD4C50C848D3B00ADAF1D /* SKImageUtils.h */,
-				1BAA6F870B64CF2500F9AC0E /* SKImageUtils.m */,
+				1BB983140D381CDE0074D18E /* WBImageUtils.h */,
+				1BB983150D381CDE0074D18E /* WBImageUtils.m */,
 			);
 			path = Images;
 			sourceTree = "<group>";
 		};
-		1BEDD4870C848BD300ADAF1D /* Headers */ = {
+		1BB983160D381CDE0074D18E /* Icons */ = {
 			isa = PBXGroup;
 			children = (
-				1BEDD47B0C848BCC00ADAF1D /* SKSingleton.h */,
-				1BEDD47C0C848BCC00ADAF1D /* SKFunctions.h */,
-				1BEDD47D0C848BCC00ADAF1D /* SKCFContext.h */,
-				1BEDD47E0C848BCC00ADAF1D /* SKExtensions.h */,
-				1BEDD47F0C848BCC00ADAF1D /* SKForwarding.h */,
-				1BEDD4800C848BCC00ADAF1D /* SKClassCluster.h */,
+				1BB9831D0D381CDE0074D18E /* WBIconView.h */,
+				1BB9831E0D381CDE0074D18E /* WBIconView.m */,
+				1BB9831C0D381CDE0074D18E /* WBIconFunctions.h */,
+				1BB9831B0D381CDE0074D18E /* WBIconFunctions.c */,
 			);
-			name = Headers;
+			path = Icons;
 			sourceTree = "<group>";
 		};
-		1BEDD4880C848C0200ADAF1D /* Headers */ = {
+		1BB983680D381ECC0074D18E /* BezelItem */ = {
 			isa = PBXGroup;
 			children = (
-				1BEDD48A0C848C5800ADAF1D /* SKLoginItems.h */,
-				1BEDD48B0C848C5800ADAF1D /* SKFSFunctions.h */,
-				1BEDD48C0C848C5800ADAF1D /* SKDSFunctions.h */,
-				1BEDD48D0C848C5800ADAF1D /* SKLSFunctions.h */,
-				1BEDD48E0C848C5800ADAF1D /* SKAEFunctions.h */,
-				1BEDD48F0C848C5800ADAF1D /* SKCGFunctions.h */,
-				1BEDD4900C848C5800ADAF1D /* SKIOKitFunctions.h */,
-				1BEDD4910C848C5800ADAF1D /* AESendThreadSafe.h */,
-				1BEDD4920C848C5800ADAF1D /* SKProcessFunctions.h */,
+				1BB983690D381ECC0074D18E /* WBBezelItem.h */,
+				1BB9836A0D381ECC0074D18E /* WBBezelItem.m */,
+				1BB9836B0D381ECC0074D18E /* WBBezelItemContent.h */,
+				1BB9836C0D381ECC0074D18E /* WBBezelItemContent.m */,
+				1BB9836D0D381ECC0074D18E /* WBNotificationWindow.h */,
+				1BB9836E0D381ECC0074D18E /* WBNotificationWindow.m */,
 			);
-			name = Headers;
+			path = BezelItem;
 			sourceTree = "<group>";
 		};
-		1BEDD4AA0C848CB600ADAF1D /* Headers */ = {
+		1BB9868C0D382AD00074D18E /* Interface */ = {
 			isa = PBXGroup;
 			children = (
-				1BEDD49C0C848CB200ADAF1D /* SKAlias.h */,
-				1BEDD49D0C848CB200ADAF1D /* SKTreeNode.h */,
-				98D2AAF60CA6EE0100DC973B /* SKThreadPort.h */,
-				1BEDD49E0C848CB200ADAF1D /* SKApplication.h */,
-				1BEDD49F0C848CB200ADAF1D /* SKEnumerator.h */,
-				1BEDD4A00C848CB200ADAF1D /* SKSerialization.h */,
-				1BEDD4A10C848CB200ADAF1D /* SKPluginLoader.h */,
-				1BEDD4A20C848CB200ADAF1D /* SKAliasedApplication.h */,
+				1BB9868D0D382AD00074D18E /* Resources */,
+				1BB986A50D382AD10074D18E /* WBHeaderView.h */,
+				1BB986A60D382AD10074D18E /* WBHeaderView.m */,
+				1BB9869A0D382AD00074D18E /* WBApplicationView.h */,
+				1BB9869B0D382AD10074D18E /* WBApplicationView.m */,
+				1BB9869C0D382AD10074D18E /* WBBackgroundView.h */,
+				1BB9869D0D382AD10074D18E /* WBBackgroundView.m */,
+				1BB986A70D382AD10074D18E /* WBImageAndTextCell.h */,
+				1BB986A80D382AD10074D18E /* WBImageAndTextCell.m */,
+				1BB986A90D382AD10074D18E /* WBImageAndTextView.h */,
+				1BB986AA0D382AD10074D18E /* WBImageAndTextView.m */,
+				1BB986AB0D382AD10074D18E /* WBProgressPanel.h */,
+				1BB986AC0D382AD10074D18E /* WBProgressPanel.m */,
+				1BB986AD0D382AD10074D18E /* WBShadowLabel.h */,
+				1BB986AE0D382AD10074D18E /* WBShadowLabel.m */,
+				1BB986AF0D382AD10074D18E /* WBSplitview.h */,
+				1BB986B00D382AD10074D18E /* WBSplitview.m */,
 			);
-			name = Headers;
+			path = Interface;
 			sourceTree = "<group>";
 		};
-		1BEDD4C40C848D2600ADAF1D /* Headers */ = {
+		1BB9868D0D382AD00074D18E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				1BEDD4B10C848D1400ADAF1D /* SKColor.h */,
-				1BEDD4B20C848D1400ADAF1D /* SKTableView.h */,
-				1BEDD4B30C848D1400ADAF1D /* SKImageView.h */,
-				1BEDD4B40C848D1400ADAF1D /* SKOutlineView.h */,
-				1BEDD4B50C848D1400ADAF1D /* SKViewController.h */,
-				1BEDD4B60C848D1400ADAF1D /* SKTableDataSource.h */,
-				1BEDD4B70C848D1400ADAF1D /* SKAppKitExtensions.h */,
-				1BEDD4B80C848D1400ADAF1D /* SKWindowController.h */,
+				1BB9868E0D382AD00074D18E /* WBProgress.strings */,
+				1BB986910D382AD00074D18E /* WBHeader-down.tiff */,
+				1BB986920D382AD00074D18E /* WBHeader.tiff */,
+				1BB986930D382AD00074D18E /* WBHeaderMenu.tiff */,
+				1BB986940D382AD00074D18E /* WBHSplitBar.tiff */,
+				1BB986950D382AD00074D18E /* WBProgressPanel.xib */,
+				1BB986960D382AD00074D18E /* WBSplitDot.tiff */,
+				1BB986970D382AD00074D18E /* WBVSplitBar.tiff */,
 			);
-			name = Headers;
+			path = Resources;
 			sourceTree = "<group>";
 		};
-		1BEEA0DA0C8BE9C200705B22 /* Headers */ = {
+		1BB987110D382C5C0074D18E /* Templates */ = {
 			isa = PBXGroup;
 			children = (
-				1BEEA0CD0C8BE9B700705B22 /* SKSplitview.h */,
-				1BEEA0CE0C8BE9B700705B22 /* SKHeaderView.h */,
-				1BEEA0CF0C8BE9B700705B22 /* SKShadowLabel.h */,
-				981E12120CA5D36F009E8FD8 /* SKProgressPanel.h */,
-				1BEEA0D00C8BE9B700705B22 /* SKApplicationView.h */,
-				1BEEA0D10C8BE9B700705B22 /* SKCustomViewCell.h */,
-				1BEEA0D20C8BE9B700705B22 /* SKImageAndTextCell.h */,
-				98FD6E110CD48FE10029007D /* SKImageAndTextView.h */,
+				1BB987120D382C5C0074D18E /* WBTemplate.h */,
+				1BB987130D382C5C0074D18E /* WBTemplate.m */,
+				1BB987160D382C5C0074D18E /* WBXMLTemplate.h */,
+				1BB987170D382C5C0074D18E /* WBXMLTemplate.m */,
+				1BB987140D382C5C0074D18E /* WBTemplateParser.h */,
+				1BB987150D382C5C0074D18E /* WBTemplateParser.m */,
 			);
-			name = Headers;
+			path = Templates;
+			sourceTree = "<group>";
+		};
+		1BE316280D38138B005C3FB2 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				1BE316290D38138B005C3FB2 /* WBCFContext.h */,
+				1BE3162A0D38138B005C3FB2 /* WBCFContext.m */,
+				1BE3162B0D38138B005C3FB2 /* WBExtensions.h */,
+				1BE3162C0D38138B005C3FB2 /* WBExtensions.m */,
+				1BE3162D0D38138B005C3FB2 /* WBFunctions.h */,
+				1BE3162E0D38138B005C3FB2 /* WBFunctions.m */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		1BE3162F0D38138B005C3FB2 /* Foundation */ = {
+			isa = PBXGroup;
+			children = (
+				1BE316300D38138B005C3FB2 /* WBAlias.h */,
+				1BE316310D38138B005C3FB2 /* WBAlias.m */,
+				1BB987260D382C8B0074D18E /* WBTreeNode.h */,
+				1BB987250D382C8B0074D18E /* WBTreeNode.m */,
+				1BE316340D38138B005C3FB2 /* WBApplication.h */,
+				1BE316350D38138B005C3FB2 /* WBApplication.m */,
+				1BE316320D38138B005C3FB2 /* WBAliasedApplication.h */,
+				1BE316330D38138B005C3FB2 /* WBAliasedApplication.m */,
+				1BE3172C0D381835005C3FB2 /* WBEnumerator.h */,
+				1BE3172B0D381835005C3FB2 /* WBEnumerator.m */,
+				1BE3163A0D38138B005C3FB2 /* WBPluginLoader.h */,
+				1BE3163B0D38138B005C3FB2 /* WBPluginLoader.m */,
+				1BE3163C0D38138B005C3FB2 /* WBSerialization.h */,
+				1BE3163D0D38138B005C3FB2 /* WBSerialization.m */,
+			);
+			path = Foundation;
+			sourceTree = "<group>";
+		};
+		1BE316440D38138B005C3FB2 /* Functions */ = {
+			isa = PBXGroup;
+			children = (
+				1BE316450D38138B005C3FB2 /* AESendThreadSafe.c */,
+				1BE316460D38138B005C3FB2 /* AESendThreadSafe.h */,
+				1BE316470D38138B005C3FB2 /* WBAEFunctions.c */,
+				1BE316480D38138B005C3FB2 /* WBAEFunctions.h */,
+				1BE3164B0D38138B005C3FB2 /* WBCGFunctions.h */,
+				1BE3164C0D38138B005C3FB2 /* WBCGFunctions.m */,
+				1BE3164D0D38138B005C3FB2 /* WBDSFunctions.c */,
+				1BE3164E0D38138B005C3FB2 /* WBDSFunctions.h */,
+				1BE316510D38138B005C3FB2 /* WBFSFunctions.h */,
+				1BE316520D38138B005C3FB2 /* WBFSFunctions.m */,
+				1BE316550D38138B005C3FB2 /* WBIOKitFunctions.c */,
+				1BE316560D38138B005C3FB2 /* WBIOKitFunctions.h */,
+				1BE316570D38138B005C3FB2 /* WBLoginItems.c */,
+				1BE316580D38138B005C3FB2 /* WBLoginItems.h */,
+				1BE316590D38138B005C3FB2 /* WBLSFunctions.h */,
+				1BE3165A0D38138B005C3FB2 /* WBLSFunctions.m */,
+				1BE3165F0D38138B005C3FB2 /* WBProcessFunctions.c */,
+				1BE316600D38138B005C3FB2 /* WBProcessFunctions.h */,
+			);
+			path = Functions;
+			sourceTree = "<group>";
+		};
+		1BE316630D38138B005C3FB2 /* Macros */ = {
+			isa = PBXGroup;
+			children = (
+				1BE316640D38138B005C3FB2 /* WBClassCluster.h */,
+				1BE316650D38138B005C3FB2 /* WBForwarding.h */,
+				1BE316660D38138B005C3FB2 /* WBKeyValueCoding.h */,
+				1BE316670D38138B005C3FB2 /* WBSingleton.h */,
+			);
+			path = Macros;
+			sourceTree = "<group>";
+		};
+		1BE316D20D3815C9005C3FB2 /* AppKit */ = {
+			isa = PBXGroup;
+			children = (
+				1BB986DD0D382B240074D18E /* WBColor.m */,
+				1BB986DE0D382B240074D18E /* WBColor.h */,
+				1B81EBA00D38326C004B82A2 /* WBOutlineView.h */,
+				1B81EBA10D38326C004B82A2 /* WBOutlineView.m */,
+				1BE316D30D3815C9005C3FB2 /* WBAppKitExtensions.h */,
+				1BE316D40D3815C9005C3FB2 /* WBAppKitExtensions.m */,
+				1BE316D70D3815C9005C3FB2 /* WBImageView.h */,
+				1BE316D80D3815C9005C3FB2 /* WBImageView.m */,
+				1BE316DD0D3815C9005C3FB2 /* WBTableDataSource.h */,
+				1BE316DE0D3815C9005C3FB2 /* WBTableDataSource.m */,
+				1BE316DF0D3815C9005C3FB2 /* WBTableView.h */,
+				1BE316E00D3815C9005C3FB2 /* WBTableView.m */,
+				1BE316E30D3815C9005C3FB2 /* WBViewController.h */,
+				1BE316E40D3815C9005C3FB2 /* WBViewController.m */,
+				1BE316E50D3815C9005C3FB2 /* WBWindowController.h */,
+				1BE316E60D3815C9005C3FB2 /* WBWindowController.m */,
+			);
+			path = AppKit;
 			sourceTree = "<group>";
 		};
 		984A38600A60036E00DA6455 /* Loader */ = {
@@ -772,81 +825,23 @@
 			name = Headers;
 			sourceTree = "<group>";
 		};
-		98725D0406CB9E540072B8E4 /* ShadowKit */ = {
+		98725D0406CB9E540072B8E4 /* WonderBox */ = {
 			isa = PBXGroup;
 			children = (
-				98C56D3F096B353900ABE1EF /* Resources */,
-				98D3ACDA079D6F7C00DDB6CE /* Base */,
-				98D3ACDB079D6F8500DDB6CE /* Icons */,
-				98725D2606CB9F860072B8E4 /* AppKit */,
-				1BAA6F800B64CF2500F9AC0E /* Images */,
-				98F072EF0CC26A83008CF066 /* Security */,
-				98DA2C5E0AFE126700E394CD /* Interface */,
-				98789B580AB48C1900C35052 /* BezelItem */,
-				98C78D6307D9E716006D9CC1 /* Functions */,
-				987669E40CD4CAF400593B74 /* Templates */,
-				98725D2506CB9F7C0072B8E4 /* Foundation */,
+				1BE316280D38138B005C3FB2 /* Core */,
+				1BE316630D38138B005C3FB2 /* Macros */,
+				1BB983160D381CDE0074D18E /* Icons */,
+				1BB983130D381CDE0074D18E /* Images */,
+				1BE316D20D3815C9005C3FB2 /* AppKit */,
+				1BB9868C0D382AD00074D18E /* Interface */,
+				1BB983680D381ECC0074D18E /* BezelItem */,
+				1BB987110D382C5C0074D18E /* Templates */,
+				1BE316440D38138B005C3FB2 /* Functions */,
+				1BE3162F0D38138B005C3FB2 /* Foundation */,
 			);
-			path = ShadowKit;
+			name = WonderBox;
+			path = Sources;
 			sourceTree = SHADOWKIT_ROOT;
-		};
-		98725D2506CB9F7C0072B8E4 /* Foundation */ = {
-			isa = PBXGroup;
-			children = (
-				1BEDD4AA0C848CB600ADAF1D /* Headers */,
-				98725D3706CB9FC60072B8E4 /* SKAlias.m */,
-				986B59500B8CEBD0000B74E7 /* SKTreeNode.m */,
-				98D2AAF50CA6EE0100DC973B /* SKThreadPort.m */,
-				982AF4200A7A80B700D17D65 /* SKEnumerator.m */,
-				986AFA2F06D65E0800B84D2D /* SKApplication.m */,
-				981EBC1A0A5AEFC5001C2FB3 /* SKSerialization.m */,
-				65245F390A2AFE4200ACB971 /* SKPluginLoader.m */,
-				981408890AFA927C0014F92F /* SKAliasedApplication.m */,
-			);
-			path = Foundation;
-			sourceTree = "<group>";
-		};
-		98725D2606CB9F860072B8E4 /* AppKit */ = {
-			isa = PBXGroup;
-			children = (
-				1BEDD4C40C848D2600ADAF1D /* Headers */,
-				98DA2F250AFE192200E394CD /* SKColor.m */,
-				98F5C8130A59B574007BEB21 /* SKTableView.m */,
-				984256AF0AC5DBEF00AB2AE0 /* SKImageView.m */,
-				98DAB1CA0A5E8C1500EB6CB3 /* SKOutlineView.m */,
-				98DDE9810A612E4000D76698 /* SKViewController.m */,
-				986758CF096B403300BB8A25 /* SKTableDataSource.m */,
-				98E455C508104B3300B7899F /* SKAppKitExtensions.m */,
-				986758CE096B403300BB8A25 /* SKWindowController.m */,
-			);
-			path = AppKit;
-			sourceTree = "<group>";
-		};
-		987669E40CD4CAF400593B74 /* Templates */ = {
-			isa = PBXGroup;
-			children = (
-				987669E50CD4CAF400593B74 /* SKTemplate.h */,
-				987669E60CD4CAF400593B74 /* SKTemplate.m */,
-				987669E90CD4CAF400593B74 /* SKXMLTemplate.h */,
-				987669EA0CD4CAF400593B74 /* SKXMLTemplate.m */,
-				987669E70CD4CAF400593B74 /* SKTemplateParser.h */,
-				987669E80CD4CAF400593B74 /* SKTemplateParser.m */,
-			);
-			path = Templates;
-			sourceTree = "<group>";
-		};
-		98789B580AB48C1900C35052 /* BezelItem */ = {
-			isa = PBXGroup;
-			children = (
-				1BEDD4AB0C848CE500ADAF1D /* SKBezelItem.h */,
-				1BEDD4AC0C848CE500ADAF1D /* SKBezelItemContent.h */,
-				1BEDD4AD0C848CE500ADAF1D /* SKNotificationWindow.h */,
-				98789B5D0AB48C1900C35052 /* SKBezelItem.m */,
-				98789B5E0AB48C1900C35052 /* SKBezelItemContent.m */,
-				98789B5F0AB48C1900C35052 /* SKNotificationWindow.m */,
-			);
-			path = BezelItem;
-			sourceTree = "<group>";
 		};
 		98888BBA06067E9C008117C3 /* Images */ = {
 			isa = PBXGroup;
@@ -874,87 +869,6 @@
 			path = Images;
 			sourceTree = "<group>";
 		};
-		98C56D3F096B353900ABE1EF /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				98C56D42096B353900ABE1EF /* Info.plist */,
-				98C56D40096B353900ABE1EF /* InfoPlist.strings */,
-			);
-			name = Resources;
-			path = ShadowKit/Resources;
-			sourceTree = SOURCE_ROOT;
-		};
-		98C78D6307D9E716006D9CC1 /* Functions */ = {
-			isa = PBXGroup;
-			children = (
-				1BEDD4880C848C0200ADAF1D /* Headers */,
-				98DCC180096C67C4003106E2 /* SKLoginItems.c */,
-				98665E610A86A6F900CF8291 /* SKAEFunctions.c */,
-				98E19C500B160EC5007E4D31 /* SKDSFunctions.c */,
-				98C78D6907D9E716006D9CC1 /* SKFSFunctions.m */,
-				98C78D6A07D9E716006D9CC1 /* SKLSFunctions.m */,
-				98DCED010B510875006FA468 /* SKCGFunctions.m */,
-				9839758E0A58669C00F79B40 /* SKIOKitFunctions.c */,
-				1BE44FE30BD4B3DC00034060 /* AESendThreadSafe.c */,
-				98C78D6B07D9E716006D9CC1 /* SKProcessFunctions.c */,
-			);
-			path = Functions;
-			sourceTree = "<group>";
-		};
-		98D3ACDA079D6F7C00DDB6CE /* Base */ = {
-			isa = PBXGroup;
-			children = (
-				1BEDD4870C848BD300ADAF1D /* Headers */,
-				98725D2B06CB9FB30072B8E4 /* SKFunctions.m */,
-				980B128A0A5BAB9C008F6DBC /* SKCFContext.m */,
-				98725D2C06CB9FB30072B8E4 /* SKExtensions.m */,
-			);
-			path = Base;
-			sourceTree = "<group>";
-		};
-		98D3ACDB079D6F8500DDB6CE /* Icons */ = {
-			isa = PBXGroup;
-			children = (
-				98EE9F5C0ABC0D7100296C08 /* SKIconView.h */,
-				98EE9F5A0ABC0D6800296C08 /* SKIconView.m */,
-				98E66C820759F7F60048A37D /* SKIconFunctions.h */,
-				98E66C7F0759F7E90048A37D /* SKIconFunctions.c */,
-			);
-			path = Icons;
-			sourceTree = "<group>";
-		};
-		98DA2C5E0AFE126700E394CD /* Interface */ = {
-			isa = PBXGroup;
-			children = (
-				1BEEA0DA0C8BE9C200705B22 /* Headers */,
-				98DA2ED10AFE174400E394CD /* Resources */,
-				98417FE50B4FDF2400073F1D /* SKSplitview.m */,
-				98DA2C610AFE126700E394CD /* SKHeaderView.m */,
-				98DA2C730AFE142700E394CD /* SKShadowLabel.m */,
-				981E12130CA5D36F009E8FD8 /* SKProgressPanel.m */,
-				98DCE5B50B50F8E0006FA468 /* SKApplicationView.m */,
-				98DA2C750AFE142700E394CD /* SKCustomViewCell.m */,
-				98DA2C740AFE142700E394CD /* SKImageAndTextCell.m */,
-				98FD6E120CD48FE10029007D /* SKImageAndTextView.m */,
-			);
-			path = Interface;
-			sourceTree = "<group>";
-		};
-		98DA2ED10AFE174400E394CD /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				98DA2ED30AFE174400E394CD /* SKHeader.tiff */,
-				98417FEA0B4FDF5C00073F1D /* SKSplitDot.tiff */,
-				98417FEB0B4FDF5C00073F1D /* SKVSplitBar.tiff */,
-				98417FE90B4FDF5C00073F1D /* SKHSplitBar.tiff */,
-				98FD6E030CD48FAF0029007D /* SKProgress.strings */,
-				98DA2ED40AFE174400E394CD /* SKHeaderMenu.tiff */,
-				98DA2ED20AFE174400E394CD /* SKHeader-down.tiff */,
-				1B6DAD000D0CA23200F352CC /* SKProgressPanel.xib */,
-			);
-			path = Resources;
-			sourceTree = "<group>";
-		};
 		98EA2CAC0B29D1E200E39193 /* Scripting */ = {
 			isa = PBXGroup;
 			children = (
@@ -963,19 +877,6 @@
 			);
 			name = Scripting;
 			path = Sources/Scripting;
-			sourceTree = "<group>";
-		};
-		98F072EF0CC26A83008CF066 /* Security */ = {
-			isa = PBXGroup;
-			children = (
-				98F072F50CC26A83008CF066 /* SKCDSAFunctions.h */,
-				98F072F40CC26A83008CF066 /* SKCDSAFunctions.c */,
-				98F072F70CC26A83008CF066 /* SKCryptoFunctions.h */,
-				98F072F60CC26A83008CF066 /* SKCryptoFunctions.c */,
-				98DCBD800CCA6BCF0045707B /* SKSecurityFunctions.h */,
-				98DCBD7F0CCA6BCF0045707B /* SKSecurityFunctions.c */,
-			);
-			path = Security;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1005,7 +906,6 @@
 				985B765A0A813F960003A59C /* SparkAppleScriptSuite.h in Headers */,
 				98EDA3C40A9FA1B000519E9B /* SparkEntry.h in Headers */,
 				98EDA3E40A9FA2FB00519E9B /* SparkEntryManager.h in Headers */,
-				9887389A0ABC1B4300DD19BB /* SparkShadowKit.h in Headers */,
 				98A854E40AFF9BFE00088961 /* SparkBuiltInAction.h in Headers */,
 				98627FE80B2AD13700866A34 /* SparkFunctions.h in Headers */,
 				98D7643E0B5A6003000A09A5 /* SparkEntryManagerPrivate.h in Headers */,
@@ -1016,64 +916,54 @@
 				98EB96DE0C174D9D00C7B72D /* SparkPluginView.h in Headers */,
 				98A8AB9F0D01B21800CE8C12 /* SparkLibraryPrivate.h in Headers */,
 				1B78811F0D172D2900EE2B66 /* SparkEntryPrivate.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		98C56D2F096B348400ABE1EF /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				9867553B096B35E900BB8A25 /* SKIconFunctions.h in Headers */,
-				98EE9F5D0ABC0D7100296C08 /* SKIconView.h in Headers */,
-				1BEDD4810C848BCC00ADAF1D /* SKSingleton.h in Headers */,
-				1BEDD4820C848BCC00ADAF1D /* SKFunctions.h in Headers */,
-				1BEDD4830C848BCC00ADAF1D /* SKCFContext.h in Headers */,
-				1BEDD4840C848BCC00ADAF1D /* SKExtensions.h in Headers */,
-				1BEDD4850C848BCC00ADAF1D /* SKForwarding.h in Headers */,
-				1BEDD4860C848BCC00ADAF1D /* SKClassCluster.h in Headers */,
-				1BEDD4930C848C5800ADAF1D /* SKLoginItems.h in Headers */,
-				1BEDD4940C848C5800ADAF1D /* SKFSFunctions.h in Headers */,
-				1BEDD4950C848C5800ADAF1D /* SKDSFunctions.h in Headers */,
-				1BEDD4960C848C5800ADAF1D /* SKLSFunctions.h in Headers */,
-				1BEDD4970C848C5800ADAF1D /* SKAEFunctions.h in Headers */,
-				1BEDD4980C848C5800ADAF1D /* SKCGFunctions.h in Headers */,
-				1BEDD4990C848C5800ADAF1D /* SKIOKitFunctions.h in Headers */,
-				1BEDD49A0C848C5800ADAF1D /* AESendThreadSafe.h in Headers */,
-				1BEDD49B0C848C5800ADAF1D /* SKProcessFunctions.h in Headers */,
-				1BEDD4A30C848CB200ADAF1D /* SKAlias.h in Headers */,
-				1BEDD4A40C848CB200ADAF1D /* SKTreeNode.h in Headers */,
-				1BEDD4A50C848CB200ADAF1D /* SKApplication.h in Headers */,
-				1BEDD4A60C848CB200ADAF1D /* SKEnumerator.h in Headers */,
-				1BEDD4A70C848CB200ADAF1D /* SKSerialization.h in Headers */,
-				1BEDD4A80C848CB200ADAF1D /* SKPluginLoader.h in Headers */,
-				1BEDD4A90C848CB200ADAF1D /* SKAliasedApplication.h in Headers */,
-				1BEDD4AE0C848CE500ADAF1D /* SKBezelItem.h in Headers */,
-				1BEDD4AF0C848CE500ADAF1D /* SKBezelItemContent.h in Headers */,
-				1BEDD4B00C848CE500ADAF1D /* SKNotificationWindow.h in Headers */,
-				1BEDD4B90C848D1400ADAF1D /* SKColor.h in Headers */,
-				1BEDD4BA0C848D1400ADAF1D /* SKTableView.h in Headers */,
-				1BEDD4BB0C848D1400ADAF1D /* SKImageView.h in Headers */,
-				1BEDD4BC0C848D1400ADAF1D /* SKOutlineView.h in Headers */,
-				1BEDD4BD0C848D1400ADAF1D /* SKViewController.h in Headers */,
-				1BEDD4BE0C848D1400ADAF1D /* SKTableDataSource.h in Headers */,
-				1BEDD4BF0C848D1400ADAF1D /* SKAppKitExtensions.h in Headers */,
-				1BEDD4C00C848D1400ADAF1D /* SKWindowController.h in Headers */,
-				1BEDD4C60C848D3B00ADAF1D /* SKImageUtils.h in Headers */,
-				1BEEA0D30C8BE9B700705B22 /* SKSplitview.h in Headers */,
-				1BEEA0D40C8BE9B700705B22 /* SKHeaderView.h in Headers */,
-				1BEEA0D50C8BE9B700705B22 /* SKShadowLabel.h in Headers */,
-				1BEEA0D60C8BE9B700705B22 /* SKApplicationView.h in Headers */,
-				1BEEA0D70C8BE9B700705B22 /* SKCustomViewCell.h in Headers */,
-				1BEEA0D80C8BE9B700705B22 /* SKImageAndTextCell.h in Headers */,
-				981E12140CA5D36F009E8FD8 /* SKProgressPanel.h in Headers */,
-				98D2AAF80CA6EE0100DC973B /* SKThreadPort.h in Headers */,
-				98F073010CC26A84008CF066 /* SKCDSAFunctions.h in Headers */,
-				98F073030CC26A84008CF066 /* SKCryptoFunctions.h in Headers */,
-				98DCBD820CCA6BCF0045707B /* SKSecurityFunctions.h in Headers */,
-				98FD6E130CD48FE10029007D /* SKImageAndTextView.h in Headers */,
-				987669EB0CD4CAF400593B74 /* SKTemplate.h in Headers */,
-				987669ED0CD4CAF400593B74 /* SKTemplateParser.h in Headers */,
-				987669EF0CD4CAF400593B74 /* SKXMLTemplate.h in Headers */,
+				1BE316680D38138B005C3FB2 /* WBCFContext.h in Headers */,
+				1BE3166A0D38138B005C3FB2 /* WBExtensions.h in Headers */,
+				1BE3166C0D38138B005C3FB2 /* WBFunctions.h in Headers */,
+				1BE3166E0D38138B005C3FB2 /* WBAlias.h in Headers */,
+				1BE316700D38138B005C3FB2 /* WBAliasedApplication.h in Headers */,
+				1BE316720D38138B005C3FB2 /* WBApplication.h in Headers */,
+				1BE316780D38138B005C3FB2 /* WBPluginLoader.h in Headers */,
+				1BE3167A0D38138B005C3FB2 /* WBSerialization.h in Headers */,
+				1BE316830D38138B005C3FB2 /* AESendThreadSafe.h in Headers */,
+				1BE316850D38138B005C3FB2 /* WBAEFunctions.h in Headers */,
+				1BE316880D38138B005C3FB2 /* WBCGFunctions.h in Headers */,
+				1BE3168B0D38138B005C3FB2 /* WBDSFunctions.h in Headers */,
+				1BE3168E0D38138B005C3FB2 /* WBFSFunctions.h in Headers */,
+				1BE316930D38138B005C3FB2 /* WBIOKitFunctions.h in Headers */,
+				1BE316950D38138B005C3FB2 /* WBLoginItems.h in Headers */,
+				1BE316960D38138B005C3FB2 /* WBLSFunctions.h in Headers */,
+				1BE3169D0D38138B005C3FB2 /* WBProcessFunctions.h in Headers */,
+				1BE316A00D38138B005C3FB2 /* WBClassCluster.h in Headers */,
+				1BE316A10D38138B005C3FB2 /* WBForwarding.h in Headers */,
+				1BE316A20D38138B005C3FB2 /* WBKeyValueCoding.h in Headers */,
+				1BE316A30D38138B005C3FB2 /* WBSingleton.h in Headers */,
+				1BE316E70D3815C9005C3FB2 /* WBAppKitExtensions.h in Headers */,
+				1BE316EB0D3815C9005C3FB2 /* WBImageView.h in Headers */,
+				1BE316F10D3815C9005C3FB2 /* WBTableDataSource.h in Headers */,
+				1BE316F30D3815C9005C3FB2 /* WBTableView.h in Headers */,
+				1BE316F70D3815C9005C3FB2 /* WBViewController.h in Headers */,
+				1BE316F90D3815C9005C3FB2 /* WBWindowController.h in Headers */,
+				1BE3172E0D381835005C3FB2 /* WBEnumerator.h in Headers */,
+				1BB9831F0D381CDE0074D18E /* WBImageUtils.h in Headers */,
+				1BB983260D381CDE0074D18E /* WBIconFunctions.h in Headers */,
+				1BB983270D381CDE0074D18E /* WBIconView.h in Headers */,
+				1BB9836F0D381ECC0074D18E /* WBBezelItem.h in Headers */,
+				1BB983710D381ECC0074D18E /* WBBezelItemContent.h in Headers */,
+				1BB983730D381ECC0074D18E /* WBNotificationWindow.h in Headers */,
+				1BB986BC0D382AD10074D18E /* WBApplicationView.h in Headers */,
+				1BB986BE0D382AD10074D18E /* WBBackgroundView.h in Headers */,
+				1BB986C70D382AD10074D18E /* WBHeaderView.h in Headers */,
+				1BB986C90D382AD10074D18E /* WBImageAndTextCell.h in Headers */,
+				1BB986CB0D382AD10074D18E /* WBImageAndTextView.h in Headers */,
+				1BB986CD0D382AD10074D18E /* WBProgressPanel.h in Headers */,
+				1BB986CF0D382AD10074D18E /* WBShadowLabel.h in Headers */,
+				1BB986D10D382AD10074D18E /* WBSplitview.h in Headers */,
+				1BB986E00D382B240074D18E /* WBColor.h in Headers */,
+				1BB987180D382C5C0074D18E /* WBTemplate.h in Headers */,
+				1BB9871A0D382C5C0074D18E /* WBTemplateParser.h in Headers */,
+				1BB9871C0D382C5C0074D18E /* WBXMLTemplate.h in Headers */,
+				1BB987280D382C8B0074D18E /* WBTreeNode.h in Headers */,
+				1B81EBA20D38326C004B82A2 /* WBOutlineView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1094,30 +984,11 @@
 			);
 			dependencies = (
 				984A38890A6003AD00DA6455 /* PBXTargetDependency */,
-				9867556B096B367F00BB8A25 /* PBXTargetDependency */,
 			);
 			name = SparkKit;
 			productInstallPath = "$(HOME)/Library/Frameworks";
 			productName = SparkKit;
 			productReference = 8DC2EF5B0486A6940098B216 /* SparkKit.framework */;
-			productType = "com.apple.product-type.framework";
-		};
-		98C56D33096B348400ABE1EF /* ShadowKit */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 98C56D36096B348600ABE1EF /* Build configuration list for PBXNativeTarget "ShadowKit" */;
-			buildPhases = (
-				98C56D2F096B348400ABE1EF /* Headers */,
-				98C56D30096B348400ABE1EF /* Resources */,
-				98C56D31096B348400ABE1EF /* Sources */,
-				98C56D32096B348400ABE1EF /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = ShadowKit;
-			productName = ShadowKit;
-			productReference = 98C56D34096B348400ABE1EF /* ShadowKit.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -1140,7 +1011,6 @@
 			projectRoot = "";
 			targets = (
 				8DC2EF4F0486A6940098B216 /* SparkKit */,
-				98C56D33096B348400ABE1EF /* ShadowKit */,
 			);
 		};
 /* End PBXProject section */
@@ -1203,22 +1073,14 @@
 				1B6DACEF0D0C9D0400F352CC /* SparkMultiAlert.xib in Resources */,
 				1B6DACF40D0CA0F800F352CC /* SparkPluginView.xib in Resources */,
 				1B6DACF80D0CA1BF00F352CC /* SparkPlugin.xib in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		98C56D30096B348400ABE1EF /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				98C56D45096B353F00ABE1EF /* InfoPlist.strings in Resources */,
-				98DA2ED50AFE174400E394CD /* SKHeader-down.tiff in Resources */,
-				98DA2ED60AFE174400E394CD /* SKHeader.tiff in Resources */,
-				98DA2ED70AFE174400E394CD /* SKHeaderMenu.tiff in Resources */,
-				98417FEC0B4FDF5C00073F1D /* SKHSplitBar.tiff in Resources */,
-				98417FED0B4FDF5C00073F1D /* SKSplitDot.tiff in Resources */,
-				98417FEE0B4FDF5C00073F1D /* SKVSplitBar.tiff in Resources */,
-				98FD6E050CD48FAF0029007D /* SKProgress.strings in Resources */,
-				1B6DAD010D0CA23200F352CC /* SKProgressPanel.xib in Resources */,
+				1BB986B10D382AD10074D18E /* WBProgress.strings in Resources */,
+				1BB986B30D382AD10074D18E /* WBHeader-down.tiff in Resources */,
+				1BB986B40D382AD10074D18E /* WBHeader.tiff in Resources */,
+				1BB986B50D382AD10074D18E /* WBHeaderMenu.tiff in Resources */,
+				1BB986B60D382AD10074D18E /* WBHSplitBar.tiff in Resources */,
+				1BB986B70D382AD10074D18E /* WBProgressPanel.xib in Resources */,
+				1BB986B80D382AD10074D18E /* WBSplitDot.tiff in Resources */,
+				1BB986B90D382AD10074D18E /* WBVSplitBar.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1264,61 +1126,50 @@
 				982C707C0D02EDBA0060304C /* SparkEntryManagerPrivate.m in Sources */,
 				982C70CD0D02F2400060304C /* SparkLibraryLegacy.m in Sources */,
 				98E1D5EA0D031CA800219B11 /* SparkLibrarySynchronizer.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		98C56D31096B348400ABE1EF /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				98675537096B35E900BB8A25 /* SKIconFunctions.c in Sources */,
-				98675547096B35E900BB8A25 /* SKExtensions.m in Sources */,
-				98675548096B35E900BB8A25 /* SKApplication.m in Sources */,
-				98675549096B35E900BB8A25 /* SKAlias.m in Sources */,
-				9867554B096B35E900BB8A25 /* SKLSFunctions.m in Sources */,
-				9867554E096B35E900BB8A25 /* SKProcessFunctions.c in Sources */,
-				9867554F096B35E900BB8A25 /* SKAppKitExtensions.m in Sources */,
-				98675551096B35E900BB8A25 /* SKFunctions.m in Sources */,
-				98675552096B35E900BB8A25 /* SKFSFunctions.m in Sources */,
-				986758D0096B403300BB8A25 /* SKWindowController.m in Sources */,
-				986758D1096B403300BB8A25 /* SKTableDataSource.m in Sources */,
-				98DCC181096C67C4003106E2 /* SKLoginItems.c in Sources */,
-				65245F3A0A2AFE4200ACB971 /* SKPluginLoader.m in Sources */,
-				9839758F0A58669C00F79B40 /* SKIOKitFunctions.c in Sources */,
-				98F5C8140A59B574007BEB21 /* SKTableView.m in Sources */,
-				981EBC1B0A5AEFC5001C2FB3 /* SKSerialization.m in Sources */,
-				980B128B0A5BAB9C008F6DBC /* SKCFContext.m in Sources */,
-				98DAB1CB0A5E8C1500EB6CB3 /* SKOutlineView.m in Sources */,
-				98DDE9820A612E4000D76698 /* SKViewController.m in Sources */,
-				982AF4210A7A80B700D17D65 /* SKEnumerator.m in Sources */,
-				98665E620A86A6F900CF8291 /* SKAEFunctions.c in Sources */,
-				98789B630AB48C1900C35052 /* SKBezelItem.m in Sources */,
-				98789B640AB48C1900C35052 /* SKBezelItemContent.m in Sources */,
-				98789B650AB48C1900C35052 /* SKNotificationWindow.m in Sources */,
-				98EE9F5B0ABC0D6800296C08 /* SKIconView.m in Sources */,
-				984256B00AC5DBEF00AB2AE0 /* SKImageView.m in Sources */,
-				9814088A0AFA927C0014F92F /* SKAliasedApplication.m in Sources */,
-				98DA2C630AFE126700E394CD /* SKHeaderView.m in Sources */,
-				98DA2C760AFE142700E394CD /* SKShadowLabel.m in Sources */,
-				98DA2C770AFE142700E394CD /* SKImageAndTextCell.m in Sources */,
-				98DA2C780AFE142700E394CD /* SKCustomViewCell.m in Sources */,
-				98DA2F260AFE192200E394CD /* SKColor.m in Sources */,
-				98E19C510B160EC5007E4D31 /* SKDSFunctions.c in Sources */,
-				98417FE60B4FDF2400073F1D /* SKSplitview.m in Sources */,
-				98DCE5B60B50F8E0006FA468 /* SKApplicationView.m in Sources */,
-				98DCED020B510875006FA468 /* SKCGFunctions.m in Sources */,
-				1BAA6F8D0B64CF2500F9AC0E /* SKImageUtils.m in Sources */,
-				986B59510B8CEBD0000B74E7 /* SKTreeNode.m in Sources */,
-				1BE44FE40BD4B3DC00034060 /* AESendThreadSafe.c in Sources */,
-				981E12150CA5D36F009E8FD8 /* SKProgressPanel.m in Sources */,
-				98D2AAF70CA6EE0100DC973B /* SKThreadPort.m in Sources */,
-				98F073000CC26A84008CF066 /* SKCDSAFunctions.c in Sources */,
-				98F073020CC26A84008CF066 /* SKCryptoFunctions.c in Sources */,
-				98DCBD810CCA6BCF0045707B /* SKSecurityFunctions.c in Sources */,
-				98FD6E140CD48FE10029007D /* SKImageAndTextView.m in Sources */,
-				987669EC0CD4CAF400593B74 /* SKTemplate.m in Sources */,
-				987669EE0CD4CAF400593B74 /* SKTemplateParser.m in Sources */,
-				987669F00CD4CAF400593B74 /* SKXMLTemplate.m in Sources */,
+				1BE316690D38138B005C3FB2 /* WBCFContext.m in Sources */,
+				1BE3166B0D38138B005C3FB2 /* WBExtensions.m in Sources */,
+				1BE3166D0D38138B005C3FB2 /* WBFunctions.m in Sources */,
+				1BE3166F0D38138B005C3FB2 /* WBAlias.m in Sources */,
+				1BE316710D38138B005C3FB2 /* WBAliasedApplication.m in Sources */,
+				1BE316730D38138B005C3FB2 /* WBApplication.m in Sources */,
+				1BE316790D38138B005C3FB2 /* WBPluginLoader.m in Sources */,
+				1BE3167B0D38138B005C3FB2 /* WBSerialization.m in Sources */,
+				1BE316820D38138B005C3FB2 /* AESendThreadSafe.c in Sources */,
+				1BE316840D38138B005C3FB2 /* WBAEFunctions.c in Sources */,
+				1BE316890D38138B005C3FB2 /* WBCGFunctions.m in Sources */,
+				1BE3168A0D38138B005C3FB2 /* WBDSFunctions.c in Sources */,
+				1BE3168F0D38138B005C3FB2 /* WBFSFunctions.m in Sources */,
+				1BE316920D38138B005C3FB2 /* WBIOKitFunctions.c in Sources */,
+				1BE316940D38138B005C3FB2 /* WBLoginItems.c in Sources */,
+				1BE316970D38138B005C3FB2 /* WBLSFunctions.m in Sources */,
+				1BE3169C0D38138B005C3FB2 /* WBProcessFunctions.c in Sources */,
+				1BE316E80D3815C9005C3FB2 /* WBAppKitExtensions.m in Sources */,
+				1BE316EC0D3815C9005C3FB2 /* WBImageView.m in Sources */,
+				1BE316F20D3815C9005C3FB2 /* WBTableDataSource.m in Sources */,
+				1BE316F40D3815C9005C3FB2 /* WBTableView.m in Sources */,
+				1BE316F80D3815C9005C3FB2 /* WBViewController.m in Sources */,
+				1BE316FA0D3815C9005C3FB2 /* WBWindowController.m in Sources */,
+				1BE3172D0D381835005C3FB2 /* WBEnumerator.m in Sources */,
+				1BB983200D381CDE0074D18E /* WBImageUtils.m in Sources */,
+				1BB983250D381CDE0074D18E /* WBIconFunctions.c in Sources */,
+				1BB983280D381CDE0074D18E /* WBIconView.m in Sources */,
+				1BB983700D381ECC0074D18E /* WBBezelItem.m in Sources */,
+				1BB983720D381ECC0074D18E /* WBBezelItemContent.m in Sources */,
+				1BB983740D381ECC0074D18E /* WBNotificationWindow.m in Sources */,
+				1BB986BD0D382AD10074D18E /* WBApplicationView.m in Sources */,
+				1BB986BF0D382AD10074D18E /* WBBackgroundView.m in Sources */,
+				1BB986C80D382AD10074D18E /* WBHeaderView.m in Sources */,
+				1BB986CA0D382AD10074D18E /* WBImageAndTextCell.m in Sources */,
+				1BB986CC0D382AD10074D18E /* WBImageAndTextView.m in Sources */,
+				1BB986CE0D382AD10074D18E /* WBProgressPanel.m in Sources */,
+				1BB986D00D382AD10074D18E /* WBShadowLabel.m in Sources */,
+				1BB986D20D382AD10074D18E /* WBSplitview.m in Sources */,
+				1BB986DF0D382B240074D18E /* WBColor.m in Sources */,
+				1BB987190D382C5C0074D18E /* WBTemplate.m in Sources */,
+				1BB9871B0D382C5C0074D18E /* WBTemplateParser.m in Sources */,
+				1BB9871D0D382C5C0074D18E /* WBXMLTemplate.m in Sources */,
+				1BB987270D382C8B0074D18E /* WBTreeNode.m in Sources */,
+				1B81EBA30D38326C004B82A2 /* WBOutlineView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1329,11 +1180,6 @@
 			isa = PBXTargetDependency;
 			name = HotKeyToolKit;
 			targetProxy = 984A38880A6003AD00DA6455 /* PBXContainerItemProxy */;
-		};
-		9867556B096B367F00BB8A25 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 98C56D33096B348400ABE1EF /* ShadowKit */;
-			targetProxy = 9867556A096B367F00BB8A25 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1370,28 +1216,20 @@
 			name = SparkPlugin.xib;
 			sourceTree = "<group>";
 		};
+		1BB9868E0D382AD00074D18E /* WBProgress.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1BB9868F0D382AD00074D18E /* English */,
+			);
+			name = WBProgress.strings;
+			sourceTree = "<group>";
+		};
 		9805FD370773B47700B1A341 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
 				9805FD380773B47700B1A341 /* English */,
 			);
 			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
-		98C56D40096B353900ABE1EF /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				98C56D41096B353900ABE1EF /* English */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		98FD6E030CD48FAF0029007D /* SKProgress.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				98FD6E040CD48FAF0029007D /* English */,
-			);
-			name = SKProgress.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -1402,6 +1240,7 @@
 			baseConfigurationReference = 1B7CF6150D356F690068DAD1 /* 64Bits.xcconfig */;
 			buildSettings = {
 				SYMROOT = ../build;
+				WONDERBOX = "WONDERBOX_FRAMEWORK WONDERBOX_NAME=SparkKit";
 			};
 			name = 64bits;
 		};
@@ -1419,22 +1258,6 @@
 					0xD0200000,
 				);
 				PRODUCT_NAME = SparkKit;
-			};
-			name = 64bits;
-		};
-		1B7CF61A0D3571340068DAD1 /* 64bits */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CURRENT_PROJECT_VERSION = 401;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 401;
-				INFOPLIST_FILE = ShadowKit/Info.plist;
-				INSTALL_PATH = "@executable_path/../Frameworks";
-				OTHER_LDFLAGS = (
-					"-seg1addr",
-					0xD0300000,
-				);
-				PRODUCT_NAME = ShadowKit;
 			};
 			name = 64bits;
 		};
@@ -1477,6 +1300,7 @@
 			baseConfigurationReference = 1B7BB78A0CBE1FD700484A9E /* Debug.xcconfig */;
 			buildSettings = {
 				SYMROOT = ../build;
+				WONDERBOX = "WONDERBOX_FRAMEWORK WONDERBOX_NAME=SparkKit";
 			};
 			name = Debug;
 		};
@@ -1485,56 +1309,9 @@
 			baseConfigurationReference = 1B7BB78B0CBE1FD700484A9E /* Profile.xcconfig */;
 			buildSettings = {
 				SYMROOT = ../build;
+				WONDERBOX = "WONDERBOX_FRAMEWORK WONDERBOX_NAME=SparkKit";
 			};
 			name = Profile;
-		};
-		98C56D37096B348600ABE1EF /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CURRENT_PROJECT_VERSION = 401;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 401;
-				INFOPLIST_FILE = ShadowKit/Info.plist;
-				INSTALL_PATH = "@executable_path/../Frameworks";
-				OTHER_LDFLAGS = (
-					"-seg1addr",
-					0xD0300000,
-				);
-				PRODUCT_NAME = ShadowKit;
-			};
-			name = Debug;
-		};
-		98C56D39096B348600ABE1EF /* Profile */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CURRENT_PROJECT_VERSION = 401;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 401;
-				INFOPLIST_FILE = ShadowKit/Info.plist;
-				INSTALL_PATH = "@executable_path/../Frameworks";
-				OTHER_LDFLAGS = (
-					"-seg1addr",
-					0xD0300000,
-				);
-				PRODUCT_NAME = ShadowKit;
-			};
-			name = Profile;
-		};
-		98EFD0A30B5844F300AD4492 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CURRENT_PROJECT_VERSION = 401;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 401;
-				INFOPLIST_FILE = ShadowKit/Info.plist;
-				INSTALL_PATH = "@executable_path/../Frameworks";
-				OTHER_LDFLAGS = (
-					"-seg1addr",
-					0xD0300000,
-				);
-				PRODUCT_NAME = ShadowKit;
-			};
-			name = Release;
 		};
 		98EFD0A40B5844F300AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -1558,6 +1335,7 @@
 			baseConfigurationReference = 1B7BB78C0CBE1FD700484A9E /* Release.xcconfig */;
 			buildSettings = {
 				SYMROOT = ../build;
+				WONDERBOX = "WONDERBOX_FRAMEWORK WONDERBOX_NAME=SparkKit";
 			};
 			name = Release;
 		};
@@ -1582,17 +1360,6 @@
 				9848D88C085638FD006B5130 /* Profile */,
 				98EFD0A50B5844F300AD4492 /* Release */,
 				1B7CF6180D3571340068DAD1 /* 64bits */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
-		};
-		98C56D36096B348600ABE1EF /* Build configuration list for PBXNativeTarget "ShadowKit" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				98C56D37096B348600ABE1EF /* Debug */,
-				98C56D39096B348600ABE1EF /* Profile */,
-				98EFD0A30B5844F300AD4492 /* Release */,
-				1B7CF61A0D3571340068DAD1 /* 64bits */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

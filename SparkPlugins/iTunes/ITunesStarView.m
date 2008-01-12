@@ -8,8 +8,8 @@
 
 #import "ITunesStarView.h"
 
-#import <ShadowKit/SKFunctions.h>
-#import <ShadowKit/SKCGFunctions.h>
+#import WBHEADER(WBFunctions.h)
+#import WBHEADER(WBCGFunctions.h)
 
 @implementation ITunesStarView
 
@@ -53,7 +53,7 @@ void _ITunesDrawHalfString(NSPoint point, NSColor *color) {
   return ia_color;
 }
 - (void)setStarsColor:(NSColor *)aColor {
-  SKSetterRetain(ia_color, aColor);
+  WBSetterRetain(ia_color, aColor);
   [self setNeedsDisplay:YES];
 }
 
@@ -66,12 +66,12 @@ void _ITunesDrawHalfString(NSPoint point, NSColor *color) {
   else
     CGContextSetGrayFillColor(ctxt, 0, 1);
   
-  double shift = 0.5 / SKWindowScaleFactor([self window]);
+  double shift = 0.5 / WBWindowScaleFactor([self window]);
   if (ia_rate) {
     double center = 6;
     unsigned rate = ia_rate / 2;
     while (rate-- > 0) {
-      SKCGContextAddStar(ctxt, CGPointMake(center + shift, 9), 5, 6, 0);
+      WBCGContextAddStar(ctxt, CGPointMake(center + shift, 9), 5, 6, 0);
       center += 13;
     }
     CGContextFillPath(ctxt);

@@ -9,10 +9,9 @@
 #include <unistd.h>
 
 #import "SystemActionPlugin.h"
-#import <ShadowKit/SKFunctions.h>
-#import <ShadowKit/SKExtensions.h>
-#import <ShadowKit/SKFSFunctions.h>
-#import <ShadowKit/SKDSFunctions.h>
+
+#import WBHEADER(WBExtensions.h)
+#import WBHEADER(WBDSFunctions.h)
 
 @implementation SystemActionPlugin
 
@@ -35,7 +34,7 @@
   /* Build user switching menu */
   CFArrayRef users;
   BOOL separator = NO;
-  if (noErr == SKDSGetVisibleUsers(&users, kDS1AttrUniqueID, kDS1AttrDistinguishedName, NULL)) {
+  if (noErr == WBDSGetVisibleUsers(&users, kDS1AttrUniqueID, kDS1AttrDistinguishedName, NULL)) {
     CFIndex cnt = CFArrayGetCount(users);
     for (CFIndex idx = 0; idx < cnt; idx++) {
       CFDictionaryRef user = CFArrayGetValueAtIndex(users, idx);

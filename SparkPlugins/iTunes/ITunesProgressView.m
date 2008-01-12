@@ -8,7 +8,7 @@
 
 #import "ITunesProgressView.h"
 
-#import <ShadowKit/SKCGFunctions.h>
+#import WBHEADER(WBCGFunctions.h)
 
 @implementation ITunesProgressView
 
@@ -38,7 +38,7 @@
   
   CGContextSaveGState(ctxt);
   /* clip to round rect */
-  SKCGContextAddRoundRect(ctxt, rect, CGRectGetHeight(rect) / 2);
+  WBCGContextAddRoundRect(ctxt, rect, CGRectGetHeight(rect) / 2);
   CGContextClip(ctxt);
   /* draw progress bar */
   CGRect progress = rect;
@@ -47,7 +47,7 @@
   CGContextRestoreGState(ctxt);
 
   /* stroke progress border */
-  SKCGContextAddRoundRect(ctxt, rect, CGRectGetHeight(rect) / 2);
+  WBCGContextAddRoundRect(ctxt, rect, CGRectGetHeight(rect) / 2);
   CGContextStrokePath(ctxt);
   
   CGContextRestoreGState(ctxt);

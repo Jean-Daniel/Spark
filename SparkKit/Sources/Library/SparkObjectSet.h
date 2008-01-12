@@ -14,7 +14,7 @@
 @abstract Spark Objects Library.
 */
 @class SparkLibrary;
-SK_CLASS_EXPORT
+WB_CLASS_EXPORT
 @interface SparkObjectSet : NSObject {
 @private
   SparkUID sp_uid;

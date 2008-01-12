@@ -25,7 +25,7 @@
 #import <SparkKit/SparkFunctions.h>
 #import <SparkKit/SparkActionLoader.h>
 
-#import <ShadowKit/SKAppKitExtensions.h>
+#import WBHEADER(WBAppKitExtensions.h)
 
 @implementation SELibraryWindow
 
@@ -115,7 +115,7 @@
   
   NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"New Group", @"'New Group' menu item")
                                                 action:@selector(newGroup:) keyEquivalent:@"N"];
-  [item setImage:[NSImage imageNamed:@"SimpleList" inBundle:SKBundleForClass(SparkLibrary)]];
+  [item setImage:[NSImage imageNamed:@"SimpleList" inBundle:WBBundleForClass(SparkLibrary)]];
   [item setKeyEquivalentModifierMask:NSShiftKeyMask | NSCommandKeyMask];
   [menu addItem:item];
   [item release];
@@ -226,11 +226,11 @@
 }
 
 - (IBAction)copy:(id)sender {
-  ShadowTrace();
+  WBTrace();
 }
 
 - (IBAction)paste:(id)sender {
-  ShadowTrace();
+  WBTrace();
 }
 
 - (IBAction)newTriggerFromMenu:(id)sender {

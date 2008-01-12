@@ -7,9 +7,9 @@
  */
 
 #include "ITunesAESuite.h"
-#include <ShadowKit/SKLSFunctions.h>
-#include <ShadowKit/SKAEFunctions.h>
-#include <ShadowKit/SKProcessFunctions.h>
+
+#include WBHEADER(WBLSFunctions.h)
+#include WBHEADER(WBProcessFunctions.h)
 
 static 
 CFArrayRef iTunesCopyPlaylistNamesFromList(AEDescList *items);
@@ -17,19 +17,19 @@ CFArrayRef iTunesCopyPlaylistNamesFromList(AEDescList *items);
 static
 OSStatus iTunesReshufflePlaylist(iTunesPlaylist *playlist);
 
-SK_INLINE
+WB_INLINE
 OSStatus _iTunesCreateEvent(AEEventClass class, AEEventID method, AppleEvent *event) {
-  SKAEInitDesc(event);
+  WBAEInitDesc(event);
   
-  OSStatus err = SKAECreateEventWithTargetSignature(kiTunesSignature, class, method, event);
+  OSStatus err = WBAECreateEventWithTargetSignature(kiTunesSignature, class, method, event);
   require_noerr(err, bail);
   
-  err = SKAESetStandardAttributes(event);
+  err = WBAESetStandardAttributes(event);
   require_noerr(err, bail);
   
   return noErr;
 bail:
-    SKAEDisposeDesc(event);
+	WBAEDisposeDesc(event);
   return err;
 }
 
@@ -41,14 +41,14 @@ OSStatus _iTunesCopyObjectStringProperty(AEDesc *object, AEKeyword property, CFS
   require_noerr(err, bail);
   
   /* ... 'property' of object 'object' */
-  err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeUnicodeText, property, object);
+  err = WBAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeUnicodeText, property, object);
   require_noerr(err, bail);
   
-  err = SKAESendEventReturnCFString(&theEvent, value);
+  err = WBAESendEventReturnCFString(&theEvent, value);
   require_noerr(err, bail);
   
 bail:
-    SKAEDisposeDesc(&theEvent);
+	WBAEDisposeDesc(&theEvent);
   return err;
 }
 
@@ -60,19 +60,19 @@ OSStatus _iTunesGetObjectIntegerProperty(AEDesc *object, AEKeyword property, SIn
   require_noerr(err, bail);
   
   /* ... 'property' of track 'track' */
-  err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeSInt32, property, object);
+  err = WBAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeSInt32, property, object);
   require_noerr(err, bail);
   
-  err = SKAESendEventReturnSInt32(&theEvent, value);
+  err = WBAESendEventReturnSInt32(&theEvent, value);
   require_noerr(err, bail);
   
 bail:
-    SKAEDisposeDesc(&theEvent);
+	WBAEDisposeDesc(&theEvent);
   return err;
 }
 
 Boolean iTunesIsRunning(ProcessSerialNumber *proc) {
-  ProcessSerialNumber psn = SKProcessGetProcessWithSignature(kiTunesSignature);
+  ProcessSerialNumber psn = WBProcessGetProcessWithSignature(kiTunesSignature);
   if (proc) *proc = psn;
   return psn.lowLongOfPSN != kNoProcess;
 }
@@ -81,9 +81,9 @@ Boolean iTunesIsRunning(ProcessSerialNumber *proc) {
 #pragma mark Commands
 OSStatus iTunesLaunch(LSLaunchFlags flags) {
   FSRef iTunes;
-  OSStatus err = SKLSGetApplicationForSignature(kiTunesSignature, &iTunes);
+  OSStatus err = WBLSGetApplicationForSignature(kiTunesSignature, &iTunes);
   if (noErr == err) {
-    err = SKLSLaunchApplication(&iTunes, flags);
+    err = WBLSLaunchApplication(&iTunes, flags);
   }
   return err;
 }
@@ -94,14 +94,14 @@ OSStatus iTunesGetPlayerState(ITunesState *state) {
   OSStatus err = _iTunesCreateEvent(kAECoreSuite, kAEGetData, &theEvent);
   require_noerr(err, bail);
   
-  err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty, 'pPlS', NULL);
+  err = WBAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty, 'pPlS', NULL);
   require_noerr(err, bail);
-
-  err = SKAESendEventReturnData(&theEvent, typeEnumerated, NULL, state, sizeof(OSType), NULL);
+	
+  err = WBAESendEventReturnData(&theEvent, typeEnumerated, NULL, state, sizeof(OSType), NULL);
   require_noerr(err, bail);
   
 bail:
-    SKAEDisposeDesc(&theEvent);
+	WBAEDisposeDesc(&theEvent);
   return err;
 }
 
@@ -110,14 +110,14 @@ OSStatus iTunesGetPlayerPosition(UInt32 *position) {
   OSStatus err = _iTunesCreateEvent(kAECoreSuite, kAEGetData, &theEvent);
   require_noerr(err, bail);
   
-  err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty, 'pPos', NULL);
+  err = WBAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty, 'pPos', NULL);
   require_noerr(err, bail);
   
-  err = SKAESendEventReturnUInt32(&theEvent, position);
+  err = WBAESendEventReturnUInt32(&theEvent, position);
   require_noerr(err, bail);
   
 bail:
-    SKAEDisposeDesc(&theEvent);
+	WBAEDisposeDesc(&theEvent);
   return err;
 }
 
@@ -126,14 +126,14 @@ OSStatus iTunesGetVisualEnabled(Boolean *state) {
   OSStatus err = _iTunesCreateEvent(kAECoreSuite, kAEGetData, &theEvent);
   require_noerr(err, bail);
   
-  err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty, 'pVsE', NULL);
+  err = WBAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty, 'pVsE', NULL);
   require_noerr(err, bail);
   
-  err = SKAESendEventReturnBoolean(&theEvent, state);
+  err = WBAESendEventReturnBoolean(&theEvent, state);
   require_noerr(err, bail);
   
 bail:
-    SKAEDisposeDesc(&theEvent);
+	WBAEDisposeDesc(&theEvent);
   return err;
 }
 
@@ -142,17 +142,17 @@ OSStatus iTunesSetVisualEnabled(Boolean state) {
   OSStatus err = _iTunesCreateEvent(kAECoreSuite, kAESetData, &theEvent);
   require_noerr(err, bail);
   
-  err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty,'pVsE', NULL);
+  err = WBAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty,'pVsE', NULL);
   require_noerr(err, bail);
   
-  err = SKAEAddBoolean(&theEvent, keyAEData, state);
+  err = WBAEAddBoolean(&theEvent, keyAEData, state);
   require_noerr(err, bail);
   
-  err = SKAESendEventNoReply(&theEvent);
+  err = WBAESendEventNoReply(&theEvent);
   require_noerr(err, bail);
   
 bail:
-    SKAEDisposeDesc(&theEvent);
+	WBAEDisposeDesc(&theEvent);
   return err;
 }
 
@@ -161,14 +161,14 @@ OSStatus iTunesGetSoundVolume(SInt16 *volume) {
   OSStatus err = _iTunesCreateEvent(kAECoreSuite, kAEGetData, &theEvent);
   require_noerr(err, bail);
   
-  err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty,'pVol', NULL);
+  err = WBAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty,'pVol', NULL);
   require_noerr(err, bail);
   
-  err = SKAESendEventReturnSInt16(&theEvent, volume);
+  err = WBAESendEventReturnSInt16(&theEvent, volume);
   require_noerr(err, bail);
   
 bail:
-    SKAEDisposeDesc(&theEvent);
+	WBAEDisposeDesc(&theEvent);
   return err;
 }
 OSStatus iTunesSetSoundVolume(SInt16 volume) {
@@ -176,17 +176,17 @@ OSStatus iTunesSetSoundVolume(SInt16 volume) {
   OSStatus err = _iTunesCreateEvent(kAECoreSuite, kAESetData, &theEvent);
   require_noerr(err, bail);
   
-  err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty,'pVol', NULL);
+  err = WBAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty,'pVol', NULL);
   require_noerr(err, bail);
   
-  err = SKAEAddSInt16(&theEvent, keyAEData, volume); 
+  err = WBAEAddSInt16(&theEvent, keyAEData, volume); 
   require_noerr(err, bail);
   
-  err = SKAESendEventNoReply(&theEvent);
+  err = WBAESendEventNoReply(&theEvent);
   require_noerr(err, bail);
-
+	
 bail:
-    SKAEDisposeDesc(&theEvent);
+	WBAEDisposeDesc(&theEvent);
   return err;
 }
 
@@ -195,38 +195,38 @@ OSStatus iTunesCopyCurrentStreamTitle(CFStringRef *title) {
   OSStatus err = _iTunesCreateEvent(kAECoreSuite, kAEGetData, &theEvent);
   require_noerr(err, bail);
   
-  err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty, 'pStT', NULL);
+  err = WBAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty, 'pStT', NULL);
   require_noerr(err, bail);
   
-  err = SKAESendEventReturnCFString(&theEvent, title);
+  err = WBAESendEventReturnCFString(&theEvent, title);
   require_noerr(err, bail);
   
 bail:
-    SKAEDisposeDesc(&theEvent);
+	WBAEDisposeDesc(&theEvent);
   return err;
 }
 
 #pragma mark -
 OSStatus iTunesGetObjectType(AEDesc *obj, OSType *cls) {
-  AEDesc reply = SKAEEmptyDesc();
-  AppleEvent theEvent = SKAEEmptyDesc();
+  AEDesc reply = WBAEEmptyDesc();
+  AppleEvent theEvent = WBAEEmptyDesc();
   /* tell application "iTunes" to get ... */
   OSStatus err = _iTunesCreateEvent(kAECoreSuite, kAEGetData, &theEvent);
   require_noerr(err, bail);
   
   /* ... class of obj 'obj' */
-  err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeType, pClass, obj);
+  err = WBAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeType, pClass, obj);
   require_noerr(err, bail);
   
-  err = SKAESendEventReturnAEDesc(&theEvent, typeType, &reply);
+  err = WBAESendEventReturnAEDesc(&theEvent, typeType, &reply);
   require_noerr(err, bail);
   
   err = AEGetDescData(&reply, cls, sizeof(*cls));
   require_noerr(err, bail);
   
 bail:
-    SKAEDisposeDesc(&theEvent);
-  SKAEDisposeDesc(&reply);
+	WBAEDisposeDesc(&theEvent);
+  WBAEDisposeDesc(&reply);
   return err;
 }
 
@@ -238,18 +238,18 @@ OSStatus iTunesSetTrackRate(iTunesTrack *track, UInt32 rate) {
   require_noerr(err, bail);
   
   /* ... rate of track 'track' */
-  err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeUInt32, kiTunesRateKey, track);
+  err = WBAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeUInt32, kiTunesRateKey, track);
   require_noerr(err, bail);
   
   /* ... to 'rate' */
-  err = SKAEAddUInt32(&theEvent, keyAEData, rate);
+  err = WBAEAddUInt32(&theEvent, keyAEData, rate);
   require_noerr(err, bail);
   
-  err = SKAESendEventNoReply(&theEvent);
+  err = WBAESendEventNoReply(&theEvent);
   require_noerr(err, bail);
   
 bail:
-    SKAEDisposeDesc(&theEvent);
+	WBAEDisposeDesc(&theEvent);
   return err;
 }
 OSStatus iTunesGetTrackRate(iTunesTrack *track, UInt32 *rate) {
@@ -259,14 +259,14 @@ OSStatus iTunesGetTrackRate(iTunesTrack *track, UInt32 *rate) {
   require_noerr(err, bail);
   
   /* ... rate of track 'track' */
-  err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeSInt16, kiTunesRateKey, track);
+  err = WBAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeSInt16, kiTunesRateKey, track);
   require_noerr(err, bail);
   
-  err = SKAESendEventReturnUInt32(&theEvent, rate);
+  err = WBAESendEventReturnUInt32(&theEvent, rate);
   require_noerr(err, bail);
   
 bail:
-    SKAEDisposeDesc(&theEvent);
+	WBAEDisposeDesc(&theEvent);
   return err;
 }
 
@@ -277,20 +277,20 @@ OSStatus iTunesGetCurrentTrack(iTunesTrack *track) {
   require_noerr(err, bail);
   
   /* current track */
-  err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, 'cTrk', 'pTrk', NULL);
+  err = WBAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, 'cTrk', 'pTrk', NULL);
   require_noerr(err, bail);
   
   /* Do not force return type to 'cTrk', because iTunes returns a 'cTrk' subclass */
-  err = SKAESendEventReturnAEDesc(&theEvent, typeWildCard, track);
+  err = WBAESendEventReturnAEDesc(&theEvent, typeWildCard, track);
   require_noerr(err, bail);
   
 bail:
-    SKAEDisposeDesc(&theEvent);
+	WBAEDisposeDesc(&theEvent);
   return err;
 }
 
 OSStatus iTunesSetCurrentTrackRate(UInt32 rate) {
-  AEDesc track = SKAEEmptyDesc();
+  AEDesc track = WBAEEmptyDesc();
   
   ITunesState state = 0;
   OSStatus err = iTunesGetPlayerState(&state);
@@ -304,9 +304,9 @@ OSStatus iTunesSetCurrentTrackRate(UInt32 rate) {
     err = iTunesSetTrackRate(&track, rate);
     require_noerr(err, bail);
   }
-
+	
 bail:
-    SKAEDisposeDesc(&track);
+	WBAEDisposeDesc(&track);
   return err;
 }
 
@@ -321,7 +321,7 @@ OSStatus iTunesGetTrackIntegerProperty(iTunesTrack *track, ITunesTrackProperty p
 #pragma mark -
 #pragma mark Playlists
 OSStatus iTunesPlayPlaylist(iTunesPlaylist *playlist) {
-  AppleEvent theEvent = SKAEEmptyDesc();
+  AppleEvent theEvent = WBAEEmptyDesc();
   
   OSStatus err = iTunesReshufflePlaylist(playlist);
   require_noerr(err, bail);
@@ -329,19 +329,19 @@ OSStatus iTunesPlayPlaylist(iTunesPlaylist *playlist) {
   err = _iTunesCreateEvent(kiTunesSuite, kiTunesCommandPlay, &theEvent);
   require_noerr(err, bail);
   
-  err = SKAEAddAEDesc(&theEvent, keyDirectObject, playlist);
+  err = WBAEAddAEDesc(&theEvent, keyDirectObject, playlist);
   require_noerr(err, bail);
   
-  err = SKAESendEventNoReply(&theEvent);
+  err = WBAESendEventNoReply(&theEvent);
   require_noerr(err, bail);
   
 bail:
-    SKAEDisposeDesc(&theEvent);
+	WBAEDisposeDesc(&theEvent);
   return err; 
 }
 
 OSStatus iTunesPlayPlaylistWithID(SInt64 uid) {
-  iTunesPlaylist playlist = SKAEEmptyDesc();
+  iTunesPlaylist playlist = WBAEEmptyDesc();
   
   OSStatus err = iTunesGetPlaylistWithID(uid, &playlist);
   require_noerr(err, bail);
@@ -350,12 +350,12 @@ OSStatus iTunesPlayPlaylistWithID(SInt64 uid) {
   require_noerr(err, bail);
   
 bail:
-    SKAEDisposeDesc(&playlist);
+	WBAEDisposeDesc(&playlist);
   return err; 
 }
 
 OSStatus iTunesPlayPlaylistWithName(CFStringRef name) {
-  iTunesPlaylist playlist = SKAEEmptyDesc();
+  iTunesPlaylist playlist = WBAEEmptyDesc();
   
   OSStatus err = iTunesGetPlaylistWithName(name, &playlist);
   require_noerr(err, bail);
@@ -364,7 +364,7 @@ OSStatus iTunesPlayPlaylistWithName(CFStringRef name) {
   require_noerr(err, bail);
   
 bail:
-    SKAEDisposeDesc(&playlist);
+	WBAEDisposeDesc(&playlist);
   return err; 
 }
 
@@ -375,39 +375,39 @@ OSStatus iTunesGetCurrentPlaylist(iTunesPlaylist *playlist) {
   require_noerr(err, bail);
   
   /* current playlist */
-  err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, 'cPly', 'pPla', NULL);
+  err = WBAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, 'cPly', 'pPla', NULL);
   require_noerr(err, bail);
   
-  err = SKAESendEventReturnAEDesc(&theEvent, typeWildCard, playlist);
+  err = WBAESendEventReturnAEDesc(&theEvent, typeWildCard, playlist);
   require_noerr(err, bail);
   
 bail:
-    SKAEDisposeDesc(&theEvent);
+	WBAEDisposeDesc(&theEvent);
   return err;
 }
 
 
-SK_INLINE
+WB_INLINE
 OSStatus __iTunesGetPlaylistUIDOperand(AEDesc *operand) {
-  AEDesc obj = SKAEEmptyDesc();
+  AEDesc obj = WBAEEmptyDesc();
   
   OSStatus err = AECreateDesc(typeObjectBeingExamined, NULL, 0, &obj);
   require_noerr(err, bail);
   
-  err = SKAECreatePropertyObjectSpecifier(typeProperty, kiTunesPersistentID, &obj, operand);
+  err = WBAECreatePropertyObjectSpecifier(typeProperty, kiTunesPersistentID, &obj, operand);
   require_noerr(err, bail);
   
 bail:
-    SKAEDisposeDesc(&obj);
+	WBAEDisposeDesc(&obj);
   return err;
 }
 
-SK_INLINE
+WB_INLINE
 OSStatus __iTunesAddPlaylistSpecifier(AppleEvent *event, SInt64 uid) {
-  AEDesc data = SKAEEmptyDesc();
-  AEDesc object = SKAEEmptyDesc();
-  AEDesc specifier = SKAEEmptyDesc();
-  AEDesc comparaison = SKAEEmptyDesc();
+  AEDesc data = WBAEEmptyDesc();
+  AEDesc object = WBAEEmptyDesc();
+  AEDesc specifier = WBAEEmptyDesc();
+  AEDesc comparaison = WBAEEmptyDesc();
   
   OSStatus err = __iTunesGetPlaylistUIDOperand(&object);
   require_noerr(err, bail);
@@ -422,24 +422,24 @@ OSStatus __iTunesAddPlaylistSpecifier(AppleEvent *event, SInt64 uid) {
                              &comparaison);
   require_noerr(err, bail);
   
-  err = SKAECreateObjectSpecifier('cPly', formTest, &comparaison, NULL, &specifier);
+  err = WBAECreateObjectSpecifier('cPly', formTest, &comparaison, NULL, &specifier);
   require_noerr(err, bail);
   
-  err = SKAEAddAEDesc(event, keyDirectObject, &specifier);
+  err = WBAEAddAEDesc(event, keyDirectObject, &specifier);
   require_noerr(err, bail);
   
 bail:
-    SKAEDisposeDesc(&comparaison);
-  SKAEDisposeDesc(&specifier);
-  SKAEDisposeDesc(&object);
-  SKAEDisposeDesc(&data);
+	WBAEDisposeDesc(&comparaison);
+  WBAEDisposeDesc(&specifier);
+  WBAEDisposeDesc(&object);
+  WBAEDisposeDesc(&data);
   return err;
 }
 
 
 OSStatus iTunesGetPlaylistWithID(SInt64 uid, iTunesPlaylist *playlist) {
   AppleEvent theEvent;
-  AEDescList list = SKAEEmptyDesc();
+  AEDescList list = WBAEEmptyDesc();
   
   /* tell application "iTunes" to get ... */
   OSStatus err = _iTunesCreateEvent(kAECoreSuite, kAEGetData, &theEvent);
@@ -449,7 +449,7 @@ OSStatus iTunesGetPlaylistWithID(SInt64 uid, iTunesPlaylist *playlist) {
   err = __iTunesAddPlaylistSpecifier(&theEvent, uid);
   require_noerr(err, bail);
   
-  err = SKAESendEventReturnAEDescList(&theEvent, &list);
+  err = WBAESendEventReturnAEDescList(&theEvent, &list);
   require_noerr(err, bail);
   
   long count = 0;
@@ -464,8 +464,8 @@ OSStatus iTunesGetPlaylistWithID(SInt64 uid, iTunesPlaylist *playlist) {
   }
   
 bail:
-    SKAEDisposeDesc(&list);
-  SKAEDisposeDesc(&theEvent);
+	WBAEDisposeDesc(&list);
+  WBAEDisposeDesc(&theEvent);
   return err;
 }
 
@@ -476,14 +476,14 @@ OSStatus iTunesGetPlaylistWithName(CFStringRef name, iTunesPlaylist *playlist) {
   require_noerr(err, bail);
   
   /* ... playlist "name" */
-  err = SKAEAddNameObjectSpecifier(&theEvent, keyDirectObject, 'cPly', name, NULL);
+  err = WBAEAddNameObjectSpecifier(&theEvent, keyDirectObject, 'cPly', name, NULL);
   require_noerr(err, bail);
   
-  err = SKAESendEventReturnAEDesc(&theEvent, typeWildCard, playlist);
+  err = WBAESendEventReturnAEDesc(&theEvent, typeWildCard, playlist);
   require_noerr(err, bail);
   
 bail:
-    SKAEDisposeDesc(&theEvent);
+	WBAEDisposeDesc(&theEvent);
   return err;
 }
 
@@ -504,14 +504,14 @@ OSStatus iTunesGetPlaylistShuffle(iTunesPlaylist *playlist, Boolean *shuffle) {
   require_noerr(err, bail);
   
   /* ... shuffle of playlist 'playlist' */
-  err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty, 'pShf', playlist);
+  err = WBAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty, 'pShf', playlist);
   require_noerr(err, bail);
   
-  err = SKAESendEventReturnBoolean(&theEvent, shuffle);
+  err = WBAESendEventReturnBoolean(&theEvent, shuffle);
   require_noerr(err, bail);
   
 bail:
-    SKAEDisposeDesc(&theEvent);
+	WBAEDisposeDesc(&theEvent);
   return err;
 }
 static
@@ -522,18 +522,18 @@ OSStatus iTunesSetPlaylistShuffle(iTunesPlaylist *playlist, Boolean shuffle) {
   require_noerr(err, bail);
   
   /* ... shuffle of playlist 'playlist' ... */
-  err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty, 'pShf', playlist);
+  err = WBAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty, 'pShf', playlist);
   require_noerr(err, bail);
   
   /* ... to 'shuffle' */
-  err = SKAEAddBoolean(&theEvent, keyAEData, shuffle);
+  err = WBAEAddBoolean(&theEvent, keyAEData, shuffle);
   require_noerr(err, bail);
   
-  err = SKAESendEventNoReply(&theEvent);
+  err = WBAESendEventNoReply(&theEvent);
   require_noerr(err, bail);
   
 bail:
-    SKAEDisposeDesc(&theEvent);
+	WBAEDisposeDesc(&theEvent);
   return err;
 }
 
@@ -552,32 +552,32 @@ OSStatus iTunesReshufflePlaylist(iTunesPlaylist *playlist) {
     require_noerr(err, bail);
   }
 bail:
-    return err;
+	return err;
 }
 
 #pragma mark -
-SK_INLINE
+WB_INLINE
 OSStatus _iTunesGetLibrarySourceOperand(AEDesc *operand) {
   /* Prepare operand 1: kind of examined object */
-  AEDesc obj = SKAEEmptyDesc();
+  AEDesc obj = WBAEEmptyDesc();
   
   OSStatus err = AECreateDesc(typeObjectBeingExamined, NULL, 0, &obj);
   require_noerr(err, bail);
   
-  err = SKAECreatePropertyObjectSpecifier(typeProperty, 'pKnd', &obj, operand);
+  err = WBAECreatePropertyObjectSpecifier(typeProperty, 'pKnd', &obj, operand);
   require_noerr(err, bail);
   
 bail:
-    SKAEDisposeDesc(&obj);
+	WBAEDisposeDesc(&obj);
   return err;
 }
 
 /* source whose kind is library => source where kind of examined object equals type 'kLib' */
 static OSStatus _iTunesGetLibrarySources(AEDesc *sources) {
   /* Prepare operand 1: kind of examined object */
-  AEDesc type = SKAEEmptyDesc();
-  AEDesc property = SKAEEmptyDesc();
-  AEDesc comparaison = SKAEEmptyDesc();
+  AEDesc type = WBAEEmptyDesc();
+  AEDesc property = WBAEEmptyDesc();
+  AEDesc comparaison = WBAEEmptyDesc();
   
   OSStatus err = _iTunesGetLibrarySourceOperand(&property);
   require_noerr(err, bail);
@@ -593,93 +593,93 @@ static OSStatus _iTunesGetLibrarySources(AEDesc *sources) {
                              &comparaison);
   require_noerr(err, bail);
   
-  err = SKAECreateObjectSpecifier('cSrc', formTest, &comparaison, NULL, sources);
+  err = WBAECreateObjectSpecifier('cSrc', formTest, &comparaison, NULL, sources);
   require_noerr(err, bail);
   
 bail:
-    SKAEDisposeDesc(&type);
-  SKAEDisposeDesc(&property);
-  SKAEDisposeDesc(&comparaison);
+	WBAEDisposeDesc(&type);
+  WBAEDisposeDesc(&property);
+  WBAEDisposeDesc(&comparaison);
   return err;
 }
 
 static OSStatus iTunesGetLibrarySource(AEDesc *source) {
-  AEDesc sources = SKAEEmptyDesc();
+  AEDesc sources = WBAEEmptyDesc();
   
   OSStatus err = _iTunesGetLibrarySources(&sources);
   require_noerr(err, bail);
   
-  err = SKAECreateIndexObjectSpecifier('cSrc', 1, &sources, source);
+  err = WBAECreateIndexObjectSpecifier('cSrc', 1, &sources, source);
   require_noerr(err, bail);
   
 bail:
-    SKAEDisposeDesc(&sources);
+	WBAEDisposeDesc(&sources);
   return err;
 }
 
-SK_INLINE
+WB_INLINE
 OSStatus __iTunesGetEveryPlaylistObject(AEDesc *object) {
-  AEDesc source = SKAEEmptyDesc();
+  AEDesc source = WBAEEmptyDesc();
   
   OSStatus err = iTunesGetLibrarySource(&source);
   require_noerr(err, bail);
   
   /* every playlists of (first source whose kind is library) */
-  err = SKAECreateIndexObjectSpecifier('cPly', kAEAll, &source, object);
+  err = WBAECreateIndexObjectSpecifier('cPly', kAEAll, &source, object);
   require_noerr(err, bail);
   
 bail:
-    SKAEDisposeDesc(&source);
+	WBAEDisposeDesc(&source);
   return err;
 }
 
-SK_INLINE
+WB_INLINE
 OSStatus __iTunesGetPlaylistsProperty(AEDesc *playlists, DescType type, AEKeyword property, AEDescList *properties) {
-  AppleEvent theEvent = SKAEEmptyDesc();
+  AppleEvent theEvent = WBAEEmptyDesc();
   /* tell application "iTunes" to get ... */
   OSStatus err = _iTunesCreateEvent(kAECoreSuite, kAEGetData, &theEvent);
   require_noerr(err, bail);
-
+	
   /* name of playlists */
-  err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, type, property, playlists);
+  err = WBAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, type, property, playlists);
   require_noerr(err, bail);
-
-  err = SKAESendEventReturnAEDescList(&theEvent, properties);
+	
+  err = WBAESendEventReturnAEDescList(&theEvent, properties);
   require_noerr(err, bail);
   
 bail:
-    SKAEDisposeDesc(&theEvent);
+	WBAEDisposeDesc(&theEvent);
   return err;
 }
 
 static
 OSStatus _iTunesPlaylistIsSmart(UInt32 id, Boolean *smart) {
-  AEDesc playlist = SKAEEmptyDesc();
-  AppleEvent theEvent = SKAEEmptyDesc();
+  AEDesc playlist = WBAEEmptyDesc();
+  AppleEvent theEvent = WBAEEmptyDesc();
   /* tell application "iTunes" to get ... */
   OSStatus err = _iTunesCreateEvent(kAECoreSuite, kAEGetData, &theEvent);
   require_noerr(err, bail);
   
-  err = SKAECreateUniqueIDObjectSpecifier('cPly', id, NULL, &playlist);
+  err = WBAECreateUniqueIDObjectSpecifier('cPly', id, NULL, &playlist);
   require_noerr(err, bail);
   
   /* name of playlists */
-  err = SKAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeBoolean, 'pSmt', &playlist);
+  err = WBAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeBoolean, 'pSmt', &playlist);
   require_noerr(err, bail);
   
-  err = SKAESendEventReturnBoolean(&theEvent, smart);
+  err = WBAESendEventReturnBoolean(&theEvent, smart);
   require_noerr(err, bail);
   
 bail:
-    SKAEDisposeDesc(&playlist);
-  SKAEDisposeDesc(&theEvent);
+	WBAEDisposeDesc(&playlist);
+  WBAEDisposeDesc(&theEvent);
   return err;
 }
 
 CFArrayRef iTunesCopyPlaylistNames(void) {
   CFArrayRef result = NULL;
-  AEDescList names = SKAEEmptyDesc();
-  AEDesc playlists = SKAEEmptyDesc();
+  AEDescList names = WBAEEmptyDesc();
+  AEDesc playlists = WBAEEmptyDesc();
   
   OSStatus err = __iTunesGetEveryPlaylistObject(&playlists);
   require_noerr(err, bail);
@@ -690,8 +690,8 @@ CFArrayRef iTunesCopyPlaylistNames(void) {
   result = iTunesCopyPlaylistNamesFromList(&names);
   
 bail:
-    SKAEDisposeDesc(&names);
-  SKAEDisposeDesc(&playlists);
+	WBAEDisposeDesc(&names);
+  WBAEDisposeDesc(&playlists);
   return result;
 }
 
@@ -708,11 +708,11 @@ CFArrayRef iTunesCopyPlaylistNamesFromList(AEDescList *items) {
       err = AEGetNthDesc(items, idx, typeWildCard, NULL, &listDesc);
       if (noErr == err) {
         CFStringRef name = NULL;
-        if (noErr == SKAECopyCFStringFromDescriptor(&listDesc, &name) && name) {
+        if (noErr == WBAECopyCFStringFromDescriptor(&listDesc, &name) && name) {
           CFArrayAppendValue(names, name);
           CFRelease(name);
         }
-        SKAEDisposeDesc(&listDesc);
+        WBAEDisposeDesc(&listDesc);
       }
     } // End for
   }
@@ -722,16 +722,16 @@ CFArrayRef iTunesCopyPlaylistNamesFromList(AEDescList *items) {
 CFDictionaryRef iTunesCopyPlaylists(void) {
   CFMutableDictionaryRef result = NULL;
   
-  AEDescList ids = SKAEEmptyDesc();
-  AEDescList uids = SKAEEmptyDesc();
-  AEDescList kinds = SKAEEmptyDesc();
-  AEDescList names = SKAEEmptyDesc();
+  AEDescList ids = WBAEEmptyDesc();
+  AEDescList uids = WBAEEmptyDesc();
+  AEDescList kinds = WBAEEmptyDesc();
+  AEDescList names = WBAEEmptyDesc();
   
-  AEDesc playlists = SKAEEmptyDesc();
+  AEDesc playlists = WBAEEmptyDesc();
   
   OSStatus err = __iTunesGetEveryPlaylistObject(&playlists);
   require_noerr(err, bail);
-
+	
   err = __iTunesGetPlaylistsProperty(&playlists, typeSInt32, 'ID  ', &ids);
   require_noerr(err, bail);
   
@@ -750,7 +750,7 @@ CFDictionaryRef iTunesCopyPlaylists(void) {
     result = CFDictionaryCreateMutable(kCFAllocatorDefault, count, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
     for (SInt32 idx = 1; (idx <= count); idx++) {
       SInt64 uid = 0;
-      err = SKAEGetNthSInt64FromDescList(&uids, idx, &uid);
+      err = WBAEGetNthSInt64FromDescList(&uids, idx, &uid);
       if (noErr == err) {
         OSType type;
         err = AEGetNthPtr(&kinds, idx, typeWildCard, NULL, NULL, &type, sizeof(type), NULL);
@@ -766,8 +766,8 @@ CFDictionaryRef iTunesCopyPlaylists(void) {
             case 'kSpI':
               kind = kPlaylistMovie;
               break;
-//            case 'kSpI':
-//              kind = kPlaylistTVShow:
+							//            case 'kSpI':
+							//              kind = kPlaylistTVShow:
               break;
             case 'kSpP':
               kind = kPlaylistPodcast;
@@ -784,7 +784,7 @@ CFDictionaryRef iTunesCopyPlaylists(void) {
             case 'kSpN': {
               // check if smart. 
               UInt32 id = 0;
-              if (noErr == SKAEGetNthUInt32FromDescList(&ids, idx, &id)) {
+              if (noErr == WBAEGetNthUInt32FromDescList(&ids, idx, &id)) {
                 Boolean smart = false;
                 err = _iTunesPlaylistIsSmart(id, &smart);
                 if (noErr == err) {
@@ -798,7 +798,7 @@ CFDictionaryRef iTunesCopyPlaylists(void) {
           }
           if (kind != kPlaylistUndefined) {
             CFStringRef name = NULL;
-            err = SKAECopyNthCFStringFromDescList(&names, idx, &name);
+            err = WBAECopyNthCFStringFromDescList(&names, idx, &name);
             if (noErr == err && name != NULL) {
               CFStringRef keys[] = { CFSTR("uid"), CFSTR("kind") };
               CFNumberRef numbers[2];
@@ -822,10 +822,10 @@ CFDictionaryRef iTunesCopyPlaylists(void) {
   }
   
 bail:
-  SKAEDisposeDesc(&names);
-  SKAEDisposeDesc(&kinds);
-  SKAEDisposeDesc(&uids);
-  SKAEDisposeDesc(&ids);
-  SKAEDisposeDesc(&playlists);
+  WBAEDisposeDesc(&names);
+  WBAEDisposeDesc(&kinds);
+  WBAEDisposeDesc(&uids);
+  WBAEDisposeDesc(&ids);
+  WBAEDisposeDesc(&playlists);
   return result;
 }

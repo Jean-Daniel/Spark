@@ -10,8 +10,8 @@
 #import "SparkEntryManagerPrivate.h"
 #import "SparkEntryPrivate.h"
 
-#import <ShadowKit/SKCFContext.h>
-#import <ShadowKit/SKEnumerator.h>
+#import WBHEADER(WBCFContext.h)
+#import WBHEADER(WBEnumerator.h)
 
 #import <SparkKit/SparkPrivate.h>
 
@@ -88,7 +88,7 @@ NSString * const SparkEntryManagerDidChangeEntryStatusNotification = @"SparkEntr
 #pragma mark -
 #pragma mark Query
 - (NSEnumerator *)entryEnumerator {
-  return SKMapTableEnumerator(sp_objects, NO);
+  return WBMapTableEnumerator(sp_objects, NO);
 }
 
 - (SparkEntry *)entryWithUID:(SparkUID)uid {

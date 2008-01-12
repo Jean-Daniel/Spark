@@ -7,11 +7,11 @@
  */
 
 #import "SEBackgroundView.h"
-#import <ShadowKit/SKFunctions.h>
-#import <ShadowKit/SKCGFunctions.h>
+#import WBHEADER(WBFunctions.h)
+#import WBHEADER(WBCGFunctions.h)
 
 static const 
-SKCGSimpleShadingInfo kSETopShadingInfo = {
+WBCGSimpleShadingInfo kSETopShadingInfo = {
 {.771, .771, .771, 1},
 {.508, .508, .508, 1},
   NULL,
@@ -27,14 +27,14 @@ static CGLayerRef sSETopShadingImage = nil;
 
 + (void)initialize {
   if ([SEBackgroundView class] == self) {
-    if (SKSystemMajorVersion() >= 10 && SKSystemMinorVersion() < 5) {
+    if (WBSystemMajorVersion() >= 10 && WBSystemMinorVersion() < 5) {
       sShading = true;
     }
   }
 }
 
 + (void)configureWindow:(NSWindow *)aWindow {
-  if (SKSystemMajorVersion() >= 10 && SKSystemMinorVersion() < 5) {
+  if (WBSystemMajorVersion() >= 10 && WBSystemMinorVersion() < 5) {
     [aWindow setBackgroundColor:[NSColor colorWithCalibratedWhite:.773 alpha:1]];
   }
 }
@@ -67,7 +67,7 @@ static CGLayerRef sSETopShadingImage = nil;
       gradient.origin.x += 1;
       gradient.size.width -= 2;
       if (!sSETopShadingImage)
-        sSETopShadingImage = SKCGLayerCreateWithVerticalShading(ctxt, CGSizeMake(128, se_top), true, SKCGShadingSimpleShadingFunction, (void *)&kSETopShadingInfo);
+        sSETopShadingImage = WBCGLayerCreateWithVerticalShading(ctxt, CGSizeMake(128, se_top), true, WBCGShadingSimpleShadingFunction, (void *)&kSETopShadingInfo);
       CGContextDrawLayerInRect(ctxt, NSRectToCGRect(gradient), sSETopShadingImage);
       
       CGContextSaveGState(ctxt);

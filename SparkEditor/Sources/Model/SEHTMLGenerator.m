@@ -18,8 +18,8 @@
 #import <SparkKit/SparkEntryManager.h>
 #import <SparkKit/SparkActionLoader.h>
 
-#import <ShadowKit/SKFunctions.h>
-#import <ShadowKit/SKXMLTemplate.h>
+#import WBHEADER(WBFunctions.h)
+#import WBHEADER(WBXMLTemplate.h)
 
 @implementation SEHTMLGenerator
 
@@ -49,18 +49,18 @@ NSInteger _SESortEntries(id e1, id e2, void *ctxt) {
   return [[e1 trigger] compare:(id)[e2 trigger]];
 }
 
-- (void)dumpCategories:(NSArray *)categories entries:(NSArray *)entries template:(SKTemplate *)tpl {
+- (void)dumpCategories:(NSArray *)categories entries:(NSArray *)entries template:(WBTemplate *)tpl {
   entries = [entries sortedArrayUsingFunction:_SESortEntries context:nil];
   for (NSUInteger idx = 0; idx < [categories count]; idx++) {
     bool dump = false;
-    SKTemplate *block = [tpl blockWithName:@"category"];
+    WBTemplate *block = [tpl blockWithName:@"category"];
     SparkPlugIn *plugin = [categories objectAtIndex:idx];
     for (NSUInteger idx2 = 0; idx2 < [entries count]; idx2++) {
       SparkEntry *entry = [entries objectAtIndex:idx2];
       SparkAction *action = [entry action];
       if ([action isKindOfClass:[plugin actionClass]]) {
         dump = true;
-        SKTemplate *ablock = [block blockWithName:@"entry"];
+        WBTemplate *ablock = [block blockWithName:@"entry"];
         [ablock setVariable:[entry name] forKey:@"name"];
         if (se_icons && [ablock containsKey:@"icon"])
           [ablock setVariable:[self imageTagForImage:[entry icon] size:NSMakeSize(16, 16)] forKey:@"icon"];
@@ -81,7 +81,7 @@ NSInteger _SESortEntries(id e1, id e2, void *ctxt) {
 
 - (BOOL)writeToFile:(NSString *)path atomically:(BOOL)useAuxiliaryFile error:(NSError **)error {
   NSString *file = [[NSBundle mainBundle] pathForResource:@"SEExportApp" ofType:@"xml"];
-  SKTemplate *tpl = [[SKXMLTemplate alloc] initWithContentsOfFile:file encoding:NSUTF8StringEncoding];
+  WBTemplate *tpl = [[WBXMLTemplate alloc] initWithContentsOfFile:file encoding:NSUTF8StringEncoding];
   [tpl setVariable:@"Spark Library" forKey:@"title"];
   
   SparkLibrary *library = [se_doc library];
@@ -102,7 +102,7 @@ NSInteger _SESortEntries(id e1, id e2, void *ctxt) {
   
   for (NSUInteger idx = 0; idx < [customs count]; idx++) {
     app = [customs objectAtIndex:idx];
-    SKTemplate *block = [tpl blockWithName:@"application"];
+    WBTemplate *block = [tpl blockWithName:@"application"];
     [block setVariable:[app name] forKey:@"name"];
     if (se_icons && [block containsKey:@"icon"]) 
       [block setVariable:[self imageTagForImage:[app icon] size:NSMakeSize(20, 20)] forKey:@"icon"];
@@ -146,7 +146,7 @@ NSInteger _SESortEntries(id e1, id e2, void *ctxt) {
   CGImageRelease(img);
   CFRelease(dest);
   
-  CFDataRef b64 = SKBase64CreateBase64DataFromData(png);
+  CFDataRef b64 = WBBase64CreateBase64DataFromData(png);
   CGContextRelease(ctxt);
   CFRelease(png);
   free(data);

@@ -20,12 +20,12 @@ enum {
 #define kDocumentActionBundleIdentifier @"org.shadowlab.spark.action.document"
 #define kDocumentActionBundle		    [NSBundle bundleWithIdentifier:kDocumentActionBundleIdentifier]
 
-@class SKAlias, SKAliasedApplication;
+@class WBAlias, WBAliasedApplication;
 @interface DocumentAction : SparkAction <NSCoding, NSCopying> {
   int da_action;
-  SKAlias *da_doc;
+  WBAlias *da_doc;
   NSString *da_url;
-  SKAliasedApplication *da_app;
+  WBAliasedApplication *da_app;
 }
 
 - (int)action;
@@ -37,10 +37,10 @@ enum {
 - (NSString *)url;
 - (void)setURL:(NSString *)url;
 
-- (SKAlias *)document;
-- (void)setDocument:(SKAlias *)aDoc;
-- (SKAliasedApplication *)application;
-- (void)setApplication:(SKAliasedApplication *)anApplication;
+- (WBAlias *)document;
+- (void)setDocument:(WBAlias *)aDoc;
+- (WBAliasedApplication *)application;
+- (void)setApplication:(WBAliasedApplication *)anApplication;
 
 - (void)openSelection;
 
@@ -48,10 +48,10 @@ enum {
 
 SPARK_PRIVATE
 NSImage *DocumentActionIcon(DocumentAction *anAction);
-SK_PRIVATE
+WB_PRIVATE
 NSString *DocumentActionDescription(DocumentAction *anAction);
 
-SK_INLINE
+WB_INLINE
 BOOL DocumentActionNeedDocument(int act) {
   switch (act) {
     case kDocumentActionOpen:
@@ -62,7 +62,7 @@ BOOL DocumentActionNeedDocument(int act) {
   return NO;
 }
 
-SK_INLINE
+WB_INLINE
 BOOL DocumentActionNeedApplication(int act) {
   switch (act) {
     case kDocumentActionOpenWith:

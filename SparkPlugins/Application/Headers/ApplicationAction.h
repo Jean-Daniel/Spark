@@ -35,12 +35,12 @@ typedef struct _ApplicationVisualSetting {
   BOOL activation;
 } ApplicationVisualSetting;
 
-@class SKAliasedApplication;
+@class WBAliasedApplication;
 @interface ApplicationAction : SparkAction <NSCoding, NSCopying> {
   @private
   LSLaunchFlags aa_lsFlags;
   ApplicationActionType aa_action;
-  SKAliasedApplication *aa_application;
+  WBAliasedApplication *aa_application;
   struct _aa_aaFlags {
     unsigned int active:2;
     unsigned int reopen:1;
@@ -77,7 +77,7 @@ typedef struct _ApplicationVisualSetting {
 - (ApplicationActionType)action;
 - (void)setAction:(ApplicationActionType)action;
 
-- (SKAliasedApplication *)application;
+- (WBAliasedApplication *)application;
 
 - (void)launchApplication;
 - (void)quitApplication;
@@ -94,9 +94,9 @@ typedef struct _ApplicationVisualSetting {
 
 @end
 
-SK_PRIVATE
+WB_PRIVATE
 NSImage *ApplicationActionIcon(ApplicationAction *action);
 
-SK_PRIVATE
+WB_PRIVATE
 NSString *ApplicationActionDescription(ApplicationAction *anAction, NSString *name);
 

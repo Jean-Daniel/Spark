@@ -16,10 +16,10 @@
 #import <SparkKit/SparkAppleScriptSuite.h>
 #import <SparkKit/SparkLibrarySynchronizer.h>
 
-#import <ShadowKit/SKAEFunctions.h>
-#import <ShadowKit/SKFSFunctions.h>
-#import <ShadowKit/SKLSFunctions.h>
-#import <ShadowKit/SKProcessFunctions.h>
+#import WBHEADER(WBAEFunctions.h)
+#import WBHEADER(WBFSFunctions.h)
+#import WBHEADER(WBLSFunctions.h)
+#import WBHEADER(WBProcessFunctions.h)
 
 NSString * const SEServerStatusDidChangeNotification = @"SEServerStatusDidChange";
 
@@ -78,7 +78,7 @@ NSString * const SEServerStatusDidChangeNotification = @"SEServerStatusDidChange
       @try {
         return [[self server] version];
       } @catch (id exception) {
-        SKLogException(exception);
+        WBLogException(exception);
       }
     } 
     return 0;
@@ -101,9 +101,9 @@ NSString * const SEServerStatusDidChangeNotification = @"SEServerStatusDidChange
         return;
       }
     } @catch (id exception) {
-      SKLogException(exception);
+      WBLogException(exception);
     }
-    ProcessSerialNumber psn = SKProcessGetProcessWithSignature(kSparkDaemonSignature);
+    ProcessSerialNumber psn = WBProcessGetProcessWithSignature(kSparkDaemonSignature);
     if (psn.lowLongOfPSN != kNoProcess)
       KillProcess(&psn);
   }
@@ -137,10 +137,10 @@ NSString * const SEServerStatusDidChangeNotification = @"SEServerStatusDidChange
       DLog(@"Server Connection down");
     }
   } @catch (id exception) {
-    SKLogException(exception);
+    WBLogException(exception);
     if ([NSPortTimeoutException isEqualToString:[exception name]]) {
       /* timeout, the daemon is probably in a dead state => restart it */
-      ProcessSerialNumber psn = SKProcessGetProcessWithSignature(kSparkDaemonSignature);
+      ProcessSerialNumber psn = WBProcessGetProcessWithSignature(kSparkDaemonSignature);
       if (psn.lowLongOfPSN != kNoProcess) {
         KillProcess(&psn);
         SELaunchSparkDaemon();
@@ -245,7 +245,7 @@ BOOL SELaunchSparkDaemon() {
   [SparkActiveLibrary() synchronize];
   NSString *path = SESparkDaemonPath();
   if (path) {
-    if (noErr != SKLSLaunchApplicationAtPath((CFStringRef)path, kCFURLPOSIXPathStyle, kLSLaunchDefaults | kLSLaunchDontSwitch | kLSLaunchDontAddToRecents)) {
+    if (noErr != WBLSLaunchApplicationAtPath((CFStringRef)path, kCFURLPOSIXPathStyle, kLSLaunchDefaults | kLSLaunchDontSwitch | kLSLaunchDontAddToRecents)) {
       DLog(@"Error cannot launch daemon app");
       [[SEServerConnection defaultConnection] setStatus:kSparkDaemonStatusError];
       return NO;
@@ -256,7 +256,7 @@ BOOL SELaunchSparkDaemon() {
 
 void SEServerStartConnection() {
   /* Verify daemon validity */
-  ProcessSerialNumber psn = SKProcessGetProcessWithSignature(kSparkDaemonSignature);
+  ProcessSerialNumber psn = WBProcessGetProcessWithSignature(kSparkDaemonSignature);
   if (psn.lowLongOfPSN != kNoProcess) {
     FSRef dRef;
     NSString *path = SESparkDaemonPath();
@@ -287,7 +287,7 @@ void SEServerStartConnection() {
           [connection setStatus:kSparkDaemonStatusDisabled];
         }
       } @catch (id exception) {
-        SKCLogException(exception);
+        WBCLogException(exception);
         DLog(@"Out of sync remote library. Automatically resyncs library and restarts daemon.");
         [connection restart];
       }
@@ -305,23 +305,23 @@ void SEServerStopConnection(void) {
 }
 
 BOOL SEDaemonIsEnabled() {
-  ProcessSerialNumber psn = SKProcessGetProcessWithSignature(kSparkDaemonSignature);
+  ProcessSerialNumber psn = WBProcessGetProcessWithSignature(kSparkDaemonSignature);
   if (psn.lowLongOfPSN != kNoProcess) {
     Boolean result = false;
-    AppleEvent aevt = SKAEEmptyDesc();
-    OSStatus err = SKAECreateEventWithTargetProcess(&psn, kAECoreSuite, kAEGetData, &aevt);
+    AppleEvent aevt = WBAEEmptyDesc();
+    OSStatus err = WBAECreateEventWithTargetProcess(&psn, kAECoreSuite, kAEGetData, &aevt);
     require_noerr(err, bail);
     
-    err = SKAESetStandardAttributes(&aevt);
+    err = WBAESetStandardAttributes(&aevt);
     require_noerr(err, bail);
     
-    err = SKAEAddPropertyObjectSpecifier(&aevt, keyDirectObject, typeBoolean, 'pSta', NULL);
+    err = WBAEAddPropertyObjectSpecifier(&aevt, keyDirectObject, typeBoolean, 'pSta', NULL);
     require_noerr(err, bail);
     
-    err = SKAESendEventReturnBoolean(&aevt, &result);
+    err = WBAESendEventReturnBoolean(&aevt, &result);
     require_noerr(err, bail);
 bail:
-      SKAEDisposeDesc(&aevt);
+      WBAEDisposeDesc(&aevt);
     
     return result;
   }

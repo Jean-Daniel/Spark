@@ -7,16 +7,14 @@
  */
 
 #import <SparkKit/SparkApplication.h>
-#import <SparkKit/SparkShadowKit.h>
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkPrivate.h>
 
-#import <ShadowKit/SKAlias.h>
-#import <ShadowKit/SKFunctions.h>
-#import <ShadowKit/SKLSFunctions.h>
-#import <ShadowKit/SKApplication.h>
-#import <ShadowKit/SKProcessFunctions.h>
-#import <ShadowKit/SKAppKitExtensions.h>
+#import WBHEADER(WBAlias.h)
+#import WBHEADER(WBFunctions.h)
+#import WBHEADER(WBLSFunctions.h)
+#import WBHEADER(WBProcessFunctions.h)
+#import WBHEADER(WBAppKitExtensions.h)
 
 static
 NSString * const kSparkApplicationKey = @"SparkApplication";
@@ -51,13 +49,13 @@ NSString * const SparkApplicationDidChangeEnabledNotification = @"SparkApplicati
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
   [coder encodeObject:sp_application forKey:kSparkApplicationKey];
-	SKEncodeInteger(coder, [self encodeFlags], kSparkApplicationFlagsKey);
+	WBEncodeInteger(coder, [self encodeFlags], kSparkApplicationFlagsKey);
   return;
 }
 
 - (id)initWithCoder:(NSCoder *)coder {
   if (self = [super initWithCoder:coder]) {
-    [self decodeFlags:SKDecodeInteger(coder, kSparkApplicationFlagsKey)];
+    [self decodeFlags:WBDecodeInteger(coder, kSparkApplicationFlagsKey)];
     sp_application = [[coder decodeObjectForKey:kSparkApplicationKey] retain];    
   }
   return self;
@@ -73,7 +71,7 @@ NSString * const SparkApplicationDidChangeEnabledNotification = @"SparkApplicati
 #pragma mark SparkSerialization
 - (BOOL)serialize:(NSMutableDictionary *)plist {
   if ([super serialize:plist]) {
-    [plist setObject:SKUInteger([self encodeFlags]) forKey:kSparkApplicationFlagsKey];
+    [plist setObject:WBUInteger([self encodeFlags]) forKey:kSparkApplicationFlagsKey];
     if ([sp_application identifier])
       return [sp_application serialize:plist];
     return YES;
@@ -82,8 +80,8 @@ NSString * const SparkApplicationDidChangeEnabledNotification = @"SparkApplicati
 }
 - (id)initWithSerializedValues:(NSDictionary *)plist {
   if (self = [super initWithSerializedValues:plist]) {
-    sp_application = [[SKApplication alloc] initWithSerializedValues:plist];
-    [self decodeFlags:SKIntegerValue([plist objectForKey:kSparkApplicationFlagsKey])];
+    sp_application = [[WBApplication alloc] initWithSerializedValues:plist];
+    [self decodeFlags:WBIntegerValue([plist objectForKey:kSparkApplicationFlagsKey])];
     /* Update name and icon */
     NSString *path = [sp_application path];
     if (path) {
@@ -101,7 +99,7 @@ NSString * const SparkApplicationDidChangeEnabledNotification = @"SparkApplicati
 #pragma mark Init & Dealloc Methods
 - (id)init {
   if (self = [super init]) {
-    sp_application = [[SKApplication alloc] init];
+    sp_application = [[WBApplication alloc] init];
   }
   return self;
 }
@@ -143,7 +141,7 @@ NSString * const SparkApplicationDidChangeEnabledNotification = @"SparkApplicati
   if (sp_application) {
     [sp_application release];
   }
-  sp_application = [[SKApplication alloc] initWithPath:path];
+  sp_application = [[WBApplication alloc] initWithPath:path];
   if (sp_application) {
     [self setName:[sp_application name]];
     [sp_application setName:nil];
@@ -181,7 +179,7 @@ NSString * const SparkApplicationDidChangeEnabledNotification = @"SparkApplicati
   return [sp_application bundleIdentifier];
 }
 
-- (SKApplication *)application {
+- (WBApplication *)application {
   return sp_application;
 }
 
@@ -196,7 +194,7 @@ NSString * const SparkApplicationDidChangeEnabledNotification = @"SparkApplicati
   return !sp_appFlags.disabled;
 }
 - (void)setEnabled:(BOOL)flag {
-  bool disabled = SKFlagTestAndSet(sp_appFlags.disabled, !flag);
+  bool disabled = WBFlagTestAndSet(sp_appFlags.disabled, !flag);
   if (disabled != sp_appFlags.disabled) {
     [[[[self library] undoManager] prepareWithInvocationTarget:self] setEnabled:sp_appFlags.disabled];
     /* post notification */
@@ -274,7 +272,7 @@ NSString * const SparkApplicationDidChangeEnabledNotification = @"SparkApplicati
   return nil;
 }
 
-- (SKApplication *)application {
+- (WBApplication *)application {
   return nil;
 }
 
@@ -293,17 +291,17 @@ NSString * const SparkApplicationDidChangeEnabledNotification = @"SparkApplicati
 //@implementation SparkApplication (SparkExport)
 //
 //- (id)initFromExternalRepresentation:(id)rep {
-//  SKApplicationIdentifier aid = kSKApplicationBundleIdentifier;
+//  WBApplicationIdentifier aid = kWBApplicationBundleIdentifier;
 //  NSString *value = [rep objectForKey:@"identifier"];
 //  if (!value) {
 //    value = [rep objectForKey:@"signature"];
-//    aid = kSKApplicationOSType;
+//    aid = kWBApplicationOSType;
 //  }
 //  if (!value) {
 //    [self release];
 //    return nil;
 //  } 
-//  SKApplication *app = [SKApplication applicationWithName:nil identifier:value idType:aid];
+//  WBApplication *app = [WBApplication applicationWithName:nil identifier:value idType:aid];
 //  if (app) {
 //    NSString *name = [app name];
 //    if (!name) name = [rep objectForKey:@"name"];
@@ -318,28 +316,28 @@ NSString * const SparkApplicationDidChangeEnabledNotification = @"SparkApplicati
 //- (id)externalRepresentation {
 //  NSMutableDictionary *plist = [NSMutableDictionary dictionary];
 //  
-//  SKApplication *app = [self application];
+//  WBApplication *app = [self application];
 //  NSString *path = [app path];
 //  switch ([app idType]) {
-//    case kSKApplicationOSType:
+//    case kWBApplicationOSType:
 //      [plist setObject:[app identifier] forKey:@"signature"];
 //      if (path) {
-//        NSString *bundle = (id)SKLSCopyBundleIdentifierForPath((CFStringRef)path);
+//        NSString *bundle = (id)WBLSCopyBundleIdentifierForPath((CFStringRef)path);
 //        if (bundle) {
 //          [plist setObject:bundle forKey:@"identifier"];
 //          [bundle release];
 //        }
 //      }
 //        break;
-//    case kSKApplicationBundleIdentifier:
+//    case kWBApplicationBundleIdentifier:
 //      [plist setObject:[app identifier] forKey:@"identifier"];
 //      if (path) {
-//        OSType creator = SKLSGetSignatureForPath((CFStringRef)path);
+//        OSType creator = WBLSGetSignatureForPath((CFStringRef)path);
 //        if (creator && creator != kUnknownType)
-//          [plist setObject:SKStringForOSType(creator) forKey:@"signature"];
+//          [plist setObject:WBStringForOSType(creator) forKey:@"signature"];
 //      }
 //        break;
-//    case kSKApplicationUndefinedType:
+//    case kWBApplicationUndefinedType:
 //      plist = nil;
 //      break;
 //  }  
@@ -354,30 +352,30 @@ NSString * const SparkApplicationDidChangeEnabledNotification = @"SparkApplicati
 #pragma mark -
 #pragma mark ShadowKit Extension
 static
-NSString * const kSKApplicationIdType = @"SKApplicationType";
+NSString * const kWBApplicationIdType = @"SKApplicationType";
 static
-NSString * const kSKApplicationIdentifier = @"SKApplicationIdentifier";
+NSString * const kWBApplicationIdentifier = @"SKApplicationIdentifier";
 
-@implementation SKApplication (SparkSerialization)
+@implementation WBApplication (SparkSerialization)
 
 - (id)initWithSerializedValues:(NSDictionary *)plist {
   if (self = [super init]) {
     /* Compatibility with Library version 1.0 */
     NSString *identifier;
-    SKApplicationIdentifier type;
+    WBApplicationIdentifier type;
     if ([plist objectForKey:@"SparkApplication"]) {
       plist = [plist objectForKey:@"SparkApplication"];
       identifier = [plist objectForKey:@"Identifier"];
       type = [[plist objectForKey:@"IDType"] intValue];
     } else {
-      identifier = [plist objectForKey:kSKApplicationIdentifier];
-      type = SKIntegerValue([plist objectForKey:kSKApplicationIdType]);
+      identifier = [plist objectForKey:kWBApplicationIdentifier];
+      type = WBIntegerValue([plist objectForKey:kWBApplicationIdType]);
     }
     
-    if (kSKApplicationUndefinedType != type)
+    if (kWBApplicationUndefinedType != type)
       [self setIdentifier:identifier type:type];
     
-    [self setName:[plist objectForKey:@"SKApplicationName"]];
+    [self setName:[plist objectForKey:@"WBApplicationName"]];
   }
   return self;
 }
@@ -385,10 +383,10 @@ NSString * const kSKApplicationIdentifier = @"SKApplicationIdentifier";
 - (BOOL)serialize:(NSMutableDictionary *)plist {
   if ([self identifier]) {
     if ([self name])
-      [plist setObject:[self name] forKey:@"SKApplicationName"];
-    if (kSKApplicationUndefinedType != [self idType]) {
-      [plist setObject:SKInteger([self idType]) forKey:kSKApplicationIdType];
-      [plist setObject:[self identifier] forKey:kSKApplicationIdentifier];
+      [plist setObject:[self name] forKey:@"WBApplicationName"];
+    if (kWBApplicationUndefinedType != [self idType]) {
+      [plist setObject:WBInteger([self idType]) forKey:kWBApplicationIdType];
+      [plist setObject:[self identifier] forKey:kWBApplicationIdentifier];
     }
   }
   return YES;
@@ -396,7 +394,7 @@ NSString * const kSKApplicationIdentifier = @"SKApplicationIdentifier";
 
 @end
 
-@implementation SKAliasedApplication (SparkSerialization)
+@implementation WBAliasedApplication (SparkSerialization)
 
 - (BOOL)serialize:(NSMutableDictionary *)plist {
   if ([super serialize:plist]) {
@@ -412,7 +410,7 @@ NSString * const kSKApplicationIdentifier = @"SKApplicationIdentifier";
   if (self = [super initWithSerializedValues:plist]) {
     NSData *data = [plist objectForKey:@"SKApplicationAlias"];
     if (data) {
-      SKAlias *alias = [[SKAlias alloc] initWithData:data];
+      WBAlias *alias = [[WBAlias alloc] initWithData:data];
       [self setAlias:alias];
       [alias release];
     }

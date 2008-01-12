@@ -53,10 +53,10 @@
 		1BEF492F0C9AADAC00D7DA07 /* ITunesProgressView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEF492D0C9AADAC00D7DA07 /* ITunesProgressView.h */; };
 		1BEF49300C9AADAC00D7DA07 /* ITunesProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BEF492E0C9AADAC00D7DA07 /* ITunesProgressView.m */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
-		98027E7C0B9780E200CB77F3 /* SKLevelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98027E7B0B9780E200CB77F3 /* SKLevelView.m */; };
+		98027E7C0B9780E200CB77F3 /* WBLevelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98027E7B0B9780E200CB77F3 /* WBLevelView.m */; };
 		98027E7E0B9780E900CB77F3 /* BrightnessView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98027E7D0B9780E900CB77F3 /* BrightnessView.m */; };
 		98027E810B9780F900CB77F3 /* BrightnessView.h in Headers */ = {isa = PBXBuildFile; fileRef = 98027E7F0B9780F900CB77F3 /* BrightnessView.h */; };
-		98027E820B9780F900CB77F3 /* SKLevelView.h in Headers */ = {isa = PBXBuildFile; fileRef = 98027E800B9780F900CB77F3 /* SKLevelView.h */; };
+		98027E820B9780F900CB77F3 /* WBLevelView.h in Headers */ = {isa = PBXBuildFile; fileRef = 98027E800B9780F900CB77F3 /* WBLevelView.h */; };
 		9805166A0B6AA498006C5BB8 /* AAWStop.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 980516690B6AA498006C5BB8 /* AAWStop.tiff */; };
 		980D926206E61DB80038EE2A /* DocumentAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 980D926106E61DB80038EE2A /* DocumentAction.h */; };
 		98328828079602CC00DB780A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
@@ -94,23 +94,16 @@
 		984704EB0B6D0FB5009419B5 /* SysTrash.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 984704EA0B6D0FB5009419B5 /* SysTrash.tiff */; };
 		984AB99F0B19FD0E00DA2DD0 /* SystemPlugin.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 984AB99E0B19FD0E00DA2DD0 /* SystemPlugin.tiff */; };
 		985106B50A590AA200C98B1F /* SystemActionHelp.html in Resources */ = {isa = PBXBuildFile; fileRef = 985106B30A590AA200C98B1F /* SystemActionHelp.html */; };
-		986756F1096B3C1E00BB8A25 /* ShadowKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 986756D4096B3C0500BB8A25 /* ShadowKit.framework */; };
-		986756F2096B3C2100BB8A25 /* ShadowKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 986756D4096B3C0500BB8A25 /* ShadowKit.framework */; };
-		986756F3096B3C2300BB8A25 /* ShadowKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 986756D4096B3C0500BB8A25 /* ShadowKit.framework */; };
-		986756F4096B3C2500BB8A25 /* ShadowKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 986756D4096B3C0500BB8A25 /* ShadowKit.framework */; };
-		986756F5096B3C2800BB8A25 /* ShadowKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 986756D4096B3C0500BB8A25 /* ShadowKit.framework */; };
 		98789CAF0AB48D5A00C35052 /* ITunesInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 98789CAE0AB48D5A00C35052 /* ITunesInfo.h */; };
 		98789CB30AB48D8200C35052 /* ITunesInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 98789CB20AB48D8200C35052 /* ITunesInfo.m */; };
 		98789DDC0AB4A17C00C35052 /* Simulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 98789DC40AB4A0D900C35052 /* Simulator.m */; };
 		98789DE00AB4A1D300C35052 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 98789DDF0AB4A1D300C35052 /* MainMenu.nib */; };
 		98789E030AB4A25900C35052 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 		98789E0D0AB4A27600C35052 /* ITunesInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 98789CB20AB48D8200C35052 /* ITunesInfo.m */; };
-		98789E1F0AB4A2E400C35052 /* ShadowKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 986756D4096B3C0500BB8A25 /* ShadowKit.framework */; };
 		9878A0340AB4B8FD00C35052 /* ITunesAESuite.c in Sources */ = {isa = PBXBuildFile; fileRef = 98E6A94C06063852000CCBE1 /* ITunesAESuite.c */; };
 		9888CE1A0B02412200B81BDB /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 		9888CE1B0B02412200B81BDB /* SparkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF7F5108645B7F007BC81A /* SparkKit.framework */; };
 		9888CE1C0B02412200B81BDB /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF7F4A08645B72007BC81A /* HotKeyToolKit.framework */; };
-		9888CE1D0B02412200B81BDB /* ShadowKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 986756D4096B3C0500BB8A25 /* ShadowKit.framework */; };
 		9888CE3F0B02423600B81BDB /* TextIcon.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 9888CE3E0B02423600B81BDB /* TextIcon.tiff */; };
 		9888CE420B02425700B81BDB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9888CE400B02425700B81BDB /* InfoPlist.strings */; };
 		9888CE9B0B0243AA00B81BDB /* TextActionPlugIn.m in Sources */ = {isa = PBXBuildFile; fileRef = 9888CE9A0B0243AA00B81BDB /* TextActionPlugIn.m */; };
@@ -143,7 +136,6 @@
 		98E6A9530606385A000CCBE1 /* ITunesAESuite.h in Headers */ = {isa = PBXBuildFile; fileRef = 98E6A9500606385A000CCBE1 /* ITunesAESuite.h */; };
 		98E6A9540606385A000CCBE1 /* ITunesAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 98E6A9510606385A000CCBE1 /* ITunesAction.h */; };
 		98E6A9550606385A000CCBE1 /* ITunesActionPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 98E6A9520606385A000CCBE1 /* ITunesActionPlugin.h */; };
-		98EA90EB0A4DC6F50091B8FF /* ShadowKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 986756D4096B3C0500BB8A25 /* ShadowKit.framework */; };
 		98EDC35A0736E6C700EF9F2B /* DocURL.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98EDC3590736E6C700EF9F2B /* DocURL.tiff */; };
 		98EE12AE0B6B6B9200AC7004 /* AAUndefined.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 98EE12AD0B6B6B9200AC7004 /* AAUndefined.pdf */; };
 		98EE13960B6B7C3800AC7004 /* AAApplication.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98EE13950B6B7C3800AC7004 /* AAApplication.tiff */; };
@@ -204,13 +196,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 9888CDFA0B02412200B81BDB;
 			remoteInfo = Text;
-		};
-		986756D3096B3C0500BB8A25 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 98EF7F4B08645B7F007BC81A /* SparkKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 98C56D34096B348400ABE1EF;
-			remoteInfo = ShadowKit;
 		};
 		98BA188E0A583280004914E9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -320,10 +305,10 @@
 		1BEF492D0C9AADAC00D7DA07 /* ITunesProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ITunesProgressView.h; path = ../ITunesProgressView.h; sourceTree = "<group>"; };
 		1BEF492E0C9AADAC00D7DA07 /* ITunesProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ITunesProgressView.m; sourceTree = "<group>"; };
 		8D5B49B6048680CD000E48DA /* iTunesAction.spact */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iTunesAction.spact; sourceTree = BUILT_PRODUCTS_DIR; };
-		98027E7B0B9780E200CB77F3 /* SKLevelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKLevelView.m; sourceTree = "<group>"; };
+		98027E7B0B9780E200CB77F3 /* WBLevelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBLevelView.m; sourceTree = "<group>"; };
 		98027E7D0B9780E900CB77F3 /* BrightnessView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrightnessView.m; sourceTree = "<group>"; };
 		98027E7F0B9780F900CB77F3 /* BrightnessView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrightnessView.h; sourceTree = "<group>"; };
-		98027E800B9780F900CB77F3 /* SKLevelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKLevelView.h; sourceTree = "<group>"; };
+		98027E800B9780F900CB77F3 /* WBLevelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBLevelView.h; sourceTree = "<group>"; };
 		980516690B6AA498006C5BB8 /* AAWStop.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = AAWStop.tiff; sourceTree = "<group>"; };
 		980D926106E61DB80038EE2A /* DocumentAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DocumentAction.h; sourceTree = "<group>"; };
 		9832875F079602BE00DB780A /* Labo */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Labo; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -455,7 +440,6 @@
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
 				98EF7F5708645B95007BC81A /* SparkKit.framework in Frameworks */,
 				98EF7F5B08645BAC007BC81A /* HotKeyToolKit.framework in Frameworks */,
-				986756F2096B3C2100BB8A25 /* ShadowKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -465,7 +449,6 @@
 			files = (
 				98328828079602CC00DB780A /* Cocoa.framework in Frameworks */,
 				98BB26350A98F22B00124AB9 /* SparkKit.framework in Frameworks */,
-				98EA90EB0A4DC6F50091B8FF /* ShadowKit.framework in Frameworks */,
 				98EF7F5908645BA7007BC81A /* HotKeyToolKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -475,7 +458,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				98789E030AB4A25900C35052 /* Cocoa.framework in Frameworks */,
-				98789E1F0AB4A2E400C35052 /* ShadowKit.framework in Frameworks */,
 				9894904A0ABC69B400423136 /* SparkKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -486,7 +468,6 @@
 			files = (
 				9888CE1A0B02412200B81BDB /* Cocoa.framework in Frameworks */,
 				9888CE1B0B02412200B81BDB /* SparkKit.framework in Frameworks */,
-				9888CE1D0B02412200B81BDB /* ShadowKit.framework in Frameworks */,
 				9888CE1C0B02412200B81BDB /* HotKeyToolKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -498,7 +479,6 @@
 				98FC44D006063A21003617CA /* Cocoa.framework in Frameworks */,
 				98EF7F5808645B98007BC81A /* SparkKit.framework in Frameworks */,
 				98EF7F5A08645BAA007BC81A /* HotKeyToolKit.framework in Frameworks */,
-				986756F1096B3C1E00BB8A25 /* ShadowKit.framework in Frameworks */,
 				1B0E22940B564BA100DC846B /* CoreAudio.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -510,7 +490,6 @@
 				98FC453B06063BF2003617CA /* Cocoa.framework in Frameworks */,
 				98EF7F5508645B90007BC81A /* SparkKit.framework in Frameworks */,
 				98EF7F5E08645BB3007BC81A /* HotKeyToolKit.framework in Frameworks */,
-				986756F5096B3C2800BB8A25 /* ShadowKit.framework in Frameworks */,
 				98D0F7780C9D3570000BE6C9 /* OSAKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -522,7 +501,6 @@
 				98FC459F06063D6A003617CA /* Cocoa.framework in Frameworks */,
 				98EF7F5408645B8D007BC81A /* SparkKit.framework in Frameworks */,
 				98EF7F5D08645BB1007BC81A /* HotKeyToolKit.framework in Frameworks */,
-				986756F4096B3C2500BB8A25 /* ShadowKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -533,7 +511,6 @@
 				98FC463C0606437C003617CA /* Cocoa.framework in Frameworks */,
 				98EF7F5608645B93007BC81A /* SparkKit.framework in Frameworks */,
 				98EF7F5C08645BAF007BC81A /* HotKeyToolKit.framework in Frameworks */,
-				986756F3096B3C2300BB8A25 /* ShadowKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -798,7 +775,6 @@
 			isa = PBXGroup;
 			children = (
 				98EF7F5108645B7F007BC81A /* SparkKit.framework */,
-				986756D4096B3C0500BB8A25 /* ShadowKit.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -808,7 +784,7 @@
 			children = (
 				98FC44D706063AA6003617CA /* Headers */,
 				1B0E22270B5649D200DC846B /* SoundView.m */,
-				98027E7B0B9780E200CB77F3 /* SKLevelView.m */,
+				98027E7B0B9780E200CB77F3 /* WBLevelView.m */,
 				1B0E222B0B5649DF00DC846B /* AudioOutput.c */,
 				983974FD0A58637400F79B40 /* SystemAction.m */,
 				98027E7D0B9780E900CB77F3 /* BrightnessView.m */,
@@ -825,7 +801,7 @@
 			isa = PBXGroup;
 			children = (
 				1B0E22250B5649CC00DC846B /* SoundView.h */,
-				98027E800B9780F900CB77F3 /* SKLevelView.h */,
+				98027E800B9780F900CB77F3 /* WBLevelView.h */,
 				1B0E22290B5649D900DC846B /* AudioOutput.h */,
 				983975010A58638500F79B40 /* SystemAction.h */,
 				98027E7F0B9780F900CB77F3 /* BrightnessView.h */,
@@ -1003,7 +979,7 @@
 				1B0E22260B5649CC00DC846B /* SoundView.h in Headers */,
 				1B0E222A0B5649D900DC846B /* AudioOutput.h in Headers */,
 				98027E810B9780F900CB77F3 /* BrightnessView.h in Headers */,
-				98027E820B9780F900CB77F3 /* SKLevelView.h in Headers */,
+				98027E820B9780F900CB77F3 /* WBLevelView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1221,13 +1197,6 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		986756D4096B3C0500BB8A25 /* ShadowKit.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = ShadowKit.framework;
-			remoteRef = 986756D3096B3C0500BB8A25 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		98BA188F0A583280004914E9 /* Test.octest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
@@ -1454,7 +1423,7 @@
 				983974FF0A58637400F79B40 /* SystemAction.m in Sources */,
 				1B0E22280B5649D200DC846B /* SoundView.m in Sources */,
 				1B0E222C0B5649DF00DC846B /* AudioOutput.c in Sources */,
-				98027E7C0B9780E200CB77F3 /* SKLevelView.m in Sources */,
+				98027E7C0B9780E200CB77F3 /* WBLevelView.m in Sources */,
 				98027E7E0B9780E900CB77F3 /* BrightnessView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1775,6 +1744,7 @@
 			baseConfigurationReference = 1B7CF6B30D3574700068DAD1 /* 64Bits.xcconfig */;
 			buildSettings = {
 				SYMROOT = ../build;
+				WONDERBOX = "WONDERBOX_FRAMEWORK WONDERBOX_NAME=SparkKit";
 				WRAPPER_EXTENSION = spact;
 			};
 			name = 64bits;
@@ -2077,6 +2047,7 @@
 			baseConfigurationReference = 1B7BBACE0CBE233300484A9E /* Debug.xcconfig */;
 			buildSettings = {
 				SYMROOT = ../build;
+				WONDERBOX = "WONDERBOX_FRAMEWORK WONDERBOX_NAME=SparkKit";
 				WRAPPER_EXTENSION = spact;
 			};
 			name = Debug;
@@ -2086,6 +2057,7 @@
 			baseConfigurationReference = 1B7BBACF0CBE233300484A9E /* Profile.xcconfig */;
 			buildSettings = {
 				SYMROOT = ../build;
+				WONDERBOX = "WONDERBOX_FRAMEWORK WONDERBOX_NAME=SparkKit";
 				WRAPPER_EXTENSION = spact;
 			};
 			name = Profile;
@@ -2193,6 +2165,7 @@
 			baseConfigurationReference = 1B7BBAD00CBE233300484A9E /* Release.xcconfig */;
 			buildSettings = {
 				SYMROOT = ../build;
+				WONDERBOX = "WONDERBOX_FRAMEWORK WONDERBOX_NAME=SparkKit";
 				WRAPPER_EXTENSION = spact;
 			};
 			name = Release;

@@ -8,15 +8,15 @@
 
 #import <SparkKit/SparkObject.h>
 
-@class SKApplication;
-SK_CLASS_EXPORT
+@class WBApplication;
+WB_CLASS_EXPORT
 @interface SparkApplication : SparkObject {
   @private
   struct _sp_appFlags {
     unsigned int disabled:1;
     unsigned int reserved:31;
   } sp_appFlags;
-  SKApplication *sp_application;
+  WBApplication *sp_application;
 }
 
 + (id)systemApplication;
@@ -29,7 +29,7 @@ SK_CLASS_EXPORT
 - (OSType)signature;
 - (NSString *)bundleIdentifier;
 
-- (SKApplication *)application;
+- (WBApplication *)application;
 
 - (BOOL)isEnabled;
 - (void)setEnabled:(BOOL)flag;

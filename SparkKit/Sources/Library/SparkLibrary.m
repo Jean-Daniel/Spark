@@ -21,12 +21,12 @@
 #import <SparkKit/SparkIconManager.h>
 #import <SparkKit/SparkBuiltInAction.h>
 
-#import <ShadowKit/SKCFContext.h>
-#import <ShadowKit/SKExtensions.h>
-#import <ShadowKit/SKFSFunctions.h>
-#import <ShadowKit/SKLSFunctions.h>
-#import <ShadowKit/SKSerialization.h>
-#import <ShadowKit/SKAppKitExtensions.h>
+#import WBHEADER(WBCFContext.h)
+#import WBHEADER(WBExtensions.h)
+#import WBHEADER(WBFSFunctions.h)
+#import WBHEADER(WBLSFunctions.h)
+#import WBHEADER(WBSerialization.h)
+#import WBHEADER(WBAppKitExtensions.h)
 
 #import "SparkLibraryPrivate.h"
 #import "SparkEntryManagerPrivate.h"
@@ -127,7 +127,7 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
 }
 
 - (void)dealloc {
-  ShadowTrace();
+  WBTrace();
   /* Avoid useless undo */
   [sp_undo release];
   sp_undo = nil;
@@ -205,7 +205,7 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
   return sp_undo;
 }
 - (void)setUndoManager:(NSUndoManager *)aManager {
-  SKSetterRetain(sp_undo, aManager);
+  WBSetterRetain(sp_undo, aManager);
 }
 
 - (void)enableNotifications {
@@ -284,7 +284,7 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
       result = [self loadFromWrapper:wrapper error:error];
     } @catch (id exception) {
       result = NO;
-      SKLogException(exception);
+      WBLogException(exception);
       if (error)
         *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileReadCorruptFileError userInfo:nil];
     }
@@ -302,7 +302,7 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
   if (![self isLoaded])
     [NSException raise:NSInternalInconsistencyException format:@"<%@ %p> is not loaded.", [self class], self];
   
-  SKFlagSet(sp_slFlags.loaded, NO);
+  WBFlagSet(sp_slFlags.loaded, NO);
   
   /* Preferences */
   [sp_prefs release];
@@ -329,7 +329,7 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
 #pragma mark Read/Write
 - (void)initReservedObjects {
   /* Init Finder Application */
-  NSString *path = SKLSFindApplicationForSignature(kSparkFinderSignature);
+  NSString *path = WBLSFindApplicationForSignature(kSparkFinderSignature);
   NSAssert(path, @"Could not locate Finder");
   if (path) {
     SparkApplication *finder = [[SparkApplication alloc] initWithPath:path];
@@ -346,7 +346,7 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
   /* write reserved objects status into preferences */
   SparkApplication *finder = [self applicationWithUID:kSparkApplicationFinderUID];
   if (finder)
-    [[self preferences] setObject:SKBool(![finder isEnabled]) forKey:@"SparkFinderDisabled"];
+    [[self preferences] setObject:WBBool(![finder isEnabled]) forKey:@"SparkFinderDisabled"];
 }
 - (void)restoreReservedObjects {
   /* called after library loading, restore reserved objects status from preferences */
@@ -416,7 +416,7 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
   /* Library infos */
   NSString *uuid = sp_uuid ? (id)CFUUIDCreateString(kCFAllocatorDefault, sp_uuid) : nil;
   NSDictionary *info = [NSDictionary dictionaryWithObjectsAndKeys:
-    SKUInteger(kSparkLibraryCurrentVersion), @"Version",
+    WBUInteger(kSparkLibraryCurrentVersion), @"Version",
     uuid, @"UUID",
     nil];
   [uuid release];
@@ -488,7 +488,7 @@ bail:
       sp_uuid = CFUUIDCreate(kCFAllocatorDefault);
     }
     /* Library version */
-    sp_version = SKIntegerValue([plist objectForKey:@"Version"]);
+    sp_version = WBIntegerValue([plist objectForKey:@"Version"]);
   } else {
     sp_version = kSparkLibraryCurrentVersion;
     
@@ -536,7 +536,7 @@ bail:
   }
   
   if (result) {
-    SKFlagSet(sp_slFlags.loaded, YES);
+    WBFlagSet(sp_slFlags.loaded, YES);
     
     SparkObject *object;
     NSMutableArray *invalids = nil;
@@ -645,9 +645,9 @@ NSString *_SparkLibraryCopyUUIDString(SparkLibrary *aLibrary) {
 }
 
 NSString *SparkLibraryFolder() {
-  NSString *folder = [SKFSFindFolder(kApplicationSupportFolderType, kUserDomain, true) stringByAppendingPathComponent:kSparkFolderName];
+  NSString *folder = [WBFSFindFolder(kApplicationSupportFolderType, kUserDomain, true) stringByAppendingPathComponent:kSparkFolderName];
   if (folder && ![[NSFileManager defaultManager] fileExistsAtPath:folder]) {
-    SKFSCreateFolder((CFStringRef)folder);
+    WBFSCreateFolder((CFStringRef)folder);
   }
   return folder;
 }
@@ -667,16 +667,16 @@ NSString *SparkLibraryIconFolder(SparkLibrary *library) {
 
 static
 NSString *SparkLibraryPreviousLibraryPath() {
-  NSString *folder = [SKFSFindFolder(kPreferencesFolderType, kUserDomain, false) stringByAppendingPathComponent:kSparkFolderName];
+  NSString *folder = [WBFSFindFolder(kPreferencesFolderType, kUserDomain, false) stringByAppendingPathComponent:kSparkFolderName];
   return [folder stringByAppendingPathComponent:@"Spark3 Library.splib"];
 }
 static
 NSString *SparkLibraryVersion1LibraryPath() {
-  NSString *folder = [SKFSFindFolder(kPreferencesFolderType, kUserDomain, false) stringByAppendingPathComponent:kSparkFolderName];
+  NSString *folder = [WBFSFindFolder(kPreferencesFolderType, kUserDomain, false) stringByAppendingPathComponent:kSparkFolderName];
   return [folder stringByAppendingPathComponent:@"SparkLibrary.splib"];
 }
 
-SK_INLINE 
+WB_INLINE 
 NSString *SparkDefaultLibraryPath(void) {
   return [SparkLibraryFolder() stringByAppendingPathComponent:kSparkLibraryDefaultFileName];
 }

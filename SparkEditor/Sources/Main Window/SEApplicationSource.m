@@ -12,12 +12,12 @@
 #import "SELibraryWindow.h"
 #import "SELibraryDocument.h"
 
-#import <ShadowKit/SKFunctions.h>
-#import <ShadowKit/SKAEFunctions.h>
-#import <ShadowKit/SKFSFunctions.h>
-#import <ShadowKit/SKLSFunctions.h>
-#import <ShadowKit/SKImageAndTextCell.h>
-#import <ShadowKit/SKAppKitExtensions.h>
+#import WBHEADER(WBFunctions.h)
+#import WBHEADER(WBAEFunctions.h)
+#import WBHEADER(WBFSFunctions.h)
+#import WBHEADER(WBLSFunctions.h)
+#import WBHEADER(WBImageAndTextCell.h)
+#import WBHEADER(WBAppKitExtensions.h)
 
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkObjectSet.h>
@@ -118,10 +118,10 @@
   }
 }
 
-SK_INLINE
+WB_INLINE
 bool __IsApplicationAtPath(NSString *path) {
   Boolean app = false;
-  return path && (noErr == SKLSIsApplicationAtPath((CFStringRef)path, &app)) && app;
+  return path && (noErr == WBLSIsApplicationAtPath((CFStringRef)path, &app)) && app;
 }
 
 - (NSUInteger)addApplications:(NSArray *)files {
@@ -161,7 +161,7 @@ bool __IsApplicationAtPath(NSString *path) {
     NSString *path = [application path];
     FSRef ref;
     if (path && [path getFSRef:&ref]) {
-      SKAEFinderRevealFSRef(&ref, TRUE);
+      WBAEFinderRevealFSRef(&ref, TRUE);
     } else {
       NSBeep();
     }
@@ -330,7 +330,7 @@ bool __IsApplicationAtPath(NSString *path) {
 
 + (void)load {
   if ([SparkApplication class] == self) {
-    SKExchangeInstanceMethods(self, @selector(setEnabled:), @selector(se_setEnabled:));
+		WBRuntimeExchangeInstanceMethods(self, @selector(setEnabled:), @selector(se_setEnabled:));
   }
 }
 

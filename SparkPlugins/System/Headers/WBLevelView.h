@@ -1,18 +1,16 @@
 /*
- *  SKLevelView.h
+ *  WBLevelView.h
  *  Spark Plugins
  *
  *  Created by Black Moon Team.
  *  Copyright (c) 2004 - 2007, Shadow Lab. All rights reserved.
  */
 
-#import <Cocoa/Cocoa.h>
-
 enum {
-  kSKLevelViewMaxLevel = 16,
+  kWBLevelViewMaxLevel = 16,
 };
 
-@interface SKLevelView : NSView {
+@interface WBLevelView : NSView {
   struct _sk_svFlags {
     unsigned int zero:1;
     unsigned int hide:1;
