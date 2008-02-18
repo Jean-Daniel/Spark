@@ -191,7 +191,7 @@ NSString * sSEHiddenPluggedObserverKey = nil;
 }
 
 //- (IBAction)selectAll:(id)sender {
-//  ShadowTrace();
+//  WBTrace();
 //}
 
 #pragma mark Delegate
@@ -318,7 +318,7 @@ NSString * sSEHiddenPluggedObserverKey = nil;
 		NSArray *variants = [entry variants];
     if ([variants count] > 1) {
       NSMenu *ctxt = [[NSMenu alloc] initWithTitle:@"Action Menu"];
-      NSMenuItem *item = [ctxt addItemWithTitle:@"Show in Application..." action:nil keyEquivalent:@""];
+      NSMenuItem *item = [ctxt addItemWithTitle:NSLocalizedString(@"Show in Application...", @"Reveal item in the list...") action:nil keyEquivalent:@""];
       NSMenu *submenu = [[NSMenu alloc] initWithTitle:@"Submenu"];
       for (NSUInteger idx = 0; idx < [variants count]; idx++) {
         SparkEntry *variant = [variants objectAtIndex:idx];
@@ -399,8 +399,12 @@ NSString * sSEHiddenPluggedObserverKey = nil;
 			SparkEntry *previous = [[[document library] entryManager] activeEntryForTrigger:[self trigger]
 																																					application:[self application]];
 			if (previous) {
-				NSBeginAlertSheet(@"Entry conflict", @"Disable previous", @"Cancel", nil, [document windowForSheet], 
-													self, @selector(setActiveConflictDidEnd:returnCode:contextInfo:), NULL, previous, @"'%@' already use the same shortcut.", [previous name]);
+				NSBeginAlertSheet(@"Entry conflict", 
+													@"Disable previous",
+													NSLocalizedString(@"Cancel", @"Cancel"),
+													nil, [document windowForSheet], 
+													self, @selector(setActiveConflictDidEnd:returnCode:contextInfo:), NULL, previous,
+													@"'%@' already use the same shortcut.", [previous name]);
 				return;
 			}
 		}

@@ -147,9 +147,8 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
 - (IBAction)saveAsArchive:(id)sender {
   NSSavePanel *panel = [NSSavePanel savePanel];
   NSCalendarDate *date = [NSCalendarDate date];
-  NSString *filename = [NSString stringWithFormat:@"SparkLibrary - %.2d/%.2d/%.2d", 
-    [date dayOfMonth], [date monthOfYear], [date yearOfCommonEra] % 100];
-  [panel setTitle:@"Archive Library"];
+  NSString *filename = [NSString stringWithFormat:NSLocalizedString(@"SparkLibrary - %.2d/%.2d/%.2d", @"Backup filename"),
+												[date dayOfMonth], [date monthOfYear], [date yearOfCommonEra] % 100];
   [panel setCanCreateDirectories:YES];
   [panel setRequiredFileType:kSparkLibraryArchiveExtension];
   [panel setAllowsOtherFileTypes:NO];
@@ -179,7 +178,6 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
   [panel setCanChooseDirectories:NO];
   [panel setCanCreateDirectories:NO];
   [panel setAllowsMultipleSelection:NO];
-  [panel setTitle:@"Revert to backup..."];
   [panel beginSheetForDirectory:nil
                            file:nil
                           types:[NSArray arrayWithObjects:kSparkLibraryArchiveExtension, 
@@ -271,7 +269,8 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
   NSSavePanel *panel = [NSSavePanel savePanel];
   [panel setAccessoryView:[ctrl view]];
   [panel setRequiredFileType:@"html"];
-  [panel beginSheetForDirectory:nil file:@"SparkLibrary" modalForWindow:[self windowForSheet]
+  [panel beginSheetForDirectory:nil file:NSLocalizedString(@"SparkLibrary - HTML" , @"SparkLibrary Export as HTML Filename")
+								 modalForWindow:[self windowForSheet]
                   modalDelegate:self didEndSelector:@selector(exportPanel:didEnd:context:) contextInfo:ctrl];
 }
 
@@ -331,19 +330,22 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
   return nil;
 }
 
-//static 
-//NSAlert *_SELibraryTriggerAlreadyUsedAlert(SparkEntry *entry) {
-//  NSString *msg = NSLocalizedString(@"Do you want to replace the action '%@' by your new action?", 
-//                                    @"Trigger already used (%@ => entry name) - Message");
-//  NSString *title = [NSString stringWithFormat:NSLocalizedString(@"The '%@' action already use the same shortcut.",
-//                                                                 @"Trigger already used (%@ => entry name) - Title"), [entry name]];
-//  NSAlert *alert = [NSAlert alertWithMessageText:title
-//                                   defaultButton:NSLocalizedString(@"Replace", @"Replace - Button")
-//                                 alternateButton:NSLocalizedString(@"Cancel", @"Cancel - Button")
-//                                     otherButton:nil
-//                       informativeTextWithFormat:msg, [entry name]];
-//  return alert;
-//}
+static 
+NSAlert *_SELibraryTriggerAlreadyUsedAlert(SparkEntry *previous, SparkEntry *entry) {
+	NSString *title = [NSString stringWithFormat:NSLocalizedString(@"CREATE_TRIGGER_CONFLICT_TITLE",
+                                                                 @"Trigger already used (%@ => entry name, %@ => previous name, %@ => shortcut) - Title"), 
+										 [entry name], [previous name], [entry triggerDescription]];
+	
+  NSString *msg = NSLocalizedString(@"CREATE_TRIGGER_CONFLICT_MSG", 
+                                    @"Trigger already used (%@ => previous name, %@ => entry name, %@ entry name) - Message");
+
+  NSAlert *alert = [NSAlert alertWithMessageText:title
+                                   defaultButton:NSLocalizedString(@"Enable", @"Enable - Button")
+                                 alternateButton:NSLocalizedString(@"Keep disabled", @"Keep disabled - Button")
+                                     otherButton:nil
+                       informativeTextWithFormat:msg, [previous name], [entry name], [entry name]];
+  return alert;
+}
 
 - (BOOL)editor:(SEEntryEditor *)theEditor shouldCreateEntryWithAction:(SparkAction *)anAction
 			 trigger:(SparkTrigger *)aTrigger application:(SparkApplication *)anApplication {
@@ -372,8 +374,11 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
 	/* now check if we can enable this new action */
 	SparkEntry *active = [manager activeEntryForTrigger:trigger application:anApplication];
 	if (active) {
-		NSString *title = [NSString stringWithFormat:@"The new HotKey will be disabled because '%@' used the same shortcut.", [active name]];
-		NSRunAlertPanel(title, @"You will have to solve this conflict to use your new HotKey.", @"OK", nil, nil);
+		NSAlert *alert = _SELibraryTriggerAlreadyUsedAlert(active, entry);
+		if (NSOKButton == [alert runModal]) {
+			[active setEnabled:NO];
+			[entry setEnabled:YES];
+		}
 	} else {
 		[entry setEnabled:YES];
 	}
@@ -413,7 +418,6 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
 		BOOL enabled = [entry isEnabled];
 		
 		/* If trigger has changed */
-		//    if (![[oldEntry trigger] isEqualToTrigger:[newEntry trigger]]) {
 		SparkTrigger *trigger = [self memberTrigger:aTrigger];
 		/* If trigger already exists use it in the new entry */
 		if (trigger) {
@@ -422,25 +426,9 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
 			/* else add it in the library */
 			[[library triggerSet] addObject:aTrigger];
 		}
-		//		} else { /* Trigger does not change */
-		//			[newEntry replaceTrigger:[oldEntry trigger]];
-		//		}
 		
 		NSAssert([anAction uid] == 0, @"Invalid uid for new action. should be 0.");
 		[[library actionSet] addObject:anAction];
-		
-		/* Now take care of the action. 
-		 We have to create a new one if the old one is used by an other entry: weak and inherit */
-//		BOOL newAction = ([oldEntry type] == kSparkEntryTypeWeakOverWrite) || ([oldEntry isSystem] && ![newEntry isSystem]);
-//		if (newAction) {
-			/* Add new action */
-//			[[newEntry action] setUID:0]; // make sure the UID is 0.
-//			[[library actionSet] addObject:[newEntry action]];
-//		} else {
-//			/* Update existing action (remove the old and add the new) */
-//			[[newEntry action] setUID:[[oldEntry action] uid]];
-//			[[library actionSet] updateObject:[newEntry action]];
-//		}
 		
 		/* Now update the old Entry */
 		if ([[entry application] isEqual:anApplication]) {
@@ -460,8 +448,11 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
 			/* now check if we can enable this new action */
 			SparkEntry *active = [manager activeEntryForTrigger:[updated trigger] application:[updated application]];
 			if (active) {
-				NSString *title = [NSString stringWithFormat:@"The new HotKey will be disabled because '%@' used the same shortcut.", [active name]];
-				NSRunAlertPanel(title, @"You will have to solve this conflict to use your new HotKey.", @"OK", nil, nil);
+				NSAlert *alert = _SELibraryTriggerAlreadyUsedAlert(active, updated);
+				if (NSOKButton == [alert runModal]) {
+					[active setEnabled:NO];
+					[updated setEnabled:YES];
+				}
 			} else {
 				[updated setEnabled:YES];
 			}
@@ -497,11 +488,12 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
 			/* First, check & remove weak */
 			if ([entry isSystem] && [entry hasVariant]) {
 				/* Remove weak entries */
-				SparkEntry *child = [entry firstChild];
-				do {
-					if ([child type] == kSparkEntryTypeWeakOverWrite)
-						[manager removeEntry:child];
-				} while (child = [child sibling]);
+				NSArray *variants = [entry variants];
+				for (NSUInteger idx = 0; idx < [variants count]; idx++) {
+					SparkEntry *variant = [variants objectAtIndex:idx];
+					if ([variant type] == kSparkEntryTypeWeakOverWrite)
+						[manager removeEntry:variant];
+				}
 			}
       /* Remove the selected entry */
 			removed++;

@@ -330,7 +330,10 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
 - (void)initReservedObjects {
   /* Init Finder Application */
   NSString *path = WBLSFindApplicationForSignature(kSparkFinderSignature);
-  NSAssert(path, @"Could not locate Finder");
+	if (!path && kSparkFinderSignature != 'MACS') {
+		WLog(@"invalid finder signature, try with default signature ('MACS')");
+		path = WBLSFindApplicationForSignature('MACS');
+	}
   if (path) {
     SparkApplication *finder = [[SparkApplication alloc] initWithPath:path];
     if (finder) {
@@ -338,7 +341,7 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
       [[self applicationSet] addObject:finder];
       [finder release];
     } else {
-      ELog(@"Invalid Finder Application: %@", finder);
+      WLog(@"Invalid Finder Application: %@", finder);
     }
   }
 }

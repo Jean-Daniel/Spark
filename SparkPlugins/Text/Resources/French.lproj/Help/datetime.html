@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>Spark Text/Keyboard Action Help</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <style type="text/css">
+   @import "help.css";
+   dd {  margin-left: 1em; }
+   .format { display: block; width: 100%; padding: 0px; border: 1px solid #999999; }
+   .format li { display: inline-block; padding: 2px; padding-left: 4px; border-right: 1px solid #bbbbbb; overflow: hidden; margin: 0px; }
+   .symbol { width: 10%; }
+   .meaning { width: 40%; }
+   .example { width: 10%; }
+   .result { width: 30%; }
+   .symbols { font-family: monospace; font-size: 13px; border: 1px solid #bbbbbb; }
+   .symbols th { padding: 4px; background-color: #bfbfbf; border-bottom: 1px solid gray; 
+   border-right: 1px solid #999999; }
+   .symbols td { padding: 2px; background-color: #f8f8f8; padding-left: 4px;
+    border-right: 1px solid #bbbbbb; border-bottom: 1px solid white; }
+   .symbols { border-collapse: collapse; }
+   
+   
+   .example { list-style: none; margin: 0px; font-style: italic; font-family: monospace; }
+   .examples span { font-size: 0.9em; }
+   .examples dt { margin-top: 8px; background-color: #e0e0e0; padding: 2px; }
+   .examples dd { padding: 4px; background-color: #f8f8f8; margin-left: 0px; padding-left: 1em; border-bottom: 2px solid white;}
+  </style>
+ </head>
+ <body>
+  <table style="margin: 20px; width: 95%" cellspacing="0" cellpadding="0">
+   <tr>
+    <td>
+     <img src="icon.png" alt="" style="vertical-align: middle;" />
+    </td>
+    <td style="text-align: center; width: 90%">
+     <h1>Spark Text/Keyboard<br />Action</h1>
+    </td>
+   </tr>
+  </table>
+  <ul id="hmenu">
+   <li><a href="../TextActionHelp.html">About Text/Keyboard Action…</a></li>
+   <li><a href="text.html">Text Action</li>
+   <li>Date/Time Action</li>
+   <li><a href="keystroke.html">Keystroke Action</a></li>
+   <li><a href="history.html">Release Notes</a></li>
+  </ul>
+  <div style="margin: 20px;">
+  <span class="chapter">Date/Time Action</span>
+  <p class="text">Date/Time format syntax:</p>
+  <p class="answer">
+ The date/time format is specified by means of a string time pattern. In this
+ pattern, all ASCII letters are reserved as pattern letters, which are defined
+ as the following:</p>
+ 
+ <dl class="examples">
+ <dt>Era</dt>
+ <dd>
+	<strong>G</strong><span>: Era - Replaced with the Era string for the current date</span>
+	<ul class="example">
+ 	<li>G => AD</li>
+ 	</ul>
+ </dd>
+ <dt>Year</dt>
+  <dd>
+	<strong>y</strong><span>: Year</span>
+	<ul class="example">
+	<li>yy => 07</li>
+ 	<li>y or yyyy => 2007</li>
+ 	</ul>
+  </dd>
+    <dd>
+	<strong>Y</strong><span>: Year (of "Week of Year"), used in ISO year-week calendar. May differ from calendar year.</span>
+	<ul class="example">
+	<li>Y => 2007</li>
+ 	</ul>
+  </dd>
+   <dd>
+	<strong>u</strong><span>: Extended year. This is a single number designating the year of this calendar system, encompassing all supra-year fields.
+	For example, for the Julian calendar system, year numbers are positive, with an era of BCE or CE.
+	An extended year value for the Julian calendar system assigns positive values to CE years and negative values to BCE years, with 1 BCE being year 0.</span>
+	<ul class="example">
+	<li>u => 4601</li>
+ 	</ul>
+  </dd>
+  
+  <dt>Month</dt>
+  <dd>
+	<strong>M</strong><span>: Month - Use one or two for the numerical month, three for the abbreviation, or four for the full name, or 5 for the narrow name.</span>
+	<ul class="example">
+	<li>M or MM => 09</li>
+ 	<li>MMM => Sept</li>
+ 	<li>MMMM => September</li>
+ 	<li>MMMMM => S</li>
+ 	</ul>
+  </dd>
+  
+  <dt>Week</dt>
+  <dd>
+	<strong>w</strong><span>: Week of Year.</span>
+	<ul class="example">
+	<li>w or ww => 27</li>
+ 	</ul>
+  </dd>
+  <dd>
+	<strong>W</strong><span>: Week of Month.</span>
+	<ul class="example">
+	<li>W => 3</li>
+ 	</ul>
+  </dd>
+  
+  <dt>Day</dt>
+  <dd>
+	<strong>d</strong><span>: Date - Day of the month.</span>
+	<ul class="example">
+	<li>d => 2</li>
+	<li>dd => 02</li>
+ 	</ul>
+  </dd>
+  <dd>
+	<strong>D</strong><span>: Day of year.</span>
+	<ul class="example">
+	<li>D => 345</li>
+	<li>DDD => 087</li>
+ 	</ul>
+  </dd>
+  <dd>
+	<strong>F</strong><span>: Day of Week in Month. The example is for the 2nd Wed in July.</span>
+	<ul class="example">
+	<li>F => 2</li>
+ 	</ul>
+  </dd>
+  <dd>
+	<strong>g</strong><span>: Modified Julian day.
+	This is different from the conventional Julian day number in two regards.
+	First, it demarcates days at local zone midnight, rather than noon GMT.
+	Second, it is a local number; that is, it depends on the local time zone.
+	It can be thought of as a single number that encompasses all the date-related fields.</span>
+	<ul class="example">
+	<li>g => 2451334</li>
+ 	</ul>
+  </dd>
+  
+  <dt>Weekday</dt>
+  <dd>
+	<strong>E</strong><span>: Day of week - Use three for the short day, or four for the full name, or 5 for the narrow name. Sunday is always day 1.</span>
+	<ul class="example">
+	<li>E or EE => 3</li>
+	<li>EEE => Tues</li>
+	<li>EEEE => Tuesday</li>
+	<li>EEEEE => T</li>
+ 	</ul>
+  </dd>
+  <dd>
+	<strong>e</strong><span>: Local day of week. Same as E except numeric value will depend on the local starting day of the week. For this example, Monday is the first day of the week.</span>
+	<ul class="example">
+	<li>e or ee => 2</li>
+	<li>eee => Tues</li>
+	<li>eeee => Tuesday</li>
+	<li>eeeee => T</li>
+ 	</ul>
+  </dd>
+  
+  <dt>Period</dt>
+  <dd>
+	<strong>a</strong><span>: AM or PM.</span>
+	<ul class="example">
+	<li>a => AM</li>
+ 	</ul>
+  </dd>
+  
+  <dt>Hour</dt>
+  <dd>
+	<strong>h</strong><span>: Hour [1-12]. Use one or two for zero padding.</span>
+	<ul class="example">
+	<li>h => 11</li>
+ 	</ul>
+  </dd>
+  <dd>
+	<strong>H</strong><span>: Hour [0-23]. Use one or two for zero padding.</span>
+	<ul class="example">
+	<li>H => 13</li>
+ 	</ul>
+  </dd>
+  <dd>
+	<strong>K</strong><span>: Hour [0-11]. Use one or two for zero padding.</span>
+	<ul class="example">
+	<li>k => 0</li>
+ 	</ul>
+  </dd>
+  <dd>
+	<strong>k</strong><span>: Hour [1-24]. Use one or two for zero padding.</span>
+	<ul class="example">
+	<li>K => 24</li>
+ 	</ul>
+  </dd>
+  
+  <dt>Minute</dt>
+  <dd>
+	<strong>m</strong><span>: Minute. Use one or two for zero padding.</span>
+	<ul class="example">
+	<li>m => 59</li>
+ 	</ul>
+  </dd>
+  
+  <dt>Second</dt>
+  <dd>
+	<strong>s</strong><span>: Second. Use one or two for zero padding.</span>
+	<ul class="example">
+	<li>m => 59</li>
+ 	</ul>
+  </dd>
+  <dd>
+	<strong>S</strong><span>: Fractional Second - rounds to the count of letters. (example is for 12.34567).</span>
+	<ul class="example">
+	<li>SS => 35</li>
+	<li>SSSS => 3456</li>
+ 	</ul>
+  </dd>
+  <dd>
+	<strong>A</strong><span>: Milliseconds in day.
+	This field behaves exactly like a composite of all time-related fields, not including the zone fields.
+	As such, it also reflects discontinuities of those fields on DST transition days. On a day of DST onset, it will jump forward.
+	On a day of DST cessation, it will jump backward. This reflects the fact that is must be combined with the offset field to obtain a unique local time value.</span>
+	<ul class="example">
+	<li>A => 61201235</li>
+ 	</ul>
+  </dd>
+  
+  <dt>Zone</dt>
+  <dd>
+	<strong>z</strong><span>: Timezone. Use 1 for short wall (generic) time, 2 for long wall time, 
+	3 for the short timezone (i.e. PST) or 4 for the full name (Pacific Standard Time).
+	If there's no name for the zone, fallbacks may be used, depending on available data.</span>
+	<ul class="example">
+	<li>z => PT</li>
+	<li>zz => Pacific Time</li>
+	<li>zzz => PDT</li>
+	<li>zzzz => Pacific Daylight Time</li>
+ 	</ul>
+  </dd>
+  <dd>
+	<strong>Z</strong><span>: Use 1 for GMT format, 2 for RFC 822.</span>
+	<ul class="example">
+	<li>Z => GMT-08:00</li>
+	<li>ZZ => -0800</li>
+ 	</ul>
+  </dd>
+  
+  <dt>Text</dt>
+  <dd>
+	<strong>&apos;</strong><span>: Single quote, escape for text.</span>
+	<ul class="example">
+	<li>&apos; => (nothing)</li>
+	<li>&apos;Date=&apos; => Date=</li>
+ 	</ul>
+  </dd>
+  <dd>
+	<strong>&apos;&apos;</strong><span>: Two single quotes produce one.</span>
+	<ul class="example">
+	<li>&apos;&apos; => &apos;</li>
+	<li>&apos;o&apos;&apos;clock&apos; => o&apos;clock</li>
+ 	</ul>
+  </dd>
+  
+ </dl>
+
+ <dl class="text">
+ <dt>Other:</dt>
+ <dd>Any characters in the pattern that are not in the ranges of ['a'..'z'] and
+ ['A'..'Z'] will be treated as quoted text. For instance, characters
+ like ':', '.', ' ', '#' and '@' will appear in the resulting time text
+ even they are not enclosed within single quotes. 
+ The single quote is used to 'escape' letters.
+ Two single quotes in a row, whether inside or outside a quoted sequence, represent a 'real' single quote.</dd>
+ </dd>
+ </dl>
+ <br />
+<span class="text">Examples using the US locale:</span>
+<br />
+ <code>
+    Format Pattern                         Result
+    --------------                         -------
+    "yyyy.MM.dd G 'at' HH:mm:ss vvvv" -&gt;&gt;  1996.07.10 AD at 15:08:56 Pacific Time
+    "EEE, MMM d, ''yy"                -&gt;&gt;  Wed, July 10, '96
+    "h:mm a"                          -&gt;&gt;  12:08 PM
+    "hh 'o''clock' a, zzzz"           -&gt;&gt;  12 o'clock PM, Pacific Daylight Time
+    "K:mm a, z"                       -&gt;&gt;  0:00 PM, PT
+    "yyyyy.MMMMM.dd GGG hh:mm aaa"    -&gt;&gt;  01996.July.10 AD 12:08 PM
+  </code>
+  </div>
+  <hr />
+ <div class="copyright" style="text-align: center;">
+  Copyright © 2007, Shadow Lab.
+  <p style="margin-top: 4px">
+  <a href="mailto:support@shadowlab.org">Starligth Team</a>
+  </p>
+ </div>
+ </body>
+</html>

@@ -273,6 +273,36 @@
 		089C1672FE841209C02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		1B09477A0D68BDE800E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = French; path = Resources/French.lproj/TextPlugin.xib; sourceTree = "<group>"; };
+		1B0947800D68BDED00E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = Resources/French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1B0947830D68BE0300E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = folder; name = French; path = French.lproj/Help; sourceTree = "<group>"; };
+		1B09478A0D68BE0F00E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1B09478B0D68BE1700E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = French; path = French.lproj/TextActionHelp.html; sourceTree = "<group>"; };
+		1B09478C0D68BE2C00E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1B09478D0D68BE3D00E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = French; path = Resources/French.lproj/iTunesPlugin.xib; sourceTree = "<group>"; };
+		1B09478E0D68BE4C00E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1B09478F0D68BE5100E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = folder; name = French; path = French.lproj/Help; sourceTree = "<group>"; };
+		1B0947990D68BE5500E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = French; path = French.lproj/iTunesHelp.html; sourceTree = "<group>"; };
+		1B09479A0D68BE6300E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = Resources/French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1B09479B0D68BE6A00E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = French; path = Resources/French.lproj/SystemPlugin.xib; sourceTree = "<group>"; };
+		1B09479C0D68BE6F00E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = folder; name = French; path = French.lproj/Help; sourceTree = "<group>"; };
+		1B0947A60D68BE7500E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1B0947A70D68BE7900E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = French; path = French.lproj/SystemActionHelp.html; sourceTree = "<group>"; };
+		1B0947A80D68BE8100E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = Resources/French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1B0947A90D68BE8700E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = French; path = Resources/French.lproj/DocumentPlugin.xib; sourceTree = "<group>"; };
+		1B0947AA0D68BE8D00E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = Resources/French.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1B0947AB0D68BE9100E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = folder; name = French; path = French.lproj/Help; sourceTree = "<group>"; };
+		1B0947B10D68BE9400E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = French; path = French.lproj/DocumentHelp.html; sourceTree = "<group>"; };
+		1B0947B20D68BF0C00E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1B0947B30D68BF1000E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = French; path = Resources/French.lproj/ApplicationPlugin.xib; sourceTree = "<group>"; };
+		1B0947B40D68BF1500E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1B0947B50D68BF1B00E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = folder; name = French; path = French.lproj/Help; sourceTree = "<group>"; };
+		1B0947BB0D68BF1E00E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = French; path = French.lproj/ApplicationHelp.html; sourceTree = "<group>"; };
+		1B0947BC0D68C08600E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1B0947BD0D68C08B00E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = French; path = Resources/French.lproj/AppleScriptPlugin.xib; sourceTree = "<group>"; };
+		1B0947BE0D68C08F00E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1B0947BF0D68C09300E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = folder; name = French; path = French.lproj/Help; sourceTree = "<group>"; };
+		1B0947C60D68C09700E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = French; path = French.lproj/AppleScriptHelp.html; sourceTree = "<group>"; };
 		1B0E22250B5649CC00DC846B /* SoundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundView.h; sourceTree = "<group>"; };
 		1B0E22270B5649D200DC846B /* SoundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SoundView.m; sourceTree = "<group>"; };
 		1B0E22290B5649D900DC846B /* AudioOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioOutput.h; sourceTree = "<group>"; };
@@ -1496,6 +1526,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				1B17C2220C9FC60B005BEA47 /* English */,
+				1B09478A0D68BE0F00E8FE8D /* French */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -1504,6 +1535,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				1B6DAD5E0D0CA41600F352CC /* English */,
+				1B0947BD0D68C08B00E8FE8D /* French */,
 			);
 			name = AppleScriptPlugin.xib;
 			sourceTree = "<group>";
@@ -1512,6 +1544,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				1B6DAD630D0CA55A00F352CC /* English */,
+				1B0947B30D68BF1000E8FE8D /* French */,
 			);
 			name = ApplicationPlugin.xib;
 			sourceTree = "<group>";
@@ -1520,6 +1553,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				1B6DAD6F0D0CA68900F352CC /* English */,
+				1B0947A90D68BE8700E8FE8D /* French */,
 			);
 			name = DocumentPlugin.xib;
 			sourceTree = "<group>";
@@ -1528,6 +1562,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				1B6DADFF0D0CAC4300F352CC /* English */,
+				1B09479B0D68BE6A00E8FE8D /* French */,
 			);
 			name = SystemPlugin.xib;
 			sourceTree = "<group>";
@@ -1536,6 +1571,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				1B6DAE0C0D0CAD0200F352CC /* English */,
+				1B09478D0D68BE3D00E8FE8D /* French */,
 			);
 			name = iTunesPlugin.xib;
 			sourceTree = "<group>";
@@ -1544,6 +1580,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				1B6DAE130D0CADE100F352CC /* English */,
+				1B09477A0D68BDE800E8FE8D /* French */,
 			);
 			name = TextPlugin.xib;
 			sourceTree = "<group>";
@@ -1552,6 +1589,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				985106B40A590AA200C98B1F /* English */,
+				1B0947A70D68BE7900E8FE8D /* French */,
 			);
 			name = SystemActionHelp.html;
 			sourceTree = "<group>";
@@ -1560,6 +1598,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				9888CE410B02425700B81BDB /* English */,
+				1B0947800D68BDED00E8FE8D /* French */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -1568,6 +1607,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				98BA1A0A0A583493004914E9 /* English */,
+				1B0947A60D68BE7500E8FE8D /* French */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -1576,6 +1616,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				98D7483E0BB5349600D6AB54 /* English */,
+				1B09478B0D68BE1700E8FE8D /* French */,
 			);
 			name = TextActionHelp.html;
 			sourceTree = "<group>";
@@ -1584,6 +1625,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				98D748400BB5349600D6AB54 /* English */,
+				1B0947830D68BE0300E8FE8D /* French */,
 			);
 			name = Help;
 			sourceTree = "<group>";
@@ -1592,6 +1634,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				98E6A8DE060636AE000CCBE1 /* English */,
+				1B09478C0D68BE2C00E8FE8D /* French */,
 			);
 			name = InfoPlist.strings;
 			path = Resources;
@@ -1601,6 +1644,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				98E6A8E6060636AE000CCBE1 /* English */,
+				1B09478E0D68BE4C00E8FE8D /* French */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -1609,6 +1653,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				98E6A90806063703000CCBE1 /* English */,
+				1B0947990D68BE5500E8FE8D /* French */,
 			);
 			name = iTunesHelp.html;
 			sourceTree = "<group>";
@@ -1617,6 +1662,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				98E6A9130606371A000CCBE1 /* English */,
+				1B09478F0D68BE5100E8FE8D /* French */,
 			);
 			name = Help;
 			sourceTree = "<group>";
@@ -1625,6 +1671,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				98FC450906063AF8003617CA /* English */,
+				1B09479C0D68BE6F00E8FE8D /* French */,
 			);
 			name = Help;
 			sourceTree = "<group>";
@@ -1633,6 +1680,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				98FC451906063B14003617CA /* English */,
+				1B09479A0D68BE6300E8FE8D /* French */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -1641,6 +1689,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				98FC457606063CC6003617CA /* English */,
+				1B0947C60D68C09700E8FE8D /* French */,
 			);
 			name = AppleScriptHelp.html;
 			sourceTree = "<group>";
@@ -1649,6 +1698,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				98FC457806063CC6003617CA /* English */,
+				1B0947BF0D68C09300E8FE8D /* French */,
 			);
 			name = Help;
 			sourceTree = "<group>";
@@ -1657,6 +1707,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				98FC458106063CD0003617CA /* English */,
+				1B0947BE0D68C08F00E8FE8D /* French */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -1665,6 +1716,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				98FC458306063CD0003617CA /* English */,
+				1B0947BC0D68C08600E8FE8D /* French */,
 			);
 			name = InfoPlist.strings;
 			path = Resources;
@@ -1674,6 +1726,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				98FC461706063DF8003617CA /* English */,
+				1B0947BB0D68BF1E00E8FE8D /* French */,
 			);
 			name = ApplicationHelp.html;
 			sourceTree = "<group>";
@@ -1682,6 +1735,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				98FC461D06063E06003617CA /* English */,
+				1B0947B50D68BF1B00E8FE8D /* French */,
 			);
 			name = Help;
 			sourceTree = "<group>";
@@ -1690,6 +1744,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				98FC462406063E19003617CA /* English */,
+				1B0947B20D68BF0C00E8FE8D /* French */,
 			);
 			name = InfoPlist.strings;
 			path = Resources;
@@ -1699,6 +1754,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				98FC462606063E19003617CA /* English */,
+				1B0947B40D68BF1500E8FE8D /* French */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -1707,6 +1763,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				98FC49120606446F003617CA /* English */,
+				1B0947B10D68BE9400E8FE8D /* French */,
 			);
 			name = DocumentHelp.html;
 			sourceTree = "<group>";
@@ -1715,6 +1772,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				98FC49140606446F003617CA /* English */,
+				1B0947AB0D68BE9100E8FE8D /* French */,
 			);
 			name = Help;
 			sourceTree = "<group>";
@@ -1723,6 +1781,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				98FC491C0606447A003617CA /* English */,
+				1B0947AA0D68BE8D00E8FE8D /* French */,
 			);
 			name = Localizable.strings;
 			path = Documents;
@@ -1732,6 +1791,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				98FC491E0606447A003617CA /* English */,
+				1B0947A80D68BE8100E8FE8D /* French */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -1796,7 +1856,7 @@
 		1B7CF6C60D3574780068DAD1 /* 64bits */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 401;
+				CURRENT_PROJECT_VERSION = 405;
 				INFOPLIST_FILE = Text/Info.plist;
 				PRODUCT_NAME = TextAction;
 			};
@@ -1805,7 +1865,7 @@
 		1B7CF6C70D3574780068DAD1 /* 64bits */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 401;
+				CURRENT_PROJECT_VERSION = 405;
 				INFOPLIST_FILE = iTunes/Info.plist;
 				PRODUCT_NAME = iTunesAction;
 			};
@@ -1814,7 +1874,7 @@
 		1B7CF6C80D3574780068DAD1 /* 64bits */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 401;
+				CURRENT_PROJECT_VERSION = 405;
 				INFOPLIST_FILE = System/Info.plist;
 				PRODUCT_NAME = SystemAction;
 			};
@@ -1823,7 +1883,7 @@
 		1B7CF6C90D3574780068DAD1 /* 64bits */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 401;
+				CURRENT_PROJECT_VERSION = 405;
 				INFOPLIST_FILE = Documents/Info.plist;
 				PRODUCT_NAME = DocumentAction;
 			};
@@ -1832,7 +1892,7 @@
 		1B7CF6CA0D3574780068DAD1 /* 64bits */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 401;
+				CURRENT_PROJECT_VERSION = 405;
 				INFOPLIST_FILE = Application/Info.plist;
 				PRODUCT_NAME = ApplicationAction;
 			};
@@ -1841,7 +1901,7 @@
 		1B7CF6CB0D3574780068DAD1 /* 64bits */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 401;
+				CURRENT_PROJECT_VERSION = 405;
 				INFOPLIST_FILE = AppleScript/Info.plist;
 				PRODUCT_NAME = AppleScriptAction;
 			};
@@ -1868,7 +1928,7 @@
 		9888CE1F0B02412200B81BDB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 401;
+				CURRENT_PROJECT_VERSION = 405;
 				INFOPLIST_FILE = Text/Info.plist;
 				PRODUCT_NAME = TextAction;
 			};
@@ -1877,7 +1937,7 @@
 		9888CE200B02412200B81BDB /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 401;
+				CURRENT_PROJECT_VERSION = 405;
 				INFOPLIST_FILE = Text/Info.plist;
 				PRODUCT_NAME = TextAction;
 			};
@@ -1886,7 +1946,7 @@
 		98EF7EC908645A0E007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 401;
+				CURRENT_PROJECT_VERSION = 405;
 				INFOPLIST_FILE = System/Info.plist;
 				PRODUCT_NAME = SystemAction;
 			};
@@ -1895,7 +1955,7 @@
 		98EF7ECA08645A0E007BC81A /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 401;
+				CURRENT_PROJECT_VERSION = 405;
 				INFOPLIST_FILE = System/Info.plist;
 				PRODUCT_NAME = SystemAction;
 			};
@@ -1904,7 +1964,7 @@
 		98EF7ECD08645A0E007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 401;
+				CURRENT_PROJECT_VERSION = 405;
 				INFOPLIST_FILE = iTunes/Info.plist;
 				PRODUCT_NAME = iTunesAction;
 			};
@@ -1913,7 +1973,7 @@
 		98EF7ECE08645A0E007BC81A /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 401;
+				CURRENT_PROJECT_VERSION = 405;
 				INFOPLIST_FILE = iTunes/Info.plist;
 				PRODUCT_NAME = iTunesAction;
 			};
@@ -1922,7 +1982,7 @@
 		98EF7ED108645A0E007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 401;
+				CURRENT_PROJECT_VERSION = 405;
 				INFOPLIST_FILE = Documents/Info.plist;
 				PRODUCT_NAME = DocumentAction;
 			};
@@ -1931,7 +1991,7 @@
 		98EF7ED208645A0E007BC81A /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 401;
+				CURRENT_PROJECT_VERSION = 405;
 				INFOPLIST_FILE = Documents/Info.plist;
 				PRODUCT_NAME = DocumentAction;
 			};
@@ -1940,7 +2000,7 @@
 		98EF7ED508645A0E007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 401;
+				CURRENT_PROJECT_VERSION = 405;
 				INFOPLIST_FILE = Application/Info.plist;
 				PRODUCT_NAME = ApplicationAction;
 			};
@@ -1949,7 +2009,7 @@
 		98EF7ED608645A0E007BC81A /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 401;
+				CURRENT_PROJECT_VERSION = 405;
 				INFOPLIST_FILE = Application/Info.plist;
 				PRODUCT_NAME = ApplicationAction;
 			};
@@ -1958,7 +2018,7 @@
 		98EF7ED908645A0E007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 401;
+				CURRENT_PROJECT_VERSION = 405;
 				INFOPLIST_FILE = AppleScript/Info.plist;
 				PRODUCT_NAME = AppleScriptAction;
 			};
@@ -1967,7 +2027,7 @@
 		98EF7EDA08645A0E007BC81A /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 401;
+				CURRENT_PROJECT_VERSION = 405;
 				INFOPLIST_FILE = AppleScript/Info.plist;
 				PRODUCT_NAME = AppleScriptAction;
 			};
@@ -2065,7 +2125,7 @@
 		98EFD1CF0B58454800AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 401;
+				CURRENT_PROJECT_VERSION = 405;
 				INFOPLIST_FILE = Text/Info.plist;
 				PRODUCT_NAME = TextAction;
 			};
@@ -2074,7 +2134,7 @@
 		98EFD1D00B58454800AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 401;
+				CURRENT_PROJECT_VERSION = 405;
 				INFOPLIST_FILE = iTunes/Info.plist;
 				PRODUCT_NAME = iTunesAction;
 			};
@@ -2083,7 +2143,7 @@
 		98EFD1D10B58454800AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 401;
+				CURRENT_PROJECT_VERSION = 405;
 				INFOPLIST_FILE = System/Info.plist;
 				PRODUCT_NAME = SystemAction;
 			};
@@ -2092,7 +2152,7 @@
 		98EFD1D20B58454800AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 401;
+				CURRENT_PROJECT_VERSION = 405;
 				INFOPLIST_FILE = Documents/Info.plist;
 				PRODUCT_NAME = DocumentAction;
 			};
@@ -2101,7 +2161,7 @@
 		98EFD1D30B58454800AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 401;
+				CURRENT_PROJECT_VERSION = 405;
 				INFOPLIST_FILE = Application/Info.plist;
 				PRODUCT_NAME = ApplicationAction;
 			};
@@ -2110,7 +2170,7 @@
 		98EFD1D40B58454800AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 401;
+				CURRENT_PROJECT_VERSION = 405;
 				INFOPLIST_FILE = AppleScript/Info.plist;
 				PRODUCT_NAME = AppleScriptAction;
 			};

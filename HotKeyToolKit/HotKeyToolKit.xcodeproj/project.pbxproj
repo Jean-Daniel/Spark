@@ -79,6 +79,8 @@
 		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; lineEnding = 0; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		1B0946F50D68BC6400E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1B0946F70D68BC7000E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Keyboard.strings; sourceTree = "<group>"; };
 		1B7BB7450CBE1F2800484A9E /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
 		1B7BB7460CBE1F2800484A9E /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		1B7BB7470CBE1F2800484A9E /* Profile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Profile.xcconfig; sourceTree = "<group>"; };
@@ -488,7 +490,8 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
-			shellScript = "${HOME}/bin/shadowsign ${TARGET_BUILD_DIR}/${FULL_PRODUCT_NAME}";
+			shellScript = "${HOME}/bin/shadowsign \"${TARGET_BUILD_DIR}/${FULL_PRODUCT_NAME}\"";
+			showEnvVarsInLog = 0;
 		};
 		98643EFE0A556F2200260086 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -575,6 +578,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				089C1667FE841158C02AAC07 /* English */,
+				1B0946F50D68BC6400E8FE8D /* French */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -583,6 +587,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				98DD082E0A8A8F1D0082AF03 /* English */,
+				1B0946F70D68BC7000E8FE8D /* French */,
 			);
 			name = Keyboard.strings;
 			sourceTree = "<group>";
@@ -645,9 +650,9 @@
 		1B88DD5D0D352FD9008B66CA /* 64bits */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 401;
+				CURRENT_PROJECT_VERSION = 405;
 				DYLIB_COMPATIBILITY_VERSION = 2;
-				DYLIB_CURRENT_VERSION = 401;
+				DYLIB_CURRENT_VERSION = 405;
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -663,9 +668,9 @@
 		981B5F510938699D0024C0D9 /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 401;
+				CURRENT_PROJECT_VERSION = 405;
 				DYLIB_COMPATIBILITY_VERSION = 2;
-				DYLIB_CURRENT_VERSION = 401;
+				DYLIB_CURRENT_VERSION = 405;
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -777,9 +782,9 @@
 		98EF7D5508645328007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 401;
+				CURRENT_PROJECT_VERSION = 405;
 				DYLIB_COMPATIBILITY_VERSION = 2;
-				DYLIB_CURRENT_VERSION = 401;
+				DYLIB_CURRENT_VERSION = 405;
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -803,9 +808,9 @@
 		98EFD03D0B58448D00AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 401;
+				CURRENT_PROJECT_VERSION = 405;
 				DYLIB_COMPATIBILITY_VERSION = 2;
-				DYLIB_CURRENT_VERSION = 401;
+				DYLIB_CURRENT_VERSION = 405;
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";

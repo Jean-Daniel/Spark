@@ -51,20 +51,23 @@ enum {
                 informativeTextWithFormat:NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_SOURCE_ALERT_MSG", nil, AppleScriptActionBundle,
                                                                              @"Empty Source Error * Msg *")];
   } else {
-    OSAScript *script = [ibScriptController script];//[[OSAScript alloc] initWithSource:[ibScript source]];
+    OSAScript *script = [ibScriptController script];//[ alloc] initWithSource:[ibScript source]];
+		if (!script)
+			script = [[[OSAScript alloc] initWithSource:[[ibScriptController scriptView] source]] autorelease];
     if (!script) {
-        alert = [NSAlert alertWithMessageText:NSLocalizedStringFromTableInBundle(@"SCRIPT_CREATION_ERROR_ALERT", nil, AppleScriptActionBundle,
-                                                                                 @"Unknow Error in -initWithSource * Title *")
-                                defaultButton:NSLocalizedStringWithDefaultValue(@"OK", nil, AppleScriptActionBundle, @"OK",
-                                                                                 @"Alert default button")
+			alert = [NSAlert alertWithMessageText:NSLocalizedStringFromTableInBundle(@"SCRIPT_CREATION_ERROR_ALERT", nil, AppleScriptActionBundle,
+																																							 @"Unknow Error in -initWithSource * Title *")
+															defaultButton:NSLocalizedStringWithDefaultValue(@"OK", nil, AppleScriptActionBundle, @"OK",
+																																							@"Alert default button")
                               alternateButton:nil
-                                  otherButton:nil
-                    informativeTextWithFormat:NSLocalizedStringFromTableInBundle(@"SCRIPT_CREATION_ERROR_ALERT_MSG", nil, AppleScriptActionBundle,
-                                                                                 @"Unknow Error in -initWithSource * Msg *")];
+																otherButton:nil
+									informativeTextWithFormat:NSLocalizedStringFromTableInBundle(@"SCRIPT_CREATION_ERROR_ALERT_MSG", nil, AppleScriptActionBundle,
+																																							 @"Unknow Error in -initWithSource * Msg *")];
     } else {
       alert = [self compileScript:script];
-      [script release];
-    }
+			if (!alert)
+				[ibScriptController compileScript:nil];
+		}
   }
   return alert;
 }

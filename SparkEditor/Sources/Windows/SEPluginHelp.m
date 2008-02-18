@@ -75,12 +75,12 @@
       }
     }
   }
-
+	
   if (![aMenu numberOfItems]) {
     NSURL *help = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:
-      NSLocalizedStringFromTable(@"nohelp", 
-                                 @"Resources", 
-                                 @"No Help page available")
+																					NSLocalizedStringFromTable(@"nohelp", 
+																																		 @"Resources", 
+																																		 @"No Help page available")
                                                                          ofType:@"html"]];
     NSAssert(help, @"nohelp.html not found");
     if (help) {

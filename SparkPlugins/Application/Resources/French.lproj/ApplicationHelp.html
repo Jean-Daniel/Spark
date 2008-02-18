@@ -2,7 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
  <head>
-  <title>Aide du module Application</title>
+  <title>Spark Application Action Help</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <style type="text/css">
   	@import "Help/help.css";
@@ -15,39 +15,38 @@
  				<img src="Help/Icon.png" alt="" style="vertical-align: middle;" />
  			</td>
  			<td style="text-align: center; width: 90%">
- 				<h1>Raccourci d'Application<br />Spark</h1>
+ 				<h1>Spark Application<br />Action</h1>
  			</td>
  		</tr>
  	</table>
  	<hr />
  	<div style="margin: 20px; margin-bottom: 32px;">
- 	<span class="chapter">Qu'est ce qu'un raccourci d'Application?</span>
- 			<p class="answer">Un "Raccourci d'Application" est un raccourci créer spécialement pour lancer une application.<br />
- 			Vous pouvez également utiliser un raccourci de Document pour lancer une application mais le raccourci d'Application a plusieurs avantages.</p>
- 			<p class="answer">• Il permet de modifier le comportement de l'application lors de son lancement.</p>
- 			<p class="answer">• Il utilise un mécanisme légerement différent pour stocker le chemin de l'Application. Si vous réalisez une manipulation qui d'ordinaire rend un alias invalide
- 			(déplacer l'application sur un autre volume par exemple), le raccourci d'Application essayera de la retrouver alors qu'un raccourci de Document ne pourra pas.</p>
+ 	<span class="chapter">What is an Application Action?</span>
+ 			<p class="answer">An "Application Action" is a simple Spark Action that can launch any Application.<br />
+ 			You can also use a Document Action to launch an Application,
+ 			but Application Action have an advantage:
+ 			if the Application you choose is deplaced on an other Volume (or anything else that normally brakes an Alias),
+ 			an Application Action will try to find your Application, and not a Document Action.</p>
  	</div>
  	<div style="margin: 20px;">
- 	<span class="chapter">Comment créer un raccourci d'Application?</span>
+ 	<span class="chapter">How to create an Application Action?</span>
  		<img src="Help/AppSheet.jp2" alt="" style="margin: 8px 0px 0px 12px; float: right; border: 1px solid #c0c0c0" />
- 			<p class="answer">Pour créer un raccourci d'Application, il suffit de choisir "Application" dans le menu "Nouveau raccourci" ou de double cliquer sur la liste Application.<br />
- 			Ensuite vous pouvez choisir un application en cliquant sur le bouton "Choisir…".<br />
- 			Vous avez le choix entre 3 actions:<br /><br />
- 			&nbsp; <strong>• Démarrer: </strong> Démarre un application ou la ramène au premier plan si elle est déjà lancée. Cette action à le même effet que double-cliquer sur l'icone de l'application. <br /><br />
- 			&nbsp; <strong>• Quitter: </strong>Demande à l'application cible de quitter. Cette action à le même effet que de sélectionner "Quitter" dans le menu de l'application.<br /><br />
- 			&nbsp; <strong>• Forcer à quitter: </strong> Utilisez cette action avec précaution. Elle à le même effet que de sélectionner "Force à quitter" dans le menu Pomme.
+ 			<p class="answer">To create a new Application Key, choose "Application" in "New Action" Menu or double clic on the Application List.<br />
+ 			Then you can choose the Application you want launch with this Action by clicking on the "Choose…" Button.<br />
+ 			There are 3 possible actions:<br /><br />
+ 			&nbsp;<strong>• Launch: </strong> Launch an Application or bring it on the foreground if it is already running. In fact Launch has the same effect as double clicking the Application Icon. <br /><br />
+ 			&nbsp; <strong>• Quit: </strong>Send a Quit signal to the Application. It has the same effect as choose "Quit" in the Application Menu.<br /><br />
+ 			&nbsp; <strong>• Force Quit: </strong>Use this option with precaution. It has the same effect as choose "Force Quit" in the "Apple Menu".
  			<br clear="all" /><br />
- 			Si vous choisissez l'option démarrer vous avez 4 options:<br />
- 			<br />&nbsp;<strong>- "Laisser en arrière plan"</strong>: L'application reste en arrière plan après son lancement.<br />
- 			&nbsp;<strong>- "Masquer les autres"</strong>: Un fois l'application démarrée, les autres applications sont masquées.<br />
- 			&nbsp;<strong>- "Masquer après démarrage"</strong>: Masque l'application quand elle a fini de démarrer.<br />
- 			&nbsp;<strong>- "Démarrer une nouvelle instance"</strong>: Si l'application n'est pas démarrée, lance l'application normalement.
- 			Si elle est déjà lancée, au lieu de la ramener au premier plan, le raccourci lance une nouvelle copie de l'application.
- 			Cette option ne fonctionne pas avec toutes les applicatons.<br /><br />
+ 			When you Launch an Application, you have 4 options:<br />
+ 			<br />&nbsp;<strong>- "Launch Without Activation"</strong>: The Action doesn't bring the Application to the the foreground.<br />
+ 			&nbsp;<strong>- "Launch And Hide Others"</strong>: Once the Application is launched, all others Applications are hiden.<br />
+ 			&nbsp;<strong>- "Launch And Hide"</strong>: Launch the Application and then Hide it.<br />
+ 			&nbsp;<strong>- "Launch a New Instance"</strong>: If the application is not running, it launchs the Application. If it is already running, instead of bringing it to the foreground, the Action launchs another copy of the Application.
+ 			This function may not work with all Applications.<br /><br />
  			</p>
  	</div>
- 	<a href="Help/Release.html" style="font-size: 11px">Historique des versions</a>
+ 	<a href="Help/Release.html" style="font-size: 11px">Release Notes</a>
  	<hr />
 	<div class="copyright" style="margin-top: 20px; text-align: center">
 		Copyright © 2004 Shadow Lab.<br />

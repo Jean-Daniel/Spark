@@ -81,12 +81,12 @@ void _SparkPreferencesStartServer(void) {
         if (rl) {
           CFRunLoopAddSource(rl, source, kCFRunLoopCommonModes);
         } else {
-          ECLog("Undefined error while getting current run loop");
+          WCLog("Undefined error while getting current run loop");
         }
         CFRelease(source);
       }
     } else {
-      ECLog("Undefined error while creating preference port");
+      WCLog("Undefined error while creating preference port");
       /* we do not want to retry on next call */
       sMachPort = (CFMessagePortRef)kCFNull;
     }

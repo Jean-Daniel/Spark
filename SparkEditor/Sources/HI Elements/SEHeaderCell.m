@@ -90,13 +90,8 @@ void SEHeaderCellShadingValue (void *info, const CGFloat *in, CGFloat *out) {
   
   v = *in;
   for (k = 0; k < components -1; k++) {
-    //*out++ = .700 + (.860 - .700) * sqrt(v * (2 - v));
     *out++ = .730 + (.860 - .730) * pow(sin(M_PI_2 * v), 2);
   }
-//  CGFloat factor = pow(sin(M_PI_2 *v), 2);
-//  *out++ = .490 + (.765 - .490) * factor;
-//  *out++ = .570 + (.815 - .570) * factor;
-//  *out++ = .695 + (.870 - .695) * factor;
   *out++ = 1;
 }
 

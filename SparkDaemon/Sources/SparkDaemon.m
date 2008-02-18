@@ -454,4 +454,9 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
   SDSendStateToEditor(kSparkDaemonStatusShutDown);
 }
 
+- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender {
+	WBTrace();
+	return NSTerminateNow;
+}
+
 @end

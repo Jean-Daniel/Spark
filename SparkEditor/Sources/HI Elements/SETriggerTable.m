@@ -54,7 +54,7 @@
 }
 
 //- (void)dragImage:(NSImage *)anImage at:(NSPoint)imageLoc offset:(NSSize)mouseOffset event:(NSEvent *)theEvent pasteboard:(NSPasteboard *)pboard source:(id)sourceObject slideBack:(BOOL)slideBack {
-//  ShadowTrace();
+//  WBTrace();
 //  if (!_isDragging) { /* First Enter */
 //    _isDragging = YES;
 //    _dragImg = anImage;

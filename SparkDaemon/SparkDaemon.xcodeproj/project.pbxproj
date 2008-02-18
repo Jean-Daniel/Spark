@@ -66,6 +66,7 @@
 
 /* Begin PBXFileReference section */
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		1B0947410D68BD9200E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1B7BB7E70CBE20D500484A9E /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
 		1B7BB7E80CBE20D500484A9E /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		1B7BB7E90CBE20D500484A9E /* Profile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Profile.xcconfig; sourceTree = "<group>"; };
@@ -227,6 +228,7 @@
 				98B20D6706A54814008BA3F6 /* Sources */,
 				98B20D6806A54814008BA3F6 /* Frameworks */,
 				9843EE8A0AA700840051AD0E /* Create Debug Links */,
+				1BA7A5F80D685F9300D89AC2 /* Sign */,
 			);
 			buildRules = (
 			);
@@ -317,6 +319,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		1BA7A5F80D685F9300D89AC2 /* Sign */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 8;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = Sign;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+			shellPath = /bin/sh;
+			shellScript = "${HOME}/bin/shadowsign \"${TARGET_BUILD_DIR}/${FULL_PRODUCT_NAME}\"";
+			showEnvVarsInLog = 0;
+		};
 		9843EE8A0AA700840051AD0E /* Create Debug Links */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -359,6 +376,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				98D528E70B19A18B00C8425C /* English */,
+				1B0947410D68BD9200E8FE8D /* French */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -378,7 +396,7 @@
 		1B7CF6660D3573F70068DAD1 /* 64bits */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 401;
+				CURRENT_PROJECT_VERSION = 405;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				PRODUCT_NAME = "Spark Daemon";
@@ -388,7 +406,7 @@
 		98EF7DEB08645714007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 401;
+				CURRENT_PROJECT_VERSION = 405;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				PRODUCT_NAME = "Spark Daemon";
@@ -398,7 +416,7 @@
 		98EF7DEC08645714007BC81A /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 401;
+				CURRENT_PROJECT_VERSION = 405;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				PRODUCT_NAME = "Spark Daemon";
@@ -426,7 +444,7 @@
 		98EFD2D80B58457D00AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 401;
+				CURRENT_PROJECT_VERSION = 405;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				PRODUCT_NAME = "Spark Daemon";

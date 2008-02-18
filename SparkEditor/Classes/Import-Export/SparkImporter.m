@@ -57,7 +57,7 @@ static BOOL CustomSearch(NSString *searchString, id object, void *ctxt);
 }
 
 - (void)dealloc {
-  ShadowTrace();
+  WBTrace();
   [_library release];
   [super dealloc];
 }

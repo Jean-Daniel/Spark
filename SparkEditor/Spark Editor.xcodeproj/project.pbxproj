@@ -38,6 +38,8 @@
 		1B9A7A670D0D96DD00770054 /* SEPluginHelp.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B9A7A650D0D96DD00770054 /* SEPluginHelp.xib */; };
 		1B9A7A6D0D0D978800770054 /* SEEntryEditor.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B9A7A6B0D0D978800770054 /* SEEntryEditor.xib */; };
 		1B9A7A7A0D0D998B00770054 /* SEPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B9A7A780D0D998B00770054 /* SEPreferences.xib */; };
+		1BA7A5870D684DBD00D89AC2 /* SEEntryList.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B37438B0B6E2B84002F18C8 /* SEEntryList.h */; };
+		1BA7A5AA0D685C6500D89AC2 /* SEPreferences.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1BA7A5A90D685C6500D89AC2 /* SEPreferences.strings */; };
 		1BA7CDF00D0DB2D70081764D /* SparkSuite.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 984BCE5F060C7EBD0043CDEA /* SparkSuite.sdef */; };
 		1BA7CE0A0D0DB3480081764D /* SEInheritsPlugin.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BA7CE080D0DB3480081764D /* SEInheritsPlugin.xib */; };
 		1BA7CE0F0D0DB3740081764D /* SEPluginInstaller.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BA7CE0D0D0DB3740081764D /* SEPluginInstaller.xib */; };
@@ -53,7 +55,6 @@
 		9824024A060C7B3100A0DB07 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 982401E1060C7B3000A0DB07 /* Credits.rtf */; };
 		9824024C060C7B3100A0DB07 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 982401E5060C7B3000A0DB07 /* InfoPlist.strings */; };
 		9824025A060C7B3100A0DB07 /* Read First.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 98240201060C7B3000A0DB07 /* Read First.rtf */; };
-		9824025B060C7B3100A0DB07 /* shcts.html in Resources */ = {isa = PBXBuildFile; fileRef = 98240203060C7B3000A0DB07 /* shcts.html */; };
 		98287FEB0B204D6700D92285 /* plugin.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98287FEA0B204D6700D92285 /* plugin.tiff */; };
 		982880080B204DCF00D92285 /* nohelp.html in Resources */ = {isa = PBXBuildFile; fileRef = 982880060B204DCF00D92285 /* nohelp.html */; };
 		98362B070A9763F500F97F50 /* SparkDisabled.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98362B060A9763F500F97F50 /* SparkDisabled.tiff */; };
@@ -374,6 +375,26 @@
 
 /* Begin PBXFileReference section */
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		1B09482E0D68C12F00E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = French; path = French.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		1B09482F0D68C13900E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = French; path = French.lproj/SEExport.xib; sourceTree = "<group>"; };
+		1B0948300D68C13D00E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = French; path = French.lproj/SEFirstRun.xib; sourceTree = "<group>"; };
+		1B0948310D68C14100E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = French; path = French.lproj/SEPluginHelp.xib; sourceTree = "<group>"; };
+		1B0948320D68C14600E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = French; path = French.lproj/SEEntryEditor.xib; sourceTree = "<group>"; };
+		1B0948330D68C14A00E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = French; path = French.lproj/SEPreferences.xib; sourceTree = "<group>"; };
+		1B0948340D68C14E00E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = French; path = French.lproj/SEInheritsPlugin.xib; sourceTree = "<group>"; };
+		1B0948350D68C15100E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = French; path = French.lproj/SEPluginInstaller.xib; sourceTree = "<group>"; };
+		1B0948360D68C15600E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = French; path = French.lproj/SELibraryWindow.xib; sourceTree = "<group>"; };
+		1B0948370D68C15800E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = French; path = French.lproj/SETriggerBrowser.xib; sourceTree = "<group>"; };
+		1B0948380D68C15F00E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = French; path = French.lproj/nohelp.html; sourceTree = "<group>"; };
+		1B0948390D68C16200E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = French; path = French.lproj/Credits.rtf; sourceTree = "<group>"; };
+		1B09483A0D68C16400E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = French; path = "French.lproj/Read First.rtf"; sourceTree = "<group>"; };
+		1B09483B0D68C16700E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1B09483C0D68C16A00E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Resources.strings; sourceTree = "<group>"; };
+		1B09483D0D68C16C00E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/SEEditor.strings; sourceTree = "<group>"; };
+		1B09483E0D68C16F00E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1B09483F0D68C17F00E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/SEHotKeyTrap.strings; sourceTree = "<group>"; };
+		1B0948400D68C18200E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/SEPreferences.strings; sourceTree = "<group>"; };
+		1B0948410D68C18F00E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = folder; name = French; path = "French.lproj/Spark Help"; sourceTree = "<group>"; };
 		1B13586E0CA110DB00766572 /* generalpref.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = generalpref.icns; sourceTree = "<group>"; };
 		1B13586F0CA110DB00766572 /* advancedpref.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = advancedpref.icns; sourceTree = "<group>"; };
 		1B1358E80CA11B8800766572 /* updatepref.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = updatepref.tiff; sourceTree = "<group>"; };
@@ -394,6 +415,7 @@
 		1B9A7A660D0D96DD00770054 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SEPluginHelp.xib; sourceTree = "<group>"; };
 		1B9A7A6C0D0D978800770054 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SEEntryEditor.xib; sourceTree = "<group>"; };
 		1B9A7A790D0D998B00770054 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SEPreferences.xib; sourceTree = "<group>"; };
+		1BA7A5A70D685C4F00D89AC2 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/SEPreferences.strings; sourceTree = "<group>"; };
 		1BA7CE090D0DB3480081764D /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SEInheritsPlugin.xib; sourceTree = "<group>"; };
 		1BA7CE0E0D0DB3740081764D /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SEPluginInstaller.xib; sourceTree = "<group>"; };
 		1BB11ABB0B931FAE00908925 /* SELibrary.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SELibrary.tiff; sourceTree = "<group>"; };
@@ -412,7 +434,6 @@
 		982401E2060C7B3000A0DB07 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = English; path = English.lproj/Credits.rtf; sourceTree = "<group>"; };
 		982401E6060C7B3000A0DB07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		98240202060C7B3000A0DB07 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = English; path = "English.lproj/Read First.rtf"; sourceTree = "<group>"; };
-		98240204060C7B3000A0DB07 /* English */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.html; name = English; path = English.lproj/shcts.html; sourceTree = "<group>"; };
 		98287FEA0B204D6700D92285 /* plugin.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = plugin.tiff; sourceTree = "<group>"; };
 		982880070B204DCF00D92285 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = English; path = English.lproj/nohelp.html; sourceTree = "<group>"; };
 		98362B060A9763F500F97F50 /* SparkDisabled.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SparkDisabled.tiff; sourceTree = "<group>"; };
@@ -495,8 +516,6 @@
 		98D52B260B19A44A00C8425C /* SETriggerTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SETriggerTable.m; sourceTree = "<group>"; };
 		98D52B3B0B19A4C000C8425C /* SEBuiltInPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEBuiltInPlugin.h; sourceTree = "<group>"; };
 		98D52B3C0B19A4C000C8425C /* SEBuiltInPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEBuiltInPlugin.m; sourceTree = "<group>"; };
-		98D52B3F0B19A4C000C8425C /* SESparkEntrySet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SESparkEntrySet.h; sourceTree = "<group>"; };
-		98D52B400B19A4C000C8425C /* SESparkEntrySet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SESparkEntrySet.m; sourceTree = "<group>"; };
 		98D52B4F0B19A59700C8425C /* SEApplicationSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEApplicationSource.h; sourceTree = "<group>"; };
 		98D52B500B19A59700C8425C /* SEApplicationSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEApplicationSource.m; sourceTree = "<group>"; };
 		98D52B510B19A59700C8425C /* SEEntryEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEntryEditor.h; sourceTree = "<group>"; };
@@ -523,8 +542,6 @@
 		98E66CC10759FA7C0048A37D /* HotKeySparkList.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = HotKeySparkList.icns; sourceTree = "<group>"; };
 		98E66CC20759FA7C0048A37D /* ApplicationSparkList.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = ApplicationSparkList.icns; sourceTree = "<group>"; };
 		98E66CC30759FA7C0048A37D /* ActionSparkList.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = ActionSparkList.icns; sourceTree = "<group>"; };
-		98ED2EED0B5D87EF002EAF85 /* SEEntryCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEntryCache.m; sourceTree = "<group>"; };
-		98ED2EF10B5D87FD002EAF85 /* SEEntryCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEntryCache.h; sourceTree = "<group>"; };
 		98EF8306086462FF007BC81A /* HotKeyToolKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = HotKeyToolKit.xcodeproj; path = ../HotKeyToolKit/HotKeyToolKit.xcodeproj; sourceTree = SOURCE_ROOT; };
 		98EF830F0864630B007BC81A /* SparkKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SparkKit.xcodeproj; path = ../SparkKit/SparkKit.xcodeproj; sourceTree = SOURCE_ROOT; };
 		98F0746B0CC26E55008CF066 /* SecurityInterface.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SecurityInterface.framework; path = /System/Library/Frameworks/SecurityInterface.framework; sourceTree = "<absolute>"; };
@@ -659,7 +676,6 @@
 				986F865207073F8200064694 /* Libraries.strings */,
 				1B1359A00CA11FB400766572 /* SEUpdater.strings */,
 				98766A020CD4EF4F00593B74 /* SEExportApp.xml */,
-				98240203060C7B3000A0DB07 /* shcts.html */,
 				984BCB9C060C7C7B0043CDEA /* Spark Help */,
 				98DCBF810CCA6C8F0045707B /* Shadow Lab.cer */,
 			);
@@ -895,9 +911,7 @@
 			children = (
 				98D52B4B0B19A4C700C8425C /* Headers */,
 				1B3743880B6E2B79002F18C8 /* SEEntryList.m */,
-				98ED2EED0B5D87EF002EAF85 /* SEEntryCache.m */,
 				98D52B3C0B19A4C000C8425C /* SEBuiltInPlugin.m */,
-				98D52B400B19A4C000C8425C /* SESparkEntrySet.m */,
 				98766A270CD4F15400593B74 /* SEHTMLGenerator.m */,
 				98CC49630B5AAF3100C60244 /* SELibraryDocument.m */,
 				988B8E940CC26783006EA06D /* SparkLibraryArchive.m */,
@@ -909,9 +923,7 @@
 			isa = PBXGroup;
 			children = (
 				1B37438B0B6E2B84002F18C8 /* SEEntryList.h */,
-				98ED2EF10B5D87FD002EAF85 /* SEEntryCache.h */,
 				98D52B3B0B19A4C000C8425C /* SEBuiltInPlugin.h */,
-				98D52B3F0B19A4C000C8425C /* SESparkEntrySet.h */,
 				98766A260CD4F15400593B74 /* SEHTMLGenerator.h */,
 				98CC49670B5AAF3F00C60244 /* SELibraryDocument.h */,
 				988B8E950CC26783006EA06D /* SparkLibraryArchive.h */,
@@ -984,6 +996,7 @@
 				98D590F10AA18A430081A713 /* SEEditor.strings */,
 				985A43AD0A8626F3005CC63B /* Localizable.strings */,
 				984AB6FF0B88C5AA005E7F60 /* SEHotKeyTrap.strings */,
+				1BA7A5A90D685C6500D89AC2 /* SEPreferences.strings */,
 			);
 			name = Localization;
 			sourceTree = "<group>";
@@ -1040,6 +1053,7 @@
 				1B80772D0CCD1B9500DC56CE /* SEUpdater.h in Headers */,
 				9876699B0CD4C5D500593B74 /* SEExportOptions.h in Headers */,
 				98766A280CD4F15400593B74 /* SEHTMLGenerator.h in Headers */,
+				1BA7A5870D684DBD00D89AC2 /* SEEntryList.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1248,7 +1262,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9824025B060C7B3100A0DB07 /* shcts.html in Resources */,
 				9824024A060C7B3100A0DB07 /* Credits.rtf in Resources */,
 				9824025A060C7B3100A0DB07 /* Read First.rtf in Resources */,
 				9824024C060C7B3100A0DB07 /* InfoPlist.strings in Resources */,
@@ -1309,6 +1322,7 @@
 				1BA7CDF00D0DB2D70081764D /* SparkSuite.sdef in Resources */,
 				1BA7CE0A0D0DB3480081764D /* SEInheritsPlugin.xib in Resources */,
 				1BA7CE0F0D0DB3740081764D /* SEPluginInstaller.xib in Resources */,
+				1BA7A5AA0D685C6500D89AC2 /* SEPreferences.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1321,8 +1335,8 @@
 			files = (
 			);
 			inputPaths = (
-				"$(SHARED_CODE_DIR)/SArchiveKit/build/$(CONFIGURATION)/SArchiveKit.framework",
-				"$(SHARED_CODE_DIR)/SUpdaterKit/build/$(CONFIGURATION)/SUpdaterKit.framework",
+				"$(SHARED_SOURCES_DIR)/SArchiveKit/build/$(CONFIGURATION)/SArchiveKit.framework",
+				"$(SHARED_SOURCES_DIR)/SUpdaterKit/build/$(CONFIGURATION)/SUpdaterKit.framework",
 			);
 			name = "Symlink Frameworks";
 			outputPaths = (
@@ -1417,6 +1431,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				1B1535400D0D930F00C30ADA /* English */,
+				1B09482F0D68C13900E8FE8D /* French */,
 			);
 			name = SEExport.xib;
 			sourceTree = "<group>";
@@ -1425,6 +1440,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				1B1535490D0D93F300C30ADA /* English */,
+				1B0948300D68C13D00E8FE8D /* French */,
 			);
 			name = SEFirstRun.xib;
 			sourceTree = "<group>";
@@ -1433,6 +1449,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				1B98A1A90D312F5800EC7D09 /* English */,
+				1B0948370D68C15800E8FE8D /* French */,
 			);
 			name = SETriggerBrowser.xib;
 			sourceTree = "<group>";
@@ -1441,6 +1458,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				1B9A7A660D0D96DD00770054 /* English */,
+				1B0948310D68C14100E8FE8D /* French */,
 			);
 			name = SEPluginHelp.xib;
 			sourceTree = "<group>";
@@ -1449,6 +1467,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				1B9A7A6C0D0D978800770054 /* English */,
+				1B0948320D68C14600E8FE8D /* French */,
 			);
 			name = SEEntryEditor.xib;
 			sourceTree = "<group>";
@@ -1457,14 +1476,25 @@
 			isa = PBXVariantGroup;
 			children = (
 				1B9A7A790D0D998B00770054 /* English */,
+				1B0948330D68C14A00E8FE8D /* French */,
 			);
 			name = SEPreferences.xib;
+			sourceTree = "<group>";
+		};
+		1BA7A5A90D685C6500D89AC2 /* SEPreferences.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1BA7A5A70D685C4F00D89AC2 /* English */,
+				1B0948400D68C18200E8FE8D /* French */,
+			);
+			name = SEPreferences.strings;
 			sourceTree = "<group>";
 		};
 		1BA7CE080D0DB3480081764D /* SEInheritsPlugin.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				1BA7CE090D0DB3480081764D /* English */,
+				1B0948340D68C14E00E8FE8D /* French */,
 			);
 			name = SEInheritsPlugin.xib;
 			sourceTree = "<group>";
@@ -1473,6 +1503,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				1BA7CE0E0D0DB3740081764D /* English */,
+				1B0948350D68C15100E8FE8D /* French */,
 			);
 			name = SEPluginInstaller.xib;
 			sourceTree = "<group>";
@@ -1481,6 +1512,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				1BD1A1880D0D4926004206FA /* English */,
+				1B09482E0D68C12F00E8FE8D /* French */,
 			);
 			name = MainMenu.xib;
 			sourceTree = "<group>";
@@ -1489,6 +1521,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				1BD1A18C0D0D4A02004206FA /* English */,
+				1B0948360D68C15600E8FE8D /* French */,
 			);
 			name = SELibraryWindow.xib;
 			sourceTree = "<group>";
@@ -1497,6 +1530,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				982401E2060C7B3000A0DB07 /* English */,
+				1B0948390D68C16200E8FE8D /* French */,
 			);
 			name = Credits.rtf;
 			sourceTree = "<group>";
@@ -1505,6 +1539,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				982401E6060C7B3000A0DB07 /* English */,
+				1B09483B0D68C16700E8FE8D /* French */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -1513,22 +1548,16 @@
 			isa = PBXVariantGroup;
 			children = (
 				98240202060C7B3000A0DB07 /* English */,
+				1B09483A0D68C16400E8FE8D /* French */,
 			);
 			name = "Read First.rtf";
-			sourceTree = "<group>";
-		};
-		98240203060C7B3000A0DB07 /* shcts.html */ = {
-			isa = PBXVariantGroup;
-			children = (
-				98240204060C7B3000A0DB07 /* English */,
-			);
-			name = shcts.html;
 			sourceTree = "<group>";
 		};
 		982880060B204DCF00D92285 /* nohelp.html */ = {
 			isa = PBXVariantGroup;
 			children = (
 				982880070B204DCF00D92285 /* English */,
+				1B0948380D68C15F00E8FE8D /* French */,
 			);
 			name = nohelp.html;
 			sourceTree = "<group>";
@@ -1537,6 +1566,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				984AB7000B88C5AA005E7F60 /* English */,
+				1B09483F0D68C17F00E8FE8D /* French */,
 			);
 			name = SEHotKeyTrap.strings;
 			sourceTree = "<group>";
@@ -1545,6 +1575,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				984AB7020B88C5AA005E7F60 /* English */,
+				1B09483C0D68C16A00E8FE8D /* French */,
 			);
 			name = Resources.strings;
 			sourceTree = "<group>";
@@ -1553,6 +1584,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				984BCB9D060C7C7B0043CDEA /* English */,
+				1B0948410D68C18F00E8FE8D /* French */,
 			);
 			name = "Spark Help";
 			sourceTree = "<group>";
@@ -1561,6 +1593,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				985A43AE0A8626F3005CC63B /* English */,
+				1B09483E0D68C16F00E8FE8D /* French */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -1601,6 +1634,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				98D590F20AA18A430081A713 /* English */,
+				1B09483D0D68C16C00E8FE8D /* French */,
 			);
 			name = SEEditor.strings;
 			sourceTree = "<group>";
@@ -1631,7 +1665,7 @@
 		1B7CF7830D3577340068DAD1 /* 64bits */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 402;
+				CURRENT_PROJECT_VERSION = 405;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = Spark;
@@ -1642,7 +1676,7 @@
 		98BC60520857BB9400A2041F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 402;
+				CURRENT_PROJECT_VERSION = 405;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = Spark;
@@ -1653,7 +1687,7 @@
 		98BC60530857BB9400A2041F /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 402;
+				CURRENT_PROJECT_VERSION = 405;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = Spark;
@@ -1704,7 +1738,7 @@
 		98EFD02F0B58443900AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 402;
+				CURRENT_PROJECT_VERSION = 405;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = Spark;

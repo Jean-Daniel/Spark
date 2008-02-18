@@ -223,7 +223,8 @@ bool __IsApplicationAtPath(NSString *path) {
                                            defaultButton:@"Delete"
                                          alternateButton:@"Cancel"
                                              otherButton:nil
-                               informativeTextWithFormat:@"Cannot be cancel, etc."];
+                               informativeTextWithFormat:@"This is just an information message."];
+					[alert setAlertStyle:NSInformationalAlertStyle];
           [alert addUserDefaultCheckBoxWithTitle:@"do not show again" andKey:@"SparkConfirmDeleteApplication"];
           /* Do not use sheet because caller assume it is synchrone */
           result = [alert runModal];

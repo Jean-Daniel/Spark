@@ -21,12 +21,12 @@
 
 - (IBAction)launchEditor:(id)sender;
 
-- (NSAlert *)compileScript:(OSAScript *)script;
-
 - (NSString *)scriptFile;
 - (void)setScriptFile:(NSString *)aFile;
 
 - (int)selectedTab;
 - (void)setSelectedTab:(int)tab;
+
+- (NSAlert *)compileScript:(OSAScript *)script;
 
 @end

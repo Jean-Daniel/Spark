@@ -234,6 +234,12 @@
 		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		1B09470D0D68BC9B00E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1B09470E0D68BCA100E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1B0947110D68BCCB00E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = French; path = French.lproj/SparkPlugin.xib; sourceTree = "<group>"; };
+		1B0947120D68BCD100E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = French; path = French.lproj/SparkMultiAlert.xib; sourceTree = "<group>"; };
+		1B0947140D68BCDB00E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = French; path = French.lproj/SparkPluginView.xib; sourceTree = "<group>"; };
+		1B0947250D68BD5100E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/WBProgress.strings; sourceTree = "<group>"; };
 		1B49363D0CA2E57C00F53EEE /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
 		1B6DACEE0D0C9D0400F352CC /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SparkMultiAlert.xib; sourceTree = "<group>"; };
 		1B6DACF30D0CA0F800F352CC /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SparkPluginView.xib; sourceTree = "<group>"; };
@@ -979,6 +985,7 @@
 				8DC2EF540486A6940098B216 /* Sources */,
 				8DC2EF560486A6940098B216 /* Frameworks */,
 				8DC2EF580486A6940098B216 /* Rez */,
+				1BA7A5D70D685F4600D89AC2 /* Sign */,
 			);
 			buildRules = (
 			);
@@ -999,6 +1006,13 @@
 			buildConfigurationList = 9848D88A085638FD006B5130 /* Build configuration list for PBXProject "SparkKit" */;
 			compatibilityVersion = "Xcode 3.0";
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+				FR,
+			);
 			mainGroup = 0867D691FE84028FC02AAC07 /* SparkKit */;
 			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
 			projectDirPath = "";
@@ -1096,6 +1110,24 @@
 		};
 /* End PBXRezBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		1BA7A5D70D685F4600D89AC2 /* Sign */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 8;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = Sign;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+			shellPath = /bin/sh;
+			shellScript = "${HOME}/bin/shadowsign \"${TARGET_BUILD_DIR}/${FULL_PRODUCT_NAME}\"";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		8DC2EF540486A6940098B216 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -1188,6 +1220,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				089C1667FE841158C02AAC07 /* English */,
+				1B09470D0D68BC9B00E8FE8D /* French */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -1196,6 +1229,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				1B6DACEE0D0C9D0400F352CC /* English */,
+				1B0947120D68BCD100E8FE8D /* French */,
 			);
 			name = SparkMultiAlert.xib;
 			sourceTree = "<group>";
@@ -1204,6 +1238,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				1B6DACF30D0CA0F800F352CC /* English */,
+				1B0947140D68BCDB00E8FE8D /* French */,
 			);
 			name = SparkPluginView.xib;
 			sourceTree = "<group>";
@@ -1212,6 +1247,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				1B6DACF70D0CA1BF00F352CC /* English */,
+				1B0947110D68BCCB00E8FE8D /* French */,
 			);
 			name = SparkPlugin.xib;
 			sourceTree = "<group>";
@@ -1220,6 +1256,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				1BB9868F0D382AD00074D18E /* English */,
+				1B0947250D68BD5100E8FE8D /* French */,
 			);
 			name = WBProgress.strings;
 			sourceTree = "<group>";
@@ -1228,6 +1265,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				9805FD380773B47700B1A341 /* English */,
+				1B09470E0D68BCA100E8FE8D /* French */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -1247,9 +1285,9 @@
 		1B7CF6190D3571340068DAD1 /* 64bits */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 401;
+				CURRENT_PROJECT_VERSION = 405;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 401;
+				DYLIB_CURRENT_VERSION = 405;
 				FRAMEWORK_VERSION = B;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -1264,9 +1302,9 @@
 		9848D887085638FD006B5130 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 401;
+				CURRENT_PROJECT_VERSION = 405;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 401;
+				DYLIB_CURRENT_VERSION = 405;
 				FRAMEWORK_VERSION = B;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -1281,9 +1319,9 @@
 		9848D888085638FD006B5130 /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 401;
+				CURRENT_PROJECT_VERSION = 405;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 401;
+				DYLIB_CURRENT_VERSION = 405;
 				FRAMEWORK_VERSION = B;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -1316,9 +1354,9 @@
 		98EFD0A40B5844F300AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 401;
+				CURRENT_PROJECT_VERSION = 405;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 401;
+				DYLIB_CURRENT_VERSION = 405;
 				FRAMEWORK_VERSION = B;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";

@@ -12,8 +12,8 @@
 
 static const 
 WBCGSimpleShadingInfo kSETopShadingInfo = {
-{.771, .771, .771, 1},
-{.508, .508, .508, 1},
+	{.771, .771, .771, 1},
+	{.508, .508, .508, 1},
   NULL,
 };
 
@@ -73,7 +73,7 @@ static CGLayerRef sSETopShadingImage = nil;
       CGContextSaveGState(ctxt);
       CGRect rects[] = { 
         CGRectMake(0, NSMaxY(bounds) - se_top, 1, se_top - 18), 
-        CGRectMake(NSMaxX(bounds) - 1, NSMaxY(bounds) - se_top, NSMaxX(bounds), se_top - 18)};
+			CGRectMake(NSMaxX(bounds) - 1, NSMaxY(bounds) - se_top, NSMaxX(bounds), se_top - 18)};
       CGContextClipToRects(ctxt, rects, 2);
       
       CGContextDrawLayerInRect(ctxt, CGRectMake(0, NSMaxY(bounds) - se_top, 1, se_top), sSETopShadingImage);

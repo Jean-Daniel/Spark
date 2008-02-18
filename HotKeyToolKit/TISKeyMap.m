@@ -44,7 +44,7 @@ OSStatus HKTISKeyMapInit(HKKeyMapRef keyMap) {
   if (uchr) {
     err = HKKeyMapContextWithUchrData((const UCKeyboardLayout *)CFDataGetBytePtr(uchr), keyMap->reverse, &keyMap->ctxt);
   } else {
-    ECLog("Error while trying to get layout data");
+    WCLog("Error while trying to get layout data");
     err = paramErr;
   }
   return err;

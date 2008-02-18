@@ -25,7 +25,7 @@
 }
 
 - (IBAction)coucou:(id)sender {
-  ShadowTrace();
+  WBTrace();
 //  [sender setRegistred:NO];
 //  usleep(75000);
 //  [sender sendKeystroke];

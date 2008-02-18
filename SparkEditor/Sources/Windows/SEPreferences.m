@@ -87,11 +87,11 @@ void *_SEPreferencesLoginItemThread(void *arg) {
 /* Default values initialization */
 + (void)setup {
   NSDictionary *values = [NSDictionary dictionaryWithObjectsAndKeys:
-    WBBool(NO), kSEPreferencesAutoUpdate,
-    WBBool(NO), kSEPreferencesHideDisabled,
-    WBBool(YES), kSEPreferencesStartAtLogin,
-    WBInteger(kSparkEnableSingleFunctionKey), kSparkPrefSingleKeyMode,
-    nil];
+													WBBool(NO), kSEPreferencesAutoUpdate,
+													WBBool(NO), kSEPreferencesHideDisabled,
+													WBBool(YES), kSEPreferencesStartAtLogin,
+													WBInteger(kSparkEnableSingleFunctionKey), kSparkPrefSingleKeyMode,
+													nil];
   [[NSUserDefaults standardUserDefaults] registerDefaults:values];
   
   /* Verify login items */
@@ -173,21 +173,21 @@ void *_SEPreferencesLoginItemThread(void *arg) {
     NSMapInsert(se_status, plugin, (void *)status);
   }
   NSDictionary *item = [NSDictionary dictionaryWithObjectsAndKeys:
-    NSLocalizedString(@"Built-in", @"Plugin preferences domain - built-in"), @"name",
-    bplugs, @"plugins",
-    [NSImage imageNamed:@"application"], @"icon", nil];
+												NSLocalizedStringFromTable(@"Built-in", @"SEPreferences", @"Plugin preferences domain - built-in"), @"name",
+												bplugs, @"plugins",
+												[NSImage imageNamed:@"application"], @"icon", nil];
   [se_plugins addObject:item];
   
   item = [NSDictionary dictionaryWithObjectsAndKeys:
-    NSLocalizedString(@"Computer", @"Plugin preferences domain - computer"), @"name",
-    lplugs, @"plugins",
-    [NSImage imageNamed:@"computer"], @"icon", nil];
+					NSLocalizedStringFromTable(@"Computer", @"SEPreferences", @"Plugin preferences domain - computer"), @"name",
+					lplugs, @"plugins",
+					[NSImage imageNamed:@"computer"], @"icon", nil];
   [se_plugins addObject:item];
   
   item = [NSDictionary dictionaryWithObjectsAndKeys:
-    NSLocalizedString(@"User", @"Plugin preferences domain - user"), @"name",
-    uplugs, @"plugins",
-    [NSImage imageNamed:@"user"], @"icon", nil];
+					NSLocalizedStringFromTable(@"User", @"SEPreferences", @"Plugin preferences domain - user"), @"name",
+					uplugs, @"plugins",
+					[NSImage imageNamed:@"user"], @"icon", nil];
   [se_plugins addObject:item];
   
   [uiPlugins reloadData];
@@ -220,7 +220,7 @@ void *_SEPreferencesLoginItemThread(void *arg) {
   }
   
   /* Unbind to release */
-//  [ibController setContent:nil];
+	//  [ibController setContent:nil];
 }
 
 - (IBAction)close:(id)sender {
@@ -280,13 +280,16 @@ void *_SEPreferencesLoginItemThread(void *arg) {
 - (void)updater:(SEUpdater *)updater didSearchVersion:(BOOL)version error:(NSError *)anError {
   [uiProgress stopAnimation:nil];
   if (!version && !anError) {
-    [uiUpdateMsg setStringValue:@"No new version available."];
+    [uiUpdateMsg setStringValue:
+		 NSLocalizedStringFromTable(@"No new version available.", @"SEPreferences", @"Check Update: version up to date")];
   } else if (anError) {
     NSString *str = [anError localizedDescription];
     if (str)
-      [uiUpdateMsg setStringValue:[NSString stringWithFormat:@"Error: %@.", str]];
+      [uiUpdateMsg setStringValue:[NSString stringWithFormat:
+																	 NSLocalizedStringFromTable(@"Error: %@.", @"SEPreferences", @"Check Update: error (%@)"), str]];
     else
-      [uiUpdateMsg setStringValue:@"Undefined error occured"];
+      [uiUpdateMsg setStringValue:
+			 NSLocalizedStringFromTable(@"Undefined error occured.", @"SEPreferences", @"Check Update: undefined error")];
   }
   [uiUpdateStatus setHidden:YES];
   se_update = NO;
@@ -359,19 +362,19 @@ void *_SEPreferencesLoginItemThread(void *arg) {
   NSToolbarItem *toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier: itemIdentifier] autorelease];
   if ([kSparkPreferencesToolbarGeneralItem isEqualToString:itemIdentifier]) {
     [toolbarItem setTag:0];
-    [toolbarItem setLabel:@"General"];
+    [toolbarItem setLabel:NSLocalizedStringFromTable(@"General", @"SEPreferences", @"Toolar item: General")];
     [toolbarItem setImage:[NSImage imageNamed:@"generalpref"]];
   } else if ([kSparkPreferencesToolbarPluginsItem isEqualToString:itemIdentifier]) {
     [toolbarItem setTag:1];
-    [toolbarItem setLabel:@"Plugins"];
+    [toolbarItem setLabel:NSLocalizedStringFromTable(@"Plugins", @"SEPreferences", @"Toolar item: Plugins")];
     [toolbarItem setImage:[NSImage imageNamed:@"pluginpref"]];
   } else if ([kSparkPreferencesToolbarUpdateItem isEqualToString:itemIdentifier]) {
     [toolbarItem setTag:2];
-    [toolbarItem setLabel:@"Update"];
+    [toolbarItem setLabel:NSLocalizedStringFromTable(@"Update", @"SEPreferences", @"Toolar item: Update")];
     [toolbarItem setImage:[NSImage imageNamed:@"updatepref"]];
   } else if ([kSparkPreferencesToolbarAdvancedItem isEqualToString:itemIdentifier]) {
     [toolbarItem setTag:3];
-    [toolbarItem setLabel:@"Advanced"];
+    [toolbarItem setLabel:NSLocalizedStringFromTable(@"Advanced", @"SEPreferences", @"Toolar item: Advanced")];
     [toolbarItem setImage:[NSImage imageNamed:@"advancedpref"]];
   }
   
@@ -383,23 +386,23 @@ void *_SEPreferencesLoginItemThread(void *arg) {
 
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar*)toolbar {
   return [NSArray arrayWithObjects:kSparkPreferencesToolbarGeneralItem, 
-    kSparkPreferencesToolbarPluginsItem,
-    kSparkPreferencesToolbarUpdateItem,
-    kSparkPreferencesToolbarAdvancedItem, nil];
+					kSparkPreferencesToolbarPluginsItem,
+					kSparkPreferencesToolbarUpdateItem,
+					kSparkPreferencesToolbarAdvancedItem, nil];
 }
 
 - (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar*)toolbar {
   return [NSArray arrayWithObjects:kSparkPreferencesToolbarGeneralItem, 
-    kSparkPreferencesToolbarPluginsItem,
-    kSparkPreferencesToolbarUpdateItem,
-    kSparkPreferencesToolbarAdvancedItem, nil];
+					kSparkPreferencesToolbarPluginsItem,
+					kSparkPreferencesToolbarUpdateItem,
+					kSparkPreferencesToolbarAdvancedItem, nil];
 }
 
 - (NSArray *)toolbarSelectableItemIdentifiers:(NSToolbar *)toolbar {
   return [NSArray arrayWithObjects:kSparkPreferencesToolbarGeneralItem, 
-    kSparkPreferencesToolbarPluginsItem,
-    kSparkPreferencesToolbarUpdateItem,
-    kSparkPreferencesToolbarAdvancedItem, nil];
+					kSparkPreferencesToolbarPluginsItem,
+					kSparkPreferencesToolbarUpdateItem,
+					kSparkPreferencesToolbarAdvancedItem, nil];
 }
 
 @end
