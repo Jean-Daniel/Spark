@@ -28,6 +28,7 @@ typedef enum {
   
   kiTunesVolumeUp      = 'VoUp', /* 1450136944 */
   kiTunesVolumeDown    = 'VoDo', /* 1450132591 */
+	kiTunesToggleMute    = 'ToMu', /* 1416580469 */
   
   kiTunesVisual        = 'Visu', /* 1449751413 */
   kiTunesEjectCD       = 'Ejec', /* 1164600675 */
@@ -97,8 +98,11 @@ typedef enum {
 - (void)setAutoinfo:(BOOL)flag;
 
 - (void)switchVisualStat;
+
 - (void)volumeUp;
 - (void)volumeDown;
+- (void)toggleMute;
+
 - (void)ejectCD;
 - (SparkAlert *)playPlaylist;
 

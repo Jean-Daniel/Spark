@@ -12,9 +12,11 @@
 @interface SEExportOptions : WBViewController {
   @private
   IBOutlet NSButton *uiIcons;
+	IBOutlet NSButton *uiStrike;
   IBOutlet NSPopUpButton *uiGroup;
 }
 
+- (BOOL)strike;
 - (BOOL)includeIcons;
 - (NSInteger)groupBy;
 @end

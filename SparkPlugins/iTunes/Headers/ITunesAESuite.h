@@ -59,6 +59,11 @@ WB_PRIVATE
 OSStatus iTunesSetVisualEnabled(Boolean state);
 
 WB_PRIVATE
+OSStatus iTunesIsMuted(Boolean *mute);
+WB_PRIVATE
+OSStatus iTunesSetMuted(Boolean mute);
+
+WB_PRIVATE
 OSStatus iTunesGetSoundVolume(SInt16 *volume);
 WB_PRIVATE
 OSStatus iTunesSetSoundVolume(SInt16 volume);
@@ -112,6 +117,8 @@ OSStatus iTunesGetTrackRate(iTunesTrack *track, UInt32 *rate);
 WB_PRIVATE
 OSStatus iTunesSetCurrentTrackRate(UInt32 rate);
 
+WB_PRIVATE
+OSStatus iTunesCopyTrackArtworkData(iTunesTrack *track, CFDataRef *value);
 WB_PRIVATE
 OSStatus iTunesCopyTrackStringProperty(iTunesTrack *track, ITunesTrackProperty property, CFStringRef *value);
 WB_PRIVATE

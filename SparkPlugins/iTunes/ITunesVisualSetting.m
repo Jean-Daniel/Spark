@@ -125,10 +125,17 @@ int _iTunesGetIndexForPoint(NSPoint point) {
 }
 
 - (BOOL)shadow {
-  return [[ia_info window] hasShadow];
+  return [ia_info hasShadow];
 }
 - (void)setShadow:(BOOL)aShadow {
-  [[ia_info window] setHasShadow:aShadow];
+  [ia_info setHasShadow:aShadow];
+}
+
+- (BOOL)artwork {
+  return [ia_info displayArtwork];
+}
+- (void)setArtwork:(BOOL)flag {
+  [ia_info setDisplayArtwork:flag];
 }
 
 - (NSColor *)color {
@@ -197,8 +204,10 @@ int _iTunesGetIndexForPoint(NSPoint point) {
 - (void)setVisual:(const ITunesVisual *)visual {
   [self willChangeValueForKey:@"delay"];
   [self willChangeValueForKey:@"color"];
-  [self willChangeValueForKey:@"shadow"];
+	[self willChangeValueForKey:@"shadow"];
+	[self willChangeValueForKey:@"artwork"];
   [ia_info setVisual:visual];
+	[self didChangeValueForKey:@"artwork"];
   [self didChangeValueForKey:@"shadow"];
   [self didChangeValueForKey:@"color"];
   [self didChangeValueForKey:@"delay"];

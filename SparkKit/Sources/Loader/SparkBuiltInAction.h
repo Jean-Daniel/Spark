@@ -13,13 +13,14 @@ enum {
   kSparkSDActionLaunchEditor     = 'OpSe', /* 1332761445 */
   kSparkSDActionSwitchStatus     = 'SwSt', /* 1400329076 */
   kSparkSDActionSwitchListStatus = 'SwLi', /* 1400327273 */
+	kSparkSDActionExchangeListStatus = 'ExLi', /* 1165511785 */
 };
 
 @interface SparkBuiltInActionPlugin : SparkActionPlugIn {
   IBOutlet NSTextField *uiName;
   IBOutlet NSTextField *uiLabel;
   IBOutlet NSPopUpButton *uiLists;
-  
+  IBOutlet NSPopUpButton *uiLists2;
 }
 
 - (OSType)action;
@@ -30,13 +31,14 @@ enum {
 @class SparkList;
 @interface SparkBuiltInAction : SparkAction {
   @private
-  SparkUID sp_list;
   OSType sp_action;
+	SparkUID sp_list, sp_list2;
 }
 
 - (OSType)action;
 - (void)setAction:(OSType)anAction;
 
 - (SparkList *)list;
+- (SparkList *)otherList;
 
 @end

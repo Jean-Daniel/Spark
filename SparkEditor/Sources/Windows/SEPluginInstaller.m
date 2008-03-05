@@ -56,8 +56,7 @@
 - (void)setPlugin:(NSString *)path {
   /* Load nib if needed */
   [self window];
-  
-  WBSetterRetain(se_plugin, path);
+  WBSetterCopy(se_plugin, path);
   /* Get plugin bundle ID */
   /* If plugin already installed => ? */
   NSString *name = [[NSFileManager defaultManager] displayNameAtPath:path];
@@ -104,6 +103,7 @@ dispose:
 }
 
 - (NSString *)installPlugin:(NSString *)plugin domain:(NSInteger)skdomain {
+	/* FIXME: remove temp file */
   if (![[NSFileManager defaultManager] fileExistsAtPath:plugin]) {
     NSRunAlertPanel(@"The plugin was not installed", @"Cannot find plugin at path \"%@\"", @"OK", nil, nil, plugin);
     return NO;

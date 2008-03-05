@@ -87,4 +87,5 @@ CFStringRef HKTISKeyMapGetName(HKKeyMapRef keymap) { return NULL; }
 
 HK_INLINE
 CFStringRef HKTISKeyMapGetLocalizedName(HKKeyMapRef keymap) { return NULL; }
+
 #endif

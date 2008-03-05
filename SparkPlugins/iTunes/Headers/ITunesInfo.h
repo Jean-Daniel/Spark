@@ -10,6 +10,7 @@
 
 typedef struct _ITunesVisual {
   BOOL shadow;
+	BOOL artwork;
   NSPoint location;
   NSTimeInterval delay;
   /* Colors */ 
@@ -46,17 +47,23 @@ const ITunesVisual kiTunesDefaultSettings;
   IBOutlet NSTextField *ibArtist;
   
   IBOutlet NSTextField *ibTime;
+	IBOutlet NSImageView *ibArtwork;
+	
   IBOutlet ITunesStarView *ibRate;
   IBOutlet ITunesProgressView *ibProgress;
-  @private
-    int ia_loc;
+@private
+	NSPoint ia_location;
+	
+	BOOL ia_artwork;
+	CGFloat ia_artWidth;
+	NSPoint ia_artOrigin;
 }
 
 + (ITunesInfo *)sharedWindow;
 
 - (IBAction)display:(id)sender;
 
-- (void)setTrack:(iTunesTrack *)track;
+- (void)setTrack:(iTunesTrack *)track visual:(const ITunesVisual *)visual;
 
 /* Settings */
 - (void)getVisual:(ITunesVisual *)visual;
@@ -65,7 +72,12 @@ const ITunesVisual kiTunesDefaultSettings;
 - (NSTimeInterval)delay;
 - (void)setDelay:(NSTimeInterval)aDelay;
 - (void)setPosition:(NSPoint)aPoint;
+
+- (BOOL)hasShadow;
 - (void)setHasShadow:(BOOL)hasShadow;
+
+- (BOOL)displayArtwork;
+- (void)setDisplayArtwork:(BOOL)flag;
 
 - (NSColor *)textColor;
 - (void)setTextColor:(NSColor *)aColor;
@@ -83,6 +95,7 @@ const ITunesVisual kiTunesDefaultSettings;
 - (void)setBackgroundBottomColor:(NSColor *)aColor;
 
 /* Internal */
+- (void)setArtworkVisible:(BOOL)flag;
 - (void)setDuration:(SInt32)aTime rate:(SInt32)rate;
 @end
 
@@ -104,19 +117,33 @@ void ITunesVisualUnpackColor(UInt64 pack, CGFloat color[4]) {
   color[3] = (CGFloat)((pack >> 48) & 0xffff) / 0xffff;
 }
 
-typedef struct __attribute__ ((packed)) _ITunesPackedVisual {
-  UInt8 shadow;
+typedef struct __attribute__ ((packed)) {
+	UInt8 version;
+  UInt32 flags;
   UInt64 colors[4];
   CFSwappedFloat32 x, y;
   CFSwappedFloat64 delay;
 } ITunesPackedVisual;
 
+typedef struct __attribute__ ((packed)) {
+	UInt8 shadow;
+  UInt64 colors[4];
+  CFSwappedFloat32 x, y;
+  CFSwappedFloat64 delay;
+} ITunesPackedVisual_v0;
+
+enum {
+	kiTunesVisualFlagsShadow = 1 << 0,
+	kiTunesVisualFlagsArtwork = 1 << 1,
+};
 WB_INLINE
 NSData *ITunesVisualPack(ITunesVisual *visual) {
   NSMutableData *data = [[NSMutableData alloc] initWithCapacity:sizeof(ITunesPackedVisual)];
   [data setLength:sizeof(ITunesPackedVisual)];
   ITunesPackedVisual *pack = [data mutableBytes];
-  pack->shadow = visual->shadow ? 1 : 0;
+	pack->version = 1;
+	if (visual->shadow)	pack->flags |= kiTunesVisualFlagsShadow;
+	if (visual->artwork)	pack->flags |= kiTunesVisualFlagsArtwork;
   pack->delay = CFConvertFloat64HostToSwapped(visual->delay);
   pack->x = CFConvertFloat32HostToSwapped((float)visual->location.x);
   pack->y = CFConvertFloat32HostToSwapped((float)visual->location.y);
@@ -130,18 +157,35 @@ NSData *ITunesVisualPack(ITunesVisual *visual) {
 WB_INLINE
 BOOL ITunesVisualUnpack(NSData *data, ITunesVisual *visual) {
   NSCParameterAssert(visual != NULL);
-  if (!data || [data length] != sizeof(ITunesPackedVisual)) {
-    return NO;
-  }
-  bzero(visual, sizeof(*visual));
-  const ITunesPackedVisual *pack = [data bytes];
-  visual->shadow = pack->shadow != 0;
-  visual->delay = CFConvertFloat64SwappedToHost(pack->delay);
-  visual->location.x = CFConvertFloat32SwappedToHost(pack->x);
-  visual->location.y = CFConvertFloat32SwappedToHost(pack->y);
-  ITunesVisualUnpackColor(OSSwapBigToHostInt64(pack->colors[0]), visual->text);
-  ITunesVisualUnpackColor(OSSwapBigToHostInt64(pack->colors[1]), visual->border);
-  ITunesVisualUnpackColor(OSSwapBigToHostInt64(pack->colors[2]), visual->backtop);
-  ITunesVisualUnpackColor(OSSwapBigToHostInt64(pack->colors[3]), visual->backbot);
+	bzero(visual, sizeof(*visual));
+  if (!data) return NO;
+	
+	if ([data length] == sizeof(ITunesPackedVisual_v0)) {
+		const ITunesPackedVisual_v0 *pack = [data bytes];
+		visual->artwork = 0;
+		visual->shadow = pack->shadow != 0;
+		visual->delay = CFConvertFloat64SwappedToHost(pack->delay);
+		visual->location.x = CFConvertFloat32SwappedToHost(pack->x);
+		visual->location.y = CFConvertFloat32SwappedToHost(pack->y);
+		ITunesVisualUnpackColor(OSSwapBigToHostInt64(pack->colors[0]), visual->text);
+		ITunesVisualUnpackColor(OSSwapBigToHostInt64(pack->colors[1]), visual->border);
+		ITunesVisualUnpackColor(OSSwapBigToHostInt64(pack->colors[2]), visual->backtop);
+		ITunesVisualUnpackColor(OSSwapBigToHostInt64(pack->colors[3]), visual->backbot);
+	} else if ([data length] >= sizeof(ITunesPackedVisual)) {
+		const ITunesPackedVisual *pack = [data bytes];
+		if (pack->version != 1) return NO;
+		visual->shadow = (pack->flags & kiTunesVisualFlagsShadow) != 0;
+		visual->artwork = (pack->flags & kiTunesVisualFlagsArtwork) != 0;
+		visual->delay = CFConvertFloat64SwappedToHost(pack->delay);
+		visual->location.x = CFConvertFloat32SwappedToHost(pack->x);
+		visual->location.y = CFConvertFloat32SwappedToHost(pack->y);
+		ITunesVisualUnpackColor(OSSwapBigToHostInt64(pack->colors[0]), visual->text);
+		ITunesVisualUnpackColor(OSSwapBigToHostInt64(pack->colors[1]), visual->border);
+		ITunesVisualUnpackColor(OSSwapBigToHostInt64(pack->colors[2]), visual->backtop);
+		ITunesVisualUnpackColor(OSSwapBigToHostInt64(pack->colors[3]), visual->backbot);
+	} else {
+		return NO;
+	}
+	
   return YES;
 }

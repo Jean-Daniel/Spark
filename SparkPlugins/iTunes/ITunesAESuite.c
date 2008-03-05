@@ -156,6 +156,42 @@ bail:
   return err;
 }
 
+OSStatus iTunesIsMuted(Boolean *mute) {
+  AppleEvent theEvent;
+  OSStatus err = _iTunesCreateEvent(kAECoreSuite, kAEGetData, &theEvent);
+  require_noerr(err, bail);
+  
+  err = WBAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty,'pMut', NULL);
+  require_noerr(err, bail);
+  
+  err = WBAESendEventReturnBoolean(&theEvent, mute);
+  require_noerr(err, bail);
+  
+bail:
+	WBAEDisposeDesc(&theEvent);
+  return err;
+}
+
+OSStatus iTunesSetMuted(Boolean mute) {
+  AppleEvent theEvent;
+  OSStatus err = _iTunesCreateEvent(kAECoreSuite, kAESetData, &theEvent);
+  require_noerr(err, bail);
+  
+  err = WBAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty,'pMut', NULL);
+  require_noerr(err, bail);
+  
+	err = WBAEAddBoolean(&theEvent, keyAEData, mute); 
+  require_noerr(err, bail);
+	
+  err = WBAESendEventNoReply(&theEvent);
+  require_noerr(err, bail);
+  
+bail:
+	WBAEDisposeDesc(&theEvent);
+  return err;
+}
+
+
 OSStatus iTunesGetSoundVolume(SInt16 *volume) {
   AppleEvent theEvent;
   OSStatus err = _iTunesCreateEvent(kAECoreSuite, kAEGetData, &theEvent);
@@ -312,6 +348,31 @@ bail:
 
 OSStatus iTunesCopyTrackStringProperty(iTunesTrack *track, ITunesTrackProperty property, CFStringRef *value) {
   return _iTunesCopyObjectStringProperty(track, property, value);
+}
+
+OSStatus iTunesCopyTrackArtworkData(iTunesTrack *track, CFDataRef *value) {
+	AEDesc artwork = WBAEEmptyDesc();
+	AppleEvent aevt = WBAEEmptyDesc();
+	
+	/* first artwork of the 'track' */
+	OSStatus err = WBAECreateIndexObjectSpecifier('cArt', kAEFirst, track, &artwork);
+	require_noerr(err, bail);
+	
+  /* tell application "iTunes" to get ... */
+  err = _iTunesCreateEvent(kAECoreSuite, kAEGetData, &aevt);
+  require_noerr(err, bail);
+  
+  /* ... 'data' of 'artwork' */
+  err = WBAEAddPropertyObjectSpecifier(&aevt, keyDirectObject, typePict, 'pPCT', &artwork);
+  require_noerr(err, bail);
+  
+  err = WBAESendEventReturnCFData(&aevt, typePict, NULL, value);
+  require_noerr(err, bail);
+  
+bail:
+	WBAEDisposeDesc(&artwork);
+	WBAEDisposeDesc(&aevt);
+  return err;
 }
 
 OSStatus iTunesGetTrackIntegerProperty(iTunesTrack *track, ITunesTrackProperty property, SInt32 *value) {

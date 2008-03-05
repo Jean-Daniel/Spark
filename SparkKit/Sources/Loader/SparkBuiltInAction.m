@@ -20,6 +20,8 @@
 
 #import "SparkLibraryPrivate.h"
 
+#define SparkBuitInPluginVersion @"1.0"
+
 static 
 NSImage *_SparkSDActionIcon(SparkBuiltInAction *action);
 static
@@ -41,6 +43,10 @@ NSString *_SparkActionDescription(SparkBuiltInAction *action);
   /* Then update placeholder */
   [[uiName cell] setPlaceholderString:_SparkActionDescription([self sparkAction]) ? : @""];
   switch (action) {
+		case kSparkSDActionExchangeListStatus:
+			[uiLists2 setHidden:NO];
+			[uiLists2 setEnabled:YES];
+			// fall
     case kSparkSDActionSwitchListStatus:
       [uiLists setHidden:NO];
       [uiLabel setHidden:NO];
@@ -50,6 +56,9 @@ NSString *_SparkActionDescription(SparkBuiltInAction *action);
       [uiLists setHidden:YES];
       [uiLabel setHidden:YES];
       [uiLists setEnabled:NO];
+			
+			[uiLists2 setHidden:YES];
+			[uiLists2 setEnabled:NO];
       break;
   }
 }
@@ -86,7 +95,7 @@ NSString *_SparkActionDescription(SparkBuiltInAction *action);
 
 /* Returns the version string */
 + (NSString *)versionString {
-  return @"1.0";
+  return SparkBuitInPluginVersion;
 }
 
 @end
@@ -126,8 +135,11 @@ NSImage *SparkDaemonStatusIcon(BOOL status) {
 
 - (BOOL)serialize:(NSMutableDictionary *)plist {
   if ([super serialize:plist]) {
-    if (kSparkSDActionSwitchListStatus == sp_action)
+    if (kSparkSDActionSwitchListStatus == sp_action || kSparkSDActionExchangeListStatus == sp_action)
       [plist setObject:WBUInteger(sp_list) forKey:@"SparkListUID"];
+		if (kSparkSDActionExchangeListStatus == sp_action)
+			[plist setObject:WBUInteger(sp_list2) forKey:@"SparkSecondListUID"];
+		
     [plist setObject:WBStringForOSType(sp_action) forKey:@"SparkDaemonAction"];
     return YES;
   }
@@ -137,8 +149,10 @@ NSImage *SparkDaemonStatusIcon(BOOL status) {
 - (id)initWithSerializedValues:(NSDictionary *)plist {
   if (self = [super initWithSerializedValues:plist]) {
     [self setAction:WBOSTypeFromString([plist objectForKey:@"SparkDaemonAction"])];
-    if (kSparkSDActionSwitchListStatus == sp_action)
-      sp_list = [[plist objectForKey:@"SparkListUID"] unsignedIntValue];
+    if (kSparkSDActionSwitchListStatus == sp_action || kSparkSDActionExchangeListStatus == sp_action)
+      sp_list = WBUIntegerValue([plist objectForKey:@"SparkListUID"]);
+    if (kSparkSDActionExchangeListStatus == sp_action)
+      sp_list2 = WBUIntegerValue([plist objectForKey:@"SparkSecondListUID"]);
     /* Update description */
     NSString *desc = _SparkActionDescription(self);
     if (desc)
@@ -193,6 +207,14 @@ bail:
   }
 }
 
+- (void)toggleStatus {
+	
+}
+
+- (void)exchangeStatus {
+	
+}
+
 - (SparkAlert *)performAction {
   switch (sp_action) {
     case kSparkSDActionSwitchStatus:
@@ -201,6 +223,11 @@ bail:
     case kSparkSDActionLaunchEditor:
       SparkLaunchEditor();
       break;
+		case kSparkSDActionSwitchListStatus:
+			[self toggleStatus];
+		case kSparkSDActionExchangeListStatus:
+			[self exchangeStatus];
+			break;
     default:
       NSBeep();
   }
@@ -232,6 +259,10 @@ bail:
   return [[self library] listWithUID:sp_list];
 }
 
+- (SparkList *)otherList {
+	return [[self library] listWithUID:sp_list2];
+}
+
 @end
 
 #pragma mark -
@@ -245,6 +276,7 @@ NSImage *_SparkSDActionIcon(SparkBuiltInAction *action) {
       icon = @"switch-status";
       break;
     case kSparkSDActionSwitchListStatus:
+		case kSparkSDActionExchangeListStatus:
       icon = @"SimpleList";
       break;
   }
@@ -270,6 +302,18 @@ NSString *_SparkActionDescription(SparkBuiltInAction *action) {
         str = [NSString stringWithFormat:fmt, name];
       } else {
         str = NSLocalizedStringFromTableInBundle(@"Enable/Disable Spark List ...", nil, 
+                                                 kSparkKitBundle, @"Spark Built-in Plugin description");
+      }
+    }
+		case kSparkSDActionExchangeListStatus: {
+      NSString *name = [[action list] name];
+			NSString *name2 = [[action otherList] name];
+      if (name && name2) {
+        NSString *fmt = NSLocalizedStringFromTableInBundle(@"Exchange '%@' and '%@' status", nil, 
+                                                           kSparkKitBundle, @"Spark Built-in Plugin description (%@ => list name, %@ => other list name)");
+        str = [NSString stringWithFormat:fmt, name, name2];
+      } else {
+        str = NSLocalizedStringFromTableInBundle(@"Exchange Spark Group status ...", nil, 
                                                  kSparkKitBundle, @"Spark Built-in Plugin description");
       }
     }

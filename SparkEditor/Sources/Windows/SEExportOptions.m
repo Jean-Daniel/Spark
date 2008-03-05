@@ -17,9 +17,14 @@
   return self;
 }
 
+- (BOOL)strike {
+	return [uiStrike state] == NSOnState;
+}
+
 - (BOOL)includeIcons {
   return [uiIcons state] == NSOnState;
 }
+
 - (NSInteger)groupBy {
   return [[uiGroup selectedItem] tag];
 }

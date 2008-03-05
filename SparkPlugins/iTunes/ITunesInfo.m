@@ -23,7 +23,7 @@ const NSPoint kiTunesBottomLeft = { -3e8, 0 };
 const NSPoint kiTunesBottomRight = { -4e8, 0 };
 
 const ITunesVisual kiTunesDefaultSettings = {
-  YES, kiTunesVisualDefaultPosition, 1.5,
+  YES, NO, kiTunesVisualDefaultPosition, 1.5,
   { 1, 1, 1, 1 },
   { 0, 0, 0, 0 },
   { 6/255., 12/255., 18/255., .65 },
@@ -93,6 +93,7 @@ BOOL __ITunesVisualCompareColors(const CGFloat c1[4], const CGFloat c2[4]) {
 
 BOOL ITunesVisualIsEqualTo(const ITunesVisual *v1, const ITunesVisual *v2) {
   if (v1->shadow != v2->shadow) return NO;
+	if (v1->artwork != v2->artwork) return NO;
   if (!__CGFloatEquals(v1->delay, v2->delay)) return NO;
   if (!__CGFloatEquals(v1->location.x, v2->location.x) || !__CGFloatEquals(v1->location.y, v2->location.y)) return NO;
   
@@ -159,13 +160,17 @@ BOOL ITunesVisualIsEqualTo(const ITunesVisual *v1, const ITunesVisual *v2) {
   [info setHasShadow:YES];
   if (self = [super initWithWindow:info]) {
     [NSBundle loadNibNamed:@"iTunesInfo" owner:self];
+		NSAssert(ibArtwork, @"nib not loaded ?");
+		[ibArtwork retain]; // retain the view as we will remove it from it's superview
     [self setVisual:&kiTunesDefaultSettings];
+		[info setDelegate:self];
   }
   [info release];
   return self;
 }
 
 - (void)dealloc {
+	[ibArtwork release];
   [[self window] close];
   [super dealloc];
 }
@@ -188,10 +193,12 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
   /* Get delay */
   visual->delay = [self delay];
   /* Get location */
-  if (ia_loc != kiTunesVisualOther) visual->location = __iTunesGetLocationForType(ia_loc);
+	NSUInteger type = __iTunesGetTypeForLocation(ia_location);
+  if (type != kiTunesVisualOther) visual->location = ia_location;
   else visual->location = [[self window] frame].origin;
   /* Get shadow */
-  visual->shadow = [[self window] hasShadow];
+  visual->shadow = [self hasShadow];
+	visual->artwork = [self displayArtwork];
   /* Get text color */
   CGFloat rgba[4];
   __iTunesGetColorComponents([self textColor], rgba);
@@ -203,6 +210,7 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
   [self setDelay:visual->delay];
   [self setPosition:visual->location];
   [self setHasShadow:visual->shadow];
+	[self setDisplayArtwork:visual->artwork];
   [self setTextColor:[NSColor colorWithCalibratedRed:visual->text[0] green:visual->text[1] blue:visual->text[2] alpha:visual->text[3]]];
   [[[self window] contentView] setVisual:visual];
 }
@@ -214,33 +222,52 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
   [(id)[self window] setDelay:aDelay];
 }
 
+- (BOOL)displayArtwork {
+	return ia_artwork;
+}
+- (void)setDisplayArtwork:(BOOL)flag {
+	ia_artwork = flag;
+	if (SparkGetCurrentContext() == kSparkEditorContext)
+		[self setArtworkVisible:ia_artwork];
+}
+
 #define SCREEN_MARGIN 17
-- (void)setPosition:(NSPoint)aPoint {
-  NSPoint origin = aPoint;
-  NSRect bounds = [[self window] frame];
+- (NSPoint)windowOriginForSize:(NSSize)size {
+	NSPoint origin = ia_location;
+  //NSRect bounds = [[self window] frame];
   NSRect screen = [[NSScreen mainScreen] frame];
-  ia_loc = __iTunesGetTypeForLocation(aPoint);
-  switch (ia_loc) {
+  NSUInteger type = __iTunesGetTypeForLocation(ia_location);
+  switch (type) {
     case kiTunesVisualUL:
       origin.x = SCREEN_MARGIN * WBScreenScaleFactor([NSScreen mainScreen]);
-      origin.y = NSHeight(screen) - NSHeight(bounds) - (SCREEN_MARGIN + 22) * WBScreenScaleFactor([NSScreen mainScreen]); // menu bar
+      origin.y = NSHeight(screen) - size.height - (SCREEN_MARGIN + 22) * WBScreenScaleFactor([NSScreen mainScreen]); // menu bar
       break;
     case kiTunesVisualUR:
-      origin.x = NSWidth(screen) - NSWidth(bounds) - SCREEN_MARGIN * WBScreenScaleFactor([NSScreen mainScreen]);
-      origin.y = NSHeight(screen) - NSHeight(bounds) - (SCREEN_MARGIN + 22) * WBScreenScaleFactor([NSScreen mainScreen]);
+      origin.x = NSWidth(screen) - size.width - SCREEN_MARGIN * WBScreenScaleFactor([NSScreen mainScreen]);
+      origin.y = NSHeight(screen) - size.height - (SCREEN_MARGIN + 22) * WBScreenScaleFactor([NSScreen mainScreen]);
       break;
     case kiTunesVisualBL:
       origin.x = SCREEN_MARGIN * WBScreenScaleFactor([NSScreen mainScreen]);
       origin.y = (SCREEN_MARGIN + 22) * WBScreenScaleFactor([NSScreen mainScreen]);
       break;
     case kiTunesVisualBR:
-      origin.x = NSWidth(screen) - NSWidth(bounds) - SCREEN_MARGIN * WBScreenScaleFactor([NSScreen mainScreen]);
+      origin.x = NSWidth(screen) - size.width - SCREEN_MARGIN * WBScreenScaleFactor([NSScreen mainScreen]);
       origin.y = (SCREEN_MARGIN + 22) * WBScreenScaleFactor([NSScreen mainScreen]);
       break;
   }
-  [[self window] setFrameOrigin:origin];
+	return origin;
 }
 
+- (void)setPosition:(NSPoint)aPoint {
+  ia_location = aPoint;
+	NSRect frame = [[self window] frame];
+	frame.origin = [self windowOriginForSize:frame.size];
+	[[self window] setFrameOrigin:frame.origin];
+}
+
+- (BOOL)hasShadow {
+	return [[self window] hasShadow];
+}
 - (void)setHasShadow:(BOOL)hasShadow {
   [[self window] setHasShadow:hasShadow];
 }
@@ -275,10 +302,13 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
   [ibRate setRate:lround(rate / 10)];
 }
 
-- (void)setTrack:(iTunesTrack *)track {
+- (void)setTrack:(iTunesTrack *)track visual:(const ITunesVisual *)visual {
   OSType cls = 0;
   CFStringRef value = NULL;
   
+	/* should be call first */
+	[self setVisual:visual];
+	
   if (track)
     iTunesGetObjectType(track, &cls);
   
@@ -340,7 +370,6 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
   }
   [self setDuration:duration rate:rate];
   
-  
   if ('cURT' == cls) {
     [ibProgress setProgress:0];
   } else {
@@ -351,10 +380,67 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
     else
       [ibProgress setProgress:0];
   }
+	
+	/* Image */
+	BOOL display = NO;
+	[ibArtwork setImage:nil];
+	if (track && ia_artwork) {
+		CFDataRef data = NULL;
+		if (noErr == iTunesCopyTrackArtworkData(track, &data) && data) {
+			NSImage *image = [[NSImage alloc] initWithData:(id)data];
+			if (image) {
+				// display image zone
+				[self setArtworkVisible:YES];
+				[ibArtwork setImage:image];
+				[image release];
+				display = YES;
+			}
+			CFRelease(data);
+		}
+	}
+	[self setArtworkVisible:display];
 }
 
-- (void)setOrigin:(NSPoint)origin {
-  [[self window] setFrameOrigin:origin];
+- (void)setArtworkVisible:(BOOL)flag {
+	// artwork
+	if ([ibArtwork superview] && !flag) {
+		if (ia_artWidth <= 0)	{
+			ia_artWidth = NSMaxX([ibArtwork frame]) * WBWindowScaleFactor([self window]);
+			ia_artOrigin = [ibArtwork frame].origin;
+		}
+		/* adjust window frame */
+		[ibArtwork removeFromSuperview];
+		
+		NSRect frame = [[self window] frame];
+		frame.size.width -= ia_artWidth;
+		
+		frame.origin = [self windowOriginForSize:frame.size];
+		if (SparkGetCurrentContext() == kSparkEditorContext) {
+			[[self window] setFrame:frame display:YES animate:YES];
+		} else {
+			[[self window] setFrame:frame display:NO animate:NO];
+		}
+	} else if (![ibArtwork superview] && flag) {
+		NSAssert(ia_artWidth > 0, @"Internal inconsistency");
+		/* adjust window frame */
+		NSRect frame = [[self window] frame];
+		frame.size.width += ia_artWidth;
+		frame.origin = [self windowOriginForSize:frame.size];
+		if (SparkGetCurrentContext() == kSparkEditorContext) {
+			[[self window] setFrame:frame display:YES animate:YES];
+		} else {
+			[[self window] setFrame:frame display:NO animate:NO];
+		}
+		
+		[[[self window] contentView] addSubview:ibArtwork];
+		[ibArtwork setFrameOrigin:ia_artOrigin];
+	}
+}
+
+- (void)windowWillClose:(NSNotification *)notification {
+	/* release image when no longer needed */
+	if (SparkGetCurrentContext() == kSparkDaemonContext)
+		[ibArtwork setImage:nil];
 }
 
 - (NSColor *)textColor {

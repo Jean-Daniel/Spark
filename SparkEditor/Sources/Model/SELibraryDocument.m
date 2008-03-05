@@ -279,6 +279,7 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
     NSError *error = nil;
     SEHTMLGenerator *generator = [[SEHTMLGenerator alloc] initWithDocument:self];
     [generator setGroupBy:[ctrl groupBy]];
+		[generator setStrikeDisabled:[ctrl strike]];
     [generator setIncludesIcons:[ctrl includeIcons]];
     /* generator setOptions */
     if (![generator writeToFile:[panel filename] atomically:YES error:&error]) {
@@ -337,13 +338,13 @@ NSAlert *_SELibraryTriggerAlreadyUsedAlert(SparkEntry *previous, SparkEntry *ent
 										 [entry name], [previous name], [entry triggerDescription]];
 	
   NSString *msg = NSLocalizedString(@"CREATE_TRIGGER_CONFLICT_MSG", 
-                                    @"Trigger already used (%@ => previous name, %@ => entry name, %@ entry name) - Message");
+                                    @"Trigger already used (%@ => entry name, %@ => previous name, %@ entry name) - Message");
 
   NSAlert *alert = [NSAlert alertWithMessageText:title
                                    defaultButton:NSLocalizedString(@"Enable", @"Enable - Button")
                                  alternateButton:NSLocalizedString(@"Keep disabled", @"Keep disabled - Button")
                                      otherButton:nil
-                       informativeTextWithFormat:msg, [previous name], [entry name], [entry name]];
+                       informativeTextWithFormat:msg, [entry name], [previous name], [entry name]];
   return alert;
 }
 

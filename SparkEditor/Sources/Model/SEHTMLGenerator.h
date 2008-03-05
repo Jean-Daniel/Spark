@@ -9,12 +9,15 @@
 @class SELibraryDocument;
 @interface SEHTMLGenerator : NSObject {
   @private
-  BOOL se_icons;
   NSInteger se_group;
+	BOOL se_icons, se_strike;
   SELibraryDocument *se_doc;
 }
 
 - (id)initWithDocument:(SELibraryDocument *)document;
+
+- (BOOL)strikeDisabled;
+- (void)setStrikeDisabled:(BOOL)flag;
 
 - (BOOL)includesIcon;
 - (void)setIncludesIcons:(BOOL)flag;

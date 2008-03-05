@@ -308,6 +308,7 @@ static ITunesVisual sDefaultVisual = {delay: -1};
     case kiTunesVisual:
     case kiTunesVolumeDown:
     case kiTunesVolumeUp:
+		case kiTunesToggleMute:
     case kiTunesEjectCD:
       return nil;
     case kiTunesPlayPlaylist:
@@ -348,18 +349,19 @@ static ITunesVisual sDefaultVisual = {delay: -1};
     
     ITunesInfo *info = [ITunesInfo sharedWindow];
     if (noErr == iTunesGetCurrentTrack(&track)) {
-      [info setTrack:&track];
-      WBAEDisposeDesc(&track);
-      switch ([self visualMode]) {
+			
+			switch ([self visualMode]) {
         case kiTunesSettingCustom:
           if (ia_visual) {
-            [info setVisual:ia_visual];
+						[info setTrack:&track visual:ia_visual];
             break;
           }
           // fall
-        case kiTunesSettingDefault:
-          [info setVisual:[[self class] defaultVisual]];
+				case kiTunesSettingDefault:
+					[info setTrack:&track visual:[[self class] defaultVisual]];
       }
+      WBAEDisposeDesc(&track);
+
       [info display:nil];
     }
   //}
@@ -458,6 +460,9 @@ static ITunesVisual sDefaultVisual = {delay: -1};
     case kiTunesVolumeUp:
       [self volumeUp];
       break;
+		case kiTunesToggleMute:
+			[self toggleMute];
+			break;
     case kiTunesEjectCD:
       [self ejectCD];
       break;
@@ -593,7 +598,7 @@ static ITunesVisual sDefaultVisual = {delay: -1};
   Boolean state;
   OSStatus err = iTunesGetVisualEnabled(&state);
   if (noErr == err) {
-    iTunesSetVisualEnabled(!state);
+    verify_noerr(iTunesSetVisualEnabled(!state));
   }
 }
 
@@ -602,7 +607,7 @@ static ITunesVisual sDefaultVisual = {delay: -1};
   if (noErr == iTunesGetSoundVolume(&volume)) {
     SInt16 newVol = MIN(100, volume + 5);
     if (newVol != volume)
-      iTunesSetSoundVolume(newVol);
+      verify_noerr(iTunesSetSoundVolume(newVol));
   }
 }
 
@@ -611,8 +616,14 @@ static ITunesVisual sDefaultVisual = {delay: -1};
   if (noErr == iTunesGetSoundVolume(&volume)) {
     SInt16 newVol = MAX(0, volume - 5);
     if (newVol != volume)
-      iTunesSetSoundVolume(newVol);
+      verify_noerr(iTunesSetSoundVolume(newVol));
   }
+}
+
+- (void)toggleMute {
+	Boolean mute;
+	if (noErr == iTunesIsMuted(&mute))
+		verify_noerr(iTunesSetMuted(!mute));
 }
 
 - (void)ejectCD {
@@ -684,6 +695,9 @@ NSImage *ITunesActionIcon(ITunesAction *action) {
     case kiTunesVolumeUp:
       icon = @"iTVolumeUp";
       break;
+		case kiTunesToggleMute:
+			icon = nil; // TODO: mute icon
+			break;
     case kiTunesEjectCD:
       icon = @"iTEject";
       break;
@@ -751,6 +765,10 @@ NSString *ITunesActionDescription(ITunesAction *action) {
       desc = NSLocalizedStringFromTableInBundle(@"DESC_VOLUME_UP", nil, bundle,
                                                 @"Volume Up * Action Description *");
       break;
+		case kiTunesToggleMute:
+			desc = NSLocalizedStringFromTableInBundle(@"DESC_TOGGLE_MUTE", nil, bundle,
+                                                @"Toggle Mute * Action Description *");
+			break;
     case kiTunesEjectCD:
       desc = NSLocalizedStringFromTableInBundle(@"DESC_EJECT", nil, bundle,
                                                 @"Eject CD * Action Description *");

@@ -37,6 +37,13 @@
   se_icons = flag;
 }
 
+- (BOOL)strikeDisabled {
+	return se_strike;
+}
+- (void)setStrikeDisabled:(BOOL)flag {
+	se_strike = flag;
+}
+
 - (NSInteger)groupBy {
   return se_group;
 }
@@ -66,7 +73,10 @@ NSInteger _SESortEntries(id e1, id e2, void *ctxt) {
           [ablock setVariable:[self imageTagForImage:[entry icon] size:NSMakeSize(16, 16)] forKey:@"icon"];
         [ablock setVariable:[entry triggerDescription] forKey:@"keystroke"];
         [ablock setVariable:[entry actionDescription] forKey:@"description"];
-        [ablock setVariable:[entry isEnabled] ? @"enabled" : @"disabled" forKey:@"status"];
+				if (se_strike)
+					[ablock setVariable:[entry isEnabled] ? @"enabled" : @"disabled" forKey:@"status"];
+				else 
+					[ablock setVariable:@"enabled" forKey:@"status"];
         [ablock dumpBlock];
       }
     }
@@ -100,6 +110,7 @@ NSInteger _SESortEntries(id e1, id e2, void *ctxt) {
   NSArray *plugins = [[SparkActionLoader sharedLoader] plugins];
   plugins = [plugins sortedArrayUsingDescriptors:gSortByNameDescriptors];
   
+	/* foreach application that contains at least one entry */
   for (NSUInteger idx = 0; idx < [customs count]; idx++) {
     app = [customs objectAtIndex:idx];
     WBTemplate *block = [tpl blockWithName:@"application"];
