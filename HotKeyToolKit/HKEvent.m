@@ -16,7 +16,7 @@ static ProcessSerialNumber _HKGetProcessWithBundleIdentifier(CFStringRef bundleI
 
 #pragma mark -
 HK_INLINE
-void __HKEventPostKeyboardEvent(CGEventSourceRef source, HKKeycode keycode, void *psn, Boolean down, useconds_t latency) {
+void __HKEventPostKeyboardEvent(CGEventSourceRef source, HKKeycode keycode, void *psn, Boolean down, CFIndex latency) {
   CGEventRef event = CGEventCreateKeyboardEvent(source, keycode, down);
   if (psn)
     CGEventPostToPSN(psn, event);
@@ -26,11 +26,13 @@ void __HKEventPostKeyboardEvent(CGEventSourceRef source, HKKeycode keycode, void
   if (latency > 0) {
     /* Avoid to fast typing (5 ms by default) */
     usleep(latency);
+  } else if (latency < 0) {
+    CFRunLoopRunInMode(kCFRunLoopDefaultMode, -latency / 1e6, false);
   }
 }
 
 static
-void _HKEventPostKeyStroke(HKKeycode keycode, HKModifier modifier, CGEventSourceRef source, void *psn, useconds_t latency) {
+void _HKEventPostKeyStroke(HKKeycode keycode, HKModifier modifier, CGEventSourceRef source, void *psn, CFIndex latency) {
   /* WARNING: look like CGEvent does not support null source (bug) */
   BOOL isource = NO;
   if (!source) {
@@ -84,7 +86,7 @@ void _HKEventPostKeyStroke(HKKeycode keycode, HKModifier modifier, CGEventSource
 }
 
 static
-Boolean _HKEventPostCharacterKeystrokes(UniChar character, CGEventSourceRef source, void *psn, useconds_t latency) {
+Boolean _HKEventPostCharacterKeystrokes(UniChar character, CGEventSourceRef source, void *psn, CFIndex latency) {
   /* WARNING: look like CGEvent does not support null source (bug) */
   BOOL isource = NO; /* YES if internal source and should be released */ 
   if (!source) {
@@ -111,11 +113,11 @@ CGEventSourceRef HKEventCreatePrivateSource() {
   return CGEventSourceCreate(kCGEventSourceStatePrivate);
 }
 
-void HKEventPostKeystroke(HKKeycode keycode, HKModifier modifier, CGEventSourceRef source, useconds_t latency) {
+void HKEventPostKeystroke(HKKeycode keycode, HKModifier modifier, CGEventSourceRef source, CFIndex latency) {
   _HKEventPostKeyStroke(keycode, modifier, source, NULL, latency);
 }
 
-Boolean HKEventPostCharacterKeystrokes(UniChar character, CGEventSourceRef source, useconds_t latency) {
+Boolean HKEventPostCharacterKeystrokes(UniChar character, CGEventSourceRef source, CFIndex latency) {
   return _HKEventPostCharacterKeystrokes(character, source, NULL, latency);
 }
 
@@ -140,7 +142,7 @@ ProcessSerialNumber __HKEventGetPSNForTarget(HKEventTarget target, HKEventTarget
   return psn;
 }
 
-Boolean HKEventPostKeystrokeToTarget(HKKeycode keycode, HKModifier modifier, HKEventTarget target, HKEventTargetType type, CGEventSourceRef source, useconds_t latency) {
+Boolean HKEventPostKeystrokeToTarget(HKKeycode keycode, HKModifier modifier, HKEventTarget target, HKEventTargetType type, CGEventSourceRef source, CFIndex latency) {
   ProcessSerialNumber psn = __HKEventGetPSNForTarget(target, type);
   if (psn.lowLongOfPSN != kNoProcess) {
     _HKEventPostKeyStroke(keycode, modifier, source, kSystemProcess == psn.lowLongOfPSN ? NULL : &psn, latency);
@@ -149,7 +151,7 @@ Boolean HKEventPostKeystrokeToTarget(HKKeycode keycode, HKModifier modifier, HKE
   return NO;
 }
 
-Boolean HKEventPostCharacterKeystrokesToTarget(UniChar character, HKEventTarget target, HKEventTargetType type, CGEventSourceRef source, useconds_t latency) {
+Boolean HKEventPostCharacterKeystrokesToTarget(UniChar character, HKEventTarget target, HKEventTargetType type, CGEventSourceRef source, CFIndex latency) {
   ProcessSerialNumber psn = __HKEventGetPSNForTarget(target, type);
   if (psn.lowLongOfPSN != kNoProcess) {
     _HKEventPostCharacterKeystrokes(character, source, kSystemProcess == psn.lowLongOfPSN ? NULL : &psn, latency);
@@ -208,7 +210,7 @@ ProcessSerialNumber _HKGetProcessWithBundleIdentifier(CFStringRef bundleId) {
 #pragma mark -
 @implementation HKHotKey (HKEventExtension)
 
-- (BOOL)sendKeystroke:(useconds_t)latency {
+- (BOOL)sendKeystroke:(CFIndex)latency {
   if ([self isValid]) {
     HKEventTarget target;
     ProcessSerialNumber psn;
@@ -225,7 +227,7 @@ ProcessSerialNumber _HKGetProcessWithBundleIdentifier(CFStringRef bundleId) {
   return YES;
 }
 
-- (BOOL)sendKeystrokeToApplication:(OSType)signature bundle:(NSString *)bundleId latency:(useconds_t)latency {
+- (BOOL)sendKeystrokeToApplication:(OSType)signature bundle:(NSString *)bundleId latency:(CFIndex)latency {
   BOOL result = NO;
   if ([self isValid]) {
     /* Find target and target type */

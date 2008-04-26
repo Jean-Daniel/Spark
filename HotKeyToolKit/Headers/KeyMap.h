@@ -48,7 +48,7 @@ void HKKeyMapRelease(HKKeyMapRef keymap);
  lookup table is synchronized with the current KCHR or uchr resource.  If
  it is not synchronized, then the table is re-built.
  @param currentKeyMap the keymap you want to check.
- @param wasChanged En retour, true si la table a été modifiée.
+ @param wasChanged En retour, true si la table a √©t√© modifi√©e.
  @result Returns noErr if no error.
  */
 HK_PRIVATE
@@ -102,5 +102,5 @@ HK_PRIVATE
 UniChar HKKeyMapGetUnicharForKeycodeAndModifier(HKKeyMapRef currentKeyMap, HKKeycode virtualKeyCode, HKModifier modifiers);
 
 /* Internal */
-HK_PRIVATE
-OSStatus _HKKeyMapInit(HKKeyMapRef keyMap);
+//HK_PRIVATE
+//OSStatus _HKKeyMapInit(HKKeyMapRef keyMap);

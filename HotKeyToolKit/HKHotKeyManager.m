@@ -24,7 +24,7 @@ NSUInteger gHotKeyUID = 0;
 /* Debugging purpose */
 BOOL HKTraceHotKeyEvents = NO;
 
-@interface HKHotKeyManager (Private)
+@interface HKHotKeyManager ()
 - (OSStatus)handleCarbonEvent:(EventRef)theEvent;
 @end
 

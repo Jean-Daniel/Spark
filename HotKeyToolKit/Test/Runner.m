@@ -26,39 +26,13 @@
 
 - (IBAction)coucou:(id)sender {
   WBTrace();
-//  [sender setRegistred:NO];
-//  usleep(75000);
-//  [sender sendKeystroke];
-  
-//  [sender setRegistred:YES];
 }
 
 @end
 
-NSTimeInterval _HKGetSystemKeyRepeatInterval() {
-  double value = 0;
-  NXEventHandle handle = NXOpenEventStatus();
-  if (handle) {
-    value = NXKeyRepeatInterval(handle);
-    NXCloseEventStatus(handle);
-  }
-  return value;
-}
-
-NSTimeInterval _HKGetSystemKeyRepeatThreshold() {
-  double value = 0;
-  NXEventHandle handle = NXOpenEventStatus();
-  if (handle) {
-    value = NXKeyRepeatThreshold(handle);
-    NXCloseEventStatus(handle);
-  }
-  return value;
-}
 
 int main(int argc, const char **argv) {
-  _HKGetSystemKeyRepeatInterval();
-  HKGetSystemKeyRepeatInterval();
-  //SenSelfTestMain();
+  SenSelfTestMain();
 //  id tests = [[NSClassFromString(@"HKHotKeyTests") alloc] init];
 //  [tests performSelector:@selector(testEqualsKeyRegistring)];
 //  [tests release];

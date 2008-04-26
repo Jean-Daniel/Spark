@@ -14,45 +14,52 @@
 #import <HotKeyToolKit/HKKeyMap.h>
 
 #pragma mark -
-OSStatus _HKKeyMapInit(HKKeyMapRef keyMap) {
-  OSStatus err;
-  if (HKTISAvailable()) {
-    err = HKTISKeyMapInit(keyMap);
-  } else {
-    err = HKKLKeyMapInit(keyMap);   
-  }
-  return err;
-}
 
 static
-void _HKKeyMapDispose(HKKeyMapRef keyMap) {
-  if (HKTISAvailable()) {
-    HKTISKeyMapDispose(keyMap);
-  } else {
-    HKKLKeyMapDispose(keyMap);
+void _HKKeyMapDispose(HKKeyMapRef keymap) {
+  if (keymap->ctxt.dealloc) {
+    keymap->ctxt.dealloc(&keymap->ctxt);
+    bzero(&keymap->ctxt, sizeof(keymap->ctxt));
   }
-  if (keyMap->ctxt.dealloc) {
-    keyMap->ctxt.dealloc(&keyMap->ctxt);
-    bzero(&keyMap->ctxt, sizeof(keyMap->ctxt));
-  }
+  if (keymap->constructor) CFRelease(keymap->constructor);
+  keymap->lctxt.dispose(keymap);
 }
 
 #pragma mark -
 #pragma mark Creation/Destruction functions.
+static OSStatus _HKKeyMapInit(HKKeyMapRef keymap, CFStringRef name, Boolean reverse) {
+  keymap->reverse = reverse;
+  keymap->constructor = name ? CFRetain(name) : NULL;
+  return keymap->lctxt.init(keymap);
+}
+
 HKKeyMapRef HKKeyMapCreateWithName(CFStringRef name, Boolean reverse) {
+  check(name);
+  HKKeyMapRef keymap = NULL;
   if (HKTISAvailable()) {
-    return HKTISKeyMapCreateWithName(name, reverse);
+    keymap = HKTISKeyMapCreateWithName(name);
   } else {
-    return HKKLKeyMapCreateWithName(name, reverse);
+    keymap = HKKLKeyMapCreateWithName(name);
   }
+  if (keymap && noErr != _HKKeyMapInit(keymap, name, reverse)) {
+    HKKeyMapRelease(keymap);
+    keymap = nil;
+  }
+  return keymap;
 }
 
 HKKeyMapRef HKKeyMapCreateWithCurrentLayout(Boolean reverse) {
+  HKKeyMapRef keymap = NULL;
   if (HKTISAvailable()) {
-    return HKTISKeyMapCreateWithCurrentLayout(reverse);
+    keymap = HKTISKeyMapCreateWithCurrentLayout();
   } else {
-    return HKKLKeyMapCreateWithCurrentLayout(reverse);
+    keymap = HKKLKeyMapCreateWithCurrentLayout();
   }
+  if (keymap && noErr != _HKKeyMapInit(keymap, NULL, reverse)) {
+    HKKeyMapRelease(keymap);
+    keymap = nil;
+  }
+  return keymap;
 }
 
 void HKKeyMapRelease(HKKeyMapRef keymap) {
@@ -63,24 +70,30 @@ void HKKeyMapRelease(HKKeyMapRef keymap) {
 
 #pragma mark -
 #pragma mark Public Functions Definition.
+// FIXME: Broken method
 OSStatus HKKeyMapCheckCurrentMap(HKKeyMapRef keyMap, Boolean *wasChanged) {
-  check(keyMap);
-  Boolean changed = false;
-  if (HKTISAvailable()) {
-    changed = !HKTISKeyMapIsCurrent(keyMap);
-  } else {
-    changed = !HKKLKeyMapIsCurrent(keyMap);
-  }
-  if (changed) {
-    if (wasChanged)
-      *wasChanged = YES;
-    _HKKeyMapDispose(keyMap);
-    return _HKKeyMapInit(keyMap);
-  } else {
-    if (wasChanged)
-      *wasChanged = NO;
-    return noErr;
-  }
+//  check(keyMap);
+//  Boolean changed = false;
+//  switch (keyMap->kind) {
+//    case kHKKeyMapKindKL:
+//      changed = !HKKLKeyMapIsCurrent(keyMap);
+//      break;
+//    case kHKKeyMapKindTIS:
+//      changed = !HKTISKeyMapIsCurrent(keyMap);
+//      break;
+//  }
+//
+//  if (changed) {
+//    if (wasChanged)
+//      *wasChanged = YES;
+//    _HKKeyMapDispose(keyMap);
+//    return keyMap->lctxt.init(keyMap);
+//  } else {
+//    if (wasChanged)
+//      *wasChanged = NO;
+//    return noErr;
+//  }
+  return noErr;
 }
 
 NSUInteger HKKeyMapGetKeycodesForUnichar(HKKeyMapRef keyMap, UniChar character, HKKeycode *keys, HKModifier *modifiers, NSUInteger maxsize) {
@@ -112,23 +125,11 @@ UniChar HKKeyMapGetUnicharForKeycodeAndModifier(HKKeyMapRef keyMap, HKKeycode vi
 
 CFStringRef HKKeyMapGetName(HKKeyMapRef keymap) {
   check(keymap);
-  CFStringRef str = NULL;
-  if (HKTISAvailable()) {
-    str = HKTISKeyMapGetName(keymap);
-  } else {
-    str = HKKLKeyMapGetName(keymap);
-  }
-  return str;
+  return keymap->lctxt.getName(keymap);
 }
 
 CFStringRef HKKeyMapGetLocalizedName(HKKeyMapRef keymap) {
   check(keymap);
-  CFStringRef str = NULL;
-  if (HKTISAvailable()) {
-    str = HKTISKeyMapGetLocalizedName(keymap);
-  } else {
-    str = HKKLKeyMapGetLocalizedName(keymap);
-  }
-  return str;
+  return keymap->lctxt.getLocalizedName(keymap);
 }
 

@@ -12,6 +12,26 @@
 
 #if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_5
 
+static
+OSStatus HKKLKeyMapInit(HKKeyMapRef keyMap);
+static
+void HKKLKeyMapDispose(HKKeyMapRef keyMap);
+
+static
+Boolean HKKLKeyMapIsCurrent(HKKeyMapRef keyMap);
+static
+CFStringRef HKKLKeyMapGetName(HKKeyMapRef keymap);
+static
+CFStringRef HKKLKeyMapGetLocalizedName(HKKeyMapRef keymap);
+
+const HKLayoutContext kKLContext = {
+init:HKKLKeyMapInit,
+dispose:HKKLKeyMapDispose,
+isCurrent:HKKLKeyMapIsCurrent,
+getName:HKKLKeyMapGetName,
+getLocalizedName:HKKLKeyMapGetLocalizedName,
+};
+
 HK_INLINE
 KeyboardLayoutIdentifier __CurrentKCHRId(void) {
   KeyboardLayoutRef ref;
@@ -22,15 +42,11 @@ KeyboardLayoutIdentifier __CurrentKCHRId(void) {
 }
 
 static
-HKKeyMapRef HKKeyMapCreateWithKeyboardLayout(KeyboardLayoutRef layout, Boolean reverse) {
+HKKeyMapRef HKKeyMapCreateWithKeyboardLayout(KeyboardLayoutRef layout) {
   HKKeyMapRef keymap = calloc( 1, sizeof(struct __HKKeyMap));
   if (keymap) {
-    keymap->reverse = reverse;
+    keymap->lctxt = kKLContext;
     keymap->kl.keyboard = layout;
-    if (noErr != _HKKeyMapInit(keymap)) {
-      HKKeyMapRelease(keymap);
-      keymap = nil;
-    }
   }
   return keymap;
 }
@@ -79,18 +95,18 @@ void HKKLKeyMapDispose(HKKeyMapRef keyMap) {
   keyMap->kl.keyboard = NULL;
 }
 
-HKKeyMapRef HKKLKeyMapCreateWithName(CFStringRef name, Boolean reverse) {
+HKKeyMapRef HKKLKeyMapCreateWithName(CFStringRef name) {
   KeyboardLayoutRef ref;
   if (noErr == KLGetKeyboardLayoutWithName(name, &ref)) {
-    return HKKeyMapCreateWithKeyboardLayout(ref, reverse);
+    return HKKeyMapCreateWithKeyboardLayout(ref);
   }
   return NULL;
 }
 
-HKKeyMapRef HKKLKeyMapCreateWithCurrentLayout(Boolean reverse) {
+HKKeyMapRef HKKLKeyMapCreateWithCurrentLayout() {
   KeyboardLayoutRef ref;
   if (noErr == KLGetCurrentKeyboardLayout(&ref)) { 
-    return HKKeyMapCreateWithKeyboardLayout(ref, reverse);
+    return HKKeyMapCreateWithKeyboardLayout(ref);
   }
   return NULL;
 }

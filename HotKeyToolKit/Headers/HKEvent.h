@@ -14,10 +14,10 @@ HK_EXPORT
 CGEventSourceRef HKEventCreatePrivateSource(void);
 
 HK_EXPORT
-void HKEventPostKeystroke(HKKeycode keycode, HKModifier modifier, CGEventSourceRef source, useconds_t latency);
+void HKEventPostKeystroke(HKKeycode keycode, HKModifier modifier, CGEventSourceRef source, CFIndex latency);
 
 HK_EXPORT
-Boolean HKEventPostCharacterKeystrokes(UniChar character, CGEventSourceRef source, useconds_t latency);
+Boolean HKEventPostCharacterKeystrokes(UniChar character, CGEventSourceRef source, CFIndex latency);
 
 typedef union {
   OSType signature;
@@ -45,17 +45,18 @@ enum {
  @param      keycode If you don't know it or you want the keycode be resolved at run time, use <i>kHKInvalidVirtualKeyCode</i>.
  @param      modifier A combination of Quartz Modifier constants.
  @param      psn The target process serial number or nil to send event to front process.
+ @param      usLatency micro seconds. < 0 means process events, else if > 0, uses sleep.
  @result     Returns true of successfully sent.
  */
 HK_EXPORT
-Boolean HKEventPostKeystrokeToTarget(HKKeycode keycode, HKModifier modifier, HKEventTarget target, HKEventTargetType type, CGEventSourceRef source, useconds_t latency);
+Boolean HKEventPostKeystrokeToTarget(HKKeycode keycode, HKModifier modifier, HKEventTarget target, HKEventTargetType type, CGEventSourceRef source, CFIndex usLatency);
 
 HK_EXPORT
-Boolean HKEventPostCharacterKeystrokesToTarget(UniChar character, HKEventTarget target, HKEventTargetType type, CGEventSourceRef source, useconds_t latency);
+Boolean HKEventPostCharacterKeystrokesToTarget(UniChar character, HKEventTarget target, HKEventTargetType type, CGEventSourceRef source, CFIndex usLatency);
 
 @interface HKHotKey (HKEventExtension)
 
-- (BOOL)sendKeystroke:(useconds_t)latency;
+- (BOOL)sendKeystroke:(CFIndex)latency;
 
   /*!
   @method
@@ -65,6 +66,6 @@ Boolean HKEventPostCharacterKeystrokesToTarget(UniChar character, HKEventTarget 
    @param bundleId The Bundle identifier of the target process.
    @result YES.
    */
-- (BOOL)sendKeystrokeToApplication:(OSType)signature bundle:(NSString *)bundleId latency:(useconds_t)latency;
+- (BOOL)sendKeystrokeToApplication:(OSType)signature bundle:(NSString *)bundleId latency:(CFIndex)latency;
 
 @end

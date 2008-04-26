@@ -251,6 +251,8 @@ HK_CLASS_EXPORT
 - (void)keyReleased;
 
 - (BOOL)isARepeat;
+
+- (BOOL)shouldInvoke:(BOOL)repeat;
 - (void)willInvoke:(BOOL)repeat;
 - (void)didInvoke:(BOOL)repeat;
 

@@ -3,10 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 44;
+	objectVersion = 45;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1BB923140DB88A4000062D16 /* HKKeyMapTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 985B6D1A0719EDCC0073D36F /* HKKeyMapTestCase.m */; };
 		85FA5D560BCE526C0060584C /* TISKeyMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 85FA5D540BCE526C0060584C /* TISKeyMap.h */; };
 		85FA5D570BCE526C0060584C /* TISKeyMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 85FA5D550BCE526C0060584C /* TISKeyMap.m */; };
 		85FA5D800BCE57690060584C /* KLKeyMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 85FA5D7E0BCE57690060584C /* KLKeyMap.h */; };
@@ -425,7 +426,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 98EF7D5C08645328007BC81A /* Build configuration list for PBXProject "HotKeyToolKit" */;
-			compatibilityVersion = "Xcode 3.0";
+			compatibilityVersion = "Xcode 3.1";
 			hasScannedForEncodings = 1;
 			mainGroup = 0867D691FE84028FC02AAC07 /* HotKeyToolKit */;
 			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
@@ -550,6 +551,7 @@
 			files = (
 				98E204B40A56FE9300EB74E1 /* Runner.m in Sources */,
 				98902C750C9B243700FC0A4D /* HKHotKeyTestCase.m in Sources */,
+				1BB923140DB88A4000062D16 /* HKKeyMapTestCase.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -650,9 +652,9 @@
 		1B88DD5D0D352FD9008B66CA /* 64bits */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 405;
+				CURRENT_PROJECT_VERSION = 410;
 				DYLIB_COMPATIBILITY_VERSION = 2;
-				DYLIB_CURRENT_VERSION = 405;
+				DYLIB_CURRENT_VERSION = 410;
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -668,9 +670,9 @@
 		981B5F510938699D0024C0D9 /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 405;
+				CURRENT_PROJECT_VERSION = 410;
 				DYLIB_COMPATIBILITY_VERSION = 2;
-				DYLIB_CURRENT_VERSION = 405;
+				DYLIB_CURRENT_VERSION = 410;
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -782,9 +784,9 @@
 		98EF7D5508645328007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 405;
+				CURRENT_PROJECT_VERSION = 410;
 				DYLIB_COMPATIBILITY_VERSION = 2;
-				DYLIB_CURRENT_VERSION = 405;
+				DYLIB_CURRENT_VERSION = 410;
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -808,9 +810,9 @@
 		98EFD03D0B58448D00AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 405;
+				CURRENT_PROJECT_VERSION = 410;
 				DYLIB_COMPATIBILITY_VERSION = 2;
-				DYLIB_CURRENT_VERSION = 405;
+				DYLIB_CURRENT_VERSION = 410;
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";

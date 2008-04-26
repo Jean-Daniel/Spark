@@ -13,7 +13,7 @@
 #include <IOKit/hidsystem/IOHIDLib.h>
 #include <IOKit/hidsystem/IOHIDParameter.h>
 
-@interface HKHotKey (Private) 
+@interface HKHotKey () 
 - (void)hk_invalidateTimer;
 
 - (BOOL)shouldChangeKeystroke;
@@ -268,7 +268,7 @@
   [self hk_invalidateTimer];
   if (hk_hkFlags.onrelease) {
     hk_hkFlags.invoked = 0;
-  } else {
+  } else if ([self shouldInvoke:NO] && !hk_hkFlags.onrelease) { // onrealease can be changed by shouldInvoke.
     /* Flags used to avoid double invocation if 'on release' change during invoke */
     hk_hkFlags.invoked = 1;
     [self invoke:NO];
@@ -291,7 +291,7 @@
 
 - (void)keyReleased {
   [self hk_invalidateTimer];
-  if (hk_hkFlags.onrelease && !hk_hkFlags.invoked) {
+  if ([self shouldInvoke:NO] && hk_hkFlags.onrelease && !hk_hkFlags.invoked) {
     [self invoke:NO];
   }
 }
@@ -305,8 +305,7 @@
       if (hk_action && [hk_target respondsToSelector:hk_action]) {
         [hk_target performSelector:hk_action withObject:self];
       }
-    } 
-    @catch (id exception) {
+    } @catch (id exception) {
       WBLogException(exception);
     }
     hk_hkFlags.lock = 0;
@@ -322,6 +321,7 @@
   return hk_hkFlags.repeat;
 }
 
+- (BOOL)shouldInvoke:(BOOL)repeat { return YES; }
 - (void)willInvoke:(BOOL)repeat {}
 - (void)didInvoke:(BOOL)repeat {}
 
@@ -339,7 +339,8 @@
   if (HKTraceHotKeyEvents) {
     NSLog(@"Repeat event: %@", self);
   }
-  [self invoke:YES];
+  if ([self shouldInvoke:YES] && !hk_hkFlags.onrelease)
+    [self invoke:YES];
 }
 
 @end

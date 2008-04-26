@@ -13,24 +13,32 @@
 
 #include <Carbon/Carbon.h>
 
+typedef struct HKLayoutContext {
+  OSStatus (*init)(HKKeyMapRef keyMap);
+  void (*dispose)(HKKeyMapRef keyMap);
+  Boolean (*isCurrent)(HKKeyMapRef keyMap);
+  CFStringRef (*getName)(HKKeyMapRef keymap);
+  CFStringRef (*getLocalizedName)(HKKeyMapRef keymap);
+} HKLayoutContext;
+
 struct __HKKeyMap {
   Boolean reverse;
+  CFStringRef constructor;
   union {
+#if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_5
     struct {
       KeyboardLayoutRef keyboard;
       KeyboardLayoutIdentifier identifier;
     } kl;
-#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5
+#endif
     struct {
       TISInputSourceRef keyboard;
       CFStringRef identifier;
     } tis;
-#endif
   };
   HKKeyMapContext ctxt;
+  HKLayoutContext lctxt;
 };
-
-#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5
 
 HK_INLINE
 Boolean HKTISAvailable() {
@@ -42,50 +50,8 @@ Boolean HKTISAvailable() {
 }
 
 HK_PRIVATE
-OSStatus HKTISKeyMapInit(HKKeyMapRef keyMap);
-HK_PRIVATE
-void HKTISKeyMapDispose(HKKeyMapRef keyMap);
+HKKeyMapRef HKTISKeyMapCreateWithCurrentLayout(void);
 
 HK_PRIVATE
-HKKeyMapRef HKTISKeyMapCreateWithName(CFStringRef name, Boolean reverse);
+HKKeyMapRef HKTISKeyMapCreateWithName(CFStringRef name);
 
-HK_PRIVATE
-HKKeyMapRef HKTISKeyMapCreateWithCurrentLayout(Boolean reverse);
-
-
-HK_PRIVATE
-Boolean HKTISKeyMapIsCurrent(HKKeyMapRef keyMap);
-
-HK_PRIVATE
-CFStringRef HKTISKeyMapGetName(HKKeyMapRef keymap);
-
-HK_PRIVATE
-CFStringRef HKTISKeyMapGetLocalizedName(HKKeyMapRef keymap);
-
-#else
-
-HK_INLINE
-Boolean HKTISAvailable() { return false; }
-
-HK_INLINE
-OSStatus HKTISKeyMapInit(HKKeyMapRef keyMap) { return paramErr; }
-HK_INLINE
-void HKTISKeyMapDispose(HKKeyMapRef keyMap) {}
-
-HK_INLINE
-HKKeyMapRef HKTISKeyMapCreateWithName(CFStringRef name, Boolean reverse) { return NULL; }
-
-HK_INLINE
-HKKeyMapRef HKTISKeyMapCreateWithCurrentLayout(Boolean reverse) { return NULL; }
-
-
-HK_INLINE
-Boolean HKTISKeyMapIsCurrent(HKKeyMapRef keyMap) { return true; }
-
-HK_INLINE
-CFStringRef HKTISKeyMapGetName(HKKeyMapRef keymap) { return NULL; }
-
-HK_INLINE
-CFStringRef HKTISKeyMapGetLocalizedName(HKKeyMapRef keymap) { return NULL; }
-
-#endif
