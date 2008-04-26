@@ -34,6 +34,11 @@ typedef enum {
   kiTunesEjectCD       = 'Ejec', /* 1164600675 */
 } iTunesAction;
 
+enum {
+  kiTunesSettingDefault = 0,
+  kiTunesSettingCustom = 1,
+};
+
 @interface ITunesAction : SparkAction <NSCoding, NSCopying> {
   @private
     iTunesAction ia_action;
@@ -80,7 +85,7 @@ typedef enum {
 - (void)setShowInfo:(BOOL)flag;
 
 - (int)visualMode;
-- (void)setVisualMode:(int)mode;
+- (void)setVisualMode:(NSInteger)mode;
 
 - (BOOL)launchHide;
 - (void)setLaunchHide:(BOOL)flag;

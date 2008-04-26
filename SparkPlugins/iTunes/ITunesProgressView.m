@@ -38,7 +38,8 @@
   
   CGContextSaveGState(ctxt);
   /* clip to round rect */
-  WBCGContextAddRoundRect(ctxt, rect, CGRectGetHeight(rect) / 2);
+  CGFloat radius = CGRectGetHeight(rect) / 2;
+  WBCGContextAddRoundRect(ctxt, rect, radius);
   CGContextClip(ctxt);
   /* draw progress bar */
   CGRect progress = rect;
@@ -47,7 +48,7 @@
   CGContextRestoreGState(ctxt);
 
   /* stroke progress border */
-  WBCGContextAddRoundRect(ctxt, rect, CGRectGetHeight(rect) / 2);
+  WBCGContextAddRoundRect(ctxt, rect, radius);
   CGContextStrokePath(ctxt);
   
   CGContextRestoreGState(ctxt);

@@ -209,8 +209,8 @@ NSString * const kSystemUserNameKey = @"SystemUserName";
       break;
     case kSystemKeyboardViewer:
       [self launchKeyboardViewer];
-      
       break;
+      
       /* Sound */
     case kSystemVolumeUp:
       [self volumeUp];
@@ -229,9 +229,17 @@ NSString * const kSystemUserNameKey = @"SystemUserName";
       [self brightnessDown];
       break;
     default:
+      // FIXME: return alert
       NSBeep();
   }
   return nil;
+}
+
+- (BOOL)needsToBeRunOnMainThread {
+  return [self shouldNotify];
+}
+- (BOOL)supportsConcurrentRequests {
+  return YES;
 }
 
 #pragma mark -
@@ -272,10 +280,11 @@ bail:
   NSString *path = WBLSFindApplicationForBundleIdentifier(@"com.apple.KeyboardViewerServer");
   if (!path)
     path = @"/System/Library/Components/KeyboardViewer.component/Contents/SharedSupport/KeyboardViewerServer.app";
-  if (path)
-    WBLSLaunchApplicationAtPath((CFStringRef)path, kCFURLPOSIXPathStyle, kLSLaunchDefaults); 
-  else
+  
+  if (noErr != WBLSLaunchApplicationAtPath((CFStringRef)path, kCFURLPOSIXPathStyle, kLSLaunchDefaults, NULL)) {
+    // FIXME: return alert.
     NSBeep();
+  }
 }
 
 - (uid_t)userID {
@@ -534,14 +543,21 @@ NSUInteger __SystemBrightnessLevelForValue(float value) {
 @end
 
 #pragma mark -
+typedef int CGSSessionID;
+WB_EXPORT CGError CGSCreateLoginSession(CGSSessionID *outSession) __attribute__((weak));
+
 static 
 void SystemFastLogOut() {
-  NSTask *task = [[NSTask alloc] init];
-  [task setLaunchPath:kFastUserSwitcherPath];
-  [task setArguments:[NSArray arrayWithObject:@"-suspend"]];
-  [task launch];
-  [task waitUntilExit];
-  [task release];
+  if (CGSCreateLoginSession) {
+    CGSCreateLoginSession(NULL);
+  } else {
+    NSTask *task = [[NSTask alloc] init];
+    [task setLaunchPath:kFastUserSwitcherPath];
+    [task setArguments:[NSArray arrayWithObject:@"-suspend"]];
+    [task launch];
+    [task waitUntilExit];
+    [task release];
+  }
 }
 
 static 

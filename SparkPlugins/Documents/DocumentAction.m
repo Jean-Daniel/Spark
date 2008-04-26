@@ -310,7 +310,7 @@ OSType _DocumentActionFromFlag(int flag) {
   if (noErr == err && count > 0) {
     // if selected items
     CFIndex realCount;
-    FSRef *refs = NSZoneCalloc(nil, count, sizeof(FSRef));
+    FSRef *refs = malloc(count * sizeof(FSRef));
     // Get FSRef for these items.
     err = WBAEFinderSelectionToFSRefs(&selection , refs, count, &realCount);
     if (noErr == err && realCount > 0) {
@@ -330,7 +330,7 @@ OSType _DocumentActionFromFlag(int flag) {
       spec.asyncRefCon = nil;
       LSOpenFromRefSpec(&spec, nil);
     }
-    NSZoneFree(nil, refs);
+    free(refs);
   }
   WBAEDisposeDesc(&selection);
 }

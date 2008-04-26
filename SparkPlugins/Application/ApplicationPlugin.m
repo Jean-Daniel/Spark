@@ -194,6 +194,7 @@
 		case kApplicationLaunch:
     case kApplicationToggle:
 		case kApplicationActivateQuit:
+    case kApplicationForceQuitAppli:
 			return YES;
 		case kApplicationHideFront:
     case kApplicationHideOther:
@@ -213,6 +214,7 @@
 		case kApplicationQuit:
 		case kApplicationHideFront:
     case kApplicationHideOther:
+    case kApplicationForceQuitAppli:
     case kApplicationForceQuitFront:
     case kApplicationForceQuitDialog:
 			return NO;

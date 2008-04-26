@@ -99,7 +99,7 @@ OSStatus iTunesQuit(void) {
   return WBAESendSimpleEvent(kiTunesSignature, kCoreEventClass, kAEQuitApplication);
 }
 WB_PRIVATE
-OSStatus iTunesLaunch(LSLaunchFlags flags);
+OSStatus iTunesLaunch(LSLaunchFlags flags, ProcessSerialNumber *psn);
 
 #pragma mark -
 WB_PRIVATE

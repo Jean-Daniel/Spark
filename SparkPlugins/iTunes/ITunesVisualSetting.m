@@ -9,6 +9,7 @@
 #import "ITunesVisualSetting.h"
 
 #import "ITunesAction.h"
+#import <Growl/GrowlApplicationBridge.h>
 
 @interface ITunesVisualSetting (ITunesPrivate)
 - (void)updateLocation:(int)idx;
@@ -206,7 +207,9 @@ int _iTunesGetIndexForPoint(NSPoint point) {
   [self willChangeValueForKey:@"color"];
 	[self willChangeValueForKey:@"shadow"];
 	[self willChangeValueForKey:@"artwork"];
+  [self willChangeValueForKey:@"usesGrowl"];
   [ia_info setVisual:visual];
+  [self didChangeValueForKey:@"usesGrowl"];
 	[self didChangeValueForKey:@"artwork"];
   [self didChangeValueForKey:@"shadow"];
   [self didChangeValueForKey:@"color"];
@@ -216,6 +219,18 @@ int _iTunesGetIndexForPoint(NSPoint point) {
 
 - (IBAction)defaultSettings:(id)sender {
   [self setVisual:&kiTunesDefaultSettings];
+}
+
+- (BOOL)usesGrowl {
+  return [ia_info usesGrowl];
+}
+- (void)setUsesGrowl:(BOOL)flag {
+  if (flag) [self hide:nil];
+  [ia_info setUsesGrowl:flag];
+}
+
+- (BOOL)isGrowlInstalled {
+  return [GrowlApplicationBridge isGrowlInstalled];
 }
 
 @end

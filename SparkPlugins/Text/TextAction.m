@@ -148,25 +148,28 @@ NSString * const kKeyboardActionBundleIdentifier = @"org.shadowlab.spark.action.
 
 - (SparkAlert *)performAction {
   SparkAlert *error = nil;
-  switch (ta_type) {
-    case kTATextAction:
-      error = [self simulateText:[self data]];
-      break;
-    case kTADateStyleAction:
-      error = [self simulateDateStyle];
-      break;
-    case kTADateFormatAction:
-      error = [self simulateDateFormat];
-      break;
-    case kTAKeystrokeAction:
-      error = [self simulateKeystroke];
-      break;
-    default:
-      /* invalid type */
-      NSBeep();
-      break;
+  if (!ta_locked) {
+    ta_locked = YES; // prevent recursive calls
+    switch (ta_type) {
+      case kTATextAction:
+        error = [self simulateText:[self data]];
+        break;
+      case kTADateStyleAction:
+        error = [self simulateDateStyle];
+        break;
+      case kTADateFormatAction:
+        error = [self simulateDateFormat];
+        break;
+      case kTAKeystrokeAction:
+        error = [self simulateKeystroke];
+        break;
+      default:
+        /* invalid type */
+        NSBeep();
+        break;
+    }
+    ta_locked = NO;
   }
-
   return error;
 }
 
@@ -178,6 +181,13 @@ NSString * const kKeyboardActionBundleIdentifier = @"org.shadowlab.spark.action.
 	if (ta_repeat)
 		return SparkGetDefaultKeyRepeatInterval();
 	return 0;
+}
+
+- (BOOL)needsToBeRunOnMainThread {
+  return NO;
+}
+- (BOOL)supportsConcurrentRequests {
+  return NO;
 }
 
 #pragma mark -

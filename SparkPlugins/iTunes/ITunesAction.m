@@ -7,8 +7,7 @@
  */
 
 #import "ITunesAction.h"
-
-#import "ITunesAESuite.h"
+#import "ITunesGrowl.h"
 
 #import WBHEADER(WBFunctions.h)
 #import WBHEADER(WBAEFunctions.h)
@@ -24,18 +23,18 @@ static NSString* const kITunesPlaylistKey = @"iTunesPlaylist";
 static NSString* const kITunesPlaylistIDKey = @"iTunesPlaylistID";
 
 static const iTunesAction _kActionsMap[] = {
-  kiTunesLaunch,
-  kiTunesQuit,
-  kiTunesPlayPause,
-  kiTunesBackTrack,
-  kiTunesNextTrack,
-  kiTunesStop,
-  kiTunesVisual,
-  kiTunesVolumeDown,
-  kiTunesVolumeUp,
-  kiTunesEjectCD,
-  kiTunesPlayPlaylist,
-  kiTunesRateTrack
+kiTunesLaunch,
+kiTunesQuit,
+kiTunesPlayPause,
+kiTunesBackTrack,
+kiTunesNextTrack,
+kiTunesStop,
+kiTunesVisual,
+kiTunesVolumeDown,
+kiTunesVolumeUp,
+kiTunesEjectCD,
+kiTunesPlayPlaylist,
+kiTunesRateTrack
 };
 WB_INLINE
 iTunesAction _iTunesConvertAction(int act) {
@@ -238,7 +237,7 @@ static ITunesVisual sDefaultVisual = {delay: -1};
           }
         }
         break;
-      default: /* Old version */
+        default: /* Old version */
         [self setVersion:0x200];
         [self setRating:[[plist objectForKey:@"iTunesTrackTrate"] intValue]];
         [self setITunesAction:_iTunesConvertAction([[plist objectForKey:kITunesActionKey] intValue])];
@@ -319,10 +318,10 @@ static ITunesVisual sDefaultVisual = {delay: -1};
       return nil;
     default:
       return [SparkAlert alertWithMessageText:
-        [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"INVALID_ACTION",
-                                                                      nil,
-                                                                      kiTunesActionBundle,
-                                                                      @"Error: Action unknown * Title * (%@ => name)"), [self name]]
+              [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"INVALID_ACTION",
+                                                                            nil,
+                                                                            kiTunesActionBundle,
+                                                                            @"Error: Action unknown * Title * (%@ => name)"), [self name]]
                     informativeTextWithFormat:NSLocalizedStringFromTableInBundle(@"INVALID_ACTION_MSG",
                                                                                  nil,
                                                                                  kiTunesActionBundle,
@@ -340,30 +339,44 @@ static ITunesVisual sDefaultVisual = {delay: -1};
   }
 }
 
+- (BOOL)usesGrowl {
+  switch ([self visualMode]) {
+    case kiTunesSettingCustom:
+      if (ia_visual)
+        return ia_visual->growl;
+      // fall
+    case kiTunesSettingDefault:
+      return [[self class] defaultVisual]->growl;
+  }
+  return NO;
+}
+
 - (void)displayTrackNotification {
   /* Avoid double display. (autoinfo issue) */
   //static CFAbsoluteTime sLastDisplayTime = 0;
   //CFAbsoluteTime absTime = CFAbsoluteTimeGetCurrent();
   //if ([SparkAction currentEventTime] > 0 || (absTime - sLastDisplayTime) > 0.25) {
-    iTunesTrack track = WBAEEmptyDesc();
-    
-    ITunesInfo *info = [ITunesInfo sharedWindow];
-    if (noErr == iTunesGetCurrentTrack(&track)) {
-			
-			switch ([self visualMode]) {
+  iTunesTrack track = WBAEEmptyDesc();
+  if (noErr == iTunesGetCurrentTrack(&track)) {
+    if ([self usesGrowl]) {
+      [self displayTrackUsingGrowl:&track];
+    } else {
+      ITunesInfo *info = [ITunesInfo sharedWindow];
+      switch ([self visualMode]) {
         case kiTunesSettingCustom:
           if (ia_visual) {
-						[info setTrack:&track visual:ia_visual];
+            [info setTrack:&track visual:ia_visual];
             break;
           }
           // fall
-				case kiTunesSettingDefault:
-					[info setTrack:&track visual:[[self class] defaultVisual]];
+        case kiTunesSettingDefault:
+          [info setTrack:&track visual:[[self class] defaultVisual]];
+          break;
       }
-      WBAEDisposeDesc(&track);
-
       [info display:nil];
     }
+    WBAEDisposeDesc(&track);
+  }
   //}
   //sLastDisplayTime = absTime;
 }
@@ -401,7 +414,7 @@ static ITunesVisual sDefaultVisual = {delay: -1};
           flags |= kLSLaunchAndHide | kLSLaunchDontSwitch;
         else if (ia_iaFlags.background)
           flags |= kLSLaunchDontSwitch;
-        iTunesLaunch(flags);
+        iTunesLaunch(flags, &psn);
         if (ia_iaFlags.notify) {
           [self notifyLaunch];
         }
@@ -422,7 +435,7 @@ static ITunesVisual sDefaultVisual = {delay: -1};
       if (psn.lowLongOfPSN == kNoProcess) {
         if (ia_iaFlags.autorun) {
           /* Launch iTunes */
-          iTunesLaunch(kLSLaunchDefaults | kLSLaunchDontSwitch);
+          iTunesLaunch(kLSLaunchDefaults | kLSLaunchDontSwitch, &psn);
           /* Display iTunes Icon */
           [self notifyLaunch];
           /* Send Play event*/
@@ -523,8 +536,8 @@ static ITunesVisual sDefaultVisual = {delay: -1};
 
 #pragma mark iTunes Action specific Methods
 /****************************************************************************************
-*                             	iTunes Action specific Methods							*
-****************************************************************************************/
+ *                             	iTunes Action specific Methods							*
+ ****************************************************************************************/
 - (SInt32)rating {
   return ia_iaFlags.rate;
 }
@@ -589,7 +602,7 @@ static ITunesVisual sDefaultVisual = {delay: -1};
 - (int)visualMode {
   return ia_iaFlags.visual;
 }
-- (void)setVisualMode:(int)mode {
+- (void)setVisualMode:(NSInteger)mode {
   ia_iaFlags.visual = mode;
 }
 
@@ -642,10 +655,10 @@ static ITunesVisual sDefaultVisual = {delay: -1};
   }
   if (err == errAENoSuchObject) {
     return [SparkAlert alertWithMessageText:
-      [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"PLAYLIST_NOT_FOUND",
-                                                                    nil,
-                                                                    kiTunesActionBundle,
-                                                                    @"Error: no such object playlist * Title * (%@ => name)"), name]
+            [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"PLAYLIST_NOT_FOUND",
+                                                                          nil,
+                                                                          kiTunesActionBundle,
+                                                                          @"Error: no such object playlist * Title * (%@ => name)"), name]
                   informativeTextWithFormat:NSLocalizedStringFromTableInBundle(@"PLAYLIST_NOT_FOUND_MSG",
                                                                                nil,
                                                                                kiTunesActionBundle,
@@ -724,7 +737,7 @@ NSString *ITunesActionDescription(ITunesAction *action) {
     case kiTunesPlayPlaylist:
       desc = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"DESC_PLAY_LIST", nil, bundle,
                                                                            @"Play Playlist * Action Description * (%@ = playlist name)"),
-        [action playlist]];
+              [action playlist]];
       break;
     case kiTunesRateTrack: {
       char rate[32];
@@ -734,7 +747,7 @@ NSString *ITunesActionDescription(ITunesAction *action) {
         snprintf(rate, 32, "%i", (int)[action rating] / 20);
       desc = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"DESC_RATE_TRACK", nil, bundle,
                                                                            @"Rate Track * Action Description * (%s = rating)"),
-        rate];
+              rate];
     }
       break;
     case kiTunesNextTrack:

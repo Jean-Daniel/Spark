@@ -294,6 +294,7 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
     case kApplicationQuit:
     case kApplicationToggle:
 		case kApplicationActivateQuit:
+    case kApplicationForceQuitAppli:
       // TODO check application path if editor.
       break;
       /* Hide */
@@ -317,6 +318,7 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
     case kApplicationQuit:
     case kApplicationToggle:
 		case kApplicationActivateQuit:
+    case kApplicationForceQuitAppli:
       if (![self path]) {
         NSString *title = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"INVALID_APPLICATION_ALERT", nil, kApplicationActionBundle,
                                                                                         @"Check * App Not Found *") , [self name]];
@@ -353,6 +355,9 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
         [self hideOthers];
         break;
         
+      case kApplicationForceQuitAppli:
+        [self forceQuitApplication];
+        break;
       case kApplicationForceQuitFront:
         [self forceQuitFront];
         break;
@@ -364,12 +369,20 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
   return alert;
 }
 
+- (BOOL)needsToBeRunOnMainThread {
+  return NO;
+}
+- (BOOL)supportsConcurrentRequests {
+  return YES;
+}
+
 - (BOOL)shouldSaveIcon {
   switch ([self action]) {
     case kApplicationQuit:
     case kApplicationLaunch:
     case kApplicationToggle:
 		case kApplicationActivateQuit:
+    case kApplicationForceQuitAppli:
       return YES;
     default:
       return NO;
@@ -541,7 +554,7 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
 		if (aa_lsFlags & kLSLaunchAndHideOthers)
 			[self hideOthers];
 		if (settings.activation)
-			[self displayNotification];
+			[self performSelectorOnMainThread:@selector(displayNotification) withObject:nil waitUntilDone:NO];
 	}
 }
 
@@ -560,7 +573,7 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
 			[self getVisualSettings:&settings];
 		
     if (settings.launch)
-      [self displayNotification];
+      [self performSelectorOnMainThread:@selector(displayNotification) withObject:nil waitUntilDone:NO];
   }
 }
 
@@ -572,6 +585,12 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
   ProcessSerialNumber psn;
   if ([self getApplicationProcess:&psn]) {
     [self quitProcess:&psn];
+  }
+}
+- (void)forceQuitApplication {
+  ProcessSerialNumber psn;
+  if ([self getApplicationProcess:&psn]) {
+    verify_noerr(KillProcess(&psn));
   }
 }
 
@@ -679,7 +698,10 @@ NSString *ApplicationActionDescription(ApplicationAction *anAction, NSString *na
       desc = NSLocalizedStringFromTableInBundle(@"DESC_HIDE_ALL", nil, kApplicationActionBundle,
                                                 @"Hide All Applications * Action Description *");
       break;
-      
+    case kApplicationForceQuitAppli:
+      desc = NSLocalizedStringFromTableInBundle(@"DESC_FORCE_QUIT_APPLI", nil, kApplicationActionBundle,
+                                                @"Force Quit Application * Action Description *");
+      break;
     case kApplicationForceQuitFront:
       desc = NSLocalizedStringFromTableInBundle(@"DESC_FORCE_QUIT_FRONT", nil, kApplicationActionBundle,
                                                @"Force Quit Front * Action Description *");

@@ -11,6 +11,8 @@
 #import "ITunesStarView.h"
 #import "ITunesProgressView.h"
 
+#import <Growl/GrowlApplicationBridge.h>
+
 #include WBHEADER(WBFunctions.h)
 #include WBHEADER(WBCGFunctions.h)
 #include WBHEADER(WBNotificationWindow.h)
@@ -23,11 +25,11 @@ const NSPoint kiTunesBottomLeft = { -3e8, 0 };
 const NSPoint kiTunesBottomRight = { -4e8, 0 };
 
 const ITunesVisual kiTunesDefaultSettings = {
-  YES, NO, kiTunesVisualDefaultPosition, 1.5,
+  NO, YES, NO, kiTunesVisualDefaultPosition, 1.5,
   { 1, 1, 1, 1 },
   { 0, 0, 0, 0 },
-  { 6/255., 12/255., 18/255., .65 },
-  { 9/255., 18/255., 27/255., .85 },
+  { 6/255., 12/255., 12/255., .65 },
+  { 9/255., 18/255., 18/255., .85 },
 };
 
 enum {
@@ -92,6 +94,7 @@ BOOL __ITunesVisualCompareColors(const CGFloat c1[4], const CGFloat c2[4]) {
 }
 
 BOOL ITunesVisualIsEqualTo(const ITunesVisual *v1, const ITunesVisual *v2) {
+  if (v1->growl != v2->growl) return NO;
   if (v1->shadow != v2->shadow) return NO;
 	if (v1->artwork != v2->artwork) return NO;
   if (!__CGFloatEquals(v1->delay, v2->delay)) return NO;
@@ -197,6 +200,7 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
   if (type != kiTunesVisualOther) visual->location = ia_location;
   else visual->location = [[self window] frame].origin;
   /* Get shadow */
+  visual->growl = [self usesGrowl];
   visual->shadow = [self hasShadow];
 	visual->artwork = [self displayArtwork];
   /* Get text color */
@@ -208,6 +212,7 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
 
 - (void)setVisual:(const ITunesVisual *)visual {
   [self setDelay:visual->delay];
+  [self setUsesGrowl:visual->growl];
   [self setPosition:visual->location];
   [self setHasShadow:visual->shadow];
 	[self setDisplayArtwork:visual->artwork];
@@ -263,6 +268,13 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
 	NSRect frame = [[self window] frame];
 	frame.origin = [self windowOriginForSize:frame.size];
 	[[self window] setFrameOrigin:frame.origin];
+}
+
+- (BOOL)usesGrowl {
+  return ia_growl;
+}
+- (void)setUsesGrowl:(BOOL)flag {
+  ia_growl = flag && [GrowlApplicationBridge isGrowlInstalled];
 }
 
 - (BOOL)hasShadow {
@@ -418,7 +430,7 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
 		if (SparkGetCurrentContext() == kSparkEditorContext) {
 			[[self window] setFrame:frame display:YES animate:YES];
 		} else {
-			[[self window] setFrame:frame display:NO animate:NO];
+			[[self window] setFrame:frame display:YES animate:NO];
 		}
 	} else if (![ibArtwork superview] && flag) {
 		NSAssert(ia_artWidth > 0, @"Internal inconsistency");
@@ -429,7 +441,7 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
 		if (SparkGetCurrentContext() == kSparkEditorContext) {
 			[[self window] setFrame:frame display:YES animate:YES];
 		} else {
-			[[self window] setFrame:frame display:NO animate:NO];
+			[[self window] setFrame:frame display:YES animate:NO];
 		}
 		
 		[[[self window] contentView] addSubview:ibArtwork];
@@ -492,7 +504,7 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
 WB_INLINE
 CMColor __CMColorCreateRGB(CGFloat r, CGFloat g, CGFloat b) {
   CMColor color = {
-rgb: {r * 65535, g * 65535, b * 65535} 
+  rgb: {r * 65535, g * 65535, b * 65535} 
   };
   return color;
 }

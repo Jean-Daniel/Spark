@@ -9,6 +9,7 @@
 #import "ITunesAESuite.h"
 
 typedef struct _ITunesVisual {
+  BOOL growl;
   BOOL shadow;
 	BOOL artwork;
   NSPoint location;
@@ -22,11 +23,6 @@ typedef struct _ITunesVisual {
 
 WB_PRIVATE
 BOOL ITunesVisualIsEqualTo(const ITunesVisual *v1, const ITunesVisual *v2);
-
-enum {
-  kiTunesSettingDefault = 0,
-  kiTunesSettingCustom = 1,
-};
 
 WB_PRIVATE
 const NSPoint kiTunesUpperLeft;
@@ -54,6 +50,7 @@ const ITunesVisual kiTunesDefaultSettings;
 @private
 	NSPoint ia_location;
 	
+  BOOL ia_growl;
 	BOOL ia_artwork;
 	CGFloat ia_artWidth;
 	NSPoint ia_artOrigin;
@@ -72,6 +69,9 @@ const ITunesVisual kiTunesDefaultSettings;
 - (NSTimeInterval)delay;
 - (void)setDelay:(NSTimeInterval)aDelay;
 - (void)setPosition:(NSPoint)aPoint;
+
+- (BOOL)usesGrowl;
+- (void)setUsesGrowl:(BOOL)flag;
 
 - (BOOL)hasShadow;
 - (void)setHasShadow:(BOOL)hasShadow;
@@ -133,8 +133,9 @@ typedef struct __attribute__ ((packed)) {
 } ITunesPackedVisual_v0;
 
 enum {
-	kiTunesVisualFlagsShadow = 1 << 0,
-	kiTunesVisualFlagsArtwork = 1 << 1,
+  kiTunesVisualFlagsGrowl = 1 << 0,
+	kiTunesVisualFlagsShadow = 1 << 1,
+	kiTunesVisualFlagsArtwork = 1 << 2,
 };
 WB_INLINE
 NSData *ITunesVisualPack(ITunesVisual *visual) {
@@ -142,6 +143,7 @@ NSData *ITunesVisualPack(ITunesVisual *visual) {
   [data setLength:sizeof(ITunesPackedVisual)];
   ITunesPackedVisual *pack = [data mutableBytes];
 	pack->version = 1;
+  if (visual->growl)	pack->flags |= kiTunesVisualFlagsGrowl;
 	if (visual->shadow)	pack->flags |= kiTunesVisualFlagsShadow;
 	if (visual->artwork)	pack->flags |= kiTunesVisualFlagsArtwork;
   pack->delay = CFConvertFloat64HostToSwapped(visual->delay);
@@ -162,6 +164,7 @@ BOOL ITunesVisualUnpack(NSData *data, ITunesVisual *visual) {
 	
 	if ([data length] == sizeof(ITunesPackedVisual_v0)) {
 		const ITunesPackedVisual_v0 *pack = [data bytes];
+    visual->growl = 0;
 		visual->artwork = 0;
 		visual->shadow = pack->shadow != 0;
 		visual->delay = CFConvertFloat64SwappedToHost(pack->delay);
@@ -174,6 +177,7 @@ BOOL ITunesVisualUnpack(NSData *data, ITunesVisual *visual) {
 	} else if ([data length] >= sizeof(ITunesPackedVisual)) {
 		const ITunesPackedVisual *pack = [data bytes];
 		if (pack->version != 1) return NO;
+    visual->growl = (pack->flags & kiTunesVisualFlagsGrowl) != 0;
 		visual->shadow = (pack->flags & kiTunesVisualFlagsShadow) != 0;
 		visual->artwork = (pack->flags & kiTunesVisualFlagsArtwork) != 0;
 		visual->delay = CFConvertFloat64SwappedToHost(pack->delay);

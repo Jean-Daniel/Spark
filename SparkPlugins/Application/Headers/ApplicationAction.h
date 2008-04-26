@@ -21,6 +21,7 @@ enum {
   
   kApplicationForceQuitFront	= 'FQiF', /* 1179740486 */
   kApplicationForceQuitDialog	= 'FQit', /* 1179740532 */
+  kApplicationForceQuitAppli	= 'Kill', /* 1265200236 */
 };
 typedef OSType ApplicationActionType;
 
@@ -86,6 +87,7 @@ typedef struct _ApplicationVisualSetting {
 
 - (void)forceQuitFront;
 - (void)forceQuitDialog;
+- (void)forceQuitApplication;
 
 - (void)hideFront;
 - (void)hideOthers;

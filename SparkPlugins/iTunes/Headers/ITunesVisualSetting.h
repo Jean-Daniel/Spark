@@ -25,6 +25,9 @@
 
 - (IBAction)defaultSettings:(id)sender;
 
+- (BOOL)usesGrowl;
+- (void)setUsesGrowl:(BOOL)flag;
+
 - (CGFloat)delay;
 - (void)setDelay:(CGFloat)aDelay;
 

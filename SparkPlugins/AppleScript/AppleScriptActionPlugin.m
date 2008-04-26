@@ -219,19 +219,19 @@ enum {
 
 #pragma mark Launch
 - (IBAction)launchEditor:(id)sender {
+  OSStatus err = noErr;
   AppleEvent aevt = WBAEEmptyDesc();
   AEDesc document = WBAEEmptyDesc();
   
   /* Launch Script Editor */
   ProcessSerialNumber psn = WBProcessGetProcessWithSignature('ToyS');
   if (kNoProcess == psn.lowLongOfPSN) {
-    if (noErr == WBLSLaunchApplicationWithSignature('ToyS',kLSLaunchDefaults &~kLSLaunchAsync))
-      psn = WBProcessGetProcessWithSignature('ToyS');
+    err = WBLSLaunchApplicationWithSignature('ToyS', kLSLaunchDefaults, &psn);
   }
-  require(kNoProcess != psn.lowLongOfPSN, dispose);
+  require_noerr(err, dispose);
   
   /* activate */
-  OSStatus err = WBAESendSimpleEventToProcess(&psn, kAEMiscStandards, kAEActivate);
+  err = WBAESendSimpleEventToProcess(&psn, kAEMiscStandards, kAEActivate);
   require_noerr(err, dispose);
   
   NSString *src = [[ibScriptController scriptView] source];

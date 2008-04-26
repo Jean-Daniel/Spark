@@ -79,11 +79,11 @@ Boolean iTunesIsRunning(ProcessSerialNumber *proc) {
 
 #pragma mark -
 #pragma mark Commands
-OSStatus iTunesLaunch(LSLaunchFlags flags) {
+OSStatus iTunesLaunch(LSLaunchFlags flags, ProcessSerialNumber *psn) {
   FSRef iTunes;
   OSStatus err = WBLSGetApplicationForSignature(kiTunesSignature, &iTunes);
   if (noErr == err) {
-    err = WBLSLaunchApplication(&iTunes, flags);
+    err = WBLSLaunchApplication(&iTunes, flags, psn);
   }
   return err;
 }

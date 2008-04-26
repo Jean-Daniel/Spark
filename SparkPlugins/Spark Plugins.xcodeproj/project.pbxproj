@@ -50,6 +50,12 @@
 		1B7B26430CC638F200F55F7D /* TAKeystroke.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B7B26410CC638F200F55F7D /* TAKeystroke.h */; };
 		1B7B26440CC638F200F55F7D /* TAKeystroke.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B7B26420CC638F200F55F7D /* TAKeystroke.m */; };
 		1B8F4B150B56823700E8A4C0 /* volume.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B8F4B140B56823700E8A4C0 /* volume.aiff */; };
+		1BDCB6BB0DA7C78000D95044 /* ITunesGrowl.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BDCB6B90DA7C78000D95044 /* ITunesGrowl.h */; };
+		1BDCB6BC0DA7C78000D95044 /* ITunesGrowl.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDCB6BA0DA7C78000D95044 /* ITunesGrowl.m */; };
+		1BDCB6DE0DA7C89800D95044 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BDCB6DD0DA7C89800D95044 /* Growl.framework */; };
+		1BDCB7CA0DA7DA0F00D95044 /* GrowlNotifications.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1BDCB7C90DA7DA0F00D95044 /* GrowlNotifications.plist */; };
+		1BDCB8130DA7E1E600D95044 /* GrowlNotifications.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1BDCB8110DA7E1E600D95044 /* GrowlNotifications.strings */; };
+		1BE6E1A30DBCDD1200ABAC74 /* iTunes.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 1BE6E1A20DBCDD1200ABAC74 /* iTunes.sdef */; };
 		1BEF492F0C9AADAC00D7DA07 /* ITunesProgressView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEF492D0C9AADAC00D7DA07 /* ITunesProgressView.h */; };
 		1BEF49300C9AADAC00D7DA07 /* ITunesProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BEF492E0C9AADAC00D7DA07 /* ITunesProgressView.m */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
@@ -332,6 +338,13 @@
 		1B7BBAD00CBE233300484A9E /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		1B7CF6B30D3574700068DAD1 /* 64Bits.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = 64Bits.xcconfig; sourceTree = "<group>"; };
 		1B8F4B140B56823700E8A4C0 /* volume.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = volume.aiff; sourceTree = "<group>"; };
+		1BDCB6B90DA7C78000D95044 /* ITunesGrowl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ITunesGrowl.h; path = ../ITunesGrowl.h; sourceTree = "<group>"; };
+		1BDCB6BA0DA7C78000D95044 /* ITunesGrowl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ITunesGrowl.m; sourceTree = "<group>"; };
+		1BDCB6DD0DA7C89800D95044 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = ../SparkEditor/Resources/Growl.framework; sourceTree = SOURCE_ROOT; };
+		1BDCB7C90DA7DA0F00D95044 /* GrowlNotifications.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = GrowlNotifications.plist; sourceTree = "<group>"; };
+		1BDCB8120DA7E1E600D95044 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/GrowlNotifications.strings; sourceTree = "<group>"; };
+		1BDCB8140DA7E1EB00D95044 /* French */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/GrowlNotifications.strings; sourceTree = "<group>"; };
+		1BE6E1A20DBCDD1200ABAC74 /* iTunes.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.sdef; path = iTunes.sdef; sourceTree = "<group>"; };
 		1BEF492D0C9AADAC00D7DA07 /* ITunesProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ITunesProgressView.h; path = ../ITunesProgressView.h; sourceTree = "<group>"; };
 		1BEF492E0C9AADAC00D7DA07 /* ITunesProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ITunesProgressView.m; sourceTree = "<group>"; };
 		8D5B49B6048680CD000E48DA /* iTunesAction.spact */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iTunesAction.spact; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -470,6 +483,7 @@
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
 				98EF7F5708645B95007BC81A /* SparkKit.framework in Frameworks */,
 				98EF7F5B08645BAC007BC81A /* HotKeyToolKit.framework in Frameworks */,
+				1BDCB6DE0DA7C89800D95044 /* Growl.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -586,6 +600,7 @@
 		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1BDCB6DD0DA7C89800D95044 /* Growl.framework */,
 				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
 				985B6F070719F8860073D36F /* Carbon.framework */,
 				1B0E22930B564BA100DC846B /* CoreAudio.framework */,
@@ -606,6 +621,7 @@
 		19C28FB8FE9D52D311CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
+				9888CE220B02412200B81BDB /* TextAction.spact */,
 				98FC44D406063A21003617CA /* SystemAction.spact */,
 				8D5B49B6048680CD000E48DA /* iTunesAction.spact */,
 				98FC453F06063BF2003617CA /* AppleScriptAction.spact */,
@@ -613,7 +629,6 @@
 				98FC46400606437C003617CA /* DocumentAction.spact */,
 				9832875F079602BE00DB780A /* Labo */,
 				98789DD20AB4A10D00C35052 /* Simulator.app */,
-				9888CE220B02412200B81BDB /* TextAction.spact */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -726,6 +741,7 @@
 			children = (
 				98E6A8D00606368F000CCBE1 /* Headers */,
 				98789CB20AB48D8200C35052 /* ITunesInfo.m */,
+				1BDCB6BA0DA7C78000D95044 /* ITunesGrowl.m */,
 				98E6A94B06063852000CCBE1 /* ITunesAction.m */,
 				98E6A94C06063852000CCBE1 /* ITunesAESuite.c */,
 				98EFD69D0B584C0D00AD4492 /* ITunesStarView.m */,
@@ -745,6 +761,7 @@
 			isa = PBXGroup;
 			children = (
 				98789CAE0AB48D5A00C35052 /* ITunesInfo.h */,
+				1BDCB6B90DA7C78000D95044 /* ITunesGrowl.h */,
 				98E6A9510606385A000CCBE1 /* ITunesAction.h */,
 				98E6A9500606385A000CCBE1 /* ITunesAESuite.h */,
 				98EFD69F0B584C1D00AD4492 /* ITunesStarView.h */,
@@ -759,10 +776,13 @@
 			isa = PBXGroup;
 			children = (
 				98E6A904060636D9000CCBE1 /* images */,
+				1BE6E1A20DBCDD1200ABAC74 /* iTunes.sdef */,
 				98E649110B626279008A8C9B /* iTunesIcon.png */,
 				98E6A8E5060636AE000CCBE1 /* Localizable.strings */,
+				1BDCB8110DA7E1E600D95044 /* GrowlNotifications.strings */,
 				98E6A9120606371A000CCBE1 /* Help */,
 				98E6A90706063703000CCBE1 /* iTunesHelp.html */,
+				1BDCB7C90DA7DA0F00D95044 /* GrowlNotifications.plist */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -987,6 +1007,7 @@
 				98BD2E4F0AB6DD2E0063CDEB /* ITunesVisualSetting.h in Headers */,
 				98EFD6A00B584C1D00AD4492 /* ITunesStarView.h in Headers */,
 				1BEF492F0C9AADAC00D7DA07 /* ITunesProgressView.h in Headers */,
+				1BDCB6BB0DA7C78000D95044 /* ITunesGrowl.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1292,6 +1313,9 @@
 				98B717710C1ABF4600C2241F /* ITSettings.tiff in Resources */,
 				1B6DAE060D0CACA700F352CC /* iTunesInfo.xib in Resources */,
 				1B6DAE0D0D0CAD0200F352CC /* iTunesPlugin.xib in Resources */,
+				1BDCB7CA0DA7DA0F00D95044 /* GrowlNotifications.plist in Resources */,
+				1BDCB8130DA7E1E600D95044 /* GrowlNotifications.strings in Resources */,
+				1BE6E1A30DBCDD1200ABAC74 /* iTunes.sdef in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1412,6 +1436,7 @@
 				98BD2E5D0AB6DD480063CDEB /* ITunesVisualSetting.m in Sources */,
 				98EFD69E0B584C0D00AD4492 /* ITunesStarView.m in Sources */,
 				1BEF49300C9AADAC00D7DA07 /* ITunesProgressView.m in Sources */,
+				1BDCB6BC0DA7C78000D95044 /* ITunesGrowl.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1583,6 +1608,15 @@
 				1B09477A0D68BDE800E8FE8D /* French */,
 			);
 			name = TextPlugin.xib;
+			sourceTree = "<group>";
+		};
+		1BDCB8110DA7E1E600D95044 /* GrowlNotifications.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1BDCB8120DA7E1E600D95044 /* English */,
+				1BDCB8140DA7E1EB00D95044 /* French */,
+			);
+			name = GrowlNotifications.strings;
 			sourceTree = "<group>";
 		};
 		985106B30A590AA200C98B1F /* SystemActionHelp.html */ = {
@@ -1866,6 +1900,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 405;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../SparkEditor/Resources\"",
+				);
 				INFOPLIST_FILE = iTunes/Info.plist;
 				PRODUCT_NAME = iTunesAction;
 			};
@@ -1965,6 +2003,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 405;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../SparkEditor/Resources\"",
+				);
 				INFOPLIST_FILE = iTunes/Info.plist;
 				PRODUCT_NAME = iTunesAction;
 			};
@@ -1974,6 +2016,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 405;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../SparkEditor/Resources\"",
+				);
 				INFOPLIST_FILE = iTunes/Info.plist;
 				PRODUCT_NAME = iTunesAction;
 			};
@@ -2135,6 +2181,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 405;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../SparkEditor/Resources\"",
+				);
 				INFOPLIST_FILE = iTunes/Info.plist;
 				PRODUCT_NAME = iTunesAction;
 			};
