@@ -71,6 +71,12 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
                                              selector:@selector(didChangePlugins:)
                                                  name:SparkActionLoaderDidRegisterPlugInNotification
                                                object:nil];
+#if defined(DYNAMIC_SDEF)
+    [[NSAppleEventManager sharedAppleEventManager] setEventHandler:self
+                                                       andSelector:@selector(handleGetSDEFEvent:withReplyEvent:)
+                                                     forEventClass:'ascr'
+                                                        andEventID:'gsdf'];
+#endif
     /* Force script system initialization */
     [NSScriptSuiteRegistry sharedScriptSuiteRegistry];
     
@@ -89,7 +95,43 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
   }
   return self;
 }
-
+#if defined(DYNAMIC_SDEF)
+- (void)handleGetSDEFEvent:(NSAppleEventDescriptor *)event withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
+  NSError *error = nil;
+  NSURL *sparkSdef = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"SparkSuite" ofType:@"sdef"]];
+  NSXMLDocument *definition = [[NSXMLDocument alloc] initWithContentsOfURL:sparkSdef
+                                                                   options:NSXMLNodePreserveAll | NSXMLDocumentXInclude error:&error];
+  if (!definition) {
+    [NSApp presentError:error];
+    return;
+  }
+  
+  NSArray *plugins = [[SparkActionLoader sharedLoader] plugins];
+  for (NSUInteger idx = 0; idx < [plugins count]; idx++) {
+    SparkPlugIn *plugin = [plugins objectAtIndex:idx];
+    NSString *sdef = [plugin sdefFile];
+    if (sdef) {
+      NSXMLDocument *doc = [[NSXMLDocument alloc] initWithContentsOfURL:[NSURL fileURLWithPath:sdef]
+                                                                options:NSXMLNodePreserveAll | NSXMLDocumentXInclude error:&error];
+      if (!doc) {
+        DLog(@"Error while loading sdef from %@: %@", sdef, error);
+      } else {
+        NSXMLElement *root = [definition rootElement];
+        NSArray *suites = [[doc rootElement] nodesForXPath:@"/dictionary/suite" error:&error];
+        if (!suites) {
+          DLog(@"Error while loading suites from %@: %@", sdef, error);
+        } else {
+          [suites makeObjectsPerformSelector:@selector(detach)];
+          [root insertChildren:suites atIndex:[root childCount]];
+        }
+      }
+    }
+  }
+  NSData *sdefData = [definition XMLDataWithOptions:NSXMLNodeCompactEmptyElement | NSXMLNodeUseDoubleQuotes];
+  [replyEvent setDescriptor:[NSAppleEventDescriptor descriptorWithDescriptorType:typeUTF8Text data:sdefData]
+                 forKeyword:keyDirectObject];
+}
+#endif
 //- (void)didRestart:(NSNotification *)aNotification {
 //  NSRunAlertPanel([[NSString alloc] initWithData:[aNotification object] encoding:NSUTF8StringEncoding], @"", @"OK", nil, nil);
 //}
@@ -153,7 +195,7 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
   if (self = [super init]) {
 #if defined (DEBUG)
     [[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
-      //@"YES", @"NSShowNonLocalizedStrings",
+      @"YES", @"NSShowNonLocalizedStrings",
       //@"YES", @"NSShowAllViews",
       //WBFloat(0.15f), @"NSWindowResizeTime",
       //@"6", @"NSDragManagerLogLevel",
@@ -230,7 +272,7 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
   if ([[SEServerConnection defaultConnection] isRunning]) {
     [[SEServerConnection defaultConnection] shutdown];
   } else {
-    SELaunchSparkDaemon();
+    SELaunchSparkDaemon(NULL);
   }
 }
 

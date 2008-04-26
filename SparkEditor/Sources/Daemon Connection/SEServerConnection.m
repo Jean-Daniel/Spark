@@ -143,7 +143,7 @@ NSString * const SEServerStatusDidChangeNotification = @"SEServerStatusDidChange
       ProcessSerialNumber psn = WBProcessGetProcessWithSignature(kSparkDaemonSignature);
       if (psn.lowLongOfPSN != kNoProcess) {
         KillProcess(&psn);
-        SELaunchSparkDaemon();
+        SELaunchSparkDaemon(&psn);
       }
     }
   }
@@ -192,7 +192,7 @@ NSString * const SEServerStatusDidChangeNotification = @"SEServerStatusDidChange
     [self serverDidClose];
     if (se_scFlags.restart) {
       se_scFlags.restart = 0;
-      SELaunchSparkDaemon();
+      SELaunchSparkDaemon(NULL);
     } else {
       [self setStatus:kSparkDaemonStatusShutDown];
     }
@@ -240,12 +240,12 @@ NSString *SESparkDaemonPath() {
 #endif
 }
 
-BOOL SELaunchSparkDaemon() {
+BOOL SELaunchSparkDaemon(ProcessSerialNumber *psn) {
   [SEPreferences synchronize];
   [SparkActiveLibrary() synchronize];
   NSString *path = SESparkDaemonPath();
   if (path) {
-    if (noErr != WBLSLaunchApplicationAtPath((CFStringRef)path, kCFURLPOSIXPathStyle, kLSLaunchDefaults | kLSLaunchDontSwitch | kLSLaunchDontAddToRecents)) {
+    if (noErr != WBLSLaunchApplicationAtPath((CFStringRef)path, kCFURLPOSIXPathStyle, kLSLaunchDefaults | kLSLaunchDontSwitch | kLSLaunchDontAddToRecents, psn)) {
       DLog(@"Error cannot launch daemon app");
       [[SEServerConnection defaultConnection] setStatus:kSparkDaemonStatusError];
       return NO;
@@ -266,7 +266,7 @@ void SEServerStartConnection() {
         DLog(@"Should Kill Running daemon.");
 #if !defined (DEBUG)
         KillProcess(&psn);
-        SELaunchSparkDaemon();
+        SELaunchSparkDaemon(&psn);
 #endif
       }
     }

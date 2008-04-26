@@ -95,9 +95,12 @@ void *_SEPreferencesLoginItemThread(void *arg) {
   [[NSUserDefaults standardUserDefaults] registerDefaults:values];
   
   /* Verify login items */
-  pthread_t thread;
-  pthread_create(&thread, NULL, _SEPreferencesLoginItemThread, NULL);
-  //_SEPreferencesUpdateLoginItem();
+	if (LSSharedFileListCreate) {
+		_SEPreferencesUpdateLoginItem();
+	} else {
+		pthread_t thread;
+		pthread_create(&thread, NULL, _SEPreferencesLoginItemThread, NULL);
+	}
   
   /* Configure Single key mode */
   __SetSparkKitSingleKeyMode([[NSUserDefaults standardUserDefaults] integerForKey:kSparkPrefSingleKeyMode]);
@@ -409,55 +412,104 @@ void *_SEPreferencesLoginItemThread(void *arg) {
 
 #pragma mark -
 WB_INLINE
-BOOL __CFFileURLCompare(CFURLRef url1, CFURLRef url2) {
-  FSRef r1, r2;
-  if (CFURLGetFSRef(url1, &r1) && CFURLGetFSRef(url2, &r2)) {
-    return FSCompareFSRefs(&r1, &r2) == noErr;
+BOOL __CFFileURLCompare(CFURLRef url1, FSRef *r2) {
+  FSRef r1;
+  if (CFURLGetFSRef(url1, &r1)) {
+    return FSCompareFSRefs(&r1, r2) == noErr;
   }
   return NO;
 }
 
 void _SEPreferencesUpdateLoginItem() {
-  BOOL status = __SEPreferencesLoginItemStatus();
-  
-  CFArrayRef items = WBLoginItemCopyItems();
-  if (items) {
-    NSString *sparkd = SESparkDaemonPath();
-    NSURL *durl = sparkd ? [NSURL fileURLWithPath:sparkd] : NULL;
-    
-    if (durl) {
-      BOOL shouldAdd = status;
-      CFIndex idx = CFArrayGetCount(items);
-      while (idx-- > 0) {
-        CFDictionaryRef item = CFArrayGetValueAtIndex(items, idx);
-        CFURLRef itemURL = CFDictionaryGetValue(item, kWBLoginItemURL);
-        if (itemURL) {
-          CFStringRef name = CFURLCopyLastPathComponent(itemURL);
-          if (name) {
-            if (CFEqual(name, kSparkDaemonExecutableName)) {
-              if (!status || !__CFFileURLCompare(itemURL, (CFURLRef)durl)) {
-                DLog(@"Remove login item: %@", itemURL);
+  FSRef dref;
+	NSString *sparkd = SESparkDaemonPath();
+	BOOL status = __SEPreferencesLoginItemStatus();
+	NSURL *durl = sparkd ? [NSURL fileURLWithPath:sparkd] : NULL;
+	if (CFURLGetFSRef((CFURLRef)durl, &dref)) {
+		if (LSSharedFileListCreate) {
+			/* do it the new way */
+			LSSharedFileListRef list = LSSharedFileListCreate(kCFAllocatorDefault, kLSSharedFileListSessionLoginItems, NULL);
+			if (list) {
+				UInt32 seed = 0;
+				BOOL shouldAdd = status;
+				CFArrayRef items = LSSharedFileListCopySnapshot(list, &seed);
+				if (items) {
+					CFIndex count = CFArrayGetCount(items);
+					while (count-- > 0) {
+						CFURLRef itemURL = NULL;
+						LSSharedFileListItemRef item = (LSSharedFileListItemRef)CFArrayGetValueAtIndex(items, count);
+						if (noErr == LSSharedFileListItemResolve(item, kLSSharedFileListNoUserInteraction | kLSSharedFileListDoNotMountVolumes,
+																										 &itemURL, NULL) && itemURL) {
+							CFStringRef name = CFURLCopyLastPathComponent(itemURL);
+							if (name) {
+								if (CFEqual(name, kSparkDaemonExecutableName)) {
+									if (!status || !__CFFileURLCompare(itemURL, &dref)) {
+										DLog(@"Remove login item: %@", itemURL);
 #if !defined(DEBUG)
-                WBLoginItemRemoveItemAtIndex(idx);
+                    LSSharedFileListItemRemove(list, item);
 #endif
-              } else {
-                DLog(@"Valid login item found");
-                shouldAdd = NO;
-              }
-            } 
-            CFRelease(name);
-          }
-        }
-      }
-      /* Append login item if needed */
-      if (shouldAdd) {
+									} else {
+										DLog(@"Valid login item found");
+										shouldAdd = NO;
+									}
+								} 
+								CFRelease(name);
+							}
+							CFRelease(itemURL);
+						}
+					}
+					/* Append login item if needed */
+					if (shouldAdd) {
 #if !defined(DEBUG)
-        WBLoginItemAppendItemURL((CFURLRef)durl, YES);
+						CFDictionaryRef properties = CFDictionaryCreate(kCFAllocatorDefault, (const void **)&kLSSharedFileListItemHidden, 
+																														(const void **)&kCFBooleanTrue, 1, &kCFCopyStringDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+						LSSharedFileListInsertItemURL(list, kLSSharedFileListItemLast, NULL, NULL, (CFURLRef)durl, properties, NULL);
+						CFRelease(properties);
 #else
-        DLog(@"Add login item: %@", durl);
+						DLog(@"Add login item: %@", durl);
 #endif
-      }
-    }
-    CFRelease(items);
-  }
+					}
+					CFRelease(items);
+				}
+				CFRelease(list);
+			}
+		} else {
+			CFArrayRef items = WBLoginItemCopyItems();
+			if (items) {
+				BOOL shouldAdd = status;
+				CFIndex idx = CFArrayGetCount(items);
+				while (idx-- > 0) {
+					CFDictionaryRef item = CFArrayGetValueAtIndex(items, idx);
+					CFURLRef itemURL = CFDictionaryGetValue(item, kWBLoginItemURL);
+					if (itemURL) {
+						CFStringRef name = CFURLCopyLastPathComponent(itemURL);
+						if (name) {
+							if (CFEqual(name, kSparkDaemonExecutableName)) {
+								if (!status || !__CFFileURLCompare(itemURL, &dref)) {
+									DLog(@"Remove login item: %@", itemURL);
+#if !defined(DEBUG)
+									WBLoginItemRemoveItemAtIndex(idx);
+#endif
+								} else {
+									DLog(@"Valid login item found");
+									shouldAdd = NO;
+								}
+							} 
+							CFRelease(name);
+						}
+					}
+				}				
+				/* Append login item if needed */
+				if (shouldAdd) {
+#if !defined(DEBUG)
+					WBLoginItemAppendItemURL((CFURLRef)durl, YES);
+#else
+					DLog(@"Add login item: %@", durl);
+#endif
+				}
+				
+				CFRelease(items);
+			}
+		}
+	}
 }

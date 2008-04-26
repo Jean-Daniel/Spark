@@ -46,6 +46,7 @@
 		1BB11ABC0B931FAE00908925 /* SELibrary.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1BB11ABB0B931FAE00908925 /* SELibrary.tiff */; };
 		1BD1A1890D0D4926004206FA /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BD1A1870D0D4926004206FA /* MainMenu.xib */; };
 		1BD1A18D0D0D4A02004206FA /* SELibraryWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BD1A18B0D0D4A02004206FA /* SELibraryWindow.xib */; };
+		1BDCB6D90DA7C85500D95044 /* Growl.framework in Copy Framework */ = {isa = PBXBuildFile; fileRef = 1BDCB6D00DA7C84900D95044 /* Growl.framework */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		981875850B8738200079C55F /* SparkRun.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 981875840B8738200079C55F /* SparkRun.tiff */; };
 		981875A10B873B9E0079C55F /* SparkStop.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 981875A00B873B9E0079C55F /* SparkStop.tiff */; };
@@ -144,7 +145,6 @@
 		98D52B780B19A63700C8425C /* SEPreferences.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D52B6E0B19A63700C8425C /* SEPreferences.h */; };
 		98D52B790B19A63700C8425C /* SEPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B6F0B19A63700C8425C /* SEPreferences.m */; };
 		98D590F30AA18A430081A713 /* SEEditor.strings in Resources */ = {isa = PBXBuildFile; fileRef = 98D590F10AA18A430081A713 /* SEEditor.strings */; };
-		98DCBF820CCA6C8F0045707B /* Shadow Lab.cer in Resources */ = {isa = PBXBuildFile; fileRef = 98DCBF810CCA6C8F0045707B /* Shadow Lab.cer */; };
 		98DD455F0A57DE9A00F059E5 /* SystemAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 6540B6E809E6430800D0E8FB /* SystemAction.spact */; };
 		98DD45600A57DE9A00F059E5 /* iTunesAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 6540B6EA09E6430800D0E8FB /* iTunesAction.spact */; };
 		98DD45610A57DE9A00F059E5 /* DocumentAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 6540B6EC09E6430800D0E8FB /* DocumentAction.spact */; };
@@ -336,6 +336,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				1BDCB6D90DA7C85500D95044 /* Growl.framework in Copy Framework */,
 				98EF83170864631B007BC81A /* SparkKit.framework in Copy Framework */,
 				98A0A57B0CCFE2B800AC06B6 /* SArchiveKit.framework in Copy Framework */,
 				98A0A57A0CCFE2B000AC06B6 /* SUpdaterKit.framework in Copy Framework */,
@@ -423,6 +424,7 @@
 		1BBED2340C9FFCAD0050A7F8 /* SEUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEUpdater.m; sourceTree = "<group>"; };
 		1BD1A1880D0D4926004206FA /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		1BD1A18C0D0D4A02004206FA /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SELibraryWindow.xib; sourceTree = "<group>"; };
+		1BDCB6D00DA7C84900D95044 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = Resources/Growl.framework; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		981875840B8738200079C55F /* SparkRun.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SparkRun.tiff; sourceTree = "<group>"; };
@@ -452,7 +454,7 @@
 		984BCE3E060C7E990043CDEA /* Splib.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Splib.icns; sourceTree = "<group>"; };
 		984BCE3F060C7E990043CDEA /* Spact.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Spact.icns; sourceTree = "<group>"; };
 		984BCE41060C7E990043CDEA /* Spark.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Spark.icns; sourceTree = "<group>"; };
-		984BCE5F060C7EBD0043CDEA /* SparkSuite.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.sdef; path = SparkSuite.sdef; sourceTree = "<group>"; };
+		984BCE5F060C7EBD0043CDEA /* SparkSuite.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.sdef; name = SparkSuite.sdef; path = "../AppleScript Suite/SparkSuite.sdef"; sourceTree = "<group>"; };
 		984BCE6C060C7FEC0043CDEA /* Spark.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Spark.h; sourceTree = "<group>"; };
 		98593CDF073EE728003BA845 /* ExporterUI.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ExporterUI.m; sourceTree = "<group>"; };
 		98593CE3073EE736003BA845 /* SparkExporter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SparkExporter.m; sourceTree = "<group>"; };
@@ -537,8 +539,7 @@
 		98D52B700B19A63700C8425C /* SETriggerBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SETriggerBrowser.h; sourceTree = "<group>"; };
 		98D52B710B19A63700C8425C /* SETriggerBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SETriggerBrowser.m; sourceTree = "<group>"; };
 		98D590F20AA18A430081A713 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/SEEditor.strings; sourceTree = "<group>"; };
-		98DCBDEC060C80DD00B3E0AE /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = SOURCE_ROOT; };
-		98DCBF810CCA6C8F0045707B /* Shadow Lab.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Shadow Lab.cer"; sourceTree = "<group>"; };
+		98DCBDEC060C80DD00B3E0AE /* Info.plist */ = {isa = PBXFileReference; explicitFileType = text.plist.xml; fileEncoding = 4; path = Info.plist; sourceTree = SOURCE_ROOT; };
 		98E66CC10759FA7C0048A37D /* HotKeySparkList.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = HotKeySparkList.icns; sourceTree = "<group>"; };
 		98E66CC20759FA7C0048A37D /* ApplicationSparkList.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = ApplicationSparkList.icns; sourceTree = "<group>"; };
 		98E66CC30759FA7C0048A37D /* ActionSparkList.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = ActionSparkList.icns; sourceTree = "<group>"; };
@@ -569,6 +570,7 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1BDCB6D00DA7C84900D95044 /* Growl.framework */,
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
 				98FF14DB05EACAE90005F402 /* WebKit.framework */,
 				1B1775960CC4BC83009D351A /* Security.framework */,
@@ -612,7 +614,6 @@
 				98240180060C7B0700A0DB07 /* Sources */,
 				98B704BB0A86208E00DB692D /* Deprecated */,
 				982401D6060C7B3000A0DB07 /* Resources */,
-				984BCE5D060C7EBD0043CDEA /* AppleScript Suite */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				1B7BBB3F0CBE236700484A9E /* Configurations */,
@@ -671,13 +672,13 @@
 				984BCA56060C7BDB0043CDEA /* Interface */,
 				98DCBDEC060C80DD00B3E0AE /* Info.plist */,
 				98D590F60AA18A4E0081A713 /* Localization */,
+				984BCE5F060C7EBD0043CDEA /* SparkSuite.sdef */,
 				98D1E8B0078564B8002DDB31 /* Update.strings */,
 				986F865D0707415800064694 /* Editors.strings */,
 				986F865207073F8200064694 /* Libraries.strings */,
 				1B1359A00CA11FB400766572 /* SEUpdater.strings */,
 				98766A020CD4EF4F00593B74 /* SEExportApp.xml */,
 				984BCB9C060C7C7B0043CDEA /* Spark Help */,
-				98DCBF810CCA6C8F0045707B /* Shadow Lab.cer */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -790,14 +791,6 @@
 				986691FA06F7B590002C4E98 /* application.tiff */,
 			);
 			path = Icons;
-			sourceTree = "<group>";
-		};
-		984BCE5D060C7EBD0043CDEA /* AppleScript Suite */ = {
-			isa = PBXGroup;
-			children = (
-				984BCE5F060C7EBD0043CDEA /* SparkSuite.sdef */,
-			);
-			path = "AppleScript Suite";
 			sourceTree = "<group>";
 		};
 		98593CDA073EE6A8003BA845 /* Import/Export */ = {
@@ -1310,7 +1303,6 @@
 				1B1358710CA110DB00766572 /* advancedpref.icns in Resources */,
 				1B1358E90CA11B8800766572 /* updatepref.tiff in Resources */,
 				1B1358FC0CA11C2000766572 /* pluginpref.tiff in Resources */,
-				98DCBF820CCA6C8F0045707B /* Shadow Lab.cer in Resources */,
 				98766A030CD4EF4F00593B74 /* SEExportApp.xml in Resources */,
 				1BD1A1890D0D4926004206FA /* MainMenu.xib in Resources */,
 				1BD1A18D0D0D4A02004206FA /* SELibraryWindow.xib in Resources */,
@@ -1331,21 +1323,20 @@
 /* Begin PBXShellScriptBuildPhase section */
 		98A0A5320CCFE12100AC06B6 /* Symlink Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
-				"$(SHARED_SOURCES_DIR)/SArchiveKit/build/$(CONFIGURATION)/SArchiveKit.framework",
 				"$(SHARED_SOURCES_DIR)/SUpdaterKit/build/$(CONFIGURATION)/SUpdaterKit.framework",
+				"$(SHARED_SOURCES_DIR)/SArchiveKit/build/$(CONFIGURATION)/SArchiveKit.framework",
 			);
 			name = "Symlink Frameworks";
 			outputPaths = (
-				"$(CONFIGURATION_BUILD_DIR)/SArchiveKit.framework",
-				"$(CONFIGURATION_BUILD_DIR)/SUpdaterKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/tcsh;
 			shellScript = "if (! -e \"${CONFIGURATION_BUILD_DIR}/SArchiveKit.framework\") then\nln -s \"${SHARED_SOURCES_DIR}/SArchiveKit/build/${CONFIGURATION}/SArchiveKit.framework\" \"${CONFIGURATION_BUILD_DIR}\"\nendif\n\nif (! -e \"${CONFIGURATION_BUILD_DIR}/SUpdaterKit.framework\") then\nln -s \"${SHARED_SOURCES_DIR}/SUpdaterKit/build/${CONFIGURATION}/SUpdaterKit.framework\" \"${CONFIGURATION_BUILD_DIR}\"\nendif\n\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1665,7 +1656,7 @@
 		1B7CF7830D3577340068DAD1 /* 64bits */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 405;
+				CURRENT_PROJECT_VERSION = 450;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = Spark;
@@ -1676,7 +1667,7 @@
 		98BC60520857BB9400A2041F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 405;
+				CURRENT_PROJECT_VERSION = 450;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = Spark;
@@ -1687,7 +1678,7 @@
 		98BC60530857BB9400A2041F /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 405;
+				CURRENT_PROJECT_VERSION = 450;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = Spark;
@@ -1738,7 +1729,7 @@
 		98EFD02F0B58443900AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 405;
+				CURRENT_PROJECT_VERSION = 450;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = Spark;

@@ -55,7 +55,7 @@
 
 - (IBAction)close:(id)sender {
   if ([ibStartNow state] == NSOnState && ![[SEServerConnection defaultConnection] isRunning]) {
-    SELaunchSparkDaemon();
+    SELaunchSparkDaemon(NULL);
   }
   SEPreferencesSetLoginItemStatus(NSOnState == [ibAutoStart state]);
   [super close:sender];  

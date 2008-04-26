@@ -48,7 +48,7 @@ WB_PRIVATE
 NSString * const kSparkDaemonExecutableName;
 
 WB_PRIVATE
-BOOL SELaunchSparkDaemon(void);
+BOOL SELaunchSparkDaemon(ProcessSerialNumber *psn);
 WB_PRIVATE
 NSString *SESparkDaemonPath(void);
 WB_PRIVATE
