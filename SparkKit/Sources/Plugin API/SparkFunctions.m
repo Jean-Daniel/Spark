@@ -42,11 +42,14 @@ void SparkLaunchEditor() {
       } else {
 #if defined(DEBUG)
         NSString *sparkPath = @"./Spark.app";
-        [[NSWorkspace sharedWorkspace] openFile:sparkPath];
 #else
         NSString *sparkPath = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"../../../"];
-        [[NSWorkspace sharedWorkspace] launchApplication:sparkPath];
-#endif   
+#endif  
+        if ([NSThread respondsToSelector:@selector(isMainThread)] && [NSThread isMainThread]) {
+          [[NSWorkspace sharedWorkspace] launchApplication:[sparkPath stringByStandardizingPath]];
+        } else {
+          [[NSWorkspace sharedWorkspace] performSelectorOnMainThread:@selector(launchApplication:) withObject:[sparkPath stringByStandardizingPath] waitUntilDone:NO];
+        }
       }
     }
       break;
@@ -55,18 +58,22 @@ void SparkLaunchEditor() {
 
 SparkContext SparkGetCurrentContext() {
   static SparkContext ctxt = 0xffffffff;
-  if (0xffffffff == ctxt) {
-    CFBundleRef bundle = CFBundleGetMainBundle();
-    if (bundle) {
-      CFStringRef ident = CFBundleGetIdentifier(bundle);
-      if (ident) {
-        if (CFEqual((CFTypeRef)kSparkDaemonBundleIdentifier, ident)) {
-          ctxt = kSparkDaemonContext;
-        } else {
-          ctxt = kSparkEditorContext;
+  if (ctxt != 0xffffffff) return ctxt;
+  
+  @synchronized(@"SparkContextLock") {
+    if (0xffffffff == ctxt) {
+      CFBundleRef bundle = CFBundleGetMainBundle();
+      if (bundle) {
+        CFStringRef ident = CFBundleGetIdentifier(bundle);
+        if (ident) {
+          if (CFEqual((CFTypeRef)kSparkDaemonBundleIdentifier, ident)) {
+            ctxt = kSparkDaemonContext;
+          } else {
+            ctxt = kSparkEditorContext;
+          }
         }
       }
-    }
+    } 
   }
   return ctxt;
 }

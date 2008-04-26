@@ -16,9 +16,10 @@
 
 @implementation SparkTrigger
 
-static SparkAction *sp_spAction = nil;
+static NSString * const SparkCurrentActionKey = @"SparkCurrentAction";
 + (SparkAction *)currentAction {
-  return sp_spAction;
+  NSMutableDictionary *dict = [[NSThread currentThread] threadDictionary];
+  return [dict objectForKey:SparkCurrentActionKey];
 }
 
 #pragma mark Copying
@@ -132,10 +133,11 @@ static SparkAction *sp_spAction = nil;
 
 - (void)willTriggerAction:(SparkAction *)anAction {
   [SparkAction setCurrentTrigger:self];
-  WBSetterRetain(sp_spAction, anAction);
+  [[[NSThread currentThread] threadDictionary] setValue:anAction forKey:SparkCurrentActionKey];
 }
 
 - (void)didTriggerAction:(SparkAction *)anAction {
+  [[[NSThread currentThread] threadDictionary] removeObjectForKey:SparkCurrentActionKey];
   [SparkAction setCurrentTrigger:nil];
 }
 

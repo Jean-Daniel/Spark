@@ -721,8 +721,7 @@ void SparkLibraryCleanup() {
 
 static 
 void SparkInitLibraries() {
-  if (sLibraries)
-    return;
+  if (sLibraries) return;
   
   sLibraries = [[NSMutableArray alloc] init];
   

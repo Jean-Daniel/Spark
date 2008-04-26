@@ -45,7 +45,8 @@ CFMutableDictionaryRef sSparkFrameworkPreferences = NULL;
 static
 void SparkPreferencesNotifyObservers(NSString *key, id value, SparkPreferencesDomain domain);
 
-@interface SparkLibrary (SparkPreferencesPrivate) 
+@interface SparkLibrary (SparkPreferencesPrivate)
+- (BOOL)synchronizePreferences;
 - (id)preferenceValueForKey:(NSString *)key;
 - (void)setPreferenceValue:(id)value forKey:(NSString *)key;
 @end
@@ -241,7 +242,7 @@ Boolean SparkPreferencesSynchronize(SparkPreferencesDomain domain) {
       return CFPreferencesSynchronize(kSparkPreferencesIdentifier,
                                       kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
     case SparkPreferencesLibrary:
-      return YES; /* synchronization is done when the library is saved */ // SparkLibraryPreferencesSynchronize();
+      return [SparkActiveLibrary() synchronizePreferences]; /* synchronization is done when the library is saved */ // SparkLibraryPreferencesSynchronize();
     case SparkPreferencesFramework:
       return CFPreferencesSynchronize(kSparkPreferencesIdentifier,
                                       kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
@@ -433,11 +434,18 @@ void SparkPreferencesUnregisterObserver(id observer, NSString *key, SparkPrefere
 
 @implementation SparkLibrary (SparkPreferencesPrivate)
 
+- (BOOL)synchronizePreferences {
+  if (sp_slFlags.syncPrefs)
+    return [self synchronize];
+  return YES;
+}
+
 - (id)preferenceValueForKey:(NSString *)key {
   return [[self preferences] objectForKey:key];
 }
 
 - (void)setPreferenceValue:(id)value forKey:(NSString *)key {
+  sp_slFlags.syncPrefs = 1;
   if (value) {
     [[self preferences] setObject:value forKey:key];
   } else {

@@ -26,13 +26,18 @@ static NSString * const kSparkActionDescriptionKey = @"SADescription";
 @implementation SparkAction
 
 #pragma mark Current Event
-static SparkTrigger *sTrigger;
+static NSString * const SparkCurrentTriggerKey = @"SparkCurrentTrigger";
+
++ (SparkTrigger *)currentEvent {
+  return [[[NSThread currentThread] threadDictionary] objectForKey:SparkCurrentTriggerKey];
+}
 
 + (BOOL)currentEventIsARepeat {
-  return [sTrigger isARepeat];
+  return [[self currentEvent] isARepeat];
 }
 + (NSTimeInterval)currentEventTime {
-  return sTrigger ? [sTrigger eventTime] : 0;
+  SparkTrigger *current = [self currentEvent];
+  return current ? [current eventTime] : 0;
 }
 
 #pragma mark -
@@ -174,11 +179,24 @@ static SparkTrigger *sTrigger;
   WBSetterCopy(sp_description, desc);
 }
 
+- (BOOL)performOnKeyUp {
+  return NO;
+}
+
 - (NSTimeInterval)repeatInterval {
   return 0;
 }
 
-@end
+- (BOOL)needsToBeRunOnMainThread {
+  return YES;
+}
+- (BOOL)supportsConcurrentRequests {
+  return NO;
+}
+
+- (id)lock {
+  return [self class];
+}
 
 //#pragma mark -
 //@implementation SparkAction (SparkExport)
@@ -215,10 +233,10 @@ static SparkTrigger *sTrigger;
 //@end
 
 #pragma mark -
-@implementation SparkAction (Private)
-
 + (void)setCurrentTrigger:(SparkTrigger *)aTrigger {
-  WBSetterRetain(sTrigger, aTrigger);
+  NSMutableDictionary *dict = [[NSThread currentThread] threadDictionary];
+  if (aTrigger) [dict setObject:aTrigger forKey:SparkCurrentTriggerKey];
+  else [dict removeObjectForKey:SparkCurrentTriggerKey];
 }
 
 - (id)duplicate {
@@ -228,10 +246,6 @@ static SparkTrigger *sTrigger;
   if (plist)
     copy = WBDeserializeObject(plist, NULL);
   return copy;
-}
-
-- (SparkAlert *)hotKeyShouldExecuteAction:(SparkHotKey *)hotkey {
-  return [self performAction];
 }
 
 - (BOOL)isInvalid {

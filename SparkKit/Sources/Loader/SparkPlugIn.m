@@ -109,7 +109,8 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
     [self setPath:[bundle bundlePath]];
     
     /* Extend applescript support */
-    //[[NSScriptSuiteRegistry sharedScriptSuiteRegistry] loadSuitesFromBundle:bundle];
+//    if (SparkGetCurrentContext() == kSparkEditorContext)
+//      [[NSScriptSuiteRegistry sharedScriptSuiteRegistry] loadSuitesFromBundle:bundle];
   }
   return self;
 }
@@ -186,12 +187,20 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
   }
 }
 
+- (NSBundle *)bundle {
+  NSBundle *bundle = nil;
+  if ([self path])
+    bundle = [NSBundle bundleWithPath:[self path]];
+  if (!bundle)
+    bundle = [NSBundle bundleForClass:sp_class];
+  if (bundle != [NSBundle mainBundle]) return bundle;
+  return nil;
+}
+
 - (NSString *)version {
-  if (!sp_version && [self path]) {
+  if (!sp_version) {
     // Try to init version
-    NSBundle *bundle = [NSBundle bundleWithPath:[self path]];
-    if (bundle != [NSBundle mainBundle])
-      sp_version = [[bundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"] retain];
+    sp_version = [[[self bundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"] retain];
   }
   return sp_version;
 }
@@ -212,6 +221,16 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
     return [NSURL fileURLWithPath:help];
   return nil;
 }
+- (NSString *)sdefFile {
+  NSBundle *bundle = [self bundle];
+  if (bundle) {
+    NSString *sdef = [bundle objectForInfoDictionaryKey:@"OSAScriptingDefinition"];
+    if (sdef) {
+      return [bundle pathForResource:[sdef stringByDeletingPathExtension] ofType:[sdef pathExtension]];
+    }
+  }
+  return nil;
+}
 
 - (id)instantiatePlugin {
   if (!sp_nib) {
@@ -230,8 +249,55 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
   return [plugin autorelease];
 }
 
+- (Class)pluginClass {
+  return sp_class;
+}
 - (Class)actionClass {
   return [sp_class actionClass];
+}
+
+
+/* Growl Support */
+
+static NSDictionary *_SparkLocalizeDictionaryValues(NSDictionary *base, NSBundle *bundle, NSString *table) {
+  if (!base) return nil;
+  
+  NSString *key;
+  NSEnumerator *keys = [base keyEnumerator];
+  NSMutableDictionary *localized = [NSMutableDictionary dictionary];
+  while (key = [keys nextObject]) {
+    NSString *value = [base objectForKey:key];
+    NSString *localization = [bundle localizedStringForKey:value value:nil table:table];
+    if (localization) [localized setObject:localization forKey:key];
+    else  [localized setObject:value forKey:key];
+  }
+  return localized;
+}
+
+- (NSDictionary *)growlNotifications {
+  NSBundle *bundle = [self bundle];
+  NSDictionary *dict = [sp_class growlNotifications];
+  if (!dict) {
+    NSString *plist = [bundle pathForResource:@"GrowlNotifications" ofType:@"plist"];
+    if (plist)
+      dict = [NSDictionary dictionaryWithContentsOfFile:plist];
+  }
+  /* localize dictionary */
+  if (dict) {
+    if ([bundle pathForResource:@"GrowlNotifications" ofType:@"strings"]) {
+      NSDictionary *names = _SparkLocalizeDictionaryValues([dict objectForKey:@"HumanReadableNames"], bundle, @"GrowlNotifications");
+      NSDictionary *descriptions = _SparkLocalizeDictionaryValues([dict objectForKey:@"NotificationDescriptions"], bundle, @"GrowlNotifications");
+      if (names || descriptions) {
+        NSMutableDictionary *tmp = [[dict mutableCopy] autorelease];
+        if (names)
+          [tmp setObject:names forKey:@"HumanReadableNames"];
+        if (descriptions)
+          [tmp setObject:descriptions forKey:@"NotificationDescriptions"];
+        dict = tmp;
+      }
+    }
+  }
+  return dict;
 }
 
 @end

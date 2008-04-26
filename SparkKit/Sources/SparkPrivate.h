@@ -10,7 +10,7 @@
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkActionPlugIn.h>
 
-@interface SparkActionPlugIn (Private)
+@interface SparkActionPlugIn ()
 
 /* Some kind of hack to resolve binding cyclic memory problem. 
 - releaseViewOwnership says to the receiver that it no longer need retain
@@ -33,7 +33,7 @@
 @end
 
 @class SparkHotKey, SparkTrigger;
-@interface SparkAction (Private)
+@interface SparkAction ()
 
 + (void)setCurrentTrigger:(SparkTrigger *)aTrigger;
 
@@ -51,11 +51,9 @@
    */
 - (void)setCategorie:(NSString *)categorie;
 
-- (SparkAlert *)hotKeyShouldExecuteAction:(SparkHotKey *)hotkey;
-
 @end
 
-@interface SparkObject (Private)
+@interface SparkObject ()
 /*!
 @method
  @abstract Don't call this method directly. This method is called by Library.

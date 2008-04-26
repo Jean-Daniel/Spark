@@ -130,4 +130,10 @@ SPARK_CLASS_EXPORT
    */
 - (NSTimeInterval)repeatInterval;
 
+- (BOOL)performOnKeyUp;
+
+- (BOOL)needsToBeRunOnMainThread;
+- (BOOL)supportsConcurrentRequests;
+- (id)lock; // return a object uses to determine if two actions can be executed concurrently.
+
 @end

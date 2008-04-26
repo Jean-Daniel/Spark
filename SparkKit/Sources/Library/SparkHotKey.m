@@ -251,11 +251,22 @@ NSTimeInterval SparkGetDefaultKeyRepeatInterval() {
 
 @implementation HKHotKey (SparkRepeat)
 
+- (BOOL)shouldInvoke:(BOOL)repeat {
+  if (!repeat && ![self invokeOnKeyUp]) {
+    SparkAction *action = [SparkTrigger currentAction];
+    if (action && [action performOnKeyUp]) [self setInvokeOnKeyUp:YES];
+  }
+  return YES;
+}
+
 - (void)didInvoke:(BOOL)repeat {
   if (!repeat && ![self invokeOnKeyUp]) {
     // Adjust repeat delay.
     SparkAction *action = [SparkTrigger currentAction];
     [self setRepeatInterval:(action) ? [action repeatInterval] : 0];    
+  } else if ([self invokeOnKeyUp]) {
+    /* always reset invoke on key up */
+    [self setInvokeOnKeyUp:NO];
   }
 }
 

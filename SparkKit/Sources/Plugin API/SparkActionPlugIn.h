@@ -143,4 +143,7 @@ SPARK_CLASS_EXPORT
  */
 + (NSImage *)pluginViewIcon;
 
+/* Growl support (uses GrowlNotificaitons.plist by default) */
++ (NSDictionary *)growlNotifications;
+
 @end

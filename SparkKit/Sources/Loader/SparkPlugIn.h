@@ -28,7 +28,7 @@ WB_CLASS_EXPORT
   
   struct _sp_spFlags {
     unsigned int disabled:1;
-    unsigned int reserved:15;
+    unsigned int reserved:13;
   } sp_spFlags;
 }
 
@@ -78,7 +78,9 @@ WB_CLASS_EXPORT
 - (void)setIdentifier:(NSString *)anIdentifier;
 
 - (NSURL *)helpURL;
+- (NSString *)sdefFile;
 
+- (Class)pluginClass;
 /*!
   @method
  @abstract Returns the Action Class provided by this plugin.
@@ -89,6 +91,8 @@ WB_CLASS_EXPORT
  @abstract Returns a new plugin instance.
 */
 - (id)instantiatePlugin;
+
+- (NSDictionary *)growlNotifications;
 
 @end
 

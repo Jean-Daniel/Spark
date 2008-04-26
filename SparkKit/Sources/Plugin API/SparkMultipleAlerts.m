@@ -12,7 +12,7 @@
 #import <SparkKit/SparkActionPlugIn.h>
 #import <SparkKit/SparkMultipleAlerts.h>
 
-@interface SparkMultipleAlerts (Private)
+@interface SparkMultipleAlerts ()
 - (void)refreshUI;
 - (CGFloat)setText:(NSString *)msg inField:(id)textField;
 @end;

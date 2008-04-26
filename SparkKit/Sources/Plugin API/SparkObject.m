@@ -235,9 +235,6 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
 	[self setName:rep];  
 }
 
-@end
-
-@implementation SparkObject (Private)
 
 - (void)setUID:(SparkUID)uid {
   sp_uid = uid;

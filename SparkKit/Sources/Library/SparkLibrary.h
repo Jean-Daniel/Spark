@@ -101,7 +101,8 @@ SPARK_CLASS_EXPORT
   struct _sp_slFlags {
     unsigned int loaded:1;
     unsigned int unnotify:8;
-    unsigned int reserved:23;
+    unsigned int syncPrefs:1;
+    unsigned int reserved:22;
   } sp_slFlags;
   
   /* Model synchronization */

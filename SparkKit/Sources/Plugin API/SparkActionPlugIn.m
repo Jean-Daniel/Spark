@@ -258,6 +258,10 @@
   return nil;
 }
 
++ (NSDictionary *)growlNotifications {
+  return nil;
+}
+
 @end
 
 #pragma mark -

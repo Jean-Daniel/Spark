@@ -235,7 +235,7 @@
 		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		1B09470D0D68BC9B00E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		1B09470E0D68BCA100E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1B09470E0D68BCA100E8FE8D /* French */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1B0947110D68BCCB00E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = French; path = French.lproj/SparkPlugin.xib; sourceTree = "<group>"; };
 		1B0947120D68BCD100E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = French; path = French.lproj/SparkMultiAlert.xib; sourceTree = "<group>"; };
 		1B0947140D68BCDB00E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = French; path = French.lproj/SparkPluginView.xib; sourceTree = "<group>"; };
@@ -276,7 +276,7 @@
 		1BB9869A0D382AD00074D18E /* WBApplicationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBApplicationView.h; sourceTree = "<group>"; };
 		1BB9869B0D382AD10074D18E /* WBApplicationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBApplicationView.m; sourceTree = "<group>"; };
 		1BB9869C0D382AD10074D18E /* WBBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBBackgroundView.h; sourceTree = "<group>"; };
-		1BB9869D0D382AD10074D18E /* WBBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBBackgroundView.m; sourceTree = "<group>"; };
+		1BB9869D0D382AD10074D18E /* WBBackgroundView.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; path = WBBackgroundView.m; sourceTree = "<group>"; };
 		1BB986A50D382AD10074D18E /* WBHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBHeaderView.h; sourceTree = "<group>"; };
 		1BB986A60D382AD10074D18E /* WBHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBHeaderView.m; sourceTree = "<group>"; };
 		1BB986A70D382AD10074D18E /* WBImageAndTextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBImageAndTextCell.h; sourceTree = "<group>"; };
@@ -678,8 +678,8 @@
 				1BE316520D38138B005C3FB2 /* WBFSFunctions.m */,
 				1BE316550D38138B005C3FB2 /* WBIOKitFunctions.c */,
 				1BE316560D38138B005C3FB2 /* WBIOKitFunctions.h */,
-				1BE316570D38138B005C3FB2 /* WBLoginItems.c */,
 				1BE316580D38138B005C3FB2 /* WBLoginItems.h */,
+				1BE316570D38138B005C3FB2 /* WBLoginItems.c */,
 				1BE316590D38138B005C3FB2 /* WBLSFunctions.h */,
 				1BE3165A0D38138B005C3FB2 /* WBLSFunctions.m */,
 				1BE3165F0D38138B005C3FB2 /* WBProcessFunctions.c */,
