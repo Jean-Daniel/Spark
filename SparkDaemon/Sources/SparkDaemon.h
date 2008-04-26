@@ -16,6 +16,12 @@
   SparkLibrary *sd_library;
   SparkApplication *sd_front;
   SparkDistantLibrary *sd_rlibrary;
+  
+  NSLock *sd_lock;
+  CFMutableDictionaryRef sd_locks;
+  
+  /* Growl support */
+  NSMutableArray *sd_growl;
 }
 
 - (BOOL)openConnection;

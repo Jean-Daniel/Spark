@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		1B7BBBF90CBE25D000484A9E /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B7BBBF80CBE25D000484A9E /* Carbon.framework */; };
+		1BDCB7350DA7CA3700D95044 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BDCB7340DA7CA3700D95044 /* Growl.framework */; };
+		1BDCB7420DA7CA5600D95044 /* SparkDaemonGrowl.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDCB7410DA7CA5600D95044 /* SparkDaemonGrowl.m */; };
 		983AFC260B19A74300173464 /* Spark.icns in Resources */ = {isa = PBXBuildFile; fileRef = 983AFC250B19A74300173464 /* Spark.icns */; };
 		98B20D9A06A5492E008BA3F6 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		98D528DF0B19A14800C8425C /* SDAEHandlers.c in Sources */ = {isa = PBXBuildFile; fileRef = 98D528D90B19A14800C8425C /* SDAEHandlers.c */; };
@@ -73,6 +75,9 @@
 		1B7BB7EA0CBE20D500484A9E /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		1B7BBBF80CBE25D000484A9E /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		1B7CF66A0D35740F0068DAD1 /* 64Bits.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = 64Bits.xcconfig; sourceTree = "<group>"; };
+		1BDCB7340DA7CA3700D95044 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = ../SparkEditor/Resources/Growl.framework; sourceTree = SOURCE_ROOT; };
+		1BDCB7400DA7CA5600D95044 /* SparkDaemonGrowl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkDaemonGrowl.h; sourceTree = "<group>"; };
+		1BDCB7410DA7CA5600D95044 /* SparkDaemonGrowl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkDaemonGrowl.m; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		983AFC250B19A74300173464 /* Spark.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Spark.icns; path = ../SparkEditor/Resources/Images/icns/Spark.icns; sourceTree = SOURCE_ROOT; };
@@ -99,6 +104,7 @@
 				98EF7E530864588F007BC81A /* SparkKit.framework in Frameworks */,
 				98EF7E520864588C007BC81A /* HotKeyToolKit.framework in Frameworks */,
 				1B7BBBF90CBE25D000484A9E /* Carbon.framework in Frameworks */,
+				1BDCB7350DA7CA3700D95044 /* Growl.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -108,6 +114,7 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1BDCB7340DA7CA3700D95044 /* Growl.framework */,
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
 				1B7BBBF80CBE25D000484A9E /* Carbon.framework */,
 			);
@@ -184,6 +191,7 @@
 				98D528DB0B19A14800C8425C /* SDProtocol.m */,
 				98D528D90B19A14800C8425C /* SDAEHandlers.c */,
 				98D528DE0B19A14800C8425C /* SparkDaemon.m */,
+				1BDCB7410DA7CA5600D95044 /* SparkDaemonGrowl.m */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -194,6 +202,7 @@
 				98D528DC0B19A14800C8425C /* SDVersion.h */,
 				98D528DA0B19A14800C8425C /* SDAEHandlers.h */,
 				98D528DD0B19A14800C8425C /* SparkDaemon.h */,
+				1BDCB7400DA7CA5600D95044 /* SparkDaemonGrowl.h */,
 			);
 			name = Headers;
 			sourceTree = "<group>";
@@ -358,6 +367,7 @@
 				98D528DF0B19A14800C8425C /* SDAEHandlers.c in Sources */,
 				98D528E00B19A14800C8425C /* SDProtocol.m in Sources */,
 				98D528E10B19A14800C8425C /* SparkDaemon.m in Sources */,
+				1BDCB7420DA7CA5600D95044 /* SparkDaemonGrowl.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -397,6 +407,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 405;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../SparkEditor/Resources\"",
+				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				PRODUCT_NAME = "Spark Daemon";
@@ -407,6 +421,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 405;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../SparkEditor/Resources\"",
+				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				PRODUCT_NAME = "Spark Daemon";
@@ -417,6 +435,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 405;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../SparkEditor/Resources\"",
+				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				PRODUCT_NAME = "Spark Daemon";
@@ -445,6 +467,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 405;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../SparkEditor/Resources\"",
+				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				PRODUCT_NAME = "Spark Daemon";
