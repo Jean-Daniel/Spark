@@ -1,14 +1,14 @@
 /*
- *  HKKeyboardUtils.c
+ *  HKKeymapInternal.c
  *  HotKeyToolKit
  *
  *  Created by Shadow Team.
- *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
+ *  Copyright (c) 2004 - 2008 Shadow Lab. All rights reserved.
  */
 
 #include <Carbon/Carbon.h>
 #import "HKKeyMap.h"
-#import "HKKeyboardUtils.h"
+#import "HKKeymapInternal.h"
 
 #pragma mark Flat and deflate
 /* Flat format: 
@@ -21,21 +21,22 @@ Note: keycode = 0xff => keycode is 0.
 HK_INLINE
 NSInteger __HKUtilsFlatKey(HKKeycode code, HKModifier modifier, UInt32 dead) {
   check(code < 128);
-  /* Avoid null code */
+  /* We change keycode 0 to 0xff, so the return value is never 0, as flat == 0 mean invalid */
   /* modifier: modifier use only 16 high bits and 0x3ff00 is 0x3ff << 8 */
   return ((code ? : 0xff) & 0xff) | ((modifier >> 8) & 0x3ff00) | (dead & 0x3fff) << 18;
 }
 HK_INLINE
 NSInteger __HKUtilsFlatDead(NSInteger flat, UInt32 dead) {
-  /* Avoid null code */
   return (flat & 0x3ffff) | ((dead & 0x3fff) << 18);
 }
 HK_INLINE
 void __HKUtilsDeflatKey(NSInteger flat, HKKeycode *code, HKModifier *modifier, UInt32 *dead) {
-  *code = flat & 0xff;
-  if (*code == 0xff) *code = 0;
-  *modifier = (UInt32)(flat & 0x3ff00) << 8;
-  *dead = (UInt32)(flat >> 18) & 0x3fff;
+  if (code) {
+    *code = flat & 0xff;
+    if (*code == 0xff) *code = 0;
+  }
+  if (modifier) *modifier = (UInt32)(flat & 0x3ff00) << 8;
+  if (dead) *dead = (UInt32)(flat >> 18) & 0x3fff;
 }
 
 
@@ -81,6 +82,17 @@ UInt32 __GetModifierCount(NSUInteger idx) {
   if (idx & kRightShiftKey) count++;
   if (idx & kRightOptionKey) count++;
   if (idx & kRightControlKey) count++;
+  return count;
+}
+
+HK_INLINE
+UInt32 __GetNativeModifierCount(HKModifier idx) {
+  UInt32 count = 0;
+  if (idx & kCGEventFlagMaskShift) count++;
+  if (idx & kCGEventFlagMaskControl) count++;
+  if (idx & kCGEventFlagMaskCommand) count++;
+  if (idx & kCGEventFlagMaskAlternate) count++;
+  if (idx & kCGEventFlagMaskAlphaShift) count++;
   return count;
 }
 
@@ -242,7 +254,7 @@ OSStatus HKKeyMapContextWithUchrData(const UCKeyboardLayout *layout, Boolean rev
       if (__GetModifierCount(tmod[table]) > __GetModifierCount(idx))
           tmod[table] = idx;
     } else {
-      /* Table overflow, should not append */
+      /* Table overflow, should not append but do it on french keymap since  */
       // WCLog("Invalid Keyboard layout, table %tu does not exists", idx);
     }
     idx++;
@@ -265,9 +277,8 @@ OSStatus HKKeyMapContextWithUchrData(const UCKeyboardLayout *layout, Boolean rev
       if (output[key] >= 0xFFFE) {
         // Illegal character => no output, skip it
       } else {
-        if (output[key] & (1 << 14)) {
+        if (output[key] & (1 << 14)) { // if "State Record", save it into deadr table
           NSUInteger state = output[key] & 0x3fff;
-          // State record. save it into deadr table
           NSMapInsertIfAbsent(deadr, (void *)state, (void *)__HKUtilsFlatKey(key, (HKModifier)tmod[idx], 0));
           
           /* for table without modifiers only */
@@ -288,9 +299,19 @@ OSStatus HKKeyMapContextWithUchrData(const UCKeyboardLayout *layout, Boolean rev
           // Maybe check if sequence contains only one char.
         } else {
           if (map) {
+            NSInteger flat;
             // Simple unichar output. Save it into map table.
             UniChar unicode = output[key];
-            NSMapInsertIfAbsent(map, (void *)(intptr_t)unicode, (void *)__HKUtilsFlatKey(key, (HKModifier)tmod[idx], 0));
+            // check if an unichar is already present and if it is, compare count of modifiers */
+            if (NSMapMember(map, (void *)(intptr_t)unicode, NULL, (void *)&flat)) {
+              HKModifier m = 0;
+              __HKUtilsDeflatKey(flat, NULL, &m, NULL);
+              if (__GetNativeModifierCount(m) > __GetNativeModifierCount(tmod[idx])) {
+                NSMapInsert(map, (void *)(intptr_t)unicode, (void *)__HKUtilsFlatKey(key, (HKModifier)tmod[idx], 0));
+              }
+            } else {
+              NSMapInsertKnownAbsent(map, (void *)(intptr_t)unicode, (void *)__HKUtilsFlatKey(key, (HKModifier)tmod[idx], 0));
+            }
           }
           // Save it into simple mapping table
           if (tmod[idx] == 0 && key < 128)
@@ -507,8 +528,16 @@ OSStatus HKKeyMapContextWithKCHRData(const void *layout, Boolean reverse, HKKeyM
     while (key < 128) {
       if (output[key] != 0) {
         //not a dead key state
-        if (0 == charToKey[output[key]]) {
-          /* Insert if absent */
+        NSInteger flat = charToKey[output[key]];
+        if (flat) {
+          HKModifier m = 0;
+          __HKUtilsDeflatKey(flat, NULL, &m, NULL);
+          /* see UCHR for details */
+          if (__GetNativeModifierCount(m) > __GetNativeModifierCount(tmod[idx])) {
+            charToKey[output[key]] = __HKUtilsFlatKey(key, (HKModifier)tmod[idx], 0);
+          }
+        } else {
+          /* Insert known absent */
           charToKey[output[key]] = __HKUtilsFlatKey(key, (HKModifier)tmod[idx], 0);
         }
         // Save it into simple mapping table
@@ -552,7 +581,7 @@ OSStatus HKKeyMapContextWithKCHRData(const void *layout, Boolean reverse, HKKeyM
     }
     /* Save terminator into fast map. Terminator is registred in one of the two field (ppc/x86 not the same) */
     if (0 == tmod[table] && kchr->map[key] == kHKNilUnichar && (entry->output != 0 || entry->previous != 0)) {
-      kchr->map[key] = entry->output ? : entry->previous;
+      kchr->map[key] = entry->output && entry->output != 0x20 ? entry->output : entry->previous;
     }
     /* advance to next record */
     record = record + 4 + (size * 2) + 2;
@@ -589,7 +618,7 @@ NSMapTable *_UpgradeToUnicode(ScriptCode script, UInt32 *keys, UInt32 count, Uni
                                         NULL,
                                         &encoding);
   if (noErr == err) {
-    err = CreateTextToUnicodeInfoByEncoding (encoding, &info);
+    err = CreateTextToUnicodeInfoByEncoding(encoding, &info);
   }
   if (noErr == err) {
     for (NSUInteger idx = 0; idx < count; idx++) {

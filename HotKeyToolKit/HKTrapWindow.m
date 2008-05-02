@@ -3,7 +3,7 @@
  *  HotKeyToolKit
  *
  *  Created by Shadow Team.
- *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
+ *  Copyright (c) 2004 - 2008 Shadow Lab. All rights reserved.
  */
 
 #import "HKKeyMap.h"
@@ -15,7 +15,7 @@
 NSString * const kHKEventKeyCodeKey = @"EventKeycode";
 NSString * const kHKEventModifierKey = @"EventModifier";
 NSString * const kHKEventCharacterKey = @"EventCharacter";
-NSString * const kHKTrapWindowKeyCatchedNotification = @"kHKTrapWindowKeyCatched";
+NSString * const kHKTrapWindowDidCatchKeyNotification = @"kHKTrapWindowKeyCaught";
 
 #pragma mark -
 @implementation HKTrapWindow
@@ -28,11 +28,11 @@ NSString * const kHKTrapWindowKeyCatchedNotification = @"kHKTrapWindowKeyCatched
 - (void)setDelegate:(id)delegate {
   id previous = [super delegate];
   if (previous) {
-    WBDelegateUnregisterNotification(previous, @selector(trapWindowCatchHotKey:), kHKTrapWindowKeyCatchedNotification);
+    WBDelegateUnregisterNotification(previous, @selector(trapWindowDidCatchHotKey:), kHKTrapWindowDidCatchKeyNotification);
   }
   [super setDelegate:delegate];
   if (delegate) {
-    WBDelegateRegisterNotification(delegate, @selector(trapWindowCatchHotKey:), kHKTrapWindowKeyCatchedNotification);
+    WBDelegateRegisterNotification(delegate, @selector(trapWindowDidCatchHotKey:), kHKTrapWindowDidCatchKeyNotification);
   }
 }
 #pragma mark -
@@ -105,7 +105,7 @@ NSString * const kHKTrapWindowKeyCatchedNotification = @"kHKTrapWindowKeyCatched
                                 WBUInteger([aKey modifier]), kHKEventModifierKey,
                                 WBUInteger([aKey character]), kHKEventCharacterKey,
                                 nil];
-      [[NSNotificationCenter defaultCenter] postNotificationName:kHKTrapWindowKeyCatchedNotification
+      [[NSNotificationCenter defaultCenter] postNotificationName:kHKTrapWindowDidCatchKeyNotification
                                                           object:self
                                                         userInfo:userInfo];
     }
@@ -124,14 +124,13 @@ NSString * const kHKTrapWindowKeyCatchedNotification = @"kHKTrapWindowKeyCatched
       HKKeycode code = [theEvent keyCode];
       NSUInteger mask = [theEvent modifierFlags] & NSDeviceIndependentModifierFlagsMask; //0x00ff0000;
       unichar character = 0;
-//#if defined(DEBUG)
-//      NSLog(@"Code: %u, modifier: %x", code, mask);
-      if (mask & NSNumericPadKeyMask)
-        DLog(@"NumericPad");
-//#endif
+//      DLog(@"Code: %u, modifier: %x", code, mask);
+//      if (mask & NSNumericPadKeyMask) {
+//        DLog(@"NumericPad");
+//      }
       if (mask & NSAlphaShiftKeyMask) {
+        // ignore caps lock modifier
         mask &= ~NSAlphaShiftKeyMask;
-        // DLog(@"Ignore caps lock modifier");
       }
       /* If verify keycode and modifier */
       bool valid = true;
@@ -152,20 +151,21 @@ NSString * const kHKTrapWindowKeyCatchedNotification = @"kHKTrapWindowKeyCatched
           NSBeep();
         }
       } else {
+        NSBeep();
         modifier = 0;
         character = kHKNilUnichar;
         code = kHKInvalidVirtualKeyCode;
-        NSBeep();
-        DLog(@"Invalid Key");
       }
-      NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-        WBUInteger(code), kHKEventKeyCodeKey,
-        WBUInteger(modifier), kHKEventModifierKey,
-        WBUInteger(character), kHKEventCharacterKey,
-        nil];
-      [[NSNotificationCenter defaultCenter] postNotificationName:kHKTrapWindowKeyCatchedNotification
-                                                          object:self
-                                                        userInfo:userInfo];
+      if (code != kHKInvalidVirtualKeyCode) {
+        NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+                                  WBUInteger(code), kHKEventKeyCodeKey,
+                                  WBUInteger(modifier), kHKEventModifierKey,
+                                  WBUInteger(character), kHKEventCharacterKey,
+                                  nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kHKTrapWindowDidCatchKeyNotification
+                                                            object:self
+                                                          userInfo:userInfo];
+      }
     } /* needProcess */
   } else { /* Not a KeyDown Event or not trapping */
     [super sendEvent:theEvent];

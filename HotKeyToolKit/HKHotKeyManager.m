@@ -3,20 +3,37 @@
  *  HotKeyToolKit
  *
  *  Created by Shadow Team.
- *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
+ *  Copyright (c) 2004 - 2008 Shadow Lab. All rights reserved.
  */
 
 #import "HKKeyMap.h"
 
 #import "HKHotKey.h"
 #import "HKHotKeyManager.h"
-#import "HKHotKeyRegister.h"
+
+#include <Carbon/Carbon.h>
+#if __LP64__
+/* bug in 64 headers. This function is available in 64 bits Framework */
+extern EventTargetRef GetApplicationEventTarget(void);
+#endif
 
 static
 const OSType kHKHotKeyEventSignature = 'HkTk';
 
 static 
 OSStatus _HandleHotKeyEvent(EventHandlerCallRef nextHandler, EventRef theEvent, void *userData);
+
+static
+OSStatus HKRegisterHotKey(HKKeycode keycode, HKModifier modifier, EventHotKeyID hotKeyId, EventHotKeyRef *outRef) {
+  /* Convert from cocoa to carbon */
+  UInt32 mask = (UInt32)HKUtilsConvertModifier(modifier, kHKModifierFormatNative, kHKModifierFormatCarbon);
+  return RegisterEventHotKey(keycode, mask,hotKeyId, GetApplicationEventTarget(), 0, outRef);
+}
+
+static
+OSStatus HKUnregisterHotKey(EventHotKeyRef ref) {
+  return UnregisterEventHotKey(ref);
+}
 
 static 
 NSUInteger gHotKeyUID = 0;
@@ -65,10 +82,10 @@ static EventHandlerUPP kHKHandlerUPP = NULL;
       self = nil;
     } else {
       hk_handler = ref;
-      /* HKHotKey => EventHotKeyRef */
-      hk_refs = NSCreateMapTable(NSNonRetainedObjectMapKeyCallBacks, NSNonOwnedPointerMapValueCallBacks, 0);
       /* UInt32 uid => HKHotKey */
       hk_keys = NSCreateMapTable(NSIntegerMapKeyCallBacks, NSNonRetainedObjectMapValueCallBacks, 0);
+      /* HKHotKey => EventHotKeyRef */
+      hk_refs = NSCreateMapTable(NSNonRetainedObjectMapKeyCallBacks, NSNonOwnedPointerMapValueCallBacks, 0);
     }
   }
   return self;
@@ -92,9 +109,9 @@ static EventHandlerUPP kHKHandlerUPP = NULL;
     if (HKTraceHotKeyEvents) {
       NSLog(@"Register HotKey %@", key);
     }
+    EventHotKeyRef ref = NULL;
     EventHotKeyID hotKeyId = { kHKHotKeyEventSignature, (UInt32)uid };
-    EventHotKeyRef ref = HKRegisterHotKey(keycode, mask, hotKeyId);
-    if (ref) {
+    if (noErr == HKRegisterHotKey(keycode, mask, hotKeyId, &ref)) {
       NSMapInsert(hk_refs, key, ref);
       NSMapInsert(hk_keys, (void *)uid, key);
       return YES;
@@ -108,27 +125,29 @@ static EventHandlerUPP kHKHandlerUPP = NULL;
     EventHotKeyRef ref = NSMapGet(hk_refs, key);
     NSAssert(ref != nil, @"Unable to find Carbon HotKey Handler");
     
-    BOOL result = (ref) ? HKUnregisterHotKey(ref) : NO;
+    if (!ref) return NO;
     
-    if (HKTraceHotKeyEvents) {
-      NSLog(@"Unregister HotKey: %@", key);
-    }
-    
-    NSMapRemove(hk_refs, key);
-
-    /* Remove from keys record */
-    intptr_t uid = 0;
-    HKHotKey *hkey = nil;
-    NSMapEnumerator refs = NSEnumerateMapTable(hk_keys);
-    while (NSNextMapEnumeratorPair(&refs, (void **)&uid, (void **)&hkey)) {
-      if (hkey == key) {
-        NSMapRemove(hk_keys, (void *)uid);
-        break;
+    OSStatus err = HKUnregisterHotKey(ref);
+    if (noErr == err) {
+      if (HKTraceHotKeyEvents) {
+        NSLog(@"Unregister HotKey: %@", key);
       }
+      
+      NSMapRemove(hk_refs, key);
+      
+      /* Remove from keys record */
+      intptr_t uid = 0;
+      HKHotKey *hkey = nil;
+      NSMapEnumerator refs = NSEnumerateMapTable(hk_keys);
+      while (NSNextMapEnumeratorPair(&refs, (void **)&uid, (void **)&hkey)) {
+        if (hkey == key) {
+          NSMapRemove(hk_keys, (void *)uid);
+          break;
+        }
+      }
+      NSEndMapTableEnumeration(&refs);
     }
-    NSEndMapTableEnumeration(&refs);
-    
-    return result;
+    return noErr == err;
   }
   return NO;
 }
@@ -201,11 +220,11 @@ static EventHandlerUPP kHKHandlerUPP = NULL;
 #pragma mark -
 + (BOOL)isValidHotKeyCode:(HKKeycode)code withModifier:(HKModifier)modifier {
   BOOL isValid = NO;
+  EventHotKeyRef key;
   EventHotKeyID hotKeyId = { 'Test', 0 };
-  EventHotKeyRef key = HKRegisterHotKey(code, modifier, hotKeyId);
-  if (key) {
+  if (noErr == HKRegisterHotKey(code, modifier, hotKeyId, &key)) {
+    verify_noerr(HKUnregisterHotKey(key));
     isValid = YES;
-    HKUnregisterHotKey(key);
   }
   return isValid;
 }

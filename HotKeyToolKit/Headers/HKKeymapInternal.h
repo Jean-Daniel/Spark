@@ -1,15 +1,15 @@
 /*
- *  HKKeyboardUtils.h
+ *  HKKeymapInternal.h
  *  HotKeyToolKit
  *
  *  Created by Shadow Team.
- *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
+ *  Copyright (c) 2004 - 2008 Shadow Lab. All rights reserved.
  */
 /*!
-    @header		HKKeyboardUtils
+    @header		HKKeymapInternal
     @abstract   Abstract layer to access KeyMap on KCHR Keyboard or uchr Keyboard.
 */
-#include <CoreServices/CoreServices.h>
+
 #import <HotKeyToolKit/HKBase.h>
 
 typedef struct HKKeyMapContext HKKeyMapContext;

@@ -3,7 +3,7 @@
  *  HotKeyToolKit
  *
  *  Created by Shadow Team.
- *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
+ *  Copyright (c) 2004 - 2008 Shadow Lab. All rights reserved.
  */
 /*!
 @header KeyMap
@@ -100,7 +100,3 @@ UniChar HKKeyMapGetUnicharForKeycode(HKKeyMapRef currentKeyMap, HKKeycode virtua
  */
 HK_PRIVATE
 UniChar HKKeyMapGetUnicharForKeycodeAndModifier(HKKeyMapRef currentKeyMap, HKKeycode virtualKeyCode, HKModifier modifiers);
-
-/* Internal */
-//HK_PRIVATE
-//OSStatus _HKKeyMapInit(HKKeyMapRef keyMap);

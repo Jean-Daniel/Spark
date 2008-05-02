@@ -3,7 +3,7 @@
  *  HotKeyToolKit
  *
  *  Created by Shadow Team.
- *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
+ *  Copyright (c) 2004 - 2008 Shadow Lab. All rights reserved.
  */
 /*!
     @header HKTrapWindow
@@ -14,7 +14,7 @@
 
 #pragma mark Constants Declaration
 /*!
-    @const 		kHKTrapWindowKeyCatchNotification
+    @const 		kHKTrapWindowKeyCaughtNotification
     @abstract   Notification sended when a NSEvent is catch.
 	@discussion Notification userInfo contains a NSDictionary with 3 keys:<br />
 	 			- kHKEventKeyCodeKey: A NSNumber<br />
@@ -22,7 +22,7 @@
 				- kHKEventCharacterKey: A NSNumber<br />
 */
 HK_EXPORT
-NSString * const kHKTrapWindowKeyCatchedNotification;
+NSString * const kHKTrapWindowDidCatchKeyNotification;
 
 HK_EXPORT
 NSString * const kHKEventKeyCodeKey;
@@ -99,7 +99,7 @@ HK_CLASS_EXPORT
 - (BOOL)trapWindow:(HKTrapWindow *)window isValidHotKey:(HKKeycode)keycode modifier:(HKModifier)modifier;
 
 /*!
-    @method     trapWindowCatchHotKey:
+    @method     trapWindowDidCatchHotKey:
     @abstract   Notification sended when the trap catch an Event.
 	@discussion userInfo contains a NSDictionary with 3 keys:<br />
  				- kHKEventKeyCodeKey: A NSNumber<br />
@@ -107,6 +107,6 @@ HK_CLASS_EXPORT
  				- kHKEventCharacterKey: A NSNumber<br />
     @param      aNotification The Notification object is the window itself.
 */
-- (void)trapWindowCatchHotKey:(NSNotification *)aNotification;
+- (void)trapWindowDidCatchHotKey:(NSNotification *)aNotification;
 
 @end

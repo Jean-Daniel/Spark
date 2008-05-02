@@ -3,7 +3,7 @@
  *  HotKeyToolKit
  *
  *  Created by Shadow Team.
- *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
+ *  Copyright (c) 2004 - 2008 Shadow Lab. All rights reserved.
  */
 
 #import "HKKeyMap.h"
@@ -26,7 +26,7 @@ entries:{
 {kCGEventFlagMaskAlphaShift, NSAlphaShiftKeyMask},
 {kCGEventFlagMaskAlternate, NSAlternateKeyMask},
 {kCGEventFlagMaskControl, NSControlKeyMask},
-  /* specials */
+/* specials */
 {kCGEventFlagMaskHelp, NSHelpKeyMask},
 {kCGEventFlagMaskSecondaryFn, NSFunctionKeyMask},
 {kCGEventFlagMaskNumericPad, NSNumericPadKeyMask},
@@ -40,7 +40,7 @@ entries:{
 {NSControlKeyMask, kCGEventFlagMaskControl},
 {NSAlternateKeyMask, kCGEventFlagMaskAlternate},
 {NSCommandKeyMask, kCGEventFlagMaskCommand},
-  /* specials */
+/* specials */
 {NSHelpKeyMask, kCGEventFlagMaskHelp},
 {NSFunctionKeyMask, kCGEventFlagMaskSecondaryFn},
 {NSNumericPadKeyMask, kCGEventFlagMaskNumericPad},
@@ -66,7 +66,7 @@ entries:{
 {alphaLock, kCGEventFlagMaskAlphaShift},
 {optionKey, kCGEventFlagMaskAlternate},
 {controlKey, kCGEventFlagMaskControl},
-  /* Additional mapping */
+/* Additional mapping */
 {rightShiftKey, kCGEventFlagMaskShift},
 {rightOptionKey, kCGEventFlagMaskAlternate},
 {rightControlKey, kCGEventFlagMaskControl},
@@ -91,7 +91,7 @@ entries:{
 {alphaLock, NSAlphaShiftKeyMask},
 {optionKey, NSAlternateKeyMask},
 {controlKey, NSControlKeyMask},
-  /* Additional mapping */
+/* Additional mapping */
 {rightShiftKey, NSShiftKeyMask},
 {rightOptionKey, NSAlternateKeyMask},
 {rightControlKey, NSControlKeyMask},

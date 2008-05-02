@@ -3,7 +3,7 @@
  *  HotKeyToolKit
  *
  *  Created by Shadow Team.
- *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
+ *  Copyright (c) 2004 - 2008 Shadow Lab. All rights reserved.
  */
 
 #import "HKKeyMap.h"
@@ -14,11 +14,8 @@ NSString *SpecialChar(UniChar ch) {
   return [NSString stringWithCharacters:&ch length:1]; 
 }
 
-#define kHotKeyToolKitBundleIdentifier		@"org.shadowlab.HotKeyToolKit"
-#define kHotKeyToolKitBundle				[NSBundle bundleWithIdentifier:kHotKeyToolKitBundleIdentifier]
-
-static
-BOOL HKUseReverseKeyMap = YES;
+#define kHotKeyToolKitBundleIdentifier @"org.shadowlab.HotKeyToolKit"
+#define kHotKeyToolKitBundle           [NSBundle bundleWithIdentifier:kHotKeyToolKitBundleIdentifier]
 
 const UniChar kHKNilUnichar = 0xffff;
 
@@ -26,7 +23,7 @@ static
 HKKeyMapRef SharedKeyMap() {
   static HKKeyMapRef sharedKeyMap = nil;
   if (!sharedKeyMap) {
-    sharedKeyMap = HKKeyMapCreateWithCurrentLayout(HKUseReverseKeyMap);
+    sharedKeyMap = HKKeyMapCreateWithCurrentLayout(YES);
     if (!sharedKeyMap) {
       DLog(@"Error while initializing Keyboard Map");
     } else {
@@ -148,7 +145,7 @@ bool HKMapIsFunctionKeyForCharacter(UniChar chr) {
 HKKeycode HKMapGetSpecialKeyCodeForCharacter(UniChar character) {
   HKKeycode keyCode = kHKInvalidVirtualKeyCode;
   switch (character) {
-    /* functions keys */
+      /* functions keys */
     case kHKF1Unicode:
       keyCode = kHKVirtualF1Key;
       break;

@@ -3,7 +3,7 @@
  *  HotKeyToolKit
  *
  *  Created by Shadow Team.
- *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
+ *  Copyright (c) 2004 - 2008 Shadow Lab. All rights reserved.
  */
 
 #include <Carbon/Carbon.h>
@@ -72,7 +72,9 @@ void HKKeyMapRelease(HKKeyMapRef keymap) {
 #pragma mark Public Functions Definition.
 // FIXME: Broken method
 OSStatus HKKeyMapCheckCurrentMap(HKKeyMapRef keyMap, Boolean *wasChanged) {
-//  check(keyMap);
+  check(keyMap);
+  if (wasChanged) *wasChanged = false;
+
 //  Boolean changed = false;
 //  switch (keyMap->kind) {
 //    case kHKKeyMapKindKL:

@@ -3,12 +3,12 @@
  *  HotKeyToolKit
  *
  *  Created by Shadow Team.
- *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
+ *  Copyright (c) 2004 - 2008 Shadow Lab. All rights reserved.
  */
 /*!
-	@header HKKeyMap
-	@abstract A set of converter to map between Keyboard Hardware keycode and represented character.
-*/
+ @header HKKeyMap
+ @abstract A set of converter to map between Keyboard Hardware keycode and represented character.
+ */
 
 #import <HotKeyToolKit/HKBase.h>
 
@@ -17,47 +17,47 @@ HK_EXPORT
 const UniChar kHKNilUnichar;
 
 /*!
-    @enum 		Virtual Keycodes
-    @abstract   Virtual KeyCode for Special keys.
-    @constant	kHKVirtualCapsLockKey		CapsLock keycode.
-    @constant	kHKVirtualShiftKey		Shift keycode.
-    @constant	kHKVirtualControlKey      Control keycode.
-    @constant	kHKVirtualOptionKey		Option keycode.
-    @constant	kHKVirtualCommandKey 		Command keycode.
-    @constant	kHKVirtualF1Key			F1 keycode.
-    @constant	kHKVirtualF2Key			F2 keycode.
-    @constant	kHKVirtualF3Key			F3 keycode.
-    @constant	kHKVirtualF4Key			F4 keycode.
-    @constant	kHKVirtualF5Key			F5 keycode.
-    @constant	kHKVirtualF6Key			F6 keycode.
-    @constant	kHKVirtualF7Key			F7 keycode.
-    @constant	kHKVirtualF8Key			F8 keycode.
-    @constant	kHKVirtualF9Key			F9 keycode.
-    @constant	kHKVirtualF10Key			F10 keycode.
-    @constant	kHKVirtualF11Key			F11 keycode.
-    @constant	kHKVirtualF12Key			F12 keycode.
-    @constant	kHKVirtualF13Key			F13 keycode.
-    @constant	kHKVirtualF14Key			F14 keycode.
-    @constant	kHKVirtualF15Key			F15 keycode.
-    @constant	kHKVirtualF16Key			F16 keycode.
-    @constant	kHKVirtualHelpKey			Help keycode.
-    @constant	kHKVirtualDeleteKey		Delete keycode.
-    @constant	kHKVirtualTabKey			Tabulation keycode.
-    @constant	kHKVirtualEnterKey		Enter keycode.
-    @constant	kHKVirtualReturnKey		Return keycode.
-    @constant	kHKVirtualEscapeKey		Escape keycode.
-    @constant	kHKVirtualForwardDeleteKey	Forward Delete keycode.
-    @constant	kHKVirtualHomeKey			Home keycode.
-    @constant	kHKVirtualEndKey			End keycode.
-    @constant	kHKVirtualPageUpKey		Page Up keycode.
-    @constant	kHKVirtualPageDownKey		Page Down keycode.
-    @constant	kHKVirtualLeftArrowKey	Left Arrow keycode.
-    @constant	kHKVirtualRightArrowKey	Right Arrow keycode.
-    @constant	kHKVirtualUpArrowKey		Up Arrow keycode.
-    @constant	kHKVirtualDownArrowKey	Down Arrow keycode.
-    @constant	kHKVirtualClearLineKey	Clear Line keycode.
-    @constant	kHKVirtualSpaceKey		Space keycode.
-*/
+ @enum 		Virtual Keycodes
+ @abstract Virtual KeyCode for Special keys.
+ @constant	kHKVirtualCapsLockKey		CapsLock keycode.
+ @constant	kHKVirtualShiftKey		Shift keycode.
+ @constant	kHKVirtualControlKey      Control keycode.
+ @constant	kHKVirtualOptionKey		Option keycode.
+ @constant	kHKVirtualCommandKey 		Command keycode.
+ @constant	kHKVirtualF1Key			F1 keycode.
+ @constant	kHKVirtualF2Key			F2 keycode.
+ @constant	kHKVirtualF3Key			F3 keycode.
+ @constant	kHKVirtualF4Key			F4 keycode.
+ @constant	kHKVirtualF5Key			F5 keycode.
+ @constant	kHKVirtualF6Key			F6 keycode.
+ @constant	kHKVirtualF7Key			F7 keycode.
+ @constant	kHKVirtualF8Key			F8 keycode.
+ @constant	kHKVirtualF9Key			F9 keycode.
+ @constant	kHKVirtualF10Key			F10 keycode.
+ @constant	kHKVirtualF11Key			F11 keycode.
+ @constant	kHKVirtualF12Key			F12 keycode.
+ @constant	kHKVirtualF13Key			F13 keycode.
+ @constant	kHKVirtualF14Key			F14 keycode.
+ @constant	kHKVirtualF15Key			F15 keycode.
+ @constant	kHKVirtualF16Key			F16 keycode.
+ @constant	kHKVirtualHelpKey			Help keycode.
+ @constant	kHKVirtualDeleteKey		Delete keycode.
+ @constant	kHKVirtualTabKey			Tabulation keycode.
+ @constant	kHKVirtualEnterKey		Enter keycode.
+ @constant	kHKVirtualReturnKey		Return keycode.
+ @constant	kHKVirtualEscapeKey		Escape keycode.
+ @constant	kHKVirtualForwardDeleteKey	Forward Delete keycode.
+ @constant	kHKVirtualHomeKey			Home keycode.
+ @constant	kHKVirtualEndKey			End keycode.
+ @constant	kHKVirtualPageUpKey		Page Up keycode.
+ @constant	kHKVirtualPageDownKey		Page Down keycode.
+ @constant	kHKVirtualLeftArrowKey	Left Arrow keycode.
+ @constant	kHKVirtualRightArrowKey	Right Arrow keycode.
+ @constant	kHKVirtualUpArrowKey		Up Arrow keycode.
+ @constant	kHKVirtualDownArrowKey	Down Arrow keycode.
+ @constant	kHKVirtualClearLineKey	Clear Line keycode.
+ @constant	kHKVirtualSpaceKey		Space keycode.
+ */
 enum {
   /* modifier keys */
   kHKVirtualCommandKey       = 0x037,
@@ -115,45 +115,48 @@ enum {
 };
 
 /*!
-    @enum 			Special characters used into event representation.
-    @abstract		Unichars used to represent key whitout character.
-    @constant		kHKF1Unicode 			Arbitrary Private Unicode character.
-    @constant		kHKF2Unicode 			Arbitrary Private Unicode character.
-    @constant		kHKF3Unicode 			Arbitrary Private Unicode character.
-    @constant		kHKF4Unicode 			Arbitrary Private Unicode character.
-    @constant		kHKF5Unicode 			Arbitrary Private Unicode character.
-    @constant		kHKF6Unicode	 		Arbitrary Private Unicode character.
-    @constant		kHKF7Unicode 			Arbitrary Private Unicode character.
-    @constant		kHKF8Unicode 			Arbitrary Private Unicode character.
-    @constant		kHKF9Unicode 			Arbitrary Private Unicode character.
-    @constant		kHKF10Unicode 		Arbitrary Private Unicode character.
-    @constant		kHKF11Unicode 		Arbitrary Private Unicode character.
-    @constant		kHKF12Unicode 		Arbitrary Private Unicode character.
-    @constant		kHKF13Unicode 		Arbitrary Private Unicode character.
-    @constant		kHKF14Unicode 		Arbitrary Private Unicode character.
-    @constant		kHKF15Unicode 		Arbitrary Private Unicode character.
-    @constant		kHKF16Unicode 		Arbitrary Private Unicode character.
-    @constant		kHKF17Unicode 		Arbitrary Private Unicode character.
-    @constant		kHKF18Unicode 		Arbitrary Private Unicode character.
-    @constant		kHKF19Unicode 		Arbitrary Private Unicode character.
-    @constant		kHKHelpUnicode 		Arbitrary Private Unicode character.
-    @constant		kHKDeleteUnicode 		Delete Unicode character.
-    @constant		kHKTabUnicode 		Tabulation Unicode character.
-    @constant		kHKEnterUnicode 		Enter Unicode character.
-    @constant		kHKReturnUnicode 		Return Unicode character.
-    @constant		kHKEscapeUnicode 		Escape Unicode character.
-    @constant		kHKForwardDeleteUnicode Forward Delete Unicode character.
-    @constant		kHKHomeUnicode 		Home Unicode character.
-    @constant		kHKEndUnicode 		End Unicode character
-    @constant		kHKPageUpUnicode 		Page Up Unicode character.
-    @constant		kHKPageDownUnicode    Page Down Unicode character.
-    @constant		kHKLeftArrowUnicode 	Left Arrow Unicode character.
-    @constant		kHKUpArrowUnicode 	Up Arrow Unicode character.
-    @constant		kHKRightArrowUnicode 	Right Arrow Unicode character.
-    @constant		kHKDownArrowUnicode 	Down Arrow Unicode character.
-    @constant		kHKClearLineUnicode 	Clear Line Unicode character.
-    @constant		kHKSpaceUnicode 		Arbitrary Private Unicode character.
-*/
+ @enum Special characters used into event representation.
+ @abstract Unichars used to represent key whitout character.
+ @constant		kHKF1Unicode 			Arbitrary Private Unicode character.
+ @constant		kHKF2Unicode 			Arbitrary Private Unicode character.
+ @constant		kHKF3Unicode 			Arbitrary Private Unicode character.
+ @constant		kHKF4Unicode 			Arbitrary Private Unicode character.
+ @constant		kHKF5Unicode 			Arbitrary Private Unicode character.
+ @constant		kHKF6Unicode	 		Arbitrary Private Unicode character.
+ @constant		kHKF7Unicode 			Arbitrary Private Unicode character.
+ @constant		kHKF8Unicode 			Arbitrary Private Unicode character.
+ @constant		kHKF9Unicode 			Arbitrary Private Unicode character.
+ @constant		kHKF10Unicode 		Arbitrary Private Unicode character.
+ @constant		kHKF11Unicode 		Arbitrary Private Unicode character.
+ @constant		kHKF12Unicode 		Arbitrary Private Unicode character.
+ @constant		kHKF13Unicode 		Arbitrary Private Unicode character.
+ @constant		kHKF14Unicode 		Arbitrary Private Unicode character.
+ @constant		kHKF15Unicode 		Arbitrary Private Unicode character.
+ @constant		kHKF16Unicode 		Arbitrary Private Unicode character.
+ @constant		kHKF17Unicode 		Arbitrary Private Unicode character.
+ @constant		kHKF18Unicode 		Arbitrary Private Unicode character.
+ @constant		kHKF19Unicode 		Arbitrary Private Unicode character.
+ 
+ @constant		kHKHelpUnicode 		      Arbitrary Private Unicode character.
+ @constant		kHKClearLineUnicode     Clear Line Unicode character.   
+ @constant		kHKForwardDeleteUnicode Forward Delete Unicode character.
+ 
+ @constant		kHKHomeUnicode          Home Unicode character.
+ @constant		kHKEndUnicode           End Unicode character
+ @constant		kHKPageUpUnicode        Page Up Unicode character.
+ @constant		kHKPageDownUnicode      Page Down Unicode character.
+ @constant		kHKUpArrowUnicode       Up Arrow Unicode character.
+ @constant		kHKDownArrowUnicode     Down Arrow Unicode character.
+ @constant		kHKLeftArrowUnicode     Left Arrow Unicode character.
+ @constant		kHKRightArrowUnicode    Right Arrow Unicode character.
+ 
+ @constant		kHKEnterUnicode   Enter Unicode character.
+ @constant		kHKTabUnicode     Tabulation Unicode character.
+ @constant		kHKReturnUnicode  Return Unicode character.
+ @constant		kHKEscapeUnicode  Escape Unicode character.
+ @constant		kHKDeleteUnicode  Delete Unicode character.
+ @constant		kHKNoBreakSpaceUnicode  Arbitrary Private Unicode character.
+ */
 enum {
   /* functions keys */
   kHKF1Unicode            = NSF1FunctionKey,
@@ -205,7 +208,7 @@ enum {
 #pragma mark Public Functions Declaration
 
 /*!
-@function 
+ @function 
  @abstract   Advanced reverse mapping function.
  @param      character
  @param      modifier On return, first keystroke modifier. Pass <code>NULL</code> if you do not want it.
@@ -216,7 +219,7 @@ HK_EXPORT
 HKKeycode HKMapGetKeycodeAndModifierForUnichar(UniChar character, HKModifier *modifier);
 
 /*!
-@function 
+ @function 
  @abstract   Advanced reverse mapping function.
  @param      character
  @param      keys On return, an array of virtual keycode.
@@ -228,33 +231,38 @@ HK_EXPORT
 NSUInteger HKMapGetKeycodesAndModifiersForUnichar(UniChar character, HKKeycode *keys, HKModifier *modifiers, NSUInteger maxcount);
 
 /*!
-	@function
-	@abstract   Mapping function.
-	@discussion If the unichar is not a simple printable char, return one of the Unicode Constant.
-	@param      keycode A virtual keycode.
-	@result     an Unichar corresponding to keycode passed.
+ @function
+ @abstract   Mapping function.
+ @discussion If the unichar is not a simple printable char, return one of the Unicode Constant.
+ @param      keycode A virtual keycode.
+ @result     an Unichar corresponding to keycode passed.
  */
 HK_EXPORT
 UniChar HKMapGetUnicharForKeycode(HKKeycode keycode);
 
 /*!
-    @function
-    @abstract   Returns the name of the current keyMap.
-*/
+ @function
+ @abstract   Returns the name of the current keyMap.
+ */
 HK_EXPORT
-NSString* HKMapGetCurrentMapName(void);
+NSString *HKMapGetCurrentMapName(void);
 
 /*!
-    @function
-    @abstract   Returns a String representation of the Shortcut, or nil if character is 0.
-    @param      character 
-    @param      modifier If <i>modifier</i> is nil, return a representation of the key Unichar.
-*/
+ @function
+ @abstract   Returns a String representation of the Shortcut, or nil if character is 0.
+ @param      character 
+ @param      modifier If <i>modifier</i> is nil, return a representation of the key Unichar.
+ */
 HK_EXPORT 
-NSString* HKMapGetStringRepresentationForCharacterAndModifier(UniChar character, HKModifier modifier);
+NSString *HKMapGetStringRepresentationForCharacterAndModifier(UniChar character, HKModifier modifier);
 
 HK_EXPORT 
-NSString* HKMapGetSpeakableStringRepresentationForCharacterAndModifier(UniChar character, HKModifier modifier);
+NSString *HKMapGetSpeakableStringRepresentationForCharacterAndModifier(UniChar character, HKModifier modifier);
+
+HK_EXPORT
+bool HKMapIsFunctionKey(HKKeycode code);
+HK_EXPORT
+bool HKMapIsFunctionKeyForCharacter(UniChar chr);
 
 enum {
   kHKModifierFormatNative, /* kCGEventFlagsMask */
@@ -263,16 +271,11 @@ enum {
 };
 typedef NSInteger HKModifierFormat;
 
-HK_EXPORT
-bool HKMapIsFunctionKey(HKKeycode code);
-HK_EXPORT
-bool HKMapIsFunctionKeyForCharacter(UniChar chr);
-
 /*!
-	@function
-	@abstract   Convert modifiers from one domain to another domain. All HKKeyMap function use native domain modifiers.
-	@param      mask A Cocoa modifier mask.
-	@result     Return a carbon modifier.
+ @function
+ @abstract   Convert modifiers from one domain to another domain. All HKKeyMap function use native domain modifiers.
+ @param      mask A Cocoa modifier mask.
+ @result     Return a carbon modifier.
  */
 HK_EXPORT
 NSUInteger HKUtilsConvertModifier(NSUInteger modifier, HKModifierFormat input, HKModifierFormat output);

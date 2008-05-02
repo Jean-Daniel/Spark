@@ -14,11 +14,10 @@
 		85FA5D810BCE57690060584C /* KLKeyMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 85FA5D7F0BCE57690060584C /* KLKeyMap.m */; };
 		85FA5DA50BCE5BC90060584C /* HKHotKeyTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 985B62EC0719E1750073D36F /* HKHotKeyTestCase.m */; };
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
-		982B010C05FE954600E8776D /* HKKeyboardUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 982B010A05FE954600E8776D /* HKKeyboardUtils.h */; };
-		982B010D05FE954600E8776D /* HKKeyboardUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 982B010B05FE954600E8776D /* HKKeyboardUtils.m */; };
+		982B010C05FE954600E8776D /* HKKeymapInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 982B010A05FE954600E8776D /* HKKeymapInternal.h */; };
+		982B010D05FE954600E8776D /* HKKeymapInternal.m in Sources */ = {isa = PBXBuildFile; fileRef = 982B010B05FE954600E8776D /* HKKeymapInternal.m */; };
 		984426CF05F9430700551005 /* HKHotKey.h in Headers */ = {isa = PBXBuildFile; fileRef = 984426C705F9430700551005 /* HKHotKey.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		984426D105F9430700551005 /* HKHotKeyManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 984426C905F9430700551005 /* HKHotKeyManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		984426D205F9430700551005 /* HKHotKeyRegister.h in Headers */ = {isa = PBXBuildFile; fileRef = 984426CA05F9430700551005 /* HKHotKeyRegister.h */; settings = {ATTRIBUTES = (); }; };
 		984426D305F9430700551005 /* HKKeyMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 984426CB05F9430700551005 /* HKKeyMap.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		984426D405F9430700551005 /* HKTrapWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 984426CC05F9430700551005 /* HKTrapWindow.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		984426D505F9430700551005 /* HotKeyToolKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 984426CD05F9430700551005 /* HotKeyToolKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -29,7 +28,6 @@
 		984426E005F943A100551005 /* KeyMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 984426DB05F943A100551005 /* KeyMap.m */; };
 		984426E105F943A100551005 /* HKTrapWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 984426DC05F943A100551005 /* HKTrapWindow.m */; };
 		984426E505F9442200551005 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 984426E405F9442200551005 /* Carbon.framework */; };
-		9844277A05F9444000551005 /* HKHotKeyRegister.m in Sources */ = {isa = PBXBuildFile; fileRef = 9844277905F9444000551005 /* HKHotKeyRegister.m */; };
 		98643E630A556A1100260086 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
 		98643F0E0A556F4500260086 /* HKKeyMapTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 985B6D1A0719EDCC0073D36F /* HKKeyMapTestCase.m */; };
 		98643F130A556F4E00260086 /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* HotKeyToolKit.framework */; };
@@ -87,16 +85,15 @@
 		1B7BB7470CBE1F2800484A9E /* Profile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Profile.xcconfig; sourceTree = "<group>"; };
 		1B7BB7480CBE1F2800484A9E /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		1B88DD340D352EF8008B66CA /* 64Bits.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = 64Bits.xcconfig; sourceTree = "<group>"; };
-		85FA5D540BCE526C0060584C /* TISKeyMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = TISKeyMap.h; path = ../TISKeyMap.h; sourceTree = "<group>"; };
+		85FA5D540BCE526C0060584C /* TISKeyMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = TISKeyMap.h; sourceTree = "<group>"; };
 		85FA5D550BCE526C0060584C /* TISKeyMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = TISKeyMap.m; sourceTree = "<group>"; };
 		85FA5D7E0BCE57690060584C /* KLKeyMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = KLKeyMap.h; sourceTree = "<group>"; };
 		85FA5D7F0BCE57690060584C /* KLKeyMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = KLKeyMap.m; sourceTree = "<group>"; };
 		8DC2EF5B0486A6940098B216 /* HotKeyToolKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HotKeyToolKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		982B010A05FE954600E8776D /* HKKeyboardUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = HKKeyboardUtils.h; path = Headers/HKKeyboardUtils.h; sourceTree = SOURCE_ROOT; };
-		982B010B05FE954600E8776D /* HKKeyboardUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = HKKeyboardUtils.m; sourceTree = "<group>"; };
+		982B010A05FE954600E8776D /* HKKeymapInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = HKKeymapInternal.h; sourceTree = "<group>"; };
+		982B010B05FE954600E8776D /* HKKeymapInternal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = HKKeymapInternal.m; sourceTree = "<group>"; };
 		984426C705F9430700551005 /* HKHotKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = HKHotKey.h; sourceTree = "<group>"; };
 		984426C905F9430700551005 /* HKHotKeyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = HKHotKeyManager.h; sourceTree = "<group>"; };
-		984426CA05F9430700551005 /* HKHotKeyRegister.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = HKHotKeyRegister.h; sourceTree = "<group>"; };
 		984426CB05F9430700551005 /* HKKeyMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = HKKeyMap.h; sourceTree = "<group>"; };
 		984426CC05F9430700551005 /* HKTrapWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = HKTrapWindow.h; sourceTree = "<group>"; };
 		984426CD05F9430700551005 /* HotKeyToolKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = HotKeyToolKit.h; path = Headers/HotKeyToolKit.h; sourceTree = "<group>"; };
@@ -107,7 +104,6 @@
 		984426DB05F943A100551005 /* KeyMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = KeyMap.m; sourceTree = "<group>"; };
 		984426DC05F943A100551005 /* HKTrapWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = HKTrapWindow.m; sourceTree = "<group>"; };
 		984426E405F9442200551005 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
-		9844277905F9444000551005 /* HKHotKeyRegister.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = HKHotKeyRegister.m; sourceTree = "<group>"; };
 		984BCDC4060C7E4D0043CDEA /* HotKeyToolKit.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = HotKeyToolKit.icns; sourceTree = "<group>"; };
 		985B62EB0719E1750073D36F /* HKHotKeyTestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKHotKeyTestCase.h; sourceTree = "<group>"; };
 		985B62EC0719E1750073D36F /* HKHotKeyTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKHotKeyTestCase.m; sourceTree = "<group>"; };
@@ -285,8 +281,7 @@
 				984426CE05F9430700551005 /* KeyMap.h */,
 				85FA5D7E0BCE57690060584C /* KLKeyMap.h */,
 				85FA5D540BCE526C0060584C /* TISKeyMap.h */,
-				982B010A05FE954600E8776D /* HKKeyboardUtils.h */,
-				984426CA05F9430700551005 /* HKHotKeyRegister.h */,
+				982B010A05FE954600E8776D /* HKKeymapInternal.h */,
 			);
 			path = Headers;
 			sourceTree = "<group>";
@@ -299,8 +294,7 @@
 				85FA5D7F0BCE57690060584C /* KLKeyMap.m */,
 				85FA5D550BCE526C0060584C /* TISKeyMap.m */,
 				98DD3FE20A57C2A200F059E5 /* ModifierMap.m */,
-				982B010B05FE954600E8776D /* HKKeyboardUtils.m */,
-				9844277905F9444000551005 /* HKHotKeyRegister.m */,
+				982B010B05FE954600E8776D /* HKKeymapInternal.m */,
 			);
 			name = Private;
 			sourceTree = "<group>";
@@ -329,12 +323,11 @@
 			files = (
 				984426CF05F9430700551005 /* HKHotKey.h in Headers */,
 				984426D105F9430700551005 /* HKHotKeyManager.h in Headers */,
-				984426D205F9430700551005 /* HKHotKeyRegister.h in Headers */,
 				984426D305F9430700551005 /* HKKeyMap.h in Headers */,
 				984426D405F9430700551005 /* HKTrapWindow.h in Headers */,
 				984426D505F9430700551005 /* HotKeyToolKit.h in Headers */,
 				984426D605F9430700551005 /* KeyMap.h in Headers */,
-				982B010C05FE954600E8776D /* HKKeyboardUtils.h in Headers */,
+				982B010C05FE954600E8776D /* HKKeymapInternal.h in Headers */,
 				98DD424A0A57C9C800F059E5 /* HKEvent.h in Headers */,
 				98B703D10A86146400DB692D /* HKBase.h in Headers */,
 				85FA5D560BCE526C0060584C /* TISKeyMap.h in Headers */,
@@ -354,7 +347,6 @@
 				8DC2EF540486A6940098B216 /* Sources */,
 				8DC2EF560486A6940098B216 /* Frameworks */,
 				8DC2EF580486A6940098B216 /* Rez */,
-				1BEABF6E0D2114CF005D5945 /* Sign */,
 			);
 			buildRules = (
 			);
@@ -479,21 +471,6 @@
 /* End PBXRezBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1BEABF6E0D2114CF005D5945 /* Sign */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 8;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = Sign;
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-			shellPath = /bin/sh;
-			shellScript = "${HOME}/bin/shadowsign \"${TARGET_BUILD_DIR}/${FULL_PRODUCT_NAME}\"";
-			showEnvVarsInLog = 0;
-		};
 		98643EFE0A556F2200260086 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -518,11 +495,10 @@
 				984426DE05F943A100551005 /* HKHotKey.m in Sources */,
 				984426DF05F943A100551005 /* HKHotKeyManager.m in Sources */,
 				984426E105F943A100551005 /* HKTrapWindow.m in Sources */,
-				9844277A05F9444000551005 /* HKHotKeyRegister.m in Sources */,
 				98DD42460A57C9BC00F059E5 /* HKEvent.m in Sources */,
 				984426E005F943A100551005 /* KeyMap.m in Sources */,
 				98DD3FE30A57C2A200F059E5 /* ModifierMap.m in Sources */,
-				982B010D05FE954600E8776D /* HKKeyboardUtils.m in Sources */,
+				982B010D05FE954600E8776D /* HKKeymapInternal.m in Sources */,
 				85FA5D570BCE526C0060584C /* TISKeyMap.m in Sources */,
 				85FA5D810BCE57690060584C /* KLKeyMap.m in Sources */,
 			);
@@ -652,9 +628,9 @@
 		1B88DD5D0D352FD9008B66CA /* 64bits */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 450;
+				CURRENT_PROJECT_VERSION = 452;
 				DYLIB_COMPATIBILITY_VERSION = 2;
-				DYLIB_CURRENT_VERSION = 450;
+				DYLIB_CURRENT_VERSION = 452;
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -670,9 +646,9 @@
 		981B5F510938699D0024C0D9 /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 450;
+				CURRENT_PROJECT_VERSION = 452;
 				DYLIB_COMPATIBILITY_VERSION = 2;
-				DYLIB_CURRENT_VERSION = 450;
+				DYLIB_CURRENT_VERSION = 452;
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -784,9 +760,9 @@
 		98EF7D5508645328007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 450;
+				CURRENT_PROJECT_VERSION = 452;
 				DYLIB_COMPATIBILITY_VERSION = 2;
-				DYLIB_CURRENT_VERSION = 450;
+				DYLIB_CURRENT_VERSION = 452;
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -810,9 +786,9 @@
 		98EFD03D0B58448D00AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 450;
+				CURRENT_PROJECT_VERSION = 452;
 				DYLIB_COMPATIBILITY_VERSION = 2;
-				DYLIB_CURRENT_VERSION = 450;
+				DYLIB_CURRENT_VERSION = 452;
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
