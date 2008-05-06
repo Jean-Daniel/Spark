@@ -7,5 +7,5 @@
  */
 
 /* 3.0.0 */
-#define kSparkServerVersion		0x020902
+#define kSparkServerVersion		0x020907
 #define kSparkEditorVersion		kSparkServerVersion

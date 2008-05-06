@@ -288,8 +288,9 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
     
     [generator release];
   }
+  [panel setAccessoryView:nil]; // may fix a crash on Tiger ?
   /* cleanup */
-  [ctrl release];
+  [ctrl autorelease];
 }
 
 #pragma mark -

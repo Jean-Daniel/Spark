@@ -173,7 +173,11 @@ static SparkUID sUID = 0;
 
 - (void)sp_addEntry:(SparkEntry *)anEntry parent:(SparkEntry *)aParent {
   /* add entry */
-  [anEntry setUID:++sUID];
+  if (![anEntry uid]) {
+    [anEntry setUID:++sUID];
+  } else {
+    DLog(@"Insert entry with UID: %u", [anEntry uid]);
+  }
   NSMapInsertKnownAbsent(sp_objects, (const void *)(intptr_t)[anEntry uid], anEntry);
   
   /* Update trigger flag */

@@ -8,7 +8,7 @@
 		<string key="IBDocument.HIToolboxVersion">352.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="138"/>
+			<integer value="12"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -47,7 +47,7 @@
 										<object class="NSButton" id="1025908023">
 											<reference key="NSNextResponder" ref="723949365"/>
 											<int key="NSvFlags">268</int>
-											<string key="NSFrame">{{10, 194}, {34, 49}}</string>
+											<string key="NSFrame">{{10, 194}, {49, 49}}</string>
 											<reference key="NSSuperview" ref="723949365"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSButtonCell" key="NSCell" id="1073431386">
@@ -75,7 +75,7 @@
 										<object class="NSButton" id="721081608">
 											<reference key="NSNextResponder" ref="723949365"/>
 											<int key="NSvFlags">268</int>
-											<string key="NSFrame">{{52, 194}, {32, 49}}</string>
+											<string key="NSFrame">{{63, 194}, {46, 49}}</string>
 											<reference key="NSSuperview" ref="723949365"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSButtonCell" key="NSCell" id="838391753">
@@ -99,7 +99,7 @@
 										<object class="NSButton" id="868570173">
 											<reference key="NSNextResponder" ref="723949365"/>
 											<int key="NSvFlags">265</int>
-											<string key="NSFrame">{{392, 194}, {33, 49}}</string>
+											<string key="NSFrame">{{389, 194}, {39, 49}}</string>
 											<reference key="NSSuperview" ref="723949365"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSButtonCell" key="NSCell" id="213516741">
@@ -123,12 +123,12 @@
 										<object class="NSTextField" id="26988742">
 											<reference key="NSNextResponder" ref="723949365"/>
 											<int key="NSvFlags">266</int>
-											<string key="NSFrame">{{139, 198}, {235, 17}}</string>
+											<string key="NSFrame">{{164, 201}, {208, 14}}</string>
 											<reference key="NSSuperview" ref="723949365"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSTextFieldCell" key="NSCell" id="95998009">
-												<int key="NSCellFlags">67239424</int>
-												<int key="NSCellFlags2">138412032</int>
+												<int key="NSCellFlags">67239488</int>
+												<int key="NSCellFlags2">138413056</int>
 												<string type="base64-UTF8" key="NSContents">U2Fpc2lyIGxlIHNjcmlwdCDDoCBleMOpY3V0ZXIgY2ktZGVzc291cy4</string>
 												<object class="NSFont" key="NSSupport" id="26">
 													<string key="NSName">LucidaGrande</string>
@@ -159,7 +159,7 @@
 										<object class="NSButton" id="693542381">
 											<reference key="NSNextResponder" ref="723949365"/>
 											<int key="NSvFlags">268</int>
-											<string key="NSFrame">{{92, 194}, {32, 50}}</string>
+											<string key="NSFrame">{{113, 194}, {35, 49}}</string>
 											<reference key="NSSuperview" ref="723949365"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSButtonCell" key="NSCell" id="780845090">
@@ -683,9 +683,9 @@ aXRleiBleMOpY3V0ZXIuA</string>
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="599739459"/>
 							<reference ref="50147279"/>
-							<reference ref="581596073"/>
 							<reference ref="867661922"/>
 							<reference ref="706235603"/>
+							<reference ref="581596073"/>
 						</object>
 						<reference key="parent" ref="530912968"/>
 						<string key="objectName">ActionView</string>
@@ -979,6 +979,7 @@ aXRleiBleMOpY3V0ZXIuA</string>
 					<string>133.IBAttributePlaceholdersKey</string>
 					<string>133.IBPluginDependency</string>
 					<string>133.ImportedFromIB2</string>
+					<string>138.IBAttributePlaceholdersKey</string>
 					<string>138.IBPluginDependency</string>
 					<string>138.ImportedFromIB2</string>
 					<string>139.IBPluginDependency</string>
@@ -1053,7 +1054,7 @@ aXRleiBleMOpY3V0ZXIuA</string>
 							<string type="base64-UTF8" key="toolTip">Q2hvaXNpciB1biBzY3JpcHQgb3UgdW4gZmljaGllciB0ZXh0ZeKApg</string>
 						</object>
 					</object>
-					<string>{{14, 519}, {460, 326}}</string>
+					<string>{{233, 374}, {460, 326}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
 					<reference ref="9"/>
@@ -1068,6 +1069,14 @@ aXRleiBleMOpY3V0ZXIuA</string>
 					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
+					<object class="NSMutableDictionary">
+						<string key="NS.key.0">InitialTabViewItem</string>
+						<object class="IBInitialTabViewItemAttribute" key="NS.object.0">
+							<string key="name">InitialTabViewItem</string>
+							<reference key="object" ref="599739459"/>
+							<reference key="initialTabViewItem" ref="657975182"/>
+						</object>
+					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>

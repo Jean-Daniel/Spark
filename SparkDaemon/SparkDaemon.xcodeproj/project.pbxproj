@@ -89,7 +89,7 @@
 		98D528DD0B19A14800C8425C /* SparkDaemon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkDaemon.h; sourceTree = "<group>"; };
 		98D528DE0B19A14800C8425C /* SparkDaemon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkDaemon.m; sourceTree = "<group>"; };
 		98D528E70B19A18B00C8425C /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		98D528F20B19A1AF00C8425C /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = SOURCE_ROOT; };
+		98D528F20B19A1AF00C8425C /* Info.plist */ = {isa = PBXFileReference; explicitFileType = text.plist.xml; fileEncoding = 4; path = Info.plist; sourceTree = SOURCE_ROOT; };
 		98D75E3C0B28BAA1001393F7 /* SparkDaemon.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.sdef; path = SparkDaemon.sdef; sourceTree = "<group>"; };
 		98EF7E4108645876007BC81A /* HotKeyToolKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = HotKeyToolKit.xcodeproj; path = ../HotKeyToolKit/HotKeyToolKit.xcodeproj; sourceTree = SOURCE_ROOT; };
 		98EF7E4B08645883007BC81A /* SparkKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SparkKit.xcodeproj; path = ../SparkKit/SparkKit.xcodeproj; sourceTree = SOURCE_ROOT; };
@@ -237,7 +237,6 @@
 				98B20D6706A54814008BA3F6 /* Sources */,
 				98B20D6806A54814008BA3F6 /* Frameworks */,
 				9843EE8A0AA700840051AD0E /* Create Debug Links */,
-				1BA7A5F80D685F9300D89AC2 /* Sign */,
 			);
 			buildRules = (
 			);
@@ -328,21 +327,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1BA7A5F80D685F9300D89AC2 /* Sign */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 8;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = Sign;
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-			shellPath = /bin/sh;
-			shellScript = "${HOME}/bin/shadowsign \"${TARGET_BUILD_DIR}/${FULL_PRODUCT_NAME}\"";
-			showEnvVarsInLog = 0;
-		};
 		9843EE8A0AA700840051AD0E /* Create Debug Links */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -406,7 +390,7 @@
 		1B7CF6660D3573F70068DAD1 /* 64bits */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 450;
+				CURRENT_PROJECT_VERSION = 453;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../SparkEditor/Resources\"",
@@ -420,7 +404,7 @@
 		98EF7DEB08645714007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 450;
+				CURRENT_PROJECT_VERSION = 453;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../SparkEditor/Resources\"",
@@ -434,7 +418,7 @@
 		98EF7DEC08645714007BC81A /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 450;
+				CURRENT_PROJECT_VERSION = 453;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../SparkEditor/Resources\"",
@@ -466,7 +450,7 @@
 		98EFD2D80B58457D00AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 450;
+				CURRENT_PROJECT_VERSION = 453;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../SparkEditor/Resources\"",

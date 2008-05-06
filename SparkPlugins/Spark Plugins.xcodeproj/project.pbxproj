@@ -341,7 +341,7 @@
 		1BDCB6B90DA7C78000D95044 /* ITunesGrowl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ITunesGrowl.h; path = ../ITunesGrowl.h; sourceTree = "<group>"; };
 		1BDCB6BA0DA7C78000D95044 /* ITunesGrowl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ITunesGrowl.m; sourceTree = "<group>"; };
 		1BDCB6DD0DA7C89800D95044 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = ../SparkEditor/Resources/Growl.framework; sourceTree = SOURCE_ROOT; };
-		1BDCB7C90DA7DA0F00D95044 /* GrowlNotifications.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = GrowlNotifications.plist; sourceTree = "<group>"; };
+		1BDCB7C90DA7DA0F00D95044 /* GrowlNotifications.plist */ = {isa = PBXFileReference; explicitFileType = text.plist.xml; fileEncoding = 4; path = GrowlNotifications.plist; sourceTree = "<group>"; };
 		1BDCB8120DA7E1E600D95044 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/GrowlNotifications.strings; sourceTree = "<group>"; };
 		1BDCB8140DA7E1EB00D95044 /* French */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/GrowlNotifications.strings; sourceTree = "<group>"; };
 		1BE6E1A20DBCDD1200ABAC74 /* iTunes.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.sdef; path = iTunes.sdef; sourceTree = "<group>"; };
@@ -390,7 +390,7 @@
 		984AB99E0B19FD0E00DA2DD0 /* SystemPlugin.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SystemPlugin.tiff; sourceTree = "<group>"; };
 		985106B40A590AA200C98B1F /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = English; path = English.lproj/SystemActionHelp.html; sourceTree = "<group>"; };
 		985B6F070719F8860073D36F /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
-		98641DF8060A33750033892D /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
+		98641DF8060A33750033892D /* Info.plist */ = {isa = PBXFileReference; explicitFileType = text.plist.xml; fileEncoding = 4; path = Info.plist; sourceTree = "<group>"; };
 		98789CAE0AB48D5A00C35052 /* ITunesInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITunesInfo.h; sourceTree = "<group>"; };
 		98789CB20AB48D8200C35052 /* ITunesInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ITunesInfo.m; sourceTree = "<group>"; };
 		98789DC40AB4A0D900C35052 /* Simulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Simulator.m; sourceTree = "<group>"; };
@@ -399,7 +399,7 @@
 		98789DE80AB4A1EE00C35052 /* Simulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Simulator.h; sourceTree = "<group>"; };
 		987920920AFCCB61004EA7B5 /* OSAKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OSAKit.framework; path = /System/Library/Frameworks/OSAKit.framework; sourceTree = "<absolute>"; };
 		9888CE220B02412200B81BDB /* TextAction.spact */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TextAction.spact; sourceTree = BUILT_PRODUCTS_DIR; };
-		9888CE2D0B02418500B81BDB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
+		9888CE2D0B02418500B81BDB /* Info.plist */ = {isa = PBXFileReference; explicitFileType = text.plist.xml; fileEncoding = 4; path = Info.plist; sourceTree = "<group>"; };
 		9888CE3E0B02423600B81BDB /* TextIcon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = TextIcon.tiff; sourceTree = "<group>"; };
 		9888CE410B02425700B81BDB /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; lineEnding = 0; name = English; path = Resources/English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		9888CE9A0B0243AA00B81BDB /* TextActionPlugIn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextActionPlugIn.m; sourceTree = "<group>"; };
@@ -416,10 +416,10 @@
 		98D8E82F0B6EB565004C2810 /* iTMusic.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = iTMusic.tiff; sourceTree = "<group>"; };
 		98DD5E370A91CFD600FB5814 /* DocumentPlugin.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = DocumentPlugin.tiff; sourceTree = "<group>"; };
 		98DE6FE20B978FEC0090AD9A /* SysBrightness.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = SysBrightness.pdf; sourceTree = "<group>"; };
-		98E1CC570607765F00FA3599 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
-		98E1CC590607767300FA3599 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
-		98E1CC5B0607768E00FA3599 /* Info.plist */ = {isa = PBXFileReference; explicitFileType = text.xml; fileEncoding = 4; path = Info.plist; sourceTree = "<group>"; };
-		98E1CC5D0607769E00FA3599 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
+		98E1CC570607765F00FA3599 /* Info.plist */ = {isa = PBXFileReference; explicitFileType = text.plist.xml; fileEncoding = 4; path = Info.plist; sourceTree = "<group>"; };
+		98E1CC590607767300FA3599 /* Info.plist */ = {isa = PBXFileReference; explicitFileType = text.plist.xml; fileEncoding = 4; path = Info.plist; sourceTree = "<group>"; };
+		98E1CC5B0607768E00FA3599 /* Info.plist */ = {isa = PBXFileReference; explicitFileType = text.plist.xml; fileEncoding = 4; path = Info.plist; sourceTree = "<group>"; };
+		98E1CC5D0607769E00FA3599 /* Info.plist */ = {isa = PBXFileReference; explicitFileType = text.plist.xml; fileEncoding = 4; path = Info.plist; sourceTree = "<group>"; };
 		98E649110B626279008A8C9B /* iTunesIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iTunesIcon.png; sourceTree = "<group>"; };
 		98E6A8DE060636AE000CCBE1 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; lineEnding = 0; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		98E6A8E6060636AE000CCBE1 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; lineEnding = 0; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -1890,7 +1890,7 @@
 		1B7CF6C60D3574780068DAD1 /* 64bits */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 450;
+				CURRENT_PROJECT_VERSION = 453;
 				INFOPLIST_FILE = Text/Info.plist;
 				PRODUCT_NAME = TextAction;
 			};
@@ -1899,7 +1899,7 @@
 		1B7CF6C70D3574780068DAD1 /* 64bits */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 450;
+				CURRENT_PROJECT_VERSION = 453;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../SparkEditor/Resources\"",
@@ -1912,7 +1912,7 @@
 		1B7CF6C80D3574780068DAD1 /* 64bits */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 450;
+				CURRENT_PROJECT_VERSION = 453;
 				INFOPLIST_FILE = System/Info.plist;
 				PRODUCT_NAME = SystemAction;
 			};
@@ -1921,7 +1921,7 @@
 		1B7CF6C90D3574780068DAD1 /* 64bits */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 450;
+				CURRENT_PROJECT_VERSION = 453;
 				INFOPLIST_FILE = Documents/Info.plist;
 				PRODUCT_NAME = DocumentAction;
 			};
@@ -1930,7 +1930,7 @@
 		1B7CF6CA0D3574780068DAD1 /* 64bits */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 450;
+				CURRENT_PROJECT_VERSION = 453;
 				INFOPLIST_FILE = Application/Info.plist;
 				PRODUCT_NAME = ApplicationAction;
 			};
@@ -1939,7 +1939,7 @@
 		1B7CF6CB0D3574780068DAD1 /* 64bits */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 450;
+				CURRENT_PROJECT_VERSION = 453;
 				INFOPLIST_FILE = AppleScript/Info.plist;
 				PRODUCT_NAME = AppleScriptAction;
 			};
@@ -1966,7 +1966,7 @@
 		9888CE1F0B02412200B81BDB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 450;
+				CURRENT_PROJECT_VERSION = 453;
 				INFOPLIST_FILE = Text/Info.plist;
 				PRODUCT_NAME = TextAction;
 			};
@@ -1975,7 +1975,7 @@
 		9888CE200B02412200B81BDB /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 450;
+				CURRENT_PROJECT_VERSION = 453;
 				INFOPLIST_FILE = Text/Info.plist;
 				PRODUCT_NAME = TextAction;
 			};
@@ -1984,7 +1984,7 @@
 		98EF7EC908645A0E007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 450;
+				CURRENT_PROJECT_VERSION = 453;
 				INFOPLIST_FILE = System/Info.plist;
 				PRODUCT_NAME = SystemAction;
 			};
@@ -1993,7 +1993,7 @@
 		98EF7ECA08645A0E007BC81A /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 450;
+				CURRENT_PROJECT_VERSION = 453;
 				INFOPLIST_FILE = System/Info.plist;
 				PRODUCT_NAME = SystemAction;
 			};
@@ -2002,7 +2002,7 @@
 		98EF7ECD08645A0E007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 450;
+				CURRENT_PROJECT_VERSION = 453;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../SparkEditor/Resources\"",
@@ -2015,7 +2015,7 @@
 		98EF7ECE08645A0E007BC81A /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 450;
+				CURRENT_PROJECT_VERSION = 453;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../SparkEditor/Resources\"",
@@ -2028,7 +2028,7 @@
 		98EF7ED108645A0E007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 450;
+				CURRENT_PROJECT_VERSION = 453;
 				INFOPLIST_FILE = Documents/Info.plist;
 				PRODUCT_NAME = DocumentAction;
 			};
@@ -2037,7 +2037,7 @@
 		98EF7ED208645A0E007BC81A /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 450;
+				CURRENT_PROJECT_VERSION = 453;
 				INFOPLIST_FILE = Documents/Info.plist;
 				PRODUCT_NAME = DocumentAction;
 			};
@@ -2046,7 +2046,7 @@
 		98EF7ED508645A0E007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 450;
+				CURRENT_PROJECT_VERSION = 453;
 				INFOPLIST_FILE = Application/Info.plist;
 				PRODUCT_NAME = ApplicationAction;
 			};
@@ -2055,7 +2055,7 @@
 		98EF7ED608645A0E007BC81A /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 450;
+				CURRENT_PROJECT_VERSION = 453;
 				INFOPLIST_FILE = Application/Info.plist;
 				PRODUCT_NAME = ApplicationAction;
 			};
@@ -2064,7 +2064,7 @@
 		98EF7ED908645A0E007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 450;
+				CURRENT_PROJECT_VERSION = 453;
 				INFOPLIST_FILE = AppleScript/Info.plist;
 				PRODUCT_NAME = AppleScriptAction;
 			};
@@ -2073,7 +2073,7 @@
 		98EF7EDA08645A0E007BC81A /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 450;
+				CURRENT_PROJECT_VERSION = 453;
 				INFOPLIST_FILE = AppleScript/Info.plist;
 				PRODUCT_NAME = AppleScriptAction;
 			};
@@ -2171,7 +2171,7 @@
 		98EFD1CF0B58454800AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 450;
+				CURRENT_PROJECT_VERSION = 453;
 				INFOPLIST_FILE = Text/Info.plist;
 				PRODUCT_NAME = TextAction;
 			};
@@ -2180,7 +2180,7 @@
 		98EFD1D00B58454800AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 450;
+				CURRENT_PROJECT_VERSION = 453;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../SparkEditor/Resources\"",
@@ -2193,7 +2193,7 @@
 		98EFD1D10B58454800AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 450;
+				CURRENT_PROJECT_VERSION = 453;
 				INFOPLIST_FILE = System/Info.plist;
 				PRODUCT_NAME = SystemAction;
 			};
@@ -2202,7 +2202,7 @@
 		98EFD1D20B58454800AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 450;
+				CURRENT_PROJECT_VERSION = 453;
 				INFOPLIST_FILE = Documents/Info.plist;
 				PRODUCT_NAME = DocumentAction;
 			};
@@ -2211,7 +2211,7 @@
 		98EFD1D30B58454800AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 450;
+				CURRENT_PROJECT_VERSION = 453;
 				INFOPLIST_FILE = Application/Info.plist;
 				PRODUCT_NAME = ApplicationAction;
 			};
@@ -2220,7 +2220,7 @@
 		98EFD1D40B58454800AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 450;
+				CURRENT_PROJECT_VERSION = 453;
 				INFOPLIST_FILE = AppleScript/Info.plist;
 				PRODUCT_NAME = AppleScriptAction;
 			};

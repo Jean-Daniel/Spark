@@ -140,7 +140,7 @@ static CGLayerRef _HKCreateShading(CGContextRef ctxt, NSControlTint tint);
   [[NSNotificationCenter defaultCenter] removeObserver:self name:nil object:[self window]];
   [[NSNotificationCenter defaultCenter] addObserver:self
                                            selector:@selector(didCatchHotKey:)
-                                               name:kHKTrapWindowKeyCatchedNotification
+                                               name:kHKTrapWindowDidCatchKeyNotification
                                              object:newWindow];
   [[NSNotificationCenter defaultCenter] addObserver:self
                                            selector:@selector(windowDidResignKey:)

@@ -297,7 +297,7 @@
   return YES;
 }
 
-- (void)trapWindowCatchHotKey:(NSNotification *)aNotification {
+- (void)trapWindowDidCatchHotKey:(NSNotification *)aNotification {
   NSDictionary *info = [aNotification userInfo];
   UInt16 nkey = WBIntegerValue([info objectForKey:kHKEventKeyCodeKey]);
   UniChar chr = WBIntegerValue([info objectForKey:kHKEventCharacterKey]);
