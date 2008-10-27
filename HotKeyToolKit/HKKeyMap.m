@@ -50,10 +50,14 @@ NSString *HKMapGetStringForUnichar(UniChar unicode);
 #pragma mark -
 #pragma mark Publics Functions Definition
 UniChar HKMapGetUnicharForKeycode(HKKeycode keycode) {
-  UniChar unicode = HKMapGetSpecialCharacterForKeycode(keycode);
+  return HKMapGetUnicharForKeycodeAndModifier(keycode, 0);
+}
+UniChar HKMapGetUnicharForKeycodeAndModifier(HKKeycode keycode, HKModifier aModifier) {
+  UniChar unicode = !aModifier ? HKMapGetSpecialCharacterForKeycode(keycode) : kHKNilUnichar;
   if (kHKNilUnichar == unicode)
-    unicode = HKKeyMapGetUnicharForKeycode(SharedKeyMap(), keycode);
-  return unicode;
+    unicode = aModifier ? HKKeyMapGetUnicharForKeycodeAndModifier(SharedKeyMap(), keycode, aModifier) :
+    HKKeyMapGetUnicharForKeycode(SharedKeyMap(), keycode);
+  return unicode;  
 }
 
 NSString *HKMapGetCurrentMapName() {

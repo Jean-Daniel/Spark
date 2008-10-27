@@ -265,10 +265,11 @@
 #pragma mark -
 #pragma mark Invoke
 - (void)keyPressed {
+  hk_eventTime = [[HKHotKeyManager sharedManager] currentEventTime];
   [self hk_invalidateTimer];
   if (hk_hkFlags.onrelease) {
     hk_hkFlags.invoked = 0;
-  } else if ([self shouldInvoke:NO] && !hk_hkFlags.onrelease) { // onrealease can be changed by shouldInvoke.
+  } else if (!hk_hkFlags.onrelease) { // onrealease can be changed by shouldInvoke.
     /* Flags used to avoid double invocation if 'on release' change during invoke */
     hk_hkFlags.invoked = 1;
     [self invoke:NO];
@@ -285,13 +286,16 @@
         [fire release];
         [[NSRunLoop currentRunLoop] addTimer:hk_repeatTimer forMode:NSDefaultRunLoopMode];
       }
+    } else {
+      hk_hkFlags.invoked = 0;
     }
   }
 }
 
 - (void)keyReleased {
+  hk_eventTime = [[HKHotKeyManager sharedManager] currentEventTime];
   [self hk_invalidateTimer];
-  if ([self shouldInvoke:NO] && hk_hkFlags.onrelease && !hk_hkFlags.invoked) {
+  if (hk_hkFlags.onrelease && !hk_hkFlags.invoked) {
     [self invoke:NO];
   }
 }
@@ -299,7 +303,7 @@
 - (void)invoke:(BOOL)repeat {
   if (!hk_hkFlags.lock) {
     WBFlagSet(hk_hkFlags.repeat, repeat);
-    [self willInvoke:repeat];
+    [self willInvoke];
     hk_hkFlags.lock = 1;
     @try {
       if (hk_action && [hk_target respondsToSelector:hk_action]) {
@@ -309,21 +313,23 @@
       WBLogException(exception);
     }
     hk_hkFlags.lock = 0;
-    [self didInvoke:repeat];
+    [self didInvoke];
     WBFlagSet(hk_hkFlags.repeat, NO);
   } else {
-    WLog(@"Recursive call in %@", self);
-    // Maybe resend event ?
+    WBLogWarning(@"Recursive call in %@", self);
+    // Should we resend event ?
   }
 }
 
 - (BOOL)isARepeat {
   return hk_hkFlags.repeat;
 }
+- (NSTimeInterval)eventTime {
+  return hk_eventTime;
+}
 
-- (BOOL)shouldInvoke:(BOOL)repeat { return YES; }
-- (void)willInvoke:(BOOL)repeat {}
-- (void)didInvoke:(BOOL)repeat {}
+- (void)willInvoke {}
+- (void)didInvoke {}
 
 #pragma mark -
 #pragma mark Private
@@ -336,10 +342,12 @@
 }
 
 - (void)hk_invoke:(NSTimer *)timer {
+  /* get uptime in seconds (this is what carbon and cocoa event use as timestamp) */
+  hk_eventTime = UnsignedWideToUInt64(AbsoluteToNanoseconds(UpTime())) / 1e9;
   if (HKTraceHotKeyEvents) {
     NSLog(@"Repeat event: %@", self);
   }
-  if ([self shouldInvoke:YES] && !hk_hkFlags.onrelease)
+  if (!hk_hkFlags.onrelease)
     [self invoke:YES];
 }
 

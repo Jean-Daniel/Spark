@@ -52,6 +52,9 @@ HK_CLASS_EXPORT
   HKModifier hk_mask;
   HKKeycode hk_keycode;
   UniChar hk_character;
+  
+  /* event */
+  NSTimeInterval hk_eventTime;
 }
 
 #pragma mark -
@@ -250,11 +253,12 @@ HK_CLASS_EXPORT
 - (void)keyPressed;
 - (void)keyReleased;
 
-- (BOOL)isARepeat;
+- (void)willInvoke;
+- (void)didInvoke;
 
-- (BOOL)shouldInvoke:(BOOL)repeat;
-- (void)willInvoke:(BOOL)repeat;
-- (void)didInvoke:(BOOL)repeat;
+/* valid only during [target action:sender] call */
+- (BOOL)isARepeat;
+- (NSTimeInterval)eventTime;
 
 @end
 

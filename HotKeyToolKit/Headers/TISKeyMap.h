@@ -35,7 +35,7 @@ struct __HKKeyMap {
       TISInputSourceRef keyboard;
       CFStringRef identifier;
     } tis;
-  };
+  } storage;
   HKKeyMapContext ctxt;
   HKLayoutContext lctxt;
 };

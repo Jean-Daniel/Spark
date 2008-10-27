@@ -23,6 +23,8 @@ HK_CLASS_EXPORT
   void *hk_handler; /* EventHandlerRef */
   NSMapTable *hk_refs;
   NSMapTable *hk_keys;
+  /* temp */
+  void *hk_event; // EventRef
 }
 
 /*!
@@ -64,6 +66,7 @@ HK_CLASS_EXPORT
 
 
 /* Protected */
+- (NSTimeInterval)currentEventTime;
 - (void)hotKeyPressed:(HKHotKey *)key;
 - (void)hotKeyReleased:(HKHotKey *)key;
 

@@ -34,6 +34,14 @@
   STAssertTrue(' ' == chr, @"HKMapGetUnicharForKeycode return '%C' (0x%x) instead of ' '", chr, chr);
 }
 
+- (void)testMapping {
+  UniChar uchr = HKMapGetUnicharForKeycode(0);
+  STAssertTrue(uchr == 'q', @"mapping does not work");
+  
+  uchr = HKMapGetUnicharForKeycodeAndModifier(0, kCGEventFlagMaskShift);
+  STAssertTrue(uchr == 'Q', @"mapping does not work");
+}
+
 - (void)testReverseMapping {
   UniChar character = 's';
   HKKeycode keycode = HKMapGetKeycodeAndModifierForUnichar(character, NULL);

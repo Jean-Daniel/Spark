@@ -80,11 +80,10 @@
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		1B0946F50D68BC6400E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1B0946F70D68BC7000E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Keyboard.strings; sourceTree = "<group>"; };
-		1B7BB7450CBE1F2800484A9E /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
-		1B7BB7460CBE1F2800484A9E /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
-		1B7BB7470CBE1F2800484A9E /* Profile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Profile.xcconfig; sourceTree = "<group>"; };
-		1B7BB7480CBE1F2800484A9E /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
-		1B88DD340D352EF8008B66CA /* 64Bits.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = 64Bits.xcconfig; sourceTree = "<group>"; };
+		1B7E8F6A0EAF0FB300784745 /* Leopard-64Bits.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Leopard-64Bits.xcconfig"; sourceTree = "<group>"; };
+		1B7E8F6B0EAF0FB300784745 /* Tiger-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Tiger-Release.xcconfig"; sourceTree = "<group>"; };
+		1B7E8F6D0EAF0FB300784745 /* Tiger-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Tiger-Debug.xcconfig"; sourceTree = "<group>"; };
+		1B7E8F6E0EAF0FC300784745 /* Leopard-Profile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Leopard-Profile.xcconfig"; sourceTree = "<group>"; };
 		85FA5D540BCE526C0060584C /* TISKeyMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = TISKeyMap.h; sourceTree = "<group>"; };
 		85FA5D550BCE526C0060584C /* TISKeyMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = TISKeyMap.m; sourceTree = "<group>"; };
 		85FA5D7E0BCE57690060584C /* KLKeyMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = KLKeyMap.h; sourceTree = "<group>"; };
@@ -107,15 +106,15 @@
 		984BCDC4060C7E4D0043CDEA /* HotKeyToolKit.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = HotKeyToolKit.icns; sourceTree = "<group>"; };
 		985B62EB0719E1750073D36F /* HKHotKeyTestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKHotKeyTestCase.h; sourceTree = "<group>"; };
 		985B62EC0719E1750073D36F /* HKHotKeyTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKHotKeyTestCase.m; sourceTree = "<group>"; };
-		985B6D170719ED7E0073D36F /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
+		985B6D170719ED7E0073D36F /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		985B6D190719EDCC0073D36F /* HKKeyMapTestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HKKeyMapTestCase.h; sourceTree = "<group>"; };
 		985B6D1A0719EDCC0073D36F /* HKKeyMapTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HKKeyMapTestCase.m; sourceTree = "<group>"; };
 		98643F000A556F2200260086 /* Test.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Test.octest; sourceTree = BUILT_PRODUCTS_DIR; };
-		98643F010A556F2200260086 /* Test-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Test-Info.plist"; sourceTree = "<group>"; };
-		9864CB72060D11DD00228F30 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
+		98643F010A556F2200260086 /* Test-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Test-Info.plist"; sourceTree = "<group>"; };
+		9864CB72060D11DD00228F30 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		98B703D00A86146400DB692D /* HKBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = HKBase.h; sourceTree = "<group>"; };
 		98C61C1A0A5813EB0004E6EF /* UITester.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UITester.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		98C61C1C0A5813EB0004E6EF /* UITester-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "UITester-Info.plist"; sourceTree = "<group>"; };
+		98C61C1C0A5813EB0004E6EF /* UITester-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "UITester-Info.plist"; sourceTree = "<group>"; };
 		98C61C650A5814C50004E6EF /* UITester.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = UITester.nib; sourceTree = "<group>"; };
 		98DD082E0A8A8F1D0082AF03 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Keyboard.strings; sourceTree = "<group>"; };
 		98DD3DAC0A57B1B600F059E5 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
@@ -188,7 +187,7 @@
 				089C1665FE841158C02AAC07 /* Resources */,
 				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
 				034768DFFF38A50411DB9C8B /* Products */,
-				1B7BB7440CBE1F2800484A9E /* Configurations */,
+				1B7BB7440CBE1F2800484A9E /* xcconfigs */,
 				98643F010A556F2200260086 /* Test-Info.plist */,
 				98C61C1C0A5813EB0004E6EF /* UITester-Info.plist */,
 			);
@@ -250,16 +249,15 @@
 			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
-		1B7BB7440CBE1F2800484A9E /* Configurations */ = {
+		1B7BB7440CBE1F2800484A9E /* xcconfigs */ = {
 			isa = PBXGroup;
 			children = (
-				1B7BB7450CBE1F2800484A9E /* Common.xcconfig */,
-				1B7BB7460CBE1F2800484A9E /* Debug.xcconfig */,
-				1B7BB7470CBE1F2800484A9E /* Profile.xcconfig */,
-				1B7BB7480CBE1F2800484A9E /* Release.xcconfig */,
-				1B88DD340D352EF8008B66CA /* 64Bits.xcconfig */,
+				1B7E8F6A0EAF0FB300784745 /* Leopard-64Bits.xcconfig */,
+				1B7E8F6E0EAF0FC300784745 /* Leopard-Profile.xcconfig */,
+				1B7E8F6B0EAF0FB300784745 /* Tiger-Release.xcconfig */,
+				1B7E8F6D0EAF0FB300784745 /* Tiger-Debug.xcconfig */,
 			);
-			path = Configurations;
+			path = xcconfigs;
 			sourceTree = SHARED_SOURCES_DIR;
 		};
 		984426C605F9430700551005 /* Headers */ = {
@@ -575,9 +573,8 @@
 /* Begin XCBuildConfiguration section */
 		1B88DD590D352FD9008B66CA /* 64bits */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1B88DD340D352EF8008B66CA /* 64Bits.xcconfig */;
+			baseConfigurationReference = 1B7E8F6A0EAF0FB300784745 /* Leopard-64Bits.xcconfig */;
 			buildSettings = {
-				SYMROOT = ../build;
 			};
 			name = 64bits;
 		};
@@ -628,9 +625,9 @@
 		1B88DD5D0D352FD9008B66CA /* 64bits */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 453;
+				CURRENT_PROJECT_VERSION = 460;
 				DYLIB_COMPATIBILITY_VERSION = 2;
-				DYLIB_CURRENT_VERSION = 453;
+				DYLIB_CURRENT_VERSION = 460;
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -646,9 +643,9 @@
 		981B5F510938699D0024C0D9 /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 453;
+				CURRENT_PROJECT_VERSION = 460;
 				DYLIB_COMPATIBILITY_VERSION = 2;
-				DYLIB_CURRENT_VERSION = 453;
+				DYLIB_CURRENT_VERSION = 460;
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -663,9 +660,8 @@
 		};
 		981B5F530938699D0024C0D9 /* Profile */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1B7BB7470CBE1F2800484A9E /* Profile.xcconfig */;
+			baseConfigurationReference = 1B7E8F6E0EAF0FC300784745 /* Leopard-Profile.xcconfig */;
 			buildSettings = {
-				SYMROOT = ../build;
 			};
 			name = Profile;
 		};
@@ -760,9 +756,9 @@
 		98EF7D5508645328007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 453;
+				CURRENT_PROJECT_VERSION = 460;
 				DYLIB_COMPATIBILITY_VERSION = 2;
-				DYLIB_CURRENT_VERSION = 453;
+				DYLIB_CURRENT_VERSION = 460;
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -777,18 +773,18 @@
 		};
 		98EF7D5D08645328007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1B7BB7460CBE1F2800484A9E /* Debug.xcconfig */;
+			baseConfigurationReference = 1B7E8F6D0EAF0FB300784745 /* Tiger-Debug.xcconfig */;
 			buildSettings = {
-				SYMROOT = ../build;
+				BUILT_PRODUCT_DIR = Spark;
 			};
 			name = Debug;
 		};
 		98EFD03D0B58448D00AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 453;
+				CURRENT_PROJECT_VERSION = 460;
 				DYLIB_COMPATIBILITY_VERSION = 2;
-				DYLIB_CURRENT_VERSION = 453;
+				DYLIB_CURRENT_VERSION = 460;
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -847,9 +843,8 @@
 		};
 		98EFD0410B58448D00AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1B7BB7480CBE1F2800484A9E /* Release.xcconfig */;
+			baseConfigurationReference = 1B7E8F6B0EAF0FB300784745 /* Tiger-Release.xcconfig */;
 			buildSettings = {
-				SYMROOT = ../build;
 			};
 			name = Release;
 		};

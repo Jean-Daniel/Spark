@@ -46,7 +46,7 @@ HKKeyMapRef HKKeyMapCreateWithKeyboardLayout(KeyboardLayoutRef layout) {
   HKKeyMapRef keymap = calloc( 1, sizeof(struct __HKKeyMap));
   if (keymap) {
     keymap->lctxt = kKLContext;
-    keymap->kl.keyboard = layout;
+    keymap->storage.kl.keyboard = layout;
   }
   return keymap;
 }
@@ -55,9 +55,9 @@ OSStatus HKKLKeyMapInit(HKKeyMapRef keyMap) {
   /* find the current layout resource ID */
   KeyboardLayoutKind kind = 0;
   KeyboardLayoutPropertyTag tag = 0;
-  KLGetKeyboardLayoutProperty(keyMap->kl.keyboard, kKLIdentifier, (void *)&(keyMap->kl.identifier));
+  KLGetKeyboardLayoutProperty(keyMap->storage.kl.keyboard, kKLIdentifier, (void *)&(keyMap->storage.kl.identifier));
   
-  OSStatus err = KLGetKeyboardLayoutProperty(keyMap->kl.keyboard, kKLKind, (void *)&kind);
+  OSStatus err = KLGetKeyboardLayoutProperty(keyMap->storage.kl.keyboard, kKLKind, (void *)&kind);
   if (noErr == err) {
     switch (kind) {
     case kKLuchrKind:
@@ -73,7 +73,7 @@ OSStatus HKKLKeyMapInit(HKKeyMapRef keyMap) {
   }
   const void *data = NULL;
   if (noErr == err) {
-    err = KLGetKeyboardLayoutProperty(keyMap->kl.keyboard, tag, (void *)&data);
+    err = KLGetKeyboardLayoutProperty(keyMap->storage.kl.keyboard, tag, (void *)&data);
   }
   if (noErr == err) {
     switch (kind) {
@@ -92,7 +92,7 @@ OSStatus HKKLKeyMapInit(HKKeyMapRef keyMap) {
 }
 
 void HKKLKeyMapDispose(HKKeyMapRef keyMap) {
-  keyMap->kl.keyboard = NULL;
+  keyMap->storage.kl.keyboard = NULL;
 }
 
 HKKeyMapRef HKKLKeyMapCreateWithName(CFStringRef name) {
@@ -112,18 +112,18 @@ HKKeyMapRef HKKLKeyMapCreateWithCurrentLayout() {
 }
 
 Boolean HKKLKeyMapIsCurrent(HKKeyMapRef keyMap) {
-  return __CurrentKCHRId() == keyMap->kl.identifier;
+  return __CurrentKCHRId() == keyMap->storage.kl.identifier;
 }
 
 CFStringRef HKKLKeyMapGetName(HKKeyMapRef keymap) {
   CFStringRef str = NULL;
-  KLGetKeyboardLayoutProperty(keymap->kl.keyboard, kKLName, (void *)&str);
+  KLGetKeyboardLayoutProperty(keymap->storage.kl.keyboard, kKLName, (void *)&str);
   return str;
 }
 
 CFStringRef HKKLKeyMapGetLocalizedName(HKKeyMapRef keymap) {
   CFStringRef str = NULL;
-  KLGetKeyboardLayoutProperty(keymap->kl.keyboard, kKLLocalizedName, (void *)&str);
+  KLGetKeyboardLayoutProperty(keymap->storage.kl.keyboard, kKLLocalizedName, (void *)&str);
   return str;  
 }
 

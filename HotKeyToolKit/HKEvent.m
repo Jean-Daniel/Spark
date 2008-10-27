@@ -196,12 +196,10 @@ ProcessSerialNumber _HKGetProcessWithBundleIdentifier(CFStringRef bundleId) {
     
     if (procValue && (CFEqual(procValue , bundleId)) ) {
       CFRelease(info);
-      info = NULL;
       break;
     }
     if (info) {
       CFRelease(info);
-      info = NULL;
     }
   }
   return serialNumber; 

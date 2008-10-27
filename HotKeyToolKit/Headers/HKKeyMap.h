@@ -240,6 +240,9 @@ NSUInteger HKMapGetKeycodesAndModifiersForUnichar(UniChar character, HKKeycode *
 HK_EXPORT
 UniChar HKMapGetUnicharForKeycode(HKKeycode keycode);
 
+HK_EXPORT
+UniChar HKMapGetUnicharForKeycodeAndModifier(HKKeycode keycode, HKModifier aModifier);
+
 /*!
  @function
  @abstract   Returns the name of the current keyMap.

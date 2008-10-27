@@ -192,6 +192,7 @@ static EventHandlerUPP kHKHandlerUPP = NULL;
     }
     hotKey = NSMapGet(hk_keys, (void *)(intptr_t)hotKeyID.id);
     if (hotKey) {
+      hk_event = theEvent;
       switch(GetEventKind(theEvent)) {
         case kEventHotKeyPressed:
           [self hotKeyPressed:hotKey];
@@ -203,6 +204,7 @@ static EventHandlerUPP kHKHandlerUPP = NULL;
           DLog(@"Unknown event kind");
           break;
       }
+      hk_event = NULL;
     } else {
       DLog(@"Invalid hotkey id!");
     }
@@ -210,6 +212,9 @@ static EventHandlerUPP kHKHandlerUPP = NULL;
   return err;
 }
 
+- (NSTimeInterval)currentEventTime {
+  return hk_event ? GetEventTime((EventRef)hk_event) : 0;
+}
 - (void)hotKeyPressed:(HKHotKey *)key {
   [key keyPressed];
 }

@@ -46,18 +46,18 @@ HKKeyMapRef HKKeyMapCreateWithInputSource(TISInputSourceRef source) {
   HKKeyMapRef keymap = calloc(1, sizeof(struct __HKKeyMap));
   if (keymap) {
     keymap->lctxt = kTISContext;
-    keymap->tis.keyboard = (TISInputSourceRef)CFRetain(source);
+    keymap->storage.tis.keyboard = (TISInputSourceRef)CFRetain(source);
   }
   return keymap;
 }
 
 OSStatus HKTISKeyMapInit(HKKeyMapRef keyMap) {
   OSStatus err = noErr;
-  CFDataRef uchr = TISGetInputSourceProperty(keyMap->tis.keyboard, kTISPropertyUnicodeKeyLayoutData);
+  CFDataRef uchr = TISGetInputSourceProperty(keyMap->storage.tis.keyboard, kTISPropertyUnicodeKeyLayoutData);
   if (uchr) {
     err = HKKeyMapContextWithUchrData((const UCKeyboardLayout *)CFDataGetBytePtr(uchr), keyMap->reverse, &keyMap->ctxt);
   } else {
-#if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_5
+#if !__LP64__
     /* maybe this is kchr data only ... */
     KeyboardLayoutRef ref;
     if (keyMap->constructor) err = KLGetKeyboardLayoutWithName(keyMap->constructor, &ref);
@@ -68,22 +68,22 @@ OSStatus HKTISKeyMapInit(HKKeyMapRef keyMap) {
       if (noErr == err) 
         err = HKKeyMapContextWithKCHRData(data, keyMap->reverse, &keyMap->ctxt);
     }
-    if (noErr != err) { WCLog("Error while trying to get layout data"); }
+    if (noErr != err) { WBCLogWarning("Error while trying to get layout data"); }
 #else
-    WCLog("No UCHR data found and 64 bits does not support KCHR.");
+    WBCLogWarning("No UCHR data found and 64 bits does not support KCHR.");
     err = paramErr;
 #endif
   }
   if (noErr == err) {
-    keyMap->tis.identifier = TISGetInputSourceProperty(keyMap->tis.keyboard, kTISPropertyInputSourceID);
-    if (keyMap->tis.identifier) CFRetain(keyMap->tis.identifier);
+    keyMap->storage.tis.identifier = TISGetInputSourceProperty(keyMap->storage.tis.keyboard, kTISPropertyInputSourceID);
+    if (keyMap->storage.tis.identifier) CFRetain(keyMap->storage.tis.identifier);
   }
   return err;
 }
 
 void HKTISKeyMapDispose(HKKeyMapRef keyMap) {
-  if (keyMap->tis.keyboard) CFRelease(keyMap->tis.keyboard);
-  if (keyMap->tis.identifier) CFRelease(keyMap->tis.identifier);
+  if (keyMap->storage.tis.keyboard) CFRelease(keyMap->storage.tis.keyboard);
+  if (keyMap->storage.tis.identifier) CFRelease(keyMap->storage.tis.identifier);
 }
 
 HKKeyMapRef HKTISKeyMapCreateWithName(CFStringRef name) {
@@ -114,17 +114,17 @@ Boolean HKTISKeyMapIsCurrent(HKKeyMapRef keyMap) {
   Boolean current = true;
   CFStringRef identifier = __CopyCurrentKeyboardIdentifier();
   if (identifier) {
-    current = CFEqual(identifier, keyMap->tis.identifier);
+    current = CFEqual(identifier, keyMap->storage.tis.identifier);
     CFRelease(identifier);
   }
   return current;
 }
 
 CFStringRef HKTISKeyMapGetName(HKKeyMapRef keymap) {
-  return TISGetInputSourceProperty(keymap->tis.keyboard, kTISPropertyInputSourceLanguages);
+  return TISGetInputSourceProperty(keymap->storage.tis.keyboard, kTISPropertyInputSourceLanguages);
 }
 
 CFStringRef HKTISKeyMapGetLocalizedName(HKKeyMapRef keymap) {
-  return TISGetInputSourceProperty(keymap->tis.keyboard, kTISPropertyLocalizedName);
+  return TISGetInputSourceProperty(keymap->storage.tis.keyboard, kTISPropertyLocalizedName);
 }
 
