@@ -9,7 +9,7 @@
 #import <SparkKit/SparkServerProtocol.h>
 #import <SparkKit/SparkAppleScriptSuite.h>
 
-@class SparkApplication;
+@class SparkApplication, SparkEntry;
 @class SparkLibrary, SparkDistantLibrary;
 @interface SparkDaemon : NSObject {
   BOOL sd_disabled;
@@ -27,10 +27,10 @@
 - (BOOL)openConnection;
 - (void)closeConnection;
 
-- (void)loadTriggers;
-- (void)registerTriggers;
-- (void)unregisterTriggers;
-- (void)unregisterVolatileTriggers;
+- (void)registerEntries;
+- (void)unregisterEntries;
+- (void)unregisterVolatileEntries;
+- (void)setEntryStatus:(SparkEntry *)entry; // register or unregister an entry
 
 - (void)checkActions;
 

@@ -16,35 +16,6 @@
 #import <SparkKit/SparkEntryManager.h>
 #import <SparkKit/SparkLibrarySynchronizer.h>
 
-static
-void SparkDaemonCheckTrigger(SparkLibrary *library, SparkTrigger *trigger, BOOL isEnabled) {
-  if (trigger) {
-    if (isEnabled) {
-      /* Spark daemon is enabled, si check on all actions */
-      if ([trigger isRegistred]) {
-        if (![[library entryManager] containsActiveEntryForTrigger:trigger]) {
-          [trigger setRegistred:NO];
-        }
-      } else {
-        if ([[library entryManager] containsActiveEntryForTrigger:trigger]) {
-          [trigger setRegistred:YES];
-        }
-      }
-    } else {
-      /* Spark Daemon is disabled, so check only persistents actions */
-      if ([trigger isRegistred]) {
-        if (![[library entryManager] containsPersistentActiveEntryForTrigger:trigger]) {
-          [trigger setRegistred:NO];
-        }
-      } else {
-        if ([[library entryManager] containsPersistentActiveEntryForTrigger:trigger]) {
-          [trigger setRegistred:YES];
-        }
-      }
-    }
-  }
-}
-
 @implementation SparkDaemon (SparkServerProtocol)
 
 - (UInt32)version {
@@ -72,7 +43,7 @@ void SparkDaemonCheckTrigger(SparkLibrary *library, SparkTrigger *trigger, BOOL 
   SparkEntry *entry = SparkNotificationObject(aNotification);
   if ([self isEnabled] || [entry isPersistent]) {
     /* Trigger can have a new active action */
-    SparkDaemonCheckTrigger(sd_library, [entry trigger], [self isEnabled]);
+    [self setEntryStatus:entry];
   }
 }
 
@@ -81,10 +52,10 @@ void SparkDaemonCheckTrigger(SparkLibrary *library, SparkTrigger *trigger, BOOL 
   SparkEntry *new = SparkNotificationObject(aNotification);
   SparkEntry *previous = SparkNotificationUpdatedObject(aNotification);
   if ([self isEnabled] || [new isPersistent] || [previous isPersistent]) {
-    SparkDaemonCheckTrigger(sd_library, [previous trigger], [self isEnabled]);
+    [self setEntryStatus:previous];
     
     if (![[new trigger] isEqual:[previous trigger]])
-      SparkDaemonCheckTrigger(sd_library, [new trigger], [self isEnabled]);
+      [self setEntryStatus:new];
   }
 }
 
@@ -93,7 +64,7 @@ void SparkDaemonCheckTrigger(SparkLibrary *library, SparkTrigger *trigger, BOOL 
   SparkEntry *entry = SparkNotificationObject(aNotification);
   if ([self isEnabled] || [entry isPersistent]) {
     /* If trigger was not removed, we should check it */
-    SparkDaemonCheckTrigger(sd_library, [entry trigger], [self isEnabled]);
+    [self setEntryStatus:entry];
   }
 }
 
@@ -102,23 +73,12 @@ void SparkDaemonCheckTrigger(SparkLibrary *library, SparkTrigger *trigger, BOOL 
   SparkEntry *entry = SparkNotificationObject(aNotification);
   if ([self isEnabled] || [entry isPersistent]) {
     /* Should check triggers */
-    SparkDaemonCheckTrigger(sd_library, [entry trigger], [self isEnabled]);
+    [self setEntryStatus:entry];
   }  
 }
 
 #pragma mark -
 #pragma mark Notifications
-- (void)configureTrigger:(SparkTrigger *)aTrigger {
-  [aTrigger setTarget:self];
-  [aTrigger setAction:@selector(executeTrigger:)]; 
-}
-
-- (void)didAddTrigger:(NSNotification *)aNotification {
-  WBTrace();
-  SparkTrigger *trigger = SparkNotificationObject(aNotification);
-  [self configureTrigger:trigger];
-}
-
 - (void)willRemoveTrigger:(NSNotification *)aNotification {
   WBTrace();
   if ([self isEnabled]) {
@@ -151,7 +111,7 @@ void SparkDaemonCheckTrigger(SparkLibrary *library, SparkTrigger *trigger, BOOL 
   SparkApplication *app = SparkNotificationObject(aNotification);
   if ([app isEqual:sd_front] && ![app isEnabled]) {
     /* restore triggers status */
-    [self registerTriggers];
+    [self registerEntries];
     sd_front = nil;
   }
 }
@@ -160,16 +120,16 @@ void SparkDaemonCheckTrigger(SparkLibrary *library, SparkTrigger *trigger, BOOL 
   SparkApplication *app = [aNotification object];
   if ([app isEqual:sd_front]) {
     if ([app isEnabled])
-      [self registerTriggers];
+      [self registerEntries];
     else 
-      [self unregisterTriggers];
+      [self unregisterEntries];
   }
 }
 
 #pragma mark Plugins Management
 - (void)didChangePluginStatus:(NSNotification *)aNotification {
   if ([self isEnabled]) {
-    [self registerTriggers];
+    [self registerEntries];
   }
 }
 
