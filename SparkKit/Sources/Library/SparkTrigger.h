@@ -8,32 +8,17 @@
 
 #import <SparkKit/SparkObject.h>
 
-@class SparkAction;
 WB_CLASS_EXPORT
 @interface SparkTrigger : SparkObject <NSCoding, NSCopying> {
   @private
-  id sp_target;
-  SEL sp_action;
-  
   struct _sp_stFlags {
-    unsigned int repeat:1;
     unsigned int overwrite:1;
-    unsigned int reserved:30;
+    unsigned int reserved:15;
   } sp_stFlags;
 }
 
-+ (SparkAction *)currentAction;
-
-- (id)target;
-- (void)setTarget:(id)target;
-
-- (SEL)action;
-- (void)setAction:(SEL)action;
-
 - (BOOL)hasManyAction;
 - (void)setHasSpecificAction:(BOOL)flag;
-
-- (IBAction)trigger:(id)sender;
 
   /* To overwrite */
 - (void)bypass;
@@ -41,17 +26,18 @@ WB_CLASS_EXPORT
 - (BOOL)setRegistred:(BOOL)flag;
 - (NSString *)triggerDescription;
 
-/* Current event support */
-- (BOOL)isARepeat;
-- (NSTimeInterval)eventTime;
-
-/* Optional */
-- (void)willTriggerAction:(SparkAction *)anAction;
-- (void)didTriggerAction:(SparkAction *)anAction;
-
 /* Return YES only if the two trigger are equivalents */
 - (BOOL)isEqualToTrigger:(SparkTrigger *)aTrigger;
 
-/* Convenient setters */
-- (void)setIsARepeat:(BOOL)flag;
+@end
+
+@class SparkEvent, SparkEntry;
+@interface SparkTrigger (SparkEvent)
+
+- (SparkEntry *)resolveEntry;
+
+- (void)sendEvent:(SparkEvent *)anEvent;
+- (void)sendEventWithTime:(NSTimeInterval)eventTime isARepeat:(BOOL)repeat;
+- (void)sendEventWithEntry:(SparkEntry *)anEntry time:(NSTimeInterval)eventTime isARepeat:(BOOL)repeat;
+
 @end

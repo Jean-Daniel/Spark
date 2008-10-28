@@ -102,16 +102,16 @@ UInt8 __SparkIconTypeForObject(SparkObject *object) {
 
 - (void)setPath:(NSString *)path {
   if (sp_path)
-    [NSException raise:NSInvalidArgumentException format:@"%@ does not support rename", [self class]];
+    WBThrowException(NSInvalidArgumentException, @"%@ does not support rename", [self class]);
   
   if (path) {
     BOOL isDir = NO;
     if (![[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir]) {
       if (noErr != WBFSCreateFolder((CFStringRef)path)) {
-        [NSException raise:NSInvalidArgumentException format:@"could not create directory at path %@", path];
+        WBThrowException(NSInvalidArgumentException, @"could not create directory at path %@", path);
       }
     } else if (!isDir) {
-      [NSException raise:NSInvalidArgumentException format:@"%@ is not a directory", path];
+      WBThrowException(NSInvalidArgumentException, @"%@ is not a directory", path);
     }
     for (NSUInteger idx = 0; idx < 4; idx++) {
       NSString *dir = [path stringByAppendingPathComponent:[NSString stringWithFormat:@"%u", idx]];

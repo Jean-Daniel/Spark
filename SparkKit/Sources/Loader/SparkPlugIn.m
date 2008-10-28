@@ -82,8 +82,7 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
 - (id)initWithClass:(Class)cls identifier:(NSString *)identifier {
   if (![cls isSubclassOfClass:[SparkActionPlugIn class]]) {
     [self release];
-    [NSException raise:NSInvalidArgumentException format:@"Invalid action plugin class."];  
-    return nil;
+    WBThrowException(NSInvalidArgumentException, @"Invalid action plugin class.");
   } 
   
   if (self = [super init]) {

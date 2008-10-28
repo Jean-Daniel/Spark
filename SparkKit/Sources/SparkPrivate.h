@@ -35,8 +35,6 @@
 @class SparkHotKey, SparkTrigger;
 @interface SparkAction ()
 
-+ (void)setCurrentTrigger:(SparkTrigger *)aTrigger;
-
 - (id)duplicate;
 
 - (BOOL)isInvalid;

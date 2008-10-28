@@ -8,6 +8,7 @@
 
 #import "SparkPrivate.h"
 #import <SparkKit/SparkKit.h>
+#import <SparkKit/SparkEvent.h>
 #import <SparkKit/SparkAction.h>
 #import <SparkKit/SparkTrigger.h>
 #import <SparkKit/SparkObjectSet.h>
@@ -26,17 +27,11 @@ static NSString * const kSparkActionDescriptionKey = @"SADescription";
 @implementation SparkAction
 
 #pragma mark Current Event
-static NSString * const SparkCurrentTriggerKey = @"SparkCurrentTrigger";
-
-+ (SparkTrigger *)currentEvent {
-  return [[[NSThread currentThread] threadDictionary] objectForKey:SparkCurrentTriggerKey];
-}
-
 + (BOOL)currentEventIsARepeat {
-  return [[self currentEvent] isARepeat];
+  return [[SparkEvent currentEvent] isARepeat];
 }
 + (NSTimeInterval)currentEventTime {
-  SparkTrigger *current = [self currentEvent];
+  SparkEvent *current = [SparkEvent currentEvent];
   return current ? [current eventTime] : 0;
 }
 
@@ -233,12 +228,6 @@ static NSString * const SparkCurrentTriggerKey = @"SparkCurrentTrigger";
 //@end
 
 #pragma mark -
-+ (void)setCurrentTrigger:(SparkTrigger *)aTrigger {
-  NSMutableDictionary *dict = [[NSThread currentThread] threadDictionary];
-  if (aTrigger) [dict setObject:aTrigger forKey:SparkCurrentTriggerKey];
-  else [dict removeObjectForKey:SparkCurrentTriggerKey];
-}
-
 - (id)duplicate {
   /* Copying fallback when instance does not implements copyWithZone: */
   id copy = nil;

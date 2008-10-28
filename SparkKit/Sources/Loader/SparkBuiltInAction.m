@@ -202,7 +202,7 @@ void SparkSDActionToggleDaemonStatus() {
     require_noerr(err, bail);
     
     SparkNotificationDisplayImage(SparkDaemonStatusIcon(!status), -1);
-bail:
+  bail:
     WBAEDisposeDesc(&aevt);
   }
 }
@@ -305,6 +305,7 @@ NSString *_SparkActionDescription(SparkBuiltInAction *action) {
                                                  kSparkKitBundle, @"Spark Built-in Plugin description");
       }
     }
+      break;
 		case kSparkSDActionExchangeListStatus: {
       NSString *name = [[action list] name];
 			NSString *name2 = [[action otherList] name];

@@ -453,6 +453,7 @@ typedef struct {
     [entry setApplication:[sp_library applicationWithUID:SparkReadField(entries->application)]];
     
     [self sp_addEntry:entry parent:nil];
+    [entry release];
     entries++;
   }
   /* build parent/child relations */

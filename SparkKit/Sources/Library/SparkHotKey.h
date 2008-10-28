@@ -40,6 +40,8 @@ WB_CLASS_EXPORT
 @interface SparkHotKey : SparkTrigger <NSCoding, NSCopying> {
   @private
   HKHotKey *sp_hotkey;
+  
+  SparkEntry *sp_entry; // event generation helper
 }
 
 #pragma mark -

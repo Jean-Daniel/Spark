@@ -100,13 +100,13 @@
   if ([key isEqualToString:@"name"]) {
     if (warn) {
       warn = NO;
-      WLog(@"%@ use deprecated KVC getter: name", [self class]);
+      WBLogWarning(@"%@ use deprecated KVC getter: name", [self class]);
     }
     return [sp_action name];
   } else if ([key isEqualToString:@"icon"]) {
     if (warn) {
       warn = NO;
-      WLog(@"%@ use deprecated KVC getter: icon", [self class]);
+      WBLogWarning(@"%@ use deprecated KVC getter: icon", [self class]);
     }
     return [sp_action icon];
   }
@@ -118,13 +118,13 @@
   if ([key isEqualToString:@"name"]) {
     if (warn) {
       warn = NO;
-      WLog(@"%@ use deprecated KVC setter: name", [self class]);
+      WBLogWarning(@"%@ use deprecated KVC setter: name", [self class]);
     }
     return [sp_action setName:value];
   } else if ([key isEqualToString:@"icon"]) {
     if (warn) {
       warn = NO;
-      WLog(@"%@ use deprecated KVC setter: icon", [self class]);
+      WBLogWarning(@"%@ use deprecated KVC setter: icon", [self class]);
     }
     return [sp_action setIcon:value];
   }
@@ -183,7 +183,7 @@
   if (class && (actionClass = NSClassFromString(class)) ) {
     return actionClass;
   }
-  WLog(@"%@: invalid plugin property list: key \"SparkActionClass\" not found or invalid", [bundle bundlePath]);
+  WBLogWarning(@"%@: invalid plugin property list: key \"SparkActionClass\" not found or invalid", [bundle bundlePath]);
   return nil;
 }
 
@@ -192,7 +192,7 @@
   NSString *name = [bundle objectForInfoDictionaryKey:@"SparkPluginName"];
   if (!name) {
     name = NSStringFromClass(self);
-    WLog(@"%@: invalid plugin property list: key \"SparkPlugInName\" not found", [bundle bundlePath]);
+    WBLogWarning(@"%@: invalid plugin property list: key \"SparkPlugInName\" not found", [bundle bundlePath]);
   }
   return name;
 }
@@ -202,7 +202,7 @@
   NSString *name = [bundle objectForInfoDictionaryKey:@"SparkPluginIcon"];
   NSImage *image = [NSImage imageNamed:name inBundle:bundle];
   if (!image) {
-    WLog(@"%@: invalid plugin property list: key \"SparkPluginIcon\" not found", [bundle bundlePath]);
+    WBLogWarning(@"%@: invalid plugin property list: key \"SparkPluginIcon\" not found", [bundle bundlePath]);
     image = [NSImage imageNamed:@"PluginIcon" inBundle:kSparkKitBundle];
   }
   return image;
@@ -284,9 +284,9 @@ void __SparkViewPlaceholderCopyProperties(NSView *src, NSView *dest) {
 SPARK_INLINE
 void __SparkViewPlaceholderSwapView(NSView *old, NSView *new) {
   if (!new || [new superview])
-    [NSException raise:NSInvalidArgumentException format:@"Target view must bew a valid orphan view."];
+    WBThrowException(NSInvalidArgumentException, @"Target view must bew a valid orphan view.");
   if (!old || ![old superview])
-    [NSException raise:NSInvalidArgumentException format:@"Source view must have a valid superview."];
+    WBThrowException(NSInvalidArgumentException, @"Source view must have a valid superview.");
   
   NSView *parent = [old superview];
   if (parent && new) {

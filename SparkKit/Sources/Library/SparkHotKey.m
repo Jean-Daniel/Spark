@@ -6,11 +6,11 @@
  *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
  */
 
-#include <Carbon/Carbon.h>
-
+#import <SparkKit/SparkEntry.h>
 #import <SparkKit/SparkHotKey.h>
 #import <SparkKit/SparkAction.h>
 
+#import WBHEADER(WBFunctions.h)
 #import WBHEADER(WBForwarding.h)
 #import WBHEADER(WBAppKitExtensions.h)
 
@@ -88,6 +88,15 @@ BOOL SparkHotKeyFilter(HKKeycode code, HKModifier modifier) {
 #pragma mark -
 @implementation SparkHotKey
 
+static CFMutableDictionaryRef sHKParentMap = NULL;
++ (void)initialize {
+  if ([SparkHotKey class] == self) {
+    /* Special memory management. HKHotKey (key) and SparkHotKey (value) have exactly the same life cycle.
+     We must not retain the SparkHotKey (else it would create cycle, as we remove it in dealloc) */
+    sHKParentMap = CFDictionaryCreateMutable(kCFAllocatorDefault, 0, NULL, NULL);
+  }
+}
+
 #pragma mark -
 #pragma mark NSCoding
 - (void)encodeWithCoder:(NSCoder *)aCoder {
@@ -106,7 +115,9 @@ BOOL SparkHotKeyFilter(HKKeycode code, HKModifier modifier) {
 #pragma mark NSCopying
 - (id)copyWithZone:(NSZone *)zone {
   SparkHotKey* copy = [super copyWithZone:zone];
-  copy->sp_hotkey = [sp_hotkey retain];
+  WBCLogWarning("Warning: hotkey should not be copied");
+  copy->sp_hotkey = [sp_hotkey copyWithZone:zone];
+  CFDictionarySetValue(sHKParentMap, copy->sp_hotkey, copy);
   return copy;
 }
 
@@ -136,11 +147,13 @@ BOOL SparkHotKeyFilter(HKKeycode code, HKModifier modifier) {
     sp_hotkey = [[HKHotKey alloc] init];
     [sp_hotkey setTarget:self];
     [sp_hotkey setAction:@selector(trigger:)];
+    CFDictionarySetValue(sHKParentMap, sp_hotkey, self);
   }
   return self;
 }
 
 - (void)dealloc {
+  CFDictionaryRemoveValue(sHKParentMap, sp_hotkey);
   [sp_hotkey release];
   [super dealloc];
 }
@@ -178,14 +191,28 @@ BOOL SparkHotKeyFilter(HKKeycode code, HKModifier modifier) {
   return [aTrigger isKindOfClass:[SparkHotKey class]] && [self rawkey] == [(id)aTrigger rawkey];
 }
 
-#pragma mark Current Event
-- (NSTimeInterval)eventTime {
-  return GetCurrentEventTime();
-}
+#pragma mark -
 - (void)trigger:(id)sender {
-  [self setIsARepeat:[sender isARepeat]];
-  [super trigger:sender];
+  [self sendEventWithEntry:sp_entry time:[sp_hotkey eventTime] isARepeat:[sp_hotkey isARepeat]];
 }
+
+- (void)prepareHotKey {
+  sp_entry = [self resolveEntry];
+  if (sp_entry) {
+    SparkAction *action = [sp_entry action];
+    NSAssert(action, @"Invalid entry. Does not contains action!");
+    if ([action performOnKeyUp]) {
+      [sp_hotkey setInvokeOnKeyUp:YES];
+    } else {
+      [sp_hotkey setInvokeOnKeyUp:NO];
+      [sp_hotkey setRepeatInterval:[action repeatInterval]];
+    }
+  }
+}
+
+//- (void)didInvoke {
+//  [sp_hotkey setInvokeOnKeyUp:NO];
+//}
 
 #pragma mark -
 #pragma mark Accessors
@@ -243,6 +270,10 @@ WBForwarding(SparkHotKey, HKHotKey, sp_hotkey);
 
 @end
 
+static SparkHotKey *_SparkHotKeyForHKHotKey(HKHotKey *parent) {
+  return (SparkHotKey *)CFDictionaryGetValue(sHKParentMap, parent);
+}
+
 #pragma mark -
 #pragma mark Key Repeat Support
 NSTimeInterval SparkGetDefaultKeyRepeatInterval() {
@@ -251,23 +282,21 @@ NSTimeInterval SparkGetDefaultKeyRepeatInterval() {
 
 @implementation HKHotKey (SparkRepeat)
 
-- (BOOL)shouldInvoke:(BOOL)repeat {
-  if (!repeat && ![self invokeOnKeyUp]) {
-    SparkAction *action = [SparkTrigger currentAction];
-    if (action && [action performOnKeyUp]) [self setInvokeOnKeyUp:YES];
++ (void)load {
+  if (self == [HKHotKey class]) {
+    // Swap the implementations of -[HKHotKey keyPressed:] and -[HKHotKey sp_keyPressed:].
+    WBRuntimeExchangeInstanceMethods(self, @selector(keyPressed), @selector(sp_keyPressed));
   }
-  return YES;
 }
 
-- (void)didInvoke:(BOOL)repeat {
-  if (!repeat && ![self invokeOnKeyUp]) {
-    // Adjust repeat delay.
-    SparkAction *action = [SparkTrigger currentAction];
-    [self setRepeatInterval:(action) ? [action repeatInterval] : 0];    
-  } else if ([self invokeOnKeyUp]) {
-    /* always reset invoke on key up */
-    [self setInvokeOnKeyUp:NO];
-  }
+- (void)sp_keyPressed {
+  /* configure hotkey to match the attached action */
+  [_SparkHotKeyForHKHotKey(self) prepareHotKey];
+  [self sp_keyPressed];
 }
+
+//- (void)didInvoke {
+//  [_SparkHotKeyForHKHotKey(self) didInvoke];
+//}
 
 @end

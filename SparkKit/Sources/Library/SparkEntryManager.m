@@ -60,8 +60,8 @@ NSString * const SparkEntryManagerDidChangeEntryStatusNotification = @"SparkEntr
 
 - (void)dealloc {
   [[NSNotificationCenter defaultCenter] removeObserver:self];
-	[self setLibrary:nil];
   NSFreeMapTable(sp_objects);
+  [self setLibrary:nil];
   [super dealloc];
 }
 
@@ -203,12 +203,13 @@ typedef SparkUID (*SparkEntryAccessor)(SparkEntry *, SEL);
 - (BOOL)containsEntryForApplication:(SparkApplication *)anApplication {
   return [self containsEntryForField:@selector(applicationUID) uid:[anApplication uid]];
 }
-- (BOOL)containsActiveEntryForTrigger:(SparkTrigger *)aTrigger {
+
+- (BOOL)containsRegistredEntryForTrigger:(SparkTrigger *)aTrigger {
   SparkEntry *entry;
   SparkUID uid = [aTrigger uid];
   NSMapEnumerator iter = NSEnumerateMapTable(sp_objects);
   while (NSNextMapEnumeratorPair(&iter, NULL, (void * *)&entry)) {
-    if (([entry triggerUID] == uid) && [entry isActive]) {
+    if (([entry triggerUID] == uid) && [entry isRegistred]) {
       NSEndMapTableEnumeration(&iter);
       return YES;
     }
@@ -216,19 +217,33 @@ typedef SparkUID (*SparkEntryAccessor)(SparkEntry *, SEL);
   NSEndMapTableEnumeration(&iter);
   return NO;
 }
-- (BOOL)containsPersistentActiveEntryForTrigger:(SparkTrigger *)aTrigger {
-  SparkEntry *entry;
-  SparkUID uid = [aTrigger uid];
-  NSMapEnumerator iter = NSEnumerateMapTable(sp_objects);
-  while (NSNextMapEnumeratorPair(&iter, NULL, (void * *)&entry)) {
-    if (([entry triggerUID] == uid) && [entry isActive] && [entry isPersistent]) {
-      NSEndMapTableEnumeration(&iter);
-      return YES;
-    }
-  }
-  NSEndMapTableEnumeration(&iter);
-  return NO;
-}
+
+//- (BOOL)containsActiveEntryForTrigger:(SparkTrigger *)aTrigger {
+//  SparkEntry *entry;
+//  SparkUID uid = [aTrigger uid];
+//  NSMapEnumerator iter = NSEnumerateMapTable(sp_objects);
+//  while (NSNextMapEnumeratorPair(&iter, NULL, (void * *)&entry)) {
+//    if (([entry triggerUID] == uid) && [entry isActive]) {
+//      NSEndMapTableEnumeration(&iter);
+//      return YES;
+//    }
+//  }
+//  NSEndMapTableEnumeration(&iter);
+//  return NO;
+//}
+//- (BOOL)containsPersistentActiveEntryForTrigger:(SparkTrigger *)aTrigger {
+//  SparkEntry *entry;
+//  SparkUID uid = [aTrigger uid];
+//  NSMapEnumerator iter = NSEnumerateMapTable(sp_objects);
+//  while (NSNextMapEnumeratorPair(&iter, NULL, (void * *)&entry)) {
+//    if (([entry triggerUID] == uid) && [entry isActive] && [entry isPersistent]) {
+//      NSEndMapTableEnumeration(&iter);
+//      return YES;
+//    }
+//  }
+//  NSEndMapTableEnumeration(&iter);
+//  return NO;
+//}
 
 #pragma mark -
 - (SparkEntry *)activeEntryForTrigger:(SparkTrigger *)aTrigger application:(SparkApplication *)anApplication {
@@ -259,7 +274,7 @@ typedef SparkUID (*SparkEntryAccessor)(SparkEntry *, SEL);
   
   NSMapEnumerator iter = NSEnumerateMapTable(sp_objects);
   while (NSNextMapEnumeratorPair(&iter, NULL, (void * *)&entry)) {
-    if ([entry triggerUID] == trigger && [entry isActive]) {
+    if ([entry triggerUID] == trigger && [entry isActive] && [entry isRegistred]) {
       if ([entry applicationUID] == application) {
         /* an active entry match */
         NSEndMapTableEnumeration(&iter);
@@ -270,11 +285,11 @@ typedef SparkUID (*SparkEntryAccessor)(SparkEntry *, SEL);
     }
   }
   NSEndMapTableEnumeration(&iter);
-  /* we didn't find a matching entry  */
+  /* we didn't find a matching entry, search default */
   if (def) {
     SparkEntry *child = [def variantWithApplication:anApplication];
     /* If the default is overwritten, we ignore it (whatever the child is) */
-    if (!child)
+    if (!child) 
       return def;
   }
   return NULL;

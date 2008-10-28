@@ -81,8 +81,8 @@ void SparkLibraryPostUpdateNotification(SparkLibrary *library, NSString *name, i
   [[library notificationCenter] postNotificationName:name
                                               object:sender
                                             userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
-                                              object, SparkNotificationObjectKey,
-                                              replaced, SparkNotificationUpdatedObjectKey, nil]];
+                                                      object, SparkNotificationObjectKey,
+                                                      replaced, SparkNotificationUpdatedObjectKey, nil]];
 }
 
 #pragma mark -
@@ -90,7 +90,7 @@ void SparkLibraryPostUpdateNotification(SparkLibrary *library, NSString *name, i
 @class SparkList, SparkAction, SparkTrigger, SparkApplication;
 SPARK_CLASS_EXPORT
 @interface SparkLibrary : NSObject {
-  @private
+@private
   NSString *sp_file;
   CFUUIDRef sp_uuid;
   NSUInteger sp_version;
@@ -111,12 +111,11 @@ SPARK_CLASS_EXPORT
   
   /* Preferences */
   NSMutableDictionary *sp_prefs;
-  
+
   /* reserved objects */
   SparkApplication *sp_system;
-	
-	@protected
-	SparkIconManager *sp_icons;
+@protected
+  SparkIconManager *sp_icons;
 }
 
 - (SparkApplication *)systemApplication;
@@ -152,7 +151,7 @@ SPARK_CLASS_EXPORT
 - (NSEnumerator *)applicationEnumerator;
 
 - (SparkEntryManager *)entryManager;
-   
+
 - (BOOL)synchronize;
 - (BOOL)writeToFile:(NSString *)file atomically:(BOOL)flag;
 

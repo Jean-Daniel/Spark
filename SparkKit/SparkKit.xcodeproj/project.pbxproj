@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 44;
+	objectVersion = 45;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,6 +13,8 @@
 		1B78811F0D172D2900EE2B66 /* SparkEntryPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B78811E0D172D2900EE2B66 /* SparkEntryPrivate.h */; };
 		1B81EBA20D38326C004B82A2 /* WBOutlineView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B81EBA00D38326C004B82A2 /* WBOutlineView.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		1B81EBA30D38326C004B82A2 /* WBOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B81EBA10D38326C004B82A2 /* WBOutlineView.m */; };
+		1BB2033C0EAF23B60072FE62 /* SparkEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB2033A0EAF23B60072FE62 /* SparkEvent.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1BB2033D0EAF23B60072FE62 /* SparkEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB2033B0EAF23B60072FE62 /* SparkEvent.m */; };
 		1BB8B1FF0B949EE900F91062 /* SparkSystem.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1BB8B1FE0B949EE900F91062 /* SparkSystem.tiff */; };
 		1BB9831F0D381CDE0074D18E /* WBImageUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB983140D381CDE0074D18E /* WBImageUtils.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		1BB983200D381CDE0074D18E /* WBImageUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB983150D381CDE0074D18E /* WBImageUtils.m */; };
@@ -245,13 +247,14 @@
 		1B6DACF30D0CA0F800F352CC /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SparkPluginView.xib; sourceTree = "<group>"; };
 		1B6DACF70D0CA1BF00F352CC /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SparkPlugin.xib; sourceTree = "<group>"; };
 		1B78811E0D172D2900EE2B66 /* SparkEntryPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkEntryPrivate.h; sourceTree = "<group>"; };
-		1B7BB7890CBE1FD700484A9E /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
-		1B7BB78A0CBE1FD700484A9E /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
-		1B7BB78B0CBE1FD700484A9E /* Profile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Profile.xcconfig; sourceTree = "<group>"; };
-		1B7BB78C0CBE1FD700484A9E /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
-		1B7CF6150D356F690068DAD1 /* 64Bits.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = 64Bits.xcconfig; sourceTree = "<group>"; };
+		1B7E8FF30EAF107900784745 /* Leopard-Profile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Leopard-Profile.xcconfig"; sourceTree = "<group>"; };
+		1B7E8FF40EAF107900784745 /* Leopard-64Bits.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Leopard-64Bits.xcconfig"; sourceTree = "<group>"; };
+		1B7E8FF50EAF107900784745 /* Tiger-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Tiger-Debug.xcconfig"; sourceTree = "<group>"; };
+		1B7E8FF60EAF107900784745 /* Tiger-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Tiger-Release.xcconfig"; sourceTree = "<group>"; };
 		1B81EBA00D38326C004B82A2 /* WBOutlineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBOutlineView.h; sourceTree = "<group>"; };
 		1B81EBA10D38326C004B82A2 /* WBOutlineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBOutlineView.m; sourceTree = "<group>"; };
+		1BB2033A0EAF23B60072FE62 /* SparkEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkEvent.h; sourceTree = "<group>"; };
+		1BB2033B0EAF23B60072FE62 /* SparkEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkEvent.m; sourceTree = "<group>"; };
 		1BB8B1FE0B949EE900F91062 /* SparkSystem.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SparkSystem.tiff; sourceTree = "<group>"; };
 		1BB983140D381CDE0074D18E /* WBImageUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBImageUtils.h; sourceTree = "<group>"; };
 		1BB983150D381CDE0074D18E /* WBImageUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBImageUtils.m; sourceTree = "<group>"; };
@@ -431,7 +434,7 @@
 		98EDA3E30A9FA2FB00519E9B /* SparkEntryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkEntryManager.h; sourceTree = "<group>"; };
 		98EDA3F20A9FA34100519E9B /* SparkEntryManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkEntryManager.m; sourceTree = "<group>"; };
 		98F867260A600D24009C68F9 /* Warning.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Warning.tiff; sourceTree = "<group>"; };
-		98FB5DDE060D0FFC0074131E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
+		98FB5DDE060D0FFC0074131E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -466,7 +469,7 @@
 				98725D0406CB9E540072B8E4 /* WonderBox */,
 				0867D69AFE84028FC02AAC07 /* Frameworks */,
 				034768DFFF38A50411DB9C8B /* Products */,
-				1B7BB7880CBE1FD700484A9E /* Configurations */,
+				1B7BB7880CBE1FD700484A9E /* xcconfigs */,
 				984A38790A6003A300DA6455 /* HotKeyToolKit.xcodeproj */,
 			);
 			name = SparkKit;
@@ -532,16 +535,15 @@
 			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
-		1B7BB7880CBE1FD700484A9E /* Configurations */ = {
+		1B7BB7880CBE1FD700484A9E /* xcconfigs */ = {
 			isa = PBXGroup;
 			children = (
-				1B7BB7890CBE1FD700484A9E /* Common.xcconfig */,
-				1B7BB78A0CBE1FD700484A9E /* Debug.xcconfig */,
-				1B7BB78B0CBE1FD700484A9E /* Profile.xcconfig */,
-				1B7BB78C0CBE1FD700484A9E /* Release.xcconfig */,
-				1B7CF6150D356F690068DAD1 /* 64Bits.xcconfig */,
+				1B7E8FF30EAF107900784745 /* Leopard-Profile.xcconfig */,
+				1B7E8FF40EAF107900784745 /* Leopard-64Bits.xcconfig */,
+				1B7E8FF50EAF107900784745 /* Tiger-Debug.xcconfig */,
+				1B7E8FF60EAF107900784745 /* Tiger-Release.xcconfig */,
 			);
-			path = Configurations;
+			path = xcconfigs;
 			sourceTree = SHARED_SOURCES_DIR;
 		};
 		1BB983130D381CDE0074D18E /* Images */ = {
@@ -761,6 +763,7 @@
 				984A38CE0A60061500DA6455 /* Headers */,
 				989EF9E90A7CC4BB00721386 /* SparkList.m */,
 				98EDA3C10A9FA1A100519E9B /* SparkEntry.m */,
+				1BB2033B0EAF23B60072FE62 /* SparkEvent.m */,
 				984A38A80A60060200DA6455 /* SparkLibrary.m */,
 				984A38A60A60060200DA6455 /* SparkHotKey.m */,
 				984A38AC0A60060200DA6455 /* SparkTrigger.m */,
@@ -799,6 +802,7 @@
 			children = (
 				989EF9ED0A7CC4C900721386 /* SparkList.h */,
 				98EDA3C30A9FA1B000519E9B /* SparkEntry.h */,
+				1BB2033A0EAF23B60072FE62 /* SparkEvent.h */,
 				984A38A70A60060200DA6455 /* SparkLibrary.h */,
 				984A38A50A60060200DA6455 /* SparkHotKey.h */,
 				984A38AB0A60060200DA6455 /* SparkTrigger.h */,
@@ -970,6 +974,7 @@
 				1BB9871C0D382C5C0074D18E /* WBXMLTemplate.h in Headers */,
 				1BB987280D382C8B0074D18E /* WBTreeNode.h in Headers */,
 				1B81EBA20D38326C004B82A2 /* WBOutlineView.h in Headers */,
+				1BB2033C0EAF23B60072FE62 /* SparkEvent.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1003,7 +1008,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 9848D88A085638FD006B5130 /* Build configuration list for PBXProject "SparkKit" */;
-			compatibilityVersion = "Xcode 3.0";
+			compatibilityVersion = "Xcode 3.1";
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				English,
@@ -1183,6 +1188,7 @@
 				1BB9871D0D382C5C0074D18E /* WBXMLTemplate.m in Sources */,
 				1BB987270D382C8B0074D18E /* WBTreeNode.m in Sources */,
 				1B81EBA30D38326C004B82A2 /* WBOutlineView.m in Sources */,
+				1BB2033D0EAF23B60072FE62 /* SparkEvent.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1256,7 +1262,7 @@
 /* Begin XCBuildConfiguration section */
 		1B7CF6180D3571340068DAD1 /* 64bits */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1B7CF6150D356F690068DAD1 /* 64Bits.xcconfig */;
+			baseConfigurationReference = 1B7E8FF40EAF107900784745 /* Leopard-64Bits.xcconfig */;
 			buildSettings = {
 				SYMROOT = ../build;
 				WONDERBOX = "WONDERBOX_FRAMEWORK WONDERBOX_NAME=SparkKit";
@@ -1266,9 +1272,9 @@
 		1B7CF6190D3571340068DAD1 /* 64bits */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 453;
+				CURRENT_PROJECT_VERSION = 455;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 453;
+				DYLIB_CURRENT_VERSION = 455;
 				FRAMEWORK_VERSION = B;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -1283,9 +1289,9 @@
 		9848D887085638FD006B5130 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 453;
+				CURRENT_PROJECT_VERSION = 455;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 453;
+				DYLIB_CURRENT_VERSION = 455;
 				FRAMEWORK_VERSION = B;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -1300,9 +1306,9 @@
 		9848D888085638FD006B5130 /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 453;
+				CURRENT_PROJECT_VERSION = 455;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 453;
+				DYLIB_CURRENT_VERSION = 455;
 				FRAMEWORK_VERSION = B;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -1316,16 +1322,16 @@
 		};
 		9848D88B085638FD006B5130 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1B7BB78A0CBE1FD700484A9E /* Debug.xcconfig */;
+			baseConfigurationReference = 1B7E8FF50EAF107900784745 /* Tiger-Debug.xcconfig */;
 			buildSettings = {
-				SYMROOT = ../build;
+				BUILT_PRODUCT_DIR = Spark;
 				WONDERBOX = "WONDERBOX_FRAMEWORK WONDERBOX_NAME=SparkKit";
 			};
 			name = Debug;
 		};
 		9848D88C085638FD006B5130 /* Profile */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1B7BB78B0CBE1FD700484A9E /* Profile.xcconfig */;
+			baseConfigurationReference = 1B7E8FF30EAF107900784745 /* Leopard-Profile.xcconfig */;
 			buildSettings = {
 				SYMROOT = ../build;
 				WONDERBOX = "WONDERBOX_FRAMEWORK WONDERBOX_NAME=SparkKit";
@@ -1335,9 +1341,9 @@
 		98EFD0A40B5844F300AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 453;
+				CURRENT_PROJECT_VERSION = 455;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 453;
+				DYLIB_CURRENT_VERSION = 455;
 				FRAMEWORK_VERSION = B;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -1351,7 +1357,7 @@
 		};
 		98EFD0A50B5844F300AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1B7BB78C0CBE1FD700484A9E /* Release.xcconfig */;
+			baseConfigurationReference = 1B7E8FF60EAF107900784745 /* Tiger-Release.xcconfig */;
 			buildSettings = {
 				SYMROOT = ../build;
 				WONDERBOX = "WONDERBOX_FRAMEWORK WONDERBOX_NAME=SparkKit";

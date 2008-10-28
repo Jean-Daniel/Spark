@@ -417,7 +417,7 @@ NSString * const SparkEntryWillRemoveChildNotification = @"SparkEntryWillRemoveC
 
 - (id)replacementObjectForPortCoder:(NSPortCoder *)encoder {
   if ([encoder isByref]) {
-    WLog(@"SparkEntry does not support by ref messaging");
+    WBLogWarning(@"SparkEntry does not support by ref messaging");
     return nil;
   }
   return self;
@@ -473,7 +473,7 @@ NSString * const SparkEntryWillRemoveChildNotification = @"SparkEntryWillRemoveC
     } 
     if (!library) {
       [self release];
-      [NSException raise:NSInvalidArchiveOperationException format:@"Unsupported coder: %@", coder];
+      WBThrowException(NSInvalidArchiveOperationException, @"Unsupported coder: %@", coder);
     }
 
   }
@@ -512,8 +512,33 @@ NSString * const SparkEntryWillRemoveChildNotification = @"SparkEntryWillRemoveC
 		/* flags */
 		[coder encodeBool:[self isEnabled] forKey:@"enabled"];
   } else {
-    [NSException raise:NSInvalidArchiveOperationException format:@"Unsupported coder: %@", coder];
+    WBThrowException(NSInvalidArchiveOperationException, @"Unsupported coder: %@", coder);
   }
 }
 
 @end
+
+@implementation SparkEntry (SparkRegistration)
+
+- (BOOL)isRegistred {
+  return sp_seFlags.registred;
+}
+
+- (void)setRegistred:(BOOL)flag {
+  bool registred = WBFlagTestAndSet(sp_seFlags.registred, flag);
+  /* If previous ≠ new status */
+  if (registred != sp_seFlags.registred) {
+    if (sp_seFlags.registred) {
+      // register entry
+      if (![sp_trigger isRegistred])
+        [sp_trigger setRegistred:YES];
+    } else {
+      // unregister entry
+      if (![sp_manager containsRegistredEntryForTrigger:sp_trigger])
+        [sp_trigger setRegistred:NO];
+    }
+  }
+}
+
+@end
+

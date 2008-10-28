@@ -34,8 +34,9 @@ SPARK_CLASS_EXPORT
   struct _sp_seFlags {
 		unsigned int editing:1;
     unsigned int enabled:1;
+    unsigned int registred:1;
     unsigned int unplugged:1;
-    unsigned int reserved:29;
+    unsigned int reserved:28;
   } sp_seFlags;
   /* chained list of children */
   SparkEntry *sp_child;
@@ -107,6 +108,13 @@ SPARK_CLASS_EXPORT
 /* derive entries */
 - (SparkEntry *)createWeakVariantWithApplication:(SparkApplication *)anApplication;
 - (SparkEntry *)createVariantWithAction:(SparkAction *)anAction trigger:(SparkTrigger *)aTrigger application:(SparkApplication *)anApplication;
+
+@end
+
+@interface SparkEntry (SparkRegistration)
+
+- (BOOL)isRegistred;
+- (void)setRegistred:(BOOL)flag;
 
 @end
 

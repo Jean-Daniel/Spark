@@ -103,13 +103,13 @@
   
   /* Resize Window */
   NSRect win = [alertWindow frame];
-  win.size.height += deltaH;
+  win.size.height += deltaWin;
   CGFloat minHeight = [alertWindow minSize].height - 22;
   if (NSHeight(win) < minHeight) {
-    deltaH += minHeight - NSHeight(win);
+    deltaWin += minHeight - NSHeight(win);
     win.size.height = minHeight;
   }
-  win.origin.y -= deltaH;
+  win.origin.y -= deltaWin;
   [alertWindow setFrame:win display:YES animate:YES];
 }
 

@@ -248,7 +248,7 @@
       [list release];
     }
   }
-  
+  [placeholders release];
   CFRelease(actions);
   return YES;
 }

@@ -72,7 +72,7 @@ NSString * const SparkApplicationDidChangeEnabledNotification = @"SparkApplicati
 - (BOOL)serialize:(NSMutableDictionary *)plist {
   if ([super serialize:plist]) {
     [plist setObject:WBUInteger([self encodeFlags]) forKey:kSparkApplicationFlagsKey];
-    if ([sp_application identifier])
+    if ([sp_application isValid])
       return [sp_application serialize:plist];
     return YES;
   }
@@ -352,42 +352,60 @@ NSString * const SparkApplicationDidChangeEnabledNotification = @"SparkApplicati
 #pragma mark -
 #pragma mark ShadowKit Extension
 static
-NSString * const kWBApplicationIdType = @"SKApplicationType";
+NSString * const kWBApplicationNameKey = @"WBApplicationName";
+
 static
-NSString * const kWBApplicationIdentifier = @"SKApplicationIdentifier";
+NSString * const kWBApplicationBundleIDKey = @"WBApplicationBundleID";
+static
+NSString * const kWBApplicationSignatureKey = @"WBApplicationSignature";
 
 @implementation WBApplication (SparkSerialization)
 
 - (id)initWithSerializedValues:(NSDictionary *)plist {
   if (self = [super init]) {
     /* Compatibility with Library version 1.0 */
-    NSString *identifier;
-    WBApplicationIdentifier type;
-    if ([plist objectForKey:@"SparkApplication"]) {
-      plist = [plist objectForKey:@"SparkApplication"];
-      identifier = [plist objectForKey:@"Identifier"];
-      type = [[plist objectForKey:@"IDType"] intValue];
+    if ([plist objectForKey:@"SparkApplication"] || [plist objectForKey:@"SKApplicationType"]) {
+      NSUInteger type = 0;
+      NSString *identifier = nil;  
+      if ([plist objectForKey:@"SparkApplication"]) {
+        plist = [plist objectForKey:@"SparkApplication"];
+        identifier = [plist objectForKey:@"Identifier"];
+        type = WBIntegerValue([plist objectForKey:@"IDType"]);
+      } else {
+        identifier = [plist objectForKey:@"SKApplicationIdentifier"];
+        type = WBIntegerValue([plist objectForKey:@"SKApplicationType"]);
+      }
+      
+      switch (type) {
+        case 1:
+          [self setSignature:WBOSTypeFromString(identifier)];
+          break;
+        case 2:
+          [self setBundleIdentifier:identifier];
+          break;
+      }
     } else {
-      identifier = [plist objectForKey:kWBApplicationIdentifier];
-      type = WBIntegerValue([plist objectForKey:kWBApplicationIdType]);
+      /* Current version */
+      NSString *bundle = [plist objectForKey:kWBApplicationBundleIDKey];
+      OSType sign = WBIntegerValue([plist objectForKey:kWBApplicationSignatureKey]);
+      
+      [self setSignature:sign bundleIdentifier:bundle];
     }
     
-    if (kWBApplicationUndefinedType != type)
-      [self setIdentifier:identifier type:type];
-    
-    [self setName:[plist objectForKey:@"WBApplicationName"]];
+    [self setName:[plist objectForKey:kWBApplicationNameKey]];
   }
   return self;
 }
 
 - (BOOL)serialize:(NSMutableDictionary *)plist {
-  if ([self identifier]) {
+  if ([self isValid]) {
     if ([self name])
-      [plist setObject:[self name] forKey:@"WBApplicationName"];
-    if (kWBApplicationUndefinedType != [self idType]) {
-      [plist setObject:WBInteger([self idType]) forKey:kWBApplicationIdType];
-      [plist setObject:[self identifier] forKey:kWBApplicationIdentifier];
-    }
+      [plist setObject:[self name] forKey:kWBApplicationNameKey];
+    
+    OSType sign = [self signature];
+    NSString *bundle = [self bundleIdentifier];
+    if (bundle) [plist setObject:bundle forKey:kWBApplicationBundleIDKey];
+    if (sign) [plist setObject:WBInteger(sign) forKey:kWBApplicationSignatureKey];
   }
   return YES;
 }

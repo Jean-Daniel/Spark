@@ -36,8 +36,11 @@
     return [self systemApplication];
   return [sp_objects[kSparkApplicationSet] objectWithUID:uid];
 }
+@end
 
 #pragma mark Applications
+@implementation SparkLibrary (SparkLibraryApplication)
+
 - (SparkApplication *)applicationForProcess:(ProcessSerialNumber *)psn {
   NSParameterAssert(psn);
   if (kNoProcess == psn->lowLongOfPSN && kNoProcess == psn->highLongOfPSN)

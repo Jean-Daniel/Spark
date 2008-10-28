@@ -78,8 +78,9 @@ SPARK_CLASS_EXPORT
 //- (BOOL)containsPersistentEntryForTrigger:(SparkUID)aTrigger;
 
 /* Daemon queries */
-- (BOOL)containsActiveEntryForTrigger:(SparkTrigger *)aTrigger;
-- (BOOL)containsPersistentActiveEntryForTrigger:(SparkTrigger *)aTrigger;
+- (BOOL)containsRegistredEntryForTrigger:(SparkTrigger *)aTrigger;
+//- (BOOL)containsActiveEntryForTrigger:(SparkTrigger *)aTrigger;
+//- (BOOL)containsPersistentActiveEntryForTrigger:(SparkTrigger *)aTrigger;
 
 /* Editor Queries */
 - (BOOL)containsEntryForApplication:(SparkApplication *)anApplication;

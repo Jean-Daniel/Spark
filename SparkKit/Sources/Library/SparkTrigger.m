@@ -9,18 +9,13 @@
 #import "SparkPrivate.h"
 #import <SparkKit/SparkTrigger.h>
 
+#import <SparkKit/SparkEvent.h>
 #import <SparkKit/SparkEntry.h>
 #import <SparkKit/SparkAction.h>
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkEntryManager.h>
 
 @implementation SparkTrigger
-
-static NSString * const SparkCurrentActionKey = @"SparkCurrentAction";
-+ (SparkAction *)currentAction {
-  NSMutableDictionary *dict = [[NSThread currentThread] threadDictionary];
-  return [dict objectForKey:SparkCurrentActionKey];
-}
 
 #pragma mark Copying
 - (id)copyWithZone:(NSZone *)aZone {
@@ -60,20 +55,6 @@ static NSString * const SparkCurrentActionKey = @"SparkCurrentAction";
 }
 
 #pragma mark Implementation
-- (id)target {
-  return sp_target;
-}
-- (void)setTarget:(id)target {
-  sp_target = target;
-}
-
-- (SEL)action {
-  return sp_action;
-}
-- (void)setAction:(SEL)action {
-  sp_action = action;
-}
-
 - (BOOL)hasManyAction {
   return sp_stFlags.overwrite;
 }
@@ -83,14 +64,6 @@ static NSString * const SparkCurrentActionKey = @"SparkCurrentAction";
 
 - (NSString *)triggerDescription {
   return @"<trigger>";
-}
-
-- (IBAction)trigger:(id)sender {
-  if ([sp_target respondsToSelector:sp_action]) {
-    [sp_target performSelector:sp_action withObject:self];
-  } else {
-    NSBeep();
-  }
 }
 
 - (BOOL)isEqualToTrigger:(SparkTrigger *)aTrigger {
@@ -119,26 +92,41 @@ static NSString * const SparkCurrentActionKey = @"SparkCurrentAction";
 //  }
   return NO;
 }
+@end
 
-- (BOOL)isARepeat {
-  return sp_stFlags.repeat;
-}
-- (NSTimeInterval)eventTime {
-  return [[NSApp currentEvent] timestamp];
+#pragma mark -
+@implementation SparkTrigger (SparkEvent)
+
+- (SparkEntry *)resolveEntry {
+  SparkApplication *front = nil;
+  
+  SparkLibrary *library = [self library];
+  SparkEntryManager *manager = [[self library] entryManager];
+  /* If action depends front application */
+  if ([self hasManyAction])
+    front = [library frontApplication];
+  
+  if (!front) front = [library systemApplication];
+  return [manager resolveEntryForTrigger:self application:front];
 }
 
-- (void)setIsARepeat:(BOOL)flag {
-  WBFlagSet(sp_stFlags.repeat, flag);
+- (void)sendEvent:(SparkEvent *)anEvent {
+  [SparkEvent sendEvent:anEvent];
 }
 
-- (void)willTriggerAction:(SparkAction *)anAction {
-  [SparkAction setCurrentTrigger:self];
-  [[[NSThread currentThread] threadDictionary] setValue:anAction forKey:SparkCurrentActionKey];
+- (void)sendEventWithTime:(NSTimeInterval)eventTime isARepeat:(BOOL)repeat {
+  [self sendEventWithEntry:[self resolveEntry] time:eventTime isARepeat:repeat];
 }
 
-- (void)didTriggerAction:(SparkAction *)anAction {
-  [[[NSThread currentThread] threadDictionary] removeObjectForKey:SparkCurrentActionKey];
-  [SparkAction setCurrentTrigger:nil];
+- (void)sendEventWithEntry:(SparkEntry *)anEntry time:(NSTimeInterval)eventTime isARepeat:(BOOL)repeat {
+  SparkEvent *evnt;
+  if (anEntry) {
+    // create and dispatch spark event
+    evnt = [SparkEvent eventWithEntry:anEntry eventTime:eventTime isARepeat:repeat];
+  } else {
+    evnt = [SparkEvent eventWithTrigger:self eventTime:eventTime isARepeat:repeat];
+  }
+  [self sendEvent:evnt];
 }
 
 @end
