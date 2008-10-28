@@ -37,6 +37,7 @@ static NSColor *SEHeaderShadowColor = nil;
 }
 
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {
+  // FIXME: userspace scale factor
   CGFloat y = NSMaxY(cellFrame) - 0.5;
   [NSBezierPath setDefaultLineWidth:1];
   CGContextSetGrayStrokeColor([[NSGraphicsContext currentContext] graphicsPort], .400, 1);
@@ -72,6 +73,7 @@ static NSColor *SEHeaderShadowColor = nil;
   }
   [se_background compositeToPoint:NSMakePoint(0, 1) operation:NSCompositeSourceOver];
   
+  // FIXME: userspace scale factor
   [NSBezierPath setDefaultLineWidth:1];
   CGContextSetGrayStrokeColor([[NSGraphicsContext currentContext] graphicsPort], .400, 1);
   [NSBezierPath strokeLineFromPoint:NSMakePoint(0, .5) toPoint:NSMakePoint(NSWidth(frame), .5)];

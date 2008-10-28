@@ -355,7 +355,7 @@
 		if (WBRuntimeObjectImplementsSelector(action, @selector(copyWithZone:))) {
       action = [[action copy] autorelease];
     } else {
-      WLog(@"%@ does not implements NSCopying.", [action class]);
+      WBLogWarning(@"%@ does not implements NSCopying.", [action class]);
       action = [action duplicate];
     }
 		[action setUID:0]; // this copy should be considere as a new action.
@@ -448,7 +448,7 @@
     /* set frame (in pixel units) */
     NSRect pframe = [window frameRectForContentRect:wframe];
     /* Adjust window position using screen factor */
-    CGFloat sscale = WBScreenScaleFactor([window screen]);
+    CGFloat sscale = WBScreenUserSpaceScaleFactor([window screen]);
     pframe.origin.x -= sscale * delta.width / 2;
     pframe.origin.y -= sscale * delta.height;
     [window setFrame:pframe display:YES animate:YES];
@@ -456,7 +456,7 @@
     
     /* bug in NSWindow */
 		if (WBSystemMinorVersion() == 10 && WBSystemMinorVersion() <= 4)
-			wframe.size.height += 22 / WBWindowScaleFactor(window);
+			wframe.size.height += 22 / WBWindowUserSpaceScaleFactor(window);
     /* Adjust window attributes */
     NSSize smax = wframe.size;
     NSUInteger mask = [se_view autoresizingMask];
@@ -539,7 +539,7 @@
 
 - (NSTimeInterval)animationResizeTime:(NSRect)newFrame {
   NSEvent *event = [NSApp currentEvent];
-  CGFloat factor = WBWindowScaleFactor(self);
+  CGFloat factor = WBWindowUserSpaceScaleFactor(self);
   /* Want 150 points per time unit => 150*scale pixels */
   CGFloat delta = ABS(NSHeight([self frame]) - NSHeight(newFrame));
   if (([event modifierFlags] & NSDeviceIndependentModifierFlagsMask) == NSShiftKeyMask) {

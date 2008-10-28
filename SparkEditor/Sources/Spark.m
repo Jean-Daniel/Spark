@@ -545,10 +545,18 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
   [menu addItem:[NSMenuItem separatorItem]];
   [menu addItemWithTitle:@"Dump Library" action:@selector(dumpLibrary:) keyEquivalent:@""];
   [menu addItemWithTitle:@"External Representation" action:@selector(dumpExternal:) keyEquivalent:@""];
+  [menu addItem:[NSMenuItem separatorItem]];
+  [menu addItemWithTitle:@"Restart" action:@selector(restart:) keyEquivalent:@""];
   [debugMenu setSubmenu:menu];
   [menu release];
   [[NSApp mainMenu] insertItem:debugMenu atIndex:[[NSApp mainMenu] numberOfItems] -1];
   [debugMenu release];
+}
+
+- (IBAction)restart:(id)sender {
+  SURestarter *restarter = [[SURestarter alloc] initWithTargetPath:[[NSBundle mainBundle] bundlePath] error:nil];
+  [restarter setData:[@"Hellow wonderfull world!" dataUsingEncoding:NSUTF8StringEncoding]];
+  [NSApp terminate:sender];
 }
 
 - (IBAction)dumpExternal:(id)sender {

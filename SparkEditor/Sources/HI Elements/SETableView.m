@@ -77,6 +77,7 @@ WBCGSimpleShadingInfo sFocusShadingInfo = {
 };
 
 - (CGLayerRef)highlightedCellColor {
+  // FIXME: userspace scale factor
   static CGLayerRef sHasFocus = nil;
   static CGLayerRef sHighlighted = nil;
   if (!sHighlighted) {

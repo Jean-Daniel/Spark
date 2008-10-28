@@ -85,9 +85,11 @@ static CGLayerRef sSETopShadingImage = nil;
     if (NSIntersectsRect(gradient, rect)) {
       CGContextDrawLayerInRect(ctxt, NSRectToCGRect(gradient), sSETopShadingImage);
       
+      // FIXME: userspace scale factor
       CGContextSetGrayStrokeColor([[NSGraphicsContext currentContext] graphicsPort], .978, 1);
       [NSBezierPath strokeLineFromPoint:NSMakePoint(0, se_bottom - .5) toPoint:NSMakePoint(NSMaxX(bounds), se_bottom - .5)];
       
+      // FIXME: userspace scale factor
       CGContextSetGrayStrokeColor([[NSGraphicsContext currentContext] graphicsPort], .2745, 1);
       [NSBezierPath strokeLineFromPoint:NSMakePoint(0, .5) toPoint:NSMakePoint(NSMaxX(bounds), .5)];
     }

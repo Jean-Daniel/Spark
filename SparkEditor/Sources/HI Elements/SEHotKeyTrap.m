@@ -134,7 +134,7 @@ static CGLayerRef _HKCreateShading(CGContextRef ctxt, NSControlTint tint);
 - (void)viewWillMoveToWindow:(NSWindow *)newWindow {
   /* window must be a trapping capable window */
   if (newWindow && ![newWindow respondsToSelector:@selector(setTrapping:)])
-    [NSException raise:NSInvalidArgumentException format:@"%@ could not be used in window that does not responds to -setTrapping:", [self class]];
+    WBThrowException(NSInvalidArgumentException, @"%@ could not be used in window that does not responds to -setTrapping:", [self class]);
   
   [(id)[self window] setTrapping:NO];
   [[NSNotificationCenter defaultCenter] removeObserver:self name:nil object:[self window]];

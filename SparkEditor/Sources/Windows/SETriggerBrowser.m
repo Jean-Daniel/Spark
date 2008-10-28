@@ -139,9 +139,8 @@
       img = [NSImage imageNamed:@"SECheck"];
     }
   } else {
-    [NSException raise:NSInternalInconsistencyException
-                format:@"Value (%@) does not respond to -boolValue.",
-      [value class]];
+    WBThrowException(NSInternalInconsistencyException, 
+                     @"Value (%@) does not respond to -boolValue.", [value class]);
   }
   
   return img;
