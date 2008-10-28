@@ -90,7 +90,7 @@ NSString * const kKeyboardActionBundleIdentifier = @"org.shadowlab.spark.action.
     for (NSUInteger idx = 0; idx < [text length]; idx++) {
       HKEventPostCharacterKeystrokesToTarget([text characterAtIndex:idx], target, kHKEventTargetProcess, src, [self latency]);
     }
-    CFRelease(src);
+    if (src) CFRelease(src);
   }
   return nil;
 }

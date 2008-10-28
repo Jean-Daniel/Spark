@@ -240,24 +240,24 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
 - (NSPoint)windowOriginForSize:(NSSize)size {
 	NSPoint origin = ia_location;
   //NSRect bounds = [[self window] frame];
-  NSRect screen = [[NSScreen mainScreen] frame];
+  NSRect screen = [[[self window] screen] ? : [NSScreen mainScreen] frame];
   NSUInteger type = __iTunesGetTypeForLocation(ia_location);
   switch (type) {
     case kiTunesVisualUL:
-      origin.x = SCREEN_MARGIN * WBScreenScaleFactor([NSScreen mainScreen]);
-      origin.y = NSHeight(screen) - size.height - (SCREEN_MARGIN + 22) * WBScreenScaleFactor([NSScreen mainScreen]); // menu bar
+      origin.x = SCREEN_MARGIN * WBScreenUserSpaceScaleFactor([NSScreen mainScreen]);
+      origin.y = NSHeight(screen) - size.height - (SCREEN_MARGIN + 22) * WBScreenUserSpaceScaleFactor([NSScreen mainScreen]); // menu bar
       break;
     case kiTunesVisualUR:
-      origin.x = NSWidth(screen) - size.width - SCREEN_MARGIN * WBScreenScaleFactor([NSScreen mainScreen]);
-      origin.y = NSHeight(screen) - size.height - (SCREEN_MARGIN + 22) * WBScreenScaleFactor([NSScreen mainScreen]);
+      origin.x = NSWidth(screen) - size.width - SCREEN_MARGIN * WBScreenUserSpaceScaleFactor([NSScreen mainScreen]);
+      origin.y = NSHeight(screen) - size.height - (SCREEN_MARGIN + 22) * WBScreenUserSpaceScaleFactor([NSScreen mainScreen]);
       break;
     case kiTunesVisualBL:
-      origin.x = SCREEN_MARGIN * WBScreenScaleFactor([NSScreen mainScreen]);
-      origin.y = (SCREEN_MARGIN + 22) * WBScreenScaleFactor([NSScreen mainScreen]);
+      origin.x = SCREEN_MARGIN * WBScreenUserSpaceScaleFactor([NSScreen mainScreen]);
+      origin.y = (SCREEN_MARGIN + 22) * WBScreenUserSpaceScaleFactor([NSScreen mainScreen]);
       break;
     case kiTunesVisualBR:
-      origin.x = NSWidth(screen) - size.width - SCREEN_MARGIN * WBScreenScaleFactor([NSScreen mainScreen]);
-      origin.y = (SCREEN_MARGIN + 22) * WBScreenScaleFactor([NSScreen mainScreen]);
+      origin.x = NSWidth(screen) - size.width - SCREEN_MARGIN * WBScreenUserSpaceScaleFactor([NSScreen mainScreen]);
+      origin.y = (SCREEN_MARGIN + 22) * WBScreenUserSpaceScaleFactor([NSScreen mainScreen]);
       break;
   }
 	return origin;
@@ -417,7 +417,7 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
 	// artwork
 	if ([ibArtwork superview] && !flag) {
 		if (ia_artWidth <= 0)	{
-			ia_artWidth = NSMaxX([ibArtwork frame]) * WBWindowScaleFactor([self window]);
+			ia_artWidth = NSMaxX([ibArtwork frame]) * WBWindowUserSpaceScaleFactor([self window]);
 			ia_artOrigin = [ibArtwork frame].origin;
 		}
 		/* adjust window frame */

@@ -66,7 +66,8 @@ void _ITunesDrawHalfString(NSPoint point, NSColor *color) {
   else
     CGContextSetGrayFillColor(ctxt, 0, 1);
   
-  double shift = 0.5 / WBWindowScaleFactor([self window]);
+  // FIXME: userspace scale factor
+  CGFloat shift = 0.5 / WBWindowUserSpaceScaleFactor([self window]);
   if (ia_rate) {
     double center = 6;
     unsigned rate = ia_rate / 2;

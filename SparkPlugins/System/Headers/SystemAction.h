@@ -39,7 +39,8 @@ typedef enum {
   struct _sa_saFlags {
     unsigned int notify:1;
     unsigned int confirm:1;
-    unsigned int reserved:30;
+    unsigned int feedback:1;
+    unsigned int reserved:29;
   } sa_saFlags;
   /* Switch data */
   uid_t sa_uid;
@@ -79,6 +80,9 @@ typedef enum {
 
 - (void)brightnessUp;
 - (void)brightnessDown;
+
+- (BOOL)playFeedback;
+- (void)setPlayFeedback:(BOOL)flag;
 
 - (BOOL)shouldNotify;
 - (void)setShouldNotify:(BOOL)flag;

@@ -328,7 +328,12 @@ kAEShowShutdownDialog         = 'rsdn'
 - (void)setShouldNotify:(BOOL)flag {
   WBFlagSet(sa_saFlags.notify, flag);
 }
-
+- (BOOL)playFeedback {
+  return sa_saFlags.feedback && [self shouldNotify];
+}
+- (void)setPlayFeedback:(BOOL)flag {
+  WBFlagSet(sa_saFlags.feedback, flag);
+}
 - (BOOL)shouldConfirm {
   return sa_saFlags.confirm;
 }
@@ -391,7 +396,7 @@ static NSSound *_SASharedSound() {
     }
     if (noErr == err) {
       [view setLevel:level];
-      if (!mute && level > 0) {
+      if ([self playFeedback] && !mute && level > 0) {
         if (![SparkAction currentEventIsARepeat] ||
             ([SparkAction currentEventTime] - sa_start > 1)) {
           /* When repeat, play one beep per second */

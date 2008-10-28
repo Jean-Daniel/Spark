@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 44;
+	objectVersion = 45;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -332,11 +332,10 @@
 		1B75502C0B6A8153004C9F44 /* AAHide.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = AAHide.tiff; sourceTree = "<group>"; };
 		1B7B26410CC638F200F55F7D /* TAKeystroke.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAKeystroke.h; sourceTree = "<group>"; };
 		1B7B26420CC638F200F55F7D /* TAKeystroke.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TAKeystroke.m; sourceTree = "<group>"; };
-		1B7BBACD0CBE233300484A9E /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
-		1B7BBACE0CBE233300484A9E /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
-		1B7BBACF0CBE233300484A9E /* Profile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Profile.xcconfig; sourceTree = "<group>"; };
-		1B7BBAD00CBE233300484A9E /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
-		1B7CF6B30D3574700068DAD1 /* 64Bits.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = 64Bits.xcconfig; sourceTree = "<group>"; };
+		1B7E8FDE0EAF105200784745 /* Leopard-Profile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Leopard-Profile.xcconfig"; sourceTree = "<group>"; };
+		1B7E8FDF0EAF105200784745 /* Leopard-64Bits.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Leopard-64Bits.xcconfig"; sourceTree = "<group>"; };
+		1B7E8FE00EAF105200784745 /* Tiger-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Tiger-Debug.xcconfig"; sourceTree = "<group>"; };
+		1B7E8FE10EAF105200784745 /* Tiger-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Tiger-Release.xcconfig"; sourceTree = "<group>"; };
 		1B8F4B140B56823700E8A4C0 /* volume.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = volume.aiff; sourceTree = "<group>"; };
 		1BDCB6B90DA7C78000D95044 /* ITunesGrowl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ITunesGrowl.h; path = ../ITunesGrowl.h; sourceTree = "<group>"; };
 		1BDCB6BA0DA7C78000D95044 /* ITunesGrowl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ITunesGrowl.m; sourceTree = "<group>"; };
@@ -567,7 +566,7 @@
 				08FB77AFFE84173DC02AAC07 /* Classes */,
 				089C1671FE841209C02AAC07 /* Frameworks and Libraries */,
 				19C28FB8FE9D52D311CA2CBB /* Products */,
-				1B7BBACC0CBE233300484A9E /* Configurations */,
+				1B7BBACC0CBE233300484A9E /* xcconfigs */,
 				98EF7F4B08645B7F007BC81A /* SparkKit.xcodeproj */,
 				98EF7F4108645B72007BC81A /* HotKeyToolKit.xcodeproj */,
 			);
@@ -645,16 +644,15 @@
 			name = Images;
 			sourceTree = "<group>";
 		};
-		1B7BBACC0CBE233300484A9E /* Configurations */ = {
+		1B7BBACC0CBE233300484A9E /* xcconfigs */ = {
 			isa = PBXGroup;
 			children = (
-				1B7BBACD0CBE233300484A9E /* Common.xcconfig */,
-				1B7BBACE0CBE233300484A9E /* Debug.xcconfig */,
-				1B7BBACF0CBE233300484A9E /* Profile.xcconfig */,
-				1B7BBAD00CBE233300484A9E /* Release.xcconfig */,
-				1B7CF6B30D3574700068DAD1 /* 64Bits.xcconfig */,
+				1B7E8FDE0EAF105200784745 /* Leopard-Profile.xcconfig */,
+				1B7E8FDF0EAF105200784745 /* Leopard-64Bits.xcconfig */,
+				1B7E8FE00EAF105200784745 /* Tiger-Debug.xcconfig */,
+				1B7E8FE10EAF105200784745 /* Tiger-Release.xcconfig */,
 			);
-			path = Configurations;
+			path = xcconfigs;
 			sourceTree = SHARED_SOURCES_DIR;
 		};
 		9832882B079602D500DB780A /* Labo */ = {
@@ -1218,7 +1216,7 @@
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 98EF7EE408645A0E007BC81A /* Build configuration list for PBXProject "Spark Plugins" */;
-			compatibilityVersion = "Xcode 3.0";
+			compatibilityVersion = "Xcode 3.1";
 			hasScannedForEncodings = 1;
 			mainGroup = 089C166AFE841209C02AAC07 /* Spark Plugins */;
 			projectDirPath = "";
@@ -1835,7 +1833,7 @@
 /* Begin XCBuildConfiguration section */
 		1B7CF6C20D3574780068DAD1 /* 64bits */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1B7CF6B30D3574700068DAD1 /* 64Bits.xcconfig */;
+			baseConfigurationReference = 1B7E8FDF0EAF105200784745 /* Leopard-64Bits.xcconfig */;
 			buildSettings = {
 				SYMROOT = ../build;
 				WONDERBOX = "WONDERBOX_FRAMEWORK WONDERBOX_NAME=SparkKit";
@@ -1890,7 +1888,7 @@
 		1B7CF6C60D3574780068DAD1 /* 64bits */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 453;
+				CURRENT_PROJECT_VERSION = 455;
 				INFOPLIST_FILE = Text/Info.plist;
 				PRODUCT_NAME = TextAction;
 			};
@@ -1899,7 +1897,7 @@
 		1B7CF6C70D3574780068DAD1 /* 64bits */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 453;
+				CURRENT_PROJECT_VERSION = 455;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../SparkEditor/Resources\"",
@@ -1912,7 +1910,7 @@
 		1B7CF6C80D3574780068DAD1 /* 64bits */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 453;
+				CURRENT_PROJECT_VERSION = 455;
 				INFOPLIST_FILE = System/Info.plist;
 				PRODUCT_NAME = SystemAction;
 			};
@@ -1921,7 +1919,7 @@
 		1B7CF6C90D3574780068DAD1 /* 64bits */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 453;
+				CURRENT_PROJECT_VERSION = 455;
 				INFOPLIST_FILE = Documents/Info.plist;
 				PRODUCT_NAME = DocumentAction;
 			};
@@ -1930,7 +1928,7 @@
 		1B7CF6CA0D3574780068DAD1 /* 64bits */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 453;
+				CURRENT_PROJECT_VERSION = 455;
 				INFOPLIST_FILE = Application/Info.plist;
 				PRODUCT_NAME = ApplicationAction;
 			};
@@ -1939,7 +1937,7 @@
 		1B7CF6CB0D3574780068DAD1 /* 64bits */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 453;
+				CURRENT_PROJECT_VERSION = 455;
 				INFOPLIST_FILE = AppleScript/Info.plist;
 				PRODUCT_NAME = AppleScriptAction;
 			};
@@ -1966,7 +1964,7 @@
 		9888CE1F0B02412200B81BDB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 453;
+				CURRENT_PROJECT_VERSION = 455;
 				INFOPLIST_FILE = Text/Info.plist;
 				PRODUCT_NAME = TextAction;
 			};
@@ -1975,7 +1973,7 @@
 		9888CE200B02412200B81BDB /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 453;
+				CURRENT_PROJECT_VERSION = 455;
 				INFOPLIST_FILE = Text/Info.plist;
 				PRODUCT_NAME = TextAction;
 			};
@@ -1984,7 +1982,7 @@
 		98EF7EC908645A0E007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 453;
+				CURRENT_PROJECT_VERSION = 455;
 				INFOPLIST_FILE = System/Info.plist;
 				PRODUCT_NAME = SystemAction;
 			};
@@ -1993,7 +1991,7 @@
 		98EF7ECA08645A0E007BC81A /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 453;
+				CURRENT_PROJECT_VERSION = 455;
 				INFOPLIST_FILE = System/Info.plist;
 				PRODUCT_NAME = SystemAction;
 			};
@@ -2002,7 +2000,7 @@
 		98EF7ECD08645A0E007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 453;
+				CURRENT_PROJECT_VERSION = 455;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../SparkEditor/Resources\"",
@@ -2015,7 +2013,7 @@
 		98EF7ECE08645A0E007BC81A /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 453;
+				CURRENT_PROJECT_VERSION = 455;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../SparkEditor/Resources\"",
@@ -2028,7 +2026,7 @@
 		98EF7ED108645A0E007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 453;
+				CURRENT_PROJECT_VERSION = 455;
 				INFOPLIST_FILE = Documents/Info.plist;
 				PRODUCT_NAME = DocumentAction;
 			};
@@ -2037,7 +2035,7 @@
 		98EF7ED208645A0E007BC81A /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 453;
+				CURRENT_PROJECT_VERSION = 455;
 				INFOPLIST_FILE = Documents/Info.plist;
 				PRODUCT_NAME = DocumentAction;
 			};
@@ -2046,7 +2044,7 @@
 		98EF7ED508645A0E007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 453;
+				CURRENT_PROJECT_VERSION = 455;
 				INFOPLIST_FILE = Application/Info.plist;
 				PRODUCT_NAME = ApplicationAction;
 			};
@@ -2055,7 +2053,7 @@
 		98EF7ED608645A0E007BC81A /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 453;
+				CURRENT_PROJECT_VERSION = 455;
 				INFOPLIST_FILE = Application/Info.plist;
 				PRODUCT_NAME = ApplicationAction;
 			};
@@ -2064,7 +2062,7 @@
 		98EF7ED908645A0E007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 453;
+				CURRENT_PROJECT_VERSION = 455;
 				INFOPLIST_FILE = AppleScript/Info.plist;
 				PRODUCT_NAME = AppleScriptAction;
 			};
@@ -2073,7 +2071,7 @@
 		98EF7EDA08645A0E007BC81A /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 453;
+				CURRENT_PROJECT_VERSION = 455;
 				INFOPLIST_FILE = AppleScript/Info.plist;
 				PRODUCT_NAME = AppleScriptAction;
 			};
@@ -2150,9 +2148,9 @@
 		};
 		98EF7EE508645A0E007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1B7BBACE0CBE233300484A9E /* Debug.xcconfig */;
+			baseConfigurationReference = 1B7E8FE00EAF105200784745 /* Tiger-Debug.xcconfig */;
 			buildSettings = {
-				SYMROOT = ../build;
+				BUILT_PRODUCT_DIR = Spark;
 				WONDERBOX = "WONDERBOX_FRAMEWORK WONDERBOX_NAME=SparkKit";
 				WRAPPER_EXTENSION = spact;
 			};
@@ -2160,7 +2158,7 @@
 		};
 		98EF7EE608645A0E007BC81A /* Profile */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1B7BBACF0CBE233300484A9E /* Profile.xcconfig */;
+			baseConfigurationReference = 1B7E8FDE0EAF105200784745 /* Leopard-Profile.xcconfig */;
 			buildSettings = {
 				SYMROOT = ../build;
 				WONDERBOX = "WONDERBOX_FRAMEWORK WONDERBOX_NAME=SparkKit";
@@ -2171,7 +2169,7 @@
 		98EFD1CF0B58454800AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 453;
+				CURRENT_PROJECT_VERSION = 455;
 				INFOPLIST_FILE = Text/Info.plist;
 				PRODUCT_NAME = TextAction;
 			};
@@ -2180,7 +2178,7 @@
 		98EFD1D00B58454800AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 453;
+				CURRENT_PROJECT_VERSION = 455;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../SparkEditor/Resources\"",
@@ -2193,7 +2191,7 @@
 		98EFD1D10B58454800AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 453;
+				CURRENT_PROJECT_VERSION = 455;
 				INFOPLIST_FILE = System/Info.plist;
 				PRODUCT_NAME = SystemAction;
 			};
@@ -2202,7 +2200,7 @@
 		98EFD1D20B58454800AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 453;
+				CURRENT_PROJECT_VERSION = 455;
 				INFOPLIST_FILE = Documents/Info.plist;
 				PRODUCT_NAME = DocumentAction;
 			};
@@ -2211,7 +2209,7 @@
 		98EFD1D30B58454800AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 453;
+				CURRENT_PROJECT_VERSION = 455;
 				INFOPLIST_FILE = Application/Info.plist;
 				PRODUCT_NAME = ApplicationAction;
 			};
@@ -2220,7 +2218,7 @@
 		98EFD1D40B58454800AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 453;
+				CURRENT_PROJECT_VERSION = 455;
 				INFOPLIST_FILE = AppleScript/Info.plist;
 				PRODUCT_NAME = AppleScriptAction;
 			};
@@ -2272,7 +2270,7 @@
 		};
 		98EFD1D80B58454800AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1B7BBAD00CBE233300484A9E /* Release.xcconfig */;
+			baseConfigurationReference = 1B7E8FE10EAF105200784745 /* Tiger-Release.xcconfig */;
 			buildSettings = {
 				SYMROOT = ../build;
 				WONDERBOX = "WONDERBOX_FRAMEWORK WONDERBOX_NAME=SparkKit";

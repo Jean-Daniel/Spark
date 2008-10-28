@@ -114,6 +114,7 @@
     [(SystemAction *)[self sparkAction] setAction:newAction];
   }
   [[ibName cell] setPlaceholderString:SystemActionDescription([self sparkAction])];
+  [ibFeedback setHidden:YES]; // default
   switch (newAction) {
     case kSystemLogOut:
     case kSystemRestart:
@@ -128,6 +129,7 @@
     case kSystemVolumeUp:
     case kSystemVolumeDown:
     case kSystemVolumeMute:
+      [ibFeedback setHidden:NO];
     case kSystemBrightnessUp:
     case kSystemBrightnessDown:
       /* Display visual */
