@@ -11,7 +11,7 @@
 @interface SEUpdater : SUpdater {
   @private
   id se_delegate;
-  bool se_pending;
+  //bool se_pending;
 }
 
 + (SEUpdater *)sharedUpdater;

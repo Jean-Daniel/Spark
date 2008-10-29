@@ -67,6 +67,11 @@ static NSColor *SEHeaderShadowColor = nil;
 
 @implementation SEHeaderCellCorner
 
+- (void)dealloc {
+  [se_background release];
+  [super dealloc];
+}
+
 - (void)drawRect:(NSRect)frame {
   if (!se_background) {
     se_background = SEHeaderCellCreateShading(NSHeight([self bounds]) -2, NO);

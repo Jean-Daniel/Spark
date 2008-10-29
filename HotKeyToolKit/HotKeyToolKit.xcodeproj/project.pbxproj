@@ -575,6 +575,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B7E8F6A0EAF0FB300784745 /* Leopard-64Bits.xcconfig */;
 			buildSettings = {
+				BUILT_PRODUCT_DIR = Spark;
 			};
 			name = 64bits;
 		};
@@ -662,6 +663,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B7E8F6E0EAF0FC300784745 /* Leopard-Profile.xcconfig */;
 			buildSettings = {
+				BUILT_PRODUCT_DIR = Spark;
 			};
 			name = Profile;
 		};
@@ -845,6 +847,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B7E8F6B0EAF0FB300784745 /* Tiger-Release.xcconfig */;
 			buildSettings = {
+				BUILT_PRODUCT_DIR = Spark;
 			};
 			name = Release;
 		};

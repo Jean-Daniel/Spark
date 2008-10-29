@@ -1835,7 +1835,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B7E8FDF0EAF105200784745 /* Leopard-64Bits.xcconfig */;
 			buildSettings = {
-				SYMROOT = ../build;
+				BUILT_PRODUCT_DIR = Spark;
 				WONDERBOX = "WONDERBOX_FRAMEWORK WONDERBOX_NAME=SparkKit";
 				WRAPPER_EXTENSION = spact;
 			};
@@ -2160,7 +2160,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B7E8FDE0EAF105200784745 /* Leopard-Profile.xcconfig */;
 			buildSettings = {
-				SYMROOT = ../build;
+				BUILT_PRODUCT_DIR = Spark;
 				WONDERBOX = "WONDERBOX_FRAMEWORK WONDERBOX_NAME=SparkKit";
 				WRAPPER_EXTENSION = spact;
 			};
@@ -2272,7 +2272,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B7E8FE10EAF105200784745 /* Tiger-Release.xcconfig */;
 			buildSettings = {
-				SYMROOT = ../build;
+				BUILT_PRODUCT_DIR = Spark;
 				WONDERBOX = "WONDERBOX_FRAMEWORK WONDERBOX_NAME=SparkKit";
 				WRAPPER_EXTENSION = spact;
 			};

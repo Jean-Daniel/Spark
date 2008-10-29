@@ -14,7 +14,6 @@
 	IBOutlet NSTextField *ibName;
   IBOutlet DAApplicationMenu *ibMenu;
   
-  int da_flags;
   NSImage *da_icon;
   NSString *da_name;
   NSString *da_path;

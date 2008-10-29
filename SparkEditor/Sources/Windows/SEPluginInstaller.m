@@ -149,7 +149,6 @@ dispose:
             root = tmp;
           [manager createDirectoryAtPath:tmp attributes:nil];
         }
-        [cmpt release];
         
         if (![self installPlugin:plugin into:tmp copy:YES]) {
           NSRunAlertPanel(@"The plugin was not installed", @"An error prevent plugin installation.", @"OK", nil, nil);
@@ -163,6 +162,7 @@ dispose:
           }
         }
       }
+      [cmpt release];
     }
   }
   if (installed) {

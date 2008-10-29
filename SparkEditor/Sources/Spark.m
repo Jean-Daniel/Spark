@@ -403,28 +403,39 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
   }
 }
 
+- (BOOL)se_openDefaultLibrary {
+  SELibraryDocument *doc = [[NSDocumentController sharedDocumentController] makeUntitledDocumentOfType:@"org.shadowlab.spark.library"];
+  if (!doc)
+    doc = [[NSDocumentController sharedDocumentController] makeUntitledDocumentOfType:@"SparkLibraryFile"];
+  if (doc) {
+    [[NSDocumentController sharedDocumentController] addDocument:doc];
+    [doc setLibrary:SparkActiveLibrary()];
+    [doc makeWindowControllers];
+    [doc showWindows];
+  }
+  return doc != nil;
+}
+
 - (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename {
+  BOOL result = YES;
+  if ([[[NSDocumentController sharedDocumentController] documents] count] == 0)
+    [self se_openDefaultLibrary];
   if ([[NSWorkspace sharedWorkspace] isFilePackageAtPath:filename]) {
     if ([[filename pathExtension] isEqualToString:[SparkActionLoader extension]]) {
       [self openPluginBundle:filename];
-      return YES;
     } else if ([[filename pathExtension] isEqualToString:kSparkLibraryFileExtension]) {
       DLog(@"Try to open a Spark Library: ignore");
       NSBeep();
-      return YES;
     }
   } else {
-    NSString *ext = [filename pathExtension];
     OSType type = kLSUnknownType;
+    NSString *ext = [filename pathExtension];
     WBFSGetTypeAndCreatorAtPath((CFStringRef)filename, &type, NULL);
     if (type == kSparkLibraryArchiveHFSType || [ext isEqualToString:kSparkLibraryArchiveExtension]) {
       [self openLibraryBackup:filename];
-      return YES;
+    } else {
+      result = NO;
     }
-//    if ([[filename pathExtension] isEqualToString:kSparkListFileExtension] || type == kSparkListFileType) { // Il faudrait aussi verifier le type.
-//      if ([self openListFile:filename])
-//        return YES;
-//    }
   }
 //  NSAlert *error = [NSAlert alertWithMessageText:
 //    [NSString stringWithFormat:NSLocalizedString(@"INVALID_FILE_ALERT",
@@ -438,20 +449,11 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
 //                    modalDelegate:nil
 //                   didEndSelector:nil
 //                      contextInfo:nil];
-  return NO;
+  return result;
 }
 
 - (BOOL)applicationOpenUntitledFile:(NSApplication *)theApplication {
-  SELibraryDocument *doc = [[NSDocumentController sharedDocumentController] makeUntitledDocumentOfType:@"org.shadowlab.spark.library"];
-  if (!doc)
-    doc = [[NSDocumentController sharedDocumentController] makeUntitledDocumentOfType:@"SparkLibraryFile"];
-  if (doc) {
-    [[NSDocumentController sharedDocumentController] addDocument:doc];
-    [doc setLibrary:SparkActiveLibrary()];
-    [doc makeWindowControllers];
-    [doc showWindows];
-  }
-  return doc != nil;
+  return [self se_openDefaultLibrary];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {

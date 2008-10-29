@@ -273,14 +273,15 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
     same = front && [sd_front isEqual:front];
   }
   if (!same) {
-    DLog(@"switch: %@ => %@", sd_front, front);
+    SparkApplication *previous = sd_front;
+    sd_front = front;
+    DLog(@"switch: %@ => %@", previous, front);
     /* If status change */
-    if ((!sd_front || [sd_front isEnabled]) && (front && ![front isEnabled])) {
+    if ((!previous || [previous isEnabled]) && (front && ![front isEnabled])) {
       [self unregisterEntries];
-    } else if ((sd_front && ![sd_front isEnabled]) && (!front || [front isEnabled])) {
+    } else if ((previous && ![previous isEnabled]) && (!front || [front isEnabled])) {
       [self registerEntries];
     }
-    sd_front = front;
   }
 }
 
@@ -448,9 +449,9 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
         
         [sd_lock lock];
         NSMutableDictionary *locks = (NSMutableDictionary *)CFDictionaryGetValue(sd_locks, plugin);
-        if (!locks) { locks = [[NSMutableDictionary alloc] init]; CFDictionarySetValue(sd_locks, plugin, locks); }
+        if (!locks) { locks = [NSMutableDictionary dictionary]; CFDictionarySetValue(sd_locks, plugin, locks); }
         NSMutableArray *queue = [locks objectForKey:lock];
-        if (!queue) { queue = [[NSMutableArray alloc] init]; [locks setObject:queue forKey:lock]; }
+        if (!queue) { queue = [NSMutableArray array]; [locks setObject:queue forKey:lock]; }
         [queue insertObject:anEvent atIndex:0];
         if (1 == [queue count]) {
           bypass = false;

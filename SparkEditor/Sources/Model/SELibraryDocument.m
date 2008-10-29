@@ -147,8 +147,8 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
 - (IBAction)saveAsArchive:(id)sender {
   NSSavePanel *panel = [NSSavePanel savePanel];
   NSCalendarDate *date = [NSCalendarDate date];
-  NSString *filename = [NSString stringWithFormat:NSLocalizedString(@"SparkLibrary - %.2d/%.2d/%.2d", @"Backup filename"),
-												[date dayOfMonth], [date monthOfYear], [date yearOfCommonEra] % 100];
+  NSString *filename = [NSString stringWithFormat:NSLocalizedString(@"SparkLibrary - %.4d-%.2d-%.2d", @"Backup filename"),
+												[date yearOfCommonEra], [date monthOfYear], [date dayOfMonth]];
   [panel setCanCreateDirectories:YES];
   [panel setRequiredFileType:kSparkLibraryArchiveExtension];
   [panel setAllowsOtherFileTypes:NO];
@@ -265,7 +265,7 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
 
 #pragma mark Export
 - (IBAction)exportPrintable:(id)sender {
-  SEExportOptions *ctrl = [[SEExportOptions alloc] init];
+  SEExportOptions *ctrl = [[[SEExportOptions alloc] init] autorelease];
   NSSavePanel *panel = [NSSavePanel savePanel];
   [panel setAccessoryView:[ctrl view]];
   [panel setRequiredFileType:@"html"];

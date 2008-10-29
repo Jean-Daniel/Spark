@@ -104,6 +104,11 @@ NSString * const kSystemUserNameKey = @"SystemUserName";
   return self;
 }
 
+- (void)dealloc {
+  [sa_uname release];
+  [super dealloc];
+}
+
 - (BOOL)serialize:(NSMutableDictionary *)plist {
   if ([super serialize:plist]) {
     [plist setObject:WBInteger([self action]) forKey:kSystemActionKey];
@@ -665,6 +670,7 @@ NSImage *SystemActionIcon(SystemAction *anAction) {
       break;
     case kSystemVolumeMute:
       icon = @"SysMute";
+      break;
       /* Brightness */
     case kSystemBrightnessUp:
     case kSystemBrightnessDown:

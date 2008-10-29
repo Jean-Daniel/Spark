@@ -73,6 +73,7 @@ void __SetSparkKitSingleKeyMode(NSInteger mode) {
   }
 }
 
+#if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_5
 static
 void *_SEPreferencesLoginItemThread(void *arg) {
   long timeout = WBLoginItemTimeout();
@@ -83,6 +84,7 @@ void *_SEPreferencesLoginItemThread(void *arg) {
   WBLoginItemSetTimeout(timeout);
   return NULL;
 }
+#endif
 
 /* Default values initialization */
 + (void)setup {
@@ -95,13 +97,16 @@ void *_SEPreferencesLoginItemThread(void *arg) {
   [[NSUserDefaults standardUserDefaults] registerDefaults:values];
   
   /* Verify login items */
+#if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_5
 	if (LSSharedFileListCreate) {
+#endif
 		_SEPreferencesUpdateLoginItem();
+#if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_5
 	} else {
 		pthread_t thread;
 		pthread_create(&thread, NULL, _SEPreferencesLoginItemThread, NULL);
 	}
-  
+#endif
   /* Configure Single key mode */
   __SetSparkKitSingleKeyMode([[NSUserDefaults standardUserDefaults] integerForKey:kSparkPrefSingleKeyMode]);
 }
@@ -426,7 +431,9 @@ void _SEPreferencesUpdateLoginItem() {
 	BOOL status = __SEPreferencesLoginItemStatus();
 	NSURL *durl = sparkd ? [NSURL fileURLWithPath:sparkd] : NULL;
 	if (CFURLGetFSRef((CFURLRef)durl, &dref)) {
+#if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_5
 		if (LSSharedFileListCreate) {
+#endif
 			/* do it the new way */
 			LSSharedFileListRef list = LSSharedFileListCreate(kCFAllocatorDefault, kLSSharedFileListSessionLoginItems, NULL);
 			if (list) {
@@ -473,6 +480,7 @@ void _SEPreferencesUpdateLoginItem() {
 				}
 				CFRelease(list);
 			}
+#if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_5
 		} else {
 			CFArrayRef items = WBLoginItemCopyItems();
 			if (items) {
@@ -511,5 +519,6 @@ void _SEPreferencesUpdateLoginItem() {
 				CFRelease(items);
 			}
 		}
+#endif
 	}
 }

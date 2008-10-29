@@ -54,6 +54,8 @@ ApplicationVisualSetting *AAGetSharedSettings() {
       SparkPreferencesSetBooleanValue(@"AAVisualLaunch", settings->launch, SparkPreferencesLibrary);
     if (settings->activation != shared->activation)
       SparkPreferencesSetBooleanValue(@"AAVisualActivate", settings->activation, SparkPreferencesLibrary);
+    
+    *shared = *settings;
   } else {
     // Remove key
     SparkPreferencesSetValue(@"AAVisualLaunch", NULL, SparkPreferencesLibrary);
@@ -63,7 +65,6 @@ ApplicationVisualSetting *AAGetSharedSettings() {
     shared->launch = YES;
     shared->activation = NO;
   }
-  *shared = *settings;
 }
 
 + (void)didLoadLibrary:(NSNotification *)aNotification {
