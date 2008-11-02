@@ -19,6 +19,11 @@
 - (BOOL)shouldChangeKeystroke;
 @end
 
+static __inline__ 
+CFTimeInterval __HKEventTime() {
+  return UnsignedWideToUInt64(AbsoluteToNanoseconds(UpTime())) / 1e9;
+}
+
 @implementation HKHotKey
 
 - (id)copyWithZone:(NSZone *)zone {
@@ -248,6 +253,18 @@
   hk_repeatInterval = interval;
 }
 
+- (NSTimeInterval)initialRepeatInterval {
+  if (WBRealEquals(hk_iRepeatInterval, 0)) {
+    return HKGetSystemInitialKeyRepeatInterval();
+  } else if (hk_iRepeatInterval < 0) {
+    return [self repeatInterval];
+  }
+  return hk_iRepeatInterval;
+}
+- (void)setInitialRepeatInterval:(NSTimeInterval)interval {
+  hk_iRepeatInterval = interval;
+}
+
 #pragma mark Key Serialization
 - (UInt64)rawkey {
   return HKHotKeyPackKeystoke([self keycode], [self nativeModifier], [self character]);
@@ -265,17 +282,20 @@
 #pragma mark -
 #pragma mark Invoke
 - (void)keyPressed {
+  hk_hkFlags.down = 1;
   hk_eventTime = [[HKHotKeyManager sharedManager] currentEventTime];
   [self hk_invalidateTimer];
   if (hk_hkFlags.onrelease) {
     hk_hkFlags.invoked = 0;
-  } else if (!hk_hkFlags.onrelease) { // onrealease can be changed by shouldInvoke.
+  } else if (!hk_hkFlags.onrelease) {
     /* Flags used to avoid double invocation if 'on release' change during invoke */
     hk_hkFlags.invoked = 1;
     [self invoke:NO];
-    if ([self repeatInterval] > 0) {
-      NSTimeInterval value = HKGetSystemInitialKeyRepeatInterval();
+    //  may no longer be down (if release key event append during invoke)
+    if (hk_hkFlags.down && [self repeatInterval] > 0) {
+      NSTimeInterval value = [self initialRepeatInterval];
       if (value > 0) {
+        value -= (__HKEventTime() - hk_eventTime); // time elapsed in invoke
         NSDate *fire = [[NSDate alloc] initWithTimeIntervalSinceNow:value];
         hk_repeatTimer = [[NSTimer alloc] initWithFireDate:fire 
                                                   interval:[self repeatInterval]
@@ -286,13 +306,12 @@
         [fire release];
         [[NSRunLoop currentRunLoop] addTimer:hk_repeatTimer forMode:NSDefaultRunLoopMode];
       }
-    } else {
-      hk_hkFlags.invoked = 0;
     }
   }
 }
 
 - (void)keyReleased {
+  hk_hkFlags.down = 0;
   hk_eventTime = [[HKHotKeyManager sharedManager] currentEventTime];
   [self hk_invalidateTimer];
   if (hk_hkFlags.onrelease && !hk_hkFlags.invoked) {
@@ -343,7 +362,7 @@
 
 - (void)hk_invoke:(NSTimer *)timer {
   /* get uptime in seconds (this is what carbon and cocoa event use as timestamp) */
-  hk_eventTime = UnsignedWideToUInt64(AbsoluteToNanoseconds(UpTime())) / 1e9;
+  hk_eventTime = __HKEventTime();
   if (HKTraceHotKeyEvents) {
     NSLog(@"Repeat event: %@", self);
   }

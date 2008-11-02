@@ -39,14 +39,16 @@ HK_CLASS_EXPORT
   SEL hk_action;
   NSTimer *hk_repeatTimer;
   NSTimeInterval hk_repeatInterval;
+  NSTimeInterval hk_iRepeatInterval;
   
   struct _hk_hkFlags {
+    unsigned int down:1;
     unsigned int lock:1;
     unsigned int repeat:1;
     unsigned int invoked:1;
     unsigned int onrelease:1;
     unsigned int registred:1;
-    unsigned int reserved:11;
+    unsigned int reserved:10;
   } hk_hkFlags;
   
   HKModifier hk_mask;
@@ -228,6 +230,13 @@ HK_CLASS_EXPORT
  @param      interval the time interval in seconds, or 0 to desactivate autorepeat for the receiver.
  */
 - (void)setRepeatInterval:(NSTimeInterval)interval;
+
+- (NSTimeInterval)initialRepeatInterval;
+/*!
+ @method
+ @param interval 0 mean system default. < 0 mean repeat interval.
+ */
+- (void)setInitialRepeatInterval:(NSTimeInterval)interval;
 
 /*!
   @method
