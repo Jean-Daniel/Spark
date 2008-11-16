@@ -20,7 +20,7 @@
 @end
 
 static __inline__ 
-CFTimeInterval __HKEventTime() {
+CFTimeInterval __HKEventTime(void) {
   return UnsignedWideToUInt64(AbsoluteToNanoseconds(UpTime())) / 1e9;
 }
 
@@ -438,7 +438,7 @@ io_connect_t _HKHIDGetSystemService(void) {
   return sSystemService;
 }
 
-NSTimeInterval HKGetSystemKeyRepeatInterval() {
+NSTimeInterval HKGetSystemKeyRepeatInterval(void) {
   uint64_t value = 0;
   NSTimeInterval interval = -1;
   io_connect_t service = _HKHIDGetSystemService();
@@ -453,7 +453,7 @@ NSTimeInterval HKGetSystemKeyRepeatInterval() {
   return interval;
 }
 
-NSTimeInterval HKGetSystemInitialKeyRepeatInterval() {
+NSTimeInterval HKGetSystemInitialKeyRepeatInterval(void) {
   uint64_t value = 0;
   NSTimeInterval interval = -1;
   io_connect_t service = _HKHIDGetSystemService();

@@ -20,3 +20,6 @@
 
 @end
 
+@class SparkTrigger;
+WB_PRIVATE
+NSUInteger SETriggerSortValue(SparkTrigger *);

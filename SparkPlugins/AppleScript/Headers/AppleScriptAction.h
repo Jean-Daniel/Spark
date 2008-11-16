@@ -16,6 +16,7 @@
   @private
   WBAlias *as_alias;
   OSAScript *as_script;
+  NSTimeInterval as_repeat;
 }
 
 - (NSString *)file;

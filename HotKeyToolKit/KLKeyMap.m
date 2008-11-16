@@ -103,7 +103,7 @@ HKKeyMapRef HKKLKeyMapCreateWithName(CFStringRef name) {
   return NULL;
 }
 
-HKKeyMapRef HKKLKeyMapCreateWithCurrentLayout() {
+HKKeyMapRef HKKLKeyMapCreateWithCurrentLayout(void) {
   KeyboardLayoutRef ref;
   if (noErr == KLGetCurrentKeyboardLayout(&ref)) { 
     return HKKeyMapCreateWithKeyboardLayout(ref);

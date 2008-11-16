@@ -378,6 +378,7 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
   SparkAlert *alert = nil;
   SparkEntry *entry = [anEvent entry];
   /* Warning: trigger can be release during [action performAction] */
+  DLog(@"Start handle event (%@): %@", [NSThread currentThread], anEvent);
   [SparkEvent setCurrentEvent:anEvent];
   @try {
     /* Action exists and is enabled */
@@ -388,6 +389,7 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
     NSBeep();
   }
   [SparkEvent setCurrentEvent:nil];
+  DLog(@"End handle event (%@): %@", [NSThread currentThread], anEvent);
   
   return alert;
 }
@@ -428,7 +430,7 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
     return;
   }
   
-  DLog(@"Start handle event: %@", anEvent);
+  DLog(@"Start dispatch event: %@", anEvent);
 
   bool bypass = true;
   /* If daemon is disabled, only persistent action are performed */
@@ -467,7 +469,7 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
   
   if (bypass) [[anEvent trigger] bypass];
   
-  DLog(@"End handle event: %@", anEvent);
+  DLog(@"End dispatch event: %@", anEvent);
 }
 
 - (void)run {

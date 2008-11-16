@@ -30,7 +30,7 @@ static NSString * const kApplicationIdentifierKey = @"kApplicationIdentifierKey"
 static bool sInit = false;
 
 static 
-ApplicationVisualSetting *AAGetSharedSettings() {
+ApplicationVisualSetting *AAGetSharedSettings(void) {
   static ApplicationVisualSetting sShared = {NO, NO};
   if (!sInit) {
     sInit = true;

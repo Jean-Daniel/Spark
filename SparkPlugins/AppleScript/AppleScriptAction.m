@@ -16,6 +16,8 @@
 
 static NSString * const kOSAScriptActionDataKey = @"OSAScriptData";
 static NSString * const kOSAScriptActionTypeKey = @"OSAScriptType";
+static NSString * const kOSAScriptActionSourceKey = @"OSAScriptSource";
+static NSString * const kOSAScriptActionRepeatInterval = @"OSAScriptRepeatInterval";
 
 @implementation AppleScriptAction
 
@@ -32,15 +34,18 @@ static NSString * const kOSAScriptActionTypeKey = @"OSAScriptType";
   if (as_alias)
     [coder encodeObject:as_alias forKey:kOSAScriptActionDataKey];
   if (as_script) 
-    [coder encodeObject:[as_script source] forKey:@"OSAScriptActionSource"];
+    [coder encodeObject:[as_script source] forKey:kOSAScriptActionSourceKey];
+  
+  [coder encodeDouble:as_repeat forKey:kOSAScriptActionRepeatInterval];
 }
 
 - (id)initWithCoder:(NSCoder *)coder {
   if (self = [super initWithCoder:coder]) {
     as_alias = [[coder decodeObjectForKey:kOSAScriptActionDataKey] retain];
-    NSString *src = [coder decodeObjectForKey:@"OSAScriptActionSource"];
+    NSString *src = [coder decodeObjectForKey:kOSAScriptActionSourceKey];
     if (nil != src)
       as_script = [[OSAScript alloc] initWithSource:src];
+    as_repeat = [coder decodeDoubleForKey:kOSAScriptActionRepeatInterval];
   }
   return self;
 }
@@ -90,6 +95,9 @@ static NSString * const kOSAScriptActionTypeKey = @"OSAScriptType";
         }
           break;
       }
+      NSNumber *repeat = [plist objectForKey:kOSAScriptActionRepeatInterval];
+      if (repeat)
+        as_repeat = [repeat doubleValue];
     }
     /* Update description */
     NSString *description = AppleScriptActionDescription(self);
@@ -107,6 +115,9 @@ static NSString * const kOSAScriptActionTypeKey = @"OSAScriptType";
 
 - (BOOL)serialize:(NSMutableDictionary *)plist {
   if ([super serialize:plist]) {
+    if (as_repeat > 0)
+      [plist setObject:WBDouble(as_repeat) forKey:kOSAScriptActionRepeatInterval];
+    
     if ([self scriptAlias]) {
       NSData *data = [[self scriptAlias] data];
       if (data) {
@@ -121,7 +132,7 @@ static NSString * const kOSAScriptActionTypeKey = @"OSAScriptType";
         [plist setObject:data forKey:kOSAScriptActionDataKey];
         return YES;
       }
-    } 
+    }
   }
   return NO;
 }
@@ -137,6 +148,13 @@ static NSString * const kOSAScriptActionTypeKey = @"OSAScriptType";
   }
   return icon;
 }
+- (NSTimeInterval)repeatInterval {
+  return as_repeat / 1e3;
+}
+- (NSTimeInterval)initialRepeatInterval {
+  return -1; // Repeat Interval.
+}
+
 - (SparkAlert *)performAction {
   NSDictionary *error = nil;
   if (as_script) {
@@ -167,6 +185,13 @@ static NSString * const kOSAScriptActionTypeKey = @"OSAScriptType";
   return alert;
 }
 #pragma mark Ivars
+- (NSTimeInterval)repeat {
+  return as_repeat;
+}
+- (void)setRepeat:(NSTimeInterval)anInterval {
+  as_repeat = anInterval;
+}
+
 - (WBAlias *)scriptAlias {
   return as_alias;
 }

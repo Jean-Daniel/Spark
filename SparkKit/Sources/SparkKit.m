@@ -34,7 +34,7 @@ const OSType kSparkEditorSignature = 'Sprk';
 const OSType kSparkDaemonSignature = 'SprS';
 
 static __attribute__((constructor)) 
-void __SparkInitializeLibrary() {
+void __SparkInitializeLibrary(void) {
   kSparkFinderSignature = 'MACS';
   NSString *str = SparkPreferencesGetValue(@"SparkFinderSignature", SparkPreferencesFramework);
   if (str) {

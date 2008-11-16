@@ -181,6 +181,9 @@ static NSString * const kSparkActionDescriptionKey = @"SADescription";
 - (NSTimeInterval)repeatInterval {
   return 0;
 }
+- (NSTimeInterval)initialRepeatInterval {
+  return 0; // system default
+}
 
 - (BOOL)needsToBeRunOnMainThread {
   return YES;

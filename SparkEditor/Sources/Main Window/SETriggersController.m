@@ -59,7 +59,7 @@ SETriggerStyle styles[6];
 static 
 NSString * sSEHiddenPluggedObserverKey = nil;
 
-@interface SparkEntry (SETriggerSort)
+@interface SparkEntry (SETriggerObserver)
 - (void)setActive:(BOOL)active;
 @end
 
@@ -358,19 +358,12 @@ NSString * sSEHiddenPluggedObserverKey = nil;
 @end
 
 #pragma mark -
-@implementation SparkEntry (SETriggerSort)
+@implementation SparkEntry (SETriggerObserver)
 
 + (void)load {
   if ([SparkEntry class] == self) {
 		WBRuntimeExchangeInstanceMethods(self, @selector(setEnabled:), @selector(se_setEnabled:));
   }
-}
-
-- (NSUInteger)triggerValue {
-  SparkTrigger *trigger = [self trigger];
-  if ([trigger isKindOfClass:[SparkHotKey class]])
-    return [(SparkHotKey *)trigger character] << 16 | [(SparkHotKey *)trigger modifier] & 0xff;
-  else return 0;
 }
 
 - (void)performSetActive:(BOOL)value document:(SELibraryDocument *)document {
@@ -420,5 +413,21 @@ NSString * sSEHiddenPluggedObserverKey = nil;
   [self didChangeValueForKey:@"representation"];
 }
 
+@end
+
+@implementation SparkEntry (SEEntrySortByTrigger)
+
+- (NSUInteger)triggerValue {
+  return SETriggerSortValue([self trigger]);
+}
 
 @end
+
+NSUInteger SETriggerSortValue(SparkTrigger *aTrigger) {
+  if ([aTrigger isKindOfClass:[SparkHotKey class]])
+    return [(SparkHotKey *)aTrigger character] << 16 | [(SparkHotKey *)aTrigger modifier] & 0xff;
+  else return 0;  
+}
+
+
+

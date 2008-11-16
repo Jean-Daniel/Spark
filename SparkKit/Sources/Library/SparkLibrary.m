@@ -647,7 +647,7 @@ NSString *_SparkLibraryCopyUUIDString(SparkLibrary *aLibrary) {
   return uuid ? (NSString *)CFUUIDCreateString(kCFAllocatorDefault, uuid) : NULL;
 }
 
-NSString *SparkLibraryFolder() {
+NSString *SparkLibraryFolder(void) {
   NSString *folder = [WBFSFindFolder(kApplicationSupportFolderType, kUserDomain, true) stringByAppendingPathComponent:kSparkFolderName];
   if (folder && ![[NSFileManager defaultManager] fileExistsAtPath:folder]) {
     WBFSCreateFolder((CFStringRef)folder);
@@ -669,12 +669,12 @@ NSString *SparkLibraryIconFolder(SparkLibrary *library) {
 }
 
 static
-NSString *SparkLibraryPreviousLibraryPath() {
+NSString *SparkLibraryPreviousLibraryPath(void) {
   NSString *folder = [WBFSFindFolder(kPreferencesFolderType, kUserDomain, false) stringByAppendingPathComponent:kSparkFolderName];
   return [folder stringByAppendingPathComponent:@"Spark3 Library.splib"];
 }
 static
-NSString *SparkLibraryVersion1LibraryPath() {
+NSString *SparkLibraryVersion1LibraryPath(void) {
   NSString *folder = [WBFSFindFolder(kPreferencesFolderType, kUserDomain, false) stringByAppendingPathComponent:kSparkFolderName];
   return [folder stringByAppendingPathComponent:@"SparkLibrary.splib"];
 }
@@ -689,7 +689,7 @@ static
 NSMutableArray *sLibraries = nil;
 
 static
-void SparkLibraryCleanup() {
+void SparkLibraryCleanup(void) {
   if (SparkGetCurrentContext() == kSparkEditorContext) {
     NSMutableArray *uuids = [[NSMutableArray alloc] init];
     NSUInteger cnt = [sLibraries count];
@@ -720,7 +720,7 @@ void SparkLibraryCleanup() {
 }
 
 static 
-void SparkInitLibraries() {
+void SparkInitLibraries(void) {
   if (sLibraries) return;
   
   sLibraries = [[NSMutableArray alloc] init];
@@ -801,7 +801,7 @@ void SparkLibraryUnregisterLibrary(SparkLibrary *library) {
 }
 
 static SparkLibrary *sActiveLibrary = nil;
-SparkLibrary *SparkActiveLibrary() {
+SparkLibrary *SparkActiveLibrary(void) {
   static bool loading = false;
   if (!sActiveLibrary) {
     if (loading) {

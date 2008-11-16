@@ -418,7 +418,7 @@ NSString * const kWBApplicationSignatureKey = @"WBApplicationSignature";
   if ([super serialize:plist]) {
     NSData *alias = [[self alias] data];
     if (alias)
-      [plist setObject:alias forKey:@"SKApplicationAlias"];
+      [plist setObject:alias forKey:@"WBApplicationAlias"];
     return YES;
   }
   return NO;
@@ -426,7 +426,9 @@ NSString * const kWBApplicationSignatureKey = @"WBApplicationSignature";
 
 - (id)initWithSerializedValues:(NSDictionary *)plist {
   if (self = [super initWithSerializedValues:plist]) {
-    NSData *data = [plist objectForKey:@"SKApplicationAlias"];
+    NSData *data = [plist objectForKey:@"WBApplicationAlias"];
+    if (!data)
+      data = [plist objectForKey:@"SKApplicationAlias"];
     if (data) {
       WBAlias *alias = [[WBAlias alloc] initWithData:data];
       [self setAlias:alias];

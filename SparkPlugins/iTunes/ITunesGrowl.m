@@ -15,7 +15,7 @@
 @end
 
 static 
-NSImage *ITunesGetApplicationIcon() {
+NSImage *ITunesGetApplicationIcon(void) {
   NSImage *icon = nil;
   NSString *itunes = [[NSWorkspace sharedWorkspace] absolutePathForAppBundleWithIdentifier:@"com.apple.iTunes"];
   if (itunes) {

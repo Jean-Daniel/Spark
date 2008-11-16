@@ -126,9 +126,10 @@ SPARK_CLASS_EXPORT
   @method
    @abstract   Returns the time interval between two events repetition.
    @result     value <= 0 to disable auto repeate, <em>SparkGetDefaultKeyRepeatInterval()</em> to use system defined repeat interval.
-   @discussion The default implementation returns -1. An action can override this method to enable auto-repeat.
+   @discussion The default implementation returns 0. An action can override this method to enable auto-repeat.
    */
 - (NSTimeInterval)repeatInterval;
+- (NSTimeInterval)initialRepeatInterval;
 
 - (BOOL)performOnKeyUp;
 

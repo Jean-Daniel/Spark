@@ -205,11 +205,11 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
 #endif
     
     /* Check active library sanity */
-    @try {
-      SparkActiveLibrary();
-    } @catch (NSException *exception) {
-      WBLogException(exception);
-    }
+//    @try {
+    SparkActiveLibrary();
+//    } @catch (NSException *exception) {
+//      WBLogException(exception);
+//    }
     
     /* Register defaults */
     [SEPreferences setup];

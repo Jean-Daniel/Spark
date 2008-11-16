@@ -166,7 +166,7 @@ NSImage *SparkDaemonStatusIcon(BOOL status) {
 }
 
 static
-void SparkSDActionToggleDaemonStatus() {
+void SparkSDActionToggleDaemonStatus(void) {
   /* MUST use kCurrentProcess, else the event will be handle in the event loop => dead lock */
   ProcessSerialNumber psn = {0, kCurrentProcess};
   if (psn.lowLongOfPSN != kNoProcess) {

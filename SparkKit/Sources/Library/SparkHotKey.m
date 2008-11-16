@@ -22,7 +22,7 @@ NSString * const kHotKeyRawCodeKey = @"STRawKey";
 static
 SparkFilterMode sSparkKeyStrokeFilterMode = kSparkEnableSingleFunctionKey;
 
-SparkFilterMode SparkGetFilterMode() { return sSparkKeyStrokeFilterMode; }
+SparkFilterMode SparkGetFilterMode(void) { return sSparkKeyStrokeFilterMode; }
 void SparkSetFilterMode(SparkFilterMode mode) { sSparkKeyStrokeFilterMode = mode; }
 
 /*
@@ -206,6 +206,7 @@ static CFMutableDictionaryRef sHKParentMap = NULL;
     } else {
       [sp_hotkey setInvokeOnKeyUp:NO];
       [sp_hotkey setRepeatInterval:[action repeatInterval]];
+      [sp_hotkey setInitialRepeatInterval:[action initialRepeatInterval]];
     }
   }
 }
@@ -276,7 +277,7 @@ static SparkHotKey *_SparkHotKeyForHKHotKey(HKHotKey *parent) {
 
 #pragma mark -
 #pragma mark Key Repeat Support
-NSTimeInterval SparkGetDefaultKeyRepeatInterval() {
+NSTimeInterval SparkGetDefaultKeyRepeatInterval(void) {
   return HKGetSystemKeyRepeatInterval();
 }
 

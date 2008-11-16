@@ -20,7 +20,7 @@ NSString *SpecialChar(UniChar ch) {
 const UniChar kHKNilUnichar = 0xffff;
 
 static
-HKKeyMapRef SharedKeyMap() {
+HKKeyMapRef SharedKeyMap(void) {
   static HKKeyMapRef sharedKeyMap = nil;
   if (!sharedKeyMap) {
     sharedKeyMap = HKKeyMapCreateWithCurrentLayout(YES);
@@ -60,7 +60,7 @@ UniChar HKMapGetUnicharForKeycodeAndModifier(HKKeycode keycode, HKModifier aModi
   return unicode;  
 }
 
-NSString *HKMapGetCurrentMapName() {
+NSString *HKMapGetCurrentMapName(void) {
   return (NSString *)HKKeyMapGetName(SharedKeyMap());
 }
 

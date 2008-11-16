@@ -367,7 +367,8 @@ OSStatus iTunesCopyTrackArtworkData(iTunesTrack *track, CFDataRef *value) {
   require_noerr(err, bail);
   
   err = WBAESendEventReturnCFData(&aevt, typePict, NULL, value);
-  require_noerr(err, bail);
+  // ignore no artwork error.
+  //require_noerr(err, bail);
   
 bail:
 	WBAEDisposeDesc(&artwork);

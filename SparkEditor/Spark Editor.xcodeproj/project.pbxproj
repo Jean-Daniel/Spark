@@ -49,6 +49,7 @@
 		1BD1A1890D0D4926004206FA /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BD1A1870D0D4926004206FA /* MainMenu.xib */; };
 		1BD1A18D0D0D4A02004206FA /* SELibraryWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BD1A18B0D0D4A02004206FA /* SELibraryWindow.xib */; };
 		1BDCB6D90DA7C85500D95044 /* Growl.framework in Copy Framework */ = {isa = PBXBuildFile; fileRef = 1BDCB6D00DA7C84900D95044 /* Growl.framework */; };
+		1BEBF5940EBDE53C00404150 /* SEExportShortcut.xml in Resources */ = {isa = PBXBuildFile; fileRef = 1BEBF56D0EBDE42100404150 /* SEExportShortcut.xml */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		981875850B8738200079C55F /* SparkRun.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 981875840B8738200079C55F /* SparkRun.tiff */; };
 		981875A10B873B9E0079C55F /* SparkStop.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 981875A00B873B9E0079C55F /* SparkStop.tiff */; };
@@ -407,10 +408,6 @@
 		1B3743880B6E2B79002F18C8 /* SEEntryList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEntryList.m; sourceTree = "<group>"; };
 		1B37438B0B6E2B84002F18C8 /* SEEntryList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEntryList.h; sourceTree = "<group>"; };
 		1B55EAE30B8625ED000E1760 /* SparkAware.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SparkAware.tiff; sourceTree = "<group>"; };
-		1B7E8F5A0EAF0F6200784745 /* Tiger-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Tiger-Release.xcconfig"; sourceTree = "<group>"; };
-		1B7E8F5C0EAF0F6200784745 /* Tiger-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Tiger-Debug.xcconfig"; sourceTree = "<group>"; };
-		1B7E8F5D0EAF0F8600784745 /* Leopard-64Bits.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Leopard-64Bits.xcconfig"; sourceTree = "<group>"; };
-		1B7E8F810EAF103100784745 /* Leopard-Profile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Leopard-Profile.xcconfig"; sourceTree = "<group>"; };
 		1B98A1A90D312F5800EC7D09 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SETriggerBrowser.xib; sourceTree = "<group>"; };
 		1B9A7A660D0D96DD00770054 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SEPluginHelp.xib; sourceTree = "<group>"; };
 		1B9A7A6C0D0D978800770054 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SEEntryEditor.xib; sourceTree = "<group>"; };
@@ -419,11 +416,14 @@
 		1BA7CE090D0DB3480081764D /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SEInheritsPlugin.xib; sourceTree = "<group>"; };
 		1BA7CE0E0D0DB3740081764D /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SEPluginInstaller.xib; sourceTree = "<group>"; };
 		1BB11ABB0B931FAE00908925 /* SELibrary.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SELibrary.tiff; sourceTree = "<group>"; };
+		1BBE7D0F0ED04F760004D9DD /* SparkDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = SparkDebug.xcconfig; sourceTree = "<group>"; };
+		1BBE7D100ED04F760004D9DD /* SparkRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = SparkRelease.xcconfig; sourceTree = "<group>"; };
 		1BBED2330C9FFCAD0050A7F8 /* SEUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEUpdater.h; sourceTree = "<group>"; };
 		1BBED2340C9FFCAD0050A7F8 /* SEUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEUpdater.m; sourceTree = "<group>"; };
 		1BD1A1880D0D4926004206FA /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		1BD1A18C0D0D4A02004206FA /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SELibraryWindow.xib; sourceTree = "<group>"; };
 		1BDCB6D00DA7C84900D95044 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = Resources/Growl.framework; sourceTree = "<group>"; };
+		1BEBF56D0EBDE42100404150 /* SEExportShortcut.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SEExportShortcut.xml; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		981875840B8738200079C55F /* SparkRun.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SparkRun.tiff; sourceTree = "<group>"; };
@@ -595,16 +595,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		1B7BBB3F0CBE236700484A9E /* xcconfigs */ = {
+		1BBE7D0D0ED04F760004D9DD /* xcconfigs */ = {
 			isa = PBXGroup;
 			children = (
-				1B7E8F5D0EAF0F8600784745 /* Leopard-64Bits.xcconfig */,
-				1B7E8F810EAF103100784745 /* Leopard-Profile.xcconfig */,
-				1B7E8F5A0EAF0F6200784745 /* Tiger-Release.xcconfig */,
-				1B7E8F5C0EAF0F6200784745 /* Tiger-Debug.xcconfig */,
+				1BBE7D0F0ED04F760004D9DD /* SparkDebug.xcconfig */,
+				1BBE7D100ED04F760004D9DD /* SparkRelease.xcconfig */,
 			);
-			path = xcconfigs;
-			sourceTree = SHARED_SOURCES_DIR;
+			name = xcconfigs;
+			path = ../xcconfigs;
+			sourceTree = SOURCE_ROOT;
 		};
 		29B97314FDCFA39411CA2CEA /* Spark */ = {
 			isa = PBXGroup;
@@ -614,7 +613,7 @@
 				982401D6060C7B3000A0DB07 /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
-				1B7BBB3F0CBE236700484A9E /* xcconfigs */,
+				1BBE7D0D0ED04F760004D9DD /* xcconfigs */,
 				98EF830F0864630B007BC81A /* SparkKit.xcodeproj */,
 				98A0A5720CCFE29800AC06B6 /* SArchiveKit.xcodeproj */,
 				98A0A54F0CCFE1E400AC06B6 /* SUpdaterKit.xcodeproj */,
@@ -676,6 +675,7 @@
 				986F865207073F8200064694 /* Libraries.strings */,
 				1B1359A00CA11FB400766572 /* SEUpdater.strings */,
 				98766A020CD4EF4F00593B74 /* SEExportApp.xml */,
+				1BEBF56D0EBDE42100404150 /* SEExportShortcut.xml */,
 				984BCB9C060C7C7B0043CDEA /* Spark Help */,
 			);
 			path = Resources;
@@ -1313,6 +1313,7 @@
 				1BA7CE0A0D0DB3480081764D /* SEInheritsPlugin.xib in Resources */,
 				1BA7CE0F0D0DB3740081764D /* SEPluginInstaller.xib in Resources */,
 				1BA7A5AA0D685C6500D89AC2 /* SEPreferences.strings in Resources */,
+				1BEBF5940EBDE53C00404150 /* SEExportShortcut.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1633,41 +1634,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		1B7CF7810D3577340068DAD1 /* 64bits */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1B7E8F5D0EAF0F8600784745 /* Leopard-64Bits.xcconfig */;
-			buildSettings = {
-				BUILT_PRODUCT_DIR = Spark;
-				WONDERBOX = "WONDERBOX_FRAMEWORK WONDERBOX_NAME=SparkKit";
-			};
-			name = 64bits;
-		};
-		1B7CF7820D3577340068DAD1 /* 64bits */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				PRODUCT_NAME = All;
-				ZERO_LINK = NO;
-			};
-			name = 64bits;
-		};
-		1B7CF7830D3577340068DAD1 /* 64bits */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CURRENT_PROJECT_VERSION = 460;
-				FRAMEWORK_SEARCH_PATHS = (
-					"${SHARED_SOURCES_DIR}/SUpdaterKit/build/${CONFIGURATION}/",
-					"${SHARED_SOURCES_DIR}/SArchiveKit/build/${CONFIGURATION}/",
-				);
-				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Applications";
-				PRODUCT_NAME = Spark;
-				WRAPPER_EXTENSION = app;
-			};
-			name = 64bits;
-		};
 		98BC60520857BB9400A2041F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1683,38 +1649,14 @@
 			};
 			name = Debug;
 		};
-		98BC60530857BB9400A2041F /* Profile */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CURRENT_PROJECT_VERSION = 460;
-				FRAMEWORK_SEARCH_PATHS = (
-					"${SHARED_SOURCES_DIR}/SUpdaterKit/build/${CONFIGURATION}/",
-					"${SHARED_SOURCES_DIR}/SArchiveKit/build/${CONFIGURATION}/",
-				);
-				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Applications";
-				PRODUCT_NAME = Spark;
-				WRAPPER_EXTENSION = app;
-			};
-			name = Profile;
-		};
 		98BC60570857BB9400A2041F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1B7E8F5C0EAF0F6200784745 /* Tiger-Debug.xcconfig */;
+			baseConfigurationReference = 1BBE7D0F0ED04F760004D9DD /* SparkDebug.xcconfig */;
 			buildSettings = {
 				BUILT_PRODUCT_DIR = Spark;
 				WONDERBOX = "WONDERBOX_FRAMEWORK WONDERBOX_NAME=SparkKit";
 			};
 			name = Debug;
-		};
-		98BC60580857BB9400A2041F /* Profile */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1B7E8F810EAF103100784745 /* Leopard-Profile.xcconfig */;
-			buildSettings = {
-				BUILT_PRODUCT_DIR = Spark;
-				WONDERBOX = "WONDERBOX_FRAMEWORK WONDERBOX_NAME=SparkKit";
-			};
-			name = Profile;
 		};
 		98DBB881099F4B8600927F3B /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -1726,17 +1668,6 @@
 				PRODUCT_NAME = All;
 			};
 			name = Debug;
-		};
-		98DBB883099F4B8600927F3B /* Profile */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				PRODUCT_NAME = All;
-				ZERO_LINK = NO;
-			};
-			name = Profile;
 		};
 		98EFD02F0B58443900AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -1766,7 +1697,7 @@
 		};
 		98EFD0310B58443900AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1B7E8F5A0EAF0F6200784745 /* Tiger-Release.xcconfig */;
+			baseConfigurationReference = 1BBE7D100ED04F760004D9DD /* SparkRelease.xcconfig */;
 			buildSettings = {
 				BUILT_PRODUCT_DIR = Spark;
 				WONDERBOX = "WONDERBOX_FRAMEWORK WONDERBOX_NAME=SparkKit";
@@ -1780,9 +1711,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				98BC60520857BB9400A2041F /* Debug */,
-				98BC60530857BB9400A2041F /* Profile */,
 				98EFD02F0B58443900AD4492 /* Release */,
-				1B7CF7830D3577340068DAD1 /* 64bits */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
@@ -1791,9 +1720,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				98BC60570857BB9400A2041F /* Debug */,
-				98BC60580857BB9400A2041F /* Profile */,
 				98EFD0310B58443900AD4492 /* Release */,
-				1B7CF7810D3577340068DAD1 /* 64bits */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
@@ -1802,9 +1729,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				98DBB881099F4B8600927F3B /* Debug */,
-				98DBB883099F4B8600927F3B /* Profile */,
 				98EFD0300B58443900AD4492 /* Release */,
-				1B7CF7820D3577340068DAD1 /* 64bits */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

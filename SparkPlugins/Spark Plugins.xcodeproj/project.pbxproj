@@ -332,11 +332,9 @@
 		1B75502C0B6A8153004C9F44 /* AAHide.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = AAHide.tiff; sourceTree = "<group>"; };
 		1B7B26410CC638F200F55F7D /* TAKeystroke.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAKeystroke.h; sourceTree = "<group>"; };
 		1B7B26420CC638F200F55F7D /* TAKeystroke.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TAKeystroke.m; sourceTree = "<group>"; };
-		1B7E8FDE0EAF105200784745 /* Leopard-Profile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Leopard-Profile.xcconfig"; sourceTree = "<group>"; };
-		1B7E8FDF0EAF105200784745 /* Leopard-64Bits.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Leopard-64Bits.xcconfig"; sourceTree = "<group>"; };
-		1B7E8FE00EAF105200784745 /* Tiger-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Tiger-Debug.xcconfig"; sourceTree = "<group>"; };
-		1B7E8FE10EAF105200784745 /* Tiger-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Tiger-Release.xcconfig"; sourceTree = "<group>"; };
 		1B8F4B140B56823700E8A4C0 /* volume.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = volume.aiff; sourceTree = "<group>"; };
+		1BBE7C5D0ED04EF50004D9DD /* SparkDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = SparkDebug.xcconfig; sourceTree = "<group>"; };
+		1BBE7C5E0ED04EF50004D9DD /* SparkRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = SparkRelease.xcconfig; sourceTree = "<group>"; };
 		1BDCB6B90DA7C78000D95044 /* ITunesGrowl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ITunesGrowl.h; path = ../ITunesGrowl.h; sourceTree = "<group>"; };
 		1BDCB6BA0DA7C78000D95044 /* ITunesGrowl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ITunesGrowl.m; sourceTree = "<group>"; };
 		1BDCB6DD0DA7C89800D95044 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = ../SparkEditor/Resources/Growl.framework; sourceTree = SOURCE_ROOT; };
@@ -566,7 +564,7 @@
 				08FB77AFFE84173DC02AAC07 /* Classes */,
 				089C1671FE841209C02AAC07 /* Frameworks and Libraries */,
 				19C28FB8FE9D52D311CA2CBB /* Products */,
-				1B7BBACC0CBE233300484A9E /* xcconfigs */,
+				1BBE7C5B0ED04EF50004D9DD /* xcconfigs */,
 				98EF7F4B08645B7F007BC81A /* SparkKit.xcodeproj */,
 				98EF7F4108645B72007BC81A /* HotKeyToolKit.xcodeproj */,
 			);
@@ -644,16 +642,15 @@
 			name = Images;
 			sourceTree = "<group>";
 		};
-		1B7BBACC0CBE233300484A9E /* xcconfigs */ = {
+		1BBE7C5B0ED04EF50004D9DD /* xcconfigs */ = {
 			isa = PBXGroup;
 			children = (
-				1B7E8FDE0EAF105200784745 /* Leopard-Profile.xcconfig */,
-				1B7E8FDF0EAF105200784745 /* Leopard-64Bits.xcconfig */,
-				1B7E8FE00EAF105200784745 /* Tiger-Debug.xcconfig */,
-				1B7E8FE10EAF105200784745 /* Tiger-Release.xcconfig */,
+				1BBE7C5D0ED04EF50004D9DD /* SparkDebug.xcconfig */,
+				1BBE7C5E0ED04EF50004D9DD /* SparkRelease.xcconfig */,
 			);
-			path = xcconfigs;
-			sourceTree = SHARED_SOURCES_DIR;
+			name = xcconfigs;
+			path = ../xcconfigs;
+			sourceTree = SOURCE_ROOT;
 		};
 		9832882B079602D500DB780A /* Labo */ = {
 			isa = PBXGroup;
@@ -1831,118 +1828,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		1B7CF6C20D3574780068DAD1 /* 64bits */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1B7E8FDF0EAF105200784745 /* Leopard-64Bits.xcconfig */;
-			buildSettings = {
-				BUILT_PRODUCT_DIR = Spark;
-				WONDERBOX = "WONDERBOX_FRAMEWORK WONDERBOX_NAME=SparkKit";
-				WRAPPER_EXTENSION = spact;
-			};
-			name = 64bits;
-		};
-		1B7CF6C30D3574780068DAD1 /* 64bits */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				DEAD_CODE_STRIPPING = NO;
-				DEPLOYMENT_POSTPROCESSING = YES;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_OPTIMIZATION_LEVEL = s;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = NS_BLOCK_ASSERTIONS;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_VALUE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				PRESERVE_DEAD_CODE_INITS_AND_TERMS = NO;
-				PRODUCT_NAME = All;
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				ZERO_LINK = NO;
-			};
-			name = 64bits;
-		};
-		1B7CF6C40D3574780068DAD1 /* 64bits */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INSTALL_PATH = /usr/local/bin;
-				PRODUCT_NAME = Labo;
-			};
-			name = 64bits;
-		};
-		1B7CF6C50D3574780068DAD1 /* 64bits */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = Simulator/Info.plist;
-				PRODUCT_NAME = Simulator;
-				WRAPPER_EXTENSION = app;
-			};
-			name = 64bits;
-		};
-		1B7CF6C60D3574780068DAD1 /* 64bits */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CURRENT_PROJECT_VERSION = 460;
-				INFOPLIST_FILE = Text/Info.plist;
-				PRODUCT_NAME = TextAction;
-			};
-			name = 64bits;
-		};
-		1B7CF6C70D3574780068DAD1 /* 64bits */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CURRENT_PROJECT_VERSION = 460;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../SparkEditor/Resources\"",
-				);
-				INFOPLIST_FILE = iTunes/Info.plist;
-				PRODUCT_NAME = iTunesAction;
-			};
-			name = 64bits;
-		};
-		1B7CF6C80D3574780068DAD1 /* 64bits */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CURRENT_PROJECT_VERSION = 460;
-				INFOPLIST_FILE = System/Info.plist;
-				PRODUCT_NAME = SystemAction;
-			};
-			name = 64bits;
-		};
-		1B7CF6C90D3574780068DAD1 /* 64bits */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CURRENT_PROJECT_VERSION = 460;
-				INFOPLIST_FILE = Documents/Info.plist;
-				PRODUCT_NAME = DocumentAction;
-			};
-			name = 64bits;
-		};
-		1B7CF6CA0D3574780068DAD1 /* 64bits */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CURRENT_PROJECT_VERSION = 460;
-				INFOPLIST_FILE = Application/Info.plist;
-				PRODUCT_NAME = ApplicationAction;
-			};
-			name = 64bits;
-		};
-		1B7CF6CB0D3574780068DAD1 /* 64bits */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CURRENT_PROJECT_VERSION = 460;
-				INFOPLIST_FILE = AppleScript/Info.plist;
-				PRODUCT_NAME = AppleScriptAction;
-			};
-			name = 64bits;
-		};
 		98789DD60AB4A11000C35052 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1951,15 +1836,6 @@
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
-		};
-		98789DD70AB4A11000C35052 /* Profile */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = Simulator/Info.plist;
-				PRODUCT_NAME = Simulator;
-				WRAPPER_EXTENSION = app;
-			};
-			name = Profile;
 		};
 		9888CE1F0B02412200B81BDB /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -1970,15 +1846,6 @@
 			};
 			name = Debug;
 		};
-		9888CE200B02412200B81BDB /* Profile */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CURRENT_PROJECT_VERSION = 460;
-				INFOPLIST_FILE = Text/Info.plist;
-				PRODUCT_NAME = TextAction;
-			};
-			name = Profile;
-		};
 		98EF7EC908645A0E007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1987,15 +1854,6 @@
 				PRODUCT_NAME = SystemAction;
 			};
 			name = Debug;
-		};
-		98EF7ECA08645A0E007BC81A /* Profile */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CURRENT_PROJECT_VERSION = 460;
-				INFOPLIST_FILE = System/Info.plist;
-				PRODUCT_NAME = SystemAction;
-			};
-			name = Profile;
 		};
 		98EF7ECD08645A0E007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -2010,19 +1868,6 @@
 			};
 			name = Debug;
 		};
-		98EF7ECE08645A0E007BC81A /* Profile */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CURRENT_PROJECT_VERSION = 460;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../SparkEditor/Resources\"",
-				);
-				INFOPLIST_FILE = iTunes/Info.plist;
-				PRODUCT_NAME = iTunesAction;
-			};
-			name = Profile;
-		};
 		98EF7ED108645A0E007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2031,15 +1876,6 @@
 				PRODUCT_NAME = DocumentAction;
 			};
 			name = Debug;
-		};
-		98EF7ED208645A0E007BC81A /* Profile */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CURRENT_PROJECT_VERSION = 460;
-				INFOPLIST_FILE = Documents/Info.plist;
-				PRODUCT_NAME = DocumentAction;
-			};
-			name = Profile;
 		};
 		98EF7ED508645A0E007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -2050,15 +1886,6 @@
 			};
 			name = Debug;
 		};
-		98EF7ED608645A0E007BC81A /* Profile */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CURRENT_PROJECT_VERSION = 460;
-				INFOPLIST_FILE = Application/Info.plist;
-				PRODUCT_NAME = ApplicationAction;
-			};
-			name = Profile;
-		};
 		98EF7ED908645A0E007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2067,15 +1894,6 @@
 				PRODUCT_NAME = AppleScriptAction;
 			};
 			name = Debug;
-		};
-		98EF7EDA08645A0E007BC81A /* Profile */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CURRENT_PROJECT_VERSION = 460;
-				INFOPLIST_FILE = AppleScript/Info.plist;
-				PRODUCT_NAME = AppleScriptAction;
-			};
-			name = Profile;
 		};
 		98EF7EDD08645A0E007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -2103,33 +1921,6 @@
 			};
 			name = Debug;
 		};
-		98EF7EDE08645A0E007BC81A /* Profile */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				DEAD_CODE_STRIPPING = NO;
-				DEPLOYMENT_POSTPROCESSING = YES;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_OPTIMIZATION_LEVEL = s;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = NS_BLOCK_ASSERTIONS;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_VALUE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				PRESERVE_DEAD_CODE_INITS_AND_TERMS = NO;
-				PRODUCT_NAME = All;
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				ZERO_LINK = NO;
-			};
-			name = Profile;
-		};
 		98EF7EE108645A0E007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2138,33 +1929,15 @@
 			};
 			name = Debug;
 		};
-		98EF7EE208645A0E007BC81A /* Profile */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INSTALL_PATH = /usr/local/bin;
-				PRODUCT_NAME = Labo;
-			};
-			name = Profile;
-		};
 		98EF7EE508645A0E007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1B7E8FE00EAF105200784745 /* Tiger-Debug.xcconfig */;
+			baseConfigurationReference = 1BBE7C5D0ED04EF50004D9DD /* SparkDebug.xcconfig */;
 			buildSettings = {
 				BUILT_PRODUCT_DIR = Spark;
 				WONDERBOX = "WONDERBOX_FRAMEWORK WONDERBOX_NAME=SparkKit";
 				WRAPPER_EXTENSION = spact;
 			};
 			name = Debug;
-		};
-		98EF7EE608645A0E007BC81A /* Profile */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1B7E8FDE0EAF105200784745 /* Leopard-Profile.xcconfig */;
-			buildSettings = {
-				BUILT_PRODUCT_DIR = Spark;
-				WONDERBOX = "WONDERBOX_FRAMEWORK WONDERBOX_NAME=SparkKit";
-				WRAPPER_EXTENSION = spact;
-			};
-			name = Profile;
 		};
 		98EFD1CF0B58454800AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -2270,7 +2043,7 @@
 		};
 		98EFD1D80B58454800AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1B7E8FE10EAF105200784745 /* Tiger-Release.xcconfig */;
+			baseConfigurationReference = 1BBE7C5E0ED04EF50004D9DD /* SparkRelease.xcconfig */;
 			buildSettings = {
 				BUILT_PRODUCT_DIR = Spark;
 				WONDERBOX = "WONDERBOX_FRAMEWORK WONDERBOX_NAME=SparkKit";
@@ -2285,9 +2058,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				98789DD60AB4A11000C35052 /* Debug */,
-				98789DD70AB4A11000C35052 /* Profile */,
 				98EFD1D70B58454800AD4492 /* Release */,
-				1B7CF6C50D3574780068DAD1 /* 64bits */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
@@ -2296,9 +2067,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9888CE1F0B02412200B81BDB /* Debug */,
-				9888CE200B02412200B81BDB /* Profile */,
 				98EFD1CF0B58454800AD4492 /* Release */,
-				1B7CF6C60D3574780068DAD1 /* 64bits */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
@@ -2307,9 +2076,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				98EF7EC908645A0E007BC81A /* Debug */,
-				98EF7ECA08645A0E007BC81A /* Profile */,
 				98EFD1D10B58454800AD4492 /* Release */,
-				1B7CF6C80D3574780068DAD1 /* 64bits */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
@@ -2318,9 +2085,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				98EF7ECD08645A0E007BC81A /* Debug */,
-				98EF7ECE08645A0E007BC81A /* Profile */,
 				98EFD1D00B58454800AD4492 /* Release */,
-				1B7CF6C70D3574780068DAD1 /* 64bits */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
@@ -2329,9 +2094,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				98EF7ED108645A0E007BC81A /* Debug */,
-				98EF7ED208645A0E007BC81A /* Profile */,
 				98EFD1D20B58454800AD4492 /* Release */,
-				1B7CF6C90D3574780068DAD1 /* 64bits */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
@@ -2340,9 +2103,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				98EF7ED508645A0E007BC81A /* Debug */,
-				98EF7ED608645A0E007BC81A /* Profile */,
 				98EFD1D30B58454800AD4492 /* Release */,
-				1B7CF6CA0D3574780068DAD1 /* 64bits */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
@@ -2351,9 +2112,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				98EF7ED908645A0E007BC81A /* Debug */,
-				98EF7EDA08645A0E007BC81A /* Profile */,
 				98EFD1D40B58454800AD4492 /* Release */,
-				1B7CF6CB0D3574780068DAD1 /* 64bits */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
@@ -2362,9 +2121,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				98EF7EDD08645A0E007BC81A /* Debug */,
-				98EF7EDE08645A0E007BC81A /* Profile */,
 				98EFD1D50B58454800AD4492 /* Release */,
-				1B7CF6C30D3574780068DAD1 /* 64bits */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
@@ -2373,9 +2130,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				98EF7EE108645A0E007BC81A /* Debug */,
-				98EF7EE208645A0E007BC81A /* Profile */,
 				98EFD1D60B58454800AD4492 /* Release */,
-				1B7CF6C40D3574780068DAD1 /* 64bits */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
@@ -2384,9 +2139,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				98EF7EE508645A0E007BC81A /* Debug */,
-				98EF7EE608645A0E007BC81A /* Profile */,
 				98EFD1D80B58454800AD4492 /* Release */,
-				1B7CF6C20D3574780068DAD1 /* 64bits */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

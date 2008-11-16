@@ -80,10 +80,8 @@
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		1B0946F50D68BC6400E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1B0946F70D68BC7000E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Keyboard.strings; sourceTree = "<group>"; };
-		1B7E8F6A0EAF0FB300784745 /* Leopard-64Bits.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Leopard-64Bits.xcconfig"; sourceTree = "<group>"; };
-		1B7E8F6B0EAF0FB300784745 /* Tiger-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Tiger-Release.xcconfig"; sourceTree = "<group>"; };
-		1B7E8F6D0EAF0FB300784745 /* Tiger-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Tiger-Debug.xcconfig"; sourceTree = "<group>"; };
-		1B7E8F6E0EAF0FC300784745 /* Leopard-Profile.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Leopard-Profile.xcconfig"; sourceTree = "<group>"; };
+		1B8623320ECF8D430006C26B /* SparkRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = SparkRelease.xcconfig; sourceTree = "<group>"; };
+		1B8623330ECF8D430006C26B /* SparkDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = SparkDebug.xcconfig; sourceTree = "<group>"; };
 		85FA5D540BCE526C0060584C /* TISKeyMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = TISKeyMap.h; sourceTree = "<group>"; };
 		85FA5D550BCE526C0060584C /* TISKeyMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = TISKeyMap.m; sourceTree = "<group>"; };
 		85FA5D7E0BCE57690060584C /* KLKeyMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = KLKeyMap.h; sourceTree = "<group>"; };
@@ -250,13 +248,12 @@
 		1B7BB7440CBE1F2800484A9E /* xcconfigs */ = {
 			isa = PBXGroup;
 			children = (
-				1B7E8F6A0EAF0FB300784745 /* Leopard-64Bits.xcconfig */,
-				1B7E8F6E0EAF0FC300784745 /* Leopard-Profile.xcconfig */,
-				1B7E8F6B0EAF0FB300784745 /* Tiger-Release.xcconfig */,
-				1B7E8F6D0EAF0FB300784745 /* Tiger-Debug.xcconfig */,
+				1B8623330ECF8D430006C26B /* SparkDebug.xcconfig */,
+				1B8623320ECF8D430006C26B /* SparkRelease.xcconfig */,
 			);
-			path = xcconfigs;
-			sourceTree = SHARED_SOURCES_DIR;
+			name = xcconfigs;
+			path = ../xcconfigs;
+			sourceTree = SOURCE_ROOT;
 		};
 		984426C605F9430700551005 /* Headers */ = {
 			isa = PBXGroup;
@@ -569,102 +566,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		1B88DD590D352FD9008B66CA /* 64bits */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1B7E8F6A0EAF0FB300784745 /* Leopard-64Bits.xcconfig */;
-			buildSettings = {
-				BUILT_PRODUCT_DIR = Spark;
-			};
-			name = 64bits;
-		};
-		1B88DD5A0D352FD9008B66CA /* 64bits */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR_QUOTED)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = NO;
-				INFOPLIST_FILE = "Test-Info.plist";
-				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Cocoa,
-					"-framework",
-					SenTestingKit,
-				);
-				PRODUCT_NAME = Test;
-				WRAPPER_EXTENSION = octest;
-			};
-			name = 64bits;
-		};
-		1B88DD5B0D352FD9008B66CA /* 64bits */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(DEVELOPER_FRAMEWORKS_DIR)\"";
-				INSTALL_PATH = "$(HOME)/bin";
-				PRODUCT_NAME = Runner;
-				ZERO_LINK = NO;
-			};
-			name = 64bits;
-		};
-		1B88DD5C0D352FD9008B66CA /* 64bits */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = "UITester-Info.plist";
-				INSTALL_PATH = "$(HOME)/Applications";
-				PRODUCT_NAME = UITester;
-			};
-			name = 64bits;
-		};
-		1B88DD5D0D352FD9008B66CA /* 64bits */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CURRENT_PROJECT_VERSION = 460;
-				DYLIB_COMPATIBILITY_VERSION = 2;
-				DYLIB_CURRENT_VERSION = 460;
-				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "@executable_path/../Frameworks";
-				OTHER_LDFLAGS = (
-					"$(inherits)",
-					"-seg1addr",
-					0xD0000000,
-				);
-				PRODUCT_NAME = HotKeyToolKit;
-			};
-			name = 64bits;
-		};
-		981B5F510938699D0024C0D9 /* Profile */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CURRENT_PROJECT_VERSION = 460;
-				DYLIB_COMPATIBILITY_VERSION = 2;
-				DYLIB_CURRENT_VERSION = 460;
-				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "@executable_path/../Frameworks";
-				OTHER_LDFLAGS = (
-					"$(inherits)",
-					"-seg1addr",
-					0xD0000000,
-				);
-				PRODUCT_NAME = HotKeyToolKit;
-			};
-			name = Profile;
-		};
-		981B5F530938699D0024C0D9 /* Profile */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1B7E8F6E0EAF0FC300784745 /* Leopard-Profile.xcconfig */;
-			buildSettings = {
-				BUILT_PRODUCT_DIR = Spark;
-			};
-			name = Profile;
-		};
 		98643F090A556F2300260086 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -686,27 +587,6 @@
 			};
 			name = Debug;
 		};
-		98643F0A0A556F2300260086 /* Profile */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR_QUOTED)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = NO;
-				INFOPLIST_FILE = "Test-Info.plist";
-				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Cocoa,
-					"-framework",
-					SenTestingKit,
-				);
-				PRODUCT_NAME = Test;
-				WRAPPER_EXTENSION = octest;
-			};
-			name = Profile;
-		};
 		98C61C210A5813EF0004E6EF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -715,15 +595,6 @@
 				PRODUCT_NAME = UITester;
 			};
 			name = Debug;
-		};
-		98C61C230A5813EF0004E6EF /* Profile */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = "UITester-Info.plist";
-				INSTALL_PATH = "$(HOME)/Applications";
-				PRODUCT_NAME = UITester;
-			};
-			name = Profile;
 		};
 		98E204C40A56FEDD00EB74E1 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -738,20 +609,6 @@
 				ZERO_LINK = NO;
 			};
 			name = Debug;
-		};
-		98E204C50A56FEDD00EB74E1 /* Profile */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(DEVELOPER_FRAMEWORKS_DIR)\"";
-				INSTALL_PATH = "$(HOME)/bin";
-				PRODUCT_NAME = Runner;
-				ZERO_LINK = NO;
-			};
-			name = Profile;
 		};
 		98EF7D5508645328007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -773,9 +630,8 @@
 		};
 		98EF7D5D08645328007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1B7E8F6D0EAF0FB300784745 /* Tiger-Debug.xcconfig */;
+			baseConfigurationReference = 1B8623330ECF8D430006C26B /* SparkDebug.xcconfig */;
 			buildSettings = {
-				BUILT_PRODUCT_DIR = Spark;
 			};
 			name = Debug;
 		};
@@ -843,7 +699,7 @@
 		};
 		98EFD0410B58448D00AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1B7E8F6B0EAF0FB300784745 /* Tiger-Release.xcconfig */;
+			baseConfigurationReference = 1B8623320ECF8D430006C26B /* SparkRelease.xcconfig */;
 			buildSettings = {
 				BUILT_PRODUCT_DIR = Spark;
 			};
@@ -856,9 +712,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				98643F090A556F2300260086 /* Debug */,
-				98643F0A0A556F2300260086 /* Profile */,
 				98EFD03E0B58448D00AD4492 /* Release */,
-				1B88DD5A0D352FD9008B66CA /* 64bits */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
@@ -867,9 +721,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				98C61C210A5813EF0004E6EF /* Debug */,
-				98C61C230A5813EF0004E6EF /* Profile */,
 				98EFD0400B58448D00AD4492 /* Release */,
-				1B88DD5C0D352FD9008B66CA /* 64bits */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
@@ -878,9 +730,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				98E204C40A56FEDD00EB74E1 /* Debug */,
-				98E204C50A56FEDD00EB74E1 /* Profile */,
 				98EFD03F0B58448D00AD4492 /* Release */,
-				1B88DD5B0D352FD9008B66CA /* 64bits */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
@@ -889,9 +739,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				98EF7D5508645328007BC81A /* Debug */,
-				981B5F510938699D0024C0D9 /* Profile */,
 				98EFD03D0B58448D00AD4492 /* Release */,
-				1B88DD5D0D352FD9008B66CA /* 64bits */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
@@ -900,9 +748,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				98EF7D5D08645328007BC81A /* Debug */,
-				981B5F530938699D0024C0D9 /* Profile */,
 				98EFD0410B58448D00AD4492 /* Release */,
-				1B88DD590D352FD9008B66CA /* 64bits */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

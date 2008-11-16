@@ -100,7 +100,7 @@ HKKeyMapRef HKTISKeyMapCreateWithName(CFStringRef name) {
   return keymap;
 }
 
-HKKeyMapRef HKTISKeyMapCreateWithCurrentLayout() {
+HKKeyMapRef HKTISKeyMapCreateWithCurrentLayout(void) {
   HKKeyMapRef keymap = NULL;
   TISInputSourceRef source = TISCopyCurrentKeyboardLayoutInputSource();
   if (source) {

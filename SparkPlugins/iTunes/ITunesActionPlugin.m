@@ -19,7 +19,7 @@
 #import WBHEADER(WBAppKitExtensions.h)
 
 static 
-NSImage *ITunesGetApplicationIcon() {
+NSImage *ITunesGetApplicationIcon(void) {
   NSImage *icon = nil;
   NSString *itunes = WBLSFindApplicationForSignature(kiTunesSignature);
   if (itunes) {
@@ -313,7 +313,7 @@ NSInteger _iTunesSortPlaylists(id num1, id num2, void *context) {
 }
 
 static
-NSString *_iTunesGetiAppsLibraryPath() {
+NSString *_iTunesGetiAppsLibraryPath(void) {
   CFStringRef path = NULL;
   CFArrayRef paths = CFPreferencesCopyValue(CFSTR("iTunesRecentDatabases"), CFSTR("com.apple.iApps"), kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
   if (paths) {

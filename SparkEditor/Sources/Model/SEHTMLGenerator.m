@@ -10,6 +10,7 @@
 
 #import "Spark.h"
 #import "SELibraryDocument.h"
+#import "SETriggersController.h" // trigger sorting
 
 #import <SparkKit/SparkEntry.h>
 #import <SparkKit/SparkPlugIn.h>
@@ -89,41 +90,71 @@ NSInteger _SESortEntries(id e1, id e2, void *ctxt) {
   }
 }
 
+- (NSString *)se_template {
+  return se_group == 0 ? @"SEExportShortcut" : @"SEExportApp";
+}
+static
+NSComparisonResult _SETriggerCompare(SparkTrigger *t1, SparkTrigger *t2, void *ctxt) {
+  return SETriggerSortValue(t1) - SETriggerSortValue(t2);
+}
+
 - (BOOL)writeToFile:(NSString *)path atomically:(BOOL)useAuxiliaryFile error:(NSError **)error {
-  NSString *file = [[NSBundle mainBundle] pathForResource:@"SEExportApp" ofType:@"xml"];
+  NSString *file = [[NSBundle mainBundle] pathForResource:[self se_template] ofType:@"xml"];
+  NSAssert1(file, @"Missing resource file: %@.xml", [self se_template]);
+  
   WBTemplate *tpl = [[WBXMLTemplate alloc] initWithContentsOfFile:file encoding:NSUTF8StringEncoding];
   [tpl setVariable:@"Spark Library" forKey:@"title"];
-  
+
   SparkLibrary *library = [se_doc library];
   SparkEntryManager *manager = [library entryManager];
-  
-  NSMutableArray *customs = [NSMutableArray array];
-  SparkApplication *app = [library systemApplication];
-  NSEnumerator *apps = [[library applicationSet] objectEnumerator];
-  do {
-    if ([manager containsEntryForApplication:app])
-      [customs addObject:app];
-  } while (app = [apps nextObject]);
-  
-  [customs sortedArrayUsingFunction:SparkObjectCompare context:nil];
 
   NSArray *plugins = [[SparkActionLoader sharedLoader] plugins];
   plugins = [plugins sortedArrayUsingDescriptors:gSortByNameDescriptors];
   
-	/* foreach application that contains at least one entry */
-  for (NSUInteger idx = 0; idx < [customs count]; idx++) {
-    app = [customs objectAtIndex:idx];
-    WBTemplate *block = [tpl blockWithName:@"application"];
-    [block setVariable:[app name] forKey:@"name"];
-    if (se_icons && [block containsKey:@"icon"]) 
-      [block setVariable:[self imageTagForImage:[app icon] size:NSMakeSize(20, 20)] forKey:@"icon"];
+  if (se_group == 1) {    
+    NSMutableArray *customs = [NSMutableArray array];
+    SparkApplication *app = [library systemApplication];
+    NSEnumerator *apps = [[library applicationSet] objectEnumerator];
+    do {
+      if ([manager containsEntryForApplication:app])
+        [customs addObject:app];
+    } while (app = [apps nextObject]);
     
-    /* process entries */
-    [self dumpCategories:plugins entries:[manager entriesForApplication:app] template:block];
+    [customs sortedArrayUsingFunction:SparkObjectCompare context:nil];
     
-    [block dumpBlock];
+    /* foreach application that contains at least one entry */
+    for (NSUInteger idx = 0; idx < [customs count]; idx++) {
+      app = [customs objectAtIndex:idx];
+      WBTemplate *block = [tpl blockWithName:@"application"];
+      [block setVariable:[app name] forKey:@"name"];
+      if (se_icons && [block containsKey:@"icon"]) 
+        [block setVariable:[self imageTagForImage:[app icon] size:NSMakeSize(20, 20)] forKey:@"icon"];
+      
+      /* process entries */
+      [self dumpCategories:plugins entries:[manager entriesForApplication:app] template:block];
+      
+      [block dumpBlock];
+    }
+  } else {
+    NSArray *triggers = [[[library triggerSet] objects] sortedArrayUsingFunction:_SETriggerCompare context:nil];
+    
+    /* foreach trigger */
+    for (NSUInteger idx = 0, count = [triggers count]; idx < count; idx++) {
+      SparkTrigger *trigger = [triggers objectAtIndex:idx];
+      WBTemplate *block = [tpl blockWithName:@"shortcut"];
+      [block setVariable:[trigger triggerDescription] forKey:@"description"];
+      
+      // retreive entries list.
+//      if (se_icons && [block containsKey:@"icon"]) 
+//        [block setVariable:[self imageTagForImage:[app icon] size:NSMakeSize(20, 20)] forKey:@"icon"];
+      
+      /* process entries */
+//      [self dumpCategories:plugins entries:[manager entriesForApplication:app] template:block];
+      
+      [block dumpBlock];
+    }
+    
   }
-  
   [tpl writeToFile:path atomically:useAuxiliaryFile andReset:NO];
   [tpl release];
   return YES;

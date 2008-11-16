@@ -22,7 +22,7 @@
 #import "SparkEntryManagerPrivate.h"
 
 static
-NSImage *SparkEntryDefaultIcon() {
+NSImage *SparkEntryDefaultIcon(void) {
   static NSImage *__simage = nil;
   if (!__simage) 
     __simage = [[NSImage imageNamed:@"SparkEntry" inBundle:[NSBundle bundleWithIdentifier:kSparkKitBundleIdentifier]] retain];

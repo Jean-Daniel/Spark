@@ -371,7 +371,7 @@ kAEShowShutdownDialog         = 'rsdn'
 #pragma mark -
 #pragma mark Sound Management
 static
-SoundView *_SASharedSoundView() {
+SoundView *_SASharedSoundView(void) {
   static SoundView *shared = nil;
   if (!shared) {
     shared = [[SoundView alloc] initWithFrame:NSMakeRect(0, 0, 161, 156)];
@@ -379,7 +379,7 @@ SoundView *_SASharedSoundView() {
   return shared;
 }
 
-static NSSound *_SASharedSound() {
+static NSSound *_SASharedSound(void) {
   static NSSound *beep = nil;
   if (!beep) {
     NSString *path = [[NSBundle bundleForClass:[SystemAction class]] pathForSoundResource:@"volume"];
@@ -472,7 +472,7 @@ static
 CFStringRef kSystemBrightnessKey = CFSTR("brightness");
 
 static
-BrightnessView *_SASharedBrightnessView() {
+BrightnessView *_SASharedBrightnessView(void) {
   static BrightnessView *shared = nil;
   if (!shared) {
     shared = [[BrightnessView alloc] initWithFrame:NSMakeRect(0, 0, 161, 156)];
@@ -557,7 +557,7 @@ typedef int CGSSessionID;
 WB_EXPORT CGError CGSCreateLoginSession(CGSSessionID *outSession) __attribute__((weak));
 
 static 
-void SystemFastLogOut() {
+void SystemFastLogOut(void) {
   if (CGSCreateLoginSession) {
     CGSCreateLoginSession(NULL);
   } else {

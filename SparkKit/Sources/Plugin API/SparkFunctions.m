@@ -29,7 +29,7 @@ BOOL SparkDaemonIsRunning(void) {
   return psn.lowLongOfPSN != kNoProcess;
 }
 
-void SparkLaunchEditor() {
+void SparkLaunchEditor(void) {
   switch (SparkGetCurrentContext()) {
     case kSparkEditorContext:
       [NSApp activateIgnoringOtherApps:NO];
@@ -56,7 +56,7 @@ void SparkLaunchEditor() {
   }
 }
 
-SparkContext SparkGetCurrentContext() {
+SparkContext SparkGetCurrentContext(void) {
   static SparkContext ctxt = 0xffffffff;
   if (ctxt != 0xffffffff) return ctxt;
   
@@ -101,7 +101,7 @@ void SparkDisplayAlerts(NSArray *items) {
 #pragma mark Notifications
 
 static 
-WBBezelItem *_SparkNotifiationSharedItem() {
+WBBezelItem *_SparkNotifiationSharedItem(void) {
   static WBBezelItem *_shared = nil;
   if (!_shared) {
     _shared = [[WBBezelItem alloc] initWithContent:nil];
@@ -111,7 +111,7 @@ WBBezelItem *_SparkNotifiationSharedItem() {
 }
 
 static 
-WBIconView *_SparkNotificationSharedIconView() {
+WBIconView *_SparkNotificationSharedIconView(void) {
   static WBIconView *_shared = nil;
   if (!_shared) {
     _shared = [[WBIconView alloc] initWithFrame:NSMakeRect(0, 0, 128, 128)];
@@ -120,7 +120,7 @@ WBIconView *_SparkNotificationSharedIconView() {
 }
 
 static 
-NSImageView *_SparkNotificationSharedImageView() {
+NSImageView *_SparkNotificationSharedImageView(void) {
   static WBImageView *_shared = nil;
   if (!_shared) {
     _shared = [[WBImageView alloc] initWithFrame:NSMakeRect(0, 0, 128, 128)];

@@ -265,7 +265,7 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
 
 #pragma mark Export
 - (IBAction)exportPrintable:(id)sender {
-  SEExportOptions *ctrl = [[[SEExportOptions alloc] init] autorelease];
+  SEExportOptions *ctrl = [[SEExportOptions alloc] init]; // release in didEnd callback.
   NSSavePanel *panel = [NSSavePanel savePanel];
   [panel setAccessoryView:[ctrl view]];
   [panel setRequiredFileType:@"html"];

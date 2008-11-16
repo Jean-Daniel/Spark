@@ -109,7 +109,7 @@ Boolean _HKEventPostCharacterKeystrokes(UniChar character, CGEventSourceRef sour
 }
 
 #pragma mark API
-CGEventSourceRef HKEventCreatePrivateSource() {
+CGEventSourceRef HKEventCreatePrivateSource(void) {
   return CGEventSourceCreate(kCGEventSourceStatePrivate);
 }
 

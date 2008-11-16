@@ -41,7 +41,7 @@ struct __HKKeyMap {
 };
 
 HK_INLINE
-Boolean HKTISAvailable() {
+Boolean HKTISAvailable(void) {
 #if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_5
   return true;
 #else

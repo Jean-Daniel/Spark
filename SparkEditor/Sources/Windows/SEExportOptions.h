@@ -8,7 +8,7 @@
 
 #import WBHEADER(WBViewController.h)
 
-/* this class breaks the MVC patter to avoid binding circular reference */
+/* this class breaks the MVC pattern to avoid binding circular reference */
 @interface SEExportOptions : WBViewController {
   @private
   IBOutlet NSButton *uiIcons;

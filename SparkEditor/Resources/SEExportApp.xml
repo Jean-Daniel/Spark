@@ -12,11 +12,11 @@
    .name { vertical-align: top; } 
    .entry { list-style: none; }
    .entry * { font-size: 95%; }
-   li { white-space: nowrap; }
+   li { white-space: nowrap; padding: 2px 0px 2px 0px; }
    .entry .name { padding: 0px; width: 25%; min-width: 150px; display: inline-block; white-space: nowrap; }
    .keystroke { padding: 0px; width: 5em; display: inline-block; }
    .description { padding: 0px; padding-left: 12px; display: inline-block; }
-   .icon { vertical-align: baseline; margin-right: 6px; }
+   .icon { vertical-align: middle; margin-right: 6px; }
    .application { font-weight: bold; font-size: 125%; }
    h2 { font-size: 100%; font-weight: bold; }
    .disabled .name, .disabled .keystroke, .disabled .description { text-decoration: line-through; }
