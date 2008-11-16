@@ -1,4 +1,4 @@
 
-GCC_PREFIX_HEADER = ../../../WBConfig/SharedPrefix.pch
+GCC_PREFIX_HEADER = ../../WBConfig/SharedPrefix.pch
 
 WB_OTHER_LDFLAGS = -framework SparkKit -framework SArchiveKit
