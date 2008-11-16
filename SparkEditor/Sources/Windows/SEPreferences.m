@@ -51,7 +51,7 @@ static
 void _SEPreferencesUpdateLoginItem(void);
 
 WB_INLINE
-BOOL __SEPreferencesLoginItemStatus() {
+BOOL __SEPreferencesLoginItemStatus(void) {
   return [[NSUserDefaults standardUserDefaults] boolForKey:kSEPreferencesStartAtLogin];
 }
 
@@ -425,7 +425,7 @@ BOOL __CFFileURLCompare(CFURLRef url1, FSRef *r2) {
   return NO;
 }
 
-void _SEPreferencesUpdateLoginItem() {
+void _SEPreferencesUpdateLoginItem(void) {
   FSRef dref;
 	NSString *sparkd = SESparkDaemonPath();
 	BOOL status = __SEPreferencesLoginItemStatus();

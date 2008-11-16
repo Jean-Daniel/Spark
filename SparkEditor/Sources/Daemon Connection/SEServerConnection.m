@@ -232,7 +232,7 @@ NSString * const SEServerStatusDidChangeNotification = @"SEServerStatusDidChange
 
 NSString * const kSparkDaemonExecutableName = @"Spark Daemon.app";
 
-NSString *SESparkDaemonPath() {
+NSString *SESparkDaemonPath(void) {
 #if defined(DEBUG)
   return kSparkDaemonExecutableName;
 #else
@@ -254,7 +254,7 @@ BOOL SELaunchSparkDaemon(ProcessSerialNumber *psn) {
   return YES;
 }
 
-void SEServerStartConnection() {
+void SEServerStartConnection(void) {
   /* Verify daemon validity */
   ProcessSerialNumber psn = WBProcessGetProcessWithSignature(kSparkDaemonSignature);
   if (psn.lowLongOfPSN != kNoProcess) {
@@ -304,7 +304,7 @@ void SEServerStopConnection(void) {
   }
 }
 
-BOOL SEDaemonIsEnabled() {
+BOOL SEDaemonIsEnabled(void) {
   ProcessSerialNumber psn = WBProcessGetProcessWithSignature(kSparkDaemonSignature);
   if (psn.lowLongOfPSN != kNoProcess) {
     Boolean result = false;

@@ -7,6 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1B184C890ED07D0D003E2346 /* WBThreadPort.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B184C870ED07D0D003E2346 /* WBThreadPort.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1B184C8A0ED07D0D003E2346 /* WBThreadPort.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B184C880ED07D0D003E2346 /* WBThreadPort.m */; };
+		1B184C9A0ED07D41003E2346 /* WBCDSAFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B184C900ED07D41003E2346 /* WBCDSAFunctions.c */; };
+		1B184C9B0ED07D41003E2346 /* WBCDSAFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B184C910ED07D41003E2346 /* WBCDSAFunctions.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1B184C9E0ED07D41003E2346 /* WBDigestFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B184C940ED07D41003E2346 /* WBDigestFunctions.c */; };
+		1B184C9F0ED07D41003E2346 /* WBDigestFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B184C950ED07D41003E2346 /* WBDigestFunctions.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1B184CA20ED07D41003E2346 /* WBSecurityFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B184C980ED07D41003E2346 /* WBSecurityFunctions.c */; };
+		1B184CA30ED07D41003E2346 /* WBSecurityFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B184C990ED07D41003E2346 /* WBSecurityFunctions.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1B184D230ED07D94003E2346 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B184D220ED07D94003E2346 /* Security.framework */; };
+		1B184D860ED07DB5003E2346 /* WBMachSpawn.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B184D770ED07DB5003E2346 /* WBMachSpawn.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1B184D870ED07DB5003E2346 /* WBMachSpawn.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B184D780ED07DB5003E2346 /* WBMachSpawn.m */; };
+		1B184D8B0ED07DB5003E2346 /* wbspawn.defs in Sources */ = {isa = PBXBuildFile; fileRef = 1B184D7C0ED07DB5003E2346 /* wbspawn.defs */; settings = {ATTRIBUTES = (Server, ); }; };
 		1B6DACEF0D0C9D0400F352CC /* SparkMultiAlert.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B6DACED0D0C9D0400F352CC /* SparkMultiAlert.xib */; };
 		1B6DACF40D0CA0F800F352CC /* SparkPluginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B6DACF20D0CA0F800F352CC /* SparkPluginView.xib */; };
 		1B6DACF80D0CA1BF00F352CC /* SparkPlugin.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B6DACF60D0CA1BF00F352CC /* SparkPlugin.xib */; };
@@ -242,7 +254,18 @@
 		1B0947120D68BCD100E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = French; path = French.lproj/SparkMultiAlert.xib; sourceTree = "<group>"; };
 		1B0947140D68BCDB00E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = French; path = French.lproj/SparkPluginView.xib; sourceTree = "<group>"; };
 		1B0947250D68BD5100E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/WBProgress.strings; sourceTree = "<group>"; };
-		1B49363D0CA2E57C00F53EEE /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
+		1B184C870ED07D0D003E2346 /* WBThreadPort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBThreadPort.h; sourceTree = "<group>"; };
+		1B184C880ED07D0D003E2346 /* WBThreadPort.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBThreadPort.m; sourceTree = "<group>"; };
+		1B184C900ED07D41003E2346 /* WBCDSAFunctions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WBCDSAFunctions.c; sourceTree = "<group>"; };
+		1B184C910ED07D41003E2346 /* WBCDSAFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBCDSAFunctions.h; sourceTree = "<group>"; };
+		1B184C940ED07D41003E2346 /* WBDigestFunctions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WBDigestFunctions.c; sourceTree = "<group>"; };
+		1B184C950ED07D41003E2346 /* WBDigestFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBDigestFunctions.h; sourceTree = "<group>"; };
+		1B184C980ED07D41003E2346 /* WBSecurityFunctions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WBSecurityFunctions.c; sourceTree = "<group>"; };
+		1B184C990ED07D41003E2346 /* WBSecurityFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBSecurityFunctions.h; sourceTree = "<group>"; };
+		1B184D220ED07D94003E2346 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		1B184D770ED07DB5003E2346 /* WBMachSpawn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBMachSpawn.h; sourceTree = "<group>"; };
+		1B184D780ED07DB5003E2346 /* WBMachSpawn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBMachSpawn.m; sourceTree = "<group>"; };
+		1B184D7C0ED07DB5003E2346 /* wbspawn.defs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.mig; path = wbspawn.defs; sourceTree = "<group>"; };
 		1B6DACEE0D0C9D0400F352CC /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SparkMultiAlert.xib; sourceTree = "<group>"; };
 		1B6DACF30D0CA0F800F352CC /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SparkPluginView.xib; sourceTree = "<group>"; };
 		1B6DACF70D0CA1BF00F352CC /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SparkPlugin.xib; sourceTree = "<group>"; };
@@ -445,6 +468,7 @@
 				984A388A0A6003B800DA6455 /* HotKeyToolKit.framework in Frameworks */,
 				1BB983850D381EE70074D18E /* IOKit.framework in Frameworks */,
 				1BB983860D381EE80074D18E /* DirectoryService.framework in Frameworks */,
+				1B184D230ED07D94003E2346 /* Security.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -518,7 +542,7 @@
 				983975950A5866BF00F79B40 /* IOKit.framework */,
 				1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */,
 				988C9AAE0B56F29A000A0DDC /* Carbon.framework */,
-				1B49363D0CA2E57C00F53EEE /* Security.framework */,
+				1B184D220ED07D94003E2346 /* Security.framework */,
 				98E19C670B160EF1007E4D31 /* DirectoryService.framework */,
 			);
 			name = "Linked Frameworks";
@@ -531,6 +555,29 @@
 				0867D6A5FE840307C02AAC07 /* AppKit.framework */,
 			);
 			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		1B184C8F0ED07D41003E2346 /* Security */ = {
+			isa = PBXGroup;
+			children = (
+				1B184C910ED07D41003E2346 /* WBCDSAFunctions.h */,
+				1B184C900ED07D41003E2346 /* WBCDSAFunctions.c */,
+				1B184C950ED07D41003E2346 /* WBDigestFunctions.h */,
+				1B184C940ED07D41003E2346 /* WBDigestFunctions.c */,
+				1B184C990ED07D41003E2346 /* WBSecurityFunctions.h */,
+				1B184C980ED07D41003E2346 /* WBSecurityFunctions.c */,
+			);
+			path = Security;
+			sourceTree = "<group>";
+		};
+		1B184D6D0ED07DB5003E2346 /* Mach */ = {
+			isa = PBXGroup;
+			children = (
+				1B184D7C0ED07DB5003E2346 /* wbspawn.defs */,
+				1B184D770ED07DB5003E2346 /* WBMachSpawn.h */,
+				1B184D780ED07DB5003E2346 /* WBMachSpawn.m */,
+			);
+			path = Mach;
 			sourceTree = "<group>";
 		};
 		1B7BB7880CBE1FD700484A9E /* xcconfigs */ = {
@@ -646,6 +693,8 @@
 			children = (
 				1BE316300D38138B005C3FB2 /* WBAlias.h */,
 				1BE316310D38138B005C3FB2 /* WBAlias.m */,
+				1B184C870ED07D0D003E2346 /* WBThreadPort.h */,
+				1B184C880ED07D0D003E2346 /* WBThreadPort.m */,
 				1BB987260D382C8B0074D18E /* WBTreeNode.h */,
 				1BB987250D382C8B0074D18E /* WBTreeNode.m */,
 				1BE316340D38138B005C3FB2 /* WBApplication.h */,
@@ -838,8 +887,10 @@
 				1BE316280D38138B005C3FB2 /* Core */,
 				1BE316630D38138B005C3FB2 /* Macros */,
 				1BB983160D381CDE0074D18E /* Icons */,
+				1B184D6D0ED07DB5003E2346 /* Mach */,
 				1BB983130D381CDE0074D18E /* Images */,
 				1BE316D20D3815C9005C3FB2 /* AppKit */,
+				1B184C8F0ED07D41003E2346 /* Security */,
 				1BB9868C0D382AD00074D18E /* Interface */,
 				1BB983680D381ECC0074D18E /* BezelItem */,
 				1BB987110D382C5C0074D18E /* Templates */,
@@ -971,6 +1022,11 @@
 				1BB987280D382C8B0074D18E /* WBTreeNode.h in Headers */,
 				1B81EBA20D38326C004B82A2 /* WBOutlineView.h in Headers */,
 				1BB2033C0EAF23B60072FE62 /* SparkEvent.h in Headers */,
+				1B184C890ED07D0D003E2346 /* WBThreadPort.h in Headers */,
+				1B184C9B0ED07D41003E2346 /* WBCDSAFunctions.h in Headers */,
+				1B184C9F0ED07D41003E2346 /* WBDigestFunctions.h in Headers */,
+				1B184CA30ED07D41003E2346 /* WBSecurityFunctions.h in Headers */,
+				1B184D860ED07DB5003E2346 /* WBMachSpawn.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1185,6 +1241,12 @@
 				1BB987270D382C8B0074D18E /* WBTreeNode.m in Sources */,
 				1B81EBA30D38326C004B82A2 /* WBOutlineView.m in Sources */,
 				1BB2033D0EAF23B60072FE62 /* SparkEvent.m in Sources */,
+				1B184C8A0ED07D0D003E2346 /* WBThreadPort.m in Sources */,
+				1B184C9A0ED07D41003E2346 /* WBCDSAFunctions.c in Sources */,
+				1B184C9E0ED07D41003E2346 /* WBDigestFunctions.c in Sources */,
+				1B184CA20ED07D41003E2346 /* WBSecurityFunctions.c in Sources */,
+				1B184D870ED07DB5003E2346 /* WBMachSpawn.m in Sources */,
+				1B184D8B0ED07DB5003E2346 /* wbspawn.defs in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
