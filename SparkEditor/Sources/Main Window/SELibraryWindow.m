@@ -227,10 +227,12 @@
 
 - (IBAction)copy:(id)sender {
   WBTrace();
+  // TODO: Copy/paste
 }
 
 - (IBAction)paste:(id)sender {
   WBTrace();
+  // TODO: Copy/paste
 }
 
 - (IBAction)newTriggerFromMenu:(id)sender {

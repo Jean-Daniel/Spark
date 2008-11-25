@@ -159,53 +159,67 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		1B0A77B90EDCB1F400684E7C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 98A0A54F0CCFE1E400AC06B6 /* SUpdaterKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1B0A76280EDCABF900684E7C;
+			remoteInfo = SUpdaterKit_base;
+		};
+		1B0A77BB0EDCB1F400684E7C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 98A0A54F0CCFE1E400AC06B6 /* SUpdaterKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1B0A764D0EDCAC7B00684E7C;
+			remoteInfo = "SUpdaterKit Standalone";
+		};
 		1B4149300ED0862A002AAC45 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 98A0A5720CCFE29800AC06B6 /* SArchiveKit.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 8DC2EF5B0486A6940098B216 /* SArchiveKit.framework */;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
 			remoteInfo = SArchiveKit;
 		};
 		1B4149320ED0862A002AAC45 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 98A0A5720CCFE29800AC06B6 /* SArchiveKit.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 1B21339B0ECCB93B0069C59E /* libsxar.a */;
+			remoteGlobalIDString = 1B21339B0ECCB93B0069C59E;
 			remoteInfo = sxar;
 		};
 		1B4149480ED08633002AAC45 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 98A0A54F0CCFE1E400AC06B6 /* SUpdaterKit.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 1B2468C00CC38B210078596D /* suinstaller */;
+			remoteGlobalIDString = 1B2468C00CC38B210078596D;
 			remoteInfo = suinstaller;
 		};
 		1B41494A0ED08633002AAC45 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 98A0A54F0CCFE1E400AC06B6 /* SUpdaterKit.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 984B4D230CBD80F3001EDC02 /* surestarter */;
+			remoteGlobalIDString = 984B4D230CBD80F3001EDC02;
 			remoteInfo = surestarter;
 		};
 		1B41494C0ED08633002AAC45 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 98A0A54F0CCFE1E400AC06B6 /* SUpdaterKit.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 8DC2EF5B0486A6940098B216 /* SUpdaterKit.framework */;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
 			remoteInfo = SUpdaterKit;
 		};
 		1B414EAE0ED08684002AAC45 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 98A0A5720CCFE29800AC06B6 /* SArchiveKit.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216 /* SArchiveKit */;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = SArchiveKit;
 		};
 		1B414EB00ED08684002AAC45 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 98A0A54F0CCFE1E400AC06B6 /* SUpdaterKit.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216 /* SUpdaterKit */;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = SUpdaterKit;
 		};
 		6540B6E509E6430800D0E8FB /* PBXContainerItemProxy */ = {
@@ -622,7 +636,9 @@
 			children = (
 				1B4149490ED08633002AAC45 /* suinstaller */,
 				1B41494B0ED08633002AAC45 /* surestarter */,
+				1B0A77BA0EDCB1F400684E7C /* SUpdaterKit.framework */,
 				1B41494D0ED08633002AAC45 /* SUpdaterKit.framework */,
+				1B0A77BC0EDCB1F400684E7C /* SUpdaterKit.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1135,6 +1151,20 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		1B0A77BA0EDCB1F400684E7C /* SUpdaterKit.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = SUpdaterKit.framework;
+			remoteRef = 1B0A77B90EDCB1F400684E7C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1B0A77BC0EDCB1F400684E7C /* SUpdaterKit.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = SUpdaterKit.framework;
+			remoteRef = 1B0A77BB0EDCB1F400684E7C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		1B4149310ED0862A002AAC45 /* SArchiveKit.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;

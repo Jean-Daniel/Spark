@@ -16,9 +16,6 @@
 		1B184CA20ED07D41003E2346 /* WBSecurityFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B184C980ED07D41003E2346 /* WBSecurityFunctions.c */; };
 		1B184CA30ED07D41003E2346 /* WBSecurityFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B184C990ED07D41003E2346 /* WBSecurityFunctions.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		1B184D230ED07D94003E2346 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B184D220ED07D94003E2346 /* Security.framework */; };
-		1B184D860ED07DB5003E2346 /* WBMachSpawn.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B184D770ED07DB5003E2346 /* WBMachSpawn.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1B184D870ED07DB5003E2346 /* WBMachSpawn.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B184D780ED07DB5003E2346 /* WBMachSpawn.m */; };
-		1B184D8B0ED07DB5003E2346 /* wbspawn.defs in Sources */ = {isa = PBXBuildFile; fileRef = 1B184D7C0ED07DB5003E2346 /* wbspawn.defs */; settings = {ATTRIBUTES = (Server, ); }; };
 		1B6DACEF0D0C9D0400F352CC /* SparkMultiAlert.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B6DACED0D0C9D0400F352CC /* SparkMultiAlert.xib */; };
 		1B6DACF40D0CA0F800F352CC /* SparkPluginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B6DACF20D0CA0F800F352CC /* SparkPluginView.xib */; };
 		1B6DACF80D0CA1BF00F352CC /* SparkPlugin.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B6DACF60D0CA1BF00F352CC /* SparkPlugin.xib */; };
@@ -263,9 +260,6 @@
 		1B184C980ED07D41003E2346 /* WBSecurityFunctions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WBSecurityFunctions.c; sourceTree = "<group>"; };
 		1B184C990ED07D41003E2346 /* WBSecurityFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBSecurityFunctions.h; sourceTree = "<group>"; };
 		1B184D220ED07D94003E2346 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		1B184D770ED07DB5003E2346 /* WBMachSpawn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBMachSpawn.h; sourceTree = "<group>"; };
-		1B184D780ED07DB5003E2346 /* WBMachSpawn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBMachSpawn.m; sourceTree = "<group>"; };
-		1B184D7C0ED07DB5003E2346 /* wbspawn.defs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.mig; path = wbspawn.defs; sourceTree = "<group>"; };
 		1B6DACEE0D0C9D0400F352CC /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SparkMultiAlert.xib; sourceTree = "<group>"; };
 		1B6DACF30D0CA0F800F352CC /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SparkPluginView.xib; sourceTree = "<group>"; };
 		1B6DACF70D0CA1BF00F352CC /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SparkPlugin.xib; sourceTree = "<group>"; };
@@ -568,16 +562,6 @@
 				1B184C980ED07D41003E2346 /* WBSecurityFunctions.c */,
 			);
 			path = Security;
-			sourceTree = "<group>";
-		};
-		1B184D6D0ED07DB5003E2346 /* Mach */ = {
-			isa = PBXGroup;
-			children = (
-				1B184D7C0ED07DB5003E2346 /* wbspawn.defs */,
-				1B184D770ED07DB5003E2346 /* WBMachSpawn.h */,
-				1B184D780ED07DB5003E2346 /* WBMachSpawn.m */,
-			);
-			path = Mach;
 			sourceTree = "<group>";
 		};
 		1B7BB7880CBE1FD700484A9E /* xcconfigs */ = {
@@ -887,7 +871,6 @@
 				1BE316280D38138B005C3FB2 /* Core */,
 				1BE316630D38138B005C3FB2 /* Macros */,
 				1BB983160D381CDE0074D18E /* Icons */,
-				1B184D6D0ED07DB5003E2346 /* Mach */,
 				1BB983130D381CDE0074D18E /* Images */,
 				1BE316D20D3815C9005C3FB2 /* AppKit */,
 				1B184C8F0ED07D41003E2346 /* Security */,
@@ -1027,7 +1010,6 @@
 				1B184C9B0ED07D41003E2346 /* WBCDSAFunctions.h in Headers */,
 				1B184C9F0ED07D41003E2346 /* WBDigestFunctions.h in Headers */,
 				1B184CA30ED07D41003E2346 /* WBSecurityFunctions.h in Headers */,
-				1B184D860ED07DB5003E2346 /* WBMachSpawn.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1246,8 +1228,6 @@
 				1B184C9A0ED07D41003E2346 /* WBCDSAFunctions.c in Sources */,
 				1B184C9E0ED07D41003E2346 /* WBDigestFunctions.c in Sources */,
 				1B184CA20ED07D41003E2346 /* WBSecurityFunctions.c in Sources */,
-				1B184D870ED07DB5003E2346 /* WBMachSpawn.m in Sources */,
-				1B184D8B0ED07DB5003E2346 /* wbspawn.defs in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -30,7 +30,7 @@ NSString *_SparkActionDescription(SparkBuiltInAction *action);
 @implementation SparkBuiltInActionPlugin
 
 - (void)loadSparkAction:(SparkBuiltInAction *)action toEdit:(BOOL)flag {
-  [self setAction:[action action]];    
+  [self setAction:[action action]];
 }
 
 #pragma mark -
@@ -60,6 +60,30 @@ NSString *_SparkActionDescription(SparkBuiltInAction *action);
 			[uiLists2 setHidden:YES];
 			[uiLists2 setEnabled:NO];
       break;
+  }
+}
+
+#pragma mark -
+static
+NSInteger _SparkGroupCompare(SparkObject *o1, SparkObject *o2, void *ctxt) {
+  return [[o1 name] caseInsensitiveCompare:[o2 name]];
+}
+
+/* group list */
+- (void)pluginViewWillBecomeVisible {
+  // refresh menus
+  [uiLists removeAllItems];
+  [uiLists2 removeAllItems];
+  
+  NSArray *groups = [[SparkActiveLibrary() listSet] objects];
+  groups = [groups sortedArrayUsingFunction:_SparkGroupCompare context:nil];
+
+  for (NSUInteger idx = 0, count = [groups count]; idx < count; idx++) {
+    SparkObject *group = [groups objectAtIndex:idx];
+    NSMenuItem *item = [[uiLists menu] addItemWithTitle:[group name] action:nil keyEquivalent:@""];
+    //[item setImage:[group icon]];
+    item = [[uiLists2 menu] addItemWithTitle:[group name] action:nil keyEquivalent:@""];
+    //[item setImage:[group icon]];
   }
 }
 
@@ -167,7 +191,7 @@ NSImage *SparkDaemonStatusIcon(BOOL status) {
 
 static
 void SparkSDActionToggleDaemonStatus(void) {
-  /* MUST use kCurrentProcess, else the event will be handle in the event loop => dead lock */
+  /* MUST use kCurrentProcess to direct dispatch, else the event will be handle in the event loop => dead lock */
   ProcessSerialNumber psn = {0, kCurrentProcess};
   if (psn.lowLongOfPSN != kNoProcess) {
     Boolean status = FALSE;

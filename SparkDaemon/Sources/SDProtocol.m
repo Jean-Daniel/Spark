@@ -23,7 +23,6 @@
   return kSparkServerVersion;
 }
 
-#pragma mark Shutdown
 - (void)shutdown {
   WBTrace();
   [NSApp terminate:nil];
@@ -31,9 +30,8 @@
 
 - (id<SparkLibrary>)library {
   WBTrace();
-  if (!sd_rlibrary) {
+  if (!sd_rlibrary)
     sd_rlibrary = [[sd_library distantLibrary] retain];
-  }
   return [sd_rlibrary distantLibrary];
 }
 
@@ -41,10 +39,9 @@
 - (void)didAddEntry:(NSNotification *)aNotification {
   WBTrace();
   SparkEntry *entry = SparkNotificationObject(aNotification);
-  if ([self isEnabled] || [entry isPersistent]) {
-    /* Trigger can have a new active action */
+  /* Trigger can have a new active action */
+  if ([self isEnabled] || [entry isPersistent])
     [self setEntryStatus:entry];
-  }
 }
 
 - (void)didUpdateEntry:(NSNotification *)aNotification {
@@ -62,10 +59,9 @@
 - (void)didRemoveEntry:(NSNotification *)aNotification {
   WBTrace();
   SparkEntry *entry = SparkNotificationObject(aNotification);
-  if ([self isEnabled] || [entry isPersistent]) {
-    /* If trigger was not removed, we should check it */
+  /* If trigger was not removed, we should check it */
+  if ([self isEnabled] || [entry isPersistent])
     [self setEntryStatus:entry];
-  }
 }
 
 - (void)didChangeEntryStatus:(NSNotification *)aNotification {
@@ -128,9 +124,9 @@
 
 #pragma mark Plugins Management
 - (void)didChangePluginStatus:(NSNotification *)aNotification {
-  if ([self isEnabled]) {
+  WBTrace();
+  if ([self isEnabled])
     [self registerEntries];
-  }
 }
 
 @end

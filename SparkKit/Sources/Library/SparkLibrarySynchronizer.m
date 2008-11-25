@@ -402,25 +402,22 @@ SparkObjectSet *SparkObjectSetForType(SparkLibrary *library, OSType type) {
 - (void)removeEntry:(SparkUID)anEntry {
   SparkSyncTrace();
   SparkEntry *entry = [[sp_library entryManager] entryWithUID:anEntry];
-  if (entry) {
+  if (entry)
     [[sp_library entryManager] removeEntry:entry];
-  }
 }
 
 - (void)enableEntry:(SparkUID)anEntry {
   SparkSyncTrace();
   SparkEntry *entry = [[sp_library entryManager] entryWithUID:anEntry];
-  if (entry) {
+  if (entry)
     [entry setEnabled:YES];
-  }
 }
 
 - (void)disableEntry:(SparkUID)anEntry {
   SparkSyncTrace();
   SparkEntry *entry = [[sp_library entryManager] entryWithUID:anEntry];
-  if (entry) {
+  if (entry)
     [entry setEnabled:NO];
-  }
 }
 
 #pragma mark Applications Specific

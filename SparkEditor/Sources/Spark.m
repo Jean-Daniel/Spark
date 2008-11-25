@@ -90,8 +90,6 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
 //      [help setRegistred:YES];
 //      /* NOTE: do not release 'help': an hotkey is unregistred when deallocated */
 //    }
-    
-    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didRestart:) name:SURestarterApplicationDidRestartNotification object:nil];
   }
   return self;
 }
@@ -132,9 +130,6 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
                  forKeyword:keyDirectObject];
 }
 #endif
-//- (void)didRestart:(NSNotification *)aNotification {
-//  NSRunAlertPanel([[NSString alloc] initWithData:[aNotification object] encoding:NSUTF8StringEncoding], @"", @"OK", nil, nil);
-//}
 
 - (void)handleHelpEvent:(id)sender {
   id window = [self keyWindow];
@@ -553,11 +548,18 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
   [menu release];
   [[NSApp mainMenu] insertItem:debugMenu atIndex:[[NSApp mainMenu] numberOfItems] -1];
   [debugMenu release];
+  
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didRestart:) name:SURestarterApplicationDidRestartNotification object:nil];
+}
+
+- (void)didRestart:(NSNotification *)aNotification {
+  NSRunAlertPanel([[NSString alloc] initWithData:[aNotification object] encoding:NSUTF8StringEncoding], @"", @"OK", nil, nil);
 }
 
 - (IBAction)restart:(id)sender {
   SURestarter *restarter = [[SURestarter alloc] initWithTargetPath:[[NSBundle mainBundle] bundlePath] error:nil];
-  [restarter setData:[@"Hellow wonderfull world!" dataUsingEncoding:NSUTF8StringEncoding]];
+  [restarter setData:[@"Hello wonderfull world!" dataUsingEncoding:NSUTF8StringEncoding]];
+  
   [NSApp terminate:sender];
 }
 

@@ -26,6 +26,7 @@ WB_CLASS_EXPORT
 @end
 
 #pragma mark -
+WB_CLASS_EXPORT
 @interface SparkDistantLibrary : NSObject {
   @private
   SparkLibrary *sp_library;
