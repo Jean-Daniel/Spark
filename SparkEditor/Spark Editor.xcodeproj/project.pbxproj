@@ -36,6 +36,7 @@
 		1B414EAD0ED08672002AAC45 /* SUpdaterKit.framework in Copy Framework */ = {isa = PBXBuildFile; fileRef = 1B41494D0ED08633002AAC45 /* SUpdaterKit.framework */; };
 		1B55EAE40B8625ED000E1760 /* SparkAware.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B55EAE30B8625ED000E1760 /* SparkAware.tiff */; };
 		1B5F396E0B5D451700879DF5 /* SETriggersController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B580B19A59700C8425C /* SETriggersController.m */; };
+		1B80161F0EDF292700771EE5 /* AccessibilityAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 1B8015E60EDF264100771EE5 /* AccessibilityAction.spact */; };
 		1B80772C0CCD1B9200DC56CE /* SEUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BBED2340C9FFCAD0050A7F8 /* SEUpdater.m */; };
 		1B80772D0CCD1B9500DC56CE /* SEUpdater.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BBED2330C9FFCAD0050A7F8 /* SEUpdater.h */; };
 		1B9A7A670D0D96DD00770054 /* SEPluginHelp.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B9A7A650D0D96DD00770054 /* SEPluginHelp.xib */; };
@@ -222,6 +223,13 @@
 			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = SUpdaterKit;
 		};
+		1B8015E50EDF264100771EE5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 987E6BB206D76DF300C7F41C /* Spark Plugins.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1B8015E20EDF264100771EE5;
+			remoteInfo = "Text copy";
+		};
 		6540B6E509E6430800D0E8FB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 987E6BB206D76DF300C7F41C /* Spark Plugins.xcodeproj */;
@@ -396,6 +404,7 @@
 				98DD45610A57DE9A00F059E5 /* DocumentAction.spact in Copy Plugins */,
 				98DD45620A57DE9A00F059E5 /* ApplicationAction.spact in Copy Plugins */,
 				98DD45630A57DE9A00F059E5 /* AppleScriptAction.spact in Copy Plugins */,
+				1B80161F0EDF292700771EE5 /* AccessibilityAction.spact in Copy Plugins */,
 			);
 			name = "Copy Plugins";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -692,6 +701,7 @@
 				6540B6EC09E6430800D0E8FB /* DocumentAction.spact */,
 				6540B6EE09E6430800D0E8FB /* ApplicationAction.spact */,
 				6540B6F009E6430800D0E8FB /* AppleScriptAction.spact */,
+				1B8015E60EDF264100771EE5 /* AccessibilityAction.spact */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1200,6 +1210,13 @@
 			remoteRef = 1B41494C0ED08633002AAC45 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		1B8015E60EDF264100771EE5 /* AccessibilityAction.spact */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = AccessibilityAction.spact;
+			remoteRef = 1B8015E50EDF264100771EE5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		6540B6E609E6430800D0E8FB /* Labo */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.executable";
@@ -1672,7 +1689,7 @@
 		98BC60520857BB9400A2041F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 460;
+				CURRENT_PROJECT_VERSION = 461;
 				FRAMEWORK_SEARCH_PATHS = (
 					"${SHARED_SOURCES_DIR}/SUpdaterKit/build/${CONFIGURATION}/",
 					"${SHARED_SOURCES_DIR}/SArchiveKit/build/${CONFIGURATION}/",
@@ -1707,7 +1724,7 @@
 		98EFD02F0B58443900AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 460;
+				CURRENT_PROJECT_VERSION = 461;
 				FRAMEWORK_SEARCH_PATHS = (
 					"${SHARED_SOURCES_DIR}/SUpdaterKit/build/${CONFIGURATION}/",
 					"${SHARED_SOURCES_DIR}/SArchiveKit/build/${CONFIGURATION}/",

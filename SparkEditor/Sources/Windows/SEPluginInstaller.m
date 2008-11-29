@@ -15,6 +15,10 @@
 
 #import <SparkKit/SparkActionLoader.h>
 
+@interface SEPluginInstaller ()
+- (NSString *)installPlugin:(NSString *)plugin domain:(WBPluginDomain)skdomain;
+@end
+
 @implementation SEPluginInstaller
 
 - (id)init {
@@ -35,18 +39,18 @@
 }
 
 - (IBAction)install:(id)sender {
-  int domain;
+  WBPluginDomain domain;
   if ([ibMatrix selectedRow] == 0) {
     // User
-    domain = kWBUserDomain;
+    domain = kWBPluginDomainUser;
   } else {
     // Local
-    domain = kWBLocalDomain;
+    domain = kWBPluginDomainLocal;
   }
   NSString *path = [self installPlugin:se_plugin domain:domain];
   if (path) {
     [self close:sender];
-    [[SparkActionLoader sharedLoader] loadPlugin:path];
+    [[SparkActionLoader sharedLoader] loadPluginAtPath:path];
     [[NSWorkspace sharedWorkspace] openFile:[path stringByDeletingLastPathComponent]];
   } else {
     DLog(@"Plugin installation failed");
@@ -102,7 +106,7 @@ dispose:
   return [[NSWorkspace sharedWorkspace] performFileOperation:(flag ? NSWorkspaceCopyOperation : NSWorkspaceMoveOperation) source:src destination:dest files:files tag:NULL];
 }
 
-- (NSString *)installPlugin:(NSString *)plugin domain:(NSInteger)skdomain {
+- (NSString *)installPlugin:(NSString *)plugin domain:(WBPluginDomain)skdomain {
 	/* FIXME: remove temp file */
   if (![[NSFileManager defaultManager] fileExistsAtPath:plugin]) {
     NSRunAlertPanel(@"The plugin was not installed", @"Cannot find plugin at path \"%@\"", @"OK", nil, nil, plugin);
@@ -111,11 +115,10 @@ dispose:
   
   BOOL installed = NO;
   NSString *location = nil;
-  NSArray *paths = [SparkActionLoader pluginPathsForDomains:skdomain];
-  if (!paths || [paths count] == 0) {
+  NSString *path = [[SparkActionLoader sharedLoader] pathForDomain:skdomain];
+  if (!path) {
     NSRunAlertPanel(@"The plugin was not installed", @"Spark cannot find plugin folder", @"OK", nil, nil);
   } else {
-    NSString *path = [paths objectAtIndex:0];
     location = path;
     if (noErr == WBFSCreateFolder((CFStringRef)path)) {
       /* First try to copy the file using workspace operation */

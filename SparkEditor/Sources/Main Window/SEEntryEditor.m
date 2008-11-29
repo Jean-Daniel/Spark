@@ -121,6 +121,8 @@
 }
 
 - (IBAction)ok:(id)sender {
+  [[self window] endEditingFor:nil]; // commit editing
+  
   /* Check trigger */
   NSAlert *alert = nil;
   /* End editing if needed */
@@ -218,7 +220,7 @@
   
   /* Then add standards plugins */
   SparkPlugIn *plugin;
-  NSEnumerator *plugins = [[SparkActionLoader sharedLoader] objectEnumerator];
+  NSEnumerator *plugins = [[SparkActionLoader sharedLoader] pluginEnumerator];
   while (plugin = [plugins nextObject]) {
     if ([plugin isEnabled])
       [se_plugins addObject:plugin];

@@ -146,55 +146,25 @@ void *_SEPreferencesLoginItemThread(void *arg) {
   [[self window] setShowsToolbarButton:NO];
   
   /* Load plugins */
-  NSMutableArray *uplugs = [NSMutableArray array];
-  NSMutableArray *lplugs = [NSMutableArray array];
-  NSMutableArray *bplugs = [NSMutableArray array];
-  
-  FSRef uref, lref;
-  BOOL user = NO, local = NO;
-  if ([[SparkActionLoader pluginPathForDomain:kWBUserDomain] getFSRef:&uref]) {
-    user = YES;
-  }
-  if ([[SparkActionLoader pluginPathForDomain:kWBLocalDomain] getFSRef:&lref]) {
-    local = YES;
-  }
-  
-  SparkPlugIn *plugin;
-  NSEnumerator *plugins = [[[[SparkActionLoader sharedLoader] plugins] sortedArrayUsingDescriptors:gSortByNameDescriptors] objectEnumerator];
-  while (plugin = [plugins nextObject]) {
-    FSRef path;
-    BOOL done = NO;
-    if ([[[plugin path] stringByDeletingLastPathComponent] getFSRef:&path]) {
-      if (user && noErr == FSCompareFSRefs(&path, &uref)) {
-        done = YES;
-        [uplugs addObject:plugin];
-      } else if (local  && noErr == FSCompareFSRefs(&path, &lref)) {
-        done = YES;
-        [lplugs addObject:plugin];
-      }
-    } 
-    if (!done) {
-      [bplugs addObject:plugin];
-    }
-    /* Save status */
-    long status = [plugin isEnabled];
-    NSMapInsert(se_status, plugin, (void *)status);
-  }
+  NSArray *plugs;
+  plugs = [[[SparkActionLoader sharedLoader] pluginsForDomain:kWBPluginDomainBuiltIn] sortedArrayUsingDescriptors:gSortByNameDescriptors];
   NSDictionary *item = [NSDictionary dictionaryWithObjectsAndKeys:
 												NSLocalizedStringFromTable(@"Built-in", @"SEPreferences", @"Plugin preferences domain - built-in"), @"name",
-												bplugs, @"plugins",
+												plugs, @"plugins",
 												[NSImage imageNamed:@"application"], @"icon", nil];
   [se_plugins addObject:item];
-  
+
+  plugs = [[[SparkActionLoader sharedLoader] pluginsForDomain:kWBPluginDomainLocal] sortedArrayUsingDescriptors:gSortByNameDescriptors];
   item = [NSDictionary dictionaryWithObjectsAndKeys:
 					NSLocalizedStringFromTable(@"Computer", @"SEPreferences", @"Plugin preferences domain - computer"), @"name",
-					lplugs, @"plugins",
+					plugs, @"plugins",
 					[NSImage imageNamed:@"computer"], @"icon", nil];
   [se_plugins addObject:item];
   
+  plugs = [[[SparkActionLoader sharedLoader] pluginsForDomain:kWBPluginDomainUser] sortedArrayUsingDescriptors:gSortByNameDescriptors];
   item = [NSDictionary dictionaryWithObjectsAndKeys:
 					NSLocalizedStringFromTable(@"User", @"SEPreferences", @"Plugin preferences domain - user"), @"name",
-					uplugs, @"plugins",
+					plugs, @"plugins",
 					[NSImage imageNamed:@"user"], @"icon", nil];
   [se_plugins addObject:item];
   

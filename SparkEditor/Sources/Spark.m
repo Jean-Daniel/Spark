@@ -416,7 +416,7 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
   if ([[[NSDocumentController sharedDocumentController] documents] count] == 0)
     [self se_openDefaultLibrary];
   if ([[NSWorkspace sharedWorkspace] isFilePackageAtPath:filename]) {
-    if ([[filename pathExtension] isEqualToString:[SparkActionLoader extension]]) {
+    if ([[filename pathExtension] isEqualToString:[[SparkActionLoader sharedLoader] extension]]) {
       [self openPluginBundle:filename];
     } else if ([[filename pathExtension] isEqualToString:kSparkLibraryFileExtension]) {
       DLog(@"Try to open a Spark Library: ignore");

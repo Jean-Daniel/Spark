@@ -17,10 +17,7 @@
   NSString *se_plugin;
 }
 
-
 - (void)setPlugin:(NSString *)path;
-
-- (NSString *)installPlugin:(NSString *)plugin domain:(NSInteger)skdomain;
 
 - (IBAction)update:(id)sender;
 - (IBAction)install:(id)sender;
