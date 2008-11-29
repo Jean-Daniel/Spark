@@ -89,8 +89,6 @@
 		1BE316790D38138B005C3FB2 /* WBPluginLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE3163B0D38138B005C3FB2 /* WBPluginLoader.m */; };
 		1BE3167A0D38138B005C3FB2 /* WBSerialization.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE3163C0D38138B005C3FB2 /* WBSerialization.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		1BE3167B0D38138B005C3FB2 /* WBSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE3163D0D38138B005C3FB2 /* WBSerialization.m */; };
-		1BE316820D38138B005C3FB2 /* AESendThreadSafe.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316450D38138B005C3FB2 /* AESendThreadSafe.c */; };
-		1BE316830D38138B005C3FB2 /* AESendThreadSafe.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316460D38138B005C3FB2 /* AESendThreadSafe.h */; };
 		1BE316840D38138B005C3FB2 /* WBAEFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316470D38138B005C3FB2 /* WBAEFunctions.c */; };
 		1BE316850D38138B005C3FB2 /* WBAEFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316480D38138B005C3FB2 /* WBAEFunctions.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		1BE316880D38138B005C3FB2 /* WBCGFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE3164B0D38138B005C3FB2 /* WBCGFunctions.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -333,8 +331,6 @@
 		1BE3163B0D38138B005C3FB2 /* WBPluginLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBPluginLoader.m; sourceTree = "<group>"; };
 		1BE3163C0D38138B005C3FB2 /* WBSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBSerialization.h; sourceTree = "<group>"; };
 		1BE3163D0D38138B005C3FB2 /* WBSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBSerialization.m; sourceTree = "<group>"; };
-		1BE316450D38138B005C3FB2 /* AESendThreadSafe.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = AESendThreadSafe.c; sourceTree = "<group>"; };
-		1BE316460D38138B005C3FB2 /* AESendThreadSafe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AESendThreadSafe.h; sourceTree = "<group>"; };
 		1BE316470D38138B005C3FB2 /* WBAEFunctions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WBAEFunctions.c; sourceTree = "<group>"; };
 		1BE316480D38138B005C3FB2 /* WBAEFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBAEFunctions.h; sourceTree = "<group>"; };
 		1BE3164B0D38138B005C3FB2 /* WBCGFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBCGFunctions.h; sourceTree = "<group>"; };
@@ -662,12 +658,12 @@
 		1BE316280D38138B005C3FB2 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				1BE3162D0D38138B005C3FB2 /* WBFunctions.h */,
+				1BE3162E0D38138B005C3FB2 /* WBFunctions.m */,
 				1BE316290D38138B005C3FB2 /* WBCFContext.h */,
 				1BE3162A0D38138B005C3FB2 /* WBCFContext.m */,
 				1BE3162B0D38138B005C3FB2 /* WBExtensions.h */,
 				1BE3162C0D38138B005C3FB2 /* WBExtensions.m */,
-				1BE3162D0D38138B005C3FB2 /* WBFunctions.h */,
-				1BE3162E0D38138B005C3FB2 /* WBFunctions.m */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -698,8 +694,6 @@
 		1BE316440D38138B005C3FB2 /* Functions */ = {
 			isa = PBXGroup;
 			children = (
-				1BE316450D38138B005C3FB2 /* AESendThreadSafe.c */,
-				1BE316460D38138B005C3FB2 /* AESendThreadSafe.h */,
 				1BE316470D38138B005C3FB2 /* WBAEFunctions.c */,
 				1BE316480D38138B005C3FB2 /* WBAEFunctions.h */,
 				1BE3164B0D38138B005C3FB2 /* WBCGFunctions.h */,
@@ -965,7 +959,6 @@
 				1BE316720D38138B005C3FB2 /* WBApplication.h in Headers */,
 				1BE316780D38138B005C3FB2 /* WBPluginLoader.h in Headers */,
 				1BE3167A0D38138B005C3FB2 /* WBSerialization.h in Headers */,
-				1BE316830D38138B005C3FB2 /* AESendThreadSafe.h in Headers */,
 				1BE316850D38138B005C3FB2 /* WBAEFunctions.h in Headers */,
 				1BE316880D38138B005C3FB2 /* WBCGFunctions.h in Headers */,
 				1BE3168B0D38138B005C3FB2 /* WBDSFunctions.h in Headers */,
@@ -1187,7 +1180,6 @@
 				1BE316730D38138B005C3FB2 /* WBApplication.m in Sources */,
 				1BE316790D38138B005C3FB2 /* WBPluginLoader.m in Sources */,
 				1BE3167B0D38138B005C3FB2 /* WBSerialization.m in Sources */,
-				1BE316820D38138B005C3FB2 /* AESendThreadSafe.c in Sources */,
 				1BE316840D38138B005C3FB2 /* WBAEFunctions.c in Sources */,
 				1BE316890D38138B005C3FB2 /* WBCGFunctions.m in Sources */,
 				1BE3168A0D38138B005C3FB2 /* WBDSFunctions.c in Sources */,

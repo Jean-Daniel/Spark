@@ -26,7 +26,9 @@ WB_CLASS_EXPORT
 @interface SparkActionLoader : WBPluginLoader {
 }
 
-- (id)loadPlugin:(NSString *)path;
++ (SparkActionLoader *)sharedLoader;
+
+- (id)loadPlugin:(NSBundle *)aBundle;
 - (SparkPlugIn *)registerPlugInClass:(Class)aClass;
 
 - (SparkPlugIn *)plugInForAction:(SparkAction *)action;

@@ -435,7 +435,7 @@ SparkObjectSet *SparkObjectSetForType(SparkLibrary *library, OSType type) {
 #pragma mark Plugins Management
 - (void)registerPlugIn:(NSString *)path {
   SparkSyncTrace();
-  SparkPlugIn *plugin = [[SparkActionLoader sharedLoader] loadPlugin:path];
+  SparkPlugIn *plugin = [[SparkActionLoader sharedLoader] loadPluginAtPath:path];
   if (!plugin) {
     DLog(@"Error while loading plugin: %@", path);
   }

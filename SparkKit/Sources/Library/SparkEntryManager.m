@@ -13,6 +13,7 @@
 #import WBHEADER(WBCFContext.h)
 #import WBHEADER(WBEnumerator.h)
 
+#import <objc/objc-runtime.h>
 #import <SparkKit/SparkPrivate.h>
 
 #import <SparkKit/SparkEntry.h>
@@ -96,16 +97,14 @@ NSString * const SparkEntryManagerDidChangeEntryStatusNotification = @"SparkEntr
 }
 
 typedef SparkUID (*SparkEntryAccessor)(SparkEntry *, SEL);
+
 - (NSArray *)entriesForField:(SEL)field uid:(SparkUID)uid {
-  NSMutableArray *result = [[NSMutableArray alloc] init];
-  
   SparkEntry *entry;
-  SparkEntryAccessor accessor = NULL;
+  NSMutableArray *result = [[NSMutableArray alloc] init];
+  SparkEntryAccessor accessor = (SparkEntryAccessor)objc_msgSend;
+  
   NSMapEnumerator iter = NSEnumerateMapTable(sp_objects);
   while (NSNextMapEnumeratorPair(&iter, NULL, (void * *)&entry)) {
-    if (!accessor) accessor = (SparkEntryAccessor)[entry methodForSelector:field];
-    NSAssert1(accessor, @"invalid selector: %@", NSStringFromSelector(field));
-    
     if (accessor(entry, field) == uid) {
       [result addObject:entry];
     }
@@ -116,12 +115,10 @@ typedef SparkUID (*SparkEntryAccessor)(SparkEntry *, SEL);
 
 - (BOOL)containsEntryForField:(SEL)field uid:(SparkUID)uid {
   SparkEntry *entry;
-  SparkEntryAccessor accessor = NULL;
+  SparkEntryAccessor accessor = (SparkEntryAccessor)objc_msgSend;
+  
   NSMapEnumerator iter = NSEnumerateMapTable(sp_objects);
   while (NSNextMapEnumeratorPair(&iter, NULL, (void * *)&entry)) {
-    if (!accessor) accessor = (SparkEntryAccessor)[entry methodForSelector:field];
-    NSAssert1(accessor, @"invalid selector: %@", NSStringFromSelector(field));
-    
     if (accessor(entry, field) == uid) {
       NSEndMapTableEnumeration(&iter);
       return YES;
@@ -193,7 +190,6 @@ typedef SparkUID (*SparkEntryAccessor)(SparkEntry *, SEL);
 - (BOOL)containsEntry:(SparkEntry *)anEntry {
   return [self containsEntryForTrigger:[[anEntry trigger] uid] application:[[anEntry application] uid]];
 }
-
 - (BOOL)containsEntryForAction:(SparkAction *)anAction{
   return [self containsEntryForField:@selector(actionUID) uid:[anAction uid]];
 }
@@ -217,33 +213,6 @@ typedef SparkUID (*SparkEntryAccessor)(SparkEntry *, SEL);
   NSEndMapTableEnumeration(&iter);
   return NO;
 }
-
-//- (BOOL)containsActiveEntryForTrigger:(SparkTrigger *)aTrigger {
-//  SparkEntry *entry;
-//  SparkUID uid = [aTrigger uid];
-//  NSMapEnumerator iter = NSEnumerateMapTable(sp_objects);
-//  while (NSNextMapEnumeratorPair(&iter, NULL, (void * *)&entry)) {
-//    if (([entry triggerUID] == uid) && [entry isActive]) {
-//      NSEndMapTableEnumeration(&iter);
-//      return YES;
-//    }
-//  }
-//  NSEndMapTableEnumeration(&iter);
-//  return NO;
-//}
-//- (BOOL)containsPersistentActiveEntryForTrigger:(SparkTrigger *)aTrigger {
-//  SparkEntry *entry;
-//  SparkUID uid = [aTrigger uid];
-//  NSMapEnumerator iter = NSEnumerateMapTable(sp_objects);
-//  while (NSNextMapEnumeratorPair(&iter, NULL, (void * *)&entry)) {
-//    if (([entry triggerUID] == uid) && [entry isActive] && [entry isPersistent]) {
-//      NSEndMapTableEnumeration(&iter);
-//      return YES;
-//    }
-//  }
-//  NSEndMapTableEnumeration(&iter);
-//  return NO;
-//}
 
 #pragma mark -
 - (SparkEntry *)activeEntryForTrigger:(SparkTrigger *)aTrigger application:(SparkApplication *)anApplication {
@@ -287,12 +256,11 @@ typedef SparkUID (*SparkEntryAccessor)(SparkEntry *, SEL);
   NSEndMapTableEnumeration(&iter);
   /* we didn't find a matching entry, search default */
   if (def) {
-    SparkEntry *child = [def variantWithApplication:anApplication];
     /* If the default is overwritten, we ignore it (whatever the child is) */
-    if (!child) 
-      return def;
+    if ([def variantWithApplication:anApplication]) 
+      return NULL;
   }
-  return NULL;
+  return def;
 }
 
 @end

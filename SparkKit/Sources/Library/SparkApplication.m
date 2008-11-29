@@ -122,7 +122,7 @@ NSString * const SparkApplicationDidChangeEnabledNotification = @"SparkApplicati
 }
 
 - (BOOL)isEqual:(id)object {
-  if (self == object)
+  if (self == object || [super isEqual:object])
     return YES;
   else if ([object isKindOfClass:[SparkApplication class]])
     return [sp_application isEqual:((SparkApplication *)object)->sp_application];

@@ -32,8 +32,8 @@ SPARK_CLASS_EXPORT
 
   /* status */
   struct _sp_seFlags {
-		unsigned int editing:1;
     unsigned int enabled:1;
+		unsigned int editing:1;
     unsigned int registred:1;
     unsigned int unplugged:1;
     unsigned int reserved:28;
@@ -41,7 +41,7 @@ SPARK_CLASS_EXPORT
   /* chained list of children */
   SparkEntry *sp_child;
   /* list head (or nil) */
-  SparkEntry *sp_parent; /* weak */
+  __weak SparkEntry *sp_parent;
   
   /* Manager */
   __weak SparkEntryManager *sp_manager;

@@ -16,19 +16,18 @@ NSString * const SparkActionLoaderDidRegisterPlugInNotification = @"SparkActionL
 
 @implementation SparkActionLoader
 
-+ (id)sharedLoader {
++ (SparkActionLoader *)sharedLoader; {
   static SparkActionLoader *loader = nil;
-  if (!loader) {
-    loader = [[self alloc] initWithDomains:kWBDefaultDomains subscribe:NO];
-  }
+  if (!loader) 
+    loader = [[self alloc] init];
   return loader;
 }
 
-+ (NSString *)extension {
+- (NSString *)extension {
   return @"spact";
 }
 
-+ (NSString *)supportFolderName {
+- (NSString *)supportFolderName {
   return kSparkFolderName;
 }
 
@@ -61,6 +60,17 @@ NSString * const SparkActionLoaderDidRegisterPlugInNotification = @"SparkActionL
   return [plug autorelease];
 }
 
+- (WBPluginBundle *)resolveConflict:(NSArray *)plugins {
+  for (NSUInteger idx = 0, count = [plugins count]; idx < count; idx++) {
+    WBPluginBundle *entry = [plugins objectAtIndex:idx];
+    /* prefere built in version, else don't care */
+    if ([entry domain] == kWBPluginDomainBuiltIn)
+      return entry;
+  }
+  // use first found
+  return nil;
+}
+
 #pragma mark -
 - (SparkPlugIn *)plugInForActionClass:(Class)cls {
   NSArray *plugins = [self plugins];
@@ -89,8 +99,8 @@ NSString * const SparkActionLoaderDidRegisterPlugInNotification = @"SparkActionL
   return nil;
 }
 
-- (id)loadPlugin:(NSString *)path {
-  SparkPlugIn *plugin = [super loadPlugin:path];
+- (id)loadPlugin:(NSBundle *)aBundle {
+  SparkPlugIn *plugin = [super loadPlugin:aBundle];
   if (plugin) {
     [[NSNotificationCenter defaultCenter] postNotificationName:SparkActionLoaderDidRegisterPlugInNotification
                                                         object:plugin];

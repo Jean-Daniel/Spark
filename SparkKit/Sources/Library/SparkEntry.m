@@ -475,13 +475,9 @@ NSString * const SparkEntryWillRemoveChildNotification = @"SparkEntryWillRemoveC
       [self release];
       WBThrowException(NSInvalidArchiveOperationException, @"Unsupported coder: %@", coder);
     }
-
+    
   }
   return self;
-}
-
-- (void)sp_encodeWithCoder:(NSCoder *)coder {
-
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {

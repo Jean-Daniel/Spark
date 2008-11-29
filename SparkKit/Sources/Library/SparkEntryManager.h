@@ -34,8 +34,8 @@ NSString * const SparkEntryManagerDidChangeEntryStatusNotification;
 SPARK_CLASS_EXPORT
 @interface SparkEntryManager : NSObject {
   @private
-  SparkLibrary *sp_library; /* __weak */
   NSMapTable *sp_objects;
+  SparkLibrary *sp_library; /* __weak */
 	
 	/* editing context */
 	struct {
@@ -72,25 +72,17 @@ SPARK_CLASS_EXPORT
 /* Orphan check */
 - (BOOL)containsEntryForAction:(SparkAction *)anAction;
 - (BOOL)containsEntryForTrigger:(SparkTrigger *)aTrigger;
-
-//- (BOOL)containsEntry:(SparkEntry *)anEntry;
-//- (BOOL)containsOverwriteEntryForTrigger:(SparkUID)aTrigger;
-//- (BOOL)containsPersistentEntryForTrigger:(SparkUID)aTrigger;
+/* Editor Queries */
+- (BOOL)containsEntryForApplication:(SparkApplication *)anApplication;
 
 /* Daemon queries */
 - (BOOL)containsRegistredEntryForTrigger:(SparkTrigger *)aTrigger;
-//- (BOOL)containsActiveEntryForTrigger:(SparkTrigger *)aTrigger;
-//- (BOOL)containsPersistentActiveEntryForTrigger:(SparkTrigger *)aTrigger;
-
-/* Editor Queries */
-- (BOOL)containsEntryForApplication:(SparkApplication *)anApplication;
 
 - (SparkEntry *)activeEntryForTrigger:(SparkTrigger *)aTrigger application:(SparkApplication *)anApplication;
 
 /* First, search for specifics actions */
 /* If not found, search for a default action */
-/* If default action found, search default action child for anApplication, and if exist returns child, else returns default */
-/* Else return NULL */
+/* If default action found, search default action child for anApplication. If one exists, returns NULL, else returns default */
 - (SparkEntry *)resolveEntryForTrigger:(SparkTrigger *)aTrigger application:(SparkApplication *)anApplication;
 
 @end
