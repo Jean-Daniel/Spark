@@ -32,7 +32,6 @@ extern EventTargetRef GetApplicationEventTarget(void);
 #import <SparkKit/SparkApplication.h>
 #import <SparkKit/SparkActionLoader.h>
 
-#import WBHEADER(WBCFContext.h)
 #import WBHEADER(WBProcessFunctions.h)
 
 #if defined (DEBUG)
@@ -110,10 +109,6 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
     sd_library = [aLibrary retain];
     if (sd_library) {
       NSNotificationCenter *center = [sd_library notificationCenter];
-//      [center addObserver:self
-//                 selector:@selector(didAddTrigger:)
-//                     name:SparkObjectSetDidAddObjectNotification
-//                   object:[sd_library triggerSet]];
       [center addObserver:self
                  selector:@selector(willRemoveTrigger:)
                      name:SparkObjectSetWillRemoveObjectNotification
@@ -198,7 +193,7 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
       [NSApp setDelegate:self];
       [SparkEvent setEventHandler:self andSelector:@selector(handleSparkEvent:)];
       sd_lock = [[NSLock alloc] init];
-      sd_locks = CFDictionaryCreateMutable(kCFAllocatorDefault, 0, &kWBNSObjectDictionaryKeyCallBacks, &kWBNSObjectDictionaryValueCallBacks);
+      sd_locks = NSCreateMapTable(NSObjectMapKeyCallBacks, NSObjectMapValueCallBacks, 0);
       /* Init core Apple Event handlers */
       [NSScriptSuiteRegistry sharedScriptSuiteRegistry];
       
@@ -243,7 +238,7 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
   [self closeConnection];
   [sd_growl release];
   [sd_lock release];
-  if (sd_locks) CFRelease(sd_locks);
+  if (sd_locks) NSFreeMapTable(sd_locks);
   [super dealloc];
 }
 
@@ -410,7 +405,7 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
       SparkPlugIn *plugin = [[SparkActionLoader sharedLoader] plugInForAction:action];
       
       [sd_lock lock];
-      NSMutableDictionary *locks = (NSMutableDictionary *)CFDictionaryGetValue(sd_locks, plugin);
+      NSMutableDictionary *locks = (NSMutableDictionary *)NSMapGet(sd_locks, plugin);
       NSMutableArray *queue = [locks objectForKey:lock];
       // dequeue item and execute next.
       [queue removeLastObject];
@@ -450,8 +445,8 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
         SparkPlugIn *plugin = [[SparkActionLoader sharedLoader] plugInForAction:action];
         
         [sd_lock lock];
-        NSMutableDictionary *locks = (NSMutableDictionary *)CFDictionaryGetValue(sd_locks, plugin);
-        if (!locks) { locks = [NSMutableDictionary dictionary]; CFDictionarySetValue(sd_locks, plugin, locks); }
+        NSMutableDictionary *locks = NSMapGet(sd_locks, plugin);
+        if (!locks) { locks = [NSMutableDictionary dictionary]; NSMapInsert(sd_locks, plugin, locks); }
         NSMutableArray *queue = [locks objectForKey:lock];
         if (!queue) { queue = [NSMutableArray array]; [locks setObject:queue forKey:lock]; }
         [queue insertObject:anEvent atIndex:0];

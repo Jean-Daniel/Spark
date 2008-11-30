@@ -23,10 +23,10 @@
 #import <SparkKit/SparkPrivate.h>
 #import <SparkKit/SparkEntryManager.h>
 
-#import WBHEADER(WBFunctions.h)
-#import WBHEADER(WBExtensions.h)
+#import WBHEADER(WBObjCRuntime.h)
 #import WBHEADER(WBImageAndTextCell.h)
-#import WBHEADER(WBAppKitExtensions.h)
+#import WBHEADER(NSIndexSet+WonderBox.h)
+#import WBHEADER(NSArrayController+WonderBox.h)
 
 static
 BOOL _SEEntryFilter(NSString *search, SparkEntry *entry, void *ctxt) {

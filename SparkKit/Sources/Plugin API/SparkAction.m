@@ -15,7 +15,6 @@
 #import <SparkKit/SparkEntryManager.h>
 #import <SparkKit/SparkActionLoader.h>
 
-#import WBHEADER(WBFunctions.h)
 #import WBHEADER(WBSerialization.h)
 
 static NSString * const kSparkActionFlagsKey = @"SAFlags";

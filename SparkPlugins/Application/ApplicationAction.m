@@ -11,11 +11,11 @@
 #import <Sparkkit/SparkPrivate.h>
 
 #import WBHEADER(WBAlias.h)
-#import WBHEADER(WBFunctions.h)
 #import WBHEADER(WBImageUtils.h)
 #import WBHEADER(WBAEFunctions.h)
 #import WBHEADER(WBFSFunctions.h)
-#import WBHEADER(WBAppKitExtensions.h)
+#import WBHEADER(NSImage+WonderBox.h)
+#import WBHEADER(WonderBoxFunctions.h)
 
 static NSString * const kApplicationNameKey = @"ApplicationName";
 static NSString * const kApplicationFlagsKey = @"ApplicationFlags";

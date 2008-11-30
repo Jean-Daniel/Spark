@@ -16,6 +16,42 @@
 		1B184CA20ED07D41003E2346 /* WBSecurityFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B184C980ED07D41003E2346 /* WBSecurityFunctions.c */; };
 		1B184CA30ED07D41003E2346 /* WBSecurityFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B184C990ED07D41003E2346 /* WBSecurityFunctions.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		1B184D230ED07D94003E2346 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B184D220ED07D94003E2346 /* Security.framework */; };
+		1B5D8C1B0EE2FA7500BD1EAF /* NSTableView+WonderBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8C130EE2FA6900BD1EAF /* NSTableView+WonderBox.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1B5D8C1C0EE2FA7900BD1EAF /* NSTableView+WonderBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8C140EE2FA6900BD1EAF /* NSTableView+WonderBox.m */; };
+		1B5D8C1D0EE2FA7C00BD1EAF /* NSImage+WonderBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8C100EE2FA6900BD1EAF /* NSImage+WonderBox.m */; };
+		1B5D8C1E0EE2FA7C00BD1EAF /* NSImage+WonderBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8C0F0EE2FA6900BD1EAF /* NSImage+WonderBox.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1B5D8C1F0EE2FA7F00BD1EAF /* NSArrayController+WonderBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8C070EE2FA6900BD1EAF /* NSArrayController+WonderBox.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1B5D8C200EE2FA7F00BD1EAF /* NSArrayController+WonderBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8C080EE2FA6900BD1EAF /* NSArrayController+WonderBox.m */; };
+		1B5D8C210EE2FA8200BD1EAF /* NSAlert+WonderBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8C050EE2FA6900BD1EAF /* NSAlert+WonderBox.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1B5D8C220EE2FA8200BD1EAF /* NSAlert+WonderBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8C060EE2FA6900BD1EAF /* NSAlert+WonderBox.m */; };
+		1B5D8C230EE2FAAD00BD1EAF /* NSColor+WonderBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8C0B0EE2FA6900BD1EAF /* NSColor+WonderBox.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1B5D8C240EE2FAAD00BD1EAF /* NSColor+WonderBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8C0C0EE2FA6900BD1EAF /* NSColor+WonderBox.m */; };
+		1B5D8C260EE2FABF00BD1EAF /* NSButton+WonderBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8C090EE2FA6900BD1EAF /* NSButton+WonderBox.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1B5D8C270EE2FAC000BD1EAF /* NSButton+WonderBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8C0A0EE2FA6900BD1EAF /* NSButton+WonderBox.m */; };
+		1B5D8C2D0EE2FAFF00BD1EAF /* WBVersionFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8C290EE2FAFF00BD1EAF /* WBVersionFunctions.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1B5D8C2E0EE2FAFF00BD1EAF /* WBVersionFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8C2A0EE2FAFF00BD1EAF /* WBVersionFunctions.m */; };
+		1B5D8C2F0EE2FAFF00BD1EAF /* WonderBoxFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8C2B0EE2FAFF00BD1EAF /* WonderBoxFunctions.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1B5D8C300EE2FAFF00BD1EAF /* WonderBoxFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8C2C0EE2FAFF00BD1EAF /* WonderBoxFunctions.m */; };
+		1B5D8C360EE2FB1E00BD1EAF /* WBGeometry.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8C340EE2FB1E00BD1EAF /* WBGeometry.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1B5D8C370EE2FB1E00BD1EAF /* WBGeometry.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8C350EE2FB1E00BD1EAF /* WBGeometry.m */; };
+		1B5D8C540EE2FC6700BD1EAF /* NSFileWrapper+WonderBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8C520EE2FC6700BD1EAF /* NSFileWrapper+WonderBox.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1B5D8C550EE2FC6700BD1EAF /* NSFileWrapper+WonderBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8C530EE2FC6700BD1EAF /* NSFileWrapper+WonderBox.m */; };
+		1B5D8C5A0EE2FC9100BD1EAF /* WBObjCRuntime.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8C580EE2FC9100BD1EAF /* WBObjCRuntime.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1B5D8C5B0EE2FC9100BD1EAF /* WBObjCRuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8C590EE2FC9100BD1EAF /* WBObjCRuntime.m */; };
+		1B5D8CBA0EE2FD4A00BD1EAF /* NSArray+WonderBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8CA60EE2FD3500BD1EAF /* NSArray+WonderBox.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1B5D8CBB0EE2FD4B00BD1EAF /* NSArray+WonderBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8CA70EE2FD3500BD1EAF /* NSArray+WonderBox.m */; };
+		1B5D8CBC0EE2FD4B00BD1EAF /* NSCharacterSet+WonderBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8CA80EE2FD3500BD1EAF /* NSCharacterSet+WonderBox.h */; };
+		1B5D8CBD0EE2FD4B00BD1EAF /* NSCharacterSet+WonderBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8CA90EE2FD3500BD1EAF /* NSCharacterSet+WonderBox.m */; };
+		1B5D8CBE0EE2FD5200BD1EAF /* NSError+WonderBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8CAE0EE2FD3500BD1EAF /* NSError+WonderBox.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1B5D8CBF0EE2FD5200BD1EAF /* NSError+WonderBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8CAF0EE2FD3500BD1EAF /* NSError+WonderBox.m */; };
+		1B5D8DCB0EE2FEF600BD1EAF /* NSString+WonderBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8CB40EE2FD3500BD1EAF /* NSString+WonderBox.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1B5D8DCC0EE2FEF600BD1EAF /* NSString+WonderBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8CB50EE2FD3500BD1EAF /* NSString+WonderBox.m */; };
+		1B5D8DD90EE2FF0A00BD1EAF /* NSTabView+WonderBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8DD70EE2FF0A00BD1EAF /* NSTabView+WonderBox.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1B5D8DDA0EE2FF0A00BD1EAF /* NSTabView+WonderBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8DD80EE2FF0A00BD1EAF /* NSTabView+WonderBox.m */; };
+		1B5D8E230EE3007D00BD1EAF /* NSIndexSet+WonderBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8CB10EE2FD3500BD1EAF /* NSIndexSet+WonderBox.m */; };
+		1B5D8E240EE3007D00BD1EAF /* NSIndexSet+WonderBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8CB00EE2FD3500BD1EAF /* NSIndexSet+WonderBox.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1B5D8E550EE3016F00BD1EAF /* WBBase64.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8E530EE3016F00BD1EAF /* WBBase64.c */; };
+		1B5D8E560EE3016F00BD1EAF /* WBBase64.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8E540EE3016F00BD1EAF /* WBBase64.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		1B6DACEF0D0C9D0400F352CC /* SparkMultiAlert.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B6DACED0D0C9D0400F352CC /* SparkMultiAlert.xib */; };
 		1B6DACF40D0CA0F800F352CC /* SparkPluginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B6DACF20D0CA0F800F352CC /* SparkPluginView.xib */; };
 		1B6DACF80D0CA1BF00F352CC /* SparkPlugin.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B6DACF60D0CA1BF00F352CC /* SparkPlugin.xib */; };
@@ -63,8 +99,6 @@
 		1BB986D00D382AD10074D18E /* WBShadowLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB986AE0D382AD10074D18E /* WBShadowLabel.m */; };
 		1BB986D10D382AD10074D18E /* WBSplitview.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB986AF0D382AD10074D18E /* WBSplitview.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		1BB986D20D382AD10074D18E /* WBSplitview.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB986B00D382AD10074D18E /* WBSplitview.m */; };
-		1BB986DF0D382B240074D18E /* WBColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB986DD0D382B240074D18E /* WBColor.m */; };
-		1BB986E00D382B240074D18E /* WBColor.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB986DE0D382B240074D18E /* WBColor.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		1BB987180D382C5C0074D18E /* WBTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB987120D382C5C0074D18E /* WBTemplate.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		1BB987190D382C5C0074D18E /* WBTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB987130D382C5C0074D18E /* WBTemplate.m */; };
 		1BB9871A0D382C5C0074D18E /* WBTemplateParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB987140D382C5C0074D18E /* WBTemplateParser.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -73,12 +107,6 @@
 		1BB9871D0D382C5C0074D18E /* WBXMLTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB987170D382C5C0074D18E /* WBXMLTemplate.m */; };
 		1BB987270D382C8B0074D18E /* WBTreeNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB987250D382C8B0074D18E /* WBTreeNode.m */; };
 		1BB987280D382C8B0074D18E /* WBTreeNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB987260D382C8B0074D18E /* WBTreeNode.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BE316680D38138B005C3FB2 /* WBCFContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316290D38138B005C3FB2 /* WBCFContext.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BE316690D38138B005C3FB2 /* WBCFContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE3162A0D38138B005C3FB2 /* WBCFContext.m */; };
-		1BE3166A0D38138B005C3FB2 /* WBExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE3162B0D38138B005C3FB2 /* WBExtensions.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BE3166B0D38138B005C3FB2 /* WBExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE3162C0D38138B005C3FB2 /* WBExtensions.m */; };
-		1BE3166C0D38138B005C3FB2 /* WBFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE3162D0D38138B005C3FB2 /* WBFunctions.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BE3166D0D38138B005C3FB2 /* WBFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE3162E0D38138B005C3FB2 /* WBFunctions.m */; };
 		1BE3166E0D38138B005C3FB2 /* WBAlias.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316300D38138B005C3FB2 /* WBAlias.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		1BE3166F0D38138B005C3FB2 /* WBAlias.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316310D38138B005C3FB2 /* WBAlias.m */; };
 		1BE316700D38138B005C3FB2 /* WBAliasedApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316320D38138B005C3FB2 /* WBAliasedApplication.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -109,8 +137,6 @@
 		1BE316A10D38138B005C3FB2 /* WBForwarding.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316650D38138B005C3FB2 /* WBForwarding.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		1BE316A20D38138B005C3FB2 /* WBKeyValueCoding.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316660D38138B005C3FB2 /* WBKeyValueCoding.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		1BE316A30D38138B005C3FB2 /* WBSingleton.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316670D38138B005C3FB2 /* WBSingleton.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BE316E70D3815C9005C3FB2 /* WBAppKitExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316D30D3815C9005C3FB2 /* WBAppKitExtensions.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BE316E80D3815C9005C3FB2 /* WBAppKitExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316D40D3815C9005C3FB2 /* WBAppKitExtensions.m */; };
 		1BE316EB0D3815C9005C3FB2 /* WBImageView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316D70D3815C9005C3FB2 /* WBImageView.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		1BE316EC0D3815C9005C3FB2 /* WBImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316D80D3815C9005C3FB2 /* WBImageView.m */; };
 		1BE316F10D3815C9005C3FB2 /* WBTableDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316DD0D3815C9005C3FB2 /* WBTableDataSource.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -258,6 +284,42 @@
 		1B184C980ED07D41003E2346 /* WBSecurityFunctions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WBSecurityFunctions.c; sourceTree = "<group>"; };
 		1B184C990ED07D41003E2346 /* WBSecurityFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBSecurityFunctions.h; sourceTree = "<group>"; };
 		1B184D220ED07D94003E2346 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		1B5D8C050EE2FA6900BD1EAF /* NSAlert+WonderBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAlert+WonderBox.h"; sourceTree = "<group>"; };
+		1B5D8C060EE2FA6900BD1EAF /* NSAlert+WonderBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAlert+WonderBox.m"; sourceTree = "<group>"; };
+		1B5D8C070EE2FA6900BD1EAF /* NSArrayController+WonderBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArrayController+WonderBox.h"; sourceTree = "<group>"; };
+		1B5D8C080EE2FA6900BD1EAF /* NSArrayController+WonderBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArrayController+WonderBox.m"; sourceTree = "<group>"; };
+		1B5D8C090EE2FA6900BD1EAF /* NSButton+WonderBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSButton+WonderBox.h"; sourceTree = "<group>"; };
+		1B5D8C0A0EE2FA6900BD1EAF /* NSButton+WonderBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSButton+WonderBox.m"; sourceTree = "<group>"; };
+		1B5D8C0B0EE2FA6900BD1EAF /* NSColor+WonderBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSColor+WonderBox.h"; sourceTree = "<group>"; };
+		1B5D8C0C0EE2FA6900BD1EAF /* NSColor+WonderBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSColor+WonderBox.m"; sourceTree = "<group>"; };
+		1B5D8C0F0EE2FA6900BD1EAF /* NSImage+WonderBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSImage+WonderBox.h"; sourceTree = "<group>"; };
+		1B5D8C100EE2FA6900BD1EAF /* NSImage+WonderBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSImage+WonderBox.m"; sourceTree = "<group>"; };
+		1B5D8C130EE2FA6900BD1EAF /* NSTableView+WonderBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTableView+WonderBox.h"; sourceTree = "<group>"; };
+		1B5D8C140EE2FA6900BD1EAF /* NSTableView+WonderBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTableView+WonderBox.m"; sourceTree = "<group>"; };
+		1B5D8C290EE2FAFF00BD1EAF /* WBVersionFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBVersionFunctions.h; sourceTree = "<group>"; };
+		1B5D8C2A0EE2FAFF00BD1EAF /* WBVersionFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBVersionFunctions.m; sourceTree = "<group>"; };
+		1B5D8C2B0EE2FAFF00BD1EAF /* WonderBoxFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WonderBoxFunctions.h; sourceTree = "<group>"; };
+		1B5D8C2C0EE2FAFF00BD1EAF /* WonderBoxFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WonderBoxFunctions.m; sourceTree = "<group>"; };
+		1B5D8C340EE2FB1E00BD1EAF /* WBGeometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBGeometry.h; sourceTree = "<group>"; };
+		1B5D8C350EE2FB1E00BD1EAF /* WBGeometry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBGeometry.m; sourceTree = "<group>"; };
+		1B5D8C520EE2FC6700BD1EAF /* NSFileWrapper+WonderBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileWrapper+WonderBox.h"; sourceTree = "<group>"; };
+		1B5D8C530EE2FC6700BD1EAF /* NSFileWrapper+WonderBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileWrapper+WonderBox.m"; sourceTree = "<group>"; };
+		1B5D8C580EE2FC9100BD1EAF /* WBObjCRuntime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBObjCRuntime.h; sourceTree = "<group>"; };
+		1B5D8C590EE2FC9100BD1EAF /* WBObjCRuntime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBObjCRuntime.m; sourceTree = "<group>"; };
+		1B5D8CA60EE2FD3500BD1EAF /* NSArray+WonderBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+WonderBox.h"; sourceTree = "<group>"; };
+		1B5D8CA70EE2FD3500BD1EAF /* NSArray+WonderBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+WonderBox.m"; sourceTree = "<group>"; };
+		1B5D8CA80EE2FD3500BD1EAF /* NSCharacterSet+WonderBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSCharacterSet+WonderBox.h"; sourceTree = "<group>"; };
+		1B5D8CA90EE2FD3500BD1EAF /* NSCharacterSet+WonderBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSCharacterSet+WonderBox.m"; sourceTree = "<group>"; };
+		1B5D8CAE0EE2FD3500BD1EAF /* NSError+WonderBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+WonderBox.h"; sourceTree = "<group>"; };
+		1B5D8CAF0EE2FD3500BD1EAF /* NSError+WonderBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+WonderBox.m"; sourceTree = "<group>"; };
+		1B5D8CB00EE2FD3500BD1EAF /* NSIndexSet+WonderBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSIndexSet+WonderBox.h"; sourceTree = "<group>"; };
+		1B5D8CB10EE2FD3500BD1EAF /* NSIndexSet+WonderBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSIndexSet+WonderBox.m"; sourceTree = "<group>"; };
+		1B5D8CB40EE2FD3500BD1EAF /* NSString+WonderBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+WonderBox.h"; sourceTree = "<group>"; };
+		1B5D8CB50EE2FD3500BD1EAF /* NSString+WonderBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+WonderBox.m"; sourceTree = "<group>"; };
+		1B5D8DD70EE2FF0A00BD1EAF /* NSTabView+WonderBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTabView+WonderBox.h"; sourceTree = "<group>"; };
+		1B5D8DD80EE2FF0A00BD1EAF /* NSTabView+WonderBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTabView+WonderBox.m"; sourceTree = "<group>"; };
+		1B5D8E530EE3016F00BD1EAF /* WBBase64.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WBBase64.c; sourceTree = "<group>"; };
+		1B5D8E540EE3016F00BD1EAF /* WBBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBBase64.h; sourceTree = "<group>"; };
 		1B6DACEE0D0C9D0400F352CC /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SparkMultiAlert.xib; sourceTree = "<group>"; };
 		1B6DACF30D0CA0F800F352CC /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SparkPluginView.xib; sourceTree = "<group>"; };
 		1B6DACF70D0CA1BF00F352CC /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SparkPlugin.xib; sourceTree = "<group>"; };
@@ -305,8 +367,6 @@
 		1BB986AE0D382AD10074D18E /* WBShadowLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBShadowLabel.m; sourceTree = "<group>"; };
 		1BB986AF0D382AD10074D18E /* WBSplitview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBSplitview.h; sourceTree = "<group>"; };
 		1BB986B00D382AD10074D18E /* WBSplitview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBSplitview.m; sourceTree = "<group>"; };
-		1BB986DD0D382B240074D18E /* WBColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBColor.m; sourceTree = "<group>"; };
-		1BB986DE0D382B240074D18E /* WBColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBColor.h; sourceTree = "<group>"; };
 		1BB987120D382C5C0074D18E /* WBTemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTemplate.h; sourceTree = "<group>"; };
 		1BB987130D382C5C0074D18E /* WBTemplate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTemplate.m; sourceTree = "<group>"; };
 		1BB987140D382C5C0074D18E /* WBTemplateParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTemplateParser.h; sourceTree = "<group>"; };
@@ -315,12 +375,6 @@
 		1BB987170D382C5C0074D18E /* WBXMLTemplate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBXMLTemplate.m; sourceTree = "<group>"; };
 		1BB987250D382C8B0074D18E /* WBTreeNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTreeNode.m; sourceTree = "<group>"; };
 		1BB987260D382C8B0074D18E /* WBTreeNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTreeNode.h; sourceTree = "<group>"; };
-		1BE316290D38138B005C3FB2 /* WBCFContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBCFContext.h; sourceTree = "<group>"; };
-		1BE3162A0D38138B005C3FB2 /* WBCFContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBCFContext.m; sourceTree = "<group>"; };
-		1BE3162B0D38138B005C3FB2 /* WBExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBExtensions.h; sourceTree = "<group>"; };
-		1BE3162C0D38138B005C3FB2 /* WBExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBExtensions.m; sourceTree = "<group>"; };
-		1BE3162D0D38138B005C3FB2 /* WBFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBFunctions.h; sourceTree = "<group>"; };
-		1BE3162E0D38138B005C3FB2 /* WBFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBFunctions.m; sourceTree = "<group>"; };
 		1BE316300D38138B005C3FB2 /* WBAlias.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBAlias.h; sourceTree = "<group>"; };
 		1BE316310D38138B005C3FB2 /* WBAlias.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBAlias.m; sourceTree = "<group>"; };
 		1BE316320D38138B005C3FB2 /* WBAliasedApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBAliasedApplication.h; sourceTree = "<group>"; };
@@ -351,8 +405,6 @@
 		1BE316650D38138B005C3FB2 /* WBForwarding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBForwarding.h; sourceTree = "<group>"; };
 		1BE316660D38138B005C3FB2 /* WBKeyValueCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBKeyValueCoding.h; sourceTree = "<group>"; };
 		1BE316670D38138B005C3FB2 /* WBSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBSingleton.h; sourceTree = "<group>"; };
-		1BE316D30D3815C9005C3FB2 /* WBAppKitExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBAppKitExtensions.h; sourceTree = "<group>"; };
-		1BE316D40D3815C9005C3FB2 /* WBAppKitExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBAppKitExtensions.m; sourceTree = "<group>"; };
 		1BE316D70D3815C9005C3FB2 /* WBImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBImageView.h; sourceTree = "<group>"; };
 		1BE316D80D3815C9005C3FB2 /* WBImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBImageView.m; sourceTree = "<group>"; };
 		1BE316DD0D3815C9005C3FB2 /* WBTableDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTableDataSource.h; sourceTree = "<group>"; };
@@ -560,6 +612,46 @@
 			path = Security;
 			sourceTree = "<group>";
 		};
+		1B5D8C040EE2FA6900BD1EAF /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				1B5D8C050EE2FA6900BD1EAF /* NSAlert+WonderBox.h */,
+				1B5D8C060EE2FA6900BD1EAF /* NSAlert+WonderBox.m */,
+				1B5D8C070EE2FA6900BD1EAF /* NSArrayController+WonderBox.h */,
+				1B5D8C080EE2FA6900BD1EAF /* NSArrayController+WonderBox.m */,
+				1B5D8C090EE2FA6900BD1EAF /* NSButton+WonderBox.h */,
+				1B5D8C0A0EE2FA6900BD1EAF /* NSButton+WonderBox.m */,
+				1B5D8C0B0EE2FA6900BD1EAF /* NSColor+WonderBox.h */,
+				1B5D8C0C0EE2FA6900BD1EAF /* NSColor+WonderBox.m */,
+				1B5D8C0F0EE2FA6900BD1EAF /* NSImage+WonderBox.h */,
+				1B5D8C100EE2FA6900BD1EAF /* NSImage+WonderBox.m */,
+				1B5D8DD70EE2FF0A00BD1EAF /* NSTabView+WonderBox.h */,
+				1B5D8DD80EE2FF0A00BD1EAF /* NSTabView+WonderBox.m */,
+				1B5D8C130EE2FA6900BD1EAF /* NSTableView+WonderBox.h */,
+				1B5D8C140EE2FA6900BD1EAF /* NSTableView+WonderBox.m */,
+				1B5D8C520EE2FC6700BD1EAF /* NSFileWrapper+WonderBox.h */,
+				1B5D8C530EE2FC6700BD1EAF /* NSFileWrapper+WonderBox.m */,
+			);
+			path = Categories;
+			sourceTree = "<group>";
+		};
+		1B5D8CA50EE2FD3500BD1EAF /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				1B5D8CA60EE2FD3500BD1EAF /* NSArray+WonderBox.h */,
+				1B5D8CA70EE2FD3500BD1EAF /* NSArray+WonderBox.m */,
+				1B5D8CA80EE2FD3500BD1EAF /* NSCharacterSet+WonderBox.h */,
+				1B5D8CA90EE2FD3500BD1EAF /* NSCharacterSet+WonderBox.m */,
+				1B5D8CAE0EE2FD3500BD1EAF /* NSError+WonderBox.h */,
+				1B5D8CAF0EE2FD3500BD1EAF /* NSError+WonderBox.m */,
+				1B5D8CB00EE2FD3500BD1EAF /* NSIndexSet+WonderBox.h */,
+				1B5D8CB10EE2FD3500BD1EAF /* NSIndexSet+WonderBox.m */,
+				1B5D8CB40EE2FD3500BD1EAF /* NSString+WonderBox.h */,
+				1B5D8CB50EE2FD3500BD1EAF /* NSString+WonderBox.m */,
+			);
+			path = Categories;
+			sourceTree = "<group>";
+		};
 		1B7BB7880CBE1FD700484A9E /* xcconfigs */ = {
 			isa = PBXGroup;
 			children = (
@@ -655,22 +747,10 @@
 			path = Templates;
 			sourceTree = "<group>";
 		};
-		1BE316280D38138B005C3FB2 /* Core */ = {
-			isa = PBXGroup;
-			children = (
-				1BE3162D0D38138B005C3FB2 /* WBFunctions.h */,
-				1BE3162E0D38138B005C3FB2 /* WBFunctions.m */,
-				1BE316290D38138B005C3FB2 /* WBCFContext.h */,
-				1BE3162A0D38138B005C3FB2 /* WBCFContext.m */,
-				1BE3162B0D38138B005C3FB2 /* WBExtensions.h */,
-				1BE3162C0D38138B005C3FB2 /* WBExtensions.m */,
-			);
-			path = Core;
-			sourceTree = "<group>";
-		};
 		1BE3162F0D38138B005C3FB2 /* Foundation */ = {
 			isa = PBXGroup;
 			children = (
+				1B5D8CA50EE2FD3500BD1EAF /* Categories */,
 				1BE316300D38138B005C3FB2 /* WBAlias.h */,
 				1BE316310D38138B005C3FB2 /* WBAlias.m */,
 				1B184C870ED07D0D003E2346 /* WBThreadPort.h */,
@@ -694,6 +774,10 @@
 		1BE316440D38138B005C3FB2 /* Functions */ = {
 			isa = PBXGroup;
 			children = (
+				1B5D8E540EE3016F00BD1EAF /* WBBase64.h */,
+				1B5D8E530EE3016F00BD1EAF /* WBBase64.c */,
+				1B5D8C340EE2FB1E00BD1EAF /* WBGeometry.h */,
+				1B5D8C350EE2FB1E00BD1EAF /* WBGeometry.m */,
 				1BE316470D38138B005C3FB2 /* WBAEFunctions.c */,
 				1BE316480D38138B005C3FB2 /* WBAEFunctions.h */,
 				1BE3164B0D38138B005C3FB2 /* WBCGFunctions.h */,
@@ -704,12 +788,18 @@
 				1BE316520D38138B005C3FB2 /* WBFSFunctions.m */,
 				1BE316550D38138B005C3FB2 /* WBIOKitFunctions.c */,
 				1BE316560D38138B005C3FB2 /* WBIOKitFunctions.h */,
+				1B5D8C580EE2FC9100BD1EAF /* WBObjCRuntime.h */,
+				1B5D8C590EE2FC9100BD1EAF /* WBObjCRuntime.m */,
 				1BE316580D38138B005C3FB2 /* WBLoginItems.h */,
 				1BE316570D38138B005C3FB2 /* WBLoginItems.c */,
 				1BE316590D38138B005C3FB2 /* WBLSFunctions.h */,
 				1BE3165A0D38138B005C3FB2 /* WBLSFunctions.m */,
 				1BE3165F0D38138B005C3FB2 /* WBProcessFunctions.c */,
 				1BE316600D38138B005C3FB2 /* WBProcessFunctions.h */,
+				1B5D8C290EE2FAFF00BD1EAF /* WBVersionFunctions.h */,
+				1B5D8C2A0EE2FAFF00BD1EAF /* WBVersionFunctions.m */,
+				1B5D8C2B0EE2FAFF00BD1EAF /* WonderBoxFunctions.h */,
+				1B5D8C2C0EE2FAFF00BD1EAF /* WonderBoxFunctions.m */,
 			);
 			path = Functions;
 			sourceTree = "<group>";
@@ -728,20 +818,17 @@
 		1BE316D20D3815C9005C3FB2 /* AppKit */ = {
 			isa = PBXGroup;
 			children = (
-				1BB986DD0D382B240074D18E /* WBColor.m */,
-				1BB986DE0D382B240074D18E /* WBColor.h */,
+				1B5D8C040EE2FA6900BD1EAF /* Categories */,
 				1B81EBA00D38326C004B82A2 /* WBOutlineView.h */,
 				1B81EBA10D38326C004B82A2 /* WBOutlineView.m */,
-				1BE316D30D3815C9005C3FB2 /* WBAppKitExtensions.h */,
-				1BE316D40D3815C9005C3FB2 /* WBAppKitExtensions.m */,
 				1BE316D70D3815C9005C3FB2 /* WBImageView.h */,
 				1BE316D80D3815C9005C3FB2 /* WBImageView.m */,
-				1BE316DD0D3815C9005C3FB2 /* WBTableDataSource.h */,
-				1BE316DE0D3815C9005C3FB2 /* WBTableDataSource.m */,
 				1BE316DF0D3815C9005C3FB2 /* WBTableView.h */,
 				1BE316E00D3815C9005C3FB2 /* WBTableView.m */,
 				1BE316E30D3815C9005C3FB2 /* WBViewController.h */,
 				1BE316E40D3815C9005C3FB2 /* WBViewController.m */,
+				1BE316DD0D3815C9005C3FB2 /* WBTableDataSource.h */,
+				1BE316DE0D3815C9005C3FB2 /* WBTableDataSource.m */,
 				1BE316E50D3815C9005C3FB2 /* WBWindowController.h */,
 				1BE316E60D3815C9005C3FB2 /* WBWindowController.m */,
 			);
@@ -862,7 +949,6 @@
 		98725D0406CB9E540072B8E4 /* WonderBox */ = {
 			isa = PBXGroup;
 			children = (
-				1BE316280D38138B005C3FB2 /* Core */,
 				1BE316630D38138B005C3FB2 /* Macros */,
 				1BB983160D381CDE0074D18E /* Icons */,
 				1BB983130D381CDE0074D18E /* Images */,
@@ -951,9 +1037,6 @@
 				98EB96DE0C174D9D00C7B72D /* SparkPluginView.h in Headers */,
 				98A8AB9F0D01B21800CE8C12 /* SparkLibraryPrivate.h in Headers */,
 				1B78811F0D172D2900EE2B66 /* SparkEntryPrivate.h in Headers */,
-				1BE316680D38138B005C3FB2 /* WBCFContext.h in Headers */,
-				1BE3166A0D38138B005C3FB2 /* WBExtensions.h in Headers */,
-				1BE3166C0D38138B005C3FB2 /* WBFunctions.h in Headers */,
 				1BE3166E0D38138B005C3FB2 /* WBAlias.h in Headers */,
 				1BE316700D38138B005C3FB2 /* WBAliasedApplication.h in Headers */,
 				1BE316720D38138B005C3FB2 /* WBApplication.h in Headers */,
@@ -971,7 +1054,6 @@
 				1BE316A10D38138B005C3FB2 /* WBForwarding.h in Headers */,
 				1BE316A20D38138B005C3FB2 /* WBKeyValueCoding.h in Headers */,
 				1BE316A30D38138B005C3FB2 /* WBSingleton.h in Headers */,
-				1BE316E70D3815C9005C3FB2 /* WBAppKitExtensions.h in Headers */,
 				1BE316EB0D3815C9005C3FB2 /* WBImageView.h in Headers */,
 				1BE316F10D3815C9005C3FB2 /* WBTableDataSource.h in Headers */,
 				1BE316F30D3815C9005C3FB2 /* WBTableView.h in Headers */,
@@ -992,7 +1074,6 @@
 				1BB986CD0D382AD10074D18E /* WBProgressPanel.h in Headers */,
 				1BB986CF0D382AD10074D18E /* WBShadowLabel.h in Headers */,
 				1BB986D10D382AD10074D18E /* WBSplitview.h in Headers */,
-				1BB986E00D382B240074D18E /* WBColor.h in Headers */,
 				1BB987180D382C5C0074D18E /* WBTemplate.h in Headers */,
 				1BB9871A0D382C5C0074D18E /* WBTemplateParser.h in Headers */,
 				1BB9871C0D382C5C0074D18E /* WBXMLTemplate.h in Headers */,
@@ -1003,6 +1084,24 @@
 				1B184C9B0ED07D41003E2346 /* WBCDSAFunctions.h in Headers */,
 				1B184C9F0ED07D41003E2346 /* WBDigestFunctions.h in Headers */,
 				1B184CA30ED07D41003E2346 /* WBSecurityFunctions.h in Headers */,
+				1B5D8C1B0EE2FA7500BD1EAF /* NSTableView+WonderBox.h in Headers */,
+				1B5D8C1E0EE2FA7C00BD1EAF /* NSImage+WonderBox.h in Headers */,
+				1B5D8C1F0EE2FA7F00BD1EAF /* NSArrayController+WonderBox.h in Headers */,
+				1B5D8C210EE2FA8200BD1EAF /* NSAlert+WonderBox.h in Headers */,
+				1B5D8C230EE2FAAD00BD1EAF /* NSColor+WonderBox.h in Headers */,
+				1B5D8C260EE2FABF00BD1EAF /* NSButton+WonderBox.h in Headers */,
+				1B5D8C2D0EE2FAFF00BD1EAF /* WBVersionFunctions.h in Headers */,
+				1B5D8C2F0EE2FAFF00BD1EAF /* WonderBoxFunctions.h in Headers */,
+				1B5D8C360EE2FB1E00BD1EAF /* WBGeometry.h in Headers */,
+				1B5D8C540EE2FC6700BD1EAF /* NSFileWrapper+WonderBox.h in Headers */,
+				1B5D8C5A0EE2FC9100BD1EAF /* WBObjCRuntime.h in Headers */,
+				1B5D8CBA0EE2FD4A00BD1EAF /* NSArray+WonderBox.h in Headers */,
+				1B5D8CBC0EE2FD4B00BD1EAF /* NSCharacterSet+WonderBox.h in Headers */,
+				1B5D8CBE0EE2FD5200BD1EAF /* NSError+WonderBox.h in Headers */,
+				1B5D8DCB0EE2FEF600BD1EAF /* NSString+WonderBox.h in Headers */,
+				1B5D8DD90EE2FF0A00BD1EAF /* NSTabView+WonderBox.h in Headers */,
+				1B5D8E240EE3007D00BD1EAF /* NSIndexSet+WonderBox.h in Headers */,
+				1B5D8E560EE3016F00BD1EAF /* WBBase64.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1172,9 +1271,6 @@
 				982C707C0D02EDBA0060304C /* SparkEntryManagerPrivate.m in Sources */,
 				982C70CD0D02F2400060304C /* SparkLibraryLegacy.m in Sources */,
 				98E1D5EA0D031CA800219B11 /* SparkLibrarySynchronizer.m in Sources */,
-				1BE316690D38138B005C3FB2 /* WBCFContext.m in Sources */,
-				1BE3166B0D38138B005C3FB2 /* WBExtensions.m in Sources */,
-				1BE3166D0D38138B005C3FB2 /* WBFunctions.m in Sources */,
 				1BE3166F0D38138B005C3FB2 /* WBAlias.m in Sources */,
 				1BE316710D38138B005C3FB2 /* WBAliasedApplication.m in Sources */,
 				1BE316730D38138B005C3FB2 /* WBApplication.m in Sources */,
@@ -1188,7 +1284,6 @@
 				1BE316940D38138B005C3FB2 /* WBLoginItems.c in Sources */,
 				1BE316970D38138B005C3FB2 /* WBLSFunctions.m in Sources */,
 				1BE3169C0D38138B005C3FB2 /* WBProcessFunctions.c in Sources */,
-				1BE316E80D3815C9005C3FB2 /* WBAppKitExtensions.m in Sources */,
 				1BE316EC0D3815C9005C3FB2 /* WBImageView.m in Sources */,
 				1BE316F20D3815C9005C3FB2 /* WBTableDataSource.m in Sources */,
 				1BE316F40D3815C9005C3FB2 /* WBTableView.m in Sources */,
@@ -1209,7 +1304,6 @@
 				1BB986CE0D382AD10074D18E /* WBProgressPanel.m in Sources */,
 				1BB986D00D382AD10074D18E /* WBShadowLabel.m in Sources */,
 				1BB986D20D382AD10074D18E /* WBSplitview.m in Sources */,
-				1BB986DF0D382B240074D18E /* WBColor.m in Sources */,
 				1BB987190D382C5C0074D18E /* WBTemplate.m in Sources */,
 				1BB9871B0D382C5C0074D18E /* WBTemplateParser.m in Sources */,
 				1BB9871D0D382C5C0074D18E /* WBXMLTemplate.m in Sources */,
@@ -1220,6 +1314,24 @@
 				1B184C9A0ED07D41003E2346 /* WBCDSAFunctions.c in Sources */,
 				1B184C9E0ED07D41003E2346 /* WBDigestFunctions.c in Sources */,
 				1B184CA20ED07D41003E2346 /* WBSecurityFunctions.c in Sources */,
+				1B5D8C1C0EE2FA7900BD1EAF /* NSTableView+WonderBox.m in Sources */,
+				1B5D8C1D0EE2FA7C00BD1EAF /* NSImage+WonderBox.m in Sources */,
+				1B5D8C200EE2FA7F00BD1EAF /* NSArrayController+WonderBox.m in Sources */,
+				1B5D8C220EE2FA8200BD1EAF /* NSAlert+WonderBox.m in Sources */,
+				1B5D8C240EE2FAAD00BD1EAF /* NSColor+WonderBox.m in Sources */,
+				1B5D8C270EE2FAC000BD1EAF /* NSButton+WonderBox.m in Sources */,
+				1B5D8C2E0EE2FAFF00BD1EAF /* WBVersionFunctions.m in Sources */,
+				1B5D8C300EE2FAFF00BD1EAF /* WonderBoxFunctions.m in Sources */,
+				1B5D8C370EE2FB1E00BD1EAF /* WBGeometry.m in Sources */,
+				1B5D8C550EE2FC6700BD1EAF /* NSFileWrapper+WonderBox.m in Sources */,
+				1B5D8C5B0EE2FC9100BD1EAF /* WBObjCRuntime.m in Sources */,
+				1B5D8CBB0EE2FD4B00BD1EAF /* NSArray+WonderBox.m in Sources */,
+				1B5D8CBD0EE2FD4B00BD1EAF /* NSCharacterSet+WonderBox.m in Sources */,
+				1B5D8CBF0EE2FD5200BD1EAF /* NSError+WonderBox.m in Sources */,
+				1B5D8DCC0EE2FEF600BD1EAF /* NSString+WonderBox.m in Sources */,
+				1B5D8DDA0EE2FF0A00BD1EAF /* NSTabView+WonderBox.m in Sources */,
+				1B5D8E230EE3007D00BD1EAF /* NSIndexSet+WonderBox.m in Sources */,
+				1B5D8E550EE3016F00BD1EAF /* WBBase64.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -6,11 +6,11 @@
  *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
  */
 
-#import WBHEADER(WBAppKitExtensions.h)
-
 #import <SparkKit/SparkAlert.h>
 #import <SparkKit/SparkActionPlugIn.h>
 #import <SparkKit/SparkMultipleAlerts.h>
+
+#import WBHEADER(NSImage+WonderBox.h)
 
 @interface SparkMultipleAlerts ()
 - (void)refreshUI;

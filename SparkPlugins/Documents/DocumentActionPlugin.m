@@ -11,7 +11,7 @@
 #import "DocumentAction.h"
 #import "DAApplicationMenu.h"
 
-#import WBHEADER(WBAppKitExtensions.h)
+#import WBHEADER(NSImage+WonderBox.h)
 
 @implementation DocumentActionPlugin
 

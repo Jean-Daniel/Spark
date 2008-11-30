@@ -10,9 +10,9 @@
 #import <SparkKit/SparkHotKey.h>
 #import <SparkKit/SparkAction.h>
 
-#import WBHEADER(WBFunctions.h)
 #import WBHEADER(WBForwarding.h)
-#import WBHEADER(WBAppKitExtensions.h)
+#import WBHEADER(WBObjCRuntime.h)
+#import WBHEADER(NSImage+WonderBox.h)
 
 #import <HotKeyToolKit/HotKeyToolKit.h>
 

@@ -21,7 +21,6 @@
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkActionLoader.h>
 
-#import WBHEADER(WBFunctions.h)
 #import WBHEADER(WBFSFunctions.h)
 
 #import <SUpdaterKit/SURestarter.h>

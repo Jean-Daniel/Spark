@@ -15,7 +15,7 @@
 #import <SparkKit/SparkPrivate.h>
 #import <SparkKit/SparkActionLoader.h>
 
-#import WBHEADER(WBAppKitExtensions.h)
+#import WBHEADER(NSImage+WonderBox.h)
 
 #import "SparkEntryPrivate.h"
 #import "SparkLibraryPrivate.h"

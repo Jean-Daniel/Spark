@@ -13,8 +13,7 @@
 #import <SparkKit/SparkPreferences.h>
 #import <SparkKit/SparkActionPlugIn.h>
 
-#import WBHEADER(WBExtensions.h)
-#import WBHEADER(WBAppKitExtensions.h)
+#import WBHEADER(NSImage+WonderBox.h)
 
 @interface SparkViewPlaceholder : NSObject {
   @private

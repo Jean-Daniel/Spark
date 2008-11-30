@@ -18,7 +18,7 @@
   SparkDistantLibrary *sd_rlibrary;
   
   NSLock *sd_lock;
-  CFMutableDictionaryRef sd_locks;
+  NSMapTable *sd_locks;
   
   /* Growl support */
   NSMutableArray *sd_growl;

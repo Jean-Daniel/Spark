@@ -13,10 +13,11 @@
 #import "ITunesVisualSetting.h"
 
 #import WBHEADER(WBAlias.h)
-#import WBHEADER(WBExtensions.h)
 #import WBHEADER(WBFSFunctions.h)
 #import WBHEADER(WBLSFunctions.h)
-#import WBHEADER(WBAppKitExtensions.h)
+#import WBHEADER(NSImage+WonderBox.h)
+#import WBHEADER(NSString+WonderBox.h)
+#import WBHEADER(NSTabView+WonderBox.h)
 
 static 
 NSImage *ITunesGetApplicationIcon(void) {

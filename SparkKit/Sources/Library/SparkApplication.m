@@ -11,10 +11,10 @@
 #import <SparkKit/SparkPrivate.h>
 
 #import WBHEADER(WBAlias.h)
-#import WBHEADER(WBFunctions.h)
 #import WBHEADER(WBLSFunctions.h)
+#import WBHEADER(NSImage+WonderBox.h)
 #import WBHEADER(WBProcessFunctions.h)
-#import WBHEADER(WBAppKitExtensions.h)
+#import WBHEADER(WonderBoxFunctions.h)
 
 static
 NSString * const kSparkApplicationKey = @"SparkApplication";

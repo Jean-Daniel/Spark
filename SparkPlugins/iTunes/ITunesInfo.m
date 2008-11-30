@@ -13,7 +13,7 @@
 
 #import <Growl/GrowlApplicationBridge.h>
 
-#include WBHEADER(WBFunctions.h)
+#import WBHEADER(WBGeometry.h)
 #include WBHEADER(WBCGFunctions.h)
 #include WBHEADER(WBNotificationWindow.h)
 

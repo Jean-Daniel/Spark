@@ -10,8 +10,8 @@
 
 #import "SystemActionPlugin.h"
 
-#import WBHEADER(WBExtensions.h)
 #import WBHEADER(WBDSFunctions.h)
+#import WBHEADER(NSString+WonderBox.h)
 
 @implementation SystemActionPlugin
 

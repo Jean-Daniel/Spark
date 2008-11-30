@@ -10,7 +10,7 @@
 
 #import WBHEADER(WBImageView.h)
 #import WBHEADER(WBImageUtils.h)
-#import WBHEADER(WBAppKitExtensions.h)
+#import WBHEADER(NSImage+WonderBox.h)
 
 @implementation ApplicationPlugin
 

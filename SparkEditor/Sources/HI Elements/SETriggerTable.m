@@ -8,7 +8,7 @@
 
 #import "SETriggerTable.h"
 
-#import WBHEADER(WBExtensions.h)
+#import WBHEADER(NSIndexSet+WonderBox.h)
 
 @implementation SETriggerTable
 

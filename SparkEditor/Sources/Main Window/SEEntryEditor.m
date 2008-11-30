@@ -24,11 +24,12 @@
 #import <SparkKit/SparkActionLoader.h>
 #import <SparkKit/SparkActionPlugIn.h>
 
-#import WBHEADER(WBFunctions.h)
-#import WBHEADER(WBExtensions.h)
-#import WBHEADER(WBAppKitExtensions.h)
-
 #import <HotKeyToolKit/HotKeyToolKit.h>
+
+#import WBHEADER(WBGeometry.h)
+#import WBHEADER(WBObjCRuntime.h)
+#import WBHEADER(WonderBoxFunctions.h)
+#import WBHEADER(NSString+WonderBox.h)
 
 /* Custom resize animation time */
 @interface SETrapWindow : HKTrapWindow {

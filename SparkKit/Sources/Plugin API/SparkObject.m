@@ -12,9 +12,9 @@
 #import <SparkKit/SparkFunctions.h>
 #import <SparkKit/SparkIconManager.h>
 
-#import "SparkLibraryPrivate.h"
+#import WBHEADER(WBObjCRuntime.h)
 
-#import WBHEADER(WBFunctions.h)
+#import "SparkLibraryPrivate.h"
 
 static
 NSString* const kSparkObjectUIDKey = @"SparkObjectUID";

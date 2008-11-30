@@ -10,7 +10,7 @@
 #import "TAKeystroke.h"
 
 #include <unistd.h>
-#import WBHEADER(WBFunctions.h)
+#import WBHEADER(WonderBoxFunctions.h)
 #import <HotKeyToolKit/HotKeyToolKit.h>
 
 NSString * const kKeyboardActionBundleIdentifier = @"org.shadowlab.spark.action.keyboard";

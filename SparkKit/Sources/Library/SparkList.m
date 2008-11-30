@@ -11,8 +11,8 @@
 #import <SparkKit/SparkPrivate.h>
 #import <SparkKit/SparkEntryManager.h>
 
-#import WBHEADER(WBExtensions.h)
-#import WBHEADER(WBAppKitExtensions.h)
+#import WBHEADER(NSArray+WonderBox.h)
+#import WBHEADER(NSImage+WonderBox.h)
 
 #import "SparkEntryPrivate.h"
 

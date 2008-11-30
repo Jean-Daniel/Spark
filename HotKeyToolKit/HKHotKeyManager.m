@@ -47,13 +47,6 @@ BOOL HKTraceHotKeyEvents = NO;
 
 @implementation HKHotKeyManager
 
-static EventHandlerUPP kHKHandlerUPP = NULL;
-+ (void)initialize {
-  if ([HKHotKeyManager class] == self) {
-    kHKHandlerUPP = NewEventHandlerUPP(_HandleHotKeyEvent);
-  }
-}
-
 + (HKHotKeyManager *)sharedManager {
   static HKHotKeyManager *shared = nil;
   if (!shared) {
@@ -77,7 +70,7 @@ static EventHandlerUPP kHKHandlerUPP = NULL;
     eventTypes[1].eventClass = kEventClassKeyboard;
     eventTypes[1].eventKind  = kEventHotKeyReleased;
     
-    if (noErr != InstallApplicationEventHandler(kHKHandlerUPP, 2, eventTypes, self, &ref)) {
+    if (noErr != InstallApplicationEventHandler(_HandleHotKeyEvent, 2, eventTypes, self, &ref)) {
       [self release];
       self = nil;
     } else {

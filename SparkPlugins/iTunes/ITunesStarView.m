@@ -8,7 +8,7 @@
 
 #import "ITunesStarView.h"
 
-#import WBHEADER(WBFunctions.h)
+#import WBHEADER(WBGeometry.h)
 #import WBHEADER(WBCGFunctions.h)
 
 @implementation ITunesStarView

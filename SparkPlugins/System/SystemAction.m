@@ -19,7 +19,7 @@
 #import WBHEADER(WBLSFunctions.h)
 #import WBHEADER(WBAEFunctions.h)
 #import WBHEADER(WBIOKitFunctions.h)
-#import WBHEADER(WBAppKitExtensions.h)
+#import WBHEADER(NSImage+WonderBox.h)
 
 static NSString * const 
 kFastUserSwitcherPath = @"/System/Library/CoreServices/Menu Extras/User.menu/Contents/Resources/CGSession";

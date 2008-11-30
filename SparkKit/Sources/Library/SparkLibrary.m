@@ -21,12 +21,9 @@
 #import <SparkKit/SparkIconManager.h>
 #import <SparkKit/SparkBuiltInAction.h>
 
-#import WBHEADER(WBCFContext.h)
-#import WBHEADER(WBExtensions.h)
 #import WBHEADER(WBFSFunctions.h)
 #import WBHEADER(WBLSFunctions.h)
 #import WBHEADER(WBSerialization.h)
-#import WBHEADER(WBAppKitExtensions.h)
 
 #import "SparkLibraryPrivate.h"
 #import "SparkEntryManagerPrivate.h"

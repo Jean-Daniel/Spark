@@ -10,7 +10,6 @@
 #import "SparkEntryManagerPrivate.h"
 #import "SparkEntryPrivate.h"
 
-#import WBHEADER(WBCFContext.h)
 #import WBHEADER(WBEnumerator.h)
 
 #import <objc/objc-runtime.h>

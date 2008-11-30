@@ -19,6 +19,7 @@
 				98FC487D060643E4003617CA /* PBXTargetDependency */,
 				98FC462A06063E2F003617CA /* PBXTargetDependency */,
 				98FC458A06063CF3003617CA /* PBXTargetDependency */,
+				1B8015F70EDF26F200771EE5 /* PBXTargetDependency */,
 			);
 			name = All;
 			productName = All;
@@ -32,6 +33,11 @@
 		1B0E222C0B5649DF00DC846B /* AudioOutput.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B0E222B0B5649DF00DC846B /* AudioOutput.c */; };
 		1B0E22940B564BA100DC846B /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B0E22930B564BA100DC846B /* CoreAudio.framework */; };
 		1B17C2230C9FC60B005BEA47 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1B17C2210C9FC60B005BEA47 /* Localizable.strings */; };
+		1B1D1C200EDF495200F9BC33 /* AXSApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B1D1C1C0EDF495200F9BC33 /* AXSApplication.h */; };
+		1B1D1C210EDF495200F9BC33 /* AXSApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1D1C1D0EDF495200F9BC33 /* AXSApplication.m */; };
+		1B1D1C220EDF495200F9BC33 /* AXSUIElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1D1C1E0EDF495200F9BC33 /* AXSUIElement.m */; };
+		1B1D1C230EDF495200F9BC33 /* AXSUIElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B1D1C1F0EDF495200F9BC33 /* AXSUIElement.h */; };
+		1B2606CF0EE172280035B2C1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1B2606CD0EE172280035B2C1 /* InfoPlist.strings */; };
 		1B37437A0B6E2AFD002F18C8 /* iTFolder.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B3743780B6E2AFD002F18C8 /* iTFolder.tiff */; };
 		1B37437B0B6E2AFD002F18C8 /* iTSmart.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B3743790B6E2AFD002F18C8 /* iTSmart.tiff */; };
 		1B46DC970B81AB1100F4DA1E /* SAScriptEditor.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B46DC930B81AB1100F4DA1E /* SAScriptEditor.tiff */; };
@@ -49,6 +55,19 @@
 		1B75502E0B6A8153004C9F44 /* AAHide.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B75502C0B6A8153004C9F44 /* AAHide.tiff */; };
 		1B7B26430CC638F200F55F7D /* TAKeystroke.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B7B26410CC638F200F55F7D /* TAKeystroke.h */; };
 		1B7B26440CC638F200F55F7D /* TAKeystroke.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B7B26420CC638F200F55F7D /* TAKeystroke.m */; };
+		1B8015DC0EDF264100771EE5 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
+		1B8015DD0EDF264100771EE5 /* SparkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF7F5108645B7F007BC81A /* SparkKit.framework */; };
+		1B8015DE0EDF264100771EE5 /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF7F4A08645B72007BC81A /* HotKeyToolKit.framework */; };
+		1B8015FC0EDF271F00771EE5 /* AccessibilityPlugin.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B8015E90EDF26B300771EE5 /* AccessibilityPlugin.xib */; };
+		1B8015FD0EDF272200771EE5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1B8015EB0EDF26B300771EE5 /* InfoPlist.strings */; };
+		1B8015FE0EDF272500771EE5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1B8015ED0EDF26B300771EE5 /* Localizable.strings */; };
+		1B8016040EDF279600771EE5 /* AccessibilityIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 1B8016030EDF279600771EE5 /* AccessibilityIcon.icns */; };
+		1B80160B0EDF280700771EE5 /* AXActionPlugIn.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B8016090EDF280700771EE5 /* AXActionPlugIn.h */; };
+		1B80160C0EDF280700771EE5 /* AXActionPlugIn.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B80160A0EDF280700771EE5 /* AXActionPlugIn.m */; };
+		1B8016140EDF28D800771EE5 /* AXSparkAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B8016120EDF28D800771EE5 /* AXSparkAction.h */; };
+		1B8016150EDF28D800771EE5 /* AXSparkAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B8016130EDF28D800771EE5 /* AXSparkAction.m */; };
+		1B8016260EDF297F00771EE5 /* AXSMenu.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B8016240EDF297F00771EE5 /* AXSMenu.h */; };
+		1B8016270EDF297F00771EE5 /* AXSMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B8016250EDF297F00771EE5 /* AXSMenu.m */; };
 		1B8F4B150B56823700E8A4C0 /* volume.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B8F4B140B56823700E8A4C0 /* volume.aiff */; };
 		1BDCB6BB0DA7C78000D95044 /* ITunesGrowl.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BDCB6B90DA7C78000D95044 /* ITunesGrowl.h */; };
 		1BDCB6BC0DA7C78000D95044 /* ITunesGrowl.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDCB6BA0DA7C78000D95044 /* ITunesGrowl.m */; };
@@ -111,7 +130,6 @@
 		9888CE1B0B02412200B81BDB /* SparkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF7F5108645B7F007BC81A /* SparkKit.framework */; };
 		9888CE1C0B02412200B81BDB /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF7F4A08645B72007BC81A /* HotKeyToolKit.framework */; };
 		9888CE3F0B02423600B81BDB /* TextIcon.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 9888CE3E0B02423600B81BDB /* TextIcon.tiff */; };
-		9888CE420B02425700B81BDB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9888CE400B02425700B81BDB /* InfoPlist.strings */; };
 		9888CE9B0B0243AA00B81BDB /* TextActionPlugIn.m in Sources */ = {isa = PBXBuildFile; fileRef = 9888CE9A0B0243AA00B81BDB /* TextActionPlugIn.m */; };
 		9888CE9D0B0243AF00B81BDB /* TextActionPlugIn.h in Headers */ = {isa = PBXBuildFile; fileRef = 9888CE9C0B0243AF00B81BDB /* TextActionPlugIn.h */; };
 		9888CEAC0B0243CB00B81BDB /* TextAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 9888CEAA0B0243CB00B81BDB /* TextAction.h */; };
@@ -196,6 +214,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		1B8015F60EDF26F200771EE5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1B8015CB0EDF264100771EE5;
+			remoteInfo = Accessibility;
+		};
 		986439410B0283B7003BF4F3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
@@ -280,7 +305,6 @@
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		1B09477A0D68BDE800E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = French; path = Resources/French.lproj/TextPlugin.xib; sourceTree = "<group>"; };
-		1B0947800D68BDED00E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = Resources/French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1B0947830D68BE0300E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = folder; name = French; path = French.lproj/Help; sourceTree = "<group>"; };
 		1B09478A0D68BE0F00E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1B09478B0D68BE1700E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = French; path = French.lproj/TextActionHelp.html; sourceTree = "<group>"; };
@@ -315,6 +339,12 @@
 		1B0E222B0B5649DF00DC846B /* AudioOutput.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = AudioOutput.c; sourceTree = "<group>"; };
 		1B0E22930B564BA100DC846B /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = /System/Library/Frameworks/CoreAudio.framework; sourceTree = "<absolute>"; };
 		1B17C2220C9FC60B005BEA47 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1B1D1C1C0EDF495200F9BC33 /* AXSApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXSApplication.h; sourceTree = "<group>"; };
+		1B1D1C1D0EDF495200F9BC33 /* AXSApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXSApplication.m; sourceTree = "<group>"; };
+		1B1D1C1E0EDF495200F9BC33 /* AXSUIElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXSUIElement.m; sourceTree = "<group>"; };
+		1B1D1C1F0EDF495200F9BC33 /* AXSUIElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXSUIElement.h; sourceTree = "<group>"; };
+		1B2606CE0EE172280035B2C1 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1B2606D20EE1724D0035B2C1 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1B3743780B6E2AFD002F18C8 /* iTFolder.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = iTFolder.tiff; sourceTree = "<group>"; };
 		1B3743790B6E2AFD002F18C8 /* iTSmart.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = iTSmart.tiff; sourceTree = "<group>"; };
 		1B46DC930B81AB1100F4DA1E /* SAScriptEditor.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SAScriptEditor.tiff; sourceTree = "<group>"; };
@@ -332,6 +362,18 @@
 		1B75502C0B6A8153004C9F44 /* AAHide.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = AAHide.tiff; sourceTree = "<group>"; };
 		1B7B26410CC638F200F55F7D /* TAKeystroke.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAKeystroke.h; sourceTree = "<group>"; };
 		1B7B26420CC638F200F55F7D /* TAKeystroke.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TAKeystroke.m; sourceTree = "<group>"; };
+		1B8015E20EDF264100771EE5 /* AccessibilityAction.spact */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AccessibilityAction.spact; sourceTree = BUILT_PRODUCTS_DIR; };
+		1B8015E70EDF26B300771EE5 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1B8015EA0EDF26B300771EE5 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/AccessibilityPlugin.xib; sourceTree = "<group>"; };
+		1B8015EC0EDF26B300771EE5 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1B8015EE0EDF26B300771EE5 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1B8016030EDF279600771EE5 /* AccessibilityIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = AccessibilityIcon.icns; sourceTree = "<group>"; };
+		1B8016090EDF280700771EE5 /* AXActionPlugIn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXActionPlugIn.h; sourceTree = "<group>"; };
+		1B80160A0EDF280700771EE5 /* AXActionPlugIn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXActionPlugIn.m; sourceTree = "<group>"; };
+		1B8016120EDF28D800771EE5 /* AXSparkAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXSparkAction.h; sourceTree = "<group>"; };
+		1B8016130EDF28D800771EE5 /* AXSparkAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXSparkAction.m; sourceTree = "<group>"; };
+		1B8016240EDF297F00771EE5 /* AXSMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXSMenu.h; sourceTree = "<group>"; };
+		1B8016250EDF297F00771EE5 /* AXSMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXSMenu.m; sourceTree = "<group>"; };
 		1B8F4B140B56823700E8A4C0 /* volume.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = volume.aiff; sourceTree = "<group>"; };
 		1BBE7C5D0ED04EF50004D9DD /* SparkDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = SparkDebug.xcconfig; sourceTree = "<group>"; };
 		1BBE7C5E0ED04EF50004D9DD /* SparkRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = SparkRelease.xcconfig; sourceTree = "<group>"; };
@@ -398,7 +440,6 @@
 		9888CE220B02412200B81BDB /* TextAction.spact */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TextAction.spact; sourceTree = BUILT_PRODUCTS_DIR; };
 		9888CE2D0B02418500B81BDB /* Info.plist */ = {isa = PBXFileReference; explicitFileType = text.plist.xml; fileEncoding = 4; path = Info.plist; sourceTree = "<group>"; };
 		9888CE3E0B02423600B81BDB /* TextIcon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = TextIcon.tiff; sourceTree = "<group>"; };
-		9888CE410B02425700B81BDB /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; lineEnding = 0; name = English; path = Resources/English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		9888CE9A0B0243AA00B81BDB /* TextActionPlugIn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextActionPlugIn.m; sourceTree = "<group>"; };
 		9888CE9C0B0243AF00B81BDB /* TextActionPlugIn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextActionPlugIn.h; sourceTree = "<group>"; };
 		9888CEAA0B0243CB00B81BDB /* TextAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextAction.h; sourceTree = "<group>"; };
@@ -473,6 +514,16 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		1B8015DB0EDF264100771EE5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1B8015DC0EDF264100771EE5 /* Cocoa.framework in Frameworks */,
+				1B8015DD0EDF264100771EE5 /* SparkKit.framework in Frameworks */,
+				1B8015DE0EDF264100771EE5 /* HotKeyToolKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D5B49B3048680CD000E48DA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -590,6 +641,7 @@
 				98FC48EB0606444A003617CA /* Documents */,
 				98FC45EC06063DD1003617CA /* Application */,
 				98FC454406063C8E003617CA /* AppleScript */,
+				1B8015CA0EDF263900771EE5 /* Accessibility */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -626,6 +678,7 @@
 				98FC46400606437C003617CA /* DocumentAction.spact */,
 				9832875F079602BE00DB780A /* Labo */,
 				98789DD20AB4A10D00C35052 /* Simulator.app */,
+				1B8015E20EDF264100771EE5 /* AccessibilityAction.spact */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -640,6 +693,36 @@
 				98DD5E370A91CFD600FB5814 /* DocumentPlugin.tiff */,
 			);
 			name = Images;
+			sourceTree = "<group>";
+		};
+		1B8015CA0EDF263900771EE5 /* Accessibility */ = {
+			isa = PBXGroup;
+			children = (
+				1B8016240EDF297F00771EE5 /* AXSMenu.h */,
+				1B8016250EDF297F00771EE5 /* AXSMenu.m */,
+				1B1D1C1F0EDF495200F9BC33 /* AXSUIElement.h */,
+				1B1D1C1E0EDF495200F9BC33 /* AXSUIElement.m */,
+				1B1D1C1C0EDF495200F9BC33 /* AXSApplication.h */,
+				1B1D1C1D0EDF495200F9BC33 /* AXSApplication.m */,
+				1B8016120EDF28D800771EE5 /* AXSparkAction.h */,
+				1B8016130EDF28D800771EE5 /* AXSparkAction.m */,
+				1B8016090EDF280700771EE5 /* AXActionPlugIn.h */,
+				1B80160A0EDF280700771EE5 /* AXActionPlugIn.m */,
+				1B8015E70EDF26B300771EE5 /* Info.plist */,
+				1B8015E80EDF26B300771EE5 /* Resources */,
+			);
+			path = Accessibility;
+			sourceTree = "<group>";
+		};
+		1B8015E80EDF26B300771EE5 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				1B8016030EDF279600771EE5 /* AccessibilityIcon.icns */,
+				1B8015EB0EDF26B300771EE5 /* InfoPlist.strings */,
+				1B8015ED0EDF26B300771EE5 /* Localizable.strings */,
+				1B8015E90EDF26B300771EE5 /* AccessibilityPlugin.xib */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		1BBE7C5B0ED04EF50004D9DD /* xcconfigs */ = {
@@ -704,7 +787,6 @@
 				9888CE9A0B0243AA00B81BDB /* TextActionPlugIn.m */,
 				9888CE2D0B02418500B81BDB /* Info.plist */,
 				1B6DAE120D0CADE100F352CC /* TextPlugin.xib */,
-				9888CE400B02425700B81BDB /* InfoPlist.strings */,
 				9888CE3D0B02420B00B81BDB /* Resources */,
 			);
 			path = Text;
@@ -715,6 +797,7 @@
 			children = (
 				98D7483F0BB5349600D6AB54 /* Help */,
 				9888CE3E0B02423600B81BDB /* TextIcon.tiff */,
+				1B2606CD0EE172280035B2C1 /* InfoPlist.strings */,
 				1B17C2210C9FC60B005BEA47 /* Localizable.strings */,
 				98D7483D0BB5349600D6AB54 /* TextActionHelp.html */,
 			);
@@ -991,6 +1074,18 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		1B8015CC0EDF264100771EE5 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1B80160B0EDF280700771EE5 /* AXActionPlugIn.h in Headers */,
+				1B8016140EDF28D800771EE5 /* AXSparkAction.h in Headers */,
+				1B8016260EDF297F00771EE5 /* AXSMenu.h in Headers */,
+				1B1D1C200EDF495200F9BC33 /* AXSApplication.h in Headers */,
+				1B1D1C230EDF495200F9BC33 /* AXSUIElement.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D5B49AD048680CD000E48DA /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -1060,6 +1155,25 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		1B8015CB0EDF264100771EE5 /* Accessibility */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1B8015DF0EDF264100771EE5 /* Build configuration list for PBXNativeTarget "Accessibility" */;
+			buildPhases = (
+				1B8015CC0EDF264100771EE5 /* Headers */,
+				1B8015D00EDF264100771EE5 /* Resources */,
+				1B8015D70EDF264100771EE5 /* Sources */,
+				1B8015DB0EDF264100771EE5 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Accessibility;
+			productInstallPath = "$(HOME)/Library/Bundles";
+			productName = "Spark Plugins";
+			productReference = 1B8015E20EDF264100771EE5 /* AccessibilityAction.spact */;
+			productType = "com.apple.product-type.bundle";
+		};
 		8D5B49AC048680CD000E48DA /* iTunes */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 98EF7ECC08645A0E007BC81A /* Build configuration list for PBXNativeTarget "iTunes" */;
@@ -1238,6 +1352,7 @@
 				98FC462B0606437C003617CA /* Document */,
 				98FC458C06063D6A003617CA /* Application */,
 				98FC452506063BF2003617CA /* AppleScript */,
+				1B8015CB0EDF264100771EE5 /* Accessibility */,
 			);
 		};
 /* End PBXProject section */
@@ -1281,6 +1396,17 @@
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
+		1B8015D00EDF264100771EE5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1B8015FC0EDF271F00771EE5 /* AccessibilityPlugin.xib in Resources */,
+				1B8015FD0EDF272200771EE5 /* InfoPlist.strings in Resources */,
+				1B8015FE0EDF272500771EE5 /* Localizable.strings in Resources */,
+				1B8016040EDF279600771EE5 /* AccessibilityIcon.icns in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D5B49AF048680CD000E48DA /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1327,11 +1453,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				9888CE3F0B02423600B81BDB /* TextIcon.tiff in Resources */,
-				9888CE420B02425700B81BDB /* InfoPlist.strings in Resources */,
 				98D748480BB5349600D6AB54 /* TextActionHelp.html in Resources */,
 				98D748490BB5349600D6AB54 /* Help in Resources */,
 				1B17C2230C9FC60B005BEA47 /* Localizable.strings in Resources */,
 				1B6DAE140D0CADE100F352CC /* TextPlugin.xib in Resources */,
+				1B2606CF0EE172280035B2C1 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1420,6 +1546,18 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		1B8015D70EDF264100771EE5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1B80160C0EDF280700771EE5 /* AXActionPlugIn.m in Sources */,
+				1B8016150EDF28D800771EE5 /* AXSparkAction.m in Sources */,
+				1B8016270EDF297F00771EE5 /* AXSMenu.m in Sources */,
+				1B1D1C210EDF495200F9BC33 /* AXSApplication.m in Sources */,
+				1B1D1C220EDF495200F9BC33 /* AXSUIElement.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D5B49B1048680CD000E48DA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1509,6 +1647,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		1B8015F70EDF26F200771EE5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1B8015CB0EDF264100771EE5 /* Accessibility */;
+			targetProxy = 1B8015F60EDF26F200771EE5 /* PBXContainerItemProxy */;
+		};
 		986439420B0283B7003BF4F3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 9888CDFA0B02412200B81BDB /* Text */;
@@ -1549,6 +1692,15 @@
 				1B09478A0D68BE0F00E8FE8D /* French */,
 			);
 			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		1B2606CD0EE172280035B2C1 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1B2606CE0EE172280035B2C1 /* English */,
+				1B2606D20EE1724D0035B2C1 /* French */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 		1B6DAD5D0D0CA41600F352CC /* AppleScriptPlugin.xib */ = {
@@ -1605,6 +1757,30 @@
 			name = TextPlugin.xib;
 			sourceTree = "<group>";
 		};
+		1B8015E90EDF26B300771EE5 /* AccessibilityPlugin.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1B8015EA0EDF26B300771EE5 /* English */,
+			);
+			name = AccessibilityPlugin.xib;
+			sourceTree = "<group>";
+		};
+		1B8015EB0EDF26B300771EE5 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1B8015EC0EDF26B300771EE5 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		1B8015ED0EDF26B300771EE5 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1B8015EE0EDF26B300771EE5 /* English */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		1BDCB8110DA7E1E600D95044 /* GrowlNotifications.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1621,15 +1797,6 @@
 				1B0947A70D68BE7900E8FE8D /* French */,
 			);
 			name = SystemActionHelp.html;
-			sourceTree = "<group>";
-		};
-		9888CE400B02425700B81BDB /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				9888CE410B02425700B81BDB /* English */,
-				1B0947800D68BDED00E8FE8D /* French */,
-			);
-			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 		98BA1A090A583493004914E9 /* Localizable.strings */ = {
@@ -1828,6 +1995,24 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		1B8015E00EDF264100771EE5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 460;
+				INFOPLIST_FILE = /Users/Projects/Software/Spark/SparkPlugins/Accessibility/Info.plist;
+				PRODUCT_NAME = AccessibilityAction;
+			};
+			name = Debug;
+		};
+		1B8015E10EDF264100771EE5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 460;
+				INFOPLIST_FILE = /Users/Projects/Software/Spark/SparkPlugins/Accessibility/Info.plist;
+				PRODUCT_NAME = AccessibilityAction;
+			};
+			name = Release;
+		};
 		98789DD60AB4A11000C35052 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2054,6 +2239,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		1B8015DF0EDF264100771EE5 /* Build configuration list for PBXNativeTarget "Accessibility" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1B8015E00EDF264100771EE5 /* Debug */,
+				1B8015E10EDF264100771EE5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 		98789DD50AB4A11000C35052 /* Build configuration list for PBXNativeTarget "Simulator" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

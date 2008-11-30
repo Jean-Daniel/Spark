@@ -23,12 +23,11 @@
 #import <SparkKit/SparkApplication.h>
 #import <SparkKit/SparkEntryManager.h>
 
-
 #import <SparkKit/SparkPlugIn.h>
 #import <SparkKit/SparkActionLoader.h>
 
-#import WBHEADER(WBExtensions.h)
-#import WBHEADER(WBAppKitExtensions.h)
+#import WBHEADER(NSArray+WonderBox.h)
+#import WBHEADER(NSArrayController+WonderBox.h)
 
 static
 BOOL SELibraryFilter(SparkList *list, SparkEntry *entry, id ctxt) {
@@ -400,6 +399,17 @@ BOOL SEOverwriteFilter(SparkList *list, SparkEntry *entry, id ctxt) {
       NSBeep();
     }
   }
+}
+- (BOOL)canDeleteSelectionInTableView:(NSTableView *)aTableView {
+  NSUInteger idx = [self selectionIndex];
+  if (idx != NSNotFound) {
+    SEEntryList *list = [self objectAtIndex:idx];
+    if ([list isEditable]) {
+      /* Remove list from library */
+      return YES;
+    }
+  }
+  return NO;
 }
 
 /* Separator Implementation */

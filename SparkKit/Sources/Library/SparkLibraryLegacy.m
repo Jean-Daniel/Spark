@@ -21,9 +21,8 @@
 #import <SparkKit/SparkApplication.h>
 #import <SparkKit/SparkEntryManager.h>
 
-#import WBHEADER(WBCFContext.h)
 #import WBHEADER(WBSerialization.h)
-#import WBHEADER(WBAppKitExtensions.h)
+#import WBHEADER(NSFileWrapper+WonderBox.h)
 
 #pragma mark -
 #pragma mark Placeholder
@@ -109,7 +108,7 @@
 - (BOOL)importv1LibraryFromFileWrapper:(NSFileWrapper *)wrapper error:(NSError **)error {
   DLog(@"Loading Version 1.0 Library");
   /* Load HotKey items. Create trigger with internal values, and create entries with Application to Action Map */
-  CFMutableSetRef actions = CFSetCreateMutable( kCFAllocatorDefault, 0, &kWBIntegerSetCallBacks);
+  CFMutableSetRef actions = CFSetCreateMutable(kCFAllocatorDefault, 0, NULL);
   
   SparkUID finder = 0;
   NSArray *objects = nil;

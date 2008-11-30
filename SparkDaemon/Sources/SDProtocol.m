@@ -136,7 +136,7 @@ void SDSendStateToEditor(SparkDaemonStatus state) {
   CFDictionaryRef info = CFDictionaryCreate(kCFAllocatorDefault, 
                                             (const void **)&SparkDaemonStatusKey,
                                             (const void **)&value, 1, 
-                                            &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+                                            &kCFCopyStringDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
   
   if (info) {
     CFNotificationCenterPostNotification(CFNotificationCenterGetDistributedCenter(),

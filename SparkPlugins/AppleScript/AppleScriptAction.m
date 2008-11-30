@@ -11,8 +11,8 @@
 #import <OSAKit/OSAKit.h>
 
 #import WBHEADER(WBAlias.h)
-#import WBHEADER(WBFunctions.h)
-#import WBHEADER(WBAppKitExtensions.h)
+#import WBHEADER(NSImage+WonderBox.h)
+#import WBHEADER(WonderBoxFunctions.h)
 
 static NSString * const kOSAScriptActionDataKey = @"OSAScriptData";
 static NSString * const kOSAScriptActionTypeKey = @"OSAScriptType";

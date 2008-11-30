@@ -25,7 +25,8 @@
 #import <SparkKit/SparkFunctions.h>
 #import <SparkKit/SparkActionLoader.h>
 
-#import WBHEADER(WBAppKitExtensions.h)
+#import WBHEADER(NSImage+WonderBox.h)
+#import WBHEADER(NSArrayController+WonderBox.h)
 
 @implementation SELibraryWindow
 
@@ -218,11 +219,16 @@
 #pragma mark Menu
 /* Enable menu item */
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
-  if ([menuItem action] == @selector(copy:) || [menuItem action] == @selector(paste:)) {
+  if ([menuItem action] == @selector(cut:) || [menuItem action] == @selector(copy:) || [menuItem action] == @selector(paste:)) {
     NSResponder *first = [[self window] firstResponder];
     return libraryTable == first || [ibTriggers tableView] == first;
   }
   return YES;
+}
+
+- (IBAction)cut:(id)sender {
+  WBTrace();
+  // TODO: Copy/paste
 }
 
 - (IBAction)copy:(id)sender {

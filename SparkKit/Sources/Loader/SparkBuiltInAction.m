@@ -13,10 +13,10 @@
 #import <SparkKit/SparkObjectSet.h>
 #import <SparkKit/SparkFunctions.h>
 
-#import WBHEADER(WBFunctions.h)
 #import WBHEADER(WBAEFunctions.h)
-#import WBHEADER(WBAppKitExtensions.h)
+#import WBHEADER(NSImage+WonderBox.h)
 #import WBHEADER(WBProcessFunctions.h)
+#import WBHEADER(WonderBoxFunctions.h)
 
 #import "SparkLibraryPrivate.h"
 

@@ -17,10 +17,9 @@
 #import <SparkKit/SparkTrigger.h>
 #import <SparkKit/SparkApplication.h>
 
-#import WBHEADER(WBCFContext.h)
 #import WBHEADER(WBEnumerator.h)
 #import WBHEADER(WBSerialization.h)
-#import WBHEADER(WBAppKitExtensions.h)
+#import WBHEADER(NSImage+WonderBox.h)
 
 /* Notifications */
 NSString* const SparkObjectSetWillAddObjectNotification = @"SparkObjectSetWillAddObject";

@@ -7,8 +7,9 @@
  */
 
 #import "SEBackgroundView.h"
-#import WBHEADER(WBFunctions.h)
+
 #import WBHEADER(WBCGFunctions.h)
+#import WBHEADER(WonderBoxFunctions.h)
 
 static const 
 WBCGSimpleShadingInfo kSETopShadingInfo = {

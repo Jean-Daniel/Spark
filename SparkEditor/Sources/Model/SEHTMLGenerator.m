@@ -19,7 +19,7 @@
 #import <SparkKit/SparkEntryManager.h>
 #import <SparkKit/SparkActionLoader.h>
 
-#import WBHEADER(WBFunctions.h)
+#import WBHEADER(WBBase64.h)
 #import WBHEADER(WBXMLTemplate.h)
 
 @implementation SEHTMLGenerator
@@ -71,7 +71,7 @@ NSInteger _SESortEntries(id e1, id e2, void *ctxt) {
         WBTemplate *ablock = [block blockWithName:@"entry"];
         [ablock setVariable:[entry name] forKey:@"name"];
         if (se_icons && [ablock containsKey:@"icon"])
-          [ablock setVariable:[self imageTagForImage:[entry icon] size:NSMakeSize(16, 16)] forKey:@"icon"];
+          [ablock setVariable:[self imageTagForImage:[entry icon] size:NSMakeSize(16, 16)] ?: @"" forKey:@"icon"];
         [ablock setVariable:[entry triggerDescription] forKey:@"keystroke"];
         [ablock setVariable:[entry actionDescription] forKey:@"description"];
 				if (se_strike)
@@ -188,18 +188,20 @@ NSComparisonResult _SETriggerCompare(SparkTrigger *t1, SparkTrigger *t2, void *c
   CGImageRelease(img);
   CFRelease(dest);
   
-  CFDataRef b64 = WBBase64CreateBase64DataFromData(png);
+  CFDataRef b64 = WBBase64CreateDataByEncodingData(png);
   CGContextRelease(ctxt);
   CFRelease(png);
   free(data);
   
-  CFMutableStringRef str = CFStringCreateMutable(kCFAllocatorDefault, 0);
-  CFStringAppend(str, CFSTR("<img class=\"icon\" alt=\"icon\" src=\"data:image/png;base64, "));
-  CFStringAppendCString(str, (const char *)CFDataGetBytePtr(b64), kCFStringEncodingASCII);
-  CFStringAppend(str, CFSTR("\" />"));
-  CFRelease(b64);
-  
-  return [(id)str autorelease];
+  if (b64) {
+    CFMutableStringRef str = CFStringCreateMutable(kCFAllocatorDefault, 0);
+    CFStringAppend(str, CFSTR("<img class=\"icon\" alt=\"icon\" src=\"data:image/png;base64, "));
+    CFStringAppendCString(str, (const char *)CFDataGetBytePtr(b64), kCFStringEncodingASCII);
+    CFStringAppend(str, CFSTR("\" />"));
+    CFRelease(b64);
+    return [(id)str autorelease];
+  }
+  return nil;
 }
 
 @end

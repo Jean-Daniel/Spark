@@ -11,12 +11,12 @@
 #import <Sparkkit/SparkPrivate.h>
 
 #import WBHEADER(WBAlias.h)
-#import WBHEADER(WBFunctions.h)
 #import WBHEADER(WBImageUtils.h)
 #import WBHEADER(WBAEFunctions.h)
 #import WBHEADER(WBLSFunctions.h)
+#import WBHEADER(NSImage+WonderBox.h)
+#import WBHEADER(WonderBoxFunctions.h)
 #import WBHEADER(WBProcessFunctions.h)
-#import WBHEADER(WBAppKitExtensions.h)
 
 static NSString * const kDocumentActionURLKey = @"DocumentURL";
 static NSString * const kDocumentActionKey = @"DocumentAction";
