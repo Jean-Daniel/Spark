@@ -500,7 +500,7 @@ static ITunesVisual sDefaultVisual = {delay: -1};
           } else {
             if (rate > 0) {
               set = true;
-              rate = rate - (rate % 20) ? : 20;
+              rate = rate - ((rate % 20) ? : 20);
             }
           }
           if (set) {
@@ -510,9 +510,8 @@ static ITunesVisual sDefaultVisual = {delay: -1};
           }
         }
       }
+      check_noerr(err);
       // TODO: check err.
-      
-      
       break;
     } 
     case kiTunesRateTrack:
@@ -783,7 +782,7 @@ NSString *ITunesActionDescription(ITunesAction *action) {
       break;
     case kiTunesRateDown:
       desc = NSLocalizedStringFromTableInBundle(@"DESC_RATE_DOWN", nil, bundle,
-                                                @"Increase current track rate * Action Description *");
+                                                @"Reduce current track rate * Action Description *");
       break;
     case kiTunesRateTrack: {
       char rate[32];

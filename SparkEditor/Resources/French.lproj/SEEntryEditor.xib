@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.02">
+<archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.03">
 	<data>
 		<int key="IBDocument.SystemTarget">1040</int>
-		<string key="IBDocument.SystemVersion">9C7010</string>
-		<string key="IBDocument.InterfaceBuilderVersion">652</string>
-		<string key="IBDocument.AppKitVersion">949.26</string>
-		<string key="IBDocument.HIToolboxVersion">352.00</string>
+		<string key="IBDocument.SystemVersion">9G55</string>
+		<string key="IBDocument.InterfaceBuilderVersion">677</string>
+		<string key="IBDocument.AppKitVersion">949.43</string>
+		<string key="IBDocument.HIToolboxVersion">353.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<integer value="6"/>
@@ -13,6 +13,15 @@
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+		</object>
+		<object class="NSMutableDictionary" key="IBDocument.Metadata">
+			<bool key="EncodedWithXMLCoder">YES</bool>
+			<object class="NSArray" key="dict.sortedKeys">
+				<bool key="EncodedWithXMLCoder">YES</bool>
+			</object>
+			<object class="NSMutableArray" key="dict.values">
+				<bool key="EncodedWithXMLCoder">YES</bool>
+			</object>
 		</object>
 		<object class="NSMutableArray" key="IBDocument.RootObjects" id="122816588">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -29,7 +38,7 @@
 				<int key="NSWindowStyleMask">15</int>
 				<int key="NSWindowBacking">2</int>
 				<string key="NSWindowRect">{{379, 432}, {448, 320}}</string>
-				<int key="NSWTFlags">1618479104</int>
+				<int key="NSWTFlags">1618477056</int>
 				<string type="base64-UTF8" key="NSWindowTitle">RmVuw6p0cmU</string>
 				<string key="NSWindowClass">SETrapWindow</string>
 				<object class="NSMutableString" key="NSViewClass">
@@ -252,7 +261,7 @@
 						<object class="NSButton" id="368670972">
 							<reference key="NSNextResponder" ref="256088961"/>
 							<int key="NSvFlags">289</int>
-							<string key="NSFrame">{{346, 6}, {95, 28}}</string>
+							<string key="NSFrame">{{350, 6}, {95, 28}}</string>
 							<reference key="NSSuperview" ref="256088961"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="917102979">
@@ -273,7 +282,7 @@
 						<object class="NSButton" id="259143534">
 							<reference key="NSNextResponder" ref="256088961"/>
 							<int key="NSvFlags">289</int>
-							<string key="NSFrame">{{268, 6}, {80, 28}}</string>
+							<string key="NSFrame">{{266, 6}, {86, 28}}</string>
 							<reference key="NSSuperview" ref="256088961"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="268484879">
@@ -534,10 +543,10 @@
 							<reference ref="260451437"/>
 							<reference ref="726897216"/>
 							<reference ref="849712804"/>
+							<reference ref="368670972"/>
 							<reference ref="337558611"/>
 							<reference ref="882565127"/>
 							<reference ref="384354345"/>
-							<reference ref="368670972"/>
 							<reference ref="259143534"/>
 						</object>
 						<reference key="parent" ref="117730733"/>
@@ -694,6 +703,7 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>-1.IBPluginDependency</string>
 					<string>-2.IBPluginDependency</string>
+					<string>-3.IBPluginDependency</string>
 					<string>14.IBPluginDependency</string>
 					<string>14.ImportedFromIB2</string>
 					<string>15.CustomClassName</string>
@@ -722,7 +732,6 @@
 					<string>46.IBPluginDependency</string>
 					<string>46.ImportedFromIB2</string>
 					<string>5.IBEditorWindowLastContentRect</string>
-					<string>5.IBPluginDependency</string>
 					<string>5.IBWindowTemplateEditedContentRect</string>
 					<string>5.ImportedFromIB2</string>
 					<string>5.editorWindowContentRectSynchronizationRect</string>
@@ -732,14 +741,21 @@
 					<string>5.windowTemplate.minSize</string>
 					<string>6.IBPluginDependency</string>
 					<string>6.ImportedFromIB2</string>
+					<string>67.IBPluginDependency</string>
+					<string>68.IBPluginDependency</string>
+					<string>69.IBPluginDependency</string>
+					<string>70.IBPluginDependency</string>
 					<string>70.IBShouldRemoveOnLegacySave</string>
+					<string>71.IBPluginDependency</string>
 					<string>71.IBShouldRemoveOnLegacySave</string>
+					<string>72.IBPluginDependency</string>
 					<string>72.IBShouldRemoveOnLegacySave</string>
 					<string>9.IBPluginDependency</string>
 					<string>9.ImportedFromIB2</string>
 				</object>
 				<object class="NSMutableArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -789,19 +805,24 @@
 					<reference ref="9"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
-					<string>{{14, 525}, {448, 320}}</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{14, 525}, {448, 320}}</string>
+					<string>{{122, 452}, {448, 320}}</string>
+					<string>{{122, 452}, {448, 320}}</string>
 					<reference ref="9"/>
 					<string>{{153, 438}, {448, 320}}</string>
-					<reference ref="9"/>
+					<boolean value="NO"/>
 					<reference ref="9"/>
 					<string>{3.40282e+38, 3.40282e+38}</string>
 					<string>{360, 320}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
@@ -834,6 +855,7 @@
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<object class="IBPartialClassDescription">
 					<string key="className">FirstResponder</string>
+					<string key="superclassName">NSObject</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBUserSource</string>
 						<string key="minorKey"/>
@@ -856,7 +878,7 @@
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier" id="400205043">
+					<object class="IBClassDescriptionSource" key="sourceIdentifier" id="619775011">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">Sources/Main Window/SEEntryEditor.h</string>
 					</object>
@@ -930,7 +952,7 @@
 							<string>SETableView</string>
 						</object>
 					</object>
-					<reference key="sourceIdentifier" ref="400205043"/>
+					<reference key="sourceIdentifier" ref="619775011"/>
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">SEEntryEditor</string>
@@ -943,7 +965,7 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">SETableView</string>
 					<string key="superclassName">WBTableView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier" id="479883615">
+					<object class="IBClassDescriptionSource" key="sourceIdentifier" id="880485595">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">Sources/HI Elements/SETableView.h</string>
 					</object>
@@ -959,7 +981,7 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">SETableViewCell</string>
 					<string key="superclassName">WBImageAndTextCell</string>
-					<reference key="sourceIdentifier" ref="479883615"/>
+					<reference key="sourceIdentifier" ref="880485595"/>
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">SETableViewCell</string>

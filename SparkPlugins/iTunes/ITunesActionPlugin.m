@@ -213,6 +213,8 @@ NSImage *ITunesGetApplicationIcon(void) {
     case kiTunesPlayPlaylist:
       idx = 2;
       break;
+    case kiTunesRateUp:
+    case kiTunesRateDown:
     case kiTunesBackTrack:
     case kiTunesNextTrack:
       idx = 3;

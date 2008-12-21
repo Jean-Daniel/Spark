@@ -291,7 +291,7 @@ bail:
 OSStatus iTunesGetTrackRate(iTunesTrack *track, UInt32 *rate) {
   AppleEvent theEvent;
   /* tell application "iTunes" to get ... */
-  OSStatus err = _iTunesCreateEvent(kAECoreSuite, kAESetData, &theEvent);
+  OSStatus err = _iTunesCreateEvent(kAECoreSuite, kAEGetData, &theEvent);
   require_noerr(err, bail);
   
   /* ... rate of track 'track' */
