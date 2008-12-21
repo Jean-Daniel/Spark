@@ -16,7 +16,11 @@ enum {
 	kSparkSDActionExchangeListStatus = 'ExLi', /* 1165511785 */
 };
 
+@class SparkList;
 @interface SparkBuiltInActionPlugin : SparkActionPlugIn {
+  OSType sb_action;
+  //SparkList *sp_gpr, *sp_gpr2;
+
   IBOutlet NSTextField *uiName;
   IBOutlet NSTextField *uiLabel;
   IBOutlet NSPopUpButton *uiLists;
@@ -26,19 +30,26 @@ enum {
 - (OSType)action;
 - (void)setAction:(OSType)action;
 
+- (IBAction)selectGroup:(NSPopUpButton *)sender;
+- (IBAction)selectAlternateGroup:(NSPopUpButton *)sender;
+
 @end
 
 @class SparkList;
 @interface SparkBuiltInAction : SparkAction {
   @private
   OSType sp_action;
-	SparkUID sp_list, sp_list2;
+  SparkList *sp_list, *sp_altList;
+  SparkUID sp_listUID, sp_altListUID;
 }
 
 - (OSType)action;
 - (void)setAction:(OSType)anAction;
 
 - (SparkList *)list;
-- (SparkList *)otherList;
+- (void)setList:(SparkList *)aList;
+
+- (SparkList *)alternateList;
+- (void)setAlternateList:(SparkList *)aList;
 
 @end

@@ -271,8 +271,8 @@ extern void CGDisplaySetInvertedPolarity(Boolean inverted);
   err = WBAEAddPropertyObjectSpecifier(&aevt, keyDirectObject, 'ctrs', 'trsh', NULL);
   require_noerr(err, bail);
   
-  err = WBAESetStandardAttributes(&aevt);
-  require_noerr(err, bail);
+//  err = WBAESetStandardAttributes(&aevt);
+//  require_noerr(err, bail);
   
   err = WBAESendEventNoReply(&aevt);
   check_noerr(err);

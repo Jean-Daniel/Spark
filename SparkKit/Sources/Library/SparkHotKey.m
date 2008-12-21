@@ -11,7 +11,6 @@
 #import <SparkKit/SparkAction.h>
 
 #import WBHEADER(WBForwarding.h)
-#import WBHEADER(WBObjCRuntime.h)
 #import WBHEADER(NSImage+WonderBox.h)
 
 #import <HotKeyToolKit/HotKeyToolKit.h>
@@ -85,17 +84,19 @@ BOOL SparkHotKeyFilter(HKKeycode code, HKModifier modifier) {
   return NO;
 }
 
+@interface SparkHKHotKey : HKHotKey {
+@private
+  SparkHotKey *sp_owner;
+}
+
+- (id)initWithOwner:(SparkHotKey *)owner;
+
+- (void)setOwner:(SparkHotKey *)owner;
+
+@end
+
 #pragma mark -
 @implementation SparkHotKey
-
-static CFMutableDictionaryRef sHKParentMap = NULL;
-+ (void)initialize {
-  if ([SparkHotKey class] == self) {
-    /* Special memory management. HKHotKey (key) and SparkHotKey (value) have exactly the same life cycle.
-     We must not retain the SparkHotKey (else it would create cycle, as we remove it in dealloc) */
-    sHKParentMap = CFDictionaryCreateMutable(kCFAllocatorDefault, 0, NULL, NULL);
-  }
-}
 
 #pragma mark -
 #pragma mark NSCoding
@@ -117,7 +118,7 @@ static CFMutableDictionaryRef sHKParentMap = NULL;
   SparkHotKey* copy = [super copyWithZone:zone];
   WBCLogWarning("Warning: hotkey should not be copied");
   copy->sp_hotkey = [sp_hotkey copyWithZone:zone];
-  CFDictionarySetValue(sHKParentMap, copy->sp_hotkey, copy);
+  [(SparkHKHotKey *)copy->sp_hotkey setOwner:copy];
   return copy;
 }
 
@@ -144,16 +145,15 @@ static CFMutableDictionaryRef sHKParentMap = NULL;
 #pragma mark Init & Dealloc Methods
 - (id)initWithName:(NSString *)name icon:(NSImage *)icon {
   if (self = [super initWithName:name icon:icon]) {
-    sp_hotkey = [[HKHotKey alloc] init];
+    sp_hotkey = [[SparkHKHotKey alloc] initWithOwner:self];
     [sp_hotkey setTarget:self];
     [sp_hotkey setAction:@selector(trigger:)];
-    CFDictionarySetValue(sHKParentMap, sp_hotkey, self);
   }
   return self;
 }
 
 - (void)dealloc {
-  CFDictionaryRemoveValue(sHKParentMap, sp_hotkey);
+  [sp_hotkey setOwner:nil];
   [sp_hotkey release];
   [super dealloc];
 }
@@ -271,33 +271,30 @@ WBForwarding(SparkHotKey, HKHotKey, sp_hotkey);
 
 @end
 
-static SparkHotKey *_SparkHotKeyForHKHotKey(HKHotKey *parent) {
-  return (SparkHotKey *)CFDictionaryGetValue(sHKParentMap, parent);
-}
-
 #pragma mark -
 #pragma mark Key Repeat Support
 NSTimeInterval SparkGetDefaultKeyRepeatInterval(void) {
   return HKGetSystemKeyRepeatInterval();
 }
 
-@implementation HKHotKey (SparkRepeat)
+@implementation SparkHKHotKey
 
-+ (void)load {
-  if (self == [HKHotKey class]) {
-    // Swap the implementations of -[HKHotKey keyPressed:] and -[HKHotKey sp_keyPressed:].
-    WBRuntimeExchangeInstanceMethods(self, @selector(keyPressed), @selector(sp_keyPressed));
+- (id)initWithOwner:(SparkHotKey *)owner {
+  if (self = [super init]) {
+    sp_owner = owner;
   }
+  return self;
 }
 
-- (void)sp_keyPressed {
+- (void)setOwner:(SparkHotKey *)owner {
+  sp_owner = owner;
+}
+
+- (void)keyPressed {
+  NSAssert(sp_owner, @"invalid child key: owner is nil");
   /* configure hotkey to match the attached action */
-  [_SparkHotKeyForHKHotKey(self) prepareHotKey];
-  [self sp_keyPressed];
+  [sp_owner prepareHotKey];
+  [super keyPressed];
 }
-
-//- (void)didInvoke {
-//  [_SparkHotKeyForHKHotKey(self) didInvoke];
-//}
 
 @end

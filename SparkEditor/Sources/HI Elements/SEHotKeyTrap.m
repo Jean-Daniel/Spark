@@ -351,12 +351,26 @@ static CGLayerRef _HKCreateShading(CGContextRef ctxt, NSControlTint tint);
 }
 
 - (void)keyDown:(NSEvent *)theEvent {
-  /* No modifier and cancel pressed */
-  if (([theEvent modifierFlags] & SEValidModifiersFlags) == 0 && [[theEvent characters] length] > 0) {
-    unichar chr = [[theEvent characters] characterAtIndex:0];
+  NSInteger modifiers = [theEvent modifierFlags] & SEValidModifiersFlags;
+  unichar chr = [[theEvent characters] length] > 0 ? [[theEvent characters] characterAtIndex:0] : 0;
+  /* navigation */
+  switch (chr) {
+    case 25: // End of medium ? send by "shift tab".
+    case '\t':
+      if (modifiers == 0) {
+        [[self window] makeFirstResponder:[self nextValidKeyView]];
+        return;
+      } else if ((modifiers & NSShiftKeyMask) == NSShiftKeyMask) {
+        [[self window] makeFirstResponder:[self previousValidKeyView]];
+        return;
+      }
+      break;
+  }
+  if (([theEvent modifierFlags] & SEValidModifiersFlags) == 0 && chr) {
     if (se_htFlags.trap) {
       switch (chr) {
         case '\e':
+          /* No modifier and cancel pressed */
           [self revert];
           [self setTrapping:NO];
           return;

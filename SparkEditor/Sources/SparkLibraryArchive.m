@@ -56,11 +56,6 @@ NSString * const kSparkLibraryArchiveFileName = @"Spark Library";
     }
     [archive close];
     [archive release];
-    
-    /* just for test */
-//    [sp_icons setPath:[@"~/Desktop/SparkIcons" stringByStandardizingPath]];
-//    [self setPath:@"~/Desktop/SparkLibrary.splib"];
-//    [self synchronize];
   }
   return self;
 }
@@ -69,14 +64,25 @@ NSString * const kSparkLibraryArchiveFileName = @"Spark Library";
   NSFileWrapper *wrapper = [self fileWrapper:nil];
   if (wrapper) {
     SArchive *archive = [[SArchive alloc] initWithArchiveAtPath:file write:YES];
-    SArchiveDocument *doc = [archive addDocumentWithName:@"Spark"];
+    SArchiveDocument *doc = [archive addDocumentWithName:@"SparkLibrary"];
+
+    CFDateFormatterRef df = CFDateFormatterCreate(kCFAllocatorDefault, CFLocaleGetSystem(), kCFDateFormatterNoStyle, kCFDateFormatterNoStyle);
+    CFDateFormatterSetFormat(df, CFSTR("yyyy-MM-dd HH:mm:ss zzz"));
+    CFStringRef dates = CFDateFormatterCreateStringWithAbsoluteTime(kCFAllocatorDefault, df, CFAbsoluteTimeGetCurrent());
+    if (dates) {
+      [doc setValue:(NSString *)dates forProperty:@"archive/date"];
+      CFRelease(dates);
+    }
+    CFRelease(df);
+    [doc setValue:[NSString stringWithFormat:@"%u", 1] forAttribute:@"format" property:@"archive"];
+    
+    /* library version */
     CFStringRef str = CFUUIDCreateString(kCFAllocatorDefault, [self uuid]);
     if (str) {
-      [doc setValue:(id)str forProperty:@"uuid"];
+      [doc setValue:(id)str forProperty:@"library/uuid"];
       CFRelease(str);
     }
-    [doc setValue:[NSString stringWithFormat:@"%u", 1] forProperty:@"format"];
-    [doc setValue:[NSString stringWithFormat:@"%u", kSparkLibraryCurrentVersion] forProperty:@"version"];
+    [doc setValue:[NSString stringWithFormat:@"%u", kSparkLibraryCurrentVersion] forAttribute:@"version" property:@"library"];
     
     [wrapper setFilename:kSparkLibraryArchiveFileName];
     [archive addFileWrapper:wrapper parent:nil];

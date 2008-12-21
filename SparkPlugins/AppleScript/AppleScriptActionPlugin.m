@@ -247,8 +247,8 @@ enum {
   err = WBAEAddAEDescWithData(&aevt, keyAEObjectClass, typeType, &type, sizeof(OSType));
   require_noerr(err, dispose);
   
-  err = WBAESetStandardAttributes(&aevt);
-  require_noerr(err, dispose);
+//  err = WBAESetStandardAttributes(&aevt);
+//  require_noerr(err, dispose);
   
   err = WBAESendEventReturnAEDesc(&aevt, typeObjectSpecifier, &document);
   WBAEDisposeDesc(&aevt);

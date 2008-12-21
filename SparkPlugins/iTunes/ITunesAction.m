@@ -237,7 +237,7 @@ static ITunesVisual sDefaultVisual = {delay: -1};
           }
         }
         break;
-        default: /* Old version */
+      default: /* Old version */
         [self setVersion:0x200];
         [self setRating:[[plist objectForKey:@"iTunesTrackTrate"] intValue]];
         [self setITunesAction:_iTunesConvertAction([[plist objectForKey:kITunesActionKey] intValue])];
@@ -312,6 +312,9 @@ static ITunesVisual sDefaultVisual = {delay: -1};
       return nil;
     case kiTunesPlayPlaylist:
       //TODO: Check if playlist exist.
+      return nil;
+    case kiTunesRateUp:
+    case kiTunesRateDown:
       return nil;
     case kiTunesRateTrack:
       //TODO: Check rate.
@@ -479,6 +482,39 @@ static ITunesVisual sDefaultVisual = {delay: -1};
     case kiTunesEjectCD:
       [self ejectCD];
       break;
+    case kiTunesRateUp:
+    case kiTunesRateDown: {
+      iTunesTrack track = WBAEEmptyDesc();
+      OSStatus err = iTunesGetCurrentTrack(&track);
+      if (noErr == err) {
+        UInt32 rate = 0;
+        
+        err = iTunesGetTrackRate(&track, &rate);
+        if (noErr == err) {
+          Boolean set = false;
+          if ([self iTunesAction] == kiTunesRateUp) {
+            if (rate < 100) {
+              set = true;
+              rate = (rate + 20) - (rate % 20);
+            }
+          } else {
+            if (rate > 0) {
+              set = true;
+              rate = rate - (rate % 20) ? : 20;
+            }
+          }
+          if (set) {
+            err = iTunesSetTrackRate(&track, rate);
+            if (noErr == err)
+              [self displayInfoIfNeeded];
+          }
+        }
+      }
+      // TODO: check err.
+      
+      
+      break;
+    } 
     case kiTunesRateTrack:
       iTunesSetCurrentTrackRate([self rating]);
       [self displayInfoIfNeeded];
@@ -696,6 +732,8 @@ NSImage *ITunesActionIcon(ITunesAction *action) {
     case kiTunesShowTrackInfo:
       icon = @"iTInfo";
       break;
+    case kiTunesRateUp:
+    case kiTunesRateDown:  
     case kiTunesRateTrack:
       icon = @"iTStar";
       break;
@@ -738,6 +776,14 @@ NSString *ITunesActionDescription(ITunesAction *action) {
       desc = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"DESC_PLAY_LIST", nil, bundle,
                                                                            @"Play Playlist * Action Description * (%@ = playlist name)"),
               [action playlist]];
+      break;
+    case kiTunesRateUp:
+      desc = NSLocalizedStringFromTableInBundle(@"DESC_RATE_UP", nil, bundle,
+                                                @"Increase current track rate * Action Description *");
+      break;
+    case kiTunesRateDown:
+      desc = NSLocalizedStringFromTableInBundle(@"DESC_RATE_DOWN", nil, bundle,
+                                                @"Increase current track rate * Action Description *");
       break;
     case kiTunesRateTrack: {
       char rate[32];

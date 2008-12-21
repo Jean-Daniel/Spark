@@ -21,7 +21,9 @@ typedef enum {
   kiTunesPlayPause     = 'PlPs', /* 1349275763 */
   kiTunesBackTrack     = 'Back', /* 1113678699 */
   kiTunesNextTrack     = 'Next', /* 1315272820 */
-  
+
+  kiTunesRateUp        = 'RatU', /* 1382118485 */
+  kiTunesRateDown      = 'RatD', /* 1382118468 */
   kiTunesRateTrack     = 'RaTr', /* 1382110322 */
   kiTunesPlayPlaylist  = 'PlPy', /* 1349275769 */
   kiTunesShowTrackInfo = 'TrIn', /* 1416776046 */

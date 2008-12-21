@@ -135,6 +135,14 @@ void *_SEPreferencesLoginItemThread(void *arg) {
 }
 
 #pragma mark -
+- (void)se_initPluginStatus:(NSArray *)plugins {
+  for (NSUInteger idx = 0, count = [plugins count]; idx < count; idx++) {
+    SparkPlugIn *plugin = [plugins objectAtIndex:idx];
+    long status = [plugin isEnabled];
+    NSMapInsert(se_status, plugin, (void *)status);
+  }
+}
+
 - (void)awakeFromNib {
   /* set toolbar */
   NSToolbar *toolbar = [[NSToolbar alloc] initWithIdentifier:@"SparkPreferencesToolbar"];
@@ -171,8 +179,11 @@ void *_SEPreferencesLoginItemThread(void *arg) {
   [uiPlugins reloadData];
   for (NSUInteger idx = 0; idx < [se_plugins count]; idx++) {
     item = [se_plugins objectAtIndex:idx];
-    if ([[item objectForKey:@"plugins"] count])
+    NSArray *plugins = [item objectForKey:@"plugins"];
+    if ([plugins count]) {
+      [self se_initPluginStatus:plugins];
       [uiPlugins expandItem:item];
+    }
   }
 }
 

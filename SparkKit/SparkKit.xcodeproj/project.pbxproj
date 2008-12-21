@@ -58,6 +58,8 @@
 		1B78811F0D172D2900EE2B66 /* SparkEntryPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B78811E0D172D2900EE2B66 /* SparkEntryPrivate.h */; };
 		1B81EBA20D38326C004B82A2 /* WBOutlineView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B81EBA00D38326C004B82A2 /* WBOutlineView.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		1B81EBA30D38326C004B82A2 /* WBOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B81EBA10D38326C004B82A2 /* WBOutlineView.m */; };
+		1BA3812F0EFE6F5F00CF5D07 /* WBFinderSuite.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BA3812D0EFE6F5F00CF5D07 /* WBFinderSuite.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1BA381300EFE6F5F00CF5D07 /* WBFinderSuite.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BA3812E0EFE6F5F00CF5D07 /* WBFinderSuite.c */; };
 		1BB2033C0EAF23B60072FE62 /* SparkEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB2033A0EAF23B60072FE62 /* SparkEvent.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		1BB2033D0EAF23B60072FE62 /* SparkEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB2033B0EAF23B60072FE62 /* SparkEvent.m */; };
 		1BB8B1FF0B949EE900F91062 /* SparkSystem.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1BB8B1FE0B949EE900F91062 /* SparkSystem.tiff */; };
@@ -328,6 +330,8 @@
 		1B81EBA10D38326C004B82A2 /* WBOutlineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBOutlineView.m; sourceTree = "<group>"; };
 		1B8623910ECF91AD0006C26B /* SparkDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = SparkDebug.xcconfig; sourceTree = "<group>"; };
 		1B8623920ECF91AD0006C26B /* SparkRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = SparkRelease.xcconfig; sourceTree = "<group>"; };
+		1BA3812D0EFE6F5F00CF5D07 /* WBFinderSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBFinderSuite.h; sourceTree = "<group>"; };
+		1BA3812E0EFE6F5F00CF5D07 /* WBFinderSuite.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WBFinderSuite.c; sourceTree = "<group>"; };
 		1BB2033A0EAF23B60072FE62 /* SparkEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkEvent.h; sourceTree = "<group>"; };
 		1BB2033B0EAF23B60072FE62 /* SparkEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkEvent.m; sourceTree = "<group>"; };
 		1BB8B1FE0B949EE900F91062 /* SparkSystem.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SparkSystem.tiff; sourceTree = "<group>"; };
@@ -786,6 +790,8 @@
 				1BE3164E0D38138B005C3FB2 /* WBDSFunctions.h */,
 				1BE316510D38138B005C3FB2 /* WBFSFunctions.h */,
 				1BE316520D38138B005C3FB2 /* WBFSFunctions.m */,
+				1BA3812D0EFE6F5F00CF5D07 /* WBFinderSuite.h */,
+				1BA3812E0EFE6F5F00CF5D07 /* WBFinderSuite.c */,
 				1BE316550D38138B005C3FB2 /* WBIOKitFunctions.c */,
 				1BE316560D38138B005C3FB2 /* WBIOKitFunctions.h */,
 				1B5D8C580EE2FC9100BD1EAF /* WBObjCRuntime.h */,
@@ -1102,6 +1108,7 @@
 				1B5D8DD90EE2FF0A00BD1EAF /* NSTabView+WonderBox.h in Headers */,
 				1B5D8E240EE3007D00BD1EAF /* NSIndexSet+WonderBox.h in Headers */,
 				1B5D8E560EE3016F00BD1EAF /* WBBase64.h in Headers */,
+				1BA3812F0EFE6F5F00CF5D07 /* WBFinderSuite.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1332,6 +1339,7 @@
 				1B5D8DDA0EE2FF0A00BD1EAF /* NSTabView+WonderBox.m in Sources */,
 				1B5D8E230EE3007D00BD1EAF /* NSIndexSet+WonderBox.m in Sources */,
 				1B5D8E550EE3016F00BD1EAF /* WBBase64.c in Sources */,
+				1BA381300EFE6F5F00CF5D07 /* WBFinderSuite.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -312,8 +312,8 @@ BOOL SEDaemonIsEnabled(void) {
     OSStatus err = WBAECreateEventWithTargetProcess(&psn, kAECoreSuite, kAEGetData, &aevt);
     require_noerr(err, bail);
     
-    err = WBAESetStandardAttributes(&aevt);
-    require_noerr(err, bail);
+//    err = WBAESetStandardAttributes(&aevt);
+//    require_noerr(err, bail);
     
     err = WBAEAddPropertyObjectSpecifier(&aevt, keyDirectObject, typeBoolean, 'pSta', NULL);
     require_noerr(err, bail);

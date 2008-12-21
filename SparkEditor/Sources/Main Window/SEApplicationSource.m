@@ -12,7 +12,7 @@
 #import "SELibraryWindow.h"
 #import "SELibraryDocument.h"
 
-#import WBHEADER(WBAEFunctions.h)
+#import WBHEADER(WBFinderSuite.h)
 #import WBHEADER(WBFSFunctions.h)
 #import WBHEADER(WBLSFunctions.h)
 #import WBHEADER(WBObjCRuntime.h)

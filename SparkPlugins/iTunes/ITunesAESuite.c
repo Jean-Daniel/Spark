@@ -24,8 +24,8 @@ OSStatus _iTunesCreateEvent(AEEventClass class, AEEventID method, AppleEvent *ev
   OSStatus err = WBAECreateEventWithTargetSignature(kiTunesSignature, class, method, event);
   require_noerr(err, bail);
   
-  err = WBAESetStandardAttributes(event);
-  require_noerr(err, bail);
+//  err = WBAESetStandardAttributes(event);
+//  require_noerr(err, bail);
   
   return noErr;
 bail:
@@ -830,7 +830,7 @@ CFDictionaryRef iTunesCopyPlaylists(void) {
               break;
 							//            case 'kSpI':
 							//              kind = kPlaylistTVShow:
-              break;
+              //              break;
             case 'kSpP':
               kind = kPlaylistPodcast;
               break;

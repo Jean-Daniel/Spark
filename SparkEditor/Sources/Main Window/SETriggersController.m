@@ -141,10 +141,9 @@ NSString * sSEHiddenPluggedObserverKey = nil;
 }
 
 - (void)setListEnabled:(BOOL)flag {
-	NSUInteger count = [self count];
   SparkUID app = [[self application] uid];
 	SparkEntryManager *manager = [[self library] entryManager];
-	for (NSUInteger idx = 0; idx < count; idx++) {
+	for (NSUInteger idx = 0, count = [self count]; idx < count; idx++) {
     SparkEntry *entry = [self objectAtIndex:idx];
     if ([[entry application] uid] == app) {
 			if (flag) {
@@ -277,7 +276,7 @@ NSString * sSEHiddenPluggedObserverKey = nil;
         [aCell setTextColor:selected ? [NSColor selectedControlTextColor] : [NSColor disabledControlTextColor]];
       }
       /* Set Line status */
-      if ([aCell respondsToSelector:@selector(setDrawsLineOver:)])
+      if ([aCell respondsToSelector:@selector(setDrawsLineOver:)]) 
         [aCell setDrawsLineOver:styles[idx].strike && ![entry isEnabled]];
       
       CGFloat size = [NSFont smallSystemFontSize];

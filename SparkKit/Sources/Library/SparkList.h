@@ -41,7 +41,7 @@ WB_CLASS_EXPORT
 - (void)setListFilter:(SparkListFilter)aFilter context:(id)aCtxt;
 
 - (NSUInteger)count;
-//- (NSEnumerator *)objectEnumerator;
+
 - (BOOL)containsEntry:(SparkEntry *)anEntry;
 - (NSUInteger)indexOfEntry:(SparkEntry *)anEntry;
 - (NSArray *)entriesForApplication:(SparkApplication *)anApplication;

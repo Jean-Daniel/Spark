@@ -13,6 +13,7 @@
 #import WBHEADER(WBAlias.h)
 #import WBHEADER(WBImageUtils.h)
 #import WBHEADER(WBAEFunctions.h)
+#import WBHEADER(WBFinderSuite.h)
 #import WBHEADER(WBLSFunctions.h)
 #import WBHEADER(NSImage+WonderBox.h)
 #import WBHEADER(WonderBoxFunctions.h)
@@ -244,7 +245,7 @@ OSType _DocumentActionFromFlag(int flag) {
       AliasHandle alias = [[self document] aliasHandle];
       if (alias) {
         AEDesc desc = WBAEEmptyDesc();
-        OSStatus err = WBAECreateDescWithAlias(alias, &desc);
+        OSStatus err = WBAECreateDescFromAlias(alias, &desc);
         if (noErr == err) {
           err = WBAEFinderRevealItem(&desc, TRUE);
           WBAEDisposeDesc(&desc);

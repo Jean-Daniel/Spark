@@ -38,8 +38,8 @@ OSStatus SDGetEditorIsTrapping(Boolean *trapping) {
     err = WBAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty, kSparkEditorIsTrapping, NULL);
     require_noerr(err, fevent);
     
-    err = WBAESetStandardAttributes(&theEvent);
-    require_noerr(err, fevent);
+//    err = WBAESetStandardAttributes(&theEvent);
+//    require_noerr(err, fevent);
 
     /* Timeout: 500 ms ?? */
     err = WBAESendEvent(&theEvent, kAEWaitReply, 500, &reply);

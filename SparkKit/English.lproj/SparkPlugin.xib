@@ -2,10 +2,10 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.03">
 	<data>
 		<int key="IBDocument.SystemTarget">1040</int>
-		<string key="IBDocument.SystemVersion">9F33</string>
+		<string key="IBDocument.SystemVersion">9G55</string>
 		<string key="IBDocument.InterfaceBuilderVersion">677</string>
-		<string key="IBDocument.AppKitVersion">949.34</string>
-		<string key="IBDocument.HIToolboxVersion">352.00</string>
+		<string key="IBDocument.AppKitVersion">949.43</string>
+		<string key="IBDocument.HIToolboxVersion">353.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<integer value="5"/>
@@ -205,6 +205,7 @@
 									</object>
 									<object class="NSMenuItem" id="107611033">
 										<reference key="NSMenu" ref="1027186911"/>
+										<bool key="NSIsDisabled">YES</bool>
 										<string type="base64-UTF8" key="NSTitle">RW5hYmxlL0Rpc2FibGUgR3JvdXDigKY</string>
 										<string key="NSKeyEquiv"/>
 										<int key="NSKeyEquivModMask">1048576</int>
@@ -284,7 +285,7 @@
 					<object class="NSTextField" id="95759444">
 						<reference key="NSNextResponder" ref="245324035"/>
 						<int key="NSvFlags">256</int>
-						<string key="NSFrame">{{12, 41}, {50, 17}}</string>
+						<string key="NSFrame">{{9, 41}, {56, 17}}</string>
 						<reference key="NSSuperview" ref="245324035"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="662544936">
@@ -299,7 +300,7 @@
 					</object>
 					<object class="NSPopUpButton" id="24589285">
 						<reference key="NSNextResponder" ref="245324035"/>
-						<int key="NSvFlags">256</int>
+						<int key="NSvFlags">-2147483392</int>
 						<string key="NSFrame">{{67, 39}, {198, 22}}</string>
 						<reference key="NSSuperview" ref="245324035"/>
 						<bool key="NSEnabled">YES</bool>
@@ -373,7 +374,7 @@
 					</object>
 					<object class="NSPopUpButton" id="798239090">
 						<reference key="NSNextResponder" ref="245324035"/>
-						<int key="NSvFlags">256</int>
+						<int key="NSvFlags">-2147483392</int>
 						<string key="NSFrame">{{67, 14}, {198, 22}}</string>
 						<reference key="NSSuperview" ref="245324035"/>
 						<bool key="NSEnabled">YES</bool>
@@ -522,6 +523,22 @@
 						<reference key="destination" ref="798239090"/>
 					</object>
 					<int key="connectionID">64</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">selectGroup:</string>
+						<reference key="source" ref="1010463594"/>
+						<reference key="destination" ref="24589285"/>
+					</object>
+					<int key="connectionID">65</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">selectAlternateGroup:</string>
+						<reference key="source" ref="1010463594"/>
+						<reference key="destination" ref="798239090"/>
+					</object>
+					<int key="connectionID">66</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -941,7 +958,7 @@
 					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
-					<string>{{320, 509}, {204, 81}}</string>
+					<string>{{460, 467}, {204, 81}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
 					<string>{{241, 451}, {204, 81}}</string>
@@ -973,7 +990,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{264, 495}, {274, 134}}</string>
+					<string>{{404, 453}, {274, 134}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
 					<reference ref="9"/>
@@ -1018,7 +1035,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">64</int>
+			<int key="maxID">66</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1035,7 +1052,7 @@
 					<string key="className">NSButton</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">../Dependencies/WonderBox/AppKit/WBAppKitExtensions.h</string>
+						<string key="minorKey">../Dependencies/WonderBox/AppKit/Categories/NSButton+WonderBox.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -1119,6 +1136,19 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">SparkBuiltInActionPlugin</string>
 					<string key="superclassName">SparkActionPlugIn</string>
+					<object class="NSMutableDictionary" key="actions">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSMutableArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>selectAlternateGroup:</string>
+							<string>selectGroup:</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>NSPopUpButton</string>
+							<string>NSPopUpButton</string>
+						</object>
+					</object>
 					<object class="NSMutableDictionary" key="outlets">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSMutableArray" key="dict.sortedKeys">
