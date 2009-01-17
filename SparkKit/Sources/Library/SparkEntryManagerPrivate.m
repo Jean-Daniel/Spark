@@ -261,7 +261,7 @@ static SparkUID sUID = 0;
 }
 
 #pragma mark Entry Management - Plugged
-- (void)didChangePluginStatus:(NSNotification *)aNotification {
+- (void)didChangePlugInStatus:(NSNotification *)aNotification {
   SparkPlugIn *plugin = [aNotification object];
   
 	SparkEntry *entry;

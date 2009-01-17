@@ -15,7 +15,7 @@
 
 - (void)registerGrowl;
 
-- (void)registerPlugin:(SparkActionPlugIn *)aPlugin;
-- (void)unregisterPlugin:(SparkActionPlugIn *)aPlugin;
+- (void)registerPlugIn:(SparkActionPlugIn *)aPlugin;
+- (void)unregisterPlugIn:(SparkActionPlugIn *)aPlugin;
 
 @end

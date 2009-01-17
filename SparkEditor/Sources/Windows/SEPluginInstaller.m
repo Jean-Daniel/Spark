@@ -1,12 +1,12 @@
 /*
- *  SEPluginInstaller.m
+ *  SEPlugInInstaller.m
  *  Spark Editor
  *
  *  Created by Black Moon Team.
  *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
  */
 
-#import "SEPluginInstaller.h"
+#import "SEPlugInInstaller.h"
 
 #import "Spark.h"
 
@@ -15,11 +15,11 @@
 
 #import <SparkKit/SparkActionLoader.h>
 
-@interface SEPluginInstaller ()
-- (NSString *)installPlugin:(NSString *)plugin domain:(WBPluginDomain)skdomain;
+@interface SEPlugInInstaller ()
+- (NSString *)installPlugIn:(NSString *)plugin domain:(WBPlugInDomain)skdomain;
 @end
 
-@implementation SEPluginInstaller
+@implementation SEPlugInInstaller
 
 - (id)init {
   if (self = [super init]) {
@@ -39,25 +39,25 @@
 }
 
 - (IBAction)install:(id)sender {
-  WBPluginDomain domain;
+  WBPlugInDomain domain;
   if ([ibMatrix selectedRow] == 0) {
     // User
-    domain = kWBPluginDomainUser;
+    domain = kWBPlugInDomainUser;
   } else {
     // Local
-    domain = kWBPluginDomainLocal;
+    domain = kWBPlugInDomainLocal;
   }
-  NSString *path = [self installPlugin:se_plugin domain:domain];
+  NSString *path = [self installPlugIn:se_plugin domain:domain];
   if (path) {
     [self close:sender];
-    [[SparkActionLoader sharedLoader] loadPluginAtPath:path];
+    [[SparkActionLoader sharedLoader] loadPlugInAtPath:path];
     [[NSWorkspace sharedWorkspace] openFile:[path stringByDeletingLastPathComponent]];
   } else {
-    DLog(@"Plugin installation failed");
+    DLog(@"PlugIn installation failed");
   }
 }
 
-- (void)setPlugin:(NSString *)path {
+- (void)setPlugIn:(NSString *)path {
   /* Load nib if needed */
   [self window];
   WBSetterCopy(se_plugin, path);
@@ -100,13 +100,13 @@ dispose:
   return err;
 }
 
-- (BOOL)installPlugin:(NSString *)plugin into:(NSString *)dest copy:(BOOL)flag {
+- (BOOL)installPlugIn:(NSString *)plugin into:(NSString *)dest copy:(BOOL)flag {
   NSString *src = [plugin stringByDeletingLastPathComponent];
   NSArray *files = [NSArray arrayWithObject:[plugin lastPathComponent]];
   return [[NSWorkspace sharedWorkspace] performFileOperation:(flag ? NSWorkspaceCopyOperation : NSWorkspaceMoveOperation) source:src destination:dest files:files tag:NULL];
 }
 
-- (NSString *)installPlugin:(NSString *)plugin domain:(WBPluginDomain)skdomain {
+- (NSString *)installPlugIn:(NSString *)plugin domain:(WBPlugInDomain)skdomain {
 	/* FIXME: remove temp file */
   if (![[NSFileManager defaultManager] fileExistsAtPath:plugin]) {
     NSRunAlertPanel(@"The plugin was not installed", @"Cannot find plugin at path \"%@\"", @"OK", nil, nil, plugin);
@@ -122,7 +122,7 @@ dispose:
     location = path;
     if (noErr == WBFSCreateFolder((CFStringRef)path)) {
       /* First try to copy the file using workspace operation */
-      if (![self installPlugin:plugin into:path copy:YES]) {
+      if (![self installPlugIn:plugin into:path copy:YES]) {
         /* If failed, ask the finder to move the file (it will take care of the authentification for us) */
         OSStatus err = [self moveFile:plugin to:path copy:YES];
         if (noErr != err && userCanceledErr != err) {
@@ -153,7 +153,7 @@ dispose:
           [manager createDirectoryAtPath:tmp attributes:nil];
         }
         
-        if (![self installPlugin:plugin into:tmp copy:YES]) {
+        if (![self installPlugIn:plugin into:tmp copy:YES]) {
           NSRunAlertPanel(@"The plugin was not installed", @"An error prevent plugin installation.", @"OK", nil, nil);
         } else {
           // tell finder to move root into path

@@ -23,14 +23,14 @@
 
 #import "SparkLibraryPrivate.h"
 
-#define SparkBuitInPluginVersion @"1.0"
+#define SparkBuitInPlugInVersion @"1.0"
 
 static 
 NSImage *_SparkSDActionIcon(SparkBuiltInAction *action);
 static
 NSString *_SparkActionDescription(SparkBuiltInAction *action);
 
-@implementation SparkBuiltInActionPlugin
+@implementation SparkBuiltInActionPlugIn
 
 - (void)dealloc {
 //  [sp_gpr2 release];
@@ -110,7 +110,7 @@ NSInteger _SparkGroupCompare(SparkObject *o1, SparkObject *o2, void *ctxt) {
 }
 
 /* group list */
-- (void)pluginViewWillBecomeVisible {
+- (void)plugInViewWillBecomeVisible {
   /* save selection */
   id o1 = [[[uiLists selectedItem] representedObject] retain];
   if (!o1) o1 = [[[self sparkAction] list] retain];
@@ -187,7 +187,7 @@ NSInteger _SparkGroupCompare(SparkObject *o1, SparkObject *o2, void *ctxt) {
 
 /* Returns the version string */
 + (NSString *)versionString {
-  return SparkBuitInPluginVersion;
+  return SparkBuitInPlugInVersion;
 }
 
 @end

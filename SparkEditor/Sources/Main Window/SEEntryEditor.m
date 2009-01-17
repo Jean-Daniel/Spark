@@ -10,10 +10,10 @@
 
 #import "Spark.h"
 #import "SETableView.h"
-#import "SEPluginHelp.h"
+#import "SEPlugInHelp.h"
 #import "SEHeaderCell.h"
 #import "SEHotKeyTrap.h"
-#import "SEBuiltInPlugin.h"
+#import "SEBuiltInPlugIn.h"
 #import "SEApplicationView.h"
 
 #import <SparkKit/SparkPlugIn.h>
@@ -97,9 +97,9 @@
 - (IBAction)close:(id)sender {
   [super close:sender];
   /* Cleanup */
-  [se_plugin pluginViewWillBecomeHidden];
+  [se_plugin plugInViewWillBecomeHidden];
   [se_view removeFromSuperview];
-  [se_plugin pluginViewDidBecomeHidden];
+  [se_plugin plugInViewDidBecomeHidden];
   se_view = nil;
   se_plugin = nil;
   /* Remove plugins instances */
@@ -190,7 +190,7 @@
   } else {
     SparkHotKey *hkey = nil;
 		SparkAction *action = nil;
-    if (![se_plugin isKindOfClass:[SEInheritsPlugin class]]) {
+    if (![se_plugin isKindOfClass:[SEInheritsPlugIn class]]) {
 			action = [se_plugin sparkAction];
       hkey = [[[SparkHotKey alloc] init] autorelease];
       [hkey setKeycode:key.keycode character:key.character];
@@ -210,18 +210,18 @@
 
 - (IBAction)openHelp:(id)sender {
   // Open plugin help (selected plugin)
-  [[SEPluginHelp sharedPluginHelp] setPlugin:[self actionType]];
-  [[SEPluginHelp sharedPluginHelp] showWindow:sender];
+  [[SEPlugInHelp sharedPlugInHelp] setPlugIn:[self actionType]];
+  [[SEPlugInHelp sharedPlugInHelp] showWindow:sender];
 }
 
 #pragma mark -
-- (void)updatePlugins {
+- (void)updatePlugIns {
   /* First, remove all objects */
   [se_plugins removeAllObjects];
   
   /* Then add standards plugins */
   SparkPlugIn *plugin;
-  NSEnumerator *plugins = [[SparkActionLoader sharedLoader] pluginEnumerator];
+  NSEnumerator *plugins = [[SparkActionLoader sharedLoader] plugInEnumerator];
   while (plugin = [plugins nextObject]) {
     if ([plugin isEnabled])
       [se_plugins addObject:plugin];
@@ -240,7 +240,7 @@
   
   if (advanced) {
     /* Create Inherits plugin */
-    plugin = [[SparkPlugIn alloc] initWithClass:[SEInheritsPlugin class] identifier:@"org.shadowlab.spark.plugin.inherits"];
+    plugin = [[SparkPlugIn alloc] initWithClass:[SEInheritsPlugIn class] identifier:@"org.shadowlab.spark.plugin.inherits"];
     [se_plugins insertObject:plugin atIndex:0];
     [plugin release];
     
@@ -264,7 +264,7 @@
   WBSetterRetain(se_entry, anEntry);
   
   /* Update plugins list if needed */
-  [self updatePlugins];
+  [self updatePlugIns];
   
   /* Select plugin type */
   SparkPlugIn *type = nil;
@@ -320,7 +320,7 @@
     [uiApplication setTitle:[NSString stringWithFormat:
 														 NSLocalizedStringFromTable(@"APPLICATION_FIELD",
 																												@"SEEditor", @"%@ => Application name"), [anApplication name]]];
-    [self updatePlugins];
+    [self updatePlugIns];
   }
 }
 
@@ -375,7 +375,7 @@
   SparkActionPlugIn *previousPlugin = se_plugin;
   se_plugin = NSMapGet(se_instances, aPlugin);
   if (!se_plugin) {
-    se_plugin = [aPlugin instantiatePlugin];
+    se_plugin = [aPlugin instantiatePlugIn];
     if (se_plugin) {
       NSMapInsert(se_instances, aPlugin, se_plugin);
       
@@ -397,9 +397,9 @@
   
   /* Remove previous view */
   if (se_view != [se_plugin actionView]) {
-    [previousPlugin pluginViewWillBecomeHidden];
+    [previousPlugin plugInViewWillBecomeHidden];
     [se_view removeFromSuperview];
-    [previousPlugin pluginViewDidBecomeHidden];
+    [previousPlugin plugInViewDidBecomeHidden];
     
     [previousPlugin setHotKeyTrap:nil];
     if ([se_trap superview])
@@ -488,10 +488,10 @@
     }
     [window setContentMaxSize:smax];
     
-    [se_plugin pluginViewWillBecomeVisible];
+    [se_plugin plugInViewWillBecomeVisible];
     [uiPlugin addSubview:se_view];
     [[self window] recalculateKeyViewLoop];
-    [se_plugin pluginViewDidBecomeVisible];
+    [se_plugin plugInViewDidBecomeVisible];
     
     NSUInteger row = [se_plugins indexOfObject:aPlugin];
     if (row != NSNotFound && (NSInteger)row != [uiTypeTable selectedRow])

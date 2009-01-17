@@ -1,15 +1,15 @@
 /*
- *  SparkPluginView.m
+ *  SparkPlugInView.m
  *  SparkKit
  *
  *  Created by Black Moon Team.
  *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
  */
 
-#import <SparkKit/SparkPluginView.h>
+#import <SparkKit/SparkPlugInView.h>
 #import <SparkKit/SparkActionPlugIn.h>
 
-@implementation SparkPluginView
+@implementation SparkPlugInView
 
 - (id)init {
   if (self = [super initWithNibName:@"SparkPluginView" bundle:WBCurrentBundle()]) {
@@ -19,12 +19,12 @@
   return self;
 }
 
-- (void)setPlugin:(SparkActionPlugIn *)aPlugin {
-  [uiIcon setImage:[[aPlugin class] pluginViewIcon]];
-  [uiName setStringValue:[[aPlugin class] pluginFullName]];
+- (void)setPlugIn:(SparkActionPlugIn *)aPlugin {
+  [uiIcon setImage:[[aPlugin class] plugInViewIcon]];
+  [uiName setStringValue:[[aPlugin class] plugInFullName]];
 }
 
-- (void)setPluginView:(NSView *)aView {
+- (void)setPlugInView:(NSView *)aView {
   /* calling [self view] first to load the view */
   NSRect global = [[self view] frame];
   NSRect frame = [aView frame];

@@ -92,9 +92,9 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
 
 + (void)initialize {
   if ([SparkLibrary class] == self) {
-    /* Register Built-In Plugin (and make sure other plugins are loaded) */
-    [[SparkActionLoader sharedLoader] loadPlugins];
-    [[SparkActionLoader sharedLoader] registerPlugInClass:[SparkBuiltInActionPlugin class]];
+    /* Register Built-In PlugIn (and make sure other plugins are loaded) */
+    [[SparkActionLoader sharedLoader] loadPlugIns];
+    [[SparkActionLoader sharedLoader] registerPlugInClass:[SparkBuiltInActionPlugIn class]];
   }
 }
 

@@ -1,5 +1,5 @@
 /*
- *  SEPluginHelp.h
+ *  SEPlugInHelp.h
  *  Spark Editor
  *
  *  Created by Black Moon Team.
@@ -10,7 +10,7 @@
 
 @class WebView;
 @class SparkPlugIn, WBHeaderView;
-@interface SEPluginHelp : WBWindowController {
+@interface SEPlugInHelp : WBWindowController {
   IBOutlet WebView *ibWeb;
   IBOutlet WBHeaderView *ibHead;
   
@@ -19,13 +19,13 @@
   NSPopUpButton *se_plugins;
 }
 
-+ (id)sharedPluginHelp;
++ (id)sharedPlugInHelp;
 
-- (void)loadPluginMenu;
+- (void)loadPlugInMenu;
 
 - (void)setPage:(NSString *)aPage;
-- (void)setPlugin:(SparkPlugIn *)aPlugin;
+- (void)setPlugIn:(SparkPlugIn *)aPlugin;
 
-- (IBAction)selectPlugin:(id)sender;
+- (IBAction)selectPlugIn:(id)sender;
 
 @end

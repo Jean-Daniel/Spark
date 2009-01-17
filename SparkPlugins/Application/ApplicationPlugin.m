@@ -100,7 +100,7 @@
   [action setActionDescription:ApplicationActionDescription(action, [[action application] name])];
 }
 
-- (void)pluginViewWillBecomeHidden {
+- (void)plugInViewWillBecomeHidden {
   if ([[self sparkAction] usesSharedVisual]) {
     // Update defaut configuration
     [ApplicationAction setSharedSettings:&aa_settings];
@@ -303,7 +303,7 @@
   return YES;
 }
 
-+ (NSImage *)pluginViewIcon {
++ (NSImage *)plugInViewIcon {
   return [NSImage imageNamed:@"AAApplication" inBundle:kApplicationActionBundle];
 }
 

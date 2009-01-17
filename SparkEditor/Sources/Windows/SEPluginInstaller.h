@@ -1,5 +1,5 @@
 /*
- *  SEPluginInstaller.h
+ *  SEPlugInInstaller.h
  *  Spark Editor
  *
  *  Created by Black Moon Team.
@@ -8,7 +8,7 @@
 
 #import WBHEADER(WBWindowController.h)
 
-@interface SEPluginInstaller : WBWindowController {
+@interface SEPlugInInstaller : WBWindowController {
   @private
   IBOutlet NSMatrix *ibMatrix;
   IBOutlet NSTextField *ibInfo;
@@ -17,7 +17,7 @@
   NSString *se_plugin;
 }
 
-- (void)setPlugin:(NSString *)path;
+- (void)setPlugIn:(NSString *)path;
 
 - (IBAction)update:(id)sender;
 - (IBAction)install:(id)sender;

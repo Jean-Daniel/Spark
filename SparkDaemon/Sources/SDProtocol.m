@@ -123,7 +123,7 @@
 }
 
 #pragma mark Plugins Management
-- (void)didChangePluginStatus:(NSNotification *)aNotification {
+- (void)didChangePlugInStatus:(NSNotification *)aNotification {
   WBTrace();
   if ([self isEnabled])
     [self registerEntries];

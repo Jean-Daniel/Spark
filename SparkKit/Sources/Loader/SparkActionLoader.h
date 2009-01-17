@@ -11,7 +11,7 @@
  */
 #import <SparkKit/SparkKit.h>
 
-#import WBHEADER(WBPluginLoader.h)
+#import WBHEADER(WBPlugInLoader.h)
 
 @class SparkPlugIn, SparkAction;
 
@@ -23,12 +23,12 @@ NSString * const SparkActionLoaderDidRegisterPlugInNotification;
 @abstract Action extension is "spact".
 */
 WB_CLASS_EXPORT
-@interface SparkActionLoader : WBPluginLoader {
+@interface SparkActionLoader : WBPlugInLoader {
 }
 
 + (SparkActionLoader *)sharedLoader;
 
-- (id)loadPlugin:(NSBundle *)aBundle;
+- (id)loadPlugIn:(NSBundle *)aBundle;
 - (SparkPlugIn *)registerPlugInClass:(Class)aClass;
 
 - (SparkPlugIn *)plugInForAction:(SparkAction *)action;

@@ -25,7 +25,7 @@
 
 - (void)setLibrary:(SparkLibrary *)aLibrary;
 
-- (SparkPlugIn *)pluginForList:(SEEntryList *)aList;
+- (SparkPlugIn *)plugInForList:(SEEntryList *)aList;
 
 - (IBAction)selectLibrary:(id)sender;
 - (IBAction)selectApplicationList:(id)sender;

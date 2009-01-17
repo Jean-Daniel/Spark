@@ -22,7 +22,7 @@ static
 BOOL SparkPlugInIsEnabled(NSString *identifier, BOOL *exists) {
   BOOL enabled = YES;
   if (exists) *exists = NO;
-  NSDictionary *plugins = SparkPreferencesGetValue(@"SparkPlugins", SparkPreferencesFramework);
+  NSDictionary *plugins = SparkPreferencesGetValue(@"SparkPlugIns", SparkPreferencesFramework);
   if (plugins) {
     NSNumber *status = [plugins objectForKey:identifier];
     if (status) {
@@ -37,14 +37,14 @@ static
 void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
   if (SparkGetCurrentContext() == kSparkEditorContext) {
     NSMutableDictionary *plugins = NULL;
-    NSDictionary *prefs = SparkPreferencesGetValue(@"SparkPlugins", SparkPreferencesFramework);
+    NSDictionary *prefs = SparkPreferencesGetValue(@"SparkPlugIns", SparkPreferencesFramework);
     if (!prefs) {
       plugins = [[NSMutableDictionary alloc] init];
     } else {
       plugins = [prefs mutableCopy];
     }
     [plugins setObject:WBBool(enabled) forKey:identifier];
-    SparkPreferencesSetValue(@"SparkPlugins", plugins, SparkPreferencesFramework);
+    SparkPreferencesSetValue(@"SparkPlugIns", plugins, SparkPreferencesFramework);
     [plugins release];
   }
 }
@@ -55,7 +55,7 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
   NSEnumerator *keys = [plugins keyEnumerator];
   SparkActionLoader *loader = [SparkActionLoader sharedLoader];
   while (identifier = [keys nextObject]) {
-    SparkPlugIn *plugin = [loader pluginForIdentifier:identifier];
+    SparkPlugIn *plugin = [loader plugInForIdentifier:identifier];
     if (plugin) {
       NSNumber *value = [plugins objectForKey:identifier];
       if (value && [value respondsToSelector:@selector(boolValue)])
@@ -67,7 +67,7 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
 + (void)initialize {
   if ([SparkPlugIn class] == self) {
     if (SparkGetCurrentContext() == kSparkDaemonContext) {
-      SparkPreferencesRegisterObserver(self, @selector(setFrameworkValue:forKey:), @"SparkPlugins", SparkPreferencesFramework);
+      SparkPreferencesRegisterObserver(self, @selector(setFrameworkValue:forKey:), @"SparkPlugIns", SparkPreferencesFramework);
     }
   }
 }
@@ -231,7 +231,7 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
   return nil;
 }
 
-- (id)instantiatePlugin {
+- (id)instantiatePlugIn {
   if (!sp_nib) {
     NSString *path = [sp_class nibPath];
     if (path) {
@@ -248,7 +248,7 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
   return [plugin autorelease];
 }
 
-- (Class)pluginClass {
+- (Class)plugInClass {
   return sp_class;
 }
 - (Class)actionClass {

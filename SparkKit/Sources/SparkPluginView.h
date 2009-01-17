@@ -1,5 +1,5 @@
 /*
- *  SparkPluginView.h
+ *  SparkPlugInView.h
  *  SparkKit
  *
  *  Created by Black Moon Team.
@@ -9,7 +9,7 @@
 #import WBHEADER(WBViewController.h)
 
 @class SparkActionPlugIn;
-@interface SparkPluginView : WBViewController {
+@interface SparkPlugInView : WBViewController {
   @private
 	IBOutlet NSView *uiTrap;
   IBOutlet NSView *uiView;
@@ -17,8 +17,8 @@
   IBOutlet NSTextField *uiName;
 }
 
-- (void)setPlugin:(SparkActionPlugIn *)aPlugin;
-- (void)setPluginView:(NSView *)aView;
+- (void)setPlugIn:(SparkActionPlugIn *)aPlugin;
+- (void)setPlugInView:(NSView *)aView;
 
 - (NSView *)trapPlaceholder;
 

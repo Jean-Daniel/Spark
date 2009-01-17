@@ -6,9 +6,9 @@
  *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
  */
 
-#import "SEBuiltInPlugin.h"
+#import "SEBuiltInPlugIn.h"
 
-@implementation SEInheritsPlugin
+@implementation SEInheritsPlugIn
 
 + (Class)actionClass {
   return Nil;

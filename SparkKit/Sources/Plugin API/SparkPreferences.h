@@ -19,7 +19,7 @@ enum {
   SparkPreferencesLibrary = 2,
   SparkPreferencesFramework = 3,
   /* plugins should only use this domain */
-  SparkPreferencesPlugin = SparkPreferencesLibrary,
+  SparkPreferencesPlugIn = SparkPreferencesLibrary,
 };
 typedef NSInteger SparkPreferencesDomain;
 

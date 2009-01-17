@@ -108,7 +108,7 @@ NSComparisonResult _SETriggerCompare(SparkTrigger *t1, SparkTrigger *t2, void *c
   SparkLibrary *library = [se_doc library];
   SparkEntryManager *manager = [library entryManager];
 
-  NSArray *plugins = [[SparkActionLoader sharedLoader] plugins];
+  NSArray *plugins = [[SparkActionLoader sharedLoader] plugIns];
   plugins = [plugins sortedArrayUsingDescriptors:gSortByNameDescriptors];
   
   if (se_group == 1) {    

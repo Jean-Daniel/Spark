@@ -38,11 +38,11 @@
                                                object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didChangePlugins:)
-                                                 name:SESparkEditorDidChangePluginStatusNotification
+                                             selector:@selector(didChangePlugIns:)
+                                                 name:SESparkEditorDidChangePlugInStatusNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didChangePlugins:)
+                                             selector:@selector(didChangePlugIns:)
                                                  name:SparkActionLoaderDidRegisterPlugInNotification
                                                object:nil];
   }
@@ -107,10 +107,10 @@
   }
 }
 
-- (void)didChangePlugins:(NSNotification *)aNotification {
-  /* Configure New Plugin Menu */
+- (void)didChangePlugIns:(NSNotification *)aNotification {
+  /* Configure New PlugIn Menu */
   NSMenu *menu = [[NSMenu alloc] initWithTitle:@"plugins"];
-  SEPopulatePluginMenu(menu);
+  SEPopulatePlugInMenu(menu);
   if ([menu numberOfItems] > 0)
     [menu addItem:[NSMenuItem separatorItem]];
   
@@ -138,7 +138,7 @@
   [self setDaemonStatus:[[SEServerConnection defaultConnection] status]];
   
   /* Populate plugin menu */
-  [self didChangePlugins:nil];
+  [self didChangePlugIns:nil];
   
   /* Load applications */
   [ibApplications setLibrary:[self library]];
@@ -160,7 +160,7 @@
     if ([object isEditable]) {
       [libraryTable editColumn:0 row:idx withEvent:nil select:YES];
     } else {
-      SparkPlugIn *plugin = [ibGroups pluginForList:object];
+      SparkPlugIn *plugin = [ibGroups plugInForList:object];
       if (plugin) {
         [[self document] makeEntryOfType:plugin];
       }

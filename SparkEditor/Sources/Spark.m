@@ -8,7 +8,7 @@
 
 #import "Spark.h"
 
-#import "SEPluginInstaller.h"
+#import "SEPlugInInstaller.h"
 
 #if defined (DEBUG)
 #import "SEEntryEditor.h"
@@ -28,7 +28,7 @@
 #import <HotKeyToolKit/HotKeyToolKit.h>
 
 #import "SEUpdater.h"
-#import "SEPluginHelp.h"
+#import "SEPlugInHelp.h"
 #import "SEPreferences.h"
 #import "SELibraryWindow.h"
 #import "SELibraryDocument.h"
@@ -46,7 +46,7 @@ int main(int argc, const char *argv[]) {
 
 NSArray *gSortByNameDescriptors = nil;
 NSString * const SparkEntriesPboardType = @"SparkEntriesPboardType";
-NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEditorDidChangePluginStatus";
+NSString * const SESparkEditorDidChangePlugInStatusNotification = @"SESparkEditorDidChangePlugInStatus";
 
 @implementation SparkEditor 
 
@@ -63,11 +63,11 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
 - (id)init {
   if (self = [super init]) {
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didChangePlugins:)
-                                                 name:SESparkEditorDidChangePluginStatusNotification
+                                             selector:@selector(didChangePlugIns:)
+                                                 name:SESparkEditorDidChangePlugInStatusNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didChangePlugins:)
+                                             selector:@selector(didChangePlugIns:)
                                                  name:SparkActionLoaderDidRegisterPlugInNotification
                                                object:nil];
 #if defined(DYNAMIC_SDEF)
@@ -161,21 +161,21 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
   [super sendEvent:event];
 }
 
-- (NSMenu *)pluginsMenu {
+- (NSMenu *)plugInsMenu {
   if (!se_plugins) {
     se_plugins = [[NSMenu alloc] initWithTitle:NSLocalizedString(@"NEW_TRIGGER_MENU", @"New Trigger Menu Title")];
-    SEPopulatePluginMenu(se_plugins);
+    SEPopulatePlugInMenu(se_plugins);
   }
   return se_plugins;
 }
 
-- (void)didChangePlugins:(NSNotification *)aNotification {
+- (void)didChangePlugIns:(NSNotification *)aNotification {
   if (se_plugins) {
     NSUInteger count = [se_plugins numberOfItems];
     while (count-- > 0) {
       [se_plugins removeItemAtIndex:count];
     }
-    SEPopulatePluginMenu(se_plugins);
+    SEPopulatePlugInMenu(se_plugins);
   }
 }
 
@@ -227,14 +227,14 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
   [self createAboutMenu];
   
   NSMenu *file = [[[NSApp mainMenu] itemWithTag:1] submenu];
-  [file setSubmenu:[NSApp pluginsMenu] forItem:[file itemWithTag:1]];
+  [file setSubmenu:[NSApp plugInsMenu] forItem:[file itemWithTag:1]];
 
   [[NSNotificationCenter defaultCenter] addObserver:self
-                                           selector:@selector(didChangePlugins:)
-                                               name:SESparkEditorDidChangePluginStatusNotification
+                                           selector:@selector(didChangePlugIns:)
+                                               name:SESparkEditorDidChangePlugInStatusNotification
                                              object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self
-                                           selector:@selector(didChangePlugins:)
+                                           selector:@selector(didChangePlugIns:)
                                                name:SparkActionLoaderDidRegisterPlugInNotification
                                              object:nil];
   
@@ -285,12 +285,12 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
 #pragma mark -
 #pragma mark PlugIn Help Support
 - (IBAction)showPlugInHelp:(id)sender {
-  [[SEPluginHelp sharedPluginHelp] showWindow:sender];
+  [[SEPlugInHelp sharedPlugInHelp] showWindow:sender];
 }
 
 - (void)showPlugInHelpPage:(NSString *)page {
-  [[SEPluginHelp sharedPluginHelp] setPage:page];
-  [[SEPluginHelp sharedPluginHelp] showWindow:self];
+  [[SEPlugInHelp sharedPlugInHelp] setPage:page];
+  [[SEPlugInHelp sharedPlugInHelp] showWindow:self];
 }
 
 #pragma mark -
@@ -318,7 +318,7 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
 //  return NO;
 //}
 
-//- (BOOL)openPlugin:(NSString *)filename {
+//- (BOOL)openPlugIn:(NSString *)filename {
 //  /* Verifier que le plugin n'est pas déjà installé.
 //  • Si installé => Si version supérieur, proposer de remplacer, redémarrer server, demander de redémarrer éditeur.
 //  • Si non installé => Proposer d'installer dans ≠ domaines (Utilisateur et ordinateur).
@@ -381,10 +381,10 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
 
 #pragma mark -
 #pragma mark Application Delegate
-- (void)openPluginBundle:(NSString *)path {
-  SEPluginInstaller *panel = [[SEPluginInstaller alloc] init];
+- (void)openPlugInBundle:(NSString *)path {
+  SEPlugInInstaller *panel = [[SEPlugInInstaller alloc] init];
   [panel setReleasedWhenClosed:YES];
-  [panel setPlugin:path];
+  [panel setPlugIn:path];
   [NSApp runModalForWindow:[panel window]];
 }
 
@@ -416,7 +416,7 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
     [self se_openDefaultLibrary];
   if ([[NSWorkspace sharedWorkspace] isFilePackageAtPath:filename]) {
     if ([[filename pathExtension] isEqualToString:[[SparkActionLoader sharedLoader] extension]]) {
-      [self openPluginBundle:filename];
+      [self openPlugInBundle:filename];
     } else if ([[filename pathExtension] isEqualToString:kSparkLibraryFileExtension]) {
       DLog(@"Try to open a Spark Library: ignore");
       NSBeep();
@@ -460,14 +460,14 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
 }
 
 #pragma mark -
-#pragma mark About Plugins Menu
+#pragma mark About PlugIns Menu
 - (void)createAboutMenu {
   NSUInteger count = [aboutMenu numberOfItems];
   while (count-- > 0) {
     [aboutMenu removeItemAtIndex:count];
   }
   
-  NSArray *items = [[[SparkActionLoader sharedLoader] plugins] sortedArrayUsingDescriptors:gSortByNameDescriptors];
+  NSArray *items = [[[SparkActionLoader sharedLoader] plugIns] sortedArrayUsingDescriptors:gSortByNameDescriptors];
   
   SparkPlugIn *plugin;
   NSEnumerator *plugins = [items objectEnumerator];
@@ -475,7 +475,7 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
     if ([plugin isEnabled]) {
       NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"ABOUT_PLUGIN_MENU_ITEM",
                                                                                                             @"About Plugin (%@ => Plugin name)"), [plugin name]]
-                                                        action:@selector(aboutPlugin:) keyEquivalent:@""];
+                                                        action:@selector(aboutPlugIn:) keyEquivalent:@""];
       NSImage *img = [[plugin icon] copy];
       [img setScalesWhenResized:YES];
       [img setSize:NSMakeSize(16, 16)];
@@ -488,11 +488,11 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
   }
 }
 
-- (void)didChangePlugins:(NSNotification *)sender {
+- (void)didChangePlugIns:(NSNotification *)sender {
   [self createAboutMenu];
 }
 
-- (IBAction)aboutPlugin:(id)sender {
+- (IBAction)aboutPlugIn:(id)sender {
   SparkPlugIn *plugin = [sender representedObject];
   NSMutableDictionary *opts = [NSMutableDictionary dictionary];
   
@@ -619,9 +619,9 @@ NSString * const SESparkEditorDidChangePluginStatusNotification = @"SESparkEdito
 @end
 
 #pragma mark -
-void SEPopulatePluginMenu(NSMenu *menu) {
+void SEPopulatePlugInMenu(NSMenu *menu) {
   NSCParameterAssert(menu);
-  NSArray *plugins = [[[SparkActionLoader sharedLoader] plugins] sortedArrayUsingDescriptors:gSortByNameDescriptors];
+  NSArray *plugins = [[[SparkActionLoader sharedLoader] plugIns] sortedArrayUsingDescriptors:gSortByNameDescriptors];
   
   SparkPlugIn *plugin;
   NSEnumerator *items = [plugins objectEnumerator];

@@ -51,7 +51,7 @@ NSString * const SparkActionLoaderDidRegisterPlugInNotification = @"SparkActionL
   return NO;
 }
 
-- (id)createPluginForBundle:(NSBundle *)bundle {
+- (id)createPlugInForBundle:(NSBundle *)bundle {
   SparkPlugIn *plug = nil;
   Class principalClass = [bundle principalClass];
   if (principalClass && [self isValidPlugIn:principalClass]) {
@@ -60,11 +60,11 @@ NSString * const SparkActionLoaderDidRegisterPlugInNotification = @"SparkActionL
   return [plug autorelease];
 }
 
-- (WBPluginBundle *)resolveConflict:(NSArray *)plugins {
+- (WBPlugInBundle *)resolveConflict:(NSArray *)plugins {
   for (NSUInteger idx = 0, count = [plugins count]; idx < count; idx++) {
-    WBPluginBundle *entry = [plugins objectAtIndex:idx];
+    WBPlugInBundle *entry = [plugins objectAtIndex:idx];
     /* prefere built in version, else don't care */
-    if ([entry domain] == kWBPluginDomainBuiltIn)
+    if ([entry domain] == kWBPlugInDomainBuiltIn)
       return entry;
   }
   // use first found
@@ -73,7 +73,7 @@ NSString * const SparkActionLoaderDidRegisterPlugInNotification = @"SparkActionL
 
 #pragma mark -
 - (SparkPlugIn *)plugInForActionClass:(Class)cls {
-  NSArray *plugins = [self plugins];
+  NSArray *plugins = [self plugIns];
   NSUInteger count = [plugins count];
   while (count-- > 0) {
     SparkPlugIn *plugin = [plugins objectAtIndex:count];
@@ -92,15 +92,15 @@ NSString * const SparkActionLoaderDidRegisterPlugInNotification = @"SparkActionL
   if ([self isValidPlugIn:aClass]) {
     SparkPlugIn *plugin = [[SparkPlugIn alloc] initWithClass:aClass identifier:[aClass identifier]];
     if (plugin) {
-      [self registerPlugin:plugin withIdentifier:[plugin identifier]];
+      [self registerPlugIn:plugin withIdentifier:[plugin identifier]];
     }
     return plugin;
   }
   return nil;
 }
 
-- (id)loadPlugin:(NSBundle *)aBundle {
-  SparkPlugIn *plugin = [super loadPlugin:aBundle];
+- (id)loadPlugIn:(NSBundle *)aBundle {
+  SparkPlugIn *plugin = [super loadPlugIn:aBundle];
   if (plugin) {
     [[NSNotificationCenter defaultCenter] postNotificationName:SparkActionLoaderDidRegisterPlugInNotification
                                                         object:plugin];

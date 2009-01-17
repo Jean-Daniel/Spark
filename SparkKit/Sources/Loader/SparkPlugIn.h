@@ -13,7 +13,7 @@ NSString * const SparkPlugInDidChangeStatusNotification;
 
 /*!
     @class 		SparkPlugIn
-    @abstract   Represent a Spark Plugin Bundle.
+    @abstract   Represent a Spark PlugIn Bundle.
 */
 WB_CLASS_EXPORT
 @interface SparkPlugIn : NSObject {
@@ -39,7 +39,7 @@ WB_CLASS_EXPORT
 
 /*!
   @method
- @abstract   Returns the localized name of this Plugin.
+ @abstract   Returns the localized name of this PlugIn.
 */
 - (NSString *)name;
 /*!
@@ -80,7 +80,7 @@ WB_CLASS_EXPORT
 - (NSURL *)helpURL;
 - (NSString *)sdefFile;
 
-- (Class)pluginClass;
+- (Class)plugInClass;
 /*!
   @method
  @abstract Returns the Action Class provided by this plugin.
@@ -90,7 +90,7 @@ WB_CLASS_EXPORT
   @method
  @abstract Returns a new plugin instance.
 */
-- (id)instantiatePlugin;
+- (id)instantiatePlugIn;
 
 - (NSDictionary *)growlNotifications;
 

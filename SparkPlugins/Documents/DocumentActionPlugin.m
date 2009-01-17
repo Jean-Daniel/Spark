@@ -260,7 +260,7 @@
 }
 
 #pragma mark -
-+ (NSImage *)pluginViewIcon {
++ (NSImage *)plugInViewIcon {
   return [NSImage imageNamed:@"DocumentPlugin" inBundle:kDocumentActionBundle];
 }
 

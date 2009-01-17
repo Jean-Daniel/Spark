@@ -51,7 +51,7 @@ BOOL SparkLogSynchronization = NO;
 - (oneway void)enableApplication:(in SparkUID)uid;
 - (oneway void)disableApplication:(in SparkUID)uid;
 
-#pragma mark Plugins Management
+#pragma mark PlugIns Management
 - (oneway void)registerPlugIn:(bycopy NSString *)bundlePath;
 
 @end
@@ -116,7 +116,7 @@ BOOL SparkLogSynchronization = NO;
                  name:SparkApplicationDidChangeEnabledNotification 
                object:nil];
   
-  /* Plugins */
+  /* PlugIns */
   [[NSNotificationCenter defaultCenter] addObserver:self
                                            selector:@selector(didRegisterPlugIn:)
                                                name:SparkActionLoaderDidRegisterPlugInNotification
@@ -281,7 +281,7 @@ OSType SparkServerObjectType(SparkObject *anObject) {
   }
 }
 
-#pragma mark Plugins Synchronization
+#pragma mark PlugIns Synchronization
 - (void)didRegisterPlugIn:(NSNotification *)aNotification {
   if ([self isConnected]) {
     SparkPlugIn *plugin = [aNotification object];
@@ -432,10 +432,10 @@ SparkObjectSet *SparkObjectSetForType(SparkLibrary *library, OSType type) {
   [app setEnabled:NO];
 }
 
-#pragma mark Plugins Management
+#pragma mark PlugIns Management
 - (void)registerPlugIn:(NSString *)path {
   SparkSyncTrace();
-  SparkPlugIn *plugin = [[SparkActionLoader sharedLoader] loadPluginAtPath:path];
+  SparkPlugIn *plugin = [[SparkActionLoader sharedLoader] loadPlugInAtPath:path];
   if (!plugin) {
     DLog(@"Error while loading plugin: %@", path);
   }

@@ -14,7 +14,7 @@
 
 /* Some kind of hack to resolve binding cyclic memory problem. 
 - releaseViewOwnership says to the receiver that it no longer need retain
-  the view because something else retained it. So SparkActionPlugin instance release
+  the view because something else retained it. So SparkActionPlugIn instance release
   the view and breaks the retain cycle. */
 - (void)releaseViewOwnership;
 - (void)setHotKeyTrap:(NSView *)trap;

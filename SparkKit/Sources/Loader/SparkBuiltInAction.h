@@ -17,7 +17,7 @@ enum {
 };
 
 @class SparkList;
-@interface SparkBuiltInActionPlugin : SparkActionPlugIn {
+@interface SparkBuiltInActionPlugIn : SparkActionPlugIn {
   OSType sb_action;
   //SparkList *sp_gpr, *sp_gpr2;
 

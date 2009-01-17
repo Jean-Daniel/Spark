@@ -6,7 +6,7 @@
  *  Copyright (c) 2004 - 2007, Shadow Lab. All rights reserved.
  */
 
-#import <SparkKit/SparkPluginAPI.h>
+#import <SparkKit/SparkPlugInAPI.h>
 
 @class OSAScript, OSAScriptController;
 @interface AppleScriptActionPlugin : SparkActionPlugIn {

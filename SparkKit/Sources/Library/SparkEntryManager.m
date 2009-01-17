@@ -21,7 +21,7 @@
 #import <SparkKit/SparkTrigger.h>
 #import <SparkKit/SparkObjectSet.h>
 
-/* Plugin status */
+/* PlugIn status */
 #import <SparkKit/SparkPlugIn.h>
 #import <SparkKit/SparkActionLoader.h>
 
@@ -51,7 +51,7 @@ NSString * const SparkEntryManagerDidChangeEntryStatusNotification = @"SparkEntr
     [self setLibrary:aLibrary];
     sp_objects = NSCreateMapTable(NSIntegerMapKeyCallBacks, NSObjectMapValueCallBacks, 0);
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didChangePluginStatus:) 
+                                             selector:@selector(didChangePlugInStatus:) 
                                                  name:SparkPlugInDidChangeStatusNotification
                                                object:nil];
   }

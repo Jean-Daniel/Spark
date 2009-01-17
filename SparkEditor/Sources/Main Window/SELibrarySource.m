@@ -35,7 +35,7 @@ BOOL SELibraryFilter(SparkList *list, SparkEntry *entry, id ctxt) {
 }
 
 static
-BOOL SEPluginFilter(SparkList *list, SparkEntry *object, Class cls) {
+BOOL SEPlugInFilter(SparkList *list, SparkEntry *object, Class cls) {
   return [[object action] isKindOfClass:cls];
 }
 
@@ -50,13 +50,13 @@ BOOL SEOverwriteFilter(SparkList *list, SparkEntry *entry, id ctxt) {
 
 #pragma mark -
 - (void)se_init {
-  /* Dynamic plugin */
+  /* Dynamic PlugIn */
   [[NSNotificationCenter defaultCenter] addObserver:self
-                                           selector:@selector(didChangePluginList:)
-                                               name:SESparkEditorDidChangePluginStatusNotification
+                                           selector:@selector(didChangePlugInList:)
+                                               name:SESparkEditorDidChangePlugInStatusNotification
                                              object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self
-                                           selector:@selector(didChangePluginList:)
+                                           selector:@selector(didChangePlugInList:)
                                                name:SparkActionLoaderDidRegisterPlugInNotification
                                              object:nil];
 }
@@ -98,10 +98,10 @@ BOOL SEOverwriteFilter(SparkList *list, SparkEntry *entry, id ctxt) {
 }
 
 /* Create and update plugins list */
-- (void)buildPluginLists {
+- (void)buildPlugInLists {
   [self setSelectsInsertedObjects:NO];
   
-  NSArray *plugins = [[SparkActionLoader sharedLoader] plugins];
+  NSArray *plugins = [[SparkActionLoader sharedLoader] plugIns];
   if (se_plugins) {
     [self removeObjects:NSAllMapTableKeys(se_plugins)];
     NSResetMapTable(se_plugins);
@@ -119,7 +119,7 @@ BOOL SEOverwriteFilter(SparkList *list, SparkEntry *entry, id ctxt) {
     if ([plugin isEnabled]) {
       SEEntryList *list = [[SEEntryList alloc] initWithName:[plugin name] icon:[plugin icon]];
       [list setDocument:[self document]];
-      [list setListFilter:SEPluginFilter context:[plugin actionClass]];
+      [list setListFilter:SEPlugInFilter context:[plugin actionClass]];
       [list setGroup:3];
       NSMapInsertKnownAbsent(se_plugins, list, plugin);
       
@@ -141,7 +141,7 @@ BOOL SEOverwriteFilter(SparkList *list, SparkEntry *entry, id ctxt) {
   [library release];
   
   /* …, plugins list… */
-  [self buildPluginLists];
+  [self buildPlugInLists];
   
 	[self setSelectsInsertedObjects:NO];
   /* …and User defined lists */
@@ -258,7 +258,7 @@ BOOL SEOverwriteFilter(SparkList *list, SparkEntry *entry, id ctxt) {
   return se_library;
 }
 
-- (SEEntryList *)listForPlugin:(SparkPlugIn *)aPlugin {
+- (SEEntryList *)listForPlugIn:(SparkPlugIn *)aPlugin {
   if (!se_plugins) return nil;
   
   SEEntryList *list = nil;
@@ -275,7 +275,7 @@ BOOL SEOverwriteFilter(SparkList *list, SparkEntry *entry, id ctxt) {
   return list;
 }
 
-- (SparkPlugIn *)pluginForList:(SEEntryList *)aList {
+- (SparkPlugIn *)plugInForList:(SEEntryList *)aList {
   return se_plugins ? NSMapGet(se_plugins, aList) : nil;
 }
 
@@ -380,7 +380,7 @@ BOOL SEOverwriteFilter(SparkList *list, SparkEntry *entry, id ctxt) {
 - (void)selectListForAction:(SparkAction *)anAction {
   SparkPlugIn *plugin = [[SparkActionLoader sharedLoader] plugInForAction:anAction];
   if (plugin) {
-    SEEntryList *list = [self listForPlugin:plugin];
+    SEEntryList *list = [self listForPlugIn:plugin];
     if (list) {
       [self setSelectedObject:list];
     }
@@ -438,8 +438,8 @@ BOOL SEOverwriteFilter(SparkList *list, SparkEntry *entry, id ctxt) {
   }
 }
 
-- (void)didChangePluginList:(NSNotification *)aNotification {
-  [self buildPluginLists];
+- (void)didChangePlugInList:(NSNotification *)aNotification {
+  [self buildPlugInLists];
   [self rearrangeObjects];
   [self checkSelection];
   /* Change row height */

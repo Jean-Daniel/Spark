@@ -1,12 +1,12 @@
 /*
- *  SEPluginHelp.m
+ *  SEPlugInHelp.m
  *  Spark Editor
  *
  *  Created by Black Moon Team.
  *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
  */
 
-#import "SEPluginHelp.h"
+#import "SEPlugInHelp.h"
 
 #import "Spark.h"
 
@@ -17,15 +17,15 @@
 
 #import WBHEADER(WBHeaderView.h)
 
-@implementation SEPluginHelp
+@implementation SEPlugInHelp
 
-+ (id)sharedPluginHelp {
-  static SEPluginHelp *shared = nil;
++ (id)sharedPlugInHelp {
+  static SEPlugInHelp *shared = nil;
   if (shared)
     return shared;
   @synchronized(self) {
     if (!shared) {
-      shared = [[SEPluginHelp alloc] init];
+      shared = [[SEPlugInHelp alloc] init];
       /* Load nib */
       [shared window];
     }
@@ -37,11 +37,11 @@
   if (self = [super init]) {
     /* Dynamic plugin */
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didLoadPlugin:)
-                                                 name:SESparkEditorDidChangePluginStatusNotification
+                                             selector:@selector(didLoadPlugIn:)
+                                                 name:SESparkEditorDidChangePlugInStatusNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didLoadPlugin:)
+                                             selector:@selector(didLoadPlugIn:)
                                                  name:SparkActionLoaderDidRegisterPlugInNotification
                                                object:nil];
   }
@@ -53,9 +53,9 @@
   [super dealloc];
 }
 
-- (void)loadPluginMenu {
-  NSMenu *aMenu = [[NSMenu alloc] initWithTitle:@"Plugins"];
-  NSEnumerator *plugins = [[[[SparkActionLoader sharedLoader] plugins] sortedArrayUsingDescriptors:gSortByNameDescriptors] objectEnumerator];
+- (void)loadPlugInMenu {
+  NSMenu *aMenu = [[NSMenu alloc] initWithTitle:@"PlugIns"];
+  NSEnumerator *plugins = [[[[SparkActionLoader sharedLoader] plugIns] sortedArrayUsingDescriptors:gSortByNameDescriptors] objectEnumerator];
   
   SparkPlugIn *plugin;
   while (plugin = [plugins nextObject]) {
@@ -98,20 +98,20 @@
   if (!se_plugins) {
     se_plugins = [ibHead addMenu:aMenu position:kWBHeaderLeft];
     [se_plugins setTarget:self];
-    [se_plugins setAction:@selector(selectPlugin:)];
+    [se_plugins setAction:@selector(selectPlugIn:)];
   } else {
     [se_plugins setMenu:aMenu];
   }
   
   if ([aMenu numberOfItems]) {
-    [self selectPlugin:[aMenu itemAtIndex:0]];
+    [self selectPlugIn:[aMenu itemAtIndex:0]];
   }
   
   [aMenu release];
 }
 
-- (void)didLoadPlugin:(NSNotification *)aNotification {
-  [self loadPluginMenu];
+- (void)didLoadPlugIn:(NSNotification *)aNotification {
+  [self loadPlugInMenu];
 }
 
 - (void)awakeFromNib {
@@ -127,7 +127,7 @@
     [se_next bind:@"enabled" toObject:ibWeb withKeyPath:@"canGoForward" options:nil];
     
     [ibWeb setFrameLoadDelegate:self];
-    [self loadPluginMenu];
+    [self loadPlugInMenu];
   }
 }
 
@@ -135,16 +135,16 @@
 - (void)setPage:(NSString *)aPage {
   if (aPage && [se_plugins indexOfItemWithTitle:aPage] != NSNotFound) {
     [se_plugins selectItemWithTitle:aPage];
-    [self selectPlugin:nil];
+    [self selectPlugIn:nil];
   }
 }
 
-- (void)setPlugin:(SparkPlugIn *)aPlugin {
+- (void)setPlugIn:(SparkPlugIn *)aPlugin {
   [se_plugins selectItemWithTitle:[aPlugin name]];
-  [self selectPlugin:nil];
+  [self selectPlugIn:nil];
 }
 
-- (IBAction)selectPlugin:(id)sender {
+- (IBAction)selectPlugIn:(id)sender {
   NSString *path = [[se_plugins selectedItem] representedObject];
   if (path) {
     [[ibWeb backForwardList] setCapacity:0];

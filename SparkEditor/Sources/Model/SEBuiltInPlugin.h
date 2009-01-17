@@ -1,5 +1,5 @@
 /*
- *  SEBuiltInPlugin.h
+ *  SEBuiltInPlugIn.h
  *  Spark Editor
  *
  *  Created by Black Moon Team.
@@ -8,7 +8,7 @@
 
 #import <SparkKit/SparkActionPlugIn.h>
 
-@interface SEInheritsPlugin : SparkActionPlugIn {
+@interface SEInheritsPlugIn : SparkActionPlugIn {
 }
 
 @end

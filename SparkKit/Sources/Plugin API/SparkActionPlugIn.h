@@ -8,7 +8,7 @@
 
 #import <SparkKit/SparkKit.h>
 
-@class SparkAction, SparkPluginView;
+@class SparkAction, SparkPlugInView;
 
 /*!
 @class SparkActionPlugIn
@@ -29,7 +29,7 @@ SPARK_CLASS_EXPORT
   } sp_apFlags;
   
   id sp_trap;
-  SparkPluginView *sp_ctrl;  
+  SparkPlugInView *sp_ctrl;  
 }
 
 /*!
@@ -80,11 +80,11 @@ SPARK_CLASS_EXPORT
 
 #pragma mark Hook entry points
 /* Those methods does nothing. Subclasses can override those methods to perform whatever actions are necessary. */
-- (void)pluginViewWillBecomeVisible;
-- (void)pluginViewDidBecomeVisible;
+- (void)plugInViewWillBecomeVisible;
+- (void)plugInViewDidBecomeVisible;
 
-- (void)pluginViewWillBecomeHidden;
-- (void)pluginViewDidBecomeHidden;
+- (void)plugInViewWillBecomeHidden;
+- (void)plugInViewDidBecomeHidden;
 
 #pragma mark -
 #pragma mark Advanced
@@ -136,12 +136,12 @@ SPARK_CLASS_EXPORT
   @method
  @result Returns "'plugInName' Action" by default.
  */
-+ (NSString *)pluginFullName;
++ (NSString *)plugInFullName;
 /*!
 @method
  @result Returns the plugin icon. You can use a multi size icon file.
  */
-+ (NSImage *)pluginViewIcon;
++ (NSImage *)plugInViewIcon;
 
 /* Growl support (uses GrowlNotificaitons.plist by default) */
 + (NSDictionary *)growlNotifications;

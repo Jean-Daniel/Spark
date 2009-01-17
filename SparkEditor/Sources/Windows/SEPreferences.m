@@ -43,7 +43,7 @@ NSString * const kSparkPrefSingleKeyMode = @"SparkSingleKeyMode";
 
 /* Toolbar items */
 static NSString * const kSparkPreferencesToolbarGeneralItem = @"SparkPreferencesToolbarGeneralItem";
-static NSString * const kSparkPreferencesToolbarPluginsItem = @"SparkPreferencesToolbarPluginsItem";
+static NSString * const kSparkPreferencesToolbarPlugInsItem = @"SparkPreferencesToolbarPlugInsItem";
 static NSString * const kSparkPreferencesToolbarUpdateItem = @"SparkPreferencesToolbarUpdateItem";
 static NSString * const kSparkPreferencesToolbarAdvancedItem = @"SparkPreferencesToolbarAdvancedItem";
 
@@ -135,7 +135,7 @@ void *_SEPreferencesLoginItemThread(void *arg) {
 }
 
 #pragma mark -
-- (void)se_initPluginStatus:(NSArray *)plugins {
+- (void)se_initPlugInStatus:(NSArray *)plugins {
   for (NSUInteger idx = 0, count = [plugins count]; idx < count; idx++) {
     SparkPlugIn *plugin = [plugins objectAtIndex:idx];
     long status = [plugin isEnabled];
@@ -153,23 +153,23 @@ void *_SEPreferencesLoginItemThread(void *arg) {
   [[self window] setToolbar:[toolbar autorelease]];
   [[self window] setShowsToolbarButton:NO];
   
-  /* Load plugins */
+  /* Load PlugIns */
   NSArray *plugs;
-  plugs = [[[SparkActionLoader sharedLoader] pluginsForDomain:kWBPluginDomainBuiltIn] sortedArrayUsingDescriptors:gSortByNameDescriptors];
+  plugs = [[[SparkActionLoader sharedLoader] plugInsForDomain:kWBPlugInDomainBuiltIn] sortedArrayUsingDescriptors:gSortByNameDescriptors];
   NSDictionary *item = [NSDictionary dictionaryWithObjectsAndKeys:
 												NSLocalizedStringFromTable(@"Built-in", @"SEPreferences", @"Plugin preferences domain - built-in"), @"name",
 												plugs, @"plugins",
 												[NSImage imageNamed:@"application"], @"icon", nil];
   [se_plugins addObject:item];
 
-  plugs = [[[SparkActionLoader sharedLoader] pluginsForDomain:kWBPluginDomainLocal] sortedArrayUsingDescriptors:gSortByNameDescriptors];
+  plugs = [[[SparkActionLoader sharedLoader] plugInsForDomain:kWBPlugInDomainLocal] sortedArrayUsingDescriptors:gSortByNameDescriptors];
   item = [NSDictionary dictionaryWithObjectsAndKeys:
 					NSLocalizedStringFromTable(@"Computer", @"SEPreferences", @"Plugin preferences domain - computer"), @"name",
 					plugs, @"plugins",
 					[NSImage imageNamed:@"computer"], @"icon", nil];
   [se_plugins addObject:item];
   
-  plugs = [[[SparkActionLoader sharedLoader] pluginsForDomain:kWBPluginDomainUser] sortedArrayUsingDescriptors:gSortByNameDescriptors];
+  plugs = [[[SparkActionLoader sharedLoader] plugInsForDomain:kWBPlugInDomainUser] sortedArrayUsingDescriptors:gSortByNameDescriptors];
   item = [NSDictionary dictionaryWithObjectsAndKeys:
 					NSLocalizedStringFromTable(@"User", @"SEPreferences", @"Plugin preferences domain - user"), @"name",
 					plugs, @"plugins",
@@ -181,7 +181,7 @@ void *_SEPreferencesLoginItemThread(void *arg) {
     item = [se_plugins objectAtIndex:idx];
     NSArray *plugins = [item objectForKey:@"plugins"];
     if ([plugins count]) {
-      [self se_initPluginStatus:plugins];
+      [self se_initPlugInStatus:plugins];
       [uiPlugins expandItem:item];
     }
   }
@@ -199,7 +199,7 @@ void *_SEPreferencesLoginItemThread(void *arg) {
     }
   }
   if (change) {
-    [[NSNotificationCenter defaultCenter] postNotificationName:SESparkEditorDidChangePluginStatusNotification
+    [[NSNotificationCenter defaultCenter] postNotificationName:SESparkEditorDidChangePlugInStatusNotification
                                                         object:nil];
   }
   /* Check login items */
@@ -353,7 +353,7 @@ void *_SEPreferencesLoginItemThread(void *arg) {
     [toolbarItem setTag:0];
     [toolbarItem setLabel:NSLocalizedStringFromTable(@"General", @"SEPreferences", @"Toolar item: General")];
     [toolbarItem setImage:[NSImage imageNamed:@"generalpref"]];
-  } else if ([kSparkPreferencesToolbarPluginsItem isEqualToString:itemIdentifier]) {
+  } else if ([kSparkPreferencesToolbarPlugInsItem isEqualToString:itemIdentifier]) {
     [toolbarItem setTag:1];
     [toolbarItem setLabel:NSLocalizedStringFromTable(@"Plugins", @"SEPreferences", @"Toolar item: Plugins")];
     [toolbarItem setImage:[NSImage imageNamed:@"pluginpref"]];
@@ -375,21 +375,21 @@ void *_SEPreferencesLoginItemThread(void *arg) {
 
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar*)toolbar {
   return [NSArray arrayWithObjects:kSparkPreferencesToolbarGeneralItem, 
-					kSparkPreferencesToolbarPluginsItem,
+					kSparkPreferencesToolbarPlugInsItem,
 					kSparkPreferencesToolbarUpdateItem,
 					kSparkPreferencesToolbarAdvancedItem, nil];
 }
 
 - (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar*)toolbar {
   return [NSArray arrayWithObjects:kSparkPreferencesToolbarGeneralItem, 
-					kSparkPreferencesToolbarPluginsItem,
+					kSparkPreferencesToolbarPlugInsItem,
 					kSparkPreferencesToolbarUpdateItem,
 					kSparkPreferencesToolbarAdvancedItem, nil];
 }
 
 - (NSArray *)toolbarSelectableItemIdentifiers:(NSToolbar *)toolbar {
   return [NSArray arrayWithObjects:kSparkPreferencesToolbarGeneralItem, 
-					kSparkPreferencesToolbarPluginsItem,
+					kSparkPreferencesToolbarPlugInsItem,
 					kSparkPreferencesToolbarUpdateItem,
 					kSparkPreferencesToolbarAdvancedItem, nil];
 }

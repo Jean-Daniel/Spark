@@ -134,7 +134,7 @@ NSImage *ITunesGetApplicationIcon(void) {
   }
 }
 
-- (void)pluginViewWillBecomeHidden {
+- (void)plugInViewWillBecomeHidden {
   if ([ibVisual configuration] == kiTunesSettingDefault) {
     // Update defaut configuration
     ITunesVisual visual;

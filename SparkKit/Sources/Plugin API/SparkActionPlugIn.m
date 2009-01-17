@@ -9,7 +9,7 @@
 #import "SparkPrivate.h"
 
 #import <SparkKit/SparkAction.h>
-#import <SparkKit/SparkPluginView.h>
+#import <SparkKit/SparkPlugInView.h>
 #import <SparkKit/SparkPreferences.h>
 #import <SparkKit/SparkActionPlugIn.h>
 
@@ -44,11 +44,11 @@
   [super dealloc];
 }
 
-- (SparkPluginView *)sp_controller {
+- (SparkPlugInView *)sp_controller {
   if (!sp_ctrl) {
-    sp_ctrl = [[SparkPluginView alloc] init];
-    [sp_ctrl setPlugin:self];
-    [sp_ctrl setPluginView:actionView];
+    sp_ctrl = [[SparkPlugInView alloc] init];
+    [sp_ctrl setPlugIn:self];
+    [sp_ctrl setPlugInView:actionView];
     [self setHotKeyTrapPlaceholder:[sp_ctrl trapPlaceholder]];
   }
   return sp_ctrl;
@@ -87,11 +87,11 @@
 }
 
 #pragma mark Notifications
-- (void)pluginViewWillBecomeVisible {}
-- (void)pluginViewDidBecomeVisible {}
+- (void)plugInViewWillBecomeVisible {}
+- (void)plugInViewDidBecomeVisible {}
 
-- (void)pluginViewWillBecomeHidden {}
-- (void)pluginViewDidBecomeHidden {}
+- (void)plugInViewWillBecomeHidden {}
+- (void)plugInViewDidBecomeHidden {}
 
 #pragma mark Accessors
 - (id)valueForUndefinedKey:(NSString *)key {
@@ -174,7 +174,7 @@
 }
 
 #pragma mark -
-#pragma mark Plugin Informations
+#pragma mark PlugIn Informations
 + (Class)actionClass {
   Class actionClass = nil;
   NSBundle *bundle = WBCurrentBundle();
@@ -231,13 +231,13 @@
   return name ? [bundle pathForResource:name ofType:@"nib"] : nil;
 }
 
-+ (NSString *)pluginFullName {
++ (NSString *)plugInFullName {
   return [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"%@ Action", nil, 
                                                                        kSparkKitBundle, @"Plugin fullname (%@ => name)"),
     [self plugInName]];
 }
 
-+ (NSImage *)pluginViewIcon {
++ (NSImage *)plugInViewIcon {
   return [self plugInIcon];
 }
 

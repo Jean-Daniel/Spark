@@ -161,7 +161,7 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
 - (void)finishStartup:(id)sender {
   [self setActiveLibrary:SparkActiveLibrary()];
   [[NSNotificationCenter defaultCenter] addObserver:self
-                                           selector:@selector(didChangePluginStatus:)
+                                           selector:@selector(didChangePlugInStatus:)
                                                name:SparkPlugInDidChangeStatusNotification
                                              object:nil];
   

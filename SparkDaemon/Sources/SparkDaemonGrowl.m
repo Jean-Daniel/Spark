@@ -21,10 +21,10 @@
     [GrowlApplicationBridge setGrowlDelegate:self];
 }
 
-- (void)registerPlugin:(SparkActionPlugIn *)aPlugin {
+- (void)registerPlugIn:(SparkActionPlugIn *)aPlugin {
   
 }
-- (void)unregisterPlugin:(SparkActionPlugIn *)aPlugin {
+- (void)unregisterPlugIn:(SparkActionPlugIn *)aPlugin {
   
 }
 
@@ -42,7 +42,7 @@
                                [NSMutableDictionary dictionary], GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES, nil];
   
   SparkActionLoader *loader = [SparkActionLoader sharedLoader];
-  NSArray *plugins = [loader plugins];
+  NSArray *plugins = [loader plugIns];
   for (NSUInteger idx = 0; idx < [plugins count]; idx++) {
     SparkPlugIn *plugin = [plugins objectAtIndex:idx];
     NSDictionary *subdict = [plugin growlNotifications];

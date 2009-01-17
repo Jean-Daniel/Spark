@@ -13,10 +13,10 @@ NSArray *gSortByNameDescriptors;
 WB_PRIVATE
 NSString * const SparkEntriesPboardType;
 WB_PRIVATE
-NSString * const SESparkEditorDidChangePluginStatusNotification;
+NSString * const SESparkEditorDidChangePlugInStatusNotification;
 
 WB_PRIVATE
-void SEPopulatePluginMenu(NSMenu *menu);
+void SEPopulatePlugInMenu(NSMenu *menu);
 
 @class SparkLibrary;
 @class SELibraryWindow;
@@ -25,7 +25,7 @@ void SEPopulatePluginMenu(NSMenu *menu);
   NSMenu *se_plugins;
 }
 
-- (NSMenu *)pluginsMenu;
+- (NSMenu *)plugInsMenu;
 
 @end
 
