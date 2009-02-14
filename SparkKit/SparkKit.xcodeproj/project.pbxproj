@@ -179,7 +179,7 @@
 		984A38C80A60060A00DA6455 /* SparkAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 984A38BD0A60060A00DA6455 /* SparkAlert.m */; };
 		984A38C90A60060A00DA6455 /* SparkObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 984A38BE0A60060A00DA6455 /* SparkObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		984A38CA0A60060A00DA6455 /* SparkObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 984A38BF0A60060A00DA6455 /* SparkObject.m */; };
-		984A38CB0A60060A00DA6455 /* SparkMultipleAlerts.h in Headers */ = {isa = PBXBuildFile; fileRef = 984A38C00A60060A00DA6455 /* SparkMultipleAlerts.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		984A38CB0A60060A00DA6455 /* SparkMultipleAlerts.h in Headers */ = {isa = PBXBuildFile; fileRef = 984A38C00A60060A00DA6455 /* SparkMultipleAlerts.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		984A38CC0A60060A00DA6455 /* SparkMultipleAlerts.m in Sources */ = {isa = PBXBuildFile; fileRef = 984A38C10A60060A00DA6455 /* SparkMultipleAlerts.m */; };
 		984A38CD0A60060A00DA6455 /* SparkPluginAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 984A38C20A60060A00DA6455 /* SparkPluginAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9858F43A0B9084B500CC682C /* SparkIconManagerPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 9858F4390B9084B500CC682C /* SparkIconManagerPrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };

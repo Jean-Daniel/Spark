@@ -9,7 +9,7 @@
 #import <SparkKit/SparkPluginAPI.h>
 
 @interface MyAction : SparkAction <NSCopying> {
-  @private
+@private
   NSString *my_message;
 }
 

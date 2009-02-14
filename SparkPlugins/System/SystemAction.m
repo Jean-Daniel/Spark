@@ -303,7 +303,7 @@ bail:
   return sa_uname;
 }
 - (void)setUserName:(NSString *)aName {
-  WBSetterRetain(sa_uname, aName);
+  WBSetterRetain(&sa_uname, aName);
 }
 
 /*

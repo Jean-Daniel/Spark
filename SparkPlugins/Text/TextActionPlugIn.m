@@ -141,7 +141,7 @@
   return ta_text;
 }
 - (void)setText:(NSString *)text {
-  WBSetterCopy(ta_text, text);
+  WBSetterCopy(&ta_text, text);
 }
 
 #pragma mark Date

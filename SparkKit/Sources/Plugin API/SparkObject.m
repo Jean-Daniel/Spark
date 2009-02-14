@@ -196,7 +196,7 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
     [[[self library] iconManager] setIcon:icon forObject:self];
   }
   [self willChangeValueForKey:@"representation"];
-  WBSetterRetain(sp_icon, icon);
+  WBSetterRetain(&sp_icon, icon);
   [self didChangeValueForKey:@"representation"];
 }
 - (BOOL)hasIcon {
@@ -220,7 +220,7 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
 }
 - (void)setName:(NSString *)name {
   [self willChangeValueForKey:@"representation"];
-  WBSetterCopy(sp_name, name);
+  WBSetterCopy(&sp_name, name);
   [self didChangeValueForKey:@"representation"];
 }
 

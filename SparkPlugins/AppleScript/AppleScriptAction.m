@@ -196,7 +196,7 @@ static NSString * const kOSAScriptActionRepeatInterval = @"OSAScriptRepeatInterv
   return as_alias;
 }
 - (void)setScriptAlias:(WBAlias *)anAlias {
-  WBSetterRetain(as_alias, anAlias);
+  WBSetterRetain(&as_alias, anAlias);
 }
 
 - (NSString *)file {

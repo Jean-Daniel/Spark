@@ -53,8 +53,8 @@ void _ITunesDrawHalfString(NSPoint point, NSColor *color) {
   return ia_color;
 }
 - (void)setStarsColor:(NSColor *)aColor {
-  WBSetterRetain(ia_color, aColor);
-  [self setNeedsDisplay:YES];
+  if (WBSetterRetain(&ia_color, aColor))
+    [self setNeedsDisplay:YES];
 }
 
 - (void)drawRect:(NSRect)rect {

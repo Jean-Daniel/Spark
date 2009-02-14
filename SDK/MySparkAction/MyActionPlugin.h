@@ -9,7 +9,7 @@
 #import <SparkKit/SparkPluginAPI.h>
 
 @interface MyActionPlugin : SparkActionPlugIn {
-  @private
+@private
   NSString *my_message;
 }
 

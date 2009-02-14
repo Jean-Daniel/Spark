@@ -361,21 +361,21 @@ OSType _DocumentActionFromFlag(int flag) {
   return da_url;
 }
 - (void)setURL:(NSString *)url {
-  WBSetterRetain(da_url, url);
+  WBSetterRetain(&da_url, url);
 }
 
 - (WBAlias *)document {
   return da_doc;
 }
 - (void)setDocument:(WBAlias *)alias {
-  WBSetterRetain(da_doc, alias);
+  WBSetterRetain(&da_doc, alias);
 }
 
 - (WBAliasedApplication *)application {
   return da_app;
 }
 - (void)setApplication:(WBAliasedApplication *)anApplication {
-  WBSetterRetain(da_app, anApplication);
+  WBSetterRetain(&da_app, anApplication);
 }
 
 @end

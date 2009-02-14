@@ -140,23 +140,24 @@
 
 #pragma mark -
 - (void)setPath:(NSString *)aPath {
-  WBSetterRetain(aa_path, aPath);
-  NSString *name = [[[NSFileManager defaultManager] displayNameAtPath:aPath] stringByDeletingPathExtension];
-  [ibApplication setStringValue:name ? : @""];
-  [[ibName cell] setPlaceholderString:name ? : NSLocalizedStringFromTableInBundle(@"ACTION_NAME",
-                                                                                  NULL, kApplicationActionBundle, 
-                                                                                  @"Action Name Placeholder")];
-  NSImage *icon;
-  if (aPath) {
-    icon = [[NSWorkspace sharedWorkspace] iconForFile:aPath];
-    //if (icon) {
-//      WBImageSetRepresentationsSize(icon, [ibIcon bounds].size);
-//      [icon setSize:[ibIcon bounds].size];
-//    }
-  } else {
-    icon = [NSImage imageNamed:@"AAUndefined" inBundle:WBCurrentBundle()];
+  if (WBSetterRetain(&aa_path, aPath)) {
+    NSString *name = [[[NSFileManager defaultManager] displayNameAtPath:aPath] stringByDeletingPathExtension];
+    [ibApplication setStringValue:name ? : @""];
+    [[ibName cell] setPlaceholderString:name ? : NSLocalizedStringFromTableInBundle(@"ACTION_NAME",
+                                                                                    NULL, kApplicationActionBundle, 
+                                                                                    @"Action Name Placeholder")];
+    NSImage *icon;
+    if (aPath) {
+      icon = [[NSWorkspace sharedWorkspace] iconForFile:aPath];
+      //if (icon) {
+      //      WBImageSetRepresentationsSize(icon, [ibIcon bounds].size);
+      //      [icon setSize:[ibIcon bounds].size];
+      //    }
+    } else {
+      icon = [NSImage imageNamed:@"AAUndefined" inBundle:WBCurrentBundle()];
+    }
+    [ibIcon setImage:icon];
   }
-  [ibIcon setImage:icon];
 }
 
 - (ApplicationActionType)action {

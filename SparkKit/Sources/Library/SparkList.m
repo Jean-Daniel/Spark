@@ -160,18 +160,17 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
 }
 - (void)setListFilter:(SparkListFilter)aFilter context:(id)aCtxt {
   sp_filter = aFilter;
-  WBSetterRetain(sp_ctxt, aCtxt);
-  /* Refresh contents */
-  [self reload];
+  WBSetterRetain(&sp_ctxt, aCtxt);
+  [self reload]; // Refresh contents
 }
 - (void)reloadWithFilter:(SparkListFilter)aFilter context:(id)aCtxt {
   sp_filter = aFilter;
-  WBSetterRetain(sp_ctxt, aCtxt);
+  WBSetterRetain(&sp_ctxt, aCtxt);
   /* Refresh contents */
   [self reload];
   /* Remove dynamic */
   sp_filter = NULL;
-  WBSetterRetain(sp_ctxt, nil);
+  WBSetterRetain(&sp_ctxt, nil);
 }
 
 #pragma mark -
@@ -392,7 +391,7 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
 }
 
 - (void)setEntries:(NSArray *)entries {
-  WBSetterMutableCopy(sp_entries, entries);
+  WBSetterMutableCopy(&sp_entries, entries);
 }
 
 - (SparkEntry *)objectInEntriesAtIndex:(NSUInteger)idx {

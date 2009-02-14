@@ -422,7 +422,7 @@ void SparkPreferencesUnregisterObserver(id observer, NSString *key, SparkPrefere
 - (void)setPreferences:(NSDictionary *)preferences {
   if (![self isLoaded])
     WBThrowException(NSInternalInconsistencyException, @"cannot set preferences for an unloaded library");
-  WBSetterMutableCopy(sp_prefs, preferences);
+  WBSetterMutableCopy(&sp_prefs, preferences);
 }
 
 @end

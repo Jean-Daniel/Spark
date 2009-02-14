@@ -261,7 +261,8 @@
   return se_entry;
 }
 - (void)setEntry:(SparkEntry *)anEntry {
-  WBSetterRetain(se_entry, anEntry);
+  if (!WBSetterRetain(&se_entry, anEntry))
+    return;
   
   /* Update plugins list if needed */
   [self updatePlugIns];

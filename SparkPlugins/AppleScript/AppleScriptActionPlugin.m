@@ -284,7 +284,7 @@ dispose:
   return as_file;
 }
 - (void)setScriptFile:(NSString *)aFile {
-  WBSetterCopy(as_file, aFile);
+  WBSetterCopy(&as_file, aFile);
 }
 
 @end

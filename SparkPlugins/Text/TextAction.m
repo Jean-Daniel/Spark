@@ -195,7 +195,7 @@ NSString * const kKeyboardActionBundleIdentifier = @"org.shadowlab.spark.action.
   return ta_data;
 }
 - (void)setData:(id)anObject {
-  WBSetterCopy(ta_data, anObject);
+  WBSetterCopy(&ta_data, anObject);
 }
 
 - (id)serializedData {

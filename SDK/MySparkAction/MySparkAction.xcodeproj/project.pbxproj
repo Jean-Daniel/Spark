@@ -3,12 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 42;
+	objectVersion = 45;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1B2325B00CD202D4007A4C72 /* SparkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B2325AD0CD202D4007A4C72 /* SparkKit.framework */; };
-		1B2325B10CD202D4007A4C72 /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B2325AE0CD202D4007A4C72 /* HotKeyToolKit.framework */; };
+		1B81444D0F331EDC00264C3B /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B81444B0F331EDC00264C3B /* HotKeyToolKit.framework */; };
+		1B81444E0F331EDC00264C3B /* SparkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B81444C0F331EDC00264C3B /* SparkKit.framework */; };
 		98C69C5A060CB81500582B89 /* MyActionPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 98AE3C06060CAAF3007B23D7 /* MyActionPlugin.h */; };
 		98C69C5E060CB82000582B89 /* MyAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 98AE3C0A060CAB37007B23D7 /* MyAction.h */; };
 		98C69C60060CB82B00582B89 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
@@ -17,15 +17,13 @@
 		98C69C64060CB83300582B89 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		98D4E16C076E5943002CA4BE /* MyActionIcon.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98D4E16B076E5942002CA4BE /* MyActionIcon.tiff */; };
 		98DD60030A91EE3800FB5814 /* MyActionPlugin.nib in Resources */ = {isa = PBXBuildFile; fileRef = 98DD60010A91EE3800FB5814 /* MyActionPlugin.nib */; };
-		98FD73060CD4B3530029007D /* ShadowKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B2325AC0CD202D4007A4C72 /* ShadowKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		1B2325AC0CD202D4007A4C72 /* ShadowKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ShadowKit.framework; sourceTree = "<group>"; };
-		1B2325AD0CD202D4007A4C72 /* SparkKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SparkKit.framework; sourceTree = "<group>"; };
-		1B2325AE0CD202D4007A4C72 /* HotKeyToolKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HotKeyToolKit.framework; sourceTree = "<group>"; };
+		1B81444B0F331EDC00264C3B /* HotKeyToolKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HotKeyToolKit.framework; sourceTree = "<group>"; };
+		1B81444C0F331EDC00264C3B /* SparkKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SparkKit.framework; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -44,9 +42,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				98C69C64060CB83300582B89 /* Cocoa.framework in Frameworks */,
-				1B2325B00CD202D4007A4C72 /* SparkKit.framework in Frameworks */,
-				1B2325B10CD202D4007A4C72 /* HotKeyToolKit.framework in Frameworks */,
-				98FD73060CD4B3530029007D /* ShadowKit.framework in Frameworks */,
+				1B81444D0F331EDC00264C3B /* HotKeyToolKit.framework in Frameworks */,
+				1B81444E0F331EDC00264C3B /* SparkKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,6 +65,8 @@
 			isa = PBXGroup;
 			children = (
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
+				1B81444C0F331EDC00264C3B /* SparkKit.framework */,
+				1B81444B0F331EDC00264C3B /* HotKeyToolKit.framework */,
 			);
 			name = "Linked Frameworks";
 			sourceTree = "<group>";
@@ -89,37 +88,10 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		1B2325AB0CD202C2007A4C72 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				1B2325AD0CD202D4007A4C72 /* SparkKit.framework */,
-				1B2325AC0CD202D4007A4C72 /* ShadowKit.framework */,
-				1B2325AE0CD202D4007A4C72 /* HotKeyToolKit.framework */,
-			);
-			path = Frameworks;
-			sourceTree = "<group>";
-		};
-		1BD9A9960CD201FA00A76EB9 /* Contents */ = {
-			isa = PBXGroup;
-			children = (
-				1B2325AB0CD202C2007A4C72 /* Frameworks */,
-			);
-			path = Contents;
-			sourceTree = "<group>";
-		};
-		1BE8581E0CD20179001684B4 /* Spark.app */ = {
-			isa = PBXGroup;
-			children = (
-				1BD9A9960CD201FA00A76EB9 /* Contents */,
-			);
-			path = Spark.app;
-			sourceTree = "<group>";
-		};
 		29B97314FDCFA39411CA2CEA /* MySparkHotKey */ = {
 			isa = PBXGroup;
 			children = (
 				080E96DDFE201D6D7F000001 /* Classes */,
-				1BE8581E0CD20179001684B4 /* Spark.app */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
@@ -186,9 +158,11 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 98DD5F530A91DF9700FB5814 /* Build configuration list for PBXProject "MySparkAction" */;
+			compatibilityVersion = "Xcode 3.1";
 			hasScannedForEncodings = 1;
 			mainGroup = 29B97314FDCFA39411CA2CEA /* MySparkHotKey */;
 			projectDirPath = "";
+			projectRoot = "";
 			targets = (
 				98C69C3D060CB7C500582B89 /* MyAction */,
 			);
@@ -246,7 +220,10 @@
 				CURRENT_PROJECT_VERSION = 154.6;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/Spark.app/Contents/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SRCROOT)/Spark.app/Contents/Frameworks\"",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_FAST_OBJC_DISPATCH = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
@@ -270,15 +247,14 @@
 		98DD5F510A91DF9700FB5814 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
 				CURRENT_PROJECT_VERSION = 154.6;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEPLOYMENT_POSTPROCESSING = YES;
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/Spark.app/Contents/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SRCROOT)/Spark.app/Contents/Frameworks\"",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_FAST_OBJC_DISPATCH = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
@@ -304,14 +280,19 @@
 		98DD5F540A91DF9700FB5814 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx10.5;
 			};
 			name = Debug;
 		};
 		98DD5F550A91DF9700FB5814 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				SDKROOT = macosx10.5;
 			};
 			name = Release;
 		};

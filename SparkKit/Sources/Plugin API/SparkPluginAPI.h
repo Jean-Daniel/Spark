@@ -10,13 +10,12 @@
 #define __SPARK_PLUGIN_API_H 1
 
 #import <SparkKit/SparkKit.h>
+#import <SparkKit/SparkAlert.h>
 #import <SparkKit/SparkFunctions.h>
 #import <SparkKit/SparkPreferences.h>
 
 #import <SparkKit/SparkAction.h>
 #import <SparkKit/SparkActionPlugIn.h>
 
-#import <SparkKit/SparkAlert.h>
-#import <SparkKit/SparkMultipleAlerts.h>
 
 #endif /* __SPARK_PLUGIN_API_H */
