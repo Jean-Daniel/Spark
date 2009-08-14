@@ -8,14 +8,20 @@
 
 #import "SEBackgroundView.h"
 
-#import WBHEADER(WBCGFunctions.h)
-#import WBHEADER(WonderBoxFunctions.h)
+#import WBHEADER(WBGradient.h)
+#import WBHEADER(WBFunctions.h)
 
 static const 
-WBCGSimpleShadingInfo kSETopShadingInfo = {
-	{.771, .771, .771, 1},
-	{.508, .508, .508, 1},
-  NULL,
+WBGradientDefinition kSETopShadingInfo = {
+  1,
+  kWBInterpolationLinear,
+  {
+    {
+      0, WBShadingColorRGB(.771, .771, .771, 1),
+      1, WBShadingColorRGB(.508, .508, .508, 1),
+      kWBInterpolationDefault
+    }
+  },
 };
 
 static bool sShading = false;
@@ -67,8 +73,12 @@ static CGLayerRef sSETopShadingImage = nil;
     if (NSIntersectsRect(gradient, rect)) {
       gradient.origin.x += 1;
       gradient.size.width -= 2;
-      if (!sSETopShadingImage)
-        sSETopShadingImage = WBCGLayerCreateWithVerticalShading(ctxt, CGSizeMake(128, se_top), true, WBCGShadingSimpleShadingFunction, (void *)&kSETopShadingInfo);
+      if (!sSETopShadingImage) {
+        WBGradientBuilder *builder = [[WBGradientBuilder alloc] initWithColorSpace:[NSColorSpace genericRGBColorSpace]
+                                                                        definition:&kSETopShadingInfo];
+        sSETopShadingImage = [builder newLayerWithVerticalGradient:CGSizeMake(128, se_top) scale:true context:ctxt];
+        [builder release];
+      }
       CGContextDrawLayerInRect(ctxt, NSRectToCGRect(gradient), sSETopShadingImage);
       
       CGContextSaveGState(ctxt);

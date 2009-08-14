@@ -17,8 +17,9 @@
 //+ (BOOL)isGrowlInstalled;
 
 - (void)registerGrowl {
-  if ([GrowlApplicationBridge isGrowlInstalled])
-    [GrowlApplicationBridge setGrowlDelegate:self];
+  Class bridge = NSClassFromString(@"GrowlApplicationBridge");
+  if (bridge && [bridge isGrowlInstalled])
+    [bridge setGrowlDelegate:self];
 }
 
 - (void)registerPlugIn:(SparkActionPlugIn *)aPlugin {

@@ -12,8 +12,8 @@
 
 #import <SparkKit/SparkPreferences.h>
 
+#import WBHEADER(WBFunctions.h)
 #import WBHEADER(WBLSFunctions.h)
-#import WBHEADER(WonderBoxFunctions.h)
 
 NSString * const kSparkErrorDomain = @"org.shadowlab.SparkErrorDomain";
 

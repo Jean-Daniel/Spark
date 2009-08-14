@@ -23,7 +23,7 @@ NSString * const kSEPreferencesAutoUpdate;
 WB_PRIVATE
 NSString * const kSparkPrefSingleKeyMode;
 
-@interface SEPreferences : WBWindowController {
+@interface SEPreferences : WBWindowController <NSToolbarDelegate> {
   @private
   IBOutlet NSTabView *uiPanels;
   IBOutlet NSOutlineView *uiPlugins;

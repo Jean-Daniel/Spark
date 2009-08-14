@@ -20,7 +20,7 @@
 	if (self = [super init]) {
     ta_code = WBDecodeInteger(aCoder, @"keycode");
     ta_char = WBDecodeInteger(aCoder, @"character");
-    ta_modifier = WBDecodeInteger(aCoder, @"modifier");
+    ta_modifier = (HKModifier)WBDecodeInteger(aCoder, @"modifier");
   }
   return self;
 }

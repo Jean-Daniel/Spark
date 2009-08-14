@@ -25,7 +25,7 @@ void __HKEventPostKeyboardEvent(CGEventSourceRef source, HKKeycode keycode, void
   CFRelease(event);
   if (latency > 0) {
     /* Avoid to fast typing (5 ms by default) */
-    usleep(latency);
+    usleep((useconds_t)latency);
   } else if (latency < 0) {
     CFRunLoopRunInMode(kCFRunLoopDefaultMode, -latency / 1e6, false);
   }

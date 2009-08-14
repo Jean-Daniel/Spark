@@ -11,12 +11,12 @@
 #import <Sparkkit/SparkPrivate.h>
 
 #import WBHEADER(WBAlias.h)
-#import WBHEADER(WBImageUtils.h)
+#import WBHEADER(WBFunctions.h)
 #import WBHEADER(WBAEFunctions.h)
 #import WBHEADER(WBFinderSuite.h)
 #import WBHEADER(WBLSFunctions.h)
+#import WBHEADER(WBImageFunctions.h)
 #import WBHEADER(NSImage+WonderBox.h)
-#import WBHEADER(WonderBoxFunctions.h)
 #import WBHEADER(WBProcessFunctions.h)
 
 static NSString * const kDocumentActionURLKey = @"DocumentURL";
@@ -92,13 +92,13 @@ OSType _DocumentActionFromFlag(int flag) {
   if (DocumentActionNeedDocument(da_action)) {
     NSData *data = [plist objectForKey:@"DocAlias"];
     if (data)
-      da_doc = [[WBAlias alloc] initWithData:data];
+      da_doc = [[WBAlias alloc] initFromData:data];
   }
   if (DocumentActionNeedApplication(da_action)) {
     NSData *data = [plist objectForKey:@"AppAlias"];
     if (data) {
       NSString *path = nil;
-      WBAlias *app = [[WBAlias alloc] initWithData:data];
+      WBAlias *app = [[WBAlias alloc] initFromData:data];
       if (![app path]) {
         /* Search with signature */
         OSType sign = WBOSTypeFromString([plist objectForKey:@"AppSign"]);
@@ -132,7 +132,7 @@ OSType _DocumentActionFromFlag(int flag) {
       if (DocumentActionNeedDocument(da_action)) {
         NSData *data = [plist objectForKey:kDocumentActionAliasKey];
         if (data)
-          da_doc = [[WBAlias alloc] initWithData:data];
+          da_doc = [[WBAlias alloc] initFromData:data];
       }
       
       if (DocumentActionNeedApplication(da_action)) {

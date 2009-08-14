@@ -12,6 +12,7 @@ enum {
 };
 
 @class SparkEntry, SparkTrigger;
+WB_CLASS_EXPORT
 @interface SparkEvent : NSObject {
   id sp_data;
   

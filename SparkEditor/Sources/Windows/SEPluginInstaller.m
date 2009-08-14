@@ -121,7 +121,7 @@ dispose:
     NSRunAlertPanel(@"The plugin was not installed", @"Spark cannot find plugin folder", @"OK", nil, nil);
   } else {
     location = path;
-    if (noErr == WBFSCreateFolder((CFStringRef)path)) {
+    if ([[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:NULL]) {
       /* First try to copy the file using workspace operation */
       if (![self installPlugIn:plugin into:path copy:YES]) {
         /* If failed, ask the finder to move the file (it will take care of the authentification for us) */
@@ -151,7 +151,7 @@ dispose:
           tmp = [tmp stringByAppendingPathComponent:[cmpt objectAtIndex:count]];
           if (!root)
             root = tmp;
-          [manager createDirectoryAtPath:tmp attributes:nil];
+          [manager createDirectoryAtPath:tmp withIntermediateDirectories:NO attributes:nil error:NULL];
         }
         
         if (![self installPlugIn:plugin into:tmp copy:YES]) {

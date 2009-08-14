@@ -10,7 +10,7 @@
 
 @class WBTableView;
 @class SELibraryWindow, SparkLibrary;
-@interface SEApplicationSource : WBTableDataSource {
+@interface SEApplicationSource : WBTableDataSource <NSOpenSavePanelDelegate> {
   IBOutlet WBTableView *uiTable;
   IBOutlet SELibraryWindow *ibWindow;
   @private

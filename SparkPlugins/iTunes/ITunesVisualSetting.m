@@ -11,6 +11,8 @@
 #import "ITunesAction.h"
 #import <Growl/GrowlApplicationBridge.h>
 
+#define GrowlApplicationBridge NSClassFromString(@"GrowlApplicationBridge")
+
 @interface ITunesVisualSetting (ITunesPrivate)
 - (void)updateLocation:(int)idx;
 @end

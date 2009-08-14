@@ -11,7 +11,7 @@
 #import "ITunesAction.h"
 
 @class ITunesVisualSetting;
-@interface ITunesActionPlugin : SparkActionPlugIn {
+@interface ITunesActionPlugin : SparkActionPlugIn <NSMenuDelegate> {
   IBOutlet NSTextField *ibName;
   IBOutlet NSImageView *ibIcon;
   IBOutlet NSTabView *ibTabView;

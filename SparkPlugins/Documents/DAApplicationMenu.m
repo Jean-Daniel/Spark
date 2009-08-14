@@ -10,7 +10,7 @@
 
 #import "DocumentAction.h"
 
-#import WBHEADER(WBImageUtils.h)
+#import WBHEADER(WBImageFunctions.h)
 
 @implementation DAApplicationMenu
 

@@ -40,7 +40,7 @@ CFStringRef const SparkDaemonStatusDidChangeNotification;
 #if defined(__OBJC__)
 SPARK_INLINE
 SparkDaemonStatus SparkDaemonGetStatus(NSNotification *notification) {
-  return WBUIntegerValue([[notification userInfo] objectForKey:(id)SparkDaemonStatusKey]);
+  return (SparkDaemonStatus)WBUIntegerValue([[notification userInfo] objectForKey:(id)SparkDaemonStatusKey]);
 }
 #endif
 

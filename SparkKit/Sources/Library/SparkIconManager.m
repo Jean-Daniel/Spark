@@ -17,8 +17,8 @@
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkObjectSet.h>
 
-#import WBHEADER(WBImageUtils.h)
 #import WBHEADER(WBFSFunctions.h)
+#import WBHEADER(WBImageFunctions.h)
 
 enum {
   kSparkInvalidType = 0xff
@@ -107,7 +107,7 @@ UInt8 __SparkIconTypeForObject(SparkObject *object) {
   if (path) {
     BOOL isDir = NO;
     if (![[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir]) {
-      if (noErr != WBFSCreateFolder((CFStringRef)path)) {
+      if (![[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:NULL]) {
         WBThrowException(NSInvalidArgumentException, @"could not create directory at path %@", path);
       }
     } else if (!isDir) {
@@ -116,7 +116,7 @@ UInt8 __SparkIconTypeForObject(SparkObject *object) {
     for (NSUInteger idx = 0; idx < 4; idx++) {
       NSString *dir = [path stringByAppendingPathComponent:[NSString stringWithFormat:@"%u", idx]];
       if (![[NSFileManager defaultManager] fileExistsAtPath:dir])
-        [[NSFileManager defaultManager] createDirectoryAtPath:dir attributes:nil];
+        [[NSFileManager defaultManager] createDirectoryAtPath:dir withIntermediateDirectories:NO attributes:nil error:NULL];
     }
     
     sp_path = [path copy];
@@ -180,7 +180,7 @@ UInt8 __SparkIconTypeForObject(SparkObject *object) {
         NSString *path = [sp_path stringByAppendingPathComponent:[entry path]];
         if (![entry icon]) {
           DLog(@"delete icon: %@", path);
-          [[NSFileManager defaultManager] removeFileAtPath:path handler:nil];
+          [[NSFileManager defaultManager] removeItemAtPath:path error:NULL];
         } else {
           NSData *data = [[entry icon] TIFFRepresentationUsingCompression:NSTIFFCompressionLZW factor:1];
           if (data) {

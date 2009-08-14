@@ -9,9 +9,9 @@
 #import "ITunesAction.h"
 #import "ITunesGrowl.h"
 
+#import WBHEADER(WBFunctions.h)
 #import WBHEADER(WBAEFunctions.h)
 #import WBHEADER(NSImage+WonderBox.h)
-#import WBHEADER(WonderBoxFunctions.h)
 #import WBHEADER(WBProcessFunctions.h)
 
 #import <HotKeyToolKit/HotKeyToolKit.h>

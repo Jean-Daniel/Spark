@@ -11,10 +11,10 @@
 #import <SparkKit/SparkPrivate.h>
 
 #import WBHEADER(WBAlias.h)
+#import WBHEADER(WBFunctions.h)
 #import WBHEADER(WBLSFunctions.h)
 #import WBHEADER(NSImage+WonderBox.h)
 #import WBHEADER(WBProcessFunctions.h)
-#import WBHEADER(WonderBoxFunctions.h)
 
 static
 NSString * const kSparkApplicationKey = @"SparkApplication";
@@ -387,7 +387,7 @@ NSString * const kWBApplicationSignatureKey = @"WBApplicationSignature";
     } else {
       /* Current version */
       NSString *bundle = [plist objectForKey:kWBApplicationBundleIDKey];
-      OSType sign = WBIntegerValue([plist objectForKey:kWBApplicationSignatureKey]);
+      OSType sign = (OSType)WBIntegerValue([plist objectForKey:kWBApplicationSignatureKey]);
       
       [self setSignature:sign bundleIdentifier:bundle];
     }
@@ -430,7 +430,7 @@ NSString * const kWBApplicationSignatureKey = @"WBApplicationSignature";
     if (!data)
       data = [plist objectForKey:@"SKApplicationAlias"];
     if (data) {
-      WBAlias *alias = [[WBAlias alloc] initWithData:data];
+      WBAlias *alias = [[WBAlias alloc] initFromData:data];
       [self setAlias:alias];
       [alias release];
     }

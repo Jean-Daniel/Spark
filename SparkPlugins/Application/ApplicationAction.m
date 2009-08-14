@@ -11,11 +11,11 @@
 #import <Sparkkit/SparkPrivate.h>
 
 #import WBHEADER(WBAlias.h)
-#import WBHEADER(WBImageUtils.h)
+#import WBHEADER(WBFunctions.h)
 #import WBHEADER(WBAEFunctions.h)
 #import WBHEADER(WBFSFunctions.h)
+#import WBHEADER(WBImageFunctions.h)
 #import WBHEADER(NSImage+WonderBox.h)
-#import WBHEADER(WonderBoxFunctions.h)
 
 static NSString * const kApplicationNameKey = @"ApplicationName";
 static NSString * const kApplicationFlagsKey = @"ApplicationFlags";
@@ -194,7 +194,7 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
   WBAlias *alias = nil;
   NSData *data = [plist objectForKey:@"App Alias"];
   if (data) {
-    alias = [[WBAlias alloc] initWithData:data];
+    alias = [[WBAlias alloc] initFromData:data];
     aa_application = [[WBAliasedApplication alloc] initWithAlias:alias];
     [alias release];
   }

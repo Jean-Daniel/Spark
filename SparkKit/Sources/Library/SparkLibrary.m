@@ -648,7 +648,7 @@ NSString *_SparkLibraryCopyUUIDString(SparkLibrary *aLibrary) {
 NSString *SparkLibraryFolder(void) {
   NSString *folder = [WBFSFindFolder(kApplicationSupportFolderType, kUserDomain, true) stringByAppendingPathComponent:kSparkFolderName];
   if (folder && ![[NSFileManager defaultManager] fileExistsAtPath:folder]) {
-    WBFSCreateFolder((CFStringRef)folder);
+    [[NSFileManager defaultManager] createDirectoryAtPath:folder withIntermediateDirectories:YES attributes:nil error:NULL];
   }
   return folder;
 }
@@ -702,7 +702,7 @@ void SparkLibraryCleanup(void) {
     /* Browse icons folder and remove folder without libraries */
     NSString *file;
     NSString *folder = [SparkLibraryFolder() stringByAppendingPathComponent:@"Icons"];
-    NSEnumerator *files = [[[NSFileManager defaultManager] directoryContentsAtPath:folder] objectEnumerator];
+    NSEnumerator *files = [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:folder error:NULL] objectEnumerator];
     while (file = [files nextObject]) {
       if (![uuids containsObject:file]) {
         DLog(@"Remove icons: %@", file);
@@ -725,7 +725,7 @@ void SparkInitLibraries(void) {
   
   NSString *file = nil;
   NSString *folder = SparkLibraryFolder();
-  NSEnumerator *files = [[[NSFileManager defaultManager] directoryContentsAtPath:folder] objectEnumerator];
+  NSEnumerator *files = [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:folder error:NULL] objectEnumerator];
   while (file = [files nextObject]) {
     if ([[file pathExtension] isEqualToString:kSparkLibraryFileExtension]) {
       /* Find a Spark Library */
@@ -810,7 +810,7 @@ SparkLibrary *SparkActiveLibrary(void) {
     BOOL resync = NO;
     /* Get default library path */
     NSString *path = SparkDefaultLibraryPath();
-    SparkLibrary *active = SparkLibraryGetLibraryAtPath(path, NO);
+    SparkLibrary *active = [SparkLibraryGetLibraryAtPath(path, NO) retain];
     if (!active) {
       /* First, try to find library in old location */
       NSString *old = SparkLibraryPreviousLibraryPath();
@@ -826,7 +826,7 @@ SparkLibrary *SparkActiveLibrary(void) {
         }
       } else {
         /* Version 3 library exists in old location */
-        if ([[NSFileManager defaultManager] movePath:old toPath:path handler:nil]) {
+        if ([[NSFileManager defaultManager] moveItemAtPath:old toPath:path error:NULL]) {
           active = [[SparkLibrary alloc] initWithPath:path];
         } else {
           resync = YES;

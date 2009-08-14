@@ -37,7 +37,7 @@ WB_PRIVATE
 const ITunesVisual kiTunesDefaultSettings;
 
 @class ITunesStarView, ITunesProgressView;
-@interface ITunesInfo : NSWindowController {
+@interface ITunesInfo : NSWindowController <NSWindowDelegate> {
   IBOutlet NSTextField *ibName;
   IBOutlet NSTextField *ibAlbum;
   IBOutlet NSTextField *ibArtist;

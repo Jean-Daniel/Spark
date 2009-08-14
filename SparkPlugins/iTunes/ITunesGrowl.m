@@ -8,9 +8,11 @@
 
 #import "ITunesGrowl.h"
 
+#define GrowlApplicationBridge NSClassFromString(@"GrowlApplicationBridge")
+
 @interface NSString (GrowlTunesMultiplicationAdditions)
 
-- (NSString *)stringByMultiplyingBy:(unsigned)multi;
+- (NSString *)stringByMultiplyingBy:(NSUInteger)multi;
 
 @end
 
@@ -23,7 +25,6 @@ NSImage *ITunesGetApplicationIcon(void) {
   }
   return icon;
 }
-
 
 @implementation ITunesAction (ITunesGrowl)
 
@@ -207,9 +208,9 @@ NSImage *ITunesGetApplicationIcon(void) {
 
 @implementation NSString (GrowlTunesMultiplicationAdditions)
 
-- (NSString *)stringByMultiplyingBy:(unsigned)multi {
-	unsigned length = [self length];
-	unsigned length_multi = length * multi;
+- (NSString *)stringByMultiplyingBy:(NSUInteger)multi {
+	NSUInteger length = [self length];
+	NSUInteger length_multi = length * multi;
   
 	unichar *buf = malloc(sizeof(unichar) * length_multi);
 	if (!buf)

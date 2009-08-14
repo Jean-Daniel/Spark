@@ -16,10 +16,10 @@
 #import <SparkKit/SparkFunctions.h>
 #import <SparkKit/SparkEntryManager.h>
 
+#import WBHEADER(WBFunctions.h)
 #import WBHEADER(WBAEFunctions.h)
 #import WBHEADER(NSImage+WonderBox.h)
 #import WBHEADER(WBProcessFunctions.h)
-#import WBHEADER(WonderBoxFunctions.h)
 
 #import "SparkLibraryPrivate.h"
 
@@ -249,9 +249,9 @@ NSImage *SparkDaemonStatusIcon(BOOL status) {
   if (self = [super initWithSerializedValues:plist]) {
     [self setAction:WBOSTypeFromString([plist objectForKey:@"SparkDaemonAction"])];
     if (kSparkSDActionSwitchListStatus == sp_action || kSparkSDActionExchangeListStatus == sp_action)
-      sp_listUID = WBUIntegerValue([plist objectForKey:@"SparkListUID"]);
+      sp_listUID = (SparkUID)WBUIntegerValue([plist objectForKey:@"SparkListUID"]);
     if (kSparkSDActionExchangeListStatus == sp_action)
-      sp_altListUID = WBUIntegerValue([plist objectForKey:@"SparkSecondListUID"]);
+      sp_altListUID = (SparkUID)WBUIntegerValue([plist objectForKey:@"SparkSecondListUID"]);
     /* Update description */
     NSString *desc = _SparkActionDescription(self);
     if (desc)

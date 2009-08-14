@@ -12,10 +12,6 @@
 #import "HKHotKeyManager.h"
 
 #include <Carbon/Carbon.h>
-#if __LP64__
-/* bug in 64 headers. This function is available in 64 bits Framework */
-extern EventTargetRef GetApplicationEventTarget(void);
-#endif
 
 static
 const OSType kHKHotKeyEventSignature = 'HkTk';

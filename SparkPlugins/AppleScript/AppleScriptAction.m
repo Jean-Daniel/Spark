@@ -11,8 +11,8 @@
 #import <OSAKit/OSAKit.h>
 
 #import WBHEADER(WBAlias.h)
+#import WBHEADER(WBFunctions.h)
 #import WBHEADER(NSImage+WonderBox.h)
-#import WBHEADER(WonderBoxFunctions.h)
 
 static NSString * const kOSAScriptActionDataKey = @"OSAScriptData";
 static NSString * const kOSAScriptActionTypeKey = @"OSAScriptType";
@@ -61,7 +61,7 @@ static NSString * const kOSAScriptActionRepeatInterval = @"OSAScriptRepeatInterv
 - (void)initFromOldPropertyList:(NSDictionary *)plist {
   BOOL file = [[plist objectForKey:@"Script File"] boolValue];
   if (file) {
-    WBAlias *alias = [[WBAlias alloc] initWithData:[plist objectForKey:@"Script Data"]];
+    WBAlias *alias = [[WBAlias alloc] initFromData:[plist objectForKey:@"Script Data"]];
     [self setScriptAlias:alias];
     [alias release];
   } else {
@@ -91,7 +91,7 @@ static NSString * const kOSAScriptActionRepeatInterval = @"OSAScriptRepeatInterv
         }
           break;
         case 'file': {
-          [self setScriptAlias:[WBAlias aliasWithData:data]];
+          [self setScriptAlias:[WBAlias aliasFromData:data]];
         }
           break;
       }

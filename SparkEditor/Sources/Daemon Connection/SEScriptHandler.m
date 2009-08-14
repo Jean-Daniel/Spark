@@ -14,9 +14,9 @@
 - (void)handleHelpScriptCommand:(NSScriptCommand *)scriptCommand {
   NSString *page = [[scriptCommand arguments] objectForKey:@"Page"];
   if (page) {
-    [[self delegate] showPlugInHelpPage:page];
+    [(id)[self delegate] showPlugInHelpPage:page];
   } else {
-    [[self delegate] showPlugInHelp:nil];
+    [(id)[self delegate] showPlugInHelp:nil];
   }
 }
 

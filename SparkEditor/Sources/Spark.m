@@ -37,6 +37,9 @@
 
 int main(int argc, const char *argv[]) {
 #if defined(DEBUG)
+  NSDebugEnabled = YES;
+  NSZombieEnabled = YES;
+  
   HKTraceHotKeyEvents = YES;
   SparkLogSynchronization = YES;
   // SparkLibraryFileFormat = NSPropertyListXMLFormat_v1_0;
@@ -189,7 +192,7 @@ NSString * const SESparkEditorDidChangePlugInStatusNotification = @"SESparkEdito
   if (self = [super init]) {
 #if defined (DEBUG)
     [[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
-      @"YES", @"NSShowNonLocalizedStrings",
+      //@"YES", @"NSShowNonLocalizedStrings",
       //@"YES", @"NSShowAllViews",
       //WBFloat(0.15f), @"NSWindowResizeTime",
       //@"6", @"NSDragManagerLogLevel",
@@ -418,8 +421,8 @@ NSString * const SESparkEditorDidChangePlugInStatusNotification = @"SESparkEdito
     if ([[filename pathExtension] isEqualToString:[[SparkActionLoader sharedLoader] extension]]) {
       [self openPlugInBundle:filename];
     } else if ([[filename pathExtension] isEqualToString:kSparkLibraryFileExtension]) {
-      DLog(@"Try to open a Spark Library: ignore");
-      NSBeep();
+      DLog(@"Try to open a Spark Library => considere it as a restore action");
+      [self openLibraryBackup:filename];
     }
   } else {
     OSType type = kLSUnknownType;

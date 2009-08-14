@@ -25,7 +25,10 @@ NSString * const kHKTrapWindowDidCatchKeyNotification = @"kHKTrapWindowKeyCaught
   [super dealloc];
 }
 
-- (void)setDelegate:(id)delegate {
+- (id<HKTrapWindowDelegate>)delegate {
+  return (id<HKTrapWindowDelegate>)[super delegate];
+}
+- (void)setDelegate:(id<HKTrapWindowDelegate>)delegate {
   id previous = [super delegate];
   if (previous) {
     WBDelegateUnregisterNotification(previous, @selector(trapWindowDidCatchHotKey:), kHKTrapWindowDidCatchKeyNotification);

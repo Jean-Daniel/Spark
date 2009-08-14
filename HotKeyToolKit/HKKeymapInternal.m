@@ -137,7 +137,7 @@ UniChar UchrCharacterForKeyCodeAndKeyboard(const UCKeyboardLayout *layout, HKKey
   SInt32 type = LMGetKbdType();
   UInt32 deadKeyState = 0;
   UniCharCount stringLength = 0;
-  UInt32 ucModifiers = (HKUtilsConvertModifier(modifiers, kHKModifierFormatNative, kHKModifierFormatCarbon) >> 8) & 0xff;
+  UInt32 ucModifiers = (UInt32)(HKUtilsConvertModifier(modifiers, kHKModifierFormatNative, kHKModifierFormatCarbon) >> 8) & 0xff;
   OSStatus err = UCKeyTranslate (layout,
                                  keycode, kUCKeyActionDown, ucModifiers,
                                  type, 0, &deadKeyState,

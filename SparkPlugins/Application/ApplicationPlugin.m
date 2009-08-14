@@ -9,7 +9,7 @@
 #import "ApplicationPlugin.h"
 
 #import WBHEADER(WBImageView.h)
-#import WBHEADER(WBImageUtils.h)
+#import WBHEADER(WBImageFunctions.h)
 #import WBHEADER(NSImage+WonderBox.h)
 
 @implementation ApplicationPlugin

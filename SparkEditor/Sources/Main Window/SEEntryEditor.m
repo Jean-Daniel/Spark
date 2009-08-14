@@ -27,8 +27,8 @@
 #import <HotKeyToolKit/HotKeyToolKit.h>
 
 #import WBHEADER(WBGeometry.h)
+#import WBHEADER(WBFunctions.h)
 #import WBHEADER(WBObjCRuntime.h)
-#import WBHEADER(WonderBoxFunctions.h)
 #import WBHEADER(NSString+WonderBox.h)
 
 /* Custom resize animation time */

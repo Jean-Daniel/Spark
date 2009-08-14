@@ -7,6 +7,7 @@
  */
 
 #import "SEHotKeyTrap.h"
+#import WBHEADER(WBGradient.h)
 #import WBHEADER(WBCGFunctions.h)
 #import <HotKeyToolKit/HotKeyToolKit.h>
 
@@ -109,7 +110,7 @@ static CGLayerRef _HKCreateShading(CGContextRef ctxt, NSControlTint tint);
   if ([self isTrapping]) {
     NSDictionary *info = [aNotification userInfo];
     UInt16 nkey = WBIntegerValue([info objectForKey:kHKEventKeyCodeKey]);
-    UInt32 nmodifier = WBIntegerValue([info objectForKey:kHKEventModifierKey]);
+    UInt32 nmodifier = (UInt32)WBIntegerValue([info objectForKey:kHKEventModifierKey]);
     /* Anti trap hack. If pressed tab and tab is already saved, stop recording */
     if (se_bhotkey.keycode == kHKVirtualTabKey && (se_bhotkey.modifiers & NSDeviceIndependentModifierFlagsMask) == 0 &&
         nkey == se_bhotkey.keycode && nmodifier == se_bhotkey.modifiers) {
@@ -581,22 +582,34 @@ static CGLayerRef _HKCreateShading(CGContextRef ctxt, NSControlTint tint);
 
 #pragma mark -
 #pragma mark Shading Support
-static const
-WBCGSimpleShadingInfo sAquaShadingInfo = {
-  {.300, .600, .945, 1 },
-  {.0, .320, .810, 1 },
-  NULL,
+static const 
+WBGradientDefinition sAquaShadingInfo = {
+  1,
+  kWBInterpolationLinear,
+  {
+    {
+      0, WBShadingColorRGB(.0, .320, .810, 1),
+      1, WBShadingColorRGB(.300, .600, .945, 1),
+      kWBInterpolationDefault
+    }
+  },
 };
 
-static const
-WBCGSimpleShadingInfo sGraphiteShadingInfo = {
-  {.550, .600, .700, 1 },
-  {.310, .400, .510, 1 },
-  NULL,
+static const 
+WBGradientDefinition sGraphiteShadingInfo = {
+  1,
+  kWBInterpolationLinear,
+  {
+    {
+      0, WBShadingColorRGB(.310, .400, .510, 1),
+      1, WBShadingColorRGB(.550, .600, .700, 1),
+      kWBInterpolationDefault
+    }
+  },
 };
 
 CGLayerRef _HKCreateShading(CGContextRef ctxt, NSControlTint tint) {
-  const WBCGSimpleShadingInfo *info = NULL;
+  const WBGradientDefinition *info = NULL;
   switch (tint) {
     case NSGraphiteControlTint:
       info = &sGraphiteShadingInfo;
@@ -606,8 +619,13 @@ CGLayerRef _HKCreateShading(CGContextRef ctxt, NSControlTint tint) {
       info = &sAquaShadingInfo;
       break;
   }
-  
-  return WBCGLayerCreateWithVerticalShading(ctxt, CGSizeMake(32, kHKTrapHeight), true, WBCGShadingSimpleShadingFunction, info);
+
+  CGLayerRef shading;
+  WBGradientBuilder *builder = [[WBGradientBuilder alloc] initWithColorSpace:[NSColorSpace genericRGBColorSpace]
+                                                                  definition:info];
+  shading = [builder newLayerWithVerticalGradient:CGSizeMake(32, kHKTrapHeight) scale:true context:ctxt];
+  [builder release];
+  return shading;
 }
 
 @implementation SEHotKeyTrap (NSAccessibility)

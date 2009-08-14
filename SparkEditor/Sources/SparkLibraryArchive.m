@@ -156,7 +156,7 @@ NSString * const kSparkLibraryArchiveFileName = @"Spark Library";
     /* Finaly, archive on disk icons */
     if (sp_path) {
       NSString *fspath = [sp_path stringByAppendingPathComponent:[folder name]];
-      NSArray *files = [[NSFileManager defaultManager] directoryContentsAtPath:fspath];
+      NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:fspath error:NULL];
       NSUInteger count = [files count];
       while (count-- > 0) {
         NSString *fsicon = [files objectAtIndex:count];

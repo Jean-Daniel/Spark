@@ -168,7 +168,7 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
       NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
         WBUInt32(kSparkLibraryArchiveHFSType), NSFileHFSTypeCode,
         WBUInt32(kSparkEditorSignature), NSFileHFSCreatorCode, nil];
-      [[NSFileManager defaultManager] changeFileAttributes:dict atPath:file];
+      [[NSFileManager defaultManager] setAttributes:dict ofItemAtPath:file error:NULL];
     }
   }
 }
@@ -195,6 +195,7 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
 }
 
 - (void)revertToBackup:(NSString *)file {
+  // TODO: allow restore from standard library bundle (with warning)
   SparkLibrary *library = [[SparkLibrary alloc] initFromArchiveAtPath:file];
   if (library) {
     NSInteger result = NSRunAlertPanel(NSLocalizedString(@"REVERT_BACKUP", @"Revert to Backup - Title"), 

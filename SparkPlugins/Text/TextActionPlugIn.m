@@ -90,7 +90,7 @@
       break;
   }
   if (ta_latency >= 0)
-    [action setLatency:ta_latency * 1e3];
+    [action setLatency:(useconds_t)(ta_latency * 1e3)];
 }
 
 #pragma mark -

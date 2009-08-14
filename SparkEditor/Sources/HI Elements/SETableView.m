@@ -8,6 +8,7 @@
 
 #import "SETableView.h"
 
+#import WBHEADER(WBGradient.h)
 #import WBHEADER(WBCGFunctions.h)
 
 NSString * const SETableSeparator = @"-\e";
@@ -63,17 +64,29 @@ NSShadow *sHighlightShadow = nil;
 }
 
 static const 
-WBCGSimpleShadingInfo sHighlightShadingInfo = {
-  {.443, .522, .671, 1},
-  {.651, .690, .812, 1},
-  NULL,
+WBGradientDefinition sHighlightShadingInfo = {
+  1,
+  kWBInterpolationLinear,
+  {
+    {
+      0, WBShadingColorRGB(.651, .690, .812, 1),
+      1, WBShadingColorRGB(.443, .522, .671, 1),
+      kWBInterpolationDefault
+    }
+  },
 };
 
-static const
-WBCGSimpleShadingInfo sFocusShadingInfo = {
-  {.000, .312, .790, 1},
-  {.340, .606, .890, 1},
-  NULL,
+static const 
+WBGradientDefinition sFocusShadingInfo = {
+  1,
+  kWBInterpolationLinear,
+  {
+    {
+      0, WBShadingColorRGB(.340, .606, .890, 1),
+      1, WBShadingColorRGB(.000, .312, .790, 1),
+      kWBInterpolationDefault
+    }
+  },
 };
 
 - (CGLayerRef)highlightedCellColor {
@@ -81,9 +94,10 @@ WBCGSimpleShadingInfo sFocusShadingInfo = {
   static CGLayerRef sHasFocus = nil;
   static CGLayerRef sHighlighted = nil;
   if (!sHighlighted) {
-    sHighlighted = WBCGLayerCreateWithVerticalShading([[NSGraphicsContext currentContext] graphicsPort],
-                                                      CGSizeMake(64, [self rowHeight] + 2), true, 
-                                                      WBCGShadingSimpleShadingFunction, &sHighlightShadingInfo);
+    WBGradientBuilder *builder = [[WBGradientBuilder alloc] initWithColorSpace:[NSColorSpace genericRGBColorSpace]
+                                                                    definition:&sHighlightShadingInfo];
+    sHighlighted = [builder newLayerWithVerticalGradient:CGSizeMake(64, [self rowHeight] + 2) scale:true context:WBCGContextGetCurrent()];
+    [builder release];
     /* border-top */
     CGContextRef gctxt = CGLayerGetContext(sHighlighted);
     CGContextSetRGBStrokeColor(gctxt, .509, .627, .753, 1);
@@ -91,9 +105,10 @@ WBCGSimpleShadingInfo sFocusShadingInfo = {
     CGContextStrokeLineSegments(gctxt, line, 2);
   }
   if (!sHasFocus) {
-    sHasFocus = WBCGLayerCreateWithVerticalShading([[NSGraphicsContext currentContext] graphicsPort], 
-                                                   CGSizeMake(64, [self rowHeight] + 2), true, 
-                                                   WBCGShadingSimpleShadingFunction, &sFocusShadingInfo);
+    WBGradientBuilder *builder = [[WBGradientBuilder alloc] initWithColorSpace:[NSColorSpace genericRGBColorSpace]
+                                                                    definition:&sFocusShadingInfo];
+    sHasFocus = [builder newLayerWithVerticalGradient:CGSizeMake(64, [self rowHeight] + 2) scale:true context:WBCGContextGetCurrent()];
+    [builder release];
     /* border-top */
     CGContextRef gctxt = CGLayerGetContext(sHasFocus);
     CGContextSetRGBStrokeColor(gctxt, .271, .502, .784, 1);

@@ -335,7 +335,7 @@ NSString *_iTunesGetLibraryPathFromPreferences(Boolean compat) {
                                           kCFPreferencesCurrentUser,
                                           kCFPreferencesAnyHost);
   if (data) {
-    WBAlias *alias = [[WBAlias alloc] initWithData:(id)data];
+    WBAlias *alias = [[WBAlias alloc] initFromData:(id)data];
     if (alias) {
       path = [[alias path] stringByAppendingPathComponent:compat ? @"iTunes Music Library.xml" : @"iTunes Library.xml"];
       [alias release];

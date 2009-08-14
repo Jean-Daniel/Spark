@@ -11,9 +11,6 @@
 #import "SparkDaemonGrowl.h"
 
 #include <Carbon/Carbon.h>
-#if __LP64__
-extern EventTargetRef GetApplicationEventTarget(void);
-#endif
 
 #import <SparkKit/SparkEvent.h>
 #import <SparkKit/SparkPrivate.h>
