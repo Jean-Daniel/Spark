@@ -496,7 +496,7 @@
     
     NSUInteger row = [se_plugins indexOfObject:aPlugin];
     if (row != NSNotFound && (NSInteger)row != [uiTypeTable selectedRow])
-      [uiTypeTable selectRow:row byExtendingSelection:NO];
+      [uiTypeTable selectRowIndexes:[NSIndexSet indexSetWithIndex:row] byExtendingSelection:NO];
   }
 }
 

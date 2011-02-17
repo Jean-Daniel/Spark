@@ -41,15 +41,7 @@ static NSString * const kSparkArchiveFile = @"SparkRelationships";
 NSString * const kSparkLibraryPreferencesFile = @"SparkPreferences.plist";
 
 #if defined(DEBUG)
-// FIXME: Unified library for 64 bit
-#if __LP64__
-NSString * const kSparkLibraryDefaultFileName = @"Spark Library - Debug - 64.splib";
-#else
 NSString * const kSparkLibraryDefaultFileName = @"Spark Library - Debug.splib";
-#endif
-
-#elif __LP64__
-NSString * const kSparkLibraryDefaultFileName = @"Spark Library - 64.splib";
 #else
 NSString * const kSparkLibraryDefaultFileName = @"Spark Library.splib";
 #endif

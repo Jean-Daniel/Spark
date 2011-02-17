@@ -22,11 +22,11 @@ static
 CFStringRef HKTISKeyMapGetLocalizedName(HKKeyMapRef keymap);
 
 const HKLayoutContext kTISContext = {
-init:HKTISKeyMapInit,
-dispose:HKTISKeyMapDispose,
-isCurrent:HKTISKeyMapIsCurrent,
-getName:HKTISKeyMapGetName,
-getLocalizedName:HKTISKeyMapGetLocalizedName,
+  .init = HKTISKeyMapInit,
+  .dispose = HKTISKeyMapDispose,
+  .isCurrent = HKTISKeyMapIsCurrent,
+  .getName = HKTISKeyMapGetName,
+  .getLocalizedName = HKTISKeyMapGetLocalizedName,
 };
 
 HK_INLINE

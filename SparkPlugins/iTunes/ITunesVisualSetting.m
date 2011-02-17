@@ -81,13 +81,13 @@ NSPoint _iTunesGetPointForIndex(int idx) {
 }
 WB_INLINE
 int _iTunesGetIndexForPoint(NSPoint point) {
-  if (WBRealEquals(point.x, kiTunesUpperLeft.x))
+  if (fequal(point.x, kiTunesUpperLeft.x))
     return 0;
-  if (WBRealEquals(point.x, kiTunesUpperRight.x))
+  if (fequal(point.x, kiTunesUpperRight.x))
     return 1;
-  if (WBRealEquals(point.x, kiTunesBottomLeft.x))
+  if (fequal(point.x, kiTunesBottomLeft.x))
     return 2;
-  if (WBRealEquals(point.x, kiTunesBottomRight.x))
+  if (fequal(point.x, kiTunesBottomRight.x))
     return 3;
   
   return 5;

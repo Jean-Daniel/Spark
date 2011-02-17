@@ -43,7 +43,7 @@ iTunesAction _iTunesConvertAction(int act) {
 
 @implementation ITunesAction
 
-static ITunesVisual sDefaultVisual = {delay: -1};
+static ITunesVisual sDefaultVisual = { .delay = -1 };
 + (ITunesVisual *)defaultVisual {
   if (sDefaultVisual.delay >= 0) {
     return &sDefaultVisual;
@@ -677,7 +677,7 @@ static ITunesVisual sDefaultVisual = {delay: -1};
 - (void)ejectCD {
   CGKeyCode code = HKMapGetKeycodeAndModifierForUnichar('e', NULL);
   if (code != kHKInvalidVirtualKeyCode) {
-    HKEventTarget target = { signature:kiTunesSignature };
+    HKEventTarget target = { .signature = kiTunesSignature };
     HKEventPostKeystrokeToTarget(code, kCGEventFlagMaskCommand, target, kHKEventTargetSignature, NULL, kHKEventDefaultLatency);
   }
 }

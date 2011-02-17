@@ -19,83 +19,88 @@ typedef struct __HKModifierMap {
 
 static const
 HKModifierMap _kHKUtilsNativeToCococaMap = {
-size:8,
-entries:{
-{kCGEventFlagMaskCommand, NSCommandKeyMask},
-{kCGEventFlagMaskShift, NSShiftKeyMask},
-{kCGEventFlagMaskAlphaShift, NSAlphaShiftKeyMask},
-{kCGEventFlagMaskAlternate, NSAlternateKeyMask},
-{kCGEventFlagMaskControl, NSControlKeyMask},
-/* specials */
-{kCGEventFlagMaskHelp, NSHelpKeyMask},
-{kCGEventFlagMaskSecondaryFn, NSFunctionKeyMask},
-{kCGEventFlagMaskNumericPad, NSNumericPadKeyMask},
-}};
+  .size = 8,
+  .entries = {
+    {kCGEventFlagMaskCommand, NSCommandKeyMask},
+    {kCGEventFlagMaskShift, NSShiftKeyMask},
+    {kCGEventFlagMaskAlphaShift, NSAlphaShiftKeyMask},
+    {kCGEventFlagMaskAlternate, NSAlternateKeyMask},
+    {kCGEventFlagMaskControl, NSControlKeyMask},
+    /* specials */
+    {kCGEventFlagMaskHelp, NSHelpKeyMask},
+    {kCGEventFlagMaskSecondaryFn, NSFunctionKeyMask},
+    {kCGEventFlagMaskNumericPad, NSNumericPadKeyMask},
+  }
+};
 static const
 HKModifierMap _kHKUtilsCocoaToNative = {
-size:8,
-entries:{
-{NSAlphaShiftKeyMask, kCGEventFlagMaskAlphaShift},
-{NSShiftKeyMask, kCGEventFlagMaskShift},
-{NSControlKeyMask, kCGEventFlagMaskControl},
-{NSAlternateKeyMask, kCGEventFlagMaskAlternate},
-{NSCommandKeyMask, kCGEventFlagMaskCommand},
-/* specials */
-{NSHelpKeyMask, kCGEventFlagMaskHelp},
-{NSFunctionKeyMask, kCGEventFlagMaskSecondaryFn},
-{NSNumericPadKeyMask, kCGEventFlagMaskNumericPad},
-}};
+  .size = 8,
+  .entries = {
+    {NSAlphaShiftKeyMask, kCGEventFlagMaskAlphaShift},
+    {NSShiftKeyMask, kCGEventFlagMaskShift},
+    {NSControlKeyMask, kCGEventFlagMaskControl},
+    {NSAlternateKeyMask, kCGEventFlagMaskAlternate},
+    {NSCommandKeyMask, kCGEventFlagMaskCommand},
+    /* specials */
+    {NSHelpKeyMask, kCGEventFlagMaskHelp},
+    {NSFunctionKeyMask, kCGEventFlagMaskSecondaryFn},
+    {NSNumericPadKeyMask, kCGEventFlagMaskNumericPad},
+  }
+};
 
 static const
 HKModifierMap _kHKUtilsNativeToCarbonMap = {
-size:5,
-entries:{
-{kCGEventFlagMaskCommand, cmdKey},
-{kCGEventFlagMaskShift, shiftKey},
-{kCGEventFlagMaskAlphaShift, alphaLock},
-{kCGEventFlagMaskAlternate, optionKey},
-{kCGEventFlagMaskControl, controlKey},
-}
+  .size = 5,
+  .entries = {
+    {kCGEventFlagMaskCommand, cmdKey},
+    {kCGEventFlagMaskShift, shiftKey},
+    {kCGEventFlagMaskAlphaShift, alphaLock},
+    {kCGEventFlagMaskAlternate, optionKey},
+    {kCGEventFlagMaskControl, controlKey},
+  }
 };
 static const
 HKModifierMap _kHKUtilsCarbonToNative = {
-size:8,
-entries:{
-{cmdKey, kCGEventFlagMaskCommand},
-{shiftKey, kCGEventFlagMaskShift},
-{alphaLock, kCGEventFlagMaskAlphaShift},
-{optionKey, kCGEventFlagMaskAlternate},
-{controlKey, kCGEventFlagMaskControl},
-/* Additional mapping */
-{rightShiftKey, kCGEventFlagMaskShift},
-{rightOptionKey, kCGEventFlagMaskAlternate},
-{rightControlKey, kCGEventFlagMaskControl},
-}};
+  .size = 8,
+  .entries = {
+    {cmdKey, kCGEventFlagMaskCommand},
+    {shiftKey, kCGEventFlagMaskShift},
+    {alphaLock, kCGEventFlagMaskAlphaShift},
+    {optionKey, kCGEventFlagMaskAlternate},
+    {controlKey, kCGEventFlagMaskControl},
+    /* Additional mapping */
+    {rightShiftKey, kCGEventFlagMaskShift},
+    {rightOptionKey, kCGEventFlagMaskAlternate},
+    {rightControlKey, kCGEventFlagMaskControl},
+  }
+};
 
 static const
 HKModifierMap _kHKUtilsCocoaToCarbon = {
-size:5,
-entries:{
-{NSAlphaShiftKeyMask, alphaLock},
-{NSShiftKeyMask, shiftKey},
-{NSControlKeyMask, controlKey},
-{NSAlternateKeyMask, optionKey},
-{NSCommandKeyMask, cmdKey},
-}};
+  .size = 5,
+  .entries = {
+    {NSAlphaShiftKeyMask, alphaLock},
+    {NSShiftKeyMask, shiftKey},
+    {NSControlKeyMask, controlKey},
+    {NSAlternateKeyMask, optionKey},
+    {NSCommandKeyMask, cmdKey},
+  }
+};
 static const
 HKModifierMap _kHKUtilsCarbonToCocoa = {
-size:8,
-entries:{
-{cmdKey, NSCommandKeyMask},
-{shiftKey, NSShiftKeyMask},
-{alphaLock, NSAlphaShiftKeyMask},
-{optionKey, NSAlternateKeyMask},
-{controlKey, NSControlKeyMask},
-/* Additional mapping */
-{rightShiftKey, NSShiftKeyMask},
-{rightOptionKey, NSAlternateKeyMask},
-{rightControlKey, NSControlKeyMask},
-}};
+  .size = 8,
+  .entries = {
+    {cmdKey, NSCommandKeyMask},
+    {shiftKey, NSShiftKeyMask},
+    {alphaLock, NSAlphaShiftKeyMask},
+    {optionKey, NSAlternateKeyMask},
+    {controlKey, NSControlKeyMask},
+    /* Additional mapping */
+    {rightShiftKey, NSShiftKeyMask},
+    {rightOptionKey, NSAlternateKeyMask},
+    {rightControlKey, NSControlKeyMask},
+  }
+};
 
 static
 NSUInteger _HKUtilsConvertModifier(NSUInteger modifier, const HKModifierMap *map) {

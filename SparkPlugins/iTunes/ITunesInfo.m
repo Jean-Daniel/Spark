@@ -44,13 +44,13 @@ enum {
 
 WB_INLINE
 int __iTunesGetTypeForLocation(NSPoint point) {
-  if (WBRealEquals(point.x, kiTunesUpperLeft.x))
+  if (fequal(point.x, kiTunesUpperLeft.x))
     return kiTunesVisualUL;
-  if (WBRealEquals(point.x, kiTunesUpperRight.x))
+  if (fequal(point.x, kiTunesUpperRight.x))
     return kiTunesVisualUR;
-  if (WBRealEquals(point.x, kiTunesBottomLeft.x))
+  if (fequal(point.x, kiTunesBottomLeft.x))
     return kiTunesVisualBL;
-  if (WBRealEquals(point.x, kiTunesBottomRight.x))
+  if (fequal(point.x, kiTunesBottomRight.x))
     return kiTunesVisualBR;
   
   return kiTunesVisualOther;

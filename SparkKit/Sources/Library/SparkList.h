@@ -26,7 +26,7 @@ SPARK_EXPORT
 NSString * const SparkListDidRemoveEntriesNotification;
 
 @class SparkEntry, SparkApplication;
-WB_CLASS_EXPORT
+SPARK_CLASS_EXPORT
 @interface SparkList : SparkObject {
   @private  
   NSMutableArray *sp_entries;

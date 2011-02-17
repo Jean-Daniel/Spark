@@ -86,7 +86,7 @@ NSString * const kKeyboardActionBundleIdentifier = @"org.shadowlab.spark.action.
     /* Use new event API */
     ProcessSerialNumber psn;
     GetFrontProcess(&psn);
-    HKEventTarget target = { psn: &psn };
+    HKEventTarget target = { .psn = &psn };
     for (NSUInteger idx = 0; idx < [text length]; idx++) {
       HKEventPostCharacterKeystrokesToTarget([text characterAtIndex:idx], target, kHKEventTargetProcess, src, [self latency]);
     }

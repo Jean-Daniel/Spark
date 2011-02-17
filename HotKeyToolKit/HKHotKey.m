@@ -254,7 +254,7 @@ CFTimeInterval __HKEventTime(void) {
 }
 
 - (NSTimeInterval)initialRepeatInterval {
-  if (WBRealEquals(hk_iRepeatInterval, 0)) {
+  if (fiszero(hk_iRepeatInterval)) {
     return HKGetSystemInitialKeyRepeatInterval();
   } else if (hk_iRepeatInterval < 0) {
     return [self repeatInterval];

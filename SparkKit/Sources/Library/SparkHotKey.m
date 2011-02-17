@@ -29,10 +29,10 @@ void SparkSetFilterMode(SparkFilterMode mode) { sSparkKeyStrokeFilterMode = mode
  Jugés trop génant, seul les touches Fx peuvent être utilisées sans "modifier"
 */
 static
-const NSInteger kCommonModifierMask = kCGEventFlagMaskCommand | kCGEventFlagMaskControl | kCGEventFlagMaskShift | kCGEventFlagMaskAlternate;
+const CGEventFlags kCommonModifierMask = kCGEventFlagMaskCommand | kCGEventFlagMaskControl | kCGEventFlagMaskShift | kCGEventFlagMaskAlternate;
 
 BOOL SparkHotKeyFilter(HKKeycode code, HKModifier modifier) {
-  if ((modifier & kCommonModifierMask) != 0) {
+  if ((modifier & (UInt32)kCommonModifierMask) != 0) {
     return YES;
   }
   
