@@ -1,0 +1,18 @@
+
+
+GCC_VERSION = com.apple.compilers.llvm.clang.nightly
+// Must be set to use Clang nightly plugin
+CLANG = /opt/llvm/bin/clang
+
+CLANG_CPP_LANGUAGE_STANDARD = c++0x
+
+// -Wconversion does not have an useless semantic in clang
+// GCC_WARN_PROTOTYPE_CONVERSION=YES
+
+// -Wimplicit-atomic-properties: false positive
+// -Wno-idiomatic-parentheses: assignement used as condition with method starting by -init or with -nextObject.
+WB_OTHER_CFLAGS = -fcatch-undefined-behavior -ferror-limit=50 -Wno-idiomatic-parentheses
+// If using clang++
+WB_OTHER_CPLUSPLUSFLAGS = $(WB_OTHER_CFLAGS)
+// clang++ does not support -Wstrict-null-sentinel
+WB_GENERAL_OTHER_CPLUSPLUSFLAGS = -Wabi -Wctor-dtor-privacy -Wsign-promo
