@@ -270,16 +270,15 @@ OSStatus HKKeyMapContextWithUchrData(const UCKeyboardLayout *layout, Boolean rev
   memset(uchr->map, 0xff, sizeof(uchr->map));
   
   // Load table and reverse table
-  const void *data = layout;
-  
+  const uint8_t *data = (const uint8_t *)layout;
   const UCKeyboardTypeHeader *header = __UCKeyboardHeaderForCurrentKeyboard(layout);
-  const UCKeyToCharTableIndex *tables = data + header->keyToCharTableIndexOffset;
-  const UCKeyModifiersToTableNum *modifiers = data + header->keyModifiersToTableNumOffset;
+  const UCKeyToCharTableIndex *tables = (const UCKeyToCharTableIndex *)(data + header->keyToCharTableIndexOffset);
+  const UCKeyModifiersToTableNum *modifiers = (const UCKeyModifiersToTableNum *)(data + header->keyModifiersToTableNumOffset);
   /* optionals */
-  const UCKeyStateRecordsIndex *records = header->keyStateRecordsIndexOffset ? data + header->keyStateRecordsIndexOffset : NULL;
+  const UCKeyStateRecordsIndex *records = (const UCKeyStateRecordsIndex *)(header->keyStateRecordsIndexOffset ? data + header->keyStateRecordsIndexOffset : NULL);
   //TODO: improve sequence support
   //const UCKeySequenceDataIndex *sequences = header->keySequenceDataIndexOffset ? data + header->keySequenceDataIndexOffset : NULL;
-  const UCKeyStateTerminators * terminators = header->keyStateTerminatorsOffset ? data + header->keyStateTerminatorsOffset : NULL;
+  const UCKeyStateTerminators * terminators = (const UCKeyStateTerminators *)(header->keyStateTerminatorsOffset ? data + header->keyStateTerminatorsOffset : NULL);
   
   /* Computer Table to modifiers map */
   NSUInteger tmod[tables->keyToCharTableCount];
@@ -312,7 +311,7 @@ OSStatus HKKeyMapContextWithUchrData(const UCKeyboardLayout *layout, Boolean rev
   /* Foreach key in each table */
   for (NSUInteger idx = 0; idx < tables->keyToCharTableCount; idx++) { 
     NSUInteger key = 0;
-    const UCKeyOutput *output = data + tables->keyToCharTableOffsets[idx];
+    const UCKeyOutput *output = (const UCKeyOutput *)(data + tables->keyToCharTableOffsets[idx]);
     while (key < tables->keyToCharTableSize) {
       if (__HKUCHROutputIsInvalid(output[key])) {
         // Illegal character => no output, skip it
@@ -324,7 +323,7 @@ OSStatus HKKeyMapContextWithUchrData(const UCKeyboardLayout *layout, Boolean rev
 //          
 //        }
       } else if (__HKUCHROutputIsStateRecord(output[key])) { // if "State Record", save it into deadr table
-        NSUInteger state = output[key] & 0x3fff; 
+        NSInteger state = output[key] & 0x3fff; 
         // deadr contains as key the state record, and as value, the keystroke we have to use to "produce" this state.
         __HKMapInsertIfBetter(deadr, (void *)state, key, (HKModifier)tmod[idx], 0);
         
@@ -362,7 +361,7 @@ OSStatus HKKeyMapContextWithUchrData(const UCKeyboardLayout *layout, Boolean rev
       if (0 == code) {
         WBCLogWarning("Unreachable block: %tu", idx);
       } else {
-        const UCKeyStateRecord *record = data + records->keyStateRecordOffsets[idx];
+        const UCKeyStateRecord *record = (const UCKeyStateRecord *)(data + records->keyStateRecordOffsets[idx]);
         if (record->stateZeroCharData != 0 && record->stateZeroNextState == 0) {
           UCKeyCharSeq unicode = record->stateZeroCharData;
           if (__HKUCHRKeyCharIsSequence(unicode)) {
@@ -524,7 +523,7 @@ OSStatus HKKeyMapContextWithKCHRData(const void *layout, Boolean reverse, HKKeyM
   memset(kchr->unicode, 0xff, sizeof(kchr->unicode));
   
   // Load table and reverse table
-  const void *data = layout;
+  const uint8_t *data = layout;
   
   UInt16 count = *((UInt16 *)(data + 258)); // version (2) + map table (256)
   

@@ -15,8 +15,8 @@
 
 @interface HKHotKey () 
 - (void)hk_invalidateTimer;
-
 - (BOOL)shouldChangeKeystroke;
+- (void)hk_invoke:(NSTimer *)timer;
 @end
 
 static __inline__ 

@@ -173,11 +173,11 @@ BOOL HKTraceHotKeyEvents = NO;
     NSAssert(hotKeyID.signature == kHKHotKeyEventSignature, @"Invalid hot key signature");
     
     if (HKTraceHotKeyEvents) {
-      NSLog(@"HKManagerEvent {class:%@ kind:%u signature:%@ id:%p }",
+      NSLog(@"HKManagerEvent {class:%@ kind:%lu signature:%@ id:0x%lx }",
             NSFileTypeForHFSTypeCode(GetEventClass(theEvent)),
-            GetEventKind(theEvent),
+            (long)GetEventKind(theEvent),
             NSFileTypeForHFSTypeCode(hotKeyID.signature),
-            hotKeyID.id);
+            (long)hotKeyID.id);
     }
     hotKey = NSMapGet(hk_keys, (void *)(intptr_t)hotKeyID.id);
     if (hotKey) {
