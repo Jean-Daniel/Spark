@@ -141,7 +141,7 @@
   
   [self willChangeValueForKey:@"name"];
   [self willChangeValueForKey:@"icon"];
-  WBSetterRetain(&sp_action, action);
+  WBSetterRetain(sp_action, action);
   [self didChangeValueForKey:@"icon"];
   [self didChangeValueForKey:@"name"];
   
@@ -310,7 +310,7 @@ void __SparkViewPlaceholderSwapView(NSView *old, NSView *new) {
 }
 
 - (void)setPlaceholderView:(NSView *)aView {
-  WBSetterRetain(&sp_placeholder, aView);
+  WBSetterRetain(sp_placeholder, aView);
 }
 
 @end

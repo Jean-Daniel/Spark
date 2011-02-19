@@ -22,7 +22,7 @@ NSString * const SparkEntryWillRemoveChildNotification;
 
 @class SparkEntryManager;
 @class SparkAction, SparkTrigger, SparkApplication;
-SPARK_CLASS_EXPORT
+SPARK_OBJC_EXPORT
 @interface SparkEntry : NSObject <NSCopying> {
   @private
   UInt32 sp_uid;

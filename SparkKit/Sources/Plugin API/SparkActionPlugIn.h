@@ -17,7 +17,7 @@ you will use a subclass of SparkActionPlugIn.
 @discussion This is an Abstract class, so it can't be instanciated. Some methode must be implemented by subclass.
 If you use this class in IB, you can define an Outlet with name actionView.
 */
-SPARK_CLASS_EXPORT
+SPARK_OBJC_EXPORT
 @interface SparkActionPlugIn : NSObject {  
   @private
   IBOutlet NSView *actionView;

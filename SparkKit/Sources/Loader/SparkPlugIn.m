@@ -150,7 +150,7 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
   return sp_name;
 }
 - (void)setName:(NSString *)newName {
-  WBSetterRetain(&sp_name, newName);
+  WBSetterRetain(sp_name, newName);
 }
 
 - (NSString *)path {
@@ -158,7 +158,7 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
 }
 
 - (void)setPath:(NSString *)newPath {
-  WBSetterRetain(&sp_path, newPath);
+  WBSetterRetain(sp_path, newPath);
 }
 
 - (NSImage *)icon {
@@ -168,7 +168,7 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
   return sp_icon;
 }
 - (void)setIcon:(NSImage *)icon {
-  WBSetterRetain(&sp_icon, icon);
+  WBSetterRetain(sp_icon, icon);
 }
 
 - (BOOL)isEnabled {
@@ -204,14 +204,14 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
   return sp_version;
 }
 - (void)setVersion:(NSString *)version {
-  WBSetterCopy(&sp_version, version);
+  WBSetterCopy(sp_version, version);
 }
 
 - (NSString *)identifier {
   return sp_identifier;
 }
 - (void)setIdentifier:(NSString *)identifier {
-  WBSetterRetain(&sp_identifier, identifier);
+  WBSetterRetain(sp_identifier, identifier);
 }
 
 - (NSURL *)helpURL {

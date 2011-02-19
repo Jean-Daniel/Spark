@@ -195,7 +195,7 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
   return sp_undo;
 }
 - (void)setUndoManager:(NSUndoManager *)aManager {
-  WBSetterRetain(&sp_undo, aManager);
+  WBSetterRetain(sp_undo, aManager);
 }
 
 - (void)enableNotifications {

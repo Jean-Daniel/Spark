@@ -56,6 +56,6 @@
 
 @end
 
-WB_EXPORT
+SPARK_EXPORT
 void SparkDumpEntries(SparkLibrary *aLibrary);
 

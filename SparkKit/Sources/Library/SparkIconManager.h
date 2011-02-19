@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 @class SparkLibrary, SparkObject;
-SPARK_CLASS_EXPORT
+SPARK_OBJC_EXPORT
 @interface SparkIconManager : NSObject {
   @private
   SparkLibrary *sp_library;

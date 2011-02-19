@@ -8,7 +8,7 @@
 
 #import <SparkKit/SparkObject.h>
 
-WB_CLASS_EXPORT
+SPARK_OBJC_EXPORT
 @interface SparkTrigger : SparkObject <NSCoding, NSCopying> {
   @private
   struct _sp_stFlags {

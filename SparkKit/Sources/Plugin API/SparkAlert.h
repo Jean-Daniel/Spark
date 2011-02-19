@@ -16,7 +16,7 @@
     @abstract A simple Alert class use to wrap alerts dialog. 
  	Usefull to display many errors in one windows (SparkMultipleAlerts) or to defere alert window creation.
 */
-SPARK_CLASS_EXPORT
+SPARK_OBJC_EXPORT
 @interface SparkAlert : NSObject {
 @private
   BOOL sp_hide;

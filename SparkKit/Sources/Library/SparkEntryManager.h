@@ -31,7 +31,7 @@ NSString * const SparkEntryManagerDidChangeEntryStatusNotification;
 @class SparkObject;
 @class SparkLibrary, SparkEntry;
 @class SparkAction, SparkTrigger, SparkApplication;
-SPARK_CLASS_EXPORT
+SPARK_OBJC_EXPORT
 @interface SparkEntryManager : NSObject {
   @private
   NSMapTable *sp_objects;

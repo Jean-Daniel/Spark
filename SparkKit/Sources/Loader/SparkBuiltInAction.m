@@ -381,7 +381,7 @@ void SparkSDActionToggleDaemonStatus(void) {
   return sp_list;
 }
 - (void)setList:(SparkList *)aList {
-  if (WBSetterRetain(&sp_list, aList))
+  if (WBSetterRetain(sp_list, aList))
     sp_listUID = [aList uid];
 }
 
@@ -389,7 +389,7 @@ void SparkSDActionToggleDaemonStatus(void) {
   return sp_altList;
 }
 - (void)setAlternateList:(SparkList *)aList {
-  if (WBSetterRetain(&sp_altList, aList))
+  if (WBSetterRetain(sp_altList, aList))
     sp_altListUID = [aList uid];
 }
 

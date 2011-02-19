@@ -36,7 +36,7 @@ BOOL SparkHotKeyFilter(HKKeycode code, HKModifier modifier);
 @abstract   SparkHotKey is the class that represent hotKeys used in Spark.
 */
 @class SparkHKHotKey;
-WB_CLASS_EXPORT
+SPARK_OBJC_EXPORT
 @interface SparkHotKey : SparkTrigger <NSCoding, NSCopying> {
   @private
   SparkEntry *sp_entry; // event generation helper

@@ -22,7 +22,7 @@ NSString * const SparkActionLoaderDidRegisterPlugInNotification;
 @class SparkActionLoader
 @abstract Action extension is "spact".
 */
-WB_CLASS_EXPORT
+SPARK_OBJC_EXPORT
 @interface SparkActionLoader : WBPlugInLoader {
 }
 

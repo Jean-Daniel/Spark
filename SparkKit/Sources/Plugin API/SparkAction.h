@@ -35,7 +35,7 @@ NSTimeInterval SparkGetDefaultKeyRepeatInterval(void);
 <li>-performAction</li>
 <ul>
 */
-SPARK_CLASS_EXPORT
+SPARK_OBJC_EXPORT
 @interface SparkAction : SparkObject <NSCopying, NSCoding> {
   @private
   NSUInteger sp_version;

@@ -8,11 +8,11 @@
 
 #import <SparkKit/SparkLibrary.h>
 
-WB_EXPORT
+SPARK_EXPORT
 BOOL SparkLogSynchronization;
 
 @protocol SparkLibrary;
-WB_CLASS_EXPORT
+SPARK_OBJC_EXPORT
 @interface SparkLibrarySynchronizer : NSObject {
   @private
   SparkLibrary *sp_library;
@@ -26,7 +26,7 @@ WB_CLASS_EXPORT
 @end
 
 #pragma mark -
-WB_CLASS_EXPORT
+SPARK_OBJC_EXPORT
 @interface SparkDistantLibrary : NSObject {
   @private
   SparkLibrary *sp_library;

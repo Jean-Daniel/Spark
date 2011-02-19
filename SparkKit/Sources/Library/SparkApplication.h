@@ -9,7 +9,7 @@
 #import <SparkKit/SparkObject.h>
 
 @class WBApplication;
-WB_CLASS_EXPORT
+SPARK_OBJC_EXPORT
 @interface SparkApplication : SparkObject {
   @private
   struct _sp_appFlags {

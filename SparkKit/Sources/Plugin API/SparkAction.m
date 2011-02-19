@@ -170,7 +170,7 @@ static NSString * const kSparkActionDescriptionKey = @"SADescription";
   return sp_description;
 }
 - (void)setActionDescription:(NSString *)desc {
-  WBSetterCopy(&sp_description, desc);
+  WBSetterCopy(sp_description, desc);
 }
 
 - (BOOL)performOnKeyUp {
@@ -251,7 +251,7 @@ static NSString * const kSparkActionDescriptionKey = @"SADescription";
 }
 
 - (void)setCategorie:(NSString *)categorie {
-  WBSetterCopy(&sp_categorie, categorie);
+  WBSetterCopy(sp_categorie, categorie);
 }
 
 /* Compatibility */

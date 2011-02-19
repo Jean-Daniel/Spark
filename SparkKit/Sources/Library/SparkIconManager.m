@@ -163,9 +163,8 @@ UInt8 __SparkIconTypeForObject(SparkObject *object) {
   _SparkIconEntry *entry = [self entryForObject:anObject];
   if (entry) {
     /* Adjust resolution */
-    if (icon) {
+    if (icon)
       WBImageSetRepresentationsSize(icon, NSMakeSize(16, 16));
-    }
     [entry setIcon:icon];
   }
 }

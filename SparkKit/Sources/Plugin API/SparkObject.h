@@ -19,7 +19,7 @@
 @discussion You never need intanciate a SparkObject directly. This is an Abstract class.
 */
 @class SparkLibrary;
-SPARK_CLASS_EXPORT
+SPARK_OBJC_EXPORT
 @interface SparkObject : NSObject <NSCoding, NSCopying> {
   @private
   SparkUID sp_uid;

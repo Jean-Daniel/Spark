@@ -15,7 +15,7 @@ NSString * const SparkPlugInDidChangeStatusNotification;
     @class 		SparkPlugIn
     @abstract   Represent a Spark PlugIn Bundle.
 */
-WB_CLASS_EXPORT
+SPARK_OBJC_EXPORT
 @interface SparkPlugIn : NSObject {
   @private
   Class sp_class;

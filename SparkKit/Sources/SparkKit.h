@@ -9,84 +9,53 @@
 #if !defined(__SPARKKIT_H)
 #define __SPARKKIT_H 1
 
-#if !defined(__SHARED_PREFIX_H)
-
-#if defined(__OBJC__)
-#import <Cocoa/Cocoa.h>
-#else
-#include <ApplicationServices/ApplicationServices.h>
-#endif
-
-#if !defined(MAC_OS_X_VERSION_10_5)
-#define MAC_OS_X_VERSION_10_5 1050
-#endif
-
-#if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_5
-  #if !__LP64__
-    typedef int NSInteger;
-    typedef unsigned int NSUInteger;
-
-    typedef float CGFloat;
-    #define CGFLOAT_MIN FLT_MIN
-    #define CGFLOAT_MAX FLT_MAX
-  #else
-    #error 64 bits no supported for deployement version < MAC_OS_X_VERSION_10_5.
-  #endif
-
-  #define NSIntegerMax    LONG_MAX
-  #define NSIntegerMin    LONG_MIN
-  #define NSUIntegerMax   ULONG_MAX
-#endif
-
-#endif
-
 #pragma mark Base Macros
 
-#if defined(__cplusplus)
-#if defined (__GNUC__) && (__GNUC__ >= 4)
-#define SPARK_EXPORT extern "C" __attribute__((visibility("default")))
-#else
-#define SPARK_EXPORT extern "C"
-#endif
-#define __inline__ inline
+#if !defined(SPARK_VISIBLE)
+  #define SPARK_VISIBLE __attribute__((visibility("default")))
 #endif
 
-#if !defined(SPARK_EXPORT)
-#if defined (__GNUC__) && (__GNUC__ >= 4)
-#define SPARK_EXPORT extern __attribute__((visibility("default")))
-#else
-#define SPARK_EXPORT extern
-#endif
+#if !defined(SPARK_HIDDEN)
+  #define SPARK_HIDDEN __attribute__((visibility("hidden")))
 #endif
 
-#if !defined(SPARK_CLASS_EXPORT)
-#if __LP64__
-#define SPARK_CLASS_EXPORT __attribute__((visibility("default")))
-#else
-#define SPARK_CLASS_EXPORT
-#endif
-#endif
-
-#if !defined(SPARK_INLINE)
-#if defined (__GNUC__) && (__GNUC__ >= 4) && !defined(NO_INLINE)
-#define SPARK_INLINE static __inline__ __attribute__((always_inline))
-#else
-#define SPARK_INLINE static __inline__
-#endif
+#if !defined(SPARK_EXTERN)
+  #if defined(__cplusplus)
+    #define SPARK_EXTERN extern "C"
+  #else
+    #define SPARK_EXTERN extern
+  #endif
 #endif
 
 #if !defined(SPARK_PRIVATE)
-#if defined(DEBUG)
-#define SPARK_PRIVATE SPARK_EXPORT
-#elif defined (__GNUC__) && (__GNUC__ >= 4)
-#define SPARK_PRIVATE __private_extern__ __attribute__((visibility("hidden")))
-#else
-#define SPARK_PRIVATE __private_extern__
-#endif /* DEBUG */
+  #define SPARK_PRIVATE SPARK_EXTERN SPARK_HIDDEN
 #endif
 
-#if !defined(SPARK_EXTERN_INLINE)
-#define SPARK_EXTERN_INLINE extern __inline__
+#if !defined(SPARK_EXPORT)
+  #define SPARK_EXPORT SPARK_EXTERN SPARK_VISIBLE
+#endif
+
+#if !defined(SPARK_CXX_EXPORT)
+  #define SPARK_CXX_PRIVATE SPARK_HIDDEN
+  #define SPARK_CXX_EXPORT SPARK_VISIBLE
+#endif
+
+#if !defined(SPARK_OBJC_EXPORT)
+  #if __LP64__
+    #define SPARK_OBJC_PRIVATE SPARK_HIDDEN
+    #define SPARK_OBJC_EXPORT SPARK_VISIBLE
+  #else
+    #define SPARK_OBJC_EXPORT
+    #define SPARK_OBJC_PRIVATE
+  #endif /* 64 bits runtime */
+#endif
+
+#if !defined(SPARK_INLINE)
+  #if !defined(__NO_INLINE__)
+    #define SPARK_INLINE static inline __attribute__((always_inline))
+  #else
+    #define SPARK_INLINE static inline
+  #endif /* No inline */
 #endif
 
 #pragma mark -

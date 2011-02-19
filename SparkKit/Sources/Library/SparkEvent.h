@@ -6,13 +6,15 @@
 //  Copyright 2008 Ninsight. All rights reserved.
 //
 
+#import <SparkKit/SparkKit.h>
+
 enum {
   kSparkEventTypeEntry  = 0,
   kSparkEventTypeBypass = 1,
 };
 
 @class SparkEntry, SparkTrigger;
-WB_CLASS_EXPORT
+SPARK_OBJC_EXPORT
 @interface SparkEvent : NSObject {
   id sp_data;
   
