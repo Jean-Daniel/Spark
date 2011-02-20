@@ -2,24 +2,24 @@
  *  HKHotKeyManager.h
  *  HotKeyToolKit
  *
- *  Created by Shadow Team.
- *  Copyright (c) 2004 - 2008 Shadow Lab. All rights reserved.
+ *  Created by Jean-Daniel Dupas.
+ *  Copyright © 2004 - 2011 Shadow Lab. All rights reserved.
  */
 /*!
-    @header HKHotKeyManager
-*/
+ @header HKHotKeyManager
+ */
 #import <Foundation/Foundation.h>
 #import <HotKeyToolKit/HKBase.h>
 
 @class HKHotKey;
 
 /*!
-    @class 		HKHotKeyManager
-    @abstract   HotKeyManager is used to register and unregister HKHotKey. It dispatch Global HotKey event.
-*/
-HK_CLASS_EXPORT
+ @class 		HKHotKeyManager
+ @abstract   HotKeyManager is used to register and unregister HKHotKey. It dispatch Global HotKey event.
+ */
+HK_OBJC_EXPORT
 @interface HKHotKeyManager : NSObject {
-  @private
+@private
   void *hk_handler; /* EventHandlerRef */
   NSMapTable *hk_refs;
   NSMapTable *hk_keys;

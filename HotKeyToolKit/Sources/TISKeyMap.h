@@ -2,8 +2,8 @@
  *  TISKeyMap.h
  *  HotKeyToolKit
  *
- *  Created by Shadow Team.
- *  Copyright (c) 2004 - 2008 Shadow Lab. All rights reserved.
+ *  Created by Jean-Daniel Dupas.
+ *  Copyright © 2004 - 2011 Shadow Lab. All rights reserved.
  */
 /*!
  @header KeyMap
