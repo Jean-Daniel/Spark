@@ -12,27 +12,11 @@
 #import <HotKeyToolKit/HKBase.h>
 
 /*!
-@function
- @abstract Returns the time interval between two repeat key down event.
- @result Returns the key repeat interval setted in "System Preferences" or -1 on error.
- */
-HK_EXPORT
-NSTimeInterval HKGetSystemKeyRepeatInterval(void);
-
-/*!
-@function
- @abstract Returns the time interval between a key is pressed and system start to repeat key down event.
- @result Returns the initial key repeat interval setted in "System Preferences" or -1 on error.
- */
-HK_EXPORT 
-NSTimeInterval HKGetSystemInitialKeyRepeatInterval(void);
-
-/*!
 @class HKHotKey
 @abstract	This class represent a Global Hot Key (Shortcut) that can be registred to execute an action when called.
 @discussion	It uses an UniChar and a virtual keycode to store the shortcut so if the keyboard layout change, the shortcut change too.
 */
-HK_CLASS_EXPORT
+HK_OBJC_EXPORT
 @interface HKHotKey : NSObject <NSCopying, NSCoding> { 
   @private
   id hk_target;
@@ -41,6 +25,13 @@ HK_CLASS_EXPORT
   NSTimeInterval hk_repeatInterval;
   NSTimeInterval hk_iRepeatInterval;
   
+  HKModifier hk_mask;
+  HKKeycode hk_keycode;
+  UniChar hk_character;
+
+  /* event */
+  NSTimeInterval hk_eventTime;
+
   struct _hk_hkFlags {
     unsigned int down:1;
     unsigned int lock:1;
@@ -50,13 +41,6 @@ HK_CLASS_EXPORT
     unsigned int registred:1;
     unsigned int reserved:10;
   } hk_hkFlags;
-  
-  HKModifier hk_mask;
-  HKKeycode hk_keycode;
-  UniChar hk_character;
-  
-  /* event */
-  NSTimeInterval hk_eventTime;
 }
 
 #pragma mark -
@@ -121,87 +105,45 @@ HK_CLASS_EXPORT
 - (BOOL)isValid;
 
 /*!
-  @method
- @abstract Returns an NSString representation of the shortcut using symbolic characters when possible.
+ @property
+ @abstract String representation of the shortcut using symbolic characters when possible.
  */
-- (NSString*)shortcut;
+@property(nonatomic, readonly) NSString *shortcut;
 
 #pragma mark -
 #pragma mark iVar Accessors.
 /*!
-  @method
+ @property
  @abstract   The modifier is an unsigned int as define in NSEvent.h
  @discussion This modifier is equivalent to KeyMask defined in NSEvent.h
- @result		Returns the modifier associated whit this Hot Key.
+ @result     Returns the modifier associated whit this Hot Key.
  */
-- (NSUInteger)modifier;
-/*!
-  @method
- @abstract   Sets the HotKey modifier to <i>modifier</i>
- @param		modifier
- */
-- (void)setModifier:(NSUInteger)modifier;
+@property(nonatomic) NSUInteger modifier;
 
-- (HKModifier)nativeModifier;
-- (void)setNativeModifier:(HKModifier)modifier;
+@property(nonatomic) HKModifier nativeModifier;
 
 /*!
-  @method
- @abstract   Returns the Virtual keycode assigned to this Hot Key for the current keyboard layout.
+ @property
+ @abstract  The Virtual keycode assigned to this Hot Key for the current keyboard layout.
  */
-- (HKKeycode)keycode;
+@property(nonatomic) HKKeycode keycode;
 /*!
-  @method
- @abstract   Sets the HotKey keycode to the virtual key <i>keycode</i> and update character.
- @param		keycode A Virtual Keycode.
- */
-- (void)setKeycode:(HKKeycode)keycode;
-
-/*!
-  @method
+ @property
  @abstract   Character is an UniChar that represent the character associated whit this HotKey
  @discussion Character is an Unichar, but is not always printable. Some keyboard keys haven't a glyph
- representation. To obtain a printable representation use HKModifierStringForMask() with a nil modifier 
- */
-- (UniChar)character;
-/*!
-  @method
- @abstract Sets the Hot Key character to <i>aCharacter</i> and update keycode.
- @discussion If your character could not be generatd by a single key event without modifier, 
+ representation. To obtain a printable representation use HKModifierStringForMask() with a nil modifier.
+ When setting this property, if the character could not be generatd by a single key event without modifier,
  this method will try to find first keycode used to output character, and replace character by a output of this keycode. 
- @param aCharacter An Unicode character.
  */
-- (void)setCharacter:(UniChar)aCharacter;
+@property(nonatomic) UniChar character;
 
-
+/* Set both keycode and caracter. Does not perform any check */
 - (void)setKeycode:(HKKeycode)keycode character:(UniChar)character;
 
-/*!
-  @method
- @abstract   Returns the target object of the receiver.
- */
-- (id)target;
-/*!
-  @method
- @abstract   Sets the receiver's target object to <i>anObject</i>.
- @param		anObject The receiver's target object
- */
-- (void)setTarget:(id)anObject;
+@property(nonatomic, assign) id target;
+@property(nonatomic) SEL action;
 
-/*!
-  @method
- @abstract   Returns the receiver’s action message selector.
- */
-- (SEL)action;
-/*!
-  @method
- @abstract   Sets the selector used for the action message to aSelector.
- @param		aSelector the receiver action.
- */
-- (void)setAction:(SEL)aSelector;
-
-- (BOOL)invokeOnKeyUp;
-- (void)setInvokeOnKeyUp:(BOOL)flag;
+@property(nonatomic) BOOL invokeOnKeyUp;
 
 /*!
   @method
@@ -219,41 +161,27 @@ HK_CLASS_EXPORT
 - (BOOL)setRegistred:(BOOL)flag;
 
 /*!
-  @method
- @abstract   Returns the time interval between two repeat key down event.
- @result     Returns a time interval in seconds or 0 if autorepeat isn't active for the receiver.
+ @property
+ @abstract  Time interval between two autorepeat key down events.
+ @discussion 0 means no autorepeat.
  */
-- (NSTimeInterval)repeatInterval;
-/*!
-  @method
- @abstract   Sets the time interva between two autorepeat key down events.
- @param      interval the time interval in seconds, or 0 to desactivate autorepeat for the receiver.
- */
-- (void)setRepeatInterval:(NSTimeInterval)interval;
+@property(nonatomic) NSTimeInterval repeatInterval;
 
-- (NSTimeInterval)initialRepeatInterval;
+/*!
+ @property
+ @discussion 0 means system default. < 0 means receiver's 'repeat interval'.
+ */
+@property(nonatomic) NSTimeInterval initialRepeatInterval;
+
+/*!
+ @property
+ @abstract   Packed representation of receiver's character, keycode and modifier.
+ @discussion This method can be usefull to serialize an hotkey or to save a keystate with one call.
+ */
+@property(nonatomic) uint64_t rawkey;
+
 /*!
  @method
- @param interval 0 mean system default. < 0 mean repeat interval.
- */
-- (void)setInitialRepeatInterval:(NSTimeInterval)interval;
-
-/*!
-  @method
- @abstract   Encode character, keycode and modifier as a single integer.
- @discussion This method can be usefull to serialize an hotkey or to save a keystae with one call.
- @result     A single integer representing receiver character, modifier and keycode.
- */
-- (UInt64)rawkey;
-/*!
-  @method
- @abstract   Restore the receiver  character, keycode and modifier.
- @param      rawkey A rawkey.
- */
-- (void)setRawkey:(UInt64)rawkey;
-
-/*!
-  @method
  @abstract   Make target perform action.
  */
 - (void)invoke:(BOOL)repeat;
@@ -266,14 +194,32 @@ HK_CLASS_EXPORT
 - (void)didInvoke;
 
 /* valid only during [target action:sender] call */
-- (BOOL)isARepeat;
-- (NSTimeInterval)eventTime;
+@property(nonatomic, readonly) BOOL isARepeat;
+@property(nonatomic, readonly) NSTimeInterval eventTime;
 
 @end
 
+// MARK: Serialization Helpers
 HK_EXPORT
-UInt64 HKHotKeyPackKeystoke(HKKeycode keycode, HKModifier modifier, UniChar chr);
+uint64_t HKHotKeyPackKeystoke(HKKeycode keycode, HKModifier modifier, UniChar chr);
 
 HK_EXPORT
-void HKHotKeyUnpackKeystoke(UInt64 raw, HKKeycode *keycode, HKModifier *modifier, UniChar *chr);
+void HKHotKeyUnpackKeystoke(uint64_t raw, HKKeycode *keycode, HKModifier *modifier, UniChar *chr);
+
+// MARK: System Settings
+/*!
+ @function
+ @abstract Returns the time interval between two repeat key down event.
+ @result Returns the key repeat interval setted in "System Preferences" or -1 on error.
+ */
+HK_EXPORT
+NSTimeInterval HKGetSystemKeyRepeatInterval(void);
+
+/*!
+ @function
+ @abstract Returns the time interval between a key is pressed and system start to repeat key down event.
+ @result Returns the initial key repeat interval setted in "System Preferences" or -1 on error.
+ */
+HK_EXPORT
+NSTimeInterval HKGetSystemInitialKeyRepeatInterval(void);
 

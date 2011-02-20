@@ -21,7 +21,7 @@
 
 static __inline__ 
 CFTimeInterval __HKEventTime(void) {
-  return UnsignedWideToUInt64(AbsoluteToNanoseconds(UpTime())) / 1e9;
+  return WBHostTimeToTimeInterval(WBHostTimeGetCurrent());
 }
 
 @implementation HKHotKey
@@ -110,8 +110,11 @@ CFTimeInterval __HKEventTime(void) {
 }
 
 - (void)dealloc {
-  [self hk_invalidateTimer];
-  [self setRegistred:NO];
+  if ([self isRegistred]) {
+    WBLogWarning(@"Releasing a registred hotkey is not safe !");
+    [self hk_invalidateTimer];
+    [self setRegistred:NO];
+  }
   [super dealloc];
 }
 
@@ -126,15 +129,11 @@ CFTimeInterval __HKEventTime(void) {
 #pragma mark Misc Properties
 
 - (BOOL)isValid {
-  return ([self character] != kHKNilUnichar) && ([self keycode] != kHKInvalidVirtualKeyCode);
+  return (self.character != kHKNilUnichar) && (self.keycode != kHKInvalidVirtualKeyCode);
 }
 
 - (NSString*)shortcut {
-  return HKMapGetStringRepresentationForCharacterAndModifier([self character], hk_mask);
-}
-/* KVC compliance */
-- (void)setShortcut:(NSString *)sc {
-#pragma unused(sc)
+  return HKMapGetStringRepresentationForCharacterAndModifier(self.character, hk_mask);
 }
 
 #pragma mark -
@@ -150,108 +149,83 @@ CFTimeInterval __HKEventTime(void) {
   return HKUtilsConvertModifier(hk_mask, kHKModifierFormatNative, kHKModifierFormatCocoa);
 }
 - (void)setModifier:(NSUInteger)modifier {
-  if ([self shouldChangeKeystroke]) {
+  if ([self shouldChangeKeystroke])
     hk_mask = (HKModifier)HKUtilsConvertModifier(modifier, kHKModifierFormatCocoa, kHKModifierFormatNative);
-  }
-}
-- (HKModifier)nativeModifier {
-  return hk_mask;
-}
-- (void)setNativeModifier:(HKModifier)modifier {
-  if ([self shouldChangeKeystroke]) {
-    hk_mask = modifier;
-  }
 }
 
-- (HKKeycode)keycode {
-  return hk_keycode;
+@synthesize nativeModifier = hk_mask;
+
+- (void)setNativeModifier:(HKModifier)modifier {
+  if ([self shouldChangeKeystroke])
+    hk_mask = modifier;
 }
+
+@synthesize keycode = hk_keycode;
+
 - (void)setKeycode:(HKKeycode)keycode {
   if ([self shouldChangeKeystroke]) {
     hk_keycode = keycode;
-    if (hk_keycode != kHKInvalidVirtualKeyCode) {
+    [self willChangeValueForKey:WBProperty(character)];
+    if (hk_keycode != kHKInvalidVirtualKeyCode)
       hk_character = HKMapGetUnicharForKeycode(hk_keycode);  
-    } else {
+    else
       hk_character = kHKNilUnichar;
-    }
+    [self didChangeValueForKey:WBProperty(character)];
   }
 }
 
-- (UniChar)character {
-  return hk_character;
-}
+@synthesize character = hk_character;
+
 - (void)setCharacter:(UniChar)character {
-  if ([self shouldChangeKeystroke]) {
+  if ([self shouldChangeKeystroke])
     [self setKeycode:HKMapGetKeycodeAndModifierForUnichar(character, NULL)];
-  }
 }
 
 - (void)setKeycode:(HKKeycode)keycode character:(UniChar)character {
   if ([self shouldChangeKeystroke]) {
+    [self willChangeValueForKey:WBProperty(keycode)];
     hk_keycode = keycode;
+    [self didChangeValueForKey:WBProperty(keycode)];
+    [self willChangeValueForKey:WBProperty(character)];
     hk_character = character;
+    [self didChangeValueForKey:WBProperty(character)];
   }
 }
 
-- (id)target {
-  return hk_target;
-}
-- (void)setTarget:(id)newTarget {
-  hk_target = newTarget;
-}
+@synthesize target = hk_target;
+@synthesize action = hk_action;
 
-- (SEL)action {
-  return hk_action;
-}
-- (void)setAction:(SEL)newAction {
-  hk_action = newAction;
-}
+- (BOOL)isRegistred { return hk_hkFlags.registred; }
 
-- (BOOL)isRegistred {
-  return hk_hkFlags.registred;
-}
 - (BOOL)setRegistred:(BOOL)flag {
   // Si la clé n'est pas valide
-  if (![self isValid]) {
+  if (![self isValid])
     return NO;
-  }
-  BOOL result;
-  @synchronized (self) {
-    flag = flag ? 1 : 0;
-    // Si la clé est déja dans l'état demandé
-    if (flag == hk_hkFlags.registred) {
-      return YES;
-    }
-    result = YES;
-    if (flag) { // if register
-      if ([[HKHotKeyManager sharedManager] registerHotKey:self]) {
-        hk_hkFlags.registred = 1; // Set registred flag
-      } else {
-        result = NO;
-      }
-    } else { // If unregister
-      [self hk_invalidateTimer];
-      hk_hkFlags.registred = 0;
-      result = [[HKHotKeyManager sharedManager] unregisterHotKey:self];
-    }
+
+  flag = flag ? 1 : 0;
+  // Si la clé est déja dans l'état demandé
+  if (flag == hk_hkFlags.registred)
+    return YES;
+
+  BOOL result = YES;
+  if (flag) { // if register
+    if ([[HKHotKeyManager sharedManager] registerHotKey:self])
+      hk_hkFlags.registred = 1; // Set registred flag
+    else
+      result = NO;
+  } else { // If unregister
+    [self hk_invalidateTimer];
+    hk_hkFlags.registred = 0;
+    result = [[HKHotKeyManager sharedManager] unregisterHotKey:self];
   }
   return result;
 }
 
-- (BOOL)invokeOnKeyUp {
-  return hk_hkFlags.onrelease;
-}
-- (void)setInvokeOnKeyUp:(BOOL)flag {
-  WBFlagSet(hk_hkFlags.onrelease, flag);
-}
+- (BOOL)invokeOnKeyUp { return hk_hkFlags.onrelease; }
+- (void)setInvokeOnKeyUp:(BOOL)flag { WBFlagSet(hk_hkFlags.onrelease, flag); }
 
-- (NSTimeInterval)repeatInterval {
-  return hk_repeatInterval;
-}
-
-- (void)setRepeatInterval:(NSTimeInterval)interval {
-  hk_repeatInterval = interval;
-}
+@synthesize repeatInterval = hk_repeatInterval;
+@synthesize initialRepeatInterval = hk_iRepeatInterval;
 
 - (NSTimeInterval)initialRepeatInterval {
   if (fiszero(hk_iRepeatInterval)) {
@@ -261,16 +235,13 @@ CFTimeInterval __HKEventTime(void) {
   }
   return hk_iRepeatInterval;
 }
-- (void)setInitialRepeatInterval:(NSTimeInterval)interval {
-  hk_iRepeatInterval = interval;
-}
 
 #pragma mark Key Serialization
-- (UInt64)rawkey {
+- (uint64_t)rawkey {
   return HKHotKeyPackKeystoke([self keycode], [self nativeModifier], [self character]);
 }
 
-- (void)setRawkey:(UInt64)rawkey {
+- (void)setRawkey:(uint64_t)rawkey {
   HKKeycode keycode;
   UniChar character;
   HKModifier modifier;
@@ -340,12 +311,8 @@ CFTimeInterval __HKEventTime(void) {
   }
 }
 
-- (BOOL)isARepeat {
-  return hk_hkFlags.repeat;
-}
-- (NSTimeInterval)eventTime {
-  return hk_eventTime;
-}
+@synthesize eventTime = hk_eventTime;
+- (BOOL)isARepeat { return hk_hkFlags.repeat; }
 
 - (void)willInvoke {}
 - (void)didInvoke {}
@@ -372,14 +339,14 @@ CFTimeInterval __HKEventTime(void) {
 
 @end
 
-UInt64 HKHotKeyPackKeystoke(HKKeycode keycode, HKModifier modifier, UniChar chr) {
-  UInt64 packed = chr;
+uint64_t HKHotKeyPackKeystoke(HKKeycode keycode, HKModifier modifier, UniChar chr) {
+  uint64_t packed = chr;
   packed |= modifier & 0x00ff0000;
   packed |= (keycode << 24) & 0xff000000;
   return packed;
 }
 
-void HKHotKeyUnpackKeystoke(UInt64 rawkey, HKKeycode *outKeycode, HKModifier *outModifier, UniChar *outChr) {
+void HKHotKeyUnpackKeystoke(uint64_t rawkey, HKKeycode *outKeycode, HKModifier *outModifier, UniChar *outChr) {
   UniChar character = rawkey & 0x0000ffff;
   HKModifier modifier = (HKModifier)(rawkey & 0x00ff0000);
   HKKeycode keycode = (rawkey & 0xff000000) >> 24;

@@ -144,7 +144,7 @@ NSString * const kHKTrapWindowDidCatchKeyNotification = @"kHKTrapWindowKeyCaught
           valid = [[self delegate] trapWindow:self isValidHotKey:code modifier:modifier];
         /* ask hotkey manager */
         if (valid)
-          valid = [HKHotKeyManager isValidHotKeyCode:code withModifier:modifier];
+          valid = HKHotKeyCheckKeyCodeAndModifier(code, modifier);
       }
       if (valid) {
         character = HKMapGetUnicharForKeycode(code);

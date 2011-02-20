@@ -28,42 +28,31 @@ HK_OBJC_EXPORT
 }
 
 /*!
-    @method     isValidHotKeyCode:withModifier:
-    @abstract   Use to define if a Shortcut is valid (not already used,…)
-    @discussion You can customize this function result by providing a HKHotKeyFilter to the Manager (see setShortcutFilter).
- 	@param		code a Virtual Keycode.
- 	@param		modifier the modifier keys.
- 	@result		Returns YES if the keystrock is valid.
-*/
-+ (BOOL)isValidHotKeyCode:(HKKeycode)code withModifier:(HKModifier)modifier;
-
-/*!
-    @method     sharedManager
-    @abstract   Returns the shared HKHotKeyManager instance. 
-*/
+ @method     sharedManager
+ @abstract   Returns the shared HKHotKeyManager instance.
+ */
 + (HKHotKeyManager *)sharedManager;
 
 /*!
-    @method     registerHotKey:
-    @abstract   Try to register an HKHotKey as Gloab System HotKey.
- 	@param		key The HKHotKey you want to register
- 	@result		YES if the key is succesfully registred.
-*/
+ @method     registerHotKey:
+ @abstract   Try to register an HKHotKey as Gloab System HotKey.
+ @param		key The HKHotKey you want to register
+ @result		YES if the key is succesfully registred.
+ */
 - (BOOL)registerHotKey:(HKHotKey *)key;
 /*!
-    @method     unregisterHotKey:
-    @abstract   Try to unregister an HKHotKey as System HotKey.
-  	@param		key The HKHotKey you want to unregister
- 	@result		Returns YES if the key is succesfully unregistred.
-*/
+ @method     unregisterHotKey:
+ @abstract   Try to unregister an HKHotKey as System HotKey.
+ @param		key The HKHotKey you want to unregister
+ @result		Returns YES if the key is succesfully unregistred.
+ */
 - (BOOL)unregisterHotKey:(HKHotKey *)key;
 
 /*!
-    @method     unregisterAll
-    @abstract   Unregister all registred keys.
-*/
+ @method     unregisterAll
+ @abstract   Unregister all registred keys.
+ */
 - (void)unregisterAll;
-
 
 /* Protected */
 - (NSTimeInterval)currentEventTime;
@@ -72,6 +61,16 @@ HK_OBJC_EXPORT
 
 @end
 
-/* Debugging purpose */
+/*!
+ @function
+ @abstract   Use to define if a Shortcut is valid (not already used,…)
+ @discussion You can customize this function result by providing a HKHotKeyFilter to the Manager (see setShortcutFilter).
+ @param      code a Virtual Keycode.
+ @param      modifier the modifier keys.
+ @result     Returns YES if the keystrock is valid.
+ */
 HK_EXPORT
-BOOL HKTraceHotKeyEvents;
+BOOL HKHotKeyCheckKeyCodeAndModifier(HKKeycode code, HKModifier modifier);
+
+/* Debugging purpose */
+HK_EXPORT BOOL HKTraceHotKeyEvents;
