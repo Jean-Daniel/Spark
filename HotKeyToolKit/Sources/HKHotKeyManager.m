@@ -16,7 +16,7 @@
 static
 const OSType kHKHotKeyEventSignature = 'HkTk';
 
-static 
+static
 OSStatus _HandleHotKeyEvent(EventHandlerCallRef nextHandler, EventRef theEvent, void *userData);
 
 static
@@ -58,7 +58,7 @@ static HKHotKeyManager *sManager = nil;
       { .eventClass = kEventClassKeyboard, .eventKind  = kEventHotKeyPressed },
       { .eventClass = kEventClassKeyboard, .eventKind  = kEventHotKeyReleased },
     };
-    
+
     OSStatus err = InstallApplicationEventHandler(_HandleHotKeyEvent, GetEventTypeCount(eventTypes), eventTypes, self, &ref);
     if (noErr != err) {
       WBLogError(@"Event handler creation failed: %s", GetMacOSStatusCommentString(err));
@@ -110,14 +110,14 @@ static HKHotKeyManager *sManager = nil;
     EventHotKeyRef ref = NSMapGet(hk_refs, key);
     NSAssert(ref != nil, @"Unable to find Carbon HotKey Handler");
     if (!ref) return NO;
-    
+
     OSStatus err = HKUnregisterHotKey(ref);
     if (noErr == err) {
       if (HKTraceHotKeyEvents)
         NSLog(@"Unregister HotKey: %@", key);
-      
+
       NSMapRemove(hk_refs, key);
-      
+
       /* Remove from keys record */
       intptr_t uid = 0;
       HKHotKey *hkey = nil;
@@ -137,7 +137,7 @@ static HKHotKeyManager *sManager = nil;
 
 - (void)unregisterAll {
   EventHotKeyRef ref = NULL;
-  
+
   NSMapEnumerator refs = NSEnumerateMapTable(hk_refs);
   while (NSNextMapEnumeratorPair(&refs, NULL, (void **)&ref)) {
     if (ref)
@@ -150,7 +150,7 @@ static HKHotKeyManager *sManager = nil;
 
 - (OSStatus)handleCarbonEvent:(EventRef)theEvent {
   NSAssert(GetEventClass(theEvent) == kEventClassKeyboard, @"Unknown event class");
-  
+
   EventHotKeyID hotKeyID;
   OSStatus err = GetEventParameter(theEvent,
                                    kEventParamDirectObject,
@@ -162,7 +162,7 @@ static HKHotKeyManager *sManager = nil;
   if(noErr == err) {
     NSAssert(hotKeyID.id != 0, @"Invalid hot key id");
     NSAssert(hotKeyID.signature == kHKHotKeyEventSignature, @"Invalid hot key signature");
-    
+
     if (HKTraceHotKeyEvents) {
       NSLog(@"HKManagerEvent {class:%@ kind:%lu signature:%@ id:0x%lx }",
             NSFileTypeForHFSTypeCode(GetEventClass(theEvent)),

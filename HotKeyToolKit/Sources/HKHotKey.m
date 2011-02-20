@@ -13,13 +13,13 @@
 #include <IOKit/hidsystem/IOHIDLib.h>
 #include <IOKit/hidsystem/IOHIDParameter.h>
 
-@interface HKHotKey () 
+@interface HKHotKey ()
 - (void)hk_invalidateTimer;
 - (BOOL)shouldChangeKeystroke;
 - (void)hk_invoke:(NSTimer *)timer;
 @end
 
-static __inline__ 
+static __inline__
 CFTimeInterval __HKEventTime(void) {
   return WBHostTimeToTimeInterval(WBHostTimeGetCurrent());
 }
@@ -30,14 +30,14 @@ CFTimeInterval __HKEventTime(void) {
   HKHotKey *copy = [[[self class] allocWithZone:zone] init];
   copy->hk_target = hk_target;
   copy->hk_action = hk_action;
-  
+
   copy->hk_mask = hk_mask;
   copy->hk_keycode = hk_keycode;
   copy->hk_character = hk_character;
-  
+
   copy->hk_repeatTimer = nil;
   copy->hk_repeatInterval = hk_repeatInterval;
-  
+
   /* Key isn't registred */
   copy->hk_hkFlags.onrelease = hk_hkFlags.onrelease;
   return copy;
@@ -46,11 +46,11 @@ CFTimeInterval __HKEventTime(void) {
 - (void)encodeWithCoder:(NSCoder *)aCoder {
   [aCoder encodeConditionalObject:hk_target forKey:@"HKTarget"];
   [aCoder encodeObject:NSStringFromSelector(hk_action) forKey:@"HKAction"];
-  
+
   [aCoder encodeInt32:hk_mask forKey:@"HKMask"];
   [aCoder encodeInt32:hk_keycode forKey:@"HKKeycode"];
   [aCoder encodeInt32:hk_character forKey:@"HKCharacter"];
-  
+
   [aCoder encodeDouble:hk_repeatInterval forKey:@"HKRepeatInterval"];
 }
 
@@ -60,11 +60,11 @@ CFTimeInterval __HKEventTime(void) {
     NSString *action = [aCoder decodeObjectForKey:@"HKAction"];
     if (action)
       hk_action = NSSelectorFromString(action);
-    
+
     hk_mask = [aCoder decodeInt32ForKey:@"HKMask"];
     hk_keycode = [aCoder decodeInt32ForKey:@"HKKeycode"];
     hk_character = [aCoder decodeInt32ForKey:@"HKCharacter"];
-    
+
     hk_repeatInterval = [aCoder decodeDoubleForKey:@"HKRepeatInterval"];
   }
   return self;
@@ -167,7 +167,7 @@ CFTimeInterval __HKEventTime(void) {
     hk_keycode = keycode;
     [self willChangeValueForKey:WBProperty(character)];
     if (hk_keycode != kHKInvalidVirtualKeyCode)
-      hk_character = HKMapGetUnicharForKeycode(hk_keycode);  
+      hk_character = HKMapGetUnicharForKeycode(hk_keycode);
     else
       hk_character = kHKNilUnichar;
     [self didChangeValueForKey:WBProperty(character)];
@@ -268,7 +268,7 @@ CFTimeInterval __HKEventTime(void) {
       if (value > 0) {
         value -= (__HKEventTime() - hk_eventTime); // time elapsed in invoke
         NSDate *fire = [[NSDate alloc] initWithTimeIntervalSinceNow:value];
-        hk_repeatTimer = [[NSTimer alloc] initWithFireDate:fire 
+        hk_repeatTimer = [[NSTimer alloc] initWithFireDate:fire
                                                   interval:[self repeatInterval]
                                                     target:self
                                                   selector:@selector(hk_invoke:)
@@ -385,23 +385,23 @@ io_connect_t _HKHIDGetSystemService(void) {
     if (!sSystemService) {
       kern_return_t kr;
       mach_port_t service, iter;
-      
-      kr = IOServiceGetMatchingServices(kIOMasterPortDefault, 
+
+      kr = IOServiceGetMatchingServices(kIOMasterPortDefault,
                                         IOServiceMatching(kIOHIDSystemClass), &iter);
       check(KERN_SUCCESS == kr);
-      
+
       service = IOIteratorNext(iter);
       check(service);
-      
-      kr = IOServiceOpen(service, mach_task_self(),  
+
+      kr = IOServiceOpen(service, mach_task_self(),
                          kIOHIDParamConnectType, &sSystemService);
       check(KERN_SUCCESS == kr);
-      
+
       IOObjectRelease(service);
       IOObjectRelease(iter);
     }
   }
-  
+
   return sSystemService;
 }
 
@@ -411,7 +411,7 @@ NSTimeInterval HKGetSystemKeyRepeatInterval(void) {
   io_connect_t service = _HKHIDGetSystemService();
   if (service) {
     IOByteCount size = 0;
-    kern_return_t kr = IOHIDGetParameter(service, CFSTR(kIOHIDKeyRepeatKey), 
+    kern_return_t kr = IOHIDGetParameter(service, CFSTR(kIOHIDKeyRepeatKey),
                                          (IOByteCount)sizeof(value), &value, &size);
     /* convert nano into seconds */
     if (KERN_SUCCESS == kr && size == sizeof(value))
@@ -426,7 +426,7 @@ NSTimeInterval HKGetSystemInitialKeyRepeatInterval(void) {
   io_connect_t service = _HKHIDGetSystemService();
   if (service) {
     IOByteCount size = 0;
-    kern_return_t kr = IOHIDGetParameter(service, CFSTR(kIOHIDInitialKeyRepeatKey), 
+    kern_return_t kr = IOHIDGetParameter(service, CFSTR(kIOHIDInitialKeyRepeatKey),
                                          (IOByteCount)sizeof(value), &value, &size);
     /* convert nano into seconds */
     if (KERN_SUCCESS == kr && size == sizeof(value))

@@ -156,6 +156,6 @@ NSUInteger HKUtilsConvertModifier(NSUInteger modifier, HKModifierFormat input, H
   }
   if (map)
     return _HKUtilsConvertModifier(modifier, map);
-  
+
   return 0;
 }

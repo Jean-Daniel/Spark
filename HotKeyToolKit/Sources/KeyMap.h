@@ -32,7 +32,7 @@ HKKeyMapRef HKKeyMapCreateWithName(CFStringRef name, Boolean reverse);
 HK_PRIVATE
 HKKeyMapRef HKKeyMapCreateWithCurrentLayout(Boolean reverse);
 
-/*!	
+/*!
 @function
 @abstract Release memory allocated by <i>HKKeyMapCreate</i>.
 @param keymap The keyMap to release.

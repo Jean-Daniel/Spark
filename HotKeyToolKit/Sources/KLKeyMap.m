@@ -56,7 +56,7 @@ OSStatus HKKLKeyMapInit(HKKeyMapRef keyMap) {
   KeyboardLayoutKind kind = 0;
   KeyboardLayoutPropertyTag tag = 0;
   KLGetKeyboardLayoutProperty(keyMap->storage.kl.keyboard, kKLIdentifier, (void *)&(keyMap->storage.kl.identifier));
-  
+
   OSStatus err = KLGetKeyboardLayoutProperty(keyMap->storage.kl.keyboard, kKLKind, (void *)&kind);
   if (noErr == err) {
     switch (kind) {
@@ -105,7 +105,7 @@ HKKeyMapRef HKKLKeyMapCreateWithName(CFStringRef name) {
 
 HKKeyMapRef HKKLKeyMapCreateWithCurrentLayout(void) {
   KeyboardLayoutRef ref;
-  if (noErr == KLGetCurrentKeyboardLayout(&ref)) { 
+  if (noErr == KLGetCurrentKeyboardLayout(&ref)) {
     return HKKeyMapCreateWithKeyboardLayout(ref);
   }
   return NULL;
@@ -124,7 +124,7 @@ CFStringRef HKKLKeyMapGetName(HKKeyMapRef keymap) {
 CFStringRef HKKLKeyMapGetLocalizedName(HKKeyMapRef keymap) {
   CFStringRef str = NULL;
   KLGetKeyboardLayoutProperty(keymap->storage.kl.keyboard, kKLLocalizedName, (void *)&str);
-  return str;  
+  return str;
 }
 
 #endif /* Leopard */

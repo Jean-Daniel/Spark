@@ -109,7 +109,7 @@ enum {
   /* others keys */
   kHKVirtualClearLineKey     = 0x047,
   kHKVirtualSpaceKey         = 0x031,
-  
+
   /* Invalid */
   kHKInvalidVirtualKeyCode = 0xffff,
 };
@@ -136,11 +136,11 @@ enum {
  @constant		kHKF17Unicode 		Arbitrary Private Unicode character.
  @constant		kHKF18Unicode 		Arbitrary Private Unicode character.
  @constant		kHKF19Unicode 		Arbitrary Private Unicode character.
- 
+
  @constant		kHKHelpUnicode 		      Arbitrary Private Unicode character.
- @constant		kHKClearLineUnicode     Clear Line Unicode character.   
+ @constant		kHKClearLineUnicode     Clear Line Unicode character.
  @constant		kHKForwardDeleteUnicode Forward Delete Unicode character.
- 
+
  @constant		kHKHomeUnicode          Home Unicode character.
  @constant		kHKEndUnicode           End Unicode character
  @constant		kHKPageUpUnicode        Page Up Unicode character.
@@ -149,7 +149,7 @@ enum {
  @constant		kHKDownArrowUnicode     Down Arrow Unicode character.
  @constant		kHKLeftArrowUnicode     Left Arrow Unicode character.
  @constant		kHKRightArrowUnicode    Right Arrow Unicode character.
- 
+
  @constant		kHKEnterUnicode   Enter Unicode character.
  @constant		kHKTabUnicode     Tabulation Unicode character.
  @constant		kHKReturnUnicode  Return Unicode character.
@@ -208,18 +208,18 @@ enum {
 #pragma mark Public Functions Declaration
 
 /*!
- @function 
+ @function
  @abstract   Advanced reverse mapping function.
  @param      character
  @param      modifier On return, first keystroke modifier. Pass <code>NULL</code> if you do not want it.
- @result     Returns virtual keycode of the keystroke needed to generate <code>character</code>, 
+ @result     Returns virtual keycode of the keystroke needed to generate <code>character</code>,
  or kHKInvalidVirtualKeyCode if need more than one keystroke to generate the character, except if character is a deadkey output (eg: ^, ¨, …).
  */
 HK_EXPORT
 HKKeycode HKMapGetKeycodeAndModifierForUnichar(UniChar character, HKModifier *modifier);
 
 /*!
- @function 
+ @function
  @abstract   Advanced reverse mapping function.
  @param      character
  @param      keys On return, an array of virtual keycode.
@@ -227,7 +227,7 @@ HKKeycode HKMapGetKeycodeAndModifierForUnichar(UniChar character, HKModifier *mo
  @param      maxcount Size of keys and modifiers array.
  @result     Returns Count of keystroke needed to generate character. Can be more than maxcount.
  */
-HK_EXPORT 
+HK_EXPORT
 NSUInteger HKMapGetKeycodesAndModifiersForUnichar(UniChar character, HKKeycode *keys, HKModifier *modifiers, NSUInteger maxcount);
 
 /*!
@@ -253,13 +253,13 @@ NSString *HKMapGetCurrentMapName(void);
 /*!
  @function
  @abstract   Returns a String representation of the Shortcut, or nil if character is 0.
- @param      character 
+ @param      character
  @param      modifier If <i>modifier</i> is nil, return a representation of the key Unichar.
  */
-HK_EXPORT 
+HK_EXPORT
 NSString *HKMapGetStringRepresentationForCharacterAndModifier(UniChar character, HKModifier modifier);
 
-HK_EXPORT 
+HK_EXPORT
 NSString *HKMapGetSpeakableStringRepresentationForCharacterAndModifier(UniChar character, HKModifier modifier);
 
 HK_EXPORT

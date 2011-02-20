@@ -65,7 +65,7 @@ OSStatus HKTISKeyMapInit(HKKeyMapRef keyMap) {
     if (noErr == err) {
       const void *data = NULL;
       err = KLGetKeyboardLayoutProperty(ref, kKLKCHRData, (void *)&data);
-      if (noErr == err) 
+      if (noErr == err)
         err = HKKeyMapContextWithKCHRData(data, keyMap->reverse, &keyMap->ctxt);
     }
     if (noErr != err) { WBCLogWarning("Error while trying to get layout data"); }

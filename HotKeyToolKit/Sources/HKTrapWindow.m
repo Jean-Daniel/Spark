@@ -101,7 +101,7 @@ NSString * const kHKTrapWindowDidCatchKeyNotification = @"kHKTrapWindowKeyCaught
     bool valid = true;
     if ([[self delegate] respondsToSelector:@selector(trapWindow:isValidHotKey:modifier:)])
       valid = [[self delegate] trapWindow:self isValidHotKey:[aKey keycode] modifier:[aKey nativeModifier]];
-    
+
     if (valid) {
       NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
                                 WBUInteger([aKey keycode]), kHKEventKeyCodeKey,

@@ -39,7 +39,7 @@ void _HKEventPostKeyStroke(HKKeycode keycode, HKModifier modifier, CGEventSource
     isource = YES;
     source = HKEventCreatePrivateSource();
   }
-  
+
   /* Sending Modifier Keydown events */
   if (kCGEventFlagMaskAlphaShift & modifier) {
     /* Lock Caps Lock */
@@ -57,11 +57,11 @@ void _HKEventPostKeyStroke(HKKeycode keycode, HKModifier modifier, CGEventSource
   if (kCGEventFlagMaskCommand & modifier) {
     __HKEventPostKeyboardEvent(source, kHKVirtualCommandKey, psn, YES, latency);
   }
-  
+
   /* Sending Character Key events */
   __HKEventPostKeyboardEvent(source, keycode , psn, YES, latency);
   __HKEventPostKeyboardEvent(source, keycode, psn, NO, latency);
-  
+
   /* Sending Modifiers Key Up events */
   if (kCGEventFlagMaskCommand & modifier) {
     __HKEventPostKeyboardEvent(source, kHKVirtualCommandKey, psn, NO, latency);
@@ -79,7 +79,7 @@ void _HKEventPostKeyStroke(HKKeycode keycode, HKModifier modifier, CGEventSource
     /* Unlock Caps Lock */
     __HKEventPostKeyboardEvent(source, kHKVirtualCapsLockKey, psn, NO, latency);
   }
-  
+
   if (isource && source) {
     CFRelease(source);
   }
@@ -88,23 +88,23 @@ void _HKEventPostKeyStroke(HKKeycode keycode, HKModifier modifier, CGEventSource
 static
 Boolean _HKEventPostCharacterKeystrokes(UniChar character, CGEventSourceRef source, void *psn, CFIndex latency) {
   /* WARNING: look like CGEvent does not support null source (bug) */
-  BOOL isource = NO; /* YES if internal source and should be released */ 
+  BOOL isource = NO; /* YES if internal source and should be released */
   if (!source) {
     isource = YES;
     source = HKEventCreatePrivateSource();
   }
-  
+
   HKKeycode keys[8];
   HKModifier mods[8];
   NSUInteger count = HKMapGetKeycodesAndModifiersForUnichar(character, keys, mods, 8);
   for (NSUInteger idx = 0; idx < count; idx++) {
     _HKEventPostKeyStroke(keys[idx], mods[idx], source, psn, latency);
   }
-  
+
   if (isource && source) {
     CFRelease(source);
   }
-  
+
   return count > 0;
 }
 
@@ -179,21 +179,21 @@ ProcessSerialNumber _HKGetProcessWithSignature(OSType type) {
       }
     }
   }
-  return serialNumber; 
+  return serialNumber;
 }
 
 ProcessSerialNumber _HKGetProcessWithBundleIdentifier(CFStringRef bundleId) {
   ProcessSerialNumber serialNumber = { kNoProcess, kNoProcess };
   CFPropertyListRef procValue;
   CFDictionaryRef info;
-  
+
   if (!bundleId) {
     return serialNumber;
   }
   while (procNotFound != GetNextProcess(&serialNumber))  {
     info = ProcessInformationCopyDictionary(&serialNumber, kProcessDictionaryIncludeAllInformationMask);
     procValue = CFDictionaryGetValue (info, kCFBundleIdentifierKey);
-    
+
     if (procValue && (CFEqual(procValue , bundleId)) ) {
       CFRelease(info);
       break;
@@ -202,7 +202,7 @@ ProcessSerialNumber _HKGetProcessWithBundleIdentifier(CFStringRef bundleId) {
       CFRelease(info);
     }
   }
-  return serialNumber; 
+  return serialNumber;
 }
 
 #pragma mark -
@@ -231,7 +231,7 @@ ProcessSerialNumber _HKGetProcessWithBundleIdentifier(CFStringRef bundleId) {
     /* Find target and target type */
     HKEventTarget target;
     HKEventTargetType type = kHKEventTargetSystem;
-    
+
     if (signature && signature != kUnknownType) {
       target.signature = signature;
       type = kHKEventTargetSignature;
@@ -239,7 +239,7 @@ ProcessSerialNumber _HKGetProcessWithBundleIdentifier(CFStringRef bundleId) {
       target.bundle = (CFStringRef)bundleId;
       type = kHKEventTargetBundle;
     }
-    
+
     result = HKEventPostKeystrokeToTarget([self keycode], [self nativeModifier], target, type, NULL, latency);
   }
   return result;

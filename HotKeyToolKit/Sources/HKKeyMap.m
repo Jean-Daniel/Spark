@@ -11,7 +11,7 @@
 
 HK_INLINE
 NSString *SpecialChar(UniChar ch) {
-  return [NSString stringWithCharacters:&ch length:1]; 
+  return [NSString stringWithCharacters:&ch length:1];
 }
 
 #define kHotKeyToolKitBundleIdentifier @"org.shadowlab.HotKeyToolKit"
@@ -35,9 +35,9 @@ HKKeyMapRef SharedKeyMap(void) {
 
 #pragma mark -
 #pragma mark Statics Functions Declaration
-static 
+static
 HKKeycode HKMapGetSpecialKeyCodeForCharacter(UniChar charCode);
-static 
+static
 UniChar HKMapGetSpecialCharacterForKeycode(HKKeycode keycode);
 
 static
@@ -57,7 +57,7 @@ UniChar HKMapGetUnicharForKeycodeAndModifier(HKKeycode keycode, HKModifier aModi
   if (kHKNilUnichar == unicode)
     unicode = aModifier ? HKKeyMapGetUnicharForKeycodeAndModifier(SharedKeyMap(), keycode, aModifier) :
     HKKeyMapGetUnicharForKeycode(SharedKeyMap(), keycode);
-  return unicode;  
+  return unicode;
 }
 
 NSString *HKMapGetCurrentMapName(void) {
@@ -105,13 +105,13 @@ HKKeycode HKMapGetKeycodeAndModifierForUnichar(UniChar character, HKModifier *mo
   /* if not found, or need more than 2 keystroke */
   if (!cnt || cnt > 2 || kHKInvalidVirtualKeyCode == key[0])
     return kHKInvalidVirtualKeyCode;
-  
+
   /* dead key: the second keycode is space key */
   if (cnt == 2 && key[1] != kHKVirtualSpaceKey)
     return kHKInvalidVirtualKeyCode;
-  
+
   if (modifier) *modifier = mod[0];
-  
+
   return key[0];
 }
 
@@ -215,7 +215,7 @@ HKKeycode HKMapGetSpecialKeyCodeForCharacter(UniChar character) {
     case kHKHelpUnicode:
       keyCode = kHKVirtualHelpKey;
       break;
-    case kHKDeleteUnicode: 
+    case kHKDeleteUnicode:
       keyCode = kHKVirtualDeleteKey;
       break;
     case kHKTabUnicode:
@@ -234,7 +234,7 @@ HKKeycode HKMapGetSpecialKeyCodeForCharacter(UniChar character) {
       keyCode = kHKVirtualForwardDeleteKey;
       break;
       /* navigation keys */
-    case kHKHomeUnicode: 
+    case kHKHomeUnicode:
       keyCode = kHKVirtualHomeKey;
       break;
     case kHKEndUnicode:
@@ -455,10 +455,10 @@ NSString *HKMapGetStringForUnichar(UniChar character) {
       break;
     case kHKReturnUnicode:
       character = 0x21a9;
-      break;  
+      break;
     case kHKEscapeUnicode:
       character = 0x238b;
-      break;  
+      break;
     case kHKForwardDeleteUnicode:
       character = 0x2326;
       break;
@@ -468,10 +468,10 @@ NSString *HKMapGetStringForUnichar(UniChar character) {
       break;
     case kHKEndUnicode:
       character = 0x2198;
-      break;  
+      break;
     case kHKPageUpUnicode:
       character = 0x21de;
-      break;  
+      break;
     case kHKPageDownUnicode:
       character = 0x21df;
       break;

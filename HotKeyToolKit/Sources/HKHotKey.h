@@ -17,14 +17,14 @@
 @discussion	It uses an UniChar and a virtual keycode to store the shortcut so if the keyboard layout change, the shortcut change too.
 */
 HK_OBJC_EXPORT
-@interface HKHotKey : NSObject <NSCopying, NSCoding> { 
+@interface HKHotKey : NSObject <NSCopying, NSCoding> {
   @private
   id hk_target;
   SEL hk_action;
   NSTimer *hk_repeatTimer;
   NSTimeInterval hk_repeatInterval;
   NSTimeInterval hk_iRepeatInterval;
-  
+
   HKModifier hk_mask;
   HKKeycode hk_keycode;
   UniChar hk_character;
@@ -63,7 +63,7 @@ HK_OBJC_EXPORT
   @method
  @abstract Creates and returns an new Hot Key with character set to <i>character</i> and modifier set to <i>modifier</i>.
  @param character An UniChar.
- @param modifier 
+ @param modifier
  @result Returns a new HotKey with keystrock set to <i>character</i> and <i>modifier</i>.
  */
 + (id)hotkeyWithUnichar:(UniChar)character modifier:(NSUInteger)modifier;
@@ -133,7 +133,7 @@ HK_OBJC_EXPORT
  @discussion Character is an Unichar, but is not always printable. Some keyboard keys haven't a glyph
  representation. To obtain a printable representation use HKModifierStringForMask() with a nil modifier.
  When setting this property, if the character could not be generatd by a single key event without modifier,
- this method will try to find first keycode used to output character, and replace character by a output of this keycode. 
+ this method will try to find first keycode used to output character, and replace character by a output of this keycode.
  */
 @property(nonatomic) UniChar character;
 
