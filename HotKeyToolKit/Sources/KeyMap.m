@@ -99,39 +99,37 @@ OSStatus HKKeyMapCheckCurrentMap(HKKeyMapRef keyMap, Boolean *wasChanged) {
 }
 
 NSUInteger HKKeyMapGetKeycodesForUnichar(HKKeyMapRef keyMap, UniChar character, HKKeycode *keys, HKModifier *modifiers, NSUInteger maxsize) {
-  check(keyMap);
+  assert(keyMap);
   NSUInteger count = 0;
-  if (keyMap->reverse && keyMap->ctxt.reverseMap) {
+  if (keyMap && keyMap->reverse && keyMap->ctxt.reverseMap) {
     count = keyMap->ctxt.reverseMap(keyMap->ctxt.data, character, keys, modifiers, maxsize);
   }
   return count;
 }
 
 UniChar HKKeyMapGetUnicharForKeycode(HKKeyMapRef keyMap, HKKeycode virtualKeyCode) {
-  check(keyMap);
+  assert(keyMap);
   UniChar result = kHKNilUnichar;
-  if (keyMap->ctxt.baseMap) {
+  if (keyMap && keyMap->ctxt.baseMap)
     result = keyMap->ctxt.baseMap(keyMap->ctxt.data, virtualKeyCode);
-  }
   return result;
 }
 
 UniChar HKKeyMapGetUnicharForKeycodeAndModifier(HKKeyMapRef keyMap, HKKeycode virtualKeyCode, HKModifier modifiers) {
-  check(keyMap);
+  assert(keyMap);
   UniChar result = kHKNilUnichar;
-  if (keyMap->ctxt.fullMap) {
+  if (keyMap && keyMap->ctxt.fullMap)
     result = keyMap->ctxt.fullMap(keyMap->ctxt.data, virtualKeyCode, modifiers);
-  }
   return result;
 }
 
-CFStringRef HKKeyMapGetName(HKKeyMapRef keymap) {
-  check(keymap);
-  return keymap->lctxt.getName(keymap);
+CFStringRef HKKeyMapGetName(HKKeyMapRef keyMap) {
+  assert(keyMap);
+  return keyMap ? keyMap->lctxt.getName(keyMap) : NULL;
 }
 
-CFStringRef HKKeyMapGetLocalizedName(HKKeyMapRef keymap) {
-  check(keymap);
-  return keymap->lctxt.getLocalizedName(keymap);
+CFStringRef HKKeyMapGetLocalizedName(HKKeyMapRef keyMap) {
+  assert(keyMap);
+  return keyMap ? keyMap->lctxt.getLocalizedName(keyMap) : NULL;
 }
 
