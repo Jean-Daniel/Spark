@@ -23,6 +23,10 @@ NSString* const kSparkObjectNameKey = @"SparkObjectName";
 static
 NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
 
+@interface SparkObject ()
+- (id)sp_initWithSerializedValues:(NSDictionary *)plist NS_INIT_METHOD;
+@end
+
 @implementation SparkObject
 
 + (BOOL)automaticallyNotifiesObserversForKey:(NSString *)key {

@@ -261,7 +261,7 @@
   return se_entry;
 }
 - (void)setEntry:(SparkEntry *)anEntry {
-  if (!WBSetterRetain(&se_entry, anEntry))
+  if (!WBSetterRetain(se_entry, anEntry))
     return;
   
   /* Update plugins list if needed */
@@ -420,7 +420,7 @@
       if ([se_view autoresizingMask] & NSViewWidthSizable) {
         vrect.size.width = se_min.width;
       } else {
-        vrect.origin.x = round(AVG(se_min.width, -NSWidth(vrect)));
+        vrect.origin.x = round((se_min.width - NSWidth(vrect)) / 2);
       }
     }
     if (NSHeight(vrect) < se_min.height) {
@@ -428,7 +428,7 @@
       if ([se_view autoresizingMask] & NSViewHeightSizable) {
         vrect.size.height = se_min.height;
       } else {
-        vrect.origin.y = round(AVG(se_min.height, -NSHeight(vrect)));
+        vrect.origin.y = round((se_min.height - NSHeight(vrect)) / 2);
       }
     }
     [se_view setFrame:vrect];

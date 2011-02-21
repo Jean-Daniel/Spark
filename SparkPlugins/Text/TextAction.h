@@ -8,31 +8,31 @@
 
 #import <SparkKit/SparkPlugInAPI.h>
 
-WB_PRIVATE
+SPARK_PRIVATE
 NSString * const kKeyboardActionBundleIdentifier;
 
 #define kKeyboardActionBundle		[NSBundle bundleWithIdentifier:kKeyboardActionBundleIdentifier]
 
-WB_INLINE
+SPARK_INLINE
 bool TADateFormatterCustomFormat(NSInteger format) {
   return (format & 0xffff) == 0;
 }
 
-WB_INLINE
+SPARK_INLINE
 CFDateFormatterStyle TADateFormatterStyle(NSInteger format) {
   return format & 0xff;
 }
-WB_INLINE 
+SPARK_INLINE
 NSInteger TASetDateFormatterStyle(NSInteger format, CFDateFormatterStyle style) {
   format &= ~0xff;
   return format | style;
 }
 
-WB_INLINE
+SPARK_INLINE
 CFDateFormatterStyle TATimeFormatterStyle(NSInteger format) {
   return (format >> 8) & 0xff;
 }
-WB_INLINE 
+SPARK_INLINE
 NSInteger TASetTimeFormatterStyle(NSInteger format, CFDateFormatterStyle style) {
   format &= ~0xff00;
   return format | (style << 8);

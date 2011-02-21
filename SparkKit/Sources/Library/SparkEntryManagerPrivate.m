@@ -147,7 +147,7 @@
 			do {
 				if ([[child action] isEqual:[ghost action]])
 					[child setAction:newAction];
-			} while (child = [child sibling]);
+			} while ((child = [child sibling]));
 		}
 	}
 	

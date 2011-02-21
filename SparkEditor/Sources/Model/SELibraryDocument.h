@@ -6,6 +6,8 @@
  *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
  */
 
+#import <SparkKit/SparkKit.h>
+
 @class SparkPlugIn, SparkEntry;
 @class SparkLibrary, SparkApplication;
 @class SEEntryEditor, SELibraryWindow;
@@ -35,16 +37,16 @@
 
 @end
 
-WB_PRIVATE
+SPARK_PRIVATE
 NSString * const SEPreviousApplicationKey;
-WB_PRIVATE
+SPARK_PRIVATE
 NSString * const SEApplicationDidChangeNotification;
-WB_PRIVATE
+SPARK_PRIVATE
 NSString * const SEDocumentDidSetLibraryNotification;
-WB_PRIVATE
+SPARK_PRIVATE
 NSString * const SELibraryDocumentDidReloadNotification;
 
-WB_PRIVATE
+SPARK_PRIVATE
 SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library);
 
 @interface SELibraryDocument (SEFirstRun)

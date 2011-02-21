@@ -215,7 +215,7 @@ NSString * const SparkEntryWillRemoveChildNotification = @"SparkEntryWillRemoveC
 	NSMutableArray *variants = [NSMutableArray array];
 	do {
 		[variants addObject:item];
-	} while (item = item->sp_child);
+	} while ((item = item->sp_child));
 	
 	return variants;
 }
@@ -227,7 +227,7 @@ NSString * const SparkEntryWillRemoveChildNotification = @"SparkEntryWillRemoveC
 		do {
 			if ([variant applicationUID] == uid)
 				return variant;			
-		} while (variant = variant->sp_child);
+		} while ((variant = variant->sp_child));
 	} else if ([self isRoot]) {
 		/* orphan specific entry */
 		if ([self applicationUID] == uid)
@@ -309,7 +309,7 @@ NSString * const SparkEntryWillRemoveChildNotification = @"SparkEntryWillRemoveC
 	SparkEntry *child = sp_child;
 	do {
 		[children addObject:child];
-	} while (child = [child sibling]);
+	} while ((child = [child sibling]));
 	
 	return children;
 }
@@ -347,7 +347,7 @@ NSString * const SparkEntryWillRemoveChildNotification = @"SparkEntryWillRemoveC
 			[aChild release];
 			break;
 		}
-	} while (item = item->sp_child);
+	} while ((item = item->sp_child));
 }
 - (void)removeAllChildren {
 	NSParameterAssert([self isSystem]);

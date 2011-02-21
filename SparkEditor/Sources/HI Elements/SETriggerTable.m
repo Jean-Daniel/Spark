@@ -8,7 +8,7 @@
 
 #import "SETriggerTable.h"
 
-#import WBHEADER(NSIndexSet+WonderBox.h)
+#import WBHEADER(WBIndexSetIterator.h)
 
 @implementation SETriggerTable
 
@@ -88,11 +88,13 @@
   NSSize size = [str sizeWithAttributes:attr];
   /* backup image before edit */
   img = [[img copy] autorelease];
-  CGFloat x = ([img size].width - size.width) / 2;
-  CGFloat y =  ([img size].height - size.height) / 2;
-  [img lockFocus];
-  [str drawAtPoint:NSMakePoint(x, y+1) withAttributes:attr];
-  [img unlockFocus];
+  if (img) {
+    CGFloat x = ([img size].width - size.width) / 2;
+    CGFloat y =  ([img size].height - size.height) / 2;
+    [img lockFocus];
+    [str drawAtPoint:NSMakePoint(x, y+1) withAttributes:attr];
+    [img unlockFocus];
+  }
   return img;
 }
 
@@ -111,10 +113,8 @@
   NSSize size = NSMakeSize(width + 1, [anImage size].height + 1);
   [anImage setSize:size];
   
-  NSUInteger idx;
   CGFloat offset = CGFLOAT_MAX;
-  WBIndexEnumerator *indexes = [dragRows indexEnumerator];
-  while ((idx = [indexes nextIndex]) != NSNotFound) {
+  WBIndexesIterator(idx, dragRows) {
     offset = MIN(NSMinY([self rectOfRow:idx]), offset);
   }
   offset--;
@@ -129,8 +129,7 @@
   CGContextSetGrayFillColor(ctxt, .80f, .45f);
   CGContextSetGrayStrokeColor(ctxt, .50f, 1);
   
-  indexes = [dragRows indexEnumerator];
-  while ((idx = [indexes nextIndex]) != NSNotFound) {
+  WBIndexesIterator(idx, dragRows) {
     NSRect rect = [self rectOfRow:idx];
     rect.size.width = width;
     rect.size.height -= 2;

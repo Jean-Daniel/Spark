@@ -93,6 +93,7 @@ NSString * const SparkActionLoaderDidRegisterPlugInNotification = @"SparkActionL
     SparkPlugIn *plugin = [[SparkPlugIn alloc] initWithClass:aClass identifier:[aClass identifier]];
     if (plugin) {
       [self registerPlugIn:plugin withIdentifier:[plugin identifier]];
+      [plugin autorelease];
     }
     return plugin;
   }

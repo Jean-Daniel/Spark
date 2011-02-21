@@ -638,7 +638,8 @@ NSString *_SparkLibraryCopyUUIDString(SparkLibrary *aLibrary) {
 }
 
 NSString *SparkLibraryFolder(void) {
-  NSString *folder = [WBFSFindFolder(kApplicationSupportFolderType, kUserDomain, true) stringByAppendingPathComponent:kSparkFolderName];
+  NSURL *url = WBFSFindFolder(kApplicationSupportFolderType, kUserDomain, true);
+  NSString *folder = [[url path] stringByAppendingPathComponent:kSparkFolderName];
   if (folder && ![[NSFileManager defaultManager] fileExistsAtPath:folder]) {
     [[NSFileManager defaultManager] createDirectoryAtPath:folder withIntermediateDirectories:YES attributes:nil error:NULL];
   }
@@ -660,12 +661,14 @@ NSString *SparkLibraryIconFolder(SparkLibrary *library) {
 
 static
 NSString *SparkLibraryPreviousLibraryPath(void) {
-  NSString *folder = [WBFSFindFolder(kPreferencesFolderType, kUserDomain, false) stringByAppendingPathComponent:kSparkFolderName];
+  NSURL *url = WBFSFindFolder(kPreferencesFolderType, kUserDomain, false);
+  NSString *folder = [[url path] stringByAppendingPathComponent:kSparkFolderName];
   return [folder stringByAppendingPathComponent:@"Spark3 Library.splib"];
 }
 static
 NSString *SparkLibraryVersion1LibraryPath(void) {
-  NSString *folder = [WBFSFindFolder(kPreferencesFolderType, kUserDomain, false) stringByAppendingPathComponent:kSparkFolderName];
+  NSURL *url = WBFSFindFolder(kPreferencesFolderType, kUserDomain, false);
+  NSString *folder = [[url path] stringByAppendingPathComponent:kSparkFolderName];
   return [folder stringByAppendingPathComponent:@"SparkLibrary.splib"];
 }
 

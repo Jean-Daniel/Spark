@@ -8,14 +8,14 @@
 
 #import <SparkKit/SparkAppleScriptSuite.h>
 
-WB_PRIVATE
+SPARK_PRIVATE
 NSArray *gSortByNameDescriptors;
-WB_PRIVATE
+SPARK_PRIVATE
 NSString * const SparkEntriesPboardType;
-WB_PRIVATE
+SPARK_PRIVATE
 NSString * const SESparkEditorDidChangePlugInStatusNotification;
 
-WB_PRIVATE
+SPARK_PRIVATE
 void SEPopulatePlugInMenu(NSMenu *menu);
 
 @class SparkLibrary;

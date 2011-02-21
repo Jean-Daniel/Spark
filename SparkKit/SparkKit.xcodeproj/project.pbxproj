@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1B17700E130F42D800E0A389 /* WBEnumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B17700C130F42D800E0A389 /* WBEnumerator.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1B17700F130F42D800E0A389 /* WBEnumerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B17700D130F42D800E0A389 /* WBEnumerator.m */; };
+		1B177013130F42FB00E0A389 /* WBImageFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B177011130F42FB00E0A389 /* WBImageFunctions.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1B177014130F42FB00E0A389 /* WBImageFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B177012130F42FB00E0A389 /* WBImageFunctions.m */; };
+		1B17713A130F471900E0A389 /* WBDSFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B177138130F471900E0A389 /* WBDSFunctions.c */; };
+		1B17713B130F471900E0A389 /* WBDSFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B177139130F471900E0A389 /* WBDSFunctions.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1B1774FB130F4C1900E0A389 /* WBIndexSetIterator.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B1774F9130F4C1900E0A389 /* WBIndexSetIterator.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1B1774FC130F4C1900E0A389 /* WBIndexSetIterator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1774FA130F4C1900E0A389 /* WBIndexSetIterator.m */; };
 		1B184C890ED07D0D003E2346 /* WBThreadPort.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B184C870ED07D0D003E2346 /* WBThreadPort.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		1B184C8A0ED07D0D003E2346 /* WBThreadPort.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B184C880ED07D0D003E2346 /* WBThreadPort.m */; };
 		1B184C9A0ED07D41003E2346 /* WBCDSAFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B184C900ED07D41003E2346 /* WBCDSAFunctions.c */; };
@@ -132,6 +140,22 @@
 		1BE316F80D3815C9005C3FB2 /* WBViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316E40D3815C9005C3FB2 /* WBViewController.m */; };
 		1BE316F90D3815C9005C3FB2 /* WBWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316E50D3815C9005C3FB2 /* WBWindowController.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		1BE316FA0D3815C9005C3FB2 /* WBWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316E60D3815C9005C3FB2 /* WBWindowController.m */; };
+		1BE458FA130F58C000A6A133 /* WBSplitview.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE458F8130F58C000A6A133 /* WBSplitview.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1BE458FB130F58C000A6A133 /* WBSplitview.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE458F9130F58C000A6A133 /* WBSplitview.m */; };
+		1BE45900130F58D100A6A133 /* WBHSplitBar.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1BE458FD130F58D100A6A133 /* WBHSplitBar.tiff */; };
+		1BE45901130F58D100A6A133 /* WBSplitDot.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1BE458FE130F58D100A6A133 /* WBSplitDot.tiff */; };
+		1BE45902130F58D100A6A133 /* WBVSplitBar.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1BE458FF130F58D100A6A133 /* WBVSplitBar.tiff */; };
+		1BE4591E130F593500A6A133 /* WBTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE45918130F593500A6A133 /* WBTemplate.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1BE4591F130F593500A6A133 /* WBTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE45919130F593500A6A133 /* WBTemplate.m */; };
+		1BE45920130F593500A6A133 /* WBTemplateParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE4591A130F593500A6A133 /* WBTemplateParser.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1BE45921130F593500A6A133 /* WBTemplateParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE4591B130F593500A6A133 /* WBTemplateParser.m */; };
+		1BE45922130F593500A6A133 /* WBXMLTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE4591C130F593500A6A133 /* WBXMLTemplate.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1BE45923130F593500A6A133 /* WBXMLTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE4591D130F593500A6A133 /* WBXMLTemplate.m */; };
+		1BE4593F130F598D00A6A133 /* WBHeaderView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE4593D130F598D00A6A133 /* WBHeaderView.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1BE45940130F598D00A6A133 /* WBHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE4593E130F598D00A6A133 /* WBHeaderView.m */; };
+		1BE45944130F599600A6A133 /* WBHeader-down.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1BE45941130F599600A6A133 /* WBHeader-down.tiff */; };
+		1BE45945130F599600A6A133 /* WBHeader.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1BE45942130F599600A6A133 /* WBHeader.tiff */; };
+		1BE45946130F599600A6A133 /* WBHeaderMenu.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1BE45943130F599600A6A133 /* WBHeaderMenu.tiff */; };
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
 		9805FD390773B47700B1A341 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9805FD370773B47700B1A341 /* Localizable.strings */; };
@@ -243,6 +267,14 @@
 		1B0947110D68BCCB00E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = French; path = French.lproj/SparkPlugin.xib; sourceTree = "<group>"; };
 		1B0947120D68BCD100E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = French; path = French.lproj/SparkMultiAlert.xib; sourceTree = "<group>"; };
 		1B0947140D68BCDB00E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = French; path = French.lproj/SparkPluginView.xib; sourceTree = "<group>"; };
+		1B17700C130F42D800E0A389 /* WBEnumerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBEnumerator.h; sourceTree = "<group>"; };
+		1B17700D130F42D800E0A389 /* WBEnumerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBEnumerator.m; sourceTree = "<group>"; };
+		1B177011130F42FB00E0A389 /* WBImageFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBImageFunctions.h; sourceTree = "<group>"; };
+		1B177012130F42FB00E0A389 /* WBImageFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBImageFunctions.m; sourceTree = "<group>"; };
+		1B177138130F471900E0A389 /* WBDSFunctions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WBDSFunctions.c; sourceTree = "<group>"; };
+		1B177139130F471900E0A389 /* WBDSFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBDSFunctions.h; sourceTree = "<group>"; };
+		1B1774F9130F4C1900E0A389 /* WBIndexSetIterator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBIndexSetIterator.h; sourceTree = "<group>"; };
+		1B1774FA130F4C1900E0A389 /* WBIndexSetIterator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBIndexSetIterator.m; sourceTree = "<group>"; };
 		1B184C870ED07D0D003E2346 /* WBThreadPort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBThreadPort.h; sourceTree = "<group>"; };
 		1B184C880ED07D0D003E2346 /* WBThreadPort.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBThreadPort.m; sourceTree = "<group>"; };
 		1B184C900ED07D41003E2346 /* WBCDSAFunctions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WBCDSAFunctions.c; sourceTree = "<group>"; };
@@ -368,6 +400,22 @@
 		1BE316E40D3815C9005C3FB2 /* WBViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBViewController.m; sourceTree = "<group>"; };
 		1BE316E50D3815C9005C3FB2 /* WBWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBWindowController.h; sourceTree = "<group>"; };
 		1BE316E60D3815C9005C3FB2 /* WBWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBWindowController.m; sourceTree = "<group>"; };
+		1BE458F8130F58C000A6A133 /* WBSplitview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBSplitview.h; sourceTree = "<group>"; };
+		1BE458F9130F58C000A6A133 /* WBSplitview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBSplitview.m; sourceTree = "<group>"; };
+		1BE458FD130F58D100A6A133 /* WBHSplitBar.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = WBHSplitBar.tiff; sourceTree = "<group>"; };
+		1BE458FE130F58D100A6A133 /* WBSplitDot.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = WBSplitDot.tiff; sourceTree = "<group>"; };
+		1BE458FF130F58D100A6A133 /* WBVSplitBar.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = WBVSplitBar.tiff; sourceTree = "<group>"; };
+		1BE45918130F593500A6A133 /* WBTemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTemplate.h; sourceTree = "<group>"; };
+		1BE45919130F593500A6A133 /* WBTemplate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTemplate.m; sourceTree = "<group>"; };
+		1BE4591A130F593500A6A133 /* WBTemplateParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTemplateParser.h; sourceTree = "<group>"; };
+		1BE4591B130F593500A6A133 /* WBTemplateParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTemplateParser.m; sourceTree = "<group>"; };
+		1BE4591C130F593500A6A133 /* WBXMLTemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBXMLTemplate.h; sourceTree = "<group>"; };
+		1BE4591D130F593500A6A133 /* WBXMLTemplate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBXMLTemplate.m; sourceTree = "<group>"; };
+		1BE4593D130F598D00A6A133 /* WBHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBHeaderView.h; sourceTree = "<group>"; };
+		1BE4593E130F598D00A6A133 /* WBHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBHeaderView.m; sourceTree = "<group>"; };
+		1BE45941130F599600A6A133 /* WBHeader-down.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "WBHeader-down.tiff"; sourceTree = "<group>"; };
+		1BE45942130F599600A6A133 /* WBHeader.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = WBHeader.tiff; sourceTree = "<group>"; };
+		1BE45943130F599600A6A133 /* WBHeaderMenu.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = WBHeaderMenu.tiff; sourceTree = "<group>"; };
 		8DC2EF5B0486A6940098B216 /* SparkKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SparkKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9805FD380773B47700B1A341 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		980EEB2D0A7E8A0B00013CF5 /* SimpleList.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SimpleList.tiff; sourceTree = "<group>"; };
@@ -639,6 +687,10 @@
 			isa = PBXGroup;
 			children = (
 				1BB9868D0D382AD00074D18E /* Resources */,
+				1BE4593D130F598D00A6A133 /* WBHeaderView.h */,
+				1BE4593E130F598D00A6A133 /* WBHeaderView.m */,
+				1BE458F8130F58C000A6A133 /* WBSplitview.h */,
+				1BE458F9130F58C000A6A133 /* WBSplitview.m */,
 				1BCDCBEE103596F200EAD9FE /* WBGradient.h */,
 				1BCDCBEF103596F200EAD9FE /* WBGradient.m */,
 				1BAD406C130DCA940066B1AB /* WBTextFieldCell.h */,
@@ -660,6 +712,12 @@
 		1BB9868D0D382AD00074D18E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				1BE45942130F599600A6A133 /* WBHeader.tiff */,
+				1BE45943130F599600A6A133 /* WBHeaderMenu.tiff */,
+				1BE45941130F599600A6A133 /* WBHeader-down.tiff */,
+				1BE458FE130F58D100A6A133 /* WBSplitDot.tiff */,
+				1BE458FD130F58D100A6A133 /* WBHSplitBar.tiff */,
+				1BE458FF130F58D100A6A133 /* WBVSplitBar.tiff */,
 				1BAD401F130DC8B90066B1AB /* WBProgress.strings */,
 				1BB986950D382AD00074D18E /* WBProgressPanel.xib */,
 			);
@@ -670,6 +728,8 @@
 			isa = PBXGroup;
 			children = (
 				1B5D8CA50EE2FD3500BD1EAF /* Categories */,
+				1B1774F9130F4C1900E0A389 /* WBIndexSetIterator.h */,
+				1B1774FA130F4C1900E0A389 /* WBIndexSetIterator.m */,
 				1BE316300D38138B005C3FB2 /* WBAlias.h */,
 				1BE316310D38138B005C3FB2 /* WBAlias.m */,
 				1B184C870ED07D0D003E2346 /* WBThreadPort.h */,
@@ -680,6 +740,8 @@
 				1BE316350D38138B005C3FB2 /* WBApplication.m */,
 				1BE316320D38138B005C3FB2 /* WBAliasedApplication.h */,
 				1BE316330D38138B005C3FB2 /* WBAliasedApplication.m */,
+				1B17700C130F42D800E0A389 /* WBEnumerator.h */,
+				1B17700D130F42D800E0A389 /* WBEnumerator.m */,
 				1BCDCBF21035970400EAD9FE /* WBInterpolationFunction.h */,
 				1BCDCBF31035970400EAD9FE /* WBInterpolationFunction.m */,
 				1BE3163A0D38138B005C3FB2 /* WBPluginLoader.h */,
@@ -693,6 +755,8 @@
 		1BE316440D38138B005C3FB2 /* Functions */ = {
 			isa = PBXGroup;
 			children = (
+				1B177138130F471900E0A389 /* WBDSFunctions.c */,
+				1B177139130F471900E0A389 /* WBDSFunctions.h */,
 				1B5D8E540EE3016F00BD1EAF /* WBBase64.h */,
 				1B5D8E530EE3016F00BD1EAF /* WBBase64.c */,
 				1BCDCA941035919B00EAD9FE /* WBFunctions.h */,
@@ -707,6 +771,8 @@
 				1BE316520D38138B005C3FB2 /* WBFSFunctions.m */,
 				1BA3812D0EFE6F5F00CF5D07 /* WBFinderSuite.h */,
 				1BA3812E0EFE6F5F00CF5D07 /* WBFinderSuite.c */,
+				1B177011130F42FB00E0A389 /* WBImageFunctions.h */,
+				1B177012130F42FB00E0A389 /* WBImageFunctions.m */,
 				1BE316550D38138B005C3FB2 /* WBIOKitFunctions.c */,
 				1BE316560D38138B005C3FB2 /* WBIOKitFunctions.h */,
 				1B5D8C580EE2FC9100BD1EAF /* WBObjCRuntime.h */,
@@ -752,6 +818,19 @@
 				1BE316E60D3815C9005C3FB2 /* WBWindowController.m */,
 			);
 			path = AppKit;
+			sourceTree = "<group>";
+		};
+		1BE45917130F593500A6A133 /* Templates */ = {
+			isa = PBXGroup;
+			children = (
+				1BE45918130F593500A6A133 /* WBTemplate.h */,
+				1BE45919130F593500A6A133 /* WBTemplate.m */,
+				1BE4591A130F593500A6A133 /* WBTemplateParser.h */,
+				1BE4591B130F593500A6A133 /* WBTemplateParser.m */,
+				1BE4591C130F593500A6A133 /* WBXMLTemplate.h */,
+				1BE4591D130F593500A6A133 /* WBXMLTemplate.m */,
+			);
+			path = Templates;
 			sourceTree = "<group>";
 		};
 		984A38600A60036E00DA6455 /* Loader */ = {
@@ -874,6 +953,7 @@
 				1BB9868C0D382AD00074D18E /* Interface */,
 				1BB983680D381ECC0074D18E /* BezelItem */,
 				1BE316440D38138B005C3FB2 /* Functions */,
+				1BE45917130F593500A6A133 /* Templates */,
 				1BE3162F0D38138B005C3FB2 /* Foundation */,
 			);
 			name = WonderBox;
@@ -1013,6 +1093,15 @@
 				1BCDCBF41035970400EAD9FE /* WBInterpolationFunction.h in Headers */,
 				1BAD4027130DC8E30066B1AB /* WBBase.h in Headers */,
 				1BAD406E130DCA940066B1AB /* WBTextFieldCell.h in Headers */,
+				1B17700E130F42D800E0A389 /* WBEnumerator.h in Headers */,
+				1B177013130F42FB00E0A389 /* WBImageFunctions.h in Headers */,
+				1B17713B130F471900E0A389 /* WBDSFunctions.h in Headers */,
+				1B1774FB130F4C1900E0A389 /* WBIndexSetIterator.h in Headers */,
+				1BE458FA130F58C000A6A133 /* WBSplitview.h in Headers */,
+				1BE4591E130F593500A6A133 /* WBTemplate.h in Headers */,
+				1BE45920130F593500A6A133 /* WBTemplateParser.h in Headers */,
+				1BE45922130F593500A6A133 /* WBXMLTemplate.h in Headers */,
+				1BE4593F130F598D00A6A133 /* WBHeaderView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1119,6 +1208,12 @@
 				1B6DACF80D0CA1BF00F352CC /* SparkPlugin.xib in Resources */,
 				1BB986B70D382AD10074D18E /* WBProgressPanel.xib in Resources */,
 				1BAD4021130DC8B90066B1AB /* WBProgress.strings in Resources */,
+				1BE45900130F58D100A6A133 /* WBHSplitBar.tiff in Resources */,
+				1BE45901130F58D100A6A133 /* WBSplitDot.tiff in Resources */,
+				1BE45902130F58D100A6A133 /* WBVSplitBar.tiff in Resources */,
+				1BE45944130F599600A6A133 /* WBHeader-down.tiff in Resources */,
+				1BE45945130F599600A6A133 /* WBHeader.tiff in Resources */,
+				1BE45946130F599600A6A133 /* WBHeaderMenu.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1219,6 +1314,15 @@
 				1BCDCBF1103596F200EAD9FE /* WBGradient.m in Sources */,
 				1BCDCBF51035970400EAD9FE /* WBInterpolationFunction.m in Sources */,
 				1BAD406F130DCA940066B1AB /* WBTextFieldCell.m in Sources */,
+				1B17700F130F42D800E0A389 /* WBEnumerator.m in Sources */,
+				1B177014130F42FB00E0A389 /* WBImageFunctions.m in Sources */,
+				1B17713A130F471900E0A389 /* WBDSFunctions.c in Sources */,
+				1B1774FC130F4C1900E0A389 /* WBIndexSetIterator.m in Sources */,
+				1BE458FB130F58C000A6A133 /* WBSplitview.m in Sources */,
+				1BE4591F130F593500A6A133 /* WBTemplate.m in Sources */,
+				1BE45921130F593500A6A133 /* WBTemplateParser.m in Sources */,
+				1BE45923130F593500A6A133 /* WBXMLTemplate.m in Sources */,
+				1BE45940130F598D00A6A133 /* WBHeaderView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

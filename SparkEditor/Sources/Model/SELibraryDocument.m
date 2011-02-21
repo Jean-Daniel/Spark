@@ -250,6 +250,7 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
     SparkLibraryUnregisterLibrary(previous);
     
     [self setLibrary:library];
+    [library release];
     
     [previous unload];
     [previous release];

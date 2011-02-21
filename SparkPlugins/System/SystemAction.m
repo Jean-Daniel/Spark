@@ -303,7 +303,7 @@ bail:
   return sa_uname;
 }
 - (void)setUserName:(NSString *)aName {
-  WBSetterRetain(&sa_uname, aName);
+  WBSetterRetain(sa_uname, aName);
 }
 
 /*
@@ -607,8 +607,8 @@ OSType SystemActionFromFlag(int flag) {
 }
 - (id)initWithSerializedValues:(NSDictionary *)plist {
   [self release];
-  SystemAction *action;
-  if (action = [[SystemAction alloc] initWithSerializedValues:plist]) {
+  SystemAction *action = [[SystemAction alloc] initWithSerializedValues:plist];
+  if (action) {
     [action setAction:SystemActionFromFlag([[plist objectForKey:@"PowerAction"] intValue])];
     [action setShouldConfirm:YES];
     

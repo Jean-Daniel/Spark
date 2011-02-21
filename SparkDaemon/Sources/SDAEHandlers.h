@@ -9,5 +9,5 @@
 
 #import <SparkKit/SparkAppleScriptSuite.h>
 
-WB_PRIVATE
+SPARK_PRIVATE
 OSStatus SDGetEditorIsTrapping(Boolean *trapping);

@@ -94,9 +94,10 @@ WBGradientDefinition sFocusShadingInfo = {
   static CGLayerRef sHasFocus = nil;
   static CGLayerRef sHighlighted = nil;
   if (!sHighlighted) {
+    CGContextRef ctxt = [NSGraphicsContext currentGraphicsPort];
     WBGradientBuilder *builder = [[WBGradientBuilder alloc] initWithColorSpace:[NSColorSpace genericRGBColorSpace]
                                                                     definition:&sHighlightShadingInfo];
-    sHighlighted = [builder newLayerWithVerticalGradient:CGSizeMake(64, [self rowHeight] + 2) scale:true context:WBCGContextGetCurrent()];
+    sHighlighted = [builder newLayerWithVerticalGradient:CGSizeMake(64, [self rowHeight] + 2) scale:true context:ctxt];
     [builder release];
     /* border-top */
     CGContextRef gctxt = CGLayerGetContext(sHighlighted);
@@ -105,9 +106,10 @@ WBGradientDefinition sFocusShadingInfo = {
     CGContextStrokeLineSegments(gctxt, line, 2);
   }
   if (!sHasFocus) {
+    CGContextRef ctxt = [NSGraphicsContext currentGraphicsPort];
     WBGradientBuilder *builder = [[WBGradientBuilder alloc] initWithColorSpace:[NSColorSpace genericRGBColorSpace]
                                                                     definition:&sFocusShadingInfo];
-    sHasFocus = [builder newLayerWithVerticalGradient:CGSizeMake(64, [self rowHeight] + 2) scale:true context:WBCGContextGetCurrent()];
+    sHasFocus = [builder newLayerWithVerticalGradient:CGSizeMake(64, [self rowHeight] + 2) scale:true context:ctxt];
     [builder release];
     /* border-top */
     CGContextRef gctxt = CGLayerGetContext(sHasFocus);

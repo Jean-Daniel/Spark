@@ -24,8 +24,8 @@
 #import <SparkKit/SparkEntryManager.h>
 
 #import WBHEADER(WBObjCRuntime.h)
+#import WBHEADER(WBIndexSetIterator.h)
 #import WBHEADER(WBImageAndTextCell.h)
-#import WBHEADER(NSIndexSet+WonderBox.h)
 #import WBHEADER(NSArrayController+WonderBox.h)
 
 static
@@ -195,9 +195,7 @@ NSString * sSEHiddenPluggedObserverKey = nil;
 
 #pragma mark Delegate
 - (void)spaceDownInTableView:(SETriggerTable *)aTable {
-  NSUInteger idx = 0;
-  WBIndexEnumerator *idexes = [[self selectionIndexes] indexEnumerator];
-  while ((idx = [idexes nextIndex]) != NSNotFound) {
+  WBIndexesIterator(idx, [self selectionIndexes]) {
     SparkEntry *entry = [self objectAtIndex:idx];
     if ([entry isPlugged]) {
       [entry setActive:![entry isEnabled]];
@@ -295,10 +293,8 @@ NSString * sSEHiddenPluggedObserverKey = nil;
   [plist setObject:[NSData dataWithBytes:&bytes length:sizeof(bytes)] forKey:@"uuid"];
   [pboard declareTypes:[NSArray arrayWithObject:SparkEntriesPboardType] owner:self];
   
-  NSUInteger idx = 0;
   NSMutableArray *entries = [[NSMutableArray alloc] init];
-  WBIndexEnumerator *indexes = [rowIndexes indexEnumerator];
-  while ((idx = [indexes nextIndex]) != NSNotFound) {
+  WBIndexesIterator(idx, rowIndexes) {
     SparkEntry *entry = [self objectAtIndex:idx];
     [entries addObject:WBUInteger([entry uid])];
   }

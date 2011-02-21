@@ -58,7 +58,7 @@
 }
 
 - (void)setPlugIn:(NSString *)path {
-  if (WBSetterCopy(&se_plugin, path)) {
+  if (WBSetterCopy(se_plugin, path)) {
     /* Load nib if needed */
     [self window];
     /* Get plugin bundle ID */
@@ -135,7 +135,7 @@ dispose:
         installed = YES;
       }
     } else {
-      NSString *tmp = WBFSFindFolder(kTemporaryFolderType, kLocalDomain, true);
+      NSString *tmp = [WBFSFindFolder(kTemporaryFolderType, kLocalDomain, true) path];
       NSMutableArray *cmpt = [[NSMutableArray alloc] init];
       NSFileManager *manager = [NSFileManager defaultManager];
       while ([path length] && ![manager fileExistsAtPath:path isDirectory:NULL]) {

@@ -28,7 +28,7 @@ OSStatus AudioOutputVolumeUp(AudioDeviceID device, UInt32 *level);
 OSStatus AudioOutputVolumeDown(AudioDeviceID device, UInt32 *level);
 OSStatus AudioOutputVolumeGetLevel(AudioDeviceID device, UInt32 *level);
 
-WB_EXPORT 
+SC_EXPORT
 const UInt32 kAudioOutputVolumeMaxLevel;
 
 #endif /* __AUDIO_OUTPUT_H */

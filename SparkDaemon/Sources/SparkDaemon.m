@@ -45,8 +45,8 @@ int main(int argc, const char *argv[]) {
 #endif
   NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
   NSApplicationLoad();
-  SparkDaemon *server;
-  if (server = [[SparkDaemon alloc] init]) {
+  SparkDaemon *server = [[SparkDaemon alloc] init];
+  if (server) {
     /* Cleanup pool */
     [pool release];
     pool = [[NSAutoreleasePool alloc] init];
@@ -416,7 +416,7 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
 - (void)handleSparkEvent:(SparkEvent *)anEvent {
   Boolean trapping;
   /* If Spark Editor is trapping, forward keystroke */
-  if ([anEvent type] == kSparkEventTypeBypass || (noErr == SDGetEditorIsTrapping(&trapping)) && trapping) {
+  if ([anEvent type] == kSparkEventTypeBypass || ((noErr == SDGetEditorIsTrapping(&trapping)) && trapping)) {
     DLog(@"Bypass event or Spark Editor is trapping => bypass");
     [[anEvent trigger] bypass];
     return;

@@ -92,7 +92,7 @@ typedef enum {
 
 @end
 
-WB_PRIVATE 
+SPARK_PRIVATE
 NSImage *SystemActionIcon(SystemAction *anAction);
-WB_PRIVATE 
+SPARK_PRIVATE
 NSString *SystemActionDescription(SystemAction *anAction);

@@ -8,9 +8,9 @@
 
 #import <SparkKit/SparkLibrary.h>
 
-WB_EXPORT 
+SPARK_EXPORT
 const OSType kSparkLibraryArchiveHFSType;
-WB_EXPORT
+SPARK_EXPORT
 NSString * const kSparkLibraryArchiveExtension;
 
 @interface SparkLibrary (SparkArchiveExtension)

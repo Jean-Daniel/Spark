@@ -19,7 +19,7 @@ Float32 kAudioOutputVolumeLevels[] = {
 const
 UInt32 kAudioOutputVolumeMaxLevel = 16;
 
-WB_INLINE
+SC_INLINE
 UInt32 __AudioOutputVolumeGetLevel(Float32 output) {
   if (output <= 0.0)
     return 0;

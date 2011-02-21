@@ -9,7 +9,7 @@
 #import "SEPreferences.h"
 
 #import "Spark.h"
-#import "SEUpdater.h"
+//#import "SEUpdater.h"
 #import "SEServerConnection.h"
 
 #import <SparkKit/SparkKit.h>
@@ -189,7 +189,7 @@ void *_SEPreferencesLoginItemThread(void *arg) {
 
 - (IBAction)apply:(id)sender {
   BOOL change = NO;
-  long status = status;
+  long status = 0;
   SparkPlugIn *plugin = nil;
   NSMapEnumerator plugins = NSEnumerateMapTable(se_status);
   while (NSNextMapEnumeratorPair(&plugins, (void **)&plugin, (void **)&status)) {
@@ -215,8 +215,8 @@ void *_SEPreferencesLoginItemThread(void *arg) {
 - (IBAction)close:(id)sender {
   [self apply:sender];
   [super close:sender];
-  if (se_update)
-    [[SEUpdater sharedUpdater] cancel:nil];
+//  if (se_update)
+//    [[SEUpdater sharedUpdater] cancel:nil];
 }
 
 #pragma mark -
@@ -255,34 +255,34 @@ void *_SEPreferencesLoginItemThread(void *arg) {
 }
 
 #pragma mark Update
-- (IBAction)update:(id)sender {
-  if (!se_update) {
-    se_update = YES;
-    [uiUpdateStatus setHidden:NO];
-    [uiUpdateMsg setStringValue:@""];
-    [uiProgress setIndeterminate:YES];
-    [uiProgress startAnimation:sender];
-    [[SEUpdater sharedUpdater] searchWithDelegate:self];
-  }
-}
-
-- (void)updater:(SEUpdater *)updater didSearchVersion:(BOOL)version error:(NSError *)anError {
-  [uiProgress stopAnimation:nil];
-  if (!version && !anError) {
-    [uiUpdateMsg setStringValue:
-		 NSLocalizedStringFromTable(@"No new version available.", @"SEPreferences", @"Check Update: version up to date")];
-  } else if (anError) {
-    NSString *str = [anError localizedDescription];
-    if (str)
-      [uiUpdateMsg setStringValue:[NSString stringWithFormat:
-																	 NSLocalizedStringFromTable(@"Error: %@.", @"SEPreferences", @"Check Update: error (%@)"), str]];
-    else
-      [uiUpdateMsg setStringValue:
-			 NSLocalizedStringFromTable(@"Undefined error occured.", @"SEPreferences", @"Check Update: undefined error")];
-  }
-  [uiUpdateStatus setHidden:YES];
-  se_update = NO;
-}
+//- (IBAction)update:(id)sender {
+//  if (!se_update) {
+//    se_update = YES;
+//    [uiUpdateStatus setHidden:NO];
+//    [uiUpdateMsg setStringValue:@""];
+//    [uiProgress setIndeterminate:YES];
+//    [uiProgress startAnimation:sender];
+//    [[SEUpdater sharedUpdater] searchWithDelegate:self];
+//  }
+//}
+//
+//- (void)updater:(SEUpdater *)updater didSearchVersion:(BOOL)version error:(NSError *)anError {
+//  [uiProgress stopAnimation:nil];
+//  if (!version && !anError) {
+//    [uiUpdateMsg setStringValue:
+//		 NSLocalizedStringFromTable(@"No new version available.", @"SEPreferences", @"Check Update: version up to date")];
+//  } else if (anError) {
+//    NSString *str = [anError localizedDescription];
+//    if (str)
+//      [uiUpdateMsg setStringValue:[NSString stringWithFormat:
+//																	 NSLocalizedStringFromTable(@"Error: %@.", @"SEPreferences", @"Check Update: error (%@)"), str]];
+//    else
+//      [uiUpdateMsg setStringValue:
+//			 NSLocalizedStringFromTable(@"Undefined error occured.", @"SEPreferences", @"Check Update: undefined error")];
+//  }
+//  [uiUpdateStatus setHidden:YES];
+//  se_update = NO;
+//}
 
 #pragma mark -
 #pragma mark Plugin Manager

@@ -29,26 +29,12 @@
 			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = SparkKit;
 		};
-		98C61C280A58140B0004E6EF /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 98EF7E4108645876007BC81A /* HotKeyToolKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 98C61C1A0A5813EB0004E6EF;
-			remoteInfo = UITester;
-		};
 		98DC31710A57FDA3001E1415 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 98EF7E4108645876007BC81A /* HotKeyToolKit.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 98643F000A556F2200260086;
 			remoteInfo = Test;
-		};
-		98DC31730A57FDA3001E1415 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 98EF7E4108645876007BC81A /* HotKeyToolKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 98E204A00A56FE6500EB74E1;
-			remoteInfo = Runner;
 		};
 		98EF7E4908645876007BC81A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -206,8 +192,6 @@
 			isa = PBXGroup;
 			children = (
 				98DC31720A57FDA3001E1415 /* Test.octest */,
-				98DC31740A57FDA3001E1415 /* Runner */,
-				98C61C290A58140B0004E6EF /* UITester.app */,
 				98EF7E4A08645876007BC81A /* HotKeyToolKit.framework */,
 			);
 			name = Products;
@@ -250,7 +234,14 @@
 			isa = PBXProject;
 			buildConfigurationList = 98EF7DEF08645714007BC81A /* Build configuration list for PBXProject "SparkDaemon" */;
 			compatibilityVersion = "Xcode 3.1";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* Spark */;
 			projectDirPath = "";
 			projectReferences = (
@@ -263,7 +254,6 @@
 					ProjectRef = 98EF7E4B08645883007BC81A /* SparkKit.xcodeproj */;
 				},
 			);
-			projectRoot = "";
 			targets = (
 				98B20D6906A54814008BA3F6 /* Spark Daemon */,
 			);
@@ -271,25 +261,11 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		98C61C290A58140B0004E6EF /* UITester.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = UITester.app;
-			remoteRef = 98C61C280A58140B0004E6EF /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		98DC31720A57FDA3001E1415 /* Test.octest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = Test.octest;
 			remoteRef = 98DC31710A57FDA3001E1415 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		98DC31740A57FDA3001E1415 /* Runner */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = Runner;
-			remoteRef = 98DC31730A57FDA3001E1415 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		98EF7E4A08645876007BC81A /* HotKeyToolKit.framework */ = {

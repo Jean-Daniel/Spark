@@ -50,5 +50,5 @@
 
 @end
 
-WB_PRIVATE
+SPARK_PRIVATE
 NSString * const SELibraryDidCreateEntryNotification;

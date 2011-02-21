@@ -14,7 +14,7 @@
 #include WBHEADER(WBProcessFunctions.h)
 
 OSStatus SDGetEditorIsTrapping(Boolean *trapping) {
-  check(trapping);
+  if (!trapping) return paramErr;
   *trapping = FALSE;
   ProcessSerialNumber psn;
   OSStatus err = GetFrontProcess(&psn);

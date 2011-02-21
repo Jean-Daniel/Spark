@@ -25,14 +25,14 @@ NSString * const SparkApplicationDidChangeEnabledNotification = @"SparkApplicati
 
 @interface SparkSystemApplication : SparkApplication
 
-+ (id)systemApplication;
-
 @end
 
 @implementation SparkApplication
 
 + (id)systemApplication {
-  return [SparkSystemApplication systemApplication];
+  return [SparkSystemApplication objectWithName:NSLocalizedStringFromTableInBundle(@"System", nil,
+                                                                                   kSparkKitBundle,
+                                                                                   @"System Application Name")];
 }
 
 #pragma mark -
@@ -217,15 +217,6 @@ NSString * const SparkApplicationDidChangeEnabledNotification = @"SparkApplicati
 
 #pragma mark -
 #pragma mark Init & Dealloc Methods
-+ (id)systemApplication {
-  if (self = [SparkSystemApplication objectWithName:NSLocalizedStringFromTableInBundle(@"System", nil,
-                                                                                       kSparkKitBundle,
-                                                                                       @"System Application Name")]) {
-    
-  }
-  return self;
-}
-
 - (id)initWithPath:(NSString *)path {
   return nil;
 }

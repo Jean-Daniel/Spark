@@ -185,7 +185,7 @@ NSImage *ITunesGetApplicationIcon(void) {
     [it_lists release];
     it_lists = nil;
   }
-  WBSetterRetain(&it_playlists, lists);
+  WBSetterRetain(it_playlists, lists);
   [self didChangeValueForKey:@"playlists"];
 }
 
@@ -245,7 +245,7 @@ NSImage *ITunesGetApplicationIcon(void) {
 }
 
 - (void)setPlaylist:(NSString *)aPlaylist {
-  WBSetterCopy(&it_playlist, aPlaylist);
+  WBSetterCopy(it_playlist, aPlaylist);
 }
 
 - (BOOL)lsPlay {

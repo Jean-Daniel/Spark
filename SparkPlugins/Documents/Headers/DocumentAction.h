@@ -48,10 +48,10 @@ enum {
 
 SPARK_PRIVATE
 NSImage *DocumentActionIcon(DocumentAction *anAction);
-WB_PRIVATE
+SPARK_PRIVATE
 NSString *DocumentActionDescription(DocumentAction *anAction);
 
-WB_INLINE
+SPARK_INLINE
 BOOL DocumentActionNeedDocument(int act) {
   switch (act) {
     case kDocumentActionOpen:
@@ -62,7 +62,7 @@ BOOL DocumentActionNeedDocument(int act) {
   return NO;
 }
 
-WB_INLINE
+SPARK_INLINE
 BOOL DocumentActionNeedApplication(int act) {
   switch (act) {
     case kDocumentActionOpenWith:

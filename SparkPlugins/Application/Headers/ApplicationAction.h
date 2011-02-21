@@ -96,9 +96,9 @@ typedef struct _ApplicationVisualSetting {
 
 @end
 
-WB_PRIVATE
+SPARK_PRIVATE
 NSImage *ApplicationActionIcon(ApplicationAction *action);
 
-WB_PRIVATE
+SPARK_PRIVATE
 NSString *ApplicationActionDescription(ApplicationAction *anAction, NSString *name);
 

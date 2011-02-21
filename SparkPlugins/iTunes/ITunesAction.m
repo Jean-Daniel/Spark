@@ -587,7 +587,7 @@ static ITunesVisual sDefaultVisual = { .delay = -1 };
 
 - (void)setPlaylist:(NSString *)aPlaylist uid:(UInt64)uid {
   ia_plid = uid;
-  WBSetterCopy(&ia_playlist, aPlaylist);
+  WBSetterCopy(ia_playlist, aPlaylist);
 }
 
 - (iTunesAction)iTunesAction {

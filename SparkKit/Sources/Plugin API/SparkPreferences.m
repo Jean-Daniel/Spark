@@ -304,7 +304,7 @@ void __SparkPreferencesNotifyObservers(NSHashTable *observers, NSString *key, id
     _SparkPreferencesObserver *observer;
     NSHashTable *copy = NSCopyHashTableWithZone(observers, NULL);
     NSHashEnumerator items = NSEnumerateHashTable(copy);
-    while (observer = NSNextHashEnumeratorItem(&items)) {
+    while ((observer = NSNextHashEnumeratorItem(&items))) {
       if ([observer target]) {
         [observer notifyValueChange:value forKey:key];
       } else {

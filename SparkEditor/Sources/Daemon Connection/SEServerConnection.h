@@ -9,7 +9,7 @@
 #import "SEScriptHandler.h"
 #import <SparkKit/SparkServerProtocol.h>
 
-WB_PRIVATE
+SPARK_PRIVATE
 NSString * const SEServerStatusDidChangeNotification;
 
 @class SparkLibrarySynchronizer;
@@ -44,18 +44,18 @@ NSString * const SEServerStatusDidChangeNotification;
 
 @end
 
-WB_PRIVATE
+SPARK_PRIVATE
 NSString * const kSparkDaemonExecutableName;
 
-WB_PRIVATE
+SPARK_PRIVATE
 BOOL SELaunchSparkDaemon(ProcessSerialNumber *psn);
-WB_PRIVATE
+SPARK_PRIVATE
 NSString *SESparkDaemonPath(void);
-WB_PRIVATE
+SPARK_PRIVATE
 void SEServerStartConnection(void);
-WB_PRIVATE
+SPARK_PRIVATE
 void SEServerStopConnection(void);
 
-WB_PRIVATE
+SPARK_PRIVATE
 BOOL SEDaemonIsEnabled(void);
 

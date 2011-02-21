@@ -23,11 +23,11 @@
 
 #import WBHEADER(WBFSFunctions.h)
 
-#import <SUpdaterKit/SURestarter.h>
+// #import <SUpdaterKit/SURestarter.h>
 
 #import <HotKeyToolKit/HotKeyToolKit.h>
 
-#import "SEUpdater.h"
+// #import "SEUpdater.h"
 #import "SEPlugInHelp.h"
 #import "SEPreferences.h"
 #import "SELibraryWindow.h"
@@ -139,7 +139,7 @@ NSString * const SESparkEditorDidChangePlugInStatusNotification = @"SESparkEdito
     [window handleHotKey:sender];
   } else {
     ProcessSerialNumber psn = {0, kCurrentProcess};
-    HKEventTarget target = { psn: &psn };
+    HKEventTarget target = { .psn = &psn };
     HKEventPostKeystrokeToTarget([sender keycode], [sender nativeModifier], target, kHKEventTargetProcess, NULL, kHKEventDefaultLatency);
   }
 }
@@ -545,25 +545,25 @@ NSString * const SESparkEditorDidChangePlugInStatusNotification = @"SESparkEdito
   [menu addItemWithTitle:@"Dump Library" action:@selector(dumpLibrary:) keyEquivalent:@""];
   [menu addItemWithTitle:@"External Representation" action:@selector(dumpExternal:) keyEquivalent:@""];
   [menu addItem:[NSMenuItem separatorItem]];
-  [menu addItemWithTitle:@"Restart" action:@selector(restart:) keyEquivalent:@""];
+  // [menu addItemWithTitle:@"Restart" action:@selector(restart:) keyEquivalent:@""];
   [debugMenu setSubmenu:menu];
   [menu release];
   [[NSApp mainMenu] insertItem:debugMenu atIndex:[[NSApp mainMenu] numberOfItems] -1];
   [debugMenu release];
   
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didRestart:) name:SURestarterApplicationDidRestartNotification object:nil];
+  // [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didRestart:) name:SURestarterApplicationDidRestartNotification object:nil];
 }
 
 - (void)didRestart:(NSNotification *)aNotification {
   NSRunAlertPanel([[NSString alloc] initWithData:[aNotification object] encoding:NSUTF8StringEncoding], @"", @"OK", nil, nil);
 }
 
-- (IBAction)restart:(id)sender {
-  SURestarter *restarter = [[SURestarter alloc] initWithTargetPath:[[NSBundle mainBundle] bundlePath] error:nil];
-  [restarter setData:[@"Hello wonderfull world!" dataUsingEncoding:NSUTF8StringEncoding]];
-  
-  [NSApp terminate:sender];
-}
+//- (IBAction)restart:(id)sender {
+//  SURestarter *restarter = [[SURestarter alloc] initWithTargetPath:[[NSBundle mainBundle] bundlePath] error:nil];
+//  [restarter setData:[@"Hello wonderfull world!" dataUsingEncoding:NSUTF8StringEncoding]];
+//
+//  [NSApp terminate:sender];
+//}
 
 - (IBAction)dumpExternal:(id)sender {
 //  NSMutableArray *library = [[NSMutableArray alloc] init];

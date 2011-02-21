@@ -30,10 +30,10 @@ enum {
 - (void)loadSparkAction:(id)sparkAction toEdit:(BOOL)edit {
   id value;
   [[ibScriptController scriptView] setSource:@""];
-  if (value = [sparkAction scriptAlias]) {
+  if ((value = [sparkAction scriptAlias])) {
     [self setScriptFile:[value path]];
     [self setValue:WBInteger(kAppleScriptFileTab) forKey:@"selectedTab"];
-  } else if (value = [sparkAction scriptSource]) {
+  } else if ((value = [sparkAction scriptSource])) {
     [[ibScriptController scriptView] setSource:value];
     [ibScriptController compileScript:nil];
   }
@@ -284,7 +284,7 @@ dispose:
   return as_file;
 }
 - (void)setScriptFile:(NSString *)aFile {
-  WBSetterCopy(&as_file, aFile);
+  WBSetterCopy(as_file, aFile);
 }
 
 @end
