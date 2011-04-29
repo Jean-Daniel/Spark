@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1B6E92CF136B3E0000BECE30 /* GHUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B6E92CE136B3E0000BECE30 /* GHUnit.framework */; };
+		1B6E9493136B3E4A00BECE30 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
+		1B6E9498136B3E5700BECE30 /* HKHotKeyTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 985B62EC0719E1750073D36F /* HKHotKeyTestCase.m */; };
+		1B6E9499136B3E5800BECE30 /* HKKeyMapTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 985B6D1A0719EDCC0073D36F /* HKKeyMapTestCase.m */; };
+		1B6E94C2136B3F3600BECE30 /* GHUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B6E92CE136B3E0000BECE30 /* GHUnit.framework */; };
+		1B6E94D5136B3FD000BECE30 /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* HotKeyToolKit.framework */; };
+		1B6E959D136B406A00BECE30 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B6E959C136B406A00BECE30 /* main.m */; };
 		85FA5D560BCE526C0060584C /* TISKeyMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 85FA5D540BCE526C0060584C /* TISKeyMap.h */; };
 		85FA5D570BCE526C0060584C /* TISKeyMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 85FA5D550BCE526C0060584C /* TISKeyMap.m */; };
 		85FA5D800BCE57690060584C /* KLKeyMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 85FA5D7E0BCE57690060584C /* KLKeyMap.h */; };
@@ -49,12 +56,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
-		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; lineEnding = 0; name = English; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		1B0946F50D68BC6400E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1B0946F70D68BC7000E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = fr.lproj/Keyboard.strings; sourceTree = "<group>"; };
+		1B6E92CE136B3E0000BECE30 /* GHUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GHUnit.framework; path = /Library/Frameworks/GHUnit.framework; sourceTree = "<absolute>"; };
+		1B6E9487136B3E2200BECE30 /* Tests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tests.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1B6E959C136B406A00BECE30 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		1B8623320ECF8D430006C26B /* SparkRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = SparkRelease.xcconfig; sourceTree = "<group>"; };
 		1B8623330ECF8D430006C26B /* SparkDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = SparkDebug.xcconfig; sourceTree = "<group>"; };
 		85FA5D540BCE526C0060584C /* TISKeyMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = TISKeyMap.h; sourceTree = "<group>"; };
@@ -89,10 +97,19 @@
 		98DD3FE20A57C2A200F059E5 /* ModifierMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ModifierMap.m; sourceTree = "<group>"; };
 		98DD42450A57C9BC00F059E5 /* HKEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = HKEvent.m; sourceTree = "<group>"; };
 		98DD42490A57C9C800F059E5 /* HKEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = HKEvent.h; sourceTree = "<group>"; };
-		98EF7D6F0864538C007BC81A /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		1B6E9485136B3E2200BECE30 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1B6E9493136B3E4A00BECE30 /* Cocoa.framework in Frameworks */,
+				1B6E94C2136B3F3600BECE30 /* GHUnit.framework in Frameworks */,
+				1B6E94D5136B3FD000BECE30 /* HotKeyToolKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8DC2EF560486A6940098B216 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -108,6 +125,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				98643F130A556F4E00260086 /* HotKeyToolKit.framework in Frameworks */,
+				1B6E92CF136B3E0000BECE30 /* GHUnit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,6 +137,7 @@
 			children = (
 				98643F000A556F2200260086 /* Test.octest */,
 				8DC2EF5B0486A6940098B216 /* HotKeyToolKit.framework */,
+				1B6E9487136B3E2200BECE30 /* Tests.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -128,7 +147,7 @@
 			children = (
 				08FB77AEFE84172EC02AAC07 /* Sources */,
 				089C1665FE841158C02AAC07 /* Resources */,
-				985B62AF0719E0570073D36F /* Testing */,
+				985B62AF0719E0570073D36F /* Tests */,
 				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
 				034768DFFF38A50411DB9C8B /* Products */,
 				1B7BB7440CBE1F2800484A9E /* xcconfigs */,
@@ -140,7 +159,6 @@
 			isa = PBXGroup;
 			children = (
 				1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */,
-				1058C7B2FEA5585E11CA2CBB /* Other Frameworks */,
 			);
 			name = "External Frameworks and Libraries";
 			sourceTree = "<group>";
@@ -180,19 +198,10 @@
 			children = (
 				98DD3DAC0A57B1B600F059E5 /* IOKit.framework */,
 				1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */,
+				1B6E92CE136B3E0000BECE30 /* GHUnit.framework */,
 				984426E405F9442200551005 /* Carbon.framework */,
-				98EF7D6F0864538C007BC81A /* SenTestingKit.framework */,
 			);
 			name = "Linked Frameworks";
-			sourceTree = "<group>";
-		};
-		1058C7B2FEA5585E11CA2CBB /* Other Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				0867D6A5FE840307C02AAC07 /* AppKit.framework */,
-				0867D69BFE84028FC02AAC07 /* Foundation.framework */,
-			);
-			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
 		1B7BB7440CBE1F2800484A9E /* xcconfigs */ = {
@@ -221,17 +230,17 @@
 			name = Private;
 			sourceTree = "<group>";
 		};
-		985B62AF0719E0570073D36F /* Testing */ = {
+		985B62AF0719E0570073D36F /* Tests */ = {
 			isa = PBXGroup;
 			children = (
 				985B6D170719ED7E0073D36F /* Info.plist */,
+				1B6E959C136B406A00BECE30 /* main.m */,
 				985B6D190719EDCC0073D36F /* HKKeyMapTestCase.h */,
 				985B6D1A0719EDCC0073D36F /* HKKeyMapTestCase.m */,
 				985B62EB0719E1750073D36F /* HKHotKeyTestCase.h */,
 				985B62EC0719E1750073D36F /* HKHotKeyTestCase.m */,
 			);
-			name = Testing;
-			path = Test;
+			path = Tests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -258,6 +267,23 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		1B6E9486136B3E2200BECE30 /* Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1B6E948E136B3E2200BECE30 /* Build configuration list for PBXNativeTarget "Tests" */;
+			buildPhases = (
+				1B6E9483136B3E2200BECE30 /* Resources */,
+				1B6E9484136B3E2200BECE30 /* Sources */,
+				1B6E9485136B3E2200BECE30 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Tests;
+			productName = Tests;
+			productReference = 1B6E9487136B3E2200BECE30 /* Tests.app */;
+			productType = "com.apple.product-type.application";
+		};
 		8DC2EF4F0486A6940098B216 /* HotKeyToolKit */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 98EF7D5408645328007BC81A /* Build configuration list for PBXNativeTarget "HotKeyToolKit" */;
@@ -316,12 +342,20 @@
 			projectRoot = "";
 			targets = (
 				98643EFF0A556F2200260086 /* Test */,
+				1B6E9486136B3E2200BECE30 /* Tests */,
 				8DC2EF4F0486A6940098B216 /* HotKeyToolKit */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		1B6E9483136B3E2200BECE30 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8DC2EF520486A6940098B216 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -367,6 +401,16 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		1B6E9484136B3E2200BECE30 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1B6E9498136B3E5700BECE30 /* HKHotKeyTestCase.m in Sources */,
+				1B6E9499136B3E5800BECE30 /* HKKeyMapTestCase.m in Sources */,
+				1B6E959D136B406A00BECE30 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8DC2EF540486A6940098B216 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -425,6 +469,24 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		1B6E948C136B3E2200BECE30 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = Tests/Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				PRODUCT_NAME = Tests;
+			};
+			name = Debug;
+		};
+		1B6E948D136B3E2200BECE30 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = Tests/Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				PRODUCT_NAME = Tests;
+			};
+			name = Release;
+		};
 		98643F090A556F2300260086 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -514,13 +576,21 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B8623320ECF8D430006C26B /* SparkRelease.xcconfig */;
 			buildSettings = {
-				BUILT_PRODUCT_DIR = Spark;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		1B6E948E136B3E2200BECE30 /* Build configuration list for PBXNativeTarget "Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1B6E948C136B3E2200BECE30 /* Debug */,
+				1B6E948D136B3E2200BECE30 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 		98643F080A556F2300260086 /* Build configuration list for PBXNativeTarget "Test" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
