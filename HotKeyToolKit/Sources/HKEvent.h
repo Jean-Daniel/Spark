@@ -6,9 +6,10 @@
  *  Copyright © 2004 - 2011 Shadow Lab. All rights reserved.
  */
 
-#import <ApplicationServices/ApplicationServices.h>
 #import <HotKeyToolKit/HKBase.h>
 #import <HotKeyToolKit/HKHotKey.h>
+
+#import <ApplicationServices/ApplicationServices.h>
 
 HK_EXPORT
 CGEventSourceRef HKEventCreatePrivateSource(void);

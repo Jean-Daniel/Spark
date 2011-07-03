@@ -18,9 +18,9 @@
 */
 HK_OBJC_EXPORT
 @interface HKHotKey : NSObject <NSCopying, NSCoding> {
-  @private
-  id hk_target;
+@private
   SEL hk_action;
+  wb_weak id hk_target;
   NSTimer *hk_repeatTimer;
   NSTimeInterval hk_repeatInterval;
   NSTimeInterval hk_iRepeatInterval;

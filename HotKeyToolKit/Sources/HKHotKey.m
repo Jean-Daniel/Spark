@@ -10,6 +10,7 @@
 
 #import "HKKeyMap.h"
 #import "HKHotKeyManager.h"
+
 #include <IOKit/hidsystem/IOHIDLib.h>
 #include <IOKit/hidsystem/IOHIDParameter.h>
 
@@ -73,13 +74,13 @@ CFTimeInterval __HKEventTime(void) {
 #pragma mark -
 #pragma mark Convenient constructors.
 + (id)hotkey {
-  return [[[self alloc] init] autorelease];
+  return wb_autorelease([[self alloc] init]);
 }
 + (id)hotkeyWithKeycode:(HKKeycode)code modifier:(NSUInteger)modifier {
-  return [[[self alloc] initWithKeycode:code modifier:modifier] autorelease];
+  return wb_autorelease([[self alloc] initWithKeycode:code modifier:modifier]);
 }
 + (id)hotkeyWithUnichar:(UniChar)character modifier:(NSUInteger)modifier {
-  return [[[self alloc] initWithUnichar:character modifier:modifier] autorelease];
+  return wb_autorelease([[self alloc] initWithUnichar:character modifier:modifier]);
 }
 
 #pragma mark -
@@ -115,7 +116,7 @@ CFTimeInterval __HKEventTime(void) {
     [self hk_invalidateTimer];
     [self setRegistred:NO];
   }
-  [super dealloc];
+  wb_dealloc();
 }
 
 - (NSString *)description {
@@ -274,7 +275,7 @@ CFTimeInterval __HKEventTime(void) {
                                                   selector:@selector(hk_invoke:)
                                                   userInfo:nil
                                                    repeats:YES];
-        [fire release];
+        wb_release(fire);
         [[NSRunLoop currentRunLoop] addTimer:hk_repeatTimer forMode:NSDefaultRunLoopMode];
       }
     }
@@ -322,7 +323,7 @@ CFTimeInterval __HKEventTime(void) {
 - (void)hk_invalidateTimer {
   if (hk_repeatTimer) {
     [hk_repeatTimer invalidate];
-    [hk_repeatTimer release];
+    wb_release(hk_repeatTimer);
     hk_repeatTimer = nil;
   }
 }

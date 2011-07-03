@@ -22,7 +22,7 @@ NSString * const kHKTrapWindowDidCatchKeyNotification = @"kHKTrapWindowKeyCaught
 
 - (void)dealloc {
   [self setDelegate:nil];
-  [super dealloc];
+  wb_dealloc();
 }
 
 - (id<HKTrapWindowDelegate>)delegate {

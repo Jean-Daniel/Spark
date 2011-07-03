@@ -16,7 +16,7 @@
 }
 
 - (void)tearDown {
-  [_hotkey release];
+  wb_release(_hotkey);
 }
 
 - (void)testHotKeyIsValid {
@@ -49,11 +49,11 @@
   
   id key2 = [[HKHotKey alloc] initWithUnichar:'y' modifier:NSAlternateKeyMask];
   GHAssertFalse([key2 setRegistred:YES], @"%@ shouldn't be registred", key2);
-  [key release];/* Testing if releasing a key unregister it */
+  wb_release(key);/* Testing if releasing a key unregister it */
   GHAssertTrue([key2 setRegistred:YES], @"%@ should registre", key2);
   // Cleanup
   GHAssertTrue([key2 setRegistred:NO], @"%@ should be registred", key2);
-  [key2 release];
+  wb_release(key2);
 }
 
 - (void)testInvalidAccessException {
@@ -63,7 +63,7 @@
   GHAssertThrows([key setKeycode:0], @"Should throws exception when trying change and registred");
   GHAssertThrows([key setModifier:NSAlternateKeyMask], @"Should throws exception when trying change and registred");
   GHAssertTrue([key setRegistred:NO], @"%@ should be unregistred", key);
-  [key release];
+  wb_release(key);
 }
 
 - (void)testEqualsKeyRegistring {
@@ -77,8 +77,8 @@
   GHAssertTrue([key2 setRegistred:NO], @"%@ should be unregistred", key2);
   GHAssertTrue([key1 setRegistred:NO], @"%@ should be unregistred", key1);
   
-  [key1 release];
-  [key2 release];
+  wb_release(key1);
+  wb_release(key2);
 }
 
 - (void)testReapeatInterval {

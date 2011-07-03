@@ -236,7 +236,7 @@ ProcessSerialNumber _HKGetProcessWithBundleIdentifier(CFStringRef bundleId) {
       target.signature = signature;
       type = kHKEventTargetSignature;
     } else if (bundleId) {
-      target.bundle = (CFStringRef)bundleId;
+      target.bundle = WBNSToCFString(bundleId);
       type = kHKEventTargetBundle;
     }
 

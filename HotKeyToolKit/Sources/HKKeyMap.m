@@ -61,7 +61,7 @@ UniChar HKMapGetUnicharForKeycodeAndModifier(HKKeycode keycode, HKModifier aModi
 }
 
 NSString *HKMapGetCurrentMapName(void) {
-  return (NSString *)HKKeyMapGetName(SharedKeyMap());
+  return WBCFToNSString(HKKeyMapGetName(SharedKeyMap()));
 }
 
 NSString *HKMapGetStringRepresentationForCharacterAndModifier(UniChar character, HKModifier modifier) {
@@ -367,7 +367,7 @@ NSString* HKMapGetSpeakableModifierString(HKModifier mask) {
       [str appendString:@" + "];
     [str appendString:NSLocalizedStringFromTableInBundle(@"Command", @"Keyboard", kHotKeyToolKitBundle, @"Speakable Command Modifier")];
   }
-  return [str autorelease];
+  return wb_autorelease(str);
 }
 
 NSString *HKMapGetStringForUnichar(UniChar character) {
