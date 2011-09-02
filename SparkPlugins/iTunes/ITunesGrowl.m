@@ -99,9 +99,10 @@ NSImage *ITunesGetApplicationIcon(void) {
   NSString *rating = [self starsForRating:WBUInteger(rate)];
 	
 	/* Image */
+  OSType type;
   NSData *artwork = nil;
   CFDataRef data = NULL;
-  if (noErr == iTunesCopyTrackArtworkData(track, &data) && data) {
+  if (noErr == iTunesCopyTrackArtworkData(track, &data, &type) && data) {
     artwork = [(id)data retain];
     CFRelease(data);
   }

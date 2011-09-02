@@ -395,8 +395,9 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
 	BOOL display = NO;
 	[ibArtwork setImage:nil];
 	if (track && ia_artwork) {
+    OSType type;
 		CFDataRef data = NULL;
-		if (noErr == iTunesCopyTrackArtworkData(track, &data) && data) {
+		if (noErr == iTunesCopyTrackArtworkData(track, &data, &type) && data) {
 			NSImage *image = [[NSImage alloc] initWithData:(id)data];
 			if (image) {
 				// display image zone

@@ -118,7 +118,7 @@ WB_PRIVATE
 OSStatus iTunesSetCurrentTrackRate(UInt32 rate);
 
 WB_PRIVATE
-OSStatus iTunesCopyTrackArtworkData(iTunesTrack *track, CFDataRef *value);
+OSStatus iTunesCopyTrackArtworkData(iTunesTrack *track, CFDataRef *value, OSType *type);
 WB_PRIVATE
 OSStatus iTunesCopyTrackStringProperty(iTunesTrack *track, ITunesTrackProperty property, CFStringRef *value);
 WB_PRIVATE

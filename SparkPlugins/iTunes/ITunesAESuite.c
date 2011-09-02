@@ -350,7 +350,7 @@ OSStatus iTunesCopyTrackStringProperty(iTunesTrack *track, ITunesTrackProperty p
   return _iTunesCopyObjectStringProperty(track, property, value);
 }
 
-OSStatus iTunesCopyTrackArtworkData(iTunesTrack *track, CFDataRef *value) {
+OSStatus iTunesCopyTrackArtworkData(iTunesTrack *track, CFDataRef *value, OSType *type) {
 	AEDesc artwork = WBAEEmptyDesc();
 	AppleEvent aevt = WBAEEmptyDesc();
 	
@@ -366,7 +366,7 @@ OSStatus iTunesCopyTrackArtworkData(iTunesTrack *track, CFDataRef *value) {
   err = WBAEAddPropertyObjectSpecifier(&aevt, keyDirectObject, typePict, 'pPCT', &artwork);
   require_noerr(err, bail);
   
-  err = WBAESendEventReturnCFData(&aevt, typePict, NULL, value);
+  err = WBAESendEventReturnCFData(&aevt, typeWildCard, type, value);
   // ignore no artwork error.
   //require_noerr(err, bail);
   
