@@ -1,21 +1,5 @@
 
-OBJROOT = ../Builds
-SYMROOT = ../Products
-
-VERSIONING_SYSTEM = apple-generic
-VERSION_INFO_BUILDER = Jean-Daniel Dupas
-
-// _CODE_SIGN_IDENTITY = BB-TV
-
-// Should be ARCHS_STANDARD_32_64_BIT, but it includes ppc
-// ARCHS = $(ARCHS_STANDARD_32_64_BIT)
-ARCHS = i386 x86_64
-VALID_ARCHS = i386 x86_64
-
-WONDERBOX = WONDERBOX_FRAMEWORK
+#include "../WonderBox/xcconfigs/wonderbox.xcconfig"
+#include "../WBConfig/xcconfigs/subconfig/clang.xcconfig"
 
 GCC_PREFIX_HEADER = ../WBConfig/SharedPrefix.pch
-
-SHARED_PRECOMPS_DIR = $(OBJROOT)/SharedPrecompiledHeaders
-
-CONFIGURATION_BUILD_DIR = $(SYMROOT)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)
