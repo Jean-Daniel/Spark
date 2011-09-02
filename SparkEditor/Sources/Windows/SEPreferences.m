@@ -9,7 +9,7 @@
 #import "SEPreferences.h"
 
 #import "Spark.h"
-//#import "SEUpdater.h"
+#import "SparkleDelegate.h"
 #import "SEServerConnection.h"
 
 #import <SparkKit/SparkKit.h>
@@ -255,6 +255,29 @@ void *_SEPreferencesLoginItemThread(void *arg) {
 }
 
 #pragma mark Update
+- (IBAction)checkForUpdates:(id)sender {
+  [[Spark sharedSpark] checkForUpdates:sender];
+}
+
+- (void)windowDidLoad {
+  [super windowDidLoad];
+#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_6
+  if ([ibDateFormat respondsToSelector:@selector(setDoesRelativeDateFormatting:)])
+    [ibDateFormat setDoesRelativeDateFormatting:YES];
+#endif
+
+  //[uiFeedURL setHidden:![EDPreferences sharedPreferences].showUpdateFeedChooser];
+  [uiFeedURL addItemWithObjectValue:[[[Spark sharedSpark] releaseFeedURL] absoluteString]];
+  [uiFeedURL addItemWithObjectValue:[[[Spark sharedSpark] betaFeedURL] absoluteString]];
+}
+
+- (NSString *)feedURL {
+  return [[[Spark sharedSpark] feedURL] absoluteString];
+}
+- (void)setFeedURL:(NSString *)anURL {
+  [[Spark sharedSpark] setFeedURL:anURL ? [NSURL URLWithString:anURL] : nil];
+}
+
 //- (IBAction)update:(id)sender {
 //  if (!se_update) {
 //    se_update = YES;

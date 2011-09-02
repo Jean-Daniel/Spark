@@ -115,25 +115,24 @@
 	<string>3.0b10</string>
 	<key>CFBundleSignature</key>
 	<string>Sprk</string>
+	<key>CFBundleURLTypes</key>
+	<array/>
 	<key>CFBundleVersion</key>
 	<string>${CURRENT_PROJECT_VERSION}</string>
+	<key>LSApplicationCategoryType</key>
+	<string>public.app-category.utilities</string>
 	<key>LSMinimumSystemVersion</key>
-	<string>10.5</string>
-	<key>LSMinimumSystemVersionByArchitecture</key>
-	<dict>
-		<key>x86_64</key>
-		<string>10.6</string>
-	</dict>
+	<string>10.6</string>
 	<key>NSAppleScriptEnabled</key>
 	<string>YES</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>SparkEditor</string>
+	<key>NSServices</key>
+	<array/>
 	<key>OSAScriptingDefinition</key>
 	<string>SparkSuite.sdef</string>
-	<key>SUpdaterAnchorCertificate</key>
-	<string>Shadow Lab</string>
 	<key>UTExportedTypeDeclarations</key>
 	<array>
 		<dict>
@@ -215,5 +214,11 @@
 			</dict>
 		</dict>
 	</array>
+	<key>UTImportedTypeDeclarations</key>
+	<array/>
+	<key>SUFeedURL</key>
+	<string>http://update.shadowlab.org/Spark/v3/release.rss</string>
+	<key>SUPublicRSAKeyFile</key>
+	<string>Spark.cer</string>
 </dict>
 </plist>

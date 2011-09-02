@@ -37,6 +37,8 @@ void SEPopulatePlugInMenu(NSMenu *menu);
   SEPreferences *se_preferences;
 }
 
++ (Spark *)sharedSpark;
+
 #pragma mark Menu IBActions
 - (IBAction)toggleServer:(id)sender;
 - (IBAction)showPreferences:(id)sender;

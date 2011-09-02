@@ -33,6 +33,9 @@ NSString * const kSparkPrefSingleKeyMode;
   IBOutlet NSTextField *uiUpdateStatus;
   IBOutlet NSProgressIndicator *uiProgress;
   
+  IBOutlet NSComboBox *uiFeedURL;
+  IBOutlet NSDateFormatter *ibDateFormat;
+
   BOOL se_login;
   BOOL se_update;
   NSMapTable *se_status;
@@ -47,7 +50,7 @@ NSString * const kSparkPrefSingleKeyMode;
 
 - (IBAction)close:(id)sender;
 - (IBAction)apply:(id)sender;
-- (IBAction)update:(id)sender;
+- (IBAction)checkForUpdates:(id)sender;
 
 @end
 

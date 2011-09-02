@@ -23,11 +23,10 @@
 
 #import WBHEADER(WBFSFunctions.h)
 
-// #import <SUpdaterKit/SURestarter.h>
-
 #import <HotKeyToolKit/HotKeyToolKit.h>
 
-// #import "SEUpdater.h"
+#import "SparkleDelegate.h"
+
 #import "SEPlugInHelp.h"
 #import "SEPreferences.h"
 #import "SELibraryWindow.h"
@@ -81,8 +80,6 @@ NSString * const SESparkEditorDidChangePlugInStatusNotification = @"SESparkEdito
 #endif
     /* Force script system initialization */
     [NSScriptSuiteRegistry sharedScriptSuiteRegistry];
-    
-    /* Check update */
     
     /* Leopard Help hack */
 //    if (WBSystemMajorVersion() == 10 && WBSystemMinorVersion() >= 5) {
@@ -187,6 +184,10 @@ NSString * const SESparkEditorDidChangePlugInStatusNotification = @"SESparkEdito
 #pragma mark -
 @implementation Spark
 
++ (Spark *)sharedSpark {
+  return [NSApp delegate];
+}
+
 #pragma mark Init And Destroy
 - (id)init {
   if (self = [super init]) {
@@ -211,9 +212,8 @@ NSString * const SESparkEditorDidChangePlugInStatusNotification = @"SESparkEdito
     /* Register defaults */
     [SEPreferences setup];
     
-    /* Check update */
-//    if ([[NSUserDefaults standardUserDefaults] boolForKey:kSEPreferencesAutoUpdate])
-//      [[SEUpdater sharedUpdater] runInBackground];
+    /* Setup updater */
+    [self setupSparkle];
   }
   return self;
 }
