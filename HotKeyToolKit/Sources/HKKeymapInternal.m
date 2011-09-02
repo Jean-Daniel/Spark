@@ -445,7 +445,7 @@ static
 void KCHRContextDealloc(HKKeyMapContext *ctxt) {
   KCHRContext *kchr = ctxt->data;
   if (kchr->chars)
-    NSFreeMapTable(kchr->chars);
+    CFRelease(kchr->chars);
   if (kchr->stats)
     free(kchr->stats);
   free(ctxt->data);
@@ -645,7 +645,7 @@ CFMutableDictionaryRef _UpgradeToUnicode(ScriptCode script, UInt32 *keys, UInt32
   TextEncoding encoding;
   TextToUnicodeInfo info;
 
-  CFMutableDictionaryRef map = reverse ? NSCreateMapTable(NSIntegerMapKeyCallBacks, NSIntegerMapValueCallBacks, 0) : NULL;
+  CFMutableDictionaryRef map = reverse ? CFDictionaryCreateMutable(kCFAllocatorDefault, 0, NULL, NULL) : NULL;
 
   err = UpgradeScriptInfoToTextEncoding(script,
                                         kTextLanguageDontCare,
@@ -672,7 +672,8 @@ CFMutableDictionaryRef _UpgradeToUnicode(ScriptCode script, UInt32 *keys, UInt32
           if (umap) umap[idx] = chr;
           if (map) {
             long k = chr, v = keys[idx];
-            NSMapInsertIfAbsent(map, (void *)k, (void *)v);
+            if (!CFDictionaryContainsKey(map, (void *)k))
+              CFDictionarySetValue(map, (void *)k, (void *)v);
           }
         } else {
           WBCLogWarning("Unable to convert char (%d): 0x%x, len: %lu", (int32_t)err, idx, len);

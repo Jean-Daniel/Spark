@@ -39,7 +39,7 @@ HK_OBJC_EXPORT
     unsigned int invoked:1;
     unsigned int onrelease:1;
     unsigned int registred:1;
-    unsigned int reserved:10;
+    unsigned int reserved:26;
   } hk_hkFlags;
 }
 
