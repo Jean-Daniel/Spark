@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>${EXECUTABLE_NAME}</string>
+	<key>CFBundleIconFile</key>
+	<string>AccessibilityAction</string>
+	<key>CFBundleIdentifier</key>
+	<string>org.shadowlab.spark.action.accessibility</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>${PRODUCT_NAME}</string>
+	<key>CFBundlePackageType</key>
+	<string>BNDL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0b9</string>
+	<key>CFBundleSignature</key>
+	<string>Sprk</string>
+	<key>CFBundleVersion</key>
+	<string>${CURRENT_PROJECT_VERSION}</string>
+	<key>NSMainNibFile</key>
+	<string>AccessibilityPlugin</string>
+	<key>NSPrincipalClass</key>
+	<string>AXActionPlugIn</string>
+	<key>SparkActionClass</key>
+	<string>AXSparkAction</string>
+	<key>SparkHelpFile</key>
+	<string></string>
+	<key>SparkPluginIcon</key>
+	<string>AccessibilityIcon</string>
+</dict>
+</plist>

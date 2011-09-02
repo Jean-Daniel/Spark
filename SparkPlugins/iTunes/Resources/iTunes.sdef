@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionary SYSTEM "file://localhost/System/Library/DTDs/sdef.dtd">
+<dictionary title="iTunes">
+	<suite name="Spark iTunes" code="SpIt" description="Spark iTunes Plugin Suite">
+		<class name="itunes action" code="ItAc" description="iTunes Action" plural="itunes actions" inherits="action">
+			<cocoa class="ITunesAction"/>
+		</class>
+	</suite>
+</dictionary>
