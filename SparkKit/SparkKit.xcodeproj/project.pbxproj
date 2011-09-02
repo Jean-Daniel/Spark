@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 45;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -11,8 +11,6 @@
 		1B17700F130F42D800E0A389 /* WBEnumerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B17700D130F42D800E0A389 /* WBEnumerator.m */; };
 		1B177013130F42FB00E0A389 /* WBImageFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B177011130F42FB00E0A389 /* WBImageFunctions.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		1B177014130F42FB00E0A389 /* WBImageFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B177012130F42FB00E0A389 /* WBImageFunctions.m */; };
-		1B17713A130F471900E0A389 /* WBDSFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B177138130F471900E0A389 /* WBDSFunctions.c */; };
-		1B17713B130F471900E0A389 /* WBDSFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B177139130F471900E0A389 /* WBDSFunctions.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		1B1774FB130F4C1900E0A389 /* WBIndexSetIterator.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B1774F9130F4C1900E0A389 /* WBIndexSetIterator.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		1B1774FC130F4C1900E0A389 /* WBIndexSetIterator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1774FA130F4C1900E0A389 /* WBIndexSetIterator.m */; };
 		1B184C890ED07D0D003E2346 /* WBThreadPort.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B184C870ED07D0D003E2346 /* WBThreadPort.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -24,6 +22,10 @@
 		1B184CA20ED07D41003E2346 /* WBSecurityFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B184C980ED07D41003E2346 /* WBSecurityFunctions.c */; };
 		1B184CA30ED07D41003E2346 /* WBSecurityFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B184C990ED07D41003E2346 /* WBSecurityFunctions.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		1B184D230ED07D94003E2346 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B184D220ED07D94003E2346 /* Security.framework */; };
+		1B40299613C095BE000FD141 /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B40299513C095BE000FD141 /* HotKeyToolKit.framework */; };
+		1B40299813C095E1000FD141 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B40299713C095E1000FD141 /* Carbon.framework */; };
+		1B40299A13C095E6000FD141 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B40299913C095E6000FD141 /* Cocoa.framework */; };
+		1B40299C13C095ED000FD141 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B40299B13C095EC000FD141 /* IOKit.framework */; };
 		1B5D8C1B0EE2FA7500BD1EAF /* NSTableView+WonderBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8C130EE2FA6900BD1EAF /* NSTableView+WonderBox.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		1B5D8C1C0EE2FA7900BD1EAF /* NSTableView+WonderBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8C140EE2FA6900BD1EAF /* NSTableView+WonderBox.m */; };
 		1B5D8C1D0EE2FA7C00BD1EAF /* NSImage+WonderBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8C100EE2FA6900BD1EAF /* NSImage+WonderBox.m */; };
@@ -43,7 +45,7 @@
 		1B5D8C540EE2FC6700BD1EAF /* NSFileWrapper+WonderBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8C520EE2FC6700BD1EAF /* NSFileWrapper+WonderBox.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		1B5D8C550EE2FC6700BD1EAF /* NSFileWrapper+WonderBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8C530EE2FC6700BD1EAF /* NSFileWrapper+WonderBox.m */; };
 		1B5D8C5A0EE2FC9100BD1EAF /* WBObjCRuntime.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8C580EE2FC9100BD1EAF /* WBObjCRuntime.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1B5D8C5B0EE2FC9100BD1EAF /* WBObjCRuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8C590EE2FC9100BD1EAF /* WBObjCRuntime.m */; };
+		1B5D8C5B0EE2FC9100BD1EAF /* WBObjCRuntime.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8C590EE2FC9100BD1EAF /* WBObjCRuntime.c */; };
 		1B5D8CBA0EE2FD4A00BD1EAF /* NSArray+WonderBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8CA60EE2FD3500BD1EAF /* NSArray+WonderBox.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		1B5D8CBB0EE2FD4B00BD1EAF /* NSArray+WonderBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8CA70EE2FD3500BD1EAF /* NSArray+WonderBox.m */; };
 		1B5D8CBC0EE2FD4B00BD1EAF /* NSCharacterSet+WonderBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8CA80EE2FD3500BD1EAF /* NSCharacterSet+WonderBox.h */; };
@@ -81,8 +83,6 @@
 		1BB983720D381ECC0074D18E /* WBBezelItemContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB9836C0D381ECC0074D18E /* WBBezelItemContent.m */; };
 		1BB983730D381ECC0074D18E /* WBNotificationWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB9836D0D381ECC0074D18E /* WBNotificationWindow.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		1BB983740D381ECC0074D18E /* WBNotificationWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB9836E0D381ECC0074D18E /* WBNotificationWindow.m */; };
-		1BB983850D381EE70074D18E /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 983975950A5866BF00F79B40 /* IOKit.framework */; };
-		1BB983860D381EE80074D18E /* DirectoryService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98E19C670B160EF1007E4D31 /* DirectoryService.framework */; };
 		1BB986B70D382AD10074D18E /* WBProgressPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BB986950D382AD00074D18E /* WBProgressPanel.xib */; };
 		1BB986BC0D382AD10074D18E /* WBApplicationView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB9869A0D382AD00074D18E /* WBApplicationView.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		1BB986BD0D382AD10074D18E /* WBApplicationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB9869B0D382AD10074D18E /* WBApplicationView.m */; };
@@ -157,7 +157,6 @@
 		1BE45945130F599600A6A133 /* WBHeader.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1BE45942130F599600A6A133 /* WBHeader.tiff */; };
 		1BE45946130F599600A6A133 /* WBHeaderMenu.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1BE45943130F599600A6A133 /* WBHeaderMenu.tiff */; };
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
-		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
 		9805FD390773B47700B1A341 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9805FD370773B47700B1A341 /* Localizable.strings */; };
 		980EEB2E0A7E8A0B00013CF5 /* SimpleList.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 980EEB2D0A7E8A0B00013CF5 /* SimpleList.tiff */; };
 		9816B0630B2F4677002EE526 /* spark-editor.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 9816B0620B2F4677002EE526 /* spark-editor.tiff */; };
@@ -167,7 +166,6 @@
 		984A38660A60036E00DA6455 /* SparkActionLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 984A38620A60036E00DA6455 /* SparkActionLoader.m */; };
 		984A38670A60036E00DA6455 /* SparkPlugIn.h in Headers */ = {isa = PBXBuildFile; fileRef = 984A38630A60036E00DA6455 /* SparkPlugIn.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		984A38680A60036E00DA6455 /* SparkPlugIn.m in Sources */ = {isa = PBXBuildFile; fileRef = 984A38640A60036E00DA6455 /* SparkPlugIn.m */; };
-		984A388A0A6003B800DA6455 /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 984A38870A6003A300DA6455 /* HotKeyToolKit.framework */; };
 		984A38900A60040700DA6455 /* SparkPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 984A388D0A60040600DA6455 /* SparkPrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		984A38910A60040700DA6455 /* SparkKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 984A388E0A60040700DA6455 /* SparkKit.m */; };
 		984A38920A60040700DA6455 /* SparkKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 984A388F0A60040700DA6455 /* SparkKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -196,7 +194,6 @@
 		986286250B2AE8DF00866A34 /* enabled.png in Resources */ = {isa = PBXBuildFile; fileRef = 986286240B2AE8DE00866A34 /* enabled.png */; };
 		9864A33F0BD117F20089447D /* SparkPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 9864A33E0BD117F20089447D /* SparkPreferences.m */; };
 		9864A3AD0BD11EB40089447D /* SparkPreferences.h in Headers */ = {isa = PBXBuildFile; fileRef = 9864A3AC0BD11EB40089447D /* SparkPreferences.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		988C9B460B56F2EF000A0DDC /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 988C9AAE0B56F29A000A0DDC /* Carbon.framework */; };
 		989EF9EE0A7CC4C900721386 /* SparkList.h in Headers */ = {isa = PBXBuildFile; fileRef = 989EF9ED0A7CC4C900721386 /* SparkList.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		98A854E40AFF9BFE00088961 /* SparkBuiltInAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 98A854E20AFF9BFE00088961 /* SparkBuiltInAction.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		98A854E50AFF9BFE00088961 /* SparkBuiltInAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 98A854E30AFF9BFE00088961 /* SparkBuiltInAction.m */; };
@@ -233,37 +230,10 @@
 		98FC31D50B32E585000D5F6B /* Application.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98A923B80A7BC6E200DF1998 /* Application.tiff */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		984A38800A6003A300DA6455 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 984A38790A6003A300DA6455 /* HotKeyToolKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 98643F000A556F2200260086;
-			remoteInfo = Test;
-		};
-		984A38860A6003A300DA6455 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 984A38790A6003A300DA6455 /* HotKeyToolKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
-			remoteInfo = HotKeyToolKit;
-		};
-		984A38880A6003AD00DA6455 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 984A38790A6003A300DA6455 /* HotKeyToolKit.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
-			remoteInfo = HotKeyToolKit;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
-		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
-		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		1B09470D0D68BC9B00E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		1B09470E0D68BCA100E8FE8D /* French */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1B09470D0D68BC9B00E8FE8D /* French */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1B09470E0D68BCA100E8FE8D /* French */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1B0947110D68BCCB00E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = French; path = French.lproj/SparkPlugin.xib; sourceTree = "<group>"; };
 		1B0947120D68BCD100E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = French; path = French.lproj/SparkMultiAlert.xib; sourceTree = "<group>"; };
 		1B0947140D68BCDB00E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = French; path = French.lproj/SparkPluginView.xib; sourceTree = "<group>"; };
@@ -271,8 +241,6 @@
 		1B17700D130F42D800E0A389 /* WBEnumerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBEnumerator.m; sourceTree = "<group>"; };
 		1B177011130F42FB00E0A389 /* WBImageFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBImageFunctions.h; sourceTree = "<group>"; };
 		1B177012130F42FB00E0A389 /* WBImageFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBImageFunctions.m; sourceTree = "<group>"; };
-		1B177138130F471900E0A389 /* WBDSFunctions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WBDSFunctions.c; sourceTree = "<group>"; };
-		1B177139130F471900E0A389 /* WBDSFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBDSFunctions.h; sourceTree = "<group>"; };
 		1B1774F9130F4C1900E0A389 /* WBIndexSetIterator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBIndexSetIterator.h; sourceTree = "<group>"; };
 		1B1774FA130F4C1900E0A389 /* WBIndexSetIterator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBIndexSetIterator.m; sourceTree = "<group>"; };
 		1B184C870ED07D0D003E2346 /* WBThreadPort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBThreadPort.h; sourceTree = "<group>"; };
@@ -284,6 +252,10 @@
 		1B184C980ED07D41003E2346 /* WBSecurityFunctions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WBSecurityFunctions.c; sourceTree = "<group>"; };
 		1B184C990ED07D41003E2346 /* WBSecurityFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBSecurityFunctions.h; sourceTree = "<group>"; };
 		1B184D220ED07D94003E2346 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		1B40299513C095BE000FD141 /* HotKeyToolKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HotKeyToolKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1B40299713C095E1000FD141 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
+		1B40299913C095E6000FD141 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		1B40299B13C095EC000FD141 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		1B5D8C050EE2FA6900BD1EAF /* NSAlert+WonderBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAlert+WonderBox.h"; sourceTree = "<group>"; };
 		1B5D8C060EE2FA6900BD1EAF /* NSAlert+WonderBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAlert+WonderBox.m"; sourceTree = "<group>"; };
 		1B5D8C070EE2FA6900BD1EAF /* NSArrayController+WonderBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArrayController+WonderBox.h"; sourceTree = "<group>"; };
@@ -303,7 +275,7 @@
 		1B5D8C520EE2FC6700BD1EAF /* NSFileWrapper+WonderBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileWrapper+WonderBox.h"; sourceTree = "<group>"; };
 		1B5D8C530EE2FC6700BD1EAF /* NSFileWrapper+WonderBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileWrapper+WonderBox.m"; sourceTree = "<group>"; };
 		1B5D8C580EE2FC9100BD1EAF /* WBObjCRuntime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBObjCRuntime.h; sourceTree = "<group>"; };
-		1B5D8C590EE2FC9100BD1EAF /* WBObjCRuntime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBObjCRuntime.m; sourceTree = "<group>"; };
+		1B5D8C590EE2FC9100BD1EAF /* WBObjCRuntime.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WBObjCRuntime.c; sourceTree = "<group>"; };
 		1B5D8CA60EE2FD3500BD1EAF /* NSArray+WonderBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+WonderBox.h"; sourceTree = "<group>"; };
 		1B5D8CA70EE2FD3500BD1EAF /* NSArray+WonderBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+WonderBox.m"; sourceTree = "<group>"; };
 		1B5D8CA80EE2FD3500BD1EAF /* NSCharacterSet+WonderBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSCharacterSet+WonderBox.h"; sourceTree = "<group>"; };
@@ -420,12 +392,10 @@
 		9805FD380773B47700B1A341 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		980EEB2D0A7E8A0B00013CF5 /* SimpleList.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SimpleList.tiff; sourceTree = "<group>"; };
 		9816B0620B2F4677002EE526 /* spark-editor.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "spark-editor.tiff"; sourceTree = "<group>"; };
-		983975950A5866BF00F79B40 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
 		984A38610A60036E00DA6455 /* SparkActionLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkActionLoader.h; sourceTree = "<group>"; };
 		984A38620A60036E00DA6455 /* SparkActionLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkActionLoader.m; sourceTree = "<group>"; };
 		984A38630A60036E00DA6455 /* SparkPlugIn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkPlugIn.h; sourceTree = "<group>"; };
 		984A38640A60036E00DA6455 /* SparkPlugIn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkPlugIn.m; sourceTree = "<group>"; };
-		984A38790A6003A300DA6455 /* HotKeyToolKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = HotKeyToolKit.xcodeproj; path = ../HotKeyToolKit/HotKeyToolKit.xcodeproj; sourceTree = SOURCE_ROOT; };
 		984A388D0A60040600DA6455 /* SparkPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SparkPrivate.h; path = Sources/SparkPrivate.h; sourceTree = "<group>"; };
 		984A388E0A60040700DA6455 /* SparkKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SparkKit.m; path = Sources/SparkKit.m; sourceTree = "<group>"; };
 		984A388F0A60040700DA6455 /* SparkKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SparkKit.h; path = Sources/SparkKit.h; sourceTree = "<group>"; };
@@ -461,7 +431,6 @@
 		9864A3AC0BD11EB40089447D /* SparkPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkPreferences.h; sourceTree = "<group>"; };
 		986DB09207135AC100C65FF2 /* CustomKeyIcon.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = CustomKeyIcon.tif; sourceTree = "<group>"; };
 		986F7A4007071B2F00064694 /* SystemApplication.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SystemApplication.tif; sourceTree = "<group>"; };
-		988C9AAE0B56F29A000A0DDC /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		989EF9E90A7CC4BB00721386 /* SparkList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkList.m; sourceTree = "<group>"; };
 		989EF9ED0A7CC4C900721386 /* SparkList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkList.h; sourceTree = "<group>"; };
 		98A854E20AFF9BFE00088961 /* SparkBuiltInAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkBuiltInAction.h; sourceTree = "<group>"; };
@@ -484,7 +453,6 @@
 		98D886B00B29644800E661EF /* plugin.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = plugin.tiff; sourceTree = "<group>"; };
 		98D886E00B29678D00E661EF /* SparkEntry.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SparkEntry.tiff; sourceTree = "<group>"; };
 		98D886E20B2967A900E661EF /* SparkDisabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SparkDisabled.png; sourceTree = "<group>"; };
-		98E19C670B160EF1007E4D31 /* DirectoryService.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DirectoryService.framework; path = /System/Library/Frameworks/DirectoryService.framework; sourceTree = "<absolute>"; };
 		98E6514F0B62932B008A8C9B /* SparkIconManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkIconManager.m; sourceTree = "<group>"; };
 		98E651510B62933B008A8C9B /* SparkIconManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkIconManager.h; sourceTree = "<group>"; };
 		98EA2CAD0B29D1F400E39193 /* SparkScriptApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkScriptApplication.m; sourceTree = "<group>"; };
@@ -504,12 +472,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */,
-				988C9B460B56F2EF000A0DDC /* Carbon.framework in Frameworks */,
-				984A388A0A6003B800DA6455 /* HotKeyToolKit.framework in Frameworks */,
-				1BB983850D381EE70074D18E /* IOKit.framework in Frameworks */,
-				1BB983860D381EE80074D18E /* DirectoryService.framework in Frameworks */,
+				1B40299C13C095ED000FD141 /* IOKit.framework in Frameworks */,
+				1B40299A13C095E6000FD141 /* Cocoa.framework in Frameworks */,
+				1B40299813C095E1000FD141 /* Carbon.framework in Frameworks */,
 				1B184D230ED07D94003E2346 /* Security.framework in Frameworks */,
+				1B40299613C095BE000FD141 /* HotKeyToolKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -533,7 +500,6 @@
 				0867D69AFE84028FC02AAC07 /* Frameworks */,
 				034768DFFF38A50411DB9C8B /* Products */,
 				1B7BB7880CBE1FD700484A9E /* xcconfigs */,
-				984A38790A6003A300DA6455 /* HotKeyToolKit.xcodeproj */,
 			);
 			name = SparkKit;
 			sourceTree = "<group>";
@@ -542,7 +508,6 @@
 			isa = PBXGroup;
 			children = (
 				1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */,
-				1058C7B2FEA5585E11CA2CBB /* Other Frameworks */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -580,22 +545,13 @@
 		1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				983975950A5866BF00F79B40 /* IOKit.framework */,
-				1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */,
-				988C9AAE0B56F29A000A0DDC /* Carbon.framework */,
+				1B40299B13C095EC000FD141 /* IOKit.framework */,
+				1B40299913C095E6000FD141 /* Cocoa.framework */,
+				1B40299713C095E1000FD141 /* Carbon.framework */,
 				1B184D220ED07D94003E2346 /* Security.framework */,
-				98E19C670B160EF1007E4D31 /* DirectoryService.framework */,
+				1B40299513C095BE000FD141 /* HotKeyToolKit.framework */,
 			);
 			name = "Linked Frameworks";
-			sourceTree = "<group>";
-		};
-		1058C7B2FEA5585E11CA2CBB /* Other Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				0867D69BFE84028FC02AAC07 /* Foundation.framework */,
-				0867D6A5FE840307C02AAC07 /* AppKit.framework */,
-			);
-			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
 		1B184C8F0ED07D41003E2346 /* Security */ = {
@@ -755,8 +711,6 @@
 		1BE316440D38138B005C3FB2 /* Functions */ = {
 			isa = PBXGroup;
 			children = (
-				1B177138130F471900E0A389 /* WBDSFunctions.c */,
-				1B177139130F471900E0A389 /* WBDSFunctions.h */,
 				1B5D8E540EE3016F00BD1EAF /* WBBase64.h */,
 				1B5D8E530EE3016F00BD1EAF /* WBBase64.c */,
 				1BCDCA941035919B00EAD9FE /* WBFunctions.h */,
@@ -776,7 +730,7 @@
 				1BE316550D38138B005C3FB2 /* WBIOKitFunctions.c */,
 				1BE316560D38138B005C3FB2 /* WBIOKitFunctions.h */,
 				1B5D8C580EE2FC9100BD1EAF /* WBObjCRuntime.h */,
-				1B5D8C590EE2FC9100BD1EAF /* WBObjCRuntime.m */,
+				1B5D8C590EE2FC9100BD1EAF /* WBObjCRuntime.c */,
 				1BE316580D38138B005C3FB2 /* WBLoginItems.h */,
 				1BE316570D38138B005C3FB2 /* WBLoginItems.c */,
 				1BE316590D38138B005C3FB2 /* WBLSFunctions.h */,
@@ -853,15 +807,6 @@
 				984A38610A60036E00DA6455 /* SparkActionLoader.h */,
 			);
 			name = Headers;
-			sourceTree = "<group>";
-		};
-		984A387A0A6003A300DA6455 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				984A38810A6003A300DA6455 /* Test.octest */,
-				984A38870A6003A300DA6455 /* HotKeyToolKit.framework */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		984A38A20A60060200DA6455 /* Library */ = {
@@ -1095,7 +1040,6 @@
 				1BAD406E130DCA940066B1AB /* WBTextFieldCell.h in Headers */,
 				1B17700E130F42D800E0A389 /* WBEnumerator.h in Headers */,
 				1B177013130F42FB00E0A389 /* WBImageFunctions.h in Headers */,
-				1B17713B130F471900E0A389 /* WBDSFunctions.h in Headers */,
 				1B1774FB130F4C1900E0A389 /* WBIndexSetIterator.h in Headers */,
 				1BE458FA130F58C000A6A133 /* WBSplitview.h in Headers */,
 				1BE4591E130F593500A6A133 /* WBTemplate.h in Headers */,
@@ -1116,12 +1060,10 @@
 				8DC2EF520486A6940098B216 /* Resources */,
 				8DC2EF540486A6940098B216 /* Sources */,
 				8DC2EF560486A6940098B216 /* Frameworks */,
-				8DC2EF580486A6940098B216 /* Rez */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				984A38890A6003AD00DA6455 /* PBXTargetDependency */,
 			);
 			name = SparkKit;
 			productInstallPath = "$(HOME)/Library/Frameworks";
@@ -1134,8 +1076,11 @@
 /* Begin PBXProject section */
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0410;
+			};
 			buildConfigurationList = 9848D88A085638FD006B5130 /* Build configuration list for PBXProject "SparkKit" */;
-			compatibilityVersion = "Xcode 3.1";
+			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
@@ -1149,35 +1094,12 @@
 			mainGroup = 0867D691FE84028FC02AAC07 /* SparkKit */;
 			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 984A387A0A6003A300DA6455 /* Products */;
-					ProjectRef = 984A38790A6003A300DA6455 /* HotKeyToolKit.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				8DC2EF4F0486A6940098B216 /* SparkKit */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		984A38810A6003A300DA6455 /* Test.octest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = Test.octest;
-			remoteRef = 984A38800A6003A300DA6455 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		984A38870A6003A300DA6455 /* HotKeyToolKit.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = HotKeyToolKit.framework;
-			remoteRef = 984A38860A6003A300DA6455 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		8DC2EF520486A6940098B216 /* Resources */ = {
@@ -1218,16 +1140,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXRezBuildPhase section */
-		8DC2EF580486A6940098B216 /* Rez */ = {
-			isa = PBXRezBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXRezBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8DC2EF540486A6940098B216 /* Sources */ = {
@@ -1302,7 +1214,7 @@
 				1B5D8C2E0EE2FAFF00BD1EAF /* WBVersionFunctions.m in Sources */,
 				1B5D8C370EE2FB1E00BD1EAF /* WBGeometry.m in Sources */,
 				1B5D8C550EE2FC6700BD1EAF /* NSFileWrapper+WonderBox.m in Sources */,
-				1B5D8C5B0EE2FC9100BD1EAF /* WBObjCRuntime.m in Sources */,
+				1B5D8C5B0EE2FC9100BD1EAF /* WBObjCRuntime.c in Sources */,
 				1B5D8CBB0EE2FD4B00BD1EAF /* NSArray+WonderBox.m in Sources */,
 				1B5D8CBD0EE2FD4B00BD1EAF /* NSCharacterSet+WonderBox.m in Sources */,
 				1B5D8CBF0EE2FD5200BD1EAF /* NSError+WonderBox.m in Sources */,
@@ -1316,7 +1228,6 @@
 				1BAD406F130DCA940066B1AB /* WBTextFieldCell.m in Sources */,
 				1B17700F130F42D800E0A389 /* WBEnumerator.m in Sources */,
 				1B177014130F42FB00E0A389 /* WBImageFunctions.m in Sources */,
-				1B17713A130F471900E0A389 /* WBDSFunctions.c in Sources */,
 				1B1774FC130F4C1900E0A389 /* WBIndexSetIterator.m in Sources */,
 				1BE458FB130F58C000A6A133 /* WBSplitview.m in Sources */,
 				1BE4591F130F593500A6A133 /* WBTemplate.m in Sources */,
@@ -1327,14 +1238,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		984A38890A6003AD00DA6455 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = HotKeyToolKit;
-			targetProxy = 984A38880A6003AD00DA6455 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		089C1666FE841158C02AAC07 /* InfoPlist.strings */ = {
@@ -1399,6 +1302,10 @@
 				CURRENT_PROJECT_VERSION = 460;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 460;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../Products/Debug\"",
+				);
 				FRAMEWORK_VERSION = B;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -1425,6 +1332,10 @@
 				CURRENT_PROJECT_VERSION = 460;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 460;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../Products/Debug\"",
+				);
 				FRAMEWORK_VERSION = B;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
