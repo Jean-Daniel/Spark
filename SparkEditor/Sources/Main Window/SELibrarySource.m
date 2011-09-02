@@ -171,6 +171,7 @@ BOOL SEOverwriteFilter(SparkList *list, SparkEntry *entry, id ctxt) {
 	[self setSelectsInsertedObjects:YES];
 	
   [self rearrangeObjects];
+  [uiTable noteHeightOfRowsWithIndexesChanged:WBIndexesForCount([self count])];
 }
 
 - (void)setLibrary:(SparkLibrary *)aLibrary {
@@ -500,12 +501,14 @@ BOOL SEOverwriteFilter(SparkList *list, SparkEntry *entry, id ctxt) {
 	SparkList *list = SparkNotificationObject(aNotification);
 	[self addUserEntryList:list];
   [self rearrangeObjects];
+  [uiTable noteHeightOfRowsWithIndexesChanged:WBIndexesForCount([self count])];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
 	if ([@"name" isEqualToString:keyPath]) {
 		if ([self indexOfUserList:object] != NSNotFound)
 			[self rearrangeObjects];
+    [uiTable noteHeightOfRowsWithIndexesChanged:WBIndexesForCount([self count])];
 	} else {
 		[super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
 	}
