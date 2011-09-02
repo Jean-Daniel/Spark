@@ -8,9 +8,9 @@
 
 #include <unistd.h>
 
+#include "SystemUsers.h"
 #import "SystemActionPlugin.h"
 
-#import WBHEADER(WBDSFunctions.h)
 #import WBHEADER(NSString+WonderBox.h)
 
 @implementation SystemActionPlugin
@@ -32,15 +32,16 @@
   }
   
   /* Build user switching menu */
-  CFArrayRef users;
   BOOL separator = NO;
-  if (noErr == WBDSGetVisibleUsers(&users, kDS1AttrUniqueID, kDS1AttrDistinguishedName, NULL)) {
-    CFIndex cnt = CFArrayGetCount(users);
-    for (CFIndex idx = 0; idx < cnt; idx++) {
+  CFArrayRef users = WBODCopyVisibleUsersAttributes(kODAttributeTypeUniqueID, kODAttributeTypeRecordName, kODAttributeTypeFullName, NULL);
+  if (users) {
+    for (CFIndex idx = 0, cnt = CFArrayGetCount(users); idx < cnt; idx++) {
       CFDictionaryRef user = CFArrayGetValueAtIndex(users, idx);
-      CFStringRef suid = CFDictionaryGetValue(user, CFSTR(kDS1AttrUniqueID));
+      CFStringRef suid = CFDictionaryGetValue(user, kODAttributeTypeUniqueID);
       if (suid && (unsigned)CFStringGetIntValue(suid) != getuid()) {
-        CFStringRef name = CFDictionaryGetValue(user, CFSTR(kDS1AttrDistinguishedName));
+        CFStringRef name = CFDictionaryGetValue(user, kODAttributeTypeFullName);
+        if (!name)
+          name = CFDictionaryGetValue(user, kODAttributeTypeRecordName);
         if (name) {
           if (!separator) {
             separator = YES;
@@ -54,6 +55,7 @@
         }
       }
     }
+
     CFRelease(users);
   }
 }
