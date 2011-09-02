@@ -142,8 +142,9 @@ SparkEntry *__SEEntryForApplication(SparkEntry *entry, SparkApplication *app, bo
 }
 
 - (void)setApplication:(SparkApplication *)anApplication {
-	if (WBSetterRetain(se_application, anApplication))
+	WBSetterRetainAndDo(se_application, anApplication, {
     [self setNeedsReload:YES];
+  });
 }
 
 - (void)setSpecificFilter:(BOOL)flag {

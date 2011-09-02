@@ -31,12 +31,10 @@ NSImage *ITunesGetApplicationIcon(void) {
 
 @implementation ITunesActionPlugin
 
-+ (void)initialize {
-  if (self == [ITunesActionPlugin class]) {
-    [self setKeys:[NSArray arrayWithObject:@"sparkAction"] triggerChangeNotificationsForDependentKey:@"lsPlay"];
-    [self setKeys:[NSArray arrayWithObject:@"sparkAction"] triggerChangeNotificationsForDependentKey:@"rating"];
-    [self setKeys:[NSArray arrayWithObject:@"sparkAction"] triggerChangeNotificationsForDependentKey:@"showInfo"];
-  }
++ (NSSet *)keyPathsForValuesAffectingValueForKey:(NSString *)key {
+  if ([key isEqualToString:@"lsPlay"] || [key isEqualToString:@"rating"] || [key isEqualToString:@"showInfo"])
+    return [NSSet setWithObject:@"sparkAction"];
+  return [super keyPathsForValuesAffectingValueForKey:key];
 }
 
 - (id)init {

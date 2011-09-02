@@ -57,16 +57,21 @@
   }
 }
 
+static inline
+void _Setup(SEPlugInInstaller *self) {
+  /* Load nib if needed */
+  [self window];
+  /* Get plugin bundle ID */
+  /* If plugin already installed => ? */
+  NSString *name = [[NSFileManager defaultManager] displayNameAtPath:self->se_plugin];
+  NSString *explain = [NSString stringWithFormat:@"The plugin '%@' must be install before you can use it. Do you want to install it now?", name];
+  [self->ibExplain setStringValue:explain];
+}
+
 - (void)setPlugIn:(NSString *)path {
-  if (WBSetterCopy(se_plugin, path)) {
-    /* Load nib if needed */
-    [self window];
-    /* Get plugin bundle ID */
-    /* If plugin already installed => ? */
-    NSString *name = [[NSFileManager defaultManager] displayNameAtPath:path];
-    NSString *explain = [NSString stringWithFormat:@"The plugin '%@' must be install before you can use it. Do you want to install it now?", name];
-    [ibExplain setStringValue:explain];
-  }
+  WBSetterCopyAndDo(se_plugin, path, {
+    _Setup(self);
+  });
 }
 
 - (OSStatus)moveFile:(NSString *)file to:(NSString *)destination copy:(BOOL)flag {

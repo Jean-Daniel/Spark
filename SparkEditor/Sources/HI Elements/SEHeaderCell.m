@@ -103,7 +103,7 @@ void SEHeaderCellShadingValue (void *info, const CGFloat *in, CGFloat *out) {
 }
 
 static 
-CGFunctionRef SEHeaderCellShadingFunction(CGColorSpaceRef colorspace) {
+CGFunctionRef SEHeaderCellCreateShadingFunction(CGColorSpaceRef colorspace) {
   size_t components;
   static const CGFloat input_value_range [2] = { 0, 1 };
   static const CGFloat output_value_ranges [8] = { 0, 1, 0, 1, 0, 1, 0, 1 };
@@ -116,7 +116,7 @@ CGFunctionRef SEHeaderCellShadingFunction(CGColorSpaceRef colorspace) {
 static NSImage *SEHeaderCellCreateShading(CGFloat height, Boolean flipped) {
   CGPoint startPoint = CGPointMake(0, flipped ? height : 0), endPoint = CGPointMake(0, flipped ? 0 : height);
   CGColorSpaceRef colorspace = CGColorSpaceCreateDeviceRGB();
-  CGFunctionRef function = SEHeaderCellShadingFunction(colorspace);
+  CGFunctionRef function = SEHeaderCellCreateShadingFunction(colorspace);
   
   CGShadingRef shading = CGShadingCreateAxial(colorspace, startPoint, endPoint, function, false, false);;
   

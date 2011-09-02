@@ -248,8 +248,9 @@
 }
 
 - (void)setDocumentName:(NSString *)aName {
-  if (WBSetterCopy(da_name, aName))
+  WBSetterCopyAndDo(da_name, aName, {
     [[ibName cell] setPlaceholderString:[aName stringByDeletingPathExtension] ? : @""];
+  });
 }
 
 - (NSImage *)documentIcon {

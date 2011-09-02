@@ -236,7 +236,7 @@ NSString *SESparkDaemonPath(void) {
 #if defined(DEBUG)
   return kSparkDaemonExecutableName;
 #else
-  return [[[NSBundle mainBundle] sharedSupportPath] stringByAppendingPathComponent:kSparkDaemonExecutableName];
+  return [[NSBundle mainBundle] pathForAuxiliaryExecutable:kSparkDaemonExecutableName];
 #endif
 }
 
@@ -245,8 +245,9 @@ BOOL SELaunchSparkDaemon(ProcessSerialNumber *psn) {
   [SparkActiveLibrary() synchronize];
   NSString *path = SESparkDaemonPath();
   if (path) {
-    if (noErr != WBLSLaunchApplicationAtPath((CFStringRef)path, kCFURLPOSIXPathStyle, kLSLaunchDefaults | kLSLaunchDontSwitch | kLSLaunchDontAddToRecents, psn)) {
-      DLog(@"Error cannot launch daemon app");
+    OSStatus err = WBLSLaunchApplicationAtPath((CFStringRef)path, kCFURLPOSIXPathStyle, kLSLaunchDefaults | kLSLaunchDontSwitch | kLSLaunchDontAddToRecents, psn);
+    if (noErr != err) {
+      WBLogError(@"Error cannot launch daemon app: %s", GetMacOSStatusErrorString(err));
       [[SEServerConnection defaultConnection] setStatus:kSparkDaemonStatusError];
       return NO;
     }

@@ -309,7 +309,7 @@ void SparkSDActionToggleDaemonStatus(void) {
 }
 
 - (void)toggleStatus {
-  NSInteger enabled;
+  NSInteger enabled = 0;
   for (NSUInteger idx = 0, count = [sp_list count]; idx < count; idx++) {
     SparkEntry *entry = [sp_list objectInEntriesAtIndex:idx];
     if ([entry isEnabled])
@@ -381,16 +381,14 @@ void SparkSDActionToggleDaemonStatus(void) {
   return sp_list;
 }
 - (void)setList:(SparkList *)aList {
-  if (WBSetterRetain(sp_list, aList))
-    sp_listUID = [aList uid];
+    WBSetterRetainAndDo(sp_list, aList, sp_listUID = [aList uid]);
 }
 
 - (SparkList *)alternateList {
   return sp_altList;
 }
 - (void)setAlternateList:(SparkList *)aList {
-  if (WBSetterRetain(sp_altList, aList))
-    sp_altListUID = [aList uid];
+    WBSetterRetainAndDo(sp_altList, aList, sp_altListUID = [aList uid]);
 }
 
 @end

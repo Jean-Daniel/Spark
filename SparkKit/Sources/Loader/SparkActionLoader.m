@@ -16,7 +16,7 @@ NSString * const SparkActionLoaderDidRegisterPlugInNotification = @"SparkActionL
 
 @implementation SparkActionLoader
 
-+ (SparkActionLoader *)sharedLoader; {
++ (SparkActionLoader *)sharedLoader {
   static SparkActionLoader *loader = nil;
   if (!loader) 
     loader = [[self alloc] init];

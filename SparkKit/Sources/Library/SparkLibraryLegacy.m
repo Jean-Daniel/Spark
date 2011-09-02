@@ -48,7 +48,7 @@
 - (void)setTriggerUID:(SparkUID)trigger;
 - (void)setApplicationUID:(SparkUID)application;
 
-- (SparkEntry *)newEntryWithLibrary:(SparkLibrary *)aLibrary;
+- (SparkEntry *)newEntryWithLibrary:(SparkLibrary *)aLibrary NS_RETURNS_AUTORELEASED;
 
 @end
 

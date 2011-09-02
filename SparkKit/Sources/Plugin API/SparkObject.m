@@ -24,7 +24,7 @@ static
 NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
 
 @interface SparkObject ()
-- (id)sp_initWithSerializedValues:(NSDictionary *)plist NS_INIT_METHOD;
+- (id)sp_initWithSerializedValues:(NSDictionary *)plist NS_METHOD_FAMILY(init);
 @end
 
 @implementation SparkObject

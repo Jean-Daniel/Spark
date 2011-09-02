@@ -278,10 +278,10 @@ NSString * const SparkEntryWillRemoveChildNotification = @"SparkEntryWillRemoveC
 }
 
 - (void)setAction:(SparkAction *)action {
-  if (WBSetterRetain(sp_action, action)) {
+  WBSetterRetainAndDo(sp_action, action, {
     SparkPlugIn *plugin = action ? [[SparkActionLoader sharedLoader] plugInForAction:action] : nil;
     if (plugin) [self setPlugged:[plugin isEnabled]];
-  }
+  });
 }
 - (void)setTrigger:(SparkTrigger *)trigger {
   WBSetterRetain(sp_trigger, trigger);

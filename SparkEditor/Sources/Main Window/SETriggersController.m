@@ -420,7 +420,7 @@ NSString * sSEHiddenPluggedObserverKey = nil;
 
 NSUInteger SETriggerSortValue(SparkTrigger *aTrigger) {
   if ([aTrigger isKindOfClass:[SparkHotKey class]])
-    return [(SparkHotKey *)aTrigger character] << 16 | [(SparkHotKey *)aTrigger modifier] & 0xff;
+    return [(SparkHotKey *)aTrigger character] << 16 | ([(SparkHotKey *)aTrigger modifier] & 0xff);
   else return 0;  
 }
 

@@ -140,7 +140,7 @@
 
 #pragma mark -
 - (void)setPath:(NSString *)aPath {
-  if (WBSetterRetain(aa_path, aPath)) {
+  WBSetterRetainAndDo(aa_path, aPath, {
     NSString *name = [[[NSFileManager defaultManager] displayNameAtPath:aPath] stringByDeletingPathExtension];
     [ibApplication setStringValue:name ? : @""];
     [[ibName cell] setPlaceholderString:name ? : NSLocalizedStringFromTableInBundle(@"ACTION_NAME",
@@ -157,7 +157,7 @@
       icon = [NSImage imageNamed:@"AAUndefined" inBundle:WBCurrentBundle()];
     }
     [ibIcon setImage:icon];
-  }
+  });
 }
 
 - (ApplicationActionType)action {
