@@ -19,6 +19,7 @@
   
   NSLock *sd_lock;
   NSMapTable *sd_locks;
+  NSConnection *sd_connection;
   
   /* Growl support */
   NSMutableArray *sd_growl;

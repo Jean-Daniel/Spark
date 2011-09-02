@@ -280,10 +280,10 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
 - (BOOL)openConnection {
   NSProtocolChecker *checker = [[NSProtocolChecker alloc] initWithTarget:self
                                                                 protocol:@protocol(SparkServer)]; 
-  NSConnection *connection = [NSConnection defaultConnection];
-  [connection setRootObject:checker];
+  sd_connection = [[NSConnection alloc] init];
+  [sd_connection setRootObject:checker];
   [checker release];
-  if (![connection registerName:kSparkConnectionName]) {
+  if (![sd_connection registerName:kSparkConnectionName]) {
     DLog(@"Error While opening Connection");
     return NO;
   } else {
@@ -440,6 +440,7 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
       } else {
         id lock = [action lock];
         SparkPlugIn *plugin = [[SparkActionLoader sharedLoader] plugInForAction:action];
+        WBAssert(plugin, @"invalid action triggered");
         
         [sd_lock lock];
         NSMutableDictionary *locks = NSMapGet(sd_locks, plugin);
@@ -476,7 +477,9 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
   [[NSNotificationCenter defaultCenter] removeObserver:self
                                                   name:NSConnectionDidDieNotification
                                                 object:nil];
-  [[NSConnection defaultConnection] invalidate];
+  [sd_connection invalidate];
+  [sd_connection release];
+  sd_connection = nil;
 }
 
 #pragma mark -
