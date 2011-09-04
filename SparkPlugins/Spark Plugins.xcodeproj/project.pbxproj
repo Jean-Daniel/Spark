@@ -38,6 +38,7 @@
 		1B1D1C210EDF495200F9BC33 /* AXSApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1D1C1D0EDF495200F9BC33 /* AXSApplication.m */; };
 		1B1D1C220EDF495200F9BC33 /* AXSUIElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1D1C1E0EDF495200F9BC33 /* AXSUIElement.m */; };
 		1B1D1C230EDF495200F9BC33 /* AXSUIElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B1D1C1F0EDF495200F9BC33 /* AXSUIElement.h */; };
+		1B24CFA61413E1DB0014FF20 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BDCB6DD0DA7C89800D95044 /* Growl.framework */; };
 		1B2606CF0EE172280035B2C1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1B2606CD0EE172280035B2C1 /* InfoPlist.strings */; };
 		1B35ED1513C0B69900A8AEA6 /* OSAKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B35ED1413C0B69900A8AEA6 /* OSAKit.framework */; };
 		1B35ED1713C0B6E700A8AEA6 /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B35ED1613C0B6E700A8AEA6 /* HotKeyToolKit.framework */; };
@@ -82,7 +83,6 @@
 		1BB4B94813C0B4B2000C0594 /* SystemUsers.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB4B94713C0B4B2000C0594 /* SystemUsers.h */; };
 		1BDCB6BB0DA7C78000D95044 /* ITunesGrowl.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BDCB6B90DA7C78000D95044 /* ITunesGrowl.h */; };
 		1BDCB6BC0DA7C78000D95044 /* ITunesGrowl.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDCB6BA0DA7C78000D95044 /* ITunesGrowl.m */; };
-		1BDCB6DE0DA7C89800D95044 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BDCB6DD0DA7C89800D95044 /* Growl.framework */; };
 		1BDCB7CA0DA7DA0F00D95044 /* GrowlNotifications.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1BDCB7C90DA7DA0F00D95044 /* GrowlNotifications.plist */; };
 		1BDCB8130DA7E1E600D95044 /* GrowlNotifications.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1BDCB8110DA7E1E600D95044 /* GrowlNotifications.strings */; };
 		1BE6E1A30DBCDD1200ABAC74 /* iTunes.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 1BE6E1A20DBCDD1200ABAC74 /* iTunes.sdef */; };
@@ -489,7 +489,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
-				1BDCB6DE0DA7C89800D95044 /* Growl.framework in Frameworks */,
+				1B24CFA61413E1DB0014FF20 /* Growl.framework in Frameworks */,
 				1B61C3E513C0AA6E00DEDE50 /* SparkKit.framework in Frameworks */,
 				1B1184D013C0BB1E00A222F0 /* HotKeyToolKit.framework in Frameworks */,
 			);
@@ -1910,10 +1910,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 460;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../../../Library/Developer/Xcode/DerivedData/Spark-fysvsprqluihytfmjogxeuuupkdt/Build/Products/Debug\"",
-				);
 				INFOPLIST_FILE = Text/Info.plist;
 				PRODUCT_NAME = TextAction;
 			};
@@ -1935,7 +1931,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../SparkEditor/Resources\"",
-					"\"$(SRCROOT)/../../../../Library/Developer/Xcode/DerivedData/Spark-fysvsprqluihytfmjogxeuuupkdt/Build/Products/Debug\"",
 				);
 				INFOPLIST_FILE = iTunes/Info.plist;
 				PRODUCT_NAME = iTunesAction;

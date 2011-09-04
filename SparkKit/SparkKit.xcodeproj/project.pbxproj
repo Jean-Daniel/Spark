@@ -1302,17 +1302,9 @@
 				CURRENT_PROJECT_VERSION = 460;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 460;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../Products/Debug\"",
-				);
 				FRAMEWORK_VERSION = B;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
-				OTHER_LDFLAGS = (
-					"-seg1addr",
-					0xD0200000,
-				);
 				PRODUCT_NAME = SparkKit;
 			};
 			name = Debug;
@@ -1332,17 +1324,9 @@
 				CURRENT_PROJECT_VERSION = 460;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 460;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../Products/Debug\"",
-				);
 				FRAMEWORK_VERSION = B;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
-				OTHER_LDFLAGS = (
-					"-seg1addr",
-					0xD0200000,
-				);
 				PRODUCT_NAME = SparkKit;
 			};
 			name = Release;

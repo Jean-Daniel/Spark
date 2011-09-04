@@ -16,6 +16,7 @@
 		1B1358FC0CA11C2000766572 /* pluginpref.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B1358FB0CA11C2000766572 /* pluginpref.tiff */; };
 		1B1535410D0D930F00C30ADA /* SEExport.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B15353F0D0D930F00C30ADA /* SEExport.xib */; };
 		1B15354A0D0D93F300C30ADA /* SEFirstRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B1535480D0D93F300C30ADA /* SEFirstRun.xib */; };
+		1B24CFA91413E2840014FF20 /* Spark.cer in Resources */ = {isa = PBXBuildFile; fileRef = 1B24CFA81413E2840014FF20 /* Spark.cer */; };
 		1B35ED3413C0B8C900A8AEA6 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B35ED3013C0B8C900A8AEA6 /* Cocoa.framework */; };
 		1B35ED3513C0B8C900A8AEA6 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B35ED3113C0B8C900A8AEA6 /* Security.framework */; };
 		1B35ED3613C0B8C900A8AEA6 /* SecurityInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B35ED3213C0B8C900A8AEA6 /* SecurityInterface.framework */; };
@@ -221,6 +222,7 @@
 		1B1359A10CA11FB400766572 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/SEUpdater.strings; sourceTree = "<group>"; };
 		1B1535400D0D930F00C30ADA /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SEExport.xib; sourceTree = "<group>"; };
 		1B1535490D0D93F300C30ADA /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SEFirstRun.xib; sourceTree = "<group>"; };
+		1B24CFA81413E2840014FF20 /* Spark.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = Spark.cer; sourceTree = "<group>"; };
 		1B35ED3013C0B8C900A8AEA6 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		1B35ED3113C0B8C900A8AEA6 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		1B35ED3213C0B8C900A8AEA6 /* SecurityInterface.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SecurityInterface.framework; path = System/Library/Frameworks/SecurityInterface.framework; sourceTree = SDKROOT; };
@@ -489,6 +491,7 @@
 				984BCA56060C7BDB0043CDEA /* Interface */,
 				98DCBDEC060C80DD00B3E0AE /* Info.plist */,
 				98D590F60AA18A4E0081A713 /* Localization */,
+				1B24CFA81413E2840014FF20 /* Spark.cer */,
 				984BCE5F060C7EBD0043CDEA /* SparkSuite.sdef */,
 				98D1E8B0078564B8002DDB31 /* Update.strings */,
 				986F865D0707415800064694 /* Editors.strings */,
@@ -938,6 +941,7 @@
 				1BA7A5AA0D685C6500D89AC2 /* SEPreferences.strings in Resources */,
 				1BEBF5940EBDE53C00404150 /* SEExportShortcut.xml in Resources */,
 				1BB100B113C9EBA2002BBF20 /* SparkLibrary.xib in Resources */,
+				1B24CFA91413E2840014FF20 /* Spark.cer in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1209,11 +1213,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 470;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../Products/Debug\"",
-					"\"$(SRCROOT)/../DerivedData/Spark/Build/Products/Debug\"",
-				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = Spark;
@@ -1234,11 +1233,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 470;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../Products/Debug\"",
-					"\"$(SRCROOT)/../DerivedData/Spark/Build/Products/Debug\"",
-				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = Spark;

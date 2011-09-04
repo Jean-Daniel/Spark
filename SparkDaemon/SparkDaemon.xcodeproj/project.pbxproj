@@ -7,11 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1B24CFA71413E22F0014FF20 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BDCB7340DA7CA3700D95044 /* Growl.framework */; };
 		1B35ED2313C0B7D500A8AEA6 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B35ED2113C0B7D500A8AEA6 /* Carbon.framework */; };
 		1B35ED2413C0B7D500A8AEA6 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B35ED2213C0B7D500A8AEA6 /* Cocoa.framework */; };
 		1BC0337613C0870A00914E3C /* SparkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BC0337513C0870A00914E3C /* SparkKit.framework */; };
 		1BC0337813C0873F00914E3C /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BC0337713C0873F00914E3C /* HotKeyToolKit.framework */; };
-		1BDCB7350DA7CA3700D95044 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BDCB7340DA7CA3700D95044 /* Growl.framework */; };
 		1BDCB7420DA7CA5600D95044 /* SparkDaemonGrowl.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDCB7410DA7CA5600D95044 /* SparkDaemonGrowl.m */; };
 		983AFC260B19A74300173464 /* Spark.icns in Resources */ = {isa = PBXBuildFile; fileRef = 983AFC250B19A74300173464 /* Spark.icns */; };
 		98D528DF0B19A14800C8425C /* SDAEHandlers.c in Sources */ = {isa = PBXBuildFile; fileRef = 98D528D90B19A14800C8425C /* SDAEHandlers.c */; };
@@ -51,7 +51,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1B35ED2413C0B7D500A8AEA6 /* Cocoa.framework in Frameworks */,
-				1BDCB7350DA7CA3700D95044 /* Growl.framework in Frameworks */,
+				1B24CFA71413E22F0014FF20 /* Growl.framework in Frameworks */,
 				1B35ED2313C0B7D500A8AEA6 /* Carbon.framework in Frameworks */,
 				1BC0337613C0870A00914E3C /* SparkKit.framework in Frameworks */,
 				1BC0337813C0873F00914E3C /* HotKeyToolKit.framework in Frameworks */,
@@ -61,18 +61,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				1B35ED2213C0B7D500A8AEA6 /* Cocoa.framework */,
-				1BDCB7340DA7CA3700D95044 /* Growl.framework */,
-				1B35ED2113C0B7D500A8AEA6 /* Carbon.framework */,
-				1BC0337513C0870A00914E3C /* SparkKit.framework */,
-				1BC0337713C0873F00914E3C /* HotKeyToolKit.framework */,
-			);
-			name = "Linked Frameworks";
-			sourceTree = "<group>";
-		};
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -106,7 +94,11 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
+				1B35ED2213C0B7D500A8AEA6 /* Cocoa.framework */,
+				1BDCB7340DA7CA3700D95044 /* Growl.framework */,
+				1B35ED2113C0B7D500A8AEA6 /* Carbon.framework */,
+				1BC0337513C0870A00914E3C /* SparkKit.framework */,
+				1BC0337713C0873F00914E3C /* HotKeyToolKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
