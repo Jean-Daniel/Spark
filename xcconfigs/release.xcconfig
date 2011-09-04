@@ -1,5 +1,5 @@
 
-CODE_SIGN_IDENTITY = $(_CODE_SIGN_IDENTITY)
+CODE_SIGN_IDENTITY = Spark
 
 // Until we got a good crash report symbolizer, don't strip symbols.
 STRIP_INSTALLED_PRODUCT = NO
