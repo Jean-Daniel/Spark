@@ -48,6 +48,8 @@
 
 - (SETriggersController *)triggers;
 
+- (IBAction)revealInApplication:(id)sender;
+
 @end
 
 SPARK_PRIVATE

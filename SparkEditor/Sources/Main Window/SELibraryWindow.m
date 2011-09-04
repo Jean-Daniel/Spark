@@ -9,6 +9,7 @@
 #import "SELibraryWindow.h"
 
 #import "Spark.h"
+#import "SEEntryList.h"
 #import "SETableView.h"
 #import "SELibrarySource.h"
 #import "SEBackgroundView.h"
