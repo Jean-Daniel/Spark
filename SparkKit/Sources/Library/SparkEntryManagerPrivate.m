@@ -34,58 +34,58 @@
 
 - (void)beginEditing:(SparkEntry *)anEntry {
 	NSParameterAssert(anEntry);
-	NSParameterAssert(nil == sp_edit.entry);
+	NSParameterAssert(nil == sp_entry);
 	NSParameterAssert([anEntry manager] == self);
 	/* copy informations */
-	sp_edit.entry = anEntry;
+	sp_entry = anEntry;
 }
 - (void)endEditing:(SparkEntry *)anEntry {
 	NSParameterAssert(anEntry);
-	NSParameterAssert(sp_edit.entry == anEntry);
+	NSParameterAssert(sp_entry == anEntry);
 	NSParameterAssert([anEntry manager] == self);	
 	
-	if (sp_edit.action || sp_edit.trigger || sp_edit.application) {
+	if (sp_action || sp_trigger || sp_application) {
 		/* entry has change, proceed */
 		[self updateEntry:anEntry
-						setAction:sp_edit.action
-							trigger:sp_edit.trigger
-					application:sp_edit.application];
+						setAction:sp_action
+							trigger:sp_trigger
+					application:sp_application];
 		
 		/* cleanup */
-		[sp_edit.application release]; sp_edit.application = nil;
-		[sp_edit.trigger release]; sp_edit.trigger = nil;
-		[sp_edit.action release]; sp_edit.action = nil;
+		[sp_application release]; sp_application = nil;
+		[sp_trigger release]; sp_trigger = nil;
+		[sp_action release]; sp_action = nil;
 	}
-	sp_edit.entry = nil;
+	sp_entry = nil;
 }
 
 - (void)replaceAction:(SparkAction *)anAction inEntry:(SparkEntry *)anEntry {
 	NSParameterAssert(anEntry);
-	NSParameterAssert(sp_edit.entry == anEntry);
+	NSParameterAssert(sp_entry == anEntry);
 	NSParameterAssert([anEntry manager] == self);
-	if (anAction != sp_edit.action) {
-		[sp_edit.action release];
-		sp_edit.action = [[anEntry action] isEqual:anAction] ? nil : [anAction retain];
+	if (anAction != sp_action) {
+		[sp_action release];
+		sp_action = [[anEntry action] isEqual:anAction] ? nil : [anAction retain];
 	}
 }
 
 - (void)replaceTrigger:(SparkTrigger *)aTrigger inEntry:(SparkEntry *)anEntry {
 	NSParameterAssert(anEntry);
-	NSParameterAssert(sp_edit.entry == anEntry);
+	NSParameterAssert(sp_entry == anEntry);
 	NSParameterAssert([anEntry manager] == self);
-	if (aTrigger != sp_edit.trigger) {
-		[sp_edit.trigger release];
-		sp_edit.trigger = [[anEntry trigger] isEqual:aTrigger] ? nil : [aTrigger retain];
+	if (aTrigger != sp_trigger) {
+		[sp_trigger release];
+		sp_trigger = [[anEntry trigger] isEqual:aTrigger] ? nil : [aTrigger retain];
 	}
 }
 
 - (void)replaceApplication:(SparkApplication *)anApplication inEntry:(SparkEntry *)anEntry {
 	NSParameterAssert(anEntry);
-	NSParameterAssert(sp_edit.entry == anEntry);
+	NSParameterAssert(sp_entry == anEntry);
 	NSParameterAssert([anEntry manager] == self);	
-	if (anApplication != sp_edit.application) {
-		[sp_edit.application release];
-		sp_edit.application = [[anEntry application] isEqual:anApplication] ? nil : [anApplication retain];
+	if (anApplication != sp_application) {
+		[sp_application release];
+		sp_application = [[anEntry application] isEqual:anApplication] ? nil : [anApplication retain];
 	}
 }
 
@@ -176,7 +176,7 @@ static SparkUID sUID = 0;
   if (![anEntry uid]) {
     [anEntry setUID:++sUID];
   } else {
-    DLog(@"Insert entry with UID: %u", [anEntry uid]);
+    SPXDebug(@"Insert entry with UID: %lu", (long)[anEntry uid]);
   }
   NSMapInsertKnownAbsent(sp_objects, (const void *)(intptr_t)[anEntry uid], anEntry);
   
@@ -297,7 +297,7 @@ static SparkUID sUID = 0;
 		 - application does not exists.
 		 */
     if (![entry action] || ![entry trigger] || ![entry application]) {
-      DLog(@"Remove Invalid entry %@", entry);
+      SPXDebug(@"Remove Invalid entry %@", entry);
       [self sp_removeEntry:entry];
     } else {
       if (![entry isSystem])
@@ -425,20 +425,20 @@ typedef struct {
     case SPARK_MAGIC:
       break;
     default:
-      DLog(@"Invalid header");
+      SPXDebug(@"Invalid header");
       if (outError) *outError = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileReadCorruptFileError userInfo:nil];
       return NO;
   }
   
   if (SparkReadField(header->version) != 0) {
-    DLog(@"Unsupported version: %x", SparkReadField(header->version));
+    SPXDebug(@"Unsupported version: %lx", (long)SparkReadField(header->version));
     if (outError) *outError = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileReadCorruptFileError userInfo:nil];
     return NO;
   }
   
   NSUInteger count = SparkReadField(header->count);
   if ([data length] < count * sizeof(SparkLibraryEntry_v0) + sizeof(SparkEntryHeader)) {
-    DLog(@"Unexpected end of file");
+    SPXDebug(@"Unexpected end of file");
     if (outError) *outError = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileReadCorruptFileError userInfo:nil];
     return NO;
   }

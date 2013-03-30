@@ -62,7 +62,7 @@ BOOL SparkLogSynchronization = NO;
 - (id)init {
   Class cls = [self class];
   [self release];
-	WBThrowException(NSInvalidArgumentException, @"%@ does not recognized selector %@", NSStringFromClass(cls), NSStringFromSelector(_cmd));
+	SPXThrowException(NSInvalidArgumentException, @"%@ does not recognized selector %@", NSStringFromClass(cls), NSStringFromSelector(_cmd));
 }
 
 - (id)initWithLibrary:(SparkLibrary *)aLibrary {
@@ -136,7 +136,7 @@ BOOL SparkLogSynchronization = NO;
 
 - (void)setDistantLibrary:(NSDistantObject<SparkLibrary> *)remoteLibrary {
   if (remoteLibrary && ![remoteLibrary conformsToProtocol:@protocol(SparkLibrary)]) {
-    WBThrowException(NSInvalidArgumentException, @"Remote Library %@ MUST conform to <SparkLibrary>", remoteLibrary);
+    SPXThrowException(NSInvalidArgumentException, @"Remote Library %@ MUST conform to <SparkLibrary>", remoteLibrary);
   }
   
   NSString *uuidstr = nil;
@@ -148,15 +148,15 @@ BOOL SparkLogSynchronization = NO;
       /* Check library UUID */
       uuidstr = [remoteLibrary uuid];
       if (!uuidstr) {
-        WBThrowException(NSInvalidArgumentException, @"Invalid Remote Library UUID (null)");
+        SPXThrowException(NSInvalidArgumentException, @"Invalid Remote Library UUID (null)");
       }
       NSAssert([sp_library uuid], @"Invalid Library UUID (null)");
       CFUUIDRef uuid = CFUUIDCreateFromString(kCFAllocatorDefault, (CFStringRef)uuidstr);
       if (!uuid) {
-        WBThrowException(NSInvalidArgumentException, @"Invalid Remote Library UUID %@", uuidstr);
+        SPXThrowException(NSInvalidArgumentException, @"Invalid Remote Library UUID %@", uuidstr);
       } else if (!CFEqual(uuid, [sp_library uuid])) {
         CFRelease(uuid);
-        WBThrowException(NSInvalidArgumentException, @"Remote Library UUID does not match: %@", uuidstr);
+        SPXThrowException(NSInvalidArgumentException, @"Remote Library UUID does not match: %@", uuidstr);
       }
       CFRelease(uuid);
       
@@ -185,7 +185,7 @@ BOOL SparkLogSynchronization = NO;
     NSLog(@"Send remote message: -[SparkLibrary %s]", #msg); \
   } \
 } @catch (id exception) { \
-  WBLogException(exception); \
+  SPXLogException(exception); \
   if (SparkLogSynchronization) { \
     NSLog(@"Remote message exception: %@", exception); \
   } \
@@ -437,7 +437,7 @@ SparkObjectSet *SparkObjectSetForType(SparkLibrary *library, OSType type) {
   SparkSyncTrace();
   SparkPlugIn *plugin = [[SparkActionLoader sharedLoader] loadPlugInAtPath:path];
   if (!plugin) {
-    DLog(@"Error while loading plugin: %@", path);
+    SPXDebug(@"Error while loading plugin: %@", path);
   }
 }
 

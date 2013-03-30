@@ -7,155 +7,68 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1B17700E130F42D800E0A389 /* WBEnumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B17700C130F42D800E0A389 /* WBEnumerator.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1B17700F130F42D800E0A389 /* WBEnumerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B17700D130F42D800E0A389 /* WBEnumerator.m */; };
-		1B177013130F42FB00E0A389 /* WBImageFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B177011130F42FB00E0A389 /* WBImageFunctions.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1B177014130F42FB00E0A389 /* WBImageFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B177012130F42FB00E0A389 /* WBImageFunctions.m */; };
-		1B1774FB130F4C1900E0A389 /* WBIndexSetIterator.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B1774F9130F4C1900E0A389 /* WBIndexSetIterator.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1B1774FC130F4C1900E0A389 /* WBIndexSetIterator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1774FA130F4C1900E0A389 /* WBIndexSetIterator.m */; };
-		1B184C890ED07D0D003E2346 /* WBThreadPort.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B184C870ED07D0D003E2346 /* WBThreadPort.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1B184C8A0ED07D0D003E2346 /* WBThreadPort.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B184C880ED07D0D003E2346 /* WBThreadPort.m */; };
-		1B184C9A0ED07D41003E2346 /* WBCDSAFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B184C900ED07D41003E2346 /* WBCDSAFunctions.c */; };
-		1B184C9B0ED07D41003E2346 /* WBCDSAFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B184C910ED07D41003E2346 /* WBCDSAFunctions.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1B184C9E0ED07D41003E2346 /* WBDigestFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B184C940ED07D41003E2346 /* WBDigestFunctions.c */; };
-		1B184C9F0ED07D41003E2346 /* WBDigestFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B184C950ED07D41003E2346 /* WBDigestFunctions.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1B184CA20ED07D41003E2346 /* WBSecurityFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B184C980ED07D41003E2346 /* WBSecurityFunctions.c */; };
-		1B184CA30ED07D41003E2346 /* WBSecurityFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B184C990ED07D41003E2346 /* WBSecurityFunctions.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1B184D230ED07D94003E2346 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B184D220ED07D94003E2346 /* Security.framework */; };
-		1B40299613C095BE000FD141 /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B40299513C095BE000FD141 /* HotKeyToolKit.framework */; };
-		1B40299813C095E1000FD141 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B40299713C095E1000FD141 /* Carbon.framework */; };
-		1B40299A13C095E6000FD141 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B40299913C095E6000FD141 /* Cocoa.framework */; };
-		1B40299C13C095ED000FD141 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B40299B13C095EC000FD141 /* IOKit.framework */; };
-		1B5D8C1B0EE2FA7500BD1EAF /* NSTableView+WonderBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8C130EE2FA6900BD1EAF /* NSTableView+WonderBox.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1B5D8C1C0EE2FA7900BD1EAF /* NSTableView+WonderBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8C140EE2FA6900BD1EAF /* NSTableView+WonderBox.m */; };
-		1B5D8C1D0EE2FA7C00BD1EAF /* NSImage+WonderBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8C100EE2FA6900BD1EAF /* NSImage+WonderBox.m */; };
-		1B5D8C1E0EE2FA7C00BD1EAF /* NSImage+WonderBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8C0F0EE2FA6900BD1EAF /* NSImage+WonderBox.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1B5D8C1F0EE2FA7F00BD1EAF /* NSArrayController+WonderBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8C070EE2FA6900BD1EAF /* NSArrayController+WonderBox.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1B5D8C200EE2FA7F00BD1EAF /* NSArrayController+WonderBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8C080EE2FA6900BD1EAF /* NSArrayController+WonderBox.m */; };
-		1B5D8C210EE2FA8200BD1EAF /* NSAlert+WonderBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8C050EE2FA6900BD1EAF /* NSAlert+WonderBox.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1B5D8C220EE2FA8200BD1EAF /* NSAlert+WonderBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8C060EE2FA6900BD1EAF /* NSAlert+WonderBox.m */; };
-		1B5D8C230EE2FAAD00BD1EAF /* NSColor+WonderBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8C0B0EE2FA6900BD1EAF /* NSColor+WonderBox.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1B5D8C240EE2FAAD00BD1EAF /* NSColor+WonderBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8C0C0EE2FA6900BD1EAF /* NSColor+WonderBox.m */; };
-		1B5D8C260EE2FABF00BD1EAF /* NSButton+WonderBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8C090EE2FA6900BD1EAF /* NSButton+WonderBox.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1B5D8C270EE2FAC000BD1EAF /* NSButton+WonderBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8C0A0EE2FA6900BD1EAF /* NSButton+WonderBox.m */; };
-		1B5D8C2D0EE2FAFF00BD1EAF /* WBVersionFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8C290EE2FAFF00BD1EAF /* WBVersionFunctions.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1B5D8C2E0EE2FAFF00BD1EAF /* WBVersionFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8C2A0EE2FAFF00BD1EAF /* WBVersionFunctions.m */; };
-		1B5D8C360EE2FB1E00BD1EAF /* WBGeometry.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8C340EE2FB1E00BD1EAF /* WBGeometry.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1B5D8C370EE2FB1E00BD1EAF /* WBGeometry.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8C350EE2FB1E00BD1EAF /* WBGeometry.m */; };
-		1B5D8C540EE2FC6700BD1EAF /* NSFileWrapper+WonderBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8C520EE2FC6700BD1EAF /* NSFileWrapper+WonderBox.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1B5D8C550EE2FC6700BD1EAF /* NSFileWrapper+WonderBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8C530EE2FC6700BD1EAF /* NSFileWrapper+WonderBox.m */; };
-		1B5D8C5A0EE2FC9100BD1EAF /* WBObjCRuntime.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8C580EE2FC9100BD1EAF /* WBObjCRuntime.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1B5D8C5B0EE2FC9100BD1EAF /* WBObjCRuntime.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8C590EE2FC9100BD1EAF /* WBObjCRuntime.c */; };
-		1B5D8CBA0EE2FD4A00BD1EAF /* NSArray+WonderBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8CA60EE2FD3500BD1EAF /* NSArray+WonderBox.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1B5D8CBB0EE2FD4B00BD1EAF /* NSArray+WonderBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8CA70EE2FD3500BD1EAF /* NSArray+WonderBox.m */; };
-		1B5D8CBC0EE2FD4B00BD1EAF /* NSCharacterSet+WonderBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8CA80EE2FD3500BD1EAF /* NSCharacterSet+WonderBox.h */; };
-		1B5D8CBD0EE2FD4B00BD1EAF /* NSCharacterSet+WonderBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8CA90EE2FD3500BD1EAF /* NSCharacterSet+WonderBox.m */; };
-		1B5D8CBE0EE2FD5200BD1EAF /* NSError+WonderBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8CAE0EE2FD3500BD1EAF /* NSError+WonderBox.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1B5D8CBF0EE2FD5200BD1EAF /* NSError+WonderBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8CAF0EE2FD3500BD1EAF /* NSError+WonderBox.m */; };
-		1B5D8DCB0EE2FEF600BD1EAF /* NSString+WonderBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8CB40EE2FD3500BD1EAF /* NSString+WonderBox.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1B5D8DCC0EE2FEF600BD1EAF /* NSString+WonderBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8CB50EE2FD3500BD1EAF /* NSString+WonderBox.m */; };
-		1B5D8DD90EE2FF0A00BD1EAF /* NSTabView+WonderBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8DD70EE2FF0A00BD1EAF /* NSTabView+WonderBox.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1B5D8DDA0EE2FF0A00BD1EAF /* NSTabView+WonderBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8DD80EE2FF0A00BD1EAF /* NSTabView+WonderBox.m */; };
-		1B5D8E550EE3016F00BD1EAF /* WBBase64.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8E530EE3016F00BD1EAF /* WBBase64.c */; };
-		1B5D8E560EE3016F00BD1EAF /* WBBase64.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8E540EE3016F00BD1EAF /* WBBase64.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		1B48108E170615D100124867 /* WonderBox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BCB8F7A1706117600CC8C3C /* WonderBox.framework */; };
+		1B4D7BB01706182E0048CE54 /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B4D7BAF1706182E0048CE54 /* HotKeyToolKit.framework */; };
 		1B6DACEF0D0C9D0400F352CC /* SparkMultiAlert.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B6DACED0D0C9D0400F352CC /* SparkMultiAlert.xib */; };
 		1B6DACF40D0CA0F800F352CC /* SparkPluginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B6DACF20D0CA0F800F352CC /* SparkPluginView.xib */; };
 		1B6DACF80D0CA1BF00F352CC /* SparkPlugin.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B6DACF60D0CA1BF00F352CC /* SparkPlugin.xib */; };
 		1B78811F0D172D2900EE2B66 /* SparkEntryPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B78811E0D172D2900EE2B66 /* SparkEntryPrivate.h */; };
-		1B81EBA20D38326C004B82A2 /* WBOutlineView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B81EBA00D38326C004B82A2 /* WBOutlineView.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1B81EBA30D38326C004B82A2 /* WBOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B81EBA10D38326C004B82A2 /* WBOutlineView.m */; };
-		1BA3812F0EFE6F5F00CF5D07 /* WBFinderSuite.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BA3812D0EFE6F5F00CF5D07 /* WBFinderSuite.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BA381300EFE6F5F00CF5D07 /* WBFinderSuite.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BA3812E0EFE6F5F00CF5D07 /* WBFinderSuite.c */; };
-		1BAD4021130DC8B90066B1AB /* WBProgress.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1BAD401F130DC8B90066B1AB /* WBProgress.strings */; };
-		1BAD4027130DC8E30066B1AB /* WBBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BAD4026130DC8E30066B1AB /* WBBase.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BAD406E130DCA940066B1AB /* WBTextFieldCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BAD406C130DCA940066B1AB /* WBTextFieldCell.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BAD406F130DCA940066B1AB /* WBTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BAD406D130DCA940066B1AB /* WBTextFieldCell.m */; };
+		1B83F8A515D57B7100BF4059 /* SparkDefine.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B83F8A415D57B7100BF4059 /* SparkDefine.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1B95F377170619D000392CD7 /* WBProcessFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BE3165F0D38138B005C3FB2 /* WBProcessFunctions.c */; };
+		1B95F378170619D000392CD7 /* WBProcessFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316600D38138B005C3FB2 /* WBProcessFunctions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1B95F379170619E000392CD7 /* WBApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316340D38138B005C3FB2 /* WBApplication.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1B95F37A170619E000392CD7 /* WBApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316350D38138B005C3FB2 /* WBApplication.m */; };
+		1B95F37B170619E000392CD7 /* WBAliasedApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316320D38138B005C3FB2 /* WBAliasedApplication.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1B95F37C170619E000392CD7 /* WBAliasedApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316330D38138B005C3FB2 /* WBAliasedApplication.m */; };
+		1B95F37D17061A1500392CD7 /* WBFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BCDCA941035919B00EAD9FE /* WBFunctions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1B95F37E17061A1900392CD7 /* WBFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BCDCA951035919B00EAD9FE /* WBFunctions.m */; };
+		1B95F37F17061A2400392CD7 /* WBLSFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316590D38138B005C3FB2 /* WBLSFunctions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1B95F38017061A2400392CD7 /* WBLSFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE3165A0D38138B005C3FB2 /* WBLSFunctions.m */; };
+		1B95F38117061A3200392CD7 /* WBAlias.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316300D38138B005C3FB2 /* WBAlias.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1B95F38217061A3200392CD7 /* WBAlias.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316310D38138B005C3FB2 /* WBAlias.m */; };
+		1B95F38317061A3F00392CD7 /* WBFSFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316510D38138B005C3FB2 /* WBFSFunctions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1B95F38417061A4400392CD7 /* WBFSFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316520D38138B005C3FB2 /* WBFSFunctions.m */; };
+		1B95F38517061A7700392CD7 /* WBPluginLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE3163B0D38138B005C3FB2 /* WBPluginLoader.m */; };
+		1B95F38617061A7900392CD7 /* WBPluginLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE3163A0D38138B005C3FB2 /* WBPluginLoader.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1B95F38717061BB300392CD7 /* WBAEFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316470D38138B005C3FB2 /* WBAEFunctions.c */; };
+		1B95F38817061BB300392CD7 /* WBAEFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316480D38138B005C3FB2 /* WBAEFunctions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1B95F38917061BBE00392CD7 /* WBSerialization.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE3163C0D38138B005C3FB2 /* WBSerialization.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1B95F38A17061BBE00392CD7 /* WBSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE3163D0D38138B005C3FB2 /* WBSerialization.m */; };
 		1BB2033C0EAF23B60072FE62 /* SparkEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB2033A0EAF23B60072FE62 /* SparkEvent.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		1BB2033D0EAF23B60072FE62 /* SparkEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB2033B0EAF23B60072FE62 /* SparkEvent.m */; };
 		1BB8B1FF0B949EE900F91062 /* SparkSystem.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1BB8B1FE0B949EE900F91062 /* SparkSystem.tiff */; };
-		1BB983250D381CDE0074D18E /* WBIconFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BB9831B0D381CDE0074D18E /* WBIconFunctions.c */; };
-		1BB983260D381CDE0074D18E /* WBIconFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB9831C0D381CDE0074D18E /* WBIconFunctions.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BB983270D381CDE0074D18E /* WBIconView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB9831D0D381CDE0074D18E /* WBIconView.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BB983280D381CDE0074D18E /* WBIconView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB9831E0D381CDE0074D18E /* WBIconView.m */; };
-		1BB9836F0D381ECC0074D18E /* WBBezelItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB983690D381ECC0074D18E /* WBBezelItem.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BB983700D381ECC0074D18E /* WBBezelItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB9836A0D381ECC0074D18E /* WBBezelItem.m */; };
-		1BB983710D381ECC0074D18E /* WBBezelItemContent.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB9836B0D381ECC0074D18E /* WBBezelItemContent.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BB983720D381ECC0074D18E /* WBBezelItemContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB9836C0D381ECC0074D18E /* WBBezelItemContent.m */; };
-		1BB983730D381ECC0074D18E /* WBNotificationWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB9836D0D381ECC0074D18E /* WBNotificationWindow.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BB983740D381ECC0074D18E /* WBNotificationWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB9836E0D381ECC0074D18E /* WBNotificationWindow.m */; };
-		1BB986B70D382AD10074D18E /* WBProgressPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BB986950D382AD00074D18E /* WBProgressPanel.xib */; };
-		1BB986BC0D382AD10074D18E /* WBApplicationView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB9869A0D382AD00074D18E /* WBApplicationView.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BB986BD0D382AD10074D18E /* WBApplicationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB9869B0D382AD10074D18E /* WBApplicationView.m */; };
-		1BB986BE0D382AD10074D18E /* WBBackgroundView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB9869C0D382AD10074D18E /* WBBackgroundView.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BB986BF0D382AD10074D18E /* WBBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB9869D0D382AD10074D18E /* WBBackgroundView.m */; };
-		1BB986C90D382AD10074D18E /* WBImageAndTextCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB986A70D382AD10074D18E /* WBImageAndTextCell.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BB986CA0D382AD10074D18E /* WBImageAndTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB986A80D382AD10074D18E /* WBImageAndTextCell.m */; };
-		1BB986CB0D382AD10074D18E /* WBImageAndTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB986A90D382AD10074D18E /* WBImageAndTextView.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BB986CC0D382AD10074D18E /* WBImageAndTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB986AA0D382AD10074D18E /* WBImageAndTextView.m */; };
-		1BB986CD0D382AD10074D18E /* WBProgressPanel.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB986AB0D382AD10074D18E /* WBProgressPanel.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BB986CE0D382AD10074D18E /* WBProgressPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB986AC0D382AD10074D18E /* WBProgressPanel.m */; };
-		1BB987270D382C8B0074D18E /* WBTreeNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB987250D382C8B0074D18E /* WBTreeNode.m */; };
-		1BB987280D382C8B0074D18E /* WBTreeNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB987260D382C8B0074D18E /* WBTreeNode.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BCDCA961035919B00EAD9FE /* WBFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BCDCA941035919B00EAD9FE /* WBFunctions.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BCDCA971035919B00EAD9FE /* WBFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BCDCA951035919B00EAD9FE /* WBFunctions.m */; };
-		1BCDCBF0103596F200EAD9FE /* WBGradient.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BCDCBEE103596F200EAD9FE /* WBGradient.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BCDCBF1103596F200EAD9FE /* WBGradient.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BCDCBEF103596F200EAD9FE /* WBGradient.m */; };
-		1BCDCBF41035970400EAD9FE /* WBInterpolationFunction.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BCDCBF21035970400EAD9FE /* WBInterpolationFunction.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BCDCBF51035970400EAD9FE /* WBInterpolationFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BCDCBF31035970400EAD9FE /* WBInterpolationFunction.m */; };
-		1BE3166E0D38138B005C3FB2 /* WBAlias.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316300D38138B005C3FB2 /* WBAlias.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BE3166F0D38138B005C3FB2 /* WBAlias.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316310D38138B005C3FB2 /* WBAlias.m */; };
-		1BE316700D38138B005C3FB2 /* WBAliasedApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316320D38138B005C3FB2 /* WBAliasedApplication.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BE316710D38138B005C3FB2 /* WBAliasedApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316330D38138B005C3FB2 /* WBAliasedApplication.m */; };
-		1BE316720D38138B005C3FB2 /* WBApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316340D38138B005C3FB2 /* WBApplication.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BE316730D38138B005C3FB2 /* WBApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316350D38138B005C3FB2 /* WBApplication.m */; };
-		1BE316780D38138B005C3FB2 /* WBPluginLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE3163A0D38138B005C3FB2 /* WBPluginLoader.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BE316790D38138B005C3FB2 /* WBPluginLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE3163B0D38138B005C3FB2 /* WBPluginLoader.m */; };
-		1BE3167A0D38138B005C3FB2 /* WBSerialization.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE3163C0D38138B005C3FB2 /* WBSerialization.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BE3167B0D38138B005C3FB2 /* WBSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE3163D0D38138B005C3FB2 /* WBSerialization.m */; };
-		1BE316840D38138B005C3FB2 /* WBAEFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316470D38138B005C3FB2 /* WBAEFunctions.c */; };
-		1BE316850D38138B005C3FB2 /* WBAEFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316480D38138B005C3FB2 /* WBAEFunctions.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BE316880D38138B005C3FB2 /* WBCGFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE3164B0D38138B005C3FB2 /* WBCGFunctions.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BE316890D38138B005C3FB2 /* WBCGFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE3164C0D38138B005C3FB2 /* WBCGFunctions.m */; };
-		1BE3168E0D38138B005C3FB2 /* WBFSFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316510D38138B005C3FB2 /* WBFSFunctions.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BE3168F0D38138B005C3FB2 /* WBFSFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316520D38138B005C3FB2 /* WBFSFunctions.m */; };
-		1BE316920D38138B005C3FB2 /* WBIOKitFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316550D38138B005C3FB2 /* WBIOKitFunctions.c */; };
-		1BE316930D38138B005C3FB2 /* WBIOKitFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316560D38138B005C3FB2 /* WBIOKitFunctions.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BE316940D38138B005C3FB2 /* WBLoginItems.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316570D38138B005C3FB2 /* WBLoginItems.c */; };
-		1BE316950D38138B005C3FB2 /* WBLoginItems.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316580D38138B005C3FB2 /* WBLoginItems.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BE316960D38138B005C3FB2 /* WBLSFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316590D38138B005C3FB2 /* WBLSFunctions.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BE316970D38138B005C3FB2 /* WBLSFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE3165A0D38138B005C3FB2 /* WBLSFunctions.m */; };
-		1BE3169C0D38138B005C3FB2 /* WBProcessFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BE3165F0D38138B005C3FB2 /* WBProcessFunctions.c */; };
-		1BE3169D0D38138B005C3FB2 /* WBProcessFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316600D38138B005C3FB2 /* WBProcessFunctions.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BE316A00D38138B005C3FB2 /* WBClassCluster.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316640D38138B005C3FB2 /* WBClassCluster.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BE316A10D38138B005C3FB2 /* WBForwarding.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316650D38138B005C3FB2 /* WBForwarding.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BE316A20D38138B005C3FB2 /* WBKeyValueCoding.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316660D38138B005C3FB2 /* WBKeyValueCoding.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BE316A30D38138B005C3FB2 /* WBSingleton.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316670D38138B005C3FB2 /* WBSingleton.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BE316EB0D3815C9005C3FB2 /* WBImageView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316D70D3815C9005C3FB2 /* WBImageView.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BE316EC0D3815C9005C3FB2 /* WBImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316D80D3815C9005C3FB2 /* WBImageView.m */; };
-		1BE316F10D3815C9005C3FB2 /* WBTableDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316DD0D3815C9005C3FB2 /* WBTableDataSource.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BE316F20D3815C9005C3FB2 /* WBTableDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316DE0D3815C9005C3FB2 /* WBTableDataSource.m */; };
-		1BE316F30D3815C9005C3FB2 /* WBTableView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316DF0D3815C9005C3FB2 /* WBTableView.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BE316F40D3815C9005C3FB2 /* WBTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316E00D3815C9005C3FB2 /* WBTableView.m */; };
-		1BE316F70D3815C9005C3FB2 /* WBViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316E30D3815C9005C3FB2 /* WBViewController.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BE316F80D3815C9005C3FB2 /* WBViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316E40D3815C9005C3FB2 /* WBViewController.m */; };
-		1BE316F90D3815C9005C3FB2 /* WBWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316E50D3815C9005C3FB2 /* WBWindowController.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BE316FA0D3815C9005C3FB2 /* WBWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316E60D3815C9005C3FB2 /* WBWindowController.m */; };
-		1BE458FA130F58C000A6A133 /* WBSplitview.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE458F8130F58C000A6A133 /* WBSplitview.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BE458FB130F58C000A6A133 /* WBSplitview.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE458F9130F58C000A6A133 /* WBSplitview.m */; };
-		1BE45900130F58D100A6A133 /* WBHSplitBar.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1BE458FD130F58D100A6A133 /* WBHSplitBar.tiff */; };
-		1BE45901130F58D100A6A133 /* WBSplitDot.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1BE458FE130F58D100A6A133 /* WBSplitDot.tiff */; };
-		1BE45902130F58D100A6A133 /* WBVSplitBar.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1BE458FF130F58D100A6A133 /* WBVSplitBar.tiff */; };
-		1BE4591E130F593500A6A133 /* WBTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE45918130F593500A6A133 /* WBTemplate.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BE4591F130F593500A6A133 /* WBTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE45919130F593500A6A133 /* WBTemplate.m */; };
-		1BE45920130F593500A6A133 /* WBTemplateParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE4591A130F593500A6A133 /* WBTemplateParser.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BE45921130F593500A6A133 /* WBTemplateParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE4591B130F593500A6A133 /* WBTemplateParser.m */; };
-		1BE45922130F593500A6A133 /* WBXMLTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE4591C130F593500A6A133 /* WBXMLTemplate.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BE45923130F593500A6A133 /* WBXMLTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE4591D130F593500A6A133 /* WBXMLTemplate.m */; };
-		1BE4593F130F598D00A6A133 /* WBHeaderView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE4593D130F598D00A6A133 /* WBHeaderView.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		1BE45940130F598D00A6A133 /* WBHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE4593E130F598D00A6A133 /* WBHeaderView.m */; };
-		1BE45944130F599600A6A133 /* WBHeader-down.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1BE45941130F599600A6A133 /* WBHeader-down.tiff */; };
-		1BE45945130F599600A6A133 /* WBHeader.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1BE45942130F599600A6A133 /* WBHeader.tiff */; };
-		1BE45946130F599600A6A133 /* WBHeaderMenu.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1BE45943130F599600A6A133 /* WBHeaderMenu.tiff */; };
+		1BC6A8DD17061F3F00E7EA12 /* WBObjCRuntime.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8C580EE2FC9100BD1EAF /* WBObjCRuntime.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1BC6A8DE17061F4400E7EA12 /* WBObjCRuntime.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8C590EE2FC9100BD1EAF /* WBObjCRuntime.c */; };
+		1BC6A8E017061F5300E7EA12 /* NSImage+WonderBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8C0F0EE2FA6900BD1EAF /* NSImage+WonderBox.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1BC6A8E117061F5800E7EA12 /* NSImage+WonderBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8C100EE2FA6900BD1EAF /* NSImage+WonderBox.m */; };
+		1BC6A8E217061F6A00E7EA12 /* WBImageFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B177011130F42FB00E0A389 /* WBImageFunctions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1BC6A8E317061F7600E7EA12 /* WBImageFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B177012130F42FB00E0A389 /* WBImageFunctions.m */; };
+		1BC6A8E417061F8800E7EA12 /* NSFileWrapper+WonderBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8C520EE2FC6700BD1EAF /* NSFileWrapper+WonderBox.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1BC6A8E517061F8800E7EA12 /* NSFileWrapper+WonderBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8C530EE2FC6700BD1EAF /* NSFileWrapper+WonderBox.m */; };
+		1BC6A8E617061F9400E7EA12 /* WBEnumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B17700C130F42D800E0A389 /* WBEnumerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1BC6A8E717061F9800E7EA12 /* WBEnumerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B17700D130F42D800E0A389 /* WBEnumerator.m */; };
+		1BC6A8E817061FC500E7EA12 /* WBIconView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB9831D0D381CDE0074D18E /* WBIconView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1BC6A8E917061FC500E7EA12 /* WBIconView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB9831E0D381CDE0074D18E /* WBIconView.m */; };
+		1BC6A8EB17061FE300E7EA12 /* WBImageView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316D70D3815C9005C3FB2 /* WBImageView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1BC6A8EC17061FE700E7EA12 /* WBImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316D80D3815C9005C3FB2 /* WBImageView.m */; };
+		1BC6A8ED17061FF300E7EA12 /* WBBezelItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB983690D381ECC0074D18E /* WBBezelItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1BC6A8EE17061FF300E7EA12 /* WBBezelItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB9836A0D381ECC0074D18E /* WBBezelItem.m */; };
+		1BC6A8EF17061FF300E7EA12 /* WBBezelItemContent.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB9836B0D381ECC0074D18E /* WBBezelItemContent.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1BC6A8F017061FF300E7EA12 /* WBBezelItemContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB9836C0D381ECC0074D18E /* WBBezelItemContent.m */; };
+		1BC6A8F117061FF300E7EA12 /* WBNotificationWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB9836D0D381ECC0074D18E /* WBNotificationWindow.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1BC6A8F217061FF300E7EA12 /* WBNotificationWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB9836E0D381ECC0074D18E /* WBNotificationWindow.m */; };
+		1BC6A8F31706200400E7EA12 /* WBCGFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE3164B0D38138B005C3FB2 /* WBCGFunctions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1BC6A8F41706200900E7EA12 /* WBCGFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE3164C0D38138B005C3FB2 /* WBCGFunctions.m */; };
+		1BC6A8F51706201800E7EA12 /* WBGeometry.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8C340EE2FB1E00BD1EAF /* WBGeometry.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1BC6A8F61706201D00E7EA12 /* WBGeometry.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8C350EE2FB1E00BD1EAF /* WBGeometry.m */; };
+		1BC6A8F71706202C00E7EA12 /* NSArray+WonderBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8CA60EE2FD3500BD1EAF /* NSArray+WonderBox.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1BC6A8F81706202F00E7EA12 /* NSArray+WonderBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8CA70EE2FD3500BD1EAF /* NSArray+WonderBox.m */; };
+		1BC6A8F91706204700E7EA12 /* WBClassCluster.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316640D38138B005C3FB2 /* WBClassCluster.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1BC6A8FA1706207500E7EA12 /* WBForwarding.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316650D38138B005C3FB2 /* WBForwarding.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1BCB8F7C1706117600CC8C3C /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BCB8F7B1706117600CC8C3C /* Cocoa.framework */; };
+		1BCB8F861706117600CC8C3C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1BCB8F841706117600CC8C3C /* InfoPlist.strings */; };
+		1BCB8F941706124600CC8C3C /* WBBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BAD4026130DC8E30066B1AB /* WBBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1BCB8F971706146D00CC8C3C /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BCB8F7B1706117600CC8C3C /* Cocoa.framework */; };
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 		9805FD390773B47700B1A341 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9805FD370773B47700B1A341 /* Localizable.strings */; };
 		980EEB2E0A7E8A0B00013CF5 /* SimpleList.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 980EEB2D0A7E8A0B00013CF5 /* SimpleList.tiff */; };
@@ -230,6 +143,16 @@
 		98FC31D50B32E585000D5F6B /* Application.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 98A923B80A7BC6E200DF1998 /* Application.tiff */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		1B48108C170615C800124867 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1BCB8F791706117600CC8C3C;
+			remoteInfo = WonderBox;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1B09470D0D68BC9B00E8FE8D /* French */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -251,11 +174,7 @@
 		1B184C950ED07D41003E2346 /* WBDigestFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBDigestFunctions.h; sourceTree = "<group>"; };
 		1B184C980ED07D41003E2346 /* WBSecurityFunctions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WBSecurityFunctions.c; sourceTree = "<group>"; };
 		1B184C990ED07D41003E2346 /* WBSecurityFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBSecurityFunctions.h; sourceTree = "<group>"; };
-		1B184D220ED07D94003E2346 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		1B40299513C095BE000FD141 /* HotKeyToolKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HotKeyToolKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		1B40299713C095E1000FD141 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
-		1B40299913C095E6000FD141 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
-		1B40299B13C095EC000FD141 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		1B4D7BAF1706182E0048CE54 /* HotKeyToolKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HotKeyToolKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B5D8C050EE2FA6900BD1EAF /* NSAlert+WonderBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAlert+WonderBox.h"; sourceTree = "<group>"; };
 		1B5D8C060EE2FA6900BD1EAF /* NSAlert+WonderBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAlert+WonderBox.m"; sourceTree = "<group>"; };
 		1B5D8C070EE2FA6900BD1EAF /* NSArrayController+WonderBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArrayController+WonderBox.h"; sourceTree = "<group>"; };
@@ -278,8 +197,6 @@
 		1B5D8C590EE2FC9100BD1EAF /* WBObjCRuntime.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WBObjCRuntime.c; sourceTree = "<group>"; };
 		1B5D8CA60EE2FD3500BD1EAF /* NSArray+WonderBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+WonderBox.h"; sourceTree = "<group>"; };
 		1B5D8CA70EE2FD3500BD1EAF /* NSArray+WonderBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+WonderBox.m"; sourceTree = "<group>"; };
-		1B5D8CA80EE2FD3500BD1EAF /* NSCharacterSet+WonderBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSCharacterSet+WonderBox.h"; sourceTree = "<group>"; };
-		1B5D8CA90EE2FD3500BD1EAF /* NSCharacterSet+WonderBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSCharacterSet+WonderBox.m"; sourceTree = "<group>"; };
 		1B5D8CAE0EE2FD3500BD1EAF /* NSError+WonderBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+WonderBox.h"; sourceTree = "<group>"; };
 		1B5D8CAF0EE2FD3500BD1EAF /* NSError+WonderBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+WonderBox.m"; sourceTree = "<group>"; };
 		1B5D8CB40EE2FD3500BD1EAF /* NSString+WonderBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+WonderBox.h"; sourceTree = "<group>"; };
@@ -294,8 +211,9 @@
 		1B78811E0D172D2900EE2B66 /* SparkEntryPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkEntryPrivate.h; sourceTree = "<group>"; };
 		1B81EBA00D38326C004B82A2 /* WBOutlineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBOutlineView.h; sourceTree = "<group>"; };
 		1B81EBA10D38326C004B82A2 /* WBOutlineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBOutlineView.m; sourceTree = "<group>"; };
-		1B8623910ECF91AD0006C26B /* SparkDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = SparkDebug.xcconfig; sourceTree = "<group>"; };
-		1B8623920ECF91AD0006C26B /* SparkRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = SparkRelease.xcconfig; sourceTree = "<group>"; };
+		1B83F8A415D57B7100BF4059 /* SparkDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkDefine.h; sourceTree = "<group>"; };
+		1B8623910ECF91AD0006C26B /* debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = debug.xcconfig; sourceTree = "<group>"; };
+		1B8623920ECF91AD0006C26B /* release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = release.xcconfig; sourceTree = "<group>"; };
 		1BA3812D0EFE6F5F00CF5D07 /* WBFinderSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBFinderSuite.h; sourceTree = "<group>"; };
 		1BA3812E0EFE6F5F00CF5D07 /* WBFinderSuite.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WBFinderSuite.c; sourceTree = "<group>"; };
 		1BAD4020130DC8B90066B1AB /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/WBProgress.strings; sourceTree = "<group>"; };
@@ -328,6 +246,15 @@
 		1BB986AC0D382AD10074D18E /* WBProgressPanel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBProgressPanel.m; sourceTree = "<group>"; };
 		1BB987250D382C8B0074D18E /* WBTreeNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTreeNode.m; sourceTree = "<group>"; };
 		1BB987260D382C8B0074D18E /* WBTreeNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTreeNode.h; sourceTree = "<group>"; };
+		1BCB8F7A1706117600CC8C3C /* WonderBox.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WonderBox.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1BCB8F7B1706117600CC8C3C /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		1BCB8F831706117600CC8C3C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1BCB8F851706117600CC8C3C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1BCB8F8F1706119700CC8C3C /* application.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = application.xcconfig; sourceTree = "<group>"; };
+		1BCB8F901706119700CC8C3C /* archive.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = archive.xcconfig; sourceTree = "<group>"; };
+		1BCB8F911706119700CC8C3C /* bundle.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = bundle.xcconfig; sourceTree = "<group>"; };
+		1BCB8F921706119700CC8C3C /* dylib.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = dylib.xcconfig; sourceTree = "<group>"; };
+		1BCB8F931706119700CC8C3C /* executable.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = executable.xcconfig; sourceTree = "<group>"; };
 		1BCDCA941035919B00EAD9FE /* WBFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBFunctions.h; sourceTree = "<group>"; };
 		1BCDCA951035919B00EAD9FE /* WBFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBFunctions.m; sourceTree = "<group>"; };
 		1BCDCBEE103596F200EAD9FE /* WBGradient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBGradient.h; sourceTree = "<group>"; };
@@ -368,8 +295,6 @@
 		1BE316DE0D3815C9005C3FB2 /* WBTableDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTableDataSource.m; sourceTree = "<group>"; };
 		1BE316DF0D3815C9005C3FB2 /* WBTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTableView.h; sourceTree = "<group>"; };
 		1BE316E00D3815C9005C3FB2 /* WBTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTableView.m; sourceTree = "<group>"; };
-		1BE316E30D3815C9005C3FB2 /* WBViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBViewController.h; sourceTree = "<group>"; };
-		1BE316E40D3815C9005C3FB2 /* WBViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBViewController.m; sourceTree = "<group>"; };
 		1BE316E50D3815C9005C3FB2 /* WBWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBWindowController.h; sourceTree = "<group>"; };
 		1BE316E60D3815C9005C3FB2 /* WBWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBWindowController.m; sourceTree = "<group>"; };
 		1BE458F8130F58C000A6A133 /* WBSplitview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBSplitview.h; sourceTree = "<group>"; };
@@ -468,15 +393,21 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		1BCB8F761706117600CC8C3C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1BCB8F7C1706117600CC8C3C /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8DC2EF560486A6940098B216 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1B40299C13C095ED000FD141 /* IOKit.framework in Frameworks */,
-				1B40299A13C095E6000FD141 /* Cocoa.framework in Frameworks */,
-				1B40299813C095E1000FD141 /* Carbon.framework in Frameworks */,
-				1B184D230ED07D94003E2346 /* Security.framework in Frameworks */,
-				1B40299613C095BE000FD141 /* HotKeyToolKit.framework in Frameworks */,
+				1BCB8F971706146D00CC8C3C /* Cocoa.framework in Frameworks */,
+				1B48108E170615D100124867 /* WonderBox.framework in Frameworks */,
+				1B4D7BB01706182E0048CE54 /* HotKeyToolKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -487,6 +418,7 @@
 			isa = PBXGroup;
 			children = (
 				8DC2EF5B0486A6940098B216 /* SparkKit.framework */,
+				1BCB8F7A1706117600CC8C3C /* WonderBox.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -496,7 +428,7 @@
 			children = (
 				08FB77AEFE84172EC02AAC07 /* Classes */,
 				089C1665FE841158C02AAC07 /* Resources */,
-				98725D0406CB9E540072B8E4 /* WonderBox */,
+				1BCB8F811706117600CC8C3C /* WonderBox */,
 				0867D69AFE84028FC02AAC07 /* Frameworks */,
 				034768DFFF38A50411DB9C8B /* Products */,
 				1B7BB7880CBE1FD700484A9E /* xcconfigs */,
@@ -507,7 +439,8 @@
 		0867D69AFE84028FC02AAC07 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */,
+				1BCB8F7B1706117600CC8C3C /* Cocoa.framework */,
+				1B4D7BAF1706182E0048CE54 /* HotKeyToolKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -531,6 +464,7 @@
 			children = (
 				984A388F0A60040700DA6455 /* SparkKit.h */,
 				984A388E0A60040700DA6455 /* SparkKit.m */,
+				1B83F8A415D57B7100BF4059 /* SparkDefine.h */,
 				984A388D0A60040600DA6455 /* SparkPrivate.h */,
 				985B76510A813F490003A59C /* SparkServerProtocol.h */,
 				985B76590A813F960003A59C /* SparkAppleScriptSuite.h */,
@@ -540,18 +474,6 @@
 				984A38B70A60060A00DA6455 /* Plugin API */,
 			);
 			name = Classes;
-			sourceTree = "<group>";
-		};
-		1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				1B40299B13C095EC000FD141 /* IOKit.framework */,
-				1B40299913C095E6000FD141 /* Cocoa.framework */,
-				1B40299713C095E1000FD141 /* Carbon.framework */,
-				1B184D220ED07D94003E2346 /* Security.framework */,
-				1B40299513C095BE000FD141 /* HotKeyToolKit.framework */,
-			);
-			name = "Linked Frameworks";
 			sourceTree = "<group>";
 		};
 		1B184C8F0ED07D41003E2346 /* Security */ = {
@@ -595,8 +517,6 @@
 			children = (
 				1B5D8CA60EE2FD3500BD1EAF /* NSArray+WonderBox.h */,
 				1B5D8CA70EE2FD3500BD1EAF /* NSArray+WonderBox.m */,
-				1B5D8CA80EE2FD3500BD1EAF /* NSCharacterSet+WonderBox.h */,
-				1B5D8CA90EE2FD3500BD1EAF /* NSCharacterSet+WonderBox.m */,
 				1B5D8CAE0EE2FD3500BD1EAF /* NSError+WonderBox.h */,
 				1B5D8CAF0EE2FD3500BD1EAF /* NSError+WonderBox.m */,
 				1B5D8CB40EE2FD3500BD1EAF /* NSString+WonderBox.h */,
@@ -608,8 +528,9 @@
 		1B7BB7880CBE1FD700484A9E /* xcconfigs */ = {
 			isa = PBXGroup;
 			children = (
-				1B8623910ECF91AD0006C26B /* SparkDebug.xcconfig */,
-				1B8623920ECF91AD0006C26B /* SparkRelease.xcconfig */,
+				1BCB8F8E1706119700CC8C3C /* target */,
+				1B8623910ECF91AD0006C26B /* debug.xcconfig */,
+				1B8623920ECF91AD0006C26B /* release.xcconfig */,
 			);
 			name = xcconfigs;
 			path = ../xcconfigs;
@@ -678,6 +599,28 @@
 				1BB986950D382AD00074D18E /* WBProgressPanel.xib */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		1BCB8F811706117600CC8C3C /* WonderBox */ = {
+			isa = PBXGroup;
+			children = (
+				98725D0406CB9E540072B8E4 /* Sources */,
+				1BCB8F831706117600CC8C3C /* Info.plist */,
+				1BCB8F841706117600CC8C3C /* InfoPlist.strings */,
+			);
+			path = WonderBox;
+			sourceTree = "<group>";
+		};
+		1BCB8F8E1706119700CC8C3C /* target */ = {
+			isa = PBXGroup;
+			children = (
+				1BCB8F8F1706119700CC8C3C /* application.xcconfig */,
+				1BCB8F901706119700CC8C3C /* archive.xcconfig */,
+				1BCB8F911706119700CC8C3C /* bundle.xcconfig */,
+				1BCB8F921706119700CC8C3C /* dylib.xcconfig */,
+				1BCB8F931706119700CC8C3C /* executable.xcconfig */,
+			);
+			path = target;
 			sourceTree = "<group>";
 		};
 		1BE3162F0D38138B005C3FB2 /* Foundation */ = {
@@ -764,8 +707,6 @@
 				1BE316D80D3815C9005C3FB2 /* WBImageView.m */,
 				1BE316DF0D3815C9005C3FB2 /* WBTableView.h */,
 				1BE316E00D3815C9005C3FB2 /* WBTableView.m */,
-				1BE316E30D3815C9005C3FB2 /* WBViewController.h */,
-				1BE316E40D3815C9005C3FB2 /* WBViewController.m */,
 				1BE316DD0D3815C9005C3FB2 /* WBTableDataSource.h */,
 				1BE316DE0D3815C9005C3FB2 /* WBTableDataSource.m */,
 				1BE316E50D3815C9005C3FB2 /* WBWindowController.h */,
@@ -887,7 +828,7 @@
 			name = Headers;
 			sourceTree = "<group>";
 		};
-		98725D0406CB9E540072B8E4 /* WonderBox */ = {
+		98725D0406CB9E540072B8E4 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
 				1BAD4026130DC8E30066B1AB /* WBBase.h */,
@@ -901,8 +842,8 @@
 				1BE45917130F593500A6A133 /* Templates */,
 				1BE3162F0D38138B005C3FB2 /* Foundation */,
 			);
-			name = WonderBox;
-			path = ../WonderBox/Sources;
+			name = Sources;
+			path = ../../WonderBox/Sources;
 			sourceTree = "<group>";
 		};
 		98888BBA06067E9C008117C3 /* Images */ = {
@@ -944,12 +885,47 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		1BCB8F771706117600CC8C3C /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1BCB8F941706124600CC8C3C /* WBBase.h in Headers */,
+				1B95F378170619D000392CD7 /* WBProcessFunctions.h in Headers */,
+				1B95F379170619E000392CD7 /* WBApplication.h in Headers */,
+				1B95F37B170619E000392CD7 /* WBAliasedApplication.h in Headers */,
+				1B95F37D17061A1500392CD7 /* WBFunctions.h in Headers */,
+				1B95F37F17061A2400392CD7 /* WBLSFunctions.h in Headers */,
+				1B95F38117061A3200392CD7 /* WBAlias.h in Headers */,
+				1B95F38317061A3F00392CD7 /* WBFSFunctions.h in Headers */,
+				1B95F38617061A7900392CD7 /* WBPluginLoader.h in Headers */,
+				1B95F38817061BB300392CD7 /* WBAEFunctions.h in Headers */,
+				1B95F38917061BBE00392CD7 /* WBSerialization.h in Headers */,
+				1BC6A8DD17061F3F00E7EA12 /* WBObjCRuntime.h in Headers */,
+				1BC6A8E017061F5300E7EA12 /* NSImage+WonderBox.h in Headers */,
+				1BC6A8E217061F6A00E7EA12 /* WBImageFunctions.h in Headers */,
+				1BC6A8E417061F8800E7EA12 /* NSFileWrapper+WonderBox.h in Headers */,
+				1BC6A8E617061F9400E7EA12 /* WBEnumerator.h in Headers */,
+				1BC6A8E817061FC500E7EA12 /* WBIconView.h in Headers */,
+				1BC6A8EB17061FE300E7EA12 /* WBImageView.h in Headers */,
+				1BC6A8ED17061FF300E7EA12 /* WBBezelItem.h in Headers */,
+				1BC6A8EF17061FF300E7EA12 /* WBBezelItemContent.h in Headers */,
+				1BC6A8F117061FF300E7EA12 /* WBNotificationWindow.h in Headers */,
+				1BC6A8F31706200400E7EA12 /* WBCGFunctions.h in Headers */,
+				1BC6A8F51706201800E7EA12 /* WBGeometry.h in Headers */,
+				1BC6A8F71706202C00E7EA12 /* NSArray+WonderBox.h in Headers */,
+				1BC6A8F91706204700E7EA12 /* WBClassCluster.h in Headers */,
+				1BC6A8FA1706207500E7EA12 /* WBForwarding.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8DC2EF500486A6940098B216 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				984A38650A60036E00DA6455 /* SparkActionLoader.h in Headers */,
 				984A38670A60036E00DA6455 /* SparkPlugIn.h in Headers */,
+				984A38C70A60060A00DA6455 /* SparkAlert.h in Headers */,
+				1B83F8A515D57B7100BF4059 /* SparkDefine.h in Headers */,
 				984A38900A60040700DA6455 /* SparkPrivate.h in Headers */,
 				984A38920A60040700DA6455 /* SparkKit.h in Headers */,
 				984A38AD0A60060200DA6455 /* SparkApplication.h in Headers */,
@@ -959,7 +935,6 @@
 				984A38B50A60060200DA6455 /* SparkTrigger.h in Headers */,
 				984A38C30A60060A00DA6455 /* SparkAction.h in Headers */,
 				984A38C50A60060A00DA6455 /* SparkActionPlugIn.h in Headers */,
-				984A38C70A60060A00DA6455 /* SparkAlert.h in Headers */,
 				984A38C90A60060A00DA6455 /* SparkObject.h in Headers */,
 				984A38CB0A60060A00DA6455 /* SparkMultipleAlerts.h in Headers */,
 				984A38CD0A60060A00DA6455 /* SparkPluginAPI.h in Headers */,
@@ -978,80 +953,31 @@
 				98EB96DE0C174D9D00C7B72D /* SparkPluginView.h in Headers */,
 				98A8AB9F0D01B21800CE8C12 /* SparkLibraryPrivate.h in Headers */,
 				1B78811F0D172D2900EE2B66 /* SparkEntryPrivate.h in Headers */,
-				1BE3166E0D38138B005C3FB2 /* WBAlias.h in Headers */,
-				1BE316700D38138B005C3FB2 /* WBAliasedApplication.h in Headers */,
-				1BE316720D38138B005C3FB2 /* WBApplication.h in Headers */,
-				1BE316780D38138B005C3FB2 /* WBPluginLoader.h in Headers */,
-				1BE3167A0D38138B005C3FB2 /* WBSerialization.h in Headers */,
-				1BE316850D38138B005C3FB2 /* WBAEFunctions.h in Headers */,
-				1BE316880D38138B005C3FB2 /* WBCGFunctions.h in Headers */,
-				1BE3168E0D38138B005C3FB2 /* WBFSFunctions.h in Headers */,
-				1BE316930D38138B005C3FB2 /* WBIOKitFunctions.h in Headers */,
-				1BE316950D38138B005C3FB2 /* WBLoginItems.h in Headers */,
-				1BE316960D38138B005C3FB2 /* WBLSFunctions.h in Headers */,
-				1BE3169D0D38138B005C3FB2 /* WBProcessFunctions.h in Headers */,
-				1BE316A00D38138B005C3FB2 /* WBClassCluster.h in Headers */,
-				1BE316A10D38138B005C3FB2 /* WBForwarding.h in Headers */,
-				1BE316A20D38138B005C3FB2 /* WBKeyValueCoding.h in Headers */,
-				1BE316A30D38138B005C3FB2 /* WBSingleton.h in Headers */,
-				1BE316EB0D3815C9005C3FB2 /* WBImageView.h in Headers */,
-				1BE316F10D3815C9005C3FB2 /* WBTableDataSource.h in Headers */,
-				1BE316F30D3815C9005C3FB2 /* WBTableView.h in Headers */,
-				1BE316F70D3815C9005C3FB2 /* WBViewController.h in Headers */,
-				1BE316F90D3815C9005C3FB2 /* WBWindowController.h in Headers */,
-				1BB983260D381CDE0074D18E /* WBIconFunctions.h in Headers */,
-				1BB983270D381CDE0074D18E /* WBIconView.h in Headers */,
-				1BB9836F0D381ECC0074D18E /* WBBezelItem.h in Headers */,
-				1BB983710D381ECC0074D18E /* WBBezelItemContent.h in Headers */,
-				1BB983730D381ECC0074D18E /* WBNotificationWindow.h in Headers */,
-				1BB986BC0D382AD10074D18E /* WBApplicationView.h in Headers */,
-				1BB986BE0D382AD10074D18E /* WBBackgroundView.h in Headers */,
-				1BB986C90D382AD10074D18E /* WBImageAndTextCell.h in Headers */,
-				1BB986CB0D382AD10074D18E /* WBImageAndTextView.h in Headers */,
-				1BB986CD0D382AD10074D18E /* WBProgressPanel.h in Headers */,
-				1BB987280D382C8B0074D18E /* WBTreeNode.h in Headers */,
-				1B81EBA20D38326C004B82A2 /* WBOutlineView.h in Headers */,
 				1BB2033C0EAF23B60072FE62 /* SparkEvent.h in Headers */,
-				1B184C890ED07D0D003E2346 /* WBThreadPort.h in Headers */,
-				1B184C9B0ED07D41003E2346 /* WBCDSAFunctions.h in Headers */,
-				1B184C9F0ED07D41003E2346 /* WBDigestFunctions.h in Headers */,
-				1B184CA30ED07D41003E2346 /* WBSecurityFunctions.h in Headers */,
-				1B5D8C1B0EE2FA7500BD1EAF /* NSTableView+WonderBox.h in Headers */,
-				1B5D8C1E0EE2FA7C00BD1EAF /* NSImage+WonderBox.h in Headers */,
-				1B5D8C1F0EE2FA7F00BD1EAF /* NSArrayController+WonderBox.h in Headers */,
-				1B5D8C210EE2FA8200BD1EAF /* NSAlert+WonderBox.h in Headers */,
-				1B5D8C230EE2FAAD00BD1EAF /* NSColor+WonderBox.h in Headers */,
-				1B5D8C260EE2FABF00BD1EAF /* NSButton+WonderBox.h in Headers */,
-				1B5D8C2D0EE2FAFF00BD1EAF /* WBVersionFunctions.h in Headers */,
-				1B5D8C360EE2FB1E00BD1EAF /* WBGeometry.h in Headers */,
-				1B5D8C540EE2FC6700BD1EAF /* NSFileWrapper+WonderBox.h in Headers */,
-				1B5D8C5A0EE2FC9100BD1EAF /* WBObjCRuntime.h in Headers */,
-				1B5D8CBA0EE2FD4A00BD1EAF /* NSArray+WonderBox.h in Headers */,
-				1B5D8CBC0EE2FD4B00BD1EAF /* NSCharacterSet+WonderBox.h in Headers */,
-				1B5D8CBE0EE2FD5200BD1EAF /* NSError+WonderBox.h in Headers */,
-				1B5D8DCB0EE2FEF600BD1EAF /* NSString+WonderBox.h in Headers */,
-				1B5D8DD90EE2FF0A00BD1EAF /* NSTabView+WonderBox.h in Headers */,
-				1B5D8E560EE3016F00BD1EAF /* WBBase64.h in Headers */,
-				1BA3812F0EFE6F5F00CF5D07 /* WBFinderSuite.h in Headers */,
-				1BCDCA961035919B00EAD9FE /* WBFunctions.h in Headers */,
-				1BCDCBF0103596F200EAD9FE /* WBGradient.h in Headers */,
-				1BCDCBF41035970400EAD9FE /* WBInterpolationFunction.h in Headers */,
-				1BAD4027130DC8E30066B1AB /* WBBase.h in Headers */,
-				1BAD406E130DCA940066B1AB /* WBTextFieldCell.h in Headers */,
-				1B17700E130F42D800E0A389 /* WBEnumerator.h in Headers */,
-				1B177013130F42FB00E0A389 /* WBImageFunctions.h in Headers */,
-				1B1774FB130F4C1900E0A389 /* WBIndexSetIterator.h in Headers */,
-				1BE458FA130F58C000A6A133 /* WBSplitview.h in Headers */,
-				1BE4591E130F593500A6A133 /* WBTemplate.h in Headers */,
-				1BE45920130F593500A6A133 /* WBTemplateParser.h in Headers */,
-				1BE45922130F593500A6A133 /* WBXMLTemplate.h in Headers */,
-				1BE4593F130F598D00A6A133 /* WBHeaderView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		1BCB8F791706117600CC8C3C /* WonderBox */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1BCB8F8D1706117600CC8C3C /* Build configuration list for PBXNativeTarget "WonderBox" */;
+			buildPhases = (
+				1BCB8F751706117600CC8C3C /* Sources */,
+				1BCB8F761706117600CC8C3C /* Frameworks */,
+				1BCB8F771706117600CC8C3C /* Headers */,
+				1BCB8F781706117600CC8C3C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WonderBox;
+			productName = WonderBox;
+			productReference = 1BCB8F7A1706117600CC8C3C /* WonderBox.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		8DC2EF4F0486A6940098B216 /* SparkKit */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9848D886085638FD006B5130 /* Build configuration list for PBXNativeTarget "SparkKit" */;
@@ -1064,6 +990,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				1B48108D170615C800124867 /* PBXTargetDependency */,
 			);
 			name = SparkKit;
 			productInstallPath = "$(HOME)/Library/Frameworks";
@@ -1077,7 +1004,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0410;
+				LastUpgradeCheck = 0460;
 			};
 			buildConfigurationList = 9848D88A085638FD006B5130 /* Build configuration list for PBXProject "SparkKit" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1090,6 +1017,7 @@
 				German,
 				FR,
 				en,
+				fr,
 			);
 			mainGroup = 0867D691FE84028FC02AAC07 /* SparkKit */;
 			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
@@ -1097,11 +1025,20 @@
 			projectRoot = "";
 			targets = (
 				8DC2EF4F0486A6940098B216 /* SparkKit */,
+				1BCB8F791706117600CC8C3C /* WonderBox */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		1BCB8F781706117600CC8C3C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1BCB8F861706117600CC8C3C /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8DC2EF520486A6940098B216 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1128,20 +1065,42 @@
 				1B6DACEF0D0C9D0400F352CC /* SparkMultiAlert.xib in Resources */,
 				1B6DACF40D0CA0F800F352CC /* SparkPluginView.xib in Resources */,
 				1B6DACF80D0CA1BF00F352CC /* SparkPlugin.xib in Resources */,
-				1BB986B70D382AD10074D18E /* WBProgressPanel.xib in Resources */,
-				1BAD4021130DC8B90066B1AB /* WBProgress.strings in Resources */,
-				1BE45900130F58D100A6A133 /* WBHSplitBar.tiff in Resources */,
-				1BE45901130F58D100A6A133 /* WBSplitDot.tiff in Resources */,
-				1BE45902130F58D100A6A133 /* WBVSplitBar.tiff in Resources */,
-				1BE45944130F599600A6A133 /* WBHeader-down.tiff in Resources */,
-				1BE45945130F599600A6A133 /* WBHeader.tiff in Resources */,
-				1BE45946130F599600A6A133 /* WBHeaderMenu.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		1BCB8F751706117600CC8C3C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1B95F377170619D000392CD7 /* WBProcessFunctions.c in Sources */,
+				1B95F37A170619E000392CD7 /* WBApplication.m in Sources */,
+				1B95F37C170619E000392CD7 /* WBAliasedApplication.m in Sources */,
+				1B95F37E17061A1900392CD7 /* WBFunctions.m in Sources */,
+				1B95F38017061A2400392CD7 /* WBLSFunctions.m in Sources */,
+				1B95F38217061A3200392CD7 /* WBAlias.m in Sources */,
+				1B95F38417061A4400392CD7 /* WBFSFunctions.m in Sources */,
+				1B95F38517061A7700392CD7 /* WBPluginLoader.m in Sources */,
+				1B95F38717061BB300392CD7 /* WBAEFunctions.c in Sources */,
+				1B95F38A17061BBE00392CD7 /* WBSerialization.m in Sources */,
+				1BC6A8DE17061F4400E7EA12 /* WBObjCRuntime.c in Sources */,
+				1BC6A8E117061F5800E7EA12 /* NSImage+WonderBox.m in Sources */,
+				1BC6A8E317061F7600E7EA12 /* WBImageFunctions.m in Sources */,
+				1BC6A8E517061F8800E7EA12 /* NSFileWrapper+WonderBox.m in Sources */,
+				1BC6A8E717061F9800E7EA12 /* WBEnumerator.m in Sources */,
+				1BC6A8E917061FC500E7EA12 /* WBIconView.m in Sources */,
+				1BC6A8EC17061FE700E7EA12 /* WBImageView.m in Sources */,
+				1BC6A8EE17061FF300E7EA12 /* WBBezelItem.m in Sources */,
+				1BC6A8F017061FF300E7EA12 /* WBBezelItemContent.m in Sources */,
+				1BC6A8F217061FF300E7EA12 /* WBNotificationWindow.m in Sources */,
+				1BC6A8F41706200900E7EA12 /* WBCGFunctions.m in Sources */,
+				1BC6A8F61706201D00E7EA12 /* WBGeometry.m in Sources */,
+				1BC6A8F81706202F00E7EA12 /* NSArray+WonderBox.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8DC2EF540486A6940098B216 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1171,73 +1130,19 @@
 				982C707C0D02EDBA0060304C /* SparkEntryManagerPrivate.m in Sources */,
 				982C70CD0D02F2400060304C /* SparkLibraryLegacy.m in Sources */,
 				98E1D5EA0D031CA800219B11 /* SparkLibrarySynchronizer.m in Sources */,
-				1BE3166F0D38138B005C3FB2 /* WBAlias.m in Sources */,
-				1BE316710D38138B005C3FB2 /* WBAliasedApplication.m in Sources */,
-				1BE316730D38138B005C3FB2 /* WBApplication.m in Sources */,
-				1BE316790D38138B005C3FB2 /* WBPluginLoader.m in Sources */,
-				1BE3167B0D38138B005C3FB2 /* WBSerialization.m in Sources */,
-				1BE316840D38138B005C3FB2 /* WBAEFunctions.c in Sources */,
-				1BE316890D38138B005C3FB2 /* WBCGFunctions.m in Sources */,
-				1BE3168F0D38138B005C3FB2 /* WBFSFunctions.m in Sources */,
-				1BE316920D38138B005C3FB2 /* WBIOKitFunctions.c in Sources */,
-				1BE316940D38138B005C3FB2 /* WBLoginItems.c in Sources */,
-				1BE316970D38138B005C3FB2 /* WBLSFunctions.m in Sources */,
-				1BE3169C0D38138B005C3FB2 /* WBProcessFunctions.c in Sources */,
-				1BE316EC0D3815C9005C3FB2 /* WBImageView.m in Sources */,
-				1BE316F20D3815C9005C3FB2 /* WBTableDataSource.m in Sources */,
-				1BE316F40D3815C9005C3FB2 /* WBTableView.m in Sources */,
-				1BE316F80D3815C9005C3FB2 /* WBViewController.m in Sources */,
-				1BE316FA0D3815C9005C3FB2 /* WBWindowController.m in Sources */,
-				1BB983250D381CDE0074D18E /* WBIconFunctions.c in Sources */,
-				1BB983280D381CDE0074D18E /* WBIconView.m in Sources */,
-				1BB983700D381ECC0074D18E /* WBBezelItem.m in Sources */,
-				1BB983720D381ECC0074D18E /* WBBezelItemContent.m in Sources */,
-				1BB983740D381ECC0074D18E /* WBNotificationWindow.m in Sources */,
-				1BB986BD0D382AD10074D18E /* WBApplicationView.m in Sources */,
-				1BB986BF0D382AD10074D18E /* WBBackgroundView.m in Sources */,
-				1BB986CA0D382AD10074D18E /* WBImageAndTextCell.m in Sources */,
-				1BB986CC0D382AD10074D18E /* WBImageAndTextView.m in Sources */,
-				1BB986CE0D382AD10074D18E /* WBProgressPanel.m in Sources */,
-				1BB987270D382C8B0074D18E /* WBTreeNode.m in Sources */,
-				1B81EBA30D38326C004B82A2 /* WBOutlineView.m in Sources */,
 				1BB2033D0EAF23B60072FE62 /* SparkEvent.m in Sources */,
-				1B184C8A0ED07D0D003E2346 /* WBThreadPort.m in Sources */,
-				1B184C9A0ED07D41003E2346 /* WBCDSAFunctions.c in Sources */,
-				1B184C9E0ED07D41003E2346 /* WBDigestFunctions.c in Sources */,
-				1B184CA20ED07D41003E2346 /* WBSecurityFunctions.c in Sources */,
-				1B5D8C1C0EE2FA7900BD1EAF /* NSTableView+WonderBox.m in Sources */,
-				1B5D8C1D0EE2FA7C00BD1EAF /* NSImage+WonderBox.m in Sources */,
-				1B5D8C200EE2FA7F00BD1EAF /* NSArrayController+WonderBox.m in Sources */,
-				1B5D8C220EE2FA8200BD1EAF /* NSAlert+WonderBox.m in Sources */,
-				1B5D8C240EE2FAAD00BD1EAF /* NSColor+WonderBox.m in Sources */,
-				1B5D8C270EE2FAC000BD1EAF /* NSButton+WonderBox.m in Sources */,
-				1B5D8C2E0EE2FAFF00BD1EAF /* WBVersionFunctions.m in Sources */,
-				1B5D8C370EE2FB1E00BD1EAF /* WBGeometry.m in Sources */,
-				1B5D8C550EE2FC6700BD1EAF /* NSFileWrapper+WonderBox.m in Sources */,
-				1B5D8C5B0EE2FC9100BD1EAF /* WBObjCRuntime.c in Sources */,
-				1B5D8CBB0EE2FD4B00BD1EAF /* NSArray+WonderBox.m in Sources */,
-				1B5D8CBD0EE2FD4B00BD1EAF /* NSCharacterSet+WonderBox.m in Sources */,
-				1B5D8CBF0EE2FD5200BD1EAF /* NSError+WonderBox.m in Sources */,
-				1B5D8DCC0EE2FEF600BD1EAF /* NSString+WonderBox.m in Sources */,
-				1B5D8DDA0EE2FF0A00BD1EAF /* NSTabView+WonderBox.m in Sources */,
-				1B5D8E550EE3016F00BD1EAF /* WBBase64.c in Sources */,
-				1BA381300EFE6F5F00CF5D07 /* WBFinderSuite.c in Sources */,
-				1BCDCA971035919B00EAD9FE /* WBFunctions.m in Sources */,
-				1BCDCBF1103596F200EAD9FE /* WBGradient.m in Sources */,
-				1BCDCBF51035970400EAD9FE /* WBInterpolationFunction.m in Sources */,
-				1BAD406F130DCA940066B1AB /* WBTextFieldCell.m in Sources */,
-				1B17700F130F42D800E0A389 /* WBEnumerator.m in Sources */,
-				1B177014130F42FB00E0A389 /* WBImageFunctions.m in Sources */,
-				1B1774FC130F4C1900E0A389 /* WBIndexSetIterator.m in Sources */,
-				1BE458FB130F58C000A6A133 /* WBSplitview.m in Sources */,
-				1BE4591F130F593500A6A133 /* WBTemplate.m in Sources */,
-				1BE45921130F593500A6A133 /* WBTemplateParser.m in Sources */,
-				1BE45923130F593500A6A133 /* WBXMLTemplate.m in Sources */,
-				1BE45940130F598D00A6A133 /* WBHeaderView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		1B48108D170615C800124867 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1BCB8F791706117600CC8C3C /* WonderBox */;
+			targetProxy = 1B48108C170615C800124867 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		089C1666FE841158C02AAC07 /* InfoPlist.strings */ = {
@@ -1284,6 +1189,14 @@
 			name = WBProgress.strings;
 			sourceTree = "<group>";
 		};
+		1BCB8F841706117600CC8C3C /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1BCB8F851706117600CC8C3C /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 		9805FD370773B47700B1A341 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1296,22 +1209,54 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		1BCB8F8B1706117600CC8C3C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1BCB8F921706119700CC8C3C /* dylib.xcconfig */;
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = WonderBox/Info.plist;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Debug;
+		};
+		1BCB8F8C1706117600CC8C3C /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1BCB8F921706119700CC8C3C /* dylib.xcconfig */;
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = WonderBox/Info.plist;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Release;
+		};
 		9848D887085638FD006B5130 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1BCB8F921706119700CC8C3C /* dylib.xcconfig */;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 460;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 460;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../DerivedData/Spark/Build/Products/Debug\"",
+					"\"/Users/jddupas/Library/Developer/Xcode/DerivedData/Spark-dzxfhldnsvqtrycecccdrtfujjak/Build/Products/Debug\"",
+				);
 				FRAMEWORK_VERSION = B;
 				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "@executable_path/../Frameworks";
+				INSTALL_PATH = "@loader_path/../Frameworks";
 				PRODUCT_NAME = SparkKit;
 			};
 			name = Debug;
 		};
 		9848D88B085638FD006B5130 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1B8623910ECF91AD0006C26B /* SparkDebug.xcconfig */;
+			baseConfigurationReference = 1B8623910ECF91AD0006C26B /* debug.xcconfig */;
 			buildSettings = {
 				BUILT_PRODUCT_DIR = Spark;
 				WONDERBOX = "WONDERBOX_FRAMEWORK WONDERBOX_NAME=SparkKit";
@@ -1320,20 +1265,26 @@
 		};
 		98EFD0A40B5844F300AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1BCB8F921706119700CC8C3C /* dylib.xcconfig */;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 460;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 460;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../DerivedData/Spark/Build/Products/Debug\"",
+					"\"/Users/jddupas/Library/Developer/Xcode/DerivedData/Spark-dzxfhldnsvqtrycecccdrtfujjak/Build/Products/Debug\"",
+				);
 				FRAMEWORK_VERSION = B;
 				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "@executable_path/../Frameworks";
+				INSTALL_PATH = "@loader_path/../Frameworks";
 				PRODUCT_NAME = SparkKit;
 			};
 			name = Release;
 		};
 		98EFD0A50B5844F300AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1B8623920ECF91AD0006C26B /* SparkRelease.xcconfig */;
+			baseConfigurationReference = 1B8623920ECF91AD0006C26B /* release.xcconfig */;
 			buildSettings = {
 				BUILT_PRODUCT_DIR = Spark;
 				WONDERBOX = "WONDERBOX_FRAMEWORK WONDERBOX_NAME=SparkKit";
@@ -1343,6 +1294,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		1BCB8F8D1706117600CC8C3C /* Build configuration list for PBXNativeTarget "WonderBox" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1BCB8F8B1706117600CC8C3C /* Debug */,
+				1BCB8F8C1706117600CC8C3C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 		9848D886085638FD006B5130 /* Build configuration list for PBXNativeTarget "SparkKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

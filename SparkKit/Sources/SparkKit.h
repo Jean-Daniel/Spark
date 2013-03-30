@@ -9,57 +9,11 @@
 #if !defined(__SPARKKIT_H)
 #define __SPARKKIT_H 1
 
-#pragma mark Base Macros
-
-#if !defined(SPARK_VISIBLE)
-  #define SPARK_VISIBLE __attribute__((visibility("default")))
-#endif
-
-#if !defined(SPARK_HIDDEN)
-  #define SPARK_HIDDEN __attribute__((visibility("hidden")))
-#endif
-
-#if !defined(SPARK_EXTERN)
-  #if defined(__cplusplus)
-    #define SPARK_EXTERN extern "C"
-  #else
-    #define SPARK_EXTERN extern
-  #endif
-#endif
-
-#if !defined(SPARK_PRIVATE)
-  #define SPARK_PRIVATE SPARK_EXTERN SPARK_HIDDEN
-#endif
-
-#if !defined(SPARK_EXPORT)
-  #define SPARK_EXPORT SPARK_EXTERN SPARK_VISIBLE
-#endif
-
-#if !defined(SPARK_CXX_EXPORT)
-  #define SPARK_CXX_PRIVATE SPARK_HIDDEN
-  #define SPARK_CXX_EXPORT SPARK_VISIBLE
-#endif
-
-#if !defined(SPARK_OBJC_EXPORT)
-  #if __LP64__
-    #define SPARK_OBJC_PRIVATE SPARK_HIDDEN
-    #define SPARK_OBJC_EXPORT SPARK_VISIBLE
-  #else
-    #define SPARK_OBJC_EXPORT
-    #define SPARK_OBJC_PRIVATE
-  #endif /* 64 bits runtime */
-#endif
-
-#if !defined(SPARK_INLINE)
-  #if !defined(__NO_INLINE__)
-    #define SPARK_INLINE static inline __attribute__((always_inline))
-  #else
-    #define SPARK_INLINE static inline
-  #endif /* No inline */
-#endif
+#import <SparkKit/SparkDefine.h>
 
 #pragma mark -
 #pragma mark Constants
+
 #if defined(__OBJC__)
 SPARK_EXPORT NSString * const kSparkErrorDomain;
 

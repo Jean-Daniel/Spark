@@ -38,12 +38,10 @@ SPARK_OBJC_EXPORT
   SparkLibrary *sp_library; /* __weak */
 	
 	/* editing context */
-	struct {
-		SparkEntry *entry;
-		SparkAction *action;
-		SparkTrigger *trigger;
-		SparkApplication *application;
-	} sp_edit;
+  SparkEntry *sp_entry;
+  SparkAction *sp_action;
+  SparkTrigger *sp_trigger;
+  SparkApplication *sp_application;
 }
 
 - (id)initWithLibrary:(SparkLibrary *)aLibrary;

@@ -55,12 +55,12 @@ void SparkPreferencesNotifyObservers(NSString *key, id value, SparkPreferencesDo
 static
 CFDataRef _SparkPreferencesHandleMessage(CFMessagePortRef local, SInt32 msgid, CFDataRef data, void *info) {
   if (kSparkPreferencesMessageID == msgid) {
-    NSDictionary *request = [NSPropertyListSerialization propertyListFromData:(id)data
+    NSDictionary *request = [NSPropertyListSerialization propertyListFromData:SPXCFToNSData(data)
                                                              mutabilityOption:NSPropertyListImmutable
                                                                        format:NULL errorDescription:NULL];
     if (request) {
       NSString *key = [request objectForKey:@"key"];
-      SparkPreferencesDomain domain = WBIntegerValue([request objectForKey:@"domain"]);
+      SparkPreferencesDomain domain = [[request objectForKey:@"domain"] integerValue];
       id value = [request objectForKey:@"value"];
       SparkPreferencesSetValue(key, value, domain);
     }
@@ -82,12 +82,12 @@ void _SparkPreferencesStartServer(void) {
         if (rl) {
           CFRunLoopAddSource(rl, source, kCFRunLoopCommonModes);
         } else {
-          WBCLogWarning("Undefined error while getting current run loop");
+          SPXLogWarning(@"Undefined error while getting current run loop");
         }
         CFRelease(source);
       }
     } else {
-      WBCLogWarning("Undefined error while creating preference port");
+      SPXLogWarning(@"Undefined error while creating preference port");
       /* we do not want to retry on next call */
       sMachPort = (CFMessagePortRef)kCFNull;
     }
@@ -97,10 +97,10 @@ void _SparkPreferencesStartServer(void) {
 static
 void _SparkPreferencesSetDaemonValue(NSString *key, id value, SparkPreferencesDomain domain) {
   if (SparkDaemonIsRunning()) {
-    WBTrace();
+    spx_trace();
     NSDictionary *request = [NSDictionary dictionaryWithObjectsAndKeys:
       key, @"key",
-      WBInteger(domain), @"domain", 
+      @(domain), @"domain",
       value, @"value", nil];
     NSData *data = [NSPropertyListSerialization dataFromPropertyList:request
                                                               format:NSPropertyListBinaryFormat_v1_0
@@ -108,9 +108,9 @@ void _SparkPreferencesSetDaemonValue(NSString *key, id value, SparkPreferencesDo
     if (data) {
       CFMessagePortRef port = CFMessagePortCreateRemote(kCFAllocatorDefault, kSparkPreferencesService);
       if (port) {
-        if (kCFMessagePortSuccess != CFMessagePortSendRequest(port, kSparkPreferencesMessageID, (CFDataRef)data,
+        if (kCFMessagePortSuccess != CFMessagePortSendRequest(port, kSparkPreferencesMessageID, SPXNSToCFData(data),
                                                               5, 0, NULL, NULL)) {
-          WBCLogWarning("Error while sending preference message");
+          SPXLogWarning(@"Error while sending preference message");
         }
         CFMessagePortInvalidate(port);
         CFRelease(port);
@@ -137,13 +137,13 @@ CFMutableDictionaryRef _SparkPreferencesGetDictionary(SparkPreferencesDomain dom
                                                                &kCFTypeDictionaryValueCallBacks);
       return sSparkFrameworkPreferences;
   }
-  WBThrowException(NSInvalidArgumentException, @"Unsupported preference domain: %ti", domain);
+  SPXThrowException(NSInvalidArgumentException, @"Unsupported preference domain: %ti", domain);
 }
 
 #pragma mark Getter
 id SparkPreferencesGetValue(NSString *key, SparkPreferencesDomain domain) {
   /* If daemon context, register preferences port */
-  if (SparkGetCurrentContext() != kSparkEditorContext) {
+  if (SparkGetCurrentContext() != kSparkContext_Editor) {
     _SparkPreferencesStartServer();
   }
   
@@ -152,14 +152,14 @@ id SparkPreferencesGetValue(NSString *key, SparkPreferencesDomain domain) {
     case SparkPreferencesFramework: {
       id value = nil;
       /* If daemon context, try to get value from memory cache*/
-      if (SparkGetCurrentContext() != kSparkEditorContext) {
+      if (SparkGetCurrentContext() != kSparkContext_Editor) {
         CFMutableDictionaryRef dict = _SparkPreferencesGetDictionary(domain);
         NSCAssert(dict != NULL, @"Invalid preferences dictionary");
-        value = (id)CFDictionaryGetValue(dict, key);
+        value = (id)CFDictionaryGetValue(dict, SPXNSToCFString(key));
       }
       /* If editor context or memory cache return NULL, get system preference */
       if (!value) {
-        value = (id)CFPreferencesCopyValue((CFStringRef)key, kSparkPreferencesIdentifier, 
+        value = (id)CFPreferencesCopyValue(SPXNSToCFString(key), kSparkPreferencesIdentifier,
                                            kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
         [value autorelease];
       }
@@ -168,38 +168,38 @@ id SparkPreferencesGetValue(NSString *key, SparkPreferencesDomain domain) {
     case SparkPreferencesLibrary:
       return [SparkActiveLibrary() preferenceValueForKey:key];
   }
-  WBThrowException(NSInvalidArgumentException, @"Unsupported preference domain: %ti", domain);
+  SPXThrowException(NSInvalidArgumentException, @"Unsupported preference domain: %ti", domain);
 }
 BOOL SparkPreferencesGetBooleanValue(NSString *key, SparkPreferencesDomain domain) {
   return [SparkPreferencesGetValue(key, domain) boolValue];
 }
 NSInteger SparkPreferencesGetIntegerValue(NSString *key, SparkPreferencesDomain domain) {
-  return WBIntegerValue(SparkPreferencesGetValue(key, domain));
+  return [SparkPreferencesGetValue(key, domain) integerValue];
 }
 
 #pragma mark Setter
 static
 void _SparkPreferencesSetValue(NSString *key, id value, SparkPreferencesDomain domain, BOOL synchronize) {
-  DLog(@"SparkPreferencesSetValue(%@, %@, %i)", key, value, domain);
+  SPXDebug(@"SparkPreferencesSetValue(%@, %@, %ld)", key, value, (long)domain);
   /* If daemon context, register preferences port */
-  if (SparkGetCurrentContext() != kSparkEditorContext) {
+  if (SparkGetCurrentContext() != kSparkContext_Editor) {
     _SparkPreferencesStartServer();
   }
   
   switch (domain) {
     case SparkPreferencesDaemon:
     case SparkPreferencesFramework: {
-      if (SparkGetCurrentContext() == kSparkEditorContext) {
-        CFPreferencesSetValue((CFStringRef)key, (CFPropertyListRef)value, 
+      if (SparkGetCurrentContext() == kSparkContext_Editor) {
+        CFPreferencesSetValue(SPXNSToCFString(key), (CFPropertyListRef)value,
                               kSparkPreferencesIdentifier,
                               kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
       } else {
         CFMutableDictionaryRef dict = _SparkPreferencesGetDictionary(domain);
         NSCAssert(dict != NULL, @"Invalid preferences dictionary");
         if (value) {
-          CFDictionarySetValue(dict, key, value);
+          CFDictionarySetValue(dict, SPXNSToCFString(key), value);
         } else {
-          CFDictionaryRemoveValue(dict, key);
+          CFDictionaryRemoveValue(dict, SPXNSToCFString(key));
         }
       }
     }
@@ -208,10 +208,10 @@ void _SparkPreferencesSetValue(NSString *key, id value, SparkPreferencesDomain d
       [SparkActiveLibrary() setPreferenceValue:value forKey:key];
       break;
     default:
-      WBThrowException(NSInvalidArgumentException, @"Unsupported preference domain: %ti", domain);
+      SPXThrowException(NSInvalidArgumentException, @"Unsupported preference domain: %ti", domain);
   }
   SparkPreferencesNotifyObservers(key, value, domain);
-  if (synchronize && SparkGetCurrentContext() == kSparkEditorContext) {
+  if (synchronize && SparkGetCurrentContext() == kSparkContext_Editor) {
     /* Sync daemon */
     _SparkPreferencesSetDaemonValue(key, value, domain);
   }
@@ -222,16 +222,16 @@ void SparkPreferencesSetValue(NSString *key, id value, SparkPreferencesDomain do
 }
 
 void SparkPreferencesSetBooleanValue(NSString *key, BOOL value, SparkPreferencesDomain domain) {
-  SparkPreferencesSetValue(key, WBBool(value), domain);
+  SparkPreferencesSetValue(key, @(value), domain);
 }
 void SparkPreferencesSetIntegerValue(NSString *key, NSInteger value, SparkPreferencesDomain domain) {
-  SparkPreferencesSetValue(key, WBInteger(value), domain);
+  SparkPreferencesSetValue(key, @(value), domain);
 }
 
 #pragma mark Synchronize
 Boolean SparkPreferencesSynchronize(SparkPreferencesDomain domain) {
-  if (SparkGetCurrentContext() != kSparkEditorContext) {
-    WBLogWarning(@"Try to synchronize preferences but not in editor context");
+  if (SparkGetCurrentContext() != kSparkContext_Editor) {
+    SPXLogWarning(@"Try to synchronize preferences but not in editor context");
     return false;
   }
   switch (domain) {
@@ -244,7 +244,7 @@ Boolean SparkPreferencesSynchronize(SparkPreferencesDomain domain) {
       return CFPreferencesSynchronize(kSparkPreferencesIdentifier,
                                       kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
   }
-  WBThrowException(NSInvalidArgumentException, @"Unsupported preference domain: %ti", domain);
+  SPXThrowException(NSInvalidArgumentException, @"Unsupported preference domain: %ti", domain);
 }
 
 #pragma mark -
@@ -278,7 +278,7 @@ NSMapTable *_SparkPreferencesGetObservers(SparkPreferencesDomain domain) {
     case SparkPreferencesFramework:
       return sFrameworkObservers;
   }
-  WBThrowException(NSInvalidArgumentException, @"Unsupported preference domain: %li", domain);
+  SPXThrowException(NSInvalidArgumentException, @"Unsupported preference domain: %ld", (long)domain);
 }
 
 static
@@ -294,7 +294,7 @@ void _SparkPreferencesSetObservers(NSMapTable *observers, SparkPreferencesDomain
       sFrameworkObservers = observers;
       break;
     default:
-      WBThrowException(NSInvalidArgumentException, @"Unsupported preference domain: %li", domain);
+      SPXThrowException(NSInvalidArgumentException, @"Unsupported preference domain: %ld", (long)domain);
   }
 }
 
@@ -404,7 +404,7 @@ void SparkPreferencesUnregisterObserver(id observer, NSString *key, SparkPrefere
   @try {
     [sp_target performSelector:sp_action withObject:value withObject:key];
   } @catch (id exception) {
-    WBLogException(exception);
+    SPXLogException(exception);
   }
 }
 
@@ -415,14 +415,14 @@ void SparkPreferencesUnregisterObserver(id observer, NSString *key, SparkPrefere
 
 - (NSMutableDictionary *)preferences {
   if (![self isLoaded]) {
-    DLog(@"Warning, trying to access preferences but library no loaded");
+    SPXDebug(@"Warning, trying to access preferences but library no loaded");
   }
   return sp_prefs;
 }
 - (void)setPreferences:(NSDictionary *)preferences {
   if (![self isLoaded])
-    WBThrowException(NSInternalInconsistencyException, @"cannot set preferences for an unloaded library");
-  WBSetterMutableCopy(sp_prefs, preferences);
+    SPXThrowException(NSInternalInconsistencyException, @"cannot set preferences for an unloaded library");
+  SPXSetterMutableCopy(sp_prefs, preferences);
 }
 
 @end

@@ -11,10 +11,11 @@
 
 #include <SparkKit/SparkKit.h>
 
-typedef enum {
-  kSparkEditorContext,
-  kSparkDaemonContext,
-} SparkContext;
+typedef NS_ENUM(NSUInteger, SparkContext) {
+  kSparkContext_Undefined,
+  kSparkContext_Editor,
+  kSparkContext_Daemon,
+};
 
 /*!
 @function

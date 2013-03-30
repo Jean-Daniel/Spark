@@ -15,7 +15,7 @@
 #import <SparkKit/SparkPrivate.h>
 #import <SparkKit/SparkActionLoader.h>
 
-#import WBHEADER(NSImage+WonderBox.h)
+#import <WonderBox/NSImage+WonderBox.h>
 
 #import "SparkEntryPrivate.h"
 #import "SparkLibraryPrivate.h"
@@ -141,7 +141,7 @@ NSString * const SparkEntryWillRemoveChildNotification = @"SparkEntryWillRemoveC
 	if (flag && sp_manager) {
 		NSAssert([sp_manager activeEntryForTrigger:[self trigger] application:[self application]] == nil, @"entry conflict");
 	}
-  bool enabled = WBFlagTestAndSet(sp_seFlags.enabled, flag);
+  bool enabled = SPXFlagTestAndSet(sp_seFlags.enabled, flag);
   if (enabled != sp_seFlags.enabled && sp_manager) {
 		SparkLibrary *library = [sp_manager library];
 		/* Undo management */
@@ -252,7 +252,7 @@ NSString * const SparkEntryWillRemoveChildNotification = @"SparkEntryWillRemoveC
 
 /* cached status */
 - (void)setPlugged:(BOOL)flag {
-  WBFlagSet(sp_seFlags.unplugged, !flag);
+  SPXFlagSet(sp_seFlags.unplugged, !flag);
 }
 
 /* convenient access */
@@ -278,16 +278,16 @@ NSString * const SparkEntryWillRemoveChildNotification = @"SparkEntryWillRemoveC
 }
 
 - (void)setAction:(SparkAction *)action {
-  WBSetterRetainAndDo(sp_action, action, {
+  SPXSetterRetainAndDo(sp_action, action, {
     SparkPlugIn *plugin = action ? [[SparkActionLoader sharedLoader] plugInForAction:action] : nil;
     if (plugin) [self setPlugged:[plugin isEnabled]];
   });
 }
 - (void)setTrigger:(SparkTrigger *)trigger {
-  WBSetterRetain(sp_trigger, trigger);
+  SPXSetterRetain(sp_trigger, trigger);
 }
 - (void)setApplication:(SparkApplication *)anApplication {
-  WBSetterRetain(sp_application, anApplication);
+  SPXSetterRetain(sp_application, anApplication);
 }
 
 - (SparkEntry *)firstChild {
@@ -418,7 +418,7 @@ NSString * const SparkEntryWillRemoveChildNotification = @"SparkEntryWillRemoveC
 
 - (id)replacementObjectForPortCoder:(NSPortCoder *)encoder {
   if ([encoder isByref]) {
-    WBLogWarning(@"SparkEntry does not support by ref messaging");
+    SPXLogWarning(@"SparkEntry does not support by ref messaging");
     return nil;
   }
   return self;
@@ -474,7 +474,7 @@ NSString * const SparkEntryWillRemoveChildNotification = @"SparkEntryWillRemoveC
     } 
     if (!library) {
       [self release];
-      WBThrowException(NSInvalidArchiveOperationException, @"Unsupported coder: %@", coder);
+      SPXThrowException(NSInvalidArchiveOperationException, @"Unsupported coder: %@", coder);
     }
     
   }
@@ -509,7 +509,7 @@ NSString * const SparkEntryWillRemoveChildNotification = @"SparkEntryWillRemoveC
 		/* flags */
 		[coder encodeBool:[self isEnabled] forKey:@"enabled"];
   } else {
-    WBThrowException(NSInvalidArchiveOperationException, @"Unsupported coder: %@", coder);
+    SPXThrowException(NSInvalidArchiveOperationException, @"Unsupported coder: %@", coder);
   }
 }
 
@@ -522,7 +522,7 @@ NSString * const SparkEntryWillRemoveChildNotification = @"SparkEntryWillRemoveC
 }
 
 - (void)setRegistred:(BOOL)flag {
-  bool registred = WBFlagTestAndSet(sp_seFlags.registred, flag);
+  bool registred = SPXFlagTestAndSet(sp_seFlags.registred, flag);
   /* If previous ≠ new status */
   if (registred != sp_seFlags.registred) {
     if (sp_seFlags.registred) {

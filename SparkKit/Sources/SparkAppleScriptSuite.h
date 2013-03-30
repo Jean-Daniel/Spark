@@ -11,13 +11,12 @@
 
 #include <SparkKit/SparkKit.h>
 
-enum {
+typedef NS_ENUM(OSType, SparkDaemonStatus) {
   kSparkDaemonStatusError = 'sErr',
   kSparkDaemonStatusEnabled = 'sEna',
   kSparkDaemonStatusDisabled = 'sDis',
   kSparkDaemonStatusShutDown = 'sSht',
 };
-typedef OSType SparkDaemonStatus;
 
 enum {
   kSparkEditorScriptSuite = 'Sprk',
@@ -40,7 +39,7 @@ CFStringRef const SparkDaemonStatusDidChangeNotification;
 #if defined(__OBJC__)
 SPARK_INLINE
 SparkDaemonStatus SparkDaemonGetStatus(NSNotification *notification) {
-  return (SparkDaemonStatus)WBUIntegerValue([[notification userInfo] objectForKey:(id)SparkDaemonStatusKey]);
+  return (SparkDaemonStatus)[[[notification userInfo] objectForKey:SPXCFToNSString(SparkDaemonStatusKey)] unsignedIntValue];
 }
 #endif
 

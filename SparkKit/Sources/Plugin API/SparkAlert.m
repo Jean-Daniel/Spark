@@ -12,9 +12,14 @@
 
 @implementation SparkAlert
 
+@synthesize hideSparkButton = sp_hide;
+
+@synthesize messageText = sp_message;
+@synthesize informativeText = sp_informative;
+
 - (id)init {
   if (self = [super init]) {
-    [self setHideSparkButton:SparkGetCurrentContext() == kSparkEditorContext];
+    [self setHideSparkButton:SparkGetCurrentContext() == kSparkContext_Editor];
   }
   return self;
 }
@@ -44,27 +49,6 @@
   [alert setInformativeText:info];
   [info release];
   return [alert autorelease];
-}
-
-- (NSString *)messageText {
-  return sp_message;
-}
-- (void)setMessageText:(NSString *)message {
-  WBSetterCopy(sp_message, message);
-}
-
-- (NSString *)informativeText {
-  return sp_informative;
-}
-- (void)setInformativeText:(NSString *)string {
-  WBSetterCopy(sp_informative, string);
-}
-
-- (BOOL)hideSparkButton {
-  return sp_hide;
-}
-- (void)setHideSparkButton:(BOOL)flag {
-  sp_hide = flag;
 }
 
 @end

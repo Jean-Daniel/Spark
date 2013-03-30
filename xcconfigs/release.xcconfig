@@ -1,5 +1,4 @@
 
-CODE_SIGN_IDENTITY = Spark
+#include "../hadron/xcconfigs/project/snowleopard-release.xcconfig"
 
-// Until we got a good crash report symbolizer, don't strip symbols.
-STRIP_INSTALLED_PRODUCT = NO
+#include "project.xcconfig"

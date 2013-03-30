@@ -10,7 +10,7 @@
 #import <SparkKit/SparkActionPlugIn.h>
 #import <SparkKit/SparkMultipleAlerts.h>
 
-#import WBHEADER(NSImage+WonderBox.h)
+#import <WonderBox/NSImage+WonderBox.h>
 
 @interface SparkMultipleAlerts ()
 - (void)refreshUI;

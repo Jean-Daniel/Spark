@@ -46,7 +46,7 @@ NSString * const SparkActionLoaderDidRegisterPlugInNotification = @"SparkActionL
     
     return YES;
   } @catch (id exception) {
-    WBLogException(exception);
+    SPXLogException(exception);
   }
   return NO;
 }

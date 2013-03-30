@@ -10,8 +10,8 @@
 #import <SparkKit/SparkHotKey.h>
 #import <SparkKit/SparkAction.h>
 
-#import WBHEADER(WBForwarding.h)
-#import WBHEADER(NSImage+WonderBox.h)
+#import <WonderBox/WBForwarding.h>
+#import <WonderBox/NSImage+WonderBox.h>
 
 #import <HotKeyToolKit/HotKeyToolKit.h>
 
@@ -116,7 +116,7 @@ BOOL SparkHotKeyFilter(HKKeycode code, HKModifier modifier) {
 #pragma mark NSCopying
 - (id)copyWithZone:(NSZone *)zone {
   SparkHotKey* copy = [super copyWithZone:zone];
-  WBCLogWarning("Warning: hotkey should not be copied");
+  SPXLogWarning(@"Warning: hotkey should not be copied");
   copy->sp_hotkey = [sp_hotkey copyWithZone:zone];
   [(SparkHKHotKey *)copy->sp_hotkey setOwner:copy];
   return copy;
@@ -125,8 +125,8 @@ BOOL SparkHotKeyFilter(HKKeycode code, HKModifier modifier) {
 #pragma mark SparkSerialization
 - (BOOL)serialize:(NSMutableDictionary *)plist {
   [super serialize:plist];
-  UInt64 hotkey = [sp_hotkey rawkey];
-  [plist setObject:WBUInt64(hotkey) forKey:kHotKeyRawCodeKey];
+  uint64_t hotkey = [sp_hotkey rawkey];
+  [plist setObject:@(hotkey) forKey:kHotKeyRawCodeKey];
   return YES;
 }
 
@@ -290,11 +290,11 @@ NSTimeInterval SparkGetDefaultKeyRepeatInterval(void) {
   sp_owner = owner;
 }
 
-- (void)keyPressed {
+- (void)keyPressed:(NSTimeInterval)eventTime {
   NSAssert(sp_owner, @"invalid child key: owner is nil");
   /* configure hotkey to match the attached action */
   [sp_owner prepareHotKey];
-  [super keyPressed];
+  [super keyPressed:eventTime];
 }
 
 @end

@@ -11,7 +11,7 @@
  */
 #import <SparkKit/SparkKit.h>
 
-#import WBHEADER(WBPlugInLoader.h)
+#import <WonderBox/WBPlugInLoader.h>
 
 @class SparkPlugIn, SparkAction;
 
@@ -19,7 +19,6 @@ SPARK_EXPORT
 NSString * const SparkActionLoaderDidRegisterPlugInNotification;
 
 /*!
-@class SparkActionLoader
 @abstract Action extension is "spact".
 */
 SPARK_OBJC_EXPORT

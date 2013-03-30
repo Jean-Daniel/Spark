@@ -83,8 +83,8 @@
 
 @end
 
-#import WBHEADER(WBApplication.h)
-#import WBHEADER(WBAliasedApplication.h)
+#import <WonderBox/WBApplication.h>
+#import <WonderBox/WBAliasedApplication.h>
 
 @interface WBApplication (SparkSerialization)
 

@@ -11,12 +11,11 @@
 @class SparkAction, SparkPlugInView;
 
 /*!
-@class SparkActionPlugIn
-@abstract This class is the base class to do a Spark PlugIn. If you want to add some kind of Action to Spark, 
-you will use a subclass of SparkActionPlugIn.
-@discussion This is an Abstract class, so it can't be instanciated. Some methode must be implemented by subclass.
-If you use this class in IB, you can define an Outlet with name actionView.
-*/
+ @abstract This class is the base class to do a Spark PlugIn. If you want to add some kind of Action to Spark,
+ you will use a subclass of SparkActionPlugIn.
+ @discussion This is an Abstract class, so it can't be instanciated. Some methode must be implemented by subclass.
+ If you use this class in IB, you can define an Outlet with name actionView.
+ */
 SPARK_OBJC_EXPORT
 @interface SparkActionPlugIn : NSObject {  
   @private
@@ -44,7 +43,6 @@ SPARK_OBJC_EXPORT
 
   /*!
 	@method
-   @param anAction
    @param isEditing YES if editing an existing action, NO if <code>anAction</code> is a new instance.
    @abstract The default implementation do nothing.
    @discussion Methode called when an plugin action editor is loaded.

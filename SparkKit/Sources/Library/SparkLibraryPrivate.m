@@ -11,7 +11,7 @@
 #import <SparkKit/SparkObjectSet.h>
 #import <SparkKit/SparkApplication.h>
 
-#import WBHEADER(WBProcessFunctions.h)
+#import <WonderBox/WBProcessFunctions.h>
 
 #pragma mark -
 #pragma mark Internal
@@ -61,7 +61,7 @@
   }
   /* Try bundle identifier */
   if (!result) {
-    NSString *bundle = (id)WBProcessCopyBundleIdentifier(psn);
+    NSString *bundle = SPXCFStringBridgingRelease(WBProcessCopyBundleIdentifier(psn));
     if (bundle) {
       SparkApplication *app;
       NSEnumerator *apps = [self applicationEnumerator];
@@ -71,7 +71,6 @@
           break;
         }
       }
-      [bundle release];
     }
   }
   return result;

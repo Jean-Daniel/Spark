@@ -92,7 +92,7 @@ static SEL sHandlerAction = NULL;
   @try {
     [sHandler performSelector:sHandlerAction withObject:anEvent];
   } @catch (id exception) {
-    WBLogException(exception);
+    SPXLogException(exception);
   }
 }
 + (void)setEventHandler:(id)handler andSelector:(SEL)aSelector {

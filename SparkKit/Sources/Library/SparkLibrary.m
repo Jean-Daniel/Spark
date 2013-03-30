@@ -21,9 +21,9 @@
 #import <SparkKit/SparkIconManager.h>
 #import <SparkKit/SparkBuiltInAction.h>
 
-#import WBHEADER(WBFSFunctions.h)
-#import WBHEADER(WBLSFunctions.h)
-#import WBHEADER(WBSerialization.h)
+#import <WonderBox/WBFSFunctions.h>
+#import <WonderBox/WBLSFunctions.h>
+#import <WonderBox/WBSerialization.h>
 
 #import "SparkLibraryPrivate.h"
 #import "SparkEntryManagerPrivate.h"
@@ -117,7 +117,6 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
 }
 
 - (void)dealloc {
-  WBTrace();
   /* Avoid useless undo */
   [sp_undo release];
   sp_undo = nil;
@@ -195,7 +194,7 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
   return sp_undo;
 }
 - (void)setUndoManager:(NSUndoManager *)aManager {
-  WBSetterRetain(sp_undo, aManager);
+  SPXSetterRetain(sp_undo, aManager);
 }
 
 - (void)enableNotifications {
@@ -248,10 +247,10 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
         return YES;
       }
     } else {
-      DLog(@"WARNING: sync unloaded library");
+      SPXDebug(@"WARNING: sync unloaded library");
     }
   } else {
-    WBThrowException(NSInvalidArgumentException, @"You must set a file before synchronizing");
+    SPXThrowException(NSInvalidArgumentException, @"You must set a file before synchronizing");
   }
   return NO;
 }
@@ -262,7 +261,7 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
 
 - (BOOL)load:(NSError **)error {
   if ([self isLoaded])
-    WBThrowException(NSInternalInconsistencyException, @"<%@ %p> is already loaded.", [self class], self);
+    SPXThrowException(NSInternalInconsistencyException, @"<%@ %p> is already loaded.", [self class], self);
   
   BOOL result = NO;
   /* disable undo while loading */
@@ -274,7 +273,7 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
       result = [self loadFromWrapper:wrapper error:error];
     } @catch (id exception) {
       result = NO;
-      WBLogException(exception);
+      SPXLogException(exception);
       if (error)
         *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileReadCorruptFileError userInfo:nil];
     }
@@ -290,9 +289,9 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
 
 - (void)unload {
   if (![self isLoaded])
-    WBThrowException(NSInternalInconsistencyException, @"<%@ %p> is not loaded.", [self class], self);
+    SPXThrowException(NSInternalInconsistencyException, @"<%@ %p> is not loaded.", [self class], self);
   
-  WBFlagSet(sp_slFlags.loaded, NO);
+  SPXFlagSet(sp_slFlags.loaded, NO);
   
   /* Preferences */
   [sp_prefs release];
@@ -321,7 +320,7 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
   /* Init Finder Application */
   NSString *path = WBLSFindApplicationForSignature(kSparkFinderSignature);
 	if (!path && kSparkFinderSignature != 'MACS') {
-		WBCLogWarning("invalid finder signature, try with default signature ('MACS')");
+		SPXLogWarning(@"invalid finder signature, try with default signature ('MACS')");
 		path = WBLSFindApplicationForSignature('MACS');
 	}
   if (path) {
@@ -331,7 +330,7 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
       [[self applicationSet] addObject:finder];
       [finder release];
     } else {
-      WBLogWarning(@"Invalid Finder Application: %@", finder);
+      SPXLogWarning(@"Invalid Finder Application: %@", finder);
     }
   }
 }
@@ -339,7 +338,7 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
   /* write reserved objects status into preferences */
   SparkApplication *finder = [self applicationWithUID:kSparkApplicationFinderUID];
   if (finder)
-    [[self preferences] setObject:WBBool(![finder isEnabled]) forKey:@"SparkFinderDisabled"];
+    [[self preferences] setObject:@(![finder isEnabled]) forKey:@"SparkFinderDisabled"];
 }
 - (void)restoreReservedObjects {
   /* called after library loading, restore reserved objects status from preferences */
@@ -409,7 +408,7 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
   /* Library infos */
   NSString *uuid = sp_uuid ? (id)CFUUIDCreateString(kCFAllocatorDefault, sp_uuid) : nil;
   NSDictionary *info = [NSDictionary dictionaryWithObjectsAndKeys:
-    WBUInteger(kSparkLibraryCurrentVersion), @"Version",
+    @(kSparkLibraryCurrentVersion), @"Version",
     uuid, @"UUID",
     nil];
   [uuid release];
@@ -442,7 +441,7 @@ bail:
 
 - (BOOL)readFromFileWrapper:(NSFileWrapper *)fileWrapper error:(NSError **)outError {
   if ([self isLoaded])
-    WBThrowException(NSInternalInconsistencyException, @"<%@ %p> is already loaded.", [self class], self);
+    SPXThrowException(NSInternalInconsistencyException, @"<%@ %p> is already loaded.", [self class], self);
   
   NSDictionary *wrappers = [fileWrapper fileWrappers];
   NSData *data = [[wrappers objectForKey:@"Info.plist"] regularFileContents];
@@ -481,7 +480,7 @@ bail:
       sp_uuid = CFUUIDCreate(kCFAllocatorDefault);
     }
     /* Library version */
-    sp_version = WBIntegerValue([plist objectForKey:@"Version"]);
+    sp_version = [[plist objectForKey:@"Version"] integerValue];
   } else {
     sp_version = kSparkLibraryCurrentVersion;
     
@@ -499,7 +498,7 @@ bail:
   sp_prefs = [[NSMutableDictionary alloc] init];
   
   /* Create icon manager only for editor */
-  if (SparkGetCurrentContext() == kSparkEditorContext && !sp_icons) {
+  if (SparkGetCurrentContext() == kSparkContext_Editor && !sp_icons) {
     sp_icons = [[SparkIconManager alloc] initWithLibrary:self path:SparkLibraryIconFolder(self)];
   }
   
@@ -529,7 +528,7 @@ bail:
   }
   
   if (result) {
-    WBFlagSet(sp_slFlags.loaded, YES);
+    SPXFlagSet(sp_slFlags.loaded, YES);
     
     SparkObject *object;
     NSMutableArray *invalids = nil;
@@ -545,7 +544,7 @@ bail:
     }
     if (invalids) {
       [[self actionSet] removeObjectsInArray:invalids];
-      DLog(@"Remove orphans actions: %@", invalids);
+      SPXDebug(@"Remove orphans actions: %@", invalids);
       [invalids release];
       invalids = nil;
     }
@@ -560,7 +559,7 @@ bail:
     }
     if (invalids) {
       [[self triggerSet] removeObjectsInArray:invalids];
-      DLog(@"Remove orphans triggers: %@", invalids);
+      SPXDebug(@"Remove orphans triggers: %@", invalids);
       [invalids release];
     }
     
@@ -654,7 +653,7 @@ NSString *SparkLibraryIconFolder(SparkLibrary *library) {
     icons = [icons stringByAppendingPathComponent:(id)uuidstr];
     [uuidstr release];
   } else {
-    WBThrowException(NSInternalInconsistencyException, @"Error while creating string from uuid");
+    SPXThrowException(NSInternalInconsistencyException, @"Error while creating string from uuid");
   }
   return icons;
 }
@@ -683,7 +682,7 @@ NSMutableArray *sLibraries = nil;
 
 static
 void SparkLibraryCleanup(void) {
-  if (SparkGetCurrentContext() == kSparkEditorContext) {
+  if (SparkGetCurrentContext() == kSparkContext_Editor) {
     NSMutableArray *uuids = [[NSMutableArray alloc] init];
     NSUInteger cnt = [sLibraries count];
     while (cnt-- > 0) {
@@ -700,7 +699,7 @@ void SparkLibraryCleanup(void) {
     NSEnumerator *files = [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:folder error:NULL] objectEnumerator];
     while (file = [files nextObject]) {
       if (![uuids containsObject:file]) {
-        DLog(@"Remove icons: %@", file);
+        SPXDebug(@"Remove icons: %@", file);
         [[NSWorkspace sharedWorkspace] performFileOperation:NSWorkspaceDestroyOperation
                                                      source:folder
                                                 destination:nil
@@ -798,7 +797,7 @@ SparkLibrary *SparkActiveLibrary(void) {
   static bool loading = false;
   if (!sActiveLibrary) {
     if (loading) {
-      WBThrowException(NSInternalInconsistencyException, @"%s() is not reentrant", __func__);
+      SPXThrowException(NSInternalInconsistencyException, @"%s() is not reentrant", __func__);
     }
     
     loading = true;
@@ -835,7 +834,7 @@ SparkLibrary *SparkActiveLibrary(void) {
       loading = false;
       [active release];
       active = nil;
-      WBThrowException(NSInternalInconsistencyException, @"An error prevent default library loading");
+      SPXThrowException(NSInternalInconsistencyException, @"An error prevent default library loading");
     } else if (resync) {
       [active setPath:path];
       [active synchronize];

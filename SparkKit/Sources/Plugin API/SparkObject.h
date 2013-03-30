@@ -14,7 +14,6 @@
 #import <SparkKit/SparkKit.h>
 
 /*!
-@class SparkObject
 @abstract   Abstract super class for all serializable Spark Objects.
 @discussion You never need intanciate a SparkObject directly. This is an Abstract class.
 */

@@ -24,7 +24,6 @@ SPARK_EXPORT
 NSTimeInterval SparkGetDefaultKeyRepeatInterval(void);
 
 /*!
-@class 		SparkAction
 @abstract   SparkAction is the class that represent action used in Spark.
 
 @discussion Subclass must override methods:

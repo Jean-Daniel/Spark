@@ -12,7 +12,6 @@ SPARK_EXPORT
 NSString * const SparkPlugInDidChangeStatusNotification;
 
 /*!
-    @class 		SparkPlugIn
     @abstract   Represent a Spark PlugIn Bundle.
 */
 SPARK_OBJC_EXPORT

@@ -12,11 +12,11 @@
 #import <SparkKit/SparkPrivate.h>
 #import <SparkKit/SparkMultipleAlerts.h>
 
-#import WBHEADER(WBIconView.h)
-#import WBHEADER(WBImageView.h)
-#import WBHEADER(WBBezelItem.h)
-#import WBHEADER(WBAEFunctions.h)
-#import WBHEADER(WBProcessFunctions.h)
+#import <WonderBox/WBIconView.h>
+#import <WonderBox/WBImageView.h>
+#import <WonderBox/WBBezelItem.h>
+#import <WonderBox/WBAEFunctions.h>
+#import <WonderBox/WBProcessFunctions.h>
 
 #pragma mark Utilities
 BOOL SparkEditorIsRunning(void) {
@@ -31,10 +31,12 @@ BOOL SparkDaemonIsRunning(void) {
 
 void SparkLaunchEditor(void) {
   switch (SparkGetCurrentContext()) {
-    case kSparkEditorContext:
+    default:
+      spx_abort("undefined context");
+    case kSparkContext_Editor:
       [NSApp activateIgnoringOtherApps:NO];
       break;
-    case kSparkDaemonContext: {
+    case kSparkContext_Daemon: {
       ProcessSerialNumber psn = WBProcessGetProcessWithSignature(kSparkEditorSignature);
       if (psn.lowLongOfPSN != kNoProcess) {
         SetFrontProcess(&psn);
@@ -57,19 +59,19 @@ void SparkLaunchEditor(void) {
 }
 
 SparkContext SparkGetCurrentContext(void) {
-  static SparkContext ctxt = 0xffffffff;
-  if (ctxt != 0xffffffff) return ctxt;
+  static SparkContext ctxt = kSparkContext_Undefined;
+  if (ctxt != kSparkContext_Undefined) return ctxt;
   
   @synchronized(@"SparkContextLock") {
-    if (0xffffffff == ctxt) {
+    if (kSparkContext_Undefined == ctxt) {
       CFBundleRef bundle = CFBundleGetMainBundle();
       if (bundle) {
         CFStringRef ident = CFBundleGetIdentifier(bundle);
         if (ident) {
-          if (CFEqual((CFTypeRef)kSparkDaemonBundleIdentifier, ident)) {
-            ctxt = kSparkDaemonContext;
+          if (CFEqual(SPXNSToCFString(kSparkDaemonBundleIdentifier), ident)) {
+            ctxt = kSparkContext_Daemon;
           } else {
-            ctxt = kSparkEditorContext;
+            ctxt = kSparkContext_Editor;
           }
         }
       }

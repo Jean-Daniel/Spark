@@ -21,8 +21,8 @@
 #import <SparkKit/SparkApplication.h>
 #import <SparkKit/SparkEntryManager.h>
 
-#import WBHEADER(WBSerialization.h)
-#import WBHEADER(NSFileWrapper+WonderBox.h)
+#import <WonderBox/WBSerialization.h>
+#import <WonderBox/NSFileWrapper+WonderBox.h>
 
 #pragma mark -
 #pragma mark Placeholder
@@ -106,7 +106,7 @@
 @implementation SparkLibrary (SparkLegacyReader)
 
 - (BOOL)importv1LibraryFromFileWrapper:(NSFileWrapper *)wrapper error:(NSError **)error {
-  DLog(@"Loading Version 1.0 Library");
+  SPXDebug(@"Loading Version 1.0 Library");
   /* Load HotKey items. Create trigger with internal values, and create entries with Application to Action Map */
   CFMutableSetRef actions = CFSetCreateMutable(kCFAllocatorDefault, 0, NULL);
   
@@ -135,7 +135,7 @@
           [objectSet addObject:app];
         }
       } else {
-        DLog(@"Discard invalid application: %@", app);
+        SPXDebug(@"Discard invalid application: %@", app);
       }
     }
   }  
@@ -186,7 +186,7 @@
         }
       }
     } else {
-      DLog(@"Discard invalid trigger: %@", trigger);
+      SPXDebug(@"Discard invalid trigger: %@", trigger);
     }
   }
   
@@ -203,10 +203,10 @@
         if (CFSetContainsValue(actions, (void *)(long)[action uid])) {
           [objectSet addObject:action];
         } else {
-          DLog(@"Ignore orphan action: %@", action);
+          SPXDebug(@"Ignore orphan action: %@", action);
         }
       } else {
-        DLog(@"Discard invalid action: %@", plist);
+        SPXDebug(@"Discard invalid action: %@", plist);
       }
     }
   }
@@ -269,7 +269,7 @@
     NSArray *uids = [object objectForKey:@"SparkObjects"];
     NSUInteger tcount = [uids count];
     while (tcount-- > 0) {
-      SparkUID uid = (SparkUID)WBUIntegerValue([uids objectAtIndex:tcount]);
+      SparkUID uid = (SparkUID)[[uids objectAtIndex:tcount] unsignedIntegerValue];
       SparkTrigger *trigger = [self triggerWithUID:uid];
       if (trigger) {
         SparkEntry *entry = [sp_relations entryForTrigger:trigger application:[self systemApplication]];

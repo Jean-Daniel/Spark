@@ -13,7 +13,7 @@
 #import <SparkKit/SparkPreferences.h>
 #import <SparkKit/SparkActionPlugIn.h>
 
-#import WBHEADER(NSImage+WonderBox.h)
+#import <WonderBox/NSImage+WonderBox.h>
 
 @interface SparkViewPlaceholder : NSObject {
   @private
@@ -99,13 +99,13 @@
   if ([key isEqualToString:@"name"]) {
     if (warn) {
       warn = NO;
-      WBLogWarning(@"%@ use deprecated KVC getter: name", [self class]);
+      SPXLogWarning(@"%@ use deprecated KVC getter: name", [self class]);
     }
     return [sp_action name];
   } else if ([key isEqualToString:@"icon"]) {
     if (warn) {
       warn = NO;
-      WBLogWarning(@"%@ use deprecated KVC getter: icon", [self class]);
+      SPXLogWarning(@"%@ use deprecated KVC getter: icon", [self class]);
     }
     return [sp_action icon];
   }
@@ -117,13 +117,13 @@
   if ([key isEqualToString:@"name"]) {
     if (warn) {
       warn = NO;
-      WBLogWarning(@"%@ use deprecated KVC setter: name", [self class]);
+      SPXLogWarning(@"%@ use deprecated KVC setter: name", [self class]);
     }
     return [sp_action setName:value];
   } else if ([key isEqualToString:@"icon"]) {
     if (warn) {
       warn = NO;
-      WBLogWarning(@"%@ use deprecated KVC setter: icon", [self class]);
+      SPXLogWarning(@"%@ use deprecated KVC setter: icon", [self class]);
     }
     return [sp_action setIcon:value];
   }
@@ -141,7 +141,7 @@
   
   [self willChangeValueForKey:@"name"];
   [self willChangeValueForKey:@"icon"];
-  WBSetterRetain(sp_action, action);
+  SPXSetterRetain(sp_action, action);
   [self didChangeValueForKey:@"icon"];
   [self didChangeValueForKey:@"name"];
   
@@ -149,7 +149,7 @@
   @try {
     [self loadSparkAction:action toEdit:flag];
   } @catch (id exception) {
-    WBLogException(exception);
+    SPXLogException(exception);
   }
   [self didChangeValueForKey:@"sparkAction"];
 }
@@ -177,31 +177,31 @@
 #pragma mark PlugIn Informations
 + (Class)actionClass {
   Class actionClass = nil;
-  NSBundle *bundle = WBCurrentBundle();
+  NSBundle *bundle = SPXCurrentBundle();
   NSString *class = [bundle objectForInfoDictionaryKey:@"SparkActionClass"];
   if (class && (actionClass = NSClassFromString(class)) ) {
     return actionClass;
   }
-  WBLogWarning(@"%@: invalid plugin property list: key \"SparkActionClass\" not found or invalid", [bundle bundlePath]);
+  SPXLogWarning(@"%@: invalid plugin property list: key \"SparkActionClass\" not found or invalid", [bundle bundlePath]);
   return nil;
 }
 
 + (NSString *)plugInName {
-  NSBundle *bundle = WBCurrentBundle();
+  NSBundle *bundle = SPXCurrentBundle();
   NSString *name = [bundle objectForInfoDictionaryKey:@"SparkPluginName"];
   if (!name) {
     name = NSStringFromClass(self);
-    WBLogWarning(@"%@: invalid plugin property list: key \"SparkPlugInName\" not found", [bundle bundlePath]);
+    SPXLogWarning(@"%@: invalid plugin property list: key \"SparkPlugInName\" not found", [bundle bundlePath]);
   }
   return name;
 }
 
 + (NSImage *)plugInIcon {
-  NSBundle *bundle = WBCurrentBundle();
+  NSBundle *bundle = SPXCurrentBundle();
   NSString *name = [bundle objectForInfoDictionaryKey:@"SparkPluginIcon"];
   NSImage *image = [NSImage imageNamed:name inBundle:bundle];
   if (!image) {
-    WBLogWarning(@"%@: invalid plugin property list: key \"SparkPluginIcon\" not found", [bundle bundlePath]);
+    SPXLogWarning(@"%@: invalid plugin property list: key \"SparkPluginIcon\" not found", [bundle bundlePath]);
     image = [NSImage imageNamed:@"PluginIcon" inBundle:kSparkKitBundle];
   }
   return image;
@@ -209,7 +209,7 @@
 
 + (NSString *)helpFile {
   NSString *path = nil;
-  NSBundle *bundle = WBCurrentBundle();
+  NSBundle *bundle = SPXCurrentBundle();
   NSString *help = [bundle objectForInfoDictionaryKey:@"SparkHelpFile"];
   if (help) {
     path = [bundle pathForResource:help ofType:nil];
@@ -226,7 +226,7 @@
 }
 
 + (NSString *)nibPath {
-  NSBundle *bundle = WBCurrentBundle();
+  NSBundle *bundle = SPXCurrentBundle();
   NSString *name = [bundle objectForInfoDictionaryKey:@"NSMainNibFile"];
   return name ? [bundle pathForResource:name ofType:@"nib"] : nil;
 }
@@ -283,9 +283,9 @@ void __SparkViewPlaceholderCopyProperties(NSView *src, NSView *dest) {
 SPARK_INLINE
 void __SparkViewPlaceholderSwapView(NSView *old, NSView *new) {
   if (!new || [new superview])
-    WBThrowException(NSInvalidArgumentException, @"Target view must bew a valid orphan view.");
+    SPXThrowException(NSInvalidArgumentException, @"Target view must bew a valid orphan view.");
   if (!old || ![old superview])
-    WBThrowException(NSInvalidArgumentException, @"Source view must have a valid superview.");
+    SPXThrowException(NSInvalidArgumentException, @"Source view must have a valid superview.");
   
   NSView *parent = [old superview];
   if (parent && new) {
@@ -310,7 +310,7 @@ void __SparkViewPlaceholderSwapView(NSView *old, NSView *new) {
 }
 
 - (void)setPlaceholderView:(NSView *)aView {
-  WBSetterRetain(sp_placeholder, aView);
+  SPXSetterRetain(sp_placeholder, aView);
 }
 
 @end

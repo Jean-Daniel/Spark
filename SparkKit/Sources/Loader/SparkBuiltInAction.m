@@ -16,10 +16,10 @@
 #import <SparkKit/SparkFunctions.h>
 #import <SparkKit/SparkEntryManager.h>
 
-#import WBHEADER(WBFunctions.h)
-#import WBHEADER(WBAEFunctions.h)
-#import WBHEADER(NSImage+WonderBox.h)
-#import WBHEADER(WBProcessFunctions.h)
+#import <WonderBox/WBFunctions.h>
+#import <WonderBox/WBAEFunctions.h>
+#import <WonderBox/NSImage+WonderBox.h>
+#import <WonderBox/WBProcessFunctions.h>
 
 #import "SparkLibraryPrivate.h"
 
@@ -95,12 +95,12 @@ NSString *_SparkActionDescription(SparkBuiltInAction *action);
 }
 
 - (IBAction)selectGroup:(NSPopUpButton *)sender {
-  WBTrace();
-  //WBSetterRetain(sp_gpr, [[sender selectedItem] representedObject]);
+  SPXTrace();
+  //SPXSetterRetain(sp_gpr, [[sender selectedItem] representedObject]);
 }
 - (IBAction)selectAlternateGroup:(NSPopUpButton *)sender {
-  WBTrace();
-  //WBSetterRetain(sp_gpr2, [[sender selectedItem] representedObject]);
+  SPXTrace();
+  //SPXSetterRetain(sp_gpr2, [[sender selectedItem] representedObject]);
 }
 
 #pragma mark -
@@ -235,9 +235,9 @@ NSImage *SparkDaemonStatusIcon(BOOL status) {
 - (BOOL)serialize:(NSMutableDictionary *)plist {
   if ([super serialize:plist]) {
     if (kSparkSDActionSwitchListStatus == sp_action || kSparkSDActionExchangeListStatus == sp_action)
-      [plist setObject:WBUInteger(sp_listUID) forKey:@"SparkListUID"];
+      [plist setObject:@(sp_listUID) forKey:@"SparkListUID"];
 		if (kSparkSDActionExchangeListStatus == sp_action)
-			[plist setObject:WBUInteger(sp_altListUID) forKey:@"SparkSecondListUID"];
+			[plist setObject:@(sp_altListUID) forKey:@"SparkSecondListUID"];
 		
     [plist setObject:WBStringForOSType(sp_action) forKey:@"SparkDaemonAction"];
     return YES;
@@ -249,9 +249,9 @@ NSImage *SparkDaemonStatusIcon(BOOL status) {
   if (self = [super initWithSerializedValues:plist]) {
     [self setAction:WBOSTypeFromString([plist objectForKey:@"SparkDaemonAction"])];
     if (kSparkSDActionSwitchListStatus == sp_action || kSparkSDActionExchangeListStatus == sp_action)
-      sp_listUID = (SparkUID)WBUIntegerValue([plist objectForKey:@"SparkListUID"]);
+      sp_listUID = (SparkUID)[[plist objectForKey:@"SparkListUID"] integerValue];
     if (kSparkSDActionExchangeListStatus == sp_action)
-      sp_altListUID = (SparkUID)WBUIntegerValue([plist objectForKey:@"SparkSecondListUID"]);
+      sp_altListUID = (SparkUID)[[plist objectForKey:@"SparkSecondListUID"] integerValue];
     /* Update description */
     NSString *desc = _SparkActionDescription(self);
     if (desc)
@@ -381,14 +381,14 @@ void SparkSDActionToggleDaemonStatus(void) {
   return sp_list;
 }
 - (void)setList:(SparkList *)aList {
-    WBSetterRetainAndDo(sp_list, aList, sp_listUID = [aList uid]);
+  SPXSetterRetainAndDo(sp_list, aList, sp_listUID = [aList uid]);
 }
 
 - (SparkList *)alternateList {
   return sp_altList;
 }
 - (void)setAlternateList:(SparkList *)aList {
-    WBSetterRetainAndDo(sp_altList, aList, sp_altListUID = [aList uid]);
+  SPXSetterRetainAndDo(sp_altList, aList, sp_altListUID = [aList uid]);
 }
 
 @end

@@ -32,7 +32,6 @@ BOOL SparkHotKeyFilter(HKKeycode code, HKModifier modifier);
 
 #pragma mark -
 /*!
-@class 		SparkHotKey
 @abstract   SparkHotKey is the class that represent hotKeys used in Spark.
 */
 @class SparkHKHotKey;

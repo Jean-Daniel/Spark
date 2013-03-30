@@ -35,7 +35,7 @@ BOOL SparkPlugInIsEnabled(NSString *identifier, BOOL *exists) {
 
 static 
 void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
-  if (SparkGetCurrentContext() == kSparkEditorContext) {
+  if (SparkGetCurrentContext() == kSparkContext_Editor) {
     NSMutableDictionary *plugins = NULL;
     NSDictionary *prefs = SparkPreferencesGetValue(@"SparkPlugIns", SparkPreferencesFramework);
     if (!prefs) {
@@ -43,7 +43,7 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
     } else {
       plugins = [prefs mutableCopy];
     }
-    [plugins setObject:WBBool(enabled) forKey:identifier];
+    [plugins setObject:@(enabled) forKey:identifier];
     SparkPreferencesSetValue(@"SparkPlugIns", plugins, SparkPreferencesFramework);
     [plugins release];
   }
@@ -66,7 +66,7 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
 
 + (void)initialize {
   if ([SparkPlugIn class] == self) {
-    if (SparkGetCurrentContext() == kSparkDaemonContext) {
+    if (SparkGetCurrentContext() == kSparkContext_Daemon) {
       SparkPreferencesRegisterObserver(self, @selector(setFrameworkValue:forKey:), @"SparkPlugIns", SparkPreferencesFramework);
     }
   }
@@ -82,7 +82,7 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
 - (id)initWithClass:(Class)cls identifier:(NSString *)identifier {
   if (![cls isSubclassOfClass:[SparkActionPlugIn class]]) {
     [self release];
-    WBThrowException(NSInvalidArgumentException, @"Invalid action plugin class.");
+    SPXThrowException(NSInvalidArgumentException, @"Invalid action plugin class.");
   } 
   
   if (self = [super init]) {
@@ -95,9 +95,9 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
     BOOL exists;
     BOOL status = SparkPlugInIsEnabled(identifier, &exists);
     if (exists)
-      WBFlagSet(sp_spFlags.disabled, !status);
+      SPXFlagSet(sp_spFlags.disabled, !status);
     else
-      WBFlagSet(sp_spFlags.disabled, ![sp_class isEnabled]);
+      SPXFlagSet(sp_spFlags.disabled, ![sp_class isEnabled]);
   }
   return self;
 }
@@ -108,7 +108,7 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
     [self setPath:[bundle bundlePath]];
     
     /* Extend applescript support */
-//    if (SparkGetCurrentContext() == kSparkEditorContext)
+//    if (SparkGetCurrentContext() == kSparkContext_Editor)
 //      [[NSScriptSuiteRegistry sharedScriptSuiteRegistry] loadSuitesFromBundle:bundle];
   }
   return self;
@@ -150,7 +150,7 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
   return sp_name;
 }
 - (void)setName:(NSString *)newName {
-  WBSetterRetain(sp_name, newName);
+  SPXSetterRetain(sp_name, newName);
 }
 
 - (NSString *)path {
@@ -158,7 +158,7 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
 }
 
 - (void)setPath:(NSString *)newPath {
-  WBSetterRetain(sp_path, newPath);
+  SPXSetterRetain(sp_path, newPath);
 }
 
 - (NSImage *)icon {
@@ -168,14 +168,14 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
   return sp_icon;
 }
 - (void)setIcon:(NSImage *)icon {
-  WBSetterRetain(sp_icon, icon);
+  SPXSetterRetain(sp_icon, icon);
 }
 
 - (BOOL)isEnabled {
   return !sp_spFlags.disabled;
 }
 - (void)setEnabled:(BOOL)flag {
-  bool disabled = WBFlagTestAndSet(sp_spFlags.disabled, !flag);
+  bool disabled = SPXFlagTestAndSet(sp_spFlags.disabled, !flag);
   /* If status change */
   if (disabled != sp_spFlags.disabled) {
     /* Update preferences */
@@ -204,14 +204,14 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
   return sp_version;
 }
 - (void)setVersion:(NSString *)version {
-  WBSetterCopy(sp_version, version);
+  SPXSetterCopy(sp_version, version);
 }
 
 - (NSString *)identifier {
   return sp_identifier;
 }
 - (void)setIdentifier:(NSString *)identifier {
-  WBSetterRetain(sp_identifier, identifier);
+  SPXSetterRetain(sp_identifier, identifier);
 }
 
 - (NSURL *)helpURL {
@@ -239,7 +239,7 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
       sp_nib = [[NSNib alloc] initWithContentsOfURL:url];
     } else {
       sp_nib = [NSNull null];
-      DLog(@"Plugin does not have nib path");
+      SPXDebug(@"Plugin does not have nib path");
     }
   }
   SparkActionPlugIn *plugin = [[sp_class alloc] init];

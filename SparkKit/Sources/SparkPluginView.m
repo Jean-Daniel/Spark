@@ -12,7 +12,7 @@
 @implementation SparkPlugInView
 
 - (id)init {
-  if (self = [super initWithNibName:@"SparkPluginView" bundle:WBCurrentBundle()]) {
+  if (self = [super initWithNibName:@"SparkPluginView" bundle:SPXCurrentBundle()]) {
     /* load nib file */
     [self view];
   }

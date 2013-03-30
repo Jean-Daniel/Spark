@@ -9,10 +9,11 @@
 #import <SparkKit/SparkList.h>
 #import <SparkKit/SparkEntry.h>
 #import <SparkKit/SparkPrivate.h>
+#import <SparkKit/SparkApplication.h>
 #import <SparkKit/SparkEntryManager.h>
 
-#import WBHEADER(NSArray+WonderBox.h)
-#import WBHEADER(NSImage+WonderBox.h)
+#import <WonderBox/NSArray+WonderBox.h>
+#import <WonderBox/NSImage+WonderBox.h>
 
 #import "SparkEntryPrivate.h"
 
@@ -160,17 +161,17 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
 }
 - (void)setListFilter:(SparkListFilter)aFilter context:(id)aCtxt {
   sp_filter = aFilter;
-  WBSetterRetain(sp_ctxt, aCtxt);
+  SPXSetterRetain(sp_ctxt, aCtxt);
   [self reload]; // Refresh contents
 }
 - (void)reloadWithFilter:(SparkListFilter)aFilter context:(id)aCtxt {
   sp_filter = aFilter;
-  WBSetterRetain(sp_ctxt, aCtxt);
+  SPXSetterRetain(sp_ctxt, aCtxt);
   /* Refresh contents */
   [self reload];
   /* Remove dynamic */
   sp_filter = NULL;
-  WBSetterRetain(sp_ctxt, nil);
+  SPXSetterRetain(sp_ctxt, nil);
 }
 
 #pragma mark -
@@ -391,7 +392,7 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
 }
 
 - (void)setEntries:(NSArray *)entries {
-  WBSetterMutableCopy(sp_entries, entries);
+  SPXSetterMutableCopy(sp_entries, entries);
 }
 
 - (SparkEntry *)objectInEntriesAtIndex:(NSUInteger)idx {
@@ -406,7 +407,7 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
   /* try to insert a non root entry */
   if (![anEntry isRoot]) {
     if ([sp_entries containsObjectIdenticalTo:[anEntry root]]) {
-			DLog(@"already in => skip");
+			SPXDebug(@"already in => skip");
       return;
 		}
     /* insert root instead */

@@ -32,7 +32,7 @@
 
 - (oneway void)shutdown;
 
-- (id<SparkLibrary>)library;
+- (NSDistantObject<SparkLibrary> *)library;
 
 @end
 

@@ -53,37 +53,6 @@ SparkLibrary *SparkLibraryGetLibraryWithUUID(CFUUIDRef uuid);
 SPARK_EXPORT
 SparkLibrary *SparkLibraryGetLibraryAtPath(NSString *path, BOOL create);
 
-/* Notifications support */
-SPARK_EXPORT
-NSString * const SparkNotificationObjectKey;
-SPARK_EXPORT
-NSString * const SparkNotificationUpdatedObjectKey;
-
-SPARK_INLINE
-id SparkNotificationObject(NSNotification *aNotification) {
-  return [[aNotification userInfo] objectForKey:SparkNotificationObjectKey];
-}
-
-SPARK_INLINE
-id SparkNotificationUpdatedObject(NSNotification *aNotification) {
-  return [[aNotification userInfo] objectForKey:SparkNotificationUpdatedObjectKey];
-}
-
-SPARK_INLINE
-void SparkLibraryPostNotification(SparkLibrary *library, NSString *name, id sender, id object) {
-  [[library notificationCenter] postNotificationName:name
-                                              object:sender
-                                            userInfo:object ? [NSDictionary dictionaryWithObject:object
-                                                                                          forKey:SparkNotificationObjectKey] : nil];
-}
-SPARK_INLINE
-void SparkLibraryPostUpdateNotification(SparkLibrary *library, NSString *name, id sender, id replaced, id object) {
-  [[library notificationCenter] postNotificationName:name
-                                              object:sender
-                                            userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                      object, SparkNotificationObjectKey,
-                                                      replaced, SparkNotificationUpdatedObjectKey, nil]];
-}
 
 #pragma mark -
 @class SparkIconManager, SparkEntryManager;
@@ -162,6 +131,38 @@ SPARK_OBJC_EXPORT
 
 @end
 
-#pragma mark Debugger
+/* Notifications support */
+SPARK_EXPORT
+NSString * const SparkNotificationObjectKey;
+SPARK_EXPORT
+NSString * const SparkNotificationUpdatedObjectKey;
+
+SPARK_INLINE
+id SparkNotificationObject(NSNotification *aNotification) {
+  return [[aNotification userInfo] objectForKey:SparkNotificationObjectKey];
+}
+
+SPARK_INLINE
+id SparkNotificationUpdatedObject(NSNotification *aNotification) {
+  return [[aNotification userInfo] objectForKey:SparkNotificationUpdatedObjectKey];
+}
+
+SPARK_INLINE
+void SparkLibraryPostNotification(SparkLibrary *library, NSString *name, id sender, id object) {
+  [[library notificationCenter] postNotificationName:name
+                                              object:sender
+                                            userInfo:object ? [NSDictionary dictionaryWithObject:object
+                                                                                          forKey:SparkNotificationObjectKey] : nil];
+}
+SPARK_INLINE
+void SparkLibraryPostUpdateNotification(SparkLibrary *library, NSString *name, id sender, id replaced, id object) {
+  [[library notificationCenter] postNotificationName:name
+                                              object:sender
+                                            userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                      object, SparkNotificationObjectKey,
+                                                      replaced, SparkNotificationUpdatedObjectKey, nil]];
+}
+
+// MARK: Debugger
 SPARK_EXPORT
 void SparkDumpTriggers(SparkLibrary *aLibrary);

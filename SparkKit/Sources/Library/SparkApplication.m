@@ -10,11 +10,11 @@
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkPrivate.h>
 
-#import WBHEADER(WBAlias.h)
-#import WBHEADER(WBFunctions.h)
-#import WBHEADER(WBLSFunctions.h)
-#import WBHEADER(NSImage+WonderBox.h)
-#import WBHEADER(WBProcessFunctions.h)
+#import <WonderBox/WBAlias.h>
+#import <WonderBox/WBFunctions.h>
+#import <WonderBox/WBLSFunctions.h>
+#import <WonderBox/NSImage+WonderBox.h>
+#import <WonderBox/WBProcessFunctions.h>
 
 static
 NSString * const kSparkApplicationKey = @"SparkApplication";
@@ -49,13 +49,13 @@ NSString * const SparkApplicationDidChangeEnabledNotification = @"SparkApplicati
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
   [coder encodeObject:sp_application forKey:kSparkApplicationKey];
-	WBEncodeInteger(coder, [self encodeFlags], kSparkApplicationFlagsKey);
+  [coder encodeInteger:[self encodeFlags] forKey:kSparkApplicationFlagsKey];
   return;
 }
 
 - (id)initWithCoder:(NSCoder *)coder {
   if (self = [super initWithCoder:coder]) {
-    [self decodeFlags:WBDecodeInteger(coder, kSparkApplicationFlagsKey)];
+    [self decodeFlags:[coder decodeIntegerForKey:kSparkApplicationFlagsKey]];
     sp_application = [[coder decodeObjectForKey:kSparkApplicationKey] retain];    
   }
   return self;
@@ -71,7 +71,7 @@ NSString * const SparkApplicationDidChangeEnabledNotification = @"SparkApplicati
 #pragma mark SparkSerialization
 - (BOOL)serialize:(NSMutableDictionary *)plist {
   if ([super serialize:plist]) {
-    [plist setObject:WBUInteger([self encodeFlags]) forKey:kSparkApplicationFlagsKey];
+    [plist setObject:@([self encodeFlags]) forKey:kSparkApplicationFlagsKey];
     if ([sp_application isValid])
       return [sp_application serialize:plist];
     return YES;
@@ -81,7 +81,7 @@ NSString * const SparkApplicationDidChangeEnabledNotification = @"SparkApplicati
 - (id)initWithSerializedValues:(NSDictionary *)plist {
   if (self = [super initWithSerializedValues:plist]) {
     sp_application = [[WBApplication alloc] initWithSerializedValues:plist];
-    [self decodeFlags:WBIntegerValue([plist objectForKey:kSparkApplicationFlagsKey])];
+    [self decodeFlags:[[plist objectForKey:kSparkApplicationFlagsKey] integerValue]];
     /* Update name and icon */
     NSString *path = [sp_application path];
     if (path) {
@@ -108,7 +108,7 @@ NSString * const SparkApplicationDidChangeEnabledNotification = @"SparkApplicati
   if (self = [super init]) {
     [self setPath:path];
     if (!sp_application) {
-      DLog(@"Invalid app at path: %@", path);
+      SPXDebug(@"Invalid app at path: %@", path);
       [self release];
       self = nil;
     }
@@ -194,7 +194,7 @@ NSString * const SparkApplicationDidChangeEnabledNotification = @"SparkApplicati
   return !sp_appFlags.disabled;
 }
 - (void)setEnabled:(BOOL)flag {
-  bool disabled = WBFlagTestAndSet(sp_appFlags.disabled, !flag);
+  bool disabled = SPXFlagTestAndSet(sp_appFlags.disabled, !flag);
   if (disabled != sp_appFlags.disabled) {
     [[[[self library] undoManager] prepareWithInvocationTarget:self] setEnabled:sp_appFlags.disabled];
     /* post notification */
@@ -361,10 +361,10 @@ NSString * const kWBApplicationSignatureKey = @"WBApplicationSignature";
       if ([plist objectForKey:@"SparkApplication"]) {
         plist = [plist objectForKey:@"SparkApplication"];
         identifier = [plist objectForKey:@"Identifier"];
-        type = WBIntegerValue([plist objectForKey:@"IDType"]);
+        type = [[plist objectForKey:@"IDType"] integerValue];
       } else {
         identifier = [plist objectForKey:@"SKApplicationIdentifier"];
-        type = WBIntegerValue([plist objectForKey:@"SKApplicationType"]);
+        type = [[plist objectForKey:@"SKApplicationType"] integerValue];
       }
       
       switch (type) {
@@ -378,7 +378,7 @@ NSString * const kWBApplicationSignatureKey = @"WBApplicationSignature";
     } else {
       /* Current version */
       NSString *bundle = [plist objectForKey:kWBApplicationBundleIDKey];
-      OSType sign = (OSType)WBIntegerValue([plist objectForKey:kWBApplicationSignatureKey]);
+      OSType sign = [[plist objectForKey:kWBApplicationSignatureKey] unsignedIntValue];
       
       [self setSignature:sign bundleIdentifier:bundle];
     }
@@ -396,7 +396,7 @@ NSString * const kWBApplicationSignatureKey = @"WBApplicationSignature";
     OSType sign = [self signature];
     NSString *bundle = [self bundleIdentifier];
     if (bundle) [plist setObject:bundle forKey:kWBApplicationBundleIDKey];
-    if (sign) [plist setObject:WBInteger(sign) forKey:kWBApplicationSignatureKey];
+    if (sign) [plist setObject:@(sign) forKey:kWBApplicationSignatureKey];
   }
   return YES;
 }

@@ -17,9 +17,9 @@
 #import <SparkKit/SparkTrigger.h>
 #import <SparkKit/SparkApplication.h>
 
-#import WBHEADER(WBEnumerator.h)
-#import WBHEADER(WBSerialization.h)
-#import WBHEADER(NSImage+WonderBox.h)
+#import <WonderBox/WBEnumerator.h>
+#import <WonderBox/WBSerialization.h>
+#import <WonderBox/NSImage+WonderBox.h>
 
 /* Notifications */
 NSString* const SparkObjectSetWillAddObjectNotification = @"SparkObjectSetWillAddObject";
@@ -91,8 +91,8 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
 }
 
 - (NSString *)description {
-  return [NSString stringWithFormat:@"<%@ %p> {Objects: %u}",
-    [self class], self, [self count]];
+  return [NSString stringWithFormat:@"<%@ %p> {Objects: %lu}",
+    [self class], self, (unsigned long)[self count]];
 }
 
 #pragma mark -
@@ -180,7 +180,7 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
       return YES;
     }
   } @catch (id exception) {
-    WBLogException(exception);
+    SPXLogException(exception);
   }
   return NO;
 }
@@ -255,7 +255,7 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
 - (NSFileWrapper *)fileWrapper:(NSError **)outError {
   NSMutableArray *objects = [[NSMutableArray alloc] init];
   NSMutableDictionary *plist = [[NSMutableDictionary alloc] init];
-  [plist setObject:WBUInteger(kSparkObjectSetCurrentVersion) forKey:kSparkObjectSetVersionKey];
+  [plist setObject:@(kSparkObjectSetCurrentVersion) forKey:kSparkObjectSetVersionKey];
   
   SparkObject *object;
   OSStatus err = noErr;
@@ -266,7 +266,7 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
       if (serialize && [NSPropertyListSerialization propertyList:serialize isValidForFormat:SparkLibraryFileFormat]) {
         [objects addObject:serialize];
       } else {
-        DLog(@"Error while serializing object: %@", object);
+        SPXDebug(@"Error while serializing object: %@", object);
         if (noErr != err && outError)
           *outError = [NSError errorWithDomain:NSOSStatusErrorDomain code:err userInfo:nil];
       }
@@ -312,10 +312,10 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
                                                                    format:nil errorDescription:nil];
   require(plist, bail);
   
-  NSUInteger version = WBUIntegerValue([plist objectForKey:kSparkObjectSetVersionKey]);
+  NSUInteger version = [[plist objectForKey:kSparkObjectSetVersionKey] integerValue];
   /* Update object set */
   SparkIconManager *icons = nil;
-  if (version < kSparkObjectSetVersion_2_1 && SparkGetCurrentContext() == kSparkEditorContext)
+  if (version < kSparkObjectSetVersion_2_1 && SparkGetCurrentContext() == kSparkContext_Editor)
       icons = [[self library] iconManager];
   
   NSArray *objects = [plist objectForKey:kSparkObjectSetObjectsKey];
@@ -348,7 +348,7 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
         [[[self library] iconManager] setIcon:nil forObject:object];
       }
     } else {
-      DLog(@"Invalid object: %@", serialized);
+      SPXDebug(@"Invalid object: %@", serialized);
     }
   }
   
@@ -425,7 +425,7 @@ static NSImage *__SparkWarningImage = nil;
 }
 
 - (void)forwardInvocation:(NSInvocation *)invocation {
-  DLog(@"-[%@ %@]", [self class], NSStringFromSelector([invocation selector]));
+  SPXDebug(@"-[%@ %@]", [self class], NSStringFromSelector([invocation selector]));
   if ([[invocation methodSignature] methodReturnLength] > 0) {
     char buffer[32];
     bzero(buffer, 32);

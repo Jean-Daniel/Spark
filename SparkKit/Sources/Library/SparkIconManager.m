@@ -17,8 +17,8 @@
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkObjectSet.h>
 
-#import WBHEADER(WBFSFunctions.h)
-#import WBHEADER(WBImageFunctions.h)
+#import <WonderBox/WBFSFunctions.h>
+#import <WonderBox/WBImageFunctions.h>
 
 enum {
   kSparkInvalidType = 0xff
@@ -102,19 +102,19 @@ UInt8 __SparkIconTypeForObject(SparkObject *object) {
 
 - (void)setPath:(NSString *)path {
   if (sp_path)
-    WBThrowException(NSInvalidArgumentException, @"%@ does not support rename", [self class]);
+    SPXThrowException(NSInvalidArgumentException, @"%@ does not support rename", [self class]);
   
   if (path) {
     BOOL isDir = NO;
     if (![[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir]) {
       if (![[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:NULL]) {
-        WBThrowException(NSInvalidArgumentException, @"could not create directory at path %@", path);
+        SPXThrowException(NSInvalidArgumentException, @"could not create directory at path %@", path);
       }
     } else if (!isDir) {
-      WBThrowException(NSInvalidArgumentException, @"%@ is not a directory", path);
+      SPXThrowException(NSInvalidArgumentException, @"%@ is not a directory", path);
     }
     for (NSUInteger idx = 0; idx < 4; idx++) {
-      NSString *dir = [path stringByAppendingPathComponent:[NSString stringWithFormat:@"%u", idx]];
+      NSString *dir = [path stringByAppendingPathComponent:[NSString stringWithFormat:@"%lu", (unsigned long)idx]];
       if (![[NSFileManager defaultManager] fileExistsAtPath:dir])
         [[NSFileManager defaultManager] createDirectoryAtPath:dir withIntermediateDirectories:NO attributes:nil error:NULL];
     }
@@ -147,13 +147,13 @@ UInt8 __SparkIconTypeForObject(SparkObject *object) {
     if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
       NSImage *icon = [[NSImage alloc] initByReferencingFile:path];
       /* Set icon from disk */
-      //DLog(@"Load icon (%@): %@", [anObject name], icon);
+      //SPXDebug(@"Load icon (%@): %@", [anObject name], icon);
       [entry setCachedIcon:icon];
       [icon release];
     } else {
       /* No icon on disk */
       [entry setCachedIcon:nil];
-      DLog(@"Icon not found in cache for object: %@", anObject);
+      SPXDebug(@"Icon not found in cache for object: %@", anObject);
     }
   }
   return [entry icon];
@@ -178,12 +178,12 @@ UInt8 __SparkIconTypeForObject(SparkObject *object) {
       if ([entry hasChanged]) {
         NSString *path = [sp_path stringByAppendingPathComponent:[entry path]];
         if (![entry icon]) {
-          DLog(@"delete icon: %@", path);
+          SPXDebug(@"delete icon: %@", path);
           [[NSFileManager defaultManager] removeItemAtPath:path error:NULL];
         } else {
           NSData *data = [[entry icon] TIFFRepresentationUsingCompression:NSTIFFCompressionLZW factor:1];
           if (data) {
-            DLog(@"save icon: %@", path);
+            SPXDebug(@"save icon: %@", path);
             [data writeToFile:path atomically:NO];
           }
         }
@@ -201,7 +201,7 @@ UInt8 __SparkIconTypeForObject(SparkObject *object) {
       [self synchronize:sp_cache[idx]];
     }
   } else {
-    DLog(@"WARNING: sync icon cache with undefined path");
+    SPXDebug(@"WARNING: sync icon cache with undefined path");
   }
   return YES;
 }

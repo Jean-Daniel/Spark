@@ -59,7 +59,7 @@
   return sp_stFlags.overwrite;
 }
 - (void)setHasSpecificAction:(BOOL)flag {
-  WBFlagSet(sp_stFlags.overwrite, flag);
+  SPXFlagSet(sp_stFlags.overwrite, flag);
 }
 
 - (NSString *)triggerDescription {

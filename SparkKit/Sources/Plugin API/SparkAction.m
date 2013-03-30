@@ -15,7 +15,7 @@
 #import <SparkKit/SparkEntryManager.h>
 #import <SparkKit/SparkActionLoader.h>
 
-#import WBHEADER(WBSerialization.h)
+#import <WonderBox/WBSerialization.h>
 
 static NSString * const kSparkActionFlagsKey = @"SAFlags";
 static NSString * const kSparkActionVersionKey = @"SAVersion";
@@ -42,7 +42,7 @@ static NSString * const kSparkActionDescriptionKey = @"SADescription";
   UInt32 flags = 0;
   if (sp_saFlags.invalid) flags |= 1 << 0;
   [coder encodeBool:flags forKey:kSparkActionFlagsKey];
-	WBEncodeInteger(coder, sp_version, kSparkActionVersionKey);
+	[coder encodeInteger:sp_version forKey:kSparkActionVersionKey];
   if (nil != sp_categorie)
     [coder encodeObject:sp_categorie forKey:kSparkActionCategorieKey];
   if (nil != sp_description)
@@ -54,7 +54,7 @@ static NSString * const kSparkActionDescriptionKey = @"SADescription";
   if (self = [super initWithCoder:coder]) {
     UInt32 flags = [coder decodeInt32ForKey:kSparkActionFlagsKey];
     if (flags & (1 << 0)) sp_saFlags.invalid = 1;
-    sp_version = WBDecodeInteger(coder, kSparkActionVersionKey);
+    sp_version = [coder decodeIntegerForKey:kSparkActionVersionKey];
     [self setCategorie:[coder decodeObjectForKey:kSparkActionCategorieKey]];
     [self setActionDescription:[coder decodeObjectForKey:kSparkActionDescriptionKey]];
   }
@@ -76,7 +76,7 @@ static NSString * const kSparkActionDescriptionKey = @"SADescription";
 - (BOOL)serialize:(NSMutableDictionary *)plist {
   [super serialize:plist];
   if ([self version])
-    [plist setObject:WBInteger([self version]) forKey:kSparkActionVersionKey];
+    [plist setObject:@([self version]) forKey:kSparkActionVersionKey];
   
   if (nil != sp_description)
     [plist setObject:sp_description forKey:kSparkActionDescriptionKey];
@@ -91,7 +91,7 @@ static NSString * const kSparkActionDescriptionKey = @"SADescription";
     NSNumber *version = [plist objectForKey:kSparkActionVersionKey];
     if (!version)
       version = [plist objectForKey:@"Version"];
-    [self setVersion:(version) ? WBIntegerValue(version) : 0];
+    [self setVersion:(version) ? [version integerValue] : 0];
     
     NSString *description = [plist objectForKey:kSparkActionDescriptionKey];
     if (!description)
@@ -170,7 +170,7 @@ static NSString * const kSparkActionDescriptionKey = @"SADescription";
   return sp_description;
 }
 - (void)setActionDescription:(NSString *)desc {
-  WBSetterCopy(sp_description, desc);
+  SPXSetterCopy(sp_description, desc);
 }
 
 - (BOOL)performOnKeyUp {
@@ -243,7 +243,7 @@ static NSString * const kSparkActionDescriptionKey = @"SADescription";
   return sp_saFlags.invalid;
 }
 - (void)setInvalid:(BOOL)flag {
-  WBFlagSet(sp_saFlags.invalid, flag);
+  SPXFlagSet(sp_saFlags.invalid, flag);
 }
 
 - (BOOL)isPersistent {
@@ -251,7 +251,7 @@ static NSString * const kSparkActionDescriptionKey = @"SADescription";
 }
 
 - (void)setCategorie:(NSString *)categorie {
-  WBSetterCopy(sp_categorie, categorie);
+  SPXSetterCopy(sp_categorie, categorie);
 }
 
 /* Compatibility */

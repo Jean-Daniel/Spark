@@ -10,7 +10,7 @@
 #import "SparkEntryManagerPrivate.h"
 #import "SparkEntryPrivate.h"
 
-#import WBHEADER(WBEnumerator.h)
+#import <WonderBox/WBEnumerator.h>
 
 #import <objc/objc-runtime.h>
 #import <SparkKit/SparkPrivate.h>
@@ -20,6 +20,7 @@
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkTrigger.h>
 #import <SparkKit/SparkObjectSet.h>
+#import <SparkKit/SparkApplication.h>
 
 /* PlugIn status */
 #import <SparkKit/SparkPlugIn.h>

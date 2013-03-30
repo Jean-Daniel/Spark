@@ -12,7 +12,7 @@
 #import <SparkKit/SparkFunctions.h>
 #import <SparkKit/SparkIconManager.h>
 
-#import WBHEADER(WBObjCRuntime.h)
+#import <WonderBox/WBObjCRuntime.h>
 
 #import "SparkLibraryPrivate.h"
 
@@ -74,7 +74,7 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
   
   NSImage *icon = nil;
   /* If editor, load icon */
-  if (kSparkEditorContext == SparkGetCurrentContext()) {
+  if (kSparkContext_Editor == SparkGetCurrentContext()) {
     NSData *bitmap = [plist objectForKey:kSparkObjectIconKey];
     if (!bitmap && compat)
       bitmap = [plist objectForKey:@"Icon"];
@@ -88,7 +88,7 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
     NSNumber *value = [plist objectForKey:kSparkObjectUIDKey];
     if (!value && compat)
       value = [plist objectForKey:@"UID"];
-    [self setUID:value ? (SparkUID)WBUIntegerValue(value) : 0];
+    [self setUID:value ? (SparkUID)[value unsignedIntegerValue] : 0];
   }
   return self;
 }
@@ -102,7 +102,7 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
 }
 
 - (BOOL)serialize:(NSMutableDictionary *)plist {
-  [plist setObject:WBUInteger(sp_uid) forKey:kSparkObjectUIDKey];
+  [plist setObject:@(sp_uid) forKey:kSparkObjectUIDKey];
   if (sp_name)
     [plist setObject:sp_name forKey:kSparkObjectNameKey];
   /* Compatibility */
@@ -200,7 +200,7 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
     [[[self library] iconManager] setIcon:icon forObject:self];
   }
   [self willChangeValueForKey:@"representation"];
-  WBSetterRetain(sp_icon, icon);
+  SPXSetterRetain(sp_icon, icon);
   [self didChangeValueForKey:@"representation"];
 }
 - (BOOL)hasIcon {
@@ -224,7 +224,7 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
 }
 - (void)setName:(NSString *)name {
   [self willChangeValueForKey:@"representation"];
-  WBSetterCopy(sp_name, name);
+  SPXSetterCopy(sp_name, name);
   [self didChangeValueForKey:@"representation"];
 }
 
