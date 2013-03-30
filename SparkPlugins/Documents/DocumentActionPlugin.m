@@ -11,16 +11,15 @@
 #import "DocumentAction.h"
 #import "DAApplicationMenu.h"
 
-#import WBHEADER(NSImage+WonderBox.h)
+#import <WonderBox/NSImage+WonderBox.h>
 
 @implementation DocumentActionPlugin
 
-+ (void)initialize {
-  if ([DocumentActionPlugin class] == self) {
-    [self setKeys:[NSArray arrayWithObject:@"action"] triggerChangeNotificationsForDependentKey:@"url"];
-    [self setKeys:[NSArray arrayWithObject:@"action"] triggerChangeNotificationsForDependentKey:@"tabIndex"];
-    [self setKeys:[NSArray arrayWithObject:@"action"] triggerChangeNotificationsForDependentKey:@"displayWithMenu"];
++ (NSSet *)keyPathsForValuesAffectingValueForKey:(NSString *)key {
+  if ([key isEqualToString:@"url"] || [key isEqualToString:@"tabIndex"] || [key isEqualToString:@"displayWithMenu"]) {
+    return [NSSet setWithObject:@"action"];
   }
+  return [super keyPathsForValuesAffectingValueForKey:key];;
 }
 
 - (void)dealloc {
@@ -136,7 +135,7 @@
 }
 
 - (void)chooseItemPanel:(NSOpenPanel *)sheet returnCode:(int)returnCode contextInfo:(id)contextInfo {
-  if (returnCode == NSCancelButton || [[sheet filenames] count] == 0) {
+  if (returnCode == NSCancelButton || [[sheet URLs] count] == 0) {
     return;
   }
   [self setDocument:[[sheet filenames] objectAtIndex:0]];
@@ -149,7 +148,7 @@
   if (da_path != file) {
     [da_path release];
     da_path = [file copy];
-    [ibMenu loadAppForDocument:da_path];
+    [ibMenu loadAppForDocument:[NSURL fileURLWithPath:da_path]];
     if (da_path) {
       [self setDocumentIcon:[[NSWorkspace sharedWorkspace] iconForFile:da_path]];
       [self setDocumentName:[[NSFileManager defaultManager] displayNameAtPath:da_path]];
@@ -163,23 +162,24 @@
 - (NSString *)application {
   NSDictionary *item = [[ibMenu selectedItem] representedObject];
   if ([item isKindOfClass:[NSDictionary class]]) {
-    return [item objectForKey:@"path"];
+    return [[item objectForKey:@"path"] path];
   }
   return nil;
 }
 - (void)setApplication:(NSString *)aPath {
   NSUInteger idx = [ibMenu numberOfItems];
+  NSURL *url = [NSURL fileURLWithPath:aPath];
   while (idx-- > 0) {
     id obj = [[ibMenu itemAtIndex:idx] representedObject];
     if (obj && [obj isKindOfClass:[NSDictionary class]]) {
-      NSString *path = [obj objectForKey:@"path"];
-      if (path && [path isEqualToString:aPath]) {
+      NSURL *path = [obj objectForKey:@"path"];
+      if (path && [path isEqual:url]) {
         [ibMenu selectItemAtIndex:idx];
         return;
       }
     }
   }
-  NSMenuItem *item = [ibMenu itemForPath:aPath];
+  NSMenuItem *item = [ibMenu itemForURL:url];
   if (item) {
     [[ibMenu menu] insertItem:item atIndex:0];
     [ibMenu selectItemAtIndex:0];
@@ -187,7 +187,7 @@
 }
 
 - (NSString *)url {
-  return [(DocumentAction *)[self sparkAction] url];
+  return [(DocumentAction *)[self sparkAction] URL];
 }
 - (void)setUrl:(NSString *)anUrl {
   [(DocumentAction *)[self sparkAction] setURL:anUrl];
@@ -248,7 +248,7 @@
 }
 
 - (void)setDocumentName:(NSString *)aName {
-  WBSetterCopyAndDo(da_name, aName, {
+  SPXSetterCopyAndDo(da_name, aName, {
     [[ibName cell] setPlaceholderString:[aName stringByDeletingPathExtension] ? : @""];
   });
 }
@@ -257,7 +257,7 @@
   return da_icon;
 }
 - (void)setDocumentIcon:(NSImage *)anIcon {
-  WBSetterRetain(da_icon, anIcon);
+  SPXSetterRetain(da_icon, anIcon);
 }
 
 #pragma mark -

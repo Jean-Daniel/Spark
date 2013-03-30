@@ -19,11 +19,12 @@
 
 @class HKTrapWindow;
 @interface TextActionPlugIn : SparkActionPlugIn {
+@private
   IBOutlet NSTokenField *uiTokens;
   IBOutlet NSTokenField *uiRecTokens;
   IBOutlet HKTrapWindow *uiRecordWindow;
-  @private
-    NSInteger ta_idx;
+
+  NSInteger ta_idx;
   CGFloat ta_latency;
   /* Date format */
   CFDateFormatterRef ta_formatter;
@@ -47,8 +48,7 @@
 - (void)setLatency:(CGFloat)latency;
 
 #pragma mark Text
-- (NSString *)text;
-- (void)setText:(NSString *)text;
+@property(nonatomic, copy) NSString *text;
 
 #pragma mark Date
 - (NSString *)sampleDate;

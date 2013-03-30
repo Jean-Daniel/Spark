@@ -10,7 +10,7 @@
 #import "TAKeystroke.h"
 
 #include <unistd.h>
-#import WBHEADER(WBFunctions.h)
+#import <WonderBox/WBFunctions.h>
 #import <HotKeyToolKit/HotKeyToolKit.h>
 
 NSString * const kKeyboardActionBundleIdentifier = @"org.shadowlab.spark.action.keyboard";
@@ -19,6 +19,8 @@ NSString * const kKeyboardActionBundleIdentifier = @"org.shadowlab.spark.action.
 #define kTextActionMaxLatency 500000U
 
 @implementation TextAction
+
+@synthesize data = ta_data;
 
 - (id)copyWithZone:(NSZone *)aZone {
   TextAction *copy = [super copyWithZone:aZone];
@@ -35,9 +37,9 @@ NSString * const kKeyboardActionBundleIdentifier = @"org.shadowlab.spark.action.
     if (data)
       [plist setObject:data forKey:@"TAData"];
 		if (ta_repeat)
-			[plist setObject:WBBool(ta_repeat) forKey:@"TARepeat"];
+			[plist setObject:@(ta_repeat) forKey:@"TARepeat"];
     if (ta_latency > 0)
-      [plist setObject:WBUInteger(ta_latency) forKey:@"TALatency"];  
+      [plist setObject:@(ta_latency) forKey:@"TALatency"];
     [plist setObject:WBStringForOSType(ta_type) forKey:@"TAAction"];
     return YES;
   }
@@ -48,7 +50,7 @@ NSString * const kKeyboardActionBundleIdentifier = @"org.shadowlab.spark.action.
   if (self = [super initWithSerializedValues:plist]) {
 		[self setAutorepeat:[[plist objectForKey:@"TARepeat"] boolValue]];
     [self setAction:WBOSTypeFromString([plist objectForKey:@"TAAction"])];
-    [self setLatency:(useconds_t)WBUIntegerValue([plist objectForKey:@"TALatency"])];
+    [self setLatency:(useconds_t)[[plist objectForKey:@"TALatency"] integerValue]];
     [self setSerializedData:[plist objectForKey:@"TAData"]];
   }
   return self;
@@ -96,8 +98,8 @@ NSString * const kKeyboardActionBundleIdentifier = @"org.shadowlab.spark.action.
 }
 
 - (SparkAlert *)simulateDateStyle {
-  NSInteger style = WBIntegerValue([self data]);
   CFLocaleRef locale = CFLocaleCopyCurrent();
+  NSInteger style = [[self data] integerValue];
   CFDateFormatterRef formatter = CFDateFormatterCreate(kCFAllocatorDefault, locale, 
                                                        TADateFormatterStyle(style), TATimeFormatterStyle(style));
   if (locale) CFRelease(locale);
@@ -191,13 +193,6 @@ NSString * const kKeyboardActionBundleIdentifier = @"org.shadowlab.spark.action.
 }
 
 #pragma mark -
-- (id)data {
-  return ta_data;
-}
-- (void)setData:(id)anObject {
-  WBSetterCopy(ta_data, anObject);
-}
-
 - (id)serializedData {
   switch ([self action]) {
     case kTAKeystrokeAction: {
@@ -205,7 +200,7 @@ NSString * const kKeyboardActionBundleIdentifier = @"org.shadowlab.spark.action.
       NSMutableArray *strokes = [NSMutableArray array];
       for (NSUInteger idx = 0; idx < [keys count]; idx++) {
         UInt64 raw = [[keys objectAtIndex:idx] rawKey];
-        [strokes addObject:WBUInt64(raw)];
+        [strokes addObject:@(raw)];
       }
       return strokes;
     }

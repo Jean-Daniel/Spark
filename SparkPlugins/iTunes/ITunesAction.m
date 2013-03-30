@@ -9,10 +9,10 @@
 #import "ITunesAction.h"
 #import "ITunesGrowl.h"
 
-#import WBHEADER(WBFunctions.h)
-#import WBHEADER(WBAEFunctions.h)
-#import WBHEADER(NSImage+WonderBox.h)
-#import WBHEADER(WBProcessFunctions.h)
+#import <WonderBox/WBFunctions.h>
+#import <WonderBox/WBAEFunctions.h>
+#import <WonderBox/NSImage+WonderBox.h>
+#import <WonderBox/WBProcessFunctions.h>
 
 #import <HotKeyToolKit/HotKeyToolKit.h>
 
@@ -53,7 +53,7 @@ static ITunesVisual sDefaultVisual = { .delay = -1 };
         NSData *data = SparkPreferencesGetValue(@"iTunesSharedVisual", SparkPreferencesLibrary);
         if (data) {
           if (!ITunesVisualUnpack(data, &sDefaultVisual)) {
-            DLog(@"Invalid shared visual: %@", data);
+            SPXDebug(@"Invalid shared visual: %@", data);
             SparkPreferencesSetValue(@"iTunesSharedVisual", nil, SparkPreferencesLibrary);
           }
         }
@@ -74,13 +74,13 @@ static ITunesVisual sDefaultVisual = { .delay = -1 };
       /* If settings equals defaults settings */
       if (ITunesVisualIsEqualTo(visual, &kiTunesDefaultSettings)) {
         memcpy(&sDefaultVisual, &kiTunesDefaultSettings, sizeof(sDefaultVisual));
-        if (kSparkEditorContext == SparkGetCurrentContext()) {
+        if (kSparkContext_Editor == SparkGetCurrentContext()) {
           SparkPreferencesSetValue(@"iTunesSharedVisual", nil, SparkPreferencesLibrary);
         }
       } else {
         memcpy(&sDefaultVisual, visual, sizeof(sDefaultVisual));
         NSData *data = ITunesVisualPack(&sDefaultVisual);
-        if (data && kSparkEditorContext == SparkGetCurrentContext()) {
+        if (data && kSparkContext_Editor == SparkGetCurrentContext()) {
           SparkPreferencesSetValue(@"iTunesSharedVisual", data, SparkPreferencesLibrary);
         }
       }
@@ -90,7 +90,7 @@ static ITunesVisual sDefaultVisual = { .delay = -1 };
     if (!ITunesVisualIsEqualTo(&kiTunesDefaultSettings, &sDefaultVisual)) {
       memcpy(&sDefaultVisual, &kiTunesDefaultSettings, sizeof(sDefaultVisual));
     }
-    if (kSparkEditorContext == SparkGetCurrentContext()) {
+    if (kSparkContext_Editor == SparkGetCurrentContext()) {
       /* Remove key */
       SparkPreferencesSetValue(@"iTunesSharedVisual", nil, SparkPreferencesLibrary);
     }
@@ -113,7 +113,7 @@ static ITunesVisual sDefaultVisual = { .delay = -1 };
 
 + (void)initialize {
   if ([ITunesAction class] == self) {
-    if (kSparkDaemonContext == SparkGetCurrentContext()) {
+    if (kSparkContext_Daemon == SparkGetCurrentContext()) {
       SparkPreferencesRegisterObserver(self, @selector(setLibraryPreferenceValue:forKey:), 
                                        @"iTunesSharedVisual", SparkPreferencesLibrary);
     }
@@ -233,7 +233,7 @@ static ITunesVisual sDefaultVisual = { .delay = -1 };
           ia_visual = NSZoneMalloc(nil, sizeof(*ia_visual));
           if (!ITunesVisualUnpack(data, ia_visual)) {
             NSZoneFree(nil, ia_visual);
-            DLog(@"Error while unpacking visual");
+            SPXDebug(@"Error while unpacking visual");
           }
         }
         break;
@@ -249,7 +249,7 @@ static ITunesVisual sDefaultVisual = { .delay = -1 };
     }
     
     /* if spark editor, check playlist name */
-    if (kSparkEditorContext == SparkGetCurrentContext() && iTunesIsRunning(NULL)) {
+    if (kSparkContext_Editor == SparkGetCurrentContext() && iTunesIsRunning(NULL)) {
       if ([self iTunesAction] == kiTunesPlayPlaylist && ia_plid) {
         iTunesPlaylist playlist = WBAEEmptyDesc();
         OSStatus err = [self playlist] ? iTunesGetPlaylistWithName((CFStringRef)[self playlist], &playlist) : errAENoSuchObject;
@@ -277,12 +277,12 @@ static ITunesVisual sDefaultVisual = { .delay = -1 };
 
 - (BOOL)serialize:(NSMutableDictionary *)plist {
   [super serialize:plist];
-  [plist setObject:WBUInteger([self encodeFlags]) forKey:kITunesFlagsKey];
+  [plist setObject:@([self encodeFlags]) forKey:kITunesFlagsKey];
   [plist setObject:WBStringForOSType([self iTunesAction]) forKey:kITunesActionKey];
   /* Playlist */
   if ([self playlist]) {
     [plist setObject:[self playlist] forKey:kITunesPlaylistKey];
-    [plist setObject:WBUInt64(ia_plid) forKey:kITunesPlaylistIDKey];
+    [plist setObject:@(ia_plid) forKey:kITunesPlaylistIDKey];
   }
   /* Visual */
   if (ia_visual) {
@@ -290,7 +290,7 @@ static ITunesVisual sDefaultVisual = { .delay = -1 };
     if (data)
       [plist setObject:data forKey:kITunesVisualKey];
     else
-      DLog(@"ERROR: Could not pack visual settings");
+      SPXDebug(@"ERROR: Could not pack visual settings");
   }
   return YES;
 }
@@ -587,7 +587,7 @@ static ITunesVisual sDefaultVisual = { .delay = -1 };
 
 - (void)setPlaylist:(NSString *)aPlaylist uid:(UInt64)uid {
   ia_plid = uid;
-  WBSetterCopy(ia_playlist, aPlaylist);
+  SPXSetterCopy(ia_playlist, aPlaylist);
 }
 
 - (iTunesAction)iTunesAction {
@@ -616,29 +616,29 @@ static ITunesVisual sDefaultVisual = { .delay = -1 };
   return ia_iaFlags.show;
 }
 - (void)setShowInfo:(BOOL)flag {
-  WBFlagSet(ia_iaFlags.show, flag);
+  SPXFlagSet(ia_iaFlags.show, flag);
 }
 - (BOOL)launchHide { return ia_iaFlags.hide; }
 - (BOOL)launchPlay { return ia_iaFlags.autoplay; }
 - (BOOL)launchNotify { return ia_iaFlags.notify; }
 - (BOOL)launchBackground { return ia_iaFlags.background; }
-- (void)setLaunchHide:(BOOL)flag { WBFlagSet(ia_iaFlags.hide, flag); }
-- (void)setLaunchPlay:(BOOL)flag { WBFlagSet(ia_iaFlags.autoplay, flag); }
-- (void)setLaunchNotify:(BOOL)flag { WBFlagSet(ia_iaFlags.notify, flag); }
-- (void)setLaunchBackground:(BOOL)flag { WBFlagSet(ia_iaFlags.background, flag); }
+- (void)setLaunchHide:(BOOL)flag { SPXFlagSet(ia_iaFlags.hide, flag); }
+- (void)setLaunchPlay:(BOOL)flag { SPXFlagSet(ia_iaFlags.autoplay, flag); }
+- (void)setLaunchNotify:(BOOL)flag { SPXFlagSet(ia_iaFlags.notify, flag); }
+- (void)setLaunchBackground:(BOOL)flag { SPXFlagSet(ia_iaFlags.background, flag); }
 
 /* Play/Pause setting */
 - (BOOL)autorun { return ia_iaFlags.autorun; }
-- (void)setAutorun:(BOOL)flag { WBFlagSet(ia_iaFlags.autorun, flag); }
+- (void)setAutorun:(BOOL)flag { SPXFlagSet(ia_iaFlags.autorun, flag); }
 
 - (BOOL)autoinfo { return ia_iaFlags.autoinfo; }
-- (void)setAutoinfo:(BOOL)flag { WBFlagSet(ia_iaFlags.autoinfo, flag); }
+- (void)setAutoinfo:(BOOL)flag { SPXFlagSet(ia_iaFlags.autoinfo, flag); }
 
 - (int)visualMode {
   return ia_iaFlags.visual;
 }
 - (void)setVisualMode:(NSInteger)mode {
-  ia_iaFlags.visual = mode;
+  ia_iaFlags.visual = (uint8_t)mode;
 }
 
 #pragma mark -
@@ -675,7 +675,7 @@ static ITunesVisual sDefaultVisual = { .delay = -1 };
 }
 
 - (void)ejectCD {
-  CGKeyCode code = HKMapGetKeycodeAndModifierForUnichar('e', NULL);
+  CGKeyCode code = [[HKKeyMap currentKeyMap] keycodeForCharacter:'e' modifiers:NULL];
   if (code != kHKInvalidVirtualKeyCode) {
     HKEventTarget target = { .signature = kiTunesSignature };
     HKEventPostKeystrokeToTarget(code, kCGEventFlagMaskCommand, target, kHKEventTargetSignature, NULL, kHKEventDefaultLatency);

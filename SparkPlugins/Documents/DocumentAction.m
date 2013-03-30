@@ -10,14 +10,14 @@
 
 #import <Sparkkit/SparkPrivate.h>
 
-#import WBHEADER(WBAlias.h)
-#import WBHEADER(WBFunctions.h)
-#import WBHEADER(WBAEFunctions.h)
-#import WBHEADER(WBFinderSuite.h)
-#import WBHEADER(WBLSFunctions.h)
-#import WBHEADER(WBImageFunctions.h)
-#import WBHEADER(NSImage+WonderBox.h)
-#import WBHEADER(WBProcessFunctions.h)
+#import <WonderBox/WBAlias.h>
+#import <WonderBox/WBFunctions.h>
+#import <WonderBox/WBAEFunctions.h>
+#import <WonderBox/WBFinderSuite.h>
+#import <WonderBox/WBLSFunctions.h>
+#import <WonderBox/WBImageFunctions.h>
+#import <WonderBox/NSImage+WonderBox.h>
+#import <WonderBox/WBProcessFunctions.h>
 
 static NSString * const kDocumentActionURLKey = @"DocumentURL";
 static NSString * const kDocumentActionKey = @"DocumentAction";
@@ -26,6 +26,12 @@ static NSString * const kDocumentActionAliasKey = @"DocumentAlias";
 static NSString * const kDocumentActionApplicationKey = @"DocumentApplication";
 
 @implementation DocumentAction
+
+@synthesize action = da_action;
+
+@synthesize URL = da_url;
+@synthesize document = da_doc;
+@synthesize application = da_app;
 
 #pragma mark Protocols Implementation
 - (id)copyWithZone:(NSZone *)zone {
@@ -82,7 +88,7 @@ OSType _DocumentActionFromFlag(int flag) {
     case 4:
       return kDocumentActionOpenURL;
     default:
-      DLog(@"Invalid Action: %ld", flag);
+      SPXDebug(@"Invalid Action: %d", flag);
   }
   return 0;
 }
@@ -167,13 +173,13 @@ OSType _DocumentActionFromFlag(int flag) {
       if (data) {
         [plist setObject:data forKey:kDocumentActionAliasKey];
       } else {
-        DLog(@"Invalid document alias");
+        SPXDebug(@"Invalid document alias");
         return NO;
       }
     }
     if (DocumentActionNeedApplication(da_action)) {
       if (![da_app serialize:plist]) {
-        DLog(@"Invalid Open With Application.");
+        SPXDebug(@"Invalid Open With Application.");
         return NO;
       }
     }
@@ -181,7 +187,7 @@ OSType _DocumentActionFromFlag(int flag) {
       if (da_url) {
         [plist setObject:da_url forKey:kDocumentActionURLKey];
       } else {
-        DLog(@"Invalid Document URL");
+        SPXDebug(@"Invalid Document URL");
         return NO;
       }
     }
@@ -336,13 +342,6 @@ OSType _DocumentActionFromFlag(int flag) {
   WBAEDisposeDesc(&selection);
 }
 
-- (int)action {
-  return da_action;
-}
-- (void)setAction:(int)newAction {
-  da_action = newAction;
-}
-
 - (void)setDocumentPath:(NSString *)path {
   if (path)
     [self setDocument:[WBAlias aliasWithPath:path]];
@@ -355,27 +354,6 @@ OSType _DocumentActionFromFlag(int flag) {
     [self setApplication:[WBAliasedApplication applicationWithPath:path]];
   else
     [self setApplication:nil];
-}
-
-- (NSString *)url {
-  return da_url;
-}
-- (void)setURL:(NSString *)url {
-  WBSetterRetain(da_url, url);
-}
-
-- (WBAlias *)document {
-  return da_doc;
-}
-- (void)setDocument:(WBAlias *)alias {
-  WBSetterRetain(da_doc, alias);
-}
-
-- (WBAliasedApplication *)application {
-  return da_app;
-}
-- (void)setApplication:(WBAliasedApplication *)anApplication {
-  WBSetterRetain(da_app, anApplication);
 }
 
 @end

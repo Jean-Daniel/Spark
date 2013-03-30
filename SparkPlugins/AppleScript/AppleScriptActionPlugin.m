@@ -11,9 +11,9 @@
 
 #import <OSAKit/OSAKit.h>
 
-#import WBHEADER(WBAEFunctions.h)
-#import WBHEADER(WBLSFunctions.h)
-#import WBHEADER(WBProcessFunctions.h)
+#import <WonderBox/WBAEFunctions.h>
+#import <WonderBox/WBLSFunctions.h>
+#import <WonderBox/WBProcessFunctions.h>
 
 enum {
   kAppleScriptFileTab   = 1,
@@ -21,6 +21,8 @@ enum {
 };
 
 @implementation AppleScriptActionPlugin
+
+@synthesize scriptFile = as_file;
 
 - (void)dealloc {
   [as_file release];
@@ -32,7 +34,7 @@ enum {
   [[ibScriptController scriptView] setSource:@""];
   if ((value = [sparkAction scriptAlias])) {
     [self setScriptFile:[value path]];
-    [self setValue:WBInteger(kAppleScriptFileTab) forKey:@"selectedTab"];
+    [self setValue:@(kAppleScriptFileTab) forKey:@"selectedTab"];
   } else if ((value = [sparkAction scriptSource])) {
     [[ibScriptController scriptView] setSource:value];
     [ibScriptController compileScript:nil];
@@ -133,7 +135,7 @@ enum {
                                                                          @"Alert default button")
                        alternateButton:nil
                            otherButton:nil
-             informativeTextWithFormat:message];
+             informativeTextWithFormat:@"%@", message];
 }
 
 - (NSAlert *)compileScript:(OSAScript *)script {
@@ -164,7 +166,7 @@ enum {
 }
 
 - (void)openPanelDidEnd:(NSOpenPanel *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
-  if (returnCode == NSOKButton && [[sheet filenames] count] > 0) {
+  if (returnCode == NSOKButton && [[sheet URLs] count] > 0) {
     NSString *file = [[sheet filenames] objectAtIndex:0];
     NSString *src = nil;
     if ([[[file pathExtension] lowercaseString] isEqualToString:@"scpt"]) {
@@ -278,13 +280,6 @@ dispose:
 }
 - (void)setSelectedTab:(int)tab {
   as_tidx = tab;
-}
-
-- (NSString *)scriptFile {
-  return as_file;
-}
-- (void)setScriptFile:(NSString *)aFile {
-  WBSetterCopy(as_file, aFile);
 }
 
 @end

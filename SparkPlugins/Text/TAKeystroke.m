@@ -11,16 +11,16 @@
 @implementation TAKeystroke
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
-	WBEncodeInteger(aCoder, ta_code, @"keycode");
-	WBEncodeInteger(aCoder, ta_code, @"character");
-	WBEncodeInteger(aCoder, ta_code, @"modifier");
+	[aCoder encodeInteger:ta_code forKey:@"keycode"];
+  [aCoder encodeInteger:ta_char forKey:@"character"];
+  [aCoder encodeInteger:ta_modifier forKey:@"modifier"];
 }
 
 - (id)initWithCoder:(NSCoder *)aCoder {
 	if (self = [super init]) {
-    ta_code = WBDecodeInteger(aCoder, @"keycode");
-    ta_char = WBDecodeInteger(aCoder, @"character");
-    ta_modifier = (HKModifier)WBDecodeInteger(aCoder, @"modifier");
+    ta_code = [aCoder decodeIntegerForKey:@"keycode"];
+    ta_char = [aCoder decodeIntegerForKey:@"character"];
+    ta_modifier = (HKModifier)[aCoder decodeIntegerForKey:@"modifier"];
   }
   return self;
 }
@@ -53,7 +53,7 @@
 
 - (NSString *)shortcut {
   if (!ta_desc) {
-    ta_desc = [HKMapGetStringRepresentationForCharacterAndModifier(ta_char, ta_modifier) retain];
+    ta_desc = [[HKKeyMap stringRepresentationForCharacter:ta_char modifiers:ta_modifier] retain];
   }
   return ta_desc;
 }

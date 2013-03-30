@@ -89,7 +89,7 @@
     NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:path];
     [icon setSize:NSMakeSize(16, 16)];
     [item setImage:icon];
-    [item setTag:WBIntegerValue([app objectForKey:@"NSApplicationProcessIdentifier"])];
+    [item setTag:[[app objectForKey:@"NSApplicationProcessIdentifier"] integerValue]];
   }
 }
 

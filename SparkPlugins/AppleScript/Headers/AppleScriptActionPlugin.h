@@ -16,13 +16,12 @@
   int as_tidx;
 }
 
+@property(nonatomic, copy) NSString *scriptFile;
+
 - (IBAction)open:(id)sender;
 - (IBAction)import:(id)sender;
 
 - (IBAction)launchEditor:(id)sender;
-
-- (NSString *)scriptFile;
-- (void)setScriptFile:(NSString *)aFile;
 
 - (int)selectedTab;
 - (void)setSelectedTab:(int)tab;

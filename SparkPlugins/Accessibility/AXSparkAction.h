@@ -14,10 +14,7 @@
   NSString *ax_subtitle;
 }
 
-- (NSString *)menuTitle;
-- (void)setMenuTitle:(NSString *)menuTitle;
-
-- (NSString *)menuItemTitle;
-- (void)setMenuItemTitle:(NSString *)menuTitle;
+@property(nonatomic, copy) NSString *menuTitle;
+@property(nonatomic, copy) NSString *menuItemTitle;
 
 @end

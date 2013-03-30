@@ -12,7 +12,7 @@
   BOOL da_custom;
 }
 
-- (NSMenuItem *)itemForPath:(NSString *)path;
-- (void)loadAppForDocument:(NSString *)path;
+- (NSMenuItem *)itemForURL:(NSURL *)path;
+- (void)loadAppForDocument:(NSURL *)path;
 
 @end

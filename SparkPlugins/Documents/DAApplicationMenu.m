@@ -10,7 +10,7 @@
 
 #import "DocumentAction.h"
 
-#import WBHEADER(WBImageFunctions.h)
+#import <WonderBox/WBImageFunctions.h>
 
 @implementation DAApplicationMenu
 
@@ -57,57 +57,58 @@
     [[self menu] insertItem:[NSMenuItem separatorItem] atIndex:0];
     da_custom = YES;
   }
-  NSString *path;
-  NSEnumerator *files = [[sheet filenames] reverseObjectEnumerator];
+  NSURL *path;
+  NSEnumerator *files = [[sheet URLs] reverseObjectEnumerator];
   while (path = [files nextObject]) {
-    [[self menu] insertItem:[self itemForPath:path] atIndex:0];
+    [[self menu] insertItem:[self itemForURL:path] atIndex:0];
   }
   [self selectItemAtIndex:0];
 }
 
-- (void)loadAppForDocument:(NSString *)path {
+- (void)loadAppForDocument:(NSURL *)url {
   while ([self numberOfItems] > 2) {
     [self removeItemAtIndex:0];
   }
   da_custom = NO;
-  if (path) {
-    NSURL *url = [NSURL fileURLWithPath:path];
-    if (url) {
-      NSArray *applications = (id)LSCopyApplicationURLsForURL((CFURLRef)url, kLSRolesAll);
-      if ([applications count]) {
-        CFURLRef prefered = NULL;
-        LSGetApplicationForURL((CFURLRef)url, kLSRolesAll, NULL, &prefered);
-        /* Sort applications */
-        NSSortDescriptor *desc = [[NSSortDescriptor alloc] initWithKey:@"path.lastPathComponent" ascending:NO selector:@selector(caseInsensitiveCompare:)];
-        NSArray *sorted = [applications sortedArrayUsingDescriptors:[NSArray arrayWithObject:desc]];
-        NSEnumerator *urls = [sorted objectEnumerator];
-        [desc release];
-        
-        NSURL *application;
-        while (application = [urls nextObject]) {
-          if ([application isFileURL])
-            [[self menu] insertItem:[self itemForPath:[application path]] atIndex:0];
-        }
-        if (prefered) {
-          NSUInteger idx = [sorted indexOfObject:(id)prefered];
-          if (idx != NSNotFound) {
-            idx++;
-            [self selectItemAtIndex:[sorted count] - idx];
-          }
-          CFRelease(prefered);
-        }
+  if (url) {
+    NSArray *applications = (id)LSCopyApplicationURLsForURL((CFURLRef)url, kLSRolesAll);
+    if ([applications count]) {
+      CFURLRef prefered = NULL;
+      LSGetApplicationForURL((CFURLRef)url, kLSRolesAll, NULL, &prefered);
+      /* Sort applications */
+      NSSortDescriptor *desc = [[NSSortDescriptor alloc] initWithKey:@"path.lastPathComponent" ascending:NO selector:@selector(caseInsensitiveCompare:)];
+      NSArray *sorted = [applications sortedArrayUsingDescriptors:[NSArray arrayWithObject:desc]];
+      NSEnumerator *urls = [sorted objectEnumerator];
+      [desc release];
+      
+      NSURL *application;
+      while (application = [urls nextObject]) {
+        if ([application isFileURL])
+          [[self menu] insertItem:[self itemForURL:application] atIndex:0];
       }
-      [applications release];
+      if (prefered) {
+        NSUInteger idx = [sorted indexOfObject:(id)prefered];
+        if (idx != NSNotFound) {
+          idx++;
+          [self selectItemAtIndex:[sorted count] - idx];
+        }
+        CFRelease(prefered);
+      }
     }
+    [applications release];
   } else {
     [self selectItemAtIndex:1];
   }
 }
 
-- (NSMenuItem *)itemForPath:(NSString *)path {
-  NSString *name = [[[NSFileManager defaultManager] displayNameAtPath:path] stringByDeletingPathExtension];
+- (NSMenuItem *)itemForURL:(NSURL *)path {
+  NSString *name;
+  if (![path getResourceValue:&name forKey:NSURLLocalizedNameKey error:NULL]) {
+    name = [path lastPathComponent];
+  }
+  name = [name stringByDeletingPathExtension];
   
-  NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:path];
+  NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:[path path]];
   if (icon) {
     WBImageSetRepresentationsSize(icon, NSMakeSize(16, 16));
   }

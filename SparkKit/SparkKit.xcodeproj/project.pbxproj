@@ -12,6 +12,22 @@
 		1B6DACEF0D0C9D0400F352CC /* SparkMultiAlert.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B6DACED0D0C9D0400F352CC /* SparkMultiAlert.xib */; };
 		1B6DACF40D0CA0F800F352CC /* SparkPluginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B6DACF20D0CA0F800F352CC /* SparkPluginView.xib */; };
 		1B6DACF80D0CA1BF00F352CC /* SparkPlugin.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B6DACF60D0CA1BF00F352CC /* SparkPlugin.xib */; };
+		1B70075C1706EE03003F5780 /* NSString+WonderBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8CB40EE2FD3500BD1EAF /* NSString+WonderBox.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1B70075D1706EE09003F5780 /* NSString+WonderBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8CB50EE2FD3500BD1EAF /* NSString+WonderBox.m */; };
+		1B70075E1706EE1F003F5780 /* NSTabView+WonderBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8DD70EE2FF0A00BD1EAF /* NSTabView+WonderBox.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1B70075F1706EE25003F5780 /* NSTabView+WonderBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8DD80EE2FF0A00BD1EAF /* NSTabView+WonderBox.m */; };
+		1B7007611706EF1D003F5780 /* WBGradient.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BCDCBEE103596F200EAD9FE /* WBGradient.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1B7007621706EF23003F5780 /* WBGradient.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BCDCBEF103596F200EAD9FE /* WBGradient.m */; };
+		1B7007631706EF2E003F5780 /* WBInterpolationFunction.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BCDCBF21035970400EAD9FE /* WBInterpolationFunction.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1B7007641706EF34003F5780 /* WBInterpolationFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BCDCBF31035970400EAD9FE /* WBInterpolationFunction.m */; };
+		1B7007671706F08E003F5780 /* WBODFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B7007651706F08E003F5780 /* WBODFunctions.c */; };
+		1B7007681706F08E003F5780 /* WBODFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B7007661706F08E003F5780 /* WBODFunctions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1B7007691706F0C1003F5780 /* WBIOKitFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316560D38138B005C3FB2 /* WBIOKitFunctions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1B70076A1706F0C6003F5780 /* WBIOKitFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316550D38138B005C3FB2 /* WBIOKitFunctions.c */; };
+		1B70076C1706F0FD003F5780 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B70076B1706F0FC003F5780 /* IOKit.framework */; };
+		1B70076E1706F102003F5780 /* OpenDirectory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B70076D1706F102003F5780 /* OpenDirectory.framework */; };
+		1B70076F1706F58E003F5780 /* WBFinderSuite.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BA3812D0EFE6F5F00CF5D07 /* WBFinderSuite.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1B7007701706F595003F5780 /* WBFinderSuite.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BA3812E0EFE6F5F00CF5D07 /* WBFinderSuite.c */; };
 		1B78811F0D172D2900EE2B66 /* SparkEntryPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B78811E0D172D2900EE2B66 /* SparkEntryPrivate.h */; };
 		1B83F8A515D57B7100BF4059 /* SparkDefine.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B83F8A415D57B7100BF4059 /* SparkDefine.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1B95F377170619D000392CD7 /* WBProcessFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BE3165F0D38138B005C3FB2 /* WBProcessFunctions.c */; };
@@ -208,6 +224,10 @@
 		1B6DACEE0D0C9D0400F352CC /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SparkMultiAlert.xib; sourceTree = "<group>"; };
 		1B6DACF30D0CA0F800F352CC /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SparkPluginView.xib; sourceTree = "<group>"; };
 		1B6DACF70D0CA1BF00F352CC /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SparkPlugin.xib; sourceTree = "<group>"; };
+		1B7007651706F08E003F5780 /* WBODFunctions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WBODFunctions.c; sourceTree = "<group>"; };
+		1B7007661706F08E003F5780 /* WBODFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBODFunctions.h; sourceTree = "<group>"; };
+		1B70076B1706F0FC003F5780 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		1B70076D1706F102003F5780 /* OpenDirectory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenDirectory.framework; path = System/Library/Frameworks/OpenDirectory.framework; sourceTree = SDKROOT; };
 		1B78811E0D172D2900EE2B66 /* SparkEntryPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkEntryPrivate.h; sourceTree = "<group>"; };
 		1B81EBA00D38326C004B82A2 /* WBOutlineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBOutlineView.h; sourceTree = "<group>"; };
 		1B81EBA10D38326C004B82A2 /* WBOutlineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBOutlineView.m; sourceTree = "<group>"; };
@@ -398,6 +418,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				1BCB8F7C1706117600CC8C3C /* Cocoa.framework in Frameworks */,
+				1B70076C1706F0FD003F5780 /* IOKit.framework in Frameworks */,
+				1B70076E1706F102003F5780 /* OpenDirectory.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -439,7 +461,9 @@
 		0867D69AFE84028FC02AAC07 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1B70076B1706F0FC003F5780 /* IOKit.framework */,
 				1BCB8F7B1706117600CC8C3C /* Cocoa.framework */,
+				1B70076D1706F102003F5780 /* OpenDirectory.framework */,
 				1B4D7BAF1706182E0048CE54 /* HotKeyToolKit.framework */,
 			);
 			name = Frameworks;
@@ -674,6 +698,8 @@
 				1BE316560D38138B005C3FB2 /* WBIOKitFunctions.h */,
 				1B5D8C580EE2FC9100BD1EAF /* WBObjCRuntime.h */,
 				1B5D8C590EE2FC9100BD1EAF /* WBObjCRuntime.c */,
+				1B7007651706F08E003F5780 /* WBODFunctions.c */,
+				1B7007661706F08E003F5780 /* WBODFunctions.h */,
 				1BE316580D38138B005C3FB2 /* WBLoginItems.h */,
 				1BE316570D38138B005C3FB2 /* WBLoginItems.c */,
 				1BE316590D38138B005C3FB2 /* WBLSFunctions.h */,
@@ -915,6 +941,13 @@
 				1BC6A8F71706202C00E7EA12 /* NSArray+WonderBox.h in Headers */,
 				1BC6A8F91706204700E7EA12 /* WBClassCluster.h in Headers */,
 				1BC6A8FA1706207500E7EA12 /* WBForwarding.h in Headers */,
+				1B70075C1706EE03003F5780 /* NSString+WonderBox.h in Headers */,
+				1B70075E1706EE1F003F5780 /* NSTabView+WonderBox.h in Headers */,
+				1B7007611706EF1D003F5780 /* WBGradient.h in Headers */,
+				1B7007631706EF2E003F5780 /* WBInterpolationFunction.h in Headers */,
+				1B7007681706F08E003F5780 /* WBODFunctions.h in Headers */,
+				1B7007691706F0C1003F5780 /* WBIOKitFunctions.h in Headers */,
+				1B70076F1706F58E003F5780 /* WBFinderSuite.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -964,10 +997,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1BCB8F8D1706117600CC8C3C /* Build configuration list for PBXNativeTarget "WonderBox" */;
 			buildPhases = (
-				1BCB8F751706117600CC8C3C /* Sources */,
-				1BCB8F761706117600CC8C3C /* Frameworks */,
 				1BCB8F771706117600CC8C3C /* Headers */,
+				1BCB8F751706117600CC8C3C /* Sources */,
 				1BCB8F781706117600CC8C3C /* Resources */,
+				1BCB8F761706117600CC8C3C /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1098,6 +1131,13 @@
 				1BC6A8F41706200900E7EA12 /* WBCGFunctions.m in Sources */,
 				1BC6A8F61706201D00E7EA12 /* WBGeometry.m in Sources */,
 				1BC6A8F81706202F00E7EA12 /* NSArray+WonderBox.m in Sources */,
+				1B70075D1706EE09003F5780 /* NSString+WonderBox.m in Sources */,
+				1B70075F1706EE25003F5780 /* NSTabView+WonderBox.m in Sources */,
+				1B7007621706EF23003F5780 /* WBGradient.m in Sources */,
+				1B7007641706EF34003F5780 /* WBInterpolationFunction.m in Sources */,
+				1B7007671706F08E003F5780 /* WBODFunctions.c in Sources */,
+				1B70076A1706F0C6003F5780 /* WBIOKitFunctions.c in Sources */,
+				1B7007701706F595003F5780 /* WBFinderSuite.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1217,6 +1257,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = WonderBox/Info.plist;
+				INSTALL_PATH = "@rpath";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = framework;
 			};
@@ -1230,6 +1271,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = WonderBox/Info.plist;
+				INSTALL_PATH = "@rpath";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = framework;
 			};
@@ -1249,7 +1291,7 @@
 				);
 				FRAMEWORK_VERSION = B;
 				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "@loader_path/../Frameworks";
+				INSTALL_PATH = "@rpath";
 				PRODUCT_NAME = SparkKit;
 			};
 			name = Debug;
@@ -1258,8 +1300,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B8623910ECF91AD0006C26B /* debug.xcconfig */;
 			buildSettings = {
-				BUILT_PRODUCT_DIR = Spark;
-				WONDERBOX = "WONDERBOX_FRAMEWORK WONDERBOX_NAME=SparkKit";
 			};
 			name = Debug;
 		};
@@ -1277,7 +1317,7 @@
 				);
 				FRAMEWORK_VERSION = B;
 				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "@loader_path/../Frameworks";
+				INSTALL_PATH = "@rpath";
 				PRODUCT_NAME = SparkKit;
 			};
 			name = Release;
@@ -1286,8 +1326,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B8623920ECF91AD0006C26B /* release.xcconfig */;
 			buildSettings = {
-				BUILT_PRODUCT_DIR = Spark;
-				WONDERBOX = "WONDERBOX_FRAMEWORK WONDERBOX_NAME=SparkKit";
 			};
 			name = Release;
 		};

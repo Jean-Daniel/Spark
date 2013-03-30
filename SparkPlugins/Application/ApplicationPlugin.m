@@ -8,9 +8,9 @@
 
 #import "ApplicationPlugin.h"
 
-#import WBHEADER(WBImageView.h)
-#import WBHEADER(WBImageFunctions.h)
-#import WBHEADER(NSImage+WonderBox.h)
+#import <WonderBox/WBImageView.h>
+#import <WonderBox/WBImageFunctions.h>
+#import <WonderBox/NSImage+WonderBox.h>
 
 @implementation ApplicationPlugin
 
@@ -140,7 +140,7 @@
 
 #pragma mark -
 - (void)setPath:(NSString *)aPath {
-  WBSetterRetainAndDo(aa_path, aPath, {
+  SPXSetterRetainAndDo(aa_path, aPath, {
     NSString *name = [[[NSFileManager defaultManager] displayNameAtPath:aPath] stringByDeletingPathExtension];
     [ibApplication setStringValue:name ? : @""];
     [[ibName cell] setPlaceholderString:name ? : NSLocalizedStringFromTableInBundle(@"ACTION_NAME",
@@ -154,7 +154,7 @@
       //      [icon setSize:[ibIcon bounds].size];
       //    }
     } else {
-      icon = [NSImage imageNamed:@"AAUndefined" inBundle:WBCurrentBundle()];
+      icon = [NSImage imageNamed:@"AAUndefined" inBundle:SPXCurrentBundle()];
     }
     [ibIcon setImage:icon];
   });

@@ -13,6 +13,9 @@
 
 @implementation AXSparkAction
 
+@synthesize menuTitle = ax_title;
+@synthesize menuItemTitle = ax_subtitle;
+
 - (id)copyWithZone:(NSZone *)aZone {
   AXSparkAction *copy = [super copyWithZone:aZone];
   copy->ax_title = [ax_title copy];
@@ -62,7 +65,7 @@
       NSString *title = [item title];
       if (title && ([title caseInsensitiveCompare:ax_subtitle] == NSOrderedSame)) {
       //if (title && [title rangeOfString:ax_subtitle options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch].location != NSNotFound) {
-        DLog(@"Item found: %@", item);
+        SPXDebug(@"Item found: %@", item);
         if (![item performAction:NSAccessibilityPressAction])
           NSBeep();
         return YES;
@@ -99,20 +102,6 @@
   }
   [app release];
   return nil;
-}
-
-- (NSString *)menuTitle {
-  return ax_title;
-}
-- (void)setMenuTitle:(NSString *)menuTitle {
-  WBSetterCopy(ax_title, menuTitle);
-}
-
-- (NSString *)menuItemTitle {
-  return ax_subtitle;
-}
-- (void)setMenuItemTitle:(NSString *)menuTitle {
-  WBSetterCopy(ax_subtitle, menuTitle);
 }
 
 @end

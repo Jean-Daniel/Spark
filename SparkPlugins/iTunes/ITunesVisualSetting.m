@@ -192,10 +192,10 @@ int _iTunesGetIndexForPoint(NSPoint point) {
 }
 - (void)setConfiguration:(int)aConfig {
   if (ia_config != aConfig) {
-    if (WBDelegateHandle(ia_delegate, settingWillChangeConfiguration:))
+    if (SPXDelegateHandle(ia_delegate, settingWillChangeConfiguration:))
       [ia_delegate settingWillChangeConfiguration:self];
     ia_config = aConfig;
-    if (WBDelegateHandle(ia_delegate, settingDidChangeConfiguration:))
+    if (SPXDelegateHandle(ia_delegate, settingDidChangeConfiguration:))
       [ia_delegate settingDidChangeConfiguration:self];
   }
 }

@@ -31,7 +31,7 @@
   if (elt) {
     CFTypeRef title;
     if (kAXErrorSuccess == AXUIElementCopyAttributeValue(elt, kAXTitleAttribute, &title))
-      return WBCFAutorelease(NSString, title);
+      return SPXCFAutorelease(NSString, title);
   } 
   return [self valueForAttribute:NSAccessibilityTitleAttribute];
 }

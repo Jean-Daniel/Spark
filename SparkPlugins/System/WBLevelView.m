@@ -31,7 +31,7 @@ NSShadow *sDropShadow = nil, *sLevelShadow = nil;
   return !sk_svFlags.hide;
 }
 - (void)setDrawsLevelIndicator:(BOOL)flag {
-  WBFlagSet(sk_svFlags.hide, !flag);
+  SPXFlagSet(sk_svFlags.hide, !flag);
   [self setNeedsDisplay:YES];
 }
 
@@ -39,7 +39,7 @@ NSShadow *sDropShadow = nil, *sLevelShadow = nil;
   return sk_svFlags.zero;
 }
 - (void)setZero:(BOOL)flag {
-  WBFlagSet(sk_svFlags.zero, flag);
+  SPXFlagSet(sk_svFlags.zero, flag);
 }
 
 - (NSUInteger)level {
@@ -47,7 +47,7 @@ NSShadow *sDropShadow = nil, *sLevelShadow = nil;
 }
 - (void)setLevel:(NSUInteger)level {
   if (level > kWBLevelViewMaxLevel) level = kWBLevelViewMaxLevel;
-  sk_svFlags.level = level;
+  sk_svFlags.level = (uint8_t)level;
   [self setNeedsDisplay:YES];
 }
 

@@ -9,7 +9,7 @@
 #if !defined(__ITUNES_SUITE_H_)
 #define __ITUNES_SUITE_H_ 1
 
-#include WBHEADER(WBAEFunctions.h)
+#include <WonderBox/WBAEFunctions.h>
 
 #pragma mark -
 enum {

@@ -8,8 +8,8 @@
 
 #include "ITunesAESuite.h"
 
-#include WBHEADER(WBLSFunctions.h)
-#include WBHEADER(WBProcessFunctions.h)
+#include <WonderBox/WBLSFunctions.h>
+#include <WonderBox/WBProcessFunctions.h>
 
 static 
 CFArrayRef iTunesCopyPlaylistNamesFromList(AEDescList *items);

@@ -22,8 +22,7 @@
 - (NSString *)file;
 - (void)setFile:(NSString *)aFile;
 
-- (WBAlias *)scriptAlias;
-- (void)setScriptAlias:(WBAlias *)anAlias;
+@property(nonatomic, retain) WBAlias *scriptAlias;
 
 - (NSString *)scriptSource;
 - (void)setScriptSource:(NSString *)source;

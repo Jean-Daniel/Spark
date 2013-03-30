@@ -10,9 +10,9 @@
 
 #import <OSAKit/OSAKit.h>
 
-#import WBHEADER(WBAlias.h)
-#import WBHEADER(WBFunctions.h)
-#import WBHEADER(NSImage+WonderBox.h)
+#import <WonderBox/WBAlias.h>
+#import <WonderBox/WBFunctions.h>
+#import <WonderBox/NSImage+WonderBox.h>
 
 static NSString * const kOSAScriptActionDataKey = @"OSAScriptData";
 static NSString * const kOSAScriptActionTypeKey = @"OSAScriptType";
@@ -20,6 +20,8 @@ static NSString * const kOSAScriptActionSourceKey = @"OSAScriptSource";
 static NSString * const kOSAScriptActionRepeatInterval = @"OSAScriptRepeatInterval";
 
 @implementation AppleScriptAction
+
+@synthesize scriptAlias = as_alias;
 
 #pragma mark Protocols Implementation
 - (id)copyWithZone:(NSZone *)zone {
@@ -116,7 +118,7 @@ static NSString * const kOSAScriptActionRepeatInterval = @"OSAScriptRepeatInterv
 - (BOOL)serialize:(NSMutableDictionary *)plist {
   if ([super serialize:plist]) {
     if (as_repeat > 0)
-      [plist setObject:WBDouble(as_repeat) forKey:kOSAScriptActionRepeatInterval];
+      [plist setObject:@(as_repeat) forKey:kOSAScriptActionRepeatInterval];
     
     if ([self scriptAlias]) {
       NSData *data = [[self scriptAlias] data];
@@ -190,13 +192,6 @@ static NSString * const kOSAScriptActionRepeatInterval = @"OSAScriptRepeatInterv
 }
 - (void)setRepeat:(NSTimeInterval)anInterval {
   as_repeat = anInterval;
-}
-
-- (WBAlias *)scriptAlias {
-  return as_alias;
-}
-- (void)setScriptAlias:(WBAlias *)anAlias {
-  WBSetterRetain(as_alias, anAlias);
 }
 
 - (NSString *)file {
@@ -273,7 +268,7 @@ static NSString * const kOSAScriptActionRepeatInterval = @"OSAScriptRepeatInterv
 
 - (id)initWithSerializedValues:(NSDictionary *)plist {
   [self release];
-  return [[AppleScriptAction alloc] initWithSerializedValues:plist];
+  return (id)[[AppleScriptAction alloc] initWithSerializedValues:plist];
 }
 
 @end

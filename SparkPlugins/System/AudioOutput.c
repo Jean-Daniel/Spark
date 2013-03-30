@@ -19,7 +19,7 @@ Float32 kAudioOutputVolumeLevels[] = {
 const
 UInt32 kAudioOutputVolumeMaxLevel = 16;
 
-SC_INLINE
+SPX_INLINE
 UInt32 __AudioOutputVolumeGetLevel(Float32 output) {
   if (output <= 0.0)
     return 0;
@@ -38,7 +38,8 @@ UInt32 __AudioOutputVolumeGetLevel(Float32 output) {
 
 OSStatus AudioOutputGetSystemDevice(AudioDeviceID *device) {
   UInt32 size = (UInt32)sizeof(AudioDeviceID);
-  return AudioHardwareGetProperty(kAudioHardwarePropertyDefaultOutputDevice, &size, device);
+  AudioObjectPropertyAddress thePropertyAddress = { kAudioHardwarePropertyDefaultOutputDevice, kAudioObjectPropertyScopeGlobal, kAudioObjectPropertyElementMaster };
+  return AudioObjectGetPropertyData(kAudioObjectSystemObject, &thePropertyAddress, 0, NULL, &size, device);
 }
 
 OSStatus AudioOutputGetStereoChannels(AudioDeviceID device, UInt32 *left, UInt32 *right) {
@@ -53,8 +54,14 @@ OSStatus AudioOutputGetStereoChannels(AudioDeviceID device, UInt32 *left, UInt32
 }
 
 #pragma mark Volume
+static const AudioObjectPropertyAddress kAudioOutputVolumeProperty = {
+  .mSelector = kAudioDevicePropertyVolumeScalar,
+  .mScope = kAudioDevicePropertyScopeOutput,
+  .mElement = kAudioObjectPropertyElementMaster,
+};
+
 Boolean AudioOutputHasVolumeControl(AudioDeviceID device, Boolean *isWritable) {
-  OSStatus err = AudioDeviceGetPropertyInfo(device, 0, FALSE, kAudioDevicePropertyVolumeScalar, NULL, isWritable);
+  OSStatus err = AudioObjectIsPropertySettable(device, &kAudioOutputVolumeProperty, isWritable);
   if (noErr == err) {
     return TRUE;
   } else {
@@ -69,7 +76,7 @@ Boolean AudioOutputHasVolumeControl(AudioDeviceID device, Boolean *isWritable) {
 
 OSStatus AudioOutputGetVolume(AudioDeviceID device, Float32 *left, Float32 *right) {
   UInt32 size = (UInt32)sizeof(Float32);
-  OSStatus err = AudioDeviceGetProperty(device, 0, FALSE, kAudioDevicePropertyVolumeScalar, &size, left);
+  OSStatus err = AudioObjectGetPropertyData(device, &kAudioOutputVolumeProperty, 0, NULL, &size, left);
   if (noErr == err) {
     *right = *left;
   } else if (kAudioHardwareUnknownPropertyError == err) {
@@ -82,7 +89,7 @@ OSStatus AudioOutputGetVolume(AudioDeviceID device, Float32 *left, Float32 *righ
   return err;
 }
 OSStatus AudioOutputSetVolume(AudioDeviceID device, Float32 left, Float32 right) {
-  OSStatus err = AudioDeviceSetProperty(device, NULL, 0, FALSE, kAudioDevicePropertyVolumeScalar, (UInt32)sizeof(Float32), &left);
+  OSStatus err = AudioObjectSetPropertyData(device, &kAudioOutputVolumeProperty, 0, NULL, (UInt32)sizeof(left), &left);
   if (kAudioHardwareUnknownPropertyError == err) {
     UInt32 channels[2];
     err = AudioOutputGetStereoChannels(device, &channels[0], &channels[1]);

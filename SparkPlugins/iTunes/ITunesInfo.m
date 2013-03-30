@@ -15,9 +15,9 @@
 
 #define GrowlApplicationBridge NSClassFromString(@"GrowlApplicationBridge")
 
-#import WBHEADER(WBGradient.h)
-#import WBHEADER(WBCGFunctions.h)
-#import WBHEADER(WBNotificationWindow.h)
+#import <WonderBox/WBGradient.h>
+#import <WonderBox/WBCGFunctions.h>
+#import <WonderBox/WBNotificationWindow.h>
 
 #define kiTunesVisualDefaultPosition	{ -1e8, 0 }
 
@@ -230,7 +230,7 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
 }
 - (void)setDisplayArtwork:(BOOL)flag {
 	ia_artwork = flag;
-	if (SparkGetCurrentContext() == kSparkEditorContext)
+	if (SparkGetCurrentContext() == kSparkContext_Editor)
 		[self setArtworkVisible:ia_artwork];
 }
 
@@ -288,10 +288,10 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
 
 - (void)setDuration:(SInt32)aTime rate:(SInt32)rate {
   NSString *str = nil;
-  SInt32 days = aTime / (3600 * 24);
-  SInt32 hours = (aTime % (3600 * 24)) / 3600;
-  SInt32 minutes = (aTime % 3600) / 60;
-  SInt32 seconds = aTime % 60;
+  int32_t days = aTime / (3600 * 24);
+  int32_t hours = (aTime % (3600 * 24)) / 3600;
+  int32_t minutes = (aTime % 3600) / 60;
+  int32_t seconds = aTime % 60;
   
   if (days > 0) {
     str = [NSString stringWithFormat:@"%i:%.2i:%.2i:%.2i - ", days, hours, minutes, seconds];
@@ -426,7 +426,7 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
 		frame.size.width -= ia_artWidth;
 		
 		frame.origin = [self windowOriginForSize:frame.size];
-		if (SparkGetCurrentContext() == kSparkEditorContext) {
+		if (SparkGetCurrentContext() == kSparkContext_Editor) {
 			[[self window] setFrame:frame display:YES animate:YES];
 		} else {
 			[[self window] setFrame:frame display:YES animate:NO];
@@ -437,7 +437,7 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
 		NSRect frame = [[self window] frame];
 		frame.size.width += ia_artWidth;
 		frame.origin = [self windowOriginForSize:frame.size];
-		if (SparkGetCurrentContext() == kSparkEditorContext) {
+		if (SparkGetCurrentContext() == kSparkContext_Editor) {
 			[[self window] setFrame:frame display:YES animate:YES];
 		} else {
 			[[self window] setFrame:frame display:YES animate:NO];
@@ -450,7 +450,7 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
 
 - (void)windowWillClose:(NSNotification *)notification {
 	/* release image when no longer needed */
-	if (SparkGetCurrentContext() == kSparkDaemonContext)
+	if (SparkGetCurrentContext() == kSparkContext_Daemon)
 		[ibArtwork setImage:nil];
 }
 

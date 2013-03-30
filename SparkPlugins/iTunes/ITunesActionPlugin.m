@@ -12,12 +12,12 @@
 #import "ITunesAESuite.h"
 #import "ITunesVisualSetting.h"
 
-#import WBHEADER(WBAlias.h)
-#import WBHEADER(WBFSFunctions.h)
-#import WBHEADER(WBLSFunctions.h)
-#import WBHEADER(NSImage+WonderBox.h)
-#import WBHEADER(NSString+WonderBox.h)
-#import WBHEADER(NSTabView+WonderBox.h)
+#import <WonderBox/WBAlias.h>
+#import <WonderBox/WBFSFunctions.h>
+#import <WonderBox/WBLSFunctions.h>
+#import <WonderBox/NSImage+WonderBox.h>
+#import <WonderBox/NSString+WonderBox.h>
+#import <WonderBox/NSTabView+WonderBox.h>
 
 static 
 NSImage *ITunesGetApplicationIcon(void) {
@@ -183,7 +183,7 @@ NSImage *ITunesGetApplicationIcon(void) {
     [it_lists release];
     it_lists = nil;
   }
-  WBSetterRetain(it_playlists, lists);
+  SPXSetterRetain(it_playlists, lists);
   [self didChangeValueForKey:@"playlists"];
 }
 
@@ -243,7 +243,7 @@ NSImage *ITunesGetApplicationIcon(void) {
 }
 
 - (void)setPlaylist:(NSString *)aPlaylist {
-  WBSetterCopy(it_playlist, aPlaylist);
+  SPXSetterCopy(it_playlist, aPlaylist);
 }
 
 - (BOOL)lsPlay {
@@ -418,12 +418,12 @@ NSString *__iTunesFindLibrary(Boolean compat) {
         NSNumber *ppid = nil;
         NSString *uid = [list objectForKey:@"Playlist Persistent ID"];
         if (uid) {
-          ppid = WBUInt64(strtoll([uid UTF8String], NULL, 16));
+          ppid = @(strtoll([uid UTF8String], NULL, 16));
         }
         
         NSDictionary *plist = [[NSDictionary alloc] initWithObjectsAndKeys:
-          WBUInt32(type), @"kind",
-          ppid, @"uid", nil];
+                               @(type), @"kind",
+                               ppid, @"uid", nil];
         [playlists setObject:plist forKey:[list objectForKey:@"Name"]];
         [plist release];
       }

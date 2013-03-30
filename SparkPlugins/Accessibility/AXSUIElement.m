@@ -46,7 +46,7 @@
 - (NSArray *)attributeNames {
   CFArrayRef names;
   if (kAXErrorSuccess == AXUIElementCopyAttributeNames(ax_elt, &names))
-    return WBCFAutorelease(NSArray, names);
+    return SPXCFAutorelease(NSArray, names);
   return nil; 
 }
 - (id)valueForAttribute:(NSString *)anAttribute {
@@ -61,7 +61,7 @@
 //      result = [NSMakeCollectable(value) autorelease];
 //    }
 //    return result;
-    return WBCFAutorelease(NSString, value);
+    return SPXCFAutorelease(NSString, value);
   }
   return nil;
 }
@@ -88,7 +88,7 @@
   NSParameterAssert(anAttribute);
   CFArrayRef values;
   if (kAXErrorSuccess == AXUIElementCopyAttributeValues(ax_elt, (CFStringRef)anAttribute, aRange.location, aRange.length, &values))
-    return WBCFAutorelease(NSArray, values);
+    return SPXCFAutorelease(NSArray, values);
   return nil;
 }
 
@@ -96,14 +96,14 @@
 - (NSArray *)actionNames {
   CFArrayRef names;
   if (kAXErrorSuccess == AXUIElementCopyActionNames(ax_elt, &names))
-    return WBCFAutorelease(NSArray, names);
+    return SPXCFAutorelease(NSArray, names);
   return nil;  
 }
 
 - (NSString *)actionDescription:(NSString *)anAction {
   CFStringRef str;
   if (kAXErrorSuccess == AXUIElementCopyActionDescription(ax_elt, (CFStringRef)anAction, &str))
-    return WBCFAutorelease(NSString, str);
+    return SPXCFAutorelease(NSString, str);
   return NSAccessibilityActionDescription(anAction);
 }
 

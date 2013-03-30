@@ -8,10 +8,10 @@
 
 #include <unistd.h>
 
-#include "SystemUsers.h"
 #import "SystemActionPlugin.h"
 
-#import WBHEADER(NSString+WonderBox.h)
+#import <WonderBox/WBODFunctions.h>
+#import <WonderBox/NSString+WonderBox.h>
 
 @implementation SystemActionPlugin
 

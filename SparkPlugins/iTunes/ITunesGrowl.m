@@ -83,10 +83,10 @@ NSImage *ITunesGetApplicationIcon(void) {
     iTunesGetTrackIntegerProperty(track, kiTunesRateKey, &rate);
   }
   NSString *timestr = @"";
-  SInt32 days = duration / (3600 * 24);
-  SInt32 hours = (duration % (3600 * 24)) / 3600;
-  SInt32 minutes = (duration % 3600) / 60;
-  SInt32 seconds = duration % 60;
+  int32_t days = duration / (3600 * 24);
+  int32_t hours = (duration % (3600 * 24)) / 3600;
+  int32_t minutes = (duration % 3600) / 60;
+  int32_t seconds = duration % 60;
   
   if (days > 0) {
     timestr = [NSString stringWithFormat:@"%i:%.2i:%.2i:%.2i", days, hours, minutes, seconds];
@@ -96,7 +96,7 @@ NSImage *ITunesGetApplicationIcon(void) {
     timestr = [NSString stringWithFormat:@"%i:%.2i", minutes, seconds];
   }
   
-  NSString *rating = [self starsForRating:WBUInteger(rate)];
+  NSString *rating = [self starsForRating:@(rate)];
 	
 	/* Image */
   OSType type;

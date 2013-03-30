@@ -28,19 +28,14 @@ enum {
   WBAliasedApplication *da_app;
 }
 
-- (int)action;
-- (void)setAction:(int)anAction;
-
 - (void)setDocumentPath:(NSString *)path;
 - (void)setApplicationPath:(NSString *)path;
 
-- (NSString *)url;
-- (void)setURL:(NSString *)url;
+@property(nonatomic) int action;
 
-- (WBAlias *)document;
-- (void)setDocument:(WBAlias *)aDoc;
-- (WBAliasedApplication *)application;
-- (void)setApplication:(WBAliasedApplication *)anApplication;
+@property(nonatomic, retain) NSString *URL;
+@property(nonatomic, retain) WBAlias *document;
+@property(nonatomic, retain) WBAliasedApplication *application;
 
 - (void)openSelection;
 

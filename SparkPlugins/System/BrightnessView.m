@@ -7,7 +7,7 @@
  */
 
 #import "BrightnessView.h"
-#import WBHEADER(WBCGFunctions.h)
+#import <WonderBox/WBCGFunctions.h>
 
 @implementation BrightnessView
 

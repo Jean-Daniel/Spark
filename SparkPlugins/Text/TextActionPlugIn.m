@@ -11,6 +11,8 @@
 
 @implementation TextActionPlugIn
 
+@synthesize text = ta_text;
+
 - (id)init {
   if (self = [super init]) {
     ta_styles = TASetDateFormatterStyle(ta_styles, kCFDateFormatterLongStyle);
@@ -37,7 +39,7 @@
       [self setText:[anAction data]];
       break;
     case kTADateStyleAction: {
-      NSInteger styles = WBIntegerValue([anAction data]);
+      NSInteger styles = [[anAction data] integerValue];
       [self setDateFormat:TADateFormatterStyle(styles)];
       [self setTimeFormat:TATimeFormatterStyle(styles)];
     }
@@ -82,7 +84,7 @@
       [action setData:ta_format];
       break;
     case kTADateStyleAction:
-      [action setData:WBInteger(ta_styles)];
+      [action setData:@(ta_styles)];
       break;
     case kTAKeystrokeAction:
       [action setData:[uiTokens objectValue]];
@@ -134,14 +136,6 @@
       [self setType:2];
       break;      
   }
-}
-
-#pragma mark Text
-- (NSString *)text {
-  return ta_text;
-}
-- (void)setText:(NSString *)text {
-  WBSetterCopy(ta_text, text);
 }
 
 #pragma mark Date
@@ -299,9 +293,9 @@
 
 - (void)trapWindowDidCatchHotKey:(NSNotification *)aNotification {
   NSDictionary *info = [aNotification userInfo];
-  UInt16 nkey = WBIntegerValue([info objectForKey:kHKEventKeyCodeKey]);
-  UniChar chr = WBIntegerValue([info objectForKey:kHKEventCharacterKey]);
-  HKModifier nmodifier = (HKModifier)WBIntegerValue([info objectForKey:kHKEventModifierKey]);
+  UInt16 nkey = [[info objectForKey:kHKEventKeyCodeKey] integerValue];
+  UniChar chr = [[info objectForKey:kHKEventCharacterKey] integerValue];
+  HKModifier nmodifier = (HKModifier)[[info objectForKey:kHKEventModifierKey] integerValue];
 
   TAKeystroke *hkey = [[TAKeystroke alloc] initWithKeycode:nkey character:chr modifier:nmodifier];
   NSMutableArray *objs = [[uiRecTokens objectValue] mutableCopy];

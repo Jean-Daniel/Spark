@@ -10,12 +10,12 @@
 
 #import <Sparkkit/SparkPrivate.h>
 
-#import WBHEADER(WBAlias.h)
-#import WBHEADER(WBFunctions.h)
-#import WBHEADER(WBAEFunctions.h)
-#import WBHEADER(WBFSFunctions.h)
-#import WBHEADER(WBImageFunctions.h)
-#import WBHEADER(NSImage+WonderBox.h)
+#import <WonderBox/WBAlias.h>
+#import <WonderBox/WBFunctions.h>
+#import <WonderBox/WBAEFunctions.h>
+#import <WonderBox/WBFSFunctions.h>
+#import <WonderBox/WBImageFunctions.h>
+#import <WonderBox/NSImage+WonderBox.h>
 
 static NSString * const kApplicationNameKey = @"ApplicationName";
 static NSString * const kApplicationFlagsKey = @"ApplicationFlags";
@@ -84,7 +84,7 @@ ApplicationVisualSetting *AAGetSharedSettings(void) {
 + (void)initialize {
   if ([ApplicationAction class] == self) {
     /* If daemon, listen updates */
-    if (kSparkDaemonContext == SparkGetCurrentContext()) {
+    if (kSparkContext_Daemon == SparkGetCurrentContext()) {
       SparkPreferencesRegisterObserver(self, @selector(setLibraryPreferenceValue:forKey:), 
                                        @"AAVisualLaunch", SparkPreferencesLibrary);
       SparkPreferencesRegisterObserver(self, @selector(setLibraryPreferenceValue:forKey:), 
@@ -122,7 +122,7 @@ ApplicationVisualSetting *AAGetSharedSettings(void) {
   [super encodeWithCoder:coder];
   [coder encodeInt:aa_action forKey:kApplicationActionKey];
   [coder encodeInt:aa_lsFlags forKey:kApplicationLSFlagsKey];
-	WBEncodeInteger(coder, [self encodeFlags], kApplicationFlagsKey);
+	[coder encodeInteger:[self encodeFlags] forKey:kApplicationFlagsKey];
   
   if (aa_application)
     [coder encodeObject:aa_application forKey:kApplicationIdentifierKey];
@@ -231,9 +231,9 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
       [self initFromOldPropertyList:plist];
       [self setVersion:0x200];
     } else {
-      [self setFlags:(LSLaunchFlags)WBUIntegerValue([plist objectForKey:kApplicationLSFlagsKey])];
+      [self setFlags:(LSLaunchFlags)[[plist objectForKey:kApplicationLSFlagsKey] integerValue]];
       [self setAction:WBOSTypeFromString([plist objectForKey:kApplicationActionKey])];
-      [self decodeFlags:WBUIntegerValue([plist objectForKey:kApplicationFlagsKey])];
+      [self decodeFlags:[[plist objectForKey:kApplicationFlagsKey] integerValue]];
       
       switch ([self action]) {
         case kApplicationHideFront:
@@ -280,8 +280,8 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
       }
     }
     
-    [plist setObject:WBUInteger(aa_lsFlags) forKey:kApplicationLSFlagsKey];
-    [plist setObject:WBUInteger([self encodeFlags]) forKey:kApplicationFlagsKey];
+    [plist setObject:@(aa_lsFlags) forKey:kApplicationLSFlagsKey];
+    [plist setObject:@([self encodeFlags]) forKey:kApplicationFlagsKey];
     [plist setObject:WBStringForOSType(aa_action) forKey:kApplicationActionKey];
     return YES;
   }
@@ -444,7 +444,7 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
   return aa_aaFlags.reopen;
 }
 - (void)setReopen:(BOOL)flag {
-  WBFlagSet(aa_aaFlags.reopen, flag);
+  SPXFlagSet(aa_aaFlags.reopen, flag);
 }
 
 - (int)activation {
@@ -458,7 +458,7 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
   return aa_aaFlags.visual;
 }
 - (void)setUsesSharedVisual:(BOOL)flag {
-  WBFlagSet(aa_aaFlags.visual, flag);
+  SPXFlagSet(aa_aaFlags.visual, flag);
 }
 
 - (void)getVisualSettings:(ApplicationVisualSetting *)settings {

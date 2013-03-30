@@ -8,8 +8,8 @@
 
 #import "ITunesStarView.h"
 
-#import WBHEADER(WBGeometry.h)
-#import WBHEADER(WBCGFunctions.h)
+#import <WonderBox/WBGeometry.h>
+#import <WonderBox/WBCGFunctions.h>
 
 @implementation ITunesStarView
 
@@ -53,7 +53,7 @@ void _ITunesDrawHalfString(NSPoint point, NSColor *color) {
   return ia_color;
 }
 - (void)setStarsColor:(NSColor *)aColor {
-  WBSetterRetainAndDo(ia_color, aColor, [self setNeedsDisplay:YES]);
+  SPXSetterRetainAndDo(ia_color, aColor, [self setNeedsDisplay:YES]);
 }
 
 - (void)drawRect:(NSRect)rect {

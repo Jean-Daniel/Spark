@@ -9,7 +9,7 @@
 #import <HotKeyToolKit/HotKeyToolKit.h>
 
 @interface TAKeystroke : NSObject <NSCoding> {
-  @private
+@private
   UniChar ta_char;
   HKKeycode ta_code;
   HKModifier ta_modifier;

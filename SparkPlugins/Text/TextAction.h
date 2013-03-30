@@ -47,6 +47,7 @@ enum KeyboardActionType {
 typedef OSType KeyboardActionType;
 
 @interface TextAction : SparkAction {
+@private
   id ta_data;
 	BOOL ta_repeat;
   BOOL ta_locked;
@@ -54,8 +55,7 @@ typedef OSType KeyboardActionType;
   KeyboardActionType ta_type;
 }
 
-- (id)data;
-- (void)setData:(id)anObject;
+@property(nonatomic, copy) id data;
 
 - (useconds_t)latency;
 - (void)setLatency:(useconds_t)latency;

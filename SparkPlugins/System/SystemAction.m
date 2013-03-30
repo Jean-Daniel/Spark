@@ -15,11 +15,11 @@
 /* getuid() */
 #include <unistd.h>
 
-#import WBHEADER(WBFSFunctions.h)
-#import WBHEADER(WBLSFunctions.h)
-#import WBHEADER(WBAEFunctions.h)
-#import WBHEADER(WBIOKitFunctions.h)
-#import WBHEADER(NSImage+WonderBox.h)
+#import <WonderBox/WBFSFunctions.h>
+#import <WonderBox/WBLSFunctions.h>
+#import <WonderBox/WBAEFunctions.h>
+#import <WonderBox/WBIOKitFunctions.h>
+#import <WonderBox/NSImage+WonderBox.h>
 
 static NSString * const 
 kFastUserSwitcherPath = @"/System/Library/CoreServices/Menu Extras/User.menu/Contents/Resources/CGSession";
@@ -111,11 +111,11 @@ NSString * const kSystemUserNameKey = @"SystemUserName";
 
 - (BOOL)serialize:(NSMutableDictionary *)plist {
   if ([super serialize:plist]) {
-    [plist setObject:WBInteger([self action]) forKey:kSystemActionKey];
-    [plist setObject:WBUInteger([self encodeFlags]) forKey:kSystemFlagsKey];
+    [plist setObject:@([self action]) forKey:kSystemActionKey];
+    [plist setObject:@([self encodeFlags]) forKey:kSystemFlagsKey];
     
     if (kSystemSwitch == [self action] && [self userID] && [self userName]) {
-      [plist setObject:WBUInteger([self userID]) forKey:kSystemUserUIDKey];
+      [plist setObject:@([self userID]) forKey:kSystemUserUIDKey];
       [plist setObject:[self userName] forKey:kSystemUserNameKey];
     }
     return YES;
@@ -303,7 +303,7 @@ bail:
   return sa_uname;
 }
 - (void)setUserName:(NSString *)aName {
-  WBSetterRetain(sa_uname, aName);
+  SPXSetterRetain(sa_uname, aName);
 }
 
 /*
@@ -331,19 +331,19 @@ kAEShowShutdownDialog         = 'rsdn'
   return sa_saFlags.notify;
 }
 - (void)setShouldNotify:(BOOL)flag {
-  WBFlagSet(sa_saFlags.notify, flag);
+  SPXFlagSet(sa_saFlags.notify, flag);
 }
 - (BOOL)playFeedback {
   return sa_saFlags.feedback && [self shouldNotify];
 }
 - (void)setPlayFeedback:(BOOL)flag {
-  WBFlagSet(sa_saFlags.feedback, flag);
+  SPXFlagSet(sa_saFlags.feedback, flag);
 }
 - (BOOL)shouldConfirm {
   return sa_saFlags.confirm;
 }
 - (void)setShouldConfirm:(BOOL)flag {
-  WBFlagSet(sa_saFlags.confirm, flag);
+  SPXFlagSet(sa_saFlags.confirm, flag);
 }
 
 - (void)sleep {
@@ -619,7 +619,7 @@ OSType SystemActionFromFlag(int flag) {
       [action setIcon:nil];
     }
   }
-  return action;
+  return (id)action;
 }
 
 @end
