@@ -10,8 +10,8 @@
 
 #include <SparkKit/SparkKit.h>
 
-#include WBHEADER(WBAEFunctions.h)
-#include WBHEADER(WBProcessFunctions.h)
+#include <WonderBox/WBAEFunctions.h>
+#include <WonderBox/WBProcessFunctions.h>
 
 OSStatus SDGetEditorIsTrapping(Boolean *trapping) {
   if (!trapping) return paramErr;

@@ -29,10 +29,10 @@
 #import <SparkKit/SparkApplication.h>
 #import <SparkKit/SparkActionLoader.h>
 
-#import WBHEADER(WBProcessFunctions.h)
+#import <WonderBox/WBProcessFunctions.h>
 
 #if defined (DEBUG)
-#import WBHEADER(WBAEFunctions.h)
+#import <WonderBox/WBAEFunctions.h>
 #import <HotKeyToolKit/HotKeyToolKit.h>
 #import <SparkKit/SparkLibrarySynchronizer.h>
 #endif
@@ -215,7 +215,7 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
         CFRelease(infos);
       }
       if (delay > 0) {
-        DLog(@"Delay load: %i", delay);
+        SPXDebug(@"Delay load: %ld", (long)delay);
         [NSTimer scheduledTimerWithTimeInterval:delay
                                          target:self
                                        selector:@selector(finishStartup:)
@@ -245,7 +245,7 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
 }
 
 - (void)setEnabled:(BOOL)enabled {
-  if (XOR(!enabled, sd_disabled)) {
+  if (spx_xor(!enabled, sd_disabled)) {
     sd_disabled = !enabled;
     if (enabled)
       [self registerEntries];
@@ -267,7 +267,7 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
   if (!same) {
     SparkApplication *previous = sd_front;
     sd_front = front;
-    DLog(@"switch: %@ => %@", previous, front);
+    SPXDebug(@"switch: %@ => %@", previous, front);
     /* If status change */
     if ((!previous || [previous isEnabled]) && (front && ![front isEnabled])) {
       [self unregisterEntries];
@@ -284,10 +284,10 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
   [sd_connection setRootObject:checker];
   [checker release];
   if (![sd_connection registerName:kSparkConnectionName]) {
-    DLog(@"Error While opening Connection");
+    SPXDebug(@"Error While opening Connection");
     return NO;
   } else {
-    DLog(@"Connection OK");
+    SPXDebug(@"Connection OK");
   }
   return YES;
 }
@@ -322,7 +322,7 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
         [entry setRegistred:NO];
       }
     } @catch (id exception) {
-      WBLogException(exception);
+      SPXLogException(exception);
     }
   }
 }
@@ -342,7 +342,7 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
     @try {
       [entry setRegistred:NO];
     } @catch (id exception) {
-      WBLogException(exception);
+      SPXLogException(exception);
     }
   }
 }
@@ -355,7 +355,7 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
         [entry setRegistred:NO];
       }
     } @catch (id exception) {
-      WBLogException(exception);
+      SPXLogException(exception);
     }
   }
 }
@@ -370,18 +370,18 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
   SparkAlert *alert = nil;
   SparkEntry *entry = [anEvent entry];
   /* Warning: trigger can be release during [action performAction] */
-  DLog(@"Start handle event (%@): %@", [NSThread currentThread], anEvent);
+  SPXDebug(@"Start handle event (%@): %@", [NSThread currentThread], anEvent);
   [SparkEvent setCurrentEvent:anEvent];
   @try {
     /* Action exists and is enabled */
     alert = [[entry action] performAction];
   } @catch (id exception) {
     // TODO: alert = [SparkAlert alertFromException:exception context:plugin, action, ...];
-    WBLogException(exception);
+    SPXLogException(exception);
     NSBeep();
   }
   [SparkEvent setCurrentEvent:nil];
-  DLog(@"End handle event (%@): %@", [NSThread currentThread], anEvent);
+  SPXDebug(@"End handle event (%@): %@", [NSThread currentThread], anEvent);
   
   return alert;
 }
@@ -417,12 +417,12 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
   Boolean trapping;
   /* If Spark Editor is trapping, forward keystroke */
   if ([anEvent type] == kSparkEventTypeBypass || ((noErr == SDGetEditorIsTrapping(&trapping)) && trapping)) {
-    DLog(@"Bypass event or Spark Editor is trapping => bypass");
+    SPXDebug(@"Bypass event or Spark Editor is trapping => bypass");
     [[anEvent trigger] bypass];
     return;
   }
   
-  DLog(@"Start dispatch event: %@", anEvent);
+  SPXDebug(@"Start dispatch event: %@", anEvent);
 
   bool bypass = true;
   /* If daemon is disabled, only persistent action are performed */
@@ -440,7 +440,7 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
       } else {
         id lock = [action lock];
         SparkPlugIn *plugin = [[SparkActionLoader sharedLoader] plugInForAction:action];
-        WBAssert(plugin, @"invalid action triggered");
+        NSAssert(plugin, @"invalid action triggered");
         
         [sd_lock lock];
         NSMutableDictionary *locks = NSMapGet(sd_locks, plugin);
@@ -462,7 +462,7 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
   
   if (bypass) [[anEvent trigger] bypass];
   
-  DLog(@"End dispatch event: %@", anEvent);
+  SPXDebug(@"End dispatch event: %@", anEvent);
 }
 
 - (void)run {

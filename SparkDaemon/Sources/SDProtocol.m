@@ -19,17 +19,17 @@
 @implementation SparkDaemon (SparkServerProtocol)
 
 - (UInt32)version {
-  WBTrace();
+  SPXTrace();
   return kSparkServerVersion;
 }
 
 - (void)shutdown {
-  WBTrace();
+  SPXTrace();
   [NSApp terminate:nil];
 }
 
 - (id<SparkLibrary>)library {
-  WBTrace();
+  SPXTrace();
   if (!sd_rlibrary)
     sd_rlibrary = [[sd_library distantLibrary] retain];
   return [sd_rlibrary distantLibrary];
@@ -37,7 +37,7 @@
 
 #pragma mark Entries Management
 - (void)didAddEntry:(NSNotification *)aNotification {
-  WBTrace();
+  SPXTrace();
   SparkEntry *entry = SparkNotificationObject(aNotification);
   /* Trigger can have a new active action */
   if ([self isEnabled] || [entry isPersistent])
@@ -45,7 +45,7 @@
 }
 
 - (void)didUpdateEntry:(NSNotification *)aNotification {
-  WBTrace();
+  SPXTrace();
   SparkEntry *new = SparkNotificationObject(aNotification);
   SparkEntry *previous = SparkNotificationUpdatedObject(aNotification);
   if ([self isEnabled] || [new isPersistent] || [previous isPersistent]) {
@@ -57,7 +57,7 @@
 }
 
 - (void)didRemoveEntry:(NSNotification *)aNotification {
-  WBTrace();
+  SPXTrace();
   SparkEntry *entry = SparkNotificationObject(aNotification);
   /* If trigger was not removed, we should check it */
   if ([self isEnabled] || [entry isPersistent])
@@ -65,7 +65,7 @@
 }
 
 - (void)didChangeEntryStatus:(NSNotification *)aNotification {
-  WBTrace();
+  SPXTrace();
   SparkEntry *entry = SparkNotificationObject(aNotification);
   if ([self isEnabled] || [entry isPersistent]) {
     /* Should check triggers */
@@ -76,7 +76,7 @@
 #pragma mark -
 #pragma mark Notifications
 - (void)willRemoveTrigger:(NSNotification *)aNotification {
-  WBTrace();
+  SPXTrace();
   if ([self isEnabled]) {
     SparkTrigger *trigger = SparkNotificationObject(aNotification);
     if ([trigger isRegistred])
@@ -86,7 +86,7 @@
 
 /* Should never append since a trigger is not editable */
 //- (void)willUpdateTrigger:(NSNotification *)aNotification {
-//  WBTrace();
+//  SPXTrace();
 //  /* Configure new trigger */
 //  SparkTrigger *new = SparkNotificationObject(aNotification);
 //  [self configureTrigger:new];
@@ -102,7 +102,7 @@
 
 #pragma mark Application
 - (void)willRemoveApplication:(NSNotification *)aNotification {
-  WBTrace();
+  SPXTrace();
   /* handle special case: remove the front application and application is disabled */
   SparkApplication *app = SparkNotificationObject(aNotification);
   if ([app isEqual:sd_front] && ![app isEnabled]) {
@@ -112,7 +112,7 @@
   }
 }
 - (void)didChangeApplicationStatus:(NSNotification *)aNotification {
-  WBTrace();
+  SPXTrace();
   SparkApplication *app = [aNotification object];
   if ([app isEqual:sd_front]) {
     if ([app isEnabled])
@@ -124,7 +124,7 @@
 
 #pragma mark Plugins Management
 - (void)didChangePlugInStatus:(NSNotification *)aNotification {
-  WBTrace();
+  SPXTrace();
   if ([self isEnabled])
     [self registerEntries];
 }
@@ -132,7 +132,7 @@
 @end
 
 void SDSendStateToEditor(SparkDaemonStatus state) {
-  NSNumber *value = WBUInteger(state);
+  NSNumber *value = @(state);
   CFDictionaryRef info = CFDictionaryCreate(kCFAllocatorDefault, 
                                             (const void **)&SparkDaemonStatusKey,
                                             (const void **)&value, 1, 
