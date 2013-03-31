@@ -11,9 +11,9 @@
 @implementation Spark (SparkleDelegate)
 
 - (void)setupSparkle {
-  SUUpdater *updater = [SUUpdater sharedUpdater];
-  [updater setDelegate:self];
-  [updater setAllowsAutomaticallyDownloadsUpdates:NO];
+//  SUUpdater *updater = [SUUpdater sharedUpdater];
+//  [updater setDelegate:self];
+//  [updater setAllowsAutomaticallyDownloadsUpdates:NO];
 }
 
 - (IBAction)checkForUpdates:(id)sender {

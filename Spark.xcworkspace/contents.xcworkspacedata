@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:SparkEditor/Spark Editor.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:SparkDaemon/SparkDaemon.xcodeproj">
    </FileRef>
    <FileRef
@@ -12,5 +15,11 @@
    </FileRef>
    <FileRef
       location = "group:HotKeyToolKit/HotKeyToolKit.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Sparkle/Sparkle.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:SArchiveKit/SArchiveKit.xcodeproj">
    </FileRef>
 </Workspace>

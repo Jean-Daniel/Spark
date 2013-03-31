@@ -23,10 +23,10 @@
 #import <SparkKit/SparkPrivate.h>
 #import <SparkKit/SparkEntryManager.h>
 
-#import WBHEADER(WBObjCRuntime.h)
-#import WBHEADER(WBIndexSetIterator.h)
-#import WBHEADER(WBImageAndTextCell.h)
-#import WBHEADER(NSArrayController+WonderBox.h)
+#import <WonderBox/WBObjCRuntime.h>
+#import <WonderBox/WBIndexSetIterator.h>
+#import <WonderBox/WBImageAndTextCell.h>
+#import <WonderBox/NSArrayController+WonderBox.h>
 
 static
 BOOL _SEEntryFilter(NSString *search, SparkEntry *entry, void *ctxt) {
@@ -296,7 +296,7 @@ NSString * sSEHiddenPluggedObserverKey = nil;
   NSMutableArray *entries = [[NSMutableArray alloc] init];
   WBIndexesIterator(idx, rowIndexes) {
     SparkEntry *entry = [self objectAtIndex:idx];
-    [entries addObject:WBUInteger([entry uid])];
+    [entries addObject:@([entry uid])];
   }
   [plist setObject:entries forKey:@"entries"];
   [entries release];

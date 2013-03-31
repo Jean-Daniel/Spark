@@ -255,6 +255,7 @@
 					"\"$(SRCROOT)/../SparkEditor/Resources\"",
 				);
 				INFOPLIST_FILE = Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_NAME = "Spark Daemon";
 			};
 			name = Debug;
@@ -275,6 +276,7 @@
 					"\"$(SRCROOT)/../SparkEditor/Resources\"",
 				);
 				INFOPLIST_FILE = Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_NAME = "Spark Daemon";
 			};
 			name = Release;

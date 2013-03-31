@@ -166,8 +166,8 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
     if (file) {
       [[self library] archiveToFile:file];
       NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
-        WBUInt32(kSparkLibraryArchiveHFSType), NSFileHFSTypeCode,
-        WBUInt32(kSparkEditorSignature), NSFileHFSCreatorCode, nil];
+        @(kSparkLibraryArchiveHFSType), NSFileHFSTypeCode,
+        @(kSparkEditorSignature), NSFileHFSCreatorCode, nil];
       [[NSFileManager defaultManager] setAttributes:dict ofItemAtPath:file error:NULL];
     }
   }
@@ -225,7 +225,7 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
     }
     [library release];
   } else {
-    DLog(@"Invalid archive: %@", file);
+    SPXDebug(@"Invalid archive: %@", file);
   }
 }
 
@@ -478,7 +478,7 @@ NSAlert *_SELibraryTriggerAlreadyUsedAlert(SparkEntry *previous, SparkEntry *ent
 			hasCustom |= [entry hasVariant];
 		}
 		if (hasCustom) {
-			DLog(@"WARNING: Has Custom");
+			SPXDebug(@"WARNING: Has Custom");
 		}
 	}
 

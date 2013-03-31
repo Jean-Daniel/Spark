@@ -6,7 +6,7 @@
  *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
  */
 
-#import WBHEADER(WBWindowController.h)
+#import <WonderBox/WBWindowController.h>
 
 @interface SEPlugInInstaller : WBWindowController {
   @private

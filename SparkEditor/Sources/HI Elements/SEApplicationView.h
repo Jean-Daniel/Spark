@@ -6,7 +6,7 @@
  *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
  */
 
-#import WBHEADER(WBApplicationView.h)
+#import <WonderBox/WBApplicationView.h>
 
 @class SparkApplication;
 @interface SEApplicationView : WBApplicationView {

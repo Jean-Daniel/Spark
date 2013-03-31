@@ -8,8 +8,8 @@
 
 #import "SEBackgroundView.h"
 
-#import WBHEADER(WBGradient.h)
-#import WBHEADER(WBFunctions.h)
+#import <WonderBox/WBGradient.h>
+#import <WonderBox/WBFunctions.h>
 
 static const 
 WBGradientDefinition kSETopShadingInfo = {

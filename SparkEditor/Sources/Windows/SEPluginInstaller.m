@@ -10,8 +10,8 @@
 
 #import "Spark.h"
 
-#import WBHEADER(WBFSFunctions.h)
-#import WBHEADER(WBAEFunctions.h)
+#import <WonderBox/WBFSFunctions.h>
+#import <WonderBox/WBAEFunctions.h>
 
 #import <SparkKit/SparkActionLoader.h>
 
@@ -53,7 +53,7 @@
     [[SparkActionLoader sharedLoader] loadPlugInAtPath:path];
     [[NSWorkspace sharedWorkspace] openFile:[path stringByDeletingLastPathComponent]];
   } else {
-    DLog(@"PlugIn installation failed");
+    SPXDebug(@"PlugIn installation failed");
   }
 }
 
@@ -69,7 +69,7 @@ void _Setup(SEPlugInInstaller *self) {
 }
 
 - (void)setPlugIn:(NSString *)path {
-  WBSetterCopyAndDo(se_plugin, path, {
+  SPXSetterCopyAndDo(se_plugin, path, {
     _Setup(self);
   });
 }

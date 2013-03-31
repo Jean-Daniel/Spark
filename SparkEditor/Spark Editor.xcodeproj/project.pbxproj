@@ -39,6 +39,8 @@
 		1B68A6B01411396F0017CD27 /* Sparkle.framework in Copy Framework */ = {isa = PBXBuildFile; fileRef = 1B68A6AB1411392B0017CD27 /* Sparkle.framework */; };
 		1B91B43D13C088A5005FC86D /* SparkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B91B43C13C088A5005FC86D /* SparkKit.framework */; };
 		1B91B44213C08924005FC86D /* Spark Daemon.app in Copy Daemon */ = {isa = PBXBuildFile; fileRef = 1B91B44013C088FF005FC86D /* Spark Daemon.app */; };
+		1B92D0F017072AB700F40FCD /* WonderBox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B92D0EF17072AB600F40FCD /* WonderBox.framework */; };
+		1B92D0F71707345500F40FCD /* WonderBox.framework in Copy Framework */ = {isa = PBXBuildFile; fileRef = 1B92D0EF17072AB600F40FCD /* WonderBox.framework */; };
 		1B9A7A670D0D96DD00770054 /* SEPluginHelp.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B9A7A650D0D96DD00770054 /* SEPluginHelp.xib */; };
 		1B9A7A6D0D0D978800770054 /* SEEntryEditor.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B9A7A6B0D0D978800770054 /* SEEntryEditor.xib */; };
 		1B9A7A7A0D0D998B00770054 /* SEPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B9A7A780D0D998B00770054 /* SEPreferences.xib */; };
@@ -47,7 +49,6 @@
 		1BA7CDF00D0DB2D70081764D /* SparkSuite.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 984BCE5F060C7EBD0043CDEA /* SparkSuite.sdef */; };
 		1BA7CE0A0D0DB3480081764D /* SEInheritsPlugin.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BA7CE080D0DB3480081764D /* SEInheritsPlugin.xib */; };
 		1BA7CE0F0D0DB3740081764D /* SEPluginInstaller.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BA7CE0D0D0DB3740081764D /* SEPluginInstaller.xib */; };
-		1BB100B113C9EBA2002BBF20 /* SparkLibrary.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BB100B013C9EBA2002BBF20 /* SparkLibrary.xib */; };
 		1BB11ABC0B931FAE00908925 /* SELibrary.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1BB11ABB0B931FAE00908925 /* SELibrary.tiff */; };
 		1BB1EF9413C0900C00197E63 /* SArchiveKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BB1EF9313C0900C00197E63 /* SArchiveKit.framework */; };
 		1BD1A1890D0D4926004206FA /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BD1A1870D0D4926004206FA /* MainMenu.xib */; };
@@ -158,6 +159,7 @@
 				1BDCB6D90DA7C85500D95044 /* Growl.framework in Copy Framework */,
 				1B68A6B01411396F0017CD27 /* Sparkle.framework in Copy Framework */,
 				1B1184BB13C0BAE500A222F0 /* SparkKit.framework in Copy Framework */,
+				1B92D0F71707345500F40FCD /* WonderBox.framework in Copy Framework */,
 				1B1184BC13C0BAE500A222F0 /* SArchiveKit.framework in Copy Framework */,
 				1B1184BD13C0BAE500A222F0 /* HotKeyToolKit.framework in Copy Framework */,
 			);
@@ -245,6 +247,12 @@
 		1B68A6AB1411392B0017CD27 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B91B43C13C088A5005FC86D /* SparkKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SparkKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B91B44013C088FF005FC86D /* Spark Daemon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; path = "Spark Daemon.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1B92D0AF1707246D00F40FCD /* application.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = application.xcconfig; sourceTree = "<group>"; };
+		1B92D0B01707246D00F40FCD /* archive.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = archive.xcconfig; sourceTree = "<group>"; };
+		1B92D0B11707246D00F40FCD /* bundle.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = bundle.xcconfig; sourceTree = "<group>"; };
+		1B92D0B21707246D00F40FCD /* dylib.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = dylib.xcconfig; sourceTree = "<group>"; };
+		1B92D0B31707246D00F40FCD /* executable.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = executable.xcconfig; sourceTree = "<group>"; };
+		1B92D0EF17072AB600F40FCD /* WonderBox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WonderBox.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B98A1A90D312F5800EC7D09 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SETriggerBrowser.xib; sourceTree = "<group>"; };
 		1B9A7A660D0D96DD00770054 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SEPluginHelp.xib; sourceTree = "<group>"; };
 		1B9A7A6C0D0D978800770054 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SEEntryEditor.xib; sourceTree = "<group>"; };
@@ -255,8 +263,8 @@
 		1BB100B013C9EBA2002BBF20 /* SparkLibrary.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SparkLibrary.xib; sourceTree = "<group>"; };
 		1BB11ABB0B931FAE00908925 /* SELibrary.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SELibrary.tiff; sourceTree = "<group>"; };
 		1BB1EF9313C0900C00197E63 /* SArchiveKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SArchiveKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		1BBE7D0F0ED04F760004D9DD /* SparkDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = SparkDebug.xcconfig; sourceTree = "<group>"; };
-		1BBE7D100ED04F760004D9DD /* SparkRelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = SparkRelease.xcconfig; sourceTree = "<group>"; };
+		1BBE7D0F0ED04F760004D9DD /* debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = debug.xcconfig; sourceTree = "<group>"; };
+		1BBE7D100ED04F760004D9DD /* release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = release.xcconfig; sourceTree = "<group>"; };
 		1BD1A1880D0D4926004206FA /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		1BD1A18C0D0D4A02004206FA /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SELibraryWindow.xib; sourceTree = "<group>"; };
 		1BDCB6D00DA7C84900D95044 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = Resources/Growl.framework; sourceTree = "<group>"; };
@@ -387,6 +395,7 @@
 				1B35ED3513C0B8C900A8AEA6 /* Security.framework in Frameworks */,
 				1B91B43D13C088A5005FC86D /* SparkKit.framework in Frameworks */,
 				1BB1EF9413C0900C00197E63 /* SArchiveKit.framework in Frameworks */,
+				1B92D0F017072AB700F40FCD /* WonderBox.framework in Frameworks */,
 				1B35ED3913C0BA2300A8AEA6 /* HotKeyToolKit.framework in Frameworks */,
 				1B35ED3613C0B8C900A8AEA6 /* SecurityInterface.framework in Frameworks */,
 			);
@@ -429,11 +438,24 @@
 			path = Sparkle;
 			sourceTree = "<group>";
 		};
+		1B92D0AE1707246D00F40FCD /* target */ = {
+			isa = PBXGroup;
+			children = (
+				1B92D0AF1707246D00F40FCD /* application.xcconfig */,
+				1B92D0B01707246D00F40FCD /* archive.xcconfig */,
+				1B92D0B11707246D00F40FCD /* bundle.xcconfig */,
+				1B92D0B21707246D00F40FCD /* dylib.xcconfig */,
+				1B92D0B31707246D00F40FCD /* executable.xcconfig */,
+			);
+			path = target;
+			sourceTree = "<group>";
+		};
 		1BBE7D0D0ED04F760004D9DD /* xcconfigs */ = {
 			isa = PBXGroup;
 			children = (
-				1BBE7D0F0ED04F760004D9DD /* SparkDebug.xcconfig */,
-				1BBE7D100ED04F760004D9DD /* SparkRelease.xcconfig */,
+				1B92D0AE1707246D00F40FCD /* target */,
+				1BBE7D0F0ED04F760004D9DD /* debug.xcconfig */,
+				1BBE7D100ED04F760004D9DD /* release.xcconfig */,
 			);
 			name = xcconfigs;
 			path = ../xcconfigs;
@@ -463,6 +485,7 @@
 				1B35ED3113C0B8C900A8AEA6 /* Security.framework */,
 				1B91B43C13C088A5005FC86D /* SparkKit.framework */,
 				1BB1EF9313C0900C00197E63 /* SArchiveKit.framework */,
+				1B92D0EF17072AB600F40FCD /* WonderBox.framework */,
 				1B35ED3813C0BA2300A8AEA6 /* HotKeyToolKit.framework */,
 				1B35ED3213C0B8C900A8AEA6 /* SecurityInterface.framework */,
 			);
@@ -855,6 +878,9 @@
 /* Begin PBXProject section */
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
 			buildConfigurationList = 98BC60560857BB9400A2041F /* Build configuration list for PBXProject "Spark Editor" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
@@ -940,7 +966,6 @@
 				1BA7CE0F0D0DB3740081764D /* SEPluginInstaller.xib in Resources */,
 				1BA7A5AA0D685C6500D89AC2 /* SEPreferences.strings in Resources */,
 				1BEBF5940EBDE53C00404150 /* SEExportShortcut.xml in Resources */,
-				1BB100B113C9EBA2002BBF20 /* SparkLibrary.xib in Resources */,
 				1B24CFA91413E2840014FF20 /* Spark.cer in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1211,10 +1236,15 @@
 /* Begin XCBuildConfiguration section */
 		98BC60520857BB9400A2041F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1B92D0AF1707246D00F40FCD /* application.xcconfig */;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 470;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../DerivedData/Spark/Build/Products/Debug\"",
+				);
 				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Applications";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_NAME = Spark;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1222,19 +1252,22 @@
 		};
 		98BC60570857BB9400A2041F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1BBE7D0F0ED04F760004D9DD /* SparkDebug.xcconfig */;
+			baseConfigurationReference = 1BBE7D0F0ED04F760004D9DD /* debug.xcconfig */;
 			buildSettings = {
-				BUILT_PRODUCT_DIR = Spark;
-				WONDERBOX = "WONDERBOX_FRAMEWORK WONDERBOX_NAME=SparkKit";
 			};
 			name = Debug;
 		};
 		98EFD02F0B58443900AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1B92D0AF1707246D00F40FCD /* application.xcconfig */;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 470;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../DerivedData/Spark/Build/Products/Debug\"",
+				);
 				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Applications";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_NAME = Spark;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1242,10 +1275,8 @@
 		};
 		98EFD0310B58443900AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1BBE7D100ED04F760004D9DD /* SparkRelease.xcconfig */;
+			baseConfigurationReference = 1BBE7D100ED04F760004D9DD /* release.xcconfig */;
 			buildSettings = {
-				BUILT_PRODUCT_DIR = Spark;
-				WONDERBOX = "WONDERBOX_FRAMEWORK WONDERBOX_NAME=SparkKit";
 			};
 			name = Release;
 		};

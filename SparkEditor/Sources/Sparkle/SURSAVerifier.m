@@ -10,9 +10,9 @@
 
 #import <Security/Security.h>
 
-#import WBHEADER(WBFSFunctions.h)
-#import WBHEADER(WBCDSAFunctions.h)
-#import WBHEADER(WBSecurityFunctions.h)
+#import <WonderBox/WBFSFunctions.h>
+#import <WonderBox/WBCDSAFunctions.h>
+#import <WonderBox/WBSecurityFunctions.h>
 
 @implementation Spark (SUSignatureVerifier)
 
@@ -40,7 +40,7 @@ SecCertificateRef __SULoadCertificateAtURL(CFURLRef anURL) {
   return path ? [NSURL fileURLWithPath:path] : nil;
 }
 
-SC_INLINE
+SPX_INLINE
 CSSM_ALGORITHMS __WBAlgorithmForSUAlgorithm(SUSignatureAlgorithm algo) {
   switch (algo) {
     default: return CSSM_ALGID_NONE;
@@ -65,7 +65,7 @@ CSSM_ALGORITHMS __WBAlgorithmForSUAlgorithm(SUSignatureAlgorithm algo) {
     archPath = [aPath safeFileSystemRepresentation];
   } @catch (id) {}
   if (!archPath) {
-    WBLogError(@"Invalid archive path: %@", aPath);
+    SPXLogError(@"Invalid archive path: %@", aPath);
     return NO;
   }
 
@@ -83,7 +83,7 @@ CSSM_ALGORITHMS __WBAlgorithmForSUAlgorithm(SUSignatureAlgorithm algo) {
           const CSSM_DATA signature = { [data length], (UInt8 *)[data bytes] };
           CSSM_RETURN err = WBSecurityVerifyFileSignature(archPath, &signature, pubKey, algo, &valid);
           if (noErr != err)
-            WBLogWarning(@"Error while verifying archive signature: %s", WBCDSAGetErrorString(err));
+            SPXLogWarning(@"Error while verifying archive signature: %s", WBCDSAGetErrorString(err));
           // stop on first match
           if (valid) break;
         }

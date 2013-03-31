@@ -19,8 +19,8 @@
 #import <SparkKit/SparkEntryManager.h>
 #import <SparkKit/SparkActionLoader.h>
 
-#import WBHEADER(WBBase64.h)
-#import WBHEADER(WBXMLTemplate.h)
+#import <WonderBox/WBBase64.h>
+#import <WonderBox/WBXMLTemplate.h>
 
 @implementation SEHTMLGenerator
 

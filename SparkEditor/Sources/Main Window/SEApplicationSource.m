@@ -12,13 +12,13 @@
 #import "SELibraryWindow.h"
 #import "SELibraryDocument.h"
 
-#import WBHEADER(WBFinderSuite.h)
-#import WBHEADER(WBFSFunctions.h)
-#import WBHEADER(WBLSFunctions.h)
-#import WBHEADER(WBObjCRuntime.h)
-#import WBHEADER(NSAlert+WonderBox.h)
-#import WBHEADER(WBImageAndTextCell.h)
-#import WBHEADER(NSArrayController+WonderBox.h)
+#import <WonderBox/WBFinderSuite.h>
+#import <WonderBox/WBFSFunctions.h>
+#import <WonderBox/WBLSFunctions.h>
+#import <WonderBox/WBObjCRuntime.h>
+#import <WonderBox/NSAlert+WonderBox.h>
+#import <WonderBox/WBImageAndTextCell.h>
+#import <WonderBox/NSArrayController+WonderBox.h>
 
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkObjectSet.h>

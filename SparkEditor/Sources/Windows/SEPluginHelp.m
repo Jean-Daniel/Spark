@@ -15,7 +15,7 @@
 #import <SparkKit/SparkPlugIn.h>
 #import <SparkKit/SparkActionLoader.h>
 
-#import WBHEADER(WBHeaderView.h)
+#import <WonderBox/WBHeaderView.h>
 
 @implementation SEPlugInHelp
 

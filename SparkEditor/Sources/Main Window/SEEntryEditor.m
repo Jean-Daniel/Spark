@@ -26,10 +26,10 @@
 
 #import <HotKeyToolKit/HotKeyToolKit.h>
 
-#import WBHEADER(WBGeometry.h)
-#import WBHEADER(WBFunctions.h)
-#import WBHEADER(WBObjCRuntime.h)
-#import WBHEADER(NSString+WonderBox.h)
+#import <WonderBox/WBGeometry.h>
+#import <WonderBox/WBFunctions.h>
+#import <WonderBox/WBObjCRuntime.h>
+#import <WonderBox/NSString+WonderBox.h>
 
 /* Custom resize animation time */
 @interface SETrapWindow : HKTrapWindow {
@@ -111,12 +111,12 @@
 }
 
 - (void)createEntryWithAction:(SparkAction *)action trigger:(SparkTrigger *)trigger application:(SparkApplication *)application {
-  if (!WBDelegateHandle(se_delegate, editor:shouldCreateEntryWithAction:trigger:application:) || 
+  if (!SPXDelegateHandle(se_delegate, editor:shouldCreateEntryWithAction:trigger:application:) ||
 			[se_delegate editor:self shouldCreateEntryWithAction:action trigger:trigger application:application])
     [self close:nil];
 }
 - (void)updateEntryWithAction:(SparkAction *)action trigger:(SparkTrigger *)trigger application:(SparkApplication *)application {
-  if (!WBDelegateHandle(se_delegate, editor:shouldUpdateEntry:setAction:trigger:application:) ||
+  if (!SPXDelegateHandle(se_delegate, editor:shouldUpdateEntry:setAction:trigger:application:) ||
 			[se_delegate editor:self shouldUpdateEntry:se_entry setAction:action trigger:trigger application:application])
     [self close:nil];
 }
@@ -144,7 +144,7 @@
     @try {
       alert = [se_plugin sparkEditorShouldConfigureAction];
     } @catch (id exception) {
-      WBLogException(exception);
+      SPXLogException(exception);
       NSString *name = [exception respondsToSelector:@selector(name)] ? [exception name] : @"<undefined>";
       NSString *message = [exception respondsToSelector:@selector(reason)] ? [exception reason] : [exception description];
       alert = [NSAlert alertWithMessageText:NSLocalizedStringFromTable(@"UNEXPECTED_PLUGIN_EXCEPTION",
@@ -173,7 +173,7 @@
       }
       
     } @catch (id exception) {
-      WBLogException(exception);
+      SPXLogException(exception);
       NSString *name = [exception respondsToSelector:@selector(name)] ? [exception name] : @"<undefined>";
       NSString *message = [exception respondsToSelector:@selector(reason)] ? [exception reason] : [exception description];
       alert = [NSAlert alertWithMessageText:NSLocalizedStringFromTable(@"UNEXPECTED_PLUGIN_EXCEPTION",
@@ -263,7 +263,7 @@
 - (void)setEntry:(SparkEntry *)anEntry {
   if (anEntry == se_entry) return;
 
-  WBSetterRetain(se_entry, anEntry);
+  SPXSetterRetain(se_entry, anEntry);
   
   /* Update plugins list if needed */
   [self updatePlugIns];
@@ -360,7 +360,7 @@
 		if (WBRuntimeObjectImplementsSelector(action, @selector(copyWithZone:))) {
       action = [[action copy] autorelease];
     } else {
-      WBLogWarning(@"%@ does not implements NSCopying.", [action class]);
+      SPXLogWarning(@"%@ does not implements NSCopying.", [action class]);
       action = [action duplicate];
     }
 		[action setUID:0]; // this copy should be considere as a new action.

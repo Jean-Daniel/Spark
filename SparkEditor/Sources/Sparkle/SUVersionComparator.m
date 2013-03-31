@@ -8,7 +8,7 @@
 
 #import "SparkleDelegate.h"
 
-#import WBHEADER(WBVersionFunctions.h)
+#import <WonderBox/WBVersionFunctions.h>
 
 @implementation Spark (SparkleSupport)
 
@@ -25,7 +25,7 @@
   if (fnonzero(va) && fnonzero(vb))
     return va > vb ? NSOrderedDescending : va < vb ? NSOrderedAscending : NSOrderedSame;
 
-  WBLogWarning(@"invalid build number: %@ / %@. Try version parser instead", versionA, versionB);
+  SPXLogWarning(@"invalid build number: %@ / %@. Try version parser instead", versionA, versionB);
 
   // maybe this is not build number after all, try to parse them as full version
   UInt64 via = WBVersionGetNumberFromString((CFStringRef)versionA);
@@ -33,7 +33,7 @@
   if (kWBVersionInvalid != via || kWBVersionInvalid != vib)
     return via > vib ? NSOrderedDescending : via < vib ? NSOrderedAscending : NSOrderedSame;
 
-  WBLogWarning(@"invalid version number: %@ / %@", versionA, versionB);
+  SPXLogWarning(@"invalid version number: %@ / %@", versionA, versionB);
   return NSOrderedSame;
 }
 

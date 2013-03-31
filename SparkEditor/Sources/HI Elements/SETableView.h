@@ -6,8 +6,8 @@
  *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
  */
 
-#import WBHEADER(WBTableView.h)
-#import WBHEADER(WBImageAndTextCell.h)
+#import <WonderBox/WBTableView.h>
+#import <WonderBox/WBImageAndTextCell.h>
 
 WB_PRIVATE
 NSString * const SETableSeparator;

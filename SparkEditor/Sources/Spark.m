@@ -21,7 +21,7 @@
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkActionLoader.h>
 
-#import WBHEADER(WBFSFunctions.h)
+#import <WonderBox/WBFSFunctions.h>
 
 #import <HotKeyToolKit/HotKeyToolKit.h>
 
@@ -111,12 +111,12 @@ NSString * const SESparkEditorDidChangePlugInStatusNotification = @"SESparkEdito
       NSXMLDocument *doc = [[NSXMLDocument alloc] initWithContentsOfURL:[NSURL fileURLWithPath:sdef]
                                                                 options:NSXMLNodePreserveAll | NSXMLDocumentXInclude error:&error];
       if (!doc) {
-        DLog(@"Error while loading sdef from %@: %@", sdef, error);
+        SPXDebug(@"Error while loading sdef from %@: %@", sdef, error);
       } else {
         NSXMLElement *root = [definition rootElement];
         NSArray *suites = [[doc rootElement] nodesForXPath:@"/dictionary/suite" error:&error];
         if (!suites) {
-          DLog(@"Error while loading suites from %@: %@", sdef, error);
+          SPXDebug(@"Error while loading suites from %@: %@", sdef, error);
         } else {
           [suites makeObjectsPerformSelector:@selector(detach)];
           [root insertChildren:suites atIndex:[root childCount]];
@@ -206,7 +206,7 @@ NSString * const SESparkEditorDidChangePlugInStatusNotification = @"SESparkEdito
 //    @try {
     SparkActiveLibrary();
 //    } @catch (NSException *exception) {
-//      WBLogException(exception);
+//      SPXLogException(exception);
 //    }
     
     /* Register defaults */
@@ -330,7 +330,7 @@ NSString * const SESparkEditorDidChangePlugInStatusNotification = @"SESparkEdito
 //  CFBundleRef dest = nil;
 //  CFBundleRef src = CFBundleCreate(kCFAllocatorDefault, (CFURLRef)[NSURL fileURLWithPath:filename]);
 //  if (!src) {
-//    DLog(@"Unable to open bundle: %@", filename);
+//    SPXDebug(@"Unable to open bundle: %@", filename);
 //    return NO;
 //  }
 //  id identifier = (id)CFBundleGetIdentifier(src);
@@ -421,7 +421,7 @@ NSString * const SESparkEditorDidChangePlugInStatusNotification = @"SESparkEdito
     if ([[filename pathExtension] isEqualToString:[[SparkActionLoader sharedLoader] extension]]) {
       [self openPlugInBundle:filename];
     } else if ([[filename pathExtension] isEqualToString:kSparkLibraryFileExtension]) {
-      DLog(@"Try to open a Spark Library => considere it as a restore action");
+      SPXDebug(@"Try to open a Spark Library => considere it as a restore action");
       [self openLibraryBackup:filename];
     }
   } else {
@@ -571,7 +571,7 @@ NSString * const SESparkEditorDidChangePlugInStatusNotification = @"SESparkEdito
 //  SEEntryCache *cache = [doc cache];
 //  SESparkEntrySet *entries = [cache entries];
 //  
-//  DLog(@"%@", [[doc application] externalRepresentation]);
+//  SPXDebug(@"%@", [[doc application] externalRepresentation]);
 //  
 //  SparkEntry *entry;
 //  NSEnumerator *iter = [entries entryEnumerator];
@@ -579,7 +579,7 @@ NSString * const SESparkEditorDidChangePlugInStatusNotification = @"SESparkEdito
 //    [library addObject:[entry externalRepresentation]];
 //  }
 //  
-//  DLog(@"%@", library);
+//  SPXDebug(@"%@", library);
 //  [library release];
 }
 

@@ -8,8 +8,8 @@
 
 #import "SETableView.h"
 
-#import WBHEADER(WBGradient.h)
-#import WBHEADER(WBCGFunctions.h)
+#import <WonderBox/WBGradient.h>
+#import <WonderBox/WBCGFunctions.h>
 
 NSString * const SETableSeparator = @"-\e";
 
@@ -157,7 +157,7 @@ WBGradientDefinition sFocusShadingInfo = {
 - (void)textDidEndEditing:(NSNotification *)aNotification {
   NSString *text = [[aNotification object] string];
   /* Notify data source */
-  if (WBDelegateHandle([self dataSource], tableView:setObjectValue:forTableColumn:row:))
+  if (SPXDelegateHandle([self dataSource], tableView:setObjectValue:forTableColumn:row:))
     [[self dataSource] tableView:self
                   setObjectValue:text
                   forTableColumn:[[self tableColumns] objectAtIndex:0]

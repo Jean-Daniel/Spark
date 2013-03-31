@@ -26,8 +26,8 @@
 #import <SparkKit/SparkFunctions.h>
 #import <SparkKit/SparkActionLoader.h>
 
-#import WBHEADER(NSImage+WonderBox.h)
-#import WBHEADER(NSArrayController+WonderBox.h)
+#import <WonderBox/NSImage+WonderBox.h>
+#import <WonderBox/NSArrayController+WonderBox.h>
 
 @implementation SELibraryWindow
 
@@ -117,7 +117,7 @@
   
   NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"New Group", @"'New Group' menu item")
                                                 action:@selector(newGroup:) keyEquivalent:@"N"];
-  [item setImage:[NSImage imageNamed:@"SimpleList" inBundle:WBBundleForClass(SparkLibrary)]];
+  [item setImage:[NSImage imageNamed:@"SimpleList" inBundle:SPXBundleForClass(SparkLibrary)]];
   [item setKeyEquivalentModifierMask:NSShiftKeyMask | NSCommandKeyMask];
   [menu addItem:item];
   [item release];
@@ -178,7 +178,7 @@
 }
 
 - (void)revealEntry:(SparkEntry *)entry {
-  DLog(@"Reveal %@", entry);
+  SPXDebug(@"Reveal %@", entry);
   if (![[entry application] isEqual:[[self document] application]]) {
     /* Select application */
     [ibApplications setSelectedObject:[entry application]];
@@ -207,7 +207,7 @@
   if ([entries count] == 1) {
     [self revealEntry:[entries objectAtIndex:0]];
   } else {
-    DLog(@"Reveal %@", entries);
+    SPXDebug(@"Reveal %@", entries);
   }
 }
 
@@ -228,17 +228,17 @@
 }
 
 - (IBAction)cut:(id)sender {
-  WBTrace();
+  SPXTrace();
   // TODO: Copy/paste
 }
 
 - (IBAction)copy:(id)sender {
-  WBTrace();
+  SPXTrace();
   // TODO: Copy/paste
 }
 
 - (IBAction)paste:(id)sender {
-  WBTrace();
+  SPXTrace();
   // TODO: Copy/paste
 }
 

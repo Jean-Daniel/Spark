@@ -6,10 +6,8 @@
 //  Copyright 2007 Shadow Lab. All rights reserved.
 //
 
-#import WBHEADER(WBViewController.h)
-
 /* this class breaks the MVC pattern to avoid binding circular reference */
-@interface SEExportOptions : WBViewController {
+@interface SEExportOptions : NSViewController {
   @private
   IBOutlet NSButton *uiIcons;
 	IBOutlet NSButton *uiStrike;

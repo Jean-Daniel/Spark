@@ -8,7 +8,7 @@
 
 #import "SETriggerTable.h"
 
-#import WBHEADER(WBIndexSetIterator.h)
+#import <WonderBox/WBIndexSetIterator.h>
 
 @implementation SETriggerTable
 
@@ -28,7 +28,7 @@
       [self sendAction:doubleAction to:target];
     }
   } else if ([anEvent clickCount] == 1 && ([anEvent modifierFlags] & NSDeviceIndependentModifierFlagsMask) == NSAlternateKeyMask) {
-    if (WBDelegateHandle([self delegate], tableView:shouldHandleOptionClick:) && ![[self delegate] tableView:self shouldHandleOptionClick:anEvent]) {
+    if (SPXDelegateHandle([self delegate], tableView:shouldHandleOptionClick:) && ![[self delegate] tableView:self shouldHandleOptionClick:anEvent]) {
       // do nothing
     } else {
       [super mouseDown:anEvent];
@@ -41,7 +41,7 @@
 - (void)keyDown:(NSEvent *)anEvent {
   if (([anEvent modifierFlags] & NSDeviceIndependentModifierFlagsMask) == 0) {
     NSString *chr = [anEvent characters];
-    if ([chr isEqualToString:@" "] && WBDelegateHandle([self delegate], spaceDownInTableView:)) {
+    if ([chr isEqualToString:@" "] && SPXDelegateHandle([self delegate], spaceDownInTableView:)) {
       [[self delegate] spaceDownInTableView:self];
       return;
     }
@@ -61,7 +61,7 @@
 //    NSRect rect = NSMakeRect(imageLoc.x, imageLoc.y, 0, 0);
 //    [self dragPromisedFilesOfTypes:[NSArray arrayWithObject:@"pdf"] fromRect:rect source:sourceObject slideBack:slideBack event:theEvent]; 
 //  } else { /* second Enter */
-//    DLog(@"%@", [pboard types]);
+//    SPXDebug(@"%@", [pboard types]);
 //    [super dragImage:(_dragImg ? _dragImg : anImage) at:imageLoc offset:mouseOffset event:theEvent pasteboard:pboard source:sourceObject slideBack:slideBack];
 //    _isDragging = NO;
 //    _dragImg = nil;
@@ -84,7 +84,7 @@
   }
   NSDictionary *attr = [NSDictionary dictionaryWithObjectsAndKeys:[NSColor whiteColor], NSForegroundColorAttributeName,
     [NSFont systemFontOfSize:12], NSFontAttributeName, nil];
-  NSString *str = [NSString stringWithFormat:@"%i", count];
+  NSString *str = [NSString stringWithFormat:@"%ld", (long)count];
   NSSize size = [str sizeWithAttributes:attr];
   /* backup image before edit */
   img = [[img copy] autorelease];

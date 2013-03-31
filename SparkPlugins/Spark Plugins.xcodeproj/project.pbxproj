@@ -1909,6 +1909,7 @@
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 460;
 				INFOPLIST_FILE = Accessibility/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_NAME = AccessibilityAction;
 			};
 			name = Debug;
@@ -1919,6 +1920,7 @@
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 460;
 				INFOPLIST_FILE = Accessibility/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_NAME = AccessibilityAction;
 			};
 			name = Release;
@@ -1938,6 +1940,7 @@
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 460;
 				INFOPLIST_FILE = Text/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_NAME = TextAction;
 			};
 			name = Debug;
@@ -1948,6 +1951,7 @@
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 460;
 				INFOPLIST_FILE = System/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_NAME = SystemAction;
 			};
 			name = Debug;
@@ -1962,6 +1966,7 @@
 					"\"$(SRCROOT)/../SparkEditor/Resources\"",
 				);
 				INFOPLIST_FILE = iTunes/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_NAME = iTunesAction;
 			};
 			name = Debug;
@@ -1972,6 +1977,7 @@
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 460;
 				INFOPLIST_FILE = Documents/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_NAME = DocumentAction;
 			};
 			name = Debug;
@@ -1982,6 +1988,7 @@
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 460;
 				INFOPLIST_FILE = Application/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_NAME = ApplicationAction;
 			};
 			name = Debug;
@@ -1992,6 +1999,7 @@
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 460;
 				INFOPLIST_FILE = AppleScript/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_NAME = AppleScriptAction;
 			};
 			name = Debug;
@@ -2043,6 +2051,7 @@
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 460;
 				INFOPLIST_FILE = Text/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_NAME = TextAction;
 			};
 			name = Release;
@@ -2057,6 +2066,7 @@
 					"\"$(SRCROOT)/../SparkEditor/Resources\"",
 				);
 				INFOPLIST_FILE = iTunes/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_NAME = iTunesAction;
 			};
 			name = Release;
@@ -2067,6 +2077,7 @@
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 460;
 				INFOPLIST_FILE = System/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_NAME = SystemAction;
 			};
 			name = Release;
@@ -2077,6 +2088,7 @@
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 460;
 				INFOPLIST_FILE = Documents/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_NAME = DocumentAction;
 			};
 			name = Release;
@@ -2087,6 +2099,7 @@
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 460;
 				INFOPLIST_FILE = Application/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_NAME = ApplicationAction;
 			};
 			name = Release;
@@ -2097,6 +2110,7 @@
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 460;
 				INFOPLIST_FILE = AppleScript/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_NAME = AppleScriptAction;
 			};
 			name = Release;

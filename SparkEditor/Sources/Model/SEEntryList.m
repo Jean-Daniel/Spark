@@ -90,7 +90,7 @@ SparkEntry *__SEEntryForApplication(SparkEntry *entry, SparkApplication *app, bo
 		}
 	}
 	se_selFlags.dirty = 0;
-	//DLog(@"snapshot: %@", [self name]);
+	//SPXDebug(@"snapshot: %@", [self name]);
 	[self didChangeValueForKey:@"entries"];
 }
 
@@ -142,13 +142,13 @@ SparkEntry *__SEEntryForApplication(SparkEntry *entry, SparkApplication *app, bo
 }
 
 - (void)setApplication:(SparkApplication *)anApplication {
-	WBSetterRetainAndDo(se_application, anApplication, {
+	SPXSetterRetainAndDo(se_application, anApplication, {
     [self setNeedsReload:YES];
   });
 }
 
 - (void)setSpecificFilter:(BOOL)flag {
-	WBFlagSet(se_selFlags.specific, flag);
+	SPXFlagSet(se_selFlags.specific, flag);
 }
 - (void)setListFilter:(SparkListFilter)aFilter context:(id)aCtxt {
 	[se_list setListFilter:aFilter context:aCtxt];
@@ -163,7 +163,7 @@ SparkEntry *__SEEntryForApplication(SparkEntry *entry, SparkApplication *app, bo
 
 #pragma mark KVC
 - (void)setNeedsReload:(BOOL)flag {
-	WBFlagSet(se_selFlags.dirty, flag);
+	SPXFlagSet(se_selFlags.dirty, flag);
 }
 
 - (NSArray *)entries {
@@ -203,7 +203,7 @@ SparkEntry *__SEEntryForApplication(SparkEntry *entry, SparkApplication *app, bo
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
   if ([@"entries" isEqualToString:keyPath]) {
 		[self snapshot];
-		//DLog(@"%@", change);
+		//SPXDebug(@"%@", change);
   } else {
 		[super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
 	}

@@ -19,9 +19,9 @@
 #import <SparkKit/SparkPreferences.h>
 #import <SparkKit/SparkActionLoader.h>
 
-#import WBHEADER(WBLoginItems.h)
-#import WBHEADER(WBFSFunctions.h)
-#import WBHEADER(WBAEFunctions.h)
+#import <WonderBox/WBLoginItems.h>
+#import <WonderBox/WBFSFunctions.h>
+#import <WonderBox/WBAEFunctions.h>
 
 #include <pthread.h>
 
@@ -89,10 +89,10 @@ void *_SEPreferencesLoginItemThread(void *arg) {
 /* Default values initialization */
 + (void)setup {
   NSDictionary *values = [NSDictionary dictionaryWithObjectsAndKeys:
-													WBBool(NO), kSEPreferencesAutoUpdate,
-													WBBool(NO), kSEPreferencesHideDisabled,
-													WBBool(YES), kSEPreferencesStartAtLogin,
-													WBInteger(kSparkEnableSingleFunctionKey), kSparkPrefSingleKeyMode,
+													@(NO), kSEPreferencesAutoUpdate,
+													@(NO), kSEPreferencesHideDisabled,
+													@(YES), kSEPreferencesStartAtLogin,
+													@(kSparkEnableSingleFunctionKey), kSparkPrefSingleKeyMode,
 													nil];
   [[NSUserDefaults standardUserDefaults] registerDefaults:values];
   
@@ -193,7 +193,7 @@ void *_SEPreferencesLoginItemThread(void *arg) {
   SparkPlugIn *plugin = nil;
   NSMapEnumerator plugins = NSEnumerateMapTable(se_status);
   while (NSNextMapEnumeratorPair(&plugins, (void **)&plugin, (void **)&status)) {
-    if (XOR(status, [plugin isEnabled])) {
+    if (spx_xor(status, [plugin isEnabled])) {
       [plugin setEnabled:status];
       change = YES;
     }
@@ -226,7 +226,7 @@ void *_SEPreferencesLoginItemThread(void *arg) {
   return value ? [value floatValue] : 0;
 }
 - (void)setDelay:(float)delay {
-  SparkPreferencesSetValue(kSparkGlobalPrefDelayStartup, WBFloat(delay), SparkPreferencesDaemon);
+  SparkPreferencesSetValue(kSparkGlobalPrefDelayStartup, @(delay), SparkPreferencesDaemon);
 }
 
 - (BOOL)advanced {
@@ -323,7 +323,7 @@ void *_SEPreferencesLoginItemThread(void *arg) {
     if ([[tableColumn identifier] isEqualToString:@"__item__"])
       return item;
     else if ([[tableColumn identifier] isEqualToString:@"enabled"])
-      return WBBool(NSMapGet(se_status, item) != 0); 
+      return @(NSMapGet(se_status, item) != 0);
     else
       return [item valueForKey:[tableColumn identifier]];
   } else if ([item isKindOfClass:[NSDictionary class]]) {
@@ -360,7 +360,7 @@ void *_SEPreferencesLoginItemThread(void *arg) {
   if (row > 0) {
     id item = [aView itemAtRow:row];
     if (item && [item isKindOfClass:[SparkPlugIn class]]) {
-      DLog(@"Delete plugin: %@", item);
+      SPXDebug(@"Delete plugin: %@", item);
     }
   }
 }
@@ -455,12 +455,12 @@ void _SEPreferencesUpdateLoginItem(void) {
 							if (name) {
 								if (CFEqual(name, kSparkDaemonExecutableName)) {
 									if (!status || !__CFFileURLCompare(itemURL, &dref)) {
-										DLog(@"Remove login item: %@", itemURL);
+										SPXDebug(@"Remove login item: %@", itemURL);
 #if !defined(DEBUG)
                     LSSharedFileListItemRemove(list, item);
 #endif
 									} else {
-										DLog(@"Valid login item found");
+										SPXDebug(@"Valid login item found");
 										shouldAdd = NO;
 									}
 								} 
@@ -477,7 +477,7 @@ void _SEPreferencesUpdateLoginItem(void) {
 						LSSharedFileListInsertItemURL(list, kLSSharedFileListItemLast, NULL, NULL, (CFURLRef)durl, properties, NULL);
 						CFRelease(properties);
 #else
-						DLog(@"Add login item: %@", durl);
+						SPXDebug(@"Add login item: %@", durl);
 #endif
 					}
 					CFRelease(items);
@@ -498,12 +498,12 @@ void _SEPreferencesUpdateLoginItem(void) {
 						if (name) {
 							if (CFEqual(name, kSparkDaemonExecutableName)) {
 								if (!status || !__CFFileURLCompare(itemURL, &dref)) {
-									DLog(@"Remove login item: %@", itemURL);
+									SPXDebug(@"Remove login item: %@", itemURL);
 #if !defined(DEBUG)
 									WBLoginItemRemoveItemAtIndex(idx);
 #endif
 								} else {
-									DLog(@"Valid login item found");
+									SPXDebug(@"Valid login item found");
 									shouldAdd = NO;
 								}
 							} 
@@ -516,7 +516,7 @@ void _SEPreferencesUpdateLoginItem(void) {
 #if !defined(DEBUG)
 					WBLoginItemAppendItemURL((CFURLRef)durl, YES);
 #else
-					DLog(@"Add login item: %@", durl);
+					SPXDebug(@"Add login item: %@", durl);
 #endif
 				}
 				

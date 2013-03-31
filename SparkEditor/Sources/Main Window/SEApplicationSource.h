@@ -6,7 +6,7 @@
  *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
  */
 
-#import WBHEADER(WBTableDataSource.h)
+#import <WonderBox/WBTableDataSource.h>
 
 @class WBTableView;
 @class SELibraryWindow, SparkLibrary;

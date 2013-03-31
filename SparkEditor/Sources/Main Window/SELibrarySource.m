@@ -26,8 +26,8 @@
 #import <SparkKit/SparkPlugIn.h>
 #import <SparkKit/SparkActionLoader.h>
 
-#import WBHEADER(NSArray+WonderBox.h)
-#import WBHEADER(NSArrayController+WonderBox.h)
+#import <WonderBox/NSArray+WonderBox.h>
+#import <WonderBox/NSArrayController+WonderBox.h>
 
 static
 BOOL SELibraryFilter(SparkList *list, SparkEntry *entry, id ctxt) {
@@ -171,7 +171,7 @@ BOOL SEOverwriteFilter(SparkList *list, SparkEntry *entry, id ctxt) {
 	[self setSelectsInsertedObjects:YES];
 	
   [self rearrangeObjects];
-  [uiTable noteHeightOfRowsWithIndexesChanged:WBIndexesForCount([self count])];
+  [uiTable noteHeightOfRowsWithIndexesChanged:SPXIndexesForCount([self count])];
 }
 
 - (void)setLibrary:(SparkLibrary *)aLibrary {
@@ -325,7 +325,7 @@ BOOL SEOverwriteFilter(SparkList *list, SparkEntry *entry, id ctxt) {
       NSMutableArray *items = [[NSMutableArray alloc] init];
       for (NSUInteger idx = 0; idx < [uids count]; idx++) {
 				NSNumber *uid = [uids objectAtIndex:idx];
-        SparkEntry *entry = [manager entryWithUID:(SparkUID)WBIntegerValue(uid)];
+        SparkEntry *entry = [manager entryWithUID:(SparkUID)[uid integerValue]];
 				if (entry) {
 					[items addObject:entry];
 				}
@@ -363,7 +363,7 @@ BOOL SEOverwriteFilter(SparkList *list, SparkEntry *entry, id ctxt) {
     @try {
       [uiTable editColumn:0 row:idx withEvent:nil select:YES];
     } @catch (id exception) {
-      WBLogException(exception);
+      SPXLogException(exception);
     }
   }
 }
@@ -501,14 +501,14 @@ BOOL SEOverwriteFilter(SparkList *list, SparkEntry *entry, id ctxt) {
 	SparkList *list = SparkNotificationObject(aNotification);
 	[self addUserEntryList:list];
   [self rearrangeObjects];
-  [uiTable noteHeightOfRowsWithIndexesChanged:WBIndexesForCount([self count])];
+  [uiTable noteHeightOfRowsWithIndexesChanged:SPXIndexesForCount([self count])];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
 	if ([@"name" isEqualToString:keyPath]) {
 		if ([self indexOfUserList:object] != NSNotFound)
 			[self rearrangeObjects];
-    [uiTable noteHeightOfRowsWithIndexesChanged:WBIndexesForCount([self count])];
+    [uiTable noteHeightOfRowsWithIndexesChanged:SPXIndexesForCount([self count])];
 	} else {
 		[super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
 	}

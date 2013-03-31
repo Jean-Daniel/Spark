@@ -16,10 +16,10 @@
 #import <SparkKit/SparkAppleScriptSuite.h>
 #import <SparkKit/SparkLibrarySynchronizer.h>
 
-#import WBHEADER(WBAEFunctions.h)
-#import WBHEADER(WBFSFunctions.h)
-#import WBHEADER(WBLSFunctions.h)
-#import WBHEADER(WBProcessFunctions.h)
+#import <WonderBox/WBAEFunctions.h>
+#import <WonderBox/WBFSFunctions.h>
+#import <WonderBox/WBLSFunctions.h>
+#import <WonderBox/WBProcessFunctions.h>
 
 NSString * const SEServerStatusDidChangeNotification = @"SEServerStatusDidChange";
 
@@ -78,7 +78,7 @@ NSString * const SEServerStatusDidChangeNotification = @"SEServerStatusDidChange
       @try {
         return [[self server] version];
       } @catch (id exception) {
-        WBLogException(exception);
+        SPXLogException(exception);
       }
     } 
     return 0;
@@ -101,7 +101,7 @@ NSString * const SEServerStatusDidChangeNotification = @"SEServerStatusDidChange
         return;
       }
     } @catch (id exception) {
-      WBLogException(exception);
+      SPXLogException(exception);
     }
     ProcessSerialNumber psn = WBProcessGetProcessWithSignature(kSparkDaemonSignature);
     if (psn.lowLongOfPSN != kNoProcess)
@@ -115,7 +115,7 @@ NSString * const SEServerStatusDidChangeNotification = @"SEServerStatusDidChange
   
   /* Not connected but server alive */
   if (se_server) {
-    DLog(@"Undetected invalid connection");
+    SPXDebug(@"Undetected invalid connection");
     [self serverDidClose];
   }
   
@@ -132,12 +132,12 @@ NSString * const SEServerStatusDidChangeNotification = @"SEServerStatusDidChange
     if (se_server) {
       [se_server retain];
       [se_server setProtocolForProxy:@protocol(SparkServer)];
-      DLog(@"Server Connection OK");
+      SPXDebug(@"Server Connection OK");
     } else {
-      DLog(@"Server Connection down");
+      SPXDebug(@"Server Connection down");
     }
   } @catch (id exception) {
-    WBLogException(exception);
+    SPXLogException(exception);
     if ([NSPortTimeoutException isEqualToString:[exception name]]) {
       /* timeout, the daemon is probably in a dead state => restart it */
       ProcessSerialNumber psn = WBProcessGetProcessWithSignature(kSparkDaemonSignature);
@@ -161,7 +161,7 @@ NSString * const SEServerStatusDidChangeNotification = @"SEServerStatusDidChange
   if (!se_sync)
     se_sync = [[SparkLibrarySynchronizer alloc] initWithLibrary:SparkActiveLibrary()];
   
-  [se_sync setDistantLibrary:(NSDistantObject *)[se_server library]];
+  [se_sync setDistantLibrary:[se_server library]];
 }
 
 - (BOOL)isConnected {
@@ -188,7 +188,7 @@ NSString * const SEServerStatusDidChangeNotification = @"SEServerStatusDidChange
 }
 - (void)connectionDidDie:(NSNotification *)aNotification {
   if (se_server && [aNotification object] == [se_server connectionForProxy]) {
-    DLog(@"Connection did close");
+    SPXDebug(@"Connection did close");
     [self serverDidClose];
     if (se_scFlags.restart) {
       se_scFlags.restart = 0;
@@ -212,12 +212,12 @@ NSString * const SEServerStatusDidChangeNotification = @"SEServerStatusDidChange
       }
       break;
     case kSparkDaemonStatusError:
-      DLog(@"Daemon error");
+      SPXDebug(@"Daemon error");
       status = kSparkDaemonStatusShutDown;
       // Fall throught
     case kSparkDaemonStatusShutDown:
       if (se_server) {
-        DLog(@"Server shutdown");
+        SPXDebug(@"Server shutdown");
         [[se_server connectionForProxy] invalidate];
         [self serverDidClose];
       }
@@ -247,7 +247,7 @@ BOOL SELaunchSparkDaemon(ProcessSerialNumber *psn) {
   if (path) {
     OSStatus err = WBLSLaunchApplicationAtPath((CFStringRef)path, kCFURLPOSIXPathStyle, kLSLaunchDefaults | kLSLaunchDontSwitch | kLSLaunchDontAddToRecents, psn);
     if (noErr != err) {
-      WBLogError(@"Error cannot launch daemon app: %s", GetMacOSStatusErrorString(err));
+      SPXLogError(@"Error cannot launch daemon app: %s", GetMacOSStatusErrorString(err));
       [[SEServerConnection defaultConnection] setStatus:kSparkDaemonStatusError];
       return NO;
     }
@@ -264,7 +264,7 @@ void SEServerStartConnection(void) {
     if (path && [path getFSRef:&dRef]) {
       FSRef location;
       if (noErr == GetProcessBundleLocation(&psn, &location) && noErr != FSCompareFSRefs(&location, &dRef)) {
-        DLog(@"Should Kill Running daemon.");
+        SPXDebug(@"Should Kill Running daemon.");
 #if !defined (DEBUG)
         KillProcess(&psn);
         SELaunchSparkDaemon(&psn);
@@ -277,7 +277,7 @@ void SEServerStartConnection(void) {
   if ([connection connect]) {
     int sversion = [connection version];
     if (sversion >= 0 && sversion < kSparkServerVersion) {
-      DLog(@"Daemon older than expected. Restart it");
+      SPXDebug(@"Daemon older than expected. Restart it");
       [connection restart];
     } else {
       @try {
@@ -288,8 +288,8 @@ void SEServerStartConnection(void) {
           [connection setStatus:kSparkDaemonStatusDisabled];
         }
       } @catch (id exception) {
-        WBCLogException(exception);
-        DLog(@"Out of sync remote library. Automatically resyncs library and restarts daemon.");
+        SPXLogException(exception);
+        SPXDebug(@"Out of sync remote library. Automatically resyncs library and restarts daemon.");
         [connection restart];
       }
     }
