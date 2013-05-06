@@ -19,11 +19,8 @@
 #import <SparkKit/SparkPreferences.h>
 #import <SparkKit/SparkActionLoader.h>
 
-#import <WonderBox/WBLoginItems.h>
 #import <WonderBox/WBFSFunctions.h>
 #import <WonderBox/WBAEFunctions.h>
-
-#include <pthread.h>
 
 /* If daemon should delay library loading at startup */
 NSString * const kSparkGlobalPrefDelayStartup = @"SDDelayStartup";
@@ -67,25 +64,6 @@ void __SetSparkKitSingleKeyMode(NSInteger mode) {
 
 @implementation SEPreferences
 
-+ (void)initialize {
-  if ([SEPreferences class] == self) {
-    WBLoginItemSetTimeout(1200);
-  }
-}
-
-#if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_5
-static
-void *_SEPreferencesLoginItemThread(void *arg) {
-  long timeout = WBLoginItemTimeout();
-  WBLoginItemSetTimeout(5000);
-  NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-  _SEPreferencesUpdateLoginItem();
-  [pool release];
-  WBLoginItemSetTimeout(timeout);
-  return NULL;
-}
-#endif
-
 /* Default values initialization */
 + (void)setup {
   NSDictionary *values = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -97,16 +75,7 @@ void *_SEPreferencesLoginItemThread(void *arg) {
   [[NSUserDefaults standardUserDefaults] registerDefaults:values];
   
   /* Verify login items */
-#if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_5
-	if (LSSharedFileListCreate) {
-#endif
-		_SEPreferencesUpdateLoginItem();
-#if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_5
-	} else {
-		pthread_t thread;
-		pthread_create(&thread, NULL, _SEPreferencesLoginItemThread, NULL);
-	}
-#endif
+  _SEPreferencesUpdateLoginItem();
   /* Configure Single key mode */
   __SetSparkKitSingleKeyMode([[NSUserDefaults standardUserDefaults] integerForKey:kSparkPrefSingleKeyMode]);
 }
@@ -435,94 +404,51 @@ void _SEPreferencesUpdateLoginItem(void) {
 	BOOL status = __SEPreferencesLoginItemStatus();
 	NSURL *durl = sparkd ? [NSURL fileURLWithPath:sparkd] : NULL;
 	if (CFURLGetFSRef((CFURLRef)durl, &dref)) {
-#if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_5
-		if (LSSharedFileListCreate) {
-#endif
-			/* do it the new way */
-			LSSharedFileListRef list = LSSharedFileListCreate(kCFAllocatorDefault, kLSSharedFileListSessionLoginItems, NULL);
-			if (list) {
-				UInt32 seed = 0;
-				BOOL shouldAdd = status;
-				CFArrayRef items = LSSharedFileListCopySnapshot(list, &seed);
-				if (items) {
-					CFIndex count = CFArrayGetCount(items);
-					while (count-- > 0) {
-						CFURLRef itemURL = NULL;
-						LSSharedFileListItemRef item = (LSSharedFileListItemRef)CFArrayGetValueAtIndex(items, count);
-						if (noErr == LSSharedFileListItemResolve(item, kLSSharedFileListNoUserInteraction | kLSSharedFileListDoNotMountVolumes,
-																										 &itemURL, NULL) && itemURL) {
-							CFStringRef name = CFURLCopyLastPathComponent(itemURL);
-							if (name) {
-								if (CFEqual(name, kSparkDaemonExecutableName)) {
-									if (!status || !__CFFileURLCompare(itemURL, &dref)) {
-										SPXDebug(@"Remove login item: %@", itemURL);
+    /* do it the new way */
+    LSSharedFileListRef list = LSSharedFileListCreate(kCFAllocatorDefault, kLSSharedFileListSessionLoginItems, NULL);
+    if (list) {
+      UInt32 seed = 0;
+      BOOL shouldAdd = status;
+      CFArrayRef items = LSSharedFileListCopySnapshot(list, &seed);
+      if (items) {
+        CFIndex count = CFArrayGetCount(items);
+        while (count-- > 0) {
+          CFURLRef itemURL = NULL;
+          LSSharedFileListItemRef item = (LSSharedFileListItemRef)CFArrayGetValueAtIndex(items, count);
+          if (noErr == LSSharedFileListItemResolve(item, kLSSharedFileListNoUserInteraction | kLSSharedFileListDoNotMountVolumes,
+                                                   &itemURL, NULL) && itemURL) {
+            CFStringRef name = CFURLCopyLastPathComponent(itemURL);
+            if (name) {
+              if (CFEqual(name, kSparkDaemonExecutableName)) {
+                if (!status || !__CFFileURLCompare(itemURL, &dref)) {
+                  SPXDebug(@"Remove login item: %@", itemURL);
 #if !defined(DEBUG)
-                    LSSharedFileListItemRemove(list, item);
+                  LSSharedFileListItemRemove(list, item);
 #endif
-									} else {
-										SPXDebug(@"Valid login item found");
-										shouldAdd = NO;
-									}
-								} 
-								CFRelease(name);
-							}
-							CFRelease(itemURL);
-						}
-					}
-					/* Append login item if needed */
-					if (shouldAdd) {
+                } else {
+                  SPXDebug(@"Valid login item found");
+                  shouldAdd = NO;
+                }
+              }
+              CFRelease(name);
+            }
+            CFRelease(itemURL);
+          }
+        }
+        /* Append login item if needed */
+        if (shouldAdd) {
 #if !defined(DEBUG)
-						CFDictionaryRef properties = CFDictionaryCreate(kCFAllocatorDefault, (const void **)&kLSSharedFileListItemHidden, 
-																														(const void **)&kCFBooleanTrue, 1, &kCFCopyStringDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
-						LSSharedFileListInsertItemURL(list, kLSSharedFileListItemLast, NULL, NULL, (CFURLRef)durl, properties, NULL);
-						CFRelease(properties);
+          CFDictionaryRef properties = CFDictionaryCreate(kCFAllocatorDefault, (const void **)&kLSSharedFileListItemHidden,
+                                                          (const void **)&kCFBooleanTrue, 1, &kCFCopyStringDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+          LSSharedFileListInsertItemURL(list, kLSSharedFileListItemLast, NULL, NULL, (CFURLRef)durl, properties, NULL);
+          CFRelease(properties);
 #else
-						SPXDebug(@"Add login item: %@", durl);
+          SPXDebug(@"Add login item: %@", durl);
 #endif
-					}
-					CFRelease(items);
-				}
-				CFRelease(list);
-			}
-#if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_5
-		} else {
-			CFArrayRef items = WBLoginItemCopyItems();
-			if (items) {
-				BOOL shouldAdd = status;
-				CFIndex idx = CFArrayGetCount(items);
-				while (idx-- > 0) {
-					CFDictionaryRef item = CFArrayGetValueAtIndex(items, idx);
-					CFURLRef itemURL = CFDictionaryGetValue(item, kWBLoginItemURL);
-					if (itemURL) {
-						CFStringRef name = CFURLCopyLastPathComponent(itemURL);
-						if (name) {
-							if (CFEqual(name, kSparkDaemonExecutableName)) {
-								if (!status || !__CFFileURLCompare(itemURL, &dref)) {
-									SPXDebug(@"Remove login item: %@", itemURL);
-#if !defined(DEBUG)
-									WBLoginItemRemoveItemAtIndex(idx);
-#endif
-								} else {
-									SPXDebug(@"Valid login item found");
-									shouldAdd = NO;
-								}
-							} 
-							CFRelease(name);
-						}
-					}
-				}				
-				/* Append login item if needed */
-				if (shouldAdd) {
-#if !defined(DEBUG)
-					WBLoginItemAppendItemURL((CFURLRef)durl, YES);
-#else
-					SPXDebug(@"Add login item: %@", durl);
-#endif
-				}
-				
-				CFRelease(items);
-			}
-		}
-#endif
+        }
+        CFRelease(items);
+      }
+      CFRelease(list);
+    }
 	}
 }

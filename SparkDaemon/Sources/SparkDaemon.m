@@ -443,17 +443,19 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
         NSAssert(plugin, @"invalid action triggered");
         
         [sd_lock lock];
-        NSMutableDictionary *locks = NSMapGet(sd_locks, plugin);
-        if (!locks) { locks = [NSMutableDictionary dictionary]; NSMapInsert(sd_locks, plugin, locks); }
-        NSMutableArray *queue = [locks objectForKey:lock];
-        if (!queue) { queue = [NSMutableArray array]; [locks setObject:queue forKey:lock]; }
-        [queue insertObject:anEvent atIndex:0];
-        if (1 == [queue count]) {
-          bypass = false;
-          [sd_lock unlock];
-          [NSThread detachNewThreadSelector:@selector(_executeEventThread:) toTarget:self withObject:[anEvent retain]];
-        } else {
-          bypass = false;
+        @try {
+          NSMutableDictionary *locks = NSMapGet(sd_locks, plugin);
+          if (!locks) { locks = [NSMutableDictionary dictionary]; NSMapInsert(sd_locks, plugin, locks); }
+          NSMutableArray *queue = [locks objectForKey:lock];
+          if (!queue) { queue = [NSMutableArray array]; [locks setObject:queue forKey:lock]; }
+          [queue insertObject:anEvent atIndex:0];
+          if (1 == [queue count]) {
+            bypass = false;
+            [NSThread detachNewThreadSelector:@selector(_executeEventThread:) toTarget:self withObject:[anEvent retain]];
+          } else {
+            bypass = false;
+          }
+        } @finally {
           [sd_lock unlock];
         }
       }

@@ -22,6 +22,11 @@ static NSString * const kSparkActionVersionKey = @"SAVersion";
 static NSString * const kSparkActionCategorieKey = @"SACategorie";
 static NSString * const kSparkActionDescriptionKey = @"SADescription";
 
+@interface SparkAction (Compatibility)
+- (SparkAlert *)check;
+- (SparkAlert *)execute;
+@end
+
 #pragma mark -
 @implementation SparkAction
 

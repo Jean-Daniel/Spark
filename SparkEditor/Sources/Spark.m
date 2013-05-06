@@ -427,7 +427,8 @@ NSString * const SESparkEditorDidChangePlugInStatusNotification = @"SESparkEdito
   } else {
     OSType type = kLSUnknownType;
     NSString *ext = [filename pathExtension];
-    WBFSGetTypeAndCreatorAtPath((CFStringRef)filename, &type, NULL);
+    NSURL *url = [NSURL fileURLWithPath:filename];
+    WBFSGetTypeAndCreatorAtURL(SPXNSToCFURL(url), &type, NULL);
     if (type == kSparkLibraryArchiveHFSType || [ext isEqualToString:kSparkLibraryArchiveExtension]) {
       [self openLibraryBackup:filename];
     } else {

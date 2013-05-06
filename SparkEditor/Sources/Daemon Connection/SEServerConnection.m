@@ -126,7 +126,7 @@ NSString * const SEServerStatusDidChangeNotification = @"SEServerStatusDidChange
     
     if (cnt) {
       [cnt setReplyTimeout:5];
-      se_server = [cnt rootProxy];
+      se_server = (id)[cnt rootProxy];
     }
     
     if (se_server) {
@@ -222,8 +222,6 @@ NSString * const SEServerStatusDidChangeNotification = @"SEServerStatusDidChange
         [self serverDidClose];
       }
       [self setStatus:status];
-      break;
-    default:
       break;
   }
 }

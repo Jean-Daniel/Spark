@@ -68,7 +68,6 @@ typedef enum {
 - (void)togglePolarity;
 
 - (void)emptyTrash;
-- (void)launchKeyboardViewer;
 
 /* Sound */
 - (void)volumeUp;

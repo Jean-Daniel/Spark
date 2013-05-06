@@ -56,8 +56,6 @@
 		1B92D0D61707273600F40FCD /* NSButton+WonderBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8C0A0EE2FA6900BD1EAF /* NSButton+WonderBox.m */; };
 		1B92D0D71707274700F40FCD /* NSArrayController+WonderBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8C070EE2FA6900BD1EAF /* NSArrayController+WonderBox.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1B92D0D81707274B00F40FCD /* NSArrayController+WonderBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8C080EE2FA6900BD1EAF /* NSArrayController+WonderBox.m */; };
-		1B92D0D91707278700F40FCD /* WBLoginItems.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316580D38138B005C3FB2 /* WBLoginItems.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1B92D0DA1707278B00F40FCD /* WBLoginItems.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316570D38138B005C3FB2 /* WBLoginItems.c */; };
 		1B92D0DB170727A900F40FCD /* WBBase64.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8E540EE3016F00BD1EAF /* WBBase64.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1B92D0DC170727A900F40FCD /* WBVersionFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8C290EE2FAFF00BD1EAF /* WBVersionFunctions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1B92D0DD170727AF00F40FCD /* WBBase64.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8E530EE3016F00BD1EAF /* WBBase64.c */; };
@@ -353,8 +351,6 @@
 		1BE316520D38138B005C3FB2 /* WBFSFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBFSFunctions.m; sourceTree = "<group>"; };
 		1BE316550D38138B005C3FB2 /* WBIOKitFunctions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WBIOKitFunctions.c; sourceTree = "<group>"; };
 		1BE316560D38138B005C3FB2 /* WBIOKitFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBIOKitFunctions.h; sourceTree = "<group>"; };
-		1BE316570D38138B005C3FB2 /* WBLoginItems.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WBLoginItems.c; sourceTree = "<group>"; };
-		1BE316580D38138B005C3FB2 /* WBLoginItems.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBLoginItems.h; sourceTree = "<group>"; };
 		1BE316590D38138B005C3FB2 /* WBLSFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBLSFunctions.h; sourceTree = "<group>"; };
 		1BE3165A0D38138B005C3FB2 /* WBLSFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBLSFunctions.m; sourceTree = "<group>"; };
 		1BE3165F0D38138B005C3FB2 /* WBProcessFunctions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WBProcessFunctions.c; sourceTree = "<group>"; };
@@ -756,8 +752,6 @@
 				1B5D8C590EE2FC9100BD1EAF /* WBObjCRuntime.c */,
 				1B7007651706F08E003F5780 /* WBODFunctions.c */,
 				1B7007661706F08E003F5780 /* WBODFunctions.h */,
-				1BE316580D38138B005C3FB2 /* WBLoginItems.h */,
-				1BE316570D38138B005C3FB2 /* WBLoginItems.c */,
 				1BE316590D38138B005C3FB2 /* WBLSFunctions.h */,
 				1BE3165A0D38138B005C3FB2 /* WBLSFunctions.m */,
 				1BE3165F0D38138B005C3FB2 /* WBProcessFunctions.c */,
@@ -1017,7 +1011,6 @@
 				1B92D0D31707272F00F40FCD /* NSAlert+WonderBox.h in Headers */,
 				1B92D0D41707272F00F40FCD /* NSButton+WonderBox.h in Headers */,
 				1B92D0D71707274700F40FCD /* NSArrayController+WonderBox.h in Headers */,
-				1B92D0D91707278700F40FCD /* WBLoginItems.h in Headers */,
 				1B92D0DB170727A900F40FCD /* WBBase64.h in Headers */,
 				1B92D0DC170727A900F40FCD /* WBVersionFunctions.h in Headers */,
 				1B92D0DF170727C100F40FCD /* WBIndexSetIterator.h in Headers */,
@@ -1236,7 +1229,6 @@
 				1B92D0D51707273600F40FCD /* NSAlert+WonderBox.m in Sources */,
 				1B92D0D61707273600F40FCD /* NSButton+WonderBox.m in Sources */,
 				1B92D0D81707274B00F40FCD /* NSArrayController+WonderBox.m in Sources */,
-				1B92D0DA1707278B00F40FCD /* WBLoginItems.c in Sources */,
 				1B92D0DD170727AF00F40FCD /* WBBase64.c in Sources */,
 				1B92D0DE170727AF00F40FCD /* WBVersionFunctions.m in Sources */,
 				1B92D0E0170727C700F40FCD /* WBIndexSetIterator.m in Sources */,

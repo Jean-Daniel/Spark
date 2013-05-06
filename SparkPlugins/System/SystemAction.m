@@ -21,6 +21,8 @@
 #import <WonderBox/WBIOKitFunctions.h>
 #import <WonderBox/NSImage+WonderBox.h>
 
+#import <HotKeyToolKit/HotKeyToolKit.h>
+
 static NSString * const 
 kFastUserSwitcherPath = @"/System/Library/CoreServices/Menu Extras/User.menu/Contents/Resources/CGSession";
 static NSString * const 
@@ -213,7 +215,7 @@ NSString * const kSystemUserNameKey = @"SystemUserName";
       [self emptyTrash];
       break;
     case kSystemKeyboardViewer:
-      [self launchKeyboardViewer];
+      [HKKeyMap showKeyboardViewer];
       break;
       
       /* Sound */
@@ -233,9 +235,6 @@ NSString * const kSystemUserNameKey = @"SystemUserName";
     case kSystemBrightnessDown:
       [self brightnessDown];
       break;
-    default:
-      // FIXME: return alert
-      NSBeep();
   }
   return nil;
 }
@@ -279,17 +278,6 @@ extern void CGDisplaySetInvertedPolarity(Boolean inverted);
   
 bail:
     WBAEDisposeDesc(&aevt);
-}
-
-- (void)launchKeyboardViewer {
-  NSString *path = WBLSFindApplicationForBundleIdentifier(@"com.apple.KeyboardViewerServer");
-  if (!path)
-    path = @"/System/Library/Components/KeyboardViewer.component/Contents/SharedSupport/KeyboardViewerServer.app";
-  
-  if (noErr != WBLSLaunchApplicationAtPath((CFStringRef)path, kCFURLPOSIXPathStyle, kLSLaunchDefaults, NULL)) {
-    // FIXME: return alert.
-    NSBeep();
-  }
 }
 
 - (uid_t)userID {

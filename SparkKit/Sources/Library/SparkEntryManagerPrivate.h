@@ -37,6 +37,10 @@
 - (void)sp_addEntry:(SparkEntry *)anEntry parent:(SparkEntry *)aParent;
 - (void)sp_removeEntry:(SparkEntry *)anEntry;
 
+// MARK: Notification handling
+- (void)didRemoveApplication:(NSNotification *)aNotification;
+- (void)didChangePlugInStatus:(NSNotification *)aNotification;
+
 @end
 
 @interface SparkEntryManager (SparkArchiving) <NSCoding>

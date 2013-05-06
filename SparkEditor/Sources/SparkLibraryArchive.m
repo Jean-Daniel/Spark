@@ -82,7 +82,7 @@ NSString * const kSparkLibraryArchiveFileName = @"Spark Library";
       [doc setValue:(id)str forProperty:@"library/uuid"];
       CFRelease(str);
     }
-    [doc setValue:[NSString stringWithFormat:@"%u", kSparkLibraryCurrentVersion] forAttribute:@"version" property:@"library"];
+    [doc setValue:[NSString stringWithFormat:@"%lu", (unsigned long)kSparkLibraryCurrentVersion] forAttribute:@"version" property:@"library"];
     
     [wrapper setFilename:kSparkLibraryArchiveFileName];
     [archive addFileWrapper:wrapper parent:nil];
@@ -109,7 +109,7 @@ NSString * const kSparkLibraryArchiveFileName = @"Spark Library";
   NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
   for (NSUInteger idx = 0; idx < 4; idx++) {
     /* Get Folder */
-    SArchiveFile *folder = [path fileWithName:[NSString stringWithFormat:@"%u", idx]];
+    SArchiveFile *folder = [path fileWithName:[NSString stringWithFormat:@"%lu", (unsigned long)idx]];
     
     SArchiveFile *file = nil;
     NSEnumerator *files = [[folder files] objectEnumerator];
@@ -132,7 +132,7 @@ NSString * const kSparkLibraryArchiveFileName = @"Spark Library";
   NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
   for (NSUInteger idx = 0; idx < 4; idx++) {
     /* Create Folder */
-    SArchiveFile *folder = [archive addFolder:[NSString stringWithFormat:@"%u", idx] properties:nil parent:path];
+    SArchiveFile *folder = [archive addFolder:[NSString stringWithFormat:@"%lu", (unsigned long)idx] properties:nil parent:path];
     
     NSMutableSet *blacklist = [[NSMutableSet alloc] init];
     [blacklist addObject:@".DS_Store"];

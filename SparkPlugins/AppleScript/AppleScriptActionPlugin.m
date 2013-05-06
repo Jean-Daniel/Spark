@@ -167,14 +167,15 @@ enum {
 
 - (void)openPanelDidEnd:(NSOpenPanel *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
   if (returnCode == NSOKButton && [[sheet URLs] count] > 0) {
-    NSString *file = [[sheet filenames] objectAtIndex:0];
+    NSURL *file = [[sheet URLs] objectAtIndex:0];
     NSString *src = nil;
     if ([[[file pathExtension] lowercaseString] isEqualToString:@"scpt"]) {
-      OSAScript *script = [[OSAScript alloc] initWithContentsOfURL:[NSURL fileURLWithPath:file] error:nil];
+      OSAScript *script = [[OSAScript alloc] initWithContentsOfURL:file error:nil];
       src = [[script source] retain];
       [script release];
     } else {
-      src = [[NSString alloc] initWithContentsOfFile:file];
+      NSStringEncoding encoding;
+      src = [[NSString alloc] initWithContentsOfURL:file usedEncoding:&encoding error:NULL];
     }
     [[ibScriptController scriptView] setSource:src];
     [src release];
@@ -197,10 +198,10 @@ enum {
 }
 
 - (void)importPanelDidEnd:(NSOpenPanel *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
-  if (returnCode == NSOKButton && [[sheet filenames] count] > 0) {
-    NSString *file = [[sheet filenames] objectAtIndex:0];
+  if (returnCode == NSOKButton && [[sheet URLs] count] > 0) {
     NSDictionary *errors = nil;
-    NSAppleScript *script = [[NSAppleScript alloc] initWithContentsOfURL:[NSURL fileURLWithPath:file] error:&errors];
+    NSURL *file = [[sheet URLs] objectAtIndex:0];
+    NSAppleScript *script = [[NSAppleScript alloc] initWithContentsOfURL:file error:&errors];
     [sheet close];
     if (![script isCompiled]) {
       NSBeginAlertSheet(NSLocalizedStringFromTableInBundle(@"INVALID_SCRIPT_FILE_ALERT", nil, AppleScriptActionBundle,
@@ -211,7 +212,7 @@ enum {
                         NSLocalizedStringFromTableInBundle(@"INVALID_SCRIPT_FILE_ALERT_MSG", nil, AppleScriptActionBundle,
                                                            @"Import uncompiled Script Error * Msg *"), [file lastPathComponent]);
     } else {
-      [self setScriptFile:file];
+      [self setScriptFile:[file path]];
     }
     [script release];
   } else {
