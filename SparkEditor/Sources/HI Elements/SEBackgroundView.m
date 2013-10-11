@@ -13,12 +13,13 @@
 
 static const 
 WBGradientDefinition kSETopShadingInfo = {
-  1,
+  kWBGradientColorSpace_RGB,
   kWBInterpolationLinear,
   {
     {
-      0, WBShadingColorRGB(.771, .771, .771, 1),
-      1, WBShadingColorRGB(.508, .508, .508, 1),
+      1,
+      WBGradientColorRGB(.771, .771, .771, 1),
+      WBGradientColorRGB(.508, .508, .508, 1),
       kWBInterpolationDefault
     }
   },
@@ -74,9 +75,8 @@ static CGLayerRef sSETopShadingImage = nil;
       gradient.origin.x += 1;
       gradient.size.width -= 2;
       if (!sSETopShadingImage) {
-        WBGradientBuilder *builder = [[WBGradientBuilder alloc] initWithColorSpace:[NSColorSpace genericRGBColorSpace]
-                                                                        definition:&kSETopShadingInfo];
-        sSETopShadingImage = [builder newLayerWithVerticalGradient:CGSizeMake(128, se_top) scale:true context:ctxt];
+        WBGradientBuilder *builder = [[WBGradientBuilder alloc] initWithDefinition:&kSETopShadingInfo];
+        sSETopShadingImage = [builder newLayerWithVerticalGradient:se_top context:ctxt];
         [builder release];
       }
       CGContextDrawLayerInRect(ctxt, NSRectToCGRect(gradient), sSETopShadingImage);

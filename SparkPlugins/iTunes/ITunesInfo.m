@@ -527,11 +527,11 @@ void _iTunesDeriveColor(CGFloat *base, CGFloat *dest, CGFloat h, CGFloat s, CGFl
 
 WB_INLINE
 void __iTunesDeriveTopColor(WBCGMultiShadingInfo *info) {
-  _iTunesDeriveColor(info->steps[0].rgba2, info->steps[0].rgba, 1.035, .502, 1.104);
+  _iTunesDeriveColor(info->stops[0].rgba2, info->stops[0].rgba, 1.035, .502, 1.104);
 }
 WB_INLINE
 void __iTunesDeriveBottomColor(WBCGMultiShadingInfo *info) {
-  _iTunesDeriveColor(info->steps[1].rgba, info->steps[1].rgba2, .925, .827, 1.225);
+  _iTunesDeriveColor(info->stops[1].rgba, info->stops[1].rgba2, .925, .827, 1.225);
 }
 WB_INLINE
 void __iTunesDeriveBothColors(WBCGMultiShadingInfo *info) {
@@ -541,7 +541,7 @@ void __iTunesDeriveBothColors(WBCGMultiShadingInfo *info) {
 static
 void _iTunesDeriveAllColors(WBCGMultiShadingInfo *info) {
   /* derive top from bottom */
-  _iTunesDeriveColor(info->steps[1].rgba, info->steps[0].rgba2, 1.004, .882, 1.030);
+  _iTunesDeriveColor(info->stops[1].rgba, info->stops[0].rgba2, 1.004, .882, 1.030);
   
   /* derive shading */
   __iTunesDeriveTopColor(info);
@@ -554,21 +554,18 @@ void _iTunesDeriveAllColors(WBCGMultiShadingInfo *info) {
 - (id)initWithFrame:(NSRect)frame {
   if (self = [super initWithFrame:frame]) {
 #if MULTI_SHADING
-    NSUInteger steps = 2;
+    NSUInteger stops = 2;
 #else
-    NSUInteger steps = 1;
+    NSUInteger stops = 1;
 #endif
-    _info = calloc(1, sizeof(*_info) + steps * sizeof(*_info->steps));
-    _info->count = steps;
+    _info = calloc(1, sizeof(*_info) + stops * sizeof(*_info->stops));
 
+    _info->cs = kWBGradientColorSpace_RGB;
 #if MULTI_SHADING
-    _info->steps[0].start = 0;
-    _info->steps[0].end = .40;
-    _info->steps[1].start = .40;
-    _info->steps[1].end = 1;
+    _info->stops[0].location = .40;
+    _info->stops[1].location = 1;
 #else
-    _info->steps[0].start = 0;
-    _info->steps[0].end = 1;
+    _info->stops[0].location = 1;
 #endif
     WBInterpolationDefinition fct = WBInterpolationCallBackDef(WBInterpolationSin);
     _info->fct = fct;
@@ -601,10 +598,8 @@ void _iTunesDeriveAllColors(WBCGMultiShadingInfo *info) {
   CGContextSaveGState(ctxt);
   CGContextClip(ctxt);
   if (!_shading) {
-    WBGradientBuilder *builder = [[WBGradientBuilder alloc] initWithColorSpace:[NSColorSpace genericRGBColorSpace]
-                                                                    definition:_info];
-    _shading = [builder newLayerWithVerticalGradient:CGSizeMake(64, NSHeight([self bounds]))
-                                               scale:true context:ctxt];
+    WBGradientBuilder *builder = [[WBGradientBuilder alloc] initWithDefinition:_info];
+    _shading = [builder newLayerWithVerticalGradient:NSHeight([self bounds]) context:ctxt];
     [builder release];
   }
   CGContextDrawLayerInRect(ctxt, NSRectToCGRect([self bounds]), _shading);
@@ -625,11 +620,11 @@ void _iTunesDeriveAllColors(WBCGMultiShadingInfo *info) {
   __CopyCGColor(_border, visual->border);
 #if MULTI_SHADING
   // FIXME
-  memcpy(visual->backbot, _info->steps[1].rgba, sizeof(visual->backbot));
-  memcpy(visual->backtop, _info->steps[0].rgba2, sizeof(visual->backtop));
+  memcpy(visual->backbot, _info->stops[1].rgba, sizeof(visual->backbot));
+  memcpy(visual->backtop, _info->stops[0].rgba2, sizeof(visual->backtop));
 #else
-  memcpy(visual->backbot, _info->steps[0].endColor.rgba, sizeof(visual->backbot));
-  memcpy(visual->backtop, _info->steps[0].startColor.rgba, sizeof(visual->backtop));
+  memcpy(visual->backbot, _info->stops[0].endColor, sizeof(visual->backbot));
+  memcpy(visual->backtop, _info->stops[0].startColor, sizeof(visual->backtop));
 #endif
 }
 
@@ -637,13 +632,13 @@ void _iTunesDeriveAllColors(WBCGMultiShadingInfo *info) {
   __CopyColor(visual->border, _border);  
 #if MULTI_SHADING
   // FIXME
-  memcpy(_info->steps[1].rgba, visual->backbot, sizeof(visual->backbot));
-  memcpy(_info->steps[0].rgba2, visual->backtop, sizeof(visual->backtop));
+  memcpy(_info->stops[1].rgba, visual->backbot, sizeof(visual->backbot));
+  memcpy(_info->stops[0].rgba2, visual->backtop, sizeof(visual->backtop));
   /* derive colors */
   __iTunesDeriveBothColors(_info);
 #else
-  memcpy(_info->steps[0].endColor.rgba, visual->backbot, sizeof(visual->backbot));
-    memcpy(_info->steps[0].startColor.rgba, visual->backtop, sizeof(visual->backtop));
+  memcpy(_info->stops[0].endColor, visual->backbot, sizeof(visual->backbot));
+  memcpy(_info->stops[0].startColor, visual->backtop, sizeof(visual->backtop));
 #endif
   [self clearShading];
 }
@@ -658,64 +653,64 @@ void _iTunesDeriveAllColors(WBCGMultiShadingInfo *info) {
 }
 - (NSColor *)backgroundColor {
 #if MULTI_SHADING
-  return [NSColor colorWithCalibratedRed:_info->steps[1].rgba[0] green:_info->steps[1].rgba[1] 
-                                    blue:_info->steps[1].rgba[2] alpha:_info->steps[1].rgba[3]];
+  return [NSColor colorWithCalibratedRed:_info->stops[1].rgba[0] green:_info->stops[1].rgba[1]
+                                    blue:_info->stops[1].rgba[2] alpha:_info->stops[1].rgba[3]];
 #else
-  return [NSColor colorWithCalibratedRed:_info->steps[0].endColor.rgba[0] green:_info->steps[0].endColor.rgba[1] 
-                                    blue:_info->steps[0].endColor.rgba[2] alpha:_info->steps[0].endColor.rgba[3]];
+  return [NSColor colorWithCalibratedRed:_info->stops[0].endColor[0] green:_info->stops[0].endColor[1]
+                                    blue:_info->stops[0].endColor[2] alpha:_info->stops[0].endColor[3]];
 #endif
 }
 - (void)setBackgroundColor:(NSColor *)aColor {
 #if MULTI_SHADING
-  __iTunesGetColorComponents(aColor, _info->steps[1].rgba);
+  __iTunesGetColorComponents(aColor, _info->stops[1].rgba);
   /* Derive all colors */
   _iTunesDeriveAllColors(_info);
 #else
-  __iTunesGetColorComponents(aColor, _info->steps[0].endColor.rgba);
-  _info->steps[0].startColor.rgba[0] = 0.75 + _info->steps[0].endColor.rgba[0] * 0.25;
-  _info->steps[0].startColor.rgba[1] = 0.75 + _info->steps[0].endColor.rgba[1] * 0.25;
-  _info->steps[0].startColor.rgba[2] = 0.75 + _info->steps[0].endColor.rgba[2] * 0.25;
-  _info->steps[0].startColor.rgba[3] = 0.75 + _info->steps[0].endColor.rgba[3] * 0.25;
+  __iTunesGetColorComponents(aColor, _info->stops[0].endColor);
+  _info->stops[0].startColor[0] = 0.75 + _info->stops[0].endColor[0] * 0.25;
+  _info->stops[0].startColor[1] = 0.75 + _info->stops[0].endColor[1] * 0.25;
+  _info->stops[0].startColor[2] = 0.75 + _info->stops[0].endColor[2] * 0.25;
+  _info->stops[0].startColor[3] = 0.75 + _info->stops[0].endColor[3] * 0.25;
 #endif
   [self clearShading];
 }
 
 - (NSColor *)backgroundTopColor {
 #if MULTI_SHADING
-  return [NSColor colorWithCalibratedRed:_info->steps[0].rgba2[0] green:_info->steps[0].rgba2[1] 
-                                    blue:_info->steps[0].rgba2[2] alpha:_info->steps[0].rgba2[3]];
+  return [NSColor colorWithCalibratedRed:_info->stops[0].rgba2[0] green:_info->stops[0].rgba2[1]
+                                    blue:_info->stops[0].rgba2[2] alpha:_info->stops[0].rgba2[3]];
 #else
-  return [NSColor colorWithCalibratedRed:_info->steps[0].startColor.rgba[0] green:_info->steps[0].startColor.rgba[1] 
-                                    blue:_info->steps[0].startColor.rgba[2] alpha:_info->steps[0].startColor.rgba[3]];
+  return [NSColor colorWithCalibratedRed:_info->stops[0].startColor[0] green:_info->stops[0].startColor[1]
+                                    blue:_info->stops[0].startColor[2] alpha:_info->stops[0].startColor[3]];
 #endif
 }
 - (void)setBackgroundTopColor:(NSColor *)aColor {
 #if MULTI_SHADING
-  __iTunesGetColorComponents(aColor, _info->steps[0].rgba2);
+  __iTunesGetColorComponents(aColor, _info->stops[0].rgba2);
   /* derive top color */
   __iTunesDeriveTopColor(_info);
 #else
-  __iTunesGetColorComponents(aColor, _info->steps[0].startColor.rgba);
+  __iTunesGetColorComponents(aColor, _info->stops[0].startColor);
 #endif
   [self clearShading];
 }
 
 - (NSColor *)backgroundBottomColor {
 #if MULTI_SHADING
-  return [NSColor colorWithCalibratedRed:_info->steps[1].rgba[0] green:_info->steps[1].rgba[1] 
-                                    blue:_info->steps[1].rgba[2] alpha:_info->steps[1].rgba[3]];
+  return [NSColor colorWithCalibratedRed:_info->stops[1].rgba[0] green:_info->stops[1].rgba[1]
+                                    blue:_info->stops[1].rgba[2] alpha:_info->stops[1].rgba[3]];
 #else
-  return [NSColor colorWithCalibratedRed:_info->steps[0].endColor.rgba[0] green:_info->steps[0].endColor.rgba[1] 
-                                    blue:_info->steps[0].endColor.rgba[2] alpha:_info->steps[0].endColor.rgba[3]];
+  return [NSColor colorWithCalibratedRed:_info->stops[0].endColor[0] green:_info->stops[0].endColor[1]
+                                    blue:_info->stops[0].endColor[2] alpha:_info->stops[0].endColor[3]];
 #endif
 }
 - (void)setBackgroundBottomColor:(NSColor *)aColor {
 #if MULTI_SHADING
-  __iTunesGetColorComponents(aColor, _info->steps[1].rgba);
+  __iTunesGetColorComponents(aColor, _info->stops[1].rgba);
   /* derive bottom color */
   __iTunesDeriveBottomColor(_info);
 #else
-  __iTunesGetColorComponents(aColor, _info->steps[0].endColor.rgba);
+  __iTunesGetColorComponents(aColor, _info->stops[0].endColor);
 #endif
   [self clearShading];
 }

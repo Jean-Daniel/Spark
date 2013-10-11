@@ -125,7 +125,7 @@
 		1BC6A8F117061FF300E7EA12 /* WBNotificationWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB9836D0D381ECC0074D18E /* WBNotificationWindow.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1BC6A8F217061FF300E7EA12 /* WBNotificationWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB9836E0D381ECC0074D18E /* WBNotificationWindow.m */; };
 		1BC6A8F31706200400E7EA12 /* WBCGFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE3164B0D38138B005C3FB2 /* WBCGFunctions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1BC6A8F41706200900E7EA12 /* WBCGFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE3164C0D38138B005C3FB2 /* WBCGFunctions.m */; };
+		1BC6A8F41706200900E7EA12 /* WBCGFunctions.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1BE3164C0D38138B005C3FB2 /* WBCGFunctions.mm */; };
 		1BC6A8F51706201800E7EA12 /* WBGeometry.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8C340EE2FB1E00BD1EAF /* WBGeometry.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1BC6A8F61706201D00E7EA12 /* WBGeometry.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8C350EE2FB1E00BD1EAF /* WBGeometry.m */; };
 		1BC6A8F71706202C00E7EA12 /* NSArray+WonderBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8CA60EE2FD3500BD1EAF /* NSArray+WonderBox.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -346,7 +346,7 @@
 		1BE316470D38138B005C3FB2 /* WBAEFunctions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WBAEFunctions.c; sourceTree = "<group>"; };
 		1BE316480D38138B005C3FB2 /* WBAEFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBAEFunctions.h; sourceTree = "<group>"; };
 		1BE3164B0D38138B005C3FB2 /* WBCGFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBCGFunctions.h; sourceTree = "<group>"; };
-		1BE3164C0D38138B005C3FB2 /* WBCGFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBCGFunctions.m; sourceTree = "<group>"; };
+		1BE3164C0D38138B005C3FB2 /* WBCGFunctions.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WBCGFunctions.mm; sourceTree = "<group>"; };
 		1BE316510D38138B005C3FB2 /* WBFSFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBFSFunctions.h; sourceTree = "<group>"; };
 		1BE316520D38138B005C3FB2 /* WBFSFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBFSFunctions.m; sourceTree = "<group>"; };
 		1BE316550D38138B005C3FB2 /* WBIOKitFunctions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WBIOKitFunctions.c; sourceTree = "<group>"; };
@@ -739,7 +739,7 @@
 				1BE316470D38138B005C3FB2 /* WBAEFunctions.c */,
 				1BE316480D38138B005C3FB2 /* WBAEFunctions.h */,
 				1BE3164B0D38138B005C3FB2 /* WBCGFunctions.h */,
-				1BE3164C0D38138B005C3FB2 /* WBCGFunctions.m */,
+				1BE3164C0D38138B005C3FB2 /* WBCGFunctions.mm */,
 				1BE316510D38138B005C3FB2 /* WBFSFunctions.h */,
 				1BE316520D38138B005C3FB2 /* WBFSFunctions.m */,
 				1BA3812D0EFE6F5F00CF5D07 /* WBFinderSuite.h */,
@@ -1206,7 +1206,7 @@
 				1BC6A8EE17061FF300E7EA12 /* WBBezelItem.m in Sources */,
 				1BC6A8F017061FF300E7EA12 /* WBBezelItemContent.m in Sources */,
 				1BC6A8F217061FF300E7EA12 /* WBNotificationWindow.m in Sources */,
-				1BC6A8F41706200900E7EA12 /* WBCGFunctions.m in Sources */,
+				1BC6A8F41706200900E7EA12 /* WBCGFunctions.mm in Sources */,
 				1BC6A8F61706201D00E7EA12 /* WBGeometry.m in Sources */,
 				1BC6A8F81706202F00E7EA12 /* NSArray+WonderBox.m in Sources */,
 				1B70075D1706EE09003F5780 /* NSString+WonderBox.m in Sources */,

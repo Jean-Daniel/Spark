@@ -65,12 +65,13 @@ NSShadow *sHighlightShadow = nil;
 
 static const 
 WBGradientDefinition sHighlightShadingInfo = {
-  1,
+  kWBGradientColorSpace_RGB,
   kWBInterpolationLinear,
   {
     {
-      0, WBShadingColorRGB(.651, .690, .812, 1),
-      1, WBShadingColorRGB(.443, .522, .671, 1),
+      1,
+      WBGradientColorRGB(.651, .690, .812, 1),
+      WBGradientColorRGB(.443, .522, .671, 1),
       kWBInterpolationDefault
     }
   },
@@ -78,12 +79,13 @@ WBGradientDefinition sHighlightShadingInfo = {
 
 static const 
 WBGradientDefinition sFocusShadingInfo = {
-  1,
+  kWBGradientColorSpace_RGB,
   kWBInterpolationLinear,
   {
     {
-      0, WBShadingColorRGB(.340, .606, .890, 1),
-      1, WBShadingColorRGB(.000, .312, .790, 1),
+      1,
+      WBGradientColorRGB(.340, .606, .890, 1),
+      WBGradientColorRGB(.000, .312, .790, 1),
       kWBInterpolationDefault
     }
   },
@@ -95,9 +97,8 @@ WBGradientDefinition sFocusShadingInfo = {
   static CGLayerRef sHighlighted = nil;
   if (!sHighlighted) {
     CGContextRef ctxt = [NSGraphicsContext currentGraphicsPort];
-    WBGradientBuilder *builder = [[WBGradientBuilder alloc] initWithColorSpace:[NSColorSpace genericRGBColorSpace]
-                                                                    definition:&sHighlightShadingInfo];
-    sHighlighted = [builder newLayerWithVerticalGradient:CGSizeMake(64, [self rowHeight] + 2) scale:true context:ctxt];
+    WBGradientBuilder *builder = [[WBGradientBuilder alloc] initWithDefinition:&sHighlightShadingInfo];
+    sHighlighted = [builder newLayerWithVerticalGradient:[self rowHeight] + 2 context:ctxt];
     [builder release];
     /* border-top */
     CGContextRef gctxt = CGLayerGetContext(sHighlighted);
@@ -107,9 +108,8 @@ WBGradientDefinition sFocusShadingInfo = {
   }
   if (!sHasFocus) {
     CGContextRef ctxt = [NSGraphicsContext currentGraphicsPort];
-    WBGradientBuilder *builder = [[WBGradientBuilder alloc] initWithColorSpace:[NSColorSpace genericRGBColorSpace]
-                                                                    definition:&sFocusShadingInfo];
-    sHasFocus = [builder newLayerWithVerticalGradient:CGSizeMake(64, [self rowHeight] + 2) scale:true context:ctxt];
+    WBGradientBuilder *builder = [[WBGradientBuilder alloc] initWithDefinition:&sFocusShadingInfo];
+    sHasFocus = [builder newLayerWithVerticalGradient:[self rowHeight] + 2 context:ctxt];
     [builder release];
     /* border-top */
     CGContextRef gctxt = CGLayerGetContext(sHasFocus);

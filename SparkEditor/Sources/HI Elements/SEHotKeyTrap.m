@@ -584,12 +584,13 @@ static CGLayerRef _HKCreateShading(CGContextRef ctxt, NSControlTint tint);
 #pragma mark Shading Support
 static const 
 WBGradientDefinition sAquaShadingInfo = {
-  1,
+  kWBGradientColorSpace_RGB,
   kWBInterpolationLinear,
   {
     {
-      0, WBShadingColorRGB(.0, .320, .810, 1),
-      1, WBShadingColorRGB(.300, .600, .945, 1),
+      1,
+      WBGradientColorRGB(.0, .320, .810, 1),
+      WBGradientColorRGB(.300, .600, .945, 1),
       kWBInterpolationDefault
     }
   },
@@ -597,12 +598,13 @@ WBGradientDefinition sAquaShadingInfo = {
 
 static const 
 WBGradientDefinition sGraphiteShadingInfo = {
-  1,
+  kWBGradientColorSpace_RGB,
   kWBInterpolationLinear,
   {
     {
-      0, WBShadingColorRGB(.310, .400, .510, 1),
-      1, WBShadingColorRGB(.550, .600, .700, 1),
+      1,
+      WBGradientColorRGB(.310, .400, .510, 1),
+      WBGradientColorRGB(.550, .600, .700, 1),
       kWBInterpolationDefault
     }
   },
@@ -621,9 +623,8 @@ CGLayerRef _HKCreateShading(CGContextRef ctxt, NSControlTint tint) {
   }
 
   CGLayerRef shading;
-  WBGradientBuilder *builder = [[WBGradientBuilder alloc] initWithColorSpace:[NSColorSpace genericRGBColorSpace]
-                                                                  definition:info];
-  shading = [builder newLayerWithVerticalGradient:CGSizeMake(32, kHKTrapHeight) scale:true context:ctxt];
+  WBGradientBuilder *builder = [[WBGradientBuilder alloc] initWithDefinition:info];
+  shading = [builder newLayerWithVerticalGradient:kHKTrapHeight context:ctxt];
   [builder release];
   return shading;
 }

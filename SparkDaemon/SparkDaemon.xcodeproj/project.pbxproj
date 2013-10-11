@@ -34,6 +34,7 @@
 		1BDCB7340DA7CA3700D95044 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = ../SparkEditor/Resources/Growl.framework; sourceTree = SOURCE_ROOT; };
 		1BDCB7400DA7CA5600D95044 /* SparkDaemonGrowl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkDaemonGrowl.h; sourceTree = "<group>"; };
 		1BDCB7410DA7CA5600D95044 /* SparkDaemonGrowl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkDaemonGrowl.m; sourceTree = "<group>"; };
+		1BE7E25217F8BDEB00646CFB /* project.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = project.xcconfig; sourceTree = "<group>"; };
 		983AFC250B19A74300173464 /* Spark.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Spark.icns; path = ../SparkEditor/Resources/Images/icns/Spark.icns; sourceTree = SOURCE_ROOT; };
 		98B20D6A06A54814008BA3F6 /* Spark Daemon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Spark Daemon.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		98D528D90B19A14800C8425C /* SDAEHandlers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDAEHandlers.m; sourceTree = "<group>"; };
@@ -76,6 +77,7 @@
 			isa = PBXGroup;
 			children = (
 				1BBE7BDB0ED04E810004D9DD /* debug.xcconfig */,
+				1BE7E25217F8BDEB00646CFB /* project.xcconfig */,
 				1BBE7BDC0ED04E810004D9DD /* release.xcconfig */,
 			);
 			name = xcconfigs;
