@@ -44,6 +44,7 @@
 		1B9A7A670D0D96DD00770054 /* SEPluginHelp.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B9A7A650D0D96DD00770054 /* SEPluginHelp.xib */; };
 		1B9A7A6D0D0D978800770054 /* SEEntryEditor.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B9A7A6B0D0D978800770054 /* SEEntryEditor.xib */; };
 		1B9A7A7A0D0D998B00770054 /* SEPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B9A7A780D0D998B00770054 /* SEPreferences.xib */; };
+		1B9FB30E180883F6007EADAE /* Importer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B9FB30C180883F6007EADAE /* Importer.xib */; };
 		1BA7A5870D684DBD00D89AC2 /* SEEntryList.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B37438B0B6E2B84002F18C8 /* SEEntryList.h */; };
 		1BA7A5AA0D685C6500D89AC2 /* SEPreferences.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1BA7A5A90D685C6500D89AC2 /* SEPreferences.strings */; };
 		1BA7CDF00D0DB2D70081764D /* SparkSuite.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 984BCE5F060C7EBD0043CDEA /* SparkSuite.sdef */; };
@@ -257,6 +258,7 @@
 		1B9A7A660D0D96DD00770054 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SEPluginHelp.xib; sourceTree = "<group>"; };
 		1B9A7A6C0D0D978800770054 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SEEntryEditor.xib; sourceTree = "<group>"; };
 		1B9A7A790D0D998B00770054 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SEPreferences.xib; sourceTree = "<group>"; };
+		1B9FB30D180883F6007EADAE /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/Importer.xib; sourceTree = "<group>"; };
 		1BA7A5A70D685C4F00D89AC2 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/SEPreferences.strings; sourceTree = "<group>"; };
 		1BA7CE090D0DB3480081764D /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SEInheritsPlugin.xib; sourceTree = "<group>"; };
 		1BA7CE0E0D0DB3740081764D /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SEPluginInstaller.xib; sourceTree = "<group>"; };
@@ -323,7 +325,6 @@
 		988B8E940CC26783006EA06D /* SparkLibraryArchive.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = SparkLibraryArchive.m; path = ../SparkLibraryArchive.m; sourceTree = "<group>"; };
 		988B8E950CC26783006EA06D /* SparkLibraryArchive.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = SparkLibraryArchive.h; path = ../SparkLibraryArchive.h; sourceTree = "<group>"; };
 		98A662950A66FB7700A7B020 /* applelogo.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = applelogo.tiff; sourceTree = "<group>"; };
-		98A91DA8074F55460029D278 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/Importer.nib; sourceTree = "<group>"; };
 		98AC962D073F57FB0004BD09 /* SparkImporter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SparkImporter.m; sourceTree = "<group>"; };
 		98B48EFF0B9211CC002D5AD8 /* Splx.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Splx.icns; sourceTree = "<group>"; };
 		98CC49630B5AAF3100C60244 /* SELibraryDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SELibraryDocument.m; sourceTree = "<group>"; };
@@ -654,7 +655,7 @@
 		98762B3D074F53A900D0A4C1 /* Sheets */ = {
 			isa = PBXGroup;
 			children = (
-				98A91DA7074F55460029D278 /* Importer.nib */,
+				1B9FB30C180883F6007EADAE /* Importer.xib */,
 			);
 			name = Sheets;
 			path = Resources;
@@ -958,6 +959,7 @@
 				1BD1A18D0D0D4A02004206FA /* SELibraryWindow.xib in Resources */,
 				1B1535410D0D930F00C30ADA /* SEExport.xib in Resources */,
 				1B15354A0D0D93F300C30ADA /* SEFirstRun.xib in Resources */,
+				1B9FB30E180883F6007EADAE /* Importer.xib in Resources */,
 				1B9A7A670D0D96DD00770054 /* SEPluginHelp.xib in Resources */,
 				1B9A7A6D0D0D978800770054 /* SEEntryEditor.xib in Resources */,
 				1B9A7A7A0D0D998B00770054 /* SEPreferences.xib in Resources */,
@@ -1071,6 +1073,14 @@
 				1B0948330D68C14A00E8FE8D /* French */,
 			);
 			name = SEPreferences.xib;
+			sourceTree = "<group>";
+		};
+		1B9FB30C180883F6007EADAE /* Importer.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1B9FB30D180883F6007EADAE /* English */,
+			);
+			name = Importer.xib;
 			sourceTree = "<group>";
 		};
 		1BA7A5A90D685C6500D89AC2 /* SEPreferences.strings */ = {
@@ -1204,14 +1214,6 @@
 				986F865E0707415800064694 /* English */,
 			);
 			name = Editors.strings;
-			sourceTree = "<group>";
-		};
-		98A91DA7074F55460029D278 /* Importer.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				98A91DA8074F55460029D278 /* English */,
-			);
-			name = Importer.nib;
 			sourceTree = "<group>";
 		};
 		98D1E8B0078564B8002DDB31 /* Update.strings */ = {
