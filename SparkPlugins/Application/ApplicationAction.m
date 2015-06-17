@@ -635,8 +635,7 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
 - (BOOL)launchAppWithFlag:(LSLaunchFlags)flag {
   BOOL result = NO;
   FSRef ref;
-  LSApplicationParameters params;
-  bzero(&params, sizeof(params));
+  LSApplicationParameters params = {};
   NSString *path = [self path];
   if (path != nil && [path getFSRef:&ref]) {
     params.application = &ref;

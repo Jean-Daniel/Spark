@@ -8,14 +8,10 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface ITunesProgressView : NSView {
-  @private
-  CGFloat _progress;
-  CGFloat _red, _green, _blue, _alpha;
-}
+@interface ITunesProgressView : NSView
 
 - (void)setColor:(NSColor *)aColor;
-- (void)setProgress:(CGFloat)progress;
 
+@property(nonatomic) CGFloat progress;
 
 @end

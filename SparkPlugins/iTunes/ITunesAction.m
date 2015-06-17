@@ -22,25 +22,49 @@ static NSString* const kITunesPlaylistKey = @"iTunesPlaylist";
 static NSString* const kITunesPlaylistIDKey = @"iTunesPlaylistID";
 
 static const iTunesAction _kActionsMap[] = {
-kiTunesLaunch,
-kiTunesQuit,
-kiTunesPlayPause,
-kiTunesBackTrack,
-kiTunesNextTrack,
-kiTunesStop,
-kiTunesVisual,
-kiTunesVolumeDown,
-kiTunesVolumeUp,
-kiTunesEjectCD,
-kiTunesPlayPlaylist,
-kiTunesRateTrack
+  kiTunesLaunch,
+  kiTunesQuit,
+  kiTunesPlayPause,
+  kiTunesBackTrack,
+  kiTunesNextTrack,
+  kiTunesStop,
+  kiTunesVisual,
+  kiTunesVolumeDown,
+  kiTunesVolumeUp,
+  kiTunesEjectCD,
+  kiTunesPlayPlaylist,
+  kiTunesRateTrack
 };
+
 WB_INLINE
 iTunesAction _iTunesConvertAction(int act) {
   return act >= 0 && act < 11 ? _kActionsMap[act] : 0;
 }
 
-@implementation ITunesAction
+@implementation ITunesAction {
+@private
+  UInt64 ia_plid;
+  NSString *ia_playlist;
+
+  struct _ia_iaFlags {
+    unsigned int rate:7; /* 0 to 100 */
+    /* launch flags */
+    unsigned int hide:1;
+    unsigned int notify:1;
+    unsigned int autoplay:1;
+    unsigned int background:1;
+    /* Play/Pause settings */
+    unsigned int autorun:1;
+    /* Track Info */
+    unsigned int autoinfo:1;
+    /* visuals settings */
+    unsigned int show:1; /* visual enabled */
+    unsigned int visual:2; /* visual type: default, custom */
+    unsigned int reserved:16;
+  } ia_iaFlags;
+
+  ITunesVisual *ia_visual;
+}
 
 static ITunesVisual sDefaultVisual = { .delay = -1 };
 + (ITunesVisual *)defaultVisual {
@@ -122,14 +146,14 @@ static ITunesVisual sDefaultVisual = { .delay = -1 };
 #pragma mark Protocols Implementation
 - (id)copyWithZone:(NSZone *)zone {
   ITunesAction* copy = [super copyWithZone:zone];
-  copy->ia_action = ia_action;
+  copy->_iTunesAction = _iTunesAction;
   copy->ia_iaFlags = ia_iaFlags;
   /* Playlist */
   copy->ia_plid = ia_plid;
-  copy->ia_playlist = [ia_playlist retain];
+  copy->ia_playlist = ia_playlist;
   /* Visual */
   if (ia_visual) {
-    copy->ia_visual = NSZoneMalloc(nil, sizeof(*ia_visual));
+    copy->ia_visual = malloc(sizeof(*ia_visual));
     memcpy(copy->ia_visual, ia_visual, sizeof(*ia_visual));
   }
   return copy;
@@ -153,8 +177,8 @@ static ITunesVisual sDefaultVisual = { .delay = -1 };
 
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
-  [coder encodeInt:ia_action forKey:kITunesActionKey];
-  [coder encodeInt:[self encodeFlags] forKey:kITunesFlagsKey];
+  [coder encodeInteger:_iTunesAction forKey:kITunesActionKey];
+  [coder encodeInteger:[self encodeFlags] forKey:kITunesFlagsKey];
   /* Playlist */
   [coder encodeInt64:ia_plid forKey:kITunesPlaylistIDKey];
   [coder encodeObject:[self playlist] forKey:kITunesPlaylistKey];
@@ -190,7 +214,7 @@ static ITunesVisual sDefaultVisual = { .delay = -1 };
     NSUInteger length = 0;
     const void *visual = [coder decodeBytesForKey:kITunesVisualKey returnedLength:&length];
     if (visual != NULL && sizeof(*ia_visual) == length) {
-      ia_visual = NSZoneMalloc(nil, sizeof(*ia_visual));
+      ia_visual = malloc(sizeof(*ia_visual));
       memcpy(ia_visual, visual, sizeof(*ia_visual));
     }
   }
@@ -206,10 +230,8 @@ static ITunesVisual sDefaultVisual = { .delay = -1 };
 }
 
 - (void)dealloc {
-  [ia_playlist release];
   if (ia_visual)
-    NSZoneFree(nil, ia_visual);
-  [super dealloc];
+    free(ia_visual);
 }
 
 #pragma mark -
@@ -219,16 +241,17 @@ static ITunesVisual sDefaultVisual = { .delay = -1 };
     /* Playlist */
     UInt64 plid = [[plist objectForKey:kITunesPlaylistIDKey] unsignedLongLongValue];
     [self setPlaylist:[plist objectForKey:kITunesPlaylistKey] uid:plid];
-    
+
+    NSData *data = nil;
     switch ([self version]) {
       case 0x200:
         [self decodeFlags:[[plist objectForKey:kITunesFlagsKey] unsignedIntValue]];
         [self setITunesAction:WBOSTypeFromString([plist objectForKey:kITunesActionKey])];
-        NSData *data = [plist objectForKey:kITunesVisualKey];
+        data = [plist objectForKey:kITunesVisualKey];
         if (data) {
-          ia_visual = NSZoneMalloc(nil, sizeof(*ia_visual));
+          ia_visual = malloc(sizeof(*ia_visual));
           if (!ITunesVisualUnpack(data, ia_visual)) {
-            NSZoneFree(nil, ia_visual);
+            free(ia_visual);
             SPXDebug(@"Error while unpacking visual");
           }
         }
@@ -248,14 +271,13 @@ static ITunesVisual sDefaultVisual = { .delay = -1 };
     if (kSparkContext_Editor == SparkGetCurrentContext() && iTunesIsRunning(NULL)) {
       if ([self iTunesAction] == kiTunesPlayPlaylist && ia_plid) {
         iTunesPlaylist playlist = WBAEEmptyDesc();
-        OSStatus err = [self playlist] ? iTunesGetPlaylistWithName((CFStringRef)[self playlist], &playlist) : errAENoSuchObject;
+        OSStatus err = [self playlist] ? iTunesGetPlaylistWithName(SPXNSToCFString(self.playlist), &playlist) : errAENoSuchObject;
         if (err == errAENoSuchObject) {
           err = iTunesGetPlaylistWithID(ia_plid, &playlist);
           if (noErr == err) {
             CFStringRef name = nil;
             if (noErr == iTunesCopyPlaylistStringProperty(&playlist, kiTunesNameKey, &name) && name) {
-              [self setPlaylist:(id)name uid:ia_plid];
-              CFRelease(name);
+              [self setPlaylist:SPXCFStringBridgingRelease(name) uid:ia_plid];
             }
           }
         }
@@ -471,7 +493,7 @@ static ITunesVisual sDefaultVisual = { .delay = -1 };
         
         err = iTunesGetTrackRate(&track, &rate);
         if (noErr == err) {
-          Boolean set = false;
+          bool set = false;
           if ([self iTunesAction] == kiTunesRateUp) {
             if (rate < 100) {
               set = true;
@@ -570,24 +592,16 @@ static ITunesVisual sDefaultVisual = { .delay = -1 };
   SPXSetterCopy(ia_playlist, aPlaylist);
 }
 
-- (iTunesAction)iTunesAction {
-  return ia_action;
-}
-
-- (void)setITunesAction:(iTunesAction)anAction {
-  ia_action = anAction;
-}
-
 - (const ITunesVisual *)visual {
   return ia_visual;
 }
 - (void)setVisual:(const ITunesVisual *)visual {
   if (visual) {
     if (!ia_visual)
-      ia_visual = NSZoneMalloc(nil, sizeof(*ia_visual));
+      ia_visual = malloc(sizeof(*ia_visual));
     memcpy(ia_visual, visual, sizeof(*ia_visual));
   } else if (ia_visual) {
-    NSZoneFree(nil, ia_visual);
+    free(ia_visual);
     ia_visual = NULL;
   }
 }
@@ -614,7 +628,7 @@ static ITunesVisual sDefaultVisual = { .delay = -1 };
 - (BOOL)autoinfo { return ia_iaFlags.autoinfo; }
 - (void)setAutoinfo:(BOOL)flag { SPXFlagSet(ia_iaFlags.autoinfo, flag); }
 
-- (int)visualMode {
+- (NSInteger)visualMode {
   return ia_iaFlags.visual;
 }
 - (void)setVisualMode:(NSInteger)mode {
@@ -623,7 +637,7 @@ static ITunesVisual sDefaultVisual = { .delay = -1 };
 
 #pragma mark -
 - (void)switchVisualStat {
-  Boolean state;
+  bool state;
   OSStatus err = iTunesGetVisualEnabled(&state);
   if (noErr == err) {
     verify_noerr(iTunesSetVisualEnabled(!state));
@@ -631,25 +645,25 @@ static ITunesVisual sDefaultVisual = { .delay = -1 };
 }
 
 - (void)volumeUp {
-  SInt16 volume = 0;
+  int16_t volume = 0;
   if (noErr == iTunesGetSoundVolume(&volume)) {
-    SInt16 newVol = MIN(100, volume + 5);
+    int16_t newVol = MIN(100, volume + 5);
     if (newVol != volume)
       verify_noerr(iTunesSetSoundVolume(newVol));
   }
 }
 
 - (void)volumeDown {
-  SInt16 volume = 0;
+  int16_t volume = 0;
   if (noErr == iTunesGetSoundVolume(&volume)) {
-    SInt16 newVol = MAX(0, volume - 5);
+    int16_t newVol = MAX(0, volume - 5);
     if (newVol != volume)
       verify_noerr(iTunesSetSoundVolume(newVol));
   }
 }
 
 - (void)toggleMute {
-	Boolean mute;
+	bool mute;
 	if (noErr == iTunesIsMuted(&mute))
 		verify_noerr(iTunesSetMuted(!mute));
 }
@@ -664,7 +678,7 @@ static ITunesVisual sDefaultVisual = { .delay = -1 };
 
 - (SparkAlert *)playPlaylist {
   NSString *name = [self playlist];
-  OSStatus err = iTunesPlayPlaylistWithName((CFStringRef)name);
+  OSStatus err = iTunesPlayPlaylistWithName(SPXNSToCFString(name));
   if (err == errAENoSuchObject && ia_plid != 0) {
     err = iTunesPlayPlaylistWithID(ia_plid);
   }

@@ -46,12 +46,6 @@ const ITunesVisual kiTunesDefaultSettings;
 	
   IBOutlet ITunesStarView *ibRate;
   IBOutlet ITunesProgressView *ibProgress;
-@private
-	NSPoint ia_location;
-
-	BOOL ia_artwork;
-	CGFloat ia_artWidth;
-	NSPoint ia_artOrigin;
 }
 
 + (ITunesInfo *)sharedWindow;
@@ -64,30 +58,23 @@ const ITunesVisual kiTunesDefaultSettings;
 - (void)getVisual:(ITunesVisual *)visual;
 - (void)setVisual:(const ITunesVisual *)visual;
 
-- (NSTimeInterval)delay;
-- (void)setDelay:(NSTimeInterval)aDelay;
-- (void)setPosition:(NSPoint)aPoint;
+@property(nonatomic) NSTimeInterval delay;
 
-- (BOOL)hasShadow;
-- (void)setHasShadow:(BOOL)hasShadow;
+@property(nonatomic) NSPoint position;
 
-- (BOOL)displayArtwork;
-- (void)setDisplayArtwork:(BOOL)flag;
+@property(nonatomic) BOOL hasShadow;
 
-- (NSColor *)textColor;
-- (void)setTextColor:(NSColor *)aColor;
+@property(nonatomic) BOOL displayArtwork;
 
-- (NSColor *)borderColor;
-- (void)setBorderColor:(NSColor *)aColor;
+@property(nonatomic, retain) NSColor *textColor;
 
-- (NSColor *)backgroundColor;
-- (void)setBackgroundColor:(NSColor *)aColor;
+@property(nonatomic, retain) NSColor *borderColor;
 
-- (NSColor *)backgroundTopColor;
-- (void)setBackgroundTopColor:(NSColor *)aColor;
+@property(nonatomic, retain) NSColor *backgroundColor;
 
-- (NSColor *)backgroundBottomColor;
-- (void)setBackgroundBottomColor:(NSColor *)aColor;
+@property(nonatomic, retain) NSColor *backgroundTopColor;
+
+@property(nonatomic, retain) NSColor *backgroundBottomColor;
 
 /* Internal */
 - (void)setArtworkVisible:(BOOL)flag;
@@ -127,61 +114,14 @@ typedef struct __attribute__ ((packed)) {
   CFSwappedFloat64 delay;
 } ITunesPackedVisual_v0;
 
-enum {
+typedef NS_OPTIONS(NSUInteger, ITunesVisualFlags) {
   kiTunesVisualFlagsReserved = 1 << 0,
-	kiTunesVisualFlagsShadow = 1 << 1,
-	kiTunesVisualFlagsArtwork = 1 << 2,
+	kiTunesVisualFlagsShadow   = 1 << 1,
+	kiTunesVisualFlagsArtwork  = 1 << 2,
 };
-WB_INLINE
-NSData *ITunesVisualPack(ITunesVisual *visual) {
-  NSMutableData *data = [[NSMutableData alloc] initWithCapacity:sizeof(ITunesPackedVisual)];
-  [data setLength:sizeof(ITunesPackedVisual)];
-  ITunesPackedVisual *pack = [data mutableBytes];
-	pack->version = 1;
-	if (visual->shadow)	pack->flags |= kiTunesVisualFlagsShadow;
-	if (visual->artwork)	pack->flags |= kiTunesVisualFlagsArtwork;
-  pack->delay = CFConvertFloat64HostToSwapped(visual->delay);
-  pack->x = CFConvertFloat32HostToSwapped((float)visual->location.x);
-  pack->y = CFConvertFloat32HostToSwapped((float)visual->location.y);
-  pack->colors[0] = OSSwapHostToBigInt64(ITunesVisualPackColor(visual->text));
-  pack->colors[1] = OSSwapHostToBigInt64(ITunesVisualPackColor(visual->border));
-  pack->colors[2] = OSSwapHostToBigInt64(ITunesVisualPackColor(visual->backtop));
-  pack->colors[3] = OSSwapHostToBigInt64(ITunesVisualPackColor(visual->backbot));
-  return [data autorelease];
-}
 
-WB_INLINE
-BOOL ITunesVisualUnpack(NSData *data, ITunesVisual *visual) {
-  NSCParameterAssert(visual != NULL);
-	bzero(visual, sizeof(*visual));
-  if (!data) return NO;
-	
-	if ([data length] == sizeof(ITunesPackedVisual_v0)) {
-		const ITunesPackedVisual_v0 *pack = [data bytes];
-		visual->artwork = 0;
-		visual->shadow = pack->shadow != 0;
-		visual->delay = CFConvertFloat64SwappedToHost(pack->delay);
-		visual->location.x = CFConvertFloat32SwappedToHost(pack->x);
-		visual->location.y = CFConvertFloat32SwappedToHost(pack->y);
-		ITunesVisualUnpackColor(OSSwapBigToHostInt64(pack->colors[0]), visual->text);
-		ITunesVisualUnpackColor(OSSwapBigToHostInt64(pack->colors[1]), visual->border);
-		ITunesVisualUnpackColor(OSSwapBigToHostInt64(pack->colors[2]), visual->backtop);
-		ITunesVisualUnpackColor(OSSwapBigToHostInt64(pack->colors[3]), visual->backbot);
-	} else if ([data length] >= sizeof(ITunesPackedVisual)) {
-		const ITunesPackedVisual *pack = [data bytes];
-		if (pack->version != 1) return NO;
-		visual->shadow = (pack->flags & kiTunesVisualFlagsShadow) != 0;
-		visual->artwork = (pack->flags & kiTunesVisualFlagsArtwork) != 0;
-		visual->delay = CFConvertFloat64SwappedToHost(pack->delay);
-		visual->location.x = CFConvertFloat32SwappedToHost(pack->x);
-		visual->location.y = CFConvertFloat32SwappedToHost(pack->y);
-		ITunesVisualUnpackColor(OSSwapBigToHostInt64(pack->colors[0]), visual->text);
-		ITunesVisualUnpackColor(OSSwapBigToHostInt64(pack->colors[1]), visual->border);
-		ITunesVisualUnpackColor(OSSwapBigToHostInt64(pack->colors[2]), visual->backtop);
-		ITunesVisualUnpackColor(OSSwapBigToHostInt64(pack->colors[3]), visual->backbot);
-	} else {
-		return NO;
-	}
-	
-  return YES;
-}
+WB_EXPORT
+NSData *ITunesVisualPack(ITunesVisual *visual);
+
+WB_EXPORT
+BOOL ITunesVisualUnpack(NSData *data, ITunesVisual *visual);

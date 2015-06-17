@@ -8,14 +8,10 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface ITunesStarView : NSView {
-  UInt8 ia_rate;
-  NSColor *ia_color;
-}
+@interface ITunesStarView : NSView
 
-- (UInt8)rate;
-- (void)setRate:(UInt8)rate;
+@property(nonatomic) uint8_t rate;
 
-- (void)setStarsColor:(NSColor *)aColor;
+@property(nonatomic, retain) NSColor *starsColor;
 
 @end

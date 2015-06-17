@@ -11,12 +11,6 @@
 
 @interface ITunesVisualSetting : NSObject {
   IBOutlet NSButton *ibShow;
-@private
-  id ia_delegate;
-  int ia_loc;
-  int ia_config;
-  NSString *ia_color;
-  ITunesInfo *ia_info;
 }
 
 - (IBAction)hide:(id)sender;
@@ -25,26 +19,19 @@
 
 - (IBAction)defaultSettings:(id)sender;
 
-- (CGFloat)delay;
-- (void)setDelay:(CGFloat)aDelay;
+@property(nonatomic) CGFloat delay;
 
-- (int)location;
-- (void)setLocation:(int)idx;
+@property(nonatomic) NSInteger location;
 
-- (BOOL)shadow;
-- (void)setShadow:(BOOL)aShadow;
+@property(nonatomic) BOOL shadow;
 
-- (NSColor *)color;
-- (void)setColor:(NSColor *)aColor;
+@property(nonatomic, retain) NSColor *color;
 
-- (int)colorComponent;
-- (void)setColorComponent:(int)cpnt;
+@property(nonatomic) NSInteger colorComponent;
 
-- (id)delegate;
-- (void)setDelegate:(id)delegate;
+@property(nonatomic, assign) id delegate;
 
-- (int)configuration;
-- (void)setConfiguration:(int)aConfig;
+@property(nonatomic) NSInteger configuration;
 
 - (void)getVisual:(ITunesVisual *)visual;
 - (void)setVisual:(const ITunesVisual *)visual;

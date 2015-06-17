@@ -11,7 +11,8 @@
 #import <WonderBox/WBGeometry.h>
 #import <WonderBox/WBCGFunctions.h>
 
-@implementation ITunesStarView
+@implementation ITunesStarView {
+}
 
 static
 void _ITunesDrawHalfString(NSPoint point, NSColor *color) {
@@ -34,42 +35,31 @@ void _ITunesDrawHalfString(NSPoint point, NSColor *color) {
     return self;
 }
 
-- (void) dealloc {
-  [ia_color release];
-  [super dealloc];
-}
-
-- (UInt8)rate {
-  return ia_rate;
-}
-- (void)setRate:(UInt8)rate {
-  if (ia_rate != rate) {
-    ia_rate = rate;
+- (void)setRate:(uint8_t)rate {
+  if (_rate != rate) {
+    _rate = rate;
     [self setNeedsDisplay:YES];
   }
 }
 
-- (NSColor *)starsColor {
-  return ia_color;
-}
 - (void)setStarsColor:(NSColor *)aColor {
-  SPXSetterRetainAndDo(ia_color, aColor, [self setNeedsDisplay:YES]);
+  SPXSetterRetainAndDo(_starsColor, aColor, [self setNeedsDisplay:YES]);
 }
 
 - (void)drawRect:(NSRect)rect {
   CGContextRef ctxt = [[NSGraphicsContext currentContext] graphicsPort];
   CGContextSaveGState(ctxt);
   /* Set fill color */
-  if (ia_color)
-    [ia_color setFill];
+  if (_starsColor)
+    [_starsColor setFill];
   else
     CGContextSetGrayFillColor(ctxt, 0, 1);
   
   // FIXME: userspace scale factor
   CGFloat shift = 0.5 / WBWindowUserSpaceScaleFactor([self window]);
-  if (ia_rate) {
+  if (_rate) {
     double center = 6;
-    unsigned rate = ia_rate / 2;
+    unsigned rate = _rate / 2;
     while (rate-- > 0) {
       WBCGContextAddStar(ctxt, CGPointMake(center + shift, 9), 5, 6, 0);
       center += 13;
@@ -77,16 +67,16 @@ void _ITunesDrawHalfString(NSPoint point, NSColor *color) {
     CGContextFillPath(ctxt);
     
     /* if 1/2 */
-    if (ia_rate % 2) {
-      _ITunesDrawHalfString(NSMakePoint(center - 4, 2), ia_color);
+    if (_rate % 2) {
+      _ITunesDrawHalfString(NSMakePoint(center - 4, 2), _starsColor);
       center += 11;
     }
     
-    rate = (10 - ia_rate) / 2;
+    rate = (10 - _rate) / 2;
     if (rate > 0) {
       /* Adjust color */
-      if (ia_color)
-        [[ia_color colorWithAlphaComponent:0.25 * [ia_color alphaComponent]] setFill];
+      if (_starsColor)
+        [[_starsColor colorWithAlphaComponent:0.25 * [_starsColor alphaComponent]] setFill];
       else
         CGContextSetGrayFillColor(ctxt, 0, .25);
       

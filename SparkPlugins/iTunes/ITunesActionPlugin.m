@@ -22,14 +22,24 @@
 static 
 NSImage *ITunesGetApplicationIcon(void) {
   NSImage *icon = nil;
-  NSString *itunes = WBLSFindApplicationForSignature(kiTunesSignature);
+  NSURL *itunes = SPXCFURLBridgingRelease(WBLSCopyApplicationURLForSignature(kiTunesSignature));
   if (itunes) {
-    icon = [[NSWorkspace sharedWorkspace] iconForFile:itunes];
+    icon = [[NSWorkspace sharedWorkspace] iconForFile:[itunes path]];
   }
   return icon;
 }
 
-@implementation ITunesActionPlugin
+@implementation ITunesActionPlugin {
+@private
+  struct _ia_apFlags {
+    unsigned int play:1;
+    unsigned int loaded:1;
+    unsigned int background:1;
+    unsigned int reserved:29;
+  } ia_apFlags;
+  NSArray *_playlists;
+  NSDictionary *it_playlists;
+}
 
 + (NSSet *)keyPathsForValuesAffectingValueForKey:(NSString *)key {
   if ([key isEqualToString:@"lsPlay"] || [key isEqualToString:@"rating"] || [key isEqualToString:@"showInfo"])
@@ -43,12 +53,12 @@ NSImage *ITunesGetApplicationIcon(void) {
   return self;
 }
 
-- (void)dealloc {
-  [ibVisual release]; // IB root object
-  [it_playlist release];
-  [it_playlists release];
-  [super dealloc];
-}
+//- (void)dealloc {
+//  [ibVisual release]; // IB root object
+//  [it_playlist release];
+//  [it_playlists release];
+//  [super dealloc];
+//}
 
 #pragma mark -
 - (void)awakeFromNib {
@@ -179,10 +189,8 @@ NSImage *ITunesGetApplicationIcon(void) {
 - (void)loadPlaylists {
   NSDictionary *lists = [[self class] iTunesPlaylists];
   [self willChangeValueForKey:@"playlists"];
-  if (it_lists) {
-    [it_lists release];
-    it_lists = nil;
-  }
+  if (_playlists)
+    _playlists = nil;
   SPXSetterRetain(it_playlists, lists);
   [self didChangeValueForKey:@"playlists"];
 }
@@ -238,14 +246,6 @@ NSImage *ITunesGetApplicationIcon(void) {
   [[self sparkAction] setRating:rate * 10];
 }
 
-- (NSString *)playlist {
-  return it_playlist;
-}
-
-- (void)setPlaylist:(NSString *)aPlaylist {
-  SPXSetterCopy(it_playlist, aPlaylist);
-}
-
 - (BOOL)lsPlay {
   return [[self sparkAction] launchPlay];
 }
@@ -294,112 +294,100 @@ NSImage *ITunesGetApplicationIcon(void) {
 
 #pragma mark -
 #pragma mark iTunes Playlists
-static
-NSInteger _iTunesSortPlaylists(id num1, id num2, void *context) {
-  NSDictionary *info = (NSDictionary *)context;
-  NSNumber *v1 = [[info objectForKey:num1] objectForKey:@"kind"];
-  NSNumber *v2 = [[info objectForKey:num2] objectForKey:@"kind"];
-  NSInteger result = [v1 compare:v2];
-  if (result == NSOrderedSame) {
-    result = [num1 caseInsensitiveCompare:num2];
-  }
-  return result;
-}
-
 - (NSArray *)playlists {
-  if (!it_lists && it_playlists) {
-    it_lists = [[[it_playlists allKeys] sortedArrayUsingFunction:_iTunesSortPlaylists context:it_playlists] retain];
+  if (!_playlists && it_playlists) {
+    _playlists = [it_playlists.allKeys sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+      NSNumber *v1 = [[self->it_playlists objectForKey:obj1] objectForKey:@"kind"];
+      NSNumber *v2 = [[self->it_playlists objectForKey:obj2] objectForKey:@"kind"];
+      NSInteger result = [v1 compare:v2];
+      if (result == NSOrderedSame)
+        result = [obj1 caseInsensitiveCompare:obj2];
+      return result;
+    }];
   }
-  return it_lists;
+  return _playlists;
 }
 
 static
-NSString *_iTunesGetiAppsLibraryPath(void) {
-  CFStringRef path = NULL;
+NSURL *_iTunesGetiAppsLibraryPath(void) {
+  NSURL *url = nil;
   CFArrayRef paths = CFPreferencesCopyValue(CFSTR("iTunesRecentDatabases"), CFSTR("com.apple.iApps"), kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
   if (paths) {
-    path = CFArrayGetCount(paths) > 0 ? CFArrayGetValueAtIndex(paths, 0) : NULL;
-    if (path) CFRetain(path);
+    CFStringRef path = CFArrayGetCount(paths) > 0 ? CFArrayGetValueAtIndex(paths, 0) : NULL;
+    if (path)
+      url = [NSURL fileURLWithPath:SPXCFToNSString(path)];
     CFRelease(paths);
   }
-  return [(id)path autorelease];
+  return url;
 }
 
 static
-NSString *_iTunesGetLibraryPathFromPreferences(Boolean compat) {
-  NSString *path = nil;
+NSURL *_iTunesGetLibraryPathFromPreferences(Boolean compat) {
+  NSURL *path = nil;
   CFDataRef data = CFPreferencesCopyValue(CFSTR("alis:1:iTunes Library Location"),
                                           CFSTR("com.apple.iTunes"),
                                           kCFPreferencesCurrentUser,
                                           kCFPreferencesAnyHost);
   if (data) {
-    WBAlias *alias = [[WBAlias alloc] initFromData:(id)data];
-    if (alias) {
-      path = [[alias path] stringByAppendingPathComponent:compat ? @"iTunes Music Library.xml" : @"iTunes Library.xml"];
-      [alias release];
-    }
-    CFRelease(data);
+    WBAlias *alias = [[WBAlias alloc] initFromData:SPXCFDataBridgingRelease(data)];
+    if (alias)
+      path = [[alias URL] URLByAppendingPathComponent:compat ? @"iTunes Music Library.xml" : @"iTunes Library.xml"];
   }
   return path;
 }
 
 static 
-NSString *_iTunesGetLibraryFileInFolder(OSType folder, Boolean compat) {
-  FSRef ref;
-  NSString *file = nil;
+NSURL *_iTunesGetLibraryFileInFolder(OSType folder, Boolean compat) {
+  NSURL *url = WBFSFindFolder(folder, kUserDomain, false);
   /* Get User Special Folder */
-  if (noErr == FSFindFolder(kUserDomain, folder, kDontCreateFolder, &ref)) {
-    file = [NSString stringFromFSRef:&ref];
-    if (file) {
-      /* Get User Music Library */
-      file = [file stringByAppendingPathComponent:compat ? @"/iTunes/iTunes Music Library.xml" : @"/iTunes/iTunes Library.xml"];
-    }
+  if (url) {
+    /* Get User Music Library */
+    url = [url URLByAppendingPathComponent:compat ? @"/iTunes/iTunes Music Library.xml" : @"/iTunes/iTunes Library.xml"];
   }
-  return file;
+  return url;
 }
 
 WB_INLINE
-NSString *__iTunesFindLibrary(Boolean compat) {
-  NSString *file;
+NSURL *__iTunesFindLibrary(Boolean compat) {
+  NSURL *file;
   
   /* Get from iApps preferences */
   file = _iTunesGetiAppsLibraryPath();
   
   /* Get from iTunes preferences */
-  if (!file || ![[NSFileManager defaultManager] fileExistsAtPath:file]) {
+  if (!file || ![file checkResourceIsReachableAndReturnError:NULL]) {
     file = _iTunesGetLibraryPathFromPreferences(compat);
   }
   
   /* Search in User Music Folder */
-  if (!file || ![[NSFileManager defaultManager] fileExistsAtPath:file]) {
+  if (!file || ![file checkResourceIsReachableAndReturnError:NULL]) {
     file = _iTunesGetLibraryFileInFolder(kMusicDocumentsFolderType, compat);
   }
   
   /* Search in User Document folder */
-  if (!file || ![[NSFileManager defaultManager] fileExistsAtPath:file]) {
+  if (!file || ![file checkResourceIsReachableAndReturnError:NULL]) {
     file = _iTunesGetLibraryFileInFolder(kDocumentsFolderType, compat);
   }
   
-  if (file && ![[NSFileManager defaultManager] fileExistsAtPath:file])
+  if (file && ![file checkResourceIsReachableAndReturnError:NULL])
     file = nil;
   
   return file;
 }
 
 + (NSDictionary *)iTunesPlaylists {
-  NSMutableDictionary *playlists = iTunesIsRunning(NULL) ? (id)iTunesCopyPlaylists() : nil;
+  NSDictionary *playlists = iTunesIsRunning(NULL) ? SPXCFDictionaryBridgingRelease(iTunesCopyPlaylists()) : nil;
   if (nil == playlists) {
-    
-    NSString *file = __iTunesFindLibrary(false);
+    NSURL *file = __iTunesFindLibrary(false);
     if (!file)
       file = __iTunesFindLibrary(true);
     
     if (!file)
       return nil;
     
-    NSDictionary *library = [[NSDictionary alloc] initWithContentsOfFile:file];
+    NSDictionary *library = [[NSDictionary alloc] initWithContentsOfURL:file];
     if (library) {
-      playlists = [[NSMutableDictionary alloc] init];
+      NSMutableDictionary *pl = [[NSMutableDictionary alloc] init];
       NSDictionary *list;
       NSEnumerator *lists = [[library objectForKey:@"Playlists"] objectEnumerator];
       while (list = [lists nextObject]) {
@@ -424,13 +412,12 @@ NSString *__iTunesFindLibrary(Boolean compat) {
         NSDictionary *plist = [[NSDictionary alloc] initWithObjectsAndKeys:
                                @(type), @"kind",
                                ppid, @"uid", nil];
-        [playlists setObject:plist forKey:[list objectForKey:@"Name"]];
-        [plist release];
+        [pl setObject:plist forKey:[list objectForKey:@"Name"]];
       }
+      playlists = pl;
     }
-    [library release];
   }
-  return [playlists autorelease];
+  return playlists;
 }
 
 #pragma mark Playlist menu

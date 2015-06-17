@@ -20,42 +20,27 @@
   IBOutlet NSPopUpButton *uiPlaylists;
   
   IBOutlet ITunesVisualSetting *ibVisual;
-  @private
-    struct _ia_apFlags {
-      unsigned int play:1;
-      unsigned int loaded:1;
-      unsigned int background:1;
-      unsigned int reserved:29;
-    } ia_apFlags;
-  NSString *it_playlist;
-  
-  NSArray *it_lists;
-  NSDictionary *it_playlists;
 }
 
-- (iTunesAction)iTunesAction;
-- (void)setITunesAction:(iTunesAction)newAction;
+@property(nonatomic) iTunesAction iTunesAction;
 
-- (SInt32)rating;
-- (void)setRating:(SInt32)rate;
+@property(nonatomic) int32_t rating;
 
-- (NSString *)playlist;
-- (void)setPlaylist:(NSString *)aPlaylist;
+@property(nonatomic, copy) NSString *playlist;
 
-- (NSArray *)playlists;
+@property(nonatomic, readonly) NSArray *playlists;
 
-- (NSString *)defaultName;
+@property(nonatomic, readonly) NSString *defaultName;
 
 - (void)loadPlaylists;
 + (NSDictionary *)iTunesPlaylists;
 
 /* Launch flags */
-- (BOOL)lsPlay;
-- (void)setLsPlay:(BOOL)flag;
-- (BOOL)lsHide;
-- (void)setLsHide:(BOOL)flag;
-- (BOOL)lsBackground;
-- (void)setLsBackground:(BOOL)flag;
+@property(nonatomic) BOOL lsPlay;
+
+@property(nonatomic) BOOL lsHide;
+
+@property(nonatomic) BOOL lsBackground;
 
 - (IBAction)toggleSettings:(id)sender;
 

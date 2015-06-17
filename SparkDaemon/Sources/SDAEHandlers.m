@@ -23,8 +23,7 @@ OSStatus SDGetEditorIsTrapping(Boolean *trapping) {
   require_noerr(err, bail);
   
   /* Check front process */
-  ProcessInfoRec info;
-  bzero(&info, sizeof(info));
+  ProcessInfoRec info = {};
   info.processInfoLength = (UInt32)sizeof(info);
   err = GetProcessInformation(&psn, &info);
   require_noerr(err, bail);

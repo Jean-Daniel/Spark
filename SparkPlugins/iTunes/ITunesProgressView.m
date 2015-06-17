@@ -10,7 +10,10 @@
 
 #import <WonderBox/WBCGFunctions.h>
 
-@implementation ITunesProgressView
+@implementation ITunesProgressView {
+@private
+  CGFloat _red, _green, _blue, _alpha;
+}
 
 - (void)setColor:(NSColor *)aColor {
   if (aColor) {

@@ -66,6 +66,58 @@ NSPoint __iTunesGetLocationForType(int type) {
   return NSZeroPoint;
 }
 
+NSData *ITunesVisualPack(ITunesVisual *visual) {
+  NSMutableData *data = [[NSMutableData alloc] initWithCapacity:sizeof(ITunesPackedVisual)];
+  [data setLength:sizeof(ITunesPackedVisual)];
+  ITunesPackedVisual *pack = [data mutableBytes];
+  pack->version = 1;
+  if (visual->shadow)	pack->flags |= kiTunesVisualFlagsShadow;
+  if (visual->artwork)	pack->flags |= kiTunesVisualFlagsArtwork;
+  pack->delay = CFConvertFloat64HostToSwapped(visual->delay);
+  pack->x = CFConvertFloat32HostToSwapped((float)visual->location.x);
+  pack->y = CFConvertFloat32HostToSwapped((float)visual->location.y);
+  pack->colors[0] = OSSwapHostToBigInt64(ITunesVisualPackColor(visual->text));
+  pack->colors[1] = OSSwapHostToBigInt64(ITunesVisualPackColor(visual->border));
+  pack->colors[2] = OSSwapHostToBigInt64(ITunesVisualPackColor(visual->backtop));
+  pack->colors[3] = OSSwapHostToBigInt64(ITunesVisualPackColor(visual->backbot));
+  return data;
+}
+
+BOOL ITunesVisualUnpack(NSData *data, ITunesVisual *visual) {
+  NSCParameterAssert(visual != NULL);
+  memset(visual, 0, sizeof(*visual));
+  if (!data) return NO;
+
+  if ([data length] == sizeof(ITunesPackedVisual_v0)) {
+    const ITunesPackedVisual_v0 *pack = [data bytes];
+    visual->artwork = 0;
+    visual->shadow = pack->shadow != 0;
+    visual->delay = CFConvertFloat64SwappedToHost(pack->delay);
+    visual->location.x = CFConvertFloat32SwappedToHost(pack->x);
+    visual->location.y = CFConvertFloat32SwappedToHost(pack->y);
+    ITunesVisualUnpackColor(OSSwapBigToHostInt64(pack->colors[0]), visual->text);
+    ITunesVisualUnpackColor(OSSwapBigToHostInt64(pack->colors[1]), visual->border);
+    ITunesVisualUnpackColor(OSSwapBigToHostInt64(pack->colors[2]), visual->backtop);
+    ITunesVisualUnpackColor(OSSwapBigToHostInt64(pack->colors[3]), visual->backbot);
+  } else if ([data length] >= sizeof(ITunesPackedVisual)) {
+    const ITunesPackedVisual *pack = [data bytes];
+    if (pack->version != 1) return NO;
+    visual->shadow = (pack->flags & kiTunesVisualFlagsShadow) != 0;
+    visual->artwork = (pack->flags & kiTunesVisualFlagsArtwork) != 0;
+    visual->delay = CFConvertFloat64SwappedToHost(pack->delay);
+    visual->location.x = CFConvertFloat32SwappedToHost(pack->x);
+    visual->location.y = CFConvertFloat32SwappedToHost(pack->y);
+    ITunesVisualUnpackColor(OSSwapBigToHostInt64(pack->colors[0]), visual->text);
+    ITunesVisualUnpackColor(OSSwapBigToHostInt64(pack->colors[1]), visual->border);
+    ITunesVisualUnpackColor(OSSwapBigToHostInt64(pack->colors[2]), visual->backtop);
+    ITunesVisualUnpackColor(OSSwapBigToHostInt64(pack->colors[3]), visual->backbot);
+  } else {
+    return NO;
+  }
+  
+  return YES;
+}
+
 WB_INLINE
 BOOL __FloatEquals(CGFloat a, CGFloat b) { double __delta = a - b; return (__delta < 1e-5 && __delta > -1e-5); }
 WB_INLINE
@@ -131,7 +183,11 @@ BOOL ITunesVisualIsEqualTo(const ITunesVisual *v1, const ITunesVisual *v2) {
 
 @end
 
-@implementation ITunesInfo
+@implementation ITunesInfo {
+@private
+  CGFloat ia_artWidth;
+  NSPoint ia_artOrigin;
+}
 
 + (void)initialize {
   [NSColor setIgnoresAlpha:NO];
@@ -157,24 +213,22 @@ BOOL ITunesVisualIsEqualTo(const ITunesVisual *v1, const ITunesVisual *v2) {
   if (self = [super initWithWindow:info]) {
     [NSBundle loadNibNamed:@"iTunesInfo" owner:self];
 		NSAssert(ibArtwork, @"nib not loaded ?");
-		[ibArtwork retain]; // retain the view as we will remove it from it's superview
+    CFRetain((__bridge CFTypeRef)(ibArtwork)); // retain the view as we will remove it from it's superview
     [self setVisual:&kiTunesDefaultSettings];
 		[info setDelegate:self];
   }
-  [info release];
   return self;
 }
 
 - (void)dealloc {
-	[ibArtwork release];
+  SPXCFRelease((__bridge CFTypeRef)(ibArtwork));
   [[self window] close];
-  [super dealloc];
 }
 
 - (void)setIbView:(NSView *)aView {
   /* Nib root object should be release */
-  [[self window] setContentSize:[aView bounds].size];
-  [[self window] setContentView:[aView autorelease]];
+  [[self window] setContentSize:aView.bounds.size];
+  [[self window] setContentView:aView];
 }
 
 #pragma mark -
@@ -185,13 +239,13 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
 }
 
 - (void)getVisual:(ITunesVisual *)visual {
-  bzero(visual, sizeof(*visual));
+  memset(visual, 0, sizeof(*visual));
   /* Get delay */
   visual->delay = [self delay];
   /* Get location */
-	NSUInteger type = __iTunesGetTypeForLocation(ia_location);
+	NSUInteger type = __iTunesGetTypeForLocation(_position);
   if (type != kiTunesVisualOther)
-    visual->location = ia_location;
+    visual->location = _position;
   else
     visual->location = [[self window] frame].origin;
   /* Get shadow */
@@ -220,21 +274,18 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
   [(id)[self window] setDelay:aDelay];
 }
 
-- (BOOL)displayArtwork {
-	return ia_artwork;
-}
 - (void)setDisplayArtwork:(BOOL)flag {
-	ia_artwork = flag;
+	_displayArtwork = flag;
 	if (SparkGetCurrentContext() == kSparkContext_Editor)
-		[self setArtworkVisible:ia_artwork];
+		[self setArtworkVisible:_displayArtwork];
 }
 
 #define SCREEN_MARGIN 17
 - (NSPoint)windowOriginForSize:(NSSize)size {
-	NSPoint origin = ia_location;
+	NSPoint origin = _position;
   //NSRect bounds = [[self window] frame];
   NSRect screen = [[[self window] screen] ? : [NSScreen mainScreen] frame];
-  NSUInteger type = __iTunesGetTypeForLocation(ia_location);
+  NSUInteger type = __iTunesGetTypeForLocation(_position);
   switch (type) {
     case kiTunesVisualUL:
       origin.x = SCREEN_MARGIN * WBScreenUserSpaceScaleFactor([NSScreen mainScreen]);
@@ -257,7 +308,7 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
 }
 
 - (void)setPosition:(NSPoint)aPoint {
-  ia_location = aPoint;
+  _position = aPoint;
 	NSRect frame = [[self window] frame];
 	frame.origin = [self windowOriginForSize:frame.size];
 	[[self window] setFrameOrigin:frame.origin];
@@ -318,8 +369,7 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
       iTunesCopyTrackStringProperty(track, kiTunesNameKey, &value);
   }
   if (value) {
-    [ibName setStringValue:(id)value];
-    CFRelease(value);
+    [ibName setStringValue:SPXCFStringBridgingRelease(value)];
     value = NULL;
   } else {
     [ibName setStringValue:NSLocalizedStringFromTableInBundle(@"<untiled>", nil, kiTunesActionBundle, @"Untitled track info")];
@@ -333,8 +383,7 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
       iTunesCopyTrackStringProperty(track, kiTunesAlbumKey, &value);
   }
   if (value) {
-    [ibAlbum setStringValue:(id)value];
-    CFRelease(value);
+    [ibAlbum setStringValue:SPXCFStringBridgingRelease(value)];
     value = NULL;
   } else {
     [ibAlbum setStringValue:@""];
@@ -349,8 +398,7 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
   }
   
   if (value) {
-    [ibArtist setStringValue:(id)value];
-    CFRelease(value);
+    [ibArtist setStringValue:SPXCFStringBridgingRelease(value)];
     value = NULL;
   } else {
     [ibArtist setStringValue:@""];
@@ -382,19 +430,17 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
 	/* Image */
 	BOOL display = NO;
 	[ibArtwork setImage:nil];
-	if (track && ia_artwork) {
+	if (track && _displayArtwork) {
     OSType type;
 		CFDataRef data = NULL;
 		if (noErr == iTunesCopyTrackArtworkData(track, &data, &type) && data) {
-			NSImage *image = [[NSImage alloc] initWithData:(id)data];
+			NSImage *image = [[NSImage alloc] initWithData:SPXCFDataBridgingRelease(data)];
 			if (image) {
 				// display image zone
 				[self setArtworkVisible:YES];
 				[ibArtwork setImage:image];
-				[image release];
 				display = YES;
 			}
-			CFRelease(data);
 		}
 	}
 	[self setArtworkVisible:display];
@@ -567,7 +613,6 @@ void _iTunesDeriveAllColors(WBCGMultiShadingInfo *info) {
 
 - (void)dealloc {
   CGLayerRelease(_shading);
-  [super dealloc];
 }
 
 - (void)clearShading {
@@ -591,7 +636,6 @@ void _iTunesDeriveAllColors(WBCGMultiShadingInfo *info) {
   if (!_shading) {
     WBGradientBuilder *builder = [[WBGradientBuilder alloc] initWithDefinition:_info];
     _shading = [builder newLayerWithVerticalGradient:CGRectGetHeight(rect) context:ctxt];
-    [builder release];
   }
   CGContextDrawLayerInRect(ctxt, rect, _shading);
   CGContextRestoreGState(ctxt);

@@ -13,7 +13,7 @@
 #define kiTunesActionBundleIdentifier @"org.shadowlab.spark.action.itunes"
 #define kiTunesActionBundle		      [NSBundle bundleWithIdentifier:kiTunesActionBundleIdentifier]
 
-typedef enum {
+typedef NS_ENUM(uint32_t, iTunesAction) {
   kiTunesLaunch        = 'Laun', /* 1281455470 */
   kiTunesQuit          = 'Quit', /* 1366649204 */
   
@@ -34,75 +34,43 @@ typedef enum {
   
   kiTunesVisual        = 'Visu', /* 1449751413 */
   kiTunesEjectCD       = 'Ejec', /* 1164600675 */
-} iTunesAction;
+};
 
 enum {
   kiTunesSettingDefault = 0,
   kiTunesSettingCustom = 1,
 };
 
-@interface ITunesAction : SparkAction <NSCoding, NSCopying> {
-  @private
-    iTunesAction ia_action;
-  
-  UInt64 ia_plid;
-  NSString *ia_playlist;
-  
-  struct _ia_iaFlags {
-    unsigned int rate:7; /* 0 to 100 */
-    /* launch flags */
-    unsigned int hide:1;
-    unsigned int notify:1;
-    unsigned int autoplay:1;
-    unsigned int background:1;
-    /* Play/Pause settings */
-    unsigned int autorun:1;
-    /* Track Info */
-    unsigned int autoinfo:1;    
-    /* visuals settings */
-    unsigned int show:1; /* visual enabled */
-    unsigned int visual:2; /* visual type: default, custom */
-    unsigned int reserved:16;
-  } ia_iaFlags;
-  
-  ITunesVisual *ia_visual;
-}
+@interface ITunesAction : SparkAction <NSCoding, NSCopying>
 
 + (ITunesVisual *)defaultVisual;
 + (void)setDefaultVisual:(const ITunesVisual *)visual;
 
-- (SInt32)rating;
-- (void)setRating:(SInt32)aRate;
+@property(nonatomic) int32_t rating;
 
-- (NSString *)playlist;
+@property(nonatomic, readonly) NSString *playlist;
+
 - (void)setPlaylist:(NSString *)newPlaylist uid:(UInt64)uid;
 
-- (iTunesAction)iTunesAction;
-- (void)setITunesAction:(iTunesAction)newAction;
+@property(nonatomic) iTunesAction iTunesAction;
 
-- (const ITunesVisual *)visual;
-- (void)setVisual:(const ITunesVisual *)visual;
+@property(nonatomic) const ITunesVisual *visual;
 
-- (BOOL)showInfo;
-- (void)setShowInfo:(BOOL)flag;
+@property(nonatomic) BOOL showInfo;
 
-- (int)visualMode;
-- (void)setVisualMode:(NSInteger)mode;
+@property(nonatomic) NSInteger visualMode;
 
-- (BOOL)launchHide;
-- (void)setLaunchHide:(BOOL)flag;
-- (BOOL)launchPlay;
-- (void)setLaunchPlay:(BOOL)flag;
-- (BOOL)launchNotify;
-- (void)setLaunchNotify:(BOOL)flag;
-- (BOOL)launchBackground;
-- (void)setLaunchBackground:(BOOL)flag;
+@property(nonatomic) BOOL launchHide;
 
-- (BOOL)autorun;
-- (void)setAutorun:(BOOL)value;
+@property(nonatomic) BOOL launchPlay;
 
-- (BOOL)autoinfo;
-- (void)setAutoinfo:(BOOL)flag;
+@property(nonatomic) BOOL launchNotify;
+
+@property(nonatomic) BOOL launchBackground;
+
+@property(nonatomic) BOOL autorun;
+
+@property(nonatomic) BOOL autoinfo;
 
 - (void)switchVisualStat;
 

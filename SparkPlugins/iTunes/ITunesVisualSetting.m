@@ -14,7 +14,14 @@
 - (void)updateLocation:(int)idx;
 @end
 
-@implementation ITunesVisualSetting
+@implementation ITunesVisualSetting {
+@private
+  id ia_delegate;
+  int ia_loc;
+  int ia_config;
+  NSString *ia_color;
+  ITunesInfo *ia_info;
+}
 
 + (BOOL)automaticallyNotifiesObserversForKey:(NSString *)key {
   return ![key isEqualToString:@"location"];

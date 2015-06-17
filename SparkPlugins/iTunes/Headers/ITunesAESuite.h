@@ -44,29 +44,28 @@ typedef enum {
   kiTunesStateRewinding		= 'kPSR'
 } ITunesState;
 
-
 WB_PRIVATE
-Boolean iTunesIsRunning(ProcessSerialNumber *proc);
+bool iTunesIsRunning(ProcessSerialNumber *proc);
 
 WB_PRIVATE
 OSStatus iTunesGetPlayerState(ITunesState *state);
 WB_PRIVATE
-OSStatus iTunesGetPlayerPosition(UInt32 *position);
+OSStatus iTunesGetPlayerPosition(uint32_t *position);
 
 WB_PRIVATE
-OSStatus iTunesGetVisualEnabled(Boolean *state);
+OSStatus iTunesGetVisualEnabled(bool *state);
 WB_PRIVATE
-OSStatus iTunesSetVisualEnabled(Boolean state);
+OSStatus iTunesSetVisualEnabled(bool state);
 
 WB_PRIVATE
-OSStatus iTunesIsMuted(Boolean *mute);
+OSStatus iTunesIsMuted(bool *mute);
 WB_PRIVATE
-OSStatus iTunesSetMuted(Boolean mute);
+OSStatus iTunesSetMuted(bool mute);
 
 WB_PRIVATE
-OSStatus iTunesGetSoundVolume(SInt16 *volume);
+OSStatus iTunesGetSoundVolume(int16_t *volume);
 WB_PRIVATE
-OSStatus iTunesSetSoundVolume(SInt16 volume);
+OSStatus iTunesSetSoundVolume(int16_t volume);
 
 WB_PRIVATE
 OSStatus iTunesCopyCurrentStreamTitle(CFStringRef *title);
@@ -110,19 +109,19 @@ WB_PRIVATE
 OSStatus iTunesGetCurrentTrack(iTunesTrack *track);
 
 WB_PRIVATE
-OSStatus iTunesSetTrackRate(iTunesTrack *track, UInt32 rate);
+OSStatus iTunesSetTrackRate(iTunesTrack *track, uint32_t rate);
 WB_PRIVATE
-OSStatus iTunesGetTrackRate(iTunesTrack *track, UInt32 *rate);
+OSStatus iTunesGetTrackRate(iTunesTrack *track, uint32_t *rate);
 
 WB_PRIVATE
-OSStatus iTunesSetCurrentTrackRate(UInt32 rate);
+OSStatus iTunesSetCurrentTrackRate(uint32_t rate);
 
 WB_PRIVATE
 OSStatus iTunesCopyTrackArtworkData(iTunesTrack *track, CFDataRef *value, OSType *type);
 WB_PRIVATE
 OSStatus iTunesCopyTrackStringProperty(iTunesTrack *track, ITunesTrackProperty property, CFStringRef *value);
 WB_PRIVATE
-OSStatus iTunesGetTrackIntegerProperty(iTunesTrack *track, ITunesTrackProperty property, SInt32 *value);
+OSStatus iTunesGetTrackIntegerProperty(iTunesTrack *track, ITunesTrackProperty property, int32_t *value);
 
 #pragma mark -
 #pragma mark Playlists
@@ -135,19 +134,19 @@ CFDictionaryRef iTunesCopyPlaylists(void);
 WB_PRIVATE
 OSStatus iTunesPlayPlaylist(iTunesPlaylist *playlist);
 WB_PRIVATE
-OSStatus iTunesPlayPlaylistWithID(SInt64 uid);
+OSStatus iTunesPlayPlaylistWithID(int64_t uid);
 WB_PRIVATE
 OSStatus iTunesPlayPlaylistWithName(CFStringRef name);
 
 WB_PRIVATE
 OSStatus iTunesGetCurrentPlaylist(iTunesPlaylist *playlist);
 WB_PRIVATE
-OSStatus iTunesGetPlaylistWithID(SInt64 uid, iTunesPlaylist *playlist);
+OSStatus iTunesGetPlaylistWithID(int64_t uid, iTunesPlaylist *playlist);
 WB_PRIVATE
 OSStatus iTunesGetPlaylistWithName(CFStringRef name, iTunesPlaylist *playlist);
 
 WB_PRIVATE
-OSStatus iTunesGetPlaylistIntegerProperty(iTunesPlaylist *playlist, AEKeyword property, SInt32 *value);
+OSStatus iTunesGetPlaylistIntegerProperty(iTunesPlaylist *playlist, AEKeyword property, int32_t *value);
 WB_PRIVATE
 OSStatus iTunesCopyPlaylistStringProperty(iTunesPlaylist *playlist, AEKeyword property, CFStringRef *value);
 

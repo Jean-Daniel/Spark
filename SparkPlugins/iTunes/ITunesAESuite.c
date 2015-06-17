@@ -33,6 +33,15 @@ bail:
   return err;
 }
 
+WB_INLINE
+OSStatus _WBAESendEventReturnBool(AppleEvent* pAppleEvent, bool* pValue) {
+  Boolean b;
+  OSStatus err = WBAESendEventReturnBoolean(pAppleEvent, &b);
+  if (noErr == err && pValue)
+    *pValue = b;
+  return err;
+}
+
 static
 OSStatus _iTunesCopyObjectStringProperty(AEDesc *object, AEKeyword property, CFStringRef *value) {
   AppleEvent theEvent;
@@ -71,7 +80,7 @@ bail:
   return err;
 }
 
-Boolean iTunesIsRunning(ProcessSerialNumber *proc) {
+bool iTunesIsRunning(ProcessSerialNumber *proc) {
   ProcessSerialNumber psn = WBProcessGetProcessWithSignature(kiTunesSignature);
   if (proc) *proc = psn;
   return psn.lowLongOfPSN != kNoProcess;
@@ -121,7 +130,7 @@ bail:
   return err;
 }
 
-OSStatus iTunesGetVisualEnabled(Boolean *state) {
+OSStatus iTunesGetVisualEnabled(bool *state) {
   AppleEvent theEvent;
   OSStatus err = _iTunesCreateEvent(kAECoreSuite, kAEGetData, &theEvent);
   require_noerr(err, bail);
@@ -129,7 +138,7 @@ OSStatus iTunesGetVisualEnabled(Boolean *state) {
   err = WBAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty, 'pVsE', NULL);
   require_noerr(err, bail);
   
-  err = WBAESendEventReturnBoolean(&theEvent, state);
+  err = _WBAESendEventReturnBool(&theEvent, state);
   require_noerr(err, bail);
   
 bail:
@@ -137,7 +146,7 @@ bail:
   return err;
 }
 
-OSStatus iTunesSetVisualEnabled(Boolean state) {
+OSStatus iTunesSetVisualEnabled(bool state) {
   AppleEvent theEvent;
   OSStatus err = _iTunesCreateEvent(kAECoreSuite, kAESetData, &theEvent);
   require_noerr(err, bail);
@@ -156,7 +165,7 @@ bail:
   return err;
 }
 
-OSStatus iTunesIsMuted(Boolean *mute) {
+OSStatus iTunesIsMuted(bool *mute) {
   AppleEvent theEvent;
   OSStatus err = _iTunesCreateEvent(kAECoreSuite, kAEGetData, &theEvent);
   require_noerr(err, bail);
@@ -164,7 +173,7 @@ OSStatus iTunesIsMuted(Boolean *mute) {
   err = WBAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty,'pMut', NULL);
   require_noerr(err, bail);
   
-  err = WBAESendEventReturnBoolean(&theEvent, mute);
+  err = _WBAESendEventReturnBool(&theEvent, mute);
   require_noerr(err, bail);
   
 bail:
@@ -172,7 +181,7 @@ bail:
   return err;
 }
 
-OSStatus iTunesSetMuted(Boolean mute) {
+OSStatus iTunesSetMuted(bool mute) {
   AppleEvent theEvent;
   OSStatus err = _iTunesCreateEvent(kAECoreSuite, kAESetData, &theEvent);
   require_noerr(err, bail);
@@ -559,7 +568,7 @@ OSStatus iTunesGetPlaylistIntegerProperty(iTunesPlaylist *playlist, AEKeyword pr
 
 #pragma mark -
 static
-OSStatus iTunesGetPlaylistShuffle(iTunesPlaylist *playlist, Boolean *shuffle) {
+OSStatus iTunesGetPlaylistShuffle(iTunesPlaylist *playlist, bool *shuffle) {
   AppleEvent theEvent;
   /* tell application "iTunes" to get ... */
   OSStatus err = _iTunesCreateEvent(kAECoreSuite, kAEGetData, &theEvent);
@@ -569,7 +578,7 @@ OSStatus iTunesGetPlaylistShuffle(iTunesPlaylist *playlist, Boolean *shuffle) {
   err = WBAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty, 'pShf', playlist);
   require_noerr(err, bail);
   
-  err = WBAESendEventReturnBoolean(&theEvent, shuffle);
+  err = _WBAESendEventReturnBool(&theEvent, shuffle);
   require_noerr(err, bail);
   
 bail:
@@ -577,7 +586,7 @@ bail:
   return err;
 }
 static
-OSStatus iTunesSetPlaylistShuffle(iTunesPlaylist *playlist, Boolean shuffle) {
+OSStatus iTunesSetPlaylistShuffle(iTunesPlaylist *playlist, bool shuffle) {
   AppleEvent theEvent;
   /* tell application "iTunes" to set ... */
   OSStatus err = _iTunesCreateEvent(kAECoreSuite, kAESetData, &theEvent);
@@ -601,7 +610,7 @@ bail:
 
 OSStatus iTunesReshufflePlaylist(iTunesPlaylist *playlist) {
   OSStatus err;
-  Boolean shuffle;
+  bool shuffle;
   
   err = iTunesGetPlaylistShuffle(playlist, &shuffle);
   require_noerr(err, bail);
@@ -715,7 +724,7 @@ bail:
 }
 
 static
-OSStatus _iTunesPlaylistIsSmart(UInt32 id, Boolean *smart) {
+OSStatus _iTunesPlaylistIsSmart(UInt32 id, bool *smart) {
   AEDesc playlist = WBAEEmptyDesc();
   AppleEvent theEvent = WBAEEmptyDesc();
   /* tell application "iTunes" to get ... */
@@ -729,7 +738,7 @@ OSStatus _iTunesPlaylistIsSmart(UInt32 id, Boolean *smart) {
   err = WBAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeBoolean, 'pSmt', &playlist);
   require_noerr(err, bail);
   
-  err = WBAESendEventReturnBoolean(&theEvent, smart);
+  err = _WBAESendEventReturnBool(&theEvent, smart);
   require_noerr(err, bail);
   
 bail:
@@ -847,7 +856,7 @@ CFDictionaryRef iTunesCopyPlaylists(void) {
               // check if smart. 
               UInt32 id = 0;
               if (noErr == WBAEGetNthUInt32FromDescList(&ids, idx, &id)) {
-                Boolean smart = false;
+                bool smart = false;
                 err = _iTunesPlaylistIsSmart(id, &smart);
                 if (noErr == err) {
                   kind = smart ? kPlaylistSmart : kPlaylistUser;
