@@ -18,6 +18,13 @@
 
 static
 NSString * const kSparkApplicationKey = @"SparkApplication";
+
+static
+NSString * const kSparkApplicationURLKey = @"SparkApplicationURL";
+
+static
+NSString * const kSparkApplicationBundleIdentifierKey = @"SparkApplicationBundleIdentifier";
+
 static
 NSString * const kSparkApplicationFlagsKey = @"SparkApplicationFlags";
 
@@ -27,9 +34,20 @@ NSString * const SparkApplicationDidChangeEnabledNotification = @"SparkApplicati
 
 @end
 
-@implementation SparkApplication
+@interface SparkApplication ()
+- (instancetype)initWithCoder:(NSCoder *)coder NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithSerializedValues:(NSDictionary *)plist NS_DESIGNATED_INITIALIZER;
+@end
 
-+ (id)systemApplication {
+@implementation SparkApplication {
+@private
+  struct _sp_appFlags {
+    unsigned int disabled:1;
+    unsigned int reserved:31;
+  } sp_appFlags;
+}
+
++ (SparkApplication *)systemApplication {
   return [SparkSystemApplication objectWithName:NSLocalizedStringFromTableInBundle(@"System", nil,
                                                                                    kSparkKitBundle,
                                                                                    @"System Application Name")];
@@ -42,29 +60,39 @@ NSString * const SparkApplicationDidChangeEnabledNotification = @"SparkApplicati
   if (sp_appFlags.disabled) flags |= 1 << 0;
   return flags;
 }
+
 - (void)decodeFlags:(NSUInteger)flags {
   if (flags & (1 << 0)) sp_appFlags.disabled = 1;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
-  [coder encodeObject:sp_application forKey:kSparkApplicationKey];
+  [coder encodeObject:_URL forKey:kSparkApplicationURLKey];
   [coder encodeInteger:[self encodeFlags] forKey:kSparkApplicationFlagsKey];
   return;
 }
 
-- (id)initWithCoder:(NSCoder *)coder {
+- (instancetype)initWithCoder:(NSCoder *)coder {
   if (self = [super initWithCoder:coder]) {
     [self decodeFlags:[coder decodeIntegerForKey:kSparkApplicationFlagsKey]];
-    sp_application = [[coder decodeObjectForKey:kSparkApplicationKey] retain];    
+    _URL = [coder decodeObjectForKey:kSparkApplicationURLKey];
+    if (!_URL) {
+      WBApplication *application = [coder decodeObjectForKey:kSparkApplicationKey];
+      // TODO: copy bundle identifier and path
+      _bundleIdentifier = application.bundleIdentifier;
+      NSString *path = application.path;
+      if (path)
+        _URL = [NSURL fileURLWithPath:path];
+    }
   }
   return self;
 }
 
 #pragma mark NSCopying
-- (id)copyWithZone:(NSZone *)zone {
+- (instancetype)copyWithZone:(NSZone *)zone {
   SparkApplication* copy = [super copyWithZone:zone];
-  copy->sp_application = [sp_application copy];
+  copy->_URL = _URL;
+  copy->_bundleIdentifier = _bundleIdentifier;
   return copy;
 }
 
@@ -72,24 +100,36 @@ NSString * const SparkApplicationDidChangeEnabledNotification = @"SparkApplicati
 - (BOOL)serialize:(NSMutableDictionary *)plist {
   if ([super serialize:plist]) {
     [plist setObject:@([self encodeFlags]) forKey:kSparkApplicationFlagsKey];
-    if ([sp_application isValid])
-      return [sp_application serialize:plist];
+    [plist setObject:_URL.absoluteString forKey:kSparkApplicationURLKey];
+    [plist setObject:_bundleIdentifier forKey:kSparkApplicationBundleIdentifierKey];
     return YES;
   }
   return NO;
 }
-- (id)initWithSerializedValues:(NSDictionary *)plist {
+
+- (instancetype)initWithSerializedValues:(NSDictionary *)plist {
   if (self = [super initWithSerializedValues:plist]) {
-    sp_application = [[WBApplication alloc] initWithSerializedValues:plist];
+    _bundleIdentifier = [plist objectForKey:kSparkApplicationBundleIdentifierKey];
+    if (!_bundleIdentifier) {
+      WBApplication *app = [[WBApplication alloc] initWithSerializedValues:plist];
+      if (app) {
+        _bundleIdentifier = app.bundleIdentifier;
+        NSString *path = app.path;
+        if (path)
+          _URL = [NSURL fileURLWithPath:path];
+      }
+    } else {
+      NSString *url = [plist objectForKey:kSparkApplicationURLKey];
+      _URL = url ? [NSURL URLWithString:url] : nil;
+    }
     [self decodeFlags:[[plist objectForKey:kSparkApplicationFlagsKey] integerValue]];
     /* Update name and icon */
-    NSString *path = [sp_application path];
-    if (path) {
-      NSString *name = [[NSFileManager defaultManager] displayNameAtPath:path];
-      if (name)
-        [self setName:name];
+    if (_URL) {
+      NSString *name = nil;
+      if ([_URL getResourceValue:&name forKey:NSURLLocalizedNameKey error:NULL])
+        self.name = name;
       /* Reset icon, it will be lazy load later */
-      [self setIcon:nil];
+      self.icon = nil;
     }
   }
   return self;
@@ -97,90 +137,60 @@ NSString * const SparkApplicationDidChangeEnabledNotification = @"SparkApplicati
 
 #pragma mark -
 #pragma mark Init & Dealloc Methods
-- (id)init {
-  if (self = [super init]) {
-    sp_application = [[WBApplication alloc] init];
-  }
-  return self;
-}
-
-- (id)initWithPath:(NSString *)path {
-  if (self = [super init]) {
-    [self setPath:path];
-    if (!sp_application) {
-      SPXDebug(@"Invalid app at path: %@", path);
-      [self release];
-      self = nil;
+- (instancetype)initWithURL:(NSURL *)anURL {
+  if (self = [super initWithName:nil icon:nil]) {
+    self.URL = anURL;
+    if (!_bundleIdentifier) {
+      SPXDebug(@"Invalid app at path: %@", anURL);
+      return nil;
     }
   }
   return self;
-}
-
-- (void)dealloc {
-  [sp_application release];
-  [super dealloc];
 }
 
 - (BOOL)isEqual:(id)object {
   if (self == object || [super isEqual:object])
     return YES;
   else if ([object isKindOfClass:[SparkApplication class]])
-    return [sp_application isEqual:((SparkApplication *)object)->sp_application];
+    return [_bundleIdentifier isEqual:((SparkApplication *)object)->_bundleIdentifier];
   else return NO;
 }
+
 - (NSUInteger)hash {
-  return [sp_application hash];
+  return [_bundleIdentifier hash];
 }
 
 #pragma mark -
 #pragma mark Accessors
-- (NSString *)path {
-  return [sp_application path];
-}
-- (void)setPath:(NSString *)path {
-  if (sp_application) {
-    [sp_application release];
-  }
-  sp_application = [[WBApplication alloc] initWithPath:path];
-  if (sp_application) {
-    [self setName:[sp_application name]];
-    [sp_application setName:nil];
-    /* Reset icon data */
-    [self setIcon:nil];
-  }
+- (void)setURL:(NSURL *)anURL {
+  _URL = anURL;
+  _bundleIdentifier = SPXCFToNSString(_URL ? WBLSCopyBundleIdentifierForURL(SPXNSToCFURL(_URL)) : nil);
+
+  NSString *name = nil;
+  if ([_URL getResourceValue:&name forKey:NSURLNameKey error:NULL])
+    self.name = name;
+  else
+    self.name = [_URL lastPathComponent];
+  /* Reset icon data */
+  self.icon = nil;
 }
 
 /* Loading workspace icon is slow, so use lazy loading */
 - (NSImage *)icon {
   if (![self hasIcon]) {
-    NSImage *icon = nil;
-    NSString *path = [sp_application path];
-    if (path)
-      icon = [[NSWorkspace sharedWorkspace] iconForFile:path];
     /* Try to set workspace icon */
-    if (icon)
-      [self setIcon:icon];
+    if (_URL)
+      self.icon = [[NSWorkspace sharedWorkspace] iconForFile:[_URL path]];
+
     /* If failed and cached icon invalid, set default icon */
     if (![self hasIcon])
-      [self setIcon:[NSImage imageNamed:@"Application" inBundle:kSparkKitBundle]];    
+      self.icon = [NSImage imageNamed:@"Application" inBundle:kSparkKitBundle];
   }
   return [super icon];
 }
 
 - (BOOL)shouldSaveIcon {
   return NO;
-}
-
-- (OSType)signature {
-  return [sp_application signature];
-}
-
-- (NSString *)bundleIdentifier {
-  return [sp_application bundleIdentifier];
-}
-
-- (WBApplication *)application {
-  return sp_application;
 }
 
 - (BOOL)isEditable {
@@ -193,10 +203,11 @@ NSString * const SparkApplicationDidChangeEnabledNotification = @"SparkApplicati
     return YES;
   return !sp_appFlags.disabled;
 }
+
 - (void)setEnabled:(BOOL)flag {
   bool disabled = SPXFlagTestAndSet(sp_appFlags.disabled, !flag);
   if (disabled != sp_appFlags.disabled) {
-    [[[[self library] undoManager] prepareWithInvocationTarget:self] setEnabled:sp_appFlags.disabled];
+    [[self.library.undoManager prepareWithInvocationTarget:self] setEnabled:sp_appFlags.disabled];
     /* post notification */
     SparkLibraryPostNotification([self library], SparkApplicationDidChangeEnabledNotification, self, nil);
   }
@@ -211,13 +222,14 @@ NSString * const SparkApplicationDidChangeEnabledNotification = @"SparkApplicati
 - (BOOL)serialize:(NSMutableDictionary *)plist {
   return NO;
 }
-- (id)initWithSerializedValues:(NSDictionary *)plist {
+
+- (instancetype)initWithSerializedValues:(NSDictionary *)plist {
   return nil;
 }
 
 #pragma mark -
 #pragma mark Init & Dealloc Methods
-- (id)initWithPath:(NSString *)path {
+- (instancetype)initWithPath:(NSString *)path {
   return nil;
 }
 
@@ -228,6 +240,7 @@ NSString * const SparkApplicationDidChangeEnabledNotification = @"SparkApplicati
     return [self uid] == [object uid];
   else return NO;
 }
+
 - (NSUInteger)hash {
   return 0;
 }
@@ -270,9 +283,11 @@ NSString * const SparkApplicationDidChangeEnabledNotification = @"SparkApplicati
 - (BOOL)isEditable {
   return NO;
 }
+
 - (BOOL)isEnabled {
   return YES;
 }
+
 - (void)setEnabled:(BOOL)flag {
   /* does nothing */
 }
@@ -298,7 +313,7 @@ NSString * const SparkApplicationDidChangeEnabledNotification = @"SparkApplicati
 //    if (!name) name = [rep objectForKey:@"name"];
 //    
 //    if (self = [super initWithName:name icon:nil]) {
-//      sp_application = [app retain];
+//      _application = [app retain];
 //    }
 //  }
 //  return self;
@@ -415,7 +430,7 @@ NSString * const kWBApplicationSignatureKey = @"WBApplicationSignature";
   return NO;
 }
 
-- (id)initWithSerializedValues:(NSDictionary *)plist {
+- (instancetype)initWithSerializedValues:(NSDictionary *)plist {
   if (self = [super initWithSerializedValues:plist]) {
     NSData *data = [plist objectForKey:@"WBApplicationAlias"];
     if (!data)
@@ -423,7 +438,6 @@ NSString * const kWBApplicationSignatureKey = @"WBApplicationSignature";
     if (data) {
       WBAlias *alias = [[WBAlias alloc] initFromData:data];
       [self setAlias:alias];
-      [alias release];
     }
   }
   return self;

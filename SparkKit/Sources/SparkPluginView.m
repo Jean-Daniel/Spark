@@ -11,7 +11,7 @@
 
 @implementation SparkPlugInView
 
-- (id)init {
+- (instancetype)init {
   if (self = [super initWithNibName:@"SparkPluginView" bundle:SPXCurrentBundle()]) {
     /* load nib file */
     [self view];

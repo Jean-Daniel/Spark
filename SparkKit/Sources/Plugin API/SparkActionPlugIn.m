@@ -15,18 +15,29 @@
 
 #import <WonderBox/NSImage+WonderBox.h>
 
-@interface SparkViewPlaceholder : NSObject {
-  @private
-  NSView *sp_view;
-  NSView *sp_placeholder;
-}
+@interface SparkViewPlaceholder : NSObject
 
 - (void)setView:(NSView *)aView;
 - (void)setPlaceholderView:(NSView *)aView;
 
 @end
 
-@implementation SparkActionPlugIn
+@interface SparkActionPlugIn ()
+@property(nonatomic, retain) id sparkAction;
+@end
+
+@implementation SparkActionPlugIn {
+@private
+  IBOutlet NSView *actionView;
+
+  struct _sp_apFlags {
+    unsigned int ownership:1;
+    unsigned int reserved:31;
+  } sp_apFlags;
+
+  id sp_trap;
+  SparkPlugInView *sp_ctrl;
+}
 
 - (id)init {
   if (self = [super init]) {
@@ -36,12 +47,8 @@
 }
 
 - (void)dealloc {
-  [sp_ctrl release];
-  [sp_trap release];
-  if (sp_apFlags.ownership)
-    [actionView release];
-  [sp_action release];
-  [super dealloc];
+//  if (sp_apFlags.ownership)
+//    [actionView release];
 }
 
 - (SparkPlugInView *)sp_controller {
@@ -67,10 +74,6 @@
 }
 - (void)setHotKeyTrapPlaceholder:(NSView *)placeholder {
   [sp_trap setPlaceholderView:placeholder];
-}
-
-- (id)sparkAction {
-  return sp_action;
 }
 
 - (void)loadSparkAction:(SparkAction *)action toEdit:(BOOL)flag {
@@ -101,13 +104,13 @@
       warn = NO;
       SPXLogWarning(@"%@ use deprecated KVC getter: name", [self class]);
     }
-    return [sp_action name];
+    return [_sparkAction name];
   } else if ([key isEqualToString:@"icon"]) {
     if (warn) {
       warn = NO;
       SPXLogWarning(@"%@ use deprecated KVC getter: icon", [self class]);
     }
-    return [sp_action icon];
+    return [_sparkAction icon];
   }
   return [super valueForUndefinedKey:key];
 }
@@ -119,13 +122,13 @@
       warn = NO;
       SPXLogWarning(@"%@ use deprecated KVC setter: name", [self class]);
     }
-    return [sp_action setName:value];
+    return [(SparkAction *)_sparkAction setName:value];
   } else if ([key isEqualToString:@"icon"]) {
     if (warn) {
       warn = NO;
       SPXLogWarning(@"%@ use deprecated KVC setter: icon", [self class]);
     }
-    return [sp_action setIcon:value];
+    return [_sparkAction setIcon:value];
   }
   return [super setValue:value forUndefinedKey:key];
 }
@@ -136,14 +139,14 @@
 
 #pragma mark -
 #pragma mark Private Methods
++ (NSSet *)keyPathsForValuesAffectingValueForKey:(NSString *)key {
+  if ([@"name" isEqualToString:key] || [@"icon" isEqualToString:key])
+    return [NSSet setWithObject:@"sparkAction"];
+  return nil;
+}
+
 - (void)setSparkAction:(SparkAction *)action edit:(BOOL)flag {
-  [self willChangeValueForKey:@"sparkAction"];
-  
-  [self willChangeValueForKey:@"name"];
-  [self willChangeValueForKey:@"icon"];
-  SPXSetterRetain(sp_action, action);
-  [self didChangeValueForKey:@"icon"];
-  [self didChangeValueForKey:@"name"];
+  self.sparkAction = action;
   
   /* Send plugin API notification */
   @try {
@@ -151,7 +154,6 @@
   } @catch (id exception) {
     SPXLogException(exception);
   }
-  [self didChangeValueForKey:@"sparkAction"];
 }
 
 /* Called by Nib Loader only. Action view is a nib root object, so we should not retain it */
@@ -162,10 +164,10 @@
 
 - (void)releaseViewOwnership {
   /* If was owner, release the view */
-  if (sp_apFlags.ownership) {
-    [actionView release];
-    sp_apFlags.ownership = 0;
-  }
+//  if (sp_apFlags.ownership) {
+//    [actionView release];
+//    sp_apFlags.ownership = 0;
+//  }
 }
 
 /* Compat */
@@ -207,28 +209,27 @@
   return image;
 }
 
-+ (NSString *)helpFile {
-  NSString *path = nil;
++ (NSURL *)helpURL {
+  NSURL *path = nil;
   NSBundle *bundle = SPXCurrentBundle();
   NSString *help = [bundle objectForInfoDictionaryKey:@"SparkHelpFile"];
   if (help) {
-    path = [bundle pathForResource:help ofType:nil];
+    path = [bundle URLForResource:help withExtension:nil];
     if (!path)
-      path = [bundle pathForResource:help ofType:@"html"];
+      path = [bundle URLForResource:help withExtension:@"html"];
     if (!path)
-      path = [bundle pathForResource:help ofType:@"htm"];
+      path = [bundle URLForResource:help withExtension:@"htm"];
     if (!path)
-      path = [bundle pathForResource:help ofType:@"rtf"];
+      path = [bundle URLForResource:help withExtension:@"rtf"];
     if (!path)
-      path = [bundle pathForResource:help ofType:@"rtfd"];
+      path = [bundle URLForResource:help withExtension:@"rtfd"];
   }
   return path;
 }
 
-+ (NSString *)nibPath {
++ (NSString *)nibName {
   NSBundle *bundle = SPXCurrentBundle();
-  NSString *name = [bundle objectForInfoDictionaryKey:@"NSMainNibFile"];
-  return name ? [bundle pathForResource:name ofType:@"nib"] : nil;
+  return [bundle objectForInfoDictionaryKey:@"NSMainNibFile"];
 }
 
 + (NSString *)plugInFullName {
@@ -257,19 +258,13 @@
   return nil;
 }
 
-+ (NSDictionary *)growlNotifications {
-  return nil;
-}
-
 @end
 
 #pragma mark -
-@implementation SparkViewPlaceholder
-
-- (void)dealloc {
-  [sp_view release];
-  [sp_placeholder release];
-  [super dealloc];
+@implementation SparkViewPlaceholder {
+@private
+  NSView *sp_view;
+  NSView *sp_placeholder;
 }
 
 SPARK_INLINE
@@ -304,13 +299,12 @@ void __SparkViewPlaceholderSwapView(NSView *old, NSView *new) {
     } else {
       __SparkViewPlaceholderSwapView(sp_placeholder, aView);
     }
-    [sp_view release];
-    sp_view = [aView retain];
+    sp_view = aView;
   }
 }
 
 - (void)setPlaceholderView:(NSView *)aView {
-  SPXSetterRetain(sp_placeholder, aView);
+  sp_placeholder = aView;
 }
 
 @end

@@ -16,16 +16,11 @@
  Usefull to display many errors in one windows (SparkMultipleAlerts) or to defere alert window creation.
 */
 SPARK_OBJC_EXPORT
-@interface SparkAlert : NSObject {
-@private
-  BOOL sp_hide;
-  NSString *sp_message;
-  NSString *sp_informative;
-}
+@interface SparkAlert : NSObject
 
-+ (id)alertWithMessageText:(NSString *)message informativeTextWithFormat:(NSString *)format,...;
++ (instancetype)alertWithMessageText:(NSString *)message informativeTextWithFormat:(NSString *)format,...;
 
-+ (id)alertWithMessageText:(NSString *)message informativeTextWithFormat:(NSString *)format args:(va_list)args;
++ (instancetype)alertWithMessageText:(NSString *)message informativeTextWithFormat:(NSString *)format args:(va_list)args;
 
 /*!
  When a SparkAlert is displayed, you can display or hide the alternate Button that is used to launch Spark.

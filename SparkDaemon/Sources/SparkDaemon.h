@@ -11,18 +11,11 @@
 
 @class SparkApplication, SparkEntry;
 @class SparkLibrary, SparkDistantLibrary;
+
 @interface SparkDaemon : NSObject {
-  BOOL sd_disabled;
   SparkLibrary *sd_library;
   SparkApplication *sd_front;
   SparkDistantLibrary *sd_rlibrary;
-  
-  NSLock *sd_lock;
-  NSMapTable *sd_locks;
-  NSConnection *sd_connection;
-  
-  /* Growl support */
-  NSMutableArray *sd_growl;
 }
 
 - (BOOL)openConnection;
@@ -50,6 +43,18 @@
 - (void)shutdown;
 
 - (id<SparkLibrary>)library;
+
+#pragma mark Notifications
+- (void)didAddEntry:(NSNotification *)aNotification;
+- (void)didUpdateEntry:(NSNotification *)aNotification;
+- (void)didRemoveEntry:(NSNotification *)aNotification;
+- (void)didChangeEntryStatus:(NSNotification *)aNotification;
+
+- (void)didChangePlugInStatus:(NSNotification *)aNotification;
+
+- (void)willRemoveTrigger:(NSNotification *)aNotification;
+- (void)willRemoveApplication:(NSNotification *)aNotification;
+- (void)didChangeApplicationStatus:(NSNotification *)aNotification;
 
 @end
 

@@ -13,6 +13,7 @@
 #import <SparkKit/SparkTrigger.h>
 #import <SparkKit/SparkObjectSet.h>
 #import <SparkKit/SparkFunctions.h>
+#import <SparkKit/SparkApplication.h>
 #import <SparkKit/SparkEntryManager.h>
 #import <SparkKit/SparkLibrarySynchronizer.h>
 
@@ -31,7 +32,7 @@
 - (id<SparkLibrary>)library {
   SPXTrace();
   if (!sd_rlibrary)
-    sd_rlibrary = [[sd_library distantLibrary] retain];
+    sd_rlibrary = [sd_library distantLibrary];
   return [sd_rlibrary distantLibrary];
 }
 
@@ -105,7 +106,7 @@
   SPXTrace();
   /* handle special case: remove the front application and application is disabled */
   SparkApplication *app = SparkNotificationObject(aNotification);
-  if ([app isEqual:sd_front] && ![app isEnabled]) {
+  if ([app isEqual:sd_front] && !app.enabled) {
     /* restore triggers status */
     [self registerEntries];
     sd_front = nil;
@@ -132,17 +133,9 @@
 @end
 
 void SDSendStateToEditor(SparkDaemonStatus state) {
-  NSNumber *value = @(state);
-  CFDictionaryRef info = CFDictionaryCreate(kCFAllocatorDefault, 
-                                            (const void **)&SparkDaemonStatusKey,
-                                            (const void **)&value, 1, 
-                                            &kCFCopyStringDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
-  
-  if (info) {
-    CFNotificationCenterPostNotification(CFNotificationCenterGetDistributedCenter(),
-                                         SparkDaemonStatusDidChangeNotification,
-                                         kSparkConnectionName, info, false);
-    CFRelease(info);
-  }
+  [[NSDistributedNotificationCenter defaultCenter] postNotificationName:SparkDaemonStatusDidChangeNotification
+                                                                 object:kSparkConnectionName
+                                                               userInfo:@{ SparkDaemonStatusKey: @(state) }
+                                                     deliverImmediately:NO];
 }
 

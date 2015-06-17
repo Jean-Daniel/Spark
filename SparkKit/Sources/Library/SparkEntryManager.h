@@ -31,30 +31,19 @@ NSString * const SparkEntryManagerDidChangeEntryStatusNotification;
 @class SparkObject;
 @class SparkLibrary, SparkEntry;
 @class SparkAction, SparkTrigger, SparkApplication;
+
 SPARK_OBJC_EXPORT
-@interface SparkEntryManager : NSObject {
-  @private
-  NSMapTable *sp_objects;
-  SparkLibrary *sp_library; /* __weak */
-	
-	/* editing context */
-  SparkEntry *sp_entry;
-  SparkAction *sp_action;
-  SparkTrigger *sp_trigger;
-  SparkApplication *sp_application;
-}
+@interface SparkEntryManager : NSObject
 
-- (id)initWithLibrary:(SparkLibrary *)aLibrary;
+- (instancetype)initWithLibrary:(SparkLibrary *)aLibrary;
 
-- (SparkLibrary *)library;
-- (NSUndoManager *)undoManager;
-
-/* Private, use to dereference weak */
-- (void)setLibrary:(SparkLibrary *)library;
+@property(nonatomic, readonly) SparkLibrary *library;
+@property(nonatomic, readonly) NSUndoManager *undoManager;
 
 #pragma mark Management
-- (NSEnumerator *)entryEnumerator;
 - (SparkEntry *)entryWithUID:(SparkUID)uid;
+
+- (void)enumerateEntriesUsingBlock:(void (^)(SparkEntry *entry, BOOL *stop))block;
 
 /* add a new root entry */
 - (SparkEntry *)addEntryWithAction:(SparkAction *)anAction trigger:(SparkTrigger *)aTrigger application:(SparkApplication *)aApplication;
@@ -84,3 +73,10 @@ SPARK_OBJC_EXPORT
 - (SparkEntry *)resolveEntryForTrigger:(SparkTrigger *)aTrigger application:(SparkApplication *)anApplication;
 
 @end
+
+@interface SparkEntryManager ()
+/* Private, use to dereference weak */
+@property(nonatomic, assign) SparkLibrary *library;
+
+@end
+

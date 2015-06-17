@@ -8,8 +8,8 @@
 
 @class SparkActionPlugIn;
 @interface SparkPlugInView : NSViewController {
-  @private
-	IBOutlet NSView *uiTrap;
+@private
+  IBOutlet NSView *uiTrap;
   IBOutlet NSView *uiView;
   IBOutlet NSImageView *uiIcon;
   IBOutlet NSTextField *uiName;

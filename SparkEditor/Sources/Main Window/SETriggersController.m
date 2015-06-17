@@ -41,7 +41,7 @@ BOOL _SEEntryFilter(NSString *search, SparkEntry *entry, void *ctxt) {
   if ([[entry actionDescription] rangeOfString:search options:NSCaseInsensitiveSearch].location != NSNotFound)
     return YES;
   
-  if ([[entry categorie] rangeOfString:search options:NSCaseInsensitiveSearch].location != NSNotFound)
+  if ([entry.category rangeOfString:search options:NSCaseInsensitiveSearch].location != NSNotFound)
     return YES;
   
   return NO;

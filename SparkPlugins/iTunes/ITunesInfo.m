@@ -11,10 +11,6 @@
 #import "ITunesStarView.h"
 #import "ITunesProgressView.h"
 
-#import <Growl/GrowlApplicationBridge.h>
-
-#define GrowlApplicationBridge NSClassFromString(@"GrowlApplicationBridge")
-
 #import <WonderBox/WBGradient.h>
 #import <WonderBox/WBCGFunctions.h>
 #import <WonderBox/WBNotificationWindow.h>
@@ -96,7 +92,6 @@ BOOL __ITunesVisualCompareColors(const CGFloat c1[4], const CGFloat c2[4]) {
 }
 
 BOOL ITunesVisualIsEqualTo(const ITunesVisual *v1, const ITunesVisual *v2) {
-  if (v1->growl != v2->growl) return NO;
   if (v1->shadow != v2->shadow) return NO;
 	if (v1->artwork != v2->artwork) return NO;
   if (!__CGFloatEquals(v1->delay, v2->delay)) return NO;
@@ -198,7 +193,6 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
   if (type != kiTunesVisualOther) visual->location = ia_location;
   else visual->location = [[self window] frame].origin;
   /* Get shadow */
-  visual->growl = [self usesGrowl];
   visual->shadow = [self hasShadow];
 	visual->artwork = [self displayArtwork];
   /* Get text color */
@@ -210,7 +204,6 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
 
 - (void)setVisual:(const ITunesVisual *)visual {
   [self setDelay:visual->delay];
-  [self setUsesGrowl:visual->growl];
   [self setPosition:visual->location];
   [self setHasShadow:visual->shadow];
 	[self setDisplayArtwork:visual->artwork];
@@ -266,13 +259,6 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
 	NSRect frame = [[self window] frame];
 	frame.origin = [self windowOriginForSize:frame.size];
 	[[self window] setFrameOrigin:frame.origin];
-}
-
-- (BOOL)usesGrowl {
-  return ia_growl;
-}
-- (void)setUsesGrowl:(BOOL)flag {
-  ia_growl = flag && [GrowlApplicationBridge isGrowlInstalled];
 }
 
 - (BOOL)hasShadow {

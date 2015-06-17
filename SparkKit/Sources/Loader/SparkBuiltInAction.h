@@ -17,39 +17,25 @@ enum {
 };
 
 @class SparkList;
-@interface SparkBuiltInActionPlugIn : SparkActionPlugIn {
-  OSType sb_action;
-  //SparkList *sp_gpr, *sp_gpr2;
 
+@interface SparkBuiltInActionPlugIn : SparkActionPlugIn {
   IBOutlet NSTextField *uiName;
   IBOutlet NSTextField *uiLabel;
   IBOutlet NSPopUpButton *uiLists;
   IBOutlet NSPopUpButton *uiLists2;
 }
 
-- (OSType)action;
-- (void)setAction:(OSType)action;
+@property(nonatomic) OSType action;
 
 - (IBAction)selectGroup:(NSPopUpButton *)sender;
 - (IBAction)selectAlternateGroup:(NSPopUpButton *)sender;
 
 @end
 
-@class SparkList;
-@interface SparkBuiltInAction : SparkAction {
-  @private
-  OSType sp_action;
-  SparkList *sp_list, *sp_altList;
-  SparkUID sp_listUID, sp_altListUID;
-}
+@interface SparkBuiltInAction : SparkAction
 
-- (OSType)action;
-- (void)setAction:(OSType)anAction;
-
-- (SparkList *)list;
-- (void)setList:(SparkList *)aList;
-
-- (SparkList *)alternateList;
-- (void)setAlternateList:(SparkList *)aList;
+@property(nonatomic) OSType action;
+@property(nonatomic, retain) SparkList *list;
+@property(nonatomic, retain) SparkList *alternateList;
 
 @end

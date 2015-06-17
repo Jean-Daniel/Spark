@@ -264,7 +264,7 @@ extern void CGDisplaySetInvertedPolarity(Boolean inverted);
 - (void)emptyTrash {
   AppleEvent aevt = WBAEEmptyDesc();
   
-  OSStatus err = WBAECreateEventWithTargetSignature(kSparkFinderSignature, 'fndr', 'empt', &aevt);
+  OSStatus err = WBAECreateEventWithTargetBundleID(SPXNSToCFString(kSparkFinderBundleIdentifier), 'fndr', 'empt', &aevt);
   require_noerr(err, bail);
   
   err = WBAEAddPropertyObjectSpecifier(&aevt, keyDirectObject, 'ctrs', 'trsh', NULL);
@@ -435,7 +435,7 @@ static NSSound *_SASharedSound(void) {
 }
 
 - (void)toggleMute {
-  Boolean mute;
+  Boolean mute = FALSE;
   AudioDeviceID device;
   OSStatus err = AudioOutputGetSystemDevice(&device);
   if (noErr == err) 
@@ -593,6 +593,7 @@ OSType SystemActionFromFlag(int flag) {
   }
   return 0;
 }
+
 - (id)initWithSerializedValues:(NSDictionary *)plist {
   [self release];
   SystemAction *action = [[SystemAction alloc] initWithSerializedValues:plist];

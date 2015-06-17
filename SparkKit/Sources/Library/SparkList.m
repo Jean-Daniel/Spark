@@ -31,34 +31,35 @@ NSString * const SparkListDidRemoveObjectsNotification = @"SparkListDidRemoveObj
 static 
 NSString * const kSparkObjectsKey = @"SparkObjects";
 
-@implementation SparkList
+@implementation SparkList {
+@private
+  SparkListFilter _filter;
+  NSMutableArray *_entries;
+}
 
 - (id)initWithName:(NSString *)name icon:(NSImage *)icon {
   if (self = [super initWithName:name icon:icon]) {
-    sp_entries = [[NSMutableArray alloc] init];
+    _entries = [[NSMutableArray alloc] init];
   }
   return self;
 }
 
 - (void)dealloc {
   [self setLibrary:nil];
-  [sp_entries release];
-  [sp_ctxt release];
-  [super dealloc];
 }
 
 #pragma mark -
 - (id)initWithCoder:(NSCoder *)coder {
   if (self = [super initWithCoder:coder]) {
     NSAssert([self library], @"invalid unarchiver");
-    sp_entries = [[coder decodeObjectForKey:@"entries"] retain];
+    _entries = [coder decodeObjectForKey:@"entries"];
   }
   return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
-  [coder encodeObject:sp_entries forKey:@"entries"];
+  [coder encodeObject:_entries forKey:@"entries"];
 }
 
 - (BOOL)serialize:(NSMutableDictionary *)plist {
@@ -66,7 +67,7 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
 }
 
 - (id)initWithSerializedValues:(NSDictionary *)plist  {
-  return nil;
+  return [super initWithSerializedValues:plist];
 }
 
 #pragma mark -
@@ -84,18 +85,16 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
 }
 
 - (void)reload {
-  if ([self isDynamic]) {
+  if (self.isDynamic) {
     [self willChangeValueForKey:@"entries"];
     /* Refresh objects */
-    [sp_entries removeAllObjects];
-    if (sp_filter) {
-      SparkEntry *entry;
-      NSEnumerator *entries = [[self library] entryEnumerator];
-      while (entry = [entries nextObject]) {
+    [_entries removeAllObjects];
+    if (_filter) {
+      [self.library.entryManager enumerateEntriesUsingBlock:^(SparkEntry *entry, BOOL *stop) {
         if ([entry isRoot] && [self acceptsEntryOrChild:entry]) {
-					[sp_entries addObject:entry];
+          [self->_entries addObject:entry];
         }
-      }
+      }];
     }
     [self didChangeValueForKey:@"entries"];
     SparkLibraryPostNotification([self library], SparkListDidReloadNotification, self, nil);
@@ -103,95 +102,86 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
 }
 
 - (BOOL)isDynamic {
-  return sp_filter != NULL;
+  return _filter != NULL;
 }
 
 - (void)setLibrary:(SparkLibrary *)aLibrary {
-  if (aLibrary != [self library]) {
-    if ([self library]) {
-      [[[self library] notificationCenter] removeObserver:self
-                                                     name:SparkEntryManagerDidAddEntryNotification
-                                                   object:nil];
-      [[[self library] notificationCenter] removeObserver:self
-                                                     name:SparkEntryManagerDidUpdateEntryNotification
-                                                   object:nil];
-      [[[self library] notificationCenter] removeObserver:self
-                                                     name:SparkEntryManagerWillRemoveEntryNotification
-                                                   object:nil];
-			/* Entry tree */
-//			[[[self library] notificationCenter] removeObserver:self
-//																										 name:SparkEntryDidAppendChildNotification
-//																									 object:nil];
-      [[[self library] notificationCenter] removeObserver:self
-																										 name:SparkEntryWillRemoveChildNotification
-																									 object:nil];
+  if (aLibrary != self.library) {
+    if (self.library) {
+      NSNotificationCenter *nc = self.library.notificationCenter;
+      [nc removeObserver:self
+                    name:SparkEntryManagerDidAddEntryNotification
+                  object:nil];
+      [nc removeObserver:self
+                    name:SparkEntryManagerDidUpdateEntryNotification
+                  object:nil];
+      [nc removeObserver:self
+                    name:SparkEntryManagerWillRemoveEntryNotification
+                  object:nil];
+      /* Entry tree */
+      //			[nc removeObserver:self
+      //																										 name:SparkEntryDidAppendChildNotification
+      //																									 object:nil];
+      [nc removeObserver:self
+                    name:SparkEntryWillRemoveChildNotification
+                  object:nil];
     }
     [super setLibrary:aLibrary];
-    if ([self library]) {
+    if (self.library) {
+      NSNotificationCenter *nc = self.library.notificationCenter;
       /* Add */
-      [[[self library] notificationCenter] addObserver:self
-                                              selector:@selector(didAddEntry:)
-                                                  name:SparkEntryManagerDidAddEntryNotification
-                                                object:nil];
+      [nc addObserver:self
+             selector:@selector(didAddEntry:)
+                 name:SparkEntryManagerDidAddEntryNotification
+               object:nil];
       /* Update */
-      [[[self library] notificationCenter] addObserver:self
-                                              selector:@selector(didUpdateEntry:)
-                                                  name:SparkEntryManagerDidUpdateEntryNotification
-                                                object:nil];
+      [nc addObserver:self
+             selector:@selector(didUpdateEntry:)
+                 name:SparkEntryManagerDidUpdateEntryNotification
+               object:nil];
       /* Remove */
-      [[[self library] notificationCenter] addObserver:self
-                                              selector:@selector(willRemoveEntry:)
-                                                  name:SparkEntryManagerWillRemoveEntryNotification
-                                                object:nil];
-			/* Entry tree */
-//			[[[self library] notificationCenter] addObserver:self
-//                                              selector:@selector(didAppendEntryChild:)
-//                                                  name:SparkEntryDidAppendChildNotification
-//                                                object:nil];
-//      [[[self library] notificationCenter] addObserver:self
-//                                              selector:@selector(willRemoveEntryChild:)
-//                                                  name:SparkEntryWillRemoveChildNotification
-//                                                object:nil];
+      [nc addObserver:self
+             selector:@selector(willRemoveEntry:)
+                 name:SparkEntryManagerWillRemoveEntryNotification
+               object:nil];
+      /* Entry tree */
+      //			[nc addObserver:self
+      //                                              selector:@selector(didAppendEntryChild:)
+      //                                                  name:SparkEntryDidAppendChildNotification
+      //                                                object:nil];
+      //      [nc addObserver:self
+      //                                              selector:@selector(willRemoveEntryChild:)
+      //                                                  name:SparkEntryWillRemoveChildNotification
+      //                                                object:nil];
     }
   }
 }
 
-- (id)filterContext {
-  return sp_ctxt;
-}
-- (void)setListFilter:(SparkListFilter)aFilter context:(id)aCtxt {
-  sp_filter = aFilter;
-  SPXSetterRetain(sp_ctxt, aCtxt);
+- (void)setFilter:(SparkListFilter)aFilter {
+  _filter = aFilter;
   [self reload]; // Refresh contents
-}
-- (void)reloadWithFilter:(SparkListFilter)aFilter context:(id)aCtxt {
-  sp_filter = aFilter;
-  SPXSetterRetain(sp_ctxt, aCtxt);
-  /* Refresh contents */
-  [self reload];
-  /* Remove dynamic */
-  sp_filter = NULL;
-  SPXSetterRetain(sp_ctxt, nil);
 }
 
 #pragma mark -
 #pragma mark Array
 - (NSUInteger)count {
-  return [sp_entries count];
+  return [_entries count];
 }
 - (BOOL)containsEntry:(SparkEntry *)anEntry {
-	return [sp_entries containsObject:[anEntry root]];
+	return [_entries containsObject:[anEntry root]];
 }
 - (NSUInteger)indexOfEntry:(SparkEntry *)anEntry {
-	return [sp_entries indexOfObject:[anEntry root]];
+	return [_entries indexOfObject:[anEntry root]];
+}
+
+- (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(id __unsafe_unretained [])buffer count:(NSUInteger)len {
+  return [_entries countByEnumeratingWithState:state objects:buffer count:len];
 }
 
 - (NSArray *)entriesForApplication:(SparkApplication *)anApplication {
-	NSUInteger count = [self count];
 	NSMutableArray *entries = [NSMutableArray array];
 	bool isSystem = kSparkApplicationSystemUID == [anApplication uid];
-	for (NSUInteger idx = 0; idx < count; idx++) {
-		SparkEntry *entry = [sp_entries objectAtIndex:idx];
+	for (SparkEntry *entry in _entries) {
 		if (isSystem) {
 			/* looking for system entries */
 			if ([entry isSystem]) 
@@ -213,52 +203,49 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
 
 #pragma mark Modification
 - (NSUndoManager *)undoManager {
-  return [[self library] undoManager];
+  return self.library.undoManager;
 }
 
 - (void)addEntry:(SparkEntry *)anEntry {
-	NSParameterAssert(![self isDynamic]);
+	NSParameterAssert(!self.isDynamic);
 	if ([self containsEntry:anEntry])
 			 return;
 	
-	[self insertObject:anEntry inEntriesAtIndex:[sp_entries count]];
+	[self insertObject:anEntry inEntriesAtIndex:_entries.count];
 }
 - (void)addEntriesFromArray:(NSArray *)anArray {
-	NSParameterAssert(![self isDynamic]);
-	
-	NSUInteger count = [anArray count];
+	NSParameterAssert(!self.isDynamic);
+
 	NSMutableArray *inserted = [[NSMutableArray alloc] init];
 	
-	while (count-- > 0) {
-    SparkEntry *entry = [anArray objectAtIndex:count];
-		if (![inserted containsObjectIdenticalTo:[entry root]] && 
-				![sp_entries containsObjectIdenticalTo:[entry root]])
-			[inserted addObject:[entry root]];
-	}
+  for (SparkEntry *entry in anArray) {
+    if (![inserted containsObjectIdenticalTo:[entry root]] &&
+        ![_entries containsObjectIdenticalTo:[entry root]])
+      [inserted addObject:[entry root]];
+  }
 	if ([inserted count] > 0) {
 		/* Undo Manager */
-		if (![self isDynamic])
-			[[self undoManager] registerUndoWithTarget:self selector:@selector(removeEntriesInArray:) object:inserted];
+		if (!self.isDynamic)
+			[self.undoManager registerUndoWithTarget:self selector:@selector(removeEntriesInArray:) object:inserted];
 		
-		NSRange range = NSMakeRange([sp_entries count], [inserted count]);
+		NSRange range = NSMakeRange([_entries count], [inserted count]);
 		NSIndexSet *idxs = [NSIndexSet indexSetWithIndexesInRange:range];
 		[self willChange:NSKeyValueChangeInsertion valuesAtIndexes:idxs forKey:@"entries"];
-		[sp_entries addObjectsFromArray:inserted];
+		[_entries addObjectsFromArray:inserted];
 		[self didChange:NSKeyValueChangeInsertion valuesAtIndexes:idxs forKey:@"entries"];
 		SparkLibraryPostNotification([self library], SparkListDidAddObjectsNotification, self, inserted);
 	}
-	[inserted release];
 }
 
 - (void)removeEntry:(SparkEntry *)anEntry {
-	NSParameterAssert(![self isDynamic]);
+	NSParameterAssert(!self.isDynamic);
 	
-  NSUInteger idx = [sp_entries indexOfObject:anEntry];
+  NSUInteger idx = [_entries indexOfObject:anEntry];
   if (idx != NSNotFound)
     [self removeObjectFromEntriesAtIndex:idx];
 }
 - (void)removeEntriesInArray:(NSArray *)anArray {
-	NSParameterAssert(![self isDynamic]);
+	NSParameterAssert(!self.isDynamic);
 	
 	NSUInteger count = [anArray count];
 	NSMutableIndexSet *idxs = [[NSMutableIndexSet alloc] init];
@@ -269,38 +256,37 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
 			[idxs addIndex:idx];
 	}
 	if ([idxs count]) {
-		NSArray *removed = [sp_entries objectsAtIndexes:idxs];
+		NSArray *removed = [_entries objectsAtIndexes:idxs];
 		/* Undo Manager */
-    if (![self isDynamic])
-      [[self undoManager] registerUndoWithTarget:self selector:@selector(addEntriesFromArray:) object:removed];
+    if (!self.isDynamic)
+      [self.undoManager registerUndoWithTarget:self selector:@selector(addEntriesFromArray:) object:removed];
 		
 		[self willChange:NSKeyValueChangeRemoval valuesAtIndexes:idxs forKey:@"entries"];
-		[sp_entries removeObjectsAtIndexes:idxs];
+		[_entries removeObjectsAtIndexes:idxs];
 		[self didChange:NSKeyValueChangeRemoval valuesAtIndexes:idxs forKey:@"entries"];
 		
 		SparkLibraryPostNotification([self library], SparkListDidRemoveObjectsNotification, self, removed);
   }
-	[idxs release];
 }
 
 #pragma mark -
 #pragma mark Notifications
 - (BOOL)acceptsEntry:(SparkEntry *)anEntry {
-  return sp_filter && sp_filter(self, anEntry, sp_ctxt);
+  return _filter && _filter(self, anEntry);
 }
 - (BOOL)acceptsEntryOrChild:(SparkEntry *)anEntry {
-  if (sp_filter) {
+  if (_filter) {
 		/* a specific entry (root but not system) */
 		if (![anEntry isSystem])
-			return sp_filter(self, anEntry, sp_ctxt);
+			return _filter(self, anEntry);
 			
 		SparkEntry *entry = [anEntry root];
-		if (sp_filter(self, entry, sp_ctxt)) 
+		if (_filter(self, entry))
 			return YES;
 		
 		entry = [entry firstChild];
 		while (entry) {
-			if (sp_filter(self, entry, sp_ctxt)) 
+			if (_filter(self, entry))
 				return YES;			
 			entry = [entry sibling];
 		}
@@ -309,10 +295,10 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
 }
 
 //- (void)didAppendEntryChild:(NSNotification *)aNotification {
-//	if ([self isDynamic] && ![self containsEntry:[aNotification object]]) {
+//	if (self.isDynamic && ![self containsEntry:[aNotification object]]) {
 //		SparkEntry *child = SparkNotificationObject(aNotification);
 //		if ([self acceptsEntry:child])
-//			[self insertObject:child inEntriesAtIndex:[sp_entries count]];
+//			[self insertObject:child inEntriesAtIndex:[_entries count]];
 //	}
 //}
 //
@@ -325,12 +311,12 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
  - if list is dynamic and entry is accepted, insert the entry 
  */
 - (void)didAddEntry:(NSNotification *)aNotification {
-	if ([self isDynamic]) {
+	if (self.isDynamic) {
 		SparkEntry *entry = SparkNotificationObject(aNotification);
 		NSAssert1(entry, @"invalid notification: %@", aNotification);
 		/* we do not have to check the entry children */
 		if (![self containsEntry:entry] && [self acceptsEntry:entry])
-			[self insertObject:entry inEntriesAtIndex:[sp_entries count]];
+			[self insertObject:entry inEntriesAtIndex:[_entries count]];
 	}
 }
 - (void)didUpdateEntry:(NSNotification *)aNotification {
@@ -340,15 +326,15 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
 	/* If contains old value */
 	if (NSNotFound != idx) {
 		/* If is not smart, or updated object is always valid, replace old value */
-		if (![self isDynamic] || [self acceptsEntryOrChild:entry]) {
-			[sp_entries replaceObjectAtIndex:idx withObject:entry];
+		if (!self.isDynamic || [self acceptsEntryOrChild:entry]) {
+			[_entries replaceObjectAtIndex:idx withObject:entry];
 		} else {
 			/* remove old value */
 			[self removeObjectFromEntriesAtIndex:idx];
 		}
-	} else if ([self isDynamic] && [self acceptsEntryOrChild:entry]) {
+	} else if (self.isDynamic && [self acceptsEntryOrChild:entry]) {
 		/* Do not contains previous value but updated object is valid */
-		[self insertObject:entry inEntriesAtIndex:[sp_entries count]];
+		[self insertObject:entry inEntriesAtIndex:[_entries count]];
 	}
 }
 
@@ -357,20 +343,20 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
   NSAssert1(entry, @"invalid notification: %@", aNotification);
 	
 	/* 'remove' will be handle by the redo if needed */
-	if (![self isDynamic] && [[self undoManager] isRedoing])
+	if (!self.isDynamic && [self.undoManager isRedoing])
 		return;
 	
 	NSUInteger idx = [self indexOfEntry:entry];
 	if (idx != NSNotFound) {
 		/* do not remove entry if entry is not a root entry and entry has a sibling (or parent) valid */
 		if (![entry isRoot]) {
-			if ([self isDynamic]) {
+			if (self.isDynamic) {
 				SparkEntry *root = [entry root];
-				if (sp_filter(self, root, sp_ctxt))
+				if (_filter(self, root))
 					return;
 				root = [root firstChild];
 				while (root) {
-					if (root != entry && sp_filter(self, root, sp_ctxt)) 
+					if (root != entry && _filter(self, root))
 						return;
 					root = [root sibling];
 				}
@@ -384,61 +370,58 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
 	
 #pragma mark KVC
 - (NSArray *)entries {
-  return sp_entries;
+  return _entries;
 }
 
 - (NSUInteger)countOfEntries {
-  return [sp_entries count];
+  return [_entries count];
 }
 
 - (void)setEntries:(NSArray *)entries {
-  SPXSetterMutableCopy(sp_entries, entries);
+  SPXSetterMutableCopy(_entries, entries);
 }
 
 - (SparkEntry *)objectInEntriesAtIndex:(NSUInteger)idx {
-  return [sp_entries objectAtIndex:idx];
+  return [_entries objectAtIndex:idx];
 }
 
-- (void)getEntries:(id *)aBuffer range:(NSRange)range {
-  [sp_entries getObjects:aBuffer range:range];
+- (void)getEntries:(id __unsafe_unretained [])aBuffer range:(NSRange)range {
+  [_entries getObjects:aBuffer range:range];
 }
 
 - (void)insertObject:(SparkEntry *)anEntry inEntriesAtIndex:(NSUInteger)idx {
   /* try to insert a non root entry */
   if (![anEntry isRoot]) {
-    if ([sp_entries containsObjectIdenticalTo:[anEntry root]]) {
+    if ([_entries containsObjectIdenticalTo:[anEntry root]]) {
 			SPXDebug(@"already in => skip");
       return;
 		}
     /* insert root instead */
     anEntry = [anEntry root];
   }
-	if (![self isDynamic]) {
-		[[[self undoManager] prepareWithInvocationTarget:self] removeObjectFromEntriesAtIndex:idx];
+	if (!self.isDynamic) {
+		[[self.undoManager prepareWithInvocationTarget:self] removeObjectFromEntriesAtIndex:idx];
 	}
-  [sp_entries insertObject:anEntry atIndex:idx];
+  [_entries insertObject:anEntry atIndex:idx];
   SparkLibraryPostNotification([self library], SparkListDidAddObjectNotification, self, anEntry);
 }
 - (void)removeObjectFromEntriesAtIndex:(NSUInteger)idx {
-  SparkEntry *entry = [[sp_entries objectAtIndex:idx] retain];
+  SparkEntry *entry = [_entries objectAtIndex:idx];
   /* Undo Manager */
-  if (![self isDynamic]) {
-    [[[self undoManager] prepareWithInvocationTarget:self] insertObject:entry inEntriesAtIndex:idx];
+  if (!self.isDynamic) {
+    [[self.undoManager prepareWithInvocationTarget:self] insertObject:entry inEntriesAtIndex:idx];
 	}
-  [sp_entries removeObjectAtIndex:idx];
+  [_entries removeObjectAtIndex:idx];
   SparkLibraryPostNotification([self library], SparkListDidRemoveObjectNotification, self, entry);
-  [entry release];
 }
 - (void)replaceObjectInEntriesAtIndex:(NSUInteger)idx withObject:(SparkEntry *)object {
-	SparkEntry *previous = [sp_entries objectAtIndex:idx];
+	SparkEntry *previous = [_entries objectAtIndex:idx];
 	if ([object root] == previous) return;
 	
-	if (![self isDynamic])
-    [[[self undoManager] prepareWithInvocationTarget:self] replaceObjectAtIndex:idx withObject:previous];
-	[previous retain];
-  [sp_entries replaceObjectAtIndex:idx withObject:object];
+	if (!self.isDynamic)
+    [[self.undoManager prepareWithInvocationTarget:self] replaceObjectAtIndex:idx withObject:previous];
+  [_entries replaceObjectAtIndex:idx withObject:object];
 	SparkLibraryPostUpdateNotification([self library], SparkListDidUpdateObjectNotification, self, previous, object);
-	[previous release];
 }
 
 @end

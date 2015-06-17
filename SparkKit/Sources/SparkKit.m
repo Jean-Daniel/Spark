@@ -26,24 +26,23 @@ NSString * const kSparkKitBundleIdentifier = @"org.shadowlab.SparkKit";
 NSString * const kSparkDaemonBundleIdentifier = @"org.shadowlab.SparkDaemon";
 
 #pragma mark Distributed Notifications
-CFStringRef const SparkDaemonStatusKey = CFSTR("SparkDaemonStatusKey");
-CFStringRef const SparkDaemonStatusDidChangeNotification = CFSTR("SparkDaemonStatusDidChange");
+NSString * const SparkDaemonStatusKey = @"SparkDaemonStatusKey";
+NSString * const SparkDaemonStatusDidChangeNotification = @"SparkDaemonStatusDidChange";
 
-OSType kSparkFinderSignature;
 const OSType kSparkEditorSignature = 'Sprk';
 const OSType kSparkDaemonSignature = 'SprS';
 
+NSString * kSparkFinderBundleIdentifier = @"com.apple.finder";
+
 static __attribute__((constructor)) 
 void __SparkInitializeLibrary(void) {
-  kSparkFinderSignature = 'MACS';
-  NSString *str = SparkPreferencesGetValue(@"SparkFinderSignature", SparkPreferencesFramework);
+  NSString *str = SparkPreferencesGetValue(@"SparkFinderBundleIdentifier", SparkPreferencesFramework);
   if (str) {
     if (![str isKindOfClass:[NSString class]]) {
-      SparkPreferencesSetValue(@"SparkFinderSignature", NULL, SparkPreferencesFramework);
+      SparkPreferencesSetValue(@"SparkFinderBundleIdentifier", NULL, SparkPreferencesFramework);
     } else {
-      OSType sign = WBOSTypeFromString(str);
-      if (sign && sign != kUnknownType && WBLSFindApplicationForSignature(sign))
-        kSparkFinderSignature = sign;
+      if (WBLSCopyApplicationURLForBundleIdentifier(SPXNSToCFString(str)))
+        kSparkFinderBundleIdentifier = str;
     }
   }
 }

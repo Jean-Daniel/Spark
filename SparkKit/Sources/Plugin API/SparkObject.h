@@ -19,35 +19,23 @@
 */
 @class SparkLibrary;
 SPARK_OBJC_EXPORT
-@interface SparkObject : NSObject <NSCoding, NSCopying> {
-  @private
-  SparkUID sp_uid;
-  NSImage *sp_icon;
-  NSString *sp_name;
-  SparkLibrary *sp_library;
-}
+@interface SparkObject : NSObject <NSCopying>
 
 /*!
 @method     object
- @abstract   (description)
  @result     A new Empty object with an unique ID.
  */
-+ (id)object;
++ (instancetype)object;
   /*!
   @method     objectWithName:
-   @abstract   (description)
-   @param      name (description)
    @result     A new object with an unique ID.
    */
-+ (id)objectWithName:(NSString *)name;
++ (instancetype)objectWithName:(NSString *)name;
   /*!
     @method     objectWithName:icon:
-   @abstract   (description)
-   @param      name (description)
-   @param      icon (description)
    @result     A new object with an unique ID.
    */
-+ (id)objectWithName:(NSString *)name icon:(NSImage *)icon;
++ (instancetype)objectWithName:(NSString *)name icon:(NSImage *)icon;
 
   /*!
 @method     initWithName:
@@ -55,16 +43,14 @@ SPARK_OBJC_EXPORT
    @param      name The name of the new SparkObject.
    @result     A new created SparkObject.
    */
-- (id)initWithName:(NSString *)name;
+- (instancetype)initWithName:(NSString *)name;
   /*!
     @method     initWithName:icon:
    @abstract   Create a new SparkObject with an new uniq ID.
    @discussion Designated initializer.
-   @param      name (description)
-   @param      icon (description)
    @result     A new created SparkObject.
    */
-- (id)initWithName:(NSString *)name icon:(NSImage *)icon;
+- (instancetype)initWithName:(NSString *)name icon:(NSImage *)icon NS_DESIGNATED_INITIALIZER;
 
 #pragma mark Serialization Support
   /*!
@@ -79,53 +65,39 @@ SPARK_OBJC_EXPORT
    @param plist A serialized form of an object. <i>plist</i> contains all keys/values pairs added into propertyList method.
    @result A new deserialized object.
    */
-- (id)initWithSerializedValues:(NSDictionary *)plist;
+- (instancetype)initWithSerializedValues:(NSDictionary *)plist NS_DESIGNATED_INITIALIZER;
 
   /*!
-  @method
-   @abstract   Returns the UID of this object. Uid of an object is set at creation time and shouldn't be changed. 
+  @property
+   @abstract   Returns the UID of this object. Uid of an object is set at creation time and shouldn't be changed.
    */
-- (SparkUID)uid;
+@property (nonatomic, readonly) SparkUID uid;
 
   /*!
-  @method
-   @abstract   Returns the name for this object.
+  @property
+   @abstract   The name for this object.
    */
-- (NSString *)name;
-  /*!
-  @method
-   @abstract   Sets the name for this object.
-   @param      name The Name to set.
-   */
-- (void)setName:(NSString *)name;
+@property (nonatomic, copy) NSString *name;
 
   /*!
-  @method
-   @abstract Gets the name of a Spark Object.
-   @result Returns the icon for this object.
+  @property
+   @abstract Icon of a Spark Object.
    */
-- (NSImage *)icon;
-  /*!
-  @method
-   @abstract   Sets the icon of a Spark Object.
-   @param      icon The icon to set.
-   */
-- (void)setIcon:(NSImage *)icon;
+@property (nonatomic, copy) NSImage *icon;
 
 /*!
-  @method
  @result Returns YES if the receiver has an icon, returns NO if the icon is not loaded.
  @discussion This method allows to determine if an object has already loaded an icon.
-*/
-- (BOOL)hasIcon;
+ */
+@property (nonatomic, readonly) BOOL hasIcon;
+
   /*!
-  @method
    @abstract  Returns NO to prevent Spark to save this object icon in the Library file.
    @result    Returns YES by default.
    @discussion If the receiver uses a static icon (for example an icon build from the action resources), 
    you should not save it and you should load it lazily (in the -icon call).
    */
-- (BOOL)shouldSaveIcon;
+@property (nonatomic, readonly) BOOL shouldSaveIcon;
 
 /*!
   @abstract Object Icon not found in icon cache.
@@ -133,9 +105,16 @@ SPARK_OBJC_EXPORT
  @discussion This method is called when the object icon cannot be found in the icon cache.
  It lets a chance to the object to regenerate it.
 */
-- (NSImage *)iconCacheMiss;
+@property (nonatomic, readonly) NSImage *iconCacheMiss;
 
+/* To be documented ? */
 - (id)representation;
 - (void)setRepresentation:(NSString *)rep;
+
+@end
+
+@interface SparkObject () <NSCoding>
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder NS_DESIGNATED_INITIALIZER;
 
 @end

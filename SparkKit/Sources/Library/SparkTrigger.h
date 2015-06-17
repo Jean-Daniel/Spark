@@ -9,22 +9,18 @@
 #import <SparkKit/SparkObject.h>
 
 SPARK_OBJC_EXPORT
-@interface SparkTrigger : SparkObject <NSCoding, NSCopying> {
-  @private
-  struct _sp_stFlags {
-    unsigned int overwrite:1;
-    unsigned int reserved:15;
-  } sp_stFlags;
-}
+@interface SparkTrigger : SparkObject <NSCoding, NSCopying>
 
 - (BOOL)hasManyAction;
 - (void)setHasSpecificAction:(BOOL)flag;
 
   /* To overwrite */
 - (void)bypass;
+
 - (BOOL)isRegistred;
 - (BOOL)setRegistred:(BOOL)flag;
-- (NSString *)triggerDescription;
+
+@property(nonatomic, readonly) NSString *triggerDescription;
 
 /* Return YES only if the two trigger are equivalents */
 - (BOOL)isEqualToTrigger:(SparkTrigger *)aTrigger;
@@ -37,7 +33,7 @@ SPARK_OBJC_EXPORT
 - (SparkEntry *)resolveEntry;
 
 - (void)sendEvent:(SparkEvent *)anEvent;
-- (void)sendEventWithTime:(NSTimeInterval)eventTime isARepeat:(BOOL)repeat;
-- (void)sendEventWithEntry:(SparkEntry *)anEntry time:(NSTimeInterval)eventTime isARepeat:(BOOL)repeat;
+- (void)sendEventWithTime:(CFAbsoluteTime)eventTime isARepeat:(BOOL)repeat;
+- (void)sendEventWithEntry:(SparkEntry *)anEntry time:(CFAbsoluteTime)eventTime isARepeat:(BOOL)repeat;
 
 @end

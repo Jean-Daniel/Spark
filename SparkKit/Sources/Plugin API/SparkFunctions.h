@@ -25,10 +25,10 @@ SPARK_EXPORT
 SparkContext SparkGetCurrentContext(void);
 
 SPARK_EXPORT
-BOOL SparkEditorIsRunning(void);
+bool SparkEditorIsRunning(void);
 
 SPARK_EXPORT
-BOOL SparkDaemonIsRunning(void);
+bool SparkDaemonIsRunning(void);
 
 SPARK_EXPORT
 void SparkLaunchEditor(void);

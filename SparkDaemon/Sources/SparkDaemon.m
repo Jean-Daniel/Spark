@@ -8,7 +8,6 @@
 
 #import "SparkDaemon.h"
 #import "SDAEHandlers.h"
-#import "SparkDaemonGrowl.h"
 
 #include <Carbon/Carbon.h>
 
@@ -43,21 +42,21 @@ int main(int argc, const char *argv[]) {
   HKTraceHotKeyEvents = YES;
   SparkLogSynchronization = YES;
 #endif
-  NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-  NSApplicationLoad();
-  SparkDaemon *server = [[SparkDaemon alloc] init];
-  if (server) {
-    /* Cleanup pool */
-    [pool release];
-    pool = [[NSAutoreleasePool alloc] init];
-    [server run];
-  } else {
-    // Run Alert panel ?
-    SDSendStateToEditor(kSparkDaemonStatusError);
+  SparkDaemon *server;
+  @autoreleasepool {
+    NSApplicationLoad();
+    server = [[SparkDaemon alloc] init];
   }
-  [server release];
-  
-  [pool release];
+
+  @autoreleasepool {
+    if (server) {
+      /* Cleanup pool */
+      [server run];
+    } else {
+      // Run Alert panel ?
+      SDSendStateToEditor(kSparkDaemonStatusError);
+    }
+  }
   return 0;
 }
 
@@ -67,7 +66,7 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
     ByteCount size;
     EventParamType type;
     ProcessSerialNumber psn;
-    SparkDaemon *handler = (SparkDaemon *)inUserData;
+    SparkDaemon *handler = (__bridge SparkDaemon *)inUserData;
     verify_noerr(GetEventParameter(inEvent, kEventParamProcessID, typeProcessSerialNumber, &type, sizeof(psn), &size, &psn));
     switch (GetEventKind(inEvent)) {
       case kEventAppLaunched:
@@ -82,7 +81,11 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
   return eventNotHandledErr;
 }
 
-@implementation SparkDaemon
+@implementation SparkDaemon {
+  BOOL sd_disabled;
+  NSConnection *sd_connection;
+  NSMutableDictionary *sd_plugin_queues;
+}
 
 - (BOOL)application:(NSApplication *)sender delegateHandlesKey:(NSString *)key {
   return [key isEqualToString:@"enabled"];
@@ -91,21 +94,17 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
 - (void)setActiveLibrary:(SparkLibrary *)aLibrary {
   if (sd_library != aLibrary) {
     /* Release remote library */
-    if (sd_rlibrary) {
-      [sd_rlibrary release];
-      sd_rlibrary = nil;
-    }
+    sd_rlibrary = nil;
     if (sd_library) {
       /* Unregister triggers */
       [[sd_library notificationCenter] removeObserver:self];
       [self unregisterEntries];
       [sd_library unload];
-      [sd_library release];
       sd_front = nil;
     }
-    sd_library = [aLibrary retain];
+    sd_library = aLibrary;
     if (sd_library) {
-      NSNotificationCenter *center = [sd_library notificationCenter];
+      NSNotificationCenter *center = sd_library.notificationCenter;
       [center addObserver:self
                  selector:@selector(willRemoveTrigger:)
                      name:SparkObjectSetWillRemoveObjectNotification
@@ -146,10 +145,8 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
       [self checkActions];
       [self registerEntries];
       
-      /* init front process using a valid process */
-      ProcessSerialNumber psn;
-      if (noErr == GetCurrentProcess(&psn))
-        sd_front = [sd_library applicationForProcess:&psn];
+      /* init front process */
+      sd_front = [sd_library frontmostApplication];
     }
   }
 }
@@ -167,16 +164,16 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
     //      { kEventClassApplication, kEventAppTerminated },
     { kEventClassApplication, kEventAppFrontSwitched },
   };
-  InstallApplicationEventHandler(_SDProcessManagerEvent, GetEventTypeCount(eventTypes), eventTypes, self, NULL);
-  [self registerGrowl];
+  // FIXME: replace by NSWorkspaceDidActivateApplicationNotification
+  InstallApplicationEventHandler(_SDProcessManagerEvent, GetEventTypeCount(eventTypes), eventTypes, (__bridge void *)self, NULL);
 }
 
 - (id)init {
   if (self = [super init]) {
     if (![self openConnection]) {
-      [self release];
-      self = nil; 
+      return nil;
     } else {
+      sd_plugin_queues = [[NSMutableDictionary alloc] init];
 #if defined (DEBUG)
       [[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
         @"YES", @"NSShowNonLocalizedStrings",
@@ -188,9 +185,11 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
         nil]];
 #endif
       [NSApp setDelegate:self];
-      [SparkEvent setEventHandler:self andSelector:@selector(handleSparkEvent:)];
-      sd_lock = [[NSLock alloc] init];
-      sd_locks = NSCreateMapTable(NSObjectMapKeyCallBacks, NSObjectMapValueCallBacks, 0);
+      [SparkEvent setEventHandler:^void(SparkEvent * __nonnull event) {
+        @autoreleasepool {
+          [self handleSparkEvent:event];
+        }
+      }];
       /* Init core Apple Event handlers */
       [NSScriptSuiteRegistry sharedScriptSuiteRegistry];
       
@@ -223,7 +222,7 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
                                         repeats:NO];
       } else {
         [self finishStartup:nil];
-      }      
+      }
     }
   }
   return self;
@@ -233,10 +232,6 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
   [[NSNotificationCenter defaultCenter] removeObserver:self];
   [self setActiveLibrary:nil];
   [self closeConnection];
-  [sd_growl release];
-  [sd_lock release];
-  if (sd_locks) NSFreeMapTable(sd_locks);
-  [super dealloc];
 }
 
 #pragma mark -
@@ -257,22 +252,25 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
 }
 
 - (void)frontApplicationDidChange:(ProcessSerialNumber *)psn {
-  Boolean same = false;
-  SparkApplication *front = psn ? [sd_library applicationForProcess:psn] : nil;
-  if (!sd_front) {
-    same = !front;
-  } else {
-    same = front && [sd_front isEqual:front];
-  }
-  if (!same) {
-    SparkApplication *previous = sd_front;
-    sd_front = front;
-    SPXDebug(@"switch: %@ => %@", previous, front);
-    /* If status change */
-    if ((!previous || [previous isEnabled]) && (front && ![front isEnabled])) {
-      [self unregisterEntries];
-    } else if ((previous && ![previous isEnabled]) && (!front || [front isEnabled])) {
-      [self registerEntries];
+  pid_t pid;
+  if (noErr == GetProcessPID(psn, &pid)) {
+    Boolean same = false;
+    SparkApplication *front = psn ? [sd_library applicationWithProcessIdentifier:pid] : nil;
+    if (!sd_front) {
+      same = !front;
+    } else {
+      same = front && [sd_front isEqual:front];
+    }
+    if (!same) {
+      SparkApplication *previous = sd_front;
+      sd_front = front;
+      SPXDebug(@"switch: %@ => %@", previous, front);
+      /* If status change */
+      if ((!previous || [previous isEnabled]) && (front && ![front isEnabled])) {
+        [self unregisterEntries];
+      } else if ((previous && ![previous isEnabled]) && (!front || [front isEnabled])) {
+        [self registerEntries];
+      }
     }
   }
 }
@@ -282,7 +280,6 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
                                                                 protocol:@protocol(SparkServer)]; 
   sd_connection = [[NSConnection alloc] init];
   [sd_connection setRootObject:checker];
-  [checker release];
   if (![sd_connection registerName:kSparkConnectionName]) {
     SPXDebug(@"Error While opening Connection");
     return NO;
@@ -295,31 +292,27 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
 - (void)checkActions {
   Boolean display = !SparkPreferencesGetBooleanValue(@"SDBlockAlertOnLoad", SparkPreferencesDaemon);
   /* Send actionDidLoad message to all actions */
-  SparkAction *action;
-  NSEnumerator *actions = [sd_library actionEnumerator];
   NSMutableArray *errors = display ? [[NSMutableArray alloc] init] : nil;
-  while (action = [actions nextObject]) {
+  [sd_library.actionSet enumerateObjectsUsingBlock:^(SparkAction *action, BOOL *stop) {
     SparkAlert *alert = [action actionDidLoad];
     if (alert && display) {
       [alert setHideSparkButton:NO];
       [errors addObject:alert];
     }
-  }
+  }];
   /* Display errors of needed */
-  if (display) {
+  if (display)
     SparkDisplayAlerts(errors);
-    [errors release];
-  }
 }
 
 - (void)setEntryStatus:(SparkEntry *)entry {
   if (entry) {
     @try {
       /* register entry if it is active (enabled + plugged), if the daemon is enabled or if the entry is persistent, and if the front application is not disabled */
-      if ([entry isActive] && ([self isEnabled] || [entry isPersistent]) && (!sd_front || [sd_front isEnabled])) {
-        [entry setRegistred:YES];
+      if (entry.active && ([self isEnabled] || entry.persistent) && (!sd_front || sd_front.enabled)) {
+        entry.registred = YES;
       } else {
-        [entry setRegistred:NO];
+        entry.registred = NO;
       }
     } @catch (id exception) {
       SPXLogException(exception);
@@ -328,42 +321,38 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
 }
 
 - (void)registerEntries {
-  SparkEntry *entry;
-  NSEnumerator *entries = [sd_library entryEnumerator];
-  while (entry = [entries nextObject]) {
+  [sd_library.entryManager enumerateEntriesUsingBlock:^(SparkEntry *entry, BOOL *stop) {
     [self setEntryStatus:entry];
-  }
+  }];
 }
 
 - (void)unregisterEntries {
-  SparkEntry *entry;
-  NSEnumerator *entries = [sd_library entryEnumerator];
-  while (entry = [entries nextObject]) {
+  [sd_library.entryManager enumerateEntriesUsingBlock:^(SparkEntry *entry, BOOL *stop) {
     @try {
-      [entry setRegistred:NO];
+      entry.registred = NO;
     } @catch (id exception) {
       SPXLogException(exception);
     }
-  }
+  }];
 }
+
 - (void)unregisterVolatileEntries {
-  SparkEntry *entry;
-  NSEnumerator *entries = [sd_library entryEnumerator];
-  while (entry = [entries nextObject]) {
+  [sd_library.entryManager enumerateEntriesUsingBlock:^(SparkEntry *entry, BOOL *stop) {
     @try {
-      if (![entry isPersistent]) {
-        [entry setRegistred:NO];
+      if (!entry.persistent) {
+        entry.registred = NO;
       }
     } @catch (id exception) {
       SPXLogException(exception);
     }
-  }
+  }];
 }
 
 - (void)_displayError:(SparkAlert *)anAlert {
   /* Check if need display alert */
   Boolean displays = SparkPreferencesGetBooleanValue(@"SDDisplayAlertOnExecute", SparkPreferencesDaemon);
-  if (displays) SparkDisplayAlert(anAlert); 
+  if (displays)
+    SparkDisplayAlert(anAlert);
 }
 
 - (SparkAlert *)_executeEvent:(SparkEvent *)anEvent {
@@ -374,7 +363,7 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
   [SparkEvent setCurrentEvent:anEvent];
   @try {
     /* Action exists and is enabled */
-    alert = [[entry action] performAction];
+    alert = [entry.action performAction];
   } @catch (id exception) {
     // TODO: alert = [SparkAlert alertFromException:exception context:plugin, action, ...];
     SPXLogException(exception);
@@ -386,31 +375,32 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
   return alert;
 }
 
-- (void)_executeEventThread:(SparkEvent *)anEvent {
-  SparkEvent *event = anEvent;
-  do {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    
-    SparkAction *action = [[event entry] action];
-    SparkAlert *alert = [self _executeEvent:event];
-    if (alert) [self performSelectorOnMainThread:@selector(_displayError:) withObject:alert waitUntilDone:NO];
-    
-    [event release]; // balance retain called before detach thread and on dequeue
-    event = nil;
-    if (![action supportsConcurrentRequests]) {
-      id lock = [action lock];
-      SparkPlugIn *plugin = [[SparkActionLoader sharedLoader] plugInForAction:action];
-      
-      [sd_lock lock];
-      NSMutableDictionary *locks = (NSMutableDictionary *)NSMapGet(sd_locks, plugin);
-      NSMutableArray *queue = [locks objectForKey:lock];
-      // dequeue item and execute next.
-      [queue removeLastObject];
-      event = [[queue lastObject] retain]; // nil if queue is empty
-      [sd_lock unlock];
+- (void)_executeEventAsync:(SparkEvent *)anEvent {
+  SparkAction *action = anEvent.entry.action;
+
+  dispatch_queue_t queue;
+  if (action.supportsConcurrentRequests) {
+    queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+  } else {
+    SparkPlugIn *plugin = [[SparkActionLoader sharedLoader] plugInForAction:action];
+    NSAssert(plugin, @"invalid action triggered");
+    queue = sd_plugin_queues[plugin.identifier];
+    if (!queue) {
+      queue = dispatch_queue_create(plugin.identifier.UTF8String, DISPATCH_QUEUE_SERIAL);
+      sd_plugin_queues[plugin.identifier] = queue;
     }
-    [pool release];
-  } while (event);
+  }
+
+  dispatch_async(queue, ^{
+    @autoreleasepool {
+      SparkAlert *alert = [self _executeEvent:anEvent];
+      if (alert) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+          [self _displayError:alert];
+        });
+      }
+    }
+  });
 }
 
 - (void)handleSparkEvent:(SparkEvent *)anEvent {
@@ -421,49 +411,26 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
     [[anEvent trigger] bypass];
     return;
   }
-  
+
   SPXDebug(@"Start dispatch event: %@", anEvent);
 
   bool bypass = true;
   /* If daemon is disabled, only persistent action are performed */
   if ([self isEnabled] || [[anEvent entry] isPersistent]) {
+    bypass = false;
     SparkAction *action = [[anEvent entry] action];
     /* if does not support concurrency => check if already running for safety */
     if ([action needsToBeRunOnMainThread]) {
-      bypass = false;
       SparkAlert *alert = [self _executeEvent:anEvent];
-      if (alert) [self _displayError:alert];
+      if (alert)
+        [self _displayError:alert];
     } else {
-      if ([action supportsConcurrentRequests]) {
-        bypass = false;
-        [NSThread detachNewThreadSelector:@selector(_executeEventThread:) toTarget:self withObject:[anEvent retain]];
-      } else {
-        id lock = [action lock];
-        SparkPlugIn *plugin = [[SparkActionLoader sharedLoader] plugInForAction:action];
-        NSAssert(plugin, @"invalid action triggered");
-        
-        [sd_lock lock];
-        @try {
-          NSMutableDictionary *locks = NSMapGet(sd_locks, plugin);
-          if (!locks) { locks = [NSMutableDictionary dictionary]; NSMapInsert(sd_locks, plugin, locks); }
-          NSMutableArray *queue = [locks objectForKey:lock];
-          if (!queue) { queue = [NSMutableArray array]; [locks setObject:queue forKey:lock]; }
-          [queue insertObject:anEvent atIndex:0];
-          if (1 == [queue count]) {
-            bypass = false;
-            [NSThread detachNewThreadSelector:@selector(_executeEventThread:) toTarget:self withObject:[anEvent retain]];
-          } else {
-            bypass = false;
-          }
-        } @finally {
-          [sd_lock unlock];
-        }
-      }
+      [self _executeEventAsync:anEvent];
     }
   }
-  
+
   if (bypass) [[anEvent trigger] bypass];
-  
+
   SPXDebug(@"End dispatch event: %@", anEvent);
 }
 
@@ -480,7 +447,6 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
                                                   name:NSConnectionDidDieNotification
                                                 object:nil];
   [sd_connection invalidate];
-  [sd_connection release];
   sd_connection = nil;
 }
 

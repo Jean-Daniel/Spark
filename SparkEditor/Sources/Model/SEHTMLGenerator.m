@@ -111,14 +111,18 @@ NSComparisonResult _SETriggerCompare(SparkTrigger *t1, SparkTrigger *t2, void *c
   NSArray *plugins = [[SparkActionLoader sharedLoader] plugIns];
   plugins = [plugins sortedArrayUsingDescriptors:gSortByNameDescriptors];
   
-  if (se_group == 1) {    
+  if (se_group == 1) {
     NSMutableArray *customs = [NSMutableArray array];
+
     SparkApplication *app = [library systemApplication];
-    NSEnumerator *apps = [[library applicationSet] objectEnumerator];
-    do {
+
+    if ([manager containsEntryForApplication:app])
+      [customs addObject:app];
+
+    [library.applicationSet enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
       if ([manager containsEntryForApplication:app])
         [customs addObject:app];
-    } while (app = [apps nextObject]);
+    }];
     
     [customs sortedArrayUsingFunction:SparkObjectCompare context:nil];
     
@@ -136,7 +140,7 @@ NSComparisonResult _SETriggerCompare(SparkTrigger *t1, SparkTrigger *t2, void *c
       [block dumpBlock];
     }
   } else {
-    NSArray *triggers = [[[library triggerSet] objects] sortedArrayUsingFunction:_SETriggerCompare context:nil];
+    NSArray *triggers = [[[library triggerSet] allObjects] sortedArrayUsingFunction:_SETriggerCompare context:nil];
     
     /* foreach trigger */
     for (NSUInteger idx = 0, count = [triggers count]; idx < count; idx++) {

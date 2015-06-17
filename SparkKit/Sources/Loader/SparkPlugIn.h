@@ -15,86 +15,39 @@ NSString * const SparkPlugInDidChangeStatusNotification;
     @abstract   Represent a Spark PlugIn Bundle.
 */
 SPARK_OBJC_EXPORT
-@interface SparkPlugIn : NSObject {
-  @private
-  Class sp_class;
-  id sp_nib;
-  NSString *sp_name;
-  NSString *sp_path;
-  NSImage  *sp_icon;
-  NSString *sp_version;
-  NSString *sp_identifier;
-  
-  struct _sp_spFlags {
-    unsigned int disabled:1;
-    unsigned int reserved:13;
-  } sp_spFlags;
-}
+@interface SparkPlugIn : NSObject
 
-- (id)initWithBundle:(NSBundle *)bundle;
+- (instancetype)initWithBundle:(NSBundle *)bundle;
 
 /* Designated */
-- (id)initWithClass:(Class)cls identifier:(NSString *)identifier;
+- (instancetype)initWithClass:(Class)cls identifier:(NSString *)identifier;
 
-/*!
-  @method
- @abstract   Returns the localized name of this PlugIn.
-*/
-- (NSString *)name;
-/*!
-  @method
- @abstract   Sets the name of this plugin.
- @param      name The name to set.
-*/
-- (void)setName:(NSString *)name;
+/*! localized name of this PlugIn. */
+@property(nonatomic, copy) NSString *name;
 
-/*!
-  @method
- @abstract   Returns the path for this plugin Bundle.
-*/
-- (NSString *)path;
-/*!
-  @method
- @abstract   Sets the path for this plugin.
- @param      path The path to set.
-*/
-- (void)setPath:(NSString *)path;
+/*! plugin bundle URL. */
+@property(nonatomic, retain) NSURL *URL;
 
-/*!
-  @method
- @abstract   Returns the icon for this plugin.
-*/
-- (NSImage *)icon;
-- (void)setIcon:(NSImage *)newIcon;
+/*! the icon for this plugin */
+@property(nonatomic, copy) NSImage *icon;
 
-- (BOOL)isEnabled;
-- (void)setEnabled:(BOOL)flag;
+@property(nonatomic, getter=isEnabled) BOOL enabled;
 
-- (NSString *)version;
-- (void)setVersion:(NSString *)version;
+@property(nonatomic, copy) NSString *version;
+@property(nonatomic, copy) NSString *identifier;
 
-- (NSString *)identifier;
-- (void)setIdentifier:(NSString *)anIdentifier;
+@property(nonatomic, readonly) NSURL *helpURL;
+@property(nonatomic, readonly) NSURL *sdefURL;
 
-- (NSURL *)helpURL;
-- (NSString *)sdefFile;
 
-- (Class)plugInClass;
-/*!
-  @method
- @abstract Returns the Action Class provided by this plugin.
-*/
-- (Class)actionClass;
+@property(nonatomic, readonly) Class plugInClass;
+/*! Action Class provided by this plugin. */
+@property(nonatomic, readonly) Class actionClass;
+
 /*!
   @method
  @abstract Returns a new plugin instance.
 */
 - (id)instantiatePlugIn;
 
-- (NSDictionary *)growlNotifications;
-
-@end
-
-@interface SparkPlugIn (SparkBuiltInPlugIn)
-;
 @end

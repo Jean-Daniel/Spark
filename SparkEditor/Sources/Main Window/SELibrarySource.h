@@ -14,10 +14,10 @@
 @interface SELibrarySource : WBTableDataSource {
   IBOutlet SETableView *uiTable;
   IBOutlet SELibraryWindow *ibWindow;
-  @private
+@private
   NSMapTable *se_plugins;
   SEEntryList *se_overwrite;
-  
+
   SparkLibrary *se_library;
 }
 

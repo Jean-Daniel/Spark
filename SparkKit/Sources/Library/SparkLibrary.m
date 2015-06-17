@@ -47,7 +47,7 @@ NSString * const kSparkLibraryDefaultFileName = @"Spark Library.splib";
 #endif
 
 static
-NSString *SparkLibraryIconFolder(SparkLibrary *library);
+NSURL *SparkLibraryIconFolder(SparkLibrary *library);
 
 /* Notifications */
 NSString * const SparkWillSetActiveLibraryNotification = @"SparkWillSetActiveLibrary";
@@ -72,7 +72,6 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
 @end
 
 @interface SparkLibrary (SparkLegacyReader)
-- (BOOL)importv1LibraryFromFileWrapper:(NSFileWrapper *)wrapper error:(NSError **)error;
 - (BOOL)importTriggerListFromFileWrapper:(NSFileWrapper *)wrapper error:(NSError **)error;
 @end
 
@@ -80,7 +79,32 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
 - (void)removeEntriesForAction:(SparkUID)action;
 @end
 
-@implementation SparkLibrary
+@implementation SparkLibrary {
+@private
+  CFUUIDRef _uuid;
+  NSUInteger _version;
+
+  SparkObjectSet *_objects[4];
+  SparkEntryManager *_relations;
+
+  struct _sp_slFlags {
+    unsigned int loaded:1;
+    unsigned int unnotify:8;
+    unsigned int syncPrefs:1;
+    unsigned int reserved:22;
+  } _slFlags;
+
+  /* Model synchronization */
+  NSNotificationCenter *_center;
+
+  /* Preferences */
+  NSMutableDictionary *_prefs;
+
+  /* reserved objects */
+  SparkApplication *_system;
+}
+
+@synthesize URL = _url;
 
 + (void)initialize {
   if ([SparkLibrary class] == self) {
@@ -91,16 +115,16 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
 }
 
 - (SparkApplication *)systemApplication {
-  if (!sp_system) {
-    sp_system = [[SparkApplication systemApplication] retain];
-    [sp_system setLibrary:self];
+  if (!_system) {
+    _system = [SparkApplication systemApplication];
+    [_system setLibrary:self];
   }
-  return sp_system;
+  return _system;
 }
 
 #pragma mark -
 - (id)init {
-  if (self = [self initWithPath:nil]) {
+  if (self = [self initWithURL:nil]) {
     /* Init infos */
     [self setInfo:nil];
     /* Load empty library */
@@ -109,141 +133,105 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
   return self;
 }
 
-- (id)initWithPath:(NSString *)path {
+- (id)initWithURL:(NSURL *)anURL {
   if (self = [super init]) {
-    [self setPath:path];    
+    [self setURL:anURL];
   }
   return self;
 }
 
 - (void)dealloc {
   /* Avoid useless undo */
-  [sp_undo release];
-  sp_undo = nil;
+  _undoManager = nil;
   
   /* Unload library */
   if ([self isLoaded])
     [self unload];
   
-  [sp_center release];
-  
   /* Release others */
-  [sp_file release];
-  if (sp_uuid) CFRelease(sp_uuid);
-  [super dealloc];
+  if (_uuid)
+    CFRelease(_uuid);
 }
 
 - (NSUInteger)hash {
-  return sp_uuid ? CFHash(sp_uuid) : 0;
+  return _uuid ? CFHash(_uuid) : 0;
 }
 
 - (BOOL)isEqual:(id)object {
   if (![[object class] isSubclassOfClass:[self class]])
     return NO;
-  if (!sp_uuid) return ![object uuid];
-  if (![object uuid]) return !sp_uuid;
-  return CFEqual(sp_uuid, [object uuid]);
+  if (!_uuid) return ![object uuid];
+  if (![object uuid]) return !_uuid;
+  return CFEqual(_uuid, [object uuid]);
 }
 
 #pragma mark -
 #pragma mark Managers Accessors
 - (SparkEntryManager *)entryManager {
-  return sp_relations;
+  return _relations;
 }
 
 - (SparkIconManager *)iconManager {
-  return sp_icons;
+  return _icons;
 }
 
 - (SparkObjectSet *)listSet {
-  return sp_objects[kSparkListSet];
+  return _objects[kSparkListSet];
 }
 - (SparkObjectSet *)actionSet {
-  return sp_objects[kSparkActionSet];
+  return _objects[kSparkActionSet];
 }
 - (SparkObjectSet *)triggerSet {
-  return sp_objects[kSparkTriggerSet];
+  return _objects[kSparkTriggerSet];
 }
 - (SparkObjectSet *)applicationSet {
-  return sp_objects[kSparkApplicationSet];
-}
-
-- (NSEnumerator *)listEnumerator {
-  return [sp_objects[kSparkListSet] objectEnumerator];
-}
-- (NSEnumerator *)entryEnumerator {
-  return [sp_relations entryEnumerator];
-}
-
-- (NSEnumerator *)actionEnumerator {
-  return [sp_objects[kSparkActionSet] objectEnumerator];
-}
-- (NSEnumerator *)triggerEnumerator {
-  return [sp_objects[kSparkTriggerSet] objectEnumerator];
-}
-- (NSEnumerator *)applicationEnumerator {
-  return [sp_objects[kSparkApplicationSet] objectEnumerator];
+  return _objects[kSparkApplicationSet];
 }
 
 #pragma mark -
-- (CFUUIDRef)uuid {
-  return sp_uuid;
-}
-
-- (NSUndoManager *)undoManager {
-  return sp_undo;
-}
-- (void)setUndoManager:(NSUndoManager *)aManager {
-  SPXSetterRetain(sp_undo, aManager);
-}
-
 - (void)enableNotifications {
-	NSParameterAssert(sp_slFlags.unnotify > 0);
-  sp_slFlags.unnotify--;
+	NSParameterAssert(_slFlags.unnotify > 0);
+  _slFlags.unnotify--;
 }
+
 - (void)disableNotifications {
-	NSParameterAssert(sp_slFlags.unnotify < 255);
-  sp_slFlags.unnotify++;
+	NSParameterAssert(_slFlags.unnotify < 255);
+  _slFlags.unnotify++;
 }
+
 - (NSNotificationCenter *)notificationCenter {
-  if (sp_slFlags.unnotify > 0) {
+  if (_slFlags.unnotify > 0) {
 		return nil;
 	}
   
-  if (!sp_center) {
-    sp_center = [[NSNotificationCenter alloc] init];
+  if (!_center) {
+    _center = [[NSNotificationCenter alloc] init];
   }
-  return sp_center;
+  return _center;
 }
 
 #pragma mark FileSystem Methods
-- (NSString *)path {
-  return sp_file;
-}
-
-- (void)setPath:(NSString *)file {
-  if (file != sp_file) {
-    [sp_file release];
-    sp_file = [[file stringByStandardizingPath] retain];
+- (void)setURL:(NSURL *)url {
+  if (url != _url) {
+    _url = [url URLByStandardizingPath];
     
     if (![self isLoaded]) {
       /* Init UUID & version */
-      NSString *path = sp_file ? [sp_file stringByAppendingPathComponent:@"Info.plist"] : nil;
-      NSDictionary *dict = path ? [[NSDictionary alloc] initWithContentsOfFile:path] : nil;
+      NSURL *path = _url ? [_url URLByAppendingPathComponent:@"Info.plist"] : nil;
+      NSDictionary *dict = path ? [[NSDictionary alloc] initWithContentsOfURL:path] : nil;
       [self setInfo:dict];
-      [dict release];
     }
     /* Update icon path */
-    if (sp_icons && ![sp_icons path] && sp_file)
-      [sp_icons setPath:SparkLibraryIconFolder(self)];
+    if (_icons && ![_icons URL] && _url)
+      _icons.URL = SparkLibraryIconFolder(self);
   }
 }
 
 - (BOOL)synchronize {
-  if ([self path]) {
+  if (self.URL) {
     if ([self isLoaded]) {
-      if ([self writeToFile:[self path] atomically:YES]) {
-        sp_version = kSparkLibraryCurrentVersion;
+      if ([self writeToURL:self.URL atomically:YES]) {
+        _version = kSparkLibraryCurrentVersion;
         return YES;
       }
     } else {
@@ -256,18 +244,18 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
 }
 
 - (BOOL)isLoaded {
-  return sp_slFlags.loaded;
+  return _slFlags.loaded;
 }
 
-- (BOOL)load:(NSError **)error {
+- (BOOL)load:(__autoreleasing NSError **)error {
   if ([self isLoaded])
     SPXThrowException(NSInternalInconsistencyException, @"<%@ %p> is already loaded.", [self class], self);
   
   BOOL result = NO;
   /* disable undo while loading */
-  [sp_undo disableUndoRegistration];
+  [_undoManager disableUndoRegistration];
   
-  NSFileWrapper *wrapper = [[NSFileWrapper alloc] initWithPath:[self path]];
+  NSFileWrapper *wrapper = [[NSFileWrapper alloc] initWithURL:self.URL options:0 error:error];
   if (wrapper) {
     @try {
       result = [self loadFromWrapper:wrapper error:error];
@@ -277,12 +265,9 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
       if (error)
         *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileReadCorruptFileError userInfo:nil];
     }
-    [wrapper release];
-  } else if (error) {
-    *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileNoSuchFileError userInfo:nil];
   }
   /* restaure undo manager */
-  [sp_undo enableUndoRegistration];
+  [_undoManager enableUndoRegistration];
   
   return result;
 }
@@ -291,55 +276,52 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
   if (![self isLoaded])
     SPXThrowException(NSInternalInconsistencyException, @"<%@ %p> is not loaded.", [self class], self);
   
-  SPXFlagSet(sp_slFlags.loaded, NO);
+  SPXFlagSet(_slFlags.loaded, NO);
   
   /* Preferences */
-  [sp_prefs release];
-  sp_prefs = nil;
+  _prefs = nil;
   
   /* Release relation table */
-  [sp_relations setLibrary:nil];
-  [sp_relations release];
-  sp_relations = nil;
+  [_relations setLibrary:nil];
+  _relations = nil;
   
   /* Release defaults libraries */
   NSUInteger idx = kSparkSetCount;
   while (idx-- > 0) {
-    [sp_objects[idx] setLibrary:nil];
-    [sp_objects[idx] release];
-    sp_objects[idx] = nil;
+    [_objects[idx] setLibrary:nil];
+    _objects[idx] = nil;
   }
   
   /* Release Icon cache */
-  [sp_icons release];
-  sp_icons = nil;
+  _icons = nil;
 }
 
 #pragma mark Read/Write
 - (void)initReservedObjects {
   /* Init Finder Application */
-  NSString *path = WBLSFindApplicationForSignature(kSparkFinderSignature);
-	if (!path && kSparkFinderSignature != 'MACS') {
-		SPXLogWarning(@"invalid finder signature, try with default signature ('MACS')");
-		path = WBLSFindApplicationForSignature('MACS');
+  CFURLRef url = WBLSCopyApplicationURLForBundleIdentifier(SPXNSToCFString(kSparkFinderBundleIdentifier));
+	if (!url && ![@"com.apple.finder" isEqualToString:kSparkFinderBundleIdentifier]) {
+		SPXLogWarning(@"invalid finder application, try with default identifier ('MACS')");
+		url = WBLSCopyApplicationURLForBundleIdentifier(CFSTR("com.apple.finder"));
 	}
-  if (path) {
-    SparkApplication *finder = [[SparkApplication alloc] initWithPath:path];
+  if (url) {
+    SparkApplication *finder = [[SparkApplication alloc] initWithURL:SPXCFToNSURL(url)];
     if (finder) {
-      [finder setUID:kSparkApplicationFinderUID];
-      [[self applicationSet] addObject:finder];
-      [finder release];
+      finder.uid = kSparkApplicationFinderUID;
+      [self.applicationSet addObject:finder];
     } else {
       SPXLogWarning(@"Invalid Finder Application: %@", finder);
     }
   }
 }
+
 - (void)saveReservedObjects {
   /* write reserved objects status into preferences */
   SparkApplication *finder = [self applicationWithUID:kSparkApplicationFinderUID];
   if (finder)
     [[self preferences] setObject:@(![finder isEnabled]) forKey:@"SparkFinderDisabled"];
 }
+
 - (void)restoreReservedObjects {
   /* called after library loading, restore reserved objects status from preferences */
   SparkApplication *finder = [self applicationWithUID:kSparkApplicationFinderUID];
@@ -349,114 +331,113 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
   }
 }
 
-- (NSFileWrapper *)fileWrapper:(NSError **)outError {
-  if (outError) *outError = nil;
+- (NSFileWrapper *)fileWrapper:(__autoreleasing NSError **)outError {
+  if (outError)
+    *outError = nil;
   
   /* if not loaded, return disk representation */
   if (![self isLoaded])
-    return [self path] ? [[[NSFileWrapper alloc] initWithPath:[self path]] autorelease] : nil;
+    return self.URL ? [[NSFileWrapper alloc] initWithURL:self.URL options:0 error:outError] : nil;
   
   NSFileWrapper *library = [[NSFileWrapper alloc] initDirectoryWithFileWrappers:nil];
   [library setFilename:kSparkLibraryDefaultFileName];
-  
-  NSFileWrapper *file;
-  /* SparkActions */
-  file = [[self actionSet] fileWrapper:outError];
-  require(file != nil, bail);
-  
-  [file setPreferredFilename:kSparkActionsFile];
-  [library addFileWrapper:file];
-  
-  /* SparkHotKeys */
-  file = [[self triggerSet] fileWrapper:outError];
-  require(file != nil, bail);
-  
-  [file setPreferredFilename:kSparkTriggersFile];
-  [library addFileWrapper:file];
-  
-  /* SparkApplications */
-  file = [[self applicationSet] fileWrapper:outError];
-  require(file != nil, bail);
-  
-  [file setPreferredFilename:kSparkApplicationsFile];
-  [library addFileWrapper:file];
-  
-  /* Spark releationships (entries + lists) */
-  NSMutableData *archive = [NSMutableData data];
-  SparkLibraryArchiver *writer = [[SparkLibraryArchiver alloc] initForWritingWithMutableData:archive];
-  [writer encodeObject:[self entryManager] forKey:@"entries"];
-  [writer encodeObject:[[self listSet] objects] forKey:@"lists"];
-  [writer finishEncoding];
-  [writer release];
-  
-  file = [[NSFileWrapper alloc] initRegularFileWithContents:archive];
-  require(file != nil, bail);
-  
-  [file setPreferredFilename:kSparkArchiveFile];
-  [library addFileWrapper:file];
-  [file release];
-  
-  [self saveReservedObjects];
-  
-  /* Preferences */
-  NSData *data = [NSPropertyListSerialization dataFromPropertyList:sp_prefs
-                                                            format:NSPropertyListXMLFormat_v1_0
-                                                  errorDescription:nil];
-  if (data)
-    [library addRegularFileWithContents:data preferredFilename:kSparkLibraryPreferencesFile];
-  
-  /* Library infos */
-  NSString *uuid = sp_uuid ? (id)CFUUIDCreateString(kCFAllocatorDefault, sp_uuid) : nil;
-  NSDictionary *info = [NSDictionary dictionaryWithObjectsAndKeys:
-    @(kSparkLibraryCurrentVersion), @"Version",
-    uuid, @"UUID",
-    nil];
-  [uuid release];
-  data = [NSPropertyListSerialization dataFromPropertyList:info
-                                                    format:NSPropertyListXMLFormat_v1_0
-                                          errorDescription:nil];
-  require(data != nil, bail);
-  
-  [library addRegularFileWithContents:data preferredFilename:@"Info.plist"];
-  
-  return [library autorelease];
-  
-bail:
-  [library release];
-  
-  if (outError && !*outError) *outError = [NSError errorWithDomain:kSparkErrorDomain code:-1 userInfo:nil];
+
+  do {
+    NSFileWrapper *file;
+    /* SparkActions */
+    file = [[self actionSet] fileWrapper:outError];
+    if (!file) break;
+
+    [file setPreferredFilename:kSparkActionsFile];
+    [library addFileWrapper:file];
+
+    /* SparkHotKeys */
+    file = [[self triggerSet] fileWrapper:outError];
+    if (!file) break;
+
+    [file setPreferredFilename:kSparkTriggersFile];
+    [library addFileWrapper:file];
+
+    /* SparkApplications */
+    file = [[self applicationSet] fileWrapper:outError];
+    if (!file) break;
+
+    [file setPreferredFilename:kSparkApplicationsFile];
+    [library addFileWrapper:file];
+
+    /* Spark releationships (entries + lists) */
+    NSMutableData *archive = [NSMutableData data];
+    SparkLibraryArchiver *writer = [[SparkLibraryArchiver alloc] initForWritingWithMutableData:archive];
+    [writer encodeObject:self.entryManager forKey:@"entries"];
+    [writer encodeObject:self.listSet.allObjects forKey:@"lists"];
+    [writer finishEncoding];
+
+    file = [[NSFileWrapper alloc] initRegularFileWithContents:archive];
+    if (!file) break;
+
+    [file setPreferredFilename:kSparkArchiveFile];
+    [library addFileWrapper:file];
+
+    [self saveReservedObjects];
+
+    /* Preferences */
+    NSData *data = [NSPropertyListSerialization dataFromPropertyList:_prefs
+                                                              format:NSPropertyListXMLFormat_v1_0
+                                                    errorDescription:nil];
+    if (data)
+      [library addRegularFileWithContents:data preferredFilename:kSparkLibraryPreferencesFile];
+
+    /* Library infos */
+    CFStringRef uuid = _uuid ? CFUUIDCreateString(kCFAllocatorDefault, _uuid) : nil;
+    NSDictionary *info = [NSDictionary dictionaryWithObjectsAndKeys:
+                          @(kSparkLibraryCurrentVersion), @"Version",
+                          uuid, @"UUID",
+                          nil];
+    CFRelease(uuid);
+    data = [NSPropertyListSerialization dataFromPropertyList:info
+                                                      format:NSPropertyListXMLFormat_v1_0
+                                            errorDescription:nil];
+    if (!data) break;
+    
+    [library addRegularFileWithContents:data preferredFilename:@"Info.plist"];
+    
+    return library;
+  } while (0);
+  if (outError && !*outError)
+    *outError = [NSError errorWithDomain:kSparkErrorDomain code:-1 userInfo:nil];
   return nil;
 }
 
-- (BOOL)writeToFile:(NSString *)file atomically:(BOOL)flag {
+- (BOOL)writeToURL:(NSURL *)file atomically:(BOOL)flag {
   NSParameterAssert(file != nil);
   
   NSFileWrapper* wrapper = [self fileWrapper:nil];
-  if (wrapper && [wrapper writeToFile:file atomically:flag updateFilenames:NO]) {
-    [sp_icons synchronize];
+  if ([wrapper writeToURL:file options:NSFileWrapperWritingAtomic
+      originalContentsURL:nil error:NULL]) {
+    [_icons synchronize];
     return YES;
   }
-  return NO;  
+  return NO;
 }
 
-- (BOOL)readFromFileWrapper:(NSFileWrapper *)fileWrapper error:(NSError **)outError {
+- (BOOL)readFromFileWrapper:(NSFileWrapper *)fileWrapper error:(__autoreleasing NSError **)outError {
   if ([self isLoaded])
     SPXThrowException(NSInternalInconsistencyException, @"<%@ %p> is already loaded.", [self class], self);
   
   NSDictionary *wrappers = [fileWrapper fileWrappers];
   NSData *data = [[wrappers objectForKey:@"Info.plist"] regularFileContents];
-  require(data != nil, bail);
+  if (!data)
+    return NO;
   
   NSDictionary *info = [NSPropertyListSerialization propertyListFromData:data 
                                                         mutabilityOption:NSPropertyListImmutable
                                                                   format:NULL
                                                         errorDescription:NULL];
-  require(info != nil, bail);
+  if (!info)
+    return NO;
   /* Init info plist */
   [self setInfo:info];
   return [self loadFromWrapper:fileWrapper error:outError];
-bail:
-    return NO;
 }
 
 @end
@@ -471,51 +452,53 @@ bail:
     if (uuid) {
       CFUUIDRef uuidref = CFUUIDCreateFromString(kCFAllocatorDefault, (CFStringRef)uuid);
       if (uuidref) {
-        if (sp_uuid) CFRelease(sp_uuid);
-        sp_uuid = uuidref;
+        if (_uuid)
+          CFRelease(_uuid);
+        _uuid = uuidref;
       }
-      NSAssert(sp_uuid != NULL, @"Invalid null UUID");
+      NSAssert(_uuid != NULL, @"Invalid null UUID");
     } else {
-      if (sp_uuid) CFRelease(sp_uuid);
-      sp_uuid = CFUUIDCreate(kCFAllocatorDefault);
+      if (_uuid)
+        CFRelease(_uuid);
+      _uuid = CFUUIDCreate(kCFAllocatorDefault);
     }
     /* Library version */
-    sp_version = [[plist objectForKey:@"Version"] integerValue];
+    _version = [[plist objectForKey:@"Version"] integerValue];
   } else {
-    sp_version = kSparkLibraryCurrentVersion;
+    _version = kSparkLibraryCurrentVersion;
     
-    if (sp_uuid) CFRelease(sp_uuid);
-    sp_uuid = CFUUIDCreate(kCFAllocatorDefault);
+    if (_uuid)
+      CFRelease(_uuid);
+    _uuid = CFUUIDCreate(kCFAllocatorDefault);
   }
 }
 
-- (BOOL)loadFromWrapper:(NSFileWrapper *)wrapper error:(NSError **)error {
+- (BOOL)loadFromWrapper:(NSFileWrapper *)wrapper error:(__autoreleasing NSError **)error {
   NSParameterAssert(![self isLoaded]);
   
   BOOL result = NO;
   
   /* Preferences */
-  sp_prefs = [[NSMutableDictionary alloc] init];
+  _prefs = [[NSMutableDictionary alloc] init];
   
   /* Create icon manager only for editor */
-  if (SparkGetCurrentContext() == kSparkContext_Editor && !sp_icons) {
-    sp_icons = [[SparkIconManager alloc] initWithLibrary:self path:SparkLibraryIconFolder(self)];
+  if (SparkGetCurrentContext() == kSparkContext_Editor && !_icons) {
+    _icons = [[SparkIconManager alloc] initWithLibrary:self URL:SparkLibraryIconFolder(self)];
   }
   
   /* Create defaults libraries */
   for (NSUInteger idx = 0; idx < kSparkSetCount; idx++) {
-    sp_objects[idx] = [[SparkObjectSet alloc] initWithLibrary:self];
+    _objects[idx] = [[SparkObjectSet alloc] initWithLibrary:self];
   }
   
   [self initReservedObjects];
   
   if (wrapper) {
-    switch (sp_version) {
+    switch (_version) {
       case kSparkLibraryVersion_1_0:
-        /* Create relation table */
-        sp_relations = [[SparkEntryManager alloc] initWithLibrary:self];
-        result = [self importv1LibraryFromFileWrapper:wrapper error:error];
-        break;
+        if (error)
+          *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileReadCorruptFileError userInfo:nil];
+        return NO;
       case kSparkLibraryVersion_2_0:
       case kSparkLibraryVersion_2_1:
         result = [self readLibraryFromFileWrapper:wrapper error:error];
@@ -524,43 +507,41 @@ bail:
   } else {
     /* Load an empty/new library */
     result = YES;
-		sp_relations = [[SparkEntryManager alloc] initWithLibrary:self];
+		_relations = [[SparkEntryManager alloc] initWithLibrary:self];
   }
   
   if (result) {
-    SPXFlagSet(sp_slFlags.loaded, YES);
+    SPXFlagSet(_slFlags.loaded, YES);
     
     SparkObject *object;
-    NSMutableArray *invalids = nil;
+    __block NSMutableArray *invalids = nil;
     SparkEntryManager *manager = [self entryManager];
     
     /* Actions */
-    NSEnumerator *objects = [self actionEnumerator];
-    while (object = [objects nextObject]) {
-      if (![manager containsEntryForAction:(SparkAction *)object]) {
-        if (!invalids) invalids = [[NSMutableArray alloc] init];
+    [self.actionSet enumerateObjectsUsingBlock:^(SparkAction *action, BOOL *stop) {
+      if (![manager containsEntryForAction:action]) {
+        if (!invalids)
+          invalids = [[NSMutableArray alloc] init];
         [invalids addObject:object];
       }
-    }
+    }];
     if (invalids) {
-      [[self actionSet] removeObjectsInArray:invalids];
+      [self.actionSet removeObjectsInArray:invalids];
       SPXDebug(@"Remove orphans actions: %@", invalids);
-      [invalids release];
       invalids = nil;
     }
     
     /* Triggers */
-    objects = [self triggerEnumerator];
-    while (object = [objects nextObject]) {
-      if (![manager containsEntryForTrigger:(SparkTrigger *)object]) {
-        if (!invalids) invalids = [[NSMutableArray alloc] init];
+    [self.triggerSet enumerateObjectsUsingBlock:^(SparkTrigger *trigger, BOOL *stop) {
+      if (![manager containsEntryForTrigger:trigger]) {
+        if (!invalids)
+          invalids = [[NSMutableArray alloc] init];
         [invalids addObject:object];
       }
-    }
+    }];
     if (invalids) {
-      [[self triggerSet] removeObjectsInArray:invalids];
+      [self.triggerSet removeObjectsInArray:invalids];
       SPXDebug(@"Remove orphans triggers: %@", invalids);
-      [invalids release];
     }
     
     [self restoreReservedObjects];
@@ -571,7 +552,7 @@ bail:
   return result;
 }
 
-- (BOOL)readLibraryFromFileWrapper:(NSFileWrapper *)wrapper error:(NSError **)error {
+- (BOOL)readLibraryFromFileWrapper:(NSFileWrapper *)wrapper error:(__autoreleasing NSError **)error {
   BOOL ok = NO;
   NSDictionary *files = [wrapper fileWrappers];
   
@@ -583,25 +564,25 @@ bail:
                                                                      format:NULL
                                                            errorDescription:NULL];
     if (prefs)
-      [sp_prefs setDictionary:prefs];
+      [_prefs setDictionary:prefs];
   }
   
-  SparkObjectSet *set = [self actionSet];
+  SparkObjectSet *set = self.actionSet;
   ok = [set readFromFileWrapper:[files objectForKey:kSparkActionsFile] error:error];
   require(ok, bail);
   
-  set = [self triggerSet];
+  set = self.triggerSet;
   ok = [set readFromFileWrapper:[files objectForKey:kSparkTriggersFile] error:error];
   require(ok, bail);
   
-  set = [self applicationSet];
+  set = self.applicationSet;
   ok = [set readFromFileWrapper:[files objectForKey:kSparkApplicationsFile] error:error];
   require(ok, bail);
 
-  switch (sp_version) {
+  switch (_version) {
     case kSparkLibraryVersion_2_0:
-      sp_relations = [[SparkEntryManager alloc] initWithLibrary:self];
-      ok = [sp_relations readFromFileWrapper:[files objectForKey:@"SparkEntries"] error:error];
+      _relations = [[SparkEntryManager alloc] initWithLibrary:self];
+      ok = [_relations readFromFileWrapper:[files objectForKey:@"SparkEntries"] error:error];
       require(ok, bail);
       /* convert trigger list into entry list */
       ok = [self importTriggerListFromFileWrapper:[files objectForKey:@"SparkLists"] error:error];
@@ -611,12 +592,11 @@ bail:
       data = [[files objectForKey:kSparkArchiveFile] regularFileContents];
       SparkLibraryUnarchiver *reader = [[SparkLibraryUnarchiver alloc] initForReadingWithData:data library:self];
       /* decode entry manager */
-      sp_relations = [[reader decodeObjectForKey:@"entries"] retain];
+      _relations = [reader decodeObjectForKey:@"entries"];
       /* decode lists */
       NSArray *lists = [reader decodeObjectForKey:@"lists"];
       if (lists)
         [[self listSet] addObjectsFromArray:lists];
-      [reader release];
     }
       break;
   }
@@ -633,25 +613,24 @@ bail:
 static
 NSString *_SparkLibraryCopyUUIDString(SparkLibrary *aLibrary) {
   CFUUIDRef uuid = [aLibrary uuid];
-  return uuid ? (NSString *)CFUUIDCreateString(kCFAllocatorDefault, uuid) : NULL;
+  return uuid ? SPXCFToNSString(CFUUIDCreateString(kCFAllocatorDefault, uuid)) : NULL;
 }
 
-NSString *SparkLibraryFolder(void) {
+NSURL *SparkLibraryFolder(void) {
   NSURL *url = WBFSFindFolder(kApplicationSupportFolderType, kUserDomain, true);
-  NSString *folder = [[url path] stringByAppendingPathComponent:kSparkFolderName];
-  if (folder && ![[NSFileManager defaultManager] fileExistsAtPath:folder]) {
-    [[NSFileManager defaultManager] createDirectoryAtPath:folder withIntermediateDirectories:YES attributes:nil error:NULL];
+  NSURL *folder = [url URLByAppendingPathComponent:kSparkFolderName];
+  if (folder && ![url checkResourceIsReachableAndReturnError:NULL]) {
+    [[NSFileManager defaultManager] createDirectoryAtURL:url withIntermediateDirectories:YES attributes:nil error:NULL];
   }
   return folder;
 }
 
-NSString *SparkLibraryIconFolder(SparkLibrary *library) {
+NSURL *SparkLibraryIconFolder(SparkLibrary *library) {
   NSCParameterAssert([library uuid]);
-  NSString *icons = [SparkLibraryFolder() stringByAppendingPathComponent:@"Icons"];
+  NSURL *icons = [SparkLibraryFolder() URLByAppendingPathComponent:@"Icons"];
   NSString *uuidstr = _SparkLibraryCopyUUIDString(library);
   if (uuidstr) {
-    icons = [icons stringByAppendingPathComponent:(id)uuidstr];
-    [uuidstr release];
+    icons = [icons URLByAppendingPathComponent:uuidstr];
   } else {
     SPXThrowException(NSInternalInconsistencyException, @"Error while creating string from uuid");
   }
@@ -659,21 +638,22 @@ NSString *SparkLibraryIconFolder(SparkLibrary *library) {
 }
 
 static
-NSString *SparkLibraryPreviousLibraryPath(void) {
+NSURL *SparkLibraryPreviousLibraryPath(void) {
   NSURL *url = WBFSFindFolder(kPreferencesFolderType, kUserDomain, false);
-  NSString *folder = [[url path] stringByAppendingPathComponent:kSparkFolderName];
-  return [folder stringByAppendingPathComponent:@"Spark3 Library.splib"];
+  NSURL *folder = [url URLByAppendingPathComponent:kSparkFolderName];
+  return [folder URLByAppendingPathComponent:@"Spark3 Library.splib"];
 }
+
 static
-NSString *SparkLibraryVersion1LibraryPath(void) {
+NSURL *SparkLibraryVersion1LibraryPath(void) {
   NSURL *url = WBFSFindFolder(kPreferencesFolderType, kUserDomain, false);
-  NSString *folder = [[url path] stringByAppendingPathComponent:kSparkFolderName];
-  return [folder stringByAppendingPathComponent:@"SparkLibrary.splib"];
+  NSURL *folder = [url URLByAppendingPathComponent:kSparkFolderName];
+  return [folder URLByAppendingPathComponent:@"SparkLibrary.splib"];
 }
 
 WB_INLINE 
-NSString *SparkDefaultLibraryPath(void) {
-  return [SparkLibraryFolder() stringByAppendingPathComponent:kSparkLibraryDefaultFileName];
+NSURL *SparkDefaultLibraryPath(void) {
+  return [SparkLibraryFolder() URLByAppendingPathComponent:kSparkLibraryDefaultFileName];
 }
 
 #pragma mark Multi Library Support
@@ -684,30 +664,24 @@ static
 void SparkLibraryCleanup(void) {
   if (SparkGetCurrentContext() == kSparkContext_Editor) {
     NSMutableArray *uuids = [[NSMutableArray alloc] init];
-    NSUInteger cnt = [sLibraries count];
-    while (cnt-- > 0) {
-      SparkLibrary *lib = [sLibraries objectAtIndex:cnt];
+    for (SparkLibrary *lib in sLibraries) {
       NSString *uuidstr = _SparkLibraryCopyUUIDString(lib);
-      if (uuidstr) {
+      if (uuidstr)
         [uuids addObject:uuidstr];
-        [uuidstr release];
-      }
     }
     /* Browse icons folder and remove folder without libraries */
-    NSString *file;
-    NSString *folder = [SparkLibraryFolder() stringByAppendingPathComponent:@"Icons"];
-    NSEnumerator *files = [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:folder error:NULL] objectEnumerator];
+    NSURL *file;
+    NSURL *folder = [SparkLibraryFolder() URLByAppendingPathComponent:@"Icons"];
+    NSDirectoryEnumerator *files = [[NSFileManager defaultManager] enumeratorAtURL:folder
+                                                        includingPropertiesForKeys:nil
+                                                                           options:NSDirectoryEnumerationSkipsSubdirectoryDescendants
+                                                                      errorHandler:nil];
     while (file = [files nextObject]) {
-      if (![uuids containsObject:file]) {
+      if (![uuids containsObject:file.lastPathComponent]) {
         SPXDebug(@"Remove icons: %@", file);
-        [[NSWorkspace sharedWorkspace] performFileOperation:NSWorkspaceDestroyOperation
-                                                     source:folder
-                                                destination:nil
-                                                      files:[NSArray arrayWithObject:file]
-                                                        tag:NULL];
+        [[NSFileManager defaultManager] removeItemAtURL:file error:NULL];
       }
     }
-    [uuids release];
   }
 }
 
@@ -716,51 +690,47 @@ void SparkInitLibraries(void) {
   if (sLibraries) return;
   
   sLibraries = [[NSMutableArray alloc] init];
-  
-  NSString *file = nil;
-  NSString *folder = SparkLibraryFolder();
-  NSEnumerator *files = [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:folder error:NULL] objectEnumerator];
-  while (file = [files nextObject]) {
-    if ([[file pathExtension] isEqualToString:kSparkLibraryFileExtension]) {
+
+  NSURL *folder = SparkLibraryFolder();
+  NSDirectoryEnumerator *files = [[NSFileManager defaultManager] enumeratorAtURL:folder
+                                                      includingPropertiesForKeys:nil
+                                                                         options:NSDirectoryEnumerationSkipsSubdirectoryDescendants
+                                                                    errorHandler:nil];
+  for (NSURL *file in files) {
+    if ([file.pathExtension isEqualToString:kSparkLibraryFileExtension]) {
       /* Find a Spark Library */
-      SparkLibrary *library = [[SparkLibrary alloc] initWithPath:[folder stringByAppendingPathComponent:file]];
-      if (library) {
+      SparkLibrary *library = [[SparkLibrary alloc] initWithURL:file];
+      if (library)
         [sLibraries addObject:library];
-        [library release];
-      }
     }
   }
   
   SparkLibraryCleanup();
 }
 
-SparkLibrary *SparkLibraryGetLibraryAtPath(NSString *path, BOOL create) {
-  if (!sLibraries) SparkInitLibraries();
-  
-  NSUInteger cnt = [sLibraries count];
-  path = [path stringByStandardizingPath];
-  while (cnt-- > 0) {
-    SparkLibrary *lib = [sLibraries objectAtIndex:cnt];
-    if ([lib path] && [[lib path] isEqualToString:path])
+SparkLibrary *SparkLibraryGetLibraryAtURL(NSURL *url, BOOL create) {
+  if (!sLibraries)
+    SparkInitLibraries();
+
+  url = [url URLByStandardizingPath];
+  for (SparkLibrary *lib in sLibraries) {
+    if ([lib.URL isEqual:url])
       return lib;
   }
   SparkLibrary *library = nil;
   if (create) {
-    library = [[SparkLibrary alloc] initWithPath:path];
+    library = [[SparkLibrary alloc] initWithURL:url];
     [sLibraries addObject:library];
-    [library release];
   }
   return library;
 }
 
 SparkLibrary *SparkLibraryGetLibraryWithUUID(CFUUIDRef uuid) {
   if (!sLibraries) SparkInitLibraries();
-  
-  NSUInteger cnt = [sLibraries count];
-  while (cnt-- > 0) {
-    SparkLibrary *lib = [sLibraries objectAtIndex:cnt];
-    NSCAssert([lib uuid] != NULL, @"Invalid Library (null uuid)");
-    if (CFEqual([lib uuid], uuid))
+
+  for (SparkLibrary *lib in sLibraries) {
+    NSCAssert(lib.uuid != NULL, @"Invalid Library (null uuid)");
+    if (CFEqual(lib.uuid, uuid))
       return lib;
   }
   return nil;
@@ -768,17 +738,9 @@ SparkLibrary *SparkLibraryGetLibraryWithUUID(CFUUIDRef uuid) {
 
 void SparkLibraryDeleteIconCache(SparkLibrary *library) {
   /* Remove icon cache */
-  NSString *icons = [[library iconManager] path];
-  if (icons) {
-    NSString *parent = [icons stringByDeletingLastPathComponent];
-    if (parent) {
-      [[NSWorkspace sharedWorkspace] performFileOperation:NSWorkspaceDestroyOperation
-                                                   source:parent
-                                              destination:nil
-                                                    files:[NSArray arrayWithObject:[icons lastPathComponent]]
-                                                      tag:NULL];
-    }
-  }
+  NSURL *icons = library.iconManager.URL;
+  if (icons)
+    [[NSFileManager defaultManager] removeItemAtURL:icons error:NULL];
 }
 
 void SparkLibraryRegisterLibrary(SparkLibrary *library) {
@@ -803,28 +765,28 @@ SparkLibrary *SparkActiveLibrary(void) {
     loading = true;
     BOOL resync = NO;
     /* Get default library path */
-    NSString *path = SparkDefaultLibraryPath();
-    SparkLibrary *active = [SparkLibraryGetLibraryAtPath(path, NO) retain];
+    NSURL *path = SparkDefaultLibraryPath();
+    SparkLibrary *active = SparkLibraryGetLibraryAtURL(path, NO);
     if (!active) {
       /* First, try to find library in old location */
-      NSString *old = SparkLibraryPreviousLibraryPath();
-      if (![[NSFileManager defaultManager] fileExistsAtPath:old]) {
+      NSURL *old = SparkLibraryPreviousLibraryPath();
+      if (![old checkResourceIsReachableAndReturnError:NULL]) {
         /* Try to find an old version library */
         old = SparkLibraryVersion1LibraryPath();
-        if ([[NSFileManager defaultManager] fileExistsAtPath:old]) {
+        if ([old checkResourceIsReachableAndReturnError:NULL]) {
           resync = YES;
-          active = [[SparkLibrary alloc] initWithPath:old];
+          active = [[SparkLibrary alloc] initWithURL:old];
         } else {
           resync = YES;
           active = [[SparkLibrary alloc] init];
         }
       } else {
         /* Version 3 library exists in old location */
-        if ([[NSFileManager defaultManager] moveItemAtPath:old toPath:path error:NULL]) {
-          active = [[SparkLibrary alloc] initWithPath:path];
+        if ([[NSFileManager defaultManager] moveItemAtURL:old toURL:path error:NULL]) {
+          active = [[SparkLibrary alloc] initWithURL:path];
         } else {
           resync = YES;
-          active = [[SparkLibrary alloc] initWithPath:old];
+          active = [[SparkLibrary alloc] initWithURL:old];
         }
       }
     }
@@ -832,23 +794,20 @@ SparkLibrary *SparkActiveLibrary(void) {
     /* Read library */
     if (![active isLoaded] && ![active load:nil]) {
       loading = false;
-      [active release];
       active = nil;
       SPXThrowException(NSInternalInconsistencyException, @"An error prevent default library loading");
     } else if (resync) {
-      [active setPath:path];
+      active.URL = path;
       [active synchronize];
     }
-    if (active) {
+    if (active)
       SparkSetActiveLibrary(active);
-      [active release];
-    }
     loading = false;
   }
   return sActiveLibrary;
 }
 
-BOOL SparkSetActiveLibrary(SparkLibrary *library) {
+bool SparkSetActiveLibrary(SparkLibrary *library) {
   NSCParameterAssert(!library || [library isLoaded]);
   if (sActiveLibrary != library) {
     // will set active library
@@ -856,8 +815,7 @@ BOOL SparkSetActiveLibrary(SparkLibrary *library) {
       postNotificationName:SparkWillSetActiveLibraryNotification object:sActiveLibrary];
     
     SparkLibraryRegisterLibrary(library);
-    [sActiveLibrary release];
-    sActiveLibrary = [library retain];
+    sActiveLibrary = library;
     // did set active library
     [[NSNotificationCenter defaultCenter]
       postNotificationName:SparkDidSetActiveLibraryNotification object:sActiveLibrary];
@@ -868,11 +826,120 @@ BOOL SparkSetActiveLibrary(SparkLibrary *library) {
 
 #pragma mark -
 void SparkDumpTriggers(SparkLibrary *aLibrary) {
-  SparkTrigger *trigger = nil;
-  NSEnumerator *triggers = [aLibrary triggerEnumerator];
   fprintf(stderr, "Triggers: %lu\n {", (long)[[aLibrary triggerSet] count]);
-  while (trigger = [triggers nextObject]) {
-    fprintf(stderr, "\t- %u: %s\n", [trigger uid], [[trigger triggerDescription] UTF8String]);
-  }
+  [aLibrary.triggerSet enumerateObjectsUsingBlock:^(SparkTrigger *trigger, BOOL *stop) {
+    fprintf(stderr, "\t- %u: %s\n", trigger.uid, [trigger.triggerDescription UTF8String]);
+  }];
   fprintf(stderr, "}\n");
 }
+
+
+#pragma mark -
+@implementation SparkLibrary (SparkPreferences)
+
+- (NSMutableDictionary *)preferences {
+  if (![self isLoaded]) {
+    SPXDebug(@"Warning, trying to access preferences but library no loaded");
+  }
+  return _prefs;
+}
+- (void)setPreferences:(NSDictionary *)preferences {
+  if (![self isLoaded])
+    SPXThrowException(NSInternalInconsistencyException, @"cannot set preferences for an unloaded library");
+  SPXSetterMutableCopy(_prefs, preferences);
+}
+
+@end
+
+@implementation SparkLibrary (SparkPreferencesPrivate)
+
+- (BOOL)synchronizePreferences {
+  if (_slFlags.syncPrefs)
+    return [self synchronize];
+  return YES;
+}
+
+- (id)preferenceValueForKey:(NSString *)key {
+  return [[self preferences] objectForKey:key];
+}
+
+- (void)setPreferenceValue:(id)value forKey:(NSString *)key {
+  _slFlags.syncPrefs = 1;
+  if (value) {
+    [[self preferences] setObject:value forKey:key];
+  } else {
+    [[self preferences] removeObjectForKey:key];
+  }
+}
+
+@end
+
+#pragma mark -
+#pragma mark Internal
+@implementation SparkLibrary (SparkLibraryInternal)
+
+/* convenient accessors */
+- (SparkList *)listWithUID:(SparkUID)uid {
+  return [_objects[kSparkListSet] objectWithUID:uid];
+}
+
+- (SparkEntry *)entryWithUID:(SparkUID)uid {
+  return [_relations entryWithUID:uid];
+}
+
+- (SparkAction *)actionWithUID:(SparkUID)uid {
+  return [_objects[kSparkActionSet] objectWithUID:uid];
+}
+
+- (SparkTrigger *)triggerWithUID:(SparkUID)uid {
+  return [_objects[kSparkTriggerSet] objectWithUID:uid];
+}
+
+- (SparkApplication *)applicationWithUID:(SparkUID)uid {
+  if (kSparkApplicationSystemUID == uid)
+    return [self systemApplication];
+  return [_objects[kSparkApplicationSet] objectWithUID:uid];
+}
+
+@end
+
+@implementation SparkLibrary (SparkLegacyReader)
+
+- (BOOL)importTriggerListFromFileWrapper:(NSFileWrapper *)wrapper error:(__autoreleasing NSError **)outError {
+  do {
+    NSData *data = [wrapper regularFileContents];
+    if (!data)
+      break;
+
+    NSDictionary *plist = [NSPropertyListSerialization propertyListWithData:data
+                                                                    options:NSPropertyListImmutable
+                                                                     format:NULL
+                                                                      error:outError];
+    if (!plist)
+      return NO;
+
+    NSArray *lists = [plist objectForKey:@"SparkObjects"];
+    for (NSDictionary *object in lists) {
+      SparkList *list = [SparkList objectWithName:[object objectForKey:@"SparkObjectName"]];
+      /* convert trigger into entry */
+      NSArray *uids = [object objectForKey:@"SparkObjects"];
+      for (id num in uids) {
+        SparkUID uid = [num unsignedIntValue];
+        SparkTrigger *trigger = [self triggerWithUID:uid];
+        if (trigger) {
+          SparkEntry *entry = [_relations entryForTrigger:trigger application:[self systemApplication]];
+          if (entry)
+            [list addEntry:entry];
+        }
+      }
+      [self.listSet addObject:list];
+    }
+
+    return YES;
+  } while (0);
+  if (outError && !*outError)
+    *outError = [NSError errorWithDomain:kSparkErrorDomain code:-1 userInfo:nil];
+  return NO;
+}
+
+@end

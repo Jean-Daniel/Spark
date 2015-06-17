@@ -14,7 +14,7 @@
   IBOutlet NSTextField *ibInfo;
   IBOutlet NSTextField *ibExplain;
   
-  NSString *se_plugin;
+  NSURL *se_plugin;
 }
 
 - (void)setPlugIn:(NSString *)path;

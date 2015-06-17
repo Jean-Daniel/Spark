@@ -10,27 +10,18 @@
 #import <SparkKit/SparkKit.h>
 #import <SparkKit/SparkIconManager.h>
 
-@interface _SparkIconEntry : NSObject {
-  BOOL sp_clean;
-  BOOL sp_loaded;
-  
-  @private
-    NSImage *sp_icon;
-  NSString *sp_path;
-  NSImage *sp_ondisk;
-}
+@interface _SparkIconEntry : NSObject
+
+- (instancetype)initWithObject:(SparkObject *)object;
+- (instancetype)initWithObjectType:(NSUInteger)type uid:(SparkUID)anUID;
 
 - (BOOL)loaded;
 - (BOOL)hasChanged;
 - (void)applyChange;
 
-- (id)initWithObject:(SparkObject *)object;
-- (id)initWithObjectType:(NSUInteger)type uid:(SparkUID)anUID;
+@property(nonatomic, readonly) NSString *path;
 
-- (NSString *)path;
-
-- (NSImage *)icon;
-- (void)setIcon:(NSImage *)anImage;
+@property(nonatomic, retain) NSImage *icon;
 
 - (void)setCachedIcon:(NSImage *)anImage;
 

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4510" systemVersion="13A598" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" promptedForUpgradeToXcode5="NO">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4510"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7702"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="ITunesActionPlugin">
@@ -18,19 +19,19 @@
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
-        <customObject id="-3" userLabel="Application"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView id="12" userLabel="View">
-            <rect key="frame" x="0.0" y="0.0" width="296" height="302"/>
+            <rect key="frame" x="0.0" y="0.0" width="296" height="272"/>
             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
             <subviews>
                 <tabView controlSize="small" type="noTabsBezelBorder" initialItem="276" id="275">
-                    <rect key="frame" x="1" y="0.0" width="294" height="300"/>
+                    <rect key="frame" x="1" y="-4" width="294" height="274"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <tabViewItems>
                         <tabViewItem label="Action" identifier="" id="276" userLabel="ActionTab">
                             <view key="view" id="278">
                                 <rect key="frame" x="10" y="7" width="274" height="280"/>
-                                <autoresizingMask key="autoresizingMask"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <popUpButton verticalHuggingPriority="750" id="24">
                                         <rect key="frame" x="67" y="137" width="198" height="22"/>
@@ -110,7 +111,7 @@
                                             <tabViewItem label="Démarrer" identifier="" id="171">
                                                 <view key="view" id="179">
                                                     <rect key="frame" x="0.0" y="0.0" width="274" height="117"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <button id="250">
                                                             <rect key="frame" x="9" y="95" width="255" height="18"/>
@@ -243,8 +244,8 @@
                                                                 </menu>
                                                             </popUpButtonCell>
                                                             <connections>
-                                                                <binding destination="-2" name="contentValues" keyPath="playlists" id="196"/>
                                                                 <binding destination="-2" name="selectedValue" keyPath="playlist" previousBinding="196" id="197"/>
+                                                                <binding destination="-2" name="contentValues" keyPath="playlists" id="196"/>
                                                                 <outlet property="nextKeyView" destination="200" id="263"/>
                                                             </connections>
                                                         </popUpButton>
@@ -429,170 +430,18 @@
                         </tabViewItem>
                         <tabViewItem label="Visuel" identifier="" id="277" userLabel="VisualTab">
                             <view key="view" id="279">
-                                <rect key="frame" x="10" y="7" width="274" height="280"/>
-                                <autoresizingMask key="autoresizingMask"/>
+                                <rect key="frame" x="10" y="7" width="274" height="254"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="288">
-                                        <rect key="frame" x="0.0" y="175" width="274" height="5"/>
+                                        <rect key="frame" x="0.0" y="149" width="274" height="5"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                         <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                                         <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <font key="titleFont" metaFont="system"/>
                                     </box>
-                                    <textField verticalHuggingPriority="750" id="290">
-                                        <rect key="frame" x="5" y="122" width="58" height="14"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Position :" id="448">
-                                            <font key="font" metaFont="smallSystem"/>
-                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                        </textFieldCell>
-                                    </textField>
-                                    <textField verticalHuggingPriority="750" id="291">
-                                        <rect key="frame" x="5" y="94" width="58" height="14"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Durée :" id="449">
-                                            <font key="font" metaFont="smallSystem"/>
-                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                        </textFieldCell>
-                                    </textField>
-                                    <textField toolTip="Durée d'affichage à l'écran" verticalHuggingPriority="750" id="292">
-                                        <rect key="frame" x="67" y="92" width="30" height="19"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="right" placeholderString="1" drawsBackground="YES" id="450">
-                                            <numberFormatter key="formatter" formatterBehavior="10_0" positiveFormat="#,##0.#" negativeFormat="-#,##0.00" thousandSeparator=" " id="422">
-                                                <attributedString key="attributedStringForZero">
-                                                    <fragment content="0"/>
-                                                </attributedString>
-                                                <decimal key="minimum" value="NaN"/>
-                                                <decimal key="maximum" value="NaN"/>
-                                            </numberFormatter>
-                                            <font key="font" metaFont="smallSystem"/>
-                                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                        </textFieldCell>
-                                        <connections>
-                                            <binding destination="338" name="enabled" keyPath="usesGrowl" id="495">
-                                                <dictionary key="options">
-                                                    <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                                </dictionary>
-                                            </binding>
-                                            <binding destination="338" name="value" keyPath="delay" id="423">
-                                                <dictionary key="options">
-                                                    <integer key="NSContinuouslyUpdatesValue" value="1"/>
-                                                </dictionary>
-                                            </binding>
-                                        </connections>
-                                    </textField>
-                                    <textField verticalHuggingPriority="750" id="293">
-                                        <rect key="frame" x="101" y="94" width="74" height="14"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="secondes" id="451">
-                                            <font key="font" metaFont="smallSystem"/>
-                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                        </textFieldCell>
-                                    </textField>
-                                    <button toolTip="Afficher un aperçu" id="300">
-                                        <rect key="frame" x="180" y="91" width="82" height="22"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <buttonCell key="cell" type="square" title="Afficher" alternateTitle="Masquer" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" inset="2" id="452">
-                                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
-                                            <font key="font" metaFont="smallSystem"/>
-                                        </buttonCell>
-                                        <connections>
-                                            <action selector="show:" target="338" id="346"/>
-                                            <binding destination="338" name="enabled" keyPath="usesGrowl" id="477">
-                                                <dictionary key="options">
-                                                    <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                                </dictionary>
-                                            </binding>
-                                        </connections>
-                                    </button>
-                                    <button toolTip="Restaurer les réglages par défaut." verticalHuggingPriority="750" id="321">
-                                        <rect key="frame" x="3" y="-3" width="133" height="28"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <buttonCell key="cell" type="push" title="Réglages par défaut" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" inset="2" id="454">
-                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="smallSystem"/>
-                                        </buttonCell>
-                                        <connections>
-                                            <action selector="defaultSettings:" target="338" id="348"/>
-                                            <binding destination="338" name="enabled" keyPath="usesGrowl" id="490">
-                                                <dictionary key="options">
-                                                    <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                                </dictionary>
-                                            </binding>
-                                        </connections>
-                                    </button>
-                                    <colorWell toolTip="Couleurs de la notification" id="306">
-                                        <rect key="frame" x="224" y="35" width="38" height="22"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="color" red="0.28627451999999998" green="0.45882352999999998" blue="0.68627453000000005" alpha="1" colorSpace="calibratedRGB"/>
-                                        <connections>
-                                            <binding destination="338" name="enabled" keyPath="usesGrowl" id="485">
-                                                <dictionary key="options">
-                                                    <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                                </dictionary>
-                                            </binding>
-                                            <binding destination="338" name="value" keyPath="color" id="344"/>
-                                        </connections>
-                                    </colorWell>
-                                    <button id="331">
-                                        <rect key="frame" x="5" y="61" width="103" height="18"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <buttonCell key="cell" type="check" title="Activer l'ombre" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" state="on" inset="2" id="455">
-                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                            <font key="font" metaFont="smallSystem"/>
-                                        </buttonCell>
-                                        <connections>
-                                            <binding destination="338" name="enabled" keyPath="usesGrowl" id="479">
-                                                <dictionary key="options">
-                                                    <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                                </dictionary>
-                                            </binding>
-                                            <binding destination="338" name="value" keyPath="shadow" id="343">
-                                                <dictionary key="options">
-                                                    <integer key="NSNullPlaceholder" value="1"/>
-                                                </dictionary>
-                                            </binding>
-                                        </connections>
-                                    </button>
-                                    <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="332">
-                                        <rect key="frame" x="0.0" y="83" width="274" height="5"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                        <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                                        <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <font key="titleFont" metaFont="system"/>
-                                    </box>
-                                    <textField verticalHuggingPriority="750" id="334">
-                                        <rect key="frame" x="5" y="39" width="58" height="14"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Couleurs :" id="456">
-                                            <font key="font" metaFont="smallSystem"/>
-                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                        </textFieldCell>
-                                    </textField>
-                                    <button verticalHuggingPriority="750" id="337">
-                                        <rect key="frame" x="198" y="-3" width="69" height="28"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                        <buttonCell key="cell" type="push" title="Tester" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" inset="2" id="457">
-                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="smallSystem"/>
-                                        </buttonCell>
-                                        <connections>
-                                            <action selector="preview:" target="338" id="347"/>
-                                            <binding destination="338" name="enabled" keyPath="usesGrowl" id="492">
-                                                <dictionary key="options">
-                                                    <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                                </dictionary>
-                                            </binding>
-                                        </connections>
-                                    </button>
                                     <button id="413">
-                                        <rect key="frame" x="236" y="237" width="36" height="38"/>
+                                        <rect key="frame" x="236" y="211" width="36" height="38"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                         <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="ITSettings" imagePosition="only" alignment="center" inset="2" id="458">
                                             <behavior key="behavior" lightByContents="YES"/>
@@ -603,14 +452,14 @@
                                         </connections>
                                     </button>
                                     <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="415">
-                                        <rect key="frame" x="0.0" y="230" width="274" height="5"/>
+                                        <rect key="frame" x="0.0" y="204" width="274" height="5"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                         <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                                         <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <font key="titleFont" metaFont="system"/>
                                     </box>
                                     <textField verticalHuggingPriority="750" id="417">
-                                        <rect key="frame" x="45" y="249" width="193" height="17"/>
+                                        <rect key="frame" x="45" y="223" width="193" height="17"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Réglages du Visuel" id="459">
                                             <font key="font" metaFont="system"/>
@@ -619,12 +468,12 @@
                                         </textFieldCell>
                                     </textField>
                                     <imageView id="418">
-                                        <rect key="frame" x="4" y="241" width="32" height="32"/>
+                                        <rect key="frame" x="4" y="215" width="32" height="32"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="axesIndependently" image="iTVisual" id="460"/>
                                     </imageView>
                                     <matrix toolTip="Global" verticalHuggingPriority="750" allowsEmptySelection="NO" autosizesCells="NO" id="285">
-                                        <rect key="frame" x="8" y="186" width="258" height="38"/>
+                                        <rect key="frame" x="8" y="160" width="258" height="38"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                         <size key="cellSize" width="258" height="18"/>
@@ -653,35 +502,138 @@
                                             </binding>
                                         </connections>
                                     </matrix>
-                                    <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="468">
-                                        <rect key="frame" x="1" y="144" width="274" height="5"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                        <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                                        <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <font key="titleFont" metaFont="system"/>
-                                    </box>
-                                    <button id="470">
-                                        <rect key="frame" x="5" y="153" width="263" height="18"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                        <buttonCell key="cell" type="check" title="Utiliser Growl" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" state="on" inset="2" id="471">
+                                    <textField verticalHuggingPriority="750" id="290">
+                                        <rect key="frame" x="5" y="127" width="58" height="14"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Position :" id="448">
+                                            <font key="font" metaFont="smallSystem"/>
+                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                    <textField verticalHuggingPriority="750" id="291">
+                                        <rect key="frame" x="5" y="99" width="58" height="14"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Durée :" id="449">
+                                            <font key="font" metaFont="smallSystem"/>
+                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                    <textField toolTip="Durée d'affichage à l'écran" verticalHuggingPriority="750" id="292">
+                                        <rect key="frame" x="67" y="97" width="30" height="19"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="right" placeholderString="1" drawsBackground="YES" id="450">
+                                            <numberFormatter key="formatter" formatterBehavior="10_0" positiveFormat="#,##0.#" negativeFormat="-#,##0.00" thousandSeparator=" " id="422">
+                                                <attributedString key="attributedStringForZero">
+                                                    <fragment content="0"/>
+                                                </attributedString>
+                                                <decimal key="minimum" value="NaN"/>
+                                                <decimal key="maximum" value="NaN"/>
+                                            </numberFormatter>
+                                            <font key="font" metaFont="smallSystem"/>
+                                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                        <connections>
+                                            <binding destination="338" name="value" keyPath="delay" id="423">
+                                                <dictionary key="options">
+                                                    <integer key="NSContinuouslyUpdatesValue" value="1"/>
+                                                </dictionary>
+                                            </binding>
+                                        </connections>
+                                    </textField>
+                                    <textField verticalHuggingPriority="750" id="293">
+                                        <rect key="frame" x="101" y="99" width="74" height="14"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="secondes" id="451">
+                                            <font key="font" metaFont="smallSystem"/>
+                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                    <button toolTip="Afficher un aperçu" id="300">
+                                        <rect key="frame" x="180" y="96" width="82" height="22"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <buttonCell key="cell" type="square" title="Afficher" alternateTitle="Masquer" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" inset="2" id="452">
+                                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                                            <font key="font" metaFont="smallSystem"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="show:" target="338" id="346"/>
+                                        </connections>
+                                    </button>
+                                    <button toolTip="Restaurer les réglages par défaut." verticalHuggingPriority="750" id="321">
+                                        <rect key="frame" x="3" y="2" width="133" height="28"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <buttonCell key="cell" type="push" title="Réglages par défaut" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" inset="2" id="454">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="smallSystem"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="defaultSettings:" target="338" id="348"/>
+                                        </connections>
+                                    </button>
+                                    <colorWell toolTip="Couleurs de la notification" id="306">
+                                        <rect key="frame" x="224" y="40" width="38" height="22"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <color key="color" red="0.28627451999999998" green="0.45882352999999998" blue="0.68627453000000005" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <binding destination="338" name="value" keyPath="color" id="344"/>
+                                        </connections>
+                                    </colorWell>
+                                    <button id="331">
+                                        <rect key="frame" x="5" y="66" width="103" height="18"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <buttonCell key="cell" type="check" title="Activer l'ombre" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" state="on" inset="2" id="455">
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                             <font key="font" metaFont="smallSystem"/>
                                         </buttonCell>
                                         <connections>
-                                            <binding destination="338" name="enabled" keyPath="isGrowlInstalled" id="475"/>
-                                            <binding destination="338" name="value" keyPath="usesGrowl" id="474"/>
+                                            <binding destination="338" name="value" keyPath="shadow" id="343">
+                                                <dictionary key="options">
+                                                    <integer key="NSNullPlaceholder" value="1"/>
+                                                </dictionary>
+                                            </binding>
+                                        </connections>
+                                    </button>
+                                    <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="332">
+                                        <rect key="frame" x="0.0" y="88" width="274" height="5"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                        <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
+                                        <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <font key="titleFont" metaFont="system"/>
+                                    </box>
+                                    <textField verticalHuggingPriority="750" id="334">
+                                        <rect key="frame" x="5" y="44" width="58" height="14"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Couleurs :" id="456">
+                                            <font key="font" metaFont="smallSystem"/>
+                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                    <button verticalHuggingPriority="750" id="337">
+                                        <rect key="frame" x="198" y="2" width="69" height="28"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                        <buttonCell key="cell" type="push" title="Tester" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" inset="2" id="457">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="smallSystem"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="preview:" target="338" id="347"/>
                                         </connections>
                                     </button>
                                     <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="335">
-                                        <rect key="frame" x="0.0" y="27" width="274" height="5"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                        <rect key="frame" x="0.0" y="32" width="274" height="5"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                         <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                                         <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <font key="titleFont" metaFont="system"/>
                                     </box>
                                     <popUpButton toolTip="Position de la notification" verticalHuggingPriority="750" id="280">
-                                        <rect key="frame" x="65" y="117" width="200" height="22"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <rect key="frame" x="65" y="122" width="200" height="22"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <popUpButtonCell key="cell" type="push" title="En haut à droite" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="-2" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="284" id="447">
                                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="smallSystem"/>
@@ -699,33 +651,23 @@
                                             </menu>
                                         </popUpButtonCell>
                                         <connections>
-                                            <binding destination="338" name="enabled" keyPath="usesGrowl" id="473">
-                                                <dictionary key="options">
-                                                    <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                                </dictionary>
-                                            </binding>
                                             <binding destination="338" name="selectedIndex" keyPath="location" id="361"/>
                                         </connections>
                                     </popUpButton>
                                     <button id="463">
-                                        <rect key="frame" x="132" y="61" width="131" height="18"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <rect key="frame" x="132" y="66" width="131" height="18"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <buttonCell key="cell" type="check" title="Afficher l'illustration" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" state="on" inset="2" id="464">
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                             <font key="font" metaFont="smallSystem"/>
                                         </buttonCell>
                                         <connections>
-                                            <binding destination="338" name="enabled" keyPath="usesGrowl" id="481">
-                                                <dictionary key="options">
-                                                    <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                                </dictionary>
-                                            </binding>
                                             <binding destination="338" name="value" keyPath="artwork" id="465"/>
                                         </connections>
                                     </button>
                                     <popUpButton verticalHuggingPriority="750" id="313">
-                                        <rect key="frame" x="65" y="34" width="154" height="22"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <rect key="frame" x="65" y="39" width="154" height="22"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <popUpButtonCell key="cell" type="push" title="Texte" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="1" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="316" id="453">
                                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="smallSystem"/>
@@ -743,11 +685,6 @@
                                             </menu>
                                         </popUpButtonCell>
                                         <connections>
-                                            <binding destination="338" name="enabled" keyPath="usesGrowl" id="483">
-                                                <dictionary key="options">
-                                                    <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                                </dictionary>
-                                            </binding>
                                             <binding destination="338" name="selectedIndex" keyPath="colorComponent" id="352"/>
                                         </connections>
                                     </popUpButton>
@@ -760,6 +697,7 @@
             <connections>
                 <outlet property="nextKeyView" destination="75" id="255"/>
             </connections>
+            <point key="canvasLocation" x="397" y="470"/>
         </customView>
         <customObject id="338" userLabel="ITunesVisualSettings" customClass="ITunesVisualSetting">
             <connections>

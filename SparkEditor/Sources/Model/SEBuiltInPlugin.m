@@ -26,8 +26,8 @@
   return nil;
 }
 
-+ (NSString *)nibPath {
-  return [[NSBundle mainBundle] pathForResource:@"SEInheritsPlugin" ofType:@"nib"];
++ (NSString *)nibName {
+  return @"SEInheritsPlugin";
 }
 
 @end

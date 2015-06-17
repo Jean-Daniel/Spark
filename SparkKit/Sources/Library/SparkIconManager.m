@@ -23,8 +23,9 @@
 enum {
   kSparkInvalidType = 0xff
 };
+
 WB_INLINE
-UInt8 __SparkIconTypeForObject(SparkObject *object) {
+uint8_t __SparkIconTypeForObject(SparkObject *object) {
   Class cls = [object class];
   if ([cls isSubclassOfClass:[SparkList class]])
     return 0;
@@ -52,85 +53,88 @@ UInt8 __SparkIconTypeForObject(SparkObject *object) {
 //}
 
 #pragma mark -
-@implementation SparkIconManager
+@implementation SparkIconManager {
+@private
+  SparkLibrary *_library;
+  NSMutableDictionary *sp_cache[4];
+}
 
-- (id)initWithLibrary:(SparkLibrary *)aLibrary path:(NSString *)path {
+- (id)initWithLibrary:(SparkLibrary *)aLibrary URL:(NSURL *)anURL {
   NSParameterAssert(aLibrary != nil);
   if (self = [super init]) {
-    @try {
-      [self setPath:path];
-    } @catch (id exception) {
-      [self release];
-      @throw exception;
+    _URL = anURL;
+
+    if (![_URL checkResourceIsReachableAndReturnError:NULL]) {
+      if (![[NSFileManager defaultManager] createDirectoryAtURL:_URL withIntermediateDirectories:YES attributes:nil error:NULL])
+        return nil;
     }
-    
+
     for (NSUInteger idx = 0; idx < 4; idx++) {
-      sp_cache[idx] = NSCreateMapTable(NSIntegerMapKeyCallBacks, NSObjectMapValueCallBacks, 0);
+      NSURL *dir = [_URL URLByAppendingPathComponent:[NSString stringWithFormat:@"%lu", (unsigned long)idx]];
+      if (![dir checkResourceIsReachableAndReturnError:NULL])
+        if (![[NSFileManager defaultManager] createDirectoryAtURL:_URL withIntermediateDirectories:NO attributes:nil error:NULL])
+          return nil;
     }
+
+    for (NSUInteger idx = 0; idx < 4; idx++)
+      sp_cache[idx] = [[NSMutableDictionary alloc] init];
     
-    sp_library = aLibrary;
+    _library = aLibrary;
     /* Listen notifications */
-    [[sp_library notificationCenter] addObserver:self
-                                        selector:@selector(didAddObject:)
-                                            name:SparkObjectSetDidAddObjectNotification 
-                                          object:nil];
-//    [[sp_library notificationCenter] addObserver:self
-//                                        selector:@selector(didUpdateObject:)
-//                                            name:SparkObjectSetDidUpdateObjectNotification 
-//                                          object:nil];
-    [[sp_library notificationCenter] addObserver:self
-                                        selector:@selector(willRemoveObject:)
-                                            name:SparkObjectSetWillRemoveObjectNotification 
-                                          object:nil];
+    [_library.notificationCenter addObserver:self
+                                    selector:@selector(didAddObject:)
+                                        name:SparkObjectSetDidAddObjectNotification
+                                      object:nil];
+    //    [_library.notificationCenter addObserver:self
+    //                                        selector:@selector(didUpdateObject:)
+    //                                            name:SparkObjectSetDidUpdateObjectNotification
+    //                                          object:nil];
+    [_library.notificationCenter addObserver:self
+                                    selector:@selector(willRemoveObject:)
+                                        name:SparkObjectSetWillRemoveObjectNotification
+                                      object:nil];
   }
   return self;
 }
 
 - (void)dealloc {
-  [[sp_library notificationCenter] removeObserver:self];
-  for (NSUInteger idx = 0; idx < 4; idx++) {
-    if (sp_cache[idx]) NSFreeMapTable(sp_cache[idx]);
-  }
-  [sp_path release];
-  [super dealloc];
+  [_library.notificationCenter removeObserver:self];
+  for (NSUInteger idx = 0; idx < 4; idx++)
+    sp_cache[idx] = nil;
 }
 
 #pragma mark -
-- (NSString *)path {
-  return sp_path;
-}
-
-- (void)setPath:(NSString *)path {
-  if (sp_path)
+- (void)setURL:(NSURL *)anURL {
+  if (_URL)
     SPXThrowException(NSInvalidArgumentException, @"%@ does not support rename", [self class]);
-  
-  if (path) {
-    BOOL isDir = NO;
-    if (![[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir]) {
-      if (![[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:NULL]) {
-        SPXThrowException(NSInvalidArgumentException, @"could not create directory at path %@", path);
-      }
-    } else if (!isDir) {
-      SPXThrowException(NSInvalidArgumentException, @"%@ is not a directory", path);
+
+  if (anURL) {
+    if (![anURL checkResourceIsReachableAndReturnError:NULL]) {
+      if (![[NSFileManager defaultManager] createDirectoryAtURL:anURL withIntermediateDirectories:YES attributes:nil error:NULL])
+        return;
     }
+
     for (NSUInteger idx = 0; idx < 4; idx++) {
-      NSString *dir = [path stringByAppendingPathComponent:[NSString stringWithFormat:@"%lu", (unsigned long)idx]];
-      if (![[NSFileManager defaultManager] fileExistsAtPath:dir])
-        [[NSFileManager defaultManager] createDirectoryAtPath:dir withIntermediateDirectories:NO attributes:nil error:NULL];
+      NSURL *dir = [anURL URLByAppendingPathComponent:[NSString stringWithFormat:@"%lu", (unsigned long)idx]];
+      if (![dir checkResourceIsReachableAndReturnError:NULL])
+        if (![[NSFileManager defaultManager] createDirectoryAtURL:anURL withIntermediateDirectories:NO attributes:nil error:NULL])
+          return;
     }
-    
-    sp_path = [path copy];
+
+    for (NSUInteger idx = 0; idx < 4; idx++)
+      sp_cache[idx] = [[NSMutableDictionary alloc] init];
+
+    _URL = anURL;
   }
 }
 
-- (_SparkIconEntry *)entryForObjectType:(UInt8)type uid:(SparkUID)anUID {
+- (_SparkIconEntry *)entryForObjectType:(uint8_t)type uid:(SparkUID)anUID {
   _SparkIconEntry *entry = nil;
   if (type != kSparkInvalidType) {
-    entry = NSMapGet(sp_cache[type], (void *)(intptr_t)anUID);
+    entry = [sp_cache[type] objectForKey:@(anUID)];
     if (!entry) {
       entry = [[_SparkIconEntry alloc] initWithObjectType:type uid:anUID];
-      NSMapInsert(sp_cache[type], (void *)(intptr_t)anUID, entry);
-      [entry release];
+      [sp_cache[type] setObject:entry forKey:@(anUID)];
     }
   }
   return entry;
@@ -142,21 +146,20 @@ UInt8 __SparkIconTypeForObject(SparkObject *object) {
 
 - (NSImage *)iconForObject:(SparkObject *)anObject {
   _SparkIconEntry *entry = [self entryForObject:anObject];
-  if (entry && ![entry loaded] && sp_path) {
-    NSString *path = [sp_path stringByAppendingPathComponent:[entry path]];
-    if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
-      NSImage *icon = [[NSImage alloc] initByReferencingFile:path];
+  if (entry && ![entry loaded] && _URL) {
+    NSURL *url = [_URL URLByAppendingPathComponent:entry.path];
+    if ([url checkResourceIsReachableAndReturnError:NULL]) {
+      NSImage *icon = [[NSImage alloc] initByReferencingURL:url];
       /* Set icon from disk */
       //SPXDebug(@"Load icon (%@): %@", [anObject name], icon);
       [entry setCachedIcon:icon];
-      [icon release];
     } else {
       /* No icon on disk */
       [entry setCachedIcon:nil];
       SPXDebug(@"Icon not found in cache for object: %@", anObject);
     }
   }
-  return [entry icon];
+  return entry.icon;
 }
 
 - (void)setIcon:(NSImage *)icon forObject:(SparkObject *)anObject {
@@ -169,37 +172,33 @@ UInt8 __SparkIconTypeForObject(SparkObject *object) {
   }
 }
 
-- (void)synchronize:(NSMapTable *)entries {
-  if (sp_path) {
-    _SparkIconEntry *entry;
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    NSMapEnumerator items = NSEnumerateMapTable(entries);
-    while (NSNextMapEnumeratorPair(&items, NULL, (void **)&entry)) {
-      if ([entry hasChanged]) {
-        NSString *path = [sp_path stringByAppendingPathComponent:[entry path]];
-        if (![entry icon]) {
-          SPXDebug(@"delete icon: %@", path);
-          [[NSFileManager defaultManager] removeItemAtPath:path error:NULL];
-        } else {
-          NSData *data = [[entry icon] TIFFRepresentationUsingCompression:NSTIFFCompressionLZW factor:1];
-          if (data) {
-            SPXDebug(@"save icon: %@", path);
-            [data writeToFile:path atomically:NO];
+- (void)synchronize:(NSMutableDictionary *)entries {
+  if (_URL) {
+    @autoreleasepool {
+      [entries enumerateKeysAndObjectsUsingBlock:^(id key, _SparkIconEntry *entry, BOOL *stop) {
+        if ([entry hasChanged]) {
+          NSURL *url = [self->_URL URLByAppendingPathComponent:entry.path];
+          if (!entry.icon) {
+            SPXDebug(@"delete icon: %@", url);
+            [[NSFileManager defaultManager] removeItemAtURL:url error:NULL];
+          } else {
+            NSData *data = [entry.icon TIFFRepresentationUsingCompression:NSTIFFCompressionLZW factor:1];
+            if (data) {
+              SPXDebug(@"save icon: %@", url);
+              [data writeToURL:url atomically:NO];
+            }
           }
+          [entry applyChange];
         }
-        [entry applyChange];
-      }
+      }];
     }
-    NSEndMapTableEnumeration(&items);
-    [pool release];
   }
 }
 
 - (BOOL)synchronize {
-  if (sp_path) {
-    for (NSUInteger idx = 0; idx < 4; idx++) {
+  if (_URL) {
+    for (NSUInteger idx = 0; idx < 4; idx++)
       [self synchronize:sp_cache[idx]];
-    }
   } else {
     SPXDebug(@"WARNING: sync icon cache with undefined path");
   }
@@ -235,7 +234,14 @@ UInt8 __SparkIconTypeForObject(SparkObject *object) {
 @end
 
 #pragma mark -
-@implementation _SparkIconEntry
+@implementation _SparkIconEntry {
+  BOOL _clean;
+  BOOL _loaded;
+
+@private
+  NSImage *_icon;
+  NSImage *_ondisk;
+}
 
 - (id)initWithObject:(SparkObject *)object {
 	return [self initWithObjectType:__SparkIconTypeForObject(object) uid:[object uid]];
@@ -243,69 +249,56 @@ UInt8 __SparkIconTypeForObject(SparkObject *object) {
 
 - (id)initWithObjectType:(NSUInteger)type uid:(SparkUID)anUID {
   if (self = [super init]) {
-    sp_clean = YES;
-    sp_path = [[NSString alloc] initWithFormat:@"%lu/%lu", (long)type, (long)anUID];
+    _clean = YES;
+    _path = [[NSString alloc] initWithFormat:@"%lu/%lu", (long)type, (long)anUID];
   }
   return self;
 }
 
-- (void)dealloc {
-  [sp_path release];
-  [sp_icon release];
-  [sp_ondisk release];
-  [super dealloc];
-}
-
 #pragma mark -
-- (NSString *)path {
-  return sp_path;
-}
-
 - (NSImage *)icon {
-  return sp_clean ? sp_ondisk : sp_icon;
+  return _clean ? _ondisk : _icon;
 }
 /* If disk icon loaded an is the same as disk icon => clean = YES */
 - (void)setIcon:(NSImage *)anImage {
-  if (sp_icon != anImage) {
-    [sp_icon release];
-    sp_icon = nil;
-    if (sp_loaded && anImage == sp_ondisk) {
-      sp_clean = YES;
+  if (_icon != anImage) {
+    _icon = nil;
+    if (_loaded && anImage == _ondisk) {
+      _clean = YES;
     } else {
-      sp_clean = NO;
-      sp_icon = [anImage retain];
+      _clean = NO;
+      _icon = anImage;
     }
-  } else if (sp_icon != sp_ondisk) {
+  } else if (_icon != _ondisk) {
     /* if delete */
-    sp_clean = NO;
+    _clean = NO;
   }
 }
 
 - (void)setCachedIcon:(NSImage *)anImage {
-  NSAssert(sp_loaded == NO, @"Try to load an already loaded icon");
-  sp_loaded = YES;
-  sp_ondisk = [anImage retain];
+  NSAssert(_loaded == NO, @"Try to load an already loaded icon");
+  _loaded = YES;
+  _ondisk = anImage;
   /* If load icon after setting it */
-  if (sp_ondisk == sp_icon) {
-    sp_clean = YES;
-    [sp_icon release];
-    sp_icon = nil;
+  if (_ondisk == _icon) {
+    _clean = YES;
+    _icon = nil;
   }
 }
 
 - (BOOL)loaded {
-  return sp_loaded;
+  return _loaded;
 }
 
 - (BOOL)hasChanged {
-  return !sp_clean;
+  return !_clean;
 }
 - (void)applyChange {
-  if (!sp_clean) {
-    sp_clean = YES;
-    [sp_ondisk release];
-    sp_ondisk = sp_icon;
-    sp_icon = nil;
+  if (!_clean) {
+    _clean = YES;
+    _ondisk = _icon;
+    _icon = nil;
   }
 }
+
 @end

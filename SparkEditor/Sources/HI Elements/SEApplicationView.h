@@ -9,12 +9,8 @@
 #import <WonderBox/WBApplicationView.h>
 
 @class SparkApplication;
-@interface SEApplicationView : WBApplicationView {
-  @private
-  SparkApplication *se_app;
-}
+@interface SEApplicationView : WBImageAndTextView
 
-- (SparkApplication *)sparkApplication;
-- (void)setSparkApplication:(SparkApplication *)anApp;
+@property(nonatomic, retain) SparkApplication *sparkApplication;
 
 @end

@@ -15,7 +15,7 @@
   IBOutlet SELibraryWindow *ibWindow;
   @private
     BOOL se_locked;
-  NSMutableSet *se_path;
+  NSMutableSet *se_urls;
   SparkLibrary *se_library;
 }
 

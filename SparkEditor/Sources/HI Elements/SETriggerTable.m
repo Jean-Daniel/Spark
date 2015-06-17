@@ -12,8 +12,8 @@
 
 @implementation SETriggerTable
 
-- (NSUInteger)draggingSourceOperationMaskForLocal:(BOOL)isLocal {
-  if (isLocal) {
+- (NSDragOperation)draggingSession:(NSDraggingSession *)session sourceOperationMaskForDraggingContext:(NSDraggingContext)context {
+  if (NSDraggingContextWithinApplication == context) {
     return NSDragOperationCopy | NSDragOperationGeneric | NSDragOperationMove | NSDragOperationDelete;
   } 
   return NSDragOperationNone;

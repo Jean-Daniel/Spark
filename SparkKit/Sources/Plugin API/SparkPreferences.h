@@ -14,38 +14,41 @@
 
 #import <SparkKit/SparkKit.h>
 
-enum {
+NS_ASSUME_NONNULL_BEGIN
+
+typedef NS_ENUM(NSUInteger, SparkPreferencesDomain) {
   SparkPreferencesDaemon = 1,
   SparkPreferencesLibrary = 2,
   SparkPreferencesFramework = 3,
   /* plugins should only use this domain */
   SparkPreferencesPlugIn = SparkPreferencesLibrary,
 };
-typedef NSInteger SparkPreferencesDomain;
 
 #pragma mark Preferences
 SPARK_EXPORT
-id SparkPreferencesGetValue(NSString *key, SparkPreferencesDomain domain);
+id SparkPreferencesGetValue(NSString * key, SparkPreferencesDomain domain);
 SPARK_EXPORT
 BOOL SparkPreferencesGetBooleanValue(NSString *key, SparkPreferencesDomain domain);
 SPARK_EXPORT
 NSInteger SparkPreferencesGetIntegerValue(NSString *key, SparkPreferencesDomain domain);
 
 SPARK_EXPORT
-void SparkPreferencesSetValue(NSString *key, id value, SparkPreferencesDomain domain);
+void SparkPreferencesSetValue(NSString *key, __nullable id value, SparkPreferencesDomain domain);
 SPARK_EXPORT
 void SparkPreferencesSetBooleanValue(NSString *key, BOOL value, SparkPreferencesDomain domain);
 SPARK_EXPORT
 void SparkPreferencesSetIntegerValue(NSString *key, NSInteger value, SparkPreferencesDomain domain);
 
 SPARK_EXPORT
-Boolean SparkPreferencesSynchronize(SparkPreferencesDomain domain);
+bool SparkPreferencesSynchronize(SparkPreferencesDomain domain);
 
 /* Library domain only */
 SPARK_EXPORT
-void SparkPreferencesRegisterObserver(id target, SEL callback, NSString *key, SparkPreferencesDomain domain);
+void SparkPreferencesRegisterObserver(NSString * __nullable key, SparkPreferencesDomain domain, void(^)(NSString *, id));
 SPARK_EXPORT
-void SparkPreferencesUnregisterObserver(id target, NSString *key, SparkPreferencesDomain domain);
+void SparkPreferencesUnregisterObserver(NSString * __nullable key, SparkPreferencesDomain domain, void(^)(NSString *, id));
+
+NS_ASSUME_NONNULL_END
 
 #endif /* __OBJC__ */
 

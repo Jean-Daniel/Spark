@@ -136,8 +136,9 @@ CFMutableDictionaryRef _SparkPreferencesGetDictionary(SparkPreferencesDomain dom
                                                                &kCFTypeDictionaryKeyCallBacks,
                                                                &kCFTypeDictionaryValueCallBacks);
       return sSparkFrameworkPreferences;
+    default:
+      SPXThrowException(NSInvalidArgumentException, @"Unsupported preference domain: %ti", domain);
   }
-  SPXThrowException(NSInvalidArgumentException, @"Unsupported preference domain: %ti", domain);
 }
 
 #pragma mark Getter
@@ -159,9 +160,8 @@ id SparkPreferencesGetValue(NSString *key, SparkPreferencesDomain domain) {
       }
       /* If editor context or memory cache return NULL, get system preference */
       if (!value) {
-        value = (id)CFPreferencesCopyValue(SPXNSToCFString(key), kSparkPreferencesIdentifier,
-                                           kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
-        [value autorelease];
+        value = SPXCFToNSType(CFPreferencesCopyValue(SPXNSToCFString(key), kSparkPreferencesIdentifier,
+                                                     kCFPreferencesCurrentUser, kCFPreferencesAnyHost));
       }
       return value;
     }
@@ -197,7 +197,7 @@ void _SparkPreferencesSetValue(NSString *key, id value, SparkPreferencesDomain d
         CFMutableDictionaryRef dict = _SparkPreferencesGetDictionary(domain);
         NSCAssert(dict != NULL, @"Invalid preferences dictionary");
         if (value) {
-          CFDictionarySetValue(dict, SPXNSToCFString(key), value);
+          CFDictionarySetValue(dict, SPXNSToCFString(key), SPXNSToCFType(value));
         } else {
           CFDictionaryRemoveValue(dict, SPXNSToCFString(key));
         }
@@ -229,7 +229,7 @@ void SparkPreferencesSetIntegerValue(NSString *key, NSInteger value, SparkPrefer
 }
 
 #pragma mark Synchronize
-Boolean SparkPreferencesSynchronize(SparkPreferencesDomain domain) {
+bool SparkPreferencesSynchronize(SparkPreferencesDomain domain) {
   if (SparkGetCurrentContext() != kSparkContext_Editor) {
     SPXLogWarning(@"Try to synchronize preferences but not in editor context");
     return false;
@@ -250,26 +250,23 @@ Boolean SparkPreferencesSynchronize(SparkPreferencesDomain domain) {
 #pragma mark -
 #pragma mark Observers
 @interface _SparkPreferencesObserver : NSObject {
-  id sp_target;
-  SEL sp_action;
+  void(^_block)(NSString *, id);
 }
 
-- (id)initWithTarget:(id)target action:(SEL)action;
-
-- (id)target;
+- (instancetype)initWithBlock:(void(^)(NSString *, id))block;
 
 - (void)notifyValueChange:(id)value forKey:(NSString *)key;
 
 @end
 
-static NSMapTable *sDaemonObservers = NULL;
-static NSMapTable *sLibraryObservers = NULL;
-static NSMapTable *sFrameworkObservers = NULL;
+static NSMutableDictionary *sDaemonObservers = NULL;
+static NSMutableDictionary *sLibraryObservers = NULL;
+static NSMutableDictionary *sFrameworkObservers = NULL;
 
 static NSString * const kSparkPreferencesWildcard = @"__****__";
 
 static
-NSMapTable *_SparkPreferencesGetObservers(SparkPreferencesDomain domain) {
+NSMutableDictionary *_SparkPreferencesGetObservers(SparkPreferencesDomain domain) {
   switch (domain) {
     case SparkPreferencesDaemon:
       return sDaemonObservers;
@@ -282,7 +279,7 @@ NSMapTable *_SparkPreferencesGetObservers(SparkPreferencesDomain domain) {
 }
 
 static
-void _SparkPreferencesSetObservers(NSMapTable *observers, SparkPreferencesDomain domain) {
+void _SparkPreferencesSetObservers(NSMutableDictionary *observers, SparkPreferencesDomain domain) {
   switch (domain) {
     case SparkPreferencesDaemon:
       sDaemonObservers = observers;
@@ -299,152 +296,91 @@ void _SparkPreferencesSetObservers(NSMapTable *observers, SparkPreferencesDomain
 }
 
 WB_INLINE
-void __SparkPreferencesNotifyObservers(NSHashTable *observers, NSString *key, id value) {
-  if (observers) {
-    _SparkPreferencesObserver *observer;
-    NSHashTable *copy = NSCopyHashTableWithZone(observers, NULL);
-    NSHashEnumerator items = NSEnumerateHashTable(copy);
-    while ((observer = NSNextHashEnumeratorItem(&items))) {
-      if ([observer target]) {
-        [observer notifyValueChange:value forKey:key];
-      } else {
-        NSHashRemove(observers, observer);
-      }
-    }
-    NSEndHashTableEnumeration(&items);
-  }  
+void __SparkPreferencesNotifyObservers(NSMutableSet *observers, NSString *key, id value) {
+  for (_SparkPreferencesObserver *observer in [observers copy]) {
+    [observer notifyValueChange:value forKey:key];
+  }
 }
 
 static
 void SparkPreferencesNotifyObservers(NSString *key, id value, SparkPreferencesDomain domain) {
   NSCParameterAssert(key);
-  NSMapTable *table = _SparkPreferencesGetObservers(domain);
+  NSMutableDictionary *table = _SparkPreferencesGetObservers(domain);
   if (table) {
-    __SparkPreferencesNotifyObservers(NSMapGet(table, key), key, value);
-    __SparkPreferencesNotifyObservers(NSMapGet(table, kSparkPreferencesWildcard), key, value);
+    __SparkPreferencesNotifyObservers([table objectForKey:key], key, value);
+    __SparkPreferencesNotifyObservers([table objectForKey:kSparkPreferencesWildcard], key, value);
   }
 }
 
-void SparkPreferencesRegisterObserver(id object, SEL callback, NSString *key, SparkPreferencesDomain domain) {
-  NSMapTable *table = _SparkPreferencesGetObservers(domain);
+void SparkPreferencesRegisterObserver(NSString *key, SparkPreferencesDomain domain, void(^block)(NSString *, id)) {
+  NSMutableDictionary *table = _SparkPreferencesGetObservers(domain);
   if (!table) {
-    table = NSCreateMapTable(NSObjectMapKeyCallBacks, NSNonOwnedPointerMapValueCallBacks, 0);
+    table = [NSMutableDictionary new];
     _SparkPreferencesSetObservers(table, domain);
   }
-  if (!key) key = kSparkPreferencesWildcard;
-  NSHashTable *observers = NSMapGet(table, key);
+
+  if (!key)
+    key = kSparkPreferencesWildcard;
+
+  NSMutableSet *observers = [table objectForKey:key];
   if (!observers) {
-    observers = NSCreateHashTable(NSObjectHashCallBacks, 0);
-    NSMapInsert(table, key, observers);
+    observers = [NSMutableSet new];
+    [table setObject:observers forKey:key];
   }
-  _SparkPreferencesObserver *observer = [[_SparkPreferencesObserver alloc] initWithTarget:object action:callback];
-  NSHashInsert(observers, observer);
-  [observer release];
+  _SparkPreferencesObserver *observer = [[_SparkPreferencesObserver alloc] initWithBlock:block];
+  [observers addObject:observer];
 }
 
 WB_INLINE
-void __SparkPreferencesRemoveObserver(NSMapTable *table, NSHashTable *observers, id observer, NSString *key) {
+void __SparkPreferencesRemoveObserver(NSMutableDictionary *table, NSMutableSet *observers, id observer, NSString *key) {
   if (observers) {
-    NSHashRemove(observers, observer);
+    [observers removeObject:observer];
     /* Cleanup */
-    if (!NSCountHashTable(observers)) {
-      NSMapRemove(table, key);
-      NSFreeHashTable(observers);
+    if (![observers count]) {
+      [table removeObjectForKey:key];
     }
   }
 }
 
-void SparkPreferencesUnregisterObserver(id observer, NSString *key, SparkPreferencesDomain domain) {
-  NSMapTable *table = _SparkPreferencesGetObservers(domain);
+void SparkPreferencesUnregisterObserver(NSString *key, SparkPreferencesDomain domain, void(^observer)(NSString *, id)) {
+  NSMutableDictionary *table = _SparkPreferencesGetObservers(domain);
   if (table) {
     /* If key is null, remove observer for all entries */
     if (!key) {
-      NSHashTable *observers;
-      NSMapTable *copy = NSCopyMapTableWithZone(table, NULL);
-      NSMapEnumerator iter = NSEnumerateMapTable(copy);
-      while (NSNextMapEnumeratorPair(&iter, (void **)&key, (void **)&observers)) {
+      for (NSMutableSet *observers in [table copy]) {
         __SparkPreferencesRemoveObserver(table, observers, observer, key);
       }
-      NSEndMapTableEnumeration(&iter);
-      NSFreeMapTable(copy);
     } else {
-      __SparkPreferencesRemoveObserver(table, NSMapGet(table, key), observer, key);
+      __SparkPreferencesRemoveObserver(table, [table objectForKey:key], observer, key);
     }
     /* Cleanup */
-    if (!NSCountMapTable(table)) {
-      NSFreeMapTable(table);
+    if (![table count])
       _SparkPreferencesSetObservers(NULL, domain);
-    }
   }
 }
 
 @implementation _SparkPreferencesObserver
 
-- (id)initWithTarget:(id)target action:(SEL)action {
+- (instancetype)initWithBlock:(void(^)(NSString *, id))block {
   if (self = [super init]) {
-    sp_target = target;
-    sp_action = action;
+    _block = block;
   }
   return self;
 }
 
 - (NSUInteger)hash {
-  return [sp_target hash];
+  return [_block hash];
 }
 
 - (BOOL)isEqual:(id)object {
-  return [sp_target isEqual:object];
-}
-
-- (id)target {
-  return sp_target;
+  return [_block isEqual:object];
 }
 
 - (void)notifyValueChange:(id)value forKey:(NSString *)key {
   @try {
-    [sp_target performSelector:sp_action withObject:value withObject:key];
+    _block(key, value);
   } @catch (id exception) {
     SPXLogException(exception);
-  }
-}
-
-@end
-
-#pragma mark -
-@implementation SparkLibrary (SparkPreferences)
-
-- (NSMutableDictionary *)preferences {
-  if (![self isLoaded]) {
-    SPXDebug(@"Warning, trying to access preferences but library no loaded");
-  }
-  return sp_prefs;
-}
-- (void)setPreferences:(NSDictionary *)preferences {
-  if (![self isLoaded])
-    SPXThrowException(NSInternalInconsistencyException, @"cannot set preferences for an unloaded library");
-  SPXSetterMutableCopy(sp_prefs, preferences);
-}
-
-@end
-
-@implementation SparkLibrary (SparkPreferencesPrivate)
-
-- (BOOL)synchronizePreferences {
-  if (sp_slFlags.syncPrefs)
-    return [self synchronize];
-  return YES;
-}
-
-- (id)preferenceValueForKey:(NSString *)key {
-  return [[self preferences] objectForKey:key];
-}
-
-- (void)setPreferenceValue:(id)value forKey:(NSString *)key {
-  sp_slFlags.syncPrefs = 1;
-  if (value) {
-    [[self preferences] setObject:value forKey:key];
-  } else {
-    [[self preferences] removeObjectForKey:key];
   }
 }
 

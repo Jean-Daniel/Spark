@@ -27,22 +27,15 @@
 
 static 
 NSImage *_SparkSDActionIcon(SparkBuiltInAction *action);
+
 static
 NSString *_SparkActionDescription(SparkBuiltInAction *action);
 
 @implementation SparkBuiltInActionPlugIn
 
-- (void)dealloc {
-//  [sp_gpr2 release];
-//  [sp_gpr release];
-  [super dealloc];
-}
-
-
 #pragma mark -
 - (void)loadSparkAction:(SparkBuiltInAction *)action toEdit:(BOOL)flag {
   [self setAction:[action action]];
-  //sp_gpr = [[action list] retain];
 }
 
 - (NSAlert *)sparkEditorShouldConfigureAction {
@@ -65,12 +58,9 @@ NSString *_SparkActionDescription(SparkBuiltInAction *action);
 }
 
 #pragma mark -
-- (OSType)action {
-  return sb_action;
-}
 - (void)setAction:(OSType)action {
   /* First update action */
-  sb_action = action;
+  _action = action;
   /* Then update placeholder */
   [[uiName cell] setPlaceholderString:_SparkActionDescription([self sparkAction]) ? : @""];
   switch (action) {
@@ -112,17 +102,19 @@ NSInteger _SparkGroupCompare(SparkObject *o1, SparkObject *o2, void *ctxt) {
 /* group list */
 - (void)plugInViewWillBecomeVisible {
   /* save selection */
-  id o1 = [[[uiLists selectedItem] representedObject] retain];
-  if (!o1) o1 = [[[self sparkAction] list] retain];
+  id o1 = [[uiLists selectedItem] representedObject];
+  if (!o1)
+    o1 = [[self sparkAction] list];
   
-  id o2 = [[[uiLists2 selectedItem] representedObject] retain];
-  if (!o2) o2 = [[[self sparkAction] alternateList] retain];
+  id o2 = [[uiLists2 selectedItem] representedObject];
+  if (!o2)
+    o2 = [[self sparkAction] alternateList];
   
   // refresh menus
   [uiLists removeAllItems];
   [uiLists2 removeAllItems];
   
-  NSArray *groups = [[SparkActiveLibrary() listSet] objects];
+  NSArray *groups = [[SparkActiveLibrary() listSet] allObjects];
   groups = [groups sortedArrayUsingFunction:_SparkGroupCompare context:nil];
 
   for (NSUInteger idx = 0, count = [groups count]; idx < count; idx++) {
@@ -131,13 +123,13 @@ NSInteger _SparkGroupCompare(SparkObject *o1, SparkObject *o2, void *ctxt) {
     [item setRepresentedObject:group];
     NSImage *icon = [[group icon] copy];
     [icon setSize:NSMakeSize(14, 14)];
-    [item setImage:[icon autorelease]];
+    [item setImage:icon];
     
     item = [[uiLists2 menu] addItemWithTitle:[group name] action:nil keyEquivalent:@""];
     [item setRepresentedObject:group];
     icon = [[group icon] copy];
     [icon setSize:NSMakeSize(14, 14)];
-    [item setImage:[icon autorelease]];
+    [item setImage:icon];
   }
   
   /* restore selection */
@@ -145,13 +137,11 @@ NSInteger _SparkGroupCompare(SparkObject *o1, SparkObject *o2, void *ctxt) {
     NSInteger idx = [[uiLists menu] indexOfItemWithRepresentedObject:o1];
     if (idx >= 0)
       [uiLists selectItemAtIndex:idx];
-    [o1 release];
   }
   if (o2) {
     NSInteger idx = [[uiLists2 menu] indexOfItemWithRepresentedObject:o1];
     if (idx >= 0)
       [uiLists2 selectItemAtIndex:idx];
-    [o2 release];
   }
 }
 
@@ -172,8 +162,8 @@ NSInteger _SparkGroupCompare(SparkObject *o1, SparkObject *o2, void *ctxt) {
   return nil;
 }
 
-+ (NSString *)nibPath {
-  return [kSparkKitBundle pathForResource:@"SparkPlugin" ofType:@"nib"];
++ (NSString *)nibName {
+  return @"SparkPlugin";
 }
 
 /* default status */
@@ -195,51 +185,48 @@ NSInteger _SparkGroupCompare(SparkObject *o1, SparkObject *o2, void *ctxt) {
 #pragma mark -
 
 
-@implementation SparkBuiltInAction
+@implementation SparkBuiltInAction {
+@private
+  SparkUID _listUID, _altListUID;
+}
 
 static
 NSImage *SparkDaemonStatusIcon(BOOL status) {
   static NSImage *__enabled = nil, *__disabled = nil;
   if (!__enabled) {
-    __enabled = [[NSImage imageNamed:@"enabled" inBundle:kSparkKitBundle] retain];
-    __disabled = [[NSImage imageNamed:@"disabled" inBundle:kSparkKitBundle] retain];
+    __enabled = [NSImage imageNamed:@"enabled" inBundle:kSparkKitBundle];
+    __disabled = [NSImage imageNamed:@"disabled" inBundle:kSparkKitBundle];
   }
   return status ? __enabled : __disabled;
 }
 
 - (id)copyWithZone:(NSZone *)aZone {
   SparkBuiltInAction *copy = [super copyWithZone:aZone];
-  copy->sp_list = [sp_list retain];
-  copy->sp_altList = [sp_altList retain];
+  copy->_list = _list;
+  copy->_alternateList = _alternateList;
   return copy;
 }
 
-- (id)init {
+- (instancetype)init {
   if (self = [super init]) {
-    sp_action = kSparkSDActionLaunchEditor;
+    _action = kSparkSDActionLaunchEditor;
   }
   return self;
 }
 
-- (void)dealloc {
-  [sp_altList release];
-  [sp_list release];
-  [super dealloc];
-}
-
 #pragma mark -
 - (BOOL)isPersistent {
-  return kSparkSDActionSwitchStatus == sp_action;
+  return kSparkSDActionSwitchStatus == _action;
 }
 
 - (BOOL)serialize:(NSMutableDictionary *)plist {
   if ([super serialize:plist]) {
-    if (kSparkSDActionSwitchListStatus == sp_action || kSparkSDActionExchangeListStatus == sp_action)
-      [plist setObject:@(sp_listUID) forKey:@"SparkListUID"];
-		if (kSparkSDActionExchangeListStatus == sp_action)
-			[plist setObject:@(sp_altListUID) forKey:@"SparkSecondListUID"];
+    if (kSparkSDActionSwitchListStatus == _action || kSparkSDActionExchangeListStatus == _action)
+      [plist setObject:@(_listUID) forKey:@"SparkListUID"];
+		if (kSparkSDActionExchangeListStatus == _action)
+			[plist setObject:@(_altListUID) forKey:@"SparkSecondListUID"];
 		
-    [plist setObject:WBStringForOSType(sp_action) forKey:@"SparkDaemonAction"];
+    [plist setObject:WBStringForOSType(_action) forKey:@"SparkDaemonAction"];
     return YES;
   }
   return NO;
@@ -248,10 +235,10 @@ NSImage *SparkDaemonStatusIcon(BOOL status) {
 - (id)initWithSerializedValues:(NSDictionary *)plist {
   if (self = [super initWithSerializedValues:plist]) {
     [self setAction:WBOSTypeFromString([plist objectForKey:@"SparkDaemonAction"])];
-    if (kSparkSDActionSwitchListStatus == sp_action || kSparkSDActionExchangeListStatus == sp_action)
-      sp_listUID = (SparkUID)[[plist objectForKey:@"SparkListUID"] integerValue];
-    if (kSparkSDActionExchangeListStatus == sp_action)
-      sp_altListUID = (SparkUID)[[plist objectForKey:@"SparkSecondListUID"] integerValue];
+    if (kSparkSDActionSwitchListStatus == _action || kSparkSDActionExchangeListStatus == _action)
+      _listUID = (SparkUID)[[plist objectForKey:@"SparkListUID"] integerValue];
+    if (kSparkSDActionExchangeListStatus == _action)
+      _altListUID = (SparkUID)[[plist objectForKey:@"SparkSecondListUID"] integerValue];
     /* Update description */
     NSString *desc = _SparkActionDescription(self);
     if (desc)
@@ -266,10 +253,10 @@ NSImage *SparkDaemonStatusIcon(BOOL status) {
 
 - (void)setLibrary:(SparkLibrary *)aLibrary {
   [super setLibrary:aLibrary];
-  if (sp_listUID)
-    [self setList:[aLibrary listWithUID:sp_listUID]];
-  if (sp_altListUID)
-    [self setAlternateList:[aLibrary listWithUID:sp_altListUID]];
+  if (_listUID)
+    [self setList:[aLibrary listWithUID:_listUID]];
+  if (_altListUID)
+    [self setAlternateList:[aLibrary listWithUID:_altListUID]];
 }
 
 static
@@ -310,19 +297,17 @@ void SparkSDActionToggleDaemonStatus(void) {
 
 - (void)toggleStatus {
   NSInteger enabled = 0;
-  for (NSUInteger idx = 0, count = [sp_list count]; idx < count; idx++) {
-    SparkEntry *entry = [sp_list objectInEntriesAtIndex:idx];
+  for (SparkEntry *entry in _list) {
     if ([entry isEnabled])
       enabled++;
-    else 
+    else
       enabled--;
   }
   
   // if less key enabled than disabled => enable all entries.
   BOOL flag = enabled < 0; 
   SparkEntryManager *manager = [[self library] entryManager];
-	for (NSUInteger idx = 0, count = [sp_list count]; idx < count; idx++) {
-    SparkEntry *entry = [sp_list objectInEntriesAtIndex:idx];
+  for (SparkEntry *entry in _list) {
     if (flag) {
       /* avoid conflict */
       if (![manager activeEntryForTrigger:[entry trigger] application:[entry application]])
@@ -338,7 +323,7 @@ void SparkSDActionToggleDaemonStatus(void) {
 }
 
 - (SparkAlert *)performAction {
-  switch (sp_action) {
+  switch (_action) {
     case kSparkSDActionSwitchStatus:
       SparkSDActionToggleDaemonStatus();
       break;
@@ -370,25 +355,14 @@ void SparkSDActionToggleDaemonStatus(void) {
 }
 
 #pragma mark -
-- (OSType)action {
-  return sp_action;
-}
-- (void)setAction:(OSType)anAction {
-  sp_action = anAction;
-}
-
-- (SparkList *)list {
-  return sp_list;
-}
 - (void)setList:(SparkList *)aList {
-  SPXSetterRetainAndDo(sp_list, aList, sp_listUID = [aList uid]);
+  _list = aList;
+  _listUID = [aList uid];
 }
 
-- (SparkList *)alternateList {
-  return sp_altList;
-}
 - (void)setAlternateList:(SparkList *)aList {
-  SPXSetterRetainAndDo(sp_altList, aList, sp_altListUID = [aList uid]);
+  _alternateList = aList;
+  _altListUID = [aList uid];
 }
 
 @end

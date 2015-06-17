@@ -20,7 +20,7 @@
 @interface SparkIconManager (SparkArchiveExtension)
 
 - (void)readFromArchive:(SArchive *)archive path:(SArchiveFile *)path;
-- (void)writeToArchive:(SArchive *)archive atPath:(SArchiveFile *)path;
+//- (void)writeToArchive:(SArchive *)archive atPath:(SArchiveFile *)path;
 
 @end
 
@@ -37,7 +37,7 @@ NSString * const kSparkLibraryArchiveFileName = @"Spark Library";
 }
 
 - (id)initFromArchiveAtPath:(NSString *)file loadPreferences:(BOOL)flag {
-  if (self = [self initWithPath:nil]) {
+  if (self = [self initWithURL:nil]) {
     SArchive *archive = [[SArchive alloc] initWithArchiveAtPath:file];
     
     SArchiveFile *library = [archive fileWithName:kSparkLibraryArchiveFileName];
@@ -45,13 +45,13 @@ NSString * const kSparkLibraryArchiveFileName = @"Spark Library";
       NSFileWrapper *wrapper = [library fileWrapper];
       if (wrapper) {
         /* Init in memory icon manager */
-        sp_icons = [[SparkIconManager alloc] initWithLibrary:self path:nil];
+        _icons = [[SparkIconManager alloc] initWithLibrary:self URL:nil];
         /* Load library */
         [self readFromFileWrapper:wrapper error:nil];
         /* Load icons */
         SArchiveFile *icons = [archive fileWithName:@"Icons"];
         NSAssert(icons != nil, @"Invalid archive");
-        [sp_icons readFromArchive:archive path:icons];
+        [_icons readFromArchive:archive path:icons];
       }
     }
     [archive close];
@@ -61,42 +61,42 @@ NSString * const kSparkLibraryArchiveFileName = @"Spark Library";
 }
 
 - (BOOL)archiveToFile:(NSString *)file {
-  NSFileWrapper *wrapper = [self fileWrapper:nil];
-  if (wrapper) {
-    SArchive *archive = [[SArchive alloc] initWithArchiveAtPath:file write:YES];
-    SArchiveDocument *doc = [archive addDocumentWithName:@"SparkLibrary"];
-
-    CFDateFormatterRef df = CFDateFormatterCreate(kCFAllocatorDefault, CFLocaleGetSystem(), kCFDateFormatterNoStyle, kCFDateFormatterNoStyle);
-    CFDateFormatterSetFormat(df, CFSTR("yyyy-MM-dd HH:mm:ss zzz"));
-    CFStringRef dates = CFDateFormatterCreateStringWithAbsoluteTime(kCFAllocatorDefault, df, CFAbsoluteTimeGetCurrent());
-    if (dates) {
-      [doc setValue:(NSString *)dates forProperty:@"archive/date"];
-      CFRelease(dates);
-    }
-    CFRelease(df);
-    [doc setValue:[NSString stringWithFormat:@"%u", 1] forAttribute:@"format" property:@"archive"];
-    
-    /* library version */
-    CFStringRef str = CFUUIDCreateString(kCFAllocatorDefault, [self uuid]);
-    if (str) {
-      [doc setValue:(id)str forProperty:@"library/uuid"];
-      CFRelease(str);
-    }
-    [doc setValue:[NSString stringWithFormat:@"%lu", (unsigned long)kSparkLibraryCurrentVersion] forAttribute:@"version" property:@"library"];
-    
-    [wrapper setFilename:kSparkLibraryArchiveFileName];
-    [archive addFileWrapper:wrapper parent:nil];
-    
-    /* Save icons */
-    if (sp_icons) {
-      SArchiveFile *icons = [archive addFolder:@"Icons" properties:nil parent:nil];
-      [sp_icons writeToArchive:archive atPath:icons];
-    }
-    
-    [archive close];
-    [archive release];
-    return YES;
-  }
+//  NSFileWrapper *wrapper = [self fileWrapper:nil];
+//  if (wrapper) {
+//    SArchive *archive = [[SArchive alloc] initWithArchiveAtPath:file write:YES];
+//    SArchiveDocument *doc = [archive addDocumentWithName:@"SparkLibrary"];
+//
+//    CFDateFormatterRef df = CFDateFormatterCreate(kCFAllocatorDefault, CFLocaleGetSystem(), kCFDateFormatterNoStyle, kCFDateFormatterNoStyle);
+//    CFDateFormatterSetFormat(df, CFSTR("yyyy-MM-dd HH:mm:ss zzz"));
+//    CFStringRef dates = CFDateFormatterCreateStringWithAbsoluteTime(kCFAllocatorDefault, df, CFAbsoluteTimeGetCurrent());
+//    if (dates) {
+//      [doc setValue:(NSString *)dates forProperty:@"archive/date"];
+//      CFRelease(dates);
+//    }
+//    CFRelease(df);
+//    [doc setValue:[NSString stringWithFormat:@"%u", 1] forAttribute:@"format" property:@"archive"];
+//    
+//    /* library version */
+//    CFStringRef str = CFUUIDCreateString(kCFAllocatorDefault, [self uuid]);
+//    if (str) {
+//      [doc setValue:(id)str forProperty:@"library/uuid"];
+//      CFRelease(str);
+//    }
+//    [doc setValue:[NSString stringWithFormat:@"%lu", (unsigned long)kSparkLibraryCurrentVersion] forAttribute:@"version" property:@"library"];
+//    
+//    [wrapper setFilename:kSparkLibraryArchiveFileName];
+//    [archive addFileWrapper:wrapper parent:nil];
+//    
+//    /* Save icons */
+//    if (sp_icons) {
+//      SArchiveFile *icons = [archive addFolder:@"Icons" properties:nil parent:nil];
+//      [sp_icons writeToArchive:archive atPath:icons];
+//    }
+//    
+//    [archive close];
+//    [archive release];
+//    return YES;
+//  }
   return NO;
 }
 
@@ -106,69 +106,65 @@ NSString * const kSparkLibraryArchiveFileName = @"Spark Library";
 @implementation SparkIconManager (SparkArchiveExtension)
 
 - (void)readFromArchive:(SArchive *)archive path:(SArchiveFile *)path {
-  NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-  for (NSUInteger idx = 0; idx < 4; idx++) {
-    /* Get Folder */
-    SArchiveFile *folder = [path fileWithName:[NSString stringWithFormat:@"%lu", (unsigned long)idx]];
-    
-    SArchiveFile *file = nil;
-    NSEnumerator *files = [[folder files] objectEnumerator];
-    while (file = [files nextObject]) {
-      NSData *data = [file extractContents];
-      NSImage *icon = data ? [[NSImage alloc] initWithData:data] : nil;
-      if (icon) {
-				_SparkIconEntry *entry = [self entryForObjectType:idx uid:[[file name] intValue]];
-				if (entry) {
-					[entry setIcon:icon];
-				}
-        [icon release];
+  @autoreleasepool {
+    for (NSUInteger idx = 0; idx < 4; idx++) {
+      /* Get Folder */
+      SArchiveFile *folder = [path fileWithName:[NSString stringWithFormat:@"%lu", (unsigned long)idx]];
+
+      for (SArchiveFile *file in [folder files]) {
+        NSData *data = [file extractContents];
+        NSImage *icon = data ? [[NSImage alloc] initWithData:data] : nil;
+        if (icon) {
+          _SparkIconEntry *entry = [self entryForObjectType:idx uid:[[file name] intValue]];
+          if (entry) {
+            [entry setIcon:icon];
+          }
+          [icon release];
+        }
       }
     }
   }
-  [pool release];
 }
 
-- (void)writeToArchive:(SArchive *)archive atPath:(SArchiveFile *)path {
-  NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-  for (NSUInteger idx = 0; idx < 4; idx++) {
-    /* Create Folder */
-    SArchiveFile *folder = [archive addFolder:[NSString stringWithFormat:@"%lu", (unsigned long)idx] properties:nil parent:path];
-    
-    NSMutableSet *blacklist = [[NSMutableSet alloc] init];
-    [blacklist addObject:@".DS_Store"];
-    /* Then, write in memory entries */
-    SparkUID uid = 0;
-    _SparkIconEntry *entry = nil;
-    NSMapEnumerator items = NSEnumerateMapTable(sp_cache[idx]);
-    while (NSNextMapEnumeratorPair(&items, (void **)&uid, (void **)&entry)) {
-      /* If should save in memory entry */
-      if ([entry hasChanged] || !sp_path) {
-        NSString *strid = [NSString stringWithFormat:@"%u", uid];
-        [blacklist addObject:strid];
-        if ([entry icon]) {
-          NSData *data = [[entry icon] TIFFRepresentationUsingCompression:NSTIFFCompressionLZW factor:1];
-          if (data) {
-            [archive addFile:strid data:data parent:folder];
-          }
-        }
-      }
-    }
-    /* Finaly, archive on disk icons */
-    if (sp_path) {
-      NSString *fspath = [sp_path stringByAppendingPathComponent:[folder name]];
-      NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:fspath error:NULL];
-      NSUInteger count = [files count];
-      while (count-- > 0) {
-        NSString *fsicon = [files objectAtIndex:count];
-        if (![blacklist containsObject:fsicon]) {
-          NSString *fullpath = [fspath stringByAppendingPathComponent:fsicon];
-          [archive addFile:fullpath name:fsicon parent:folder];
-        }
-      }
-    }
-    [blacklist release];
-  }
-  [pool release];
-}
+//- (void)writeToArchive:(SArchive *)archive atPath:(SArchiveFile *)path {
+//  @autoreleasepool {
+//    for (NSUInteger idx = 0; idx < 4; idx++) {
+//      /* Create Folder */
+//      SArchiveFile *folder = [archive addFolder:[NSString stringWithFormat:@"%lu", (unsigned long)idx] properties:nil parent:path];
+//
+//      NSMutableSet *blacklist = [[NSMutableSet alloc] init];
+//      [blacklist addObject:@".DS_Store"];
+//      /* Then, write in memory entries */
+//      SparkUID uid = 0;
+//      _SparkIconEntry *entry = nil;
+//      NSMapEnumerator items = NSEnumerateMapTable(sp_cache[idx]);
+//      while (NSNextMapEnumeratorPair(&items, (void **)&uid, (void **)&entry)) {
+//        /* If should save in memory entry */
+//        if ([entry hasChanged] || !self.URL) {
+//          NSString *strid = [NSString stringWithFormat:@"%u", uid];
+//          [blacklist addObject:strid];
+//          if ([entry icon]) {
+//            NSData *data = [[entry icon] TIFFRepresentationUsingCompression:NSTIFFCompressionLZW factor:1];
+//            if (data) {
+//              [archive addFile:strid data:data parent:folder];
+//            }
+//          }
+//        }
+//      }
+//      /* Finaly, archive on disk icons */
+//      if (self.URL) {
+//        NSURL *fspath = [self.URL URLByAppendingPathComponent:[folder name]];
+//        NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[fspath path] error:NULL];
+//        for (NSString *fsicon in files) {
+//          if (![blacklist containsObject:fsicon]) {
+//            NSURL *fullpath = [fspath URLByAppendingPathComponent:fsicon];
+//            [archive addFile:[fullpath path] name:fsicon parent:folder];
+//          }
+//        }
+//      }
+//      [blacklist release];
+//    }
+//  }
+//}
 
 @end

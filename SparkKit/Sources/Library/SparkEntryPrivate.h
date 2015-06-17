@@ -11,32 +11,31 @@
 
 @interface SparkEntry ()
 
-+ (id)entryWithAction:(SparkAction *)anAction trigger:(SparkTrigger *)aTrigger application:(SparkApplication *)anApplication;
-- (id)initWithAction:(SparkAction *)anAction trigger:(SparkTrigger *)aTrigger application:(SparkApplication *)anApplication;
++ (instancetype)entryWithAction:(SparkAction *)anAction trigger:(SparkTrigger *)aTrigger application:(SparkApplication *)anApplication;
+- (instancetype)initWithAction:(SparkAction *)anAction trigger:(SparkTrigger *)aTrigger application:(SparkApplication *)anApplication;
 
-- (void)setUID:(UInt32)anUID;
+@property(nonatomic, setter=setUID:) uint32_t uid;
 
 /* cached status */
 - (void)setPlugged:(BOOL)flag;
 
 /* is the entry in a manager */
-- (SparkEntryManager *)manager;
-- (void)setManager:(SparkEntryManager *)aManager;
+@property(nonatomic, assign) SparkEntryManager * manager;
 
-- (void)setAction:(SparkAction *)action;
-- (void)setTrigger:(SparkTrigger *)trigger;
-- (void)setApplication:(SparkApplication *)anApplication;
+@property(nonatomic, retain) SparkAction *action;
+@property(nonatomic, retain) SparkTrigger *trigger;
+@property(nonatomic, retain) SparkApplication *application;
 
 /* fast access */
-- (SparkUID)actionUID;
-- (SparkUID)triggerUID;
-- (SparkUID)applicationUID;
+@property(nonatomic, readonly) SparkUID actionUID;
+@property(nonatomic, readonly) SparkUID triggerUID;
+@property(nonatomic, readonly) SparkUID applicationUID;
 
 /* tree */
 /* system entry only */
-- (SparkEntry *)firstChild;
+@property(nonatomic, readonly) SparkEntry *firstChild;
 /* specific entry only */
-- (SparkEntry *)sibling;
-- (SparkEntry *)parent;
+@property(nonatomic, readonly) SparkEntry *sibling;
+@property(nonatomic, readonly) SparkEntry *parent;
 
 @end

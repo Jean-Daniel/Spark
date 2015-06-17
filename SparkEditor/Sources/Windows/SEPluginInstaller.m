@@ -11,12 +11,14 @@
 #import "Spark.h"
 
 #import <WonderBox/WBFSFunctions.h>
+
 #import <WonderBox/WBAEFunctions.h>
+#import <WonderBox/WBFinderSuite.h>
 
 #import <SparkKit/SparkActionLoader.h>
 
 @interface SEPlugInInstaller ()
-- (NSString *)installPlugIn:(NSString *)plugin domain:(WBPlugInDomain)skdomain;
+- (NSURL *)installPlugIn:(NSURL *)plugin domain:(WBPlugInDomain)skdomain;
 @end
 
 @implementation SEPlugInInstaller
@@ -47,11 +49,11 @@
     // Local
     domain = kWBPlugInDomainLocal;
   }
-  NSString *path = [self installPlugIn:se_plugin domain:domain];
-  if (path) {
+  NSURL *url = [self installPlugIn:se_plugin domain:domain];
+  if (url) {
     [self close:sender];
-    [[SparkActionLoader sharedLoader] loadPlugInAtPath:path];
-    [[NSWorkspace sharedWorkspace] openFile:[path stringByDeletingLastPathComponent]];
+    [[SparkActionLoader sharedLoader] loadPlugInAtURL:url];
+    [[NSWorkspace sharedWorkspace] openFile:[[url URLByDeletingLastPathComponent] path]];
   } else {
     SPXDebug(@"PlugIn installation failed");
   }
@@ -63,15 +65,14 @@ void _Setup(SEPlugInInstaller *self) {
   [self window];
   /* Get plugin bundle ID */
   /* If plugin already installed => ? */
-  NSString *name = [[NSFileManager defaultManager] displayNameAtPath:self->se_plugin];
+  NSString *name = [[NSFileManager defaultManager] displayNameAtPath:[self->se_plugin path]];
   NSString *explain = [NSString stringWithFormat:@"The plugin '%@' must be install before you can use it. Do you want to install it now?", name];
   [self->ibExplain setStringValue:explain];
 }
 
 - (void)setPlugIn:(NSString *)path {
-  SPXSetterCopyAndDo(se_plugin, path, {
-    _Setup(self);
-  });
+  se_plugin = [[NSURL fileURLWithPath:path] retain];
+  _Setup(self);
 }
 
 - (OSStatus)moveFile:(NSString *)file to:(NSString *)destination copy:(BOOL)flag {
@@ -81,7 +82,7 @@ void _Setup(SEPlugInInstaller *self) {
   
   FSRef src, dest;
   if ([file getFSRef:&src] && [destination getFSRef:&dest]) {
-    OSType finder = kSparkFinderSignature;
+    OSType finder = WBAEFinderSignature;
     err = AEBuildAppleEvent(kAECoreSuite, flag ? kAECopy : kAEMove, 
                             typeApplSignature, &finder, sizeof(OSType),
                             kAutoGenerateReturnID, kAnyTransactionID,
@@ -112,11 +113,11 @@ dispose:
   return [[NSWorkspace sharedWorkspace] performFileOperation:(flag ? NSWorkspaceCopyOperation : NSWorkspaceMoveOperation) source:src destination:dest files:files tag:NULL];
 }
 
-- (NSString *)installPlugIn:(NSString *)plugin domain:(WBPlugInDomain)skdomain {
+- (NSURL *)installPlugIn:(NSString *)plugin domain:(WBPlugInDomain)skdomain {
 	/* FIXME: remove temp file */
   if (![[NSFileManager defaultManager] fileExistsAtPath:plugin]) {
     NSRunAlertPanel(@"The plugin was not installed", @"Cannot find plugin at path \"%@\"", @"OK", nil, nil, plugin);
-    return NO;
+    return nil;
   }
   
   BOOL installed = NO;
@@ -175,7 +176,7 @@ dispose:
     }
   }
   if (installed) {
-    return [location stringByAppendingPathComponent:[plugin lastPathComponent]];
+    return [NSURL fileURLWithPath:[location stringByAppendingPathComponent:[plugin lastPathComponent]]];
   }
   return nil;
 }

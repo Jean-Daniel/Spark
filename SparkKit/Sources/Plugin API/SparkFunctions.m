@@ -19,12 +19,12 @@
 #import <WonderBox/WBProcessFunctions.h>
 
 #pragma mark Utilities
-BOOL SparkEditorIsRunning(void) {
+bool SparkEditorIsRunning(void) {
   ProcessSerialNumber psn = WBProcessGetProcessWithSignature(kSparkEditorSignature);
   return psn.lowLongOfPSN != kNoProcess;
 }
 
-BOOL SparkDaemonIsRunning(void) {
+bool SparkDaemonIsRunning(void) {
   ProcessSerialNumber psn = WBProcessGetProcessWithSignature(kSparkDaemonSignature);
   return psn.lowLongOfPSN != kNoProcess;
 }
@@ -89,14 +89,13 @@ void SparkDisplayAlerts(NSArray *items) {
     NSString *other = [alert hideSparkButton] ? nil : NSLocalizedStringFromTableInBundle(@"LAUNCH_SPARK_BUTTON", nil,
                                                                                          kSparkKitBundle, @"Open Spark Alert Button");
     [NSApp activateIgnoringOtherApps:YES];
-    if (NSRunAlertPanel([alert messageText],[alert informativeText], ok, nil, other) == NSAlertOtherReturn) {
+    if (NSRunAlertPanel([alert messageText], @"%@", ok, nil, other, [alert informativeText]) == NSAlertOtherReturn) {
       SparkLaunchEditor();
     }
   }
   else if ([items count] > 1) {
     id alerts = [[SparkMultipleAlerts alloc] initWithAlerts:items];
     [alerts showAlerts];
-    [alerts autorelease];
   }  
 }
 

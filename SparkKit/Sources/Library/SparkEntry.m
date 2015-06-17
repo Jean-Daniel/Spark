@@ -13,6 +13,7 @@
 
 #import <SparkKit/SparkPlugIn.h>
 #import <SparkKit/SparkPrivate.h>
+#import <SparkKit/SparkApplication.h>
 #import <SparkKit/SparkActionLoader.h>
 
 #import <WonderBox/NSImage+WonderBox.h>
@@ -25,34 +26,51 @@ static
 NSImage *SparkEntryDefaultIcon(void) {
   static NSImage *__simage = nil;
   if (!__simage) 
-    __simage = [[NSImage imageNamed:@"SparkEntry" inBundle:[NSBundle bundleWithIdentifier:kSparkKitBundleIdentifier]] retain];
+    __simage = [NSImage imageNamed:@"SparkEntry" inBundle:[NSBundle bundleWithIdentifier:kSparkKitBundleIdentifier]];
   return __simage;
 }
 
 NSString * const SparkEntryDidAppendChildNotification = @"SparkEntryDidAppendChild";
 NSString * const SparkEntryWillRemoveChildNotification = @"SparkEntryWillRemoveChild";
 
-@implementation SparkEntry
+@implementation SparkEntry {
+@private
+  /* chained list of children */
+  SparkEntry *sp_child;
+  /* list head (or nil) */
+  __weak SparkEntry *sp_parent;
 
-- (id)copyWithZone:(NSZone *)aZone {
-  SparkEntry *copy = (SparkEntry *)NSCopyObject(self, 0, aZone);
-  [copy->sp_action retain];
-  [copy->sp_trigger retain];
-  [copy->sp_application retain];
+  /* Manager */
+  __weak SparkEntryManager *sp_manager;
+
+  /* status */
+  struct _sp_seFlags {
+    unsigned int enabled:1;
+    unsigned int editing:1;
+    unsigned int registred:1;
+    unsigned int unplugged:1;
+    unsigned int reserved:28;
+  } _seFlags;
+}
+
+- (instancetype)copyWithZone:(NSZone *)aZone {
+  SparkEntry *copy = [[[self class] allocWithZone:aZone] initWithAction:_action trigger:_trigger application:_application];
 	/* a copy should not remain in the tree */
 	copy->sp_child = nil;
 	copy->sp_parent = nil;
 	/* and is not managed */
 	copy->sp_manager = nil;
-	copy->sp_seFlags.editing = 0;
+
+  copy->_seFlags = _seFlags;
+	copy->_seFlags.editing = 0;
   return copy;
 }
 
-+ (id)entryWithAction:(SparkAction *)anAction trigger:(SparkTrigger *)aTrigger application:(SparkApplication *)anApplication {
-  return [[[self alloc] initWithAction:anAction trigger:aTrigger application:anApplication] autorelease];
++ (instancetype)entryWithAction:(SparkAction *)anAction trigger:(SparkTrigger *)aTrigger application:(SparkApplication *)anApplication {
+  return [[self alloc] initWithAction:anAction trigger:aTrigger application:anApplication];
 }
 
-- (id)initWithAction:(SparkAction *)anAction trigger:(SparkTrigger *)aTrigger application:(SparkApplication *)anApplication {
+- (instancetype)initWithAction:(SparkAction *)anAction trigger:(SparkTrigger *)aTrigger application:(SparkApplication *)anApplication {
   if (self = [super init]) {
     [self setAction:anAction];
     [self setTrigger:aTrigger];
@@ -61,54 +79,30 @@ NSString * const SparkEntryWillRemoveChildNotification = @"SparkEntryWillRemoveC
   return self;
 }
 
-- (void)dealloc {
-  [sp_child release];
-  [sp_action release];
-  [sp_trigger release];
-  [sp_application release];
-  [super dealloc];
-}
-
 - (NSString *)description {
   return [NSString stringWithFormat:@"<%@ %p> { Trigger: %@, Action: %@, Application: %@}", 
 					[self class], self,
-					sp_trigger, sp_action, [sp_application name]];
+					_trigger, _action, _application.name];
 }
 
 - (NSUInteger)hash {
-  return sp_uid;
+  return _uid;
 }
 
 - (BOOL)isEqual:(id)object {
-  if ([object class] != [self class]) return NO;
+  if ([object class] != [self class])
+    return NO;
   SparkEntry *entry = (SparkEntry *)object;
-  return sp_uid == entry->sp_uid;
+  return _uid == entry->_uid;
 }
 
 #pragma mark -
-- (UInt32)uid {
-  return sp_uid;
-}
-
-#pragma mark Spark Objects
-- (SparkAction *)action {
-  return sp_action;
-}
-
-- (SparkTrigger *)trigger {
-  return sp_trigger;
-}
-
-- (SparkApplication *)application {
-  return sp_application;
-}
-
 #pragma mark Type
 - (SparkEntryType)type {
   if ([self applicationUID] == kSparkApplicationSystemUID) {
     return kSparkEntryTypeDefault;
   } else if (sp_parent) {
-    if ([sp_action isEqual:[sp_parent action]])
+    if ([_action isEqual:sp_parent.action])
       return kSparkEntryTypeWeakOverWrite;
     else
       return kSparkEntryTypeOverWrite;
@@ -127,61 +121,61 @@ NSString * const SparkEntryWillRemoveChildNotification = @"SparkEntryWillRemoveC
 }
 
 - (BOOL)isSystem {
-  return [sp_application uid] == kSparkApplicationSystemUID;
+  return [_application uid] == kSparkApplicationSystemUID;
 }
 
 - (BOOL)isActive {
-  return [self isEnabled] && [self isPlugged];
+  return self.enabled && self.plugged;
 }
 
 - (BOOL)isEnabled {
-  return sp_seFlags.enabled;
+  return _seFlags.enabled;
 }
 - (void)setEnabled:(BOOL)flag {
 	if (flag && sp_manager) {
-		NSAssert([sp_manager activeEntryForTrigger:[self trigger] application:[self application]] == nil, @"entry conflict");
+		NSAssert([sp_manager activeEntryForTrigger:self.trigger application:self.application] == nil, @"entry conflict");
 	}
-  bool enabled = SPXFlagTestAndSet(sp_seFlags.enabled, flag);
-  if (enabled != sp_seFlags.enabled && sp_manager) {
+  bool enabled = SPXFlagTestAndSet(_seFlags.enabled, flag);
+  if (enabled != _seFlags.enabled && sp_manager) {
 		SparkLibrary *library = [sp_manager library];
 		/* Undo management */
-		[[[library undoManager] prepareWithInvocationTarget:self] setEnabled:!flag];
+		[[library.undoManager prepareWithInvocationTarget:self] setEnabled:!flag];
 		/* notification */
 		SparkLibraryPostNotification(library, SparkEntryManagerDidChangeEntryStatusNotification, sp_manager, self);
   }
 }
 
 - (BOOL)isPlugged {
-  return !sp_seFlags.unplugged;
+  return !_seFlags.unplugged;
 }
 
 - (BOOL)isPersistent {
-  return [sp_action isPersistent];
+  return [_action isPersistent];
 }
 
 #pragma mark Properties
 - (NSImage *)icon {
-  return [sp_action icon] ? : SparkEntryDefaultIcon();
+  return [_action icon] ? : SparkEntryDefaultIcon();
 }
 - (void)setIcon:(NSImage *)anIcon {
-  [sp_action setIcon:anIcon];
+  [_action setIcon:anIcon];
 }
 
 - (NSString *)name {
-  return [sp_action name];
+  return _action.name;
 }
 - (void)setName:(NSString *)aName {
-  [sp_action setName:aName];
+  _action.name = aName;
 }
 
-- (NSString *)categorie {
-  return [sp_action categorie];
+- (NSString *)category {
+  return _action.category;
 }
 - (NSString *)actionDescription {
-  return [sp_action actionDescription];
+  return _action.actionDescription;
 }
 - (NSString *)triggerDescription {
-  return [sp_trigger triggerDescription];
+  return _trigger.triggerDescription;
 }
 
 - (id)representation {
@@ -190,10 +184,10 @@ NSString * const SparkEntryWillRemoveChildNotification = @"SparkEntryWillRemoveC
 - (void)setRepresentation:(NSString *)name {
   if (name && [name length]) {
 		/* register the undo here (instead of into action) to trigger observer notification when undoing */
-		[[[sp_action library] undoManager] registerUndoWithTarget:self
-																										 selector:@selector(setRepresentation:)
-																											 object:[sp_action name]];
-		[sp_action setName:name];
+		[_action.library.undoManager registerUndoWithTarget:self
+                                               selector:@selector(setRepresentation:)
+                                                 object:_action.name];
+    _action.name = name;
   } else {
     NSBeep();
   }
@@ -203,6 +197,7 @@ NSString * const SparkEntryWillRemoveChildNotification = @"SparkEntryWillRemoveC
 	NSParameterAssert([self isSystem]);
 	return sp_child != nil;
 }
+
 - (NSArray *)variants {
 	if (sp_parent) 
 		return [sp_parent variants];
@@ -239,31 +234,20 @@ NSString * const SparkEntryWillRemoveChildNotification = @"SparkEntryWillRemoveC
 }
 
 #pragma mark Private
-- (void)setUID:(UInt32)anUID {
-  sp_uid = anUID;
-}
-
-- (SparkEntryManager *)manager {
-  return sp_manager;
-}
-- (void)setManager:(SparkEntryManager *)aManager {
-  sp_manager = aManager;
-}
-
 /* cached status */
 - (void)setPlugged:(BOOL)flag {
-  SPXFlagSet(sp_seFlags.unplugged, !flag);
+  SPXFlagSet(_seFlags.unplugged, !flag);
 }
 
 /* convenient access */
 - (SparkUID)actionUID {
-  return [sp_action uid];
+  return _action.uid;
 }
 - (SparkUID)triggerUID {
-  return [sp_trigger uid];
+  return _trigger.uid;
 }
 - (SparkUID)applicationUID {
-  return [sp_application uid];
+  return _application.uid;
 }
 
 /* update object */
@@ -278,33 +262,28 @@ NSString * const SparkEntryWillRemoveChildNotification = @"SparkEntryWillRemoveC
 }
 
 - (void)setAction:(SparkAction *)action {
-  SPXSetterRetainAndDo(sp_action, action, {
+  SPXSetterRetainAndDo(_action, action, {
     SparkPlugIn *plugin = action ? [[SparkActionLoader sharedLoader] plugInForAction:action] : nil;
     if (plugin) [self setPlugged:[plugin isEnabled]];
   });
-}
-- (void)setTrigger:(SparkTrigger *)trigger {
-  SPXSetterRetain(sp_trigger, trigger);
-}
-- (void)setApplication:(SparkApplication *)anApplication {
-  SPXSetterRetain(sp_application, anApplication);
 }
 
 - (SparkEntry *)firstChild {
   NSParameterAssert([self isSystem]);
   return sp_child;
 }
+
 - (SparkEntry *)sibling {
   NSParameterAssert(![self isSystem]);
   return sp_child;
 }
 
-
 #pragma mark Internals
 - (NSArray *)children {
 	NSParameterAssert([self isSystem]);
 	
-	if (!sp_child) return nil;
+	if (!sp_child)
+    return nil;
 	NSMutableArray *children = [NSMutableArray array];
 	SparkEntry *child = sp_child;
 	do {
@@ -319,10 +298,10 @@ NSString * const SparkEntryWillRemoveChildNotification = @"SparkEntryWillRemoveC
 	NSParameterAssert(![anEntry isSystem]);
 	
   anEntry->sp_child = sp_child;
-  sp_child = [anEntry retain];
+  sp_child = anEntry;
 	[anEntry setParent:self];
 	/* notification */
-	SparkLibraryPostNotification([sp_manager library], SparkEntryDidAppendChildNotification, self, anEntry);
+	SparkLibraryPostNotification(sp_manager.library, SparkEntryDidAppendChildNotification, self, anEntry);
 }
 - (void)addChildrenFromArray:(NSArray *)children {
 	NSUInteger count = [children count];
@@ -337,18 +316,18 @@ NSString * const SparkEntryWillRemoveChildNotification = @"SparkEntryWillRemoveC
 	
 	/* undo + notification */
 	//[[sp_manager undoManager] registerUndoWithTarget:self selector:@selector(addChild:) object:aChild];
-  SparkLibraryPostNotification([sp_manager library], SparkEntryWillRemoveChildNotification, self, aChild);
+  SparkLibraryPostNotification(sp_manager.library, SparkEntryWillRemoveChildNotification, self, aChild);
 	
   SparkEntry *item = self;
 	do {
 		if (item->sp_child == aChild) {
 			item->sp_child = aChild->sp_child;
 			[aChild setParent:nil];
-			[aChild release];
 			break;
 		}
 	} while ((item = item->sp_child));
 }
+
 - (void)removeAllChildren {
 	NSParameterAssert([self isSystem]);
 	while (sp_child)
@@ -361,22 +340,22 @@ NSString * const SparkEntryWillRemoveChildNotification = @"SparkEntryWillRemoveC
 
 /* start to record change for the entry manager */
 - (void)beginEditing {
-	NSParameterAssert(!sp_seFlags.editing);
-	sp_seFlags.editing = 1;
+	NSParameterAssert(!_seFlags.editing);
+	_seFlags.editing = 1;
 	[sp_manager beginEditing:self];
 }
 /* commit change to the entry manager */
 - (void)endEditing {
-	NSParameterAssert(sp_seFlags.editing);
+	NSParameterAssert(_seFlags.editing);
 	[sp_manager endEditing:self];
-	sp_seFlags.editing = 0;
+	_seFlags.editing = 0;
 }
 
 - (void)replaceAction:(SparkAction *)action {
 	if (!sp_manager) {
 		[self setAction:action];
 	} else {
-		NSParameterAssert(sp_seFlags.editing);
+		NSParameterAssert(_seFlags.editing);
 		[sp_manager replaceAction:action inEntry:self];
 	}
 }
@@ -385,7 +364,7 @@ NSString * const SparkEntryWillRemoveChildNotification = @"SparkEntryWillRemoveC
 	if (!sp_manager) {
 		[self setTrigger:trigger];
 	} else {
-		NSParameterAssert(sp_seFlags.editing);
+		NSParameterAssert(_seFlags.editing);
 		[sp_manager replaceTrigger:trigger inEntry:self];		
 	}
 }
@@ -394,22 +373,22 @@ NSString * const SparkEntryWillRemoveChildNotification = @"SparkEntryWillRemoveC
 	if (!sp_manager) {
 		[self setApplication:anApplication];
 	} else {
-		NSParameterAssert(sp_seFlags.editing);
+		NSParameterAssert(_seFlags.editing);
 		[sp_manager replaceApplication:anApplication inEntry:self];
 	}
 }
 
 - (SparkEntry *)createWeakVariantWithApplication:(SparkApplication *)anApplication {
-	return [self createVariantWithAction:[self action] trigger:[self trigger] application:anApplication];
+	return [self createVariantWithAction:self.action trigger:self.trigger application:anApplication];
 }
 
 - (SparkEntry *)createVariantWithAction:(SparkAction *)anAction trigger:(SparkTrigger *)aTrigger application:(SparkApplication *)anApplication {
 	NSParameterAssert(sp_manager);
-	NSParameterAssert([self isSystem]);
+	NSParameterAssert(self.isSystem);
 	NSParameterAssert(![self variantWithApplication:anApplication]);
 	SparkEntry *entry = [[SparkEntry alloc] initWithAction:anAction trigger:aTrigger application:anApplication];
-	[[self manager] addEntry:entry parent:self];
-	return [entry autorelease];
+	[self.manager addEntry:entry parent:self];
+	return entry;
 }
 
 @end
@@ -437,7 +416,7 @@ NSString * const SparkEntryWillRemoveChildNotification = @"SparkEntryWillRemoveC
 			library = SparkActiveLibrary();
 			unsigned int value;
 			[coder decodeValueOfObjCType:@encode(unsigned int) at:&value];
-			sp_uid = value;
+			_uid = value;
 			/* content */
 			[coder decodeValueOfObjCType:@encode(unsigned int) at:&value];
 			[self setAction:[library actionWithUID:value]];
@@ -450,33 +429,31 @@ NSString * const SparkEntryWillRemoveChildNotification = @"SparkEntryWillRemoveC
 			
 			/* flags */
 			[coder decodeValueOfObjCType:@encode(unsigned int) at:&value];
-			[self setEnabled:value];
+			self.enabled = value != 0;
     } else if ([coder isKindOfClass:[SparkLibraryUnarchiver class]]) {
       library = [(SparkLibraryUnarchiver *)coder library];
 			
 			/* decode entry */
-			sp_uid = [coder decodeInt32ForKey:@"uid"];
+			_uid = [coder decodeInt32ForKey:@"uid"];
 			
       sp_parent = [coder decodeObjectForKey:@"parent"];
-      sp_child = [[coder decodeObjectForKey:@"child"] retain];
+      sp_child = [coder decodeObjectForKey:@"child"];
 			
 			SparkUID uid;
 			uid = [coder decodeInt32ForKey:@"action"];
-			[self setAction:[library actionWithUID:uid]];
+      self.action = [library actionWithUID:uid];
 			
 			uid = [coder decodeInt32ForKey:@"trigger"];
-			[self setTrigger:[library triggerWithUID:uid]];
+      self.trigger = [library triggerWithUID:uid];
 			
 			uid = [coder decodeInt32ForKey:@"application"];
-			[self setApplication:[library applicationWithUID:uid]];
+			self.application = [library applicationWithUID:uid];
 			
-			[self setEnabled:[coder decodeBoolForKey:@"enabled"]];
+			self.enabled = [coder decodeBoolForKey:@"enabled"];
     } 
     if (!library) {
-      [self release];
       SPXThrowException(NSInvalidArchiveOperationException, @"Unsupported coder: %@", coder);
     }
-    
   }
   return self;
 }
@@ -484,15 +461,15 @@ NSString * const SparkEntryWillRemoveChildNotification = @"SparkEntryWillRemoveC
 - (void)encodeWithCoder:(NSCoder *)coder {
   if ([coder isKindOfClass:[NSPortCoder class]]) {
 		/* see initWithCoder comments */
-		unsigned int value = sp_uid;
+		unsigned int value = _uid;
 		[coder encodeValueOfObjCType:@encode(unsigned int) at:&value];
 		
 		/* content */
-		value = [sp_action uid];
+		value = _action.uid;
 		[coder encodeValueOfObjCType:@encode(unsigned int) at:&value];
-		value = [sp_trigger uid];
+		value = _trigger.uid;
 		[coder encodeValueOfObjCType:@encode(unsigned int) at:&value];
-		value = [sp_application uid];
+		value = _application.uid;
 		[coder encodeValueOfObjCType:@encode(unsigned int) at:&value];
 		
 		/* flags */
@@ -502,12 +479,12 @@ NSString * const SparkEntryWillRemoveChildNotification = @"SparkEntryWillRemoveC
     [coder encodeObject:sp_child forKey:@"child"];
     [coder encodeConditionalObject:sp_parent forKey:@"parent"];
 		
-		[coder encodeInt32:sp_uid forKey:@"uid"];
-		[coder encodeInt32:[sp_action uid] forKey:@"action"];
-		[coder encodeInt32:[sp_trigger uid] forKey:@"trigger"];
-		[coder encodeInt32:[sp_application uid] forKey:@"application"];
+		[coder encodeInt32:_uid forKey:@"uid"];
+		[coder encodeInt32:_action.uid forKey:@"action"];
+		[coder encodeInt32:_trigger.uid forKey:@"trigger"];
+		[coder encodeInt32:_application.uid forKey:@"application"];
 		/* flags */
-		[coder encodeBool:[self isEnabled] forKey:@"enabled"];
+		[coder encodeBool:self.enabled forKey:@"enabled"];
   } else {
     SPXThrowException(NSInvalidArchiveOperationException, @"Unsupported coder: %@", coder);
   }
@@ -518,21 +495,21 @@ NSString * const SparkEntryWillRemoveChildNotification = @"SparkEntryWillRemoveC
 @implementation SparkEntry (SparkRegistration)
 
 - (BOOL)isRegistred {
-  return sp_seFlags.registred;
+  return _seFlags.registred;
 }
 
 - (void)setRegistred:(BOOL)flag {
-  bool registred = SPXFlagTestAndSet(sp_seFlags.registred, flag);
+  bool registred = SPXFlagTestAndSet(_seFlags.registred, flag);
   /* If previous ≠ new status */
-  if (registred != sp_seFlags.registred) {
-    if (sp_seFlags.registred) {
+  if (registred != _seFlags.registred) {
+    if (_seFlags.registred) {
       // register entry
-      if (![sp_trigger isRegistred])
-        [sp_trigger setRegistred:YES];
+      if (![_trigger isRegistred])
+        [_trigger setRegistred:YES];
     } else {
       // unregister entry
-      if (![sp_manager containsRegistredEntryForTrigger:sp_trigger])
-        [sp_trigger setRegistred:NO];
+      if (![sp_manager containsRegistredEntryForTrigger:_trigger])
+        [_trigger setRegistred:NO];
     }
   }
 }

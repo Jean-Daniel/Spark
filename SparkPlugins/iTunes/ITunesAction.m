@@ -7,7 +7,6 @@
  */
 
 #import "ITunesAction.h"
-#import "ITunesGrowl.h"
 
 #import <WonderBox/WBFunctions.h>
 #import <WonderBox/WBAEFunctions.h>
@@ -102,20 +101,17 @@ static ITunesVisual sDefaultVisual = { .delay = -1 };
   sDefaultVisual.delay = -1;
 }
 
-+ (void)setLibraryPreferenceValue:(id)value forKey:(NSString *)key {
-  if (value) {
-    if (!ITunesVisualUnpack(value, &sDefaultVisual))
-      [self setDefaultVisual:&kiTunesDefaultSettings];
-  } else {
-    [self setDefaultVisual:&kiTunesDefaultSettings];
-  }
-}
-
 + (void)initialize {
   if ([ITunesAction class] == self) {
     if (kSparkContext_Daemon == SparkGetCurrentContext()) {
-      SparkPreferencesRegisterObserver(self, @selector(setLibraryPreferenceValue:forKey:), 
-                                       @"iTunesSharedVisual", SparkPreferencesLibrary);
+      SparkPreferencesRegisterObserver(@"iTunesSharedVisual", SparkPreferencesLibrary, ^(NSString *key, id value) {
+        if (value) {
+          if (!ITunesVisualUnpack(value, &sDefaultVisual))
+            [self setDefaultVisual:&kiTunesDefaultSettings];
+        } else {
+          [self setDefaultVisual:&kiTunesDefaultSettings];
+        }
+      });
     }
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didLoadLibrary:)
@@ -342,18 +338,6 @@ static ITunesVisual sDefaultVisual = { .delay = -1 };
   }
 }
 
-- (BOOL)usesGrowl {
-  switch ([self visualMode]) {
-    case kiTunesSettingCustom:
-      if (ia_visual)
-        return ia_visual->growl;
-      // fall
-    case kiTunesSettingDefault:
-      return [[self class] defaultVisual]->growl;
-  }
-  return NO;
-}
-
 - (void)displayTrackNotification {
   /* Avoid double display. (autoinfo issue) */
   //static CFAbsoluteTime sLastDisplayTime = 0;
@@ -361,23 +345,19 @@ static ITunesVisual sDefaultVisual = { .delay = -1 };
   //if ([SparkAction currentEventTime] > 0 || (absTime - sLastDisplayTime) > 0.25) {
   iTunesTrack track = WBAEEmptyDesc();
   if (noErr == iTunesGetCurrentTrack(&track)) {
-    if ([self usesGrowl]) {
-      [self displayTrackUsingGrowl:&track];
-    } else {
-      ITunesInfo *info = [ITunesInfo sharedWindow];
-      switch ([self visualMode]) {
-        case kiTunesSettingCustom:
-          if (ia_visual) {
-            [info setTrack:&track visual:ia_visual];
-            break;
-          }
-          // fall
-        case kiTunesSettingDefault:
-          [info setTrack:&track visual:[[self class] defaultVisual]];
+    ITunesInfo *info = [ITunesInfo sharedWindow];
+    switch ([self visualMode]) {
+      case kiTunesSettingCustom:
+        if (ia_visual) {
+          [info setTrack:&track visual:ia_visual];
           break;
-      }
-      [info display:nil];
+        }
+        // fall
+      case kiTunesSettingDefault:
+        [info setTrack:&track visual:[[self class] defaultVisual]];
+        break;
     }
+    [info display:nil];
     WBAEDisposeDesc(&track);
   }
   //}

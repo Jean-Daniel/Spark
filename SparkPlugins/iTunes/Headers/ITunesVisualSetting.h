@@ -11,8 +11,8 @@
 
 @interface ITunesVisualSetting : NSObject {
   IBOutlet NSButton *ibShow;
-  @private
-    id ia_delegate;
+@private
+  id ia_delegate;
   int ia_loc;
   int ia_config;
   NSString *ia_color;
@@ -24,9 +24,6 @@
 - (IBAction)preview:(id)sender;
 
 - (IBAction)defaultSettings:(id)sender;
-
-- (BOOL)usesGrowl;
-- (void)setUsesGrowl:(BOOL)flag;
 
 - (CGFloat)delay;
 - (void)setDelay:(CGFloat)aDelay;

@@ -17,7 +17,12 @@
 - (CGFloat)setText:(NSString *)msg inField:(id)textField;
 @end;
 
-@implementation SparkMultipleAlerts
+@implementation SparkMultipleAlerts {
+  NSNib *sp_nib;
+  BOOL sp_retain;
+  NSUInteger sp_index;
+  NSMutableArray *sp_alerts;
+}
 
 - (id)init {
   if (self = [super init]) {
@@ -42,9 +47,6 @@
 
 - (void)dealloc {
   [self close:nil];
-  [sp_nib release];
-  [sp_alerts release];
-  [super dealloc];
 }
 
 - (NSString *)errorString {
@@ -142,12 +144,11 @@
   }
   if (alertWindow) {
     [alertWindow close];
-    [alertWindow autorelease];
     alertWindow = nil;
   }
   if (sp_retain) {
     sp_retain = NO;
-    [self release];
+    CFRelease((__bridge CFTypeRef)(self));
   }
 }
 
@@ -202,13 +203,12 @@
   if (sp_nib == nil) {
     sp_nib = [[NSNib alloc] initWithNibNamed:@"SparkMultiAlert" bundle:kSparkKitBundle];
   }
-  if (alertWindow == nil) {
+  if (alertWindow == nil)
     [sp_nib instantiateNibWithOwner:self topLevelObjects:nil];
-  }
 }
 
 - (void)beginSheetModalForWindow:(NSWindow *)window modalDelegate:(id)delegate didEndSelector:(SEL)didEndSelector contextInfo:(void *)contextInfo {
-  [self retain];
+  CFRetain((__bridge CFTypeRef)(self));
   sp_retain = YES;
   if (![alertWindow isSheet]) {
     [self loadInterface];
@@ -217,7 +217,7 @@
 }
 
 - (void)showAlerts {
-  [self retain];
+  CFRetain((__bridge CFTypeRef)(self));
   sp_retain = YES;
   [self loadInterface];
   [alertWindow makeKeyAndOrderFront:self];

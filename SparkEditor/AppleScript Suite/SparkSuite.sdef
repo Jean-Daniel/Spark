@@ -229,7 +229,7 @@
 		<class name="action" code="cAct" description="Spark Action" plural="actions" inherits="spark object">
 			<cocoa class="SparkAction"/>
 			<property name="version" code="vers" description="Action version" type="integer"/>
-			<property name="categorie" code="pCat" type="text" access="r"/>
+			<property name="category" code="pCat" type="text" access="r"/>
 			<property name="description" code="pDes" type="text">
 				<cocoa key="actionDescription"/>
 			</property>

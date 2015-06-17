@@ -9,17 +9,14 @@
 #import <SparkKit/SparkLibrary.h>
 
 SPARK_EXPORT
-BOOL SparkLogSynchronization;
+bool SparkLogSynchronization;
 
 @protocol SparkLibrary;
-SPARK_OBJC_EXPORT
-@interface SparkLibrarySynchronizer : NSObject {
-  @private
-  SparkLibrary *sp_library;
-  NSDistantObject<SparkLibrary> *sp_remote;
-}
 
-- (id)initWithLibrary:(SparkLibrary *)aLibrary;
+SPARK_OBJC_EXPORT
+@interface SparkLibrarySynchronizer : NSObject
+
+- (instancetype)initWithLibrary:(SparkLibrary *)aLibrary;
 
 - (void)setDistantLibrary:(NSDistantObject<SparkLibrary> *)remoteLibrary;
 
@@ -27,18 +24,15 @@ SPARK_OBJC_EXPORT
 
 #pragma mark -
 SPARK_OBJC_EXPORT
-@interface SparkDistantLibrary : NSObject {
-  @private
-  SparkLibrary *sp_library;
-}
+@interface SparkDistantLibrary : NSObject
 
-- (SparkLibrary *)library;
-- (id<SparkLibrary>)distantLibrary;
+@property(nonatomic, readonly) SparkLibrary *library;
+@property(nonatomic, readonly) id<SparkLibrary> distantLibrary;
 
 @end
 
 @interface SparkLibrary (SparkDistantLibrary)
 
-- (SparkDistantLibrary *)distantLibrary;
+@property(nonatomic, readonly) SparkDistantLibrary *distantLibrary;
 
 @end

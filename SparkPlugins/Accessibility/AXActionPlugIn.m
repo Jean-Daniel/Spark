@@ -80,16 +80,16 @@
   // FIXME: should preserve selection
   [uiApplications removeAllItems];
   [uiApplications addItemWithTitle:@"-"];
-  NSArray *apps = [[NSWorkspace sharedWorkspace] launchedApplications];
-  for (NSUInteger idx = 0, count = [apps count]; idx < count; idx++) {
-    NSDictionary *app = [apps objectAtIndex:idx];
-    NSString *path = [app objectForKey:@"NSApplicationPath"];
-    NSString *name = [[NSFileManager defaultManager] displayNameAtPath:path];
-    NSMenuItem *item = [[uiApplications menu] addItemWithTitle:name action:NULL keyEquivalent:@""];
-    NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:path];
-    [icon setSize:NSMakeSize(16, 16)];
-    [item setImage:icon];
-    [item setTag:[[app objectForKey:@"NSApplicationProcessIdentifier"] integerValue]];
+  for (NSRunningApplication *app in [NSWorkspace sharedWorkspace].runningApplications) {
+    NSURL *url = app.bundleURL;
+    if (url) {
+      NSString *name = [[NSFileManager defaultManager] displayNameAtPath:[url path]];
+      NSMenuItem *item = [[uiApplications menu] addItemWithTitle:name action:NULL keyEquivalent:@""];
+      NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:[url path]];
+      [icon setSize:NSMakeSize(16, 16)];
+      [item setImage:icon];
+      [item setTag:app.processIdentifier];
+    }
   }
 }
 

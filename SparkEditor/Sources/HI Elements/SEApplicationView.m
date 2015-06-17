@@ -11,7 +11,10 @@
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkApplication.h>
 
-@implementation SEApplicationView
+@implementation SEApplicationView {
+@private
+  SparkApplication *se_app;
+}
 
 - (void)dealloc {
   [se_app release];
@@ -28,19 +31,22 @@
     
 		NSString *title = se_app ? [[NSString alloc] initWithFormat:
 																NSLocalizedString(@"%@ HotKeys", @"Application HotKeys - Application View Title (%@ => name)"), [se_app name]] : nil;
-		
+    self.title = title;
+
     if (kSparkApplicationSystemUID == [se_app uid]) {
-      [super setApplication:nil title:title icon:[NSImage imageNamed:@"applelogo"]];
+      self.icon = [NSImage imageNamed:@"applelogo"];
     } else {
-			[super setApplication:[se_app application] title:title icon:[se_app icon]];
+      self.icon = se_app.icon;
     }
     [title release];
   }
 }
 
 - (NSImage *)defaultIcon {
-  if ([se_app icon]) return [se_app icon];
-  else return [super defaultIcon];
+  if ([se_app icon])
+    return [se_app icon];
+  else
+    return [[NSWorkspace sharedWorkspace] iconForFileType:@"'APPL'"];
 }
 
 @end

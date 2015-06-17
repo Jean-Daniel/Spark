@@ -18,6 +18,7 @@ enum {
 };
 
 @class SparkEntry;
+
 @interface SparkLibrary (SparkLibraryInternal)
 
 - (SparkList *)listWithUID:(SparkUID)uid;
@@ -30,19 +31,17 @@ enum {
 @end
 
 /* I/O */
-@interface SparkLibraryArchiver : NSKeyedArchiver {
-  @private
-}
+@interface SparkLibraryArchiver : NSKeyedArchiver
 
 @end
 
 @interface SparkLibraryUnarchiver : NSKeyedUnarchiver {
-  @private
-  SparkLibrary *sp_library;
+@private
+  SparkLibrary *_library;
 }
 
 - (id)initForReadingWithData:(NSData *)data library:(SparkLibrary *)aLibrary;
 
-- (SparkLibrary *)library;
+@property(nonatomic, readonly) SparkLibrary *library;
 
 @end

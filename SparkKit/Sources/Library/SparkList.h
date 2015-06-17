@@ -10,7 +10,8 @@
 #import <SparkKit/SparkObjectSet.h>
 
 @class SparkList, SparkEntry;
-typedef BOOL(*SparkListFilter)(SparkList *, SparkEntry *, id ctxt);
+
+typedef bool(^SparkListFilter)(SparkList *, SparkEntry *);
 
 SPARK_EXPORT
 NSString * const SparkListDidReloadNotification;
@@ -26,21 +27,17 @@ SPARK_EXPORT
 NSString * const SparkListDidRemoveEntriesNotification;
 
 @class SparkEntry, SparkApplication;
+
 SPARK_OBJC_EXPORT
-@interface SparkList : SparkObject {
-  @private  
-  NSMutableArray *sp_entries;
-  
-  id sp_ctxt;
-  SparkListFilter sp_filter;
-}
+@interface SparkList : SparkObject <NSFastEnumeration>
+
+@property (nonatomic, readonly, getter=isDynamic) BOOL dynamic;
 
 - (void)reload;
-- (BOOL)isDynamic;
-- (id)filterContext;
-- (void)setListFilter:(SparkListFilter)aFilter context:(id)aCtxt;
 
-- (NSUInteger)count;
+@property(nonatomic, copy) SparkListFilter filter;
+
+@property(nonatomic, readonly) NSUInteger count;
 
 - (BOOL)containsEntry:(SparkEntry *)anEntry;
 - (NSUInteger)indexOfEntry:(SparkEntry *)anEntry;
@@ -60,7 +57,7 @@ SPARK_OBJC_EXPORT
 - (NSUInteger)countOfEntries;
 - (void)setEntries:(NSArray *)entries;
 - (SparkEntry *)objectInEntriesAtIndex:(NSUInteger)idx;
-- (void)getEntries:(id *)aBuffer range:(NSRange)range;
+- (void)getEntries:(id __unsafe_unretained [])aBuffer range:(NSRange)range;
 - (void)insertObject:(SparkEntry *)anEntry inEntriesAtIndex:(NSUInteger)idx;
 - (void)removeObjectFromEntriesAtIndex:(NSUInteger)idx;
 - (void)replaceObjectInEntriesAtIndex:(NSUInteger)idx withObject:(SparkEntry *)object;

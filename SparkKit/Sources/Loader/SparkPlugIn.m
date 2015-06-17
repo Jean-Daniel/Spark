@@ -6,27 +6,33 @@
  *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
  */
 
-#import "SparkPrivate.h"
-
 #import <SparkKit/SparkPlugIn.h>
+
 #import <SparkKit/SparkFunctions.h>
 #import <SparkKit/SparkPreferences.h>
 #import <SparkKit/SparkActionLoader.h>
 
+#import "SparkPrivate.h"
+
 NSString * const SparkPlugInDidChangeStatusNotification = @"SparkPlugInDidChangeStatus";
 
-@implementation SparkPlugIn
+@implementation SparkPlugIn {
+@private
+  id sp_nib;
+}
 
 /* Check status */
 static 
 BOOL SparkPlugInIsEnabled(NSString *identifier, BOOL *exists) {
   BOOL enabled = YES;
-  if (exists) *exists = NO;
+  if (exists)
+    *exists = NO;
   NSDictionary *plugins = SparkPreferencesGetValue(@"SparkPlugIns", SparkPreferencesFramework);
   if (plugins) {
     NSNumber *status = [plugins objectForKey:identifier];
     if (status) {
-      if (exists) *exists = YES;
+      if (exists)
+        *exists = YES;
       enabled = [status boolValue];
     }
   }
@@ -45,16 +51,14 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
     }
     [plugins setObject:@(enabled) forKey:identifier];
     SparkPreferencesSetValue(@"SparkPlugIns", plugins, SparkPreferencesFramework);
-    [plugins release];
   }
 }
 
 /* Synchronize daemon */
 + (void)setFrameworkValue:(NSDictionary *)plugins forKey:(NSString *)key {
   NSString *identifier;
-  NSEnumerator *keys = [plugins keyEnumerator];
   SparkActionLoader *loader = [SparkActionLoader sharedLoader];
-  while (identifier = [keys nextObject]) {
+  for (identifier in plugins) {
     SparkPlugIn *plugin = [loader plugInForIdentifier:identifier];
     if (plugin) {
       NSNumber *value = [plugins objectForKey:identifier];
@@ -67,7 +71,20 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
 + (void)initialize {
   if ([SparkPlugIn class] == self) {
     if (SparkGetCurrentContext() == kSparkContext_Daemon) {
-      SparkPreferencesRegisterObserver(self, @selector(setFrameworkValue:forKey:), @"SparkPlugIns", SparkPreferencesFramework);
+      SparkPreferencesRegisterObserver(@"SparkPlugIns", SparkPreferencesFramework, ^(NSString *key, id value) {
+        if ([value isKindOfClass:[NSDictionary class]]) {
+          NSDictionary *plugins = value;
+          SparkActionLoader *loader = [SparkActionLoader sharedLoader];
+          for (NSString *identifier in plugins) {
+            SparkPlugIn *plugin = [loader plugInForIdentifier:identifier];
+            if (plugin) {
+              NSNumber *enabled = [plugins objectForKey:identifier];
+              if (enabled && [enabled respondsToSelector:@selector(boolValue)])
+                [plugin setEnabled:[enabled boolValue]];
+            }
+          }
+        }
+      });
     }
   }
 }
@@ -81,13 +98,12 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
 
 - (id)initWithClass:(Class)cls identifier:(NSString *)identifier {
   if (![cls isSubclassOfClass:[SparkActionPlugIn class]]) {
-    [self release];
     SPXThrowException(NSInvalidArgumentException, @"Invalid action plugin class.");
   } 
   
   if (self = [super init]) {
-    sp_class = cls;
-    [self setIdentifier:identifier];
+    _plugInClass = cls;
+    _identifier = [identifier copy];
     
     [self setVersion:[cls versionString]];
     
@@ -95,9 +111,9 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
     BOOL exists;
     BOOL status = SparkPlugInIsEnabled(identifier, &exists);
     if (exists)
-      SPXFlagSet(sp_spFlags.disabled, !status);
+      _enabled = status;
     else
-      SPXFlagSet(sp_spFlags.disabled, ![sp_class isEnabled]);
+      _enabled = [_plugInClass isEnabled];
   }
   return self;
 }
@@ -105,8 +121,7 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
 - (id)initWithBundle:(NSBundle *)bundle {
   if (self = [self initWithClass:[bundle principalClass]
                       identifier:[bundle bundleIdentifier]]) {
-    [self setPath:[bundle bundlePath]];
-    
+    _URL = bundle.bundleURL;
     /* Extend applescript support */
 //    if (SparkGetCurrentContext() == kSparkContext_Editor)
 //      [[NSScriptSuiteRegistry sharedScriptSuiteRegistry] loadSuitesFromBundle:bundle];
@@ -114,70 +129,43 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
   return self;
 }
 
-- (void)dealloc {
-  [sp_nib release];
-  [sp_name release];
-  [sp_path release];
-  [sp_icon release];
-  [sp_version release];
-  [sp_identifier release];
-  [super dealloc];
-}
-
 - (NSUInteger)hash {
-  return [sp_identifier hash];
+  return [_identifier hash];
 }
 
 - (BOOL)isEqual:(id)object {
   if (!object || ![object isKindOfClass:[SparkPlugIn class]])
     return NO;
   
-  return [sp_identifier isEqual:[object identifier]];
+  return [_identifier isEqual:[object identifier]];
 }
 
 - (NSString *)description {
   return [NSString stringWithFormat:@"<%@ %p> {Name: %@, Class: %@, Status: %@}",
     [self class], self,
-    [self name], sp_class,
+    [self name], _plugInClass,
     ([self isEnabled] ? @"On" : @"Off")];
 }
 
 #pragma mark -
 - (NSString *)name {
-  if (sp_name == nil) {
-    [self setName:[sp_class plugInName]];
+  if (_name == nil) {
+    self.name = [_plugInClass plugInName];
   }
-  return sp_name;
-}
-- (void)setName:(NSString *)newName {
-  SPXSetterRetain(sp_name, newName);
-}
-
-- (NSString *)path {
-  return sp_path;
-}
-
-- (void)setPath:(NSString *)newPath {
-  SPXSetterRetain(sp_path, newPath);
+  return _name;
 }
 
 - (NSImage *)icon {
-  if (sp_icon == nil) {
-    [self setIcon:[sp_class plugInIcon]];
+  if (_icon == nil) {
+    self.icon = [_plugInClass plugInIcon];
   }
-  return sp_icon;
-}
-- (void)setIcon:(NSImage *)icon {
-  SPXSetterRetain(sp_icon, icon);
+  return _icon;
 }
 
-- (BOOL)isEnabled {
-  return !sp_spFlags.disabled;
-}
 - (void)setEnabled:(BOOL)flag {
-  bool disabled = SPXFlagTestAndSet(sp_spFlags.disabled, !flag);
   /* If status change */
-  if (disabled != sp_spFlags.disabled) {
+  if (spx_xor(flag, _enabled)) {
+    _enabled = flag;
     /* Update preferences */
     SparkPlugInSetEnabled([self identifier], flag);
     [[NSNotificationCenter defaultCenter] postNotificationName:SparkPlugInDidChangeStatusNotification
@@ -188,44 +176,34 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
 
 - (NSBundle *)bundle {
   NSBundle *bundle = nil;
-  if ([self path])
-    bundle = [NSBundle bundleWithPath:[self path]];
+  if (self.URL)
+    bundle = [NSBundle bundleWithURL:self.URL];
   if (!bundle)
-    bundle = [NSBundle bundleForClass:sp_class];
-  if (bundle != [NSBundle mainBundle]) return bundle;
+    bundle = [NSBundle bundleForClass:_plugInClass];
+  // FIXME: Why is this needed ?
+  if (bundle != [NSBundle mainBundle])
+    return bundle;
   return nil;
 }
 
 - (NSString *)version {
-  if (!sp_version) {
+  if (!_version) {
     // Try to init version
-    sp_version = [[[self bundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"] retain];
+    _version = [[self bundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
   }
-  return sp_version;
-}
-- (void)setVersion:(NSString *)version {
-  SPXSetterCopy(sp_version, version);
-}
-
-- (NSString *)identifier {
-  return sp_identifier;
-}
-- (void)setIdentifier:(NSString *)identifier {
-  SPXSetterRetain(sp_identifier, identifier);
+  return _version;
 }
 
 - (NSURL *)helpURL {
-  NSString *help = [sp_class helpFile];
-  if (help)
-    return [NSURL fileURLWithPath:help];
-  return nil;
+  return [_plugInClass helpURL];
 }
-- (NSString *)sdefFile {
+
+- (NSURL *)sdefURL {
   NSBundle *bundle = [self bundle];
   if (bundle) {
     NSString *sdef = [bundle objectForInfoDictionaryKey:@"OSAScriptingDefinition"];
     if (sdef) {
-      return [bundle pathForResource:[sdef stringByDeletingPathExtension] ofType:[sdef pathExtension]];
+      return [bundle URLForResource:[sdef stringByDeletingPathExtension] withExtension:[sdef pathExtension]];
     }
   }
   return nil;
@@ -233,71 +211,22 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
 
 - (id)instantiatePlugIn {
   if (!sp_nib) {
-    NSString *path = [sp_class nibPath];
-    if (path) {
-      NSURL *url = [NSURL fileURLWithPath:path];
-      sp_nib = [[NSNib alloc] initWithContentsOfURL:url];
+    NSString *nib = [_plugInClass nibName];
+    if (nib) {
+      sp_nib = [[NSNib alloc] initWithNibNamed:nib bundle:SPXBundleForClass(_plugInClass)];
     } else {
       sp_nib = [NSNull null];
       SPXDebug(@"Plugin does not have nib path");
     }
   }
-  SparkActionPlugIn *plugin = [[sp_class alloc] init];
+  SparkActionPlugIn *plugin = [[_plugInClass alloc] init];
   if (sp_nib != [NSNull null]) 
     [sp_nib instantiateNibWithOwner:plugin topLevelObjects:nil];
-  return [plugin autorelease];
+  return plugin;
 }
 
-- (Class)plugInClass {
-  return sp_class;
-}
 - (Class)actionClass {
-  return [sp_class actionClass];
-}
-
-
-/* Growl Support */
-
-static NSDictionary *_SparkLocalizeDictionaryValues(NSDictionary *base, NSBundle *bundle, NSString *table) {
-  if (!base) return nil;
-  
-  NSString *key;
-  NSEnumerator *keys = [base keyEnumerator];
-  NSMutableDictionary *localized = [NSMutableDictionary dictionary];
-  while (key = [keys nextObject]) {
-    NSString *value = [base objectForKey:key];
-    NSString *localization = [bundle localizedStringForKey:value value:nil table:table];
-    if (localization) [localized setObject:localization forKey:key];
-    else  [localized setObject:value forKey:key];
-  }
-  return localized;
-}
-
-- (NSDictionary *)growlNotifications {
-  NSBundle *bundle = [self bundle];
-  NSDictionary *dict = [sp_class growlNotifications];
-  if (!dict) {
-    NSString *plist = [bundle pathForResource:@"GrowlNotifications" ofType:@"plist"];
-    if (plist)
-      dict = [NSDictionary dictionaryWithContentsOfFile:plist];
-  }
-  /* localize dictionary */
-  if (dict) {
-    if ([bundle pathForResource:@"GrowlNotifications" ofType:@"strings"]) {
-      NSDictionary *names = _SparkLocalizeDictionaryValues([dict objectForKey:@"HumanReadableNames"], bundle, @"GrowlNotifications");
-      NSDictionary *descriptions = _SparkLocalizeDictionaryValues([dict objectForKey:@"NotificationDescriptions"], bundle, @"GrowlNotifications");
-      if (names || descriptions) {
-        NSMutableDictionary *tmp = [[dict mutableCopy] autorelease];
-        if (names)
-          [tmp setObject:names forKey:@"HumanReadableNames"];
-        if (descriptions)
-          [tmp setObject:descriptions forKey:@"NotificationDescriptions"];
-        dict = tmp;
-      }
-    }
-  }
-  return dict;
+  return [_plugInClass actionClass];
 }
 
 @end
-

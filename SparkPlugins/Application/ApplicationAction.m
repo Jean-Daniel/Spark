@@ -72,23 +72,21 @@ ApplicationVisualSetting *AAGetSharedSettings(void) {
   sInit = false;
 }
 
-+ (void)setLibraryPreferenceValue:(id)value forKey:(NSString *)key {
-  ApplicationVisualSetting *shared = AAGetSharedSettings();
-  if ([@"AAVisualLaunch" isEqualToString:key]) {
-    shared->launch = [value boolValue];
-  } else if ([@"AAVisualActivate" isEqualToString:key]) {
-    shared->activation = [value boolValue];
-  }
-}
-
 + (void)initialize {
   if ([ApplicationAction class] == self) {
     /* If daemon, listen updates */
     if (kSparkContext_Daemon == SparkGetCurrentContext()) {
-      SparkPreferencesRegisterObserver(self, @selector(setLibraryPreferenceValue:forKey:), 
-                                       @"AAVisualLaunch", SparkPreferencesLibrary);
-      SparkPreferencesRegisterObserver(self, @selector(setLibraryPreferenceValue:forKey:), 
-                                       @"AAVisualActivate", SparkPreferencesLibrary);
+      SparkPreferencesRegisterObserver(@"AAVisualLaunch", SparkPreferencesLibrary,
+                                       ^(NSString *key, id value) {
+                                         ApplicationVisualSetting *shared = AAGetSharedSettings();
+                                         shared->launch = [value boolValue];
+                                       });
+
+      SparkPreferencesRegisterObserver(@"AAVisualActivate", SparkPreferencesLibrary,
+                                       ^(NSString *key, id value) {
+                                         ApplicationVisualSetting *shared = AAGetSharedSettings();
+                                         shared->activation = [value boolValue];
+                                       });
     }
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didLoadLibrary:)

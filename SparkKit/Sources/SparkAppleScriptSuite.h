@@ -32,14 +32,14 @@ enum {
 
 #pragma mark Daemon/Editor Constants
 SPARK_EXPORT
-CFStringRef const SparkDaemonStatusKey;
+NSString * const SparkDaemonStatusKey;
 SPARK_EXPORT
-CFStringRef const SparkDaemonStatusDidChangeNotification;
+NSString * const SparkDaemonStatusDidChangeNotification;
 
 #if defined(__OBJC__)
 SPARK_INLINE
 SparkDaemonStatus SparkDaemonGetStatus(NSNotification *notification) {
-  return (SparkDaemonStatus)[[[notification userInfo] objectForKey:SPXCFToNSString(SparkDaemonStatusKey)] unsignedIntValue];
+  return (SparkDaemonStatus)[[[notification userInfo] objectForKey:SparkDaemonStatusKey] unsignedIntValue];
 }
 #endif
 

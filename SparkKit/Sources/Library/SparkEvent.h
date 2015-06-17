@@ -8,49 +8,46 @@
 
 #import <SparkKit/SparkKit.h>
 
-enum {
+NS_ASSUME_NONNULL_BEGIN
+
+typedef NS_ENUM(NSUInteger, SparkEventType) {
   kSparkEventTypeEntry  = 0,
   kSparkEventTypeBypass = 1,
 };
 
 @class SparkEntry, SparkTrigger;
+
 SPARK_OBJC_EXPORT
-@interface SparkEvent : NSObject {
-  id sp_data;
-  
-  struct _sp_evFlags {
-    unsigned int type:2;
-    unsigned int repeat:1;
-    unsigned int reserved:5;
-  } sp_evFlags;
-  NSTimeInterval sp_time;
-}
+@interface SparkEvent : NSObject
 
-+ (id)eventWithEntry:(SparkEntry *)anEntry 
-           eventTime:(NSTimeInterval)theEventTime isARepeat:(BOOL)isRepeat;
-+ (id)eventWithTrigger:(SparkTrigger *)aTrigger 
-             eventTime:(NSTimeInterval)theEventTime isARepeat:(BOOL)isRepeat;
++ (instancetype)eventWithEntry:(SparkEntry *)anEntry
+                     eventTime:(NSTimeInterval)theEventTime isARepeat:(BOOL)isRepeat;
++ (instancetype)eventWithTrigger:(SparkTrigger *)aTrigger
+                       eventTime:(NSTimeInterval)theEventTime isARepeat:(BOOL)isRepeat;
 
-- (id)initWithEntry:(SparkEntry *)anEntry 
-          eventTime:(NSTimeInterval)theEventTime isARepeat:(BOOL)isRepeat;
-- (id)initWithTrigger:(SparkTrigger *)aTrigger 
-            eventTime:(NSTimeInterval)theEventTime isARepeat:(BOOL)isRepeat;
+- (instancetype)initWithEntry:(SparkEntry *)anEntry
+                    eventTime:(NSTimeInterval)theEventTime isARepeat:(BOOL)isRepeat;
+- (instancetype)initWithTrigger:(SparkTrigger *)aTrigger
+                      eventTime:(NSTimeInterval)theEventTime isARepeat:(BOOL)isRepeat;
 
-- (NSUInteger)type;
+@property(nonatomic, readonly) SparkEventType type;
 
-- (SparkEntry *)entry;
-- (SparkTrigger *)trigger;
+@property(nonatomic, readonly, nullable) SparkEntry *entry;
+@property(nonatomic, readonly, nullable) SparkTrigger *trigger;
 
-- (BOOL)isARepeat;
-- (NSTimeInterval)eventTime;
+@property(nonatomic, readonly) BOOL isARepeat;
+
+@property(nonatomic, readonly) CFAbsoluteTime eventTime;
 
 /* Current event */
-+ (SparkEvent *)currentEvent;
-+ (void)setCurrentEvent:(SparkEvent *)anEvent;
++ (nullable SparkEvent *)currentEvent;
++ (void)setCurrentEvent:(nullable SparkEvent *)anEvent;
 
 /* event dispatcher */
 + (void)sendEvent:(SparkEvent *)anEvent;
-+ (void)setEventHandler:(id)handler andSelector:(SEL)aSelector;
+
++ (void)setEventHandler:(nullable void(^)(SparkEvent *))handler;
 
 @end
 
+NS_ASSUME_NONNULL_END

@@ -40,6 +40,7 @@ const NSUInteger kSparkObjectSetCurrentVersion = kSparkObjectSetVersion_2_1;
 /* Library Keys */
 static
 NSString * const kSparkObjectSetVersionKey = @"SparkVersion";
+
 static
 NSString * const kSparkObjectSetObjectsKey = @"SparkObjects";
 
@@ -62,32 +63,30 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
 }
 
 #pragma mark -
-@implementation SparkObjectSet
-
-+ (id)objectsLibraryWithLibrary:(SparkLibrary *)aLibrary {
-  return [[[self alloc] initWithLibrary:aLibrary] autorelease];
+@implementation SparkObjectSet {
+@private
+  SparkUID sp_uid;
+  NSMutableDictionary *sp_objects;
 }
 
-- (id)init {
++ (instancetype)objectsSetWithLibrary:(SparkLibrary *)aLibrary {
+  return [[self alloc] initWithLibrary:aLibrary];
+}
+
+- (instancetype)init {
   if (self = [self initWithLibrary:nil]) {
   }
   return self;
 }
 
-- (id)initWithLibrary:(SparkLibrary *)aLibrary {
+- (instancetype)initWithLibrary:(SparkLibrary *)aLibrary {
   NSParameterAssert(aLibrary);
   if (self = [super init]) {
-    [self setLibrary:aLibrary];
+    _library = aLibrary;
     sp_uid = kSparkLibraryReserved;
-    sp_objects = NSCreateMapTable(NSIntegerMapKeyCallBacks, NSObjectMapValueCallBacks, 0);
+    sp_objects = [[NSMutableDictionary alloc] init];
   }
   return self;
-}
-
-- (void)dealloc {
-  if (sp_objects)
-    NSFreeMapTable(sp_objects);
-  [super dealloc];
 }
 
 - (NSString *)description {
@@ -96,47 +95,46 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
 }
 
 #pragma mark -
-- (SparkLibrary *)library {
-  return sp_library;
-}
 
 - (void)setLibrary:(SparkLibrary *)aLibrary {
-  if (sp_library != aLibrary) {
-    if (sp_objects) {
-      /* Invalid all entries */
-      [[self objects] makeObjectsPerformSelector:@selector(setLibrary:)
-                                      withObject:nil];
-      NSResetMapTable(sp_objects);
-    }
-    sp_library = aLibrary;
+  if (_library != aLibrary) {
+    /* Invalidate all entries */
+    [[self objects] makeObjectsPerformSelector:@selector(setLibrary:)
+                                    withObject:nil];
+    [sp_objects removeAllObjects];
+    _library = aLibrary;
   }
 }
 
 - (NSUndoManager *)undoManager {
-  return [[self library] undoManager];
+  return self.library.undoManager;
 }
 
 #pragma mark -
 - (NSUInteger)count {
-  return sp_objects ? NSCountMapTable(sp_objects) : 0;
+  return sp_objects.count;
 }
 
 - (NSArray *)objects {
-  return sp_objects ? NSAllMapTableValues(sp_objects) : [NSArray array];
+  return [sp_objects allValues];
 }
-- (NSEnumerator *)objectEnumerator {
-  return WBMapTableEnumerator(sp_objects, NO);
+
+- (void)enumerateObjectsUsingBlock:(void (^)(id obj, BOOL *stop))block {
+  [sp_objects enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+    block(obj, stop);
+  }];
 }
 
 - (BOOL)containsObject:(SparkObject *)object {
-  return object ? [self containsObjectWithUID:[object uid]] : NO;
+  return object ? [self containsObjectWithUID:object.uid] : NO;
 }
+
 - (BOOL)containsObjectWithUID:(SparkUID)uid {
-  return NSMapMember(sp_objects, (void *)(long)uid, NULL, NULL);
+  return [sp_objects objectForKey:@(uid)] != nil;
 }
 
 - (id)objectWithUID:(SparkUID)uid {
-  return uid ? (id)NSMapGet(sp_objects, (void *)(long)uid) : nil;
+  return [sp_objects objectForKey:@(uid)];
 }
 
 #pragma mark -
@@ -149,7 +147,7 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
 }
 
 - (void)sp_addObject:(SparkObject *)object {
-  NSMapInsert(sp_objects, (void *)(long)[object uid], object);
+  [sp_objects setObject:object forKey:@(object.uid)];
   [object setLibrary:[self library]];
 }
 
@@ -223,17 +221,15 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
     
     /* Register undo => [self addObject:object]; */
     [[self undoManager] registerUndoWithTarget:self selector:@selector(addObject:) object:object];
-    
-    [object retain];
+
     // Remove
-    [object setLibrary:nil];
-    NSMapRemove(sp_objects, (void *)(long)[object uid]);
+    object.library = nil;
+    [sp_objects removeObjectForKey:@(object.uid)];
     // Did remove
     SparkLibraryPostNotification([self library], SparkObjectSetDidRemoveObjectNotification, self, object);
-    
-    [object release];
   }
 }
+
 - (void)removeObjectWithUID:(SparkUID)uid {
   SparkObject *object = [self objectWithUID:uid];
   if (object)
@@ -241,76 +237,76 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
 }
 
 - (void)removeObjectsInArray:(NSArray *)objects {
-  SparkObject *item = nil;
-  NSEnumerator *items = [objects objectEnumerator];
-  while (item = [items nextObject]) {
+  for (SparkObject *item in objects)
     [self removeObject:item];
-  }
 }
 
 - (NSDictionary *)serialize:(SparkObject *)anObject error:(OSStatus *)error {
   return WBSerializeObject(anObject, error);
 }
 
-- (NSFileWrapper *)fileWrapper:(NSError **)outError {
+- (NSFileWrapper *)fileWrapper:(__autoreleasing NSError **)outError {
   NSMutableArray *objects = [[NSMutableArray alloc] init];
   NSMutableDictionary *plist = [[NSMutableDictionary alloc] init];
   [plist setObject:@(kSparkObjectSetCurrentVersion) forKey:kSparkObjectSetVersionKey];
-  
-  SparkObject *object;
-  OSStatus err = noErr;
-  NSEnumerator *enumerator = [self objectEnumerator];
-  while (object = [enumerator nextObject]) {
-    if ([object uid] > kSparkLibraryReserved) {
-      NSDictionary *serialize = [self serialize:object error:&err];
+
+  [self enumerateObjectsUsingBlock:^(SparkObject *obj, BOOL *stop) {
+    OSStatus err = noErr;
+    if (obj.uid > kSparkLibraryReserved) {
+      NSDictionary *serialize = [self serialize:obj error:&err];
       if (serialize && [NSPropertyListSerialization propertyList:serialize isValidForFormat:SparkLibraryFileFormat]) {
         [objects addObject:serialize];
       } else {
-        SPXDebug(@"Error while serializing object: %@", object);
+        SPXDebug(@"Error while serializing object: %@", obj);
         if (noErr != err && outError)
           *outError = [NSError errorWithDomain:NSOSStatusErrorDomain code:err userInfo:nil];
       }
     }
-  }
-  
+  }];
   [plist setObject:objects forKey:kSparkObjectSetObjectsKey];
-  [objects release];
-  
-  NSData *data = [NSPropertyListSerialization dataFromPropertyList:plist format:SparkLibraryFileFormat errorDescription:nil];
-  [plist release];
-  
-  return [[[NSFileWrapper alloc] initRegularFileWithContents:data] autorelease];
+  NSData *data = [NSPropertyListSerialization dataFromPropertyList:plist
+                                                            format:SparkLibraryFileFormat
+                                                  errorDescription:nil];
+
+  return [[NSFileWrapper alloc] initRegularFileWithContents:data];
 }
 
 - (SparkObject *)deserialize:(NSDictionary *)plist error:(OSStatus *)error {
   return WBDeserializeObject(plist, error);
 }
 
-- (BOOL)readFromFileWrapper:(NSFileWrapper *)fileWrapper error:(NSError **)outError {
+#define spx_error(condition, var, error) do { \
+  if (!(condition)) { \
+    if (var) *var = error; \
+    return NO; \
+  } \
+} while (0)
+
+- (BOOL)readFromFileWrapper:(NSFileWrapper *)fileWrapper error:(__autoreleasing NSError **)outError {
   NSData *data = [fileWrapper regularFileContents];
-  require(data, bail);
+  spx_error(data, outError, [NSError errorWithDomain:NSPOSIXErrorDomain code:EINVAL userInfo:nil]);
   
   /* Remove all */
-  NSArray *values = NSAllMapTableValues(sp_objects);
-  NSUInteger idx = [values count];
+  NSArray *values = [sp_objects allValues];
   /* Reset map and uid */
-  NSResetMapTable(sp_objects);
+  [sp_objects removeAllObjects];
   
   /* reinsert reserved objects */
-  while (idx-- > 0) {
-    SparkObject *sobject = [values objectAtIndex:idx];
-    if ([sobject uid] > kSparkLibraryReserved)
-      [sobject setLibrary:nil];
+  for (SparkObject *sobject in values) {
+    if (sobject.uid > kSparkLibraryReserved)
+      sobject.library = nil;
     else
       [self sp_addObject:sobject];
   }
   
   sp_uid = kSparkLibraryReserved;
   
-  NSDictionary *plist = [NSPropertyListSerialization propertyListFromData:data 
-                                                         mutabilityOption:NSPropertyListImmutable
-                                                                   format:nil errorDescription:nil];
-  require(plist, bail);
+  NSDictionary *plist = [NSPropertyListSerialization propertyListWithData:data
+                                                                  options:NSPropertyListImmutable
+                                                                   format:NULL
+                                                                    error:outError];
+  if (!plist)
+    return NO;
   
   NSUInteger version = [[plist objectForKey:kSparkObjectSetVersionKey] integerValue];
   /* Update object set */
@@ -319,33 +315,30 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
       icons = [[self library] iconManager];
   
   NSArray *objects = [plist objectForKey:kSparkObjectSetObjectsKey];
-  require(objects, bail);
+  spx_error(objects, outError, [NSError errorWithDomain:NSPOSIXErrorDomain code:EINVAL userInfo:nil]);
   
   /* Disable undo */
-	[[self library] disableNotifications];
-  [[self undoManager] disableUndoRegistration];
-  
-  NSDictionary *serialized;
-  NSEnumerator *enumerator = [objects objectEnumerator];
-  while (serialized = [enumerator nextObject]) {
+	[self.library disableNotifications];
+  [self.undoManager disableUndoRegistration];
+
+  for (NSDictionary *serialized in objects) {
     OSStatus err;
     SparkObject *object = [self deserialize:serialized error:&err];
     /* If class not found */
-    if (!object && kWBClassNotFoundError == err) {
+    if (!object && kWBClassNotFoundError == err)
       object = [[SparkPlaceHolder alloc] initWithSerializedValues:serialized];
-      [object autorelease];
-    } 
+
     if (object && ![self containsObject:object]) {
       /* Avoid notifications */
       [self sp_checkUID:object];
       [self sp_addObject:object];
-      
+
       /* Update old set */
       if (icons && [object hasIcon] && [object shouldSaveIcon]) {
-        [icons setIcon:[object icon] forObject:object];
+        [icons setIcon:object.icon forObject:object];
       } else if ([object hasIcon] && ![object shouldSaveIcon]) {
         /* Updated version of plugin no longer save icon. */
-        [[[self library] iconManager] setIcon:nil forObject:object];
+        [self.library.iconManager setIcon:nil forObject:object];
       }
     } else {
       SPXDebug(@"Invalid object: %@", serialized);
@@ -353,12 +346,9 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
   }
   
   /* enable undo */
-  [[self undoManager] enableUndoRegistration];
-  [[self library] enableNotifications];
+  [self.undoManager enableUndoRegistration];
+  [self.library enableNotifications];
   return YES;
-bail:
-    if (outError) *outError = nil;
-  return NO;
 }
 
 #pragma mark -
@@ -379,32 +369,29 @@ bail:
 @end
 
 #pragma mark -
-@implementation SparkPlaceHolder
+@implementation SparkPlaceHolder {
+  NSDictionary *sp_plist;
+}
 
 static NSImage *__SparkWarningImage = nil;
 + (void)initialize {
   if ([SparkPlaceHolder class] == self) {
-    __SparkWarningImage = [[NSImage imageNamed:@"Warning" inBundle:kSparkKitBundle] retain];
+    __SparkWarningImage = [NSImage imageNamed:@"Warning" inBundle:kSparkKitBundle];
   }
 }
 
-- (id)initWithName:(NSString *)name icon:(NSImage *)icon {
+- (instancetype)initWithName:(NSString *)name icon:(NSImage *)icon {
   if (self = [super initWithName:name icon:nil]) {
     [self setIcon:__SparkWarningImage];
   }
   return self;
 }
 
-- (id)initWithSerializedValues:(NSDictionary *)plist {
+- (instancetype)initWithSerializedValues:(NSDictionary *)plist {
   if (self = [super initWithSerializedValues:plist]) {
     sp_plist = [plist copy];
   }
   return self;
-}
-
-- (void)dealloc {
-  [sp_plist release];
-  [super dealloc];
 }
 
 #pragma mark -
@@ -427,8 +414,7 @@ static NSImage *__SparkWarningImage = nil;
 - (void)forwardInvocation:(NSInvocation *)invocation {
   SPXDebug(@"-[%@ %@]", [self class], NSStringFromSelector([invocation selector]));
   if ([[invocation methodSignature] methodReturnLength] > 0) {
-    char buffer[32];
-    bzero(buffer, 32);
+    char buffer[32] = {};
     /* setReturnValue auto compute the value size */
     [invocation setReturnValue:buffer];
   }

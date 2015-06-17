@@ -15,7 +15,13 @@
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkEntryManager.h>
 
-@implementation SparkTrigger
+@implementation SparkTrigger {
+@private
+  struct _sp_stFlags {
+    unsigned int overwrite:1;
+    unsigned int reserved:15;
+  } sp_stFlags;
+}
 
 #pragma mark Copying
 - (id)copyWithZone:(NSZone *)aZone {
@@ -27,6 +33,7 @@
 - (void)encodeWithCoder:(NSCoder *)aCoder {
   [super encodeWithCoder:aCoder];
 }
+
 - (id)initWithCoder:(NSCoder *)aDecoder {
   if (self = [super initWithCoder:aDecoder]) {
 
@@ -44,10 +51,6 @@
 
   }
   return self;
-}
-
-- (void)dealloc {
-  [super dealloc];
 }
 
 - (NSComparisonResult)compare:(SparkTrigger *)aTrigger {
@@ -92,6 +95,7 @@
 //  }
   return NO;
 }
+
 @end
 
 #pragma mark -
@@ -104,7 +108,7 @@
   SparkEntryManager *manager = [[self library] entryManager];
   /* If action depends front application */
   if ([self hasManyAction])
-    front = [library frontApplication];
+    front = [library frontmostApplication];
   
   if (!front) front = [library systemApplication];
   return [manager resolveEntryForTrigger:self application:front];

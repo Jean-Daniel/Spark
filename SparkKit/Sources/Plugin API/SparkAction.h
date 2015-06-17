@@ -32,24 +32,16 @@ NSTimeInterval SparkGetDefaultKeyRepeatInterval(void);
 <li>-serialize:</li>
 <li>-actionDidLoad (optional)</li>
 <li>-performAction</li>
-<ul>
+</ul>
 */
 SPARK_OBJC_EXPORT
-@interface SparkAction : SparkObject <NSCopying, NSCoding> {
-  @private
-  NSUInteger sp_version;
-  struct _sp_saFlags {
-    unsigned int invalid:1;
-    unsigned int :15;
-  } sp_saFlags;
-  NSString *sp_categorie, *sp_description;
-}
+@interface SparkAction : SparkObject <NSCopying, NSCoding>
 
 + (BOOL)currentEventIsARepeat;
 + (NSTimeInterval)currentEventTime;
 
 /* Designated initializer */
-- (id)init;
+- (instancetype)init;
 
   /* Load common properties from an other action */
 - (void)setPropertiesFromAction:(SparkAction *)anAction;
@@ -69,7 +61,7 @@ SPARK_OBJC_EXPORT
    @param plist A serialized form of an object. <i>plist</i> contains all keys/values pairs added into -serialize: method.
    @result A new deserialized object.
    */
-- (id)initWithSerializedValues:(NSDictionary *)plist;
+- (instancetype)initWithSerializedValues:(NSDictionary *)plist;
 
   /*!
   @method
@@ -87,53 +79,32 @@ SPARK_OBJC_EXPORT
    */
 - (SparkAlert *)performAction;
 
-  /*!
-  @method
-   @abstract   Returns the receiver version. If nothing specified, use the class version.
-   */
-- (NSUInteger)version;
-  /*!
-  @method
-   @abstract   Sets the receiver version.
-   @param      version Action version
-   @discussion The version is automatically saved and restored.
-   */
-- (void)setVersion:(NSUInteger)version;
+/*! the receiver version. If nothing specified, use the class version. */
+@property (nonatomic) NSUInteger version;
 
-  /*!
-  @method
-   @abstract   Returns the receiver categorie.
-   */
-- (NSString *)categorie;
+/*! Returns the receiver categorie. */
+@property(nonatomic, readonly) NSString *category;
 
-  /*!
-  @method
-   @abstract   Returns the receiver description.
-   @discussion This description can be generated at load time.
-   */
-- (NSString *)actionDescription;
-  /*!
-  @method
-   @abstract   Sets the receivers description.
-   @param      desc A short description that explains what this action will do.
-   */
-- (void)setActionDescription:(NSString *)desc;
+/*! Returns the receiver description. This description can be generated at load time. */
+@property(nonatomic, copy) NSString *actionDescription;
 
 #pragma mark -
 #pragma mark Advanced
   /*!
-  @method
+  @property
    @abstract   Returns the time interval between two events repetition.
    @result     value <= 0 to disable auto repeate, <em>SparkGetDefaultKeyRepeatInterval()</em> to use system defined repeat interval.
    @discussion The default implementation returns 0. An action can override this method to enable auto-repeat.
    */
-- (NSTimeInterval)repeatInterval;
-- (NSTimeInterval)initialRepeatInterval;
+@property (nonatomic, readonly) NSTimeInterval repeatInterval;
+@property (nonatomic, readonly) NSTimeInterval initialRepeatInterval;
 
-- (BOOL)performOnKeyUp;
+@property (nonatomic, readonly) BOOL performOnKeyUp;
 
-- (BOOL)needsToBeRunOnMainThread;
-- (BOOL)supportsConcurrentRequests;
-- (id)lock; // return a object uses to determine if two actions can be executed concurrently.
+@property (nonatomic, readonly) BOOL needsToBeRunOnMainThread;
+@property (nonatomic, readonly) BOOL supportsConcurrentRequests;
+
+// return a object uses to determine if two actions can be executed concurrently.
+@property (nonatomic, readonly) id lock;
 
 @end

@@ -31,7 +31,7 @@ void SparkSetFilterMode(SparkFilterMode mode) { sSparkKeyStrokeFilterMode = mode
 static
 const CGEventFlags kCommonModifierMask = kCGEventFlagMaskCommand | kCGEventFlagMaskControl | kCGEventFlagMaskShift | kCGEventFlagMaskAlternate;
 
-BOOL SparkHotKeyFilter(HKKeycode code, HKModifier modifier) {
+bool SparkHotKeyFilter(HKKeycode code, HKModifier modifier) {
   if ((modifier & (UInt32)kCommonModifierMask) != 0) {
     return YES;
   }
@@ -84,19 +84,20 @@ BOOL SparkHotKeyFilter(HKKeycode code, HKModifier modifier) {
   return NO;
 }
 
-@interface SparkHKHotKey : HKHotKey {
-@private
-  SparkHotKey *sp_owner;
-}
+@interface SparkHKHotKey : HKHotKey
 
-- (id)initWithOwner:(SparkHotKey *)owner;
+- (instancetype)initWithOwner:(SparkHotKey *)owner;
 
 - (void)setOwner:(SparkHotKey *)owner;
 
 @end
 
 #pragma mark -
-@implementation SparkHotKey
+@implementation SparkHotKey {
+@private
+  SparkEntry *sp_entry; // event generation helper
+  SparkHKHotKey *sp_hotkey;
+}
 
 #pragma mark -
 #pragma mark NSCoding
@@ -154,8 +155,6 @@ BOOL SparkHotKeyFilter(HKKeycode code, HKModifier modifier) {
 
 - (void)dealloc {
   [sp_hotkey setOwner:nil];
-  [sp_hotkey release];
-  [super dealloc];
 }
 
 - (NSString *)description {
@@ -176,6 +175,20 @@ BOOL SparkHotKeyFilter(HKKeycode code, HKModifier modifier) {
 - (BOOL)setRegistred:(BOOL)flag {
   return [sp_hotkey setRegistred:flag];
 }
+
+- (HKKeycode)keycode { return sp_hotkey.keycode; }
+- (UniChar)character { return sp_hotkey.character; }
+
+- (NSUInteger)modifier { return sp_hotkey.modifier; }
+- (void)setModifier:(NSUInteger)modifier { sp_hotkey.modifier = modifier; }
+
+- (HKModifier)nativeModifier { return sp_hotkey.nativeModifier; }
+- (void)setNativeModifier:(HKModifier)nativeModifier { sp_hotkey.nativeModifier = nativeModifier; }
+
+- (void)setKeycode:(HKKeycode)keycode character:(UniChar)character {
+  [sp_hotkey setKeycode:keycode character:character];
+}
+
 - (NSString *)triggerDescription {
   return [sp_hotkey shortcut];
 }
@@ -188,7 +201,7 @@ BOOL SparkHotKeyFilter(HKKeycode code, HKModifier modifier) {
 }
 
 - (BOOL)isEqualToTrigger:(SparkTrigger *)aTrigger {
-  return [aTrigger isKindOfClass:[SparkHotKey class]] && [self rawkey] == [(id)aTrigger rawkey];
+  return [aTrigger isKindOfClass:[SparkHotKey class]] && sp_hotkey.rawkey == ((SparkHotKey *)aTrigger)->sp_hotkey.rawkey;
 }
 
 #pragma mark -
@@ -267,7 +280,7 @@ BOOL SparkHotKeyFilter(HKKeycode code, HKModifier modifier) {
 //  return plist;
 //}
 
-WBForwarding(SparkHotKey, HKHotKey, sp_hotkey);
+//WBForwarding(SparkHotKey, HKHotKey, sp_hotkey);
 
 @end
 
@@ -277,7 +290,10 @@ NSTimeInterval SparkGetDefaultKeyRepeatInterval(void) {
   return HKGetSystemKeyRepeatInterval();
 }
 
-@implementation SparkHKHotKey
+@implementation SparkHKHotKey {
+@private
+  SparkHotKey *sp_owner;
+}
 
 - (id)initWithOwner:(SparkHotKey *)owner {
   if (self = [super init]) {

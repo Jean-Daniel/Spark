@@ -29,9 +29,9 @@
 - (void)addEntry:(SparkEntry *)anEntry parent:(SparkEntry *)parent;
 
 - (void)updateEntry:(SparkEntry *)anEntry
-					setAction:(SparkAction *)anAction
-						trigger:(SparkTrigger *)aTrigger
-				application:(SparkApplication *)anApplication;
+          setAction:(SparkAction *)anAction
+            trigger:(SparkTrigger *)aTrigger
+        application:(SparkApplication *)anApplication;
 
 #pragma mark Low-Level Methods
 - (void)sp_addEntry:(SparkEntry *)anEntry parent:(SparkEntry *)aParent;
@@ -51,11 +51,11 @@
 @interface SparkEntryManager (SparkLegacyLibraryImporter)
 
 - (void)resolveParents;
-  /* simple array of entries builded from an Spark 2 library. */
+/* simple array of entries builded from an Spark 2 library. */
 - (void)loadLegacyEntries:(NSArray *)entries;
-  /* library version 2.0 */
+/* library version 2.0 */
 - (BOOL)readFromFileWrapper:(NSFileWrapper *)fileWrapper error:(NSError **)outError;
-  /* parent resolution helper */
+/* parent resolution helper */
 - (SparkEntry *)entryForTrigger:(SparkTrigger *)aTrigger application:(SparkApplication *)anApplication;
 
 @end

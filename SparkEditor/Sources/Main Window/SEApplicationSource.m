@@ -35,7 +35,7 @@
   [self removeAllObjects];
   if (se_library) {
     [self addObject:[se_library systemApplication]];
-    [self addObjects:[[self applicationSet] objects]];
+    [self addObjects:[[self applicationSet] allObjects]];
     [self rearrangeObjects];
   }
 }
@@ -60,7 +60,7 @@
 
 - (void)dealloc {
   [self setLibrary:nil];
-  [se_path release];
+  [se_urls release];
   [super dealloc];
 }
 
@@ -120,26 +120,24 @@
 }
 
 WB_INLINE
-bool __IsApplicationAtPath(NSString *path) {
+bool __IsApplicationAtURL(NSURL *path) {
   Boolean app = false;
-  return path && (noErr == WBLSIsApplicationAtPath((CFStringRef)path, &app)) && app;
+  return path && (noErr == WBLSIsApplicationAtURL(SPXNSToCFURL(path), &app)) && app;
 }
 
-- (NSUInteger)addApplications:(NSArray *)files {
+- (NSUInteger)addApplications:(NSArray *)urls {
   se_locked = YES;
   NSUInteger count = 0;
-  NSUInteger idx = [files count];
   SparkObjectSet *library = [self applicationSet];
-  
   /* search if contains at least one application */
-  while (idx-- > 0) {
-    NSString *file = [files objectAtIndex:idx];
+  for (NSURL *url in urls) {
     /* Resolve Aliases */
-    if ([[NSFileManager defaultManager] isAliasFileAtPath:file]) {
-      file = [[NSFileManager defaultManager] resolveAliasFileAtPath:file isFolder:NULL];
+    if ([[NSFileManager defaultManager] isAliasFileAtPath:[url path]]) {
+      NSString *file = [[NSFileManager defaultManager] resolveAliasFileAtPath:[url path] isFolder:NULL];
+      url = file ? [NSURL fileURLWithPath:file] : nil;
     }
-    if (file && __IsApplicationAtPath(file)) {
-      SparkApplication *app = [[SparkApplication alloc] initWithPath:file];
+    if (url && __IsApplicationAtURL(url)) {
+      SparkApplication *app = [[SparkApplication alloc] initWithURL:url];
       if (app && ![[self applicationSet] containsObject:app]) {
         // Add application
         [library addObject:app];
@@ -159,10 +157,9 @@ bool __IsApplicationAtPath(NSString *path) {
   NSArray *array = [self selectedObjects];
   if ([array count] > 0) {
     SparkApplication *application = [array objectAtIndex:0];
-    NSString *path = [application path];
-    FSRef ref;
-    if (path && [path getFSRef:&ref]) {
-      WBAEFinderRevealFSRef(&ref, TRUE);
+    NSURL *url = application.URL;
+    if (url) {
+      WBAEFinderRevealItemAtURL(SPXNSToCFURL(url), true);
     } else {
       NSBeep();
     }
@@ -177,14 +174,12 @@ bool __IsApplicationAtPath(NSString *path) {
   [openPanel setCanChooseDirectories:NO];
   [openPanel setCanCreateDirectories:NO];
   /* Init path cache */
-  se_path = [[NSMutableSet alloc] init];
-  SparkApplication *app;
-  NSEnumerator *apps = [se_library applicationEnumerator];
-  while (app = [apps nextObject]) {
-    NSString *path = [app path];
-    if (path)
-      [se_path addObject:path];
-  }
+  se_urls = [[NSMutableSet alloc] init];
+  [se_library.applicationSet enumerateObjectsUsingBlock:^(SparkApplication *app, BOOL *stop) {
+    NSURL *url = app.URL;
+    if (url)
+      [se_urls addObject:url];
+  }];
   [openPanel beginSheetForDirectory:nil
                                file:nil
                               types:[NSArray arrayWithObjects:@"app", nil, NSFileTypeForHFSTypeCode('APPL'), nil]
@@ -196,17 +191,19 @@ bool __IsApplicationAtPath(NSString *path) {
 
 - (void)newApplicationDidEnd:(NSOpenPanel *)panel returnCode:(NSInteger)result object:(id)object {
   if (NSOKButton == result) {
-    [self addApplications:[panel filenames]];
+    [self addApplications:[panel URLs]];
   }
-  [se_path release];
-  se_path = nil;
+  [se_urls release];
+  se_urls = nil;
 }
 
-- (BOOL)panel:(id)sender shouldShowFilename:(NSString *)filename {
-  if ([[NSFileManager defaultManager] isAliasFileAtPath:filename]) {
-    filename = [[NSFileManager defaultManager] resolveAliasFileAtPath:filename isFolder:NULL];
+- (BOOL)panel:(id)sender shouldEnableURL:(NSURL *)url {
+  if ([[NSFileManager defaultManager] isAliasFileAtPath:[url path]]) {
+    NSString *file = [[NSFileManager defaultManager] resolveAliasFileAtPath:[url path] isFolder:NULL];
+    url = file ? [NSURL fileURLWithPath:file] : nil;
   }
-  return ![se_path containsObject:filename];
+  return url && ![se_urls containsObject:url];
+
 }
 
 #pragma mark Misc
@@ -243,15 +240,12 @@ bool __IsApplicationAtPath(NSString *path) {
 - (NSDragOperation)tableView:(NSTableView *)tableView validateDrop:(id <NSDraggingInfo>)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)operation {
   NSPasteboard *pboard = [info draggingPasteboard];
   /* Drop above and contains files */
-  if (NSTableViewDropAbove == operation && [[pboard types] containsObject:NSFilenamesPboardType]) {
+  if (NSTableViewDropAbove == operation && [[pboard types] containsObject:NSURLPboardType]) {
     /* search if contains at least one application */
-    NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
-    NSUInteger idx = [files count];
-    while (idx-- > 0) {
-      NSString *file = [files objectAtIndex:idx];
-      if (__IsApplicationAtPath(file)) {
+    NSArray *urls = [pboard propertyListForType:NSURLPboardType];
+    for (NSURL *url in urls) {
+      if (__IsApplicationAtURL(url))
         return NSDragOperationCopy;
-      }
     }
   }
   return NSDragOperationNone;
@@ -261,8 +255,8 @@ bool __IsApplicationAtPath(NSString *path) {
   NSUInteger count = 0;
   NSPasteboard *pboard = [info draggingPasteboard];
   /* Drop above and contains files */
-  if (NSTableViewDropAbove == operation && [[pboard types] containsObject:NSFilenamesPboardType]) {
-    NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
+  if (NSTableViewDropAbove == operation && [[pboard types] containsObject:NSURLPboardType]) {
+    NSArray *files = [pboard propertyListForType:NSURLPboardType];
     count = [self addApplications:files];
   }
   return count > 0;

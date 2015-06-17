@@ -14,27 +14,22 @@
 @abstract Spark Objects Library.
 */
 @class SparkLibrary;
+
 SPARK_OBJC_EXPORT
-@interface SparkObjectSet : NSObject {
-@private
-  SparkUID sp_uid;
-  NSMapTable *sp_objects;
+@interface SparkObjectSet : NSObject
 
-  SparkLibrary *sp_library;
-}
+- (instancetype)initWithLibrary:(SparkLibrary *)library NS_DESIGNATED_INITIALIZER;
++ (instancetype)objectsSetWithLibrary:(SparkLibrary *)aLibrary;
 
-- (id)initWithLibrary:(SparkLibrary *)library;
-+ (id)objectsLibraryWithLibrary:(SparkLibrary *)aLibrary;
+@property(nonatomic, assign) SparkLibrary *library;
 
-- (SparkLibrary *)library;
-- (void)setLibrary:(SparkLibrary *)aLibrary;
-
-- (NSUndoManager *)undoManager;
+@property(nonatomic, readonly) NSUndoManager *undoManager;
 
 #pragma mark Content Manipulation
-- (NSUInteger)count;
-- (NSArray *)objects;
-- (NSEnumerator *)objectEnumerator;
+@property(nonatomic, readonly) NSUInteger count;
+@property(nonatomic, readonly) NSArray *allObjects;
+
+- (void)enumerateObjectsUsingBlock:(void (^)(id obj, BOOL *stop))block;
 
 - (BOOL)containsObject:(SparkObject *)object;
 - (BOOL)containsObjectWithUID:(SparkUID)uid;
@@ -62,10 +57,7 @@ SPARK_OBJC_EXPORT
 @end
 
 #pragma mark -
-@interface SparkPlaceHolder : SparkObject {
-  @private 
-  NSDictionary *sp_plist;
-}
+@interface SparkPlaceHolder : SparkObject
 
 - (NSDictionary *)values;
 

@@ -12,10 +12,10 @@
 
 @interface SparkActionPlugIn ()
 
-/* Some kind of hack to resolve binding cyclic memory problem. 
-- releaseViewOwnership says to the receiver that it no longer need retain
-  the view because something else retained it. So SparkActionPlugIn instance release
-  the view and breaks the retain cycle. */
+/* Some kind of hack to resolve binding cyclic memory problem.
+ - releaseViewOwnership says to the receiver that it no longer need retain
+ the view because something else retained it. So SparkActionPlugIn instance release
+ the view and breaks the retain cycle. */
 - (void)releaseViewOwnership;
 - (void)setHotKeyTrap:(NSView *)trap;
 - (void)setSparkAction:(SparkAction *)anAction edit:(BOOL)flag;
@@ -37,43 +37,35 @@
 
 - (id)duplicate;
 
-- (BOOL)isInvalid;
-- (void)setInvalid:(BOOL)flag;
+/*!
+ @abstract   Action's category.
+ */
+@property(nonatomic, copy) NSString *category;
 
-- (BOOL)isPersistent;
+@property(nonatomic, getter=isInvalid) BOOL invalid;
 
-  /*!
-  @method     setCategorie:
-   @abstract   Sets the categorie for this Action.
-   @param      categorie Action categorie.
-   */
-- (void)setCategorie:(NSString *)categorie;
+@property(nonatomic, readonly, getter=isPersistent) BOOL persistent;
 
 @end
 
 @interface SparkObject ()
+
 /*!
-@method
  @abstract Don't call this method directly. This method is called by Library.
- @param uid (description)
  */
-- (void)setUID:(SparkUID)uid;
-  /*!
-  @method
-   @abstract Returns the receiver Library.
-   */
-- (SparkLibrary *)library;
-  /*!
-  @method
-   @abstract Sets the receiver Library. Don't call this method. It's called when receiver is added in a Library.
-   @param aLibrary The Library that contains the receiver.
-   */
-- (void)setLibrary:(SparkLibrary *)aLibrary;
+@property (nonatomic, setter=setUID:) SparkUID uid;
+
+/*!
+ @abstract Receiver Library.
+ Don't call setter method. It's called when receiver is added in a Library.
+ */
+@property (nonatomic, assign) SparkLibrary *library;
+
 @end
 
 @interface SparkLibrary (SparkLibraryApplication)
-- (SparkApplication *)frontApplication;
-- (SparkApplication *)applicationForProcess:(ProcessSerialNumber *)psn;
+- (SparkApplication *)frontmostApplication;
+- (SparkApplication *)applicationWithProcessIdentifier:(pid_t)pid;
 @end
 
 @interface SparkLibrary (SparkPreferences)

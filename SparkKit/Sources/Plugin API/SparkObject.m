@@ -24,10 +24,17 @@ static
 NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
 
 @interface SparkObject ()
-- (id)sp_initWithSerializedValues:(NSDictionary *)plist NS_METHOD_FAMILY(init);
+- (instancetype)initFromPropertyList:(NSDictionary *)plist;
+- (instancetype)initWithSerializedValues_:(NSDictionary *)plist;
 @end
 
-@implementation SparkObject
+@implementation SparkObject {
+  NSImage *_icon;
+}
+
++ (NSSet *)keyPathsForValuesAffectingName {
+  return [NSSet setWithObject:@"representation"];
+}
 
 + (BOOL)automaticallyNotifiesObserversForKey:(NSString *)key {
 	return ![key isEqualToString:@"representation"];
@@ -36,35 +43,36 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
 #pragma mark NSCoding
 - (void)encodeWithCoder:(NSCoder *)coder {
   NSParameterAssert([coder isKindOfClass:[SparkLibraryArchiver class]]);
-	[coder encodeInt32:sp_uid forKey:kSparkObjectUIDKey];
-  [coder encodeObject:sp_name forKey:kSparkObjectNameKey];
+	[coder encodeInt32:_uid forKey:kSparkObjectUIDKey];
+  [coder encodeObject:_name forKey:kSparkObjectNameKey];
   return;
 }
 
-- (id)initWithCoder:(NSCoder *)coder {
+- (instancetype)initWithCoder:(NSCoder *)coder {
   NSParameterAssert([coder isKindOfClass:[SparkLibraryUnarchiver class]]);
   NSParameterAssert([(SparkLibraryUnarchiver *)coder library]);
-  
-  NSString *name = [coder decodeObjectForKey:kSparkObjectNameKey];
-  if (self = [self initWithName:name icon:nil]) {
-    [self setUID:[coder decodeInt32ForKey:kSparkObjectUIDKey]];
-    [self setLibrary:[(SparkLibraryUnarchiver *)coder library]];
+
+  if (self = [super init]) {
+    _library = [(SparkLibraryUnarchiver *)coder library];
+
+    _uid = [coder decodeInt32ForKey:kSparkObjectUIDKey];
+    _name = [coder decodeObjectForKey:kSparkObjectNameKey];
   }
   return self;
 }
 
 #pragma mark NSCopying
-- (id)copyWithZone:(NSZone *)zone {
-  SparkObject* copy = (id)NSCopyObject(self, 0, zone);
-  copy->sp_uid = sp_uid;
-  copy->sp_name = [sp_name retain];
-  copy->sp_icon = [sp_icon retain];
-	copy->sp_library = nil; // the copy is not attached to a library
+- (instancetype)copyWithZone:(NSZone *)zone {
+  SparkObject* copy = [[[self class] allocWithZone:zone] init];
+  copy->_uid = _uid;
+  copy->_name = _name;
+  copy->_icon = _icon;
+	copy->_library = nil; // the copy is not attached to a library
   return copy;
 }
 
 #pragma mark -
-- (id)sp_initWithSerializedValues:(NSDictionary *)plist {
+- (instancetype)initWithSerializedValues_:(NSDictionary *)plist {
   BOOL compat = NO;
   NSString *name = [plist objectForKey:kSparkObjectNameKey];
   if (!name) {
@@ -82,7 +90,6 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
       icon = [[NSImage alloc] initWithData:bitmap];
   }
   self = [self initWithName:name icon:icon];
-  [icon release];
   
   if (self) {
     NSNumber *value = [plist objectForKey:kSparkObjectUIDKey];
@@ -97,14 +104,14 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
 - (NSMutableDictionary *)propertyList {
   return [NSMutableDictionary dictionary];
 }
-- (id)initFromPropertyList:(NSDictionary *)plist {
-  return [self sp_initWithSerializedValues:plist];
+- (instancetype)initFromPropertyList:(NSDictionary *)plist {
+  return [self initWithSerializedValues_:plist];
 }
 
 - (BOOL)serialize:(NSMutableDictionary *)plist {
-  [plist setObject:@(sp_uid) forKey:kSparkObjectUIDKey];
-  if (sp_name)
-    [plist setObject:sp_name forKey:kSparkObjectNameKey];
+  [plist setObject:@(_uid) forKey:kSparkObjectUIDKey];
+  if (_name)
+    [plist setObject:_name forKey:kSparkObjectNameKey];
   /* Compatibility */
   if (WBRuntimeInstanceImplementsSelector([self class], @selector(propertyList))) {
     id dico = [self propertyList];
@@ -115,41 +122,41 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
   return YES;
 }
 
-- (id)initWithSerializedValues:(NSDictionary *)plist {
+- (instancetype)initWithSerializedValues:(NSDictionary *)plist {
   /* Compatibility */
   if (WBRuntimeInstanceImplementsSelector([self class], @selector(initFromPropertyList:))) {
     self = [self initFromPropertyList:plist];
   } else {
-    self = [self sp_initWithSerializedValues:plist];
+    self = [self initWithSerializedValues_:plist];
   }
   return self;
 }
 
 #pragma mark -
 #pragma mark Static Initializers
-+ (id)object {
-  return [[[self alloc] init] autorelease];
++ (instancetype)object {
+  return [[self alloc] init];
 }
 
-+ (id)objectWithName:(NSString *)name {
-  return [[[self alloc] initWithName:name] autorelease];
++ (instancetype)objectWithName:(NSString *)name {
+  return [[self alloc] initWithName:name];
 }
 
-+ (id)objectWithName:(NSString *)name icon:(NSImage *)icon {
-  return [[[self alloc] initWithName:name icon:icon] autorelease];
++ (instancetype)objectWithName:(NSString *)name icon:(NSImage *)icon {
+  return [[self alloc] initWithName:name icon:icon];
 }
 
 #pragma mark -
 #pragma mark Init & Dealloc Methods
-- (id)init {
+- (instancetype)init {
   return [self initWithName:nil icon:nil];
 }
 
-- (id)initWithName:(NSString *)name {
+- (instancetype)initWithName:(NSString *)name {
   return [self initWithName:name icon:nil];
 }
 
-- (id)initWithName:(NSString *)name icon:(NSImage *)icon {
+- (instancetype)initWithName:(NSString *)name icon:(NSImage *)icon {
   if (self = [super init]) {
     [self setName:name];
     [self setIcon:icon];
@@ -157,23 +164,16 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
   return self;
 }
 
-- (void)dealloc {
-  [sp_icon release];
-  [sp_name release];
-  [super dealloc];
-}
-
 - (NSComparisonResult)compare:(SparkObject *)anObject {
   return (NSComparisonResult)[self uid] - [anObject uid];
 }
 
 - (NSString *)description {
-  return [NSString stringWithFormat:@"<%@ %p> {uid:%u name:%@}",
-    [self class], self, sp_uid, sp_name];
+  return [NSString stringWithFormat:@"<%@ %p> {uid:%u name:%@}", [self class], self, _uid, _name];
 }
 
 - (NSUInteger)hash {
-  return sp_uid;
+  return _uid;
 }
 - (BOOL)isEqual:(id)object {
   return ([object class] == [self class]) && ([object uid] == [self uid]);
@@ -182,29 +182,28 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
 #pragma mark -
 #pragma mark Icon
 - (NSImage *)icon {
-  if (!sp_icon && [self shouldSaveIcon]) {
-    sp_icon = [[[self library] iconManager] iconForObject:self];
-    if (!sp_icon) {
-      sp_icon = [self iconCacheMiss];
-      if (sp_icon) {
+  if (!_icon && [self shouldSaveIcon]) {
+    _icon = [self.library.iconManager iconForObject:self];
+    if (!_icon) {
+      _icon = [self iconCacheMiss];
+      if (_icon) {
         /* Icon cache miss recovery */
-        [[[self library] iconManager] setIcon:sp_icon forObject:self];
+        [self.library.iconManager setIcon:_icon forObject:self];
       }
     }
-    [sp_icon retain];
   }
-  return sp_icon;
+  return _icon;
 }
 - (void)setIcon:(NSImage *)icon {
-  if (sp_icon != icon && [self shouldSaveIcon]) {
-    [[[self library] iconManager] setIcon:icon forObject:self];
+  if (_icon != icon && [self shouldSaveIcon]) {
+    [self.library.iconManager setIcon:icon forObject:self];
   }
   [self willChangeValueForKey:@"representation"];
-  SPXSetterRetain(sp_icon, icon);
+  SPXSetterRetain(_icon, icon);
   [self didChangeValueForKey:@"representation"];
 }
 - (BOOL)hasIcon {
-  return sp_icon != nil;
+  return _icon != nil;
 }
 - (BOOL)shouldSaveIcon {
   return YES;
@@ -215,41 +214,15 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
 }
 
 #pragma mark -
-- (SparkUID)uid {
-  return sp_uid;
-}
-
-- (NSString *)name {
-  return sp_name;
-}
-- (void)setName:(NSString *)name {
-  [self willChangeValueForKey:@"representation"];
-  SPXSetterCopy(sp_name, name);
-  [self didChangeValueForKey:@"representation"];
-}
-
 - (id)representation {
   return self;
 }
 - (void)setRepresentation:(NSString *)rep {
 	/* set representation is supposed to be used only by the editor */
-	[[[self library] undoManager] registerUndoWithTarget:self
-																							selector:@selector(setRepresentation:)
-																								object:[self name]];
+	[self.library.undoManager registerUndoWithTarget:self
+                                          selector:@selector(setRepresentation:)
+                                            object:[self name]];
 	[self setName:rep];  
-}
-
-
-- (void)setUID:(SparkUID)uid {
-  sp_uid = uid;
-}
-
-- (SparkLibrary *)library {
-  return sp_library;
-}
-
-- (void)setLibrary:(SparkLibrary *)aLibrary {
-  sp_library = aLibrary;
 }
 
 @end

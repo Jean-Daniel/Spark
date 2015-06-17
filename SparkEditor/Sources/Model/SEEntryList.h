@@ -53,6 +53,7 @@
 
 - (void)setDocument:(SELibraryDocument *)aDocument;
 - (void)setApplication:(SparkApplication *)anApplication;
-- (void)setListFilter:(SparkListFilter)aFilter context:(id)aCtxt;
+
+@property(nonatomic, copy) SparkListFilter filter;
 
 @end

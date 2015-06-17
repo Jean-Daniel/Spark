@@ -10,6 +10,7 @@
 #import <SparkKit/SparkKit.h>
 #import <SparkKit/SparkEvent.h>
 #import <SparkKit/SparkAction.h>
+#import <SparkKit/SparkPlugin.h>
 #import <SparkKit/SparkTrigger.h>
 #import <SparkKit/SparkObjectSet.h>
 #import <SparkKit/SparkEntryManager.h>
@@ -28,7 +29,17 @@ static NSString * const kSparkActionDescriptionKey = @"SADescription";
 @end
 
 #pragma mark -
-@implementation SparkAction
+@implementation SparkAction {
+@private
+  struct _sp_saFlags {
+    unsigned int invalid:1;
+    unsigned int :15;
+  } _saFlags;
+
+  NSString *_category;
+}
+
+@synthesize category = _category;
 
 #pragma mark Current Event
 + (BOOL)currentEventIsARepeat {
@@ -45,35 +56,35 @@ static NSString * const kSparkActionDescriptionKey = @"SADescription";
   [super encodeWithCoder:coder];
   
   UInt32 flags = 0;
-  if (sp_saFlags.invalid) flags |= 1 << 0;
-  [coder encodeBool:flags forKey:kSparkActionFlagsKey];
-	[coder encodeInteger:sp_version forKey:kSparkActionVersionKey];
-  if (nil != sp_categorie)
-    [coder encodeObject:sp_categorie forKey:kSparkActionCategorieKey];
-  if (nil != sp_description)
-    [coder encodeObject:sp_description forKey:kSparkActionDescriptionKey];
+  if (_saFlags.invalid) flags |= 1 << 0;
+  [coder encodeInteger:flags forKey:kSparkActionFlagsKey];
+	[coder encodeInteger:_version forKey:kSparkActionVersionKey];
+  if (nil != _category)
+    [coder encodeObject:_category forKey:kSparkActionCategorieKey];
+  if (nil != _actionDescription)
+    [coder encodeObject:_actionDescription forKey:kSparkActionDescriptionKey];
   return;
 }
 
-- (id)initWithCoder:(NSCoder *)coder {
+- (instancetype)initWithCoder:(NSCoder *)coder {
   if (self = [super initWithCoder:coder]) {
     UInt32 flags = [coder decodeInt32ForKey:kSparkActionFlagsKey];
-    if (flags & (1 << 0)) sp_saFlags.invalid = 1;
-    sp_version = [coder decodeIntegerForKey:kSparkActionVersionKey];
-    [self setCategorie:[coder decodeObjectForKey:kSparkActionCategorieKey]];
+    if (flags & (1 << 0)) _saFlags.invalid = 1;
+    _version = [coder decodeIntegerForKey:kSparkActionVersionKey];
+    [self setCategory:[coder decodeObjectForKey:kSparkActionCategorieKey]];
     [self setActionDescription:[coder decodeObjectForKey:kSparkActionDescriptionKey]];
   }
   return self;
 }
 
 #pragma mark NSCopying
-- (id)copyWithZone:(NSZone *)zone {
+- (instancetype)copyWithZone:(NSZone *)zone {
   SparkAction* copy = [super copyWithZone:zone];
-  copy->sp_saFlags = sp_saFlags;
-  copy->sp_version = sp_version;
+  copy->_saFlags = _saFlags;
+  copy->_version = _version;
   
-  copy->sp_categorie = [sp_categorie retain];
-  copy->sp_description = [sp_description retain];
+  copy->_category = _category;
+  copy->_actionDescription = _actionDescription;
   return copy;
 }
 
@@ -83,15 +94,16 @@ static NSString * const kSparkActionDescriptionKey = @"SADescription";
   if ([self version])
     [plist setObject:@([self version]) forKey:kSparkActionVersionKey];
   
-  if (nil != sp_description)
-    [plist setObject:sp_description forKey:kSparkActionDescriptionKey];
+  if (nil != _actionDescription)
+    [plist setObject:_actionDescription forKey:kSparkActionDescriptionKey];
 
-  if (nil != sp_categorie)
-    [plist setObject:sp_categorie forKey:kSparkActionCategorieKey];
+  if (nil != _category)
+    [plist setObject:_category forKey:kSparkActionCategorieKey];
 
   return YES;
 }
-- (id)initWithSerializedValues:(NSDictionary *)plist {
+
+- (instancetype)initWithSerializedValues:(NSDictionary *)plist {
   if (self = [super initWithSerializedValues:plist]) {
     NSNumber *version = [plist objectForKey:kSparkActionVersionKey];
     if (!version)
@@ -104,30 +116,23 @@ static NSString * const kSparkActionDescriptionKey = @"SADescription";
     [self setActionDescription:description];
     
     /* Update categorie */
-    if (![self categorie]) {
-      [self setCategorie:[plist objectForKey:kSparkActionCategorieKey]];
+    if (!self.category) {
+      [self setCategory:[plist objectForKey:kSparkActionCategorieKey]];
     }
   }
   return self;
 }
-
 
 #pragma mark -
 #pragma mark Init & Dealloc Methods
-- (id)init {
+- (instancetype)init {
   if (self= [super init]) {
     SparkPlugIn *plugin = [[SparkActionLoader sharedLoader] plugInForAction:self];
     if (plugin) {
-      [self setCategorie:[plugin name]];
+      [self setCategory:[plugin name]];
     }
   }
   return self;
-}
-
-- (void)dealloc {
-  [sp_categorie release];
-  [sp_description release];
-  [super dealloc];
 }
 
 #pragma mark -
@@ -154,28 +159,14 @@ static NSString * const kSparkActionDescriptionKey = @"SADescription";
 
 #pragma mark -
 #pragma mark Accessors
-- (NSUInteger)version {
-  return sp_version;
-}
-- (void)setVersion:(NSUInteger)newVersion {
-  sp_version = newVersion;
-}
-
-- (NSString *)categorie {
-  if (!sp_categorie) {
+- (NSString *)category {
+  if (!_category) {
     SparkPlugIn *plugin = [[SparkActionLoader sharedLoader] plugInForAction:self];
     if (plugin) {
-      [self setCategorie:[plugin name]];
+      [self setCategory:[plugin name]];
     }
   }
-  return sp_categorie;
-}
-
-- (NSString *)actionDescription {
-  return sp_description;
-}
-- (void)setActionDescription:(NSString *)desc {
-  SPXSetterCopy(sp_description, desc);
+  return _category;
 }
 
 - (BOOL)performOnKeyUp {
@@ -235,7 +226,7 @@ static NSString * const kSparkActionDescriptionKey = @"SADescription";
 //@end
 
 #pragma mark -
-- (id)duplicate {
+- (instancetype)duplicate {
   /* Copying fallback when instance does not implements copyWithZone: */
   id copy = nil;
   NSDictionary *plist = WBSerializeObject(self, NULL);
@@ -245,26 +236,29 @@ static NSString * const kSparkActionDescriptionKey = @"SADescription";
 }
 
 - (BOOL)isInvalid {
-  return sp_saFlags.invalid;
+  return _saFlags.invalid;
 }
 - (void)setInvalid:(BOOL)flag {
-  SPXFlagSet(sp_saFlags.invalid, flag);
+  SPXFlagSet(_saFlags.invalid, flag);
 }
 
 - (BOOL)isPersistent {
   return NO;
 }
 
+/* Compatibility */
+- (NSString *)categorie {
+  return self.category;
+}
 - (void)setCategorie:(NSString *)categorie {
-  SPXSetterCopy(sp_categorie, categorie);
+  self.category = categorie;
 }
 
-/* Compatibility */
 - (NSString *)shortDescription {
-  return [self actionDescription];
+  return self.actionDescription;
 }
 - (void)setShortDescription:(NSString *)desc {
-  [self setActionDescription:desc];
+  self.actionDescription = desc;
 }
 
 @end

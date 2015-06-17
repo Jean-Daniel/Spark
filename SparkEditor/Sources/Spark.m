@@ -450,6 +450,10 @@ NSString * const SESparkEditorDidChangePlugInStatusNotification = @"SESparkEdito
   return result;
 }
 
+- (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender {
+  return YES;
+}
+
 - (BOOL)applicationOpenUntitledFile:(NSApplication *)theApplication {
   return [self se_openDefaultLibrary];
 }
@@ -503,11 +507,11 @@ NSString * const SESparkEditorDidChangePlugInStatusNotification = @"SESparkEdito
   [opts setObject:[NSString stringWithFormat:NSLocalizedString(@"ABOUT_PLUGIN_BOX_TITLE", 
                                                                @"About Plugin (%@ => Plugin name)"), [plugin name]] 
            forKey:@"ApplicationName"];
-  if ([plugin path]) {
-    NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:[plugin path]];
+  if (plugin.URL) {
+    NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:[plugin.URL path]];
     [icon setSize:NSMakeSize(64, 64)];
     [opts setObject:icon forKey:@"ApplicationIcon"];
-    NSBundle *bundle = [NSBundle bundleWithPath:[plugin path]];
+    NSBundle *bundle = [NSBundle bundleWithURL:plugin.URL];
   
     NSString *credits = nil;
     if ((credits = [bundle pathForResource:@"Credits" ofType:@"html"]) ||

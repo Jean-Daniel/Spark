@@ -220,9 +220,7 @@
   [se_plugins removeAllObjects];
   
   /* Then add standards plugins */
-  SparkPlugIn *plugin;
-  NSEnumerator *plugins = [[SparkActionLoader sharedLoader] plugInEnumerator];
-  while (plugin = [plugins nextObject]) {
+  for (SparkPlugIn *plugin in [SparkActionLoader sharedLoader].plugIns) {
     if ([plugin isEnabled])
       [se_plugins addObject:plugin];
   }
@@ -240,7 +238,7 @@
   
   if (advanced) {
     /* Create Inherits plugin */
-    plugin = [[SparkPlugIn alloc] initWithClass:[SEInheritsPlugIn class] identifier:@"org.shadowlab.spark.plugin.inherits"];
+    SparkPlugIn *plugin = [[SparkPlugIn alloc] initWithClass:[SEInheritsPlugIn class] identifier:@"org.shadowlab.spark.plugin.inherits"];
     [se_plugins insertObject:plugin atIndex:0];
     [plugin release];
     
@@ -393,7 +391,7 @@
   } /* if (!se_plugin) */
   
   /* Configure Help Button */
-  BOOL hasHelp = nil != [[se_plugin class] helpFile];
+  BOOL hasHelp = nil != [[se_plugin class] helpURL];
   [uiHelp setHidden:!hasHelp];
   [uiHelp setEnabled:hasHelp];
   

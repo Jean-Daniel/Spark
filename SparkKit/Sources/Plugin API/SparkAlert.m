@@ -12,25 +12,14 @@
 
 @implementation SparkAlert
 
-@synthesize hideSparkButton = sp_hide;
-
-@synthesize messageText = sp_message;
-@synthesize informativeText = sp_informative;
-
-- (id)init {
+- (instancetype)init {
   if (self = [super init]) {
     [self setHideSparkButton:SparkGetCurrentContext() == kSparkContext_Editor];
   }
   return self;
 }
 
-- (void)dealloc {
-  [sp_message release];
-  [sp_informative release];
-  [super dealloc];
-}
-
-+ (id)alertWithMessageText:(NSString *)message informativeTextWithFormat:(NSString *)format,... {
++ (instancetype)alertWithMessageText:(NSString *)message informativeTextWithFormat:(NSString *)format,... {
   SparkAlert *alert;
   
   va_list argList;
@@ -41,14 +30,13 @@
   return alert;
 }
 
-+ (id)alertWithMessageText:(NSString *)message informativeTextWithFormat:(NSString *)format args:(va_list)argList {
++ (instancetype)alertWithMessageText:(NSString *)message informativeTextWithFormat:(NSString *)format args:(va_list)argList {
   SparkAlert *alert = [[self alloc] init];
   [alert setMessageText:message];
   
-  id info = [[NSString alloc] initWithFormat:format arguments:argList];
+  NSString *info = [[NSString alloc] initWithFormat:format arguments:argList];
   [alert setInformativeText:info];
-  [info release];
-  return [alert autorelease];
+  return alert;
 }
 
 @end

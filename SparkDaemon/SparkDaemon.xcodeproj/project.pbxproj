@@ -12,8 +12,6 @@
 		1BC0337613C0870A00914E3C /* SparkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BC0337513C0870A00914E3C /* SparkKit.framework */; };
 		1BC0337813C0873F00914E3C /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BC0337713C0873F00914E3C /* HotKeyToolKit.framework */; };
 		1BCE90C61706FDEA00DC002A /* WonderBox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BCE90C51706FDEA00DC002A /* WonderBox.framework */; };
-		1BCE90C71706FE0C00DC002A /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BDCB7340DA7CA3700D95044 /* Growl.framework */; };
-		1BDCB7420DA7CA5600D95044 /* SparkDaemonGrowl.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDCB7410DA7CA5600D95044 /* SparkDaemonGrowl.m */; };
 		983AFC260B19A74300173464 /* Spark.icns in Resources */ = {isa = PBXBuildFile; fileRef = 983AFC250B19A74300173464 /* Spark.icns */; };
 		98D528DF0B19A14800C8425C /* SDAEHandlers.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D528D90B19A14800C8425C /* SDAEHandlers.m */; };
 		98D528E00B19A14800C8425C /* SDProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D528DB0B19A14800C8425C /* SDProtocol.m */; };
@@ -31,9 +29,6 @@
 		1BC0337513C0870A00914E3C /* SparkKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SparkKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BC0337713C0873F00914E3C /* HotKeyToolKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HotKeyToolKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BCE90C51706FDEA00DC002A /* WonderBox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WonderBox.framework; path = ../DerivedData/Spark/Build/Products/Debug/WonderBox.framework; sourceTree = "<group>"; };
-		1BDCB7340DA7CA3700D95044 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = ../SparkEditor/Resources/Growl.framework; sourceTree = SOURCE_ROOT; };
-		1BDCB7400DA7CA5600D95044 /* SparkDaemonGrowl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkDaemonGrowl.h; sourceTree = "<group>"; };
-		1BDCB7410DA7CA5600D95044 /* SparkDaemonGrowl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkDaemonGrowl.m; sourceTree = "<group>"; };
 		1BE7E25217F8BDEB00646CFB /* project.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = project.xcconfig; sourceTree = "<group>"; };
 		983AFC250B19A74300173464 /* Spark.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Spark.icns; path = ../SparkEditor/Resources/Images/icns/Spark.icns; sourceTree = SOURCE_ROOT; };
 		98B20D6A06A54814008BA3F6 /* Spark Daemon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Spark Daemon.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -58,7 +53,6 @@
 				1BC0337613C0870A00914E3C /* SparkKit.framework in Frameworks */,
 				1BCE90C61706FDEA00DC002A /* WonderBox.framework in Frameworks */,
 				1BC0337813C0873F00914E3C /* HotKeyToolKit.framework in Frameworks */,
-				1BCE90C71706FE0C00DC002A /* Growl.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,7 +94,6 @@
 			isa = PBXGroup;
 			children = (
 				1B35ED2213C0B7D500A8AEA6 /* Cocoa.framework */,
-				1BDCB7340DA7CA3700D95044 /* Growl.framework */,
 				1B35ED2113C0B7D500A8AEA6 /* Carbon.framework */,
 				1BC0337513C0870A00914E3C /* SparkKit.framework */,
 				1BCE90C51706FDEA00DC002A /* WonderBox.framework */,
@@ -127,7 +120,6 @@
 				98D528DB0B19A14800C8425C /* SDProtocol.m */,
 				98D528D90B19A14800C8425C /* SDAEHandlers.m */,
 				98D528DE0B19A14800C8425C /* SparkDaemon.m */,
-				1BDCB7410DA7CA5600D95044 /* SparkDaemonGrowl.m */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -138,7 +130,6 @@
 				98D528DC0B19A14800C8425C /* SDVersion.h */,
 				98D528DA0B19A14800C8425C /* SDAEHandlers.h */,
 				98D528DD0B19A14800C8425C /* SparkDaemon.h */,
-				1BDCB7400DA7CA5600D95044 /* SparkDaemonGrowl.h */,
 			);
 			name = Headers;
 			sourceTree = "<group>";
@@ -230,7 +221,6 @@
 				98D528DF0B19A14800C8425C /* SDAEHandlers.m in Sources */,
 				98D528E00B19A14800C8425C /* SDProtocol.m in Sources */,
 				98D528E10B19A14800C8425C /* SparkDaemon.m in Sources */,
-				1BDCB7420DA7CA5600D95044 /* SparkDaemonGrowl.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

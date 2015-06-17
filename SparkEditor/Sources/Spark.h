@@ -30,7 +30,7 @@ void SEPopulatePlugInMenu(NSMenu *menu);
 @end
 
 @class SEPreferences;
-@interface Spark : NSObject {
+@interface Spark : NSObject <NSApplicationDelegate> {
   @private
   IBOutlet NSMenu *aboutMenu;
   IBOutlet NSMenuItem *statusMenuItem;

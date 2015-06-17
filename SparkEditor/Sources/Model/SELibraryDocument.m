@@ -108,7 +108,7 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
     if (se_library) {
       [se_library setUndoManager:[self undoManager]];
       /* Just to hide title menu and proxy icon */
-      if ([se_library path]) {
+      if (se_library.URL) {
         [self setFileName:@"Spark"];
 			}
 			
@@ -210,8 +210,8 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
       }
       SparkLibraryUnregisterLibrary(previous);
       SparkLibraryDeleteIconCache(previous);
-      
-      [library setPath:[previous path]];
+
+      library.URL = previous.URL;
       [self setLibrary:library];
       [library synchronize];
       
@@ -241,7 +241,7 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
 - (BOOL)revertToContentsOfURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError {
   if (outError) *outError = nil;
   
-  SparkLibrary *library = [[SparkLibrary alloc] initWithPath:[se_library path]];
+  SparkLibrary *library = [[SparkLibrary alloc] initWithURL:se_library.URL];
   if ([library load:outError]) {
     SparkLibrary *previous = [se_library retain];
     if (SparkActiveLibrary() == previous) {
@@ -324,14 +324,15 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
 
 /* Find equivalent trigger in library */
 - (SparkTrigger *)memberTrigger:(SparkTrigger *)aTrigger {
-  SparkTrigger *trigger;
-  NSEnumerator *triggers = [[[self library] triggerSet] objectEnumerator];
-  while (trigger = [triggers nextObject]) {
-    if ([trigger isEqualToTrigger:aTrigger]) {
-      return trigger;
-    }
-  }
-  return nil;
+  return [self.library.triggerSet objectWithUID:aTrigger.uid];
+//  SparkTrigger *trigger;
+//  NSEnumerator *triggers = [[[self library] triggerSet] objectEnumerator];
+//  while (trigger = [triggers nextObject]) {
+//    if ([trigger isEqualToTrigger:aTrigger]) {
+//      return trigger;
+//    }
+//  }
+//  return nil;
 }
 
 static 

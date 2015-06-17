@@ -9,6 +9,7 @@
 #import <SparkKit/SparkActionLoader.h>
 
 #import "SparkPrivate.h"
+
 #import <SparkKit/SparkPlugIn.h>
 #import <SparkKit/SparkActionPlugIn.h>
 
@@ -57,12 +58,11 @@ NSString * const SparkActionLoaderDidRegisterPlugInNotification = @"SparkActionL
   if (principalClass && [self isValidPlugIn:principalClass]) {
     plug = [[SparkPlugIn alloc] initWithBundle:bundle];
   }
-  return [plug autorelease];
+  return plug;
 }
 
 - (WBPlugInBundle *)resolveConflict:(NSArray *)plugins {
-  for (NSUInteger idx = 0, count = [plugins count]; idx < count; idx++) {
-    WBPlugInBundle *entry = [plugins objectAtIndex:idx];
+  for (WBPlugInBundle *entry in plugins) {
     /* prefere built in version, else don't care */
     if ([entry domain] == kWBPlugInDomainBuiltIn)
       return entry;
@@ -73,10 +73,7 @@ NSString * const SparkActionLoaderDidRegisterPlugInNotification = @"SparkActionL
 
 #pragma mark -
 - (SparkPlugIn *)plugInForActionClass:(Class)cls {
-  NSArray *plugins = [self plugIns];
-  NSUInteger count = [plugins count];
-  while (count-- > 0) {
-    SparkPlugIn *plugin = [plugins objectAtIndex:count];
+  for (SparkPlugIn *plugin in [self plugIns]) {
     if ([cls isSubclassOfClass:[plugin actionClass]]) {
       return plugin;
     }
@@ -91,10 +88,8 @@ NSString * const SparkActionLoaderDidRegisterPlugInNotification = @"SparkActionL
 - (SparkPlugIn *)registerPlugInClass:(Class)aClass {
   if ([self isValidPlugIn:aClass]) {
     SparkPlugIn *plugin = [[SparkPlugIn alloc] initWithClass:aClass identifier:[aClass identifier]];
-    if (plugin) {
+    if (plugin)
       [self registerPlugIn:plugin withIdentifier:[plugin identifier]];
-      [plugin autorelease];
-    }
     return plugin;
   }
   return nil;

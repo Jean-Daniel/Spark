@@ -150,8 +150,12 @@ SparkEntry *__SEEntryForApplication(SparkEntry *entry, SparkApplication *app, bo
 - (void)setSpecificFilter:(BOOL)flag {
 	SPXFlagSet(se_selFlags.specific, flag);
 }
-- (void)setListFilter:(SparkListFilter)aFilter context:(id)aCtxt {
-	[se_list setListFilter:aFilter context:aCtxt];
+
+- (SparkListFilter)filter {
+  return se_list.filter;
+}
+- (void)setFilter:(SparkListFilter)aFilter {
+  se_list.filter = aFilter;
 }
 
 - (id)representation {

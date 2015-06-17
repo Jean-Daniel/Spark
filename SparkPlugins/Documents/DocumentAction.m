@@ -103,18 +103,18 @@ OSType _DocumentActionFromFlag(int flag) {
   if (DocumentActionNeedApplication(da_action)) {
     NSData *data = [plist objectForKey:@"AppAlias"];
     if (data) {
-      NSString *path = nil;
+      NSURL *url = nil;
       WBAlias *app = [[WBAlias alloc] initFromData:data];
       if (![app path]) {
         /* Search with signature */
         OSType sign = WBOSTypeFromString([plist objectForKey:@"AppSign"]);
         if (sign)
-          path = WBLSFindApplicationForSignature(sign);
+          url = SPXCFToNSURL(WBLSCopyApplicationURLForSignature(sign));
       } else {
-        path = [app path];
+        url = app.URL;
       }
-      if (path) {
-        da_app = [[WBAliasedApplication alloc] initWithPath:path];
+      if (url) {
+        da_app = [[WBAliasedApplication alloc] initWithPath:[url path]];
       }
       [app release];
     }
@@ -235,9 +235,8 @@ OSType _DocumentActionFromFlag(int flag) {
     case kDocumentActionOpenSelection:
     case kDocumentActionOpenSelectionWith: {
       // Check if Finder is foreground
-      if (WBProcessGetFrontProcessSignature() == kSparkFinderSignature) {
+      if ([[NSWorkspace sharedWorkspace].frontmostApplication.bundleIdentifier isEqualTo:kSparkFinderBundleIdentifier])
         [self openSelection];
-      }
     }
       break;
     case kDocumentActionOpenURL: {

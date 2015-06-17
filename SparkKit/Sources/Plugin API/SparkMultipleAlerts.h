@@ -18,15 +18,10 @@ SPARK_OBJC_EXPORT
   IBOutlet NSWindow *alertWindow;
   IBOutlet NSTextView *messageText;
   IBOutlet NSTextView *informativeText;
-@private
-  NSNib *sp_nib;
-  BOOL sp_retain;
-  NSUInteger sp_index;
-	NSMutableArray *sp_alerts;
 }
 
-- (id)initWithAlert:(SparkAlert *)alert;
-- (id)initWithAlerts:(NSArray *)alerts;
+- (instancetype)initWithAlert:(SparkAlert *)alert;
+- (instancetype)initWithAlerts:(NSArray *)alerts;
 
 - (IBAction)close:(id)sender;
 

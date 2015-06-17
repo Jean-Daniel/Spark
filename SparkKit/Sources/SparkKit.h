@@ -14,7 +14,6 @@
 #pragma mark -
 #pragma mark Constants
 
-#if defined(__OBJC__)
 SPARK_EXPORT NSString * const kSparkErrorDomain;
 
 SPARK_EXPORT NSString * const kSparkFolderName;
@@ -28,15 +27,9 @@ SPARK_EXPORT NSString * const SparkDidSetActiveLibraryNotification;
 
 #define kSparkKitBundle [NSBundle bundleWithIdentifier:kSparkKitBundleIdentifier]
 
-#else 
-SPARK_EXPORT CFStringRef const kSparkFolderName;
-
-SPARK_EXPORT CFStringRef const kSparkKitBundleIdentifier;
-SPARK_EXPORT CFStringRef const kSparkDaemonBundleIdentifier;
-#endif /* __OBJC__ */
-
 SPARK_EXPORT
 const OSType kSparkEditorSignature;
+
 SPARK_EXPORT
 const OSType kSparkDaemonSignature;
 
@@ -47,6 +40,6 @@ typedef uint32_t SparkUID;
 /* Use this constant to send events to the finder.
 It will allows to easily replace the Finder by another application */
 SPARK_EXPORT
-OSType kSparkFinderSignature;
+NSString * kSparkFinderBundleIdentifier;
 
 #endif /* __SPARKKIT_H */

@@ -14,8 +14,10 @@
 #include <WonderBox/WBProcessFunctions.h>
 
 OSStatus SDGetEditorIsTrapping(Boolean *trapping) {
-  if (!trapping) return paramErr;
+  if (!trapping)
+    return paramErr;
   *trapping = FALSE;
+  
   ProcessSerialNumber psn;
   OSStatus err = GetFrontProcess(&psn);
   require_noerr(err, bail);

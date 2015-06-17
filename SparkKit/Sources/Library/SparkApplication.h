@@ -9,32 +9,21 @@
 #import <SparkKit/SparkObject.h>
 
 @class WBApplication;
+
 SPARK_OBJC_EXPORT
-@interface SparkApplication : SparkObject {
-  @private
-  struct _sp_appFlags {
-    unsigned int disabled:1;
-    unsigned int reserved:31;
-  } sp_appFlags;
-  WBApplication *sp_application;
-}
+@interface SparkApplication : SparkObject
 
-+ (id)systemApplication;
++ (SparkApplication *)systemApplication;
 
-- (id)initWithPath:(NSString *)path;
+- (instancetype)initWithURL:(NSURL *)anURL NS_DESIGNATED_INITIALIZER;
 
-- (NSString *)path;
-- (void)setPath:(NSString *)path;
+@property(nonatomic, retain) NSURL *URL;
 
-- (OSType)signature;
-- (NSString *)bundleIdentifier;
+@property(nonatomic, readonly) NSString *bundleIdentifier;
 
-- (WBApplication *)application;
+@property(nonatomic, getter=isEnabled) BOOL enabled;
 
-- (BOOL)isEnabled;
-- (void)setEnabled:(BOOL)flag;
-
-- (BOOL)isEditable;
+@property(nonatomic, readonly, getter=isEditable) BOOL editable;
 
 @end
 

@@ -29,21 +29,6 @@
 #import <WonderBox/NSArray+WonderBox.h>
 #import <WonderBox/NSArrayController+WonderBox.h>
 
-static
-BOOL SELibraryFilter(SparkList *list, SparkEntry *entry, id ctxt) {
-  return YES;
-}
-
-static
-BOOL SEPlugInFilter(SparkList *list, SparkEntry *object, Class cls) {
-  return [[object action] isKindOfClass:cls];
-}
-
-static
-BOOL SEOverwriteFilter(SparkList *list, SparkEntry *entry, id ctxt) {
-  return [entry type] != kSparkEntryTypeDefault;
-}
-
 #pragma mark -
 #pragma mark Implementation
 @implementation SELibrarySource
@@ -119,7 +104,9 @@ BOOL SEOverwriteFilter(SparkList *list, SparkEntry *entry, id ctxt) {
     if ([plugin isEnabled]) {
       SEEntryList *list = [[SEEntryList alloc] initWithName:[plugin name] icon:[plugin icon]];
       [list setDocument:[self document]];
-      [list setListFilter:SEPlugInFilter context:[plugin actionClass]];
+      list.filter = ^bool(SparkList *_, SparkEntry *entry) {
+        return [entry.action isKindOfClass:[plugin actionClass]];
+      };
       [list setGroup:3];
       NSMapInsertKnownAbsent(se_plugins, list, plugin);
       
@@ -135,7 +122,9 @@ BOOL SEOverwriteFilter(SparkList *list, SparkEntry *entry, id ctxt) {
   SEEntryList *library = [[SEEntryList alloc] initWithName:NSLocalizedString(@"Library", @"Library list name")
                                                       icon:[NSImage imageNamed:@"SELibrary"]];
   [library setDocument:[self document]];
-  [library setListFilter:SELibraryFilter context:nil];
+  library.filter = ^bool(SparkList *list, SparkEntry *entry) {
+    return true;
+  };
   [library setGroup:0];
   [self addObject:library];
   [library release];
@@ -145,16 +134,16 @@ BOOL SEOverwriteFilter(SparkList *list, SparkEntry *entry, id ctxt) {
   
 	[self setSelectsInsertedObjects:NO];
   /* …and User defined lists */
-  SparkList *user = nil;
-  NSEnumerator *users = [se_library listEnumerator];
-  while (user = [users nextObject]) {
-    [self addUserEntryList:user];
-  }
+  [se_library.listSet enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
+    [self addUserEntryList:obj];
+  }];
 	
   /* Overwrite list */
   se_overwrite = [[SEEntryList alloc] initWithName:@"Overwrite" icon:[NSImage imageNamed:@"application"]];
   [se_overwrite setDocument:[self document]];
-  [se_overwrite setListFilter:SEOverwriteFilter context:nil];
+  se_overwrite.filter = ^bool(SparkList *list, SparkEntry *entry) {
+    return entry.type != kSparkEntryTypeDefault;
+  };
 	[se_overwrite setSpecificFilter:YES];
   [se_overwrite setGroup:1];
   

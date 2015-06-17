@@ -18,7 +18,7 @@ SPARK_EXPORT
 NSString * const kSparkLibraryDefaultFileName;
 
 SPARK_EXPORT
-NSString *SparkLibraryFolder(void);
+NSURL *SparkLibraryFolder(void);
 
 enum {
   kSparkLibraryReserved = 0xff,
@@ -38,7 +38,7 @@ const NSUInteger kSparkLibraryCurrentVersion;
 SPARK_EXPORT
 SparkLibrary *SparkActiveLibrary(void);
 SPARK_EXPORT
-BOOL SparkSetActiveLibrary(SparkLibrary *library);
+bool SparkSetActiveLibrary(SparkLibrary *library);
 
 SPARK_EXPORT
 void SparkLibraryRegisterLibrary(SparkLibrary *library);
@@ -51,7 +51,7 @@ void SparkLibraryDeleteIconCache(SparkLibrary *library);
 SPARK_EXPORT
 SparkLibrary *SparkLibraryGetLibraryWithUUID(CFUUIDRef uuid);
 SPARK_EXPORT
-SparkLibrary *SparkLibraryGetLibraryAtPath(NSString *path, BOOL create);
+SparkLibrary *SparkLibraryGetLibraryAtURL(NSURL *path, BOOL create);
 
 
 #pragma mark -
@@ -59,53 +59,28 @@ SparkLibrary *SparkLibraryGetLibraryAtPath(NSString *path, BOOL create);
 @class SparkList, SparkAction, SparkTrigger, SparkApplication;
 SPARK_OBJC_EXPORT
 @interface SparkLibrary : NSObject {
-@private
-  NSString *sp_file;
-  CFUUIDRef sp_uuid;
-  NSUInteger sp_version;
-  
-  SparkObjectSet *sp_objects[4];
-  SparkEntryManager *sp_relations;
-  
-  struct _sp_slFlags {
-    unsigned int loaded:1;
-    unsigned int unnotify:8;
-    unsigned int syncPrefs:1;
-    unsigned int reserved:22;
-  } sp_slFlags;
-  
-  /* Model synchronization */
-  NSUndoManager *sp_undo;
-  NSNotificationCenter *sp_center;
-  
-  /* Preferences */
-  NSMutableDictionary *sp_prefs;
-
-  /* reserved objects */
-  SparkApplication *sp_system;
 @protected
-  SparkIconManager *sp_icons;
+  SparkIconManager *_icons;
 }
 
-- (SparkApplication *)systemApplication;
+- (instancetype)initWithURL:(NSURL *)anURL;
 
-- (id)initWithPath:(NSString *)path;
+@property(nonatomic, readonly) SparkApplication *systemApplication;
 
-- (CFUUIDRef)uuid;
+@property(nonatomic, readonly) CFUUIDRef uuid;
 
-- (NSString *)path;
-- (void)setPath:(NSString *)file;
+@property(nonatomic, copy, setter=setURL:) NSURL *URL;
 
-- (NSUndoManager *)undoManager;
-- (void)setUndoManager:(NSUndoManager *)aManager;
+@property(nonatomic, retain) NSUndoManager *undoManager;
 
 - (void)enableNotifications;
 - (void)disableNotifications;
+
 - (NSNotificationCenter *)notificationCenter;
 
 - (BOOL)isLoaded;
 
-- (BOOL)load:(NSError **)error;
+- (BOOL)load:(__autoreleasing NSError **)error;
 - (void)unload;
 
 - (SparkObjectSet *)listSet;
@@ -113,21 +88,15 @@ SPARK_OBJC_EXPORT
 - (SparkObjectSet *)triggerSet;
 - (SparkObjectSet *)applicationSet;
 
-- (NSEnumerator *)listEnumerator;
-- (NSEnumerator *)entryEnumerator;
-- (NSEnumerator *)actionEnumerator;
-- (NSEnumerator *)triggerEnumerator;
-- (NSEnumerator *)applicationEnumerator;
-
 - (SparkEntryManager *)entryManager;
 
 - (BOOL)synchronize;
-- (BOOL)writeToFile:(NSString *)file atomically:(BOOL)flag;
+- (BOOL)writeToURL:(NSURL *)anURL atomically:(BOOL)flag;
 
 - (SparkIconManager *)iconManager;
 
-- (NSFileWrapper *)fileWrapper:(NSError **)outError;
-- (BOOL)readFromFileWrapper:(NSFileWrapper *)fileWrapper error:(NSError **)outError;
+- (NSFileWrapper *)fileWrapper:(__autoreleasing NSError **)outError;
+- (BOOL)readFromFileWrapper:(NSFileWrapper *)fileWrapper error:(__autoreleasing NSError **)outError;
 
 @end
 

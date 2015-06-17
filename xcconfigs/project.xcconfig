@@ -1,3 +1,5 @@
 
-#include "../hadron/xcconfigs/os/lion.xcconfig"
-#include "../hadron/xcconfigs/compiler/clang-nightly.xcconfig"
+#include "../hadron/xcconfigs/os/mountain-lion.xcconfig"
+#include "../hadron/xcconfigs/compiler/clang.xcconfig"
+
+HA_PROJECT_WARNING_CPLUSPLUSFLAGS = -Wno-old-style-cast
