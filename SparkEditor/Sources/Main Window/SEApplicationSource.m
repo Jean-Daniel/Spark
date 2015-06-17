@@ -240,9 +240,9 @@ bool __IsApplicationAtURL(NSURL *path) {
 - (NSDragOperation)tableView:(NSTableView *)tableView validateDrop:(id <NSDraggingInfo>)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)operation {
   NSPasteboard *pboard = [info draggingPasteboard];
   /* Drop above and contains files */
-  if (NSTableViewDropAbove == operation && [[pboard types] containsObject:NSURLPboardType]) {
+  if (NSTableViewDropAbove == operation) {
     /* search if contains at least one application */
-    NSArray *urls = [pboard propertyListForType:NSURLPboardType];
+    NSArray *urls = [pboard readObjectsForClasses:@[NSURL.class] options:@{ NSPasteboardURLReadingFileURLsOnlyKey: @YES }];
     for (NSURL *url in urls) {
       if (__IsApplicationAtURL(url))
         return NSDragOperationCopy;
@@ -255,9 +255,9 @@ bool __IsApplicationAtURL(NSURL *path) {
   NSUInteger count = 0;
   NSPasteboard *pboard = [info draggingPasteboard];
   /* Drop above and contains files */
-  if (NSTableViewDropAbove == operation && [[pboard types] containsObject:NSURLPboardType]) {
-    NSArray *files = [pboard propertyListForType:NSURLPboardType];
-    count = [self addApplications:files];
+  if (NSTableViewDropAbove == operation) {
+    NSArray *urls = [pboard readObjectsForClasses:@[NSURL.class] options:@{ NSPasteboardURLReadingFileURLsOnlyKey: @YES }];
+    count = [self addApplications:urls];
   }
   return count > 0;
 }

@@ -513,7 +513,6 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
   if (result) {
     SPXFlagSet(_slFlags.loaded, YES);
     
-    SparkObject *object;
     __block NSMutableArray *invalids = nil;
     SparkEntryManager *manager = [self entryManager];
     
@@ -522,7 +521,7 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
       if (![manager containsEntryForAction:action]) {
         if (!invalids)
           invalids = [[NSMutableArray alloc] init];
-        [invalids addObject:object];
+        [invalids addObject:action];
       }
     }];
     if (invalids) {
@@ -536,7 +535,7 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
       if (![manager containsEntryForTrigger:trigger]) {
         if (!invalids)
           invalids = [[NSMutableArray alloc] init];
-        [invalids addObject:object];
+        [invalids addObject:trigger];
       }
     }];
     if (invalids) {

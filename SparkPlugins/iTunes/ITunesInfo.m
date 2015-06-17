@@ -23,7 +23,7 @@ const NSPoint kiTunesBottomLeft = { -3e8, 0 };
 const NSPoint kiTunesBottomRight = { -4e8, 0 };
 
 const ITunesVisual kiTunesDefaultSettings = {
-  NO, YES, NO, kiTunesVisualDefaultPosition, 1.5,
+  NO, YES, kiTunesVisualDefaultPosition, 1.5,
   { 1, 1, 1, 1 },
   { 0, 0, 0, 0 },
   { 6/255., 12/255., 12/255., .65 },
@@ -190,8 +190,10 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
   visual->delay = [self delay];
   /* Get location */
 	NSUInteger type = __iTunesGetTypeForLocation(ia_location);
-  if (type != kiTunesVisualOther) visual->location = ia_location;
-  else visual->location = [[self window] frame].origin;
+  if (type != kiTunesVisualOther)
+    visual->location = ia_location;
+  else
+    visual->location = [[self window] frame].origin;
   /* Get shadow */
   visual->shadow = [self hasShadow];
 	visual->artwork = [self displayArtwork];
@@ -549,9 +551,12 @@ void _iTunesDeriveAllColors(WBCGMultiShadingInfo *info) {
     _info->cs = kWBGradientColorSpace_RGB;
 #if MULTI_SHADING
     _info->stops[0].location = .40;
+    _info->stops[0].fct.type = kWBInterpolationTypeDefault;
     _info->stops[1].location = 1;
+    _info->stops[1].fct.type = kWBInterpolationTypeDefault;
 #else
     _info->stops[0].location = 1;
+    _info->stops[0].fct.type = kWBInterpolationTypeDefault;
 #endif
     WBInterpolationDefinition fct = WBInterpolationCallBackDef(WBInterpolationSin);
     _info->fct = fct;
@@ -585,10 +590,10 @@ void _iTunesDeriveAllColors(WBCGMultiShadingInfo *info) {
   CGContextClip(ctxt);
   if (!_shading) {
     WBGradientBuilder *builder = [[WBGradientBuilder alloc] initWithDefinition:_info];
-    _shading = [builder newLayerWithVerticalGradient:NSHeight([self bounds]) context:ctxt];
+    _shading = [builder newLayerWithVerticalGradient:CGRectGetHeight(rect) context:ctxt];
     [builder release];
   }
-  CGContextDrawLayerInRect(ctxt, NSRectToCGRect([self bounds]), _shading);
+  CGContextDrawLayerInRect(ctxt, rect, _shading);
   CGContextRestoreGState(ctxt);
   
   /* Border */

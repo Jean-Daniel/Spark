@@ -99,8 +99,8 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
 - (void)setLibrary:(SparkLibrary *)aLibrary {
   if (_library != aLibrary) {
     /* Invalidate all entries */
-    [[self objects] makeObjectsPerformSelector:@selector(setLibrary:)
-                                    withObject:nil];
+    [self.allObjects makeObjectsPerformSelector:@selector(setLibrary:)
+                                     withObject:nil];
     [sp_objects removeAllObjects];
     _library = aLibrary;
   }
@@ -115,7 +115,7 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
   return sp_objects.count;
 }
 
-- (NSArray *)objects {
+- (NSArray *)allObjects {
   return [sp_objects allValues];
 }
 
@@ -126,7 +126,14 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
 }
 
 - (BOOL)containsObject:(SparkObject *)object {
-  return object ? [self containsObjectWithUID:object.uid] : NO;
+  __block BOOL contains = NO;
+  /* Must compare using equals and not using uid */
+  [sp_objects enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+    if ([obj isEqual:object]) {
+      *stop = contains = YES;
+    }
+  }];
+  return contains;
 }
 
 - (BOOL)containsObjectWithUID:(SparkUID)uid {

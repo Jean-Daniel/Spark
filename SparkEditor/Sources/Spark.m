@@ -32,7 +32,6 @@
 #import "SELibraryWindow.h"
 #import "SELibraryDocument.h"
 #import "SEServerConnection.h"
-#import "SparkLibraryArchive.h"
 
 int main(int argc, const char *argv[]) {
 #if defined(DEBUG)
@@ -391,14 +390,14 @@ NSString * const SESparkEditorDidChangePlugInStatusNotification = @"SESparkEdito
   [NSApp runModalForWindow:[panel window]];
 }
 
-- (void)openLibraryBackup:(NSString *)file {
-  SELibraryDocument *doc = [[NSDocumentController sharedDocumentController] currentDocument];
-  if (!doc) {
-    NSBeep();
-  } else {
-    [doc revertToBackup:file];
-  }
-}
+//- (void)openLibraryBackup:(NSString *)file {
+//  SELibraryDocument *doc = [[NSDocumentController sharedDocumentController] currentDocument];
+//  if (!doc) {
+//    NSBeep();
+//  } else {
+//    [doc revertToBackup:file];
+//  }
+//}
 
 - (BOOL)se_openDefaultLibrary {
   SELibraryDocument *doc = [[NSDocumentController sharedDocumentController] makeUntitledDocumentOfType:@"org.shadowlab.spark.library"];
@@ -422,18 +421,10 @@ NSString * const SESparkEditorDidChangePlugInStatusNotification = @"SESparkEdito
       [self openPlugInBundle:filename];
     } else if ([[filename pathExtension] isEqualToString:kSparkLibraryFileExtension]) {
       SPXDebug(@"Try to open a Spark Library => considere it as a restore action");
-      [self openLibraryBackup:filename];
+//      [self openLibraryBackup:filename];
     }
   } else {
-    OSType type = kLSUnknownType;
-    NSString *ext = [filename pathExtension];
-    NSURL *url = [NSURL fileURLWithPath:filename];
-    WBFSGetTypeAndCreatorAtURL(SPXNSToCFURL(url), &type, NULL);
-    if (type == kSparkLibraryArchiveHFSType || [ext isEqualToString:kSparkLibraryArchiveExtension]) {
-      [self openLibraryBackup:filename];
-    } else {
-      result = NO;
-    }
+    result = NO;
   }
 //  NSAlert *error = [NSAlert alertWithMessageText:
 //    [NSString stringWithFormat:NSLocalizedString(@"INVALID_FILE_ALERT",

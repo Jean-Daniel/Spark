@@ -8,7 +8,6 @@
 
 #import "SELibraryDocument.h"
 
-#import "SparkLibraryArchive.h"
 #import "SEServerConnection.h"
 #import "SETriggerBrowser.h"
 #import "SEHTMLGenerator.h"
@@ -144,90 +143,90 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
 //  [browser showWindow:sender];
 }
 
-- (IBAction)saveAsArchive:(id)sender {
-  NSSavePanel *panel = [NSSavePanel savePanel];
-  NSCalendarDate *date = [NSCalendarDate date];
-  NSString *filename = [NSString stringWithFormat:NSLocalizedString(@"SparkLibrary - %.4d-%.2d-%.2d", @"Backup filename"),
-												[date yearOfCommonEra], [date monthOfYear], [date dayOfMonth]];
-  [panel setCanCreateDirectories:YES];
-  [panel setRequiredFileType:kSparkLibraryArchiveExtension];
-  [panel setAllowsOtherFileTypes:NO];
-  [panel beginSheetForDirectory:nil
-                           file:filename
-                 modalForWindow:[self windowForSheet]
-                  modalDelegate:self
-                 didEndSelector:@selector(archivePanelDidEnd:returnCode:contextInfo:)
-                    contextInfo:nil];
-}
+//- (IBAction)saveAsArchive:(id)sender {
+//  NSSavePanel *panel = [NSSavePanel savePanel];
+//  NSCalendarDate *date = [NSCalendarDate date];
+//  NSString *filename = [NSString stringWithFormat:NSLocalizedString(@"SparkLibrary - %.4d-%.2d-%.2d", @"Backup filename"),
+//												[date yearOfCommonEra], [date monthOfYear], [date dayOfMonth]];
+//  [panel setCanCreateDirectories:YES];
+//  [panel setRequiredFileType:kSparkLibraryArchiveExtension];
+//  [panel setAllowsOtherFileTypes:NO];
+//  [panel beginSheetForDirectory:nil
+//                           file:filename
+//                 modalForWindow:[self windowForSheet]
+//                  modalDelegate:self
+//                 didEndSelector:@selector(archivePanelDidEnd:returnCode:contextInfo:)
+//                    contextInfo:nil];
+//}
 
-- (void)archivePanelDidEnd:(NSSavePanel *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
-  if (NSOKButton == returnCode) {
-    NSString *file = [sheet filename];
-    if (file) {
-      [[self library] archiveToFile:file];
-      NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
-        @(kSparkLibraryArchiveHFSType), NSFileHFSTypeCode,
-        @(kSparkEditorSignature), NSFileHFSCreatorCode, nil];
-      [[NSFileManager defaultManager] setAttributes:dict ofItemAtPath:file error:NULL];
-    }
-  }
-}
+//- (void)archivePanelDidEnd:(NSSavePanel *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
+//  if (NSOKButton == returnCode) {
+//    NSString *file = [sheet filename];
+//    if (file) {
+//      [[self library] archiveToFile:file];
+//      NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
+//        @(kSparkLibraryArchiveHFSType), NSFileHFSTypeCode,
+//        @(kSparkEditorSignature), NSFileHFSCreatorCode, nil];
+//      [[NSFileManager defaultManager] setAttributes:dict ofItemAtPath:file error:NULL];
+//    }
+//  }
+//}
 
-- (IBAction)revertDocumentToBackup:(id)sender {
-  NSOpenPanel *panel = [NSOpenPanel openPanel];
-  [panel setCanChooseDirectories:NO];
-  [panel setCanCreateDirectories:NO];
-  [panel setAllowsMultipleSelection:NO];
-  [panel beginSheetForDirectory:nil
-                           file:nil
-                          types:[NSArray arrayWithObjects:kSparkLibraryArchiveExtension, 
-                            NSFileTypeForHFSTypeCode(kSparkLibraryArchiveHFSType), nil]
-                 modalForWindow:[self windowForSheet]
-                  modalDelegate:self
-                 didEndSelector:@selector(revertToBackupDidEnd:result:context:)
-                    contextInfo:nil];
-}
-- (void)revertToBackupDidEnd:(NSOpenPanel *)panel result:(NSInteger)code context:(void *)nothing {
-  if (NSOKButton == code && [[panel filenames] count] > 0) {
-    NSString *filename = [[panel filenames] objectAtIndex:0];
-    [self revertToBackup:filename];
-  }
-}
-
-- (void)revertToBackup:(NSString *)file {
-  // TODO: allow restore from standard library bundle (with warning)
-  SparkLibrary *library = [[SparkLibrary alloc] initFromArchiveAtPath:file];
-  if (library) {
-    NSInteger result = NSRunAlertPanel(NSLocalizedString(@"REVERT_BACKUP", @"Revert to Backup - Title"), 
-                                       NSLocalizedString(@"REVERT_MESSAGE", @"Revert to Backup - Message"),
-                                       NSLocalizedString(@"Replace", @"Replace - Button"),
-                                       NSLocalizedString(@"Cancel", @"Cancel - Button"),
-                                       nil, [file lastPathComponent]);
-    if (result == NSOKButton) {
-      SparkLibrary *previous = [se_library retain];
-      if (SparkActiveLibrary() == previous) {
-        SparkSetActiveLibrary(library);
-      }
-      SparkLibraryUnregisterLibrary(previous);
-      SparkLibraryDeleteIconCache(previous);
-
-      library.URL = previous.URL;
-      [self setLibrary:library];
-      [library synchronize];
-      
-      [previous unload];
-      [previous release];
-      
-      /* Restart daemon if needed */
-      if ([[SEServerConnection defaultConnection] isRunning] && se_library == SparkActiveLibrary()) {
-        [[SEServerConnection defaultConnection] restart];
-      }
-    }
-    [library release];
-  } else {
-    SPXDebug(@"Invalid archive: %@", file);
-  }
-}
+//- (IBAction)revertDocumentToBackup:(id)sender {
+//  NSOpenPanel *panel = [NSOpenPanel openPanel];
+//  [panel setCanChooseDirectories:NO];
+//  [panel setCanCreateDirectories:NO];
+//  [panel setAllowsMultipleSelection:NO];
+//  [panel beginSheetForDirectory:nil
+//                           file:nil
+//                          types:[NSArray arrayWithObjects:kSparkLibraryArchiveExtension, 
+//                            NSFileTypeForHFSTypeCode(kSparkLibraryArchiveHFSType), nil]
+//                 modalForWindow:[self windowForSheet]
+//                  modalDelegate:self
+//                 didEndSelector:@selector(revertToBackupDidEnd:result:context:)
+//                    contextInfo:nil];
+//}
+//- (void)revertToBackupDidEnd:(NSOpenPanel *)panel result:(NSInteger)code context:(void *)nothing {
+//  if (NSOKButton == code && [[panel filenames] count] > 0) {
+//    NSString *filename = [[panel filenames] objectAtIndex:0];
+//    [self revertToBackup:filename];
+//  }
+//}
+//
+//- (void)revertToBackup:(NSString *)file {
+//  // TODO: allow restore from standard library bundle (with warning)
+//  SparkLibrary *library = [[SparkLibrary alloc] initFromArchiveAtPath:file];
+//  if (library) {
+//    NSInteger result = NSRunAlertPanel(NSLocalizedString(@"REVERT_BACKUP", @"Revert to Backup - Title"), 
+//                                       NSLocalizedString(@"REVERT_MESSAGE", @"Revert to Backup - Message"),
+//                                       NSLocalizedString(@"Replace", @"Replace - Button"),
+//                                       NSLocalizedString(@"Cancel", @"Cancel - Button"),
+//                                       nil, [file lastPathComponent]);
+//    if (result == NSOKButton) {
+//      SparkLibrary *previous = [se_library retain];
+//      if (SparkActiveLibrary() == previous) {
+//        SparkSetActiveLibrary(library);
+//      }
+//      SparkLibraryUnregisterLibrary(previous);
+//      SparkLibraryDeleteIconCache(previous);
+//
+//      library.URL = previous.URL;
+//      [self setLibrary:library];
+//      [library synchronize];
+//      
+//      [previous unload];
+//      [previous release];
+//      
+//      /* Restart daemon if needed */
+//      if ([[SEServerConnection defaultConnection] isRunning] && se_library == SparkActiveLibrary()) {
+//        [[SEServerConnection defaultConnection] restart];
+//      }
+//    }
+//    [library release];
+//  } else {
+//    SPXDebug(@"Invalid archive: %@", file);
+//  }
+//}
 
 #pragma mark -
 - (void)canCloseDocumentWithDelegate:(id)delegate shouldCloseSelector:(SEL)shouldCloseSelector contextInfo:(void *)contextInfo {

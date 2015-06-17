@@ -101,10 +101,8 @@
 	</array>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
-	<key>CFBundleIconFile</key>
-	<string>Spark</string>
 	<key>CFBundleIdentifier</key>
-	<string>org.shadowlab.SparkEditor</string>
+	<string>com.xenonium.$(PRODUCT_NAME:rfc1034identifier)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -133,6 +131,10 @@
 	<array/>
 	<key>OSAScriptingDefinition</key>
 	<string>SparkSuite.sdef</string>
+	<key>SUFeedURL</key>
+	<string>http://update.shadowlab.org/Spark/v3/release.rss</string>
+	<key>SUPublicRSAKeyFile</key>
+	<string>Spark.cer</string>
 	<key>UTExportedTypeDeclarations</key>
 	<array>
 		<dict>
@@ -216,9 +218,5 @@
 	</array>
 	<key>UTImportedTypeDeclarations</key>
 	<array/>
-	<key>SUFeedURL</key>
-	<string>http://update.shadowlab.org/Spark/v3/release.rss</string>
-	<key>SUPublicRSAKeyFile</key>
-	<string>Spark.cer</string>
 </dict>
 </plist>
