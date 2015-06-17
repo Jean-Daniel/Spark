@@ -23,52 +23,33 @@
   IBOutlet NSTokenField *uiTokens;
   IBOutlet NSTokenField *uiRecTokens;
   IBOutlet HKTrapWindow *uiRecordWindow;
-
-  NSInteger ta_idx;
-  CGFloat ta_latency;
-  /* Date format */
-  CFDateFormatterRef ta_formatter;
-  NSString *ta_format;
-  NSInteger ta_styles;
-  /* Text */
-  NSString *ta_text;
-  /* keystroke */
-	BOOL ta_repeat;
-  CFAbsoluteTime ta_escape;
 }
 
 #pragma mark Type
-- (NSInteger)type;
-- (void)setType:(NSInteger)type;
+@property(nonatomic) NSInteger type;
 
-- (KeyboardActionType)action;
-- (void)setAction:(KeyboardActionType)action;
+@property(nonatomic) KeyboardActionType action;
 
-- (CGFloat)latency;
-- (void)setLatency:(CGFloat)latency;
+@property(nonatomic) CGFloat latency;
 
 #pragma mark Text
 @property(nonatomic, copy) NSString *text;
 
 #pragma mark Date
-- (NSString *)sampleDate;
+@property(nonatomic, readonly) NSString *sampleDate;
 
-- (NSInteger)dateFormat;
-- (void)setDateFormat:(NSInteger)style;
+@property(nonatomic)  NSInteger dateFormat;
 
-- (NSInteger)timeFormat;
-- (void)setTimeFormat:(NSInteger)style;
+@property(nonatomic) NSInteger timeFormat;
 
-- (NSString *)rawDateFormat;
-- (void)setRawDateFormat:(NSString *)format;
+@property(nonatomic, copy) NSString *rawDateFormat;
 
 #pragma mark Keystrokes
 - (IBAction)record:(id)sender;
 - (IBAction)stop:(id)sender;
 
-- (BOOL)autorepeat;
-- (void)setAutorepeat:(BOOL)flag;
+@property(nonatomic) BOOL autorepeat;
 
-- (BOOL)canAutorepeat;
+@property(nonatomic, readonly) BOOL canAutorepeat;
 
 @end

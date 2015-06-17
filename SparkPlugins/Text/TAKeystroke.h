@@ -8,22 +8,15 @@
 
 #import <HotKeyToolKit/HotKeyToolKit.h>
 
-@interface TAKeystroke : NSObject <NSCoding> {
-@private
-  UniChar ta_char;
-  HKKeycode ta_code;
-  HKModifier ta_modifier;
-  
-  NSString *ta_desc;
-}
+@interface TAKeystroke : NSObject <NSCoding>
 
-- (id)initWithKeycode:(HKKeycode)keycode character:(UniChar)character modifier:(HKModifier)modifier;
-- (id)initFromRawKey:(UInt64)rawKey;
+- (instancetype)initWithKeycode:(HKKeycode)keycode character:(UniChar)character modifier:(HKModifier)modifier;
+- (instancetype)initFromRawKey:(UInt64)rawKey;
 
 - (void)sendKeystroke:(CGEventSourceRef)src latency:(useconds_t)latency;
 
-- (NSString *)shortcut;
+@property(nonatomic, readonly) NSString *shortcut;
 
-- (UInt64)rawKey;
+@property(nonatomic, readonly) uint64_t rawKey;
 
 @end

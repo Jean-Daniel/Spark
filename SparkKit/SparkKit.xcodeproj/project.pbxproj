@@ -71,11 +71,9 @@
 		1B92D0C41707269F00F40FCD /* WBWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316E60D3815C9005C3FB2 /* WBWindowController.m */; };
 		1B92D0C5170726EA00F40FCD /* WBHeaderView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE4593D130F598D00A6A133 /* WBHeaderView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1B92D0C6170726EA00F40FCD /* WBSplitview.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE458F8130F58C000A6A133 /* WBSplitview.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1B92D0C7170726EA00F40FCD /* WBApplicationView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB9869A0D382AD00074D18E /* WBApplicationView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1B92D0C8170726EA00F40FCD /* WBImageAndTextCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB986A70D382AD10074D18E /* WBImageAndTextCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1B92D0C9170726F300F40FCD /* WBHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE4593E130F598D00A6A133 /* WBHeaderView.m */; };
 		1B92D0CA170726F300F40FCD /* WBSplitview.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE458F9130F58C000A6A133 /* WBSplitview.m */; };
-		1B92D0CB170726F300F40FCD /* WBApplicationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB9869B0D382AD10074D18E /* WBApplicationView.m */; };
 		1B92D0CC170726F300F40FCD /* WBImageAndTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB986A80D382AD10074D18E /* WBImageAndTextCell.m */; };
 		1B92D0CD170726FF00F40FCD /* WBImageAndTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB986AA0D382AD10074D18E /* WBImageAndTextView.m */; };
 		1B92D0CE1707270200F40FCD /* WBImageAndTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB986A90D382AD10074D18E /* WBImageAndTextView.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -305,8 +303,6 @@
 		1BB9836D0D381ECC0074D18E /* WBNotificationWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBNotificationWindow.h; sourceTree = "<group>"; };
 		1BB9836E0D381ECC0074D18E /* WBNotificationWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBNotificationWindow.m; sourceTree = "<group>"; };
 		1BB986950D382AD00074D18E /* WBProgressPanel.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WBProgressPanel.xib; sourceTree = "<group>"; };
-		1BB9869A0D382AD00074D18E /* WBApplicationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBApplicationView.h; sourceTree = "<group>"; };
-		1BB9869B0D382AD10074D18E /* WBApplicationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBApplicationView.m; sourceTree = "<group>"; };
 		1BB9869C0D382AD10074D18E /* WBBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBBackgroundView.h; sourceTree = "<group>"; };
 		1BB9869D0D382AD10074D18E /* WBBackgroundView.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; path = WBBackgroundView.m; sourceTree = "<group>"; };
 		1BB986A70D382AD10074D18E /* WBImageAndTextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBImageAndTextCell.h; sourceTree = "<group>"; };
@@ -644,8 +640,6 @@
 				1BCDCBEF103596F200EAD9FE /* WBGradient.m */,
 				1BAD406C130DCA940066B1AB /* WBTextFieldCell.h */,
 				1BAD406D130DCA940066B1AB /* WBTextFieldCell.m */,
-				1BB9869A0D382AD00074D18E /* WBApplicationView.h */,
-				1BB9869B0D382AD10074D18E /* WBApplicationView.m */,
 				1BB9869C0D382AD10074D18E /* WBBackgroundView.h */,
 				1BB9869D0D382AD10074D18E /* WBBackgroundView.m */,
 				1BB986A70D382AD10074D18E /* WBImageAndTextCell.h */,
@@ -997,7 +991,6 @@
 				1B92D0C11707269800F40FCD /* WBWindowController.h in Headers */,
 				1B92D0C5170726EA00F40FCD /* WBHeaderView.h in Headers */,
 				1B92D0C6170726EA00F40FCD /* WBSplitview.h in Headers */,
-				1B92D0C7170726EA00F40FCD /* WBApplicationView.h in Headers */,
 				1B92D0C8170726EA00F40FCD /* WBImageAndTextCell.h in Headers */,
 				1B92D0CE1707270200F40FCD /* WBImageAndTextView.h in Headers */,
 				1B92D0D01707271200F40FCD /* WBTextFieldCell.h in Headers */,
@@ -1215,7 +1208,6 @@
 				1B92D0C41707269F00F40FCD /* WBWindowController.m in Sources */,
 				1B92D0C9170726F300F40FCD /* WBHeaderView.m in Sources */,
 				1B92D0CA170726F300F40FCD /* WBSplitview.m in Sources */,
-				1B92D0CB170726F300F40FCD /* WBApplicationView.m in Sources */,
 				1B92D0CC170726F300F40FCD /* WBImageAndTextCell.m in Sources */,
 				1B92D0CD170726FF00F40FCD /* WBImageAndTextView.m in Sources */,
 				1B92D0CF1707270F00F40FCD /* WBTextFieldCell.m in Sources */,

@@ -9,22 +9,25 @@
 #import "TextActionPlugIn.h"
 #import "TAKeystroke.h"
 
-@implementation TextActionPlugIn
-
-@synthesize text = ta_text;
+@implementation TextActionPlugIn {
+@private
+  /* keystroke */
+  CFAbsoluteTime _escape;
+  /* Date format */
+  NSInteger _styles;
+  CFDateFormatterRef _formatter;
+}
 
 - (id)init {
   if (self = [super init]) {
-    ta_styles = TASetDateFormatterStyle(ta_styles, kCFDateFormatterLongStyle);
+    _styles = TASetDateFormatterStyle(_styles, kCFDateFormatterLongStyle);
   }
   return self;
 }
 
 - (void)dealloc {
-  [ta_text release];
-  [ta_format release];
-  if (ta_formatter) CFRelease(ta_formatter);
-  [super dealloc];
+  if (_formatter)
+    CFRelease(_formatter);
 }
 
 #pragma mark -
@@ -78,45 +81,39 @@
   [action setAction:[self action]];
   switch ([action action]) {
     case kTATextAction:
-      [action setData:ta_text];
+      [action setData:_text];
       break;
     case kTADateFormatAction:
-      [action setData:ta_format];
+      [action setData:_rawDateFormat];
       break;
     case kTADateStyleAction:
-      [action setData:@(ta_styles)];
+      [action setData:@(_styles)];
       break;
     case kTAKeystrokeAction:
       [action setData:[uiTokens objectValue]];
 			[action setAutorepeat:[self canAutorepeat] && [self autorepeat]];
       break;
   }
-  if (ta_latency >= 0)
-    [action setLatency:(useconds_t)(ta_latency * 1e3)];
+  if (_latency >= 0)
+    [action setLatency:(useconds_t)(_latency * 1e3)];
 }
 
 #pragma mark -
-- (NSInteger)type {
-  return ta_idx;
-}
 - (void)setType:(NSInteger)type {
-  ta_idx = type;
+  _type = type;
   [self stop:nil];
 }
 
-- (CGFloat)latency {
-  return ta_latency;
-}
 - (void)setLatency:(CGFloat)latency {
-  ta_latency = ABS(latency);
+  _latency = ABS(latency);
 }
 
 - (KeyboardActionType)action {
-  switch (ta_idx) {
+  switch (_type) {
     case 0:
       return kTATextAction;
     case 1:
-      return TADateFormatterCustomFormat(ta_styles) ? kTADateFormatAction : kTADateStyleAction;
+      return TADateFormatterCustomFormat(_styles) ? kTADateFormatAction : kTADateStyleAction;
     case 2:
       return kTAKeystrokeAction;
   }
@@ -142,58 +139,52 @@
 - (void)resetFormatter {
   [self willChangeValueForKey:@"sampleDate"];
   [self willChangeValueForKey:@"rawDateFormat"];
-  if (ta_formatter)
-    CFRelease(ta_formatter);
+  if (_formatter)
+    CFRelease(_formatter);
   
   /* Create date formatter */
   CFLocaleRef locale = CFLocaleCopyCurrent();
-  ta_formatter = CFDateFormatterCreate(kCFAllocatorDefault, locale, 
-                                       TADateFormatterStyle(ta_styles), TATimeFormatterStyle(ta_styles));
+  _formatter = CFDateFormatterCreate(kCFAllocatorDefault, locale,
+                                       TADateFormatterStyle(_styles), TATimeFormatterStyle(_styles));
   if (locale) CFRelease(locale);
   
-  [ta_format release];
-  ta_format = [(id)CFDateFormatterGetFormat(ta_formatter) retain];
+  _rawDateFormat = SPXCFToNSString(CFDateFormatterGetFormat(_formatter));
   [self didChangeValueForKey:@"rawDateFormat"];
   [self didChangeValueForKey:@"sampleDate"];
 }
 
 /* date format */
 - (NSString *)sampleDate {
-  if (!ta_formatter)
+  if (!_formatter)
     [self resetFormatter];
-  NSString *str = (id)CFDateFormatterCreateStringWithAbsoluteTime(kCFAllocatorDefault, ta_formatter, CFAbsoluteTimeGetCurrent());
-  return [str autorelease];
+  return SPXCFStringBridgingRelease(CFDateFormatterCreateStringWithAbsoluteTime(kCFAllocatorDefault, _formatter, CFAbsoluteTimeGetCurrent()));
 }
 
 - (NSInteger)dateFormat {
-  return TADateFormatterStyle(ta_styles);
+  return TADateFormatterStyle(_styles);
 }
 - (void)setDateFormat:(NSInteger)style {
-  ta_styles = TASetDateFormatterStyle(ta_styles, style);
+  _styles = TASetDateFormatterStyle(_styles, style);
   [self resetFormatter];
 }
 
 - (NSInteger)timeFormat {
-  return TATimeFormatterStyle(ta_styles);
+  return TATimeFormatterStyle(_styles);
 }
 - (void)setTimeFormat:(NSInteger)style {
-  ta_styles = TASetTimeFormatterStyle(ta_styles, style);
+  _styles = TASetTimeFormatterStyle(_styles, style);
   [self resetFormatter];
 }
 
-- (NSString *)rawDateFormat {
-  return ta_format;
-}
 - (void)setRawDateFormat:(NSString *)format {
-  if (format != ta_format && ![format isEqualToString:ta_format]) {
+  if (format != _rawDateFormat && ![format isEqualToString:_rawDateFormat]) {
     [self willChangeValueForKey:@"sampleDate"];
     [self willChangeValueForKey:@"dateFormat"];
     [self willChangeValueForKey:@"timeFormat"];
-    [ta_format release];
-    ta_format = [format copy];
-    ta_styles = TASetDateFormatterStyle(ta_styles, kCFDateFormatterNoStyle);
-    ta_styles = TASetTimeFormatterStyle(ta_styles, kCFDateFormatterNoStyle);
-    CFDateFormatterSetFormat(ta_formatter, (CFStringRef)format ? : CFSTR(""));
+    _rawDateFormat = [format copy];
+    _styles = TASetDateFormatterStyle(_styles, kCFDateFormatterNoStyle);
+    _styles = TASetTimeFormatterStyle(_styles, kCFDateFormatterNoStyle);
+    CFDateFormatterSetFormat(_formatter, SPXNSToCFString(format) ? : CFSTR(""));
     [self didChangeValueForKey:@"timeFormat"];
     [self didChangeValueForKey:@"dateFormat"];
     [self didChangeValueForKey:@"sampleDate"];
@@ -222,12 +213,6 @@
 //    [mtoks release];
 //  }
   [uiRecordWindow performClose:nil];
-}
-- (BOOL)autorepeat {
-	return ta_repeat;
-}
-- (void)setAutorepeat:(BOOL)flag {
-	ta_repeat = flag;
 }
 
 - (BOOL)canAutorepeat {
@@ -271,10 +256,10 @@
   if (!([theEvent modifierFlags] & flags) && [[theEvent characters] isEqualToString:@"\e"]) {
     CFAbsoluteTime now = CFAbsoluteTimeGetCurrent();
     /* check double escape */
-    if (now < ta_escape + 0.5) {
+    if (now < _escape + 0.5) {
       return YES;
     } else {
-      ta_escape = now;
+      _escape = now;
     }
   }
   return NO;
@@ -301,8 +286,6 @@
   NSMutableArray *objs = [[uiRecTokens objectValue] mutableCopy];
   [objs addObject:hkey];
   [uiRecTokens setObjectValue:objs];
-  [objs release];
-  [hkey release];
 }
 
 @end

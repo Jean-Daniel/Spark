@@ -8,7 +8,14 @@
 
 #import "TAKeystroke.h"
 
-@implementation TAKeystroke
+@implementation TAKeystroke {
+@private
+  UniChar ta_char;
+  HKKeycode ta_code;
+  HKModifier ta_modifier;
+
+  NSString *_shortcut;
+}
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
 	[aCoder encodeInteger:ta_code forKey:@"keycode"];
@@ -41,21 +48,16 @@
   return self;
 }
 
-- (void)dealloc {
-  [ta_desc release];
-  [super dealloc];
-}
-
 #pragma mark -
 - (UInt64)rawKey {
   return HKHotKeyPackKeystoke(ta_code, ta_modifier, ta_char);
 }
 
 - (NSString *)shortcut {
-  if (!ta_desc) {
-    ta_desc = [[HKKeyMap stringRepresentationForCharacter:ta_char modifiers:ta_modifier] retain];
+  if (!_shortcut) {
+    _shortcut = [HKKeyMap stringRepresentationForCharacter:ta_char modifiers:ta_modifier];
   }
-  return ta_desc;
+  return _shortcut;
 }
 
 - (void)sendKeystroke:(CGEventSourceRef)src latency:(useconds_t)latency {

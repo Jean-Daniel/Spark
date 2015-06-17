@@ -38,36 +38,24 @@ NSInteger TASetTimeFormatterStyle(NSInteger format, CFDateFormatterStyle style) 
   return format | (style << 8);
 }
 
-enum KeyboardActionType {
-  kTATextAction      = 'Text',
-  kTADateStyleAction = 'DSty',
+typedef NS_ENUM(OSType, KeyboardActionType) {
+  kTATextAction       = 'Text',
+  kTADateStyleAction  = 'DSty',
   kTADateFormatAction = 'DFmt',
-  kTAKeystrokeAction = 'Keys',
+  kTAKeystrokeAction  = 'Keys',
 };
-typedef OSType KeyboardActionType;
 
-@interface TextAction : SparkAction {
-@private
-  id ta_data;
-	BOOL ta_repeat;
-  BOOL ta_locked;
-  useconds_t ta_latency;
-  KeyboardActionType ta_type;
-}
+@interface TextAction : SparkAction
 
 @property(nonatomic, copy) id data;
 
-- (useconds_t)latency;
-- (void)setLatency:(useconds_t)latency;
+@property(nonatomic) useconds_t latency;
 
-- (BOOL)autorepeat;
-- (void)setAutorepeat:(BOOL)flag;
+@property(nonatomic) BOOL autorepeat;
 
-- (KeyboardActionType)action;
-- (void)setAction:(KeyboardActionType)action;
+@property(nonatomic) KeyboardActionType action;
 
-- (id)serializedData;
-- (void)setSerializedData:(id)data;
+@property(nonatomic, retain) id serializedData;
 
 @end
 

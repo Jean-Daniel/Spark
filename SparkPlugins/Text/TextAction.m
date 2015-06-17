@@ -18,16 +18,18 @@ NSString * const kKeyboardActionBundleIdentifier = @"org.shadowlab.spark.action.
 /* 500 ms */
 #define kTextActionMaxLatency 500000U
 
-@implementation TextAction
-
-@synthesize data = ta_data;
+@implementation TextAction {
+@private
+  BOOL _locked;
+  useconds_t _latency;
+}
 
 - (id)copyWithZone:(NSZone *)aZone {
   TextAction *copy = [super copyWithZone:aZone];
-  copy->ta_type = ta_type;
-	copy->ta_repeat = ta_repeat;
-	copy->ta_latency = ta_latency;
-  copy->ta_data = [ta_data copy];
+  copy->_action = _action;
+	copy->_autorepeat = _autorepeat;
+	copy->_latency = _latency;
+  copy->_data = [_data copy];
   return copy;
 }
 
@@ -36,11 +38,11 @@ NSString * const kKeyboardActionBundleIdentifier = @"org.shadowlab.spark.action.
     id data = [self serializedData];
     if (data)
       [plist setObject:data forKey:@"TAData"];
-		if (ta_repeat)
-			[plist setObject:@(ta_repeat) forKey:@"TARepeat"];
-    if (ta_latency > 0)
-      [plist setObject:@(ta_latency) forKey:@"TALatency"];
-    [plist setObject:WBStringForOSType(ta_type) forKey:@"TAAction"];
+		if (_autorepeat)
+			[plist setObject:@(_autorepeat) forKey:@"TARepeat"];
+    if (_latency > 0)
+      [plist setObject:@(_latency) forKey:@"TALatency"];
+    [plist setObject:WBStringForOSType(_action) forKey:@"TAAction"];
     return YES;
   }
   return NO;
@@ -54,11 +56,6 @@ NSString * const kKeyboardActionBundleIdentifier = @"org.shadowlab.spark.action.
     [self setSerializedData:[plist objectForKey:@"TAData"]];
   }
   return self;
-}
-
-- (void)dealloc {
-  [ta_data release];
-  [super dealloc];
 }
 
 #pragma mark -
@@ -98,19 +95,19 @@ NSString * const kKeyboardActionBundleIdentifier = @"org.shadowlab.spark.action.
 }
 
 - (SparkAlert *)simulateDateStyle {
-  CFLocaleRef locale = CFLocaleCopyCurrent();
   NSInteger style = [[self data] integerValue];
-  CFDateFormatterRef formatter = CFDateFormatterCreate(kCFAllocatorDefault, locale, 
+
+  CFLocaleRef locale = CFLocaleCopyCurrent();
+  CFDateFormatterRef formatter = CFDateFormatterCreate(kCFAllocatorDefault, locale,
                                                        TADateFormatterStyle(style), TATimeFormatterStyle(style));
-  if (locale) CFRelease(locale);
+  SPXCFRelease(locale);
+
   NSAssert(formatter, @"error while creating date formatter");
   if (formatter) {
     CFStringRef str = CFDateFormatterCreateStringWithAbsoluteTime(kCFAllocatorDefault, formatter, CFAbsoluteTimeGetCurrent());
     NSAssert(str, @"error while formatting date");
-    if (str) {
-      [self simulateText:(id)str];
-      CFRelease(str);
-    }
+    if (str)
+      [self simulateText:SPXCFStringBridgingRelease(str)];
     CFRelease(formatter);
   }
   return nil;
@@ -122,16 +119,15 @@ NSString * const kKeyboardActionBundleIdentifier = @"org.shadowlab.spark.action.
     CFLocaleRef locale = CFLocaleCopyCurrent();
     CFDateFormatterRef formatter = CFDateFormatterCreate(kCFAllocatorDefault, locale, 
                                                          kCFDateFormatterNoStyle, kCFDateFormatterNoStyle);
-    if (locale) CFRelease(locale);
+    SPXCFRelease(locale);
+
     NSAssert(formatter, @"error while creating date formatter");
     if (formatter) {
       CFDateFormatterSetFormat(formatter, (CFStringRef)format);
       CFStringRef str = CFDateFormatterCreateStringWithAbsoluteTime(kCFAllocatorDefault, formatter, CFAbsoluteTimeGetCurrent());
       NSAssert(str, @"error while formatting date");
-      if (str) {
-        [self simulateText:(id)str];
-        CFRelease(str);
-      }
+      if (str)
+        [self simulateText:SPXCFStringBridgingRelease(str)];
       CFRelease(formatter);
     }
   }
@@ -141,18 +137,18 @@ NSString * const kKeyboardActionBundleIdentifier = @"org.shadowlab.spark.action.
 - (SparkAlert *)simulateKeystroke {
   useconds_t latency = [self latency];
   CGEventSourceRef src = HKEventCreatePrivateSource();
-  for (NSUInteger idx = 0; idx < [ta_data count]; idx++) {
-		[[ta_data objectAtIndex:idx] sendKeystroke:src latency:latency];
+  for (NSUInteger idx = 0; idx < [_data count]; idx++) {
+		[[_data objectAtIndex:idx] sendKeystroke:src latency:latency];
   }
-  if (src) CFRelease(src);
+  SPXCFRelease(src);
   return nil;
 }
 
 - (SparkAlert *)performAction {
   SparkAlert *error = nil;
-  if (!ta_locked) {
-    ta_locked = YES; // prevent recursive calls
-    switch (ta_type) {
+  if (!_locked) {
+    _locked = YES; // prevent recursive calls
+    switch (_action) {
       case kTATextAction:
         error = [self simulateText:[self data]];
         break;
@@ -170,7 +166,7 @@ NSString * const kKeyboardActionBundleIdentifier = @"org.shadowlab.spark.action.
         NSBeep();
         break;
     }
-    ta_locked = NO;
+    _locked = NO;
   }
   return error;
 }
@@ -180,7 +176,7 @@ NSString * const kKeyboardActionBundleIdentifier = @"org.shadowlab.spark.action.
 }
 
 - (NSTimeInterval)repeatInterval {
-	if (ta_repeat)
+	if (_autorepeat)
 		return SparkGetDefaultKeyRepeatInterval();
 	return 0;
 }
@@ -216,7 +212,6 @@ NSString * const kKeyboardActionBundleIdentifier = @"org.shadowlab.spark.action.
         UInt64 raw = [[data objectAtIndex:idx] unsignedLongLongValue];
         TAKeystroke *stroke = [[TAKeystroke alloc] initFromRawKey:raw];
         [keys addObject:stroke];
-        [stroke release];
       }
       [self setData:keys];
     }
@@ -226,29 +221,18 @@ NSString * const kKeyboardActionBundleIdentifier = @"org.shadowlab.spark.action.
   }
 }
 
-- (KeyboardActionType)action {
-  return ta_type;
-}
 - (void)setAction:(KeyboardActionType)action {
-  if (action != ta_type) {
+  if (action != _action) {
     [self setData:nil];
-    ta_type = action;
+    _action = action;
   }
 }
 
-- (BOOL)autorepeat {
-	return ta_repeat;
-}
-
-- (void)setAutorepeat:(BOOL)flag {
-	ta_repeat = flag;
-}
-
 - (useconds_t)latency {
-  return ta_latency > 0 ? ta_latency : kHKEventDefaultLatency;
+  return _latency > 0 ? _latency : kHKEventDefaultLatency;
 }
 - (void)setLatency:(useconds_t)latency {
-  ta_latency = MIN(latency, kTextActionMaxLatency);
+  _latency = MIN(latency, kTextActionMaxLatency);
 }
 
 @end

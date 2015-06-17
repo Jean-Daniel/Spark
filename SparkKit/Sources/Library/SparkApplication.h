@@ -8,8 +8,6 @@
 
 #import <SparkKit/SparkObject.h>
 
-@class WBApplication;
-
 SPARK_OBJC_EXPORT
 @interface SparkApplication : SparkObject
 
