@@ -10,13 +10,10 @@
 
 @class WBTableView;
 @class SELibraryWindow, SparkLibrary;
+
 @interface SEApplicationSource : WBTableDataSource <NSOpenSavePanelDelegate> {
   IBOutlet WBTableView *uiTable;
   IBOutlet SELibraryWindow *ibWindow;
-  @private
-    BOOL se_locked;
-  NSMutableSet *se_urls;
-  SparkLibrary *se_library;
 }
 
 - (IBAction)newApplication:(id)sender;

@@ -13,17 +13,7 @@ SPARK_PRIVATE
 NSString * const SEServerStatusDidChangeNotification;
 
 @class SparkLibrarySynchronizer;
-@interface SEServerConnection : NSObject {
-  @private
-  struct _se_scFlags {
-    unsigned int fail:1;
-    unsigned int restart:1;
-    unsigned int reserved:30;
-  } se_scFlags;
-  SparkDaemonStatus se_status;
-  SparkLibrarySynchronizer *se_sync;
-  NSDistantObject<SparkServer> *se_server;
-}
+@interface SEServerConnection : NSObject
 
 + (SEServerConnection *)defaultConnection;
 

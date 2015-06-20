@@ -35,6 +35,8 @@
 		1B4D7BB01706182E0048CE54 /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B4D7BAF1706182E0048CE54 /* HotKeyToolKit.framework */; };
 		1B4DC67D1B2DC821003CAD25 /* SparkLibrarySynchronizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D767980B5A754E000A09A5 /* SparkLibrarySynchronizer.m */; };
 		1B4DC67F1B2F2069003CAD25 /* SparkMultipleAlerts.m in Sources */ = {isa = PBXBuildFile; fileRef = 984A38C10A60060A00DA6455 /* SparkMultipleAlerts.m */; };
+		1B50064C1B31EE3300003625 /* WBOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B81EBA10D38326C004B82A2 /* WBOutlineView.m */; };
+		1B50064D1B31EE3700003625 /* WBOutlineView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B81EBA00D38326C004B82A2 /* WBOutlineView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1B5727E51B248223003441B8 /* SparkActionLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 984A38610A60036E00DA6455 /* SparkActionLoader.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		1B5727E81B2482ED003441B8 /* SparkActionPlugIn.h in Headers */ = {isa = PBXBuildFile; fileRef = 984A38BA0A60060A00DA6455 /* SparkActionPlugIn.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1B5727E91B248386003441B8 /* SparkEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB2033A0EAF23B60072FE62 /* SparkEvent.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -973,6 +975,7 @@
 				1BC6A8EB17061FE300E7EA12 /* WBImageView.h in Headers */,
 				1BC6A8ED17061FF300E7EA12 /* WBBezelItem.h in Headers */,
 				1BC6A8EF17061FF300E7EA12 /* WBBezelItemContent.h in Headers */,
+				1B50064D1B31EE3700003625 /* WBOutlineView.h in Headers */,
 				1BC6A8F117061FF300E7EA12 /* WBNotificationWindow.h in Headers */,
 				1BC6A8F31706200400E7EA12 /* WBCGFunctions.h in Headers */,
 				1BC6A8F51706201800E7EA12 /* WBGeometry.h in Headers */,
@@ -1195,6 +1198,7 @@
 				1BC6A8F217061FF300E7EA12 /* WBNotificationWindow.m in Sources */,
 				1BC6A8F41706200900E7EA12 /* WBCGFunctions.mm in Sources */,
 				1BC6A8F61706201D00E7EA12 /* WBGeometry.m in Sources */,
+				1B50064C1B31EE3300003625 /* WBOutlineView.m in Sources */,
 				1BC6A8F81706202F00E7EA12 /* NSArray+WonderBox.m in Sources */,
 				1B70075D1706EE09003F5780 /* NSString+WonderBox.m in Sources */,
 				1B70075F1706EE25003F5780 /* NSTabView+WonderBox.m in Sources */,

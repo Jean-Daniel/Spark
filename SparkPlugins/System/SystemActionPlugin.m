@@ -15,10 +15,6 @@
 
 @implementation SystemActionPlugin
 
-- (void)dealloc {
-  [super dealloc];
-}
-
 - (void)awakeFromNib {
   NSMenu *menu = [ibActions menu];
   /* Check if handle brightness */
@@ -48,10 +44,9 @@
             [[ibUsers menu] insertItem:[NSMenuItem separatorItem] atIndex:0];
             [[ibUsers itemAtIndex:0] setTag:-1];
           }
-          NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:(id)name action:NULL keyEquivalent:@""];
+          NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:SPXCFToNSString(name) action:NULL keyEquivalent:@""];
           [item setTag:CFStringGetIntValue(suid)];
           [[ibUsers menu] insertItem:item atIndex:0];
-          [item release];
         }
       }
     }

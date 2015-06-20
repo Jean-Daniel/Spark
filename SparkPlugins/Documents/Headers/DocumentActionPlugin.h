@@ -7,42 +7,31 @@
  */
 
 #import <SparkKit/SparkPlugInAPI.h>
+#import "DocumentAction.h"
 
 @class DAApplicationMenu;
 @interface DocumentActionPlugin : SparkActionPlugIn {
-  @private
-	IBOutlet NSTextField *ibName;
+@private
+  IBOutlet NSTextField *ibName;
   IBOutlet DAApplicationMenu *ibMenu;
-  
-  NSImage *da_icon;
-  NSString *da_name;
-  NSString *da_path;
 }
 
 - (IBAction)chooseDocument:(id)sender;
 
-- (NSString *)url;
-- (void)setUrl:(NSString *)anUrl;
+@property(nonatomic, copy) NSString *url;
 
-- (int)action;
-- (void)setAction:(int)anAction;
+@property(nonatomic) DocumentActionType action;
 
-- (NSString *)document;
-- (void)setDocument:(NSString *)aPath;
+@property(nonatomic, copy) NSString *document;
 
-- (NSString *)application;
-- (void)setApplication:(NSString *)aPath;
+@property(nonatomic, copy) NSString *application;
 
-- (int)tabIndex;
-- (void)setTabIndex:(int)newTabIndex;
+@property(nonatomic) NSInteger tabIndex;
 
-- (BOOL)displayWithMenu;
-- (void)setDisplayWithMenu:(BOOL)newDisplayWithMenu;
+@property(nonatomic) BOOL displayWithMenu;
 
-- (NSString *)documentName;
-- (void)setDocumentName:(NSString *)newDocName;
+@property(nonatomic, copy) NSString *documentName;
 
-- (NSImage *)documentIcon;
-- (void)setDocumentIcon:(NSImage *)newDocIcon;
+@property(nonatomic, retain) NSImage *documentIcon;
 
 @end

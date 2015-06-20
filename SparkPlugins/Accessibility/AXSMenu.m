@@ -14,20 +14,19 @@
   NSArray *children = [self valuesForAttribute:NSAccessibilityChildrenAttribute];
   NSMutableArray *items = [NSMutableArray arrayWithCapacity:[children count]];
   for (NSUInteger idx = 0, count = [children count]; idx < count; idx++) {
-    CFTypeRef child = (CFTypeRef)[children objectAtIndex:idx];
+    CFTypeRef child = SPXNSToCFType([children objectAtIndex:idx]);
     if (CFGetTypeID(child) == AXUIElementGetTypeID()) {
       AXSMenuItem *item = [[AXSMenuItem alloc] initWithElement:child];
       NSString *role = [item role];
       if ([role isEqualToString:NSAccessibilityMenuItemRole] || [role isEqualToString:(id)kAXMenuBarItemRole])
         [items addObject:item];
-      [item release];
     }
   }
   return items;
 }
 
 - (NSString *)title {
-  CFTypeRef elt = [self valueForAttribute:NSAccessibilityServesAsTitleForUIElementsAttribute];
+  CFTypeRef elt = SPXNSToCFType([self valueForAttribute:NSAccessibilityServesAsTitleForUIElementsAttribute]);
   if (elt) {
     CFTypeRef title;
     if (kAXErrorSuccess == AXUIElementCopyAttributeValue(elt, kAXTitleAttribute, &title))
@@ -40,11 +39,8 @@
 
 #pragma mark -
 
-@implementation AXSMenuItem 
-
-- (void)dealloc {
-  [ax_submenu release];
-  [super dealloc];
+@implementation AXSMenuItem {
+  AXSMenu *_submenu;
 }
 
 #pragma mark -
@@ -57,18 +53,18 @@
 }
 
 - (AXSMenu *)submenu {
-  if (ax_submenu) return ax_submenu;
+  if (_submenu)
+    return _submenu;
   
   NSArray *children = [self valuesForAttribute:NSAccessibilityChildrenAttribute];
   if (children) {
     NSAssert([children count] == 1, @"invalid menu item children");
-    CFTypeRef child = (CFTypeRef)[children objectAtIndex:0];
+    CFTypeRef child = SPXNSToCFType([children objectAtIndex:0]);
     if (CFGetTypeID(child) == AXUIElementGetTypeID()) {
-      ax_submenu = [[AXSMenu alloc] initWithElement:child];
-      if ([[ax_submenu role] isEqualToString:NSAccessibilityMenuRole])
-        return ax_submenu;
-      [ax_submenu release];
-      ax_submenu = nil;
+      _submenu = [[AXSMenu alloc] initWithElement:child];
+      if ([[_submenu role] isEqualToString:NSAccessibilityMenuRole])
+        return _submenu;
+      _submenu = nil;
     }
   }
   return nil;

@@ -13,48 +13,33 @@
 #import "SETriggersController.h" // trigger sorting
 
 #import <SparkKit/SparkEntry.h>
+#import <SparkKit/SparkAction.h>
 #import <SparkKit/SparkPlugIn.h>
+#import <SparkKit/SparkTrigger.h>
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkObjectSet.h>
+#import <SparkKit/SparkApplication.h>
 #import <SparkKit/SparkEntryManager.h>
 #import <SparkKit/SparkActionLoader.h>
 
 #import <WonderBox/WBBase64.h>
 #import <WonderBox/WBXMLTemplate.h>
 
-@implementation SEHTMLGenerator
+@implementation SEHTMLGenerator {
+@private
+  SELibraryDocument *_document;
+}
 
 - (id)initWithDocument:(SELibraryDocument *)document {
   if (self = [super init]) {
-    se_doc = document;
+    _document = document;
   }
   return self;
 }
 
-- (BOOL)includesIcon {
-  return se_icons;
-}
-- (void)setIncludesIcons:(BOOL)flag {
-  se_icons = flag;
-}
-
-- (BOOL)strikeDisabled {
-	return se_strike;
-}
-- (void)setStrikeDisabled:(BOOL)flag {
-	se_strike = flag;
-}
-
-- (NSInteger)groupBy {
-  return se_group;
-}
-- (void)setGroupBy:(NSInteger)group {
-  se_group = group;
-}
-
 static
-NSInteger _SESortEntries(id e1, id e2, void *ctxt) {
-  return [[e1 trigger] compare:(id)[e2 trigger]];
+NSInteger _SESortEntries(SparkEntry *e1, SparkEntry *e2, void *ctxt) {
+  return [e1.trigger compare:e2.trigger];
 }
 
 - (void)dumpCategories:(NSArray *)categories entries:(NSArray *)entries template:(WBTemplate *)tpl {
@@ -70,11 +55,11 @@ NSInteger _SESortEntries(id e1, id e2, void *ctxt) {
         dump = true;
         WBTemplate *ablock = [block blockWithName:@"entry"];
         [ablock setVariable:[entry name] forKey:@"name"];
-        if (se_icons && [ablock containsKey:@"icon"])
+        if (_includesIcons && [ablock containsKey:@"icon"])
           [ablock setVariable:[self imageTagForImage:[entry icon] size:NSMakeSize(16, 16)] ?: @"" forKey:@"icon"];
         [ablock setVariable:[entry triggerDescription] forKey:@"keystroke"];
         [ablock setVariable:[entry actionDescription] forKey:@"description"];
-				if (se_strike)
+				if (_strikeDisabled)
 					[ablock setVariable:[entry isEnabled] ? @"enabled" : @"disabled" forKey:@"status"];
 				else 
 					[ablock setVariable:@"enabled" forKey:@"status"];
@@ -83,7 +68,7 @@ NSInteger _SESortEntries(id e1, id e2, void *ctxt) {
     }
     if (dump) {
       [block setVariable:[plugin name] forKey:@"name"];
-      if (se_icons && [block containsKey:@"icon"]) 
+      if (_includesIcons && [block containsKey:@"icon"])
         [block setVariable:[self imageTagForImage:[plugin icon] size:NSMakeSize(18, 18)] forKey:@"icon"];
       [block dumpBlock];
     }
@@ -91,48 +76,47 @@ NSInteger _SESortEntries(id e1, id e2, void *ctxt) {
 }
 
 - (NSString *)se_template {
-  return se_group == 0 ? @"SEExportShortcut" : @"SEExportApp";
+  return _groupBy == 0 ? @"SEExportShortcut" : @"SEExportApp";
 }
 static
 NSComparisonResult _SETriggerCompare(SparkTrigger *t1, SparkTrigger *t2, void *ctxt) {
   return SETriggerSortValue(t1) - SETriggerSortValue(t2);
 }
 
-- (BOOL)writeToFile:(NSString *)path atomically:(BOOL)useAuxiliaryFile error:(NSError **)error {
+- (BOOL)writeToFile:(NSString *)path atomically:(BOOL)useAuxiliaryFile error:(__autoreleasing NSError **)error {
   NSString *file = [[NSBundle mainBundle] pathForResource:[self se_template] ofType:@"xml"];
   NSAssert1(file, @"Missing resource file: %@.xml", [self se_template]);
   
   WBTemplate *tpl = [[WBXMLTemplate alloc] initWithContentsOfFile:file encoding:NSUTF8StringEncoding];
   [tpl setVariable:@"Spark Library" forKey:@"title"];
 
-  SparkLibrary *library = [se_doc library];
+  SparkLibrary *library = [_document library];
   SparkEntryManager *manager = [library entryManager];
 
   NSArray *plugins = [[SparkActionLoader sharedLoader] plugIns];
   plugins = [plugins sortedArrayUsingDescriptors:gSortByNameDescriptors];
   
-  if (se_group == 1) {
+  if (_groupBy == 1) {
     NSMutableArray *customs = [NSMutableArray array];
 
-    SparkApplication *app = [library systemApplication];
+    SparkApplication *system = [library systemApplication];
 
-    if ([manager containsEntryForApplication:app])
-      [customs addObject:app];
+    if ([manager containsEntryForApplication:system])
+      [customs addObject:system];
 
     [library.applicationSet enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
-      if ([manager containsEntryForApplication:app])
-        [customs addObject:app];
+      if ([manager containsEntryForApplication:system])
+        [customs addObject:system];
     }];
     
     [customs sortedArrayUsingFunction:SparkObjectCompare context:nil];
     
     /* foreach application that contains at least one entry */
-    for (NSUInteger idx = 0; idx < [customs count]; idx++) {
-      app = [customs objectAtIndex:idx];
+    for (SparkApplication *app in customs) {
       WBTemplate *block = [tpl blockWithName:@"application"];
-      [block setVariable:[app name] forKey:@"name"];
-      if (se_icons && [block containsKey:@"icon"]) 
-        [block setVariable:[self imageTagForImage:[app icon] size:NSMakeSize(20, 20)] forKey:@"icon"];
+      [block setVariable:app.name forKey:@"name"];
+      if (_includesIcons && [block containsKey:@"icon"])
+        [block setVariable:[self imageTagForImage:app.icon size:NSMakeSize(20, 20)] forKey:@"icon"];
       
       /* process entries */
       [self dumpCategories:plugins entries:[manager entriesForApplication:app] template:block];
@@ -149,7 +133,7 @@ NSComparisonResult _SETriggerCompare(SparkTrigger *t1, SparkTrigger *t2, void *c
       [block setVariable:[trigger triggerDescription] forKey:@"description"];
       
       // retreive entries list.
-//      if (se_icons && [block containsKey:@"icon"]) 
+//      if (_includesIcon && [block containsKey:@"icon"])
 //        [block setVariable:[self imageTagForImage:[app icon] size:NSMakeSize(20, 20)] forKey:@"icon"];
       
       /* process entries */
@@ -160,13 +144,12 @@ NSComparisonResult _SETriggerCompare(SparkTrigger *t1, SparkTrigger *t2, void *c
     
   }
   [tpl writeToFile:path atomically:useAuxiliaryFile andReset:NO];
-  [tpl release];
   return YES;
 }
 
 - (NSString *)imageTagForImage:(NSImage *)image size:(NSSize)size {
-  size_t bytesPerRow = size.width * 4;
-  char *data = malloc(bytesPerRow * size.height);
+  size_t bytesPerRow = ceil(size.width) * 4;
+  char *data = malloc(bytesPerRow * ceil(size.height));
   CGColorSpaceRef space = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
   CGContextRef ctxt = CGBitmapContextCreate(data, size.width, size.height, 8, bytesPerRow, space, kCGImageAlphaPremultipliedLast);
   CGContextClearRect(ctxt, CGRectMake(0, 0, size.width, size.height));
@@ -203,7 +186,7 @@ NSComparisonResult _SETriggerCompare(SparkTrigger *t1, SparkTrigger *t2, void *c
     CFStringAppendCString(str, (const char *)CFDataGetBytePtr(b64), kCFStringEncodingASCII);
     CFStringAppend(str, CFSTR("\" />"));
     CFRelease(b64);
-    return [(id)str autorelease];
+    return SPXCFStringBridgingRelease(str);
   }
   return nil;
 }

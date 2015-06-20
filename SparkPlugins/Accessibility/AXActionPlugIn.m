@@ -110,7 +110,7 @@
     }
   }
   [menu setAutoenablesItems:NO];
-  return [menu autorelease];
+  return menu;
 }
 
 - (IBAction)selectApplication:(NSPopUpButton *)sender {
@@ -121,11 +121,10 @@
     AXSApplication *app = [[AXSApplication alloc] initWithProcessIdentifier:(pid_t)tag];
     if (app) {
       NSMenu *menu = [self ax_buildMenu:[app menu]];
-      if (menu) {
+      if (menu && [menu numberOfItems] > 0) {
         [menu removeItemAtIndex:0];
         [uiMenus setMenu:menu];
       }
-      [app release];
     }
   }
 }

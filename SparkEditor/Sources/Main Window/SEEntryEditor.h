@@ -9,8 +9,11 @@
 #import <WonderBox/WBWindowController.h>
 
 @class SparkEntry, SparkAction, SparkTrigger;
-@class SETableView, SEApplicationView, SEHotKeyTrap;
-@class SparkActionPlugIn, SparkApplication, SparkPlugIn;
+@class SETableView, SEApplicationView;
+@class SparkApplication, SparkPlugIn;
+
+@protocol SEEntryEditorDelegate;
+
 @interface SEEntryEditor : WBWindowController {
   IBOutlet NSView *uiPlugin;
 	IBOutlet SETableView *uiTypeTable;
@@ -18,35 +21,19 @@
   
   IBOutlet NSButton *uiHelp;
   IBOutlet NSButton *uiConfirm;
-@private
-	NSSize se_min;
-  NSView *se_view; /* current view __weak */
-  SparkEntry *se_entry; /* Edited entry */
-	SEHotKeyTrap *se_trap; /* trap field */
-	
-  NSMutableArray *se_plugins; /* plugins list */
-  SparkActionPlugIn *se_plugin; /* current action plugin __weak */
-  SparkApplication *se_application; /* current application */
-	
-	id se_delegate;
-	
-	NSMapTable *se_sizes; /* plugin min sizes */
-	NSMapTable *se_instances; /* plugin instances */
-  NSMutableArray *se_views; /* binding cycle hack */
 }
 
-- (id)delegate;
-- (void)setDelegate:(id)aDelegate;
+@property(nonatomic, assign) id<SEEntryEditorDelegate> delegate;
 
-- (SparkEntry *)entry;
-- (void)setEntry:(SparkEntry *)anEntry;
+/* Edited entry */
+@property(nonatomic, retain) SparkEntry *entry;
 
-- (SparkPlugIn *)actionType;
-- (void)setActionType:(SparkPlugIn *)type;
+@property(nonatomic, retain) SparkPlugIn *actionType;
+
 - (void)setActionType:(SparkPlugIn *)aPlugin force:(BOOL)force;
 
-- (SparkApplication *)application;
-- (void)setApplication:(SparkApplication *)anApplication;
+/* current application */
+@property(nonatomic, retain) SparkApplication *application;
 
 - (IBAction)ok:(id)sender;
 - (IBAction)cancel:(id)sender;
@@ -54,7 +41,7 @@
 
 @end
 
-@interface NSObject (SEEntryEditorDelegate)
+@protocol SEEntryEditorDelegate <NSObject>
 
 - (BOOL)editor:(SEEntryEditor *)theEditor shouldCreateEntryWithAction:(SparkAction *)anAction
 			 trigger:(SparkTrigger *)aTrigger

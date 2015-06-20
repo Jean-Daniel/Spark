@@ -27,47 +27,41 @@ static NSString * const kDocumentActionApplicationKey = @"DocumentApplication";
 
 @implementation DocumentAction
 
-@synthesize action = da_action;
-
-@synthesize URL = da_url;
-@synthesize document = da_doc;
-@synthesize application = da_app;
-
 #pragma mark Protocols Implementation
 - (id)copyWithZone:(NSZone *)zone {
   DocumentAction* copy = [super copyWithZone:zone];
-  copy->da_action = da_action;
-  copy->da_doc = [da_doc copy];
-  copy->da_app = [da_app copy];
-  copy->da_url = [da_url retain];
+  copy->_action = _action;
+  copy->_document = [_document copy];
+  copy->_application = [_application copy];
+  copy->_URL = _URL;
   return copy;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
-  [coder encodeInt:da_action forKey:kDocumentActionKey];
-  if (da_url)
-    [coder encodeObject:da_doc forKey:kDocumentActionURLKey];
-  if (da_doc)
-    [coder encodeObject:da_doc forKey:kDocumentActionAliasKey];
-  if (da_app)
-    [coder encodeObject:da_app forKey:kDocumentActionApplicationKey];
+  [coder encodeInt:_action forKey:kDocumentActionKey];
+  if (_URL)
+    [coder encodeObject:_URL forKey:kDocumentActionURLKey];
+  if (_document)
+    [coder encodeObject:_document forKey:kDocumentActionAliasKey];
+  if (_application)
+    [coder encodeObject:_application forKey:kDocumentActionApplicationKey];
   return;
 }
 
 - (id)initWithCoder:(NSCoder *)coder {
   if (self = [super initWithCoder:coder]) {
-    da_action = [coder decodeIntForKey:kDocumentActionKey];
-    da_url = [[coder decodeObjectForKey:kDocumentActionURLKey] retain];
-    da_doc = [[coder decodeObjectForKey:kDocumentActionAliasKey] retain];
-    da_app = [[coder decodeObjectForKey:kDocumentActionApplicationKey] retain];
+    _action = [coder decodeIntForKey:kDocumentActionKey];
+    _URL = [coder decodeObjectForKey:kDocumentActionURLKey];
+    _document = [coder decodeObjectForKey:kDocumentActionAliasKey];
+    _application = [coder decodeObjectForKey:kDocumentActionApplicationKey];
   }
   return self;
 }
 
 #pragma mark -
 #pragma mark Required Methods.
-- (id)init {
+- (instancetype)init {
   if (self = [super init]) {
     [self setVersion:0x200];
   }
@@ -95,12 +89,12 @@ OSType _DocumentActionFromFlag(int flag) {
 
 - (void)initFromOldPropertyList:(id)plist {
   [self setAction:_DocumentActionFromFlag([[plist objectForKey:@"DocAction"] intValue])];
-  if (DocumentActionNeedDocument(da_action)) {
+  if (DocumentActionNeedDocument(_action)) {
     NSData *data = [plist objectForKey:@"DocAlias"];
     if (data)
-      da_doc = [[WBAlias alloc] initFromData:data];
+      _document = [[WBAlias alloc] initFromData:data];
   }
-  if (DocumentActionNeedApplication(da_action)) {
+  if (DocumentActionNeedApplication(_action)) {
     NSData *data = [plist objectForKey:@"AppAlias"];
     if (data) {
       NSURL *url = nil;
@@ -114,12 +108,11 @@ OSType _DocumentActionFromFlag(int flag) {
         url = app.URL;
       }
       if (url) {
-        da_app = [[WBAliasedApplication alloc] initWithPath:[url path]];
+        _application = [[WBAliasedApplication alloc] initWithPath:[url path]];
       }
-      [app release];
     }
   }
-  if (da_action == kDocumentActionOpenURL) {
+  if (_action == kDocumentActionOpenURL) {
     [self setURL:[plist objectForKey:@"DocumentURL"]];
   }
   if (![self shouldSaveIcon]) {
@@ -135,17 +128,17 @@ OSType _DocumentActionFromFlag(int flag) {
     } else {
       [self setAction:WBOSTypeFromString([plist objectForKey:kDocumentActionKey])];
       
-      if (DocumentActionNeedDocument(da_action)) {
+      if (DocumentActionNeedDocument(_action)) {
         NSData *data = [plist objectForKey:kDocumentActionAliasKey];
         if (data)
-          da_doc = [[WBAlias alloc] initFromData:data];
+          _document = [[WBAlias alloc] initFromData:data];
       }
       
-      if (DocumentActionNeedApplication(da_action)) {
-        da_app = [[WBAliasedApplication alloc] initWithSerializedValues:plist];
+      if (DocumentActionNeedApplication(_action)) {
+        _application = [[WBAliasedApplication alloc] initWithSerializedValues:plist];
       }
       
-      if (da_action == kDocumentActionOpenURL) {
+      if (_action == kDocumentActionOpenURL) {
         [self setURL:[plist objectForKey:kDocumentActionURLKey]];
       }
     }
@@ -157,19 +150,12 @@ OSType _DocumentActionFromFlag(int flag) {
   return self;
 }
 
-- (void)dealloc {
-  [da_url release];
-  [da_doc release];
-  [da_app release];
-  [super dealloc];
-}
-
 #pragma mark -
 - (BOOL)serialize:(NSMutableDictionary *)plist {
   if ([super serialize:plist]) {
-    [plist setObject:WBStringForOSType(da_action) forKey:kDocumentActionKey];
-    if (DocumentActionNeedDocument(da_action)) {
-      NSData *data = [da_doc data];
+    [plist setObject:WBStringForOSType(_action) forKey:kDocumentActionKey];
+    if (DocumentActionNeedDocument(_action)) {
+      NSData *data = [_document data];
       if (data) {
         [plist setObject:data forKey:kDocumentActionAliasKey];
       } else {
@@ -177,15 +163,15 @@ OSType _DocumentActionFromFlag(int flag) {
         return NO;
       }
     }
-    if (DocumentActionNeedApplication(da_action)) {
-      if (![da_app serialize:plist]) {
+    if (DocumentActionNeedApplication(_action)) {
+      if (![_application serialize:plist]) {
         SPXDebug(@"Invalid Open With Application.");
         return NO;
       }
     }
-    if (da_action == kDocumentActionOpenURL) {
-      if (da_url) {
-        [plist setObject:da_url forKey:kDocumentActionURLKey];
+    if (_action == kDocumentActionOpenURL) {
+      if (_URL) {
+        [plist setObject:_URL forKey:kDocumentActionURLKey];
       } else {
         SPXDebug(@"Invalid Document URL");
         return NO;
@@ -196,7 +182,7 @@ OSType _DocumentActionFromFlag(int flag) {
 }
 
 - (SparkAlert *)actionDidLoad {
-  if (DocumentActionNeedDocument(da_action)) {
+  if (DocumentActionNeedDocument(_action)) {
     if (![[self document] path]) {
       //Alert Doc invalide
       return [SparkAlert alertWithMessageText:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"INVALID_DOCUMENT_ALERT", nil, 
@@ -207,7 +193,7 @@ OSType _DocumentActionFromFlag(int flag) {
                                                                                  @"Document not found  * Check Msg *"), [self name]];
     }
   }
-  if (DocumentActionNeedApplication(da_action)) {
+  if (DocumentActionNeedApplication(_action)) {
     if (![[self application] path]) {
       //Alert App Invalide
       return [SparkAlert alertWithMessageText:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"INVALID_APPLICATION_ALERT", nil, 
@@ -223,7 +209,7 @@ OSType _DocumentActionFromFlag(int flag) {
 
 - (SparkAlert *)performAction {
   SparkAlert *alert = nil;
-  switch (da_action) {
+  switch (_action) {
     case kDocumentActionOpen:
     case kDocumentActionOpenWith: {
       if (![[NSWorkspace sharedWorkspace] openFile:[[self document] path] withApplication:[[self application] path]]) {
@@ -240,7 +226,7 @@ OSType _DocumentActionFromFlag(int flag) {
     }
       break;
     case kDocumentActionOpenURL: {
-      if (![[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:da_url]]) {
+      if (![[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:_URL]]) {
         NSBeep();
         /* alert = []; */
       }

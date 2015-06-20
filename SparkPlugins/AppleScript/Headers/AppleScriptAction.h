@@ -11,21 +11,14 @@
 #define kASActionBundleIdentifier   @"org.shadowlab.spark.action.applescript"
 #define AppleScriptActionBundle		[NSBundle bundleWithIdentifier:kASActionBundleIdentifier]
 
-@class WBAlias, OSAScript;
-@interface AppleScriptAction : SparkAction <NSCoding, NSCopying> {
-  @private
-  WBAlias *as_alias;
-  OSAScript *as_script;
-  NSTimeInterval as_repeat;
-}
+@class WBAlias;
+@interface AppleScriptAction : SparkAction <NSCoding, NSCopying>
 
-- (NSString *)file;
-- (void)setFile:(NSString *)aFile;
+@property(nonatomic, copy) NSString *file;
 
 @property(nonatomic, retain) WBAlias *scriptAlias;
 
-- (NSString *)scriptSource;
-- (void)setScriptSource:(NSString *)source;
+@property(nonatomic, copy) NSString *scriptSource;
 
 @end
 

@@ -22,13 +22,6 @@ enum {
 
 @implementation AppleScriptActionPlugin
 
-@synthesize scriptFile = as_file;
-
-- (void)dealloc {
-  [as_file release];
-  [super dealloc];
-}
-
 - (void)loadSparkAction:(id)sparkAction toEdit:(BOOL)edit {
   id value;
   [[ibScriptController scriptView] setSource:@""];
@@ -55,7 +48,7 @@ enum {
   } else {
     OSAScript *script = [ibScriptController script];//[ alloc] initWithSource:[ibScript source]];
 		if (!script)
-			script = [[[OSAScript alloc] initWithSource:[[ibScriptController scriptView] source]] autorelease];
+			script = [[OSAScript alloc] initWithSource:[[ibScriptController scriptView] source]];
     if (!script) {
 			alert = [NSAlert alertWithMessageText:NSLocalizedStringFromTableInBundle(@"SCRIPT_CREATION_ERROR_ALERT", nil, AppleScriptActionBundle,
 																																							 @"Unknow Error in -initWithSource * Title *")
@@ -76,7 +69,7 @@ enum {
 
 - (NSAlert *)sparkEditorShouldConfigureAction {
   NSAlert *alert = nil;
-  switch (as_tidx) {
+  switch (_selectedTab) {
     case kAppleScriptSourceTab:
       alert = [self checkSyntax];
       break;
@@ -102,7 +95,7 @@ enum {
 - (void)configureAction {
   AppleScriptAction *action = [self sparkAction];
   
-  switch (as_tidx) {
+  switch (_selectedTab) {
     case kAppleScriptSourceTab:
       [action setScriptSource:[[ibScriptController scriptView] source]];
       [action setFile:nil];
@@ -171,14 +164,12 @@ enum {
     NSString *src = nil;
     if ([[[file pathExtension] lowercaseString] isEqualToString:@"scpt"]) {
       OSAScript *script = [[OSAScript alloc] initWithContentsOfURL:file error:nil];
-      src = [[script source] retain];
-      [script release];
+      src = [script source];
     } else {
       NSStringEncoding encoding;
       src = [[NSString alloc] initWithContentsOfURL:file usedEncoding:&encoding error:NULL];
     }
     [[ibScriptController scriptView] setSource:src];
-    [src release];
   }
 }
 
@@ -214,7 +205,6 @@ enum {
     } else {
       [self setScriptFile:[file path]];
     }
-    [script release];
   } else {
     [self setScriptFile:nil];
   }
@@ -223,6 +213,7 @@ enum {
 #pragma mark Launch
 - (IBAction)launchEditor:(id)sender {
   OSStatus err = noErr;
+  NSString *src = nil;
   AppleEvent aevt = WBAEEmptyDesc();
   AEDesc document = WBAEEmptyDesc();
   
@@ -237,7 +228,7 @@ enum {
   err = WBAESendSimpleEventToProcess(&psn, kAEMiscStandards, kAEActivate);
   require_noerr(err, dispose);
   
-  NSString *src = [[ibScriptController scriptView] source];
+  src = [[ibScriptController scriptView] source];
   if (!src || ![src length]) {
     return;
   }
@@ -264,7 +255,7 @@ enum {
   err = WBAEAddIndexObjectSpecifier(&aevt, keyDirectObject, 'ctxt', kAEAll, &document);
   require_noerr(err, dispose);
   
-  err = WBAEAddCFStringAsUnicodeText(&aevt, keyAEData, (CFStringRef)src);
+  err = WBAEAddCFStringAsUnicodeText(&aevt, keyAEData, SPXNSToCFString(src));
   require_noerr(err, dispose);
   
   err = WBAESendEventNoReply(&aevt);
@@ -273,14 +264,6 @@ enum {
 dispose:
     WBAEDisposeDesc(&aevt);
   WBAEDisposeDesc(&document);
-}
-
-#pragma mark -
-- (int)selectedTab {
-  return as_tidx;
-}
-- (void)setSelectedTab:(int)tab {
-  as_tidx = tab;
 }
 
 @end

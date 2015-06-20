@@ -16,18 +16,12 @@
   SparkApplication *se_app;
 }
 
-- (void)dealloc {
-  [se_app release];
-  [super dealloc];
-}
-
 - (SparkApplication *)sparkApplication {
   return se_app;
 }
 - (void)setSparkApplication:(SparkApplication *)anApp {
   if (se_app != anApp) {
-    [se_app release];
-    se_app = [anApp retain];
+    se_app = anApp;
     
 		NSString *title = se_app ? [[NSString alloc] initWithFormat:
 																NSLocalizedString(@"%@ HotKeys", @"Application HotKeys - Application View Title (%@ => name)"), [se_app name]] : nil;
@@ -38,7 +32,6 @@
     } else {
       self.icon = se_app.icon;
     }
-    [title release];
   }
 }
 

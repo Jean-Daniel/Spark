@@ -13,10 +13,6 @@
 @interface SEPlugInHelp : WBWindowController {
   IBOutlet WebView *ibWeb;
   IBOutlet WBHeaderView *ibHead;
-  
-  @private
-    NSButton *se_previous, *se_next;
-  NSPopUpButton *se_plugins;
 }
 
 + (id)sharedPlugInHelp;

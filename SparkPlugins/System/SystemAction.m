@@ -25,6 +25,7 @@
 
 static NSString * const 
 kFastUserSwitcherPath = @"/System/Library/CoreServices/Menu Extras/User.menu/Contents/Resources/CGSession";
+
 static NSString * const 
 kScreenSaverEngine = @"/System/Library/Frameworks/ScreenSaver.framework/Resources/ScreenSaverEngine.app/Contents/MacOS/ScreenSaverEngine";
 
@@ -43,12 +44,23 @@ NSString * const kSystemUserUIDKey = @"SystemUserUID";
 static
 NSString * const kSystemUserNameKey = @"SystemUserName";
 
-@implementation SystemAction
+@implementation SystemAction {
+  /* Switch data */
+  NSTimeInterval sa_start;
+  struct _sa_saFlags {
+    unsigned int notify:1;
+    unsigned int confirm:1;
+    unsigned int feedback:1;
+    unsigned int reserved:29;
+  } sa_saFlags;
+}
 
 #pragma mark Protocols Implementation
 - (id)copyWithZone:(NSZone *)zone {
   SystemAction* copy = [super copyWithZone:zone];
-  copy->sa_action = sa_action;
+  copy->_action = _action;
+  copy->_userID = _userID;
+  copy->_userName = _userName;
   copy->sa_saFlags = sa_saFlags;
   return copy;
 }
@@ -106,11 +118,6 @@ NSString * const kSystemUserNameKey = @"SystemUserName";
   return self;
 }
 
-- (void)dealloc {
-  [sa_uname release];
-  [super dealloc];
-}
-
 - (BOOL)serialize:(NSMutableDictionary *)plist {
   if ([super serialize:plist]) {
     [plist setObject:@([self action]) forKey:kSystemActionKey];
@@ -136,14 +143,6 @@ NSString * const kSystemUserNameKey = @"SystemUserName";
     [super setIcon:icon];
   }
   return icon;
-}
-
-- (SystemActionType)action {
-  return sa_action;
-}
-
-- (void)setAction:(SystemActionType)newAction {
-  sa_action = newAction;
 }
 
 - (SparkAlert *)actionDidLoad {
@@ -280,20 +279,6 @@ bail:
     WBAEDisposeDesc(&aevt);
 }
 
-- (uid_t)userID {
-  return sa_uid;
-}
-- (void)setUserID:(uid_t)uid {
-  sa_uid = uid;
-}
-
-- (NSString *)userName {
-  return sa_uname;
-}
-- (void)setUserName:(NSString *)aName {
-  SPXSetterRetain(sa_uname, aName);
-}
-
 /*
 kAELogOut                     = 'logo',
 kAEReallyLogOut               = 'rlgo',
@@ -339,10 +324,10 @@ kAEShowShutdownDialog         = 'rsdn'
   WBAESendSimpleEventToProcess(&psn, kCoreEventClass, 'slep');
 }
 - (void)switchSession {
-  if (0 == sa_uid) 
+  if (0 == _userID)
     SystemFastLogOut();
-  else if (getuid() != sa_uid)
-    SystemSwitchToUser(sa_uid);
+  else if (getuid() != _userID)
+    SystemSwitchToUser(_userID);
 }
 
 - (void)screenSaver {
@@ -527,7 +512,7 @@ NSUInteger __SystemBrightnessLevelForValue(float value) {
 
 
 - (NSTimeInterval)repeatInterval {
-  switch (sa_action) {
+  switch (_action) {
     case kSystemVolumeUp:
     case kSystemVolumeDown:
     case kSystemBrightnessUp:
@@ -554,7 +539,6 @@ void SystemFastLogOut(void) {
     [task setArguments:[NSArray arrayWithObject:@"-suspend"]];
     [task launch];
     [task waitUntilExit];
-    [task release];
   }
 }
 
@@ -565,7 +549,6 @@ void SystemSwitchToUser(uid_t uid) {
   [task setArguments:[NSArray arrayWithObjects:@"-switchToUserID", [NSString stringWithFormat:@"%u", uid], nil]];
   [task launch];
   [task waitUntilExit];
-  [task release];
 }
 
 #pragma mark -
@@ -595,7 +578,6 @@ OSType SystemActionFromFlag(int flag) {
 }
 
 - (id)initWithSerializedValues:(NSDictionary *)plist {
-  [self release];
   SystemAction *action = [[SystemAction alloc] initWithSerializedValues:plist];
   if (action) {
     [action setAction:SystemActionFromFlag([[plist objectForKey:@"PowerAction"] intValue])];

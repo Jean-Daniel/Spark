@@ -14,6 +14,7 @@
 #import "SELibrarySource.h"
 #import "SEBackgroundView.h"
 #import "SELibraryDocument.h"
+#import "SEApplicationSource.h"
 
 #import "SEApplicationView.h"
 #import "SETriggersController.h"
@@ -24,6 +25,7 @@
 #import <SparkKit/SparkPlugIn.h>
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkFunctions.h>
+#import <SparkKit/SparkApplication.h>
 #import <SparkKit/SparkActionLoader.h>
 
 #import <WonderBox/NSImage+WonderBox.h>
@@ -53,12 +55,8 @@
 - (void)dealloc {
   [[NSNotificationCenter defaultCenter] removeObserver:self];
   [self setLibrary:nil];
-  [super dealloc];
 }
 
-- (SparkLibrary *)library {
-  return se_library;
-}
 - (NSUndoManager *)undoManager {
   return [[self document] undoManager];
 }
@@ -74,19 +72,18 @@
 }
 
 - (void)setLibrary:(SparkLibrary *)aLibrary {
-  if (se_library != aLibrary) {
-    if (se_library) {
-      [[se_library notificationCenter] removeObserver:self
-                                                 name:SEApplicationDidChangeNotification
-                                               object:[self document]];
-      [se_library release];
+  if (_library != aLibrary) {
+    if (_library) {
+      [_library.notificationCenter removeObserver:self
+                                             name:SEApplicationDidChangeNotification
+                                           object:[self document]];
     }
-    se_library = [aLibrary retain];
-    if (se_library) {
-      [[se_library notificationCenter] addObserver:self
-                                          selector:@selector(applicationDidChange:)
-                                              name:SEApplicationDidChangeNotification
-                                            object:[self document]];
+    _library = aLibrary;
+    if (_library) {
+      [_library.notificationCenter addObserver:self
+                                      selector:@selector(applicationDidChange:)
+                                          name:SEApplicationDidChangeNotification
+                                        object:[self document]];
     }
   }
 }
@@ -120,10 +117,8 @@
   [item setImage:[NSImage imageNamed:@"SimpleList" inBundle:SPXBundleForClass(SparkLibrary)]];
   [item setKeyEquivalentModifierMask:NSShiftKeyMask | NSCommandKeyMask];
   [menu addItem:item];
-  [item release];
   
   [uiMenu setMenu:menu forSegment:0];
-  [menu release];
 }
 
 - (void)awakeFromNib {

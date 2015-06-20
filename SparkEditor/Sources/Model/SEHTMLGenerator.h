@@ -7,25 +7,17 @@
 //
 
 @class SELibraryDocument;
-@interface SEHTMLGenerator : NSObject {
-  @private
-  NSInteger se_group;
-	BOOL se_icons, se_strike;
-  SELibraryDocument *se_doc;
-}
+@interface SEHTMLGenerator : NSObject
 
-- (id)initWithDocument:(SELibraryDocument *)document;
+- (instancetype)initWithDocument:(SELibraryDocument *)document;
 
-- (BOOL)strikeDisabled;
-- (void)setStrikeDisabled:(BOOL)flag;
+@property(nonatomic) BOOL strikeDisabled;
 
-- (BOOL)includesIcon;
-- (void)setIncludesIcons:(BOOL)flag;
+@property(nonatomic) BOOL includesIcons;
 
-- (NSInteger)groupBy;
-- (void)setGroupBy:(NSInteger)group;
+@property(nonatomic) NSInteger groupBy;
 
-- (BOOL)writeToFile:(NSString *)path atomically:(BOOL)useAuxiliaryFile error:(NSError **)error;
+- (BOOL)writeToFile:(NSString *)path atomically:(BOOL)useAuxiliaryFile error:(__autoreleasing NSError **)error;
 
 - (NSString *)imageTagForImage:(NSImage *)image size:(NSSize)size;
 

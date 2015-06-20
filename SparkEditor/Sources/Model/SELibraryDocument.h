@@ -8,24 +8,17 @@
 
 #import <SparkKit/SparkKit.h>
 
+@class SELibraryWindow;
 @class SparkPlugIn, SparkEntry;
 @class SparkLibrary, SparkApplication;
-@class SEEntryEditor, SELibraryWindow;
-@interface SELibraryDocument : NSDocument {
-  @private
-  SEEntryEditor *se_editor;
-  
-  SparkLibrary *se_library;
-  SparkApplication *se_application;
-}
 
-- (SparkLibrary *)library;
-- (void)setLibrary:(SparkLibrary *)aLibrary;
+@interface SELibraryDocument : NSDocument
 
-- (SparkApplication *)application;
-- (void)setApplication:(SparkApplication *)anApplication;
+@property(nonatomic, retain) SparkLibrary *library;
 
-- (SELibraryWindow *)mainWindowController;
+@property(nonatomic, retain) SparkApplication *application;
+
+@property(nonatomic, readonly) SELibraryWindow *mainWindowController;
 
 /* Entry editor */
 - (void)makeEntryOfType:(SparkPlugIn *)type;

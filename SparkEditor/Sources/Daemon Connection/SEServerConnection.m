@@ -23,7 +23,17 @@
 
 NSString * const SEServerStatusDidChangeNotification = @"SEServerStatusDidChange";
 
-@implementation SEServerConnection
+@implementation SEServerConnection {
+@private
+  struct _se_scFlags {
+    unsigned int fail:1;
+    unsigned int restart:1;
+    unsigned int reserved:30;
+  } se_scFlags;
+  SparkDaemonStatus se_status;
+  SparkLibrarySynchronizer *se_sync;
+  NSDistantObject<SparkServer> *se_server;
+}
 
 + (SEServerConnection *)defaultConnection {
   static SEServerConnection *sConnection = nil;
@@ -56,18 +66,13 @@ NSString * const SEServerStatusDidChangeNotification = @"SEServerStatusDidChange
 
 - (void)dealloc {
   [[NSNotificationCenter defaultCenter] removeObserver:self];
-  [se_server release];
-  [se_sync release];
-  [super dealloc];
 }
 
 - (void)serverDidClose {
   if (se_server) {
     [se_sync setDistantLibrary:nil];
-    [se_sync release];
     se_sync = nil;
-    
-    [se_server release];
+
     se_server = nil;
   }
 }
@@ -130,7 +135,6 @@ NSString * const SEServerStatusDidChangeNotification = @"SEServerStatusDidChange
     }
     
     if (se_server) {
-      [se_server retain];
       [se_server setProtocolForProxy:@protocol(SparkServer)];
       SPXDebug(@"Server Connection OK");
     } else {
@@ -243,7 +247,7 @@ BOOL SELaunchSparkDaemon(ProcessSerialNumber *psn) {
   [SparkActiveLibrary() synchronize];
   NSString *path = SESparkDaemonPath();
   if (path) {
-    OSStatus err = WBLSLaunchApplicationAtPath((CFStringRef)path, kCFURLPOSIXPathStyle, kLSLaunchDefaults | kLSLaunchDontSwitch | kLSLaunchDontAddToRecents, psn);
+    OSStatus err = WBLSLaunchApplicationAtPath(SPXNSToCFString(path), kCFURLPOSIXPathStyle, kLSLaunchDefaults | kLSLaunchDontSwitch | kLSLaunchDontAddToRecents, psn);
     if (noErr != err) {
       SPXLogError(@"Error cannot launch daemon app: %s", GetMacOSStatusErrorString(err));
       [[SEServerConnection defaultConnection] setStatus:kSparkDaemonStatusError];

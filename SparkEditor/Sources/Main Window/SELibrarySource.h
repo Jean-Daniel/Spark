@@ -11,14 +11,10 @@
 @class SparkAction;
 @class SparkLibrary, SparkPlugIn;
 @class SEEntryList, SETableView, SELibraryWindow;
+
 @interface SELibrarySource : WBTableDataSource {
   IBOutlet SETableView *uiTable;
   IBOutlet SELibraryWindow *ibWindow;
-@private
-  NSMapTable *se_plugins;
-  SEEntryList *se_overwrite;
-
-  SparkLibrary *se_library;
 }
 
 - (IBAction)newGroup:(id)sender;

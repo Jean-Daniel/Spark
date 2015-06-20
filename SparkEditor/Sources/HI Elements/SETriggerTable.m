@@ -12,6 +12,9 @@
 
 @implementation SETriggerTable
 
+- (id<SETriggerTableDelegate>)delegate { return (id)super.delegate; }
+- (void)setDelegate:(id<SETriggerTableDelegate>)delegate { super.delegate = delegate; }
+
 - (NSDragOperation)draggingSession:(NSDraggingSession *)session sourceOperationMaskForDraggingContext:(NSDraggingContext)context {
   if (NSDraggingContextWithinApplication == context) {
     return NSDragOperationCopy | NSDragOperationGeneric | NSDragOperationMove | NSDragOperationDelete;
@@ -87,7 +90,7 @@
   NSString *str = [NSString stringWithFormat:@"%ld", (long)count];
   NSSize size = [str sizeWithAttributes:attr];
   /* backup image before edit */
-  img = [[img copy] autorelease];
+  img = [img copy];
   if (img) {
     CGFloat x = ([img size].width - size.width) / 2;
     CGFloat y =  ([img size].height - size.height) / 2;

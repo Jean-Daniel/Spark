@@ -14,6 +14,7 @@
 #import "SEEntryEditor.h"
 #import <Foundation/NSDebug.h>
 #import <SparkKit/SparkLibrarySynchronizer.h>
+// #import <SparkKit/SparkEntryManagerPrivate.h>
 #endif
 
 #import <SparkKit/SparkKit.h>
@@ -49,14 +50,16 @@ NSArray *gSortByNameDescriptors = nil;
 NSString * const SparkEntriesPboardType = @"SparkEntriesPboardType";
 NSString * const SESparkEditorDidChangePlugInStatusNotification = @"SESparkEditorDidChangePlugInStatus";
 
-@implementation SparkEditor 
+@implementation SparkEditor {
+  /* Scripting Addition */
+  NSMenu *se_plugins;
+}
 
 /* Create shared sort descriptor */
 + (void)initialize {
   if ([SparkEditor class] == self) {
     NSSortDescriptor *desc = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES selector:@selector(caseInsensitiveCompare:)];
     gSortByNameDescriptors = [[NSArray alloc] initWithObjects:desc, nil];
-    [desc release];
   }
 }
 
@@ -141,9 +144,7 @@ NSString * const SESparkEditorDidChangePlugInStatusNotification = @"SESparkEdito
 }
 
 - (void)dealloc {
-  [se_plugins release];
   [[NSNotificationCenter defaultCenter] removeObserver:self];
-  [super dealloc];
 }
 
 /* Intercepts help keydown events */
@@ -181,7 +182,12 @@ NSString * const SESparkEditorDidChangePlugInStatusNotification = @"SESparkEdito
 @end
 
 #pragma mark -
-@implementation Spark
+@implementation Spark {
+@private
+  IBOutlet NSMenu *aboutMenu;
+  IBOutlet NSMenuItem *statusMenuItem;
+  SEPreferences *se_preferences;
+}
 
 + (Spark *)sharedSpark {
   return [NSApp delegate];
@@ -219,13 +225,23 @@ NSString * const SESparkEditorDidChangePlugInStatusNotification = @"SESparkEdito
 
 - (void)dealloc {
   [[NSNotificationCenter defaultCenter] removeObserver:self];
-  [super dealloc];
 }
 
+bool SparkDebugEnabled = false;
+
 - (void)awakeFromNib {
-#if defined (DEBUG)
-  [self createDebugMenu];
+#ifndef DEBUG
+//  if ([[EDPreferences sharedPreferences] showDebugMenu])
+//    SparkDebugEnabled = true;
+//  else
+    SparkDebugEnabled = (kCGEventFlagMaskShift == (CGEventSourceFlagsState(kCGEventSourceStateCombinedSessionState) & NSDeviceIndependentModifierFlagsMask));
+#else
+  SparkDebugEnabled = true;
 #endif
+
+  if (SparkDebugEnabled)
+    [self createDebugMenu];
+
   [self createAboutMenu];
   
   NSMenu *file = [[[NSApp mainMenu] itemWithTag:1] submenu];
@@ -479,10 +495,9 @@ NSString * const SESparkEditorDidChangePlugInStatusNotification = @"SESparkEdito
       [img setScalesWhenResized:YES];
       [img setSize:NSMakeSize(16, 16)];
       [menuItem setImage:img];
-      [img release];
+
       [menuItem setRepresentedObject:plugin];
       [aboutMenu addItem:menuItem];
-      [menuItem release];
     }
   }
 }
@@ -510,7 +525,6 @@ NSString * const SESparkEditorDidChangePlugInStatusNotification = @"SESparkEdito
         (credits = [bundle pathForResource:@"Credits" ofType:@"rtfd"])) {
       NSAttributedString *str = [[NSAttributedString alloc] initWithURL:[NSURL fileURLWithPath:credits] documentAttributes:nil];
       [opts setObject:str forKey:@"Credits"];
-      [str release];
     } else {
       [opts setObject:@"" forKey:@"Credits"];
     }
@@ -531,10 +545,9 @@ NSString * const SESparkEditorDidChangePlugInStatusNotification = @"SESparkEdito
 #pragma mark -
 #pragma mark Debug Menu
 
-#if defined (DEBUG)
 - (void)createDebugMenu {
-  id debugMenu = [[NSMenuItem alloc] initWithTitle:@"" action:nil keyEquivalent:@""];
-  id menu = [[NSMenu alloc] initWithTitle:@"Debug"];
+  NSMenuItem *debugMenu = [[NSMenuItem alloc] initWithTitle:@"" action:nil keyEquivalent:@""];
+  NSMenu *menu = [[NSMenu alloc] initWithTitle:@"Debug"];
   [menu addItemWithTitle:@"Importer" action:@selector(openImporter:) keyEquivalent:@""];
   [menu addItemWithTitle:@"Trigger Browser" action:@selector(openTriggerBrowser:) keyEquivalent:@""];
   [menu addItem:[NSMenuItem separatorItem]];
@@ -543,9 +556,7 @@ NSString * const SESparkEditorDidChangePlugInStatusNotification = @"SESparkEdito
   [menu addItem:[NSMenuItem separatorItem]];
   // [menu addItemWithTitle:@"Restart" action:@selector(restart:) keyEquivalent:@""];
   [debugMenu setSubmenu:menu];
-  [menu release];
   [[NSApp mainMenu] insertItem:debugMenu atIndex:[[NSApp mainMenu] numberOfItems] -1];
-  [debugMenu release];
   
   // [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didRestart:) name:SURestarterApplicationDidRestartNotification object:nil];
 }
@@ -611,9 +622,6 @@ NSString * const SESparkEditorDidChangePlugInStatusNotification = @"SESparkEdito
 //          contextInfo: nil];
 //  }
 //}
-//
-
-#endif
 
 @end
 
@@ -621,11 +629,9 @@ NSString * const SESparkEditorDidChangePlugInStatusNotification = @"SESparkEdito
 void SEPopulatePlugInMenu(NSMenu *menu) {
   NSCParameterAssert(menu);
   NSArray *plugins = [[[SparkActionLoader sharedLoader] plugIns] sortedArrayUsingDescriptors:gSortByNameDescriptors];
-  
-  SparkPlugIn *plugin;
-  NSEnumerator *items = [plugins objectEnumerator];
-  int idx = 1;
-  while (plugin = [items nextObject]) {
+
+  NSInteger idx = 1;
+  for (SparkPlugIn *plugin in plugins) {
     if ([plugin isEnabled]) {
       NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:[plugin name] action:@selector(newTriggerFromMenu:) keyEquivalent:@""];
       NSImage *icon = [[plugin icon] copy];
@@ -633,13 +639,11 @@ void SEPopulatePlugInMenu(NSMenu *menu) {
         [icon setScalesWhenResized:YES];
         [icon setSize:NSMakeSize(16, 16)];
         [item setImage:icon];
-        [icon release];
       }
       [item setRepresentedObject:plugin];
       if (idx < 10) 
-        [item setKeyEquivalent:[NSString stringWithFormat:@"%i", idx++]];
+        [item setKeyEquivalent:[NSString stringWithFormat:@"%ld", idx++]];
       [menu addItem:item];
-      [item release];
     }
   }  
 }

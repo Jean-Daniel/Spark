@@ -10,46 +10,29 @@
 
 @class SELibraryDocument;
 @class SparkApplication, SparkList;
-@interface SEEntryList : NSObject {
-  @private
-	SparkList *se_list;
-	NSMutableArray *se_snapshot;
-  SparkApplication *se_application;
-	
-	struct _se_selFlags {
-		unsigned int dirty:1;
-		unsigned int group:8;
-		unsigned int specific:1;
-		unsigned int isVirtual:1;
-		unsigned int separator:1;
-		unsigned int reserved:21;
-	} se_selFlags;
-}
+@interface SEEntryList : NSObject
 
 + (SEEntryList *)separatorList;
 
-- (id)init;
-- (id)initWithList:(SparkList *)aList;
-- (id)initWithName:(NSString *)name icon:(NSImage *)icon;
+- (instancetype)init;
+- (instancetype)initWithList:(SparkList *)aList;
+- (instancetype)initWithName:(NSString *)name icon:(NSImage *)icon;
 
-- (SparkList *)sparkList;
+@property(nonatomic, readonly) SparkList *sparkList;
 
 - (void)snapshot;
 
 - (void)setNeedsReload:(BOOL)flag;
 - (void)setSpecificFilter:(BOOL)flag;
 
-- (NSImage *)icon;
-- (void)setIcon:(NSImage *)icon;
+@property(nonatomic, copy) NSImage *icon;
 
-- (NSString *)name;
-- (void)setName:(NSString *)aName;
+@property(nonatomic, copy) NSString *name;
 
 /* Editor facilities */
-- (UInt8)group;
-- (void)setGroup:(UInt8)group;
+@property(nonatomic) uint8_t group;
 
-- (BOOL)isEditable;
+@property(nonatomic, readonly, getter=isEditable) BOOL isEditable;
 
 - (void)setDocument:(SELibraryDocument *)aDocument;
 - (void)setApplication:(SparkApplication *)anApplication;

@@ -8,13 +8,15 @@
 
 /* this class breaks the MVC pattern to avoid binding circular reference */
 @interface SEExportOptions : NSViewController {
-  @private
+@private
   IBOutlet NSButton *uiIcons;
-	IBOutlet NSButton *uiStrike;
+  IBOutlet NSButton *uiStrike;
   IBOutlet NSPopUpButton *uiGroup;
 }
 
-- (BOOL)strike;
-- (BOOL)includeIcons;
-- (NSInteger)groupBy;
+@property(nonatomic, readonly) BOOL strike;
+@property(nonatomic, readonly) BOOL includeIcons;
+
+@property(nonatomic, readonly) NSInteger groupBy;
+
 @end

@@ -21,18 +21,15 @@
 - (NSURL *)installPlugIn:(NSURL *)plugin domain:(WBPlugInDomain)skdomain;
 @end
 
-@implementation SEPlugInInstaller
+@implementation SEPlugInInstaller {
+  NSURL *se_plugin;
+}
 
 - (id)init {
   if (self = [super init]) {
     
   }
   return self;
-}
-
-- (void)dealloc {
-  [se_plugin release];
-  [super dealloc];
 }
 
 #pragma mark -
@@ -71,7 +68,7 @@ void _Setup(SEPlugInInstaller *self) {
 }
 
 - (void)setPlugIn:(NSString *)path {
-  se_plugin = [[NSURL fileURLWithPath:path] retain];
+  se_plugin = [NSURL fileURLWithPath:path];
   _Setup(self);
 }
 
@@ -172,7 +169,6 @@ dispose:
           }
         }
       }
-      [cmpt release];
     }
   }
   if (installed) {

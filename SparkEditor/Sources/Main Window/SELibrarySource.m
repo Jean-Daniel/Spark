@@ -17,6 +17,7 @@
 
 #import <SparkKit/SparkList.h>
 #import <SparkKit/SparkEntry.h>
+#import <SparkKit/SparkAction.h>
 #import <SparkKit/SparkTrigger.h>
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkObjectSet.h>
@@ -31,7 +32,12 @@
 
 #pragma mark -
 #pragma mark Implementation
-@implementation SELibrarySource
+@implementation SELibrarySource {
+  NSMapTable *se_plugins;
+  SEEntryList *se_overwrite;
+
+  SparkLibrary *se_library;
+}
 
 #pragma mark -
 - (void)se_init {
@@ -66,7 +72,6 @@
 //  if (se_plugins) NSFreeMapTable(se_plugins);
 //  [se_overwrite release];
   [self setLibrary:nil];
-  [super dealloc];
 }
 
 #pragma mark -
@@ -79,7 +84,6 @@
 	SEEntryList *elist = [[SEEntryList alloc] initWithList:list];
 	[elist setGroup:[list isDynamic] ? 5 : 6];
 	[self addObject:elist];
-	[elist release];
 }
 
 /* Create and update plugins list */
@@ -91,11 +95,7 @@
     [self removeObjects:NSAllMapTableKeys(se_plugins)];
     NSResetMapTable(se_plugins);
   } else {
-		/* library objects used UID for hash. SEEntryLists do not have uid, we have to use a custom hash function */
-		NSMapTableKeyCallBacks cb = NSObjectMapKeyCallBacks;
-		cb.hash = NSOwnedPointerMapKeyCallBacks.hash;
-		cb.isEqual = NSOwnedPointerMapKeyCallBacks.isEqual;
-		se_plugins = NSCreateMapTable(cb, NSObjectMapValueCallBacks, [plugins count]);
+		se_plugins = NSCreateMapTable(NSObjectMapKeyCallBacks, NSObjectMapValueCallBacks, [plugins count]);
   }
   
   NSUInteger idx = [plugins count];
@@ -108,10 +108,9 @@
         return [entry.action isKindOfClass:[plugin actionClass]];
       };
       [list setGroup:3];
-      NSMapInsertKnownAbsent(se_plugins, list, plugin);
+      [se_plugins setObject:plugin forKey:list];
       
       [self addObject:list];
-      [list release];
     }
   }
   [self setSelectsInsertedObjects:YES];
@@ -127,7 +126,6 @@
   };
   [library setGroup:0];
   [self addObject:library];
-  [library release];
   
   /* …, plugins list… */
   [self buildPlugInLists];
@@ -183,12 +181,9 @@
       se_plugins = nil;
     }
     /* Free 'overwrite' special list */
-    [se_overwrite release];
     se_overwrite = nil;
-    
-    [se_library release];
   }
-  se_library = [aLibrary retain];
+  se_library = aLibrary;
   if (se_library) {
     [self buildLists];
     /* Register for notifications */
@@ -230,12 +225,10 @@
   [header setAlignment:NSCenterTextAlignment];
   [header setFont:[NSFont systemFontOfSize:11]];
   [[[uiTable tableColumns] objectAtIndex:0] setHeaderCell:header];
-  [header release];
-  [uiTable setCornerView:[[[SEHeaderCellCorner alloc] init] autorelease]];
+  [uiTable setCornerView:[[SEHeaderCellCorner alloc] init]];
   
   NSSortDescriptor *group = [[NSSortDescriptor alloc] initWithKey:@"representation" ascending:YES];
   [uiTable setSortDescriptors:[NSArray arrayWithObject:group]];
-  [group release];
   
   //  NSRect rect = [[uiTable headerView] frame];
   //  rect.size.height += 1;
@@ -249,24 +242,20 @@
 }
 
 - (SEEntryList *)listForPlugIn:(SparkPlugIn *)aPlugin {
-  if (!se_plugins) return nil;
-  
-  SEEntryList *list = nil;
-  SparkPlugIn *plugin = nil;
-  NSMapEnumerator iter = NSEnumerateMapTable(se_plugins);
-  while (NSNextMapEnumeratorPair(&iter, (void **)&list, (void **)&plugin)) {
+  if (!se_plugins)
+    return nil;
+
+  for (SEEntryList *list in se_plugins) {
+    SparkPlugIn *plugin = [se_plugins objectForKey:list];
     if ([aPlugin isEqual:plugin])
-      break;
-    else
-      list = nil;
+      return list;
   }
-  NSEndMapTableEnumeration(&iter);
   
-  return list;
+  return nil;
 }
 
 - (SparkPlugIn *)plugInForList:(SEEntryList *)aList {
-  return se_plugins ? NSMapGet(se_plugins, aList) : nil;
+  return se_plugins ? [se_plugins objectForKey:aList] : nil;
 }
 
 #pragma mark Data Source
@@ -323,7 +312,6 @@
 				SparkList *list = [[self objectAtIndex:row] sparkList];
         [list addEntriesFromArray:items];
       }
-      [items release];
     }
     return YES;
   }
@@ -344,7 +332,6 @@
 - (IBAction)newGroup:(id)sender {
 	SparkList *list = [[SparkList alloc] initWithName:NSLocalizedString(@"<New Group>", @"New List default name")];
   [[[self library] listSet] addObject:list];
-  [list release];
   
   /* Edit new list name */
   NSUInteger idx = [self indexOfUserList:list];

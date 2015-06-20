@@ -63,7 +63,7 @@
   NSMutableString *str = [[url absoluteString] mutableCopyWithZone:nil];
   [str replaceOccurrencesOfString:@"release." withString:@"beta."
                           options:NSLiteralSearch range:NSMakeRange(0, [str length])];
-  return [NSURL URLWithString:[str autorelease]];
+  return [NSURL URLWithString:str];
 }
 
 @end

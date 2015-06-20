@@ -11,9 +11,6 @@
 @class OSAScript, OSAScriptController;
 @interface AppleScriptActionPlugin : SparkActionPlugIn {
   IBOutlet OSAScriptController *ibScriptController;
-  @private
-    NSString *as_file;
-  int as_tidx;
 }
 
 @property(nonatomic, copy) NSString *scriptFile;
@@ -23,8 +20,7 @@
 
 - (IBAction)launchEditor:(id)sender;
 
-- (int)selectedTab;
-- (void)setSelectedTab:(int)tab;
+@property(nonatomic) NSInteger selectedTab;
 
 - (NSAlert *)compileScript:(OSAScript *)script;
 

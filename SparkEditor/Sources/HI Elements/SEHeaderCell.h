@@ -8,14 +8,10 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface SEHeaderCell : NSTextFieldCell {
-  NSImage *se_background;
-}
+@interface SEHeaderCell : NSTextFieldCell
 
 @end
 
-@interface SEHeaderCellCorner : NSView {
-  NSImage *se_background;
-}
+@interface SEHeaderCellCorner : NSView
 
 @end

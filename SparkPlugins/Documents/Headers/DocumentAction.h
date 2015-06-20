@@ -8,7 +8,7 @@
 
 #import <SparkKit/SparkPlugInAPI.h>
 
-enum {
+typedef NS_ENUM(uint32_t, DocumentActionType) {
   kDocumentActionOpen              = 'Open', /* 1332766062 */
   kDocumentActionReveal            = 'Reva', /* 1382381153 */
   kDocumentActionOpenWith          = 'OpWi', /* 1332762473 */
@@ -21,17 +21,12 @@ enum {
 #define kDocumentActionBundle		    [NSBundle bundleWithIdentifier:kDocumentActionBundleIdentifier]
 
 @class WBAlias, WBAliasedApplication;
-@interface DocumentAction : SparkAction <NSCoding, NSCopying> {
-  int da_action;
-  WBAlias *da_doc;
-  NSString *da_url;
-  WBAliasedApplication *da_app;
-}
+@interface DocumentAction : SparkAction <NSCoding, NSCopying>
 
 - (void)setDocumentPath:(NSString *)path;
 - (void)setApplicationPath:(NSString *)path;
 
-@property(nonatomic) int action;
+@property(nonatomic) DocumentActionType action;
 
 @property(nonatomic, retain) NSString *URL;
 @property(nonatomic, retain) WBAlias *document;
@@ -47,22 +42,24 @@ SPARK_PRIVATE
 NSString *DocumentActionDescription(DocumentAction *anAction);
 
 SPARK_INLINE
-BOOL DocumentActionNeedDocument(int act) {
+BOOL DocumentActionNeedDocument(DocumentActionType act) {
   switch (act) {
     case kDocumentActionOpen:
     case kDocumentActionReveal:
     case kDocumentActionOpenWith:
       return YES;
+    default:
+      return NO;
   }
-  return NO;
 }
 
 SPARK_INLINE
-BOOL DocumentActionNeedApplication(int act) {
+BOOL DocumentActionNeedApplication(DocumentActionType act) {
   switch (act) {
     case kDocumentActionOpenWith:
     case kDocumentActionOpenSelectionWith:
       return YES;
+    default:
+      return NO;
   }
-  return NO;
 }

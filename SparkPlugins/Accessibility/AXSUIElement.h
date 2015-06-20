@@ -6,19 +6,16 @@
 //  Copyright 2008 Ninsight. All rights reserved.
 //
 
-@interface AXSUIElement : NSObject {
-@private
-  AXUIElementRef ax_elt;
-}
+@interface AXSUIElement : NSObject
 
 - (id)initWithElement:(AXUIElementRef)anElement;
 
-- (AXUIElementRef)element;
+@property(nonatomic, readonly) AXUIElementRef element;
 
-- (NSString *)role;
+@property(nonatomic, readonly) NSString *role;
 
 #pragma mark Attributes
-- (NSArray *)attributeNames;
+@property(nonatomic, readonly) NSArray *attributeNames;
 - (id)valueForAttribute:(NSString *)anAttribute;
 - (BOOL)setValue:(id)aValue forAttribute:(NSString *)anAttribute;
 
@@ -28,7 +25,7 @@
 - (NSArray *)valuesForAttribute:(NSString *)anAttribute range:(NSRange)aRange;
 
 #pragma mark Actions
-- (NSArray *)actionNames;
+@property(nonatomic, readonly) NSArray *actionNames;
 - (BOOL)performAction:(NSString *)anAction;
 - (NSString *)actionDescription:(NSString *)anAction;
 

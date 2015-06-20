@@ -51,7 +51,6 @@
   NSURL *url = [NSURL fileURLWithPath:path];
   NSTextStorage *storage = [[NSTextStorage alloc] initWithURL:url documentAttributes:nil];
   [[ibText layoutManager] replaceTextStorage:storage];
-  [storage release];
 }
 
 - (IBAction)close:(id)sender {

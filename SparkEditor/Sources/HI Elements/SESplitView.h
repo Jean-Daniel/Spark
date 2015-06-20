@@ -8,8 +8,6 @@
 
 #import <WonderBox/WBSplitView.h>
 
-@interface SESplitView : WBSplitView {
-  
-}
+@interface SESplitView : WBSplitView
 
 @end

@@ -8,15 +8,16 @@
 
 #import <WonderBox/WBTableDataSource.h>
 
-@class WBTableView, SparkApplication;
-@class SparkLibrary, SELibraryWindow, SEEntryList;
+@class WBTableView;
+@class SELibraryWindow;
+
 @interface SETriggersController : WBTableDataSource {
   IBOutlet WBTableView *uiTable;
   IBOutlet NSSearchField *uiSearch;
   IBOutlet SELibraryWindow *ibWindow;
 }
 
-- (NSView *)tableView;
+@property(nonatomic, readonly) NSView *tableView;
 
 @end
 

@@ -77,7 +77,6 @@ static CGLayerRef sSETopShadingImage = nil;
       if (!sSETopShadingImage) {
         WBGradientBuilder *builder = [[WBGradientBuilder alloc] initWithDefinition:&kSETopShadingInfo];
         sSETopShadingImage = [builder newLayerWithVerticalGradient:se_top context:ctxt];
-        [builder release];
       }
       CGContextDrawLayerInRect(ctxt, NSRectToCGRect(gradient), sSETopShadingImage);
       

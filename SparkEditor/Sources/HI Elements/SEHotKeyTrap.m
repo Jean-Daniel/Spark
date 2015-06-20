@@ -29,7 +29,27 @@ static CGLayerRef _HKCreateShading(CGContextRef ctxt, NSControlTint tint);
 - (void)setTrapping:(BOOL)flag;
 @end
 
-@implementation SEHotKeyTrap
+@implementation SEHotKeyTrap {
+@private
+  NSString *se_str;
+  /* Backup */
+  SEHotKey se_bhotkey;
+
+  struct _se_htFlags {
+    unsigned int trap:1;
+    unsigned int hint:1;
+    unsigned int cancel:1;
+    unsigned int traponce:1;
+    unsigned int disabled:1;
+    unsigned int inbutton:1;
+    unsigned int highlight:1;
+    unsigned int reserved:25;
+  } se_htFlags;
+
+  NSTrackingRectTag se_tracker;
+  id se_target;
+  SEL se_action;
+}
 
 /* Load default shading */
 + (void)initialize {
@@ -61,8 +81,6 @@ static CGLayerRef _HKCreateShading(CGContextRef ctxt, NSControlTint tint);
 
 - (void)dealloc {
   [[NSNotificationCenter defaultCenter] removeObserver:self];
-  [se_str release];
-  [super dealloc];
 }
 
 /* If not a mouse down event, start to capture */
@@ -120,9 +138,8 @@ static CGLayerRef _HKCreateShading(CGContextRef ctxt, NSControlTint tint);
       se_bhotkey.keycode = nkey;
       se_bhotkey.modifiers = nmodifier;
       se_bhotkey.character = [[info objectForKey:kHKEventCharacterKey] integerValue];
-      
-      [se_str release];
-      se_str = [[HKKeyMap stringRepresentationForCharacter:se_bhotkey.character modifiers:se_bhotkey.modifiers] retain];
+
+      se_str = [HKKeyMap stringRepresentationForCharacter:se_bhotkey.character modifiers:se_bhotkey.modifiers];
       if (se_htFlags.traponce)
         [self setTrapping:NO];
       else
@@ -237,7 +254,7 @@ static CGLayerRef _HKCreateShading(CGContextRef ctxt, NSControlTint tint);
     /* Draw string content */
     if (se_htFlags.hint) {
       if (se_htFlags.cancel) {
-        NSString *key = [HKKeyMap stringRepresentationForCharacter:se_hotkey.character modifiers:se_hotkey.modifiers];
+        NSString *key = [HKKeyMap stringRepresentationForCharacter:_hotKey.character modifiers:_hotKey.modifiers];
         text = key ? [NSString stringWithFormat:NSLocalizedStringFromTable(@"Revert to %@", @"SEHotKeyTrap", @"Revert to - placeholder(%@ => shortcut)"), key] : 
           NSLocalizedStringFromTable(@"Cancel", @"SEHotKeyTrap", @"Cancel - placeholder");
       } else {
@@ -343,10 +360,9 @@ static CGLayerRef _HKCreateShading(CGContextRef ctxt, NSControlTint tint);
 
 - (void)clear {
   if (!se_htFlags.trap) {
-    [se_str release];
     se_str = nil;
-    se_hotkey.character = kHKNilUnichar;
-    se_hotkey.keycode = kHKInvalidVirtualKeyCode;
+    _hotKey.character = kHKNilUnichar;
+    _hotKey.keycode = kHKInvalidVirtualKeyCode;
     [self setNeedsDisplay:YES];
   }
 }
@@ -434,15 +450,11 @@ static CGLayerRef _HKCreateShading(CGContextRef ctxt, NSControlTint tint);
   se_action = anAction;
 }
 
-- (SEHotKey)hotkey {
-  return se_hotkey;
-}
 - (void)setHotKey:(SEHotKey)anHotkey {
-  se_hotkey = anHotkey;
+  _hotKey = anHotkey;
   se_bhotkey = anHotkey;
   /* Update string representation */
-  [se_str release]; 
-  se_str = [[HKKeyMap stringRepresentationForCharacter:se_hotkey.character modifiers:se_hotkey.modifiers] retain];
+  se_str = [HKKeyMap stringRepresentationForCharacter:_hotKey.character modifiers:_hotKey.modifiers];
   /* Refresh */
   [self setNeedsDisplay:YES];
 }
@@ -469,13 +481,12 @@ static CGLayerRef _HKCreateShading(CGContextRef ctxt, NSControlTint tint);
 }
 
 - (void)save {
-  se_hotkey = se_bhotkey;
+  _hotKey = se_bhotkey;
   [NSApp sendAction:[self action] to:[self target] from:self];
 }
 
 - (void)revert {
-  [se_str release];
-  se_str = [[HKKeyMap stringRepresentationForCharacter:se_hotkey.character modifiers:se_hotkey.modifiers] retain];
+  se_str = [HKKeyMap stringRepresentationForCharacter:_hotKey.character modifiers:_hotKey.modifiers];
 }
 
 - (BOOL)isTrapping {
@@ -488,7 +499,7 @@ static CGLayerRef _HKCreateShading(CGContextRef ctxt, NSControlTint tint);
     SPXFlagSet(se_htFlags.trap, flag);
     if (se_htFlags.trap) {
       NSAssert([[self window] firstResponder] == self, @"Must be first responder");
-      se_bhotkey = se_hotkey; /* init edited value */
+      se_bhotkey = _hotKey; /* init edited value */
       NSPoint mouse = [self convertPoint:[[self window] mouseLocationOutsideOfEventStream] fromView:nil];
       se_htFlags.hint = [self isInButtonRect:mouse] ? 1 : 0;
       se_tracker = [self addTrackingRect:NSMakeRect(NSWidth([self bounds]) - CAPS_WIDTH + 4, 2, CAPS_WIDTH - 4, kHKTrapHeight - 4)
@@ -622,11 +633,8 @@ CGLayerRef _HKCreateShading(CGContextRef ctxt, NSControlTint tint) {
       break;
   }
 
-  CGLayerRef shading;
   WBGradientBuilder *builder = [[WBGradientBuilder alloc] initWithDefinition:info];
-  shading = [builder newLayerWithVerticalGradient:kHKTrapHeight context:ctxt];
-  [builder release];
-  return shading;
+  return [builder newLayerWithVerticalGradient:kHKTrapHeight context:ctxt];
 }
 
 @implementation SEHotKeyTrap (NSAccessibility)
@@ -673,7 +681,7 @@ CGLayerRef _HKCreateShading(CGContextRef ctxt, NSControlTint tint) {
     [attr addObject:NSAccessibilityValueAttribute];
   if (![attr containsObject:NSAccessibilitySelectedAttribute])
     [attr addObject:NSAccessibilitySelectedAttribute];
-  return [attr autorelease];
+  return attr;
 }
 
 - (id)accessibilityAttributeValue:(NSString *)attribute {
@@ -685,7 +693,7 @@ CGLayerRef _HKCreateShading(CGContextRef ctxt, NSControlTint tint) {
     if (se_htFlags.trap) {
       return [HKKeyMap speakableStringRepresentationForCharacter:se_bhotkey.character modifiers:se_bhotkey.modifiers];
     } else if (![self isEmpty]) {
-      return [HKKeyMap speakableStringRepresentationForCharacter:se_hotkey.character modifiers:se_hotkey.modifiers];
+      return [HKKeyMap speakableStringRepresentationForCharacter:_hotKey.character modifiers:_hotKey.modifiers];
     } else {
       return nil;
     }

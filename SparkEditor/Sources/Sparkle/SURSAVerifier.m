@@ -70,7 +70,7 @@ CSSM_ALGORITHMS __WBAlgorithmForSUAlgorithm(SUSignatureAlgorithm algo) {
   }
 
   bool valid = false;
-  SecCertificateRef cert = __SULoadCertificateAtURL((CFURLRef)[self updateCertificateURL]);
+  SecCertificateRef cert = __SULoadCertificateAtURL(SPXNSToCFURL([self updateCertificateURL]));
   if (cert) {
     // extract public key
     SecKeyRef pubKey = NULL;

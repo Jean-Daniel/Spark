@@ -23,7 +23,10 @@
 }
 @end
 
-@implementation SETriggerBrowser
+@implementation SETriggerBrowser {
+@private
+  SparkLibrary *se_library;
+}
 
 + (void)initialize {
   if ([SETriggerBrowser class] == self) {

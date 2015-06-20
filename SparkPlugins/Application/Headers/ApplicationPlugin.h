@@ -13,44 +13,36 @@
 @class WBImageView;
 @interface ApplicationPlugin : SparkActionPlugIn {
   IBOutlet NSTextField *ibApplication;
-  
+
   IBOutlet NSTabView *ibTab;
   IBOutlet NSTextField *ibName;
   IBOutlet WBImageView *ibIcon;
-  
-  @private
-  NSString *aa_name;
-  NSString *aa_path;
-  LSLaunchFlags aa_flags;
-  ApplicationVisualSetting aa_settings;
 }
 
 - (IBAction)back:(id)sender;
 - (IBAction)options:(id)sender;
 - (IBAction)chooseApplication:(id)sender;
 
-- (ApplicationActionType)action;
-- (void)setAction:(ApplicationActionType)anAction;
+@property(nonatomic) ApplicationActionType action;
 
-- (BOOL)showOptions;
-- (BOOL)showChooser;
+@property(nonatomic, readonly) BOOL showOptions;
+@property(nonatomic, readonly) BOOL showChooser;
 
-- (int)visual;
-- (void)setVisual:(int)visual;
+@property(nonatomic) NSInteger visual;
 
-- (BOOL)notifyLaunch;
-- (BOOL)notifyActivation;
+@property(nonatomic, readonly) BOOL notifyLaunch;
+@property(nonatomic, readonly) BOOL notifyActivation;
 
-- (void)setPath:(NSString *)path;
-- (void)setFlags:(LSLaunchFlags)value;
+@property(nonatomic, copy) NSString * path;
 
-- (BOOL)dontSwitch;
-- (void)setDontSwitch:(BOOL)dontSwitch;
-- (BOOL)newInstance;
-- (void)setNewInstance:(BOOL)newInstance;
-- (BOOL)hide;
-- (void)setHide:(BOOL)hide;
-- (BOOL)hideOthers;
-- (void)setHideOthers:(BOOL)hideOthers;
+@property(nonatomic) LSLaunchFlags flags;
+
+@property(nonatomic) BOOL dontSwitch;
+
+@property(nonatomic) BOOL newInstance;
+
+@property(nonatomic) BOOL hide;
+
+@property(nonatomic) BOOL hideOthers;
 
 @end

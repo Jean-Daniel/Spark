@@ -57,10 +57,9 @@ NSShadow *sHighlightShadow = nil;
 
 @end
 
-@implementation SETableView
-
-- (void)dealloc {
-  [super dealloc];
+@implementation SETableView {
+@private
+  BOOL se_lock;
 }
 
 static const 
@@ -99,7 +98,7 @@ WBGradientDefinition sFocusShadingInfo = {
     CGContextRef ctxt = [NSGraphicsContext currentGraphicsPort];
     WBGradientBuilder *builder = [[WBGradientBuilder alloc] initWithDefinition:&sHighlightShadingInfo];
     sHighlighted = [builder newLayerWithVerticalGradient:[self rowHeight] + 2 context:ctxt];
-    [builder release];
+
     /* border-top */
     CGContextRef gctxt = CGLayerGetContext(sHighlighted);
     CGContextSetRGBStrokeColor(gctxt, .509, .627, .753, 1);
@@ -110,7 +109,7 @@ WBGradientDefinition sFocusShadingInfo = {
     CGContextRef ctxt = [NSGraphicsContext currentGraphicsPort];
     WBGradientBuilder *builder = [[WBGradientBuilder alloc] initWithDefinition:&sFocusShadingInfo];
     sHasFocus = [builder newLayerWithVerticalGradient:[self rowHeight] + 2 context:ctxt];
-    [builder release];
+
     /* border-top */
     CGContextRef gctxt = CGLayerGetContext(sHasFocus);
     CGContextSetRGBStrokeColor(gctxt, .271, .502, .784, 1);

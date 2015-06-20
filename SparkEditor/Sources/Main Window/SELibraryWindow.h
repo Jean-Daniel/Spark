@@ -28,25 +28,21 @@
   IBOutlet SEApplicationSource *ibApplications;
   
   /* Triggers */
-  IBOutlet SETriggersController *ibTriggers;  
-  
-  @private
-    SparkLibrary *se_library;
+  IBOutlet SETriggersController *ibTriggers;
 }
 
-- (SparkLibrary *)library;
-- (NSUndoManager *)undoManager;
-- (SparkApplication *)application;
+@property(nonatomic, readonly) NSUndoManager *undoManager;
+@property(nonatomic, readonly) SparkApplication *application;
 
-- (void)setLibrary:(SparkLibrary *)aLibrary;
+@property(nonatomic, retain) SparkLibrary *library;
 
-- (SEEntryList *)selectedList;
+@property(nonatomic, readonly) SEEntryList *selectedList;
 - (void)revealEntry:(SparkEntry *)entry;
 - (void)revealEntries:(NSArray *)entries;
 
 - (void)setDaemonStatus:(SparkDaemonStatus)status;
 
-- (SETriggersController *)triggers;
+@property(nonatomic, readonly) SETriggersController *triggers;
 
 - (IBAction)revealInApplication:(id)sender;
 

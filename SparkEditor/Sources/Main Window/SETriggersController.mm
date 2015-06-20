@@ -21,6 +21,7 @@
 #import <SparkKit/SparkAction.h>
 #import <SparkKit/SparkHotKey.h>
 #import <SparkKit/SparkPrivate.h>
+#import <SparkKit/SparkApplication.h>
 #import <SparkKit/SparkEntryManager.h>
 
 #import <WonderBox/WBObjCRuntime.h>
@@ -69,30 +70,30 @@ NSString * sSEHiddenPluggedObserverKey = nil;
   if ([SETriggersController class] == self) {
     /* Standard (global) */
     styles[0] = (SETriggerStyle){NO, YES,
-      [[NSColor controlTextColor] retain],
-      [[NSColor selectedTextColor] retain]};
+      [NSColor controlTextColor],
+      [NSColor selectedTextColor]};
     /* Global overrided */
     styles[1] = (SETriggerStyle){YES, YES,
-      [[NSColor controlTextColor] retain],
-      [[NSColor selectedTextColor] retain]};
+      [NSColor controlTextColor],
+      [NSColor selectedTextColor]};
     /* Inherits */
     styles[2] = (SETriggerStyle){NO, YES,
-      [[NSColor darkGrayColor] retain],
-      [[NSColor selectedTextColor] retain]};
+      [NSColor darkGrayColor],
+      [NSColor selectedTextColor]};
     /* Override */
     styles[3] = (SETriggerStyle){YES, YES,
-      [[NSColor colorWithCalibratedRed:.067 green:.357 blue:.420 alpha:1] retain],
-      [[NSColor colorWithCalibratedRed:.886 green:.914 blue:.996 alpha:1] retain]};
+      [NSColor colorWithCalibratedRed:.067 green:.357 blue:.420 alpha:1],
+      [NSColor colorWithCalibratedRed:.886 green:.914 blue:.996 alpha:1]};
     /* Specifics */
     styles[4] = (SETriggerStyle){YES, YES,
-      [[NSColor orangeColor] retain],
-      [[NSColor colorWithCalibratedRed:.992 green:.875 blue:.749 alpha:1] retain]};
+      [NSColor orangeColor],
+      [NSColor colorWithCalibratedRed:.992 green:.875 blue:.749 alpha:1]};
     /* Weak Override */
     styles[5] = (SETriggerStyle){NO, YES,
-      [[NSColor colorWithCalibratedRed:.463 green:.016 blue:.314 alpha:1] retain],
-      [[NSColor colorWithCalibratedRed:.984 green:.890 blue:1.00 alpha:1] retain]};
+      [NSColor colorWithCalibratedRed:.463 green:.016 blue:.314 alpha:1],
+      [NSColor colorWithCalibratedRed:.984 green:.890 blue:1.00 alpha:1]};
     
-    sSEHiddenPluggedObserverKey = [[@"values." stringByAppendingString:kSEPreferencesHideDisabled] retain];
+    sSEHiddenPluggedObserverKey = [@"values." stringByAppendingString:kSEPreferencesHideDisabled];
   }
 }
 
@@ -110,7 +111,6 @@ NSString * sSEHiddenPluggedObserverKey = nil;
 	//[self setSelectedList:nil];
   [[NSUserDefaultsController sharedUserDefaultsController] removeObserver:self
                                                                forKeyPath:sSEHiddenPluggedObserverKey];
-  [super dealloc];
 }
 
 #pragma mark -
@@ -299,10 +299,8 @@ NSString * sSEHiddenPluggedObserverKey = nil;
     [entries addObject:@([entry uid])];
   }
   [plist setObject:entries forKey:@"entries"];
-  [entries release];
   
   [pboard setPropertyList:plist forType:SparkEntriesPboardType];
-  [plist release];
   return YES;
 }
 
@@ -326,16 +324,13 @@ NSString * sSEHiddenPluggedObserverKey = nil;
 					NSImage *icon = [[application icon] copy];
 					[icon setSize:NSMakeSize(16, 16)];
 					[appItem setImage:icon];
-					[icon release];
 					
 					[submenu addItem:appItem];
-					[appItem release];					
 				}
       }
       [item setSubmenu:submenu];
-      [submenu release];
       
-      return [ctxt autorelease];
+      return ctxt;
     }
   }
   return nil;
@@ -391,7 +386,7 @@ NSString * sSEHiddenPluggedObserverKey = nil;
 													@"Disable previous",
 													NSLocalizedString(@"Cancel", @"Cancel"),
 													nil, [document windowForSheet], 
-													self, @selector(setActiveConflictDidEnd:returnCode:contextInfo:), NULL, previous,
+													self, @selector(setActiveConflictDidEnd:returnCode:contextInfo:), NULL, bridge_cast<void *>(previous),
 													@"'%@' already use the same shortcut.", [previous name]);
 				return;
 			}

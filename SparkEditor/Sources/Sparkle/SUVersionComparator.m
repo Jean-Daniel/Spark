@@ -28,8 +28,8 @@
   SPXLogWarning(@"invalid build number: %@ / %@. Try version parser instead", versionA, versionB);
 
   // maybe this is not build number after all, try to parse them as full version
-  UInt64 via = WBVersionGetNumberFromString((CFStringRef)versionA);
-  UInt64 vib = WBVersionGetNumberFromString((CFStringRef)versionB);
+  UInt64 via = WBVersionGetNumberFromString(SPXNSToCFString(versionA));
+  UInt64 vib = WBVersionGetNumberFromString(SPXNSToCFString(versionB));
   if (kWBVersionInvalid != via || kWBVersionInvalid != vib)
     return via > vib ? NSOrderedDescending : via < vib ? NSOrderedAscending : NSOrderedSame;
 

@@ -24,7 +24,7 @@ WB_PRIVATE
 NSString * const kSparkPrefSingleKeyMode;
 
 @interface SEPreferences : WBWindowController <NSToolbarDelegate> {
-  @private
+@private
   IBOutlet NSTabView *uiPanels;
   IBOutlet NSOutlineView *uiPlugins;
   IBOutlet NSObjectController *ibController;
@@ -35,18 +35,12 @@ NSString * const kSparkPrefSingleKeyMode;
   
   IBOutlet NSComboBox *uiFeedURL;
   IBOutlet NSDateFormatter *ibDateFormat;
-
-  BOOL se_login;
-  BOOL se_update;
-  NSMapTable *se_status;
-  NSMutableArray *se_plugins;
 }
 
 + (void)setup;
 + (BOOL)synchronize;
 
-- (float)delay;
-- (void)setDelay:(float)delay;
+@property(nonatomic) float delay;
 
 - (IBAction)close:(id)sender;
 - (IBAction)apply:(id)sender;

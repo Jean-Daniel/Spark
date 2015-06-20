@@ -19,22 +19,24 @@ static NSString * const kOSAScriptActionTypeKey = @"OSAScriptType";
 static NSString * const kOSAScriptActionSourceKey = @"OSAScriptSource";
 static NSString * const kOSAScriptActionRepeatInterval = @"OSAScriptRepeatInterval";
 
-@implementation AppleScriptAction
-
-@synthesize scriptAlias = as_alias;
+@implementation AppleScriptAction {
+@private
+  OSAScript *as_script;
+  NSTimeInterval as_repeat;
+}
 
 #pragma mark Protocols Implementation
 - (id)copyWithZone:(NSZone *)zone {
   AppleScriptAction* copy = [super copyWithZone:zone];
-  copy->as_alias = [as_alias copy];
+  copy->_scriptAlias = [_scriptAlias copy];
   copy->as_script = [as_script copy];
   return copy;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
-  if (as_alias)
-    [coder encodeObject:as_alias forKey:kOSAScriptActionDataKey];
+  if (_scriptAlias)
+    [coder encodeObject:_scriptAlias forKey:kOSAScriptActionDataKey];
   if (as_script) 
     [coder encodeObject:[as_script source] forKey:kOSAScriptActionSourceKey];
   
@@ -43,7 +45,7 @@ static NSString * const kOSAScriptActionRepeatInterval = @"OSAScriptRepeatInterv
 
 - (id)initWithCoder:(NSCoder *)coder {
   if (self = [super initWithCoder:coder]) {
-    as_alias = [[coder decodeObjectForKey:kOSAScriptActionDataKey] retain];
+    _scriptAlias = [coder decodeObjectForKey:kOSAScriptActionDataKey];
     NSString *src = [coder decodeObjectForKey:kOSAScriptActionSourceKey];
     if (nil != src)
       as_script = [[OSAScript alloc] initWithSource:src];
@@ -65,12 +67,10 @@ static NSString * const kOSAScriptActionRepeatInterval = @"OSAScriptRepeatInterv
   if (file) {
     WBAlias *alias = [[WBAlias alloc] initFromData:[plist objectForKey:@"Script Data"]];
     [self setScriptAlias:alias];
-    [alias release];
   } else {
-    id source = [[NSString alloc] initWithData:[plist objectForKey:@"Script Data"]
-                                      encoding:NSUTF8StringEncoding];
+    NSString *source = [[NSString alloc] initWithData:[plist objectForKey:@"Script Data"]
+                                             encoding:NSUTF8StringEncoding];
     [self setScriptSource:source];
-    [source release];
   }
   if (![self shouldSaveIcon]) {
     [self setIcon:nil];
@@ -89,7 +89,6 @@ static NSString * const kOSAScriptActionRepeatInterval = @"OSAScriptRepeatInterv
         case 'src ': {
           NSString *src = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
           [self setScriptSource:src];
-          [src release];
         }
           break;
         case 'file': {
@@ -107,12 +106,6 @@ static NSString * const kOSAScriptActionRepeatInterval = @"OSAScriptRepeatInterv
       [self setActionDescription:description];
   }
   return self;
-}
-
-- (void)dealloc {
-  [as_script release];
-  [as_alias release];
-  [super dealloc];
 }
 
 - (BOOL)serialize:(NSMutableDictionary *)plist {
@@ -201,7 +194,6 @@ static NSString * const kOSAScriptActionRepeatInterval = @"OSAScriptRepeatInterv
   if (aFile != nil) {
     WBAlias *alias = [[WBAlias alloc] initWithPath:aFile];
     [self setScriptAlias:alias];
-    [alias release];
   } else {
     [self setScriptAlias:nil];
   }
@@ -213,7 +205,6 @@ static NSString * const kOSAScriptActionRepeatInterval = @"OSAScriptRepeatInterv
 
 - (void)setScriptSource:(NSString *)source {
   if (as_script) {
-    [as_script release];
     as_script = nil;
   }
   if (source)
@@ -267,7 +258,6 @@ static NSString * const kOSAScriptActionRepeatInterval = @"OSAScriptRepeatInterv
 @implementation AppleScriptOSAAction
 
 - (id)initWithSerializedValues:(NSDictionary *)plist {
-  [self release];
   return (id)[[AppleScriptAction alloc] initWithSerializedValues:plist];
 }
 

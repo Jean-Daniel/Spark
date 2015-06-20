@@ -16,6 +16,7 @@
 #import "SEBuiltInPlugIn.h"
 #import "SEApplicationView.h"
 
+
 #import <SparkKit/SparkPlugIn.h>
 #import <SparkKit/SparkHotKey.h>
 #import <SparkKit/SparkEntry.h>
@@ -38,29 +39,32 @@
 @end
 
 #pragma mark -
-@implementation SEEntryEditor
+@implementation SEEntryEditor {
+@private
+  NSSize se_min;
+  NSView *se_view; /* current view __weak */
+  SEHotKeyTrap *se_trap; /* trap field */
+
+  NSMutableArray *se_plugins; /* plugins list */
+  SparkActionPlugIn *se_plugin; /* current action plugin __weak */
+
+  NSMutableArray *se_views; /* binding cycle hack */
+  NSMapTable *_sizes; /* plugin min sizes */
+  NSMutableDictionary *_instances; /* plugin instances */
+}
 
 - (id)init {
   if (self = [super init]) {
     se_views = [[NSMutableArray alloc] init];
     se_plugins = [[NSMutableArray alloc] init];
-    se_sizes = NSCreateMapTable(NSObjectMapKeyCallBacks, NSObjectMapValueCallBacks, 0);
-    se_instances = NSCreateMapTable(NSObjectMapKeyCallBacks, NSObjectMapValueCallBacks, 0);
+    _sizes = [[NSMapTable alloc] initWithKeyOptions:NSPointerFunctionsStrongMemory | NSPointerFunctionsObjectPersonality
+                                       valueOptions:NSPointerFunctionsStrongMemory | NSPointerFunctionsObjectPersonality
+                                           capacity:0];
+    _instances = [[NSMutableDictionary alloc] init];
     
     se_trap = [[SEHotKeyTrap alloc] initWithFrame:NSMakeRect(0, 0, 114, 22)];
   }
   return self;
-}
-
-- (void)dealloc {
-  [se_trap release];
-  [se_entry release];
-  [se_views release];
-  [se_plugins release];
-  [se_application release];
-  if (se_sizes) NSFreeMapTable(se_sizes);
-  if (se_instances) NSFreeMapTable(se_instances);
-  [super dealloc];
 }
 
 - (void)awakeFromNib {
@@ -70,8 +74,7 @@
   [header setAlignment:NSCenterTextAlignment];
   [header setFont:[NSFont systemFontOfSize:11]];
   [[[uiTypeTable tableColumns] objectAtIndex:0] setHeaderCell:header];
-  [header release];
-  [uiTypeTable setCornerView:[[[SEHeaderCellCorner alloc] initWithFrame:NSMakeRect(0, 0, 22, 22)] autorelease]];
+  [uiTypeTable setCornerView:[[SEHeaderCellCorner alloc] initWithFrame:NSMakeRect(0, 0, 22, 22)]];
 }
 
 - (void)windowDidLoad {
@@ -87,13 +90,6 @@
   se_min.height -= delta.height;
 }
 
-- (id)delegate {
-  return se_delegate;
-}
-- (void)setDelegate:(id)aDelegate {
-  se_delegate = aDelegate;
-}
-
 - (IBAction)close:(id)sender {
   [super close:sender];
   /* Cleanup */
@@ -104,20 +100,19 @@
   se_plugin = nil;
   /* Remove plugins instances */
   [se_views removeAllObjects];
-  NSResetMapTable(se_instances);
+  [_instances removeAllObjects];
   /* Release entry */
-  [se_entry release];
-  se_entry = nil;
+  _entry = nil;
 }
 
 - (void)createEntryWithAction:(SparkAction *)action trigger:(SparkTrigger *)trigger application:(SparkApplication *)application {
-  if (!SPXDelegateHandle(se_delegate, editor:shouldCreateEntryWithAction:trigger:application:) ||
-			[se_delegate editor:self shouldCreateEntryWithAction:action trigger:trigger application:application])
+  if (!SPXDelegateHandle(_delegate, editor:shouldCreateEntryWithAction:trigger:application:) ||
+			[_delegate editor:self shouldCreateEntryWithAction:action trigger:trigger application:application])
     [self close:nil];
 }
 - (void)updateEntryWithAction:(SparkAction *)action trigger:(SparkTrigger *)trigger application:(SparkApplication *)application {
-  if (!SPXDelegateHandle(se_delegate, editor:shouldUpdateEntry:setAction:trigger:application:) ||
-			[se_delegate editor:self shouldUpdateEntry:se_entry setAction:action trigger:trigger application:application])
+  if (!SPXDelegateHandle(_delegate, editor:shouldUpdateEntry:setAction:trigger:application:) ||
+			[_delegate editor:self shouldUpdateEntry:_entry setAction:action trigger:trigger application:application])
     [self close:nil];
 }
 
@@ -128,7 +123,7 @@
   NSAlert *alert = nil;
   /* End editing if needed */
   [se_trap validate:sender];
-  SEHotKey key = [se_trap hotkey];
+  SEHotKey key = se_trap.hotKey;
   if (kHKInvalidVirtualKeyCode == key.keycode || kHKNilUnichar == key.character) {
     alert = [NSAlert alertWithMessageText:NSLocalizedStringFromTable(@"EMPTY_TRIGGER_ALERT",
                                                                      @"SEEditor", @"Invalid Shortcut - Title")
@@ -192,11 +187,11 @@
 		SparkAction *action = nil;
     if (![se_plugin isKindOfClass:[SEInheritsPlugIn class]]) {
 			action = [se_plugin sparkAction];
-      hkey = [[[SparkHotKey alloc] init] autorelease];
+      hkey = [[SparkHotKey alloc] init];
       [hkey setKeycode:key.keycode character:key.character];
       [hkey setModifier:key.modifiers];
     }
-    if (se_entry) {
+    if (_entry) {
       [self updateEntryWithAction:action trigger:hkey application:[self application]];
     } else {
       [self createEntryWithAction:action trigger:hkey application:[self application]];
@@ -233,19 +228,17 @@
 	 - Not a specific action (else global action is nil).
 	 */
   BOOL advanced = [[self application] uid] != 0;
-  advanced = advanced && (se_entry != nil);
-  advanced = advanced && ([se_entry type] != kSparkEntryTypeSpecific);
+  advanced = advanced && (_entry != nil);
+  advanced = advanced && (_entry.type != kSparkEntryTypeSpecific);
   
   if (advanced) {
     /* Create Inherits plugin */
     SparkPlugIn *plugin = [[SparkPlugIn alloc] initWithClass:[SEInheritsPlugIn class] identifier:@"org.shadowlab.spark.plugin.inherits"];
     [se_plugins insertObject:plugin atIndex:0];
-    [plugin release];
     
     plugin = [[SparkPlugIn alloc] init];
     [plugin setName:SETableSeparator];
     [se_plugins insertObject:plugin atIndex:1];
-    [plugin release];
   }
   [uiTypeTable reloadData];
 }
@@ -255,21 +248,19 @@
   return row >= 0 ? [se_plugins objectAtIndex:row] : nil;
 }
 
-- (SparkEntry *)entry {
-  return se_entry;
-}
 - (void)setEntry:(SparkEntry *)anEntry {
-  if (anEntry == se_entry) return;
+  if (anEntry == _entry)
+    return;
 
-  SPXSetterRetain(se_entry, anEntry);
+  SPXSetterRetain(_entry, anEntry);
   
   /* Update plugins list if needed */
   [self updatePlugIns];
   
   /* Select plugin type */
   SparkPlugIn *type = nil;
-  if (se_entry) {
-    switch ([se_entry type]) {
+  if (_entry) {
+    switch ([_entry type]) {
       case kSparkEntryTypeDefault:
       case kSparkEntryTypeWeakOverWrite:
         if ([[self application] uid] != 0) {
@@ -280,7 +271,7 @@
         // else fall through
 			default:
         // TODO. trap should not be enabled ?
-        type = [[SparkActionLoader sharedLoader] plugInForAction:[se_entry action]];
+        type = [[SparkActionLoader sharedLoader] plugInForAction:_entry.action];
         [se_trap setEnabled:YES];
         break;
     }
@@ -298,8 +289,8 @@
   
   /* Load trigger value */
   SEHotKey key = {kHKInvalidVirtualKeyCode, 0, kHKNilUnichar};
-  if (se_entry) {
-    SparkHotKey *hotkey = (SparkHotKey *)[se_entry trigger];
+  if (_entry) {
+    SparkHotKey *hotkey = (SparkHotKey *)_entry.trigger;
     NSAssert1([hotkey isKindOfClass:[SparkHotKey class]], @"Does not this kind of trigger: %@", [hotkey class]);
     key.keycode = [hotkey keycode];
     key.modifiers = [hotkey nativeModifier];
@@ -308,13 +299,9 @@
   [se_trap setHotKey:key];
 }
 
-- (SparkApplication *)application {
-  return se_application;
-}
 - (void)setApplication:(SparkApplication *)anApplication {
-  if (se_application != anApplication) {
-    [se_application release];
-    se_application = [anApplication retain];
+  if (_application != anApplication) {
+    _application = anApplication;
     /* Set Application */
     [uiApplication setSparkApplication:anApplication];
     [uiApplication setTitle:[NSString stringWithFormat:
@@ -349,23 +336,23 @@
   BOOL edit = NO;
   SparkAction *action = nil;
   if (!cls) { /* Special built-in plugins, do not copy */
-    NSAssert(se_entry, @"Invalid entry");
+    NSAssert(_entry, @"Invalid entry");
     edit = YES;
-    action = [se_entry action];
-  } else if (se_entry && [[se_entry action] isKindOfClass:cls]) { /* If is action editor, set a copy */ 
+    action = _entry.action;
+  } else if ([_entry.action isKindOfClass:cls]) { /* If is action editor, set a copy */
     edit = YES;
-    action = [se_entry action];
+    action = _entry.action;
 		if (WBRuntimeObjectImplementsSelector(action, @selector(copyWithZone:))) {
-      action = [[action copy] autorelease];
+      action = [action copy];
     } else {
       SPXLogWarning(@"%@ does not implements NSCopying.", [action class]);
       action = [action duplicate];
     }
 		[action setUID:0]; // this copy should be considere as a new action.
   } else { /* Other cases, create new action */
-    action = [[[cls alloc] init] autorelease];
-    if ([se_entry action])
-      [action setPropertiesFromAction:[se_entry action]];
+    action = [[cls alloc] init];
+    if (_entry.action)
+      [action setPropertiesFromAction:_entry.action];
 	}
 	/* Set plugin's spark action */
 	[se_plugin setSparkAction:action edit:edit];
@@ -373,11 +360,11 @@
 
 - (void)setActionType:(SparkPlugIn *)aPlugin force:(BOOL)force {
   SparkActionPlugIn *previousPlugin = se_plugin;
-  se_plugin = NSMapGet(se_instances, aPlugin);
+  se_plugin = _instances[aPlugin.identifier];
   if (!se_plugin) {
     se_plugin = [aPlugin instantiatePlugIn];
     if (se_plugin) {
-      NSMapInsert(se_instances, aPlugin, se_plugin);
+      _instances[aPlugin.identifier] = se_plugin;
       
       /* Become view ownership */
       [se_views addObject:[se_plugin actionView]];
@@ -472,11 +459,11 @@
     if (MAXFLOAT <= smax.width || MAXFLOAT <= smax.height) {
       [window setShowsResizeIndicator:YES];
       NSSize min;
-      NSValue *vmin = NSMapGet(se_sizes, se_plugin);
+      NSValue *vmin = [_sizes objectForKey:se_plugin];
       if (!vmin) {
         min = wframe.size;
         vmin = [NSValue valueWithSize:min];
-        NSMapInsert(se_sizes, se_plugin, vmin);
+        [_sizes setObject:vmin forKey:se_plugin];
       } else {
         min = [vmin sizeValue];
       }

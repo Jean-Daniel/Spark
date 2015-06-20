@@ -17,7 +17,11 @@
 
 #import <WonderBox/WBHeaderView.h>
 
-@implementation SEPlugInHelp
+@implementation SEPlugInHelp {
+@private
+  NSPopUpButton *se_plugins;
+  NSButton *se_previous, *se_next;
+}
 
 + (id)sharedPlugInHelp {
   static SEPlugInHelp *shared = nil;
@@ -50,7 +54,6 @@
 
 - (void)dealloc {
   [[NSNotificationCenter defaultCenter] removeObserver:self];
-  [super dealloc];
 }
 
 - (void)loadPlugInMenu {
@@ -67,11 +70,9 @@
         NSImage *icon = [[plugin icon] copy];
         [icon setSize:NSMakeSize(16, 16)];
         [item setImage:icon];
-        [icon release];
         
         [item setRepresentedObject:[help absoluteString]];
         [aMenu addItem:item];
-        [item release];
       }
     }
   }
@@ -89,7 +90,6 @@
       [item setImage:[NSImage imageNamed:@"plugin"]];
       [item setRepresentedObject:[help absoluteString]];
       [aMenu addItem:item];
-      [item release];
     } else {
       [[ibWeb mainFrame] loadHTMLString:@"no plugin help available" baseURL:nil];
     }
@@ -106,8 +106,6 @@
   if ([aMenu numberOfItems]) {
     [self selectPlugIn:[aMenu itemAtIndex:0]];
   }
-  
-  [aMenu release];
 }
 
 - (void)didLoadPlugIn:(NSNotification *)aNotification {

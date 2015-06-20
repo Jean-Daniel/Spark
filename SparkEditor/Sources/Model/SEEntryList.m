@@ -12,10 +12,11 @@
 
 #import <SparkKit/SparkEntry.h>
 #import <SparkKit/SparkPrivate.h>
+#import <SparkKit/SparkApplication.h>
 
 WB_INLINE
 SparkEntry *__SEEntryForApplication(SparkEntry *entry, SparkApplication *app, bool specific) {
-  if ([[entry application] isEqual:app])
+  if ([entry.application isEqual:app])
     return entry;
   
   /* entry application match */
@@ -28,12 +29,22 @@ SparkEntry *__SEEntryForApplication(SparkEntry *entry, SparkApplication *app, bo
   return nil;
 }
 
-@implementation SEEntryList
+@implementation SEEntryList {
+@private
+  SparkList *se_list;
+  NSMutableArray *se_snapshot;
+  SparkApplication *se_application;
+
+  BOOL _dirty;
+  BOOL _virtual;
+  BOOL _specific;
+  BOOL _separator;
+}
 
 + (SEEntryList *)separatorList {
 	SEEntryList *separator = [[SEEntryList alloc] initWithName:SETableSeparator icon:nil];
-	separator->se_selFlags.separator = 1;
-	return [separator autorelease];
+	separator->_separator = true;
+	return separator;
 }
 
 - (id)init {
@@ -42,7 +53,7 @@ SparkEntry *__SEEntryForApplication(SparkEntry *entry, SparkApplication *app, bo
 
 - (id)initWithName:(NSString *)name icon:(NSImage *)icon {
 	if (self = [super init]) {
-		se_selFlags.isVirtual = 1;
+		_virtual = true;
 		se_list = [[SparkList alloc] initWithName:name icon:icon];
 		[se_list addObserver:self forKeyPath:@"entries" 
 								 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
@@ -54,7 +65,7 @@ SparkEntry *__SEEntryForApplication(SparkEntry *entry, SparkApplication *app, bo
 - (id)initWithList:(SparkList *)aList {
 	NSParameterAssert(aList);
 	if (self = [super init]) {
-		se_list = [aList retain];
+		se_list = aList;
 		[se_list addObserver:self forKeyPath:@"entries" 
 								 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
 		[self setNeedsReload:YES];
@@ -64,15 +75,12 @@ SparkEntry *__SEEntryForApplication(SparkEntry *entry, SparkApplication *app, bo
 
 - (void)dealloc {
 	[se_list removeObserver:self forKeyPath:@"entries"];
-	[se_application release];
-	[se_snapshot release];
-	[se_list release];
-  [super dealloc];
 }
 
 #pragma mark -
 - (void)snapshot {
-	if (se_selFlags.separator) return;
+	if (_separator)
+    return;
 	[self willChangeValueForKey:@"entries"];
 	if (se_snapshot)
 		[se_snapshot removeAllObjects];
@@ -82,14 +90,14 @@ SparkEntry *__SEEntryForApplication(SparkEntry *entry, SparkApplication *app, bo
 	NSArray *entries = [se_list entries];
 	NSUInteger count = [entries count];
 	for (NSUInteger idx = 0; idx < count; idx++) {
-		SparkEntry *entry = __SEEntryForApplication([entries objectAtIndex:idx], se_application, se_selFlags.specific);
+		SparkEntry *entry = __SEEntryForApplication([entries objectAtIndex:idx], se_application, _specific);
 		if (entry) {
 			/* if dynamic list, we have to revalidate the entry */
 			if (![se_list isDynamic] || [se_list acceptsEntry:entry])
 				[se_snapshot addObject:entry];
 		}
 	}
-	se_selFlags.dirty = 0;
+	_dirty = 0;
 	//SPXDebug(@"snapshot: %@", [self name]);
 	[self didChangeValueForKey:@"entries"];
 }
@@ -117,26 +125,19 @@ SparkEntry *__SEEntryForApplication(SparkEntry *entry, SparkApplication *app, bo
 }
 
 #pragma mark Spark Editor
-- (UInt8)group {
-  return se_selFlags.group;
-}
-- (void)setGroup:(UInt8)group {
-  se_selFlags.group = group;
-}
-
 - (BOOL)isEditable {
-  return !se_selFlags.isVirtual && !se_selFlags.separator;
+  return !_virtual && !_separator;
 }
 
-- (NSComparisonResult)compare:(id)object {
-  NSInteger g1 = [self group], g2 = [object group];
+- (NSComparisonResult)compare:(SEEntryList *)object {
+  uint8_t g1 = self.group, g2 = object.group;
   if (g1 != g2)
     return g1 - g2;
   else return [[self name] caseInsensitiveCompare:[object name]];
 }
 
 - (void)setDocument:(SELibraryDocument *)aDocument {
-	if (se_selFlags.isVirtual) {
+	if (_virtual) {
 		[se_list setLibrary:[aDocument library]];
 	}
 }
@@ -148,7 +149,7 @@ SparkEntry *__SEEntryForApplication(SparkEntry *entry, SparkApplication *app, bo
 }
 
 - (void)setSpecificFilter:(BOOL)flag {
-	SPXFlagSet(se_selFlags.specific, flag);
+  _specific = flag;
 }
 
 - (SparkListFilter)filter {
@@ -167,11 +168,12 @@ SparkEntry *__SEEntryForApplication(SparkEntry *entry, SparkApplication *app, bo
 
 #pragma mark KVC
 - (void)setNeedsReload:(BOOL)flag {
-	SPXFlagSet(se_selFlags.dirty, flag);
+	SPXFlagSet(_dirty, flag);
 }
 
 - (NSArray *)entries {
-	if (se_selFlags.dirty) [self snapshot];
+	if (_dirty)
+    [self snapshot];
 	return se_snapshot;
 }
 //- (void)setEntries:(NSArray *)entries {
@@ -179,17 +181,20 @@ SparkEntry *__SEEntryForApplication(SparkEntry *entry, SparkApplication *app, bo
 //}
 
 - (NSUInteger)countOfEntries {
-	if (se_selFlags.dirty) [self snapshot];
+	if (_dirty)
+    [self snapshot];
   return [se_snapshot count];
 }
 
 - (SparkEntry *)objectInEntriesAtIndex:(NSUInteger)idx {
-	if (se_selFlags.dirty) [self snapshot];
+	if (_dirty)
+    [self snapshot];
   return [se_snapshot objectAtIndex:idx];
 }
 
-- (void)getEntries:(id *)aBuffer range:(NSRange)range {
-	if (se_selFlags.dirty) [self snapshot];
+- (void)getEntries:(id __unsafe_unretained [])aBuffer range:(NSRange)range {
+	if (_dirty)
+    [self snapshot];
   [se_snapshot getObjects:aBuffer range:range];
 }
 

@@ -8,11 +8,7 @@
 
 #import <SparkKit/SparkPlugInAPI.h>
 
-@interface AXSparkAction : SparkAction <NSCopying> {
-@private
-  NSString *ax_title;
-  NSString *ax_subtitle;
-}
+@interface AXSparkAction : SparkAction <NSCopying>
 
 @property(nonatomic, copy) NSString *menuTitle;
 @property(nonatomic, copy) NSString *menuItemTitle;

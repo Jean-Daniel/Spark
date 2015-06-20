@@ -10,22 +10,12 @@ enum {
   kWBLevelViewMaxLevel = 16,
 };
 
-@interface WBLevelView : NSView {
-  struct _sk_svFlags {
-    unsigned int zero:1;
-    unsigned int hide:1;
-    unsigned int level:5;
-    unsigned int reserved:23;
-  } sk_svFlags;
-}
+@interface WBLevelView : NSView
 
-- (BOOL)zero;
-- (void)setZero:(BOOL)flag;
+@property(nonatomic) BOOL zero;
 
-- (NSUInteger)level;
-- (void)setLevel:(NSUInteger)level;
+@property(nonatomic) NSUInteger level;
 
-- (BOOL)drawsLevelIndicator;
-- (void)setDrawsLevelIndicator:(BOOL)flag;
+@property(nonatomic) BOOL drawsLevelIndicator;
 
 @end

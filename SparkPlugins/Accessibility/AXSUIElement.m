@@ -14,19 +14,18 @@
 
 - (id)initWithElement:(AXUIElementRef)anElement {
   if (self = [super init]) {
-    ax_elt = CFRetain(anElement);
+    _element = CFRetain(anElement);
   }
   return self;
 }
 
 - (void)dealloc {
-  if (ax_elt) 
-    CFRelease(ax_elt);
-  [super dealloc];
+  if (_element)
+    CFRelease(_element);
 }
 
 - (NSString *)description {
-  CFStringRef str = CFCopyDescription(ax_elt);
+  CFStringRef str = CFCopyDescription(_element);
   NSString *desc = [NSString stringWithFormat:@"<%@ %p> { %@ }", 
                     [self class], self, str];
   if (str) CFRelease(str);
@@ -34,10 +33,6 @@
 }
 
 #pragma mark -
-- (AXUIElementRef)element {
-  return ax_elt;
-}
-
 - (NSString *)role {
   return [self valueForAttribute:NSAccessibilityRoleAttribute];
 }
@@ -45,7 +40,7 @@
 #pragma mark Attributes
 - (NSArray *)attributeNames {
   CFArrayRef names;
-  if (kAXErrorSuccess == AXUIElementCopyAttributeNames(ax_elt, &names))
+  if (kAXErrorSuccess == AXUIElementCopyAttributeNames(_element, &names))
     return SPXCFArrayBridgingRelease(names);
   return nil; 
 }
@@ -53,7 +48,7 @@
   NSParameterAssert(anAttribute);
 //  id result;
   CFTypeRef value;
-  if (kAXErrorSuccess == AXUIElementCopyAttributeValue(ax_elt, (CFStringRef)anAttribute, &value)) {
+  if (kAXErrorSuccess == AXUIElementCopyAttributeValue(_element, SPXNSToCFString(anAttribute), &value)) {
 //    if (CFGetTypeID(value) == AXUIElementGetTypeID()) {
 //      result = [[[AXSUIElement alloc] initWithElement:value] autorelease];
 //      CFRelease(value);
@@ -67,13 +62,13 @@
 }
 - (BOOL)setValue:(id)aValue forAttribute:(NSString *)anAttribute {
   NSParameterAssert(anAttribute);
-  return kAXErrorSuccess == AXUIElementSetAttributeValue(ax_elt, (CFStringRef)anAttribute, (CFTypeRef)aValue);
+  return kAXErrorSuccess == AXUIElementSetAttributeValue(_element, SPXNSToCFString(anAttribute), SPXNSToCFType(aValue));
 }
 
 - (NSUInteger)countOfValuesForAttribute:(NSString *)anAttribute {
   NSParameterAssert(anAttribute);
   CFIndex count;
-  if (kAXErrorSuccess == AXUIElementGetAttributeValueCount(ax_elt, (CFStringRef)anAttribute, &count))
+  if (kAXErrorSuccess == AXUIElementGetAttributeValueCount(_element, SPXNSToCFString(anAttribute), &count))
     return count;
   return 0;
 }
@@ -87,7 +82,7 @@
 - (NSArray *)valuesForAttribute:(NSString *)anAttribute range:(NSRange)aRange {
   NSParameterAssert(anAttribute);
   CFArrayRef values;
-  if (kAXErrorSuccess == AXUIElementCopyAttributeValues(ax_elt, (CFStringRef)anAttribute, aRange.location, aRange.length, &values))
+  if (kAXErrorSuccess == AXUIElementCopyAttributeValues(_element, SPXNSToCFString(anAttribute), aRange.location, aRange.length, &values))
     return SPXCFArrayBridgingRelease(values);
   return nil;
 }
@@ -95,21 +90,21 @@
 #pragma mark Actions
 - (NSArray *)actionNames {
   CFArrayRef names;
-  if (kAXErrorSuccess == AXUIElementCopyActionNames(ax_elt, &names))
+  if (kAXErrorSuccess == AXUIElementCopyActionNames(_element, &names))
     return SPXCFArrayBridgingRelease(names);
   return nil;  
 }
 
 - (NSString *)actionDescription:(NSString *)anAction {
   CFStringRef str;
-  if (kAXErrorSuccess == AXUIElementCopyActionDescription(ax_elt, (CFStringRef)anAction, &str))
+  if (kAXErrorSuccess == AXUIElementCopyActionDescription(_element, SPXNSToCFString(anAction), &str))
     return SPXCFStringBridgingRelease(str);
   return NSAccessibilityActionDescription(anAction);
 }
 
 - (BOOL)performAction:(NSString *)anAction {
   NSParameterAssert(nil != anAction);
-  return kAXErrorSuccess == AXUIElementPerformAction(ax_elt, (CFStringRef)anAction);
+  return kAXErrorSuccess == AXUIElementPerformAction(_element, SPXNSToCFString(anAction));
 }
 
 @end

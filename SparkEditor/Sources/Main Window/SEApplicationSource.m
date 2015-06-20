@@ -12,6 +12,7 @@
 #import "SELibraryWindow.h"
 #import "SELibraryDocument.h"
 
+#import <WonderBox/WBTableView.h>
 #import <WonderBox/WBFinderSuite.h>
 #import <WonderBox/WBFSFunctions.h>
 #import <WonderBox/WBLSFunctions.h>
@@ -25,7 +26,12 @@
 #import <SparkKit/SparkApplication.h>
 #import <SparkKit/SparkEntryManager.h>
 
-@implementation SEApplicationSource
+@implementation SEApplicationSource {
+@private
+  BOOL se_locked;
+  NSMutableSet *se_urls;
+  SparkLibrary *se_library;
+}
 
 - (SparkObjectSet *)applicationSet {
   return [se_library applicationSet];
@@ -60,8 +66,6 @@
 
 - (void)dealloc {
   [self setLibrary:nil];
-  [se_urls release];
-  [super dealloc];
 }
 
 - (void)awakeFromNib {
@@ -70,15 +74,13 @@
   /* Configure Application Header Cell */
   SEHeaderCell *header = [[SEHeaderCell alloc] initTextCell:@""];
   [[[uiTable tableColumns] objectAtIndex:0] setHeaderCell:header];
-  [header release];
   
   header = [[SEHeaderCell alloc] initTextCell:NSLocalizedString(@"Front Application", @"Front Applications - header cell")];
   [header setAlignment:NSCenterTextAlignment];
   [header setFont:[NSFont systemFontOfSize:11]];
   [[[uiTable tableColumns] objectAtIndex:1] setHeaderCell:header];
-  [header release];
   
-  [uiTable setCornerView:[[[SEHeaderCellCorner alloc] init] autorelease]];
+  [uiTable setCornerView:[[SEHeaderCellCorner alloc] init]];
   
   [uiTable setTarget:self];
   [uiTable setDoubleAction:@selector(revealApplication:)];
@@ -87,25 +89,24 @@
 - (void)setLibrary:(SparkLibrary *)aLibrary {
   if (se_library != aLibrary) {
     if (se_library) {
-      [[se_library notificationCenter] removeObserver:self];
-      [se_library release];
+      [se_library.notificationCenter removeObserver:self];
     }
-    se_library = [aLibrary retain];
+    se_library = aLibrary;
     [self reload];
     if (se_library) {
-      [[se_library notificationCenter] addObserver:self
-                                          selector:@selector(didAddApplication:)
-                                              name:SparkObjectSetDidAddObjectNotification
-                                            object:[self applicationSet]];
-      [[se_library notificationCenter] addObserver:self
-                                          selector:@selector(willRemoveApplication:)
-                                              name:SparkObjectSetWillRemoveObjectNotification
-                                            object:[self applicationSet]];
-      
-      [[se_library notificationCenter] addObserver:self
-                                          selector:@selector(didReloadLibrary:)
-                                              name:SELibraryDocumentDidReloadNotification
-                                            object:[ibWindow document]];
+      [se_library.notificationCenter addObserver:self
+                                        selector:@selector(didAddApplication:)
+                                            name:SparkObjectSetDidAddObjectNotification
+                                          object:[self applicationSet]];
+      [se_library.notificationCenter addObserver:self
+                                        selector:@selector(willRemoveApplication:)
+                                            name:SparkObjectSetWillRemoveObjectNotification
+                                          object:[self applicationSet]];
+
+      [se_library.notificationCenter addObserver:self
+                                        selector:@selector(didReloadLibrary:)
+                                            name:SELibraryDocumentDidReloadNotification
+                                          object:[ibWindow document]];
     }
   }
 }
@@ -130,7 +131,7 @@ bool __IsApplicationAtURL(NSURL *path) {
   NSUInteger count = 0;
   SparkObjectSet *library = [self applicationSet];
   /* search if contains at least one application */
-  for (NSURL *url in urls) {
+  for (__strong NSURL *url in urls) {
     /* Resolve Aliases */
     if ([[NSFileManager defaultManager] isAliasFileAtPath:[url path]]) {
       NSString *file = [[NSFileManager defaultManager] resolveAliasFileAtPath:[url path] isFolder:NULL];
@@ -143,7 +144,6 @@ bool __IsApplicationAtURL(NSURL *path) {
         [library addObject:app];
         count++;
       }
-      [app release];
     }
   }
   se_locked = NO;
@@ -178,7 +178,7 @@ bool __IsApplicationAtURL(NSURL *path) {
   [se_library.applicationSet enumerateObjectsUsingBlock:^(SparkApplication *app, BOOL *stop) {
     NSURL *url = app.URL;
     if (url)
-      [se_urls addObject:url];
+      [self->se_urls addObject:url];
   }];
   [openPanel beginSheetForDirectory:nil
                                file:nil
@@ -193,7 +193,6 @@ bool __IsApplicationAtURL(NSURL *path) {
   if (NSOKButton == result) {
     [self addApplications:[panel URLs]];
   }
-  [se_urls release];
   se_urls = nil;
 }
 

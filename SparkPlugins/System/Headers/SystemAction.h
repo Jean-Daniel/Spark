@@ -8,7 +8,7 @@
 
 #import <SparkKit/SparkPlugInAPI.h>
 
-typedef enum {
+typedef NS_ENUM(uint32_t, SystemActionType) {
   kSystemLogOut          = 'Logo', /* 1282369391 */
   kSystemSleep           = 'Slep', /* 1399612784 */
   kSystemRestart         = 'Rest', /* 1382380404 */
@@ -29,33 +29,18 @@ typedef enum {
   /* Brightness */
   kSystemBrightnessUp    = 'BrUp', /* 1114789232 */
   kSystemBrightnessDown  = 'BrDo', /* 1114784879 */  
-} SystemActionType;
+};
 
 #define kSystemActionBundleIdentifier @"org.shadowlab.spark.action.system"
 #define kSystemActionBundle		      [NSBundle bundleWithIdentifier:kSystemActionBundleIdentifier]
 
-@interface SystemAction : SparkAction <NSCoding, NSCopying> {
-  SystemActionType sa_action;
-  struct _sa_saFlags {
-    unsigned int notify:1;
-    unsigned int confirm:1;
-    unsigned int feedback:1;
-    unsigned int reserved:29;
-  } sa_saFlags;
-  /* Switch data */
-  uid_t sa_uid;
-  NSString *sa_uname;
-  NSTimeInterval sa_start;
-}
+@interface SystemAction : SparkAction <NSCoding, NSCopying>
 
-- (SystemActionType)action;
-- (void)setAction:(SystemActionType)anAction;
+@property(nonatomic) SystemActionType action;
 
-- (uid_t)userID;
-- (void)setUserID:(uid_t)uid;
+@property(nonatomic) uid_t userID;
 
-- (NSString *)userName;
-- (void)setUserName:(NSString *)aName;
+@property(nonatomic, copy) NSString *userName;
 
 - (void)logout;
 - (void)sleep;
@@ -80,14 +65,11 @@ typedef enum {
 - (void)brightnessUp;
 - (void)brightnessDown;
 
-- (BOOL)playFeedback;
-- (void)setPlayFeedback:(BOOL)flag;
+@property(nonatomic) BOOL playFeedback;
 
-- (BOOL)shouldNotify;
-- (void)setShouldNotify:(BOOL)flag;
+@property(nonatomic) BOOL shouldNotify;
 
-- (BOOL)shouldConfirm;
-- (void)setShouldConfirm:(BOOL)flag;
+@property(nonatomic) BOOL shouldConfirm;
 
 @end
 

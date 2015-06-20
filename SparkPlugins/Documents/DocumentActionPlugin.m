@@ -13,6 +13,9 @@
 
 #import <WonderBox/NSImage+WonderBox.h>
 
+#import <WonderBox/WBAlias.h>
+#import <WonderBox/WBAliasedApplication.h>
+
 @implementation DocumentActionPlugin
 
 + (NSSet *)keyPathsForValuesAffectingValueForKey:(NSString *)key {
@@ -22,12 +25,6 @@
   return [super keyPathsForValuesAffectingValueForKey:key];;
 }
 
-- (void)dealloc {
-  [da_path release];
-  [da_name release];
-  [da_icon release];
-  [super dealloc];
-}
 /*===============================================*/
 
 - (void)loadSparkAction:(DocumentAction *)sparkAction toEdit:(BOOL)edit {
@@ -49,7 +46,7 @@
 
 - (NSAlert *)sparkEditorShouldConfigureAction {
   int action = [self action];
-  if (DocumentActionNeedDocument(action) && !da_path) {
+  if (DocumentActionNeedDocument(action) && !_document) {
     return [NSAlert alertWithMessageText:NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_DOCUMENT_ALERT", nil, 
                                                                             kDocumentActionBundle,
                                                                             @"Error when user try to create/update Action without choose document * Title *")
@@ -102,7 +99,7 @@
   
   /* Set Icon */
   if (DocumentActionNeedDocument([action action])) {
-    [action setIcon:da_icon];
+    [action setIcon:_documentIcon];
     [action setDocumentPath:[self document]];
   } else if([action action] == kDocumentActionOpenSelectionWith) {
     [action setIcon:[[ibMenu selectedItem] image]];
@@ -141,17 +138,13 @@
   [self setDocument:[[sheet filenames] objectAtIndex:0]];
 }
 
-- (NSString *)document {
-  return da_path;
-}
 - (void)setDocument:(NSString *)file {
-  if (da_path != file) {
-    [da_path release];
-    da_path = [file copy];
-    [ibMenu loadAppForDocument:[NSURL fileURLWithPath:da_path]];
-    if (da_path) {
-      [self setDocumentIcon:[[NSWorkspace sharedWorkspace] iconForFile:da_path]];
-      [self setDocumentName:[[NSFileManager defaultManager] displayNameAtPath:da_path]];
+  if (_document != file) {
+    _document = [file copy];
+    [ibMenu loadAppForDocument:[NSURL fileURLWithPath:_document]];
+    if (_document) {
+      [self setDocumentIcon:[[NSWorkspace sharedWorkspace] iconForFile:_document]];
+      [self setDocumentName:[[NSFileManager defaultManager] displayNameAtPath:_document]];
     } else {
       [self setDocumentName:nil];
       [self setDocumentIcon:nil];
@@ -193,10 +186,10 @@
   [(DocumentAction *)[self sparkAction] setURL:anUrl];
 }
 
-- (int)action {
+- (DocumentActionType)action {
   return [(DocumentAction *)[self sparkAction] action];
 }
-- (void)setAction:(int)anAction {
+- (void)setAction:(DocumentActionType)anAction {
   [(DocumentAction *)[self sparkAction] setAction:anAction];
   
   switch ([self action]) {
@@ -222,7 +215,7 @@
   
 }
 
-- (int)tabIndex {
+- (NSInteger)tabIndex {
   switch ([self action]) {
     case kDocumentActionOpen:
     case kDocumentActionReveal:
@@ -234,7 +227,7 @@
       return 1;
   }
 }
-- (void)setTabIndex:(int)newTabIndex {}
+- (void)setTabIndex:(NSInteger)newTabIndex {}
 
 - (BOOL)displayWithMenu {
   return DocumentActionNeedApplication([self action]);
@@ -242,22 +235,10 @@
 
 - (void)setDisplayWithMenu:(BOOL)newDisplayWithMenu { }
 
-
-- (NSString *)documentName {
-  return da_name;
-}
-
 - (void)setDocumentName:(NSString *)aName {
-  SPXSetterCopyAndDo(da_name, aName, {
+  SPXSetterCopyAndDo(_documentName, aName, {
     [[ibName cell] setPlaceholderString:[aName stringByDeletingPathExtension] ? : @""];
   });
-}
-
-- (NSImage *)documentIcon {
-  return da_icon;
-}
-- (void)setDocumentIcon:(NSImage *)anIcon {
-  SPXSetterRetain(da_icon, anIcon);
 }
 
 #pragma mark -

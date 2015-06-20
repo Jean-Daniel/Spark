@@ -11,7 +11,7 @@
 #define kApplicationActionBundleIdentifier  @"org.shadowlab.spark.action.application"
 #define kApplicationActionBundle			[NSBundle bundleWithIdentifier:kApplicationActionBundleIdentifier]
 
-enum {
+typedef NS_ENUM(uint32_t, ApplicationActionType) {
   kApplicationLaunch          = 'Open', /* 1332766062 */
   kApplicationQuit            = 'Quit', /* 1366649204 */
   kApplicationToggle          = 'Togl', /* 1416587116 */
@@ -23,7 +23,6 @@ enum {
   kApplicationForceQuitDialog	= 'FQit', /* 1179740532 */
   kApplicationForceQuitAppli	= 'Kill', /* 1265200236 */
 };
-typedef OSType ApplicationActionType;
 
 enum {
   kFlagsDoNothing      = 0,
@@ -37,48 +36,27 @@ typedef struct _ApplicationVisualSetting {
 } ApplicationVisualSetting;
 
 @class WBAliasedApplication;
-@interface ApplicationAction : SparkAction <NSCoding, NSCopying> {
-  @private
-  LSLaunchFlags aa_lsFlags;
-  ApplicationActionType aa_action;
-  WBAliasedApplication *aa_application;
-  struct _aa_aaFlags {
-    unsigned int active:2;
-    unsigned int reopen:1;
-    
-    unsigned int visual:1;
-    unsigned int atLaunch:1;
-    unsigned int atActivate:1;
-    unsigned int reserved:26;
-  } aa_aaFlags;
-  IconRef aa_icon;
-}
+@interface ApplicationAction : SparkAction <NSCoding, NSCopying>
 
 + (void)getSharedSettings:(ApplicationVisualSetting *)settings;
 + (void)setSharedSettings:(ApplicationVisualSetting *)settings;
 
-- (NSString *)path;
-- (void)setPath:(NSString *)path;
+@property(nonatomic, copy) NSString * path;
 
-- (LSLaunchFlags)flags;
-- (void)setFlags:(LSLaunchFlags)flags;
+@property(nonatomic) LSLaunchFlags flags;
 
-- (BOOL)reopen;
-- (void)setReopen:(BOOL)flag;
+@property(nonatomic) BOOL reopen;
 
-- (int)activation;
-- (void)setActivation:(int)actv;
+@property(nonatomic) NSInteger activation;
 
-- (BOOL)usesSharedVisual;
-- (void)setUsesSharedVisual:(BOOL)flag;
+@property(nonatomic) BOOL usesSharedVisual;
 
 - (void)getVisualSettings:(ApplicationVisualSetting *)settings;
 - (void)setVisualSettings:(ApplicationVisualSetting *)settings;
 
-- (ApplicationActionType)action;
-- (void)setAction:(ApplicationActionType)action;
+@property(nonatomic) ApplicationActionType action;
 
-- (WBAliasedApplication *)application;
+@property(nonatomic, readonly) WBAliasedApplication * application;
 
 - (void)launchApplication;
 - (void)quitApplication;

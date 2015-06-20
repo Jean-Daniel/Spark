@@ -9,12 +9,10 @@
 #import <WonderBox/WBWindowController.h>
 
 @interface SEPlugInInstaller : WBWindowController {
-  @private
+@private
   IBOutlet NSMatrix *ibMatrix;
   IBOutlet NSTextField *ibInfo;
   IBOutlet NSTextField *ibExplain;
-  
-  NSURL *se_plugin;
 }
 
 - (void)setPlugIn:(NSString *)path;

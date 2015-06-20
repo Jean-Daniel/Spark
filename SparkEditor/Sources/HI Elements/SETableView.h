@@ -12,15 +12,10 @@
 WB_PRIVATE
 NSString * const SETableSeparator;
 
-@interface SETableView : WBTableView {
-  @private
-  BOOL se_lock;
-}
+@interface SETableView : WBTableView
 
 @end
 
-@interface SETableViewCell : WBImageAndTextCell {
-  
-}
+@interface SETableViewCell : WBImageAndTextCell
 
 @end

@@ -24,6 +24,7 @@ SPARK_OBJC_EXPORT
 
 /* Return YES only if the two trigger are equivalents */
 - (BOOL)isEqualToTrigger:(SparkTrigger *)aTrigger;
+- (NSComparisonResult)compare:(SparkTrigger *)aTrigger;
 
 @end
 

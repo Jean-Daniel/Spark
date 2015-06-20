@@ -62,7 +62,12 @@ void __SetSparkKitSingleKeyMode(NSInteger mode) {
   SparkSetFilterMode((mode >= 0 && mode <= 3) ? mode : kSparkEnableSingleFunctionKey);
 }
 
-@implementation SEPreferences
+@implementation SEPreferences {
+  BOOL se_login;
+  BOOL se_update;
+  NSMapTable *_status;
+  NSMutableArray *_plugins;
+}
 
 /* Default values initialization */
 + (void)setup {
@@ -91,25 +96,18 @@ void __SetSparkKitSingleKeyMode(NSInteger mode) {
 - (id)init {
   if (self = [super init]) {
     se_login = __SEPreferencesLoginItemStatus();
-    se_status = NSCreateMapTable(NSObjectMapKeyCallBacks, NSIntegerMapValueCallBacks, 0);
-    se_plugins = [[NSMutableArray alloc] init];
+    _status = [[NSMapTable alloc] initWithKeyOptions:NSPointerFunctionsStrongMemory | NSPointerFunctionsObjectPersonality
+                                        valueOptions:NSPointerFunctionsStrongMemory | NSPointerFunctionsObjectPersonality
+                                            capacity:0];
+    _plugins = [[NSMutableArray alloc] init];
   }
   return self;
 }
 
-- (void)dealloc {
-  [se_plugins release];
-  if (se_status) NSFreeMapTable(se_status);
-  [super dealloc];
-}
-
 #pragma mark -
 - (void)se_initPlugInStatus:(NSArray *)plugins {
-  for (NSUInteger idx = 0, count = [plugins count]; idx < count; idx++) {
-    SparkPlugIn *plugin = [plugins objectAtIndex:idx];
-    long status = [plugin isEnabled];
-    NSMapInsert(se_status, plugin, (void *)status);
-  }
+  for (SparkPlugIn *plugin in plugins)
+    [_status setObject:@(plugin.enabled) forKey:plugin.identifier];
 }
 
 - (void)awakeFromNib {
@@ -119,7 +117,7 @@ void __SetSparkKitSingleKeyMode(NSInteger mode) {
   [toolbar setAllowsUserCustomization:NO];
   [toolbar setDisplayMode:NSToolbarDisplayModeIconAndLabel];
   [toolbar setSelectedItemIdentifier:kSparkPreferencesToolbarGeneralItem];
-  [[self window] setToolbar:[toolbar autorelease]];
+  [[self window] setToolbar:toolbar];
   [[self window] setShowsToolbarButton:NO];
   
   /* Load PlugIns */
@@ -129,25 +127,24 @@ void __SetSparkKitSingleKeyMode(NSInteger mode) {
 												NSLocalizedStringFromTable(@"Built-in", @"SEPreferences", @"Plugin preferences domain - built-in"), @"name",
 												plugs, @"plugins",
 												[NSImage imageNamed:@"application"], @"icon", nil];
-  [se_plugins addObject:item];
+  [_plugins addObject:item];
 
   plugs = [[[SparkActionLoader sharedLoader] plugInsForDomain:kWBPlugInDomainLocal] sortedArrayUsingDescriptors:gSortByNameDescriptors];
   item = [NSDictionary dictionaryWithObjectsAndKeys:
 					NSLocalizedStringFromTable(@"Computer", @"SEPreferences", @"Plugin preferences domain - computer"), @"name",
 					plugs, @"plugins",
 					[NSImage imageNamed:@"computer"], @"icon", nil];
-  [se_plugins addObject:item];
+  [_plugins addObject:item];
   
   plugs = [[[SparkActionLoader sharedLoader] plugInsForDomain:kWBPlugInDomainUser] sortedArrayUsingDescriptors:gSortByNameDescriptors];
   item = [NSDictionary dictionaryWithObjectsAndKeys:
 					NSLocalizedStringFromTable(@"User", @"SEPreferences", @"Plugin preferences domain - user"), @"name",
 					plugs, @"plugins",
 					[NSImage imageNamed:@"user"], @"icon", nil];
-  [se_plugins addObject:item];
+  [_plugins addObject:item];
   
   [uiPlugins reloadData];
-  for (NSUInteger idx = 0; idx < [se_plugins count]; idx++) {
-    item = [se_plugins objectAtIndex:idx];
+  for (item in _plugins) {
     NSArray *plugins = [item objectForKey:@"plugins"];
     if ([plugins count]) {
       [self se_initPlugInStatus:plugins];
@@ -158,19 +155,16 @@ void __SetSparkKitSingleKeyMode(NSInteger mode) {
 
 - (IBAction)apply:(id)sender {
   BOOL change = NO;
-  long status = 0;
-  SparkPlugIn *plugin = nil;
-  NSMapEnumerator plugins = NSEnumerateMapTable(se_status);
-  while (NSNextMapEnumeratorPair(&plugins, (void **)&plugin, (void **)&status)) {
-    if (spx_xor(status, [plugin isEnabled])) {
-      [plugin setEnabled:status];
+  for (SparkPlugIn *plugin in _status) {
+    BOOL status = [[_status objectForKey:plugin] boolValue];
+    if (spx_xor(status, plugin.enabled)) {
+      plugin.enabled = status;
       change = YES;
     }
   }
-  if (change) {
+  if (change)
     [[NSNotificationCenter defaultCenter] postNotificationName:SESparkEditorDidChangePlugInStatusNotification
                                                         object:nil];
-  }
   /* Check login items */
   if (se_login != __SEPreferencesLoginItemStatus()) {
     se_login = __SEPreferencesLoginItemStatus();
@@ -282,17 +276,17 @@ void __SetSparkKitSingleKeyMode(NSInteger mode) {
   return !item || ![item isKindOfClass:[SparkPlugIn class]];
 }
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item {
-  return item ? [[item objectForKey:@"plugins"] count] : [se_plugins count];
+  return item ? [[item objectForKey:@"plugins"] count] : _plugins.count;
 }
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)anIndex ofItem:(id)item {
-  return item ? [[item objectForKey:@"plugins"] objectAtIndex:anIndex] : [se_plugins objectAtIndex:anIndex];
+  return item ? [[item objectForKey:@"plugins"] objectAtIndex:anIndex] : _plugins[anIndex];
 }
 - (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item {
   if ([item isKindOfClass:[SparkPlugIn class]]) {
     if ([[tableColumn identifier] isEqualToString:@"__item__"])
       return item;
     else if ([[tableColumn identifier] isEqualToString:@"enabled"])
-      return @(NSMapGet(se_status, item) != 0);
+      return [_status objectForKey:item];
     else
       return [item valueForKey:[tableColumn identifier]];
   } else if ([item isKindOfClass:[NSDictionary class]]) {
@@ -304,9 +298,8 @@ void __SetSparkKitSingleKeyMode(NSInteger mode) {
 
 - (void)outlineView:(NSOutlineView *)outlineView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn byItem:(id)item {
   if ([item isKindOfClass:[SparkPlugIn class]] && [[tableColumn identifier] isEqualToString:@"enabled"]) {
-    if (NSMapMember(se_status, item, NULL, NULL)) {
-      NSMapInsert(se_status, item, (void *)[object longValue]);
-    }
+    if ([_status objectForKey:item])
+      [_status setObject:object forKey:item];
   }
 }
 
@@ -340,7 +333,7 @@ void __SetSparkKitSingleKeyMode(NSInteger mode) {
 }
 
 - (NSToolbarItem *)toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSString *)itemIdentifier willBeInsertedIntoToolbar:(BOOL)flag {
-  NSToolbarItem *toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier: itemIdentifier] autorelease];
+  NSToolbarItem *toolbarItem = [[NSToolbarItem alloc] initWithItemIdentifier: itemIdentifier];
   if ([kSparkPreferencesToolbarGeneralItem isEqualToString:itemIdentifier]) {
     [toolbarItem setTag:0];
     [toolbarItem setLabel:NSLocalizedStringFromTable(@"General", @"SEPreferences", @"Toolar item: General")];
@@ -419,7 +412,7 @@ void _SEPreferencesUpdateLoginItem(void) {
                                                    &itemURL, NULL) && itemURL) {
             CFStringRef name = CFURLCopyLastPathComponent(itemURL);
             if (name) {
-              if (CFEqual(name, kSparkDaemonExecutableName)) {
+              if (CFEqual(name, SPXNSToCFString(kSparkDaemonExecutableName))) {
                 if (!status || !__CFFileURLCompare(itemURL, &dref)) {
                   SPXDebug(@"Remove login item: %@", itemURL);
 #if !defined(DEBUG)

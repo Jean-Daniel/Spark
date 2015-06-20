@@ -11,7 +11,14 @@
 static 
 NSShadow *sDropShadow = nil, *sLevelShadow = nil;
 
-@implementation WBLevelView
+@implementation WBLevelView {
+  struct _sk_svFlags {
+    unsigned int zero:1;
+    unsigned int hide:1;
+    unsigned int level:5;
+    unsigned int reserved:23;
+  } sk_svFlags;
+}
 
 + (void)initialize {
   if ([WBLevelView class] == self) {

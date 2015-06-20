@@ -12,9 +12,11 @@
 
 #import <WonderBox/WBImageFunctions.h>
 
-@implementation DAApplicationMenu
+@implementation DAApplicationMenu {
+  BOOL _custom;
+}
 
-- (id)initWithCoder:(NSCoder *)coder {
+- (instancetype)initWithCoder:(NSCoder *)coder {
   if (self = [super initWithCoder:coder]) {
     [self removeAllItems];
     NSMenu *menu = [self menu];
@@ -29,10 +31,9 @@
                                            keyEquivalent:@""];
     [item setTarget:self];
     [menu addItem:item];
-    [item release];
     [self selectItemAtIndex:1];
     
-    da_custom = YES;
+    _custom = YES;
   }
   return self;
 }
@@ -53,9 +54,9 @@
   if (returnCode == NSCancelButton) {
     return;
   }
-  if (!da_custom) {
+  if (!_custom) {
     [[self menu] insertItem:[NSMenuItem separatorItem] atIndex:0];
-    da_custom = YES;
+    _custom = YES;
   }
   NSURL *path;
   NSEnumerator *files = [[sheet URLs] reverseObjectEnumerator];
@@ -69,17 +70,16 @@
   while ([self numberOfItems] > 2) {
     [self removeItemAtIndex:0];
   }
-  da_custom = NO;
+  _custom = NO;
   if (url) {
-    NSArray *applications = (id)LSCopyApplicationURLsForURL((CFURLRef)url, kLSRolesAll);
+    NSArray *applications = SPXCFArrayBridgingRelease(LSCopyApplicationURLsForURL(SPXNSToCFURL(url), kLSRolesAll));
     if ([applications count]) {
       CFURLRef prefered = NULL;
-      LSGetApplicationForURL((CFURLRef)url, kLSRolesAll, NULL, &prefered);
+      LSGetApplicationForURL(SPXNSToCFURL(url), kLSRolesAll, NULL, &prefered);
       /* Sort applications */
       NSSortDescriptor *desc = [[NSSortDescriptor alloc] initWithKey:@"path.lastPathComponent" ascending:NO selector:@selector(caseInsensitiveCompare:)];
       NSArray *sorted = [applications sortedArrayUsingDescriptors:[NSArray arrayWithObject:desc]];
       NSEnumerator *urls = [sorted objectEnumerator];
-      [desc release];
       
       NSURL *application;
       while (application = [urls nextObject]) {
@@ -87,7 +87,7 @@
           [[self menu] insertItem:[self itemForURL:application] atIndex:0];
       }
       if (prefered) {
-        NSUInteger idx = [sorted indexOfObject:(id)prefered];
+        NSUInteger idx = [sorted indexOfObject:SPXCFToNSURL(prefered)];
         if (idx != NSNotFound) {
           idx++;
           [self selectItemAtIndex:[sorted count] - idx];
@@ -95,7 +95,6 @@
         CFRelease(prefered);
       }
     }
-    [applications release];
   } else {
     [self selectItemAtIndex:1];
   }
@@ -118,7 +117,7 @@
   [item setRepresentedObject:[NSDictionary dictionaryWithObjectsAndKeys:path, @"path", name, @"name", icon, @"icon", nil]];
   [item setImage:icon];
   
-  return [item autorelease];
+  return item;
 }
 
 @end

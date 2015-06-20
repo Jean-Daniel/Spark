@@ -13,22 +13,19 @@
 
 @implementation AXSparkAction
 
-@synthesize menuTitle = ax_title;
-@synthesize menuItemTitle = ax_subtitle;
-
 - (id)copyWithZone:(NSZone *)aZone {
   AXSparkAction *copy = [super copyWithZone:aZone];
-  copy->ax_title = [ax_title copy];
-  copy->ax_subtitle = [ax_subtitle copy];
+  copy->_menuTitle = [_menuTitle copy];
+  copy->_menuItemTitle = [_menuItemTitle copy];
   return copy;
 }
 
 - (BOOL)serialize:(NSMutableDictionary *)plist {
   if ([super serialize:plist]) {
-    if (ax_title)
-      [plist setObject:ax_title forKey:@"AXAMenuTitle"];
-    if (ax_subtitle)
-      [plist setObject:ax_subtitle forKey:@"AXAMenuItemTitle"];
+    if (_menuTitle)
+      [plist setObject:_menuTitle forKey:@"AXAMenuTitle"];
+    if (_menuItemTitle)
+      [plist setObject:_menuItemTitle forKey:@"AXAMenuItemTitle"];
     return YES;
   }
   return NO;
@@ -36,16 +33,10 @@
 
 - (id)initWithSerializedValues:(NSDictionary *)plist {
   if (self = [super initWithSerializedValues:plist]) {
-    ax_title = [[plist objectForKey:@"AXAMenuTitle"] retain];
-    ax_subtitle = [[plist objectForKey:@"AXAMenuItemTitle"] retain];
+    _menuTitle = [plist objectForKey:@"AXAMenuTitle"];
+    _menuItemTitle = [plist objectForKey:@"AXAMenuItemTitle"];
   }
   return self;
-}
-
-- (void)dealloc {
-  [ax_title release];
-  [ax_subtitle release];
-  [super dealloc];
 }
 
 #pragma mark -
@@ -63,8 +54,8 @@
         return YES;
     } else {
       NSString *title = [item title];
-      if (title && ([title caseInsensitiveCompare:ax_subtitle] == NSOrderedSame)) {
-      //if (title && [title rangeOfString:ax_subtitle options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch].location != NSNotFound) {
+      if (title && ([title caseInsensitiveCompare:_menuItemTitle] == NSOrderedSame)) {
+      //if (title && [title rangeOfString:_menuItemTitle options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch].location != NSNotFound) {
         SPXDebug(@"Item found: %@", item);
         if (![item performAction:NSAccessibilityPressAction])
           NSBeep();
@@ -92,15 +83,14 @@
     AXSMenuItem *item = [items objectAtIndex:idx];
     if ([item submenu]) {
       NSString *title = [item title];
-      if (!ax_title || ([title caseInsensitiveCompare:ax_title] == NSOrderedSame)) {
-      //if (!ax_title || [title rangeOfString:ax_title options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch].location != NSNotFound) {
+      if (!_menuTitle || ([title caseInsensitiveCompare:_menuTitle] == NSOrderedSame)) {
+      //if (!_menuTitle || [title rangeOfString:_menuTitle options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch].location != NSNotFound) {
         /* browse submenu */
         if ([self performActionInMenu:[item submenu]])
           break;
       }
     }
   }
-  [app release];
   return nil;
 }
 

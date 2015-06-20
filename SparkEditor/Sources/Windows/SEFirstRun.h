@@ -9,7 +9,7 @@
 #import <WonderBox/WBWindowController.h>
 
 @interface SEFirstRun : WBWindowController {
-  @private
+@private
   IBOutlet NSTextView *ibText;
   IBOutlet NSButton *ibStartNow;
   IBOutlet NSButton *ibAutoStart;

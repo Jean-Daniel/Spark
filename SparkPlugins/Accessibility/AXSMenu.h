@@ -8,23 +8,18 @@
 
 #import "AXSUIElement.h"
 
-@interface AXSMenu : AXSUIElement {
-@private
-}
+@interface AXSMenu : AXSUIElement
 
-- (NSArray *)items;
-- (NSString *)title;
+@property(nonatomic, readonly) NSArray *items;
+@property(nonatomic, readonly) NSString *title;
 
 @end
 
-@interface AXSMenuItem : AXSUIElement {
-@private
-  AXSMenu *ax_submenu;
-}
+@interface AXSMenuItem : AXSUIElement
 
-- (AXSMenu *)submenu;
+@property(nonatomic, readonly) AXSMenu *submenu;
 
-- (NSString *)title;
-- (BOOL)isSeparator;
+@property(nonatomic, readonly) NSString *title;
+@property(nonatomic, readonly) BOOL isSeparator;
 
 @end

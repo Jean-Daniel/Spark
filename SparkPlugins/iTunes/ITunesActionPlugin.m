@@ -19,6 +19,10 @@
 #import <WonderBox/NSString+WonderBox.h>
 #import <WonderBox/NSTabView+WonderBox.h>
 
+@interface ITunesActionPlugin () <ITunesVisualSettingDelegate>
+
+@end
+
 static 
 NSImage *ITunesGetApplicationIcon(void) {
   NSImage *icon = nil;

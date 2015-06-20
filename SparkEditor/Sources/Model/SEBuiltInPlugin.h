@@ -8,8 +8,7 @@
 
 #import <SparkKit/SparkActionPlugIn.h>
 
-@interface SEInheritsPlugIn : SparkActionPlugIn {
-}
+@interface SEInheritsPlugIn : SparkActionPlugIn
 
 @end
 

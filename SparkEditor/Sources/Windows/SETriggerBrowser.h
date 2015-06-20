@@ -10,13 +10,12 @@
 
 @class WBTableDataSource;
 @class WBTableView, SparkLibrary;
+
 @interface SETriggerBrowser : NSWindowController {
   IBOutlet WBTableView *uiTriggers;
   IBOutlet WBTableDataSource *ibTriggers;
-  @private
-    SparkLibrary *se_library;
 }
 
-- (void)setLibrary:(SparkLibrary *)aLibrary;
+@property(nonatomic, retain) SparkLibrary *library;
 
 @end

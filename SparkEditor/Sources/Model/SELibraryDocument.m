@@ -21,6 +21,7 @@
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkTrigger.h>
 #import <SparkKit/SparkObjectSet.h>
+#import <SparkKit/SparkApplication.h>
 #import <SparkKit/SparkEntryManager.h>
 
 NSString * const SEPreviousApplicationKey = @"SEPreviousApplicationKey";
@@ -39,27 +40,23 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
   return nil;
 }
 
-@implementation SELibraryDocument
+@implementation SELibraryDocument {
+@private
+  SEEntryEditor *_editor;
+}
 
-- (id)initWithType:(NSString *)typeName error:(NSError **)outError {
+- (instancetype)initWithType:(NSString *)typeName error:(__autoreleasing NSError **)outError {
   if (self = [super initWithType:typeName error:outError]) {
-    //se_library = [[SparkLibrary alloc] init];
+    //_library = [[SparkLibrary alloc] init];
   }
   return self;
 }
 
-- (id)initWithContentsOfURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError {
+- (instancetype)initWithContentsOfURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(__autoreleasing NSError **)outError {
   if (self = [super initWithContentsOfURL:absoluteURL ofType:typeName error:outError]) {
     
   }
   return self;
-}
-
-- (void)dealloc {
-  [se_editor release];
-  [se_library release];
-  [se_application release];
-  [super dealloc];
 }
 
 - (id)se_windowController:(Class)class {
@@ -88,28 +85,22 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
   [self addWindowController:ctrl];
 	if ([[ctrl window] respondsToSelector:@selector(setRepresentedURL:)])
 		[[ctrl window] setRepresentedURL:nil];
-  [ctrl release];
   [self displayFirstRunIfNeeded];
 }
 
-- (SparkLibrary *)library {
-  return se_library;
-}
 - (void)setLibrary:(SparkLibrary *)aLibrary {
-  if (se_library != aLibrary) {
-    if (se_library) {
-      [se_library setUndoManager:nil];
+  if (_library != aLibrary) {
+    if (_library) {
+      [_library setUndoManager:nil];
     }
-    [se_library release];
-    se_library = [aLibrary retain];
+    _library = aLibrary;
     /* Cleanup undo stack */
     [self updateChangeCount:NSChangeCleared];
-    if (se_library) {
-      [se_library setUndoManager:[self undoManager]];
+    if (_library) {
+      [_library setUndoManager:[self undoManager]];
       /* Just to hide title menu and proxy icon */
-      if (se_library.URL) {
+      if (_library.URL)
         [self setFileName:@"Spark"];
-			}
 			
       [[NSNotificationCenter defaultCenter] postNotificationName:SEDocumentDidSetLibraryNotification
                                                           object:self];
@@ -117,19 +108,15 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
   }
 }
 
-- (SparkApplication *)application {
-  return se_application;
-}
 - (void)setApplication:(SparkApplication *)anApplication {
-  if (se_application != anApplication) {
+  if (_application != anApplication) {
     NSNotification *notify = [NSNotification notificationWithName:SEApplicationDidChangeNotification
                                                            object:self 
-                                                         userInfo:se_application ? [NSDictionary dictionaryWithObject:se_application 
-                                                                                                               forKey:SEPreviousApplicationKey] : nil];
-    [se_application release];
-    se_application = [anApplication retain];
+                                                         userInfo:_application ? [NSDictionary dictionaryWithObject:_application
+                                                                                                             forKey:SEPreviousApplicationKey] : nil];
+    _application = anApplication;
     /* Notify change */
-    [[se_library notificationCenter] postNotification:notify];
+    [_library.notificationCenter postNotification:notify];
   }
 }
 
@@ -230,37 +217,34 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
 
 #pragma mark -
 - (void)canCloseDocumentWithDelegate:(id)delegate shouldCloseSelector:(SEL)shouldCloseSelector contextInfo:(void *)contextInfo {
-  if (se_library == SparkActiveLibrary()) {
-    [se_library synchronize];
+  if (_library == SparkActiveLibrary()) {
+    [_library synchronize];
     [self updateChangeCount:NSChangeCleared];
   } 
   [super canCloseDocumentWithDelegate:delegate shouldCloseSelector:shouldCloseSelector contextInfo:contextInfo];
 }
 
-- (BOOL)revertToContentsOfURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError {
+- (BOOL)revertToContentsOfURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(__autoreleasing NSError **)outError {
   if (outError) *outError = nil;
   
-  SparkLibrary *library = [[SparkLibrary alloc] initWithURL:se_library.URL];
+  SparkLibrary *library = [[SparkLibrary alloc] initWithURL:_library.URL];
   if ([library load:outError]) {
-    SparkLibrary *previous = [se_library retain];
+    SparkLibrary *previous = _library;
     if (SparkActiveLibrary() == previous) {
       SparkSetActiveLibrary(library);
     }
     SparkLibraryUnregisterLibrary(previous);
     
     [self setLibrary:library];
-    [library release];
     
     [previous unload];
-    [previous release];
     
     /* Restart daemon if needed */
-    if ([[SEServerConnection defaultConnection] isRunning] && se_library == SparkActiveLibrary()) {
+    if ([[SEServerConnection defaultConnection] isRunning] && _library == SparkActiveLibrary()) {
       [[SEServerConnection defaultConnection] restart];
     }
     return YES;
   }
-  [library release];
   return NO;
 }
 
@@ -268,44 +252,39 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
 - (IBAction)exportPrintable:(id)sender {
   SEExportOptions *ctrl = [[SEExportOptions alloc] init]; // release in didEnd callback.
   NSSavePanel *panel = [NSSavePanel savePanel];
-  [panel setAccessoryView:[ctrl view]];
-  [panel setRequiredFileType:@"html"];
-  [panel beginSheetForDirectory:nil file:NSLocalizedString(@"SparkLibrary - HTML" , @"SparkLibrary Export as HTML Filename")
-								 modalForWindow:[self windowForSheet]
-                  modalDelegate:self didEndSelector:@selector(exportPanel:didEnd:context:) contextInfo:ctrl];
-}
-
-- (void)exportPanel:(NSSavePanel *)panel didEnd:(NSInteger)code context:(id)ctrl {
-  if (NSOKButton == code) {
-    NSError *error = nil;
-    SEHTMLGenerator *generator = [[SEHTMLGenerator alloc] initWithDocument:self];
-    [generator setGroupBy:[ctrl groupBy]];
-		[generator setStrikeDisabled:[ctrl strike]];
-    [generator setIncludesIcons:[ctrl includeIcons]];
-    /* generator setOptions */
-    if (![generator writeToFile:[panel filename] atomically:YES error:&error]) {
-      if (error) [self presentError:error];
-    }
-    
-    [generator release];
-  }
-  [panel setAccessoryView:nil]; // may fix a crash on Tiger ?
-  /* cleanup */
-  [ctrl autorelease];
+  panel.accessoryView = [ctrl view];
+  panel.allowedFileTypes = @[ @"html"];
+  panel.nameFieldStringValue = NSLocalizedString(@"SparkLibrary - HTML" , @"SparkLibrary Export as HTML Filename");
+  [panel beginSheetModalForWindow:[self windowForSheet]
+                completionHandler:^(NSInteger result) {
+                  if (NSOKButton == result) {
+                    NSError *error = nil;
+                    SEHTMLGenerator *generator = [[SEHTMLGenerator alloc] initWithDocument:self];
+                    [generator setGroupBy:[ctrl groupBy]];
+                    [generator setStrikeDisabled:[ctrl strike]];
+                    [generator setIncludesIcons:[ctrl includeIcons]];
+                    /* generator setOptions */
+                    if (![generator writeToFile:[panel filename] atomically:YES error:&error]) {
+                      if (error)
+                        [self presentError:error];
+                    }
+                  }
+                  [panel setAccessoryView:nil]; // may fix a crash on Tiger ?
+                }];
 }
 
 #pragma mark -
 #pragma mark Editor
 - (SEEntryEditor *)editor {
-  if (!se_editor) {
-    se_editor = [[SEEntryEditor alloc] init];
+  if (!_editor) {
+    _editor = [[SEEntryEditor alloc] init];
     /* Load */
-    [se_editor window];
-    [se_editor setDelegate:self];
+    [_editor window];
+    [_editor setDelegate:self];
   }
   /* Update application */
-  [se_editor setApplication:[self application]];
-  return se_editor;
+  [_editor setApplication:[self application]];
+  return _editor;
 }
 
 #pragma mark Create
@@ -435,7 +414,7 @@ NSAlert *_SELibraryTriggerAlreadyUsedAlert(SparkEntry *previous, SparkEntry *ent
 		[[library actionSet] addObject:anAction];
 		
 		/* Now update the old Entry */
-		if ([[entry application] isEqual:anApplication]) {
+		if ([entry.application isEqual:anApplication]) {
 			[entry beginEditing];
 			[entry replaceAction:anAction];
 			[entry replaceTrigger:aTrigger];
@@ -484,7 +463,7 @@ NSAlert *_SELibraryTriggerAlreadyUsedAlert(SparkEntry *previous, SparkEntry *ent
 
 	NSUInteger removed = 0;
 	NSUInteger count = [entries count];
-	SparkEntryManager *manager = [se_library entryManager];
+	SparkEntryManager *manager = [_library entryManager];
 	while (count-- > 0) {
 		SparkEntry *entry = [entries objectAtIndex:count];
 		/* Remove only custom entry */

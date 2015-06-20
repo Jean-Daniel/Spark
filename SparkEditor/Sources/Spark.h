@@ -10,32 +10,23 @@
 
 SPARK_PRIVATE
 NSArray *gSortByNameDescriptors;
+
 SPARK_PRIVATE
 NSString * const SparkEntriesPboardType;
+
 SPARK_PRIVATE
 NSString * const SESparkEditorDidChangePlugInStatusNotification;
 
 SPARK_PRIVATE
 void SEPopulatePlugInMenu(NSMenu *menu);
 
-@class SparkLibrary;
-@class SELibraryWindow;
-@interface SparkEditor : NSApplication {
-  /* Scripting Addition */
-  NSMenu *se_plugins;
-}
+@interface SparkEditor : NSApplication
 
 - (NSMenu *)plugInsMenu;
 
 @end
 
-@class SEPreferences;
-@interface Spark : NSObject <NSApplicationDelegate> {
-  @private
-  IBOutlet NSMenu *aboutMenu;
-  IBOutlet NSMenuItem *statusMenuItem;
-  SEPreferences *se_preferences;
-}
+@interface Spark : NSObject <NSApplicationDelegate>
 
 + (Spark *)sharedSpark;
 
@@ -54,8 +45,6 @@ void SEPopulatePlugInMenu(NSMenu *menu);
 //- (IBAction)checkForNewVersion:(id)sender;
 
 - (void)createAboutMenu;
-#if defined (DEBUG)
 - (void)createDebugMenu;
-#endif
 
 @end

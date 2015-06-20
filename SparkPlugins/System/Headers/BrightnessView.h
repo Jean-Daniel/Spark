@@ -8,8 +8,6 @@
 
 #import "WBLevelView.h"
 
-@interface BrightnessView : WBLevelView {
-
-}
+@interface BrightnessView : WBLevelView
 
 @end

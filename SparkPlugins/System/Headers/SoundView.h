@@ -8,11 +8,8 @@
 
 #import "WBLevelView.h"
 
-@interface SoundView : WBLevelView {
+@interface SoundView : WBLevelView
 
-}
-
-- (BOOL)isMuted;
-- (void)setMuted:(BOOL)flag;
+@property(nonatomic, getter=isMuted) BOOL muted;
 
 @end

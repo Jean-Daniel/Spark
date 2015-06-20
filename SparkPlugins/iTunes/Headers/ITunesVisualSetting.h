@@ -9,6 +9,8 @@
 #import <Cocoa/Cocoa.h>
 #import "ITunesInfo.h"
 
+@protocol ITunesVisualSettingDelegate;
+
 @interface ITunesVisualSetting : NSObject {
   IBOutlet NSButton *ibShow;
 }
@@ -29,7 +31,7 @@
 
 @property(nonatomic) NSInteger colorComponent;
 
-@property(nonatomic, assign) id delegate;
+@property(nonatomic, assign) id<ITunesVisualSettingDelegate> delegate;
 
 @property(nonatomic) NSInteger configuration;
 
@@ -38,8 +40,8 @@
 
 @end
 
-@interface NSObject (ITunesVisualSettingDelegate)
-
+@protocol ITunesVisualSettingDelegate <NSObject>
+@optional
 - (void)settingWillChangeConfiguration:(ITunesVisualSetting *)settings;
 - (void)settingDidChangeConfiguration:(ITunesVisualSetting *)settings;
 

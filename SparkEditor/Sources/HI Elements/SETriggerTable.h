@@ -8,13 +8,15 @@
 
 #import <WonderBox/WBTableView.h>
 
-@interface SETriggerTable : WBTableView {
+@protocol SETriggerTableDelegate;
 
-}
+@interface SETriggerTable : WBTableView
+
+@property(nonatomic, assign) id<SETriggerTableDelegate> delegate;
 
 @end
 
-@interface NSObject (SETriggerTableDelegate)
+@protocol SETriggerTableDelegate <WBTableViewDelegate>
 
 - (void)spaceDownInTableView:(SETriggerTable *)aTable;
 - (BOOL)tableView:(SETriggerTable *)aTable shouldHandleOptionClick:(NSEvent *)anEvent;

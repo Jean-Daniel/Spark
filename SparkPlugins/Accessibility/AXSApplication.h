@@ -9,15 +9,13 @@
 #import "AXSUIElement.h"
 
 @class AXSMenu;
-@interface AXSApplication : AXSUIElement {
-@private
-  AXSMenu *ax_menu;
-}
+@interface AXSApplication : AXSUIElement
 
 - (id)initWithProcess:(ProcessSerialNumber *)aProcess;
-- (id)initWithProcessIdentifier:(pid_t)aPid;
+- (id)initWithProcessIdentifier:(pid_t)aPid NS_DESIGNATED_INITIALIZER;
 
-- (AXSMenu *)menu;
+@property(nonatomic, readonly) AXSMenu *menu;
 
-- (pid_t)processIdentifier;
+@property(nonatomic, readonly) pid_t processIdentifier;
+
 @end

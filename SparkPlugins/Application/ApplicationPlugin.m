@@ -11,13 +11,12 @@
 #import <WonderBox/WBImageView.h>
 #import <WonderBox/WBImageFunctions.h>
 #import <WonderBox/NSImage+WonderBox.h>
+#import <WonderBox/WBAliasedApplication.h>
 
-@implementation ApplicationPlugin
-
-- (void)dealloc {
-  [aa_name release];
-  [aa_path release];
-  [super dealloc];
+@implementation ApplicationPlugin {
+@private
+  NSString *aa_name;
+  ApplicationVisualSetting aa_settings;
 }
 
 #pragma mark -
@@ -51,7 +50,7 @@
     case kApplicationForceQuitDialog:
       break;
     default:
-      if (!aa_path)
+      if (!_path)
         return [NSAlert alertWithMessageText:NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_APPLICATION_ALERT", nil, kApplicationActionBundle,
                                                                                 @"Create Action without Application Error * Title *")
                                defaultButton:NSLocalizedStringFromTableInBundle(@"OK", nil, kApplicationActionBundle,
@@ -67,7 +66,7 @@
 - (void)configureAction {
   [super configureAction];
   ApplicationAction *action = [self sparkAction];
-  [action setFlags:aa_flags];
+  [action setFlags:_flags];
   
   /* Save visual if needed */
   if (![action usesSharedVisual]) {
@@ -83,12 +82,11 @@
       [action setIcon:ApplicationActionIcon(action)];
       break;
     default: {
-      [action setPath:aa_path];
+      [action setPath:_path];
       NSImage *icon = [[ibIcon image] copy];
       if (icon) {
         WBImageSetRepresentationsSize(icon, NSMakeSize(16, 16));
         [action setIcon:icon];
-        [icon release];
       }
     }
   }
@@ -121,8 +119,8 @@
   [oPanel setCanChooseDirectories:NO];
   [oPanel setAllowsMultipleSelection:NO];
   
-  NSString *directory = [aa_path stringByDeletingLastPathComponent];
-  NSString *file = [aa_path lastPathComponent];
+  NSString *directory = [_path stringByDeletingLastPathComponent];
+  NSString *file = [_path lastPathComponent];
   [oPanel beginSheetForDirectory:directory
                             file:file
                            types:[NSArray arrayWithObjects:@"app", @"APPL", nil]
@@ -140,7 +138,7 @@
 
 #pragma mark -
 - (void)setPath:(NSString *)aPath {
-  SPXSetterRetainAndDo(aa_path, aPath, {
+  SPXSetterCopyAndDo(_path, aPath, {
     NSString *name = [[[NSFileManager defaultManager] displayNameAtPath:aPath] stringByDeletingPathExtension];
     [ibApplication setStringValue:name ? : @""];
     [[ibName cell] setPlaceholderString:name ? : NSLocalizedStringFromTableInBundle(@"ACTION_NAME",
@@ -223,10 +221,10 @@
 	return NO;
 }
 
-- (int)visual {
+- (NSInteger)visual {
   return [[self sparkAction] usesSharedVisual] ? 0 : 1;
 }
-- (void)setVisual:(int)visual {
+- (void)setVisual:(NSInteger)visual {
   BOOL shared = [[self sparkAction] usesSharedVisual];
   [self willChangeValueForKey:@"notifyLaunch"];
   [self willChangeValueForKey:@"notifyActivation"];
@@ -272,31 +270,31 @@
 }
 
 - (BOOL)dontSwitch {
-  return (aa_flags & kLSLaunchDontSwitch) != 0;
+  return (_flags & kLSLaunchDontSwitch) != 0;
 }
 - (void)setDontSwitch:(BOOL)dontSwitch {
-  aa_flags = dontSwitch ? aa_flags | kLSLaunchDontSwitch : aa_flags & ~kLSLaunchDontSwitch;
+  _flags = dontSwitch ? _flags | kLSLaunchDontSwitch : _flags & ~kLSLaunchDontSwitch;
 }
 
 - (BOOL)newInstance {
-  return (aa_flags & kLSLaunchNewInstance) != 0;
+  return (_flags & kLSLaunchNewInstance) != 0;
 }
 - (void)setNewInstance:(BOOL)newInstance {
-  aa_flags = newInstance ? aa_flags | kLSLaunchNewInstance : aa_flags & ~kLSLaunchNewInstance;
+  _flags = newInstance ? _flags | kLSLaunchNewInstance : _flags & ~kLSLaunchNewInstance;
 }
 
 - (BOOL)hide {
-  return (aa_flags & kLSLaunchAndHide) != 0;
+  return (_flags & kLSLaunchAndHide) != 0;
 }
 - (void)setHide:(BOOL)hide {
-  aa_flags = hide ? aa_flags | kLSLaunchAndHide : aa_flags & ~kLSLaunchAndHide;
+  _flags = hide ? _flags | kLSLaunchAndHide : _flags & ~kLSLaunchAndHide;
 }
 
 - (BOOL)hideOthers {
-  return (aa_flags & kLSLaunchAndHideOthers) != 0;
+  return (_flags & kLSLaunchAndHideOthers) != 0;
 }
 - (void)setHideOthers:(BOOL)hideOthers {
-  aa_flags = hideOthers ? aa_flags | kLSLaunchAndHideOthers : aa_flags & ~kLSLaunchAndHideOthers;
+  _flags = hideOthers ? _flags | kLSLaunchAndHideOthers : _flags & ~kLSLaunchAndHideOthers;
 }
 
 #pragma mark -

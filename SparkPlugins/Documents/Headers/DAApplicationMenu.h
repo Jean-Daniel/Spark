@@ -8,9 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface DAApplicationMenu : NSPopUpButton {
-  BOOL da_custom;
-}
+@interface DAApplicationMenu : NSPopUpButton
 
 - (NSMenuItem *)itemForURL:(NSURL *)path;
 - (void)loadAppForDocument:(NSURL *)path;

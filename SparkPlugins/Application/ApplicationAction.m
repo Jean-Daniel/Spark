@@ -25,7 +25,19 @@ static NSString * const kApplicationLSFlagsKey = @"ApplicationLSFlags";
 /* Only for coding */
 static NSString * const kApplicationIdentifierKey = @"kApplicationIdentifierKey";
 
-@implementation ApplicationAction
+@implementation ApplicationAction {
+@private
+  struct _aa_aaFlags {
+    unsigned int active:2;
+    unsigned int reopen:1;
+
+    unsigned int visual:1;
+    unsigned int atLaunch:1;
+    unsigned int atActivate:1;
+    unsigned int reserved:26;
+  } aa_aaFlags;
+  IconRef aa_icon;
+}
 
 static bool sInit = false;
 
@@ -98,11 +110,11 @@ ApplicationVisualSetting *AAGetSharedSettings(void) {
 #pragma mark Protocols Implementation
 - (id)copyWithZone:(NSZone *)zone {
   ApplicationAction* copy = [super copyWithZone:zone];
-  copy->aa_action = aa_action;
-  copy->aa_lsFlags = aa_lsFlags;
+  copy->_action = _action;
+  copy->_flags = _flags;
   copy->aa_aaFlags = aa_aaFlags;
   
-  copy->aa_application = [aa_application copy];
+  copy->_application = [_application copy];
   return copy;
 }
 
@@ -118,12 +130,12 @@ ApplicationVisualSetting *AAGetSharedSettings(void) {
 }
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
-  [coder encodeInt:aa_action forKey:kApplicationActionKey];
-  [coder encodeInt:aa_lsFlags forKey:kApplicationLSFlagsKey];
+  [coder encodeInt:_action forKey:kApplicationActionKey];
+  [coder encodeInt:_flags forKey:kApplicationLSFlagsKey];
 	[coder encodeInteger:[self encodeFlags] forKey:kApplicationFlagsKey];
   
-  if (aa_application)
-    [coder encodeObject:aa_application forKey:kApplicationIdentifierKey];
+  if (_application)
+    [coder encodeObject:_application forKey:kApplicationIdentifierKey];
   return;
 }
 
@@ -137,11 +149,11 @@ ApplicationVisualSetting *AAGetSharedSettings(void) {
 }
 - (id)initWithCoder:(NSCoder *)coder {
   if (self = [super initWithCoder:coder]) {
-    aa_action = [coder decodeIntForKey:kApplicationActionKey];
-    aa_lsFlags = [coder decodeIntForKey:kApplicationLSFlagsKey];
+    _action = [coder decodeIntForKey:kApplicationActionKey];
+    _flags = [coder decodeIntForKey:kApplicationLSFlagsKey];
     [self decodeFlags:[coder decodeIntForKey:kApplicationFlagsKey]];
       
-    aa_application = [[coder decodeObjectForKey:kApplicationIdentifierKey] retain];
+    _application = [coder decodeObjectForKey:kApplicationIdentifierKey];
   }
   return self;
 }
@@ -193,18 +205,17 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
   NSData *data = [plist objectForKey:@"App Alias"];
   if (data) {
     alias = [[WBAlias alloc] initFromData:data];
-    aa_application = [[WBAliasedApplication alloc] initWithAlias:alias];
-    [alias release];
+    _application = [[WBAliasedApplication alloc] initWithAlias:alias];
   }
-  if (!aa_application) {
-    aa_application = [[WBAliasedApplication alloc] init];
+  if (!_application) {
+    _application = [[WBAliasedApplication alloc] init];
     OSType sign = [[plist objectForKey:@"App Sign"] intValue];
     if (sign) {
-      [aa_application setSignature:sign];
+      [_application setSignature:sign];
     } else {
       NSString *bundle = [plist objectForKey:@"BundleID"];
       if (bundle) {
-        [aa_application setBundleIdentifier:bundle];
+        [_application setBundleIdentifier:bundle];
       }
     }
   }
@@ -212,8 +223,8 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
   [self setFlags:[[plist objectForKey:@"LSFlags"] intValue]];
   [self setAction:_ApplicationTypeFromTag([[plist objectForKey:@"Action"] intValue])];
   
-  if ([self shouldSaveIcon] && aa_application) {
-    NSImage *icon = [aa_application icon];
+  if ([self shouldSaveIcon] && _application) {
+    NSImage *icon = [_application icon];
     if (icon) {
       WBImageSetRepresentationsSize(icon, NSMakeSize(16, 16));
       [self setIcon:icon];
@@ -238,13 +249,13 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
         case kApplicationHideOther:
           break;
         default: {
-          aa_application = [[WBAliasedApplication alloc] initWithSerializedValues:plist];
+          _application = [[WBAliasedApplication alloc] initWithSerializedValues:plist];
         }
       }
     }
     
     /* Update description */
-    NSString *description = ApplicationActionDescription(self, [aa_application name]);
+    NSString *description = ApplicationActionDescription(self, [_application name]);
     if (description)
       [self setActionDescription:description];
   }
@@ -256,8 +267,6 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
     ReleaseIconRef(aa_icon);
     aa_icon = NULL;
   }
-  [aa_application release];
-  [super dealloc];
 }
 
 #pragma mark -
@@ -269,8 +278,8 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
       case kApplicationHideOther:
         break;
       default: {
-        if (aa_application)
-          [aa_application serialize:plist];
+        if (_application)
+          [_application serialize:plist];
         
         NSString *name = [[NSFileManager defaultManager] displayNameAtPath:[self path]];
         if (name)
@@ -278,9 +287,9 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
       }
     }
     
-    [plist setObject:@(aa_lsFlags) forKey:kApplicationLSFlagsKey];
+    [plist setObject:@(_flags) forKey:kApplicationLSFlagsKey];
     [plist setObject:@([self encodeFlags]) forKey:kApplicationFlagsKey];
-    [plist setObject:WBStringForOSType(aa_action) forKey:kApplicationActionKey];
+    [plist setObject:WBStringForOSType(_action) forKey:kApplicationActionKey];
     return YES;
   }
   return NO;
@@ -288,7 +297,7 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
 
 /* Do not check application path at load time */
 - (SparkAlert *)actionDidLoad {
-  switch (aa_action) {
+  switch (_action) {
     case kApplicationLaunch:
     case kApplicationQuit:
     case kApplicationToggle:
@@ -312,7 +321,7 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
 }
 
 - (SparkAlert *)verify {
-  switch (aa_action) {
+  switch (_action) {
     case kApplicationLaunch:
     case kApplicationQuit:
     case kApplicationToggle:
@@ -325,15 +334,16 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
                       informativeTextWithFormat:NSLocalizedStringFromTableInBundle(@"INVALID_APPLICATION_ALERT_MSG",
                                                                                    nil, kApplicationActionBundle,@"Check * App Not Found *"), [self name]];
       }
-      break;
+      return nil;
+    default:
+      return nil;
   }
-  return nil;
 }
 
 - (SparkAlert *)performAction {
   SparkAlert *alert = [self verify];
   if (!alert) {
-    switch (aa_action) {
+    switch (_action) {
       case kApplicationLaunch:
         [self launchApplication];
         break;
@@ -398,7 +408,7 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
 }
 
 - (NSImage *)iconCacheMiss {
-  NSImage *icon = [aa_application icon];
+  NSImage *icon = [_application icon];
   if (icon) {
     WBImageSetRepresentationsSize(icon, NSMakeSize(16, 16));
   }
@@ -407,35 +417,16 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
 
 #pragma mark -
 - (NSString *)path {
-  return [aa_application path];
+  return [_application path];
 }
 - (void)setPath:(NSString *)path {
-  if (!aa_application && path)
-    aa_application = [[WBAliasedApplication alloc] initWithPath:path];
+  if (!_application && path)
+    _application = [[WBAliasedApplication alloc] initWithPath:path];
   else if (path)
-    [aa_application setPath:path];
-  else if (aa_application) {
-    [aa_application release];
-    aa_application = nil;
+    [_application setPath:path];
+  else if (_application) {
+    _application = nil;
   }
-}
-
-- (ApplicationActionType)action {
-  return aa_action;
-}
-- (void)setAction:(ApplicationActionType)action {
-  aa_action = action;
-}
-
-- (WBAliasedApplication *)application {
-  return aa_application;
-}
-
-- (LSLaunchFlags)flags {
-  return aa_lsFlags;
-}
-- (void)setFlags:(LSLaunchFlags)flags {
-  aa_lsFlags = flags;
 }
 
 - (BOOL)reopen {
@@ -445,10 +436,10 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
   SPXFlagSet(aa_aaFlags.reopen, flag);
 }
 
-- (int)activation {
+- (NSInteger)activation {
   return aa_aaFlags.active;
 }
-- (void)setActivation:(int)actv {
+- (void)setActivation:(NSInteger)actv {
   aa_aaFlags.active = actv & 0x3;
 }
 
@@ -483,7 +474,7 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
 
 #pragma mark -
 - (BOOL)getApplicationProcess:(ProcessSerialNumber *)psn {
-  *psn = [aa_application process];
+  *psn = [_application process];
   return psn->lowLongOfPSN != kNoProcess;
 }
 
@@ -550,7 +541,7 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
 		else
 			[self getVisualSettings:&settings];
 		
-		if (aa_lsFlags & kLSLaunchAndHideOthers)
+		if (_flags & kLSLaunchAndHideOthers)
 			[self hideOthers];
 		if (settings.activation)
 			[self performSelectorOnMainThread:@selector(displayNotification) withObject:nil waitUntilDone:NO];
@@ -559,10 +550,10 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
 
 - (void)launchApplication {
   ProcessSerialNumber psn;
-  if (!(aa_lsFlags & kLSLaunchNewInstance) && [self getApplicationProcess:&psn]) {
+  if (!(_flags & kLSLaunchNewInstance) && [self getApplicationProcess:&psn]) {
     [self activate:&psn];
   } else {
-    [self launchAppWithFlag:kLSLaunchDefaults | aa_lsFlags];
+    [self launchAppWithFlag:kLSLaunchDefaults | _flags];
 		
 		/* Handle visual feedback */
 		ApplicationVisualSetting settings;
@@ -599,8 +590,8 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
     [self quitProcess:&psn];
   } else {
     /* toogle incompatible with new instance */
-    if (aa_lsFlags & kLSLaunchNewInstance)
-      aa_lsFlags &= ~kLSLaunchNewInstance;
+    if (_flags & kLSLaunchNewInstance)
+      _flags &= ~kLSLaunchNewInstance;
     [self launchApplication];
   }	
 }
@@ -608,15 +599,15 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
 - (void)activateQuitApplication {
 	ProcessSerialNumber psn;
   if ([self getApplicationProcess:&psn]) {
-		if ([aa_application isFront]) {
+		if ([_application isFront]) {
 			[self quitProcess:&psn];
 		} else {
 			[self activate:&psn];
 		}
   } else {
     /* toogle incompatible with new instance */
-    if (aa_lsFlags & kLSLaunchNewInstance)
-      aa_lsFlags &= ~kLSLaunchNewInstance;
+    if (_flags & kLSLaunchNewInstance)
+      _flags &= ~kLSLaunchNewInstance;
     [self launchApplication];
   }
 }

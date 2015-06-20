@@ -29,7 +29,7 @@
 		1B35ED4713C0BA7300A8AEA6 /* DocumentAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 1B35ED4013C0BA7300A8AEA6 /* DocumentAction.spact */; };
 		1B35ED4813C0BA7300A8AEA6 /* AccessibilityAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 1B35ED4113C0BA7300A8AEA6 /* AccessibilityAction.spact */; };
 		1B55EAE40B8625ED000E1760 /* SparkAware.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B55EAE30B8625ED000E1760 /* SparkAware.tiff */; };
-		1B5F396E0B5D451700879DF5 /* SETriggersController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B580B19A59700C8425C /* SETriggersController.m */; };
+		1B5F396E0B5D451700879DF5 /* SETriggersController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B580B19A59700C8425C /* SETriggersController.mm */; };
 		1B68A688141134CA0017CD27 /* SparkleDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B68A684141134CA0017CD27 /* SparkleDelegate.h */; };
 		1B68A689141134CA0017CD27 /* SparkleDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B68A685141134CA0017CD27 /* SparkleDelegate.m */; };
 		1B68A68A141134CA0017CD27 /* SURSAVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B68A686141134CA0017CD27 /* SURSAVerifier.m */; };
@@ -359,7 +359,7 @@
 		98D52B550B19A59700C8425C /* SELibraryWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SELibraryWindow.h; sourceTree = "<group>"; };
 		98D52B560B19A59700C8425C /* SELibraryWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SELibraryWindow.m; sourceTree = "<group>"; };
 		98D52B570B19A59700C8425C /* SETriggersController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SETriggersController.h; sourceTree = "<group>"; };
-		98D52B580B19A59700C8425C /* SETriggersController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SETriggersController.m; sourceTree = "<group>"; };
+		98D52B580B19A59700C8425C /* SETriggersController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SETriggersController.mm; sourceTree = "<group>"; };
 		98D52B680B19A63700C8425C /* SEFirstRun.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEFirstRun.h; sourceTree = "<group>"; };
 		98D52B690B19A63700C8425C /* SEFirstRun.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEFirstRun.m; sourceTree = "<group>"; };
 		98D52B6A0B19A63700C8425C /* SEPluginHelp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEPluginHelp.h; sourceTree = "<group>"; };
@@ -742,7 +742,7 @@
 				98D52B540B19A59700C8425C /* SELibrarySource.m */,
 				98D52B560B19A59700C8425C /* SELibraryWindow.m */,
 				98D52B500B19A59700C8425C /* SEApplicationSource.m */,
-				98D52B580B19A59700C8425C /* SETriggersController.m */,
+				98D52B580B19A59700C8425C /* SETriggersController.mm */,
 			);
 			path = "Main Window";
 			sourceTree = "<group>";
@@ -990,7 +990,7 @@
 				98CC4E910B5AC5E900C60244 /* SEApplicationSource.m in Sources */,
 				98CC4EBC0B5AC7C500C60244 /* SELibrarySource.m in Sources */,
 				98CC4F0F0B5ACC7000C60244 /* SEEntryEditor.m in Sources */,
-				1B5F396E0B5D451700879DF5 /* SETriggersController.m in Sources */,
+				1B5F396E0B5D451700879DF5 /* SETriggersController.mm in Sources */,
 				9876699C0CD4C5D500593B74 /* SEExportOptions.m in Sources */,
 				98766A290CD4F15400593B74 /* SEHTMLGenerator.m in Sources */,
 				987208D50D033CA200A3D473 /* SEEntryList.m in Sources */,
@@ -1231,7 +1231,6 @@
 			baseConfigurationReference = 1B92D0AF1707246D00F40FCD /* application.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ENABLE_OBJC_ARC = NO;
 				CURRENT_PROJECT_VERSION = 470;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1256,7 +1255,6 @@
 			baseConfigurationReference = 1B92D0AF1707246D00F40FCD /* application.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ENABLE_OBJC_ARC = NO;
 				CURRENT_PROJECT_VERSION = 470;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

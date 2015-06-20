@@ -15,25 +15,22 @@ NSImage *SEHeaderCellCreateShading(CGFloat height, Boolean flipped);
 static NSColor *SEHeaderTextColor = nil;
 static NSColor *SEHeaderShadowColor = nil;
 
-@implementation SEHeaderCell
+@implementation SEHeaderCell {
+  NSImage *se_background;
+}
 
 - (id)copyWithZone:(NSZone *)aZone {
   SEHeaderCell *copy = [super copyWithZone:aZone];
-  copy->se_background = [se_background retain];
+  copy->se_background = se_background;
   return copy;
 }
 
 #pragma mark -
 + (void)initialize {
   if ([SEHeaderCell class] == self) {
-    SEHeaderTextColor = [[NSColor colorWithCalibratedWhite:0.80 alpha:1] retain];
-    SEHeaderShadowColor = [[NSColor colorWithCalibratedWhite:0.15 alpha:1] retain];
+    SEHeaderTextColor = [NSColor colorWithCalibratedWhite:0.80 alpha:1];
+    SEHeaderShadowColor = [NSColor colorWithCalibratedWhite:0.15 alpha:1];
   }
-}
-
-- (void) dealloc {
-  [se_background release];
-  [super dealloc];
 }
 
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {
@@ -65,11 +62,8 @@ static NSColor *SEHeaderShadowColor = nil;
 
 @end
 
-@implementation SEHeaderCellCorner
-
-- (void)dealloc {
-  [se_background release];
-  [super dealloc];
+@implementation SEHeaderCellCorner {
+  NSImage *se_background;
 }
 
 - (void)drawRect:(NSRect)frame {

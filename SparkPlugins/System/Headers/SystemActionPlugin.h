@@ -18,8 +18,7 @@
   IBOutlet NSPopUpButton *ibActions;
 }
 
-- (SystemActionType)action;
-- (void)setAction:(SystemActionType)anAction;
+@property(nonatomic) SystemActionType action;
 
 - (IBAction)changeUser:(id)sender;
 

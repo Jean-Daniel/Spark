@@ -16,11 +16,9 @@
 
 @implementation ITunesVisualSetting {
 @private
-  id ia_delegate;
-  int ia_loc;
-  int ia_config;
   NSString *ia_color;
   ITunesInfo *ia_info;
+  NSInteger _location;
 }
 
 + (BOOL)automaticallyNotifiesObserversForKey:(NSString *)key {
@@ -31,17 +29,11 @@
   if (self = [super init]) {
     ia_info = [[ITunesInfo alloc] init];
     [ia_info setDuration:163 rate:60];
-    ia_config = kiTunesSettingDefault;
+    _configuration = kiTunesSettingDefault;
     [self updateLocation:1];
     [self setColorComponent:0];
   }
   return self;
-}
-
-- (void)dealloc {
-  [ia_info release];
-  [ia_color release]; // useless since color is a constant.
-  [super dealloc];
 }
 
 - (IBAction)hide:(id)sender {
@@ -97,28 +89,28 @@ int _iTunesGetIndexForPoint(NSPoint point) {
   return 5;
 }
 
-- (void)updateLocation:(int)idx {
+- (void)updateLocation:(NSInteger)idx {
   [self willChangeValueForKey:@"location"];
   switch (idx) {
     case 0 ... 3:
-      ia_loc = idx;
+      _location = idx;
       [[ia_info window] setMovableByWindowBackground:NO];
       [ia_info setPosition:_iTunesGetPointForIndex(idx)];
       break;
     default:
-      ia_loc = -1;
+      _location = -1;
       [[ia_info window] setMovableByWindowBackground:YES];
       [ia_info setPosition:[[ia_info window] frame].origin];
   }
   [self didChangeValueForKey:@"location"];
 }
 
-- (int)location {
-  return ia_loc >= 0 ? ia_loc : 5;
+- (NSInteger)location {
+  return _location >= 0 ? _location : 5;
 }
-- (void)setLocation:(int)idx {
+- (void)setLocation:(NSInteger)idx {
   [self updateLocation:idx];
-  if (ia_loc < 0) {
+  if (_location < 0) {
     [[ia_info window] center];
     [self show:nil];
   }
@@ -153,7 +145,7 @@ int _iTunesGetIndexForPoint(NSPoint point) {
     [ia_info setValue:aColor forKey:ia_color];
 }
 
-- (int)colorComponent {
+- (NSInteger)colorComponent {
   if ([ia_color isEqualToString:@"borderColor"]) return 1;
   else if ([ia_color isEqualToString:@"backgroundColor"]) return 2;
   else if ([ia_color isEqualToString:@"backgroundTopColor"]) return 4;
@@ -161,7 +153,7 @@ int _iTunesGetIndexForPoint(NSPoint point) {
   return 0;
 }
 
-- (void)setColorComponent:(int)component {
+- (void)setColorComponent:(NSInteger)component {
   [self willChangeValueForKey:@"color"];
   switch (component) {
     case 0:
@@ -183,24 +175,13 @@ int _iTunesGetIndexForPoint(NSPoint point) {
   [self didChangeValueForKey:@"color"];
 }
 
-- (id)delegate {
-  return ia_delegate;
-}
-
-- (void)setDelegate:(id)delegate {
-  ia_delegate = delegate;
-}
-
-- (int)configuration {
-  return ia_config;
-}
-- (void)setConfiguration:(int)aConfig {
-  if (ia_config != aConfig) {
-    if (SPXDelegateHandle(ia_delegate, settingWillChangeConfiguration:))
-      [ia_delegate settingWillChangeConfiguration:self];
-    ia_config = aConfig;
-    if (SPXDelegateHandle(ia_delegate, settingDidChangeConfiguration:))
-      [ia_delegate settingDidChangeConfiguration:self];
+- (void)setConfiguration:(NSInteger)aConfig {
+  if (_configuration != aConfig) {
+    if (SPXDelegateHandle(_delegate, settingWillChangeConfiguration:))
+      [_delegate settingWillChangeConfiguration:self];
+    _configuration = aConfig;
+    if (SPXDelegateHandle(_delegate, settingDidChangeConfiguration:))
+      [_delegate settingDidChangeConfiguration:self];
   }
 }
 

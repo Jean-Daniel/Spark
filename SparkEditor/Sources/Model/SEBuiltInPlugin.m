@@ -22,7 +22,7 @@
   return [NSImage imageNamed:@"applelogo"];
 }
 
-+ (NSString *)helpFile {
++ (NSURL *)helpURL {
   return nil;
 }
 
