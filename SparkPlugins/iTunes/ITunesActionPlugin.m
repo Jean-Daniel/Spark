@@ -26,7 +26,7 @@
 static 
 NSImage *ITunesGetApplicationIcon(void) {
   NSImage *icon = nil;
-  NSURL *itunes = SPXCFURLBridgingRelease(WBLSCopyApplicationURLForSignature(kiTunesSignature));
+  NSURL *itunes = SPXCFURLBridgingRelease(WBLSCopyApplicationURLForBundleIdentifier(kiTunesBundleIdentifier));
   if (itunes) {
     icon = [[NSWorkspace sharedWorkspace] iconForFile:[itunes path]];
   }

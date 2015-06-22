@@ -11,6 +11,8 @@
 #include <WonderBox/WBLSFunctions.h>
 #include <WonderBox/WBProcessFunctions.h>
 
+CFStringRef const kiTunesBundleIdentifier = CFSTR("com.apple.iTunes");
+
 static 
 CFArrayRef iTunesCopyPlaylistNamesFromList(AEDescList *items);
 
@@ -21,7 +23,7 @@ WB_INLINE
 OSStatus _iTunesCreateEvent(AEEventClass class, AEEventID method, AppleEvent *event) {
   WBAEInitDesc(event);
   
-  OSStatus err = WBAECreateEventWithTargetSignature(kiTunesSignature, class, method, event);
+  OSStatus err = WBAECreateEventWithTargetBundleID(kiTunesBundleIdentifier, class, method, event);
   require_noerr(err, bail);
   
 //  err = WBAESetStandardAttributes(event);
@@ -53,7 +55,7 @@ OSStatus _iTunesCopyObjectStringProperty(AEDesc *object, AEKeyword property, CFS
   err = WBAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeUnicodeText, property, object);
   require_noerr(err, bail);
   
-  err = WBAESendEventReturnCFString(&theEvent, value);
+  err = WBAESendEventReturnString(&theEvent, value);
   require_noerr(err, bail);
   
 bail:
@@ -80,17 +82,18 @@ bail:
   return err;
 }
 
-bool iTunesIsRunning(ProcessSerialNumber *proc) {
-  ProcessSerialNumber psn = WBProcessGetProcessWithSignature(kiTunesSignature);
-  if (proc) *proc = psn;
-  return psn.lowLongOfPSN != kNoProcess;
+bool iTunesIsRunning(pid_t *pid) {
+  pid_t itunes = WBProcessGetProcessIdentifierForBundleIdentifier(kiTunesBundleIdentifier);
+  if (pid)
+    *pid = itunes;
+  return itunes > 0;
 }
 
 #pragma mark -
 #pragma mark Commands
 OSStatus iTunesLaunch(LSLaunchFlags flags, ProcessSerialNumber *psn) {
   FSRef iTunes;
-  OSStatus err = WBLSGetApplicationForSignature(kiTunesSignature, &iTunes);
+  OSStatus err = WBLSGetApplicationForBundleIdentifier(kiTunesBundleIdentifier, &iTunes);
   if (noErr == err) {
     err = WBLSLaunchApplication(&iTunes, flags, psn);
   }
@@ -243,7 +246,7 @@ OSStatus iTunesCopyCurrentStreamTitle(CFStringRef *title) {
   err = WBAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty, 'pStT', NULL);
   require_noerr(err, bail);
   
-  err = WBAESendEventReturnCFString(&theEvent, title);
+  err = WBAESendEventReturnString(&theEvent, title);
   require_noerr(err, bail);
   
 bail:
@@ -779,7 +782,7 @@ CFArrayRef iTunesCopyPlaylistNamesFromList(AEDescList *items) {
       err = AEGetNthDesc(items, idx, typeWildCard, NULL, &listDesc);
       if (noErr == err) {
         CFStringRef name = NULL;
-        if (noErr == WBAECopyCFStringFromDescriptor(&listDesc, &name) && name) {
+        if (noErr == WBAECopyStringFromDescriptor(&listDesc, &name) && name) {
           CFArrayAppendValue(names, name);
           CFRelease(name);
         }
@@ -869,7 +872,7 @@ CFDictionaryRef iTunesCopyPlaylists(void) {
           }
           if (kind != kPlaylistUndefined) {
             CFStringRef name = NULL;
-            err = WBAECopyNthCFStringFromDescList(&names, idx, &name);
+            err = WBAECopyNthStringFromDescList(&names, idx, &name);
             if (noErr == err && name != NULL) {
               CFStringRef keys[] = { CFSTR("uid"), CFSTR("kind") };
               CFNumberRef numbers[2];

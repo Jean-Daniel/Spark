@@ -255,7 +255,7 @@ enum {
   err = WBAEAddIndexObjectSpecifier(&aevt, keyDirectObject, 'ctxt', kAEAll, &document);
   require_noerr(err, dispose);
   
-  err = WBAEAddCFStringAsUnicodeText(&aevt, keyAEData, SPXNSToCFString(src));
+  err = WBAEAddStringAsUnicodeText(&aevt, keyAEData, SPXNSToCFString(src));
   require_noerr(err, dispose);
   
   err = WBAESendEventNoReply(&aevt);

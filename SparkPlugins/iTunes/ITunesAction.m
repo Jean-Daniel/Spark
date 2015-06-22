@@ -401,7 +401,7 @@ static ITunesVisual sDefaultVisual = { .delay = -1 };
 
 - (void)notifyLaunch {
   IconRef ref = NULL;
-  if (noErr == GetIconRef(kOnSystemDisk, kiTunesSignature, 'APPL', &ref)) {
+  if (noErr == GetIconRef(kOnSystemDisk, 'hook', 'APPL', &ref)) {
     SparkNotificationDisplayIcon(ref, -1);
     ReleaseIconRef(ref);
   }
@@ -412,7 +412,7 @@ static ITunesVisual sDefaultVisual = { .delay = -1 };
   switch ([self iTunesAction]) {
     case kiTunesLaunch: {
       ProcessSerialNumber psn = {0, kNoProcess};
-      psn = WBProcessGetProcessWithSignature(kiTunesSignature);
+      psn = WBProcessGetProcessWithBundleIdentifier(kiTunesBundleIdentifier);
       if (psn.lowLongOfPSN == kNoProcess) {
         LSLaunchFlags flags = kLSLaunchDefaults;
         if (ia_iaFlags.hide)
@@ -436,7 +436,7 @@ static ITunesVisual sDefaultVisual = { .delay = -1 };
       break;
     case kiTunesPlayPause: {
       ProcessSerialNumber psn = {0, kNoProcess};
-      psn = WBProcessGetProcessWithSignature(kiTunesSignature);
+      psn = WBProcessGetProcessWithBundleIdentifier(kiTunesBundleIdentifier);
       if (psn.lowLongOfPSN == kNoProcess) {
         if (ia_iaFlags.autorun) {
           /* Launch iTunes */
@@ -671,8 +671,8 @@ static ITunesVisual sDefaultVisual = { .delay = -1 };
 - (void)ejectCD {
   CGKeyCode code = [[HKKeyMap currentKeyMap] keycodeForCharacter:'e' modifiers:NULL];
   if (code != kHKInvalidVirtualKeyCode) {
-    HKEventTarget target = { .signature = kiTunesSignature };
-    HKEventPostKeystrokeToTarget(code, kCGEventFlagMaskCommand, target, kHKEventTargetSignature, NULL, kHKEventDefaultLatency);
+    HKEventTarget target = { .bundle = kiTunesBundleIdentifier };
+    HKEventPostKeystrokeToTarget(code, kCGEventFlagMaskCommand, target, kHKEventTargetBundle, NULL, kHKEventDefaultLatency);
   }
 }
 

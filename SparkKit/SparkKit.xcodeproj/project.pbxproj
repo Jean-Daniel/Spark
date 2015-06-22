@@ -130,7 +130,7 @@
 		1B95F38417061A4400392CD7 /* WBFSFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316520D38138B005C3FB2 /* WBFSFunctions.m */; };
 		1B95F38517061A7700392CD7 /* WBPluginLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE3163B0D38138B005C3FB2 /* WBPluginLoader.m */; };
 		1B95F38617061A7900392CD7 /* WBPluginLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE3163A0D38138B005C3FB2 /* WBPluginLoader.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1B95F38717061BB300392CD7 /* WBAEFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316470D38138B005C3FB2 /* WBAEFunctions.c */; };
+		1B95F38717061BB300392CD7 /* WBAEFunctions.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316470D38138B005C3FB2 /* WBAEFunctions.mm */; };
 		1B95F38817061BB300392CD7 /* WBAEFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316480D38138B005C3FB2 /* WBAEFunctions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1B95F38917061BBE00392CD7 /* WBSerialization.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE3163C0D38138B005C3FB2 /* WBSerialization.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1B95F38A17061BBE00392CD7 /* WBSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE3163D0D38138B005C3FB2 /* WBSerialization.m */; };
@@ -339,7 +339,7 @@
 		1BE3163B0D38138B005C3FB2 /* WBPluginLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBPluginLoader.m; sourceTree = "<group>"; };
 		1BE3163C0D38138B005C3FB2 /* WBSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBSerialization.h; sourceTree = "<group>"; };
 		1BE3163D0D38138B005C3FB2 /* WBSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBSerialization.m; sourceTree = "<group>"; };
-		1BE316470D38138B005C3FB2 /* WBAEFunctions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WBAEFunctions.c; sourceTree = "<group>"; };
+		1BE316470D38138B005C3FB2 /* WBAEFunctions.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WBAEFunctions.mm; sourceTree = "<group>"; };
 		1BE316480D38138B005C3FB2 /* WBAEFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBAEFunctions.h; sourceTree = "<group>"; };
 		1BE3164B0D38138B005C3FB2 /* WBCGFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBCGFunctions.h; sourceTree = "<group>"; };
 		1BE3164C0D38138B005C3FB2 /* WBCGFunctions.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WBCGFunctions.mm; sourceTree = "<group>"; };
@@ -728,7 +728,7 @@
 				1BCDCA951035919B00EAD9FE /* WBFunctions.m */,
 				1B5D8C340EE2FB1E00BD1EAF /* WBGeometry.h */,
 				1B5D8C350EE2FB1E00BD1EAF /* WBGeometry.m */,
-				1BE316470D38138B005C3FB2 /* WBAEFunctions.c */,
+				1BE316470D38138B005C3FB2 /* WBAEFunctions.mm */,
 				1BE316480D38138B005C3FB2 /* WBAEFunctions.h */,
 				1BE3164B0D38138B005C3FB2 /* WBCGFunctions.h */,
 				1BE3164C0D38138B005C3FB2 /* WBCGFunctions.mm */,
@@ -1184,7 +1184,7 @@
 				1B95F38217061A3200392CD7 /* WBAlias.m in Sources */,
 				1B95F38417061A4400392CD7 /* WBFSFunctions.m in Sources */,
 				1B95F38517061A7700392CD7 /* WBPluginLoader.m in Sources */,
-				1B95F38717061BB300392CD7 /* WBAEFunctions.c in Sources */,
+				1B95F38717061BB300392CD7 /* WBAEFunctions.mm in Sources */,
 				1B95F38A17061BBE00392CD7 /* WBSerialization.m in Sources */,
 				1BC6A8DE17061F4400E7EA12 /* WBObjCRuntime.c in Sources */,
 				1BC6A8E117061F5800E7EA12 /* NSImage+WonderBox.m in Sources */,

@@ -13,9 +13,12 @@
 
 #pragma mark -
 enum {
-  kiTunesSignature = 'hook',
+  //  kiTunesSignature = 'hook',
   kiTunesSuite = 'hook',
 };
+
+WB_PRIVATE
+CFStringRef const kiTunesBundleIdentifier;
 
 enum {
   kPlaylistUndefined = -1,
@@ -45,7 +48,7 @@ typedef enum {
 } ITunesState;
 
 WB_PRIVATE
-bool iTunesIsRunning(ProcessSerialNumber *proc);
+bool iTunesIsRunning(pid_t *pid);
 
 WB_PRIVATE
 OSStatus iTunesGetPlayerState(ITunesState *state);
@@ -90,12 +93,12 @@ typedef enum {
 
 WB_INLINE
 OSStatus iTunesSendCommand(ITunesCommand command) {
-  return WBAESendSimpleEvent(kiTunesSignature, kiTunesSuite, command);
+  return WBAESendSimpleEventToBundle(kiTunesBundleIdentifier, kiTunesSuite, command);
 }
 
 WB_INLINE
 OSStatus iTunesQuit(void) {
-  return WBAESendSimpleEvent(kiTunesSignature, kCoreEventClass, kAEQuitApplication);
+  return WBAESendSimpleEventToBundle(kiTunesBundleIdentifier, kCoreEventClass, kAEQuitApplication);
 }
 WB_PRIVATE
 OSStatus iTunesLaunch(LSLaunchFlags flags, ProcessSerialNumber *psn);
