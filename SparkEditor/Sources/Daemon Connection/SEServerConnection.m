@@ -19,9 +19,15 @@
 #import <WonderBox/WBAEFunctions.h>
 #import <WonderBox/WBFSFunctions.h>
 #import <WonderBox/WBLSFunctions.h>
-#import <WonderBox/WBProcessFunctions.h>
 
 NSString * const SEServerStatusDidChangeNotification = @"SEServerStatusDidChange";
+
+SPARK_INLINE
+BOOL SEDaemonTerminate(NSRunningApplication *daemon) {
+  if (![daemon terminate])
+    return [daemon forceTerminate];
+  return YES;
+}
 
 @implementation SEServerConnection {
 @private
@@ -108,9 +114,12 @@ NSString * const SEServerStatusDidChangeNotification = @"SEServerStatusDidChange
     } @catch (id exception) {
       SPXLogException(exception);
     }
-    ProcessSerialNumber psn = WBProcessGetProcessWithSignature(kSparkDaemonSignature);
-    if (psn.lowLongOfPSN != kNoProcess)
-      KillProcess(&psn);
+    NSArray *daemons = [NSRunningApplication runningApplicationsWithBundleIdentifier:kSparkDaemonBundleIdentifier];
+    for (NSRunningApplication *daemon in daemons) {
+      if (!daemon.isTerminated)
+        if (![daemon terminate])
+          [daemon forceTerminate];
+    }
   }
 }
 
@@ -144,11 +153,10 @@ NSString * const SEServerStatusDidChangeNotification = @"SEServerStatusDidChange
     SPXLogException(exception);
     if ([NSPortTimeoutException isEqualToString:[exception name]]) {
       /* timeout, the daemon is probably in a dead state => restart it */
-      ProcessSerialNumber psn = WBProcessGetProcessWithSignature(kSparkDaemonSignature);
-      if (psn.lowLongOfPSN != kNoProcess) {
-        KillProcess(&psn);
-        SELaunchSparkDaemon(&psn);
+      for (NSRunningApplication *d in [NSRunningApplication runningApplicationsWithBundleIdentifier:kSparkDaemonBundleIdentifier]) {
+        SEDaemonTerminate(d);
       }
+      SELaunchSparkDaemon(NULL);
     }
   }
   return se_server != nil;
@@ -234,24 +242,29 @@ NSString * const SEServerStatusDidChangeNotification = @"SEServerStatusDidChange
 
 NSString * const kSparkDaemonExecutableName = @"Spark Daemon.app";
 
-NSString *SESparkDaemonPath(void) {
+NSURL *SESparkDaemonURL(void) {
 #if defined(DEBUG)
-  return kSparkDaemonExecutableName;
+  return [NSURL fileURLWithPath:kSparkDaemonExecutableName];
 #else
-  return [[NSBundle mainBundle] pathForAuxiliaryExecutable:kSparkDaemonExecutableName];
+  return [[NSBundle mainBundle] URLForAuxiliaryExecutable:kSparkDaemonExecutableName];
 #endif
 }
 
-BOOL SELaunchSparkDaemon(ProcessSerialNumber *psn) {
+BOOL SELaunchSparkDaemon(pid_t *pid) {
   [SEPreferences synchronize];
   [SparkActiveLibrary() synchronize];
-  NSString *path = SESparkDaemonPath();
-  if (path) {
-    OSStatus err = WBLSLaunchApplicationAtPath(SPXNSToCFString(path), kCFURLPOSIXPathStyle, kLSLaunchDefaults | kLSLaunchDontSwitch | kLSLaunchDontAddToRecents, psn);
-    if (noErr != err) {
-      SPXLogError(@"Error cannot launch daemon app: %s", GetMacOSStatusErrorString(err));
+  NSURL *url = SESparkDaemonURL();
+  if (url) {
+    NSError *error = nil;
+    NSRunningApplication *app = [[NSWorkspace sharedWorkspace] launchApplicationAtURL:url
+                                                                              options:NSWorkspaceLaunchDefault | NSWorkspaceLaunchWithoutActivation | NSWorkspaceLaunchWithoutAddingToRecents
+                                                                        configuration:nil error:&error];
+    if (!app) {
+      SPXLogError(@"Error cannot launch daemon app: %@", error);
       [[SEServerConnection defaultConnection] setStatus:kSparkDaemonStatusError];
       return NO;
+    } else if (pid) {
+      *pid = app.processIdentifier;
     }
   }  
   return YES;
@@ -259,20 +272,29 @@ BOOL SELaunchSparkDaemon(ProcessSerialNumber *psn) {
 
 void SEServerStartConnection(void) {
   /* Verify daemon validity */
-  ProcessSerialNumber psn = WBProcessGetProcessWithSignature(kSparkDaemonSignature);
-  if (psn.lowLongOfPSN != kNoProcess) {
-    FSRef dRef;
-    NSString *path = SESparkDaemonPath();
-    if (path && [path getFSRef:&dRef]) {
-      FSRef location;
-      if (noErr == GetProcessBundleLocation(&psn, &location) && noErr != FSCompareFSRefs(&location, &dRef)) {
-        SPXDebug(@"Should Kill Running daemon.");
+  id fileid = nil;
+  NSError *error = nil;
+  NSURL *selfdaemon = SESparkDaemonURL();
+  if (![selfdaemon getResourceValue:&fileid forKey:NSURLFileResourceIdentifierKey error:&error]) {
+    SPXLogError(@"failed to get self daemon file identifier: %@", error);
+    return;
+  }
+
+  for (NSRunningApplication *daemon in [NSRunningApplication runningApplicationsWithBundleIdentifier:kSparkDaemonBundleIdentifier]) {
+    id daemonid = nil;
+    if (!daemon.terminate &&
+        [daemon.bundleURL getResourceValue:&daemonid forKey:NSURLFileResourceIdentifierKey error:NULL] &&
+        ![fileid isEqual:daemonid]) {
+      // The running daemon does not match the embedded one.
+      SPXDebug(@"Terminate Running daemon: %@", daemon);
 #if !defined (DEBUG)
-        KillProcess(&psn);
-        SELaunchSparkDaemon(&psn);
+      SEDaemonTerminate(daemon);
 #endif
-      }
     }
+  }
+  if (![NSRunningApplication runningApplicationsWithBundleIdentifier:kSparkDaemonBundleIdentifier].firstObject) {
+    SPXDebug(@"Start Spark daemon");
+    SELaunchSparkDaemon(NULL);
   }
   
   SEServerConnection *connection = [SEServerConnection defaultConnection];
@@ -308,11 +330,11 @@ void SEServerStopConnection(void) {
 }
 
 BOOL SEDaemonIsEnabled(void) {
-  ProcessSerialNumber psn = WBProcessGetProcessWithSignature(kSparkDaemonSignature);
-  if (psn.lowLongOfPSN != kNoProcess) {
+  NSRunningApplication *d = [NSRunningApplication runningApplicationsWithBundleIdentifier:kSparkDaemonBundleIdentifier].firstObject;
+  if (d) {
     Boolean result = false;
     AppleEvent aevt = WBAEEmptyDesc();
-    OSStatus err = WBAECreateEventWithTargetProcess(&psn, kAECoreSuite, kAEGetData, &aevt);
+    OSStatus err = WBAECreateEventWithTargetProcessIdentifier(d.processIdentifier, kAECoreSuite, kAEGetData, &aevt);
     require_noerr(err, bail);
     
 //    err = WBAESetStandardAttributes(&aevt);

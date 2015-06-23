@@ -393,10 +393,9 @@ BOOL __CFFileURLCompare(CFURLRef url1, FSRef *r2) {
 
 void _SEPreferencesUpdateLoginItem(void) {
   FSRef dref;
-	NSString *sparkd = SESparkDaemonPath();
+	NSURL *sparkd = SESparkDaemonURL();
 	BOOL status = __SEPreferencesLoginItemStatus();
-	NSURL *durl = sparkd ? [NSURL fileURLWithPath:sparkd] : NULL;
-	if (CFURLGetFSRef((CFURLRef)durl, &dref)) {
+	if (CFURLGetFSRef((CFURLRef)sparkd, &dref)) {
     /* do it the new way */
     LSSharedFileListRef list = LSSharedFileListCreate(kCFAllocatorDefault, kLSSharedFileListSessionLoginItems, NULL);
     if (list) {
@@ -433,10 +432,10 @@ void _SEPreferencesUpdateLoginItem(void) {
 #if !defined(DEBUG)
           CFDictionaryRef properties = CFDictionaryCreate(kCFAllocatorDefault, (const void **)&kLSSharedFileListItemHidden,
                                                           (const void **)&kCFBooleanTrue, 1, &kCFCopyStringDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
-          LSSharedFileListInsertItemURL(list, kLSSharedFileListItemLast, NULL, NULL, (CFURLRef)durl, properties, NULL);
+          LSSharedFileListInsertItemURL(list, kLSSharedFileListItemLast, NULL, NULL, (CFURLRef)sparkd, properties, NULL);
           CFRelease(properties);
 #else
-          SPXDebug(@"Add login item: %@", durl);
+          SPXDebug(@"Add login item: %@", sparkd);
 #endif
         }
         CFRelease(items);

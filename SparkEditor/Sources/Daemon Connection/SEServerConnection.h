@@ -38,9 +38,9 @@ SPARK_PRIVATE
 NSString * const kSparkDaemonExecutableName;
 
 SPARK_PRIVATE
-BOOL SELaunchSparkDaemon(ProcessSerialNumber *psn);
+BOOL SELaunchSparkDaemon(pid_t *pid);
 SPARK_PRIVATE
-NSString *SESparkDaemonPath(void);
+NSURL *SESparkDaemonURL(void);
 SPARK_PRIVATE
 void SEServerStartConnection(void);
 SPARK_PRIVATE
