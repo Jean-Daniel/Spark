@@ -48,7 +48,7 @@ typedef enum {
 } ITunesState;
 
 WB_PRIVATE
-bool iTunesIsRunning(pid_t *pid);
+bool iTunesIsRunning();
 
 WB_PRIVATE
 OSStatus iTunesGetPlayerState(ITunesState *state);

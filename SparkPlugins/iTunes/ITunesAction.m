@@ -268,7 +268,7 @@ static ITunesVisual sDefaultVisual = { .delay = -1 };
     }
     
     /* if spark editor, check playlist name */
-    if (kSparkContext_Editor == SparkGetCurrentContext() && iTunesIsRunning(NULL)) {
+    if (kSparkContext_Editor == SparkGetCurrentContext() && iTunesIsRunning()) {
       if ([self iTunesAction] == kiTunesPlayPlaylist && ia_plid) {
         iTunesPlaylist playlist = WBAEEmptyDesc();
         OSStatus err = [self playlist] ? iTunesGetPlaylistWithName(SPXNSToCFString(self.playlist), &playlist) : errAENoSuchObject;

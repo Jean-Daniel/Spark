@@ -11,29 +11,21 @@
 #include <SparkKit/SparkKit.h>
 
 #include <WonderBox/WBAEFunctions.h>
-#include <WonderBox/WBProcessFunctions.h>
 
 OSStatus SDGetEditorIsTrapping(Boolean *trapping) {
   if (!trapping)
     return paramErr;
   *trapping = FALSE;
-  
-  ProcessSerialNumber psn;
-  OSStatus err = GetFrontProcess(&psn);
-  require_noerr(err, bail);
-  
-  /* Check front process */
-  ProcessInfoRec info = {};
-  info.processInfoLength = (UInt32)sizeof(info);
-  err = GetProcessInformation(&psn, &info);
-  require_noerr(err, bail);
-  
+
+  OSStatus err = noErr;
+  NSRunningApplication *front = [NSWorkspace sharedWorkspace].frontmostApplication;
+
   /* If Spark Editor is the front process, send apple event */
-  if (kSparkEditorSignature == info.processSignature) {
+  if ([front.bundleIdentifier isEqual:kSparkEditorBundleIdentifier]) {
     AEDesc reply = WBAEEmptyDesc();
     AEDesc theEvent = WBAEEmptyDesc();
     
-    err = WBAECreateEventWithTargetProcess(&psn, kAECoreSuite, kAEGetData, &theEvent);
+    err = WBAECreateEventWithTargetProcessIdentifier(front.processIdentifier, kAECoreSuite, kAEGetData, &theEvent);
     require_noerr(err, bail);
     
     err = WBAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty, kSparkEditorIsTrapping, NULL);

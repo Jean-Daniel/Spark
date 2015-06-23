@@ -380,7 +380,7 @@ NSURL *__iTunesFindLibrary(Boolean compat) {
 }
 
 + (NSDictionary *)iTunesPlaylists {
-  NSDictionary *playlists = iTunesIsRunning(NULL) ? SPXCFDictionaryBridgingRelease(iTunesCopyPlaylists()) : nil;
+  NSDictionary *playlists = iTunesIsRunning() ? SPXCFDictionaryBridgingRelease(iTunesCopyPlaylists()) : nil;
   if (nil == playlists) {
     NSURL *file = __iTunesFindLibrary(false);
     if (!file)

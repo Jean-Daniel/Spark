@@ -14,7 +14,6 @@
 #import <WonderBox/WBFunctions.h>
 #import <WonderBox/WBLSFunctions.h>
 #import <WonderBox/NSImage+WonderBox.h>
-#import <WonderBox/WBProcessFunctions.h>
 
 static
 NSString * const kSparkApplicationKey = @"SparkApplication";

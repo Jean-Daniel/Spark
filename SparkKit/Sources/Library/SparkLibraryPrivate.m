@@ -11,8 +11,6 @@
 #import <SparkKit/SparkObjectSet.h>
 #import <SparkKit/SparkApplication.h>
 
-#import <WonderBox/WBProcessFunctions.h>
-
 @implementation SparkLibrary (SparkLibraryApplication)
 
 - (SparkApplication *)applicationWithBundleIdentifier:(NSString *)bundleID {

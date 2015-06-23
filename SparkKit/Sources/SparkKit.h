@@ -19,6 +19,7 @@ SPARK_EXPORT NSString * const kSparkErrorDomain;
 SPARK_EXPORT NSString * const kSparkFolderName;
 
 SPARK_EXPORT NSString * const kSparkKitBundleIdentifier;
+SPARK_EXPORT NSString * const kSparkEditorBundleIdentifier;
 SPARK_EXPORT NSString * const kSparkDaemonBundleIdentifier;
 
 /* Globals Notifications */
@@ -28,10 +29,10 @@ SPARK_EXPORT NSString * const SparkDidSetActiveLibraryNotification;
 #define kSparkKitBundle [NSBundle bundleWithIdentifier:kSparkKitBundleIdentifier]
 
 SPARK_EXPORT
-const OSType kSparkEditorSignature;
+const OSType kSparkEditorSignature SPARK_DEPRECATED("Bundle identifier");
 
 SPARK_EXPORT
-const OSType kSparkDaemonSignature;
+const OSType kSparkDaemonSignature SPARK_DEPRECATED("Bundle identifier");
 
 typedef uint32_t SparkUID;
 

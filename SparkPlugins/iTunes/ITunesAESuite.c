@@ -82,10 +82,8 @@ bail:
   return err;
 }
 
-bool iTunesIsRunning(pid_t *pid) {
+bool iTunesIsRunning() {
   pid_t itunes = WBProcessGetProcessIdentifierForBundleIdentifier(kiTunesBundleIdentifier);
-  if (pid)
-    *pid = itunes;
   return itunes > 0;
 }
 

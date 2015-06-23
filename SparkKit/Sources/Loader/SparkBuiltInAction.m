@@ -19,7 +19,6 @@
 #import <WonderBox/WBFunctions.h>
 #import <WonderBox/WBAEFunctions.h>
 #import <WonderBox/NSImage+WonderBox.h>
-#import <WonderBox/WBProcessFunctions.h>
 
 #import "SparkLibraryPrivate.h"
 

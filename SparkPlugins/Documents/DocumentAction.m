@@ -17,7 +17,6 @@
 #import <WonderBox/WBLSFunctions.h>
 #import <WonderBox/WBImageFunctions.h>
 #import <WonderBox/NSImage+WonderBox.h>
-#import <WonderBox/WBProcessFunctions.h>
 
 static NSString * const kDocumentActionURLKey = @"DocumentURL";
 static NSString * const kDocumentActionKey = @"DocumentAction";

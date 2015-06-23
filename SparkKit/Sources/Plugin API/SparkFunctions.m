@@ -16,17 +16,16 @@
 #import <WonderBox/WBImageView.h>
 #import <WonderBox/WBBezelItem.h>
 #import <WonderBox/WBAEFunctions.h>
-#import <WonderBox/WBProcessFunctions.h>
 
 #pragma mark Utilities
 bool SparkEditorIsRunning(void) {
-  ProcessSerialNumber psn = WBProcessGetProcessWithSignature(kSparkEditorSignature);
-  return psn.lowLongOfPSN != kNoProcess;
+  NSRunningApplication *app = [NSRunningApplication runningApplicationsWithBundleIdentifier:kSparkEditorBundleIdentifier].firstObject;
+  return app != nil;
 }
 
 bool SparkDaemonIsRunning(void) {
-  ProcessSerialNumber psn = WBProcessGetProcessWithSignature(kSparkDaemonSignature);
-  return psn.lowLongOfPSN != kNoProcess;
+  NSRunningApplication *app = [NSRunningApplication runningApplicationsWithBundleIdentifier:kSparkDaemonBundleIdentifier].firstObject;
+  return app != nil;
 }
 
 void SparkLaunchEditor(void) {
@@ -37,20 +36,22 @@ void SparkLaunchEditor(void) {
       [NSApp activateIgnoringOtherApps:NO];
       break;
     case kSparkContext_Daemon: {
-      ProcessSerialNumber psn = WBProcessGetProcessWithSignature(kSparkEditorSignature);
-      if (psn.lowLongOfPSN != kNoProcess) {
-        SetFrontProcess(&psn);
-        WBAESendSimpleEvent(kSparkEditorSignature, kCoreEventClass, kAEReopenApplication);
+      NSRunningApplication *editor = [NSRunningApplication runningApplicationsWithBundleIdentifier:kSparkEditorBundleIdentifier].firstObject;
+      if (editor) {
+        [editor activateWithOptions:0];
+        WBAESendSimpleEventToBundle(SPXNSToCFString(kSparkEditorBundleIdentifier), kCoreEventClass, kAEReopenApplication);
       } else {
 #if defined(DEBUG)
-        NSString *sparkPath = @"./Spark.app";
+        NSURL *spark = [NSURL fileURLWithPath:@"./Spark.app"];
 #else
-        NSString *sparkPath = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"../../../"];
-#endif  
-        if ([NSThread respondsToSelector:@selector(isMainThread)] && [NSThread isMainThread]) {
-          [[NSWorkspace sharedWorkspace] launchApplication:[sparkPath stringByStandardizingPath]];
+        NSURL *spark = [[[NSBundle mainBundle] bundleURL] URLByAppendingPathComponent:@"../../../"];
+#endif
+        if ([NSThread isMainThread]) {
+          [[NSWorkspace sharedWorkspace] launchApplicationAtURL:spark options:NSWorkspaceLaunchDefault configuration:nil error:NULL];
         } else {
-          [[NSWorkspace sharedWorkspace] performSelectorOnMainThread:@selector(launchApplication:) withObject:[sparkPath stringByStandardizingPath] waitUntilDone:NO];
+          dispatch_async(dispatch_get_main_queue(), ^{
+            [[NSWorkspace sharedWorkspace] launchApplicationAtURL:spark options:NSWorkspaceLaunchDefault configuration:nil error:NULL];
+          });
         }
       }
     }
@@ -60,9 +61,11 @@ void SparkLaunchEditor(void) {
 
 SparkContext SparkGetCurrentContext(void) {
   static SparkContext ctxt = kSparkContext_Undefined;
-  if (ctxt != kSparkContext_Undefined) return ctxt;
-  
-  @synchronized(@"SparkContextLock") {
+  if (ctxt != kSparkContext_Undefined)
+    return ctxt;
+
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
     if (kSparkContext_Undefined == ctxt) {
       CFBundleRef bundle = CFBundleGetMainBundle();
       if (bundle) {
@@ -75,8 +78,8 @@ SparkContext SparkGetCurrentContext(void) {
           }
         }
       }
-    } 
-  }
+    }
+  });
   return ctxt;
 }
 
@@ -92,9 +95,9 @@ void SparkDisplayAlerts(NSArray *items) {
     if (NSRunAlertPanel([alert messageText], @"%@", ok, nil, other, [alert informativeText]) == NSAlertOtherReturn) {
       SparkLaunchEditor();
     }
-  }
-  else if ([items count] > 1) {
-    id alerts = [[SparkMultipleAlerts alloc] initWithAlerts:items];
+  } else if ([items count] > 1) {
+    // FIXME: should we retain the Multiple Alert Controller ?
+    SparkMultipleAlerts *alerts = [[SparkMultipleAlerts alloc] initWithAlerts:items];
     [alerts showAlerts];
   }  
 }

@@ -13,7 +13,6 @@
 
 #import <WonderBox/WBAEFunctions.h>
 #import <WonderBox/WBLSFunctions.h>
-#import <WonderBox/WBProcessFunctions.h>
 
 enum {
   kAppleScriptFileTab   = 1,
@@ -218,14 +217,16 @@ enum {
   AEDesc document = WBAEEmptyDesc();
   
   /* Launch Script Editor */
-  ProcessSerialNumber psn = WBProcessGetProcessWithSignature('ToyS');
-  if (kNoProcess == psn.lowLongOfPSN) {
-    err = WBLSLaunchApplicationWithSignature('ToyS', kLSLaunchDefaults, &psn);
+  NSRunningApplication *editor = [NSRunningApplication runningApplicationsWithBundleIdentifier:@"com.apple.ScriptEditor2"].firstObject;
+  if (!editor) {
+    NSURL *url = [[NSWorkspace sharedWorkspace] URLForApplicationWithBundleIdentifier:@"com.apple.ScriptEditor2"];
+    editor = url ? [[NSWorkspace sharedWorkspace] launchApplicationAtURL:url options:NSWorkspaceLaunchDefault configuration:nil error:NULL] : nil;
   }
-  require_noerr(err, dispose);
-  
+  if (!editor)
+    return;
+
   /* activate */
-  err = WBAESendSimpleEventToProcess(&psn, kAEMiscStandards, kAEActivate);
+  err = WBAESendSimpleEventTo(editor.processIdentifier, kAEMiscStandards, kAEActivate);
   require_noerr(err, dispose);
   
   src = [[ibScriptController scriptView] source];
@@ -234,7 +235,7 @@ enum {
   }
   
   /* set the_document to make document */
-  err = WBAECreateEventWithTargetProcess(&psn, kAECoreSuite, kAECreateElement, &aevt);
+  err = WBAECreateEventWithTargetProcessIdentifier(editor.processIdentifier, kAECoreSuite, kAECreateElement, &aevt);
   require_noerr(err, dispose);
   
   OSType type = cDocument;
@@ -249,7 +250,7 @@ enum {
   require_noerr(err, dispose);
   
   /* set text of the_document to 'src' */
-  err = WBAECreateEventWithTargetProcess(&psn, kAECoreSuite, kAESetData, &aevt);
+  err = WBAECreateEventWithTargetProcessIdentifier(editor.processIdentifier, kAECoreSuite, kAESetData, &aevt);
   require_noerr(err, dispose);
   
   err = WBAEAddIndexObjectSpecifier(&aevt, keyDirectObject, 'ctxt', kAEAll, &document);

@@ -23,7 +23,9 @@ NSString * const kSparkEditorHFSCreator = @"Sprk";
 NSString * const kSparkDaemonHFSCreator = @"SprS";
 
 NSString * const kSparkKitBundleIdentifier = @"com.xenonium.SparkKit";
-NSString * const kSparkDaemonBundleIdentifier = @"com.xenonium.spark.daemon";
+
+NSString * const kSparkEditorBundleIdentifier = @"com.xenonium.Spark";
+NSString * const kSparkDaemonBundleIdentifier = @"com.xenonium.Spark.daemon";
 
 #pragma mark Distributed Notifications
 NSString * const SparkDaemonStatusKey = @"SparkDaemonStatusKey";

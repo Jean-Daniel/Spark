@@ -51,20 +51,6 @@ int __iTunesGetTypeForLocation(NSPoint point) {
   
   return kiTunesVisualOther;
 }
-WB_INLINE
-NSPoint __iTunesGetLocationForType(int type) {
-  switch (type) {
-    case kiTunesVisualUL:
-      return kiTunesUpperLeft;
-    case kiTunesVisualUR:
-      return kiTunesUpperRight;
-    case kiTunesVisualBL:
-      return kiTunesBottomLeft;
-    case kiTunesVisualBR:
-      return kiTunesBottomRight;
-  }
-  return NSZeroPoint;
-}
 
 NSData *ITunesVisualPack(ITunesVisual *visual) {
   NSMutableData *data = [[NSMutableData alloc] initWithCapacity:sizeof(ITunesPackedVisual)];
