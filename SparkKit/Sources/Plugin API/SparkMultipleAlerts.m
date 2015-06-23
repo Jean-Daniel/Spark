@@ -13,32 +13,40 @@
 #import <WonderBox/NSImage+WonderBox.h>
 
 @interface SparkMultipleAlerts ()
+
+// Other objects
+@property(nonatomic, assign) IBOutlet NSButton *nextButton;
+@property(nonatomic, assign) IBOutlet NSButton *previousButton;
+@property(nonatomic, assign) IBOutlet NSButton *openSparkButton;
+
+@property(nonatomic, assign) IBOutlet NSTextField *counter;
+@property(nonatomic, assign) IBOutlet NSTextView *messageText;
+@property(nonatomic, assign) IBOutlet NSTextView *informativeText;
+
 - (void)refreshUI;
 - (CGFloat)setText:(NSString *)msg inField:(id)textField;
 @end;
 
 @implementation SparkMultipleAlerts {
-  NSNib *sp_nib;
-  BOOL sp_retain;
   NSUInteger sp_index;
   NSMutableArray *sp_alerts;
 }
 
-- (id)init {
-  if (self = [super init]) {
+- (instancetype)init {
+  if (self = [super initWithWindowNibName:@"SparkMultiAlert"]) {
     sp_alerts = [[NSMutableArray alloc] init];
   }
   return self;
 }
 
-- (id)initWithAlert:(SparkAlert *)alert {
+- (instancetype)initWithAlert:(SparkAlert *)alert {
   if (self = [self init]) {
     [self addAlert:alert];
   }
   return self;
 }
 
-- (id)initWithAlerts:(NSArray *)alerts {
+- (instancetype)initWithAlerts:(NSArray *)alerts {
   if (self = [self init]) {
     [self addAlerts:alerts];
   }
@@ -56,63 +64,67 @@
 }
 
 - (void)awakeFromNib {
-  [previousButton setImage:[NSImage imageNamed:@"Back" inBundle:kSparkKitBundle]];
-  [previousButton setAlternateImage:[NSImage imageNamed:@"BackPressedBlue" inBundle:kSparkKitBundle]];
-  [nextButton setImage:[NSImage imageNamed:@"Forward" inBundle:kSparkKitBundle]];
-  [nextButton setAlternateImage:[NSImage imageNamed:@"ForwardPressedBlue" inBundle:kSparkKitBundle]];
-  [messageText setDrawsBackground:NO];
-  [[messageText enclosingScrollView] setDrawsBackground:NO];
-  [informativeText setDrawsBackground:NO];
-  [[informativeText enclosingScrollView] setDrawsBackground:NO];
+  _previousButton.image = [NSImage imageNamed:@"Back" inBundle:kSparkKitBundle];
+  _previousButton.alternateImage = [NSImage imageNamed:@"BackPressedBlue" inBundle:kSparkKitBundle];
+
+  _nextButton.image = [NSImage imageNamed:@"Forward" inBundle:kSparkKitBundle];
+  _nextButton.alternateImage = [NSImage imageNamed:@"ForwardPressedBlue" inBundle:kSparkKitBundle];
+
+  _messageText.drawsBackground = NO;
+  _messageText.enclosingScrollView.drawsBackground = NO;
+
+  _informativeText.drawsBackground = NO;
+  _informativeText.enclosingScrollView.drawsBackground = NO;
   [self refreshUI];
 }
 
 - (void)refreshUI {
   SparkAlert *alert = [sp_alerts objectAtIndex:sp_index];
   if ([sp_alerts count] < 2) {
-    [previousButton setHidden:YES];
-    [nextButton setHidden:YES];
+    _previousButton.hidden = YES;
+    _nextButton.hidden = YES;
   } else {
-    [previousButton setHidden:NO];
-    [nextButton setHidden:NO];
-    [previousButton setEnabled:sp_index > 0];
-    [nextButton setEnabled:sp_index != ([sp_alerts count] -1)];
+    _previousButton.hidden = NO;
+    _nextButton.hidden = NO;
+    _previousButton.enabled = sp_index > 0;
+    _nextButton.enabled = sp_index != ([sp_alerts count] -1);
   }
-  [counter setStringValue:[self errorString]];
+  _counter.stringValue = [self errorString];
   
   CGFloat deltaWin = 0;
-  CGFloat deltaH = [self setText:[alert messageText] inField:messageText];
+  CGFloat deltaH = [self setText:alert.messageText inField:_messageText];
   if (fnonzero(deltaH)) {
-    NSRect frame = [[messageText enclosingScrollView] frame];
+    NSRect frame = _messageText.enclosingScrollView.frame;
     frame.origin.y -= deltaH;
     frame.size.height += deltaH;
-    [[messageText enclosingScrollView] setFrame:frame];
-    frame = [[informativeText enclosingScrollView] frame];
+    _messageText.enclosingScrollView.frame = frame;
+
+    frame = _informativeText.enclosingScrollView.frame;
     frame.origin.y -= deltaH;
-    [[informativeText enclosingScrollView] setFrameOrigin:frame.origin];
+    [_informativeText.enclosingScrollView setFrameOrigin:frame.origin];
     deltaWin += deltaH;
   }
-  deltaH = [self setText:[alert informativeText] inField:informativeText];
+  deltaH = [self setText:alert.informativeText inField:_informativeText];
   if (fnonzero(deltaH)) {
-    NSRect frame = [[informativeText enclosingScrollView] frame];
+    NSRect frame = _informativeText.enclosingScrollView.frame;
     frame.origin.y -= deltaH;
     frame.size.height += deltaH;
-    [[informativeText enclosingScrollView] setFrame:frame];
+    _informativeText.enclosingScrollView.frame = frame;
     deltaWin += deltaH;
   }
   /* Update Spark Button */
-  [openSparkButton setHidden:[alert hideSparkButton]];
+  _openSparkButton.hidden = [alert hideSparkButton];
   
   /* Resize Window */
-  NSRect win = [alertWindow frame];
+  NSRect win = self.window.frame;
   win.size.height += deltaWin;
-  CGFloat minHeight = [alertWindow minSize].height - 22;
+  CGFloat minHeight = self.window.minSize.height - 22;
   if (NSHeight(win) < minHeight) {
     deltaWin += minHeight - NSHeight(win);
     win.size.height = minHeight;
   }
   win.origin.y -= deltaWin;
-  [alertWindow setFrame:win display:YES animate:YES];
+  [self.window setFrame:win display:YES animate:YES];
 }
 
 - (CGFloat)setText:(NSString *)msg inField:(id)textField {
@@ -139,17 +151,10 @@
 }
 
 - (IBAction)close:(id)sender {
-  if ([alertWindow isSheet]) {
-    [NSApp endSheet:alertWindow];
+  if (self.window.sheet) {
+    [NSApp endSheet:self.window];
   }
-  if (alertWindow) {
-    [alertWindow close];
-    alertWindow = nil;
-  }
-  if (sp_retain) {
-    sp_retain = NO;
-    CFRelease((__bridge CFTypeRef)(self));
-  }
+  [self close];
 }
 
 - (NSArray *)alerts {
@@ -199,28 +204,14 @@
   [sp_alerts removeAllObjects];
 }
 
-- (void)loadInterface {
-  if (sp_nib == nil) {
-    sp_nib = [[NSNib alloc] initWithNibNamed:@"SparkMultiAlert" bundle:kSparkKitBundle];
-  }
-  if (alertWindow == nil)
-    [sp_nib instantiateNibWithOwner:self topLevelObjects:nil];
-}
-
 - (void)beginSheetModalForWindow:(NSWindow *)window modalDelegate:(id)delegate didEndSelector:(SEL)didEndSelector contextInfo:(void *)contextInfo {
-  CFRetain((__bridge CFTypeRef)(self));
-  sp_retain = YES;
-  if (![alertWindow isSheet]) {
-    [self loadInterface];
-    [NSApp beginSheet:alertWindow modalForWindow:window modalDelegate:delegate didEndSelector:didEndSelector contextInfo:contextInfo];
+  if (!self.window.sheet) {
+    [NSApp beginSheet:self.window modalForWindow:window modalDelegate:delegate didEndSelector:didEndSelector contextInfo:contextInfo];
   }
 }
 
 - (void)showAlerts {
-  CFRetain((__bridge CFTypeRef)(self));
-  sp_retain = YES;
-  [self loadInterface];
-  [alertWindow makeKeyAndOrderFront:self];
+  [super showWindow:nil];
 }
 
 @end
