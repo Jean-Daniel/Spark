@@ -42,7 +42,7 @@
 @end
 
 @protocol SEEntryEditorDelegate <NSObject>
-
+@optional
 - (BOOL)editor:(SEEntryEditor *)theEditor shouldCreateEntryWithAction:(SparkAction *)anAction
 			 trigger:(SparkTrigger *)aTrigger
 	 application:(SparkApplication *)anApplication;

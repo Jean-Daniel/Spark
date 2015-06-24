@@ -41,7 +41,7 @@ NSString * const SparkEntryWillRemoveChildNotification = @"SparkEntryWillRemoveC
   __weak SparkEntry *sp_parent;
 
   /* Manager */
-  __weak SparkEntryManager *sp_manager;
+  __unsafe_unretained SparkEntryManager *sp_manager;
 
   /* status */
   struct _sp_seFlags {
@@ -99,10 +99,11 @@ NSString * const SparkEntryWillRemoveChildNotification = @"SparkEntryWillRemoveC
 #pragma mark -
 #pragma mark Type
 - (SparkEntryType)type {
+  SparkEntry *parent = sp_parent;
   if ([self applicationUID] == kSparkApplicationSystemUID) {
     return kSparkEntryTypeDefault;
-  } else if (sp_parent) {
-    if ([_action isEqual:sp_parent.action])
+  } else if (parent) {
+    if ([_action isEqual:parent.action])
       return kSparkEntryTypeWeakOverWrite;
     else
       return kSparkEntryTypeOverWrite;
@@ -199,8 +200,9 @@ NSString * const SparkEntryWillRemoveChildNotification = @"SparkEntryWillRemoveC
 }
 
 - (NSArray *)variants {
-	if (sp_parent) 
-		return [sp_parent variants];
+  SparkEntry *parent = sp_parent;
+	if (parent)
+		return [parent variants];
 	
 	/* root entry without child => return one item array */
 	if (!sp_child)
@@ -228,7 +230,7 @@ NSString * const SparkEntryWillRemoveChildNotification = @"SparkEntryWillRemoveC
 		if ([self applicationUID] == uid)
 			return self;
 	} else {
-		return [sp_parent variantWithApplication:anApplication];
+		return [self.parent variantWithApplication:anApplication];
 	}
 	return NULL;
 }

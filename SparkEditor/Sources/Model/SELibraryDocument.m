@@ -40,6 +40,10 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
   return nil;
 }
 
+@interface SELibraryDocument () <SEEntryEditorDelegate>
+
+@end
+
 @implementation SELibraryDocument {
 @private
   SEEntryEditor *_editor;
@@ -280,7 +284,7 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
     _editor = [[SEEntryEditor alloc] init];
     /* Load */
     [_editor window];
-    [_editor setDelegate:self];
+    _editor.delegate = self;
   }
   /* Update application */
   [_editor setApplication:[self application]];

@@ -169,6 +169,24 @@ BOOL ITunesVisualIsEqualTo(const ITunesVisual *v1, const ITunesVisual *v2) {
 
 @end
 
+@interface ITunesInfo ()
+
+@property(nonatomic, assign) IBOutlet NSView *ibView;
+
+@property(nonatomic, assign) IBOutlet NSTextField *ibName;
+@property(nonatomic, assign) IBOutlet NSTextField *ibAlbum;
+@property(nonatomic, assign) IBOutlet NSTextField *ibArtist;
+
+@property(nonatomic, assign) IBOutlet NSTextField *ibTime;
+
+// We may detach it from the parent view, so use strong ref.
+@property(nonatomic, strong) IBOutlet NSImageView *ibArtwork;
+
+@property(nonatomic, assign) IBOutlet ITunesStarView *ibRate;
+@property(nonatomic, assign) IBOutlet ITunesProgressView *ibProgress;
+
+@end
+
 @implementation ITunesInfo {
 @private
   CGFloat ia_artWidth;
@@ -197,9 +215,8 @@ BOOL ITunesVisualIsEqualTo(const ITunesVisual *v1, const ITunesVisual *v2) {
   NSWindow *info = [[WBNotificationWindow alloc] init];
   [info setHasShadow:YES];
   if (self = [super initWithWindow:info]) {
-    [NSBundle loadNibNamed:@"iTunesInfo" owner:self];
-		NSAssert(ibArtwork, @"nib not loaded ?");
-    CFRetain((__bridge CFTypeRef)(ibArtwork)); // retain the view as we will remove it from it's superview
+    [kiTunesActionBundle loadNibNamed:@"iTunesInfo" owner:self topLevelObjects:NULL];
+		NSAssert(_ibArtwork, @"nib not loaded ?");
     [self setVisual:&kiTunesDefaultSettings];
 		[info setDelegate:self];
   }
@@ -207,14 +224,15 @@ BOOL ITunesVisualIsEqualTo(const ITunesVisual *v1, const ITunesVisual *v2) {
 }
 
 - (void)dealloc {
-  SPXCFRelease((__bridge CFTypeRef)(ibArtwork));
   [[self window] close];
 }
 
+- (NSView *)ibView { return self.window.contentView; }
+
 - (void)setIbView:(NSView *)aView {
   /* Nib root object should be release */
-  [[self window] setContentSize:aView.bounds.size];
-  [[self window] setContentView:aView];
+  self.window.contentSize = aView.bounds.size;
+  self.window.contentView = aView;
 }
 
 #pragma mark -
@@ -327,14 +345,14 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
   } else {
     str = @" -";
   }
-  [ibTime setStringValue:str];
+  [_ibTime setStringValue:str];
   /* adjust time size and move rate */
-  [ibTime sizeToFit];
-  NSPoint origin = [ibRate frame].origin;
-  origin.x = NSMaxX([ibTime frame]);
-  [ibRate setFrameOrigin:origin];
+  [_ibTime sizeToFit];
+  NSPoint origin = [_ibRate frame].origin;
+  origin.x = NSMaxX([_ibTime frame]);
+  [_ibRate setFrameOrigin:origin];
   
-  [ibRate setRate:lround(rate / 10)];
+  [_ibRate setRate:lround(rate / 10)];
 }
 
 - (void)setTrack:(iTunesTrack *)track visual:(const ITunesVisual *)visual {
@@ -355,10 +373,10 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
       iTunesCopyTrackStringProperty(track, kiTunesNameKey, &value);
   }
   if (value) {
-    [ibName setStringValue:SPXCFStringBridgingRelease(value)];
+    [_ibName setStringValue:SPXCFStringBridgingRelease(value)];
     value = NULL;
   } else {
-    [ibName setStringValue:NSLocalizedStringFromTableInBundle(@"<untiled>", nil, kiTunesActionBundle, @"Untitled track info")];
+    [_ibName setStringValue:NSLocalizedStringFromTableInBundle(@"<untiled>", nil, kiTunesActionBundle, @"Untitled track info")];
   }
   
   /* Album */
@@ -369,10 +387,10 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
       iTunesCopyTrackStringProperty(track, kiTunesAlbumKey, &value);
   }
   if (value) {
-    [ibAlbum setStringValue:SPXCFStringBridgingRelease(value)];
+    [_ibAlbum setStringValue:SPXCFStringBridgingRelease(value)];
     value = NULL;
   } else {
-    [ibAlbum setStringValue:@""];
+    [_ibAlbum setStringValue:@""];
   }
   
   /* Artist */
@@ -384,10 +402,10 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
   }
   
   if (value) {
-    [ibArtist setStringValue:SPXCFStringBridgingRelease(value)];
+    [_ibArtist setStringValue:SPXCFStringBridgingRelease(value)];
     value = NULL;
   } else {
-    [ibArtist setStringValue:@""];
+    [_ibArtist setStringValue:@""];
   }
   
   /* Time and rate */
@@ -403,19 +421,19 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
   [self setDuration:duration rate:rate];
   
   if ('cURT' == cls) {
-    [ibProgress setProgress:0];
+    [_ibProgress setProgress:0];
   } else {
     UInt32 progress = 0;
     verify_noerr(iTunesGetPlayerPosition(&progress));
     if (duration > 0)
-      [ibProgress setProgress:(CGFloat)progress / duration];
+      [_ibProgress setProgress:(CGFloat)progress / duration];
     else
-      [ibProgress setProgress:0];
+      [_ibProgress setProgress:0];
   }
 	
 	/* Image */
 	BOOL display = NO;
-	[ibArtwork setImage:nil];
+	[_ibArtwork setImage:nil];
 	if (track && _displayArtwork) {
     OSType type;
 		CFDataRef data = NULL;
@@ -424,7 +442,7 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
 			if (image) {
 				// display image zone
 				[self setArtworkVisible:YES];
-				[ibArtwork setImage:image];
+				[_ibArtwork setImage:image];
 				display = YES;
 			}
 		}
@@ -434,13 +452,13 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
 
 - (void)setArtworkVisible:(BOOL)flag {
 	// artwork
-	if ([ibArtwork superview] && !flag) {
+	if ([_ibArtwork superview] && !flag) {
 		if (ia_artWidth <= 0)	{
-			ia_artWidth = NSMaxX([ibArtwork frame]) * WBWindowUserSpaceScaleFactor([self window]);
-			ia_artOrigin = [ibArtwork frame].origin;
+			ia_artWidth = NSMaxX([_ibArtwork frame]) * WBWindowUserSpaceScaleFactor([self window]);
+			ia_artOrigin = [_ibArtwork frame].origin;
 		}
 		/* adjust window frame */
-		[ibArtwork removeFromSuperview];
+		[_ibArtwork removeFromSuperview];
 		
 		NSRect frame = [[self window] frame];
 		frame.size.width -= ia_artWidth;
@@ -451,7 +469,7 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
 		} else {
 			[[self window] setFrame:frame display:YES animate:NO];
 		}
-	} else if (![ibArtwork superview] && flag) {
+	} else if (![_ibArtwork superview] && flag) {
 		NSAssert(ia_artWidth > 0, @"Internal inconsistency");
 		/* adjust window frame */
 		NSRect frame = [[self window] frame];
@@ -463,29 +481,29 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
 			[[self window] setFrame:frame display:YES animate:NO];
 		}
 		
-		[[[self window] contentView] addSubview:ibArtwork];
-		[ibArtwork setFrameOrigin:ia_artOrigin];
+		[[[self window] contentView] addSubview:_ibArtwork];
+		[_ibArtwork setFrameOrigin:ia_artOrigin];
 	}
 }
 
 - (void)windowWillClose:(NSNotification *)notification {
 	/* release image when no longer needed */
 	if (SparkGetCurrentContext() == kSparkContext_Daemon)
-		[ibArtwork setImage:nil];
+		[_ibArtwork setImage:nil];
 }
 
 - (NSColor *)textColor {
-  return [ibName textColor];
+  return [_ibName textColor];
 }
 
 - (void)setTextColor:(NSColor *)aColor {
-  [ibName setTextColor:aColor];
-  [ibAlbum setTextColor:aColor];
-  [ibArtist setTextColor:aColor];
+  [_ibName setTextColor:aColor];
+  [_ibAlbum setTextColor:aColor];
+  [_ibArtist setTextColor:aColor];
   
-  [ibTime setTextColor:aColor];
-  [ibRate setStarsColor:aColor];
-  [ibProgress setColor:aColor];
+  [_ibTime setTextColor:aColor];
+  [_ibRate setStarsColor:aColor];
+  [_ibProgress setColor:aColor];
 }
 
 - (NSColor *)borderColor {

@@ -11,7 +11,7 @@
 #import "ITunesAction.h"
 
 @interface ITunesVisualSetting (ITunesPrivate)
-- (void)updateLocation:(int)idx;
+- (void)updateLocation:(NSInteger)idx;
 @end
 
 @implementation ITunesVisualSetting {

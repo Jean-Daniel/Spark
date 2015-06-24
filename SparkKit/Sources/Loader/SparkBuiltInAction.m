@@ -261,37 +261,34 @@ NSImage *SparkDaemonStatusIcon(BOOL status) {
 static
 void SparkSDActionToggleDaemonStatus(void) {
   /* MUST use kCurrentProcess to direct dispatch, else the event will be handle in the event loop => dead lock */
-  ProcessSerialNumber psn = {0, kCurrentProcess};
-  if (psn.lowLongOfPSN != kNoProcess) {
-    Boolean status = FALSE;
-    AppleEvent aevt = WBAEEmptyDesc();
-    
-    OSStatus err = WBAECreateEventWithTargetProcess(&psn, kAECoreSuite, kAEGetData, &aevt);
-    require_noerr(err, bail);
-    
-    err = WBAEAddPropertyObjectSpecifier(&aevt, keyDirectObject, typeBoolean, 'pSta', NULL);
-    require_noerr(err, bail);
-    
-    err = WBAESendEventReturnBoolean(&aevt, &status);
-    require_noerr(err, bail);
-    WBAEDisposeDesc(&aevt);
-    
-    err = WBAECreateEventWithTargetProcess(&psn, kAECoreSuite, kAESetData, &aevt);
-    require_noerr(err, bail);
-    
-    err = WBAEAddPropertyObjectSpecifier(&aevt, keyDirectObject, typeBoolean, 'pSta', NULL);
-    require_noerr(err, bail);
-    
-    err = WBAEAddBoolean(&aevt, keyAEData, !status);
-    require_noerr(err, bail);
-    
-    err = WBAESendEventNoReply(&aevt);
-    require_noerr(err, bail);
-    
-    SparkNotificationDisplayImage(SparkDaemonStatusIcon(!status), -1);
-  bail:
-    WBAEDisposeDesc(&aevt);
-  }
+  Boolean status = FALSE;
+  AppleEvent aevt = WBAEEmptyDesc();
+
+  OSStatus err = WBAECreateEventWithTarget(WBAECurrentProcessTarget(), kAECoreSuite, kAEGetData, &aevt);
+  require_noerr(err, bail);
+
+  err = WBAEAddPropertyObjectSpecifier(&aevt, keyDirectObject, typeBoolean, 'pSta', NULL);
+  require_noerr(err, bail);
+
+  err = WBAESendEventReturnBoolean(&aevt, &status);
+  require_noerr(err, bail);
+  WBAEDisposeDesc(&aevt);
+
+  err = WBAECreateEventWithTarget(WBAECurrentProcessTarget(), kAECoreSuite, kAESetData, &aevt);
+  require_noerr(err, bail);
+
+  err = WBAEAddPropertyObjectSpecifier(&aevt, keyDirectObject, typeBoolean, 'pSta', NULL);
+  require_noerr(err, bail);
+
+  err = WBAEAddBoolean(&aevt, keyAEData, !status);
+  require_noerr(err, bail);
+
+  err = WBAESendEventNoReply(&aevt);
+  require_noerr(err, bail);
+
+  SparkNotificationDisplayImage(SparkDaemonStatusIcon(!status), -1);
+bail:
+  WBAEDisposeDesc(&aevt);
 }
 
 - (void)toggleStatus {

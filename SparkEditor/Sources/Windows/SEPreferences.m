@@ -382,65 +382,53 @@ void __SetSparkKitSingleKeyMode(NSInteger mode) {
 @end
 
 #pragma mark -
-WB_INLINE
-BOOL __CFFileURLCompare(CFURLRef url1, FSRef *r2) {
-  FSRef r1;
-  if (CFURLGetFSRef(url1, &r1)) {
-    return FSCompareFSRefs(&r1, r2) == noErr;
-  }
-  return NO;
-}
-
 void _SEPreferencesUpdateLoginItem(void) {
-  FSRef dref;
 	NSURL *sparkd = SESparkDaemonURL();
-	BOOL status = __SEPreferencesLoginItemStatus();
-	if (CFURLGetFSRef((CFURLRef)sparkd, &dref)) {
-    /* do it the new way */
-    LSSharedFileListRef list = LSSharedFileListCreate(kCFAllocatorDefault, kLSSharedFileListSessionLoginItems, NULL);
-    if (list) {
-      UInt32 seed = 0;
-      BOOL shouldAdd = status;
-      CFArrayRef items = LSSharedFileListCopySnapshot(list, &seed);
-      if (items) {
-        CFIndex count = CFArrayGetCount(items);
-        while (count-- > 0) {
-          CFURLRef itemURL = NULL;
-          LSSharedFileListItemRef item = (LSSharedFileListItemRef)CFArrayGetValueAtIndex(items, count);
-          if (noErr == LSSharedFileListItemResolve(item, kLSSharedFileListNoUserInteraction | kLSSharedFileListDoNotMountVolumes,
-                                                   &itemURL, NULL) && itemURL) {
-            CFStringRef name = CFURLCopyLastPathComponent(itemURL);
-            if (name) {
-              if (CFEqual(name, SPXNSToCFString(kSparkDaemonExecutableName))) {
-                if (!status || !__CFFileURLCompare(itemURL, &dref)) {
-                  SPXDebug(@"Remove login item: %@", itemURL);
+  BOOL status = __SEPreferencesLoginItemStatus();
+  /* do it the new way */
+  LSSharedFileListRef list = LSSharedFileListCreate(kCFAllocatorDefault, kLSSharedFileListSessionLoginItems, NULL);
+  if (list) {
+    UInt32 seed = 0;
+    BOOL shouldAdd = status;
+    CFArrayRef items = LSSharedFileListCopySnapshot(list, &seed);
+    if (items) {
+      CFIndex count = CFArrayGetCount(items);
+      while (count-- > 0) {
+        CFURLRef itemURL = NULL;
+        LSSharedFileListItemRef item = (LSSharedFileListItemRef)CFArrayGetValueAtIndex(items, count);
+        if (noErr == LSSharedFileListItemResolve(item, kLSSharedFileListNoUserInteraction | kLSSharedFileListDoNotMountVolumes,
+                                                 &itemURL, NULL) && itemURL) {
+          CFStringRef name = CFURLCopyLastPathComponent(itemURL);
+          if (name) {
+            if (CFEqual(name, SPXNSToCFString(kSparkDaemonExecutableName))) {
+              if (!status || !WBFSCompareURLs(itemURL, SPXNSToCFURL(sparkd))) {
+                SPXDebug(@"Remove login item: %@", itemURL);
 #if !defined(DEBUG)
-                  LSSharedFileListItemRemove(list, item);
+                LSSharedFileListItemRemove(list, item);
 #endif
-                } else {
-                  SPXDebug(@"Valid login item found");
-                  shouldAdd = NO;
-                }
+              } else {
+                SPXDebug(@"Valid login item found");
+                shouldAdd = NO;
               }
-              CFRelease(name);
             }
-            CFRelease(itemURL);
+            CFRelease(name);
           }
+          CFRelease(itemURL);
         }
-        /* Append login item if needed */
-        if (shouldAdd) {
-#if !defined(DEBUG)
-          CFDictionaryRef properties = CFDictionaryCreate(kCFAllocatorDefault, (const void **)&kLSSharedFileListItemHidden,
-                                                          (const void **)&kCFBooleanTrue, 1, &kCFCopyStringDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
-          LSSharedFileListInsertItemURL(list, kLSSharedFileListItemLast, NULL, NULL, (CFURLRef)sparkd, properties, NULL);
-          CFRelease(properties);
-#else
-          SPXDebug(@"Add login item: %@", sparkd);
-#endif
-        }
-        CFRelease(items);
       }
-      CFRelease(list);
+      /* Append login item if needed */
+      if (shouldAdd) {
+#if !defined(DEBUG)
+        CFDictionaryRef properties = CFDictionaryCreate(kCFAllocatorDefault, (const void **)&kLSSharedFileListItemHidden,
+                                                        (const void **)&kCFBooleanTrue, 1, &kCFCopyStringDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+        LSSharedFileListInsertItemURL(list, kLSSharedFileListItemLast, NULL, NULL, (CFURLRef)sparkd, properties, NULL);
+        CFRelease(properties);
+#else
+        SPXDebug(@"Add login item: %@", sparkd);
+#endif
+      }
+      CFRelease(items);
     }
-	}
+    CFRelease(list);
+  }
 }

@@ -473,9 +473,8 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
 }
 
 #pragma mark -
-- (BOOL)getApplicationProcess:(ProcessSerialNumber *)psn {
-  *psn = [_application process];
-  return psn->lowLongOfPSN != kNoProcess;
+- (NSRunningApplication *)applicationProcess {
+  return [NSRunningApplication runningApplicationsWithBundleIdentifier:_application.bundleIdentifier].firstObject;
 }
 
 - (void)hideFront {
@@ -508,20 +507,20 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
   }
 }
 
-- (void)activate:(ProcessSerialNumber *)psn {
+- (void)activate:(NSRunningApplication *)app {
 	switch ([self activation]) {
 		case kFlagsBringAllFront:
-			SetFrontProcess(psn);
+      [app activateWithOptions:NSApplicationActivateAllWindows];
 			break;
 		case kFlagsBringMainFront:
-			SetFrontProcessWithOptions(psn, kSetFrontProcessFrontWindowOnly);
+      [app activateWithOptions:0];
 			break;
 	}
 	if ([self activation] != kFlagsDoNothing) {
 		if ([self reopen]) {
 			/* TODO: improve reopen event */
 			AppleEvent reopen = WBAEEmptyDesc();
-			OSStatus err = WBAECreateEventWithTargetProcess(psn, kCoreEventClass, kAEReopenApplication, &reopen);
+			OSStatus err = WBAECreateEventWithTargetProcessIdentifier(app.processIdentifier, kCoreEventClass, kAEReopenApplication, &reopen);
 			require_noerr(err, bail);
 			
 			err = WBAEAddBoolean(&reopen, 'frnt', false);
@@ -549,9 +548,9 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
 }
 
 - (void)launchApplication {
-  ProcessSerialNumber psn;
-  if (!(_flags & kLSLaunchNewInstance) && [self getApplicationProcess:&psn]) {
-    [self activate:&psn];
+  NSRunningApplication *app = nil;
+  if (!(_flags & kLSLaunchNewInstance) && (app = self.applicationProcess)) {
+    [self activate:app];
   } else {
     [self launchAppWithFlag:kLSLaunchDefaults | _flags];
 		
@@ -567,27 +566,22 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
   }
 }
 
-- (void)quitProcess:(ProcessSerialNumber *)psn {
-  WBAESendSimpleEventToProcess(psn, kCoreEventClass, kAEQuitApplication);
+- (void)quitApplication {
+  NSRunningApplication *app = self.applicationProcess;
+  if (app)
+    [app terminate];
 }
 
-- (void)quitApplication {
-  ProcessSerialNumber psn;
-  if ([self getApplicationProcess:&psn]) {
-    [self quitProcess:&psn];
-  }
-}
 - (void)forceQuitApplication {
-  ProcessSerialNumber psn;
-  if ([self getApplicationProcess:&psn]) {
-    verify_noerr(KillProcess(&psn));
-  }
+  NSRunningApplication *app = self.applicationProcess;
+  if (app && ![app terminate])
+    [app forceTerminate];
 }
 
 - (void)toggleApplicationState {
-  ProcessSerialNumber psn;
-  if ([self getApplicationProcess:&psn]) {
-    [self quitProcess:&psn];
+  NSRunningApplication *app = self.applicationProcess;
+  if (app && !app.terminated) {
+    [app terminate];
   } else {
     /* toogle incompatible with new instance */
     if (_flags & kLSLaunchNewInstance)
@@ -597,12 +591,12 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
 }
 
 - (void)activateQuitApplication {
-	ProcessSerialNumber psn;
-  if ([self getApplicationProcess:&psn]) {
-		if ([_application isFront]) {
-			[self quitProcess:&psn];
+  NSRunningApplication *app = self.applicationProcess;
+  if (app) {
+		if (app.active) {
+			[app terminate];
 		} else {
-			[self activate:&psn];
+			[self activate:app];
 		}
   } else {
     /* toogle incompatible with new instance */
@@ -613,19 +607,18 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
 }
 
 - (void)forceQuitFront {
-  ProcessSerialNumber psn;
-  if (noErr == GetFrontProcess(&psn))
-    KillProcess(&psn);
+  NSRunningApplication *front = [[NSWorkspace sharedWorkspace] frontmostApplication];
+  if (front && ![front terminate])
+    [front forceTerminate];
 }
 
 - (void)forceQuitDialog {
-  ProcessSerialNumber psn = {0, kSystemProcess};
-  WBAESendSimpleEventToProcess(&psn, kCoreEventClass, 'apwn');
+  WBAESendSimpleEventToTarget(WBAESystemTarget(), kCoreEventClass, 'apwn');
 }
 
 - (BOOL)launchAppWithFlag:(LSLaunchFlags)flag {
-  BOOL result = NO;
   FSRef ref;
+  BOOL result = NO;
   LSApplicationParameters params = {};
   NSString *path = [self path];
   if (path != nil && [path getFSRef:&ref]) {

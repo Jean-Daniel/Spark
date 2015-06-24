@@ -272,19 +272,9 @@ BOOL SELaunchSparkDaemon(pid_t *pid) {
 
 void SEServerStartConnection(void) {
   /* Verify daemon validity */
-  id fileid = nil;
-  NSError *error = nil;
   NSURL *selfdaemon = SESparkDaemonURL();
-  if (![selfdaemon getResourceValue:&fileid forKey:NSURLFileResourceIdentifierKey error:&error]) {
-    SPXLogError(@"failed to get self daemon file identifier: %@", error);
-    return;
-  }
-
   for (NSRunningApplication *daemon in [NSRunningApplication runningApplicationsWithBundleIdentifier:kSparkDaemonBundleIdentifier]) {
-    id daemonid = nil;
-    if (!daemon.terminate &&
-        [daemon.bundleURL getResourceValue:&daemonid forKey:NSURLFileResourceIdentifierKey error:NULL] &&
-        ![fileid isEqual:daemonid]) {
+    if (!daemon.terminate && !WBFSCompareURLs(SPXNSToCFURL(selfdaemon), SPXNSToCFURL(daemon.bundleURL))) {
       // The running daemon does not match the embedded one.
       SPXDebug(@"Terminate Running daemon: %@", daemon);
 #if !defined (DEBUG)

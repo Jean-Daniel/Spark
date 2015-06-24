@@ -287,17 +287,14 @@ kAEShowShutdownDialog         = 'rsdn'
  */
 
 - (void)logout {
-  ProcessSerialNumber psn = {0, kSystemProcess};
-  WBAESendSimpleEventToProcess(&psn, kCoreEventClass, [self shouldConfirm] ? kAELogOut : kAEReallyLogOut);
+  WBAESendSimpleEventToTarget(WBAESystemTarget(), kCoreEventClass, [self shouldConfirm] ? kAELogOut : kAEReallyLogOut);
 }
 - (void)restart {
-  ProcessSerialNumber psn = {0, kSystemProcess};
-  WBAESendSimpleEventToProcess(&psn, kCoreEventClass, [self shouldConfirm] ? kAEShowRestartDialog : 'rest');
+  WBAESendSimpleEventToTarget(WBAESystemTarget(), kCoreEventClass, [self shouldConfirm] ? kAEShowRestartDialog : 'rest');
 }
 
 - (void)shutDown {
-  ProcessSerialNumber psn = {0, kSystemProcess};
-  WBAESendSimpleEventToProcess(&psn, kCoreEventClass, [self shouldConfirm] ? kAEShowShutdownDialog : 'shut');
+  WBAESendSimpleEventToTarget(WBAESystemTarget(), kCoreEventClass, [self shouldConfirm] ? kAEShowShutdownDialog : 'shut');
 }
 
 - (BOOL)shouldNotify {
@@ -320,8 +317,7 @@ kAEShowShutdownDialog         = 'rsdn'
 }
 
 - (void)sleep {
-  ProcessSerialNumber psn = {0, kSystemProcess};
-  WBAESendSimpleEventToProcess(&psn, kCoreEventClass, 'slep');
+  WBAESendSimpleEventToTarget(WBAESystemTarget(), kCoreEventClass, 'slep');
 }
 - (void)switchSession {
   if (0 == _userID)
@@ -331,13 +327,10 @@ kAEShowShutdownDialog         = 'rsdn'
 }
 
 - (void)screenSaver {
-  FSRef engine;
-  if ([kScreenSaverEngine getFSRef:&engine]) {
-    LSLaunchFSRefSpec spec;
-    memset(&spec, 0, sizeof(spec));
-    spec.appRef = &engine;
-    spec.launchFlags = kLSLaunchDefaults;
-    LSOpenFromRefSpec(&spec, nil);
+  NSError *error = nil;
+  NSURL *url = [NSURL fileURLWithPath:kScreenSaverEngine];
+  if (![[NSWorkspace sharedWorkspace] launchApplicationAtURL:url options:NSWorkspaceLaunchDefault configuration:nil error:&error]) {
+    SPXLogError(@"failed to launch screen saver engine: %@", error);
   }
 }
 
