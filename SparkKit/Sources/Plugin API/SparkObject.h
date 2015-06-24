@@ -50,7 +50,7 @@ SPARK_OBJC_EXPORT
    @discussion Designated initializer.
    @result     A new created SparkObject.
    */
-- (instancetype)initWithName:(NSString *)name icon:(NSImage *)icon NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithName:(NSString *)name icon:(NSImage *)icon;
 
 #pragma mark Serialization Support
   /*!
@@ -65,7 +65,7 @@ SPARK_OBJC_EXPORT
    @param plist A serialized form of an object. <i>plist</i> contains all keys/values pairs added into propertyList method.
    @result A new deserialized object.
    */
-- (instancetype)initWithSerializedValues:(NSDictionary *)plist NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithSerializedValues:(NSDictionary *)plist;
 
   /*!
   @property
@@ -115,6 +115,6 @@ SPARK_OBJC_EXPORT
 
 @interface SparkObject () <NSCoding>
 
-- (instancetype)initWithCoder:(NSCoder *)aDecoder NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithCoder:(NSCoder *)aDecoder;
 
 @end

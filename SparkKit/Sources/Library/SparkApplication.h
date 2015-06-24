@@ -13,7 +13,7 @@ SPARK_OBJC_EXPORT
 
 + (SparkApplication *)systemApplication;
 
-- (instancetype)initWithURL:(NSURL *)anURL NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithURL:(NSURL *)anURL;
 
 @property(nonatomic, retain) NSURL *URL;
 

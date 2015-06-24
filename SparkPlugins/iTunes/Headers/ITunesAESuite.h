@@ -48,9 +48,6 @@ typedef enum {
 } ITunesState;
 
 WB_PRIVATE
-bool iTunesIsRunning();
-
-WB_PRIVATE
 OSStatus iTunesGetPlayerState(ITunesState *state);
 WB_PRIVATE
 OSStatus iTunesGetPlayerPosition(uint32_t *position);
@@ -100,8 +97,6 @@ WB_INLINE
 OSStatus iTunesQuit(void) {
   return WBAESendSimpleEventToBundle(kiTunesBundleIdentifier, kCoreEventClass, kAEQuitApplication);
 }
-WB_PRIVATE
-OSStatus iTunesLaunch(LSLaunchFlags flags, ProcessSerialNumber *psn);
 
 #pragma mark -
 WB_PRIVATE

@@ -11,7 +11,6 @@
 #import <WonderBox/WBFunctions.h>
 #import <WonderBox/WBAEFunctions.h>
 #import <WonderBox/NSImage+WonderBox.h>
-#import <WonderBox/WBProcessFunctions.h>
 
 #import <HotKeyToolKit/HotKeyToolKit.h>
 
@@ -268,7 +267,7 @@ static ITunesVisual sDefaultVisual = { .delay = -1 };
     }
     
     /* if spark editor, check playlist name */
-    if (kSparkContext_Editor == SparkGetCurrentContext() && iTunesIsRunning()) {
+    if (kSparkContext_Editor == SparkGetCurrentContext()) {
       if ([self iTunesAction] == kiTunesPlayPlaylist && ia_plid) {
         iTunesPlaylist playlist = WBAEEmptyDesc();
         OSStatus err = [self playlist] ? iTunesGetPlaylistWithName(SPXNSToCFString(self.playlist), &playlist) : errAENoSuchObject;
@@ -407,19 +406,24 @@ static ITunesVisual sDefaultVisual = { .delay = -1 };
   }
 }
 
+static
+NSRunningApplication *iTunesLaunch(NSWorkspaceLaunchOptions flags) {
+  NSURL *url = [[NSWorkspace sharedWorkspace] URLForApplicationWithBundleIdentifier:kiTunesActionBundleIdentifier];
+  return [[NSWorkspace sharedWorkspace] launchApplicationAtURL:url options:flags configuration:nil error:NULL];
+}
+
 - (SparkAlert *)performAction {
   SparkAlert *alert = nil;
   switch ([self iTunesAction]) {
     case kiTunesLaunch: {
-      ProcessSerialNumber psn = {0, kNoProcess};
-      psn = WBProcessGetProcessWithBundleIdentifier(kiTunesBundleIdentifier);
-      if (psn.lowLongOfPSN == kNoProcess) {
-        LSLaunchFlags flags = kLSLaunchDefaults;
+      NSRunningApplication *iTunes = [NSRunningApplication runningApplicationsWithBundleIdentifier:kiTunesActionBundleIdentifier].firstObject;
+      if (!iTunes) {
+        NSWorkspaceLaunchOptions flags = NSWorkspaceLaunchDefault;
         if (ia_iaFlags.hide)
-          flags |= kLSLaunchAndHide | kLSLaunchDontSwitch;
+          flags |= NSWorkspaceLaunchAndHide | NSWorkspaceLaunchWithoutActivation;
         else if (ia_iaFlags.background)
-          flags |= kLSLaunchDontSwitch;
-        iTunesLaunch(flags, &psn);
+          flags |= NSWorkspaceLaunchWithoutActivation;
+        iTunes = iTunesLaunch(flags);
         if (ia_iaFlags.notify) {
           [self notifyLaunch];
         }
@@ -427,7 +431,7 @@ static ITunesVisual sDefaultVisual = { .delay = -1 };
           iTunesSendCommand(kiTunesCommandPlay);
       } else if (!ia_iaFlags.background) {
         /* if not launch in background, bring to front */
-        SetFrontProcess(&psn);
+        [iTunes activateWithOptions:0];
       }
     }
       break;
@@ -435,12 +439,11 @@ static ITunesVisual sDefaultVisual = { .delay = -1 };
       iTunesQuit();
       break;
     case kiTunesPlayPause: {
-      ProcessSerialNumber psn = {0, kNoProcess};
-      psn = WBProcessGetProcessWithBundleIdentifier(kiTunesBundleIdentifier);
-      if (psn.lowLongOfPSN == kNoProcess) {
+      NSRunningApplication *iTunes = [NSRunningApplication runningApplicationsWithBundleIdentifier:kiTunesActionBundleIdentifier].firstObject;
+      if (!iTunes) {
         if (ia_iaFlags.autorun) {
           /* Launch iTunes */
-          iTunesLaunch(kLSLaunchDefaults | kLSLaunchDontSwitch, &psn);
+          iTunesLaunch(NSWorkspaceLaunchDefault | NSWorkspaceLaunchWithoutActivation);
           /* Display iTunes Icon */
           [self notifyLaunch];
           /* Send Play event*/

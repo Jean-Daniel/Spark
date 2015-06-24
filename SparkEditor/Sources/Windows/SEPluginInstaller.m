@@ -72,14 +72,14 @@ void _Setup(SEPlugInInstaller *self) {
   _Setup(self);
 }
 
-- (OSStatus)moveFile:(NSString *)file to:(NSString *)destination copy:(BOOL)flag {
+- (OSStatus)moveFile:(NSURL *)file to:(NSURL *)destination copy:(BOOL)flag {
   AppleEvent aevt = WBAEEmptyDesc();
   AEDesc desc = WBAEEmptyDesc();
   OSStatus err = fnfErr;
-  
   FSRef src, dest;
-  if ([file getFSRef:&src] && [destination getFSRef:&dest]) {
-    OSType finder = WBAEFinderSignature;
+  if (CFURLGetFSRef(SPXNSToCFURL(file), &src) &&
+      CFURLGetFSRef(SPXNSToCFURL(destination), &dest)) {
+    OSType finder = 'MACS';
     err = AEBuildAppleEvent(kAECoreSuite, flag ? kAECopy : kAEMove, 
                             typeApplSignature, &finder, sizeof(OSType),
                             kAutoGenerateReturnID, kAnyTransactionID,
@@ -104,31 +104,32 @@ dispose:
   return err;
 }
 
-- (BOOL)installPlugIn:(NSString *)plugin into:(NSString *)dest copy:(BOOL)flag {
-  NSString *src = [plugin stringByDeletingLastPathComponent];
-  NSArray *files = [NSArray arrayWithObject:[plugin lastPathComponent]];
-  return [[NSWorkspace sharedWorkspace] performFileOperation:(flag ? NSWorkspaceCopyOperation : NSWorkspaceMoveOperation) source:src destination:dest files:files tag:NULL];
+- (BOOL)installPlugIn:(NSURL *)plugin into:(NSURL *)dest copy:(BOOL)flag {
+  dest = [dest URLByAppendingPathComponent:plugin.lastPathComponent];
+  if (flag)
+    return [[NSFileManager defaultManager] copyItemAtURL:plugin toURL:dest error:NULL];
+  return [[NSFileManager defaultManager] moveItemAtURL:plugin toURL:dest error:NULL];
 }
 
-- (NSURL *)installPlugIn:(NSString *)plugin domain:(WBPlugInDomain)skdomain {
+- (NSURL *)installPlugIn:(NSURL *)plugin domain:(WBPlugInDomain)skdomain {
 	/* FIXME: remove temp file */
-  if (![[NSFileManager defaultManager] fileExistsAtPath:plugin]) {
+  if (![plugin checkResourceIsReachableAndReturnError:NULL]) {
     NSRunAlertPanel(@"The plugin was not installed", @"Cannot find plugin at path \"%@\"", @"OK", nil, nil, plugin);
     return nil;
   }
   
   BOOL installed = NO;
-  NSString *location = nil;
-  NSString *path = [[SparkActionLoader sharedLoader] pathForDomain:skdomain];
-  if (!path) {
+  NSURL *location = nil;
+  NSURL *url = [[SparkActionLoader sharedLoader] URLForDomain:skdomain];
+  if (!url) {
     NSRunAlertPanel(@"The plugin was not installed", @"Spark cannot find plugin folder", @"OK", nil, nil);
   } else {
-    location = path;
-    if ([[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:NULL]) {
+    location = url;
+    if ([[NSFileManager defaultManager] createDirectoryAtURL:url withIntermediateDirectories:YES attributes:nil error:NULL]) {
       /* First try to copy the file using workspace operation */
-      if (![self installPlugIn:plugin into:path copy:YES]) {
+      if (![self installPlugIn:plugin into:url copy:YES]) {
         /* If failed, ask the finder to move the file (it will take care of the authentification for us) */
-        OSStatus err = [self moveFile:plugin to:path copy:YES];
+        OSStatus err = [self moveFile:plugin to:url copy:YES];
         if (noErr != err && userCanceledErr != err) {
           NSRunAlertPanel(@"The plugin was not installed", @"An error prevent plugin installation.", @"OK", nil, nil);
         } else {
@@ -138,30 +139,31 @@ dispose:
         installed = YES;
       }
     } else {
-      NSString *tmp = [WBFSFindFolder(kTemporaryFolderType, kLocalDomain, true) path];
+      // Try to workaround lack of permission by asking the finder to install the plugin for us
       NSMutableArray *cmpt = [[NSMutableArray alloc] init];
       NSFileManager *manager = [NSFileManager defaultManager];
-      while ([path length] && ![manager fileExistsAtPath:path isDirectory:NULL]) {
-        [cmpt addObject:[path lastPathComponent]];
-        path = [path stringByDeletingLastPathComponent];
+      while ([url.path length] > 1 && ![url checkResourceIsReachableAndReturnError:NULL]) {
+        [cmpt addObject:[url lastPathComponent]];
+        url = [url URLByDeletingLastPathComponent];
       }
-      if (![path length]) {
+      if ([url.path length] <= 1) {
         NSRunAlertPanel(@"The plugin was not installed", @"Unknown error while looking for plugin path", @"OK", nil, nil);
       } else {
-        NSString *root = nil;
+        NSURL *root = nil;
         NSUInteger count = [cmpt count];
+        NSURL *tmp = WBFSFindFolder(kTemporaryFolderType, kLocalDomain, true);
         while (count-- > 0) {
-          tmp = [tmp stringByAppendingPathComponent:[cmpt objectAtIndex:count]];
+          tmp = [tmp URLByAppendingPathComponent:[cmpt objectAtIndex:count]];
           if (!root)
             root = tmp;
-          [manager createDirectoryAtPath:tmp withIntermediateDirectories:NO attributes:nil error:NULL];
+          [manager createDirectoryAtURL:tmp withIntermediateDirectories:NO attributes:nil error:NULL];
         }
         
         if (![self installPlugIn:plugin into:tmp copy:YES]) {
           NSRunAlertPanel(@"The plugin was not installed", @"An error prevent plugin installation.", @"OK", nil, nil);
         } else {
           // tell finder to move root into path
-          OSStatus err = [self moveFile:root to:path copy:NO];
+          OSStatus err = [self moveFile:root to:url copy:NO];
           if (noErr != err && userCanceledErr != err) {
             NSRunAlertPanel(@"The plugin was not installed", @"An error prevent plugin installation.", @"OK", nil, nil);
           } else {
@@ -171,9 +173,8 @@ dispose:
       }
     }
   }
-  if (installed) {
-    return [NSURL fileURLWithPath:[location stringByAppendingPathComponent:[plugin lastPathComponent]]];
-  }
+  if (installed)
+    return [location URLByAppendingPathComponent:[plugin lastPathComponent]];
   return nil;
 }
 

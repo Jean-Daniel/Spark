@@ -34,8 +34,8 @@ NSString * const SparkApplicationDidChangeEnabledNotification = @"SparkApplicati
 @end
 
 @interface SparkApplication ()
-- (instancetype)initWithCoder:(NSCoder *)coder NS_DESIGNATED_INITIALIZER;
-- (instancetype)initWithSerializedValues:(NSDictionary *)plist NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithCoder:(NSCoder *)coder;
+- (instancetype)initWithSerializedValues:(NSDictionary *)plist;
 @end
 
 @implementation SparkApplication {

@@ -9,7 +9,6 @@
 #include "ITunesAESuite.h"
 
 #include <WonderBox/WBLSFunctions.h>
-#include <WonderBox/WBProcessFunctions.h>
 
 CFStringRef const kiTunesBundleIdentifier = CFSTR("com.apple.iTunes");
 
@@ -82,21 +81,7 @@ bail:
   return err;
 }
 
-bool iTunesIsRunning() {
-  pid_t itunes = WBProcessGetProcessIdentifierForBundleIdentifier(kiTunesBundleIdentifier);
-  return itunes > 0;
-}
-
 #pragma mark -
-#pragma mark Commands
-OSStatus iTunesLaunch(LSLaunchFlags flags, ProcessSerialNumber *psn) {
-  FSRef iTunes;
-  OSStatus err = WBLSGetApplicationForBundleIdentifier(kiTunesBundleIdentifier, &iTunes);
-  if (noErr == err) {
-    err = WBLSLaunchApplication(&iTunes, flags, psn);
-  }
-  return err;
-}
 
 #pragma mark iTunes Properties
 OSStatus iTunesGetPlayerState(ITunesState *state) {
