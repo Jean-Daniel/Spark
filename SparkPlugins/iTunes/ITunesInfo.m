@@ -454,7 +454,7 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
 	// artwork
 	if ([_ibArtwork superview] && !flag) {
 		if (ia_artWidth <= 0)	{
-			ia_artWidth = NSMaxX([_ibArtwork frame]) * WBWindowUserSpaceScaleFactor([self window]);
+			ia_artWidth = NSMaxX([_ibArtwork frame]);
 			ia_artOrigin = [_ibArtwork frame].origin;
 		}
 		/* adjust window frame */
