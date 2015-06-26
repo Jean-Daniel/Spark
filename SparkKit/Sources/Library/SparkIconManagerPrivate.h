@@ -27,9 +27,11 @@
 
 @end
 
-@interface SparkIconManager (SparkPrivate)
+@interface SparkIconManager ()
 
 - (_SparkIconEntry *)entryForObject:(SparkObject *)anObject;
 - (_SparkIconEntry *)entryForObjectType:(UInt8)type uid:(SparkUID)anUID;
+
+- (void)enumerateEntries:(uint8_t)type usingBlock:(void (^)(SparkUID uid, _SparkIconEntry *icon, BOOL *stop))block;
 
 @end

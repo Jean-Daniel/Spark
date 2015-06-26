@@ -8,6 +8,8 @@
 
 #import "SparkIconManagerPrivate.h"
 
+#import "SparkLibraryPrivate.h"
+
 #import <SparkKit/SparkList.h>
 #import <SparkKit/SparkAction.h>
 #import <SparkKit/SparkTrigger.h>
@@ -28,13 +30,13 @@ WB_INLINE
 uint8_t __SparkIconTypeForObject(SparkObject *object) {
   Class cls = [object class];
   if ([cls isSubclassOfClass:[SparkList class]])
-    return 0;
+    return kSparkListSet;
   if ([cls isSubclassOfClass:[SparkAction class]])
-    return 1;
+    return kSparkActionSet;
   if ([cls isSubclassOfClass:[SparkTrigger class]])
-    return 2;
+    return kSparkTriggerSet;
   if ([cls isSubclassOfClass:[SparkApplication class]])
-    return 3;
+    return kSparkApplicationSet;
   return kSparkInvalidType;
 }
 
@@ -56,7 +58,7 @@ uint8_t __SparkIconTypeForObject(SparkObject *object) {
 @implementation SparkIconManager {
 @private
   SparkLibrary *_library;
-  NSMutableDictionary *sp_cache[4];
+  NSMutableDictionary *sp_cache[kSparkSetCount];
 }
 
 - (id)initWithLibrary:(SparkLibrary *)aLibrary URL:(NSURL *)anURL {
@@ -69,14 +71,14 @@ uint8_t __SparkIconTypeForObject(SparkObject *object) {
         return nil;
     }
 
-    for (NSUInteger idx = 0; idx < 4; idx++) {
+    for (NSUInteger idx = 0; idx < kSparkSetCount; idx++) {
       NSURL *dir = [_URL URLByAppendingPathComponent:[NSString stringWithFormat:@"%lu", (unsigned long)idx]];
       if (![dir checkResourceIsReachableAndReturnError:NULL])
         if (![[NSFileManager defaultManager] createDirectoryAtURL:_URL withIntermediateDirectories:NO attributes:nil error:NULL])
           return nil;
     }
 
-    for (NSUInteger idx = 0; idx < 4; idx++)
+    for (NSUInteger idx = 0; idx < kSparkSetCount; idx++)
       sp_cache[idx] = [[NSMutableDictionary alloc] init];
     
     _library = aLibrary;
@@ -99,7 +101,7 @@ uint8_t __SparkIconTypeForObject(SparkObject *object) {
 
 - (void)dealloc {
   [_library.notificationCenter removeObserver:self];
-  for (NSUInteger idx = 0; idx < 4; idx++)
+  for (NSUInteger idx = 0; idx < kSparkSetCount; idx++)
     sp_cache[idx] = nil;
 }
 
@@ -114,14 +116,14 @@ uint8_t __SparkIconTypeForObject(SparkObject *object) {
         return;
     }
 
-    for (NSUInteger idx = 0; idx < 4; idx++) {
+    for (NSUInteger idx = 0; idx < kSparkSetCount; idx++) {
       NSURL *dir = [anURL URLByAppendingPathComponent:[NSString stringWithFormat:@"%lu", (unsigned long)idx]];
       if (![dir checkResourceIsReachableAndReturnError:NULL])
         if (![[NSFileManager defaultManager] createDirectoryAtURL:anURL withIntermediateDirectories:NO attributes:nil error:NULL])
           return;
     }
 
-    for (NSUInteger idx = 0; idx < 4; idx++)
+    for (NSUInteger idx = 0; idx < kSparkSetCount; idx++)
       sp_cache[idx] = [[NSMutableDictionary alloc] init];
 
     _URL = anURL;
@@ -197,12 +199,19 @@ uint8_t __SparkIconTypeForObject(SparkObject *object) {
 
 - (BOOL)synchronize {
   if (_URL) {
-    for (NSUInteger idx = 0; idx < 4; idx++)
+    for (NSUInteger idx = 0; idx < kSparkSetCount; idx++)
       [self synchronize:sp_cache[idx]];
   } else {
     SPXDebug(@"WARNING: sync icon cache with undefined path");
   }
   return YES;
+}
+
+- (void)enumerateEntries:(uint8_t)type usingBlock:(void (^)(SparkUID uid, _SparkIconEntry *entry, BOOL *stop))block {
+  if (type < 0 || type >= kSparkSetCount) return;
+  [sp_cache[type] enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+    block([key unsignedIntValue], obj, stop);
+  }];
 }
 
 #pragma mark Notifications

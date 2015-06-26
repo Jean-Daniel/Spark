@@ -406,14 +406,14 @@ bool SparkDebugEnabled = false;
   [NSApp runModalForWindow:[panel window]];
 }
 
-//- (void)openLibraryBackup:(NSString *)file {
-//  SELibraryDocument *doc = [[NSDocumentController sharedDocumentController] currentDocument];
-//  if (!doc) {
-//    NSBeep();
-//  } else {
-//    [doc revertToBackup:file];
-//  }
-//}
+- (void)openLibraryBackup:(NSURL *)url {
+  SELibraryDocument *doc = [[NSDocumentController sharedDocumentController] currentDocument];
+  if (!doc) {
+    NSBeep();
+  } else {
+    [doc revertToBackup:url];
+  }
+}
 
 - (BOOL)se_openDefaultLibrary {
   SELibraryDocument *doc = [[NSDocumentController sharedDocumentController] makeUntitledDocumentOfType:@"org.shadowlab.spark.library"];
@@ -437,7 +437,7 @@ bool SparkDebugEnabled = false;
       [self openPlugInBundle:filename];
     } else if ([[filename pathExtension] isEqualToString:kSparkLibraryFileExtension]) {
       SPXDebug(@"Try to open a Spark Library => considere it as a restore action");
-//      [self openLibraryBackup:filename];
+      [self openLibraryBackup:[NSURL fileURLWithPath:filename]];
     }
   } else {
     result = NO;

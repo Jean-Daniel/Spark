@@ -24,7 +24,7 @@
 - (void)makeEntryOfType:(SparkPlugIn *)type;
 - (void)editEntry:(SparkEntry *)anEntry;
 
-//- (void)revertToBackup:(NSString *)file;
+- (void)revertToBackup:(NSURL *)archive;
 
 - (NSUInteger)removeEntriesInArray:(NSArray *)entries;
 
