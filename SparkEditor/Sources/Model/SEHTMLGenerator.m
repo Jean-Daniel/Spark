@@ -83,11 +83,11 @@ NSComparisonResult _SETriggerCompare(SparkTrigger *t1, SparkTrigger *t2, void *c
   return SETriggerSortValue(t1) - SETriggerSortValue(t2);
 }
 
-- (BOOL)writeToFile:(NSString *)path atomically:(BOOL)useAuxiliaryFile error:(__autoreleasing NSError **)error {
-  NSString *file = [[NSBundle mainBundle] pathForResource:[self se_template] ofType:@"xml"];
-  NSAssert1(file, @"Missing resource file: %@.xml", [self se_template]);
+- (BOOL)writeToURL:(NSURL *)url atomically:(BOOL)useAuxiliaryFile error:(__autoreleasing NSError **)error {
+  NSURL *tplURL = [[NSBundle mainBundle] URLForResource:[self se_template] withExtension:@"xml"];
+  NSAssert1(tplURL, @"Missing resource file: %@.xml", [self se_template]);
   
-  WBTemplate *tpl = [[WBXMLTemplate alloc] initWithContentsOfFile:file encoding:NSUTF8StringEncoding];
+  WBTemplate *tpl = [[WBXMLTemplate alloc] initWithContentsOfURL:tplURL encoding:NSUTF8StringEncoding];
   [tpl setVariable:@"Spark Library" forKey:@"title"];
 
   SparkLibrary *library = [_document library];
@@ -143,7 +143,7 @@ NSComparisonResult _SETriggerCompare(SparkTrigger *t1, SparkTrigger *t2, void *c
     }
     
   }
-  [tpl writeToFile:path atomically:useAuxiliaryFile andReset:NO];
+  [tpl writeToURL:url atomically:useAuxiliaryFile andReset:NO];
   return YES;
 }
 

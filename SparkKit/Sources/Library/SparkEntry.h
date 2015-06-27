@@ -21,7 +21,6 @@ NSString * const SparkEntryDidAppendChildNotification;
 SPARK_EXPORT
 NSString * const SparkEntryWillRemoveChildNotification;
 
-@class SparkEntryManager;
 @class SparkAction, SparkTrigger, SparkApplication;
 
 SPARK_OBJC_EXPORT

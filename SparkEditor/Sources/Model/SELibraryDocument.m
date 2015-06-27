@@ -254,7 +254,7 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
                     [generator setStrikeDisabled:[ctrl strike]];
                     [generator setIncludesIcons:[ctrl includeIcons]];
                     /* generator setOptions */
-                    if (![generator writeToFile:[panel filename] atomically:YES error:&error]) {
+                    if (![generator writeToURL:[panel URL] atomically:YES error:&error]) {
                       if (error)
                         [self presentError:error];
                     }
@@ -292,15 +292,14 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
 
 /* Find equivalent trigger in library */
 - (SparkTrigger *)memberTrigger:(SparkTrigger *)aTrigger {
-  return [self.library.triggerSet objectWithUID:aTrigger.uid];
-//  SparkTrigger *trigger;
-//  NSEnumerator *triggers = [[[self library] triggerSet] objectEnumerator];
-//  while (trigger = [triggers nextObject]) {
-//    if ([trigger isEqualToTrigger:aTrigger]) {
-//      return trigger;
-//    }
-//  }
-//  return nil;
+  __block SparkTrigger *member = nil;
+  [self.library.triggerSet enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
+    if ([aTrigger isEqualToTrigger:obj]) {
+      member = obj;
+      *stop = YES;
+    }
+  }];
+  return member;
 }
 
 static 

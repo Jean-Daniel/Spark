@@ -40,20 +40,6 @@ uint8_t __SparkIconTypeForObject(SparkObject *object) {
   return kSparkInvalidType;
 }
 
-//SparkObjectSet *_SparkObjectSetForType(SparkLibrary *library, UInt8 type) {
-//  switch (type) {
-//    case 0:
-//      return [library listSet];
-//    case 1:
-//      return [library actionSet];
-//    case 2:
-//      return [library triggerSet];
-//    case 3:
-//      return [library applicationSet];
-//  }
-//  return nil;
-//}
-
 #pragma mark -
 @implementation SparkIconManager {
 @private

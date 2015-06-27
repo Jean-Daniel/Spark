@@ -17,7 +17,7 @@
 
 @property(nonatomic) NSInteger groupBy;
 
-- (BOOL)writeToFile:(NSString *)path atomically:(BOOL)useAuxiliaryFile error:(__autoreleasing NSError **)error;
+- (BOOL)writeToURL:(NSURL *)path atomically:(BOOL)useAuxiliaryFile error:(__autoreleasing NSError **)error;
 
 - (NSString *)imageTagForImage:(NSImage *)image size:(NSSize)size;
 
