@@ -137,11 +137,11 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
 }
 
 - (BOOL)containsObjectWithUID:(SparkUID)uid {
-  return [sp_objects objectForKey:@(uid)] != nil;
+  return sp_objects[@(uid)] != nil;
 }
 
 - (id)objectWithUID:(SparkUID)uid {
-  return [sp_objects objectForKey:@(uid)];
+  return sp_objects[@(uid)];
 }
 
 #pragma mark -
@@ -315,13 +315,13 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
   if (!plist)
     return NO;
   
-  NSUInteger version = [[plist objectForKey:kSparkObjectSetVersionKey] integerValue];
+  NSUInteger version = [plist[kSparkObjectSetVersionKey] integerValue];
   /* Update object set */
   SparkIconManager *icons = nil;
   if (version < kSparkObjectSetVersion_2_1 && SparkGetCurrentContext() == kSparkContext_Editor)
       icons = [[self library] iconManager];
   
-  NSArray *objects = [plist objectForKey:kSparkObjectSetObjectsKey];
+  NSArray *objects = plist[kSparkObjectSetObjectsKey];
   spx_error(objects, outError, [NSError errorWithDomain:NSPOSIXErrorDomain code:EINVAL userInfo:nil]);
   
   /* Disable undo */

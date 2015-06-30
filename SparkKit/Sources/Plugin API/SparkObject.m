@@ -74,27 +74,27 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
 #pragma mark -
 - (instancetype)initWithSerializedValues_:(NSDictionary *)plist {
   BOOL compat = NO;
-  NSString *name = [plist objectForKey:kSparkObjectNameKey];
+  NSString *name = plist[kSparkObjectNameKey];
   if (!name) {
     compat = YES;
-    name = [plist objectForKey:@"Name"];
+    name = plist[@"Name"];
   }
   
   NSImage *icon = nil;
   /* If editor, load icon */
   if (kSparkContext_Editor == SparkGetCurrentContext()) {
-    NSData *bitmap = [plist objectForKey:kSparkObjectIconKey];
+    NSData *bitmap = plist[kSparkObjectIconKey];
     if (!bitmap && compat)
-      bitmap = [plist objectForKey:@"Icon"];
+      bitmap = plist[@"Icon"];
     if (bitmap)
       icon = [[NSImage alloc] initWithData:bitmap];
   }
   self = [self initWithName:name icon:icon];
   
   if (self) {
-    NSNumber *value = [plist objectForKey:kSparkObjectUIDKey];
+    NSNumber *value = plist[kSparkObjectUIDKey];
     if (!value && compat)
-      value = [plist objectForKey:@"UID"];
+      value = plist[@"UID"];
     [self setUID:value ? (SparkUID)[value unsignedIntegerValue] : 0];
   }
   return self;

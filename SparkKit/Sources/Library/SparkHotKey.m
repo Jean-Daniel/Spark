@@ -133,9 +133,9 @@ bool SparkHotKeyFilter(HKKeycode code, HKModifier modifier) {
 
 - (id)initWithSerializedValues:(NSDictionary *)plist {
   if (self = [super initWithSerializedValues:plist]) {
-    NSNumber *value = [plist objectForKey:kHotKeyRawCodeKey];
+    NSNumber *value = plist[kHotKeyRawCodeKey];
     if (!value)
-      value = [plist objectForKey:@"KeyCode"];
+      value = plist[@"KeyCode"];
 
     [sp_hotkey setRawkey:value ? [value unsignedLongLongValue] : 0];
   }

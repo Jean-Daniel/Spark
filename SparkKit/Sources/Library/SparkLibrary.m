@@ -326,7 +326,7 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
   /* called after library loading, restore reserved objects status from preferences */
   SparkApplication *finder = [self applicationWithUID:kSparkApplicationFinderUID];
   if (finder) {
-    BOOL disabled = [[[self preferences] objectForKey:@"SparkFinderDisabled"] boolValue];
+    BOOL disabled = [[self preferences][@"SparkFinderDisabled"] boolValue];
     [finder setEnabled:!disabled];
   }
 }
@@ -425,7 +425,7 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
     SPXThrowException(NSInternalInconsistencyException, @"<%@ %p> is already loaded.", [self class], self);
   
   NSDictionary *wrappers = [fileWrapper fileWrappers];
-  NSData *data = [[wrappers objectForKey:@"Info.plist"] regularFileContents];
+  NSData *data = [wrappers[@"Info.plist"] regularFileContents];
   if (!data)
     return NO;
   
@@ -448,7 +448,7 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
 - (void)setInfo:(NSDictionary *)plist {
   if (plist) {
     /* Load uuid */
-    NSString *uuid = [plist objectForKey:@"UUID"];
+    NSString *uuid = plist[@"UUID"];
     if (uuid) {
       CFUUIDRef uuidref = CFUUIDCreateFromString(kCFAllocatorDefault, (CFStringRef)uuid);
       if (uuidref) {
@@ -463,7 +463,7 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
       _uuid = CFUUIDCreate(kCFAllocatorDefault);
     }
     /* Library version */
-    _version = [[plist objectForKey:@"Version"] integerValue];
+    _version = [plist[@"Version"] integerValue];
   } else {
     _version = kSparkLibraryCurrentVersion;
     
@@ -556,7 +556,7 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
   NSDictionary *files = [wrapper fileWrappers];
   
   /* load preferences */
-  NSData *data = [[files objectForKey:kSparkLibraryPreferencesFile] regularFileContents];
+  NSData *data = [files[kSparkLibraryPreferencesFile] regularFileContents];
   if (data) {
     NSDictionary *prefs = [NSPropertyListSerialization propertyListFromData:data 
                                                            mutabilityOption:NSPropertyListImmutable
@@ -567,28 +567,28 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
   }
   
   SparkObjectSet *set = self.actionSet;
-  ok = [set readFromFileWrapper:[files objectForKey:kSparkActionsFile] error:error];
+  ok = [set readFromFileWrapper:files[kSparkActionsFile] error:error];
   require(ok, bail);
   
   set = self.triggerSet;
-  ok = [set readFromFileWrapper:[files objectForKey:kSparkTriggersFile] error:error];
+  ok = [set readFromFileWrapper:files[kSparkTriggersFile] error:error];
   require(ok, bail);
   
   set = self.applicationSet;
-  ok = [set readFromFileWrapper:[files objectForKey:kSparkApplicationsFile] error:error];
+  ok = [set readFromFileWrapper:files[kSparkApplicationsFile] error:error];
   require(ok, bail);
 
   switch (_version) {
     case kSparkLibraryVersion_2_0:
       _relations = [[SparkEntryManager alloc] initWithLibrary:self];
-      ok = [_relations readFromFileWrapper:[files objectForKey:@"SparkEntries"] error:error];
+      ok = [_relations readFromFileWrapper:files[@"SparkEntries"] error:error];
       require(ok, bail);
       /* convert trigger list into entry list */
-      ok = [self importTriggerListFromFileWrapper:[files objectForKey:@"SparkLists"] error:error];
+      ok = [self importTriggerListFromFileWrapper:files[@"SparkLists"] error:error];
       require(ok, bail);
       break;
     case kSparkLibraryVersion_2_1: {
-      data = [[files objectForKey:kSparkArchiveFile] regularFileContents];
+      data = [files[kSparkArchiveFile] regularFileContents];
       SparkLibraryUnarchiver *reader = [[SparkLibraryUnarchiver alloc] initForReadingWithData:data library:self];
       /* decode entry manager */
       _relations = [reader decodeObjectForKey:@"entries"];
@@ -859,7 +859,7 @@ void SparkDumpTriggers(SparkLibrary *aLibrary) {
 }
 
 - (id)preferenceValueForKey:(NSString *)key {
-  return [[self preferences] objectForKey:key];
+  return [self preferences][key];
 }
 
 - (void)setPreferenceValue:(id)value forKey:(NSString *)key {
@@ -917,11 +917,11 @@ void SparkDumpTriggers(SparkLibrary *aLibrary) {
     if (!plist)
       return NO;
 
-    NSArray *lists = [plist objectForKey:@"SparkObjects"];
+    NSArray *lists = plist[@"SparkObjects"];
     for (NSDictionary *object in lists) {
-      SparkList *list = [SparkList objectWithName:[object objectForKey:@"SparkObjectName"]];
+      SparkList *list = [SparkList objectWithName:object[@"SparkObjectName"]];
       /* convert trigger into entry */
-      NSArray *uids = [object objectForKey:@"SparkObjects"];
+      NSArray *uids = object[@"SparkObjects"];
       for (id num in uids) {
         SparkUID uid = [num unsignedIntValue];
         SparkTrigger *trigger = [self triggerWithUID:uid];

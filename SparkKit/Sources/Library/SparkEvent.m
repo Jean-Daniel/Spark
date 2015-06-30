@@ -24,7 +24,7 @@ static NSString * const SparkCurrentEventKey = @"SparkCurrentEventKey";
 
 + (SparkEvent *)currentEvent {
   NSMutableDictionary *dict = [[NSThread currentThread] threadDictionary];
-  return [dict objectForKey:SparkCurrentEventKey];
+  return dict[SparkCurrentEventKey];
 }
 
 + (void)setCurrentEvent:(SparkEvent *)anEvent {

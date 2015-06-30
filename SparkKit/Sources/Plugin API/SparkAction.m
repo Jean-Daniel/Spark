@@ -105,19 +105,19 @@ static NSString * const kSparkActionDescriptionKey = @"SADescription";
 
 - (instancetype)initWithSerializedValues:(NSDictionary *)plist {
   if (self = [super initWithSerializedValues:plist]) {
-    NSNumber *version = [plist objectForKey:kSparkActionVersionKey];
+    NSNumber *version = plist[kSparkActionVersionKey];
     if (!version)
-      version = [plist objectForKey:@"Version"];
+      version = plist[@"Version"];
     [self setVersion:(version) ? [version integerValue] : 0];
     
-    NSString *description = [plist objectForKey:kSparkActionDescriptionKey];
+    NSString *description = plist[kSparkActionDescriptionKey];
     if (!description)
-      description = [plist objectForKey:@"ShortDescription"];
+      description = plist[@"ShortDescription"];
     [self setActionDescription:description];
     
     /* Update categorie */
     if (!self.category) {
-      [self setCategory:[plist objectForKey:kSparkActionCategorieKey]];
+      [self setCategory:plist[kSparkActionCategorieKey]];
     }
   }
   return self;

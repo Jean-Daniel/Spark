@@ -233,11 +233,11 @@ NSImage *SparkDaemonStatusIcon(BOOL status) {
 
 - (id)initWithSerializedValues:(NSDictionary *)plist {
   if (self = [super initWithSerializedValues:plist]) {
-    [self setAction:WBOSTypeFromString([plist objectForKey:@"SparkDaemonAction"])];
+    [self setAction:WBOSTypeFromString(plist[@"SparkDaemonAction"])];
     if (kSparkSDActionSwitchListStatus == _action || kSparkSDActionExchangeListStatus == _action)
-      _listUID = (SparkUID)[[plist objectForKey:@"SparkListUID"] integerValue];
+      _listUID = (SparkUID)[plist[@"SparkListUID"] integerValue];
     if (kSparkSDActionExchangeListStatus == _action)
-      _altListUID = (SparkUID)[[plist objectForKey:@"SparkSecondListUID"] integerValue];
+      _altListUID = (SparkUID)[plist[@"SparkSecondListUID"] integerValue];
     /* Update description */
     NSString *desc = _SparkActionDescription(self);
     if (desc)

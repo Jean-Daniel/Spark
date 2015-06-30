@@ -108,20 +108,30 @@ NSString * const SparkApplicationDidChangeEnabledNotification = @"SparkApplicati
 
 - (instancetype)initWithSerializedValues:(NSDictionary *)plist {
   if (self = [super initWithSerializedValues:plist]) {
-    _bundleIdentifier = [plist objectForKey:kSparkApplicationBundleIdentifierKey];
+    _bundleIdentifier = plist[kSparkApplicationBundleIdentifierKey];
     if (!_bundleIdentifier) {
-      WBApplication *app = [[WBApplication alloc] initWithSerializedValues:plist];
-      if (app) {
-        _bundleIdentifier = app.bundleIdentifier;
-        NSString *path = app.path;
-        if (path)
-          _URL = [NSURL fileURLWithPath:path];
+      // Import old style application.
+      _bundleIdentifier = plist[@"WBApplicationBundleID"];
+      OSType sign = [plist[@"WBApplicationSignature"] unsignedIntValue];
+      if (!_bundleIdentifier && sign) {
+        CFURLRef ref = NULL;
+        if (noErr == LSFindApplicationForInfo(sign, NULL, NULL, NULL, &ref)) {
+          _URL = SPXCFURLBridgingRelease(ref);
+          _bundleIdentifier = [NSBundle bundleWithURL:_URL].bundleIdentifier;
+        }
+      }
+      if (!_bundleIdentifier)
+        return nil;
+      if (!_URL) {
+        _URL = [[NSWorkspace sharedWorkspace] URLForApplicationWithBundleIdentifier:_bundleIdentifier];
+        if (!_URL)
+          return nil;
       }
     } else {
-      NSString *url = [plist objectForKey:kSparkApplicationURLKey];
+      NSString *url = plist[kSparkApplicationURLKey];
       _URL = url ? [NSURL URLWithString:url] : nil;
     }
-    [self decodeFlags:[[plist objectForKey:kSparkApplicationFlagsKey] integerValue]];
+    [self decodeFlags:[plist[kSparkApplicationFlagsKey] integerValue]];
     /* Update name and icon */
     if (_URL) {
       NSString *name = nil;
@@ -275,10 +285,6 @@ NSString * const SparkApplicationDidChangeEnabledNotification = @"SparkApplicati
   return nil;
 }
 
-- (WBApplication *)application {
-  return nil;
-}
-
 - (BOOL)isEditable {
   return NO;
 }
@@ -369,16 +375,16 @@ NSString * const kWBApplicationSignatureKey = @"WBApplicationSignature";
 - (id)initWithSerializedValues:(NSDictionary *)plist {
   if (self = [super init]) {
     /* Compatibility with Library version 1.0 */
-    if ([plist objectForKey:@"SparkApplication"] || [plist objectForKey:@"SKApplicationType"]) {
+    if (plist[@"SparkApplication"] || plist[@"SKApplicationType"]) {
       NSUInteger type = 0;
       NSString *identifier = nil;  
-      if ([plist objectForKey:@"SparkApplication"]) {
-        plist = [plist objectForKey:@"SparkApplication"];
-        identifier = [plist objectForKey:@"Identifier"];
-        type = [[plist objectForKey:@"IDType"] integerValue];
+      if (plist[@"SparkApplication"]) {
+        plist = plist[@"SparkApplication"];
+        identifier = plist[@"Identifier"];
+        type = [plist[@"IDType"] integerValue];
       } else {
-        identifier = [plist objectForKey:@"SKApplicationIdentifier"];
-        type = [[plist objectForKey:@"SKApplicationType"] integerValue];
+        identifier = plist[@"SKApplicationIdentifier"];
+        type = [plist[@"SKApplicationType"] integerValue];
       }
       
       switch (type) {
@@ -391,13 +397,13 @@ NSString * const kWBApplicationSignatureKey = @"WBApplicationSignature";
       }
     } else {
       /* Current version */
-      NSString *bundle = [plist objectForKey:kWBApplicationBundleIDKey];
-      OSType sign = [[plist objectForKey:kWBApplicationSignatureKey] unsignedIntValue];
+      NSString *bundle = plist[kWBApplicationBundleIDKey];
+      OSType sign = [plist[kWBApplicationSignatureKey] unsignedIntValue];
       
       [self setSignature:sign bundleIdentifier:bundle];
     }
     
-    [self setName:[plist objectForKey:kWBApplicationNameKey]];
+    [self setName:plist[kWBApplicationNameKey]];
   }
   return self;
 }
@@ -431,9 +437,9 @@ NSString * const kWBApplicationSignatureKey = @"WBApplicationSignature";
 
 - (instancetype)initWithSerializedValues:(NSDictionary *)plist {
   if (self = [super initWithSerializedValues:plist]) {
-    NSData *data = [plist objectForKey:@"WBApplicationAlias"];
+    NSData *data = plist[@"WBApplicationAlias"];
     if (!data)
-      data = [plist objectForKey:@"SKApplicationAlias"];
+      data = plist[@"SKApplicationAlias"];
     if (data) {
       WBAlias *alias = [[WBAlias alloc] initFromData:data];
       [self setAlias:alias];

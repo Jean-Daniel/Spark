@@ -29,7 +29,7 @@ BOOL SparkPlugInIsEnabled(NSString *identifier, BOOL *exists) {
     *exists = NO;
   NSDictionary *plugins = SparkPreferencesGetValue(@"SparkPlugIns", SparkPreferencesFramework);
   if (plugins) {
-    NSNumber *status = [plugins objectForKey:identifier];
+    NSNumber *status = plugins[identifier];
     if (status) {
       if (exists)
         *exists = YES;
@@ -61,7 +61,7 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
   for (identifier in plugins) {
     SparkPlugIn *plugin = [loader plugInForIdentifier:identifier];
     if (plugin) {
-      NSNumber *value = [plugins objectForKey:identifier];
+      NSNumber *value = plugins[identifier];
       if (value && [value respondsToSelector:@selector(boolValue)])
         [plugin setEnabled:[value boolValue]];
     }
@@ -78,7 +78,7 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
           for (NSString *identifier in plugins) {
             SparkPlugIn *plugin = [loader plugInForIdentifier:identifier];
             if (plugin) {
-              NSNumber *enabled = [plugins objectForKey:identifier];
+              NSNumber *enabled = plugins[identifier];
               if (enabled && [enabled respondsToSelector:@selector(boolValue)])
                 [plugin setEnabled:[enabled boolValue]];
             }

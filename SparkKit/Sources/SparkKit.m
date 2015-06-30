@@ -15,12 +15,9 @@
 #import <WonderBox/WBFunctions.h>
 #import <WonderBox/WBLSFunctions.h>
 
-NSString * const kSparkErrorDomain = @"org.shadowlab.SparkErrorDomain";
+NSString * const kSparkErrorDomain = @"com.xenonium.SparkErrorDomain";
 
 NSString * const kSparkFolderName = @"Spark";
-
-NSString * const kSparkEditorHFSCreator = @"Sprk";
-NSString * const kSparkDaemonHFSCreator = @"SprS";
 
 NSString * const kSparkKitBundleIdentifier = @"com.xenonium.SparkKit";
 

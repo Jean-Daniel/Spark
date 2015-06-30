@@ -59,9 +59,9 @@ CFDataRef _SparkPreferencesHandleMessage(CFMessagePortRef local, SInt32 msgid, C
                                                              mutabilityOption:NSPropertyListImmutable
                                                                        format:NULL errorDescription:NULL];
     if (request) {
-      NSString *key = [request objectForKey:@"key"];
-      SparkPreferencesDomain domain = [[request objectForKey:@"domain"] integerValue];
-      id value = [request objectForKey:@"value"];
+      NSString *key = request[@"key"];
+      SparkPreferencesDomain domain = [request[@"domain"] integerValue];
+      id value = request[@"value"];
       SparkPreferencesSetValue(key, value, domain);
     }
   }
@@ -307,8 +307,8 @@ void SparkPreferencesNotifyObservers(NSString *key, id value, SparkPreferencesDo
   NSCParameterAssert(key);
   NSMutableDictionary *table = _SparkPreferencesGetObservers(domain);
   if (table) {
-    __SparkPreferencesNotifyObservers([table objectForKey:key], key, value);
-    __SparkPreferencesNotifyObservers([table objectForKey:kSparkPreferencesWildcard], key, value);
+    __SparkPreferencesNotifyObservers(table[key], key, value);
+    __SparkPreferencesNotifyObservers(table[kSparkPreferencesWildcard], key, value);
   }
 }
 
@@ -322,7 +322,7 @@ void SparkPreferencesRegisterObserver(NSString *key, SparkPreferencesDomain doma
   if (!key)
     key = kSparkPreferencesWildcard;
 
-  NSMutableSet *observers = [table objectForKey:key];
+  NSMutableSet *observers = table[key];
   if (!observers) {
     observers = [NSMutableSet new];
     [table setObject:observers forKey:key];
@@ -351,7 +351,7 @@ void SparkPreferencesUnregisterObserver(NSString *key, SparkPreferencesDomain do
         __SparkPreferencesRemoveObserver(table, observers, observer, key);
       }
     } else {
-      __SparkPreferencesRemoveObserver(table, [table objectForKey:key], observer, key);
+      __SparkPreferencesRemoveObserver(table, table[key], observer, key);
     }
     /* Cleanup */
     if (![table count])
