@@ -20,8 +20,6 @@
 
 @interface Spark (SUSignatureVerifier) <SUSignatureVerifier>
 
-- (BOOL)verifyFileAtPath:(NSString *)aPath forItem:(SUAppcastItem *)anItem;
-
 @end
 
 @interface Spark (SparkleDelegate)

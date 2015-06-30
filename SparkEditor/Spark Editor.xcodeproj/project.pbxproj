@@ -119,8 +119,6 @@
 		98D526F70B199FE400C8425C /* SDVersion.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D526F60B199FE400C8425C /* SDVersion.h */; };
 		98D52B270B19A44A00C8425C /* SEApplicationView.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D52B170B19A44A00C8425C /* SEApplicationView.h */; };
 		98D52B280B19A44A00C8425C /* SEApplicationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B180B19A44A00C8425C /* SEApplicationView.m */; };
-		98D52B290B19A44A00C8425C /* SEBackgroundView.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D52B190B19A44A00C8425C /* SEBackgroundView.h */; };
-		98D52B2A0B19A44A00C8425C /* SEBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B1A0B19A44A00C8425C /* SEBackgroundView.m */; };
 		98D52B2B0B19A44A00C8425C /* SEHeaderCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D52B1B0B19A44A00C8425C /* SEHeaderCell.h */; };
 		98D52B2C0B19A44A00C8425C /* SEHeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B1C0B19A44A00C8425C /* SEHeaderCell.m */; };
 		98D52B2D0B19A44A00C8425C /* SEHotKeyTrap.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D52B1D0B19A44A00C8425C /* SEHotKeyTrap.h */; };
@@ -343,8 +341,6 @@
 		98D526F60B199FE400C8425C /* SDVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDVersion.h; path = ../SparkDaemon/Sources/SDVersion.h; sourceTree = SOURCE_ROOT; };
 		98D52B170B19A44A00C8425C /* SEApplicationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEApplicationView.h; sourceTree = "<group>"; };
 		98D52B180B19A44A00C8425C /* SEApplicationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEApplicationView.m; sourceTree = "<group>"; };
-		98D52B190B19A44A00C8425C /* SEBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEBackgroundView.h; sourceTree = "<group>"; };
-		98D52B1A0B19A44A00C8425C /* SEBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEBackgroundView.m; sourceTree = "<group>"; };
 		98D52B1B0B19A44A00C8425C /* SEHeaderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEHeaderCell.h; sourceTree = "<group>"; };
 		98D52B1C0B19A44A00C8425C /* SEHeaderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEHeaderCell.m; sourceTree = "<group>"; };
 		98D52B1D0B19A44A00C8425C /* SEHotKeyTrap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEHotKeyTrap.h; sourceTree = "<group>"; };
@@ -700,7 +696,6 @@
 				98D52B1E0B19A44A00C8425C /* SEHotKeyTrap.m */,
 				98D52B260B19A44A00C8425C /* SETriggerTable.m */,
 				98D52B180B19A44A00C8425C /* SEApplicationView.m */,
-				98D52B1A0B19A44A00C8425C /* SEBackgroundView.m */,
 			);
 			path = "HI Elements";
 			sourceTree = "<group>";
@@ -714,7 +709,6 @@
 				98D52B1D0B19A44A00C8425C /* SEHotKeyTrap.h */,
 				98D52B250B19A44A00C8425C /* SETriggerTable.h */,
 				98D52B170B19A44A00C8425C /* SEApplicationView.h */,
-				98D52B190B19A44A00C8425C /* SEBackgroundView.h */,
 			);
 			name = Headers;
 			sourceTree = "<group>";
@@ -824,7 +818,6 @@
 				98D526F40B199FC500C8425C /* SEServerConnection.h in Headers */,
 				98D526F70B199FE400C8425C /* SDVersion.h in Headers */,
 				98D52B270B19A44A00C8425C /* SEApplicationView.h in Headers */,
-				98D52B290B19A44A00C8425C /* SEBackgroundView.h in Headers */,
 				98D52B2B0B19A44A00C8425C /* SEHeaderCell.h in Headers */,
 				98D52B2D0B19A44A00C8425C /* SEHotKeyTrap.h in Headers */,
 				98D52B2F0B19A44A00C8425C /* SESplitView.h in Headers */,
@@ -985,7 +978,6 @@
 				98D526F30B199FC500C8425C /* SEScriptHandler.m in Sources */,
 				98D526F50B199FC500C8425C /* SEServerConnection.m in Sources */,
 				98D52B280B19A44A00C8425C /* SEApplicationView.m in Sources */,
-				98D52B2A0B19A44A00C8425C /* SEBackgroundView.m in Sources */,
 				98D52B2C0B19A44A00C8425C /* SEHeaderCell.m in Sources */,
 				98D52B2E0B19A44A00C8425C /* SEHotKeyTrap.m in Sources */,
 				98D52B300B19A44A00C8425C /* SESplitView.m in Sources */,

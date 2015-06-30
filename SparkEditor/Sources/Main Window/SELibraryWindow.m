@@ -12,7 +12,6 @@
 #import "SEEntryList.h"
 #import "SETableView.h"
 #import "SELibrarySource.h"
-#import "SEBackgroundView.h"
 #import "SELibraryDocument.h"
 #import "SEApplicationSource.h"
 
@@ -67,7 +66,6 @@
 - (void)windowDidLoad {
   [[self window] center];
   [[self window] setFrameAutosaveName:@"SparkMainWindow"];
-  [SEBackgroundView configureWindow:[self window]];
   [[self window] display];
 }
 

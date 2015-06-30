@@ -103,11 +103,9 @@
 		1B92D0E61707284800F40FCD /* WBXMLTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE4591D130F593500A6A133 /* WBXMLTemplate.m */; };
 		1B92D0E71707285300F40FCD /* WBTreeNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB987260D382C8B0074D18E /* WBTreeNode.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1B92D0E81707285700F40FCD /* WBTreeNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB987250D382C8B0074D18E /* WBTreeNode.m */; };
-		1B92D0E91707288300F40FCD /* WBCDSAFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B184C910ED07D41003E2346 /* WBCDSAFunctions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1B92D0EA1707288700F40FCD /* WBCDSAFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B184C900ED07D41003E2346 /* WBCDSAFunctions.c */; };
 		1B92D0EC170728A100F40FCD /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B92D0EB170728A100F40FCD /* Security.framework */; };
 		1B92D0ED170728C700F40FCD /* WBSecurityFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B184C990ED07D41003E2346 /* WBSecurityFunctions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1B92D0EE170728CB00F40FCD /* WBSecurityFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B184C980ED07D41003E2346 /* WBSecurityFunctions.c */; };
+		1B92D0EE170728CB00F40FCD /* WBSecurityFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1B184C980ED07D41003E2346 /* WBSecurityFunctions.cpp */; };
 		1B92D0F117072FA900F40FCD /* WBHeader.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1BE45942130F599600A6A133 /* WBHeader.tiff */; };
 		1B92D0F217072FA900F40FCD /* WBHeaderMenu.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1BE45943130F599600A6A133 /* WBHeaderMenu.tiff */; };
 		1B92D0F317072FA900F40FCD /* WBHeader-down.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1BE45941130F599600A6A133 /* WBHeader-down.tiff */; };
@@ -233,11 +231,9 @@
 		1B1774FA130F4C1900E0A389 /* WBIndexSetIterator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBIndexSetIterator.m; sourceTree = "<group>"; };
 		1B184C870ED07D0D003E2346 /* WBThreadPort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBThreadPort.h; sourceTree = "<group>"; };
 		1B184C880ED07D0D003E2346 /* WBThreadPort.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBThreadPort.m; sourceTree = "<group>"; };
-		1B184C900ED07D41003E2346 /* WBCDSAFunctions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WBCDSAFunctions.c; sourceTree = "<group>"; };
-		1B184C910ED07D41003E2346 /* WBCDSAFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBCDSAFunctions.h; sourceTree = "<group>"; };
 		1B184C940ED07D41003E2346 /* WBDigestFunctions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WBDigestFunctions.c; sourceTree = "<group>"; };
 		1B184C950ED07D41003E2346 /* WBDigestFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBDigestFunctions.h; sourceTree = "<group>"; };
-		1B184C980ED07D41003E2346 /* WBSecurityFunctions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WBSecurityFunctions.c; sourceTree = "<group>"; };
+		1B184C980ED07D41003E2346 /* WBSecurityFunctions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WBSecurityFunctions.cpp; sourceTree = "<group>"; };
 		1B184C990ED07D41003E2346 /* WBSecurityFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBSecurityFunctions.h; sourceTree = "<group>"; };
 		1B4D7BAF1706182E0048CE54 /* HotKeyToolKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HotKeyToolKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B5727E61B24827E003441B8 /* framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = framework.xcconfig; path = ../../hadron/xcconfigs/target/framework.xcconfig; sourceTree = "<group>"; };
@@ -549,12 +545,10 @@
 		1B184C8F0ED07D41003E2346 /* Security */ = {
 			isa = PBXGroup;
 			children = (
-				1B184C910ED07D41003E2346 /* WBCDSAFunctions.h */,
-				1B184C900ED07D41003E2346 /* WBCDSAFunctions.c */,
 				1B184C950ED07D41003E2346 /* WBDigestFunctions.h */,
 				1B184C940ED07D41003E2346 /* WBDigestFunctions.c */,
 				1B184C990ED07D41003E2346 /* WBSecurityFunctions.h */,
-				1B184C980ED07D41003E2346 /* WBSecurityFunctions.c */,
+				1B184C980ED07D41003E2346 /* WBSecurityFunctions.cpp */,
 			);
 			path = Security;
 			sourceTree = "<group>";
@@ -1008,7 +1002,6 @@
 				1B92D0E21707284000F40FCD /* WBTemplateParser.h in Headers */,
 				1B92D0E31707284000F40FCD /* WBXMLTemplate.h in Headers */,
 				1B92D0E71707285300F40FCD /* WBTreeNode.h in Headers */,
-				1B92D0E91707288300F40FCD /* WBCDSAFunctions.h in Headers */,
 				1B92D0ED170728C700F40FCD /* WBSecurityFunctions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1226,8 +1219,7 @@
 				1B92D0E51707284800F40FCD /* WBTemplateParser.m in Sources */,
 				1B92D0E61707284800F40FCD /* WBXMLTemplate.m in Sources */,
 				1B92D0E81707285700F40FCD /* WBTreeNode.m in Sources */,
-				1B92D0EA1707288700F40FCD /* WBCDSAFunctions.c in Sources */,
-				1B92D0EE170728CB00F40FCD /* WBSecurityFunctions.c in Sources */,
+				1B92D0EE170728CB00F40FCD /* WBSecurityFunctions.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

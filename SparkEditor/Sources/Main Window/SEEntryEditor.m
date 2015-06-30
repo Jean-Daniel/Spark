@@ -443,10 +443,6 @@
     pframe.origin.y -= sscale * delta.height;
     [window setFrame:pframe display:YES animate:YES];
     
-    /* bug in NSWindow */
-		if (WBSystemMinorVersion() == 10 && WBSystemMinorVersion() <= 4)
-			wframe.size.height += 22 / WBWindowUserSpaceScaleFactor(window);
-    
     /* Adjust window attributes */
     NSSize smax = wframe.size;
     NSUInteger mask = [se_view autoresizingMask];

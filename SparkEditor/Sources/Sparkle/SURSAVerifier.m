@@ -11,24 +11,16 @@
 #import <Security/Security.h>
 
 #import <WonderBox/WBFSFunctions.h>
-#import <WonderBox/WBCDSAFunctions.h>
 #import <WonderBox/WBSecurityFunctions.h>
 
 @implementation Spark (SUSignatureVerifier)
 
 static
-SecCertificateRef __SULoadCertificateAtURL(CFURLRef anURL) {
-  CFDataRef certData;
-  OSStatus err = noErr;
+SecCertificateRef __SULoadCertificateAtURL(NSURL *anURL) {
   SecCertificateRef cert = NULL;
-  if (anURL && CFURLCreateDataAndPropertiesFromResource(kCFAllocatorDefault, anURL, &certData, NULL, NULL, &err)) {
-    const CSSM_DATA cdata = { (CSSM_SIZE)CFDataGetLength(certData), (UInt8 *)CFDataGetBytePtr(certData) };
-    err = SecCertificateCreateFromData(&cdata, CSSM_CERT_X_509v3, CSSM_CERT_ENCODING_BER, &cert);
-    if (noErr != err)  // try DER if BER fail
-      err = SecCertificateCreateFromData(&cdata, CSSM_CERT_X_509v3, CSSM_CERT_ENCODING_DER, &cert);
-
-    CFRelease(certData);
-  }
+  NSData *certData = [NSData dataWithContentsOfURL:anURL];
+  if (certData)
+    cert = SecCertificateCreateWithData(kCFAllocatorDefault, SPXNSToCFData(certData));
   return cert;
 }
 
@@ -40,52 +32,54 @@ SecCertificateRef __SULoadCertificateAtURL(CFURLRef anURL) {
   return path ? [NSURL fileURLWithPath:path] : nil;
 }
 
+typedef struct {
+  CFTypeRef name;
+  size_t length;
+} SparkDigestAlgorithm;
+
 SPX_INLINE
-CSSM_ALGORITHMS __WBAlgorithmForSUAlgorithm(SUSignatureAlgorithm algo) {
-  switch (algo) {
-    default: return CSSM_ALGID_NONE;
-     /* RSA only */
-    case kSUSignatureSHA1WithRSA:
-      return CSSM_ALGID_SHA1WithRSA;
-    case kSUSignatureSHA224WithRSA:
-      return CSSM_ALGID_SHA224WithRSA;
-    case kSUSignatureSHA256WithRSA:
-      return CSSM_ALGID_SHA256WithRSA;
-    case kSUSignatureSHA384WithRSA:
-      return CSSM_ALGID_SHA384WithRSA;
-    case kSUSignatureSHA512WithRSA:
-      return CSSM_ALGID_SHA512WithRSA;
-  }
+SparkDigestAlgorithm __WBAlgorithmForSUAlgorithm(NSString *str) {
+  if (!str)
+    return (SparkDigestAlgorithm){ NULL, 0 };
+
+  const char *string = [[[str lowercaseString] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] UTF8String];
+  if (!string || strlen(string) == 0)
+    return (SparkDigestAlgorithm){ NULL, 0 };
+
+  if (0 == strcmp("sha1withrsa", string))
+    return (SparkDigestAlgorithm){ kSecDigestSHA1, 0 };
+  if (0 == strcmp("sha256withrsa", string))
+    return (SparkDigestAlgorithm){ kSecDigestSHA2, 256 };
+  if (0 == strcmp("sha512withrsa", string))
+    return (SparkDigestAlgorithm){ kSecDigestSHA2, 512 };
+  if (0 == strcmp("sha224withrsa", string))
+    return (SparkDigestAlgorithm){ kSecDigestSHA2, 224 };
+  if (0 == strcmp("sha384withrsa", string))
+    return (SparkDigestAlgorithm){ kSecDigestSHA2, 384 };
+
+  return (SparkDigestAlgorithm){ NULL, 0 };
 }
 
-- (BOOL)verifyFileAtPath:(NSString *)aPath forItem:(SUAppcastItem *)anItem {
+- (BOOL)verifyItem:(SUAppcastItem *)anItem atURL:(NSURL *)anURL {
   // Load certificat
-  const char *archPath = NULL;
-  @try {
-    archPath = [aPath safeFileSystemRepresentation];
-  } @catch (id) {}
-  if (!archPath) {
-    SPXLogError(@"Invalid archive path: %@", aPath);
-    return NO;
-  }
-
-  bool valid = false;
-  SecCertificateRef cert = __SULoadCertificateAtURL(SPXNSToCFURL([self updateCertificateURL]));
+  BOOL valid = NO;
+  SecCertificateRef cert = __SULoadCertificateAtURL([self updateCertificateURL]);
   if (cert) {
     // extract public key
     SecKeyRef pubKey = NULL;
     if (noErr == SecCertificateCopyPublicKey(cert, &pubKey)) {
       // check all supported signature (and stop at the first that works)
       for (SUItemSignature *sign in [anItem signatures]) {
-        NSData *data = [sign data];
-        CSSM_ALGORITHMS algo = __WBAlgorithmForSUAlgorithm([sign algorithm]);
-        if (data && CSSM_ALGID_NONE != algo) {
-          const CSSM_DATA signature = { [data length], (UInt8 *)[data bytes] };
-          CSSM_RETURN err = WBSecurityVerifyFileSignature(archPath, &signature, pubKey, algo, &valid);
-          if (noErr != err)
-            SPXLogWarning(@"Error while verifying archive signature: %s", WBCDSAGetErrorString(err));
-          // stop on first match
-          if (valid) break;
+        NSData *data = sign.data;
+        SparkDigestAlgorithm algo = __WBAlgorithmForSUAlgorithm([sign algorithm]);
+        if (data && algo.name) {
+          CFBooleanRef ok = WBSecurityVerifyFileSignature(SPXNSToCFURL(anURL), SPXNSToCFData(data), pubKey, algo.name, algo.length, NULL);
+          if (!ok || !CFBooleanGetValue(ok))
+            SPXLogWarning(@"Error while verifying archive signature");
+          else
+            // stop on first match
+            valid = YES;
+            break;
         }
       }
       CFRelease(pubKey);

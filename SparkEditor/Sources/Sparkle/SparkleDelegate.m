@@ -44,7 +44,7 @@
   return self;
 }
 
-- (id<SUSignatureVerifier>)signatureVerifierForUpdater:(SUUpdater *)updater {
+- (id<SUSignatureVerifier>)signatureVerifierForUpdater:(SUUpdater *)updater host:(SUHost *)anHost {
   return self;
 }
 
