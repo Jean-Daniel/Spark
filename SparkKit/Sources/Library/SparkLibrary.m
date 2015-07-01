@@ -222,7 +222,7 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
       [self setInfo:dict];
     }
     /* Update icon path */
-    if (_icons && ![_icons URL] && _url)
+    if (_icons && !_icons.URL && _url)
       _icons.URL = SparkLibraryIconFolder(self);
   }
 }

@@ -52,16 +52,18 @@ uint8_t __SparkIconTypeForObject(SparkObject *object) {
   if (self = [super init]) {
     _URL = anURL;
 
-    if (![_URL checkResourceIsReachableAndReturnError:NULL]) {
+    if (_URL && ![_URL checkResourceIsReachableAndReturnError:NULL]) {
       if (![[NSFileManager defaultManager] createDirectoryAtURL:_URL withIntermediateDirectories:YES attributes:nil error:NULL])
         return nil;
     }
 
     for (NSUInteger idx = 0; idx < kSparkSetCount; idx++) {
       NSURL *dir = [_URL URLByAppendingPathComponent:[NSString stringWithFormat:@"%lu", (unsigned long)idx]];
-      if (![dir checkResourceIsReachableAndReturnError:NULL])
-        if (![[NSFileManager defaultManager] createDirectoryAtURL:_URL withIntermediateDirectories:NO attributes:nil error:NULL])
+      if (dir && ![dir checkResourceIsReachableAndReturnError:NULL])
+        if (![[NSFileManager defaultManager] createDirectoryAtURL:dir withIntermediateDirectories:NO attributes:nil error:NULL]) {
+          SPXLogError(@"failed to create icons cache folder");
           return nil;
+        }
     }
 
     for (NSUInteger idx = 0; idx < kSparkSetCount; idx++)
@@ -105,7 +107,7 @@ uint8_t __SparkIconTypeForObject(SparkObject *object) {
     for (NSUInteger idx = 0; idx < kSparkSetCount; idx++) {
       NSURL *dir = [anURL URLByAppendingPathComponent:[NSString stringWithFormat:@"%lu", (unsigned long)idx]];
       if (![dir checkResourceIsReachableAndReturnError:NULL])
-        if (![[NSFileManager defaultManager] createDirectoryAtURL:anURL withIntermediateDirectories:NO attributes:nil error:NULL])
+        if (![[NSFileManager defaultManager] createDirectoryAtURL:dir withIntermediateDirectories:NO attributes:nil error:NULL])
           return;
     }
 
