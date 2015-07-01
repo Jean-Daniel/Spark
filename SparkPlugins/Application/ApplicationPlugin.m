@@ -8,10 +8,10 @@
 
 #import "ApplicationPlugin.h"
 
+#import <WonderBox/WBApplication.h>
 #import <WonderBox/WBImageView.h>
 #import <WonderBox/WBImageFunctions.h>
 #import <WonderBox/NSImage+WonderBox.h>
-#import <WonderBox/WBAliasedApplication.h>
 
 @implementation ApplicationPlugin {
 @private

@@ -333,9 +333,15 @@ NSURL *_iTunesGetLibraryPathFromPreferences(Boolean compat) {
                                           kCFPreferencesCurrentUser,
                                           kCFPreferencesAnyHost);
   if (data) {
-    WBAlias *alias = [[WBAlias alloc] initFromData:SPXCFDataBridgingRelease(data)];
-    if (alias)
-      path = [[alias URL] URLByAppendingPathComponent:compat ? @"iTunes Music Library.xml" : @"iTunes Library.xml"];
+    CFDataRef bookmark = CFURLCreateBookmarkDataFromAliasRecord(kCFAllocatorDefault, data);
+    if (bookmark) {
+      CFURLRef url = CFURLCreateByResolvingBookmarkData(kCFAllocatorDefault, bookmark, kCFURLBookmarkResolutionWithoutUIMask | kCFURLBookmarkResolutionWithoutMountingMask, NULL, NULL, NULL, NULL);
+      if (url) {
+        path = SPXCFURLBridgingRelease(CFURLCreateCopyAppendingPathComponent(kCFAllocatorDefault, url, compat ? CFSTR("iTunes Music Library.xml") : CFSTR("iTunes Library.xml"), false));
+        CFRelease(url);
+      }
+      CFRelease(bookmark);
+    }
   }
   return path;
 }

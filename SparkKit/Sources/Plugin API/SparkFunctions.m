@@ -145,9 +145,9 @@ void SparkNotificationDisplay(NSView *view, CGFloat delay) {
 }
 
 void SparkNotificationDisplayIcon(IconRef icon, CGFloat delay) {
-  WBIconView *view = _SparkNotificationSharedIconView();
-  [view setIconRef:icon];
-  SparkNotificationDisplay(view, delay);
+  NSImage *image = [[NSImage alloc] initWithIconRef:icon];
+  if (image)
+    SparkNotificationDisplayImage(image, delay);
 }
 
 void SparkNotificationDisplayImage(NSImage *anImage, CGFloat delay) {
@@ -156,8 +156,8 @@ void SparkNotificationDisplayImage(NSImage *anImage, CGFloat delay) {
   SparkNotificationDisplay(view, delay);
 }
 
-void SparkNotificationDisplaySystemIcon(OSType icon, CGFloat delay) {
-  WBIconView *view = _SparkNotificationSharedIconView();
-  [view setSystemIcon:icon];
-  SparkNotificationDisplay(view, delay);
-}
+//void SparkNotificationDisplaySystemIcon(OSType icon, CGFloat delay) {
+//  WBIconView *view = _SparkNotificationSharedIconView();
+//  [view setSystemIcon:icon];
+//  SparkNotificationDisplay(view, delay);
+//}

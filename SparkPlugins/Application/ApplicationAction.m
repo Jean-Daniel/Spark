@@ -205,10 +205,10 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
   NSData *data = [plist objectForKey:@"App Alias"];
   if (data) {
     alias = [[WBAlias alloc] initFromData:data];
-    _application = [[WBAliasedApplication alloc] initWithAlias:alias];
+    _application = [[WBApplication alloc] initWithPath:alias.path];
   }
   if (!_application) {
-    _application = [[WBAliasedApplication alloc] init];
+    _application = [[WBApplication alloc] init];
     OSType sign = [[plist objectForKey:@"App Sign"] intValue];
     if (sign) {
       [_application setSignature:sign];
@@ -249,7 +249,7 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
         case kApplicationHideOther:
           break;
         default: {
-          _application = [[WBAliasedApplication alloc] initWithSerializedValues:plist];
+          _application = [[WBApplication alloc] initWithSerializedValues:plist];
         }
       }
     }
@@ -421,7 +421,7 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
 }
 - (void)setPath:(NSString *)path {
   if (!_application && path)
-    _application = [[WBAliasedApplication alloc] initWithPath:path];
+    _application = [[WBApplication alloc] initWithPath:path];
   else if (path)
     [_application setPath:path];
   else if (_application) {

@@ -20,7 +20,8 @@
 
 static NSString * const kDocumentActionURLKey = @"DocumentURL";
 static NSString * const kDocumentActionKey = @"DocumentAction";
-static NSString * const kDocumentActionAliasKey = @"DocumentAlias";
+static NSString * const kDocumentActionBookmarkKey = @"DocumentBookmark";
+
 /* NSCoding only */
 static NSString * const kDocumentActionApplicationKey = @"DocumentApplication";
 
@@ -42,7 +43,7 @@ static NSString * const kDocumentActionApplicationKey = @"DocumentApplication";
   if (_URL)
     [coder encodeObject:_URL forKey:kDocumentActionURLKey];
   if (_document)
-    [coder encodeObject:_document forKey:kDocumentActionAliasKey];
+    [coder encodeObject:_document forKey:kDocumentActionBookmarkKey];
   if (_application)
     [coder encodeObject:_application forKey:kDocumentActionApplicationKey];
   return;
@@ -52,7 +53,7 @@ static NSString * const kDocumentActionApplicationKey = @"DocumentApplication";
   if (self = [super initWithCoder:coder]) {
     _action = [coder decodeIntForKey:kDocumentActionKey];
     _URL = [coder decodeObjectForKey:kDocumentActionURLKey];
-    _document = [coder decodeObjectForKey:kDocumentActionAliasKey];
+    _document = [coder decodeObjectForKey:kDocumentActionBookmarkKey];
     _application = [coder decodeObjectForKey:kDocumentActionApplicationKey];
   }
   return self;
@@ -107,7 +108,7 @@ OSType _DocumentActionFromFlag(int flag) {
         url = app.URL;
       }
       if (url) {
-        _application = [[WBAliasedApplication alloc] initWithPath:[url path]];
+        _application = [[WBApplication alloc] initWithPath:[url path]];
       }
     }
   }
@@ -128,13 +129,16 @@ OSType _DocumentActionFromFlag(int flag) {
       [self setAction:WBOSTypeFromString([plist objectForKey:kDocumentActionKey])];
       
       if (DocumentActionNeedDocument(_action)) {
-        NSData *data = [plist objectForKey:kDocumentActionAliasKey];
-        if (data)
+        NSData *data = plist[kDocumentActionBookmarkKey];
+        if (data) {
+          _document = [[WBAlias alloc] initFromBookmarkData:data];
+        } else if ((data = plist[@"DocumentAlias"])) {
           _document = [[WBAlias alloc] initFromData:data];
+        }
       }
       
       if (DocumentActionNeedApplication(_action)) {
-        _application = [[WBAliasedApplication alloc] initWithSerializedValues:plist];
+        _application = [[WBApplication alloc] initWithSerializedValues:plist];
       }
       
       if (_action == kDocumentActionOpenURL) {
@@ -156,7 +160,7 @@ OSType _DocumentActionFromFlag(int flag) {
     if (DocumentActionNeedDocument(_action)) {
       NSData *data = [_document data];
       if (data) {
-        [plist setObject:data forKey:kDocumentActionAliasKey];
+        [plist setObject:data forKey:kDocumentActionBookmarkKey];
       } else {
         SPXDebug(@"Invalid document alias");
         return NO;
@@ -182,7 +186,7 @@ OSType _DocumentActionFromFlag(int flag) {
 
 - (SparkAlert *)actionDidLoad {
   if (DocumentActionNeedDocument(_action)) {
-    if (![[self document] path]) {
+    if (![[self document] URL]) {
       //Alert Doc invalide
       return [SparkAlert alertWithMessageText:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"INVALID_DOCUMENT_ALERT", nil, 
                                                                                                             kDocumentActionBundle,
@@ -232,10 +236,10 @@ OSType _DocumentActionFromFlag(int flag) {
     }
       break;
     case kDocumentActionReveal: {
-      AliasHandle alias = [[self document] aliasHandle];
+      NSData *alias = [self document].data;
       if (alias) {
         AEDesc desc = WBAEEmptyDesc();
-        OSStatus err = WBAECreateDescFromAlias(alias, &desc);
+        OSStatus err = WBAECreateDescFromBookmarkData(SPXNSToCFData(alias), &desc);
         if (noErr == err) {
           err = WBAEFinderRevealItem(&desc, TRUE);
           WBAEDisposeDesc(&desc);
@@ -335,7 +339,7 @@ OSType _DocumentActionFromFlag(int flag) {
 
 - (void)setApplicationPath:(NSString *)path {
   if (path)
-    [self setApplication:[WBAliasedApplication applicationWithPath:path]];
+    [self setApplication:[WBApplication applicationWithPath:path]];
   else
     [self setApplication:nil];
 }

@@ -35,7 +35,8 @@ typedef struct _ApplicationVisualSetting {
   BOOL activation;
 } ApplicationVisualSetting;
 
-@class WBAliasedApplication;
+@class WBApplication;
+
 @interface ApplicationAction : SparkAction <NSCoding, NSCopying>
 
 + (void)getSharedSettings:(ApplicationVisualSetting *)settings;
@@ -56,7 +57,7 @@ typedef struct _ApplicationVisualSetting {
 
 @property(nonatomic) ApplicationActionType action;
 
-@property(nonatomic, readonly) WBAliasedApplication * application;
+@property(nonatomic, readonly) WBApplication *application;
 
 - (void)launchApplication;
 - (void)quitApplication;

@@ -61,8 +61,8 @@ SPARK_EXPORT
 void SparkNotificationDisplayImage(NSImage *anImage, CGFloat delay);
 
 /* See <HIServices/Icons.h> for possible values */
-SPARK_EXPORT
-void SparkNotificationDisplaySystemIcon(OSType icon, CGFloat delay);
+//SPARK_EXPORT
+//void SparkNotificationDisplaySystemIcon(OSType icon, CGFloat delay);
 
 /* Private notifications */
 SPARK_EXPORT

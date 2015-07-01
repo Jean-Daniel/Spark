@@ -76,16 +76,8 @@
 @end
 
 #import <WonderBox/WBApplication.h>
-#import <WonderBox/WBAliasedApplication.h>
 
 @interface WBApplication (SparkSerialization)
-
-- (BOOL)serialize:(NSMutableDictionary *)plist;
-- (id)initWithSerializedValues:(NSDictionary *)plist;
-
-@end
-
-@interface WBAliasedApplication (SparkSerialization)
 
 - (BOOL)serialize:(NSMutableDictionary *)plist;
 - (id)initWithSerializedValues:(NSDictionary *)plist;

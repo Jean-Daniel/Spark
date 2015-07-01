@@ -11,6 +11,7 @@
 
 #import <OSAKit/OSAKit.h>
 
+#import <WonderBox/WBAlias.h>
 #import <WonderBox/WBAEFunctions.h>
 #import <WonderBox/WBLSFunctions.h>
 
@@ -21,14 +22,15 @@ enum {
 
 @implementation AppleScriptActionPlugin
 
-- (void)loadSparkAction:(id)sparkAction toEdit:(BOOL)edit {
-  id value;
+- (void)loadSparkAction:(AppleScriptAction *)sparkAction toEdit:(BOOL)edit {
+  WBAlias *alias;
+  NSString *source;
   [[ibScriptController scriptView] setSource:@""];
-  if ((value = [sparkAction scriptAlias])) {
-    [self setScriptFile:[value path]];
+  if ((alias = sparkAction.scriptBookmark)) {
+    [self setScriptFile:alias.path];
     [self setValue:@(kAppleScriptFileTab) forKey:@"selectedTab"];
-  } else if ((value = [sparkAction scriptSource])) {
-    [[ibScriptController scriptView] setSource:value];
+  } else if ((source = sparkAction.scriptSource)) {
+    [[ibScriptController scriptView] setSource:source];
     [ibScriptController compileScript:nil];
   }
 }

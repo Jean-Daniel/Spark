@@ -14,7 +14,7 @@
 #import <WonderBox/NSImage+WonderBox.h>
 
 #import <WonderBox/WBAlias.h>
-#import <WonderBox/WBAliasedApplication.h>
+#import <WonderBox/WBApplication.h>
 
 @implementation DocumentActionPlugin
 

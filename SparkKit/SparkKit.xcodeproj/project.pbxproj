@@ -116,8 +116,6 @@
 		1B95F378170619D000392CD7 /* WBProcessFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316600D38138B005C3FB2 /* WBProcessFunctions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1B95F379170619E000392CD7 /* WBApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316340D38138B005C3FB2 /* WBApplication.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1B95F37A170619E000392CD7 /* WBApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316350D38138B005C3FB2 /* WBApplication.m */; };
-		1B95F37B170619E000392CD7 /* WBAliasedApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316320D38138B005C3FB2 /* WBAliasedApplication.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1B95F37C170619E000392CD7 /* WBAliasedApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316330D38138B005C3FB2 /* WBAliasedApplication.m */; };
 		1B95F37D17061A1500392CD7 /* WBFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BCDCA941035919B00EAD9FE /* WBFunctions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1B95F37E17061A1900392CD7 /* WBFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BCDCA951035919B00EAD9FE /* WBFunctions.m */; };
 		1B95F37F17061A2400392CD7 /* WBLSFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316590D38138B005C3FB2 /* WBLSFunctions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -327,8 +325,6 @@
 		1BCDCBF31035970400EAD9FE /* WBInterpolationFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBInterpolationFunction.m; sourceTree = "<group>"; };
 		1BE316300D38138B005C3FB2 /* WBAlias.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBAlias.h; sourceTree = "<group>"; };
 		1BE316310D38138B005C3FB2 /* WBAlias.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBAlias.m; sourceTree = "<group>"; };
-		1BE316320D38138B005C3FB2 /* WBAliasedApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBAliasedApplication.h; sourceTree = "<group>"; };
-		1BE316330D38138B005C3FB2 /* WBAliasedApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBAliasedApplication.m; sourceTree = "<group>"; };
 		1BE316340D38138B005C3FB2 /* WBApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBApplication.h; sourceTree = "<group>"; };
 		1BE316350D38138B005C3FB2 /* WBApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBApplication.m; sourceTree = "<group>"; };
 		1BE3163A0D38138B005C3FB2 /* WBPluginLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBPluginLoader.h; sourceTree = "<group>"; };
@@ -699,8 +695,6 @@
 				1BB987250D382C8B0074D18E /* WBTreeNode.m */,
 				1BE316340D38138B005C3FB2 /* WBApplication.h */,
 				1BE316350D38138B005C3FB2 /* WBApplication.m */,
-				1BE316320D38138B005C3FB2 /* WBAliasedApplication.h */,
-				1BE316330D38138B005C3FB2 /* WBAliasedApplication.m */,
 				1B17700C130F42D800E0A389 /* WBEnumerator.h */,
 				1B17700D130F42D800E0A389 /* WBEnumerator.m */,
 				1BCDCBF21035970400EAD9FE /* WBInterpolationFunction.h */,
@@ -722,8 +716,8 @@
 				1BCDCA951035919B00EAD9FE /* WBFunctions.m */,
 				1B5D8C340EE2FB1E00BD1EAF /* WBGeometry.h */,
 				1B5D8C350EE2FB1E00BD1EAF /* WBGeometry.m */,
-				1BE316470D38138B005C3FB2 /* WBAEFunctions.mm */,
 				1BE316480D38138B005C3FB2 /* WBAEFunctions.h */,
+				1BE316470D38138B005C3FB2 /* WBAEFunctions.mm */,
 				1BE3164B0D38138B005C3FB2 /* WBCGFunctions.h */,
 				1BE3164C0D38138B005C3FB2 /* WBCGFunctions.mm */,
 				1BE316510D38138B005C3FB2 /* WBFSFunctions.h */,
@@ -952,7 +946,6 @@
 				1BCB8F941706124600CC8C3C /* WBBase.h in Headers */,
 				1B95F378170619D000392CD7 /* WBProcessFunctions.h in Headers */,
 				1B95F379170619E000392CD7 /* WBApplication.h in Headers */,
-				1B95F37B170619E000392CD7 /* WBAliasedApplication.h in Headers */,
 				1B95F37D17061A1500392CD7 /* WBFunctions.h in Headers */,
 				1B95F37F17061A2400392CD7 /* WBLSFunctions.h in Headers */,
 				1B95F38117061A3200392CD7 /* WBAlias.h in Headers */,
@@ -1171,7 +1164,6 @@
 			files = (
 				1B95F377170619D000392CD7 /* WBProcessFunctions.c in Sources */,
 				1B95F37A170619E000392CD7 /* WBApplication.m in Sources */,
-				1B95F37C170619E000392CD7 /* WBAliasedApplication.m in Sources */,
 				1B95F37E17061A1900392CD7 /* WBFunctions.m in Sources */,
 				1B95F38017061A2400392CD7 /* WBLSFunctions.mm in Sources */,
 				1B95F38217061A3200392CD7 /* WBAlias.m in Sources */,

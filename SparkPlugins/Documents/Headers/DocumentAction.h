@@ -20,7 +20,7 @@ typedef NS_ENUM(uint32_t, DocumentActionType) {
 #define kDocumentActionBundleIdentifier @"org.shadowlab.spark.action.document"
 #define kDocumentActionBundle		    [NSBundle bundleWithIdentifier:kDocumentActionBundleIdentifier]
 
-@class WBAlias, WBAliasedApplication;
+@class WBAlias, WBApplication;
 @interface DocumentAction : SparkAction <NSCoding, NSCopying>
 
 - (void)setDocumentPath:(NSString *)path;
@@ -30,7 +30,7 @@ typedef NS_ENUM(uint32_t, DocumentActionType) {
 
 @property(nonatomic, retain) NSString *URL;
 @property(nonatomic, retain) WBAlias *document;
-@property(nonatomic, retain) WBAliasedApplication *application;
+@property(nonatomic, retain) WBApplication *application;
 
 - (void)openSelection;
 

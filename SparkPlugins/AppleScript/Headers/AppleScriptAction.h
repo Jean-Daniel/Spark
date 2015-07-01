@@ -10,13 +10,13 @@
 
 #define kASActionBundleIdentifier   @"org.shadowlab.spark.action.applescript"
 #define AppleScriptActionBundle		[NSBundle bundleWithIdentifier:kASActionBundleIdentifier]
-
 @class WBAlias;
+
 @interface AppleScriptAction : SparkAction <NSCoding, NSCopying>
 
 @property(nonatomic, copy) NSString *file;
 
-@property(nonatomic, retain) WBAlias *scriptAlias;
+@property(nonatomic, retain) WBAlias *scriptBookmark;
 
 @property(nonatomic, copy) NSString *scriptSource;
 

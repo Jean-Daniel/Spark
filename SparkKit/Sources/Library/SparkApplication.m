@@ -10,7 +10,6 @@
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkPrivate.h>
 
-#import <WonderBox/WBAlias.h>
 #import <WonderBox/WBFunctions.h>
 #import <WonderBox/WBLSFunctions.h>
 #import <WonderBox/NSImage+WonderBox.h>
@@ -422,31 +421,3 @@ NSString * const kWBApplicationSignatureKey = @"WBApplicationSignature";
 }
 
 @end
-
-@implementation WBAliasedApplication (SparkSerialization)
-
-- (BOOL)serialize:(NSMutableDictionary *)plist {
-  if ([super serialize:plist]) {
-    NSData *alias = [[self alias] data];
-    if (alias)
-      [plist setObject:alias forKey:@"WBApplicationAlias"];
-    return YES;
-  }
-  return NO;
-}
-
-- (instancetype)initWithSerializedValues:(NSDictionary *)plist {
-  if (self = [super initWithSerializedValues:plist]) {
-    NSData *data = plist[@"WBApplicationAlias"];
-    if (!data)
-      data = plist[@"SKApplicationAlias"];
-    if (data) {
-      WBAlias *alias = [[WBAlias alloc] initFromData:data];
-      [self setAlias:alias];
-    }
-  }
-  return self;
-}
-
-@end
-

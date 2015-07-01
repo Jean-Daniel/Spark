@@ -28,15 +28,15 @@ static NSString * const kOSAScriptActionRepeatInterval = @"OSAScriptRepeatInterv
 #pragma mark Protocols Implementation
 - (id)copyWithZone:(NSZone *)zone {
   AppleScriptAction* copy = [super copyWithZone:zone];
-  copy->_scriptAlias = [_scriptAlias copy];
+  copy->_scriptBookmark = [_scriptBookmark copy];
   copy->as_script = [as_script copy];
   return copy;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
-  if (_scriptAlias)
-    [coder encodeObject:_scriptAlias forKey:kOSAScriptActionDataKey];
+  if (_scriptBookmark)
+    [coder encodeObject:_scriptBookmark forKey:kOSAScriptActionDataKey];
   if (as_script) 
     [coder encodeObject:[as_script source] forKey:kOSAScriptActionSourceKey];
   
@@ -45,7 +45,7 @@ static NSString * const kOSAScriptActionRepeatInterval = @"OSAScriptRepeatInterv
 
 - (id)initWithCoder:(NSCoder *)coder {
   if (self = [super initWithCoder:coder]) {
-    _scriptAlias = [coder decodeObjectForKey:kOSAScriptActionDataKey];
+    _scriptBookmark = [coder decodeObjectForKey:kOSAScriptActionDataKey];
     NSString *src = [coder decodeObjectForKey:kOSAScriptActionSourceKey];
     if (nil != src)
       as_script = [[OSAScript alloc] initWithSource:src];
@@ -65,16 +65,16 @@ static NSString * const kOSAScriptActionRepeatInterval = @"OSAScriptRepeatInterv
 - (void)initFromOldPropertyList:(NSDictionary *)plist {
   BOOL file = [[plist objectForKey:@"Script File"] boolValue];
   if (file) {
-    WBAlias *alias = [[WBAlias alloc] initFromData:[plist objectForKey:@"Script Data"]];
-    [self setScriptAlias:alias];
+    NSData *alias = plist[@"Script Data"];
+    if (alias)
+      _scriptBookmark = [WBAlias aliasFromData:alias];
   } else {
-    NSString *source = [[NSString alloc] initWithData:[plist objectForKey:@"Script Data"]
+    NSString *source = [[NSString alloc] initWithData:plist[@"Script Data"]
                                              encoding:NSUTF8StringEncoding];
-    [self setScriptSource:source];
+    self.scriptSource = source;
   }
-  if (![self shouldSaveIcon]) {
-    [self setIcon:nil];
-  }
+  if (![self shouldSaveIcon])
+    self.icon = nil;
 }
 
 - (id)initWithSerializedValues:(NSDictionary *)plist {
@@ -91,9 +91,10 @@ static NSString * const kOSAScriptActionRepeatInterval = @"OSAScriptRepeatInterv
           [self setScriptSource:src];
         }
           break;
-        case 'file': {
-          [self setScriptAlias:[WBAlias aliasFromData:data]];
-        }
+        case 'file':
+          _scriptBookmark = [WBAlias aliasFromData:data];
+        case 'bokm':
+          _scriptBookmark = [WBAlias aliasFromBookmarkData:data];
           break;
       }
       NSNumber *repeat = [plist objectForKey:kOSAScriptActionRepeatInterval];
@@ -113,13 +114,10 @@ static NSString * const kOSAScriptActionRepeatInterval = @"OSAScriptRepeatInterv
     if (as_repeat > 0)
       [plist setObject:@(as_repeat) forKey:kOSAScriptActionRepeatInterval];
     
-    if ([self scriptAlias]) {
-      NSData *data = [[self scriptAlias] data];
-      if (data) {
-        [plist setObject:WBStringForOSType('file') forKey:kOSAScriptActionTypeKey];
-        [plist setObject:data forKey:kOSAScriptActionDataKey];
-        return YES;
-      }
+    if (_scriptBookmark) {
+      [plist setObject:WBStringForOSType('bokm') forKey:kOSAScriptActionTypeKey];
+      [plist setObject:_scriptBookmark.data forKey:kOSAScriptActionDataKey];
+      return YES;
     } else if ([self scriptSource]) {
       NSData *data = [[self scriptSource] dataUsingEncoding:NSUTF8StringEncoding];
       if (data) {
@@ -188,14 +186,13 @@ static NSString * const kOSAScriptActionRepeatInterval = @"OSAScriptRepeatInterv
 }
 
 - (NSString *)file {
-  return [[self scriptAlias] path];
+  return _scriptBookmark.path;
 }
 - (void)setFile:(NSString *)aFile {
   if (aFile != nil) {
-    WBAlias *alias = [[WBAlias alloc] initWithPath:aFile];
-    [self setScriptAlias:alias];
+    _scriptBookmark = [WBAlias aliasWithURL:[NSURL fileURLWithPath:aFile]];
   } else {
-    [self setScriptAlias:nil];
+    _scriptBookmark = nil;
   }
 }
 
