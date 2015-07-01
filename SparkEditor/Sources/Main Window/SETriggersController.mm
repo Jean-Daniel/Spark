@@ -25,7 +25,6 @@
 #import <SparkKit/SparkEntryManager.h>
 
 #import <WonderBox/WBObjCRuntime.h>
-#import <WonderBox/WBIndexSetIterator.h>
 #import <WonderBox/WBImageAndTextCell.h>
 #import <WonderBox/NSArrayController+WonderBox.h>
 
@@ -124,8 +123,8 @@ NSString * sSEHiddenPluggedObserverKey = nil;
 - (void)awakeFromNib {
   [self setFilterFunction:_SEEntryFilter context:nil];
   
-  [uiTable setTarget:self];
-  [uiTable setDoubleAction:@selector(doubleAction:)];
+  uiTable.target = self;
+  uiTable.doubleAction = @selector(doubleAction:);
   
   [uiTable setSortDescriptors:gSortByNameDescriptors];
   
@@ -195,12 +194,12 @@ NSString * sSEHiddenPluggedObserverKey = nil;
 
 #pragma mark Delegate
 - (void)spaceDownInTableView:(SETriggerTable *)aTable {
-  WBIndexesIterator(idx, [self selectionIndexes]) {
+  [self.selectionIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
     SparkEntry *entry = [self objectAtIndex:idx];
     if ([entry isPlugged]) {
       [entry setActive:![entry isEnabled]];
     }
-  }
+  }];
 }
 
 - (BOOL)tableView:(SETriggerTable *)aTable shouldHandleOptionClick:(NSEvent *)anEvent {
@@ -294,10 +293,10 @@ NSString * sSEHiddenPluggedObserverKey = nil;
   [pboard declareTypes:[NSArray arrayWithObject:SparkEntriesPboardType] owner:self];
   
   NSMutableArray *entries = [[NSMutableArray alloc] init];
-  WBIndexesIterator(idx, rowIndexes) {
+  [rowIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
     SparkEntry *entry = [self objectAtIndex:idx];
     [entries addObject:@([entry uid])];
-  }
+  }];
   [plist setObject:entries forKey:@"entries"];
   
   [pboard setPropertyList:plist forType:SparkEntriesPboardType];

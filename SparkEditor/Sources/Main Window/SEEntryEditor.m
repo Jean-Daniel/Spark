@@ -438,9 +438,8 @@
     /* set frame (in pixel units) */
     NSRect pframe = [window frameRectForContentRect:wframe];
     /* Adjust window position using screen factor */
-    CGFloat sscale = WBScreenUserSpaceScaleFactor([window screen]);
-    pframe.origin.x -= sscale * delta.width / 2;
-    pframe.origin.y -= sscale * delta.height;
+    pframe.origin.x -= delta.width / 2;
+    pframe.origin.y -= delta.height;
     [window setFrame:pframe display:YES animate:YES];
     
     /* Adjust window attributes */

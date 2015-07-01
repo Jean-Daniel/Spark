@@ -10,7 +10,6 @@
 #import <SparkKit/SparkHotKey.h>
 #import <SparkKit/SparkAction.h>
 
-#import <WonderBox/WBForwarding.h>
 #import <WonderBox/NSImage+WonderBox.h>
 
 #import <HotKeyToolKit/HotKeyToolKit.h>
@@ -147,14 +146,17 @@ bool SparkHotKeyFilter(HKKeycode code, HKModifier modifier) {
 - (id)initWithName:(NSString *)name icon:(NSImage *)icon {
   if (self = [super initWithName:name icon:icon]) {
     sp_hotkey = [[SparkHKHotKey alloc] initWithOwner:self];
-    [sp_hotkey setTarget:self];
-    [sp_hotkey setAction:@selector(trigger:)];
+    __unsafe_unretained SparkHotKey *target = self;
+    sp_hotkey.actionBlock = ^{
+      [target trigger];
+    };
   }
   return self;
 }
 
 - (void)dealloc {
-  [sp_hotkey setOwner:nil];
+  sp_hotkey.actionBlock = nil;
+  sp_hotkey.owner = nil;
 }
 
 - (NSString *)description {
@@ -205,7 +207,7 @@ bool SparkHotKeyFilter(HKKeycode code, HKModifier modifier) {
 }
 
 #pragma mark -
-- (void)trigger:(id)sender {
+- (void)trigger {
   [self sendEventWithEntry:sp_entry time:[sp_hotkey eventTime] isARepeat:[sp_hotkey isARepeat]];
 }
 
@@ -279,8 +281,6 @@ bool SparkHotKeyFilter(HKKeycode code, HKModifier modifier) {
 //  }
 //  return plist;
 //}
-
-//WBForwarding(SparkHotKey, HKHotKey, sp_hotkey);
 
 @end
 

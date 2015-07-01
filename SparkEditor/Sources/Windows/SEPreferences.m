@@ -353,8 +353,8 @@ void __SetSparkKitSingleKeyMode(NSInteger mode) {
   }
   
   // Tell the item what message to send when it is clicked
-  [toolbarItem setTarget:self];
-  [toolbarItem setAction:@selector(changePanel:)];
+  toolbarItem.target = self;
+  toolbarItem.action = @selector(changePanel:);
   return toolbarItem;
 }
 

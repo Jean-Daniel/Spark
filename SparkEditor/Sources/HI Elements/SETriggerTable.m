@@ -8,8 +8,6 @@
 
 #import "SETriggerTable.h"
 
-#import <WonderBox/WBIndexSetIterator.h>
-
 @implementation SETriggerTable
 
 - (id<SETriggerTableDelegate>)delegate { return (id)super.delegate; }
@@ -116,10 +114,10 @@
   NSSize size = NSMakeSize(width + 1, [anImage size].height + 1);
   [anImage setSize:size];
   
-  CGFloat offset = CGFLOAT_MAX;
-  WBIndexesIterator(idx, dragRows) {
+  __block CGFloat offset = CGFLOAT_MAX;
+  [dragRows enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
     offset = MIN(NSMinY([self rectOfRow:idx]), offset);
-  }
+  }];
   offset--;
   
   /* Draw borders */
@@ -131,8 +129,9 @@
   CGContextSetShouldAntialias(ctxt, false);
   CGContextSetGrayFillColor(ctxt, .80f, .45f);
   CGContextSetGrayStrokeColor(ctxt, .50f, 1);
-  
-  WBIndexesIterator(idx, dragRows) {
+
+
+  [dragRows enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
     NSRect rect = [self rectOfRow:idx];
     rect.size.width = width;
     rect.size.height -= 2;
@@ -141,7 +140,7 @@
     
     NSRectFillUsingOperation(rect, NSCompositeDestinationOver);
     [NSBezierPath strokeRect:rect];
-  }
+  }];
   
   NSImage *badge = [self badgeWithCount:[dragRows count]];
   if ([anImage size].height < [badge size].height) {

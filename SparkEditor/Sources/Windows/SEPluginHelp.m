@@ -97,8 +97,8 @@
   
   if (!se_plugins) {
     se_plugins = [ibHead addMenu:aMenu position:kWBHeaderLeft];
-    [se_plugins setTarget:self];
-    [se_plugins setAction:@selector(selectPlugIn:)];
+    se_plugins.target = self;
+    se_plugins.action = @selector(selectPlugIn:);
   } else {
     [se_plugins setMenu:aMenu];
   }
@@ -115,13 +115,13 @@
 - (void)awakeFromNib {
   if (!se_previous) {
     se_previous = [ibHead addButton:[NSImage imageNamed:@"SEBack"] position:kWBHeaderLeft];
-    [se_previous setTarget:ibWeb];
-    [se_previous setAction:@selector(goBack:)];
+    se_previous.target = ibWeb;
+    se_previous.action = @selector(goBack:);
     [se_previous bind:@"enabled" toObject:ibWeb withKeyPath:@"canGoBack" options:nil];
     
     se_next = [ibHead addButton:[NSImage imageNamed:@"SEForward"] position:kWBHeaderLeft];
-    [se_next setTarget:ibWeb];
-    [se_next setAction:@selector(goForward:)];
+    se_next.target = ibWeb;
+    se_next.action = @selector(goForward:);
     [se_next bind:@"enabled" toObject:ibWeb withKeyPath:@"canGoForward" options:nil];
     
     [ibWeb setFrameLoadDelegate:self];

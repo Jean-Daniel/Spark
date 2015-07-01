@@ -292,20 +292,20 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
   NSUInteger type = __iTunesGetTypeForLocation(_position);
   switch (type) {
     case kiTunesVisualUL:
-      origin.x = SCREEN_MARGIN * WBScreenUserSpaceScaleFactor([NSScreen mainScreen]);
-      origin.y = NSHeight(screen) - size.height - (SCREEN_MARGIN + 22) * WBScreenUserSpaceScaleFactor([NSScreen mainScreen]); // menu bar
+      origin.x = SCREEN_MARGIN;
+      origin.y = NSHeight(screen) - size.height - (SCREEN_MARGIN + 22); // menu bar
       break;
     case kiTunesVisualUR:
-      origin.x = NSWidth(screen) - size.width - SCREEN_MARGIN * WBScreenUserSpaceScaleFactor([NSScreen mainScreen]);
-      origin.y = NSHeight(screen) - size.height - (SCREEN_MARGIN + 22) * WBScreenUserSpaceScaleFactor([NSScreen mainScreen]);
+      origin.x = NSWidth(screen) - size.width - SCREEN_MARGIN;
+      origin.y = NSHeight(screen) - size.height - (SCREEN_MARGIN + 22);
       break;
     case kiTunesVisualBL:
-      origin.x = SCREEN_MARGIN * WBScreenUserSpaceScaleFactor([NSScreen mainScreen]);
-      origin.y = (SCREEN_MARGIN + 22) * WBScreenUserSpaceScaleFactor([NSScreen mainScreen]);
+      origin.x = SCREEN_MARGIN ;
+      origin.y = (SCREEN_MARGIN + 22);
       break;
     case kiTunesVisualBR:
-      origin.x = NSWidth(screen) - size.width - SCREEN_MARGIN * WBScreenUserSpaceScaleFactor([NSScreen mainScreen]);
-      origin.y = (SCREEN_MARGIN + 22) * WBScreenUserSpaceScaleFactor([NSScreen mainScreen]);
+      origin.x = NSWidth(screen) - size.width - SCREEN_MARGIN;
+      origin.y = (SCREEN_MARGIN + 22);
       break;
   }
 	return origin;

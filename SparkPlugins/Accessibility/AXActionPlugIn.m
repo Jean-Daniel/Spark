@@ -103,7 +103,7 @@
       [menu addItem:[NSMenuItem separatorItem]];
     } else if (-1 == [menu indexOfItemWithTitle:title]) {
       NSMenuItem *item = [menu addItemWithTitle:title action:@selector(chooseMenuItem:) keyEquivalent:@""];
-      [item setTarget:self];
+      item.target = self;
       AXSMenu *axsubmenu = [axitem submenu];
       if (axsubmenu)
         [item setSubmenu:[self ax_buildMenu:axsubmenu]];

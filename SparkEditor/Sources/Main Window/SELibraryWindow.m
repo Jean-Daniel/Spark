@@ -121,12 +121,12 @@
 
 - (void)awakeFromNib {
   /* Configure application field */
-  [appField setTarget:appDrawer];
-  [appField setAction:@selector(toggle:)];
+  appField.target = appDrawer;
+  appField.action = @selector(toggle:);
   
   /* Configure list double action */
-  [libraryTable setTarget:self];
-  [libraryTable setDoubleAction:@selector(libraryDoubleAction:)];
+  libraryTable.target = self;
+  libraryTable.doubleAction = @selector(libraryDoubleAction:);
   
   /* Update status */
   [self setDaemonStatus:[[SEServerConnection defaultConnection] status]];

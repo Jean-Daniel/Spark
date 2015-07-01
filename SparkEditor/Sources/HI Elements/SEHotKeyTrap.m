@@ -47,8 +47,6 @@ static CGLayerRef _HKCreateShading(CGContextRef ctxt, NSControlTint tint);
   } se_htFlags;
 
   NSTrackingRectTag se_tracker;
-  id se_target;
-  SEL se_action;
 }
 
 /* Load default shading */
@@ -436,20 +434,6 @@ static CGLayerRef _HKCreateShading(CGContextRef ctxt, NSControlTint tint);
 
 #pragma mark -
 #pragma mark Event Handling
-- (id)target {
-  return se_target;
-}
-- (void)setTarget:(id)aTarget {
-  se_target = aTarget;
-}
-
-- (SEL)action {
-  return se_action;
-}
-- (void)setAction:(SEL)anAction {
-  se_action = anAction;
-}
-
 - (void)setHotKey:(SEHotKey)anHotkey {
   _hotKey = anHotkey;
   se_bhotkey = anHotkey;
@@ -482,7 +466,7 @@ static CGLayerRef _HKCreateShading(CGContextRef ctxt, NSControlTint tint);
 
 - (void)save {
   _hotKey = se_bhotkey;
-  [NSApp sendAction:[self action] to:[self target] from:self];
+  [NSApp sendAction:_action to:_target from:self];
 }
 
 - (void)revert {

@@ -82,8 +82,8 @@
   
   [uiTable setCornerView:[[SEHeaderCellCorner alloc] init]];
   
-  [uiTable setTarget:self];
-  [uiTable setDoubleAction:@selector(revealApplication:)];
+  uiTable.target = self;
+  uiTable.doubleAction = @selector(revealApplication:);
 }
 
 - (void)setLibrary:(SparkLibrary *)aLibrary {

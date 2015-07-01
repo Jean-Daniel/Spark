@@ -10,7 +10,7 @@
 
 @class CustomTableDataSource, SparkLibrary;
 @interface SparkImporter : NSWindowController {
-  IBOutlet id searchMenu;
+  IBOutlet NSMenu *searchMenu;
   IBOutlet NSSearchField *searchField;
   IBOutlet NSObjectController *controller;
   IBOutlet CustomTableDataSource *tableController;

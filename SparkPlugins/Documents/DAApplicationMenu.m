@@ -29,7 +29,7 @@
     NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:title
                                                   action:@selector(choose:) 
                                            keyEquivalent:@""];
-    [item setTarget:self];
+    item.target = self;
     [menu addItem:item];
     [self selectItemAtIndex:1];
     

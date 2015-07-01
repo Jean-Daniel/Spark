@@ -64,12 +64,10 @@ static BOOL CustomSearch(NSString *searchString, id object, void *ctxt);
 
 - (void)awakeFromNib {
   [tableController setFilterFunction:CustomSearch context:self];
-  id items = [[searchMenu itemArray] objectEnumerator];
-  id item;
-  while (item = [items nextObject]) {
+  for (NSMenuItem *item in [searchMenu itemArray]) {
     if ([item tag] != 0) {
-      [item setTarget:self];
-      [item setAction:@selector(changeFilter:)];
+      item.target = self;
+      item.action = @selector(changeFilter:);
     }
   }
   [[searchField cell] setSearchMenuTemplate:searchMenu];

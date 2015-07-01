@@ -548,7 +548,7 @@ static SparkUID sUID = 0;
   if (self = [self initWithLibrary:[(SparkLibraryUnarchiver *)coder library]]) {
     NSArray *entries = [coder decodeObjectForKey:@"entries"];
     for (SparkEntry *entry in entries) {
-      [_objects setObject:entry forKeyedSubscript:@(entry.uid)];
+      _objects[@(entry.uid)] = entry;
       entry.manager = self;
     }
     [self cleanup];

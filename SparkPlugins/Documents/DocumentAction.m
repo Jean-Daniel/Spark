@@ -130,11 +130,10 @@ OSType _DocumentActionFromFlag(int flag) {
       
       if (DocumentActionNeedDocument(_action)) {
         NSData *data = plist[kDocumentActionBookmarkKey];
-        if (data) {
+        if (data)
           _document = [[WBAlias alloc] initFromBookmarkData:data];
-        } else if ((data = plist[@"DocumentAlias"])) {
+        else if ((data = plist[@"DocumentAlias"]))
           _document = [[WBAlias alloc] initFromData:data];
-        }
       }
       
       if (DocumentActionNeedApplication(_action)) {
@@ -332,7 +331,7 @@ OSType _DocumentActionFromFlag(int flag) {
 
 - (void)setDocumentPath:(NSString *)path {
   if (path)
-    [self setDocument:[WBAlias aliasWithPath:path]];
+    [self setDocument:[WBAlias aliasWithURL:[NSURL fileURLWithPath:path]]];
   else
     [self setDocument:nil];
 }
