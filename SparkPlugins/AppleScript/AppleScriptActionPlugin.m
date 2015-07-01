@@ -150,28 +150,20 @@ enum {
   [oPanel setAllowsMultipleSelection:NO];
   [oPanel setCanChooseDirectories:NO];
   [oPanel setResolvesAliases:YES];
-  [oPanel beginSheetForDirectory:nil
-                            file:nil
-                           types:nil
-                  modalForWindow:[[self actionView] window]
-                   modalDelegate:self
-                  didEndSelector:@selector(openPanelDidEnd:returnCode:contextInfo:)
-                     contextInfo:nil];
-}
-
-- (void)openPanelDidEnd:(NSOpenPanel *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
-  if (returnCode == NSOKButton && [[sheet URLs] count] > 0) {
-    NSURL *file = [[sheet URLs] objectAtIndex:0];
-    NSString *src = nil;
-    if ([[[file pathExtension] lowercaseString] isEqualToString:@"scpt"]) {
-      OSAScript *script = [[OSAScript alloc] initWithContentsOfURL:file error:nil];
-      src = [script source];
-    } else {
-      NSStringEncoding encoding;
-      src = [[NSString alloc] initWithContentsOfURL:file usedEncoding:&encoding error:NULL];
+  [oPanel beginSheetModalForWindow:[[self actionView] window] completionHandler:^(NSInteger result) {
+    if (result == NSOKButton && [[oPanel URLs] count] > 0) {
+      NSURL *file = [[oPanel URLs] objectAtIndex:0];
+      NSString *src = nil;
+      if ([[[file pathExtension] lowercaseString] isEqualToString:@"scpt"]) {
+        OSAScript *script = [[OSAScript alloc] initWithContentsOfURL:file error:nil];
+        src = [script source];
+      } else {
+        NSStringEncoding encoding;
+        src = [[NSString alloc] initWithContentsOfURL:file usedEncoding:&encoding error:NULL];
+      }
+      [[self->ibScriptController scriptView] setSource:src];
     }
-    [[ibScriptController scriptView] setSource:src];
-  }
+  }];
 }
 
 #pragma mark Import
@@ -180,35 +172,28 @@ enum {
   [oPanel setAllowsMultipleSelection:NO];
   [oPanel setCanChooseDirectories:NO];
   [oPanel setResolvesAliases:YES];
-  [oPanel beginSheetForDirectory:nil
-                            file:nil
-                           types:[NSArray arrayWithObjects:@"scpt", @"osas", nil]
-                  modalForWindow:[[self actionView] window]
-                   modalDelegate:self
-                  didEndSelector:@selector(importPanelDidEnd:returnCode:contextInfo:)
-                     contextInfo:nil];
-}
-
-- (void)importPanelDidEnd:(NSOpenPanel *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
-  if (returnCode == NSOKButton && [[sheet URLs] count] > 0) {
-    NSDictionary *errors = nil;
-    NSURL *file = [[sheet URLs] objectAtIndex:0];
-    NSAppleScript *script = [[NSAppleScript alloc] initWithContentsOfURL:file error:&errors];
-    [sheet close];
-    if (![script isCompiled]) {
-      NSBeginAlertSheet(NSLocalizedStringFromTableInBundle(@"INVALID_SCRIPT_FILE_ALERT", nil, AppleScriptActionBundle,
-                                                           @"Import uncompiled Script Error * Title *"), 
-                        NSLocalizedStringWithDefaultValue(@"OK", nil, AppleScriptActionBundle, @"OK",
-                                                          @"Alert default button"),
-                        nil,nil, [[self actionView] window], nil ,nil, nil, nil,
-                        NSLocalizedStringFromTableInBundle(@"INVALID_SCRIPT_FILE_ALERT_MSG", nil, AppleScriptActionBundle,
-                                                           @"Import uncompiled Script Error * Msg *"), [file lastPathComponent]);
+  oPanel.allowedFileTypes = @[@"scpt", @"osas"];
+  [oPanel beginSheetModalForWindow:[[self actionView] window] completionHandler:^(NSInteger result) {
+    if (result == NSOKButton && [[oPanel URLs] count] > 0) {
+      NSDictionary *errors = nil;
+      NSURL *file = [oPanel URLs].firstObject;
+      NSAppleScript *script = [[NSAppleScript alloc] initWithContentsOfURL:file error:&errors];
+      [oPanel close];
+      if (![script isCompiled]) {
+        NSBeginAlertSheet(NSLocalizedStringFromTableInBundle(@"INVALID_SCRIPT_FILE_ALERT", nil, AppleScriptActionBundle,
+                                                             @"Import uncompiled Script Error * Title *"),
+                          NSLocalizedStringWithDefaultValue(@"OK", nil, AppleScriptActionBundle, @"OK",
+                                                            @"Alert default button"),
+                          nil,nil, [[self actionView] window], nil ,nil, nil, nil,
+                          NSLocalizedStringFromTableInBundle(@"INVALID_SCRIPT_FILE_ALERT_MSG", nil, AppleScriptActionBundle,
+                                                             @"Import uncompiled Script Error * Msg *"), [file lastPathComponent]);
+      } else {
+        [self setScriptFile:[file path]];
+      }
     } else {
-      [self setScriptFile:[file path]];
+      [self setScriptFile:nil];
     }
-  } else {
-    [self setScriptFile:nil];
-  }
+  }];
 }
 
 #pragma mark Launch

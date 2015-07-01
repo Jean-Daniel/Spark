@@ -180,20 +180,13 @@ bool __IsApplicationAtURL(NSURL *path) {
     if (url)
       [self->se_urls addObject:url];
   }];
-  [openPanel beginSheetForDirectory:nil
-                               file:nil
-                              types:[NSArray arrayWithObjects:@"app", nil, NSFileTypeForHFSTypeCode('APPL'), nil]
-                     modalForWindow:[ibWindow window]
-                      modalDelegate:self
-                     didEndSelector:@selector(newApplicationDidEnd:returnCode:object:)
-                        contextInfo:nil];
-}
-
-- (void)newApplicationDidEnd:(NSOpenPanel *)panel returnCode:(NSInteger)result object:(id)object {
-  if (NSOKButton == result) {
-    [self addApplications:[panel URLs]];
-  }
-  se_urls = nil;
+  openPanel.allowedFileTypes = @[@"app", NSFileTypeForHFSTypeCode('APPL')];
+  [openPanel beginSheetModalForWindow:ibWindow.window completionHandler:^(NSInteger result) {
+    if (NSOKButton == result) {
+      [self addApplications:[openPanel URLs]];
+    }
+    self->se_urls = nil;
+  }];
 }
 
 - (BOOL)panel:(id)sender shouldEnableURL:(NSURL *)url {

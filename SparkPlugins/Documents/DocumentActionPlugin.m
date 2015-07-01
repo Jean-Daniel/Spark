@@ -116,26 +116,17 @@
 }
 
 #pragma mark -
-- (IBAction)chooseDocument:(id)sender {
+- (IBAction)chooseDocument:(NSView *)sender {
   NSOpenPanel *oPanel = [NSOpenPanel openPanel];
   [oPanel setAllowsMultipleSelection:NO];
   [oPanel setCanChooseDirectories:YES];
   [oPanel setCanCreateDirectories:NO];
-  
-  [oPanel beginSheetForDirectory:nil
-                            file:nil
-                           types:nil
-                  modalForWindow:[sender window]
-                   modalDelegate:self
-                  didEndSelector:@selector(chooseItemPanel:returnCode:contextInfo:)
-                     contextInfo:nil];
-}
-
-- (void)chooseItemPanel:(NSOpenPanel *)sheet returnCode:(int)returnCode contextInfo:(id)contextInfo {
-  if (returnCode == NSCancelButton || [[sheet URLs] count] == 0) {
-    return;
-  }
-  [self setDocument:[[sheet filenames] objectAtIndex:0]];
+  [oPanel beginSheetModalForWindow:sender.window completionHandler:^(NSInteger result) {
+    if (result == NSCancelButton || [[oPanel URLs] count] == 0) {
+      return;
+    }
+    [self setDocument:[[oPanel filenames] objectAtIndex:0]];
+  }];
 }
 
 - (void)setDocument:(NSString *)file {

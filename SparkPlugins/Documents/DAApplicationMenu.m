@@ -41,29 +41,22 @@
 - (IBAction)choose:(id)sender {
   NSOpenPanel *oPanel = [NSOpenPanel openPanel];
   [oPanel setAllowsMultipleSelection:YES];
-  [oPanel beginSheetForDirectory:nil
-                            file:nil
-                           types:[NSArray arrayWithObjects:@"app", @"APPL", nil]
-                  modalForWindow:[self window]
-                   modalDelegate:self
-                  didEndSelector:@selector(choosePanel:returnCode:contextInfo:)
-                     contextInfo:nil];
-}
-
-- (void)choosePanel:(NSOpenPanel *)sheet returnCode:(int)returnCode contextInfo:(id)contextInfo {
-  if (returnCode == NSCancelButton) {
-    return;
-  }
-  if (!_custom) {
-    [[self menu] insertItem:[NSMenuItem separatorItem] atIndex:0];
-    _custom = YES;
-  }
-  NSURL *path;
-  NSEnumerator *files = [[sheet URLs] reverseObjectEnumerator];
-  while (path = [files nextObject]) {
-    [[self menu] insertItem:[self itemForURL:path] atIndex:0];
-  }
-  [self selectItemAtIndex:0];
+  oPanel.allowedFileTypes = @[@"app", @"APPL"];
+  [oPanel beginSheetModalForWindow:self.window completionHandler:^(NSInteger result) {
+    if (result == NSCancelButton) {
+      return;
+    }
+    if (!self->_custom) {
+      [[self menu] insertItem:[NSMenuItem separatorItem] atIndex:0];
+      self->_custom = YES;
+    }
+    NSURL *path;
+    NSEnumerator *files = [[oPanel URLs] reverseObjectEnumerator];
+    while (path = [files nextObject]) {
+      [[self menu] insertItem:[self itemForURL:path] atIndex:0];
+    }
+    [self selectItemAtIndex:0];
+  }];
 }
 
 - (void)loadAppForDocument:(NSURL *)url {
