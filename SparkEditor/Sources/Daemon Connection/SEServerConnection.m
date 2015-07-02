@@ -274,17 +274,13 @@ void SEServerStartConnection(void) {
   /* Verify daemon validity */
   NSURL *selfdaemon = SESparkDaemonURL();
   for (NSRunningApplication *daemon in [NSRunningApplication runningApplicationsWithBundleIdentifier:kSparkDaemonBundleIdentifier]) {
-    if (!daemon.terminate && !WBFSCompareURLs(SPXNSToCFURL(selfdaemon), SPXNSToCFURL(daemon.bundleURL))) {
+    if (!daemon.terminated && !WBFSCompareURLs(SPXNSToCFURL(selfdaemon), SPXNSToCFURL(daemon.bundleURL))) {
       // The running daemon does not match the embedded one.
       SPXDebug(@"Terminate Running daemon: %@", daemon);
 #if !defined (DEBUG)
       SEDaemonTerminate(daemon);
 #endif
     }
-  }
-  if (![NSRunningApplication runningApplicationsWithBundleIdentifier:kSparkDaemonBundleIdentifier].firstObject) {
-    SPXDebug(@"Start Spark daemon");
-    SELaunchSparkDaemon(NULL);
   }
   
   SEServerConnection *connection = [SEServerConnection defaultConnection];

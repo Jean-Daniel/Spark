@@ -107,7 +107,7 @@ void __SetSparkKitSingleKeyMode(NSInteger mode) {
 #pragma mark -
 - (void)se_initPlugInStatus:(NSArray *)plugins {
   for (SparkPlugIn *plugin in plugins)
-    [_status setObject:@(plugin.enabled) forKey:plugin.identifier];
+    [_status setObject:@(plugin.enabled) forKey:plugin];
 }
 
 - (void)awakeFromNib {

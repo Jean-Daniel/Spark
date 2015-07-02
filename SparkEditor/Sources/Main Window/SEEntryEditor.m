@@ -101,8 +101,8 @@
   /* Remove plugins instances */
   [se_views removeAllObjects];
   [_instances removeAllObjects];
-  /* Release entry */
-  _entry = nil;
+  /* Release entry and reset view */
+  self.entry = nil;
 }
 
 - (void)createEntryWithAction:(SparkAction *)action trigger:(SparkTrigger *)trigger application:(SparkApplication *)application {
@@ -253,13 +253,13 @@
     return;
 
   SPXSetterRetain(_entry, anEntry);
-  
-  /* Update plugins list if needed */
-  [self updatePlugIns];
-  
+
   /* Select plugin type */
   SparkPlugIn *type = nil;
   if (_entry) {
+    /* Update plugins list if needed */
+    [self updatePlugIns];
+
     switch ([_entry type]) {
       case kSparkEntryTypeDefault:
       case kSparkEntryTypeWeakOverWrite:
