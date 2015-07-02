@@ -38,7 +38,7 @@ void SparkLaunchEditor(void) {
     case kSparkContext_Daemon: {
       NSRunningApplication *editor = [NSRunningApplication runningApplicationsWithBundleIdentifier:kSparkEditorBundleIdentifier].firstObject;
       if (editor) {
-        [editor activateWithOptions:0];
+        [editor activateWithOptions:NSApplicationActivateIgnoringOtherApps];
         WBAESendSimpleEventToBundle(SPXNSToCFString(kSparkEditorBundleIdentifier), kCoreEventClass, kAEReopenApplication);
       } else {
 #if defined(DEBUG)

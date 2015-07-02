@@ -508,43 +508,48 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
 }
 
 - (void)activate:(NSRunningApplication *)app {
-	switch ([self activation]) {
-		case kFlagsBringAllFront:
-      [app activateWithOptions:NSApplicationActivateAllWindows];
-			break;
-		case kFlagsBringMainFront:
-      [app activateWithOptions:0];
-			break;
-	}
-	if ([self activation] != kFlagsDoNothing) {
-		if ([self reopen]) {
-			/* TODO: improve reopen event */
-			AppleEvent reopen = WBAEEmptyDesc();
-			OSStatus err = WBAECreateEventWithTargetProcessIdentifier(app.processIdentifier, kCoreEventClass, kAEReopenApplication, &reopen);
-			require_noerr(err, bail);
-			
-			err = WBAEAddBoolean(&reopen, 'frnt', false);
-			require_noerr(err, bail);
-			
-			err = WBAESendEventNoReply(&reopen);
-			require_noerr(err, bail);
-			
-		bail:
-			WBAEDisposeDesc(&reopen);
-		}
-		
-		/* Handle visual settings */
-		ApplicationVisualSetting settings;
-		if ([self usesSharedVisual])
-			[ApplicationAction getSharedSettings:&settings];
-		else
-			[self getVisualSettings:&settings];
-		
-		if (_flags & kLSLaunchAndHideOthers)
-			[self hideOthers];
-		if (settings.activation)
-			[self performSelectorOnMainThread:@selector(displayNotification) withObject:nil waitUntilDone:NO];
-	}
+  switch ([self activation]) {
+    case kFlagsBringAllFront:
+      if (![app activateWithOptions:NSApplicationActivateIgnoringOtherApps | NSApplicationActivateAllWindows])
+        SPXLogWarning(@"app activation failed: %@", app);
+      break;
+    case kFlagsBringMainFront:
+      if (![app activateWithOptions:NSApplicationActivateIgnoringOtherApps])
+        SPXLogWarning(@"app activation failed: %@", app);
+      break;
+  }
+  if ([self activation] != kFlagsDoNothing) {
+    if ([self reopen]) {
+      /* TODO: improve reopen event */
+      AppleEvent reopen = WBAEEmptyDesc();
+      OSStatus err = WBAECreateEventWithTargetProcessIdentifier(app.processIdentifier, kCoreEventClass, kAEReopenApplication, &reopen);
+      require_noerr(err, bail);
+
+      err = WBAEAddBoolean(&reopen, 'frnt', false);
+      require_noerr(err, bail);
+
+      err = WBAESendEventNoReply(&reopen);
+      require_noerr(err, bail);
+
+    bail:
+      WBAEDisposeDesc(&reopen);
+    }
+
+    /* Handle visual settings */
+    ApplicationVisualSetting settings;
+    if ([self usesSharedVisual])
+      [ApplicationAction getSharedSettings:&settings];
+    else
+      [self getVisualSettings:&settings];
+
+    if (_flags & kLSLaunchAndHideOthers)
+      [self hideOthers];
+
+    if (settings.activation)
+      dispatch_async(dispatch_get_main_queue(), ^{
+        [self displayNotification];
+      });
+  }
 }
 
 - (void)launchApplication {
@@ -562,7 +567,9 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
 			[self getVisualSettings:&settings];
 		
     if (settings.launch)
-      [self performSelectorOnMainThread:@selector(displayNotification) withObject:nil waitUntilDone:NO];
+      dispatch_async(dispatch_get_main_queue(), ^{
+        [self displayNotification];
+      });
   }
 }
 

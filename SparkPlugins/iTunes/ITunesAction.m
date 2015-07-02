@@ -431,7 +431,7 @@ NSRunningApplication *iTunesLaunch(NSWorkspaceLaunchOptions flags) {
           iTunesSendCommand(kiTunesCommandPlay);
       } else if (!ia_iaFlags.background) {
         /* if not launch in background, bring to front */
-        [iTunes activateWithOptions:0];
+        [iTunes activateWithOptions:NSApplicationActivateIgnoringOtherApps];
       }
     }
       break;
