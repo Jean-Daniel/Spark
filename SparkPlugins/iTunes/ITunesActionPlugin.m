@@ -329,7 +329,7 @@ static
 NSURL *_iTunesGetLibraryPathFromPreferences(Boolean compat) {
   NSURL *path = nil;
   CFDataRef data = CFPreferencesCopyValue(CFSTR("alis:1:iTunes Library Location"),
-                                          CFSTR("com.apple.iTunes"),
+                                          kiTunesBundleIdentifier,
                                           kCFPreferencesCurrentUser,
                                           kCFPreferencesAnyHost);
   if (data) {

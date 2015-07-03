@@ -408,7 +408,7 @@ static ITunesVisual sDefaultVisual = { .delay = -1 };
 
 static
 NSRunningApplication *iTunesLaunch(NSWorkspaceLaunchOptions flags) {
-  NSURL *url = [[NSWorkspace sharedWorkspace] URLForApplicationWithBundleIdentifier:kiTunesActionBundleIdentifier];
+  NSURL *url = [[NSWorkspace sharedWorkspace] URLForApplicationWithBundleIdentifier:SPXCFToNSString(kiTunesBundleIdentifier)];
   return [[NSWorkspace sharedWorkspace] launchApplicationAtURL:url options:flags configuration:nil error:NULL];
 }
 
@@ -416,7 +416,7 @@ NSRunningApplication *iTunesLaunch(NSWorkspaceLaunchOptions flags) {
   SparkAlert *alert = nil;
   switch ([self iTunesAction]) {
     case kiTunesLaunch: {
-      NSRunningApplication *iTunes = [NSRunningApplication runningApplicationsWithBundleIdentifier:kiTunesActionBundleIdentifier].firstObject;
+      NSRunningApplication *iTunes = [NSRunningApplication runningApplicationsWithBundleIdentifier:SPXCFToNSString(kiTunesBundleIdentifier)].firstObject;
       if (!iTunes) {
         NSWorkspaceLaunchOptions flags = NSWorkspaceLaunchDefault;
         if (ia_iaFlags.hide)
@@ -427,8 +427,12 @@ NSRunningApplication *iTunesLaunch(NSWorkspaceLaunchOptions flags) {
         if (ia_iaFlags.notify) {
           [self notifyLaunch];
         }
-        if (ia_iaFlags.autoplay)
-          iTunesSendCommand(kiTunesCommandPlay);
+        if (ia_iaFlags.autoplay) {
+          pid_t pid = iTunes.processIdentifier;
+          OSStatus err = iTunesSendCommand(kiTunesCommandPlay, pid);
+          if (noErr != err)
+            SPXLogError(@"play event failed: %d", err);
+        }
       } else if (!ia_iaFlags.background) {
         /* if not launch in background, bring to front */
         [iTunes activateWithOptions:NSApplicationActivateIgnoringOtherApps];
@@ -439,18 +443,18 @@ NSRunningApplication *iTunesLaunch(NSWorkspaceLaunchOptions flags) {
       iTunesQuit();
       break;
     case kiTunesPlayPause: {
-      NSRunningApplication *iTunes = [NSRunningApplication runningApplicationsWithBundleIdentifier:kiTunesActionBundleIdentifier].firstObject;
+      NSRunningApplication *iTunes = [NSRunningApplication runningApplicationsWithBundleIdentifier:SPXCFToNSString(kiTunesBundleIdentifier)].firstObject;
       if (!iTunes) {
         if (ia_iaFlags.autorun) {
           /* Launch iTunes */
-          iTunesLaunch(NSWorkspaceLaunchDefault | NSWorkspaceLaunchWithoutActivation);
+          iTunes = iTunesLaunch(NSWorkspaceLaunchDefault | NSWorkspaceLaunchWithoutActivation);
           /* Display iTunes Icon */
           [self notifyLaunch];
           /* Send Play event*/
-          iTunesSendCommand(kiTunesCommandPlay);
+          iTunesSendCommand(kiTunesCommandPlay, iTunes.processIdentifier);
         }
       } else {
-        iTunesSendCommand(kiTunesCommandPlayPause);
+        iTunesSendCommand(kiTunesCommandPlayPause, iTunes.processIdentifier);
         [self displayInfoIfRunning];
       }
     }
@@ -459,15 +463,15 @@ NSRunningApplication *iTunesLaunch(NSWorkspaceLaunchOptions flags) {
       alert = [self playPlaylist];
       break;
     case kiTunesNextTrack:
-      iTunesSendCommand(kiTunesCommandNextTrack);
+      iTunesSendCommand(kiTunesCommandNextTrack, 0);
       [self displayInfoIfNeeded];
       break;
     case kiTunesBackTrack:
-      iTunesSendCommand(kiTunesCommandPreviousTrack);
+      iTunesSendCommand(kiTunesCommandPreviousTrack, 0);
       [self displayInfoIfNeeded];
       break;
     case kiTunesStop:
-      iTunesSendCommand(kiTunesCommandStopPlaying);
+      iTunesSendCommand(kiTunesCommandStopPlaying, 0);
       break;
     case kiTunesShowTrackInfo:
       [self displayTrackNotification];

@@ -36,6 +36,10 @@
   return self;
 }
 
+- (void)dealloc {
+  [ia_info close];
+}
+
 - (IBAction)hide:(id)sender {
   [[ia_info window] close];
   [[ia_info window] setIgnoresMouseEvents:YES];
@@ -48,7 +52,7 @@
 
 - (IBAction)show:(id)sender {
   [[ia_info window] setIgnoresMouseEvents:NO];
-  [ia_info showWindow:sender];
+  [ia_info.window orderFront:sender];
 
   [ibShow setTitle:NSLocalizedStringFromTableInBundle(@"Hide", nil, kiTunesActionBundle,
                                                       @"Hide/Show button * Visual settings *")];

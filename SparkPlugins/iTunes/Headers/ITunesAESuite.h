@@ -89,8 +89,11 @@ typedef enum {
 } ITunesTrackProperty;
 
 WB_INLINE
-OSStatus iTunesSendCommand(ITunesCommand command) {
-  return WBAESendSimpleEventToBundle(kiTunesBundleIdentifier, kiTunesSuite, command);
+OSStatus iTunesSendCommand(ITunesCommand command, pid_t pid) {
+  if (pid)
+    return WBAESendSimpleEventTo(pid, kiTunesSuite, command);
+  else
+    return WBAESendSimpleEventToBundle(kiTunesBundleIdentifier, kiTunesSuite, command);
 }
 
 WB_INLINE
