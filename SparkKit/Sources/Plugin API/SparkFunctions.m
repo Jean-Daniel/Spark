@@ -108,17 +108,7 @@ static
 WBBezelItem *_SparkNotifiationSharedItem(void) {
   static WBBezelItem *_shared = nil;
   if (!_shared) {
-    _shared = [[WBBezelItem alloc] initWithContent:nil];
-    [_shared setAdjustSize:NO];
-  }
-  return _shared;
-}
-
-static 
-WBIconView *_SparkNotificationSharedIconView(void) {
-  static WBIconView *_shared = nil;
-  if (!_shared) {
-    _shared = [[WBIconView alloc] initWithFrame:NSMakeRect(0, 0, 128, 128)];
+    _shared = [[WBBezelItem alloc] initWithImage:nil];
   }
   return _shared;
 }
@@ -139,8 +129,8 @@ NSImageView *_SparkNotificationSharedImageView(void) {
 
 void SparkNotificationDisplay(NSView *view, CGFloat delay) {
   WBBezelItem *item = _SparkNotifiationSharedItem();
-  [item setContent:view];
-  [item setDelay:delay];
+  item.view = view;
+  item.delay = delay;
   [item display:nil];
 }
 
@@ -152,7 +142,7 @@ void SparkNotificationDisplayIcon(IconRef icon, CGFloat delay) {
 
 void SparkNotificationDisplayImage(NSImage *anImage, CGFloat delay) {
   NSImageView *view = _SparkNotificationSharedImageView();
-  [view setImage:anImage];
+  view.image = anImage;
   SparkNotificationDisplay(view, delay);
 }
 
