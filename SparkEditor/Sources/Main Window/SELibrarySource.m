@@ -34,9 +34,8 @@
 #pragma mark Implementation
 @implementation SELibrarySource {
   NSMapTable *se_plugins;
-  SEEntryList *se_overwrite;
-
   SparkLibrary *se_library;
+  SEEntryList *se_overwrite;
 }
 
 #pragma mark -
@@ -69,7 +68,6 @@
 - (void)dealloc {
   [[NSNotificationCenter defaultCenter] removeObserver:self];
 	/* setLibrary:nil take care if this for us */
-//  if (se_plugins) NSFreeMapTable(se_plugins);
 //  [se_overwrite release];
   [self setLibrary:nil];
 }
@@ -93,14 +91,13 @@
   NSArray *plugins = [[SparkActionLoader sharedLoader] plugIns];
   if (se_plugins) {
     [self removeObjects:NSAllMapTableKeys(se_plugins)];
-    NSResetMapTable(se_plugins);
+    [se_plugins removeAllObjects];
   } else {
-		se_plugins = NSCreateMapTable(NSObjectMapKeyCallBacks, NSObjectMapValueCallBacks, [plugins count]);
+    se_plugins = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsStrongMemory | NSPointerFunctionsObjectPersonality
+                                       valueOptions:NSPointerFunctionsStrongMemory | NSPointerFunctionsObjectPersonality];
   }
-  
-  NSUInteger idx = [plugins count];
-  while (idx-- > 0) {
-    SparkPlugIn *plugin = [plugins objectAtIndex:idx];
+
+  for (SparkPlugIn *plugin in plugins) {
     if ([plugin isEnabled]) {
       SEEntryList *list = [[SEEntryList alloc] initWithName:[plugin name] icon:[plugin icon]];
       [list setDocument:[self document]];
@@ -176,10 +173,8 @@
 		}
     [self removeAllObjects];
     /* Free plugin <=> lists map */
-    if (se_plugins) {
-      NSFreeMapTable(se_plugins);
+    if (se_plugins)
       se_plugins = nil;
-    }
     /* Free 'overwrite' special list */
     se_overwrite = nil;
   }
