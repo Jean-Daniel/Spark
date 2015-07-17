@@ -161,7 +161,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0640;
 			};
 			buildConfigurationList = 98EF7DEF08645714007BC81A /* Build configuration list for PBXProject "SparkDaemon" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -257,6 +257,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1BBE7BDB0ED04E810004D9DD /* debug.xcconfig */;
 			buildSettings = {
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				ONLY_ACTIVE_ARCH = YES;
 			};
 			name = Debug;
 		};
@@ -278,6 +282,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1BBE7BDC0ED04E810004D9DD /* release.xcconfig */;
 			buildSettings = {
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 			};
 			name = Release;
 		};

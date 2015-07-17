@@ -55,18 +55,13 @@ void SparkDisplayAlert(SparkAlert *alert) {
 #pragma mark Notification
 /* delay: -1 for default value */
 SPARK_EXPORT
-void SparkNotificationDisplayIcon(IconRef icon, CGFloat delay);
+void SparkNotificationDisplayIcon(IconRef icon, CGFloat duration);
 
 SPARK_EXPORT
-void SparkNotificationDisplayImage(NSImage *anImage, CGFloat delay);
+void SparkNotificationDisplayImage(NSImage *anImage, CGFloat duration);
 
-/* See <HIServices/Icons.h> for possible values */
-//SPARK_EXPORT
-//void SparkNotificationDisplaySystemIcon(OSType icon, CGFloat delay);
-
-/* Private notifications */
 SPARK_EXPORT
-void SparkNotificationDisplay(NSView *view, CGFloat delay);
+void SparkNotificationDisplayImageWithLevel(NSImage *anImage, CGFloat level, CGFloat duration);
 
 #endif /* Obj-C */
 

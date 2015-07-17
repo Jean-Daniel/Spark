@@ -6,10 +6,7 @@
  *  Copyright (c) 2004 - 2007, Shadow Lab. All rights reserved.
  */
 
-#import "WBLevelView.h"
+#import <SparkKit/SparkKit.h>
 
-@interface SoundView : WBLevelView
-
-@property(nonatomic, getter=isMuted) BOOL muted;
-
-@end
+SPARK_PRIVATE
+void _SAAudioAddVolumeImage(CGContextRef ctxt, bool muted);

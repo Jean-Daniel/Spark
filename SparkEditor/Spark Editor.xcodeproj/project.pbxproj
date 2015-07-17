@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1B1184BB13C0BAE500A222F0 /* SparkKit.framework in Copy Framework */ = {isa = PBXBuildFile; fileRef = 1B91B43C13C088A5005FC86D /* SparkKit.framework */; };
-		1B1184BD13C0BAE500A222F0 /* HotKeyToolKit.framework in Copy Framework */ = {isa = PBXBuildFile; fileRef = 1B35ED3813C0BA2300A8AEA6 /* HotKeyToolKit.framework */; };
+		1B1184BB13C0BAE500A222F0 /* SparkKit.framework in Copy Framework */ = {isa = PBXBuildFile; fileRef = 1B91B43C13C088A5005FC86D /* SparkKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		1B1184BD13C0BAE500A222F0 /* HotKeyToolKit.framework in Copy Framework */ = {isa = PBXBuildFile; fileRef = 1B35ED3813C0BA2300A8AEA6 /* HotKeyToolKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		1B1358700CA110DB00766572 /* generalpref.icns in Resources */ = {isa = PBXBuildFile; fileRef = 1B13586E0CA110DB00766572 /* generalpref.icns */; };
 		1B1358710CA110DB00766572 /* advancedpref.icns in Resources */ = {isa = PBXBuildFile; fileRef = 1B13586F0CA110DB00766572 /* advancedpref.icns */; };
 		1B1358E90CA11B8800766572 /* updatepref.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B1358E80CA11B8800766572 /* updatepref.tiff */; };
@@ -21,13 +21,13 @@
 		1B35ED3613C0B8C900A8AEA6 /* SecurityInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B35ED3213C0B8C900A8AEA6 /* SecurityInterface.framework */; };
 		1B35ED3713C0B8C900A8AEA6 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B35ED3313C0B8C900A8AEA6 /* WebKit.framework */; };
 		1B35ED3913C0BA2300A8AEA6 /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B35ED3813C0BA2300A8AEA6 /* HotKeyToolKit.framework */; };
-		1B35ED4213C0BA7300A8AEA6 /* TextAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 1B35ED3B13C0BA7300A8AEA6 /* TextAction.spact */; };
-		1B35ED4313C0BA7300A8AEA6 /* SystemAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 1B35ED3C13C0BA7300A8AEA6 /* SystemAction.spact */; };
-		1B35ED4413C0BA7300A8AEA6 /* iTunesAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 1B35ED3D13C0BA7300A8AEA6 /* iTunesAction.spact */; };
-		1B35ED4513C0BA7300A8AEA6 /* AppleScriptAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 1B35ED3E13C0BA7300A8AEA6 /* AppleScriptAction.spact */; };
-		1B35ED4613C0BA7300A8AEA6 /* ApplicationAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 1B35ED3F13C0BA7300A8AEA6 /* ApplicationAction.spact */; };
-		1B35ED4713C0BA7300A8AEA6 /* DocumentAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 1B35ED4013C0BA7300A8AEA6 /* DocumentAction.spact */; };
-		1B35ED4813C0BA7300A8AEA6 /* AccessibilityAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 1B35ED4113C0BA7300A8AEA6 /* AccessibilityAction.spact */; };
+		1B35ED4213C0BA7300A8AEA6 /* TextAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 1B35ED3B13C0BA7300A8AEA6 /* TextAction.spact */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		1B35ED4313C0BA7300A8AEA6 /* SystemAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 1B35ED3C13C0BA7300A8AEA6 /* SystemAction.spact */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		1B35ED4413C0BA7300A8AEA6 /* iTunesAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 1B35ED3D13C0BA7300A8AEA6 /* iTunesAction.spact */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		1B35ED4513C0BA7300A8AEA6 /* AppleScriptAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 1B35ED3E13C0BA7300A8AEA6 /* AppleScriptAction.spact */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		1B35ED4613C0BA7300A8AEA6 /* ApplicationAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 1B35ED3F13C0BA7300A8AEA6 /* ApplicationAction.spact */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		1B35ED4713C0BA7300A8AEA6 /* DocumentAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 1B35ED4013C0BA7300A8AEA6 /* DocumentAction.spact */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		1B35ED4813C0BA7300A8AEA6 /* AccessibilityAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 1B35ED4113C0BA7300A8AEA6 /* AccessibilityAction.spact */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		1B55EAE40B8625ED000E1760 /* SparkAware.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B55EAE30B8625ED000E1760 /* SparkAware.tiff */; };
 		1B5F396E0B5D451700879DF5 /* SETriggersController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B580B19A59700C8425C /* SETriggersController.mm */; };
 		1B68A688141134CA0017CD27 /* SparkleDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B68A684141134CA0017CD27 /* SparkleDelegate.h */; };
@@ -35,11 +35,11 @@
 		1B68A68A141134CA0017CD27 /* SURSAVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B68A686141134CA0017CD27 /* SURSAVerifier.m */; };
 		1B68A68B141134CA0017CD27 /* SUVersionComparator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B68A687141134CA0017CD27 /* SUVersionComparator.m */; };
 		1B68A6AC1411392B0017CD27 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B68A6AB1411392B0017CD27 /* Sparkle.framework */; };
-		1B68A6B01411396F0017CD27 /* Sparkle.framework in Copy Framework */ = {isa = PBXBuildFile; fileRef = 1B68A6AB1411392B0017CD27 /* Sparkle.framework */; };
+		1B68A6B01411396F0017CD27 /* Sparkle.framework in Copy Framework */ = {isa = PBXBuildFile; fileRef = 1B68A6AB1411392B0017CD27 /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		1B91B43D13C088A5005FC86D /* SparkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B91B43C13C088A5005FC86D /* SparkKit.framework */; };
 		1B91B44213C08924005FC86D /* Spark Daemon.app in Copy Daemon */ = {isa = PBXBuildFile; fileRef = 1B91B44013C088FF005FC86D /* Spark Daemon.app */; };
 		1B92D0F017072AB700F40FCD /* WonderBox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B92D0EF17072AB600F40FCD /* WonderBox.framework */; };
-		1B92D0F71707345500F40FCD /* WonderBox.framework in Copy Framework */ = {isa = PBXBuildFile; fileRef = 1B92D0EF17072AB600F40FCD /* WonderBox.framework */; };
+		1B92D0F71707345500F40FCD /* WonderBox.framework in Copy Framework */ = {isa = PBXBuildFile; fileRef = 1B92D0EF17072AB600F40FCD /* WonderBox.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		1B9A7A670D0D96DD00770054 /* SEPluginHelp.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B9A7A650D0D96DD00770054 /* SEPluginHelp.xib */; };
 		1B9A7A6D0D0D978800770054 /* SEEntryEditor.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B9A7A6B0D0D978800770054 /* SEEntryEditor.xib */; };
 		1B9A7A7A0D0D998B00770054 /* SEPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B9A7A780D0D998B00770054 /* SEPreferences.xib */; };
@@ -55,7 +55,6 @@
 		1BAF36D71B3C7FB8006F05FC /* SparkLibraryArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BAF36D61B3C7FB8006F05FC /* SparkLibraryArchive.m */; };
 		1BB11ABC0B931FAE00908925 /* SELibrary.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1BB11ABB0B931FAE00908925 /* SELibrary.tiff */; };
 		1BCC2D3D1B31919000ED8883 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1BCC2D3C1B31919000ED8883 /* Images.xcassets */; };
-		1BD0A0F91B23465C007F6E86 /* project.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 1BD0A0F81B23465C007F6E86 /* project.xcconfig */; };
 		1BD1A1890D0D4926004206FA /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BD1A1870D0D4926004206FA /* MainMenu.xib */; };
 		1BD1A18D0D0D4A02004206FA /* SELibraryWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BD1A18B0D0D4A02004206FA /* SELibraryWindow.xib */; };
 		1BEBF5940EBDE53C00404150 /* SEExportShortcut.xml in Resources */ = {isa = PBXBuildFile; fileRef = 1BEBF56D0EBDE42100404150 /* SEExportShortcut.xml */; };
@@ -873,7 +872,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0640;
 			};
 			buildConfigurationList = 98BC60560857BB9400A2041F /* Build configuration list for PBXProject "Spark Editor" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -905,7 +904,6 @@
 				984BCE56060C7E990043CDEA /* Splib.icns in Resources */,
 				98451106075A0304000D3F88 /* Splist.icns in Resources */,
 				984BCE57060C7E990043CDEA /* Spact.icns in Resources */,
-				1BD0A0F91B23465C007F6E86 /* project.xcconfig in Resources */,
 				984BCE59060C7E990043CDEA /* Spark.icns in Resources */,
 				984199350A5E67BE0009A093 /* Add.png in Resources */,
 				984199360A5E67BE0009A093 /* AddDown.png in Resources */,
@@ -1246,6 +1244,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1BBE7D0F0ED04F760004D9DD /* debug.xcconfig */;
 			buildSettings = {
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				ONLY_ACTIVE_ARCH = YES;
 			};
 			name = Debug;
 		};
@@ -1265,6 +1267,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1BBE7D100ED04F760004D9DD /* release.xcconfig */;
 			buildSettings = {
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 			};
 			name = Release;
 		};

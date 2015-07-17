@@ -113,41 +113,26 @@ WBBezelItem *_SparkNotifiationSharedItem(void) {
   return _shared;
 }
 
-static 
-NSImageView *_SparkNotificationSharedImageView(void) {
-  static WBImageView *_shared = nil;
-  if (!_shared) {
-    _shared = [[WBImageView alloc] initWithFrame:NSMakeRect(0, 0, 128, 128)];
-    [_shared setEditable:NO];
-    [_shared setImageFrameStyle:NSImageFrameNone];
-    [_shared setImageAlignment:NSImageAlignCenter];
-    [_shared setImageScaling:NSScaleProportionally];
-    [_shared setImageInterpolation:NSImageInterpolationHigh];
-  }
-  return _shared;
+void SparkNotificationDisplayIcon(IconRef icon, CGFloat duration) {
+  NSImage *image = [[NSImage alloc] initWithIconRef:icon];
+  if (image)
+    SparkNotificationDisplayImage(image, duration);
 }
 
-void SparkNotificationDisplay(NSView *view, CGFloat delay) {
+void SparkNotificationDisplayImage(NSImage *anImage, CGFloat duration) {
   WBBezelItem *item = _SparkNotifiationSharedItem();
-  item.view = view;
-  item.delay = delay;
+  [anImage setSize:CGSizeMake(128, 128)];
+  item.image = anImage;
+  item.duration = duration;
+  item.levelBarVisible = NO;
   [item display:nil];
 }
 
-void SparkNotificationDisplayIcon(IconRef icon, CGFloat delay) {
-  NSImage *image = [[NSImage alloc] initWithIconRef:icon];
-  if (image)
-    SparkNotificationDisplayImage(image, delay);
+void SparkNotificationDisplayImageWithLevel(NSImage *anImage, CGFloat level, CGFloat duration) {
+  WBBezelItem *item = _SparkNotifiationSharedItem();
+  item.image = anImage;
+  item.duration = duration;
+  item.levelValue = level;
+  item.levelBarVisible = YES;
+  [item display:nil];
 }
-
-void SparkNotificationDisplayImage(NSImage *anImage, CGFloat delay) {
-  NSImageView *view = _SparkNotificationSharedImageView();
-  view.image = anImage;
-  SparkNotificationDisplay(view, delay);
-}
-
-//void SparkNotificationDisplaySystemIcon(OSType icon, CGFloat delay) {
-//  WBIconView *view = _SparkNotificationSharedIconView();
-//  [view setSystemIcon:icon];
-//  SparkNotificationDisplay(view, delay);
-//}

@@ -131,6 +131,12 @@
 		1B9FD1FA1B255EA5005917EC /* SparkEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB2033B0EAF23B60072FE62 /* SparkEvent.m */; };
 		1B9FD1FB1B255F6D005917EC /* SparkEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = 98EDA3C30A9FA1B000519E9B /* SparkEntry.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		1B9FD1FC1B25C1AE005917EC /* SparkPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 9864A33E0BD117F20089447D /* SparkPreferences.m */; };
+		1BA504FF1B580DEC00C6649B /* WBBezelLegacy.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BA504F91B580DEC00C6649B /* WBBezelLegacy.h */; };
+		1BA505001B580DEC00C6649B /* WBBezelLegacy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BA504FA1B580DEC00C6649B /* WBBezelLegacy.m */; };
+		1BA505011B580DEC00C6649B /* WBBezelVisualEffect.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BA504FB1B580DEC00C6649B /* WBBezelVisualEffect.h */; };
+		1BA505021B580DEC00C6649B /* WBBezelVisualEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BA504FC1B580DEC00C6649B /* WBBezelVisualEffect.m */; };
+		1BA505031B580DEC00C6649B /* WBBezelWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BA504FD1B580DEC00C6649B /* WBBezelWindow.h */; };
+		1BA505041B580DEC00C6649B /* WBBezelWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BA504FE1B580DEC00C6649B /* WBBezelWindow.m */; };
 		1BB55E391B2C37830056FFB0 /* SparkIconManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 98E6514F0B62932B008A8C9B /* SparkIconManager.m */; };
 		1BB55E3A1B2CF94C0056FFB0 /* SparkLibraryPrivate.m in Sources */ = {isa = PBXBuildFile; fileRef = 98A8AB9E0D01B21800CE8C12 /* SparkLibraryPrivate.m */; };
 		1BB55E3B1B2CFBB80056FFB0 /* SparkEntryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 98EDA3F20A9FA34100519E9B /* SparkEntryManager.m */; };
@@ -268,6 +274,12 @@
 		1B92D0EB170728A100F40FCD /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		1BA3812D0EFE6F5F00CF5D07 /* WBFinderSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBFinderSuite.h; sourceTree = "<group>"; };
 		1BA3812E0EFE6F5F00CF5D07 /* WBFinderSuite.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WBFinderSuite.c; sourceTree = "<group>"; };
+		1BA504F91B580DEC00C6649B /* WBBezelLegacy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBBezelLegacy.h; sourceTree = "<group>"; };
+		1BA504FA1B580DEC00C6649B /* WBBezelLegacy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBBezelLegacy.m; sourceTree = "<group>"; };
+		1BA504FB1B580DEC00C6649B /* WBBezelVisualEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBBezelVisualEffect.h; sourceTree = "<group>"; };
+		1BA504FC1B580DEC00C6649B /* WBBezelVisualEffect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBBezelVisualEffect.m; sourceTree = "<group>"; };
+		1BA504FD1B580DEC00C6649B /* WBBezelWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBBezelWindow.h; sourceTree = "<group>"; };
+		1BA504FE1B580DEC00C6649B /* WBBezelWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBBezelWindow.m; sourceTree = "<group>"; };
 		1BAD4020130DC8B90066B1AB /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/WBProgress.strings; sourceTree = "<group>"; };
 		1BAD4026130DC8E30066B1AB /* WBBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBBase.h; sourceTree = "<group>"; };
 		1BAD406C130DCA940066B1AB /* WBTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTextFieldCell.h; sourceTree = "<group>"; };
@@ -591,6 +603,12 @@
 			children = (
 				1BB983690D381ECC0074D18E /* WBBezelItem.h */,
 				1BB9836A0D381ECC0074D18E /* WBBezelItem.m */,
+				1BA504F91B580DEC00C6649B /* WBBezelLegacy.h */,
+				1BA504FA1B580DEC00C6649B /* WBBezelLegacy.m */,
+				1BA504FB1B580DEC00C6649B /* WBBezelVisualEffect.h */,
+				1BA504FC1B580DEC00C6649B /* WBBezelVisualEffect.m */,
+				1BA504FD1B580DEC00C6649B /* WBBezelWindow.h */,
+				1BA504FE1B580DEC00C6649B /* WBBezelWindow.m */,
 				1BB9836D0D381ECC0074D18E /* WBNotificationWindow.h */,
 				1BB9836E0D381ECC0074D18E /* WBNotificationWindow.m */,
 			);
@@ -913,6 +931,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1BCB8F941706124600CC8C3C /* WBBase.h in Headers */,
+				1BA505011B580DEC00C6649B /* WBBezelVisualEffect.h in Headers */,
 				1B95F378170619D000392CD7 /* WBProcessFunctions.h in Headers */,
 				1B95F379170619E000392CD7 /* WBApplication.h in Headers */,
 				1B95F37D17061A1500392CD7 /* WBFunctions.h in Headers */,
@@ -947,6 +966,7 @@
 				1B92D0C11707269800F40FCD /* WBWindowController.h in Headers */,
 				1B92D0C5170726EA00F40FCD /* WBHeaderView.h in Headers */,
 				1B92D0C6170726EA00F40FCD /* WBSplitview.h in Headers */,
+				1BA505031B580DEC00C6649B /* WBBezelWindow.h in Headers */,
 				1B92D0C8170726EA00F40FCD /* WBImageAndTextCell.h in Headers */,
 				1B92D0CE1707270200F40FCD /* WBImageAndTextView.h in Headers */,
 				1B92D0D01707271200F40FCD /* WBTextFieldCell.h in Headers */,
@@ -955,6 +975,7 @@
 				1B92D0D41707272F00F40FCD /* NSButton+WonderBox.h in Headers */,
 				1B92D0D71707274700F40FCD /* NSArrayController+WonderBox.h in Headers */,
 				1B92D0DB170727A900F40FCD /* WBBase64.h in Headers */,
+				1BA504FF1B580DEC00C6649B /* WBBezelLegacy.h in Headers */,
 				1B92D0DC170727A900F40FCD /* WBVersionFunctions.h in Headers */,
 				1B92D0E11707284000F40FCD /* WBTemplate.h in Headers */,
 				1B92D0E21707284000F40FCD /* WBTemplateParser.h in Headers */,
@@ -1050,7 +1071,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0460;
+				LastUpgradeCheck = 0640;
 			};
 			buildConfigurationList = 9848D88A085638FD006B5130 /* Build configuration list for PBXProject "SparkKit" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1151,6 +1172,7 @@
 				1B70075D1706EE09003F5780 /* NSString+WonderBox.m in Sources */,
 				1B70075F1706EE25003F5780 /* NSTabView+WonderBox.m in Sources */,
 				1B7007621706EF23003F5780 /* WBGradient.m in Sources */,
+				1BA505021B580DEC00C6649B /* WBBezelVisualEffect.m in Sources */,
 				1B7007641706EF34003F5780 /* WBInterpolationFunction.m in Sources */,
 				1B7007671706F08E003F5780 /* WBODFunctions.c in Sources */,
 				1B70076A1706F0C6003F5780 /* WBIOKitFunctions.c in Sources */,
@@ -1169,6 +1191,8 @@
 				1B92D0D81707274B00F40FCD /* NSArrayController+WonderBox.m in Sources */,
 				1B92D0DD170727AF00F40FCD /* WBBase64.c in Sources */,
 				1B92D0DE170727AF00F40FCD /* WBVersionFunctions.m in Sources */,
+				1BA505041B580DEC00C6649B /* WBBezelWindow.m in Sources */,
+				1BA505001B580DEC00C6649B /* WBBezelLegacy.m in Sources */,
 				1B92D0E41707284800F40FCD /* WBTemplate.m in Sources */,
 				1B92D0E51707284800F40FCD /* WBTemplateParser.m in Sources */,
 				1B92D0E61707284800F40FCD /* WBXMLTemplate.m in Sources */,
@@ -1332,6 +1356,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B8623910ECF91AD0006C26B /* debug.xcconfig */;
 			buildSettings = {
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				ONLY_ACTIVE_ARCH = YES;
 			};
 			name = Debug;
 		};
@@ -1354,6 +1382,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B8623920ECF91AD0006C26B /* release.xcconfig */;
 			buildSettings = {
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 			};
 			name = Release;
 		};

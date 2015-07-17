@@ -10,7 +10,6 @@
 
 #import "SoundView.h"
 #import "AudioOutput.h"
-#import "BrightnessView.h"
 
 /* getuid() */
 #include <unistd.h>
@@ -69,12 +68,14 @@ NSString * const kSystemUserNameKey = @"SystemUserName";
   UInt32 flags = 0;
   if (sa_saFlags.notify) flags |= 1 << 0;
   if (sa_saFlags.confirm) flags |= 1 << 1;
+  if (sa_saFlags.feedback) flags |= 1 << 2;
   return flags;
 }
 
 - (void)decodeFlags:(UInt32)flags {
   if (flags & 1 << 0) sa_saFlags.notify = 1; /* bit 0 */
   if (flags & 1 << 1) sa_saFlags.confirm = 1; /* bit 1 */
+  if (flags & 1 << 2) sa_saFlags.feedback = 1; /* bit 1 */
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
@@ -239,7 +240,7 @@ NSString * const kSystemUserNameKey = @"SystemUserName";
 }
 
 - (BOOL)needsToBeRunOnMainThread {
-  return [self shouldNotify];
+  return NO;
 }
 - (BOOL)supportsConcurrentRequests {
   return YES;
@@ -337,10 +338,33 @@ kAEShowShutdownDialog         = 'rsdn'
 #pragma mark -
 #pragma mark Sound Management
 static
-SoundView *_SASharedSoundView(void) {
-  static SoundView *shared = nil;
+NSImage *_SASharedSoundImage(void) {
+  static NSImage *shared = nil;
   if (!shared) {
-    shared = [[SoundView alloc] initWithFrame:NSMakeRect(0, 0, 161, 156)];
+    shared = [NSImage imageWithSize:CGSizeMake(170, 170) flipped:NO drawingHandler:^BOOL(NSRect dstRect) {
+      CGContextRef ctxt = [[NSGraphicsContext currentContext] graphicsPort];
+      _SAAudioAddVolumeImage(ctxt, false);
+      CGContextSetGrayFillColor(ctxt, 0, 1);
+      CGContextFillPath(ctxt);
+      return YES;
+    }];
+    shared.template = YES;
+  }
+  return shared;
+}
+
+static
+NSImage *_SASharedSoundMuteImage(void) {
+  static NSImage *shared = nil;
+  if (!shared) {
+    shared = [NSImage imageWithSize:CGSizeMake(170, 170) flipped:NO drawingHandler:^BOOL(NSRect dstRect) {
+      CGContextRef ctxt = [[NSGraphicsContext currentContext] graphicsPort];
+      _SAAudioAddVolumeImage(ctxt, true);
+      CGContextSetGrayFillColor(ctxt, 0, 1);
+      CGContextFillPath(ctxt);
+      return YES;
+    }];
+    shared.template = YES;
   }
   return shared;
 }
@@ -357,28 +381,31 @@ static NSSound *_SASharedSound(void) {
 
 - (void)notifySoundChangeForDevice:(AudioDeviceID)device {
   if ([self shouldNotify]) {
-    Boolean mute;
-    UInt32 level = 0;
-    SoundView *view = _SASharedSoundView();
-    OSStatus err = AudioOutputIsMuted(device, &mute);
-    if (noErr == err) {
-      [view setMuted:mute];
-      err = AudioOutputVolumeGetLevel(device, &level);
-    }
-    if (noErr == err) {
-      [view setLevel:level];
-      if ([self playFeedback] && !mute && level > 0) {
-        if (![SparkAction currentEventIsARepeat] ||
-            ([SparkAction currentEventTime] - sa_start > 1)) {
-          /* When repeat, play one beep per second */
-          sa_start = [SparkAction currentEventTime];
-          NSSound *sound = _SASharedSound();
-          if (![sound isPlaying])
-            [sound play];
-        }
+    dispatch_async(dispatch_get_main_queue(), ^{
+      NSImage *image;
+      Boolean mute;
+      UInt32 level = 0;
+      OSStatus err = AudioOutputIsMuted(device, &mute);
+      if (noErr == err && mute) {
+        image = _SASharedSoundMuteImage();
+      } else {
+        err = AudioOutputVolumeGetLevel(device, &level);
+        image = level > 0 ? _SASharedSoundImage() : _SASharedSoundMuteImage();
       }
-      SparkNotificationDisplay(view, -1);
-    }
+      if (noErr == err) {
+        if ([self playFeedback] && !mute && level > 0) {
+          if (![SparkAction currentEventIsARepeat] ||
+              ([SparkAction currentEventTime] - self->sa_start > 1)) {
+            /* When repeat, play one beep per second */
+            self->sa_start = [SparkAction currentEventTime];
+            NSSound *sound = _SASharedSound();
+            if (![sound isPlaying])
+              [sound play];
+          }
+        }
+        SparkNotificationDisplayImageWithLevel(image, (CGFloat)level / 16., -1);
+      }
+    });
   }
 }
 
@@ -425,48 +452,47 @@ static NSSound *_SASharedSound(void) {
 
 #pragma mark Brightness
 
-static
-const float kBrightnessLevels[] = {
-  0.00f,
-  0.06f, 0.12f, 0.19f, 0.25f,
-  0.31f, 0.37f, 0.44f, 0.50f,
-  0.56f, 0.62f, 0.69f, 0.75f,
-  0.81f, 0.87f, 0.93f, 1.00f,
-};
-
 static 
 CFStringRef kSystemBrightnessKey = CFSTR("brightness");
 
 static
-BrightnessView *_SASharedBrightnessView(void) {
-  static BrightnessView *shared = nil;
+NSImage *_SASharedBrightnessImage(void) {
+  static NSImage *shared = nil;
   if (!shared) {
-    shared = [[BrightnessView alloc] initWithFrame:NSMakeRect(0, 0, 161, 156)];
+    shared = [NSImage imageWithSize:NSMakeSize(170, 170) flipped:NO drawingHandler:^BOOL(NSRect dstRect) {
+      CGContextRef ctxt = [[NSGraphicsContext currentContext] graphicsPort];
+      // Draw in solid black as we create a template image.
+      CGContextSetGrayFillColor(ctxt, 0, 1);
+
+      // Draw the sun center.
+      CGContextAddEllipseInRect(ctxt, CGRectMake(61, 74, 48, 48));
+      CGContextAddEllipseInRect(ctxt, CGRectMake(67, 80, 36, 36));
+      CGContextEOFillPath(ctxt);
+
+      CGContextTranslateCTM(ctxt, 85, 98);
+
+      // Draw the sun radius.
+      for (int idx = 0; idx < 8; ++idx) {
+        CGContextMoveToPoint(ctxt, 35, 3);
+        CGContextAddArc(ctxt, 53, 0, 3, M_PI_2, -M_PI_2, 1);
+        CGContextAddArc(ctxt, 35, 0, 3, -M_PI_2, M_PI_2, 1);
+        CGContextFillPath(ctxt);
+
+        CGContextRotateCTM(ctxt, M_PI_4);
+      }
+
+      return YES;
+    }];
+    shared.template = YES;
   }
   return shared;
 }
 
-WB_INLINE
-NSUInteger __SystemBrightnessLevelForValue(float value) {
-  if (value <= 0.0)
-    return 0;
-  else if (value >= 1.0)
-    return 16;
-  for (NSUInteger level = 0; level < 16; level++) {
-    /* If bewteen current level and next level */
-    if (value < kBrightnessLevels[level + 1]) {
-      /* Round level */
-      Float32 avg = (kBrightnessLevels[level] + kBrightnessLevels[level + 1]) / 2.f;
-      return value < avg ? level : level + 1;
-    }
-  }
-  return 16;
-}
-
-- (void)notifyBrightnessLevel:(NSUInteger)level {
+- (void)notifyBrightnessLevel:(CGFloat)level {
   if ([self shouldNotify]) {
-    [_SASharedBrightnessView() setLevel:level];
-    SparkNotificationDisplay(_SASharedBrightnessView(), -1);
+    dispatch_async(dispatch_get_main_queue(), ^{
+      SparkNotificationDisplayImageWithLevel(_SASharedBrightnessImage(), level, -1);
+    });
   }
 }
 
@@ -479,13 +505,15 @@ NSUInteger __SystemBrightnessLevelForValue(float value) {
   float value = 0;
   OSStatus err = WBIODisplayGetFloatParameter(kSystemBrightnessKey, &value);
   if (noErr == err) {
-    NSUInteger level = __SystemBrightnessLevelForValue(value);
-    if (level < 16)
-      level++;
-    err = WBIODisplaySetFloatParameter(kSystemBrightnessKey, kBrightnessLevels[level]);
+    value *= 16;
+    if (value < 16)
+      value = roundf(value + 1) / 16.f;
+    else
+      value = 1;
+    err = WBIODisplaySetFloatParameter(kSystemBrightnessKey, value);
     
     if (noErr == err)
-      [self notifyBrightnessLevel:level];
+      [self notifyBrightnessLevel:value];
   }
 }
 
@@ -493,13 +521,15 @@ NSUInteger __SystemBrightnessLevelForValue(float value) {
   float value = 0;
   OSStatus err = WBIODisplayGetFloatParameter(kSystemBrightnessKey, &value);
   if (noErr == err) {
-    NSUInteger level = __SystemBrightnessLevelForValue(value);
-    if (level > 0)
-      level--;
-    err = WBIODisplaySetFloatParameter(kSystemBrightnessKey, kBrightnessLevels[level]);
+    value *= 16;
+    if (value > 0)
+      value = roundf(value - 1) / 16.f;
+    else
+      value = 0;
+    err = WBIODisplaySetFloatParameter(kSystemBrightnessKey, value);
     
     if (noErr == err)
-      [self notifyBrightnessLevel:level];
+      [self notifyBrightnessLevel:value];
   }
 }
 
