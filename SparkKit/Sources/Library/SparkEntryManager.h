@@ -53,7 +53,7 @@ SPARK_OBJC_EXPORT
 
 #pragma mark Queries
 //- (NSArray *)entriesForAction:(SparkUID)anAction;
-//- (NSArray *)entriesForTrigger:(SparkUID)aTrigger;
+- (NSArray *)entriesForTrigger:(SparkTrigger *)aTrigger;
 - (NSArray *)entriesForApplication:(SparkApplication *)anApplication;
 
 /* Orphan check */

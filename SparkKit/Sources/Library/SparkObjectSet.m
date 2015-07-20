@@ -17,7 +17,6 @@
 #import <SparkKit/SparkTrigger.h>
 #import <SparkKit/SparkApplication.h>
 
-#import <WonderBox/WBEnumerator.h>
 #import <WonderBox/WBSerialization.h>
 #import <WonderBox/NSImage+WonderBox.h>
 

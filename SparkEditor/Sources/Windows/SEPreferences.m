@@ -421,7 +421,7 @@ void _SEPreferencesUpdateLoginItem(void) {
 #if !defined(DEBUG)
         CFDictionaryRef properties = CFDictionaryCreate(kCFAllocatorDefault, (const void **)&kLSSharedFileListItemHidden,
                                                         (const void **)&kCFBooleanTrue, 1, &kCFCopyStringDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
-        LSSharedFileListInsertItemURL(list, kLSSharedFileListItemLast, NULL, NULL, (CFURLRef)sparkd, properties, NULL);
+        LSSharedFileListInsertItemURL(list, kLSSharedFileListItemLast, NULL, NULL, SPXNSToCFURL(sparkd), properties, NULL);
         CFRelease(properties);
 #else
         SPXDebug(@"Add login item: %@", sparkd);

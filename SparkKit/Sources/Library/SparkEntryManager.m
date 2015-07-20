@@ -12,8 +12,6 @@
 #import "SparkEntryPrivate.h"
 #import "SparkLibraryPrivate.h"
 
-#import <WonderBox/WBEnumerator.h>
-
 #import <objc/objc-runtime.h>
 #import <SparkKit/SparkPrivate.h>
 

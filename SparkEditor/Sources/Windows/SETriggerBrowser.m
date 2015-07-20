@@ -14,8 +14,8 @@
 #import <SparkKit/SparkObjectSet.h>
 #import <SparkKit/SparkEntryManager.h>
 
-#import WBHEADER(WBTableView.h)
-#import WBHEADER(WBTableDataSource.h)
+#import <WonderBox/WBTableView.h>
+#import <WonderBox/WBTableDataSource.h>
 
 #import <HotKeyToolKit/HKKeyMap.h>
 
@@ -38,7 +38,6 @@
     // register it with the name that we refer to it with
     [NSValueTransformer setValueTransformer:transformer
                                     forName:@"SEBooleanToImageTransformer"];
-    [transformer release];
   }
 }
 
@@ -51,7 +50,6 @@
 - (void)dealloc {
   [self setLibrary:nil];
   [[NSNotificationCenter defaultCenter] removeObserver:self];
-  [super dealloc];
 }
 
 - (SparkLibrary *)library {
@@ -65,14 +63,8 @@
 
 - (void)setLibrary:(SparkLibrary *)aLibrary {
   if (se_library != aLibrary) {
-    if (se_library) {
-      [se_library release];
-    }
-    se_library = [aLibrary retain];
-    if (se_library) {
-    }
+    se_library = aLibrary;
   }
-  
 }
 
 - (void)setDocument:(SELibraryDocument *)aDocument {
@@ -94,7 +86,7 @@
 
 - (NSArray *)entries:(SparkTrigger *)trigger {
   NSMutableArray *result = [NSMutableArray array];
-  NSArray *entries = [[se_library entryManager] entriesForTrigger:[trigger uid]];
+  NSArray *entries = [[se_library entryManager] entriesForTrigger:trigger];
   NSUInteger idx = [entries count];
   while (idx-- > 0) {
     [result addObject:[entries objectAtIndex:idx]];
@@ -104,15 +96,12 @@
 
 - (void)awakeFromNib {
   /* Load triggers */
-  NSArray *triggers = [[se_library triggerSet] objects];
-  NSUInteger idx = [triggers count];
-  while (idx-- > 0) {
-    SparkTrigger *trigger = [triggers objectAtIndex:idx];
+  [[se_library triggerSet] enumerateObjectsUsingBlock:^(SparkTrigger *trigger, BOOL *stop) {
     NSDictionary *entry = [NSDictionary dictionaryWithObjectsAndKeys:
-      trigger, @"trigger",
-      [self entries:trigger], @"entries", nil];
-    [ibTriggers addObject:entry];
-  }
+                           trigger, @"trigger",
+                           [self entries:trigger], @"entries", nil];
+    [self->ibTriggers addObject:entry];
+  }];
 }
 
 - (void)libraryDidChange:(NSNotification *)aNotification {
@@ -123,7 +112,7 @@
 
 @implementation SEBooleanToImageTransformer 
 
-+ (Class)transformedValueClass; {
++ (Class)transformedValueClass {
   return [NSImage class];
 }
 
@@ -142,7 +131,7 @@
       img = [NSImage imageNamed:@"SECheck"];
     }
   } else {
-    WBThrowException(NSInternalInconsistencyException, 
+    SPXThrowException(NSInternalInconsistencyException,
                      @"Value (%@) does not respond to -boolValue.", [value class]);
   }
   
@@ -151,9 +140,9 @@
 
 - (id)reverseTransformedValue:(id)value {
   if (value)
-    return WBBool(YES);
+    return @YES;
   
-  return WBBool(NO);
+  return @NO;
 }
 
 @end
@@ -161,35 +150,39 @@
 @implementation SparkHotKey (SEModifierAccess)
 
 static NSString *sCommand = nil, *sOption = nil, *sControl = nil, *sShift = nil;
-  
-+ (void)load {
-  UniChar ch;
-  if (!sCommand) {
-    ch = 0x21E7;
-    sShift = (id)CFStringCreateWithCharacters(kCFAllocatorDefault, &ch, 1);
+
+static inline void _init(void) {
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    UniChar ch = 0x21E7;
+    sShift = SPXCFStringBridgingRelease(CFStringCreateWithCharacters(kCFAllocatorDefault, &ch, 1));
     ch = 0x2325;
-    sOption = (id)CFStringCreateWithCharacters(kCFAllocatorDefault, &ch, 1);
+    sOption = SPXCFStringBridgingRelease(CFStringCreateWithCharacters(kCFAllocatorDefault, &ch, 1));
     ch = 0x2303;
-    sControl = (id)CFStringCreateWithCharacters(kCFAllocatorDefault, &ch, 1);
+    sControl = SPXCFStringBridgingRelease(CFStringCreateWithCharacters(kCFAllocatorDefault, &ch, 1));
     ch = 0x2318;
-    sCommand = (id)CFStringCreateWithCharacters(kCFAllocatorDefault, &ch, 1);
-  }
+    sCommand = SPXCFStringBridgingRelease(CFStringCreateWithCharacters(kCFAllocatorDefault, &ch, 1));
+  });
 }
 
 - (NSString *)characters {
-  return HKMapGetStringRepresentationForCharacterAndModifier([self character], 0);
+  return [HKKeyMap stringRepresentationForCharacter:[self character] modifiers:0];
 }
 
 - (NSString *)control {
+  _init();
   return ([self nativeModifier] & kCGEventFlagMaskControl) != 0 ? sControl : nil;
 }
 - (NSString *)option {
+  _init();
   return ([self nativeModifier] & kCGEventFlagMaskAlternate) != 0 ? sOption : nil;
 }
 - (NSString *)shift {
+  _init();
   return ([self nativeModifier] & kCGEventFlagMaskShift) != 0 ? sShift : nil;
 }
 - (NSString *)command {
+  _init();
   return ([self nativeModifier] & kCGEventFlagMaskCommand) != 0 ? sCommand : nil;
 }
 

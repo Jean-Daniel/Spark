@@ -126,13 +126,12 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
 }
 
 - (IBAction)openTriggerBrowser:(id)sender {
-//  SETriggerBrowser *browser = [self browser];
-//  if (!browser) {
-//    browser = [[SETriggerBrowser alloc] init];
-//    [self addWindowController:browser];
-//    [browser release];
-//  }
-//  [browser showWindow:sender];
+  SETriggerBrowser *browser = [self browser];
+  if (!browser) {
+    browser = [[SETriggerBrowser alloc] init];
+    [self addWindowController:browser];
+  }
+  [browser showWindow:sender];
 }
 
 - (IBAction)saveAsArchive:(id)sender {
