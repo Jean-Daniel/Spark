@@ -791,7 +791,7 @@ CFDictionaryRef iTunesCopyPlaylists(void) {
 	
   err = __iTunesGetPlaylistsProperty(&playlists, typeSInt32, 'ID  ', &ids);
   require_noerr(err, bail);
-  
+
   err = __iTunesGetPlaylistsProperty(&playlists, typeSInt64, kiTunesPersistentID, &uids);
   require_noerr(err, bail);
   
@@ -821,7 +821,7 @@ CFDictionaryRef iTunesCopyPlaylists(void) {
               kind = kPlaylistMusic;
               break;
             case 'kSpI':
-              kind = kPlaylistMovie;
+              kind = kPlaylistMovies;
               break;
 							//            case 'kSpI':
 							//              kind = kPlaylistTVShow:
@@ -835,9 +835,7 @@ CFDictionaryRef iTunesCopyPlaylists(void) {
             case 'kSpM':
               kind = kPlaylistPurchased;
               break;
-            case 'kSpS':
-              kind = kPlaylistPartyShuffle;
-              break;
+            case 'kNon': // modern iTunes version
             case 'kSpN': {
               // check if smart. 
               UInt32 id = 0;
@@ -851,6 +849,9 @@ CFDictionaryRef iTunesCopyPlaylists(void) {
                 }
               }
             }
+              break;
+            default:
+              spx_debug("unsupported playlist type: %4.4s", (char *)&type);
               break;
           }
           if (kind != kPlaylistUndefined) {

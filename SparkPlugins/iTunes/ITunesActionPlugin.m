@@ -401,20 +401,23 @@ NSURL *__iTunesFindLibrary(Boolean compat) {
       NSDictionary *list;
       NSEnumerator *lists = [[library objectForKey:@"Playlists"] objectEnumerator];
       while (list = [lists nextObject]) {
+        NSNumber *visible = list[@"Visible"];
+        if (visible && !visible.boolValue)
+          continue;
+
         UInt32 type = kPlaylistUser;
-        if ([list objectForKey:@"Smart Info"] != nil) type = kPlaylistSmart;
-        else if ([[list objectForKey:@"Folder"] boolValue]) type = kPlaylistFolder;
-        else if ([[list objectForKey:@"Music"] boolValue]) type = kPlaylistMusic;
-        else if ([[list objectForKey:@"Movies"] boolValue]) type = kPlaylistMovie;
-        else if ([[list objectForKey:@"TV Shows"] boolValue]) type = kPlaylistTVShow;
+        if (list[@"Smart Info"] != nil) type = kPlaylistSmart;
+        else if ([list[@"Folder"] boolValue]) type = kPlaylistFolder;
+        else if ([list[@"Music"] boolValue]) type = kPlaylistMusic;
+        else if ([list[@"Movies"] boolValue]) type = kPlaylistMovies;
+        else if ([list[@"TV Shows"] boolValue]) type = kPlaylistTVShow;
         
-        else if ([[list objectForKey:@"Podcasts"] boolValue]) type = kPlaylistPodcast;
-        else if ([[list objectForKey:@"Audiobooks"] boolValue]) type = kPlaylistBooks;
-        else if ([[list objectForKey:@"Purchased Music"] boolValue]) type = kPlaylistPurchased;
-        else if ([[list objectForKey:@"Party Shuffle"] boolValue]) type = kPlaylistPartyShuffle;
+        else if ([list[@"Podcasts"] boolValue]) type = kPlaylistPodcast;
+        else if ([list[@"Audiobooks"] boolValue]) type = kPlaylistBooks;
+        else if ([list[@"Purchased Music"] boolValue]) type = kPlaylistPurchased;
         
         NSNumber *ppid = nil;
-        NSString *uid = [list objectForKey:@"Playlist Persistent ID"];
+        NSString *uid = list[@"Playlist Persistent ID"];
         if (uid) {
           ppid = @(strtoll([uid UTF8String], NULL, 16));
         }
@@ -422,7 +425,7 @@ NSURL *__iTunesFindLibrary(Boolean compat) {
         NSDictionary *plist = [[NSDictionary alloc] initWithObjectsAndKeys:
                                @(type), @"kind",
                                ppid, @"uid", nil];
-        [pl setObject:plist forKey:[list objectForKey:@"Name"]];
+        [pl setObject:plist forKey:list[@"Name"]];
       }
       playlists = pl;
     }

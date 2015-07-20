@@ -22,14 +22,16 @@ CFStringRef const kiTunesBundleIdentifier;
 
 enum {
   kPlaylistUndefined = -1,
-  kPlaylistMusic = 0,
-  kPlaylistMovie,
-  kPlaylistTVShow,
-  kPlaylistPodcast,
-  kPlaylistBooks,
-  kPlaylistPurchased,
-  kPlaylistPartyShuffle,
-  kPlaylistFolder,
+  kPlaylistBooks = 0, // kSpA
+  kPlaylistFolder, // kSpF
+  kPlaylistGenius, // kSpG
+  kPlaylistiTunesU, // kSpU
+  kPlaylistLibrary, // kSpL
+  kPlaylistMovies, // kSpI
+  kPlaylistMusic, // kSpZ
+  kPlaylistPodcast, // kSpP
+  kPlaylistPurchased, // kSpM
+  kPlaylistTVShow, // kSpT
   kPlaylistSmart,
   kPlaylistUser,
 };
