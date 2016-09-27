@@ -590,6 +590,9 @@ bool SparkDebugEnabled = false;
 //  [library release];
 }
 
+SPARK_EXPORT
+void SparkDumpEntries(SparkLibrary *aLibrary);
+
 - (IBAction)dumpLibrary:(id)sender {
   SparkDumpEntries(SparkActiveLibrary());
 //  NSMutableArray *library = [[NSMutableArray alloc] init];

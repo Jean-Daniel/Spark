@@ -100,7 +100,7 @@
 }
 
 - (NSImage *)dragImageForRowsWithIndexes:(NSIndexSet *)dragRows 
-                            tableColumns:(NSArray *)tableColumns 
+                            tableColumns:(NSArray<NSTableColumn*> *)tableColumns
                                    event:(NSEvent*)dragEvent 
                                   offset:(NSPointPointer)dragImageOffset
                                    image:(NSImage *)anImage {

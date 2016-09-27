@@ -17,6 +17,10 @@
 
 #import <WonderBox/WBHeaderView.h>
 
+@interface SEPlugInHelp () <WebFrameLoadDelegate>
+
+@end
+
 @implementation SEPlugInHelp {
 @private
   NSPopUpButton *se_plugins;

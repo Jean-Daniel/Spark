@@ -82,4 +82,4 @@ NSString * const SparkObjectSetDidRemoveObjectNotification;
 
 
 SPARK_EXPORT
-NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void *source);
+NSComparator SparkObjectCompare;

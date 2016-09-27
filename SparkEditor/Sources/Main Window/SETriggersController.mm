@@ -28,25 +28,6 @@
 #import <WonderBox/WBImageAndTextCell.h>
 #import <WonderBox/NSArrayController+WonderBox.h>
 
-static
-BOOL _SEEntryFilter(NSString *search, SparkEntry *entry, void *ctxt) {
-  /* Hide unplugged if needed */
-  if ([[NSUserDefaults standardUserDefaults] boolForKey:kSEPreferencesHideDisabled] && ![entry isPlugged]) return NO;
-  
-  if (!search) return YES;
-  
-  if ([[entry name] rangeOfString:search options:NSCaseInsensitiveSearch].location != NSNotFound)
-    return YES;
-  
-  if ([[entry actionDescription] rangeOfString:search options:NSCaseInsensitiveSearch].location != NSNotFound)
-    return YES;
-  
-  if ([entry.category rangeOfString:search options:NSCaseInsensitiveSearch].location != NSNotFound)
-    return YES;
-  
-  return NO;
-}
-
 typedef struct _SETriggerStyle {
   BOOL bold;
   BOOL strike;
@@ -121,7 +102,25 @@ NSString * sSEHiddenPluggedObserverKey = nil;
 }
 
 - (void)awakeFromNib {
-  [self setFilterFunction:_SEEntryFilter context:nil];
+  self.filterBlock = ^BOOL(NSString *search, SparkEntry *entry) {
+    /* Hide unplugged if needed */
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:kSEPreferencesHideDisabled] && ![entry isPlugged])
+      return NO;
+
+    if (!search)
+      return YES;
+
+    if ([[entry name] rangeOfString:search options:NSCaseInsensitiveSearch].location != NSNotFound)
+      return YES;
+
+    if ([[entry actionDescription] rangeOfString:search options:NSCaseInsensitiveSearch].location != NSNotFound)
+      return YES;
+
+    if ([entry.category rangeOfString:search options:NSCaseInsensitiveSearch].location != NSNotFound)
+      return YES;
+    
+    return NO;
+  };
   
   uiTable.target = self;
   uiTable.doubleAction = @selector(doubleAction:);

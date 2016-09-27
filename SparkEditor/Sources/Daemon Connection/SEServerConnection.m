@@ -258,7 +258,7 @@ BOOL SELaunchSparkDaemon(pid_t *pid) {
     NSError *error = nil;
     NSRunningApplication *app = [[NSWorkspace sharedWorkspace] launchApplicationAtURL:url
                                                                               options:NSWorkspaceLaunchDefault | NSWorkspaceLaunchWithoutActivation | NSWorkspaceLaunchWithoutAddingToRecents
-                                                                        configuration:nil error:&error];
+                                                                        configuration:@{} error:&error];
     if (!app) {
       SPXLogError(@"Error cannot launch daemon app: %@", error);
       [[SEServerConnection defaultConnection] setStatus:kSparkDaemonStatusError];

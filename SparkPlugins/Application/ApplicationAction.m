@@ -460,16 +460,18 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
 }
 
 - (void)displayNotification {
-  if (!aa_icon) {
-    FSRef path;
-    if ([[self path] getFSRef:&path]) {
-      GetIconRefFromFileInfo(&path, 0, NULL,
-                             kFSCatInfoNone, NULL,
-                             kIconServicesNoBadgeFlag, 
-                             &aa_icon, NULL);
+  dispatch_async(dispatch_get_main_queue(), ^{
+    if (!self->aa_icon) {
+      FSRef path;
+      if ([[self path] getFSRef:&path]) {
+        GetIconRefFromFileInfo(&path, 0, NULL,
+                               kFSCatInfoNone, NULL,
+                               kIconServicesNoBadgeFlag,
+                               &self->aa_icon, NULL);
+      }
     }
-  }
-  SparkNotificationDisplayIcon(aa_icon, -1);
+    SparkNotificationDisplayIcon(self->aa_icon, -1);
+  });
 }
 
 #pragma mark -
@@ -546,9 +548,7 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
       [self hideOthers];
 
     if (settings.activation)
-      dispatch_async(dispatch_get_main_queue(), ^{
-        [self displayNotification];
-      });
+      [self displayNotification];
   }
 }
 
@@ -567,9 +567,7 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
 			[self getVisualSettings:&settings];
 		
     if (settings.launch)
-      dispatch_async(dispatch_get_main_queue(), ^{
-        [self displayNotification];
-      });
+      [self displayNotification];
   }
 }
 

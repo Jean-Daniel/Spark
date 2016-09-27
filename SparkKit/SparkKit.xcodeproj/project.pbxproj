@@ -121,7 +121,6 @@
 		1B95F38117061A3200392CD7 /* WBAlias.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316300D38138B005C3FB2 /* WBAlias.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1B95F38217061A3200392CD7 /* WBAlias.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316310D38138B005C3FB2 /* WBAlias.m */; };
 		1B95F38317061A3F00392CD7 /* WBFSFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316510D38138B005C3FB2 /* WBFSFunctions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1B95F38417061A4400392CD7 /* WBFSFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316520D38138B005C3FB2 /* WBFSFunctions.m */; };
 		1B95F38517061A7700392CD7 /* WBPluginLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE3163B0D38138B005C3FB2 /* WBPluginLoader.m */; };
 		1B95F38617061A7900392CD7 /* WBPluginLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE3163A0D38138B005C3FB2 /* WBPluginLoader.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1B95F38717061BB300392CD7 /* WBAEFunctions.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316470D38138B005C3FB2 /* WBAEFunctions.mm */; };
@@ -141,6 +140,7 @@
 		1BB55E3A1B2CF94C0056FFB0 /* SparkLibraryPrivate.m in Sources */ = {isa = PBXBuildFile; fileRef = 98A8AB9E0D01B21800CE8C12 /* SparkLibraryPrivate.m */; };
 		1BB55E3B1B2CFBB80056FFB0 /* SparkEntryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 98EDA3F20A9FA34100519E9B /* SparkEntryManager.m */; };
 		1BB8B1FF0B949EE900F91062 /* SparkSystem.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1BB8B1FE0B949EE900F91062 /* SparkSystem.tiff */; };
+		1BBD666E1D9A9A85006AE849 /* WBFSFunctions.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1BBD666D1D9A9A85006AE849 /* WBFSFunctions.mm */; };
 		1BC6A8DD17061F3F00E7EA12 /* WBObjCRuntime.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8C580EE2FC9100BD1EAF /* WBObjCRuntime.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1BC6A8DE17061F4400E7EA12 /* WBObjCRuntime.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8C590EE2FC9100BD1EAF /* WBObjCRuntime.c */; };
 		1BC6A8E017061F5300E7EA12 /* NSImage+WonderBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8C0F0EE2FA6900BD1EAF /* NSImage+WonderBox.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -304,6 +304,7 @@
 		1BB986AC0D382AD10074D18E /* WBProgressPanel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBProgressPanel.m; sourceTree = "<group>"; };
 		1BB987250D382C8B0074D18E /* WBTreeNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTreeNode.m; sourceTree = "<group>"; };
 		1BB987260D382C8B0074D18E /* WBTreeNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTreeNode.h; sourceTree = "<group>"; };
+		1BBD666D1D9A9A85006AE849 /* WBFSFunctions.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WBFSFunctions.mm; sourceTree = "<group>"; };
 		1BCB8F7A1706117600CC8C3C /* WonderBox.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WonderBox.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BCB8F7B1706117600CC8C3C /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		1BCB8F831706117600CC8C3C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -331,7 +332,6 @@
 		1BE3164B0D38138B005C3FB2 /* WBCGFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBCGFunctions.h; sourceTree = "<group>"; };
 		1BE3164C0D38138B005C3FB2 /* WBCGFunctions.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WBCGFunctions.mm; sourceTree = "<group>"; };
 		1BE316510D38138B005C3FB2 /* WBFSFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBFSFunctions.h; sourceTree = "<group>"; };
-		1BE316520D38138B005C3FB2 /* WBFSFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBFSFunctions.m; sourceTree = "<group>"; };
 		1BE316550D38138B005C3FB2 /* WBIOKitFunctions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WBIOKitFunctions.c; sourceTree = "<group>"; };
 		1BE316560D38138B005C3FB2 /* WBIOKitFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBIOKitFunctions.h; sourceTree = "<group>"; };
 		1BE316590D38138B005C3FB2 /* WBLSFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBLSFunctions.h; sourceTree = "<group>"; };
@@ -710,7 +710,7 @@
 				1BE3164B0D38138B005C3FB2 /* WBCGFunctions.h */,
 				1BE3164C0D38138B005C3FB2 /* WBCGFunctions.mm */,
 				1BE316510D38138B005C3FB2 /* WBFSFunctions.h */,
-				1BE316520D38138B005C3FB2 /* WBFSFunctions.m */,
+				1BBD666D1D9A9A85006AE849 /* WBFSFunctions.mm */,
 				1BA3812D0EFE6F5F00CF5D07 /* WBFinderSuite.h */,
 				1BA3812E0EFE6F5F00CF5D07 /* WBFinderSuite.c */,
 				1B177011130F42FB00E0A389 /* WBImageFunctions.h */,
@@ -1153,10 +1153,10 @@
 				1B95F37E17061A1900392CD7 /* WBFunctions.m in Sources */,
 				1B95F38017061A2400392CD7 /* WBLSFunctions.mm in Sources */,
 				1B95F38217061A3200392CD7 /* WBAlias.m in Sources */,
-				1B95F38417061A4400392CD7 /* WBFSFunctions.m in Sources */,
 				1B95F38517061A7700392CD7 /* WBPluginLoader.m in Sources */,
 				1B95F38717061BB300392CD7 /* WBAEFunctions.mm in Sources */,
 				1B95F38A17061BBE00392CD7 /* WBSerialization.m in Sources */,
+				1BBD666E1D9A9A85006AE849 /* WBFSFunctions.mm in Sources */,
 				1BC6A8DE17061F4400E7EA12 /* WBObjCRuntime.c in Sources */,
 				1BC6A8E117061F5800E7EA12 /* NSImage+WonderBox.m in Sources */,
 				1BC6A8E317061F7600E7EA12 /* WBImageFunctions.m in Sources */,
@@ -1344,7 +1344,6 @@
 				CURRENT_PROJECT_VERSION = 460;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 460;
-				FRAMEWORK_VERSION = B;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@rpath";
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
@@ -1370,7 +1369,6 @@
 				CURRENT_PROJECT_VERSION = 460;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 460;
-				FRAMEWORK_VERSION = B;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@rpath";
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";

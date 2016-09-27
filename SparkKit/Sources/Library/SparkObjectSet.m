@@ -43,11 +43,12 @@ NSString * const kSparkObjectSetVersionKey = @"SparkVersion";
 static
 NSString * const kSparkObjectSetObjectsKey = @"SparkObjects";
 
-NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void *source) {
+NSComparator SparkObjectCompare = ^NSComparisonResult(SparkObject *obj1, SparkObject *obj2) {
   if ([obj1 uid] < kSparkLibraryReserved) {
     if ([obj2 uid] < kSparkLibraryReserved) {
       /* obj1 and obj2 are reserved objects */
-      return (NSComparisonResult)[obj1 uid] - [obj2 uid];
+      NSComparisonResult res = (NSInteger)[obj1 uid] - (NSInteger)[obj2 uid];
+      return res;
     } else {
       /* obj1 reserved and obj2 standard */
       return NSOrderedAscending;
@@ -59,7 +60,7 @@ NSComparisonResult SparkObjectCompare(SparkObject *obj1, SparkObject *obj2, void
     /* obj1 and obj2 are standard */
     return [[obj1 name] caseInsensitiveCompare:[obj2 name]];
   }
-}
+};
 
 #pragma mark -
 @implementation SparkObjectSet {

@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface SEHeaderCell : NSTextFieldCell
+@interface SEHeaderCell : NSTableHeaderCell
 
 @end
 

@@ -47,7 +47,7 @@
 }
 
 - (void)se_init {
-  [self setCompareFunction:SparkObjectCompare];
+  self.comparator = SparkObjectCompare;
 }
 
 - (id)initWithCoder:(NSCoder *)aCoder {

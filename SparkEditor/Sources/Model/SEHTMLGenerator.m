@@ -109,7 +109,7 @@ NSComparisonResult _SETriggerCompare(SparkTrigger *t1, SparkTrigger *t2, void *c
         [customs addObject:system];
     }];
     
-    [customs sortedArrayUsingFunction:SparkObjectCompare context:nil];
+    [customs sortedArrayUsingComparator:SparkObjectCompare];
     
     /* foreach application that contains at least one entry */
     for (SparkApplication *app in customs) {
