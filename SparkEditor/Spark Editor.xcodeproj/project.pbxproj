@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 48;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -262,7 +262,6 @@
 		1BA7CE0E0D0DB3740081764D /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SEPluginInstaller.xib; sourceTree = "<group>"; };
 		1BAF36D41B3C7FB1006F05FC /* SparkLibraryArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SparkLibraryArchive.h; path = Sources/SparkLibraryArchive.h; sourceTree = SOURCE_ROOT; };
 		1BAF36D61B3C7FB8006F05FC /* SparkLibraryArchive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SparkLibraryArchive.m; path = Sources/SparkLibraryArchive.m; sourceTree = SOURCE_ROOT; };
-		1BB100B013C9EBA2002BBF20 /* SparkLibrary.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SparkLibrary.xib; sourceTree = "<group>"; };
 		1BB11ABB0B931FAE00908925 /* SELibrary.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SELibrary.tiff; sourceTree = "<group>"; };
 		1BBE7D0F0ED04F760004D9DD /* debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = debug.xcconfig; sourceTree = "<group>"; };
 		1BBE7D100ED04F760004D9DD /* release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = release.xcconfig; sourceTree = "<group>"; };
@@ -549,7 +548,6 @@
 				1BA7CE0D0D0DB3740081764D /* SEPluginInstaller.xib */,
 				1BD1A18B0D0D4A02004206FA /* SELibraryWindow.xib */,
 				1B98A1A80D312F5800EC7D09 /* SETriggerBrowser.xib */,
-				1BB100B013C9EBA2002BBF20 /* SparkLibrary.xib */,
 			);
 			name = Interface;
 			sourceTree = "<group>";
@@ -881,7 +879,7 @@
 				};
 			};
 			buildConfigurationList = 98BC60560857BB9400A2041F /* Build configuration list for PBXProject "Spark Editor" */;
-			compatibilityVersion = "Xcode 3.2";
+			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
