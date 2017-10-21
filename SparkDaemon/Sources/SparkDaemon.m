@@ -67,7 +67,7 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
     EventParamType type;
     ProcessSerialNumber psn;
     SparkDaemon *handler = (__bridge SparkDaemon *)inUserData;
-    verify_noerr(GetEventParameter(inEvent, kEventParamProcessID, typeProcessSerialNumber, &type, sizeof(psn), &size, &psn));
+    spx_verify_noerr(GetEventParameter(inEvent, kEventParamProcessID, typeProcessSerialNumber, &type, sizeof(psn), &size, &psn));
     switch (GetEventKind(inEvent)) {
       case kEventAppLaunched:
         break;

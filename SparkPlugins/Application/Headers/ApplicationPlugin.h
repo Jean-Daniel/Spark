@@ -6,7 +6,7 @@
  *  Copyright (c) 2004 - 2007, Shadow Lab. All rights reserved.
  */
 
-#import <SparkKit/SparkPlugInAPI.h>
+#import <SparkKit/SparkKit.h>
 
 #import "ApplicationAction.h"
 

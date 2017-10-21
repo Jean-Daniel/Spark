@@ -1250,7 +1250,7 @@
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0640;
+				LastUpgradeCheck = 0900;
 			};
 			buildConfigurationList = 98EF7EE408645A0E007BC81A /* Build configuration list for PBXProject "Spark Plugins" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1884,6 +1884,7 @@
 				CURRENT_PROJECT_VERSION = 460;
 				INFOPLIST_FILE = Accessibility/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = org.shadowlab.spark.action.accessibility;
 				PRODUCT_NAME = AccessibilityAction;
 			};
 			name = Debug;
@@ -1895,6 +1896,7 @@
 				CURRENT_PROJECT_VERSION = 460;
 				INFOPLIST_FILE = Accessibility/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = org.shadowlab.spark.action.accessibility;
 				PRODUCT_NAME = AccessibilityAction;
 			};
 			name = Release;
@@ -1903,6 +1905,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				INFOPLIST_FILE = Simulator/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = org.shadowlab.spark.Simulator;
 				PRODUCT_NAME = Simulator;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1915,6 +1918,7 @@
 				CURRENT_PROJECT_VERSION = 460;
 				INFOPLIST_FILE = Text/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = org.shadowlab.spark.action.keyboard;
 				PRODUCT_NAME = TextAction;
 			};
 			name = Debug;
@@ -1926,6 +1930,7 @@
 				CURRENT_PROJECT_VERSION = 460;
 				INFOPLIST_FILE = System/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = org.shadowlab.spark.action.system;
 				PRODUCT_NAME = SystemAction;
 			};
 			name = Debug;
@@ -1935,12 +1940,9 @@
 			baseConfigurationReference = 1B7007511706DB3B003F5780 /* bundle.xcconfig */;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 460;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../SparkEditor/Resources\"",
-				);
 				INFOPLIST_FILE = iTunes/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = org.shadowlab.spark.action.itunes;
 				PRODUCT_NAME = iTunesAction;
 			};
 			name = Debug;
@@ -1952,6 +1954,7 @@
 				CURRENT_PROJECT_VERSION = 460;
 				INFOPLIST_FILE = Documents/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = org.shadowlab.spark.action.document;
 				PRODUCT_NAME = DocumentAction;
 			};
 			name = Debug;
@@ -1963,6 +1966,7 @@
 				CURRENT_PROJECT_VERSION = 460;
 				INFOPLIST_FILE = Application/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = org.shadowlab.spark.action.application;
 				PRODUCT_NAME = ApplicationAction;
 			};
 			name = Debug;
@@ -1974,6 +1978,7 @@
 				CURRENT_PROJECT_VERSION = 460;
 				INFOPLIST_FILE = AppleScript/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = org.shadowlab.spark.action.applescript;
 				PRODUCT_NAME = AppleScriptAction;
 			};
 			name = Debug;
@@ -1981,25 +1986,7 @@
 		98EF7EDD08645A0E007BC81A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				DEAD_CODE_STRIPPING = NO;
-				DEPLOYMENT_POSTPROCESSING = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = NO;
-				GCC_WARN_UNUSED_VALUE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				PRESERVE_DEAD_CODE_INITS_AND_TERMS = NO;
 				PRODUCT_NAME = All;
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				ZERO_LINK = YES;
 			};
 			name = Debug;
 		};
@@ -2015,10 +2002,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1BBE7C5D0ED04EF50004D9DD /* debug.xcconfig */;
 			buildSettings = {
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				ONLY_ACTIVE_ARCH = YES;
 				WRAPPER_EXTENSION = spact;
 			};
 			name = Debug;
@@ -2030,6 +2013,7 @@
 				CURRENT_PROJECT_VERSION = 460;
 				INFOPLIST_FILE = Text/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = org.shadowlab.spark.action.keyboard;
 				PRODUCT_NAME = TextAction;
 			};
 			name = Release;
@@ -2039,12 +2023,9 @@
 			baseConfigurationReference = 1B7007511706DB3B003F5780 /* bundle.xcconfig */;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 460;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../SparkEditor/Resources\"",
-				);
 				INFOPLIST_FILE = iTunes/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = org.shadowlab.spark.action.itunes;
 				PRODUCT_NAME = iTunesAction;
 			};
 			name = Release;
@@ -2056,6 +2037,7 @@
 				CURRENT_PROJECT_VERSION = 460;
 				INFOPLIST_FILE = System/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = org.shadowlab.spark.action.system;
 				PRODUCT_NAME = SystemAction;
 			};
 			name = Release;
@@ -2067,6 +2049,7 @@
 				CURRENT_PROJECT_VERSION = 460;
 				INFOPLIST_FILE = Documents/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = org.shadowlab.spark.action.document;
 				PRODUCT_NAME = DocumentAction;
 			};
 			name = Release;
@@ -2078,6 +2061,7 @@
 				CURRENT_PROJECT_VERSION = 460;
 				INFOPLIST_FILE = Application/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = org.shadowlab.spark.action.application;
 				PRODUCT_NAME = ApplicationAction;
 			};
 			name = Release;
@@ -2089,6 +2073,7 @@
 				CURRENT_PROJECT_VERSION = 460;
 				INFOPLIST_FILE = AppleScript/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = org.shadowlab.spark.action.applescript;
 				PRODUCT_NAME = AppleScriptAction;
 			};
 			name = Release;
@@ -2096,26 +2081,7 @@
 		98EFD1D50B58454800AD4492 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				DEAD_CODE_STRIPPING = NO;
-				DEPLOYMENT_POSTPROCESSING = YES;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_OPTIMIZATION_LEVEL = s;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = NS_BLOCK_ASSERTIONS;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_VALUE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				PRESERVE_DEAD_CODE_INITS_AND_TERMS = NO;
 				PRODUCT_NAME = All;
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				ZERO_LINK = NO;
 			};
 			name = Release;
 		};
@@ -2131,6 +2097,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				INFOPLIST_FILE = Simulator/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = org.shadowlab.spark.Simulator;
 				PRODUCT_NAME = Simulator;
 				WRAPPER_EXTENSION = app;
 			};
@@ -2140,9 +2107,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1BBE7C5E0ED04EF50004D9DD /* release.xcconfig */;
 			buildSettings = {
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				WRAPPER_EXTENSION = spact;
 			};
 			name = Release;

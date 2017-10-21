@@ -519,7 +519,7 @@ NSRunningApplication *iTunesLaunch(NSWorkspaceLaunchOptions flags) {
           }
         }
       }
-      check_noerr(err);
+      assert(noErr == err);
       // TODO: check err.
       break;
     } 
@@ -647,7 +647,7 @@ NSRunningApplication *iTunesLaunch(NSWorkspaceLaunchOptions flags) {
   bool state;
   OSStatus err = iTunesGetVisualEnabled(&state);
   if (noErr == err) {
-    verify_noerr(iTunesSetVisualEnabled(!state));
+    spx_verify_noerr(iTunesSetVisualEnabled(!state));
   }
 }
 
@@ -656,7 +656,7 @@ NSRunningApplication *iTunesLaunch(NSWorkspaceLaunchOptions flags) {
   if (noErr == iTunesGetSoundVolume(&volume)) {
     int16_t newVol = MIN(100, volume + 5);
     if (newVol != volume)
-      verify_noerr(iTunesSetSoundVolume(newVol));
+      spx_verify_noerr(iTunesSetSoundVolume(newVol));
   }
 }
 
@@ -665,14 +665,14 @@ NSRunningApplication *iTunesLaunch(NSWorkspaceLaunchOptions flags) {
   if (noErr == iTunesGetSoundVolume(&volume)) {
     int16_t newVol = MAX(0, volume - 5);
     if (newVol != volume)
-      verify_noerr(iTunesSetSoundVolume(newVol));
+      spx_verify_noerr(iTunesSetSoundVolume(newVol));
   }
 }
 
 - (void)toggleMute {
 	bool mute;
 	if (noErr == iTunesIsMuted(&mute))
-		verify_noerr(iTunesSetMuted(!mute));
+		spx_verify_noerr(iTunesSetMuted(!mute));
 }
 
 - (void)ejectCD {

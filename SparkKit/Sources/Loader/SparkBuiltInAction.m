@@ -265,26 +265,26 @@ void SparkSDActionToggleDaemonStatus(void) {
   AppleEvent aevt = WBAEEmptyDesc();
 
   OSStatus err = WBAECreateEventWithTarget(WBAECurrentProcessTarget(), kAECoreSuite, kAEGetData, &aevt);
-  require_noerr(err, bail);
+  spx_require_noerr(err, bail);
 
   err = WBAEAddPropertyObjectSpecifier(&aevt, keyDirectObject, typeBoolean, 'pSta', NULL);
-  require_noerr(err, bail);
+  spx_require_noerr(err, bail);
 
   err = WBAESendEventReturnBoolean(&aevt, &status);
-  require_noerr(err, bail);
+  spx_require_noerr(err, bail);
   WBAEDisposeDesc(&aevt);
 
   err = WBAECreateEventWithTarget(WBAECurrentProcessTarget(), kAECoreSuite, kAESetData, &aevt);
-  require_noerr(err, bail);
+  spx_require_noerr(err, bail);
 
   err = WBAEAddPropertyObjectSpecifier(&aevt, keyDirectObject, typeBoolean, 'pSta', NULL);
-  require_noerr(err, bail);
+  spx_require_noerr(err, bail);
 
   err = WBAEAddBoolean(&aevt, keyAEData, !status);
-  require_noerr(err, bail);
+  spx_require_noerr(err, bail);
 
   err = WBAESendEventNoReply(&aevt);
-  require_noerr(err, bail);
+  spx_require_noerr(err, bail);
 
   SparkNotificationDisplayImage(SparkDaemonStatusIcon(!status), -1);
 bail:

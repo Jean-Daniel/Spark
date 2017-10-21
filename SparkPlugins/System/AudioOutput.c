@@ -154,7 +154,7 @@ OSStatus AudioOutputVolumeUp(AudioDeviceID device, UInt32 *level) {
       }
     } else {
       lvl++;
-      check(lvl <= kAudioOutputVolumeMaxLevel);
+      assert(lvl <= kAudioOutputVolumeMaxLevel);
       err = _AudioOutputSetVolume(device, left, right, kAudioOutputVolumeLevels[lvl]);
     }
     if (level) *level = lvl;
@@ -174,7 +174,7 @@ OSStatus AudioOutputVolumeDown(AudioDeviceID device, UInt32 *level) {
       }
     } else {
       lvl--;
-      check(lvl <= kAudioOutputVolumeMaxLevel);
+      assert(lvl <= kAudioOutputVolumeMaxLevel);
       err = _AudioOutputSetVolume(device, left, right, kAudioOutputVolumeLevels[lvl]);
     }
     if (level) *level = lvl;

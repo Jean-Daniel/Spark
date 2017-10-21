@@ -9,7 +9,7 @@
 #if !defined(__SPARKFUNCTIONS_H)
 #define __SPARKFUNCTIONS_H 1
 
-#include <SparkKit/SparkKit.h>
+#import <SparkKit/SparkDefine.h>
 
 typedef NS_ENUM(NSUInteger, SparkContext) {
   kSparkContext_Undefined,

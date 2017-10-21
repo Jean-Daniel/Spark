@@ -44,10 +44,6 @@
   return self;
 }
 
-- (id<SUSignatureVerifier>)signatureVerifierForUpdater:(SUUpdater *)updater host:(SUHost *)anHost {
-  return self;
-}
-
 - (NSURL *)feedURL {
   return [[SUUpdater sharedUpdater] feedURL];
 }

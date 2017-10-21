@@ -7,6 +7,8 @@
  */
 
 #import <SparkKit/SparkAlert.h>
+
+#import <SparkKit/SparkKit.h>
 #import <SparkKit/SparkActionPlugIn.h>
 #import <SparkKit/SparkMultipleAlerts.h>
 

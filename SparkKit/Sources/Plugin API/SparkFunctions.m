@@ -47,10 +47,10 @@ void SparkLaunchEditor(void) {
         NSURL *spark = [[[NSBundle mainBundle] bundleURL] URLByAppendingPathComponent:@"../../../"];
 #endif
         if ([NSThread isMainThread]) {
-          [[NSWorkspace sharedWorkspace] launchApplicationAtURL:spark options:NSWorkspaceLaunchDefault configuration:nil error:NULL];
+          [[NSWorkspace sharedWorkspace] launchApplicationAtURL:spark options:NSWorkspaceLaunchDefault configuration:@{} error:NULL];
         } else {
           dispatch_async(dispatch_get_main_queue(), ^{
-            [[NSWorkspace sharedWorkspace] launchApplicationAtURL:spark options:NSWorkspaceLaunchDefault configuration:nil error:NULL];
+            [[NSWorkspace sharedWorkspace] launchApplicationAtURL:spark options:NSWorkspaceLaunchDefault configuration:@{} error:NULL];
           });
         }
       }

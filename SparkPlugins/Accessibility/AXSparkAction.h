@@ -6,7 +6,7 @@
 //  Copyright 2008 Ninsight. All rights reserved.
 //
 
-#import <SparkKit/SparkPlugInAPI.h>
+#import <SparkKit/SparkKit.h>
 
 @interface AXSparkAction : SparkAction <NSCopying>
 

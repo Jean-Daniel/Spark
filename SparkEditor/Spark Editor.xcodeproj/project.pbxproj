@@ -34,7 +34,6 @@
 		1B5F396E0B5D451700879DF5 /* SETriggersController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B580B19A59700C8425C /* SETriggersController.mm */; };
 		1B68A688141134CA0017CD27 /* SparkleDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B68A684141134CA0017CD27 /* SparkleDelegate.h */; };
 		1B68A689141134CA0017CD27 /* SparkleDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B68A685141134CA0017CD27 /* SparkleDelegate.m */; };
-		1B68A68A141134CA0017CD27 /* SURSAVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B68A686141134CA0017CD27 /* SURSAVerifier.m */; };
 		1B68A68B141134CA0017CD27 /* SUVersionComparator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B68A687141134CA0017CD27 /* SUVersionComparator.m */; };
 		1B68A6AC1411392B0017CD27 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B68A6AB1411392B0017CD27 /* Sparkle.framework */; };
 		1B68A6B01411396F0017CD27 /* Sparkle.framework in Copy Framework */ = {isa = PBXBuildFile; fileRef = 1B68A6AB1411392B0017CD27 /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -1006,7 +1005,6 @@
 				98766A290CD4F15400593B74 /* SEHTMLGenerator.m in Sources */,
 				987208D50D033CA200A3D473 /* SEEntryList.m in Sources */,
 				1B68A689141134CA0017CD27 /* SparkleDelegate.m in Sources */,
-				1B68A68A141134CA0017CD27 /* SURSAVerifier.m in Sources */,
 				1B68A68B141134CA0017CD27 /* SUVersionComparator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

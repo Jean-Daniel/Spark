@@ -214,7 +214,7 @@ enum {
 
   /* activate */
   err = WBAESendSimpleEventTo(editor.processIdentifier, kAEMiscStandards, kAEActivate);
-  require_noerr(err, dispose);
+  spx_require_noerr(err, dispose);
   
   src = [[ibScriptController scriptView] source];
   if (!src || ![src length]) {
@@ -223,31 +223,31 @@ enum {
   
   /* set the_document to make document */
   err = WBAECreateEventWithTargetProcessIdentifier(editor.processIdentifier, kAECoreSuite, kAECreateElement, &aevt);
-  require_noerr(err, dispose);
+  spx_require_noerr(err, dispose);
   
   OSType type = cDocument;
   err = WBAEAddAEDescWithData(&aevt, keyAEObjectClass, typeType, &type, sizeof(OSType));
-  require_noerr(err, dispose);
+  spx_require_noerr(err, dispose);
   
 //  err = WBAESetStandardAttributes(&aevt);
-//  require_noerr(err, dispose);
+//  spx_require_noerr(err, dispose);
   
   err = WBAESendEventReturnAEDesc(&aevt, typeObjectSpecifier, &document);
   WBAEDisposeDesc(&aevt);
-  require_noerr(err, dispose);
+  spx_require_noerr(err, dispose);
   
   /* set text of the_document to 'src' */
   err = WBAECreateEventWithTargetProcessIdentifier(editor.processIdentifier, kAECoreSuite, kAESetData, &aevt);
-  require_noerr(err, dispose);
+  spx_require_noerr(err, dispose);
   
   err = WBAEAddIndexObjectSpecifier(&aevt, keyDirectObject, 'ctxt', kAEAll, &document);
-  require_noerr(err, dispose);
+  spx_require_noerr(err, dispose);
   
   err = WBAEAddStringAsUnicodeText(&aevt, keyAEData, SPXNSToCFString(src));
-  require_noerr(err, dispose);
+  spx_require_noerr(err, dispose);
   
   err = WBAESendEventNoReply(&aevt);
-  require_noerr(err, dispose);
+  spx_require_noerr(err, dispose);
   
 dispose:
     WBAEDisposeDesc(&aevt);

@@ -88,6 +88,7 @@ typedef enum {
   kiTunesArtistKey = 'pArt',
   kiTunesDurationKey = 'pDur',
   kiTunesPersistentID = 'pPID',
+  kiTunesCategoryKey = 'pCat'
 } ITunesTrackProperty;
 
 WB_INLINE

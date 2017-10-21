@@ -10,15 +10,9 @@
 
 #import <Sparkle/Sparkle.h>
 
-#import <Sparkle/SUSignatureVerifierProtocol.h>
-
 @interface Spark (SUVersionComparison) <SUVersionComparison>
 
 - (id<SUVersionComparison>)versionComparatorForUpdater:(SUUpdater *)updater;
-
-@end
-
-@interface Spark (SUSignatureVerifier) <SUSignatureVerifier>
 
 @end
 

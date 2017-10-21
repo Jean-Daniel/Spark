@@ -265,16 +265,16 @@ extern void CGDisplaySetInvertedPolarity(Boolean inverted);
   AppleEvent aevt = WBAEEmptyDesc();
   
   OSStatus err = WBAECreateEventWithTargetBundleID(SPXNSToCFString(kSparkFinderBundleIdentifier), 'fndr', 'empt', &aevt);
-  require_noerr(err, bail);
+  spx_require_noerr(err, bail);
   
   err = WBAEAddPropertyObjectSpecifier(&aevt, keyDirectObject, 'ctrs', 'trsh', NULL);
-  require_noerr(err, bail);
+  spx_require_noerr(err, bail);
   
 //  err = WBAESetStandardAttributes(&aevt);
-//  require_noerr(err, bail);
+//  spx_require_noerr(err, bail);
   
   err = WBAESendEventNoReply(&aevt);
-  check_noerr(err);
+  assert(err == noErr);
   
 bail:
     WBAEDisposeDesc(&aevt);

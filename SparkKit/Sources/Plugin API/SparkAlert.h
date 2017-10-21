@@ -9,7 +9,7 @@
     @header SparkAlert
     @abstract SparkAlert Declaration
 */
-#import <SparkKit/SparkKit.h>
+#import <SparkKit/SparkDefine.h>
 
 /*!
  @abstract A simple Alert class use to wrap alerts dialog.

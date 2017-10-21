@@ -85,13 +85,13 @@ void _Setup(SEPlugInInstaller *self) {
                             kAutoGenerateReturnID, kAnyTransactionID,
                             &aevt, NULL,    /* can be NULL */
                             "'----':fsrf(@), 'insh':fsrf(@)", sizeof(src), &src, sizeof(dest), &dest);
-    require_noerr(err, dispose);
+    spx_require_noerr(err, dispose);
     
 //    err = WBAESetStandardAttributes(&aevt);
-//    require_noerr(err, dispose);
+//    spx_require_noerr(err, dispose);
   
     err = WBAESendEventReturnAEDesc(&aevt, typeWildCard, &desc);
-    require_noerr(err, dispose);
+    spx_require_noerr(err, dispose);
     
     if (typeNull == desc.descriptorType)
       err = userCanceledErr;

@@ -525,13 +525,13 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
       /* TODO: improve reopen event */
       AppleEvent reopen = WBAEEmptyDesc();
       OSStatus err = WBAECreateEventWithTargetProcessIdentifier(app.processIdentifier, kCoreEventClass, kAEReopenApplication, &reopen);
-      require_noerr(err, bail);
+      spx_require_noerr(err, bail);
 
       err = WBAEAddBoolean(&reopen, 'frnt', false);
-      require_noerr(err, bail);
+      spx_require_noerr(err, bail);
 
       err = WBAESendEventNoReply(&reopen);
-      require_noerr(err, bail);
+      spx_require_noerr(err, bail);
 
     bail:
       WBAEDisposeDesc(&reopen);

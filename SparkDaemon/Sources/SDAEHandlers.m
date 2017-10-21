@@ -26,17 +26,17 @@ OSStatus SDGetEditorIsTrapping(Boolean *trapping) {
     AEDesc theEvent = WBAEEmptyDesc();
     
     err = WBAECreateEventWithTargetProcessIdentifier(front.processIdentifier, kAECoreSuite, kAEGetData, &theEvent);
-    require_noerr(err, bail);
+    spx_require_noerr(err, bail);
     
     err = WBAEAddPropertyObjectSpecifier(&theEvent, keyDirectObject, typeProperty, kSparkEditorIsTrapping, NULL);
-    require_noerr(err, fevent);
+    spx_require_noerr(err, fevent);
     
 //    err = WBAESetStandardAttributes(&theEvent);
-//    require_noerr(err, fevent);
+//    spx_require_noerr(err, fevent);
 
     /* Timeout: 500 ms ?? */
     err = WBAESendEvent(&theEvent, kAEWaitReply, 500, &reply);
-    require_noerr(err, fevent);
+    spx_require_noerr(err, fevent);
     
     err = WBAEGetBooleanFromAppleEvent(&reply, keyDirectObject, trapping);
     /* Release Apple event descriptor */

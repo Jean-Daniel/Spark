@@ -12,7 +12,7 @@
 
 #if defined(__OBJC__)
 
-#import <SparkKit/SparkKit.h>
+#import <SparkKit/SparkDefine.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

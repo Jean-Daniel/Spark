@@ -568,24 +568,24 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
   
   SparkObjectSet *set = self.actionSet;
   ok = [set readFromFileWrapper:files[kSparkActionsFile] error:error];
-  require(ok, bail);
+  spx_require(ok, bail);
   
   set = self.triggerSet;
   ok = [set readFromFileWrapper:files[kSparkTriggersFile] error:error];
-  require(ok, bail);
+  spx_require(ok, bail);
   
   set = self.applicationSet;
   ok = [set readFromFileWrapper:files[kSparkApplicationsFile] error:error];
-  require(ok, bail);
+  spx_require(ok, bail);
 
   switch (_version) {
     case kSparkLibraryVersion_2_0:
       _relations = [[SparkEntryManager alloc] initWithLibrary:self];
       ok = [_relations readFromFileWrapper:files[@"SparkEntries"] error:error];
-      require(ok, bail);
+      spx_require(ok, bail);
       /* convert trigger list into entry list */
       ok = [self importTriggerListFromFileWrapper:files[@"SparkLists"] error:error];
-      require(ok, bail);
+      spx_require(ok, bail);
       break;
     case kSparkLibraryVersion_2_1: {
       data = [files[kSparkArchiveFile] regularFileContents];

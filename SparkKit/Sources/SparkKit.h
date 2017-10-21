@@ -9,7 +9,17 @@
 #if !defined(__SPARKKIT_H)
 #define __SPARKKIT_H 1
 
+#import <Foundation/Foundation.h>
+
 #import <SparkKit/SparkDefine.h>
+#import <SparkKit/SparkTypes.h>
+
+#import <SparkKit/SparkAlert.h>
+#import <SparkKit/SparkFunctions.h>
+#import <SparkKit/SparkPreferences.h>
+
+#import <SparkKit/SparkAction.h>
+#import <SparkKit/SparkActionPlugIn.h>
 
 #pragma mark -
 #pragma mark Constants
@@ -33,8 +43,6 @@ const OSType kSparkEditorSignature SPARK_DEPRECATED("Bundle identifier");
 
 SPARK_EXPORT
 const OSType kSparkDaemonSignature SPARK_DEPRECATED("Bundle identifier");
-
-typedef uint32_t SparkUID;
 
 /* Misc Apple event helpers */
 

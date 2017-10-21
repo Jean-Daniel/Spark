@@ -321,18 +321,18 @@ BOOL SEDaemonIsEnabled(void) {
     Boolean result = false;
     AppleEvent aevt = WBAEEmptyDesc();
     OSStatus err = WBAECreateEventWithTargetProcessIdentifier(d.processIdentifier, kAECoreSuite, kAEGetData, &aevt);
-    require_noerr(err, bail);
+    spx_require_noerr(err, bail);
     
 //    err = WBAESetStandardAttributes(&aevt);
 //    require_noerr(err, bail);
     
     err = WBAEAddPropertyObjectSpecifier(&aevt, keyDirectObject, typeBoolean, 'pSta', NULL);
-    require_noerr(err, bail);
+    spx_require_noerr(err, bail);
     
     err = WBAESendEventReturnBoolean(&aevt, &result);
-    require_noerr(err, bail);
+    spx_require_noerr(err, bail);
 bail:
-      WBAEDisposeDesc(&aevt);
+    WBAEDisposeDesc(&aevt);
     
     return result;
   }

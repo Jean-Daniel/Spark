@@ -6,7 +6,9 @@
  *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
  */
 
-#import <SparkKit/SparkKit.h>
+#import <Cocoa/Cocoa.h>
+
+#import <SparkKit/SparkDefine.h>
 
 @class SparkAction, SparkPlugInView;
 

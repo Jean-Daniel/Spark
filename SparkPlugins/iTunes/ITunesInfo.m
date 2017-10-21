@@ -396,7 +396,7 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
   /* Artist */
   if (track) {
     if ('cURT' == cls)
-      iTunesCopyTrackStringProperty(track, 'pCat', &value); /* category not available for radio */
+      iTunesCopyTrackStringProperty(track, kiTunesCategoryKey, &value); /* category not available for radio */
     else
       iTunesCopyTrackStringProperty(track, kiTunesArtistKey, &value);
   }
@@ -424,7 +424,7 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
     [_ibProgress setProgress:0];
   } else {
     UInt32 progress = 0;
-    verify_noerr(iTunesGetPlayerPosition(&progress));
+    spx_verify_noerr(iTunesGetPlayerPosition(&progress));
     if (duration > 0)
       [_ibProgress setProgress:(CGFloat)progress / duration];
     else

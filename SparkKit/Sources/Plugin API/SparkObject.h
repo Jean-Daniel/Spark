@@ -11,7 +11,7 @@
  @abstract	SparkObject Declaration.
  */
 
-#import <SparkKit/SparkKit.h>
+#import <SparkKit/SparkTypes.h>
 
 /*!
 @abstract   Abstract super class for all serializable Spark Objects.
