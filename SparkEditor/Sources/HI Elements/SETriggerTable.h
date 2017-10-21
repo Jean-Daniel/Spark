@@ -12,7 +12,7 @@
 
 @interface SETriggerTable : WBTableView
 
-@property(nonatomic, assign) id<SETriggerTableDelegate> delegate;
+@property(assign) id<SETriggerTableDelegate> delegate;
 
 @end
 
