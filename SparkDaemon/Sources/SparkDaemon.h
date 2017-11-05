@@ -12,7 +12,7 @@
 @class SparkApplication, SparkEntry;
 @class SparkLibrary, SparkDistantLibrary;
 
-@interface SparkDaemon : NSObject {
+@interface SparkDaemon : NSObject<NSApplicationDelegate> {
   SparkLibrary *sd_library;
   SparkApplication *sd_front;
   SparkDistantLibrary *sd_rlibrary;
@@ -33,7 +33,7 @@
 - (BOOL)isEnabled;
 - (void)setEnabled:(BOOL)flag;
 
-- (void)frontApplicationDidChange:(ProcessSerialNumber *)psn;
+- (void)frontApplicationDidChange:(NSRunningApplication *)app;
 
 @end
 

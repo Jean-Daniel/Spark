@@ -10,7 +10,7 @@
 
 @implementation SETriggerTable
 
-- (id<SETriggerTableDelegate>)delegate { return (id)super.delegate; }
+- (id<SETriggerTableDelegate>)delegate { return (id<SETriggerTableDelegate>)[super delegate]; }
 - (void)setDelegate:(id<SETriggerTableDelegate>)delegate { super.delegate = delegate; }
 
 - (NSDragOperation)draggingSession:(NSDraggingSession *)session sourceOperationMaskForDraggingContext:(NSDraggingContext)context {
@@ -107,8 +107,8 @@
   if ([tableColumns count] < 2 || ![dragRows count])
     return anImage;
   
-  CGFloat width = [[tableColumns objectAtIndex:0] width];
-  width += [[tableColumns objectAtIndex:1] width];
+  CGFloat width = [tableColumns[0] width];
+  width += [tableColumns[1] width];
   dragImageOffset->x = 0;
   
   NSSize size = NSMakeSize(width + 1, [anImage size].height + 1);
@@ -123,13 +123,10 @@
   /* Draw borders */
   [anImage lockFocus];
   CGContextRef ctxt = [[NSGraphicsContext currentContext] graphicsPort];
-  CGContextSaveGState(ctxt);
-  
   CGContextSetLineWidth(ctxt, 0);
   CGContextSetShouldAntialias(ctxt, false);
   CGContextSetGrayFillColor(ctxt, .80f, .45f);
   CGContextSetGrayStrokeColor(ctxt, .50f, 1);
-
 
   [dragRows enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
     NSRect rect = [self rectOfRow:idx];
@@ -148,8 +145,6 @@
     [anImage setSize:size];
   }
   [badge compositeToPoint:NSZeroPoint operation:NSCompositeSourceOver];
-  
-  CGContextRestoreGState(ctxt);
   [anImage unlockFocus];
   
   return anImage;

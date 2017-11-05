@@ -14,7 +14,6 @@
 #import <WonderBox/WBFunctions.h>
 #import <WonderBox/WBAEFunctions.h>
 #import <WonderBox/WBFinderSuite.h>
-#import <WonderBox/WBLSFunctions.h>
 #import <WonderBox/WBImageFunctions.h>
 #import <WonderBox/NSImage+WonderBox.h>
 
@@ -24,6 +23,13 @@ static NSString * const kDocumentActionBookmarkKey = @"DocumentBookmark";
 
 /* NSCoding only */
 static NSString * const kDocumentActionApplicationKey = @"DocumentApplication";
+
+NSBundle *DocumentActionBundle(void) {
+  static NSBundle *bundle = nil;
+  if (!bundle)
+    bundle = [NSBundle bundleWithIdentifier:@"org.shadowlab.spark.action.document"];
+  return bundle;
+}
 
 @implementation DocumentAction
 
@@ -97,19 +103,10 @@ OSType _DocumentActionFromFlag(int flag) {
   if (DocumentActionNeedApplication(_action)) {
     NSData *data = [plist objectForKey:@"AppAlias"];
     if (data) {
-      NSURL *url = nil;
       WBAlias *app = [[WBAlias alloc] initFromData:data];
-      if (![app path]) {
-        /* Search with signature */
-        OSType sign = WBOSTypeFromString([plist objectForKey:@"AppSign"]);
-        if (sign)
-          url = SPXCFToNSURL(WBLSCopyApplicationURLForSignature(sign));
-      } else {
-        url = app.URL;
-      }
-      if (url) {
-        _application = [[WBApplication alloc] initWithPath:[url path]];
-      }
+      NSURL *url = app.URL;
+      if (url)
+        _application = [[WBApplication alloc] initWithURL:url];
     }
   }
   if (_action == kDocumentActionOpenURL) {
@@ -196,12 +193,12 @@ OSType _DocumentActionFromFlag(int flag) {
     }
   }
   if (DocumentActionNeedApplication(_action)) {
-    if (![[self application] path]) {
+    if (!self.application.URL) {
       //Alert App Invalide
       return [SparkAlert alertWithMessageText:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"INVALID_APPLICATION_ALERT", nil, 
                                                                                                             kDocumentActionBundle,
                                                                                                             @"Application not found * Check Title *"), [self name]]
-                    informativeTextWithFormat:NSLocalizedStringFromTableInBundle(@"INVALID_APPLICATION_ALERT_MSG", nil, 
+                    informativeTextWithFormat:NSLocalizedStringFromTableInBundle(@"INVALID_APPLICATION_ALERT_MSG", nil,
                                                                                  kDocumentActionBundle,
                                                                                  @"Application not found  * Check Msg *"), [self name]];
     }
@@ -214,9 +211,14 @@ OSType _DocumentActionFromFlag(int flag) {
   switch (_action) {
     case kDocumentActionOpen:
     case kDocumentActionOpenWith: {
-      if (![[NSWorkspace sharedWorkspace] openFile:[[self document] path] withApplication:[[self application] path]]) {
-        NSBeep();
+      NSURL *doc = self.document.URL;
+      if (!doc || ![NSWorkspace.sharedWorkspace openURLs:@[doc]
+                                 withAppBundleIdentifier:self.application.bundleIdentifier
+                                                 options:NSWorkspaceLaunchDefault
+                          additionalEventParamDescriptor:nil
+                                       launchIdentifiers:NULL]) {
         // Impossible d'ouvrir le document (alert = ?)
+        NSBeep();
       }
     }
       break;
@@ -235,17 +237,9 @@ OSType _DocumentActionFromFlag(int flag) {
     }
       break;
     case kDocumentActionReveal: {
-      NSData *alias = [self document].data;
+      NSURL *alias = self.document.URL;
       if (alias) {
-        AEDesc desc = WBAEEmptyDesc();
-        OSStatus err = WBAECreateDescFromBookmarkData(SPXNSToCFData(alias), &desc);
-        if (noErr == err) {
-          err = WBAEFinderRevealItem(&desc, TRUE);
-          WBAEDisposeDesc(&desc);
-        }
-        
-        if (noErr != err)
-          NSBeep();
+        [NSWorkspace.sharedWorkspace activateFileViewerSelectingURLs:@[ alias ]];
       } else {
         NSBeep();
       }
@@ -280,8 +274,7 @@ OSType _DocumentActionFromFlag(int flag) {
 - (NSImage *)iconCacheMiss {
   NSImage *icon = nil;
   if (DocumentActionNeedDocument([self action])) {
-    if ([[self document] path])
-      icon = [[NSWorkspace sharedWorkspace] iconForFile:[[self document] path]];
+    [self.document.URL getResourceValue:&icon forKey:NSURLEffectiveIconKey error:NULL];
   } else if([self action] == kDocumentActionOpenSelectionWith) {
     icon = [[self application] icon];
   }
@@ -292,53 +285,26 @@ OSType _DocumentActionFromFlag(int flag) {
 
 #pragma mark -
 - (void)openSelection {
-  AEDescList selection = {typeNull, nil};
-  long count = 0;
-  
-  // Get Finder Selection.
-  OSStatus err = WBAEFinderGetSelection(&selection);
-  if (noErr == err) {
-    // Get selection Count
-    err = AECountItems(&selection, &count);
+  NSArray *selection = SPXCFArrayBridgingRelease(WBAEFinderCopySelection());
+  if ([selection count] <= 0 || ![NSWorkspace.sharedWorkspace openURLs:selection
+                                               withAppBundleIdentifier:self.application.bundleIdentifier
+                                                               options:NSWorkspaceLaunchDefault
+                                        additionalEventParamDescriptor:nil
+                                                     launchIdentifiers:NULL]) {
+    NSBeep();
   }
-  if (noErr == err && count > 0) {
-    // if selected items
-    CFIndex realCount;
-    FSRef *refs = malloc(count * sizeof(FSRef));
-    // Get FSRef for these items.
-    err = WBAEFinderSelectionToFSRefs(&selection , refs, count, &realCount);
-    if (noErr == err && realCount > 0) {
-      FSRef app;
-      LSLaunchFSRefSpec spec;
-      
-      if ([[self application] getFSRef:&app]) {
-        spec.appRef = &app;
-      } else {
-        spec.appRef = nil;
-      }
-      
-      spec.numDocs = realCount;
-      spec.itemRefs = refs;
-      spec.passThruParams = nil;
-      spec.launchFlags = kLSLaunchDefaults;
-      spec.asyncRefCon = nil;
-      LSOpenFromRefSpec(&spec, nil);
-    }
-    free(refs);
-  }
-  WBAEDisposeDesc(&selection);
 }
 
-- (void)setDocumentPath:(NSString *)path {
-  if (path)
-    [self setDocument:[WBAlias aliasWithURL:[NSURL fileURLWithPath:path]]];
+- (void)setDocumentURL:(NSURL *)anURL {
+  if (anURL)
+    [self setDocument:[WBAlias aliasWithURL:anURL]];
   else
     [self setDocument:nil];
 }
 
-- (void)setApplicationPath:(NSString *)path {
-  if (path)
-    [self setApplication:[WBApplication applicationWithPath:path]];
+- (void)setApplicationURL:(NSURL *)anURL {
+  if (anURL)
+    [self setApplication:[WBApplication applicationWithURL:anURL]];
   else
     [self setApplication:nil];
 }
@@ -366,16 +332,16 @@ NSString *DocumentActionDescription(DocumentAction *anAction) {
   NSString *desc = nil;
   switch ([anAction action]) {
     case kDocumentActionOpen: {
-      NSString *path = [[anAction document] path];
-      NSString *document = path ? [[NSFileManager defaultManager] displayNameAtPath:path] : nil;
+      NSString *document = nil;
+      [anAction.document.URL getResourceValue:&document forKey:NSURLLocalizedNameKey error:NULL];
       desc = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"DESC_OPEN", nil,
                                                                            kDocumentActionBundle,
                                                                            @"Open (%@ => document) * description *"), document];
     }
       break;
     case kDocumentActionOpenWith: {
-      NSString *path = [[anAction document] path];
-      NSString *document = path ? [[NSFileManager defaultManager] displayNameAtPath:path] : nil;
+      NSString *document = nil;
+      [anAction.document.URL getResourceValue:&document forKey:NSURLLocalizedNameKey error:NULL];
       desc = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"DESC_OPEN_WITH", nil,
                                                                            kDocumentActionBundle,
                                                                            @"Open with (%1$@ => document, %2$@ => application) * description *"),
@@ -383,8 +349,8 @@ NSString *DocumentActionDescription(DocumentAction *anAction) {
     }
       break;
     case kDocumentActionReveal: {
-      NSString *path = [[anAction document] path];
-      NSString *document = path ? [[NSFileManager defaultManager] displayNameAtPath:path] : nil;
+      NSString *document = nil;
+      [anAction.document.URL getResourceValue:&document forKey:NSURLLocalizedNameKey error:NULL];
       desc = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"DESC_REVEAL_DOCUMENT", nil,
                                                                            kDocumentActionBundle,
                                                                            @"Open with (%@ => document) * description *"), document];

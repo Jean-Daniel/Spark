@@ -8,13 +8,13 @@
 
 #import <SparkKit/SparkKit.h>
 
-#define kASActionBundleIdentifier   @"org.shadowlab.spark.action.applescript"
-#define AppleScriptActionBundle		[NSBundle bundleWithIdentifier:kASActionBundleIdentifier]
+SPARK_PRIVATE NSBundle *AppleScriptActionBundle(void);
+
 @class WBAlias;
 
 @interface AppleScriptAction : SparkAction <NSCoding, NSCopying>
 
-@property(nonatomic, copy) NSString *file;
+@property(nonatomic, copy) NSURL *URL;
 
 @property(nonatomic, retain) WBAlias *scriptBookmark;
 

@@ -10,7 +10,7 @@
 
 #import <SparkKit/SparkDefine.h>
 
-@class SparkAction, SparkPlugInView;
+@class SparkAction;
 
 /*!
  @abstract This class is the base class to do a Spark PlugIn. If you want to add some kind of Action to Spark,
@@ -19,17 +19,16 @@
  If you use this class in IB, you can define an Outlet with name actionView.
  */
 SPARK_OBJC_EXPORT
-@interface SparkActionPlugIn : NSObject
+@interface SparkActionPlugIn : NSViewController
 
 /*!
- @method
  @abstract This methode is call when an action editor is opened. The base implementation try to
  open the Main Nib File of the bundle and return the view attache to the <i>actionView</i> IBOutlet.
  @discussion You normally don't override this method. Just set the main nib File in the plist Bundle.
  Set the owner of this nib file on this class, and set <code>actionView</code> IBOutlet on the customView you want to use.
  @result The <code>NSView</code> that will be displayed in Spark.
  */
-- (NSView *)actionView;
+@property (nonatomic, readonly) NSView *actionView;
 
 /*!
 	@method
@@ -63,9 +62,9 @@ SPARK_OBJC_EXPORT
 /*!
  @abstract Returns the action currently edited by the receiver.
  */
-@property(nonatomic, retain, readonly) id /* __kindof SparkAction */ sparkAction;
+@property(nonatomic, retain, readonly) __kindof SparkAction *sparkAction;
 
-#pragma mark Hook entry points
+// MARK: Hook entry points
 /* Those methods does nothing. Subclasses can override those methods to perform whatever actions are necessary. */
 - (void)plugInViewWillBecomeVisible;
 - (void)plugInViewDidBecomeVisible;
@@ -73,8 +72,8 @@ SPARK_OBJC_EXPORT
 - (void)plugInViewWillBecomeHidden;
 - (void)plugInViewDidBecomeHidden;
 
-#pragma mark -
-#pragma mark Advanced
+// MARK: -
+// MARK: Advanced
 /*!
  @discussion This function can be used to choose to display or hide some settings
  in action configuration panels.

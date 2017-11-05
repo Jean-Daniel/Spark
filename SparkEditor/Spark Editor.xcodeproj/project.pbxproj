@@ -13,7 +13,7 @@
 		1B1358710CA110DB00766572 /* advancedpref.icns in Resources */ = {isa = PBXBuildFile; fileRef = 1B13586F0CA110DB00766572 /* advancedpref.icns */; };
 		1B1358E90CA11B8800766572 /* updatepref.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B1358E80CA11B8800766572 /* updatepref.tiff */; };
 		1B1358FC0CA11C2000766572 /* pluginpref.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B1358FB0CA11C2000766572 /* pluginpref.tiff */; };
-		1B1535410D0D930F00C30ADA /* SEExport.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B15353F0D0D930F00C30ADA /* SEExport.xib */; };
+		1B1535410D0D930F00C30ADA /* SEExportOptions.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B15353F0D0D930F00C30ADA /* SEExportOptions.xib */; };
 		1B15354A0D0D93F300C30ADA /* SEFirstRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B1535480D0D93F300C30ADA /* SEFirstRun.xib */; };
 		1B1B85AE1D9A90AC006AE849 /* SArchiveKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B1B85AD1D9A90AC006AE849 /* SArchiveKit.framework */; };
 		1B1B85B11D9A90C9006AE849 /* SArchiveKit.framework in Copy Framework */ = {isa = PBXBuildFile; fileRef = 1B1B85AD1D9A90AC006AE849 /* SArchiveKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -59,6 +59,8 @@
 		1BD1A1890D0D4926004206FA /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BD1A1870D0D4926004206FA /* MainMenu.xib */; };
 		1BD1A18D0D0D4A02004206FA /* SELibraryWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BD1A18B0D0D4A02004206FA /* SELibraryWindow.xib */; };
 		1BEBF5940EBDE53C00404150 /* SEExportShortcut.xml in Resources */ = {isa = PBXBuildFile; fileRef = 1BEBF56D0EBDE42100404150 /* SEExportShortcut.xml */; };
+		1BECC9CE1FACCCB0006AE849 /* SESeparatorCellView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BECC9CC1FACCCB0006AE849 /* SESeparatorCellView.h */; };
+		1BECC9CF1FACCCB0006AE849 /* SESeparatorCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BECC9CD1FACCCB0006AE849 /* SESeparatorCellView.m */; };
 		981875850B8738200079C55F /* SparkRun.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 981875840B8738200079C55F /* SparkRun.tiff */; };
 		981875A10B873B9E0079C55F /* SparkStop.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 981875A00B873B9E0079C55F /* SparkStop.tiff */; };
 		982312880AFE3F2100675226 /* SEForward.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 982312830AFE3F2100675226 /* SEForward.tiff */; };
@@ -119,14 +121,8 @@
 		98D526F70B199FE400C8425C /* SDVersion.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D526F60B199FE400C8425C /* SDVersion.h */; };
 		98D52B270B19A44A00C8425C /* SEApplicationView.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D52B170B19A44A00C8425C /* SEApplicationView.h */; };
 		98D52B280B19A44A00C8425C /* SEApplicationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B180B19A44A00C8425C /* SEApplicationView.m */; };
-		98D52B2B0B19A44A00C8425C /* SEHeaderCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D52B1B0B19A44A00C8425C /* SEHeaderCell.h */; };
-		98D52B2C0B19A44A00C8425C /* SEHeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B1C0B19A44A00C8425C /* SEHeaderCell.m */; };
 		98D52B2D0B19A44A00C8425C /* SEHotKeyTrap.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D52B1D0B19A44A00C8425C /* SEHotKeyTrap.h */; };
 		98D52B2E0B19A44A00C8425C /* SEHotKeyTrap.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B1E0B19A44A00C8425C /* SEHotKeyTrap.m */; };
-		98D52B2F0B19A44A00C8425C /* SESplitView.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D52B1F0B19A44A00C8425C /* SESplitView.h */; };
-		98D52B300B19A44A00C8425C /* SESplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B200B19A44A00C8425C /* SESplitView.m */; };
-		98D52B310B19A44A00C8425C /* SETableView.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D52B210B19A44A00C8425C /* SETableView.h */; };
-		98D52B320B19A44A00C8425C /* SETableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B220B19A44A00C8425C /* SETableView.m */; };
 		98D52B350B19A44A00C8425C /* SETriggerTable.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D52B250B19A44A00C8425C /* SETriggerTable.h */; };
 		98D52B360B19A44A00C8425C /* SETriggerTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B260B19A44A00C8425C /* SETriggerTable.m */; };
 		98D52B430B19A4C000C8425C /* SEBuiltInPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D52B3B0B19A4C000C8425C /* SEBuiltInPlugin.h */; };
@@ -196,16 +192,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		1B09482E0D68C12F00E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = French; path = French.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		1B09482F0D68C13900E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = French; path = French.lproj/SEExport.xib; sourceTree = "<group>"; };
-		1B0948300D68C13D00E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = French; path = French.lproj/SEFirstRun.xib; sourceTree = "<group>"; };
-		1B0948310D68C14100E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = French; path = French.lproj/SEPluginHelp.xib; sourceTree = "<group>"; };
-		1B0948320D68C14600E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = French; path = French.lproj/SEEntryEditor.xib; sourceTree = "<group>"; };
-		1B0948330D68C14A00E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = French; path = French.lproj/SEPreferences.xib; sourceTree = "<group>"; };
-		1B0948340D68C14E00E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = French; path = French.lproj/SEInheritsPlugin.xib; sourceTree = "<group>"; };
-		1B0948350D68C15100E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = French; path = French.lproj/SEPluginInstaller.xib; sourceTree = "<group>"; };
-		1B0948360D68C15600E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = French; path = French.lproj/SELibraryWindow.xib; sourceTree = "<group>"; };
-		1B0948370D68C15800E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = French; path = French.lproj/SETriggerBrowser.xib; sourceTree = "<group>"; };
 		1B0948380D68C15F00E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = French; path = French.lproj/nohelp.html; sourceTree = "<group>"; };
 		1B0948390D68C16200E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = French; path = French.lproj/Credits.rtf; sourceTree = "<group>"; };
 		1B09483A0D68C16400E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = French; path = "French.lproj/Read First.rtf"; sourceTree = "<group>"; };
@@ -221,8 +207,6 @@
 		1B1358E80CA11B8800766572 /* updatepref.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = updatepref.tiff; sourceTree = "<group>"; };
 		1B1358FB0CA11C2000766572 /* pluginpref.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = pluginpref.tiff; sourceTree = "<group>"; };
 		1B1359A10CA11FB400766572 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/SEUpdater.strings; sourceTree = "<group>"; };
-		1B1535400D0D930F00C30ADA /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SEExport.xib; sourceTree = "<group>"; };
-		1B1535490D0D93F300C30ADA /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SEFirstRun.xib; sourceTree = "<group>"; };
 		1B1B85AD1D9A90AC006AE849 /* SArchiveKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SArchiveKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B24CFA81413E2840014FF20 /* Spark.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = Spark.cer; sourceTree = "<group>"; };
 		1B35ED3013C0B8C900A8AEA6 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -245,6 +229,27 @@
 		1B68A686141134CA0017CD27 /* SURSAVerifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SURSAVerifier.m; sourceTree = "<group>"; };
 		1B68A687141134CA0017CD27 /* SUVersionComparator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SUVersionComparator.m; sourceTree = "<group>"; };
 		1B68A6AB1411392B0017CD27 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1B8E06601FA92EC6006AE849 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Importer.xib; sourceTree = "<group>"; };
+		1B8E06611FA92EC6006AE849 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		1B8E06621FA92EC6006AE849 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SEExportOptions.xib; sourceTree = "<group>"; };
+		1B8E06631FA92EC6006AE849 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SEFirstRun.xib; sourceTree = "<group>"; };
+		1B8E06641FA92EC6006AE849 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SEPluginHelp.xib; sourceTree = "<group>"; };
+		1B8E06651FA92EC6006AE849 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SEEntryEditor.xib; sourceTree = "<group>"; };
+		1B8E06661FA92EC6006AE849 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SEPreferences.xib; sourceTree = "<group>"; };
+		1B8E06671FA92EC6006AE849 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SEInheritsPlugin.xib; sourceTree = "<group>"; };
+		1B8E06681FA92EC6006AE849 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SEPluginInstaller.xib; sourceTree = "<group>"; };
+		1B8E06691FA92EC6006AE849 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SELibraryWindow.xib; sourceTree = "<group>"; };
+		1B8E066A1FA92EC7006AE849 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SETriggerBrowser.xib; sourceTree = "<group>"; };
+		1B8E066B1FA92EF9006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = French.lproj/SELibraryWindow.strings; sourceTree = "<group>"; };
+		1B8E066C1FA92F1A006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = French.lproj/SETriggerBrowser.strings; sourceTree = "<group>"; };
+		1B8E066D1FA92F21006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = French.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		1B8E066E1FA92F27006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = French.lproj/SEExportOptions.strings; sourceTree = "<group>"; };
+		1B8E066F1FA92F2B006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = French.lproj/SEFirstRun.strings; sourceTree = "<group>"; };
+		1B8E06701FA92F30006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = French.lproj/SEPluginHelp.strings; sourceTree = "<group>"; };
+		1B8E06711FA92F35006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = French.lproj/SEEntryEditor.strings; sourceTree = "<group>"; };
+		1B8E06721FA92F39006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = French.lproj/SEPreferences.strings; sourceTree = "<group>"; };
+		1B8E06731FA92F3E006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = French.lproj/SEInheritsPlugin.strings; sourceTree = "<group>"; };
+		1B8E06741FA92F44006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = French.lproj/SEPluginInstaller.strings; sourceTree = "<group>"; };
 		1B91B43C13C088A5005FC86D /* SparkKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SparkKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B91B44013C088FF005FC86D /* Spark Daemon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; path = "Spark Daemon.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B92D0AF1707246D00F40FCD /* application.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = application.xcconfig; sourceTree = "<group>"; };
@@ -252,14 +257,7 @@
 		1B92D0B11707246D00F40FCD /* bundle.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = bundle.xcconfig; sourceTree = "<group>"; };
 		1B92D0B31707246D00F40FCD /* executable.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = executable.xcconfig; sourceTree = "<group>"; };
 		1B92D0EF17072AB600F40FCD /* WonderBox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WonderBox.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		1B98A1A90D312F5800EC7D09 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SETriggerBrowser.xib; sourceTree = "<group>"; };
-		1B9A7A660D0D96DD00770054 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SEPluginHelp.xib; sourceTree = "<group>"; };
-		1B9A7A6C0D0D978800770054 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SEEntryEditor.xib; sourceTree = "<group>"; };
-		1B9A7A790D0D998B00770054 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SEPreferences.xib; sourceTree = "<group>"; };
-		1B9FB30D180883F6007EADAE /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/Importer.xib; sourceTree = "<group>"; };
 		1BA7A5A70D685C4F00D89AC2 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/SEPreferences.strings; sourceTree = "<group>"; };
-		1BA7CE090D0DB3480081764D /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SEInheritsPlugin.xib; sourceTree = "<group>"; };
-		1BA7CE0E0D0DB3740081764D /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SEPluginInstaller.xib; sourceTree = "<group>"; };
 		1BAF36D41B3C7FB1006F05FC /* SparkLibraryArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SparkLibraryArchive.h; path = Sources/SparkLibraryArchive.h; sourceTree = SOURCE_ROOT; };
 		1BAF36D61B3C7FB8006F05FC /* SparkLibraryArchive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SparkLibraryArchive.m; path = Sources/SparkLibraryArchive.m; sourceTree = SOURCE_ROOT; };
 		1BB11ABB0B931FAE00908925 /* SELibrary.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SELibrary.tiff; sourceTree = "<group>"; };
@@ -267,9 +265,9 @@
 		1BBE7D100ED04F760004D9DD /* release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = release.xcconfig; sourceTree = "<group>"; };
 		1BCC2D3C1B31919000ED8883 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Spark/Images.xcassets; sourceTree = SOURCE_ROOT; };
 		1BD0A0F81B23465C007F6E86 /* project.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = project.xcconfig; sourceTree = "<group>"; };
-		1BD1A1880D0D4926004206FA /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		1BD1A18C0D0D4A02004206FA /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SELibraryWindow.xib; sourceTree = "<group>"; };
 		1BEBF56D0EBDE42100404150 /* SEExportShortcut.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SEExportShortcut.xml; sourceTree = "<group>"; };
+		1BECC9CC1FACCCB0006AE849 /* SESeparatorCellView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SESeparatorCellView.h; sourceTree = "<group>"; };
+		1BECC9CD1FACCCB0006AE849 /* SESeparatorCellView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SESeparatorCellView.m; sourceTree = "<group>"; };
 		981875840B8738200079C55F /* SparkRun.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SparkRun.tiff; sourceTree = "<group>"; };
 		981875A00B873B9E0079C55F /* SparkStop.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SparkStop.tiff; sourceTree = "<group>"; };
 		982312830AFE3F2100675226 /* SEForward.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SEForward.tiff; sourceTree = "<group>"; };
@@ -340,14 +338,8 @@
 		98D526F60B199FE400C8425C /* SDVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDVersion.h; path = ../SparkDaemon/Sources/SDVersion.h; sourceTree = SOURCE_ROOT; };
 		98D52B170B19A44A00C8425C /* SEApplicationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEApplicationView.h; sourceTree = "<group>"; };
 		98D52B180B19A44A00C8425C /* SEApplicationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEApplicationView.m; sourceTree = "<group>"; };
-		98D52B1B0B19A44A00C8425C /* SEHeaderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEHeaderCell.h; sourceTree = "<group>"; };
-		98D52B1C0B19A44A00C8425C /* SEHeaderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEHeaderCell.m; sourceTree = "<group>"; };
 		98D52B1D0B19A44A00C8425C /* SEHotKeyTrap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEHotKeyTrap.h; sourceTree = "<group>"; };
 		98D52B1E0B19A44A00C8425C /* SEHotKeyTrap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEHotKeyTrap.m; sourceTree = "<group>"; };
-		98D52B1F0B19A44A00C8425C /* SESplitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SESplitView.h; sourceTree = "<group>"; };
-		98D52B200B19A44A00C8425C /* SESplitView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SESplitView.m; sourceTree = "<group>"; };
-		98D52B210B19A44A00C8425C /* SETableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SETableView.h; sourceTree = "<group>"; };
-		98D52B220B19A44A00C8425C /* SETableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SETableView.m; sourceTree = "<group>"; };
 		98D52B250B19A44A00C8425C /* SETriggerTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SETriggerTable.h; sourceTree = "<group>"; };
 		98D52B260B19A44A00C8425C /* SETriggerTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SETriggerTable.m; sourceTree = "<group>"; };
 		98D52B3B0B19A4C000C8425C /* SEBuiltInPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEBuiltInPlugin.h; sourceTree = "<group>"; };
@@ -507,7 +499,6 @@
 			children = (
 				1BCC2D3C1B31919000ED8883 /* Images.xcassets */,
 				984BCE2A060C7E990043CDEA /* Images */,
-				984BCA56060C7BDB0043CDEA /* Interface */,
 				98DCBDEC060C80DD00B3E0AE /* Info.plist */,
 				98D590F60AA18A4E0081A713 /* Localization */,
 				1B24CFA81413E2840014FF20 /* Spark.cer */,
@@ -533,23 +524,6 @@
 				984199330A5E67BE0009A093 /* Highlight.png */,
 			);
 			path = SELibrary;
-			sourceTree = "<group>";
-		};
-		984BCA56060C7BDB0043CDEA /* Interface */ = {
-			isa = PBXGroup;
-			children = (
-				1BD1A1870D0D4926004206FA /* MainMenu.xib */,
-				1B15353F0D0D930F00C30ADA /* SEExport.xib */,
-				1B1535480D0D93F300C30ADA /* SEFirstRun.xib */,
-				1B9A7A650D0D96DD00770054 /* SEPluginHelp.xib */,
-				1B9A7A6B0D0D978800770054 /* SEEntryEditor.xib */,
-				1B9A7A780D0D998B00770054 /* SEPreferences.xib */,
-				1BA7CE080D0DB3480081764D /* SEInheritsPlugin.xib */,
-				1BA7CE0D0D0DB3740081764D /* SEPluginInstaller.xib */,
-				1BD1A18B0D0D4A02004206FA /* SELibraryWindow.xib */,
-				1B98A1A80D312F5800EC7D09 /* SETriggerBrowser.xib */,
-			);
-			name = Interface;
 			sourceTree = "<group>";
 		};
 		984BCE2A060C7E990043CDEA /* Images */ = {
@@ -688,12 +662,11 @@
 			isa = PBXGroup;
 			children = (
 				98D52B380B19A45400C8425C /* Headers */,
-				98D52B200B19A44A00C8425C /* SESplitView.m */,
-				98D52B220B19A44A00C8425C /* SETableView.m */,
-				98D52B1C0B19A44A00C8425C /* SEHeaderCell.m */,
 				98D52B1E0B19A44A00C8425C /* SEHotKeyTrap.m */,
 				98D52B260B19A44A00C8425C /* SETriggerTable.m */,
 				98D52B180B19A44A00C8425C /* SEApplicationView.m */,
+				1BECC9CC1FACCCB0006AE849 /* SESeparatorCellView.h */,
+				1BECC9CD1FACCCB0006AE849 /* SESeparatorCellView.m */,
 			);
 			path = "HI Elements";
 			sourceTree = "<group>";
@@ -701,9 +674,6 @@
 		98D52B380B19A45400C8425C /* Headers */ = {
 			isa = PBXGroup;
 			children = (
-				98D52B1F0B19A44A00C8425C /* SESplitView.h */,
-				98D52B210B19A44A00C8425C /* SETableView.h */,
-				98D52B1B0B19A44A00C8425C /* SEHeaderCell.h */,
 				98D52B1D0B19A44A00C8425C /* SEHotKeyTrap.h */,
 				98D52B250B19A44A00C8425C /* SETriggerTable.h */,
 				98D52B170B19A44A00C8425C /* SEApplicationView.h */,
@@ -739,10 +709,14 @@
 		98D52B4E0B19A59700C8425C /* Main Window */ = {
 			isa = PBXGroup;
 			children = (
+				1BD1A1870D0D4926004206FA /* MainMenu.xib */,
 				98D52B630B19A5AD00C8425C /* Headers */,
 				98D52B520B19A59700C8425C /* SEEntryEditor.m */,
+				1B9A7A6B0D0D978800770054 /* SEEntryEditor.xib */,
+				1BA7CE080D0DB3480081764D /* SEInheritsPlugin.xib */,
 				98D52B540B19A59700C8425C /* SELibrarySource.m */,
 				98D52B560B19A59700C8425C /* SELibraryWindow.m */,
+				1BD1A18B0D0D4A02004206FA /* SELibraryWindow.xib */,
 				98D52B500B19A59700C8425C /* SEApplicationSource.m */,
 				98D52B580B19A59700C8425C /* SETriggersController.mm */,
 			);
@@ -766,11 +740,17 @@
 			children = (
 				98D52B7C0B19A64100C8425C /* Headers */,
 				98D52B690B19A63700C8425C /* SEFirstRun.m */,
+				1B1535480D0D93F300C30ADA /* SEFirstRun.xib */,
 				98D52B6B0B19A63700C8425C /* SEPluginHelp.m */,
+				1B9A7A650D0D96DD00770054 /* SEPluginHelp.xib */,
 				98D52B6F0B19A63700C8425C /* SEPreferences.m */,
+				1B9A7A780D0D998B00770054 /* SEPreferences.xib */,
 				98D52B6D0B19A63700C8425C /* SEPluginInstaller.m */,
+				1BA7CE0D0D0DB3740081764D /* SEPluginInstaller.xib */,
 				9876699A0CD4C5D500593B74 /* SEExportOptions.m */,
+				1B15353F0D0D930F00C30ADA /* SEExportOptions.xib */,
 				98D52B710B19A63700C8425C /* SETriggerBrowser.m */,
+				1B98A1A80D312F5800EC7D09 /* SETriggerBrowser.xib */,
 			);
 			path = Windows;
 			sourceTree = "<group>";
@@ -816,11 +796,9 @@
 				98D526F40B199FC500C8425C /* SEServerConnection.h in Headers */,
 				98D526F70B199FE400C8425C /* SDVersion.h in Headers */,
 				98D52B270B19A44A00C8425C /* SEApplicationView.h in Headers */,
-				98D52B2B0B19A44A00C8425C /* SEHeaderCell.h in Headers */,
 				98D52B2D0B19A44A00C8425C /* SEHotKeyTrap.h in Headers */,
-				98D52B2F0B19A44A00C8425C /* SESplitView.h in Headers */,
-				98D52B310B19A44A00C8425C /* SETableView.h in Headers */,
 				98D52B350B19A44A00C8425C /* SETriggerTable.h in Headers */,
+				1BECC9CE1FACCCB0006AE849 /* SESeparatorCellView.h in Headers */,
 				98D52B430B19A4C000C8425C /* SEBuiltInPlugin.h in Headers */,
 				98D52B590B19A59700C8425C /* SEApplicationSource.h in Headers */,
 				98D52B5B0B19A59700C8425C /* SEEntryEditor.h in Headers */,
@@ -887,6 +865,7 @@
 				Japanese,
 				French,
 				German,
+				Base,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* Spark */;
 			projectDirPath = "";
@@ -955,7 +934,7 @@
 				98766A030CD4EF4F00593B74 /* SEExportApp.xml in Resources */,
 				1BD1A1890D0D4926004206FA /* MainMenu.xib in Resources */,
 				1BD1A18D0D0D4A02004206FA /* SELibraryWindow.xib in Resources */,
-				1B1535410D0D930F00C30ADA /* SEExport.xib in Resources */,
+				1B1535410D0D930F00C30ADA /* SEExportOptions.xib in Resources */,
 				1B15354A0D0D93F300C30ADA /* SEFirstRun.xib in Resources */,
 				1B9FB30E180883F6007EADAE /* Importer.xib in Resources */,
 				1B9A7A670D0D96DD00770054 /* SEPluginHelp.xib in Resources */,
@@ -981,10 +960,7 @@
 				98D526F30B199FC500C8425C /* SEScriptHandler.m in Sources */,
 				98D526F50B199FC500C8425C /* SEServerConnection.m in Sources */,
 				98D52B280B19A44A00C8425C /* SEApplicationView.m in Sources */,
-				98D52B2C0B19A44A00C8425C /* SEHeaderCell.m in Sources */,
 				98D52B2E0B19A44A00C8425C /* SEHotKeyTrap.m in Sources */,
-				98D52B300B19A44A00C8425C /* SESplitView.m in Sources */,
-				98D52B320B19A44A00C8425C /* SETableView.m in Sources */,
 				98D52B360B19A44A00C8425C /* SETriggerTable.m in Sources */,
 				1B692D441B5D2D04000EFCE6 /* SETriggerBrowser.m in Sources */,
 				98D52B440B19A4C000C8425C /* SEBuiltInPlugin.m in Sources */,
@@ -1000,6 +976,7 @@
 				1BAF36D71B3C7FB8006F05FC /* SparkLibraryArchive.m in Sources */,
 				1B5F396E0B5D451700879DF5 /* SETriggersController.mm in Sources */,
 				9876699C0CD4C5D500593B74 /* SEExportOptions.m in Sources */,
+				1BECC9CF1FACCCB0006AE849 /* SESeparatorCellView.m in Sources */,
 				98766A290CD4F15400593B74 /* SEHTMLGenerator.m in Sources */,
 				987208D50D033CA200A3D473 /* SEEntryList.m in Sources */,
 				1B68A689141134CA0017CD27 /* SparkleDelegate.m in Sources */,
@@ -1018,20 +995,20 @@
 			name = SEUpdater.strings;
 			sourceTree = "<group>";
 		};
-		1B15353F0D0D930F00C30ADA /* SEExport.xib */ = {
+		1B15353F0D0D930F00C30ADA /* SEExportOptions.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				1B1535400D0D930F00C30ADA /* English */,
-				1B09482F0D68C13900E8FE8D /* French */,
+				1B8E06621FA92EC6006AE849 /* Base */,
+				1B8E066E1FA92F27006AE849 /* fr */,
 			);
-			name = SEExport.xib;
+			name = SEExportOptions.xib;
 			sourceTree = "<group>";
 		};
 		1B1535480D0D93F300C30ADA /* SEFirstRun.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				1B1535490D0D93F300C30ADA /* English */,
-				1B0948300D68C13D00E8FE8D /* French */,
+				1B8E06631FA92EC6006AE849 /* Base */,
+				1B8E066F1FA92F2B006AE849 /* fr */,
 			);
 			name = SEFirstRun.xib;
 			sourceTree = "<group>";
@@ -1039,8 +1016,8 @@
 		1B98A1A80D312F5800EC7D09 /* SETriggerBrowser.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				1B98A1A90D312F5800EC7D09 /* English */,
-				1B0948370D68C15800E8FE8D /* French */,
+				1B8E066A1FA92EC7006AE849 /* Base */,
+				1B8E066C1FA92F1A006AE849 /* fr */,
 			);
 			name = SETriggerBrowser.xib;
 			sourceTree = "<group>";
@@ -1048,8 +1025,8 @@
 		1B9A7A650D0D96DD00770054 /* SEPluginHelp.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				1B9A7A660D0D96DD00770054 /* English */,
-				1B0948310D68C14100E8FE8D /* French */,
+				1B8E06641FA92EC6006AE849 /* Base */,
+				1B8E06701FA92F30006AE849 /* fr */,
 			);
 			name = SEPluginHelp.xib;
 			sourceTree = "<group>";
@@ -1057,8 +1034,8 @@
 		1B9A7A6B0D0D978800770054 /* SEEntryEditor.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				1B9A7A6C0D0D978800770054 /* English */,
-				1B0948320D68C14600E8FE8D /* French */,
+				1B8E06651FA92EC6006AE849 /* Base */,
+				1B8E06711FA92F35006AE849 /* fr */,
 			);
 			name = SEEntryEditor.xib;
 			sourceTree = "<group>";
@@ -1066,8 +1043,8 @@
 		1B9A7A780D0D998B00770054 /* SEPreferences.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				1B9A7A790D0D998B00770054 /* English */,
-				1B0948330D68C14A00E8FE8D /* French */,
+				1B8E06661FA92EC6006AE849 /* Base */,
+				1B8E06721FA92F39006AE849 /* fr */,
 			);
 			name = SEPreferences.xib;
 			sourceTree = "<group>";
@@ -1075,7 +1052,7 @@
 		1B9FB30C180883F6007EADAE /* Importer.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				1B9FB30D180883F6007EADAE /* English */,
+				1B8E06601FA92EC6006AE849 /* Base */,
 			);
 			name = Importer.xib;
 			sourceTree = "<group>";
@@ -1092,8 +1069,8 @@
 		1BA7CE080D0DB3480081764D /* SEInheritsPlugin.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				1BA7CE090D0DB3480081764D /* English */,
-				1B0948340D68C14E00E8FE8D /* French */,
+				1B8E06671FA92EC6006AE849 /* Base */,
+				1B8E06731FA92F3E006AE849 /* fr */,
 			);
 			name = SEInheritsPlugin.xib;
 			sourceTree = "<group>";
@@ -1101,8 +1078,8 @@
 		1BA7CE0D0D0DB3740081764D /* SEPluginInstaller.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				1BA7CE0E0D0DB3740081764D /* English */,
-				1B0948350D68C15100E8FE8D /* French */,
+				1B8E06681FA92EC6006AE849 /* Base */,
+				1B8E06741FA92F44006AE849 /* fr */,
 			);
 			name = SEPluginInstaller.xib;
 			sourceTree = "<group>";
@@ -1110,8 +1087,8 @@
 		1BD1A1870D0D4926004206FA /* MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				1BD1A1880D0D4926004206FA /* English */,
-				1B09482E0D68C12F00E8FE8D /* French */,
+				1B8E06611FA92EC6006AE849 /* Base */,
+				1B8E066D1FA92F21006AE849 /* fr */,
 			);
 			name = MainMenu.xib;
 			sourceTree = "<group>";
@@ -1119,8 +1096,8 @@
 		1BD1A18B0D0D4A02004206FA /* SELibraryWindow.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				1BD1A18C0D0D4A02004206FA /* English */,
-				1B0948360D68C15600E8FE8D /* French */,
+				1B8E06691FA92EC6006AE849 /* Base */,
+				1B8E066B1FA92EF9006AE849 /* fr */,
 			);
 			name = SELibraryWindow.xib;
 			sourceTree = "<group>";
@@ -1240,7 +1217,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 470;
 				INFOPLIST_FILE = Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.xenonium.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.xenonium.$(PRODUCT_NAME:rfc1034identifier).debug";
 				PRODUCT_NAME = Spark;
 				WRAPPER_EXTENSION = app;
 			};

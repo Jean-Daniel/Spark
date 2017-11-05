@@ -15,7 +15,6 @@
 #include <unistd.h>
 
 #import <WonderBox/WBFSFunctions.h>
-#import <WonderBox/WBLSFunctions.h>
 #import <WonderBox/WBAEFunctions.h>
 #import <WonderBox/WBIOKitFunctions.h>
 #import <WonderBox/NSImage+WonderBox.h>
@@ -247,10 +246,10 @@ NSString * const kSystemUserNameKey = @"SystemUserName";
 }
 
 #pragma mark -
-extern Boolean CGDisplayUsesForceToGray();
+extern Boolean CGDisplayUsesForceToGray(void);
 extern void CGDisplayForceToGray(Boolean gray);
 
-extern Boolean CGDisplayUsesInvertedPolarity();
+extern Boolean CGDisplayUsesInvertedPolarity(void);
 extern void CGDisplaySetInvertedPolarity(Boolean inverted);
 
 - (void)toggleGray {
@@ -330,7 +329,7 @@ kAEShowShutdownDialog         = 'rsdn'
 - (void)screenSaver {
   NSError *error = nil;
   NSURL *url = [NSURL fileURLWithPath:kScreenSaverEngine];
-  if (![[NSWorkspace sharedWorkspace] launchApplicationAtURL:url options:NSWorkspaceLaunchDefault configuration:nil error:&error]) {
+  if (![[NSWorkspace sharedWorkspace] launchApplicationAtURL:url options:NSWorkspaceLaunchDefault configuration:@{} error:&error]) {
     SPXLogError(@"failed to launch screen saver engine: %@", error);
   }
 }
@@ -559,7 +558,7 @@ void SystemFastLogOut(void) {
   } else {
     NSTask *task = [[NSTask alloc] init];
     [task setLaunchPath:kFastUserSwitcherPath];
-    [task setArguments:[NSArray arrayWithObject:@"-suspend"]];
+    [task setArguments:@[@"-suspend"]];
     [task launch];
     [task waitUntilExit];
   }
@@ -569,7 +568,7 @@ static
 void SystemSwitchToUser(uid_t uid) {
   NSTask *task = [[NSTask alloc] init];
   [task setLaunchPath:kFastUserSwitcherPath];
-  [task setArguments:[NSArray arrayWithObjects:@"-switchToUserID", [NSString stringWithFormat:@"%u", uid], nil]];
+  [task setArguments:@[@"-switchToUserID", [NSString stringWithFormat:@"%u", uid]]];
   [task launch];
   [task waitUntilExit];
 }

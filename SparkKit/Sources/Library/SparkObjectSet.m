@@ -271,9 +271,10 @@ NSComparator SparkObjectCompare = ^NSComparisonResult(SparkObject *obj1, SparkOb
     }
   }];
   [plist setObject:objects forKey:kSparkObjectSetObjectsKey];
-  NSData *data = [NSPropertyListSerialization dataFromPropertyList:plist
+  NSData *data = [NSPropertyListSerialization dataWithPropertyList:plist
                                                             format:SparkLibraryFileFormat
-                                                  errorDescription:nil];
+                                                           options:0
+                                                             error:NULL];
 
   return [[NSFileWrapper alloc] initRegularFileWithContents:data];
 }
@@ -383,7 +384,7 @@ NSComparator SparkObjectCompare = ^NSComparisonResult(SparkObject *obj1, SparkOb
 static NSImage *__SparkWarningImage = nil;
 + (void)initialize {
   if ([SparkPlaceHolder class] == self) {
-    __SparkWarningImage = [NSImage imageNamed:@"Warning" inBundle:kSparkKitBundle];
+    __SparkWarningImage = [NSImage imageNamed:@"Warning" inBundle:SparkKitBundle()];
   }
 }
 

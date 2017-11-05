@@ -8,8 +8,9 @@
 
 #import <SparkKit/SparkKit.h>
 
-#define kApplicationActionBundleIdentifier  @"org.shadowlab.spark.action.application"
-#define kApplicationActionBundle			[NSBundle bundleWithIdentifier:kApplicationActionBundleIdentifier]
+SPARK_PRIVATE NSBundle *ApplicationActionBundle(void);
+
+#define kApplicationActionBundle	ApplicationActionBundle()
 
 typedef NS_ENUM(uint32_t, ApplicationActionType) {
   kApplicationLaunch          = 'Open', /* 1332766062 */
@@ -42,9 +43,9 @@ typedef struct _ApplicationVisualSetting {
 + (void)getSharedSettings:(ApplicationVisualSetting *)settings;
 + (void)setSharedSettings:(ApplicationVisualSetting *)settings;
 
-@property(nonatomic, copy) NSString * path;
+@property(nonatomic, copy) NSURL *URL;
 
-@property(nonatomic) LSLaunchFlags flags;
+@property(nonatomic) NSWorkspaceLaunchOptions flags;
 
 @property(nonatomic) BOOL reopen;
 
@@ -71,7 +72,7 @@ typedef struct _ApplicationVisualSetting {
 - (void)hideFront;
 - (void)hideOthers;
 
-- (BOOL)launchAppWithFlag:(LSLaunchFlags)flag;
+- (BOOL)launchAppWithFlag:(NSWorkspaceLaunchOptions)flag;
 
 @end
 

@@ -13,7 +13,6 @@
 #import <SparkKit/SparkPreferences.h>
 
 #import <WonderBox/WBFunctions.h>
-#import <WonderBox/WBLSFunctions.h>
 
 NSString * const kSparkErrorDomain = @"com.xenonium.SparkErrorDomain";
 
@@ -33,6 +32,10 @@ const OSType kSparkDaemonSignature = 'SprS';
 
 NSString * kSparkFinderBundleIdentifier = @"com.apple.finder";
 
+NSBundle *SparkKitBundle(void) {
+  return [NSBundle bundleWithIdentifier:kSparkKitBundleIdentifier];
+}
+
 static __attribute__((constructor)) 
 void __SparkInitializeLibrary(void) {
   NSString *str = SparkPreferencesGetValue(@"SparkFinderBundleIdentifier", SparkPreferencesFramework);
@@ -40,7 +43,7 @@ void __SparkInitializeLibrary(void) {
     if (![str isKindOfClass:[NSString class]]) {
       SparkPreferencesSetValue(@"SparkFinderBundleIdentifier", NULL, SparkPreferencesFramework);
     } else {
-      if (WBLSCopyApplicationURLForBundleIdentifier(SPXNSToCFString(str)))
+      if ([NSWorkspace.sharedWorkspace URLForApplicationWithBundleIdentifier:str])
         kSparkFinderBundleIdentifier = str;
     }
   }

@@ -19,6 +19,13 @@ static NSString * const kOSAScriptActionTypeKey = @"OSAScriptType";
 static NSString * const kOSAScriptActionSourceKey = @"OSAScriptSource";
 static NSString * const kOSAScriptActionRepeatInterval = @"OSAScriptRepeatInterval";
 
+NSBundle *AppleScriptActionBundle(void) {
+  static NSBundle *bundle = nil;
+  if (!bundle)
+    bundle = [NSBundle bundleWithIdentifier:@"org.shadowlab.spark.action.applescript"];
+  return bundle;
+}
+
 @implementation AppleScriptAction {
 @private
   OSAScript *as_script;
@@ -136,7 +143,7 @@ static NSString * const kOSAScriptActionRepeatInterval = @"OSAScriptRepeatInterv
 - (NSImage *)icon {
   NSImage *icon = [super icon];
   if (!icon) {
-    icon = [NSImage imageNamed:@"AppleScriptIcon" inBundle:AppleScriptActionBundle];
+    icon = [NSImage imageNamed:@"AppleScriptIcon" inBundle:AppleScriptActionBundle()];
     [super setIcon:icon];
   }
   return icon;
@@ -152,10 +159,8 @@ static NSString * const kOSAScriptActionRepeatInterval = @"OSAScriptRepeatInterv
   NSDictionary *error = nil;
   if (as_script) {
     [as_script executeAndReturnError:&error];
-  } else if ([self file]) {
-    NSURL *url = [NSURL fileURLWithPath:[self file]];
-    as_script = [[OSAScript alloc] initWithContentsOfURL:url
-                                                   error:&error];
+  } else if (self.URL) {
+    as_script = [[OSAScript alloc] initWithContentsOfURL:self.URL error:&error];
     if (!error)
       [as_script executeAndReturnError:&error];
   }
@@ -167,10 +172,10 @@ static NSString * const kOSAScriptActionRepeatInterval = @"OSAScriptRepeatInterv
         return nil;
       default:
         alert = [SparkAlert alertWithMessageText:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"ACTION_EXECUTION_ERROR_ALERT", nil,
-                                                                                                               AppleScriptActionBundle,
+                                                                                                               AppleScriptActionBundle(),
                                                                                                                @"Script Execution error in Action * Title *"), [self name]]
                        informativeTextWithFormat:NSLocalizedStringFromTableInBundle(@"ACTION_EXECUTION_ERROR_ALERT_MSG", nil,
-                                                                                    AppleScriptActionBundle,
+                                                                                    AppleScriptActionBundle(),
                                                                                     @"Script Execution error in Action * Msg *"), [error objectForKey:OSAScriptErrorMessage]];
         [alert setHideSparkButton:YES];
     }
@@ -185,12 +190,12 @@ static NSString * const kOSAScriptActionRepeatInterval = @"OSAScriptRepeatInterv
   as_repeat = anInterval;
 }
 
-- (NSString *)file {
-  return _scriptBookmark.path;
+- (NSURL *)URL {
+  return _scriptBookmark.URL;
 }
-- (void)setFile:(NSString *)aFile {
-  if (aFile != nil) {
-    _scriptBookmark = [WBAlias aliasWithURL:[NSURL fileURLWithPath:aFile]];
+- (void)setURL:(NSURL *)anURL {
+  if (anURL != nil) {
+    _scriptBookmark = [WBAlias aliasWithURL:anURL];
   } else {
     _scriptBookmark = nil;
   }
@@ -263,12 +268,12 @@ static NSString * const kOSAScriptActionRepeatInterval = @"OSAScriptRepeatInterv
 #pragma mark -
 NSString *AppleScriptActionDescription(AppleScriptAction *anAction) {
   if ([anAction scriptSource]) {
-    return NSLocalizedStringFromTableInBundle(@"DESC_EXECUTE_SOURCE", nil, AppleScriptActionBundle,
+    return NSLocalizedStringFromTableInBundle(@"DESC_EXECUTE_SOURCE", nil, AppleScriptActionBundle(),
                                               @"Simple Script Action Description");
-  } else if ([anAction file]) {
-    return [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"DESC_EXECUTE_FILE", nil, AppleScriptActionBundle,
+  } else if ([anAction URL]) {
+    return [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"DESC_EXECUTE_FILE", nil, AppleScriptActionBundle(),
                                                                          @"File Script Action Description (%@ => File name)"),
-      [[anAction file] lastPathComponent]];
+      [[anAction URL] lastPathComponent]];
   } else {
     return @"<Invalid Description>";
   }

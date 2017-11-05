@@ -275,7 +275,7 @@ static NSString * const kSparkActionDescriptionKey = @"SADescription";
 
 - (NSString *)actionDescription {
   return NSLocalizedStringFromTableInBundle(@"Missing Plugin", nil,
-                                            kSparkKitBundle, @"Placeholder description");
+                                            SparkKitBundle(), @"Placeholder description");
 }
 - (void)setActionDescription:(NSString *)description {}
 

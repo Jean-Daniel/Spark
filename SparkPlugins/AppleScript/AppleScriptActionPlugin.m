@@ -13,7 +13,6 @@
 
 #import <WonderBox/WBAlias.h>
 #import <WonderBox/WBAEFunctions.h>
-#import <WonderBox/WBLSFunctions.h>
 
 enum {
   kAppleScriptFileTab   = 1,
@@ -27,7 +26,7 @@ enum {
   NSString *source;
   [[ibScriptController scriptView] setSource:@""];
   if ((alias = sparkAction.scriptBookmark)) {
-    [self setScriptFile:alias.path];
+    [self setScriptFile:alias.URL];
     [self setValue:@(kAppleScriptFileTab) forKey:@"selectedTab"];
   } else if ((source = sparkAction.scriptSource)) {
     [[ibScriptController scriptView] setSource:source];
@@ -38,26 +37,26 @@ enum {
 - (NSAlert *)checkSyntax {
   NSAlert *alert = nil;
   if (![[[ibScriptController scriptView] source] length]) {
-    alert = [NSAlert alertWithMessageText:NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_SOURCE_ALERT", nil, AppleScriptActionBundle,
+    alert = [NSAlert alertWithMessageText:NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_SOURCE_ALERT", nil, AppleScriptActionBundle(),
                                                                              @"Empty Source Error * Title *")
-                            defaultButton:NSLocalizedStringWithDefaultValue(@"OK", nil, AppleScriptActionBundle, @"OK",
+                            defaultButton:NSLocalizedStringWithDefaultValue(@"OK", nil, AppleScriptActionBundle(), @"OK",
                                                                             @"Alert default button")
                           alternateButton:nil
                               otherButton:nil
-                informativeTextWithFormat:NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_SOURCE_ALERT_MSG", nil, AppleScriptActionBundle,
+                informativeTextWithFormat:NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_SOURCE_ALERT_MSG", nil, AppleScriptActionBundle(),
                                                                              @"Empty Source Error * Msg *")];
   } else {
     OSAScript *script = [ibScriptController script];//[ alloc] initWithSource:[ibScript source]];
 		if (!script)
 			script = [[OSAScript alloc] initWithSource:[[ibScriptController scriptView] source]];
     if (!script) {
-			alert = [NSAlert alertWithMessageText:NSLocalizedStringFromTableInBundle(@"SCRIPT_CREATION_ERROR_ALERT", nil, AppleScriptActionBundle,
+			alert = [NSAlert alertWithMessageText:NSLocalizedStringFromTableInBundle(@"SCRIPT_CREATION_ERROR_ALERT", nil, AppleScriptActionBundle(),
 																																							 @"Unknow Error in -initWithSource * Title *")
-															defaultButton:NSLocalizedStringWithDefaultValue(@"OK", nil, AppleScriptActionBundle, @"OK",
+															defaultButton:NSLocalizedStringWithDefaultValue(@"OK", nil, AppleScriptActionBundle(), @"OK",
 																																							@"Alert default button")
                               alternateButton:nil
 																otherButton:nil
-									informativeTextWithFormat:NSLocalizedStringFromTableInBundle(@"SCRIPT_CREATION_ERROR_ALERT_MSG", nil, AppleScriptActionBundle,
+									informativeTextWithFormat:NSLocalizedStringFromTableInBundle(@"SCRIPT_CREATION_ERROR_ALERT_MSG", nil, AppleScriptActionBundle(),
 																																							 @"Unknow Error in -initWithSource * Msg *")];
     } else {
       alert = [self compileScript:script];
@@ -77,15 +76,15 @@ enum {
     case kAppleScriptFileTab:
       if (![self scriptFile]) {
         alert = [NSAlert alertWithMessageText:NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_FILE", nil,
-                                                                                 AppleScriptActionBundle,
+                                                                                 AppleScriptActionBundle(),
                                                                                  @"Trying to create Script File Action without file * Title *")
                                 defaultButton:NSLocalizedStringWithDefaultValue(@"OK", nil,
-                                                                                 AppleScriptActionBundle, @"OK",
+                                                                                 AppleScriptActionBundle(), @"OK",
                                                                                  @"Alert default button")
                               alternateButton:nil
                                   otherButton:nil
                     informativeTextWithFormat:NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_FILE_MSG", nil,
-                                                                                 AppleScriptActionBundle,
+                                                                                 AppleScriptActionBundle(),
                                                                                  @"Trying to create Script File Action without file * Msg *")];
       }
       break;
@@ -98,12 +97,12 @@ enum {
   
   switch (_selectedTab) {
     case kAppleScriptSourceTab:
-      [action setScriptSource:[[ibScriptController scriptView] source]];
-      [action setFile:nil];
+      action.scriptSource = [[ibScriptController scriptView] source];
+      action.URL = nil;
       break;
     case kAppleScriptFileTab:
-      [action setScriptSource:nil];
-      [action setFile:[self scriptFile]];
+      action.scriptSource = nil;
+      action.URL = self.scriptFile;
       break;
   }
   
@@ -125,7 +124,7 @@ enum {
   [[ibScriptController scriptView] setSelectedRange:range];
   
   return [NSAlert alertWithMessageText:title
-                         defaultButton:NSLocalizedStringWithDefaultValue(@"OK", nil, AppleScriptActionBundle, @"OK",
+                         defaultButton:NSLocalizedStringWithDefaultValue(@"OK", nil, AppleScriptActionBundle(), @"OK",
                                                                          @"Alert default button")
                        alternateButton:nil
                            otherButton:nil
@@ -138,7 +137,7 @@ enum {
   if (![script compileAndReturnError:&error]) {
     alert = [self alertForScriptError:error];
     if (![alert messageText])
-      [alert setMessageText:NSLocalizedStringFromTableInBundle(@"SYNTAX_ERROR_ALERT", nil, AppleScriptActionBundle,
+      [alert setMessageText:NSLocalizedStringFromTableInBundle(@"SYNTAX_ERROR_ALERT", nil, AppleScriptActionBundle(),
                                                                @"Syntax Error * Title *")];
   }
   return alert;
@@ -150,7 +149,7 @@ enum {
   [oPanel setAllowsMultipleSelection:NO];
   [oPanel setCanChooseDirectories:NO];
   [oPanel setResolvesAliases:YES];
-  [oPanel beginSheetModalForWindow:[[self actionView] window] completionHandler:^(NSInteger result) {
+  [oPanel beginSheetModalForWindow:self.actionView.window completionHandler:^(NSInteger result) {
     if (result == NSOKButton && [[oPanel URLs] count] > 0) {
       NSURL *file = [[oPanel URLs] objectAtIndex:0];
       NSString *src = nil;
@@ -172,23 +171,23 @@ enum {
   [oPanel setAllowsMultipleSelection:NO];
   [oPanel setCanChooseDirectories:NO];
   [oPanel setResolvesAliases:YES];
-  oPanel.allowedFileTypes = @[@"scpt", @"osas"];
-  [oPanel beginSheetModalForWindow:[[self actionView] window] completionHandler:^(NSInteger result) {
+  oPanel.allowedFileTypes = @[@"scpt", @"osas", SPXCFToNSString(kUTTypeAppleScript), SPXCFToNSString(kUTTypeOSAScript) ];
+  [oPanel beginSheetModalForWindow:self.actionView.window completionHandler:^(NSInteger result) {
     if (result == NSOKButton && [[oPanel URLs] count] > 0) {
       NSDictionary *errors = nil;
       NSURL *file = [oPanel URLs].firstObject;
       NSAppleScript *script = [[NSAppleScript alloc] initWithContentsOfURL:file error:&errors];
       [oPanel close];
       if (![script isCompiled]) {
-        NSBeginAlertSheet(NSLocalizedStringFromTableInBundle(@"INVALID_SCRIPT_FILE_ALERT", nil, AppleScriptActionBundle,
+        NSBeginAlertSheet(NSLocalizedStringFromTableInBundle(@"INVALID_SCRIPT_FILE_ALERT", nil, AppleScriptActionBundle(),
                                                              @"Import uncompiled Script Error * Title *"),
-                          NSLocalizedStringWithDefaultValue(@"OK", nil, AppleScriptActionBundle, @"OK",
+                          NSLocalizedStringWithDefaultValue(@"OK", nil, AppleScriptActionBundle(), @"OK",
                                                             @"Alert default button"),
                           nil,nil, [[self actionView] window], nil ,nil, nil, nil,
-                          NSLocalizedStringFromTableInBundle(@"INVALID_SCRIPT_FILE_ALERT_MSG", nil, AppleScriptActionBundle,
+                          NSLocalizedStringFromTableInBundle(@"INVALID_SCRIPT_FILE_ALERT_MSG", nil, AppleScriptActionBundle(),
                                                              @"Import uncompiled Script Error * Msg *"), [file lastPathComponent]);
       } else {
-        [self setScriptFile:[file path]];
+        [self setScriptFile:file];
       }
     } else {
       [self setScriptFile:nil];
@@ -207,7 +206,7 @@ enum {
   NSRunningApplication *editor = [NSRunningApplication runningApplicationsWithBundleIdentifier:@"com.apple.ScriptEditor2"].firstObject;
   if (!editor) {
     NSURL *url = [[NSWorkspace sharedWorkspace] URLForApplicationWithBundleIdentifier:@"com.apple.ScriptEditor2"];
-    editor = url ? [[NSWorkspace sharedWorkspace] launchApplicationAtURL:url options:NSWorkspaceLaunchDefault configuration:nil error:NULL] : nil;
+    editor = url ? [[NSWorkspace sharedWorkspace] launchApplicationAtURL:url options:NSWorkspaceLaunchDefault configuration:@{} error:NULL] : nil;
   }
   if (!editor)
     return;

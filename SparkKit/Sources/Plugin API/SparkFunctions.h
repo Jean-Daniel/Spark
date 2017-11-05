@@ -49,7 +49,7 @@ void SparkDisplayAlerts(NSArray *alerts);
 
 SPARK_INLINE
 void SparkDisplayAlert(SparkAlert *alert) {
-  SparkDisplayAlerts([NSArray arrayWithObject:alert]);
+  SparkDisplayAlerts(@[alert]);
 }
 
 #pragma mark Notification

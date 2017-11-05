@@ -9,14 +9,14 @@
 #import <WonderBox/WBWindowController.h>
 
 @class SparkEntry, SparkAction, SparkTrigger;
-@class SETableView, SEApplicationView;
+@class WBTableView, SEApplicationView;
 @class SparkApplication, SparkPlugIn;
 
 @protocol SEEntryEditorDelegate;
 
 @interface SEEntryEditor : WBWindowController {
   IBOutlet NSView *uiPlugin;
-	IBOutlet SETableView *uiTypeTable;
+	IBOutlet WBTableView *uiTypeTable;
   IBOutlet SEApplicationView *uiApplication;
   
   IBOutlet NSButton *uiHelp;

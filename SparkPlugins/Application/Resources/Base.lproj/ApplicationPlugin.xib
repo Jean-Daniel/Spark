@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="13529" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13529"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="ApplicationPlugin">
+            <connections>
+                <outlet property="hotKeyTrapPlaceholder" destination="100248" id="100251"/>
+                <outlet property="ibApplication" destination="229" id="232"/>
+                <outlet property="ibIcon" destination="133" id="205"/>
+                <outlet property="ibName" destination="56" id="233"/>
+                <outlet property="ibTab" destination="136" id="221"/>
+                <outlet property="view" destination="12" id="7rM-F4-Obm"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="12" userLabel="View">
+            <rect key="frame" x="0.0" y="0.0" width="296" height="235"/>
+            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <tabView controlSize="small" type="noTabsBezelBorder" initialItem="137" id="136">
+                    <rect key="frame" x="1" y="0.0" width="294" height="233"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                    <tabViewItems>
+                        <tabViewItem identifier="Action" id="137" userLabel="ActionTab">
+                            <view key="view" id="139">
+                                <rect key="frame" x="10" y="7" width="274" height="213"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <textField verticalHuggingPriority="750" id="32">
+                                        <rect key="frame" x="9" y="75" width="56" height="14"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <textFieldCell key="cell" controlSize="small" selectable="YES" sendsActionOnEndEditing="YES" alignment="right" title="Action :" id="100255">
+                                            <font key="font" metaFont="smallSystem"/>
+                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                    <textField verticalHuggingPriority="750" id="56">
+                                        <rect key="frame" x="70" y="99" width="192" height="19"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                        <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" placeholderString="Action Name" drawsBackground="YES" id="100256">
+                                            <font key="font" metaFont="smallSystem"/>
+                                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                    <popUpButton verticalHuggingPriority="750" id="74">
+                                        <rect key="frame" x="67" y="70" width="198" height="22"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                        <popUpButtonCell key="cell" type="push" title="Launch" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" tag="1332766062" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" autoenablesItems="NO" selectedItem="73" id="100257">
+                                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="smallSystem"/>
+                                            <menu key="menu" title="OtherViews" autoenablesItems="NO" id="75">
+                                                <items>
+                                                    <menuItem title="Launch" state="on" tag="1332766062" id="73"/>
+                                                    <menuItem title="Quit" tag="1366649204" id="71"/>
+                                                    <menuItem title="Launch/Quit" tag="1416587116" toolTip="Start if stopped, stop if running" id="109"/>
+                                                    <menuItem title="Launch - Activate/Quit" tag="1097027957" id="100277"/>
+                                                    <menuItem isSeparatorItem="YES" id="113">
+                                                        <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                                                    </menuItem>
+                                                    <menuItem title="Hide Front" tag="1214866502" id="114"/>
+                                                    <menuItem title="Hide Others" tag="1214866511" id="108"/>
+                                                    <menuItem isSeparatorItem="YES" id="239">
+                                                        <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                                                    </menuItem>
+                                                    <menuItem title="Force Quit…" tag="1179740532" toolTip="Open “Force Quit” dialog" id="240"/>
+                                                    <menuItem title="Force Quit Front" tag="1179740486" id="72"/>
+                                                    <menuItem title="Force Quit Application…" tag="1265200236" id="100278">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                    </menuItem>
+                                                </items>
+                                            </menu>
+                                        </popUpButtonCell>
+                                        <accessibility description="hotkey's action" help="hotkey's action"/>
+                                        <connections>
+                                            <binding destination="-2" name="selectedTag" keyPath="action" id="118"/>
+                                        </connections>
+                                    </popUpButton>
+                                    <imageView id="124">
+                                        <rect key="frame" x="4" y="174" width="32" height="32"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="axesIndependently" image="AAApplication" id="100258"/>
+                                    </imageView>
+                                    <textField verticalHuggingPriority="750" id="125">
+                                        <rect key="frame" x="45" y="182" width="212" height="17"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Application Action" id="100259">
+                                            <font key="font" metaFont="system"/>
+                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                    <box verticalHuggingPriority="750" boxType="separator" id="126">
+                                        <rect key="frame" x="0.0" y="163" width="274" height="5"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                    </box>
+                                    <textField verticalHuggingPriority="750" id="132">
+                                        <rect key="frame" x="9" y="101" width="56" height="14"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Name :" id="100260">
+                                            <font key="font" metaFont="smallSystem"/>
+                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                    <box verticalHuggingPriority="750" boxType="separator" id="134">
+                                        <rect key="frame" x="0.0" y="63" width="274" height="5"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                    </box>
+                                    <customView id="230">
+                                        <rect key="frame" x="4" y="8" width="266" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <subviews>
+                                            <button verticalHuggingPriority="750" id="241">
+                                                <rect key="frame" x="193" y="-3" width="74" height="28"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                                <buttonCell key="cell" type="push" title="Options" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" inset="2" id="100264">
+                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                    <font key="font" metaFont="smallSystem"/>
+                                                </buttonCell>
+                                                <accessibility description="Show action's options " help="Action's options"/>
+                                                <connections>
+                                                    <action selector="options:" target="-2" id="243"/>
+                                                    <binding destination="-2" name="enabled" keyPath="showOptions" id="100274"/>
+                                                    <binding destination="-2" name="hidden" keyPath="showOptions" previousBinding="100274" id="100276">
+                                                        <dictionary key="options">
+                                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                        </dictionary>
+                                                    </binding>
+                                                </connections>
+                                            </button>
+                                            <textField verticalHuggingPriority="750" id="229">
+                                                <rect key="frame" x="61" y="35" width="172" height="14"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                                <textFieldCell key="cell" sendsActionOnEndEditing="YES" id="100263">
+                                                    <font key="font" metaFont="smallSystem"/>
+                                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                            </textField>
+                                            <imageView id="133" customClass="WBImageView">
+                                                <rect key="frame" x="8" y="1" width="48" height="48"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="axesIndependently" image="AAUndefined" id="100262"/>
+                                            </imageView>
+                                            <button verticalHuggingPriority="750" id="21">
+                                                <rect key="frame" x="59" y="-3" width="78" height="28"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                <buttonCell key="cell" type="push" title="Choose…" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" inset="2" id="100261">
+                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                    <font key="font" metaFont="smallSystem"/>
+                                                </buttonCell>
+                                                <accessibility description="Choose an application"/>
+                                                <connections>
+                                                    <action selector="chooseApplication:" target="-2" id="30"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <connections>
+                                            <binding destination="-2" name="hidden" keyPath="showChooser" id="100273">
+                                                <dictionary key="options">
+                                                    <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                </dictionary>
+                                            </binding>
+                                        </connections>
+                                    </customView>
+                                    <textField verticalHuggingPriority="750" id="100247">
+                                        <rect key="frame" x="9" y="139" width="56" height="14"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Shortcut :" id="100265">
+                                            <font key="font" metaFont="smallSystem"/>
+                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                    <customView id="100248">
+                                        <rect key="frame" x="68" y="135" width="118" height="22"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    </customView>
+                                    <box verticalHuggingPriority="750" boxType="separator" id="100249">
+                                        <rect key="frame" x="0.0" y="124" width="274" height="5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                    </box>
+                                </subviews>
+                            </view>
+                        </tabViewItem>
+                        <tabViewItem identifier="Options" id="177" userLabel="OptionsTab">
+                            <view key="view" id="178">
+                                <rect key="frame" x="10" y="7" width="274" height="213"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <subviews>
+                                    <tabView controlSize="small" initialItem="185" id="179">
+                                        <rect key="frame" x="-2" y="27" width="275" height="184"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        <tabViewItems>
+                                            <tabViewItem label="Launch" identifier="" id="185">
+                                                <view key="view" id="186">
+                                                    <rect key="frame" x="10" y="29" width="255" height="142"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <subviews>
+                                                        <matrix verticalHuggingPriority="750" mode="highlight" allowsEmptySelection="NO" autosizesCells="NO" id="187">
+                                                            <rect key="frame" x="9" y="34" width="236" height="84"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                            <size key="cellSize" width="236" height="19"/>
+                                                            <size key="intercellSpacing" width="3" height="2"/>
+                                                            <buttonCell key="prototype" type="check" title="Switch" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" tag="-1" inset="2" id="100243">
+                                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                <font key="font" metaFont="smallSystem"/>
+                                                            </buttonCell>
+                                                            <cells>
+                                                                <column>
+                                                                    <buttonCell type="check" title="Launch hidden." bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" tag="2" inset="2" id="190">
+                                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                        <font key="font" metaFont="smallSystem"/>
+                                                                        <connections>
+                                                                            <binding destination="-2" name="value" keyPath="hide" id="235"/>
+                                                                        </connections>
+                                                                    </buttonCell>
+                                                                    <buttonCell type="check" title="Launch in background." bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="188">
+                                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                        <font key="font" metaFont="smallSystem"/>
+                                                                        <connections>
+                                                                            <binding destination="-2" name="value" keyPath="dontSwitch" id="236"/>
+                                                                        </connections>
+                                                                    </buttonCell>
+                                                                    <buttonCell type="check" title="Launch and Hide Others." bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" tag="1" inset="2" id="191">
+                                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                        <font key="font" metaFont="smallSystem"/>
+                                                                        <connections>
+                                                                            <binding destination="-2" name="value" keyPath="hideOthers" id="237"/>
+                                                                        </connections>
+                                                                    </buttonCell>
+                                                                    <buttonCell type="check" title="Launch a new instance." bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" tag="3" inset="2" id="189">
+                                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                        <font key="font" metaFont="smallSystem"/>
+                                                                        <connections>
+                                                                            <binding destination="-2" name="value" keyPath="newInstance" id="238"/>
+                                                                        </connections>
+                                                                    </buttonCell>
+                                                                </column>
+                                                            </cells>
+                                                            <accessibility description="Launch options"/>
+                                                        </matrix>
+                                                        <textField verticalHuggingPriority="750" id="220">
+                                                            <rect key="frame" x="9" y="128" width="237" height="14"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Launch options :" id="100268">
+                                                                <font key="font" metaFont="smallSystem"/>
+                                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                            </textFieldCell>
+                                                        </textField>
+                                                    </subviews>
+                                                </view>
+                                            </tabViewItem>
+                                            <tabViewItem label="Activate" identifier="" id="180">
+                                                <view key="view" id="181">
+                                                    <rect key="frame" x="10" y="25" width="255" height="146"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <subviews>
+                                                        <textField verticalHuggingPriority="750" id="211">
+                                                            <rect key="frame" x="9" y="128" width="237" height="14"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="If the application is already running :" id="100266">
+                                                                <font key="font" metaFont="smallSystem"/>
+                                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                            </textFieldCell>
+                                                        </textField>
+                                                        <matrix verticalHuggingPriority="750" allowsEmptySelection="NO" autosizesCells="NO" id="213">
+                                                            <rect key="frame" x="10" y="61" width="234" height="59"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                            <size key="cellSize" width="234" height="18"/>
+                                                            <size key="intercellSpacing" width="4" height="2"/>
+                                                            <buttonCell key="prototype" type="radio" title="Radio" imagePosition="left" alignment="left" controlSize="small" inset="2" id="100242">
+                                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                <font key="font" metaFont="smallSystem"/>
+                                                            </buttonCell>
+                                                            <cells>
+                                                                <column>
+                                                                    <buttonCell type="radio" title="Do nothing." bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="216">
+                                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                        <font key="font" metaFont="smallSystem"/>
+                                                                    </buttonCell>
+                                                                    <buttonCell type="radio" title="Bring front all windows." bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" state="on" tag="1" inset="2" id="218">
+                                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                        <font key="font" metaFont="smallSystem"/>
+                                                                    </buttonCell>
+                                                                    <buttonCell type="radio" title="Bring front the main window only." bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" tag="2" inset="2" id="217">
+                                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                        <font key="font" metaFont="smallSystem"/>
+                                                                    </buttonCell>
+                                                                </column>
+                                                            </cells>
+                                                            <accessibility description="action if the application is running"/>
+                                                            <connections>
+                                                                <binding destination="-2" name="selectedTag" keyPath="sparkAction.activation" id="244"/>
+                                                            </connections>
+                                                        </matrix>
+                                                        <button id="219">
+                                                            <rect key="frame" x="9" y="29" width="228" height="18"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                            <buttonCell key="cell" type="check" title="Send a reopen event." bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" state="on" inset="2" id="100267">
+                                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                <font key="font" metaFont="smallSystem"/>
+                                                            </buttonCell>
+                                                            <connections>
+                                                                <binding destination="-2" name="value" keyPath="sparkAction.reopen" id="226"/>
+                                                            </connections>
+                                                        </button>
+                                                        <box verticalHuggingPriority="750" boxType="separator" id="100252">
+                                                            <rect key="frame" x="12" y="51" width="231" height="5"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                        </box>
+                                                    </subviews>
+                                                </view>
+                                            </tabViewItem>
+                                            <tabViewItem label="Visual" identifier="" id="192">
+                                                <view key="view" id="193">
+                                                    <rect key="frame" x="10" y="25" width="255" height="146"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <subviews>
+                                                        <matrix verticalHuggingPriority="750" allowsEmptySelection="NO" autosizesCells="NO" id="195">
+                                                            <rect key="frame" x="10" y="104" width="228" height="38"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                            <size key="cellSize" width="228" height="18"/>
+                                                            <size key="intercellSpacing" width="4" height="2"/>
+                                                            <buttonCell key="prototype" type="radio" title="Radio" imagePosition="left" alignment="left" controlSize="small" inset="2" id="100244">
+                                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                <font key="font" metaFont="smallSystem"/>
+                                                            </buttonCell>
+                                                            <cells>
+                                                                <column>
+                                                                    <buttonCell type="radio" title="This action only" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" tag="1" inset="2" id="196">
+                                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                        <font key="font" metaFont="smallSystem"/>
+                                                                    </buttonCell>
+                                                                    <buttonCell type="radio" title="All Application actions" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" state="on" inset="2" id="197">
+                                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                        <font key="font" metaFont="smallSystem"/>
+                                                                    </buttonCell>
+                                                                </column>
+                                                            </cells>
+                                                            <connections>
+                                                                <binding destination="-2" name="selectedTag" keyPath="visual" id="222"/>
+                                                            </connections>
+                                                        </matrix>
+                                                        <box verticalHuggingPriority="750" boxType="separator" id="199">
+                                                            <rect key="frame" x="8" y="93" width="235" height="5"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                        </box>
+                                                        <button id="194">
+                                                            <rect key="frame" x="9" y="71" width="231" height="18"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                            <buttonCell key="cell" type="check" title="Show notification at launch." bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" state="on" inset="2" id="100269">
+                                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                <font key="font" metaFont="smallSystem"/>
+                                                            </buttonCell>
+                                                            <connections>
+                                                                <binding destination="-2" name="value" keyPath="notifyLaunch" id="223"/>
+                                                            </connections>
+                                                        </button>
+                                                        <button id="198">
+                                                            <rect key="frame" x="9" y="51" width="231" height="18"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                            <buttonCell key="cell" type="check" title="Show notification at activation." bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" state="on" inset="2" id="100270">
+                                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                <font key="font" metaFont="smallSystem"/>
+                                                            </buttonCell>
+                                                            <connections>
+                                                                <binding destination="-2" name="value" keyPath="notifyActivation" id="228"/>
+                                                            </connections>
+                                                        </button>
+                                                    </subviews>
+                                                </view>
+                                            </tabViewItem>
+                                        </tabViewItems>
+                                    </tabView>
+                                    <button verticalHuggingPriority="750" id="201">
+                                        <rect key="frame" x="197" y="5" width="74" height="28"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                        <buttonCell key="cell" type="push" title="Back" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" inset="2" id="100271">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="smallSystem"/>
+                                        </buttonCell>
+                                        <accessibility description="Back to hotkey configuration"/>
+                                        <connections>
+                                            <action selector="back:" target="-2" id="203"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </view>
+                        </tabViewItem>
+                    </tabViewItems>
+                </tabView>
+            </subviews>
+        </customView>
+    </objects>
+    <resources>
+        <image name="AAApplication" width="32" height="32"/>
+        <image name="AAUndefined" width="64" height="64"/>
+    </resources>
+</document>

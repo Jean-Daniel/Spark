@@ -45,9 +45,11 @@ NSString * const SparkApplicationDidChangeEnabledNotification = @"SparkApplicati
   } sp_appFlags;
 }
 
+@synthesize URL = _url;
+
 + (SparkApplication *)systemApplication {
   return [SparkSystemApplication objectWithName:NSLocalizedStringFromTableInBundle(@"System", nil,
-                                                                                   kSparkKitBundle,
+                                                                                   SparkKitBundle(),
                                                                                    @"System Application Name")];
 }
 
@@ -65,7 +67,7 @@ NSString * const SparkApplicationDidChangeEnabledNotification = @"SparkApplicati
 
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
-  [coder encodeObject:_URL forKey:kSparkApplicationURLKey];
+  [coder encodeObject:_url forKey:kSparkApplicationURLKey];
   [coder encodeInteger:[self encodeFlags] forKey:kSparkApplicationFlagsKey];
   return;
 }
@@ -73,14 +75,12 @@ NSString * const SparkApplicationDidChangeEnabledNotification = @"SparkApplicati
 - (instancetype)initWithCoder:(NSCoder *)coder {
   if (self = [super initWithCoder:coder]) {
     [self decodeFlags:[coder decodeIntegerForKey:kSparkApplicationFlagsKey]];
-    _URL = [coder decodeObjectForKey:kSparkApplicationURLKey];
-    if (!_URL) {
+    _url = [coder decodeObjectForKey:kSparkApplicationURLKey];
+    if (!_url) {
       WBApplication *application = [coder decodeObjectForKey:kSparkApplicationKey];
       // TODO: copy bundle identifier and path
       _bundleIdentifier = application.bundleIdentifier;
-      NSString *path = application.path;
-      if (path)
-        _URL = [NSURL fileURLWithPath:path];
+      _url = application.URL;
     }
   }
   return self;
@@ -89,7 +89,7 @@ NSString * const SparkApplicationDidChangeEnabledNotification = @"SparkApplicati
 #pragma mark NSCopying
 - (instancetype)copyWithZone:(NSZone *)zone {
   SparkApplication* copy = [super copyWithZone:zone];
-  copy->_URL = _URL;
+  copy->_url = _url;
   copy->_bundleIdentifier = _bundleIdentifier;
   return copy;
 }
@@ -98,7 +98,7 @@ NSString * const SparkApplicationDidChangeEnabledNotification = @"SparkApplicati
 - (BOOL)serialize:(NSMutableDictionary *)plist {
   if ([super serialize:plist]) {
     [plist setObject:@([self encodeFlags]) forKey:kSparkApplicationFlagsKey];
-    [plist setObject:_URL.absoluteString forKey:kSparkApplicationURLKey];
+    [plist setObject:_url.absoluteString forKey:kSparkApplicationURLKey];
     [plist setObject:_bundleIdentifier forKey:kSparkApplicationBundleIdentifierKey];
     return YES;
   }
@@ -111,30 +111,22 @@ NSString * const SparkApplicationDidChangeEnabledNotification = @"SparkApplicati
     if (!_bundleIdentifier) {
       // Import old style application.
       _bundleIdentifier = plist[@"WBApplicationBundleID"];
-      OSType sign = [plist[@"WBApplicationSignature"] unsignedIntValue];
-      if (!_bundleIdentifier && sign) {
-        CFURLRef ref = NULL;
-        if (noErr == LSFindApplicationForInfo(sign, NULL, NULL, NULL, &ref)) {
-          _URL = SPXCFURLBridgingRelease(ref);
-          _bundleIdentifier = [NSBundle bundleWithURL:_URL].bundleIdentifier;
-        }
-      }
       if (!_bundleIdentifier)
         return nil;
-      if (!_URL) {
-        _URL = [[NSWorkspace sharedWorkspace] URLForApplicationWithBundleIdentifier:_bundleIdentifier];
-        if (!_URL)
+      if (!_url) {
+        _url = [[NSWorkspace sharedWorkspace] URLForApplicationWithBundleIdentifier:_bundleIdentifier];
+        if (!_url)
           return nil;
       }
     } else {
       NSString *url = plist[kSparkApplicationURLKey];
-      _URL = url ? [NSURL URLWithString:url] : nil;
+      _url = url ? [NSURL URLWithString:url] : nil;
     }
     [self decodeFlags:[plist[kSparkApplicationFlagsKey] integerValue]];
     /* Update name and icon */
-    if (_URL) {
+    if (_url) {
       NSString *name = nil;
-      if ([_URL getResourceValue:&name forKey:NSURLLocalizedNameKey error:NULL])
+      if ([_url getResourceValue:&name forKey:NSURLLocalizedNameKey error:NULL])
         self.name = name;
       /* Reset icon, it will be lazy load later */
       self.icon = nil;
@@ -171,14 +163,14 @@ NSString * const SparkApplicationDidChangeEnabledNotification = @"SparkApplicati
 #pragma mark -
 #pragma mark Accessors
 - (void)setURL:(NSURL *)anURL {
-  _URL = anURL;
-  _bundleIdentifier = SPXCFToNSString(_URL ? WBLSCopyBundleIdentifierForURL(SPXNSToCFURL(_URL)) : nil);
+  _url = anURL;
+  _bundleIdentifier = SPXCFToNSString(_url ? WBLSCopyBundleIdentifierForURL(SPXNSToCFURL(_url)) : nil);
 
   NSString *name = nil;
-  if ([_URL getResourceValue:&name forKey:NSURLNameKey error:NULL])
+  if ([_url getResourceValue:&name forKey:NSURLNameKey error:NULL])
     self.name = name;
   else
-    self.name = [_URL lastPathComponent];
+    self.name = [_url lastPathComponent];
   /* Reset icon data */
   self.icon = nil;
 }
@@ -187,12 +179,16 @@ NSString * const SparkApplicationDidChangeEnabledNotification = @"SparkApplicati
 - (NSImage *)icon {
   if (![self hasIcon]) {
     /* Try to set workspace icon */
-    if (_URL)
-      self.icon = [[NSWorkspace sharedWorkspace] iconForFile:[_URL path]];
+    if (_url) {
+      NSImage *icon = nil;
+      if ([_url getResourceValue:&icon forKey:NSURLEffectiveIconKey error:NULL] && icon) {
+        self.icon = icon;
+      }
+    }
 
     /* If failed and cached icon invalid, set default icon */
     if (![self hasIcon])
-      self.icon = [NSImage imageNamed:@"Application" inBundle:kSparkKitBundle];
+      self.icon = [NSImage imageNamed:@"Application" inBundle:SparkKitBundle()];
   }
   return [super icon];
 }
@@ -267,17 +263,13 @@ NSString * const SparkApplicationDidChangeEnabledNotification = @"SparkApplicati
 
 - (NSImage *)icon {
   if (![self hasIcon]) {
-    [self setIcon:[NSImage imageNamed:@"SparkSystem" inBundle:kSparkKitBundle]];
+    [self setIcon:[NSImage imageNamed:@"SparkSystem" inBundle:SparkKitBundle()]];
   }
   return [super icon];
 }
 
 - (BOOL)shouldSaveIcon {
   return NO;
-}
-
-- (OSType)signature {
-  return 0;
 }
 
 - (NSString *)bundleIdentifier {
@@ -366,8 +358,6 @@ NSString * const kWBApplicationNameKey = @"WBApplicationName";
 
 static
 NSString * const kWBApplicationBundleIDKey = @"WBApplicationBundleID";
-static
-NSString * const kWBApplicationSignatureKey = @"WBApplicationSignature";
 
 @implementation WBApplication (SparkSerialization)
 
@@ -388,8 +378,7 @@ NSString * const kWBApplicationSignatureKey = @"WBApplicationSignature";
       
       switch (type) {
         case 1:
-          [self setSignature:WBOSTypeFromString(identifier)];
-          break;
+          return nil;
         case 2:
           [self setBundleIdentifier:identifier];
           break;
@@ -397,9 +386,7 @@ NSString * const kWBApplicationSignatureKey = @"WBApplicationSignature";
     } else {
       /* Current version */
       NSString *bundle = plist[kWBApplicationBundleIDKey];
-      OSType sign = [plist[kWBApplicationSignatureKey] unsignedIntValue];
-      
-      [self setSignature:sign bundleIdentifier:bundle];
+      [self setBundleIdentifier:bundle];
     }
     
     [self setName:plist[kWBApplicationNameKey]];
@@ -411,11 +398,9 @@ NSString * const kWBApplicationSignatureKey = @"WBApplicationSignature";
   if ([self isValid]) {
     if ([self name])
       [plist setObject:[self name] forKey:kWBApplicationNameKey];
-    
-    OSType sign = [self signature];
+
     NSString *bundle = [self bundleIdentifier];
     if (bundle) [plist setObject:bundle forKey:kWBApplicationBundleIDKey];
-    if (sign) [plist setObject:@(sign) forKey:kWBApplicationSignatureKey];
   }
   return YES;
 }

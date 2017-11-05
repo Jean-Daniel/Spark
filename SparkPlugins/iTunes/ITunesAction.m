@@ -274,10 +274,9 @@ static ITunesVisual sDefaultVisual = { .delay = -1 };
         if (err == errAENoSuchObject) {
           err = iTunesGetPlaylistWithID(ia_plid, &playlist);
           if (noErr == err) {
-            CFStringRef name = nil;
-            if (noErr == iTunesCopyPlaylistStringProperty(&playlist, kiTunesNameKey, &name) && name) {
+            CFStringRef name = iTunesCopyPlaylistStringProperty(&playlist, kiTunesNameKey, &err);
+            if (name)
               [self setPlaylist:SPXCFStringBridgingRelease(name) uid:ia_plid];
-            }
           }
         }
         WBAEDisposeDesc(&playlist);
@@ -324,7 +323,7 @@ static ITunesVisual sDefaultVisual = { .delay = -1 };
     case kiTunesVisual:
     case kiTunesVolumeDown:
     case kiTunesVolumeUp:
-		case kiTunesToggleMute:
+    case kiTunesToggleMute:
     case kiTunesEjectCD:
       return nil;
     case kiTunesPlayPlaylist:
@@ -409,7 +408,7 @@ static ITunesVisual sDefaultVisual = { .delay = -1 };
 static
 NSRunningApplication *iTunesLaunch(NSWorkspaceLaunchOptions flags) {
   NSURL *url = [[NSWorkspace sharedWorkspace] URLForApplicationWithBundleIdentifier:SPXCFToNSString(kiTunesBundleIdentifier)];
-  return [[NSWorkspace sharedWorkspace] launchApplicationAtURL:url options:flags configuration:nil error:NULL];
+  return [[NSWorkspace sharedWorkspace] launchApplicationAtURL:url options:flags configuration:@{} error:NULL];
 }
 
 - (SparkAlert *)performAction {
@@ -485,9 +484,9 @@ NSRunningApplication *iTunesLaunch(NSWorkspaceLaunchOptions flags) {
     case kiTunesVolumeUp:
       [self volumeUp];
       break;
-		case kiTunesToggleMute:
-			[self toggleMute];
-			break;
+    case kiTunesToggleMute:
+      [self toggleMute];
+      break;
     case kiTunesEjectCD:
       [self ejectCD];
       break;
@@ -522,7 +521,7 @@ NSRunningApplication *iTunesLaunch(NSWorkspaceLaunchOptions flags) {
       assert(noErr == err);
       // TODO: check err.
       break;
-    } 
+    }
     case kiTunesRateTrack:
       iTunesSetCurrentTrackRate([self rating]);
       [self displayInfoIfNeeded];
@@ -670,9 +669,9 @@ NSRunningApplication *iTunesLaunch(NSWorkspaceLaunchOptions flags) {
 }
 
 - (void)toggleMute {
-	bool mute;
-	if (noErr == iTunesIsMuted(&mute))
-		spx_verify_noerr(iTunesSetMuted(!mute));
+  bool mute;
+  if (noErr == iTunesIsMuted(&mute))
+    spx_verify_noerr(iTunesSetMuted(!mute));
 }
 
 - (void)ejectCD {
@@ -713,7 +712,7 @@ NSImage *ITunesActionIcon(ITunesAction *action) {
       break;
     case kiTunesQuit:
       icon = @"iTunes";
-      break;   
+      break;
     case kiTunesPlayPause:
       icon = @"iTPlay";
       break;
@@ -733,7 +732,7 @@ NSImage *ITunesActionIcon(ITunesAction *action) {
       icon = @"iTInfo";
       break;
     case kiTunesRateUp:
-    case kiTunesRateDown:  
+    case kiTunesRateDown:
     case kiTunesRateTrack:
       icon = @"iTStar";
       break;
@@ -746,9 +745,9 @@ NSImage *ITunesActionIcon(ITunesAction *action) {
     case kiTunesVolumeUp:
       icon = @"iTVolumeUp";
       break;
-		case kiTunesToggleMute:
-			icon = nil; // TODO: mute icon
-			break;
+    case kiTunesToggleMute:
+      icon = nil; // TODO: mute icon
+      break;
     case kiTunesEjectCD:
       icon = @"iTEject";
       break;
@@ -824,10 +823,10 @@ NSString *ITunesActionDescription(ITunesAction *action) {
       desc = NSLocalizedStringFromTableInBundle(@"DESC_VOLUME_UP", nil, bundle,
                                                 @"Volume Up * Action Description *");
       break;
-		case kiTunesToggleMute:
-			desc = NSLocalizedStringFromTableInBundle(@"DESC_TOGGLE_MUTE", nil, bundle,
+    case kiTunesToggleMute:
+      desc = NSLocalizedStringFromTableInBundle(@"DESC_TOGGLE_MUTE", nil, bundle,
                                                 @"Toggle Mute * Action Description *");
-			break;
+      break;
     case kiTunesEjectCD:
       desc = NSLocalizedStringFromTableInBundle(@"DESC_EJECT", nil, bundle,
                                                 @"Eject CD * Action Description *");

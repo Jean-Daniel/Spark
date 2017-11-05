@@ -19,6 +19,8 @@ SPARK_OBJC_EXPORT
 }
 
 - (void)setPlugIn:(SparkActionPlugIn *)aPlugin;
+- (void)setPlugInViewController:(NSViewController *)aController;
+
 - (void)setPlugInView:(NSView *)aView;
 
 - (NSView *)trapPlaceholder;

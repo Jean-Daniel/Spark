@@ -18,7 +18,6 @@
 
 #import <WonderBox/WBAEFunctions.h>
 #import <WonderBox/WBFSFunctions.h>
-#import <WonderBox/WBLSFunctions.h>
 
 NSString * const SEServerStatusDidChangeNotification = @"SEServerStatusDidChange";
 
@@ -256,9 +255,10 @@ BOOL SELaunchSparkDaemon(pid_t *pid) {
   NSURL *url = SESparkDaemonURL();
   if (url) {
     NSError *error = nil;
+    NSDictionary *config = @{ NSWorkspaceLaunchConfigurationArguments: @[ @"-nodelay" ] };
     NSRunningApplication *app = [[NSWorkspace sharedWorkspace] launchApplicationAtURL:url
                                                                               options:NSWorkspaceLaunchDefault | NSWorkspaceLaunchWithoutActivation | NSWorkspaceLaunchWithoutAddingToRecents
-                                                                        configuration:@{} error:&error];
+                                                                        configuration:config error:&error];
     if (!app) {
       SPXLogError(@"Error cannot launch daemon app: %@", error);
       [[SEServerConnection defaultConnection] setStatus:kSparkDaemonStatusError];

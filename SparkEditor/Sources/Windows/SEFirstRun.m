@@ -24,16 +24,11 @@
     
   }
   if (version < kSparkEditorVersion) {
-    /* First, set preferences to avoid second call */
-    [[NSUserDefaults standardUserDefaults] setInteger:kSparkEditorVersion forKey:kSparkVersionKey];
-    
-    SEFirstRun *first = [[SEFirstRun alloc] init];
+    SEFirstRun *first = [[SEFirstRun alloc] initWithWindowNibName:@"SEFirstRun"];
     [first setReleasedWhenClosed:YES];
-    [NSApp beginSheet:[first window]
-       modalForWindow:[self windowForSheet]
-        modalDelegate:nil
-       didEndSelector:NULL
-          contextInfo:nil];
+    NSWindow *window = first.window;
+    NSAssert(window, @"window required");
+    [self.windowForSheet beginSheet:window completionHandler:NULL];
   }
 }
 
@@ -53,12 +48,14 @@
   [[ibText layoutManager] replaceTextStorage:storage];
 }
 
-- (IBAction)close:(id)sender {
+- (IBAction)close:(NSButton *)sender {
+  /* First, set preferences to avoid second call */
+  [[NSUserDefaults standardUserDefaults] setInteger:kSparkEditorVersion forKey:kSparkVersionKey];
   if ([ibStartNow state] == NSOnState && ![[SEServerConnection defaultConnection] isRunning]) {
     SELaunchSparkDaemon(NULL);
   }
   SEPreferencesSetLoginItemStatus(NSOnState == [ibAutoStart state]);
-  [super close:sender];  
+  [super close:sender];
 }
 
 @end

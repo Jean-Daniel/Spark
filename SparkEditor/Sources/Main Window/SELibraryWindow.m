@@ -10,7 +10,6 @@
 
 #import "Spark.h"
 #import "SEEntryList.h"
-#import "SETableView.h"
 #import "SELibrarySource.h"
 #import "SELibraryDocument.h"
 #import "SEApplicationSource.h"
@@ -27,6 +26,7 @@
 #import <SparkKit/SparkApplication.h>
 #import <SparkKit/SparkActionLoader.h>
 
+#import <WonderBox/WBTableView.h>
 #import <WonderBox/NSImage+WonderBox.h>
 #import <WonderBox/NSArrayController+WonderBox.h>
 

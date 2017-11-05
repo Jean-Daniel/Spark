@@ -74,7 +74,7 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
 - (NSImage *)icon {
   NSImage *icon = [super icon];
   if (!icon) {
-    icon = [NSImage imageNamed:@"SimpleList" inBundle:kSparkKitBundle];
+    icon = [NSImage imageNamed:@"SimpleList" inBundle:SparkKitBundle()];
     [self setIcon:icon];
   }
   return icon;

@@ -61,16 +61,16 @@
 
 - (NSString *)errorString {
   return [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"ERROR_COUNTER",  nil,
-                                                                       kSparkKitBundle, @"Mutiple Alerts Counter"),
+                                                                       SparkKitBundle(), @"Mutiple Alerts Counter"),
           sp_index + 1, [self alertCount]];
 }
 
 - (void)awakeFromNib {
-  _previousButton.image = [NSImage imageNamed:@"Back" inBundle:kSparkKitBundle];
-  _previousButton.alternateImage = [NSImage imageNamed:@"BackPressedBlue" inBundle:kSparkKitBundle];
+  _previousButton.image = [NSImage imageNamed:@"Back" inBundle:SparkKitBundle()];
+  _previousButton.alternateImage = [NSImage imageNamed:@"BackPressedBlue" inBundle:SparkKitBundle()];
 
-  _nextButton.image = [NSImage imageNamed:@"Forward" inBundle:kSparkKitBundle];
-  _nextButton.alternateImage = [NSImage imageNamed:@"ForwardPressedBlue" inBundle:kSparkKitBundle];
+  _nextButton.image = [NSImage imageNamed:@"Forward" inBundle:SparkKitBundle()];
+  _nextButton.alternateImage = [NSImage imageNamed:@"ForwardPressedBlue" inBundle:SparkKitBundle()];
 
   _messageText.drawsBackground = NO;
   _messageText.enclosingScrollView.drawsBackground = NO;

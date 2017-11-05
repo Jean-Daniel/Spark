@@ -62,7 +62,7 @@
 		1B70076C1706F0FD003F5780 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B70076B1706F0FC003F5780 /* IOKit.framework */; };
 		1B70076E1706F102003F5780 /* OpenDirectory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B70076D1706F102003F5780 /* OpenDirectory.framework */; };
 		1B70076F1706F58E003F5780 /* WBFinderSuite.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BA3812D0EFE6F5F00CF5D07 /* WBFinderSuite.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1B7007701706F595003F5780 /* WBFinderSuite.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BA3812E0EFE6F5F00CF5D07 /* WBFinderSuite.c */; };
+		1B7007701706F595003F5780 /* WBFinderSuite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1BA3812E0EFE6F5F00CF5D07 /* WBFinderSuite.cpp */; };
 		1B83F8A515D57B7100BF4059 /* SparkDefine.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B83F8A415D57B7100BF4059 /* SparkDefine.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1B92D0BF1707269800F40FCD /* WBTableView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316DF0D3815C9005C3FB2 /* WBTableView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1B92D0C01707269800F40FCD /* WBTableDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316DD0D3815C9005C3FB2 /* WBTableDataSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -71,13 +71,9 @@
 		1B92D0C31707269F00F40FCD /* WBTableDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316DE0D3815C9005C3FB2 /* WBTableDataSource.m */; };
 		1B92D0C41707269F00F40FCD /* WBWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316E60D3815C9005C3FB2 /* WBWindowController.m */; };
 		1B92D0C5170726EA00F40FCD /* WBHeaderView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE4593D130F598D00A6A133 /* WBHeaderView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1B92D0C6170726EA00F40FCD /* WBSplitview.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE458F8130F58C000A6A133 /* WBSplitview.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1B92D0C8170726EA00F40FCD /* WBImageAndTextCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB986A70D382AD10074D18E /* WBImageAndTextCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1B92D0C9170726F300F40FCD /* WBHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE4593E130F598D00A6A133 /* WBHeaderView.m */; };
-		1B92D0CA170726F300F40FCD /* WBSplitview.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE458F9130F58C000A6A133 /* WBSplitview.m */; };
 		1B92D0CC170726F300F40FCD /* WBImageAndTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB986A80D382AD10074D18E /* WBImageAndTextCell.m */; };
-		1B92D0CD170726FF00F40FCD /* WBImageAndTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB986AA0D382AD10074D18E /* WBImageAndTextView.m */; };
-		1B92D0CE1707270200F40FCD /* WBImageAndTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB986A90D382AD10074D18E /* WBImageAndTextView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1B92D0CF1707270F00F40FCD /* WBTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BAD406D130DCA940066B1AB /* WBTextFieldCell.m */; };
 		1B92D0D01707271200F40FCD /* WBTextFieldCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BAD406C130DCA940066B1AB /* WBTextFieldCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1B92D0D11707271B00F40FCD /* NSColor+WonderBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8C0B0EE2FA6900BD1EAF /* NSColor+WonderBox.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -103,12 +99,6 @@
 		1B92D0EC170728A100F40FCD /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B92D0EB170728A100F40FCD /* Security.framework */; };
 		1B92D0ED170728C700F40FCD /* WBSecurityFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B184C990ED07D41003E2346 /* WBSecurityFunctions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1B92D0EE170728CB00F40FCD /* WBSecurityFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1B184C980ED07D41003E2346 /* WBSecurityFunctions.cpp */; };
-		1B92D0F117072FA900F40FCD /* WBHeader.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1BE45942130F599600A6A133 /* WBHeader.tiff */; };
-		1B92D0F217072FA900F40FCD /* WBHeaderMenu.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1BE45943130F599600A6A133 /* WBHeaderMenu.tiff */; };
-		1B92D0F317072FA900F40FCD /* WBHeader-down.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1BE45941130F599600A6A133 /* WBHeader-down.tiff */; };
-		1B92D0F417072FA900F40FCD /* WBSplitDot.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1BE458FE130F58D100A6A133 /* WBSplitDot.tiff */; };
-		1B92D0F517072FA900F40FCD /* WBHSplitBar.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1BE458FD130F58D100A6A133 /* WBHSplitBar.tiff */; };
-		1B92D0F617072FA900F40FCD /* WBVSplitBar.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1BE458FF130F58D100A6A133 /* WBVSplitBar.tiff */; };
 		1B95F377170619D000392CD7 /* WBProcessFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BE3165F0D38138B005C3FB2 /* WBProcessFunctions.c */; };
 		1B95F378170619D000392CD7 /* WBProcessFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316600D38138B005C3FB2 /* WBProcessFunctions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1B95F379170619E000392CD7 /* WBApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316340D38138B005C3FB2 /* WBApplication.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -273,14 +263,13 @@
 		1B8623920ECF91AD0006C26B /* release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = release.xcconfig; sourceTree = "<group>"; };
 		1B92D0EB170728A100F40FCD /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		1BA3812D0EFE6F5F00CF5D07 /* WBFinderSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBFinderSuite.h; sourceTree = "<group>"; };
-		1BA3812E0EFE6F5F00CF5D07 /* WBFinderSuite.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WBFinderSuite.c; sourceTree = "<group>"; };
+		1BA3812E0EFE6F5F00CF5D07 /* WBFinderSuite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WBFinderSuite.cpp; sourceTree = "<group>"; };
 		1BA504F91B580DEC00C6649B /* WBBezelLegacy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBBezelLegacy.h; sourceTree = "<group>"; };
 		1BA504FA1B580DEC00C6649B /* WBBezelLegacy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBBezelLegacy.m; sourceTree = "<group>"; };
 		1BA504FB1B580DEC00C6649B /* WBBezelVisualEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBBezelVisualEffect.h; sourceTree = "<group>"; };
 		1BA504FC1B580DEC00C6649B /* WBBezelVisualEffect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBBezelVisualEffect.m; sourceTree = "<group>"; };
 		1BA504FD1B580DEC00C6649B /* WBBezelWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBBezelWindow.h; sourceTree = "<group>"; };
 		1BA504FE1B580DEC00C6649B /* WBBezelWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBBezelWindow.m; sourceTree = "<group>"; };
-		1BAD4020130DC8B90066B1AB /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/WBProgress.strings; sourceTree = "<group>"; };
 		1BAD4026130DC8E30066B1AB /* WBBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBBase.h; sourceTree = "<group>"; };
 		1BAD406C130DCA940066B1AB /* WBTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTextFieldCell.h; sourceTree = "<group>"; };
 		1BAD406D130DCA940066B1AB /* WBTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTextFieldCell.m; sourceTree = "<group>"; };
@@ -293,13 +282,10 @@
 		1BB9836A0D381ECC0074D18E /* WBBezelItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBBezelItem.m; sourceTree = "<group>"; };
 		1BB9836D0D381ECC0074D18E /* WBNotificationWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBNotificationWindow.h; sourceTree = "<group>"; };
 		1BB9836E0D381ECC0074D18E /* WBNotificationWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBNotificationWindow.m; sourceTree = "<group>"; };
-		1BB986950D382AD00074D18E /* WBProgressPanel.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WBProgressPanel.xib; sourceTree = "<group>"; };
 		1BB9869C0D382AD10074D18E /* WBBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBBackgroundView.h; sourceTree = "<group>"; };
 		1BB9869D0D382AD10074D18E /* WBBackgroundView.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; path = WBBackgroundView.m; sourceTree = "<group>"; };
 		1BB986A70D382AD10074D18E /* WBImageAndTextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBImageAndTextCell.h; sourceTree = "<group>"; };
 		1BB986A80D382AD10074D18E /* WBImageAndTextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBImageAndTextCell.m; sourceTree = "<group>"; };
-		1BB986A90D382AD10074D18E /* WBImageAndTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBImageAndTextView.h; sourceTree = "<group>"; };
-		1BB986AA0D382AD10074D18E /* WBImageAndTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBImageAndTextView.m; sourceTree = "<group>"; };
 		1BB986AB0D382AD10074D18E /* WBProgressPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBProgressPanel.h; sourceTree = "<group>"; };
 		1BB986AC0D382AD10074D18E /* WBProgressPanel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBProgressPanel.m; sourceTree = "<group>"; };
 		1BB987250D382C8B0074D18E /* WBTreeNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTreeNode.m; sourceTree = "<group>"; };
@@ -349,11 +335,6 @@
 		1BE316E00D3815C9005C3FB2 /* WBTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTableView.m; sourceTree = "<group>"; };
 		1BE316E50D3815C9005C3FB2 /* WBWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBWindowController.h; sourceTree = "<group>"; };
 		1BE316E60D3815C9005C3FB2 /* WBWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBWindowController.m; sourceTree = "<group>"; };
-		1BE458F8130F58C000A6A133 /* WBSplitview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBSplitview.h; sourceTree = "<group>"; };
-		1BE458F9130F58C000A6A133 /* WBSplitview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBSplitview.m; sourceTree = "<group>"; };
-		1BE458FD130F58D100A6A133 /* WBHSplitBar.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = WBHSplitBar.tiff; sourceTree = "<group>"; };
-		1BE458FE130F58D100A6A133 /* WBSplitDot.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = WBSplitDot.tiff; sourceTree = "<group>"; };
-		1BE458FF130F58D100A6A133 /* WBVSplitBar.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = WBVSplitBar.tiff; sourceTree = "<group>"; };
 		1BE45918130F593500A6A133 /* WBTemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTemplate.h; sourceTree = "<group>"; };
 		1BE45919130F593500A6A133 /* WBTemplate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTemplate.m; sourceTree = "<group>"; };
 		1BE4591A130F593500A6A133 /* WBTemplateParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTemplateParser.h; sourceTree = "<group>"; };
@@ -362,9 +343,6 @@
 		1BE4591D130F593500A6A133 /* WBXMLTemplate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBXMLTemplate.m; sourceTree = "<group>"; };
 		1BE4593D130F598D00A6A133 /* WBHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBHeaderView.h; sourceTree = "<group>"; };
 		1BE4593E130F598D00A6A133 /* WBHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBHeaderView.m; sourceTree = "<group>"; };
-		1BE45941130F599600A6A133 /* WBHeader-down.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "WBHeader-down.tiff"; sourceTree = "<group>"; };
-		1BE45942130F599600A6A133 /* WBHeader.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = WBHeader.tiff; sourceTree = "<group>"; };
-		1BE45943130F599600A6A133 /* WBHeaderMenu.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = WBHeaderMenu.tiff; sourceTree = "<group>"; };
 		8DC2EF5B0486A6940098B216 /* SparkKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SparkKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9805FD380773B47700B1A341 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		980EEB2D0A7E8A0B00013CF5 /* SimpleList.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SimpleList.tiff; sourceTree = "<group>"; };
@@ -619,11 +597,8 @@
 		1BB9868C0D382AD00074D18E /* Interface */ = {
 			isa = PBXGroup;
 			children = (
-				1BB9868D0D382AD00074D18E /* Resources */,
 				1BE4593D130F598D00A6A133 /* WBHeaderView.h */,
 				1BE4593E130F598D00A6A133 /* WBHeaderView.m */,
-				1BE458F8130F58C000A6A133 /* WBSplitview.h */,
-				1BE458F9130F58C000A6A133 /* WBSplitview.m */,
 				1BCDCBEE103596F200EAD9FE /* WBGradient.h */,
 				1BCDCBEF103596F200EAD9FE /* WBGradient.m */,
 				1BAD406C130DCA940066B1AB /* WBTextFieldCell.h */,
@@ -632,27 +607,10 @@
 				1BB9869D0D382AD10074D18E /* WBBackgroundView.m */,
 				1BB986A70D382AD10074D18E /* WBImageAndTextCell.h */,
 				1BB986A80D382AD10074D18E /* WBImageAndTextCell.m */,
-				1BB986A90D382AD10074D18E /* WBImageAndTextView.h */,
-				1BB986AA0D382AD10074D18E /* WBImageAndTextView.m */,
 				1BB986AB0D382AD10074D18E /* WBProgressPanel.h */,
 				1BB986AC0D382AD10074D18E /* WBProgressPanel.m */,
 			);
 			path = Interface;
-			sourceTree = "<group>";
-		};
-		1BB9868D0D382AD00074D18E /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				1BE45942130F599600A6A133 /* WBHeader.tiff */,
-				1BE45943130F599600A6A133 /* WBHeaderMenu.tiff */,
-				1BE45941130F599600A6A133 /* WBHeader-down.tiff */,
-				1BE458FE130F58D100A6A133 /* WBSplitDot.tiff */,
-				1BE458FD130F58D100A6A133 /* WBHSplitBar.tiff */,
-				1BE458FF130F58D100A6A133 /* WBVSplitBar.tiff */,
-				1BAD401F130DC8B90066B1AB /* WBProgress.strings */,
-				1BB986950D382AD00074D18E /* WBProgressPanel.xib */,
-			);
-			path = Resources;
 			sourceTree = "<group>";
 		};
 		1BCB8F811706117600CC8C3C /* WonderBox */ = {
@@ -713,7 +671,7 @@
 				1BE316510D38138B005C3FB2 /* WBFSFunctions.h */,
 				1BBD666D1D9A9A85006AE849 /* WBFSFunctions.mm */,
 				1BA3812D0EFE6F5F00CF5D07 /* WBFinderSuite.h */,
-				1BA3812E0EFE6F5F00CF5D07 /* WBFinderSuite.c */,
+				1BA3812E0EFE6F5F00CF5D07 /* WBFinderSuite.cpp */,
 				1B177011130F42FB00E0A389 /* WBImageFunctions.h */,
 				1B177012130F42FB00E0A389 /* WBImageFunctions.m */,
 				1BE316550D38138B005C3FB2 /* WBIOKitFunctions.c */,
@@ -965,10 +923,8 @@
 				1B92D0C01707269800F40FCD /* WBTableDataSource.h in Headers */,
 				1B92D0C11707269800F40FCD /* WBWindowController.h in Headers */,
 				1B92D0C5170726EA00F40FCD /* WBHeaderView.h in Headers */,
-				1B92D0C6170726EA00F40FCD /* WBSplitview.h in Headers */,
 				1BA505031B580DEC00C6649B /* WBBezelWindow.h in Headers */,
 				1B92D0C8170726EA00F40FCD /* WBImageAndTextCell.h in Headers */,
-				1B92D0CE1707270200F40FCD /* WBImageAndTextView.h in Headers */,
 				1B92D0D01707271200F40FCD /* WBTextFieldCell.h in Headers */,
 				1B92D0D11707271B00F40FCD /* NSColor+WonderBox.h in Headers */,
 				1B92D0D31707272F00F40FCD /* NSAlert+WonderBox.h in Headers */,
@@ -1103,12 +1059,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1BCB8F861706117600CC8C3C /* InfoPlist.strings in Resources */,
-				1B92D0F117072FA900F40FCD /* WBHeader.tiff in Resources */,
-				1B92D0F217072FA900F40FCD /* WBHeaderMenu.tiff in Resources */,
-				1B92D0F317072FA900F40FCD /* WBHeader-down.tiff in Resources */,
-				1B92D0F417072FA900F40FCD /* WBSplitDot.tiff in Resources */,
-				1B92D0F517072FA900F40FCD /* WBHSplitBar.tiff in Resources */,
-				1B92D0F617072FA900F40FCD /* WBVSplitBar.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1176,14 +1126,12 @@
 				1B7007641706EF34003F5780 /* WBInterpolationFunction.m in Sources */,
 				1B7007671706F08E003F5780 /* WBODFunctions.c in Sources */,
 				1B70076A1706F0C6003F5780 /* WBIOKitFunctions.c in Sources */,
-				1B7007701706F595003F5780 /* WBFinderSuite.c in Sources */,
+				1B7007701706F595003F5780 /* WBFinderSuite.cpp in Sources */,
 				1B92D0C21707269F00F40FCD /* WBTableView.m in Sources */,
 				1B92D0C31707269F00F40FCD /* WBTableDataSource.m in Sources */,
 				1B92D0C41707269F00F40FCD /* WBWindowController.m in Sources */,
 				1B92D0C9170726F300F40FCD /* WBHeaderView.m in Sources */,
-				1B92D0CA170726F300F40FCD /* WBSplitview.m in Sources */,
 				1B92D0CC170726F300F40FCD /* WBImageAndTextCell.m in Sources */,
-				1B92D0CD170726FF00F40FCD /* WBImageAndTextView.m in Sources */,
 				1B92D0CF1707270F00F40FCD /* WBTextFieldCell.m in Sources */,
 				1B92D0D21707272100F40FCD /* NSColor+WonderBox.m in Sources */,
 				1B92D0D51707273600F40FCD /* NSAlert+WonderBox.m in Sources */,
@@ -1279,14 +1227,6 @@
 			name = SparkPlugin.xib;
 			sourceTree = "<group>";
 		};
-		1BAD401F130DC8B90066B1AB /* WBProgress.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1BAD4020130DC8B90066B1AB /* en */,
-			);
-			name = WBProgress.strings;
-			sourceTree = "<group>";
-		};
 		1BCB8F841706117600CC8C3C /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1319,6 +1259,7 @@
 				INSTALL_PATH = "@rpath";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.xenonium.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Debug;
@@ -1335,6 +1276,7 @@
 				INSTALL_PATH = "@rpath";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.xenonium.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Release;
@@ -1351,6 +1293,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.xenonium.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = SparkKit;
+				SKIP_INSTALL = YES;
 			};
 			name = Debug;
 		};
@@ -1377,6 +1320,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.xenonium.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = SparkKit;
+				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};

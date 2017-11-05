@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="13529" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13529"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="SystemActionPlugin">
+            <connections>
+                <outlet property="ibActions" destination="24" id="103"/>
+                <outlet property="ibFeedback" destination="188" id="197"/>
+                <outlet property="ibName" destination="75" id="91"/>
+                <outlet property="ibUsers" destination="157" id="160"/>
+                <outlet property="uiOptions" destination="152" id="167"/>
+                <outlet property="view" destination="12" id="c7R-53-6I9"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="12" userLabel="View">
+            <rect key="frame" x="0.0" y="0.0" width="274" height="134"/>
+            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <box verticalHuggingPriority="750" boxType="separator" id="178">
+                    <rect key="frame" x="0.0" y="127" width="274" height="5"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                </box>
+                <tabView drawsBackground="NO" controlSize="small" type="noTabsNoBorder" initialItem="153" id="152">
+                    <rect key="frame" x="8" y="10" width="258" height="50"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <tabViewItems>
+                        <tabViewItem label="Confirm" identifier="" id="153">
+                            <view key="view" id="155">
+                                <rect key="frame" x="0.0" y="0.0" width="258" height="50"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <button id="122">
+                                        <rect key="frame" x="1" y="30" width="255" height="18"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                        <buttonCell key="cell" type="check" title="Display confirm dialog" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="185">
+                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                            <font key="font" metaFont="smallSystem"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <binding destination="-2" name="value" keyPath="sparkAction.shouldConfirm" id="168"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </view>
+                        </tabViewItem>
+                        <tabViewItem label="Switch" identifier="" id="154">
+                            <view key="view" id="156">
+                                <rect key="frame" x="0.0" y="0.0" width="258" height="50"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <subviews>
+                                    <popUpButton verticalHuggingPriority="750" id="157">
+                                        <rect key="frame" x="1" y="27" width="256" height="22"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <popUpButtonCell key="cell" type="push" title="Login Windows" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="159" id="186">
+                                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="smallSystem"/>
+                                            <menu key="menu" title="OtherViews" id="158">
+                                                <items>
+                                                    <menuItem title="Login Windows" state="on" id="159"/>
+                                                </items>
+                                            </menu>
+                                        </popUpButtonCell>
+                                        <connections>
+                                            <action selector="changeUser:" target="-2" id="171"/>
+                                        </connections>
+                                    </popUpButton>
+                                </subviews>
+                            </view>
+                        </tabViewItem>
+                        <tabViewItem label="Notify" identifier="" id="161">
+                            <view key="view" id="162">
+                                <rect key="frame" x="0.0" y="0.0" width="258" height="50"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <subviews>
+                                    <button id="165">
+                                        <rect key="frame" x="1" y="30" width="255" height="18"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                        <buttonCell key="cell" type="check" title="Display notification icon" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="187">
+                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                            <font key="font" metaFont="smallSystem"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <binding destination="-2" name="value" keyPath="sparkAction.shouldNotify" id="166"/>
+                                        </connections>
+                                    </button>
+                                    <button id="188">
+                                        <rect key="frame" x="21" y="12" width="230" height="18"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                        <buttonCell key="cell" type="check" title="Play feedback when volume is changed" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="189">
+                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                            <font key="font" metaFont="smallSystem"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <binding destination="-2" name="value" keyPath="sparkAction.playFeedback" id="194"/>
+                                            <binding destination="-2" name="enabled" keyPath="sparkAction.shouldNotify" id="193"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </view>
+                        </tabViewItem>
+                        <tabViewItem label="Empty" identifier="" id="163">
+                            <view key="view" id="164">
+                                <rect key="frame" x="0.0" y="0.0" width="258" height="50"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                            </view>
+                        </tabViewItem>
+                    </tabViewItems>
+                </tabView>
+                <box verticalHuggingPriority="750" boxType="separator" id="120">
+                    <rect key="frame" x="0.0" y="66" width="274" height="5"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                </box>
+                <textField verticalHuggingPriority="750" id="116">
+                    <rect key="frame" x="9" y="104" width="56" height="14"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Name :" id="184">
+                        <font key="font" metaFont="smallSystem"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField verticalHuggingPriority="750" id="75">
+                    <rect key="frame" x="70" y="102" width="192" height="19"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" placeholderString="Log Out" drawsBackground="YES" id="183">
+                        <font key="font" metaFont="smallSystem"/>
+                        <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                    <connections>
+                        <outlet property="nextKeyView" destination="24" id="130"/>
+                    </connections>
+                </textField>
+                <textField verticalHuggingPriority="750" id="32">
+                    <rect key="frame" x="9" y="78" width="56" height="14"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" controlSize="small" selectable="YES" sendsActionOnEndEditing="YES" alignment="right" title="Action :" id="182">
+                        <font key="font" metaFont="smallSystem"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <popUpButton verticalHuggingPriority="750" id="24">
+                    <rect key="frame" x="67" y="73" width="198" height="22"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                    <popUpButtonCell key="cell" type="push" title="Log Out" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" tag="1282369391" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="77" id="181">
+                        <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="smallSystem"/>
+                        <menu key="menu" title="OtherViews" id="22">
+                            <items>
+                                <menuItem title="Log Out" state="on" tag="1282369391" id="77"/>
+                                <menuItem title="Switch to…" tag="1400334708" id="172"/>
+                                <menuItem isSeparatorItem="YES" tag="-1" id="78">
+                                    <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                                </menuItem>
+                                <menuItem title="Sleep" tag="1399612784" id="26"/>
+                                <menuItem title="Restart" tag="1382380404" id="23"/>
+                                <menuItem title="Shut Down" tag="1214344308" id="66"/>
+                                <menuItem isSeparatorItem="YES" id="134">
+                                    <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                                </menuItem>
+                                <menuItem title="Eject Disk" tag="1164600180" id="176"/>
+                                <menuItem title="Empty Trash" tag="1164997753" id="135"/>
+                                <menuItem title="Screen Saver" tag="1399018337" id="177"/>
+                                <menuItem title="Keyboard Viewer" tag="1264735849" id="149"/>
+                                <menuItem isSeparatorItem="YES" id="150">
+                                    <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                                </menuItem>
+                                <menuItem title="Mute" tag="1299543141" id="151"/>
+                                <menuItem title="Volume Up" tag="1450136944" id="169"/>
+                                <menuItem title="Volume Down" tag="1450132591" id="170"/>
+                                <menuItem isSeparatorItem="YES" tag="-1" id="107">
+                                    <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                                </menuItem>
+                                <menuItem title="Brightness Up" tag="1114789232" id="173"/>
+                                <menuItem title="Brightness Down" tag="1114784879" id="174"/>
+                                <menuItem isSeparatorItem="YES" id="175">
+                                    <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                                </menuItem>
+                                <menuItem title="Switch Grayscale" tag="1198678393" id="118"/>
+                                <menuItem title="Invert Black &amp; White" tag="1349479521" id="117"/>
+                            </items>
+                        </menu>
+                    </popUpButtonCell>
+                    <connections>
+                        <binding destination="-2" name="selectedTag" keyPath="action" id="148">
+                            <dictionary key="options">
+                                <integer key="NSAllowsEditingMultipleValuesSelection" value="0"/>
+                            </dictionary>
+                        </binding>
+                        <outlet property="nextKeyView" destination="122" id="131"/>
+                    </connections>
+                </popUpButton>
+            </subviews>
+            <connections>
+                <outlet property="nextKeyView" destination="75" id="132"/>
+            </connections>
+        </customView>
+    </objects>
+</document>

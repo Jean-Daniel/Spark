@@ -70,7 +70,7 @@ WB_PRIVATE
 OSStatus iTunesSetSoundVolume(int16_t volume);
 
 WB_PRIVATE
-OSStatus iTunesCopyCurrentStreamTitle(CFStringRef *title);
+CFStringRef iTunesCopyCurrentStreamTitle(WBAEError error);
 
 #pragma mark Commands
 typedef enum {
@@ -121,19 +121,19 @@ WB_PRIVATE
 OSStatus iTunesSetCurrentTrackRate(uint32_t rate);
 
 WB_PRIVATE
-OSStatus iTunesCopyTrackArtworkData(iTunesTrack *track, CFDataRef *value, OSType *type);
+CFDataRef iTunesCopyTrackArtworkData(iTunesTrack *track, OSType *type, WBAEError error);
 WB_PRIVATE
-OSStatus iTunesCopyTrackStringProperty(iTunesTrack *track, ITunesTrackProperty property, CFStringRef *value);
+CFStringRef iTunesCopyTrackStringProperty(iTunesTrack *track, ITunesTrackProperty property, WBAEError error);
 WB_PRIVATE
 OSStatus iTunesGetTrackIntegerProperty(iTunesTrack *track, ITunesTrackProperty property, int32_t *value);
 
 #pragma mark -
 #pragma mark Playlists
 WB_PRIVATE
-CFArrayRef iTunesCopyPlaylistNames(void);
+CFArrayRef iTunesCopyPlaylistNames(WBAEError error);
 
 WB_PRIVATE
-CFDictionaryRef iTunesCopyPlaylists(void);
+CFDictionaryRef iTunesCopyPlaylists(WBAEError error);
 
 WB_PRIVATE
 OSStatus iTunesPlayPlaylist(iTunesPlaylist *playlist);
@@ -152,6 +152,6 @@ OSStatus iTunesGetPlaylistWithName(CFStringRef name, iTunesPlaylist *playlist);
 WB_PRIVATE
 OSStatus iTunesGetPlaylistIntegerProperty(iTunesPlaylist *playlist, AEKeyword property, int32_t *value);
 WB_PRIVATE
-OSStatus iTunesCopyPlaylistStringProperty(iTunesPlaylist *playlist, AEKeyword property, CFStringRef *value);
+CFStringRef iTunesCopyPlaylistStringProperty(iTunesPlaylist *playlist, AEKeyword property, WBAEError error);
 
 #endif /* __ITUNES_SUITE_H_ */

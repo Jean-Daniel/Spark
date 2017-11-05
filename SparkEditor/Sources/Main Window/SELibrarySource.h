@@ -10,10 +10,10 @@
 
 @class SparkAction;
 @class SparkLibrary, SparkPlugIn;
-@class SEEntryList, SETableView, SELibraryWindow;
+@class SEEntryList, WBTableView, SELibraryWindow;
 
 @interface SELibrarySource : WBTableDataSource {
-  IBOutlet SETableView *uiTable;
+  IBOutlet WBTableView *uiTable;
   IBOutlet SELibraryWindow *ibWindow;
 }
 

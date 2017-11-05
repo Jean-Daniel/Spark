@@ -7,8 +7,8 @@
  */
 
 #import "SEEntryList.h"
-#import "SETableView.h"
 #import "SELibraryDocument.h"
+#import "SESeparatorCellView.h"
 
 #import <SparkKit/SparkEntry.h>
 #import <SparkKit/SparkPrivate.h>
@@ -90,7 +90,7 @@ SparkEntry *__SEEntryForApplication(SparkEntry *entry, SparkApplication *app, bo
 	NSArray *entries = [se_list entries];
 	NSUInteger count = [entries count];
 	for (NSUInteger idx = 0; idx < count; idx++) {
-		SparkEntry *entry = __SEEntryForApplication([entries objectAtIndex:idx], se_application, _specific);
+		SparkEntry *entry = __SEEntryForApplication(entries[idx], se_application, _specific);
 		if (entry) {
 			/* if dynamic list, we have to revalidate the entry */
 			if (![se_list isDynamic] || [se_list acceptsEntry:entry])
@@ -189,7 +189,7 @@ SparkEntry *__SEEntryForApplication(SparkEntry *entry, SparkApplication *app, bo
 - (SparkEntry *)objectInEntriesAtIndex:(NSUInteger)idx {
 	if (_dirty)
     [self snapshot];
-  return [se_snapshot objectAtIndex:idx];
+  return se_snapshot[idx];
 }
 
 - (void)getEntries:(id __unsafe_unretained [])aBuffer range:(NSRange)range {

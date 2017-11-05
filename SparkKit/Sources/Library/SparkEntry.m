@@ -201,7 +201,7 @@ NSString * const SparkEntryWillRemoveChildNotification = @"SparkEntryWillRemoveC
 	
 	/* root entry without child => return one item array */
 	if (!sp_child)
-		return [NSArray arrayWithObject:self];
+		return @[self];
 	
 	SparkEntry *item = self;
 	NSMutableArray *variants = [NSMutableArray array];

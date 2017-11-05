@@ -150,11 +150,11 @@ NSInteger _SparkGroupCompare(SparkObject *o1, SparkObject *o2, void *ctxt) {
 }
 
 + (NSString *)plugInName {
-  return NSLocalizedStringFromTableInBundle(@"Spark", nil, kSparkKitBundle, @"Spark Built-in Plugin name");
+  return NSLocalizedStringFromTableInBundle(@"Spark", nil, SparkKitBundle(), @"Spark Built-in Plugin name");
 }
 
 + (NSImage *)plugInIcon {
-  return [NSImage imageNamed:@"spark" inBundle:kSparkKitBundle];
+  return [NSImage imageNamed:@"spark" inBundle:SparkKitBundle()];
 }
 
 + (NSString *)helpFile {
@@ -193,8 +193,8 @@ static
 NSImage *SparkDaemonStatusIcon(BOOL status) {
   static NSImage *__enabled = nil, *__disabled = nil;
   if (!__enabled) {
-    __enabled = [NSImage imageNamed:@"enabled" inBundle:kSparkKitBundle];
-    __disabled = [NSImage imageNamed:@"disabled" inBundle:kSparkKitBundle];
+    __enabled = [NSImage imageNamed:@"enabled" inBundle:SparkKitBundle()];
+    __disabled = [NSImage imageNamed:@"disabled" inBundle:SparkKitBundle()];
   }
   return status ? __enabled : __disabled;
 }
@@ -378,7 +378,7 @@ NSImage *_SparkSDActionIcon(SparkBuiltInAction *action) {
       icon = @"SimpleList";
       break;
   }
-  return icon ? [NSImage imageNamed:icon inBundle:kSparkKitBundle] : nil;
+  return icon ? [NSImage imageNamed:icon inBundle:SparkKitBundle()] : nil;
 }
 
 NSString *_SparkActionDescription(SparkBuiltInAction *action) {
@@ -386,21 +386,21 @@ NSString *_SparkActionDescription(SparkBuiltInAction *action) {
   switch ([action action]) {
     case kSparkSDActionLaunchEditor:
       str = NSLocalizedStringFromTableInBundle(@"Open Spark Editor", nil,
-                                               kSparkKitBundle, @"Spark Built-in Plugin description");
+                                               SparkKitBundle(), @"Spark Built-in Plugin description");
       break;
     case kSparkSDActionSwitchStatus:
       str = NSLocalizedStringFromTableInBundle(@"Enable/Disable Spark", nil, 
-                                               kSparkKitBundle, @"Spark Built-in Plugin description");
+                                               SparkKitBundle(), @"Spark Built-in Plugin description");
       break;
     case kSparkSDActionSwitchListStatus: {
       NSString *name = [[action list] name];
       if (name) {
         NSString *fmt = NSLocalizedStringFromTableInBundle(@"Enable/Disable Spark List \"%@\"", nil, 
-                                                           kSparkKitBundle, @"Spark Built-in Plugin description (%@ => list name)");
+                                                           SparkKitBundle(), @"Spark Built-in Plugin description (%@ => list name)");
         str = [NSString stringWithFormat:fmt, name];
       } else {
         str = NSLocalizedStringFromTableInBundle(@"Enable/Disable Spark List ...", nil, 
-                                                 kSparkKitBundle, @"Spark Built-in Plugin description");
+                                                 SparkKitBundle(), @"Spark Built-in Plugin description");
       }
     }
       break;
@@ -409,11 +409,11 @@ NSString *_SparkActionDescription(SparkBuiltInAction *action) {
 			NSString *name2 = [[action alternateList] name];
       if (name && name2) {
         NSString *fmt = NSLocalizedStringFromTableInBundle(@"Exchange '%@' and '%@' status", nil, 
-                                                           kSparkKitBundle, @"Spark Built-in Plugin description (%@ => list name, %@ => other list name)");
+                                                           SparkKitBundle(), @"Spark Built-in Plugin description (%@ => list name, %@ => other list name)");
         str = [NSString stringWithFormat:fmt, name, name2];
       } else {
         str = NSLocalizedStringFromTableInBundle(@"Exchange Spark Group status ...", nil, 
-                                                 kSparkKitBundle, @"Spark Built-in Plugin description");
+                                                 SparkKitBundle(), @"Spark Built-in Plugin description");
       }
     }
       break;

@@ -47,9 +47,9 @@ NSInteger _SESortEntries(SparkEntry *e1, SparkEntry *e2, void *ctxt) {
   for (NSUInteger idx = 0; idx < [categories count]; idx++) {
     bool dump = false;
     WBTemplate *block = [tpl blockWithName:@"category"];
-    SparkPlugIn *plugin = [categories objectAtIndex:idx];
+    SparkPlugIn *plugin = categories[idx];
     for (NSUInteger idx2 = 0; idx2 < [entries count]; idx2++) {
-      SparkEntry *entry = [entries objectAtIndex:idx2];
+      SparkEntry *entry = entries[idx2];
       SparkAction *action = [entry action];
       if ([action isKindOfClass:[plugin actionClass]]) {
         dump = true;
@@ -128,7 +128,7 @@ NSComparisonResult _SETriggerCompare(SparkTrigger *t1, SparkTrigger *t2, void *c
     
     /* foreach trigger */
     for (NSUInteger idx = 0, count = [triggers count]; idx < count; idx++) {
-      SparkTrigger *trigger = [triggers objectAtIndex:idx];
+      SparkTrigger *trigger = triggers[idx];
       WBTemplate *block = [tpl blockWithName:@"shortcut"];
       [block setVariable:[trigger triggerDescription] forKey:@"description"];
       

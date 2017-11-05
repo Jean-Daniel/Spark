@@ -17,14 +17,16 @@ typedef NS_ENUM(uint32_t, DocumentActionType) {
   kDocumentActionOpenURL           = 'OURL', /* 1330991692 */
 };
 
-#define kDocumentActionBundleIdentifier @"org.shadowlab.spark.action.document"
-#define kDocumentActionBundle		    [NSBundle bundleWithIdentifier:kDocumentActionBundleIdentifier]
+SPARK_PRIVATE
+NSBundle *DocumentActionBundle(void);
+
+#define kDocumentActionBundle	DocumentActionBundle()
 
 @class WBAlias, WBApplication;
 @interface DocumentAction : SparkAction <NSCoding, NSCopying>
 
-- (void)setDocumentPath:(NSString *)path;
-- (void)setApplicationPath:(NSString *)path;
+- (void)setDocumentURL:(NSURL *)anURL;
+- (void)setApplicationURL:(NSURL *)anURL;
 
 @property(nonatomic) DocumentActionType action;
 

@@ -17,13 +17,19 @@
 #import <WonderBox/WBImageFunctions.h>
 #import <WonderBox/NSImage+WonderBox.h>
 
-static NSString * const kApplicationNameKey = @"ApplicationName";
 static NSString * const kApplicationFlagsKey = @"ApplicationFlags";
 static NSString * const kApplicationActionKey = @"ApplicationAction";
 static NSString * const kApplicationLSFlagsKey = @"ApplicationLSFlags";
 
 /* Only for coding */
 static NSString * const kApplicationIdentifierKey = @"kApplicationIdentifierKey";
+
+NSBundle *ApplicationActionBundle(void) {
+  static NSBundle *bundle = nil;
+  if (!bundle)
+    bundle = [NSBundle bundleWithIdentifier:@"org.shadowlab.spark.action.application"];
+  return bundle;
+}
 
 @implementation ApplicationAction {
 @private
@@ -36,7 +42,7 @@ static NSString * const kApplicationIdentifierKey = @"kApplicationIdentifierKey"
     unsigned int atActivate:1;
     unsigned int reserved:26;
   } aa_aaFlags;
-  IconRef aa_icon;
+  NSImage *aa_icon;
 }
 
 static bool sInit = false;
@@ -59,6 +65,7 @@ ApplicationVisualSetting *AAGetSharedSettings(void) {
 + (void)getSharedSettings:(ApplicationVisualSetting *)settings {
   *settings = *AAGetSharedSettings();
 }
+
 + (void)setSharedSettings:(ApplicationVisualSetting *)settings {
   ApplicationVisualSetting *shared = AAGetSharedSettings();
   if (settings) {
@@ -160,10 +167,11 @@ ApplicationVisualSetting *AAGetSharedSettings(void) {
 
 #pragma mark -
 - (void)initFlags {
-  [self setReopen:YES];
-  [self setActivation:kFlagsBringAllFront];
+  self.reopen = YES;
+  self.activation = kFlagsBringAllFront;
   
-  [self setUsesSharedVisual:YES];
+  self.usesSharedVisual = YES;
+
   aa_aaFlags.atLaunch = 1;
   aa_aaFlags.atActivate = 0;
 }
@@ -205,19 +213,13 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
   NSData *data = [plist objectForKey:@"App Alias"];
   if (data) {
     alias = [[WBAlias alloc] initFromData:data];
-    _application = [[WBApplication alloc] initWithPath:alias.path];
+    _application = [[WBApplication alloc] initWithURL:alias.URL];
   }
   if (!_application) {
     _application = [[WBApplication alloc] init];
-    OSType sign = [[plist objectForKey:@"App Sign"] intValue];
-    if (sign) {
-      [_application setSignature:sign];
-    } else {
-      NSString *bundle = [plist objectForKey:@"BundleID"];
-      if (bundle) {
-        [_application setBundleIdentifier:bundle];
-      }
-    }
+    NSString *bundle = [plist objectForKey:@"BundleID"];
+    if (bundle)
+      [_application setBundleIdentifier:bundle];
   }
   
   [self setFlags:[[plist objectForKey:@"LSFlags"] intValue]];
@@ -240,7 +242,11 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
       [self initFromOldPropertyList:plist];
       [self setVersion:0x200];
     } else {
-      [self setFlags:(LSLaunchFlags)[[plist objectForKey:kApplicationLSFlagsKey] integerValue]];
+      NSInteger flags = [[plist objectForKey:kApplicationLSFlagsKey] integerValue];
+      if (flags == 1)
+        flags = NSWorkspaceLaunchDefault;
+      [self setFlags:flags];
+      
       [self setAction:WBOSTypeFromString([plist objectForKey:kApplicationActionKey])];
       [self decodeFlags:[[plist objectForKey:kApplicationFlagsKey] integerValue]];
       
@@ -262,13 +268,6 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
   return self;
 }
 
-- (void)dealloc {
-  if (aa_icon) {
-    ReleaseIconRef(aa_icon);
-    aa_icon = NULL;
-  }
-}
-
 #pragma mark -
 - (BOOL)serialize:(NSMutableDictionary *)plist {
   if ([super serialize:plist]) {
@@ -280,10 +279,6 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
       default: {
         if (_application)
           [_application serialize:plist];
-        
-        NSString *name = [[NSFileManager defaultManager] displayNameAtPath:[self path]];
-        if (name)
-          [plist setObject:name forKey:kApplicationNameKey];
       }
     }
     
@@ -327,7 +322,7 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
     case kApplicationToggle:
 		case kApplicationActivateQuit:
     case kApplicationForceQuitAppli:
-      if (![self path]) {
+      if (!self.URL) {
         NSString *title = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"INVALID_APPLICATION_ALERT", nil, kApplicationActionBundle,
                                                                                         @"Check * App Not Found *") , [self name]];
         return [SparkAlert alertWithMessageText:title
@@ -409,24 +404,17 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
 
 - (NSImage *)iconCacheMiss {
   NSImage *icon = [_application icon];
-  if (icon) {
+  if (icon)
     WBImageSetRepresentationsSize(icon, NSMakeSize(16, 16));
-  }
   return icon;
 }
 
 #pragma mark -
-- (NSString *)path {
-  return [_application path];
+- (NSURL *)URL {
+  return _application.URL;
 }
-- (void)setPath:(NSString *)path {
-  if (!_application && path)
-    _application = [[WBApplication alloc] initWithPath:path];
-  else if (path)
-    [_application setPath:path];
-  else if (_application) {
-    _application = nil;
-  }
+- (void)setURL:(NSURL *)anURL {
+  _application = anURL ? [[WBApplication alloc] initWithURL:anURL] : nil;
 }
 
 - (BOOL)reopen {
@@ -462,15 +450,11 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
 - (void)displayNotification {
   dispatch_async(dispatch_get_main_queue(), ^{
     if (!self->aa_icon) {
-      FSRef path;
-      if ([[self path] getFSRef:&path]) {
-        GetIconRefFromFileInfo(&path, 0, NULL,
-                               kFSCatInfoNone, NULL,
-                               kIconServicesNoBadgeFlag,
-                               &self->aa_icon, NULL);
-      }
+      NSImage *icon = nil;
+      if ([self.URL getResourceValue:&icon forKey:NSURLEffectiveIconKey error:NULL])
+        self->aa_icon = icon;
     }
-    SparkNotificationDisplayIcon(self->aa_icon, -1);
+    SparkNotificationDisplayImage(self->aa_icon, -1);
   });
 }
 
@@ -480,32 +464,14 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
 }
 
 - (void)hideFront {
-  ProcessSerialNumber front = {kNoProcess, kNoProcess};
-  if (noErr == GetFrontProcess(&front)) {
-    ShowHideProcess(&front, false);
-  }
+  [NSWorkspace.sharedWorkspace.frontmostApplication hide];
 }
 
 - (void)hideOthers {
-  ProcessSerialNumber front = {kNoProcess, kNoProcess};
-  GetFrontProcess(&front);
-
-  /* ShowHideProcess can change process order, and potentialy affect enumeration */
-  unsigned idx = 0;
-  unsigned max = 128;
-  ProcessSerialNumber psn;
-  ProcessSerialNumber processes[128];
-  psn.lowLongOfPSN = kNoProcess;
-  psn.highLongOfPSN = 0;
-  while (noErr == GetNextProcess(&psn) && idx < max) {
-    Boolean same;
-    if (noErr == SameProcess(&front, &psn, &same) && !same) {
-      processes[idx] = psn;
-      idx++;
-    }
-  }
-  while (idx-- > 0) {
-    ShowHideProcess(&processes[idx], false);
+  NSRunningApplication *front = NSWorkspace.sharedWorkspace.frontmostApplication;
+  for (NSRunningApplication *app in [NSWorkspace.sharedWorkspace runningApplications]) {
+    if (![app isEqual:front])
+      [app hide];
   }
 }
 
@@ -544,7 +510,7 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
     else
       [self getVisualSettings:&settings];
 
-    if (_flags & kLSLaunchAndHideOthers)
+    if (_flags & NSWorkspaceLaunchAndHideOthers)
       [self hideOthers];
 
     if (settings.activation)
@@ -554,10 +520,10 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
 
 - (void)launchApplication {
   NSRunningApplication *app = nil;
-  if (!(_flags & kLSLaunchNewInstance) && (app = self.applicationProcess)) {
+  if (!(_flags & NSWorkspaceLaunchNewInstance) && (app = self.applicationProcess)) {
     [self activate:app];
   } else {
-    [self launchAppWithFlag:kLSLaunchDefaults | _flags];
+    [self launchAppWithFlag:_flags];
 		
 		/* Handle visual feedback */
 		ApplicationVisualSetting settings;
@@ -589,8 +555,8 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
     [app terminate];
   } else {
     /* toogle incompatible with new instance */
-    if (_flags & kLSLaunchNewInstance)
-      _flags &= ~kLSLaunchNewInstance;
+    if (_flags & NSWorkspaceLaunchNewInstance)
+      _flags &= ~NSWorkspaceLaunchNewInstance;
     [self launchApplication];
   }	
 }
@@ -605,8 +571,8 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
 		}
   } else {
     /* toogle incompatible with new instance */
-    if (_flags & kLSLaunchNewInstance)
-      _flags &= ~kLSLaunchNewInstance;
+    if (_flags & NSWorkspaceLaunchNewInstance)
+      _flags &= ~NSWorkspaceLaunchNewInstance;
     [self launchApplication];
   }
 }
@@ -621,17 +587,12 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
   WBAESendSimpleEventToTarget(WBAESystemTarget(), kCoreEventClass, 'apwn');
 }
 
-- (BOOL)launchAppWithFlag:(LSLaunchFlags)flag {
-  FSRef ref;
-  BOOL result = NO;
-  LSApplicationParameters params = {};
-  NSString *path = [self path];
-  if (path != nil && [path getFSRef:&ref]) {
-    params.application = &ref;
-    params.flags = flag | kLSLaunchDefaults;
-    result = (noErr == LSOpenApplication(&params, nil));
-  }
-  return result;
+- (BOOL)launchAppWithFlag:(NSWorkspaceLaunchOptions)flag {
+  return [NSWorkspace.sharedWorkspace
+          launchApplicationAtURL:self.application.URL
+          options:flag | NSWorkspaceLaunchDefault
+          configuration:@{}
+          error:NULL] != nil;
 }
 
 @end

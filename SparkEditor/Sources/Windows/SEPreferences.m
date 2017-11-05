@@ -71,12 +71,12 @@ void __SetSparkKitSingleKeyMode(NSInteger mode) {
 
 /* Default values initialization */
 + (void)setup {
-  NSDictionary *values = [NSDictionary dictionaryWithObjectsAndKeys:
-													@(NO), kSEPreferencesAutoUpdate,
-													@(NO), kSEPreferencesHideDisabled,
-													@(YES), kSEPreferencesStartAtLogin,
-													@(kSparkEnableSingleFunctionKey), kSparkPrefSingleKeyMode,
-													nil];
+  NSDictionary *values = @{
+                           kSEPreferencesAutoUpdate: @(NO),
+                           kSEPreferencesHideDisabled: @(NO),
+                           kSEPreferencesStartAtLogin: @(YES),
+                           kSparkPrefSingleKeyMode: @(kSparkEnableSingleFunctionKey),
+                          };
   [[NSUserDefaults standardUserDefaults] registerDefaults:values];
   
   /* Verify login items */
@@ -123,24 +123,24 @@ void __SetSparkKitSingleKeyMode(NSInteger mode) {
   /* Load PlugIns */
   NSArray *plugs;
   plugs = [[[SparkActionLoader sharedLoader] plugInsForDomain:kWBPlugInDomainBuiltIn] sortedArrayUsingDescriptors:gSortByNameDescriptors];
-  NSDictionary *item = [NSDictionary dictionaryWithObjectsAndKeys:
-												NSLocalizedStringFromTable(@"Built-in", @"SEPreferences", @"Plugin preferences domain - built-in"), @"name",
-												plugs, @"plugins",
-												[NSImage imageNamed:@"application"], @"icon", nil];
+  NSDictionary *item = @{
+                         @"name": NSLocalizedStringFromTable(@"Built-in", @"SEPreferences", @"Plugin preferences domain - built-in"),
+                         @"plugins": plugs,
+                         @"icon": [NSImage imageNamed:@"application"]};
   [_plugins addObject:item];
 
   plugs = [[[SparkActionLoader sharedLoader] plugInsForDomain:kWBPlugInDomainLocal] sortedArrayUsingDescriptors:gSortByNameDescriptors];
-  item = [NSDictionary dictionaryWithObjectsAndKeys:
-					NSLocalizedStringFromTable(@"Computer", @"SEPreferences", @"Plugin preferences domain - computer"), @"name",
-					plugs, @"plugins",
-					[NSImage imageNamed:@"computer"], @"icon", nil];
+  item = @{
+           @"name": NSLocalizedStringFromTable(@"Computer", @"SEPreferences", @"Plugin preferences domain - computer"),
+           @"plugins": plugs,
+           @"icon": [NSImage imageNamed:@"computer"]};
   [_plugins addObject:item];
   
   plugs = [[[SparkActionLoader sharedLoader] plugInsForDomain:kWBPlugInDomainUser] sortedArrayUsingDescriptors:gSortByNameDescriptors];
-  item = [NSDictionary dictionaryWithObjectsAndKeys:
-					NSLocalizedStringFromTable(@"User", @"SEPreferences", @"Plugin preferences domain - user"), @"name",
-					plugs, @"plugins",
-					[NSImage imageNamed:@"user"], @"icon", nil];
+  item = @{
+           @"name": NSLocalizedStringFromTable(@"User", @"SEPreferences", @"Plugin preferences domain - user"),
+           @"plugins": plugs,
+           @"icon": [NSImage imageNamed:@"user"]};
   [_plugins addObject:item];
   
   [uiPlugins reloadData];
@@ -276,10 +276,10 @@ void __SetSparkKitSingleKeyMode(NSInteger mode) {
   return !item || ![item isKindOfClass:[SparkPlugIn class]];
 }
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item {
-  return item ? [[item objectForKey:@"plugins"] count] : _plugins.count;
+  return item ? [item[@"plugins"] count] : _plugins.count;
 }
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)anIndex ofItem:(id)item {
-  return item ? [[item objectForKey:@"plugins"] objectAtIndex:anIndex] : _plugins[anIndex];
+  return item ? item[@"plugins"][anIndex] : _plugins[anIndex];
 }
 - (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item {
   if ([item isKindOfClass:[SparkPlugIn class]]) {
@@ -359,24 +359,24 @@ void __SetSparkKitSingleKeyMode(NSInteger mode) {
 }
 
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar*)toolbar {
-  return [NSArray arrayWithObjects:kSparkPreferencesToolbarGeneralItem, 
+  return @[kSparkPreferencesToolbarGeneralItem,
 					kSparkPreferencesToolbarPlugInsItem,
 					kSparkPreferencesToolbarUpdateItem,
-					kSparkPreferencesToolbarAdvancedItem, nil];
+					kSparkPreferencesToolbarAdvancedItem];
 }
 
 - (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar*)toolbar {
-  return [NSArray arrayWithObjects:kSparkPreferencesToolbarGeneralItem, 
+  return @[kSparkPreferencesToolbarGeneralItem,
 					kSparkPreferencesToolbarPlugInsItem,
 					kSparkPreferencesToolbarUpdateItem,
-					kSparkPreferencesToolbarAdvancedItem, nil];
+					kSparkPreferencesToolbarAdvancedItem];
 }
 
 - (NSArray *)toolbarSelectableItemIdentifiers:(NSToolbar *)toolbar {
-  return [NSArray arrayWithObjects:kSparkPreferencesToolbarGeneralItem, 
+  return @[kSparkPreferencesToolbarGeneralItem,
 					kSparkPreferencesToolbarPlugInsItem,
 					kSparkPreferencesToolbarUpdateItem,
-					kSparkPreferencesToolbarAdvancedItem, nil];
+					kSparkPreferencesToolbarAdvancedItem];
 }
 
 @end

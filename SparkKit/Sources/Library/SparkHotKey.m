@@ -198,8 +198,8 @@ bool SparkHotKeyFilter(HKKeycode code, HKModifier modifier) {
 - (BOOL)sendKeystroke:(useconds_t)latency {
   return [sp_hotkey sendKeystroke:latency];
 }
-- (BOOL)sendKeystrokeToApplication:(OSType)signature bundle:(NSString *)bundleId latency:(useconds_t)latency {
-  return [sp_hotkey sendKeystrokeToApplication:signature bundle:bundleId latency:latency];
+- (BOOL)sendKeystrokeToApplication:(NSString *)bundleId latency:(useconds_t)latency {
+  return [sp_hotkey sendKeystrokeToApplication:bundleId latency:latency];
 }
 
 - (BOOL)isEqualToTrigger:(SparkTrigger *)aTrigger {
@@ -235,7 +235,7 @@ bool SparkHotKeyFilter(HKKeycode code, HKModifier modifier) {
 - (NSImage *)icon {
   NSImage *icon = [super icon];
   if (!icon) {
-    [self setIcon:[NSImage imageNamed:@"hotkey" inBundle:kSparkKitBundle]];
+    [self setIcon:[NSImage imageNamed:@"hotkey" inBundle:SparkKitBundle()]];
     icon = [super icon];
   }
   return icon;

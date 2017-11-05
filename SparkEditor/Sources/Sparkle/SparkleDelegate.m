@@ -21,15 +21,14 @@
 }
 
 - (NSArray *)feedParametersForUpdater:(SUUpdater *)updater sendingSystemProfile:(BOOL)sendingProfile {
-  NSString *lang = [[NSLocale preferredLanguages] objectAtIndex:0];
-  NSDictionary *param = [NSDictionary dictionaryWithObjectsAndKeys:
-                         @"locale", @"key",
-                         lang, @"value",
-                         @"Locale", @"displayKey",
-                         [[NSLocale currentLocale] displayNameForKey:NSLocaleLanguageCode
-                                                               value:lang], @"displayValue",
-                         nil];
-  return [NSArray arrayWithObject:param];
+  NSString *lang = [NSLocale preferredLanguages].firstObject;
+  NSDictionary *param = @{
+                          @"key": @"locale",
+                          @"value": lang,
+                          @"displayKey": @"Locale",
+                          @"displayValue": [[NSLocale currentLocale] displayNameForKey:NSLocaleLanguageCode value:lang]
+                          };
+  return @[param];
 }
 
 //- (void)updater:(SUUpdater *)updater willInstallUpdate:(SUAppcastItem *)update {

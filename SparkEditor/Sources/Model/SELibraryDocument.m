@@ -117,8 +117,7 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
   if (_application != anApplication) {
     NSNotification *notify = [NSNotification notificationWithName:SEApplicationDidChangeNotification
                                                            object:self 
-                                                         userInfo:_application ? [NSDictionary dictionaryWithObject:_application
-                                                                                                             forKey:SEPreviousApplicationKey] : nil];
+                                                         userInfo:_application ? @{ SEPreviousApplicationKey: _application } : nil];
     _application = anApplication;
     /* Notify change */
     [_library.notificationCenter postNotification:notify];
@@ -146,13 +145,8 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
   [panel beginSheetModalForWindow:self.windowForSheet completionHandler:^(NSInteger result) {
     if (NSOKButton == result) {
       NSURL *url = panel.URL;
-      if (url) {
+      if (url)
         [self.library archiveToURL:url];
-        NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
-                              @(kSparkLibraryArchiveHFSType), NSFileHFSTypeCode,
-                              @(kSparkEditorSignature), NSFileHFSCreatorCode, nil];
-        [[NSFileManager defaultManager] setAttributes:dict ofItemAtPath:[url path] error:NULL];
-      }
     }
   }];
 }
@@ -281,12 +275,7 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
   SEEntryEditor *editor = [self editor];
   [editor setEntry:nil];
   [editor setActionType:type];
-  
-  [NSApp beginSheet:[editor window]
-     modalForWindow:[self windowForSheet]
-      modalDelegate:nil
-     didEndSelector:NULL
-        contextInfo:nil];
+  [[self windowForSheet] beginSheet:editor.window completionHandler:NULL];
 }
 
 /* Find equivalent trigger in library */
@@ -362,12 +351,8 @@ NSAlert *_SELibraryTriggerAlreadyUsedAlert(SparkEntry *previous, SparkEntry *ent
 - (void)editEntry:(SparkEntry *)anEntry {
   SEEntryEditor *editor = [self editor];
   [editor setEntry:anEntry];
-  
-  [NSApp beginSheet:[editor window]
-     modalForWindow:[self windowForSheet]
-      modalDelegate:nil
-     didEndSelector:NULL
-        contextInfo:nil];
+
+  [[self windowForSheet] beginSheet:editor.window completionHandler:NULL];
 }
 
 - (BOOL)editor:(SEEntryEditor *)theEditor shouldUpdateEntry:(SparkEntry *)entry 

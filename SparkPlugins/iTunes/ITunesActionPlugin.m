@@ -14,7 +14,6 @@
 
 #import <WonderBox/WBAlias.h>
 #import <WonderBox/WBFSFunctions.h>
-#import <WonderBox/WBLSFunctions.h>
 #import <WonderBox/NSImage+WonderBox.h>
 #import <WonderBox/NSString+WonderBox.h>
 #import <WonderBox/NSTabView+WonderBox.h>
@@ -26,10 +25,10 @@
 static 
 NSImage *ITunesGetApplicationIcon(void) {
   NSImage *icon = nil;
-  NSURL *itunes = SPXCFURLBridgingRelease(WBLSCopyApplicationURLForBundleIdentifier(kiTunesBundleIdentifier));
-  if (itunes) {
-    icon = [[NSWorkspace sharedWorkspace] iconForFile:[itunes path]];
-  }
+  NSURL *itunes = [NSWorkspace.sharedWorkspace URLForApplicationWithBundleIdentifier:SPXCFToNSString(kiTunesBundleIdentifier)];
+  if (itunes)
+    [itunes getResourceValue:&icon forKey:NSURLEffectiveIconKey error:NULL];
+
   return icon;
 }
 
@@ -51,19 +50,6 @@ NSImage *ITunesGetApplicationIcon(void) {
   return [super keyPathsForValuesAffectingValueForKey:key];
 }
 
-- (id)init {
-  if (self = [super init]) {
-  }
-  return self;
-}
-
-//- (void)dealloc {
-//  [ibVisual release]; // IB root object
-//  [it_playlist release];
-//  [it_playlists release];
-//  [super dealloc];
-//}
-
 #pragma mark -
 - (void)awakeFromNib {
   NSImage *icon = ITunesGetApplicationIcon();
@@ -74,7 +60,7 @@ NSImage *ITunesGetApplicationIcon(void) {
 }
 
 /* This function is called when the user open the iTunes Action Editor Panel */
-- (void)loadSparkAction:(id)sparkAction toEdit:(BOOL)flag {
+- (void)loadSparkAction:(ITunesAction *)sparkAction toEdit:(BOOL)flag {
   [ibName setStringValue:[sparkAction name] ? : @""];
   /* if flag == NO, the user want to create a new Action, else he wants to edit an existing Action */
   if (flag) {
@@ -152,6 +138,7 @@ NSImage *ITunesGetApplicationIcon(void) {
     ITunesVisual visual;
     [ibVisual getVisual:&visual];
     [ITunesAction setDefaultVisual:&visual];
+    [ibVisual hide:nil];
   }
 }
 
@@ -386,7 +373,7 @@ NSURL *__iTunesFindLibrary(Boolean compat) {
 }
 
 + (NSDictionary *)iTunesPlaylists {
-  NSDictionary *playlists = SPXCFDictionaryBridgingRelease(iTunesCopyPlaylists());
+  NSDictionary *playlists = SPXCFDictionaryBridgingRelease(iTunesCopyPlaylists(NULL));
   if (nil == playlists) {
     NSURL *file = __iTunesFindLibrary(false);
     if (!file)
@@ -401,6 +388,10 @@ NSURL *__iTunesFindLibrary(Boolean compat) {
       NSDictionary *list;
       NSEnumerator *lists = [[library objectForKey:@"Playlists"] objectEnumerator];
       while (list = [lists nextObject]) {
+        NSString *name = list[@"Name"];
+        if (!name)
+          continue;
+
         NSNumber *visible = list[@"Visible"];
         if (visible && !visible.boolValue)
           continue;
@@ -418,14 +409,12 @@ NSURL *__iTunesFindLibrary(Boolean compat) {
         
         NSNumber *ppid = nil;
         NSString *uid = list[@"Playlist Persistent ID"];
-        if (uid) {
+        if (uid)
           ppid = @(strtoll([uid UTF8String], NULL, 16));
-        }
         
-        NSDictionary *plist = [[NSDictionary alloc] initWithObjectsAndKeys:
-                               @(type), @"kind",
-                               ppid, @"uid", nil];
-        [pl setObject:plist forKey:list[@"Name"]];
+        NSDictionary *plist = @{ @"kind": @(type), @"uid": ppid };
+        if (name)
+          [pl setObject:plist forKey:name];
       }
       playlists = pl;
     }

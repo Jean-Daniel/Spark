@@ -289,7 +289,7 @@ NSString * sSEHiddenPluggedObserverKey = nil;
   NSMutableDictionary *plist = [[NSMutableDictionary alloc] init];
   CFUUIDBytes bytes = CFUUIDGetUUIDBytes([[self library] uuid]);
   [plist setObject:[NSData dataWithBytes:&bytes length:sizeof(bytes)] forKey:@"uuid"];
-  [pboard declareTypes:[NSArray arrayWithObject:SparkEntriesPboardType] owner:self];
+  [pboard declareTypes:@[SparkEntriesPboardType] owner:self];
   
   NSMutableArray *entries = [[NSMutableArray alloc] init];
   [rowIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {

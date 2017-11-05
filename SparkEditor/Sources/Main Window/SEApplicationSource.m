@@ -8,7 +8,6 @@
 
 #import "SEApplicationSource.h"
 
-#import "SEHeaderCell.h"
 #import "SELibraryWindow.h"
 #import "SELibraryDocument.h"
 
@@ -69,18 +68,7 @@
 }
 
 - (void)awakeFromNib {
-  [uiTable registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, nil]];
-  
-  /* Configure Application Header Cell */
-  SEHeaderCell *header = [[SEHeaderCell alloc] initTextCell:@""];
-  [[[uiTable tableColumns] objectAtIndex:0] setHeaderCell:header];
-  
-  header = [[SEHeaderCell alloc] initTextCell:NSLocalizedString(@"Front Application", @"Front Applications - header cell")];
-  [header setAlignment:NSCenterTextAlignment];
-  [header setFont:[NSFont systemFontOfSize:11]];
-  [[[uiTable tableColumns] objectAtIndex:1] setHeaderCell:header];
-  
-  [uiTable setCornerView:[[SEHeaderCellCorner alloc] init]];
+  [uiTable registerForDraggedTypes:@[NSFilenamesPboardType]];
   
   uiTable.target = self;
   uiTable.doubleAction = @selector(revealApplication:);
@@ -159,7 +147,7 @@ bool __IsApplicationAtURL(NSURL *path) {
     SparkApplication *application = [array objectAtIndex:0];
     NSURL *url = application.URL;
     if (url) {
-      WBAEFinderRevealItemAtURL(SPXNSToCFURL(url), true);
+      [NSWorkspace.sharedWorkspace activateFileViewerSelectingURLs:@[ url ]];
     } else {
       NSBeep();
     }
@@ -182,7 +170,7 @@ bool __IsApplicationAtURL(NSURL *path) {
   }];
   openPanel.allowedFileTypes = @[@"app", NSFileTypeForHFSTypeCode('APPL')];
   [openPanel beginSheetModalForWindow:ibWindow.window completionHandler:^(NSInteger result) {
-    if (NSOKButton == result) {
+    if (NSModalResponseOK == result) {
       [self addApplications:[openPanel URLs]];
     }
     self->se_urls = nil;
@@ -203,7 +191,7 @@ bool __IsApplicationAtURL(NSURL *path) {
   if ([[ibWindow window] attachedSheet] == nil) { /* Ignore if modal sheet open on main window */
     NSUInteger idx = [self selectionIndex];
     if (idx > 0) { /* If valid selection (should always append) */
-      NSInteger result = NSOKButton;
+      NSInteger result = NSModalResponseOK;
       SparkApplication *object = [self objectAtIndex:idx];
       if ([object uid] > kSparkLibraryReserved) { /* If not a reserved object */
         Boolean hasActions = [[se_library entryManager] containsEntryForApplication:object];
@@ -219,7 +207,7 @@ bool __IsApplicationAtURL(NSURL *path) {
           /* Do not use sheet because caller assume it is synchrone */
           result = [alert runModal];
         } 
-        if (NSOKButton == result) {
+        if (NSModalResponseOK == result) {
           [[self applicationSet] removeObject:object];
           return;
         }
@@ -269,7 +257,7 @@ bool __IsApplicationAtURL(NSURL *path) {
 
 /* Selected application change */
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification {
-  [self didSelectApplication:[[aNotification object] selectedRow]];
+  [self didSelectApplication:[aNotification.object selectedRow]];
 }
 
 - (void)deleteSelectionInTableView:(NSTableView *)aTableView {

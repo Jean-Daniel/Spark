@@ -9,8 +9,6 @@
 #import "SparkDaemon.h"
 #import "SDAEHandlers.h"
 
-#include <Carbon/Carbon.h>
-
 #import <SparkKit/SparkEvent.h>
 #import <SparkKit/SparkPrivate.h>
 #import <SparkKit/SparkFunctions.h>
@@ -60,26 +58,7 @@ int main(int argc, const char *argv[]) {
   return 0;
 }
 
-static
-OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef inEvent, void *inUserData) {
-  if (GetEventClass(inEvent) == kEventClassApplication) {
-    ByteCount size;
-    EventParamType type;
-    ProcessSerialNumber psn;
-    SparkDaemon *handler = (__bridge SparkDaemon *)inUserData;
-    spx_verify_noerr(GetEventParameter(inEvent, kEventParamProcessID, typeProcessSerialNumber, &type, sizeof(psn), &size, &psn));
-    switch (GetEventKind(inEvent)) {
-      case kEventAppLaunched:
-        break;
-      case kEventAppTerminated:
-        break;
-      case kEventAppFrontSwitched:
-        [handler frontApplicationDidChange:&psn];
-        return noErr;
-    }
-  }
-  return eventNotHandledErr;
-}
+static int SparkDaemonContext = 0;
 
 @implementation SparkDaemon {
   BOOL sd_disabled;
@@ -151,23 +130,6 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
   }
 }
 
-/* Timer callback */
-- (void)finishStartup:(id)sender {
-  [self setActiveLibrary:SparkActiveLibrary()];
-  [[NSNotificationCenter defaultCenter] addObserver:self
-                                           selector:@selector(didChangePlugInStatus:)
-                                               name:SparkPlugInDidChangeStatusNotification
-                                             object:nil];
-  
-  EventTypeSpec eventTypes[] = {
-    //      { kEventClassApplication, kEventAppLaunched },
-    //      { kEventClassApplication, kEventAppTerminated },
-    { kEventClassApplication, kEventAppFrontSwitched },
-  };
-  // FIXME: replace by NSWorkspaceDidActivateApplicationNotification
-  InstallApplicationEventHandler(_SDProcessManagerEvent, GetEventTypeCount(eventTypes), eventTypes, (__bridge void *)self, NULL);
-}
-
 - (id)init {
   if (self = [super init]) {
     if (![self openConnection]) {
@@ -175,14 +137,15 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
     } else {
       sd_plugin_queues = [[NSMutableDictionary alloc] init];
 #if defined (DEBUG)
-      [[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
-        @"YES", @"NSShowNonLocalizedStrings",
+      [[NSUserDefaults standardUserDefaults] registerDefaults:
+  @{
+    @"NSShowNonLocalizedStrings": @YES,
         //@"YES", @"NSShowAllViews",
         //WBFloat(0.15f), @"NSWindowResizeTime",
         //@"6", @"NSDragManagerLogLevel",
         //@"YES", @"NSShowNonLocalizableStrings",
         //@"1", @"NSScriptingDebugLogLevel",
-        nil]];
+    }];
 #endif
       [NSApp setDelegate:self];
       [SparkEvent setEventHandler:^void(SparkEvent * __nonnull event) {
@@ -197,29 +160,13 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
       SDSendStateToEditor(kSparkDaemonStatusEnabled);
       
       NSInteger delay = 0;
-      /* SparkDaemonDelay */
-      ProcessSerialNumber psn = {kNoProcess, kCurrentProcess};
-      CFDictionaryRef infos = ProcessInformationCopyDictionary(&psn, kProcessDictionaryIncludeAllInformationMask);
-      if (infos) {
-        CFNumberRef parent = CFDictionaryGetValue(infos, CFSTR("ParentPSN"));
-        if (parent) {
-          CFNumberGetValue(parent, kCFNumberLongLongType, &psn);
-          
-          /* If launch by something that is not Spark Editor */
-          OSType sign = WBProcessGetSignature(&psn);
-          if (sign != kSparkEditorSignature) {
-            delay = SparkPreferencesGetIntegerValue(@"SDDelayStartup", SparkPreferencesDaemon);
-          }
-        }
-        CFRelease(infos);
-      }
+      /* SparkDaemonDelay (ignored when launch by Spark Editor) */
+      if (![[NSProcessInfo processInfo].arguments containsObject:@"-nodelay"])
+        delay = SparkPreferencesGetIntegerValue(@"SDDelayStartup", SparkPreferencesDaemon);
+
       if (delay > 0) {
         SPXDebug(@"Delay load: %ld", (long)delay);
-        [NSTimer scheduledTimerWithTimeInterval:delay
-                                         target:self
-                                       selector:@selector(finishStartup:)
-                                       userInfo:nil
-                                        repeats:NO];
+        [self performSelector:@selector(finishStartup:) withObject:nil afterDelay:delay];
       } else {
         [self finishStartup:nil];
       }
@@ -232,6 +179,28 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
   [[NSNotificationCenter defaultCenter] removeObserver:self];
   [self setActiveLibrary:nil];
   [self closeConnection];
+}
+
+- (void)finishStartup:(id)sender {
+  [self setActiveLibrary:SparkActiveLibrary()];
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(didChangePlugInStatus:)
+                                               name:SparkPlugInDidChangeStatusNotification
+                                             object:nil];
+
+  [NSWorkspace.sharedWorkspace addObserver:self
+                                forKeyPath:@"frontmostApplication"
+                                   options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew
+                                   context:&SparkDaemonContext];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+  if (context == &SparkDaemonContext) {
+    // Frontmost application did change
+    [self frontApplicationDidChange:change[NSKeyValueChangeNewKey]];
+  } else {
+    [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+  }
 }
 
 #pragma mark -
@@ -251,26 +220,23 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
   }
 }
 
-- (void)frontApplicationDidChange:(ProcessSerialNumber *)psn {
-  pid_t pid;
-  if (noErr == GetProcessPID(psn, &pid)) {
-    Boolean same = false;
-    SparkApplication *front = psn ? [sd_library applicationWithProcessIdentifier:pid] : nil;
-    if (!sd_front) {
-      same = !front;
-    } else {
-      same = front && [sd_front isEqual:front];
-    }
-    if (!same) {
-      SparkApplication *previous = sd_front;
-      sd_front = front;
-      SPXDebug(@"switch: %@ => %@", previous, front);
-      /* If status change */
-      if ((!previous || [previous isEnabled]) && (front && ![front isEnabled])) {
-        [self unregisterEntries];
-      } else if ((previous && ![previous isEnabled]) && (!front || [front isEnabled])) {
-        [self registerEntries];
-      }
+- (void)frontApplicationDidChange:(NSRunningApplication *)app {
+  Boolean same = false;
+  SparkApplication *front = app ? [sd_library applicationWithProcessIdentifier:app.processIdentifier] : nil;
+  if (!sd_front) {
+    same = !front;
+  } else {
+    same = front && [sd_front isEqual:front];
+  }
+  if (!same) {
+    SparkApplication *previous = sd_front;
+    sd_front = front;
+    SPXDebug(@"switch: %@ => %@", previous, front);
+    /* If status change */
+    if ((!previous || [previous isEnabled]) && (front && ![front isEnabled])) {
+      [self unregisterEntries];
+    } else if ((previous && ![previous isEnabled]) && (!front || [front isEnabled])) {
+      [self registerEntries];
     }
   }
 }
@@ -435,10 +401,6 @@ OSStatus _SDProcessManagerEvent(EventHandlerCallRef inHandlerCallRef, EventRef i
 }
 
 - (void)run {
-  /* set front process */
-  ProcessSerialNumber psn;
-  if (noErr == GetFrontProcess(&psn))
-    [self frontApplicationDidChange:&psn];
   [NSApp run];
 }
 

@@ -22,7 +22,6 @@
 #import <SparkKit/SparkBuiltInAction.h>
 
 #import <WonderBox/WBFSFunctions.h>
-#import <WonderBox/WBLSFunctions.h>
 #import <WonderBox/WBSerialization.h>
 
 #import "SparkLibraryPrivate.h"
@@ -299,13 +298,13 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
 #pragma mark Read/Write
 - (void)initReservedObjects {
   /* Init Finder Application */
-  CFURLRef url = WBLSCopyApplicationURLForBundleIdentifier(SPXNSToCFString(kSparkFinderBundleIdentifier));
+  NSURL *url = [NSWorkspace.sharedWorkspace URLForApplicationWithBundleIdentifier:kSparkFinderBundleIdentifier];
 	if (!url && ![@"com.apple.finder" isEqualToString:kSparkFinderBundleIdentifier]) {
 		SPXLogWarning(@"invalid finder application, try with default identifier ('MACS')");
-		url = WBLSCopyApplicationURLForBundleIdentifier(CFSTR("com.apple.finder"));
+		url = [NSWorkspace.sharedWorkspace URLForApplicationWithBundleIdentifier:@"com.apple.finder"];
 	}
   if (url) {
-    SparkApplication *finder = [[SparkApplication alloc] initWithURL:SPXCFToNSURL(url)];
+    SparkApplication *finder = [[SparkApplication alloc] initWithURL:url];
     if (finder) {
       finder.uid = kSparkApplicationFinderUID;
       [self.applicationSet addObject:finder];
@@ -381,9 +380,9 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
     [self saveReservedObjects];
 
     /* Preferences */
-    NSData *data = [NSPropertyListSerialization dataFromPropertyList:_prefs
+    NSData *data = [NSPropertyListSerialization dataWithPropertyList:_prefs
                                                               format:NSPropertyListXMLFormat_v1_0
-                                                    errorDescription:nil];
+                                                             options:0 error:NULL];
     if (data)
       [library addRegularFileWithContents:data preferredFilename:kSparkLibraryPreferencesFile];
 
@@ -394,9 +393,9 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
                           uuid, @"UUID",
                           nil];
     CFRelease(uuid);
-    data = [NSPropertyListSerialization dataFromPropertyList:info
+    data = [NSPropertyListSerialization dataWithPropertyList:info
                                                       format:NSPropertyListXMLFormat_v1_0
-                                            errorDescription:nil];
+                                                     options:0 error:NULL];
     if (!data) break;
     
     [library addRegularFileWithContents:data preferredFilename:@"Info.plist"];
@@ -429,10 +428,9 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
   if (!data)
     return NO;
   
-  NSDictionary *info = [NSPropertyListSerialization propertyListFromData:data 
-                                                        mutabilityOption:NSPropertyListImmutable
-                                                                  format:NULL
-                                                        errorDescription:NULL];
+  NSDictionary *info = [NSPropertyListSerialization propertyListWithData:data
+                                                                 options:NSPropertyListImmutable
+                                                                  format:NULL error:NULL];
   if (!info)
     return NO;
   /* Init info plist */
@@ -558,10 +556,9 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
   /* load preferences */
   NSData *data = [files[kSparkLibraryPreferencesFile] regularFileContents];
   if (data) {
-    NSDictionary *prefs = [NSPropertyListSerialization propertyListFromData:data 
-                                                           mutabilityOption:NSPropertyListImmutable
-                                                                     format:NULL
-                                                           errorDescription:NULL];
+    NSDictionary *prefs = [NSPropertyListSerialization propertyListWithData:data
+                                                                    options:NSPropertyListImmutable
+                                                                     format:NULL error:NULL];
     if (prefs)
       [_prefs setDictionary:prefs];
   }

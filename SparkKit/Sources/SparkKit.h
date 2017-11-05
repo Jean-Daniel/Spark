@@ -21,6 +21,9 @@
 #import <SparkKit/SparkAction.h>
 #import <SparkKit/SparkActionPlugIn.h>
 
+#import <SparkKit/SparkPluginView.h>
+#import <SparkKit/SparkMultipleAlerts.h>
+
 #pragma mark -
 #pragma mark Constants
 
@@ -36,7 +39,7 @@ SPARK_EXPORT NSString * const kSparkDaemonBundleIdentifier;
 SPARK_EXPORT NSString * const SparkWillSetActiveLibraryNotification;
 SPARK_EXPORT NSString * const SparkDidSetActiveLibraryNotification;
 
-#define kSparkKitBundle [NSBundle bundleWithIdentifier:kSparkKitBundleIdentifier]
+SPARK_EXPORT NSBundle *SparkKitBundle(void);
 
 SPARK_EXPORT
 const OSType kSparkEditorSignature SPARK_DEPRECATED("Bundle identifier");

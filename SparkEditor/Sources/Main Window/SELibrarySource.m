@@ -8,11 +8,10 @@
 
 #import "SELibrarySource.h"
 #import "Spark.h"
-#import "SETableView.h"
 #import "SEEntryList.h"
-#import "SEHeaderCell.h"
 #import "SELibraryWindow.h"
 #import "SELibraryDocument.h"
+#import "SESeparatorCellView.h"
 #import "SETriggersController.h"
 
 #import <SparkKit/SparkList.h>
@@ -27,6 +26,7 @@
 #import <SparkKit/SparkPlugIn.h>
 #import <SparkKit/SparkActionLoader.h>
 
+#import <WonderBox/WBTableView.h>
 #import <WonderBox/NSArray+WonderBox.h>
 #import <WonderBox/NSArrayController+WonderBox.h>
 
@@ -215,20 +215,13 @@
 }
 
 - (void)awakeFromNib {
-  /* Configure Library Header Cell */
-  SEHeaderCell *header = [[SEHeaderCell alloc] initTextCell:NSLocalizedString(@"HotKey Groups", @"Library Header Cell")];
-  [header setAlignment:NSCenterTextAlignment];
-  [header setFont:[NSFont systemFontOfSize:11]];
-  [[[uiTable tableColumns] objectAtIndex:0] setHeaderCell:header];
-  [uiTable setCornerView:[[SEHeaderCellCorner alloc] init]];
-  
   NSSortDescriptor *group = [[NSSortDescriptor alloc] initWithKey:@"representation" ascending:YES];
-  [uiTable setSortDescriptors:[NSArray arrayWithObject:group]];
+  [uiTable setSortDescriptors:@[ group ]];
   
   //  NSRect rect = [[uiTable headerView] frame];
   //  rect.size.height += 1;
   //  [[uiTable headerView] setFrame:rect];
-  [uiTable registerForDraggedTypes:[NSArray arrayWithObject:SparkEntriesPboardType]];
+  [uiTable registerForDraggedTypes:@[SparkEntriesPboardType]];
 }
 
 #pragma mark -
@@ -388,8 +381,16 @@
 - (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row {
   return row >= 0 && (NSUInteger)row < [self count] && [[[self objectAtIndex:row] name] isEqualToString:SETableSeparator] ? 1 : [tableView rowHeight];
 }
+
 - (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(NSInteger)rowIndex {
   return rowIndex >= 0 && (NSUInteger)rowIndex < [self count] ? ![[[self objectAtIndex:rowIndex] name] isEqualToString:SETableSeparator] : YES;
+}
+
+- (nullable NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(nullable NSTableColumn *)tableColumn row:(NSInteger)row {
+  if (row >= 0 && (NSUInteger)row < [self count] && [[[self objectAtIndex:row] name] isEqualToString:SETableSeparator]) {
+    return [tableView makeViewWithIdentifier:@"separator" owner:self];
+  }
+  return [tableView makeViewWithIdentifier:@"default" owner:self];
 }
 
 #pragma mark Notifications

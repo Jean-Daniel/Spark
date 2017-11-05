@@ -19,6 +19,8 @@
   ApplicationVisualSetting aa_settings;
 }
 
+@synthesize URL = _url;
+
 #pragma mark -
 - (void)loadSparkAction:(ApplicationAction *)sparkAction toEdit:(BOOL)edit {
   [self willChangeValueForKey:@"visual"];
@@ -33,9 +35,9 @@
   [self didChangeValueForKey:@"notifyLaunch"];
   [self didChangeValueForKey:@"visual"];
   if (edit) {
-    [self setPath:[sparkAction path]];
-    [self setFlags:[sparkAction flags]];
-    [self setAction:[sparkAction action]];
+    self.URL = sparkAction.URL;
+    self.flags = sparkAction.flags;
+    self.action = sparkAction.action;
   } else {
     [self setAction:kApplicationLaunch];
   }
@@ -50,7 +52,7 @@
     case kApplicationForceQuitDialog:
       break;
     default:
-      if (!_path)
+      if (!_url)
         return [NSAlert alertWithMessageText:NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_APPLICATION_ALERT", nil, kApplicationActionBundle,
                                                                                 @"Create Action without Application Error * Title *")
                                defaultButton:NSLocalizedStringFromTableInBundle(@"OK", nil, kApplicationActionBundle,
@@ -78,15 +80,15 @@
     case kApplicationHideOther:
     case kApplicationForceQuitFront:
     case kApplicationForceQuitDialog:
-      [action setPath:nil];
-      [action setIcon:ApplicationActionIcon(action)];
+      action.URL = nil;
+      action.icon = ApplicationActionIcon(action);
       break;
     default: {
-      [action setPath:_path];
+      action.URL = _url;
       NSImage *icon = [[ibIcon image] copy];
       if (icon) {
         WBImageSetRepresentationsSize(icon, NSMakeSize(16, 16));
-        [action setIcon:icon];
+        action.icon = icon;
       }
     }
   }
@@ -113,48 +115,34 @@
   [ibTab selectTabViewItemAtIndex:1];
 }
 
-- (IBAction)chooseApplication:(id)sender {
+- (IBAction)chooseApplication:(NSView *)sender {
   NSOpenPanel *oPanel = [NSOpenPanel openPanel];
   
   [oPanel setCanChooseDirectories:NO];
   [oPanel setAllowsMultipleSelection:NO];
   
-  NSString *directory = [_path stringByDeletingLastPathComponent];
-  NSString *file = [_path lastPathComponent];
-  [oPanel beginSheetForDirectory:directory
-                            file:file
-                           types:[NSArray arrayWithObjects:@"app", @"APPL", nil]
-                  modalForWindow:[sender window]
-                   modalDelegate:self
-                  didEndSelector:@selector(choosePanel:returnCode:contextInfo:)
-                     contextInfo:nil];
-}
-
-- (void)choosePanel:(NSOpenPanel *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
-  if (returnCode == NSOKButton && [[sheet filenames] count] > 0) {
-    [self setPath:[[sheet filenames] objectAtIndex:0]];
-  }
+  oPanel.directoryURL = [_url URLByDeletingLastPathComponent];
+  oPanel.nameFieldStringValue = _url.lastPathComponent ?: @"";
+  oPanel.allowedFileTypes = @[ @"app", SPXCFToNSString(kUTTypeApplication) ];
+  [oPanel beginSheet:sender.window completionHandler:^(NSModalResponse returnCode) {
+    if (returnCode == NSOKButton && [oPanel.URLs count] > 0) {
+      [self setURL:oPanel.URLs.firstObject];
+    }
+  }];
 }
 
 #pragma mark -
-- (void)setPath:(NSString *)aPath {
-  SPXSetterCopyAndDo(_path, aPath, {
-    NSString *name = [[[NSFileManager defaultManager] displayNameAtPath:aPath] stringByDeletingPathExtension];
+- (void)setURL:(NSURL *)anURL {
+  NSArray *keys = @[NSURLEffectiveIconKey, NSURLLocalizedNameKey];
+  SPXSetterCopyAndDo(_url, anURL, {
+    NSDictionary *rsrc = [anURL resourceValuesForKeys:keys error:NULL];
+    NSString *name = [rsrc[NSURLLocalizedNameKey] stringByDeletingPathExtension];
     [ibApplication setStringValue:name ? : @""];
     [[ibName cell] setPlaceholderString:name ? : NSLocalizedStringFromTableInBundle(@"ACTION_NAME",
                                                                                     NULL, kApplicationActionBundle, 
                                                                                     @"Action Name Placeholder")];
-    NSImage *icon;
-    if (aPath) {
-      icon = [[NSWorkspace sharedWorkspace] iconForFile:aPath];
-      //if (icon) {
-      //      WBImageSetRepresentationsSize(icon, [ibIcon bounds].size);
-      //      [icon setSize:[ibIcon bounds].size];
-      //    }
-    } else {
-      icon = [NSImage imageNamed:@"AAUndefined" inBundle:SPXCurrentBundle()];
-    }
-    [ibIcon setImage:icon];
+    NSImage *icon = rsrc[NSURLEffectiveIconKey];
+    [ibIcon setImage:icon ?: [NSImage imageNamed:@"AAUndefined" inBundle:SPXCurrentBundle()]];
   });
 }
 
@@ -262,39 +250,39 @@
 
 #pragma mark -
 #pragma mark Flags Manipulation
-- (void)setFlags:(LSLaunchFlags)value {
-  [self setHide:(value & kLSLaunchAndHide) != 0];
-  [self setDontSwitch:(value & kLSLaunchDontSwitch) != 0];
-  [self setNewInstance:(value & kLSLaunchNewInstance) != 0];
-  [self setHideOthers:(value & kLSLaunchAndHideOthers) != 0];
+- (void)setFlags:(NSWorkspaceLaunchOptions)value {
+  [self setHide:(value & NSWorkspaceLaunchAndHide) != 0];
+  [self setDontSwitch:(value & NSWorkspaceLaunchWithoutActivation) != 0];
+  [self setNewInstance:(value & NSWorkspaceLaunchNewInstance) != 0];
+  [self setHideOthers:(value & NSWorkspaceLaunchAndHideOthers) != 0];
 }
 
 - (BOOL)dontSwitch {
-  return (_flags & kLSLaunchDontSwitch) != 0;
+  return (_flags & NSWorkspaceLaunchWithoutActivation) != 0;
 }
 - (void)setDontSwitch:(BOOL)dontSwitch {
-  _flags = dontSwitch ? _flags | kLSLaunchDontSwitch : _flags & ~kLSLaunchDontSwitch;
+  _flags = dontSwitch ? _flags | NSWorkspaceLaunchWithoutActivation : _flags & ~NSWorkspaceLaunchWithoutActivation;
 }
 
 - (BOOL)newInstance {
-  return (_flags & kLSLaunchNewInstance) != 0;
+  return (_flags & NSWorkspaceLaunchNewInstance) != 0;
 }
 - (void)setNewInstance:(BOOL)newInstance {
-  _flags = newInstance ? _flags | kLSLaunchNewInstance : _flags & ~kLSLaunchNewInstance;
+  _flags = newInstance ? _flags | NSWorkspaceLaunchNewInstance : _flags & ~NSWorkspaceLaunchNewInstance;
 }
 
 - (BOOL)hide {
-  return (_flags & kLSLaunchAndHide) != 0;
+  return (_flags & NSWorkspaceLaunchAndHide) != 0;
 }
 - (void)setHide:(BOOL)hide {
-  _flags = hide ? _flags | kLSLaunchAndHide : _flags & ~kLSLaunchAndHide;
+  _flags = hide ? _flags | NSWorkspaceLaunchAndHide : _flags & ~NSWorkspaceLaunchAndHide;
 }
 
 - (BOOL)hideOthers {
-  return (_flags & kLSLaunchAndHideOthers) != 0;
+  return (_flags & NSWorkspaceLaunchAndHideOthers) != 0;
 }
 - (void)setHideOthers:(BOOL)hideOthers {
-  _flags = hideOthers ? _flags | kLSLaunchAndHideOthers : _flags & ~kLSLaunchAndHideOthers;
+  _flags = hideOthers ? _flags | NSWorkspaceLaunchAndHideOthers : _flags & ~NSWorkspaceLaunchAndHideOthers;
 }
 
 #pragma mark -

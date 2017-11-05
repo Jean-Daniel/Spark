@@ -9,13 +9,11 @@
 #import "SEEntryEditor.h"
 
 #import "Spark.h"
-#import "SETableView.h"
 #import "SEPlugInHelp.h"
-#import "SEHeaderCell.h"
 #import "SEHotKeyTrap.h"
 #import "SEBuiltInPlugIn.h"
 #import "SEApplicationView.h"
-
+#import "SESeparatorCellView.h"
 
 #import <SparkKit/SparkPlugIn.h>
 #import <SparkKit/SparkHotKey.h>
@@ -29,6 +27,7 @@
 
 #import <WonderBox/WBGeometry.h>
 #import <WonderBox/WBFunctions.h>
+#import <WonderBox/WBTableView.h>
 #import <WonderBox/WBObjCRuntime.h>
 #import <WonderBox/NSString+WonderBox.h>
 
@@ -48,14 +47,12 @@
   NSMutableArray *se_plugins; /* plugins list */
   SparkActionPlugIn *se_plugin; /* current action plugin __weak */
 
-  NSMutableArray *se_views; /* binding cycle hack */
   NSMapTable *_sizes; /* plugin min sizes */
   NSMutableDictionary *_instances; /* plugin instances */
 }
 
 - (id)init {
   if (self = [super init]) {
-    se_views = [[NSMutableArray alloc] init];
     se_plugins = [[NSMutableArray alloc] init];
     _sizes = [[NSMapTable alloc] initWithKeyOptions:NSPointerFunctionsStrongMemory | NSPointerFunctionsObjectPersonality
                                        valueOptions:NSPointerFunctionsStrongMemory | NSPointerFunctionsObjectPersonality
@@ -65,16 +62,6 @@
     se_trap = [[SEHotKeyTrap alloc] initWithFrame:NSMakeRect(0, 0, 114, 22)];
   }
   return self;
-}
-
-- (void)awakeFromNib {
-  /* Configure Library Header Cell */
-  SEHeaderCell *header = [[SEHeaderCell alloc] initTextCell:NSLocalizedStringFromTable(@"HOTKEY_TYPE_HEADER",
-                                                                                       @"SEEditor", @"Hotkey Type column header")];
-  [header setAlignment:NSCenterTextAlignment];
-  [header setFont:[NSFont systemFontOfSize:11]];
-  [[[uiTypeTable tableColumns] objectAtIndex:0] setHeaderCell:header];
-  [uiTypeTable setCornerView:[[SEHeaderCellCorner alloc] initWithFrame:NSMakeRect(0, 0, 22, 22)]];
 }
 
 - (void)windowDidLoad {
@@ -99,7 +86,6 @@
   se_view = nil;
   se_plugin = nil;
   /* Remove plugins instances */
-  [se_views removeAllObjects];
   [_instances removeAllObjects];
   /* Release entry and reset view */
   self.entry = nil;
@@ -245,7 +231,7 @@
 
 - (SparkPlugIn *)actionType {
   NSInteger row = [uiTypeTable selectedRow];
-  return row >= 0 ? [se_plugins objectAtIndex:row] : nil;
+  return row >= 0 ? se_plugins[row] : nil;
 }
 
 - (void)setEntry:(SparkEntry *)anEntry {
@@ -311,6 +297,8 @@
   }
 }
 
+// MARK: -
+// MARK: Data Source and Delegate
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView {
   return [se_plugins count];
 }
@@ -321,10 +309,18 @@
 
 /* Separator Implementation */
 - (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row {
-  return row >= 0 && [[[se_plugins objectAtIndex:row] name] isEqualToString:SETableSeparator] ? 1 : [tableView rowHeight];
+  return row >= 0 && (NSUInteger)row < se_plugins.count && [[se_plugins[row] name] isEqualToString:SETableSeparator] ? 1 : [tableView rowHeight];
 }
+
 - (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(NSInteger)rowIndex {
-  return rowIndex >= 0 ? ![[[se_plugins objectAtIndex:rowIndex] name] isEqualToString:SETableSeparator] : YES;
+  return rowIndex >= 0 && (NSUInteger)rowIndex < se_plugins.count ? ![[se_plugins[rowIndex] name] isEqualToString:SETableSeparator] : YES;
+}
+
+- (nullable NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(nullable NSTableColumn *)tableColumn row:(NSInteger)row {
+  if (row >= 0 && (NSUInteger)row < se_plugins.count && [[se_plugins[row] name] isEqualToString:SETableSeparator]) {
+    return [tableView makeViewWithIdentifier:@"separator" owner:self];
+  }
+  return [tableView makeViewWithIdentifier:@"default" owner:self];
 }
 
 - (void)setActionType:(SparkPlugIn *)aPlugin {
@@ -365,12 +361,6 @@
     se_plugin = [aPlugin instantiatePlugIn];
     if (se_plugin) {
       _instances[aPlugin.identifier] = se_plugin;
-      
-      /* Become view ownership */
-      [se_views addObject:[se_plugin actionView]];
-      /* Say se_plugin to no longer retain the view, so we no longer get a retain cycle. */
-      [se_plugin releaseViewOwnership];
-      
       [self loadEntry:[aPlugin actionClass]];
     }
   } else if (force) {

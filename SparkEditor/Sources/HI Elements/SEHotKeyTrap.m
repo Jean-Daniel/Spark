@@ -636,7 +636,7 @@ CGLayerRef _HKCreateShading(CGContextRef ctxt, NSControlTint tint) {
 }
 
 - (NSArray *)accessibilityActionNames {
-  return [NSArray arrayWithObjects:NSAccessibilityConfirmAction, NSAccessibilityCancelAction, NSAccessibilityDeleteAction, nil];
+  return @[NSAccessibilityConfirmAction, NSAccessibilityCancelAction, NSAccessibilityDeleteAction];
 }
 
 - (NSString *)accessibilityActionDescription:(NSString *)action {

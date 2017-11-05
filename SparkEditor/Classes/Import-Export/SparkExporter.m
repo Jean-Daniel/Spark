@@ -260,7 +260,7 @@ CFXMLTreeRef TreeWithData(CFStringRef data) {
   [output writeData:[head dataUsingEncoding:NSUTF8StringEncoding]];
 
   id desc = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES selector:@selector(caseInsensitiveCompare:)];
-  id descs = [NSArray arrayWithObject:desc];
+  NSArray *descs = @[desc];
   [desc release];
   id sortedKeys = nil;
   if ([[list objects] count] > 0) {

@@ -42,6 +42,11 @@
   [[self view] setAutoresizingMask:[uiView autoresizingMask]];
 }
 
+- (void)setPlugInViewController:(NSViewController *)aController {
+  [self setChildViewControllers:@[ aController ]];
+  [self setPlugInView:aController.view];
+}
+
 - (NSView *)trapPlaceholder {
   return uiTrap;
 }

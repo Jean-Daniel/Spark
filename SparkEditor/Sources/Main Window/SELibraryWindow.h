@@ -8,7 +8,7 @@
 
 #import <SparkKit/SparkAppleScriptSuite.h>
 
-@class SEApplicationView, SETableView;
+@class SEApplicationView, WBTableView;
 @class SEEntryList, SparkEntry, SparkLibrary, SparkApplication;
 @class SEApplicationSource, SELibrarySource, SETriggersController;
 @interface SELibraryWindow : NSWindowController {
@@ -23,7 +23,7 @@
   IBOutlet NSDrawer *appDrawer;
   
   /* Library */
-  IBOutlet SETableView *libraryTable;
+  IBOutlet WBTableView *libraryTable;
   IBOutlet SELibrarySource *ibGroups;
   IBOutlet SEApplicationSource *ibApplications;
   
@@ -44,6 +44,7 @@
 
 @property(nonatomic, readonly) SETriggersController *triggers;
 
+- (IBAction)newTriggerFromMenu:(id)sender;
 - (IBAction)revealInApplication:(id)sender;
 
 @end

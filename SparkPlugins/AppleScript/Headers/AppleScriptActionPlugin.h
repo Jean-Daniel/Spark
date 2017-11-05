@@ -13,7 +13,7 @@
   IBOutlet OSAScriptController *ibScriptController;
 }
 
-@property(nonatomic, copy) NSString *scriptFile;
+@property(nonatomic, copy) NSURL *scriptFile;
 
 - (IBAction)open:(id)sender;
 - (IBAction)import:(id)sender;

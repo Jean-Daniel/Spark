@@ -14,13 +14,6 @@
   AXSMenu *_menu;
 }
 
-- (id)initWithProcess:(ProcessSerialNumber *)aProcess {
-  pid_t pid;
-  if (noErr == GetProcessPID(aProcess, &pid))
-    return [self initWithProcessIdentifier:pid];
-  return nil;
-}
-
 - (id)initWithProcessIdentifier:(pid_t)aPid {
   AXUIElementRef app = AXUIElementCreateApplication(aPid);
   if (app) {

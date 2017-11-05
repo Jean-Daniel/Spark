@@ -30,7 +30,7 @@
     ia_info = [[ITunesInfo alloc] init];
     [ia_info setDuration:163 rate:60];
     _configuration = kiTunesSettingDefault;
-    [self updateLocation:1];
+    [self updateLocation:0];
     [self setColorComponent:0];
   }
   return self;
@@ -66,7 +66,7 @@
 }
 
 WB_INLINE
-NSPoint _iTunesGetPointForIndex(int idx) {
+NSPoint _iTunesGetPointForIndex(NSInteger idx) {
   switch (idx) {
     case 0:
       return kiTunesUpperLeft;

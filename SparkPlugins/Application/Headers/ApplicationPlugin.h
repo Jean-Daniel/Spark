@@ -33,9 +33,9 @@
 @property(nonatomic, readonly) BOOL notifyLaunch;
 @property(nonatomic, readonly) BOOL notifyActivation;
 
-@property(nonatomic, copy) NSString * path;
+@property(nonatomic, copy) NSURL *URL;
 
-@property(nonatomic) LSLaunchFlags flags;
+@property(nonatomic) NSWorkspaceLaunchOptions flags;
 
 @property(nonatomic) BOOL dontSwitch;
 

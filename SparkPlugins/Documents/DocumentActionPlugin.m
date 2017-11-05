@@ -33,10 +33,10 @@
     [self willChangeValueForKey:@"action"];
     
     if (DocumentActionNeedDocument([sparkAction action])) {
-      [self setDocument:[[sparkAction document] path]];
+      [self setDocument:sparkAction.document.URL];
     }
     if (DocumentActionNeedApplication([sparkAction action])) {
-      [self setApplication:[[sparkAction application] path]];
+      [self setApplication:sparkAction.application.URL];
     }
     [self didChangeValueForKey:@"action"];
   } else {
@@ -94,13 +94,13 @@
   else
     [action setName:[[ibName cell] placeholderString]];
   
-  [action setDocumentPath:nil];
-  [action setApplicationPath:nil];
+  [action setDocumentURL:nil];
+  [action setApplicationURL:nil];
   
   /* Set Icon */
   if (DocumentActionNeedDocument([action action])) {
     [action setIcon:_documentIcon];
-    [action setDocumentPath:[self document]];
+    [action setDocumentURL:[self document]];
   } else if([action action] == kDocumentActionOpenSelectionWith) {
     [action setIcon:[[ibMenu selectedItem] image]];
   } else {
@@ -109,7 +109,7 @@
   
   /* Set App Path */
   if (DocumentActionNeedApplication([action action])) {
-    [action setApplicationPath:[self application]];
+    [action setApplicationURL:[self application]];
   }
   
   [action setActionDescription:DocumentActionDescription(action)];
@@ -125,17 +125,18 @@
     if (result == NSCancelButton || [[oPanel URLs] count] == 0) {
       return;
     }
-    [self setDocument:[[oPanel filenames] objectAtIndex:0]];
+    [self setDocument:[[oPanel URLs] firstObject]];
   }];
 }
 
-- (void)setDocument:(NSString *)file {
+- (void)setDocument:(NSURL *)file {
   if (_document != file) {
     _document = [file copy];
-    [ibMenu loadAppForDocument:[NSURL fileURLWithPath:_document]];
+    [ibMenu loadAppForDocument:_document];
     if (_document) {
-      [self setDocumentIcon:[[NSWorkspace sharedWorkspace] iconForFile:_document]];
-      [self setDocumentName:[[NSFileManager defaultManager] displayNameAtPath:_document]];
+      NSDictionary *rsrc = [_document resourceValuesForKeys:@[NSURLEffectiveIconKey, NSURLLocalizedNameKey] error:NULL];
+      [self setDocumentIcon:rsrc[NSURLEffectiveIconKey]];
+      [self setDocumentName:rsrc[NSURLLocalizedNameKey]];
     } else {
       [self setDocumentName:nil];
       [self setDocumentIcon:nil];
@@ -150,9 +151,8 @@
   }
   return nil;
 }
-- (void)setApplication:(NSString *)aPath {
+- (void)setApplication:(NSURL *)url {
   NSUInteger idx = [ibMenu numberOfItems];
-  NSURL *url = [NSURL fileURLWithPath:aPath];
   while (idx-- > 0) {
     id obj = [[ibMenu itemAtIndex:idx] representedObject];
     if (obj && [obj isKindOfClass:[NSDictionary class]]) {

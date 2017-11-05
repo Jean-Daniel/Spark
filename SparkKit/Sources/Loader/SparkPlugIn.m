@@ -16,10 +16,7 @@
 
 NSString * const SparkPlugInDidChangeStatusNotification = @"SparkPlugInDidChangeStatus";
 
-@implementation SparkPlugIn {
-@private
-  id sp_nib;
-}
+@implementation SparkPlugIn
 
 /* Check status */
 static 
@@ -210,18 +207,11 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
 }
 
 - (id)instantiatePlugIn {
-  if (!sp_nib) {
-    NSString *nib = [_plugInClass nibName];
-    if (nib) {
-      sp_nib = [[NSNib alloc] initWithNibNamed:nib bundle:SPXBundleForClass(_plugInClass)];
-    } else {
-      sp_nib = [NSNull null];
-      SPXDebug(@"Plugin does not have nib path");
-    }
-  }
-  SparkActionPlugIn *plugin = [[_plugInClass alloc] init];
-  if (sp_nib != [NSNull null]) 
-    [sp_nib instantiateNibWithOwner:plugin topLevelObjects:nil];
+  NSString *nib = [_plugInClass nibName];
+  NSBundle *bundle = SPXBundleForClass(_plugInClass);
+  SparkActionPlugIn *plugin = [[_plugInClass alloc] initWithNibName:nib bundle:bundle];
+  // Make sure the plugin is loaded
+  [plugin view];
   return plugin;
 }
 

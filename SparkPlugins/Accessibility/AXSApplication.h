@@ -11,7 +11,6 @@
 @class AXSMenu;
 @interface AXSApplication : AXSUIElement
 
-- (id)initWithProcess:(ProcessSerialNumber *)aProcess;
 - (id)initWithProcessIdentifier:(pid_t)aPid NS_DESIGNATED_INITIALIZER;
 
 @property(nonatomic, readonly) AXSMenu *menu;

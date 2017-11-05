@@ -11,6 +11,8 @@
 SPARK_EXPORT
 NSString * const SparkPlugInDidChangeStatusNotification;
 
+@class SparkActionPlugIn;
+
 /*!
     @abstract   Represent a Spark PlugIn Bundle.
 */
@@ -48,6 +50,6 @@ SPARK_OBJC_EXPORT
   @method
  @abstract Returns a new plugin instance.
 */
-- (id)instantiatePlugIn;
+- (SparkActionPlugIn *)instantiatePlugIn;
 
 @end

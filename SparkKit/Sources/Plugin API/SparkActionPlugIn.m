@@ -28,15 +28,8 @@
 
 @implementation SparkActionPlugIn {
 @private
-  IBOutlet NSView *actionView;
-
-  struct _sp_apFlags {
-    unsigned int ownership:1;
-    unsigned int reserved:31;
-  } sp_apFlags;
-
-  id sp_trap;
   SparkPlugInView *sp_ctrl;
+  SparkViewPlaceholder *sp_trap;
 }
 
 - (id)init {
@@ -46,16 +39,11 @@
   return self;
 }
 
-- (void)dealloc {
-//  if (sp_apFlags.ownership)
-//    [actionView release];
-}
-
 - (SparkPlugInView *)sp_controller {
   if (!sp_ctrl) {
     sp_ctrl = [[SparkPlugInView alloc] init];
     [sp_ctrl setPlugIn:self];
-    [sp_ctrl setPlugInView:actionView];
+    [sp_ctrl setPlugInViewController:self];
     [self setHotKeyTrapPlaceholder:[sp_ctrl trapPlaceholder]];
   }
   return sp_ctrl;
@@ -66,7 +54,11 @@
 }
 
 - (NSView *)actionView {
-  return [self hasCustomView] ? actionView : [[self sp_controller] view];
+  return self.viewController.view;
+}
+
+- (NSViewController *)viewController {
+  return [self hasCustomView] ? self : [self sp_controller];
 }
 
 - (void)setHotKeyTrap:(NSView *)trap {
@@ -156,20 +148,6 @@
   }
 }
 
-/* Called by Nib Loader only. Action view is a nib root object, so we should not retain it */
-- (void)setActionView:(NSView *)anActionView {
-  actionView = anActionView;
-  sp_apFlags.ownership = 1;
-}
-
-- (void)releaseViewOwnership {
-  /* If was owner, release the view */
-//  if (sp_apFlags.ownership) {
-//    [actionView release];
-//    sp_apFlags.ownership = 0;
-//  }
-}
-
 /* Compat */
 - (NSUndoManager *)undoManager {
   return nil;
@@ -204,7 +182,7 @@
   NSImage *image = [NSImage imageNamed:name inBundle:bundle];
   if (!image) {
     SPXLogWarning(@"%@: invalid plugin property list: key \"SparkPluginIcon\" not found", [bundle bundlePath]);
-    image = [NSImage imageNamed:@"PluginIcon" inBundle:kSparkKitBundle];
+    image = [NSImage imageNamed:@"PluginIcon" inBundle:SparkKitBundle()];
   }
   return image;
 }
@@ -234,7 +212,7 @@
 
 + (NSString *)plugInFullName {
   return [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"%@ Action", nil, 
-                                                                       kSparkKitBundle, @"Plugin fullname (%@ => name)"),
+                                                                       SparkKitBundle(), @"Plugin fullname (%@ => name)"),
     [self plugInName]];
 }
 
@@ -281,7 +259,7 @@ void __SparkViewPlaceholderSwapView(NSView *old, NSView *new) {
     SPXThrowException(NSInvalidArgumentException, @"Target view must bew a valid orphan view.");
   if (!old || ![old superview])
     SPXThrowException(NSInvalidArgumentException, @"Source view must have a valid superview.");
-  
+
   NSView *parent = [old superview];
   if (parent && new) {
     __SparkViewPlaceholderCopyProperties(old, new);

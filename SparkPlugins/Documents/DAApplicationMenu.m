@@ -71,7 +71,7 @@
       LSGetApplicationForURL(SPXNSToCFURL(url), kLSRolesAll, NULL, &prefered);
       /* Sort applications */
       NSSortDescriptor *desc = [[NSSortDescriptor alloc] initWithKey:@"path.lastPathComponent" ascending:NO selector:@selector(caseInsensitiveCompare:)];
-      NSArray *sorted = [applications sortedArrayUsingDescriptors:[NSArray arrayWithObject:desc]];
+      NSArray *sorted = [applications sortedArrayUsingDescriptors:@[desc]];
       NSEnumerator *urls = [sorted objectEnumerator];
       
       NSURL *application;

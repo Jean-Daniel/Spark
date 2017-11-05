@@ -67,14 +67,14 @@
 }
 
 - (SparkAlert *)performAction {
-  if (!AXAPIEnabled() && !AXIsProcessTrusted())
+  if (!AXIsProcessTrustedWithOptions(SPXNSToCFDictionary(@{ SPXCFToNSString(kAXTrustedCheckOptionPrompt): @NO })))
     return [SparkAlert alertWithMessageText:@"Accessibility should be turn on!"
                   informativeTextWithFormat:@"Please turn it on in system preferences."];
   
-  ProcessSerialNumber psn;
-  if (noErr != GetFrontProcess(&psn))
+  pid_t pid = [NSWorkspace.sharedWorkspace frontmostApplication].processIdentifier;
+  if (pid <= 0)
     return nil;
-  AXSApplication *app = [[AXSApplication alloc] initWithProcess:&psn];
+  AXSApplication *app = [[AXSApplication alloc] initWithProcessIdentifier:pid];
   if (!app)
     return nil;
   AXSMenu *menu = [app menu];

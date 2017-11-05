@@ -22,9 +22,9 @@
 
 @property(nonatomic) DocumentActionType action;
 
-@property(nonatomic, copy) NSString *document;
+@property(nonatomic, copy) NSURL *document;
 
-@property(nonatomic, copy) NSString *application;
+@property(nonatomic, copy) NSURL *application;
 
 @property(nonatomic) NSInteger tabIndex;
 

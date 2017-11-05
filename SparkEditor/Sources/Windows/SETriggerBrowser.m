@@ -89,7 +89,7 @@
   NSArray *entries = [[se_library entryManager] entriesForTrigger:trigger];
   NSUInteger idx = [entries count];
   while (idx-- > 0) {
-    [result addObject:[entries objectAtIndex:idx]];
+    [result addObject:entries[idx]];
   }
   return result;
 }
@@ -97,9 +97,9 @@
 - (void)awakeFromNib {
   /* Load triggers */
   [[se_library triggerSet] enumerateObjectsUsingBlock:^(SparkTrigger *trigger, BOOL *stop) {
-    NSDictionary *entry = [NSDictionary dictionaryWithObjectsAndKeys:
-                           trigger, @"trigger",
-                           [self entries:trigger], @"entries", nil];
+    NSDictionary *entry = @{
+                            @"trigger": trigger,
+                            @"entries": [self entries:trigger]};
     [self->ibTriggers addObject:entry];
   }];
 }

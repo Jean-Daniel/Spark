@@ -77,8 +77,7 @@ void _Setup(SEPlugInInstaller *self) {
   AEDesc desc = WBAEEmptyDesc();
   OSStatus err = fnfErr;
   FSRef src, dest;
-  if (CFURLGetFSRef(SPXNSToCFURL(file), &src) &&
-      CFURLGetFSRef(SPXNSToCFURL(destination), &dest)) {
+  if (CFURLGetFSRef(SPXNSToCFURL(file), &src) && CFURLGetFSRef(SPXNSToCFURL(destination), &dest)) {
     OSType finder = 'MACS';
     err = AEBuildAppleEvent(kAECoreSuite, flag ? kAECopy : kAEMove, 
                             typeApplSignature, &finder, sizeof(OSType),
@@ -153,7 +152,7 @@ dispose:
         NSUInteger count = [cmpt count];
         NSURL *tmp = WBFSFindFolder(kTemporaryFolderType, kLocalDomain, true);
         while (count-- > 0) {
-          tmp = [tmp URLByAppendingPathComponent:[cmpt objectAtIndex:count]];
+          tmp = [tmp URLByAppendingPathComponent:cmpt[count]];
           if (!root)
             root = tmp;
           [manager createDirectoryAtURL:tmp withIntermediateDirectories:NO attributes:nil error:NULL];

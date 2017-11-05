@@ -368,9 +368,9 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
   /* Track Name */
   if (track) {
     if ('cURT' == cls)
-      iTunesCopyCurrentStreamTitle(&value); /* current stream title */
+      value = iTunesCopyCurrentStreamTitle(NULL); /* current stream title */
     else
-      iTunesCopyTrackStringProperty(track, kiTunesNameKey, &value);
+      value = iTunesCopyTrackStringProperty(track, kiTunesNameKey, NULL);
   }
   if (value) {
     [_ibName setStringValue:SPXCFStringBridgingRelease(value)];
@@ -382,9 +382,9 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
   /* Album */
   if (track) {
     if ('cURT' == cls)
-      iTunesCopyTrackStringProperty(track, kiTunesNameKey, &value); /* radio name */
+      value = iTunesCopyTrackStringProperty(track, kiTunesNameKey, NULL); /* radio name */
     else
-      iTunesCopyTrackStringProperty(track, kiTunesAlbumKey, &value);
+      value = iTunesCopyTrackStringProperty(track, kiTunesAlbumKey, NULL);
   }
   if (value) {
     [_ibAlbum setStringValue:SPXCFStringBridgingRelease(value)];
@@ -396,9 +396,9 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
   /* Artist */
   if (track) {
     if ('cURT' == cls)
-      iTunesCopyTrackStringProperty(track, kiTunesCategoryKey, &value); /* category not available for radio */
+      value = iTunesCopyTrackStringProperty(track, kiTunesCategoryKey, NULL); /* category not available for radio */
     else
-      iTunesCopyTrackStringProperty(track, kiTunesArtistKey, &value);
+      value = iTunesCopyTrackStringProperty(track, kiTunesArtistKey, NULL);
   }
   
   if (value) {
@@ -437,7 +437,7 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
 	if (track && _displayArtwork) {
     OSType type;
 		CFDataRef data = NULL;
-		if (noErr == iTunesCopyTrackArtworkData(track, &data, &type) && data) {
+		if ((data = iTunesCopyTrackArtworkData(track, &type, NULL))) {
 			NSImage *image = [[NSImage alloc] initWithData:SPXCFDataBridgingRelease(data)];
 			if (image) {
 				// display image zone

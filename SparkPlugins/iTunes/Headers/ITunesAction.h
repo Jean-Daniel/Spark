@@ -11,7 +11,16 @@
 #import "ITunesInfo.h"
 
 #define kiTunesActionBundleIdentifier @"org.shadowlab.spark.action.itunes"
-#define kiTunesActionBundle		      [NSBundle bundleWithIdentifier:kiTunesActionBundleIdentifier]
+
+WB_INLINE
+NSBundle *_iTunesActionBundle(void) {
+  static NSBundle *actionBundle = nil;
+  if (!actionBundle)
+    actionBundle = [NSBundle bundleWithIdentifier:kiTunesActionBundleIdentifier];
+  return actionBundle;
+}
+
+#define kiTunesActionBundle _iTunesActionBundle()
 
 typedef NS_ENUM(uint32_t, iTunesAction) {
   kiTunesLaunch        = 'Laun', /* 1281455470 */

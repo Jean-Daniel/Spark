@@ -107,7 +107,7 @@ NSString * const SESparkEditorDidChangePlugInStatusNotification = @"SESparkEdito
   
   NSArray *plugins = [[SparkActionLoader sharedLoader] plugins];
   for (NSUInteger idx = 0; idx < [plugins count]; idx++) {
-    SparkPlugIn *plugin = [plugins objectAtIndex:idx];
+    SparkPlugIn *plugin = plugins[idx];
     NSString *sdef = [plugin sdefFile];
     if (sdef) {
       NSXMLDocument *doc = [[NSXMLDocument alloc] initWithContentsOfURL:[NSURL fileURLWithPath:sdef]
@@ -137,8 +137,7 @@ NSString * const SESparkEditorDidChangePlugInStatusNotification = @"SESparkEdito
   if ([window respondsToSelector:@selector(isTrapping)] && [window isTrapping]) {
     [window handleHotKey:sender];
   } else {
-    ProcessSerialNumber psn = {0, kCurrentProcess};
-    HKEventTarget target = { .psn = &psn };
+    HKEventTarget target = { .pid = getpid() };
     HKEventPostKeystrokeToTarget([sender keycode], [sender nativeModifier], target, kHKEventTargetProcess, NULL, kHKEventDefaultLatency);
   }
 }
@@ -190,21 +189,22 @@ NSString * const SESparkEditorDidChangePlugInStatusNotification = @"SESparkEdito
 }
 
 + (Spark *)sharedSpark {
-  return [NSApp delegate];
+  return (Spark *)[NSApp delegate];
 }
 
 #pragma mark Init And Destroy
 - (id)init {
   if (self = [super init]) {
 #if defined (DEBUG)
-    [[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
+    [[NSUserDefaults standardUserDefaults] registerDefaults:
+     @{
       //@"YES", @"NSShowNonLocalizedStrings",
       //@"YES", @"NSShowAllViews",
       //WBFloat(0.15f), @"NSWindowResizeTime",
       //@"6", @"NSDragManagerLogLevel",
       //@"YES", @"NSShowNonLocalizableStrings",
       //@"1", @"NSScriptingDebugLogLevel",
-      nil]];
+       }];
 #endif
     
     /* Check active library sanity */
@@ -416,9 +416,9 @@ bool SparkDebugEnabled = false;
 }
 
 - (BOOL)se_openDefaultLibrary {
-  SELibraryDocument *doc = [[NSDocumentController sharedDocumentController] makeUntitledDocumentOfType:@"org.shadowlab.spark.library"];
+  SELibraryDocument *doc = [[NSDocumentController sharedDocumentController] makeUntitledDocumentOfType:@"org.shadowlab.spark.library" error:NULL];
   if (!doc)
-    doc = [[NSDocumentController sharedDocumentController] makeUntitledDocumentOfType:@"SparkLibraryFile"];
+    doc = [[NSDocumentController sharedDocumentController] makeUntitledDocumentOfType:@"SparkLibraryFile" error:NULL];
   if (doc) {
     [[NSDocumentController sharedDocumentController] addDocument:doc];
     [doc setLibrary:SparkActiveLibrary()];
@@ -514,9 +514,11 @@ bool SparkDebugEnabled = false;
                                                                @"About Plugin (%@ => Plugin name)"), [plugin name]] 
            forKey:@"ApplicationName"];
   if (plugin.URL) {
-    NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:[plugin.URL path]];
-    [icon setSize:NSMakeSize(64, 64)];
-    [opts setObject:icon forKey:@"ApplicationIcon"];
+    NSImage *icon = nil;
+    if ([plugin.URL getResourceValue:&icon forKey:NSURLEffectiveIconKey error:NULL]) {
+      [icon setSize:NSMakeSize(64, 64)];
+      [opts setObject:icon forKey:@"ApplicationIcon"];
+    }
     NSBundle *bundle = [NSBundle bundleWithURL:plugin.URL];
   
     NSString *credits = nil;
@@ -548,8 +550,8 @@ bool SparkDebugEnabled = false;
 - (void)createDebugMenu {
   NSMenuItem *debugMenu = [[NSMenuItem alloc] initWithTitle:@"" action:nil keyEquivalent:@""];
   NSMenu *menu = [[NSMenu alloc] initWithTitle:@"Debug"];
-  [menu addItemWithTitle:@"Importer" action:@selector(openImporter:) keyEquivalent:@""];
-  [menu addItemWithTitle:@"Trigger Browser" action:@selector(openTriggerBrowser:) keyEquivalent:@""];
+//  [menu addItemWithTitle:@"Importer" action:@selector(openImporter:) keyEquivalent:@""];
+//  [menu addItemWithTitle:@"Trigger Browser" action:@selector(openTriggerBrowser:) keyEquivalent:@""];
   [menu addItem:[NSMenuItem separatorItem]];
   [menu addItemWithTitle:@"Dump Library" action:@selector(dumpLibrary:) keyEquivalent:@""];
   [menu addItemWithTitle:@"External Representation" action:@selector(dumpExternal:) keyEquivalent:@""];

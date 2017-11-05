@@ -14,23 +14,13 @@
 #if defined(DEBUG)
 	static
 	CFStringRef const kSparkPreferencesIdentifier = CFSTR("org.shadowlab.Spark-debug");
-	#if __LP64__
-		static
-		CFStringRef const kSparkPreferencesService = CFSTR("org.shadowlab.spark.preferences.debug.64");
-	#else
-		static
-		CFStringRef const kSparkPreferencesService = CFSTR("org.shadowlab.spark.preferences.debug");
-	#endif
+  static
+  CFStringRef const kSparkPreferencesService = CFSTR("org.shadowlab.spark.preferences.debug");
 #else
 	static
 	CFStringRef const kSparkPreferencesIdentifier = CFSTR("org.shadowlab.Spark");
-	#if __LP64__
-		static
-		CFStringRef const kSparkPreferencesService = CFSTR("org.shadowlab.spark.preferences.64");
-	#else
-		static
-		CFStringRef const kSparkPreferencesService = CFSTR("org.shadowlab.spark.preferences");
-	#endif
+  static
+  CFStringRef const kSparkPreferencesService = CFSTR("org.shadowlab.spark.preferences");
 #endif
 
 enum {
@@ -55,9 +45,9 @@ void SparkPreferencesNotifyObservers(NSString *key, id value, SparkPreferencesDo
 static
 CFDataRef _SparkPreferencesHandleMessage(CFMessagePortRef local, SInt32 msgid, CFDataRef data, void *info) {
   if (kSparkPreferencesMessageID == msgid) {
-    NSDictionary *request = [NSPropertyListSerialization propertyListFromData:SPXCFToNSData(data)
-                                                             mutabilityOption:NSPropertyListImmutable
-                                                                       format:NULL errorDescription:NULL];
+    NSDictionary *request = [NSPropertyListSerialization propertyListWithData:SPXCFToNSData(data)
+                                                                      options:NSPropertyListImmutable
+                                                                       format:NULL error:NULL];
     if (request) {
       NSString *key = request[@"key"];
       SparkPreferencesDomain domain = [request[@"domain"] integerValue];
@@ -95,16 +85,13 @@ void _SparkPreferencesStartServer(void) {
 }
 
 static
-void _SparkPreferencesSetDaemonValue(NSString *key, id value, SparkPreferencesDomain domain) {
+void _SparkPreferencesSetDaemonValue(NSString *key, __nullable id value, SparkPreferencesDomain domain) {
   if (SparkDaemonIsRunning()) {
     spx_trace();
-    NSDictionary *request = [NSDictionary dictionaryWithObjectsAndKeys:
-      key, @"key",
-      @(domain), @"domain",
-      value, @"value", nil];
-    NSData *data = [NSPropertyListSerialization dataFromPropertyList:request
+    NSDictionary *request = value ? @{ @"key": key, @"domain": @(domain), @"value": (id)value } : @{ @"key": key, @"domain": @(domain) };
+    NSData *data = [NSPropertyListSerialization dataWithPropertyList:request
                                                               format:NSPropertyListBinaryFormat_v1_0
-                                                    errorDescription:NULL];
+                                                             options:0 error:NULL];
     if (data) {
       CFMessagePortRef port = CFMessagePortCreateRemote(kCFAllocatorDefault, kSparkPreferencesService);
       if (port) {
@@ -170,16 +157,18 @@ id SparkPreferencesGetValue(NSString *key, SparkPreferencesDomain domain) {
   }
   SPXThrowException(NSInvalidArgumentException, @"Unsupported preference domain: %ti", domain);
 }
+
 BOOL SparkPreferencesGetBooleanValue(NSString *key, SparkPreferencesDomain domain) {
   return [SparkPreferencesGetValue(key, domain) boolValue];
 }
+
 NSInteger SparkPreferencesGetIntegerValue(NSString *key, SparkPreferencesDomain domain) {
   return [SparkPreferencesGetValue(key, domain) integerValue];
 }
 
 #pragma mark Setter
 static
-void _SparkPreferencesSetValue(NSString *key, id value, SparkPreferencesDomain domain, BOOL synchronize) {
+void _SparkPreferencesSetValue(NSString *key, __nullable id value, SparkPreferencesDomain domain, BOOL synchronize) {
   SPXDebug(@"SparkPreferencesSetValue(%@, %@, %ld)", key, value, (long)domain);
   /* If daemon context, register preferences port */
   if (SparkGetCurrentContext() != kSparkContext_Editor) {
@@ -217,7 +206,7 @@ void _SparkPreferencesSetValue(NSString *key, id value, SparkPreferencesDomain d
   }
 }
 
-void SparkPreferencesSetValue(NSString *key, id value, SparkPreferencesDomain domain) {
+void SparkPreferencesSetValue(NSString *key, __nullable id value, SparkPreferencesDomain domain) {
   _SparkPreferencesSetValue(key, value, domain, YES);
 }
 
