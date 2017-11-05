@@ -1,21 +1,22 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4510" systemVersion="13A598" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" promptedForUpgradeToXcode5="NO">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="13529" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <deployment defaultVersion="1070" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4510"/>
-        <plugIn identifier="com.apple.WebKitIBPlugin" version="3336"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13529"/>
+        <plugIn identifier="com.apple.WebKitIBPlugin" version="13529"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="SEPluginHelp">
+        <customObject id="-2" userLabel="File's Owner" customClass="SEPlugInHelp">
             <connections>
-                <outlet property="ibHead" destination="23" id="24"/>
+                <outlet property="ibPlugins" destination="b8C-9P-WDl" id="RDg-DA-yfS"/>
                 <outlet property="ibWeb" destination="7" id="9"/>
                 <outlet property="window" destination="5" id="8"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
-        <customObject id="-3" userLabel="Application"/>
-        <window title="Help" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" releasedWhenClosed="NO" wantsToBeColor="NO" visibleAtLaunch="NO" frameAutosaveName="SparkPluginHelp" animationBehavior="default" id="5" userLabel="Window" customClass="NSPanel">
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <window title="Help" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="SparkPluginHelp" animationBehavior="default" id="5" userLabel="Window" customClass="NSPanel">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="321" y="305" width="476" height="499"/>
@@ -25,17 +26,60 @@
                 <rect key="frame" x="0.0" y="0.0" width="476" height="499"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <webView id="7">
-                        <rect key="frame" x="0.0" y="0.0" width="476" height="483"/>
+                    <webView misplaced="YES" id="7">
+                        <rect key="frame" x="0.0" y="0.0" width="476" height="472"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <webPreferences key="preferences" defaultFontSize="12" defaultFixedFontSize="12"/>
+                        <webPreferences key="preferences" defaultFontSize="12" defaultFixedFontSize="12">
+                            <nil key="identifier"/>
+                        </webPreferences>
                     </webView>
-                    <customView id="23" customClass="WBHeaderView">
-                        <rect key="frame" x="0.0" y="483" width="476" height="17"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                    </customView>
+                    <button verticalHuggingPriority="750" misplaced="YES" id="VQn-vJ-Y9r">
+                        <rect key="frame" x="1" y="465" width="38" height="38"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" bezelStyle="rounded" image="SEBack" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="gOf-Ai-ZLk">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="goBack:" target="7" id="EPe-9O-0cO"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" misplaced="YES" id="552-hO-dAg">
+                        <rect key="frame" x="29" y="465" width="38" height="38"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" bezelStyle="rounded" image="SEForward" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="m6I-uj-ax1">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="goForward:" target="7" id="MYX-Fh-Awo"/>
+                        </connections>
+                    </button>
+                    <popUpButton verticalHuggingPriority="750" misplaced="YES" id="b8C-9P-WDl">
+                        <rect key="frame" x="66" y="472" width="137" height="25"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" selectedItem="2fo-FW-Rke" id="7Ft-pi-oBt">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="smallSystem"/>
+                            <menu key="menu" id="Kso-HO-hB7">
+                                <items>
+                                    <menuItem title="Item 1" state="on" id="2fo-FW-Rke"/>
+                                    <menuItem title="Item 2" id="Ccl-gJ-f3m"/>
+                                    <menuItem title="Item 3" id="xHL-R5-5v8"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                        <connections>
+                            <action selector="selectPlugIn:" target="-2" id="0bh-uk-A8D"/>
+                        </connections>
+                    </popUpButton>
                 </subviews>
             </view>
+            <point key="canvasLocation" x="139" y="161.5"/>
         </window>
     </objects>
+    <resources>
+        <image name="SEBack" width="128" height="128"/>
+        <image name="SEForward" width="128" height="128"/>
+    </resources>
 </document>

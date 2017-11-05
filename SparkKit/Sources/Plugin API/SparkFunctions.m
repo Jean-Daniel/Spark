@@ -12,7 +12,6 @@
 #import <SparkKit/SparkPrivate.h>
 #import <SparkKit/SparkMultipleAlerts.h>
 
-#import <WonderBox/WBIconView.h>
 #import <WonderBox/WBImageView.h>
 #import <WonderBox/WBBezelItem.h>
 #import <WonderBox/WBAEFunctions.h>

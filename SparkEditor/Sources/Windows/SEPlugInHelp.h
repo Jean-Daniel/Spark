@@ -9,10 +9,10 @@
 #import <WonderBox/WBWindowController.h>
 
 @class WebView;
-@class SparkPlugIn, WBHeaderView;
+@class SparkPlugIn;
 @interface SEPlugInHelp : WBWindowController {
   IBOutlet WebView *ibWeb;
-  IBOutlet WBHeaderView *ibHead;
+  IBOutlet NSPopUpButton *ibPlugins;
 }
 
 + (id)sharedPlugInHelp;

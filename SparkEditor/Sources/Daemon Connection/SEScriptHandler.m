@@ -8,7 +8,7 @@
 
 #import "SEScriptHandler.h"
 
-#pragma mark -
+// MARK: -
 @implementation SparkEditor (SEScriptHandler)
 
 - (void)handleHelpScriptCommand:(NSScriptCommand *)scriptCommand {
@@ -21,7 +21,7 @@
   }
 }
 
-#pragma mark Trapping property accessor
+// MARK: Trapping property accessor
 - (BOOL)isTrapping {
   id window = [NSApp keyWindow];
   if (window && [window respondsToSelector:@selector(isTrapping)]) {

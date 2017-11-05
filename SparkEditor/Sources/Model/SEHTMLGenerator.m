@@ -22,7 +22,6 @@
 #import <SparkKit/SparkEntryManager.h>
 #import <SparkKit/SparkActionLoader.h>
 
-#import <WonderBox/WBBase64.h>
 #import <WonderBox/WBXMLTemplate.h>
 
 @implementation SEHTMLGenerator {
@@ -175,7 +174,7 @@ NSComparisonResult _SETriggerCompare(SparkTrigger *t1, SparkTrigger *t2, void *c
   CGImageRelease(img);
   CFRelease(dest);
   
-  CFDataRef b64 = WBBase64CreateDataByEncodingData(png);
+  CFDataRef b64 = SPXCFDataBridgingRetain([SPXCFToNSData(png) base64EncodedDataWithOptions:0]);
   CGContextRelease(ctxt);
   CFRelease(png);
   free(data);

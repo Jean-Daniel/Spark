@@ -80,7 +80,7 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
 
 @implementation SparkLibrary {
 @private
-  CFUUIDRef _uuid;
+  NSUUID *_uuid;
   NSUInteger _version;
 
   SparkObjectSet *_objects[4];
@@ -146,14 +146,10 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
   /* Unload library */
   if ([self isLoaded])
     [self unload];
-  
-  /* Release others */
-  if (_uuid)
-    CFRelease(_uuid);
 }
 
 - (NSUInteger)hash {
-  return _uuid ? CFHash(_uuid) : 0;
+  return _uuid ? _uuid.hash : 0;
 }
 
 - (BOOL)isEqual:(id)object {
@@ -161,7 +157,7 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
     return NO;
   if (!_uuid) return ![object uuid];
   if (![object uuid]) return !_uuid;
-  return CFEqual(_uuid, [object uuid]);
+  return [_uuid isEqual:[object uuid]];
 }
 
 #pragma mark -
@@ -387,12 +383,8 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
       [library addRegularFileWithContents:data preferredFilename:kSparkLibraryPreferencesFile];
 
     /* Library infos */
-    CFStringRef uuid = _uuid ? CFUUIDCreateString(kCFAllocatorDefault, _uuid) : nil;
-    NSDictionary *info = [NSDictionary dictionaryWithObjectsAndKeys:
-                          @(kSparkLibraryCurrentVersion), @"Version",
-                          uuid, @"UUID",
-                          nil];
-    CFRelease(uuid);
+    NSDictionary *info = @{ @"Version": @(kSparkLibraryCurrentVersion),
+                            @"UUID": [_uuid UUIDString] };
     data = [NSPropertyListSerialization dataWithPropertyList:info
                                                       format:NSPropertyListXMLFormat_v1_0
                                                      options:0 error:NULL];
@@ -448,26 +440,16 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
     /* Load uuid */
     NSString *uuid = plist[@"UUID"];
     if (uuid) {
-      CFUUIDRef uuidref = CFUUIDCreateFromString(kCFAllocatorDefault, (CFStringRef)uuid);
-      if (uuidref) {
-        if (_uuid)
-          CFRelease(_uuid);
-        _uuid = uuidref;
-      }
+      _uuid = [[NSUUID alloc] initWithUUIDString:uuid];
       NSAssert(_uuid != NULL, @"Invalid null UUID");
     } else {
-      if (_uuid)
-        CFRelease(_uuid);
-      _uuid = CFUUIDCreate(kCFAllocatorDefault);
+      _uuid = [NSUUID UUID];
     }
     /* Library version */
     _version = [plist[@"Version"] integerValue];
   } else {
     _version = kSparkLibraryCurrentVersion;
-    
-    if (_uuid)
-      CFRelease(_uuid);
-    _uuid = CFUUIDCreate(kCFAllocatorDefault);
+    _uuid = [NSUUID UUID];
   }
 }
 
@@ -608,8 +590,7 @@ bail:
 #pragma mark Utilities Functions
 static
 NSString *_SparkLibraryCopyUUIDString(SparkLibrary *aLibrary) {
-  CFUUIDRef uuid = [aLibrary uuid];
-  return uuid ? SPXCFToNSString(CFUUIDCreateString(kCFAllocatorDefault, uuid)) : NULL;
+  return [aLibrary.uuid UUIDString];
 }
 
 NSURL *SparkLibraryFolder(void) {
@@ -721,12 +702,13 @@ SparkLibrary *SparkLibraryGetLibraryAtURL(NSURL *url, BOOL create) {
   return library;
 }
 
-SparkLibrary *SparkLibraryGetLibraryWithUUID(CFUUIDRef uuid) {
-  if (!sLibraries) SparkInitLibraries();
+SparkLibrary *SparkLibraryGetLibraryWithUUID(NSUUID *uuid) {
+  if (!sLibraries)
+    SparkInitLibraries();
 
   for (SparkLibrary *lib in sLibraries) {
     NSCAssert(lib.uuid != NULL, @"Invalid Library (null uuid)");
-    if (CFEqual(lib.uuid, uuid))
+    if ([lib.uuid isEqual:uuid])
       return lib;
   }
   return nil;

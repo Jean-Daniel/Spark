@@ -76,10 +76,9 @@ NSString * const kSparkLibraryArchiveFileName = @"Spark Library";
     [doc setValue:[NSString stringWithFormat:@"%u", 1] forAttribute:@"format" property:@"archive"];
     
     /* library version */
-    CFStringRef str = CFUUIDCreateString(kCFAllocatorDefault, [self uuid]);
+    NSString *str = self.uuid.UUIDString;
     if (str) {
-      [doc setValue:SPXCFToNSString(str) forProperty:@"library/uuid"];
-      CFRelease(str);
+      [doc setValue:str forProperty:@"library/uuid"];
     }
     [doc setValue:[NSString stringWithFormat:@"%lu", (unsigned long)kSparkLibraryCurrentVersion] forAttribute:@"version" property:@"library"];
     

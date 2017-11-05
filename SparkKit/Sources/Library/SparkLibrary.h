@@ -49,7 +49,7 @@ SPARK_EXPORT
 void SparkLibraryDeleteIconCache(SparkLibrary *library);
 
 SPARK_EXPORT
-SparkLibrary *SparkLibraryGetLibraryWithUUID(CFUUIDRef uuid);
+SparkLibrary *SparkLibraryGetLibraryWithUUID(NSUUID *uuid);
 SPARK_EXPORT
 SparkLibrary *SparkLibraryGetLibraryAtURL(NSURL *path, BOOL create);
 
@@ -67,7 +67,7 @@ SPARK_OBJC_EXPORT
 
 @property(nonatomic, readonly) SparkApplication *systemApplication;
 
-@property(nonatomic, readonly) CFUUIDRef uuid;
+@property(nonatomic, readonly) NSUUID *uuid;
 
 @property(nonatomic, copy, setter=setURL:) NSURL *URL;
 

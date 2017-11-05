@@ -15,16 +15,13 @@
 #import <SparkKit/SparkPlugIn.h>
 #import <SparkKit/SparkActionLoader.h>
 
-#import <WonderBox/WBHeaderView.h>
-
 @interface SEPlugInHelp () <WebFrameLoadDelegate>
 
 @end
 
 @implementation SEPlugInHelp {
 @private
-  NSPopUpButton *se_plugins;
-  NSButton *se_previous, *se_next;
+
 }
 
 + (id)sharedPlugInHelp {
@@ -98,18 +95,11 @@
       [[ibWeb mainFrame] loadHTMLString:@"no plugin help available" baseURL:nil];
     }
   }
+
+  [ibPlugins setMenu:aMenu];
   
-  if (!se_plugins) {
-    se_plugins = [ibHead addMenu:aMenu position:kWBHeaderLeft];
-    se_plugins.target = self;
-    se_plugins.action = @selector(selectPlugIn:);
-  } else {
-    [se_plugins setMenu:aMenu];
-  }
-  
-  if ([aMenu numberOfItems]) {
+  if ([aMenu numberOfItems])
     [self selectPlugIn:[aMenu itemAtIndex:0]];
-  }
 }
 
 - (void)didLoadPlugIn:(NSNotification *)aNotification {
@@ -117,37 +107,35 @@
 }
 
 - (void)awakeFromNib {
-  if (!se_previous) {
-    se_previous = [ibHead addButton:[NSImage imageNamed:@"SEBack"] position:kWBHeaderLeft];
-    se_previous.target = ibWeb;
-    se_previous.action = @selector(goBack:);
-    [se_previous bind:@"enabled" toObject:ibWeb withKeyPath:@"canGoBack" options:nil];
-    
-    se_next = [ibHead addButton:[NSImage imageNamed:@"SEForward"] position:kWBHeaderLeft];
-    se_next.target = ibWeb;
-    se_next.action = @selector(goForward:);
-    [se_next bind:@"enabled" toObject:ibWeb withKeyPath:@"canGoForward" options:nil];
-    
-    [ibWeb setFrameLoadDelegate:self];
-    [self loadPlugInMenu];
-  }
+//    se_previous = [ibHead addButton:[NSImage imageNamed:@"SEBack"] position:kWBHeaderLeft];
+//    se_previous.target = ibWeb;
+//    se_previous.action = @selector(goBack:);
+//    [se_previous bind:@"enabled" toObject:ibWeb withKeyPath:@"canGoBack" options:nil];
+//
+//    se_next = [ibHead addButton:[NSImage imageNamed:@"SEForward"] position:kWBHeaderLeft];
+//    se_next.target = ibWeb;
+//    se_next.action = @selector(goForward:);
+//    [se_next bind:@"enabled" toObject:ibWeb withKeyPath:@"canGoForward" options:nil];
+
+  [ibWeb setFrameLoadDelegate:self];
+  [self loadPlugInMenu];
 }
 
 #pragma mark -
 - (void)setPage:(NSString *)aPage {
-  if (aPage && [se_plugins indexOfItemWithTitle:aPage] != NSNotFound) {
-    [se_plugins selectItemWithTitle:aPage];
+  if (aPage && [ibPlugins indexOfItemWithTitle:aPage] != NSNotFound) {
+    [ibPlugins selectItemWithTitle:aPage];
     [self selectPlugIn:nil];
   }
 }
 
 - (void)setPlugIn:(SparkPlugIn *)aPlugin {
-  [se_plugins selectItemWithTitle:[aPlugin name]];
+  [ibPlugins selectItemWithTitle:aPlugin.name];
   [self selectPlugIn:nil];
 }
 
-- (IBAction)selectPlugIn:(id)sender {
-  NSString *path = [[se_plugins selectedItem] representedObject];
+- (IBAction)selectPlugIn:(NSPopUpButton *)sender {
+  NSString *path = [[ibPlugins selectedItem] representedObject];
   if (path) {
     [[ibWeb backForwardList] setCapacity:0];
     [ibWeb setValue:path forKey:@"mainFrameURL"];

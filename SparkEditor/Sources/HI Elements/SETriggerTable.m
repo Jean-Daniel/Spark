@@ -144,7 +144,7 @@
     size = NSMakeSize([anImage size].width, [badge size].height);
     [anImage setSize:size];
   }
-  [badge compositeToPoint:NSZeroPoint operation:NSCompositeSourceOver];
+  [badge drawAtPoint:NSZeroPoint fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
   [anImage unlockFocus];
   
   return anImage;

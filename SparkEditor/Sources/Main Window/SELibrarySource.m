@@ -274,15 +274,14 @@
 - (BOOL)tableView:(NSTableView *)aTableView acceptDrop:(id <NSDraggingInfo>)info row:(NSInteger)row dropOperation:(NSTableViewDropOperation)operation {
   if (NSTableViewDropOn == operation) {
     NSDictionary *pboard = [[info draggingPasteboard] propertyListForType:SparkEntriesPboardType];
-    CFUUIDBytes bytes;
+    uuid_t bytes;
     SparkLibrary *library = nil;
     SELibraryDocument *doc = nil;
-    [[pboard objectForKey:@"uuid"] getBytes:&bytes length:sizeof(bytes)];
-    CFUUIDRef uuid = CFUUIDCreateFromUUIDBytes(kCFAllocatorDefault, bytes);
+    [[pboard objectForKey:@"uuid"] getBytes:bytes length:sizeof(bytes)];
+    NSUUID *uuid = [[NSUUID alloc] initWithUUIDBytes:bytes];
     if (uuid) {
       library = SparkLibraryGetLibraryWithUUID(uuid);
       doc = library ? SEGetDocumentForLibrary(library) : nil;
-      CFRelease(uuid);
     }
     
     if (doc) {

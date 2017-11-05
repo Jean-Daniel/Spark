@@ -70,9 +70,7 @@
 		1B92D0C21707269F00F40FCD /* WBTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316E00D3815C9005C3FB2 /* WBTableView.m */; };
 		1B92D0C31707269F00F40FCD /* WBTableDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316DE0D3815C9005C3FB2 /* WBTableDataSource.m */; };
 		1B92D0C41707269F00F40FCD /* WBWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316E60D3815C9005C3FB2 /* WBWindowController.m */; };
-		1B92D0C5170726EA00F40FCD /* WBHeaderView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE4593D130F598D00A6A133 /* WBHeaderView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1B92D0C8170726EA00F40FCD /* WBImageAndTextCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB986A70D382AD10074D18E /* WBImageAndTextCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1B92D0C9170726F300F40FCD /* WBHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE4593E130F598D00A6A133 /* WBHeaderView.m */; };
 		1B92D0CC170726F300F40FCD /* WBImageAndTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB986A80D382AD10074D18E /* WBImageAndTextCell.m */; };
 		1B92D0CF1707270F00F40FCD /* WBTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BAD406D130DCA940066B1AB /* WBTextFieldCell.m */; };
 		1B92D0D01707271200F40FCD /* WBTextFieldCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BAD406C130DCA940066B1AB /* WBTextFieldCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -84,9 +82,7 @@
 		1B92D0D61707273600F40FCD /* NSButton+WonderBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8C0A0EE2FA6900BD1EAF /* NSButton+WonderBox.m */; };
 		1B92D0D71707274700F40FCD /* NSArrayController+WonderBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8C070EE2FA6900BD1EAF /* NSArrayController+WonderBox.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1B92D0D81707274B00F40FCD /* NSArrayController+WonderBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8C080EE2FA6900BD1EAF /* NSArrayController+WonderBox.m */; };
-		1B92D0DB170727A900F40FCD /* WBBase64.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8E540EE3016F00BD1EAF /* WBBase64.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1B92D0DC170727A900F40FCD /* WBVersionFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8C290EE2FAFF00BD1EAF /* WBVersionFunctions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1B92D0DD170727AF00F40FCD /* WBBase64.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8E530EE3016F00BD1EAF /* WBBase64.c */; };
 		1B92D0DE170727AF00F40FCD /* WBVersionFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8C2A0EE2FAFF00BD1EAF /* WBVersionFunctions.m */; };
 		1B92D0E11707284000F40FCD /* WBTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE45918130F593500A6A133 /* WBTemplate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1B92D0E21707284000F40FCD /* WBTemplateParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE4591A130F593500A6A133 /* WBTemplateParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -138,8 +134,6 @@
 		1BC6A8E317061F7600E7EA12 /* WBImageFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B177012130F42FB00E0A389 /* WBImageFunctions.m */; };
 		1BC6A8E417061F8800E7EA12 /* NSFileWrapper+WonderBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B5D8C520EE2FC6700BD1EAF /* NSFileWrapper+WonderBox.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1BC6A8E517061F8800E7EA12 /* NSFileWrapper+WonderBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D8C530EE2FC6700BD1EAF /* NSFileWrapper+WonderBox.m */; };
-		1BC6A8E817061FC500E7EA12 /* WBIconView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB9831D0D381CDE0074D18E /* WBIconView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1BC6A8E917061FC500E7EA12 /* WBIconView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB9831E0D381CDE0074D18E /* WBIconView.m */; };
 		1BC6A8EB17061FE300E7EA12 /* WBImageView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE316D70D3815C9005C3FB2 /* WBImageView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1BC6A8EC17061FE700E7EA12 /* WBImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE316D80D3815C9005C3FB2 /* WBImageView.m */; };
 		1BC6A8ED17061FF300E7EA12 /* WBBezelItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BB983690D381ECC0074D18E /* WBBezelItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -246,8 +240,6 @@
 		1B5D8CB50EE2FD3500BD1EAF /* NSString+WonderBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+WonderBox.m"; sourceTree = "<group>"; };
 		1B5D8DD70EE2FF0A00BD1EAF /* NSTabView+WonderBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTabView+WonderBox.h"; sourceTree = "<group>"; };
 		1B5D8DD80EE2FF0A00BD1EAF /* NSTabView+WonderBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTabView+WonderBox.m"; sourceTree = "<group>"; };
-		1B5D8E530EE3016F00BD1EAF /* WBBase64.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WBBase64.c; sourceTree = "<group>"; };
-		1B5D8E540EE3016F00BD1EAF /* WBBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBBase64.h; sourceTree = "<group>"; };
 		1B6DACEE0D0C9D0400F352CC /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SparkMultiAlert.xib; sourceTree = "<group>"; };
 		1B6DACF30D0CA0F800F352CC /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SparkPluginView.xib; sourceTree = "<group>"; };
 		1B6DACF70D0CA1BF00F352CC /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SparkPlugin.xib; sourceTree = "<group>"; };
@@ -276,18 +268,12 @@
 		1BB2033A0EAF23B60072FE62 /* SparkEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkEvent.h; sourceTree = "<group>"; };
 		1BB2033B0EAF23B60072FE62 /* SparkEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkEvent.m; sourceTree = "<group>"; };
 		1BB8B1FE0B949EE900F91062 /* SparkSystem.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SparkSystem.tiff; sourceTree = "<group>"; };
-		1BB9831D0D381CDE0074D18E /* WBIconView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBIconView.h; sourceTree = "<group>"; };
-		1BB9831E0D381CDE0074D18E /* WBIconView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBIconView.m; sourceTree = "<group>"; };
 		1BB983690D381ECC0074D18E /* WBBezelItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBBezelItem.h; sourceTree = "<group>"; };
 		1BB9836A0D381ECC0074D18E /* WBBezelItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBBezelItem.m; sourceTree = "<group>"; };
 		1BB9836D0D381ECC0074D18E /* WBNotificationWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBNotificationWindow.h; sourceTree = "<group>"; };
 		1BB9836E0D381ECC0074D18E /* WBNotificationWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBNotificationWindow.m; sourceTree = "<group>"; };
-		1BB9869C0D382AD10074D18E /* WBBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBBackgroundView.h; sourceTree = "<group>"; };
-		1BB9869D0D382AD10074D18E /* WBBackgroundView.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; path = WBBackgroundView.m; sourceTree = "<group>"; };
 		1BB986A70D382AD10074D18E /* WBImageAndTextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBImageAndTextCell.h; sourceTree = "<group>"; };
 		1BB986A80D382AD10074D18E /* WBImageAndTextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBImageAndTextCell.m; sourceTree = "<group>"; };
-		1BB986AB0D382AD10074D18E /* WBProgressPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBProgressPanel.h; sourceTree = "<group>"; };
-		1BB986AC0D382AD10074D18E /* WBProgressPanel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBProgressPanel.m; sourceTree = "<group>"; };
 		1BB987250D382C8B0074D18E /* WBTreeNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTreeNode.m; sourceTree = "<group>"; };
 		1BB987260D382C8B0074D18E /* WBTreeNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTreeNode.h; sourceTree = "<group>"; };
 		1BBD666D1D9A9A85006AE849 /* WBFSFunctions.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WBFSFunctions.mm; sourceTree = "<group>"; };
@@ -341,8 +327,6 @@
 		1BE4591B130F593500A6A133 /* WBTemplateParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTemplateParser.m; sourceTree = "<group>"; };
 		1BE4591C130F593500A6A133 /* WBXMLTemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBXMLTemplate.h; sourceTree = "<group>"; };
 		1BE4591D130F593500A6A133 /* WBXMLTemplate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBXMLTemplate.m; sourceTree = "<group>"; };
-		1BE4593D130F598D00A6A133 /* WBHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBHeaderView.h; sourceTree = "<group>"; };
-		1BE4593E130F598D00A6A133 /* WBHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBHeaderView.m; sourceTree = "<group>"; };
 		8DC2EF5B0486A6940098B216 /* SparkKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SparkKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9805FD380773B47700B1A341 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		980EEB2D0A7E8A0B00013CF5 /* SimpleList.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SimpleList.tiff; sourceTree = "<group>"; };
@@ -568,15 +552,6 @@
 			path = ../xcconfigs;
 			sourceTree = SOURCE_ROOT;
 		};
-		1BB983160D381CDE0074D18E /* Icons */ = {
-			isa = PBXGroup;
-			children = (
-				1BB9831D0D381CDE0074D18E /* WBIconView.h */,
-				1BB9831E0D381CDE0074D18E /* WBIconView.m */,
-			);
-			path = Icons;
-			sourceTree = "<group>";
-		};
 		1BB983680D381ECC0074D18E /* BezelItem */ = {
 			isa = PBXGroup;
 			children = (
@@ -597,18 +572,12 @@
 		1BB9868C0D382AD00074D18E /* Interface */ = {
 			isa = PBXGroup;
 			children = (
-				1BE4593D130F598D00A6A133 /* WBHeaderView.h */,
-				1BE4593E130F598D00A6A133 /* WBHeaderView.m */,
 				1BCDCBEE103596F200EAD9FE /* WBGradient.h */,
 				1BCDCBEF103596F200EAD9FE /* WBGradient.m */,
 				1BAD406C130DCA940066B1AB /* WBTextFieldCell.h */,
 				1BAD406D130DCA940066B1AB /* WBTextFieldCell.m */,
-				1BB9869C0D382AD10074D18E /* WBBackgroundView.h */,
-				1BB9869D0D382AD10074D18E /* WBBackgroundView.m */,
 				1BB986A70D382AD10074D18E /* WBImageAndTextCell.h */,
 				1BB986A80D382AD10074D18E /* WBImageAndTextCell.m */,
-				1BB986AB0D382AD10074D18E /* WBProgressPanel.h */,
-				1BB986AC0D382AD10074D18E /* WBProgressPanel.m */,
 			);
 			path = Interface;
 			sourceTree = "<group>";
@@ -658,8 +627,6 @@
 		1BE316440D38138B005C3FB2 /* Functions */ = {
 			isa = PBXGroup;
 			children = (
-				1B5D8E540EE3016F00BD1EAF /* WBBase64.h */,
-				1B5D8E530EE3016F00BD1EAF /* WBBase64.c */,
 				1BCDCA941035919B00EAD9FE /* WBFunctions.h */,
 				1BCDCA951035919B00EAD9FE /* WBFunctions.m */,
 				1B5D8C340EE2FB1E00BD1EAF /* WBGeometry.h */,
@@ -832,7 +799,6 @@
 			children = (
 				1BAD4026130DC8E30066B1AB /* WBBase.h */,
 				1BE316630D38138B005C3FB2 /* Macros */,
-				1BB983160D381CDE0074D18E /* Icons */,
 				1BE316D20D3815C9005C3FB2 /* AppKit */,
 				1B184C8F0ED07D41003E2346 /* Security */,
 				1BB9868C0D382AD00074D18E /* Interface */,
@@ -903,7 +869,6 @@
 				1BC6A8E017061F5300E7EA12 /* NSImage+WonderBox.h in Headers */,
 				1BC6A8E217061F6A00E7EA12 /* WBImageFunctions.h in Headers */,
 				1BC6A8E417061F8800E7EA12 /* NSFileWrapper+WonderBox.h in Headers */,
-				1BC6A8E817061FC500E7EA12 /* WBIconView.h in Headers */,
 				1BC6A8EB17061FE300E7EA12 /* WBImageView.h in Headers */,
 				1BC6A8ED17061FF300E7EA12 /* WBBezelItem.h in Headers */,
 				1B50064D1B31EE3700003625 /* WBOutlineView.h in Headers */,
@@ -922,7 +887,6 @@
 				1B92D0BF1707269800F40FCD /* WBTableView.h in Headers */,
 				1B92D0C01707269800F40FCD /* WBTableDataSource.h in Headers */,
 				1B92D0C11707269800F40FCD /* WBWindowController.h in Headers */,
-				1B92D0C5170726EA00F40FCD /* WBHeaderView.h in Headers */,
 				1BA505031B580DEC00C6649B /* WBBezelWindow.h in Headers */,
 				1B92D0C8170726EA00F40FCD /* WBImageAndTextCell.h in Headers */,
 				1B92D0D01707271200F40FCD /* WBTextFieldCell.h in Headers */,
@@ -930,7 +894,6 @@
 				1B92D0D31707272F00F40FCD /* NSAlert+WonderBox.h in Headers */,
 				1B92D0D41707272F00F40FCD /* NSButton+WonderBox.h in Headers */,
 				1B92D0D71707274700F40FCD /* NSArrayController+WonderBox.h in Headers */,
-				1B92D0DB170727A900F40FCD /* WBBase64.h in Headers */,
 				1BA504FF1B580DEC00C6649B /* WBBezelLegacy.h in Headers */,
 				1B92D0DC170727A900F40FCD /* WBVersionFunctions.h in Headers */,
 				1B92D0E11707284000F40FCD /* WBTemplate.h in Headers */,
@@ -1111,7 +1074,6 @@
 				1BC6A8E117061F5800E7EA12 /* NSImage+WonderBox.m in Sources */,
 				1BC6A8E317061F7600E7EA12 /* WBImageFunctions.m in Sources */,
 				1BC6A8E517061F8800E7EA12 /* NSFileWrapper+WonderBox.m in Sources */,
-				1BC6A8E917061FC500E7EA12 /* WBIconView.m in Sources */,
 				1BC6A8EC17061FE700E7EA12 /* WBImageView.m in Sources */,
 				1BC6A8EE17061FF300E7EA12 /* WBBezelItem.m in Sources */,
 				1BC6A8F217061FF300E7EA12 /* WBNotificationWindow.m in Sources */,
@@ -1130,14 +1092,12 @@
 				1B92D0C21707269F00F40FCD /* WBTableView.m in Sources */,
 				1B92D0C31707269F00F40FCD /* WBTableDataSource.m in Sources */,
 				1B92D0C41707269F00F40FCD /* WBWindowController.m in Sources */,
-				1B92D0C9170726F300F40FCD /* WBHeaderView.m in Sources */,
 				1B92D0CC170726F300F40FCD /* WBImageAndTextCell.m in Sources */,
 				1B92D0CF1707270F00F40FCD /* WBTextFieldCell.m in Sources */,
 				1B92D0D21707272100F40FCD /* NSColor+WonderBox.m in Sources */,
 				1B92D0D51707273600F40FCD /* NSAlert+WonderBox.m in Sources */,
 				1B92D0D61707273600F40FCD /* NSButton+WonderBox.m in Sources */,
 				1B92D0D81707274B00F40FCD /* NSArrayController+WonderBox.m in Sources */,
-				1B92D0DD170727AF00F40FCD /* WBBase64.c in Sources */,
 				1B92D0DE170727AF00F40FCD /* WBVersionFunctions.m in Sources */,
 				1BA505041B580DEC00C6649B /* WBBezelWindow.m in Sources */,
 				1BA505001B580DEC00C6649B /* WBBezelLegacy.m in Sources */,

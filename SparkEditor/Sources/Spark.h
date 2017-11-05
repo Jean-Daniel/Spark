@@ -30,18 +30,18 @@ void SEPopulatePlugInMenu(NSMenu *menu);
 
 + (Spark *)sharedSpark;
 
-#pragma mark Menu IBActions
+// MARK: Menu IBActions
 - (IBAction)toggleServer:(id)sender;
 - (IBAction)showPreferences:(id)sender;
 
-#pragma mark Import/Export Support
+// MARK: Import/Export Support
 //- (IBAction)importLibrary:(id)sender;
 
-#pragma mark PlugIn Help Support
+// MARK: PlugIn Help Support
 - (IBAction)showPlugInHelp:(id)sender;
 - (void)showPlugInHelpPage:(NSString *)page;
 
-#pragma mark Live Update Support
+// MARK: Live Update Support
 //- (IBAction)checkForNewVersion:(id)sender;
 
 - (void)createAboutMenu;

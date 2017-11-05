@@ -180,7 +180,7 @@ NSString * const SESparkEditorDidChangePlugInStatusNotification = @"SESparkEdito
 
 @end
 
-#pragma mark -
+// MARK: -
 @implementation Spark {
 @private
   IBOutlet NSMenu *aboutMenu;
@@ -192,7 +192,7 @@ NSString * const SESparkEditorDidChangePlugInStatusNotification = @"SESparkEdito
   return (Spark *)[NSApp delegate];
 }
 
-#pragma mark Init And Destroy
+// MARK: Init And Destroy
 - (id)init {
   if (self = [super init]) {
 #if defined (DEBUG)
@@ -278,8 +278,8 @@ bool SparkDebugEnabled = false;
   [statusMenuItem setTitle:title];
 }
 
-#pragma mark -
-#pragma mark Menu IBActions
+// MARK: -
+// MARK: Menu IBActions
 - (IBAction)toggleServer:(id)sender {
   if ([[SEServerConnection defaultConnection] isRunning]) {
     [[SEServerConnection defaultConnection] shutdown];
@@ -296,12 +296,12 @@ bool SparkDebugEnabled = false;
   [se_preferences showWindow:nil];
 }
 
-#pragma mark -
-#pragma mark Import/Export Support
+// MARK: -
+// MARK: Import/Export Support
 
 
-#pragma mark -
-#pragma mark PlugIn Help Support
+// MARK: -
+// MARK: PlugIn Help Support
 - (IBAction)showPlugInHelp:(id)sender {
   [[SEPlugInHelp sharedPlugInHelp] showWindow:sender];
 }
@@ -311,8 +311,8 @@ bool SparkDebugEnabled = false;
   [[SEPlugInHelp sharedPlugInHelp] showWindow:self];
 }
 
-#pragma mark -
-#pragma mark Open File & Sheet Did End
+// MARK: -
+// MARK: Open File & Sheet Did End
 //- (BOOL)openList:(NSString *)filename {
 //  id plist = nil;
 //  id data = [[NSData alloc] initWithContentsOfFile:filename];
@@ -397,8 +397,8 @@ bool SparkDebugEnabled = false;
 //  return YES;
 //}
 
-#pragma mark -
-#pragma mark Application Delegate
+// MARK: -
+// MARK: Application Delegate
 - (void)openPlugInBundle:(NSString *)path {
   SEPlugInInstaller *panel = [[SEPlugInInstaller alloc] init];
   [panel setReleasedWhenClosed:YES];
@@ -474,8 +474,8 @@ bool SparkDebugEnabled = false;
   return YES;
 }
 
-#pragma mark -
-#pragma mark About PlugIns Menu
+// MARK: -
+// MARK: About PlugIns Menu
 - (void)createAboutMenu {
   NSUInteger count = [aboutMenu numberOfItems];
   while (count-- > 0) {
@@ -544,8 +544,8 @@ bool SparkDebugEnabled = false;
   [NSApp orderFrontStandardAboutPanelWithOptions:opts];
 }
 
-#pragma mark -
-#pragma mark Debug Menu
+// MARK: -
+// MARK: Debug Menu
 
 - (void)createDebugMenu {
   NSMenuItem *debugMenu = [[NSMenuItem alloc] initWithTitle:@"" action:nil keyEquivalent:@""];
@@ -630,7 +630,7 @@ void SparkDumpEntries(SparkLibrary *aLibrary);
 
 @end
 
-#pragma mark -
+// MARK: -
 void SEPopulatePlugInMenu(NSMenu *menu) {
   NSCParameterAssert(menu);
   NSArray *plugins = [[[SparkActionLoader sharedLoader] plugIns] sortedArrayUsingDescriptors:gSortByNameDescriptors];

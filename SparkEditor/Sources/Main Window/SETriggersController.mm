@@ -287,8 +287,9 @@ NSString * sSEHiddenPluggedObserverKey = nil;
     return NO;
   
   NSMutableDictionary *plist = [[NSMutableDictionary alloc] init];
-  CFUUIDBytes bytes = CFUUIDGetUUIDBytes([[self library] uuid]);
-  [plist setObject:[NSData dataWithBytes:&bytes length:sizeof(bytes)] forKey:@"uuid"];
+  uuid_t bytes;
+  [self.library.uuid getUUIDBytes:bytes];
+  [plist setObject:[NSData dataWithBytes:bytes length:sizeof(bytes)] forKey:@"uuid"];
   [pboard declareTypes:@[SparkEntriesPboardType] owner:self];
   
   NSMutableArray *entries = [[NSMutableArray alloc] init];

@@ -152,14 +152,12 @@ bool SparkLogSynchronization = false;
         SPXThrowException(NSInvalidArgumentException, @"Invalid Remote Library UUID (null)");
       }
       NSAssert(_library.uuid, @"Invalid Library UUID (null)");
-      CFUUIDRef uuid = CFUUIDCreateFromString(kCFAllocatorDefault, (CFStringRef)uuidstr);
+      NSUUID *uuid = [[NSUUID alloc] initWithUUIDString: uuidstr];
       if (!uuid) {
         SPXThrowException(NSInvalidArgumentException, @"Invalid Remote Library UUID %@", uuidstr);
-      } else if (!CFEqual(uuid, _library.uuid)) {
-        CFRelease(uuid);
+      } else if (![uuid isEqual:_library.uuid]) {
         SPXThrowException(NSInvalidArgumentException, @"Remote Library UUID does not match: %@", uuidstr);
       }
-      CFRelease(uuid);
       
       /* UUID OK, if not already registred => register */
       if (!_remote)
@@ -341,12 +339,7 @@ SparkObjectSet *SparkObjectSetForType(SparkLibrary *library, SparkObjectType typ
 
 - (NSString *)uuid {
   SparkSyncTrace();
-  NSString *uuidstr = nil;
-  CFUUIDRef uuid = _library.uuid;
-  if (uuid) {
-    uuidstr = SPXCFToNSString(CFUUIDCreateString(kCFAllocatorDefault, uuid));
-  }
-  return uuidstr;
+  return [_library.uuid UUIDString];
 }
 
 #pragma mark Objects Management
