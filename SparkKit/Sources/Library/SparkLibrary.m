@@ -689,7 +689,10 @@ SparkLibrary *SparkLibraryGetLibraryAtURL(NSURL *url, BOOL create) {
   if (!sLibraries)
     SparkInitLibraries();
 
-  url = [url URLByStandardizingPath];
+  url = [NSURL URLByResolvingAliasFileAtURL:url options:NSURLBookmarkResolutionWithoutUI | NSURLBookmarkResolutionWithoutMounting error:NULL];
+  if (!url)
+    return nil;
+
   for (SparkLibrary *lib in sLibraries) {
     if ([lib.URL isEqual:url])
       return lib;
