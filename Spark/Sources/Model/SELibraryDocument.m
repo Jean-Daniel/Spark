@@ -93,6 +93,11 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
   [self displayFirstRunIfNeeded];
 }
 
+- (void)addWindowController:(NSWindowController *)windowController {
+  [super addWindowController:windowController];
+  windowController.window.restorable = NO;
+}
+
 - (void)setLibrary:(SparkLibrary *)aLibrary {
   if (_library != aLibrary) {
     if (_library) {
