@@ -35,7 +35,6 @@
 		1B692D451B5D2E9F000EFCE6 /* SETriggerBrowser.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B98A1A80D312F5800EC7D09 /* SETriggerBrowser.xib */; };
 		1B6F9EC41FAFC028006AE849 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B6F9EC31FAFC028006AE849 /* Images.xcassets */; };
 		1B6F9EF71FAFC0CE006AE849 /* SparkDaemon.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 1B6F9EE81FAFC0CE006AE849 /* SparkDaemon.sdef */; };
-		1B6F9EFA1FAFC0CE006AE849 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1B6F9EEF1FAFC0CE006AE849 /* Info.plist */; };
 		1B6F9EFB1FAFC0CE006AE849 /* SDAEHandlers.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B6F9EF11FAFC0CE006AE849 /* SDAEHandlers.m */; };
 		1B6F9EFC1FAFC0CE006AE849 /* SDProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B6F9EF31FAFC0CE006AE849 /* SDProtocol.m */; };
 		1B6F9EFD1FAFC0CE006AE849 /* SparkDaemon.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B6F9EF51FAFC0CE006AE849 /* SparkDaemon.m */; };
@@ -45,6 +44,7 @@
 		1B6F9F041FAFC18F006AE849 /* WonderBox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B92D0EF17072AB600F40FCD /* WonderBox.framework */; };
 		1B6F9F051FAFC228006AE849 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B6F9EC31FAFC028006AE849 /* Images.xcassets */; };
 		1B6F9F071FAFC4F4006AE849 /* Spark Daemon.app in Copy Daemon */ = {isa = PBXBuildFile; fileRef = 1B6F9ED71FAFC08A006AE849 /* Spark Daemon.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		1B80F10B1FB10A4B006AE849 /* SEApplicationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B80F10A1FB10A4B006AE849 /* SEApplicationView.xib */; };
 		1B92D0F017072AB700F40FCD /* WonderBox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B92D0EF17072AB600F40FCD /* WonderBox.framework */; };
 		1B92D0F71707345500F40FCD /* WonderBox.framework in Copy Framework */ = {isa = PBXBuildFile; fileRef = 1B92D0EF17072AB600F40FCD /* WonderBox.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		1B9A7A6D0D0D978800770054 /* SEEntryEditor.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B9A7A6B0D0D978800770054 /* SEEntryEditor.xib */; };
@@ -237,6 +237,7 @@
 		1B6F9EF61FAFC0CE006AE849 /* SDVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDVersion.h; sourceTree = "<group>"; };
 		1B6F9EFF1FAFC0EE006AE849 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1B6F9F011FAFC0F8006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1B80F10A1FB10A4B006AE849 /* SEApplicationView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SEApplicationView.xib; sourceTree = "<group>"; };
 		1B8E06601FA92EC6006AE849 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Importer.xib; sourceTree = "<group>"; };
 		1B8E06611FA92EC6006AE849 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		1B8E06621FA92EC6006AE849 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SEExportOptions.xib; sourceTree = "<group>"; };
@@ -675,6 +676,7 @@
 				98D52B1E0B19A44A00C8425C /* SEHotKeyTrap.m */,
 				98D52B260B19A44A00C8425C /* SETriggerTable.m */,
 				98D52B180B19A44A00C8425C /* SEApplicationView.m */,
+				1B80F10A1FB10A4B006AE849 /* SEApplicationView.xib */,
 				1BECC9CC1FACCCB0006AE849 /* SESeparatorCellView.h */,
 				1BECC9CD1FACCCB0006AE849 /* SESeparatorCellView.m */,
 			);
@@ -914,7 +916,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1B6F9EFA1FAFC0CE006AE849 /* Info.plist in Resources */,
 				1B6F9F051FAFC228006AE849 /* Images.xcassets in Resources */,
 				1B6F9F001FAFC0EF006AE849 /* InfoPlist.strings in Resources */,
 				1B6F9EF71FAFC0CE006AE849 /* SparkDaemon.sdef in Resources */,
@@ -952,6 +953,7 @@
 				98A852D60AFF930B00088961 /* SEGearMenu.pdf in Resources */,
 				988107F10AFFF9390010CDD5 /* badge-3.tiff in Resources */,
 				988107F20AFFF9390010CDD5 /* badge-4.tiff in Resources */,
+				1B80F10B1FB10A4B006AE849 /* SEApplicationView.xib in Resources */,
 				988107F30AFFF9390010CDD5 /* badge-1&2.tiff in Resources */,
 				988107F40AFFF9390010CDD5 /* badge-5.tiff in Resources */,
 				98CC57060B1E446200F95A31 /* computer.tiff in Resources */,

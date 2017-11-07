@@ -121,10 +121,7 @@ bool __IsApplicationAtURL(NSURL *path) {
   /* search if contains at least one application */
   for (__strong NSURL *url in urls) {
     /* Resolve Aliases */
-    if ([[NSFileManager defaultManager] isAliasFileAtPath:[url path]]) {
-      NSString *file = [[NSFileManager defaultManager] resolveAliasFileAtPath:[url path] isFolder:NULL];
-      url = file ? [NSURL fileURLWithPath:file] : nil;
-    }
+    url = [NSURL URLByResolvingAliasFileAtURL:url options:NSURLBookmarkResolutionWithoutMounting error:NULL];
     if (url && __IsApplicationAtURL(url)) {
       SparkApplication *app = [[SparkApplication alloc] initWithURL:url];
       if (app && ![[self applicationSet] containsObject:app]) {
@@ -178,12 +175,8 @@ bool __IsApplicationAtURL(NSURL *path) {
 }
 
 - (BOOL)panel:(id)sender shouldEnableURL:(NSURL *)url {
-  if ([[NSFileManager defaultManager] isAliasFileAtPath:[url path]]) {
-    NSString *file = [[NSFileManager defaultManager] resolveAliasFileAtPath:[url path] isFolder:NULL];
-    url = file ? [NSURL fileURLWithPath:file] : nil;
-  }
+  url = [NSURL URLByResolvingAliasFileAtURL:url options:NSURLBookmarkResolutionWithoutMounting error:NULL];
   return url && ![se_urls containsObject:url];
-
 }
 
 #pragma mark Misc

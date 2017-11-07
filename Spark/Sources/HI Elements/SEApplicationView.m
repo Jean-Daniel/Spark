@@ -13,18 +13,52 @@
 
 #import <WonderBox/WBCGFunctions.h>
 
-static const CGFloat kAVMargin = 16;
-static const CGFloat kAVImageSize = 26;
-static const CGFloat kAVImageRightMargin = 6;
+// MARK: -
+@implementation SEApplicationView
+
+- (id)initWithFrame:(NSRect)frameRect {
+  if (self = [super initWithFrame:frameRect]) {
+    NSNib *nib = [[NSNib alloc] initWithNibNamed:@"SEApplicationView" bundle:NSBundle.mainBundle];
+    NSArray *topLevel = nil;
+    if ([nib instantiateWithOwner:nil topLevelObjects:&topLevel]) {
+      for (id obj in topLevel) {
+        if ([obj isKindOfClass:self.class]) {
+          self = obj;
+          break;
+        }
+      }
+      self.frame = frameRect;
+    } else {
+      self = nil;
+    }
+  }
+  return self;
+}
+
+- (NSString *)title { return nil; }
+- (void)setTitle:(NSString *)title {}
+
+- (NSImage *)icon { return nil; }
+- (void)setIcon:(NSImage *)anIcon {}
+
+- (SparkApplication *)sparkApplication { return nil; }
+- (void)setSparkApplication:(SparkApplication *)anApp {}
+
+@end
+
+// MARK: -
+@interface _SEApplicationView : SEApplicationView
+
+@end
 
 /*
  Recommanded height: 31 pixels.
  */
-@implementation SEApplicationView {
+@implementation _SEApplicationView {
 @private
-  SparkApplication *se_app;
+  IBOutlet __weak NSImageView *_image;
+  IBOutlet __weak NSTextField *_label;
 
-  CGFloat wb_width;
   struct _wb_saFlags {
     unsigned int dark:1;
     unsigned int highlight:1;
@@ -32,92 +66,39 @@ static const CGFloat kAVImageRightMargin = 6;
   } wb_saFlags;
 }
 
-static inline CGColorRef _ShadowColor() {
-  static CGColorRef sShadowColor;
-  if (!sShadowColor)
-    sShadowColor = CGColorCreateGenericGray(.786, 1);
-  return sShadowColor;
-}
+@synthesize sparkApplication = _sparkApplication;
 
+- (NSString *)title {
+  return _label.stringValue;
+}
 - (void)setTitle:(NSString *)title {
-  if (title != _title) {
-    /* Cache informations */
-    _title = [title copy];
-
-    wb_width = _title ? [_title sizeWithAttributes:nil].width : 0;
-    [self invalidateIntrinsicContentSize];
-    [self setNeedsDisplay:YES];
-    //    NSRect frame = [self frame];
-    //    NSRect dirty = frame;
-    //    if (wb_width > 0) {
-    //      CGFloat x = 0;
-    //      switch (wb_saFlags.align) {
-    //        case 0: /* center */
-    //          x = (NSWidth([[self superview] bounds]) - (wb_width + kAVImageSize + kAVImageRightMargin)) / 2;
-    //          x -= kAVMargin;
-    //          /* Make sure x is an integer value */
-    //          x = floor(x);
-    //          break;
-    //        case 1: /* left */
-    //          x = 0;
-    //          break;
-    //        case 2: /* right */
-    //          x = NSWidth([self bounds]) - (wb_width + kAVImageSize + kAVImageRightMargin);
-    //
-    //          break;
-    //      }
-    //
-    //      frame.origin.x = x;
-    //      frame.size.width = wb_width + kAVImageSize + kAVImageRightMargin + 2 * kAVMargin + 1;
-    //
-    //      if (NSWidth(frame) > NSWidth([self bounds])) {
-    //        dirty = frame;
-    //      }
-    //    } else {
-    //      CGFloat x = 0;
-    //      switch (wb_saFlags.align) {
-    //        case 0: /* center */
-    //          x = NSWidth([self bounds]) / 2;
-    //          break;
-    //        case 1: /* left */
-    //          x = 0;
-    //          break;
-    //        case 2: /* right */
-    //          x = NSWidth([self bounds]);
-    //          break;
-    //      }
-    //      frame.origin.x += x;
-    //    }
-    // [self setFrame:frame];
-    // [[self superview] setNeedsDisplayInRect:dirty];
-  }
+  _label.stringValue = title;
 }
 
-
-- (SparkApplication *)sparkApplication {
-  return se_app;
+- (NSImage *)icon {
+  return _image.image;
 }
+- (void)setIcon:(NSImage *)anIcon {
+  _image.image = anIcon;
+}
+
 - (void)setSparkApplication:(SparkApplication *)anApp {
-  if (se_app != anApp) {
-    se_app = anApp;
+  if (_sparkApplication != anApp) {
+    _sparkApplication = anApp;
     
-		NSString *title = se_app ? [[NSString alloc] initWithFormat:
-																NSLocalizedString(@"%@ HotKeys", @"Application HotKeys - Application View Title (%@ => name)"), [se_app name]] : nil;
+		NSString *title = _sparkApplication ? [[NSString alloc] initWithFormat:
+                                           NSLocalizedString(@"%@ HotKeys", @"Application HotKeys - Application View Title (%@ => name)"), _sparkApplication.name] : nil;
     self.title = title;
-
-    if (kSparkApplicationSystemUID == [se_app uid]) {
+    if (kSparkApplicationSystemUID == _sparkApplication.uid) {
       self.icon = [NSImage imageNamed:@"applelogo"];
     } else {
-      self.icon = se_app.icon;
+      self.icon = _sparkApplication.icon;
     }
   }
 }
 
 - (NSImage *)defaultIcon {
-  if ([se_app icon])
-    return [se_app icon];
-  else
-    return [[NSWorkspace sharedWorkspace] iconForFileType:@"'APPL'"];
+  return _sparkApplication.icon ?: [[NSWorkspace sharedWorkspace] iconForFileType:SPXCFToNSString(kUTTypeApplication)];
 }
 
 - (void)highlight:(BOOL)flag {
@@ -129,7 +110,7 @@ static inline CGColorRef _ShadowColor() {
 
 #pragma mark -
 - (BOOL)acceptsFirstResponder {
-  return _action != nil && [[NSApp currentEvent] type] == NSKeyDown;
+  return self.action != nil && [[NSApp currentEvent] type] == NSKeyDown;
 }
 
 - (BOOL)becomeFirstResponder {
@@ -160,19 +141,18 @@ static inline CGColorRef _ShadowColor() {
   SPXFlagSet(wb_saFlags.dark, flag);
 }
 
-
 - (BOOL)mouseDownCanMoveWindow {
   return NO;
 }
 
 - (void)mouseClick:(NSEvent *)theEvent {
-  if (_action)
-    [NSApp sendAction:_action to:_target from:self];
+  if (self.action)
+    [NSApp sendAction:self.action to:self.target from:self];
 }
 
 - (void)mouseDown:(NSEvent *)theEvent {
   /* No action, so don't need to handle event */
-  if (!_action)
+  if (!self.action)
     return;
 
   BOOL keepOn = YES;
@@ -209,28 +189,24 @@ static inline CGColorRef _ShadowColor() {
 }
 
 - (void)keyDown:(NSEvent *)theEvent {
-  if (!_action)
+  if (!self.action)
     return;
 
-  NSString *chr = [theEvent characters];
-  if ([chr length]) {
+  NSString *chr = theEvent.characters;
+  if (chr.length) {
     switch ([chr characterAtIndex:0]) {
       case ' ':
       case '\r':
       case 0x03:
-        [NSApp sendAction:_action to:_target from:self];
+        [NSApp sendAction:self.action to:self.target from:self];
         return;
     }
   }
   [super keyDown:theEvent];
 }
 
-- (NSSize)intrinsicContentSize {
-  return NSMakeSize(wb_width + kAVImageSize + kAVImageRightMargin + 2 * kAVMargin + 1, NSViewNoIntrinsicMetric);
-}
-
 - (void)drawRect:(NSRect)rect {
-  if ([self title] || [self icon]) {
+  if (self.title || self.icon) {
     CGContextRef ctxt = [NSGraphicsContext.currentContext graphicsPort];
 
     CGContextSetShouldAntialias(ctxt, true);
@@ -249,7 +225,7 @@ static inline CGColorRef _ShadowColor() {
     }
 
     /* Draw focus ring if needed */
-    BOOL isFirst = _action && [[self window] firstResponder] == self;
+    BOOL isFirst = self.action && self.window.firstResponder == self;
     if (isFirst) {
       CGContextSaveGState(ctxt);
       /* Set focus ring */
@@ -264,36 +240,29 @@ static inline CGColorRef _ShadowColor() {
     CGContextStrokePath(ctxt);
 
     /* Draw before image if not highlight */
-    if (!wb_saFlags.highlight) {
-      CGContextAddPath(ctxt, path);
-      CGContextFillPath(ctxt);
-    }
-
-    /* Draw icon */
-    NSImage *icon = [self icon];
-    if (icon) {
-      NSRect source = NSZeroRect;
-      source.size = [icon size];
-      /* paint icon with y=3 (instead of 2) because lots of icon look better */
-      CGFloat y = round((NSHeight([self bounds]) - kAVImageSize) / 2);
-      [icon drawInRect:NSMakeRect(kAVMargin, y, kAVImageSize, kAVImageSize)
-              fromRect:source
-             operation:NSCompositeSourceOver
-              fraction:1];
-    }
-
-    if (wb_saFlags.highlight) {
-      CGContextAddPath(ctxt, path);
-      CGContextFillPath(ctxt);
-    }
+    CGContextAddPath(ctxt, path);
+    CGContextFillPath(ctxt);
     CGPathRelease(path);
 
-    /* Draw string */
-    if (!wb_saFlags.dark)
-      CGContextSetShadowWithColor(ctxt, CGSizeMake(0, -1), 1, _ShadowColor());
+    /* Draw icon */
+//    NSImage *icon = [self icon];
+//    if (icon) {
+//      NSRect source = NSZeroRect;
+//      source.size = [icon size];
+//      /* paint icon with y=3 (instead of 2) because lots of icon look better */
+//      CGFloat y = round((NSHeight([self bounds]) - kAVImageSize) / 2);
+//      [icon drawInRect:NSMakeRect(kAVMargin, y, kAVImageSize, kAVImageSize)
+//              fromRect:source
+//             operation:NSCompositeSourceOver
+//              fraction:1];
+//    }
 
-    CGFloat y = round((NSHeight([self bounds]) - kAVImageSize + 10) / 2);
-    [[self title] drawAtPoint:NSMakePoint(kAVMargin + kAVImageSize + kAVImageRightMargin, y) withAttributes:nil];
+    /* Draw string */
+//    if (!wb_saFlags.dark)
+//      CGContextSetShadowWithColor(ctxt, CGSizeMake(0, -1), 1, _ShadowColor());
+//
+//    CGFloat y = round((NSHeight([self bounds]) - kAVImageSize + 10) / 2);
+//    [[self title] drawAtPoint:NSMakePoint(kAVMargin + kAVImageSize + kAVImageRightMargin, y) withAttributes:nil];
   }
 }
 

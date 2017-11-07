@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="13529" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13529"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner"/>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="c22-O7-iKe" customClass="_SEApplicationView">
+            <rect key="frame" x="0.0" y="0.0" width="97" height="29"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <customView horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Gjt-eW-y4M">
+                    <rect key="frame" x="14" y="2" width="67" height="24"/>
+                    <subviews>
+                        <imageView translatesAutoresizingMaskIntoConstraints="NO" id="EwD-45-snZ">
+                            <rect key="frame" x="2" y="0.0" width="24" height="24"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="EwD-45-snZ" secondAttribute="height" multiplier="1:1" id="x1R-ca-4SS"/>
+                            </constraints>
+                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="dav-lB-PQj"/>
+                        </imageView>
+                        <textField horizontalHuggingPriority="750" verticalHuggingPriority="750" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L4B-5A-o74">
+                            <rect key="frame" x="30" y="4" width="35" height="16"/>
+                            <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" allowsUndo="NO" sendsActionOnEndEditing="YES" title="Label" usesSingleLineMode="YES" id="zLC-QZ-z9e">
+                                <font key="font" metaFont="system" size="12"/>
+                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                            </textFieldCell>
+                        </textField>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="EwD-45-snZ" firstAttribute="leading" secondItem="Gjt-eW-y4M" secondAttribute="leading" constant="2" id="H1s-ow-twQ"/>
+                        <constraint firstItem="L4B-5A-o74" firstAttribute="leading" secondItem="EwD-45-snZ" secondAttribute="trailing" constant="6" id="OTM-3k-BoV"/>
+                        <constraint firstAttribute="bottom" secondItem="EwD-45-snZ" secondAttribute="bottom" id="OWj-T1-dxP"/>
+                        <constraint firstItem="EwD-45-snZ" firstAttribute="top" secondItem="Gjt-eW-y4M" secondAttribute="top" id="fIi-z8-QfS"/>
+                        <constraint firstItem="L4B-5A-o74" firstAttribute="centerY" secondItem="EwD-45-snZ" secondAttribute="centerY" id="ng1-eB-biH"/>
+                        <constraint firstAttribute="trailing" secondItem="L4B-5A-o74" secondAttribute="trailing" constant="4" id="pz3-XO-1PE"/>
+                    </constraints>
+                </customView>
+            </subviews>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="Gjt-eW-y4M" secondAttribute="trailing" constant="16" id="4WH-ev-Qd6"/>
+                <constraint firstItem="Gjt-eW-y4M" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="3" id="VCi-tC-Fu6"/>
+                <constraint firstItem="EwD-45-snZ" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="16" id="feW-Mu-znH"/>
+                <constraint firstAttribute="bottom" secondItem="Gjt-eW-y4M" secondAttribute="bottom" constant="2" id="wIM-sr-KKB"/>
+            </constraints>
+            <connections>
+                <outlet property="_image" destination="EwD-45-snZ" id="SWm-vO-pVc"/>
+                <outlet property="_label" destination="L4B-5A-o74" id="tgt-yi-7NU"/>
+            </connections>
+            <point key="canvasLocation" x="153.5" y="127.5"/>
+        </customView>
+    </objects>
+</document>
