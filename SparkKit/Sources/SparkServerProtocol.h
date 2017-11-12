@@ -12,17 +12,9 @@
 #if defined(__OBJC__)
 
 #if defined(DEBUG)
-	#if __LP64__
-		#define kSparkConnectionName		@"org.shadowlab.spark.server.debug.64"
-	#else
-		#define kSparkConnectionName		@"org.shadowlab.spark.server.debug"
-	#endif
+  #define kSparkConnectionName		@"org.shadowlab.spark.server.debug"
 #else
-	#if __LP64__
-		#define kSparkConnectionName		@"org.shadowlab.spark.server.64"
-	#else
-		#define kSparkConnectionName		@"org.shadowlab.spark.server"
-	#endif
+  #define kSparkConnectionName		@"org.shadowlab.spark.server"
 #endif
 
 @protocol SparkLibrary;

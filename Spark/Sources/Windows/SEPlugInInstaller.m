@@ -173,7 +173,7 @@ dispose:
     }
   }
   if (installed)
-    return [location URLByAppendingPathComponent:[plugin lastPathComponent]];
+    return [location URLByAppendingPathComponent:plugin.lastPathComponent];
   return nil;
 }
 

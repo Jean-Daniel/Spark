@@ -492,7 +492,6 @@ bool SparkDebugEnabled = false;
                                                                                                             @"About Plugin (%@ => Plugin name)"), [plugin name]]
                                                         action:@selector(aboutPlugIn:) keyEquivalent:@""];
       NSImage *img = [[plugin icon] copy];
-      [img setScalesWhenResized:YES];
       [img setSize:NSMakeSize(16, 16)];
       [menuItem setImage:img];
 
@@ -561,10 +560,6 @@ bool SparkDebugEnabled = false;
   [[NSApp mainMenu] insertItem:debugMenu atIndex:[[NSApp mainMenu] numberOfItems] -1];
   
   // [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didRestart:) name:SURestarterApplicationDidRestartNotification object:nil];
-}
-
-- (void)didRestart:(NSNotification *)aNotification {
-  NSRunAlertPanel([[NSString alloc] initWithData:[aNotification object] encoding:NSUTF8StringEncoding], @"", @"OK", nil, nil);
 }
 
 //- (IBAction)restart:(id)sender {
@@ -641,7 +636,6 @@ void SEPopulatePlugInMenu(NSMenu *menu) {
       NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:[plugin name] action:@selector(newTriggerFromMenu:) keyEquivalent:@""];
       NSImage *icon = [[plugin icon] copy];
       if (icon) {
-        [icon setScalesWhenResized:YES];
         [icon setSize:NSMakeSize(16, 16)];
         [item setImage:icon];
       }

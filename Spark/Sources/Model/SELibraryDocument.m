@@ -148,7 +148,7 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
   panel.allowsOtherFileTypes = NO;
   panel.nameFieldStringValue = filename;
   [panel beginSheetModalForWindow:self.windowForSheet completionHandler:^(NSInteger result) {
-    if (NSOKButton == result) {
+    if (NSModalResponseOK == result) {
       NSURL *url = panel.URL;
       if (url)
         [self.library archiveToURL:url];
@@ -163,7 +163,7 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
   panel.allowsMultipleSelection = NO;
   panel.allowedFileTypes = @[kSparkLibraryArchiveExtension, NSFileTypeForHFSTypeCode(kSparkLibraryArchiveHFSType)];
   [panel beginSheetModalForWindow:self.windowForSheet completionHandler:^(NSInteger result) {
-    if (NSOKButton == result && [panel.URLs count] > 0) {
+    if (NSModalResponseOK == result && [panel.URLs count] > 0) {
       NSURL *url = panel.URLs[0];
       [self revertToBackup:url];
     }
@@ -178,8 +178,8 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
                                        NSLocalizedString(@"REVERT_MESSAGE", @"Revert to Backup - Message"),
                                        NSLocalizedString(@"Replace", @"Replace - Button"),
                                        NSLocalizedString(@"Cancel", @"Cancel - Button"),
-                                       nil, [archive lastPathComponent]);
-    if (result == NSOKButton) {
+                                       nil, archive.lastPathComponent);
+    if (result == NSModalResponseOK) {
       SparkLibrary *previous = _library;
       if (SparkActiveLibrary() == previous) {
         SparkSetActiveLibrary(library);
@@ -243,9 +243,9 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
   panel.accessoryView = [ctrl view];
   panel.allowedFileTypes = @[ @"html"];
   panel.nameFieldStringValue = NSLocalizedString(@"SparkLibrary - HTML" , @"SparkLibrary Export as HTML Filename");
-  [panel beginSheetModalForWindow:[self windowForSheet]
+  [panel beginSheetModalForWindow:self.windowForSheet
                 completionHandler:^(NSInteger result) {
-                  if (NSOKButton == result) {
+                  if (NSModalResponseOK == result) {
                     NSError *error = nil;
                     SEHTMLGenerator *generator = [[SEHTMLGenerator alloc] initWithDocument:self];
                     [generator setGroupBy:[ctrl groupBy]];
@@ -280,7 +280,7 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
   SEEntryEditor *editor = [self editor];
   [editor setEntry:nil];
   [editor setActionType:type];
-  [[self windowForSheet] beginSheet:editor.window completionHandler:NULL];
+  [self.windowForSheet beginSheet:editor.window completionHandler:NULL];
 }
 
 /* Find equivalent trigger in library */
@@ -340,7 +340,7 @@ NSAlert *_SELibraryTriggerAlreadyUsedAlert(SparkEntry *previous, SparkEntry *ent
 	SparkEntry *active = [manager activeEntryForTrigger:trigger application:anApplication];
 	if (active) {
 		NSAlert *alert = _SELibraryTriggerAlreadyUsedAlert(active, entry);
-		if (NSOKButton == [alert runModal]) {
+		if (NSModalResponseOK == [alert runModal]) {
 			[active setEnabled:NO];
 			[entry setEnabled:YES];
 		}
@@ -357,7 +357,7 @@ NSAlert *_SELibraryTriggerAlreadyUsedAlert(SparkEntry *previous, SparkEntry *ent
   SEEntryEditor *editor = [self editor];
   [editor setEntry:anEntry];
 
-  [[self windowForSheet] beginSheet:editor.window completionHandler:NULL];
+  [self.windowForSheet beginSheet:editor.window completionHandler:NULL];
 }
 
 - (BOOL)editor:(SEEntryEditor *)theEditor shouldUpdateEntry:(SparkEntry *)entry 
@@ -410,7 +410,7 @@ NSAlert *_SELibraryTriggerAlreadyUsedAlert(SparkEntry *previous, SparkEntry *ent
 			SparkEntry *active = [manager activeEntryForTrigger:[updated trigger] application:[updated application]];
 			if (active) {
 				NSAlert *alert = _SELibraryTriggerAlreadyUsedAlert(active, updated);
-				if (NSOKButton == [alert runModal]) {
+				if (NSModalResponseOK == [alert runModal]) {
 					[active setEnabled:NO];
 					[updated setEnabled:YES];
 				}
@@ -443,16 +443,14 @@ NSAlert *_SELibraryTriggerAlreadyUsedAlert(SparkEntry *previous, SparkEntry *ent
 	NSUInteger count = [entries count];
 	SparkEntryManager *manager = [_library entryManager];
 	while (count-- > 0) {
-		SparkEntry *entry = [entries objectAtIndex:count];
+		SparkEntry *entry = entries[count];
 		/* Remove only custom entry */
-		if (kSparkApplicationSystemUID == [[self application] uid]) {
+		if (kSparkApplicationSystemUID == self.application.uid) {
 			/* First, check & remove weak */
 			if ([entry isSystem] && [entry hasVariant]) {
 				/* Remove weak entries */
-				NSArray *variants = [entry variants];
-				for (NSUInteger idx = 0; idx < [variants count]; idx++) {
-					SparkEntry *variant = [variants objectAtIndex:idx];
-					if ([variant type] == kSparkEntryTypeWeakOverWrite)
+        for (SparkEntry *variant in [entry variants]) {
+					if (variant.type == kSparkEntryTypeWeakOverWrite)
 						[manager removeEntry:variant];
 				}
 			}

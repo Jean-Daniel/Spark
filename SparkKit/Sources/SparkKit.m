@@ -27,6 +27,13 @@ NSString * const kSparkDaemonBundleIdentifier = @"com.xenonium.Spark.daemon";
 NSString * const SparkDaemonStatusKey = @"SparkDaemonStatusKey";
 NSString * const SparkDaemonStatusDidChangeNotification = @"SparkDaemonStatusDidChange";
 
+@implementation NSNotification (SparkDaemonStatus)
+- (SparkDaemonStatus)sparkDaemonStatus {
+  return [self.userInfo[SparkDaemonStatusKey] unsignedIntValue];
+}
+@end
+
+// MARK: -
 const OSType kSparkEditorSignature = 'Sprk';
 const OSType kSparkDaemonSignature = 'SprS';
 
@@ -48,3 +55,6 @@ void __SparkInitializeLibrary(void) {
     }
   }
 }
+
+
+

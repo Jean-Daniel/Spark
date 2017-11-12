@@ -36,11 +36,8 @@ NSString * const SparkDaemonStatusKey;
 SPARK_EXPORT
 NSString * const SparkDaemonStatusDidChangeNotification;
 
-#if defined(__OBJC__)
-SPARK_INLINE
-SparkDaemonStatus SparkDaemonGetStatus(NSNotification *notification) {
-  return (SparkDaemonStatus)[[[notification userInfo] objectForKey:SparkDaemonStatusKey] unsignedIntValue];
-}
-#endif
+@interface NSNotification (SparkDaemonStatus)
+@property(readonly) SparkDaemonStatus sparkDaemonStatus;
+@end
 
 #endif /* __SPARK_APPLESCRIPT_SUITE_H */

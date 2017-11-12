@@ -45,48 +45,46 @@ BOOL SEDaemonTerminate(NSRunningApplication *daemon) {
   if (sConnection)
     return sConnection;
   @synchronized(self) {
-    if (!sConnection) {
+    if (!sConnection)
       sConnection = [[SEServerConnection alloc] init];
-    }
   }
   return sConnection;
 }
 
 - (id)init {
   if (self = [super init]) {
-    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-    [center addObserver:self
-               selector:@selector(connectionDidDie:)
-                   name:NSConnectionDidDieNotification
-                 object:nil];
+    [NSNotificationCenter.defaultCenter addObserver:self
+                                           selector:@selector(connectionDidDie:)
+                                               name:NSConnectionDidDieNotification
+                                             object:nil];
     
-    center = [NSDistributedNotificationCenter defaultCenter];
-    [center addObserver:self
-               selector:@selector(serverStatusDidChange:)
-                   name:(id)SparkDaemonStatusDidChangeNotification
-                 object:kSparkConnectionName];
+    [NSDistributedNotificationCenter.defaultCenter addObserver:self
+                                                      selector:@selector(serverStatusDidChange:)
+                                                          name:SparkDaemonStatusDidChangeNotification
+                                                        object:kSparkConnectionName];
   }
   return self;
 }
 
 - (void)dealloc {
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
+  [NSDistributedNotificationCenter.defaultCenter removeObserver:self];
+  [NSNotificationCenter.defaultCenter removeObserver:self];
 }
 
 - (void)serverDidClose {
   if (se_server) {
     [se_sync setDistantLibrary:nil];
     se_sync = nil;
-
     se_server = nil;
   }
 }
+
 #pragma mark -
 - (UInt32)version {
   if ([self isConnected]) {
-    if ([[self server] respondsToSelector:@selector(version)]) {
+    if ([self.server respondsToSelector:@selector(version)]) {
       @try {
-        return [[self server] version];
+        return [self.server version];
       } @catch (id exception) {
         SPXLogException(exception);
       }
@@ -134,12 +132,9 @@ BOOL SEDaemonTerminate(NSRunningApplication *daemon) {
   
   @try {
     NSConnection *cnt = [NSConnection connectionWithRegisteredName:kSparkConnectionName host:nil];
-    if (!cnt)
-      cnt = [NSConnection connectionWithRegisteredName:@"SparkServer" host:nil];
-    
     if (cnt) {
-      [cnt setReplyTimeout:5];
-      se_server = (id)[cnt rootProxy];
+      cnt.replyTimeout = 5;
+      se_server = (id)cnt.rootProxy;
     }
     
     if (se_server) {
@@ -162,9 +157,8 @@ BOOL SEDaemonTerminate(NSRunningApplication *daemon) {
 }
 
 - (void)disconnect {
-  if ([self isConnected]) {
+  if ([self isConnected])
     [[se_server connectionForProxy] invalidate];
-  }
 }
 
 /* MUST be called after connection */
@@ -198,7 +192,7 @@ BOOL SEDaemonTerminate(NSRunningApplication *daemon) {
   return se_server;
 }
 - (void)connectionDidDie:(NSNotification *)aNotification {
-  if (se_server && [aNotification object] == [se_server connectionForProxy]) {
+  if (se_server && aNotification.object == se_server.connectionForProxy) {
     SPXDebug(@"Connection did close");
     [self serverDidClose];
     if (se_scFlags.restart) {
@@ -211,7 +205,7 @@ BOOL SEDaemonTerminate(NSRunningApplication *daemon) {
 }
 
 - (void)serverStatusDidChange:(NSNotification *)aNotification {
-  SparkDaemonStatus status = SparkDaemonGetStatus(aNotification);
+  SparkDaemonStatus status = aNotification.sparkDaemonStatus;
   switch (status) {
     case kSparkDaemonStatusEnabled:
     case kSparkDaemonStatusDisabled:
