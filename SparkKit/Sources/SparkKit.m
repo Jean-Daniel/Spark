@@ -21,7 +21,11 @@ NSString * const kSparkFolderName = @"Spark";
 NSString * const kSparkKitBundleIdentifier = @"com.xenonium.SparkKit";
 
 NSString * const kSparkEditorBundleIdentifier = @"com.xenonium.Spark";
-NSString * const kSparkDaemonBundleIdentifier = @"com.xenonium.Spark.daemon";
+#if defined(DEBUG)
+NSString * const kSparkDaemonBundleIdentifier = @"com.xenonium.Spark.agent.debug";
+#else
+NSString * const kSparkDaemonBundleIdentifier = @"com.xenonium.Spark.agent";
+#endif
 
 #pragma mark Distributed Notifications
 NSString * const SparkDaemonStatusKey = @"SparkDaemonStatusKey";

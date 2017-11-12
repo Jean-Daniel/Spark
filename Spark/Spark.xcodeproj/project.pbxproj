@@ -1293,7 +1293,7 @@
 				CURRENT_PROJECT_VERSION = 455;
 				INFOPLIST_FILE = SparkDaemon/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.xenonium.SparkDaemon;
+				PRODUCT_BUNDLE_IDENTIFIER = com.xenonium.Spark.agent.debug;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -1306,7 +1306,7 @@
 				CURRENT_PROJECT_VERSION = 455;
 				INFOPLIST_FILE = SparkDaemon/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.xenonium.SparkDaemon;
+				PRODUCT_BUNDLE_IDENTIFIER = com.xenonium.Spark.agent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
