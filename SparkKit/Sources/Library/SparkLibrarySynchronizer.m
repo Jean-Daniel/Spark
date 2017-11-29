@@ -36,7 +36,7 @@ bool SparkLogSynchronization = false;
 
 - (bycopy NSString *)uuid;
 
-- (oneway void)addObject:(bycopy id)plist type:(in SparkObjectType)type;
+- (oneway void)addObject:(bycopy NSDictionary *)plist type:(in SparkObjectType)type;
 - (oneway void)removeObject:(in SparkUID)uid type:(in SparkObjectType)type;
 
 #pragma mark Entries Management

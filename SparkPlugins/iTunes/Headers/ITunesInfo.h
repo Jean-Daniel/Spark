@@ -90,9 +90,9 @@ void ITunesVisualUnpackColor(UInt64 pack, CGFloat color[4]) {
 }
 
 typedef struct __attribute__ ((packed)) {
-	UInt8 version;
-  UInt32 flags;
-  UInt64 colors[4];
+	uint8_t version;
+  uint32_t flags;
+  uint64_t colors[4];
   CFSwappedFloat32 x, y;
   CFSwappedFloat64 delay;
 } ITunesPackedVisual;

@@ -108,24 +108,23 @@ NSString * const SparkNotificationUpdatedObjectKey;
 
 SPARK_INLINE
 id SparkNotificationObject(NSNotification *aNotification) {
-  return [[aNotification userInfo] objectForKey:SparkNotificationObjectKey];
+  return aNotification.userInfo[SparkNotificationObjectKey];
 }
 
 SPARK_INLINE
 id SparkNotificationUpdatedObject(NSNotification *aNotification) {
-  return [[aNotification userInfo] objectForKey:SparkNotificationUpdatedObjectKey];
+  return aNotification.userInfo[SparkNotificationUpdatedObjectKey];
 }
 
 SPARK_INLINE
 void SparkLibraryPostNotification(SparkLibrary *library, NSString *name, id sender, id object) {
-  [[library notificationCenter] postNotificationName:name
-                                              object:sender
-                                            userInfo:object ? [NSDictionary dictionaryWithObject:object
-                                                                                          forKey:SparkNotificationObjectKey] : nil];
+  [library.notificationCenter postNotificationName:name
+                                            object:sender
+                                          userInfo:object ? @{ SparkNotificationObjectKey: object } : nil];
 }
 SPARK_INLINE
 void SparkLibraryPostUpdateNotification(SparkLibrary *library, NSString *name, id sender, id replaced, id object) {
-  [[library notificationCenter] postNotificationName:name
+  [library.notificationCenter postNotificationName:name
                                               object:sender
                                             userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
                                                       object, SparkNotificationObjectKey,

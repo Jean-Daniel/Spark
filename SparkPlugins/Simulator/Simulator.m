@@ -66,7 +66,7 @@ int main(int argc, const char **argv) {
     [info setValue:aColor forKey:color];
 }
 
-- (UInt32)component {
+- (uint32_t)component {
   if ([color isEqualToString:@"borderColor"]) return 1;
   else if ([color isEqualToString:@"backgroundColor"]) return 2;
   else if ([color isEqualToString:@"backgroundTopColor"]) return 4;
@@ -74,7 +74,7 @@ int main(int argc, const char **argv) {
   return 0;
 }
 
-- (void)setComponent:(UInt32)component {
+- (void)setComponent:(uint32_t)component {
   [self willChangeValueForKey:@"color"];
   switch (component) {
     case 0:

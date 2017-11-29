@@ -108,7 +108,8 @@ NSString * const SparkEntryWillRemoveChildNotification = @"SparkEntryWillRemoveC
   }
 }
 
-#pragma mark Status
+// MARK: -
+// MARK: Status
 - (BOOL)isRoot {
 	return [self isSystem] || ![self parent];
 }
@@ -149,12 +150,13 @@ NSString * const SparkEntryWillRemoveChildNotification = @"SparkEntryWillRemoveC
   return [_action isPersistent];
 }
 
-#pragma mark Properties
+// MARK: -
+// MARK: Properties
 - (NSImage *)icon {
-  return [_action icon] ? : SparkEntryDefaultIcon();
+  return _action.icon ? : SparkEntryDefaultIcon();
 }
 - (void)setIcon:(NSImage *)anIcon {
-  [_action setIcon:anIcon];
+  _action.icon = anIcon;
 }
 
 - (NSString *)name {
@@ -230,7 +232,8 @@ NSString * const SparkEntryWillRemoveChildNotification = @"SparkEntryWillRemoveC
 	return NULL;
 }
 
-#pragma mark Private
+// MARK: -
+// MARK: Private
 /* cached status */
 - (void)setPlugged:(BOOL)flag {
   SPXFlagSet(_seFlags.unplugged, !flag);
@@ -272,7 +275,8 @@ NSString * const SparkEntryWillRemoveChildNotification = @"SparkEntryWillRemoveC
   return sp_child;
 }
 
-#pragma mark Internals
+// MARK: -
+// MARK: Internals
 - (NSArray *)children {
 	NSParameterAssert([self isSystem]);
 	
@@ -486,6 +490,7 @@ NSString * const SparkEntryWillRemoveChildNotification = @"SparkEntryWillRemoveC
 
 @end
 
+// MARK: -
 @implementation SparkEntry (SparkRegistration)
 
 - (BOOL)isRegistred {
