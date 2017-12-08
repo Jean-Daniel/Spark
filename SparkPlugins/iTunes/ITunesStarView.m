@@ -8,8 +8,7 @@
 
 #import "ITunesStarView.h"
 
-#import <WonderBox/WBGeometry.h>
-#import <WonderBox/WBCGFunctions.h>
+#import <WonderBox/WonderBox.h>
 
 @implementation ITunesStarView {
 }
@@ -55,8 +54,7 @@ void _ITunesDrawHalfString(NSPoint point, NSColor *color) {
   else
     CGContextSetGrayFillColor(ctxt, 0, 1);
   
-  // FIXME: userspace scale factor
-  CGFloat shift = 0.5 / WBWindowUserSpaceScaleFactor([self window]);
+  CGFloat shift = 0.5;
   if (_rate) {
     double center = 6;
     unsigned rate = _rate / 2;

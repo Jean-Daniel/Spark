@@ -11,9 +11,7 @@
 #import "ITunesStarView.h"
 #import "ITunesProgressView.h"
 
-#import <WonderBox/WBGradient.h>
-#import <WonderBox/WBCGFunctions.h>
-#import <WonderBox/WBNotificationWindow.h>
+#import <WonderBox/WonderBox.h>
 
 #define kiTunesVisualDefaultPosition	{ -1e8, 0 }
 
@@ -352,7 +350,7 @@ void __iTunesGetColorComponents(NSColor *color, CGFloat rgba[]) {
   origin.x = NSMaxX([_ibTime frame]);
   [_ibRate setFrameOrigin:origin];
   
-  [_ibRate setRate:lround(rate / 10)];
+  [_ibRate setRate:(uint8_t)lround(rate / 10)];
 }
 
 - (void)setTrack:(iTunesTrack *)track visual:(const ITunesVisual *)visual {

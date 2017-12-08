@@ -11,7 +11,7 @@
  */
 #import <SparkKit/SparkKit.h>
 
-#import <WonderBox/WBPlugInLoader.h>
+#import <WonderBox/WonderBox.h>
 
 @class SparkPlugIn, SparkAction;
 

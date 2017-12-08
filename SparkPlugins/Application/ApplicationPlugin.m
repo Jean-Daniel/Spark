@@ -8,10 +8,7 @@
 
 #import "ApplicationPlugin.h"
 
-#import <WonderBox/WBApplication.h>
-#import <WonderBox/WBImageView.h>
-#import <WonderBox/WBImageFunctions.h>
-#import <WonderBox/NSImage+WonderBox.h>
+#import <WonderBox/WonderBox.h>
 
 @implementation ApplicationPlugin {
 @private
@@ -52,15 +49,14 @@
     case kApplicationForceQuitDialog:
       break;
     default:
-      if (!_url)
-        return [NSAlert alertWithMessageText:NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_APPLICATION_ALERT", nil, kApplicationActionBundle,
-                                                                                @"Create Action without Application Error * Title *")
-                               defaultButton:NSLocalizedStringFromTableInBundle(@"OK", nil, kApplicationActionBundle,
-                                                                                @"Alert default button")
-                             alternateButton:nil
-                                 otherButton:nil
-                   informativeTextWithFormat:NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_APPLICATION_ALERT_MSG", nil, kApplicationActionBundle,
-                                                                                @"Create Action without Application Error * Msg *")];
+      if (!_url) {
+        NSAlert *alert = [[NSAlert alloc] init];
+        alert.messageText = NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_APPLICATION_ALERT", nil, kApplicationActionBundle,
+                                                               @"Create Action without Application Error * Title *");
+        alert.informativeText = NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_APPLICATION_ALERT_MSG", nil, kApplicationActionBundle,
+                                                                   @"Create Action without Application Error * Msg *");
+        return alert;
+      }
   }
   return nil;
 }
@@ -125,7 +121,7 @@
   oPanel.nameFieldStringValue = _url.lastPathComponent ?: @"";
   oPanel.allowedFileTypes = @[ @"app", SPXCFToNSString(kUTTypeApplication) ];
   [oPanel beginSheet:sender.window completionHandler:^(NSModalResponse returnCode) {
-    if (returnCode == NSOKButton && [oPanel.URLs count] > 0) {
+    if (returnCode == NSModalResponseOK && [oPanel.URLs count] > 0) {
       [self setURL:oPanel.URLs.firstObject];
     }
   }];

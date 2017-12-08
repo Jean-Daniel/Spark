@@ -24,9 +24,7 @@
 #import <SparkKit/SparkApplication.h>
 #import <SparkKit/SparkEntryManager.h>
 
-#import <WonderBox/WBObjCRuntime.h>
-#import <WonderBox/WBImageAndTextCell.h>
-#import <WonderBox/NSArrayController+WonderBox.h>
+#import <WonderBox/WonderBox.h>
 
 typedef struct _SETriggerStyle {
   BOOL bold;
@@ -131,7 +129,6 @@ NSString * sSEHiddenPluggedObserverKey = nil;
   [uiTable setAutosaveTableColumns:YES];
   
   [uiTable setVerticalMotionCanBeginDrag:YES];
-  [uiTable setContinueEditing:NO];
 }
 
 - (NSView *)tableView {
@@ -141,8 +138,8 @@ NSString * sSEHiddenPluggedObserverKey = nil;
 - (void)setListEnabled:(BOOL)flag {
   SparkUID app = [[self application] uid];
 	SparkEntryManager *manager = [[self library] entryManager];
-	for (NSUInteger idx = 0, count = [self count]; idx < count; idx++) {
-    SparkEntry *entry = [self objectAtIndex:idx];
+	for (NSUInteger idx = 0, count = [self.arrangedObjects count]; idx < count; idx++) {
+    SparkEntry *entry = [self objectAtArrangedObjectIndex:idx];
     if ([[entry application] uid] == app) {
 			if (flag) {
 				/* avoid conflict */
@@ -168,7 +165,7 @@ NSString * sSEHiddenPluggedObserverKey = nil;
   
   NSUInteger idx = [self selectionIndex];
   if (idx != NSNotFound) {
-    SparkEntry *entry = [self objectAtIndex:idx];
+    SparkEntry *entry = [self objectAtArrangedObjectIndex:idx];
     if ([entry isPlugged]) {
       [[ibWindow document] editEntry:entry];
     } else {
@@ -194,7 +191,7 @@ NSString * sSEHiddenPluggedObserverKey = nil;
 #pragma mark Delegate
 - (void)spaceDownInTableView:(SETriggerTable *)aTable {
   [self.selectionIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
-    SparkEntry *entry = [self objectAtIndex:idx];
+    SparkEntry *entry = [self objectAtArrangedObjectIndex:idx];
     if ([entry isPlugged]) {
       [entry setActive:![entry isEnabled]];
     }
@@ -207,7 +204,7 @@ NSString * sSEHiddenPluggedObserverKey = nil;
   NSInteger column = [aTable columnAtPoint:point];
   if (row != -1 && column != -1) {
     if ([[[[aTable tableColumns] objectAtIndex:column] identifier] isEqualToString:@"active"]) {
-      SparkEntry *entry = [self objectAtIndex:row];
+      SparkEntry *entry = [self objectAtArrangedObjectIndex:row];
       [self setListEnabled:![entry isEnabled]];
       return NO;
     }
@@ -229,7 +226,7 @@ NSString * sSEHiddenPluggedObserverKey = nil;
 }
 
 - (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
-  SparkEntry *entry = [self objectAtIndex:rowIndex];
+  SparkEntry *entry = [self objectAtArrangedObjectIndex:rowIndex];
   
   /* Text field cell */
   if ([aCell respondsToSelector:@selector(setTextColor:)]) {  
@@ -294,7 +291,7 @@ NSString * sSEHiddenPluggedObserverKey = nil;
   
   NSMutableArray *entries = [[NSMutableArray alloc] init];
   [rowIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
-    SparkEntry *entry = [self objectAtIndex:idx];
+    SparkEntry *entry = [self objectAtArrangedObjectIndex:idx];
     [entries addObject:@([entry uid])];
   }];
   [plist setObject:entries forKey:@"entries"];
@@ -306,7 +303,7 @@ NSString * sSEHiddenPluggedObserverKey = nil;
 #pragma mark Context Menu
 - (NSMenu *)tableView:(NSTableView *)aTableView menuForRow:(NSInteger)row {
   if (row >= 0) {
-    SparkEntry *entry = [self objectAtIndex:row];
+    SparkEntry *entry = [self objectAtArrangedObjectIndex:row];
 		NSArray *variants = [entry variants];
     if ([variants count] > 1) {
       NSMenu *ctxt = [[NSMenu alloc] initWithTitle:@"Action Menu"];
@@ -366,13 +363,6 @@ NSString * sSEHiddenPluggedObserverKey = nil;
 	[entry setEnabled:value];
 }
 
-- (void)setActiveConflictDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(SparkEntry *)previous {
-	if (NSAlertDefaultReturn == returnCode) {
-		[previous setEnabled:NO];
-		[self performSetActive:YES document:SEGetDocumentForLibrary([[self action] library])];
-	}
-}
-
 - (void)setActive:(BOOL)active {
   SELibraryDocument *document = SEGetDocumentForLibrary([[self action] library]);
   if (document) {
@@ -381,12 +371,17 @@ NSString * sSEHiddenPluggedObserverKey = nil;
 			SparkEntry *previous = [[[document library] entryManager] activeEntryForTrigger:[self trigger]
 																																					application:[self application]];
 			if (previous) {
-				NSBeginAlertSheet(@"Entry conflict", 
-													@"Disable previous",
-													NSLocalizedString(@"Cancel", @"Cancel"),
-													nil, [document windowForSheet], 
-													self, @selector(setActiveConflictDidEnd:returnCode:contextInfo:), NULL, bridge_cast<void *>(previous),
-													@"'%@' already use the same shortcut.", [previous name]);
+        NSAlert *alert = [[NSAlert alloc] init];
+        alert.messageText = @"Entry conflict";
+        alert.informativeText = [NSString stringWithFormat:@"'%@' already use the same shortcut.", [previous name]];
+        [alert addButtonWithTitle:@"Disable previous"];
+        [alert addButtonWithTitle:NSLocalizedString(@"Cancel", @"Cancel")];
+        [alert beginSheetModalForWindow:document.windowForSheet completionHandler:^(NSModalResponse returnCode) {
+          if (NSAlertFirstButtonReturn == returnCode) {
+            previous.enabled = NO;
+            [self performSetActive:YES document:SEGetDocumentForLibrary(self.action.library)];
+          }
+        }];
 				return;
 			}
 		}

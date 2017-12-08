@@ -19,8 +19,7 @@
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkObjectSet.h>
 
-#import <WonderBox/WBFSFunctions.h>
-#import <WonderBox/WBImageFunctions.h>
+#import <WonderBox/WonderBox.h>
 
 enum {
   kSparkInvalidType = 0xff

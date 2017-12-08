@@ -10,8 +10,7 @@
 
 #import "SystemActionPlugin.h"
 
-#import <WonderBox/WBODFunctions.h>
-#import <WonderBox/NSString+WonderBox.h>
+#import <WonderBox/WonderBox.h>
 
 @implementation SystemActionPlugin
 

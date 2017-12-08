@@ -26,9 +26,7 @@
 #import <SparkKit/SparkPlugIn.h>
 #import <SparkKit/SparkActionLoader.h>
 
-#import <WonderBox/WBTableView.h>
-#import <WonderBox/NSArray+WonderBox.h>
-#import <WonderBox/NSArrayController+WonderBox.h>
+#import <WonderBox/WonderBox.h>
 
 #pragma mark -
 #pragma mark Implementation
@@ -155,7 +153,7 @@
 	[self setSelectsInsertedObjects:YES];
 	
   [self rearrangeObjects];
-  [uiTable noteHeightOfRowsWithIndexesChanged:SPXIndexesForCount([self count])];
+  [uiTable noteHeightOfRowsWithIndexesChanged:SPXIndexesForCount([self.arrangedObjects count])];
 }
 
 - (void)setLibrary:(SparkLibrary *)aLibrary {
@@ -253,7 +251,7 @@
 
 - (BOOL)tableView:(NSTableView *)aTableView shouldEditTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
   if (rowIndex >= 0) {
-    SEEntryList *item = [self objectAtIndex:rowIndex];
+    SEEntryList *item = [self objectAtArrangedObjectIndex:rowIndex];
     return [item isEditable];
   }
   return NO;
@@ -263,7 +261,7 @@
 /* Allow drop only in editable list (uid > kSparkLibraryReserved && not dynamic) */
 - (NSDragOperation)tableView:(NSTableView *)aTableView validateDrop:(id <NSDraggingInfo>)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)operation {
   if (NSTableViewDropOn == operation) {
-    SEEntryList *list = [self objectAtIndex:row];
+    SEEntryList *list = [self objectAtArrangedObjectIndex:row];
     if ([list isEditable] && [[[info draggingPasteboard] types] containsObject:SparkEntriesPboardType])
       return NSDragOperationCopy;
   }
@@ -296,7 +294,7 @@
 				}
       }
       if ([items count]) {
-				SparkList *list = [[self objectAtIndex:row] sparkList];
+				SparkList *list = [[self objectAtArrangedObjectIndex:row] sparkList];
         [list addEntriesFromArray:items];
       }
     }
@@ -355,7 +353,7 @@
 - (void)deleteSelectionInTableView:(NSTableView *)aTableView {
   NSUInteger idx = [self selectionIndex];
   if (idx != NSNotFound) {
-    SEEntryList *list = [self objectAtIndex:idx];
+    SEEntryList *list = [self objectAtArrangedObjectIndex:idx];
     if ([list isEditable]) {
       /* Remove list from library */
       [[[self library] listSet] removeObject:[list sparkList]];
@@ -367,7 +365,7 @@
 - (BOOL)canDeleteSelectionInTableView:(NSTableView *)aTableView {
   NSUInteger idx = [self selectionIndex];
   if (idx != NSNotFound) {
-    SEEntryList *list = [self objectAtIndex:idx];
+    SEEntryList *list = [self objectAtArrangedObjectIndex:idx];
     if ([list isEditable]) {
       /* Remove list from library */
       return YES;
@@ -378,15 +376,15 @@
 
 /* Separator Implementation */
 - (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row {
-  return row >= 0 && (NSUInteger)row < [self count] && [[[self objectAtIndex:row] name] isEqualToString:SETableSeparator] ? 1 : [tableView rowHeight];
+  return row >= 0 && (NSUInteger)row < [self.arrangedObjects count] && [[[self objectAtArrangedObjectIndex:row] name] isEqualToString:SETableSeparator] ? 1 : [tableView rowHeight];
 }
 
 - (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(NSInteger)rowIndex {
-  return rowIndex >= 0 && (NSUInteger)rowIndex < [self count] ? ![[[self objectAtIndex:rowIndex] name] isEqualToString:SETableSeparator] : YES;
+  return rowIndex >= 0 && (NSUInteger)rowIndex < [self.arrangedObjects count] ? ![[[self objectAtArrangedObjectIndex:rowIndex] name] isEqualToString:SETableSeparator] : YES;
 }
 
 - (nullable NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(nullable NSTableColumn *)tableColumn row:(NSInteger)row {
-  if (row >= 0 && (NSUInteger)row < [self count] && [[[self objectAtIndex:row] name] isEqualToString:SETableSeparator]) {
+  if (row >= 0 && (NSUInteger)row < [self.arrangedObjects count] && [[[self objectAtArrangedObjectIndex:row] name] isEqualToString:SETableSeparator]) {
     return [tableView makeViewWithIdentifier:@"separator" owner:self];
   }
   return [tableView makeViewWithIdentifier:@"default" owner:self];
@@ -398,7 +396,7 @@
   if (idx != NSNotFound) {
     NSUInteger row = idx;
     while (idx > 0) {
-      SEEntryList *list = [self objectAtIndex:idx];
+      SEEntryList *list = [self objectAtArrangedObjectIndex:idx];
       if ([[list name] isEqualToString:SETableSeparator]) {
         idx--;
       } else {
@@ -472,14 +470,14 @@
 	SparkList *list = SparkNotificationObject(aNotification);
 	[self addUserEntryList:list];
   [self rearrangeObjects];
-  [uiTable noteHeightOfRowsWithIndexesChanged:SPXIndexesForCount([self count])];
+  [uiTable noteHeightOfRowsWithIndexesChanged:SPXIndexesForCount([self.arrangedObjects count])];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
 	if ([@"name" isEqualToString:keyPath]) {
 		if ([self indexOfUserList:object] != NSNotFound)
 			[self rearrangeObjects];
-    [uiTable noteHeightOfRowsWithIndexesChanged:SPXIndexesForCount([self count])];
+    [uiTable noteHeightOfRowsWithIndexesChanged:SPXIndexesForCount([self.arrangedObjects count])];
 	} else {
 		[super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
 	}

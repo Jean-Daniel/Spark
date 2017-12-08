@@ -11,19 +11,12 @@
 #import "SELibraryWindow.h"
 #import "SELibraryDocument.h"
 
-#import <WonderBox/WBTableView.h>
-#import <WonderBox/WBFinderSuite.h>
-#import <WonderBox/WBFSFunctions.h>
-#import <WonderBox/WBLSFunctions.h>
-#import <WonderBox/WBObjCRuntime.h>
-#import <WonderBox/NSAlert+WonderBox.h>
-#import <WonderBox/WBImageAndTextCell.h>
-#import <WonderBox/NSArrayController+WonderBox.h>
-
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkObjectSet.h>
 #import <SparkKit/SparkApplication.h>
 #import <SparkKit/SparkEntryManager.h>
+
+#import <WonderBox/WonderBox.h>
 
 @implementation SEApplicationSource {
 @private
@@ -184,23 +177,25 @@ bool __IsApplicationAtURL(NSURL *path) {
   if ([[ibWindow window] attachedSheet] == nil) { /* Ignore if modal sheet open on main window */
     NSUInteger idx = [self selectionIndex];
     if (idx > 0) { /* If valid selection (should always append) */
-      NSInteger result = NSModalResponseOK;
-      SparkApplication *object = [self objectAtIndex:idx];
+      NSInteger result = NSAlertFirstButtonReturn;
+      SparkApplication *object = [self objectAtArrangedObjectIndex:idx];
       if ([object uid] > kSparkLibraryReserved) { /* If not a reserved object */
-        Boolean hasActions = [[se_library entryManager] containsEntryForApplication:object];
+        bool hasActions = [[se_library entryManager] containsEntryForApplication:object];
         /* If no custom key or if user want to ignore warning, do not display sheet */
         if (hasActions && ![[NSUserDefaults standardUserDefaults] boolForKey:@"SparkConfirmDeleteApplication"]) {
-          NSAlert *alert = [NSAlert alertWithMessageText:@"Deleting app will delete all custom hotkeys"
-                                           defaultButton:@"Delete"
-                                         alternateButton:@"Cancel"
-                                             otherButton:nil
-                               informativeTextWithFormat:@"This is just an information message."];
-					[alert setAlertStyle:NSInformationalAlertStyle];
-          [alert addUserDefaultCheckBoxWithTitle:@"do not show again" andKey:@"SparkConfirmDeleteApplication"];
+          NSAlert *alert = [[NSAlert alloc] init];
+          alert.alertStyle = NSInformationalAlertStyle;
+          alert.messageText = @"Deleting app will delete all custom hotkeys";
+          alert.informativeText = @"This is just an information message.";
+
+          [alert addButtonWithTitle:@"Delete"];
+          [alert addButtonWithTitle:@"Cancel"];
+
+          [alert bindSuppressionButtonToUserDefault:@"SparkConfirmDeleteApplication"];
           /* Do not use sheet because caller assume it is synchrone */
           result = [alert runModal];
         } 
-        if (NSModalResponseOK == result) {
+        if (NSAlertFirstButtonReturn == result) {
           [[self applicationSet] removeObject:object];
           return;
         }
@@ -269,7 +264,7 @@ bool __IsApplicationAtURL(NSURL *path) {
 
 /* Display bold if has some custom actions */
 - (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
-  SparkApplication *item = [self objectAtIndex:rowIndex];
+  SparkApplication *item = [self objectAtArrangedObjectIndex:rowIndex];
   if ([item uid] && [[se_library entryManager] containsEntryForApplication:item]) {
     [aCell setFont:[NSFont boldSystemFontOfSize:[NSFont smallSystemFontSize]]];
   } else {

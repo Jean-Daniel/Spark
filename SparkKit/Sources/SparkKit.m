@@ -12,7 +12,7 @@
 
 #import <SparkKit/SparkPreferences.h>
 
-#import <WonderBox/WBFunctions.h>
+#import <WonderBox/WonderBox.h>
 
 NSString * const kSparkErrorDomain = @"com.xenonium.SparkErrorDomain";
 

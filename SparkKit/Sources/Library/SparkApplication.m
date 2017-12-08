@@ -10,9 +10,9 @@
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkPrivate.h>
 
-#import <WonderBox/WBFunctions.h>
-#import <WonderBox/WBLSFunctions.h>
-#import <WonderBox/NSImage+WonderBox.h>
+#import <WonderBox/WonderBox.h>
+
+#import "SparkInternal.h"
 
 static
 NSString * const kSparkApplicationKey = @"SparkApplication";
@@ -96,13 +96,13 @@ NSString * const SparkApplicationDidChangeEnabledNotification = @"SparkApplicati
 
 #pragma mark SparkSerialization
 - (BOOL)serialize:(NSMutableDictionary *)plist {
-  if ([super serialize:plist]) {
-    [plist setObject:@([self encodeFlags]) forKey:kSparkApplicationFlagsKey];
-    [plist setObject:_url.absoluteString forKey:kSparkApplicationURLKey];
-    [plist setObject:_bundleIdentifier forKey:kSparkApplicationBundleIdentifierKey];
-    return YES;
-  }
-  return NO;
+  if (![super serialize:plist])
+    return NO;
+
+  plist[kSparkApplicationFlagsKey] = @([self encodeFlags]);
+  plist[kSparkApplicationURLKey] = _url.absoluteString;
+  plist[kSparkApplicationBundleIdentifierKey] = _bundleIdentifier;
+  return YES;
 }
 
 - (instancetype)initWithSerializedValues:(NSDictionary *)plist {
@@ -406,3 +406,11 @@ NSString * const kWBApplicationBundleIDKey = @"WBApplicationBundleID";
 }
 
 @end
+
+WBApplication *WBApplicationFromSerializedValues(NSDictionary *values) {
+  return [[WBApplication alloc] initWithSerializedValues:values];
+}
+
+BOOL WBApplicationSerialize(WBApplication *app, NSMutableDictionary *into) {
+  return [app serialize:into];
+}

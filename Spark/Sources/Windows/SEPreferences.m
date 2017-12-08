@@ -19,8 +19,7 @@
 #import <SparkKit/SparkPreferences.h>
 #import <SparkKit/SparkActionLoader.h>
 
-#import <WonderBox/WBFSFunctions.h>
-#import <WonderBox/WBAEFunctions.h>
+#import <WonderBox/WonderBox.h>
 
 /* If daemon should delay library loading at startup */
 NSString * const kSparkGlobalPrefDelayStartup = @"SDDelayStartup";
@@ -394,10 +393,9 @@ void _SEPreferencesUpdateLoginItem(void) {
     if (items) {
       CFIndex count = CFArrayGetCount(items);
       while (count-- > 0) {
-        CFURLRef itemURL = NULL;
         LSSharedFileListItemRef item = (LSSharedFileListItemRef)CFArrayGetValueAtIndex(items, count);
-        if (noErr == LSSharedFileListItemResolve(item, kLSSharedFileListNoUserInteraction | kLSSharedFileListDoNotMountVolumes,
-                                                 &itemURL, NULL) && itemURL) {
+        CFURLRef itemURL = LSSharedFileListItemCopyResolvedURL(item, kLSSharedFileListNoUserInteraction | kLSSharedFileListDoNotMountVolumes, NULL);
+        if (itemURL) {
           CFStringRef name = CFURLCopyLastPathComponent(itemURL);
           if (name) {
             if (CFEqual(name, SPXNSToCFString(kSparkDaemonExecutableName))) {

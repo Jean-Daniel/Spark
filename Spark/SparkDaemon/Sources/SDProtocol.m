@@ -19,7 +19,7 @@
 
 @implementation SparkDaemon (SparkServerProtocol)
 
-- (UInt32)version {
+- (uint32_t)version {
   SPXTrace();
   return kSparkServerVersion;
 }

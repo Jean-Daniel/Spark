@@ -21,7 +21,7 @@ NSString * const SEServerStatusDidChangeNotification;
 - (void)disconnect;
 - (BOOL)isConnected;
 
-- (NSDistantObject<SparkServer> *)server;
+@property (readonly) NSDistantObject<SparkServer> *server;
 
 /* Daemon control */
 - (void)restart;
@@ -30,7 +30,7 @@ NSString * const SEServerStatusDidChangeNotification;
 - (BOOL)isRunning;
 - (SparkDaemonStatus)status;
 
-- (UInt32)version;
+- (uint32_t)version;
 
 @end
 

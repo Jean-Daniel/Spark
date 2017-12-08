@@ -26,10 +26,7 @@
 #import <SparkKit/SparkApplication.h>
 #import <SparkKit/SparkActionLoader.h>
 
-#import <WonderBox/WBProcessFunctions.h>
-
 #if defined (DEBUG)
-#import <WonderBox/WBAEFunctions.h>
 #import <HotKeyToolKit/HotKeyToolKit.h>
 #import <SparkKit/SparkLibrarySynchronizer.h>
 #endif

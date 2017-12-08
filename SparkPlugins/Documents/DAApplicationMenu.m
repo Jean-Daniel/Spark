@@ -10,7 +10,7 @@
 
 #import "DocumentAction.h"
 
-#import <WonderBox/WBImageFunctions.h>
+#import <WonderBox/WonderBox.h>
 
 @implementation DAApplicationMenu {
   BOOL _custom;
@@ -43,7 +43,7 @@
   [oPanel setAllowsMultipleSelection:YES];
   oPanel.allowedFileTypes = @[@"app", @"APPL"];
   [oPanel beginSheetModalForWindow:self.window completionHandler:^(NSInteger result) {
-    if (result == NSCancelButton) {
+    if (result == NSModalResponseCancel) {
       return;
     }
     if (!self->_custom) {
@@ -67,8 +67,6 @@
   if (url) {
     NSArray *applications = SPXCFArrayBridgingRelease(LSCopyApplicationURLsForURL(SPXNSToCFURL(url), kLSRolesAll));
     if ([applications count]) {
-      CFURLRef prefered = NULL;
-      LSGetApplicationForURL(SPXNSToCFURL(url), kLSRolesAll, NULL, &prefered);
       /* Sort applications */
       NSSortDescriptor *desc = [[NSSortDescriptor alloc] initWithKey:@"path.lastPathComponent" ascending:NO selector:@selector(caseInsensitiveCompare:)];
       NSArray *sorted = [applications sortedArrayUsingDescriptors:@[desc]];
@@ -79,13 +77,13 @@
         if ([application isFileURL])
           [[self menu] insertItem:[self itemForURL:application] atIndex:0];
       }
+      NSURL *prefered = SPXCFURLBridgingRelease(LSCopyDefaultApplicationURLForURL(SPXNSToCFURL(url), kLSRolesAll, NULL));
       if (prefered) {
-        NSUInteger idx = [sorted indexOfObject:SPXCFToNSURL(prefered)];
+        NSUInteger idx = [sorted indexOfObject:prefered];
         if (idx != NSNotFound) {
           idx++;
           [self selectItemAtIndex:[sorted count] - idx];
         }
-        CFRelease(prefered);
       }
     }
   } else {

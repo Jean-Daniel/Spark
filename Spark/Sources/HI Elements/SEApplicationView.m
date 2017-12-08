@@ -11,7 +11,7 @@
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkApplication.h>
 
-#import <WonderBox/WBCGFunctions.h>
+#import <WonderBox/WonderBox.h>
 
 // MARK: -
 @implementation SEApplicationView

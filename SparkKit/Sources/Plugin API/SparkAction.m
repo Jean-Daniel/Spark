@@ -7,6 +7,8 @@
  */
 
 #import "SparkPrivate.h"
+#import "SparkInternal.h"
+
 #import <SparkKit/SparkKit.h>
 #import <SparkKit/SparkEvent.h>
 #import <SparkKit/SparkAction.h>
@@ -16,7 +18,7 @@
 #import <SparkKit/SparkEntryManager.h>
 #import <SparkKit/SparkActionLoader.h>
 
-#import <WonderBox/WBSerialization.h>
+#import <WonderBox/WonderBox.h>
 
 static NSString * const kSparkActionFlagsKey = @"SAFlags";
 static NSString * const kSparkActionVersionKey = @"SAVersion";
@@ -90,7 +92,9 @@ static NSString * const kSparkActionDescriptionKey = @"SADescription";
 
 #pragma mark Spark Serialization
 - (BOOL)serialize:(NSMutableDictionary *)plist {
-  [super serialize:plist];
+  if (![super serialize:plist])
+    return NO;
+
   if ([self version])
     [plist setObject:@([self version]) forKey:kSparkActionVersionKey];
   
@@ -116,9 +120,8 @@ static NSString * const kSparkActionDescriptionKey = @"SADescription";
     [self setActionDescription:description];
     
     /* Update categorie */
-    if (!self.category) {
+    if (!self.category)
       [self setCategory:plist[kSparkActionCategorieKey]];
-    }
   }
   return self;
 }
@@ -126,7 +129,7 @@ static NSString * const kSparkActionDescriptionKey = @"SADescription";
 #pragma mark -
 #pragma mark Init & Dealloc Methods
 - (instancetype)init {
-  if (self= [super init]) {
+  if (self = [super init]) {
     SparkPlugIn *plugin = [[SparkActionLoader sharedLoader] plugInForAction:self];
     if (plugin) {
       [self setCategory:[plugin name]];

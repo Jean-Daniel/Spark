@@ -6,7 +6,7 @@
  *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
  */
 
-#import <WonderBox/WBWindowController.h>
+#import <WonderBox/WonderBox.h>
 
 @class SparkEntry, SparkAction, SparkTrigger;
 @class WBTableView, SEApplicationView;

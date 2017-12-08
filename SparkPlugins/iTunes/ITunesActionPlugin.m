@@ -12,11 +12,7 @@
 #import "ITunesAESuite.h"
 #import "ITunesVisualSetting.h"
 
-#import <WonderBox/WBAlias.h>
-#import <WonderBox/WBFSFunctions.h>
-#import <WonderBox/NSImage+WonderBox.h>
-#import <WonderBox/NSString+WonderBox.h>
-#import <WonderBox/NSTabView+WonderBox.h>
+#import <WonderBox/WonderBox.h>
 
 @interface ITunesActionPlugin () <ITunesVisualSettingDelegate>
 
@@ -334,13 +330,13 @@ NSURL *_iTunesGetLibraryPathFromPreferences(Boolean compat) {
 }
 
 static 
-NSURL *_iTunesGetLibraryFileInFolder(OSType folder, Boolean compat) {
-  NSURL *url = WBFSFindFolder(folder, kUserDomain, false);
+NSURL *_iTunesGetLibraryFileInFolder(NSSearchPathDirectory folder, Boolean compat) {
+  NSURL *url = [NSFileManager.defaultManager URLForDirectory:folder inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:NULL];
   /* Get User Special Folder */
-  if (url) {
+  if (url)
     /* Get User Music Library */
     url = [url URLByAppendingPathComponent:compat ? @"/iTunes/iTunes Music Library.xml" : @"/iTunes/iTunes Library.xml"];
-  }
+
   return url;
 }
 
@@ -358,12 +354,12 @@ NSURL *__iTunesFindLibrary(Boolean compat) {
   
   /* Search in User Music Folder */
   if (!file || ![file checkResourceIsReachableAndReturnError:NULL]) {
-    file = _iTunesGetLibraryFileInFolder(kMusicDocumentsFolderType, compat);
+    file = _iTunesGetLibraryFileInFolder(NSMusicDirectory, compat);
   }
   
   /* Search in User Document folder */
   if (!file || ![file checkResourceIsReachableAndReturnError:NULL]) {
-    file = _iTunesGetLibraryFileInFolder(kDocumentsFolderType, compat);
+    file = _iTunesGetLibraryFileInFolder(NSDocumentDirectory, compat);
   }
   
   if (file && ![file checkResourceIsReachableAndReturnError:NULL])
@@ -386,7 +382,7 @@ NSURL *__iTunesFindLibrary(Boolean compat) {
     if (library) {
       NSMutableDictionary *pl = [[NSMutableDictionary alloc] init];
       NSDictionary *list;
-      NSEnumerator *lists = [[library objectForKey:@"Playlists"] objectEnumerator];
+      NSEnumerator *lists = [library[@"Playlists"] objectEnumerator];
       while (list = [lists nextObject]) {
         NSString *name = list[@"Name"];
         if (!name)
@@ -434,7 +430,7 @@ NSURL *__iTunesFindLibrary(Boolean compat) {
       if (title) {
         NSDictionary *playlist = [it_playlists objectForKey:title];
         if (playlist) {
-          switch ([[playlist objectForKey:@"kind"] intValue]) {
+          switch ([playlist[@"kind"] intValue]) {
             case kPlaylistUser:
               [[menu itemAtIndex:count] setImage:user];
               break;

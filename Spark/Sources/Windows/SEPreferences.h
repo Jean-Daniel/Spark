@@ -6,7 +6,7 @@
  *  Copyright (c) 2004 - 2007 Shadow Lab. All rights reserved.
  */
 
-#import <WonderBox/WBWindowController.h>
+#import <WonderBox/WonderBox.h>
 
 WB_PRIVATE
 NSString * const kSparkVersionKey;

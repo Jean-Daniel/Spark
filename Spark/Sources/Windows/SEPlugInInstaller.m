@@ -10,10 +10,7 @@
 
 #import "Spark.h"
 
-#import <WonderBox/WBFSFunctions.h>
-
-#import <WonderBox/WBAEFunctions.h>
-#import <WonderBox/WBFinderSuite.h>
+#import <WonderBox/WonderBox.h>
 
 #import <SparkKit/SparkActionLoader.h>
 
@@ -150,7 +147,7 @@ dispose:
       } else {
         NSURL *root = nil;
         NSUInteger count = [cmpt count];
-        NSURL *tmp = WBFSFindFolder(kTemporaryFolderType, kLocalDomain, true);
+        NSURL *tmp = [NSFileManager.defaultManager temporaryDirectory];
         while (count-- > 0) {
           tmp = [tmp URLByAppendingPathComponent:cmpt[count]];
           if (!root)

@@ -16,7 +16,7 @@
 #import <SparkKit/SparkApplication.h>
 #import <SparkKit/SparkActionLoader.h>
 
-#import <WonderBox/NSImage+WonderBox.h>
+#import <WonderBox/WonderBox.h>
 
 #import "SparkEntryPrivate.h"
 #import "SparkLibraryPrivate.h"

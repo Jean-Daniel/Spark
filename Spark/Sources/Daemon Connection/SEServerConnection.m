@@ -16,8 +16,7 @@
 #import <SparkKit/SparkAppleScriptSuite.h>
 #import <SparkKit/SparkLibrarySynchronizer.h>
 
-#import <WonderBox/WBAEFunctions.h>
-#import <WonderBox/WBFSFunctions.h>
+#import <WonderBox/WonderBox.h>
 
 NSString * const SEServerStatusDidChangeNotification = @"SEServerStatusDidChange";
 
@@ -80,7 +79,7 @@ BOOL SEDaemonTerminate(NSRunningApplication *daemon) {
 }
 
 #pragma mark -
-- (UInt32)version {
+- (uint32_t)version {
   if ([self isConnected]) {
     if ([self.server respondsToSelector:@selector(version)]) {
       @try {
@@ -104,8 +103,8 @@ BOOL SEDaemonTerminate(NSRunningApplication *daemon) {
 - (void)shutdown {
   if ([self isConnected]) {
     @try {
-      if ([[self server] respondsToSelector:@selector(shutdown)]) {
-        [[self server] shutdown];
+      if ([self.server respondsToSelector:@selector(shutdown)]) {
+        [self.server shutdown];
         return;
       }
     } @catch (id exception) {
@@ -166,7 +165,7 @@ BOOL SEDaemonTerminate(NSRunningApplication *daemon) {
   if (!se_sync)
     se_sync = [[SparkLibrarySynchronizer alloc] initWithLibrary:SparkActiveLibrary()];
   
-  [se_sync setDistantLibrary:[se_server library]];
+  [se_sync setDistantLibrary:se_server.library];
 }
 
 - (BOOL)isConnected {

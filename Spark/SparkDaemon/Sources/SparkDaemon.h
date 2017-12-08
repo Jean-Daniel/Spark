@@ -39,7 +39,7 @@
 
 @interface SparkDaemon (SparkServerProtocol) <SparkServer>
 
-- (UInt32)version;
+- (uint32_t)version;
 - (void)shutdown;
 
 - (id<SparkLibrary>)library;

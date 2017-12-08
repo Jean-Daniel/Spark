@@ -10,7 +10,7 @@
 
 #include <SparkKit/SparkKit.h>
 
-#include <WonderBox/WBAEFunctions.h>
+#include <WonderBox/WonderBox.h>
 
 OSStatus SDGetEditorIsTrapping(Boolean *trapping) {
   if (!trapping)

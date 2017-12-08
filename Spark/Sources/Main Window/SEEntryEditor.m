@@ -23,13 +23,9 @@
 #import <SparkKit/SparkActionLoader.h>
 #import <SparkKit/SparkActionPlugIn.h>
 
-#import <HotKeyToolKit/HotKeyToolKit.h>
+#import <WonderBox/WonderBox.h>
 
-#import <WonderBox/WBGeometry.h>
-#import <WonderBox/WBFunctions.h>
-#import <WonderBox/WBTableView.h>
-#import <WonderBox/WBObjCRuntime.h>
-#import <WonderBox/NSString+WonderBox.h>
+#import <HotKeyToolKit/HotKeyToolKit.h>
 
 /* Custom resize animation time */
 @interface SETrapWindow : HKTrapWindow {

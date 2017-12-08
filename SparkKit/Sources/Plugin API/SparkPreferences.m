@@ -228,7 +228,7 @@ bool SparkPreferencesSynchronize(SparkPreferencesDomain domain) {
       return CFPreferencesSynchronize(kSparkPreferencesIdentifier,
                                       kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
     case SparkPreferencesLibrary:
-      return [SparkActiveLibrary() synchronizePreferences]; /* synchronization is done when the library is saved */ // SparkLibraryPreferencesSynchronize();
+      return [SparkActiveLibrary() synchronizePreferences]; /* synchronization is done when the library is saved */
     case SparkPreferencesFramework:
       return CFPreferencesSynchronize(kSparkPreferencesIdentifier,
                                       kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
@@ -284,7 +284,7 @@ void _SparkPreferencesSetObservers(NSMutableDictionary *observers, SparkPreferen
   }
 }
 
-WB_INLINE
+SPARK_INLINE
 void __SparkPreferencesNotifyObservers(NSMutableSet *observers, NSString *key, id value) {
   for (_SparkPreferencesObserver *observer in [observers copy]) {
     [observer notifyValueChange:value forKey:key];
@@ -320,7 +320,7 @@ void SparkPreferencesRegisterObserver(NSString *key, SparkPreferencesDomain doma
   [observers addObject:observer];
 }
 
-WB_INLINE
+SPARK_INLINE
 void __SparkPreferencesRemoveObserver(NSMutableDictionary *table, NSMutableSet *observers, id observer, NSString *key) {
   if (observers) {
     [observers removeObject:observer];

@@ -10,7 +10,7 @@
 #import <SparkKit/SparkHotKey.h>
 #import <SparkKit/SparkAction.h>
 
-#import <WonderBox/NSImage+WonderBox.h>
+#import <WonderBox/WonderBox.h>
 
 #import <HotKeyToolKit/HotKeyToolKit.h>
 

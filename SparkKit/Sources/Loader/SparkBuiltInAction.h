@@ -9,11 +9,11 @@
 #import <SparkKit/SparkAction.h>
 #import <SparkKit/SparkActionPlugIn.h>
 
-enum {
-  kSparkSDActionLaunchEditor     = 'OpSe', /* 1332761445 */
-  kSparkSDActionSwitchStatus     = 'SwSt', /* 1400329076 */
-  kSparkSDActionSwitchListStatus = 'SwLi', /* 1400327273 */
-	kSparkSDActionExchangeListStatus = 'ExLi', /* 1165511785 */
+typedef NS_ENUM(NSInteger, SparkPlugInAction) {
+  SparkPlugInActionLaunchEditor     = 'OpSe', /* 1332761445 */
+  SparkPlugInActionSwitchStatus     = 'SwSt', /* 1400329076 */
+  SparkPlugInActionSwitchListStatus = 'SwLi', /* 1400327273 */
+	SparkPlugInActionExchangeListStatus = 'ExLi', /* 1165511785 */
 };
 
 @class SparkList;
@@ -25,7 +25,7 @@ enum {
   IBOutlet NSPopUpButton *uiLists2;
 }
 
-@property(nonatomic) OSType action;
+@property(nonatomic) SparkPlugInAction action;
 
 - (IBAction)selectGroup:(NSPopUpButton *)sender;
 - (IBAction)selectAlternateGroup:(NSPopUpButton *)sender;
@@ -34,7 +34,7 @@ enum {
 
 @interface SparkBuiltInAction : SparkAction
 
-@property(nonatomic) OSType action;
+@property(nonatomic) SparkPlugInAction action;
 @property(nonatomic, retain) SparkList *list;
 @property(nonatomic, retain) SparkList *alternateList;
 

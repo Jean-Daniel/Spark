@@ -12,8 +12,9 @@
 #import <SparkKit/SparkFunctions.h>
 #import <SparkKit/SparkIconManager.h>
 
-#import <WonderBox/WBObjCRuntime.h>
+#import <WonderBox/WonderBox.h>
 
+#import "SparkInternal.h"
 #import "SparkLibraryPrivate.h"
 
 static
@@ -25,7 +26,7 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
 
 @interface SparkObject ()
 - (instancetype)initFromPropertyList:(NSDictionary *)plist;
-- (instancetype)initWithSerializedValues_:(NSDictionary *)plist;
+- (instancetype)_initWithSerializedValues:(NSDictionary *)plist;
 @end
 
 @implementation SparkObject {
@@ -72,7 +73,7 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
 }
 
 #pragma mark -
-- (instancetype)initWithSerializedValues_:(NSDictionary *)plist {
+- (instancetype)_initWithSerializedValues:(NSDictionary *)plist {
   BOOL compat = NO;
   NSString *name = plist[kSparkObjectNameKey];
   if (!name) {
@@ -105,7 +106,7 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
   return [NSMutableDictionary dictionary];
 }
 - (instancetype)initFromPropertyList:(NSDictionary *)plist {
-  return [self initWithSerializedValues_:plist];
+  return [self _initWithSerializedValues:plist];
 }
 
 - (BOOL)serialize:(NSMutableDictionary *)plist {
@@ -114,10 +115,9 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
     [plist setObject:_name forKey:kSparkObjectNameKey];
   /* Compatibility */
   if (WBRuntimeInstanceImplementsSelector([self class], @selector(propertyList))) {
-    id dico = [self propertyList];
-    if (dico) {
-      [plist addEntriesFromDictionary:dico];
-    }
+    NSDictionary *properties = [self propertyList];
+    if (properties)
+      [plist addEntriesFromDictionary:properties];
   }
   return YES;
 }
@@ -127,7 +127,7 @@ NSString* const kSparkObjectIconKey = @"SparkObjectIcon";
   if (WBRuntimeInstanceImplementsSelector([self class], @selector(initFromPropertyList:))) {
     self = [self initFromPropertyList:plist];
   } else {
-    self = [self initWithSerializedValues_:plist];
+    self = [self _initWithSerializedValues:plist];
   }
   return self;
 }

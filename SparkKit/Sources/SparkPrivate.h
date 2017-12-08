@@ -70,11 +70,12 @@
 
 @end
 
-#import <WonderBox/WBApplication.h>
+// WonderBox Helper
+@class WBApplication;
 
-@interface WBApplication (SparkSerialization)
+SPARK_EXPORT
+WBApplication *WBApplicationFromSerializedValues(NSDictionary *values);
 
-- (BOOL)serialize:(NSMutableDictionary *)plist;
-- (id)initWithSerializedValues:(NSDictionary *)plist;
+SPARK_EXPORT
+BOOL WBApplicationSerialize(WBApplication *app, NSMutableDictionary *into);
 
-@end

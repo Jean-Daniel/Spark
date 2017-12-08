@@ -14,8 +14,7 @@
 #import <SparkKit/SparkObjectSet.h>
 #import <SparkKit/SparkEntryManager.h>
 
-#import <WonderBox/WBTableView.h>
-#import <WonderBox/WBTableDataSource.h>
+#import <WonderBox/WonderBox.h>
 
 #import <HotKeyToolKit/HKKeyMap.h>
 

@@ -12,7 +12,7 @@
 #import <SparkKit/SparkActionPlugIn.h>
 #import <SparkKit/SparkMultipleAlerts.h>
 
-#import <WonderBox/NSImage+WonderBox.h>
+#import <WonderBox/WonderBox.h>
 
 @interface SparkMultipleAlerts ()
 
@@ -206,10 +206,9 @@
   [sp_alerts removeAllObjects];
 }
 
-- (void)beginSheetModalForWindow:(NSWindow *)window modalDelegate:(id)delegate didEndSelector:(SEL)didEndSelector contextInfo:(void *)contextInfo {
-  if (!self.window.sheet) {
-    [NSApp beginSheet:self.window modalForWindow:window modalDelegate:delegate didEndSelector:didEndSelector contextInfo:contextInfo];
-  }
+- (void)beginSheetModalForWindow:(NSWindow *)sheetWindow completionHandler:(void (^ __nullable)(NSModalResponse returnCode))handler {
+  if (!self.window.sheet)
+    [self.window beginSheet:self.window completionHandler:handler];
 }
 
 - (void)showAlerts {

@@ -8,7 +8,7 @@
 
 #import "ITunesProgressView.h"
 
-#import <WonderBox/WBCGFunctions.h>
+#import <WonderBox/WonderBox.h>
 
 @implementation ITunesProgressView {
 @private

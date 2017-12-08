@@ -10,12 +10,7 @@
 
 #import <Sparkkit/SparkPrivate.h>
 
-#import <WonderBox/WBAlias.h>
-#import <WonderBox/WBFunctions.h>
-#import <WonderBox/WBAEFunctions.h>
-#import <WonderBox/WBFSFunctions.h>
-#import <WonderBox/WBImageFunctions.h>
-#import <WonderBox/NSImage+WonderBox.h>
+#import <WonderBox/WonderBox.h>
 
 static NSString * const kApplicationFlagsKey = @"ApplicationFlags";
 static NSString * const kApplicationActionKey = @"ApplicationAction";
@@ -212,7 +207,10 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
   WBAlias *alias = nil;
   NSData *data = [plist objectForKey:@"App Alias"];
   if (data) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     alias = [[WBAlias alloc] initFromData:data];
+#pragma clang diagnostic pop
     _application = [[WBApplication alloc] initWithURL:alias.URL];
   }
   if (!_application) {
@@ -255,7 +253,7 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
         case kApplicationHideOther:
           break;
         default: {
-          _application = [[WBApplication alloc] initWithSerializedValues:plist];
+          _application = WBApplicationFromSerializedValues(plist);
         }
       }
     }
@@ -278,7 +276,7 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
         break;
       default: {
         if (_application)
-          [_application serialize:plist];
+          WBApplicationSerialize(_application, plist);
       }
     }
     

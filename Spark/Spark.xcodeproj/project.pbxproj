@@ -132,7 +132,7 @@
 		98D52B730B19A63700C8425C /* SEFirstRun.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B690B19A63700C8425C /* SEFirstRun.m */; };
 		98D52B740B19A63700C8425C /* SEPlugInHelp.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D52B6A0B19A63700C8425C /* SEPlugInHelp.h */; };
 		98D52B750B19A63700C8425C /* SEPlugInHelp.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B6B0B19A63700C8425C /* SEPlugInHelp.m */; };
-		98D52B760B19A63700C8425C /* SEPluginInstaller.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D52B6C0B19A63700C8425C /* SEPluginInstaller.h */; };
+		98D52B760B19A63700C8425C /* SEPlugInInstaller.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D52B6C0B19A63700C8425C /* SEPlugInInstaller.h */; };
 		98D52B770B19A63700C8425C /* SEPluginInstaller.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B6D0B19A63700C8425C /* SEPluginInstaller.m */; };
 		98D52B780B19A63700C8425C /* SEPreferences.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D52B6E0B19A63700C8425C /* SEPreferences.h */; };
 		98D52B790B19A63700C8425C /* SEPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B6F0B19A63700C8425C /* SEPreferences.m */; };
@@ -222,7 +222,6 @@
 		1B55EAE30B8625ED000E1760 /* SparkAware.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SparkAware.tiff; sourceTree = "<group>"; };
 		1B68A684141134CA0017CD27 /* SparkleDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkleDelegate.h; sourceTree = "<group>"; };
 		1B68A685141134CA0017CD27 /* SparkleDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkleDelegate.m; sourceTree = "<group>"; };
-		1B68A686141134CA0017CD27 /* SURSAVerifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SURSAVerifier.m; sourceTree = "<group>"; };
 		1B68A687141134CA0017CD27 /* SUVersionComparator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SUVersionComparator.m; sourceTree = "<group>"; };
 		1B68A6AB1411392B0017CD27 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B6F9EC31FAFC028006AE849 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -357,7 +356,7 @@
 		98D52B690B19A63700C8425C /* SEFirstRun.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEFirstRun.m; sourceTree = "<group>"; };
 		98D52B6A0B19A63700C8425C /* SEPlugInHelp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEPlugInHelp.h; sourceTree = "<group>"; };
 		98D52B6B0B19A63700C8425C /* SEPlugInHelp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEPlugInHelp.m; sourceTree = "<group>"; };
-		98D52B6C0B19A63700C8425C /* SEPluginInstaller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEPluginInstaller.h; sourceTree = "<group>"; };
+		98D52B6C0B19A63700C8425C /* SEPlugInInstaller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEPlugInInstaller.h; sourceTree = "<group>"; };
 		98D52B6D0B19A63700C8425C /* SEPluginInstaller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEPluginInstaller.m; sourceTree = "<group>"; };
 		98D52B6E0B19A63700C8425C /* SEPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEPreferences.h; sourceTree = "<group>"; };
 		98D52B6F0B19A63700C8425C /* SEPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEPreferences.m; sourceTree = "<group>"; };
@@ -420,7 +419,6 @@
 			children = (
 				1B68A684141134CA0017CD27 /* SparkleDelegate.h */,
 				1B68A685141134CA0017CD27 /* SparkleDelegate.m */,
-				1B68A686141134CA0017CD27 /* SURSAVerifier.m */,
 				1B68A687141134CA0017CD27 /* SUVersionComparator.m */,
 			);
 			path = Sparkle;
@@ -773,7 +771,7 @@
 				98D52B680B19A63700C8425C /* SEFirstRun.h */,
 				98D52B6A0B19A63700C8425C /* SEPlugInHelp.h */,
 				98D52B6E0B19A63700C8425C /* SEPreferences.h */,
-				98D52B6C0B19A63700C8425C /* SEPluginInstaller.h */,
+				98D52B6C0B19A63700C8425C /* SEPlugInInstaller.h */,
 				987669990CD4C5D500593B74 /* SEExportOptions.h */,
 				98D52B700B19A63700C8425C /* SETriggerBrowser.h */,
 			);
@@ -819,7 +817,7 @@
 				98D52B610B19A59700C8425C /* SETriggersController.h in Headers */,
 				98D52B720B19A63700C8425C /* SEFirstRun.h in Headers */,
 				98D52B740B19A63700C8425C /* SEPlugInHelp.h in Headers */,
-				98D52B760B19A63700C8425C /* SEPluginInstaller.h in Headers */,
+				98D52B760B19A63700C8425C /* SEPlugInInstaller.h in Headers */,
 				98D52B780B19A63700C8425C /* SEPreferences.h in Headers */,
 				98CC49680B5AAF3F00C60244 /* SELibraryDocument.h in Headers */,
 				9876699B0CD4C5D500593B74 /* SEExportOptions.h in Headers */,
@@ -1319,7 +1317,6 @@
 				CURRENT_PROJECT_VERSION = 470;
 				INFOPLIST_FILE = Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.xenonium.$(PRODUCT_NAME:rfc1034identifier).debug";
-				PRODUCT_NAME = Spark;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1329,7 +1326,6 @@
 			baseConfigurationReference = 1BBE7D0F0ED04F760004D9DD /* debug.xcconfig */;
 			buildSettings = {
 				ENABLE_TESTABILITY = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1344,7 +1340,6 @@
 				CURRENT_PROJECT_VERSION = 470;
 				INFOPLIST_FILE = Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.xenonium.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = Spark;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -1353,7 +1348,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1BBE7D100ED04F760004D9DD /* release.xcconfig */;
 			buildSettings = {
-				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 			};

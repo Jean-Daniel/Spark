@@ -10,9 +10,7 @@
 
 #import <OSAKit/OSAKit.h>
 
-#import <WonderBox/WBAlias.h>
-#import <WonderBox/WBFunctions.h>
-#import <WonderBox/NSImage+WonderBox.h>
+#import <WonderBox/WonderBox.h>
 
 static NSString * const kOSAScriptActionDataKey = @"OSAScriptData";
 static NSString * const kOSAScriptActionTypeKey = @"OSAScriptType";
@@ -69,12 +67,19 @@ NSBundle *AppleScriptActionBundle(void) {
   return self;
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+static inline WBAlias *AliasWithData(NSData *data) {
+  return [[WBAlias alloc] initFromData:data];
+}
+#pragma clang diagnostic pop
+
 - (void)initFromOldPropertyList:(NSDictionary *)plist {
   BOOL file = [[plist objectForKey:@"Script File"] boolValue];
   if (file) {
     NSData *alias = plist[@"Script Data"];
     if (alias)
-      _scriptBookmark = [WBAlias aliasFromData:alias];
+      _scriptBookmark = AliasWithData(alias);
   } else {
     NSString *source = [[NSString alloc] initWithData:plist[@"Script Data"]
                                              encoding:NSUTF8StringEncoding];
@@ -99,7 +104,7 @@ NSBundle *AppleScriptActionBundle(void) {
         }
           break;
         case 'file':
-          _scriptBookmark = [WBAlias aliasFromData:data];
+          _scriptBookmark = AliasWithData(data);
         case 'bokm':
           _scriptBookmark = [WBAlias aliasFromBookmarkData:data];
           break;

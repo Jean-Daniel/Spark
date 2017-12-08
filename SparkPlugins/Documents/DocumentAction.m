@@ -10,12 +10,7 @@
 
 #import <Sparkkit/SparkPrivate.h>
 
-#import <WonderBox/WBAlias.h>
-#import <WonderBox/WBFunctions.h>
-#import <WonderBox/WBAEFunctions.h>
-#import <WonderBox/WBFinderSuite.h>
-#import <WonderBox/WBImageFunctions.h>
-#import <WonderBox/NSImage+WonderBox.h>
+#import <WonderBox/WonderBox.h>
 
 static NSString * const kDocumentActionURLKey = @"DocumentURL";
 static NSString * const kDocumentActionKey = @"DocumentAction";
@@ -93,17 +88,24 @@ OSType _DocumentActionFromFlag(int flag) {
   return 0;
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+static inline WBAlias *AliasWithData(NSData *data) {
+  return [[WBAlias alloc] initFromData:data];
+}
+#pragma clang diagnostic pop
+
 - (void)initFromOldPropertyList:(id)plist {
   [self setAction:_DocumentActionFromFlag([[plist objectForKey:@"DocAction"] intValue])];
   if (DocumentActionNeedDocument(_action)) {
     NSData *data = [plist objectForKey:@"DocAlias"];
     if (data)
-      _document = [[WBAlias alloc] initFromData:data];
+      _document = AliasWithData(data);
   }
   if (DocumentActionNeedApplication(_action)) {
     NSData *data = [plist objectForKey:@"AppAlias"];
     if (data) {
-      WBAlias *app = [[WBAlias alloc] initFromData:data];
+      WBAlias *app = AliasWithData(data);
       NSURL *url = app.URL;
       if (url)
         _application = [[WBApplication alloc] initWithURL:url];
@@ -130,11 +132,11 @@ OSType _DocumentActionFromFlag(int flag) {
         if (data)
           _document = [[WBAlias alloc] initFromBookmarkData:data];
         else if ((data = plist[@"DocumentAlias"]))
-          _document = [[WBAlias alloc] initFromData:data];
+          _document = AliasWithData(data);
       }
       
       if (DocumentActionNeedApplication(_action)) {
-        _application = [[WBApplication alloc] initWithSerializedValues:plist];
+        _application = WBApplicationFromSerializedValues(plist);
       }
       
       if (_action == kDocumentActionOpenURL) {
@@ -163,7 +165,7 @@ OSType _DocumentActionFromFlag(int flag) {
       }
     }
     if (DocumentActionNeedApplication(_action)) {
-      if (![_application serialize:plist]) {
+      if (!WBApplicationSerialize(_application, plist)) {
         SPXDebug(@"Invalid Open With Application.");
         return NO;
       }

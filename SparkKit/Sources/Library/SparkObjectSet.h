@@ -9,6 +9,8 @@
 #import <SparkKit/SparkKit.h>
 #import <SparkKit/SparkObject.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /*!
 @class SparkObjectSet
 @abstract Spark Objects Library.
@@ -34,7 +36,7 @@ SPARK_OBJC_EXPORT
 - (BOOL)containsObject:(SparkObject *)object;
 - (BOOL)containsObjectWithUID:(SparkUID)uid;
 
-- (id)objectWithUID:(SparkUID)uid;
+- (nullable id)objectWithUID:(SparkUID)uid;
 
 - (BOOL)addObject:(SparkObject *)object;
 //- (BOOL)updateObject:(SparkObject *)object;
@@ -44,10 +46,10 @@ SPARK_OBJC_EXPORT
 - (NSUInteger)addObjectsFromArray:(NSArray *)objects;
 - (void)removeObjectsInArray:(NSArray *)newObjects;
 
-- (NSFileWrapper *)fileWrapper:(NSError **)outError;
-- (NSDictionary *)serialize:(SparkObject *)object error:(OSStatus *)error;
-- (SparkObject *)deserialize:(NSDictionary *)plist error:(OSStatus *)error;
-- (BOOL)readFromFileWrapper:(NSFileWrapper *)fileWrapper error:(NSError **)outError;
+- (nullable NSFileWrapper *)fileWrapper:(out NSError **)outError;
+- (nullable NSDictionary *)serialize:(SparkObject *)object error:(out NSError **)error;
+- (nullable SparkObject *)deserialize:(NSDictionary *)plist error:(out NSError **)error;
+- (BOOL)readFromFileWrapper:(NSFileWrapper *)fileWrapper error:(out NSError **)outError;
 
 #pragma mark UID Management
 - (SparkUID)nextUID;
@@ -59,7 +61,7 @@ SPARK_OBJC_EXPORT
 #pragma mark -
 @interface SparkPlaceHolder : SparkObject
 
-- (NSDictionary *)values;
+- (nullable NSDictionary *)values;
 
 @end
 
@@ -83,3 +85,5 @@ NSString * const SparkObjectSetDidRemoveObjectNotification;
 
 SPARK_EXPORT
 NSComparator SparkObjectCompare;
+
+NS_ASSUME_NONNULL_END

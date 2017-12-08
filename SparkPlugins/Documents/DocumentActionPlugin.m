@@ -11,10 +11,7 @@
 #import "DocumentAction.h"
 #import "DAApplicationMenu.h"
 
-#import <WonderBox/NSImage+WonderBox.h>
-
-#import <WonderBox/WBAlias.h>
-#import <WonderBox/WBApplication.h>
+#import <WonderBox/WonderBox.h>
 
 @implementation DocumentActionPlugin
 
@@ -44,44 +41,37 @@
   }
 }
 
+static inline
+NSAlert *SimpleAlert(NSString *title, NSString *message) {
+  NSAlert *alert = [[NSAlert alloc] init];
+  alert.messageText = title;
+  alert.informativeText = message;
+  return alert;
+}
+
 - (NSAlert *)sparkEditorShouldConfigureAction {
   int action = [self action];
   if (DocumentActionNeedDocument(action) && !_document) {
-    return [NSAlert alertWithMessageText:NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_DOCUMENT_ALERT", nil, 
-                                                                            kDocumentActionBundle,
-                                                                            @"Error when user try to create/update Action without choose document * Title *")
-                           defaultButton:NSLocalizedStringFromTableInBundle(@"OK", nil, 
-                                                                            kDocumentActionBundle,
-                                                                            @"Alert default button")
-                         alternateButton:nil
-                             otherButton:nil
-               informativeTextWithFormat:NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_DOCUMENT_ALERT_MSG", nil, 
-                                                                            kDocumentActionBundle,
-                                                                            @"Error when user try to create/update Action without choose document * Msg *")];
+    return SimpleAlert(NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_DOCUMENT_ALERT", nil,
+                                                          kDocumentActionBundle,
+                                                          @"Error when user try to create/update Action without choose document * Title *"),
+                       NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_DOCUMENT_ALERT_MSG", nil,
+                                                          kDocumentActionBundle,
+                                                          @"Error when user try to create/update Action without choose document * Msg *"));
   } else if (DocumentActionNeedApplication(action) && ![self application]) {
-    return [NSAlert alertWithMessageText:NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_APPLICATION_ALERT", nil, 
-                                                                            kDocumentActionBundle,
-                                                                            @"Error when user try to create/update Action without choose application * Title *")
-                           defaultButton:NSLocalizedStringFromTableInBundle(@"OK", nil, 
-                                                                            kDocumentActionBundle,
-                                                                            @"Alert default button")
-                         alternateButton:nil
-                             otherButton:nil
-               informativeTextWithFormat:NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_APPLICATION_ALERT_MSG", nil, 
-                                                                            kDocumentActionBundle,
-                                                                            @"Error when user try to create/update Action without choose application * Msg *")];
+    return SimpleAlert(NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_APPLICATION_ALERT", nil,
+                                                          kDocumentActionBundle,
+                                                          @"Error when user try to create/update Action without choose application * Title *"),
+                       NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_APPLICATION_ALERT_MSG", nil,
+                                                          kDocumentActionBundle,
+                                                          @"Error when user try to create/update Action without choose application * Msg *"));
   } else if (action == kDocumentActionOpenURL && ![self url]) {
-    return [NSAlert alertWithMessageText:NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_URL_ALERT", nil, 
-                                                                            kDocumentActionBundle,
-                                                                            @"Error when user try to create/update Action without choose application * Title *")
-                           defaultButton:NSLocalizedStringFromTableInBundle(@"OK", nil, 
-                                                                            kDocumentActionBundle,
-                                                                            @"Alert default button")
-                         alternateButton:nil
-                             otherButton:nil
-               informativeTextWithFormat:NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_URL_ALERT_MSG", nil, 
-                                                                            kDocumentActionBundle,
-                                                                            @"Error when user try to create/update Action without choose application * Msg *")];    
+    return SimpleAlert(NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_URL_ALERT", nil,
+                                                          kDocumentActionBundle,
+                                                          @"Error when user try to create/update Action without choose application * Title *"),
+                       NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_URL_ALERT_MSG", nil,
+                                                          kDocumentActionBundle,
+                                                          @"Error when user try to create/update Action without choose application * Msg *"));
   }
   return nil;
 }
@@ -122,7 +112,7 @@
   [oPanel setCanChooseDirectories:YES];
   [oPanel setCanCreateDirectories:NO];
   [oPanel beginSheetModalForWindow:sender.window completionHandler:^(NSInteger result) {
-    if (result == NSCancelButton || [[oPanel URLs] count] == 0) {
+    if (result == NSModalResponseCancel || [[oPanel URLs] count] == 0) {
       return;
     }
     [self setDocument:[[oPanel URLs] firstObject]];

@@ -16,9 +16,7 @@
 #import <SparkKit/SparkFunctions.h>
 #import <SparkKit/SparkEntryManager.h>
 
-#import <WonderBox/WBFunctions.h>
-#import <WonderBox/WBAEFunctions.h>
-#import <WonderBox/NSImage+WonderBox.h>
+#import <WonderBox/WonderBox.h>
 
 #import "SparkLibraryPrivate.h"
 
@@ -44,30 +42,32 @@ NSString *_SparkActionDescription(SparkBuiltInAction *action);
 - (void)configureAction {
   SparkBuiltInAction *action = [self sparkAction];
   [action setAction:[self action]];
-  switch ([self action]) {
-    case kSparkSDActionExchangeListStatus:
+  switch (self.action) {
+    case SparkPlugInActionExchangeListStatus:
       // set alternate list
-      [action setAlternateList:[[uiLists2 selectedItem] representedObject]];
+      action.alternateList = [uiLists2 selectedItem].representedObject;
       // fall
-    case kSparkSDActionSwitchListStatus:
+    case SparkPlugInActionSwitchListStatus:
       // set main list
-      [action setList:[[uiLists selectedItem] representedObject]];
+      action.list = [uiLists selectedItem].representedObject;
+      break;
+    default:
       break;
   }
 }
 
 #pragma mark -
-- (void)setAction:(OSType)action {
+- (void)setAction:(SparkPlugInAction)action {
   /* First update action */
   _action = action;
   /* Then update placeholder */
   [[uiName cell] setPlaceholderString:_SparkActionDescription([self sparkAction]) ? : @""];
   switch (action) {
-		case kSparkSDActionExchangeListStatus:
+		case SparkPlugInActionExchangeListStatus:
 			[uiLists2 setHidden:NO];
 			[uiLists2 setEnabled:YES];
 			// fall
-    case kSparkSDActionSwitchListStatus:
+    case SparkPlugInActionSwitchListStatus:
       [uiLists setHidden:NO];
       [uiLabel setHidden:NO];
       [uiLists setEnabled:YES];
@@ -208,21 +208,21 @@ NSImage *SparkDaemonStatusIcon(BOOL status) {
 
 - (instancetype)init {
   if (self = [super init]) {
-    _action = kSparkSDActionLaunchEditor;
+    _action = SparkPlugInActionLaunchEditor;
   }
   return self;
 }
 
 #pragma mark -
 - (BOOL)isPersistent {
-  return kSparkSDActionSwitchStatus == _action;
+  return SparkPlugInActionSwitchStatus == _action;
 }
 
 - (BOOL)serialize:(NSMutableDictionary *)plist {
   if ([super serialize:plist]) {
-    if (kSparkSDActionSwitchListStatus == _action || kSparkSDActionExchangeListStatus == _action)
+    if (SparkPlugInActionSwitchListStatus == _action || SparkPlugInActionExchangeListStatus == _action)
       [plist setObject:@(_listUID) forKey:@"SparkListUID"];
-		if (kSparkSDActionExchangeListStatus == _action)
+		if (SparkPlugInActionExchangeListStatus == _action)
 			[plist setObject:@(_altListUID) forKey:@"SparkSecondListUID"];
 		
     [plist setObject:WBStringForOSType(_action) forKey:@"SparkDaemonAction"];
@@ -234,9 +234,9 @@ NSImage *SparkDaemonStatusIcon(BOOL status) {
 - (id)initWithSerializedValues:(NSDictionary *)plist {
   if (self = [super initWithSerializedValues:plist]) {
     [self setAction:WBOSTypeFromString(plist[@"SparkDaemonAction"])];
-    if (kSparkSDActionSwitchListStatus == _action || kSparkSDActionExchangeListStatus == _action)
+    if (SparkPlugInActionSwitchListStatus == _action || SparkPlugInActionExchangeListStatus == _action)
       _listUID = (SparkUID)[plist[@"SparkListUID"] integerValue];
-    if (kSparkSDActionExchangeListStatus == _action)
+    if (SparkPlugInActionExchangeListStatus == _action)
       _altListUID = (SparkUID)[plist[@"SparkSecondListUID"] integerValue];
     /* Update description */
     NSString *desc = _SparkActionDescription(self);
@@ -320,15 +320,15 @@ bail:
 
 - (SparkAlert *)performAction {
   switch (_action) {
-    case kSparkSDActionSwitchStatus:
+    case SparkPlugInActionSwitchStatus:
       SparkSDActionToggleDaemonStatus();
       break;
-    case kSparkSDActionLaunchEditor:
+    case SparkPlugInActionLaunchEditor:
       SparkLaunchEditor();
       break;
-		case kSparkSDActionSwitchListStatus:
+		case SparkPlugInActionSwitchListStatus:
 			[self toggleStatus];
-		case kSparkSDActionExchangeListStatus:
+		case SparkPlugInActionExchangeListStatus:
 			[self exchangeStatus];
 			break;
     default:
@@ -367,14 +367,14 @@ bail:
 NSImage *_SparkSDActionIcon(SparkBuiltInAction *action) {
   NSString *icon = nil;
   switch ([action action]) {
-    case kSparkSDActionLaunchEditor:
+    case SparkPlugInActionLaunchEditor:
       icon = @"spark-editor";
       break;
-    case kSparkSDActionSwitchStatus:
+    case SparkPlugInActionSwitchStatus:
       icon = @"switch-status";
       break;
-    case kSparkSDActionSwitchListStatus:
-		case kSparkSDActionExchangeListStatus:
+    case SparkPlugInActionSwitchListStatus:
+		case SparkPlugInActionExchangeListStatus:
       icon = @"SimpleList";
       break;
   }
@@ -384,15 +384,15 @@ NSImage *_SparkSDActionIcon(SparkBuiltInAction *action) {
 NSString *_SparkActionDescription(SparkBuiltInAction *action) {
   NSString *str = nil;
   switch ([action action]) {
-    case kSparkSDActionLaunchEditor:
+    case SparkPlugInActionLaunchEditor:
       str = NSLocalizedStringFromTableInBundle(@"Open Spark Editor", nil,
                                                SparkKitBundle(), @"Spark Built-in Plugin description");
       break;
-    case kSparkSDActionSwitchStatus:
+    case SparkPlugInActionSwitchStatus:
       str = NSLocalizedStringFromTableInBundle(@"Enable/Disable Spark", nil, 
                                                SparkKitBundle(), @"Spark Built-in Plugin description");
       break;
-    case kSparkSDActionSwitchListStatus: {
+    case SparkPlugInActionSwitchListStatus: {
       NSString *name = [[action list] name];
       if (name) {
         NSString *fmt = NSLocalizedStringFromTableInBundle(@"Enable/Disable Spark List \"%@\"", nil, 
@@ -404,7 +404,7 @@ NSString *_SparkActionDescription(SparkBuiltInAction *action) {
       }
     }
       break;
-		case kSparkSDActionExchangeListStatus: {
+		case SparkPlugInActionExchangeListStatus: {
       NSString *name = [[action list] name];
 			NSString *name2 = [[action alternateList] name];
       if (name && name2) {

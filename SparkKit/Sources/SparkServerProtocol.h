@@ -20,11 +20,11 @@
 @protocol SparkLibrary;
 @protocol SparkServer
 
-- (UInt32)version;
+@property (readonly) uint32_t version;
 
 - (oneway void)shutdown;
 
-- (NSDistantObject<SparkLibrary> *)library;
+@property (readonly) NSDistantObject<SparkLibrary> *library;
 
 @end
 

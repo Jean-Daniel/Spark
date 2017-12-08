@@ -28,12 +28,12 @@
 }
 
 - (NSAlert *)sparkEditorShouldConfigureAction {
-  if ([[uiSubtitle stringValue] length] == 0)
-    return [NSAlert alertWithMessageText:@"Le champs Menu item est vide"
-                           defaultButton:@"OK"
-                         alternateButton:nil
-                             otherButton:nil
-               informativeTextWithFormat:@"Ce champs est obigatoire !"];
+  if ([[uiSubtitle stringValue] length] == 0) {
+    NSAlert *alert = [[NSAlert alloc] init];
+    alert.messageText = @"Le champs Menu item est vide";
+    alert.informativeText = @"Ce champs est obigatoire !";
+    return alert;
+  }
   return nil;
 }
 

@@ -14,7 +14,7 @@
 #import <SparkKit/SparkPrivate.h>
 #import <SparkKit/SparkApplication.h>
 
-WB_INLINE
+SPX_INLINE
 SparkEntry *__SEEntryForApplication(SparkEntry *entry, SparkApplication *app, bool specific) {
   if ([entry.application isEqual:app])
     return entry;

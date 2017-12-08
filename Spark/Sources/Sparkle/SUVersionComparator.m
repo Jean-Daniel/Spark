@@ -8,7 +8,7 @@
 
 #import "SparkleDelegate.h"
 
-#import <WonderBox/WBVersionFunctions.h>
+#import <WonderBox/WonderBox.h>
 
 @implementation Spark (SparkleSupport)
 

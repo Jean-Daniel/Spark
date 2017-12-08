@@ -11,8 +11,7 @@
 
 #import <OSAKit/OSAKit.h>
 
-#import <WonderBox/WBAlias.h>
-#import <WonderBox/WBAEFunctions.h>
+#import <WonderBox/WonderBox.h>
 
 enum {
   kAppleScriptFileTab   = 1,
@@ -34,30 +33,30 @@ enum {
   }
 }
 
+static inline
+NSAlert *SimpleAlert(NSString *title, NSString *message) {
+  NSAlert *alert = [[NSAlert alloc] init];
+  alert.messageText = title;
+  alert.informativeText = message;
+  return alert;
+}
+
 - (NSAlert *)checkSyntax {
   NSAlert *alert = nil;
   if (![[[ibScriptController scriptView] source] length]) {
-    alert = [NSAlert alertWithMessageText:NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_SOURCE_ALERT", nil, AppleScriptActionBundle(),
-                                                                             @"Empty Source Error * Title *")
-                            defaultButton:NSLocalizedStringWithDefaultValue(@"OK", nil, AppleScriptActionBundle(), @"OK",
-                                                                            @"Alert default button")
-                          alternateButton:nil
-                              otherButton:nil
-                informativeTextWithFormat:NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_SOURCE_ALERT_MSG", nil, AppleScriptActionBundle(),
-                                                                             @"Empty Source Error * Msg *")];
+    alert = SimpleAlert(NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_SOURCE_ALERT", nil, AppleScriptActionBundle(),
+                                                                             @"Empty Source Error * Title *"),
+                        NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_SOURCE_ALERT_MSG", nil, AppleScriptActionBundle(),
+                                                           @"Empty Source Error * Msg *"));
   } else {
     OSAScript *script = [ibScriptController script];//[ alloc] initWithSource:[ibScript source]];
 		if (!script)
 			script = [[OSAScript alloc] initWithSource:[[ibScriptController scriptView] source]];
     if (!script) {
-			alert = [NSAlert alertWithMessageText:NSLocalizedStringFromTableInBundle(@"SCRIPT_CREATION_ERROR_ALERT", nil, AppleScriptActionBundle(),
-																																							 @"Unknow Error in -initWithSource * Title *")
-															defaultButton:NSLocalizedStringWithDefaultValue(@"OK", nil, AppleScriptActionBundle(), @"OK",
-																																							@"Alert default button")
-                              alternateButton:nil
-																otherButton:nil
-									informativeTextWithFormat:NSLocalizedStringFromTableInBundle(@"SCRIPT_CREATION_ERROR_ALERT_MSG", nil, AppleScriptActionBundle(),
-																																							 @"Unknow Error in -initWithSource * Msg *")];
+      alert = SimpleAlert(NSLocalizedStringFromTableInBundle(@"SCRIPT_CREATION_ERROR_ALERT", nil, AppleScriptActionBundle(),
+                                                             @"Unknow Error in -initWithSource * Title *"),
+                          NSLocalizedStringFromTableInBundle(@"SCRIPT_CREATION_ERROR_ALERT_MSG", nil, AppleScriptActionBundle(),
+                                                             @"Unknow Error in -initWithSource * Msg *"));
     } else {
       alert = [self compileScript:script];
 			if (!alert)
@@ -75,17 +74,12 @@ enum {
       break;
     case kAppleScriptFileTab:
       if (![self scriptFile]) {
-        alert = [NSAlert alertWithMessageText:NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_FILE", nil,
-                                                                                 AppleScriptActionBundle(),
-                                                                                 @"Trying to create Script File Action without file * Title *")
-                                defaultButton:NSLocalizedStringWithDefaultValue(@"OK", nil,
-                                                                                 AppleScriptActionBundle(), @"OK",
-                                                                                 @"Alert default button")
-                              alternateButton:nil
-                                  otherButton:nil
-                    informativeTextWithFormat:NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_FILE_MSG", nil,
-                                                                                 AppleScriptActionBundle(),
-                                                                                 @"Trying to create Script File Action without file * Msg *")];
+        alert = SimpleAlert(NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_FILE", nil,
+                                                               AppleScriptActionBundle(),
+                                                               @"Trying to create Script File Action without file * Title *"),
+                            NSLocalizedStringFromTableInBundle(@"CREATE_ACTION_WITHOUT_FILE_MSG", nil,
+                                                               AppleScriptActionBundle(),
+                                                               @"Trying to create Script File Action without file * Msg *"));
       }
       break;
   }
@@ -123,12 +117,7 @@ enum {
   NSRange range = [[errors objectForKey:OSAScriptErrorRange] rangeValue];
   [[ibScriptController scriptView] setSelectedRange:range];
   
-  return [NSAlert alertWithMessageText:title
-                         defaultButton:NSLocalizedStringWithDefaultValue(@"OK", nil, AppleScriptActionBundle(), @"OK",
-                                                                         @"Alert default button")
-                       alternateButton:nil
-                           otherButton:nil
-             informativeTextWithFormat:@"%@", message];
+  return SimpleAlert(title, message);
 }
 
 - (NSAlert *)compileScript:(OSAScript *)script {
@@ -150,7 +139,7 @@ enum {
   [oPanel setCanChooseDirectories:NO];
   [oPanel setResolvesAliases:YES];
   [oPanel beginSheetModalForWindow:self.actionView.window completionHandler:^(NSInteger result) {
-    if (result == NSOKButton && [[oPanel URLs] count] > 0) {
+    if (result == NSModalResponseOK && [[oPanel URLs] count] > 0) {
       NSURL *file = [[oPanel URLs] objectAtIndex:0];
       NSString *src = nil;
       if ([[[file pathExtension] lowercaseString] isEqualToString:@"scpt"]) {
@@ -173,19 +162,18 @@ enum {
   [oPanel setResolvesAliases:YES];
   oPanel.allowedFileTypes = @[@"scpt", @"osas", SPXCFToNSString(kUTTypeAppleScript), SPXCFToNSString(kUTTypeOSAScript) ];
   [oPanel beginSheetModalForWindow:self.actionView.window completionHandler:^(NSInteger result) {
-    if (result == NSOKButton && [[oPanel URLs] count] > 0) {
+    if (result == NSModalResponseOK && [[oPanel URLs] count] > 0) {
       NSDictionary *errors = nil;
       NSURL *file = [oPanel URLs].firstObject;
       NSAppleScript *script = [[NSAppleScript alloc] initWithContentsOfURL:file error:&errors];
       [oPanel close];
       if (![script isCompiled]) {
-        NSBeginAlertSheet(NSLocalizedStringFromTableInBundle(@"INVALID_SCRIPT_FILE_ALERT", nil, AppleScriptActionBundle(),
-                                                             @"Import uncompiled Script Error * Title *"),
-                          NSLocalizedStringWithDefaultValue(@"OK", nil, AppleScriptActionBundle(), @"OK",
-                                                            @"Alert default button"),
-                          nil,nil, [[self actionView] window], nil ,nil, nil, nil,
-                          NSLocalizedStringFromTableInBundle(@"INVALID_SCRIPT_FILE_ALERT_MSG", nil, AppleScriptActionBundle(),
-                                                             @"Import uncompiled Script Error * Msg *"), [file lastPathComponent]);
+        NSAlert *alert = [[NSAlert alloc] init];
+        alert.messageText = NSLocalizedStringFromTableInBundle(@"INVALID_SCRIPT_FILE_ALERT", nil, AppleScriptActionBundle(),
+                                                               @"Import uncompiled Script Error * Title *");
+        alert.informativeText = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"INVALID_SCRIPT_FILE_ALERT_MSG", nil, AppleScriptActionBundle(),
+                                                                                              @"Import uncompiled Script Error * Msg *"), [file lastPathComponent]];
+        [alert beginSheetModalForWindow:self.actionView.window completionHandler:NULL];
       } else {
         [self setScriptFile:file];
       }

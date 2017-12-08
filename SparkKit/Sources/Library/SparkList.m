@@ -12,8 +12,7 @@
 #import <SparkKit/SparkApplication.h>
 #import <SparkKit/SparkEntryManager.h>
 
-#import <WonderBox/NSArray+WonderBox.h>
-#import <WonderBox/NSImage+WonderBox.h>
+#import <WonderBox/WonderBox.h>
 
 #import "SparkEntryPrivate.h"
 

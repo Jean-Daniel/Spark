@@ -9,15 +9,14 @@
 #if !defined(__ITUNES_SUITE_H_)
 #define __ITUNES_SUITE_H_ 1
 
-#include <WonderBox/WBAEFunctions.h>
+#import <WonderBox/WonderBox.h>
 
-#pragma mark -
 enum {
   //  kiTunesSignature = 'hook',
   kiTunesSuite = 'hook',
 };
 
-WB_PRIVATE
+SPX_PRIVATE
 CFStringRef const kiTunesBundleIdentifier;
 
 enum {
@@ -49,27 +48,27 @@ typedef enum {
   kiTunesStateRewinding		= 'kPSR'
 } ITunesState;
 
-WB_PRIVATE
+SPX_PRIVATE
 OSStatus iTunesGetPlayerState(ITunesState *state);
-WB_PRIVATE
+SPX_PRIVATE
 OSStatus iTunesGetPlayerPosition(uint32_t *position);
 
-WB_PRIVATE
+SPX_PRIVATE
 OSStatus iTunesGetVisualEnabled(bool *state);
-WB_PRIVATE
+SPX_PRIVATE
 OSStatus iTunesSetVisualEnabled(bool state);
 
-WB_PRIVATE
+SPX_PRIVATE
 OSStatus iTunesIsMuted(bool *mute);
-WB_PRIVATE
+SPX_PRIVATE
 OSStatus iTunesSetMuted(bool mute);
 
-WB_PRIVATE
+SPX_PRIVATE
 OSStatus iTunesGetSoundVolume(int16_t *volume);
-WB_PRIVATE
+SPX_PRIVATE
 OSStatus iTunesSetSoundVolume(int16_t volume);
 
-WB_PRIVATE
+SPX_PRIVATE
 CFStringRef iTunesCopyCurrentStreamTitle(WBAEError error);
 
 #pragma mark Commands
@@ -91,7 +90,7 @@ typedef enum {
   kiTunesCategoryKey = 'pCat'
 } ITunesTrackProperty;
 
-WB_INLINE
+SPX_INLINE
 OSStatus iTunesSendCommand(ITunesCommand command, pid_t pid) {
   if (pid)
     return WBAESendSimpleEventTo(pid, kiTunesSuite, command);
@@ -99,59 +98,59 @@ OSStatus iTunesSendCommand(ITunesCommand command, pid_t pid) {
     return WBAESendSimpleEventToBundle(kiTunesBundleIdentifier, kiTunesSuite, command);
 }
 
-WB_INLINE
+SPX_INLINE
 OSStatus iTunesQuit(void) {
   return WBAESendSimpleEventToBundle(kiTunesBundleIdentifier, kCoreEventClass, kAEQuitApplication);
 }
 
 #pragma mark -
-WB_PRIVATE
+SPX_PRIVATE
 OSStatus iTunesGetObjectType(AEDesc *obj, OSType *cls);
 
 #pragma mark Tracks
-WB_PRIVATE
+SPX_PRIVATE
 OSStatus iTunesGetCurrentTrack(iTunesTrack *track);
 
-WB_PRIVATE
+SPX_PRIVATE
 OSStatus iTunesSetTrackRate(iTunesTrack *track, uint32_t rate);
-WB_PRIVATE
+SPX_PRIVATE
 OSStatus iTunesGetTrackRate(iTunesTrack *track, uint32_t *rate);
 
-WB_PRIVATE
+SPX_PRIVATE
 OSStatus iTunesSetCurrentTrackRate(uint32_t rate);
 
-WB_PRIVATE
+SPX_PRIVATE
 CFDataRef iTunesCopyTrackArtworkData(iTunesTrack *track, OSType *type, WBAEError error);
-WB_PRIVATE
+SPX_PRIVATE
 CFStringRef iTunesCopyTrackStringProperty(iTunesTrack *track, ITunesTrackProperty property, WBAEError error);
-WB_PRIVATE
+SPX_PRIVATE
 OSStatus iTunesGetTrackIntegerProperty(iTunesTrack *track, ITunesTrackProperty property, int32_t *value);
 
 #pragma mark -
 #pragma mark Playlists
-WB_PRIVATE
+SPX_PRIVATE
 CFArrayRef iTunesCopyPlaylistNames(WBAEError error);
 
-WB_PRIVATE
+SPX_PRIVATE
 CFDictionaryRef iTunesCopyPlaylists(WBAEError error);
 
-WB_PRIVATE
+SPX_PRIVATE
 OSStatus iTunesPlayPlaylist(iTunesPlaylist *playlist);
-WB_PRIVATE
+SPX_PRIVATE
 OSStatus iTunesPlayPlaylistWithID(int64_t uid);
-WB_PRIVATE
+SPX_PRIVATE
 OSStatus iTunesPlayPlaylistWithName(CFStringRef name);
 
-WB_PRIVATE
+SPX_PRIVATE
 OSStatus iTunesGetCurrentPlaylist(iTunesPlaylist *playlist);
-WB_PRIVATE
+SPX_PRIVATE
 OSStatus iTunesGetPlaylistWithID(int64_t uid, iTunesPlaylist *playlist);
-WB_PRIVATE
+SPX_PRIVATE
 OSStatus iTunesGetPlaylistWithName(CFStringRef name, iTunesPlaylist *playlist);
 
-WB_PRIVATE
+SPX_PRIVATE
 OSStatus iTunesGetPlaylistIntegerProperty(iTunesPlaylist *playlist, AEKeyword property, int32_t *value);
-WB_PRIVATE
+SPX_PRIVATE
 CFStringRef iTunesCopyPlaylistStringProperty(iTunesPlaylist *playlist, AEKeyword property, WBAEError error);
 
 #endif /* __ITUNES_SUITE_H_ */

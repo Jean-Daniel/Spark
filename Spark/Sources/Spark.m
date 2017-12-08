@@ -22,8 +22,6 @@
 #import <SparkKit/SparkLibrary.h>
 #import <SparkKit/SparkActionLoader.h>
 
-#import <WonderBox/WBFSFunctions.h>
-
 #import <HotKeyToolKit/HotKeyToolKit.h>
 
 #import "SparkleDelegate.h"

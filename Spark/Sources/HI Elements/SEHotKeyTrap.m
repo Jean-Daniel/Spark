@@ -7,8 +7,9 @@
  */
 
 #import "SEHotKeyTrap.h"
-#import <WonderBox/WBGradient.h>
-#import <WonderBox/WBCGFunctions.h>
+
+#import <WonderBox/WonderBox.h>
+
 #import <HotKeyToolKit/HotKeyToolKit.h>
 
 /* Trap shading */
@@ -125,8 +126,8 @@ static CGLayerRef _HKCreateShading(CGContextRef ctxt, NSControlTint tint);
 - (void)didCatchHotKey:(NSNotification *)aNotification {
   if ([self isTrapping]) {
     NSDictionary *info = [aNotification userInfo];
-    UInt16 nkey = [[info objectForKey:kHKEventKeyCodeKey] integerValue];
-    UInt32 nmodifier = (UInt32)[[info objectForKey:kHKEventModifierKey] integerValue];
+    uint16_t nkey = (uint16_t)[info[kHKEventKeyCodeKey] integerValue];
+    UInt32 nmodifier = (UInt32)[info[kHKEventModifierKey] integerValue];
     /* Anti trap hack. If pressed tab and tab is already saved, stop recording */
     if (se_bhotkey.keycode == kHKVirtualTabKey && (se_bhotkey.modifiers & NSDeviceIndependentModifierFlagsMask) == 0 &&
         nkey == se_bhotkey.keycode && nmodifier == se_bhotkey.modifiers) {
@@ -135,7 +136,7 @@ static CGLayerRef _HKCreateShading(CGContextRef ctxt, NSControlTint tint);
     } else {
       se_bhotkey.keycode = nkey;
       se_bhotkey.modifiers = nmodifier;
-      se_bhotkey.character = [[info objectForKey:kHKEventCharacterKey] integerValue];
+      se_bhotkey.character = (UniChar)[info[kHKEventCharacterKey] integerValue];
 
       se_str = [HKKeyMap stringRepresentationForCharacter:se_bhotkey.character modifiers:se_bhotkey.modifiers];
       if (se_htFlags.traponce)

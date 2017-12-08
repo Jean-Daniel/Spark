@@ -13,7 +13,7 @@
 #import <SparkKit/SparkPreferences.h>
 #import <SparkKit/SparkActionPlugIn.h>
 
-#import <WonderBox/NSImage+WonderBox.h>
+#import <WonderBox/WonderBox.h>
 
 @interface SparkViewPlaceholder : NSObject
 

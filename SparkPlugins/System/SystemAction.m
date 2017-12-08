@@ -14,10 +14,7 @@
 /* getuid() */
 #include <unistd.h>
 
-#import <WonderBox/WBFSFunctions.h>
-#import <WonderBox/WBAEFunctions.h>
-#import <WonderBox/WBIOKitFunctions.h>
-#import <WonderBox/NSImage+WonderBox.h>
+#import <WonderBox/WonderBox.h>
 
 #import <HotKeyToolKit/HotKeyToolKit.h>
 

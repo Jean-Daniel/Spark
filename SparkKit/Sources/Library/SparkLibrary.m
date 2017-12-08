@@ -21,8 +21,7 @@
 #import <SparkKit/SparkIconManager.h>
 #import <SparkKit/SparkBuiltInAction.h>
 
-#import <WonderBox/WBFSFunctions.h>
-#import <WonderBox/WBSerialization.h>
+#import <WonderBox/WonderBox.h>
 
 #import "SparkLibraryPrivate.h"
 #import "SparkEntryManagerPrivate.h"
@@ -283,7 +282,7 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
   /* Release defaults libraries */
   NSUInteger idx = kSparkSetCount;
   while (idx-- > 0) {
-    [_objects[idx] setLibrary:nil];
+    // _objects[idx].library = nil;
     _objects[idx] = nil;
   }
   
@@ -333,32 +332,24 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
   /* if not loaded, return disk representation */
   if (![self isLoaded])
     return self.URL ? [[NSFileWrapper alloc] initWithURL:self.URL options:0 error:outError] : nil;
-  
-  NSFileWrapper *library = [[NSFileWrapper alloc] initDirectoryWithFileWrappers:nil];
-  [library setFilename:kSparkLibraryDefaultFileName];
 
+  NSMutableDictionary *files = [NSMutableDictionary dictionary];
   do {
     NSFileWrapper *file;
     /* SparkActions */
     file = [[self actionSet] fileWrapper:outError];
     if (!file) break;
-
-    [file setPreferredFilename:kSparkActionsFile];
-    [library addFileWrapper:file];
+    files[kSparkActionsFile] = file;
 
     /* SparkHotKeys */
     file = [[self triggerSet] fileWrapper:outError];
     if (!file) break;
-
-    [file setPreferredFilename:kSparkTriggersFile];
-    [library addFileWrapper:file];
+    files[kSparkTriggersFile] = file;
 
     /* SparkApplications */
     file = [[self applicationSet] fileWrapper:outError];
     if (!file) break;
-
-    [file setPreferredFilename:kSparkApplicationsFile];
-    [library addFileWrapper:file];
+    files[kSparkApplicationsFile] = file;
 
     /* Spark releationships (entries + lists) */
     NSMutableData *archive = [NSMutableData data];
@@ -369,11 +360,12 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
 
     file = [[NSFileWrapper alloc] initRegularFileWithContents:archive];
     if (!file) break;
-
-    [file setPreferredFilename:kSparkArchiveFile];
-    [library addFileWrapper:file];
+    files[kSparkArchiveFile] = file;
 
     [self saveReservedObjects];
+
+    NSFileWrapper *library = [[NSFileWrapper alloc] initDirectoryWithFileWrappers:files];
+    [library setFilename:kSparkLibraryDefaultFileName];
 
     /* Preferences */
     NSData *data = [NSPropertyListSerialization dataWithPropertyList:_prefs
@@ -394,7 +386,7 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
     
     return library;
   } while (0);
-  if (outError && !*outError)
+  if (outError)
     *outError = [NSError errorWithDomain:kSparkErrorDomain code:-1 userInfo:nil];
   return nil;
 }
@@ -411,7 +403,7 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
   return NO;
 }
 
-- (BOOL)readFromFileWrapper:(NSFileWrapper *)fileWrapper error:(__autoreleasing NSError **)outError {
+- (BOOL)readFromFileWrapper:(NSFileWrapper *)fileWrapper error:(NSError * __autoreleasing *)outError {
   if ([self isLoaded])
     SPXThrowException(NSInternalInconsistencyException, @"<%@ %p> is already loaded.", [self class], self);
   
@@ -453,7 +445,7 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
   }
 }
 
-- (BOOL)loadFromWrapper:(NSFileWrapper *)wrapper error:(__autoreleasing NSError **)error {
+- (BOOL)loadFromWrapper:(NSFileWrapper *)wrapper error:(NSError * __autoreleasing *)error {
   NSParameterAssert(![self isLoaded]);
   
   BOOL result = NO;
@@ -531,7 +523,7 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
   return result;
 }
 
-- (BOOL)readLibraryFromFileWrapper:(NSFileWrapper *)wrapper error:(__autoreleasing NSError **)error {
+- (BOOL)readLibraryFromFileWrapper:(NSFileWrapper *)wrapper error:(NSError * __autoreleasing *)error {
   BOOL ok = NO;
   NSDictionary *files = [wrapper fileWrappers];
   
@@ -594,7 +586,7 @@ NSString *_SparkLibraryCopyUUIDString(SparkLibrary *aLibrary) {
 }
 
 NSURL *SparkLibraryFolder(void) {
-  NSURL *url = WBFSFindFolder(kApplicationSupportFolderType, kUserDomain, true);
+  NSURL *url = [NSFileManager.defaultManager URLForDirectory:NSApplicationSupportDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:YES error:NULL];
   NSURL *folder = [url URLByAppendingPathComponent:kSparkFolderName];
   if (folder && ![url checkResourceIsReachableAndReturnError:NULL]) {
     [[NSFileManager defaultManager] createDirectoryAtURL:url withIntermediateDirectories:YES attributes:nil error:NULL];
@@ -616,15 +608,15 @@ NSURL *SparkLibraryIconFolder(SparkLibrary *library) {
 
 static
 NSURL *SparkLibraryPreviousLibraryPath(void) {
-  NSURL *url = WBFSFindFolder(kPreferencesFolderType, kUserDomain, false);
-  NSURL *folder = [url URLByAppendingPathComponent:kSparkFolderName];
+  NSURL *url = [NSFileManager.defaultManager URLForDirectory:NSLibraryDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:NULL];
+  NSURL *folder = [[url URLByAppendingPathComponent:@"Preferences"] URLByAppendingPathComponent:kSparkFolderName];
   return [folder URLByAppendingPathComponent:@"Spark3 Library.splib"];
 }
 
 static
 NSURL *SparkLibraryVersion1LibraryPath(void) {
-  NSURL *url = WBFSFindFolder(kPreferencesFolderType, kUserDomain, false);
-  NSURL *folder = [url URLByAppendingPathComponent:kSparkFolderName];
+  NSURL *url = [NSFileManager.defaultManager URLForDirectory:NSLibraryDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:NULL];
+  NSURL *folder = [[url URLByAppendingPathComponent:@"Preferences"] URLByAppendingPathComponent:kSparkFolderName];
   return [folder URLByAppendingPathComponent:@"SparkLibrary.splib"];
 }
 
@@ -886,7 +878,7 @@ void SparkDumpTriggers(SparkLibrary *aLibrary) {
 
 @implementation SparkLibrary (SparkLegacyReader)
 
-- (BOOL)importTriggerListFromFileWrapper:(NSFileWrapper *)wrapper error:(__autoreleasing NSError **)outError {
+- (BOOL)importTriggerListFromFileWrapper:(NSFileWrapper *)wrapper error:(NSError * __autoreleasing *)outError {
   do {
     NSData *data = [wrapper regularFileContents];
     if (!data)

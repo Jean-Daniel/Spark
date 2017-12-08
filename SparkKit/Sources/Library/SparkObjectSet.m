@@ -17,8 +17,9 @@
 #import <SparkKit/SparkTrigger.h>
 #import <SparkKit/SparkApplication.h>
 
-#import <WonderBox/WBSerialization.h>
-#import <WonderBox/NSImage+WonderBox.h>
+#import <WonderBox/WonderBox.h>
+
+#import "SparkInternal.h"
 
 /* Notifications */
 NSString* const SparkObjectSetWillAddObjectNotification = @"SparkObjectSetWillAddObject";
@@ -62,6 +63,10 @@ NSComparator SparkObjectCompare = ^NSComparisonResult(SparkObject *obj1, SparkOb
   }
 };
 
+@interface SparkObjectSet ()
+- (instancetype)init NS_DESIGNATED_INITIALIZER;
+@end
+
 #pragma mark -
 @implementation SparkObjectSet {
 @private
@@ -74,9 +79,7 @@ NSComparator SparkObjectCompare = ^NSComparisonResult(SparkObject *obj1, SparkOb
 }
 
 - (instancetype)init {
-  if (self = [self initWithLibrary:nil]) {
-  }
-  return self;
+  spx_abort("-init: is not available. use -initWithLibrary:");
 }
 
 - (instancetype)initWithLibrary:(SparkLibrary *)aLibrary {
@@ -107,7 +110,7 @@ NSComparator SparkObjectCompare = ^NSComparisonResult(SparkObject *obj1, SparkOb
 }
 
 - (NSUndoManager *)undoManager {
-  return self.library.undoManager;
+  return _library.undoManager;
 }
 
 #pragma mark -
@@ -248,25 +251,18 @@ NSComparator SparkObjectCompare = ^NSComparisonResult(SparkObject *obj1, SparkOb
     [self removeObject:item];
 }
 
-- (NSDictionary *)serialize:(SparkObject *)anObject error:(OSStatus *)error {
-  return WBSerializeObject(anObject, error);
-}
-
 - (NSFileWrapper *)fileWrapper:(__autoreleasing NSError **)outError {
   NSMutableArray *objects = [[NSMutableArray alloc] init];
   NSMutableDictionary *plist = [[NSMutableDictionary alloc] init];
   [plist setObject:@(kSparkObjectSetCurrentVersion) forKey:kSparkObjectSetVersionKey];
 
   [self enumerateObjectsUsingBlock:^(SparkObject *obj, BOOL *stop) {
-    OSStatus err = noErr;
     if (obj.uid > kSparkLibraryReserved) {
-      NSDictionary *serialize = [self serialize:obj error:&err];
+      NSDictionary *serialize = [self serialize:obj error:outError];
       if (serialize && [NSPropertyListSerialization propertyList:serialize isValidForFormat:SparkLibraryFileFormat]) {
         [objects addObject:serialize];
       } else {
         SPXDebug(@"Error while serializing object: %@", obj);
-        if (noErr != err && outError)
-          *outError = [NSError errorWithDomain:NSOSStatusErrorDomain code:err userInfo:nil];
       }
     }
   }];
@@ -279,8 +275,17 @@ NSComparator SparkObjectCompare = ^NSComparisonResult(SparkObject *obj1, SparkOb
   return [[NSFileWrapper alloc] initRegularFileWithContents:data];
 }
 
-- (SparkObject *)deserialize:(NSDictionary *)plist error:(OSStatus *)error {
-  return WBDeserializeObject(plist, error);
+- (nullable NSDictionary *)serialize:(SparkObject *)object error:(out NSError * __autoreleasing *)error {
+  return WBSerializeObject(object, error);
+}
+
+- (nullable SparkObject *)deserialize:(NSDictionary *)plist error:(out NSError * __autoreleasing *)error {
+  id obj = WBDeserializeObject(plist, error);
+  if (!obj || [obj isKindOfClass:SparkObject.class])
+    return obj;
+  if (error)
+    *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSPropertyListReadCorruptError userInfo:nil];
+  return nil;
 }
 
 #define spx_error(condition, var, error) do { \
@@ -326,14 +331,14 @@ NSComparator SparkObjectCompare = ^NSComparisonResult(SparkObject *obj1, SparkOb
   spx_error(objects, outError, [NSError errorWithDomain:NSPOSIXErrorDomain code:EINVAL userInfo:nil]);
   
   /* Disable undo */
-	[self.library disableNotifications];
+	[_library disableNotifications];
   [self.undoManager disableUndoRegistration];
 
   for (NSDictionary *serialized in objects) {
-    OSStatus err;
-    SparkObject *object = [self deserialize:serialized error:&err];
+    NSError *error = nil;
+    SparkObject *object = [self deserialize:serialized error:&error];
     /* If class not found */
-    if (!object && kWBClassNotFoundError == err)
+    if (!object && error.code == kWBClassNotFoundError) // FIXME: check error domain
       object = [[SparkPlaceHolder alloc] initWithSerializedValues:serialized];
 
     if (object && ![self containsObject:object]) {
@@ -346,7 +351,7 @@ NSComparator SparkObjectCompare = ^NSComparisonResult(SparkObject *obj1, SparkOb
         [icons setIcon:object.icon forObject:object];
       } else if ([object hasIcon] && ![object shouldSaveIcon]) {
         /* Updated version of plugin no longer save icon. */
-        [self.library.iconManager setIcon:nil forObject:object];
+        [_library.iconManager setIcon:nil forObject:object];
       }
     } else {
       SPXDebug(@"Invalid object: %@", serialized);
@@ -355,7 +360,7 @@ NSComparator SparkObjectCompare = ^NSComparisonResult(SparkObject *obj1, SparkOb
   
   /* enable undo */
   [self.undoManager enableUndoRegistration];
-  [self.library enableNotifications];
+  [_library enableNotifications];
   return YES;
 }
 

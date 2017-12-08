@@ -58,19 +58,29 @@
   [self setLatency:[anAction latency] / 1e3];
 }
 
+static inline
+NSAlert *SimpleAlert(NSString *title, NSString *message) {
+  NSAlert *alert = [[NSAlert alloc] init];
+  alert.messageText = title;
+  alert.informativeText = message;
+  return alert;
+}
+
 - (NSAlert *)sparkEditorShouldConfigureAction {
   switch ([self action]) {
     case kTATextAction:
       if (![[self text] length])
-        return [NSAlert alertWithMessageText:@"Empty text" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"You must enter some text"];
+        return SimpleAlert(@"Empty text", @"You must enter some text");
       break;
     case kTADateFormatAction:
       if (![[self rawDateFormat] length]) 
-        return [NSAlert alertWithMessageText:@"Empty date" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"Select a date/time style or type a format string"];
+        return SimpleAlert(@"Empty date", @"Select a date/time style or type a format string");
       break;
     case kTAKeystrokeAction:
       if (![[uiTokens objectValue] count])
-        return [NSAlert alertWithMessageText:@"No key" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"You should type at least on key"];
+        return SimpleAlert(@"No key", @"You should type at least on key");
+      break;
+    case kTADateStyleAction:
       break;
   }
   return nil;
@@ -278,8 +288,8 @@
 
 - (void)trapWindowDidCatchHotKey:(NSNotification *)aNotification {
   NSDictionary *info = [aNotification userInfo];
-  UInt16 nkey = [[info objectForKey:kHKEventKeyCodeKey] integerValue];
-  UniChar chr = [[info objectForKey:kHKEventCharacterKey] integerValue];
+  UInt16 nkey = (UInt16)[info[kHKEventKeyCodeKey] integerValue];
+  UniChar chr = (UniChar)[info[kHKEventCharacterKey] integerValue];
   HKModifier nmodifier = (HKModifier)[[info objectForKey:kHKEventModifierKey] integerValue];
 
   TAKeystroke *hkey = [[TAKeystroke alloc] initWithKeycode:nkey character:chr modifier:nmodifier];

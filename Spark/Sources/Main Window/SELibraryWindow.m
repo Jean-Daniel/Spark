@@ -26,9 +26,7 @@
 #import <SparkKit/SparkApplication.h>
 #import <SparkKit/SparkActionLoader.h>
 
-#import <WonderBox/WBTableView.h>
-#import <WonderBox/NSImage+WonderBox.h>
-#import <WonderBox/NSArrayController+WonderBox.h>
+#import <WonderBox/WonderBox.h>
 
 @implementation SELibraryWindow
 
@@ -150,7 +148,7 @@
 - (IBAction)libraryDoubleAction:(id)sender {
   NSInteger idx = [libraryTable selectedRow];
   if (idx > 0) {
-    SEEntryList *object = [ibGroups objectAtIndex:idx];
+    SEEntryList *object = [ibGroups objectAtArrangedObjectIndex:idx];
     if ([object isEditable]) {
       [libraryTable editColumn:0 row:idx withEvent:nil select:YES];
     } else {

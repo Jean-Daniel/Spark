@@ -55,6 +55,7 @@ SPARK_OBJC_EXPORT
  @result YES if ok.
  */
 - (BOOL)serialize:(NSMutableDictionary *)plist;
+
   /*!
   @method
    @abstract Required! Create a new object by unserializing plist.

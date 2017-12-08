@@ -8,9 +8,7 @@
 
 #import "ITunesAction.h"
 
-#import <WonderBox/WBFunctions.h>
-#import <WonderBox/WBAEFunctions.h>
-#import <WonderBox/NSImage+WonderBox.h>
+#import <WonderBox/WonderBox.h>
 
 #import <HotKeyToolKit/HotKeyToolKit.h>
 
@@ -653,7 +651,7 @@ NSRunningApplication *iTunesLaunch(NSWorkspaceLaunchOptions flags) {
 - (void)volumeUp {
   int16_t volume = 0;
   if (noErr == iTunesGetSoundVolume(&volume)) {
-    int16_t newVol = MIN(100, volume + 5);
+    int16_t newVol = (int16_t)MIN(100, volume + 5);
     if (newVol != volume)
       spx_verify_noerr(iTunesSetSoundVolume(newVol));
   }
@@ -662,7 +660,7 @@ NSRunningApplication *iTunesLaunch(NSWorkspaceLaunchOptions flags) {
 - (void)volumeDown {
   int16_t volume = 0;
   if (noErr == iTunesGetSoundVolume(&volume)) {
-    int16_t newVol = MAX(0, volume - 5);
+    int16_t newVol = (int16_t)MAX(0, volume - 5);
     if (newVol != volume)
       spx_verify_noerr(iTunesSetSoundVolume(newVol));
   }

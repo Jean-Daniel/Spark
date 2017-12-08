@@ -8,6 +8,8 @@
 
 #import <SparkKit/SparkDefine.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 SPARK_OBJC_EXPORT
 @interface SparkMultipleAlerts : NSWindowController
 
@@ -16,7 +18,7 @@ SPARK_OBJC_EXPORT
 - (instancetype)initWithAlert:(SparkAlert *)alert;
 - (instancetype)initWithAlerts:(NSArray *)alerts;
 
-- (IBAction)close:(id)sender;
+- (IBAction)close:(nullable id)sender;
 
 - (NSArray *)alerts;
 
@@ -34,6 +36,8 @@ SPARK_OBJC_EXPORT
 - (void)removeAllAlerts;
 
 - (void)showAlerts;
-- (void)beginSheetModalForWindow:(NSWindow *)window modalDelegate:(id)delegate didEndSelector:(SEL)didEndSelector contextInfo:(void *)contextInfo;
+- (void)beginSheetModalForWindow:(NSWindow *)sheetWindow completionHandler:(void (^ __nullable)(NSModalResponse returnCode))handler;
 
 @end
+
+NS_ASSUME_NONNULL_END

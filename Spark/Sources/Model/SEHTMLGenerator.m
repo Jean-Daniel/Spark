@@ -22,7 +22,7 @@
 #import <SparkKit/SparkEntryManager.h>
 #import <SparkKit/SparkActionLoader.h>
 
-#import <WonderBox/WBXMLTemplate.h>
+#import <WonderBox/WonderBox.h>
 
 @implementation SEHTMLGenerator {
 @private
@@ -147,10 +147,13 @@ NSComparisonResult _SETriggerCompare(SparkTrigger *t1, SparkTrigger *t2, void *c
 }
 
 - (NSString *)imageTagForImage:(NSImage *)image size:(NSSize)size {
-  size_t bytesPerRow = ceil(size.width) * 4;
-  char *data = malloc(bytesPerRow * ceil(size.height));
+  size_t pixelWide = (size_t)ceil(size.width);
+  size_t pixelHigh = (size_t)ceil(size.height);
+
+  size_t bytesPerRow = pixelWide * 4;
+  char *data = malloc(bytesPerRow * pixelHigh);
   CGColorSpaceRef space = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
-  CGContextRef ctxt = CGBitmapContextCreate(data, size.width, size.height, 8, bytesPerRow, space, kCGImageAlphaPremultipliedLast);
+  CGContextRef ctxt = CGBitmapContextCreate(data, pixelWide, pixelHigh, 8, bytesPerRow, space, kCGImageAlphaPremultipliedLast);
   CGContextClearRect(ctxt, CGRectMake(0, 0, size.width, size.height));
   CGContextSetInterpolationQuality(ctxt, kCGInterpolationHigh);
   CGColorSpaceRelease(space);
