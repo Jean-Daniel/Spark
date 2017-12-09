@@ -133,7 +133,7 @@
 		98D52B740B19A63700C8425C /* SEPlugInHelp.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D52B6A0B19A63700C8425C /* SEPlugInHelp.h */; };
 		98D52B750B19A63700C8425C /* SEPlugInHelp.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B6B0B19A63700C8425C /* SEPlugInHelp.m */; };
 		98D52B760B19A63700C8425C /* SEPlugInInstaller.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D52B6C0B19A63700C8425C /* SEPlugInInstaller.h */; };
-		98D52B770B19A63700C8425C /* SEPluginInstaller.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B6D0B19A63700C8425C /* SEPluginInstaller.m */; };
+		98D52B770B19A63700C8425C /* SEPluginInstaller.mm in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B6D0B19A63700C8425C /* SEPluginInstaller.mm */; };
 		98D52B780B19A63700C8425C /* SEPreferences.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D52B6E0B19A63700C8425C /* SEPreferences.h */; };
 		98D52B790B19A63700C8425C /* SEPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B6F0B19A63700C8425C /* SEPreferences.m */; };
 		98D590F30AA18A430081A713 /* SEEditor.strings in Resources */ = {isa = PBXBuildFile; fileRef = 98D590F10AA18A430081A713 /* SEEditor.strings */; };
@@ -357,7 +357,7 @@
 		98D52B6A0B19A63700C8425C /* SEPlugInHelp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEPlugInHelp.h; sourceTree = "<group>"; };
 		98D52B6B0B19A63700C8425C /* SEPlugInHelp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEPlugInHelp.m; sourceTree = "<group>"; };
 		98D52B6C0B19A63700C8425C /* SEPlugInInstaller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEPlugInInstaller.h; sourceTree = "<group>"; };
-		98D52B6D0B19A63700C8425C /* SEPluginInstaller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEPluginInstaller.m; sourceTree = "<group>"; };
+		98D52B6D0B19A63700C8425C /* SEPluginInstaller.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SEPluginInstaller.mm; sourceTree = "<group>"; };
 		98D52B6E0B19A63700C8425C /* SEPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEPreferences.h; sourceTree = "<group>"; };
 		98D52B6F0B19A63700C8425C /* SEPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEPreferences.m; sourceTree = "<group>"; };
 		98D52B700B19A63700C8425C /* SETriggerBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SETriggerBrowser.h; sourceTree = "<group>"; };
@@ -755,7 +755,7 @@
 				1B2EA21C1FAF8D94006AE849 /* SEPlugInHelp.xib */,
 				98D52B6F0B19A63700C8425C /* SEPreferences.m */,
 				1B9A7A780D0D998B00770054 /* SEPreferences.xib */,
-				98D52B6D0B19A63700C8425C /* SEPluginInstaller.m */,
+				98D52B6D0B19A63700C8425C /* SEPluginInstaller.mm */,
 				1BA7CE0D0D0DB3740081764D /* SEPluginInstaller.xib */,
 				9876699A0CD4C5D500593B74 /* SEExportOptions.m */,
 				1B15353F0D0D930F00C30ADA /* SEExportOptions.xib */,
@@ -1032,7 +1032,7 @@
 				98D52B600B19A59700C8425C /* SELibraryWindow.m in Sources */,
 				98D52B730B19A63700C8425C /* SEFirstRun.m in Sources */,
 				98D52B750B19A63700C8425C /* SEPlugInHelp.m in Sources */,
-				98D52B770B19A63700C8425C /* SEPluginInstaller.m in Sources */,
+				98D52B770B19A63700C8425C /* SEPluginInstaller.mm in Sources */,
 				98D52B790B19A63700C8425C /* SEPreferences.m in Sources */,
 				98CC49640B5AAF3100C60244 /* SELibraryDocument.m in Sources */,
 				98CC4E910B5AC5E900C60244 /* SEApplicationSource.m in Sources */,

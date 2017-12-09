@@ -140,9 +140,13 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
 
 - (IBAction)saveAsArchive:(id)sender {
   NSSavePanel *panel = [NSSavePanel savePanel];
-  NSCalendarDate *date = [NSCalendarDate date];
-  NSString *filename = [NSString stringWithFormat:NSLocalizedString(@"SparkLibrary - %.4d-%.2d-%.2d", @"Backup filename"),
-												[date yearOfCommonEra], [date monthOfYear], [date dayOfMonth]];
+  
+  NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+  formatter.dateStyle = NSDateFormatterShortStyle;
+  formatter.timeStyle = NSDateFormatterNoStyle;
+  
+  NSString *filename = [NSString stringWithFormat:NSLocalizedString(@"SparkLibrary - %@", @"Backup filename"),
+                        [formatter stringFromDate:[NSDate date]]];
   panel.canCreateDirectories = YES;
   panel.allowedFileTypes = @[kSparkLibraryArchiveExtension];
   panel.allowsOtherFileTypes = NO;
@@ -174,12 +178,13 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
   // TODO: allow restore from standard library bundle (with warning)
   SparkLibrary *library = [[SparkLibrary alloc] initFromArchiveAtURL:archive];
   if (library) {
-    NSInteger result = NSRunAlertPanel(NSLocalizedString(@"REVERT_BACKUP", @"Revert to Backup - Title"), 
-                                       NSLocalizedString(@"REVERT_MESSAGE", @"Revert to Backup - Message"),
-                                       NSLocalizedString(@"Replace", @"Replace - Button"),
-                                       NSLocalizedString(@"Cancel", @"Cancel - Button"),
-                                       nil, archive.lastPathComponent);
-    if (result == NSModalResponseOK) {
+    NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"REVERT_BACKUP", @"Revert to Backup - Title")
+                                   informativeTextWithFormat:NSLocalizedString(@"REVERT_MESSAGE", @"Revert to Backup - Message"), archive.lastPathComponent];
+    [alert addButtonWithTitle:NSLocalizedString(@"Replace", @"Replace - Button")];
+    [alert addButtonWithTitle:NSLocalizedString(@"Cancel", @"Cancel - Button")];
+    NSModalResponse resp = [alert runModal];
+    
+    if (resp == NSAlertFirstButtonReturn) {
       SparkLibrary *previous = _library;
       if (SparkActiveLibrary() == previous) {
         SparkSetActiveLibrary(library);
@@ -305,10 +310,9 @@ NSAlert *_SELibraryTriggerAlreadyUsedAlert(SparkEntry *previous, SparkEntry *ent
                                     @"Trigger already used (%@ => entry name, %@ => previous name, %@ entry name) - Message");
 
   NSAlert *alert = [NSAlert alertWithMessageText:title
-                                   defaultButton:NSLocalizedString(@"Enable", @"Enable - Button")
-                                 alternateButton:NSLocalizedString(@"Keep disabled", @"Keep disabled - Button")
-                                     otherButton:nil
                        informativeTextWithFormat:msg, [entry name], [previous name], [entry name]];
+  [alert addButtonWithTitle:NSLocalizedString(@"Enable", @"Enable - Button")];
+  [alert addButtonWithTitle:NSLocalizedString(@"Keep disabled", @"Keep disabled - Button")];
   return alert;
 }
 
@@ -340,7 +344,7 @@ NSAlert *_SELibraryTriggerAlreadyUsedAlert(SparkEntry *previous, SparkEntry *ent
 	SparkEntry *active = [manager activeEntryForTrigger:trigger application:anApplication];
 	if (active) {
 		NSAlert *alert = _SELibraryTriggerAlreadyUsedAlert(active, entry);
-		if (NSModalResponseOK == [alert runModal]) {
+		if (NSAlertFirstButtonReturn == [alert runModal]) {
 			[active setEnabled:NO];
 			[entry setEnabled:YES];
 		}
@@ -410,7 +414,7 @@ NSAlert *_SELibraryTriggerAlreadyUsedAlert(SparkEntry *previous, SparkEntry *ent
 			SparkEntry *active = [manager activeEntryForTrigger:[updated trigger] application:[updated application]];
 			if (active) {
 				NSAlert *alert = _SELibraryTriggerAlreadyUsedAlert(active, updated);
-				if (NSModalResponseOK == [alert runModal]) {
+				if (NSAlertFirstButtonReturn == [alert runModal]) {
 					[active setEnabled:NO];
 					[updated setEnabled:YES];
 				}

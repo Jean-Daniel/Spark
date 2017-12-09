@@ -24,7 +24,7 @@ NSString * const SparkEntryWillRemoveChildNotification;
 @class SparkAction, SparkTrigger, SparkApplication;
 
 SPARK_OBJC_EXPORT
-@interface SparkEntry : NSObject <NSCopying>
+@interface SparkEntry : NSObject <NSSecureCoding, NSCopying>
 
 @property(nonatomic, readonly) uint32_t uid;
 

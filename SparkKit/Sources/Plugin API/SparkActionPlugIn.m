@@ -32,8 +32,8 @@
   SparkViewPlaceholder *sp_trap;
 }
 
-- (id)init {
-  if (self = [super init]) {
+- (instancetype)initWithNibName:(nullable NSNibName)nibNameOrNil bundle:(nullable NSBundle *)nibBundleOrNil {
+  if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
     sp_trap = [[SparkViewPlaceholder alloc] init];
   }
   return self;

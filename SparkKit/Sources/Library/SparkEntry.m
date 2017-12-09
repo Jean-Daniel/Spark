@@ -332,6 +332,139 @@ NSString * const SparkEntryWillRemoveChildNotification = @"SparkEntryWillRemoveC
 		[self removeChild:sp_child];
 }
 
+// MARK: -
+// MARK: NSSecureCoding
++ (BOOL)supportsSecureCoding {
+  return YES;
+}
+
+- (instancetype)replacementObjectForPortCoder:(NSPortCoder *)encoder {
+  if ([encoder isByref]) {
+    SPXLogWarning(@"SparkEntry does not support by ref messaging");
+    return nil;
+  }
+  return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)coder {
+  if (self = [super init]) {
+    SparkLibrary *library = nil;
+    if (coder.requiresSecureCoding) {
+      /* Network entry has to usage */
+      /*
+       1. adding a new entry. in this case child, parent and manager are nil.
+       2. updating an entry. In this case, we ignore child, parent and manager
+       and we use only action, trigger and application.
+       */
+      library = SparkActiveLibrary();
+      _uid = [coder decodeInt32ForKey:@"uid"];
+      /* content */
+      SparkUID uid = [coder decodeInt32ForKey:@"action"];
+      [self setAction:[library actionWithUID:uid]];
+
+      uid = [coder decodeInt32ForKey:@"trigger"];
+      [self setTrigger:[library triggerWithUID:uid]];
+
+      uid = [coder decodeInt32ForKey:@"application"];
+      [self setApplication:[library applicationWithUID:uid]];
+
+      /* flags */
+      self.enabled = [coder decodeBoolForKey:@"enabled"];
+    } else if ([coder isKindOfClass:[NSPortCoder class]] ) {
+      /* Network entry has to usage */
+      /*
+       1. adding a new entry. in this case child, parent and manager are nil.
+       2. updating an entry. In this case, we ignore child, parent and manager
+       and we use only action, trigger and application.
+       */
+      library = SparkActiveLibrary();
+      unsigned int value;
+      [coder decodeValueOfObjCType:@encode(unsigned int) at:&value];
+      _uid = value;
+      /* content */
+      [coder decodeValueOfObjCType:@encode(unsigned int) at:&value];
+      [self setAction:[library actionWithUID:value]];
+
+      [coder decodeValueOfObjCType:@encode(unsigned int) at:&value];
+      [self setTrigger:[library triggerWithUID:value]];
+
+      [coder decodeValueOfObjCType:@encode(unsigned int) at:&value];
+      [self setApplication:[library applicationWithUID:value]];
+
+      /* flags */
+      [coder decodeValueOfObjCType:@encode(unsigned int) at:&value];
+      self.enabled = value != 0;
+    } else if ([coder isKindOfClass:[SparkLibraryUnarchiver class]]) {
+      library = [(SparkLibraryUnarchiver *)coder library];
+
+      /* decode entry */
+      _uid = [coder decodeInt32ForKey:@"uid"];
+
+      _parent = [coder decodeObjectForKey:@"parent"];
+      sp_child = [coder decodeObjectForKey:@"child"];
+
+      SparkUID uid;
+      uid = [coder decodeInt32ForKey:@"action"];
+      self.action = [library actionWithUID:uid];
+
+      uid = [coder decodeInt32ForKey:@"trigger"];
+      self.trigger = [library triggerWithUID:uid];
+
+      uid = [coder decodeInt32ForKey:@"application"];
+      self.application = [library applicationWithUID:uid];
+
+      self.enabled = [coder decodeBoolForKey:@"enabled"];
+    }
+    if (!library) {
+      SPXThrowException(NSInvalidArchiveOperationException, @"Unsupported coder: %@", coder);
+    }
+  }
+  return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+  if (coder.requiresSecureCoding) {
+    /* see initWithCoder comments */
+    [coder encodeInt32:_uid forKey:@"uid"];
+
+    /* content */
+    [coder encodeInt32:_action.uid forKey:@"action"];
+    [coder encodeInt32:_trigger.uid forKey:@"trigger"];
+    [coder encodeInt32:_application.uid forKey:@"application"];
+
+    /* flags */
+    [coder encodeBool:self.enabled forKey:@"enabled"];
+  } else if ([coder isKindOfClass:[NSPortCoder class]]) {
+    /* see initWithCoder comments */
+    unsigned int value = _uid;
+    [coder encodeValueOfObjCType:@encode(unsigned int) at:&value];
+
+    /* content */
+    value = _action.uid;
+    [coder encodeValueOfObjCType:@encode(unsigned int) at:&value];
+    value = _trigger.uid;
+    [coder encodeValueOfObjCType:@encode(unsigned int) at:&value];
+    value = _application.uid;
+    [coder encodeValueOfObjCType:@encode(unsigned int) at:&value];
+
+    /* flags */
+    value = [self isEnabled];
+    [coder encodeValueOfObjCType:@encode(unsigned int) at:&value];
+  } else if ([coder isKindOfClass:[SparkLibraryArchiver class]]) {
+    [coder encodeObject:sp_child forKey:@"child"];
+    [coder encodeConditionalObject:_parent forKey:@"parent"];
+
+    [coder encodeInt32:_uid forKey:@"uid"];
+    [coder encodeInt32:_action.uid forKey:@"action"];
+    [coder encodeInt32:_trigger.uid forKey:@"trigger"];
+    [coder encodeInt32:_application.uid forKey:@"application"];
+    /* flags */
+    [coder encodeBool:self.enabled forKey:@"enabled"];
+  } else {
+    SPXThrowException(NSInvalidArchiveOperationException, @"Unsupported coder: %@", coder);
+  }
+}
+
 @end
 #pragma mark -
 @implementation SparkEntry (SparkMutableEntry)
@@ -387,105 +520,6 @@ NSString * const SparkEntryWillRemoveChildNotification = @"SparkEntryWillRemoveC
 	SparkEntry *entry = [[SparkEntry alloc] initWithAction:anAction trigger:aTrigger application:anApplication];
 	[self.manager addEntry:entry parent:self];
 	return entry;
-}
-
-@end
-
-@implementation SparkEntry (SparkNetworkMessage)
-
-- (id)replacementObjectForPortCoder:(NSPortCoder *)encoder {
-  if ([encoder isByref]) {
-    SPXLogWarning(@"SparkEntry does not support by ref messaging");
-    return nil;
-  }
-  return self;
-}
-
-- (id)initWithCoder:(NSCoder *)coder {
-  if (self = [super init]) {
-    SparkLibrary *library = nil;
-    if ([coder isKindOfClass:[NSPortCoder class]] ) {
-			/* Network entry has to usage */
-			/* 
-			 1. adding a new entry. in this case child, parent and manager are nil.
-			 2. updating an entry. In this case, we ignore child, parent and manager
-			 and we use only action, trigger and application.
-			 */
-			library = SparkActiveLibrary();
-			unsigned int value;
-			[coder decodeValueOfObjCType:@encode(unsigned int) at:&value];
-			_uid = value;
-			/* content */
-			[coder decodeValueOfObjCType:@encode(unsigned int) at:&value];
-			[self setAction:[library actionWithUID:value]];
-			
-			[coder decodeValueOfObjCType:@encode(unsigned int) at:&value];
-			[self setTrigger:[library triggerWithUID:value]];
-			
-			[coder decodeValueOfObjCType:@encode(unsigned int) at:&value];
-			[self setApplication:[library applicationWithUID:value]];
-			
-			/* flags */
-			[coder decodeValueOfObjCType:@encode(unsigned int) at:&value];
-			self.enabled = value != 0;
-    } else if ([coder isKindOfClass:[SparkLibraryUnarchiver class]]) {
-      library = [(SparkLibraryUnarchiver *)coder library];
-			
-			/* decode entry */
-			_uid = [coder decodeInt32ForKey:@"uid"];
-			
-      _parent = [coder decodeObjectForKey:@"parent"];
-      sp_child = [coder decodeObjectForKey:@"child"];
-			
-			SparkUID uid;
-			uid = [coder decodeInt32ForKey:@"action"];
-      self.action = [library actionWithUID:uid];
-			
-			uid = [coder decodeInt32ForKey:@"trigger"];
-      self.trigger = [library triggerWithUID:uid];
-			
-			uid = [coder decodeInt32ForKey:@"application"];
-			self.application = [library applicationWithUID:uid];
-			
-			self.enabled = [coder decodeBoolForKey:@"enabled"];
-    } 
-    if (!library) {
-      SPXThrowException(NSInvalidArchiveOperationException, @"Unsupported coder: %@", coder);
-    }
-  }
-  return self;
-}
-
-- (void)encodeWithCoder:(NSCoder *)coder {
-  if ([coder isKindOfClass:[NSPortCoder class]]) {
-		/* see initWithCoder comments */
-		unsigned int value = _uid;
-		[coder encodeValueOfObjCType:@encode(unsigned int) at:&value];
-		
-		/* content */
-		value = _action.uid;
-		[coder encodeValueOfObjCType:@encode(unsigned int) at:&value];
-		value = _trigger.uid;
-		[coder encodeValueOfObjCType:@encode(unsigned int) at:&value];
-		value = _application.uid;
-		[coder encodeValueOfObjCType:@encode(unsigned int) at:&value];
-		
-		/* flags */
-		value = [self isEnabled];
-		[coder encodeValueOfObjCType:@encode(unsigned int) at:&value];
-  } else if ([coder isKindOfClass:[SparkLibraryArchiver class]]) {
-    [coder encodeObject:sp_child forKey:@"child"];
-    [coder encodeConditionalObject:_parent forKey:@"parent"];
-		
-		[coder encodeInt32:_uid forKey:@"uid"];
-		[coder encodeInt32:_action.uid forKey:@"action"];
-		[coder encodeInt32:_trigger.uid forKey:@"trigger"];
-		[coder encodeInt32:_application.uid forKey:@"application"];
-		/* flags */
-		[coder encodeBool:self.enabled forKey:@"enabled"];
-  } else {
-    SPXThrowException(NSInvalidArchiveOperationException, @"Unsupported coder: %@", coder);
-  }
 }
 
 @end

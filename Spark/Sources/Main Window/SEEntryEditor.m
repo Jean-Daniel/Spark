@@ -81,6 +81,8 @@
   [se_plugin plugInViewDidBecomeHidden];
   se_view = nil;
   se_plugin = nil;
+  // Reset trap field
+  [se_trap delete:sender];
   /* Remove plugins instances */
   [_instances removeAllObjects];
   /* Release entry and reset view */
@@ -109,11 +111,7 @@
   if (kHKInvalidVirtualKeyCode == key.keycode || kHKNilUnichar == key.character) {
     alert = [NSAlert alertWithMessageText:NSLocalizedStringFromTable(@"EMPTY_TRIGGER_ALERT",
                                                                      @"SEEditor", @"Invalid Shortcut - Title")
-                            defaultButton:NSLocalizedStringFromTable(@"OK",
-                                                                     @"SEEditor", @"OK - Button")
-                          alternateButton:nil
-                              otherButton:nil
-                informativeTextWithFormat:NSLocalizedStringFromTable(@"EMPTY_TRIGGER_ALERT_MSG",
+                          informativeText:NSLocalizedStringFromTable(@"EMPTY_TRIGGER_ALERT_MSG",
                                                                      @"SEEditor", @"Invalid Shortcut - Message")];
   }
   /* Then check action */
@@ -126,10 +124,6 @@
       NSString *message = [exception respondsToSelector:@selector(reason)] ? [exception reason] : [exception description];
       alert = [NSAlert alertWithMessageText:NSLocalizedStringFromTable(@"UNEXPECTED_PLUGIN_EXCEPTION",
                                                                        @"SEEditor", @"Plugin raise exception - Title")
-                              defaultButton:NSLocalizedStringFromTable(@"OK",
-                                                                       @"SEEditor", @"OK - Button")
-                            alternateButton:nil
-                                otherButton:nil
                   informativeTextWithFormat:@"%@: %@", name, message];
     }
   if (!alert) {
@@ -141,11 +135,7 @@
       if ([[name stringByTrimmingWhitespace] length] == 0) {
         alert = [NSAlert alertWithMessageText:NSLocalizedStringFromTable(@"EMPTY_NAME_ALERT",
                                                                          @"SEEditor", @"Empty Action Name - Title")
-                                defaultButton:NSLocalizedStringFromTable(@"OK",
-                                                                         @"SEEditor", @"OK - Button")
-                              alternateButton:nil
-                                  otherButton:nil
-                    informativeTextWithFormat:NSLocalizedStringFromTable(@"EMPTY_NAME_ALERT_MSG",
+                              informativeText:NSLocalizedStringFromTable(@"EMPTY_NAME_ALERT_MSG",
                                                                          @"SEEditor", @"Empty Action Name - Message")];
       }
       
@@ -155,10 +145,6 @@
       NSString *message = [exception respondsToSelector:@selector(reason)] ? [exception reason] : [exception description];
       alert = [NSAlert alertWithMessageText:NSLocalizedStringFromTable(@"UNEXPECTED_PLUGIN_EXCEPTION",
                                                                        @"SEEditor", @"Plugin raise exception - Title")
-                              defaultButton:NSLocalizedStringFromTable(@"OK",
-                                                                       @"SEEditor", @"OK - Button")
-                            alternateButton:nil
-                                otherButton:nil
                   informativeTextWithFormat:@"%@: %@", name, message];
     }
   }

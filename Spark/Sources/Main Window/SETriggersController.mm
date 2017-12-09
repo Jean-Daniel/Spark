@@ -32,9 +32,6 @@ typedef struct _SETriggerStyle {
   NSColor *standard, *selected;
 } SETriggerStyle;
 
-static
-SETriggerStyle styles[6];
-
 static 
 NSString * sSEHiddenPluggedObserverKey = nil;
 
@@ -42,35 +39,55 @@ NSString * sSEHiddenPluggedObserverKey = nil;
 - (void)setActive:(BOOL)active;
 @end
 
+static inline
+SETriggerStyle TriggerStyle(SparkEntry *entry, bool isDefault) {
+  if (isDefault) {
+    /* Global key */
+    return {
+      .bold = entry.hasVariant, .strike = YES,
+      .standard = [NSColor controlTextColor],
+      .selected = [NSColor selectedTextColor]
+    };
+  } else {
+    switch (entry.type) {
+      case kSparkEntryTypeDefault:
+        /* Inherits */
+        return {
+          .bold = NO, .strike = YES,
+          .standard = [NSColor darkGrayColor],
+          .selected = [NSColor selectedTextColor]
+        };
+        break;
+      case kSparkEntryTypeOverWrite:
+        return {
+          .bold = YES, .strike = YES,
+          .standard = [NSColor colorWithCalibratedRed:.067 green:.357 blue:.420 alpha:1],
+          .selected = [NSColor colorWithCalibratedRed:.886 green:.914 blue:.996 alpha:1]
+        };
+        break;
+      case kSparkEntryTypeSpecific:
+        /* Is only defined for a specific application */
+        return {
+          .bold = YES, .strike = YES,
+          .standard = [NSColor orangeColor],
+          .selected = [NSColor colorWithCalibratedRed:.992 green:.875 blue:.749 alpha:1]
+        };
+        break;
+      case kSparkEntryTypeWeakOverWrite:
+        return {
+          .bold = NO, .strike = YES,
+          .standard = [NSColor colorWithCalibratedRed:.463 green:.016 blue:.314 alpha:1],
+          .selected = [NSColor colorWithCalibratedRed:.984 green:.890 blue:1.00 alpha:1]
+        };
+        break;
+    }
+  }
+}
+
 @implementation SETriggersController
 
 + (void)initialize {
   if ([SETriggersController class] == self) {
-    /* Standard (global) */
-    styles[0] = (SETriggerStyle){NO, YES,
-      [NSColor controlTextColor],
-      [NSColor selectedTextColor]};
-    /* Global overrided */
-    styles[1] = (SETriggerStyle){YES, YES,
-      [NSColor controlTextColor],
-      [NSColor selectedTextColor]};
-    /* Inherits */
-    styles[2] = (SETriggerStyle){NO, YES,
-      [NSColor darkGrayColor],
-      [NSColor selectedTextColor]};
-    /* Override */
-    styles[3] = (SETriggerStyle){YES, YES,
-      [NSColor colorWithCalibratedRed:.067 green:.357 blue:.420 alpha:1],
-      [NSColor colorWithCalibratedRed:.886 green:.914 blue:.996 alpha:1]};
-    /* Specifics */
-    styles[4] = (SETriggerStyle){YES, YES,
-      [NSColor orangeColor],
-      [NSColor colorWithCalibratedRed:.992 green:.875 blue:.749 alpha:1]};
-    /* Weak Override */
-    styles[5] = (SETriggerStyle){NO, YES,
-      [NSColor colorWithCalibratedRed:.463 green:.016 blue:.314 alpha:1],
-      [NSColor colorWithCalibratedRed:.984 green:.890 blue:1.00 alpha:1]};
-    
     sSEHiddenPluggedObserverKey = [@"values." stringByAppendingString:kSEPreferencesHideDisabled];
   }
 }
@@ -232,49 +249,21 @@ NSString * sSEHiddenPluggedObserverKey = nil;
   if ([aCell respondsToSelector:@selector(setTextColor:)]) {  
     SparkApplication *application = [self application];
     
-    SInt32 idx = -1;
-    /* if we are displaying the defaults entries */
-    if (kSparkApplicationSystemUID == [application uid]) {
-      /* Global key */
-      if ([entry hasVariant]) {
-        idx = 1; /* bold */
-      } else {
-        idx = 0;
-      }
+    NSWindow *window = [aTableView window];
+    BOOL selected = ([window isKeyWindow] && [window firstResponder] == aTableView) && [aTableView isRowSelected:rowIndex];
+    SETriggerStyle style = TriggerStyle(entry, kSparkApplicationSystemUID == application.uid);
+    if ([entry isPlugged]) {
+      [aCell setTextColor:selected ? style.selected : style.standard];
     } else {
-      switch ([entry type]) {
-        case kSparkEntryTypeDefault:
-          /* Inherits */
-          idx = 2;
-          break;
-        case kSparkEntryTypeOverWrite:
-          idx = 3;
-          break;
-        case kSparkEntryTypeSpecific: 
-          /* Is only defined for a specific application */
-          idx = 4;
-          break;
-        case kSparkEntryTypeWeakOverWrite:
-          idx = 5;
-          break;
-      }
+      /* handle case where plugin is disabled */
+      [aCell setTextColor:selected ? [NSColor selectedControlTextColor] : [NSColor disabledControlTextColor]];
     }
-    if (idx >= 0) {
-      NSWindow *window = [aTableView window];
-      BOOL selected = ([window isKeyWindow] && [window firstResponder] == aTableView) && [aTableView isRowSelected:rowIndex];
-      if ([entry isPlugged]) {
-        [aCell setTextColor:selected ? styles[idx].selected : styles[idx].standard];
-      } else {
-        /* handle case where plugin is disabled */
-        [aCell setTextColor:selected ? [NSColor selectedControlTextColor] : [NSColor disabledControlTextColor]];
-      }
-      /* Set Line status */
-      if ([aCell respondsToSelector:@selector(setDrawsLineOver:)]) 
-        [aCell setDrawsLineOver:styles[idx].strike && ![entry isEnabled]];
-      
-      CGFloat size = [NSFont smallSystemFontSize];
-      [aCell setFont:styles[idx].bold ? [NSFont boldSystemFontOfSize:size] : [NSFont systemFontOfSize:size]];
-    }
+    /* Set Line status */
+    if ([aCell respondsToSelector:@selector(setDrawsLineOver:)]) 
+      [aCell setDrawsLineOver:style.strike && ![entry isEnabled]];
+    
+    CGFloat size = [NSFont smallSystemFontSize];
+    [aCell setFont:style.bold ? [NSFont boldSystemFontOfSize:size] : [NSFont systemFontOfSize:size]];
   }
 }
 

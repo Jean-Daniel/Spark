@@ -45,7 +45,12 @@ OSStatus AudioOutputGetSystemDevice(AudioDeviceID *device) {
 OSStatus AudioOutputGetStereoChannels(AudioDeviceID device, UInt32 *left, UInt32 *right) {
   UInt32 channels[2];
   UInt32 size = (UInt32)sizeof(channels);
-  OSStatus err = AudioDeviceGetProperty(device, 0, FALSE, kAudioDevicePropertyPreferredChannelsForStereo, &size, &channels);
+  const AudioObjectPropertyAddress property = {
+    kAudioDevicePropertyPreferredChannelsForStereo,
+    kAudioDevicePropertyScopeOutput,
+    kAudioObjectPropertyElementWildcard
+  };
+  OSStatus err = AudioObjectGetPropertyData(device, &property, 0, NULL, &size, &channels);
   if (noErr == err) {
     if (left) *left = channels[0];
     if (right) *right = channels[1];
@@ -67,9 +72,8 @@ Boolean AudioOutputHasVolumeControl(AudioDeviceID device, Boolean *isWritable) {
   } else {
     UInt32 channel;
     err = AudioOutputGetStereoChannels(device, &channel, NULL);
-    if (noErr == err) {
+    if (noErr == err)
       return noErr == AudioDeviceGetPropertyInfo(device, channel, FALSE, kAudioDevicePropertyVolumeScalar, NULL, isWritable);
-    }
   }
   return FALSE;
 }
@@ -83,8 +87,10 @@ OSStatus AudioOutputGetVolume(AudioDeviceID device, Float32 *left, Float32 *righ
     UInt32 channels[2];
     size = (UInt32)sizeof(Float32);
     err = AudioOutputGetStereoChannels(device, &channels[0], &channels[1]);
-    if (noErr == err) err = AudioDeviceGetProperty(device, channels[0], FALSE, kAudioDevicePropertyVolumeScalar, &size, left);
-    if (noErr == err) err = AudioDeviceGetProperty(device, channels[1], FALSE, kAudioDevicePropertyVolumeScalar, &size, right);
+    if (noErr == err)
+      err = AudioDeviceGetProperty(device, channels[0], FALSE, kAudioDevicePropertyVolumeScalar, &size, left);
+    if (noErr == err)
+      err = AudioDeviceGetProperty(device, channels[1], FALSE, kAudioDevicePropertyVolumeScalar, &size, right);
   }
   return err;
 }
@@ -93,22 +99,30 @@ OSStatus AudioOutputSetVolume(AudioDeviceID device, Float32 left, Float32 right)
   if (kAudioHardwareUnknownPropertyError == err) {
     UInt32 channels[2];
     err = AudioOutputGetStereoChannels(device, &channels[0], &channels[1]);
-    if (noErr == err) err = AudioDeviceSetProperty(device, NULL, channels[0], FALSE, kAudioDevicePropertyVolumeScalar, (UInt32)sizeof(Float32), &left);
-    if (noErr == err) err = AudioDeviceSetProperty(device, NULL, channels[1], FALSE, kAudioDevicePropertyVolumeScalar, (UInt32)sizeof(Float32), &right);
+    if (noErr == err)
+      err = AudioDeviceSetProperty(device, NULL, channels[0], FALSE, kAudioDevicePropertyVolumeScalar, (UInt32)sizeof(Float32), &left);
+    if (noErr == err)
+      err = AudioDeviceSetProperty(device, NULL, channels[1], FALSE, kAudioDevicePropertyVolumeScalar, (UInt32)sizeof(Float32), &right);
   }
   return err;
 }
 
 #pragma mark -
 #pragma mark Mute
+static const AudioObjectPropertyAddress kAudioDeviceMuteProperty = {
+  kAudioDevicePropertyMute,
+  kAudioDevicePropertyScopeOutput,
+  kAudioObjectPropertyElementMaster,
+};
+
 Boolean AudioOutputHasMuteControl(AudioDeviceID device, Boolean *isWritable) {
-  return noErr == AudioDeviceGetPropertyInfo(device, 0, FALSE, kAudioDevicePropertyMute, NULL, isWritable);
+  return AudioObjectIsPropertySettable(device, &kAudioDeviceMuteProperty, isWritable) == noErr;
 }
 
 OSStatus AudioOutputIsMuted(AudioDeviceID device, Boolean *mute) {
   UInt32 value = 0;
   UInt32 size = (UInt32)sizeof(UInt32);
-  OSStatus err = AudioDeviceGetProperty(device, 0, FALSE, kAudioDevicePropertyMute, &size, &value);
+  OSStatus err = AudioObjectGetPropertyData(device, &kAudioDeviceMuteProperty, 0, NULL, &size, &value);
   if (noErr == err) {
     *mute = value ? TRUE : FALSE;
   }
@@ -117,12 +131,7 @@ OSStatus AudioOutputIsMuted(AudioDeviceID device, Boolean *mute) {
 
 OSStatus AudioOutputSetMuted(AudioDeviceID device, Boolean mute) {
   UInt32 value = mute ? 1 : 0;
-  return AudioDeviceSetProperty(device,
-                                NULL, //time stamp not needed
-                                0, //channel 0 is master channel
-                                FALSE,  //for an output device
-                                kAudioDevicePropertyMute,
-                                (UInt32)sizeof(UInt32), &value);
+  return AudioObjectSetPropertyData(device, &kAudioDeviceMuteProperty, 0, NULL, (UInt32)sizeof(UInt32), &value);
 }
 
 #pragma mark High Level Functions

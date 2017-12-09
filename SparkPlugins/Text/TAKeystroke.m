@@ -25,8 +25,8 @@
 
 - (id)initWithCoder:(NSCoder *)aCoder {
 	if (self = [super init]) {
-    ta_code = [aCoder decodeIntegerForKey:@"keycode"];
-    ta_char = [aCoder decodeIntegerForKey:@"character"];
+    ta_code = (HKKeycode)[aCoder decodeIntegerForKey:@"keycode"];
+    ta_char = (UniChar)[aCoder decodeIntegerForKey:@"character"];
     ta_modifier = (HKModifier)[aCoder decodeIntegerForKey:@"modifier"];
   }
   return self;
