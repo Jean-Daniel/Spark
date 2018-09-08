@@ -116,11 +116,13 @@
   
   [oPanel setCanChooseDirectories:NO];
   [oPanel setAllowsMultipleSelection:NO];
-  
+
+  oPanel.preventsApplicationTerminationWhenModal = NO;
   oPanel.directoryURL = [_url URLByDeletingLastPathComponent];
   oPanel.nameFieldStringValue = _url.lastPathComponent ?: @"";
   oPanel.allowedFileTypes = @[ @"app", SPXCFToNSString(kUTTypeApplication) ];
-  [oPanel beginSheet:sender.window completionHandler:^(NSModalResponse returnCode) {
+
+  [oPanel beginSheetModalForWindow:sender.window completionHandler:^(NSModalResponse returnCode) {
     if (returnCode == NSModalResponseOK && [oPanel.URLs count] > 0) {
       [self setURL:oPanel.URLs.firstObject];
     }

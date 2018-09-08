@@ -853,13 +853,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 98BC60510857BB9400A2041F /* Build configuration list for PBXNativeTarget "Spark" */;
 			buildPhases = (
-				8D1107270486CEB800E47090 /* Headers */,
-				98E659ED06B40F4500F73A19 /* Copy Plugins */,
-				98E6582906B40E7C00F73A19 /* Copy Daemon */,
-				98E6582506B40E4200F73A19 /* Copy Framework */,
 				8D1107290486CEB800E47090 /* Resources */,
+				8D1107270486CEB800E47090 /* Headers */,
 				8D11072C0486CEB800E47090 /* Sources */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
+				98E659ED06B40F4500F73A19 /* Copy Plugins */,
+				98E6582506B40E4200F73A19 /* Copy Framework */,
+				98E6582906B40E7C00F73A19 /* Copy Daemon */,
 			);
 			buildRules = (
 			);
