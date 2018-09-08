@@ -246,7 +246,7 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
 - (void)removeEntriesInArray:(NSArray *)anArray {
 	NSParameterAssert(!self.isDynamic);
 	
-	NSUInteger count = [anArray count];
+	NSInteger count = [anArray count];
 	NSMutableIndexSet *idxs = [[NSMutableIndexSet alloc] init];
 	
 	while (count-- > 0) {

@@ -424,7 +424,7 @@ NSURL *__iTunesFindLibrary(Boolean compat) {
     NSImage *user = [NSImage imageNamed:@"iTPlaylist" inBundle:kiTunesActionBundle];
     NSImage *smart = [NSImage imageNamed:@"iTSmart" inBundle:kiTunesActionBundle];
     NSImage *folder = [NSImage imageNamed:@"iTFolder" inBundle:kiTunesActionBundle];
-    NSUInteger count = [menu numberOfItems];
+    NSInteger count = [menu numberOfItems];
     while (count-- > 0) {
       NSString *title = [[menu itemAtIndex:count] title];
       if (title) {

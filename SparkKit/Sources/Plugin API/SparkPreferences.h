@@ -26,7 +26,7 @@ typedef NS_ENUM(NSUInteger, SparkPreferencesDomain) {
 
 #pragma mark Preferences
 SPARK_EXPORT
-id SparkPreferencesGetValue(NSString * key, SparkPreferencesDomain domain);
+__nullable id SparkPreferencesGetValue(NSString * key, SparkPreferencesDomain domain);
 SPARK_EXPORT
 BOOL SparkPreferencesGetBooleanValue(NSString *key, SparkPreferencesDomain domain);
 SPARK_EXPORT

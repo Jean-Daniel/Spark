@@ -138,7 +138,7 @@ void _Setup(SEPlugInInstaller *self) {
                      informativeText:@"Unknown error while looking for plugin path"] runModal];
     } else {
       NSURL *root = nil;
-      NSUInteger count = [cmpt count];
+      NSInteger count = [cmpt count];
       NSURL *tmp = [NSFileManager.defaultManager temporaryDirectory];
       while (count-- > 0) {
         tmp = [tmp URLByAppendingPathComponent:cmpt[count]];

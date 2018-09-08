@@ -56,8 +56,8 @@ NSString * const SESparkEditorDidChangePlugInStatusNotification = @"SESparkEdito
 /* Create shared sort descriptor */
 + (void)initialize {
   if ([SparkEditor class] == self) {
-    NSSortDescriptor *desc = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES selector:@selector(caseInsensitiveCompare:)];
-    gSortByNameDescriptors = [[NSArray alloc] initWithObjects:desc, nil];
+    NSSortDescriptor *desc = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES selector:@selector(localizedStandardCompare:)];
+    gSortByNameDescriptors = @[ desc ];
   }
 }
 
@@ -168,7 +168,7 @@ NSString * const SESparkEditorDidChangePlugInStatusNotification = @"SESparkEdito
 
 - (void)didChangePlugIns:(NSNotification *)aNotification {
   if (se_plugins) {
-    NSUInteger count = [se_plugins numberOfItems];
+    NSInteger count = [se_plugins numberOfItems];
     while (count-- > 0) {
       [se_plugins removeItemAtIndex:count];
     }
@@ -475,7 +475,7 @@ bool SparkDebugEnabled = false;
 // MARK: -
 // MARK: About PlugIns Menu
 - (void)createAboutMenu {
-  NSUInteger count = [aboutMenu numberOfItems];
+  NSInteger count = [aboutMenu numberOfItems];
   while (count-- > 0) {
     [aboutMenu removeItemAtIndex:count];
   }

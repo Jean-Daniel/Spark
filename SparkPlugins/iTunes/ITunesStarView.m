@@ -57,7 +57,7 @@ void _ITunesDrawHalfString(NSPoint point, NSColor *color) {
   CGFloat shift = 0.5;
   if (_rate) {
     double center = 6;
-    unsigned rate = _rate / 2;
+    long rate = _rate / 2;
     while (rate-- > 0) {
       WBCGContextAddStar(ctxt, CGPointMake(center + shift, 9), 5, 6, 0);
       center += 13;

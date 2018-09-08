@@ -280,7 +280,7 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
   _relations = nil;
   
   /* Release defaults libraries */
-  NSUInteger idx = kSparkSetCount;
+  NSInteger idx = kSparkSetCount;
   while (idx-- > 0) {
     // _objects[idx].library = nil;
     _objects[idx] = nil;

@@ -66,7 +66,7 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
 
 - (id)se_windowController:(Class)class {
   NSArray *ctrls = [self windowControllers];
-  NSUInteger count = [ctrls count];
+  NSInteger count = [ctrls count];
   while (count-- > 0) {
     id ctrl = [ctrls objectAtIndex:count];
     if ([ctrl isKindOfClass:class])
@@ -433,7 +433,7 @@ NSAlert *_SELibraryTriggerAlreadyUsedAlert(SparkEntry *previous, SparkEntry *ent
 	BOOL hasCustom = NO;
   SparkApplication *application = [self application];
 	if (kSparkApplicationSystemUID == [application uid]) {
-		NSUInteger count = [entries count];
+		NSInteger count = [entries count];
 		while (count-- > 0 && !hasCustom) {
 			SparkEntry *entry = [entries objectAtIndex:count];
 			hasCustom |= [entry hasVariant];
@@ -444,7 +444,7 @@ NSAlert *_SELibraryTriggerAlreadyUsedAlert(SparkEntry *previous, SparkEntry *ent
 	}
 
 	NSUInteger removed = 0;
-	NSUInteger count = [entries count];
+	NSInteger count = [entries count];
 	SparkEntryManager *manager = [_library entryManager];
 	while (count-- > 0) {
 		SparkEntry *entry = entries[count];

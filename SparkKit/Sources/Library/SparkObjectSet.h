@@ -25,7 +25,7 @@ SPARK_OBJC_EXPORT
 
 @property(nonatomic, assign) SparkLibrary *library;
 
-@property(nonatomic, readonly) NSUndoManager *undoManager;
+@property(nonatomic, nullable, readonly) NSUndoManager *undoManager;
 
 #pragma mark Content Manipulation
 @property(nonatomic, readonly) NSUInteger count;

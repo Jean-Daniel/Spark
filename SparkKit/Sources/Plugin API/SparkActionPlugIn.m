@@ -134,7 +134,7 @@
 + (NSSet *)keyPathsForValuesAffectingValueForKey:(NSString *)key {
   if ([@"name" isEqualToString:key] || [@"icon" isEqualToString:key])
     return [NSSet setWithObject:@"sparkAction"];
-  return nil;
+  return [super keyPathsForValuesAffectingValueForKey:key];
 }
 
 - (void)setSparkAction:(SparkAction *)action edit:(BOOL)flag {

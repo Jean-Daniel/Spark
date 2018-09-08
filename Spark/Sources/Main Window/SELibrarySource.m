@@ -162,7 +162,7 @@
     
     /* Cleanup */
 		NSArray *lists = [self arrangedObjects];
-		NSUInteger idx = [lists count];
+		NSInteger idx = [lists count];
 		while (idx-- > 0) {
 			SEEntryList *list = [lists objectAtIndex:idx];
 			if ([list group] > 4) {
@@ -214,11 +214,8 @@
 
 - (void)awakeFromNib {
   NSSortDescriptor *group = [[NSSortDescriptor alloc] initWithKey:@"representation" ascending:YES];
-  [uiTable setSortDescriptors:@[ group ]];
-  
-  //  NSRect rect = [[uiTable headerView] frame];
-  //  rect.size.height += 1;
-  //  [[uiTable headerView] setFrame:rect];
+  self.sortDescriptors = @[ group ];
+
   [uiTable registerForDraggedTypes:@[SparkEntriesPboardType]];
 }
 

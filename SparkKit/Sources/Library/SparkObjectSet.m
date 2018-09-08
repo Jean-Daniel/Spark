@@ -109,7 +109,7 @@ NSComparator SparkObjectCompare = ^NSComparisonResult(SparkObject *obj1, SparkOb
   }
 }
 
-- (NSUndoManager *)undoManager {
+- (nullable NSUndoManager *)undoManager {
   return _library.undoManager;
 }
 

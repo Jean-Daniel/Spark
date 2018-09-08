@@ -165,7 +165,7 @@ typedef SparkUID (*SparkEntryAccessor)(SparkEntry *, SEL);
 }
 
 - (void)removeEntriesInArray:(NSArray *)theEntries {
-  NSUInteger count = [theEntries count];
+  NSInteger count = [theEntries count];
   while (count-- > 0) {
     [self removeEntry:[theEntries objectAtIndex:count]];
   }
@@ -598,7 +598,7 @@ static SparkUID sUID = 0;
 }
 
 - (void)loadLegacyEntries:(NSArray *)entries {
-  NSUInteger idx = [entries count];
+  NSInteger idx = [entries count];
   while (idx-- > 0) {
     [self sp_addEntry:[entries objectAtIndex:idx] parent:nil];
   }
@@ -656,7 +656,7 @@ typedef struct {
     return NO;
   }
 
-  NSUInteger count = SparkReadField(header->count);
+  NSInteger count = SparkReadField(header->count);
   if ([data length] < count * sizeof(SparkLibraryEntry_v0) + sizeof(SparkEntryHeader)) {
     SPXDebug(@"Unexpected end of file");
     if (outError) *outError = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileReadCorruptFileError userInfo:nil];

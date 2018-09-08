@@ -86,7 +86,7 @@
 - (NSArray *)entries:(SparkTrigger *)trigger {
   NSMutableArray *result = [NSMutableArray array];
   NSArray *entries = [[se_library entryManager] entriesForTrigger:trigger];
-  NSUInteger idx = [entries count];
+  NSInteger idx = [entries count];
   while (idx-- > 0) {
     [result addObject:entries[idx]];
   }

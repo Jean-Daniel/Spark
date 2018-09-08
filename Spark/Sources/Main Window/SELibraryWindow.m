@@ -291,11 +291,3 @@
 }
 
 @end
-
-@implementation NSString (SparkSmartOrdering)
-
-- (NSComparisonResult)spark_compare:(NSString *)other {
-  return [self compare:other options:NSCaseInsensitiveSearch | NSNumericSearch | NSDiacriticInsensitiveSearch];
-}
-
-@end

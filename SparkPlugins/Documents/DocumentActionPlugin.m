@@ -142,7 +142,7 @@ NSAlert *SimpleAlert(NSString *title, NSString *message) {
   return nil;
 }
 - (void)setApplication:(NSURL *)url {
-  NSUInteger idx = [ibMenu numberOfItems];
+  NSInteger idx = [ibMenu numberOfItems];
   while (idx-- > 0) {
     id obj = [[ibMenu itemAtIndex:idx] representedObject];
     if (obj && [obj isKindOfClass:[NSDictionary class]]) {
