@@ -65,7 +65,7 @@ void __SetSparkKitSingleKeyMode(NSInteger mode) {
   BOOL se_login;
   BOOL se_update;
   NSMapTable *_status;
-  NSMutableArray *_plugins;
+  NSMutableArray<NSDictionary *> *_plugins;
 }
 
 /* Default values initialization */
@@ -125,26 +125,26 @@ void __SetSparkKitSingleKeyMode(NSInteger mode) {
   NSDictionary *item = @{
                          @"name": NSLocalizedStringFromTable(@"Built-in", @"SEPreferences", @"Plugin preferences domain - built-in"),
                          @"plugins": plugs,
-                         @"icon": [NSImage imageNamed:@"application"]};
+                         @"icon": [NSImage imageNamed:NSImageNameApplicationIcon]};
   [_plugins addObject:item];
 
   plugs = [[[SparkActionLoader sharedLoader] plugInsForDomain:kWBPlugInDomainLocal] sortedArrayUsingDescriptors:gSortByNameDescriptors];
   item = @{
            @"name": NSLocalizedStringFromTable(@"Computer", @"SEPreferences", @"Plugin preferences domain - computer"),
            @"plugins": plugs,
-           @"icon": [NSImage imageNamed:@"computer"]};
+           @"icon": [NSImage imageNamed:NSImageNameComputer]};
   [_plugins addObject:item];
   
   plugs = [[[SparkActionLoader sharedLoader] plugInsForDomain:kWBPlugInDomainUser] sortedArrayUsingDescriptors:gSortByNameDescriptors];
   item = @{
            @"name": NSLocalizedStringFromTable(@"User", @"SEPreferences", @"Plugin preferences domain - user"),
            @"plugins": plugs,
-           @"icon": [NSImage imageNamed:@"user"]};
+           @"icon": [NSImage imageNamed:NSImageNameUser]};
   [_plugins addObject:item];
   
   [uiPlugins reloadData];
   for (item in _plugins) {
-    NSArray *plugins = [item objectForKey:@"plugins"];
+    NSArray *plugins = item[@"plugins"];
     if ([plugins count]) {
       [self se_initPlugInStatus:plugins];
       [uiPlugins expandItem:item];
@@ -336,7 +336,7 @@ void __SetSparkKitSingleKeyMode(NSInteger mode) {
   if ([kSparkPreferencesToolbarGeneralItem isEqualToString:itemIdentifier]) {
     [toolbarItem setTag:0];
     [toolbarItem setLabel:NSLocalizedStringFromTable(@"General", @"SEPreferences", @"Toolar item: General")];
-    [toolbarItem setImage:[NSImage imageNamed:@"generalpref"]];
+    [toolbarItem setImage:[NSImage imageNamed:NSImageNamePreferencesGeneral]];
   } else if ([kSparkPreferencesToolbarPlugInsItem isEqualToString:itemIdentifier]) {
     [toolbarItem setTag:1];
     [toolbarItem setLabel:NSLocalizedStringFromTable(@"Plugins", @"SEPreferences", @"Toolar item: Plugins")];
@@ -348,7 +348,7 @@ void __SetSparkKitSingleKeyMode(NSInteger mode) {
   } else if ([kSparkPreferencesToolbarAdvancedItem isEqualToString:itemIdentifier]) {
     [toolbarItem setTag:3];
     [toolbarItem setLabel:NSLocalizedStringFromTable(@"Advanced", @"SEPreferences", @"Toolar item: Advanced")];
-    [toolbarItem setImage:[NSImage imageNamed:@"advancedpref"]];
+    [toolbarItem setImage:[NSImage imageNamed:NSImageNameAdvanced]];
   }
   
   // Tell the item what message to send when it is clicked

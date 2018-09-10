@@ -83,8 +83,10 @@
   else if (count > 10000) {
     img = [NSImage imageNamed:@"badge-5"];
   }
-  NSDictionary *attr = [NSDictionary dictionaryWithObjectsAndKeys:[NSColor whiteColor], NSForegroundColorAttributeName,
-    [NSFont systemFontOfSize:12], NSFontAttributeName, nil];
+  NSDictionary *attr = @{
+                         NSForegroundColorAttributeName: NSColor.whiteColor,
+                         NSFontAttributeName: [NSFont systemFontOfSize:12]
+                         };
   NSString *str = [NSString stringWithFormat:@"%ld", (long)count];
   NSSize size = [str sizeWithAttributes:attr];
   /* backup image before edit */

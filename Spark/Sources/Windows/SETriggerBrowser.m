@@ -18,27 +18,24 @@
 
 #import <HotKeyToolKit/HKKeyMap.h>
 
-@interface SEBooleanToImageTransformer : NSValueTransformer {
-}
-@end
+//@interface SEBooleanToImageTransformer : NSValueTransformer {
+//}
+//@end
 
 @implementation SETriggerBrowser {
 @private
   SparkLibrary *se_library;
 }
 
-+ (void)initialize {
-  if ([SETriggerBrowser class] == self) {
-    SEBooleanToImageTransformer *transformer;
-    
-    // create an autoreleased instance of our value transformer
-    transformer = [[SEBooleanToImageTransformer alloc] init];
-    
-    // register it with the name that we refer to it with
-    [NSValueTransformer setValueTransformer:transformer
-                                    forName:@"SEBooleanToImageTransformer"];
-  }
-}
+//+ (void)initialize {
+//  if ([SETriggerBrowser class] == self) {
+//    SEBooleanToImageTransformer *transformer = [[SEBooleanToImageTransformer alloc] init];
+//
+//    // register it with the name that we refer to it with
+//    [NSValueTransformer setValueTransformer:transformer
+//                                    forName:@"SEBooleanToImageTransformer"];
+//  }
+//}
 
 - (id)init {
   if (self = [super initWithWindowNibName:@"SETriggerBrowser"]) {
@@ -109,42 +106,42 @@
 
 @end
 
-@implementation SEBooleanToImageTransformer 
-
-+ (Class)transformedValueClass {
-  return [NSImage class];
-}
-
-+ (BOOL)allowsReverseTransformation {
-  return YES;
-}
-
-- (id)transformedValue:(id)value {
-  NSImage *img = nil;
-  
-  if (!value) return nil;
-  
-  /* Attempt to get a reasonable value from the value object. */
-  if ([value respondsToSelector: @selector(boolValue)]) {
-    if ([value boolValue]) {
-      img = [NSImage imageNamed:@"SECheck"];
-    }
-  } else {
-    SPXThrowException(NSInternalInconsistencyException,
-                     @"Value (%@) does not respond to -boolValue.", [value class]);
-  }
-  
-  return img;
-}
-
-- (id)reverseTransformedValue:(id)value {
-  if (value)
-    return @YES;
-  
-  return @NO;
-}
-
-@end
+//@implementation SEBooleanToImageTransformer
+//
+//+ (Class)transformedValueClass {
+//  return [NSImage class];
+//}
+//
+//+ (BOOL)allowsReverseTransformation {
+//  return YES;
+//}
+//
+//- (id)transformedValue:(id)value {
+//  NSImage *img = nil;
+//
+//  if (!value) return nil;
+//
+//  /* Attempt to get a reasonable value from the value object. */
+//  if ([value respondsToSelector: @selector(boolValue)]) {
+//    if ([value boolValue]) {
+//      img = [NSImage imageNamed:@"SECheck"];
+//    }
+//  } else {
+//    SPXThrowException(NSInternalInconsistencyException,
+//                     @"Value (%@) does not respond to -boolValue.", [value class]);
+//  }
+//
+//  return img;
+//}
+//
+//- (id)reverseTransformedValue:(id)value {
+//  if (value)
+//    return @YES;
+//
+//  return @NO;
+//}
+//
+//@end
 
 @implementation SparkHotKey (SEModifierAccess)
 

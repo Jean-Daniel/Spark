@@ -290,7 +290,7 @@ NSAlert *SimpleAlert(NSString *title, NSString *message) {
   NSDictionary *info = [aNotification userInfo];
   UInt16 nkey = (UInt16)[info[kHKEventKeyCodeKey] integerValue];
   UniChar chr = (UniChar)[info[kHKEventCharacterKey] integerValue];
-  HKModifier nmodifier = (HKModifier)[[info objectForKey:kHKEventModifierKey] integerValue];
+  HKModifier nmodifier = (HKModifier)[info[kHKEventModifierKey] integerValue];
 
   TAKeystroke *hkey = [[TAKeystroke alloc] initWithKeycode:nkey character:chr modifier:nmodifier];
   NSMutableArray *objs = [[uiRecTokens objectValue] mutableCopy];

@@ -100,12 +100,12 @@ NSString * const kSystemUserNameKey = @"SystemUserName";
 
 - (id)initWithSerializedValues:(NSDictionary *)plist {
   if (self = [super initWithSerializedValues:plist]) {
-    [self setAction:[[plist objectForKey:kSystemActionKey] intValue]];
-    [self decodeFlags:[[plist objectForKey:kSystemFlagsKey] unsignedIntValue]];
+    [self setAction:[plist[kSystemActionKey] intValue]];
+    [self decodeFlags:[plist[kSystemFlagsKey] unsignedIntValue]];
     
     if (kSystemSwitch == [self action]) {
-      [self setUserName:[plist objectForKey:kSystemUserNameKey]];
-      [self setUserID:[[plist objectForKey:kSystemUserUIDKey] unsignedIntValue]];
+      [self setUserName:plist[kSystemUserNameKey]];
+      [self setUserID:[plist[kSystemUserUIDKey] unsignedIntValue]];
     }
     /* Update description */
     NSString *description = SystemActionDescription(self);
@@ -599,7 +599,7 @@ OSType SystemActionFromFlag(int flag) {
 - (id)initWithSerializedValues:(NSDictionary *)plist {
   SystemAction *action = [[SystemAction alloc] initWithSerializedValues:plist];
   if (action) {
-    [action setAction:SystemActionFromFlag([[plist objectForKey:@"PowerAction"] intValue])];
+    [action setAction:SystemActionFromFlag([plist[@"PowerAction"] intValue])];
     [action setShouldConfirm:YES];
     
     [action setVersion:0x100];

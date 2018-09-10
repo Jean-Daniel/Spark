@@ -12,7 +12,7 @@
 @implementation SparkEditor (SEScriptHandler)
 
 - (void)handleHelpScriptCommand:(NSScriptCommand *)scriptCommand {
-  NSString *page = [[scriptCommand arguments] objectForKey:@"Page"];
+  NSString *page = scriptCommand.arguments[@"Page"];
   id delegate = self.delegate;
   if (page) {
     [delegate showPlugInHelpPage:page];

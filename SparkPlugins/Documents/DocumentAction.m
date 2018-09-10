@@ -95,15 +95,15 @@ static inline WBAlias *AliasWithData(NSData *data) {
 }
 #pragma clang diagnostic pop
 
-- (void)initFromOldPropertyList:(id)plist {
-  [self setAction:_DocumentActionFromFlag([[plist objectForKey:@"DocAction"] intValue])];
+- (void)initFromOldPropertyList:(NSDictionary *)plist {
+  [self setAction:_DocumentActionFromFlag([plist[@"DocAction"] intValue])];
   if (DocumentActionNeedDocument(_action)) {
-    NSData *data = [plist objectForKey:@"DocAlias"];
+    NSData *data = plist[@"DocAlias"];
     if (data)
       _document = AliasWithData(data);
   }
   if (DocumentActionNeedApplication(_action)) {
-    NSData *data = [plist objectForKey:@"AppAlias"];
+    NSData *data = plist[@"AppAlias"];
     if (data) {
       WBAlias *app = AliasWithData(data);
       NSURL *url = app.URL;
@@ -112,7 +112,7 @@ static inline WBAlias *AliasWithData(NSData *data) {
     }
   }
   if (_action == kDocumentActionOpenURL) {
-    [self setURL:[plist objectForKey:@"DocumentURL"]];
+    [self setURL:plist[@"DocumentURL"]];
   }
   if (![self shouldSaveIcon]) {
     [self setIcon:nil];
@@ -125,7 +125,7 @@ static inline WBAlias *AliasWithData(NSData *data) {
       [self initFromOldPropertyList:plist];
       [self setVersion:0x200];
     } else {
-      [self setAction:WBOSTypeFromString([plist objectForKey:kDocumentActionKey])];
+      [self setAction:WBOSTypeFromString(plist[kDocumentActionKey])];
       
       if (DocumentActionNeedDocument(_action)) {
         NSData *data = plist[kDocumentActionBookmarkKey];
@@ -140,7 +140,7 @@ static inline WBAlias *AliasWithData(NSData *data) {
       }
       
       if (_action == kDocumentActionOpenURL) {
-        [self setURL:[plist objectForKey:kDocumentActionURLKey]];
+        [self setURL:plist[kDocumentActionURLKey]];
       }
     }
     /* Update description */

@@ -19,8 +19,7 @@ void _ITunesDrawHalfString(NSPoint point, NSColor *color) {
   if (!sHalf) {
     unichar half = 0x00bd;
     sHalf = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithCharacters:&half length:1]
-                                                   attributes:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                     [NSFont systemFontOfSize:[NSFont smallSystemFontSize]], NSFontAttributeName, nil]];
+                                                   attributes:@{ NSFontAttributeName: [NSFont systemFontOfSize:NSFont.smallSystemFontSize] }];
   }
   [sHalf addAttribute:NSForegroundColorAttributeName value:color ? : [NSColor blackColor] range:NSMakeRange(0, 1)];
   [sHalf drawAtPoint:point];

@@ -52,10 +52,10 @@ NSString * const kKeyboardActionBundleIdentifier = @"org.shadowlab.spark.action.
 
 - (id)initWithSerializedValues:(NSDictionary *)plist {
   if (self = [super initWithSerializedValues:plist]) {
-		[self setAutorepeat:[[plist objectForKey:@"TARepeat"] boolValue]];
-    [self setAction:WBOSTypeFromString([plist objectForKey:@"TAAction"])];
-    [self setLatency:(useconds_t)[[plist objectForKey:@"TALatency"] integerValue]];
-    [self setSerializedData:[plist objectForKey:@"TAData"]];
+		[self setAutorepeat:[plist[@"TARepeat"] boolValue]];
+    [self setAction:WBOSTypeFromString(plist[@"TAAction"])];
+    [self setLatency:(useconds_t)[plist[@"TALatency"] integerValue]];
+    [self setSerializedData:plist[@"TAData"]];
   }
   return self;
 }

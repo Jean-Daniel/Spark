@@ -200,12 +200,12 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
   return 0;
 }
 
-- (void)initFromOldPropertyList:(id)plist {
+- (void)initFromOldPropertyList:(NSDictionary *)plist {
   /* Simply load alias and application without control (lazy resolution) */
   [self initFlags];
   
   WBAlias *alias = nil;
-  NSData *data = [plist objectForKey:@"App Alias"];
+  NSData *data = plist[@"App Alias"];
   if (data) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -215,13 +215,13 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
   }
   if (!_application) {
     _application = [[WBApplication alloc] init];
-    NSString *bundle = [plist objectForKey:@"BundleID"];
+    NSString *bundle = plist[@"BundleID"];
     if (bundle)
       [_application setBundleIdentifier:bundle];
   }
   
-  [self setFlags:[[plist objectForKey:@"LSFlags"] intValue]];
-  [self setAction:_ApplicationTypeFromTag([[plist objectForKey:@"Action"] intValue])];
+  [self setFlags:[plist[@"LSFlags"] intValue]];
+  [self setAction:_ApplicationTypeFromTag([plist[@"Action"] intValue])];
   
   if ([self shouldSaveIcon] && _application) {
     NSImage *icon = [_application icon];

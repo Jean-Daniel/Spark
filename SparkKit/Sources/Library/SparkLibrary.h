@@ -126,9 +126,8 @@ SPARK_INLINE
 void SparkLibraryPostUpdateNotification(SparkLibrary *library, NSString *name, id sender, id replaced, id object) {
   [library.notificationCenter postNotificationName:name
                                               object:sender
-                                            userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                      object, SparkNotificationObjectKey,
-                                                      replaced, SparkNotificationUpdatedObjectKey, nil]];
+                                          userInfo:@{SparkNotificationObjectKey: object,
+                                                     SparkNotificationUpdatedObjectKey: replaced}];
 }
 
 // MARK: Debugger

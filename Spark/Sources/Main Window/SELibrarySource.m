@@ -272,7 +272,7 @@
     uuid_t bytes;
     SparkLibrary *library = nil;
     SELibraryDocument *doc = nil;
-    [[pboard objectForKey:@"uuid"] getBytes:bytes length:sizeof(bytes)];
+    [pboard[@"uuid"] getBytes:bytes length:sizeof(bytes)];
     NSUUID *uuid = [[NSUUID alloc] initWithUUIDBytes:bytes];
     if (uuid) {
       library = SparkLibraryGetLibraryWithUUID(uuid);
@@ -280,7 +280,7 @@
     }
     
     if (doc) {
-      NSArray *uids = [pboard objectForKey:@"entries"];
+      NSArray *uids = pboard[@"entries"];
 			SparkEntryManager *manager = [library entryManager];
       NSMutableArray *items = [[NSMutableArray alloc] init];
       for (NSUInteger idx = 0; idx < [uids count]; idx++) {
@@ -445,8 +445,8 @@
   }
 	
 	/* refresh */
-	SparkApplication *previous = [[aNotification userInfo] objectForKey:SEPreviousApplicationKey];
-	if (!previous || ![[[[aNotification object] library] applicationSet] containsObject:previous]) {
+	SparkApplication *previous = aNotification.userInfo[SEPreviousApplicationKey];
+	if (!previous || ![[[aNotification.object library] applicationSet] containsObject:previous]) {
 		[[self selectedObject] snapshot];
 	} else {
 		/* Reload when switching to/from global */
@@ -454,7 +454,7 @@
 			[[self selectedObject] snapshot];
 		} else {
 			/* Reload if previous or current contains custom entries */
-			SparkEntryManager *manager = [[[aNotification object] library] entryManager];
+			SparkEntryManager *manager = [[aNotification.object library] entryManager];
 			if ([manager containsEntryForApplication:previous] || [manager containsEntryForApplication:application]) {
 				/* I don't understand why snapshot does not trigger a reload in trigger controller, so force it to reload */
 				[[self selectedObject] snapshot];

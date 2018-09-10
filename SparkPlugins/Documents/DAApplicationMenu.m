@@ -105,8 +105,8 @@
   [icon setSize:NSMakeSize(16, 16)];
   
   NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:name action:nil keyEquivalent:@""];
-  [item setRepresentedObject:[NSDictionary dictionaryWithObjectsAndKeys:path, @"path", name, @"name", icon, @"icon", nil]];
-  [item setImage:icon];
+  item.representedObject = @{ @"path": path, @"name": name, @"icon": icon };
+  item.image = icon;
   
   return item;
 }
