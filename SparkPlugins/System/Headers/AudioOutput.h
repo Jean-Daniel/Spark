@@ -18,11 +18,9 @@ SPX_PRIVATE
 Boolean AudioOutputHasVolumeControl(AudioDeviceID device, Boolean *isWritable);
 
 SPX_PRIVATE
-OSStatus AudioOutputGetVolume(AudioDeviceID device, Float32 *left, Float32 *right);
+OSStatus AudioOutputGetVolume(AudioDeviceID device, Float32 *volume);
 SPX_PRIVATE
-OSStatus AudioOutputSetVolume(AudioDeviceID device, Float32 left, Float32 right);
-SPX_PRIVATE
-OSStatus AudioOutputGetStereoChannels(AudioDeviceID device, UInt32 *left, UInt32 *right);
+OSStatus AudioOutputSetVolume(AudioDeviceID device, Float32 volume);
 
 SPX_PRIVATE
 Boolean AudioOutputHasMuteControl(AudioDeviceID device, Boolean *isWritable);

@@ -7,6 +7,7 @@
  */
 
 #include "AudioOutput.h"
+#import <AudioToolbox/AudioToolbox.h>
 
 static const
 Float32 kAudioOutputVolumeLevels[] = { 
@@ -42,69 +43,30 @@ OSStatus AudioOutputGetSystemDevice(AudioDeviceID *device) {
   return AudioObjectGetPropertyData(kAudioObjectSystemObject, &thePropertyAddress, 0, NULL, &size, device);
 }
 
-OSStatus AudioOutputGetStereoChannels(AudioDeviceID device, UInt32 *left, UInt32 *right) {
-  UInt32 channels[2];
-  UInt32 size = (UInt32)sizeof(channels);
-  const AudioObjectPropertyAddress property = {
-    kAudioDevicePropertyPreferredChannelsForStereo,
-    kAudioDevicePropertyScopeOutput,
-    kAudioObjectPropertyElementWildcard
-  };
-  OSStatus err = AudioObjectGetPropertyData(device, &property, 0, NULL, &size, &channels);
-  if (noErr == err) {
-    if (left) *left = channels[0];
-    if (right) *right = channels[1];
-  }
-  return err;
-}
-
 #pragma mark Volume
-static const AudioObjectPropertyAddress kAudioOutputVolumeProperty = {
-  .mSelector = kAudioDevicePropertyVolumeScalar,
+static const AudioObjectPropertyAddress kAudioOutputMasterVolumeProperty = {
+  .mSelector = kAudioHardwareServiceDeviceProperty_VirtualMasterVolume,
   .mScope = kAudioDevicePropertyScopeOutput,
   .mElement = kAudioObjectPropertyElementMaster,
 };
 
 Boolean AudioOutputHasVolumeControl(AudioDeviceID device, Boolean *isWritable) {
-  OSStatus err = AudioObjectIsPropertySettable(device, &kAudioOutputVolumeProperty, isWritable);
-  if (noErr == err) {
-    return TRUE;
-  } else {
-    UInt32 channel;
-    err = AudioOutputGetStereoChannels(device, &channel, NULL);
-    if (noErr == err)
-      return noErr == AudioDeviceGetPropertyInfo(device, channel, FALSE, kAudioDevicePropertyVolumeScalar, NULL, isWritable);
-  }
-  return FALSE;
+  OSStatus err = AudioObjectIsPropertySettable(device, &kAudioOutputMasterVolumeProperty, isWritable);
+  if (noErr == err)
+    return true;
+
+  if (isWritable)
+    *isWritable = false;
+  return AudioObjectHasProperty(device, &kAudioOutputMasterVolumeProperty);
 }
 
-OSStatus AudioOutputGetVolume(AudioDeviceID device, Float32 *left, Float32 *right) {
+OSStatus AudioOutputGetVolume(AudioDeviceID device, Float32 *volume) {
   UInt32 size = (UInt32)sizeof(Float32);
-  OSStatus err = AudioObjectGetPropertyData(device, &kAudioOutputVolumeProperty, 0, NULL, &size, left);
-  if (noErr == err) {
-    *right = *left;
-  } else if (kAudioHardwareUnknownPropertyError == err) {
-    UInt32 channels[2];
-    size = (UInt32)sizeof(Float32);
-    err = AudioOutputGetStereoChannels(device, &channels[0], &channels[1]);
-    if (noErr == err)
-      err = AudioDeviceGetProperty(device, channels[0], FALSE, kAudioDevicePropertyVolumeScalar, &size, left);
-    if (noErr == err)
-      err = AudioDeviceGetProperty(device, channels[1], FALSE, kAudioDevicePropertyVolumeScalar, &size, right);
-  }
-  return err;
+  return AudioObjectGetPropertyData(device, &kAudioOutputMasterVolumeProperty, 0, NULL, &size, volume);
 }
-OSStatus AudioOutputSetVolume(AudioDeviceID device, Float32 left, Float32 right) {
-  OSStatus err = AudioObjectSetPropertyData(device, &kAudioOutputVolumeProperty, 0, NULL, (UInt32)sizeof(left), &left);
-  if (kAudioHardwareUnknownPropertyError == err) {
-    UInt32 channels[2];
-    err = AudioOutputGetStereoChannels(device, &channels[0], &channels[1]);
-    if (noErr == err)
-      err = AudioDeviceSetProperty(device, NULL, channels[0], FALSE, kAudioDevicePropertyVolumeScalar, (UInt32)sizeof(Float32), &left);
-    if (noErr == err)
-      err = AudioDeviceSetProperty(device, NULL, channels[1], FALSE, kAudioDevicePropertyVolumeScalar, (UInt32)sizeof(Float32), &right);
-  }
-  return err;
+
+OSStatus AudioOutputSetVolume(AudioDeviceID device, Float32 volume) {
+  return AudioObjectSetPropertyData(device, &kAudioOutputMasterVolumeProperty, 0, NULL, (UInt32)sizeof(volume), &volume);
 }
 
 #pragma mark -
@@ -116,7 +78,13 @@ static const AudioObjectPropertyAddress kAudioDeviceMuteProperty = {
 };
 
 Boolean AudioOutputHasMuteControl(AudioDeviceID device, Boolean *isWritable) {
-  return AudioObjectIsPropertySettable(device, &kAudioDeviceMuteProperty, isWritable) == noErr;
+  OSStatus err = AudioObjectIsPropertySettable(device, &kAudioDeviceMuteProperty, isWritable);
+  if (noErr == err)
+    return true;
+
+  if (isWritable)
+    *isWritable = false;
+  return AudioObjectHasProperty(device, &kAudioDeviceMuteProperty);
 }
 
 OSStatus AudioOutputIsMuted(AudioDeviceID device, Boolean *mute) {
@@ -136,67 +104,56 @@ OSStatus AudioOutputSetMuted(AudioDeviceID device, Boolean mute) {
 
 #pragma mark High Level Functions
 static 
-OSStatus _AudioOutputSetVolume(AudioDeviceID device, Float32 left, Float32 right, Float32 volume) {
-  Float32 balance = fiszero(right) ? 1 : left / right;
-  if (left > right) {
-    left = volume;
-    right = fiszero(right) ? 0 : left / balance;
-  } else {
-    right = volume;
-    left = right * balance;
-  }
-  left = (left < 0) ? 0 : ((left > 1) ? 1 : left);
-  right = (right < 0) ? 0 : ((right > 1) ? 1 : right);
-  return AudioOutputSetVolume(device, left, right);
+OSStatus _AudioOutputSetVolume(AudioDeviceID device, Float32 volume) {
+  volume = (volume < 0) ? 0 : ((volume > 1) ? 1 : volume);
+  return AudioOutputSetVolume(device, volume);
 }
 
 OSStatus AudioOutputVolumeUp(AudioDeviceID device, UInt32 *level) {
-  Float32 right, left;
-  OSStatus err = AudioOutputGetVolume(device, &left, &right);
+  Float32 volume;
+  OSStatus err = AudioOutputGetVolume(device, &volume);
   if (noErr == err) {
-    Float32 max = left > right ? left : right;
-    UInt32 lvl = __AudioOutputVolumeGetLevel(max);
+    UInt32 lvl = __AudioOutputVolumeGetLevel(volume);
     if (kAudioOutputVolumeMaxLevel == lvl) {
       /* If not max level */
-      if (fnotequal(max, 1)) {
-        err = _AudioOutputSetVolume(device, left, right, 1);
-      }
+      if (fnotequal(volume, 1))
+        err = _AudioOutputSetVolume(device, 1);
     } else {
       lvl++;
       assert(lvl <= kAudioOutputVolumeMaxLevel);
-      err = _AudioOutputSetVolume(device, left, right, kAudioOutputVolumeLevels[lvl]);
+      err = _AudioOutputSetVolume(device, kAudioOutputVolumeLevels[lvl]);
     }
-    if (level) *level = lvl;
+    if (level)
+      *level = lvl;
   }
   return err;
 }
 OSStatus AudioOutputVolumeDown(AudioDeviceID device, UInt32 *level) {
-  Float32 right, left;
-  OSStatus err = AudioOutputGetVolume(device, &left, &right);
+  Float32 volume;
+  OSStatus err = AudioOutputGetVolume(device, &volume);
   if (noErr == err) {
-    Float32 max = left > right ? left : right;
-    UInt32 lvl = __AudioOutputVolumeGetLevel(max);
+    UInt32 lvl = __AudioOutputVolumeGetLevel(volume);
     if (0 == lvl) {
       /* If not min level */
-      if (fnonzero(max)) {
-        err = _AudioOutputSetVolume(device, left, right, 0);
-      }
+      if (fnonzero(volume))
+        err = _AudioOutputSetVolume(device, 0);
     } else {
       lvl--;
       assert(lvl <= kAudioOutputVolumeMaxLevel);
-      err = _AudioOutputSetVolume(device, left, right, kAudioOutputVolumeLevels[lvl]);
+      err = _AudioOutputSetVolume(device, kAudioOutputVolumeLevels[lvl]);
     }
-    if (level) *level = lvl;
+    if (level)
+      *level = lvl;
   }
   return err;
 }
 /* 0 - 16 */
 OSStatus AudioOutputVolumeGetLevel(AudioDeviceID device, UInt32 *level) {
-  Float32 right, left;
-  OSStatus err = AudioOutputGetVolume(device, &left, &right);
+  Float32 volume;
+  OSStatus err = AudioOutputGetVolume(device, &volume);
   if (noErr == err) {
-    Float32 max = left > right ? left : right;
-    if (level) *level = __AudioOutputVolumeGetLevel(max);
+    if (level)
+      *level = __AudioOutputVolumeGetLevel(volume);
   }
   return err;
 }
