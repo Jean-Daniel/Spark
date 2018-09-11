@@ -93,6 +93,20 @@ BOOL SEDaemonTerminate(NSRunningApplication *daemon) {
   return -1;
 }
 
+- (bool)isEnabled {
+  if ([self isConnected]) {
+    if ([self.server respondsToSelector:@selector(isEnabled)]) {
+      @try {
+        return [self.server isEnabled];
+      } @catch (id exception) {
+        SPXLogException(exception);
+      }
+    }
+    return false;
+  }
+  return false;
+}
+
 - (void)restart {
   if ([self isConnected]) {
     se_scFlags.restart = 1;
@@ -285,7 +299,7 @@ void SEServerStartConnection(void) {
     } else {
       @try {
         [connection configure];
-        if (SEDaemonIsEnabled()) {
+        if ([connection isEnabled]) {
           [connection setStatus:kSparkDaemonStatusEnabled];
         } else {
           [connection setStatus:kSparkDaemonStatusDisabled];
@@ -307,28 +321,3 @@ void SEServerStopConnection(void) {
     [connection disconnect];
   }
 }
-
-BOOL SEDaemonIsEnabled(void) {
-  NSRunningApplication *d = [NSRunningApplication runningApplicationsWithBundleIdentifier:kSparkDaemonBundleIdentifier].firstObject;
-  if (d) {
-    Boolean result = false;
-    AppleEvent aevt = WBAEEmptyDesc();
-    OSStatus err = WBAECreateEventWithTargetProcessIdentifier(d.processIdentifier, kAECoreSuite, kAEGetData, &aevt);
-    spx_require_noerr(err, bail);
-    
-//    err = WBAESetStandardAttributes(&aevt);
-//    require_noerr(err, bail);
-    
-    err = WBAEAddPropertyObjectSpecifier(&aevt, keyDirectObject, typeBoolean, 'pSta', NULL);
-    spx_require_noerr(err, bail);
-    
-    err = WBAESendEventReturnBoolean(&aevt, &result);
-    spx_require_noerr(err, bail);
-bail:
-    WBAEDisposeDesc(&aevt);
-    
-    return result;
-  }
-  return NO;
-}
-

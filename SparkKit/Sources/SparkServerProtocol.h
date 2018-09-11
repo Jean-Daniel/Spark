@@ -21,6 +21,7 @@
 @protocol SparkServer
 
 @property (readonly) uint32_t version;
+@property (readonly,getter=isEnabled) BOOL enabled;
 
 - (oneway void)shutdown;
 

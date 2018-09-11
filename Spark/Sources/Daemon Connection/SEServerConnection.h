@@ -46,6 +46,3 @@ void SEServerStartConnection(void);
 SPARK_PRIVATE
 void SEServerStopConnection(void);
 
-SPARK_PRIVATE
-BOOL SEDaemonIsEnabled(void);
-

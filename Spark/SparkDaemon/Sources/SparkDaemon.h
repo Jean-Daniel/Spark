@@ -30,8 +30,7 @@
 
 - (void)run;
 
-- (BOOL)isEnabled;
-- (void)setEnabled:(BOOL)flag;
+@property (getter=isEnabled) BOOL enabled;
 
 - (void)frontApplicationDidChange:(NSRunningApplication *)app;
 
