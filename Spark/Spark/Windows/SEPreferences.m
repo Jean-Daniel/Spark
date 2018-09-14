@@ -162,8 +162,8 @@ void __SetSparkKitSingleKeyMode(NSInteger mode) {
     }
   }
   if (change)
-    [[NSNotificationCenter defaultCenter] postNotificationName:SESparkEditorDidChangePlugInStatusNotification
-                                                        object:nil];
+    [NSNotificationCenter.defaultCenter postNotificationName:SESparkEditorDidChangePlugInStatusNotification
+                                                      object:nil];
   /* Check login items */
   if (se_login != __SEPreferencesLoginItemStatus()) {
     se_login = __SEPreferencesLoginItemStatus();

@@ -118,7 +118,7 @@
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.utilities</string>
 	<key>LSMinimumSystemVersion</key>
-	<string>10.10</string>
+	<string>${MACOSX_DEPLOYMENT_TARGET}</string>
 	<key>NSAppleEventsUsageDescription</key>
 	<string>send commands to other applications</string>
 	<key>NSAppleScriptEnabled</key>

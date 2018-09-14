@@ -152,7 +152,7 @@ bool SparkLogSynchronization = false;
         SPXThrowException(NSInvalidArgumentException, @"Invalid Remote Library UUID (null)");
       }
       NSAssert(_library.uuid, @"Invalid Library UUID (null)");
-      NSUUID *uuid = [[NSUUID alloc] initWithUUIDString: uuidstr];
+      NSUUID *uuid = [[NSUUID alloc] initWithUUIDString:uuidstr];
       if (!uuid) {
         SPXThrowException(NSInvalidArgumentException, @"Invalid Remote Library UUID %@", uuidstr);
       } else if (![uuid isEqual:_library.uuid]) {
@@ -203,7 +203,7 @@ SparkObjectType SparkServerObjectType(SparkObject *anObject) {
     SparkObjectType type;
     SparkObject *object = SparkNotificationObject(aNotification);
     if (object && (type = SparkServerObjectType(object))) {
-      NSDictionary *plist = [[aNotification object] serialize:object error:NULL];
+      NSDictionary *plist = [aNotification.object serialize:object error:NULL];
       if (plist) {
         SparkRemoteMessage(addObject:plist type:type);
       } else {

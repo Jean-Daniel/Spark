@@ -270,7 +270,7 @@ static NSString * const kSparkActionDescriptionKey = @"SADescription";
 @implementation SparkPlaceHolder (SparkAction)
 
 - (NSString *)categorie {
-  return [[self values] objectForKey:kSparkActionCategorieKey];
+  return self.values[kSparkActionCategorieKey];
 }
 //- (void)setCategorie:(NSString *)categorie {}
 //- (BOOL)isRegistred { return NO; }

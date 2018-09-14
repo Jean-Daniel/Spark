@@ -1,5 +1,5 @@
 
 #include "../hadron/xcconfigs/os/yosemite.xcconfig"
 
-HA_PROJECT_WARNING_CPLUSPLUSFLAGS = -Wno-old-style-cast
+HA_WARNING_CPLUSPLUSFLAGS = $(inherited) -Wno-old-style-cast
 
