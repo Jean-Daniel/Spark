@@ -62,7 +62,7 @@
 //    NSRect rect = NSMakeRect(imageLoc.x, imageLoc.y, 0, 0);
 //    [self dragPromisedFilesOfTypes:[NSArray arrayWithObject:@"pdf"] fromRect:rect source:sourceObject slideBack:slideBack event:theEvent]; 
 //  } else { /* second Enter */
-//    SPXDebug(@"%@", [pboard types]);
+//    spx_debug("%@", [pboard types]);
 //    [super dragImage:(_dragImg ? _dragImg : anImage) at:imageLoc offset:mouseOffset event:theEvent pasteboard:pboard source:sourceObject slideBack:slideBack];
 //    _isDragging = NO;
 //    _dragImg = nil;

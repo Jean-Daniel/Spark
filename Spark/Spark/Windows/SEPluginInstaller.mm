@@ -49,7 +49,7 @@
     [[SparkActionLoader sharedLoader] loadPlugInAtURL:url];
     [[NSWorkspace sharedWorkspace] openFile:[[url URLByDeletingLastPathComponent] path]];
   } else {
-    SPXDebug(@"PlugIn installation failed");
+    spx_debug("PlugIn installation failed");
   }
 }
 

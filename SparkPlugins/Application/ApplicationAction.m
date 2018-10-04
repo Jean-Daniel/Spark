@@ -477,11 +477,11 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
   switch ([self activation]) {
     case kFlagsBringAllFront:
       if (![app activateWithOptions:NSApplicationActivateIgnoringOtherApps | NSApplicationActivateAllWindows])
-        SPXLogWarning(@"app activation failed: %@", app);
+        spx_log("app activation failed: %@", app);
       break;
     case kFlagsBringMainFront:
       if (![app activateWithOptions:NSApplicationActivateIgnoringOtherApps])
-        SPXLogWarning(@"app activation failed: %@", app);
+        spx_log("app activation failed: %@", app);
       break;
   }
   if ([self activation] != kFlagsDoNothing) {

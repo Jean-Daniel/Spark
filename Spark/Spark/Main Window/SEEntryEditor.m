@@ -119,7 +119,7 @@
     @try {
       alert = [se_plugin sparkEditorShouldConfigureAction];
     } @catch (id exception) {
-      SPXLogException(exception);
+      spx_log_exception(exception);
       NSString *name = [exception respondsToSelector:@selector(name)] ? [exception name] : @"<undefined>";
       NSString *message = [exception respondsToSelector:@selector(reason)] ? [exception reason] : [exception description];
       alert = [NSAlert alertWithMessageText:NSLocalizedStringFromTable(@"UNEXPECTED_PLUGIN_EXCEPTION",
@@ -140,7 +140,7 @@
       }
       
     } @catch (id exception) {
-      SPXLogException(exception);
+      spx_log_exception(exception);
       NSString *name = [exception respondsToSelector:@selector(name)] ? [exception name] : @"<undefined>";
       NSString *message = [exception respondsToSelector:@selector(reason)] ? [exception reason] : [exception description];
       alert = [NSAlert alertWithMessageText:NSLocalizedStringFromTable(@"UNEXPECTED_PLUGIN_EXCEPTION",
@@ -323,7 +323,7 @@
 		if (WBRuntimeObjectImplementsSelector(action, @selector(copyWithZone:))) {
       action = [action copy];
     } else {
-      SPXLogWarning(@"%@ does not implements NSCopying.", [action class]);
+      spx_log("%@ does not implements NSCopying.", [action class]);
       action = [action duplicate];
     }
 		[action setUID:0]; // this copy should be considere as a new action.

@@ -46,7 +46,7 @@ uint8_t __SparkIconTypeForObject(SparkObject *object) {
   NSMutableDictionary *sp_cache[kSparkSetCount];
 }
 
-- (id)initWithLibrary:(SparkLibrary *)aLibrary URL:(NSURL *)anURL {
+- (instancetype)initWithLibrary:(SparkLibrary *)aLibrary URL:(NSURL *)anURL {
   NSParameterAssert(aLibrary != nil);
   if (self = [super init]) {
     _URL = anURL;
@@ -60,7 +60,7 @@ uint8_t __SparkIconTypeForObject(SparkObject *object) {
       NSURL *dir = [_URL URLByAppendingPathComponent:[NSString stringWithFormat:@"%lu", (unsigned long)idx]];
       if (dir && ![dir checkResourceIsReachableAndReturnError:NULL])
         if (![[NSFileManager defaultManager] createDirectoryAtURL:dir withIntermediateDirectories:NO attributes:nil error:NULL]) {
-          SPXLogError(@"failed to create icons cache folder");
+          spx_log_error("failed to create icons cache folder");
           return nil;
         }
     }
@@ -140,12 +140,12 @@ uint8_t __SparkIconTypeForObject(SparkObject *object) {
     if ([url checkResourceIsReachableAndReturnError:NULL]) {
       NSImage *icon = [[NSImage alloc] initByReferencingURL:url];
       /* Set icon from disk */
-      //SPXDebug(@"Load icon (%@): %@", [anObject name], icon);
+      //spx_debug("Load icon (%@): %@", [anObject name], icon);
       [entry setCachedIcon:icon];
     } else {
       /* No icon on disk */
       [entry setCachedIcon:nil];
-      SPXDebug(@"Icon not found in cache for object: %@", anObject);
+      spx_debug("Icon not found in cache for object: %@", anObject);
     }
   }
   return entry.icon;
@@ -168,12 +168,12 @@ uint8_t __SparkIconTypeForObject(SparkObject *object) {
         if ([entry hasChanged]) {
           NSURL *url = [self->_URL URLByAppendingPathComponent:entry.path];
           if (!entry.icon) {
-            SPXDebug(@"delete icon: %@", url);
+            spx_debug("delete icon: %@", url);
             [[NSFileManager defaultManager] removeItemAtURL:url error:NULL];
           } else {
             NSData *data = [entry.icon TIFFRepresentationUsingCompression:NSTIFFCompressionLZW factor:1];
             if (data) {
-              SPXDebug(@"save icon: %@", url);
+              spx_debug("save icon: %@", url);
               [data writeToURL:url atomically:NO];
             }
           }
@@ -189,7 +189,7 @@ uint8_t __SparkIconTypeForObject(SparkObject *object) {
     for (NSUInteger idx = 0; idx < kSparkSetCount; idx++)
       [self synchronize:sp_cache[idx]];
   } else {
-    SPXDebug(@"WARNING: sync icon cache with undefined path");
+    spx_debug("WARNING: sync icon cache with undefined path");
   }
   return YES;
 }

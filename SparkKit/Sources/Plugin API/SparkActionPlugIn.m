@@ -94,13 +94,13 @@
   if ([key isEqualToString:@"name"]) {
     if (warn) {
       warn = NO;
-      SPXLogWarning(@"%@ use deprecated KVC getter: name", [self class]);
+      spx_log("%@ use deprecated KVC getter: name", [self class]);
     }
     return [_sparkAction name];
   } else if ([key isEqualToString:@"icon"]) {
     if (warn) {
       warn = NO;
-      SPXLogWarning(@"%@ use deprecated KVC getter: icon", [self class]);
+      spx_log("%@ use deprecated KVC getter: icon", [self class]);
     }
     return [_sparkAction icon];
   }
@@ -112,13 +112,13 @@
   if ([key isEqualToString:@"name"]) {
     if (warn) {
       warn = NO;
-      SPXLogWarning(@"%@ use deprecated KVC setter: name", [self class]);
+      spx_log("%@ use deprecated KVC setter: name", [self class]);
     }
     return [(SparkAction *)_sparkAction setName:value];
   } else if ([key isEqualToString:@"icon"]) {
     if (warn) {
       warn = NO;
-      SPXLogWarning(@"%@ use deprecated KVC setter: icon", [self class]);
+      spx_log("%@ use deprecated KVC setter: icon", [self class]);
     }
     return [_sparkAction setIcon:value];
   }
@@ -144,7 +144,7 @@
   @try {
     [self loadSparkAction:action toEdit:flag];
   } @catch (id exception) {
-    SPXLogException(exception);
+    spx_log_exception(exception);
   }
 }
 
@@ -162,7 +162,7 @@
   if (class && (actionClass = NSClassFromString(class)) ) {
     return actionClass;
   }
-  SPXLogWarning(@"%@: invalid plugin property list: key \"SparkActionClass\" not found or invalid", [bundle bundlePath]);
+  spx_log("%@: invalid plugin property list: key \"SparkActionClass\" not found or invalid", [bundle bundlePath]);
   return nil;
 }
 
@@ -171,7 +171,7 @@
   NSString *name = [bundle objectForInfoDictionaryKey:@"SparkPluginName"];
   if (!name) {
     name = NSStringFromClass(self);
-    SPXLogWarning(@"%@: invalid plugin property list: key \"SparkPlugInName\" not found", [bundle bundlePath]);
+    spx_log("%@: invalid plugin property list: key \"SparkPlugInName\" not found", [bundle bundlePath]);
   }
   return name;
 }
@@ -181,7 +181,7 @@
   NSString *name = [bundle objectForInfoDictionaryKey:@"SparkPluginIcon"];
   NSImage *image = [NSImage imageNamed:name inBundle:bundle];
   if (!image) {
-    SPXLogWarning(@"%@: invalid plugin property list: key \"SparkPluginIcon\" not found", [bundle bundlePath]);
+    spx_log("%@: invalid plugin property list: key \"SparkPluginIcon\" not found", [bundle bundlePath]);
     image = [NSImage imageNamed:@"PluginIcon" inBundle:SparkKitBundle()];
   }
   return image;

@@ -321,7 +321,7 @@ void __SetSparkKitSingleKeyMode(NSInteger mode) {
   if (row > 0) {
     id item = [aView itemAtRow:row];
     if (item && [item isKindOfClass:[SparkPlugIn class]]) {
-      SPXDebug(@"Delete plugin: %@", item);
+      spx_debug("Delete plugin: %@", item);
     }
   }
 }
@@ -400,12 +400,12 @@ void _SEPreferencesUpdateLoginItem(void) {
           if (name) {
             if (CFEqual(name, SPXNSToCFString(kSparkDaemonExecutableName))) {
               if (!status || !WBFSCompareURLs(itemURL, SPXNSToCFURL(sparkd))) {
-                SPXDebug(@"Remove login item: %@", itemURL);
+                spx_debug("Remove login item: %@", itemURL);
 #if !defined(DEBUG)
                 LSSharedFileListItemRemove(list, item);
 #endif
               } else {
-                SPXDebug(@"Valid login item found");
+                spx_debug("Valid login item found");
                 shouldAdd = NO;
               }
             }
@@ -422,7 +422,7 @@ void _SEPreferencesUpdateLoginItem(void) {
         LSSharedFileListInsertItemURL(list, kLSSharedFileListItemLast, NULL, NULL, SPXNSToCFURL(sparkd), properties, NULL);
         CFRelease(properties);
 #else
-        SPXDebug(@"Add login item: %@", sparkd);
+        spx_debug("Add login item: %@", sparkd);
 #endif
       }
       CFRelease(items);

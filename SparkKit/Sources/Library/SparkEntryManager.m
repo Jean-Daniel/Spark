@@ -409,7 +409,7 @@ static SparkUID sUID = 0;
   if (![anEntry uid]) {
     [anEntry setUID:++sUID];
   } else {
-    SPXDebug(@"Insert entry with UID: %lu", (long)[anEntry uid]);
+    spx_debug("Insert entry with UID: %lu", (long)[anEntry uid]);
   }
   _objects[@(anEntry.uid)] = anEntry;
 
@@ -528,7 +528,7 @@ static SparkUID sUID = 0;
      - application does not exists.
      */
     if (![entry action] || ![entry trigger] || ![entry application]) {
-      SPXDebug(@"Remove Invalid entry %@", entry);
+      spx_debug("Remove Invalid entry %@", entry);
       [self sp_removeEntry:entry];
     } else {
       if (![entry isSystem])
@@ -645,20 +645,20 @@ typedef struct {
     case SPARK_MAGIC:
       break;
     default:
-      SPXDebug(@"Invalid header");
+      spx_debug("Invalid header");
       if (outError) *outError = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileReadCorruptFileError userInfo:nil];
       return NO;
   }
 
   if (SparkReadField(header->version) != 0) {
-    SPXDebug(@"Unsupported version: %lx", (long)SparkReadField(header->version));
+    spx_debug("Unsupported version: %lx", (long)SparkReadField(header->version));
     if (outError) *outError = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileReadCorruptFileError userInfo:nil];
     return NO;
   }
 
   NSInteger count = SparkReadField(header->count);
   if ([data length] < count * sizeof(SparkLibraryEntry_v0) + sizeof(SparkEntryHeader)) {
-    SPXDebug(@"Unexpected end of file");
+    spx_debug("Unexpected end of file");
     if (outError) *outError = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileReadCorruptFileError userInfo:nil];
     return NO;
   }

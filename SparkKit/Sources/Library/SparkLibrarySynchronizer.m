@@ -167,7 +167,7 @@ bool SparkLogSynchronization = false;
     _remote = remoteLibrary;
     [_remote setProtocolForProxy:@protocol(SparkLibrary)];
     if (SparkLogSynchronization)
-      SPXDebug(@"Set Remote library: %@", uuidstr);
+      spx_debug("Set Remote library: %@", uuidstr);
   }
     
 }
@@ -181,7 +181,7 @@ bool SparkLogSynchronization = false;
     NSLog(@"Send remote message: -[SparkLibrary %s]", #msg); \
   } \
 } @catch (id exception) { \
-  SPXLogException(exception); \
+  spx_log_exception(exception); \
   if (SparkLogSynchronization) { \
     NSLog(@"Remote message exception: %@", exception); \
   } \
@@ -419,7 +419,7 @@ SparkObjectSet *SparkObjectSetForType(SparkLibrary *library, SparkObjectType typ
   SparkSyncTrace();
   SparkPlugIn *plugin = [[SparkActionLoader sharedLoader] loadPlugInAtURL:anURL];
   if (!plugin) {
-    SPXDebug(@"Error while loading plugin: %@", anURL);
+    spx_debug("Error while loading plugin: %@", anURL);
   }
 }
 

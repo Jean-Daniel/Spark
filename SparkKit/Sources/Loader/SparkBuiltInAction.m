@@ -84,11 +84,11 @@ NSString *_SparkActionDescription(SparkBuiltInAction *action);
 }
 
 - (IBAction)selectGroup:(NSPopUpButton *)sender {
-  SPXTrace();
+  spx_trace_objc();
   //SPXSetterRetain(sp_gpr, [[sender selectedItem] representedObject]);
 }
 - (IBAction)selectAlternateGroup:(NSPopUpButton *)sender {
-  SPXTrace();
+  spx_trace_objc();
   //SPXSetterRetain(sp_gpr2, [[sender selectedItem] representedObject]);
 }
 

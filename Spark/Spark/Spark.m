@@ -111,12 +111,12 @@ NSString * const SESparkEditorDidChangePlugInStatusNotification = @"SESparkEdito
       NSXMLDocument *doc = [[NSXMLDocument alloc] initWithContentsOfURL:[NSURL fileURLWithPath:sdef]
                                                                 options:NSXMLNodePreserveAll | NSXMLDocumentXInclude error:&error];
       if (!doc) {
-        SPXDebug(@"Error while loading sdef from %@: %@", sdef, error);
+        spx_debug("Error while loading sdef from %@: %@", sdef, error);
       } else {
         NSXMLElement *root = [definition rootElement];
         NSArray *suites = [[doc rootElement] nodesForXPath:@"/dictionary/suite" error:&error];
         if (!suites) {
-          SPXDebug(@"Error while loading suites from %@: %@", sdef, error);
+          spx_debug("Error while loading suites from %@: %@", sdef, error);
         } else {
           [suites makeObjectsPerformSelector:@selector(detach)];
           [root insertChildren:suites atIndex:[root childCount]];
@@ -209,7 +209,7 @@ NSString * const SESparkEditorDidChangePlugInStatusNotification = @"SESparkEdito
 //    @try {
     SparkActiveLibrary();
 //    } @catch (NSException *exception) {
-//      SPXLogException(exception);
+//      spx_log_exception(exception);
 //    }
     
     /* Register defaults */
@@ -343,7 +343,7 @@ bool SparkDebugEnabled = false;
 //  CFBundleRef dest = nil;
 //  CFBundleRef src = CFBundleCreate(kCFAllocatorDefault, (CFURLRef)[NSURL fileURLWithPath:filename]);
 //  if (!src) {
-//    SPXDebug(@"Unable to open bundle: %@", filename);
+//    spx_debug("Unable to open bundle: %@", filename);
 //    return NO;
 //  }
 //  id identifier = (id)CFBundleGetIdentifier(src);
@@ -434,7 +434,7 @@ bool SparkDebugEnabled = false;
     if ([[filename pathExtension] isEqualToString:[[SparkActionLoader sharedLoader] extension]]) {
       [self openPlugInBundle:filename];
     } else if ([[filename pathExtension] isEqualToString:kSparkLibraryFileExtension]) {
-      SPXDebug(@"Try to open a Spark Library => considere it as a restore action");
+      spx_debug("Try to open a Spark Library => considere it as a restore action");
       [self openLibraryBackup:[NSURL fileURLWithPath:filename]];
     }
   } else {
@@ -573,7 +573,7 @@ bool SparkDebugEnabled = false;
 //  SEEntryCache *cache = [doc cache];
 //  SESparkEntrySet *entries = [cache entries];
 //  
-//  SPXDebug(@"%@", [[doc application] externalRepresentation]);
+//  spx_debug("%@", [[doc application] externalRepresentation]);
 //  
 //  SparkEntry *entry;
 //  NSEnumerator *iter = [entries entryEnumerator];
@@ -581,7 +581,7 @@ bool SparkDebugEnabled = false;
 //    [library addObject:[entry externalRepresentation]];
 //  }
 //  
-//  SPXDebug(@"%@", library);
+//  spx_debug("%@", library);
 //  [library release];
 }
 

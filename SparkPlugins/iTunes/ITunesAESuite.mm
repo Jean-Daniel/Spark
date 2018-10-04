@@ -556,7 +556,7 @@ CFArrayRef iTunesCopyPlaylistNamesFromList(AEDescList *items, WBAEError error) {
     wb::AEDesc listDesc;
     err = AEGetNthDesc(items, idx, typeWildCard, NULL, &listDesc);
     if (noErr != err) {
-      spx_log_warning("get track %ld returned %d", idx, err);
+      spx_log("get track %ld returned %d", idx, err);
       continue;
     }
 
@@ -564,7 +564,7 @@ CFArrayRef iTunesCopyPlaylistNamesFromList(AEDescList *items, WBAEError error) {
     if (name) {
       CFArrayAppendValue(names, name.get());
     } else {
-      spx_log_warning("get track %ld name returned %d", idx, err);
+      spx_log("get track %ld name returned %d", idx, err);
     }
   } // End for
 

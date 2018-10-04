@@ -56,7 +56,7 @@
       NSString *title = [item title];
       if (title && ([title caseInsensitiveCompare:_menuItemTitle] == NSOrderedSame)) {
       //if (title && [title rangeOfString:_menuItemTitle options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch].location != NSNotFound) {
-        SPXDebug(@"Item found: %@", item);
+        spx_debug("Item found: %@", item);
         if (![item performAction:NSAccessibilityPressAction])
           NSBeep();
         return YES;

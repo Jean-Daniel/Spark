@@ -101,7 +101,7 @@ static void(^sHandler)(id);
   @try {
     sHandler(anEvent);
   } @catch (id exception) {
-    SPXLogException(exception);
+    spx_log_exception(exception);
   }
 }
 + (void)setEventHandler:(nullable void(^)(SparkEvent *))handler {

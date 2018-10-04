@@ -141,7 +141,7 @@ NSString * const SparkApplicationDidChangeEnabledNotification = @"SparkApplicati
   if (self = [super initWithName:nil icon:nil]) {
     self.URL = anURL;
     if (!_bundleIdentifier) {
-      SPXDebug(@"Invalid app at path: %@", anURL);
+      spx_debug("Invalid app at path: %@", anURL);
       return nil;
     }
   }

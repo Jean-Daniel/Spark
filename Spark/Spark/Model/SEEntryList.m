@@ -98,7 +98,7 @@ SparkEntry *__SEEntryForApplication(SparkEntry *entry, SparkApplication *app, bo
 		}
 	}
 	_dirty = 0;
-	//SPXDebug(@"snapshot: %@", [self name]);
+	//spx_debug("snapshot: %@", [self name]);
 	[self didChangeValueForKey:@"entries"];
 }
 
@@ -212,7 +212,7 @@ SparkEntry *__SEEntryForApplication(SparkEntry *entry, SparkApplication *app, bo
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
   if ([@"entries" isEqualToString:keyPath]) {
 		[self snapshot];
-		//SPXDebug(@"%@", change);
+		//spx_debug("%@", change);
   } else {
 		[super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
 	}

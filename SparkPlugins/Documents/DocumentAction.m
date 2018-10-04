@@ -83,7 +83,7 @@ OSType _DocumentActionFromFlag(int flag) {
     case 4:
       return kDocumentActionOpenURL;
     default:
-      SPXDebug(@"Invalid Action: %d", flag);
+      spx_debug("Invalid Action: %d", flag);
   }
   return 0;
 }
@@ -160,13 +160,13 @@ static inline WBAlias *AliasWithData(NSData *data) {
       if (data) {
         [plist setObject:data forKey:kDocumentActionBookmarkKey];
       } else {
-        SPXDebug(@"Invalid document alias");
+        spx_debug("Invalid document alias");
         return NO;
       }
     }
     if (DocumentActionNeedApplication(_action)) {
       if (!WBApplicationSerialize(_application, plist)) {
-        SPXDebug(@"Invalid Open With Application.");
+        spx_debug("Invalid Open With Application.");
         return NO;
       }
     }
@@ -174,7 +174,7 @@ static inline WBAlias *AliasWithData(NSData *data) {
       if (_URL) {
         [plist setObject:_URL forKey:kDocumentActionURLKey];
       } else {
-        SPXDebug(@"Invalid Document URL");
+        spx_debug("Invalid Document URL");
         return NO;
       }
     }

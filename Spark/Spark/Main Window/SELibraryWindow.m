@@ -169,7 +169,7 @@
 }
 
 - (void)revealEntry:(SparkEntry *)entry {
-  SPXDebug(@"Reveal %@", entry);
+  spx_debug("Reveal %@", entry);
   if (![[entry application] isEqual:[[self document] application]]) {
     /* Select application */
     [ibApplications setSelectedObject:[entry application]];
@@ -198,7 +198,7 @@
   if ([entries count] == 1) {
     [self revealEntry:[entries objectAtIndex:0]];
   } else {
-    SPXDebug(@"Reveal %@", entries);
+    spx_debug("Reveal %@", entries);
   }
 }
 
@@ -219,17 +219,17 @@
 }
 
 - (IBAction)cut:(id)sender {
-  SPXTrace();
+  spx_trace_objc();
   // TODO: Copy/paste
 }
 
 - (IBAction)copy:(id)sender {
-  SPXTrace();
+  spx_trace_objc();
   // TODO: Copy/paste
 }
 
 - (IBAction)paste:(id)sender {
-  SPXTrace();
+  spx_trace_objc();
   // TODO: Copy/paste
 }
 

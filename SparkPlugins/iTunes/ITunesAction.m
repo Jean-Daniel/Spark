@@ -73,7 +73,7 @@ static ITunesVisual sDefaultVisual = { .delay = -1 };
         NSData *data = SparkPreferencesGetValue(@"iTunesSharedVisual", SparkPreferencesLibrary);
         if (data) {
           if (!ITunesVisualUnpack(data, &sDefaultVisual)) {
-            SPXDebug(@"Invalid shared visual: %@", data);
+            spx_debug("Invalid shared visual: %@", data);
             SparkPreferencesSetValue(@"iTunesSharedVisual", nil, SparkPreferencesLibrary);
           }
         }
@@ -249,7 +249,7 @@ static ITunesVisual sDefaultVisual = { .delay = -1 };
           ia_visual = malloc(sizeof(*ia_visual));
           if (!ITunesVisualUnpack(data, ia_visual)) {
             free(ia_visual);
-            SPXDebug(@"Error while unpacking visual");
+            spx_debug("Error while unpacking visual");
           }
         }
         break;
@@ -304,7 +304,7 @@ static ITunesVisual sDefaultVisual = { .delay = -1 };
     if (data)
       [plist setObject:data forKey:kITunesVisualKey];
     else
-      SPXDebug(@"ERROR: Could not pack visual settings");
+      spx_debug("ERROR: Could not pack visual settings");
   }
   return YES;
 }
@@ -428,7 +428,7 @@ NSRunningApplication *iTunesLaunch(NSWorkspaceLaunchOptions flags) {
           pid_t pid = iTunes.processIdentifier;
           OSStatus err = iTunesSendCommand(kiTunesCommandPlay, pid);
           if (noErr != err)
-            SPXLogError(@"play event failed: %d", err);
+            spx_log_error("play event failed: %d", err);
         }
       } else if (!ia_iaFlags.background) {
         /* if not launch in background, bring to front */

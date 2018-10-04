@@ -229,7 +229,7 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
         return YES;
       }
     } else {
-      SPXDebug(@"WARNING: sync unloaded library");
+      spx_debug("WARNING: sync unloaded library");
     }
   } else {
     SPXThrowException(NSInvalidArgumentException, @"You must set a file before synchronizing");
@@ -255,7 +255,7 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
       result = [self loadFromWrapper:wrapper error:error];
     } @catch (id exception) {
       result = NO;
-      SPXLogException(exception);
+      spx_log_exception(exception);
       if (error)
         *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileReadCorruptFileError userInfo:nil];
     }
@@ -295,7 +295,7 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
   /* Init Finder Application */
   NSURL *url = [NSWorkspace.sharedWorkspace URLForApplicationWithBundleIdentifier:kSparkFinderBundleIdentifier];
 	if (!url && ![@"com.apple.finder" isEqualToString:kSparkFinderBundleIdentifier]) {
-		SPXLogWarning(@"invalid finder application, try with default identifier ('MACS')");
+		spx_log("invalid finder application, try with default identifier ('MACS')");
 		url = [NSWorkspace.sharedWorkspace URLForApplicationWithBundleIdentifier:@"com.apple.finder"];
 	}
   if (url) {
@@ -304,7 +304,7 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
       finder.uid = kSparkApplicationFinderUID;
       [self.applicationSet addObject:finder];
     } else {
-      SPXLogWarning(@"Invalid Finder Application: %@", finder);
+      spx_log("Invalid Finder Application: %@", finder);
     }
   }
 }
@@ -498,7 +498,7 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
     }];
     if (invalids) {
       [self.actionSet removeObjectsInArray:invalids];
-      SPXDebug(@"Remove orphans actions: %@", invalids);
+      spx_debug("Remove orphans actions: %@", invalids);
       invalids = nil;
     }
     
@@ -512,7 +512,7 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
     }];
     if (invalids) {
       [self.triggerSet removeObjectsInArray:invalids];
-      SPXDebug(@"Remove orphans triggers: %@", invalids);
+      spx_debug("Remove orphans triggers: %@", invalids);
     }
     
     [self restoreReservedObjects];
@@ -647,7 +647,7 @@ void SparkLibraryCleanup(void) {
                                                                       errorHandler:nil];
     while (file = [files nextObject]) {
       if (![uuids containsObject:file.lastPathComponent]) {
-        SPXDebug(@"Remove icons: %@", file);
+        spx_debug("Remove icons: %@", file);
         [[NSFileManager defaultManager] removeItemAtURL:file error:NULL];
       }
     }
@@ -812,7 +812,7 @@ void SparkDumpTriggers(SparkLibrary *aLibrary) {
 
 - (NSMutableDictionary *)preferences {
   if (![self isLoaded]) {
-    SPXDebug(@"Warning, trying to access preferences but library no loaded");
+    spx_debug("Warning, trying to access preferences but library no loaded");
   }
   return _prefs;
 }

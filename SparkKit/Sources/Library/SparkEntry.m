@@ -340,7 +340,7 @@ NSString * const SparkEntryWillRemoveChildNotification = @"SparkEntryWillRemoveC
 
 - (instancetype)replacementObjectForPortCoder:(NSPortCoder *)encoder {
   if ([encoder isByref]) {
-    SPXLogWarning(@"SparkEntry does not support by ref messaging");
+    spx_log("SparkEntry does not support by ref messaging");
     return nil;
   }
   return self;

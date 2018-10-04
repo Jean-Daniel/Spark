@@ -20,17 +20,17 @@
 @implementation SparkDaemon (SparkServerProtocol)
 
 - (uint32_t)version {
-  SPXTrace();
+  spx_trace_objc();
   return kSparkServerVersion;
 }
 
 - (void)shutdown {
-  SPXTrace();
+  spx_trace_objc();
   [NSApp terminate:nil];
 }
 
 - (id<SparkLibrary>)library {
-  SPXTrace();
+  spx_trace_objc();
   if (!sd_rlibrary)
     sd_rlibrary = [sd_library distantLibrary];
   return [sd_rlibrary distantLibrary];
@@ -38,7 +38,7 @@
 
 #pragma mark Entries Management
 - (void)didAddEntry:(NSNotification *)aNotification {
-  SPXTrace();
+  spx_trace_objc();
   SparkEntry *entry = SparkNotificationObject(aNotification);
   /* Trigger can have a new active action */
   if ([self isEnabled] || [entry isPersistent])
@@ -46,7 +46,7 @@
 }
 
 - (void)didUpdateEntry:(NSNotification *)aNotification {
-  SPXTrace();
+  spx_trace_objc();
   SparkEntry *new = SparkNotificationObject(aNotification);
   SparkEntry *previous = SparkNotificationUpdatedObject(aNotification);
   if ([self isEnabled] || [new isPersistent] || [previous isPersistent]) {
@@ -58,7 +58,7 @@
 }
 
 - (void)didRemoveEntry:(NSNotification *)aNotification {
-  SPXTrace();
+  spx_trace_objc();
   SparkEntry *entry = SparkNotificationObject(aNotification);
   /* If trigger was not removed, we should check it */
   if ([self isEnabled] || [entry isPersistent])
@@ -66,7 +66,7 @@
 }
 
 - (void)didChangeEntryStatus:(NSNotification *)aNotification {
-  SPXTrace();
+  spx_trace_objc();
   SparkEntry *entry = SparkNotificationObject(aNotification);
   if ([self isEnabled] || [entry isPersistent]) {
     /* Should check triggers */
@@ -77,7 +77,7 @@
 #pragma mark -
 #pragma mark Notifications
 - (void)willRemoveTrigger:(NSNotification *)aNotification {
-  SPXTrace();
+  spx_trace_objc();
   if ([self isEnabled]) {
     SparkTrigger *trigger = SparkNotificationObject(aNotification);
     if ([trigger isRegistred])
@@ -87,7 +87,7 @@
 
 /* Should never append since a trigger is not editable */
 //- (void)willUpdateTrigger:(NSNotification *)aNotification {
-//  SPXTrace();
+//  spx_trace_objc();
 //  /* Configure new trigger */
 //  SparkTrigger *new = SparkNotificationObject(aNotification);
 //  [self configureTrigger:new];
@@ -103,7 +103,7 @@
 
 #pragma mark Application
 - (void)willRemoveApplication:(NSNotification *)aNotification {
-  SPXTrace();
+  spx_trace_objc();
   /* handle special case: remove the front application and application is disabled */
   SparkApplication *app = SparkNotificationObject(aNotification);
   if ([app isEqual:sd_front] && !app.enabled) {
@@ -113,7 +113,7 @@
   }
 }
 - (void)didChangeApplicationStatus:(NSNotification *)aNotification {
-  SPXTrace();
+  spx_trace_objc();
   SparkApplication *app = [aNotification object];
   if ([app isEqual:sd_front]) {
     if ([app isEnabled])
@@ -125,7 +125,7 @@
 
 #pragma mark Plugins Management
 - (void)didChangePlugInStatus:(NSNotification *)aNotification {
-  SPXTrace();
+  spx_trace_objc();
   if ([self isEnabled])
     [self registerEntries];
 }

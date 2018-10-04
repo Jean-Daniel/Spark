@@ -116,7 +116,7 @@ bool SparkHotKeyFilter(HKKeycode code, HKModifier modifier) {
 #pragma mark NSCopying
 - (id)copyWithZone:(NSZone *)zone {
   SparkHotKey* copy = [super copyWithZone:zone];
-  SPXLogWarning(@"Warning: hotkey should not be copied");
+  spx_log("Warning: hotkey should not be copied");
   copy->sp_hotkey = [sp_hotkey copyWithZone:zone];
   [(SparkHKHotKey *)copy->sp_hotkey setOwner:copy];
   return copy;

@@ -188,7 +188,7 @@ NSComparator SparkObjectCompare = ^NSComparisonResult(SparkObject *obj1, SparkOb
       return YES;
     }
   } @catch (id exception) {
-    SPXLogException(exception);
+    spx_log_exception(exception);
   }
   return NO;
 }
@@ -262,7 +262,7 @@ NSComparator SparkObjectCompare = ^NSComparisonResult(SparkObject *obj1, SparkOb
       if (serialize && [NSPropertyListSerialization propertyList:serialize isValidForFormat:SparkLibraryFileFormat]) {
         [objects addObject:serialize];
       } else {
-        SPXDebug(@"Error while serializing object: %@", obj);
+        spx_debug("Error while serializing object: %@", obj);
       }
     }
   }];
@@ -354,7 +354,7 @@ NSComparator SparkObjectCompare = ^NSComparisonResult(SparkObject *obj1, SparkOb
         [_library.iconManager setIcon:nil forObject:object];
       }
     } else {
-      SPXDebug(@"Invalid object: %@", serialized);
+      spx_debug("Invalid object: %@", serialized);
     }
   }
   
@@ -425,7 +425,7 @@ static NSImage *__SparkWarningImage = nil;
 }
 
 - (void)forwardInvocation:(NSInvocation *)invocation {
-  SPXDebug(@"-[%@ %@]", [self class], NSStringFromSelector([invocation selector]));
+  spx_debug("-[%@ %@]", [self class], NSStringFromSelector([invocation selector]));
   if ([[invocation methodSignature] methodReturnLength] > 0) {
     char buffer[32] = {};
     /* setReturnValue auto compute the value size */

@@ -204,7 +204,7 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
       }
     }
   } else {
-    SPXDebug(@"Invalid archive: %@", archive);
+    spx_debug("Invalid archive: %@", archive);
   }
 }
 
@@ -439,7 +439,7 @@ NSAlert *_SELibraryTriggerAlreadyUsedAlert(SparkEntry *previous, SparkEntry *ent
 			hasCustom |= [entry hasVariant];
 		}
 		if (hasCustom) {
-			SPXDebug(@"WARNING: Has Custom");
+			spx_debug("WARNING: Has Custom");
 		}
 	}
 

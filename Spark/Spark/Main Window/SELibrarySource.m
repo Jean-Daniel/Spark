@@ -321,7 +321,7 @@
     @try {
       [uiTable editColumn:0 row:idx withEvent:nil select:YES];
     } @catch (id exception) {
-      SPXLogException(exception);
+      spx_log_exception(exception);
     }
   }
 }

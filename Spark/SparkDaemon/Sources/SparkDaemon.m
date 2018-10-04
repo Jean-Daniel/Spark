@@ -162,7 +162,7 @@ static int SparkDaemonContext = 0;
         delay = SparkPreferencesGetIntegerValue(@"SDDelayStartup", SparkPreferencesDaemon);
 
       if (delay > 0) {
-        SPXDebug(@"Delay load: %ld", (long)delay);
+        spx_debug("Delay load: %ld", (long)delay);
         [self performSelector:@selector(finishStartup:) withObject:nil afterDelay:delay];
       } else {
         [self finishStartup:nil];
@@ -228,7 +228,7 @@ static int SparkDaemonContext = 0;
   if (!same) {
     SparkApplication *previous = sd_front;
     sd_front = front;
-    SPXDebug(@"switch: %@ => %@", previous, front);
+    spx_debug("switch: %@ => %@", previous, front);
     /* If status change */
     if ((!previous || [previous isEnabled]) && (front && ![front isEnabled])) {
       [self unregisterEntries];
@@ -244,10 +244,10 @@ static int SparkDaemonContext = 0;
   sd_connection = [[NSConnection alloc] init];
   [sd_connection setRootObject:checker];
   if (![sd_connection registerName:kSparkConnectionName]) {
-    SPXDebug(@"Error While opening Connection");
+    spx_debug("Error While opening Connection");
     return NO;
   } else {
-    SPXDebug(@"Connection OK");
+    spx_debug("Connection OK");
   }
   return YES;
 }
@@ -278,7 +278,7 @@ static int SparkDaemonContext = 0;
         entry.registred = NO;
       }
     } @catch (id exception) {
-      SPXLogException(exception);
+      spx_log_exception(exception);
     }
   }
 }
@@ -294,7 +294,7 @@ static int SparkDaemonContext = 0;
     @try {
       entry.registred = NO;
     } @catch (id exception) {
-      SPXLogException(exception);
+      spx_log_exception(exception);
     }
   }];
 }
@@ -306,7 +306,7 @@ static int SparkDaemonContext = 0;
         entry.registred = NO;
       }
     } @catch (id exception) {
-      SPXLogException(exception);
+      spx_log_exception(exception);
     }
   }];
 }
@@ -322,18 +322,18 @@ static int SparkDaemonContext = 0;
   SparkAlert *alert = nil;
   SparkEntry *entry = [anEvent entry];
   /* Warning: trigger can be release during [action performAction] */
-  SPXDebug(@"Start handle event (%@): %@", [NSThread currentThread], anEvent);
+  spx_debug("Start handle event (%@): %@", [NSThread currentThread], anEvent);
   [SparkEvent setCurrentEvent:anEvent];
   @try {
     /* Action exists and is enabled */
     alert = [entry.action performAction];
   } @catch (id exception) {
     // TODO: alert = [SparkAlert alertFromException:exception context:plugin, action, ...];
-    SPXLogException(exception);
+    spx_log_exception(exception);
     NSBeep();
   }
   [SparkEvent setCurrentEvent:nil];
-  SPXDebug(@"End handle event (%@): %@", [NSThread currentThread], anEvent);
+  spx_debug("End handle event (%@): %@", [NSThread currentThread], anEvent);
   
   return alert;
 }
@@ -370,12 +370,12 @@ static int SparkDaemonContext = 0;
   Boolean trapping;
   /* If Spark Editor is trapping, forward keystroke */
   if ([anEvent type] == kSparkEventTypeBypass || ((noErr == SDGetEditorIsTrapping(&trapping)) && trapping)) {
-    SPXDebug(@"Bypass event or Spark Editor is trapping => bypass");
+    spx_debug("Bypass event or Spark Editor is trapping => bypass");
     [[anEvent trigger] bypass];
     return;
   }
 
-  SPXDebug(@"Start dispatch event: %@", anEvent);
+  spx_debug("Start dispatch event: %@", anEvent);
 
   bool bypass = true;
   /* If daemon is disabled, only persistent action are performed */
@@ -394,7 +394,7 @@ static int SparkDaemonContext = 0;
 
   if (bypass) [[anEvent trigger] bypass];
 
-  SPXDebug(@"End dispatch event: %@", anEvent);
+  spx_debug("End dispatch event: %@", anEvent);
 }
 
 - (void)run {

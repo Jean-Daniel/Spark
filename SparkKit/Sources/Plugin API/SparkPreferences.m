@@ -72,12 +72,12 @@ void _SparkPreferencesStartServer(void) {
         if (rl) {
           CFRunLoopAddSource(rl, source, kCFRunLoopCommonModes);
         } else {
-          SPXLogWarning(@"Undefined error while getting current run loop");
+          spx_log("Undefined error while getting current run loop");
         }
         CFRelease(source);
       }
     } else {
-      SPXLogWarning(@"Undefined error while creating preference port");
+      spx_log("Undefined error while creating preference port");
       /* we do not want to retry on next call */
       sMachPort = (CFMessagePortRef)kCFNull;
     }
@@ -97,7 +97,7 @@ void _SparkPreferencesSetDaemonValue(NSString *key, __nullable id value, SparkPr
       if (port) {
         if (kCFMessagePortSuccess != CFMessagePortSendRequest(port, kSparkPreferencesMessageID, SPXNSToCFData(data),
                                                               5, 0, NULL, NULL)) {
-          SPXLogWarning(@"Error while sending preference message");
+          spx_log("Error while sending preference message");
         }
         CFMessagePortInvalidate(port);
         CFRelease(port);
@@ -169,7 +169,7 @@ NSInteger SparkPreferencesGetIntegerValue(NSString *key, SparkPreferencesDomain 
 #pragma mark Setter
 static
 void _SparkPreferencesSetValue(NSString *key, __nullable id value, SparkPreferencesDomain domain, BOOL synchronize) {
-  SPXDebug(@"SparkPreferencesSetValue(%@, %@, %ld)", key, value, (long)domain);
+  spx_debug("SparkPreferencesSetValue(%@, %@, %ld)", key, value, (long)domain);
   /* If daemon context, register preferences port */
   if (SparkGetCurrentContext() != kSparkContext_Editor) {
     _SparkPreferencesStartServer();
@@ -220,7 +220,7 @@ void SparkPreferencesSetIntegerValue(NSString *key, NSInteger value, SparkPrefer
 #pragma mark Synchronize
 bool SparkPreferencesSynchronize(SparkPreferencesDomain domain) {
   if (SparkGetCurrentContext() != kSparkContext_Editor) {
-    SPXLogWarning(@"Try to synchronize preferences but not in editor context");
+    spx_log("Try to synchronize preferences but not in editor context");
     return false;
   }
   switch (domain) {
@@ -369,7 +369,7 @@ void SparkPreferencesUnregisterObserver(NSString *key, SparkPreferencesDomain do
   @try {
     _block(key, value);
   } @catch (id exception) {
-    SPXLogException(exception);
+    spx_log_exception(exception);
   }
 }
 

@@ -392,7 +392,7 @@ NSString * const kSparkObjectsKey = @"SparkObjects";
   /* try to insert a non root entry */
   if (![anEntry isRoot]) {
     if ([_entries containsObjectIdenticalTo:[anEntry root]]) {
-			SPXDebug(@"already in => skip");
+			spx_debug("already in => skip");
       return;
 		}
     /* insert root instead */

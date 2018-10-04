@@ -327,7 +327,7 @@ kAEShowShutdownDialog         = 'rsdn'
   NSError *error = nil;
   NSURL *url = [NSURL fileURLWithPath:kScreenSaverEngine];
   if (![[NSWorkspace sharedWorkspace] launchApplicationAtURL:url options:NSWorkspaceLaunchDefault configuration:@{} error:&error]) {
-    SPXLogError(@"failed to launch screen saver engine: %@", error);
+    spx_log_error("failed to launch screen saver engine: %@", error);
   }
 }
 

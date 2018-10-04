@@ -25,7 +25,7 @@
   if (fnonzero(va) && fnonzero(vb))
     return va > vb ? NSOrderedDescending : va < vb ? NSOrderedAscending : NSOrderedSame;
 
-  SPXLogWarning(@"invalid build number: %@ / %@. Try version parser instead", versionA, versionB);
+  spx_log("invalid build number: %@ / %@. Try version parser instead", versionA, versionB);
 
   // maybe this is not build number after all, try to parse them as full version
   UInt64 via = WBVersionGetNumberFromString(SPXNSToCFString(versionA));
@@ -33,7 +33,7 @@
   if (kWBVersionInvalid != via || kWBVersionInvalid != vib)
     return via > vib ? NSOrderedDescending : via < vib ? NSOrderedAscending : NSOrderedSame;
 
-  SPXLogWarning(@"invalid version number: %@ / %@", versionA, versionB);
+  spx_log("invalid version number: %@ / %@", versionA, versionB);
   return NSOrderedSame;
 }
 

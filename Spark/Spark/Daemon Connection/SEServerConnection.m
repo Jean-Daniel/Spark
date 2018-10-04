@@ -85,7 +85,7 @@ BOOL SEDaemonTerminate(NSRunningApplication *daemon) {
       @try {
         return [self.server version];
       } @catch (id exception) {
-        SPXLogException(exception);
+        spx_log_exception(exception);
       }
     } 
     return 0;
@@ -99,7 +99,7 @@ BOOL SEDaemonTerminate(NSRunningApplication *daemon) {
       @try {
         return [self.server isEnabled];
       } @catch (id exception) {
-        SPXLogException(exception);
+        spx_log_exception(exception);
       }
     }
     return false;
@@ -122,7 +122,7 @@ BOOL SEDaemonTerminate(NSRunningApplication *daemon) {
         return;
       }
     } @catch (id exception) {
-      SPXLogException(exception);
+      spx_log_exception(exception);
     }
     NSArray *daemons = [NSRunningApplication runningApplicationsWithBundleIdentifier:kSparkDaemonBundleIdentifier];
     for (NSRunningApplication *daemon in daemons) {
@@ -139,7 +139,7 @@ BOOL SEDaemonTerminate(NSRunningApplication *daemon) {
   
   /* Not connected but server alive */
   if (se_server) {
-    SPXDebug(@"Undetected invalid connection");
+    spx_debug("Undetected invalid connection");
     [self serverDidClose];
   }
   
@@ -152,12 +152,12 @@ BOOL SEDaemonTerminate(NSRunningApplication *daemon) {
     
     if (se_server) {
       [se_server setProtocolForProxy:@protocol(SparkServer)];
-      SPXDebug(@"Server Connection OK");
+      spx_debug("Server Connection OK");
     } else {
-      SPXDebug(@"Server Connection down");
+      spx_debug("Server Connection down");
     }
   } @catch (id exception) {
-    SPXLogException(exception);
+    spx_log_exception(exception);
     if ([NSPortTimeoutException isEqualToString:[exception name]]) {
       /* timeout, the daemon is probably in a dead state => restart it */
       for (NSRunningApplication *d in [NSRunningApplication runningApplicationsWithBundleIdentifier:kSparkDaemonBundleIdentifier]) {
@@ -206,7 +206,7 @@ BOOL SEDaemonTerminate(NSRunningApplication *daemon) {
 }
 - (void)connectionDidDie:(NSNotification *)aNotification {
   if (se_server && aNotification.object == se_server.connectionForProxy) {
-    SPXDebug(@"Connection did close");
+    spx_debug("Connection did close");
     [self serverDidClose];
     if (se_scFlags.restart) {
       se_scFlags.restart = 0;
@@ -230,12 +230,12 @@ BOOL SEDaemonTerminate(NSRunningApplication *daemon) {
       }
       break;
     case kSparkDaemonStatusError:
-      SPXDebug(@"Daemon error");
+      spx_debug("Daemon error");
       status = kSparkDaemonStatusShutDown;
       // Fall throught
     case kSparkDaemonStatusShutDown:
       if (se_server) {
-        SPXDebug(@"Server shutdown");
+        spx_debug("Server shutdown");
         [[se_server connectionForProxy] invalidate];
         [self serverDidClose];
       }
@@ -267,7 +267,7 @@ BOOL SELaunchSparkDaemon(pid_t *pid) {
                                                                               options:NSWorkspaceLaunchDefault | NSWorkspaceLaunchWithoutActivation | NSWorkspaceLaunchWithoutAddingToRecents
                                                                         configuration:config error:&error];
     if (!app) {
-      SPXLogError(@"Error cannot launch daemon app: %@", error);
+      spx_log_error("Error cannot launch daemon app: %@", error);
       [[SEServerConnection defaultConnection] setStatus:kSparkDaemonStatusError];
       return NO;
     } else if (pid) {
@@ -283,7 +283,7 @@ void SEServerStartConnection(void) {
   for (NSRunningApplication *daemon in [NSRunningApplication runningApplicationsWithBundleIdentifier:kSparkDaemonBundleIdentifier]) {
     if (!daemon.terminated && !WBFSCompareURLs(SPXNSToCFURL(selfdaemon), SPXNSToCFURL(daemon.bundleURL))) {
       // The running daemon does not match the embedded one.
-      SPXDebug(@"Terminate Running daemon: %@", daemon);
+      spx_debug("Terminate Running daemon: %@", daemon);
 #if !defined (DEBUG)
       SEDaemonTerminate(daemon);
 #endif
@@ -294,7 +294,7 @@ void SEServerStartConnection(void) {
   if ([connection connect]) {
     int sversion = [connection version];
     if (sversion >= 0 && sversion < kSparkServerVersion) {
-      SPXDebug(@"Daemon older than expected. Restart it");
+      spx_debug("Daemon older than expected. Restart it");
       [connection restart];
     } else {
       @try {
@@ -305,8 +305,8 @@ void SEServerStartConnection(void) {
           [connection setStatus:kSparkDaemonStatusDisabled];
         }
       } @catch (id exception) {
-        SPXLogException(exception);
-        SPXDebug(@"Out of sync remote library. Automatically resyncs library and restarts daemon.");
+        spx_log_exception(exception);
+        spx_debug("Out of sync remote library. Automatically resyncs library and restarts daemon.");
         [connection restart];
       }
     }
