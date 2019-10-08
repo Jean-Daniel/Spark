@@ -110,7 +110,7 @@
 
 #pragma mark -
 - (BOOL)acceptsFirstResponder {
-  return self.action != nil && [[NSApp currentEvent] type] == NSKeyDown;
+  return self.action != nil && [[NSApp currentEvent] type] == NSEventTypeKeyDown;
 }
 
 - (BOOL)becomeFirstResponder {
@@ -137,7 +137,7 @@
 
 - (void)viewDidMoveToWindow {
   /* Set dark if window is not textured */
-  BOOL flag = ([[self window] styleMask] & NSTexturedBackgroundWindowMask) == 0;
+  BOOL flag = ([[self window] styleMask] & NSWindowStyleMaskTexturedBackground) == 0;
   SPXFlagSet(wb_saFlags.dark, flag);
 }
 
@@ -164,7 +164,7 @@
     [self highlight:YES];
 
     while (keepOn) {
-      NSEvent *event = [[self window] nextEventMatchingMask: NSLeftMouseUpMask | NSLeftMouseDraggedMask];
+      NSEvent *event = [[self window] nextEventMatchingMask: NSEventMaskLeftMouseUp | NSEventMaskLeftMouseDragged];
       if (!event)
         continue;
 
@@ -172,10 +172,10 @@
       isInside = [self mouse:mouseLoc inRect:[self bounds]];
 
       switch ([event type]) {
-        case NSLeftMouseDragged:
+        case NSEventTypeLeftMouseDragged:
           [self highlight:isInside];
           break;
-        case NSLeftMouseUp:
+        case NSEventTypeLeftMouseUp:
           if (isInside) [self mouseClick:event];
           [self highlight:NO];
           keepOn = NO;

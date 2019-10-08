@@ -405,7 +405,7 @@ static ITunesVisual sDefaultVisual = { .delay = -1 };
 
 static
 NSRunningApplication *iTunesLaunch(NSWorkspaceLaunchOptions flags) {
-  NSURL *url = [[NSWorkspace sharedWorkspace] URLForApplicationWithBundleIdentifier:SPXCFToNSString(kiTunesBundleIdentifier)];
+  NSURL *url = [[NSWorkspace sharedWorkspace] URLForApplicationWithBundleIdentifier:SPXCFToNSString(iTunesBundleIdentifier())];
   return [[NSWorkspace sharedWorkspace] launchApplicationAtURL:url options:flags configuration:@{} error:NULL];
 }
 
@@ -413,7 +413,7 @@ NSRunningApplication *iTunesLaunch(NSWorkspaceLaunchOptions flags) {
   SparkAlert *alert = nil;
   switch ([self iTunesAction]) {
     case kiTunesLaunch: {
-      NSRunningApplication *iTunes = [NSRunningApplication runningApplicationsWithBundleIdentifier:SPXCFToNSString(kiTunesBundleIdentifier)].firstObject;
+      NSRunningApplication *iTunes = [NSRunningApplication runningApplicationsWithBundleIdentifier:SPXCFToNSString(iTunesBundleIdentifier())].firstObject;
       if (!iTunes) {
         NSWorkspaceLaunchOptions flags = NSWorkspaceLaunchDefault;
         if (ia_iaFlags.hide)
@@ -440,7 +440,7 @@ NSRunningApplication *iTunesLaunch(NSWorkspaceLaunchOptions flags) {
       iTunesQuit();
       break;
     case kiTunesPlayPause: {
-      NSRunningApplication *iTunes = [NSRunningApplication runningApplicationsWithBundleIdentifier:SPXCFToNSString(kiTunesBundleIdentifier)].firstObject;
+      NSRunningApplication *iTunes = [NSRunningApplication runningApplicationsWithBundleIdentifier:SPXCFToNSString(iTunesBundleIdentifier())].firstObject;
       if (!iTunes) {
         if (ia_iaFlags.autorun) {
           /* Launch iTunes */
@@ -675,7 +675,7 @@ NSRunningApplication *iTunesLaunch(NSWorkspaceLaunchOptions flags) {
 - (void)ejectCD {
   CGKeyCode code = [[HKKeyMap currentKeyMap] keycodeForCharacter:'e' modifiers:NULL];
   if (code != kHKInvalidVirtualKeyCode) {
-    HKEventTarget target = { .bundle = kiTunesBundleIdentifier };
+    HKEventTarget target = { .bundle = iTunesBundleIdentifier() };
     HKEventPostKeystrokeToTarget(code, kCGEventFlagMaskCommand, target, kHKEventTargetBundle, NULL, kHKEventDefaultLatency);
   }
 }

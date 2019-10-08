@@ -262,7 +262,7 @@ NSAlert *SimpleAlert(NSString *title, NSString *message) {
 
 - (BOOL)trapWindow:(HKTrapWindow *)window needPerformKeyEquivalent:(NSEvent *)theEvent {
   /* No modifier and cancel pressed */
-  NSUInteger flags = NSShiftKeyMask | NSControlKeyMask | NSAlternateKeyMask | NSCommandKeyMask;
+  NSUInteger flags = NSEventModifierFlagShift | NSEventModifierFlagControl | NSEventModifierFlagOption | NSEventModifierFlagCommand;
   if (!([theEvent modifierFlags] & flags) && [[theEvent characters] isEqualToString:@"\e"]) {
     CFAbsoluteTime now = CFAbsoluteTimeGetCurrent();
     /* check double escape */
@@ -277,7 +277,7 @@ NSAlert *SimpleAlert(NSString *title, NSString *message) {
 
 - (BOOL)trapWindow:(HKTrapWindow *)window needProceedKeyEvent:(NSEvent *)theEvent {
   UInt16 code = [theEvent keyCode];
-  NSUInteger mask = [theEvent modifierFlags] & (NSShiftKeyMask | NSControlKeyMask | NSAlternateKeyMask | NSCommandKeyMask);
+  NSUInteger mask = [theEvent modifierFlags] & (NSEventModifierFlagShift | NSEventModifierFlagControl | NSEventModifierFlagOption | NSEventModifierFlagCommand);
   
   return mask ? NO : code == kHKVirtualEscapeKey;
 }

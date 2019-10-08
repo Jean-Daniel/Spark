@@ -133,7 +133,7 @@ ApplicationVisualSetting *AAGetSharedSettings(void) {
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
   [coder encodeInt:_action forKey:kApplicationActionKey];
-  [coder encodeInt:_flags forKey:kApplicationLSFlagsKey];
+  [coder encodeInteger:_flags forKey:kApplicationLSFlagsKey];
 	[coder encodeInteger:[self encodeFlags] forKey:kApplicationFlagsKey];
   
   if (_application)
@@ -152,7 +152,7 @@ ApplicationVisualSetting *AAGetSharedSettings(void) {
 - (id)initWithCoder:(NSCoder *)coder {
   if (self = [super initWithCoder:coder]) {
     _action = [coder decodeIntForKey:kApplicationActionKey];
-    _flags = [coder decodeIntForKey:kApplicationLSFlagsKey];
+    _flags = [coder decodeIntegerForKey:kApplicationLSFlagsKey];
     [self decodeFlags:[coder decodeIntForKey:kApplicationFlagsKey]];
       
     _application = [coder decodeObjectForKey:kApplicationIdentifierKey];

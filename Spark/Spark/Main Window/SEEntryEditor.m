@@ -474,7 +474,7 @@
     UInt16 code = [theEvent keyCode];
     NSUInteger mask = [theEvent modifierFlags] & SEValidModifiersFlags;
     /* Shift tab is a navigation shortcut */
-    if (NSShiftKeyMask == mask && code == kHKVirtualTabKey)
+    if (NSEventModifierFlagShift == mask && code == kHKVirtualTabKey)
       return YES;
     
     return mask ? NO : (code == kHKVirtualEnterKey)
@@ -499,7 +499,7 @@
   CGFloat factor = WBWindowUserSpaceScaleFactor(self);
   /* Want 150 points per time unit => 150*scale pixels */
   CGFloat delta = ABS(NSHeight([self frame]) - NSHeight(newFrame));
-  if (([event modifierFlags] & NSDeviceIndependentModifierFlagsMask) == NSShiftKeyMask) {
+  if (([event modifierFlags] & NSEventModifierFlagDeviceIndependentFlagsMask) == NSEventModifierFlagShift) {
     return (1.f * delta / (150. * factor)); //(1.25f * delta / 150.);
   } else {
     return (0.13 * delta / (150. * factor));

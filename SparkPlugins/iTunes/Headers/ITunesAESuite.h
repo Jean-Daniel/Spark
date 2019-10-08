@@ -17,7 +17,7 @@ enum {
 };
 
 SPX_PRIVATE
-CFStringRef const kiTunesBundleIdentifier;
+CFStringRef iTunesBundleIdentifier(void);
 
 enum {
   kPlaylistUndefined = -1,
@@ -95,12 +95,12 @@ OSStatus iTunesSendCommand(ITunesCommand command, pid_t pid) {
   if (pid)
     return WBAESendSimpleEventTo(pid, kiTunesSuite, command);
   else
-    return WBAESendSimpleEventToBundle(kiTunesBundleIdentifier, kiTunesSuite, command);
+    return WBAESendSimpleEventToBundle(iTunesBundleIdentifier(), kiTunesSuite, command);
 }
 
 SPX_INLINE
 OSStatus iTunesQuit(void) {
-  return WBAESendSimpleEventToBundle(kiTunesBundleIdentifier, kCoreEventClass, kAEQuitApplication);
+  return WBAESendSimpleEventToBundle(iTunesBundleIdentifier(), kCoreEventClass, kAEQuitApplication);
 }
 
 #pragma mark -

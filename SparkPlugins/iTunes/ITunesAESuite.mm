@@ -8,7 +8,12 @@
 
 #include "ITunesAESuite.h"
 
-CFStringRef const kiTunesBundleIdentifier = CFSTR("com.apple.iTunes");
+CFStringRef iTunesBundleIdentifier() {
+  if (kCFCoreFoundationVersionNumber >= 1665.15) {
+    return CFSTR("com.apple.Music");
+  }
+  return CFSTR("com.apple.iTunes");
+}
 
 static 
 CFArrayRef iTunesCopyPlaylistNamesFromList(AEDescList *items, WBAEError error);
@@ -18,7 +23,7 @@ OSStatus iTunesReshufflePlaylist(iTunesPlaylist *playlist);
 
 WB_INLINE
 OSStatus _iTunesCreateEvent(AEEventClass cls, AEEventID method, AppleEvent *event) {
-  return WBAECreateEventWithTargetBundleID(kiTunesBundleIdentifier, cls, method, event);
+  return WBAECreateEventWithTargetBundleID(iTunesBundleIdentifier(), cls, method, event);
 }
 
 WB_INLINE

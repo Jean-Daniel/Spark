@@ -111,7 +111,7 @@
   NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"New Group", @"'New Group' menu item")
                                                 action:@selector(newGroup:) keyEquivalent:@"N"];
   [item setImage:[NSImage imageNamed:@"SimpleList" inBundle:SPXBundleForClass(SparkLibrary)]];
-  [item setKeyEquivalentModifierMask:NSShiftKeyMask | NSCommandKeyMask];
+  [item setKeyEquivalentModifierMask:NSEventModifierFlagShift | NSEventModifierFlagCommand];
   [menu addItem:item];
   
   [uiMenu setMenu:menu forSegment:0];

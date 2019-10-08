@@ -146,7 +146,7 @@ NSString * const SESparkEditorDidChangePlugInStatusNotification = @"SESparkEdito
 
 /* Intercepts help keydown events */
 - (void)sendEvent:(NSEvent *)event {
-  if ([event type] == NSKeyDown || [event type] == NSKeyUp) {
+  if ([event type] == NSEventTypeKeyDown || [event type] == NSEventTypeKeyUp) {
     if ([event keyCode] == kHKVirtualHelpKey) {
       id window = [self keyWindow];
       if ([window respondsToSelector:@selector(isTrapping)] && [window isTrapping]) {

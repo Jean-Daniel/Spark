@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 enum {
-  SEValidModifiersFlags = NSShiftKeyMask | NSControlKeyMask | NSAlternateKeyMask | NSCommandKeyMask
+  SEValidModifiersFlags = NSEventModifierFlagShift | NSEventModifierFlagControl | NSEventModifierFlagOption | NSEventModifierFlagCommand
 };
 
 typedef struct _SEHotKey {

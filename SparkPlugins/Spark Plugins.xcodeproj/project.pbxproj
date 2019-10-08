@@ -259,45 +259,75 @@
 
 /* Begin PBXFileReference section */
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		1B0947830D68BE0300E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = folder; name = French; path = French.lproj/Help; sourceTree = "<group>"; };
-		1B09478A0D68BE0F00E8FE8D /* French */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Localizable.strings; sourceTree = "<group>"; };
-		1B09478B0D68BE1700E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = French; path = French.lproj/TextActionHelp.html; sourceTree = "<group>"; };
-		1B09478C0D68BE2C00E8FE8D /* French */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		1B09478E0D68BE4C00E8FE8D /* French */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Localizable.strings; sourceTree = "<group>"; };
-		1B09478F0D68BE5100E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = folder; name = French; path = French.lproj/Help; sourceTree = "<group>"; };
-		1B0947990D68BE5500E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = French; path = French.lproj/iTunesHelp.html; sourceTree = "<group>"; };
-		1B09479A0D68BE6300E8FE8D /* French */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = French; path = Resources/French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		1B09479C0D68BE6F00E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = folder; name = French; path = French.lproj/Help; sourceTree = "<group>"; };
-		1B0947A60D68BE7500E8FE8D /* French */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Localizable.strings; sourceTree = "<group>"; };
-		1B0947A70D68BE7900E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = French; path = French.lproj/SystemActionHelp.html; sourceTree = "<group>"; };
-		1B0947A80D68BE8100E8FE8D /* French */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = French; path = Resources/French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		1B0947AA0D68BE8D00E8FE8D /* French */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = French; path = Resources/French.lproj/Localizable.strings; sourceTree = "<group>"; };
-		1B0947AB0D68BE9100E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = folder; name = French; path = French.lproj/Help; sourceTree = "<group>"; };
-		1B0947B10D68BE9400E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = French; path = French.lproj/DocumentHelp.html; sourceTree = "<group>"; };
-		1B0947B20D68BF0C00E8FE8D /* French */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		1B0947B40D68BF1500E8FE8D /* French */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Localizable.strings; sourceTree = "<group>"; };
-		1B0947B50D68BF1B00E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = folder; name = French; path = French.lproj/Help; sourceTree = "<group>"; };
-		1B0947BB0D68BF1E00E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = French; path = French.lproj/ApplicationHelp.html; sourceTree = "<group>"; };
-		1B0947BC0D68C08600E8FE8D /* French */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		1B0947BE0D68C08F00E8FE8D /* French */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Localizable.strings; sourceTree = "<group>"; };
-		1B0947BF0D68C09300E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = folder; name = French; path = French.lproj/Help; sourceTree = "<group>"; };
-		1B0947C60D68C09700E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = French; path = French.lproj/AppleScriptHelp.html; sourceTree = "<group>"; };
 		1B0E22250B5649CC00DC846B /* SoundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundView.h; sourceTree = "<group>"; };
 		1B0E22270B5649D200DC846B /* SoundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SoundView.m; sourceTree = "<group>"; };
 		1B0E22290B5649D900DC846B /* AudioOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioOutput.h; sourceTree = "<group>"; };
 		1B0E222B0B5649DF00DC846B /* AudioOutput.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = AudioOutput.c; sourceTree = "<group>"; };
 		1B0E22930B564BA100DC846B /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
-		1B17C2220C9FC60B005BEA47 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1B1D1C1C0EDF495200F9BC33 /* AXSApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXSApplication.h; sourceTree = "<group>"; };
 		1B1D1C1D0EDF495200F9BC33 /* AXSApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXSApplication.m; sourceTree = "<group>"; };
 		1B1D1C1E0EDF495200F9BC33 /* AXSUIElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXSUIElement.m; sourceTree = "<group>"; };
 		1B1D1C1F0EDF495200F9BC33 /* AXSUIElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXSUIElement.h; sourceTree = "<group>"; };
-		1B2606CE0EE172280035B2C1 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		1B2606D20EE1724D0035B2C1 /* French */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1B35ED1413C0B69900A8AEA6 /* OSAKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OSAKit.framework; path = System/Library/Frameworks/OSAKit.framework; sourceTree = SDKROOT; };
 		1B35ED1613C0B6E700A8AEA6 /* HotKeyToolKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HotKeyToolKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B3743780B6E2AFD002F18C8 /* iTFolder.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = iTFolder.tiff; sourceTree = "<group>"; };
 		1B3743790B6E2AFD002F18C8 /* iTSmart.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = iTSmart.tiff; sourceTree = "<group>"; };
+		1B4564B5234D19AA006AE849 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1B4564B6234D19AB006AE849 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1B4564B7234D19AC006AE849 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1B4564B8234D19AD006AE849 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = en; path = en.lproj/AppleScriptHelp.html; sourceTree = "<group>"; };
+		1B4564B9234D19AD006AE849 /* en */ = {isa = PBXFileReference; lastKnownFileType = folder; name = en; path = en.lproj/Help; sourceTree = "<group>"; };
+		1B4564BA234D19AE006AE849 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1B4564BB234D19AF006AE849 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1B4564BC234D19B0006AE849 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = en; path = en.lproj/ApplicationHelp.html; sourceTree = "<group>"; };
+		1B4564BD234D19B0006AE849 /* en */ = {isa = PBXFileReference; lastKnownFileType = folder; name = en; path = en.lproj/Help; sourceTree = "<group>"; };
+		1B4564BE234D19B1006AE849 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1B4564BF234D19B2006AE849 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Resources/en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1B4564C0234D19B3006AE849 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = en; path = en.lproj/DocumentHelp.html; sourceTree = "<group>"; };
+		1B4564C1234D19B4006AE849 /* en */ = {isa = PBXFileReference; lastKnownFileType = folder; name = en; path = en.lproj/Help; sourceTree = "<group>"; };
+		1B4564C2234D19B5006AE849 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Resources/en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1B4564C3234D19B6006AE849 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Resources/en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1B4564C4234D19B7006AE849 /* en */ = {isa = PBXFileReference; lastKnownFileType = folder; name = en; path = en.lproj/Help; sourceTree = "<group>"; };
+		1B4564C5234D19B8006AE849 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1B4564C6234D19B9006AE849 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = en; path = en.lproj/SystemActionHelp.html; sourceTree = "<group>"; };
+		1B4564C7234D19BA006AE849 /* en */ = {isa = PBXFileReference; lastKnownFileType = folder; name = en; path = en.lproj/Help; sourceTree = "<group>"; };
+		1B4564C8234D19BB006AE849 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1B4564C9234D19BC006AE849 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1B4564CA234D19BD006AE849 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = en; path = en.lproj/TextActionHelp.html; sourceTree = "<group>"; };
+		1B4564CB234D19BE006AE849 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1B4564CC234D19BF006AE849 /* en */ = {isa = PBXFileReference; lastKnownFileType = folder; name = en; path = en.lproj/Help; sourceTree = "<group>"; };
+		1B4564CD234D19BF006AE849 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1B4564CE234D19C0006AE849 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = en; path = en.lproj/iTunesHelp.html; sourceTree = "<group>"; };
+		1B4564CF234D19C2006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = Resources/fr.lproj/AppleScriptPlugin.strings; sourceTree = "<group>"; };
+		1B4564D0234D19C3006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1B4564D1234D19C4006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = fr; path = fr.lproj/AppleScriptHelp.html; sourceTree = "<group>"; };
+		1B4564D2234D19C5006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = folder; name = fr; path = fr.lproj/Help; sourceTree = "<group>"; };
+		1B4564D3234D19C6006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1B4564D4234D19C8006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = Resources/fr.lproj/ApplicationPlugin.strings; sourceTree = "<group>"; };
+		1B4564D5234D19C8006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1B4564D6234D19C9006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = fr; path = fr.lproj/ApplicationHelp.html; sourceTree = "<group>"; };
+		1B4564D7234D19CA006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = folder; name = fr; path = fr.lproj/Help; sourceTree = "<group>"; };
+		1B4564D8234D19CB006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1B4564D9234D19CC006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = Resources/fr.lproj/DocumentPlugin.strings; sourceTree = "<group>"; };
+		1B4564DA234D19CD006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = Resources/fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1B4564DB234D19CE006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = fr; path = fr.lproj/DocumentHelp.html; sourceTree = "<group>"; };
+		1B4564DC234D19CF006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = folder; name = fr; path = fr.lproj/Help; sourceTree = "<group>"; };
+		1B4564DD234D19D0006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = Resources/fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1B4564DE234D19D1006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = Resources/fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1B4564DF234D19D2006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = Resources/fr.lproj/SystemPlugin.strings; sourceTree = "<group>"; };
+		1B4564E0234D19D3006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = folder; name = fr; path = fr.lproj/Help; sourceTree = "<group>"; };
+		1B4564E1234D19D4006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1B4564E2234D19D4006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = fr; path = fr.lproj/SystemActionHelp.html; sourceTree = "<group>"; };
+		1B4564E3234D19D5006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = Resources/fr.lproj/TextPlugin.strings; sourceTree = "<group>"; };
+		1B4564E4234D19D6006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = folder; name = fr; path = fr.lproj/Help; sourceTree = "<group>"; };
+		1B4564E5234D19D7006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1B4564E6234D19D8006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1B4564E7234D19D9006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = fr; path = fr.lproj/TextActionHelp.html; sourceTree = "<group>"; };
+		1B4564E8234D19DA006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1B4564E9234D19DB006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = Resources/fr.lproj/iTunesPlugin.strings; sourceTree = "<group>"; };
+		1B4564EA234D19DC006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = folder; name = fr; path = fr.lproj/Help; sourceTree = "<group>"; };
+		1B4564EB234D19DD006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1B4564EC234D19DE006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = fr; path = fr.lproj/iTunesHelp.html; sourceTree = "<group>"; };
 		1B46DC930B81AB1100F4DA1E /* SAScriptEditor.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SAScriptEditor.tiff; sourceTree = "<group>"; };
 		1B46DC940B81AB1100F4DA1E /* SACheckSyntax.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SACheckSyntax.tiff; sourceTree = "<group>"; };
 		1B46DC950B81AB1100F4DA1E /* SAImport.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SAImport.tiff; sourceTree = "<group>"; };
@@ -317,8 +347,6 @@
 		1B7B26420CC638F200F55F7D /* TAKeystroke.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TAKeystroke.m; sourceTree = "<group>"; };
 		1B8015E20EDF264100771EE5 /* AccessibilityAction.spact */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AccessibilityAction.spact; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B8015E70EDF26B300771EE5 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		1B8015EC0EDF26B300771EE5 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		1B8015EE0EDF26B300771EE5 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1B8016030EDF279600771EE5 /* AccessibilityIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = AccessibilityIcon.icns; sourceTree = "<group>"; };
 		1B8016090EDF280700771EE5 /* AXActionPlugIn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXActionPlugIn.h; sourceTree = "<group>"; };
 		1B80160A0EDF280700771EE5 /* AXActionPlugIn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXActionPlugIn.m; sourceTree = "<group>"; };
@@ -334,12 +362,6 @@
 		1B9052B31FAE6032006AE849 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Resources/Base.lproj/ApplicationPlugin.xib; sourceTree = "<group>"; };
 		1B9052B41FAE6032006AE849 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Resources/Base.lproj/AppleScriptPlugin.xib; sourceTree = "<group>"; };
 		1B9052B51FAE6032006AE849 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/AccessibilityPlugin.xib; sourceTree = "<group>"; };
-		1B9052B61FAE604B006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = Resources/French.lproj/TextPlugin.strings; sourceTree = "<group>"; };
-		1B9052B71FAE6065006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = Resources/French.lproj/iTunesPlugin.strings; sourceTree = "<group>"; };
-		1B9052B81FAE6095006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = Resources/French.lproj/SystemPlugin.strings; sourceTree = "<group>"; };
-		1B9052B91FAE6437006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = Resources/French.lproj/DocumentPlugin.strings; sourceTree = "<group>"; };
-		1B9052BA1FAE6447006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = Resources/French.lproj/ApplicationPlugin.strings; sourceTree = "<group>"; };
-		1B9052BB1FAE72DF006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = Resources/French.lproj/AppleScriptPlugin.strings; sourceTree = "<group>"; };
 		1BBE7C5D0ED04EF50004D9DD /* debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = debug.xcconfig; sourceTree = "<group>"; };
 		1BBE7C5E0ED04EF50004D9DD /* release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = release.xcconfig; sourceTree = "<group>"; };
 		1BE6E1A20DBCDD1200ABAC74 /* iTunes.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.sdef; path = iTunes.sdef; sourceTree = "<group>"; };
@@ -382,7 +404,6 @@
 		984704DA0B6D0F8F009419B5 /* SysKeyboard.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SysKeyboard.tiff; sourceTree = "<group>"; };
 		984704EA0B6D0FB5009419B5 /* SysTrash.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SysTrash.tiff; sourceTree = "<group>"; };
 		984AB99E0B19FD0E00DA2DD0 /* SystemPlugin.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SystemPlugin.tiff; sourceTree = "<group>"; };
-		985106B40A590AA200C98B1F /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = English; path = English.lproj/SystemActionHelp.html; sourceTree = "<group>"; };
 		98641DF8060A33750033892D /* Info.plist */ = {isa = PBXFileReference; explicitFileType = text.plist.xml; fileEncoding = 4; path = Info.plist; sourceTree = "<group>"; };
 		98789CAE0AB48D5A00C35052 /* ITunesInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITunesInfo.h; sourceTree = "<group>"; };
 		98789CB20AB48D8200C35052 /* ITunesInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ITunesInfo.m; sourceTree = "<group>"; };
@@ -399,11 +420,8 @@
 		9888CEAB0B0243CB00B81BDB /* TextAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextAction.m; sourceTree = "<group>"; };
 		98B38E2E0B63AD2C00C619FD /* ApplicationIcon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = ApplicationIcon.tiff; sourceTree = "<group>"; };
 		98B717700C1ABF4600C2241F /* ITSettings.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = ITSettings.tiff; sourceTree = "<group>"; };
-		98BA1A0A0A583493004914E9 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; lineEnding = 0; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		98BD2E4E0AB6DD2E0063CDEB /* ITunesVisualSetting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITunesVisualSetting.h; sourceTree = "<group>"; };
 		98BD2E5C0AB6DD480063CDEB /* ITunesVisualSetting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ITunesVisualSetting.m; sourceTree = "<group>"; };
-		98D7483E0BB5349600D6AB54 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = English; path = English.lproj/TextActionHelp.html; sourceTree = "<group>"; };
-		98D748400BB5349600D6AB54 /* English */ = {isa = PBXFileReference; lastKnownFileType = folder; name = English; path = English.lproj/Help; sourceTree = "<group>"; };
 		98D8E82F0B6EB565004C2810 /* iTMusic.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = iTMusic.tiff; sourceTree = "<group>"; };
 		98DD5E370A91CFD600FB5814 /* DocumentPlugin.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = DocumentPlugin.tiff; sourceTree = "<group>"; };
 		98DE6FE20B978FEC0090AD9A /* SysBrightness.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = SysBrightness.pdf; sourceTree = "<group>"; };
@@ -412,10 +430,6 @@
 		98E1CC5B0607768E00FA3599 /* Info.plist */ = {isa = PBXFileReference; explicitFileType = text.plist.xml; fileEncoding = 4; path = Info.plist; sourceTree = "<group>"; };
 		98E1CC5D0607769E00FA3599 /* Info.plist */ = {isa = PBXFileReference; explicitFileType = text.plist.xml; fileEncoding = 4; path = Info.plist; sourceTree = "<group>"; };
 		98E649110B626279008A8C9B /* iTunesIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iTunesIcon.png; sourceTree = "<group>"; };
-		98E6A8DE060636AE000CCBE1 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; lineEnding = 0; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		98E6A8E6060636AE000CCBE1 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; lineEnding = 0; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
-		98E6A90806063703000CCBE1 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = English; path = English.lproj/iTunesHelp.html; sourceTree = "<group>"; };
-		98E6A9130606371A000CCBE1 /* English */ = {isa = PBXFileReference; lastKnownFileType = folder; name = English; path = English.lproj/Help; sourceTree = "<group>"; };
 		98E6A94A06063852000CCBE1 /* ITunesActionPlugin.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ITunesActionPlugin.m; sourceTree = "<group>"; };
 		98E6A94B06063852000CCBE1 /* ITunesAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ITunesAction.m; sourceTree = "<group>"; };
 		98E6A94C06063852000CCBE1 /* ITunesAESuite.mm */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.objcpp; path = ITunesAESuite.mm; sourceTree = "<group>"; };
@@ -430,27 +444,17 @@
 		98F7FE700607969F006FD336 /* DocWarning.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = DocWarning.tiff; sourceTree = "<group>"; };
 		98F7FE7B06079E9C006FD336 /* DocSelection.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = DocSelection.tiff; sourceTree = "<group>"; };
 		98FC44D406063A21003617CA /* SystemAction.spact */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SystemAction.spact; sourceTree = BUILT_PRODUCTS_DIR; };
-		98FC450906063AF8003617CA /* English */ = {isa = PBXFileReference; lastKnownFileType = folder; name = English; path = English.lproj/Help; sourceTree = "<group>"; };
-		98FC451906063B14003617CA /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; lineEnding = 0; name = English; path = Resources/English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		98FC453F06063BF2003617CA /* AppleScriptAction.spact */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppleScriptAction.spact; sourceTree = BUILT_PRODUCTS_DIR; };
 		98FC454506063C8E003617CA /* AppleScriptAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = AppleScriptAction.m; sourceTree = "<group>"; };
 		98FC454606063C8E003617CA /* AppleScriptActionPlugin.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = AppleScriptActionPlugin.m; sourceTree = "<group>"; };
 		98FC454806063C8E003617CA /* AppleScriptAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AppleScriptAction.h; sourceTree = "<group>"; };
 		98FC454906063C8E003617CA /* AppleScriptActionPlugin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AppleScriptActionPlugin.h; sourceTree = "<group>"; };
 		98FC454C06063C8E003617CA /* AppleScriptIcon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = AppleScriptIcon.tiff; sourceTree = "<group>"; };
-		98FC457606063CC6003617CA /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = English; path = English.lproj/AppleScriptHelp.html; sourceTree = "<group>"; };
-		98FC457806063CC6003617CA /* English */ = {isa = PBXFileReference; lastKnownFileType = folder; name = English; path = English.lproj/Help; sourceTree = "<group>"; };
-		98FC458106063CD0003617CA /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; lineEnding = 0; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
-		98FC458306063CD0003617CA /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; lineEnding = 0; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		98FC45A306063D6A003617CA /* ApplicationAction.spact */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ApplicationAction.spact; sourceTree = BUILT_PRODUCTS_DIR; };
 		98FC45ED06063DD1003617CA /* ApplicationAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ApplicationAction.m; path = Application/ApplicationAction.m; sourceTree = SOURCE_ROOT; };
 		98FC45EE06063DD1003617CA /* ApplicationPlugin.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ApplicationPlugin.m; sourceTree = "<group>"; };
 		98FC45F106063DD1003617CA /* ApplicationAction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ApplicationAction.h; sourceTree = "<group>"; };
 		98FC45F206063DD1003617CA /* ApplicationPlugin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ApplicationPlugin.h; sourceTree = "<group>"; };
-		98FC461706063DF8003617CA /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = English; path = English.lproj/ApplicationHelp.html; sourceTree = "<group>"; };
-		98FC461D06063E06003617CA /* English */ = {isa = PBXFileReference; lastKnownFileType = folder; name = English; path = English.lproj/Help; sourceTree = "<group>"; };
-		98FC462406063E19003617CA /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; lineEnding = 0; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		98FC462606063E19003617CA /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; lineEnding = 0; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		98FC46400606437C003617CA /* DocumentAction.spact */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DocumentAction.spact; sourceTree = BUILT_PRODUCTS_DIR; };
 		98FC48EC0606444A003617CA /* DAApplicationMenu.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DAApplicationMenu.m; sourceTree = "<group>"; };
 		98FC48ED0606444A003617CA /* DocumentAction.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DocumentAction.m; sourceTree = "<group>"; };
@@ -458,10 +462,6 @@
 		98FC48F00606444A003617CA /* DAApplicationMenu.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DAApplicationMenu.h; sourceTree = "<group>"; };
 		98FC48F20606444A003617CA /* DocumentActionPlugin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DocumentActionPlugin.h; sourceTree = "<group>"; };
 		98FC48F50606444A003617CA /* DocumentIcon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = DocumentIcon.tiff; sourceTree = "<group>"; };
-		98FC49120606446F003617CA /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = English; path = English.lproj/DocumentHelp.html; sourceTree = "<group>"; };
-		98FC49140606446F003617CA /* English */ = {isa = PBXFileReference; lastKnownFileType = folder; name = English; path = English.lproj/Help; sourceTree = "<group>"; };
-		98FC491C0606447A003617CA /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; lineEnding = 0; name = English; path = Resources/English.lproj/Localizable.strings; sourceTree = "<group>"; };
-		98FC491E0606447A003617CA /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; lineEnding = 0; name = English; path = Resources/English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1243,18 +1243,39 @@
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 1100;
+				TargetAttributes = {
+					1B8015CB0EDF264100771EE5 = {
+						ProvisioningStyle = Automatic;
+					};
+					8D5B49AC048680CD000E48DA = {
+						ProvisioningStyle = Automatic;
+					};
+					9888CDFA0B02412200B81BDB = {
+						ProvisioningStyle = Automatic;
+					};
+					98FC44BA06063A21003617CA = {
+						ProvisioningStyle = Automatic;
+					};
+					98FC452506063BF2003617CA = {
+						ProvisioningStyle = Automatic;
+					};
+					98FC458C06063D6A003617CA = {
+						ProvisioningStyle = Automatic;
+					};
+					98FC462B0606437C003617CA = {
+						ProvisioningStyle = Automatic;
+					};
+				};
 			};
 			buildConfigurationList = 98EF7EE408645A0E007BC81A /* Build configuration list for PBXProject "Spark Plugins" */;
 			compatibilityVersion = "Xcode 8.0";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 1;
 			knownRegions = (
-				English,
-				Japanese,
-				French,
-				German,
 				Base,
+				en,
+				fr,
 			);
 			mainGroup = 089C166AFE841209C02AAC07 /* Spark Plugins */;
 			projectDirPath = "";
@@ -1562,8 +1583,8 @@
 		1B17C2210C9FC60B005BEA47 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				1B17C2220C9FC60B005BEA47 /* English */,
-				1B09478A0D68BE0F00E8FE8D /* French */,
+				1B4564C9234D19BC006AE849 /* en */,
+				1B4564E6234D19D8006AE849 /* fr */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -1571,8 +1592,8 @@
 		1B2606CD0EE172280035B2C1 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				1B2606CE0EE172280035B2C1 /* English */,
-				1B2606D20EE1724D0035B2C1 /* French */,
+				1B4564C8234D19BB006AE849 /* en */,
+				1B4564E5234D19D7006AE849 /* fr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -1581,7 +1602,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				1B9052B41FAE6032006AE849 /* Base */,
-				1B9052BB1FAE72DF006AE849 /* fr */,
+				1B4564CF234D19C2006AE849 /* fr */,
 			);
 			name = AppleScriptPlugin.xib;
 			sourceTree = "<group>";
@@ -1590,7 +1611,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				1B9052B31FAE6032006AE849 /* Base */,
-				1B9052BA1FAE6447006AE849 /* fr */,
+				1B4564D4234D19C8006AE849 /* fr */,
 			);
 			name = ApplicationPlugin.xib;
 			sourceTree = "<group>";
@@ -1599,7 +1620,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				1B9052B21FAE6031006AE849 /* Base */,
-				1B9052B91FAE6437006AE849 /* fr */,
+				1B4564D9234D19CC006AE849 /* fr */,
 			);
 			name = DocumentPlugin.xib;
 			sourceTree = "<group>";
@@ -1608,7 +1629,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				1B9052B11FAE6031006AE849 /* Base */,
-				1B9052B81FAE6095006AE849 /* fr */,
+				1B4564DF234D19D2006AE849 /* fr */,
 			);
 			name = SystemPlugin.xib;
 			sourceTree = "<group>";
@@ -1617,7 +1638,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				1B9052B01FAE6031006AE849 /* Base */,
-				1B9052B71FAE6065006AE849 /* fr */,
+				1B4564E9234D19DB006AE849 /* fr */,
 			);
 			name = iTunesPlugin.xib;
 			sourceTree = "<group>";
@@ -1626,7 +1647,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				1B9052AF1FAE6031006AE849 /* Base */,
-				1B9052B61FAE604B006AE849 /* fr */,
+				1B4564E3234D19D5006AE849 /* fr */,
 			);
 			name = TextPlugin.xib;
 			sourceTree = "<group>";
@@ -1642,7 +1663,7 @@
 		1B8015EB0EDF26B300771EE5 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				1B8015EC0EDF26B300771EE5 /* English */,
+				1B4564B5234D19AA006AE849 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -1650,7 +1671,7 @@
 		1B8015ED0EDF26B300771EE5 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				1B8015EE0EDF26B300771EE5 /* English */,
+				1B4564B6234D19AB006AE849 /* en */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -1658,8 +1679,8 @@
 		985106B30A590AA200C98B1F /* SystemActionHelp.html */ = {
 			isa = PBXVariantGroup;
 			children = (
-				985106B40A590AA200C98B1F /* English */,
-				1B0947A70D68BE7900E8FE8D /* French */,
+				1B4564C6234D19B9006AE849 /* en */,
+				1B4564E2234D19D4006AE849 /* fr */,
 			);
 			name = SystemActionHelp.html;
 			sourceTree = "<group>";
@@ -1667,8 +1688,8 @@
 		98BA1A090A583493004914E9 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				98BA1A0A0A583493004914E9 /* English */,
-				1B0947A60D68BE7500E8FE8D /* French */,
+				1B4564C5234D19B8006AE849 /* en */,
+				1B4564E1234D19D4006AE849 /* fr */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -1676,8 +1697,8 @@
 		98D7483D0BB5349600D6AB54 /* TextActionHelp.html */ = {
 			isa = PBXVariantGroup;
 			children = (
-				98D7483E0BB5349600D6AB54 /* English */,
-				1B09478B0D68BE1700E8FE8D /* French */,
+				1B4564CA234D19BD006AE849 /* en */,
+				1B4564E7234D19D9006AE849 /* fr */,
 			);
 			name = TextActionHelp.html;
 			sourceTree = "<group>";
@@ -1685,8 +1706,8 @@
 		98D7483F0BB5349600D6AB54 /* Help */ = {
 			isa = PBXVariantGroup;
 			children = (
-				98D748400BB5349600D6AB54 /* English */,
-				1B0947830D68BE0300E8FE8D /* French */,
+				1B4564C7234D19BA006AE849 /* en */,
+				1B4564E4234D19D6006AE849 /* fr */,
 			);
 			name = Help;
 			sourceTree = "<group>";
@@ -1694,8 +1715,8 @@
 		98E6A8DD060636AE000CCBE1 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				98E6A8DE060636AE000CCBE1 /* English */,
-				1B09478C0D68BE2C00E8FE8D /* French */,
+				1B4564CB234D19BE006AE849 /* en */,
+				1B4564E8234D19DA006AE849 /* fr */,
 			);
 			name = InfoPlist.strings;
 			path = Resources;
@@ -1704,8 +1725,8 @@
 		98E6A8E5060636AE000CCBE1 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				98E6A8E6060636AE000CCBE1 /* English */,
-				1B09478E0D68BE4C00E8FE8D /* French */,
+				1B4564CD234D19BF006AE849 /* en */,
+				1B4564EB234D19DD006AE849 /* fr */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -1713,8 +1734,8 @@
 		98E6A90706063703000CCBE1 /* iTunesHelp.html */ = {
 			isa = PBXVariantGroup;
 			children = (
-				98E6A90806063703000CCBE1 /* English */,
-				1B0947990D68BE5500E8FE8D /* French */,
+				1B4564CE234D19C0006AE849 /* en */,
+				1B4564EC234D19DE006AE849 /* fr */,
 			);
 			name = iTunesHelp.html;
 			sourceTree = "<group>";
@@ -1722,8 +1743,8 @@
 		98E6A9120606371A000CCBE1 /* Help */ = {
 			isa = PBXVariantGroup;
 			children = (
-				98E6A9130606371A000CCBE1 /* English */,
-				1B09478F0D68BE5100E8FE8D /* French */,
+				1B4564CC234D19BF006AE849 /* en */,
+				1B4564EA234D19DC006AE849 /* fr */,
 			);
 			name = Help;
 			sourceTree = "<group>";
@@ -1731,8 +1752,8 @@
 		98FC450806063AF8003617CA /* Help */ = {
 			isa = PBXVariantGroup;
 			children = (
-				98FC450906063AF8003617CA /* English */,
-				1B09479C0D68BE6F00E8FE8D /* French */,
+				1B4564C4234D19B7006AE849 /* en */,
+				1B4564E0234D19D3006AE849 /* fr */,
 			);
 			name = Help;
 			sourceTree = "<group>";
@@ -1740,8 +1761,8 @@
 		98FC451806063B14003617CA /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				98FC451906063B14003617CA /* English */,
-				1B09479A0D68BE6300E8FE8D /* French */,
+				1B4564C3234D19B6006AE849 /* en */,
+				1B4564DE234D19D1006AE849 /* fr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -1749,8 +1770,8 @@
 		98FC457506063CC6003617CA /* AppleScriptHelp.html */ = {
 			isa = PBXVariantGroup;
 			children = (
-				98FC457606063CC6003617CA /* English */,
-				1B0947C60D68C09700E8FE8D /* French */,
+				1B4564B8234D19AD006AE849 /* en */,
+				1B4564D1234D19C4006AE849 /* fr */,
 			);
 			name = AppleScriptHelp.html;
 			sourceTree = "<group>";
@@ -1758,8 +1779,8 @@
 		98FC457706063CC6003617CA /* Help */ = {
 			isa = PBXVariantGroup;
 			children = (
-				98FC457806063CC6003617CA /* English */,
-				1B0947BF0D68C09300E8FE8D /* French */,
+				1B4564B9234D19AD006AE849 /* en */,
+				1B4564D2234D19C5006AE849 /* fr */,
 			);
 			name = Help;
 			sourceTree = "<group>";
@@ -1767,8 +1788,8 @@
 		98FC458006063CD0003617CA /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				98FC458106063CD0003617CA /* English */,
-				1B0947BE0D68C08F00E8FE8D /* French */,
+				1B4564BA234D19AE006AE849 /* en */,
+				1B4564D3234D19C6006AE849 /* fr */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -1776,8 +1797,8 @@
 		98FC458206063CD0003617CA /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				98FC458306063CD0003617CA /* English */,
-				1B0947BC0D68C08600E8FE8D /* French */,
+				1B4564B7234D19AC006AE849 /* en */,
+				1B4564D0234D19C3006AE849 /* fr */,
 			);
 			name = InfoPlist.strings;
 			path = Resources;
@@ -1786,8 +1807,8 @@
 		98FC461606063DF8003617CA /* ApplicationHelp.html */ = {
 			isa = PBXVariantGroup;
 			children = (
-				98FC461706063DF8003617CA /* English */,
-				1B0947BB0D68BF1E00E8FE8D /* French */,
+				1B4564BC234D19B0006AE849 /* en */,
+				1B4564D6234D19C9006AE849 /* fr */,
 			);
 			name = ApplicationHelp.html;
 			sourceTree = "<group>";
@@ -1795,8 +1816,8 @@
 		98FC461C06063E06003617CA /* Help */ = {
 			isa = PBXVariantGroup;
 			children = (
-				98FC461D06063E06003617CA /* English */,
-				1B0947B50D68BF1B00E8FE8D /* French */,
+				1B4564BD234D19B0006AE849 /* en */,
+				1B4564D7234D19CA006AE849 /* fr */,
 			);
 			name = Help;
 			sourceTree = "<group>";
@@ -1804,8 +1825,8 @@
 		98FC462306063E19003617CA /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				98FC462406063E19003617CA /* English */,
-				1B0947B20D68BF0C00E8FE8D /* French */,
+				1B4564BB234D19AF006AE849 /* en */,
+				1B4564D5234D19C8006AE849 /* fr */,
 			);
 			name = InfoPlist.strings;
 			path = Resources;
@@ -1814,8 +1835,8 @@
 		98FC462506063E19003617CA /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				98FC462606063E19003617CA /* English */,
-				1B0947B40D68BF1500E8FE8D /* French */,
+				1B4564BE234D19B1006AE849 /* en */,
+				1B4564D8234D19CB006AE849 /* fr */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -1823,8 +1844,8 @@
 		98FC49110606446F003617CA /* DocumentHelp.html */ = {
 			isa = PBXVariantGroup;
 			children = (
-				98FC49120606446F003617CA /* English */,
-				1B0947B10D68BE9400E8FE8D /* French */,
+				1B4564C0234D19B3006AE849 /* en */,
+				1B4564DB234D19CE006AE849 /* fr */,
 			);
 			name = DocumentHelp.html;
 			sourceTree = "<group>";
@@ -1832,8 +1853,8 @@
 		98FC49130606446F003617CA /* Help */ = {
 			isa = PBXVariantGroup;
 			children = (
-				98FC49140606446F003617CA /* English */,
-				1B0947AB0D68BE9100E8FE8D /* French */,
+				1B4564C1234D19B4006AE849 /* en */,
+				1B4564DC234D19CF006AE849 /* fr */,
 			);
 			name = Help;
 			sourceTree = "<group>";
@@ -1841,8 +1862,8 @@
 		98FC491B0606447A003617CA /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				98FC491C0606447A003617CA /* English */,
-				1B0947AA0D68BE8D00E8FE8D /* French */,
+				1B4564C2234D19B5006AE849 /* en */,
+				1B4564DD234D19D0006AE849 /* fr */,
 			);
 			name = Localizable.strings;
 			path = Documents;
@@ -1851,8 +1872,8 @@
 		98FC491D0606447A003617CA /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				98FC491E0606447A003617CA /* English */,
-				1B0947A80D68BE8100E8FE8D /* French */,
+				1B4564BF234D19B2006AE849 /* en */,
+				1B4564DA234D19CD006AE849 /* fr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -1864,11 +1885,15 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B7007511706DB3B003F5780 /* bundle.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 460;
+				DEVELOPMENT_TEAM = 3DT6DNJE39;
 				INFOPLIST_FILE = Accessibility/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.shadowlab.spark.action.accessibility;
 				PRODUCT_NAME = AccessibilityAction;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -1876,11 +1901,15 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B7007511706DB3B003F5780 /* bundle.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 460;
+				DEVELOPMENT_TEAM = 3DT6DNJE39;
 				INFOPLIST_FILE = Accessibility/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.shadowlab.spark.action.accessibility;
 				PRODUCT_NAME = AccessibilityAction;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};
@@ -1898,11 +1927,15 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B7007511706DB3B003F5780 /* bundle.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 460;
+				DEVELOPMENT_TEAM = 3DT6DNJE39;
 				INFOPLIST_FILE = Text/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.shadowlab.spark.action.keyboard;
 				PRODUCT_NAME = TextAction;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -1910,11 +1943,15 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B7007511706DB3B003F5780 /* bundle.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 460;
+				DEVELOPMENT_TEAM = 3DT6DNJE39;
 				INFOPLIST_FILE = System/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.shadowlab.spark.action.system;
 				PRODUCT_NAME = SystemAction;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -1922,11 +1959,15 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B7007511706DB3B003F5780 /* bundle.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 460;
+				DEVELOPMENT_TEAM = 3DT6DNJE39;
 				INFOPLIST_FILE = iTunes/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.shadowlab.spark.action.itunes;
 				PRODUCT_NAME = iTunesAction;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -1934,11 +1975,15 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B7007511706DB3B003F5780 /* bundle.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 460;
+				DEVELOPMENT_TEAM = 3DT6DNJE39;
 				INFOPLIST_FILE = Documents/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.shadowlab.spark.action.document;
 				PRODUCT_NAME = DocumentAction;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -1946,11 +1991,15 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B7007511706DB3B003F5780 /* bundle.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 460;
+				DEVELOPMENT_TEAM = 3DT6DNJE39;
 				INFOPLIST_FILE = Application/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.shadowlab.spark.action.application;
 				PRODUCT_NAME = ApplicationAction;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -1958,11 +2007,15 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B7007511706DB3B003F5780 /* bundle.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 460;
+				DEVELOPMENT_TEAM = 3DT6DNJE39;
 				INFOPLIST_FILE = AppleScript/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.shadowlab.spark.action.applescript;
 				PRODUCT_NAME = AppleScriptAction;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -1993,11 +2046,15 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B7007511706DB3B003F5780 /* bundle.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 460;
+				DEVELOPMENT_TEAM = 3DT6DNJE39;
 				INFOPLIST_FILE = Text/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.shadowlab.spark.action.keyboard;
 				PRODUCT_NAME = TextAction;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};
@@ -2005,11 +2062,15 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B7007511706DB3B003F5780 /* bundle.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 460;
+				DEVELOPMENT_TEAM = 3DT6DNJE39;
 				INFOPLIST_FILE = iTunes/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.shadowlab.spark.action.itunes;
 				PRODUCT_NAME = iTunesAction;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};
@@ -2017,11 +2078,15 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B7007511706DB3B003F5780 /* bundle.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 460;
+				DEVELOPMENT_TEAM = 3DT6DNJE39;
 				INFOPLIST_FILE = System/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.shadowlab.spark.action.system;
 				PRODUCT_NAME = SystemAction;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};
@@ -2029,11 +2094,15 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B7007511706DB3B003F5780 /* bundle.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 460;
+				DEVELOPMENT_TEAM = 3DT6DNJE39;
 				INFOPLIST_FILE = Documents/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.shadowlab.spark.action.document;
 				PRODUCT_NAME = DocumentAction;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};
@@ -2041,11 +2110,15 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B7007511706DB3B003F5780 /* bundle.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 460;
+				DEVELOPMENT_TEAM = 3DT6DNJE39;
 				INFOPLIST_FILE = Application/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.shadowlab.spark.action.application;
 				PRODUCT_NAME = ApplicationAction;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};
@@ -2053,11 +2126,15 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B7007511706DB3B003F5780 /* bundle.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 460;
+				DEVELOPMENT_TEAM = 3DT6DNJE39;
 				INFOPLIST_FILE = AppleScript/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.shadowlab.spark.action.applescript;
 				PRODUCT_NAME = AppleScriptAction;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};

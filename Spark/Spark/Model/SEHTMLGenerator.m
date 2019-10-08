@@ -165,7 +165,7 @@ NSComparisonResult _SETriggerCompare(SparkTrigger *t1, SparkTrigger *t2, void *c
   NSSize simg = [image size];
   [image drawInRect:NSMakeRect(0, 0, size.width, size.height)
            fromRect:NSMakeRect(0, 0, simg.width, simg.height) 
-          operation:NSCompositeSourceOver 
+          operation:NSCompositingOperationSourceOver
            fraction:1];
   [NSGraphicsContext setCurrentContext:current];
   

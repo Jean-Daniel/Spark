@@ -91,7 +91,7 @@ static CGLayerRef _HKCreateShading(CGContextRef ctxt, NSControlTint tint);
   NSEvent *event = [NSApp currentEvent];
   /* If not a mouse down event => trap enabled. */
   /* Event is null if we are the first key view. We want to avoid trap without user interaction */
-  if (event && NSLeftMouseDown != [event type]) {
+  if (event && NSEventTypeLeftMouseDown != [event type]) {
     [self setTrapping:YES];
   }
   return YES;
@@ -129,7 +129,7 @@ static CGLayerRef _HKCreateShading(CGContextRef ctxt, NSControlTint tint);
     uint16_t nkey = (uint16_t)[info[kHKEventKeyCodeKey] integerValue];
     UInt32 nmodifier = (UInt32)[info[kHKEventModifierKey] integerValue];
     /* Anti trap hack. If pressed tab and tab is already saved, stop recording */
-    if (se_bhotkey.keycode == kHKVirtualTabKey && (se_bhotkey.modifiers & NSDeviceIndependentModifierFlagsMask) == 0 &&
+    if (se_bhotkey.keycode == kHKVirtualTabKey && (se_bhotkey.modifiers & NSEventModifierFlagDeviceIndependentFlagsMask) == 0 &&
         nkey == se_bhotkey.keycode && nmodifier == se_bhotkey.modifiers) {
       /* Will call -resignFirstResponder */
       [[self window] makeFirstResponder:[self nextValidKeyView]];
@@ -376,7 +376,7 @@ static CGLayerRef _HKCreateShading(CGContextRef ctxt, NSControlTint tint);
       if (modifiers == 0) {
         [[self window] makeFirstResponder:[self nextValidKeyView]];
         return;
-      } else if ((modifiers & NSShiftKeyMask) == NSShiftKeyMask) {
+      } else if ((modifiers & NSEventModifierFlagShift) == NSEventModifierFlagShift) {
         [[self window] makeFirstResponder:[self previousValidKeyView]];
         return;
       }
@@ -552,15 +552,15 @@ static CGLayerRef _HKCreateShading(CGContextRef ctxt, NSControlTint tint);
     [self highlight:YES];
   
   while (keepOn) {
-    theEvent = [[self window] nextEventMatchingMask: NSLeftMouseUpMask | NSLeftMouseDraggedMask];
+    theEvent = [[self window] nextEventMatchingMask: NSEventMaskLeftMouseUp | NSEventMaskLeftMouseDragged];
     mouseLoc = [self convertPoint:[theEvent locationInWindow] fromView:nil];
     isInside = [self mouse:mouseLoc inRect:[self bounds]];
     
     switch ([theEvent type]) {
-      case NSLeftMouseDragged:
+      case NSEventTypeLeftMouseDragged:
         [self highlight:se_htFlags.inbutton && [self isInButtonRect:mouseLoc]];
         break;
-      case NSLeftMouseUp:
+      case NSEventTypeLeftMouseUp:
         if (isInside) [self mouseClick:theEvent];
         [self highlight:NO];
         keepOn = NO;

@@ -44,7 +44,9 @@
   NSString *path = [[NSBundle mainBundle] pathForResource:NSLocalizedStringFromTable(@"Read First", @"Resources", @"Read First file name")
                                                    ofType:@"rtf"];
   NSURL *url = [NSURL fileURLWithPath:path];
-  NSTextStorage *storage = [[NSTextStorage alloc] initWithURL:url documentAttributes:nil];
+  NSTextStorage *storage = [[NSTextStorage alloc] initWithURL:url
+                                                      options:@{ NSDocumentTypeDocumentAttribute: NSRTFTextDocumentType }
+                                           documentAttributes:nil error:NULL];
   [[ibText layoutManager] replaceTextStorage:storage];
 }
 

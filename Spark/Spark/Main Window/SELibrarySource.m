@@ -447,17 +447,17 @@
 	/* refresh */
 	SparkApplication *previous = aNotification.userInfo[SEPreviousApplicationKey];
 	if (!previous || ![[[aNotification.object library] applicationSet] containsObject:previous]) {
-		[[self selectedObject] snapshot];
+		[(SEEntryList *)[self selectedObject] snapshot];
 	} else {
 		/* Reload when switching to/from global */
 		if ([application uid] == 0 || [previous uid] == 0) {
-			[[self selectedObject] snapshot];
+			[(SEEntryList *)[self selectedObject] snapshot];
 		} else {
 			/* Reload if previous or current contains custom entries */
 			SparkEntryManager *manager = [[aNotification.object library] entryManager];
 			if ([manager containsEntryForApplication:previous] || [manager containsEntryForApplication:application]) {
 				/* I don't understand why snapshot does not trigger a reload in trigger controller, so force it to reload */
-				[[self selectedObject] snapshot];
+				[(SEEntryList *)[self selectedObject] snapshot];
 			}
 		}
 	}
@@ -491,7 +491,7 @@
 }
 
 - (void)reloadSelection:(NSNotification *)aNotification {
-	[[self selectedObject] snapshot];
+	[(SEEntryList *)[self selectedObject] snapshot];
 }
 
 @end

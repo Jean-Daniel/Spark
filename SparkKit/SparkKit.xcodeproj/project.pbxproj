@@ -188,12 +188,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		1B09470D0D68BC9B00E8FE8D /* French */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		1B09470E0D68BCA100E8FE8D /* French */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Localizable.strings; sourceTree = "<group>"; };
-		1B0947110D68BCCB00E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = French; path = French.lproj/SparkPlugin.xib; sourceTree = "<group>"; };
-		1B0947120D68BCD100E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = French; path = French.lproj/SparkMultiAlert.xib; sourceTree = "<group>"; };
-		1B0947140D68BCDB00E8FE8D /* French */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = French; path = French.lproj/SparkPluginView.xib; sourceTree = "<group>"; };
 		1B177011130F42FB00E0A389 /* WBImageFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBImageFunctions.h; sourceTree = "<group>"; };
 		1B177012130F42FB00E0A389 /* WBImageFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBImageFunctions.m; sourceTree = "<group>"; };
 		1B184C940ED07D41003E2346 /* WBDigestFunctions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WBDigestFunctions.c; sourceTree = "<group>"; };
@@ -204,6 +198,16 @@
 		1B4305501FD9974D006AE849 /* WBTableViewLegacy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBTableViewLegacy.h; sourceTree = "<group>"; };
 		1B4305511FD9974D006AE849 /* WBTableViewLegacy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBTableViewLegacy.m; sourceTree = "<group>"; };
 		1B4305541FD9A06B006AE849 /* SparkInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SparkInternal.h; sourceTree = "<group>"; };
+		1B4564F2234D19EE006AE849 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1B4564F3234D19EF006AE849 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1B4564F4234D19F0006AE849 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/SparkMultiAlert.xib; sourceTree = "<group>"; };
+		1B4564F5234D19F1006AE849 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/SparkPlugin.xib; sourceTree = "<group>"; };
+		1B4564F6234D19F2006AE849 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/SparkPluginView.xib; sourceTree = "<group>"; };
+		1B4564F8234D1A2E006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1B4564F9234D1A2F006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1B4564FA234D1A2F006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/SparkPlugin.xib; sourceTree = "<group>"; };
+		1B4564FB234D1A30006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/SparkMultiAlert.xib; sourceTree = "<group>"; };
+		1B4564FC234D1A31006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/SparkPluginView.xib; sourceTree = "<group>"; };
 		1B4D7BAF1706182E0048CE54 /* HotKeyToolKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HotKeyToolKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B5727E61B24827E003441B8 /* framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = framework.xcconfig; path = ../../hadron/xcconfigs/target/framework.xcconfig; sourceTree = "<group>"; };
 		1B5D8C050EE2FA6900BD1EAF /* NSAlert+WonderBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAlert+WonderBox.h"; sourceTree = "<group>"; };
@@ -234,9 +238,6 @@
 		1B5D8CB50EE2FD3500BD1EAF /* NSString+WonderBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+WonderBox.m"; sourceTree = "<group>"; };
 		1B5D8DD70EE2FF0A00BD1EAF /* NSTabView+WonderBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTabView+WonderBox.h"; sourceTree = "<group>"; };
 		1B5D8DD80EE2FF0A00BD1EAF /* NSTabView+WonderBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTabView+WonderBox.m"; sourceTree = "<group>"; };
-		1B6DACEE0D0C9D0400F352CC /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SparkMultiAlert.xib; sourceTree = "<group>"; };
-		1B6DACF30D0CA0F800F352CC /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SparkPluginView.xib; sourceTree = "<group>"; };
-		1B6DACF70D0CA1BF00F352CC /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SparkPlugin.xib; sourceTree = "<group>"; };
 		1B7007651706F08E003F5780 /* WBODFunctions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WBODFunctions.c; sourceTree = "<group>"; };
 		1B7007661706F08E003F5780 /* WBODFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBODFunctions.h; sourceTree = "<group>"; };
 		1B70076B1706F0FC003F5780 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
@@ -321,7 +322,6 @@
 		1BE4591C130F593500A6A133 /* WBXMLTemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBXMLTemplate.h; sourceTree = "<group>"; };
 		1BE4591D130F593500A6A133 /* WBXMLTemplate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBXMLTemplate.m; sourceTree = "<group>"; };
 		8DC2EF5B0486A6940098B216 /* SparkKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SparkKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		9805FD380773B47700B1A341 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		980EEB2D0A7E8A0B00013CF5 /* SimpleList.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SimpleList.tiff; sourceTree = "<group>"; };
 		9816B0620B2F4677002EE526 /* spark-editor.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "spark-editor.tiff"; sourceTree = "<group>"; };
 		984A38610A60036E00DA6455 /* SparkActionLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkActionLoader.h; sourceTree = "<group>"; };
@@ -982,17 +982,21 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 1100;
+				TargetAttributes = {
+					1BCB8F791706117600CC8C3C = {
+						ProvisioningStyle = Automatic;
+					};
+					8DC2EF4F0486A6940098B216 = {
+						ProvisioningStyle = Automatic;
+					};
+				};
 			};
 			buildConfigurationList = 9848D88A085638FD006B5130 /* Build configuration list for PBXProject "SparkKit" */;
 			compatibilityVersion = "Xcode 8.0";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 1;
 			knownRegions = (
-				English,
-				Japanese,
-				French,
-				German,
 				FR,
 				en,
 				fr,
@@ -1140,8 +1144,8 @@
 		089C1666FE841158C02AAC07 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				089C1667FE841158C02AAC07 /* English */,
-				1B09470D0D68BC9B00E8FE8D /* French */,
+				1B4564F2234D19EE006AE849 /* en */,
+				1B4564F8234D1A2E006AE849 /* fr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -1149,8 +1153,8 @@
 		1B6DACED0D0C9D0400F352CC /* SparkMultiAlert.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				1B6DACEE0D0C9D0400F352CC /* English */,
-				1B0947120D68BCD100E8FE8D /* French */,
+				1B4564F4234D19F0006AE849 /* en */,
+				1B4564FB234D1A30006AE849 /* fr */,
 			);
 			name = SparkMultiAlert.xib;
 			sourceTree = "<group>";
@@ -1158,8 +1162,8 @@
 		1B6DACF20D0CA0F800F352CC /* SparkPluginView.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				1B6DACF30D0CA0F800F352CC /* English */,
-				1B0947140D68BCDB00E8FE8D /* French */,
+				1B4564F6234D19F2006AE849 /* en */,
+				1B4564FC234D1A31006AE849 /* fr */,
 			);
 			name = SparkPluginView.xib;
 			sourceTree = "<group>";
@@ -1167,8 +1171,8 @@
 		1B6DACF60D0CA1BF00F352CC /* SparkPlugin.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				1B6DACF70D0CA1BF00F352CC /* English */,
-				1B0947110D68BCCB00E8FE8D /* French */,
+				1B4564F5234D19F1006AE849 /* en */,
+				1B4564FA234D1A2F006AE849 /* fr */,
 			);
 			name = SparkPlugin.xib;
 			sourceTree = "<group>";
@@ -1184,8 +1188,8 @@
 		9805FD370773B47700B1A341 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				9805FD380773B47700B1A341 /* English */,
-				1B09470E0D68BCA100E8FE8D /* French */,
+				1B4564F3234D19EF006AE849 /* en */,
+				1B4564F9234D1A2F006AE849 /* fr */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -1197,6 +1201,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B5727E61B24827E003441B8 /* framework.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3DT6DNJE39;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
@@ -1204,6 +1211,7 @@
 				INSTALL_PATH = "@rpath";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.xenonium.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = framework;
 			};
@@ -1213,6 +1221,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B5727E61B24827E003441B8 /* framework.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3DT6DNJE39;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
@@ -1220,6 +1231,7 @@
 				INSTALL_PATH = "@rpath";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.xenonium.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = framework;
 			};
@@ -1229,7 +1241,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B5727E61B24827E003441B8 /* framework.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 460;
+				DEVELOPMENT_TEAM = 3DT6DNJE39;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 460;
 				INFOPLIST_FILE = Info.plist;
@@ -1237,6 +1252,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.xenonium.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = SparkKit;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -1256,7 +1272,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B5727E61B24827E003441B8 /* framework.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 460;
+				DEVELOPMENT_TEAM = 3DT6DNJE39;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 460;
 				INFOPLIST_FILE = Info.plist;
@@ -1264,6 +1283,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.xenonium.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = SparkKit;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 			};
 			name = Release;

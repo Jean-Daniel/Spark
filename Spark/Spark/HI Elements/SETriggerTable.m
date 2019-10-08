@@ -28,7 +28,7 @@
       SEL doubleAction = [self doubleAction];
       [self sendAction:doubleAction to:target];
     }
-  } else if ([anEvent clickCount] == 1 && ([anEvent modifierFlags] & NSDeviceIndependentModifierFlagsMask) == NSAlternateKeyMask) {
+  } else if ([anEvent clickCount] == 1 && ([anEvent modifierFlags] & NSEventModifierFlagDeviceIndependentFlagsMask) == NSEventModifierFlagOption) {
     if (SPXDelegateHandle([self delegate], tableView:shouldHandleOptionClick:) && ![[self delegate] tableView:self shouldHandleOptionClick:anEvent]) {
       // do nothing
     } else {
@@ -40,7 +40,7 @@
 }
 
 - (void)keyDown:(NSEvent *)anEvent {
-  if (([anEvent modifierFlags] & NSDeviceIndependentModifierFlagsMask) == 0) {
+  if (([anEvent modifierFlags] & NSEventModifierFlagDeviceIndependentFlagsMask) == 0) {
     NSString *chr = [anEvent characters];
     if ([chr isEqualToString:@" "] && SPXDelegateHandle([self delegate], spaceDownInTableView:)) {
       [[self delegate] spaceDownInTableView:self];
@@ -137,7 +137,7 @@
     rect.origin.y -= offset;
     rect.origin.y = [anImage size].height - rect.origin.y - rect.size.height;
     
-    NSRectFillUsingOperation(rect, NSCompositeDestinationOver);
+    NSRectFillUsingOperation(rect, NSCompositingOperationDestinationOver);
     [NSBezierPath strokeRect:rect];
   }];
   
@@ -146,7 +146,7 @@
     size = NSMakeSize([anImage size].width, [badge size].height);
     [anImage setSize:size];
   }
-  [badge drawAtPoint:NSZeroPoint fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
+  [badge drawAtPoint:NSZeroPoint fromRect:NSZeroRect operation:NSCompositingOperationSourceOver fraction:1];
   [anImage unlockFocus];
   
   return anImage;

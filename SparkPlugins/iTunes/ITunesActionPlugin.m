@@ -21,7 +21,7 @@
 static 
 NSImage *ITunesGetApplicationIcon(void) {
   NSImage *icon = nil;
-  NSURL *itunes = [NSWorkspace.sharedWorkspace URLForApplicationWithBundleIdentifier:SPXCFToNSString(kiTunesBundleIdentifier)];
+  NSURL *itunes = [NSWorkspace.sharedWorkspace URLForApplicationWithBundleIdentifier:SPXCFToNSString(iTunesBundleIdentifier())];
   if (itunes)
     [itunes getResourceValue:&icon forKey:NSURLEffectiveIconKey error:NULL];
 
@@ -312,7 +312,7 @@ static
 NSURL *_iTunesGetLibraryPathFromPreferences(Boolean compat) {
   NSURL *path = nil;
   CFDataRef data = CFPreferencesCopyValue(CFSTR("alis:1:iTunes Library Location"),
-                                          kiTunesBundleIdentifier,
+                                          iTunesBundleIdentifier(),
                                           kCFPreferencesCurrentUser,
                                           kCFPreferencesAnyHost);
   if (data) {

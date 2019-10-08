@@ -103,8 +103,8 @@
 
 WB_INLINE
 bool __IsApplicationAtURL(NSURL *path) {
-  Boolean app = false;
-  return path && (noErr == WBLSIsApplicationAtURL(SPXNSToCFURL(path), &app)) && app;
+  NSNumber *isApp = nil;
+  return path && [path getResourceValue:&isApp forKey:NSURLIsApplicationKey error:NULL] && [isApp boolValue];
 }
 
 - (NSUInteger)addApplications:(NSArray *)urls {
@@ -184,7 +184,7 @@ bool __IsApplicationAtURL(NSURL *path) {
         /* If no custom key or if user want to ignore warning, do not display sheet */
         if (hasActions && ![[NSUserDefaults standardUserDefaults] boolForKey:@"SparkConfirmDeleteApplication"]) {
           NSAlert *alert = [[NSAlert alloc] init];
-          alert.alertStyle = NSInformationalAlertStyle;
+          alert.alertStyle = NSAlertStyleInformational;
           alert.messageText = @"Deleting app will delete all custom hotkeys";
           alert.informativeText = @"This is just an information message.";
 
