@@ -232,7 +232,7 @@ bool SparkDebugEnabled = false;
 //  if ([[EDPreferences sharedPreferences] showDebugMenu])
 //    SparkDebugEnabled = true;
 //  else
-    SparkDebugEnabled = (kCGEventFlagMaskShift == (CGEventSourceFlagsState(kCGEventSourceStateCombinedSessionState) & NSDeviceIndependentModifierFlagsMask));
+  SparkDebugEnabled = (kCGEventFlagMaskShift == (CGEventSourceFlagsState(kCGEventSourceStateCombinedSessionState) & NSEventModifierFlagDeviceIndependentFlagsMask));
 #else
   SparkDebugEnabled = true;
 #endif
