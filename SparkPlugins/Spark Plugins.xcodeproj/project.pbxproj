@@ -1885,15 +1885,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B7007511706DB3B003F5780 /* bundle.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 460;
-				DEVELOPMENT_TEAM = 3DT6DNJE39;
 				INFOPLIST_FILE = Accessibility/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.shadowlab.spark.action.accessibility;
 				PRODUCT_NAME = AccessibilityAction;
-				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -1901,15 +1897,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B7007511706DB3B003F5780 /* bundle.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 460;
-				DEVELOPMENT_TEAM = 3DT6DNJE39;
 				INFOPLIST_FILE = Accessibility/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.shadowlab.spark.action.accessibility;
 				PRODUCT_NAME = AccessibilityAction;
-				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};
@@ -1927,15 +1919,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B7007511706DB3B003F5780 /* bundle.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 460;
-				DEVELOPMENT_TEAM = 3DT6DNJE39;
 				INFOPLIST_FILE = Text/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.shadowlab.spark.action.keyboard;
 				PRODUCT_NAME = TextAction;
-				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -1943,15 +1931,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B7007511706DB3B003F5780 /* bundle.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 460;
-				DEVELOPMENT_TEAM = 3DT6DNJE39;
 				INFOPLIST_FILE = System/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.shadowlab.spark.action.system;
 				PRODUCT_NAME = SystemAction;
-				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -1959,15 +1943,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B7007511706DB3B003F5780 /* bundle.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 460;
-				DEVELOPMENT_TEAM = 3DT6DNJE39;
 				INFOPLIST_FILE = iTunes/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.shadowlab.spark.action.itunes;
 				PRODUCT_NAME = iTunesAction;
-				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -1975,15 +1955,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B7007511706DB3B003F5780 /* bundle.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 460;
-				DEVELOPMENT_TEAM = 3DT6DNJE39;
 				INFOPLIST_FILE = Documents/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.shadowlab.spark.action.document;
 				PRODUCT_NAME = DocumentAction;
-				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -1991,15 +1967,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B7007511706DB3B003F5780 /* bundle.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 460;
-				DEVELOPMENT_TEAM = 3DT6DNJE39;
 				INFOPLIST_FILE = Application/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.shadowlab.spark.action.application;
 				PRODUCT_NAME = ApplicationAction;
-				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -2007,15 +1979,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B7007511706DB3B003F5780 /* bundle.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 460;
-				DEVELOPMENT_TEAM = 3DT6DNJE39;
 				INFOPLIST_FILE = AppleScript/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.shadowlab.spark.action.applescript;
 				PRODUCT_NAME = AppleScriptAction;
-				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -2046,15 +2014,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B7007511706DB3B003F5780 /* bundle.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 460;
-				DEVELOPMENT_TEAM = 3DT6DNJE39;
 				INFOPLIST_FILE = Text/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.shadowlab.spark.action.keyboard;
 				PRODUCT_NAME = TextAction;
-				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};
@@ -2062,15 +2026,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B7007511706DB3B003F5780 /* bundle.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 460;
-				DEVELOPMENT_TEAM = 3DT6DNJE39;
 				INFOPLIST_FILE = iTunes/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.shadowlab.spark.action.itunes;
 				PRODUCT_NAME = iTunesAction;
-				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};
@@ -2078,15 +2038,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B7007511706DB3B003F5780 /* bundle.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 460;
-				DEVELOPMENT_TEAM = 3DT6DNJE39;
 				INFOPLIST_FILE = System/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.shadowlab.spark.action.system;
 				PRODUCT_NAME = SystemAction;
-				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};
@@ -2094,15 +2050,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B7007511706DB3B003F5780 /* bundle.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 460;
-				DEVELOPMENT_TEAM = 3DT6DNJE39;
 				INFOPLIST_FILE = Documents/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.shadowlab.spark.action.document;
 				PRODUCT_NAME = DocumentAction;
-				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};
@@ -2110,15 +2062,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B7007511706DB3B003F5780 /* bundle.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 460;
-				DEVELOPMENT_TEAM = 3DT6DNJE39;
 				INFOPLIST_FILE = Application/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.shadowlab.spark.action.application;
 				PRODUCT_NAME = ApplicationAction;
-				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};
@@ -2126,15 +2074,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B7007511706DB3B003F5780 /* bundle.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 460;
-				DEVELOPMENT_TEAM = 3DT6DNJE39;
 				INFOPLIST_FILE = AppleScript/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.shadowlab.spark.action.applescript;
 				PRODUCT_NAME = AppleScriptAction;
-				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};

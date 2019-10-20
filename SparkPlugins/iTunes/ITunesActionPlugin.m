@@ -18,16 +18,6 @@
 
 @end
 
-static 
-NSImage *ITunesGetApplicationIcon(void) {
-  NSImage *icon = nil;
-  NSURL *itunes = [NSWorkspace.sharedWorkspace URLForApplicationWithBundleIdentifier:SPXCFToNSString(iTunesBundleIdentifier())];
-  if (itunes)
-    [itunes getResourceValue:&icon forKey:NSURLEffectiveIconKey error:NULL];
-
-  return icon;
-}
-
 @implementation ITunesActionPlugin {
 @private
   struct _ia_apFlags {

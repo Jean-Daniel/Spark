@@ -38,6 +38,15 @@ iTunesAction _iTunesConvertAction(int act) {
   return act >= 0 && act < 11 ? _kActionsMap[act] : 0;
 }
 
+NSImage *ITunesGetApplicationIcon(void) {
+  NSImage *icon = nil;
+  NSURL *itunes = [NSWorkspace.sharedWorkspace URLForApplicationWithBundleIdentifier:SPXCFToNSString(iTunesBundleIdentifier())];
+  if (itunes)
+    [itunes getResourceValue:&icon forKey:NSURLEffectiveIconKey error:NULL];
+
+  return icon;
+}
+
 @implementation ITunesAction {
 @private
   UInt64 ia_plid;
@@ -397,9 +406,15 @@ static ITunesVisual sDefaultVisual = { .delay = -1 };
 
 - (void)notifyLaunch {
   IconRef ref = NULL;
-  if (noErr == GetIconRef(kOnSystemDisk, 'hook', 'APPL', &ref)) {
-    SparkNotificationDisplayIcon(ref, -1);
-    ReleaseIconRef(ref);
+  if (kCFCoreFoundationVersionNumber >= 1665.15) {
+    NSImage *icon = ITunesGetApplicationIcon();
+    if (icon)
+      SparkNotificationDisplayImage(icon, -1);
+  } else {
+    if (noErr == GetIconRef(kOnSystemDisk, 'hook', 'APPL', &ref)) {
+      SparkNotificationDisplayIcon(ref, -1);
+      ReleaseIconRef(ref);
+    }
   }
 }
 

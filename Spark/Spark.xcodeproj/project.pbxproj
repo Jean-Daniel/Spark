@@ -236,6 +236,8 @@
 		1B456520234D1B3C006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/SEPluginInstaller.strings; sourceTree = "<group>"; };
 		1B456521234D1B3D006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/SEPreferences.strings; sourceTree = "<group>"; };
 		1B456522234D1B3E006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/SETriggerBrowser.strings; sourceTree = "<group>"; };
+		1B62F6EA235CE778006AE849 /* Spark Daemon.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Spark Daemon.entitlements"; sourceTree = "<group>"; };
+		1B62F6EB235CE781006AE849 /* Spark.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Spark.entitlements; sourceTree = "<group>"; };
 		1B68A684141134CA0017CD27 /* SparkleDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkleDelegate.h; sourceTree = "<group>"; };
 		1B68A685141134CA0017CD27 /* SparkleDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkleDelegate.m; sourceTree = "<group>"; };
 		1B68A687141134CA0017CD27 /* SUVersionComparator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SUVersionComparator.m; sourceTree = "<group>"; };
@@ -280,8 +282,6 @@
 		1BBE7D0F0ED04F760004D9DD /* debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = debug.xcconfig; sourceTree = "<group>"; };
 		1BBE7D100ED04F760004D9DD /* release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = release.xcconfig; sourceTree = "<group>"; };
 		1BD0A0F81B23465C007F6E86 /* project.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = project.xcconfig; sourceTree = "<group>"; };
-		1BE3ABF02148D5B1006AE849 /* Spark.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Spark.entitlements; sourceTree = "<group>"; };
-		1BE3ABF12148D5CB006AE849 /* Spark Daemon.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Spark Daemon.entitlements"; sourceTree = "<group>"; };
 		1BEBF56D0EBDE42100404150 /* SEExportShortcut.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SEExportShortcut.xml; sourceTree = "<group>"; };
 		1BECC9CC1FACCCB0006AE849 /* SESeparatorCellView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SESeparatorCellView.h; sourceTree = "<group>"; };
 		1BECC9CD1FACCCB0006AE849 /* SESeparatorCellView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SESeparatorCellView.m; sourceTree = "<group>"; };
@@ -413,9 +413,9 @@
 			children = (
 				1B6F9EEF1FAFC0CE006AE849 /* Info.plist */,
 				1B6F9EFE1FAFC0EE006AE849 /* InfoPlist.strings */,
-				1BE3ABF12148D5CB006AE849 /* Spark Daemon.entitlements */,
 				1B6F9EF01FAFC0CE006AE849 /* Sources */,
 				1B6F9EE81FAFC0CE006AE849 /* SparkDaemon.sdef */,
+				1B62F6EA235CE778006AE849 /* Spark Daemon.entitlements */,
 			);
 			path = SparkDaemon;
 			sourceTree = "<group>";
@@ -490,8 +490,8 @@
 		98240180060C7B0700A0DB07 /* Spark */ = {
 			isa = PBXGroup;
 			children = (
+				1B62F6EB235CE781006AE849 /* Spark.entitlements */,
 				98DCBDEC060C80DD00B3E0AE /* Info.plist */,
-				1BE3ABF02148D5B1006AE849 /* Spark.entitlements */,
 				984BCE6C060C7FEC0043CDEA /* Spark.h */,
 				98240188060C7B0700A0DB07 /* Spark.m */,
 				98D52B3A0B19A4C000C8425C /* Model */,
@@ -1263,17 +1263,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "SparkDaemon/Spark Daemon.entitlements";
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 455;
-				DEVELOPMENT_TEAM = 3DT6DNJE39;
 				ENABLE_HARDENED_RUNTIME = NO;
 				INFOPLIST_FILE = SparkDaemon/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				MARKETING_VERSION = 3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.xenonium.Spark.agent.debug;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -1283,17 +1279,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "SparkDaemon/Spark Daemon.entitlements";
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 455;
-				DEVELOPMENT_TEAM = 3DT6DNJE39;
 				ENABLE_HARDENED_RUNTIME = NO;
 				INFOPLIST_FILE = SparkDaemon/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				MARKETING_VERSION = 3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.xenonium.Spark.agent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};
@@ -1303,15 +1295,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Spark/Spark.entitlements;
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 470;
-				DEVELOPMENT_TEAM = 3DT6DNJE39;
 				ENABLE_HARDENED_RUNTIME = NO;
 				INFOPLIST_FILE = Spark/Info.plist;
 				MARKETING_VERSION = 3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.xenonium.$(PRODUCT_NAME:rfc1034identifier).debug";
-				PROVISIONING_PROFILE_SPECIFIER = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1333,15 +1321,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Spark/Spark.entitlements;
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 470;
-				DEVELOPMENT_TEAM = 3DT6DNJE39;
 				ENABLE_HARDENED_RUNTIME = NO;
 				INFOPLIST_FILE = Spark/Info.plist;
 				MARKETING_VERSION = 3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.xenonium.$(PRODUCT_NAME:rfc1034identifier)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

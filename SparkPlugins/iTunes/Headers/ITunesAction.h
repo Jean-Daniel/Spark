@@ -97,3 +97,6 @@ NSImage *ITunesActionIcon(ITunesAction *action);
 
 WB_PRIVATE
 NSString *ITunesActionDescription(ITunesAction *action);
+
+WB_PRIVATE
+NSImage *ITunesGetApplicationIcon(void);
