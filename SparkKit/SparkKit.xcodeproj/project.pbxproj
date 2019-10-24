@@ -1234,13 +1234,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B5727E61B24827E003441B8 /* framework.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 460;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 460;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@rpath";
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
-				MARKETING_VERSION = 3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.xenonium.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = SparkKit;
 				SKIP_INSTALL = YES;
@@ -1262,13 +1260,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B5727E61B24827E003441B8 /* framework.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 460;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 460;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@rpath";
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
-				MARKETING_VERSION = 3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.xenonium.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = SparkKit;
 				SKIP_INSTALL = YES;

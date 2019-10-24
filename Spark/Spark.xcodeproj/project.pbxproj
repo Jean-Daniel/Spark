@@ -1255,10 +1255,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "SparkDaemon/Spark Daemon.entitlements";
-				CURRENT_PROJECT_VERSION = 455;
 				INFOPLIST_FILE = SparkDaemon/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
-				MARKETING_VERSION = 3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.xenonium.Spark.agent.debug;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1271,10 +1269,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "SparkDaemon/Spark Daemon.entitlements";
-				CURRENT_PROJECT_VERSION = 455;
 				INFOPLIST_FILE = SparkDaemon/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
-				MARKETING_VERSION = 3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.xenonium.Spark.agent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1287,9 +1283,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Spark/Spark.entitlements;
-				CURRENT_PROJECT_VERSION = 470;
 				INFOPLIST_FILE = Spark/Info.plist;
-				MARKETING_VERSION = 3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.xenonium.$(PRODUCT_NAME:rfc1034identifier).debug";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1312,9 +1306,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Spark/Spark.entitlements;
-				CURRENT_PROJECT_VERSION = 470;
 				INFOPLIST_FILE = Spark/Info.plist;
-				MARKETING_VERSION = 3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.xenonium.$(PRODUCT_NAME:rfc1034identifier)";
 				WRAPPER_EXTENSION = app;
 			};

@@ -19,20 +19,20 @@
 	<key>CFBundleSignature</key>
 	<string>SprS</string>
 	<key>CFBundleVersion</key>
-	<string>${CURRENT_PROJECT_VERSION}</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.utilities</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>${MACOSX_DEPLOYMENT_TARGET}</string>
 	<key>LSUIElement</key>
 	<string>1</string>
+	<key>NSAppleEventsUsageDescription</key>
+	<string>send commands to other applications</string>
 	<key>NSAppleScriptEnabled</key>
 	<string>YES</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>OSAScriptingDefinition</key>
 	<string>SparkDaemon.sdef</string>
-	<key>NSAppleEventsUsageDescription</key>
-	<string>send commands to other applications</string>
 </dict>
 </plist>
