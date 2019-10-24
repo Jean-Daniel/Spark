@@ -1,5 +1,6 @@
 
 #include "../hadron/xcconfigs/os/sierra.xcconfig"
 
-HA_WARNING_CPLUSPLUSFLAGS = $(inherited) -Wno-old-style-cast
+DEVELOPMENT_TEAM = 3DT6DNJE39
 
+HA_WARNING_CPLUSPLUSFLAGS = $(inherited) -Wno-old-style-cast

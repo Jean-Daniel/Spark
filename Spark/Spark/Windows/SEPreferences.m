@@ -9,7 +9,7 @@
 #import "SEPreferences.h"
 
 #import "Spark.h"
-#import "SparkleDelegate.h"
+// #import "SparkleDelegate.h"
 #import "SEServerConnection.h"
 
 #import <SparkKit/SparkKit.h>
@@ -218,7 +218,7 @@ void __SetSparkKitSingleKeyMode(NSInteger mode) {
 
 #pragma mark Update
 - (IBAction)checkForUpdates:(id)sender {
-  [[Spark sharedSpark] checkForUpdates:sender];
+  // [[Spark sharedSpark] checkForUpdates:sender];
 }
 
 - (void)windowDidLoad {
@@ -229,15 +229,17 @@ void __SetSparkKitSingleKeyMode(NSInteger mode) {
 #endif
 
   //[uiFeedURL setHidden:![EDPreferences sharedPreferences].showUpdateFeedChooser];
-  [uiFeedURL addItemWithObjectValue:[[[Spark sharedSpark] releaseFeedURL] absoluteString]];
-  [uiFeedURL addItemWithObjectValue:[[[Spark sharedSpark] betaFeedURL] absoluteString]];
+//  [uiFeedURL addItemWithObjectValue:[[[Spark sharedSpark] releaseFeedURL] absoluteString]];
+//  [uiFeedURL addItemWithObjectValue:[[[Spark sharedSpark] betaFeedURL] absoluteString]];
 }
 
 - (NSString *)feedURL {
-  return [[[Spark sharedSpark] feedURL] absoluteString];
+  // return [[[Spark sharedSpark] feedURL] absoluteString];
+  return @"";
 }
+
 - (void)setFeedURL:(NSString *)anURL {
-  [[Spark sharedSpark] setFeedURL:anURL ? [NSURL URLWithString:anURL] : nil];
+  // [[Spark sharedSpark] setFeedURL:anURL ? [NSURL URLWithString:anURL] : nil];
 }
 
 //- (IBAction)update:(id)sender {

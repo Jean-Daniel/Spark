@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -24,10 +24,6 @@
 		1B35ED4713C0BA7300A8AEA6 /* DocumentAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 1B35ED4013C0BA7300A8AEA6 /* DocumentAction.spact */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		1B35ED4813C0BA7300A8AEA6 /* AccessibilityAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 1B35ED4113C0BA7300A8AEA6 /* AccessibilityAction.spact */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		1B5F396E0B5D451700879DF5 /* SETriggersController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B580B19A59700C8425C /* SETriggersController.mm */; };
-		1B68A688141134CA0017CD27 /* SparkleDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B68A684141134CA0017CD27 /* SparkleDelegate.h */; };
-		1B68A689141134CA0017CD27 /* SparkleDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B68A685141134CA0017CD27 /* SparkleDelegate.m */; };
-		1B68A68B141134CA0017CD27 /* SUVersionComparator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B68A687141134CA0017CD27 /* SUVersionComparator.m */; };
-		1B68A6B01411396F0017CD27 /* Sparkle.framework in Copy Framework */ = {isa = PBXBuildFile; fileRef = 1B68A6AB1411392B0017CD27 /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		1B692D441B5D2D04000EFCE6 /* SETriggerBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B710B19A63700C8425C /* SETriggerBrowser.m */; };
 		1B692D451B5D2E9F000EFCE6 /* SETriggerBrowser.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B98A1A80D312F5800EC7D09 /* SETriggerBrowser.xib */; };
 		1B6F9EC41FAFC028006AE849 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B6F9EC31FAFC028006AE849 /* Images.xcassets */; };
@@ -143,7 +139,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				1B68A6B01411396F0017CD27 /* Sparkle.framework in Copy Framework */,
 				1B1184BB13C0BAE500A222F0 /* SparkKit.framework in Copy Framework */,
 				1B1B85B11D9A90C9006AE849 /* SArchiveKit.framework in Copy Framework */,
 				1B92D0F71707345500F40FCD /* WonderBox.framework in Copy Framework */,
@@ -796,7 +791,6 @@
 				1BAF36D51B3C7FB1006F05FC /* SparkLibraryArchive.h in Headers */,
 				98766A280CD4F15400593B74 /* SEHTMLGenerator.h in Headers */,
 				1BA7A5870D684DBD00D89AC2 /* SEEntryList.h in Headers */,
-				1B68A688141134CA0017CD27 /* SparkleDelegate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -871,7 +865,7 @@
 				};
 			};
 			buildConfigurationList = 98BC60560857BB9400A2041F /* Build configuration list for PBXProject "Spark" */;
-			compatibilityVersion = "Xcode 10.0";
+			compatibilityVersion = "Xcode 11.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 1;
 			knownRegions = (
@@ -1010,8 +1004,6 @@
 				1BECC9CF1FACCCB0006AE849 /* SESeparatorCellView.m in Sources */,
 				98766A290CD4F15400593B74 /* SEHTMLGenerator.m in Sources */,
 				987208D50D033CA200A3D473 /* SEEntryList.m in Sources */,
-				1B68A689141134CA0017CD27 /* SparkleDelegate.m in Sources */,
-				1B68A68B141134CA0017CD27 /* SUVersionComparator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1264,12 +1256,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "SparkDaemon/Spark Daemon.entitlements";
 				CURRENT_PROJECT_VERSION = 455;
-				ENABLE_HARDENED_RUNTIME = NO;
 				INFOPLIST_FILE = SparkDaemon/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				MARKETING_VERSION = 3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.xenonium.Spark.agent.debug;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
 			};
 			name = Debug;
 		};
@@ -1280,12 +1272,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "SparkDaemon/Spark Daemon.entitlements";
 				CURRENT_PROJECT_VERSION = 455;
-				ENABLE_HARDENED_RUNTIME = NO;
 				INFOPLIST_FILE = SparkDaemon/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				MARKETING_VERSION = 3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.xenonium.Spark.agent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};
@@ -1296,7 +1288,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Spark/Spark.entitlements;
 				CURRENT_PROJECT_VERSION = 470;
-				ENABLE_HARDENED_RUNTIME = NO;
 				INFOPLIST_FILE = Spark/Info.plist;
 				MARKETING_VERSION = 3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.xenonium.$(PRODUCT_NAME:rfc1034identifier).debug";
@@ -1322,7 +1313,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Spark/Spark.entitlements;
 				CURRENT_PROJECT_VERSION = 470;
-				ENABLE_HARDENED_RUNTIME = NO;
 				INFOPLIST_FILE = Spark/Info.plist;
 				MARKETING_VERSION = 3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.xenonium.$(PRODUCT_NAME:rfc1034identifier)";

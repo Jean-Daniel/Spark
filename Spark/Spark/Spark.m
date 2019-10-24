@@ -24,7 +24,7 @@
 
 #import <HotKeyToolKit/HotKeyToolKit.h>
 
-#import "SparkleDelegate.h"
+// #import "SparkleDelegate.h"
 
 #import "SEPlugInHelp.h"
 #import "SEPreferences.h"
@@ -216,7 +216,7 @@ NSString * const SESparkEditorDidChangePlugInStatusNotification = @"SESparkEdito
     [SEPreferences setup];
     
     /* Setup updater */
-    [self setupSparkle];
+    // [self setupSparkle];
   }
   return self;
 }
