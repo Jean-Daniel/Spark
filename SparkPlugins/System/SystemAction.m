@@ -22,7 +22,7 @@ static NSString * const
 kFastUserSwitcherPath = @"/System/Library/CoreServices/Menu Extras/User.menu/Contents/Resources/CGSession";
 
 static NSString * const 
-kScreenSaverEngine = @"/System/Library/Frameworks/ScreenSaver.framework/Resources/ScreenSaverEngine.app/Contents/MacOS/ScreenSaverEngine";
+kScreenSaverEngine = @"/System/Library/CoreServices/ScreenSaverEngine.app";
 
 static 
 void SystemFastLogOut(void);
