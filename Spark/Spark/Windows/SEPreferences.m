@@ -9,7 +9,6 @@
 #import "SEPreferences.h"
 
 #import "Spark.h"
-// #import "SparkleDelegate.h"
 #import "SEServerConnection.h"
 
 #import <SparkKit/SparkKit.h>
@@ -28,8 +27,8 @@ NSString * const kSparkVersionKey = @"SparkVersion";
 
 /* Hide entry is plugin is disabled */
 NSString * const kSEPreferencesHideDisabled = @"SparkHideDisabled";
-/* If daemon should automatically start at login */
-NSString * const kSEPreferencesStartAtLogin = @"SparkStartAtLogin";
+/* If YES, do not daemon (and don't register it as a login item) */
+NSString * const kSEPreferencesSparkDaemonDisabled = @"SparkDaemonDisabled";
 
 /* If should check update automatically */
 NSString * const kSEPreferencesAutoUpdate = @"SparkAutoUpdate";
@@ -43,18 +42,6 @@ static NSString * const kSparkPreferencesToolbarPlugInsItem = @"SparkPreferences
 static NSString * const kSparkPreferencesToolbarUpdateItem = @"SparkPreferencesToolbarUpdateItem";
 static NSString * const kSparkPreferencesToolbarAdvancedItem = @"SparkPreferencesToolbarAdvancedItem";
 
-static
-void _SEPreferencesUpdateLoginItem(void);
-
-WB_INLINE
-BOOL __SEPreferencesLoginItemStatus(void) {
-  return [[NSUserDefaults standardUserDefaults] boolForKey:kSEPreferencesStartAtLogin];
-}
-
-void SEPreferencesSetLoginItemStatus(BOOL status) {
-  [[NSUserDefaults standardUserDefaults] setBool:status forKey:kSEPreferencesStartAtLogin];
-  _SEPreferencesUpdateLoginItem();
-}
 
 WB_INLINE
 void __SetSparkKitSingleKeyMode(NSInteger mode) {
@@ -62,7 +49,6 @@ void __SetSparkKitSingleKeyMode(NSInteger mode) {
 }
 
 @implementation SEPreferences {
-  BOOL se_login;
   BOOL se_update;
   NSMapTable *_status;
   NSMutableArray<NSDictionary *> *_plugins;
@@ -73,28 +59,17 @@ void __SetSparkKitSingleKeyMode(NSInteger mode) {
   NSDictionary *values = @{
                            kSEPreferencesAutoUpdate: @(NO),
                            kSEPreferencesHideDisabled: @(NO),
-                           kSEPreferencesStartAtLogin: @(YES),
+                           kSEPreferencesSparkDaemonDisabled: @(NO),
                            kSparkPrefSingleKeyMode: @(kSparkEnableSingleFunctionKey),
                           };
   [[NSUserDefaults standardUserDefaults] registerDefaults:values];
-  
-  /* Verify login items */
-  _SEPreferencesUpdateLoginItem();
+
   /* Configure Single key mode */
   __SetSparkKitSingleKeyMode([[NSUserDefaults standardUserDefaults] integerForKey:kSparkPrefSingleKeyMode]);
 }
 
-+ (BOOL)synchronize {
-  BOOL user = [[NSUserDefaults standardUserDefaults] synchronize];
-  BOOL shared = SparkPreferencesSynchronize(SparkPreferencesDaemon);
-  shared = shared && SparkPreferencesSynchronize(SparkPreferencesLibrary);
-  shared = shared && SparkPreferencesSynchronize(SparkPreferencesFramework);
-  return user && shared;
-}
-
 - (id)init {
   if (self = [super init]) {
-    se_login = __SEPreferencesLoginItemStatus();
     _status = [[NSMapTable alloc] initWithKeyOptions:NSPointerFunctionsStrongMemory | NSPointerFunctionsObjectPersonality
                                         valueOptions:NSPointerFunctionsStrongMemory | NSPointerFunctionsObjectPersonality
                                             capacity:0];
@@ -164,11 +139,6 @@ void __SetSparkKitSingleKeyMode(NSInteger mode) {
   if (change)
     [NSNotificationCenter.defaultCenter postNotificationName:SESparkEditorDidChangePlugInStatusNotification
                                                       object:nil];
-  /* Check login items */
-  if (se_login != __SEPreferencesLoginItemStatus()) {
-    se_login = __SEPreferencesLoginItemStatus();
-    _SEPreferencesUpdateLoginItem();
-  }
   
   /* Unbind to release */
 	//  [ibController setContent:nil];
@@ -184,25 +154,25 @@ void __SetSparkKitSingleKeyMode(NSInteger mode) {
 #pragma mark -
 #pragma mark Preferences
 - (float)delay {
-  NSNumber *value = SparkPreferencesGetValue(kSparkGlobalPrefDelayStartup, SparkPreferencesDaemon);
+  NSNumber *value = [SparkUserDefaults() objectForKey:kSparkGlobalPrefDelayStartup];
   return value ? [value floatValue] : 0;
 }
 - (void)setDelay:(float)delay {
-  SparkPreferencesSetValue(kSparkGlobalPrefDelayStartup, @(delay), SparkPreferencesDaemon);
+  [SparkUserDefaults() setFloat:delay forKey:kSparkGlobalPrefDelayStartup];
 }
 
 - (BOOL)advanced {
-  return SparkPreferencesGetBooleanValue(@"SparkAdvancedSettings", SparkPreferencesFramework);
+  return [SparkUserDefaults() boolForKey:@"SparkAdvancedSettings"];
 }
 - (void)setAdvanced:(BOOL)advanced {
-  SparkPreferencesSetBooleanValue(@"SparkAdvancedSettings", advanced, SparkPreferencesFramework);
+  [SparkUserDefaults() setBool:advanced forKey:@"SparkAdvancedSettings"];
 }
 
 - (BOOL)displaysAlert {
-  return SparkPreferencesGetBooleanValue(@"SDDisplayAlertOnExecute", SparkPreferencesDaemon);
+  return [SparkUserDefaults() boolForKey:@"SDDisplayAlertOnExecute"];
 }
 - (void)setDisplaysAlert:(BOOL)flag {
-  SparkPreferencesSetBooleanValue(@"SDDisplayAlertOnExecute", flag, SparkPreferencesDaemon);
+  [SparkUserDefaults() setBool:flag forKey:@"SDDisplayAlertOnExecute"];
 }
 
 #pragma mark Single Key Mode
@@ -381,54 +351,3 @@ void __SetSparkKitSingleKeyMode(NSInteger mode) {
 }
 
 @end
-
-#pragma mark -
-void _SEPreferencesUpdateLoginItem(void) {
-	NSURL *sparkd = SESparkDaemonURL();
-  BOOL status = __SEPreferencesLoginItemStatus();
-  /* do it the new way */
-  LSSharedFileListRef list = LSSharedFileListCreate(kCFAllocatorDefault, kLSSharedFileListSessionLoginItems, NULL);
-  if (list) {
-    UInt32 seed = 0;
-    BOOL shouldAdd = status;
-    CFArrayRef items = LSSharedFileListCopySnapshot(list, &seed);
-    if (items) {
-      CFIndex count = CFArrayGetCount(items);
-      while (count-- > 0) {
-        LSSharedFileListItemRef item = (LSSharedFileListItemRef)CFArrayGetValueAtIndex(items, count);
-        CFURLRef itemURL = LSSharedFileListItemCopyResolvedURL(item, kLSSharedFileListNoUserInteraction | kLSSharedFileListDoNotMountVolumes, NULL);
-        if (itemURL) {
-          CFStringRef name = CFURLCopyLastPathComponent(itemURL);
-          if (name) {
-            if (CFEqual(name, SPXNSToCFString(kSparkDaemonExecutableName))) {
-              if (!status || !WBFSCompareURLs(itemURL, SPXNSToCFURL(sparkd))) {
-                spx_debug("Remove login item: %@", itemURL);
-#if !defined(DEBUG)
-                LSSharedFileListItemRemove(list, item);
-#endif
-              } else {
-                spx_debug("Valid login item found");
-                shouldAdd = NO;
-              }
-            }
-            CFRelease(name);
-          }
-          CFRelease(itemURL);
-        }
-      }
-      /* Append login item if needed */
-      if (shouldAdd) {
-#if !defined(DEBUG)
-        CFDictionaryRef properties = CFDictionaryCreate(kCFAllocatorDefault, (const void **)&kLSSharedFileListItemHidden,
-                                                        (const void **)&kCFBooleanTrue, 1, &kCFCopyStringDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
-        LSSharedFileListInsertItemURL(list, kLSSharedFileListItemLast, NULL, NULL, SPXNSToCFURL(sparkd), properties, NULL);
-        CFRelease(properties);
-#else
-        spx_debug("Add login item: %@", sparkd);
-#endif
-      }
-      CFRelease(items);
-    }
-    CFRelease(list);
-  }
-}

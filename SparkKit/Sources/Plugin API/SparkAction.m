@@ -131,9 +131,8 @@ static NSString * const kSparkActionDescriptionKey = @"SADescription";
 - (instancetype)init {
   if (self = [super init]) {
     SparkPlugIn *plugin = [[SparkActionLoader sharedLoader] plugInForAction:self];
-    if (plugin) {
+    if (plugin)
       [self setCategory:[plugin name]];
-    }
   }
   return self;
 }
@@ -160,14 +159,17 @@ static NSString * const kSparkActionDescriptionKey = @"SADescription";
   return nil;
 }
 
+- (SparkPreference *)preferences {
+  return SparkActiveLibrary().preferences;
+}
+
 #pragma mark -
 #pragma mark Accessors
 - (NSString *)category {
   if (!_category) {
     SparkPlugIn *plugin = [[SparkActionLoader sharedLoader] plugInForAction:self];
-    if (plugin) {
+    if (plugin)
       [self setCategory:[plugin name]];
-    }
   }
   return _category;
 }
@@ -193,40 +195,6 @@ static NSString * const kSparkActionDescriptionKey = @"SADescription";
 - (id)lock {
   return [self class];
 }
-
-//#pragma mark -
-//@implementation SparkAction (SparkExport)
-//
-//- (id)initFromExternalRepresentation:(NSDictionary *)rep {
-//  if (WBImplementsSelector(self, _cmd)) {
-//    if (self = [super initFromExternalRepresentation:rep]) {
-//      
-//    }
-//    return self;
-//  } else {
-//    return [self initWithSerializedValues:rep];
-//  }
-//}
-//
-//- (NSMutableDictionary *)externalRepresentation {
-//  if (WBImplementsSelector(self, _cmd)) {
-//    NSMutableDictionary *plist = [super externalRepresentation];
-//    if (plist) {
-//      NSString *value = [self categorie];
-//      if (value)
-//        [plist setObject:value forKey:@"categorie"];
-//    
-//      value = [self actionDescription];
-//      if (value)
-//        [plist setObject:value forKey:@"description"];
-//    }
-//    return plist;
-//  } else {
-//    return [[WBSerializeObject(self, NULL) mutableCopy] autorelease];
-//  }
-//}
-//
-//@end
 
 #pragma mark -
 - (instancetype)duplicate {

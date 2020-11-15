@@ -988,7 +988,7 @@
 						ProvisioningStyle = Manual;
 					};
 					8DC2EF4F0486A6940098B216 = {
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -1234,6 +1234,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B5727E61B24827E003441B8 /* framework.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 460;
 				INFOPLIST_FILE = Info.plist;
@@ -1260,6 +1261,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B5727E61B24827E003441B8 /* framework.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 460;
 				INFOPLIST_FILE = Info.plist;

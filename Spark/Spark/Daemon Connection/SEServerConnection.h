@@ -13,36 +13,21 @@ SPARK_PRIVATE
 NSString * const SEServerStatusDidChangeNotification;
 
 @class SparkLibrarySynchronizer;
-@interface SEServerConnection : NSObject
+@interface SEAgentConnection : NSObject <SparkEditor>
 
-+ (SEServerConnection *)defaultConnection;
++ (NSURL *)agentURL;
 
-- (BOOL)connect;
-- (void)disconnect;
-- (BOOL)isConnected;
++ (SEAgentConnection *)defaultConnection;
 
-@property (readonly) NSDistantObject<SparkServer> *server;
-
-/* Daemon control */
 - (void)restart;
-- (void)shutdown;
-
 - (BOOL)isRunning;
 - (SparkDaemonStatus)status;
 
-- (uint32_t)version;
-
 @end
 
+// Set Agent enabled (start login item)
 SPARK_PRIVATE
-NSString * const kSparkDaemonExecutableName;
+BOOL SESparkAgentIsEnabled(pid_t *pid);
 
 SPARK_PRIVATE
-BOOL SELaunchSparkDaemon(pid_t *pid);
-SPARK_PRIVATE
-NSURL *SESparkDaemonURL(void);
-SPARK_PRIVATE
-void SEServerStartConnection(void);
-SPARK_PRIVATE
-void SEServerStopConnection(void);
-
+BOOL SESparkAgentSetEnabled(BOOL enabled);

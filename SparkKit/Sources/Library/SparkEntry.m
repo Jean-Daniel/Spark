@@ -26,7 +26,7 @@ static
 NSImage *SparkEntryDefaultIcon(void) {
   static NSImage *__simage = nil;
   if (!__simage) 
-    __simage = [NSImage imageNamed:@"SparkEntry" inBundle:[NSBundle bundleWithIdentifier:kSparkKitBundleIdentifier]];
+    __simage = [NSImage imageNamed:@"SparkEntry" inBundle:SparkKitBundle()];
   return __simage;
 }
 
@@ -350,7 +350,7 @@ NSString * const SparkEntryWillRemoveChildNotification = @"SparkEntryWillRemoveC
   if (self = [super init]) {
     SparkLibrary *library = nil;
     if (coder.requiresSecureCoding) {
-      /* Network entry has to usage */
+      /* Network entry has two usages */
       /*
        1. adding a new entry. in this case child, parent and manager are nil.
        2. updating an entry. In this case, we ignore child, parent and manager
@@ -371,7 +371,7 @@ NSString * const SparkEntryWillRemoveChildNotification = @"SparkEntryWillRemoveC
       /* flags */
       self.enabled = [coder decodeBoolForKey:@"enabled"];
     } else if ([coder isKindOfClass:[NSPortCoder class]] ) {
-      /* Network entry has to usage */
+      /* Network entry has two usages */
       /*
        1. adding a new entry. in this case child, parent and manager are nil.
        2. updating an entry. In this case, we ignore child, parent and manager

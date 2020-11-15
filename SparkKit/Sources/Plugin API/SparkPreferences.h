@@ -16,37 +16,27 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSUInteger, SparkPreferencesDomain) {
-  SparkPreferencesDaemon = 1,
-  SparkPreferencesLibrary = 2,
-  SparkPreferencesFramework = 3,
-  /* plugins should only use this domain */
-  SparkPreferencesPlugIn = SparkPreferencesLibrary,
-};
+@class SparkLibrary;
 
-#pragma mark Preferences
-SPARK_EXPORT
-__nullable id SparkPreferencesGetValue(NSString * key, SparkPreferencesDomain domain);
-SPARK_EXPORT
-BOOL SparkPreferencesGetBooleanValue(NSString *key, SparkPreferencesDomain domain);
-SPARK_EXPORT
-NSInteger SparkPreferencesGetIntegerValue(NSString *key, SparkPreferencesDomain domain);
+// MARK: - Preferences
+@interface SparkPreference: NSObject
+- (instancetype)initWithLibrary:(SparkLibrary *)library;
 
-SPARK_EXPORT
-void SparkPreferencesSetValue(NSString *key, __nullable id value, SparkPreferencesDomain domain);
-SPARK_EXPORT
-void SparkPreferencesSetBooleanValue(NSString *key, BOOL value, SparkPreferencesDomain domain);
-SPARK_EXPORT
-void SparkPreferencesSetIntegerValue(NSString *key, NSInteger value, SparkPreferencesDomain domain);
+- (BOOL)boolForKey:(NSString *)key;
+- (void)setBool:(BOOL)value forKey:(NSString *)key;
 
-SPARK_EXPORT
-bool SparkPreferencesSynchronize(SparkPreferencesDomain domain);
+- (NSInteger)integerForKey:(NSString *)key;
+- (void)setInteger:(NSInteger)value forKey:(NSString *)key;
 
-/* Library domain only */
-SPARK_EXPORT
-void SparkPreferencesRegisterObserver(NSString * __nullable key, SparkPreferencesDomain domain, void(^)(NSString *, id));
-SPARK_EXPORT
-void SparkPreferencesUnregisterObserver(NSString * __nullable key, SparkPreferencesDomain domain, void(^)(NSString *, id));
+- (__nullable id)objectForKey:(NSString *)key;
+- (void)setObject:(__nullable id)value forKey:(NSString *)key;
+
+- (void)synchronize;
+
+- (void)registerObserver:(void(^)(NSString *, __nullable id))observer forKey:(NSString * __nullable)key;
+- (void)unregisterObserver:(void(^)(NSString *, __nullable id))observer forKey:(NSString * __nullable)key;
+
+@end
 
 NS_ASSUME_NONNULL_END
 

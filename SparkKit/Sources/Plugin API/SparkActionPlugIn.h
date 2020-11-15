@@ -10,7 +10,7 @@
 
 #import <SparkKit/SparkDefine.h>
 
-@class SparkAction;
+@class SparkAction, SparkPreference;
 
 /*!
  @abstract This class is the base class to do a Spark PlugIn. If you want to add some kind of Action to Spark,
@@ -58,6 +58,8 @@ SPARK_OBJC_EXPORT
  Spark call <code>-configureAction</code> only if <code>-sparkEditorShouldConfigureAction</code> returned nil.
  */
 - (void)configureAction;
+
+@property(nonatomic, readonly) SparkPreference *preferences;
 
 /*!
  @abstract Returns the action currently edited by the receiver.

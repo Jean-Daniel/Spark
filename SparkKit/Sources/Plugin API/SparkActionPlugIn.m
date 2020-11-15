@@ -125,8 +125,12 @@
   return [super setValue:value forUndefinedKey:key];
 }
 
+- (SparkPreference *)preferences {
+  return SparkActiveLibrary().preferences;
+}
+
 - (BOOL)displaysAdvancedSettings {
-  return SparkPreferencesGetBooleanValue(@"SparkAdvancedSettings", SparkPreferencesFramework);
+  return [SparkUserDefaults() boolForKey:@"SparkAdvancedSettings"];
 }
 
 #pragma mark -

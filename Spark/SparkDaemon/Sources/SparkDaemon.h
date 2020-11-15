@@ -18,7 +18,7 @@
   SparkDistantLibrary *sd_rlibrary;
 }
 
-- (BOOL)openConnection;
+- (void)openConnection;
 - (void)closeConnection;
 
 - (void)registerEntries;
@@ -30,18 +30,13 @@
 
 - (void)run;
 
-@property (getter=isEnabled) BOOL enabled;
+@property (readonly,getter=isEnabled) BOOL enabled;
 
 - (void)frontApplicationDidChange:(NSRunningApplication *)app;
 
 @end
 
-@interface SparkDaemon (SparkServerProtocol) <SparkServer>
-
-- (uint32_t)version;
-- (void)shutdown;
-
-- (id<SparkLibrary>)library;
+@interface SparkDaemon (SparkServerProtocol)
 
 #pragma mark Notifications
 - (void)didAddEntry:(NSNotification *)aNotification;
@@ -56,6 +51,3 @@
 - (void)didChangeApplicationStatus:(NSNotification *)aNotification;
 
 @end
-
-SPARK_PRIVATE
-void SDSendStateToEditor(SparkDaemonStatus state);

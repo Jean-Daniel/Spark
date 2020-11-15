@@ -25,6 +25,7 @@
 #import <SparkKit/SparkTrigger.h>
 #import <SparkKit/SparkApplication.h>
 #import <SparkKit/SparkActionLoader.h>
+#import <SparkKit/SparkServerProtocol.h>
 
 #if defined (DEBUG)
 #import <HotKeyToolKit/HotKeyToolKit.h>
@@ -48,19 +49,22 @@ int main(int argc, const char *argv[]) {
       /* Cleanup pool */
       [server run];
     } else {
-      // Run Alert panel ?
-      SDSendStateToEditor(kSparkDaemonStatusError);
+      spx_log_error("Spark Agent startup failed !");
     }
   }
   return 0;
 }
 
-static int SparkDaemonContext = 0;
+static const int SparkDaemonContext = 0;
+
+@interface SparkDaemon () <NSXPCListenerDelegate, SparkAgent>
+@end
 
 @implementation SparkDaemon {
   BOOL sd_disabled;
-  NSConnection *sd_connection;
-  NSMutableDictionary *sd_plugin_queues;
+  NSXPCListener *_connection;
+  NSMutableArray<id<SparkEditor>> *_editors; // there should be only one
+  NSMutableDictionary<NSString *, dispatch_queue_t> *sd_plugin_queues;
 }
 
 - (BOOL)application:(NSApplication *)sender delegateHandlesKey:(NSString *)key {
@@ -124,49 +128,55 @@ static int SparkDaemonContext = 0;
       /* init front process */
       sd_front = [sd_library frontmostApplication];
     }
+    for (id<SparkEditor> editor in _editors) {
+      [editor setLibrary:sd_library.libraryProxy uuid:sd_library.uuid];
+    }
   }
 }
 
 - (id)init {
   if (self = [super init]) {
-    if (![self openConnection]) {
-      return nil;
-    } else {
-      sd_plugin_queues = [[NSMutableDictionary alloc] init];
-#if defined (DEBUG)
-      [[NSUserDefaults standardUserDefaults] registerDefaults:
-  @{
-    @"NSShowNonLocalizedStrings": @YES,
-        //@"YES", @"NSShowAllViews",
-        //WBFloat(0.15f), @"NSWindowResizeTime",
-        //@"6", @"NSDragManagerLogLevel",
-        //@"YES", @"NSShowNonLocalizableStrings",
-        //@"1", @"NSScriptingDebugLogLevel",
-    }];
-#endif
-      [NSApp setDelegate:self];
-      [SparkEvent setEventHandler:^void(SparkEvent * __nonnull event) {
-        @autoreleasepool {
-          [self handleSparkEvent:event];
-        }
-      }];
-      /* Init core Apple Event handlers */
-      [NSScriptSuiteRegistry sharedScriptSuiteRegistry];
-      
-      /* Send signal to editor */
-      SDSendStateToEditor(kSparkDaemonStatusEnabled);
-      
-      NSInteger delay = 0;
-      /* SparkDaemonDelay (ignored when launch by Spark Editor) */
-      if (![[NSProcessInfo processInfo].arguments containsObject:@"-nodelay"])
-        delay = SparkPreferencesGetIntegerValue(@"SDDelayStartup", SparkPreferencesDaemon);
+    [self openConnection];
 
-      if (delay > 0) {
-        spx_debug("Delay load: %ld", (long)delay);
-        [self performSelector:@selector(finishStartup:) withObject:nil afterDelay:delay];
-      } else {
-        [self finishStartup:nil];
+    _editors = [[NSMutableArray alloc] init];
+    sd_plugin_queues = [[NSMutableDictionary alloc] init];
+#if defined (DEBUG)
+    [[NSUserDefaults standardUserDefaults] registerDefaults:
+     @{
+       @"NSShowNonLocalizedStrings": @YES,
+       //@"YES", @"NSShowAllViews",
+       //WBFloat(0.15f), @"NSWindowResizeTime",
+       //@"6", @"NSDragManagerLogLevel",
+       //@"YES", @"NSShowNonLocalizableStrings",
+       //@"1", @"NSScriptingDebugLogLevel",
+     }];
+#endif
+    [SparkUserDefaults() registerDefaults:
+     @{
+       @"SDDelayStartup": @(0),
+       @"SDBlockAlertOnLoad": @(YES),
+       @"SDDisplayAlertOnExecute": @(YES)
+     }];
+
+    [NSApp setDelegate:self];
+    [SparkEvent setEventHandler:^void(SparkEvent * __nonnull event) {
+      @autoreleasepool {
+        [self handleSparkEvent:event];
       }
+    }];
+    /* Init core Apple Event handlers */
+    [NSScriptSuiteRegistry sharedScriptSuiteRegistry];
+
+    NSInteger delay = 0;
+    /* SparkDaemonDelay (ignored when launch by Spark Editor) */
+    if (![[NSProcessInfo processInfo].arguments containsObject:@"-nodelay"])
+      delay = [SparkUserDefaults() integerForKey:@"SDDelayStartup"];
+
+    if (delay > 0) {
+      spx_debug("Delay load: %ld", (long)delay);
+      [self performSelector:@selector(finishStartup:) withObject:nil afterDelay:delay];
+    } else {
+      [self finishStartup:nil];
     }
   }
   return self;
@@ -188,7 +198,7 @@ static int SparkDaemonContext = 0;
   [NSWorkspace.sharedWorkspace addObserver:self
                                 forKeyPath:@"frontmostApplication"
                                    options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew
-                                   context:&SparkDaemonContext];
+                                   context:(void *)&SparkDaemonContext];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
@@ -212,8 +222,10 @@ static int SparkDaemonContext = 0;
       [self registerEntries];
     else
       [self unregisterVolatileEntries];
-    
-    SDSendStateToEditor(sd_disabled ? kSparkDaemonStatusDisabled : kSparkDaemonStatusEnabled);
+
+    for (id<SparkEditor> editor in _editors) {
+      [editor setDaemonEnabled:enabled];
+    }
   }
 }
 
@@ -238,22 +250,44 @@ static int SparkDaemonContext = 0;
   }
 }
 
-- (BOOL)openConnection {
-  NSProtocolChecker *checker = [[NSProtocolChecker alloc] initWithTarget:self
-                                                                protocol:@protocol(SparkServer)]; 
-  sd_connection = [[NSConnection alloc] init];
-  [sd_connection setRootObject:checker];
-  if (![sd_connection registerName:kSparkConnectionName]) {
-    spx_debug("Error While opening Connection");
-    return NO;
-  } else {
-    spx_debug("Connection OK");
-  }
+- (void)openConnection {
+  _connection = [[NSXPCListener alloc] initWithMachServiceName:kSparkDaemonServiceName];
+  _connection.delegate = self;
+  [_connection resume];
+}
+
+- (BOOL)listener:(NSXPCListener *)listener shouldAcceptNewConnection:(NSXPCConnection *)newConnection {
+  spx_trace();
+  newConnection.exportedInterface = SparkAgentInterface();
+  newConnection.exportedObject = self;
+  [newConnection resume];
   return YES;
 }
 
+- (void)register:(id<SparkEditor>)editor {
+  [_editors addObject:editor];
+
+  NSXPCConnection *connection = [NSXPCConnection currentConnection];
+  connection.invalidationHandler = ^{
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [self->_editors removeObject:editor];
+    });
+  };
+  connection.interruptionHandler = ^{
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [self->_editors removeObject:editor];
+    });
+  };
+
+  if (sd_library)
+    [editor setLibrary:sd_library.libraryProxy uuid:sd_library.uuid];
+
+  [editor setDaemonEnabled:self.enabled];
+}
+
+
 - (void)checkActions {
-  Boolean display = !SparkPreferencesGetBooleanValue(@"SDBlockAlertOnLoad", SparkPreferencesDaemon);
+  BOOL display = ![SparkUserDefaults() boolForKey:@"SDBlockAlertOnLoad"];
   /* Send actionDidLoad message to all actions */
   NSMutableArray *errors = display ? [[NSMutableArray alloc] init] : nil;
   [sd_library.actionSet enumerateObjectsUsingBlock:^(SparkAction *action, BOOL *stop) {
@@ -313,7 +347,7 @@ static int SparkDaemonContext = 0;
 
 - (void)_displayError:(SparkAlert *)anAlert {
   /* Check if need display alert */
-  Boolean displays = SparkPreferencesGetBooleanValue(@"SDDisplayAlertOnExecute", SparkPreferencesDaemon);
+  BOOL displays = [SparkUserDefaults() boolForKey:@"SDDisplayAlertOnExecute"];
   if (displays)
     SparkDisplayAlert(anAlert);
 }
@@ -402,11 +436,8 @@ static int SparkDaemonContext = 0;
 }
 
 - (void)closeConnection {
-  [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                  name:NSConnectionDidDieNotification
-                                                object:nil];
-  [sd_connection invalidate];
-  sd_connection = nil;
+  [_connection invalidate];
+  _connection = nil;
 }
 
 #pragma mark -
@@ -415,8 +446,6 @@ static int SparkDaemonContext = 0;
   /* Invalidate connection. dealloc would probably not be called, so it is not a good candidate for this purpose */
   [self closeConnection];
   [self unregisterEntries];
-  
-  SDSendStateToEditor(kSparkDaemonStatusShutDown);
 }
 
 //- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender {

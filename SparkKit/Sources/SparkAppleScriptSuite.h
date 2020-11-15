@@ -12,10 +12,11 @@
 #include <SparkKit/SparkKit.h>
 
 typedef NS_ENUM(OSType, SparkDaemonStatus) {
-  kSparkDaemonStatusError = 'sErr',
+  kSparkDaemonStatusStopped = 'sSht',
+  // Started bu either enabled or disabled
   kSparkDaemonStatusEnabled = 'sEna',
   kSparkDaemonStatusDisabled = 'sDis',
-  kSparkDaemonStatusShutDown = 'sSht',
+  kSparkDaemonStatusError = 'sErr',
 };
 
 enum {
@@ -29,15 +30,5 @@ enum {
 enum {
   kSparkDaemonStatusType = 'dast',
 };
-
-#pragma mark Daemon/Editor Constants
-SPARK_EXPORT
-NSString * const SparkDaemonStatusKey;
-SPARK_EXPORT
-NSString * const SparkDaemonStatusDidChangeNotification;
-
-@interface NSNotification (SparkDaemonStatus)
-@property(readonly) SparkDaemonStatus sparkDaemonStatus;
-@end
 
 #endif /* __SPARK_APPLESCRIPT_SUITE_H */

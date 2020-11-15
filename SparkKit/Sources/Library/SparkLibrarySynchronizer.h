@@ -16,9 +16,11 @@ bool SparkLogSynchronization;
 SPARK_OBJC_EXPORT
 @interface SparkLibrarySynchronizer : NSObject
 
++ (NSXPCInterface *)sparkLibraryInterface;
+
 - (instancetype)initWithLibrary:(SparkLibrary *)aLibrary;
 
-- (void)setDistantLibrary:(NSDistantObject<SparkLibrary> *)remoteLibrary;
+- (void)setDistantLibrary:(id<SparkLibrary>)remoteLibrary uuid:(NSUUID *)uuid;
 
 @end
 
@@ -27,12 +29,11 @@ SPARK_OBJC_EXPORT
 @interface SparkDistantLibrary : NSObject
 
 @property(nonatomic, readonly) SparkLibrary *library;
-@property(nonatomic, readonly) id<SparkLibrary> distantLibrary;
 
 @end
 
 @interface SparkLibrary (SparkDistantLibrary)
 
-@property(nonatomic, readonly) SparkDistantLibrary *distantLibrary;
+@property(nonatomic, readonly) id<SparkLibrary> libraryProxy;
 
 @end

@@ -24,7 +24,7 @@
   [self willChangeValueForKey:@"notifyLaunch"];
   [self willChangeValueForKey:@"notifyActivation"];
   if ([sparkAction usesSharedVisual]) {
-    [ApplicationAction getSharedSettings:&aa_settings];
+    [self.preferences getSharedSettings:&aa_settings];
   } else {
     [sparkAction getVisualSettings:&aa_settings];
   }
@@ -99,7 +99,7 @@
 - (void)plugInViewWillBecomeHidden {
   if ([[self sparkAction] usesSharedVisual]) {
     // Update defaut configuration
-    [ApplicationAction setSharedSettings:&aa_settings];
+    [self.preferences setSharedSettings:&aa_settings];
   }
 }
 
@@ -219,13 +219,13 @@
       if (!shared) {
         [[self sparkAction] setUsesSharedVisual:YES];
         [[self sparkAction] setVisualSettings:&aa_settings];
-        [ApplicationAction getSharedSettings:&aa_settings];
+        [self.preferences getSharedSettings:&aa_settings];
       }
       break;
     case 1: // This action only
       if (shared) {
         [[self sparkAction] setUsesSharedVisual:NO];
-        [ApplicationAction setSharedSettings:&aa_settings];
+        [self.preferences setSharedSettings:&aa_settings];
         [[self sparkAction] getVisualSettings:&aa_settings];
       }
   }

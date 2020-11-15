@@ -11,23 +11,24 @@
 
 #if defined(__OBJC__)
 
-#if defined(DEBUG)
-  #define kSparkConnectionName		@"org.shadowlab.spark.server.debug"
-#else
-  #define kSparkConnectionName		@"org.shadowlab.spark.server"
-#endif
+#import <SparkKit/SparkDefine.h>
 
 @protocol SparkLibrary;
-@protocol SparkServer
 
-@property (readonly) uint32_t version;
-@property (readonly,getter=isEnabled) BOOL enabled;
-
-- (oneway void)shutdown;
-
-@property (readonly) NSDistantObject<SparkLibrary> *library;
-
+@protocol SparkEditor
+- (void)setLibrary:(id<SparkLibrary>)library uuid:(NSUUID *)uuid;
+- (void)setDaemonEnabled:(BOOL)isEnabled;
 @end
+
+@protocol SparkAgent
+- (void)register:(id<SparkEditor>)editor;
+@end
+
+SPARK_EXPORT
+NSXPCInterface *SparkAgentInterface(void);
+
+SPARK_EXPORT
+NSXPCInterface *SparkEditorInterface(void);
 
 #endif /* __OBJC__ */
 

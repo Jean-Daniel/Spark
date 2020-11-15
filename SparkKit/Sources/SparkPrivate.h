@@ -64,10 +64,7 @@
 @end
 
 @interface SparkLibrary (SparkPreferences)
-
-- (NSMutableDictionary *)preferences;
-- (void)setPreferences:(NSDictionary *)preferences;
-
+- (NSMutableDictionary *)prefStorage;
 @end
 
 // WonderBox Helper

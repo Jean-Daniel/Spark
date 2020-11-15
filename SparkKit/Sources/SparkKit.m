@@ -10,9 +10,17 @@
 /* MUST be include for SparkDaemonStatusKey */
 #import <SparkKit/SparkAppleScriptSuite.h>
 
-#import <SparkKit/SparkPreferences.h>
+#import <SparkKit/SparkServerProtocol.h>
+#import <SparkKit/SparkLibrarySynchronizer.h>
 
 #import <WonderBox/WonderBox.h>
+
+#ifndef DEVELOPMENT_TEAM
+#error DEVELOPMENT_TEAM required
+#endif
+
+#define xstr(a) str(a)
+#define str(a) #a
 
 NSString * const kSparkErrorDomain = @"com.xenonium.SparkErrorDomain";
 
@@ -21,44 +29,47 @@ NSString * const kSparkFolderName = @"Spark";
 NSString * const kSparkKitBundleIdentifier = @"com.xenonium.SparkKit";
 
 NSString * const kSparkEditorBundleIdentifier = @"com.xenonium.Spark";
+
+NSString * const kSparkGroupIdentifier = @"" xstr(DEVELOPMENT_TEAM) ".com.xenonium.Spark";
+
 #if defined(DEBUG)
-NSString * const kSparkDaemonBundleIdentifier = @"com.xenonium.Spark.agent.debug";
+NSString * const kSparkDaemonBundleIdentifier = @"" xstr(DEVELOPMENT_TEAM) ".com.xenonium.Spark.agent.debug";
 #else
-NSString * const kSparkDaemonBundleIdentifier = @"com.xenonium.Spark.agent";
+NSString * const kSparkDaemonBundleIdentifier = @"" xstr(DEVELOPMENT_TEAM) ".com.xenonium.Spark.agent";
 #endif
 
-#pragma mark Distributed Notifications
-NSString * const SparkDaemonStatusKey = @"SparkDaemonStatusKey";
-NSString * const SparkDaemonStatusDidChangeNotification = @"SparkDaemonStatusDidChange";
-
-@implementation NSNotification (SparkDaemonStatus)
-- (SparkDaemonStatus)sparkDaemonStatus {
-  return [self.userInfo[SparkDaemonStatusKey] unsignedIntValue];
+NSXPCInterface *SparkAgentInterface() {
+  NSXPCInterface *interface = [NSXPCInterface interfaceWithProtocol:@protocol(SparkAgent)];
+  [interface setInterface:SparkEditorInterface()
+              forSelector:@selector(register:)
+            argumentIndex:0
+                  ofReply:NO];
+  return interface;
 }
-@end
+
+NSXPCInterface *SparkEditorInterface() {
+  NSXPCInterface *interface = [NSXPCInterface interfaceWithProtocol:@protocol(SparkEditor)];
+  [interface setInterface:[SparkLibrarySynchronizer sparkLibraryInterface]
+              forSelector:@selector(setLibrary:uuid:)
+            argumentIndex:0
+                  ofReply:NO];
+  return interface;
+}
 
 // MARK: -
 const OSType kSparkEditorSignature = 'Sprk';
 const OSType kSparkDaemonSignature = 'SprS';
 
-NSString * kSparkFinderBundleIdentifier = @"com.apple.finder";
+NSString * const kSparkFinderBundleIdentifier = @"com.apple.finder";
 
 NSBundle *SparkKitBundle(void) {
   return [NSBundle bundleWithIdentifier:kSparkKitBundleIdentifier];
 }
 
-static __attribute__((constructor)) 
-void __SparkInitializeLibrary(void) {
-  NSString *str = SparkPreferencesGetValue(@"SparkFinderBundleIdentifier", SparkPreferencesFramework);
-  if (str) {
-    if (![str isKindOfClass:[NSString class]]) {
-      SparkPreferencesSetValue(@"SparkFinderBundleIdentifier", NULL, SparkPreferencesFramework);
-    } else {
-      if ([NSWorkspace.sharedWorkspace URLForApplicationWithBundleIdentifier:str])
-        kSparkFinderBundleIdentifier = str;
-    }
-  }
+NSUserDefaults *SparkUserDefaults(void) {
+  static NSUserDefaults *sparkUserDefaults = nil;
+  if (!sparkUserDefaults)
+    sparkUserDefaults = [[NSUserDefaults alloc] initWithSuiteName:kSparkGroupIdentifier];
+  return sparkUserDefaults;
 }
-
-
 

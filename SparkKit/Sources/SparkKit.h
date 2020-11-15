@@ -31,15 +31,22 @@ SPARK_EXPORT NSString * const kSparkErrorDomain;
 
 SPARK_EXPORT NSString * const kSparkFolderName;
 
-SPARK_EXPORT NSString * const kSparkKitBundleIdentifier;
+SPARK_EXPORT NSString * const kSparkGroupIdentifier; // for shared preferences
+
+// SPARK_EXPORT NSString * const kSparkKitBundleIdentifier;
 SPARK_EXPORT NSString * const kSparkEditorBundleIdentifier;
 SPARK_EXPORT NSString * const kSparkDaemonBundleIdentifier;
+
+// Login Item service name MUST match bundle identifier.
+#define kSparkDaemonServiceName kSparkDaemonBundleIdentifier
 
 /* Globals Notifications */
 SPARK_EXPORT NSString * const SparkWillSetActiveLibraryNotification;
 SPARK_EXPORT NSString * const SparkDidSetActiveLibraryNotification;
 
 SPARK_EXPORT NSBundle *SparkKitBundle(void);
+
+SPARK_EXPORT NSUserDefaults *SparkUserDefaults(void);
 
 SPARK_EXPORT
 const OSType kSparkEditorSignature SPARK_DEPRECATED("Bundle identifier");
@@ -52,6 +59,6 @@ const OSType kSparkDaemonSignature SPARK_DEPRECATED("Bundle identifier");
 /* Use this constant to send events to the finder.
 It will allows to easily replace the Finder by another application */
 SPARK_EXPORT
-NSString * kSparkFinderBundleIdentifier;
+NSString * const kSparkFinderBundleIdentifier;
 
 #endif /* __SPARKKIT_H */

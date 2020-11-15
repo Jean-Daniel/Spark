@@ -19,23 +19,6 @@
 
 @implementation SparkDaemon (SparkServerProtocol)
 
-- (uint32_t)version {
-  spx_trace_objc();
-  return kSparkServerVersion;
-}
-
-- (void)shutdown {
-  spx_trace_objc();
-  [NSApp terminate:nil];
-}
-
-- (id<SparkLibrary>)library {
-  spx_trace_objc();
-  if (!sd_rlibrary)
-    sd_rlibrary = [sd_library distantLibrary];
-  return [sd_rlibrary distantLibrary];
-}
-
 #pragma mark Entries Management
 - (void)didAddEntry:(NSNotification *)aNotification {
   spx_trace_objc();
@@ -131,11 +114,3 @@
 }
 
 @end
-
-void SDSendStateToEditor(SparkDaemonStatus state) {
-  [[NSDistributedNotificationCenter defaultCenter] postNotificationName:SparkDaemonStatusDidChangeNotification
-                                                                 object:kSparkConnectionName
-                                                               userInfo:@{ SparkDaemonStatusKey: @(state) }
-                                                     deliverImmediately:NO];
-}
-

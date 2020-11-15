@@ -260,12 +260,12 @@ bool SparkDebugEnabled = false;
                                                name:SEServerStatusDidChangeNotification
                                              object:nil];
   /* Check daemon path and connect */
-  SEServerStartConnection();
+  [SEAgentConnection defaultConnection]; // force connection initialization
 }
 
 - (void)serverStatusDidChange:(NSNotification *)aNotification {
   NSString *title = nil;
-  if ([[SEServerConnection defaultConnection] isRunning]) {
+  if ([[SEAgentConnection defaultConnection] isRunning]) {
     title = NSLocalizedString(@"STOP_SPARK_DAEMON_MENU", 
                               @"Spark Daemon Menu Title * Desactive *");
   } else {
@@ -279,10 +279,8 @@ bool SparkDebugEnabled = false;
 // MARK: -
 // MARK: Menu IBActions
 - (IBAction)toggleServer:(id)sender {
-  if ([[SEServerConnection defaultConnection] isRunning]) {
-    [[SEServerConnection defaultConnection] shutdown];
-  } else {
-    SELaunchSparkDaemon(NULL);
+  if (!SESparkAgentSetEnabled(!SESparkAgentIsEnabled(NULL))) {
+    spx_log_error("Failed to configure Agent as Login Item");
   }
 }
 
@@ -464,8 +462,7 @@ bool SparkDebugEnabled = false;
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
-  [SEPreferences synchronize];
-  SEServerStopConnection();
+
 }
 
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication {
@@ -522,7 +519,10 @@ bool SparkDebugEnabled = false;
     if ((credits = [bundle pathForResource:@"Credits" ofType:@"html"]) ||
         (credits = [bundle pathForResource:@"Credits" ofType:@"rtf"]) ||
         (credits = [bundle pathForResource:@"Credits" ofType:@"rtfd"])) {
-      NSAttributedString *str = [[NSAttributedString alloc] initWithURL:[NSURL fileURLWithPath:credits] documentAttributes:nil];
+      NSAttributedString *str = [[NSAttributedString alloc] initWithURL:[NSURL fileURLWithPath:credits]
+                                                                options:@{}
+                                                     documentAttributes:nil
+                                                                  error:NULL];
       [opts setObject:str forKey:@"Credits"];
     } else {
       [opts setObject:@"" forKey:@"Credits"];

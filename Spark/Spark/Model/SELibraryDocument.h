@@ -41,7 +41,3 @@ NSString * const SELibraryDocumentDidReloadNotification;
 
 SPARK_PRIVATE
 SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library);
-
-@interface SELibraryDocument (SEFirstRun)
-- (void)displayFirstRunIfNeeded;
-@end

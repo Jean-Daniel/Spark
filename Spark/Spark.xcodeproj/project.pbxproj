@@ -12,7 +12,6 @@
 		1B1358E90CA11B8800766572 /* updatepref.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B1358E80CA11B8800766572 /* updatepref.tiff */; };
 		1B1358FC0CA11C2000766572 /* pluginpref.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B1358FB0CA11C2000766572 /* pluginpref.tiff */; };
 		1B1535410D0D930F00C30ADA /* SEExportOptions.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B15353F0D0D930F00C30ADA /* SEExportOptions.xib */; };
-		1B15354A0D0D93F300C30ADA /* SEFirstRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B1535480D0D93F300C30ADA /* SEFirstRun.xib */; };
 		1B1B85B11D9A90C9006AE849 /* SArchiveKit.framework in Copy Framework */ = {isa = PBXBuildFile; fileRef = 1B1B85AD1D9A90AC006AE849 /* SArchiveKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1B24CFA91413E2840014FF20 /* Spark.cer in Resources */ = {isa = PBXBuildFile; fileRef = 1B24CFA81413E2840014FF20 /* Spark.cer */; };
 		1B2EA21E1FAF8D94006AE849 /* SEPlugInHelp.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B2EA21C1FAF8D94006AE849 /* SEPlugInHelp.xib */; };
@@ -56,6 +55,9 @@
 		1BA7CE0F0D0DB3740081764D /* SEPluginInstaller.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BA7CE0D0D0DB3740081764D /* SEPluginInstaller.xib */; };
 		1BAF36D51B3C7FB1006F05FC /* SparkLibraryArchive.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BAF36D41B3C7FB1006F05FC /* SparkLibraryArchive.h */; };
 		1BAF36D71B3C7FB8006F05FC /* SparkLibraryArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BAF36D61B3C7FB8006F05FC /* SparkLibraryArchive.m */; };
+		1BBA1237255BD20B00293109 /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B35ED3813C0BA2300A8AEA6 /* HotKeyToolKit.framework */; };
+		1BBA1249255BD23A00293109 /* SparkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B91B43C13C088A5005FC86D /* SparkKit.framework */; };
+		1BBA124A255BD23E00293109 /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B35ED3813C0BA2300A8AEA6 /* HotKeyToolKit.framework */; };
 		1BD1A1890D0D4926004206FA /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BD1A1870D0D4926004206FA /* MainMenu.xib */; };
 		1BD1A18D0D0D4A02004206FA /* SELibraryWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BD1A18B0D0D4A02004206FA /* SELibraryWindow.xib */; };
 		1BEBF5940EBDE53C00404150 /* SEExportShortcut.xml in Resources */ = {isa = PBXBuildFile; fileRef = 1BEBF56D0EBDE42100404150 /* SEExportShortcut.xml */; };
@@ -112,7 +114,6 @@
 		98D52B600B19A59700C8425C /* SELibraryWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B560B19A59700C8425C /* SELibraryWindow.m */; };
 		98D52B610B19A59700C8425C /* SETriggersController.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D52B570B19A59700C8425C /* SETriggersController.h */; };
 		98D52B720B19A63700C8425C /* SEFirstRun.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D52B680B19A63700C8425C /* SEFirstRun.h */; };
-		98D52B730B19A63700C8425C /* SEFirstRun.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B690B19A63700C8425C /* SEFirstRun.m */; };
 		98D52B740B19A63700C8425C /* SEPlugInHelp.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D52B6A0B19A63700C8425C /* SEPlugInHelp.h */; };
 		98D52B750B19A63700C8425C /* SEPlugInHelp.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B6B0B19A63700C8425C /* SEPlugInHelp.m */; };
 		98D52B760B19A63700C8425C /* SEPlugInInstaller.h in Headers */ = {isa = PBXBuildFile; fileRef = 98D52B6C0B19A63700C8425C /* SEPlugInInstaller.h */; };
@@ -150,8 +151,8 @@
 		98E6582906B40E7C00F73A19 /* Copy Daemon */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 12;
-			dstPath = "";
-			dstSubfolderSpec = 6;
+			dstPath = Contents/Library/LoginItems;
+			dstSubfolderSpec = 1;
 			files = (
 				1B6F9F071FAFC4F4006AE849 /* Spark Daemon.app in Copy Daemon */,
 			);
@@ -227,7 +228,6 @@
 		1B45651C234D1B39006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/SEInheritsPlugin.strings; sourceTree = "<group>"; };
 		1B45651D234D1B3A006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/SELibraryWindow.strings; sourceTree = "<group>"; };
 		1B45651E234D1B3A006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/SEExportOptions.strings; sourceTree = "<group>"; };
-		1B45651F234D1B3B006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/SEFirstRun.strings; sourceTree = "<group>"; };
 		1B456520234D1B3C006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/SEPluginInstaller.strings; sourceTree = "<group>"; };
 		1B456521234D1B3D006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/SEPreferences.strings; sourceTree = "<group>"; };
 		1B456522234D1B3E006AE849 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/SETriggerBrowser.strings; sourceTree = "<group>"; };
@@ -259,7 +259,6 @@
 		1B8E06601FA92EC6006AE849 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Importer.xib; sourceTree = "<group>"; };
 		1B8E06611FA92EC6006AE849 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		1B8E06621FA92EC6006AE849 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SEExportOptions.xib; sourceTree = "<group>"; };
-		1B8E06631FA92EC6006AE849 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SEFirstRun.xib; sourceTree = "<group>"; };
 		1B8E06651FA92EC6006AE849 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SEEntryEditor.xib; sourceTree = "<group>"; };
 		1B8E06661FA92EC6006AE849 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SEPreferences.xib; sourceTree = "<group>"; };
 		1B8E06671FA92EC6006AE849 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SEInheritsPlugin.xib; sourceTree = "<group>"; };
@@ -333,7 +332,6 @@
 		98D52B570B19A59700C8425C /* SETriggersController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SETriggersController.h; sourceTree = "<group>"; };
 		98D52B580B19A59700C8425C /* SETriggersController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SETriggersController.mm; sourceTree = "<group>"; };
 		98D52B680B19A63700C8425C /* SEFirstRun.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEFirstRun.h; sourceTree = "<group>"; };
-		98D52B690B19A63700C8425C /* SEFirstRun.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEFirstRun.m; sourceTree = "<group>"; };
 		98D52B6A0B19A63700C8425C /* SEPlugInHelp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEPlugInHelp.h; sourceTree = "<group>"; };
 		98D52B6B0B19A63700C8425C /* SEPlugInHelp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEPlugInHelp.m; sourceTree = "<group>"; };
 		98D52B6C0B19A63700C8425C /* SEPlugInInstaller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEPlugInInstaller.h; sourceTree = "<group>"; };
@@ -356,6 +354,7 @@
 			files = (
 				1B6F9F031FAFC17F006AE849 /* SparkKit.framework in Frameworks */,
 				1B6F9F041FAFC18F006AE849 /* WonderBox.framework in Frameworks */,
+				1BBA1237255BD20B00293109 /* HotKeyToolKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -363,7 +362,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1BBA1249255BD23A00293109 /* SparkKit.framework in Frameworks */,
 				1B92D0F017072AB700F40FCD /* WonderBox.framework in Frameworks */,
+				1BBA124A255BD23E00293109 /* HotKeyToolKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -485,8 +486,8 @@
 		98240180060C7B0700A0DB07 /* Spark */ = {
 			isa = PBXGroup;
 			children = (
-				1B62F6EB235CE781006AE849 /* Spark.entitlements */,
 				98DCBDEC060C80DD00B3E0AE /* Info.plist */,
+				1B62F6EB235CE781006AE849 /* Spark.entitlements */,
 				984BCE6C060C7FEC0043CDEA /* Spark.h */,
 				98240188060C7B0700A0DB07 /* Spark.m */,
 				98D52B3A0B19A4C000C8425C /* Model */,
@@ -716,8 +717,6 @@
 			isa = PBXGroup;
 			children = (
 				98D52B7C0B19A64100C8425C /* Headers */,
-				98D52B690B19A63700C8425C /* SEFirstRun.m */,
-				1B1535480D0D93F300C30ADA /* SEFirstRun.xib */,
 				98D52B6B0B19A63700C8425C /* SEPlugInHelp.m */,
 				1B2EA21C1FAF8D94006AE849 /* SEPlugInHelp.xib */,
 				98D52B6F0B19A63700C8425C /* SEPreferences.m */,
@@ -931,7 +930,6 @@
 				1B72F634235CA8A0006AE849 /* SparkStop.png in Resources */,
 				1BD1A18D0D0D4A02004206FA /* SELibraryWindow.xib in Resources */,
 				1B1535410D0D930F00C30ADA /* SEExportOptions.xib in Resources */,
-				1B15354A0D0D93F300C30ADA /* SEFirstRun.xib in Resources */,
 				1B9FB30E180883F6007EADAE /* Importer.xib in Resources */,
 				1B9A7A6D0D0D978800770054 /* SEEntryEditor.xib in Resources */,
 				1B9A7A7A0D0D998B00770054 /* SEPreferences.xib in Resources */,
@@ -961,7 +959,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"${CONFIGURATION}\" == \"Debug\" ]\nthen\n  BASE=../../Spark.app/Contents\nelse\n  BASE=../../..\nfi\n\ncd \"${BUILT_PRODUCTS_DIR}\"\n\nif [ ! -L \"${FRAMEWORKS_FOLDER_PATH}\" ]\nthen\n  rm -rf \"${FRAMEWORKS_FOLDER_PATH}\"\n  ln -s \"${BASE}/Frameworks\" \"${FRAMEWORKS_FOLDER_PATH}\"\nfi\n\nif [ ! -L \"${PLUGINS_FOLDER_PATH}\" ]\nthen\n  rm -rf \"${PLUGINS_FOLDER_PATH}\"\n  ln -s \"${BASE}/PlugIns\" \"${PLUGINS_FOLDER_PATH}\"\nfi\n\n";
+			shellScript = "BASE=../../../..\n\ncd \"${BUILT_PRODUCTS_DIR}\"\n\nif [ ! -L \"${FRAMEWORKS_FOLDER_PATH}\" ]\nthen\n  rm -rf \"${FRAMEWORKS_FOLDER_PATH}\"\n  ln -s \"${BASE}/Frameworks\" \"${FRAMEWORKS_FOLDER_PATH}\"\nfi\n\nif [ ! -L \"${PLUGINS_FOLDER_PATH}\" ]\nthen\n  rm -rf \"${PLUGINS_FOLDER_PATH}\"\n  ln -s \"${BASE}/PlugIns\" \"${PLUGINS_FOLDER_PATH}\"\nfi\n\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -990,7 +988,6 @@
 				1B692D441B5D2D04000EFCE6 /* SETriggerBrowser.m in Sources */,
 				98D52B440B19A4C000C8425C /* SEBuiltInPlugin.m in Sources */,
 				98D52B600B19A59700C8425C /* SELibraryWindow.m in Sources */,
-				98D52B730B19A63700C8425C /* SEFirstRun.m in Sources */,
 				98D52B750B19A63700C8425C /* SEPlugInHelp.m in Sources */,
 				98D52B770B19A63700C8425C /* SEPluginInstaller.mm in Sources */,
 				98D52B790B19A63700C8425C /* SEPreferences.m in Sources */,
@@ -1033,15 +1030,6 @@
 				1B45651E234D1B3A006AE849 /* fr */,
 			);
 			name = SEExportOptions.xib;
-			sourceTree = "<group>";
-		};
-		1B1535480D0D93F300C30ADA /* SEFirstRun.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1B8E06631FA92EC6006AE849 /* Base */,
-				1B45651F234D1B3B006AE849 /* fr */,
-			);
-			name = SEFirstRun.xib;
 			sourceTree = "<group>";
 		};
 		1B2EA21C1FAF8D94006AE849 /* SEPlugInHelp.xib */ = {
@@ -1256,8 +1244,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "SparkDaemon/Spark Daemon.entitlements";
 				INFOPLIST_FILE = SparkDaemon/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.xenonium.Spark.agent.debug;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"@loader_path/../Frameworks",
+					../../Spark.app/Contents/Frameworks,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "$(DEVELOPMENT_TEAM).com.xenonium.Spark.agent.debug";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -1271,7 +1262,7 @@
 				CODE_SIGN_ENTITLEMENTS = "SparkDaemon/Spark Daemon.entitlements";
 				INFOPLIST_FILE = SparkDaemon/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.xenonium.Spark.agent;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(DEVELOPMENT_TEAM).com.xenonium.Spark.agent";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -1293,10 +1284,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1BBE7D0F0ED04F760004D9DD /* debug.xcconfig */;
 			buildSettings = {
-				ENABLE_TESTABILITY = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				ONLY_ACTIVE_ARCH = YES;
 			};
 			name = Debug;
 		};
@@ -1316,8 +1303,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1BBE7D100ED04F760004D9DD /* release.xcconfig */;
 			buildSettings = {
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 			};
 			name = Release;
 		};

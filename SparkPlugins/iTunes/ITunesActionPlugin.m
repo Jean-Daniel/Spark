@@ -66,15 +66,20 @@
         }
       }
         break;
-      case kiTunesSettingDefault:
-        [ibVisual setVisual:[ITunesAction defaultVisual]];
+      case kiTunesSettingDefault: {
+        ITunesVisual visual = {};
+        [self.preferences getDefaultVisual:&visual];
+        [ibVisual setVisual:&visual];
+      }
         break;
     }
     [ibVisual setConfiguration:[sparkAction visualMode]];
   } else {
     /* Default action for the iTunes Action Menu */
     [self setITunesAction:kiTunesPlayPause];
-    [ibVisual setVisual:[ITunesAction defaultVisual]];
+    ITunesVisual visual = {};
+    [self.preferences getDefaultVisual:&visual];
+    [ibVisual setVisual:&visual];
   }
   [ibVisual setDelegate:self];
 }
@@ -123,7 +128,7 @@
     // Update defaut configuration
     ITunesVisual visual;
     [ibVisual getVisual:&visual];
-    [ITunesAction setDefaultVisual:&visual];
+    [self.preferences setDefaultVisual:&visual];
     [ibVisual hide:nil];
   }
 }
@@ -136,7 +141,7 @@
       [[self sparkAction] setVisual:&visual];
       break;
     case kiTunesSettingDefault:
-      [ITunesAction setDefaultVisual:&visual];
+      [self.preferences setDefaultVisual:&visual];
       break;
   }
 }
@@ -149,8 +154,11 @@
       [settings setVisual:visual ? : &kiTunesDefaultSettings];
     }
       break;
-    case kiTunesSettingDefault:
-      [settings setVisual:[ITunesAction defaultVisual]];
+    case kiTunesSettingDefault: {
+      ITunesVisual visual = {};
+      [self.preferences getDefaultVisual:&visual];
+      [settings setVisual:&visual];
+    }
       break;
   }
 }

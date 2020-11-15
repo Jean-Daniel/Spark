@@ -9,7 +9,7 @@
 #import <SparkKit/SparkAction.h>
 #import <SparkKit/SparkActionPlugIn.h>
 
-typedef NS_ENUM(NSInteger, SparkPlugInAction) {
+typedef NS_ENUM(uint32_t, SparkPlugInAction) {
   SparkPlugInActionLaunchEditor     = 'OpSe', /* 1332761445 */
   SparkPlugInActionSwitchStatus     = 'SwSt', /* 1400329076 */
   SparkPlugInActionSwitchListStatus = 'SwLi', /* 1400327273 */

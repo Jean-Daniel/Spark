@@ -34,25 +34,25 @@ bool SparkLogSynchronization = false;
 
 @protocol SparkLibrary
 
-- (bycopy NSString *)uuid;
-
-- (oneway void)addObject:(bycopy NSDictionary *)plist type:(in SparkObjectType)type;
-- (oneway void)removeObject:(in SparkUID)uid type:(in SparkObjectType)type;
+- (void)addObject:(NSDictionary *)plist type:(SparkObjectType)type;
+- (void)removeObject:(SparkUID)uid type:(SparkObjectType)type;
 
 #pragma mark Entries Management
-- (oneway void)addEntry:(bycopy SparkEntry *)anEntry parent:(SparkUID)parent;
-- (oneway void)updateEntry:(bycopy SparkEntry *)newEntry;
-- (oneway void)removeEntry:(in SparkUID)anEntry;
+- (void)addEntry:(SparkEntry *)anEntry parent:(SparkUID)parent;
+- (void)updateEntry:(SparkEntry *)newEntry;
+- (void)removeEntry:(SparkUID)anEntry;
 
-- (oneway void)enableEntry:(in SparkUID)anEntry;
-- (oneway void)disableEntry:(in SparkUID)anEntry;
+- (void)enableEntry:(SparkUID)anEntry;
+- (void)disableEntry:(SparkUID)anEntry;
 
 #pragma mark Application Specific
-- (oneway void)enableApplication:(in SparkUID)uid;
-- (oneway void)disableApplication:(in SparkUID)uid;
+- (void)enableApplication:(SparkUID)uid;
+- (void)disableApplication:(SparkUID)uid;
 
 #pragma mark PlugIns Management
-- (oneway void)registerPlugIn:(bycopy NSURL *)bundlePath;
+- (void)registerPlugIn:(NSURL *)bundlePath;
+
+- (void)setObject:(__nullable id)object forKey:(NSString *)key;
 
 @end
 
@@ -60,7 +60,12 @@ bool SparkLogSynchronization = false;
 @implementation SparkLibrarySynchronizer {
 @private
   SparkLibrary *_library;
-  NSDistantObject<SparkLibrary> *_remote;
+  id<SparkLibrary> _remote;
+  void(^_observer)(NSString *, id);
+}
+
++ (NSXPCInterface *)sparkLibraryInterface {
+  return [NSXPCInterface interfaceWithProtocol:@protocol(SparkLibrary)];
 }
 
 - (id)init {
@@ -77,7 +82,7 @@ bool SparkLogSynchronization = false;
 }
 
 - (void)dealloc {
-  [self setDistantLibrary:nil];
+  [self setDistantLibrary:nil uuid:nil];
 }
 
 #pragma mark -
@@ -116,7 +121,13 @@ bool SparkLogSynchronization = false;
              selector:@selector(didChangeApplicationStatus:)
                  name:SparkApplicationDidChangeEnabledNotification 
                object:nil];
-  
+
+  typeof(self) __weak this = self;
+  _observer = ^(NSString *key, __nullable id value) {
+    [this setObject:value forKey:key];
+  };
+  [[_library preferences] registerObserver:_observer forKey:nil];
+
   /* PlugIns */
   [[NSNotificationCenter defaultCenter] addObserver:self
                                            selector:@selector(didRegisterPlugIn:)
@@ -124,39 +135,34 @@ bool SparkLogSynchronization = false;
                                              object:nil];
 }
 - (void)removeObserver {
+  if (_observer != nil) {
+    [_library.preferences unregisterObserver:_observer forKey:nil];
+    _observer = nil;
+  }
+
   [_library.notificationCenter removeObserver:self];
   [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (NSDistantObject<SparkLibrary> *)distantLibrary {
+- (id<SparkLibrary>)distantLibrary {
   return _remote;
 }
 - (BOOL)isConnected {
-  return _remote && [[_remote connectionForProxy] isValid];
+  return _remote != nil;
 }
 
-- (void)setDistantLibrary:(NSDistantObject<SparkLibrary> *)remoteLibrary {
-  if (remoteLibrary && ![remoteLibrary conformsToProtocol:@protocol(SparkLibrary)]) {
-    SPXThrowException(NSInvalidArgumentException, @"Remote Library %@ MUST conform to <SparkLibrary>", remoteLibrary);
-  }
-  
-  NSString *uuidstr = nil;
+- (void)setDistantLibrary:(id<SparkLibrary>)remoteLibrary uuid:(NSUUID *)uuid {
   if (remoteLibrary != _remote) {
     /* If set null => unregister */
     if (!remoteLibrary) {
       [self removeObserver];
     } else {
       /* Check library UUID */
-      uuidstr = [remoteLibrary uuid];
-      if (!uuidstr) {
-        SPXThrowException(NSInvalidArgumentException, @"Invalid Remote Library UUID (null)");
-      }
       NSAssert(_library.uuid, @"Invalid Library UUID (null)");
-      NSUUID *uuid = [[NSUUID alloc] initWithUUIDString:uuidstr];
       if (!uuid) {
-        SPXThrowException(NSInvalidArgumentException, @"Invalid Remote Library UUID %@", uuidstr);
+        SPXThrowException(NSInvalidArgumentException, @"Invalid Remote Library UUID (nil)");
       } else if (![uuid isEqual:_library.uuid]) {
-        SPXThrowException(NSInvalidArgumentException, @"Remote Library UUID does not match: %@", uuidstr);
+        SPXThrowException(NSInvalidArgumentException, @"Remote Library UUID does not match active library: %@", uuid);
       }
       
       /* UUID OK, if not already registred => register */
@@ -165,9 +171,8 @@ bool SparkLogSynchronization = false;
     }
     /* Swap instance variable */
     _remote = remoteLibrary;
-    [_remote setProtocolForProxy:@protocol(SparkLibrary)];
     if (SparkLogSynchronization)
-      spx_debug("Set Remote library: %@", uuidstr);
+      spx_debug("Set Remote library: %@", uuid);
   }
     
 }
@@ -285,6 +290,12 @@ SparkObjectType SparkServerObjectType(SparkObject *anObject) {
   }
 }
 
+- (void)setObject:(__nullable id)value forKey:(NSString *)key {
+  if ([self isConnected]) {
+    SparkRemoteMessage(setObject:value forKey:key);
+  }
+}
+
 @end
 
 #pragma mark -
@@ -301,18 +312,12 @@ SparkObjectType SparkServerObjectType(SparkObject *anObject) {
   return self;
 }
 
-- (id<SparkLibrary>)distantLibrary {
-  NSProtocolChecker *checker = [[NSProtocolChecker alloc] initWithTarget:self
-                                                                protocol:@protocol(SparkLibrary)];
-  return (id<SparkLibrary>)checker;
-}
-
 @end
 
 #pragma mark -
 @implementation SparkLibrary (SparkDistantLibrary)
 
-- (SparkDistantLibrary *)distantLibrary {
+- (id<SparkLibrary>)libraryProxy {
   return [[SparkDistantLibrary alloc] initWithLibrary:self];
 }
 
@@ -421,6 +426,10 @@ SparkObjectSet *SparkObjectSetForType(SparkLibrary *library, SparkObjectType typ
   if (!plugin) {
     spx_debug("Error while loading plugin: %@", anURL);
   }
+}
+
+- (void)setObject:(__nullable id)object forKey:(NSString *)key {
+  [_library.preferences setObject:object forKey:key];
 }
 
 @end

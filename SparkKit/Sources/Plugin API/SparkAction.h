@@ -12,7 +12,7 @@
 
 #import <SparkKit/SparkObject.h>
 
-@class SparkAlert;
+@class SparkAlert, SparkPreference;
 
 /*!
 @function
@@ -79,6 +79,8 @@ SPARK_OBJC_EXPORT
    @result     Returns <i>nil</i> if this SparkAction is successfully executed.
    */
 - (SparkAlert *)performAction;
+
+@property(nonatomic, readonly) SparkPreference *preferences;
 
 /*! the receiver version. If nothing specified, use the class version. */
 @property (nonatomic) NSUInteger version;

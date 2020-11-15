@@ -40,74 +40,6 @@ NSBundle *ApplicationActionBundle(void) {
   NSImage *aa_icon;
 }
 
-static bool sInit = false;
-
-static 
-ApplicationVisualSetting *AAGetSharedSettings(void) {
-  static ApplicationVisualSetting sShared = {NO, NO};
-  if (!sInit) {
-    sInit = true;
-    
-    NSNumber *value = SparkPreferencesGetValue(@"AAVisualLaunch", SparkPreferencesLibrary);
-    if (!value || [value boolValue])
-      sShared.launch = YES;
-    
-    sShared.activation = SparkPreferencesGetBooleanValue(@"AAVisualActivate", SparkPreferencesLibrary);
-  }
-  return &sShared;
-}
-
-+ (void)getSharedSettings:(ApplicationVisualSetting *)settings {
-  *settings = *AAGetSharedSettings();
-}
-
-+ (void)setSharedSettings:(ApplicationVisualSetting *)settings {
-  ApplicationVisualSetting *shared = AAGetSharedSettings();
-  if (settings) {
-    if (settings->launch != shared->launch)
-      SparkPreferencesSetBooleanValue(@"AAVisualLaunch", settings->launch, SparkPreferencesLibrary);
-    if (settings->activation != shared->activation)
-      SparkPreferencesSetBooleanValue(@"AAVisualActivate", settings->activation, SparkPreferencesLibrary);
-    
-    *shared = *settings;
-  } else {
-    // Remove key
-    SparkPreferencesSetValue(@"AAVisualLaunch", NULL, SparkPreferencesLibrary);
-    SparkPreferencesSetValue(@"AAVisualActivate", NULL, SparkPreferencesLibrary);
-    
-    /* Reset to default */
-    shared->launch = YES;
-    shared->activation = NO;
-  }
-}
-
-+ (void)didLoadLibrary:(NSNotification *)aNotification {
-  /* Reset settings */
-  sInit = false;
-}
-
-+ (void)initialize {
-  if ([ApplicationAction class] == self) {
-    /* If daemon, listen updates */
-    if (kSparkContext_Daemon == SparkGetCurrentContext()) {
-      SparkPreferencesRegisterObserver(@"AAVisualLaunch", SparkPreferencesLibrary,
-                                       ^(NSString *key, id value) {
-                                         ApplicationVisualSetting *shared = AAGetSharedSettings();
-                                         shared->launch = [value boolValue];
-                                       });
-
-      SparkPreferencesRegisterObserver(@"AAVisualActivate", SparkPreferencesLibrary,
-                                       ^(NSString *key, id value) {
-                                         ApplicationVisualSetting *shared = AAGetSharedSettings();
-                                         shared->activation = [value boolValue];
-                                       });
-    }
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didLoadLibrary:)
-                                                 name:SparkDidSetActiveLibraryNotification object:nil];
-  }
-}
-
 #pragma mark -
 #pragma mark Protocols Implementation
 - (id)copyWithZone:(NSZone *)zone {
@@ -504,7 +436,7 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
     /* Handle visual settings */
     ApplicationVisualSetting settings;
     if ([self usesSharedVisual])
-      [ApplicationAction getSharedSettings:&settings];
+      [self.preferences getSharedSettings:&settings];
     else
       [self getVisualSettings:&settings];
 
@@ -526,7 +458,7 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
 		/* Handle visual feedback */
 		ApplicationVisualSetting settings;
 		if ([self usesSharedVisual])
-			[ApplicationAction getSharedSettings:&settings];
+			[self.preferences getSharedSettings:&settings];
 		else
 			[self getVisualSettings:&settings];
 		
@@ -666,3 +598,19 @@ NSString *ApplicationActionDescription(ApplicationAction *anAction, NSString *na
   else return desc;
 }
 
+@implementation SparkPreference (ApplicationPlugin)
+
+- (void)getSharedSettings:(ApplicationVisualSetting *)settings {
+  NSNumber *value = [self objectForKey:@"AAVisualLaunch"];
+  if (!value || [value boolValue])
+    settings->launch = YES;
+
+  settings->activation = [self boolForKey:@"AAVisualActivate"];
+}
+
+- (void)setSharedSettings:(ApplicationVisualSetting *)settings {
+  [self setBool:settings->launch forKey:@"AAVisualLaunch"];
+  [self setBool:settings->activation forKey:@"AAVisualActivate"];
+}
+
+@end

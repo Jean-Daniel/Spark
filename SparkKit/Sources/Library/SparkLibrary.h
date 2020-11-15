@@ -55,7 +55,7 @@ SparkLibrary *SparkLibraryGetLibraryAtURL(NSURL *path, BOOL create);
 
 
 #pragma mark -
-@class SparkIconManager, SparkEntryManager;
+@class SparkIconManager, SparkEntryManager, SparkPreference;
 @class SparkList, SparkAction, SparkTrigger, SparkApplication;
 SPARK_OBJC_EXPORT
 @interface SparkLibrary : NSObject {
@@ -76,6 +76,7 @@ SPARK_OBJC_EXPORT
 - (void)enableNotifications;
 - (void)disableNotifications;
 
+- (SparkPreference *)preferences;
 - (NSNotificationCenter *)notificationCenter;
 
 - (BOOL)isLoaded;

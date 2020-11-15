@@ -21,33 +21,21 @@ NSString * const SparkPlugInDidChangeStatusNotification = @"SparkPlugInDidChange
 /* Check status */
 static 
 BOOL SparkPlugInIsEnabled(NSString *identifier, BOOL *exists) {
-  BOOL enabled = YES;
+  NSString *key = [identifier stringByAppendingString:@".enabled"];
+  NSNumber *value = [SparkUserDefaults() objectForKey:key];
   if (exists)
-    *exists = NO;
-  NSDictionary *plugins = SparkPreferencesGetValue(@"SparkPlugIns", SparkPreferencesFramework);
-  if (plugins) {
-    NSNumber *status = plugins[identifier];
-    if (status) {
-      if (exists)
-        *exists = YES;
-      enabled = [status boolValue];
-    }
-  }
-  return enabled;
+    *exists = value != nil;
+
+  if (value == nil)
+    return YES;
+
+  return [value boolValue];
 }
 
 static 
 void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
   if (SparkGetCurrentContext() == kSparkContext_Editor) {
-    NSMutableDictionary *plugins = NULL;
-    NSDictionary *prefs = SparkPreferencesGetValue(@"SparkPlugIns", SparkPreferencesFramework);
-    if (!prefs) {
-      plugins = [[NSMutableDictionary alloc] init];
-    } else {
-      plugins = [prefs mutableCopy];
-    }
-    [plugins setObject:@(enabled) forKey:identifier];
-    SparkPreferencesSetValue(@"SparkPlugIns", plugins, SparkPreferencesFramework);
+    [SparkUserDefaults() setBool:enabled forKey:[identifier stringByAppendingString:@".enabled"]];
   }
 }
 
@@ -65,30 +53,12 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
   }
 }
 
-+ (void)initialize {
-  if ([SparkPlugIn class] == self) {
-    if (SparkGetCurrentContext() == kSparkContext_Daemon) {
-      SparkPreferencesRegisterObserver(@"SparkPlugIns", SparkPreferencesFramework, ^(NSString *key, id value) {
-        if ([value isKindOfClass:[NSDictionary class]]) {
-          NSDictionary *plugins = value;
-          SparkActionLoader *loader = [SparkActionLoader sharedLoader];
-          for (NSString *identifier in plugins) {
-            SparkPlugIn *plugin = [loader plugInForIdentifier:identifier];
-            if (plugin) {
-              NSNumber *enabled = plugins[identifier];
-              if (enabled && [enabled respondsToSelector:@selector(boolValue)])
-                [plugin setEnabled:[enabled boolValue]];
-            }
-          }
-        }
-      });
-    }
-  }
-}
+static const void * const sObserverContext = nil;
 
 - (id)init {
-  if (self = [super init]) {
-    // Should not create valid plugin with this method.
+  // will raise an exception.
+  if (self = [self initWithClass:nil identifier:nil]) {
+
   }
   return self;
 }
@@ -111,6 +81,11 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
       _enabled = status;
     else
       _enabled = [_plugInClass isEnabled];
+
+    [SparkUserDefaults() addObserver:self
+                          forKeyPath:[identifier stringByAppendingString:@".enabled"]
+                             options:NSKeyValueObservingOptionNew
+                             context:(void *)&sObserverContext];
   }
   return self;
 }
@@ -124,6 +99,12 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
 //      [[NSScriptSuiteRegistry sharedScriptSuiteRegistry] loadSuitesFromBundle:bundle];
   }
   return self;
+}
+
+- (void)dealloc {
+  [SparkUserDefaults() removeObserver:self
+                           forKeyPath:[_identifier stringByAppendingString:@".enabled"]
+                              context:(void *)&sObserverContext];
 }
 
 - (NSUInteger)hash {
@@ -206,7 +187,7 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
   return nil;
 }
 
-- (id)instantiatePlugIn {
+- (__kindof SparkActionPlugIn *)instantiatePlugIn {
   NSString *nib = [_plugInClass nibName];
   NSBundle *bundle = SPXBundleForClass(_plugInClass);
   SparkActionPlugIn *plugin = [[_plugInClass alloc] initWithNibName:nib bundle:bundle];
@@ -217,6 +198,14 @@ void SparkPlugInSetEnabled(NSString *identifier, BOOL enabled) {
 
 - (Class)actionClass {
   return [_plugInClass actionClass];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+  if (context == &sObserverContext) {
+    
+  } else {
+    [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+  }
 }
 
 @end

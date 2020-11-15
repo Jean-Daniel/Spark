@@ -22,7 +22,7 @@ SPARK_OBJC_EXPORT
 - (instancetype)initWithBundle:(NSBundle *)bundle;
 
 /* Designated */
-- (instancetype)initWithClass:(Class)cls identifier:(NSString *)identifier;
+- (instancetype)initWithClass:(Class)cls identifier:(NSString *)identifier NS_DESIGNATED_INITIALIZER;
 
 /*! localized name of this PlugIn. */
 @property(nonatomic, copy) NSString *name;
@@ -50,6 +50,6 @@ SPARK_OBJC_EXPORT
   @method
  @abstract Returns a new plugin instance.
 */
-- (SparkActionPlugIn *)instantiatePlugIn;
+- (__kindof SparkActionPlugIn *)instantiatePlugIn;
 
 @end

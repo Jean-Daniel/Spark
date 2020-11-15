@@ -90,7 +90,6 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
   [self addWindowController:ctrl];
 	if ([[ctrl window] respondsToSelector:@selector(setRepresentedURL:)])
 		[[ctrl window] setRepresentedURL:nil];
-  [self displayFirstRunIfNeeded];
 }
 
 - (void)addWindowController:(NSWindowController *)windowController {
@@ -199,8 +198,8 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
       [previous unload];
       
       /* Restart daemon if needed */
-      if ([[SEServerConnection defaultConnection] isRunning] && _library == SparkActiveLibrary()) {
-        [[SEServerConnection defaultConnection] restart];
+      if (_library == SparkActiveLibrary()) {
+        [SEAgentConnection.defaultConnection restart];
       }
     }
   } else {
@@ -233,8 +232,8 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
     [previous unload];
     
     /* Restart daemon if needed */
-    if ([[SEServerConnection defaultConnection] isRunning] && _library == SparkActiveLibrary()) {
-      [[SEServerConnection defaultConnection] restart];
+    if (_library == SparkActiveLibrary()) {
+      [SEAgentConnection.defaultConnection restart];
     }
     return YES;
   }

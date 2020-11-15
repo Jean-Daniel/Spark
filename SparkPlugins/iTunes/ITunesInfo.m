@@ -50,7 +50,7 @@ int __iTunesGetTypeForLocation(NSPoint point) {
   return kiTunesVisualOther;
 }
 
-NSData *ITunesVisualPack(ITunesVisual *visual) {
+NSData *ITunesVisualPack(const ITunesVisual *visual) {
   NSMutableData *data = [[NSMutableData alloc] initWithCapacity:sizeof(ITunesPackedVisual)];
   [data setLength:sizeof(ITunesPackedVisual)];
   ITunesPackedVisual *pack = [data mutableBytes];

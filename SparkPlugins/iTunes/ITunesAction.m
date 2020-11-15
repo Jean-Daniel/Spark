@@ -72,83 +72,6 @@ NSImage *ITunesGetApplicationIcon(void) {
   ITunesVisual *ia_visual;
 }
 
-static ITunesVisual sDefaultVisual = { .delay = -1 };
-+ (ITunesVisual *)defaultVisual {
-  if (sDefaultVisual.delay >= 0) {
-    return &sDefaultVisual;
-  } else {
-    @synchronized(self) {
-      if (sDefaultVisual.delay < 0) {
-        NSData *data = SparkPreferencesGetValue(@"iTunesSharedVisual", SparkPreferencesLibrary);
-        if (data) {
-          if (!ITunesVisualUnpack(data, &sDefaultVisual)) {
-            spx_debug("Invalid shared visual: %@", data);
-            SparkPreferencesSetValue(@"iTunesSharedVisual", nil, SparkPreferencesLibrary);
-          }
-        }
-      }
-      /* Check visual */
-      if (sDefaultVisual.delay < 0) {
-        memcpy(&sDefaultVisual, &kiTunesDefaultSettings, sizeof(sDefaultVisual));
-      }
-    }
-  }
-  return &sDefaultVisual;
-}
-
-+ (void)setDefaultVisual:(const ITunesVisual *)visual {
-  if (visual) {
-    /* If visual as changed */
-    if (!ITunesVisualIsEqualTo(visual, &sDefaultVisual)) {
-      /* If settings equals defaults settings */
-      if (ITunesVisualIsEqualTo(visual, &kiTunesDefaultSettings)) {
-        memcpy(&sDefaultVisual, &kiTunesDefaultSettings, sizeof(sDefaultVisual));
-        if (kSparkContext_Editor == SparkGetCurrentContext()) {
-          SparkPreferencesSetValue(@"iTunesSharedVisual", nil, SparkPreferencesLibrary);
-        }
-      } else {
-        memcpy(&sDefaultVisual, visual, sizeof(sDefaultVisual));
-        NSData *data = ITunesVisualPack(&sDefaultVisual);
-        if (data && kSparkContext_Editor == SparkGetCurrentContext()) {
-          SparkPreferencesSetValue(@"iTunesSharedVisual", data, SparkPreferencesLibrary);
-        }
-      }
-    }
-  } else {
-    /* Reset to default */
-    if (!ITunesVisualIsEqualTo(&kiTunesDefaultSettings, &sDefaultVisual)) {
-      memcpy(&sDefaultVisual, &kiTunesDefaultSettings, sizeof(sDefaultVisual));
-    }
-    if (kSparkContext_Editor == SparkGetCurrentContext()) {
-      /* Remove key */
-      SparkPreferencesSetValue(@"iTunesSharedVisual", nil, SparkPreferencesLibrary);
-    }
-  }
-}
-
-+ (void)didLoadLibrary:(NSNotification *)aNotification {
-  /* Reset settings */
-  sDefaultVisual.delay = -1;
-}
-
-+ (void)initialize {
-  if ([ITunesAction class] == self) {
-    if (kSparkContext_Daemon == SparkGetCurrentContext()) {
-      SparkPreferencesRegisterObserver(@"iTunesSharedVisual", SparkPreferencesLibrary, ^(NSString *key, id value) {
-        if (value) {
-          if (!ITunesVisualUnpack(value, &sDefaultVisual))
-            [self setDefaultVisual:&kiTunesDefaultSettings];
-        } else {
-          [self setDefaultVisual:&kiTunesDefaultSettings];
-        }
-      });
-    }
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didLoadLibrary:)
-                                                 name:SparkDidSetActiveLibraryNotification object:nil];
-  }
-}
-
 #pragma mark Protocols Implementation
 - (id)copyWithZone:(NSZone *)zone {
   ITunesAction* copy = [super copyWithZone:zone];
@@ -380,8 +303,11 @@ static ITunesVisual sDefaultVisual = { .delay = -1 };
           break;
         }
         // fall
-      case kiTunesSettingDefault:
-        [info setTrack:&track visual:[[self class] defaultVisual]];
+      case kiTunesSettingDefault: {
+        ITunesVisual visual = {};
+        [self.preferences getDefaultVisual:&visual];
+        [info setTrack:&track visual:&visual];
+      }
         break;
     }
     [info display:nil];
@@ -848,3 +774,31 @@ NSString *ITunesActionDescription(ITunesAction *action) {
   return desc;
 }
 
+@implementation SparkPreference (iTunesPlugin)
+
+- (void)getDefaultVisual:(ITunesVisual *)visual {
+  visual->delay = -1;
+
+  NSData *data = [self objectForKey:@"iTunesSharedVisual"];
+  if (data) {
+    if (!ITunesVisualUnpack(data, visual)) {
+      spx_debug("Invalid shared visual: %@", data);
+      [self setObject:nil forKey:@"iTunesSharedVisual"];
+    }
+  }
+  /* Check visual */
+  if (visual->delay < 0)
+    memcpy(visual, &kiTunesDefaultSettings, sizeof(kiTunesDefaultSettings));
+}
+
+- (void)setDefaultVisual:(const ITunesVisual *)visual {
+  if (visual) {
+    NSData *data = ITunesVisualPack(visual);
+    if (data)
+      [SparkUserDefaults() setObject:data forKey:@"iTunesSharedVisual"];
+  } else {
+    [self setObject:nil forKey:@"iTunesSharedVisual"];
+  }
+}
+
+@end

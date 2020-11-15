@@ -127,7 +127,7 @@
   libraryTable.doubleAction = @selector(libraryDoubleAction:);
   
   /* Update status */
-  [self setDaemonStatus:[[SEServerConnection defaultConnection] status]];
+  [self setDaemonStatus:[[SEAgentConnection defaultConnection] status]];
   
   /* Populate plugin menu */
   [self didChangePlugIns:nil];
@@ -270,7 +270,7 @@
   NSImage *img = nil;
   BOOL disabled = NO;
   switch (status) {
-    case kSparkDaemonStatusShutDown:
+    case kSparkDaemonStatusStopped:
       img = [NSImage imageNamed:@"SparkRun"];
       str = NSLocalizedString(@"Start Spark Daemon", @"Spark Daemon status string");
       break;
@@ -287,7 +287,7 @@
 }
 
 - (void)daemonStatusDidChange:(NSNotification *)aNotification {
-  [self setDaemonStatus:[(SEServerConnection *)[aNotification object] status]];
+  [self setDaemonStatus:[(SEAgentConnection *)[aNotification object] status]];
 }
 
 @end

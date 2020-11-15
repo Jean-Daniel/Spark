@@ -72,7 +72,7 @@ const ITunesVisual kiTunesDefaultSettings;
 @end
 
 WB_INLINE
-UInt64 ITunesVisualPackColor(CGFloat color[4]) {
+UInt64 ITunesVisualPackColor(CGFloat const color[4]) {
   UInt64 pack = 0;
   pack |= (llround(color[0] * 0xffff) & 0xffff) << 0;
   pack |= (llround(color[1] * 0xffff) & 0xffff) << 16;
@@ -111,7 +111,7 @@ typedef NS_OPTIONS(NSUInteger, ITunesVisualFlags) {
 };
 
 WB_EXPORT
-NSData *ITunesVisualPack(ITunesVisual *visual);
+NSData *ITunesVisualPack(const ITunesVisual *visual);
 
 WB_EXPORT
 BOOL ITunesVisualUnpack(NSData *data, ITunesVisual *visual);

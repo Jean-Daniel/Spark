@@ -52,9 +52,6 @@ enum {
 
 @interface ITunesAction : SparkAction <NSCoding, NSCopying>
 
-+ (ITunesVisual *)defaultVisual;
-+ (void)setDefaultVisual:(const ITunesVisual *)visual;
-
 @property(nonatomic) int32_t rating;
 
 @property(nonatomic, readonly) NSString *playlist;
@@ -100,3 +97,11 @@ NSString *ITunesActionDescription(ITunesAction *action);
 
 WB_PRIVATE
 NSImage *ITunesGetApplicationIcon(void);
+
+// MARK: -
+@interface SparkPreference (iTunesPlugin)
+
+- (void)getDefaultVisual:(ITunesVisual *)visual;
+- (void)setDefaultVisual:(const ITunesVisual *)visual;
+
+@end

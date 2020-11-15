@@ -97,6 +97,7 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
 
   /* Preferences */
   NSMutableDictionary *_prefs;
+  SparkPreference *_preferences;
 
   /* reserved objects */
   SparkApplication *_system;
@@ -202,6 +203,13 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
     _center = [[NSNotificationCenter alloc] init];
   }
   return _center;
+}
+
+#pragma mark Preferences
+- (SparkPreference *)preferences {
+  if (!_preferences)
+    _preferences = [[SparkPreference alloc] initWithLibrary:self];
+  return _preferences;
 }
 
 #pragma mark FileSystem Methods
@@ -313,14 +321,14 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
   /* write reserved objects status into preferences */
   SparkApplication *finder = [self applicationWithUID:kSparkApplicationFinderUID];
   if (finder)
-    [[self preferences] setObject:@(![finder isEnabled]) forKey:@"SparkFinderDisabled"];
+    [[self prefStorage] setObject:@(![finder isEnabled]) forKey:@"SparkFinderDisabled"];
 }
 
 - (void)restoreReservedObjects {
   /* called after library loading, restore reserved objects status from preferences */
   SparkApplication *finder = [self applicationWithUID:kSparkApplicationFinderUID];
   if (finder) {
-    BOOL disabled = [[self preferences][@"SparkFinderDisabled"] boolValue];
+    BOOL disabled = [[self prefStorage][@"SparkFinderDisabled"] boolValue];
     [finder setEnabled:!disabled];
   }
 }
@@ -722,9 +730,8 @@ void SparkLibraryRegisterLibrary(SparkLibrary *library) {
 }
 
 void SparkLibraryUnregisterLibrary(SparkLibrary *library) {
-  if (sLibraries) {
+  if (sLibraries)
     [sLibraries removeObject:library];
-  }
 }
 
 static SparkLibrary *sActiveLibrary = nil;
@@ -810,16 +817,11 @@ void SparkDumpTriggers(SparkLibrary *aLibrary) {
 #pragma mark -
 @implementation SparkLibrary (SparkPreferences)
 
-- (NSMutableDictionary *)preferences {
+- (NSMutableDictionary *)prefStorage {
   if (![self isLoaded]) {
     spx_debug("Warning, trying to access preferences but library no loaded");
   }
   return _prefs;
-}
-- (void)setPreferences:(NSDictionary *)preferences {
-  if (![self isLoaded])
-    SPXThrowException(NSInternalInconsistencyException, @"cannot set preferences for an unloaded library");
-  SPXSetterMutableCopy(_prefs, preferences);
 }
 
 @end
@@ -833,15 +835,15 @@ void SparkDumpTriggers(SparkLibrary *aLibrary) {
 }
 
 - (id)preferenceValueForKey:(NSString *)key {
-  return [self preferences][key];
+  return [self prefStorage][key];
 }
 
 - (void)setPreferenceValue:(id)value forKey:(NSString *)key {
   _slFlags.syncPrefs = 1;
   if (value) {
-    [[self preferences] setObject:value forKey:key];
+    [[self prefStorage] setObject:value forKey:key];
   } else {
-    [[self preferences] removeObjectForKey:key];
+    [[self prefStorage] removeObjectForKey:key];
   }
 }
 

@@ -15,7 +15,7 @@ WB_PRIVATE
 NSString * const kSEPreferencesHideDisabled;
 
 WB_PRIVATE
-NSString * const kSEPreferencesStartAtLogin;
+NSString * const kSEPreferencesSparkDaemonDisabled;
 
 WB_PRIVATE
 NSString * const kSEPreferencesAutoUpdate;
@@ -38,7 +38,6 @@ NSString * const kSparkPrefSingleKeyMode;
 }
 
 + (void)setup;
-+ (BOOL)synchronize;
 
 @property(nonatomic) float delay;
 
@@ -47,7 +46,3 @@ NSString * const kSparkPrefSingleKeyMode;
 - (IBAction)checkForUpdates:(id)sender;
 
 @end
-
-WB_PRIVATE
-void SEPreferencesSetLoginItemStatus(BOOL status);
-

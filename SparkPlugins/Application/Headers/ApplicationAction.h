@@ -40,9 +40,6 @@ typedef struct _ApplicationVisualSetting {
 
 @interface ApplicationAction : SparkAction <NSCoding, NSCopying>
 
-+ (void)getSharedSettings:(ApplicationVisualSetting *)settings;
-+ (void)setSharedSettings:(ApplicationVisualSetting *)settings;
-
 @property(nonatomic, copy) NSURL *URL;
 
 @property(nonatomic) NSWorkspaceLaunchOptions flags;
@@ -82,3 +79,9 @@ NSImage *ApplicationActionIcon(ApplicationAction *action);
 SPARK_PRIVATE
 NSString *ApplicationActionDescription(ApplicationAction *anAction, NSString *name);
 
+@interface SparkPreference (ApplicationPlugin)
+
+- (void)getSharedSettings:(ApplicationVisualSetting *)settings;
+- (void)setSharedSettings:(ApplicationVisualSetting *)settings;
+
+@end
