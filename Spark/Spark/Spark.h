@@ -31,7 +31,8 @@ void SEPopulatePlugInMenu(NSMenu *menu);
 + (Spark *)sharedSpark;
 
 // MARK: Menu IBActions
-- (IBAction)toggleServer:(id)sender;
+- (IBAction)setAgentEnabled:(id)sender;
+- (IBAction)setAgentDisabled:(id)sender;
 - (IBAction)showPreferences:(id)sender;
 
 // MARK: Import/Export Support

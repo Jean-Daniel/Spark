@@ -20,6 +20,10 @@
 
 #import <ServiceManagement/ServiceManagement.h>
 
+/* If YES, do not daemon (and don't register it as a login item) */
+static
+NSString * const kSparkAgentDisabled  = @"SparkDaemonDisabled";
+
 static
 NSString * const kSparkDaemonExecutableName = @"Spark Daemon.app";
 
@@ -49,8 +53,14 @@ static void *runningApplicationsObserver = NULL;
 
 + (SEAgentConnection *)defaultConnection {
   static SEAgentConnection *sConnection = nil;
-  if (!sConnection)
+  if (!sConnection) {
     sConnection = [[SEAgentConnection alloc] init];
+    // If agent disable and should be enabled -> register it
+    if (!SESparkAgentIsEnabled(NULL) &&
+        ![NSUserDefaults.standardUserDefaults boolForKey:kSparkAgentDisabled]) {
+      SESparkAgentSetEnabled(YES);
+    }
+  }
   return sConnection;
 }
 
@@ -62,6 +72,7 @@ static void *runningApplicationsObserver = NULL;
                                   forKeyPath:@"runningApplications"
                                      options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew
                                      context:&runningApplicationsObserver];
+    
   }
   return self;
 }
@@ -104,8 +115,11 @@ static void *runningApplicationsObserver = NULL;
 
 // MARK:  -
 - (void)connectionDidClose {
-  _connection = nil;
-  [self setStatus:kSparkDaemonStatusStopped];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [self setLibrary:nil uuid:nil];
+    self->_connection = nil;
+    [self setStatus:kSparkDaemonStatusStopped];
+  });
   // TODO: notify ?
 }
 
@@ -152,21 +166,25 @@ static void *runningApplicationsObserver = NULL;
 }
 
 - (void)setLibrary:(id<SparkLibrary>)library uuid:(NSUUID *)uuid {
-  if (!se_sync)
-    se_sync = [[SparkLibrarySynchronizer alloc] initWithLibrary:SparkActiveLibrary()];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    if (!self->se_sync)
+      self->se_sync = [[SparkLibrarySynchronizer alloc] initWithLibrary:SparkActiveLibrary()];
 
-  [se_sync setDistantLibrary:library uuid:uuid];
+    [self->se_sync setDistantLibrary:library uuid:uuid];
+  });
 }
 
 - (SparkDaemonStatus)status {
   return se_status;
 }
 - (void)setStatus:(SparkDaemonStatus)status {
-  if (se_status != status) {
-    se_status = status;
-    [[NSNotificationCenter defaultCenter] postNotificationName:SEServerStatusDidChangeNotification
-                                                        object:self];
-  }
+  dispatch_async(dispatch_get_main_queue(), ^{
+    if (self->se_status != status) {
+      self->se_status = status;
+      [[NSNotificationCenter defaultCenter] postNotificationName:SEServerStatusDidChangeNotification
+                                                          object:self];
+    }
+  });
 }
 
 - (BOOL)isRunning {
@@ -174,13 +192,6 @@ static void *runningApplicationsObserver = NULL;
 }
 
 @end
-
-//SPARK_INLINE
-//BOOL SEDaemonTerminate(NSRunningApplication *daemon) {
-//  if (![daemon terminate])
-//    return [daemon forceTerminate];
-//  return YES;
-//}
 
 BOOL SESparkAgentIsEnabled(pid_t *pid) {
   BOOL isEnabled  = NO;
@@ -202,5 +213,11 @@ BOOL SESparkAgentIsEnabled(pid_t *pid) {
 }
 
 BOOL SESparkAgentSetEnabled(BOOL enabled) {
+  // Make sure libary is saved before starting the agent
+  if (enabled)
+    [SparkActiveLibrary() synchronize];
+
+  spx_log_info("set spark agent %s", enabled ? "enabled" : "disabled");
+  [NSUserDefaults.standardUserDefaults setBool:!enabled forKey:kSparkAgentDisabled];
   return SMLoginItemSetEnabled(SPXNSToCFString(kSparkDaemonServiceName), enabled);
 }

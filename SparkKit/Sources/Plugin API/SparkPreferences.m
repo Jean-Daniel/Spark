@@ -100,9 +100,10 @@ typedef void(^_SparkPreferencesObserver)(NSString *, __nullable id);
 }
 
 - (void)notifyObservers:(NSString *)key value:(id)value {
-  for (_SparkPreferencesObserver observer in [_observers copy]) {
+  for (_SparkPreferencesObserver observer in [_observers[key] copy]) {
     @try {
-      observer(key, value);
+      if (observer)
+        observer(key, value);
     } @catch (id exception) {
       spx_log_exception(exception);
     }

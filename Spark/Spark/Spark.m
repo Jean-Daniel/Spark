@@ -264,23 +264,33 @@ bool SparkDebugEnabled = false;
 }
 
 - (void)serverStatusDidChange:(NSNotification *)aNotification {
+  SEL action = nil;
   NSString *title = nil;
   if ([[SEAgentConnection defaultConnection] isRunning]) {
+    action = @selector(setAgentDisabled:);
     title = NSLocalizedString(@"STOP_SPARK_DAEMON_MENU", 
                               @"Spark Daemon Menu Title * Desactive *");
   } else {
+    action = @selector(setAgentEnabled:);
     title = NSLocalizedString(@"START_SPARK_DAEMON_MENU", 
                               @"Spark Daemon Menu Title * Active *");  
   }
   
-  [statusMenuItem setTitle:title];
+  statusMenuItem.title = title;
+  statusMenuItem.action = action;
 }
 
 // MARK: -
 // MARK: Menu IBActions
-- (IBAction)toggleServer:(id)sender {
-  if (!SESparkAgentSetEnabled(!SESparkAgentIsEnabled(NULL))) {
-    spx_log_error("Failed to configure Agent as Login Item");
+- (IBAction)setAgentEnabled:(id)sender {
+  if (!SESparkAgentSetEnabled(YES)) {
+    spx_log_error("Failed to enable Agent as Login Item");
+  }
+}
+
+- (IBAction)setAgentDisabled:(id)sender {
+  if (!SESparkAgentSetEnabled(NO)) {
+    spx_log_error("Failed to disable Agent as Login Item");
   }
 }
 

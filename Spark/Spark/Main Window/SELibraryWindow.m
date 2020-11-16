@@ -268,9 +268,11 @@
 - (void)setDaemonStatus:(SparkDaemonStatus)status {
   NSString *str = @"";
   NSImage *img = nil;
+  SEL action = nil;
   BOOL disabled = NO;
   switch (status) {
     case kSparkDaemonStatusStopped:
+      action = @selector(setAgentEnabled:);
       img = [NSImage imageNamed:@"SparkRun"];
       str = NSLocalizedString(@"Start Spark Daemon", @"Spark Daemon status string");
       break;
@@ -278,11 +280,13 @@
       disabled = YES;
       // Fall through
     default:
+      action = @selector(setAgentDisabled:);
       img = [NSImage imageNamed:@"SparkStop"];
       str = NSLocalizedString(@"Stop Spark Daemon", @"Spark Daemon status string");
   }
-  [uiStartStop setTitle:str];
-  [uiStartStop setImage:img];
+  uiStartStop.action = action;
+  uiStartStop.title = str;
+  uiStartStop.image = img;
   [uiDisabled setHidden:!disabled];
 }
 

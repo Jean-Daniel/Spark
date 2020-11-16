@@ -15,9 +15,6 @@ WB_PRIVATE
 NSString * const kSEPreferencesHideDisabled;
 
 WB_PRIVATE
-NSString * const kSEPreferencesSparkDaemonDisabled;
-
-WB_PRIVATE
 NSString * const kSEPreferencesAutoUpdate;
 
 WB_PRIVATE

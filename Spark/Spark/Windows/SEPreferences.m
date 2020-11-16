@@ -27,8 +27,6 @@ NSString * const kSparkVersionKey = @"SparkVersion";
 
 /* Hide entry is plugin is disabled */
 NSString * const kSEPreferencesHideDisabled = @"SparkHideDisabled";
-/* If YES, do not daemon (and don't register it as a login item) */
-NSString * const kSEPreferencesSparkDaemonDisabled = @"SparkDaemonDisabled";
 
 /* If should check update automatically */
 NSString * const kSEPreferencesAutoUpdate = @"SparkAutoUpdate";
@@ -59,7 +57,6 @@ void __SetSparkKitSingleKeyMode(NSInteger mode) {
   NSDictionary *values = @{
                            kSEPreferencesAutoUpdate: @(NO),
                            kSEPreferencesHideDisabled: @(NO),
-                           kSEPreferencesSparkDaemonDisabled: @(NO),
                            kSparkPrefSingleKeyMode: @(kSparkEnableSingleFunctionKey),
                           };
   [[NSUserDefaults standardUserDefaults] registerDefaults:values];

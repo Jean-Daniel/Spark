@@ -122,9 +122,8 @@ bool SparkLogSynchronization = false;
                  name:SparkApplicationDidChangeEnabledNotification 
                object:nil];
 
-  typeof(self) __weak this = self;
   _observer = ^(NSString *key, __nullable id value) {
-    [this setObject:value forKey:key];
+    [self setObject:value forKey:key];
   };
   [[_library preferences] registerObserver:_observer forKey:nil];
 
