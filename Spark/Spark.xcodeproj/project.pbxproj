@@ -236,7 +236,6 @@
 		1B68A684141134CA0017CD27 /* SparkleDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkleDelegate.h; sourceTree = "<group>"; };
 		1B68A685141134CA0017CD27 /* SparkleDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkleDelegate.m; sourceTree = "<group>"; };
 		1B68A687141134CA0017CD27 /* SUVersionComparator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SUVersionComparator.m; sourceTree = "<group>"; };
-		1B68A6AB1411392B0017CD27 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B6F9EC31FAFC028006AE849 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		1B6F9ED71FAFC08A006AE849 /* Spark Daemon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Spark Daemon.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B6F9EE81FAFC0CE006AE849 /* SparkDaemon.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SparkDaemon.sdef; sourceTree = "<group>"; };
@@ -472,7 +471,6 @@
 			children = (
 				1B35ED3013C0B8C900A8AEA6 /* Cocoa.framework */,
 				1B35ED3313C0B8C900A8AEA6 /* WebKit.framework */,
-				1B68A6AB1411392B0017CD27 /* Sparkle.framework */,
 				1B35ED3113C0B8C900A8AEA6 /* Security.framework */,
 				1B91B43C13C088A5005FC86D /* SparkKit.framework */,
 				1B92D0EF17072AB600F40FCD /* WonderBox.framework */,

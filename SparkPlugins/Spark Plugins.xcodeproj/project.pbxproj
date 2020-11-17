@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 48;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -49,7 +49,6 @@
 		1B46DC9A0B81AB1100F4DA1E /* SARun.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B46DC960B81AB1100F4DA1E /* SARun.tiff */; };
 		1B4CA8D91736EC6900ED410A /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B35ED1613C0B6E700A8AEA6 /* HotKeyToolKit.framework */; };
 		1B61C3DE13C0A69F00DEDE50 /* OpenDirectory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B61C3DD13C0A69F00DEDE50 /* OpenDirectory.framework */; };
-		1B61C3E213C0AA4400DEDE50 /* SparkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B61C3E113C0AA4400DEDE50 /* SparkKit.framework */; };
 		1B61C3E513C0AA6E00DEDE50 /* SparkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B61C3E113C0AA4400DEDE50 /* SparkKit.framework */; };
 		1B61C3E613C0AA7300DEDE50 /* SparkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B61C3E113C0AA4400DEDE50 /* SparkKit.framework */; };
 		1B61C3E713C0AA7700DEDE50 /* SparkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B61C3E113C0AA4400DEDE50 /* SparkKit.framework */; };
@@ -63,7 +62,6 @@
 		1B6DAE060D0CACA700F352CC /* iTunesInfo.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B6DAE050D0CACA700F352CC /* iTunesInfo.xib */; };
 		1B6DAE0D0D0CAD0200F352CC /* iTunesPlugin.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B6DAE0B0D0CAD0200F352CC /* iTunesPlugin.xib */; };
 		1B6DAE140D0CADE100F352CC /* TextPlugin.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B6DAE120D0CADE100F352CC /* TextPlugin.xib */; };
-		1B7007551706DD44003F5780 /* WonderBox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B7007541706DD44003F5780 /* WonderBox.framework */; };
 		1B7007561706DD4F003F5780 /* WonderBox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B7007541706DD44003F5780 /* WonderBox.framework */; };
 		1B7007571706DD50003F5780 /* WonderBox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B7007541706DD44003F5780 /* WonderBox.framework */; };
 		1B7007581706DD51003F5780 /* WonderBox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B7007541706DD44003F5780 /* WonderBox.framework */; };
@@ -86,6 +84,8 @@
 		1B8016260EDF297F00771EE5 /* AXSMenu.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B8016240EDF297F00771EE5 /* AXSMenu.h */; };
 		1B8016270EDF297F00771EE5 /* AXSMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B8016250EDF297F00771EE5 /* AXSMenu.m */; };
 		1B8F4B150B56823700E8A4C0 /* volume.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B8F4B140B56823700E8A4C0 /* volume.aiff */; };
+		1BA67FEA25648599008EFF28 /* SparkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B61C3E113C0AA4400DEDE50 /* SparkKit.framework */; };
+		1BA67FEB25648599008EFF28 /* WonderBox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B7007541706DD44003F5780 /* WonderBox.framework */; };
 		1BE6E1A30DBCDD1200ABAC74 /* iTunes.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 1BE6E1A20DBCDD1200ABAC74 /* iTunes.sdef */; };
 		1BEF492F0C9AADAC00D7DA07 /* ITunesProgressView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEF492D0C9AADAC00D7DA07 /* ITunesProgressView.h */; };
 		1BEF49300C9AADAC00D7DA07 /* ITunesProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BEF492E0C9AADAC00D7DA07 /* ITunesProgressView.m */; };
@@ -507,8 +507,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				9888CE1A0B02412200B81BDB /* Cocoa.framework in Frameworks */,
-				1B61C3E213C0AA4400DEDE50 /* SparkKit.framework in Frameworks */,
-				1B7007551706DD44003F5780 /* WonderBox.framework in Frameworks */,
+				1BA67FEA25648599008EFF28 /* SparkKit.framework in Frameworks */,
+				1BA67FEB25648599008EFF28 /* WonderBox.framework in Frameworks */,
 				1B35ED1713C0B6E700A8AEA6 /* HotKeyToolKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1269,7 +1269,7 @@
 				};
 			};
 			buildConfigurationList = 98EF7EE408645A0E007BC81A /* Build configuration list for PBXProject "Spark Plugins" */;
-			compatibilityVersion = "Xcode 8.0";
+			compatibilityVersion = "Xcode 12.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 1;
 			knownRegions = (

@@ -1250,10 +1250,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B8623910ECF91AD0006C26B /* debug.xcconfig */;
 			buildSettings = {
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				ONLY_ACTIVE_ARCH = YES;
 			};
 			name = Debug;
 		};
@@ -1277,9 +1273,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1B8623920ECF91AD0006C26B /* release.xcconfig */;
 			buildSettings = {
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 			};
 			name = Release;
 		};

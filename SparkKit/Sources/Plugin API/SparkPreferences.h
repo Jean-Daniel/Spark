@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class SparkLibrary;
 
 // MARK: - Preferences
+SPARK_OBJC_EXPORT
 @interface SparkPreference: NSObject
 - (instancetype)initWithLibrary:(SparkLibrary *)library;
 
