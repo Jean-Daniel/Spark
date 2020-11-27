@@ -235,13 +235,6 @@ NSString * const kSystemUserNameKey = @"SystemUserName";
   return nil;
 }
 
-- (BOOL)needsToBeRunOnMainThread {
-  return NO;
-}
-- (BOOL)supportsConcurrentRequests {
-  return YES;
-}
-
 #pragma mark -
 extern Boolean CGDisplayUsesForceToGray(void);
 extern void CGDisplayForceToGray(Boolean gray);
@@ -424,12 +417,15 @@ static NSSound *_SASharedSound(void) {
   AudioDeviceID device;
   OSStatus err = AudioOutputGetSystemDevice(&device);
   if (noErr == err) {
-    Boolean mute;
-    err = AudioOutputIsMuted(device, &mute);
-    if (noErr == err && mute)
-      err = AudioOutputSetMuted(device, FALSE);
+    UInt32 level = -1;
     if (noErr == err)
-      err = AudioOutputVolumeDown(device, NULL);
+      err = AudioOutputVolumeDown(device, &level);
+    if (noErr == err && level > 0) {
+      Boolean mute;
+      err = AudioOutputIsMuted(device, &mute);
+      if (noErr == err && mute)
+        err = AudioOutputSetMuted(device, FALSE);
+    }
   }
   if (noErr == err)
     [self notifySoundChangeForDevice:device];

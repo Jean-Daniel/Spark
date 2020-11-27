@@ -116,7 +116,7 @@ OSStatus AudioOutputVolumeUp(AudioDeviceID device, UInt32 *level) {
     UInt32 lvl = __AudioOutputVolumeGetLevel(volume);
     if (kAudioOutputVolumeMaxLevel == lvl) {
       /* If not max level */
-      if (fnotequal(volume, 1))
+      if (volume < 1)
         err = _AudioOutputSetVolume(device, 1);
     } else {
       lvl++;
@@ -135,13 +135,16 @@ OSStatus AudioOutputVolumeDown(AudioDeviceID device, UInt32 *level) {
     UInt32 lvl = __AudioOutputVolumeGetLevel(volume);
     if (0 == lvl) {
       /* If not min level */
-      if (fnonzero(volume))
+      if (volume > 0)
         err = _AudioOutputSetVolume(device, 0);
     } else {
       lvl--;
       assert(lvl <= kAudioOutputVolumeMaxLevel);
       err = _AudioOutputSetVolume(device, kAudioOutputVolumeLevels[lvl]);
     }
+    if (noErr == err && lvl == 0)
+      // Even at level 0, it looks like macOS still output some Audio.
+      AudioOutputSetMuted(device, true);
     if (level)
       *level = lvl;
   }
