@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="13529" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17506"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -22,11 +22,11 @@
             <rect key="frame" x="0.0" y="0.0" width="274" height="134"/>
             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
             <subviews>
-                <box verticalHuggingPriority="750" boxType="separator" id="178">
+                <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="178">
                     <rect key="frame" x="0.0" y="127" width="274" height="5"/>
                     <autoresizingMask key="autoresizingMask"/>
                 </box>
-                <tabView drawsBackground="NO" controlSize="small" type="noTabsNoBorder" initialItem="153" id="152">
+                <tabView fixedFrame="YES" drawsBackground="NO" controlSize="small" type="noTabsNoBorder" initialItem="153" translatesAutoresizingMaskIntoConstraints="NO" id="152">
                     <rect key="frame" x="8" y="10" width="258" height="50"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <tabViewItems>
@@ -35,7 +35,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="258" height="50"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <button id="122">
+                                    <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="122">
                                         <rect key="frame" x="1" y="30" width="255" height="18"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                         <buttonCell key="cell" type="check" title="Display confirm dialog" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="185">
@@ -54,7 +54,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="258" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <subviews>
-                                    <popUpButton verticalHuggingPriority="750" id="157">
+                                    <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="157">
                                         <rect key="frame" x="1" y="27" width="256" height="22"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <popUpButtonCell key="cell" type="push" title="Login Windows" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="159" id="186">
@@ -78,7 +78,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="258" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <subviews>
-                                    <button id="165">
+                                    <button translatesAutoresizingMaskIntoConstraints="NO" id="165">
                                         <rect key="frame" x="1" y="30" width="255" height="18"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                         <buttonCell key="cell" type="check" title="Display notification icon" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="187">
@@ -89,7 +89,7 @@
                                             <binding destination="-2" name="value" keyPath="sparkAction.shouldNotify" id="166"/>
                                         </connections>
                                     </button>
-                                    <button id="188">
+                                    <button translatesAutoresizingMaskIntoConstraints="NO" id="188">
                                         <rect key="frame" x="21" y="12" width="230" height="18"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                         <buttonCell key="cell" type="check" title="Play feedback when volume is changed" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="189">
@@ -112,11 +112,11 @@
                         </tabViewItem>
                     </tabViewItems>
                 </tabView>
-                <box verticalHuggingPriority="750" boxType="separator" id="120">
+                <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="120">
                     <rect key="frame" x="0.0" y="66" width="274" height="5"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                 </box>
-                <textField verticalHuggingPriority="750" id="116">
+                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="116">
                     <rect key="frame" x="9" y="104" width="56" height="14"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Name :" id="184">
@@ -125,19 +125,19 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <textField verticalHuggingPriority="750" id="75">
+                <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="75">
                     <rect key="frame" x="70" y="102" width="192" height="19"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" placeholderString="Log Out" drawsBackground="YES" id="183">
                         <font key="font" metaFont="smallSystem"/>
-                        <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                     <connections>
                         <outlet property="nextKeyView" destination="24" id="130"/>
                     </connections>
                 </textField>
-                <textField verticalHuggingPriority="750" id="32">
+                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="32">
                     <rect key="frame" x="9" y="78" width="56" height="14"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" controlSize="small" selectable="YES" sendsActionOnEndEditing="YES" alignment="right" title="Action :" id="182">
@@ -146,7 +146,7 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <popUpButton verticalHuggingPriority="750" id="24">
+                <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="24">
                     <rect key="frame" x="67" y="73" width="198" height="22"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <popUpButtonCell key="cell" type="push" title="Log Out" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" tag="1282369391" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="77" id="181">
@@ -159,6 +159,7 @@
                                 <menuItem isSeparatorItem="YES" tag="-1" id="78">
                                     <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                                 </menuItem>
+                                <menuItem title="Display Sleep" tag="1146317936" id="4Qe-zl-S5y"/>
                                 <menuItem title="Sleep" tag="1399612784" id="26"/>
                                 <menuItem title="Restart" tag="1382380404" id="23"/>
                                 <menuItem title="Shut Down" tag="1214344308" id="66"/>
@@ -201,6 +202,7 @@
             <connections>
                 <outlet property="nextKeyView" destination="75" id="132"/>
             </connections>
+            <point key="canvasLocation" x="133" y="154"/>
         </customView>
     </objects>
 </document>

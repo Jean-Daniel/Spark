@@ -150,6 +150,7 @@ NSString * const kSystemUserNameKey = @"SystemUserName";
     case kSystemShutDown:
     case kSystemSwitch:
     case kSystemScreenSaver:
+    case kSystemDisplaySleep:
       /* Accessibility */
     case kSystemSwitchPolarity:
     case kSystemSwitchGrayscale:
@@ -195,6 +196,9 @@ NSString * const kSystemUserNameKey = @"SystemUserName";
       break;
     case kSystemScreenSaver:
       [self screenSaver];
+      break;
+    case kSystemDisplaySleep:
+      [self displaySleep];
       break;
       /* Accessibility */
     case kSystemSwitchPolarity:
@@ -322,6 +326,30 @@ kAEShowShutdownDialog         = 'rsdn'
   if (![[NSWorkspace sharedWorkspace] launchApplicationAtURL:url options:NSWorkspaceLaunchDefault configuration:@{} error:&error]) {
     spx_log_error("failed to launch screen saver engine: %@", error);
   }
+}
+
+//static void (*SLSDisplayManagerRequestDisplaysIdle)(void) = NULL;
+//#define kInvalidFunctionPointer (void(*)(void))-1
+
+- (void)displaySleep {
+  io_registry_entry_t reg = IORegistryEntryFromPath(kIOMasterPortDefault, "IOService:/IOResources/IODisplayWrangler");
+  if (reg) {
+    IORegistryEntrySetCFProperty(reg, CFSTR("IORequestIdle"), kCFBooleanTrue);
+    IOObjectRelease(reg);
+  }
+
+//  if (SLSDisplayManagerRequestDisplaysIdle == NULL) {
+//    void *handle = dlopen("/System/Library/PrivateFrameworks/SkyLight.framework/SkyLight", RTLD_NOW);
+//    if (handle != NULL) {
+//      SLSDisplayManagerRequestDisplaysIdle = dlsym(handle, "SLSDisplayManagerRequestDisplaysIdle");
+//      if (SLSDisplayManagerRequestDisplaysIdle == NULL)
+//        SLSDisplayManagerRequestDisplaysIdle = kInvalidFunctionPointer;
+//    }
+//  }
+//  if (SLSDisplayManagerRequestDisplaysIdle != kInvalidFunctionPointer)
+//    SLSDisplayManagerRequestDisplaysIdle();
+//  else
+//    [NSTask launchedTaskWithLaunchPath:@"/usr/bin/pmset" arguments:@[@"displaysleepnow"]];
 }
 
 #pragma mark -
@@ -632,6 +660,9 @@ NSImage *SystemActionIcon(SystemAction *anAction) {
     case kSystemScreenSaver:
       icon = @"SysScreenSaver";
       break;
+    case kSystemDisplaySleep:
+      icon = nil; // pointless
+      break;
     case kSystemSwitchGrayscale:
       icon = @"SysSwitchGrayscale";
       break;
@@ -708,6 +739,10 @@ NSString *SystemActionDescription(SystemAction *anAction) {
     case kSystemScreenSaver:
       desc = NSLocalizedStringFromTableInBundle(@"DESC_SCREEN_SAVER", nil, kSystemActionBundle,
                                                 @"Screen Saver * Action Description *");
+      break;
+    case kSystemDisplaySleep:
+      desc = NSLocalizedStringFromTableInBundle(@"DESC_DISPLAY_SLEEP", nil, kSystemActionBundle,
+                                                @"Display Sleep * Action Description *");
       break;
     case kSystemSwitchGrayscale:
       desc = NSLocalizedStringFromTableInBundle(@"DESC_SWITCH_GRAYSCALE", nil, kSystemActionBundle,

@@ -15,6 +15,7 @@ typedef NS_ENUM(uint32_t, SystemActionType) {
   kSystemShutDown        = 'Halt', /* 1214344308 */
   kSystemSwitch          = 'Swit', /* 1400334708 */
   kSystemScreenSaver     = 'ScSa', /* 1399018337 */
+  kSystemDisplaySleep    = 'DSlp',
   /* Accessibility */
   kSystemSwitchGrayscale = 'Gray', /* 1198678393 */
   kSystemSwitchPolarity  = 'Pola', /* 1349479521 */
@@ -48,6 +49,7 @@ typedef NS_ENUM(uint32_t, SystemActionType) {
 - (void)shutDown;
 - (void)screenSaver;
 - (void)switchSession;
+- (void)displaySleep;
 
 - (void)toggleGray;
 - (void)togglePolarity;
