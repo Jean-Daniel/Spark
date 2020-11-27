@@ -185,17 +185,6 @@ static NSString * const kSparkActionDescriptionKey = @"SADescription";
   return 0; // system default
 }
 
-- (BOOL)needsToBeRunOnMainThread {
-  return YES;
-}
-- (BOOL)supportsConcurrentRequests {
-  return NO;
-}
-
-- (id)lock {
-  return [self class];
-}
-
 #pragma mark -
 - (instancetype)duplicate {
   /* Copying fallback when instance does not implements copyWithZone: */

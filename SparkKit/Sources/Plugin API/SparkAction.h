@@ -104,10 +104,4 @@ SPARK_OBJC_EXPORT
 
 @property (nonatomic, readonly) BOOL performOnKeyUp;
 
-@property (nonatomic, readonly) BOOL needsToBeRunOnMainThread;
-@property (nonatomic, readonly) BOOL supportsConcurrentRequests;
-
-// return a object uses to determine if two actions can be executed concurrently.
-@property (nonatomic, readonly) id lock;
-
 @end

@@ -303,13 +303,6 @@ ApplicationActionType _ApplicationTypeFromTag(int tag) {
   return alert;
 }
 
-- (BOOL)needsToBeRunOnMainThread {
-  return NO;
-}
-- (BOOL)supportsConcurrentRequests {
-  return YES;
-}
-
 - (BOOL)shouldSaveIcon {
   switch ([self action]) {
     case kApplicationQuit:

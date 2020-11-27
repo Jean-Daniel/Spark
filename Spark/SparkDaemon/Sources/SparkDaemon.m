@@ -64,7 +64,6 @@ static const int SparkDaemonContext = 0;
   BOOL sd_disabled;
   NSXPCListener *_connection;
   NSMutableArray<id<SparkEditor>> *_editors; // there should be only one
-  NSMutableDictionary<NSString *, dispatch_queue_t> *sd_plugin_queues;
 }
 
 - (BOOL)application:(NSApplication *)sender delegateHandlesKey:(NSString *)key {
@@ -139,7 +138,6 @@ static const int SparkDaemonContext = 0;
     [self openConnection];
 
     _editors = [[NSMutableArray alloc] init];
-    sd_plugin_queues = [[NSMutableDictionary alloc] init];
 #if defined (DEBUG)
     [[NSUserDefaults standardUserDefaults] registerDefaults:
      @{
@@ -372,34 +370,6 @@ static const int SparkDaemonContext = 0;
   return alert;
 }
 
-- (void)_executeEventAsync:(SparkEvent *)anEvent {
-  SparkAction *action = anEvent.entry.action;
-
-  dispatch_queue_t queue;
-  if (action.supportsConcurrentRequests) {
-    queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-  } else {
-    SparkPlugIn *plugin = [[SparkActionLoader sharedLoader] plugInForAction:action];
-    NSAssert(plugin, @"invalid action triggered");
-    queue = sd_plugin_queues[plugin.identifier];
-    if (!queue) {
-      queue = dispatch_queue_create(plugin.identifier.UTF8String, DISPATCH_QUEUE_SERIAL);
-      sd_plugin_queues[plugin.identifier] = queue;
-    }
-  }
-
-  dispatch_async(queue, ^{
-    @autoreleasepool {
-      SparkAlert *alert = [self _executeEvent:anEvent];
-      if (alert) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-          [self _displayError:alert];
-        });
-      }
-    }
-  });
-}
-
 - (void)handleSparkEvent:(SparkEvent *)anEvent {
   Boolean trapping;
   /* If Spark Editor is trapping, forward keystroke */
@@ -415,15 +385,10 @@ static const int SparkDaemonContext = 0;
   /* If daemon is disabled, only persistent action are performed */
   if ([self isEnabled] || [[anEvent entry] isPersistent]) {
     bypass = false;
-    SparkAction *action = [[anEvent entry] action];
     /* if does not support concurrency => check if already running for safety */
-    if ([action needsToBeRunOnMainThread]) {
-      SparkAlert *alert = [self _executeEvent:anEvent];
-      if (alert)
-        [self _displayError:alert];
-    } else {
-      [self _executeEventAsync:anEvent];
-    }
+    SparkAlert *alert = [self _executeEvent:anEvent];
+    if (alert)
+      [self _displayError:alert];
   }
 
   if (bypass) [[anEvent trigger] bypass];

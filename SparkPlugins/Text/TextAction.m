@@ -181,13 +181,6 @@ NSString * const kKeyboardActionBundleIdentifier = @"org.shadowlab.spark.action.
 	return 0;
 }
 
-- (BOOL)needsToBeRunOnMainThread {
-  return NO;
-}
-- (BOOL)supportsConcurrentRequests {
-  return NO;
-}
-
 #pragma mark -
 - (id)serializedData {
   switch ([self action]) {
