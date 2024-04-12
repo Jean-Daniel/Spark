@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -841,7 +841,8 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1100;
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1530;
 				ORGANIZATIONNAME = Xenonium;
 				TargetAttributes = {
 					1B6F9ED61FAFC08A006AE849 = {
@@ -1282,6 +1283,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1BBE7D0F0ED04F760004D9DD /* debug.xcconfig */;
 			buildSettings = {
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 			};
 			name = Debug;
 		};
@@ -1301,6 +1303,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1BBE7D100ED04F760004D9DD /* release.xcconfig */;
 			buildSettings = {
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 			};
 			name = Release;
 		};
