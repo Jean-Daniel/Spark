@@ -22,6 +22,7 @@
 		1B35ED4613C0BA7300A8AEA6 /* ApplicationAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 1B35ED3F13C0BA7300A8AEA6 /* ApplicationAction.spact */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		1B35ED4713C0BA7300A8AEA6 /* DocumentAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 1B35ED4013C0BA7300A8AEA6 /* DocumentAction.spact */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		1B35ED4813C0BA7300A8AEA6 /* AccessibilityAction.spact in Copy Plugins */ = {isa = PBXBuildFile; fileRef = 1B35ED4113C0BA7300A8AEA6 /* AccessibilityAction.spact */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		1B5C39E42BC9F1CF00F03483 /* SArchiveKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B1B85AD1D9A90AC006AE849 /* SArchiveKit.framework */; };
 		1B5F396E0B5D451700879DF5 /* SETriggersController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B580B19A59700C8425C /* SETriggersController.mm */; };
 		1B692D441B5D2D04000EFCE6 /* SETriggerBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D52B710B19A63700C8425C /* SETriggerBrowser.m */; };
 		1B692D451B5D2E9F000EFCE6 /* SETriggerBrowser.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B98A1A80D312F5800EC7D09 /* SETriggerBrowser.xib */; };
@@ -361,6 +362,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B5C39E42BC9F1CF00F03483 /* SArchiveKit.framework in Frameworks */,
 				1BBA1249255BD23A00293109 /* SparkKit.framework in Frameworks */,
 				1B92D0F017072AB700F40FCD /* WonderBox.framework in Frameworks */,
 				1BBA124A255BD23E00293109 /* HotKeyToolKit.framework in Frameworks */,
@@ -1242,6 +1244,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "SparkDaemon/Spark Daemon.entitlements";
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				INFOPLIST_FILE = SparkDaemon/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"@loader_path/../Frameworks",
@@ -1259,6 +1262,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "SparkDaemon/Spark Daemon.entitlements";
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				INFOPLIST_FILE = SparkDaemon/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(DEVELOPMENT_TEAM).com.xenonium.Spark.agent";

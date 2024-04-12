@@ -245,7 +245,7 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
   SEExportOptions *ctrl = [[SEExportOptions alloc] init]; // release in didEnd callback.
   NSSavePanel *panel = [NSSavePanel savePanel];
   panel.accessoryView = [ctrl view];
-  panel.allowedFileTypes = @[ @"html"];
+  panel.allowedFileTypes = @[@"html"];
   panel.nameFieldStringValue = NSLocalizedString(@"SparkLibrary - HTML" , @"SparkLibrary Export as HTML Filename");
   [panel beginSheetModalForWindow:self.windowForSheet
                 completionHandler:^(NSInteger result) {

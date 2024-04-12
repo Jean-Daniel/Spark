@@ -38,7 +38,7 @@ NSString * const kSparkDaemonBundleIdentifier = @"" xstr(DEVELOPMENT_TEAM) ".com
 NSString * const kSparkDaemonBundleIdentifier = @"" xstr(DEVELOPMENT_TEAM) ".com.xenonium.Spark.agent";
 #endif
 
-NSXPCInterface *SparkAgentInterface() {
+NSXPCInterface *SparkAgentInterface(void) {
   NSXPCInterface *interface = [NSXPCInterface interfaceWithProtocol:@protocol(SparkAgent)];
   [interface setInterface:SparkEditorInterface()
               forSelector:@selector(register:)
@@ -47,7 +47,7 @@ NSXPCInterface *SparkAgentInterface() {
   return interface;
 }
 
-NSXPCInterface *SparkEditorInterface() {
+NSXPCInterface *SparkEditorInterface(void) {
   NSXPCInterface *interface = [NSXPCInterface interfaceWithProtocol:@protocol(SparkEditor)];
   [interface setInterface:[SparkLibrarySynchronizer sparkLibraryInterface]
               forSelector:@selector(setLibrary:uuid:)

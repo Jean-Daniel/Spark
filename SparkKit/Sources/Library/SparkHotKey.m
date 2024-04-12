@@ -292,7 +292,7 @@ NSTimeInterval SparkGetDefaultKeyRepeatInterval(void) {
 
 @implementation SparkHKHotKey {
 @private
-  SparkHotKey *sp_owner;
+  __unsafe_unretained SparkHotKey *sp_owner;
 }
 
 - (id)initWithOwner:(SparkHotKey *)owner {

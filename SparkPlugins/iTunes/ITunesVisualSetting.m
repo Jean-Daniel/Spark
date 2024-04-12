@@ -46,7 +46,7 @@
   
   [ibShow setTitle:NSLocalizedStringFromTableInBundle(@"Show", nil, kiTunesActionBundle,
                                                       @"Hide/Show button * Visual settings *")];
-  [ibShow setState:NSOffState];
+  [ibShow setState:NSControlStateValueOff];
   [ibShow setAction:@selector(show:)];
 }
 
@@ -56,7 +56,7 @@
 
   [ibShow setTitle:NSLocalizedStringFromTableInBundle(@"Hide", nil, kiTunesActionBundle,
                                                       @"Hide/Show button * Visual settings *")];
-  [ibShow setState:NSOnState];
+  [ibShow setState:NSControlStateValueOn];
   [ibShow setAction:@selector(hide:)];
 }
 

@@ -129,7 +129,7 @@
   [self.window setFrame:win display:YES animate:YES];
 }
 
-- (CGFloat)setText:(NSString *)msg inField:(id)textField {
+- (CGFloat)setText:(NSString *)msg inField:(NSTextView *)textField {
   NSLayoutManager *layout = [textField layoutManager];
   NSTextContainer *container = [textField textContainer];
   NSTextStorage *storage = [textField textStorage];

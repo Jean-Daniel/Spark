@@ -332,7 +332,7 @@ kAEShowShutdownDialog         = 'rsdn'
 //#define kInvalidFunctionPointer (void(*)(void))-1
 
 - (void)displaySleep {
-  io_registry_entry_t reg = IORegistryEntryFromPath(kIOMasterPortDefault, "IOService:/IOResources/IODisplayWrangler");
+  io_registry_entry_t reg = IORegistryEntryFromPath(kIOMainPortDefault, "IOService:/IOResources/IODisplayWrangler");
   if (reg) {
     IORegistryEntrySetCFProperty(reg, CFSTR("IORequestIdle"), kCFBooleanTrue);
     IOObjectRelease(reg);
@@ -359,7 +359,7 @@ NSImage *_SASharedSoundImage(void) {
   static NSImage *shared = nil;
   if (!shared) {
     shared = [NSImage imageWithSize:CGSizeMake(170, 170) flipped:NO drawingHandler:^BOOL(NSRect dstRect) {
-      CGContextRef ctxt = [[NSGraphicsContext currentContext] graphicsPort];
+      CGContextRef ctxt = NSGraphicsContext.currentContext.CGContext;
       _SAAudioAddVolumeImage(ctxt, false);
       CGContextSetGrayFillColor(ctxt, 0, 1);
       CGContextFillPath(ctxt);
@@ -375,7 +375,7 @@ NSImage *_SASharedSoundMuteImage(void) {
   static NSImage *shared = nil;
   if (!shared) {
     shared = [NSImage imageWithSize:CGSizeMake(170, 170) flipped:NO drawingHandler:^BOOL(NSRect dstRect) {
-      CGContextRef ctxt = [[NSGraphicsContext currentContext] graphicsPort];
+      CGContextRef ctxt = NSGraphicsContext.currentContext.CGContext;
       _SAAudioAddVolumeImage(ctxt, true);
       CGContextSetGrayFillColor(ctxt, 0, 1);
       CGContextFillPath(ctxt);
@@ -480,7 +480,7 @@ NSImage *_SASharedBrightnessImage(void) {
   static NSImage *shared = nil;
   if (!shared) {
     shared = [NSImage imageWithSize:NSMakeSize(170, 170) flipped:NO drawingHandler:^BOOL(NSRect dstRect) {
-      CGContextRef ctxt = [[NSGraphicsContext currentContext] graphicsPort];
+      CGContextRef ctxt = NSGraphicsContext.currentContext.CGContext;
       // Draw in solid black as we create a template image.
       CGContextSetGrayFillColor(ctxt, 0, 1);
 

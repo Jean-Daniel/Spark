@@ -626,7 +626,7 @@ void _iTunesDeriveAllColors(WBCGMultiShadingInfo *info) {
 }
 
 - (void)drawRect:(NSRect)aRect {
-  CGContextRef ctxt = [[NSGraphicsContext currentContext] graphicsPort];
+  CGContextRef ctxt = NSGraphicsContext.currentContext.CGContext;
   
   CGRect rect = NSRectToCGRect([self bounds]);
   

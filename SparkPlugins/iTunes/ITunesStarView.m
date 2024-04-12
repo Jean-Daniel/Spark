@@ -45,7 +45,7 @@ void _ITunesDrawHalfString(NSPoint point, NSColor *color) {
 }
 
 - (void)drawRect:(NSRect)rect {
-  CGContextRef ctxt = [[NSGraphicsContext currentContext] graphicsPort];
+  CGContextRef ctxt = NSGraphicsContext.currentContext.CGContext;
   CGContextSaveGState(ctxt);
   /* Set fill color */
   if (_starsColor)

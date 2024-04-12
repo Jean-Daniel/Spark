@@ -54,11 +54,6 @@ static CGLayerRef _HKCreateShading(CGContextRef ctxt, NSControlTint tint);
 + (void)initialize {
   // Do it once
   if (self == [SEHotKeyTrap class]) {
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didChangeControlTint:)
-                                                 name:NSControlTintDidChangeNotification
-                                               object:nil];
-    
     sTextStyle = [[NSDictionary alloc] initWithObjectsAndKeys:
       [NSFont systemFontOfSize:[NSFont smallSystemFontSize]], NSFontAttributeName,
       [NSColor blackColor], NSForegroundColorAttributeName,
@@ -73,7 +68,7 @@ static CGLayerRef _HKCreateShading(CGContextRef ctxt, NSControlTint tint);
   }
 }
 /* Change default shading */
-+ (void)didChangeControlTint:(NSNotification *)notif {
+- (void)viewDidChangeEffectiveAppearance {
   CGLayerRelease(sBorderShading);
   sBorderShading = nil;
 }

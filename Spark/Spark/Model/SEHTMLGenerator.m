@@ -158,7 +158,7 @@ NSComparisonResult _SETriggerCompare(SparkTrigger *t1, SparkTrigger *t2, void *c
   CGContextSetInterpolationQuality(ctxt, kCGInterpolationHigh);
   CGColorSpaceRelease(space);
   
-  NSGraphicsContext *gctxt = [NSGraphicsContext graphicsContextWithGraphicsPort:ctxt flipped:NO];
+  NSGraphicsContext *gctxt = [NSGraphicsContext graphicsContextWithCGContext:ctxt flipped:NO];
   NSGraphicsContext *current = [NSGraphicsContext currentContext];
   [NSGraphicsContext setCurrentContext:gctxt];
   

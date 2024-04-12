@@ -30,7 +30,7 @@
 }
 
 - (void)drawRect:(NSRect)r {
-  CGContextRef ctxt = [[NSGraphicsContext currentContext] graphicsPort];
+  CGContextRef ctxt = NSGraphicsContext.currentContext.CGContext;
   CGRect rect = NSRectToCGRect([self bounds]);
   // FIXME: userspace scale factor
   rect = CGRectInset(rect, .5, .5);
