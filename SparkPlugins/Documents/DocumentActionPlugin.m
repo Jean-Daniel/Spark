@@ -134,10 +134,10 @@ NSAlert *SimpleAlert(NSString *title, NSString *message) {
   }
 }
 
-- (NSString *)application {
+- (NSURL *)application {
   NSDictionary *item = [[ibMenu selectedItem] representedObject];
   if ([item isKindOfClass:[NSDictionary class]]) {
-    return [[item objectForKey:@"path"] path];
+    return [item objectForKey:@"path"];
   }
   return nil;
 }
