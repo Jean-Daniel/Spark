@@ -15,8 +15,6 @@
 
 @property(nonatomic) BOOL includesIcons;
 
-@property(nonatomic) NSInteger groupBy;
-
 - (BOOL)writeToURL:(NSURL *)path atomically:(BOOL)useAuxiliaryFile error:(__autoreleasing NSError **)error;
 
 - (NSString *)imageTagForImage:(NSImage *)image size:(NSSize)size;

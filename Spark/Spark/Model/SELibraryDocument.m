@@ -252,7 +252,6 @@ SELibraryDocument *SEGetDocumentForLibrary(SparkLibrary *library) {
                   if (NSModalResponseOK == result) {
                     NSError *error = nil;
                     SEHTMLGenerator *generator = [[SEHTMLGenerator alloc] initWithDocument:self];
-                    [generator setGroupBy:[ctrl groupBy]];
                     [generator setStrikeDisabled:[ctrl strike]];
                     [generator setIncludesIcons:[ctrl includeIcons]];
                     /* generator setOptions */

@@ -55,7 +55,7 @@ NSInteger _SESortEntries(SparkEntry *e1, SparkEntry *e2, void *ctxt) {
         WBTemplate *ablock = [block blockWithName:@"entry"];
         [ablock setVariable:[entry name] forKey:@"name"];
         if (_includesIcons && [ablock containsKey:@"icon"])
-          [ablock setVariable:[self imageTagForImage:[entry icon] size:NSMakeSize(16, 16)] ?: @"" forKey:@"icon"];
+          [ablock setVariable:[self imageTagForImage:[entry icon] size:NSMakeSize(32, 32)] ?: @"" forKey:@"icon"];
         [ablock setVariable:[entry triggerDescription] forKey:@"keystroke"];
         [ablock setVariable:[entry actionDescription] forKey:@"description"];
 				if (_strikeDisabled)
@@ -68,14 +68,14 @@ NSInteger _SESortEntries(SparkEntry *e1, SparkEntry *e2, void *ctxt) {
     if (dump) {
       [block setVariable:[plugin name] forKey:@"name"];
       if (_includesIcons && [block containsKey:@"icon"])
-        [block setVariable:[self imageTagForImage:[plugin icon] size:NSMakeSize(18, 18)] forKey:@"icon"];
+        [block setVariable:[self imageTagForImage:[plugin icon] size:NSMakeSize(36, 36)] forKey:@"icon"];
       [block dumpBlock];
     }
   }
 }
 
 - (NSString *)se_template {
-  return _groupBy == 0 ? @"SEExportShortcut" : @"SEExportApp";
+  return @"SEExportApp";
 }
 static
 NSComparisonResult _SETriggerCompare(SparkTrigger *t1, SparkTrigger *t2, void *ctxt) {
@@ -83,9 +83,9 @@ NSComparisonResult _SETriggerCompare(SparkTrigger *t1, SparkTrigger *t2, void *c
 }
 
 - (BOOL)writeToURL:(NSURL *)url atomically:(BOOL)useAuxiliaryFile error:(__autoreleasing NSError **)error {
-  NSURL *tplURL = [[NSBundle mainBundle] URLForResource:[self se_template] withExtension:@"xml"];
-  NSAssert1(tplURL, @"Missing resource file: %@.xml", [self se_template]);
-  
+  NSURL *tplURL = [[NSBundle mainBundle] URLForResource:[self se_template] withExtension:@"html"];
+  NSAssert1(tplURL, @"Missing resource file: %@.html", [self se_template]);
+
   WBTemplate *tpl = [[WBXMLTemplate alloc] initWithContentsOfURL:tplURL encoding:NSUTF8StringEncoding];
   [tpl setVariable:@"Spark Library" forKey:@"title"];
 
@@ -95,52 +95,31 @@ NSComparisonResult _SETriggerCompare(SparkTrigger *t1, SparkTrigger *t2, void *c
   NSArray *plugins = [[SparkActionLoader sharedLoader] plugIns];
   plugins = [plugins sortedArrayUsingDescriptors:gSortByNameDescriptors];
   
-  if (_groupBy == 1) {
-    NSMutableArray *customs = [NSMutableArray array];
-
-    SparkApplication *system = [library systemApplication];
-
-    if ([manager containsEntryForApplication:system])
-      [customs addObject:system];
-
-    [library.applicationSet enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
-      if ([manager containsEntryForApplication:system])
-        [customs addObject:system];
-    }];
+  NSMutableArray *customs = [NSMutableArray array];
+  
+  SparkApplication *system = [library systemApplication];
+  
+  if ([manager containsEntryForApplication:system])
+    [customs addObject:system];
+  
+  [library.applicationSet enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
+    if ([manager containsEntryForApplication:obj])
+      [customs addObject:obj];
+  }];
+  
+  [customs sortedArrayUsingComparator:SparkObjectCompare];
+  
+  /* foreach application that contains at least one entry */
+  for (SparkApplication *app in customs) {
+    WBTemplate *block = [tpl blockWithName:@"application"];
+    [block setVariable:app.name forKey:@"name"];
+    if (_includesIcons && [block containsKey:@"icon"])
+      [block setVariable:[self imageTagForImage:app.icon size:NSMakeSize(40, 40)] forKey:@"icon"];
     
-    [customs sortedArrayUsingComparator:SparkObjectCompare];
+    /* process entries */
+    [self dumpCategories:plugins entries:[manager entriesForApplication:app] template:block];
     
-    /* foreach application that contains at least one entry */
-    for (SparkApplication *app in customs) {
-      WBTemplate *block = [tpl blockWithName:@"application"];
-      [block setVariable:app.name forKey:@"name"];
-      if (_includesIcons && [block containsKey:@"icon"])
-        [block setVariable:[self imageTagForImage:app.icon size:NSMakeSize(20, 20)] forKey:@"icon"];
-      
-      /* process entries */
-      [self dumpCategories:plugins entries:[manager entriesForApplication:app] template:block];
-      
-      [block dumpBlock];
-    }
-  } else {
-    NSArray *triggers = [[[library triggerSet] allObjects] sortedArrayUsingFunction:_SETriggerCompare context:nil];
-    
-    /* foreach trigger */
-    for (NSUInteger idx = 0, count = [triggers count]; idx < count; idx++) {
-      SparkTrigger *trigger = triggers[idx];
-      WBTemplate *block = [tpl blockWithName:@"shortcut"];
-      [block setVariable:[trigger triggerDescription] forKey:@"description"];
-      
-      // retreive entries list.
-//      if (_includesIcon && [block containsKey:@"icon"])
-//        [block setVariable:[self imageTagForImage:[app icon] size:NSMakeSize(20, 20)] forKey:@"icon"];
-      
-      /* process entries */
-//      [self dumpCategories:plugins entries:[manager entriesForApplication:app] template:block];
-      
-      [block dumpBlock];
-    }
-    
+    [block dumpBlock];
   }
   [tpl writeToURL:url atomically:useAuxiliaryFile andReset:NO];
   return YES;
@@ -152,11 +131,12 @@ NSComparisonResult _SETriggerCompare(SparkTrigger *t1, SparkTrigger *t2, void *c
 
   size_t bytesPerRow = pixelWide * 4;
   char *data = malloc(bytesPerRow * pixelHigh);
-  CGColorSpaceRef space = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
+  CGColorSpaceRef space = CGColorSpaceCreateWithName(kCGColorSpaceSRGB);
   CGContextRef ctxt = CGBitmapContextCreate(data, pixelWide, pixelHigh, 8, bytesPerRow, space, kCGImageAlphaPremultipliedLast);
+  CGColorSpaceRelease(space);
+
   CGContextClearRect(ctxt, CGRectMake(0, 0, size.width, size.height));
   CGContextSetInterpolationQuality(ctxt, kCGInterpolationHigh);
-  CGColorSpaceRelease(space);
   
   NSGraphicsContext *gctxt = [NSGraphicsContext graphicsContextWithCGContext:ctxt flipped:NO];
   NSGraphicsContext *current = [NSGraphicsContext currentContext];
@@ -177,18 +157,17 @@ NSComparisonResult _SETriggerCompare(SparkTrigger *t1, SparkTrigger *t2, void *c
   CGImageRelease(img);
   CFRelease(dest);
   
-  CFDataRef b64 = SPXCFDataBridgingRetain([SPXCFToNSData(png) base64EncodedDataWithOptions:0]);
+  NSData *b64 = [SPXCFToNSData(png) base64EncodedDataWithOptions:0];
   CGContextRelease(ctxt);
   CFRelease(png);
   free(data);
   
   if (b64) {
-    CFMutableStringRef str = CFStringCreateMutable(kCFAllocatorDefault, 0);
-    CFStringAppend(str, CFSTR("<img class=\"icon\" alt=\"icon\" src=\"data:image/png;base64, "));
-    CFStringAppendCString(str, (const char *)CFDataGetBytePtr(b64), kCFStringEncodingASCII);
-    CFStringAppend(str, CFSTR("\" />"));
-    CFRelease(b64);
-    return SPXCFStringBridgingRelease(str);
+    NSMutableString *str = [NSMutableString string];
+    [str appendString:@"<img class=\"icon\" alt=\"icon\" src=\"data:image/png;base64, "];
+    [str appendString:[[NSString alloc] initWithBytes:b64.bytes length:b64.length encoding:NSASCIIStringEncoding]];
+    [str appendString:@"\" />"];
+    return str;
   }
   return nil;
 }

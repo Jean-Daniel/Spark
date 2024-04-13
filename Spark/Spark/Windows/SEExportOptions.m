@@ -18,16 +18,11 @@
 }
 
 - (BOOL)strike {
-	return [uiStrike state] == NSOnState;
+  return [uiStrike state] == NSControlStateValueOn;
 }
 
 - (BOOL)includeIcons {
-  return [uiIcons state] == NSOnState;
+  return [uiIcons state] == NSControlStateValueOn;
 }
-
-- (NSInteger)groupBy {
-  return [[uiGroup selectedItem] tag];
-}
-
 
 @end

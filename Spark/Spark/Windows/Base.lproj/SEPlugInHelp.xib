@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="13529" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13529"/>
-        <plugIn identifier="com.apple.WebKitIBPlugin" version="13529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22689"/>
+        <plugIn identifier="com.apple.WebKitIBPlugin" version="22689"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -20,20 +19,20 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="321" y="305" width="476" height="499"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1728" height="1079"/>
             <value key="minSize" type="size" width="213" height="107"/>
             <view key="contentView" id="6">
                 <rect key="frame" x="0.0" y="0.0" width="476" height="499"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <webView misplaced="YES" id="7">
+                    <webView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7">
                         <rect key="frame" x="0.0" y="0.0" width="476" height="472"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <webPreferences key="preferences" defaultFontSize="12" defaultFixedFontSize="12">
+                        <webPreferences key="preferences" defaultFontSize="12" defaultFixedFontSize="12" javaEnabled="NO">
                             <nil key="identifier"/>
                         </webPreferences>
                     </webView>
-                    <button verticalHuggingPriority="750" misplaced="YES" id="VQn-vJ-Y9r">
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VQn-vJ-Y9r">
                         <rect key="frame" x="1" y="465" width="38" height="38"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" bezelStyle="rounded" image="SEBack" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="gOf-Ai-ZLk">
@@ -44,7 +43,7 @@
                             <action selector="goBack:" target="7" id="EPe-9O-0cO"/>
                         </connections>
                     </button>
-                    <button verticalHuggingPriority="750" misplaced="YES" id="552-hO-dAg">
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="552-hO-dAg">
                         <rect key="frame" x="29" y="465" width="38" height="38"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" bezelStyle="rounded" image="SEForward" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="m6I-uj-ax1">
@@ -55,7 +54,7 @@
                             <action selector="goForward:" target="7" id="MYX-Fh-Awo"/>
                         </connections>
                     </button>
-                    <popUpButton verticalHuggingPriority="750" misplaced="YES" id="b8C-9P-WDl">
+                    <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="b8C-9P-WDl">
                         <rect key="frame" x="66" y="472" width="137" height="25"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" selectedItem="2fo-FW-Rke" id="7Ft-pi-oBt">

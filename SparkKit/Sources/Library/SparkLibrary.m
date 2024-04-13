@@ -54,9 +54,10 @@ NSString * const SparkDidSetActiveLibraryNotification = @"SparkDidSetActiveLibra
 NSString * const SparkNotificationObjectKey = @"SparkNotificationObject";
 NSString * const SparkNotificationUpdatedObjectKey = @"SparkNotificationUpdatedObject";
 
-#define kSparkLibraryVersion_1_0		0x0100
-#define kSparkLibraryVersion_2_0		0x0200
-#define kSparkLibraryVersion_2_1		0x0201
+#define kSparkLibraryVersion_1_0   0x0100
+#define kSparkLibraryVersion_2_0   0x0200
+#define kSparkLibraryVersion_2_1   0x0201
+// #define kSparkLibraryVersion_3_0   0x0300
 
 const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
 
@@ -65,8 +66,8 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
 - (void)setInfo:(NSDictionary *)plist;
 
 - (BOOL)loadFromWrapper:(NSFileWrapper *)wrapper error:(NSError **)error;
-- (BOOL)readLibraryFromFileWrapper:(NSFileWrapper *)wrapper error:(NSError **)error;
-
+- (BOOL)readLibraryFromFileWrapperV2:(NSFileWrapper *)wrapper error:(NSError **)error;
+// - (BOOL)readLibraryFromFileWrapper:(NSFileWrapper *)wrapper error:(NSError **)error;
 @end
 
 @interface SparkLibrary (SparkLegacyReader)
@@ -475,14 +476,14 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
   
   if (wrapper) {
     switch (_version) {
-      case kSparkLibraryVersion_1_0:
+      case kSparkLibraryVersion_2_0:
+      case kSparkLibraryVersion_2_1:
+        result = [self readLibraryFromFileWrapperV2:wrapper error:error];
+        break;
+      default:
         if (error)
           *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileReadCorruptFileError userInfo:nil];
         return NO;
-      case kSparkLibraryVersion_2_0:
-      case kSparkLibraryVersion_2_1:
-        result = [self readLibraryFromFileWrapper:wrapper error:error];
-        break;
     }
   } else {
     /* Load an empty/new library */
@@ -531,7 +532,7 @@ const NSUInteger kSparkLibraryCurrentVersion = kSparkLibraryVersion_2_1;
   return result;
 }
 
-- (BOOL)readLibraryFromFileWrapper:(NSFileWrapper *)wrapper error:(NSError * __autoreleasing *)error {
+- (BOOL)readLibraryFromFileWrapperV2:(NSFileWrapper *)wrapper error:(NSError * __autoreleasing *)error {
   BOOL ok = NO;
   NSDictionary *files = [wrapper fileWrappers];
   

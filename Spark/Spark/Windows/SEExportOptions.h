@@ -11,12 +11,9 @@
 @private
   IBOutlet NSButton *uiIcons;
   IBOutlet NSButton *uiStrike;
-  IBOutlet NSPopUpButton *uiGroup;
 }
 
 @property(nonatomic, readonly) BOOL strike;
 @property(nonatomic, readonly) BOOL includeIcons;
-
-@property(nonatomic, readonly) NSInteger groupBy;
 
 @end

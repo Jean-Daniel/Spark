@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14313.13.2" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.13.2"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22689"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -20,13 +19,13 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="324" y="553" width="480" height="196"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1728" height="1079"/>
             <value key="minSize" type="size" width="213" height="107"/>
             <view key="contentView" id="5">
                 <rect key="frame" x="0.0" y="0.0" width="480" height="196"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <matrix verticalHuggingPriority="750" allowsEmptySelection="NO" autosizesCells="NO" id="8">
+                    <matrix verticalHuggingPriority="750" fixedFrame="YES" allowsEmptySelection="NO" autosizesCells="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8">
                         <rect key="frame" x="102" y="94" width="360" height="38"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -52,7 +51,7 @@
                             <action selector="update:" target="-2" id="19"/>
                         </connections>
                     </matrix>
-                    <textField hidden="YES" verticalHuggingPriority="750" id="10">
+                    <textField hidden="YES" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="10">
                         <rect key="frame" x="101" y="60" width="362" height="28"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="When you click Install, you'll be asked to enter the name and password for an administrator on this computer." id="25">
@@ -61,7 +60,7 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <button verticalHuggingPriority="750" id="11">
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="11">
                         <rect key="frame" x="380" y="12" width="86" height="32"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <buttonCell key="cell" type="push" title="Install" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="26">
@@ -75,7 +74,7 @@ DQ
                             <action selector="install:" target="-2" id="16"/>
                         </connections>
                     </button>
-                    <button verticalHuggingPriority="750" id="12">
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="12">
                         <rect key="frame" x="294" y="12" width="86" height="32"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="27">
@@ -89,7 +88,7 @@ Gw
                             <action selector="close:" target="-2" id="15"/>
                         </connections>
                     </button>
-                    <textField verticalHuggingPriority="750" id="17">
+                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="17">
                         <rect key="frame" x="101" y="142" width="362" height="34"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="The plugin «SampleAction» must be install before you can use it. Do you want to install it now?" id="28">
@@ -98,13 +97,14 @@ Gw
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <imageView id="23">
+                    <imageView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="23">
                         <rect key="frame" x="20" y="112" width="64" height="64"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="axesIndependently" image="Spact" id="29"/>
                     </imageView>
                 </subviews>
             </view>
+            <point key="canvasLocation" x="139" y="-46"/>
         </window>
     </objects>
     <resources>

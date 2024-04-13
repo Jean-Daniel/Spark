@@ -61,7 +61,7 @@
 		1BBA124A255BD23E00293109 /* HotKeyToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B35ED3813C0BA2300A8AEA6 /* HotKeyToolKit.framework */; };
 		1BD1A1890D0D4926004206FA /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BD1A1870D0D4926004206FA /* MainMenu.xib */; };
 		1BD1A18D0D0D4A02004206FA /* SELibraryWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BD1A18B0D0D4A02004206FA /* SELibraryWindow.xib */; };
-		1BEBF5940EBDE53C00404150 /* SEExportShortcut.xml in Resources */ = {isa = PBXBuildFile; fileRef = 1BEBF56D0EBDE42100404150 /* SEExportShortcut.xml */; };
+		1BEBF5940EBDE53C00404150 /* SEExportShortcut.html in Resources */ = {isa = PBXBuildFile; fileRef = 1BEBF56D0EBDE42100404150 /* SEExportShortcut.html */; };
 		1BECC9CE1FACCCB0006AE849 /* SESeparatorCellView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BECC9CC1FACCCB0006AE849 /* SESeparatorCellView.h */; };
 		1BECC9CF1FACCCB0006AE849 /* SESeparatorCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BECC9CD1FACCCB0006AE849 /* SESeparatorCellView.m */; };
 		1BFF03A521467272006AE849 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B6F9EC31FAFC028006AE849 /* Images.xcassets */; };
@@ -81,7 +81,7 @@
 		9875D9250AFF6FA3001511B5 /* application.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 986691FA06F7B590002C4E98 /* application.tiff */; };
 		9876699B0CD4C5D500593B74 /* SEExportOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 987669990CD4C5D500593B74 /* SEExportOptions.h */; };
 		9876699C0CD4C5D500593B74 /* SEExportOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9876699A0CD4C5D500593B74 /* SEExportOptions.m */; };
-		98766A030CD4EF4F00593B74 /* SEExportApp.xml in Resources */ = {isa = PBXBuildFile; fileRef = 98766A020CD4EF4F00593B74 /* SEExportApp.xml */; };
+		98766A030CD4EF4F00593B74 /* SEExportApp.html in Resources */ = {isa = PBXBuildFile; fileRef = 98766A020CD4EF4F00593B74 /* SEExportApp.html */; };
 		98766A280CD4F15400593B74 /* SEHTMLGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 98766A260CD4F15400593B74 /* SEHTMLGenerator.h */; };
 		98766A290CD4F15400593B74 /* SEHTMLGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 98766A270CD4F15400593B74 /* SEHTMLGenerator.m */; };
 		988D85680AA242500027C21D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 985A43AD0A8626F3005CC63B /* Localizable.strings */; };
@@ -276,7 +276,7 @@
 		1BBE7D0F0ED04F760004D9DD /* debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = debug.xcconfig; sourceTree = "<group>"; };
 		1BBE7D100ED04F760004D9DD /* release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = release.xcconfig; sourceTree = "<group>"; };
 		1BD0A0F81B23465C007F6E86 /* project.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = project.xcconfig; sourceTree = "<group>"; };
-		1BEBF56D0EBDE42100404150 /* SEExportShortcut.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SEExportShortcut.xml; sourceTree = "<group>"; };
+		1BEBF56D0EBDE42100404150 /* SEExportShortcut.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = SEExportShortcut.html; sourceTree = "<group>"; };
 		1BECC9CC1FACCCB0006AE849 /* SESeparatorCellView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SESeparatorCellView.h; sourceTree = "<group>"; };
 		1BECC9CD1FACCCB0006AE849 /* SESeparatorCellView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SESeparatorCellView.m; sourceTree = "<group>"; };
 		98240159060C7ABE00A0DB07 /* Spark.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spark.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -297,7 +297,7 @@
 		986691FA06F7B590002C4E98 /* application.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = application.tiff; sourceTree = "<group>"; };
 		987669990CD4C5D500593B74 /* SEExportOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEExportOptions.h; sourceTree = "<group>"; };
 		9876699A0CD4C5D500593B74 /* SEExportOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEExportOptions.m; sourceTree = "<group>"; };
-		98766A020CD4EF4F00593B74 /* SEExportApp.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SEExportApp.xml; sourceTree = "<group>"; };
+		98766A020CD4EF4F00593B74 /* SEExportApp.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = SEExportApp.html; sourceTree = "<group>"; };
 		98766A260CD4F15400593B74 /* SEHTMLGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEHTMLGenerator.h; sourceTree = "<group>"; };
 		98766A270CD4F15400593B74 /* SEHTMLGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEHTMLGenerator.m; sourceTree = "<group>"; };
 		9877192506D48E12008A7AE8 /* remove_mini_down.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = remove_mini_down.tiff; sourceTree = "<group>"; };
@@ -512,8 +512,8 @@
 				986F865D0707415800064694 /* Editors.strings */,
 				986F865207073F8200064694 /* Libraries.strings */,
 				1B1359A00CA11FB400766572 /* SEUpdater.strings */,
-				98766A020CD4EF4F00593B74 /* SEExportApp.xml */,
-				1BEBF56D0EBDE42100404150 /* SEExportShortcut.xml */,
+				98766A020CD4EF4F00593B74 /* SEExportApp.html */,
+				1BEBF56D0EBDE42100404150 /* SEExportShortcut.html */,
 				984BCB9C060C7C7B0043CDEA /* Spark Help */,
 			);
 			path = Resources;
@@ -926,7 +926,7 @@
 				1B1358E90CA11B8800766572 /* updatepref.tiff in Resources */,
 				1B72F643235CAB23006AE849 /* badge-4.png in Resources */,
 				1B1358FC0CA11C2000766572 /* pluginpref.tiff in Resources */,
-				98766A030CD4EF4F00593B74 /* SEExportApp.xml in Resources */,
+				98766A030CD4EF4F00593B74 /* SEExportApp.html in Resources */,
 				1BD1A1890D0D4926004206FA /* MainMenu.xib in Resources */,
 				1B72F634235CA8A0006AE849 /* SparkStop.png in Resources */,
 				1BD1A18D0D0D4A02004206FA /* SELibraryWindow.xib in Resources */,
@@ -941,7 +941,7 @@
 				1BA7CE0F0D0DB3740081764D /* SEPluginInstaller.xib in Resources */,
 				1BA7A5AA0D685C6500D89AC2 /* SEPreferences.strings in Resources */,
 				1B72F63D235CA9E7006AE849 /* SELibrary.png in Resources */,
-				1BEBF5940EBDE53C00404150 /* SEExportShortcut.xml in Resources */,
+				1BEBF5940EBDE53C00404150 /* SEExportShortcut.html in Resources */,
 				1B24CFA91413E2840014FF20 /* Spark.cer in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
